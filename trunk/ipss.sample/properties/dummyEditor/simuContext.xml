@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<!--
+		Define Loadflow, Short circuit and Stability algorithms
+		=======================================================
+	-->
+	<bean id="loadflowAlgorithm" 
+	      class="com.interpss.core.CoreObjectFactory"	
+		  factory-method="createLoadflowAlgorithm" 
+		  singleton="false">	
+	</bean>
+
+	<bean id="simpleFaultAlgorithm" 
+	      class="com.interpss.core.CoreObjectFactory"	
+		  factory-method="createSimpleFaultAlgorithm" 
+		  singleton="false">	
+	</bean>
+	
+	<bean id="simuTimeEventHandler" 
+	      class="com.interpss.dstab.util.DStabSimuTimeEventHandler" 
+	      singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+	
+	<bean id="dstabSimuOutputHandler" 
+	      class="com.interpss.dstab.util.DefaultDStabSimuActionHandler" 
+	      singleton="false">	
+	</bean>
+		
+	<bean id="dynaSimuAlgorithm" 
+	      class="com.interpss.dstab.DStabObjectFactory"	
+		  factory-method="createDynamicSimuAlgorithm" 
+		  singleton="false">	
+		<constructor-arg index="0">
+			<ref bean="simuTimeEventHandler"/></constructor-arg>
+		<constructor-arg index="1">
+			<ref bean="dstabSimuOutputHandler"/></constructor-arg>
+	</bean>
+	
+	<!--
+		Define the SimuContext objects for different network type applications.
+		======================================================================
+	-->
+	<bean id="simuContext" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuContext" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+	
+	<bean id="simuCtxTypeAclfNet" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeAclfNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="simuCtxTypeAclfAdjNet" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeAclfAdjNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+	
+	<bean id="simuCtxTypeAcscFaultNet" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeAcscFaultNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="simuCtxTypeDistNet" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeDistNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="simuCtxTypeDStabNet" 
+		  class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeDStabNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+</beans>

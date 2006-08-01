@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<!--
+		Define mappers
+		==============
+	-->
+	<bean id="editorJGraphDataMapper" 
+	      class="com.interpss.editor.mapper.EditorJGraphDataMapper"
+	      singleton="true">	
+	  	<property name="msg">
+	  		<ref bean="ipssMsgHub"/></property>
+	</bean>
+
+	<bean id="runForm2AlgorithmMapper" 
+	      class="com.interpss.editor.mapper.RunForm2AlgorithmMapper"
+	      singleton="true">	
+	  	<property name="msg">
+	  		<ref bean="ipssMsgHub"/></property>
+	</bean>
+	
+	<!--
+		Defined the AppSimuContext object
+		=================================
+	-->
+	<bean id="projectData" 
+	      class="com.interpss.editor.data.proj.ProjData"
+	      singleton="true">	
+	</bean>
+
+	<bean id="ipssAppSimuContext" 
+	      class="com.interpss.editor.app.ProjectImpl"
+	      singleton="true">	
+	      <constructor-arg>
+	      		<!-- ipssGraph defined in graphContext.xml -->
+	  			<ref bean="ipssGraph"/></constructor-arg>
+	  	  <property name="projData">
+	  		<ref bean="projectData"/></property>	      
+	</bean>
+	
+	<!-- 
+	    Define <*>RunForm objects
+	    =========================	
+	-->
+	<bean id="aclfRunForm" 
+	      class="com.interpss.editor.runAct.AclfRunForm"
+	      singleton="true">	
+	</bean>
+
+	<bean id="acscRunForm" 
+	      class="com.interpss.editor.runAct.AcscRunForm"
+	      singleton="true">	
+	</bean>
+
+	<bean id="dstabRunForm" 
+	      class="com.interpss.editor.runAct.DStabRunForm"
+	      singleton="true">	
+	</bean>
+</beans>
