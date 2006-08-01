@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="editorFormContainer" 
+	      class="com.interpss.editor.jgraph.ui.impl.form.DummyFormContainer"
+	      singleton="false">	
+	</bean>
+	
+	<bean id="ipssModel" 
+	      class="com.interpss.editor.jgraph.IpssModel"
+	      singleton="false">	
+	      <constructor-arg>
+	  			<ref bean="editorFormContainer"/></constructor-arg>
+	</bean>
+
+	<bean id="ipssGraph" 
+	      class="com.interpss.editor.jgraph.IpssGraph"
+	      singleton="false">	
+	      <constructor-arg>
+	  			<ref bean="ipssModel"/></constructor-arg>
+      	  <!-- also depends on IpssMainFrame, needs to be set -->
+	</bean>
+</beans>
