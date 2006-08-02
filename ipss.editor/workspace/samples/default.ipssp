@@ -1,0 +1,26 @@
+<ipssp-1.0>
+	<items>
+		<item filename="IEEE-14Bus.ipss" projDbId ="36" status="open">
+		<items>
+		<item filename="Notes.txt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="aclf-5bus.ipss" projDbId ="38" status="open">
+	</item>
+		<item filename="acsc-5bus.ipss" projDbId ="40" status="open">
+	</item>
+		<item filename="DStab-5Bus.ipss" projDbId ="42" status="open">
+		<items>
+		<item filename="AclfReport_DStab-5Bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="PDCBook_2-11.ipss" projDbId ="0" status="close">
+	</item>
+		<item filename="PDCBook_2-12.ipss" projDbId ="0" status="close">
+	</item>
+		<item filename="New InterPSS Graphic File.ipss" projDbId ="0" status="close">
+	</item>
+	</items>
+</ipssp-1.0>
