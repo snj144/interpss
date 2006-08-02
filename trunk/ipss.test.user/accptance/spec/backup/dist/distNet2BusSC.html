@@ -1,0 +1,82 @@
+<p>
+<table border="1" cellspacing="1">
+   <tr>
+      <td colspan="3">Action Fixture</td>
+   </tr>
+   
+   <tr>
+      <td>start</td>
+      <td colspan="2">com.interpss.test.user.dist.DistFixture</td>
+   </tr>
+   
+   <tr>
+      <td>press</td>
+      <td>createDistNetwork</td>
+   </tr>   
+
+   <tr>
+      <td>enter</td>
+      <td>setBaseKva</td>
+      <td>100000</td>
+   </tr>   
+   
+   <tr>
+      <td>enter</td>
+      <td>addDistBus</td>
+      <td>Bus1,Utility,138000</td>
+   </tr>   
+   <tr>
+      <td>enter</td>
+      <td>setUtilityBusData</td>
+      <td>Bus1,1.0,0.0,1000.0,100.0,800.0,100.0,Ungrounded,0.0,0.0</td>
+   </tr> 
+   
+   <tr>
+      <td>enter</td>
+      <td>addDistBus</td>
+      <td>Bus2,Generator,4160</td>
+   </tr>   
+   <tr>
+      <td>enter</td>
+      <td>setGeneratorBusData</td>
+      <td>Bus2,5.0,Mva,1.0,100.0,0.8,0.0,0.1,0.0,0.05,0.0,0.1,Ungrounded,0.0,0.0</td>
+   </tr>  
+   
+   <tr>
+      <td>enter</td>
+      <td>addDistBranch</td>
+      <td>Bus1,Bus2,Xformer</td>
+   </tr>   
+   <tr>
+      <td>enter</td>
+      <td>setXformerBranchData</td>
+      <td>Bus1,Bus2,10.0,Mva,1.0,1.0,0.0,0.07,0.0,0.07,1.0,1.0</td>
+   </tr> 
+   <tr>
+      <td>enter</td>
+      <td>setXformerGroundingData</td>
+      <td>Bus1,Bus2,Delta,Ungrounded,0.0,0.0,Wye,SolidGrounded,0.0,0.0</td>
+   </tr> 
+   
+   <tr>
+      <td>press</td>
+      <td>initAcscNetData</td>
+   </tr> 
+
+   <tr>
+      <td>press</td>
+      <td>outputDistDebugInfo</td>
+   </tr> 
+   
+   <tr>
+      <td>enter</td>
+      <td>setAcscBusFault</td>
+      <td>Bus2,3P</td>
+   </tr> 
+
+   <tr>
+      <td>press</td>
+      <td>runAcShortCircuit</td>
+   </tr> 
+ </table>
+
