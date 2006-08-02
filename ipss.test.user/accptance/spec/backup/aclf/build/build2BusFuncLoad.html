@@ -1,0 +1,90 @@
+<p>
+<table border="1" cellspacing="1">
+   <tr>
+      <td colspan="3">Action Fixture</td>
+   </tr>
+   
+   <tr>
+      <td>start</td>
+      <td colspan="2">com.interpss.test.user.core.AclfAdjFixture</td>
+   </tr>
+   
+   <tr>
+      <td>press</td>
+      <td>createAclfNetwork</td>
+   </tr>   
+
+   <tr>
+      <td>enter</td>
+      <td>setBaseKva</td>
+      <td>100000</td>
+   </tr>   
+   
+   <tr>
+      <td>enter</td>
+      <td>addSwingBus</td>
+      <td>Bus1,4000,1.0,0.0,0.0,0.0</td>
+   </tr>   
+   
+   <tr>
+      <td>enter</td>
+      <td>addLoadBus</td>
+      <td>Bus2,4000,1.0,0.8</td>
+   </tr>   
+   
+   <tr>
+      <td>enter</td>
+      <td>addFunctionLoad</td>
+      <td>Bus2,0.3,0.4,0.5,0.2</td>
+   </tr> 
+   
+   <tr>
+      <td>enter</td>
+      <td>addLineBranch</td>
+      <td>Bus1,Bus2,0.05,0.1,0.0</td>
+   </tr>   
+   
+   <tr>
+      <td>check</td>
+      <td>noOfBuses</td>
+      <td>2</td>
+   </tr>
+   
+   <tr>
+      <td>check</td>
+      <td>noOfBranches</td>
+      <td>1</td>
+   </tr>
+   
+   <tr>
+      <td>press</td>
+      <td colspan="2">runAcLoadFlow</td>
+   </tr>
+   
+   <tr>
+      <td>check</td>
+      <td>lfConverged</td>
+      <td>true</td>
+   </tr>   
+ </table>
+ 
+ <table border="1" cellspacing="1">
+   <tr>
+      <td colspan="6">com.interpss.test.user.core.AclfAdjFixture</td>
+   </tr>
+   <tr>
+      <td>busId</td>
+      <td>busVoltage?</td>
+      <td>busLoadP?</td>
+      <td>busLoadQ?</td>
+   </tr>
+
+   <tr>
+      <td>Bus2</td>
+      <td>0.86492</td>
+      <td>0.87047</td>
+      <td>0.71797</td>
+   </tr>
+</table>
+ 
+
