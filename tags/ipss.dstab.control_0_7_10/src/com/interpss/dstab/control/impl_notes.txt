@@ -1,0 +1,8 @@
+Steps to implement a controller model
+- create a new package, such as com.interpss.dstab.control.exc.dc1a
+- copy all files from an existing model to the new package and use refactor to change name
+- modify <*>ExcitorData fields for the new model
+- implement dynamic simulation methods in the <*>Excitor
+- use a Swing GUI editor, such as NetBeans, modify the GUI Panel
+- add the model to the ControllerRegister.java
+- write JUnit test case - Test<*>ExcitorCase.java
