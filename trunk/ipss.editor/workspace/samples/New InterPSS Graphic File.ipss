@@ -1,0 +1,44 @@
+<ipss-1.0>
+<model>
+</model>
+<attrs>
+	<map id="0">
+		<a key="inset" val="40"/>
+		<a key="backgroundColor" val="128,128,128"/>
+		<a key="bordercolor" val="255,255,255"/>
+		<a key="opaque" val="true"/>
+	</map>
+	<map id="1">
+		<a key="font" val="Arial,12,0"/>
+		<a key="inset" val="40"/>
+		<a key="opaque" val="true"/>
+	</map>
+	<map id="2" pid="1">
+		<a key="font" val="Arial Narrow,10,0"/>
+	</map>
+	<map id="3" pid="1">
+		<a key="font" val="Arial,14,1"/>
+	</map>
+</attrs>
+<user>
+</user>
+<view>
+	<a key="editable" val="true"/>
+	<a key="bendable" val="true"/>
+	<a key="cloneable" val="true"/>
+	<a key="connectable" val="true"/>
+	<a key="disconnectable" val="true"/>
+	<a key="disconnectOnMove" val="false"/>
+	<a key="doubleBuffered" val="true"/>
+	<a key="dragEnabled" val="false"/>
+	<a key="dropEnabled" val="true"/>
+	<a key="moveable" val="true"/>
+	<a key="sizeable" val="true"/>
+	<a key="gridVisible" val="false"/>
+	<a key="gridEnabled" val="false"/>
+	<a key="gridSize" val="10.0"/>
+	<a key="gridMode" val="0"/>
+	<a key="scale" val="1.0"/>
+	<a key="antiAlias" val="false"/>
+</view>
+</ipss-1.0>
