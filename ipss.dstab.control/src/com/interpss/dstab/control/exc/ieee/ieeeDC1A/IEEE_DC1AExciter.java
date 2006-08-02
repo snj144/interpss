@@ -1,0 +1,131 @@
+/**
+ * <copyright>
+ * 	Copyright www.interpss.com 2005
+ * </copyright>
+ * 
+ * An implementation of the Simple excitor model
+ *
+ * $Id$
+ */
+package com.interpss.dstab.control.exc.ieee.ieeeDC1A;
+
+import java.util.Hashtable;
+
+import com.interpss.common.exp.InvalidInputException;
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.XmlUtil;
+import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.control.exc.AbstractExciter;
+
+public class IEEE_DC1AExciter extends AbstractExciter {
+	// state vriables
+	// TODO
+	
+	// UI Editor panel
+	private static final NBIEEE_DC1AExciterEditPanel _editPanel = new NBIEEE_DC1AExciterEditPanel();
+	
+	/**
+	 * Default Constructor
+	 *
+	 */
+	public IEEE_DC1AExciter() {
+		this("excId", "excName"); 
+	}
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param id excitor id
+	 * @param name excitor name
+	 */
+	public IEEE_DC1AExciter(final String id, final String name) {
+		super(id, name);
+		// _data is defined in the parent class. However init it here is a MUST
+		_data = new IEEE_DC1AExciterData();
+	}
+	
+	/**
+	 * Get the excitor data 
+	 * 
+	 * @return the data object
+	 */
+	public IEEE_DC1AExciterData getData() {
+		return (IEEE_DC1AExciterData)_data;
+	}
+	
+	/**
+	 * Set controller parameters
+	 * 
+	 * @param xmlString controller parameter xml string
+	 */
+	@Override
+	public void setDataXmlString(final String xmlString) {
+		super.setDataXmlString(xmlString);
+		_data = XmlUtil.toObject(xmlString, IEEE_DC1AExciterData.class);
+	}
+	
+	/**
+	 *  Init the controller states
+	 *  
+	 *  @param msg the SessionMsg object
+	 */
+	@Override
+	public void initStates(final IPSSMsgHub msg) {
+		// TODO: 
+	}
+	
+	/**
+	 * Perform one step d-eqn calculation
+	 *  
+	 * @param dt simulation time interval
+	 * @param method d-eqn solution method
+	 * @param msg the SessionMsg object
+	 */
+	@Override
+	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq,  final IPSSMsgHub msg) {
+		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
+			 //     Step-1 : x(1) = x(0) + dx_dt(1) * dt
+			// TODO: 
+		}
+		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
+			// TODO: TBImpl
+		} else {
+			throw new InvalidInputException("IEEE_DC1AExciter.nextStep(), invalid method");
+		}
+	}
+
+	/**
+	 * Get controller states for display purpose
+	 * 
+	 * @return hashtable of the states
+	 */
+	@Override
+	public Hashtable getStates(Object ref) {
+		final Hashtable table = new Hashtable();
+		// TODO: 
+		return table;
+	}
+	
+	/**
+	 * Get the controller output
+	 * 
+	 * @return the output
+	 */
+	@Override
+	public double getOutput() {
+		// TODO: 
+		return 0.0;
+	}
+
+	/**
+	 * Get the editor panel for controller data editing
+	 * 
+	 * @return the editor panel object
+	 */
+	@Override
+	public Object getEditPanel() {
+		_editPanel.init(this);
+		return _editPanel;
+	}
+} // IEEE_DC1AExcAdapter
+
