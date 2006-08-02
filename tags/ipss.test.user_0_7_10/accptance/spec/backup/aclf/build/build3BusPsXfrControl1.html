@@ -1,0 +1,116 @@
+<p>
+<table border="1" cellspacing="1">
+   <tr>
+      <td colspan="3">Action Fixture</td>
+   </tr>
+   
+   <tr>
+      <td>start</td>
+      <td colspan="2">com.interpss.test.user.core.AclfAdjFixture</td>
+   </tr>
+   
+   <tr>
+      <td>press</td>
+      <td>createAclfNetwork</td>
+   </tr>   
+
+   <tr>
+      <td>enter</td>
+      <td>setBaseKva</td>
+      <td>100000</td>
+   </tr>   
+   
+   <tr>
+      <td>enter</td>
+      <td>addSwingBus</td>
+      <td>Bus1,4000,1.0,0.0,0.0,0.0</td>
+   </tr>   
+   
+   <tr>
+      <td>enter</td>
+      <td>addLoadBus</td>
+      <td>Bus2,10000,1.0,0.8</td>
+   </tr>   
+   
+   <tr>
+      <td>enter</td>
+      <td>addSwingBus</td>
+      <td>Bus3,10000,1.0,0.0,0.0,0.0</td>
+   </tr>
+   
+   <tr>
+      <td>enter</td>
+      <td>addPSXfrBranch</td>
+      <td>Bus1,Bus2,0.05,0.1,1.0,1.0,5</td>
+   </tr>   
+   
+   <tr>
+      <td>enter</td>
+      <td>addPSXfrPControl</td>
+      <td>Bus1,Bus2,0.4,5.0,-5.0,false</td>
+   </tr>
+   
+   <tr>
+      <td>enter</td>
+      <td>addLineBranch</td>
+      <td>Bus3,Bus2,0.05,0.1,0.0</td>
+   </tr>   
+
+   <tr>
+      <td>check</td>
+      <td>noOfBuses</td>
+      <td>3</td>
+   </tr>
+   
+   <tr>
+      <td>check</td>
+      <td>noOfBranches</td>
+      <td>2</td>
+   </tr>
+   
+   <tr>
+      <td>press</td>
+      <td colspan="2">runAcLoadFlow</td>
+   </tr>
+   
+   <tr>
+      <td>check</td>
+      <td>lfConverged</td>
+      <td>true</td>
+   </tr>   
+</table>
+
+<table border="1" cellspacing="1">
+   <tr>
+      <td colspan="6">com.interpss.test.user.core.AclfFixture</td>
+   </tr>
+   <tr>
+      <td>branchFromBusId</td>
+      <td>branchToBusId</td>
+      <td>branchFrom2ToP?</td>
+      <td>branchFrom2ToQ?</td>
+      <td>branchTo2FromP?</td>
+      <td>branchTo2FromQ?</td>
+   </tr>
+
+   <tr>
+      <td>Bus1</td>
+      <td>Bus2</td>
+      <td>0.42117</td>
+      <td>0.49651</td>
+      <td>-0.39998</td>
+      <td>-0.45411</td>
+   </tr>
+
+   <tr>
+      <td>Bus3</td>
+      <td>Bus2</td>
+      <td>0.62778</td>
+      <td>0.40141</td>
+      <td>-0.60002</td>
+      <td>-0.34589</td>
+   </tr>
+</table>
+
+
+
