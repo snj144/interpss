@@ -324,17 +324,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	public JInternalFrame getCurrentInternalFrame() {
 		IpssDocInternalFrame internalFrame = (IpssDocInternalFrame) desktop
 				.getSelectedComponent();
-		// if (internalFrame == null) {
-		// JInternalFrame[] frames = desktop.getAllFrames();
-		// if (frames.length > 0) {
-		// try {
-		// frames[0].setSelected(true);
-		// internalFrame = (GPDocFrame) frames[0];
-		// } catch (PropertyVetoException e) {
-		// return null;
-		// }
-		// }
-		// }
 		if (internalFrame == null)
 			return null;
 		return internalFrame;
