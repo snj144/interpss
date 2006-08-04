@@ -54,6 +54,8 @@ public class EditorActionAdapter {
 	public static void menu_report_saveAs(IpssEditorDocument doc) {
 		if (doc instanceof IpssReportDocument) {
 			IpssReportDocument rptDoc = (IpssReportDocument)doc;
+			// Richard: currently the report can be save to any place
+			// we want save under the parent project
 			rptDoc.getMainViewer().saveActionPerformed();
 		} else {
 			IpssLogger.getLogger().severe("Programming error, doc is not a IpssReportDocument");
