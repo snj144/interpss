@@ -122,20 +122,23 @@ public class IpssRptViewer extends JRViewer {
 		if (retValue == JFileChooser.APPROVE_OPTION)
 		{
 			File file = fileChooser.getSelectedFile();
-			
-			try {
-				if (!file.getName().endsWith(REPORT_EXT)) {
-					file = new File(file.getAbsolutePath() + "." + REPORT_EXT);
-				}
-				JRSaver.saveObject(jasperPrint, file);
-			}
-			catch (JRException e) {
-				IpssLogger.logErr(e);
-				SpringAppContext.getEditorDialogUtil().showMsgDialog("Save InterPSS Report Error", e.toString());
-			}
+			save(file);
 		}
 	}
 	
+	public void save(File file) {
+		try {
+			if (!file.getName().endsWith(REPORT_EXT)) {
+				file = new File(file.getAbsolutePath() + "." + REPORT_EXT);
+			}
+			JRSaver.saveObject(jasperPrint, file);
+		}
+		catch (JRException e) {
+			IpssLogger.logErr(e);
+			SpringAppContext.getEditorDialogUtil().showMsgDialog("Save InterPSS Report Error", e.toString());
+		}
+	}
+
 	public void exportActionPerformed() {
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.setCurrentDirectory(new File(IpssRptViewer.REPORT_DEFAULT_DIR));
