@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<java version="1.5.0_06" class="java.beans.XMLDecoder"> 
+ <object class="org.jgraph.pad.coreframework.GPGraphpadModel"> 
+  <void property="barFactoryClass"> 
+   <class>org.jgraph.pad.coreframework.GPBarFactory</class> 
+  </void> 
+  <void property="browserLauncherClass"> 
+   <string>org.jgraph.plugins.util.BrowserLauncher</string> 
+  </void> 
+  <void property="cellBuisnessObjectProvider"> 
+   <object class="org.jgraph.pad.coreframework.defproviders.DefaultCellBusinessObjectProvider"> 
+    <void property="constantClass"> 
+     <class>org.jgraph.pad.coreframework.GPUserObject</class> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="consoleClass"> 
+   <class>org.jgraph.plugins.util.GPLogConsole</class> 
+  </void> 
+  <void property="copyRight"> 
+   <string>(C) 2001-2006 JGraph.com. All rights reserved.</string> 
+  </void> 
+  <void property="graphModelProvider"> 
+   <object class="org.jgraph.pad.coreframework.defproviders.DefaultGraphModelProvider"> 
+    <void property="constantClass"> 
+     <class>org.jgraph.pad.coreframework.GPGraphModel</class> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="graphProvider"> 
+   <object class="org.jgraph.pad.coreframework.defproviders.DefaultGraphProvider"> 
+    <void property="constantClass"> 
+     <class>org.jgraph.plugins.gpgraph.GPGraph</class> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="graphUIProvider"> 
+   <object class="org.jgraph.pad.coreframework.defproviders.DefaultGraphUIProvider"> 
+    <void property="constantClass"> 
+     <class>org.jgraph.pad.coreframework.GPGraphUI</class> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="graphViewFactoryProvider"> 
+   <object class="org.jgraph.pad.coreframework.defproviders.DefaultCellViewFactoryProvider"> 
+    <void property="viewFactory"> 
+     <object class="org.jgraph.pad.graphcellsbase.cellviews.DefaultCellViewFactoryBean"> 
+      <void property="viewIndirections"> 
+       <object class="java.util.ArrayList"> 
+        <void method="add"> 
+         <object class="org.jgraph.pad.graphcellsbase.cellviews.DefaultCellViewFactoryBean$ViewIndirection"> 
+          <void property="cellClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cells.EllipseCell</class> 
+          </void> 
+          <void property="viewClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cellviews.JGraphEllipseView</class> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="org.jgraph.pad.graphcellsbase.cellviews.DefaultCellViewFactoryBean$ViewIndirection"> 
+          <void property="cellClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cells.DiamondCell</class> 
+          </void> 
+          <void property="viewClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cellviews.JGraphDiamondView</class> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="org.jgraph.pad.graphcellsbase.cellviews.DefaultCellViewFactoryBean$ViewIndirection"> 
+          <void property="cellClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cells.RoundRectangleCell</class> 
+          </void> 
+          <void property="viewClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cellviews.JGraphRoundRectView</class> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="org.jgraph.pad.graphcellsbase.cellviews.DefaultCellViewFactoryBean$ViewIndirection"> 
+          <void property="cellClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cells.SwimlaneCell</class> 
+          </void> 
+          <void property="viewClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cellviews.JGraphSwimlaneView</class> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="org.jgraph.pad.graphcellsbase.cellviews.DefaultCellViewFactoryBean$ViewIndirection"> 
+          <void property="cellClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cells.ImageCell</class> 
+          </void> 
+          <void property="viewClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cellviews.ScaledVertexView</class> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="org.jgraph.pad.graphcellsbase.cellviews.DefaultCellViewFactoryBean$ViewIndirection"> 
+          <void property="cellClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cells.TextCell</class> 
+          </void> 
+          <void property="viewClass"> 
+           <class>org.jgraph.pad.graphcellsbase.cellviews.JGraphMultilineView</class> 
+          </void> 
+         </object> 
+        </void> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="lookAndFell"> 
+   <string>com.sun.java.swing.plaf.gtk.GTKLookAndFeel</string> 
+  </void> 
+  <void property="makeLogDlgVisibleOnError"> 
+   <boolean>true</boolean> 
+  </void> 
+  <void property="marqueeHandlerProvider"> 
+   <object class="org.jgraph.pad.coreframework.defproviders.DefaultMarqueeHandlerProvider"> 
+    <void property="constantClass"> 
+     <class>org.jgraph.pad.coreframework.GPMarqueeHandler</class> 
+    </void> 
+   </object> 
+  </void> 
+  <void property="splashIcon"> 
+   <string>splash.gif</string> 
+  </void> 
+  <void property="version"> 
+   <string>@NAME@ (v@VERSION@)</string> 
+  </void> 
+ </object> 
+</java> 
