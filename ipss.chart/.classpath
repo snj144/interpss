@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
+	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/chart/jcommon-1.0.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/chart/jfreechart-1.0.0-rc2.jar"/>
+	<classpathentry kind="output" path="runtime"/>
+</classpath>
