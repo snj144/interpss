@@ -52,8 +52,20 @@ public class EditorActionAdapter {
 	}
 
 	public static void menu_report_saveAs(IpssEditorDocument doc) {
+		if (doc instanceof IpssReportDocument) {
+			IpssReportDocument rptDoc = (IpssReportDocument)doc;
+			rptDoc.getMainViewer().saveActionPerformed();
+		} else {
+			IpssLogger.getLogger().severe("Programming error, doc is not a IpssReportDocument");
+		}
 	}
 
 	public static void menu_report_export(IpssEditorDocument doc) {
+		if (doc instanceof IpssReportDocument) {
+			IpssReportDocument rptDoc = (IpssReportDocument)doc;
+			rptDoc.getMainViewer().exportActionPerformed();
+		} else {
+			IpssLogger.getLogger().severe("Programming error, doc is not a IpssReportDocument");
+		}
 	}
 }
