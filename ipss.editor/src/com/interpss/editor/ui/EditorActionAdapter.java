@@ -1,7 +1,11 @@
 package com.interpss.editor.ui;
 
+import java.io.File;
+
+import com.interpss.common.util.IpssLogger;
 import com.interpss.editor.coreframework.GPDocument;
 import com.interpss.editor.coreframework.IpssEditorDocument;
+import com.interpss.editor.coreframework.IpssReportDocument;
 import com.interpss.editor.doc.IpssProjectItem;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;
 import com.interpss.editor.report.ReportUtil;
@@ -17,7 +21,10 @@ public class EditorActionAdapter {
 		}
 		IpssProjectItem item = doc.getGraphpad().getCurrentProjectItem();
 		String name = ReportUtil.getDefaultReportName(type, item.getFileNameNoExt());
-		doc.getGraphpad().newReportDocument(name, item, type, true);
+		// first create the report file 
+		IpssReportDocument rptDoc = doc.getGraphpad().newReportDocument(name, item, type, true);
+		// then save the report file
+		rptDoc.getMainViewer().save(new File(rptDoc.getFileName()));
 	}
 
 	public static void menu_report_aclfSummary(IpssEditorDocument doc) {
