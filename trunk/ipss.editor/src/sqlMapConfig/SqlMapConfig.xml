@@ -5,7 +5,7 @@
 
 <sqlMapConfig>
 
-	<properties resource="database.properties"/>
+	<properties resource="properties/database.properties"/>
 
 	<settings cacheModelsEnabled="true" enhancementEnabled="false"
 				maxSessions="64" maxTransactions="8" maxRequests="128"/>
