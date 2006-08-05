@@ -510,7 +510,7 @@ public class IpssProjectPanel extends JPanel {
 	class PopupTrigger extends MouseAdapter {
 
 		public void mouseClicked(MouseEvent e) {
-			if (e.getClickCount() == 2) {
+			if ((e.getClickCount() == 2) || ((e.getClickCount() == 1) && (graphpad.getCurrentProjectItem().getDocument()!=null))) {
 				graphpad.getCommand("FileProjectOpenItem")
 						.actionPerformed(null);
 			}
