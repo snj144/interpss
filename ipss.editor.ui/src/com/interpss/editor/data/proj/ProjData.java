@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.interpss.common.rec.BaseDataBean;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.editor.jgraph.ui.data.IProjectData;
 
@@ -43,6 +44,7 @@ public class ProjData extends BaseDataBean implements IProjectData {
 
 	public boolean isDirty() {return this.dirty;}
 	public void setDirty(boolean b) {
+		IpssLogger.getLogger().info("ProjData dirty set to " + b);
 		this.dirty = b; 
 	}
 
