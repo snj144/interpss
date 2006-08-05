@@ -54,12 +54,13 @@ public class CustomExciter extends AbstractExciter {
 	 *  
 	 *  @param msg the SessionMsg object
 	 */
-	public void initStates(IPSSMsgHub msg) {
+	public boolean initStates(IPSSMsgHub msg) {
 		_Limit = new LimitType(getData().getVrmax(), getData().getVrmin()); 
 		Machine mach = getMachine();
 		_X1 = mach.getEfd();
 		double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
 		_Vref = (_X1 + getData().getKa()*vt) / getData().getKa();
+		return true;
 	}
 	
 	private double cal_dX1_dt(double X1) {

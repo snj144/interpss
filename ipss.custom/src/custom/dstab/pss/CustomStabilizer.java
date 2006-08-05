@@ -57,10 +57,11 @@ public class CustomStabilizer extends AbstractStabilizer {
 	 *  
 	 *  @param msg the SessionMsg object
 	 */
-	public void initStates(IPSSMsgHub msg) {
+	public boolean initStates(IPSSMsgHub msg) {
 		_Limit = new LimitType(getData().getVsmax(), getData().getVsmin());
 		_X1 = 0.0;
 		_X2 = 0.0;
+		return true;
 	}
 
 	private double cal_dX1_dt(double X1) {
