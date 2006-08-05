@@ -19,7 +19,7 @@ public class EditorActionAdapter {
 			IGNetForm form = ((GPDocument)doc).getGFormContainer().getGNetForm();		
 			type = ReportUtil.getDefaultReportType(form);
 		}
-		doc.getGraphpad().expendTree2CurrentDocument();
+		doc.getGraphpad().expendTree2Object(doc);
 		IpssProjectItem item = doc.getGraphpad().getCurrentProjectItem();
 		String name = ReportUtil.getDefaultReportName(type, item.getFileNameNoExt());
 		// first create the report file 
