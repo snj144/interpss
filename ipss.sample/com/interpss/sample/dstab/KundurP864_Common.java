@@ -158,7 +158,7 @@ public class KundurP864_Common {
 		mach1.setS120(1.0);
 		System.out.println("MachineData: " + mach1.getMachData());
 		
-		SimpleExciter exc1 = new SimpleExciter("LT", "Exc1");
+		SimpleExciter exc1 = new SimpleExciter("LT", "Exc1", "InterPSS");
 		exc1.getData().setKa(50.0);
 		exc1.getData().setTa(0.05);
 		exc1.getData().setVrmax(10.0);
@@ -166,7 +166,7 @@ public class KundurP864_Common {
 		System.out.println("ExcData: " + exc1.getDataXmlString());
 		mach1.addExciter(exc1);
 
-		SimpleStabilizer pss1 = new SimpleStabilizer("LT", "PSS1");
+		SimpleStabilizer pss1 = new SimpleStabilizer("LT", "PSS1", "InterPSS");
 		pss1.getData().setKs(1.0);
 		pss1.getData().setT1(0.05);
 		pss1.getData().setT2(0.5);
@@ -176,7 +176,7 @@ public class KundurP864_Common {
 		pss1.getData().setVsmin(-0.2);
 		System.out.println("PSSData: " + pss1.getDataXmlString());
 
-		SimpleGovernor gov1 = new SimpleGovernor("LT", "Gov1");
+		SimpleGovernor gov1 = new SimpleGovernor("LT", "Gov1", "InterPSS");
 		gov1.getData().setK(10.0);
 		gov1.getData().setT1(0.5);
 		gov1.getData().setPmax(1.2);
