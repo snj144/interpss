@@ -101,6 +101,8 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         selectPanel = new javax.swing.JPanel();
+        catyLabel = new javax.swing.JLabel();
+        catyListComboBox = new javax.swing.JComboBox();
         typeLabel = new javax.swing.JLabel();
         typeListComboBox = new javax.swing.JComboBox();
         dataPanel = new javax.swing.JPanel();
@@ -109,8 +111,17 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
 
         selectPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 20));
 
+        catyLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        catyLabel.setText("Category");
+        selectPanel.add(catyLabel);
+
+        catyListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        catyListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        catyListComboBox.setName("typeListComboBox");
+        selectPanel.add(catyListComboBox);
+
         typeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        typeLabel.setText("Governor Type List   ");
+        typeLabel.setText("     Type");
         selectPanel.add(typeLabel);
 
         typeListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -127,8 +138,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
 
         add(dataPanel, java.awt.BorderLayout.CENTER);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void typeListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeListComboBoxActionPerformed
     	String typeName = (String)typeListComboBox.getSelectedItem();
@@ -138,6 +148,8 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel catyLabel;
+    private javax.swing.JComboBox catyListComboBox;
     private javax.swing.JPanel dataPanel;
     private javax.swing.JPanel selectPanel;
     private javax.swing.JLabel typeLabel;

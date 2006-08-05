@@ -115,6 +115,8 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         selectPanel = new javax.swing.JPanel();
+        catyLabel = new javax.swing.JLabel();
+        catyListComboBox = new javax.swing.JComboBox();
         typeLabel = new javax.swing.JLabel();
         typeListComboBox = new javax.swing.JComboBox();
         pssCheckBox = new javax.swing.JCheckBox();
@@ -124,8 +126,23 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
 
         selectPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 20));
 
+        catyLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        catyLabel.setText("Category");
+        selectPanel.add(catyLabel);
+
+        catyListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        catyListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        catyListComboBox.setName("typeListComboBox");
+        catyListComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                catyListComboBoxActionPerformed(evt);
+            }
+        });
+
+        selectPanel.add(catyListComboBox);
+
         typeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        typeLabel.setText("Exciter Type List   ");
+        typeLabel.setText("     Type");
         selectPanel.add(typeLabel);
 
         typeListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -155,6 +172,10 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
 
     }// </editor-fold>//GEN-END:initComponents
 
+    private void catyListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catyListComboBoxActionPerformed
+// TODO add your handling code here:
+    }//GEN-LAST:event_catyListComboBoxActionPerformed
+
     private void typeListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeListComboBoxActionPerformed
     	String typeName = (String)typeListComboBox.getSelectedItem();
     	setEditPanel(typeName);
@@ -174,6 +195,8 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel catyLabel;
+    private javax.swing.JComboBox catyListComboBox;
     private javax.swing.JPanel dataPanel;
     private javax.swing.JCheckBox pssCheckBox;
     private javax.swing.JPanel selectPanel;
