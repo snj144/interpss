@@ -32,6 +32,8 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
 	public void init(Object netContainer, Object busData) {
 		IpssLogger.getLogger().info("NBGovernorPanel init() called");
 		machData = ((DStabBusData)busData).getMachData();
+	    catyListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+	    		SimuSpringAppCtxUtil.getGovernorCategoryList()));	
 	    typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 	    		SimuSpringAppCtxUtil.getGovernorNameList()));	
 		if (machData.getHasGov()) {
@@ -118,6 +120,12 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
         catyListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         catyListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
         catyListComboBox.setName("typeListComboBox");
+        catyListComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                catyListComboBoxActionPerformed(evt);
+            }
+        });
+
         selectPanel.add(catyListComboBox);
 
         typeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -139,6 +147,19 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
         add(dataPanel, java.awt.BorderLayout.CENTER);
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void catyListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catyListComboBoxActionPerformed
+    	String catyName = (String)catyListComboBox.getSelectedItem();
+	    if (catyName.equals("All")) {
+	    	typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+		    		SimuSpringAppCtxUtil.getGovernorNameList()));	
+	    }
+	    else {
+	    	typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+		    		SimuSpringAppCtxUtil.getGovernorNameList(catyName)));	
+	    }
+	    parent.pack();
+    }//GEN-LAST:event_catyListComboBoxActionPerformed
 
     private void typeListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeListComboBoxActionPerformed
     	String typeName = (String)typeListComboBox.getSelectedItem();

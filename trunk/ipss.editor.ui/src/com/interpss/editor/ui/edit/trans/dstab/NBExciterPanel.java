@@ -36,6 +36,8 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
 	public void init(Object netContainer, Object busData) {
 		IpssLogger.getLogger().info("NBExciterPanel init() called");
 		machData = ((DStabBusData)busData).getMachData();
+	    catyListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+	    		SimuSpringAppCtxUtil.getExciterCategoryList()));
 	    typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 	    		SimuSpringAppCtxUtil.getExciterNameList()));
 		if (machData.getHasExc()) {
@@ -173,7 +175,16 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
     }// </editor-fold>//GEN-END:initComponents
 
     private void catyListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catyListComboBoxActionPerformed
-// TODO add your handling code here:
+    	String catyName = (String)catyListComboBox.getSelectedItem();
+	    if (catyName.equals("All")) {
+	    	typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+		    		SimuSpringAppCtxUtil.getExciterNameList()));	
+	    }
+	    else {
+	    	typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+		    		SimuSpringAppCtxUtil.getExciterNameList(catyName)));	
+	    }
+	    parentDialog.pack();
     }//GEN-LAST:event_catyListComboBoxActionPerformed
 
     private void typeListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeListComboBoxActionPerformed
