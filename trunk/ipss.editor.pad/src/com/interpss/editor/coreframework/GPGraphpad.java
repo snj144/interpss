@@ -235,10 +235,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		// desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 		update();
 	}
-	
-	public void initData(){
+
+	public void initData() {
 		this.getProjectPanel().showOpenItems();
 	}
+
 	// others
 
 	public Action getCommand(String key) {
@@ -374,11 +375,12 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			if (userObject instanceof IpssProject)
 				return (IpssProject) userObject;
 			if (userObject instanceof IpssProjectItem) {
-				DefaultMutableTreeNode pnode = (DefaultMutableTreeNode) selectedNode.getParent();
-				
+				DefaultMutableTreeNode pnode = (DefaultMutableTreeNode) selectedNode
+						.getParent();
+
 				if (!(pnode.getUserObject() instanceof IpssProject))
 					pnode = (DefaultMutableTreeNode) pnode.getParent();
-				
+
 				return (IpssProject) (pnode.getUserObject());
 
 			}
@@ -663,12 +665,14 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		addTextDocument(name, item, null);
 	}
 
-	public void addTextDocument(String name, IpssProjectItem item, IpssTextFile file) {
+	public void addTextDocument(String name, IpssProjectItem item,
+			IpssTextFile file) {
 
 		if (item == null)
 			return;
 
-		IpssTextDocument doc = new IpssTextDocument(this, item.getProject(), name, file);
+		IpssTextDocument doc = new IpssTextDocument(this, item.getProject(),
+				name, file);
 
 		item.addDocument(doc, 0);
 		addDocument2Frame(doc);
@@ -678,8 +682,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		expendTree2CurrentDocument();
 	}
 
-	
-	
 	public void addTextDocument(String name, IpssProject p) {
 		addTextDocument(name, p, null);
 	}
@@ -711,83 +713,79 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		expendTree2CurrentDocument();
 	}
 
-    /* this a duplicated method
-	public void addReportDocument(String name, IpssProjectItem item, String reportType) {
-		addReportDocument(name, item, null, reportType);
-	}
-	*/
+	/*
+	 * this a duplicated method public void addReportDocument(String name,
+	 * IpssProjectItem item, String reportType) { addReportDocument(name, item,
+	 * null, reportType); }
+	 */
 
 	/*
-	public void addReportDocument(String name, IpssProjectItem item, IpssReportFile file, String reportType) {
-
-		if (item == null)
-			return;
-		try {
-		IpssReportDocument doc = new IpssReportDocument(this, item.getProject(), name, file, reportType);
-
-		item.addDocument(doc, 0);
-		addDocument2Frame(doc);
-
-		this.getProjectPanel().addNewProjectItem(item, doc);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		expendTree2CurrentDocument();
-	}
-	*/
-    /*
-	// change name from addReportDocuemnt to newReportDocument
-	public void newReportDocument(String name, IpssProject p, String reportType) {
-		addReportDocument(name, p, null, reportType);
-	}
-	*/
+	 * public void addReportDocument(String name, IpssProjectItem item,
+	 * IpssReportFile file, String reportType) {
+	 * 
+	 * if (item == null) return; try { IpssReportDocument doc = new
+	 * IpssReportDocument(this, item.getProject(), name, file, reportType);
+	 * 
+	 * item.addDocument(doc, 0); addDocument2Frame(doc);
+	 * 
+	 * this.getProjectPanel().addNewProjectItem(item, doc); } catch (Exception
+	 * e) { e.printStackTrace(); } expendTree2CurrentDocument(); }
+	 */
+	/*
+	 * // change name from addReportDocuemnt to newReportDocument public void
+	 * newReportDocument(String name, IpssProject p, String reportType) {
+	 * addReportDocument(name, p, null, reportType); }
+	 */
 
 	/*
 	 * refactor by Mike
 	 * 
 	 * consolidated addReportDocument methods to two new methods:
-	 *     newReportDocument() - create an new report
-	 *     loadReportDocument() - load an existing report from the workspace
+	 * newReportDocument() - create an new report loadReportDocument() - load an
+	 * existing report from the workspace
 	 */
 	// changed name from addReportDocuemnt to newReportDocument
 	// changed such that the report may not add
 	// We need to return the created report doc
-	public IpssProjectItem newReportDocument(String name, IpssProjectItem item, String reportType, boolean add2Project) {
+	public IpssProjectItem newReportDocument(String name, IpssProjectItem item,
+			String reportType, boolean add2Project) {
 
 		if (item == null)
 			return null;
 
 		try {
-			IpssReportDocument doc = new IpssReportDocument(this, item.getProject(), name, reportType);
+			IpssReportDocument doc = new IpssReportDocument(this, item
+					.getProject(), name, reportType);
 			addDocument2Frame(doc);
-            if (add2Project) {
-            	item.addDocument(doc, 0);
-            	IpssProjectItem newItem = this.getProjectPanel().addNewProjectItem(item, doc);
-    			expendTree2CurrentDocument();
-    			// return item for saving report file
-                return newItem;
-            }
+			if (add2Project) {
+				item.addDocument(doc, 0);
+				IpssProjectItem newItem = this.getProjectPanel()
+						.addNewProjectItem(item, doc);
+				expendTree2CurrentDocument();
+				// return item for saving report file
+				return newItem;
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	// change name from addReportDocument to loadReportDocument 
+	// change name from addReportDocument to loadReportDocument
 	public void loadReportDocument(IpssProjectItem item, IpssReportFile file) {
 		try {
-		IpssReportDocument doc = new IpssReportDocument(this, item.getProject(), item.getName(), file);
+			IpssReportDocument doc = new IpssReportDocument(this, item
+					.getProject(), item.getName(), file);
 
-		item.setDocument(doc);
+			item.setDocument(doc);
 
-		addDocument2Frame(doc);
+			addDocument2Frame(doc);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		expendTree2CurrentDocument();
 	}
-	
-	
+
 	public void addCustomDocument(IpssProjectItem item, IpssCustomFile file) {
 
 		IpssCustomDocument doc = new IpssCustomDocument(this,
@@ -799,6 +797,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 
 		expendTree2CurrentDocument();
 	}
+
 	public void addCustomDocument(String name, IpssProject p,
 			IpssCustomFile file) {
 
@@ -927,21 +926,27 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		}
 
 		doc = item.getDocument();
-		if (doc instanceof GPDocument || doc instanceof IpssCustomDocument) { 
+		if (doc instanceof GPDocument || doc instanceof IpssCustomDocument) {
 			// load project data from DB
 			IpssLogger.getLogger().info("Load project data from DB ...");
 			IAppSimuContext appSimuContext = GraphSpringAppContext
 					.getIpssGraphicEditor().getCurrentAppSimuContext();
 			IProjectDataManager projManager = SpringAppContext
 					.getProjectDataDBManager();
-			projManager.loadProjectDataFromDB(item.getProjDbId(), item.getName(), item.getFileNameNoExt(), appSimuContext);
-			IpssLogger.getLogger().info("Project set to projDbId = " + appSimuContext.getProjData().getProjectDbId());
+			projManager.loadProjectDataFromDB(item.getProjDbId(), item
+					.getName(), item.getFileNameNoExt(), appSimuContext);
+			IpssLogger.getLogger().info(
+					"Project set to projDbId = "
+							+ appSimuContext.getProjData().getProjectDbId());
 			item.setProjDbId(appSimuContext.getProjData().getProjectDbId());
 			if (doc instanceof GPDocument) {
-				// we need synch some data in the graph with the project data, since project data may be 
+				// we need synch some data in the graph with the project data,
+				// since project data may be
 				// created later.
-				String str = ((GPDocument)doc).getGFormContainer().getGNetForm().getLabel(IUserData.NET_LABEL);
-				IpssLogger.getLogger().info("ProjectData.name updated to " + str);
+				String str = ((GPDocument) doc).getGFormContainer()
+						.getGNetForm().getLabel(IUserData.NET_LABEL);
+				IpssLogger.getLogger().info(
+						"ProjectData.name updated to " + str);
 				appSimuContext.getProjData().setProjectName(str);
 			}
 		}
@@ -1092,8 +1097,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		this.getProjectPanel().expendTree2Object(o);
 	}
 
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1124,13 +1127,27 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		return Translator.getString("Prog.version.short");
 	}
 
+	public void refreshDocumentEditorPanel(IpssEditorDocument doc) {
+		
+		if (doc instanceof GPDocument) {
+			((GPDocument) doc).updateFrameTitle();
+			IpssDocInternalFrame iFrame = (IpssDocInternalFrame) getDoc2InternalFrame()
+					.get(doc);
+
+			int index = desktop.indexOfComponent(iFrame);
+			desktop.setTitleAt(index, ((GPDocument) doc)
+					.getTabTitle());
+
+			// IGFormContainer netContainer
+			// =((GPDocument)getCurrentDocument()).getGFormContainer();
+			// if (netContainer.isDataDirty()) {
+			// // When the current graphic file is edited, the dataDirty set
+			// true, we need to
+			// // do something for example put a dirty * indicator
+			// }
+		}
+	}
 	public void refreshCurrentDocumentEditorPanel() {
-        if (getCurrentDocument() instanceof GPDocument) {
-        	IGFormContainer netContainer =((GPDocument)getCurrentDocument()).getGFormContainer();
-            if (netContainer.isDataDirty()) {
-            	// When the current graphic file is edited, the dataDirty set true, we need to 
-            	// do something for example put a dirty * indicator
-            }
-        }
+		refreshDocumentEditorPanel(getCurrentDocument());
 	}
 }

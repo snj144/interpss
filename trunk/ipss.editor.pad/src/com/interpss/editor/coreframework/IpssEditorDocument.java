@@ -54,7 +54,6 @@ public abstract class IpssEditorDocument extends IpssDocument{
 		if (this.internalFrame != null) {
 			this.internalFrame.setTitle(getFrameTitle());
 		}
-
 	}
 	
 	public abstract String getFrameTitle() ;
