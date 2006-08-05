@@ -221,8 +221,8 @@ public class IpssProjectPanel extends JPanel {
 	}
 
 	// add return by Mike
-	public IpssProjectItem addNewProjectItem(IpssProjectItemCollector itemCollector,
-			IpssDocument doc) {
+	public IpssProjectItem addNewProjectItem(
+			IpssProjectItemCollector itemCollector, IpssDocument doc) {
 
 		// DefaultTreeModel dtm = (DefaultTreeModel) getTree().getModel();
 		DefaultMutableTreeNode projectNode = getTreeNode(model, rootNode,
@@ -510,7 +510,10 @@ public class IpssProjectPanel extends JPanel {
 	class PopupTrigger extends MouseAdapter {
 
 		public void mouseClicked(MouseEvent e) {
-			if ((e.getClickCount() == 2) || ((e.getClickCount() == 1) && (graphpad.getCurrentProjectItem().getDocument()!=null))) {
+			if ((e.getClickCount() == 2)
+					|| ((e.getClickCount() == 1)
+							&& (graphpad.getCurrentProjectItem() != null) && (graphpad
+							.getCurrentProjectItem().getDocument() != null))) {
 				graphpad.getCommand("FileProjectOpenItem")
 						.actionPerformed(null);
 			}
@@ -518,8 +521,21 @@ public class IpssProjectPanel extends JPanel {
 			super.mouseClicked(e);
 		}
 
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if ((graphpad.getCurrentProjectItem() != null)
+					&& (graphpad.getCurrentProjectItem().getDocument() != null)) {
+				graphpad.getCommand("FileProjectOpenItem").actionPerformed(
+						null);
+			}
+
+			super.mousePressed(e);
+		}
+
 		public void mouseReleased(MouseEvent e) {
 			if (e.isPopupTrigger()) {
+
+
 				int x = e.getX();
 				int y = e.getY();
 				TreePath path = tree.getPathForLocation(x, y);
@@ -541,6 +557,7 @@ public class IpssProjectPanel extends JPanel {
 						popup = popupItem;
 
 					popup.show(tree, x, y);
+
 				}
 			}
 		}
