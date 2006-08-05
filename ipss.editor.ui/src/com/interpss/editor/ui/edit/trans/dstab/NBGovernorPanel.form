@@ -43,6 +43,9 @@
             </Property>
             <Property name="name" type="java.lang.String" value="typeListComboBox"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="catyListComboBoxActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="typeLabel">
           <Properties>

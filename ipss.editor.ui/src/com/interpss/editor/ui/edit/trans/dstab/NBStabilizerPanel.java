@@ -30,6 +30,8 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
 	public void init(Object netContainer, Object aMachData) {
 		IpssLogger.getLogger().info("NBStabilizerPanel init() called");
 		machData = (DStabMachData)aMachData;
+	    catyListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+	    		SimuSpringAppCtxUtil.getStabilizerCategoryList()));	
 	    typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 	    		SimuSpringAppCtxUtil.getStabilizerNameList()));	
 		if (machData.getHasPss()) {
@@ -142,7 +144,16 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
     }// </editor-fold>//GEN-END:initComponents
 
     private void catyListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_catyListComboBoxActionPerformed
-// TODO add your handling code here:
+    	String catyName = (String)catyListComboBox.getSelectedItem();
+	    if (catyName.equals("All")) {
+	    	typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+		    		SimuSpringAppCtxUtil.getStabilizerNameList()));	
+	    }
+	    else {
+	    	typeListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+		    		SimuSpringAppCtxUtil.getStabilizerNameList(catyName)));	
+	    }
+    	parent.pack();
     }//GEN-LAST:event_catyListComboBoxActionPerformed
 
     private void typeListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeListComboBoxActionPerformed
