@@ -67,7 +67,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public void initStates(final IPSSMsgHub msg) {
+	public boolean initStates(final IPSSMsgHub msg) {
 		final Machine mach = getMachine();
 		_X5 = mach.getEfd();
 		//Check Efd limit
@@ -98,6 +98,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 		_X1 = vt;
 		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
 		_Vref = _X1 + _X2 - vpss;
+		return true;
 
 	}
 	

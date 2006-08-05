@@ -70,8 +70,9 @@ public class IEEE_DC1AExciter extends AbstractExciter {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public void initStates(final IPSSMsgHub msg) {
+	public boolean initStates(final IPSSMsgHub msg) {
 		// TODO: 
+		return true;
 	}
 	
 	/**

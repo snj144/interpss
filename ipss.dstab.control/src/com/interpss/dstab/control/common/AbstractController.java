@@ -39,7 +39,7 @@ public abstract class AbstractController extends ControllerImpl {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	abstract public void initStates(IPSSMsgHub msg);
+	abstract public boolean initStates(IPSSMsgHub msg);
 	
 	/**
 	 * Perform one step d-eqn calculation

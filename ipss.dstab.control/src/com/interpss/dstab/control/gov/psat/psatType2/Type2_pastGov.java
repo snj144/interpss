@@ -75,11 +75,12 @@ public class Type2_pastGov extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public void initStates(final IPSSMsgHub msg) {
+	public boolean initStates(final IPSSMsgHub msg) {
 		limit = new LimitType(getData().getPmax(), getData().getPmin());
 		pm0 = getMachine().getPm();
 		x1 = 0.0;
 		IpssLogger.getLogger().fine("Governor Limit:      " + limit);
+		return true;
 	}
 
 	private double cal_dX1_dt(final double X1) {
