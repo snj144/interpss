@@ -56,8 +56,13 @@ public abstract class IpssEditorDocument extends IpssDocument{
 		}
 	}
 	
-	public abstract String getFrameTitle() ;
-	
+	public String getFrameTitle() {
+		return (isModified() ? "*" : "")+this.getName() ;
+	}
+
+	public String getTabTitle() {
+		return (this.isModified() ? "*" : "") + this.getFileName();
+	}
 	
 	public abstract boolean close(boolean showConfirmDialog);
 }

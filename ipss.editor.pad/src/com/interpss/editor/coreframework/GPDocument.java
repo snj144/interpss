@@ -791,9 +791,7 @@ public class GPDocument extends IpssEditorDocument implements
 						: this.getName());
 	}
 
-	public String getTabTitle() {
-		return (this.isModified() ? "*" : "") + this.getFileName();
-	}
+
 
 	public GPMarqueeHandler getMarqueeHandler() {
 		return (GPMarqueeHandler) graph.getMarqueeHandler();
@@ -877,7 +875,4 @@ public class GPDocument extends IpssEditorDocument implements
 		return fitAction;
 	}
 
-	public String getFileName() {
-		return com.interpss.editor.util.Utilities.getFileName(this.getName());
-	}
 }

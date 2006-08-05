@@ -1128,15 +1128,14 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public void refreshDocumentEditorPanel(IpssEditorDocument doc) {
-		
-		if (doc instanceof GPDocument) {
-			((GPDocument) doc).updateFrameTitle();
+
+		if ((doc instanceof GPDocument) || (doc instanceof IpssTextDocument)) {
+			doc.updateFrameTitle();
 			IpssDocInternalFrame iFrame = (IpssDocInternalFrame) getDoc2InternalFrame()
 					.get(doc);
 
 			int index = desktop.indexOfComponent(iFrame);
-			desktop.setTitleAt(index, ((GPDocument) doc)
-					.getTabTitle());
+			desktop.setTitleAt(index, doc.getTabTitle());
 
 			// IGFormContainer netContainer
 			// =((GPDocument)getCurrentDocument()).getGFormContainer();
@@ -1147,6 +1146,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			// }
 		}
 	}
+
 	public void refreshCurrentDocumentEditorPanel() {
 		refreshDocumentEditorPanel(getCurrentDocument());
 	}
