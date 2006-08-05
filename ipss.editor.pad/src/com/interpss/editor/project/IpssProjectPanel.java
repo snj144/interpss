@@ -521,21 +521,19 @@ public class IpssProjectPanel extends JPanel {
 			super.mouseClicked(e);
 		}
 
-		@Override
-		public void mousePressed(MouseEvent e) {
-			if ((graphpad.getCurrentProjectItem() != null)
-					&& (graphpad.getCurrentProjectItem().getDocument() != null)) {
-				graphpad.getCommand("FileProjectOpenItem").actionPerformed(
-						null);
-			}
-
-			super.mousePressed(e);
-		}
+//		@Override
+//		public void mousePressed(MouseEvent e) {
+//			if ((graphpad.getCurrentProjectItem() != null)
+//					&& (graphpad.getCurrentProjectItem().getDocument() != null)) {
+//				graphpad.getCommand("FileProjectOpenItem").actionPerformed(
+//						null);
+//			}
+//
+//			super.mousePressed(e);
+//		}
 
 		public void mouseReleased(MouseEvent e) {
 			if (e.isPopupTrigger()) {
-
-
 				int x = e.getX();
 				int y = e.getY();
 				TreePath path = tree.getPathForLocation(x, y);
