@@ -27,6 +27,8 @@
 	    singleton="false">	
 	    <property name="name">
 	    	<value>Custom Exciter</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
 	    <property name="desc">
 	    	<value>A sample custom exciter implmementation</value></property>
 	</bean>
@@ -36,6 +38,8 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>Simple Exciter</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
 	    <property name="desc">
 	    	<value>An InterPSS simple exciter implmementation</value></property>
 	</bean>
@@ -45,6 +49,8 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>IEEE DC-1A</value></property>
+	    <property name="category">
+	    	<value>IEEE-Exciter</value></property>
 	    <property name="desc">
 	    	<value>The IEEE DC-1A Type exiter implementation</value></property>
 	</bean>
@@ -54,10 +60,12 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>IEEE AC-4A</value></property>
+	    <property name="category">
+	    	<value>IEEE-Exciter</value></property>
 	    <property name="desc">
 	    	<value>The IEEE AC-4A Type exiter implementation</value></property>
 	</bean>
-	
+<!--	
 	<bean id="psatAvrType1" 
 	      class="com.interpss.dstab.control.exc.psat.psatType1.Type1_psatAvr"
 	      singleton="false">	
@@ -84,7 +92,7 @@
 	    <property name="desc">
 	    	<value>PSAT AVR Type-3 implementation</value></property>
 	</bean>
-
+-->
 	<bean id="exciterList" 
 	      class="java.util.ArrayList"
 	      singleton="true">	
@@ -93,9 +101,6 @@
 				<ref bean="simpleExciter"/>
 				<ref bean="ieeeDC_1AExciter"/>
 				<ref bean="ieeeAC_4AExciter"/>
-				<ref bean="psatAvrType1"/>
-				<ref bean="psatAvrType2"/>
-				<ref bean="psatAvrType3"/>
 				<ref bean="customExciter"/>
 			</list>
 		</constructor-arg>
@@ -110,6 +115,8 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>Custom Governor</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
 	    <property name="desc">
 	    	<value>A sample custom governor implmementation</value></property>
 	</bean>
@@ -119,6 +126,8 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>Simple Governor</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
 	    <property name="desc">
 	    	<value>An InterPSS simple governor implmementation</value></property>
 	</bean>
@@ -128,6 +137,8 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>IEEE ST1 Governor</value></property>
+	    <property name="category">
+	    	<value>IEEE-Governor</value></property>
 	    <property name="desc">
 	    	<value>IEEE ST1 Governor implmementation</value></property>
 	</bean>
@@ -137,6 +148,8 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>IEEE ST2 Governor</value></property>
+	    <property name="category">
+	    	<value>IEEE-Governor</value></property>
 	    <property name="desc">
 	    	<value>IEEE ST2 Governor implmementation</value></property>
 	</bean>
@@ -163,6 +176,8 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>Custom Stabilizer</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
 	    <property name="desc">
 	    	<value>A sample custom stabilizer implmementation</value></property>
 	</bean>
@@ -172,6 +187,8 @@
 	      singleton="false">	
 	    <property name="name">
 	    	<value>Simple Stabilizer</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
 	    <property name="desc">
 	    	<value>An InterPSS simple stabilizer implmementation</value></property>
 	</bean>
