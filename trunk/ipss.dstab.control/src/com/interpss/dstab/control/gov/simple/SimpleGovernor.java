@@ -31,7 +31,7 @@ public class SimpleGovernor extends AbstractGovernor {
 	 *
 	 */
 	public SimpleGovernor() {
-		this("govId", "SimpleGovernor");
+		this("govId", "SimpleGovernor", "InterPSS");
 	}
 	
 	/**
@@ -40,8 +40,8 @@ public class SimpleGovernor extends AbstractGovernor {
 	 * @param id governor id
 	 * @param name governor name
 	 */	
-	public SimpleGovernor(final String id, final String name) {
-		super(id, name);
+	public SimpleGovernor(final String id, final String name, final String caty) {
+		super(id, name, caty);
 		// _data is defined in the parent class. However init it here is a MUST
 		_data = new SimpleGovernorData();
 	}

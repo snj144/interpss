@@ -24,8 +24,8 @@ public abstract class AbstractStabilizer extends AbstractController {
 	 * @param id pss id
 	 * @param name pss name
 	 */	
-	public AbstractStabilizer(final String id, final String name) {
-		super(id, name, ControllerType.STABILIZER_LITERAL);
+	public AbstractStabilizer(final String id, final String name, final String caty) {
+		super(id, name, caty, ControllerType.STABILIZER_LITERAL);
 	}
 	
 	
