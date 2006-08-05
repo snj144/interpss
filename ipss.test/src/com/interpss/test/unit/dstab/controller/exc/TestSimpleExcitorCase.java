@@ -12,7 +12,7 @@ public class TestSimpleExcitorCase extends TestSetupBase {
 
 		Machine mach = createMachine();
 
-		SimpleExciter exc = new SimpleExciter("ExcId", "ExcName");
+		SimpleExciter exc = new SimpleExciter("ExcId", "ExcName", "InterPSS");
 		exc.getData().setKa(50.0);
 		exc.getData().setTa(0.05);
 		exc.getData().setVrmax(10.0);

@@ -13,14 +13,14 @@ public class TestSimpleStabilizerCase extends TestSetupBase {
 
 		Machine mach = createMachine();
 
-		SimpleExciter exc = new SimpleExciter("ExcId", "ExcName");
+		SimpleExciter exc = new SimpleExciter("ExcId", "ExcName", "InterPSS");
 		exc.getData().setKa(50.0);
 		exc.getData().setTa(0.05);
 		exc.getData().setVrmax(10.0);
 		exc.getData().setVrmin(0.0);
 		mach.addExciter(exc);
 
-		SimpleStabilizer pss = new SimpleStabilizer("PssId", "PssName");
+		SimpleStabilizer pss = new SimpleStabilizer("PssId", "PssName", "InterPSS");
 		pss.getData().setKs(1.0);
 		pss.getData().setT1(0.05);
 		pss.getData().setT2(0.5);

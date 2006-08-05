@@ -12,7 +12,7 @@ public class TestSimpleGovernorCase extends TestSetupBase {
 
 		Machine mach = createMachine();
 
-		SimpleGovernor gov = new SimpleGovernor("GovId", "GovName");
+		SimpleGovernor gov = new SimpleGovernor("GovId", "GovName", "InterPSS");
 		gov.getData().setK(10.0);
 		gov.getData().setT1(0.5);
 		gov.getData().setPmax(1.2);
