@@ -34,7 +34,7 @@ public class HelpProjectSiteSubmitBug extends IpssAbstractGraphAction {
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = "https://sourceforge.net/tracker/?group_id=165109&atid=834362";
+	private String url = "http://code.google.com/p/interpss/issues/list";
 
 	public void actionPerformed(ActionEvent e) {
 		GPPluginInvoker.openURL(url);
