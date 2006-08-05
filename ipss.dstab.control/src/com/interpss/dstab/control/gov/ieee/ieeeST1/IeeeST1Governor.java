@@ -20,7 +20,7 @@ import com.interpss.dstab.control.gov.AbstractGovernor;
 
 public class IeeeST1Governor extends AbstractGovernor {
 	// state variables
-	private double statePm = 0.0, statePref = 0.0, stateX1 = 0.0, stateX2 = 0.0, statteX3 = 0.0, stateX4 = 0.0;
+	private double statePm = 0.0, statePref = 0.0, stateX1 = 0.0, stateX2 = 0.0, stateX3 = 0.0, stateX4 = 0.0;
 	private LimitType limit = null;
 	
 	// UI Editor panel
@@ -81,8 +81,8 @@ public class IeeeST1Governor extends AbstractGovernor {
         }
 		stateX1 = 0.0;
 		stateX2 = statePref;
-		statteX3 = stateX2;
-		stateX4 = (1.0 - getData().getFp()) * statteX3;
+		stateX3 = stateX2;
+		stateX4 = (1.0 - getData().getFp()) * stateX3;
 		IpssLogger.getLogger().fine("Governor Limit:      " + limit);
 		return true;
 	}
@@ -103,17 +103,23 @@ public class IeeeST1Governor extends AbstractGovernor {
 			 */
 			final double dX1_dt = cal_dX1_dt(stateX1);
 			final double dX2_dt = cal_dX2_dt(stateX1, stateX2);
-			final double dX3_dt = cal_dX3_dt(stateX2, statteX3);
-			final double dX4_dt = cal_dX4_dt(statteX3, stateX4);
+			final double dX3_dt = cal_dX3_dt(stateX2, stateX3);
+			final double dX4_dt = cal_dX4_dt(stateX3, stateX4);
+
+			IpssLogger.getLogger().fine("dX1_dt, dX2_dt, dX3_dt, dX4_dt: " + dX1_dt + ", " + 
+					dX2_dt + ", " + dX3_dt + ", " + dX4_dt);
 			
-			final double X1_1 = stateX1 + dX1_dt * dt;
-			final double X2_1 = limit.limit(stateX2 + dX2_dt * dt);
-			final double X3_1 = statteX3 + dX3_dt * dt;
-			final double X4_1 = stateX4 + dX4_dt * dt;
-			stateX1 = stateX1 + 0.5 * (cal_dX1_dt(X1_1) + dX1_dt) * dt;
-			stateX2 = limit.limit(stateX2 + 0.5 * (cal_dX2_dt(X1_1,X2_1) + dX2_dt) * dt);
-			statteX3 = statteX3 + 0.5 * (cal_dX3_dt(X2_1,X3_1) + dX3_dt) * dt;
-			stateX4 = stateX4 + 0.5 * (cal_dX4_dt(X3_1,X4_1) + dX4_dt) * dt;
+			final double x1_1 = stateX1 + dX1_dt * dt;
+			final double x2_1 = limit.limit(stateX2 + dX2_dt * dt);
+			final double x3_1 = stateX3 + dX3_dt * dt;
+			final double x4_1 = stateX4 + dX4_dt * dt;
+			stateX1 = stateX1 + 0.5 * (cal_dX1_dt(x1_1) + dX1_dt) * dt;
+			stateX2 = limit.limit(stateX2 + 0.5 * (cal_dX2_dt(x1_1,x2_1) + dX2_dt) * dt);
+			stateX3 = stateX3 + 0.5 * (cal_dX3_dt(x2_1,x3_1) + dX3_dt) * dt;
+			stateX4 = stateX4 + 0.5 * (cal_dX4_dt(x3_1,x4_1) + dX4_dt) * dt;
+
+			IpssLogger.getLogger().fine("stateX1, stateX2, stateX3, stateX4: " + stateX1 + ", " + 
+					stateX2 + ", " + stateX3 + ", " + stateX4);
 		}
 		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
 			// TODO: TBImpl
@@ -122,21 +128,21 @@ public class IeeeST1Governor extends AbstractGovernor {
 		}
 	}	
 	
-	private double cal_dX1_dt(final double X1) {
-		return ( 100.0*(getMachine().getSpeed() - 1.0)/getData().getR()  - X1 ) / getData().getT1();
+	private double cal_dX1_dt(final double x1) {
+		return ( 100.0*(getMachine().getSpeed() - 1.0)/getData().getR()  - x1 ) / getData().getT1();
 	}
 	
-	private double cal_dX2_dt(final double X1, final double X2) {
+	private double cal_dX2_dt(final double x1, final double x2) {
 		double p = getData().getOptMode() == AbstractGovernor.DroopMode? statePref : statePm;
-		return ( p - X1 - X2 ) / getData().getT2();
+		return ( p - x1 - x2 ) / getData().getT2();
 	}
 
-	private double cal_dX3_dt(final double X2, final double X3) {
-		return ( X2 - X3 ) / getData().getT3();
+	private double cal_dX3_dt(final double x2, final double x3) {
+		return ( x2 - x3 ) / getData().getT3();
 	}
 
-	private double cal_dX4_dt(final double X3, final double X4) {
-		return ( X3 * ( 1.0 - getData().getFp()) - X4 ) / getData().getT4();
+	private double cal_dX4_dt(final double x3, final double x4) {
+		return ( x3 * ( 1.0 - getData().getFp()) - x4 ) / getData().getT4();
 	}
 
 	/**
@@ -146,7 +152,8 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 */	
 	@Override
 	public double getOutput() {
-		return statteX3 * getData().getFp() - stateX4;
+		IpssLogger.getLogger().fine("Pm: " + (stateX3 * getData().getFp() + stateX4));
+		return stateX3 * getData().getFp() + stateX4;
 	}
 
 	/**
