@@ -110,7 +110,7 @@ public class IpssTextDocument extends IpssEditorDocument{
 				
 			});
 			
-			setModified(false);
+		//	setModified(false);
 	}
 	
 	// Mike
@@ -124,6 +124,7 @@ public class IpssTextDocument extends IpssEditorDocument{
 	
 	public void setModified(boolean dirty) {
 		this.docFile.setModified(dirty);
+		graphpad.refreshDocumentEditorPanel(this);
 	}
 	
 	/**
@@ -139,10 +140,6 @@ public class IpssTextDocument extends IpssEditorDocument{
 		return mainTextArea.getText();
 	}
 
-	public String getFrameTitle() {
-		return this.getName() + (modified ? "*" : "");
-	}
-	
 	public boolean close(boolean showConfirmDialog){
 		// set default to save on close
 		int r = JOptionPane.YES_OPTION;
