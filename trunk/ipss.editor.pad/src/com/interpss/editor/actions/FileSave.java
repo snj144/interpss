@@ -26,6 +26,7 @@ import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.editor.coreframework.GPDocument;
 import com.interpss.editor.coreframework.IpssAbstractActionDefault;
+import com.interpss.editor.coreframework.IpssCustomDocument;
 import com.interpss.editor.coreframework.IpssTextDocument;
 import com.interpss.editor.coreframework.actions.IpssAbstractGraphActionFile;
 import com.interpss.editor.data.proj.ProjData;
@@ -54,6 +55,8 @@ public class FileSave extends IpssAbstractActionDefault {
 							new FileOutputStream(fileName),
 							(GPDocument)getCurrentDocument());
 					getCurrentDocument().setModified(false);
+					// added by Mike
+					((GPDocument)getCurrentDocument()).getGFormContainer().setDataDirty(false);
 
 					IAppSimuContext appSimuCtx = GraphSpringAppContext
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
@@ -62,6 +65,21 @@ public class FileSave extends IpssAbstractActionDefault {
 						IProjectDataManager projManager = SpringAppContext
 								.getProjectDataDBManager();
 						projManager.saveProjectDataToDB(getCurrentDocument().getProjData());
+						// added by Mike
+						getCurrentDocument().getProjData().setDirty(false);
+					}
+				}
+				else if (graphpad.getCurrentDocument() instanceof IpssCustomDocument)
+				{
+					// Richard, we should allow user modified Custom doc and save
+
+					IAppSimuContext appSimuCtx = GraphSpringAppContext
+							.getIpssGraphicEditor().getCurrentAppSimuContext();
+					if (appSimuCtx.getProjData().isDirty()) {
+						IProjectDataManager projManager = SpringAppContext
+							.getProjectDataDBManager();
+						projManager.saveProjectDataToDB(getCurrentDocument().getProjData());
+						getCurrentDocument().getProjData().setDirty(false);
 					}
 				}
 				else if (graphpad.getCurrentDocument() instanceof IpssTextDocument)
@@ -83,6 +101,8 @@ public class FileSave extends IpssAbstractActionDefault {
 		if (graphpad.getCurrentDocument() == null)
 			setEnabled(false);
 		else if (graphpad.getCurrentDocument() instanceof GPDocument)
+			setEnabled(true);
+		else if (graphpad.getCurrentDocument() instanceof IpssCustomDocument)
 			setEnabled(true);
 		else if (graphpad.getCurrentDocument() instanceof IpssTextDocument)
 			setEnabled(true);
