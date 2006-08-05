@@ -357,7 +357,11 @@ public class IpssProjectPanel extends JPanel {
 	public IpssProjectItem findProjectItem(IpssDocument doc) {
 		DefaultTreeModel dtm = (DefaultTreeModel) getTree().getModel();
 		DefaultMutableTreeNode findedTreeNode = getTreeNode(dtm, rootNode, doc);
-		return (IpssProjectItem) (findedTreeNode.getUserObject());
+		// modified by Mike, findedTreeNode may be null
+		if (findedTreeNode != null)
+			return (IpssProjectItem) (findedTreeNode.getUserObject());
+		else 
+			return null;
 	}
 
 	// public DefaultMutableTreeNode getTreeNode(final Object findObject){
