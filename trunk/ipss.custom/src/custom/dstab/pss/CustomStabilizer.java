@@ -28,7 +28,7 @@ public class CustomStabilizer extends AbstractStabilizer {
 	 *
 	 */
 	public CustomStabilizer() {
-		this("pssId", "pssName");
+		this("pssId", "pssName", "InterPSS");
 	}
 	
 	/**
@@ -37,8 +37,8 @@ public class CustomStabilizer extends AbstractStabilizer {
 	 * @param id pss id
 	 * @param name pss name
 	 */	
-	public CustomStabilizer(String id, String name) {
-		super(id, name);
+	public CustomStabilizer(String id, String name, String caty) {
+		super(id, name, caty);
 		// _data is defined in the parent class. However init it here is a MUST
 		_data = new CustomStabilizerData();
 	}
