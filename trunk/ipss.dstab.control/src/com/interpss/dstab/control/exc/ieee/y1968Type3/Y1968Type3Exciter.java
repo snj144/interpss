@@ -73,12 +73,13 @@ public class Y1968Type3Exciter extends AbstractExciter {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public void initStates(final IPSSMsgHub msg) {
+	public boolean initStates(final IPSSMsgHub msg) {
 		limit = new LimitType(getData().getVrmax(), getData().getVrmin()); 
 		final Machine mach = getMachine();
 		x1 = mach.getEfd();
 		final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
 		vref = (x1 + getData().getKa()*vt) / getData().getKa();
+		return true;
 	}
 	
 	/**

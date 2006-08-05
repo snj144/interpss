@@ -70,10 +70,11 @@ public class Type2_psatPss extends AbstractStabilizer {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public void initStates(final IPSSMsgHub msg) {
+	public boolean initStates(final IPSSMsgHub msg) {
 		limit = new LimitType(getData().getVsmax(), getData().getVsmin());
 		x1 = 0.0;
 		x2 = 0.0;
+		return true;
 	}
 
 	private double cal_dX1_dt(final double X1) {

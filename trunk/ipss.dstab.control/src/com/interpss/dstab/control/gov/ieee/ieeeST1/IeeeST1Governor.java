@@ -72,7 +72,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public void initStates(final IPSSMsgHub msg) {
+	public boolean initStates(final IPSSMsgHub msg) {
 		limit = new LimitType(getData().getPmax(), getData().getPmin());
 		statePref = getMachine().getPm();
         if (limit.isViolated(statePref)) {
@@ -84,6 +84,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 		statteX3 = stateX2;
 		stateX4 = (1.0 - getData().getFp()) * statteX3;
 		IpssLogger.getLogger().fine("Governor Limit:      " + limit);
+		return true;
 	}
 
 	/**
