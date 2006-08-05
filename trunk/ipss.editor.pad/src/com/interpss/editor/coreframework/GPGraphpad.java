@@ -750,22 +750,26 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 */
 	// changed name from addReportDocuemnt to newReportDocument
 	// changed such that the report may not add
-	public void newReportDocument(String name, IpssProjectItem item, String reportType, boolean add2Project) {
+	// We need to return the created report doc
+	public IpssProjectItem newReportDocument(String name, IpssProjectItem item, String reportType, boolean add2Project) {
 
 		if (item == null)
-			return;
+			return null;
 
 		try {
 			IpssReportDocument doc = new IpssReportDocument(this, item.getProject(), name, reportType);
 			addDocument2Frame(doc);
             if (add2Project) {
             	item.addDocument(doc, 0);
-    			this.getProjectPanel().addNewProjectItem(item, doc);
+            	IpssProjectItem newItem = this.getProjectPanel().addNewProjectItem(item, doc);
     			expendTree2CurrentDocument();
+    			// return item for saving report file
+                return newItem;
             }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	// change name from addReportDocument to loadReportDocument 

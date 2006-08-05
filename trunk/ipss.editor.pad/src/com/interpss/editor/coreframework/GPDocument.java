@@ -611,7 +611,10 @@ ComponentListener,Printable, GraphModelListener,
 		graphUndoManager.discardAllEdits();
 	}
 
-
+	// added by Mike
+	public boolean isModified() {
+		return super.isModified() || getGFormContainer().isDataDirty();
+	}
 
 	/**
 	 * Returns true if the user really wants to close. Gives chance to save
@@ -621,7 +624,7 @@ ComponentListener,Printable, GraphModelListener,
 		// set default to save on close
 		int r = JOptionPane.YES_OPTION;
 
-		if (modified) {
+		if (isModified()) {
 			if (showConfirmDialog)
 				r = JOptionPane.showConfirmDialog(getGraphpad().getFrame(), "'"
 						+ getFileName() + "'"

@@ -51,8 +51,9 @@ public abstract class IpssDocument extends JComponent{
 		appsimu.setProjData(info);
 	}
 	
+	// modified by Mike
 	public boolean isModified() {
-		return modified;
+		return modified || appsimu.getProjData().isDirty();
 	}
 	
 	public void setModified(boolean dirty) {
