@@ -31,7 +31,7 @@ public class IeeeST2Governor extends AbstractGovernor {
 	 *
 	 */
 	public IeeeST2Governor() {
-		this("govId", "IeeeST2Governor");
+		this("govId", "IeeeST2Governor", "IEEE-Governor");
 	}
 	
 	/**
@@ -40,8 +40,8 @@ public class IeeeST2Governor extends AbstractGovernor {
 	 * @param id governor id
 	 * @param name governor name
 	 */	
-	public IeeeST2Governor(final String id, final String name) {
-		super(id, name);
+	public IeeeST2Governor(final String id, final String name, final String caty) {
+		super(id, name, caty);
 		// _data is defined in the parent class. However init it here is a MUST
 		_data = new IeeeST2GovernorData();
 	}

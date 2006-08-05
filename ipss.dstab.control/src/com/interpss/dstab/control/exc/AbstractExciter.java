@@ -23,8 +23,8 @@ public abstract class AbstractExciter extends AbstractController {
 	 * @param id excitor id
 	 * @param name excitor name
 	 */
-	public AbstractExciter(final String id, final String name) {
-		super(id, name, ControllerType.EXCITER_LITERAL);
+	public AbstractExciter(final String id, final String name, final String caty) {
+		super(id, name, caty, ControllerType.EXCITER_LITERAL);
 	}
 
 	/**

@@ -25,11 +25,11 @@ public abstract class AbstractController extends ControllerImpl {
 	 * @param name controller name
 	 * @param type controller type
 	 */	
-	public AbstractController(final String id, final String name, final ControllerType type) {
+	public AbstractController(final String id, final String name, final String caty, final ControllerType type) {
 		setId(id);
 		setName(name);
+		setCategory(caty);
 		this.setStatus(true);
-		
 		setType(type);
 	}
 	

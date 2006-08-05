@@ -26,7 +26,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 *
 	 */
 	public IEEE_AC4AExciter() {
-		this("excId", "excName"); 
+		this("excId", "excName", "IEEE-Exciter"); 
 	}
 	
 	/**
@@ -35,8 +35,8 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @param id excitor id
 	 * @param name excitor name
 	 */
-	public IEEE_AC4AExciter(final String id, final String name) {
-		super(id, name);
+	public IEEE_AC4AExciter(final String id, final String name, final String caty) {
+		super(id, name, caty);
 		 //_data is defined in the parent class. However init it here is a MUST
 		_data = new IEEE_AC4AExciterData();
 	}

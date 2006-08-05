@@ -27,7 +27,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	private static final NBSimpleStabilizerEditPanel _editPanel = new NBSimpleStabilizerEditPanel();
 	
 	public SimpleStabilizer() {
-		this("pssId", "SimpleStabilizer");
+		this("pssId", "SimpleStabilizer", "InterPSS");
 	}
 	
 	/**
@@ -36,8 +36,8 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 * @param id pss id
 	 * @param name pss name
 	 */	
-	public SimpleStabilizer(final String id, final String name) {
-		super(id, name);
+	public SimpleStabilizer(final String id, final String name, final String caty) {
+		super(id, name, caty);
 		// _data is defined in the parent class. However init it here is a MUST
 		_data = new SimpleStabilizerData();
 	}

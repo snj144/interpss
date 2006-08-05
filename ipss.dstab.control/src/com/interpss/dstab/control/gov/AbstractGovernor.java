@@ -26,8 +26,8 @@ public abstract class AbstractGovernor extends AbstractController {
 	 * @param id governor id
 	 * @param name governor name
 	 */	
-	public AbstractGovernor(final String id, final String name) {
-		super(id, name, ControllerType.GOVERNOR_LITERAL);
+	public AbstractGovernor(final String id, final String name, final String caty) {
+		super(id, name, caty, ControllerType.GOVERNOR_LITERAL);
 	}
 
 	/**

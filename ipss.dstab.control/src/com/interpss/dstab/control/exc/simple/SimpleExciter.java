@@ -31,7 +31,7 @@ public class SimpleExciter extends AbstractExciter {
 	 *
 	 */
 	public SimpleExciter() {
-		this("excId", "SimpleExciter"); 
+		this("excId", "SimpleExciter", "InterPSS"); 
 	}
 	
 	/**
@@ -40,8 +40,8 @@ public class SimpleExciter extends AbstractExciter {
 	 * @param id excitor id
 	 * @param name excitor name
 	 */
-	public SimpleExciter(final String id, final String name) {
-		super(id, name);
+	public SimpleExciter(final String id, final String name, final String caty) {
+		super(id, name, caty);
 		// _data is defined in the parent class. However we must be reference to an actual object
 		_data = new SimpleExciterData();
 	}
