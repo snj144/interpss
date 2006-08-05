@@ -25,7 +25,7 @@ public class CustomExciter extends AbstractExciter {
 	 *
 	 */
 	public CustomExciter() {
-		this("excId", "excName"); 
+		this("excId", "excName", "InterPSS"); 
 	}
 	
 	/**
@@ -34,8 +34,8 @@ public class CustomExciter extends AbstractExciter {
 	 * @param id excitor id
 	 * @param name excitor name
 	 */
-	public CustomExciter(String id, String name) {
-		super(id, name);
+	public CustomExciter(String id, String name, String caty) {
+		super(id, name, caty);
 		// _data is defined in the parent class. However init it here is a MUST
 		_data = new CustomExciterData();
 	}
