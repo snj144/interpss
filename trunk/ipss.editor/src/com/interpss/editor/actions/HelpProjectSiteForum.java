@@ -34,7 +34,7 @@ public class HelpProjectSiteForum extends IpssAbstractGraphAction {
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = "https://sourceforge.net/forum/?group_id=165109";
+	private String url = "http://groups.google.com/group/Interpss-Project";
 
 	public void actionPerformed(ActionEvent e) {
 		GPPluginInvoker.openURL(url);
