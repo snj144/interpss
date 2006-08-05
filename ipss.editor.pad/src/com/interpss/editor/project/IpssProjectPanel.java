@@ -220,7 +220,8 @@ public class IpssProjectPanel extends JPanel {
 		graphpad.OpenProjectItem(init_OpenItems.get(j));
 	}
 
-	public void addNewProjectItem(IpssProjectItemCollector itemCollector,
+	// add return by Mike
+	public IpssProjectItem addNewProjectItem(IpssProjectItemCollector itemCollector,
 			IpssDocument doc) {
 
 		// DefaultTreeModel dtm = (DefaultTreeModel) getTree().getModel();
@@ -233,9 +234,10 @@ public class IpssProjectPanel extends JPanel {
 			if ((items[j].isLoaded()) && (items[j].getDocument().equals(doc))) {
 				model.insertNodeInto(new IconNode(items[j]), projectNode,
 						projectNode.getChildCount());
-				return;
+				return items[j];
 			}
 		}
+		return null;
 	}
 
 	public void removeProject(IpssProject project) {
