@@ -199,6 +199,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		desktop.addChangeListener(new ChangeListener() {
 			public void stateChanged(final ChangeEvent e) {
 				update();
+				expendTree2Object(getCurrentDocument());
 			}
 		});
 
