@@ -9,7 +9,8 @@ import com.interpss.editor.EditorSpringAppContext;
 public class TestBaseAppCtx extends TestCase {
 	public TestBaseAppCtx() {
 		if (SpringAppContext.SpringAppCtx == null) {
-			SpringAppContext.SpringAppCtxConfigXmlFile = "c:/eclipse/interpss3.2/ipss.editor/properties/springConfig/editorAppContext.xml";
+			SpringAppContext.SpringAppCtxConfigXmlFile = 
+				"c:/eclipse/interpss3.2/ipss.editor/properties/springConfig/editorAppContext.xml";
 			EditorSpringAppContext.springAppContextSetup();
 		}
 	}
