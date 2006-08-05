@@ -22,9 +22,11 @@ public class EditorActionAdapter {
 		IpssProjectItem item = doc.getGraphpad().getCurrentProjectItem();
 		String name = ReportUtil.getDefaultReportName(type, item.getFileNameNoExt());
 		// first create the report file 
-		IpssReportDocument rptDoc = doc.getGraphpad().newReportDocument(name, item, type, true);
+		IpssProjectItem rptItem = doc.getGraphpad().newReportDocument(name, item, type, true);
 		// then save the report file
-		rptDoc.getMainViewer().save(new File(rptDoc.getFileName()));
+		((IpssReportDocument)rptItem.getDocument()).getMainViewer().save(new File(
+				rptItem.getProject().getProjectPath() + System.getProperty("file.separator") +
+				rptItem.getFileName()));
 	}
 
 	public static void menu_report_aclfSummary(IpssEditorDocument doc) {
