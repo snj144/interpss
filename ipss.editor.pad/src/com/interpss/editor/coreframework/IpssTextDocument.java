@@ -138,15 +138,9 @@ public class IpssTextDocument extends IpssEditorDocument{
 	public String getText() {
 		return mainTextArea.getText();
 	}
-/////////////////////////
-/////////////////////////
-/////////////////////////
-/////////////////////////
+
 	public String getFrameTitle() {
-//		return (this.getName() == null ? Translator.getString("NewGraph")
-//				: this.getName())
-//				+ (modified ? "*" : "");
-		return "";
+		return this.getName() + (modified ? "*" : "");
 	}
 	
 	public boolean close(boolean showConfirmDialog){

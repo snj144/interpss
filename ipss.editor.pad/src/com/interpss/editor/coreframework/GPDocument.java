@@ -75,15 +75,14 @@ import com.interpss.editor.util.Rule;
  * 
  * @see com.interpss.editor.coreframework.GPGraphpadModel
  */
-public class GPDocument extends IpssEditorDocument implements GraphSelectionListener,
-ComponentListener,Printable, GraphModelListener,
-		PropertyChangeListener, GraphLayoutCacheListener, ICommandRegistery {
+public class GPDocument extends IpssEditorDocument implements
+		GraphSelectionListener, ComponentListener, Printable,
+		GraphModelListener, PropertyChangeListener, GraphLayoutCacheListener,
+		ICommandRegistery {
 
 	/**
 	 */
 	protected boolean enableTooltips;
-
-
 
 	/**
 	 * Container for the graph so that you can scroll over the graph
@@ -95,12 +94,11 @@ ComponentListener,Printable, GraphModelListener,
 	 */
 	protected JGraph graph;
 
-	
 	/**
 	 * Action used for fitting the size
 	 */
 	protected Action fitAction;
-	
+
 	/**
 	 * The overview Dialog for this document. Can be <tt>null</tt>.
 	 * 
@@ -135,8 +133,7 @@ ComponentListener,Printable, GraphModelListener,
 	/**
 	 * True if this documents graph model was modified since last save.
 	 */
-//	protected boolean modified = false;
-
+	// protected boolean modified = false;
 	/**
 	 * true if the current graph is Metric. default is true.
 	 */
@@ -146,8 +143,6 @@ ComponentListener,Printable, GraphModelListener,
 	 * true if the ruler show is activated
 	 */
 	protected static boolean showRuler = true;
-
-
 
 	/**
 	 * contains the find pattern for this document
@@ -195,21 +190,19 @@ ComponentListener,Printable, GraphModelListener,
 		this.setName(name);
 		setGraphpad(gp);
 		setProject(p);
-		
-/*		Mike: use the SpringFramework to manage graph object
-		GraphModel graphModel = (GraphModel) GPPluginInvoker
-				.instanciateObjectForKey("GraphModel.class");
 
-		// this._netContainer = new
-		// GFormContainer(SpringAppContext.getIpssMsgHub());
+		/*
+		 * Mike: use the SpringFramework to manage graph object GraphModel
+		 * graphModel = (GraphModel) GPPluginInvoker
+		 * .instanciateObjectForKey("GraphModel.class"); // this._netContainer =
+		 * new // GFormContainer(SpringAppContext.getIpssMsgHub());
+		 * 
+		 * graph = (JGraph) GPPluginInvoker
+		 * .instanciateObjectForKey("JGraph.class"); graph.setModel(graphModel);
+		 */
 
-		graph = (JGraph) GPPluginInvoker
-				.instanciateObjectForKey("JGraph.class");
-		graph.setModel(graphModel);
-*/		
-		
 		graph = GraphSpringAppContext.getIpssGraph();
-		
+
 		graph.setUI((GraphUI) GPPluginInvoker
 				.instanciateDocumentAwareObjectForKey("GraphUI.class", this,
 						true));
@@ -332,8 +325,16 @@ ComponentListener,Printable, GraphModelListener,
 
 	public void setModified(boolean modified) {
 		this.modified = modified;
+		if (!modified)
+			getGFormContainer().setDataDirty(false);
+		graphpad.refreshDocumentEditorPanel(this);
 		updateFrameTitle();
 		getGraphpad().update();
+	}
+	
+	// added by Mike
+	public boolean isModified() {
+		return super.isModified() || getGFormContainer().isDataDirty();
 	}
 
 	/* Return the scale of this document as a string. */
@@ -452,7 +453,6 @@ ComponentListener,Printable, GraphModelListener,
 		graph.getGraphLayoutCache().edit(nested, null, null, null);
 	}
 
-
 	// -----------------------------------------------------------------
 	// Component Listener
 	// -----------------------------------------------------------------
@@ -470,10 +470,10 @@ ComponentListener,Printable, GraphModelListener,
 		if (fitAction != null)
 			fitAction.actionPerformed(null);
 	}
+
 	public void componentShown(ComponentEvent e) {
 		componentResized(e);
 	}
-
 
 	public void setScale(double scale) {
 		scale = Math.max(Math.min(scale, 16), .01);
@@ -611,10 +611,7 @@ ComponentListener,Printable, GraphModelListener,
 		graphUndoManager.discardAllEdits();
 	}
 
-	// added by Mike
-	public boolean isModified() {
-		return super.isModified() || getGFormContainer().isDataDirty();
-	}
+
 
 	/**
 	 * Returns true if the user really wants to close. Gives chance to save
@@ -788,12 +785,14 @@ ComponentListener,Printable, GraphModelListener,
 			ToolTipManager.sharedInstance().unregisterComponent(graph);
 	}
 
-
-
 	public String getFrameTitle() {
-		return (this.getName() == null ? Translator.getString("NewGraph")
-				: this.getName())
-				+ (modified ? "*" : "");
+		return (this.isModified() ? "*" : "")
+				+ (this.getName() == null ? Translator.getString("NewGraph")
+						: this.getName());
+	}
+
+	public String getTabTitle() {
+		return (this.isModified() ? "*" : "") + this.getFileName();
 	}
 
 	public GPMarqueeHandler getMarqueeHandler() {
