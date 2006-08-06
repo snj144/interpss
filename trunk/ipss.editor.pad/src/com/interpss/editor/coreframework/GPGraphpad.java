@@ -1133,7 +1133,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 
 	public void refreshDocumentEditorPanel(IpssEditorDocument doc) {
 
-		if ((doc instanceof GPDocument) || (doc instanceof IpssTextDocument)) {
+		//if ((doc instanceof GPDocument) || (doc instanceof IpssTextDocument)) {
 			doc.updateFrameTitle();
 			IpssDocInternalFrame iFrame = (IpssDocInternalFrame) getDoc2InternalFrame()
 					.get(doc);
@@ -1148,7 +1148,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			// true, we need to
 			// // do something for example put a dirty * indicator
 			// }
-		}
+		//}
 	}
 
 	public void refreshCurrentDocumentEditorPanel() {
