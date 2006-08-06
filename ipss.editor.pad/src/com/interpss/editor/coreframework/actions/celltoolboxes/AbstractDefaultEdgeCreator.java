@@ -122,7 +122,7 @@ public abstract class AbstractDefaultEdgeCreator extends AbstractCellCreator
 		GraphCell cell = createCell();
 
 		((IIpssEdge)cell).connect(graphpad.getCurrentGraph(),(Port)firstPort.getCell(),(Port)port.getCell());
-
+		actionForCell(cell);
 		return cell;
 	}
 	/**
