@@ -240,6 +240,10 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		this.getProjectPanel().showOpenItems();
 	}
 
+	public void initActive() {
+		this.getProjectPanel().showActiveItem();
+	}
+
 	// others
 
 	public Action getCommand(String key) {
