@@ -10,6 +10,8 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import com.interpss.editor.doc.IpssProject;
 import com.interpss.editor.resources.Translator;
@@ -51,7 +53,7 @@ public class IpssCustomDocument extends IpssEditorDocument{
 		int fontStyle = Integer.parseInt(Translator.getString("CustomDocument.FontStyle"));
 		
 		mainTextArea.setFont(new Font(fontName, fontStyle, fontSize));
-		mainTextArea.setEditable(false);
+//		mainTextArea.setEditable(false);
 		
 		scrollPane = new JScrollPane(mainTextArea);
 		this.add(BorderLayout.CENTER, scrollPane);
@@ -86,6 +88,22 @@ public class IpssCustomDocument extends IpssEditorDocument{
 	          }
 	        }
 	      }
+			mainTextArea.getDocument().addDocumentListener(new DocumentListener(){
+				
+			    public void insertUpdate(DocumentEvent e)
+			    {
+			    	setModified(true);
+			    }
+			    public void removeUpdate(DocumentEvent e)
+			    {
+			    	setModified(true);
+			    }
+			    public void changedUpdate(DocumentEvent e)
+			    {
+			    	setModified(true);
+			    }
+				
+			});
 	}
 	
 	// Mike
@@ -93,12 +111,9 @@ public class IpssCustomDocument extends IpssEditorDocument{
 		return this.docFile;
 	}
 	
-	public boolean isModified() {
-		return this.docFile.isModified();
-	}
-	
 	public void setModified(boolean dirty) {
-		this.docFile.setModified(dirty);
+		this.modified = dirty;
+		graphpad.refreshDocumentEditorPanel(this);
 	}
 	
 	/**
@@ -110,18 +125,36 @@ public class IpssCustomDocument extends IpssEditorDocument{
 		return mainTextArea;
 	}
 	
-/////////////////////////
-/////////////////////////
-/////////////////////////
-/////////////////////////
-	public String getFrameTitle() {
-//		return (this.getName() == null ? Translator.getString("NewGraph")
-//				: this.getName())
-//				+ (modified ? "*" : "");
-		return "";
+	public String getText() {
+		return mainTextArea.getText();
 	}
 	
 	public boolean close(boolean showConfirmDialog){
+		// set default to save on close
+		int r = JOptionPane.YES_OPTION;
+
+		if (isModified()) {
+			if (showConfirmDialog)
+				r = JOptionPane.showConfirmDialog(getGraphpad().getFrame(), "'"
+						+ getFileName() + "'"
+						+ Translator.getString("CustomSaveChangesDialog"),
+						Translator.getString("Title"),
+						JOptionPane.YES_NO_CANCEL_OPTION);
+
+			// if yes, then save and close
+			if (r == JOptionPane.YES_OPTION) {
+				getGraphpad().getCommand("FileSave").actionPerformed(null);
+				return true;
+			}
+			// if no, then don't save and just close
+			else if (r == JOptionPane.NO_OPTION) {
+				return true;
+			}
+			// all other conditions (cancel and dialog's 'X' button)
+			// don't save and don't close
+			else
+				return false;
+		}
 		return true;
 	}
 }

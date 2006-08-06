@@ -33,6 +33,7 @@ import com.interpss.editor.data.proj.ProjData;
 import com.interpss.editor.io.ProjectDataDBManager;
 import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import com.interpss.editor.project.IpssCustomDataCodec;
 import com.interpss.editor.project.IpssGraphCodec;
 import com.interpss.editor.project.IpssTextCodec;
 
@@ -73,6 +74,12 @@ public class FileSave extends IpssAbstractActionDefault {
 				{
 					// Richard, we should allow user modified Custom doc and save
 
+					IpssCustomDataCodec.getInstance(graphpad).write(
+							new FileOutputStream(fileName),
+							(IpssCustomDocument)getCurrentDocument());
+					getCurrentDocument().setModified(false);
+
+					
 					IAppSimuContext appSimuCtx = GraphSpringAppContext
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.getProjData().isDirty()) {
