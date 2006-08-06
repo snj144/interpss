@@ -133,6 +133,7 @@ public class GEditor extends Applet {
 			gpframe.setVisible(true);
 			pad.initData();
 			panel.setVisible(true);
+			pad.initActive();
 			
 		} catch (Exception e) {
 			info.setText(e.getMessage());
