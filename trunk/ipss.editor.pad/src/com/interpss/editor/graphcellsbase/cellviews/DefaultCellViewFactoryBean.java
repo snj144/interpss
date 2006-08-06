@@ -11,6 +11,7 @@ import com.interpss.editor.jgraph.cells.BranchEdge;
 import com.interpss.editor.jgraph.cells.BusCell;
 import com.interpss.editor.jgraph.cells.LabelCell;
 import com.interpss.editor.jgraph.cells.NetLabelCell;
+import com.interpss.editor.jgraph.cells.SimpleLabelCell;
 
 
 
@@ -47,7 +48,12 @@ public class DefaultCellViewFactoryBean extends DefaultCellViewFactory {
 		indir4.setCellClass(BusCell.class);
 		indir4.setViewClass(JGraphBusView.class);
 		vect.add(indir4);
+		ViewIndirection indir5 = new ViewIndirection();
+		indir4.setCellClass(SimpleLabelCell.class);
+		indir4.setViewClass(JGraphMultilineView.class);
+		vect.add(indir5);
 		setViewIndirections(vect);
+		
 		
 		ArrayList evect = new ArrayList(1);
 		ViewIndirection eindir1 = new ViewIndirection();
