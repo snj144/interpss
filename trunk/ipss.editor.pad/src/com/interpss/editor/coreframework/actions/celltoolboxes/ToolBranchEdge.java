@@ -23,5 +23,7 @@ public class ToolBranchEdge extends AbstractDefaultEdgeCreator {
 		return new BranchEdge(braForm);
 		
 	}
-
+	public void actionForCell(GraphCell cell) {
+		graphpad.getCurrentGraph().startEditingAtCell(cell);
+	}
 }
