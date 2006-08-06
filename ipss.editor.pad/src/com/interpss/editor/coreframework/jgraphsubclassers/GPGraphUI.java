@@ -1,6 +1,7 @@
 package com.interpss.editor.coreframework.jgraphsubclassers;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -30,6 +31,7 @@ import com.interpss.editor.jgraph.cells.BranchEdge;
 import com.interpss.editor.jgraph.cells.BusCell;
 import com.interpss.editor.jgraph.cells.LabelCell;
 import com.interpss.editor.jgraph.cells.NetLabelCell;
+import com.interpss.editor.jgraph.cells.SimpleLabelCell;
 
 /**
  * The base class JGraph BasicGraphUI subclasser for GPGraphpad. It allows to
@@ -270,6 +272,9 @@ public class GPGraphUI extends BasicGraphUI {
 			document.setModified(true);
 			graph.clearSelection();
 			return true;
+		}
+		else if  (cell instanceof SimpleLabelCell) {
+			return super.startEditing(cell, event);
 		}
 		else if  (cell instanceof LabelCell) {
 			LabelCell lcell = (LabelCell)cell;

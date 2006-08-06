@@ -81,6 +81,7 @@ import com.interpss.editor.jgraph.cells.BranchEdge;
 import com.interpss.editor.jgraph.cells.BusCell;
 import com.interpss.editor.jgraph.cells.LabelCell;
 import com.interpss.editor.jgraph.cells.NetLabelCell;
+import com.interpss.editor.jgraph.cells.SimpleLabelCell;
 import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 import com.interpss.editor.jgraph.ui.form.IGBusForm;
 import com.interpss.editor.resources.Translator;
@@ -90,6 +91,7 @@ import com.interpss.editor.util.ShadowBorder;
 /**
  * File format for the default graph model. The file format writes a XML file
  * with the graph as content.
+ * 
  * @author luzar
  * @version 1.0
  */
@@ -166,7 +168,8 @@ public class IpssGraphCodec {
 					return false;
 				if (f.getName() == null)
 					return false;
-				if (f.getName().endsWith(Translator.getString("GraphFileExtension")))
+				if (f.getName().endsWith(
+						Translator.getString("GraphFileExtension")))
 					return true;
 				if (f.isDirectory())
 					return true;
@@ -178,7 +181,7 @@ public class IpssGraphCodec {
 			 * @see javax.swing.filechooser.FileFilter#getDescription()
 			 */
 			public String getDescription() {
-				return Translator.getString("GraphFileExtensionDescription"); 
+				return Translator.getString("GraphFileExtensionDescription");
 			}
 		};
 		compZipSelect = new JCheckBox(Translator.getString("zipCompress"));
@@ -224,7 +227,7 @@ public class IpssGraphCodec {
 		// write a file you should get an error message
 
 		out = new BufferedOutputStream(out);
-		out.write(toString(doc.getGraph(),doc).getBytes());
+		out.write(toString(doc.getGraph(), doc).getBytes());
 		out.flush();
 		out.close();
 	}
@@ -234,8 +237,7 @@ public class IpssGraphCodec {
 	 * input stream. If this procedure fails the method tempts to load without
 	 * the zipped option.
 	 */
-	public GraphModel read(URL file, JGraph gpGraph)
-			throws Exception {
+	public GraphModel read(URL file, JGraph gpGraph) throws Exception {
 
 		try {
 			read(file.openStream(), gpGraph);
@@ -255,9 +257,8 @@ public class IpssGraphCodec {
 	// Read
 	//
 
-	public GraphModel read(InputStream in, JGraph graph)
-			throws Exception {
-		GPGraphModel model = (GPGraphModel)(graph.getModel());
+	public GraphModel read(InputStream in, JGraph graph) throws Exception {
+		GPGraphModel model = (GPGraphModel) (graph.getModel());
 		// Create a DocumentBuilderFactory
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
 		// Create a DocumentBuilder
@@ -285,17 +286,14 @@ public class IpssGraphCodec {
 			} else if (node.getNodeName().toLowerCase().equals("view")) {
 				viewNode = node;
 			}
-			/* project data moved to DB
-			else if (node.getNodeName().toLowerCase().equals("proj")) {
-				String projStr = URLDecoder.decode(node.getFirstChild()
-						.getNodeValue().toString(), "UTF-8");
-				if (model != null) {
-					ProjData projData = (ProjData) XmlUtil.toObject(projStr,
-							ProjData.class);
-					model.setProjData(projData);
-				}
-			}
-			*/
+			/*
+			 * project data moved to DB else if
+			 * (node.getNodeName().toLowerCase().equals("proj")) { String
+			 * projStr = URLDecoder.decode(node.getFirstChild()
+			 * .getNodeValue().toString(), "UTF-8"); if (model != null) {
+			 * ProjData projData = (ProjData) XmlUtil.toObject(projStr,
+			 * ProjData.class); model.setProjData(projData); } }
+			 */
 		}
 		objs = decodeUserObjects(objsNode);
 		attrs = parseAttrs(attrsNode);
@@ -700,7 +698,7 @@ public class IpssGraphCodec {
 	// Write
 	//
 
-	public String toString(JGraph graph,GPDocument doc) {
+	public String toString(JGraph graph, GPDocument doc) {
 		userObjectMap.clear();
 		cellMap.clear();
 		attrs.clear();
@@ -725,20 +723,14 @@ public class IpssGraphCodec {
 		xml.append(outputView(graph, "\t"));
 		xml.append("</view>\n");
 
+		/*
+		 * ProjectData moved to DB // begin modified by Mike xml.append("<proj>\n");
+		 * try { xml.append(URLEncoder.encode(encodeValue(
+		 * doc.getProjData().toString()), "UTF-8")); } catch (Exception e) {
+		 * IpssLogger.getLogger().log(Level.SEVERE, e.toString()); }
+		 * xml.append("\n"); xml.append("</proj>\n"); // end modified by Mike
+		 */
 
-		/* ProjectData moved to DB
-		// begin modified by Mike
-		xml.append("<proj>\n");
-		try {
-			xml.append(URLEncoder.encode(encodeValue(  doc.getProjData().toString()), "UTF-8"));
-		} catch (Exception e) {
-			IpssLogger.getLogger().log(Level.SEVERE, e.toString());
-		}
-		xml.append("\n");
-		xml.append("</proj>\n");
-		// end modified by Mike
-		*/
-		
 		// Close main tags
 		xml.append("</ipss-1.0>\n");
 		return xml.toString();
@@ -1035,31 +1027,24 @@ public class IpssGraphCodec {
 		return xml;
 	}
 
-	public static String encodeUserObjects(
-			String indent,
-			Map userObjects) {
-String xml = new String("");
-Iterator it = userObjects.entrySet().iterator();
-while (it.hasNext()) {
-	Map.Entry entry = (Map.Entry) it.next();
-	Object key = entry.getValue();
-	Object value = entry.getKey();
-	    try {
-	    	value = URLEncoder.encode(encodeValue(value), "UTF-8");
-	    } catch (Exception e) {
-			System.err.println(e.getMessage());
-	    }
-	    xml += indent
-		+ "<a key=\""
-		+ encodeKey(key.toString())
-		+ "\" val=\""
-		+ value
-		+ "\"/>\n";
-}
-return xml;
-}
-	
-	
+	public static String encodeUserObjects(String indent, Map userObjects) {
+		String xml = new String("");
+		Iterator it = userObjects.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry entry = (Map.Entry) it.next();
+			Object key = entry.getValue();
+			Object value = entry.getKey();
+			try {
+				value = URLEncoder.encode(encodeValue(value), "UTF-8");
+			} catch (Exception e) {
+				System.err.println(e.getMessage());
+			}
+			xml += indent + "<a key=\"" + encodeKey(key.toString())
+					+ "\" val=\"" + value + "\"/>\n";
+		}
+		return xml;
+	}
+
 	public static String encodeKey(String key) {
 		// for (int i = 0; i < knownKeys.length; i++)
 		// if (key.equals(knownKeys[i]))
@@ -1072,13 +1057,13 @@ return xml;
 		if (value instanceof Point2D) {
 			Point2D r = (Point2D) value;
 			ret = r.getX() + "," + r.getY();
-			
+
 		} else if (value instanceof Rectangle2D) {
 			Rectangle2D r = (Rectangle2D) value;
 			ret = r.getX() + "," + r.getY() + "," + r.getWidth() + ","
 					+ r.getHeight();
-			
-////////////add
+
+			// //////////add
 		} else if (value instanceof Point2D[]) {
 			Point2D[] p = (Point2D[]) value;
 			String s = "";
@@ -1086,18 +1071,18 @@ return xml;
 				Point2D pt = (Point2D) p[i];
 				s = s + pt.getX() + "," + pt.getY() + ",";
 			}
-			ret =  (s.length() > 0) ? s.substring(0, s.length() - 1) : s;
-			
+			ret = (s.length() > 0) ? s.substring(0, s.length() - 1) : s;
+
 		} else if (value instanceof Object[]) {
 			Object[] o = (Object[]) value;
 			String s = "";
 			for (int i = 0; i < o.length; i++) {
 				String pt = (String) o[i];
 				s = s + pt + ",";
-//				s = s + Float.toString(f[i]) + ",";
+				// s = s + Float.toString(f[i]) + ",";
 			}
-			ret =  (s.length() > 0) ? s.substring(0, s.length() - 1) : s;
-			
+			ret = (s.length() > 0) ? s.substring(0, s.length() - 1) : s;
+
 		} else if (value instanceof List) { // TODO: non-points
 			List list = (List) value;
 			String s = "";
@@ -1108,11 +1093,11 @@ return xml;
 				}
 			}
 			ret = (s.length() > 0) ? s.substring(0, s.length() - 1) : s;
-			
+
 		} else if (value instanceof Font) {
 			Font font = (Font) value;
 			ret = font.getName() + "," + font.getSize() + "," + font.getStyle();
-			
+
 		} else if (value instanceof Color) {
 			Color color = (Color) value;
 			ret = Integer.toString(color.getRed()) + ","
@@ -1122,7 +1107,7 @@ return xml;
 		} else if (value instanceof Point) {
 			Point point = (Point) value;
 			ret = point.x + "," + point.y;
-			
+
 		} else if (value instanceof float[]) {
 			float[] f = (float[]) value;
 			String s = "";
@@ -1146,14 +1131,14 @@ return xml;
 		} else if (value instanceof ImageIconBean) {
 			ImageIconBean icon = (ImageIconBean) value;
 			ret = icon.getFileName();
-			
+
 		} else if (value instanceof Edge.Routing) {
 			if (value instanceof DefaultEdge.DefaultRouting)
 				ret = "simple";
-			
+
 		} else if (value != null)
 			ret = value.toString();
-		
+
 		return ret;
 	}
 
@@ -1195,7 +1180,7 @@ return xml;
 		return map;
 	}
 
-	///mod
+	// /mod
 	public Map decodeUserObjects(Node node) {
 		Hashtable map = new Hashtable();
 		for (int i = 0; i < node.getChildNodes().getLength(); i++) {
@@ -1218,7 +1203,8 @@ return xml;
 							}
 						}
 					}
-					if (valueS != null && (properties == null || properties.isEmpty()))
+					if (valueS != null
+							&& (properties == null || properties.isEmpty()))
 						map.put(keyVal, valueS);
 					else {
 						if (valueS != null && valueS.toString().length() > 0)
@@ -1252,7 +1238,7 @@ return xml;
 				return new Point2D.Double(Double.parseDouble(tok[0]), Double
 						.parseDouble(tok[1]));
 			}
-			
+
 		} else if (key == Rectangle2D.class) {
 			String[] tok = tokenize(value, ",");
 			if (tok.length == 4) {
@@ -1262,24 +1248,24 @@ return xml;
 				double h = Double.parseDouble(tok[3]);
 				return new Rectangle2D.Double(x, y, w, h);
 			}
-			
-		} else if (key == Point2D[].class) { 
+
+		} else if (key == Point2D[].class) {
 			String[] tok = tokenize(value, ",");
-			Point2D[] p = new Point2D[tok.length/2];
-			for (int i = 0,j=0; i < tok.length; i = i + 2,j++) {
+			Point2D[] p = new Point2D[tok.length / 2];
+			for (int i = 0, j = 0; i < tok.length; i = i + 2, j++) {
 				double x = Double.parseDouble(tok[i]);
 				double y = Double.parseDouble(tok[i + 1]);
 				Point2D point = new Point2D.Double();
-				point.setLocation(x,y);
+				point.setLocation(x, y);
 				p[j] = point;
 			}
 			return p;
-		
-		} else if (key == Object[].class) { 
+
+		} else if (key == Object[].class) {
 			String[] tok = tokenize(value, ",");
 			Object[] p = new Object[tok.length];
 			for (int i = 0; i < tok.length; i++) {
-				String text = (String)tok[i];
+				String text = (String) tok[i];
 				p[i] = text;
 			}
 			return p;
@@ -1295,7 +1281,7 @@ return xml;
 				list.add(point);
 			}
 			return list;
-			
+
 		} else if (key == Font.class) {
 			String[] tok = tokenize(value, ",");
 			if (tok.length == 3) {
@@ -1304,7 +1290,7 @@ return xml;
 				int style = Integer.parseInt(tok[2]);
 				return new Font(name, style, size);
 			}
-			
+
 		} else if (key == Color.class) {
 			String[] tok = tokenize(value, ",");
 			if (tok.length == 3) {
@@ -1314,7 +1300,7 @@ return xml;
 				return new Color(r, g, b);
 			}
 			return new Color(Integer.parseInt(value));
-			
+
 		} else if (key == Point.class) {
 			String[] tok = tokenize(value, ",");
 			if (tok.length == 2) {
@@ -1329,10 +1315,10 @@ return xml;
 			for (int i = 0; i < tok.length; i++)
 				f[i] = Float.parseFloat(tok[i]);
 			return f;
-			
+
 		} else if (key == Integer.class) {
 			return new Integer(value);
-			
+
 		} else if (key == Border.class) {
 			String[] tok = tokenize(value, ",");
 			if (tok[0].equals("L")) { // LineBorder
@@ -1352,7 +1338,7 @@ return xml;
 
 		} else if (key == Float.class) {
 			return new Float(value);
-		
+
 		} else if (key == Icon.class) {
 			try {
 				return new ImageIconBean(new URL(value));
@@ -1383,8 +1369,6 @@ return xml;
 		this.keyTypes = keyTypes;
 	}
 
-
-
 	/**
 	 * Override it if you use custom graph cells
 	 * 
@@ -1394,28 +1378,21 @@ return xml;
 	 */
 	public static DefaultGraphCell createCell(GraphModel model, String type,
 			Object userObject) {
-		// if (userObject instanceof Map)
-		// userObject = new GPUserObject((Map) userObject);
-		// if (type.equals(RECT))
-		// return new DefaultGraphCell(userObject);
-		// else if (type.equals(PORT))
-		// return new DefaultPort(userObject);
-		// else if (type.equals(EDGE))
-		// return new DefaultEdge(userObject);
-		// return null;
-
 		if (type.equals(PORT))
 			return new DefaultPort(userObject);
 		else if (type.equals(EDGE))
 			return new DefaultEdge(userObject);
 		else if (userObject instanceof String && type.equals(BUS)) {
-			IGBusForm busForm = (IGBusForm) XmlUtil.toObject((String) userObject,
-					GBusForm.class);
+			IGBusForm busForm = (IGBusForm) XmlUtil.toObject(
+					(String) userObject, GBusForm.class);
 			busForm = ((GPGraphModel) model).getGFormContainer().addGBusForm(
 					busForm);
 			return new BusCell(busForm);
+		} else if (userObject instanceof String && type.equals(SIMPLELABEL)) {
+			return new SimpleLabelCell(null, userObject);
 		} else if (userObject instanceof String
-				&& (type.equals(LABEL) || type.equals(ANNOTATELABEL) || type.equals(NETLABEL))) {
+				&& (type.equals(LABEL) || type.equals(ANNOTATELABEL) || type
+						.equals(NETLABEL))) {
 			// IpssLogger.getLogger().info("unknown: " + (String)userObject);
 			String objStr = (String) userObject;
 			Object form = null;
@@ -1453,11 +1430,12 @@ return xml;
 	}
 
 	/**
-	*	Get the cell object type for IpssGraph to xml conversion 	
-	*
-	* @param cell the cell object
-	* @return the cell type
-	*/
+	 * Get the cell object type for IpssGraph to xml conversion
+	 * 
+	 * @param cell
+	 *            the cell object
+	 * @return the cell type
+	 */
 	public static String getType(Object cell) {
 		if (cell instanceof BusCell)
 			return BUS;
@@ -1467,6 +1445,8 @@ return xml;
 			return NETLABEL;
 		else if (cell instanceof AnnotateLabelCell)
 			return ANNOTATELABEL;
+		else if (cell instanceof SimpleLabelCell)
+			return SIMPLELABEL;
 		else if (cell instanceof LabelCell)
 			return LABEL;
 		else if (cell instanceof DefaultPort)
@@ -1475,7 +1455,7 @@ return xml;
 			return EDGE;
 		return UNKNOWN;
 	}
-	
+
 	// GPGraphpad cells:
 	public static final String PORT = "port";
 
@@ -1486,6 +1466,8 @@ return xml;
 	public static final String ANNOTATELABEL = "annotateLabel";
 
 	public static final String NETLABEL = "netLabel";
+
+	public static final String SIMPLELABEL = "SimpleLabel";
 
 	public static final String BUS = "bus";
 
