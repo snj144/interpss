@@ -18,7 +18,7 @@ public class IpssProjectItem extends IpssProjectItemCollector{
 	
 	private String init_Status = STATUS_CLOSE;
 
-	public static final String STATUS_OPEN="open",STATUS_CLOSE="close";
+	public static final String STATUS_OPEN="open",STATUS_ACTIVE="active",STATUS_CLOSE="close";
 	
 
 //	public IpssProjectItem(IpssProject project,int projDbId){
@@ -107,9 +107,13 @@ public class IpssProjectItem extends IpssProjectItemCollector{
 	}
 
 	public boolean isOpen() {
-		return getInit_Status().equals(STATUS_OPEN) ;
+		return (getInit_Status().equals(STATUS_OPEN) || getInit_Status().equals(STATUS_ACTIVE)) ;
 	}
 	
+	public boolean isActive() {
+		return getInit_Status().equals(STATUS_ACTIVE) ;
+	}
+
 	
 	public boolean isLoaded() {
 		return !(getDocument() == null) ;

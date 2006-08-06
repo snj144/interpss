@@ -34,27 +34,33 @@ public class FileExit extends IpssAbstractActionDefault {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		
+
+		getGraphpad().expendTree2Object(graphpad.getCurrentDocument());
+		IpssProjectItem aitem = graphpad.getCurrentProjectItem();
+
 		IpssProjectItem[] items = graphpad.getAllOpenProjectItem();
-		
+
 		graphpad.getCommand("FileCloseAllOpenItem").actionPerformed(e);
-		
+
 		if ((items != null) && (items.length > 0))
-		for (int i = 0; i < items.length; i++) {
-			items[i].setInit_Status(IpssProjectItem.STATUS_OPEN);
-		}
-		//Save projects
-		IpssProject[] projects = EditorSpringAppContext.getAppContext().getAllProjects();
+			for (int i = 0; i < items.length; i++) {
+				if (items[i].equals(aitem))
+					items[i].setInit_Status(IpssProjectItem.STATUS_ACTIVE);
+				else
+					items[i].setInit_Status(IpssProjectItem.STATUS_OPEN);
+			}
+		// Save projects
+		IpssProject[] projects = EditorSpringAppContext.getAppContext()
+				.getAllProjects();
 		if ((projects != null) && (projects.length > 0))
-		for (int i = 0 ; i<projects.length ; i++)
-			graphpad.saveProject(projects[i]);
-		
+			for (int i = 0; i < projects.length; i++)
+				graphpad.saveProject(projects[i]);
+
 		graphpad.exit();
 	}
 
-	/** Empty implementation.
-	 *  This Action should be available
-	 *  each time.
+	/**
+	 * Empty implementation. This Action should be available each time.
 	 */
 	public void update() {
 	};

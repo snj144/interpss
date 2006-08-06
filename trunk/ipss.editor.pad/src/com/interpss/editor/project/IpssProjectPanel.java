@@ -60,6 +60,8 @@ public class IpssProjectPanel extends JPanel {
 	private JPopupMenu popupItem;
 
 	private ArrayList<IpssProjectItem> init_OpenItems = new ArrayList<IpssProjectItem>();
+	
+	private IpssProjectItem init_ActiveItem;
 
 	/**
 	 * Constructor for StatusBar.
@@ -190,8 +192,13 @@ public class IpssProjectPanel extends JPanel {
 
 				// if (items[j].isOpen() && !items[j].isLoaded())
 				// graphpad.OpenProjectItem(items[j]);
-				if (items[j].isOpen() && !items[j].isLoaded())
+				if (items[j].isOpen() && !items[j].isLoaded()){
 					init_OpenItems.add(items[j]);
+					if (items[j].isActive()){
+						init_ActiveItem = items[j]; 
+					}
+				}
+					
 				items[j].setInit_Status(IpssProjectItem.STATUS_CLOSE);
 			}
 	}
@@ -216,6 +223,10 @@ public class IpssProjectPanel extends JPanel {
 		}
 	}
 
+	public void showActiveItem() {
+		if (init_ActiveItem!=null)
+			graphpad.OpenDocument((IpssEditorDocument)init_ActiveItem.getDocument());
+	}
 	public void showOpenItems(int j) {
 		graphpad.OpenProjectItem(init_OpenItems.get(j));
 	}
@@ -522,7 +533,7 @@ public class IpssProjectPanel extends JPanel {
 						.actionPerformed(null);
 			}
 
-			super.mouseClicked(e);
+			//super.mouseClicked(e);
 		}
 
 //		@Override
