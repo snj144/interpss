@@ -30,7 +30,6 @@ import java.awt.BorderLayout;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;

@@ -4,8 +4,6 @@ package com.interpss.editor.report;
  *	InterPSS report viewer, which also is a JPanel object
  */ 
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.InputStream;
 
@@ -26,7 +24,6 @@ import net.sf.jasperreports.view.JRViewer;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.editor.io.FileChooserConfig;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
 
 public class IpssRptViewer extends JRViewer {
 	private static final long serialVersionUID = 1;
