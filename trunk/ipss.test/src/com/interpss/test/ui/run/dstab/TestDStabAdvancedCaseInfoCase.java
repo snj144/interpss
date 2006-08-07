@@ -4,28 +4,26 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.app.AppSimuContextImpl;
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.data.proj.CaseData;
 import com.interpss.editor.data.proj.DStabCaseData;
 import com.interpss.editor.data.proj.ProjData;
-import com.interpss.editor.ui.SimuAppSpringAppCtxUtil;
+import com.interpss.editor.form.GFormContainer;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 import com.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.*;
 
 public class TestDStabAdvancedCaseInfoCase extends TestCaseInfoBase {
 
 	public void testRunCase() {
 		System.out.println("TestDStabAdvancedCaseInfoCase testRunCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
 
@@ -43,7 +41,7 @@ public class TestDStabAdvancedCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 	    ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -59,7 +57,7 @@ public class TestDStabAdvancedCaseInfoCase extends TestCaseInfoBase {
 		assertTrue(dstabCaseData.getStaticLoadSwitchVolt() == 0.85);
 
 		// launch the Dialog again
-		caseDialog.init(netContainer, editor.getAppCtx());
+		caseDialog.init(netContainer, appSimuCtx);
 		finder.setName("runButton");		
 	    runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
@@ -74,7 +72,7 @@ public class TestDStabAdvancedCaseInfoCase extends TestCaseInfoBase {
 	    
 		
 		// launch the Dialog again
-		caseDialog.init(netContainer, editor.getAppCtx());
+		caseDialog.init(netContainer, appSimuCtx);
 
 		TestUI_UtilFunc.selectTabbedPane(finder, caseDialog, "detailInfoTabbedPane", 1);
 	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "staticLoadCZRadioButton");
@@ -82,7 +80,7 @@ public class TestDStabAdvancedCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 	    
 		caseData = appSimuCtx.getCaseData("Transient Stability Case", CaseData.CaseType_DStab);
@@ -92,7 +90,7 @@ public class TestDStabAdvancedCaseInfoCase extends TestCaseInfoBase {
 		assertTrue(dstabCaseData.getStaticLoadType().equals(DStabCaseData.StaticLoad_Const_Z));
 
 		// launch the Dialog again
-		caseDialog.init(netContainer, editor.getAppCtx());
+		caseDialog.init(netContainer, appSimuCtx);
 		finder.setName("runButton");		
 	    runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );

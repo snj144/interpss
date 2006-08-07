@@ -4,29 +4,27 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import com.interpss.editor.app.AppSimuContextImpl;
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
+import com.interpss.editor.SimuAppSpringAppContext;
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.data.acsc.AcscFaultData;
 import com.interpss.editor.data.proj.AcscCaseData;
 import com.interpss.editor.data.proj.CaseData;
 import com.interpss.editor.data.proj.ProjData;
+import com.interpss.editor.form.GFormContainer;
 import com.interpss.editor.runAct.AcscRunForm;
-import com.interpss.editor.ui.SimuAppSpringAppContext;
-import com.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 import com.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.*;
 
 public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 	public void testBusFault3PCase() {
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFault3PCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
 
@@ -51,7 +49,7 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -110,10 +108,8 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 	public void testBusFaultLLGCase() {
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFaultLLGCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
 
@@ -138,7 +134,7 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -191,13 +187,12 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFaultLLGCase end");
 	}
 	
+/*	All fault type is currently disabled
 	public void testBusFaultAllCase() {
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFaultAllCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
 
@@ -222,7 +217,7 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -274,14 +269,12 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFaultAllCase end");
 	}
-
+*/
 	public void testBusFaultLLCase() {
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFaultLLCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
 
@@ -304,7 +297,7 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 		ProjData projData = (ProjData)appSimuCtx.getProjData();

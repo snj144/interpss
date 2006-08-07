@@ -6,23 +6,21 @@ import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
+import com.interpss.editor.SimuAppSpringAppContext;
 import com.interpss.editor.SimuAppSpringAppCtxUtil;
-import com.interpss.editor.app.AppSimuContextImpl;
 import com.interpss.editor.data.proj.AclfCaseData;
 import com.interpss.editor.data.proj.CaseData;
 import com.interpss.editor.data.proj.ProjData;
 import com.interpss.editor.runAct.AclfRunForm;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.*;
-
 public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	public void testRunCase() {
 		System.out.println("TesAddDeleteCaseInfoCase testRunCase begin");
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Aclf, netContainer, appSimuCtx, false);
 		
@@ -38,10 +36,10 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
-	    ProjData projData = (ProjData)editor.getAppSimuContext().getProjData();
+	    ProjData projData = (ProjData)appSimuCtx.getProjData();
 		assertTrue(projData.getAclfCaseName().equals("Aclf Analysis Case"));
 		
 		// At this point, we have two ways to access the AclfCaseData
@@ -60,7 +58,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 		assertNotNull(aclfCaseData);
 
 		// launch the edtior again
-		caseDialog.init(netContainer, editor.getAppSimuContext());
+		caseDialog.init(netContainer, appSimuCtx);
 
 		// click the run button
 		finder.setName("runButton");		
@@ -80,8 +78,6 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	public void xtestAddCase() {
 		System.out.println("TesAddDeleteCaseInfoCase testAddCase begin");
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Aclf, netContainer, appSimuCtx, false);
 		
@@ -98,10 +94,10 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	    finder.setName( "runButton" );
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 		assertTrue(caseDialog.isReturnOk());
 		
-	    ProjData projData = (ProjData)editor.getAppSimuContext().getProjData();
+	    ProjData projData = (ProjData)appSimuCtx.getProjData();
 		assertTrue(projData.getAclfCaseName().equals("Aclf Analysis Case"));
 
 		AclfRunForm runForm = SimuAppSpringAppContext.getAclfRunForm();
@@ -109,7 +105,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 		assertTrue(aclfCaseData.getMethod().equals(AclfCaseData.Method_NR));
 
 		// launch the dialog again
-		caseDialog.init(netContainer, editor.getAppSimuContext());
+		caseDialog.init(netContainer, appSimuCtx);
 		
 		// 2nd case: "A New Case", PQ method
 		finder = new NamedComponentFinder(JComponent.class, "casenameComboBox" );
@@ -123,7 +119,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	    getHelper().enterClickAndLeave( new MouseEventData( this, addCaseButton ) );
 	    
 	    // we should have 2 cases now
-	    assertTrue(editor.getAppSimuContext().getProjData().getCaseList().size() == 2);
+	    assertTrue(appSimuCtx.getProjData().getCaseList().size() == 2);
 		
 	    // select the PQ method
 	    finder.setName( "pqRadioButton" );
@@ -134,7 +130,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	    finder.setName( "runButton" );
 	    runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 		assertTrue(caseDialog.isReturnOk());
 		
 		// check current case name
@@ -160,8 +156,6 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	public void xtestDeleteCase() {
 		System.out.println("TesAddDeleteCaseInfoCase testDeleteCase begin");
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Aclf, netContainer, appSimuCtx, false);
 
@@ -180,7 +174,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	    getHelper().enterClickAndLeave( new MouseEventData( this, addCaseButton ) );
 	    
 	    // we should have 2 cases now
-	    assertTrue(editor.getAppSimuContext().getProjData().getCaseList().size() == 2);
+	    assertTrue(appSimuCtx.getProjData().getCaseList().size() == 2);
 
 		// 2nd case: "A New Case", 
 		casenameComboBox.addItem("A New Case-2"); 
@@ -189,7 +183,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	    getHelper().enterClickAndLeave( new MouseEventData( this, addCaseButton ) );
 	    
 	    // we should have 3 cases now
-	    assertTrue(editor.getAppSimuContext().getProjData().getCaseList().size() == 3);
+	    assertTrue(appSimuCtx.getProjData().getCaseList().size() == 3);
 	    
 	    // select the "A New Case-1" case
 		casenameComboBox.setSelectedItem("A New Case-1");
@@ -200,7 +194,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	    getHelper().enterClickAndLeave( new MouseEventData( this, deleteCaseButton ) );
 
 	    // we should have 2 cases now
-	    assertTrue(editor.getAppSimuContext().getProjData().getCaseList().size() == 2);
+	    assertTrue(appSimuCtx.getProjData().getCaseList().size() == 2);
 
 		CaseData caseData = appSimuCtx.getCaseData("Aclf Analysis Case", CaseData.CaseType_Aclf);
 		assertNotNull(caseData);
@@ -214,8 +208,6 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 	public void testCancelCase() {
 		System.out.println("TesAddDeleteCaseInfoCase testCancelCase begin");
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Aclf, netContainer, appSimuCtx, false);
 

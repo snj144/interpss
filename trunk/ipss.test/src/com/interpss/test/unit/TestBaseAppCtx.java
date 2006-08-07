@@ -5,12 +5,12 @@ import junit.framework.TestCase;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Complex3x1;
 import com.interpss.editor.EditorSpringAppContext;
+import com.interpss.test.TestConstants;
 
 public class TestBaseAppCtx extends TestCase {
 	public TestBaseAppCtx() {
 		if (SpringAppContext.SpringAppCtx == null) {
-			SpringAppContext.SpringAppCtxConfigXmlFile = 
-				"c:/eclipse/interpss3.2/ipss.editor/properties/springConfig/editorAppContext.xml";
+			SpringAppContext.SpringAppCtxConfigXmlFile = TestConstants.SpringConfigXmlFile;
 			EditorSpringAppContext.springAppContextSetup();
 		}
 	}

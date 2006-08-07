@@ -4,28 +4,26 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import com.interpss.editor.app.AppSimuContextImpl;
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
+import com.interpss.editor.SimuAppSpringAppContext;
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.data.proj.AcscCaseData;
 import com.interpss.editor.data.proj.CaseData;
 import com.interpss.editor.data.proj.ProjData;
+import com.interpss.editor.form.GFormContainer;
 import com.interpss.editor.runAct.AcscRunForm;
-import com.interpss.editor.ui.SimuAppSpringAppContext;
-import com.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 import com.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.*;
 
 public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 	public void testSimpleRunCase() {
 		System.out.println("TesAcscCaseInfoCase testSimpleRunCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
 
@@ -37,7 +35,7 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 	    ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -63,10 +61,8 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 	public void testUnitVoltCase() {
 		System.out.println("TesAcscCaseInfoCase testUnitVoltCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
 
@@ -81,7 +77,7 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 	    ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -126,9 +122,7 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 	public void testLFVoltCase() {
 		System.out.println("TesAcscCaseInfoCase testLFVoltCase begin");
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
-		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
 		appSimuCtx.setLfConverged(true);
 		
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
@@ -144,7 +138,7 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 	    ProjData projData = (ProjData)appSimuCtx.getProjData();

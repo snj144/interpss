@@ -27,6 +27,7 @@ import com.interpss.editor.form.GNetForm;
 import com.interpss.editor.form.InitDataUtil;
 import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;
+import com.interpss.editor.util.IOUtilFunc;
 
 public class TestUI_UtilFunc extends JFCTestCase {
 	public static String JGraphEditorTestFilePath = "C:/eclipse/GEditor/projects/unittest/";
@@ -330,7 +331,8 @@ public class TestUI_UtilFunc extends JFCTestCase {
 	
 	public static void loadAclf5BusSample(JGraph graph, IPSSMsgHub msg) {
 		try {
-			GraphicFileManager.loadGraphFile(new File(JGraphEditorTestFilePath+"Aclf5Bus.ipss"), graph, false);
+			String filename = JGraphEditorTestFilePath+"Aclf5Bus.ipss";
+			graph = IOUtilFunc.loadIpssGraphFile(filename);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
