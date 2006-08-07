@@ -9,12 +9,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import com.interpss.common.util.IpssLogger;
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.app.AppSimuContextImpl;
 import com.interpss.editor.data.acsc.AcscFaultData;
 import com.interpss.editor.data.dstab.DStabDEventData;
 import com.interpss.editor.data.proj.CaseData;
 import com.interpss.editor.data.proj.DStabCaseData;
-import com.interpss.editor.ui.SimuAppSpringAppCtxUtil;
+import com.interpss.editor.form.GFormContainer;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 import com.interpss.test.ui.run.TestCaseInfoBase;
@@ -27,10 +28,8 @@ public class TestMuitlpleEventsCaseInfoCase extends TestCaseInfoBase {
 	public void testAddDeleteEventCase() {
 		System.out.println("TestMuitlpleEventsCaseInfoCase testAddDeleteEventCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
 
@@ -74,7 +73,7 @@ public class TestMuitlpleEventsCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(event);
 	    
 		// launch the Dialog again
-		caseDialog.init(netContainer, editor.getAppCtx());
+		caseDialog.init(netContainer, appSimuCtx);
 
 		finder.setName("eventListComboBox");
 		eventListComboBox = ( JComboBox ) finder.find( caseDialog, 0);
@@ -103,9 +102,7 @@ public class TestMuitlpleEventsCaseInfoCase extends TestCaseInfoBase {
 	public void testAddSaveEventCase() {
 		System.out.println("TestMuitlpleEventsCaseInfoCase testAddSaveEventCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
-		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 	    
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
@@ -196,10 +193,8 @@ public class TestMuitlpleEventsCaseInfoCase extends TestCaseInfoBase {
 	public void testAddSaveFaultEventCase() {
 		System.out.println("TestMuitlpleEventsCaseInfoCase testAddSaveFaultEventCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
 

@@ -4,29 +4,27 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-import com.interpss.editor.app.AppSimuContextImpl;
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
+import com.interpss.editor.SimuAppSpringAppContext;
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.data.proj.CaseData;
 import com.interpss.editor.data.proj.DStabCaseData;
 import com.interpss.editor.data.proj.ProjData;
+import com.interpss.editor.form.GFormContainer;
 import com.interpss.editor.runAct.DStabRunForm;
-import com.interpss.editor.ui.SimuAppSpringAppContext;
-import com.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 import com.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.*;
 
 public class TestDStabCaseInfoCase extends TestCaseInfoBase {
 
 	public void testSimpleRunCase() {
 		System.out.println("TestDStabCaseInfoCase testSimpleRunCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-		
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
 
@@ -41,7 +39,7 @@ public class TestDStabCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 	    ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -65,9 +63,7 @@ public class TestDStabCaseInfoCase extends TestCaseInfoBase {
 	public void testTypicalRunCase() {
 		System.out.println("TestDStabCaseInfoCase testTypicalRunCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
-		
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 		
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
@@ -86,7 +82,7 @@ public class TestDStabCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 	    ProjData projData = (ProjData)appSimuCtx.getProjData();
