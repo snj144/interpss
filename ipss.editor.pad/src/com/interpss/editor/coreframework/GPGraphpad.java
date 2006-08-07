@@ -168,6 +168,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public void init() {
+		IpssLogger.getLogger().info("Command search path: " + Translator.getString("CommandSearchPath"));
 		GPPluginInvoker.setCommandSearchPath(Utilities.tokenize(Translator
 				.getString("CommandSearchPath")));
 		// instanciations of the singletons:
@@ -347,6 +348,9 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public IpssEditorDocument getCurrentDocument() {
+        if (desktop == null) // added by Mike, desktop may be null during unit testing  
+        	return null;
+        
 		IpssDocInternalFrame internalFrame = (IpssDocInternalFrame) desktop
 				.getSelectedComponent();
 		if (internalFrame == null)
@@ -1134,12 +1138,14 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	public void refreshDocumentEditorPanel(IpssEditorDocument doc) {
 
 		//if ((doc instanceof GPDocument) || (doc instanceof IpssTextDocument)) {
+		if (doc != null) {  // add by Mike, doc may be null during unit testing
 			doc.updateFrameTitle();
 			IpssDocInternalFrame iFrame = (IpssDocInternalFrame) getDoc2InternalFrame()
 					.get(doc);
 
 			int index = desktop.indexOfComponent(iFrame);
 			desktop.setTitleAt(index, doc.getTabTitle());
+		}
 
 			// IGFormContainer netContainer
 			// =((GPDocument)getCurrentDocument()).getGFormContainer();
