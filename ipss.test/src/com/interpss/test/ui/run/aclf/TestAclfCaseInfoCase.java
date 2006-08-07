@@ -5,26 +5,23 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
-import com.interpss.editor.app.AppSimuContextImpl;
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
+import com.interpss.editor.SimuAppSpringAppContext;
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.data.proj.AclfCaseData;
 import com.interpss.editor.data.proj.CaseData;
 import com.interpss.editor.data.proj.ProjData;
 import com.interpss.editor.runAct.AclfRunForm;
-import com.interpss.editor.SimuAppSpringAppContext;
-import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 import com.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.*;
 
 public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 	public void testNRCase() {
 		System.out.println("TesAclfCaseInfoCase testNRCase begin");
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getCurrentAppSimuContext();
-	    
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Aclf, netContainer, appSimuCtx, false);
 		
@@ -42,7 +39,7 @@ public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 	    finder.setName( "runButton" );
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 		assertTrue(caseDialog.isReturnOk());
 		
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -92,8 +89,6 @@ public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 	public void testPQCase() {
 		System.out.println("TesAclfCaseInfoCase testPQCase begin");
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Aclf, netContainer, appSimuCtx, false);
 		
@@ -108,7 +103,7 @@ public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 	    finder.setName( "runButton" );
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 		assertTrue(caseDialog.isReturnOk());
 		
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -152,8 +147,6 @@ public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 	public void testGSCase() {
 		System.out.println("TesAclfCaseInfoCase testGSCase begin");
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Aclf, netContainer, appSimuCtx, false);
 		
@@ -171,7 +164,7 @@ public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 	    finder.setName( "runButton" );
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 		assertTrue(caseDialog.isReturnOk());
 		
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
