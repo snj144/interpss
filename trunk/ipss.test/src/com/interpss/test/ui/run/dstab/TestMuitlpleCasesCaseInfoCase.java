@@ -5,25 +5,23 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextArea;
 
-import com.interpss.editor.app.AppSimuContextImpl;
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.data.proj.CaseData;
-import com.interpss.editor.ui.SimuAppSpringAppCtxUtil;
+import com.interpss.editor.form.GFormContainer;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 import com.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.*;
 
 public class TestMuitlpleCasesCaseInfoCase extends TestCaseInfoBase {
 
 	public void testAddDeleteCaseCase() {
 		System.out.println("TestMuitlpleEventsCaseInfoCase testAddDeleteCaseCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-	    
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
 

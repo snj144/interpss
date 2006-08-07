@@ -8,32 +8,30 @@ import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.app.AppSimuContextImpl;
+import com.interpss.editor.SimuAppSpringAppContext;
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.data.acsc.AcscFaultData;
 import com.interpss.editor.data.dstab.DStabDEventData;
 import com.interpss.editor.data.proj.CaseData;
 import com.interpss.editor.data.proj.DStabCaseData;
 import com.interpss.editor.data.proj.ProjData;
+import com.interpss.editor.form.GFormContainer;
 import com.interpss.editor.runAct.DStabRunForm;
-import com.interpss.editor.ui.SimuAppSpringAppContext;
-import com.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.ui.run.NBCaseInfoDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 import com.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.*;
 
 public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 
 	public void testSimpleRunCase() {
 		System.out.println("TestDStabDEventCaseInfoCase testSimpleRunCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-		
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
 
@@ -73,7 +71,7 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 		finder.setName("runButton");		
 	    JButton runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 	    assertTrue(caseDialog.isReturnOk());
 
 	    ProjData projData = (ProjData)appSimuCtx.getProjData();
@@ -102,7 +100,7 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 		assertTrue(event.isPermanent());
 
 		// lauch the dialog again
-		caseDialog.init(netContainer, editor.getAppCtx());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 		finder.setName("runButton");		
 	    runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
@@ -124,10 +122,8 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 	public void testBusFaultEventCase() {
 		System.out.println("TestDStabDEventCaseInfoCase testBusFaultEventCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-		
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
 
@@ -186,7 +182,7 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 		assertTrue(event.getFaultData().getLG_X() == 0.2);
 
 		// lauch the dialog again
-		caseDialog.init(netContainer, editor.getAppCtx());
+		caseDialog.init(netContainer, appSimuCtx);
 		finder.setName("runButton");		
 	    runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
@@ -209,10 +205,8 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 	public void testBranchFaultEventCase() {
 		System.out.println("TestDStabDEventCaseInfoCase testBranchFaultEventCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
 
-	    AppSimuContextImpl appSimuCtx = (AppSimuContextImpl)editor.getAppSimuContext();
-		
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
 
@@ -256,7 +250,7 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 		assertTrue(event.getFaultData().getDistance() == 50.0);
 
 		// lauch the dialog again
-		caseDialog.init(netContainer, editor.getAppCtx());
+		caseDialog.init(netContainer, appSimuCtx);
 		finder.setName("runButton");		
 	    runButton = ( JButton ) finder.find( caseDialog, 0 );
 	    getHelper().enterClickAndLeave( new MouseEventData( this, runButton ) );
