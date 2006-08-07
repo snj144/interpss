@@ -3,7 +3,6 @@ package com.interpss.editor.ui.run;
 import java.util.Vector;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
