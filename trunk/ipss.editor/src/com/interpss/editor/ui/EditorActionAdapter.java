@@ -38,7 +38,7 @@ public class EditorActionAdapter {
 
 	public static void menu_report_aclfIeeeBusStype(IpssEditorDocument doc) {
 		IpssProjectItem item = doc.getGraphpad().getCurrentProjectItem();
-		String name = ReportUtil.getReportName(IpssReportFactory.RPT_TYPE_ACLFSUMMARY, item.getFileNameNoExt());
+		String name = ReportUtil.getReportName(IpssReportFactory.RPT_TYPE_ACLFBUSSTYLE, item.getFileNameNoExt());
 		doc.getGraphpad().newReportDocument(name, item,	IpssReportFactory.RPT_TYPE_ACLFBUSSTYLE, false);
 	}
 
