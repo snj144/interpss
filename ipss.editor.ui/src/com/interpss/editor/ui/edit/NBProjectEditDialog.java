@@ -64,7 +64,6 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         this.msgHub = aMsgHub;
 
         DataVerifier verifier = new DataVerifier();
-		this.projTitleTextField.setInputVerifier(verifier);
     	this.baseKvaField.setInputVerifier(verifier);
     	this.baseFreqField.setInputVerifier(verifier);
 
@@ -118,7 +117,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBProjectEditDialog.setForm2Editor() called");
 		GNetForm form = (GNetForm)_netContainer.getGNetForm();
-    	this.projTitleTextField.setText(_projInfo.getProjectName());
+    	this.filenameLabel.setText(_projInfo.getFilename());
     	this.descTextArea.setText(_projInfo.getDescription());
 
 		this.baseKvaField.setText(Num2Str.toStr(form.getBaseKVA(), "#.0"));
@@ -152,13 +151,6 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 		errMsg.clear();
 		boolean ok = true;
 
-		if (VerifyUtil.isEmptyStr(this.projTitleTextField)) {
-			errMsg.add("Id field is empty");
-			ok = false;
-    	}
-    	_projInfo.setProjectName(this.projTitleTextField.getText());
-    	_netContainer.getGNetForm().setId(this.projTitleTextField.getText());
-    	
     	_projInfo.setDescription(this.descTextArea.getText());
 
 		if (!VerifyUtil.largeThan(this.baseKvaField, 0.0d)) {
@@ -287,8 +279,8 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         netTypeButtonGroup = new javax.swing.ButtonGroup();
         inputPanel = new javax.swing.JPanel();
         selectionPanel = new javax.swing.JPanel();
-        projTitleLabel = new javax.swing.JLabel();
-        projTitleTextField = new javax.swing.JTextField();
+        projFileLabel = new javax.swing.JLabel();
+        filenameLabel = new javax.swing.JLabel();
         descLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         descTextArea = new javax.swing.JTextArea();
@@ -330,23 +322,24 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         inputPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 1, 20));
         selectionPanel.setLayout(new java.awt.GridBagLayout());
 
-        projTitleLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        projTitleLabel.setText("Project Title    ");
+        projFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        projFileLabel.setText("Project File    ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipady = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        selectionPanel.add(projTitleLabel, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        selectionPanel.add(projFileLabel, gridBagConstraints);
 
-        projTitleTextField.setColumns(15);
-        projTitleTextField.setName("projNameTextField");
+        filenameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        filenameLabel.setText("Filename");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.ipady = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        selectionPanel.add(projTitleTextField, gridBagConstraints);
+        selectionPanel.add(filenameLabel, gridBagConstraints);
 
         descLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         descLabel.setText("Description    ");
@@ -633,6 +626,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
     private javax.swing.JPanel editContainerPanel;
     private javax.swing.JPanel editPanel;
     private javax.swing.JLabel fUnitLabel;
+    private javax.swing.JLabel filenameLabel;
     private javax.swing.JPanel inputPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel kvaPanel;
@@ -640,8 +634,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
     private javax.swing.ButtonGroup netTypeButtonGroup;
     private javax.swing.JPanel netTypePanel;
     private javax.swing.JPanel northEmptyPanel;
-    private javax.swing.JLabel projTitleLabel;
-    private javax.swing.JTextField projTitleTextField;
+    private javax.swing.JLabel projFileLabel;
     private javax.swing.JButton saveButton;
     private javax.swing.JPanel selectionPanel;
     private javax.swing.JPanel southEmptyPanel;
@@ -658,8 +651,6 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 				if (input == baseKvaField ||
 		   		   	input == baseFreqField)
 		    		return VerifyUtil.largeThan((javax.swing.JTextField)input, 0.0d);
-				if (input == projTitleTextField)
-	 	       		return !VerifyUtil.isEmptyStr((javax.swing.JTextField)input);
  	       	} catch (Exception e) {
 				return false;
  	       	}				
