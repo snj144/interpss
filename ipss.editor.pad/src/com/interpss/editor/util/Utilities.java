@@ -46,6 +46,7 @@ import org.jgraph.graph.GraphModel;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
 import com.interpss.editor.coreframework.GPGraphpad;
 import com.interpss.editor.coreframework.GPGraphpadFile;
 import com.interpss.editor.coreframework.GPPluginInvoker;
@@ -375,6 +376,7 @@ public final class Utilities {
 			file.setModified(false);
 			file.getSimuAppContext().getProjData().setDirty(false);
 			file.getSimuAppContext().getProjData().setFilepath(abpath);
+			file.getSimuAppContext().getProjData().setProjectName(StringUtil.getFileName(abpath));
 			file.setFilePathName(abpath);
 			//graphpad.setStatus("Custom Data loaded, File:" + abpath); no need anymore
 			SpringAppContext.getIpssMsgHub().sendStatusMsg("Custom Data, File:" + abpath);

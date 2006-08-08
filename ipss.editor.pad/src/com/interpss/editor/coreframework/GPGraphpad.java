@@ -951,11 +951,12 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 				// we need synch some data in the graph with the project data,
 				// since project data may be
 				// created later.
-				String str = ((GPDocument) doc).getGFormContainer()
-						.getGNetForm().getLabel(IUserData.NET_LABEL);
-				IpssLogger.getLogger().info(
-						"ProjectData.name updated to " + str);
-				appSimuContext.getProjData().setProjectName(str);
+				//String str = ((GPDocument) doc).getGFormContainer()
+				//		.getGNetForm().getLabel(IUserData.NET_LABEL);
+				//IpssLogger.getLogger().info(
+				//		"ProjectData.name updated to " + str);
+				appSimuContext.getProjData().setProjectName(appSimuContext.getProjData().getFilename());
+				((GPDocument) doc).getGFormContainer().getGNetForm().setNewState(false);
 			}
 		}
 	}
