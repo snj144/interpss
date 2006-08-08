@@ -75,6 +75,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 		System.out.println("TesAddDeleteCaseInfoCase testRunCase end");
 	}
 	
+	// add case currently has been disabled	
 	public void xtestAddCase() {
 		System.out.println("TesAddDeleteCaseInfoCase testAddCase begin");
 		
@@ -153,6 +154,7 @@ public class TestCaseInfoDialogCase extends TestCaseInfoBase {
 		System.out.println("TesAddDeleteCaseInfoCase testAddCase end");
 	}
 
+	// delete case currently has been disabled
 	public void xtestDeleteCase() {
 		System.out.println("TesAddDeleteCaseInfoCase testDeleteCase begin");
 		
