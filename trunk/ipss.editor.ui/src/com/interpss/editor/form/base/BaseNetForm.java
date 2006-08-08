@@ -11,8 +11,8 @@ public class BaseNetForm {
     protected String name = "";
     private String  description = null;
 
-    private double  baseKVA = 0.0d;
-    private double  freqHZ = 0.0d;
+    private double  baseKVA = 100000.0d;
+    private double  freqHZ = 50.0d;
     private boolean isAllowParallelBranch = false;
     private boolean isCheckBusDuplication = true;
 
