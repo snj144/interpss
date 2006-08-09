@@ -46,7 +46,8 @@ public class GNetForm extends BaseNetForm implements IGNetForm, java.io.Serializ
 	*/
 	public String getLabel(String type) {
 		if (IUserData.NET_LABEL.equals(type))
-			return getId();
+//			return getId(); We do not need NetLabel any more
+		    return "Need to be deleted, Not use anymore";
 		else if (IUserData.NET_ANNOTATE_LABEL.equals(type))
 			return "Network Annotate Str";
 		else
