@@ -7,7 +7,6 @@ import org.jgraph.graph.GraphCell;
 import org.jgraph.graph.GraphConstants;
 
 import com.interpss.editor.coreframework.GPDocument;
-import com.interpss.editor.form.base.IUserData;
 import com.interpss.editor.jgraph.cells.SimpleLabelCell;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;
 

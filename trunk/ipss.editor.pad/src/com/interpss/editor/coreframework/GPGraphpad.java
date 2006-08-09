@@ -62,7 +62,6 @@ import com.interpss.editor.SimuAppSpringAppContext;
 import com.interpss.editor.doc.IpssDocument;
 import com.interpss.editor.doc.IpssProject;
 import com.interpss.editor.doc.IpssProjectItem;
-import com.interpss.editor.form.base.IUserData;
 import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.ui.IGraphicEditor;
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
