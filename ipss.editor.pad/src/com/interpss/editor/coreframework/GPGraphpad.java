@@ -766,12 +766,24 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 					.getProject(), name, reportType);
 			addDocument2Frame(doc);
 			if (add2Project) {
-				item.addDocument(doc, 0);
-				IpssProjectItem newItem = this.getProjectPanel()
-						.addNewProjectItem(item, doc);
-				expendTree2CurrentDocument();
-				// return item for saving report file
-				return newItem;
+				IpssProjectItem rptitem = item.getItem(name);
+				if (rptitem==null){
+					item.addDocument(doc, 0);
+					IpssProjectItem newItem = this.getProjectPanel().addNewProjectItem(item, doc);
+					expendTree2CurrentDocument();
+					// return item for saving report file
+					return newItem;
+				}
+				else{
+					if (rptitem.isLoaded())
+						this.closeDocument((IpssEditorDocument)rptitem.getDocument());
+					rptitem.setDocument(doc);
+					this.OpenDocument(doc);
+					expendTree2Object(doc);
+					return rptitem;
+				}
+				
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
