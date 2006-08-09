@@ -24,10 +24,10 @@ import org.jgraph.graph.GraphConstants;
 import org.jgraph.graph.VertexView;
 
 import com.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel;
-import com.interpss.editor.form.base.IUserData;
 import com.interpss.editor.jgraph.cells.AnnotateLabelCell;
 import com.interpss.editor.jgraph.cells.BusCell;
 import com.interpss.editor.jgraph.cells.LabelCell;
+import com.interpss.editor.jgraph.ui.form.IUserData;
 
 /**
  * @author Gaudenz Alder

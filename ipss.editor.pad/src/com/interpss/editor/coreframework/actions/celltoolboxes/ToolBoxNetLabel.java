@@ -7,9 +7,9 @@ import org.jgraph.graph.GraphCell;
 import org.jgraph.graph.GraphConstants;
 
 import com.interpss.editor.coreframework.GPDocument;
-import com.interpss.editor.form.base.IUserData;
 import com.interpss.editor.jgraph.cells.NetLabelCell;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;
+import com.interpss.editor.jgraph.ui.form.IUserData;
 
 public class ToolBoxNetLabel extends AbstractDefaultVertexnPortsCreator {
 	

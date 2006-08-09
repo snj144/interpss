@@ -294,6 +294,17 @@ public class IpssGraphCodec {
 			 * ProjData projData = (ProjData) XmlUtil.toObject(projStr,
 			 * ProjData.class); model.setProjData(projData); } }
 			 */
+
+			// Since we get ride of NetLabel, we need to store GNetForm separetely
+			else if (node.getNodeName().equals("gNetForm")) { 
+				String str = URLDecoder.decode(node.getFirstChild()
+								.getNodeValue().toString(), "UTF-8"); 
+				if (model != null) {
+					GNetForm gNetForm = (GNetForm) XmlUtil.toObject(str, GNetForm.class); 
+					IpssLogger.getLogger().fine(gNetForm.toString());
+					model.getGFormContainer().setGNetForm(gNetForm);
+				}
+			}
 		}
 		objs = decodeUserObjects(objsNode);
 		attrs = parseAttrs(attrsNode);
@@ -731,6 +742,17 @@ public class IpssGraphCodec {
 		 * xml.append("\n"); xml.append("</proj>\n"); // end modified by Mike
 		 */
 
+		// Since we get ride of NetLabel, we need to get GNetForm separetely
+		xml.append("<gNetForm>\n");
+		try { 
+			IpssLogger.getLogger().fine(doc.getGFormContainer().getGNetForm().toString()); 
+			xml.append(URLEncoder.encode(encodeValue(
+					 doc.getGFormContainer().getGNetForm().toString()), "UTF-8")); 
+		} catch (Exception e) {
+			IpssLogger.logErr(e); 
+		}
+		xml.append("\n"); xml.append("</gNetForm>\n"); 
+		
 		// Close main tags
 		xml.append("</ipss-1.0>\n");
 		return xml.toString();
@@ -1034,6 +1056,7 @@ public class IpssGraphCodec {
 			Map.Entry entry = (Map.Entry) it.next();
 			Object key = entry.getValue();
 			Object value = entry.getKey();
+			IpssLogger.getLogger().fine(key + " " + value);
 			try {
 				value = URLEncoder.encode(encodeValue(value), "UTF-8");
 			} catch (Exception e) {
