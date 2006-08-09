@@ -13,6 +13,8 @@ public class ReportAcscSymmetric extends IpssAbstractActionDefault {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		EditorActionAdapter.menu_report_acscSymmetric(getCurrentDocument());
+		graphpad.saveProject(graphpad.getCurrentProject());
+		graphpad.update();
 	}
 
 	public void update() {

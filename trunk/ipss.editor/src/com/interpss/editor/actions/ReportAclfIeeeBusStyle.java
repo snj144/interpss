@@ -13,6 +13,8 @@ public class ReportAclfIeeeBusStyle extends IpssAbstractActionDefault {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		EditorActionAdapter.menu_report_aclfIeeeBusStype(getCurrentDocument());
+		graphpad.saveProject(graphpad.getCurrentProject());
+		graphpad.update();
 	}
 
 	public void update() {
