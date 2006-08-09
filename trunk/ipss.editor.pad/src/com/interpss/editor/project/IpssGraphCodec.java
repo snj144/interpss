@@ -80,7 +80,6 @@ import com.interpss.editor.jgraph.cells.AnnotateLabelCell;
 import com.interpss.editor.jgraph.cells.BranchEdge;
 import com.interpss.editor.jgraph.cells.BusCell;
 import com.interpss.editor.jgraph.cells.LabelCell;
-import com.interpss.editor.jgraph.cells.NetLabelCell;
 import com.interpss.editor.jgraph.cells.SimpleLabelCell;
 import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 import com.interpss.editor.jgraph.ui.form.IGBusForm;
@@ -295,12 +294,14 @@ public class IpssGraphCodec {
 			 * ProjData.class); model.setProjData(projData); } }
 			 */
 
-			// Since we get ride of NetLabel, we need to store GNetForm separetely
-			else if (node.getNodeName().equals("gNetForm")) { 
+			// Since we get ride of NetLabel, we need to store GNetForm
+			// separetely
+			else if (node.getNodeName().equals("gNetForm")) {
 				String str = URLDecoder.decode(node.getFirstChild()
-								.getNodeValue().toString(), "UTF-8"); 
+						.getNodeValue().toString(), "UTF-8");
 				if (model != null) {
-					GNetForm gNetForm = (GNetForm) XmlUtil.toObject(str, GNetForm.class); 
+					GNetForm gNetForm = (GNetForm) XmlUtil.toObject(str,
+							GNetForm.class);
 					IpssLogger.getLogger().fine(gNetForm.toString());
 					model.getGFormContainer().setGNetForm(gNetForm);
 				}
@@ -744,15 +745,17 @@ public class IpssGraphCodec {
 
 		// Since we get ride of NetLabel, we need to get GNetForm separetely
 		xml.append("<gNetForm>\n");
-		try { 
-			IpssLogger.getLogger().fine(doc.getGFormContainer().getGNetForm().toString()); 
-			xml.append(URLEncoder.encode(encodeValue(
-					 doc.getGFormContainer().getGNetForm().toString()), "UTF-8")); 
+		try {
+			IpssLogger.getLogger().fine(
+					doc.getGFormContainer().getGNetForm().toString());
+			xml.append(URLEncoder.encode(encodeValue(doc.getGFormContainer()
+					.getGNetForm().toString()), "UTF-8"));
 		} catch (Exception e) {
-			IpssLogger.logErr(e); 
+			IpssLogger.logErr(e);
 		}
-		xml.append("\n"); xml.append("</gNetForm>\n"); 
-		
+		xml.append("\n");
+		xml.append("</gNetForm>\n");
+
 		// Close main tags
 		xml.append("</ipss-1.0>\n");
 		return xml.toString();
@@ -1414,8 +1417,7 @@ public class IpssGraphCodec {
 		} else if (userObject instanceof String && type.equals(SIMPLELABEL)) {
 			return new SimpleLabelCell(null, userObject);
 		} else if (userObject instanceof String
-				&& (type.equals(LABEL) || type.equals(ANNOTATELABEL) || type
-						.equals(NETLABEL))) {
+				&& (type.equals(LABEL) || type.equals(ANNOTATELABEL))) {
 			// IpssLogger.getLogger().info("unknown: " + (String)userObject);
 			String objStr = (String) userObject;
 			Object form = null;
@@ -1430,9 +1432,7 @@ public class IpssGraphCodec {
 				((GPGraphModel) model).getGFormContainer().setGNetForm(
 						(GNetForm) form);
 			}
-			if (type.equals(NETLABEL))
-				return new NetLabelCell(null, form);
-			else if (type.equals(ANNOTATELABEL))
+			if (type.equals(ANNOTATELABEL))
 				return new AnnotateLabelCell(null, form);
 			else
 				return new LabelCell(null, form);
@@ -1464,8 +1464,6 @@ public class IpssGraphCodec {
 			return BUS;
 		else if (cell instanceof BranchEdge)
 			return BRANCH;
-		else if (cell instanceof NetLabelCell)
-			return NETLABEL;
 		else if (cell instanceof AnnotateLabelCell)
 			return ANNOTATELABEL;
 		else if (cell instanceof SimpleLabelCell)
@@ -1487,8 +1485,6 @@ public class IpssGraphCodec {
 	public static final String LABEL = "label";
 
 	public static final String ANNOTATELABEL = "annotateLabel";
-
-	public static final String NETLABEL = "netLabel";
 
 	public static final String SIMPLELABEL = "SimpleLabel";
 

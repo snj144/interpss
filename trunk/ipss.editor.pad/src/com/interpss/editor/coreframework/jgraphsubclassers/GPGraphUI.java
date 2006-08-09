@@ -1,7 +1,6 @@
 package com.interpss.editor.coreframework.jgraphsubclassers;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -30,7 +29,6 @@ import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.cells.BranchEdge;
 import com.interpss.editor.jgraph.cells.BusCell;
 import com.interpss.editor.jgraph.cells.LabelCell;
-import com.interpss.editor.jgraph.cells.NetLabelCell;
 import com.interpss.editor.jgraph.cells.SimpleLabelCell;
 
 /**
@@ -264,29 +262,27 @@ public class GPGraphUI extends BasicGraphUI {
 
 	protected boolean startEditing(Object cell, MouseEvent event) {
 		completeEditing();
-		
-		if (cell instanceof NetLabelCell) {
-			IpssLogger.getLogger().info("Starting Editing a NetLabel object and launch Dialog");
-			GraphSpringAppContext.getEditorDialog(null, document.getGraph());
-			document.getProjData().setDirty(true);
-			document.setModified(true);
-			graph.clearSelection();
-			return true;
-		}
-		else if  (cell instanceof SimpleLabelCell) {
+
+		if (cell instanceof SimpleLabelCell) {
 			return super.startEditing(cell, event);
-		}
-		else if  (cell instanceof LabelCell) {
-			LabelCell lcell = (LabelCell)cell;
-			if (lcell.getParentCell() instanceof BusCell || lcell.getParentCell() instanceof BranchEdge) {
-				IpssLogger.getLogger().info("Starting Editing a Bus/Branch object and launch Bus Dialog");
-				GraphSpringAppContext.getEditorDialog(lcell.getParentCell(), document.getGraph());
+		} else if (cell instanceof LabelCell) {
+			LabelCell lcell = (LabelCell) cell;
+			if (lcell.getParentCell() instanceof BusCell
+					|| lcell.getParentCell() instanceof BranchEdge) {
+				IpssLogger
+						.getLogger()
+						.info(
+								"Starting Editing a Bus/Branch object and launch Bus Dialog");
+				GraphSpringAppContext.getEditorDialog(lcell.getParentCell(),
+						document.getGraph());
 				graph.clearSelection();
 				return true;
 			}
-		}
-		else if (cell instanceof BusCell || cell instanceof BranchEdge) {
-			IpssLogger.getLogger().info("Starting Editing a Bus/Branch object and launch Bus/BranchEditor Dialog");
+		} else if (cell instanceof BusCell || cell instanceof BranchEdge) {
+			IpssLogger
+					.getLogger()
+					.info(
+							"Starting Editing a Bus/Branch object and launch Bus/BranchEditor Dialog");
 			GraphSpringAppContext.getEditorDialog(cell, document.getGraph());
 			graph.clearSelection();
 			return true;

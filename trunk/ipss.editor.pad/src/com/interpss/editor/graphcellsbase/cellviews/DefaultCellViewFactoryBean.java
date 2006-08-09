@@ -10,7 +10,6 @@ import com.interpss.editor.jgraph.cells.AnnotateLabelCell;
 import com.interpss.editor.jgraph.cells.BranchEdge;
 import com.interpss.editor.jgraph.cells.BusCell;
 import com.interpss.editor.jgraph.cells.LabelCell;
-import com.interpss.editor.jgraph.cells.NetLabelCell;
 import com.interpss.editor.jgraph.cells.SimpleLabelCell;
 
 
@@ -31,11 +30,7 @@ public class DefaultCellViewFactoryBean extends DefaultCellViewFactory {
     private ArrayList edgeIndirections;
     
     public DefaultCellViewFactoryBean() {
-		ArrayList vect = new ArrayList(4);
-		ViewIndirection indir1 = new ViewIndirection();
-		indir1.setCellClass(NetLabelCell.class);
-		indir1.setViewClass(JGraphLabelView.class);
-		vect.add(indir1);
+		ArrayList vect = new ArrayList();
 		ViewIndirection indir2 = new ViewIndirection();
 		indir2.setCellClass(LabelCell.class);
 		indir2.setViewClass(JGraphLabelView.class);
@@ -55,7 +50,7 @@ public class DefaultCellViewFactoryBean extends DefaultCellViewFactory {
 		setViewIndirections(vect);
 		
 		
-		ArrayList evect = new ArrayList(1);
+		ArrayList evect = new ArrayList();
 		ViewIndirection eindir1 = new ViewIndirection();
 		eindir1.setCellClass(BranchEdge.class);
 		eindir1.setViewClass(JGraphBranchEdgeView.class);
