@@ -1144,7 +1144,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * @see com.interpss.editor.jgraph.ui.IGraphicEditor#setAppTitle()
 	 */
 	public String getVersion() {
-		return Translator.getString("Prog.version.short");
+		return Translator.getString("Prog.short");
 	}
 
 	public void refreshDocumentEditorPanel(IpssEditorDocument doc) {

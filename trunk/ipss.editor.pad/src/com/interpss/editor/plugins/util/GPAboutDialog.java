@@ -70,7 +70,7 @@ public class GPAboutDialog extends JDialog {
 
 		// Construct About Panel
 		JLabel lab1 = new JLabel(logo);
-		JLabel lab2 = new JLabel(Translator.getString("Prog.version"));
+		JLabel lab2 = new JLabel(Translator.getString("Prog.name") + " " + Translator.getString("Prog.version"));
 		lab2.setFont(lab1.getFont().deriveFont(Font.PLAIN, 18));
 		JLabel lab3 = new JLabel("Based on "+org.jgraph.JGraph.VERSION);
 		lab3.setFont(lab3.getFont().deriveFont(Font.PLAIN, 12));
