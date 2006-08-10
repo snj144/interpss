@@ -253,7 +253,7 @@ public class GEditor extends Applet {
 
 				g2.setFont(new Font("Arial", Font.PLAIN, 10));
 
-				g2.drawString(Translator.getString("Prog.version"), 18, 172);
+				g2.drawString(Translator.getString("Prog.name")+ " " + Translator.getString("Prog.version"), 18, 172);
 
 				g2.setColor(Color.DARK_GRAY);
 				g2.setFont(new Font("Arial", Font.BOLD, 8));
