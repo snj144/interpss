@@ -30,6 +30,7 @@ public class FileAddGraph extends IpssAbstractProjectAction {
 		
 		if (editor.isNewFile()){
 			graphpad.addGraphDocument(editor.getFileName(), project);
+			((GPDocument)getCurrentDocument()).getProjData().setFilepath(editor.getFileName());
 			GraphSpringAppContext.getEditorDialog(null, ((GPDocument)getCurrentDocument()).getGraph());
 			getCurrentDocument().getProjData().setDirty(true);
 			graphpad.getCommand("FileSave").actionPerformed(e);

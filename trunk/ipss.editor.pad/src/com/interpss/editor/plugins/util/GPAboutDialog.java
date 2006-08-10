@@ -55,13 +55,15 @@ public class GPAboutDialog extends JDialog {
 
 	public GPAboutDialog(Frame owner, String title, ImageIcon logo) {
 		super(owner, title, true);
-		setSize(new Dimension(450, 320));
+		setSize(new Dimension(450, 360));
 
 		JTabbedPane mainTabs = new JTabbedPane();
 		JPanel aboutPanel = new JPanel();
 		JPanel creditsPanel = new JPanel();
+		JPanel ipssCreditsPanel = new JPanel();
 		mainTabs.addTab(Translator.getString("About"), aboutPanel);
-		mainTabs.addTab(Translator.getString("Credits"), creditsPanel);
+		mainTabs.addTab(Translator.getString("JGraphCredits"), creditsPanel);
+		mainTabs.addTab(Translator.getString("InterPSSCredits"), ipssCreditsPanel);
 		getContentPane().add(mainTabs);
 		setLocationRelativeTo(owner);
 		setResizable(false);
@@ -69,13 +71,13 @@ public class GPAboutDialog extends JDialog {
 		// Construct About Panel
 		JLabel lab1 = new JLabel(logo);
 		JLabel lab2 = new JLabel(Translator.getString("Prog.version"));
-		lab2.setFont(lab1.getFont().deriveFont(Font.PLAIN, 24));
+		lab2.setFont(lab1.getFont().deriveFont(Font.PLAIN, 18));
 		JLabel lab3 = new JLabel("Based on "+org.jgraph.JGraph.VERSION);
 		lab3.setFont(lab3.getFont().deriveFont(Font.PLAIN, 12));
 		JLabel lab4 =
-			new JLabel("(C) 2001-"
+			new JLabel("(C) 2005-"
 					+ Calendar.getInstance().get(Calendar.YEAR)
-					+ " JGraph.com. All rights reserved.");
+					+ " interpss.org. All rights reserved.");
 		lab4.setFont(lab4.getFont().deriveFont(Font.PLAIN, 12));
 		JLabel lab5 =
 			new JLabel("Java:"+System.getProperty("java.version")+" OS: "+System.getProperty("os.name"));
@@ -83,12 +85,12 @@ public class GPAboutDialog extends JDialog {
 		lab1.setBounds(10, 9, 20, 24);
 		lab2.setBounds(40, 5, 360, 30);
 		lab3.setBounds(40, 33, 360, 25);
-		lab4.setBounds(40, 200, 360, 25);
+		lab4.setBounds(40, 250, 360, 25);
 		HTMLPane text = new HTMLPane();
 		text.setOpaque(false);
 		text.setText(
 			Translator.getString("AboutText"));
-		text.setBounds(40, 65, 400, 140);
+		text.setBounds(40, 65, 400, 180);
 		text.setFont(lab4.getFont());
 		text.setEditable(false);
 		aboutPanel.setLayout(null);
@@ -105,7 +107,7 @@ public class GPAboutDialog extends JDialog {
 		credits.setOpaque(false);
 		credits.setText(
 				"The following people and groups have made the JGraph\n"
-			+ "Project possible:\n"
+			+ "Project possible:\n\n"
 			+ "Thanks to Prof. Moira Norrie, Prof. Bernhard Plattner\n"
 			+ "and Prof. Gerhard Tr�ster at the Federal Institute of \n"
 			+ "Technology (www.ethz.ch) for their support!\n\n"
@@ -137,7 +139,19 @@ public class GPAboutDialog extends JDialog {
 			+ "sourceforge.net.\n");
 		credits.setCaretPosition(0);
 		credits.setEditable(false);
-	}
+
+		// Construct Credits Panel
+		JTextArea ipssCredits = new JTextArea();
+		ipssCreditsPanel.setLayout(new BorderLayout());
+		ipssCreditsPanel.add(new JScrollPane(ipssCredits), BorderLayout.CENTER);
+		ipssCredits.setOpaque(false);
+		ipssCredits.setText(
+			"The following people and groups have made the InterPSS\n"
+			+ "Project possible:\n"
+			+ "....\n");
+		ipssCredits.setCaretPosition(0);
+		ipssCredits.setEditable(false);
+}
 
 	// Close on escape
 	protected JRootPane createRootPane() {
