@@ -7,7 +7,7 @@ import com.interpss.common.msg.StdoutMsgListener;
 import com.interpss.common.msg.TextMessage;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
-
+ 
 public class TestAdapter {
 
 	/**
