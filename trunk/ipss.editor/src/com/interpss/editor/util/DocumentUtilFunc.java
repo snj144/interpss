@@ -133,11 +133,7 @@ public class DocumentUtilFunc  {
 			if (form.getAppType().equals(IGNetForm.AppType_Distribution)) {
 				return true;
 			} else {
-				if (form.getNetType().equals(IGNetForm.NetType_AclfNetwork)
-						|| form.getNetType().equals(IGNetForm.NetType_AclfAdjNetwork)) {
-					return false;
-				} else if (form.getNetType().equals(
-						IGNetForm.NetType_AcscNetwork)) {
+				if (form.getNetType().equals(IGNetForm.NetType_AcscNetwork)) {
 					return true;
 				}
 			}
