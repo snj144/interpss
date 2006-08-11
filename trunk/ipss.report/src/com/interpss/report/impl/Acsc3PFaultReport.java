@@ -14,14 +14,12 @@ import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.report.IIpssReport;
 import com.interpss.report.bean.RptMainTitleBean;
-import com.interpss.report.bean.aclf.AclfRptBeanFactory;
 import com.interpss.report.bean.acsc.AcscRptBeanFactory;
 import com.interpss.report.mapper.SimuCtxReportMapper;
 import com.interpss.simu.SimuContext;
 
-public class AcscFaultReport implements IIpssReport {
+public class Acsc3PFaultReport implements IIpssReport {
 	private String fnameAcsc3PFaultMaster = "reportTemplate/acsc/Acsc3PFaultMaster.jasper";
-	private String fnameAcscNSFaultMaster = "reportTemplate/acsc/AcscNSFaultMaster.jasper";
 	private String fnameSubFaultSummary   = "reportTemplate/acsc/AcscFaultSummarySubReport.jasper";
 	
 	public JasperPrint createReport(String version) {
@@ -56,13 +54,6 @@ public class AcscFaultReport implements IIpssReport {
 	 */
 	public void setFnameAcsc3PFaultMaster(String fnameAcsc3PFaultMaster) {
 		this.fnameAcsc3PFaultMaster = fnameAcsc3PFaultMaster;
-	}
-
-	/**
-	 * @param fnameAcscNSFaultMaster the fnameAcscNSFaultMaster to set
-	 */
-	public void setFnameAcscNSFaultMaster(String fnameAcscNSFaultMaster) {
-		this.fnameAcscNSFaultMaster = fnameAcscNSFaultMaster;
 	}
 
 	/**
