@@ -21,5 +21,4 @@ public class ReportAcscSymmetric extends IpssAbstractActionDefault {
 		boolean update = DocumentUtilFunc.enableAcscReport(getCurrentDocument());
 		setEnabled(update  && getCurrentDocument().getSimuAppContext().hasLastRun());		
 	}
-	
 }
