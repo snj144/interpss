@@ -147,8 +147,19 @@ public class GPAboutDialog extends JDialog {
 		ipssCredits.setOpaque(false);
 		ipssCredits.setText(
 			"The following people and groups have made the InterPSS\n"
-			+ "Project possible:\n"
-			+ "....\n");
+			+ "Project possible:\n\n"
+
+			+ "The current InterPSS graphic editor was implmented by\n"
+			+ "ShiZhao (Richard) Zhou. Karl Zhu made contritions at\n"
+			+ "the early stage of the editor development.\n"
+
+			+ "WenJie Zhai of Hunan University, China, under\n"
+			+ "Professor Dr. XingRan Li, wrote the User Guide\n"
+			+ "in Chinese.\n"
+
+			+ "Dr. Ying Chen of Tsinghua University, China, contributed\n" 
+			+ "the MatLab power flow data file adapter.\n"
+			);
 		ipssCredits.setCaretPosition(0);
 		ipssCredits.setEditable(false);
 }
