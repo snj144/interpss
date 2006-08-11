@@ -32,5 +32,12 @@ public interface IAppSimuContext {
 	void setLastRunType(int lastRunType);	
 	boolean hasLastRun();	
 	
+	/**
+	 * Check if the current AcscRunForm has a non-symmetric fault
+	 * 
+	 * @return
+	 */
+	boolean isNonSymmetricFault();
+	
 	void addPopupMenuAction(JPopupMenu menu, final Object cell);
 }
