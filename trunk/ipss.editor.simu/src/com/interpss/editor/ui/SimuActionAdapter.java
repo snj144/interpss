@@ -74,6 +74,7 @@ public class SimuActionAdapter {
 				SimuRunWorker worker = new SimuRunWorker("Acsc SimuRunWorker");
 				worker.configRun(SimuRunWorker.RUN_TYPE_ACSC, simuCtx, graph);
 				worker.start();
+				appSimuCtx.setLastRunType(SimuRunWorker.RUN_TYPE_ACSC);
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -98,6 +99,7 @@ public class SimuActionAdapter {
 			SimuRunWorker worker = new SimuRunWorker("DStab SimuRunWorker");
 			worker.configRun(SimuRunWorker.RUN_TYPE_DSTAB, simuCtx, null);
 			worker.start();
+			appSimuCtx.setLastRunType(SimuRunWorker.RUN_TYPE_DSTAB);
 		}	
 	}
 	
