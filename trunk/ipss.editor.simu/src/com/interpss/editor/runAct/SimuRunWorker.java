@@ -53,10 +53,7 @@ public class SimuRunWorker extends Thread {
 			  		simuCtx.getMsgHub().sendWarnMsg("Loadflow does not converge!");
 			  	
 			  	if (graph != null) {
-					if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET_LITERAL)
-						GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACLF);
-					else
-						GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACLF);
+					GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACLF);
 				}
 				break;
 			}
@@ -72,10 +69,7 @@ public class SimuRunWorker extends Thread {
 		  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Short Circuit Analysis Result Summary");
 		  		dialog.display(AcscOut.faultResult2String(simuCtx.getAcscFaultNet()));
 				if (graph != null) {
-					if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET_LITERAL)
-						GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
-					else
-						GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
+					GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
 				}
 				break;
 			}

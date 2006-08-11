@@ -13,6 +13,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.editor.SimuAppSpringAppContext;
 import com.interpss.editor.chart.ChartManager;
+import com.interpss.editor.data.acsc.AcscFaultData;
 import com.interpss.editor.data.proj.AclfCaseData;
 import com.interpss.editor.data.proj.AcscCaseData;
 import com.interpss.editor.data.proj.CaseData;
@@ -78,6 +79,16 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	public boolean isSimuNetDataDirty() {return this.simuCtxDataDirty;}
 	public void setSimuNetDataDirty(boolean b) {this.simuCtxDataDirty = b;}
 
+	/**
+	 * Check if the current AcscRunForm has a non-symmetric fault
+	 * 
+	 * @return
+	 */
+	public boolean isNonSymmetricFault() {
+		return !SimuAppSpringAppContext.getAcscRunForm().getAcscCaseData().getFaultData().getCategory()
+			        .equals(AcscFaultData.FaultCaty_3P);
+	}
+	
 	// Case info functions
    	// ===================
    	
