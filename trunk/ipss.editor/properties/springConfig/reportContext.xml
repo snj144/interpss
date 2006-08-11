@@ -44,13 +44,11 @@
 	    	<value>reportTemplate/aclf/AclfTapVControlSubReport.jasper</value></property>	
 	 </bean>
 
-	 <bean id="acscFaultReport" 
-	      class="com.interpss.report.impl.AcscFaultReport"
+	 <bean id="acsc3PFaultReport" 
+	      class="com.interpss.report.impl.Acsc3PFaultReport"
 	      singleton="true">	
 		<property name="fnameAcsc3PFaultMaster">
 	    	<value>reportTemplate/acsc/Acsc3PFaultMaster.jasper</value></property>	
-		<property name="fnameAcscNSFaultMaster">
-	    	<value>reportTemplate/acsc/AcscNSFaultMaster.jasper</value></property>	
 		<property name="fnameSubFaultSummary">
 	    	<value>reportTemplate/acsc/AcscFaultSummarySubReport.jasper</value></property>	
 	 </bean>
