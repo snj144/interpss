@@ -5,6 +5,7 @@
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="fit_base" value="C:/eclipse/fitnesse"/>
       	<property name="dist_mon" value="C:/eclipse/Monitor"/>
+      	<property name="svn_lib" value="${dev_base}/ipss.lib/lib/ipss"/>
 
       	<property name="lib_base" value="${dist_base}/lib"/>
       	<property name="lib_path" value="${lib_base}/jgraph.jar"/>
@@ -30,75 +31,112 @@
         </java>
     </target>	
 	
-    <target depends="jar_lib,copy_file,copy_fit,copy_properties" description="Build distribution" name="build_dist">
+    <target depends="jar_lib,copy_fit,copy_properties" description="Build distribution" name="build_dist">
     </target>	
 
     <target depends="init" description="jar ipss lib files" name="jar_lib">
 	  <jar destfile="${lib_base}/ipss_editor.jar" 
 	  		basedir="${dev_base}/ipss.editor/runtime" 
 	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.xml,**/*.log" />	
+
+	  <jar destfile="${svn_lib}/ipss_pad.jar" 
+	  		basedir="${dev_base}/ipss.editor.pad/runtime" 
+	  		excludes="CVS/**,model/**" />	
 	  <jar destfile="${ipss_base}/ipss_pad.jar" 
 	  		basedir="${dev_base}/ipss.editor.pad/runtime" 
 	  		excludes="CVS/**,model/**" />	
-	  <jar destfile="${ipss_base}/pad_export.jar" 
-	  		basedir="${dev_base}/ipss.editor.pad/export" 
-	  		excludes="CVS/**,model/**" />	
+
 	  <jar destfile="${ipss_base}/ipss_core.jar" 
 	  		basedir="${dev_base}/ipss.core_EMF/runtime" 
 	  		excludes="CVS/**,model/**" />	
+
 	  <jar destfile="${ipss_base}/ipss_dstab.jar" 
 	  		basedir="${dev_base}/ipss.dstab_EMF/runtime" 
 	  		excludes="CVS/**,model/**" />	
+
   	  <jar destfile="${ipss_base}/ipss_dist.jar" 
   	  		basedir="${dev_base}/ipss.dist_EMF/runtime" 
   	  		excludes="CVS/**,model/**" />	
+
    	  <jar destfile="${ipss_base}/ipss_simu.jar" 
    	  		basedir="${dev_base}/ipss.simu_EMF/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+
+   	  <jar destfile="${svn_lib}/ipss_control.jar" 
+   	  		basedir="${dev_base}/ipss.dstab.control/bin" 
    	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_control.jar" 
    	  		basedir="${dev_base}/ipss.dstab.control/bin" 
    	  		excludes="CVS/**,model/**" />	
+
+   	  <jar destfile="${svn_lib}/ipss_custom.jar" 
+   	  		basedir="${dev_base}/ipss.custom/bin" 
+   	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_custom.jar" 
    	  		basedir="${dev_base}/ipss.custom/bin" 
    	  		excludes="CVS/**,model/**" />	
+
    	  <jar destfile="${ipss_base}/ipss_common.jar" 
    	  		basedir="${dev_base}/ipss.common/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+
+   	  <jar destfile="${svn_lib}/ipss_report.jar" 
+   	  		basedir="${dev_base}/ipss.report/runtime" 
    	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_report.jar" 
    	  		basedir="${dev_base}/ipss.report/runtime" 
    	  		excludes="CVS/**,model/**" />	
+
+   	  <jar destfile="${svn_lib}/ipss_chart.jar" 
+   	  		basedir="${dev_base}/ipss.chart/runtime" 
+   	  		excludes="CVS/**,model/**" />
    	  <jar destfile="${ipss_base}/ipss_chart.jar" 
    	  		basedir="${dev_base}/ipss.chart/runtime" 
    	  		excludes="CVS/**,model/**" />
+
+   	  <jar destfile="${svn_lib}/ipss_editor_simu.jar" 
+   	  		basedir="${dev_base}/ipss.editor.simu/runtime" 
+   	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_editor_simu.jar" 
    	  		basedir="${dev_base}/ipss.editor.simu/runtime" 
    	  		excludes="CVS/**,model/**" />	
+
    	  <jar destfile="${ipss_base}/ipss.test.user.jar" 
    	  		basedir="${dev_base}/ipss.test.user/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+
+   	  <jar destfile="${svn_lib}/ipss_editor_ui.jar" 
+   	  		basedir="${dev_base}/ipss.editor.ui/runtime" 
    	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_editor_ui.jar" 
    	  		basedir="${dev_base}/ipss.editor.ui/runtime" 
    	  		excludes="CVS/**,model/**" />	
+
+   	  <jar destfile="${svn_lib}/ipss_jgraph.jar" 
+   	  		basedir="${dev_base}/ipss.editor.jgraph/runtime" 
+   	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_jgraph.jar" 
    	  		basedir="${dev_base}/ipss.editor.jgraph/runtime" 
    	  		excludes="CVS/**,model/**" />	
+
+   	  <jar destfile="${svn_lib}/ipss_psat.jar" 
+     	  		basedir="${dev_base}/ipss.psat/runtime" 
+     	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_psat.jar" 
      	  		basedir="${dev_base}/ipss.psat/runtime" 
      	  		excludes="CVS/**,model/**" />	
+
    	  <jar destfile="${dist_mon}/lib/ipss_mon.jar" 
    	  		basedir="${dev_base}/ipss.monitor/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+
+   	  <jar destfile="${svn_lib}/tsinghua.jar" 
+   	  		basedir="${dev_base}/tsinghua/bin" 
    	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${lib_base}/custom/tsinghua.jar" 
    	  		basedir="${dev_base}/tsinghua/bin" 
    	  		excludes="CVS/**,model/**" />	
    	</target>	
-
-    <target depends="init" description="copy ipss lib files to GEditor" name="copy_file">
-		<copy todir="${lib_base}/eclipse">
-	    	<fileset dir="${dev_base}/common/lib/eclipse"/>
-        </copy>
-		<copy file="${dev_base}/common/lib/ipss/ipss_geditor_images.jar" todir="${lib_base}/ipss"/>
-    </target>	
 
     <target depends="init" description="copy sqlMap files to GEditor" name="copy_properties">
     	<copydir src="${dev_base}/ipss.editor/runtime/sqlMapConfig"
