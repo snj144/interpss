@@ -21,6 +21,7 @@ import com.interpss.editor.data.proj.DStabCaseData;
 import com.interpss.editor.data.proj.ProjData;
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.editor.jgraph.ui.data.IProjectData;
+import com.interpss.editor.runAct.AcscRunForm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
 
@@ -85,8 +86,12 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 * @return
 	 */
 	public boolean isNonSymmetricFault() {
-		return !SimuAppSpringAppContext.getAcscRunForm().getAcscCaseData().getFaultData().getCategory()
+		AcscRunForm form = SimuAppSpringAppContext.getAcscRunForm();
+		if (form.getAcscCaseData() != null)
+			return !form.getAcscCaseData().getFaultData().getCategory()
 			        .equals(AcscFaultData.FaultCaty_3P);
+		else 
+			return false;
 	}
 	
 	// Case info functions
