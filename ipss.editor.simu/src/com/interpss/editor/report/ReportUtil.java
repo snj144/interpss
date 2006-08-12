@@ -5,6 +5,7 @@ import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.ui.app.IAppStatus;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;
 import com.interpss.editor.resources.Translator;
+import com.interpss.editor.runAct.SimuRunWorker;
 import com.interpss.report.IpssReportFactory;
 
 public class ReportUtil {
@@ -24,9 +25,12 @@ public class ReportUtil {
 		appStatus.busyStop("Report displayed");
 	}
 
-	public static String getDefaultReportType(IGNetForm form) {
+	public static String getDefaultReportType(IGNetForm form, int lastRunType) {
 		if (form.getAppType().equals(IGNetForm.AppType_Distribution)) {
-			return IpssReportFactory.RPT_TYPE_ACLFSUMMARY;
+			if (lastRunType == SimuRunWorker.RUN_TYPE_ACSC)
+				return IpssReportFactory.RPT_TYPE_ACSC3PFAULT;
+			else if (lastRunType == SimuRunWorker.RUN_TYPE_ACLF)
+				return IpssReportFactory.RPT_TYPE_ACLFSUMMARY;
 		} else {
 			if (form.getNetType().equals(IGNetForm.NetType_AclfNetwork)
 					|| form.getNetType().equals(
