@@ -30,4 +30,13 @@ public class SpringReportContext extends SpringAppContext {
 	public static IIpssReport getAcsc3PFaultReport() {
 		return (IIpssReport)SpringAppCtx.getBean(Constants.SID_Acsc3PFaultReport);
 	} 	
+
+	/**
+	 * Get the Acsc3PFaultReport(singleton) from the SpringReportContext.
+	 *  
+	 * @return the IIpssReport object
+	 */
+	public static IIpssReport getAcscNSFaultReport() {
+		return (IIpssReport)SpringAppCtx.getBean(Constants.SID_AcscNSFaultReport);
+	} 	
 }
