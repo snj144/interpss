@@ -1,5 +1,8 @@
 package com.interpss.report.impl;
 
+/*
+ * Fault Report for both 3P and NS faults
+ */
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +21,8 @@ import com.interpss.report.bean.acsc.AcscRptBeanFactory;
 import com.interpss.report.mapper.SimuCtxReportMapper;
 import com.interpss.simu.SimuContext;
 
-public class Acsc3PFaultReport implements IIpssReport {
-	private String fnameAcsc3PFaultMaster = "reportTemplate/acsc/Acsc3PFaultMaster.jasper";
+public class AcscFaultReport implements IIpssReport {
+	private String fnameAcscFaultMaster = "reportTemplate/acsc/Acsc3PFaultMaster.jasper";
 	private String fnameSubFaultSummary   = "reportTemplate/acsc/AcscFaultSummarySubReport.jasper";
 	
 	public JasperPrint createReport(String version) {
@@ -40,7 +43,7 @@ public class Acsc3PFaultReport implements IIpssReport {
 			
 			parameters.put("FaultSummaryJBeanDatasource", AcscRptBeanFactory.getFaultSummaryDataSource(simuCtx));
 
-			return JasperFillManager.fillReport(fnameAcsc3PFaultMaster, parameters,
+			return JasperFillManager.fillReport(fnameAcscFaultMaster, parameters,
 									AcscRptBeanFactory.getAcscVoltAmpsDataSource(simuCtx));
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -50,10 +53,10 @@ public class Acsc3PFaultReport implements IIpssReport {
 	}
 
 	/**
-	 * @param fnameAcsc3PFaultMaster the fnameAcsc3PFaultMaster to set
+	 * @param fnameAcscFaultMaster the fnameAcsc3PFaultMaster to set
 	 */
-	public void setFnameAcsc3PFaultMaster(String fnameAcsc3PFaultMaster) {
-		this.fnameAcsc3PFaultMaster = fnameAcsc3PFaultMaster;
+	public void setFnameAcscFaultMaster(String fnameAcscFaultMaster) {
+		this.fnameAcscFaultMaster = fnameAcscFaultMaster;
 	}
 
 	/**

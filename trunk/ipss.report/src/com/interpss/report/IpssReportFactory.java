@@ -15,6 +15,8 @@ public class IpssReportFactory {
 			return SpringReportContext.getAclfBusStyleReport().createReport(version);
 		else if (RPT_TYPE_ACSC3PFAULT.equals(rptType))
 			return SpringReportContext.getAcsc3PFaultReport().createReport(version);
+		else if (RPT_TYPE_ACSCNSFAULT.equals(rptType))
+			return SpringReportContext.getAcscNSFaultReport().createReport(version);
 		else
 			return null;
 	}	
