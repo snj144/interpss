@@ -18,7 +18,7 @@ public class EditorActionAdapter {
 		if (doc instanceof GPDocument) {
 			IGNetForm form = ((GPDocument) doc).getGFormContainer()
 					.getGNetForm();
-			type = ReportUtil.getDefaultReportType(form);
+			type = ReportUtil.getDefaultReportType(form, doc.getSimuAppContext().getLastRunType());
 		}
 		doc.getGraphpad().expendTree2Object(doc);
 
@@ -38,7 +38,7 @@ public class EditorActionAdapter {
 	}
 
 	public static void menu_report_acscNonSymmetric(IpssEditorDocument doc) {
-		//displayReport(doc, IpssReportFactory.RPT_TYPE_ACLFSUMMARY);
+		displayReport(doc, IpssReportFactory.RPT_TYPE_ACSCNSFAULT);
 	}
 
 	public static void menu_report_dstabRun(IpssEditorDocument doc) {

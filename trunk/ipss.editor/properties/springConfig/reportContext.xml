@@ -44,11 +44,30 @@
 	    	<value>reportTemplate/aclf/AclfTapVControlSubReport.jasper</value></property>	
 	 </bean>
 
-	 <bean id="acsc3PFaultReport" 
-	      class="com.interpss.report.impl.Acsc3PFaultReport"
-	      singleton="true">	
-		<property name="fnameAcsc3PFaultMaster">
+<!--
+   the only difference between 3P and NS fault is the master template:
+
+		<property name="fnameAcscFaultMaster">
 	    	<value>reportTemplate/acsc/Acsc3PFaultMaster.jasper</value></property>	
+
+		<property name="fnameAcscFaultMaster">
+	    	<value>reportTemplate/acsc/AcscNSFaultMaster.jasper</value></property>	
+-->
+
+	 <bean id="acsc3PFaultReport" 
+	      class="com.interpss.report.impl.AcscFaultReport"
+	      singleton="true">	
+		<property name="fnameAcscFaultMaster">
+	    	<value>reportTemplate/acsc/Acsc3PFaultMaster.jasper</value></property>	
+		<property name="fnameSubFaultSummary">
+	    	<value>reportTemplate/acsc/AcscFaultSummarySubReport.jasper</value></property>	
+	 </bean>
+
+	 <bean id="acscNSFaultReport" 
+	      class="com.interpss.report.impl.AcscFaultReport"
+	      singleton="true">	
+		<property name="fnameAcscFaultMaster">
+	    	<value>reportTemplate/acsc/AcscNSFaultMaster.jasper</value></property>	
 		<property name="fnameSubFaultSummary">
 	    	<value>reportTemplate/acsc/AcscFaultSummarySubReport.jasper</value></property>	
 	 </bean>
