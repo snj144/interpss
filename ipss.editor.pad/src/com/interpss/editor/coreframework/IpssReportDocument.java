@@ -1,20 +1,13 @@
 package com.interpss.editor.coreframework;
 
 import java.awt.BorderLayout;
-import java.awt.Font;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 import com.interpss.editor.doc.IpssProject;
 import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.report.IpssRptViewer;
-import com.interpss.editor.resources.Translator;
 import com.interpss.report.IpssReportFactory;
 
 public class IpssReportDocument extends IpssEditorDocument{
