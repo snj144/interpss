@@ -13,12 +13,14 @@ public class AcscRptBeanFactory {
 	 */
 	public static RptFaultSummaryBean createBusFaultSummarySampleBean() {
 		RptFaultSummaryBean bean = new RptFaultSummaryBean();
-		bean.setType(1);
-		bean.setBusId("0001");
-		bean.setBusName("Bus-1");
-		bean.setFaultType("Ground_3P");
+		bean.setType(2);
+		bean.setBusId("0001->0002(1)");
+		bean.setBusName("Branch-1");
+		bean.setFaultType("BranchFault");
+		bean.setFaultCode("Ground_3P");
 		bean.setFaultAmpspu("0.1+j5.0");
 		bean.setFaultAmps("300+j30000");
+		bean.setFaultDistance("50%");
 		return bean;
 	}
 	
