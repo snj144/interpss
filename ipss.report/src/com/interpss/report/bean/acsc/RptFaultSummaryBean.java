@@ -10,7 +10,7 @@ public class RptFaultSummaryBean extends RptBaseBean {
 	private String faultCode = null;
 	private String faultAmpspu = null;
 	private String faultAmps = null;
-	private String faultDistance = null;
+	private String faultDistance = "";
 	
 	/**
 	 * @return the busId

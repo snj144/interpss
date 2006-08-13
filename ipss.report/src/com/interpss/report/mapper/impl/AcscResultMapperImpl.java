@@ -42,9 +42,10 @@ public class AcscResultMapperImpl {
 			bean.setBusId(fBus.getAcscBus().getId());
 			bean.setBusName(fBus.getAcscBus().getName());
 			bean.setFaultType("BusFault");
-			bean.setFaultType(fBus.getFaultCode().toString());
+			bean.setFaultCode(fBus.getFaultCode().toString());
 			bean.setFaultAmpspu(ComplexFormat.formatComplex(fBus.getFaultResult().getSCCurrent_012().b_1));
 			bean.setFaultAmps(ComplexFormat.formatComplex(fBus.getFaultResult().getSCCurrent_012(UnitType.Amp, baseV, baseKVA).b_1));
+			bean.setFaultDistance(" ");
 		}
 	}
 	
