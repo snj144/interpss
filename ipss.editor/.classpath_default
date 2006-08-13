@@ -21,5 +21,13 @@
 	<classpathentry kind="var" path="IPSS_LIB/db/ibatis-sqlmap-2.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/db/derby.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.pad"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf_2.2.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.common_2.2.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.ecore_2.2.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.ecore.xmi_2.2.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/report/jdt-compiler.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
