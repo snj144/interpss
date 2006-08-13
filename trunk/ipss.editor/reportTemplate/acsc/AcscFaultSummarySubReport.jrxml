@@ -49,7 +49,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="189"
+						x="191"
 						y="2"
 						width="125"
 						height="12"
@@ -65,7 +65,7 @@
 				<rectangle radius="0" >
 					<reportElement
 						mode="Opaque"
-						x="52"
+						x="17"
 						y="26"
 						width="457"
 						height="15"
@@ -77,7 +77,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="125"
+						x="90"
 						y="28"
 						width="80"
 						height="10"
@@ -93,7 +93,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="60"
+						x="25"
 						y="28"
 						width="60"
 						height="10"
@@ -110,7 +110,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="210"
+						x="170"
 						y="28"
 						width="40"
 						height="10"
@@ -126,7 +126,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="300"
+						x="265"
 						y="28"
 						width="70"
 						height="10"
@@ -142,7 +142,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="375"
+						x="340"
 						y="29"
 						width="80"
 						height="10"
@@ -158,7 +158,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="255"
+						x="220"
 						y="28"
 						width="40"
 						height="10"
@@ -174,7 +174,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="460"
+						x="425"
 						y="29"
 						width="40"
 						height="10"
@@ -199,7 +199,7 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="110"
+						x="75"
 						y="5"
 						width="80"
 						height="11"
@@ -215,7 +215,7 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="45"
+						x="15"
 						y="5"
 						width="60"
 						height="11"
@@ -231,9 +231,9 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="205"
+						x="165"
 						y="5"
-						width="40"
+						width="50"
 						height="11"
 						forecolor="#000000"
 						backcolor="#FFFFFF"
@@ -247,7 +247,7 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="295"
+						x="260"
 						y="5"
 						width="70"
 						height="11"
@@ -263,7 +263,7 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="370"
+						x="335"
 						y="5"
 						width="80"
 						height="11"
@@ -279,7 +279,7 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="250"
+						x="220"
 						y="5"
 						width="40"
 						height="11"
@@ -295,7 +295,7 @@
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="455"
+						x="420"
 						y="5"
 						width="40"
 						height="11"
