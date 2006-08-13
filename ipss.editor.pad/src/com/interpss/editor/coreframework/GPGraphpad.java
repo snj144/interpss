@@ -175,6 +175,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		logger = (Component) GPPluginInvoker.createSingleton("Console.class");
 		GPPluginInvoker.createGraphpadAwareSingleton("BarFactory.class", this);
 
+		
 		setBorder(BorderFactory.createEtchedBorder());
 		setLayout(new BorderLayout());
 
