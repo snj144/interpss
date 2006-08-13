@@ -7,6 +7,7 @@ public class RptFaultSummaryBean extends RptBaseBean {
 	private String busId = null;
 	private String busName = null;
 	private String faultType = null;
+	private String faultCode = null;
 	private String faultAmpspu = null;
 	private String faultAmps = null;
 	private String faultDistance = null;
@@ -79,6 +80,20 @@ public class RptFaultSummaryBean extends RptBaseBean {
 	 */
 	public void setFaultType(String faultType) {
 		this.faultType = faultType;
+	}
+
+	/**
+	 * @return the faultCode
+	 */
+	public String getFaultCode() {
+		return faultCode;
+	}
+
+	/**
+	 * @param faultCode the faultType to set
+	 */
+	public void setFaultCode(String code) {
+		this.faultCode = code;
 	}
 
 	public RptFaultSummaryBean() {

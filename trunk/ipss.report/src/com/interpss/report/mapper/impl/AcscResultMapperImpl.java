@@ -29,7 +29,8 @@ public class AcscResultMapperImpl {
 			bean.setType(2);
 			bean.setBusId(fBranch.getFaultBranch().getId());
 			bean.setBusName(fBranch.getFaultBranch().getName());
-			bean.setFaultType(fBranch.getFaultCode().toString());
+			bean.setFaultType("BranchFault");
+			bean.setFaultCode(fBranch.getFaultCode().toString());
 			bean.setFaultAmpspu(ComplexFormat.formatComplex(fBranch.getFaultResult().getSCCurrent_012().b_1));
 			bean.setFaultAmps(ComplexFormat.formatComplex(fBranch.getFaultResult().getSCCurrent_012(UnitType.Amp, baseV, baseKVA).b_1));
 			bean.setFaultDistance(Num2Str.toStr( "##0.0", fBranch.getDistance()*100.0)+"%");
@@ -40,6 +41,7 @@ public class AcscResultMapperImpl {
 			bean.setType(1);
 			bean.setBusId(fBus.getAcscBus().getId());
 			bean.setBusName(fBus.getAcscBus().getName());
+			bean.setFaultType("BusFault");
 			bean.setFaultType(fBus.getFaultCode().toString());
 			bean.setFaultAmpspu(ComplexFormat.formatComplex(fBus.getFaultResult().getSCCurrent_012().b_1));
 			bean.setFaultAmps(ComplexFormat.formatComplex(fBus.getFaultResult().getSCCurrent_012(UnitType.Amp, baseV, baseKVA).b_1));
