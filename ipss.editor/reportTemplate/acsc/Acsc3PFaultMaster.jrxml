@@ -32,7 +32,7 @@
 		<defaultValueExpression ><![CDATA[com.interpss.report.bean.acsc.AcscRptBeanFactory.getFaultSummarySampleDataSource()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="FaultSummarySubreportFilename" isForPrompting="false" class="java.lang.String">
-		<defaultValueExpression ><![CDATA["C:/eclipse/Interpss3.2/ipss.report/reportTemplate/acsc/AcscFaultSummarySubReport.jasper"]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA["C:/eclipse/Interpss3.2/ipss.editor/reportTemplate/acsc/AcscFaultSummarySubReport.jasper"]]></defaultValueExpression>
 	</parameter>
 
 	<field name="branchFaultAmps" class="java.lang.String"/>
