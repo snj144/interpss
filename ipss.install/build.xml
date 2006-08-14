@@ -92,7 +92,7 @@
 
 	<target name="make_izpack_install" depends="copy_izpack_files">
 		<izpack input="${install_temp}/IzPack-install.xml" output="${install_dest}/interpss-install-${program_version}.jar" installerType="standard" basedir="${install_temp}" izPackDir="${izPack_home}/" />
-		<!-- delete dir="${install_temp}"/ -->
+		<delete dir="${install_temp}"/>
 	</target>
 
 </project>
