@@ -35,6 +35,41 @@ import com.interpss.simu.io.IpssFileAdapter;
 import custom.input.FileAdapter_IeeeCommonFormat;
 
 public class ReportTester {
+	public static JasperPrint createAcscNSFaultReport(IPSSMsgHub msg) {
+		SimuContext simuCtx = SimuObjectFactory.createSimuCtxTypeAcscFaultNet(msg);
+		
+  		SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
+		SampleCases.load_SC_5BusSystem(faultNet, msg);
+		//System.out.println(faultNet.net2String());
+
+  		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("2", faultNet);
+		fault.setFaultCode(SimpleFaultCode.GROUND_LL_LITERAL);
+		fault.setZLGFault(new Complex(0.0, 0.0));
+		fault.setZLLFault(new Complex(0.0, 0.0));
+		
+	  	SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
+	  	algo.calculateBusFault(fault, msg);
+	  	
+		Map<String,Object> parameters = new HashMap<String,Object>();
+		parameters.put("FaultSummarySubreportFilename", "reportTemplate/acsc/AcscFaultSummarySubReport.jasper");
+		try {
+			// set the main title bean attributes
+			parameters.put("ReportMainTitleBean", RptMainTitleBean.anAcscSample());	
+
+			parameters.put("FaultSummaryJBeanDatasource", AcscRptBeanFactory.getFaultSummaryDataSource(simuCtx));
+			
+			String rptName = "reportTemplate/acsc/AcscNSFaultMaster.jasper";
+			JasperPrint jprint = JasperFillManager.fillReport(rptName, parameters,
+					                       AcscRptBeanFactory.getAcscVoltAmpsDataSource(simuCtx));
+//			JasperPrint jprint = JasperFillManager.fillReport(rptName, parameters, 
+//											AcscRptBeanFactory.getAcscVoltAmps3PSampleDataSource());
+			return jprint;
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+		}
+		return null;
+	}
+
 	public static JasperPrint createAcsc3PFaultReport(IPSSMsgHub msg) {
 		SimuContext simuCtx = SimuObjectFactory.createSimuCtxTypeAcscFaultNet(msg);
 		
@@ -179,7 +214,8 @@ public class ReportTester {
 		
 //		JasperPrint jprint = createAclfSummaryReport(msg);
 //		JasperPrint jprint = createAclfBusStyleReport(msg);
-		JasperPrint jprint = createAcsc3PFaultReport(SpringAppContext.getIpssMsgHub());
+//		JasperPrint jprint = createAcsc3PFaultReport(SpringAppContext.getIpssMsgHub());
+		JasperPrint jprint = createAcscNSFaultReport(SpringAppContext.getIpssMsgHub());
 		JRViewer view = new JRViewer(jprint);
 		
 		JFrame frame = new JFrame();
