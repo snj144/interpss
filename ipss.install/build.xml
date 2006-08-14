@@ -1,12 +1,6 @@
 <?xml version="1.0" ?>
 <project name="structured" default="make_izpack_install">
 	<target description="init setup" name="init">
-	    <!-- Mike's setup
-		<!--<property name="dev_base" value="c:/eclipse/Interpss3.2" />
-		<property name="install_dest" value="c:/eclipse/GEditorInstall" />
-		<property name="program_version" value="0.8" />
-		-->
-
 		<property name="dev_base" value="D:/develop/Java/eclipse" />
 		<property name="install_dest" value="D:/develop/install" />
 		<property name="program_version" value="0.8" />
