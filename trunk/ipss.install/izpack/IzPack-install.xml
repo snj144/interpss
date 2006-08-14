@@ -56,6 +56,8 @@
         <res id="InfoPanel.info" src="Readme.txt"/>
 		<res id="shortcutSpec.xml" src="shortcutSpec.xml" />
 		
+        <res src="Unix_shortcutSpec.xml" id="Unix_shortcutSpec.xml" />
+		
     </resources>
     
     <!-- 
@@ -86,9 +88,8 @@
             <file src="log" targetdir="$INSTALL_PATH"/>
             <file src="properties" targetdir="$INSTALL_PATH"/>
             <file src="reportTemplate" targetdir="$INSTALL_PATH"/>
-            <file src="sqlMapConfig" targetdir="$INSTALL_PATH"/>
             <file src="workspace" targetdir="$INSTALL_PATH"/>
-            <file src="run.bat" targetdir="$INSTALL_PATH"/>
+            <file src="ipss_editor.jar" targetdir="$INSTALL_PATH"/>
         </pack>
     </packs>
         <!-- The native libraries to add -->

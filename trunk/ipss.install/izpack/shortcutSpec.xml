@@ -8,10 +8,10 @@
 
    <shortcut
      name="InterPSS Editor"
-     target="$INSTALL_PATH\run.bat"
+     target="$INSTALL_PATH\ipss_editor.jar"     
      commandLine=""
      workingDirectory="$INSTALL_PATH"
-     description="interPSS Editor"
+     description="InterPSS Editor"
    	 iconFile="%SystemRoot%\system32\SHELL32.dll"
      iconIndex="13" 
      programGroup="yes"
