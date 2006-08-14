@@ -31,7 +31,7 @@
         </java>
     </target>	
 	
-    <target depends="jar_lib,copy_fit,copy_properties" description="Build distribution" name="build_dist">
+    <target depends="jar_lib,copy_fit,copy_properties,copy_report_template" description="Build distribution" name="build_dist">
     </target>	
 
     <target depends="init" description="jar ipss lib files" name="jar_lib">
@@ -154,6 +154,13 @@
     	/>
     </target>	
 			
+    <target depends="init" description="copy sqlMap files to GEditor" name="copy_report_template">
+    	<copydir src="${dev_base}/ipss.editor/reportTemplate"
+    	         dest="${dist_base}/reportTemplate"
+    	         includes="**/*.jasper"
+    	/>
+    </target>	
+
 	<target depends="init" description="copy ipss lib files to finesse" name="copy_fit">
 		<copy todir="${fit_base}/lib/ipss">
 	    	<fileset dir="${ipss_base}/" />
