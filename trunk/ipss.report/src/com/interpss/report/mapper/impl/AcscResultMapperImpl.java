@@ -75,9 +75,13 @@ public class AcscResultMapperImpl {
 					}
 				}
 				else {
-					/*
-					for( Iterator itr = net.getBusList().iterator(); itr.hasNext();) {
+					for( Iterator itr = faultNet.getBusList().iterator(); itr.hasNext();) {
 						AcscBus bus = (AcscBus)itr.next();
+						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
+						bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus012);
+						bean.setBusName(bus.getName());
+						bean.setBusId(bus.getId());
+/*
 						str.append( "     " + Num2Str.toStr(-8, bus.getId() ) + " ");
 						Complex3x1 v012 = bf.getFaultResult().getFaultVoltage_012(bus.getSortNumber());
 						double vpu1 = v012.b_1.abs();
@@ -89,10 +93,17 @@ public class AcscResultMapperImpl {
 						double vpu2 = v012.c_2.abs();
 						str.append( Num2Str.toStr("#####0.###", vpu2 ) + " ");
 						str.append( Num2Str.toStr("#######0.#", vpu2*bus.getBaseVoltage() ) + "\n");
+*/						
+						list.add(bean);
 					}
 
-					for( Iterator itr = net.getBusList().iterator(); itr.hasNext();) {
+					for( Iterator itr = faultNet.getBusList().iterator(); itr.hasNext();) {
 						AcscBus bus = (AcscBus)itr.next();
+						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
+						bean.setRecType(RptAcscVoltAmpsBean.RecType_BusABC);
+						bean.setBusName(bus.getName());
+						bean.setBusId(bus.getId());
+/*						
 						str.append( "     " + Num2Str.toStr(-8, bus.getId() ) + " ");
 						Complex3x1 v012 = bf.getFaultResult().getFaultVoltage_012(bus.getSortNumber());
 						Complex3x1 vabc = Complex3x1.z12_to_abc(v012);
@@ -105,8 +116,9 @@ public class AcscResultMapperImpl {
 						double vpu2 = vabc.c_2.abs();
 						str.append( Num2Str.toStr("#####0.###", vpu2 ) + " ");
 						str.append( Num2Str.toStr("#######0.#", vpu2*bus.getBaseVoltage() ) + "\n");
+*/						
+						list.add(bean);
 					}
-					*/
 				}
 				
 				fault.getFaultResult().calBranchCurrent(faultNet);
@@ -127,12 +139,15 @@ public class AcscResultMapperImpl {
 					}
 				}
 				else {
-					/*
-
-					List branchList = net.getBranchList();
+					List branchList = faultNet.getBranchList();
 					int cnt = 0;
 					for ( int n = 0; n < branchList.size(); n++ ) {
 						AcscBranch bra = (AcscBranch)branchList.get(n);
+						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
+						bean.setRecType(RptAcscVoltAmpsBean.RecType_Branch012);
+						bean.setBranchId(bra.getId());
+						bean.setBranchName(bra.getName());
+					/*
 						try {
 							Complex3x1 cpu   = bf.getFaultResult().getFaultAmps_012From2To(++cnt);
 							Complex3x1 camp  = bf.getFaultResult().getFaultAmps_012From2To(cnt, UnitType.Amp, bra.getFromBus().getBaseVoltage(), net.getBaseKva());
@@ -151,12 +166,18 @@ public class AcscResultMapperImpl {
 							IpssLogger.logErr(e);
 							str.append(e.toString() + "\n");
 						}
+						*/
+						list.add(bean);
 					}
 
 					cnt = 0;
 					for ( int n = 0; n < branchList.size(); n++ ) {
 						AcscBranch bra = (AcscBranch)branchList.get(n);
-						str.append( "     " + Num2Str.toStr(-20, bra.getId() ) + "   ");
+						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
+						bean.setRecType(RptAcscVoltAmpsBean.RecType_BranchABC);
+						bean.setBranchId(bra.getId());
+						bean.setBranchName(bra.getName());
+/*
 						try {
 							Complex3x1 cpu   = bf.getFaultResult().getFaultAmps_abcFrom2To(++cnt);
 							Complex3x1 camp  = bf.getFaultResult().getFaultAmps_abcFrom2To(cnt, UnitType.Amp, bra.getFromBus().getBaseVoltage(), net.getBaseKva());
@@ -174,8 +195,9 @@ public class AcscResultMapperImpl {
 							IpssLogger.logErr(e);
 							str.append(e.toString() + "\n");
 						}
+						*/
+						list.add(bean);
 					}
-					*/
 				}
 			}
 	  	} catch (Exception e) {
