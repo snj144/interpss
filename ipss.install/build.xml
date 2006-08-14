@@ -16,7 +16,6 @@
 		<mkdir dir="${install_temp}/db" />
 		<mkdir dir="${install_temp}/properties" />
 		<mkdir dir="${install_temp}/reportTemplate" />
-		<mkdir dir="${install_temp}/sqlMapConfig" />
 		<mkdir dir="${install_temp}/workspace" />
 		<mkdir dir="${install_temp}/log" />
 		<mkdir dir="${install_temp}/lib" />
@@ -43,24 +42,16 @@
 			<fileset dir="${project_editor}/workspace">
 			</fileset>
 		</copy>
-		<copy todir="${install_temp}/sqlMapConfig">
-			<fileset dir="${project_editor}/src/sqlMapConfig">
-			</fileset>
-		</copy>
-		<copy todir="${install_temp}/properties" file="${project_editor}/src/properties/database.properties">
-		</copy>
 		<copy todir="${install_temp}/lib">
 			<fileset dir="${project_lib}/lib" excludes="ipss_chart.jar,ipss_custom.jar,ipss_control.jar,ipss_jgraph.jar,ipss_pad.jar,ipss_editor_simu.jar,ipss_editor_ui.jar,ipss_psat.jar,ipss_report.jar">
-			</fileset>
-		</copy>
-		<copy todir="${install_temp}">
-			<fileset dir="exec">
 			</fileset>
 		</copy>
 	</target>
 
 	<target depends="copyfiles" description="jar ipss editor project" name="jar_lib">
-		<jar destfile="${install_temp}/lib/ipss_editor.jar" basedir="${project_editor}/runtime" excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.xml,**/*.log" />
+		<jar destfile="${install_temp}/ipss_editor.jar" basedir="${project_editor}/runtime" 
+			manifest="MANIFEST.MF"
+			excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/.project,**/.classpath,**/.nbattrs,**/*.log" />
 
 		<jar destfile="${install_temp}/lib/ipss/ipss_chart.jar" basedir="${dev_ws_base}/ipss.chart/runtime" excludes="CVS/**,model/**" />
 
