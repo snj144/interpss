@@ -3,10 +3,17 @@ package com.interpss.report.bean.acsc;
 import com.interpss.report.bean.RptBaseBean;
 
 public class RptAcscVoltAmpsBean extends RptBaseBean {
+	// for 3P fault
+	public static int RecType_Bus3P 	= 1;
+	public static int RecType_Branch3P 	= 2;
+	
+	// for NS fault
+	public static int RecType_Bus012 			= 1;
+	public static int RecType_BusABC  			= 2;
+	public static int RecType_Branch012 		= 3;
+	public static int RecType_BranchABC 		= 4;
+	
 	private int recType = 0;   
-		// 1: bus 3P rec, 2: branch 3P rec,
-	    // 10: bus 012 rec, 11: bus ABC rec
-	    // 12: branch 012 rec, 13: branch ABC rec
 	private String busId = null;
 	private String busName = null;
 	private String busFaultVoltpu = null;

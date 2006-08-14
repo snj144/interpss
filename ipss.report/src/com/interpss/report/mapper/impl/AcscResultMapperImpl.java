@@ -26,7 +26,7 @@ public class AcscResultMapperImpl {
 		if (fault instanceof AcscBranchFault) {
 			AcscBranchFault fBranch = (AcscBranchFault)fault;
 			double baseV =  fBranch.getFaultBranch().getFromAcscBus().getBaseVoltage();
-			bean.setType(2);
+			bean.setType(RptFaultSummaryBean.Type_BranchFault);
 			bean.setBusId(fBranch.getFaultBranch().getId());
 			bean.setBusName(fBranch.getFaultBranch().getName());
 			bean.setFaultType("BranchFault");
@@ -38,7 +38,7 @@ public class AcscResultMapperImpl {
 		else {
 			AcscBusFault fBus = (AcscBusFault)fault;
 			double baseV =  fBus.getAcscBus().getBaseVoltage();
-			bean.setType(1);
+			bean.setType(RptFaultSummaryBean.Type_BusFault);
 			bean.setBusId(fBus.getAcscBus().getId());
 			bean.setBusName(fBus.getAcscBus().getName());
 			bean.setFaultType("BusFault");
@@ -60,7 +60,7 @@ public class AcscResultMapperImpl {
 					for( Iterator itr = faultNet.getBusList().iterator(); itr.hasNext();) {
 						AcscBus bus = (AcscBus)itr.next();
 						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-						bean.setRecType(1);
+						bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus3P);
 						bean.setBusName(bus.getName());
 						bean.setBusId(bus.getId());
 						double vpu = fault.getFaultResult().getFaultVoltage_012(bus.getSortNumber()).b_1.abs();
@@ -116,7 +116,7 @@ public class AcscResultMapperImpl {
 					for ( int n = 0; n < branchList.size(); n++ ) {
 						AcscBranch bra = (AcscBranch)branchList.get(n);
 						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-						bean.setRecType(2);
+						bean.setRecType(RptAcscVoltAmpsBean.RecType_Branch3P);
 						bean.setBranchId(bra.getId());
 						bean.setBranchName(bra.getName());
 						Complex3x1 cpu   = fault.getFaultResult().getFaultAmps_012From2To(++cnt);

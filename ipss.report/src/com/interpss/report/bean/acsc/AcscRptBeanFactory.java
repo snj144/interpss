@@ -13,7 +13,7 @@ public class AcscRptBeanFactory {
 	 */
 	public static RptFaultSummaryBean createBusFaultSummarySampleBean() {
 		RptFaultSummaryBean bean = new RptFaultSummaryBean();
-		bean.setType(2);
+		bean.setType(RptFaultSummaryBean.Type_BranchFault);
 		bean.setBusId("0001->0002(1)");
 		bean.setBusName("Branch-1");
 		bean.setFaultType("BranchFault");
@@ -53,7 +53,7 @@ public class AcscRptBeanFactory {
 	 */
 	public static RptAcscVoltAmpsBean createAcscBusSampleBean() {
 		RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-		bean.setRecType(1);
+		bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus3P);
 		bean.setBusName("Bus-1");
 		bean.setBusId("00001");
 		bean.setBusFaultVoltpu("0.001");
@@ -75,7 +75,7 @@ public class AcscRptBeanFactory {
 	
 	public static RptAcscVoltAmpsBean createAcscBus012SampleBean() {
 		RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-		bean.setRecType(10);
+		bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus012);
 		bean.setBusId("00001");
 		bean.setBusName("Bus-1");
 		bean.setBusFaultVoltpu("0.001");
@@ -91,7 +91,7 @@ public class AcscRptBeanFactory {
 
 	public static RptAcscVoltAmpsBean createAcscBusABCSampleBean() {
 		RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-		bean.setRecType(11);
+		bean.setRecType(RptAcscVoltAmpsBean.RecType_BusABC);
 		bean.setBusId("00001");
 		bean.setBusName("Bus-1");
 		bean.setBusFaultVoltApu("0.001");
@@ -107,7 +107,7 @@ public class AcscRptBeanFactory {
 
 	public static RptAcscVoltAmpsBean createAcscBranch012SampleBean() {
 		RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-		bean.setRecType(12);
+		bean.setRecType(RptAcscVoltAmpsBean.RecType_Branch012);
 		bean.setBranchId("0001->0002");
 		bean.setBranchName("Bus-1->Bus-2");
 		bean.setBranchFaultAmpspu("0.001");
@@ -121,7 +121,7 @@ public class AcscRptBeanFactory {
 
 	public static RptAcscVoltAmpsBean createAcscBranchABCSampleBean() {
 		RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-		bean.setRecType(13);
+		bean.setRecType(RptAcscVoltAmpsBean.RecType_BranchABC);
 		bean.setBranchId("0001->0002");
 		bean.setBranchName("Bus-1->Bus-2");
 		bean.setBranchFaultAmpsApu("0.001");

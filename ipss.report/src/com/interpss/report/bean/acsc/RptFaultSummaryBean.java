@@ -3,6 +3,9 @@ package com.interpss.report.bean.acsc;
 import com.interpss.report.bean.RptBaseBean;
 
 public class RptFaultSummaryBean extends RptBaseBean {
+	public static int Type_BusFault = 1;
+	public static int Type_BranchFault = 2;
+	
 	private int    type = 1;    // 1: busFault, 2: branchFault
 	private String busId = null;
 	private String busName = null;
