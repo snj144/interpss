@@ -69,7 +69,7 @@
 	<field name="recType" class="java.lang.Integer"/>
 
 
-		<group  name="BusFaultRec" >
+		<group  name="BusFaultRec" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[new java.lang.Boolean($F{recType}.intValue() == 1)]]></groupExpression>
 			<groupHeader>
 			<band height="60"  isSplitAllowed="true" >
@@ -239,7 +239,7 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="BranchFaultRec" >
+		<group  name="BranchFaultRec" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[new java.lang.Boolean($F{recType}.intValue() == 2)]]></groupExpression>
 			<groupHeader>
 			<band height="60"  isSplitAllowed="true" >

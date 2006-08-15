@@ -69,7 +69,7 @@
 	<field name="recType" class="java.lang.Integer"/>
 
 
-		<group  name="Bus012tRec" >
+		<group  name="Bus012tRec" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[new java.lang.Boolean($F{recType}.intValue() == 1)]]></groupExpression>
 			<groupHeader>
 			<band height="60"  isSplitAllowed="true" >
@@ -329,7 +329,7 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="BusABCRec" >
+		<group  name="BusABCRec" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[$F{recType}]]></groupExpression>
 			<groupHeader>
 			<band height="60"  isSplitAllowed="true" >
@@ -589,7 +589,7 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="Branch012Rec" >
+		<group  name="Branch012Rec" isReprintHeaderOnEachPage="true" >
 			<groupExpression><![CDATA[new java.lang.Boolean($F{recType}.intValue() == 3)]]></groupExpression>
 			<groupHeader>
 			<band height="60"  isSplitAllowed="true" >
@@ -597,9 +597,9 @@
 				<rectangle radius="0" >
 					<reportElement
 						mode="Opaque"
-						x="53"
+						x="42"
 						y="20"
-						width="413"
+						width="424"
 						height="30"
 						forecolor="#CCCCCC"
 						backcolor="#CCCCCC"
@@ -795,17 +795,17 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="BranchABCRec" >
-			<groupExpression><![CDATA[]]></groupExpression>
+		<group  name="BranchABCRec" isReprintHeaderOnEachPage="true" >
+			<groupExpression><![CDATA[null]]></groupExpression>
 			<groupHeader>
 			<band height="60"  isSplitAllowed="true" >
 				<printWhenExpression><![CDATA[new java.lang.Boolean($F{recType}.intValue()==4)]]></printWhenExpression>
 				<rectangle radius="0" >
 					<reportElement
 						mode="Opaque"
-						x="53"
+						x="43"
 						y="20"
-						width="413"
+						width="423"
 						height="30"
 						forecolor="#CCCCCC"
 						backcolor="#CCCCCC"
@@ -1279,7 +1279,7 @@
 		</columnHeader>
 		<detail>
 			<band height="15"  isSplitAllowed="true" >
-				<elementGroup><!--  Start: 5 !-->
+				<elementGroup><!--  Start: 1 !-->
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
@@ -1470,8 +1470,8 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{busContribAmps}]]></textFieldExpression>
 				</textField>
-				</elementGroup><!-- End 5 !-->
-				<elementGroup><!--  Start: 6 !-->
+				</elementGroup><!-- End 1 !-->
+				<elementGroup><!--  Start: 2 !-->
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
@@ -1662,8 +1662,8 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{busContribAmps}]]></textFieldExpression>
 				</textField>
-				</elementGroup><!-- End 6 !-->
-				<elementGroup><!--  Start: 7 !-->
+				</elementGroup><!-- End 2 !-->
+				<elementGroup><!--  Start: 3 !-->
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
@@ -1816,8 +1816,8 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{branchFaultAmps2}]]></textFieldExpression>
 				</textField>
-				</elementGroup><!-- End 7 !-->
-				<elementGroup><!--  Start: 8 !-->
+				</elementGroup><!-- End 3 !-->
+				<elementGroup><!--  Start: 4 !-->
 				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
@@ -1970,7 +1970,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{branchFaultAmpsC}]]></textFieldExpression>
 				</textField>
-				</elementGroup><!-- End 8 !-->
+				</elementGroup><!-- End 4 !-->
 			</band>
 		</detail>
 		<columnFooter>
