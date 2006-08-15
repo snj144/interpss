@@ -17,15 +17,10 @@
     -->
     <info>
         <appname>InterPSS Editor</appname>
-        <appversion>0.8</appversion>
-        <authors>
-            <author name="interpss" email="interpss@gmail.com"/>
-            
-            <author email="" name="Mike Zhou (maintainer and original developer)" />
-
-            <author email="" name="Shizhao Zhou (developer)" />
-            
+        <appversion>0.9</appversion>
+        <authors>            <author name="interpss" email="interpss@gmail.com"/>
         </authors>
+        <url>http://www.interpss.org/</url>
         <url>http://code.google.com/p/interpss/</url>
     </info>
     
