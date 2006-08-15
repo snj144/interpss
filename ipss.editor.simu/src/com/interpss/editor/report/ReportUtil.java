@@ -25,7 +25,7 @@ public class ReportUtil {
 		appStatus.busyStop("Report displayed");
 	}
 
-	public static String getDefaultReportType(IGNetForm form, int lastRunType) {
+	public static String getDefaultReportType(IGNetForm form, int lastRunType, boolean nsFault) {
 		if (form.getAppType().equals(IGNetForm.AppType_Distribution)) {
 			if (lastRunType == SimuRunWorker.RUN_TYPE_ACSC)
 				return IpssReportFactory.RPT_TYPE_ACSC3PFAULT;
@@ -37,7 +37,10 @@ public class ReportUtil {
 							IGNetForm.NetType_AclfAdjNetwork)) {
 				return IpssReportFactory.RPT_TYPE_ACLFSUMMARY;
 			} else if (form.getNetType().equals(IGNetForm.NetType_AcscNetwork)) {
-				return IpssReportFactory.RPT_TYPE_ACSC3PFAULT;
+				if (nsFault)
+					return IpssReportFactory.RPT_TYPE_ACSCNSFAULT;
+				else
+					return IpssReportFactory.RPT_TYPE_ACSC3PFAULT;
 			}
 		}
 		return IpssReportFactory.RPT_TYPE_ACLFSUMMARY;
