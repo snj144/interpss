@@ -18,7 +18,9 @@ public class EditorActionAdapter {
 		if (doc instanceof GPDocument) {
 			IGNetForm form = ((GPDocument) doc).getGFormContainer()
 					.getGNetForm();
-			type = ReportUtil.getDefaultReportType(form, doc.getSimuAppContext().getLastRunType());
+			type = ReportUtil.getDefaultReportType(form, 
+					doc.getSimuAppContext().getLastRunType(),
+					doc.getSimuAppContext().isNonSymmetricFault());
 		}
 		doc.getGraphpad().expendTree2Object(doc);
 
