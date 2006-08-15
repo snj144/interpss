@@ -23,7 +23,7 @@ public class IpssCustomDataCodec {
 	/**
 	 * file filter for this file format
 	 */
-	FileFilter fileFilter;
+	// FileFilter fileFilter; no need any more
 	
 	public static IpssCustomDataCodec getInstance(GPGraphpad pad) {
 		if (null == _instance) {
@@ -34,10 +34,8 @@ public class IpssCustomDataCodec {
 	
 	
 	protected IpssCustomDataCodec(GPGraphpad pad) {
+		/* no need any more
 		fileFilter = new FileFilter() {
-			/**
-			 * @see javax.swing.filechooser.FileFilter#accept(File)
-			 */
 			public boolean accept(File f) {
 				if (f == null)
 					return false;
@@ -50,14 +48,11 @@ public class IpssCustomDataCodec {
 
 				return false;
 			}
-
-			/**
-			 * @see javax.swing.filechooser.FileFilter#getDescription()
-			 */
 			public String getDescription() {
 				return Translator.getString("CustomDataFileExtensionDescription"); 
 			}
 		};
+		*/
 	}
 	
 	public void write(OutputStream out, IpssCustomDocument doc) throws Exception {
