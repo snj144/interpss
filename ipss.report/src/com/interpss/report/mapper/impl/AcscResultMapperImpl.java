@@ -67,10 +67,10 @@ public class AcscResultMapperImpl {
 						Complex3x1 ampPu = fault.getFaultResult().getContriAmps_012(bus.getSortNumber());
 						Complex3x1 amps  = fault.getFaultResult().getContriAmps_012(bus.getSortNumber(), UnitType.Amp, 
 												bus.getBaseVoltage(), baseKva);
-						bean.setBusFaultVoltpu(Num2Str.toStr("#####0.###", vpu ));
-						bean.setBusFaultVolt(Num2Str.toStr("#######0.#", vpu*bus.getBaseVoltage()));
-						bean.setBusContribAmpspu(Num2Str.toStr("#####0.###", ampPu.b_1.abs()));
-						bean.setBusContribAmps(Num2Str.toStr("#######0.#", amps.b_1.abs()));
+						bean.setBusFaultVoltpu(Num2Str.toStr("####0.##", vpu ));
+						bean.setBusFaultVolt(Num2Str.toStr("######0.#", vpu*bus.getBaseVoltage()));
+						bean.setBusContribAmpspu(Num2Str.toStr("####0.##", ampPu.b_1.abs()));
+						bean.setBusContribAmps(Num2Str.toStr("######0.#", amps.b_1.abs()));
 						list.add(bean);
 					}
 				}
@@ -81,19 +81,25 @@ public class AcscResultMapperImpl {
 						bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus012);
 						bean.setBusName(bus.getName());
 						bean.setBusId(bus.getId());
-/*
-						str.append( "     " + Num2Str.toStr(-8, bus.getId() ) + " ");
-						Complex3x1 v012 = bf.getFaultResult().getFaultVoltage_012(bus.getSortNumber());
+
+						Complex3x1 v012 = fault.getFaultResult().getFaultVoltage_012(bus.getSortNumber());
 						double vpu1 = v012.b_1.abs();
-						str.append( Num2Str.toStr("#####0.###", vpu1 ) + "   ");
-						str.append( Num2Str.toStr("#######0.#", vpu1*bus.getBaseVoltage() ) + "");
+						bean.setBusFaultVoltpu(Num2Str.toStr("####0.##", vpu1));
+						bean.setBusFaultVolt(Num2Str.toStr("######0.#", vpu1*bus.getBaseVoltage()));
+
 						double vpu0 = v012.a_0.abs();
-						str.append( Num2Str.toStr("#####0.###", vpu0 ) + "   ");
-						str.append( Num2Str.toStr("#######0.#", vpu0*bus.getBaseVoltage() ) + "");
+						bean.setBusFaultVolt0pu(Num2Str.toStr("####0.##", vpu0 ));
+						bean.setBusFaultVolt0(Num2Str.toStr("######0.#", vpu0*bus.getBaseVoltage() ));
+
 						double vpu2 = v012.c_2.abs();
-						str.append( Num2Str.toStr("#####0.###", vpu2 ) + " ");
-						str.append( Num2Str.toStr("#######0.#", vpu2*bus.getBaseVoltage() ) + "\n");
-*/						
+						bean.setBusFaultVolt2pu(Num2Str.toStr("####0.##", vpu2 ));
+						bean.setBusFaultVolt2(Num2Str.toStr("######0.#", vpu2*bus.getBaseVoltage() ));
+
+						Complex3x1 ampPu = fault.getFaultResult().getContriAmps_012(bus.getSortNumber());
+						Complex3x1 amps  = fault.getFaultResult().getContriAmps_012(bus.getSortNumber(), UnitType.Amp, 
+												bus.getBaseVoltage(), baseKva);
+						bean.setBusContribAmpspu(Num2Str.toStr("####0.##", ampPu.b_1.abs()));
+						bean.setBusContribAmps(Num2Str.toStr("######0.#", amps.b_1.abs()));
 						list.add(bean);
 					}
 
@@ -103,20 +109,28 @@ public class AcscResultMapperImpl {
 						bean.setRecType(RptAcscVoltAmpsBean.RecType_BusABC);
 						bean.setBusName(bus.getName());
 						bean.setBusId(bus.getId());
-/*						
-						str.append( "     " + Num2Str.toStr(-8, bus.getId() ) + " ");
-						Complex3x1 v012 = bf.getFaultResult().getFaultVoltage_012(bus.getSortNumber());
+
+						Complex3x1 v012 = fault.getFaultResult().getFaultVoltage_012(bus.getSortNumber());
 						Complex3x1 vabc = Complex3x1.z12_to_abc(v012);
+
 						double vpu1 = vabc.a_0.abs();
-						str.append( Num2Str.toStr("#####0.###", vpu1 ) + "   ");
-						str.append( Num2Str.toStr("#######0.#", vpu1*bus.getBaseVoltage() ) + "");
+						bean.setBusFaultVoltApu(Num2Str.toStr("####0.##", vpu1 ));
+						bean.setBusFaultVoltA(Num2Str.toStr("#####0.#", vpu1*bus.getBaseVoltage() ));
+
 						double vpu0 = vabc.b_1.abs();
-						str.append( Num2Str.toStr("#####0.###", vpu0 ) + "   ");
-						str.append( Num2Str.toStr("#######0.#", vpu0*bus.getBaseVoltage() ) + "");
+						bean.setBusFaultVoltBpu(Num2Str.toStr("####0.##", vpu0 ));
+						bean.setBusFaultVoltB(Num2Str.toStr("######0.#", vpu0*bus.getBaseVoltage() ));
+
 						double vpu2 = vabc.c_2.abs();
-						str.append( Num2Str.toStr("#####0.###", vpu2 ) + " ");
-						str.append( Num2Str.toStr("#######0.#", vpu2*bus.getBaseVoltage() ) + "\n");
-*/						
+						bean.setBusFaultVoltCpu(Num2Str.toStr("####0.##", vpu2 ));
+						bean.setBusFaultVoltC(Num2Str.toStr("######0.#", vpu2*bus.getBaseVoltage() ));
+
+						Complex3x1 ampPu = fault.getFaultResult().getContriAmps_012(bus.getSortNumber());
+						Complex3x1 amps  = fault.getFaultResult().getContriAmps_012(bus.getSortNumber(), UnitType.Amp, 
+												bus.getBaseVoltage(), baseKva);
+						bean.setBusContribAmpspu(Num2Str.toStr("####0.##", ampPu.b_1.abs()));
+						bean.setBusContribAmps(Num2Str.toStr("######0.#", amps.b_1.abs()));
+
 						list.add(bean);
 					}
 				}
@@ -133,8 +147,8 @@ public class AcscResultMapperImpl {
 						bean.setBranchName(bra.getName());
 						Complex3x1 cpu   = fault.getFaultResult().getFaultAmps_012From2To(++cnt);
 						Complex3x1 camp  = fault.getFaultResult().getFaultAmps_012From2To(cnt, UnitType.Amp, bra.getFromBus().getBaseVoltage(), baseKva);
-						bean.setBranchFaultAmpspu(Num2Str.toStr("###0.###", cpu.b_1.abs()));
-						bean.setBranchFaultAmps(Num2Str.toStr("#######0.#", camp.b_1.abs()));
+						bean.setBranchFaultAmpspu(Num2Str.toStr("###0.##", cpu.b_1.abs()));
+						bean.setBranchFaultAmps(Num2Str.toStr("######0.#", camp.b_1.abs()));
 						list.add(bean);
 					}
 				}
@@ -143,60 +157,82 @@ public class AcscResultMapperImpl {
 					int cnt = 0;
 					for ( int n = 0; n < branchList.size(); n++ ) {
 						AcscBranch bra = (AcscBranch)branchList.get(n);
-						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-						bean.setRecType(RptAcscVoltAmpsBean.RecType_Branch012);
-						bean.setBranchId(bra.getId());
-						bean.setBranchName(bra.getName());
-					/*
-						try {
-							Complex3x1 cpu   = bf.getFaultResult().getFaultAmps_012From2To(++cnt);
-							Complex3x1 camp  = bf.getFaultResult().getFaultAmps_012From2To(cnt, UnitType.Amp, bra.getFromBus().getBaseVoltage(), net.getBaseKva());
-							str.append( "     " + Num2Str.toStr(-20, bra.getId() ) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.b_1.abs()) + "   " + Num2Str.toStr("#######0.#", camp.b_1.abs()) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.a_0.abs()) + "   " + Num2Str.toStr("#######0.#", camp.a_0.abs()) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.c_2.abs()) + "   " + Num2Str.toStr("#######0.#", camp.c_2.abs()) + "\n");
+						RptAcscVoltAmpsBean beanFrom2To = new RptAcscVoltAmpsBean();
+						beanFrom2To.setRecType(RptAcscVoltAmpsBean.RecType_Branch012);
+						beanFrom2To.setBranchId(bra.getId());
+						beanFrom2To.setBranchName(bra.getName());
+						
+						RptAcscVoltAmpsBean beanTo2From = new RptAcscVoltAmpsBean();
+						beanTo2From.setRecType(RptAcscVoltAmpsBean.RecType_Branch012);
+						beanTo2From.setBranchId("<--    ");
+						beanTo2From.setBranchName("");
 
-							cpu   = bf.getFaultResult().getFaultAmps_012To2From(cnt);
-							camp  = bf.getFaultResult().getFaultAmps_012To2From(cnt, UnitType.Amp, bra.getToBus().getBaseVoltage(), net.getBaseKva());
-							str.append("     " + Num2Str.toStr(-9, " ") + "<-" + Num2Str.toStr(-9, " ") + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.b_1.abs()) + "   " + Num2Str.toStr("#######0.#", camp.b_1.abs()) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.a_0.abs()) + "   " + Num2Str.toStr("#######0.#", camp.a_0.abs()) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.c_2.abs()) + "   " + Num2Str.toStr("#######0.#", camp.c_2.abs()) + "\n");
+
+						try {
+							Complex3x1 cpu   = fault.getFaultResult().getFaultAmps_012From2To(++cnt);
+							Complex3x1 camp  = fault.getFaultResult().getFaultAmps_012From2To(cnt, UnitType.Amp, 
+									bra.getFromBus().getBaseVoltage(), faultNet.getBaseKva());
+							beanFrom2To.setBranchFaultAmpspu(Num2Str.toStr("###0.##", cpu.b_1.abs()));
+							beanFrom2To.setBranchFaultAmps(Num2Str.toStr("######0.", camp.b_1.abs()));		
+							beanFrom2To.setBranchFaultAmps0pu(Num2Str.toStr("###0.##", cpu.a_0.abs()));
+							beanFrom2To.setBranchFaultAmps0(Num2Str.toStr("######0.#", camp.a_0.abs()));		
+							beanFrom2To.setBranchFaultAmps2pu(Num2Str.toStr("###0.##", cpu.c_2.abs()));
+							beanFrom2To.setBranchFaultAmps2(Num2Str.toStr("######0.#", camp.c_2.abs()));		
+
+							cpu   = fault.getFaultResult().getFaultAmps_012To2From(cnt);
+							camp  = fault.getFaultResult().getFaultAmps_012To2From(cnt, UnitType.Amp, 
+									bra.getToBus().getBaseVoltage(), faultNet.getBaseKva());
+							beanTo2From.setBranchFaultAmpspu(Num2Str.toStr("###0.##", cpu.b_1.abs()));
+							beanTo2From.setBranchFaultAmps(Num2Str.toStr("######0.#", camp.b_1.abs()));		
+							beanTo2From.setBranchFaultAmps0pu(Num2Str.toStr("###0.##", cpu.a_0.abs()));
+							beanTo2From.setBranchFaultAmps0(Num2Str.toStr("######0.#", camp.a_0.abs()));		
+							beanTo2From.setBranchFaultAmps2pu(Num2Str.toStr("###0.##", cpu.c_2.abs()));
+							beanTo2From.setBranchFaultAmps2(Num2Str.toStr("######0.#", camp.c_2.abs()));		
 						} catch (Exception e) {
 							IpssLogger.logErr(e);
-							str.append(e.toString() + "\n");
 						}
-						*/
-						list.add(bean);
+						list.add(beanFrom2To);
+						list.add(beanTo2From);
 					}
 
 					cnt = 0;
 					for ( int n = 0; n < branchList.size(); n++ ) {
 						AcscBranch bra = (AcscBranch)branchList.get(n);
-						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
-						bean.setRecType(RptAcscVoltAmpsBean.RecType_BranchABC);
-						bean.setBranchId(bra.getId());
-						bean.setBranchName(bra.getName());
-/*
-						try {
-							Complex3x1 cpu   = bf.getFaultResult().getFaultAmps_abcFrom2To(++cnt);
-							Complex3x1 camp  = bf.getFaultResult().getFaultAmps_abcFrom2To(cnt, UnitType.Amp, bra.getFromBus().getBaseVoltage(), net.getBaseKva());
-							str.append(Num2Str.toStr("###0.###", cpu.a_0.abs()) + "   " + Num2Str.toStr("#######0.#", camp.a_0.abs()) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.b_1.abs()) + "   " + Num2Str.toStr("#######0.#", camp.b_1.abs()) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.c_2.abs()) + "   " + Num2Str.toStr("#######0.#", camp.c_2.abs()) + "\n");
+						RptAcscVoltAmpsBean beanFrom2To = new RptAcscVoltAmpsBean();
+						RptAcscVoltAmpsBean beanTo2From = new RptAcscVoltAmpsBean();
+						beanFrom2To.setRecType(RptAcscVoltAmpsBean.RecType_BranchABC);
+						beanFrom2To.setBranchId(bra.getId());
+						beanFrom2To.setBranchName(bra.getName());
 
-							cpu   = bf.getFaultResult().getFaultAmps_abcTo2From(cnt);
-							camp  = bf.getFaultResult().getFaultAmps_abcTo2From(cnt, UnitType.Amp, bra.getToBus().getBaseVoltage(), net.getBaseKva());
-							str.append( "     " + Num2Str.toStr(-9, " ") + "<-" + Num2Str.toStr(-9, " ") + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.a_0.abs()) + "   " + Num2Str.toStr("#######0.#", camp.a_0.abs()) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.b_1.abs()) + "   " + Num2Str.toStr("#######0.#", camp.b_1.abs()) + "   ");
-							str.append(Num2Str.toStr("###0.###", cpu.c_2.abs()) + "   " + Num2Str.toStr("#######0.#", camp.c_2.abs()) + "\n");
+						beanTo2From.setRecType(RptAcscVoltAmpsBean.RecType_BranchABC);
+						beanTo2From.setBranchId("<--     ");
+						beanTo2From.setBranchName("");
+
+						try {
+							Complex3x1 cpu   = fault.getFaultResult().getFaultAmps_abcFrom2To(++cnt);
+							Complex3x1 camp  = fault.getFaultResult().getFaultAmps_abcFrom2To(cnt, UnitType.Amp, 
+									bra.getFromBus().getBaseVoltage(), faultNet.getBaseKva());
+							beanFrom2To.setBranchFaultAmpsApu(Num2Str.toStr("###0.##", cpu.a_0.abs()));
+							beanFrom2To.setBranchFaultAmpsA(Num2Str.toStr("######0.#", camp.a_0.abs()));		
+							beanFrom2To.setBranchFaultAmpsBpu(Num2Str.toStr("###0.##", cpu.b_1.abs()));
+							beanFrom2To.setBranchFaultAmpsB(Num2Str.toStr("######0.#", camp.b_1.abs()));		
+							beanFrom2To.setBranchFaultAmpsCpu(Num2Str.toStr("###0.##", cpu.c_2.abs()));
+							beanFrom2To.setBranchFaultAmpsC(Num2Str.toStr("######0.#", camp.c_2.abs()));		
+
+							cpu   = fault.getFaultResult().getFaultAmps_abcTo2From(cnt);
+							camp  = fault.getFaultResult().getFaultAmps_abcTo2From(cnt, UnitType.Amp, 
+									bra.getToBus().getBaseVoltage(), faultNet.getBaseKva());
+							beanTo2From.setBranchFaultAmpsApu(Num2Str.toStr("###0.##", cpu.a_0.abs()));
+							beanTo2From.setBranchFaultAmpsA(Num2Str.toStr("######0.#", camp.a_0.abs()));		
+							beanTo2From.setBranchFaultAmpsBpu(Num2Str.toStr("###0.##", cpu.b_1.abs()));
+							beanTo2From.setBranchFaultAmpsB(Num2Str.toStr("######0.#", camp.b_1.abs()));		
+							beanTo2From.setBranchFaultAmpsCpu(Num2Str.toStr("###0.##", cpu.c_2.abs()));
+							beanTo2From.setBranchFaultAmpsC(Num2Str.toStr("######0.#", camp.c_2.abs()));		
 						} catch (Exception e) {
 							IpssLogger.logErr(e);
-							str.append(e.toString() + "\n");
 						}
-						*/
-						list.add(bean);
+						list.add(beanFrom2To);
+						list.add(beanTo2From);
 					}
 				}
 			}
