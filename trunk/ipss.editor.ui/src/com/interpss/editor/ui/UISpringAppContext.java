@@ -5,9 +5,6 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 
 public class UISpringAppContext extends SpringAppContext {
-	public static int MainTextArea_Row = 30;
-	public static int MainTextArea_Col = 80;
-
 	public static int BrowserDialog_TextRows = 30;
 	public static int BrowserDialog_TextColumns = 130;
 	
