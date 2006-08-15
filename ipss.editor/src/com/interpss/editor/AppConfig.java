@@ -83,7 +83,7 @@ public class AppConfig {
 //			GraphCellFactory.TAG_BusForm = Translator.getString("graphicfile.tag.busform");
 			
 			IpssRptViewer.REPORT_DEFAULT_DIR = baseDir + Translator.getString("Report.File.Location");
-			IpssRptViewer.REPORT_EXT 	= Translator.getString("Report.File.Ext");
+			IpssRptViewer.REPORT_EXT 	= Translator.getString("ReportFileExtension");
 			IpssRptViewer.REPORT_DESC	= Translator.getString("Report.File.Desc");
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
