@@ -47,7 +47,7 @@ public class DStabMachData extends BaseDataBean {
     private String name = "";
     private double rating = 0.0;
     private double ratedVolt;
-    private double ratedSpeed;
+    private int poles;
     private double inertia;
     private double damping;
     private double x0;
@@ -363,14 +363,14 @@ public class DStabMachData extends BaseDataBean {
 	/**
 	 * @return Returns the ratedSpeed.
 	 */
-	public double getRatedSpeed() {
-		return ratedSpeed;
+	public int getPoles() {
+		return poles;
 	}
 	/**
 	 * @param ratedSpeed The ratedSpeed to set.
 	 */
-	public void setRatedSpeed(double ratedSpeed) {
-		this.ratedSpeed = ratedSpeed;
+	public void setPoles(int poles) {
+		this.poles = poles;
 	}
 
 }
