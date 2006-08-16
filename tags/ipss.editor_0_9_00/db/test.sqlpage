@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SQLPage nameConnection="ipss.editor.db">
+<Statement><![CDATA[select * from ipssproject
+
+
+
+]]></Statement>
+</SQLPage>
