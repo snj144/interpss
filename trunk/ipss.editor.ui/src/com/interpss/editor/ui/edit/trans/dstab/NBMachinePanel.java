@@ -138,7 +138,7 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 	    machNameTextField.setText(machData.getName());
 	    ratingTextField.setText(Num2Str.toStr(machData.getRating(), "#0.00"));
 	    ratedVoltTextField.setText(Num2Str.toStr(machData.getRatedVolt(), "#0.0"));
-	    ratedSpeedTextField.setText(Num2Str.toStr(machData.getRatedSpeed(), "#0.0"));
+	    polesTextField.setText(Num2Str.toStr(machData.getPoles()));
 		
 	    xlTextField.setText(Num2Str.toStr(machData.getXl(), "#0.0000"));
 	    raTextField.setText(Num2Str.toStr(machData.getRa(), "#0.0000"));
@@ -240,12 +240,12 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 			machData.setRatedVolt(VerifyUtil.getDouble(ratedVoltTextField));
 		}
 
-		if (ratedSpeedTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.ratedSpeedTextField, 0.0d)) {
-				errMsg.add("Rated Speed <= 0.0");
+		if (polesTextField.isEnabled()) {
+			if (!VerifyUtil.largeThan(this.polesTextField, 0) | VerifyUtil.getInt(polesTextField) % 2 != 0) {
+				errMsg.add("Poles <= 0 or not even");
 				ok = false;
 			}
-			machData.setRatedSpeed(VerifyUtil.getDouble(ratedSpeedTextField));
+			machData.setPoles(VerifyUtil.getInt(polesTextField));
 		}
 
 		if (xlTextField.isEnabled()) {
@@ -387,8 +387,8 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
     	    ratedVoltLabel.setEnabled(true);
     	    ratedVoltTextField.setEnabled(true);
 
-    	    ratedSpeedLabel.setEnabled(false);
-    	    ratedSpeedTextField.setEnabled(false);
+    	    polesLabel.setEnabled(false);
+    	    polesTextField.setEnabled(false);
     	    
     	    inertiaLabel.setEnabled(true);
     	    inertiaLabel.setText("          ScMva(3P)   ");
@@ -451,8 +451,8 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 	    ratingTextField.setEnabled(true);
 	    ratedVoltTextField.setEnabled(true);
 	    inertiaTextField.setEnabled(true);
-	    ratedSpeedLabel.setEnabled(true);
-	    ratedSpeedTextField.setEnabled(true);
+	    polesLabel.setEnabled(true);
+	    polesTextField.setEnabled(true);
 	    dampingTextField.setEnabled(true);
 	    x0TextField.setEnabled(true);
 	    x2TextField.setEnabled(true);
@@ -630,8 +630,8 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
         ratingTextField = new javax.swing.JTextField();
         ratedVoltLabel = new javax.swing.JLabel();
         ratedVoltTextField = new javax.swing.JTextField();
-        ratedSpeedLabel = new javax.swing.JLabel();
-        ratedSpeedTextField = new javax.swing.JTextField();
+        polesLabel = new javax.swing.JLabel();
+        polesTextField = new javax.swing.JTextField();
         inertiaLabel = new javax.swing.JLabel();
         inertiaTextField = new javax.swing.JTextField();
         dampingLabel = new javax.swing.JLabel();
@@ -843,27 +843,27 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         machInfojPanel.add(ratedVoltTextField, gridBagConstraints);
 
-        ratedSpeedLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        ratedSpeedLabel.setText("     RatedSpeed(rpm)   ");
+        polesLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        polesLabel.setText("          Poles   ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        machInfojPanel.add(ratedSpeedLabel, gridBagConstraints);
+        machInfojPanel.add(polesLabel, gridBagConstraints);
 
-        ratedSpeedTextField.setColumns(8);
-        ratedSpeedTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        ratedSpeedTextField.setText("0.0");
-        ratedSpeedTextField.setName("dampingTextField");
+        polesTextField.setColumns(8);
+        polesTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        polesTextField.setText("2");
+        polesTextField.setName("dampingTextField");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
-        machInfojPanel.add(ratedSpeedTextField, gridBagConstraints);
+        machInfojPanel.add(polesTextField, gridBagConstraints);
 
         inertiaLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         inertiaLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        inertiaLabel.setText("     Inertia(sec)   ");
+        inertiaLabel.setText("          Inertia(sec)   ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -1296,10 +1296,10 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
     private javax.swing.JTextField machNameTextField;
     private javax.swing.ButtonGroup machTypeButtonGroup;
     private javax.swing.JPanel machTypePanel;
+    private javax.swing.JLabel polesLabel;
+    private javax.swing.JTextField polesTextField;
     private javax.swing.JLabel raLabel;
     private javax.swing.JTextField raTextField;
-    private javax.swing.JLabel ratedSpeedLabel;
-    private javax.swing.JTextField ratedSpeedTextField;
     private javax.swing.JLabel ratedVoltLabel;
     private javax.swing.JTextField ratedVoltTextField;
     private javax.swing.JLabel ratingLabel;
