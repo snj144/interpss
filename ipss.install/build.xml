@@ -3,7 +3,7 @@
 	<target description="init setup" name="init">
 		<property name="dev_base" value="D:/develop/Java/eclipse" />
 		<property name="install_dest" value="D:/develop/install" />
-		<property name="program_version" value="0.8" />
+		<property name="program_version" value="0.9" />
 
 		<property name="izPack_home" value="izpack_home" />
 		<taskdef name="izpack" classpath="${izPack_home}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
