@@ -90,7 +90,7 @@ public class DStabFormDataMapperImpl {
 			mach.setMultiFactors();
 			mach.setInertia(machData.getInertia());
 			mach.setDamping(machData.getDamping());
-			mach.setRatedSpeed(machData.getRatedSpeed());
+			mach.setPoles(machData.getPoles());
 			mach.setX0(machData.getX0());
 			mach.setX2(machData.getX2());
 			ScGroundType gtype = new ScGroundType();
