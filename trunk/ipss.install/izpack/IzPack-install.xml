@@ -37,10 +37,11 @@
         The locale section.
         Asks here to include the English and French langpacks.
     -->
-    <locale>
-        <langpack iso3="eng"/>
-        <langpack iso3="chn"/>
-    </locale>
+    <locale>
+        <langpack iso3="eng" />
+        <langpack iso3="chn" />
+    </locale>
+
     
     <!-- 
         The resources section.
@@ -53,8 +54,6 @@
 		<res id="shortcutSpec.xml" src="shortcutSpec.xml" />
 		
         <res src="Unix_shortcutSpec.xml" id="Unix_shortcutSpec.xml" />
-		
-		<res src="core.png" id="ImgPacksPanel.img.0" />
 		
 		<res src="border1.png" id="Installer.image.0" />
         <res src="border2.png" id="Installer.image.1" />
@@ -77,7 +76,7 @@
         <panel classname="HTMLInfoPanel"/>
         <panel classname="LicencePanel"/>
         <panel classname="TargetPanel"/> 
-        <panel classname="ImgPacksPanel"/>
+        <panel classname="PacksPanel"/>
         
         <panel classname="SummaryPanel" />
 
@@ -99,9 +98,14 @@
             <file src="log" targetdir="$INSTALL_PATH"/>
             <file src="properties" targetdir="$INSTALL_PATH"/>
             <file src="reportTemplate" targetdir="$INSTALL_PATH"/>
-            <file src="workspace" targetdir="$INSTALL_PATH"/>
             <file src="ipss_editor.jar" targetdir="$INSTALL_PATH"/>
         </pack>
+        <pack name="Sample" required="no">
+            <description>Sample Project Files.</description>
+            <file src="workspace" targetdir="$INSTALL_PATH"/>
+        </pack>
+
+
     </packs>
         <!-- The native libraries to add -->
     <native type="izpack" name="ShellLink.dll" />
