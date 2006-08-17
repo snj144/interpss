@@ -61,10 +61,11 @@ public class SimpleOneStateChart extends JFrame {
         setVisible(true);
     }
     
-    public void setPlotData(final String label, final double[] xData, final double[] yData) {
-    	yDataLabel = label;
-    	xDataAry = xData;
-    	yDataAry = yData;
+    public void setPlotData(final String yLabel, final String yDataLabel, final double[] xData, final double[] yData) {
+    	this.yLabel = yLabel;
+    	this.yDataLabel = yDataLabel;
+    	this.xDataAry = xData;
+    	this.yDataAry = yData;
     }
     
 	public void setYLabel(final String label) {
@@ -139,7 +140,7 @@ public class SimpleOneStateChart extends JFrame {
     		xData[i] = i;
     		yData[i] = i;
     	}
-    	plot.setPlotData("Machine State", xData, yData);
+    	plot.setPlotData("Machine State", "Machine State Data lable", xData, yData);
     	
     	plot.createChart();
     	plot.showChart();
