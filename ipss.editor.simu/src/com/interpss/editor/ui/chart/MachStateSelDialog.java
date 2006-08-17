@@ -240,7 +240,7 @@ public class MachStateSelDialog extends javax.swing.JDialog {
     	if (machRadioButton.isSelected()) {
     		String state = (String)machStateComboBox.getSelectedItem();
     		String machId = (String)this.machListComboBox.getSelectedItem();
-    		ChartManager.plotStateCurve(this.caseId, machId, state, ISimuRecManager.REC_TYPE_DStabMachineStates);
+    		ChartManager.plotStateCurve(this.caseId, machId, state, "Not defined", ISimuRecManager.REC_TYPE_DStabMachineStates);
     	}
     }//GEN-LAST:event_plotButtonActionPerformed
 
