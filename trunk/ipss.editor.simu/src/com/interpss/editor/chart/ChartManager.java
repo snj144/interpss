@@ -18,6 +18,7 @@ import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 import com.interpss.common.util.StringUtil;
+import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabBus;
@@ -69,7 +70,7 @@ public class ChartManager {
 					    		simuCtx.getDStabilityNet().getBaseKva());
 					}
 					else {
-					    addBusItem2ActionList(menu, dstabBus.getId(), caseId);
+					    addBusItem2ActionList(menu, dstabBus, caseId, simuCtx.getDStabilityNet().getBaseKva());
 					}
 				}
 			}
@@ -163,15 +164,15 @@ public class ChartManager {
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_Q ))
     		return id + "(Unit:PU, Rating:" + rating + " mva)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_E))
-    		return id + "(Unit:PU, Voltage Base:" + ratedV +" Volts)";
+    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_EQ1))
-    		return id + "(Unit:PU, Voltage Base:" + ratedV +" Volts)";
+    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_EQ11))
-    		return id + "(Unit:PU, Voltage Base:" + ratedV +" Volts)";
+    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ED1))
-    		return id + "(Unit:PU, Voltage Base:" + ratedV +" Volts)";
+    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ED11))
-    		return id + "(Unit:PU, Voltage Base:" + ratedV +" Volts)";
+    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VMAG))
     		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
@@ -187,7 +188,7 @@ public class ChartManager {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_EXC_EFD))
-    		return id + "(Unit:PU, Voltage Base:" + ratedV +" Volts)";
+    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else
     		return "unknown";
     }
@@ -211,7 +212,7 @@ public class ChartManager {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_PSS_VS))
-    		return id + "(Unit:PU, Voltage Base:" + ratedV +" Volts)";
+    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else
     		return "unknown";
     }
@@ -222,21 +223,32 @@ public class ChartManager {
 	public static final String OUT_SYMBOL_BUS_PLOAD 	= "Bus Load P";
 	public static final String OUT_SYMBOL_BUS_QLOAD 	= "Bus Load Q";
 */    
-    private static String getBusDataLabel(Machine mach, String state) {
-    	return "xxxxxx";
-    	
+    private static String getBusDataLabel(Bus bus, String state, double baseKva) {
+    	String id = "Bus Id:" + bus.getId() + ", ";
+    	String baseV = Num2Str.toStr("0.0", bus.getBaseVoltage());
+    	String baseMva = Num2Str.toStr("0.0", baseKva/1000.0);
+    	if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VMAG))
+    		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
+    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
+    		return id + "(Unit:Rad)";
+    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_PLOAD))
+    		return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
+    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_QLOAD))
+    		return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
+    	else
+    		return "unknown";
     }
 
-    private static void addBusItem2ActionList(JPopupMenu menu, final String busId, final int caseId) {
+    private static void addBusItem2ActionList(JPopupMenu menu, final Bus bus, final int caseId, double baseKva) {
 		JMenu busStateMenu = new JMenu("Bus Variable");
 		menu.add(busStateMenu);
-		Object[] stateList = getStatesNameList(caseId, busId, ISimuRecManager.REC_TYPE_DStabBusStates);
+		Object[] stateList = getStatesNameList(caseId, bus.getId(), ISimuRecManager.REC_TYPE_DStabBusStates);
 		for (int i = 0; i < stateList.length; i++) {
 			final String yLabel = (String)stateList[i];
-			final String yDataLabel = "xxxx";
+			final String yDataLabel = getBusDataLabel(bus, yLabel, baseKva);
 			busStateMenu.add(new AbstractAction("Plot Bus Variable - " + yLabel) {
 				public void actionPerformed(ActionEvent e) {
-				    plotStateCurve(caseId, busId, yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabBusStates);
+				    plotStateCurve(caseId, bus.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabBusStates);
 				}
 			});
 		}
