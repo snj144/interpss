@@ -92,19 +92,23 @@
         We specify here our packs.
     -->
     <packs>
-        <pack name="Base" required="yes">
-            <description>The base files</description>
-            <file src="db" targetdir="$INSTALL_PATH"/>            <file src="lib" targetdir="$INSTALL_PATH"/>
+        <pack name="Runtime" required="yes">
+            <description>Interpss runtime jar and configuration files.</description>
+            <file src="lib" targetdir="$INSTALL_PATH"/>
             <file src="log" targetdir="$INSTALL_PATH"/>
             <file src="properties" targetdir="$INSTALL_PATH"/>
             <file src="reportTemplate" targetdir="$INSTALL_PATH"/>
             <file src="ipss_editor.jar" targetdir="$INSTALL_PATH"/>
         </pack>
-        <pack name="Sample" required="no">
-            <description>Sample Project Files.</description>
+        <pack name="Samples" required="no">
+            <description>Sample workspace and project Files. Required for a new installation</description>
             <file src="workspace" targetdir="$INSTALL_PATH"/>
         </pack>
 
+        <pack name="Database files" required="no">
+            <description>Database schema and data files. Required for a new installation</description>
+            <file src="db" targetdir="$INSTALL_PATH"/>
+        </pack>
 
     </packs>
         <!-- The native libraries to add -->
