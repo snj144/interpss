@@ -239,6 +239,23 @@ public class ChartManager {
     		return "unknown";
     }
 
+    private static double getAutoRangeMinimumSize(String state) {
+    	if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ANG) || 
+    	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG) ||
+    	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
+    		return 1.0;
+    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED))
+        	return 0.2;
+    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PE) ||
+                state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PM) ||
+                state.equals(DStabOutFunc.OUT_SYMBOL_MACH_Q ) ||
+        	    state.equals(DStabOutFunc.OUT_SYMBOL_GOV_PM) ||
+        	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_PLOAD) ||
+        	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_QLOAD))
+       		return 0.2;
+    	return 1.0;
+    }
+    
     private static void addBusItem2ActionList(JPopupMenu menu, final Bus bus, final int caseId, double baseKva) {
 		JMenu busStateMenu = new JMenu("Bus Variable");
 		menu.add(busStateMenu);
@@ -317,7 +334,7 @@ public class ChartManager {
 			Hashtable machStates = StringUtil.parseStr2Hashtable(machRec.getSimuRec());
     		ydata[i] = new Double((String)machStates.get(yLabel)).doubleValue();
     	}
-    	plot.setPlotData(yLabel, yDataLabel, xdata, ydata);
+    	plot.setPlotData(yLabel, yDataLabel, xdata, ydata, getAutoRangeMinimumSize(yLabel));
 		
     	plot.createChart();
     	plot.showChart();	    		
