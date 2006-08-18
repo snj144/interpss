@@ -44,6 +44,8 @@ public class SimpleOneStateChart extends JFrame {
 	private String   yLabel = "State";
 	private final Color    yColor = Color.BLACK;
 	
+	private double autoRangeMinimumSize = 0.2;
+	
     /**
      * A demonstration application showing an {@link XYSeries} where all the y-values are the same.
      *
@@ -61,11 +63,13 @@ public class SimpleOneStateChart extends JFrame {
         setVisible(true);
     }
     
-    public void setPlotData(final String yLabel, final String yDataLabel, final double[] xData, final double[] yData) {
+    public void setPlotData(final String yLabel, final String yDataLabel, 
+    		final double[] xData, final double[] yData, double autoRangeMinimumSize) {
     	this.yLabel = yLabel;
     	this.yDataLabel = yDataLabel;
     	this.xDataAry = xData;
     	this.yDataAry = yData;
+    	this.autoRangeMinimumSize = autoRangeMinimumSize;
     }
     
 	public void setYLabel(final String label) {
@@ -116,7 +120,7 @@ public class SimpleOneStateChart extends JFrame {
         
         final NumberAxis axisLeft = (NumberAxis) plot.getRangeAxis();
         axisLeft.setAutoRangeIncludesZero(false);
-        axisLeft.setAutoRangeMinimumSize(1.0);
+        axisLeft.setAutoRangeMinimumSize(autoRangeMinimumSize);
 
         final XYItemRenderer v_renderer = plot.getRenderer(0);
         v_renderer.setSeriesPaint(0, yColor);
@@ -134,13 +138,13 @@ public class SimpleOneStateChart extends JFrame {
     public static void main(final String[] args) {
     	final SimpleOneStateChart plot = new SimpleOneStateChart("Bus Load Schedule");
     	
-    	final double[] xData = new double[24];
-    	final double[] yData = new double[24];
-    	for (int i = 0; i < 24; i++) {
-    		xData[i] = i;
+    	final double[] xData = new double[100];
+    	final double[] yData = new double[100];
+    	for (int i = 0; i < 100; i++) {
+    		xData[i] = 10.0 * (100-i) / 100.0;
     		yData[i] = i;
     	}
-    	plot.setPlotData("Machine State", "Machine State Data lable", xData, yData);
+    	plot.setPlotData("Machine State", "Machine State Data lable", xData, yData, 0.2);
     	
     	plot.createChart();
     	plot.showChart();
