@@ -88,8 +88,8 @@ public class DStabFormDataMapperImpl {
 			mach.setRating(machData.getRating(), "Mva", dstabNet.getBaseKva());
 			mach.setRatedVoltage(machData.getRatedVolt());
 			mach.setMultiFactors();
-			mach.setInertia(machData.getInertia());
-			mach.setDamping(machData.getDamping());
+			mach.setH(machData.getInertia());
+			mach.setD(machData.getDamping());
 			mach.setPoles(machData.getPoles());
 			mach.setX0(machData.getX0());
 			mach.setX2(machData.getX2());
