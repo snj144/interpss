@@ -2,6 +2,7 @@ package com.interpss.editor.data.dstab;
 
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.editor.data.common.GroundData;
+import com.interpss.editor.form.InitDataUtil;
 
 public class DStabMachData extends BaseDataBean {
 	public static final String MachType_InfiniteBus = "InfiniteBus";
@@ -11,6 +12,10 @@ public class DStabMachData extends BaseDataBean {
 	public static final String MachType_RoundRotor = "RoundRotorModel";
 	public static final String MachType_SalientPole = "SalientPoleModel";
 
+    public DStabMachData() {
+    	this.type = MachType_Eq1;
+    	InitDataUtil.initDStabMachineData(this);
+    }
     
 	private String type = MachType_Eq1;
 	public String getType() { return type; }

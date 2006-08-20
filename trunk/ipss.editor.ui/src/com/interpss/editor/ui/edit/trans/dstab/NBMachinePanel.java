@@ -14,6 +14,7 @@ import com.interpss.editor.data.dstab.DStabBusData;
 import com.interpss.editor.data.dstab.DStabMachData;
 import com.interpss.editor.form.GBusForm;
 import com.interpss.editor.form.GFormContainer;
+import com.interpss.editor.form.InitDataUtil;
 import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import com.interpss.editor.ui.edit.common.NBGroundInputPanel;
 import com.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
@@ -73,6 +74,10 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 		_groundPanel.init(_netContainer, _data.getMachData().getGround());
 	}
 	
+    public DStabBusData getDStabBusData() {
+    		return _data;
+	}
+
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBMachinePanel setForm2Editor() called");
 
@@ -142,22 +147,22 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 		
 	    xlTextField.setText(Num2Str.toStr(machData.getXl(), "#0.0000"));
 	    raTextField.setText(Num2Str.toStr(machData.getRa(), "#0.0000"));
-	    xqTextField.setText(Num2Str.toStr(machData.getXq(), "#0.0000"));
-	    xdTextField.setText(Num2Str.toStr(machData.getXd(), "#0.0000"));
+	    xqTextField.setText(Num2Str.toStr(machData.getXq(), "#0.00"));
+	    xdTextField.setText(Num2Str.toStr(machData.getXd(), "#0.00"));
 
-	    xd1TextField.setText(Num2Str.toStr(machData.getXd1(), "#0.0000"));
-	    xq1TextField.setText(Num2Str.toStr(machData.getXq1(), "#0.0000"));
-	    td01TextField.setText(Num2Str.toStr(machData.getTd01(), "#0.00"));
-	    tq01TextField.setText(Num2Str.toStr(machData.getTq01(), "#0.00"));
+	    xd1TextField.setText(Num2Str.toStr(machData.getXd1(), "#0.000"));
+	    xq1TextField.setText(Num2Str.toStr(machData.getXq1(), "#0.000"));
+	    td01TextField.setText(Num2Str.toStr(machData.getTd01(), "#0.000"));
+	    tq01TextField.setText(Num2Str.toStr(machData.getTq01(), "#0.000"));
 
 	    xd11TextField.setText(Num2Str.toStr(machData.getXd11(), "#0.0000"));
 	    xq11TextField.setText(Num2Str.toStr(machData.getXq11(), "#0.0000"));
-	    td011TextField.setText(Num2Str.toStr(machData.getTd011(), "#0.00"));
-	    tq011TextField.setText(Num2Str.toStr(machData.getTq011(), "#0.00"));
+	    td011TextField.setText(Num2Str.toStr(machData.getTd011(), "#0.0000"));
+	    tq011TextField.setText(Num2Str.toStr(machData.getTq011(), "#0.0000"));
 
-	    s100TextField.setText(Num2Str.toStr(machData.getS100(), "#0.000"));
-	    s120TextField.setText(Num2Str.toStr(machData.getS120(), "#0.000"));
-	    slinerTextField.setText(Num2Str.toStr(machData.getSliner(), "#0.000"));
+	    s100TextField.setText(Num2Str.toStr(machData.getS100(), "#0.0"));
+	    s120TextField.setText(Num2Str.toStr(machData.getS120(), "#0.0"));
+	    slinerTextField.setText(Num2Str.toStr(machData.getSliner(), "#0.0"));
 
 	    _groundPanel.setForm2Editor();
     	return true;
@@ -1255,26 +1260,31 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 
     private void salientPoleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_salientPoleRadioButtonActionPerformed
 		_data.getMachData().setType(DStabMachData.MachType_SalientPole);
+		InitDataUtil.initDStabMachineData(_data.getMachData());
 		setForm2Editor();
     }//GEN-LAST:event_salientPoleRadioButtonActionPerformed
 
     private void roundRotorRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_roundRotorRadioButtonActionPerformed
 		_data.getMachData().setType(DStabMachData.MachType_RoundRotor);
+		InitDataUtil.initDStabMachineData(_data.getMachData());
 		setForm2Editor();
     }//GEN-LAST:event_roundRotorRadioButtonActionPerformed
 
     private void eq1Ed1RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eq1Ed1RadioButtonActionPerformed
 		_data.getMachData().setType(DStabMachData.MachType_Eq1Ed1);
+		InitDataUtil.initDStabMachineData(_data.getMachData());
 		setForm2Editor();
     }//GEN-LAST:event_eq1Ed1RadioButtonActionPerformed
 
     private void eq1RadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eq1RadioButtonActionPerformed
 		_data.getMachData().setType(DStabMachData.MachType_Eq1);
+		InitDataUtil.initDStabMachineData(_data.getMachData());
 		setForm2Editor();
     }//GEN-LAST:event_eq1RadioButtonActionPerformed
 
     private void eConstantRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eConstantRadioButtonActionPerformed
 		_data.getMachData().setType(DStabMachData.MachType_EConst);
+		InitDataUtil.initDStabMachineData(_data.getMachData());
 		setForm2Editor();
     }//GEN-LAST:event_eConstantRadioButtonActionPerformed
     
