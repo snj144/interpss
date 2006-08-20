@@ -7,7 +7,6 @@ import java.util.MissingResourceException;
 
 import javax.swing.JOptionPane;
 
-
 import com.interpss.editor.resources.Translator;
 import com.interpss.editor.util.Utilities;
 
@@ -110,8 +109,8 @@ public class GPSessionParameters {
 			map = new Hashtable(10);
 		sessionParameters = map;
 		Translator.pushBundle(DEFAULT_PROPERTIES_FILE);// the minimal
-														// configuration of
-														// JGraphpad
+		// configuration of
+		// JGraphpad
 		this.applet = applet;
 		String[] values;
 		// translations if any:
