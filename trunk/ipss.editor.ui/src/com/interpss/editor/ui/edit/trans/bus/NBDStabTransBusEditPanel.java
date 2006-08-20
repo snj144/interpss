@@ -81,7 +81,10 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
     	if (_form.getDStabBusData().isMachineBus()) {
 			if (!dstabTabbedPane.isEnabledAt(1)) {
 				setMachTabbedPaneEnabled(true);
-		    	_machPanel.getDStabBusData().setMachData(new DStabMachData());
+		    	if (_machPanel.getDStabBusData().getMachData().getInertia() == 0.0 &&
+		    		_machPanel.getDStabBusData().getMachData().getRating() == 0.0) {
+		    		_machPanel.getDStabBusData().setMachData(new DStabMachData());
+		    	}
 			}
 	    	_machPanel.setForm2Editor();
 
