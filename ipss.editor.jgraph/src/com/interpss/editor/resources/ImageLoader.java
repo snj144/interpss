@@ -51,7 +51,6 @@ public final class ImageLoader {
 	 * @see #pushSearchPath
 	 */
 	static {
-//		pushSearchPath("/org/jgraph/pad/resources");
 		pushSearchPath("/com/interpss/editor/resources");
 		
 		
