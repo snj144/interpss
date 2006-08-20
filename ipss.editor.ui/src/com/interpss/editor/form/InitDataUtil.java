@@ -13,6 +13,7 @@ import com.interpss.editor.data.common.XfrConnectData;
 import com.interpss.editor.data.dist.DistBusData;
 import com.interpss.editor.data.dist.DistNetData;
 import com.interpss.editor.data.dstab.DStabControllerData;
+import com.interpss.editor.data.dstab.DStabMachData;
 import com.interpss.editor.data.dstab.DStabNetData;
 import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;
@@ -192,6 +193,104 @@ public class InitDataUtil {
   	public static void initDStabControllerData(DStabControllerData data, String typeName, Controller controller) {
   		data.setTypeName(typeName);
 		data.setDataXmlStr(controller.getDataXmlString());
+  	}
+
+  	public static void initDStabMachineData(DStabMachData machData) {
+  		if (machData.getType().equals(DStabMachData.MachType_InfiniteBus)) {
+  		}
+  		else if (machData.getType().equals(DStabMachData.MachType_EConst)) {
+			machData.setXd1(0.275);
+			machData.setX0(0.058);
+			machData.setX2(0.157);
+			machData.setRa(0.011);
+			
+			machData.setInertia(5.6);
+			machData.setDamping(6.0);
+  		}
+  		else if (machData.getType().equals(DStabMachData.MachType_Eq1)) {
+			machData.setXd(1.05);
+			machData.setXq(0.70);
+			machData.setXd1(0.35);
+			
+			machData.setXl(0.15);
+			machData.setX0(0.0825);
+			machData.setX2(0.25);
+			machData.setRa(0.011);
+			
+			machData.setTd01(5.25);
+			
+			machData.setInertia(3.0);
+			machData.setDamping(4.0);
+			machData.setSliner(80.0);
+			machData.setS100(107.0);
+			machData.setS120(118.0);
+  		}
+  		else if (machData.getType().equals(DStabMachData.MachType_Eq1Ed1)) {
+			machData.setXd(1.65);
+			machData.setXq(1.65);
+			machData.setXd1(0.275);
+			machData.setXq1(0.65);
+			
+			machData.setXl(0.15);
+			machData.setX0(0.058);
+			machData.setX2(0.157);
+			machData.setRa(0.00325);
+			
+			machData.setTd01(6.5);
+			machData.setTq01(1.25);
+			
+			machData.setInertia(5.6);
+			machData.setDamping(6.0);
+			machData.setSliner(80.0);
+			machData.setS100(107.0);
+			machData.setS120(118.0);
+  		}
+  		else if (machData.getType().equals(DStabMachData.MachType_SalientPole)) {
+			machData.setXd(1.05);
+			machData.setXq(0.70);
+			machData.setXd1(0.35);
+			machData.setXd11(0.25);
+			machData.setXq11(0.33);
+			
+			machData.setXl(0.15);
+			machData.setX0(0.0825);
+			machData.setX2(0.25);
+			machData.setRa(0.011);
+			
+			machData.setTd01(5.25);
+			machData.setTd011(0.03);
+			machData.setTq011(0.05);
+			
+			machData.setInertia(3.0);
+			machData.setDamping(4.0);
+			machData.setSliner(80.0);
+			machData.setS100(107.0);
+			machData.setS120(118.0);
+  		}
+  		else if (machData.getType().equals(DStabMachData.MachType_RoundRotor)) {
+			machData.setXd(1.65);
+			machData.setXq(1.65);
+			machData.setXd1(0.275);
+			machData.setXq1(0.65);
+			machData.setXd11(0.185);
+			machData.setXq11(0.185);
+			
+			machData.setXl(6.5);
+			machData.setX0(1.25);
+			machData.setX2(0.035);
+			machData.setRa(0.035);
+			
+			machData.setTd01(0.15);
+			machData.setTq01(0.058);
+			machData.setTd011(0.157);
+			machData.setTq011(0.00325);
+			
+			machData.setInertia(5.6);
+			machData.setDamping(6.0);
+			machData.setSliner(80.0);
+			machData.setS100(107.0);
+			machData.setS120(118.0);
+  		}
   	}
 
   	public static void setLastEntered_BusData(GBusForm form) {
