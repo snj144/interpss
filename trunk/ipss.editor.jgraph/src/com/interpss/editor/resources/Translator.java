@@ -118,6 +118,11 @@ public final class Translator {
 	 * 
 	 */
 	public static String getString(final int bundleIndex, final String sKey) {
+		
+		String bstr = BasicProperLoader.getString(sKey);
+		if (bstr!=null)
+			return bstr;
+		
 		if (bundleIndex < bundles.size() && bundleIndex >= 0) {
 			final ResourceBundle bundle = (ResourceBundle) bundles.get(bundleIndex);
 			try {
