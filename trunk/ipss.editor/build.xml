@@ -46,21 +46,20 @@
 	  		basedir="${dev_base}/ipss.editor.pad/runtime" 
 	  		excludes="CVS/**,model/**" />	
 
-	  <jar destfile="${ipss_base}/ipss_core.jar" 
-	  		basedir="${dev_base}/ipss.core_EMF/runtime" 
-	  		excludes="CVS/**,model/**" />	
-
-	  <jar destfile="${ipss_base}/ipss_dstab.jar" 
-	  		basedir="${dev_base}/ipss.dstab_EMF/runtime" 
-	  		excludes="CVS/**,model/**" />	
-
-  	  <jar destfile="${ipss_base}/ipss_dist.jar" 
-  	  		basedir="${dev_base}/ipss.dist_EMF/runtime" 
-  	  		excludes="CVS/**,model/**" />	
-
-   	  <jar destfile="${ipss_base}/ipss_simu.jar" 
-   	  		basedir="${dev_base}/ipss.simu_EMF/runtime" 
-   	  		excludes="CVS/**,model/**" />	
+   	  <jar destfile="${svn_lib}/ipss_core.jar">
+   	  		<fileset dir="${dev_base}/ipss.common/runtime" excludes="CVS/**,model/**" />	
+	  		<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
+    		<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
+  	  		<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
+   	  		<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
+	  </jar>		
+	  <jar destfile="${ipss_base}/ipss_core.jar">
+   	  		<fileset dir="${dev_base}/ipss.common/runtime" excludes="CVS/**,model/**" />	
+	  		<fileset dir="${dev_base}/ipss.core_EMF/runtime" excludes="CVS/**,model/**" />	
+    		<fileset dir="${dev_base}/ipss.dstab_EMF/runtime" excludes="CVS/**,model/**" />
+  	  		<fileset dir="${dev_base}/ipss.dist_EMF/runtime" excludes="CVS/**,model/**" />	
+   	  		<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
+	  </jar>	
 
    	  <jar destfile="${svn_lib}/ipss_control.jar" 
    	  		basedir="${dev_base}/ipss.dstab.control/bin" 
@@ -74,10 +73,6 @@
    	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_custom.jar" 
    	  		basedir="${dev_base}/ipss.custom/bin" 
-   	  		excludes="CVS/**,model/**" />	
-
-   	  <jar destfile="${ipss_base}/ipss_common.jar" 
-   	  		basedir="${dev_base}/ipss.common/runtime" 
    	  		excludes="CVS/**,model/**" />	
 
    	  <jar destfile="${svn_lib}/ipss_report.jar" 
