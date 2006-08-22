@@ -416,6 +416,60 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 	}
 
 	/**
+	*	Delete the branch object from the branch list
+	*
+	* @param form the branch form object to be copied
+	* @return true if the object has been deleted
+	*/	
+	public boolean deleteGBranchForm(IGBranchForm form) {
+		return deleteGBranchForm(form.getId());
+	}
+	
+	/**
+	*	Delete the branch object from the branch list
+	*
+	* @param branchid the branch id
+	* @return true if the object has been deleted
+	*/	
+	public boolean deleteGBranchForm(String branchid) {
+		for (int i = 0; i < getBranchFormList().size(); i++) {
+			IGBranchForm form = (IGBranchForm)getBranchFormList().get(i);
+			if (form.getId().equals(branchid)) {
+				getBranchFormList().remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	*	Delete the bus object from the branch list
+	*
+	* @param form the bus form object to be copied
+	* @return true if the object has been deleted
+	*/	
+	public boolean deleteGBusForm(IGBusForm form) {
+		return deleteGBusForm(form.getId());
+	}
+	
+	/**
+	*	Delete the bus object from the bus list
+	*
+	* @param busid the bus id
+	* @return true if the object has been deleted
+	*/	
+	public boolean deleteGBusForm(String busid) {
+		for (int i = 0; i < getBusFormList().size(); i++) {
+			IGBusForm form = (IGBusForm)getBusFormList().get(i);
+			if (form.getId().equals(busid)) {
+				getBusFormList().remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	*	Convert the net to a string for display purpose, including bus and branch
 	*
 	* @return the string representation
