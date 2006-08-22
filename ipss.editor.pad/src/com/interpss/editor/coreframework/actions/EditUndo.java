@@ -49,8 +49,10 @@ public class EditUndo extends IpssAbstractGraphAction {
 	}
 
 	public void update() {
-		Enumeration e_num = menuItems.elements();
+		setEnabled(false);
 
+		/* function currently not implemented
+		Enumeration e_num = menuItems.elements();
 		while (e_num.hasMoreElements()) {
 			JMenuItem item = (JMenuItem) e_num.nextElement();
 			if (getCurrentDocument() != null &&
@@ -63,18 +65,20 @@ public class EditUndo extends IpssAbstractGraphAction {
 				item.setText(Translator.getString("Component.EditUndo.Text"));
 			}
 		}
+		*/
 	}
 
 	/**
 	 * @see org.jgraph.pad.actions.IpssAbstractGraphAction#getMenuComponent(String)
 	 */
+	/* function currently not implemented
 	protected Component getMenuComponent(String actionCommand) {
 		JMenuItem item = new JMenuItem(this);
 
 		GPBarFactory.fillMenuButton(item, getName(), actionCommand);
 
-		menuItems.add(item);
+		menuItems.add(item); 
 		return item;
 	}
-
+    */
 }

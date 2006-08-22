@@ -48,6 +48,8 @@ public class EditRedo extends IpssAbstractGraphAction {
 	}
 
 	public void update() {
+		setEnabled(false);
+		/* function currently not implemented
 		Enumeration e_num = menuItems.elements();
 
 		while(e_num.hasMoreElements()){
@@ -62,11 +64,13 @@ public class EditRedo extends IpssAbstractGraphAction {
 				item.setText(Translator.getString("Component.EditRedo.Text"));
 			}
 		}
+		*/
 	}
 
 	/**
 	 * @see org.jgraph.pad.actions.IpssAbstractGraphAction#getMenuComponent(String)
 	 */
+	/* function currently not implemented
 	protected Component getMenuComponent(String actionCommand) {
 		JMenuItem item = new JMenuItem(this);
 
@@ -78,5 +82,5 @@ public class EditRedo extends IpssAbstractGraphAction {
 		menuItems.add(item);
 		return item;
 	}
-
+    */
 }
