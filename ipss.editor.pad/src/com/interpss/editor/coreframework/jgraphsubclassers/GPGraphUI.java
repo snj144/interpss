@@ -97,7 +97,7 @@ public class GPGraphUI extends BasicGraphUI {
 				Map viewAttributes, Rectangle2D bounds, ConnectionSet cs,
 				ParentMap pm) {
 			ByteArrayOutputStream output = new ByteArrayOutputStream();
-			document.getJGraphpadCEFile().saveFile(output);
+			//document.getJGraphpadCEFile().saveFile(output);
 			// String gxl = JGraphGXLCodec.encode(graph, cells);
 			return new GPTransferable(output.toString(), cells, viewAttributes,
 					bounds, cs, pm);
