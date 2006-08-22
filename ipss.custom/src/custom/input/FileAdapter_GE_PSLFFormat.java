@@ -5,7 +5,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapterBase;
 
-public class FileAdapter_GE_PSLF extends IpssFileAdapterBase {
+public class FileAdapter_GE_PSLFFormat extends IpssFileAdapterBase {
 
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
