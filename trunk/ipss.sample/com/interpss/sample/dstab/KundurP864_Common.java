@@ -146,7 +146,7 @@ public class KundurP864_Common {
 		mach1.setRating(2220, "Mva", net.getBaseKva());
 		mach1.setRatedVoltage(24000.0);
 		mach1.setMultiFactors();
-		mach1.setInertia(3.5);
+		mach1.setH(3.5);
 		mach1.setXd(1.81);
 		mach1.setXq(1.76);
 		mach1.setXl(0.14);
