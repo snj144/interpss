@@ -13,8 +13,9 @@ import org.jgraph.graph.DefaultGraphModel;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.editor.coreframework.GPUserObject;
-import com.interpss.editor.data.proj.ProjData;
 import com.interpss.editor.jgraph.ui.IIpssGraphModel;
+import com.interpss.editor.jgraph.ui.form.IGBranchForm;
+import com.interpss.editor.jgraph.ui.form.IGBusForm;
 import com.interpss.editor.jgraph.ui.form.IGFormContainer;
 import com.interpss.editor.util.ICellBuisnessObject;
 
@@ -49,6 +50,12 @@ public class GPGraphModel extends DefaultGraphModel implements IIpssGraphModel {
 	protected Object cloneUserObject(Object userObject) {
 		if (userObject instanceof ICellBuisnessObject)
 			return ((ICellBuisnessObject) userObject).clone();
+		else if (userObject instanceof IGBusForm) {
+			return _netContainer.createGBusForm((IGBusForm)userObject);
+		}
+		else if (userObject instanceof IGBranchForm) {
+			return _netContainer.createGBranchForm((IGBranchForm)userObject);
+		}
 		return super.cloneUserObject(userObject);
 	}
 
