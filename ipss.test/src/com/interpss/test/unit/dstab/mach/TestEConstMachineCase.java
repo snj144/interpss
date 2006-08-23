@@ -74,8 +74,8 @@ public class TestEConstMachineCase extends TestSetupBase {
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
 		mach.setMultiFactors();
-		mach.setInertia(5.0);
-		mach.setDamping(0.01);
+		mach.setH(5.0);
+		mach.setD(0.01);
 		mach.setXd1(0.3);
 		return mach;
 	}	
