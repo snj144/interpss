@@ -50,6 +50,7 @@ public class GBranchForm extends BaseBranchForm implements IGBranchForm, java.io
 	* @return the clone
 	*/
     public Object clone() {
+		XmlUtil.ToolKid = XmlUtil.TOOL_JDK;
 		String xml = XmlUtil.toXmlString(this);
 		GBranchForm form = (GBranchForm)XmlUtil.toObject(xml);
 		form.rebuildRelation();
