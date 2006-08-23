@@ -25,6 +25,10 @@ import java.awt.event.ActionEvent;
 import org.jgraph.graph.DefaultGraphModel;
 
 import com.interpss.editor.coreframework.IpssAbstractGraphAction;
+import com.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel;
+import com.interpss.editor.jgraph.cells.BranchEdge;
+import com.interpss.editor.jgraph.cells.BusCell;
+import com.interpss.editor.jgraph.ui.form.IGFormContainer;
 
 
 public class EditDelete extends IpssAbstractGraphAction {
@@ -37,6 +41,18 @@ public class EditDelete extends IpssAbstractGraphAction {
 			
 			if (cells != null) {
 				cells =	DefaultGraphModel.getDescendants(getCurrentGraph().getModel(), cells).toArray();
+				for (int i = 0; i < cells.length; i++) {
+					if (cells[i] instanceof BusCell) {
+						IGFormContainer container = ((GPGraphModel) (getCurrentGraph().getModel())).getGFormContainer();
+						BusCell cell = (BusCell)cells[i];
+						container.removeBusForm((cell.getBusForm()).getId());
+					}
+					else if (cells[i] instanceof BranchEdge) {
+						IGFormContainer container = ((GPGraphModel) (getCurrentGraph().getModel())).getGFormContainer();
+						BranchEdge edge = (BranchEdge)cells[i];
+						container.removeBusForm(edge.getBranchForm().getId());
+					}
+				}
 				getCurrentGraph().getModel().remove(cells);
 			}
 	}

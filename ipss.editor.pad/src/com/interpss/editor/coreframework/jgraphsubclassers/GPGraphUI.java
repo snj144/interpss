@@ -96,10 +96,10 @@ public class GPGraphUI extends BasicGraphUI {
 		protected GraphTransferable create(JGraph graph, Object[] cells,
 				Map viewAttributes, Rectangle2D bounds, ConnectionSet cs,
 				ParentMap pm) {
-			ByteArrayOutputStream output = new ByteArrayOutputStream();
+			//ByteArrayOutputStream output = new ByteArrayOutputStream();
 			//document.getJGraphpadCEFile().saveFile(output);
 			// String gxl = JGraphGXLCodec.encode(graph, cells);
-			return new GPTransferable(output.toString(), cells, viewAttributes,
+			return new GPTransferable(null, cells, viewAttributes,
 					bounds, cs, pm);
 		}
 
