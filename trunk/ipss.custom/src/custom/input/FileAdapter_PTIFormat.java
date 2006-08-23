@@ -7,10 +7,34 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.*;
 
+import org.apache.commons.math.complex.Complex;
+
+import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.LimitType;
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBranchCode;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfGenCode;
+import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.LineAdapter;
+import com.interpss.core.aclf.LoadBusAdapter;
+import com.interpss.core.aclf.PQBusAdapter;
+import com.interpss.core.aclf.PSXfrAdapter;
+import com.interpss.core.aclf.PVBusAdapter;
+import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.PQBusLimit;
+import com.interpss.core.aclfadj.PSXfrPControl;
+import com.interpss.core.aclfadj.PVBusLimit;
+import com.interpss.core.aclfadj.RemoteQBus;
+import com.interpss.core.aclfadj.RemoteQControlType;
+import com.interpss.core.aclfadj.TapControl;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -64,7 +88,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
-		throw new InvalidOperationException("FileAdapter_IpssInternalFormat.save not implemented");
+		throw new InvalidOperationException("FileAdapter_PTIFormat.save not implemented");
 	}
 	
 	/** 
@@ -73,7 +97,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @param din input file stream
 	 * @param msgHub the message hub object
 	 */
-	public static AclfAdjNetwork loadFile(
+	private AclfAdjNetwork loadFile(
 				java.io.BufferedReader din, 
 				IPSSMsgHub msgHub) throws Exception {
   		AclfAdjNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
@@ -159,32 +183,51 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	}
 	
 	/** 
-	 * Process the first three header lines
+	 * Process the first three header line records
 	 *
 	 * @param adjNet the AclfAdjNetwork object
 	 * @param lineStr a input line string
 	 * @param lineNo the line number
 	 * @param msgHub the message hub object
 	 */
-	private static void processHeader(
+	private void processHeader(
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
-		System.out.println("Header data Line:" + lineNo + " " + lineStr);
+				IPSSMsgHub msg) throws Exception {
+		IpssLogger.getLogger().fine("Header data Line:" + lineNo + " " + lineStr);
 		if (lineNo == 1) {
   			StringTokenizer st = new StringTokenizer(lineStr);
     		int indicator = new Integer(st.nextToken()).intValue();
+    		if (indicator != 0) {
+    			// we will implement this in the future.
+    			throw new Exception("Only base case has been implmented");
+    		}
+    		
     		double baseMVA = new Double(st.nextToken()).doubleValue();
 			adjNet.setBaseKva(baseMVA*1000.0);
+			
+			// PSS/E do not have ground branch concept
+			adjNet.setAllowGroundBranch(false);
+			
+			// PSS/E allow parallel branches
+			adjNet.setAllowParallelBranch(true);
+			
+			// We check if there is any Bus number or branch duplication. Branch dupblication defined as
+			// branches with same circuit id connected between the same from bus and to bus.
+			adjNet.setCheckElementDuplication(true);
+
+			// Base Frequency is not used in loadflow calculation, dedined as 60.0 Hz
+			adjNet.setFrequency(60.0);
 		}
 		else if (lineNo == 2) {
-			// this line is treated as description
+			// The 2nd line is treated as description
 			adjNet.setDesc(lineStr);
 		}
 		else {
-			// this line is treated as casename
+			// the 3rd line is treated as the network id and network name
 			adjNet.setId(lineStr);
+			adjNet.setName(lineStr);
 		}
 	}			
 
@@ -196,11 +239,11 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @param lineNo the line number
 	 * @param msgHub the message hub object
 	 */
-	private static void processBus(
+	private void processBus(
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
+				IPSSMsgHub msg) throws Exception {
 /*
 		1 1   90.000   49.000    0.000    0.000   1 1.02691    6.5238 ' 1      ' 115.00   1
 		I,IDE,PL,QL,GL,BL,IA,VM,VA,'NAME',BASKL,ZONE
@@ -239,13 +282,52 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		double BASKV = new Double(st.nextToken()).doubleValue();
 		int ZONE = new Integer(st.nextToken()).intValue();
 
-		/*
-		System.out.println("Bus data Line:" + lineNo + " " + lineStr);
-		System.out.println("Bus number, type, name:" + I + ", " + IDE + ", " + NAME);
-		System.out.println("Area, Zone:" + AREA + ", " + ZONE);
-		System.out.println("baseKV, Vm, Va:" + BASKV + ", " + VM + ", " + VA);
-		System.out.println("Pl, Ql, Gl, Bl:" + PL + ", " + QL + ", " + GL + ", " + BL);
-		*/
+		IpssLogger.getLogger().fine("Bus data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("Bus number, type, name:" + I + ", " + IDE + ", " + NAME);
+		IpssLogger.getLogger().fine("Area, Zone:" + IA + ", " + ZONE);
+		IpssLogger.getLogger().fine("baseKV, Vm, Va:" + BASKV + ", " + VM + ", " + VA);
+		IpssLogger.getLogger().fine("Pl, Ql, Gl, Bl:" + PL + ", " + QL + ", " + GL + ", " + BL);
+
+		final AclfBus bus = CoreObjectFactory.createAclfBus(new Integer(I).toString(), IA, ZONE, adjNet);
+      	bus.setName(NAME);
+    	bus.setBaseVoltage(BASKV, UnitType.kV);
+    	double factor = 1000.0/adjNet.getBaseKva();  // for transfer G+jB PU on system base 
+    	bus.setShuntY(new Complex(GL*factor,BL*factor));
+      	
+    	// add the bus object into the network container
+    	adjNet.addBus(bus);
+
+    	// set input data to the bus object
+      	if ( IDE == 3 ) {
+      		// Swing bus
+   		 	bus.setGenCode(AclfGenCode.SWING_LITERAL);
+   		 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+  			gen.setVoltMag(VM, UnitType.PU);
+  			gen.setVoltAng(VA, UnitType.Deg);
+  			gen.setLoad(new Complex(PL, QL), UnitType.mVA, adjNet.getBaseKva());
+    	}
+    	else if ( IDE == 2 ) {
+    		// Gen bus, we first set it to a PQ bus. It will be adjusted in the 
+    		// Generator data section.
+    		bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
+    		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+   			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
+  			gen.setLoad(new Complex(PL, QL), UnitType.mVA, adjNet.getBaseKva());
+    	}
+    	else if ( IDE == 1 ) {
+    		// Non-gen load bus
+   		 	bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
+   		 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+  			final LoadBusAdapter load = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
+  			load.setLoad(new Complex(PL, QL), UnitType.mVA, adjNet.getBaseKva());
+    	}
+    	else {
+    		// Isolated bus, an isolated bus will not participate in Loadflow calculaiton
+    		bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
+    		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+    		bus.setStatus(false);
+    	}
 	}			
 	
 	/** 
@@ -256,11 +338,11 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @param lineNo the line number
 	 * @param msgHub the message hub object
 	 */
-	private static void processGen(
+	private void processGen(
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
+				IPSSMsgHub msg) throws Exception {
 /*
 		I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB
 
@@ -304,7 +386,11 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		double PT = new Double(st.nextToken()).doubleValue();
 		double PB = new Double(st.nextToken()).doubleValue();
 
-		System.out.println("Gen data Line:" + lineNo + " " + lineStr);
+		IpssLogger.getLogger().info("Gen data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().info("Bus number, Machid:" + I + ", " + ID);
+		IpssLogger.getLogger().info("PG, QG, Qmax, Qmin, Vspec:" + PG + ", " + QG + ", " + QT + ", " + QB + ", " + VS);
+		IpssLogger.getLogger().info("Ireg, MvaBase, Zr, Zx, Rt, Xt:" + IREG + ", " + MBASE + ", " + ZR + ", " + ZX + ", " + RT + ", " + XT);
+		IpssLogger.getLogger().info("Gtap, RegMar%, Pmax, Pmin:" + GTAP + ", " + STAT + ", " + RMPCT + ", " + PT + ", " + PB);
 	}			
 	
 	/** 
@@ -315,11 +401,11 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @param lineNo the line number
 	 * @param msgHub the message hub object
 	 */
-	private static void processBranch(
+	private void processBranch(
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
+				IPSSMsgHub msg) throws Exception {
 /*
 		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST
 
@@ -337,6 +423,13 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		GJ,BJ - Line shunt complex admittance for shunt at to end (J) bus, pu.
 		ST - Initial branch status, 1 - in service, 0 - out of service
 */
+		if (lineStr.contains(",")) {
+			if (lineStr.contains(",,,")) {
+				lineStr = lineStr.replace(",,,", " 0.0        0.0");
+				IpssLogger.getLogger().info("',,,' has been replaced by  '0.0        0.0'");
+			}
+		}
+		
   		StringTokenizer st = new StringTokenizer(lineStr);
 		int I  = new Integer(st.nextToken()).intValue();
 		int J  = new Integer(st.nextToken()).intValue();
@@ -355,7 +448,49 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		double BJ = new Double(st.nextToken()).doubleValue();
 		int ST  = new Integer(st.nextToken()).intValue();
 
-		System.out.println("Branch data Line:" + lineNo + " " + lineStr);
+		IpssLogger.getLogger().fine("Branch data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("From Bus number, To Bus Number, Circuit id:" + I + ", " + J + ", " + CKT);
+		IpssLogger.getLogger().fine("R, X, B, Ratio, Angle:" + R + ", " + X + ", " + B + ", " + RATIO + ", " + ANGLE);
+		IpssLogger.getLogger().fine("RATEA, RATEB, RATEC:" + RATEA + ", " + RATEB + ", " + RATEC);
+		IpssLogger.getLogger().fine("GI, BI, GJ, BJ, ST:" + GI + ", " + BI + ", " + GJ + ", " + BJ + ", " + ST);
+		
+    	// create an AclfBranch object
+		// No branch areaNo and zoneNo concept in PSS/E, so set them to 0, 0
+      	final AclfBranch bra = CoreObjectFactory.createAclfBranch(0, 0, CKT, adjNet);
+      	bra.setStatus(ST==1);
+      	bra.setFromShuntY(new Complex(GI,BI));
+      	bra.setToShuntY(new Complex(GJ,BJ));
+      	
+      	// add the object into the network container
+      	if (J < 0) {
+      		// do something???? 
+      		J = -J;
+      	}
+      	adjNet.addBranch(bra, new Integer(I).toString(), new Integer(J).toString());
+      	
+      	// it is asummed that if ratio is not defined or = 0.0, the branch is a Line
+      	if (RATIO == 0.0) {
+      		// Line branch
+        	bra.setBranchCode(AclfBranchCode.LINE_LITERAL);
+    		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
+        	line.getAclfBranch().setZ(new Complex(R,X), msg);
+        	// Unit is PU, no need to enter baseV
+        	line.setHShuntY(new Complex(0.0,0.5*B), UnitType.PU, 1.0, adjNet.getBaseKva()); 
+      	}
+      	else {
+      		// Xformer or PSXformer branch
+    	 	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+    		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
+        	xfr.getAclfBranch().setZ(new Complex(R,X), msg);
+        	xfr.setFromTurnRatio(1.0, UnitType.PU);
+        	xfr.setToTurnRatio(RATIO, UnitType.PU); 
+        	if (ANGLE != 0.0) {
+        		// PhaseShifting transformer branch
+        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
+        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
+        		psXfr.setAngle(ANGLE*Constants.DtoR);
+        	}
+      	}
 	}			
 
 	/** 
@@ -366,7 +501,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @param lineNo the line number
 	 * @param msgHub the message hub object
 	 */
-	private static void processXfrAdjust(
+	private void processXfrAdjust(
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
@@ -400,7 +535,10 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		double STEP = new Double(st.nextToken()).doubleValue();
 		int TABLE = new Integer(st.nextToken()).intValue();
 
-		System.out.println("Xfr Adj data Line:" + lineNo + " " + lineStr);
+		IpssLogger.getLogger().info("Xfr Adj data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().info("From Bus number, To Bus Number, Circuit id:" + I + ", " + J + ", " + CKT);
+		IpssLogger.getLogger().info("Icont, Rmax, Rmin, Vmax, Vmin, Step:" + ICONT + ", " + RMA + ", " 
+				+ RMI + ", " + VMA + ", " + VMI + ", " + STEP);
 	}			
 	
 	/** 
@@ -411,7 +549,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @param lineNo the line number
 	 * @param msgHub the message hub object
 	 */
-	private static void processAreaInterchange(
+	private void processAreaInterchange(
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
@@ -433,7 +571,9 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		double PTOL = new Double(st.nextToken()).doubleValue();
 		String ARNAM = lineStr.substring(lineStr.indexOf('\'')+1, lineStr.lastIndexOf('\''));				
 
-		System.out.println("Area interchange data Line:" + lineNo + " " + lineStr);
+		IpssLogger.getLogger().info("Area interchange data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().info("Area number, Swing Bus Number:" + I + ", " + ISW);
+		IpssLogger.getLogger().info("Pspec, Perror, Name:" + PDES + ", " + PTOL + ", "  + ARNAM);
 	}			
 	
 	/** 
@@ -444,7 +584,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @param lineNo the line number
 	 * @param msgHub the message hub object
 	 */
-	private static void processDCLine(
+	private void processDCLine(
 				AclfAdjNetwork adjNet, 
 				String lineStr1,
 				String lineStr2,
@@ -494,7 +634,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		double DELTI = new Double(st.nextToken()).doubleValue();
 		String METER = st.nextToken();
 
-		System.out.println("DC Line data Line:" + (lineNo-2) + " " + lineStr1);
+		IpssLogger.getLogger().info("DC Line data Line1:" + (lineNo-2) + "-->" + lineStr1);
 
   		st = new StringTokenizer(lineStr2);
 		int IPR = new Integer(st.nextToken()).intValue();
@@ -510,7 +650,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		double TPMNR = new Double(st.nextToken()).doubleValue();
 		double TSTPR = new Double(st.nextToken()).doubleValue();
 
-		System.out.println("DC Line data Line:" + (lineNo-1) + " " + lineStr2);
+		IpssLogger.getLogger().info("DC Line data Line2:" + (lineNo-1) + "-->" + lineStr2);
 
   		st = new StringTokenizer(lineStr3);
 		IPR = new Integer(st.nextToken()).intValue();
@@ -526,10 +666,10 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		TPMNR = new Double(st.nextToken()).doubleValue();
 		TSTPR = new Double(st.nextToken()).doubleValue();
 
-		System.out.println("DC Line data Line:" + lineNo + " " + lineStr3);
+		IpssLogger.getLogger().info("DC Line data Line3:" + lineNo + "-->" + lineStr3);
 	}			
 
-	private static void processSwitchedShunt(
+	private void processSwitchedShunt(
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
@@ -574,7 +714,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		int N8     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
 		double B8  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
 
-		System.out.println("Switched shunt data Line:" + lineNo + " " + lineStr);
+		IpssLogger.getLogger().info("Switched shunt data Line:" + lineNo + " " + lineStr);
 	}			
 
 	/**
@@ -583,7 +723,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 *
 	 * @param str a input data line string
 	 */
-	private static boolean isEndRecLine(String str) {
+	private boolean isEndRecLine(String str) {
 		return ("0").equals(str.trim());
 	}
 }
