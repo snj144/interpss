@@ -244,7 +244,7 @@ public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
       				baseHz + "," + l + "," + r + "," + x + "," + b + "," + imax + "," + pmax + "," + smax);
       	}	
       	
-      	AclfBranch bra = CoreObjectFactory.createAclfBranch(0, 0, 1, adjNet);
+      	AclfBranch bra = CoreObjectFactory.createAclfBranch(1, adjNet);
       	
       	// add the object into the network container
       	adjNet.addBranch(bra, new Integer(fromBusNumber).toString(), new Integer(toBusNumber).toString());    	
