@@ -18,6 +18,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
+import com.interpss.core.aclf.AclfBranchExt;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -29,12 +30,14 @@ import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.AreaInterchangeController;
 import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
+import com.interpss.core.net.Network;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -455,9 +458,12 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		IpssLogger.getLogger().fine("GI, BI, GJ, BJ, ST:" + GI + ", " + BI + ", " + GJ + ", " + BJ + ", " + ST);
 		
     	// create an AclfBranch object
-		// No branch areaNo and zoneNo concept in PSS/E, so set them to 0, 0
-      	final AclfBranch bra = CoreObjectFactory.createAclfBranch(0, 0, CKT, adjNet);
+		// also we need to use AclfBranchExt to hold the extra rating fields
+      	final AclfBranchExt bra = CoreObjectFactory.createAclfBranchExt(CKT, adjNet);
       	bra.setStatus(ST==1);
+      	bra.setRatingMva1(RATEA);
+      	bra.setRatingMva2(RATEA);
+      	bra.setRatingMva3(RATEB);
       	bra.setFromShuntY(new Complex(GI,BI));
       	bra.setToShuntY(new Complex(GJ,BJ));
       	
@@ -571,9 +577,18 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		double PTOL = new Double(st.nextToken()).doubleValue();
 		String ARNAM = lineStr.substring(lineStr.indexOf('\'')+1, lineStr.lastIndexOf('\''));				
 
-		IpssLogger.getLogger().info("Area interchange data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().info("Area number, Swing Bus Number:" + I + ", " + ISW);
-		IpssLogger.getLogger().info("Pspec, Perror, Name:" + PDES + ", " + PTOL + ", "  + ARNAM);
+		IpssLogger.getLogger().fine("Area interchange data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("Area number, Swing Bus Number:" + I + ", " + ISW);
+		IpssLogger.getLogger().fine("Pspec, Perror, Name:" + PDES + ", " + PTOL + ", "  + ARNAM);
+		
+		AreaInterchangeController controller = CoreObjectFactory.createAreaInterchangeController(I, ARNAM, adjNet);
+		AclfBus bus = adjNet.getAclfBus(new Integer(ISW).toString());
+		if (bus == null) {
+			throw new Exception("Area interchange poewr controller, Swing bus not found, ISW: " + ISW);
+		}
+		controller.setAclfBus(bus);
+		controller.setPSpecOut(PDES);
+		controller.setTolerance(PTOL);
 	}			
 	
 	/** 
