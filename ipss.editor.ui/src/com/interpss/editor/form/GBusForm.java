@@ -53,6 +53,7 @@ public class GBusForm extends BaseBusForm implements IGBusForm, java.io.Serializ
     }
     
     public Object clone() {
+		XmlUtil.ToolKid = XmlUtil.TOOL_JDK;
 		String xml = XmlUtil.toXmlString(this);
 		GBusForm form = (GBusForm)XmlUtil.toObject(xml);
 		form.rebuildRelation();

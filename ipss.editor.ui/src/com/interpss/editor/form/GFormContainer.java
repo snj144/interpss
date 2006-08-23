@@ -375,8 +375,9 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 	public IGBusForm createGBusForm(IGBusForm form) {
 		IGBusForm newForm = (IGBusForm)form.clone();
 		newForm.setId(getDefaultBusId());
-		form.setName("Bus-"+ new Integer(form.getId()).toString());
+		newForm.setName("Bus-"+ new Integer(newForm.getId()).toString());
 		getBusFormList().add(newForm);
+		IpssLogger.getLogger().info("Bus created and added to GFormContainer, id:" + newForm.getId());
 		return newForm;
 	}
 
@@ -412,6 +413,7 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 		newForm.setId("branchid");
 		newForm.setBranchNumber(getDefaultBranchId());
 		getBranchFormList().add(newForm);
+		IpssLogger.getLogger().info("Branch created and added to GFormContainer, id:" + newForm.getId());
 		return newForm;
 	}
 
@@ -435,6 +437,7 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 		for (int i = 0; i < getBranchFormList().size(); i++) {
 			IGBranchForm form = (IGBranchForm)getBranchFormList().get(i);
 			if (form.getId().equals(branchid)) {
+				IpssLogger.getLogger().info("Branch removed from GFormContainer, id:" + form.getId());
 				getBranchFormList().remove(i);
 				return true;
 			}
@@ -462,6 +465,7 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 		for (int i = 0; i < getBusFormList().size(); i++) {
 			IGBusForm form = (IGBusForm)getBusFormList().get(i);
 			if (form.getId().equals(busid)) {
+				IpssLogger.getLogger().info("Bus removed from GFormContainer, id:" + form.getId());
 				getBusFormList().remove(i);
 				return true;
 			}
