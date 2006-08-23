@@ -37,5 +37,4 @@ public class EditPaste extends IpssAbstractGraphAction {
 						.getActionCommand()));
 		getCurrentGraph().startEditingAtCell(getCurrentGraph().getSelectionCell());
 	}
-
 }
