@@ -587,8 +587,8 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			throw new Exception("Area interchange poewr controller, Swing bus not found, ISW: " + ISW);
 		}
 		controller.setAclfBus(bus);
-		controller.setPSpecOut(PDES);
-		controller.setTolerance(PTOL);
+		controller.setPSpecOut(PDES, UnitType.mW, adjNet.getBaseKva());
+		controller.setTolerance(PTOL, UnitType.mW, adjNet.getBaseKva());
 	}			
 	
 	/** 
