@@ -5,13 +5,14 @@ import org.apache.commons.math.complex.Complex;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.*;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.util.outfunc.AcscOut;
 import com.interpss.core.util.sample.SampleCases;
 import com.interpss.test.unit.TestBaseAppCtx;
 
@@ -28,10 +29,13 @@ public class TestSample extends TestBaseAppCtx {
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
-  		//System.out.println(net.net2String());
+  		System.out.println(net.net2String());
 	  	
   		assertEquals(true, net.isLfConverged());
   		
+  		//System.out.println("Area1 output power: " + net.areaOutputPower(1, UnitType.PU));
+  		assertEquals(true, Math.abs(net.areaOutputPower(1, UnitType.PU)-1.28164)<0.0001);
+
   		AclfBus swingBus = (AclfBus)net.getBus("5");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()));
@@ -65,7 +69,7 @@ public class TestSample extends TestBaseAppCtx {
 		 */
 		assertEquals(true, compare(fault.getFaultResult().getSCCurrent_012(), 0.0, 0.0, 0.0, 32.57143, 0.0, 0.0) );
 		
-		System.out.println(AcscOut.faultResult2String(faultNet));
+		//System.out.println(AcscOut.faultResult2String(faultNet));
 		
 		System.out.println("End TestSample.testCase2()");
 	}
