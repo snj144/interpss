@@ -215,6 +215,6 @@ public class AclfBuildFixture extends AclfFixture {
 		xfr.setZ(new Complex(r,x), UnitType.PU, baseV, simuCtx.getAclfNet().getBaseKva(), msg);
 		xfr.setFromTurnRatio(fromRatio, UnitType.PU);
 		xfr.setToTurnRatio(toRatio, UnitType.PU);	
-		xfr.setAngle(angle, UnitType.Deg);
+		xfr.setFromAngle(angle, UnitType.Deg);
 	}
 }
