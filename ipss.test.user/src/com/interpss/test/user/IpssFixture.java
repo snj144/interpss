@@ -36,7 +36,7 @@ public class IpssFixture extends ColumnFixture {
 	public static String busId;
 	public static String branchFromBusId;
 	public static String branchToBusId;
-	public static int branchCircuitNumber = 1;
+	public static String branchCircuitNumber = "1";
 	
 	public IpssFixture() {
 		if (SpringAppContext.SpringAppCtx == null) {
@@ -121,7 +121,7 @@ public class IpssFixture extends ColumnFixture {
 	}	
 
 	protected String getBranchId() {
-		return NetUtilFunc.formBranchID(branchFromBusId, branchToBusId, 1);
+		return NetUtilFunc.formBranchID(branchFromBusId, branchToBusId, "1");
 	}
 
 	public void setBaseKva(double kva) {

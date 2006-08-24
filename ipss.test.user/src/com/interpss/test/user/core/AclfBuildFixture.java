@@ -166,7 +166,7 @@ public class AclfBuildFixture extends AclfFixture {
 		double halfB = new Double(st.nextToken()).doubleValue();
 		
 		AclfBranch branch = CoreObjectFactory.createAclfBranch();
-  		branch.setAttributes(branchFromBusId+"->"+branchToBusId, "", 1);
+  		branch.setAttributes(branchFromBusId+"->"+branchToBusId, "", "1");
   		branch.setBranchCode(AclfBranchCode.LINE_LITERAL);
 		LineAdapter lineBranch = (LineAdapter)branch.adapt(LineAdapter.class);
   		lineBranch.setZ(new Complex(r, x), UnitType.PU, 4000.0, simuCtx.getAclfNet().getBaseKva(), msg);
