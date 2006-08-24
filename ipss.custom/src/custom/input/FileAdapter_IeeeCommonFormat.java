@@ -538,7 +538,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
         		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
-        		psXfr.setAngle(angle*Constants.DtoR);
+        		psXfr.setFromAngle(angle*Constants.DtoR);
         	}
         	
           	if (type == 2) {

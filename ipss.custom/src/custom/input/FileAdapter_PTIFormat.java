@@ -484,7 +484,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
         		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
-        		psXfr.setAngle(ANGLE*Constants.DtoR);
+        		psXfr.setFromAngle(ANGLE*Constants.DtoR);
         	}
       	}
 	}			
