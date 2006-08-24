@@ -515,7 +515,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
     	}
 
     	// create an AclfBranch object
-      	final AclfBranch bra = CoreObjectFactory.createAclfBranch(areaNo, zoneNo, cirNo, net);
+      	final AclfBranch bra = CoreObjectFactory.createAclfBranch(areaNo, zoneNo, new Integer(cirNo).toString(), net);
       	
       	// add the object into the network container
       	net.addBranch(bra, fid, tid);    	
@@ -764,7 +764,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 //      Column   21     Circuit number
       	final int cirNo = new Integer(strAry[4]).intValue();
       	
-      	net.addTieLine(meteredBusId, meteredAreaNo, nonMeteredBusId, nonMeteredAreaNo, cirNo);
+      	net.addTieLine(meteredBusId, meteredAreaNo, nonMeteredBusId, nonMeteredAreaNo, new Integer(cirNo).toString());
     }
         
     private static String[] getTielineDataFields(final String str) {

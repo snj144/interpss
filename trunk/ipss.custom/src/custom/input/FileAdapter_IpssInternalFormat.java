@@ -384,12 +384,12 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
       	final java.util.StringTokenizer st =
          		new java.util.StringTokenizer(str);
       	String fid=null, tid=null;
-    	int cirNo=1;
+    	String cirNo="1";
       	double t=0.0;
       	while (st.hasMoreTokens()) {
         	fid = st.nextToken();
         	tid = st.nextToken();
-        	cirNo = new Integer(st.nextToken()).intValue();
+        	cirNo = st.nextToken();
         	t     = new Double(st.nextToken()).doubleValue();
         	if (st.hasMoreTokens()) {
 				throw new InvalidInputException("AclfDataFile.loadXformerInfo_1, XformerInfo str wrong");
