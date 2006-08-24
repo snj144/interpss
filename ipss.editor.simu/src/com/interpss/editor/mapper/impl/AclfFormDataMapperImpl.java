@@ -410,7 +410,7 @@ public class AclfFormDataMapperImpl {
 		AclfBranchData data = formBranch.getAcscBranchData();
 		branch.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
 		PSXfrAdapter psXfr = (PSXfrAdapter)branch.adapt(PSXfrAdapter.class);
-		psXfr.setAngle(data.getPhaseShiftAngle(), UnitType.toUnit(data.getPhaseShiftAngleUnit()));
+		psXfr.setFromAngle(data.getPhaseShiftAngle(), UnitType.toUnit(data.getPhaseShiftAngleUnit()));
 		return true;
 	}
 
