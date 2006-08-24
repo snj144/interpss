@@ -426,7 +426,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
   		StringTokenizer st = new StringTokenizer(lineStr);
 		int I  = new Integer(st.nextToken()).intValue();
 		int J  = new Integer(st.nextToken()).intValue();
-		int CKT  = new Integer(st.nextToken()).intValue();
+		String CKT  = st.nextToken();
 		double R = new Double(st.nextToken()).doubleValue();
 		double X = new Double(st.nextToken()).doubleValue();
 		double B = new Double(st.nextToken()).doubleValue();
