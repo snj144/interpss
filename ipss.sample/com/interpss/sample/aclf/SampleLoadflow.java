@@ -64,7 +64,7 @@ public class SampleLoadflow {
   		// create an AclfBranch object
   		AclfBranch branch = CoreObjectFactory.createAclfBranch();
   		// set branch name, description and circuit number
-  		branch.setAttributes("Branch 1", "", 1);
+  		branch.setAttributes("Branch 1", "", "1");
   		// set branch to a Line branch
   		branch.setBranchCode(AclfBranchCode.LINE_LITERAL);
   		// adapte the branch object to a line branch object
