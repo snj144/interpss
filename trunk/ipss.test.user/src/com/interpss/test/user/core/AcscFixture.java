@@ -208,7 +208,7 @@ public class AcscFixture extends AclfBuildFixture {
 		branch.setZ( new Complex(r1,x1), msg  );
 		branch.setZ0( new Complex(r0,x0), msg  );
 		AcscPSXfrAdapter xfr = (AcscPSXfrAdapter)branch.adapt(AcscPSXfrAdapter.class);
-		xfr.setAngle(angDeg, UnitType.Deg);
+		xfr.setFromAngle(angDeg, UnitType.Deg);
 		xfr.setFromConnectGroundZ(fromConCode, new Complex(fromRg,fromXg), UnitType.Ohm, simuCtx.getAcscFaultNet().getBaseKva());
 		xfr.setToConnectGroundZ(toConCode, new Complex(toRg,toXg), UnitType.Ohm, simuCtx.getAcscFaultNet().getBaseKva());
 	}

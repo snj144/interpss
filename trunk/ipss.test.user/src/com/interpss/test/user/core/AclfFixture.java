@@ -131,7 +131,7 @@ public class AclfFixture extends IpssFixture {
 
 	public double branchPsXfrAngDeg() throws Exception {
 		PSXfrAdapter xfr = (PSXfrAdapter)getBranch().adapt(PSXfrAdapter.class);
-		return formatDouble(xfr.getAngle(UnitType.Deg));
+		return formatDouble(xfr.getFromAngle(UnitType.Deg));
 	}
 
 	public double branchXfrFromTurnRatio() throws Exception {
