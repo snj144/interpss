@@ -126,7 +126,7 @@ public class NetworkImplTest extends TestBaseAppCtx {
 	 */
 	public void testGetBranchStringStringint() {
 		Network net = NetRuleTest.buildTestNet();
-		Branch bra1 = net.getBranch("Bus1", "Bus2", 1);
+		Branch bra1 = net.getBranch("Bus1", "Bus2", "1");
 		assertTrue(bra1 != null);
 	}
 
