@@ -3,10 +3,10 @@ package com.interpss.test.ui.editor.proj;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import com.interpss.editor.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.data.dist.DistNetData;
 import com.interpss.editor.form.GNetForm;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;
-import com.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import com.interpss.editor.ui.edit.NBProjectEditDialog;
 import com.interpss.test.ui.TestUI_UtilFunc;
 
@@ -20,7 +20,7 @@ public class TestProjEditorDistCase extends TestProjEditorBase {
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
 		NBProjectEditDialog projDialog = (NBProjectEditDialog)SimuAppSpringAppCtxUtil.getProjectDataEditor(
-				netContainer, editor.getAppSimuContext().getProjData(), false);
+				netContainer, appSimuCtx.getProjData(), false);
 		
 		TestUI_UtilFunc.radioButtonAction(finder, projDialog, "distriAppRadioButton");
 		TestUI_UtilFunc.setTextField(finder, projDialog, "projNameTextField", "My Project Name");
@@ -38,10 +38,10 @@ public class TestProjEditorDistCase extends TestProjEditorBase {
 		finder.setName("SaveButton");
 		JButton saveButton = ( JButton ) finder.find( projDialog, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(appSimuCtx.getProjData().isDirty());
 		
-		assertTrue(editor.getAppSimuContext().getProjData().getProjectName().equals("My Project Name"));
-		assertTrue(editor.getAppSimuContext().getProjData().getDescription().equals("My Project Desc"));
+		assertTrue(appSimuCtx.getProjData().getProjectName().equals("My Project Name"));
+		assertTrue(appSimuCtx.getProjData().getDescription().equals("My Project Desc"));
 		
 		GNetForm form = (GNetForm)netContainer.getGNetForm();
 		assertTrue(form.getAppType().equals(IGNetForm.AppType_Distribution));
@@ -64,14 +64,14 @@ public class TestProjEditorDistCase extends TestProjEditorBase {
 //        assertTrue(row.getEnable());
         
 		// launch the editor again
-		projDialog.init(netContainer, editor.getAppSimuContext().getProjData());
+		projDialog.init(netContainer, appSimuCtx.getProjData());
 		
 	    finder.setName("SaveButton");
 		saveButton = ( JButton ) finder.find( projDialog, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
 	    
-		assertTrue(editor.getAppSimuContext().getProjData().getProjectName().equals("My Project Name"));
-		assertTrue(editor.getAppSimuContext().getProjData().getDescription().equals("My Project Desc"));
+		assertTrue(appSimuCtx.getProjData().getProjectName().equals("My Project Name"));
+		assertTrue(appSimuCtx.getProjData().getDescription().equals("My Project Desc"));
 		
 		form = (GNetForm)netContainer.getGNetForm();
 		assertTrue(form.getAppType().equals(IGNetForm.AppType_Distribution));

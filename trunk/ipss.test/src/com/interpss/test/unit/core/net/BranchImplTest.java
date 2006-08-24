@@ -27,10 +27,10 @@ public class BranchImplTest extends TestBaseAppCtx {
 	public void testSetAttributesStringStringint() {
 	  	Network net = NetRuleTest.buildTestNet(); 
 	  	Branch bra = net.getBranch("Bus1->Bus2(1)");
-	  	bra.setAttributes("name", "desc", 2);
+	  	bra.setAttributes("name", "desc", "2");
   		assertTrue(bra.getName().equals("name"));
   		assertTrue(bra.getDesc().equals("desc"));
-  		assertTrue(bra.getCircuitNumber() == 2);
+  		assertTrue(bra.getCircuitNumber().equals("2"));
 	}
 
 	/*
@@ -41,10 +41,10 @@ public class BranchImplTest extends TestBaseAppCtx {
 	  	Branch bra = net.getBranch("Bus1->Bus2(1)");
 	  	Area area = CoreObjectFactory.createArea(2, net);
 	  	Zone zone = CoreObjectFactory.createZone(3, net);
-	  	bra.setAttributes("name", "desc", 2, area, zone);
+	  	bra.setAttributes("name", "desc", "2", area, zone);
   		assertTrue(bra.getName().equals("name"));
   		assertTrue(bra.getDesc().equals("desc"));
-  		assertTrue(bra.getCircuitNumber() == 2);
+  		assertTrue(bra.getCircuitNumber().equals("2"));
   		assertTrue(bra.getArea().getNumber() == 2);
   		assertTrue(bra.getZone().getNumber() == 3);  		
   	}

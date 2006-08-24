@@ -27,7 +27,7 @@ public class NetRuleTest extends TestBaseAppCtx {
   		}
   		
   		// check branch connecting to non-existing bus detection
-  		Branch bra1 = net.getBranch("Bus1", "Bus2", 1);
+  		Branch bra1 = net.getBranch("Bus1", "Bus2", "1");
   		assertEquals(true, bra1 != null);
   		try {
   			net.addBranch(bra1, "Bus4", "Bus2");
@@ -98,15 +98,15 @@ public class NetRuleTest extends TestBaseAppCtx {
 
 	  	// Check removeBus, invalid bus id
   		try {
-  		  	net.removeBranch("Bus1", "Bus2", 2);
+  		  	net.removeBranch("Bus1", "Bus2", "2");
   			throw new RuntimeException("removeBranch is not working");
   		} catch (InvalidParameterException e) {
   			System.out.println(e.toString());
   		}
 
   		//System.out.println("Branch connected: " + net.getBus("Bus1").nBranchConnected());
-  		net.removeBranch("Bus1", "Bus2", 1);
-  		net.removeBranch("Bus3", "Bus1", 1);
+  		net.removeBranch("Bus1", "Bus2", "1");
+  		net.removeBranch("Bus3", "Bus1", "1");
   		//System.out.println("Branch connected: " + net.getBus("Bus1").nBranchConnected());
   		net.removeBus("Bus1");
   		assertEquals(true, (net.getBusList().size() == 2 && net.getBranchList().size() == 1));
@@ -124,8 +124,8 @@ public class NetRuleTest extends TestBaseAppCtx {
   		assertEquals(true, net.checkData(SpringAppContext.getIpssMsgHub()));
   		
   		// check for island bus
-  		net.removeBranch("Bus1", "Bus2", 1);
-  		net.removeBranch("Bus3", "Bus1", 1);
+  		net.removeBranch("Bus1", "Bus2", "1");
+  		net.removeBranch("Bus3", "Bus1", "1");
   		assertEquals(true, !net.checkData(SpringAppContext.getIpssMsgHub()));
   		
   		// check for missing bus
@@ -152,7 +152,7 @@ public class NetRuleTest extends TestBaseAppCtx {
   		assertEquals(true, !net.getBus("Bus2").eIsProxy());
   		assertEquals(true, !net.getBus("Bus3").eIsProxy());
   		
-  		assertEquals(true, !net.getBranch("Bus1", "Bus2", 1).eIsProxy());
+  		assertEquals(true, !net.getBranch("Bus1", "Bus2", "1").eIsProxy());
 
   		System.out.println("Check eIsProxy sucessful");
 	}
@@ -222,15 +222,15 @@ public class NetRuleTest extends TestBaseAppCtx {
   		net.addBus(bus3);
 
   		Branch bra1 = CoreObjectFactory.createBranch();
-  		bra1.setAttributes("Branch 1", "", 1);
+  		bra1.setAttributes("Branch 1", "", "1");
   		net.addBranch(bra1, "Bus1", "Bus2");
 
   		Branch bra2 = CoreObjectFactory.createBranch();
-		bra2.setAttributes("Branch 2", "", 1);
+		bra2.setAttributes("Branch 2", "", "1");
   		net.addBranch(bra2, "Bus2", "Bus3");
 
   		Branch bra3 = CoreObjectFactory.createBranch();
-  		bra3.setAttributes("Branch 3", "", 1);
+  		bra3.setAttributes("Branch 3", "", "1");
   		net.addBranch(bra3, "Bus3", "Bus1");
  		
   		//System.out.println("\n");
