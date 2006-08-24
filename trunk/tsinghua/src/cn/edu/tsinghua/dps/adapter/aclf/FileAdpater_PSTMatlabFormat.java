@@ -345,7 +345,7 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
             type = 1;
 
         // create an AclfBranch object
-        AclfBranch bra = CoreObjectFactory.createAclfBranch(1, 1, 1, net);
+        AclfBranch bra = CoreObjectFactory.createAclfBranch(1, 1, "1", net);
 
         // add the object into the network container
         net.addBranch(bra, fid, tid);
