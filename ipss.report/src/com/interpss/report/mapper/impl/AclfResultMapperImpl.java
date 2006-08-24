@@ -160,7 +160,7 @@ public class AclfResultMapperImpl {
 
 						if (bra.isPSXfr()) {
 							PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
-							bean.setPsXfrAngle(Num2Str.toStr( "##0.0", psXfr.getAngle(UnitType.Deg)));
+							bean.setPsXfrAngle(Num2Str.toStr( "##0.0", psXfr.getFromAngle(UnitType.Deg)));
 						}	
 					}
 					list.add(bean);
@@ -267,7 +267,7 @@ public class AclfResultMapperImpl {
 								psCtrl.getAclfBranch().powerTo2From(UnitType.PU,baseKva).getReal())));
 			bean.setPspec(Num2Str.toStr("##0.0000", psCtrl.getPSpecified(UnitType.PU,baseKva)));
 			PSXfrAdapter psXfr = (PSXfrAdapter)psCtrl.getAclfBranch().adapt(PSXfrAdapter.class);
-			bean.setAngle(Num2Str.toStr("#0.00", psXfr.getAngle(UnitType.Deg)));
+			bean.setAngle(Num2Str.toStr("#0.00", psXfr.getFromAngle(UnitType.Deg)));
 			bean.setAngMax(Num2Str.toStr("#0.00", psCtrl.getAngLimit(UnitType.Deg).getMax()));
 			bean.setAngMin(Num2Str.toStr("#0.00", psCtrl.getAngLimit(UnitType.Deg).getMin()));
 			bean.setStatus(Num2Str.toStr(6, psCtrl.isActive() ? "on" : "off" ));
