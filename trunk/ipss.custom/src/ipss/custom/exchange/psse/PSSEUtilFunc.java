@@ -19,7 +19,11 @@ public class PSSEUtilFunc {
 	}
 	
 	public static boolean is3WXfr(String str) {
-		// for 2W xfr, line2, there are three items
-		return new StringTokenizer(str, ",").countTokens() > 3;
+		// for 2W xfr, line1, K = 0
+  		StringTokenizer st = new StringTokenizer(str, ",");
+		st.nextToken();
+		st.nextToken();
+		int K = new Integer(st.nextToken().trim()).intValue();
+		return K != 0;
 	}
 }
