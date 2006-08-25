@@ -135,7 +135,7 @@
 
     <target depends="init" description="copy sqlMap files to GEditor" name="copy_properties">
     	<copydir src="${dev_base}/ipss.editor/runtime/sqlMapConfig"
-    	         dest="${dist_base}/sqlMapConfig"
+    	         dest="${dist_base}/properties/sqlMapConfig"
     	         includes="**/*.xml"
     	         excludes="**/SqlMapConfig.xml"
     	/>
@@ -149,7 +149,7 @@
     	/>
     </target>	
 			
-    <target depends="init" description="copy sqlMap files to GEditor" name="copy_report_template">
+    <target depends="init" description="copy report templates to GEditor" name="copy_report_template">
     	<copydir src="${dev_base}/ipss.editor/reportTemplate"
     	         dest="${dist_base}/reportTemplate"
     	         includes="**/*.jasper"
