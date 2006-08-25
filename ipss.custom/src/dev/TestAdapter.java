@@ -3,6 +3,7 @@ package dev;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.StdoutMsgListener;
 import com.interpss.common.msg.TextMessage;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
 
@@ -27,9 +28,9 @@ public class TestAdapter {
 
 	public static void testPTIAdapter(IPSSMsgHub msg) throws Exception {
 		IpssFileAdapter adapter = new FileAdapter_PTIFormat();
-		SimuContext simuCtx = adapter.load("testData/ieee300.psse", msg);
+		SimuContext simuCtx = adapter.load("testData/psse_uguide_sample.psse", msg);
 
-		//AclfNetwork net = simuCtx.getAclfNet();
+		AclfNetwork net = simuCtx.getAclfNet();
 
 	  	//LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.loadflow(SpringAppContext.getIpssMsgHub());

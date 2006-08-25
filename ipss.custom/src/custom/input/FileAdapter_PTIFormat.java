@@ -1,5 +1,19 @@
 package custom.input;
 
+/*
+ * PTI PSS/E File input adapter. The implementation is Based on 
+ * PSS/E 29, published Oct 2002.
+ * 
+ * The following records are implemented
+ * 
+ * 		Case Identification
+		Bus Data
+		Gnerator Data
+		Nontransformer Branch Data
+		Transformer Data
+		Area Interchange Data
+ */
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -7,31 +21,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-import org.apache.commons.math.complex.Complex;
-
-import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranchCode;
-import com.interpss.core.aclf.AclfBranchExt;
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfGenCode;
-import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.LineAdapter;
-import com.interpss.core.aclf.LoadBusAdapter;
-import com.interpss.core.aclf.PQBusAdapter;
-import com.interpss.core.aclf.PSXfrAdapter;
-import com.interpss.core.aclf.SwingBusAdapter;
-import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.aclfadj.AreaInterchangeController;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.io.IpssFileAdapterBase;
+
+import custom.input.psse.BranchDataRecord;
+import custom.input.psse.BusDataRecord;
+import custom.input.psse.NetDataRecord;
+import custom.input.psse.PSSEUtilFunc;
 
 public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 
@@ -100,71 +103,97 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
   		try {
       		boolean headerProcessed = false;
       		boolean busProcessed = false;
+      		boolean loadProcessed = false;
       		boolean genProcessed = false;
-      		boolean branchProcessed = false;
-      		boolean xfrAdjProcessed = false;
+      		boolean lineProcessed = false;
+      		boolean xfrProcessed = false;
       		boolean areaInterProcessed = false;
-      		boolean dcLineProcessed = false;
+      		boolean dcLine2TProcessed = false;
+      		boolean vscDcLineProcessed = false;
       		boolean switchedShuntProcessed = false;
-    		do {
+      		boolean xfrZCorrectionProcessed = false;
+      		boolean scLineMTProcessed = false;
+      		boolean multiSectionLineGroupProcessed = false;
+      		boolean zoneProcessed = false;
+      		boolean interareaTransferProcessed = false;
+      		boolean ownerProcessed = false;
+      		boolean factsProcessed = false;
+      		do {
       			lineStr = din.readLine();
       			if (lineStr != null) {
       				lineNo++;
       				if (!headerProcessed) {
 						if (lineNo == 3) 
       						headerProcessed = true;
-						processHeader(adjNet, lineStr, lineNo, msgHub);
+						NetDataRecord.processHeader(adjNet, lineStr, lineNo, msgHub);
       				}
       				else if (!busProcessed) {
-						if (isEndRecLine(lineStr))
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 busProcessed = true;
 						else {
-							processBus(adjNet, lineStr, lineNo, msgHub);
+							BusDataRecord.processBus(adjNet, lineStr, lineNo, msgHub);
+						}	 
+      				}
+      				else if (!loadProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							 loadProcessed = true;
+						else {
+							BusDataRecord.processLoad(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!genProcessed) {
-						if (isEndRecLine(lineStr))
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 genProcessed = true;
 						else {
-							processGen(adjNet, lineStr, lineNo, msgHub);
+							BusDataRecord.processGen(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
-      				else if (!branchProcessed) {
-						if (isEndRecLine(lineStr))
-							 branchProcessed = true;
+      				else if (!lineProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							 lineProcessed = true;
 						else {
-							processBranch(adjNet, lineStr, lineNo, msgHub);
+							BranchDataRecord.processLine(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
-      				else if (!xfrAdjProcessed) {
-						if (isEndRecLine(lineStr))
-							 xfrAdjProcessed = true;
+      				else if (!xfrProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							 xfrProcessed = true;
 						else {
-							processXfrAdjust(adjNet, lineStr, lineNo, msgHub);
+							int n = lineNo;
+      						String lineStr2 = din.readLine();
+      						String lineStr3 = din.readLine();
+      						String lineStr4 = din.readLine();
+      						lineNo++; lineNo++; lineNo++;
+      						String lineStr5 = "";
+      						if (PSSEUtilFunc.is3WXfr(lineStr2)) {
+          						lineStr4 = din.readLine();
+          						lineNo++;
+      						}
+							BranchDataRecord.processXfr(adjNet, lineStr, lineStr2, lineStr3, lineStr4, lineStr5, n, msgHub);
 						}	 
       				}
       				else if (!areaInterProcessed) {
-						if (isEndRecLine(lineStr))
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 areaInterProcessed = true;
 						else {
-							processAreaInterchange(adjNet, lineStr, lineNo, msgHub);
+							NetDataRecord.processAreaInterchange(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
-      				else if (!dcLineProcessed) {
-						if (isEndRecLine(lineStr))
-							 dcLineProcessed = true;
+      				else if (!dcLine2TProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							 dcLine2TProcessed = true;
 						else {
       						String lineStr2 = din.readLine();
       						String lineStr3 = din.readLine();
       						lineNo++; lineNo++;
-							processDCLine(adjNet, lineStr, lineStr2, lineStr3, lineNo, msgHub);
+							//processDCLine(adjNet, lineStr, lineStr2, lineStr3, lineNo, msgHub);
 						}	 
       				}
       				else if (!switchedShuntProcessed) {
-						if (isEndRecLine(lineStr))
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 switchedShuntProcessed = true;
 						else {
-							processSwitchedShunt(adjNet, lineStr, lineNo, msgHub);
+							//processSwitchedShunt(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       			}
@@ -174,413 +203,6 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
   		}
   		return adjNet;
 	}
-	
-	/** 
-	 * Process the first three header line records
-	 *
-	 * @param adjNet the AclfAdjNetwork object
-	 * @param lineStr a input line string
-	 * @param lineNo the line number
-	 * @param msgHub the message hub object
-	 */
-	private void processHeader(
-				AclfAdjNetwork adjNet, 
-				String lineStr,
-				int lineNo, 
-				IPSSMsgHub msg) throws Exception {
-		IpssLogger.getLogger().fine("Header data Line:" + lineNo + " " + lineStr);
-		if (lineNo == 1) {
-  			StringTokenizer st = new StringTokenizer(lineStr);
-    		int indicator = new Integer(st.nextToken()).intValue();
-    		if (indicator != 0) {
-    			// we will implement this in the future.
-    			throw new Exception("Only base case has been implmented");
-    		}
-    		
-    		double baseMVA = new Double(st.nextToken()).doubleValue();
-			adjNet.setBaseKva(baseMVA*1000.0);
-			
-			// PSS/E do not have ground branch concept
-			adjNet.setAllowGroundBranch(false);
-			
-			// PSS/E allow parallel branches
-			adjNet.setAllowParallelBranch(true);
-			
-			// We check if there is any Bus number or branch duplication. Branch dupblication defined as
-			// branches with same circuit id connected between the same from bus and to bus.
-			adjNet.setCheckElementDuplication(true);
-
-			// Base Frequency is not used in loadflow calculation, dedined as 60.0 Hz
-			adjNet.setFrequency(60.0);
-		}
-		else if (lineNo == 2) {
-			// The 2nd line is treated as description
-			adjNet.setDesc(lineStr);
-		}
-		else {
-			// the 3rd line is treated as the network id and network name
-			adjNet.setId(lineStr);
-			adjNet.setName(lineStr);
-		}
-	}			
-
-	/** 
-	 * Process bus record lines
-	 *
-	 * @param adjNet the AclfAdjNetwork object
-	 * @param lineStr a input line string
-	 * @param lineNo the line number
-	 * @param msgHub the message hub object
-	 */
-	private void processBus(
-				AclfAdjNetwork adjNet, 
-				String lineStr,
-				int lineNo, 
-				IPSSMsgHub msg) throws Exception {
-/*
-		1 1   90.000   49.000    0.000    0.000   1 1.02691    6.5238 ' 1      ' 115.00   1
-		I,IDE,PL,QL,GL,BL,IA,VM,VA,'NAME',BASKL,ZONE
-
- 		I - Bus number (1 to 29997)
- 		IDE - Bus type
-        	1 - Load bus (no generation)
-        	2 - Generator or plant bus
-        	3 - Swing bus
-        	4 - Islolated bus
- 		PL - Load MW
- 		QL - Load MVAR
- 		GL - Shunt conductance, MW at 1.0 per unit voltage
- 		BL - Shunt susceptance, MVAR at 1.0 per unit voltage. (- = reactor)
- 		IA - Area number, 1-100
- 		VM - Voltage magnitude, per unit
- 		VA - Voltage angle, degrees
- 		NAME - Bus name, 8 characters, must be enclosed in quotes
- 		BASKV - Base voltage, KV
- 		ZONE - Loss zone, 1-999
-*/
-  		StringTokenizer st = new StringTokenizer(lineStr.substring(0, lineStr.indexOf('\'')));
-    	int I = new Integer(st.nextToken()).intValue();
-    	int IDE = new Integer(st.nextToken()).intValue();
-		double PL = new Double(st.nextToken()).doubleValue();
-		double QL = new Double(st.nextToken()).doubleValue();
-		double GL = new Double(st.nextToken()).doubleValue();
-		double BL = new Double(st.nextToken()).doubleValue();
-		int IA = new Integer(st.nextToken()).intValue();
-		double VM = new Double(st.nextToken()).doubleValue();
-		double VA = new Double(st.nextToken()).doubleValue();
-		
-		String NAME = lineStr.substring(lineStr.indexOf('\'')+1, lineStr.lastIndexOf('\''));
-
-  		st = new StringTokenizer(lineStr.substring(lineStr.lastIndexOf('\'')+1));
-		double BASKV = new Double(st.nextToken()).doubleValue();
-		int ZONE = new Integer(st.nextToken()).intValue();
-
-		IpssLogger.getLogger().fine("Bus data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().fine("Bus number, type, name:" + I + ", " + IDE + ", " + NAME);
-		IpssLogger.getLogger().fine("Area, Zone:" + IA + ", " + ZONE);
-		IpssLogger.getLogger().fine("baseKV, Vm, Va:" + BASKV + ", " + VM + ", " + VA);
-		IpssLogger.getLogger().fine("Pl, Ql, Gl, Bl:" + PL + ", " + QL + ", " + GL + ", " + BL);
-
-		final AclfBus bus = CoreObjectFactory.createAclfBus(new Integer(I).toString(), IA, ZONE, adjNet);
-      	bus.setName(NAME);
-    	bus.setBaseVoltage(BASKV, UnitType.kV);
-    	double factor = 1000.0/adjNet.getBaseKva();  // for transfer G+jB PU on system base 
-    	bus.setShuntY(new Complex(GL*factor,BL*factor));
-      	
-    	// add the bus object into the network container
-    	adjNet.addBus(bus);
-
-    	// set input data to the bus object
-      	if ( IDE == 3 ) {
-      		// Swing bus
-   		 	bus.setGenCode(AclfGenCode.SWING_LITERAL);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
-  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
-  			gen.setVoltMag(VM, UnitType.PU);
-  			gen.setVoltAng(VA, UnitType.Deg);
-  			gen.setLoad(new Complex(PL, QL), UnitType.mVA, adjNet.getBaseKva());
-    	}
-    	else if ( IDE == 2 ) {
-    		// Gen bus, we first set it to a PQ bus. It will be adjusted in the 
-    		// Generator data section.
-    		bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
-    		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
-   			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
-  			gen.setLoad(new Complex(PL, QL), UnitType.mVA, adjNet.getBaseKva());
-    	}
-    	else if ( IDE == 1 ) {
-    		// Non-gen load bus
-   		 	bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
-  			final LoadBusAdapter load = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
-  			load.setLoad(new Complex(PL, QL), UnitType.mVA, adjNet.getBaseKva());
-    	}
-    	else {
-    		// Isolated bus, an isolated bus will not participate in Loadflow calculaiton
-    		bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
-    		bus.setStatus(false);
-    	}
-	}			
-	
-	/** 
-	 * Process generator record lines
-	 *
-	 * @param adjNet the AclfAdjNetwork object
-	 * @param lineStr a input line string
-	 * @param lineNo the line number
-	 * @param msgHub the message hub object
-	 */
-	private void processGen(
-				AclfAdjNetwork adjNet, 
-				String lineStr,
-				int lineNo, 
-				IPSSMsgHub msg) throws Exception {
-/*
-		I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB
-
-		I - Bus number
-		ID - Machine identifier (0-9, A-Z)
-		PG - MW output
-		QG - MVAR output
-		QT - Max MVAR
-		QB - Min MVAR
-		VS - Voltage setpoint
-		IREG - Remote controlled bus index (must be type 1), zero to control own
-		 		voltage, and must be zero for gen at swing bus
-		MBASE - Total MVA base of this machine (or machines), defaults to system
-				MVA base.
-		ZR,ZX - Machine impedance, pu on MBASE
-		RT,XT - Step up transformer impedance, p.u. on MBASE
-		GTAP - Step up transformer off nominal turns ratio
-		STAT - Machine status, 1 in service, 0 out of service
-		RMPCT - Percent of total VARS required to hold voltage at bus IREG
- 				to come from bus I - for remote buses controlled by several generators
-		PT - Max MW
-		PB - Min MW
-*/		
-  		StringTokenizer st = new StringTokenizer(lineStr);
-		int I = new Integer(st.nextToken()).intValue();
-		String ID = st.nextToken();
-		double PG = new Double(st.nextToken()).doubleValue();
-		double QG = new Double(st.nextToken()).doubleValue();
-		double QT = new Double(st.nextToken()).doubleValue();
-		double QB = new Double(st.nextToken()).doubleValue();
-		double VS = new Double(st.nextToken()).doubleValue();
-		int IREG = new Integer(st.nextToken()).intValue();
-		double MBASE = new Double(st.nextToken()).doubleValue();
-		double ZR = new Double(st.nextToken()).doubleValue();
-		double ZX = new Double(st.nextToken()).doubleValue();
-		double RT = new Double(st.nextToken()).doubleValue();
-		double XT = new Double(st.nextToken()).doubleValue();
-		double GTAP = new Double(st.nextToken()).doubleValue();
-		int STAT = new Integer(st.nextToken()).intValue();
-		double RMPCT = new Double(st.nextToken()).doubleValue();
-		double PT = new Double(st.nextToken()).doubleValue();
-		double PB = new Double(st.nextToken()).doubleValue();
-
-		IpssLogger.getLogger().info("Gen data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().info("Bus number, Machid:" + I + ", " + ID);
-		IpssLogger.getLogger().info("PG, QG, Qmax, Qmin, Vspec:" + PG + ", " + QG + ", " + QT + ", " + QB + ", " + VS);
-		IpssLogger.getLogger().info("Ireg, MvaBase, Zr, Zx, Rt, Xt:" + IREG + ", " + MBASE + ", " + ZR + ", " + ZX + ", " + RT + ", " + XT);
-		IpssLogger.getLogger().info("Gtap, RegMar%, Pmax, Pmin:" + GTAP + ", " + STAT + ", " + RMPCT + ", " + PT + ", " + PB);
-	}			
-	
-	/** 
-	 * Process branch record lines
-	 *
-	 * @param adjNet the AclfAdjNetwork object
-	 * @param lineStr a input line string
-	 * @param lineNo the line number
-	 * @param msgHub the message hub object
-	 */
-	private void processBranch(
-				AclfAdjNetwork adjNet, 
-				String lineStr,
-				int lineNo, 
-				IPSSMsgHub msg) throws Exception {
-/*
-		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST
-
-		I - From bus number
-		J - To bus number
-		CKT - Circuit identifier (two character) not clear if integer or alpha
-		R - Resistance, per unit
-		X - Reactance, per unit
-		B - Total line charging, per unit
-		RATEA - MVA rating A
-		RATEB, RATEC - Higher MVA ratings
-		RATIO - Transformer off nominal turns ratio
-		ANGLE - Transformer phase shift angle
-		GI,BI - Line shunt complex admittance for shunt at from end (I) bus, pu.
-		GJ,BJ - Line shunt complex admittance for shunt at to end (J) bus, pu.
-		ST - Initial branch status, 1 - in service, 0 - out of service
-*/
-		if (lineStr.contains(",")) {
-			if (lineStr.contains(",,,")) {
-				lineStr = lineStr.replace(",,,", " 0.0        0.0");
-				IpssLogger.getLogger().info("',,,' has been replaced by  '0.0        0.0'");
-			}
-		}
-		
-  		StringTokenizer st = new StringTokenizer(lineStr);
-		int I  = new Integer(st.nextToken()).intValue();
-		int J  = new Integer(st.nextToken()).intValue();
-		String CKT  = st.nextToken();
-		double R = new Double(st.nextToken()).doubleValue();
-		double X = new Double(st.nextToken()).doubleValue();
-		double B = new Double(st.nextToken()).doubleValue();
-		double RATEA = new Double(st.nextToken()).doubleValue();
-		double RATEB = new Double(st.nextToken()).doubleValue();
-		double RATEC = new Double(st.nextToken()).doubleValue();
-		double RATIO = new Double(st.nextToken()).doubleValue();
-		double ANGLE = new Double(st.nextToken()).doubleValue();
-		double GI = new Double(st.nextToken()).doubleValue();
-		double BI = new Double(st.nextToken()).doubleValue();
-		double GJ = new Double(st.nextToken()).doubleValue();
-		double BJ = new Double(st.nextToken()).doubleValue();
-		int ST  = new Integer(st.nextToken()).intValue();
-
-		IpssLogger.getLogger().fine("Branch data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().fine("From Bus number, To Bus Number, Circuit id:" + I + ", " + J + ", " + CKT);
-		IpssLogger.getLogger().fine("R, X, B, Ratio, Angle:" + R + ", " + X + ", " + B + ", " + RATIO + ", " + ANGLE);
-		IpssLogger.getLogger().fine("RATEA, RATEB, RATEC:" + RATEA + ", " + RATEB + ", " + RATEC);
-		IpssLogger.getLogger().fine("GI, BI, GJ, BJ, ST:" + GI + ", " + BI + ", " + GJ + ", " + BJ + ", " + ST);
-		
-    	// create an AclfBranch object
-		// also we need to use AclfBranchExt to hold the extra rating fields
-      	final AclfBranchExt bra = CoreObjectFactory.createAclfBranchExt(CKT, adjNet);
-      	bra.setStatus(ST==1);
-      	bra.setRatingMva1(RATEA);
-      	bra.setRatingMva2(RATEA);
-      	bra.setRatingMva3(RATEB);
-      	bra.setFromShuntY(new Complex(GI,BI));
-      	bra.setToShuntY(new Complex(GJ,BJ));
-      	
-      	// add the object into the network container
-      	if (J < 0) {
-      		// do something???? 
-      		J = -J;
-      	}
-      	adjNet.addBranch(bra, new Integer(I).toString(), new Integer(J).toString());
-      	
-      	// it is asummed that if ratio is not defined or = 0.0, the branch is a Line
-      	if (RATIO == 0.0) {
-      		// Line branch
-        	bra.setBranchCode(AclfBranchCode.LINE_LITERAL);
-    		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
-        	line.getAclfBranch().setZ(new Complex(R,X), msg);
-        	// Unit is PU, no need to enter baseV
-        	line.setHShuntY(new Complex(0.0,0.5*B), UnitType.PU, 1.0, adjNet.getBaseKva()); 
-      	}
-      	else {
-      		// Xformer or PSXformer branch
-    	 	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
-    		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
-        	xfr.getAclfBranch().setZ(new Complex(R,X), msg);
-        	xfr.setFromTurnRatio(1.0, UnitType.PU);
-        	xfr.setToTurnRatio(RATIO, UnitType.PU); 
-        	if (ANGLE != 0.0) {
-        		// PhaseShifting transformer branch
-        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
-        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
-        		psXfr.setFromAngle(ANGLE*Constants.DtoR);
-        	}
-      	}
-	}			
-
-	/** 
-	 * Process xformer adjustment record lines
-	 *
-	 * @param adjNet the AclfAdjNetwork object
-	 * @param lineStr a input line string
-	 * @param lineNo the line number
-	 * @param msgHub the message hub object
-	 */
-	private void processXfrAdjust(
-				AclfAdjNetwork adjNet, 
-				String lineStr,
-				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
-/*
-		I,J,CKT,ICONT,RMA,RMI,VMA,VMI,STEP,TABLE
-
-		I - From bus number
-		J - To bus number
-		CKT - Circuit number
-		ICONT - Number of bus to control. If different from I or J, sign of ICONT
-			 determines control. Positive sign, close to impedance (untapped) bus
-			 of transformer. Negative sign, opposite.
-		RMA - Upper limit of turns ratio or phase shift
-		RMI - Lower limit of turns ratio or phase shift
-		VMA - Upper limit of controlled volts, MW or MVAR
-		VMI - Lower limit of controlled volts, MW or MVAR
-		STEP - Turns ratio step increment
-		TABLE - Zero, or number of a transformer impedance correction table 1-5
-*/
-  		StringTokenizer st = new StringTokenizer(lineStr);
-
-		int I = new Integer(st.nextToken()).intValue();
-		int J = new Integer(st.nextToken()).intValue();
-		int CKT = new Integer(st.nextToken()).intValue();
-		int ICONT = new Integer(st.nextToken()).intValue();
-		double RMA = new Double(st.nextToken()).doubleValue();
-		double RMI = new Double(st.nextToken()).doubleValue();
-		double VMA = new Double(st.nextToken()).doubleValue();
-		double VMI = new Double(st.nextToken()).doubleValue();
-		double STEP = new Double(st.nextToken()).doubleValue();
-		int TABLE = new Integer(st.nextToken()).intValue();
-
-		IpssLogger.getLogger().info("Xfr Adj data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().info("From Bus number, To Bus Number, Circuit id:" + I + ", " + J + ", " + CKT);
-		IpssLogger.getLogger().info("Icont, Rmax, Rmin, Vmax, Vmin, Step:" + ICONT + ", " + RMA + ", " 
-				+ RMI + ", " + VMA + ", " + VMI + ", " + STEP);
-	}			
-	
-	/** 
-	 * Process area interchange record lines
-	 *
-	 * @param adjNet the AclfAdjNetwork object
-	 * @param lineStr a input line string
-	 * @param lineNo the line number
-	 * @param msgHub the message hub object
-	 */
-	private void processAreaInterchange(
-				AclfAdjNetwork adjNet, 
-				String lineStr,
-				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
-/*
-		I,ISW,PDES,PTOL,'ARNAM'
-
-		I - Area number (1-100)
-		ISW - Area interchange slack bus number
-		PDES - Desired net interchange, MW + = out.
-		PTOL - Area interchange tolerance, MW
-		ARNAM - Area name, 8 characters, enclosed in single quotes.				
-*/
-  		StringTokenizer st = new StringTokenizer(lineStr);
-
-		int I = new Integer(st.nextToken()).intValue();
-		int ISW = new Integer(st.nextToken()).intValue();
-		double PDES = new Double(st.nextToken()).doubleValue();
-		double PTOL = new Double(st.nextToken()).doubleValue();
-		String ARNAM = lineStr.substring(lineStr.indexOf('\'')+1, lineStr.lastIndexOf('\''));				
-
-		IpssLogger.getLogger().fine("Area interchange data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().fine("Area number, Swing Bus Number:" + I + ", " + ISW);
-		IpssLogger.getLogger().fine("Pspec, Perror, Name:" + PDES + ", " + PTOL + ", "  + ARNAM);
-		
-		AreaInterchangeController controller = CoreObjectFactory.createAreaInterchangeController(I, ARNAM, adjNet);
-		AclfBus bus = adjNet.getAclfBus(new Integer(ISW).toString());
-		if (bus == null) {
-			throw new Exception("Area interchange poewr controller, Swing bus not found, ISW: " + ISW);
-		}
-		controller.setAclfBus(bus);
-		controller.setPSpecOut(PDES, UnitType.mW, adjNet.getBaseKva());
-		controller.setTolerance(PTOL, UnitType.mW, adjNet.getBaseKva());
-	}			
-	
 	/** 
 	 * Process DC line record lines
 	 *
@@ -597,36 +219,6 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 				int lineNo, 
 				IPSSMsgHub msgHub) throws Exception {
 /*
-		Each DC line has three consecutive records
-
-		I,MDC,RDC,SETVL,VSCHD,VCMOD,RCOMP,DELTI,METER
-		IPR,NBR,ALFMAX,ALFMN,RCR,XCR,EBASR,TRR,TAPR,TPMXR,TPMNR,TSTPR
-		IPI,NBI,GAMMX,GAMMN,RCI,XCI,EBASI,TRI,TAPI,TPMXI,TPMNI,TSTPI
-
-		I - DC Line number
-		MDC - Control mode 0 - blocked 1 - power 2 - current
-		RDC - Resistance, ohms
-		SETVL - Current or power demand
-		VSCHD - Scheduled compunded DC voltage, KV
-		VCMOD - Mode switch DC voltage, KV, switch to current control mode below this
-		RCOMP - Compounding resistance, ohms
-		DELTI - Current margin, per unit of desired current
-		METER - Metered end code, R - rectifier I - Inverter
-		IPR - Rectifier converter bus number
-		NBR - Number of birdges is series rectifier
-		ALFMAX - Maximum rectifier firing angle, degrees
-		ALFMN - Minimum rectifier firing angle, degrees
-		RCR - Rectifier commutating transformer resistance, per bridge, ohms
-		XCR - Rectifier commutating transformer reactance, per bridge, ohms
-		EBASR - Rectifier primary base AC volts, KV
-		TRR - Rectifier transformer ratio
-		TAPR - Rectifier tap setting
-		TPMXR - Maximum rectifier tap setting
-		TPMNR - Minimum rectifier tap setting
-		TSTPR - Rectifier tap step
-
-		Third record contains inverter quantities corresponding to rectifier
-		quantities above.
 */
   		StringTokenizer st = new StringTokenizer(lineStr1);
 		int I  = new Integer(st.nextToken()).intValue();
@@ -681,17 +273,6 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 				IPSSMsgHub msgHub) throws Exception {
 /*
 		I,MODSW,VSWHI,VSWLO,SWREM,BINIT,N1,B1,N2,B2...N8,B8
-
-		I - Bus number
-		MODSW - Mode 0 - fixed 1 - discrete 2 - continuous
-		VSWHI - Desired voltage upper limit, per unit
-		VSWLO - Desired voltage lower limit, per unit
-		SWREM - Number of remote bus to control. 0 to control own bus.
-		VDES - Desired voltage setpoint, per unit
-		BINIT - Initial switched shunt admittance, MVAR at 1.0 per unit volts
-		N1 - Number of steps for block 1, first 0 is end of blocks
-		B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts.
-		N2, B2, etc, as N1, B1
 */				
   		StringTokenizer st = new StringTokenizer(lineStr);
 
@@ -721,14 +302,4 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 
 		IpssLogger.getLogger().info("Switched shunt data Line:" + lineNo + " " + lineStr);
 	}			
-
-	/**
-	 * PTI use 0 to indicate end of a data set, Bus Data for example. This function checks
-	 * if the input line is the end of record line
-	 *
-	 * @param str a input data line string
-	 */
-	private boolean isEndRecLine(String str) {
-		return ("0").equals(str.trim());
-	}
 }
