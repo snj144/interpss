@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="aclfSummaryReport" 
+	      class="com.interpss.report.impl.AclfSummaryReport"
+	      singleton="true">	
+		<property name="fnameAclfSummaryMaster">
+	    	<value>reportTemplate/aclf/AclfSummaryMaster.jasper</value></property>
+		<property name="fnameSubAclfMismatch">
+	    	<value>reportTemplate/aclf/AclfMismatchSubReport.jasper</value></property>
+		<property name="fnameSubAclfPVLimit">
+	    	<value>reportTemplate/aclf/AclfPVLimitSubReport.jasper</value></property>
+		<property name="fnameSubAclfPQLimit">
+	    	<value>reportTemplate/aclf/AclfPQLimitSubReport.jasper</value></property>
+		<property name="fnameSubAclfFuncLoad">
+	    	<value>reportTemplate/aclf/AclfFuncLoadSubReport.jasper</value></property>
+		<property name="fnameSubAclfRemoteQBus">
+	    	<value>reportTemplate/aclf/AclfRemoteQBusSubReport.jasper</value></property>
+		<property name="fnameSubAclfPSXfrPControl">
+	    	<value>reportTemplate/aclf/AclfPSXfrPControlSubReport.jasper</value></property>
+		<property name="fnameSubAclfTapVControl">
+	    	<value>reportTemplate/aclf/AclfTapVControlSubReport.jasper</value></property>	
+	 </bean>
+
+	 <bean id="aclfBusStyleReport" 
+	      class="com.interpss.report.impl.AclfBusStyleReport"
+	      singleton="true">	
+		<property name="fnameAclfBusStyleMaster">
+	    	<value>reportTemplate/aclf/AclfBusStyleMaster.jasper</value></property>
+		<property name="fnameSubAclfMismatch">
+	    	<value>reportTemplate/aclf/AclfMismatchSubReport.jasper</value></property>
+		<property name="fnameSubAclfPVLimit">
+	    	<value>reportTemplate/aclf/AclfPVLimitSubReport.jasper</value></property>
+		<property name="fnameSubAclfPQLimit">
+	    	<value>reportTemplate/aclf/AclfPQLimitSubReport.jasper</value></property>
+		<property name="fnameSubAclfFuncLoad">
+	    	<value>reportTemplate/aclf/AclfFuncLoadSubReport.jasper</value></property>
+		<property name="fnameSubAclfRemoteQBus">
+	    	<value>reportTemplate/aclf/AclfRemoteQBusSubReport.jasper</value></property>
+		<property name="fnameSubAclfPSXfrPControl">
+	    	<value>reportTemplate/aclf/AclfPSXfrPControlSubReport.jasper</value></property>
+		<property name="fnameSubAclfTapVControl">
+	    	<value>reportTemplate/aclf/AclfTapVControlSubReport.jasper</value></property>	
+	 </bean>
+
+<!--
+   the only difference between 3P and NS fault is the master template:
+
+		<property name="fnameAcscFaultMaster">
+	    	<value>reportTemplate/acsc/Acsc3PFaultMaster.jasper</value></property>	
+
+		<property name="fnameAcscFaultMaster">
+	    	<value>reportTemplate/acsc/AcscNSFaultMaster.jasper</value></property>	
+-->
+
+	 <bean id="acsc3PFaultReport" 
+	      class="com.interpss.report.impl.AcscFaultReport"
+	      singleton="true">	
+		<property name="fnameAcscFaultMaster">
+	    	<value>reportTemplate/acsc/Acsc3PFaultMaster.jasper</value></property>	
+		<property name="fnameSubFaultSummary">
+	    	<value>reportTemplate/acsc/AcscFaultSummarySubReport.jasper</value></property>	
+	 </bean>
+
+	 <bean id="acscNSFaultReport" 
+	      class="com.interpss.report.impl.AcscFaultReport"
+	      singleton="true">	
+		<property name="fnameAcscFaultMaster">
+	    	<value>reportTemplate/acsc/AcscNSFaultMaster.jasper</value></property>	
+		<property name="fnameSubFaultSummary">
+	    	<value>reportTemplate/acsc/AcscFaultSummarySubReport.jasper</value></property>	
+	 </bean>
+</beans>

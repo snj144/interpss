@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--  
+	Define ipss editor simu package objects
+-->
+
+<beans>
+	<!--
+		Define mappers
+		==============
+	-->
+	<bean id="editorJGraphDataMapper" 
+	      class="com.interpss.editor.mapper.EditorJGraphDataMapper"
+	      singleton="true">	
+	  	<property name="msg">
+	  		<ref bean="ipssMsgHub"/></property>
+	</bean>
+
+	<bean id="runForm2AlgorithmMapper" 
+	      class="com.interpss.editor.mapper.RunForm2AlgorithmMapper"
+	      singleton="true">	
+	  	<property name="msg">
+	  		<ref bean="ipssMsgHub"/></property>
+	</bean>
+	
+	<!--
+		Defined the AppSimuContext object
+		=================================
+	-->
+	<bean id="ipssProjectData" 
+	      class="com.interpss.editor.data.proj.ProjData"
+	      singleton="false">	
+	</bean>
+
+	<bean id="ipssAppSimuContext" 
+	      class="com.interpss.editor.app.AppSimuContextImpl"
+	      singleton="false">	
+	      <property name="projData">
+	          <ref bean="ipssProjectData"/></property>
+	      <property name="simuCtx">
+	          <ref bean="simuContext"/></property>
+	</bean>
+	
+	<!-- 
+	    Define <*>RunForm objects
+	    =========================	
+	-->
+	<bean id="aclfRunForm" 
+	      class="com.interpss.editor.runAct.AclfRunForm"
+	      singleton="true">	
+	</bean>
+
+	<bean id="acscRunForm" 
+	      class="com.interpss.editor.runAct.AcscRunForm"
+	      singleton="true">	
+	</bean>
+
+	<bean id="dstabRunForm" 
+	      class="com.interpss.editor.runAct.DStabRunForm"
+	      singleton="true">	
+	</bean>
+	
+
+	<!-- 
+	    Define CaseInfoDialog object
+	    ============================	
+	-->
+	<bean id="caseInfoDialog" 
+	      class="com.interpss.editor.ui.run.NBCaseInfoDialog"
+	      singleton="true">	
+	      <constructor-arg>
+	      		<!-- ipssMainFrame defined in editorContext.xml -->
+	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
+	</bean>	
+</beans>
