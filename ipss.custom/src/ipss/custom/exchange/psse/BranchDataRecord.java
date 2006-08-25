@@ -1,5 +1,8 @@
 package ipss.custom.exchange.psse;
 
+import ipss.custom.psse.aclf.PSSELine;
+import ipss.custom.psse.aclf.PSSEXformer;
+
 import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
@@ -7,9 +10,7 @@ import org.apache.commons.math.complex.Complex;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
-import com.interpss.core.aclf.AclfBranchExt;
 import com.interpss.core.aclf.LineAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
@@ -65,35 +66,42 @@ public class BranchDataRecord {
 		if (st.hasMoreTokens()) {
 			O4 = new Integer(st.nextToken().trim()).intValue();
 			F4 = new Double(st.nextToken().trim()).doubleValue();
-		}		
-		IpssLogger.getLogger().info("Branch data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().info("From Bus number, To Bus Number, Circuit id:" + I + ", " + J + ", " + CKT);
-		IpssLogger.getLogger().info("R, X, B:" + R + ", " + X + ", " + B);
-		IpssLogger.getLogger().info("RATEA, RATEB, RATEC:" + RATEA + ", " + RATEB + ", " + RATEC);
-		IpssLogger.getLogger().info("GI, BI, GJ, BJ, ST, LEN:" + GI + ", " + BI + ", " + GJ + ", " + BJ + ", " + ST+ ", " + LEN);
-		IpssLogger.getLogger().info("O1, F1, O2, F2, O3, F3, O4, F4:" + O1 + ", " + F1 + ", " + O2 + ", " + F2  + ", " + O3 + ", " + F3 + ", " + O4 + ", " + F4);
-		
+		}
+
+		IpssLogger.getLogger().fine("Branch data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("From Bus number, To Bus Number, Circuit id:" + I + ", " + J + ", " + CKT);
+		IpssLogger.getLogger().fine("R, X, B:" + R + ", " + X + ", " + B);
+		IpssLogger.getLogger().fine("RATEA, RATEB, RATEC:" + RATEA + ", " + RATEB + ", " + RATEC);
+		IpssLogger.getLogger().fine("GI, BI, GJ, BJ, ST, LEN:" + GI + ", " + BI + ", " + GJ + ", " + BJ + ", " + ST+ ", " + LEN);
+		IpssLogger.getLogger().fine("O1, F1, O2, F2, O3, F3, O4, F4:" + O1 + ", " + F1 + ", " + O2 + ", " + F2  + ", " + O3 + ", " + F3 + ", " + O4 + ", " + F4);
+
 		boolean fromMetered = true;
 		if (J < 0) {
 			fromMetered = false;
 			J = -J;
 		}
     	// create an AclfBranch object
-		// also we need to use AclfBranchExt to hold the extra rating fields
-      	final AclfBranchExt bra = CoreObjectFactory.createAclfBranchExt(CKT, adjNet);
+      	final PSSELine bra = new PSSELine(CKT);
+		String iStr = new Integer(I).toString();
+		String jStr = new Integer(J).toString();
+      	adjNet.addBranch(bra, iStr, jStr);
+
+      	bra.setFromMetered(fromMetered);
       	bra.setStatus(ST==1);
       	bra.setRatingMva1(RATEA);
-      	bra.setRatingMva2(RATEA);
-      	bra.setRatingMva3(RATEB);
+      	bra.setRatingMva2(RATEB);
+      	bra.setRatingMva3(RATEC);
       	bra.setFromShuntY(new Complex(GI,BI));
       	bra.setToShuntY(new Complex(GJ,BJ));
-      	
-      	// add the object into the network container
-      	if (J < 0) {
-      		// do something???? 
-      		J = -J;
-      	}
-      	adjNet.addBranch(bra, new Integer(I).toString(), new Integer(J).toString());
+  
+       	bra.getOwnerRec(0).setOwnerNumber(O1);
+       	bra.getOwnerRec(0).setOwnershipFactor(F1);
+       	bra.getOwnerRec(1).setOwnerNumber(O2);
+       	bra.getOwnerRec(1).setOwnershipFactor(F2);
+       	bra.getOwnerRec(2).setOwnerNumber(O3);
+       	bra.getOwnerRec(2).setOwnershipFactor(F3);
+       	bra.getOwnerRec(3).setOwnerNumber(O4);
+       	bra.getOwnerRec(3).setOwnershipFactor(F4);
       	
        	bra.setBranchCode(AclfBranchCode.LINE_LITERAL);
    		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
@@ -169,16 +177,73 @@ public class BranchDataRecord {
 		}
 		
 		IpssLogger.getLogger().info("Xfr data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().info("I, J, K, Circuit id:" + I + ", " + J + ", "  + K + ", " + CKT);
-		IpssLogger.getLogger().info("CW, CZ, CM, MAG1, MAG2, NMETR, NAME, STAT:" + CW + ", " + CZ + ", " 
+		IpssLogger.getLogger().fine("I, J, K, Circuit id:" + I + ", " + J + ", "  + K + ", " + CKT);
+		IpssLogger.getLogger().fine("CW, CZ, CM, MAG1, MAG2, NMETR, NAME, STAT:" + CW + ", " + CZ + ", " 
 				+ CM + ", " + MAG1 + ", " + MAG2 + ", " + NMETR + ", " + NAME + ", " + STAT);
-		IpssLogger.getLogger().info("O1, F1, O2, F2, O3, F3, O4, F4:" + O1 + ", " + F1 + ", " + O2 + ", " + F2  + ", " + O3 + ", " + F3 + ", " + O4 + ", " + F4);
+		IpssLogger.getLogger().fine("O1, F1, O2, F2, O3, F3, O4, F4:" + O1 + ", " + F1 + ", " + O2 + ", " + F2  + ", " + O3 + ", " + F3 + ", " + O4 + ", " + F4);
 		
-		if (!PSSEUtilFunc.is3WXfr(lineStr2)) {
-			
+		if (K == 0) {
+	      	final PSSEXformer bra = new PSSEXformer(CKT);
+	      	bra.setName(NAME);
+	      	bra.setStatus(STAT ==1);
+	      	bra.setFromMetered(NMETR==1);
+	      	
+			String iStr = new Integer(I).toString();
+			String jStr = new Integer(J).toString();
+	      	adjNet.addBranch(bra, iStr, jStr);
+	      	
+	    	bra.setFladWinding(CW);
+	    	bra.setFlagZ(CZ);
+	    	bra.setFlagMagnetizing(CM);
+	    	bra.setMagG(MAG1);
+	    	bra.setMagB(MAG2);
+	      	
+	       	bra.getOwnerRec(0).setOwnerNumber(O1);
+	       	bra.getOwnerRec(0).setOwnershipFactor(F1);
+	       	bra.getOwnerRec(1).setOwnerNumber(O2);
+	       	bra.getOwnerRec(1).setOwnershipFactor(F2);
+	       	bra.getOwnerRec(2).setOwnerNumber(O3);
+	       	bra.getOwnerRec(2).setOwnershipFactor(F3);
+	       	bra.getOwnerRec(3).setOwnerNumber(O4);
+	       	bra.getOwnerRec(3).setOwnershipFactor(F4);	  
+	       	
+	    	/*
+	       		format : R1-2,X1-2,SBASE1-2
+	    	*/
+	  		StringTokenizer st2 = new StringTokenizer(lineStr2, ",");
+	       	double R1_2 = new Double(st2.nextToken()).doubleValue();
+	       	double X1_2 = new Double(st2.nextToken()).doubleValue();
+	       	double SBASE1_2 = new Double(st2.nextToken()).doubleValue();
+	       	
+	    	/*
+    		format : WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
+	    	 */
+	  		StringTokenizer st3 = new StringTokenizer(lineStr3, ",");
+	  		double WINDV1 = new Double(st3.nextToken()).doubleValue();
+	  		double NOMV1 = new Double(st3.nextToken()).doubleValue();
+	  		double ANG1 = new Double(st3.nextToken()).doubleValue();
+	  		double RATA1 = new Double(st3.nextToken()).doubleValue();
+	  		double RATB1 = new Double(st3.nextToken()).doubleValue();
+	  		double RATC1 = new Double(st3.nextToken()).doubleValue();
+	  		int COD = new Integer(st3.nextToken().trim()).intValue();
+	  		int CONT = new Integer(st3.nextToken().trim()).intValue();
+	  		double RMA = new Double(st3.nextToken()).doubleValue();
+	  		double RMI = new Double(st3.nextToken()).doubleValue();
+	  		double VMA = new Double(st3.nextToken()).doubleValue();
+	  		double VMI = new Double(st3.nextToken()).doubleValue();
+	  		int NTP = new Integer(st3.nextToken().trim()).intValue();
+	  		int TAB = new Integer(st3.nextToken().trim()).intValue();
+	  		double CR = new Double(st3.nextToken()).doubleValue();
+	  		double CX = new Double(st3.nextToken()).doubleValue();
+	  		
+	  		/*
+    			format : WINDV2,NOMV2
+	  		 */
+	  		StringTokenizer st4 = new StringTokenizer(lineStr4, ",");
+	  		double WINDV2 = new Double(st4.nextToken()).doubleValue();
+	  		double NOMV2 = new Double(st4.nextToken()).doubleValue();
 		}
 		else {
-			
 		}
 	}			
 }

@@ -166,7 +166,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
       						String lineStr4 = din.readLine();
       						lineNo++; lineNo++; lineNo++;
       						String lineStr5 = "";
-      						if (PSSEUtilFunc.is3WXfr(lineStr2)) {
+      						if (PSSEUtilFunc.is3WXfr(lineStr)) {
           						lineStr4 = din.readLine();
           						lineNo++;
       						}

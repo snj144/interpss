@@ -100,9 +100,9 @@ public class NetDataRecord extends IpssFileAdapterBase {
 		double PTOL = new Double(st.nextToken().trim()).doubleValue();
 		String ARNAM = PSSEUtilFunc.trimQuote(st.nextToken());
 
-		IpssLogger.getLogger().info("Area interchange data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().info("Area number, Swing Bus Number:" + I + ", " + ISW);
-		IpssLogger.getLogger().info("Pspec, Perror, Name:" + PDES + ", " + PTOL + ", "  + ARNAM);
+		IpssLogger.getLogger().fine("Area interchange data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("Area number, Swing Bus Number:" + I + ", " + ISW);
+		IpssLogger.getLogger().fine("Pspec, Perror, Name:" + PDES + ", " + PTOL + ", "  + ARNAM);
 		
 		AreaInterchangeController controller = CoreObjectFactory.createAreaInterchangeController(I, ARNAM, adjNet);
 		AclfBus bus = adjNet.getAclfBus(new Integer(ISW).toString());

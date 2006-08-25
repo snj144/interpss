@@ -1,18 +1,24 @@
 package ipss.custom.exchange.psse;
 
+import ipss.custom.psse.aclf.PSSEGen;
+import ipss.custom.psse.aclf.PSSELoad;
+
 import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
 
+import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.XmlUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.datatype.FuncLoad;
 
 public class BusDataRecord {
 	/** 
@@ -50,11 +56,12 @@ public class BusDataRecord {
 		IpssLogger.getLogger().fine("baseKV, Vm, Va:" + BASKV + ", " + VM + ", " + VA);
 		IpssLogger.getLogger().fine("Pl, Ql, OWNER:" + GL + ", " + BL + ", " + OWNER);
 
-		final AclfBus bus = CoreObjectFactory.createAclfBus(new Integer(I).toString(), AREA, ZONE, adjNet);
+		String iStr = new Integer(I).toString();
+		final AclfBus bus = CoreObjectFactory.createAclfBus(iStr, AREA, ZONE, adjNet);
       	bus.setName(NAME);
       	bus.setOwner(OWNER);
     	bus.setBaseVoltage(BASKV, UnitType.kV);
-    	double factor = 1000.0/adjNet.getBaseKva();  // for transfer G+jB PU on system base 
+    	double factor = 1000.0/adjNet.getBaseKva();  // for transfer G+jB to PU on system base 
     	bus.setShuntY(new Complex(GL*factor,BL*factor));
       	
     	// add the bus object into the network container
@@ -118,9 +125,42 @@ public class BusDataRecord {
 		double YQ = new Double(st.nextToken()).doubleValue();
 		int OWNER = new Integer(st.nextToken().trim()).intValue();
 
-		IpssLogger.getLogger().info("Gen data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().info("Bus number, id, status, area, zone:" + I + ", " + ID + ", " + STATUS + ", " + AREA + ", " + ZONE);
-		IpssLogger.getLogger().info("PL, QL, IP, iQ, YP, YQ, OWNER:" + PL + ", " + QL + ", " + IP + ", " + IQ + ", " + YP + ", " + YQ + ", " + OWNER);
+		IpssLogger.getLogger().fine("Load data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("Bus number, id, status, area, zone:" + I + ", " + ID + ", " + STATUS + ", " + AREA + ", " + ZONE);
+		IpssLogger.getLogger().fine("PL, QL, IP, iQ, YP, YQ, OWNER:" + PL + ", " + QL + ", " + IP + ", " + IQ + ", " + YP + ", " + YQ + ", " + OWNER);
+		
+		String iStr = new Integer(I).toString();
+		AclfBus bus = adjNet.getAclfBus(iStr);
+		if (bus == null) {
+			throw new Exception ("Bus not found in the network, bus number: " + I);
+		}
+		PSSELoad load = new PSSELoad();
+		load.setId(ID);
+		load.setName("Load:" + ID + "(" + I + ")");
+		load.setDesc("PSSE Load " + ID + " at Bus " + I);
+		load.setStatus(STATUS==1);
+		load.setAreaNo(ZONE);
+		load.setZoneNo(ZONE);
+		load.setOwner(OWNER);
+		
+		FuncLoad p = new FuncLoad();
+		p.setLoad0(PL+IP+YP, UnitType.mW, adjNet.getBaseKva());
+		if ((PL+IP+YP) != 0.0) {
+			p.setA(PL/(PL+IP+YP));
+			p.setB(IP/(PL+IP+YP));
+		}
+		load.setPLoad(p);
+
+		FuncLoad q = new FuncLoad();
+		q.setLoad0(QL+IQ+YQ, UnitType.mVar, adjNet.getBaseKva());
+		if ((QL+IQ+YQ) != 0.0) {
+			q.setA(QL/(QL+IQ+YQ));
+			q.setB(IQ/(QL+IQ+YQ));
+		}
+		load.setQLoad(q);
+
+		bus.getRegDeviceList().add(load);
+		IpssLogger.getLogger().fine("PSSELoad: " + XmlUtil.toXmlString(load));
 	}			
 
 	/** 
@@ -179,11 +219,50 @@ public class BusDataRecord {
 			F4 = new Double(st.nextToken().trim()).doubleValue();
 		}
 
-		IpssLogger.getLogger().info("Gen data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().info("Bus number, GenId:" + I + ", " + ID);
-		IpssLogger.getLogger().info("PG, QG, Qmax, Qmin, Vspec:" + PG + ", " + QG + ", " + QT + ", " + QB + ", " + VS);
-		IpssLogger.getLogger().info("Ireg, MvaBase, Zr, Zx, Rt, Xt:" + IREG + ", " + MBASE + ", " + ZR + ", " + ZX + ", " + RT + ", " + XT);
-		IpssLogger.getLogger().info("Gtap, RegMar%, Pmax, Pmin:" + GTAP + ", " + STAT + ", " + RMPCT + ", " + PT + ", " + PB);
-		IpssLogger.getLogger().info("O1, F1, O2, F2, O3, F3, O4, F4:" + O1 + ", " + F1 + ", " + O2 + ", " + F2  + ", " + O3 + ", " + F3 + ", " + O4 + ", " + F4);
+		IpssLogger.getLogger().fine("Gen data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("Bus number, GenId:" + I + ", " + ID);
+		IpssLogger.getLogger().fine("PG, QG, Qmax, Qmin, Vspec:" + PG + ", " + QG + ", " + QT + ", " + QB + ", " + VS);
+		IpssLogger.getLogger().fine("Ireg, MvaBase, Zr, Zx, Rt, Xt:" + IREG + ", " + MBASE + ", " + ZR + ", " + ZX + ", " + RT + ", " + XT);
+		IpssLogger.getLogger().fine("Gtap, RegMar%, Pmax, Pmin:" + GTAP + ", " + STAT + ", " + RMPCT + ", " + PT + ", " + PB);
+		IpssLogger.getLogger().fine("O1, F1, O2, F2, O3, F3, O4, F4:" + O1 + ", " + F1 + ", " + O2 + ", " + F2  + ", " + O3 + ", " + F3 + ", " + O4 + ", " + F4);
+		
+		String iStr = new Integer(I).toString();
+		AclfBus bus = adjNet.getAclfBus(iStr);
+		if (bus == null) {
+			throw new Exception ("Bus not found in the network, bus number: " + I);
+		}
+		PSSEGen gen = new PSSEGen();
+		gen.setId(ID);
+		gen.setName("Gen:" + ID + "(" + I + ")");
+		gen.setDesc("PSSE Generator " + ID + " at Bus " + I);
+		gen.setStatus(STAT==1);
+
+		gen.setPGen(UnitType.pConversion(PG, adjNet.getBaseKva(), UnitType.mW, UnitType.PU));
+		gen.setQGen(UnitType.pConversion(QG, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU));
+		gen.setVSpec(VS);
+		
+		gen.setPLimit(new LimitType(UnitType.pConversion(PT, adjNet.getBaseKva(), UnitType.mW, UnitType.PU),
+				                    UnitType.pConversion(PB, adjNet.getBaseKva(), UnitType.mW, UnitType.PU)));
+		gen.setQLimit(new LimitType(UnitType.pConversion(QT, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU),
+                                    UnitType.pConversion(QB, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU)));
+		
+		gen.setVControlBusId(new Integer(IREG).toString());
+		gen.setMvaBase(MBASE);
+		gen.setZGen(new Complex(ZR,ZX));
+		gen.setZXfr(new Complex(RT,XT));
+		gen.setXfrTap(GTAP);
+		gen.setContribFactor(RMPCT*0.01);
+
+		gen.getOwnerRec(0).setOwnerNumber(O1);
+		gen.getOwnerRec(0).setOwnershipFactor(F1);
+		gen.getOwnerRec(1).setOwnerNumber(O2);
+		gen.getOwnerRec(1).setOwnershipFactor(F2);
+		gen.getOwnerRec(2).setOwnerNumber(O3);
+		gen.getOwnerRec(2).setOwnershipFactor(F3);
+		gen.getOwnerRec(3).setOwnerNumber(O4);
+		gen.getOwnerRec(3).setOwnershipFactor(F4);
+		
+		bus.getRegDeviceList().add(gen);
+		IpssLogger.getLogger().fine("PSSEGen: " + XmlUtil.toXmlString(gen));	
 	}			
 }
