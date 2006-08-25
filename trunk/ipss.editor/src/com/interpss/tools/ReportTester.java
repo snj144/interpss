@@ -1,5 +1,7 @@
 package com.interpss.tools;
 
+import ipss.custom.exchange.FileAdapter_IeeeCommonFormat;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,7 +34,6 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.io.IpssFileAdapter;
 
-import custom.input.FileAdapter_IeeeCommonFormat;
 
 public class ReportTester {
 	public static JasperPrint createAcscNSFaultReport(IPSSMsgHub msg) {
