@@ -1,5 +1,7 @@
 package dev;
 
+import ipss.custom.exchange.FileAdapter_PTIFormat;
+
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.StdoutMsgListener;
 import com.interpss.common.msg.TextMessage;
@@ -7,7 +9,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
 
-import custom.input.FileAdapter_PTIFormat;
 
 public class TestAdapter {
 
