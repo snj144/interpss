@@ -8,11 +8,11 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.gov;
+package org.interpss.dstab.control.gov;
 
 import java.util.Hashtable;
 
-import com.interpss.dstab.control.common.AbstractController;
+import org.interpss.dstab.control.common.AbstractController;
 import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.util.DStabOutFunc;
 

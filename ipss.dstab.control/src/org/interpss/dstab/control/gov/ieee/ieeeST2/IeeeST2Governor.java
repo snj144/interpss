@@ -8,7 +8,7 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.gov.ieee.ieeeST2;
+package org.interpss.dstab.control.gov.ieee.ieeeST2;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InvalidInputException;
@@ -16,7 +16,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.control.gov.AbstractGovernor;
+import org.interpss.dstab.control.gov.AbstractGovernor;
 
 public class IeeeST2Governor extends AbstractGovernor {
 	// state variables

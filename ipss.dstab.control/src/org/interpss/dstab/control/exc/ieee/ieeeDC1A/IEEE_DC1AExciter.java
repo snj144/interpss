@@ -7,7 +7,7 @@
  *
  * $Id$
  */
-package com.interpss.dstab.control.exc.ieee.ieeeDC1A;
+package org.interpss.dstab.control.exc.ieee.ieeeDC1A;
 
 import java.util.Hashtable;
 
@@ -15,7 +15,7 @@ import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.control.exc.AbstractExciter;
+import org.interpss.dstab.control.exc.AbstractExciter;
 
 public class IEEE_DC1AExciter extends AbstractExciter {
 	// state vriables

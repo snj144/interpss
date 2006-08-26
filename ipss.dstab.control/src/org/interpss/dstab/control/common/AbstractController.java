@@ -8,7 +8,7 @@
  *
  * $Id$
  */
-package com.interpss.dstab.control.common; 
+package org.interpss.dstab.control.common; 
 
 import java.util.Hashtable;
 

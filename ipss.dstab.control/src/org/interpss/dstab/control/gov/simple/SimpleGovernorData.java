@@ -8,7 +8,7 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.gov.simple;
+package org.interpss.dstab.control.gov.simple;
 
 public class SimpleGovernorData {
 	public SimpleGovernorData() {}

@@ -8,11 +8,11 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.pss;
+package org.interpss.dstab.control.pss;
 
 import java.util.Hashtable;
 
-import com.interpss.dstab.control.common.AbstractController;
+import org.interpss.dstab.control.common.AbstractController;
 import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.util.DStabOutFunc;
 

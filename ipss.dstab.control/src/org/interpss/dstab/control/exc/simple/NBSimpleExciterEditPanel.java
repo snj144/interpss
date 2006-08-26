@@ -9,14 +9,14 @@
  * @author  mzhou
  */
 
-package com.interpss.dstab.control.exc.simple;
+package org.interpss.dstab.control.exc.simple;
 
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.Num2Str;
-import com.interpss.dstab.control.common.ui.InputVerifyUtil;
+import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;

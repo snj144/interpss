@@ -4,7 +4,7 @@
  * TODO To change the template for this generated file go to
  * Window - Preferences - Java - Code Style - Code Templates
  */
-package com.interpss.dstab.control.exc.ieee.ieeeAC4A;
+package org.interpss.dstab.control.exc.ieee.ieeeAC4A;
 
 /**
  * @author di xiao

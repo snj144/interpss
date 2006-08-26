@@ -9,15 +9,15 @@
  * @author  mzhou
  */
 
-package com.interpss.dstab.control.gov.ieee.ieeeST2;
+package org.interpss.dstab.control.gov.ieee.ieeeST2;
 
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.Num2Str;
-import com.interpss.dstab.control.common.ui.InputVerifyUtil;
-import com.interpss.dstab.control.gov.AbstractGovernor;
+import org.interpss.dstab.control.common.ui.InputVerifyUtil;
+import org.interpss.dstab.control.gov.AbstractGovernor;
 
 public class NBIeeeST2GovernorEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;

@@ -8,7 +8,7 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.exc.ieee.ieeeDC1A;
+package org.interpss.dstab.control.exc.ieee.ieeeDC1A;
 
 public class IEEE_DC1AExciterData {
 	public IEEE_DC1AExciterData() {}
