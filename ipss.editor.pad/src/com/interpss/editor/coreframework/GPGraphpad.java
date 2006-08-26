@@ -885,7 +885,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 					if (file == null)
 						return;
 					addGraphDocument(item, file);
-					// addDocument(item.getName(),item.getProject(), file);
 				} catch (Exception ex) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog(
 							"InterPSS Graphic File Open Error", ex.toString());

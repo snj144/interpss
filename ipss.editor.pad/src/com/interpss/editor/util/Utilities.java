@@ -293,36 +293,32 @@ public final class Utilities {
 	}
 
 	public static GPGraphpadFile OpenGraphFile(GPGraphpad graphpad,
-			InputStream in) throws Exception {
+			InputStream in) {
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
 				IAppStatus.BusyIndicatorPeriod,	"Load InterPSS Graphic File ...", "");
+		GPGraphpadFile file = null;
+		try {
+			JGraph graph = GraphSpringAppContext.getIpssGraph();
 
-		/*		Mike: use the SpringFramework to manage graph object
-		JGraph graph = (JGraph) GPPluginInvoker
-				.instanciateObjectForKey("JGraph.class");
-		graph.setModel((GraphModel) GPPluginInvoker
-				.instanciateObjectForKey("GraphModel.class"));
-		*/
-		
-		JGraph graph = GraphSpringAppContext.getIpssGraph();
-			
-		BaseBranchForm.XmlBinding = false;
-		GraphModel model = IpssGraphCodec.getInstance(graphpad).read(in, graph);
-		BaseBranchForm.XmlBinding = true;
-		GraphUtilFunc.rebuildLabelRelationship(graph);
+			BaseBranchForm.XmlBinding = false;
+			GraphModel model = IpssGraphCodec.getInstance(graphpad).read(in, graph);
+			BaseBranchForm.XmlBinding = true;
+			GraphUtilFunc.rebuildLabelRelationship(graph);
 
-		// project.getSimuAppContext().setSimuNetDataDirty(true);
-		IGFormContainer formContainer = ((GPGraphModel) model).getGFormContainer();
-		formContainer.setDataDirty(false);
-		formContainer.rebuildRelation();
+			// project.getSimuAppContext().setSimuNetDataDirty(true);
+			IGFormContainer formContainer = ((GPGraphModel) model).getGFormContainer();
+			formContainer.setDataDirty(false);
+			formContainer.rebuildRelation();
 
-		//graphpad.setStatus("Graphic loaded"); no need anymore
+			CellViewFactory cellViewFactory = (CellViewFactory) GPPluginInvoker
+					.instanciateObjectForKey("ViewFactory.class");
+			file = new GPGraphpadFile(new GraphLayoutCache(model, cellViewFactory));
 
-		CellViewFactory cellViewFactory = (CellViewFactory) GPPluginInvoker
-				.instanciateObjectForKey("ViewFactory.class");
-		GPGraphpadFile file = new GPGraphpadFile(new GraphLayoutCache(model, cellViewFactory));
-		//file.setProjData(((GPGraphModel) model).getProjData()); projData is stored in DB
-		// add the new document with the new graph and the new model
+		} catch (Exception e ) {
+			SpringAppContext.getEditorDialogUtil().showMsgDialog(
+					"InterPSS Graphic File Open Error", e.toString());
+			e.printStackTrace();
+		}
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("InterPSS Graphic File loaded");
 		return file;
 	}

@@ -52,7 +52,7 @@ public class EditDelete extends IpssAbstractGraphAction {
 					else if (cells[i] instanceof BranchEdge) {
 						IGFormContainer container = ((GPGraphModel) (getCurrentGraph().getModel())).getGFormContainer();
 						BranchEdge edge = (BranchEdge)cells[i];
-						container.removeBusForm(edge.getBranchForm().getId());
+						container.removeBranchForm(edge.getBranchForm().getId());
 					}
 				}
 				getCurrentGraph().getModel().remove(cells);
