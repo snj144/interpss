@@ -8,7 +8,7 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.pss.simple;
+package org.interpss.dstab.control.pss.simple;
 
 public class SimpleStabilizerData {
 	public SimpleStabilizerData() {}

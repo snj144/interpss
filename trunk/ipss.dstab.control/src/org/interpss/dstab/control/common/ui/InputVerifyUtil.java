@@ -1,4 +1,4 @@
-package com.interpss.dstab.control.common.ui;
+package org.interpss.dstab.control.common.ui;
 
 /**
 	Swing input data validation util functions

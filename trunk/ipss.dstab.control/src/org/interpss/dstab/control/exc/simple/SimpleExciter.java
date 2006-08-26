@@ -7,14 +7,14 @@
  *
  * $Id$
  */
-package com.interpss.dstab.control.exc.simple;
+package org.interpss.dstab.control.exc.simple;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.control.exc.AbstractExciter;
+import org.interpss.dstab.control.exc.AbstractExciter;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.util.DStabOutFunc;
 

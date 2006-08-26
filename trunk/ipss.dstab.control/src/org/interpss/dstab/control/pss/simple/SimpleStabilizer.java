@@ -8,14 +8,14 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.pss.simple;
+package org.interpss.dstab.control.pss.simple;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.control.pss.AbstractStabilizer;
+import org.interpss.dstab.control.pss.AbstractStabilizer;
 import com.interpss.dstab.util.DStabOutFunc;
 
 public class SimpleStabilizer extends AbstractStabilizer {

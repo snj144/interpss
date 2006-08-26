@@ -8,7 +8,7 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.exc.simple;
+package org.interpss.dstab.control.exc.simple;
 
 public class SimpleExciterData {
 	public SimpleExciterData() {}

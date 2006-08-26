@@ -8,9 +8,9 @@
  * $Id$
  */
 
-package com.interpss.dstab.control.gov.ieee.ieeeST2;
+package org.interpss.dstab.control.gov.ieee.ieeeST2;
 
-import com.interpss.dstab.control.gov.AbstractGovernor;
+import org.interpss.dstab.control.gov.AbstractGovernor;
 
 public class IeeeST2GovernorData {
 	public IeeeST2GovernorData() {}

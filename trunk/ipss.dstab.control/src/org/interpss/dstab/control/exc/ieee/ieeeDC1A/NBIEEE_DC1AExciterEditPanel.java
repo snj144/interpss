@@ -9,13 +9,13 @@
  * @author  mzhou
  */
 
-package com.interpss.dstab.control.exc.ieee.ieeeDC1A;
+package org.interpss.dstab.control.exc.ieee.ieeeDC1A;
 
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.util.Num2Str;
-import com.interpss.dstab.control.common.ui.InputVerifyUtil;
+import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 public class NBIEEE_DC1AExciterEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
