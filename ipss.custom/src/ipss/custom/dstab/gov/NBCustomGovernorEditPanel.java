@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.util.Num2Str;
-import com.interpss.dstab.control.common.ui.InputVerifyUtil;
+import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 /**
  *

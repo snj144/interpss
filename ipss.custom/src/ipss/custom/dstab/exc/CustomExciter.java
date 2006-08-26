@@ -9,7 +9,7 @@ import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Num2Str;
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.control.exc.AbstractExciter;
+import org.interpss.dstab.control.exc.AbstractExciter;
 import com.interpss.dstab.mach.Machine;
 
 public class CustomExciter extends AbstractExciter {
