@@ -3,7 +3,7 @@ package org.interpss.test.unit.dstab.controller.exc;
 import org.interpss.test.unit.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.control.exc.simple.SimpleExciter;
+import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import com.interpss.dstab.mach.Machine;
 
 public class TestSimpleExcitorCase extends TestSetupBase {

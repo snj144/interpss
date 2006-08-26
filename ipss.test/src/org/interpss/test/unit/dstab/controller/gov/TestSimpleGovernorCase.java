@@ -3,7 +3,7 @@ package org.interpss.test.unit.dstab.controller.gov;
 import org.interpss.test.unit.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.control.gov.simple.SimpleGovernor;
+import org.interpss.dstab.control.gov.simple.SimpleGovernor;
 import com.interpss.dstab.mach.Machine;
 
 public class TestSimpleGovernorCase extends TestSetupBase {
