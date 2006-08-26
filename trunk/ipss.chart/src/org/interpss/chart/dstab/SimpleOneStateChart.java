@@ -5,7 +5,7 @@
  *
  */
 
-package com.interpss.chart.dstab;
+package org.interpss.chart.dstab;
 
 import java.awt.Color;
 
