@@ -9,9 +9,9 @@ import javax.swing.JMenu;
 import javax.swing.JPopupMenu;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.chart.dist.LoadScheduleChart;
+import org.interpss.chart.dstab.SimpleOneStateChart;
 
-import com.interpss.chart.dist.LoadScheduleChart;
-import com.interpss.chart.dstab.SimpleOneStateChart;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
