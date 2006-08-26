@@ -211,7 +211,12 @@ public class BusCell extends DefaultGraphCell implements IIpssGraphCell {
 	}
 
 
-	
+//	public Object clone() {
+//		BusCell c = (BusCell) super.clone();
+//		c.set_labelAnnotate(new AnnotateLabelCell(c,c.getUserObject()));
+//		c.setLabel(new LabelCell(c,c.getUserObject()));
+//		return c;
+//	}
 	public String toString() {
 		return "";
 	}
