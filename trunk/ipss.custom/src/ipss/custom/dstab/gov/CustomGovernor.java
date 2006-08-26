@@ -12,7 +12,7 @@ import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.control.gov.AbstractGovernor;
+import org.interpss.dstab.control.gov.AbstractGovernor;
 
 public class CustomGovernor extends AbstractGovernor {
 	// state variables
