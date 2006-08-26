@@ -5,7 +5,7 @@
  *
  */
 
-package com.interpss.chart.dist;
+package org.interpss.chart.dist;
 
 import java.awt.Color;
 
