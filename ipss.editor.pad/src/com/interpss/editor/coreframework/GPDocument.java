@@ -443,12 +443,8 @@ public class GPDocument extends IpssEditorDocument implements
 			cell.getBusForm().setOrientation(
 					cell.isVertical() ? GBusForm.H_Orientation
 							: GBusForm.V_Orientation);
-			// GraphCellFactory.LastSelectedBusOrientation =
-			// getBusForm().getOrientation();
 			CellView view = graph.getGraphLayoutCache().getMapping(cell, false);
 			((JGraphBusView) view).rotateSetAttributes();
-			// graph.clearSelection();
-			// graph.getGraphLayoutCache().reload();
 		}
 		graph.getGraphLayoutCache().edit(nested, null, null, null);
 	}
