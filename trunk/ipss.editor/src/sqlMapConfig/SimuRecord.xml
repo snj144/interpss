@@ -4,7 +4,7 @@
     "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="SimuRecord">
-  <typeAlias alias="projectData" type="com.interpss.editor.data.proj.ProjData"/>
+  <typeAlias alias="projectData" type="org.interpss.editor.data.proj.ProjData"/>
   <typeAlias alias="dstabsimurec" type="com.interpss.dstab.util.DStabSimuDBRecord"/>
   <typeAlias alias="ipsscase" type="com.interpss.common.rec.IpssDBCase"/>
 

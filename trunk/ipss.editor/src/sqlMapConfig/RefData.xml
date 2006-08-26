@@ -4,8 +4,8 @@
     "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="SimuRecord">
-  <typeAlias alias="schedule" type="com.interpss.editor.refData.LoadSchedule"/>
-  <typeAlias alias="scheduleItem" type="com.interpss.editor.refData.LoadScheduleItem"/>
+  <typeAlias alias="schedule" type="org.interpss.editor.refData.LoadSchedule"/>
+  <typeAlias alias="scheduleItem" type="org.interpss.editor.refData.LoadScheduleItem"/>
 
   <select id="getLoadScheduleList" resultClass="schedule">
     Select ID as id, NAME as name, PERIOD_UNIT as period_unit, POINTS as points from LoadSchedule
