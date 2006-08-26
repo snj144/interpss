@@ -2,8 +2,9 @@ package com.interpss.editor.doc;
 
 import javax.swing.JComponent;
 
-import com.interpss.editor.SimuAppSpringAppContext;
-import com.interpss.editor.data.proj.ProjData;
+import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.data.proj.ProjData;
+
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.editor.jgraph.ui.data.IProjectData;
 import com.interpss.editor.util.Utilities;

@@ -51,6 +51,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.refData.LoadScheduleRefData;
 import org.jgraph.JGraph;
 
 import com.interpss.common.SpringAppContext;
@@ -58,7 +60,6 @@ import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.editor.EditorSpringAppContext;
-import com.interpss.editor.SimuAppSpringAppContext;
 import com.interpss.editor.doc.IpssDocument;
 import com.interpss.editor.doc.IpssProject;
 import com.interpss.editor.doc.IpssProjectItem;
@@ -71,7 +72,6 @@ import com.interpss.editor.jgraph.ui.form.IGNetForm;
 import com.interpss.editor.project.IpssProjectCodec;
 import com.interpss.editor.project.IpssProjectPanel;
 import com.interpss.editor.project.IpssTabbedPane;
-import com.interpss.editor.refData.LoadScheduleRefData;
 import com.interpss.editor.resources.Translator;
 import com.interpss.editor.swing.GPSplitPane;
 import com.interpss.editor.swing.tabbedpane.CloseListener;

@@ -5,10 +5,11 @@ import java.awt.BorderLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JScrollPane;
 
+import org.interpss.editor.report.IpssRptViewer;
+import org.interpss.report.IpssReportFactory;
+
 import com.interpss.editor.doc.IpssProject;
 import com.interpss.editor.jgraph.GraphSpringAppContext;
-import com.interpss.editor.report.IpssRptViewer;
-import com.interpss.report.IpssReportFactory;
 
 public class IpssReportDocument extends IpssEditorDocument{
 	

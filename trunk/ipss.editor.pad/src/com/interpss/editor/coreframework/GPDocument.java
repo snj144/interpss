@@ -30,6 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.ToolTipManager;
 
+import org.interpss.editor.form.GBusForm;
 import org.jgraph.JGraph;
 import org.jgraph.event.GraphLayoutCacheEvent;
 import org.jgraph.event.GraphLayoutCacheListener;
@@ -51,7 +52,6 @@ import org.jgraph.plaf.GraphUI;
 import com.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel;
 import com.interpss.editor.coreframework.jgraphsubclassers.GPMarqueeHandler;
 import com.interpss.editor.doc.IpssProject;
-import com.interpss.editor.form.GBusForm;
 import com.interpss.editor.graphcellsbase.cellviews.JGraphBusView;
 import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.cells.BusCell;
@@ -73,7 +73,7 @@ import com.interpss.editor.util.Rule;
  * by GPDocuments, critical objects are instanciated by a factory where you can
  * register custom subclassers.
  * 
- * @see com.interpss.editor.coreframework.GPGraphpadModel
+ * @see org.interpss.editor.coreframework.GPGraphpadModel
  */
 public class GPDocument extends IpssEditorDocument implements
 		GraphSelectionListener, ComponentListener, Printable,

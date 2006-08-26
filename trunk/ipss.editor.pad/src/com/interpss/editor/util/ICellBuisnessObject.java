@@ -14,7 +14,7 @@ import org.jgraph.JGraph;
  * simply make them implement that interface and register them in the
  * ICellBuisnessObject factory.
  * @author rvalyi, consider this as a LGPL contribution
- * @see com.interpss.editor.coreframework.GPGraphpadModel
+ * @see org.interpss.editor.coreframework.GPGraphpadModel
  */
 public interface ICellBuisnessObject extends Serializable, Cloneable {
 

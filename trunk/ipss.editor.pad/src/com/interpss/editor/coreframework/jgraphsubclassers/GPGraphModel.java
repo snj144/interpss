@@ -30,7 +30,7 @@ import com.interpss.editor.util.ICellBuisnessObject;
  * section), this file is released here under the LGPL license as stated by the
  * Free Software Fundation.
  * 
- * @see com.interpss.editor.coreframework.GPGraphpadModel
+ * @see org.interpss.editor.coreframework.GPGraphpadModel
  */
 public class GPGraphModel extends DefaultGraphModel implements IIpssGraphModel {
 

@@ -21,6 +21,7 @@ import java.util.Map;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.interpss.editor.data.proj.ProjData;
 import org.jgraph.JGraph;
 import org.jgraph.graph.AbstractCellView;
 import org.jgraph.graph.DefaultEdge;
@@ -34,7 +35,6 @@ import org.jgraph.graph.PortView;
 import org.jgraph.graph.VertexView;
 
 import com.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel;
-import com.interpss.editor.data.proj.ProjData;
 
 public class GPGraphpadFile extends DefaultMutableTreeNode {
 	protected Map map;

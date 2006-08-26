@@ -21,6 +21,9 @@ package com.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 import java.io.FileOutputStream;
 
+import org.interpss.editor.data.proj.ProjData;
+import org.interpss.editor.io.ProjectDataDBManager;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
@@ -29,8 +32,6 @@ import com.interpss.editor.coreframework.IpssAbstractActionDefault;
 import com.interpss.editor.coreframework.IpssCustomDocument;
 import com.interpss.editor.coreframework.IpssTextDocument;
 import com.interpss.editor.coreframework.actions.IpssAbstractGraphActionFile;
-import com.interpss.editor.data.proj.ProjData;
-import com.interpss.editor.io.ProjectDataDBManager;
 import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.editor.project.IpssCustomDataCodec;
