@@ -54,7 +54,7 @@ import com.interpss.editor.util.IVertexFactory;
  * a polymorphic way. Thus you propably don't need to subclass it when reusing
  * GPGraphpad, rather register your custom shape buttons and popup menu in the factory.
  *  
- *  @see com.interpss.editor.coreframework.GPGraphpadModel
+ *  @see org.interpss.editor.coreframework.GPGraphpadModel
  *  @see org.jgraph.pad.actions.celltoolboxes.AbstractDefaultEdgeCreator
  *  @see org.jgraph.pad.actions.celltoolboxes.AbstractDefaultVertexnPortsCreator
  */

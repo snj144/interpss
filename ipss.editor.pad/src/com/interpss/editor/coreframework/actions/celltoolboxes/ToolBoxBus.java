@@ -1,9 +1,9 @@
 package com.interpss.editor.coreframework.actions.celltoolboxes;
 
+import org.interpss.editor.form.GBusForm;
 import org.jgraph.graph.GraphCell;
 
 import com.interpss.editor.coreframework.GPDocument;
-import com.interpss.editor.form.GBusForm;
 import com.interpss.editor.jgraph.cells.BusCell;
 import com.interpss.editor.jgraph.ui.form.IGBusForm;
 

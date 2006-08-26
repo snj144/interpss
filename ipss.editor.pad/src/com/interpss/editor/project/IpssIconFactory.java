@@ -2,7 +2,8 @@ package com.interpss.editor.project;
 
 import javax.swing.ImageIcon;
 
-import com.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringAppContext;
+
 import com.interpss.editor.coreframework.GPDocument;
 import com.interpss.editor.coreframework.IpssCustomDocument;
 import com.interpss.editor.coreframework.IpssReportDocument;

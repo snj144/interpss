@@ -8,15 +8,16 @@ import java.awt.Dialog;
 
 import javax.swing.JDialog;
 
+import org.interpss.editor.form.GBranchForm;
+import org.interpss.editor.form.GBusForm;
+import org.interpss.editor.ui.edit.NBBranchEditDialog;
+import org.interpss.editor.ui.edit.NBBusEditDialog;
+import org.interpss.editor.ui.edit.NBProjectEditDialog;
+
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.editor.form.GBranchForm;
-import com.interpss.editor.form.GBusForm;
 import com.interpss.editor.jgraph.cells.BranchEdge;
 import com.interpss.editor.jgraph.cells.BusCell;
-import com.interpss.editor.ui.edit.NBBranchEditDialog;
-import com.interpss.editor.ui.edit.NBBusEditDialog;
-import com.interpss.editor.ui.edit.NBProjectEditDialog;
 
 public class CellEditorFactory {
 	public final static byte EditorType_Normal = 0,

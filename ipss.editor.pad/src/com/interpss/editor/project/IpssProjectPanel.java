@@ -27,9 +27,10 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import org.interpss.editor.SimuAppSpringAppContext;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.editor.EditorSpringAppContext;
-import com.interpss.editor.SimuAppSpringAppContext;
 import com.interpss.editor.coreframework.GPBarFactory;
 import com.interpss.editor.coreframework.GPGraphpad;
 import com.interpss.editor.coreframework.IpssEditorDocument;

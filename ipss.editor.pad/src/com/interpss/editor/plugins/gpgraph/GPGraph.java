@@ -49,7 +49,7 @@ import com.interpss.editor.jgraph.cells.SimpleLabelCell;
  * to JGraph and have a few more serializable properties.
  * To use a custom JGraph subcalsser, subclass GPGraph and register
  * your subclass in the Graph factory.
- * @see com.interpss.editor.coreframework.GPGraphpadModel
+ * @see org.interpss.editor.coreframework.GPGraphpadModel
  */
 public class GPGraph extends JGraph {
 

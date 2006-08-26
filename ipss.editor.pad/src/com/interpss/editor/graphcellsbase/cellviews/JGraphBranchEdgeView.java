@@ -3,10 +3,10 @@ package com.interpss.editor.graphcellsbase.cellviews;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 
+import org.interpss.editor.form.GBranchForm;
 import org.jgraph.graph.CellViewRenderer;
 import org.jgraph.graph.EdgeView;
 
-import com.interpss.editor.form.GBranchForm;
 import com.interpss.editor.jgraph.cells.BranchEdge;
 import com.interpss.editor.jgraph.cells.BusCell;
 

@@ -20,8 +20,9 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
+import org.interpss.editor.SimuAppSpringAppContext;
 
-import com.interpss.editor.SimuAppSpringAppContext;
+
 import com.interpss.editor.coreframework.GPGraphpad;
 import com.interpss.editor.doc.IpssProject;
 import com.interpss.editor.util.Utilities;

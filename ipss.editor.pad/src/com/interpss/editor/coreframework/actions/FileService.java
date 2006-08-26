@@ -12,10 +12,11 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import com.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.io.FileChooserConfig;
+import org.interpss.editor.io.FileUtility;
+
 import com.interpss.editor.coreframework.GPPluginInvoker;
-import com.interpss.editor.io.FileChooserConfig;
-import com.interpss.editor.io.FileUtility;
 import com.interpss.editor.resources.Translator;
 import com.interpss.editor.util.ExtensionFilter;
 import com.interpss.simu.io.IpssFileAdapter;

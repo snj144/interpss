@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.zip.GZIPOutputStream;
 
+import org.interpss.editor.form.base.BaseBranchForm;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellViewFactory;
 import org.jgraph.graph.GraphLayoutCache;
@@ -56,7 +57,6 @@ import com.interpss.editor.coreframework.IpssTextFile;
 import com.interpss.editor.coreframework.actions.FileService;
 import com.interpss.editor.coreframework.actions.PreferencesService;
 import com.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel;
-import com.interpss.editor.form.base.BaseBranchForm;
 import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.cells.GraphUtilFunc;
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;

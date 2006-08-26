@@ -21,7 +21,7 @@ import com.interpss.editor.coreframework.GPGraphpad;
  * that already implements this interface with a convenient default behavior.
  * @author rvalyi, consider this as a LGPL contribution
  * 
- * @see com.interpss.editor.coreframework.GPGraphpadModel
+ * @see org.interpss.editor.coreframework.GPGraphpadModel
  */
 public interface IEdgeFactory {
   public GraphCell createCell();
