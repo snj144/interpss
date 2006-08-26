@@ -1,10 +1,11 @@
 package com.interpss.editor.util;
 
+import org.interpss.editor.form.GNetForm;
+
 import com.interpss.editor.coreframework.GPDocument;
 import com.interpss.editor.coreframework.IpssCustomDocument;
 import com.interpss.editor.coreframework.IpssEditorDocument;
 import com.interpss.editor.coreframework.IpssReportDocument;
-import com.interpss.editor.form.GNetForm;
 import com.interpss.editor.jgraph.GraphSpringAppContext;
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;

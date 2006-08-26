@@ -1,9 +1,10 @@
 package com.interpss.tools;
 
+import org.interpss.editor.io.ProjectDataDBManager;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
 import com.interpss.editor.EditorSpringAppContext;
-import com.interpss.editor.io.ProjectDataDBManager;
 
 public class DbUtility {
 
