@@ -1,5 +1,6 @@
 package com.interpss.editor.form.base;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 
 /**
@@ -45,12 +46,15 @@ public class BaseBranchForm  extends BaseForm {
 	public String toString() {
 		if (XmlBinding)
 			return XmlUtil.toXmlString(this);
-		else
+		else {
+			IpssLogger.getLogger().info("GBranchForm.XmlBinding is set off");
 			return "";
+		}
 	} 
 	
     public String getDefaultName() {
-	    return getFromBusName() + "->" + getToBusName();
+	    //return getFromBusName() + "->" + getToBusName();
+	    return "Branch(" + getId() + ")";
 	}	
     
     public String getNameIdStr() {
