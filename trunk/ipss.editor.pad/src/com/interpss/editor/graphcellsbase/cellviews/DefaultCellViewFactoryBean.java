@@ -44,8 +44,8 @@ public class DefaultCellViewFactoryBean extends DefaultCellViewFactory {
 		indir4.setViewClass(JGraphBusView.class);
 		vect.add(indir4);
 		ViewIndirection indir5 = new ViewIndirection();
-		indir4.setCellClass(SimpleLabelCell.class);
-		indir4.setViewClass(JGraphMultilineView.class);
+		indir5.setCellClass(SimpleLabelCell.class);
+		indir5.setViewClass(JGraphMultilineView.class);
 		vect.add(indir5);
 		setViewIndirections(vect);
 		
