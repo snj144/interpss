@@ -94,4 +94,12 @@ public interface IGBranchForm extends IUserData {
 	 * @return
 	 */
 	String getDistBranchCode();
+	
+	
+	/**
+	 * Get branch number
+	 * 
+	 * @return
+	 */
+    String getBranchNumber();  
 }
