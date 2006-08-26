@@ -53,8 +53,7 @@ public class BaseBranchForm  extends BaseForm {
 	} 
 	
     public String getDefaultName() {
-	    //return getFromBusName() + "->" + getToBusName();
-	    return "Branch(" + getId() + ")";
+	    return getFromBusName() + "->" + getToBusName();
 	}	
     
     public String getNameIdStr() {
