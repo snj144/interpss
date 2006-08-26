@@ -1,6 +1,6 @@
 package org.interpss.sample.aclfAdj;
 
-import com.interpss.test.user.core.AclfAdjFixture;
+import org.interpss.test.user.core.AclfAdjFixture;
 
 public class TapVControlSample {
 	private static void runSample() {
