@@ -299,8 +299,10 @@ public class IpssGraphCodec {
 			else if (node.getNodeName().equals("gNetForm")) {
 				String str = URLDecoder.decode(node.getFirstChild()
 						.getNodeValue().toString(), "UTF-8");
+				IpssLogger.getLogger().info("--->GNetForm Str" + str);
 				if (model != null) {
-					GNetForm gNetForm = (GNetForm) XmlUtil.toObject(str,
+					XmlUtil.ToolKid = XmlUtil.TOOL_CASTOR;
+					GNetForm gNetForm = (GNetForm) XmlUtil.toObject(str.trim(),
 							GNetForm.class);
 					IpssLogger.getLogger().fine(gNetForm.toString());
 					model.getGFormContainer().setGNetForm(gNetForm);
@@ -1437,7 +1439,7 @@ public class IpssGraphCodec {
 			else
 				return new LabelCell(null, form);
 		} else if (userObject instanceof String && type.equals(BRANCH)) {
-			// IpssLogger.getLogger().info("branch: " + (String)userObject);
+			IpssLogger.getLogger().info("branch--->: " + (String)userObject);
 			IGBranchForm braForm = (IGBranchForm) XmlUtil.toObject(
 					(String) userObject, GBranchForm.class);
 			braForm = ((GPGraphModel) model).getGFormContainer()
