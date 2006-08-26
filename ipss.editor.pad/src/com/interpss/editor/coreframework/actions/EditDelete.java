@@ -21,6 +21,7 @@
 package com.interpss.editor.coreframework.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import org.jgraph.graph.DefaultGraphModel;
 
@@ -46,6 +47,7 @@ public class EditDelete extends IpssAbstractGraphAction {
 						IGFormContainer container = ((GPGraphModel) (getCurrentGraph().getModel())).getGFormContainer();
 						BusCell cell = (BusCell)cells[i];
 						container.removeBusForm((cell.getBusForm()).getId());
+						getCurrentGraph().getModel().remove(new Object[]{cell.getLabel(),cell.get_labelAnnotate()});
 					}
 					else if (cells[i] instanceof BranchEdge) {
 						IGFormContainer container = ((GPGraphModel) (getCurrentGraph().getModel())).getGFormContainer();

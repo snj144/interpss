@@ -13,6 +13,9 @@ import org.jgraph.graph.DefaultGraphModel;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.editor.coreframework.GPUserObject;
+import com.interpss.editor.jgraph.cells.AnnotateLabelCell;
+import com.interpss.editor.jgraph.cells.BusCell;
+import com.interpss.editor.jgraph.cells.LabelCell;
 import com.interpss.editor.jgraph.ui.IIpssGraphModel;
 import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 import com.interpss.editor.jgraph.ui.form.IGBusForm;
@@ -58,6 +61,15 @@ public class GPGraphModel extends DefaultGraphModel implements IIpssGraphModel {
 		}
 		return super.cloneUserObject(userObject);
 	}
+
+//	protected Object cloneCell(Object cellObj) {
+//		if (cellObj instanceof BusCell){
+//		//	return ((BusCell) cellObj).clone();
+//			return new BusCell(cloneUserObject(((BusCell)cellObj).getUserObject()));
+//		}
+//
+//		return super.cloneCell(cellObj);
+//	}
 
 	public Object valueForCellChanged(Object cell, Object newValue) {
 		Object userObject = getValue(cell);
