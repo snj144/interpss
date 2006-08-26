@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.TransferHandler;
 
 import com.interpss.editor.coreframework.IpssAbstractGraphAction;
+import com.interpss.editor.plugins.gpgraph.GPGraph;
 
 public class EditCopy extends IpssAbstractGraphAction {
     
@@ -32,6 +33,8 @@ public class EditCopy extends IpssAbstractGraphAction {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
+		((GPGraph)getCurrentGraph()).filterCellsForPaste();
+
 		TransferHandler .getCopyAction() .actionPerformed(
 			new ActionEvent(getCurrentGraph(), e.getID() , e.getActionCommand() ));
 

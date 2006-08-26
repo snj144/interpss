@@ -31,30 +31,15 @@ public class DefaultCellViewFactoryBean extends DefaultCellViewFactory {
     
     public DefaultCellViewFactoryBean() {
 		ArrayList vect = new ArrayList();
-		ViewIndirection indir2 = new ViewIndirection();
-		indir2.setCellClass(LabelCell.class);
-		indir2.setViewClass(JGraphLabelView.class);
-		vect.add(indir2);
-		ViewIndirection indir3 = new ViewIndirection();
-		indir3.setCellClass(AnnotateLabelCell.class);
-		indir3.setViewClass(JGraphLabelView.class);
-		vect.add(indir3);
-		ViewIndirection indir4 = new ViewIndirection();
-		indir4.setCellClass(BusCell.class);
-		indir4.setViewClass(JGraphBusView.class);
-		vect.add(indir4);
-		ViewIndirection indir5 = new ViewIndirection();
-		indir5.setCellClass(SimpleLabelCell.class);
-		indir5.setViewClass(JGraphMultilineView.class);
-		vect.add(indir5);
+		vect.add(new ViewIndirection(LabelCell.class,JGraphLabelView.class));
+		vect.add(new ViewIndirection(AnnotateLabelCell.class,JGraphLabelView.class));
+		vect.add(new ViewIndirection(BusCell.class,JGraphBusView.class));
+		vect.add(new ViewIndirection(SimpleLabelCell.class,JGraphMultilineView.class));
 		setViewIndirections(vect);
 		
 		
 		ArrayList evect = new ArrayList();
-		ViewIndirection eindir1 = new ViewIndirection();
-		eindir1.setCellClass(BranchEdge.class);
-		eindir1.setViewClass(JGraphBranchEdgeView.class);
-		evect.add(eindir1);
+		vect.add(new ViewIndirection(BranchEdge.class,JGraphBranchEdgeView.class));
 		setEdgeIndirections(evect);
     }
 
@@ -63,7 +48,13 @@ public class DefaultCellViewFactoryBean extends DefaultCellViewFactory {
 
         private Class viewClass;
 
-        public Class getCellClass() {
+        
+        public ViewIndirection(Class cellClass, Class viewClass) {
+			this.cellClass = cellClass;
+			this.viewClass = viewClass;
+		}
+
+		public Class getCellClass() {
             return cellClass;
         }
 

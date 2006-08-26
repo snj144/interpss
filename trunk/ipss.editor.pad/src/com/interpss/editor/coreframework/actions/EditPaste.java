@@ -21,10 +21,18 @@
 package com.interpss.editor.coreframework.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.geom.Rectangle2D;
 
 import javax.swing.TransferHandler;
 
+import org.jgraph.graph.AttributeMap;
+import org.jgraph.graph.GraphConstants;
+
 import com.interpss.editor.coreframework.IpssAbstractGraphAction;
+import com.interpss.editor.jgraph.cells.AnnotateLabelCell;
+import com.interpss.editor.jgraph.cells.BusCell;
+import com.interpss.editor.jgraph.cells.LabelCell;
+import com.interpss.editor.plugins.gpgraph.GPGraph;
 
 public class EditPaste extends IpssAbstractGraphAction {
 
@@ -32,9 +40,24 @@ public class EditPaste extends IpssAbstractGraphAction {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
+		
 		TransferHandler.getPasteAction().actionPerformed(
 				new ActionEvent(getCurrentGraph(), e.getID(), e
 						.getActionCommand()));
-		getCurrentGraph().startEditingAtCell(getCurrentGraph().getSelectionCell());
+		
+		Object[] cells = getCurrentGraph().getSelectionCells();
+		for (int i = 0; i < cells.length; i++) {
+			if (cells[i] instanceof BusCell){
+				BusCell buscell = (BusCell)cells[i];
+				buscell.set_labelAnnotate(new AnnotateLabelCell(buscell,buscell.getUserObject()));
+				buscell.setLabel(new LabelCell(buscell,buscell.getUserObject()));
+
+				Rectangle2D bounds = GraphConstants.getBounds(buscell.getAttributes());
+				
+				buscell.insertLabel(getCurrentGraph(), bounds);
+				buscell.insertLabelAnnotate(getCurrentGraph(), bounds);
+			}
+		}
+//		getCurrentGraph().startEditingAtCell(getCurrentGraph().getSelectionCell());
 	}
 }
