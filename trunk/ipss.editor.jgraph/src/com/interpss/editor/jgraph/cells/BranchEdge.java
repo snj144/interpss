@@ -177,7 +177,7 @@ public class BranchEdge extends DefaultEdge implements IIpssEdge{
 		bform.setToId(tform.getId());
 		bform.setFromBusName(sform.getName());
 		bform.setToBusName(tform.getName());
-		bform.setName(NetUtilFunc.createBranchDisplayName(sform.getName(), tform.getName()));
+		bform.setName(NetUtilFunc.createBranchDisplayName(sform.getName(), tform.getName(), bform.getBranchNumber()));
 	}
 	
 	/**
