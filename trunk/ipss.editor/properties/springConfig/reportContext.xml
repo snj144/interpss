@@ -3,7 +3,7 @@
 
 <beans>
 	<bean id="aclfSummaryReport" 
-	      class="com.interpss.report.impl.AclfSummaryReport"
+	      class="org.interpss.report.impl.AclfSummaryReport"
 	      singleton="true">	
 		<property name="fnameAclfSummaryMaster">
 	    	<value>reportTemplate/aclf/AclfSummaryMaster.jasper</value></property>
@@ -24,7 +24,7 @@
 	 </bean>
 
 	 <bean id="aclfBusStyleReport" 
-	      class="com.interpss.report.impl.AclfBusStyleReport"
+	      class="org.interpss.report.impl.AclfBusStyleReport"
 	      singleton="true">	
 		<property name="fnameAclfBusStyleMaster">
 	    	<value>reportTemplate/aclf/AclfBusStyleMaster.jasper</value></property>
@@ -55,7 +55,7 @@
 -->
 
 	 <bean id="acsc3PFaultReport" 
-	      class="com.interpss.report.impl.AcscFaultReport"
+	      class="org.interpss.report.impl.AcscFaultReport"
 	      singleton="true">	
 		<property name="fnameAcscFaultMaster">
 	    	<value>reportTemplate/acsc/Acsc3PFaultMaster.jasper</value></property>	
@@ -64,7 +64,7 @@
 	 </bean>
 
 	 <bean id="acscNSFaultReport" 
-	      class="com.interpss.report.impl.AcscFaultReport"
+	      class="org.interpss.report.impl.AcscFaultReport"
 	      singleton="true">	
 		<property name="fnameAcscFaultMaster">
 	    	<value>reportTemplate/acsc/AcscNSFaultMaster.jasper</value></property>	

@@ -7,7 +7,7 @@
 
 <beans>
 	<bean id="outputTextDialog" 
-	      class="com.interpss.editor.ui.impl.NBOutputTextDialog"
+	      class="org.interpss.editor.ui.impl.NBOutputTextDialog"
 	      singleton="true">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
@@ -18,7 +18,7 @@
 	</bean>
 
 	<bean id="projectDataEditor" 
-	      class="com.interpss.editor.ui.edit.NBProjectEditDialog"
+	      class="org.interpss.editor.ui.edit.NBProjectEditDialog"
 	      singleton="true">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
@@ -29,7 +29,7 @@
 	</bean>
 
 	<bean id="busDataEditor" 
-	      class="com.interpss.editor.ui.edit.NBBusEditDialog"
+	      class="org.interpss.editor.ui.edit.NBBusEditDialog"
 	      singleton="true">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
@@ -40,7 +40,7 @@
 	</bean>
 
 	<bean id="branchDataEditor" 
-	      class="com.interpss.editor.ui.edit.NBBranchEditDialog"
+	      class="org.interpss.editor.ui.edit.NBBranchEditDialog"
 	      singleton="true">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
@@ -51,7 +51,7 @@
 	</bean>
 
 	<bean id="searchElementDialog" 
-	      class="com.interpss.editor.ui.edit.common.NBSearchElementDialog"
+	      class="org.interpss.editor.ui.edit.common.NBSearchElementDialog"
 	      singleton="true">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
@@ -62,7 +62,7 @@
 	</bean>
 
 	<bean id="serviceScheduleDialog" 
-	      class="com.interpss.editor.ui.edit.dist.branch.NBServiceScheduleDialog"
+	      class="org.interpss.editor.ui.edit.dist.branch.NBServiceScheduleDialog"
 	      singleton="true">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
@@ -70,7 +70,7 @@
 	</bean>
 
 	<bean id="loadScheduleDialog" 
-	      class="com.interpss.editor.ui.edit.dist.bus.NBLoadScheduleDialog"
+	      class="org.interpss.editor.ui.edit.dist.bus.NBLoadScheduleDialog"
 	      singleton="true">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->

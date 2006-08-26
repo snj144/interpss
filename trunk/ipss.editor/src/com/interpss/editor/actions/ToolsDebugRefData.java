@@ -2,8 +2,9 @@ package com.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
+import org.interpss.editor.ui.SimuActionAdapter;
+
 import com.interpss.editor.coreframework.IpssAbstractActionDefault;
-import com.interpss.editor.ui.SimuActionAdapter;
 
 public class ToolsDebugRefData extends IpssAbstractActionDefault {
     

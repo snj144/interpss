@@ -13,6 +13,10 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JRViewer;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.report.bean.RptMainTitleBean;
+import org.interpss.report.bean.aclf.AclfRptBeanFactory;
+import org.interpss.report.bean.aclf.AclfRptSubrptControlRec;
+import org.interpss.report.bean.acsc.AcscRptBeanFactory;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.interpss.common.SpringAppContext;
@@ -26,10 +30,6 @@ import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.core.util.sample.SampleCases;
-import com.interpss.report.bean.RptMainTitleBean;
-import com.interpss.report.bean.aclf.AclfRptBeanFactory;
-import com.interpss.report.bean.aclf.AclfRptSubrptControlRec;
-import com.interpss.report.bean.acsc.AcscRptBeanFactory;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.io.IpssFileAdapter;

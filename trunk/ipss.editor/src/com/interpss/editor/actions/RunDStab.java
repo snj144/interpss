@@ -2,11 +2,12 @@ package com.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
+import org.interpss.editor.ui.SimuActionAdapter;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.editor.coreframework.GPDocument;
 import com.interpss.editor.coreframework.IpssAbstractGraphAction;
 import com.interpss.editor.coreframework.IpssEditorDocument;
-import com.interpss.editor.ui.SimuActionAdapter;
 import com.interpss.editor.util.DocumentUtilFunc;
 
 public class RunDStab extends IpssAbstractGraphAction {

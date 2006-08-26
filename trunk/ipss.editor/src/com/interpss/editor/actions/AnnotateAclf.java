@@ -3,9 +3,10 @@ package com.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
+import org.interpss.editor.ui.SimuActionAdapter;
+
 import com.interpss.editor.coreframework.IpssAbstractGraphAction;
 import com.interpss.editor.coreframework.IpssEditorDocument;
-import com.interpss.editor.ui.SimuActionAdapter;
 import com.interpss.editor.util.DocumentUtilFunc;
 
 public class AnnotateAclf extends IpssAbstractGraphAction {

@@ -2,11 +2,12 @@ package com.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
+import org.interpss.editor.ui.SimuActionAdapter;
+
 import com.interpss.editor.coreframework.GPDocument;
 import com.interpss.editor.coreframework.IpssAbstractActionDefault;
 import com.interpss.editor.coreframework.IpssEditorDocument;
 import com.interpss.editor.jgraph.ui.form.IGFormContainer;
-import com.interpss.editor.ui.SimuActionAdapter;
 import com.interpss.editor.util.DocumentUtilFunc;
 
 public class ToolsDebugFormData extends IpssAbstractActionDefault {

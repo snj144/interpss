@@ -2,15 +2,16 @@ package com.interpss.editor.ui;
 
 import java.io.File;
 
+import org.interpss.editor.report.ReportUtil;
+import org.interpss.report.IpssReportFactory;
+
 import com.interpss.common.util.IpssLogger;
 import com.interpss.editor.coreframework.GPDocument;
 import com.interpss.editor.coreframework.IpssEditorDocument;
 import com.interpss.editor.coreframework.IpssReportDocument;
 import com.interpss.editor.doc.IpssProjectItem;
 import com.interpss.editor.jgraph.ui.form.IGNetForm;
-import com.interpss.editor.report.ReportUtil;
 import com.interpss.editor.util.Utilities;
-import com.interpss.report.IpssReportFactory;
 
 public class EditorActionAdapter {
 	public static void menu_report_current(IpssEditorDocument doc) {
