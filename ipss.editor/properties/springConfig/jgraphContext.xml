@@ -8,7 +8,7 @@
 
 <beans>
 	<bean id="editorFormContainer" 
-	      class="com.interpss.editor.form.GFormContainer"
+	      class="org.interpss.editor.form.GFormContainer"
 	      singleton="false">	
 	</bean>
 	

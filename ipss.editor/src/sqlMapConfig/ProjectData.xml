@@ -4,8 +4,8 @@
     "http://www.ibatis.com/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="ProjectDagta">
-  <typeAlias alias="projectData" type="com.interpss.editor.data.proj.ProjData"/>
-  <typeAlias alias="studyCaseData" type="com.interpss.editor.data.proj.DBStudyCase"/>
+  <typeAlias alias="projectData" type="org.interpss.editor.data.proj.ProjData"/>
+  <typeAlias alias="studyCaseData" type="org.interpss.editor.data.proj.DBStudyCase"/>
   
   <!-- StudyCaseType Table -->
   <!-- =================== -->

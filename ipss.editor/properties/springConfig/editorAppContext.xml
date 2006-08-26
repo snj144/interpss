@@ -13,7 +13,7 @@
 	    ===========================	
 	-->
 	<bean id="ipssStatusPanel" 
-	      class="com.interpss.editor.ui.NBStatusPanel"
+	      class="org.interpss.editor.ui.NBStatusPanel"
 	      singleton="true">	
 	</bean>	
 
@@ -55,17 +55,17 @@
 	    =========================	
 	-->
 	<bean id="refDataManager" 
-	      class="com.interpss.editor.refData.RefDataManager"
+	      class="org.interpss.editor.refData.RefDataManager"
 	      singleton="true">	
 	</bean>
 
 	<bean id="simuRecManager" 
-	      class="com.interpss.editor.io.SimuRecDBManager"
+	      class="org.interpss.editor.io.SimuRecDBManager"
 	      singleton="true">	
 	</bean>
 			
 	<bean id="projectDataManager" 
-	      class="com.interpss.editor.io.ProjectDataDBManager"
+	      class="org.interpss.editor.io.ProjectDataDBManager"
 	      singleton="true">	
 	</bean>
 
