@@ -13,6 +13,7 @@ import org.interpss.editor.report.IpssRptViewer;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.editor.resources.Translator;
 import com.interpss.editor.util.Utilities;
@@ -62,7 +63,7 @@ public class AppConfig {
 		
 		boolean ok = true;
 		try {
-			String baseDir = Utilities.getInstallLocation();
+			String baseDir = StringUtil.getInstallLocation();
 			if (baseDir == null) {
 				return false;
 			}
