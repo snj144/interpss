@@ -3,6 +3,7 @@ package com.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 
 
+import com.interpss.common.util.StringUtil;
 import com.interpss.editor.coreframework.GPDocument;
 import com.interpss.editor.coreframework.GPGraphpadFile;
 import com.interpss.editor.coreframework.IpssAbstractProjectAction;
@@ -31,6 +32,8 @@ public class FileAddGraph extends IpssAbstractProjectAction {
 		if (editor.isNewFile()){
 			graphpad.addGraphDocument(editor.getFileName(), project);
 			((GPDocument)getCurrentDocument()).getProjData().setFilepath(editor.getFileName());
+			((GPDocument)getCurrentDocument()).getProjData().setWorkspacePath(
+					StringUtil.getWorkspacePath(editor.getFileName()));
 			GraphSpringAppContext.getEditorDialog(null, ((GPDocument)getCurrentDocument()).getGraph());
 			getCurrentDocument().getProjData().setDirty(true);
 			graphpad.getCommand("FileSave").actionPerformed(e);
