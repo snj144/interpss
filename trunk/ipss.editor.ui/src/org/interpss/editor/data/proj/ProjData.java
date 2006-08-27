@@ -18,6 +18,7 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	private int projectDbId = 0;
 	private String projectName = NewProjName;
 	private String description = "";
+	private String workspacePath = null;
 	private String filepath = null;
 	private boolean dirty = false;
 	private List caseList = new ArrayList();
@@ -110,5 +111,19 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	 */
 	public void setDStabCaseName(String name) {
 		this.dStabCaseName = name;
+	}
+
+	/**
+	 * @return the workspacePath
+	 */
+	public String getWorkspacePath() {
+		return workspacePath;
+	}
+
+	/**
+	 * @param workspacePath the workspacePath to set
+	 */
+	public void setWorkspacePath(String workspacePath) {
+		this.workspacePath = workspacePath;
 	}
 }
