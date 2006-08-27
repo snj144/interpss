@@ -14,6 +14,7 @@ import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.editor.jgraph.ui.data.IProjectData;
@@ -39,13 +40,19 @@ public class ProjectDataDBManager implements IProjectDataManager {
 			try {
 				projData.setProjectDbId(projDbId);
 				p = (IProjectData)dbActionProject(DBManager.SQL_ACTION_SELECT, projData);
-			} catch (Exception e) {
-				IpssLogger.logErr(e);
+			} catch (Exception ex) {
+				IpssLogger.getLogger().warning(ex.toString());
+				try {
+					deleteDbProject(projDbId);
+				} catch (Exception e) {
+					IpssLogger.logErr(e);
+				}
 			}
 		}
 		// if the project is not found, insert a new project
 		if ( p == null) {
     		projData.setFilepath(filename);
+			projData.setWorkspacePath(StringUtil.getWorkspacePath(filename));
 			projData.setProjectDbId(0);
     		projData.setProjectName(projName);
     		p = (IProjectData)dbActionProject(DBManager.SQL_ACTION_INSERT, projData);
@@ -74,7 +81,8 @@ public class ProjectDataDBManager implements IProjectDataManager {
 						// First we delete the project and then insert a new project
 						IpssLogger.getLogger().info("Project with the same filename found in DB, filename = " + projData.getFilepath());
 						ProjData p = (ProjData)dbActionProject(DBManager.SQL_ACTION_SELECT, projData);
-						dbActionProject(DBManager.SQL_ACTION_DELETE, p);
+						if (p != null) 
+							dbActionProject(DBManager.SQL_ACTION_DELETE, p);
 						// Then we create a new project
 						IpssLogger.getLogger().info("Insert project into DB again, filename = " + projData.getFilepath());
 						DBManager.getSqlMap().insert("insertProject", projData);
