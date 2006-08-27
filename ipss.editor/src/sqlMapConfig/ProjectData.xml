@@ -25,9 +25,9 @@
   <!-- insert a project -->
   <insert id="insertProject" parameterClass="projectData">
         INSERT INTO IpssProject 
-        	(PROJ_NAME,PROJ_DESC,FILE_PATH,CREATE_TIME,UPDATE_TIME) 
+        	(PROJ_NAME,PROJ_DESC,WORKSPACE_PATH,FILE_PATH,CREATE_TIME,UPDATE_TIME) 
         VALUES
-        	(#projectName#, #description#, #filepath#, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+        	(#projectName#, #description#, #workspacePath#, #filepath#, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
   </insert>
 
   <!-- select project based on project dbId -->
