@@ -7,6 +7,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.io.ISimuRecManager;
+import com.interpss.common.util.StringUtil;
 import com.interpss.editor.app.AppContext;
 import com.interpss.editor.coreframework.GPGraphpad;
 import com.interpss.editor.jgraph.ui.app.IAppStatus;
@@ -64,6 +65,6 @@ public class EditorSpringAppContext extends SpringAppContext {
 		SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(SpringAppCtxConfigXmlFile);
 
 		EditorSpringAppContext.getAppContext().setWorkspaceDir(
-				Utilities.getInstallLocation() + Translator.getString("WorkSpace.Location"));
+				StringUtil.getInstallLocation() + Translator.getString("WorkSpace.Location"));
 	}	
 }

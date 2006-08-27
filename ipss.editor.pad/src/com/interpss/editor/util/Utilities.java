@@ -206,7 +206,7 @@ public final class Utilities {
 //				baseDir = baseDir + "/";
 //			}
 			
-			String baseDir = getInstallLocation();
+			String baseDir = StringUtil.getInstallLocation();
 			
 			String defaultDirectory = baseDir
 					+ Translator.getString("Project.File.Location");
@@ -262,7 +262,7 @@ public final class Utilities {
 //				baseDir = baseDir + "/";
 //			}
 			
-			String baseDir = getInstallLocation();
+			String baseDir = StringUtil.getInstallLocation();
 
 			String defaultDirectory = baseDir
 					+ Translator.getString("Project.File.Location");
@@ -372,6 +372,7 @@ public final class Utilities {
 			file.setModified(false);
 			file.getSimuAppContext().getProjData().setDirty(false);
 			file.getSimuAppContext().getProjData().setFilepath(abpath);
+			file.getSimuAppContext().getProjData().setWorkspacePath(StringUtil.getWorkspacePath(abpath));
 			file.getSimuAppContext().getProjData().setProjectName(StringUtil.getFileName(abpath));
 			file.setFilePathName(abpath);
 			//graphpad.setStatus("Custom Data loaded, File:" + abpath); no need anymore
@@ -527,39 +528,4 @@ public final class Utilities {
 	//    	return filePath + "/" +fileName;
 	    	
 	    }
-	/**
-	 * Get the install location
-	 * 
-	 * @return
-	 */
-	public static String getInstallLocation() {
-		
-		File directory = new File(".");
-		
-		String baseDir = "";
-		
-		try {
-			baseDir = directory.getCanonicalPath();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		if (!baseDir.endsWith("\\")) {
-			baseDir = baseDir + "\\";
-		}
-		
-//		String baseDir = Translator.getString("Install.Location");
-//		if (!baseDir.endsWith("/")) {
-//			baseDir = baseDir + "/";
-//		}
-//		
-//		// check if baseDir is valid dir
-//		if (!new File(baseDir).isDirectory()) {
-//			IpssLogger.getLogger().severe("install.location is not valid dir, " + baseDir +
-//					". Please use / for delimit");
-//			return null;
-//		}
-		return baseDir;
-	}
 }
