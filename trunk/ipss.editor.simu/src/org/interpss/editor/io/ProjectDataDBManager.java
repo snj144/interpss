@@ -36,8 +36,12 @@ public class ProjectDataDBManager implements IProjectDataManager {
 		IProjectData p = null;
 		// first try to select the project with the projDbId
 		if (projDbId > 0) {
-			projData.setProjectDbId(projDbId);
-			p = (IProjectData)dbActionProject(DBManager.SQL_ACTION_SELECT, projData);
+			try {
+				projData.setProjectDbId(projDbId);
+				p = (IProjectData)dbActionProject(DBManager.SQL_ACTION_SELECT, projData);
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+			}
 		}
 		// if the project is not found, insert a new project
 		if ( p == null) {
