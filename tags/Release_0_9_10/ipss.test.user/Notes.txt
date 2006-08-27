@@ -1,0 +1,7 @@
+User acceptance testing development
+
+- Run RunUserTestFixtures to start the test suite
+
+Unit testing
+	
+	
