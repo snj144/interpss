@@ -59,6 +59,12 @@ public interface IProjectData {
 	 * Set project file path
 	 * @param str
 	 */
+	void setWorkspacePath(String str);
+
+	/**
+	 * Set project file path
+	 * @param str
+	 */
 	void setFilepath(String str);
 
 	/**

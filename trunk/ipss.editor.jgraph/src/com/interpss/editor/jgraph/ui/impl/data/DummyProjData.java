@@ -18,6 +18,7 @@ public class DummyProjData implements IProjectData {
 	private String projectName = NewProjName;
 	private String description = "";
 	private String filepath = null;
+	private String workspacePath = null;
 	private boolean dirty = false;
 	private List caseList = new ArrayList();
 
@@ -112,5 +113,19 @@ public class DummyProjData implements IProjectData {
 	
     public String toString() {
 		return XmlUtil.toXmlString(this);
+	}
+
+	/**
+	 * @return the workspacePath
+	 */
+	public String getWorkspacePath() {
+		return workspacePath;
+	}
+
+	/**
+	 * @param workspacePath the workspacePath to set
+	 */
+	public void setWorkspacePath(String workspacePath) {
+		this.workspacePath = workspacePath;
 	}		
 }
