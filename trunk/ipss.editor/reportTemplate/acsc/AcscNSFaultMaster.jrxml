@@ -26,10 +26,10 @@
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 	<parameter name="ReportMainTitleBean" isForPrompting="false" class="java.lang.Object">
-		<defaultValueExpression ><![CDATA[com.interpss.report.bean.RptMainTitleBean.anAcscSample()]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[org.interpss.report.bean.RptMainTitleBean.anAcscSample()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="FaultSummaryJBeanDatasource" isForPrompting="false" class="java.lang.Object">
-		<defaultValueExpression ><![CDATA[com.interpss.report.bean.acsc.AcscRptBeanFactory.getFaultSummarySampleDataSource()]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[org.interpss.report.bean.acsc.AcscRptBeanFactory.getFaultSummarySampleDataSource()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="FaultSummarySubreportFilename" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["C:/eclipse/Interpss3.2/ipss.editor/reportTemplate/acsc/AcscFaultSummarySubReport.jasper"]]></defaultValueExpression>
@@ -1033,7 +1033,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="12" isBold="true" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["InterPSS " +((com.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getReportTitle()+ " Report"]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["InterPSS " +((org.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getReportTitle()+ " Report"]]></textFieldExpression>
 					<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -1050,7 +1050,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="10" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Version " +((com.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getVersionNumber()]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Version " +((org.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getVersionNumber()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1098,7 +1098,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[((com.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getProjectName()]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[((org.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getProjectName()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1114,7 +1114,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[((com.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getUserName()]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[((org.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getUserName()]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1130,7 +1130,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[((com.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getFileName()]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[((org.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getFileName()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1178,7 +1178,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[((com.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getCaseName()]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[((org.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getCaseName()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1210,7 +1210,7 @@
 					<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" lineSpacing="Single">
 						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false" isPdfEmbedded ="false" pdfEncoding ="Cp1252" isStrikeThrough="false" />
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[((com.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getReportNumber()]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[((org.interpss.report.bean.RptMainTitleBean)$P{ReportMainTitleBean}).getReportNumber()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
