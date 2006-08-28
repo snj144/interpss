@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Complex3x1;
-import com.interpss.editor.EditorSpringAppContext;
+import org.interpss.editor.EditorSpringAppContext;
 
 public class TestBaseAppCtx extends TestCase {
 	public TestBaseAppCtx() {

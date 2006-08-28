@@ -25,6 +25,7 @@ public class ProjectDBTest extends TestBaseAppCtx {
 		// The SimuCase is already in the DB
 		ProjData projData = new ProjData();
 		projData.setProjectName(name);
+		projData.setWorkspacePath(file);
 		projData.setFilepath(file);
 		
 		// insert a new project
@@ -68,6 +69,7 @@ public class ProjectDBTest extends TestBaseAppCtx {
 		// The SimuCase is already in the DB
 		ProjData projData = new ProjData();
 		projData.setProjectName(name);
+		projData.setWorkspacePath(file);
 		projData.setFilepath(file);
 		
 		// insert a new project
