@@ -10,9 +10,10 @@ public class PSSEXformer extends AclfBranchExtImpl {
 	private int flagMagnetizing = 1;
 	private double magG = 0.0;
 	private double magB = 0.0;
-	private double mvaRating = 0.0;
-	private double fromRatedVoltage;
-	private double toRatedVoltage;
+	private double mvaRating = 0.0;   // in mav
+	private double fromRatedVoltage;  // in Volts
+	private double toRatedVoltage;    // in Volts
+	private int xfrTableIdNumber = 0;
 	
 	private OwnerRec[]  ownerList = new OwnerRec[4];
 	
@@ -95,4 +96,65 @@ public class PSSEXformer extends AclfBranchExtImpl {
 	public void setMagG(double magG) {
 		this.magG = magG;
 	}
+
+	/**
+	 * @return the fromRatedVoltage
+	 */
+	public double getFromRatedVoltage() {
+		return fromRatedVoltage;
+	}
+
+	/**
+	 * @param fromRatedVoltage the fromRatedVoltage to set
+	 */
+	public void setFromRatedVoltage(double fromRatedVoltage) {
+		this.fromRatedVoltage = fromRatedVoltage;
+	}
+
+	/**
+	 * @return the mvaRating
+	 */
+	public double getMvaRating() {
+		return mvaRating;
+	}
+
+	/**
+	 * @param mvaRating the mvaRating to set
+	 */
+	public void setMvaRating(double mvaRating) {
+		this.mvaRating = mvaRating;
+	}
+
+	/**
+	 * @return the toRatedVoltage
+	 */
+	public double getToRatedVoltage() {
+		return toRatedVoltage;
+	}
+
+	/**
+	 * @param toRatedVoltage the toRatedVoltage to set
+	 */
+	public void setToRatedVoltage(double toRatedVoltage) {
+		this.toRatedVoltage = toRatedVoltage;
+	}
+
+	/**
+	 * @return the xfrTableIdNumber
+	 */
+	public int getXfrTableIdNumber() {
+		return xfrTableIdNumber;
+	}
+
+	/**
+	 * @param xfrTableIdNumber the xfrTableIdNumber to set
+	 */
+	public void setXfrTableIdNumber(int xfrTableIdNumber) {
+		this.xfrTableIdNumber = xfrTableIdNumber;
+	}
+	
+	public String toString() {
+		StringBuffer result = new StringBuffer(super.toString());
+		return result.toString();
+	}	
 }

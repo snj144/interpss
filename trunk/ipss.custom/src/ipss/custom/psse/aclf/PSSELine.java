@@ -2,6 +2,7 @@ package ipss.custom.psse.aclf;
 
 import ipss.custom.exchange.psse.OwnerRec;
 
+import com.interpss.common.util.XmlUtil;
 import com.interpss.core.aclf.impl.AclfBranchExtImpl;
 
 public class PSSELine extends AclfBranchExtImpl {
@@ -31,4 +32,9 @@ public class PSSELine extends AclfBranchExtImpl {
 	public void setLength(double length) {
 		this.length = length;
 	}
+	
+	public String toString() {
+		StringBuffer result = new StringBuffer(super.toString());
+		return result.toString();
+	}		
 }

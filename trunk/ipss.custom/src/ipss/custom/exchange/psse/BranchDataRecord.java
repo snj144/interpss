@@ -7,11 +7,15 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
 
+import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.LineAdapter;
+import com.interpss.core.aclf.PSXfrAdapter;
+import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
 public class BranchDataRecord {
@@ -126,20 +130,9 @@ public class BranchDataRecord {
 				String lineStr4,
 				String lineStr5,
 				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
+				IPSSMsgHub msg) throws Exception {
 /*
-	Three-winding:
-	I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
-	R1-2,X1-2,SBASE1-2,R2-3,X2-3,SBASE2-3,R3-1,X3-1,SBASE3-1,VMSTAR,ANSTAR
-	WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
-	WINDV2,NOMV2,ANG2,RATA2,RATB2,RATC2
-	WINDV3,NOMV3,ANG3,RATA3,RATB3,RATC3
-
-	Two-winding:
-	I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
-	R1-2,X1-2,SBASE1-2
-	WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
-	WINDV2,NOMV2
+	For 2W and 3W Xfr: I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
 */
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
 
@@ -176,7 +169,7 @@ public class BranchDataRecord {
 			F4 = new Double(st.nextToken().trim()).doubleValue();
 		}
 		
-		IpssLogger.getLogger().info("Xfr data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("Xfr data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("I, J, K, Circuit id:" + I + ", " + J + ", "  + K + ", " + CKT);
 		IpssLogger.getLogger().fine("CW, CZ, CM, MAG1, MAG2, NMETR, NAME, STAT:" + CW + ", " + CZ + ", " 
 				+ CM + ", " + MAG1 + ", " + MAG2 + ", " + NMETR + ", " + NAME + ", " + STAT);
@@ -191,7 +184,9 @@ public class BranchDataRecord {
 			String iStr = new Integer(I).toString();
 			String jStr = new Integer(J).toString();
 	      	adjNet.addBranch(bra, iStr, jStr);
-	      	
+    	 	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+    		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
+    		
 	    	bra.setFladWinding(CW);
 	    	bra.setFlagZ(CZ);
 	    	bra.setFlagMagnetizing(CM);
@@ -215,6 +210,25 @@ public class BranchDataRecord {
 	       	double X1_2 = new Double(st2.nextToken()).doubleValue();
 	       	double SBASE1_2 = new Double(st2.nextToken()).doubleValue();
 	       	
+	       	bra.setMvaRating(SBASE1_2);
+	       	if (bra.getFlagZ() == 1) {
+	       		// When CZ is 1, they are the resistance and reactance, respectively, in pu on 
+	       		// system base quantities; 
+	        	xfr.getAclfBranch().setZ(new Complex(R1_2,X1_2), msg);
+	       	}
+	       	else if (bra.getFlagZ() == 2) {
+	       		// when CZ is 2, they are the resistance and reactance, respectively, in pu on 
+	       		// winding one to two base MVA (SBASE1-2) and winding one bus base voltage; 
+	       		double factor = adjNet.getBaseKva() / SBASE1_2 / 1000.0;
+	       		xfr.getAclfBranch().setZ(new Complex(R1_2*factor,X1_2*factor), msg);
+	       	}
+	       	else if (bra.getFlagZ() == 3) {
+	       		// when CZ is 3, R1-2 is the load loss in watts, and X1-2 is the impedance magnitude 
+	       		// in pu on winding one to two base MVA (SBASE1-2) and winding one bus base voltage.
+	       		// TODO: need implementation
+          		msg.sendWarnMsg("Xfr " + I + "->" + "J flagZ = 3, needs more implementation");
+	       	}
+	      	
 	    	/*
     		format : WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
 	    	 */
@@ -237,13 +251,84 @@ public class BranchDataRecord {
 	  		double CX = new Double(st3.nextToken()).doubleValue();
 	  		
 	  		/*
-    			format : WINDV2,NOMV2
+			format : WINDV2,NOMV2
 	  		 */
 	  		StringTokenizer st4 = new StringTokenizer(lineStr4, ",");
 	  		double WINDV2 = new Double(st4.nextToken()).doubleValue();
 	  		double NOMV2 = new Double(st4.nextToken()).doubleValue();
+	  		
+	       	double f_ratio = 1.0, t_ratio = 1.0;
+	  		if (bra.getFlagZ() == 1) {
+	       		// The winding one off-nominal turns ratio in pu of winding one bus base voltage
+	       		// when CW is 1; WINDV1 is 1.0 by default. 
+	        	f_ratio = WINDV1;
+	        	t_ratio = WINDV2;
+	       	}
+	       	else if (bra.getFlagZ() == 2) {
+	       		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
+	       		f_ratio = WINDV1*1000.0 / bra.getFromAclfBus().getBaseVoltage();
+	       		t_ratio = WINDV2*1000.0 / bra.getToAclfBus().getBaseVoltage();
+	       	}
+	       	xfr.setFromTurnRatio(f_ratio, UnitType.PU);
+	       	xfr.setToTurnRatio(t_ratio, UnitType.PU); 
+
+        	bra.setFromRatedVoltage(NOMV1*1000.0);
+        	bra.setFromRatedVoltage(NOMV2*1000.0);
+
+        	if (ANG1 != 0.0) {
+        		// PhaseShifting transformer branch
+        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
+        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
+        		psXfr.setFromAngle(ANG1*Constants.DtoR);
+        		psXfr.setToAngle(0.0);
+        	}
+	      	
+          	bra.setRatingMva1(RATA1);
+          	bra.setRatingMva2(RATB1);
+          	bra.setRatingMva3(RATC1);
+        	
+          	String contBusId = new Integer(CONT).toString();
+          	LimitType rmLimit = new LimitType(RMA, RMI); 
+          	LimitType vmLimit = new LimitType(VMA, VMI); 
+          	// NTP;
+          	// CR, CX 
+          	if (COD == 1 || COD == -1) {
+          		// ±1 for voltage control; a negative control mode suppresses the automatic adjustment of this
+          		// transformer.
+          		msg.sendWarnMsg("Xfr " + I + "->" + J + " has voltage control");
+          	}
+          	else if (COD == 2 || COD == -2) {
+          		// ±2 for reactive power flow control; 
+          		msg.sendWarnMsg("Xfr " + I + "->" + J + " has reactive power flow control");
+          	}
+          	else if (COD == 3 || COD == -3) {
+          		// ±3 for active power flow control;
+          		msg.sendWarnMsg("PSXfr " + I + "->" + J + " has active power control");
+          	}
+          	else if (COD == 4 || COD == -4) {
+          		// ±4 for control of a dc line quantity.
+          		msg.sendWarnMsg("Xfr " + I + "->" + J + " has control of a dc line capacity");
+          	}
+          	
+          	bra.setXfrTableIdNumber(TAB);
 		}
 		else {
+			/*
+			Three-winding:
+			I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
+			R1-2,X1-2,SBASE1-2,R2-3,X2-3,SBASE2-3,R3-1,X3-1,SBASE3-1,VMSTAR,ANSTAR
+			WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
+			WINDV2,NOMV2,ANG2,RATA2,RATB2,RATC2
+			WINDV3,NOMV3,ANG3,RATA3,RATB3,RATC3
+			 */
 		}
-	}			
+	}
+	
+	public static void processXfrZCorrectionTable(
+			AclfAdjNetwork adjNet, 
+			String lineStr1,
+			int lineNo, 
+			IPSSMsgHub msg) throws Exception {
+		msg.sendWarnMsg("Transformer Z correction table record has not been implemented");	
+	}	
 }

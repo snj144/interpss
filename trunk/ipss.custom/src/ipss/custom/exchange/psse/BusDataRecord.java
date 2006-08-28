@@ -57,9 +57,8 @@ public class BusDataRecord {
 		IpssLogger.getLogger().fine("Pl, Ql, OWNER:" + GL + ", " + BL + ", " + OWNER);
 
 		String iStr = new Integer(I).toString();
-		final AclfBus bus = CoreObjectFactory.createAclfBus(iStr, AREA, ZONE, adjNet);
+		final AclfBus bus = CoreObjectFactory.createAclfBus(iStr, AREA, ZONE, OWNER, adjNet);
       	bus.setName(NAME);
-      	bus.setOwner(OWNER);
     	bus.setBaseVoltage(BASKV, UnitType.kV);
     	double factor = 1000.0/adjNet.getBaseKva();  // for transfer G+jB to PU on system base 
     	bus.setShuntY(new Complex(GL*factor,BL*factor));
@@ -134,6 +133,7 @@ public class BusDataRecord {
 		if (bus == null) {
 			throw new Exception ("Bus not found in the network, bus number: " + I);
 		}
+		
 		PSSELoad load = new PSSELoad();
 		load.setId(ID);
 		load.setName("Load:" + ID + "(" + I + ")");
@@ -141,7 +141,7 @@ public class BusDataRecord {
 		load.setStatus(STATUS==1);
 		load.setAreaNo(ZONE);
 		load.setZoneNo(ZONE);
-		load.setOwner(OWNER);
+		load.setOwnerNo(OWNER);
 		
 		FuncLoad p = new FuncLoad();
 		p.setLoad0(PL+IP+YP, UnitType.mW, adjNet.getBaseKva());
@@ -160,6 +160,11 @@ public class BusDataRecord {
 		load.setQLoad(q);
 
 		bus.getRegDeviceList().add(load);
+		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+		Complex load0 = (Complex)load.calculateAdjustment(bus, adjNet);
+		bus.setLoadP(load0.getReal());
+		bus.setLoadQ(load0.getImaginary());
+		
 		IpssLogger.getLogger().fine("PSSELoad: " + XmlUtil.toXmlString(load));
 	}			
 
@@ -246,7 +251,6 @@ public class BusDataRecord {
 		gen.setQLimit(new LimitType(UnitType.pConversion(QT, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU),
                                     UnitType.pConversion(QB, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU)));
 		
-		gen.setVControlBusId(new Integer(IREG).toString());
 		gen.setMvaBase(MBASE);
 		gen.setZGen(new Complex(ZR,ZX));
 		gen.setZXfr(new Complex(RT,XT));
@@ -263,6 +267,11 @@ public class BusDataRecord {
 		gen.getOwnerRec(3).setOwnershipFactor(F4);
 		
 		bus.getRegDeviceList().add(gen);
+		
+		/*
+		 * The standard generator boundary condition is a specification of real power output at the
+		 * high-voltage bus, bus k, and of voltage magnitude at some designated bus, not necessarily bus k.
+		 */
 		IpssLogger.getLogger().fine("PSSEGen: " + XmlUtil.toXmlString(gen));	
 	}			
 }
