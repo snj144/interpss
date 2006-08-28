@@ -29,7 +29,7 @@
 		<defaultValueExpression ><![CDATA["C:/eclipse/Interpss3.2/ipss.report/reportTemplate/aclf/AclfMismatchSubReport.jasper"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ReportMainTitleBean" isForPrompting="false" class="java.lang.Object">
-		<defaultValueExpression ><![CDATA[org.interpss.report.bean.RptMainTitleBean.anSample()]]></defaultValueExpression>
+		<defaultValueExpression ><![CDATA[org.interpss.report.bean.RptMainTitleBean.anAclfSample()]]></defaultValueExpression>
 	</parameter>
 	<parameter name="MismatchJBeanDatasource" isForPrompting="false" class="java.lang.Object">
 		<defaultValueExpression ><![CDATA[org.interpss.report.bean.aclf.AclfRptBeanFactory.getMaxMismatchSampleDataSource()]]></defaultValueExpression>
