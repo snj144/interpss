@@ -143,9 +143,10 @@ public class BusDataRecord {
 		load.setZoneNo(ZONE);
 		load.setOwnerNo(OWNER);
 		
-		load.setConstPLoad(new Complex(PL,QL));
-		load.setConstILoad(new Complex(IP,IQ));
-		load.setConstZLoad(new Complex(YP,YQ));
+		double baseMva = adjNet.getBaseKva() / 1000.0;
+		load.setConstPLoad(new Complex(PL/baseMva,QL/baseMva));
+		load.setConstILoad(new Complex(IP/baseMva,IQ/baseMva));
+		load.setConstZLoad(new Complex(YP/baseMva,YQ/baseMva));
 
 		bus.getRegDeviceList().add(load);
 		
