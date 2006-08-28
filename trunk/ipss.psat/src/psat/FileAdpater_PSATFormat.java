@@ -148,7 +148,8 @@ public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
       		IpssLogger.getLogger().info("busNumber,baseKv,vpu,ang,zone,area: " +
       				busNumber + "," + baseKv + "," + vpu + "," + ang + "," + zoneNo + "," + areaNo);
       	}
-      	AclfBus bus = CoreObjectFactory.createAclfBus(new Integer(busNumber).toString(), areaNo, zoneNo, adjNet);
+      	AclfBus bus = CoreObjectFactory.createAclfBus(new Integer(busNumber).toString(), 
+      			areaNo, zoneNo, 1, adjNet);
     	bus.setBaseVoltage(baseKv, UnitType.kV);
     	
     	// add the bus object into the network container
