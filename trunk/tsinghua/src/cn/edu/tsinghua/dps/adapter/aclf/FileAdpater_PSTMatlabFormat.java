@@ -229,7 +229,7 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
         int type = new Integer(strAry[9]).intValue();
 
         // create an AclfBus object
-        AclfBus bus = CoreObjectFactory.createAclfBus(busId, 1, 1, net);
+        AclfBus bus = CoreObjectFactory.createAclfBus(busId, 1, 1, 1, net);
         bus.setName(busName);
         bus.setBaseVoltage(100, UnitType.kV);
         bus.setVoltage(vpu, angDeg * Constants.DtoR);
