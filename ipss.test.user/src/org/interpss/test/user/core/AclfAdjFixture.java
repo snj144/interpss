@@ -6,6 +6,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclfadj.FlowControlType;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
@@ -141,7 +142,8 @@ public class AclfAdjFixture extends AclfBuildFixture {
 		int    steps  = new Integer(st.nextToken()).intValue();
 		boolean tapOnFromSide = new Boolean(st.nextToken()).booleanValue();
 		
-  		TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(simuCtx.getAclfAdjNet(), getBranchId(), busId);
+  		TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(simuCtx.getAclfAdjNet(), getBranchId(), busId,
+  				FlowControlType.POINT_CONTROL_LITERAL);
   		tapv.setTapLimit(new LimitType(maxTap, minTap));
   		tapv.setVSpecified(vSpec);
   		tapv.setVcBusOnFromSide(vcBusOnFromSide);
@@ -165,7 +167,8 @@ public class AclfAdjFixture extends AclfBuildFixture {
 		boolean flowFrom2To = new Boolean(st.nextToken()).booleanValue();
 		boolean mvarSpecOnFromSide = new Boolean(st.nextToken()).booleanValue();
 		
-  		TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(simuCtx.getAclfAdjNet(), getBranchId());
+  		TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(simuCtx.getAclfAdjNet(), getBranchId(),
+  				FlowControlType.POINT_CONTROL_LITERAL);
   		tapv.setTapLimit(new LimitType(maxTap, minTap));
   		tapv.setMvarSpecified(mvaSpec);
   		if (steps > 0)
@@ -258,7 +261,8 @@ public class AclfAdjFixture extends AclfBuildFixture {
 		boolean onFromSide = new Boolean(st.nextToken()).booleanValue();
 		boolean flowFrom2To = new Boolean(st.nextToken()).booleanValue();
 		
-		PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(simuCtx.getAclfAdjNet(), getBranchId());
+		PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(simuCtx.getAclfAdjNet(), getBranchId(),
+										FlowControlType.POINT_CONTROL_LITERAL);
 		psXfrControl.setPSpecified(pSpec);
 		psXfrControl.setAngLimit(new LimitType(maxAng*Constants.DtoR, minAng*Constants.DtoR));
 		psXfrControl.setControlOnFromSide(onFromSide);		
