@@ -5,7 +5,9 @@ import ipss.custom.exchange.FileAdapter_PTIFormat;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.StdoutMsgListener;
 import com.interpss.common.msg.TextMessage;
+import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
 
@@ -33,8 +35,8 @@ public class TestAdapter {
 
 		AclfNetwork net = simuCtx.getAclfNet();
 
-	  	//LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	//algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.loadflow(msg);
   		System.out.println(net.net2String());
 	}	
 }
