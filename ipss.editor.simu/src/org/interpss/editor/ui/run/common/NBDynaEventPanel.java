@@ -6,12 +6,12 @@ import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.data.proj.DStabCaseData;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

@@ -6,14 +6,14 @@ import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.ICaseInfoDialog;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
-import com.interpss.editor.jgraph.ui.IGraphicEditor;
 
 public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDialog {
 	private static final long serialVersionUID = 1;

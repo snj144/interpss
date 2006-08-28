@@ -3,6 +3,7 @@ package org.interpss.editor.mapper;
 import java.util.Vector;
 
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.mapper.impl.AclfFormDataMapperImpl;
 import org.interpss.editor.mapper.impl.AcscFormDataMapperImpl;
 import org.interpss.editor.mapper.impl.DStabFormDataMapperImpl;
@@ -11,7 +12,6 @@ import org.interpss.editor.mapper.impl.DistFormDataMapperImpl;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.mapper.AbstractMapper;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuContext;
 

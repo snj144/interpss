@@ -11,6 +11,7 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
@@ -45,7 +46,6 @@ import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 /**
  * Map functions for BaseNetForm, BaseBusForm, BaseBranchForm to/from Network, Bus, Branch simu objects

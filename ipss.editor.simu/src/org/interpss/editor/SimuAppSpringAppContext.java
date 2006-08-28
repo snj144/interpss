@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.AclfRunForm;
 import org.interpss.editor.runAct.AcscRunForm;
 import org.interpss.editor.runAct.DStabRunForm;
@@ -11,8 +13,6 @@ import org.interpss.editor.runAct.DStabRunForm;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.IpssMapper;
-import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
-import com.interpss.editor.jgraph.ui.data.IProjectData;
 
 public class SimuAppSpringAppContext extends SpringAppContext {	
 	/**
