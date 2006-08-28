@@ -14,12 +14,12 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
  
  
 public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDataPanel {

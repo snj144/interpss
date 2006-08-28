@@ -8,11 +8,11 @@ import org.interpss.editor.data.acsc.AcscBusData;
 import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.data.dstab.DStabBusData;
 import org.interpss.editor.form.base.BaseBusForm;
+import org.interpss.editor.jgraph.ui.form.IGBusForm;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.jgraph.ui.form.IUserData;
 
 import com.interpss.common.util.XmlUtil;
-import com.interpss.editor.jgraph.ui.form.IGBusForm;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
-import com.interpss.editor.jgraph.ui.form.IUserData;
 
 public class GBusForm extends BaseBusForm implements IGBusForm, java.io.Serializable {
 	private static final long serialVersionUID = 1;

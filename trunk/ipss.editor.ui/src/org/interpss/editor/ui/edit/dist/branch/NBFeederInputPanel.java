@@ -4,11 +4,11 @@ import java.util.Vector;
 
 import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GBranchForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
    
 
 public class NBFeederInputPanel extends javax.swing.JPanel implements IFormDataPanel {

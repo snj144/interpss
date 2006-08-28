@@ -5,6 +5,11 @@ import java.util.Vector;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.InitDataUtil;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.ui.edit.dist.bus.NBDistBusEditPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBAclfTransBusEditPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBAcscTransBusEditPanel;
@@ -18,11 +23,6 @@ import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
-import com.interpss.editor.jgraph.ui.IGraphicEditor;
-import com.interpss.editor.jgraph.ui.edit.IFormDataDialog;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
   
 
 public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDialog {

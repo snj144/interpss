@@ -10,10 +10,10 @@ import javax.swing.JDialog;
 import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GBusForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
  
 public class NBDistBranchEditPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

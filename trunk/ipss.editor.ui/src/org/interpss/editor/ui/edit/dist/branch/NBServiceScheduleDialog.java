@@ -7,12 +7,12 @@ import javax.swing.table.DefaultTableModel;
 import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.ui.IGraphicEditor;
-import com.interpss.editor.jgraph.ui.edit.IFormDataDialog;
  
 public class NBServiceScheduleDialog extends javax.swing.JDialog implements IFormDataDialog {
 	private static final long serialVersionUID = 1;

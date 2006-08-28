@@ -11,9 +11,9 @@ import javax.swing.event.ChangeListener;
 
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
  
  
 public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IFormDataPanel {

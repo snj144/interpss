@@ -5,8 +5,8 @@ import java.util.Vector;
 import javax.swing.JDialog;
 
 import org.interpss.editor.data.common.XfrConnectData;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 public class NBGConnectionPanel extends javax.swing.JPanel  implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

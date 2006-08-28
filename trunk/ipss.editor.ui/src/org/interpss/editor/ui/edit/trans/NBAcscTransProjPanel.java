@@ -9,9 +9,9 @@ import java.util.Vector;
 import org.interpss.editor.data.acsc.AcscNetData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
  
  
 public class NBAcscTransProjPanel extends javax.swing.JPanel implements IFormDataPanel {

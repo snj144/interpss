@@ -13,6 +13,11 @@ import org.interpss.editor.data.aclf.AclfBusData;
 import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.form.base.BaseFormContainer;
+import org.interpss.editor.jgraph.ui.data.IProjectData;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGBusForm;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -20,11 +25,6 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.common.util.Num2Str;
 import com.interpss.common.util.XmlUtil;
-import com.interpss.editor.jgraph.ui.data.IProjectData;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
-import com.interpss.editor.jgraph.ui.form.IGBusForm;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
 
 public class GFormContainer extends BaseFormContainer implements IGFormContainer {
 	private GNetForm gNetForm = null;

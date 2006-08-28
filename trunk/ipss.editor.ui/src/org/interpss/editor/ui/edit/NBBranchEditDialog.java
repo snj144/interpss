@@ -10,6 +10,12 @@ import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.InitDataUtil;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.ui.edit.dist.branch.NBDistBranchEditPanel;
 import org.interpss.editor.ui.edit.trans.branch.NBAclfTransBranchEditPanel;
 import org.interpss.editor.ui.edit.trans.branch.NBAcscTransBranchEditPanel;
@@ -22,12 +28,6 @@ import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
-import com.interpss.editor.jgraph.ui.IGraphicEditor;
-import com.interpss.editor.jgraph.ui.edit.IFormDataDialog;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
    
 
 public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDataDialog {

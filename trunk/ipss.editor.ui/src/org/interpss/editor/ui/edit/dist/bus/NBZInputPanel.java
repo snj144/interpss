@@ -13,12 +13,12 @@ import org.interpss.editor.data.dist.DistNetData;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.ui.util.NetDataUtil;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
 
 
 public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel {

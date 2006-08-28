@@ -6,6 +6,10 @@ import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.form.InitDataUtil;
+import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.ui.edit.dist.NBDistProjEditPanel;
 import org.interpss.editor.ui.edit.trans.NBAclfTransProjPanel;
 import org.interpss.editor.ui.edit.trans.NBAcscTransProjPanel;
@@ -18,10 +22,6 @@ import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.IGraphicEditor;
-import com.interpss.editor.jgraph.ui.edit.IFormDataDialog;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
   
  
 public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDataDialog {

@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.interpss.editor.data.common.XfrConnectData;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.rec.BaseDataBean;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 /**
 *	DistBranchForm class for storing distribution branch data.

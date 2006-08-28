@@ -10,14 +10,14 @@ import javax.swing.JDialog;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.ui.edit.common.NBGConnectionPanel;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
  
  
 public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormDataPanel {

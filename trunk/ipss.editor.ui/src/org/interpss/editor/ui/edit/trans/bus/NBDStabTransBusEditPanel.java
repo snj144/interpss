@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import org.interpss.editor.data.dstab.DStabMachData;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.IEditUIEventListener;
 import org.interpss.editor.ui.edit.trans.dstab.NBExciterPanel;
 import org.interpss.editor.ui.edit.trans.dstab.NBGovernorPanel;
@@ -18,7 +19,6 @@ import org.interpss.editor.ui.edit.trans.dstab.NBStabilizerPanel;
 import org.interpss.editor.ui.util.EditUIEvent;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
  
 public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFormDataPanel, IEditUIEventListener {
 	private static final long serialVersionUID = 1;

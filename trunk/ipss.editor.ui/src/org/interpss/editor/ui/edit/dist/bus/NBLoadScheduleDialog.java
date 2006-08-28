@@ -8,6 +8,9 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.refData.LoadScheduleItem;
 import org.interpss.editor.refData.LoadScheduleRefData;
 
@@ -15,9 +18,6 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.ui.IGraphicEditor;
-import com.interpss.editor.jgraph.ui.edit.IFormDataDialog;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
  
 public class NBLoadScheduleDialog extends javax.swing.JDialog implements IFormDataDialog {
 	private static final long serialVersionUID = 1;

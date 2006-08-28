@@ -14,8 +14,8 @@ package org.interpss.editor.ui.edit.common;
 import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
 
 public class NBSearchBusPanel extends javax.swing.JPanel {
 	private static final long serialVersionUID = 1;

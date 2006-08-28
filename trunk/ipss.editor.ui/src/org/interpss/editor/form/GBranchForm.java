@@ -8,11 +8,11 @@ import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.data.dstab.DStabBranchData;
 import org.interpss.editor.form.base.BaseBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.jgraph.ui.form.IUserData;
 
 import com.interpss.common.util.XmlUtil;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
-import com.interpss.editor.jgraph.ui.form.IUserData;
 
 public class GBranchForm extends BaseBranchForm implements IGBranchForm, java.io.Serializable {
 	private static final long serialVersionUID = 1;

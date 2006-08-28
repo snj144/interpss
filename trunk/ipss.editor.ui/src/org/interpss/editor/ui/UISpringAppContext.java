@@ -1,8 +1,9 @@
 package org.interpss.editor.ui;
 
+import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
-import com.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 
 public class UISpringAppContext extends SpringAppContext {
 	public static int BrowserDialog_TextRows = 30;
