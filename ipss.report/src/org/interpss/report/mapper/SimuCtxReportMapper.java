@@ -2,6 +2,7 @@ package org.interpss.report.mapper;
 
 import java.util.Map;
 
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.aclf.RptAclfBusStyleBean;
 import org.interpss.report.bean.aclf.RptAclfMaxMismatchBean;
@@ -20,7 +21,6 @@ import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.TapControl;
-import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.simu.SimuContext;
 
 /**

@@ -2,6 +2,7 @@ package org.interpss.report.impl;
 
 import java.util.Map;
 
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.report.bean.aclf.AclfRptBeanFactory;
 import org.interpss.report.bean.aclf.AclfRptSubrptControlRec;
 import org.interpss.report.mapper.SimuCtxReportMapper;
@@ -9,7 +10,6 @@ import org.interpss.report.mapper.SimuCtxReportMapper;
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.simu.SimuContext;
 
 

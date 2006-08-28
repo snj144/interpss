@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.interpss.editor.data.proj.CaseData;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.report.IIpssReport;
 import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.aclf.AclfRptBeanFactory;
@@ -14,8 +16,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
-import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.simu.SimuContext;
 
 public class AclfBusStyleReport extends AclfBaseReport implements IIpssReport {
