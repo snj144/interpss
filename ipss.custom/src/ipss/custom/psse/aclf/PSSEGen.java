@@ -5,6 +5,8 @@ import ipss.custom.exchange.psse.OwnerRec;
 import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.LimitType;
+import com.interpss.common.util.XmlUtil;
+import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.impl.RegulateGeneratorImpl;
 
 public class PSSEGen extends RegulateGeneratorImpl {
@@ -13,13 +15,14 @@ public class PSSEGen extends RegulateGeneratorImpl {
 	private LimitType 	pLimit = null;		// in pu
 	private LimitType 	qLimit = null;		// in pu
 	private double 		vSpec = 0.0;		// in pu
-	private String 		vControlBusId = "0";
 	private double 		mvaBase = 0.0;		// in Mva
 	private Complex 	zGen = new Complex(0.0,0.0);	// in pu on the MvaBase
 	private Complex 	zXfr = new Complex(0.0,0.0);	// in pu
 	private double  	xfrTap = 0.0;					// in pu
 	private double  	contribFactor = 0.0;  // in pu
 	private OwnerRec[]  ownerList = new OwnerRec[4];
+	
+	private PVBusLimit vController = null;
 	
 	/**
 	 * @return the contribFactor
@@ -94,18 +97,6 @@ public class PSSEGen extends RegulateGeneratorImpl {
 		qLimit = limit;
 	}
 	/**
-	 * @return the vControlBusId
-	 */
-	public String getVControlBusId() {
-		return vControlBusId;
-	}
-	/**
-	 * @param controlBusId the vControlBusId to set
-	 */
-	public void setVControlBusId(String controlBusId) {
-		vControlBusId = controlBusId;
-	}
-	/**
 	 * @return the vSpec
 	 */
 	public double getVSpec() {
@@ -159,4 +150,21 @@ public class PSSEGen extends RegulateGeneratorImpl {
 			ownerList[i] = new OwnerRec();
 		return ownerList[i];
 	}
+	
+	public String toString() {
+		return XmlUtil.toXmlString(this);
+	}
+	
+	/**
+	 * @return the vController
+	 */
+	public PVBusLimit getVController() {
+		return vController;
+	}
+	/**
+	 * @param controller the vController to set
+	 */
+	public void setVController(PVBusLimit controller) {
+		vController = controller;
+	}	
 }

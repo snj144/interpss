@@ -23,9 +23,10 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.AreaInterchangeController;
-import com.interpss.simu.io.IpssFileAdapterBase;
+import com.interpss.core.net.Owner;
+import com.interpss.core.net.Zone;
 
-public class NetDataRecord extends IpssFileAdapterBase {
+public class NetDataRecord {
 	/** 
 	 * Process the first three header line records
 	 *
@@ -112,5 +113,91 @@ public class NetDataRecord extends IpssFileAdapterBase {
 		controller.setAclfBus(bus);
 		controller.setPSpecOut(PDES, UnitType.mW, adjNet.getBaseKva());
 		controller.setTolerance(PTOL, UnitType.mW, adjNet.getBaseKva());
-	}			
+	}		
+	
+	public static void processZone(
+			AclfAdjNetwork adjNet, 
+			String lineStr,
+			int lineNo, 
+			IPSSMsgHub msg) throws Exception {
+		/*
+		 * Format: I, ’ZONAME’
+		 */
+  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+
+		int I = new Integer(st.nextToken().trim()).intValue();
+		String NAME = PSSEUtilFunc.trimQuote(st.nextToken());
+		
+		IpssLogger.getLogger().fine("Zone data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("Zone number, name:" + I + ", " + NAME);
+		
+      	Zone zone = CoreObjectFactory.createZone(I, adjNet);
+		zone.setName(NAME);
+	}	
+
+	public static void processInterareaTransfer(
+			AclfAdjNetwork adjNet, 
+			String lineStr,
+			int lineNo, 
+			IPSSMsgHub msg) throws Exception {
+		/*
+		 * format: ARFROM, ARTO, TRID, PTRAN
+		 */
+  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+
+		int ARFROM = new Integer(st.nextToken().trim()).intValue();
+		int ARTO = new Integer(st.nextToken().trim()).intValue();
+		String TRID = PSSEUtilFunc.trimQuote(st.nextToken());
+		double PTRAN = new Double(st.nextToken().trim()).doubleValue();
+		
+		IpssLogger.getLogger().fine("Interarea transfer data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("From area number, From area number, id, value:" 
+				+ ARFROM + ", " + ARTO  + ", " + TRID  + ", " + PTRAN);
+		// TODO: data error checking to be implemeted
+	}	
+
+	public static void processOwner(
+			AclfAdjNetwork adjNet, 
+			String lineStr,
+			int lineNo, 
+			IPSSMsgHub msg) throws Exception {
+		/*
+		 * format : I, ’OWNAME’
+		 */
+  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+
+		int I = new Integer(st.nextToken().trim()).intValue();
+		String NAME = PSSEUtilFunc.trimQuote(st.nextToken());
+		
+		IpssLogger.getLogger().fine("Owner data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("Owner number, name:" + I + ", " + NAME);
+		
+      	Owner owner = CoreObjectFactory.createOwner(I, adjNet);
+		owner.setName(NAME);
+	}
+	
+
+	public static void processMultiSectionLineGroup(
+			AclfAdjNetwork adjNet, 
+			String lineStr,
+			int lineNo, 
+			IPSSMsgHub msg) throws Exception {
+		/*
+		 * format: I, J, ID, DUM1, DUM2, ... DUM9
+		 * 
+		 * J is entered as a negative number or with a minus sign before the
+		 * first character of the extended bus name to designate it as the metered end; otherwise,
+		 * bus I is assumed to be the metered end.
+		 */
+  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+
+		int I = new Integer(st.nextToken().trim()).intValue();
+		int J = new Integer(st.nextToken().trim()).intValue();
+		String ID = PSSEUtilFunc.trimQuote(st.nextToken());
+		
+		IpssLogger.getLogger().fine("Multi-Section Line Group data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("From area number, From area number, id:" + I + ", " + J  + ", " + ID);		
+		
+		// TODO: needs implemented
+	}	
 }

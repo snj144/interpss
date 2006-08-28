@@ -35,6 +35,6 @@ public class TestAdapter {
 
 	  	//LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	//algo.loadflow(SpringAppContext.getIpssMsgHub());
-  		//System.out.println(net.net2String());
+  		System.out.println(net.net2String());
 	}	
 }

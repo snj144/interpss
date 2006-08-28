@@ -16,19 +16,19 @@ package ipss.custom.exchange;
 
 import ipss.custom.exchange.psse.BranchDataRecord;
 import ipss.custom.exchange.psse.BusDataRecord;
+import ipss.custom.exchange.psse.DCLintDataRecord;
 import ipss.custom.exchange.psse.NetDataRecord;
 import ipss.custom.exchange.psse.PSSEUtilFunc;
+import ipss.custom.exchange.psse.SwitchedShuntDataRecord;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
@@ -113,7 +113,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
       		boolean vscDcLineProcessed = false;
       		boolean switchedShuntProcessed = false;
       		boolean xfrZCorrectionProcessed = false;
-      		boolean scLineMTProcessed = false;
+      		boolean dcLineMTProcessed = false;
       		boolean multiSectionLineGroupProcessed = false;
       		boolean zoneProcessed = false;
       		boolean interareaTransferProcessed = false;
@@ -187,16 +187,73 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
       						String lineStr2 = din.readLine();
       						String lineStr3 = din.readLine();
       						lineNo++; lineNo++;
-							//processDCLine(adjNet, lineStr, lineStr2, lineStr3, lineNo, msgHub);
+      						DCLintDataRecord.processDCLine(adjNet, lineStr, lineStr2, lineStr3, lineNo, msgHub);
+						}	 
+      				}
+      				else if (!vscDcLineProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							vscDcLineProcessed = true;
+						else {
+      						DCLintDataRecord.processVscDCLine(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!switchedShuntProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 switchedShuntProcessed = true;
 						else {
-							//processSwitchedShunt(adjNet, lineStr, lineNo, msgHub);
+							SwitchedShuntDataRecord.processSwitchedShunt(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
+      				else if (!xfrZCorrectionProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							xfrZCorrectionProcessed = true;
+						else {
+							BranchDataRecord.processXfrZCorrectionTable(adjNet, lineStr, lineNo, msgHub);
+						}	 
+      				}
+      				else if (!dcLineMTProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							dcLineMTProcessed = true;
+						else {
+							DCLintDataRecord.processMultiTerminalDCLine(adjNet, lineStr, lineNo, msgHub);
+						}	 
+      				}
+      				else if (!multiSectionLineGroupProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							multiSectionLineGroupProcessed = true;
+						else {
+							NetDataRecord.processMultiSectionLineGroup(adjNet, lineStr, lineNo, msgHub);
+						}	 
+      				}
+      				else if (!zoneProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							zoneProcessed = true;
+						else {
+							NetDataRecord.processZone(adjNet, lineStr, lineNo, msgHub);
+						}	 
+      				}
+      				else if (!interareaTransferProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							interareaTransferProcessed = true;
+						else {
+							NetDataRecord.processInterareaTransfer(adjNet, lineStr, lineNo, msgHub);
+						}	 
+      				}
+      				else if (!ownerProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							ownerProcessed = true;
+						else {
+							NetDataRecord.processOwner(adjNet, lineStr, lineNo, msgHub);
+						}	 
+      				}
+      				else if (!factsProcessed) {
+						if (PSSEUtilFunc.isEndRecLine(lineStr))
+							factsProcessed = true;
+						else {
+							SwitchedShuntDataRecord.processFACTS(adjNet, lineStr, lineNo, msgHub);
+						}	 
+      				}
+      				
       			}
     		} while (lineStr != null);
   		} catch (Exception e) {
@@ -204,103 +261,4 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
   		}
   		return adjNet;
 	}
-	/** 
-	 * Process DC line record lines
-	 *
-	 * @param adjNet the AclfAdjNetwork object
-	 * @param lineStr a input line string
-	 * @param lineNo the line number
-	 * @param msgHub the message hub object
-	 */
-	private void processDCLine(
-				AclfAdjNetwork adjNet, 
-				String lineStr1,
-				String lineStr2,
-				String lineStr3,
-				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
-/*
-*/
-  		StringTokenizer st = new StringTokenizer(lineStr1);
-		int I  = new Integer(st.nextToken()).intValue();
-		int MDC  = new Integer(st.nextToken()).intValue();
-		double RDC = new Double(st.nextToken()).doubleValue();
-		double SETVL = new Double(st.nextToken()).doubleValue();
-		double VSCHD = new Double(st.nextToken()).doubleValue();
-		double VCMOD = new Double(st.nextToken()).doubleValue();
-		double RCOMP = new Double(st.nextToken()).doubleValue();
-		double DELTI = new Double(st.nextToken()).doubleValue();
-		String METER = st.nextToken();
-
-		IpssLogger.getLogger().info("DC Line data Line1:" + (lineNo-2) + "-->" + lineStr1);
-
-  		st = new StringTokenizer(lineStr2);
-		int IPR = new Integer(st.nextToken()).intValue();
-		int NBR = new Integer(st.nextToken()).intValue();
-		double ALFMAX = new Double(st.nextToken()).doubleValue();
-		double ALFMN = new Double(st.nextToken()).doubleValue();
-		double RCR = new Double(st.nextToken()).doubleValue();
-		double XCR = new Double(st.nextToken()).doubleValue();
-		double EBASR = new Double(st.nextToken()).doubleValue();
-		double TRR = new Double(st.nextToken()).doubleValue();
-		double TAPR = new Double(st.nextToken()).doubleValue();
-		double TPMXR = new Double(st.nextToken()).doubleValue();
-		double TPMNR = new Double(st.nextToken()).doubleValue();
-		double TSTPR = new Double(st.nextToken()).doubleValue();
-
-		IpssLogger.getLogger().info("DC Line data Line2:" + (lineNo-1) + "-->" + lineStr2);
-
-  		st = new StringTokenizer(lineStr3);
-		IPR = new Integer(st.nextToken()).intValue();
-		NBR = new Integer(st.nextToken()).intValue();
-		ALFMAX = new Double(st.nextToken()).doubleValue();
-		ALFMN = new Double(st.nextToken()).doubleValue();
-		RCR = new Double(st.nextToken()).doubleValue();
-		XCR = new Double(st.nextToken()).doubleValue();
-		EBASR = new Double(st.nextToken()).doubleValue();
-		TRR = new Double(st.nextToken()).doubleValue();
-		TAPR = new Double(st.nextToken()).doubleValue();
-		TPMXR = new Double(st.nextToken()).doubleValue();
-		TPMNR = new Double(st.nextToken()).doubleValue();
-		TSTPR = new Double(st.nextToken()).doubleValue();
-
-		IpssLogger.getLogger().info("DC Line data Line3:" + lineNo + "-->" + lineStr3);
-	}			
-
-	private void processSwitchedShunt(
-				AclfAdjNetwork adjNet, 
-				String lineStr,
-				int lineNo, 
-				IPSSMsgHub msgHub) throws Exception {
-/*
-		I,MODSW,VSWHI,VSWLO,SWREM,BINIT,N1,B1,N2,B2...N8,B8
-*/				
-  		StringTokenizer st = new StringTokenizer(lineStr);
-
-		int I = new Integer(st.nextToken()).intValue();
-		int MODSW = new Integer(st.nextToken()).intValue();
-		double VSWHI = new Double(st.nextToken()).doubleValue();
-		double VSWLO = new Double(st.nextToken()).doubleValue();
-		int SWREM  = new Integer(st.nextToken()).intValue();
-		double VDES = new Double(st.nextToken()).doubleValue();
-		double BINIT = new Double(st.nextToken()).doubleValue();
-		int N1     = new Integer(st.nextToken()).intValue();
-		double B1  = new Double(st.nextToken()).doubleValue();
-		int N2     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B2  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N3     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B3  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N4     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B4  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N5     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B5  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N6     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B6  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N7     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B7  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N8     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B8  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-
-		IpssLogger.getLogger().info("Switched shunt data Line:" + lineNo + " " + lineStr);
-	}			
 }

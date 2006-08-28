@@ -297,7 +297,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
     	final String reBusId = strAry[17];
     	
     	// create an AclfBus object
-      	final AclfBus bus = CoreObjectFactory.createAclfBus(busId, areaNo, zoneNo, net);
+      	final AclfBus bus = CoreObjectFactory.createAclfBus(busId, areaNo, zoneNo, 1, net);
       	bus.setName(busName);
     	bus.setBaseVoltage(baseKv, UnitType.kV);
     	bus.setVoltage(vpu, angDeg*Constants.DtoR);
