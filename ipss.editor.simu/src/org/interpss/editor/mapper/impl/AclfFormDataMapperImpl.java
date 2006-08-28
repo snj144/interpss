@@ -36,6 +36,7 @@ import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.FlowControlType;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
@@ -383,12 +384,12 @@ public class AclfFormDataMapperImpl {
 	  		TapControl tapv = null;
 			if (adjData.getTapVControlType() == AclfAdjBranchData.TapControlType_Voltage) {
 				String vcBusId = NetUtilFunc.getBusIdFromDisplayNameId(adjData.getVcBusId());
-		  		tapv = CoreObjectFactory.createTapVControlBusVoltage(net, branch.getId(), vcBusId);
+		  		tapv = CoreObjectFactory.createTapVControlBusVoltage(net, branch.getId(), vcBusId, FlowControlType.POINT_CONTROL_LITERAL);
 		  		tapv.setVSpecified(adjData.getVcVSpec());
 		  		tapv.setVcBusOnFromSide(adjData.isVCBusOnFromSide());
 			}
 			else {
-		  		tapv = CoreObjectFactory.createTapVControlMvarFlow(net, branch.getId());
+		  		tapv = CoreObjectFactory.createTapVControlMvarFlow(net, branch.getId(), FlowControlType.POINT_CONTROL_LITERAL);
 		  		tapv.setMvarSpecified(adjData.getMvarFlowSpec());
 		  		tapv.setMvarSpecOnFromSide(adjData.isMvarSpecOnFromSide());
 		  		tapv.setFlowFrom2To(adjData.isFlowFrom2To());
@@ -418,7 +419,7 @@ public class AclfFormDataMapperImpl {
 			AclfAdjNetwork net, IPSSMsgHub msg) {
 		AclfAdjBranchData adjData = formBranch.getAcscBranchData();
 		if (adjData.isHasPSXfrPControl()) {
-			PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(net, branch.getId());
+			PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(net, branch.getId(), FlowControlType.POINT_CONTROL_LITERAL);
 			psXfrControl.setPSpecified(adjData.getPcPSpec());
 			psXfrControl.setAngLimit(new LimitType(adjData.getPcAngMax()*Constants.DtoR, adjData.getPcAngMin()*Constants.DtoR));
 			psXfrControl.setControlOnFromSide(adjData.isPcOnFromSide());			
