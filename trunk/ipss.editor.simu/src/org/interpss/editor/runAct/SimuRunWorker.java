@@ -2,6 +2,9 @@ package org.interpss.editor.runAct;
 
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.graph.GraphSimuUtilFunc;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.jgraph.JGraph;
@@ -9,9 +12,6 @@ import org.jgraph.JGraph;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.util.outfunc.AcscOut;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
-import com.interpss.editor.jgraph.ui.app.IAppStatus;
-import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 

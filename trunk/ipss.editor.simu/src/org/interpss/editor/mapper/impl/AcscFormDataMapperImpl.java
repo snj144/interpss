@@ -11,6 +11,7 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScGroundType;
@@ -29,7 +30,6 @@ import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.XfrConnectCode;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 /**
  * Map functions for BaseNetForm, BaseBusForm, BaseBranchForm to/from Network, Bus, Branch simu objects

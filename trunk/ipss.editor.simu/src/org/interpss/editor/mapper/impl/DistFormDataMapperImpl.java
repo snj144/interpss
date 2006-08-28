@@ -19,6 +19,7 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
@@ -33,7 +34,6 @@ import com.interpss.dist.ScStanderd;
 import com.interpss.dist.TransformConnectCode;
 import com.interpss.dist.datatype.ScPointType;
 
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 public class DistFormDataMapperImpl {
     /**

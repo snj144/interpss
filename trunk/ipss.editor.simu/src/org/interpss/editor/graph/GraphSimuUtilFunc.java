@@ -2,6 +2,11 @@ package org.interpss.editor.graph;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.form.base.BaseBranchForm;
+import org.interpss.editor.jgraph.cells.AnnotateLabelCell;
+import org.interpss.editor.jgraph.cells.BranchEdge;
+import org.interpss.editor.jgraph.cells.BusCell;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGBusForm;
 import org.jgraph.JGraph;
 
 import com.interpss.common.datatype.Complex3x1;
@@ -16,11 +21,6 @@ import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
-import com.interpss.editor.jgraph.cells.AnnotateLabelCell;
-import com.interpss.editor.jgraph.cells.BranchEdge;
-import com.interpss.editor.jgraph.cells.BusCell;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
-import com.interpss.editor.jgraph.ui.form.IGBusForm;
 import com.interpss.simu.SimuContext;
 
 public class GraphSimuUtilFunc {

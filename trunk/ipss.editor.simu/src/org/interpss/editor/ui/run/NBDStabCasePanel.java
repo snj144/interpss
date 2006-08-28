@@ -6,12 +6,12 @@ import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBDynaEventPanel;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

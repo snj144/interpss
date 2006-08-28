@@ -6,6 +6,8 @@ import java.util.List;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.DBStudyCase;
 import org.interpss.editor.data.proj.ProjData;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.editor.jgraph.ui.data.IProjectData;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -16,8 +18,6 @@ import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.common.util.XmlUtil;
-import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
-import com.interpss.editor.jgraph.ui.data.IProjectData;
 
 public class ProjectDataDBManager implements IProjectDataManager {
 	/**
