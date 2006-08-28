@@ -13,10 +13,10 @@ import org.interpss.editor.data.dist.DistNetData;
 import org.interpss.editor.data.dstab.DStabControllerData;
 import org.interpss.editor.data.dstab.DStabMachData;
 import org.interpss.editor.data.dstab.DStabNetData;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
 import com.interpss.dstab.mach.Controller;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
 
 public class InitDataUtil {
     // the following fields are used to track last values entered by the user

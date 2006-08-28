@@ -3,12 +3,12 @@ package org.interpss.editor.ui.edit.common;
 import java.util.Vector;
 
 import org.interpss.editor.data.common.GroundData;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 
 public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataPanel {

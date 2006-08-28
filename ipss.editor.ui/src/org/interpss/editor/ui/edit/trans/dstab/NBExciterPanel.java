@@ -13,12 +13,12 @@ import org.interpss.editor.data.dstab.DStabBusData;
 import org.interpss.editor.data.dstab.DStabExcData;
 import org.interpss.editor.data.dstab.DStabMachData;
 import org.interpss.editor.form.InitDataUtil;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.mach.Controller;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
  
 public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel {

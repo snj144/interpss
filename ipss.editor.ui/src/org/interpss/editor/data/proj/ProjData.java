@@ -7,10 +7,11 @@ package org.interpss.editor.data.proj;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.editor.jgraph.ui.data.IProjectData;
+
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.editor.jgraph.ui.data.IProjectData;
 
 public class ProjData extends BaseDataBean implements IProjectData {
 	public static String NewProjName = "UnSaved";

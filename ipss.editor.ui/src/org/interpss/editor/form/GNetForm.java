@@ -6,9 +6,9 @@ import org.interpss.editor.data.acsc.AcscNetData;
 import org.interpss.editor.data.dist.DistNetData;
 import org.interpss.editor.data.dstab.DStabNetData;
 import org.interpss.editor.form.base.BaseNetForm;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.jgraph.ui.form.IUserData;
 
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
-import com.interpss.editor.jgraph.ui.form.IUserData;
 
 public class GNetForm extends BaseNetForm implements IGNetForm, java.io.Serializable {
 	private static final long serialVersionUID = 1;

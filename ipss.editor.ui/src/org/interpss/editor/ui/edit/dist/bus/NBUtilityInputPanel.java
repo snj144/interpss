@@ -4,12 +4,12 @@ import java.util.Vector;
 
 import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.form.GBusForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
 
 
 public class NBUtilityInputPanel extends javax.swing.JPanel  implements IFormDataPanel {

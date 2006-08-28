@@ -1,7 +1,8 @@
 package org.interpss.editor.form.base;
 
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
+
 import com.interpss.common.util.XmlUtil;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
 
 /**
 *	BaseForm JavaBean for storing bus/branch common data.

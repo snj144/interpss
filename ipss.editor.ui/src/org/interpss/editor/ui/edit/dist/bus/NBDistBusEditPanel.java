@@ -12,10 +12,10 @@ import org.interpss.editor.data.dist.DistNetData;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.common.NBGroundInputPanel;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
  
  
 public class NBDistBusEditPanel extends javax.swing.JPanel implements IFormDataPanel {

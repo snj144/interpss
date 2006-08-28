@@ -11,12 +11,12 @@ import org.interpss.editor.data.acsc.AcscBusData;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.common.NBGroundInputPanel;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
  
  
 public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IFormDataPanel {

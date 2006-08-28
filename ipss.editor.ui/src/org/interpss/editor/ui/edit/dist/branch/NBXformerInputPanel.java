@@ -7,14 +7,14 @@ import javax.swing.JDialog;
 import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.edit.common.NBGConnectionPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.Num2Str;
-import com.interpss.editor.jgraph.ui.edit.IFormDataDialog;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
    
 
 public class NBXformerInputPanel extends javax.swing.JPanel implements IFormDataPanel {

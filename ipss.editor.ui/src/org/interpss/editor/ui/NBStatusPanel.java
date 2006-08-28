@@ -35,11 +35,12 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.border.BevelBorder;
 
+import org.interpss.editor.jgraph.ui.app.IAppStatus;
+
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.SimuMessage;
-import com.interpss.editor.jgraph.ui.app.IAppStatus;
 
 
 public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener {

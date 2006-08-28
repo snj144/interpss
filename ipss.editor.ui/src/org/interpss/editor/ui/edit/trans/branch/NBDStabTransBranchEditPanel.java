@@ -9,9 +9,10 @@ import javax.swing.JDialog;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
+
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
  
  
 public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements IFormDataPanel {

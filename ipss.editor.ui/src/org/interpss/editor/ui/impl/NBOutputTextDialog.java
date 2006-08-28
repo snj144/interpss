@@ -4,6 +4,7 @@ import java.awt.Frame;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
@@ -20,7 +21,6 @@ import com.interpss.dist.DistNetwork;
 import com.interpss.dist.util.DistOutFunc;
 import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.dstab.util.DStabSimuDBRecord;
-import com.interpss.editor.jgraph.ui.IGraphicEditor;
 
 public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTextDialog {
 	private static final long serialVersionUID = 1;
