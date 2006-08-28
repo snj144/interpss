@@ -88,7 +88,7 @@
 	    ============================	
 	-->
 	<bean id="ipssAppContext" 
-	      class="com.interpss.editor.app.AppContext"
+	      class="org.interpss.editor.app.AppContext"
 	      singleton="true">	
 	</bean>	
 
@@ -97,7 +97,7 @@
 	    ==================================	
 	-->
 	<bean id="ipssGraphicEditor" 
-	      class="com.interpss.editor.coreframework.GPGraphpad"
+	      class="org.interpss.editor.coreframework.GPGraphpad"
 	      singleton="true">	
 	      <constructor-arg>
 	  	  	<ref bean="ipssStatusPanel"/>
