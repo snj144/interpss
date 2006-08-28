@@ -1,11 +1,11 @@
 package org.interpss.report.mapper.impl;
 
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.report.bean.RptMainTitleBean;
 
 import com.interpss.common.util.IpssLogger;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
-import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
-import com.interpss.editor.jgraph.ui.data.IProjectData;
 
 public class MasterfResultMapperImpl {
 	public static void mapMasterTitleBean(IAppSimuContext appSimuCtx, RptMainTitleBean titleBean) {

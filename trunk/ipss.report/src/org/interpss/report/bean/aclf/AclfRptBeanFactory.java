@@ -1,5 +1,6 @@
 package org.interpss.report.bean.aclf;
 
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
 import com.interpss.core.aclfadj.FunctionLoad;
@@ -8,7 +9,6 @@ import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.TapControl;
-import com.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import com.interpss.simu.SimuContext;
 
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
