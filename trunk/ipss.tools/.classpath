@@ -2,5 +2,27 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.chart"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.custom"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab.control"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.pad"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.lib"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.psat"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.report"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tsinghua"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/report/jdt-compiler.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
