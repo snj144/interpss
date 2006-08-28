@@ -47,6 +47,7 @@ import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.FlowControlType;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
@@ -412,7 +413,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		 */
 	          		IpssLogger.getLogger().info("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has voltage control");
 	          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
-	          				adjNet, xfr.getId(), xfr.getContBusId());
+	          				adjNet, xfr.getId(), xfr.getContBusId(), FlowControlType.RANGE_CONTROL_LITERAL);
 	          		tapv.setTapLimit(xfr.getRmLimit());
 	          		// TODO: set vmLimit
 	          		tapv.setVSpecified(1.0);
@@ -429,7 +430,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 					VMIN-VMAX.	        
 	          		 */
 	          		IpssLogger.getLogger().info("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has reactive power flow control");
-	          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(adjNet, xfr.getId());
+	          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
 	          		tapv.setTapLimit(xfr.getRmLimit());
 	          		// TODO: set vmLimit
 	          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
@@ -445,7 +446,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 					through the phase shifter between the limits VMAX and VMIN.
 	          		 */
 	          		IpssLogger.getLogger().info("PSXfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has active power control");
-	          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(adjNet, xfr.getId());
+	          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
 	          		ps.setAngLimit(new LimitType(xfr.getRmLimit().getMax()*Constants.DtoR, 
 	          									 xfr.getRmLimit().getMin()*Constants.DtoR));
 	          		// TODO: set vmLimit
