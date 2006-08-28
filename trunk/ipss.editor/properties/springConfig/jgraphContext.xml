@@ -13,7 +13,7 @@
 	</bean>
 	
 	<bean id="ipssModel" 
-	      class="com.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel"
+	      class="org.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel"
 	      singleton="false">	
 	      <constructor-arg>
 		  	<ref bean="editorFormContainer"/>
@@ -21,7 +21,7 @@
 	</bean>
 
 	<bean id="ipssGraph" 
-	      class="com.interpss.editor.plugins.gpgraph.GPGraph"
+	      class="org.interpss.editor.plugins.gpgraph.GPGraph"
 	      singleton="false">	
 	      <property name="model">
 	          <ref bean="ipssModel"/></property>
