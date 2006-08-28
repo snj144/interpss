@@ -8,7 +8,7 @@ import com.interpss.common.datatype.LimitType;
 import com.interpss.core.aclf.impl.AclfBranchExtImpl;
 
 public class PSSEXformer extends AclfBranchExtImpl {
-	private int fladWinding = 1;
+	private int flagWinding = 1;
 	private int flagZ = 1;
 	private int flagMagnetizing = 1;
 	private double magG = 0.0;
@@ -56,15 +56,15 @@ public class PSSEXformer extends AclfBranchExtImpl {
 	/**
 	 * @return the fladWinding
 	 */
-	public int getFladWinding() {
-		return fladWinding;
+	public int getFlagWinding() {
+		return flagWinding;
 	}
 
 	/**
 	 * @param fladWinding the fladWinding to set
 	 */
-	public void setFladWinding(int fladWinding) {
-		this.fladWinding = fladWinding;
+	public void setFlagWinding(int fladWinding) {
+		this.flagWinding = fladWinding;
 	}
 
 	/**

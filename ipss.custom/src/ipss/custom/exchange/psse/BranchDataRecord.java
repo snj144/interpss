@@ -187,7 +187,7 @@ public class BranchDataRecord {
     	 	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
     		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
     		
-	    	bra.setFladWinding(CW);
+	    	bra.setFlagWinding(CW);
 	    	bra.setFlagZ(CZ);
 	    	bra.setFlagMagnetizing(CM);
 	    	bra.setMagG(MAG1);
@@ -258,13 +258,13 @@ public class BranchDataRecord {
 	  		double NOMV2 = new Double(st4.nextToken()).doubleValue();
 	  		
 	       	double f_ratio = 1.0, t_ratio = 1.0;
-	  		if (bra.getFlagZ() == 1) {
+	  		if (bra.getFlagWinding() == 1) {
 	       		// The winding one off-nominal turns ratio in pu of winding one bus base voltage
 	       		// when CW is 1; WINDV1 is 1.0 by default. 
 	        	f_ratio = WINDV1;
 	        	t_ratio = WINDV2;
 	       	}
-	       	else if (bra.getFlagZ() == 2) {
+	       	else if (bra.getFlagWinding() == 2) {
 	       		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
 	       		f_ratio = WINDV1*1000.0 / bra.getFromAclfBus().getBaseVoltage();
 	       		t_ratio = WINDV2*1000.0 / bra.getToAclfBus().getBaseVoltage();
