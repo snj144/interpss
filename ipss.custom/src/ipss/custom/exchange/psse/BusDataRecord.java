@@ -78,7 +78,7 @@ public class BusDataRecord {
     	else if ( IDE == 2 ) {
     		// Gen bus, we first set it to a PQ bus. It will be adjusted in the 
     		// Generator data section.
-    		bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
+    		bus.setGenCode(AclfGenCode.GEN_PV_LITERAL);
     		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
     	}
     	else if ( IDE == 1 ) {
@@ -143,27 +143,11 @@ public class BusDataRecord {
 		load.setZoneNo(ZONE);
 		load.setOwnerNo(OWNER);
 		
-		FuncLoad p = new FuncLoad();
-		p.setLoad0(PL+IP+YP, UnitType.mW, adjNet.getBaseKva());
-		if ((PL+IP+YP) != 0.0) {
-			p.setA(PL/(PL+IP+YP));
-			p.setB(IP/(PL+IP+YP));
-		}
-		load.setPLoad(p);
-
-		FuncLoad q = new FuncLoad();
-		q.setLoad0(QL+IQ+YQ, UnitType.mVar, adjNet.getBaseKva());
-		if ((QL+IQ+YQ) != 0.0) {
-			q.setA(QL/(QL+IQ+YQ));
-			q.setB(IQ/(QL+IQ+YQ));
-		}
-		load.setQLoad(q);
+		load.setConstPLoad(new Complex(PL,QL));
+		load.setConstILoad(new Complex(IP,IQ));
+		load.setConstZLoad(new Complex(YP,YQ));
 
 		bus.getRegDeviceList().add(load);
-		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
-		Complex load0 = (Complex)load.calculateAdjustment(bus, adjNet);
-		bus.setLoadP(load0.getReal());
-		bus.setLoadQ(load0.getImaginary());
 		
 		IpssLogger.getLogger().fine("PSSELoad: " + XmlUtil.toXmlString(load));
 	}			
@@ -183,6 +167,9 @@ public class BusDataRecord {
 				IPSSMsgHub msg) throws Exception {
 /*
 		I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
+
+		The standard generator boundary condition is a specification of real power output at the
+		high-voltage bus, bus k, and of voltage magnitude at some designated bus, not necessarily bus k.
 */		
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int I = new Integer(st.nextToken().trim()).intValue();
@@ -251,6 +238,8 @@ public class BusDataRecord {
 		gen.setQLimit(new LimitType(UnitType.pConversion(QT, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU),
                                     UnitType.pConversion(QB, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU)));
 		
+		gen.setVControlBusId(new Integer(IREG).toString());
+		
 		gen.setMvaBase(MBASE);
 		gen.setZGen(new Complex(ZR,ZX));
 		gen.setZXfr(new Complex(RT,XT));
@@ -268,10 +257,6 @@ public class BusDataRecord {
 		
 		bus.getRegDeviceList().add(gen);
 		
-		/*
-		 * The standard generator boundary condition is a specification of real power output at the
-		 * high-voltage bus, bus k, and of voltage magnitude at some designated bus, not necessarily bus k.
-		 */
 		IpssLogger.getLogger().fine("PSSEGen: " + XmlUtil.toXmlString(gen));	
 	}			
 }

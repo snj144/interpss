@@ -559,6 +559,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
           		tapv.setVSpecified(1.0);
           		tapv.setTapStepSize(stepSize);
           		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		net.addTapControl(tapv, controlBusId);          		
           	}
           	else if (type == 4) {
 //              4 - Variable phase angle for MW control (phase shifter)
@@ -567,6 +568,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
           		ps.setPSpecified(0.2);
           		ps.setAngLimit(new LimitType(maxTapAng*Constants.DtoR, minTapAng*Constants.DtoR));
           		ps.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		net.addPSXfrPControl(ps, controlBusId);          		
           	}
       	}
     }

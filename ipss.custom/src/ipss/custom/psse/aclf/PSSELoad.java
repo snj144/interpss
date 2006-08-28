@@ -16,8 +16,10 @@ public class PSSELoad extends RegulateLoadImpl {
 	private int areaNo = 0;
 	private int zoneNo = 0;
 	private int ownerNo = 0;
-	private FuncLoad pLoad = null;   // in pu
-	private FuncLoad qLoad = null;   // in pu
+	private Complex constPLoad = new Complex(0.0,0.0);   // in pu
+	private Complex constILoad = new Complex(0.0,0.0);   // in pu
+	private Complex constZLoad = new Complex(0.0,0.0);   // in pu
+
 	/**
 	 * @return the areaNo
 	 */
@@ -33,27 +35,6 @@ public class PSSELoad extends RegulateLoadImpl {
 	/**
 	 * @return the pLoad
 	 */
-	public FuncLoad getPLoad() {
-		return pLoad;
-	}
-	/**
-	 * @param load the pLoad to set
-	 */
-	public void setPLoad(FuncLoad load) {
-		pLoad = load;
-	}
-	/**
-	 * @return the qLoad
-	 */
-	public FuncLoad getQLoad() {
-		return qLoad;
-	}
-	/**
-	 * @param load the qLoad to set
-	 */
-	public void setQLoad(FuncLoad load) {
-		qLoad = load;
-	}
 	/**
 	 * @return the zoneNo
 	 */
@@ -79,42 +60,43 @@ public class PSSELoad extends RegulateLoadImpl {
 		this.ownerNo = ownerNo;
 	}
 	
-
-	/**
-	 * Calculate load based on the bus voltage
-	 * 
-	 * @param obj load parent bus obj
-	 * @param net Aclf net
-	 * @return a Complex load object
-	 */
-	@Override
-	public Object calculateAdjustment(Object obj, Network net) {
-		AclfBus bus = (AclfBus)obj;
-		return new Complex(getPLoad().getLoad(bus.getVoltageMag(), UnitType.PU, net.getBaseKva()), 
-				           getQLoad().getLoad(bus.getVoltageMag(), UnitType.PU, net.getBaseKva()));
-	}
-	
-	/**
-	 * Check if load need to be recalculated
-	 * 
-	 * @param obj load parent bus obj
-	 * @param net Aclf net
-	 */
-	@Override
-	public boolean needAdjustment(Object obj, Network net) {
-		// for constant P load pLoad.A = 1.0 and qLoad.A = 1.0
-		return getPLoad().getA() == 1.0 && getQLoad().getA() == 0.0;
-	}
-	
-	/** 
-	 * performAdjusment method not needed.
-	 */
-	@Override
-	public boolean performAdjusment(Object obj, Network net) {
-		throw new InvalidOperationException("Programming error: call PSSELoad.performAdjustment()");
-	}
-	
 	public String toString() {
 		return XmlUtil.toXmlString(this);
+	}
+	/**
+	 * @return the constILoad
+	 */
+	public Complex getConstILoad() {
+		return constILoad;
+	}
+	/**
+	 * @param constILoad the constILoad to set
+	 */
+	public void setConstILoad(Complex constILoad) {
+		this.constILoad = constILoad;
+	}
+	/**
+	 * @return the constPLoad
+	 */
+	public Complex getConstPLoad() {
+		return constPLoad;
+	}
+	/**
+	 * @param constPLoad the constPLoad to set
+	 */
+	public void setConstPLoad(Complex constPLoad) {
+		this.constPLoad = constPLoad;
+	}
+	/**
+	 * @return the constZLoad
+	 */
+	public Complex getConstZLoad() {
+		return constZLoad;
+	}
+	/**
+	 * @param constZLoad the constZLoad to set
+	 */
+	public void setConstZLoad(Complex constZLoad) {
+		this.constZLoad = constZLoad;
 	}
 }
