@@ -275,7 +275,7 @@ public class BranchDataRecord {
         	bra.setFromRatedVoltage(NOMV1*1000.0);
         	bra.setFromRatedVoltage(NOMV2*1000.0);
 
-        	if (ANG1 != 0.0) {
+        	if (ANG1 != 0.0 || COD == 3 || COD == -3) {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
         		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
@@ -287,28 +287,27 @@ public class BranchDataRecord {
           	bra.setRatingMva2(RATB1);
           	bra.setRatingMva3(RATC1);
         	
-          	String contBusId = new Integer(CONT).toString();
-          	LimitType rmLimit = new LimitType(RMA, RMI); 
-          	LimitType vmLimit = new LimitType(VMA, VMI); 
-          	// NTP;
-          	// CR, CX 
-          	if (COD == 1 || COD == -1) {
-          		// ±1 for voltage control; a negative control mode suppresses the automatic adjustment of this
-          		// transformer.
-          		msg.sendWarnMsg("Xfr " + I + "->" + J + " has voltage control");
+          	bra.setControlMode(COD);
+          	
+          	/*
+			If CONT is entered as a positive number, or a quoted extended bus name, the ratio is
+			adjusted as if bus CONT is on the winding two or winding three side of the
+			transformer; if CONT is entered as a negative number, or a quoted extended
+			bus name with a minus sign preceding the first character, the ratio is adjusted
+			as if bus |CONT| is on the winding one side of the transformer.
+          	 */
+          	boolean onFromSide = false;
+          	if (CONT < 0) {
+          		CONT = -CONT;
+          		onFromSide = true;
           	}
-          	else if (COD == 2 || COD == -2) {
-          		// ±2 for reactive power flow control; 
-          		msg.sendWarnMsg("Xfr " + I + "->" + J + " has reactive power flow control");
-          	}
-          	else if (COD == 3 || COD == -3) {
-          		// ±3 for active power flow control;
-          		msg.sendWarnMsg("PSXfr " + I + "->" + J + " has active power control");
-          	}
-          	else if (COD == 4 || COD == -4) {
-          		// ±4 for control of a dc line quantity.
-          		msg.sendWarnMsg("Xfr " + I + "->" + J + " has control of a dc line capacity");
-          	}
+          	bra.setContBusId(new Integer(CONT).toString());
+          	bra.setControlOnFromSide(onFromSide);
+          	
+          	bra.setRmLimit(new LimitType(RMA, RMI)); 
+          	bra.setVmLimit(new LimitType(VMA, VMI)); 
+          	bra.setAdjSteps(NTP);
+          	bra.setLoadDropCZ(new Complex(CR,CX));
           	
           	bra.setXfrTableIdNumber(TAB);
 		}

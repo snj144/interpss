@@ -1,7 +1,10 @@
 package ipss.custom.psse.aclf;
 
+import org.apache.commons.math.complex.Complex;
+
 import ipss.custom.exchange.psse.OwnerRec;
 
+import com.interpss.common.datatype.LimitType;
 import com.interpss.core.aclf.impl.AclfBranchExtImpl;
 
 public class PSSEXformer extends AclfBranchExtImpl {
@@ -14,7 +17,16 @@ public class PSSEXformer extends AclfBranchExtImpl {
 	private double fromRatedVoltage;  // in Volts
 	private double toRatedVoltage;    // in Volts
 	private int xfrTableIdNumber = 0;
-	
+  	
+	private int controlMode =0;
+	private String contBusId = "";
+	private boolean controlOnFromSide = false;
+	private LimitType rmLimit = null; 
+	private LimitType vmLimit = null; 
+	private int adjSteps = 0;
+
+	private Complex loadDropCZ = new Complex(0.0,0.0);
+
 	private OwnerRec[]  ownerList = new OwnerRec[4];
 	
 	public PSSEXformer(String cirId) {
@@ -156,5 +168,103 @@ public class PSSEXformer extends AclfBranchExtImpl {
 	public String toString() {
 		StringBuffer result = new StringBuffer(super.toString());
 		return result.toString();
+	}
+
+	/**
+	 * @return the adjSteps
+	 */
+	public int getAdjSteps() {
+		return adjSteps;
+	}
+
+	/**
+	 * @param adjSteps the adjSteps to set
+	 */
+	public void setAdjSteps(int adjSteps) {
+		this.adjSteps = adjSteps;
+	}
+
+	/**
+	 * @return the contBusId
+	 */
+	public String getContBusId() {
+		return contBusId;
+	}
+
+	/**
+	 * @param contBusId the contBusId to set
+	 */
+	public void setContBusId(String contBusId) {
+		this.contBusId = contBusId;
+	}
+
+	/**
+	 * @return the controlMode
+	 */
+	public int getControlMode() {
+		return controlMode;
+	}
+
+	/**
+	 * @param controlMode the controlMode to set
+	 */
+	public void setControlMode(int controlMode) {
+		this.controlMode = controlMode;
+	}
+
+	/**
+	 * @return the loadDropCZ
+	 */
+	public Complex getLoadDropCZ() {
+		return loadDropCZ;
+	}
+
+	/**
+	 * @param loadDropCZ the loadDropCZ to set
+	 */
+	public void setLoadDropCZ(Complex loadDropCZ) {
+		this.loadDropCZ = loadDropCZ;
+	}
+
+	/**
+	 * @return the rmLimit
+	 */
+	public LimitType getRmLimit() {
+		return rmLimit;
+	}
+
+	/**
+	 * @param rmLimit the rmLimit to set
+	 */
+	public void setRmLimit(LimitType rmLimit) {
+		this.rmLimit = rmLimit;
+	}
+
+	/**
+	 * @return the vmLimit
+	 */
+	public LimitType getVmLimit() {
+		return vmLimit;
+	}
+
+	/**
+	 * @param vmLimit the vmLimit to set
+	 */
+	public void setVmLimit(LimitType vmLimit) {
+		this.vmLimit = vmLimit;
+	}
+
+	/**
+	 * @return the controlOnFromSide
+	 */
+	public boolean getControlOnFromSide() {
+		return controlOnFromSide;
+	}
+
+	/**
+	 * @param controlOnFromSide the controlOnFromSide to set
+	 */
+	public void setControlOnFromSide(boolean controlOnFromSide) {
+		this.controlOnFromSide = controlOnFromSide;
 	}	
 }
