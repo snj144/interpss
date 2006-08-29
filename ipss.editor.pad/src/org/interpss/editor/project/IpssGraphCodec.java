@@ -835,8 +835,11 @@ public class IpssGraphCodec {
 			if (tmp.length() > 0)
 				points = " pts=\"" + tmp + "\"";
 		}
-		if (value != null)
+		if (value != null) {
+			IpssLogger.getLogger().fine("------>Cell class: " + cell.getClass().getName());
+			IpssLogger.getLogger().fine("------>Cell user object: " + value);
 			valueS = " val=\"" + getUserObjectID(value) + "\"";
+		}	
 		String attrID = "";
 		if (map.size() > 0)
 			attrID = " attr=\"" + attrCol.addMap(map) + "\"";
