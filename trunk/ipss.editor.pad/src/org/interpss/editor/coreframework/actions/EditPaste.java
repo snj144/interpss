@@ -45,19 +45,19 @@ public class EditPaste extends IpssAbstractGraphAction {
 				new ActionEvent(getCurrentGraph(), e.getID(), e
 						.getActionCommand()));
 		
-		Object[] cells = getCurrentGraph().getSelectionCells();
-		for (int i = 0; i < cells.length; i++) {
-			if (cells[i] instanceof BusCell){
-				BusCell buscell = (BusCell)cells[i];
-				buscell.set_labelAnnotate(new AnnotateLabelCell(buscell,buscell.getUserObject()));
-				buscell.setLabel(new LabelCell(buscell,buscell.getUserObject()));
-
-				Rectangle2D bounds = GraphConstants.getBounds(buscell.getAttributes());
-				
-				buscell.insertLabel(getCurrentGraph(), bounds);
-				buscell.insertLabelAnnotate(getCurrentGraph(), bounds);
-			}
-		}
+//		Object[] cells = getCurrentGraph().getSelectionCells();
+//		for (int i = 0; i < cells.length; i++) {
+//			if (cells[i] instanceof BusCell){
+//				BusCell buscell = (BusCell)cells[i];
+//				buscell.set_labelAnnotate(new AnnotateLabelCell(buscell,buscell.getUserObject()));
+//				buscell.setLabel(new LabelCell(buscell,buscell.getUserObject()));
+//
+//				Rectangle2D bounds = GraphConstants.getBounds(buscell.getAttributes());
+//				
+//				buscell.insertLabel(getCurrentGraph(), bounds);
+//				buscell.insertLabelAnnotate(getCurrentGraph(), bounds);
+//			}
+//		}
 //		getCurrentGraph().startEditingAtCell(getCurrentGraph().getSelectionCell());
 	}
 }
