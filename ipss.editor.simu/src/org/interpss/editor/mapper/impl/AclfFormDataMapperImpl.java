@@ -391,7 +391,7 @@ public class AclfFormDataMapperImpl {
 			else {
 		  		tapv = CoreObjectFactory.createTapVControlMvarFlow(net, branch.getId(), FlowControlType.POINT_CONTROL_LITERAL);
 		  		tapv.setMvarSpecified(adjData.getMvarFlowSpec());
-		  		tapv.setMvarSpecOnFromSide(adjData.isMvarSpecOnFromSide());
+		  		tapv.setMeteredOnFromSide(adjData.isMvarSpecOnFromSide());
 		  		tapv.setFlowFrom2To(adjData.isFlowFrom2To());
 			}
 	  		tapv.setTapLimit(new LimitType(adjData.getVcTapMax(), adjData.getVcTapMin()));
