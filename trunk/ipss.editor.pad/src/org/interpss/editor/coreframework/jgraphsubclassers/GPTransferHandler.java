@@ -26,6 +26,7 @@ import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.GraphTransferHandler;
 import org.jgraph.graph.GraphTransferable;
 import org.jgraph.graph.ParentMap;
+import org.interpss.editor.jgraph.cells.AnnotateLabelCell;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.cells.LabelCell;
 public class GPTransferHandler extends GraphTransferHandler {
@@ -59,5 +60,4 @@ public class GPTransferHandler extends GraphTransferHandler {
 		}
 		return list.toArray();
 	}
-	
 }
