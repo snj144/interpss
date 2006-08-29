@@ -34,7 +34,6 @@ public class EditCopy extends IpssAbstractGraphAction {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-//		((GPGraph)getCurrentGraph()).filterCellsForPaste();
 
 		TransferHandler .getCopyAction() .actionPerformed(
 			new ActionEvent(getCurrentGraph(), e.getID() , e.getActionCommand() ));

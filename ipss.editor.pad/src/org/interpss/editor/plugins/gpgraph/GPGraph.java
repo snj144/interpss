@@ -30,6 +30,7 @@ import java.util.Set;
 import javax.swing.JComponent;
 
 import org.interpss.editor.coreframework.jgraphsubclassers.GPGraphUI;
+import org.interpss.editor.coreframework.jgraphsubclassers.GPTransferHandler;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.cells.SimpleLabelCell;
 import org.jgraph.JGraph;
@@ -275,17 +276,17 @@ public class GPGraph extends JGraph {
         s.defaultReadObject();
     }
     
-    public void filterCellsForPaste()
-    {
-    	Object[] cells = getSelectionVertices();
-    	
-		java.util.List list = new ArrayList();
-		for (int i = 0; i < cells.length; i++)
-			if ((cells[i] instanceof SimpleLabelCell) || (cells[i] instanceof BusCell))
-				list.add(cells[i]);
-    	
-    	this.setSelectionCells(list.toArray());
-    }
+//    public void filterCellsForPaste()
+//    {
+//    	Object[] cells = getSelectionVertices();
+//    	
+//		java.util.List list = new ArrayList();
+//		for (int i = 0; i < cells.length; i++)
+//			if ((cells[i] instanceof SimpleLabelCell) || (cells[i] instanceof BusCell))
+//				list.add(cells[i]);
+//    	
+//    	this.setSelectionCells(list.toArray());
+//    }
     
 //	/**
 //	* 	Override the parent to convert a cell/view to a string for display
