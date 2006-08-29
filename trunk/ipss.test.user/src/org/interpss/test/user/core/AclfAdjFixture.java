@@ -177,7 +177,7 @@ public class AclfAdjFixture extends AclfBuildFixture {
   			tapv.setTapStepSize(0.0);
   		tapv.setTapOnFromSide(tapOnFromSide);
   		tapv.setFlowFrom2To(flowFrom2To);
-  		tapv.setMvarSpecOnFromSide(mvarSpecOnFromSide);
+  		tapv.setMeteredOnFromSide(mvarSpecOnFromSide);
   	}
 
 	public double tapControlMaxTap() {
