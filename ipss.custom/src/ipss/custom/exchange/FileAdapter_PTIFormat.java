@@ -40,10 +40,10 @@ import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.PQBusAdapter;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
@@ -54,8 +54,6 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
-import com.interpss.core.net.Branch;
-import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -284,7 +282,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
       			}
     		} while (lineStr != null);
   		} catch (Exception e) {
-    		throw new Exception("AclfDataFile.in" + e.toString());
+    		throw new Exception("PSSE data input error, line no " + lineNo + ", " + e.toString());
   		}
   		return adjNet;
 	}
@@ -340,16 +338,18 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			}
 			
 			if (genPSum != 0.0 || vSpec != 0.0) {
+				IpssLogger.getLogger().fine("genPSum, genQSum, vSpec, genQmax, genQmin: " + 
+						genPSum + ", " + genQSum + ", " + vSpec + ", " + genQmax + ", " + genQmin);
 				if (bus.getGenCode() == AclfGenCode.SWING_LITERAL) {
 		  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
 		  			gen.setVoltMag(vSpec, UnitType.PU);
 				}
 				else if (bus.getGenCode() == AclfGenCode.GEN_PV_LITERAL) {
-		  			final PVBusAdapter gen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
-		  			gen.setGenP(genPSum, UnitType.PU, adjNet.getBaseKva());
-		  			gen.setVoltMag(vSpec, UnitType.PU);
 					if (remoteBusId.equals("0")) {
 						// PVLimit
+			  			final PVBusAdapter gen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
+			  			gen.setGenP(genPSum, UnitType.PU, adjNet.getBaseKva());
+			  			gen.setVoltMag(vSpec, UnitType.PU);
 	  					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + bus.getId());
 	  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, bus.getId());
 	  			  		pvLimit.setQLimit(new LimitType(genQmax, genQmin), UnitType.PU, adjNet.getBaseKva());
@@ -357,8 +357,11 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 					else {
 						// remote bus voltage
 	  					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + bus.getId());
+	  					bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
 	  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(adjNet, bus.getId(), 
 	  			  				RemoteQControlType.BUS_VOLTAGE_LITERAL, remoteBusId);
+			  			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
+			  			gen.setGen(new Complex(genPSum,genQSum), UnitType.PU, adjNet.getBaseKva());
 	  			  		reQ1.setQLimit(new LimitType(genQmax, genQmin), UnitType.PU, adjNet.getBaseKva());
 	  			  		reQ1.setVSpecified(vSpec);
 	  			  	}
@@ -415,10 +418,13 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
 	          				adjNet, xfr.getId(), xfr.getContBusId(), FlowControlType.RANGE_CONTROL_LITERAL);
 	          		tapv.setTapLimit(xfr.getRmLimit());
-	          		// TODO: set vmLimit
+	          		tapv.setControlRange(xfr.getVmLimit());
 	          		tapv.setVSpecified(1.0);
 	          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
-	          		tapv.setControlOnFromSide(xfr.getControlOnFromSide());
+	          		// we use from side tap to control
+	          		tapv.setControlOnFromSide(true);
+	          		tapv.setMeteredOnFromSide(xfr.getControlOnFromSide());
+	          		tapv.setCompensateZ(xfr.getLoadDropCZ());
 	          		if (xfr.getControlMode() == -1)
 	          			tapv.setStatus(false);
 	          		adjNet.addTapControl(tapv, xfr.getContBusId());   
@@ -432,10 +438,14 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		IpssLogger.getLogger().info("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has reactive power flow control");
 	          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
 	          		tapv.setTapLimit(xfr.getRmLimit());
-	          		// TODO: set vmLimit
+	          		tapv.setControlRange(xfr.getVmLimit());
 	          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
-	          		tapv.setControlOnFromSide(xfr.getControlOnFromSide());
-	          		if (xfr.getControlMode() == -1)
+	          		// we use from side tap to control
+	          		tapv.setControlOnFromSide(true);
+	          		tapv.setMeteredOnFromSide(xfr.getControlOnFromSide());
+	          		tapv.setFlowFrom2To(true);
+	          		tapv.setCompensateZ(xfr.getLoadDropCZ());
+	          		if (xfr.getControlMode() == -2)
 	          			tapv.setStatus(false);
 	          		adjNet.addTapControl(tapv, xfr.getContBusId());   
 	          	}
@@ -449,9 +459,13 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
 	          		ps.setAngLimit(new LimitType(xfr.getRmLimit().getMax()*Constants.DtoR, 
 	          									 xfr.getRmLimit().getMin()*Constants.DtoR));
-	          		// TODO: set vmLimit
-	          		ps.setControlOnFromSide(xfr.getControlOnFromSide());
-	          		if (xfr.getControlMode() == -1)
+	          		double baseMva = adjNet.getBaseKva() * 0.001;
+	          		ps.setControlRange(new LimitType(xfr.getVmLimit().getMax()/baseMva, xfr.getVmLimit().getMin()/baseMva));
+	          		// we use from side angle to control
+	          		ps.setControlOnFromSide(true);
+	          		ps.setMeteredOnFromSide(xfr.getControlOnFromSide());
+	          		ps.setFlowFrom2To(true);
+	          		if (xfr.getControlMode() == -3)
 	          			ps.setStatus(false);
           			adjNet.addPSXfrPControl(ps, xfr.getId());   
 	          	}
