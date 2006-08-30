@@ -470,7 +470,7 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 	    x2Label.setEnabled(true);
 
         inertiaLabel.setText("          H(sec)   ");
-	    dampingLabel.setText("D(MW/Hz)   ");
+	    dampingLabel.setText("D(%MW/Hz)   ");
 	    x2Label.setText("          X2(pu)   ");
 	    xlLabel.setText("Xl(pu)   ");
 	    
@@ -887,7 +887,7 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
         machInfojPanel.add(inertiaTextField, gridBagConstraints);
 
         dampingLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        dampingLabel.setText("D(MW/Hz)   ");
+        dampingLabel.setText("D(%MW/Hz)   ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -1157,7 +1157,7 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
         machInfojPanel.add(tq011TextField, gridBagConstraints);
 
         slinerLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        slinerLabel.setText("Sliner(%)   ");
+        slinerLabel.setText("Sliner(pu)   ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
