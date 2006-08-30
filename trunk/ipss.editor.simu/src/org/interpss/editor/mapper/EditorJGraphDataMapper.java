@@ -86,6 +86,7 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 					return false;
 				}
 			}	
+			simuCtx.getNetwork().setDataChecked(false);
 		}
 		return true;
 	}

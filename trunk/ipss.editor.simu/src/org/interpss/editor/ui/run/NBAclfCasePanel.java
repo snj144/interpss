@@ -13,12 +13,13 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
+import com.interpss.simu.SimuContext;
 
 public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
 
     private GFormContainer _netContainer = null;
-    private AclfAdjNetwork _aclfAdjNet = null;
+    private SimuContext _simuCtx = null;
 
     // holds the current case data being edited
     private AclfCaseData _caseData = null;
@@ -37,7 +38,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     public void init(Object netContainer, Object net) {
 		IpssLogger.getLogger().info("NBAclfCasePanel init() called");
 	    _netContainer = (GFormContainer)netContainer;
-	    _aclfAdjNet = (AclfAdjNetwork)net;
+	    _simuCtx = (SimuContext)net;
+    	_simuCtx.getLoadflowAlgorithm().setInitBusVoltage(false);
     }
 
     public void setCaseData(AclfCaseData data) {
@@ -140,10 +142,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         initVoltCheckBox = new javax.swing.JCheckBox();
         lfSummaryCheckBox = new javax.swing.JCheckBox();
         advancedPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         mismatchLabel = new javax.swing.JLabel();
         stepRunPanel = new javax.swing.JPanel();
         nrStepButton = new javax.swing.JButton();
-        pqStepButton = new javax.swing.JButton();
+        pqPStepButton = new javax.swing.JButton();
+        pqQStepButton = new javax.swing.JButton();
         gsStepButton = new javax.swing.JButton();
         detailsButton = new javax.swing.JButton();
         resetButton = new javax.swing.JButton();
@@ -318,11 +322,17 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         advancedPanel.setLayout(new java.awt.GridBagLayout());
 
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
+        jLabel1.setText("Power Mismatch");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 5, 0);
+        advancedPanel.add(jLabel1, gridBagConstraints);
+
         mismatchLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         mismatchLabel.setText("mismatch");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         advancedPanel.add(mismatchLabel, gridBagConstraints);
 
         stepRunPanel.setLayout(new java.awt.GridBagLayout());
@@ -339,17 +349,29 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 20);
         stepRunPanel.add(nrStepButton, gridBagConstraints);
 
-        pqStepButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        pqStepButton.setText("PQ >");
-        pqStepButton.addActionListener(new java.awt.event.ActionListener() {
+        pqPStepButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        pqPStepButton.setText("PQ-P >");
+        pqPStepButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pqStepButtonActionPerformed(evt);
+                pqPStepButtonActionPerformed(evt);
             }
         });
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        stepRunPanel.add(pqStepButton, gridBagConstraints);
+        stepRunPanel.add(pqPStepButton, gridBagConstraints);
+
+        pqQStepButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        pqQStepButton.setText("PQ-Q >");
+        pqQStepButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pqQStepButtonActionPerformed(evt);
+            }
+        });
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
+        stepRunPanel.add(pqQStepButton, gridBagConstraints);
 
         gsStepButton.setFont(new java.awt.Font("Dialog", 0, 12));
         gsStepButton.setText("GS >");
@@ -388,7 +410,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         stepRunPanel.add(resetButton, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         advancedPanel.add(stepRunPanel, gridBagConstraints);
 
@@ -595,12 +617,13 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
         controlPanel.add(interPControlButton, gridBagConstraints);
 
-        msgOutScrollPane.setPreferredSize(new java.awt.Dimension(400, 32));
+        msgOutScrollPane.setPreferredSize(new java.awt.Dimension(400, 50));
         msgOutTextArea.setColumns(40);
         msgOutTextArea.setEditable(false);
         msgOutTextArea.setFont(new java.awt.Font("Dialog", 0, 8));
         msgOutTextArea.setLineWrap(true);
         msgOutTextArea.setRows(5);
+        msgOutTextArea.setPreferredSize(new java.awt.Dimension(280, 40));
         msgOutScrollPane.setViewportView(msgOutTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -611,7 +634,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         controlPanel.add(msgOutScrollPane, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 20);
         advancedPanel.add(controlPanel, gridBagConstraints);
 
@@ -621,18 +644,25 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     }// </editor-fold>//GEN-END:initComponents
 
+    private void pqQStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqQStepButtonActionPerformed
+    	IpssLogger.getLogger().info("PQ-Q Step run");
+    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_QSTEP_LITERAL);
+    	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    }//GEN-LAST:event_pqQStepButtonActionPerformed
+
     private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
     	if ( runAclfTabbedPane.getSelectedIndex() == 0 )
         	IpssLogger.getLogger().info("Panel selection changed - Main Panel");
     	else if ( runAclfTabbedPane.getSelectedIndex() == 1 ) {
         	IpssLogger.getLogger().info("Panel selection changed - Advanced Panel");
-        	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+        	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     	}	
     }//GEN-LAST:event_panelSelectionChanged
 
     private void resetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetButtonActionPerformed
     	IpssLogger.getLogger().info("Reset ...");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
@@ -641,53 +671,59 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void funcLoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcLoadButtonActionPerformed
     	IpssLogger.getLogger().info("Apply Functional Load adjustment");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_funcLoadButtonActionPerformed
 
     private void xfrTapControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xfrTapControlButtonActionPerformed
     	IpssLogger.getLogger().info("Apply Xfr Tap Control");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_xfrTapControlButtonActionPerformed
 
     private void psXfrPControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrPControlButtonActionPerformed
     	IpssLogger.getLogger().info("Apply PSXfr Power Control");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_psXfrPControlButtonActionPerformed
 
     private void interPControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interPControlButtonActionPerformed
     	IpssLogger.getLogger().info("Interarea Power Exchange Control");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_interPControlButtonActionPerformed
 
     private void remoteQBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remoteQBusButtonActionPerformed
     	IpssLogger.getLogger().info("Apply Remote Q Bus");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_remoteQBusButtonActionPerformed
 
     private void pqBusLimitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqBusLimitButtonActionPerformed
     	IpssLogger.getLogger().info("Apply PQ Bus Limit");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_pqBusLimitButtonActionPerformed
 
     private void pvBusLimitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvBusLimitButtonActionPerformed
     	IpssLogger.getLogger().info("Apply PV Bus Limit");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_pvBusLimitButtonActionPerformed
 
     private void gsStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsStepButtonActionPerformed
     	IpssLogger.getLogger().info("GS Step run");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.GS_STEP_LITERAL);
+    	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_gsStepButtonActionPerformed
 
     private void nrStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrStepButtonActionPerformed
     	IpssLogger.getLogger().info("NR Step run");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.NR_STEP_LITERAL);
+    	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_nrStepButtonActionPerformed
 
-    private void pqStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqStepButtonActionPerformed
-    	IpssLogger.getLogger().info("PQ Step run");
-    	mismatchLabel.setText(_aclfAdjNet.maxMismatch(AclfMethod.NR_LITERAL).toString());
-    }//GEN-LAST:event_pqStepButtonActionPerformed
+    private void pqPStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqPStepButtonActionPerformed
+    	IpssLogger.getLogger().info("PQ-P Step run");
+    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_PSTEP_LITERAL);
+    	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    }//GEN-LAST:event_pqPStepButtonActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -709,6 +745,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private javax.swing.JButton interPControlButton;
     private javax.swing.JComboBox interPControlComboBox;
     private javax.swing.JLabel interPControlLabel;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JCheckBox lfSummaryCheckBox;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel maxItrLabel;
@@ -724,8 +761,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private javax.swing.JButton pqBusLimitButton;
     private javax.swing.JComboBox pqBusLimitComboBox;
     private javax.swing.JLabel pqBusLimitLabel;
+    private javax.swing.JButton pqPStepButton;
+    private javax.swing.JButton pqQStepButton;
     private javax.swing.JRadioButton pqRadioButton;
-    private javax.swing.JButton pqStepButton;
     private javax.swing.JButton psXfrPControlButton;
     private javax.swing.JComboBox psXfrPControlComboBox;
     private javax.swing.JLabel psXfrPControlLabel;
