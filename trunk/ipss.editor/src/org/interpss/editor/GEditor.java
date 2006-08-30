@@ -132,8 +132,9 @@ public class GEditor extends Applet {
 			
 			gpframe.addWindowListener(pad.getAppCloser());
 			
-			gpframe.setVisible(true);
 			pad.initData();
+			// show the main screen after the projects are loaded
+			gpframe.setVisible(true);
 			panel.setVisible(true);
 			pad.initActive();
 			
