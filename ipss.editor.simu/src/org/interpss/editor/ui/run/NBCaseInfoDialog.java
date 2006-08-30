@@ -14,6 +14,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.simu.SimuContext;
 
 public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDialog {
 	private static final long serialVersionUID = 1;
@@ -62,7 +63,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		if (_caseType == CaseData.CaseType_Aclf) {
 			this.setTitle("Run Aclf Loadflow Analysis");
 			caseDataPanel.add(_aclfCaseInfoPanel);
-			_aclfCaseInfoPanel.init(netContainer, null);
+			_aclfCaseInfoPanel.init(netContainer, ((SimuContext)_appSimuCtx.getSimuCtx()).getAclfAdjNet());
 		}
 		else if (_caseType == CaseData.CaseType_Acsc) {
 			this.setTitle("Run Acsc Short Circuit Analysis");
