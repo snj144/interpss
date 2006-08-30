@@ -129,4 +129,11 @@ public class DummyProjData implements IProjectData {
 	public void setWorkspacePath(String workspacePath) {
 		this.workspacePath = workspacePath;
 	}		
+	
+	public String getDbSchemaVersion() {
+		return "1.00.00";
+	}
+
+	public void setDbSchemaVersion(String v) {
+	}
 }
