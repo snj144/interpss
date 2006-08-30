@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbench version="2.0">
+<workbenchAdvisor/>
+<window height="863" maximized="true" width="1139" x="163" y="76">
+<fastViewData fastViewLocation="1024"/>
+<perspectiveBar>
+<itemSize x="160"/>
+</perspectiveBar>
+<coolbarLayout locked="0">
+<coolItem id="group.file" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="98" y="22"/>
+<coolItem id="additions" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="52" y="22"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="39" y="22"/>
+<coolItem id="org.eclipse.ui.WorkingSetActionSet" itemType="typeToolBarContribution" x="52" y="22"/>
+<coolItem id="group.nav" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="183" y="22"/>
+<coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="com.atportunity.core.ui.editor.ClassDiagramEditor" itemType="typeToolBarContribution" x="372" y="22"/>
+<coolItem id="group.help" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
+</coolbarLayout>
+<page focus="true" label="Workspace - Blueprint Software Modeler">
+<editors>
+<editorArea activeWorkbook="DefaultEditorWorkbook">
+<info part="DefaultEditorWorkbook">
+<folder appearance="1" expanded="2">
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+</presentation>
+</folder>
+</info>
+</editorArea>
+</editors>
+<views>
+<view id="com.atportunity.core.ui.model.views.UmiNavigationViewPart" partName="Navigation Viewer">
+<viewState>
+<com.atportunity.core.ui.model.views.UmiNavigationViewPart>&#x0A;<typedNamedPatternFilters IMemento.internal.id=""/>
+<typedNamedPatternEnablement IMemento.internal.id="false"/>
+<typedNamedFilters IMemento.internal.id=""/>
+</com.atportunity.core.ui.model.views.UmiNavigationViewPart>
+</viewState>
+</view>
+<view id="org.eclipse.ui.views.ContentOutline" partName="Outline">
+<viewState/>
+</view>
+<view id="org.eclipse.ui.views.PropertySheet" partName="Properties">
+<viewState/>
+</view>
+<view id="com.atportunity.core.ui.model.views.UmiModelViewPart:_QHFmOTg0EduOgbYGbvAiQA" partName="editor">
+<viewState>
+<com.atportunity.core.ui.model.views.UmiModelViewPart>
+<modelNodeId IMemento.internal.id="_QHFmOTg0EduOgbYGbvAiQA"/>
+<phaseNodeId IMemento.internal.id="_2CteWzgzEduOgbYGbvAiQA"/>
+<projectName IMemento.internal.id="GEditor"/>
+<typedNamedPatternFilters IMemento.internal.id=""/>
+<typedNamedPatternEnablement IMemento.internal.id="false"/>
+<typedNamedFilters IMemento.internal.id=""/>
+<com.atportunity.core.ui.editor>
+<editor>
+<diagramPath IMemento.internal.id="/GEditor/process/Phase(_2CteWzgzEduOgbYGbvAiQA)/models/GFormContainer/GNetContainer.classdiagram"/>
+<diagramName IMemento.internal.id="GNetContainer.classdiagram"/>
+<editorId IMemento.internal.id="com.atportunity.core.ui.editor.ClassDiagramEditor"/>
+</editor>
+<editor>
+<diagramPath IMemento.internal.id="/GEditor/process/Phase(_2CteWzgzEduOgbYGbvAiQA)/models/GFormContainer/PSSEAclf.classdiagram"/>
+<diagramName IMemento.internal.id="PSSEAclf.classdiagram"/>
+<editorId IMemento.internal.id="com.atportunity.core.ui.editor.ClassDiagramEditor"/>
+</editor>
+<editor>
+<diagramPath IMemento.internal.id="/GEditor/process/Phase(_2CteWzgzEduOgbYGbvAiQA)/models/GFormContainer/PSSEAdapter.classdiagram"/>
+<diagramName IMemento.internal.id="PSSEAdapter.classdiagram"/>
+<editorId IMemento.internal.id="com.atportunity.core.ui.editor.ClassDiagramEditor"/>
+</editor>
+</com.atportunity.core.ui.editor>
+</com.atportunity.core.ui.model.views.UmiModelViewPart>
+</viewState>
+</view>
+<view id="org.eclipse.ui.views.ProblemView" partName="Problems"/>
+</views>
+<perspectives activePart="com.atportunity.core.ui.editor.ClassDiagramEditor" activePerspective="com.atportunity.core.ui.model.perspective.UMIPerspective">
+<perspective editorAreaVisible="1" fixed="0" version="0.016">
+<descriptor class="com.atportunity.core.ui.model.perspective.UMIPerspectiveFactory" id="com.atportunity.core.ui.model.perspective.UMIPerspective" label="Blueprint Software Modeler"/>
+<alwaysOnActionSet id="org.eclipse.search.searchActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.openExternalFile"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.annotationNavigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.navigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo"/>
+<alwaysOnActionSet id="org.eclipse.ui.externaltools.ExternalToolsSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.keyBindings"/>
+<alwaysOnActionSet id="org.eclipse.ui.WorkingSetActionSet"/>
+<alwaysOnActionSet id="org.eclipse.update.ui.softwareUpdates"/>
+<show_view_action id="com.atportunity.core.ui.model.views.UmiNavigationViewPart"/>
+<show_view_action id="org.eclipse.jdt.ui.PackageExplorer"/>
+<show_view_action id="org.eclipse.ui.views.ContentOutline"/>
+<show_view_action id="org.eclipse.ui.views.PropertySheet"/>
+<show_view_action id="org.eclipse.ui.views.TaskList"/>
+<new_wizard_action id="com.atportunity.core.ui.model.wizards.NewModelProjectWizard"/>
+<view id="com.atportunity.core.ui.model.views.UmiNavigationViewPart"/>
+<view id="com.atportunity.core.ui.model.views.UmiModelViewPart:_QHFmOTg0EduOgbYGbvAiQA"/>
+<view id="org.eclipse.ui.views.PropertySheet"/>
+<view id="org.eclipse.ui.views.ProblemView"/>
+<view id="org.eclipse.ui.views.ContentOutline"/>
+<layout>
+<mainWindow>
+<info folder="true" part="left">
+<folder activePageID="com.atportunity.core.ui.model.views.UmiModelViewPart:_QHFmOTg0EduOgbYGbvAiQA" appearance="2" expanded="2">
+<page content="com.atportunity.core.ui.model.views.UmiNavigationViewPart" label="Navigation Viewer"/>
+<page content="com.atportunity.core.ui.model.views.UmiModelViewPart:*" label="LabelNotFound"/>
+<page content="org.eclipse.jdt.ui.PackageExplorer" label="LabelNotFound"/>
+<page content="com.atportunity.core.ui.model.views.UmiModelViewPart:_QHFmOTg0EduOgbYGbvAiQA" label="editor"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="stickyFolderRight" ratio="0.74950296" ratioLeft="754" ratioRight="252" relationship="2" relative="left">
+<folder appearance="2" expanded="2">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
+<page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
+</folder>
+</info>
+<info part="org.eclipse.ui.editorss" ratio="0.24950299" ratioLeft="251" ratioRight="755" relationship="2" relative="left"/>
+<info folder="true" part="bottom" ratio="0.66442955" ratioLeft="594" ratioRight="300" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="org.eclipse.ui.views.PropertySheet" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.PropertySheet" label="Properties"/>
+<page content="org.eclipse.ui.views.ProblemView" label="Problems"/>
+<page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="leftbottom" ratio="0.7" ratioLeft="497" ratioRight="213" relationship="4" relative="left">
+<folder activePageID="org.eclipse.ui.views.ContentOutline" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ContentOutline" label="Outline"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+</mainWindow>
+</layout>
+</perspective>
+</perspectives>
+<workingSets/>
+<navigationHistory/>
+<stickyState/>
+<input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
+</page>
+<workbenchWindowAdvisor/>
+<actionBarAdvisor/>
+<trimLayout>
+<trimArea IMemento.internal.id="128">
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
+</trimArea>
+<trimArea IMemento.internal.id="1024">
+<trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
+<trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+</trimArea>
+</trimLayout>
+</window>
+<mruList/>
+</workbench>
