@@ -1,12 +1,11 @@
 package ipss.custom.psse.aclf;
 
-import ipss.custom.exchange.psse.OwnerRec;
+import ipss.custom.psse.OwnerRec;
 
 import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.util.XmlUtil;
-import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.impl.RegulateGeneratorImpl;
 
 public class PSSEGen extends RegulateGeneratorImpl {
