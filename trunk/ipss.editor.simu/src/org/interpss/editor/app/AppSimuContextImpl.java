@@ -21,6 +21,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.AcscRunForm;
 
+import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.simu.SimuContext;
@@ -65,10 +66,13 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	/* current project info, including projname ... */
 
 	public IProjectData getProjData() { 
-    	if (this.projData == null)
+    	if (this.projData == null) {
     		this.projData = SimuAppSpringAppContext.getProjectData();
+    		this.projData.setDbSchemaVersion(DBManager.DB_SCHEMA_VERSION);
+    	}
 		return this.projData; 
 	}
+	
 	public void setProjData(IProjectData info) {
 		this.projData = info;
 	}

@@ -24,10 +24,10 @@ public class SimuAppSpringAppCtxUtil {
 	 *  
 	 * @return the CaseInfoDialog object
 	 */	
-	public static ICaseInfoDialog getCaseInfoDialog(String caseType, IGFormContainer netContainer, IAppSimuContext project) {
+	public static ICaseInfoDialog getCaseInfoDialog(String caseType, IGFormContainer netContainer, IAppSimuContext appSimuCtx) {
 		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog)SpringAppContext.SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
 		caseInfoDialog.setCaseType(caseType);
-		caseInfoDialog.init(netContainer, project);
+		caseInfoDialog.init(netContainer, appSimuCtx);
 		return caseInfoDialog;
 	}	
 
