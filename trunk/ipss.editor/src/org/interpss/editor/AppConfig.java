@@ -73,6 +73,7 @@ public class AppConfig {
 //			FileChooserConfig.setCustomFileExts(appProps);
 			
 			DBManager.SQLMAP_CONFIG_PATH = Translator.getString("Sqlmap.Config.Path");
+			DBManager.DB_SCHEMA_VERSION = Translator.getString("IpssDb.shema.version");
 			IpssLogger.getLogger().info("DBManager.SQLMAP_CONFIG_PATH:" + DBManager.SQLMAP_CONFIG_PATH );
 			try {
 				DBManager.getSqlMap().getDataSource().getConnection();
