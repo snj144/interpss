@@ -2,14 +2,8 @@ package ipss.custom.psse.aclf;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.common.datatype.UnitType;
-import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.util.XmlUtil;
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.impl.RegulateLoadImpl;
-import com.interpss.core.datatype.FuncLoad;
-import com.interpss.core.net.Network;
 
 public class PSSELoad extends RegulateLoadImpl {
 

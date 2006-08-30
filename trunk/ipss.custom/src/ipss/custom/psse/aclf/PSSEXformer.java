@@ -2,7 +2,7 @@ package ipss.custom.psse.aclf;
 
 import org.apache.commons.math.complex.Complex;
 
-import ipss.custom.exchange.psse.OwnerRec;
+import ipss.custom.psse.OwnerRec;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.core.aclf.impl.AclfBranchExtImpl;

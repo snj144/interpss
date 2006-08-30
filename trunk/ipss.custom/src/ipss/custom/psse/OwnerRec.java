@@ -1,4 +1,4 @@
-package ipss.custom.exchange.psse;
+package ipss.custom.psse;
 
 public class OwnerRec {
 	private int ownerNumber = 0;

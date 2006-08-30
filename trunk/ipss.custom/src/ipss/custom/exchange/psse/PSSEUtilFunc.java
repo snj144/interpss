@@ -11,7 +11,7 @@ public class PSSEUtilFunc {
 	 * @param str a input data line string
 	 */
 	public static boolean isEndRecLine(String str) {
-		return str.startsWith("0") || str.startsWith("/");
+		return str.startsWith("0") || str.startsWith("/") || str.startsWith("Q");
 	}
 	
 	public static String trimQuote(String str) {

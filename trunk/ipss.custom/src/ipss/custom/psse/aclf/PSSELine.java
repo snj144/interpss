@@ -1,8 +1,7 @@
 package ipss.custom.psse.aclf;
 
-import ipss.custom.exchange.psse.OwnerRec;
+import ipss.custom.psse.OwnerRec;
 
-import com.interpss.common.util.XmlUtil;
 import com.interpss.core.aclf.impl.AclfBranchExtImpl;
 
 public class PSSELine extends AclfBranchExtImpl {
