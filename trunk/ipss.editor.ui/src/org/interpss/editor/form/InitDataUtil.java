@@ -221,9 +221,9 @@ public class InitDataUtil {
 			
 			machData.setInertia(3.0);
 			machData.setDamping(4.0);
-			machData.setSliner(80.0);
-			machData.setS100(107.0);
-			machData.setS120(118.0);
+			machData.setSliner(0.7);
+			machData.setS100(12.0);
+			machData.setS120(23.0);
   		}
   		else if (machData.getType().equals(DStabMachData.MachType_Eq1Ed1)) {
 			machData.setXd(1.65);
@@ -241,9 +241,9 @@ public class InitDataUtil {
 			
 			machData.setInertia(5.6);
 			machData.setDamping(6.0);
-			machData.setSliner(80.0);
-			machData.setS100(107.0);
-			machData.setS120(118.0);
+			machData.setSliner(0.7);
+			machData.setS100(12.0);
+			machData.setS120(23.0);
   		}
   		else if (machData.getType().equals(DStabMachData.MachType_SalientPole)) {
 			machData.setXd(1.05);
@@ -263,9 +263,9 @@ public class InitDataUtil {
 			
 			machData.setInertia(3.0);
 			machData.setDamping(4.0);
-			machData.setSliner(80.0);
-			machData.setS100(107.0);
-			machData.setS120(118.0);
+			machData.setSliner(0.7);
+			machData.setS100(12.0);
+			machData.setS120(23.0);
   		}
   		else if (machData.getType().equals(DStabMachData.MachType_RoundRotor)) {
 			machData.setXd(1.65);
@@ -287,9 +287,9 @@ public class InitDataUtil {
 			
 			machData.setInertia(5.6);
 			machData.setDamping(6.0);
-			machData.setSliner(80.0);
-			machData.setS100(107.0);
-			machData.setS120(118.0);
+			machData.setSliner(0.7);
+			machData.setS100(12.0);
+			machData.setS120(23.0);
   		}
   	}
 
