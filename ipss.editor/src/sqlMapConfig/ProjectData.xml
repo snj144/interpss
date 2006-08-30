@@ -33,23 +33,27 @@
   <!-- select project based on project dbId -->
   <select id="selectProjectId" parameterClass="projectData"  resultClass="projectData">
     	select 
-    		ID as projectDbId, 
-    		PROJ_NAME as projectName, 
-    		PROJ_DESC as description, 
-    		FILE_PATH as filepath
-    	from IPSSPROJECT 
+    		A.ID as projectDbId, 
+    		A.PROJ_NAME as projectName, 
+    		A.PROJ_DESC as description, 
+    		A.FILE_PATH as filepath,
+    		A.WORKSPACE_PATH as workspacePath,
+    		B.SCHEMA_VERSION as dbSchemaVersion
+    	from IPSSPROJECT A, DBMETADATA B
     	where 
-    		ID = #projectDbId#
+    		A.ID = #projectDbId#
   </select>
   
   <!-- select project based on project name and filepath -->
   <select id="selectProjectName" parameterClass="projectData" resultClass="projectData">
     	select 
-    		ID as projectDbId, 
-    		PROJ_NAME as projectName, 
-    		PROJ_DESC as description, 
-    		FILE_PATH as filepath
-    	from IPSSPROJECT 
+    		A.ID as projectDbId, 
+    		A.PROJ_NAME as projectName, 
+    		A.PROJ_DESC as description, 
+    		A.FILE_PATH as filepath,
+    		A.WORKSPACE_PATH as workspacePath,
+    		B.SCHEMA_VERSION as dbSchemaVersion
+    	from IPSSPROJECT A, DBMETADATA B
     	where 
     		PROJ_NAME = #projectName# AND
     		FILE_PATH = #filepath#
@@ -62,6 +66,7 @@
     		PROJ_NAME = #projectName#, 
     		PROJ_DESC = #description#,
     		FILE_PATH = #filepath#,
+    		WORKSPACE_PATH = #workspacePath#,
   		UPDATE_TIME = CURRENT_TIMESTAMP
   	where 
   		ID=#projectDbId#
