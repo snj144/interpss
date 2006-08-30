@@ -18,7 +18,6 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.datatype.FuncLoad;
 
 public class BusDataRecord {
 	/** 
@@ -42,13 +41,26 @@ public class BusDataRecord {
     	String NAME = PSSEUtilFunc.trimQuote(st.nextToken());
 		double BASKV = new Double(st.nextToken().trim()).doubleValue();
 		int IDE = new Integer(st.nextToken().trim()).intValue();
-		double GL = new Double(st.nextToken().trim()).doubleValue();
-		double BL = new Double(st.nextToken().trim()).doubleValue();
-		int AREA = new Integer(st.nextToken().trim()).intValue();
-		int ZONE = new Integer(st.nextToken().trim()).intValue();
-		double VM = new Double(st.nextToken().trim()).doubleValue();
-		double VA = new Double(st.nextToken().trim()).doubleValue();
-		int OWNER = new Integer(st.nextToken().trim()).intValue();
+		
+		double GL = 0.0, BL = 0.0;
+		int AREA = 1, ZONE = 1;
+		double VM = 1.0, VA = 0.0;
+		int OWNER = 1;
+
+		if (st.hasMoreTokens())
+			GL = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			BL = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			AREA = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			ZONE = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			VM = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			VA = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			OWNER = new Integer(st.nextToken().trim()).intValue();
 		
 		IpssLogger.getLogger().fine("Bus data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("Bus number, type, name:" + I + ", " + IDE + ", '" + NAME + "'");
