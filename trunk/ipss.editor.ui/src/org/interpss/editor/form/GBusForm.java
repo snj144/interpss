@@ -22,7 +22,7 @@ public class GBusForm extends BaseBusForm implements IGBusForm, java.io.Serializ
 			H_Orientation = 1,
 			V_Orientation = 2;
 	
-	private String busLabel = null;
+	//private String busLabel = null;
 	private String annotateLabel = null;
 
 	/**
@@ -117,18 +117,9 @@ public class GBusForm extends BaseBusForm implements IGBusForm, java.io.Serializ
 	 * @return Returns the busLabel.
 	 */
 	public String getBusLabel() {
-		if (busLabel == null)
-			busLabel = getName();
-		return busLabel;
+		return getName();
 	}
 
-	/**
-	 * @param busLabel The busLabel to set.
-	 */
-	public void setBusLabel(String busLabel) {
-		this.busLabel = busLabel;
-	} 
-	
 	// do not remove : for old file format
 	public String getDisplayStr() {
 		return getLabel(IUserData.BUS_LABEL);
