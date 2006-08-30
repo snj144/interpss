@@ -104,6 +104,18 @@ public interface IProjectData {
 	public void setToNewProject();
 	
 	/**
+	 * get Ipss DB Schema version 
+	 *
+	 */
+	public String getDbSchemaVersion();
+	
+	/**
+	 * set Ipss DB Schema version 
+	 *
+	 */
+	public void setDbSchemaVersion(String dbSchemaVersion);
+
+	/**
 	 * Convert this object to an Xml string for persistance
 	 * 
 	 * @return
