@@ -132,12 +132,12 @@ public class GEditor extends Applet {
 			
 			gpframe.addWindowListener(pad.getAppCloser());
 			
-			pad.initData();
-			// show the main screen after the projects are loaded
 			gpframe.setVisible(true);
+			// Richard: the screen is blank while we are waiting for initData. Can we load the data
+			// then set gpFrame visible?
+			pad.initData();
 			panel.setVisible(true);
 			pad.initActive();
-			
 		} catch (Exception e) {
 			info.setText(e.getMessage());
 			e.printStackTrace();
