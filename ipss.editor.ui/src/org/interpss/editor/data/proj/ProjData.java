@@ -23,6 +23,7 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	private String filepath = null;
 	private boolean dirty = false;
 	private List caseList = new ArrayList();
+	private String dbSchemaVersion = "";
 
 	/* current case name */
 	private String aclfCaseName = null;
@@ -126,5 +127,19 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	 */
 	public void setWorkspacePath(String workspacePath) {
 		this.workspacePath = workspacePath;
+	}
+
+	/**
+	 * @return the dbSchemaVersion
+	 */
+	public String getDbSchemaVersion() {
+		return dbSchemaVersion;
+	}
+
+	/**
+	 * @param dbSchemaVersion the dbSchemaVersion to set
+	 */
+	public void setDbSchemaVersion(String dbSchemaVersion) {
+		this.dbSchemaVersion = dbSchemaVersion;
 	}
 }
