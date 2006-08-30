@@ -44,6 +44,7 @@ public class EditPaste extends IpssAbstractGraphAction {
 		TransferHandler.getPasteAction().actionPerformed(
 				new ActionEvent(getCurrentGraph(), e.getID(), e
 						.getActionCommand()));
+		graphpad.refreshCurrentDocumentEditorPanel();
 		
 	}
 }
