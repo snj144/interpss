@@ -56,6 +56,7 @@ public class EditDelete extends IpssAbstractGraphAction {
 					}
 				}
 				getCurrentGraph().getModel().remove(cells);
+				graphpad.refreshCurrentDocumentEditorPanel();
 			}
 	}
 

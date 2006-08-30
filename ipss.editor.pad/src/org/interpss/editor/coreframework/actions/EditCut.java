@@ -35,6 +35,7 @@ public class EditCut extends IpssAbstractGraphAction {
 	public void actionPerformed(ActionEvent e) {
 		TransferHandler.getCutAction().actionPerformed(
 			new ActionEvent(getCurrentGraph(), e.getID() , e.getActionCommand() ));
+		graphpad.refreshCurrentDocumentEditorPanel();
 //		graphpad.getCommand("EditCopy").actionPerformed(e);
 //		graphpad.getCommand("EditDelete").actionPerformed(e);
 	}
