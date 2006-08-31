@@ -1,5 +1,6 @@
 package org.interpss.editor.ui.run;
 
+import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.interpss.editor.data.proj.AclfCaseData;
@@ -7,11 +8,14 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.runAct.RunActUtilFunc;
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.simu.SimuContext;
 
@@ -40,6 +44,80 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    _netContainer = (GFormContainer)netContainer;
 	    _simuCtx = (SimuContext)net;
     	_simuCtx.getLoadflowAlgorithm().setInitBusVoltage(false);
+    	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().setActivateAllAdjust(false);
+    	initAdvanceControlPanel();
+    }
+    	
+	private void initAdvanceControlPanel() {
+		Object[] list = RunActUtilFunc.getFunctionLoadList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
+		if (list.length > 1) {
+			funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
+		}
+		else {
+			funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
+			funcLoadComboBox.setEnabled(false);
+			funcLoadButton.setEnabled(false);
+		}
+
+		list = RunActUtilFunc.getXfrTapControlList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
+		if (list.length > 1) {
+			xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
+		}
+		else {
+			xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
+			xfrTapControlComboBox.setEnabled(false);
+			xfrTapControlButton.setEnabled(false);
+		}
+
+		list = RunActUtilFunc.getPSXfrPControlList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
+		if (list.length > 1) {
+			psXfrPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
+		}
+		else {
+			psXfrPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
+			psXfrPControlComboBox.setEnabled(false);
+			psXfrPControlButton.setEnabled(false);
+		}
+
+		list = RunActUtilFunc.getInterareaPControlList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
+		if (list.length > 1) {
+			interPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
+		}
+		else {
+			interPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
+			interPControlComboBox.setEnabled(false);
+			interPControlButton.setEnabled(false);
+		}
+		
+		list = RunActUtilFunc.getRemoteQBusList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
+		if (list.length > 1) {
+			remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
+		}
+		else {
+			remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
+			remoteQBusComboBox.setEnabled(false);
+			remoteQBusButton.setEnabled(false);
+		}
+		
+		list = RunActUtilFunc.getPQBusLimitList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
+		if (list.length > 1) {
+			pqBusLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
+		}
+		else {
+			pqBusLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
+			pqBusLimitComboBox.setEnabled(false);
+			pqBusLimitButton.setEnabled(false);
+		}
+		
+		list = RunActUtilFunc.getPVBusLimitList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
+		if (list.length > 1) {
+			pvBusLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
+		}
+		else {
+			pvBusLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
+			pvBusLimitComboBox.setEnabled(false);
+			pvBusLimitButton.setEnabled(false);
+		}    	
     }
 
     public void setCaseData(AclfCaseData data) {
@@ -617,7 +695,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
         controlPanel.add(interPControlButton, gridBagConstraints);
 
-        msgOutScrollPane.setPreferredSize(new java.awt.Dimension(400, 50));
+        msgOutScrollPane.setPreferredSize(new java.awt.Dimension(450, 50));
         msgOutTextArea.setColumns(40);
         msgOutTextArea.setEditable(false);
         msgOutTextArea.setFont(new java.awt.Font("Dialog", 0, 8));
@@ -629,7 +707,6 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 7;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         controlPanel.add(msgOutScrollPane, gridBagConstraints);
 
@@ -667,41 +744,60 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
     	IpssLogger.getLogger().info("Details ...");
+  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+  		dialog.display(_simuCtx.getAclfAdjNet());
     }//GEN-LAST:event_detailsButtonActionPerformed
 
     private void funcLoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcLoadButtonActionPerformed
     	IpssLogger.getLogger().info("Apply Functional Load adjustment");
+//        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_funcLoadButtonActionPerformed
 
     private void xfrTapControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xfrTapControlButtonActionPerformed
     	IpssLogger.getLogger().info("Apply Xfr Tap Control");
+//        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_xfrTapControlButtonActionPerformed
 
     private void psXfrPControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrPControlButtonActionPerformed
     	IpssLogger.getLogger().info("Apply PSXfr Power Control");
+//        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_psXfrPControlButtonActionPerformed
 
     private void interPControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interPControlButtonActionPerformed
     	IpssLogger.getLogger().info("Interarea Power Exchange Control");
+//        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_interPControlButtonActionPerformed
 
     private void remoteQBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remoteQBusButtonActionPerformed
     	IpssLogger.getLogger().info("Apply Remote Q Bus");
+//        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_remoteQBusButtonActionPerformed
 
     private void pqBusLimitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqBusLimitButtonActionPerformed
     	IpssLogger.getLogger().info("Apply PQ Bus Limit");
+//        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_pqBusLimitButtonActionPerformed
 
     private void pvBusLimitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvBusLimitButtonActionPerformed
-    	IpssLogger.getLogger().info("Apply PV Bus Limit");
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+        String selected = (String)pvBusLimitComboBox.getSelectedItem();
+        if (selected.equals(RunActUtilFunc.AllControlDevices)) {
+        	IpssLogger.getLogger().info("Apply All PV Bus Limit");
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPVBusLimitAdjust(AclfMethod.PQ_LITERAL, _simuCtx.getMsgHub());
+        }
+        else {
+        	String id = new StringTokenizer(selected).nextToken();
+        	PVBusLimit pv = _simuCtx.getAclfAdjNet().getPVBusLimit(id);
+        	pv.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva(), _simuCtx.getMsgHub());
+        	IpssLogger.getLogger().info("Apply PV Bus Limit: " + id);
+        }
+        initAdvanceControlPanel();
+        mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_pvBusLimitButtonActionPerformed
 
     private void gsStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsStepButtonActionPerformed
