@@ -71,7 +71,7 @@ public class AclfRunForm extends BaseRunForm {
   	private boolean runLoadflow(AclfAdjNetwork aclfAdjNet, LoadflowAlgorithm algo, IPSSMsgHub msg) {
   	  	boolean converge = runLoadflow_internal(aclfAdjNet, algo, msg);
 	  	if (getAclfCaseData().getShowSummary()) {
-	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Distribution Loadflow Analysis Info");
+	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 	  		dialog.display(aclfAdjNet);
 	  	}
   	  	return converge;
