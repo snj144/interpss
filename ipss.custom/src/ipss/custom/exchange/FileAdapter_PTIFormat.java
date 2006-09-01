@@ -407,7 +407,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			Object obj = itr.next();
 			if (obj instanceof PSSEXformer) {
 				PSSEXformer xfr = (PSSEXformer)obj;
-	          	if (xfr.getControlMode() == 1 || xfr.getControlMode() == -1) {
+	          	if (xfr.getControlMode() == 1) {
 	          		// ±1 for voltage control; a negative control mode suppresses the automatic adjustment of this
 	          		// transformer.
 	          		/*
@@ -425,11 +425,9 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		tapv.setControlOnFromSide(true);
 	          		tapv.setMeteredOnFromSide(xfr.getControlOnFromSide());
 	          		tapv.setCompensateZ(xfr.getLoadDropCZ());
-	          		if (xfr.getControlMode() == -1)
-	          			tapv.setStatus(false);
 	          		adjNet.addTapControl(tapv, xfr.getContBusId());   
 	          	}
-	          	else if (xfr.getControlMode() == 2 || xfr.getControlMode() == -2) {
+	          	else if (xfr.getControlMode() == 2) {
 	          		// ±2 for reactive power flow control; 
 	          		/*
 					The tap ratio is adjusted to hold the Mvar on the tap side of the transformer between the limits
@@ -445,11 +443,9 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		tapv.setMeteredOnFromSide(xfr.getControlOnFromSide());
 	          		tapv.setFlowFrom2To(true);
 	          		tapv.setCompensateZ(xfr.getLoadDropCZ());
-	          		if (xfr.getControlMode() == -2)
-	          			tapv.setStatus(false);
 	          		adjNet.addTapControl(tapv, xfr.getContBusId());   
 	          	}
-	          	else if (xfr.getControlMode() == 3 || xfr.getControlMode() == -3) {
+	          	else if (xfr.getControlMode() == 3) {
 	          		// ±3 for active power flow control;
 	          		/*
 					The phase-shift angle of each phase shifter is adjusted, as necessary, to keep the real power flow
@@ -469,7 +465,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          			ps.setStatus(false);
           			adjNet.addPSXfrPControl(ps, xfr.getId());   
 	          	}
-	          	else if (xfr.getControlMode() == 4 || xfr.getControlMode() == -4) {
+	          	else if (xfr.getControlMode() == 4) {
 	          		// ±4 for control of a dc line quantity.
 	          		msg.sendWarnMsg("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has control of a dc line capacity");
 	          	}
