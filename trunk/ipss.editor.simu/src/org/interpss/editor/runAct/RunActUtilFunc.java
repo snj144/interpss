@@ -5,7 +5,12 @@ import java.util.List;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.PQBusLimit;
+import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
+import com.interpss.core.aclfadj.RemoteQBus;
+import com.interpss.core.aclfadj.RemoteQControlType;
+import com.interpss.core.aclfadj.TapControl;
 
 public class RunActUtilFunc {
 	public static String AllControlDevices = "All Control Devices";
@@ -31,24 +36,53 @@ public class RunActUtilFunc {
 	public static Object[] getPQBusLimitList(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
+		for (int i = 0; i < adjNet.getPqBusLimitList().size(); i++) {
+			PQBusLimit pqLimit = (PQBusLimit)adjNet.getPqBusLimitList().get(i);
+			if (pqLimit.needAdjust(0.0, adjNet.getBaseKva(), msg))
+				list.add( pqLimit.getId() + " at " + pqLimit.getBus().getName() +
+					"(" + (pqLimit.isActive()?"on":"off") + ")");
+		}
 		return list.toArray();	
 	}
 
-	public static Object[] getRemoteQBusList(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
+	public static Object[] getRemoteQBusList(AclfAdjNetwork adjNet, double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
+		for (int i = 0; i < adjNet.getRemoteQBusList().size(); i++) {
+			RemoteQBus reQ = (RemoteQBus)adjNet.getRemoteQBusList().get(i);
+			if (reQ.needAdjust(tolerance, adjNet.getBaseKva(), msg)) {
+				if (reQ.getControlType() == RemoteQControlType.BUS_VOLTAGE_LITERAL)
+					list.add( reQ.getId() + " at " + reQ.getBus().getName() +
+							"-> Bus:" + reQ.getRemoteBus().getId());
+				else
+					list.add( reQ.getId() + " at " + reQ.getBus().getName() +
+							"-> Branch:" + reQ.getRemoteBranch().getId());
+			}	
+		}
 		return list.toArray();
 	}
 
-	public static Object[] getXfrTapControlList(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
+	public static Object[] getXfrTapControlList(AclfAdjNetwork adjNet, double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
+		for (int i = 0; i < adjNet.getTapControlList().size(); i++) {
+			TapControl xfr = (TapControl)adjNet.getTapControlList().get(i);
+			if (xfr.needAdjust(tolerance, adjNet.getBaseKva(), msg)) {
+				list.add( xfr.getId() + " at " + xfr.getAclfBranch().getName());
+			}	
+		}
 		return list.toArray();	
 	}
 
-	public static Object[] getPSXfrPControlList(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
+	public static Object[] getPSXfrPControlList(AclfAdjNetwork adjNet, double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
+		for (int i = 0; i < adjNet.getPsXfrPControlList().size(); i++) {
+			PSXfrPControl psXfr = (PSXfrPControl)adjNet.getPsXfrPControlList().get(i);
+			if (psXfr.needAdjust(tolerance, adjNet.getBaseKva(), msg)) {
+				list.add( psXfr.getId() + " at " + psXfr.getAclfBranch().getName());
+			}	
+		}
 		return list.toArray();	
 	}
 
