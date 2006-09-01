@@ -756,6 +756,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	IpssLogger.getLogger().info("Reset ...");
     	_simuCtx.getAclfAdjNet().initializeBusVoltage();
     	_simuCtx.getAclfAdjNet().activateAllAdjust(_simuCtx.getMsgHub());
+        initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_resetButtonActionPerformed
 
