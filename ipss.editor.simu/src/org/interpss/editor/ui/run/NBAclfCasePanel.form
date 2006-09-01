@@ -35,8 +35,8 @@
         <Container class="javax.swing.JPanel" name="mainPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Normal Run">
-                <Property name="tabTitle" type="java.lang.String" value="Normal Run"/>
+              <JTabbedPaneConstraints tabName="Run Loadflow">
+                <Property name="tabTitle" type="java.lang.String" value="Run Loadflow"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -283,8 +283,8 @@
         <Container class="javax.swing.JPanel" name="advancedPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Advanced Control">
-                <Property name="tabTitle" type="java.lang.String" value="Advanced Control"/>
+              <JTabbedPaneConstraints tabName="Loadflow Lab">
+                <Property name="tabTitle" type="java.lang.String" value="Loadflow Lab"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -436,7 +436,7 @@
                 <Component class="javax.swing.JLabel" name="pvBusLimitLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="PV Bus Limit Control"/>
                   </Properties>
@@ -449,7 +449,7 @@
                 <Component class="javax.swing.JComboBox" name="pvBusLimitComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
@@ -466,7 +466,7 @@
                 <Component class="javax.swing.JButton" name="pvBusLimitButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Apply"/>
                   </Properties>
@@ -482,7 +482,7 @@
                 <Component class="javax.swing.JLabel" name="pqBusLimitLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="PQ Bus Limit Control"/>
                   </Properties>
@@ -495,7 +495,7 @@
                 <Component class="javax.swing.JComboBox" name="pqBusLimitComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -515,7 +515,7 @@
                 <Component class="javax.swing.JButton" name="pqBusLimitButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Apply"/>
                   </Properties>
@@ -531,7 +531,7 @@
                 <Component class="javax.swing.JLabel" name="remoteQBusLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Remote Q Bus Adjustment"/>
                   </Properties>
@@ -544,7 +544,7 @@
                 <Component class="javax.swing.JComboBox" name="remoteQBusComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -564,7 +564,7 @@
                 <Component class="javax.swing.JButton" name="remoteQBusButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Apply"/>
                   </Properties>
@@ -580,7 +580,7 @@
                 <Component class="javax.swing.JLabel" name="funcLoadLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Functional Load Adjustment"/>
                   </Properties>
@@ -593,7 +593,7 @@
                 <Component class="javax.swing.JComboBox" name="funcLoadComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -613,7 +613,7 @@
                 <Component class="javax.swing.JButton" name="funcLoadButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Apply"/>
                   </Properties>
@@ -629,7 +629,7 @@
                 <Component class="javax.swing.JLabel" name="xfrTapControlLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Transformer Tap Adjustment"/>
                   </Properties>
@@ -642,7 +642,7 @@
                 <Component class="javax.swing.JComboBox" name="xfrTapControlComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -662,7 +662,7 @@
                 <Component class="javax.swing.JButton" name="xfrTapControlButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Apply"/>
                   </Properties>
@@ -678,7 +678,7 @@
                 <Component class="javax.swing.JLabel" name="psXfrPControlLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="PS-Transformer Angle Adjustment"/>
                   </Properties>
@@ -691,7 +691,7 @@
                 <Component class="javax.swing.JComboBox" name="psXfrPControlComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -711,7 +711,7 @@
                 <Component class="javax.swing.JButton" name="psXfrPControlButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Apply"/>
                     <Property name="iconTextGap" type="int" value="5"/>
@@ -728,7 +728,7 @@
                 <Component class="javax.swing.JLabel" name="interPControlLabel">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Interarea Power Exchange Control"/>
                   </Properties>
@@ -741,7 +741,7 @@
                 <Component class="javax.swing.JComboBox" name="interPControlComboBox">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="4">
@@ -761,7 +761,7 @@
                 <Component class="javax.swing.JButton" name="interPControlButton">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                      <Font name="Dialog" size="12" style="0"/>
+                      <Font name="Dialog" size="10" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Apply"/>
                   </Properties>
