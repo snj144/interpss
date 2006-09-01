@@ -1,23 +1,32 @@
 package org.interpss.editor.runAct;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
+import com.interpss.core.net.Area;
+import com.interpss.core.net.IRegulationDevice;
 
 public class RunActUtilFunc {
 	public static String AllControlDevices = "All Control Devices";
 	
-	public static Object[] getFunctionLoadList(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
+	public static Object[] getFunctionLoadList(AclfAdjNetwork adjNet, double tolerance, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
+		for (int i = 0; i < adjNet.getFunctionLoadList().size(); i++) {
+			FunctionLoad load = (FunctionLoad)adjNet.getFunctionLoadList().get(i);
+			if (load.needAdjust(tolerance, adjNet.getBaseKva(), msg))
+				list.add( load.getId() + " at " + load.getBus().getName());
+		}
 		return list.toArray();
 	}
 
@@ -89,6 +98,15 @@ public class RunActUtilFunc {
 	public static Object[] getInterareaPControlList(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
+		Iterator e = adjNet.getAreaList().iterator();
+		while (e.hasNext()) {
+			Area a = (Area)e.next();
+			if (a.getRegDeviceList().size() > 0) {
+				IRegulationDevice regDevice = (IRegulationDevice)a.getRegDeviceList().get(0);
+				if (regDevice.needAdjustment(a, adjNet))
+					list.add( a.getNumber() + " name: " + a.getName());
+			}
+		}		
 		return list.toArray();	
 	}
 }

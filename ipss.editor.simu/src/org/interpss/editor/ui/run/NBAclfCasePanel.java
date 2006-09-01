@@ -15,12 +15,15 @@ import org.interpss.editor.ui.UISpringAppContext;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
+import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.algorithm.AclfMethod;
+import com.interpss.core.net.Area;
+import com.interpss.core.net.IRegulationDevice;
 import com.interpss.simu.SimuContext;
 
 public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -53,7 +56,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }
     	
 	private void initAdvanceControlPanel() {
-		Object[] list = RunActUtilFunc.getFunctionLoadList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
+		Object[] list = RunActUtilFunc.getFunctionLoadList(_simuCtx.getAclfAdjNet(), 
+				_simuCtx.getLoadflowAlgorithm().getTolerance(),
+				_simuCtx.getMsgHub());
 		if (list.length > 1) {
 			funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
 		}
@@ -761,8 +766,18 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_detailsButtonActionPerformed
 
     private void funcLoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcLoadButtonActionPerformed
-    	IpssLogger.getLogger().info("Apply Functional Load adjustment");
-//        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+        String selected = (String)funcLoadComboBox.getSelectedItem();
+        if (selected.equals(RunActUtilFunc.AllControlDevices)) {
+        	IpssLogger.getLogger().info("Apply All Function load adjustment");
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doFuncLoadAdjust(_simuCtx.getMsgHub());
+        }
+        else {
+        	String id = new StringTokenizer(selected).nextToken();
+        	FunctionLoad load = _simuCtx.getAclfAdjNet().getFunctionLoad(id);
+        	load.performAdjust(_simuCtx.getAclfAdjNet().getBaseKva(), _simuCtx.getMsgHub());
+        	IpssLogger.getLogger().info("Apply Function load adjustment: " + id);
+        }
+        initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_funcLoadButtonActionPerformed
 
@@ -799,8 +814,22 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_psXfrPControlButtonActionPerformed
 
     private void interPControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interPControlButtonActionPerformed
-    	IpssLogger.getLogger().info("Interarea Power Exchange Control");
-//        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+        String selected = (String)interPControlComboBox.getSelectedItem();
+        if (selected.equals(RunActUtilFunc.AllControlDevices)) {
+        	IpssLogger.getLogger().info("Apply All Interarea exchagnge controls");
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doInterAreaPowerAdjust(_simuCtx.getMsgHub());
+        }
+        else {
+        	String no = new StringTokenizer(selected).nextToken();
+        	Area area = _simuCtx.getAclfAdjNet().getArea(new Integer(no).intValue());
+			if (area.getRegDeviceList().size() > 0) {
+				// there should be only one controller per area
+				IRegulationDevice regDevice = (IRegulationDevice)area.getRegDeviceList().get(0);
+				regDevice.performAdjusment(area, _simuCtx.getAclfAdjNet());
+			}
+			IpssLogger.getLogger().info("Apply Interarea exchagnge controls: " + no);
+        }
+        initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_interPControlButtonActionPerformed
 
