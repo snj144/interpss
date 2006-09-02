@@ -103,7 +103,7 @@ public class RunActUtilFunc {
 			Area a = (Area)e.next();
 			if (a.getRegDeviceList().size() > 0) {
 				IRegulationDevice regDevice = (IRegulationDevice)a.getRegDeviceList().get(0);
-				if (regDevice.needAdjustment(a, adjNet))
+				if (regDevice.needAdjustment(a, adjNet, msg))
 					list.add( a.getNumber() + " name: " + a.getName());
 			}
 		}		

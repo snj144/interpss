@@ -12,6 +12,10 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
+import com.interpss.common.exp.InvalidOperationException;
+import com.interpss.common.msg.IpssMessage;
+import com.interpss.common.msg.IpssMsgListener;
+import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
@@ -26,7 +30,7 @@ import com.interpss.core.net.Area;
 import com.interpss.core.net.IRegulationDevice;
 import com.interpss.simu.SimuContext;
 
-public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPanel {
+public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
 	private static final long serialVersionUID = 1;
 
     private GFormContainer _netContainer = null;
@@ -46,12 +50,31 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         this.maxItrTextField.setInputVerifier(verifier);
     }
     
+    /**
+     * Implementation of the onMsgEvent method.
+  	* 
+  	* @param msg the msg object
+     */
+     public void onMsgEvent(IpssMessage msg) {
+    	 if (msg instanceof SimuMessage) {
+      	  	if (msg.getType() == SimuMessage.TYPE_LFLAB_MSG) {
+    			IpssLogger.getLogger().info(msg.getMsgString());
+    			msgOutTextArea.append(msg.getMsgString() + "\n");
+      	  	}
+    	 }
+     }
+
+     public boolean onMsgEventStatus(IpssMessage msg) {
+  	   throw new InvalidOperationException("Method not implemented");
+     }
+     
     public void init(Object netContainer, Object net) {
 		IpssLogger.getLogger().info("NBAclfCasePanel init() called");
 	    _netContainer = (GFormContainer)netContainer;
 	    _simuCtx = (SimuContext)net;
     	_simuCtx.getLoadflowAlgorithm().setInitBusVoltage(false);
     	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().setActivateAllAdjust(false);
+		msgOutTextArea.setText("");
     	initAdvanceControlPanel();
     }
     	
@@ -79,6 +102,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		xfrTapControlComboBox.setEnabled(list.length > 1);
 		xfrTapControlButton.setEnabled(list.length > 1);
+		xfrTapControlXLabel.setEnabled(list.length > 1);
+		xfrTapControlTextField.setEnabled(list.length > 1);
 
 		list = RunActUtilFunc.getPSXfrPControlList(_simuCtx.getAclfAdjNet(), 
 				_simuCtx.getLoadflowAlgorithm().getTolerance(),
@@ -91,6 +116,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		psXfrPControlComboBox.setEnabled(list.length > 1);
 		psXfrPControlButton.setEnabled(list.length > 1);
+		psXfrPControlXLabel.setEnabled(list.length > 1);
+		psXfrPControlTextField.setEnabled(list.length > 1);
 
 		list = RunActUtilFunc.getInterareaPControlList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
 		if (list.length > 1) {
@@ -101,6 +128,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		interPControlComboBox.setEnabled(list.length > 1);
 		interPControlButton.setEnabled(list.length > 1);
+		interPControlXLabel.setEnabled(list.length > 1);
+		interPControlTextField.setEnabled(list.length > 1);
 		
 		list = RunActUtilFunc.getRemoteQBusList(_simuCtx.getAclfAdjNet(), 
 				_simuCtx.getLoadflowAlgorithm().getTolerance()*_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().getVoltAdjToleranceFactor(),
@@ -113,6 +142,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		}
 		remoteQBusComboBox.setEnabled(list.length > 1);
 		remoteQBusButton.setEnabled(list.length > 1);
+		remoteQBusXLabel.setEnabled(list.length > 1);
+		remoteQBusTextField.setEnabled(list.length > 1);
 		
 		list = RunActUtilFunc.getPQBusLimitList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
 		if (list.length > 1) {
@@ -235,7 +266,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         initVoltCheckBox = new javax.swing.JCheckBox();
         lfSummaryCheckBox = new javax.swing.JCheckBox();
         advancedPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        misTitleLabel = new javax.swing.JLabel();
         mismatchLabel = new javax.swing.JLabel();
         stepRunPanel = new javax.swing.JPanel();
         nrStepButton = new javax.swing.JButton();
@@ -247,26 +278,41 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         controlPanel = new javax.swing.JPanel();
         pvBusLimitLabel = new javax.swing.JLabel();
         pvBusLimitComboBox = new javax.swing.JComboBox();
+        pvBusLimitPanel = new javax.swing.JPanel();
         pvBusLimitButton = new javax.swing.JButton();
         pqBusLimitLabel = new javax.swing.JLabel();
         pqBusLimitComboBox = new javax.swing.JComboBox();
+        pqBusLimitPanel = new javax.swing.JPanel();
         pqBusLimitButton = new javax.swing.JButton();
         remoteQBusLabel = new javax.swing.JLabel();
         remoteQBusComboBox = new javax.swing.JComboBox();
+        remoteQBusPanel = new javax.swing.JPanel();
         remoteQBusButton = new javax.swing.JButton();
+        remoteQBusXLabel = new javax.swing.JLabel();
+        remoteQBusTextField = new javax.swing.JTextField();
         funcLoadLabel = new javax.swing.JLabel();
         funcLoadComboBox = new javax.swing.JComboBox();
+        funcLoadPanel = new javax.swing.JPanel();
         funcLoadButton = new javax.swing.JButton();
         xfrTapControlLabel = new javax.swing.JLabel();
         xfrTapControlComboBox = new javax.swing.JComboBox();
+        xfrTapControlPanel = new javax.swing.JPanel();
         xfrTapControlButton = new javax.swing.JButton();
+        xfrTapControlXLabel = new javax.swing.JLabel();
+        xfrTapControlTextField = new javax.swing.JTextField();
         psXfrPControlLabel = new javax.swing.JLabel();
         psXfrPControlComboBox = new javax.swing.JComboBox();
+        psXfrPControlPanel = new javax.swing.JPanel();
         psXfrPControlButton = new javax.swing.JButton();
+        psXfrPControlXLabel = new javax.swing.JLabel();
+        psXfrPControlTextField = new javax.swing.JTextField();
         interPControlLabel = new javax.swing.JLabel();
         interPControlComboBox = new javax.swing.JComboBox();
+        interPControlPanel = new javax.swing.JPanel();
         interPControlButton = new javax.swing.JButton();
-        msgOutScrollPane = new javax.swing.JScrollPane();
+        interPControlXLabel = new javax.swing.JLabel();
+        interPControlTextField = new javax.swing.JTextField();
+        msgScrollPane = new javax.swing.JScrollPane();
         msgOutTextArea = new javax.swing.JTextArea();
 
         setLayout(new java.awt.GridBagLayout());
@@ -415,11 +461,11 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         advancedPanel.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-        jLabel1.setText("Power Mismatch");
+        misTitleLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        misTitleLabel.setText("Power Mismatch");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 5, 0);
-        advancedPanel.add(jLabel1, gridBagConstraints);
+        advancedPanel.add(misTitleLabel, gridBagConstraints);
 
         mismatchLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         mismatchLabel.setText("mismatch");
@@ -523,6 +569,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
         controlPanel.add(pvBusLimitComboBox, gridBagConstraints);
 
+        pvBusLimitPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
+
         pvBusLimitButton.setFont(new java.awt.Font("Dialog", 0, 10));
         pvBusLimitButton.setText("Apply");
         pvBusLimitButton.addActionListener(new java.awt.event.ActionListener() {
@@ -531,9 +579,11 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
+        pvBusLimitPanel.add(pvBusLimitButton);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        controlPanel.add(pvBusLimitButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        controlPanel.add(pvBusLimitPanel, gridBagConstraints);
 
         pqBusLimitLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         pqBusLimitLabel.setText("PQ Bus Limit Control");
@@ -544,7 +594,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         controlPanel.add(pqBusLimitLabel, gridBagConstraints);
 
         pqBusLimitComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
-        pqBusLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pqBusLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -559,10 +609,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
+        pqBusLimitPanel.add(pqBusLimitButton);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        controlPanel.add(pqBusLimitButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        controlPanel.add(pqBusLimitPanel, gridBagConstraints);
 
         remoteQBusLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         remoteQBusLabel.setText("Remote Q Bus Adjustment");
@@ -573,7 +625,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         controlPanel.add(remoteQBusLabel, gridBagConstraints);
 
         remoteQBusComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
-        remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -588,10 +640,20 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
+        remoteQBusPanel.add(remoteQBusButton);
+
+        remoteQBusXLabel.setFont(new java.awt.Font("Dialog", 0, 10));
+        remoteQBusXLabel.setText("x");
+        remoteQBusPanel.add(remoteQBusXLabel);
+
+        remoteQBusTextField.setFont(new java.awt.Font("Dialog", 0, 10));
+        remoteQBusTextField.setText("1.00");
+        remoteQBusPanel.add(remoteQBusTextField);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        controlPanel.add(remoteQBusButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        controlPanel.add(remoteQBusPanel, gridBagConstraints);
 
         funcLoadLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         funcLoadLabel.setText("Functional Load Adjustment");
@@ -602,7 +664,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         controlPanel.add(funcLoadLabel, gridBagConstraints);
 
         funcLoadComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
-        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -617,10 +679,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
+        funcLoadPanel.add(funcLoadButton);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        controlPanel.add(funcLoadButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        controlPanel.add(funcLoadPanel, gridBagConstraints);
 
         xfrTapControlLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         xfrTapControlLabel.setText("Transformer Tap Adjustment");
@@ -631,7 +695,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         controlPanel.add(xfrTapControlLabel, gridBagConstraints);
 
         xfrTapControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
-        xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -646,10 +710,20 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
+        xfrTapControlPanel.add(xfrTapControlButton);
+
+        xfrTapControlXLabel.setFont(new java.awt.Font("Dialog", 0, 10));
+        xfrTapControlXLabel.setText("x");
+        xfrTapControlPanel.add(xfrTapControlXLabel);
+
+        xfrTapControlTextField.setFont(new java.awt.Font("Dialog", 0, 10));
+        xfrTapControlTextField.setText("1.00");
+        xfrTapControlPanel.add(xfrTapControlTextField);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        controlPanel.add(xfrTapControlButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        controlPanel.add(xfrTapControlPanel, gridBagConstraints);
 
         psXfrPControlLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         psXfrPControlLabel.setText("PS-Transformer Angle Adjustment");
@@ -660,7 +734,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         controlPanel.add(psXfrPControlLabel, gridBagConstraints);
 
         psXfrPControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
-        psXfrPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        psXfrPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -676,10 +750,20 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
+        psXfrPControlPanel.add(psXfrPControlButton);
+
+        psXfrPControlXLabel.setFont(new java.awt.Font("Dialog", 0, 10));
+        psXfrPControlXLabel.setText("x");
+        psXfrPControlPanel.add(psXfrPControlXLabel);
+
+        psXfrPControlTextField.setFont(new java.awt.Font("Dialog", 0, 10));
+        psXfrPControlTextField.setText("1.00");
+        psXfrPControlPanel.add(psXfrPControlTextField);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        controlPanel.add(psXfrPControlButton, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        controlPanel.add(psXfrPControlPanel, gridBagConstraints);
 
         interPControlLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         interPControlLabel.setText("Interarea Power Exchange Control");
@@ -690,7 +774,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         controlPanel.add(interPControlLabel, gridBagConstraints);
 
         interPControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
-        interPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        interPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -705,30 +789,38 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
+        interPControlPanel.add(interPControlButton);
+
+        interPControlXLabel.setFont(new java.awt.Font("Dialog", 0, 10));
+        interPControlXLabel.setText("x");
+        interPControlPanel.add(interPControlXLabel);
+
+        interPControlTextField.setFont(new java.awt.Font("Dialog", 0, 10));
+        interPControlTextField.setText("1.00");
+        interPControlPanel.add(interPControlTextField);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 6;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
-        controlPanel.add(interPControlButton, gridBagConstraints);
-
-        msgOutScrollPane.setPreferredSize(new java.awt.Dimension(450, 50));
-        msgOutTextArea.setColumns(40);
-        msgOutTextArea.setEditable(false);
-        msgOutTextArea.setFont(new java.awt.Font("Dialog", 0, 8));
-        msgOutTextArea.setLineWrap(true);
-        msgOutTextArea.setRows(5);
-        msgOutTextArea.setPreferredSize(new java.awt.Dimension(280, 40));
-        msgOutScrollPane.setViewportView(msgOutTextArea);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 7;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        controlPanel.add(msgOutScrollPane, gridBagConstraints);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        controlPanel.add(interPControlPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 20, 20);
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 20);
         advancedPanel.add(controlPanel, gridBagConstraints);
+
+        msgScrollPane.setPreferredSize(new java.awt.Dimension(480, 60));
+        msgOutTextArea.setColumns(50);
+        msgOutTextArea.setEditable(false);
+        msgOutTextArea.setFont(new java.awt.Font("Dialog", 0, 10));
+        msgOutTextArea.setRows(4);
+        msgOutTextArea.setText("Line-1\nLine-1\nLine-1\nLine-1\nLine-1");
+        msgScrollPane.setViewportView(msgOutTextArea);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        advancedPanel.add(msgScrollPane, gridBagConstraints);
 
         runAclfTabbedPane.addTab("Loadflow Lab", advancedPanel);
 
@@ -740,6 +832,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	IpssLogger.getLogger().info("PQ-Q Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_QSTEP_LITERAL);
     	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+        initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_pqQStepButtonActionPerformed
 
@@ -748,6 +841,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	IpssLogger.getLogger().info("Panel selection changed - Main Panel");
     	else if ( runAclfTabbedPane.getSelectedIndex() == 1 ) {
         	IpssLogger.getLogger().info("Panel selection changed - Advanced Panel");
+            initAdvanceControlPanel();
         	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     	}	
     }//GEN-LAST:event_panelSelectionChanged
@@ -756,6 +850,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	IpssLogger.getLogger().info("Reset ...");
     	_simuCtx.getAclfAdjNet().initializeBusVoltage();
     	_simuCtx.getAclfAdjNet().activateAllAdjust(_simuCtx.getMsgHub());
+		msgOutTextArea.setText("");
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_resetButtonActionPerformed
@@ -826,7 +921,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			if (area.getRegDeviceList().size() > 0) {
 				// there should be only one controller per area
 				IRegulationDevice regDevice = (IRegulationDevice)area.getRegDeviceList().get(0);
-				regDevice.performAdjusment(area, _simuCtx.getAclfAdjNet());
+				regDevice.performAdjusment(area, _simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
 			}
 			IpssLogger.getLogger().info("Apply Interarea exchagnge controls: " + no);
         }
@@ -886,6 +981,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	IpssLogger.getLogger().info("GS Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.GS_STEP_LITERAL);
     	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+        initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_gsStepButtonActionPerformed
 
@@ -893,6 +989,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	IpssLogger.getLogger().info("NR Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.NR_STEP_LITERAL);
     	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+        initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_nrStepButtonActionPerformed
 
@@ -900,6 +997,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	IpssLogger.getLogger().info("PQ-P Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_PSTEP_LITERAL);
     	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+        initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
     }//GEN-LAST:event_pqPStepButtonActionPerformed
     
@@ -917,40 +1015,52 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private javax.swing.JButton funcLoadButton;
     private javax.swing.JComboBox funcLoadComboBox;
     private javax.swing.JLabel funcLoadLabel;
+    private javax.swing.JPanel funcLoadPanel;
     private javax.swing.JRadioButton gsRadioButton;
     private javax.swing.JButton gsStepButton;
     private javax.swing.JCheckBox initVoltCheckBox;
     private javax.swing.JButton interPControlButton;
     private javax.swing.JComboBox interPControlComboBox;
     private javax.swing.JLabel interPControlLabel;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel interPControlPanel;
+    private javax.swing.JTextField interPControlTextField;
+    private javax.swing.JLabel interPControlXLabel;
     private javax.swing.JCheckBox lfSummaryCheckBox;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel maxItrLabel;
     private javax.swing.JTextField maxItrTextField;
     private javax.swing.ButtonGroup methodButtonGroup;
     private javax.swing.JPanel methodPanel;
+    private javax.swing.JLabel misTitleLabel;
     private javax.swing.JLabel mismatchLabel;
-    private javax.swing.JScrollPane msgOutScrollPane;
     private javax.swing.JTextArea msgOutTextArea;
+    private javax.swing.JScrollPane msgScrollPane;
     private javax.swing.JRadioButton nrRadioButton;
     private javax.swing.JButton nrStepButton;
     private javax.swing.JPanel paramPanel;
     private javax.swing.JButton pqBusLimitButton;
     private javax.swing.JComboBox pqBusLimitComboBox;
     private javax.swing.JLabel pqBusLimitLabel;
+    private javax.swing.JPanel pqBusLimitPanel;
     private javax.swing.JButton pqPStepButton;
     private javax.swing.JButton pqQStepButton;
     private javax.swing.JRadioButton pqRadioButton;
     private javax.swing.JButton psXfrPControlButton;
     private javax.swing.JComboBox psXfrPControlComboBox;
     private javax.swing.JLabel psXfrPControlLabel;
+    private javax.swing.JPanel psXfrPControlPanel;
+    private javax.swing.JTextField psXfrPControlTextField;
+    private javax.swing.JLabel psXfrPControlXLabel;
     private javax.swing.JButton pvBusLimitButton;
     private javax.swing.JComboBox pvBusLimitComboBox;
     private javax.swing.JLabel pvBusLimitLabel;
+    private javax.swing.JPanel pvBusLimitPanel;
     private javax.swing.JButton remoteQBusButton;
     private javax.swing.JComboBox remoteQBusComboBox;
     private javax.swing.JLabel remoteQBusLabel;
+    private javax.swing.JPanel remoteQBusPanel;
+    private javax.swing.JTextField remoteQBusTextField;
+    private javax.swing.JLabel remoteQBusXLabel;
     private javax.swing.JButton resetButton;
     private javax.swing.JTabbedPane runAclfTabbedPane;
     private javax.swing.JPanel stepRunPanel;
@@ -958,6 +1068,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private javax.swing.JButton xfrTapControlButton;
     private javax.swing.JComboBox xfrTapControlComboBox;
     private javax.swing.JLabel xfrTapControlLabel;
+    private javax.swing.JPanel xfrTapControlPanel;
+    private javax.swing.JTextField xfrTapControlTextField;
+    private javax.swing.JLabel xfrTapControlXLabel;
     // End of variables declaration//GEN-END:variables
     
 	class DataVerifier extends javax.swing.InputVerifier {
