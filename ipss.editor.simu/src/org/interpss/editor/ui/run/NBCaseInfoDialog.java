@@ -14,6 +14,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.simu.SimuContext;
 
 public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDialog {
 	private static final long serialVersionUID = 1;
@@ -63,6 +64,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			this.setTitle("Run Aclf Loadflow Analysis");
 			caseDataPanel.add(_aclfCaseInfoPanel);
 			_aclfCaseInfoPanel.init(netContainer, (_appSimuCtx.getSimuCtx()));
+			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().addMsgListener(_aclfCaseInfoPanel);
 		}
 		else if (_caseType == CaseData.CaseType_Acsc) {
 			this.setTitle("Run Acsc Short Circuit Analysis");
@@ -347,6 +349,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 		_returnOK = false;
+		if (_caseType == CaseData.CaseType_Aclf)
+			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
         setVisible(false);
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
@@ -390,6 +394,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         }	
 		_returnOK = true;
 		_appSimuCtx.getProjData().setDirty(true);
+		if (_caseType == CaseData.CaseType_Aclf)
+			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
 		GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
         setVisible(false);
         dispose();
