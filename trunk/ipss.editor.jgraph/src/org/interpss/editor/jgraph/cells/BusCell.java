@@ -153,6 +153,7 @@ public class BusCell extends DefaultGraphCell implements IIpssGraphCell {
 		GraphConstants.setInset(attributeMap, 40);
 		GraphConstants.setBorderColor(attributeMap, BorderColor);
 		GraphConstants.setBackground(attributeMap, BackgroundColor);
+		
 		return attributeMap;
 	}
 
