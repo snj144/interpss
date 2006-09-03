@@ -120,6 +120,7 @@ public class LabelCell extends DefaultGraphCell implements IIpssGraphCell{
 		//GraphConstants.setBorderColor(attributeMap, Color.black);
 		String fontName = Translator.getString("FontName");
 		GraphConstants.setFont(attributeMap, getFont());
+		GraphConstants.setOpaque(attributeMap, false);
 		return attributeMap;
 	}
 	
