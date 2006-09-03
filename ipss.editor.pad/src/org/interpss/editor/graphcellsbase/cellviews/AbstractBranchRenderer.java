@@ -93,7 +93,10 @@ public abstract class AbstractBranchRenderer extends EdgeRenderer {
 				}
 			}
             /* The above is copied from EdgeRenderer class without modification, the following part are for InterPSS application */
-                        
+            
+			/**
+			 * Richard, we should always come here when creating a branch or re-paint a branch.
+			 */
 			else {
                 for (int i = 1; i < n/2; i++) {
                     view.sharedPath.lineTo((float)p[i].getX(), (float)p[i].getY());
