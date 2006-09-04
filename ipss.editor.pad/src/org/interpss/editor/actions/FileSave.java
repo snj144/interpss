@@ -56,9 +56,6 @@ public class FileSave extends IpssAbstractActionDefault {
 					IpssGraphCodec.getInstance(graphpad).write(
 							new FileOutputStream(fileName),
 							(GPDocument)getCurrentDocument());
-					getCurrentDocument().setModified(false);
-					// added by Mike
-					((GPDocument)getCurrentDocument()).getGFormContainer().setDataDirty(false);
 
 					IAppSimuContext appSimuCtx = GraphSpringAppContext
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
@@ -70,6 +67,10 @@ public class FileSave extends IpssAbstractActionDefault {
 						// added by Mike
 						getCurrentDocument().getProjData().setDirty(false);
 					}
+
+					// added by Mike
+					((GPDocument)getCurrentDocument()).getGFormContainer().setDataDirty(false);
+					getCurrentDocument().setModified(false);
 				}
 				else if (graphpad.getCurrentDocument() instanceof IpssCustomDocument)
 				{
