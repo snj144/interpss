@@ -39,7 +39,7 @@ public class DefaultCellViewFactoryBean extends DefaultCellViewFactory {
 		
 		
 		ArrayList evect = new ArrayList();
-		vect.add(new ViewIndirection(BranchEdge.class,JGraphBranchEdgeView.class));
+		evect.add(new ViewIndirection(BranchEdge.class,JGraphBranchEdgeView.class));
 		setEdgeIndirections(evect);
     }
 
