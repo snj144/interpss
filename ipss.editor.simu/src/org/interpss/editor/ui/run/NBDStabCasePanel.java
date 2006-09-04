@@ -120,7 +120,14 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 		// save aclf panel data
 		ok = aclfCasePanel.saveEditor2Form(errMsg);
 		
-		dstabCaseData.setSimuMethod((String)methodComboBox.getSelectedItem());
+		String method = (String)methodComboBox.getSelectedItem();
+		if (method.equals(DStabCaseData.Method_ModifiedEuler)) {
+			dstabCaseData.setSimuMethod((String)methodComboBox.getSelectedItem());
+		}
+		else {
+			errMsg.add("Differential Eqn solution method: " + method + " has not implemented yet");
+			ok = false;
+		}
 
         if (!VerifyUtil.largeThan(totalTimeTextField, 0.0d)) {
 			errMsg.add("Total Simulation time < 0.0");
