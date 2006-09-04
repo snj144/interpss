@@ -154,7 +154,7 @@ public class ChartManager {
     	String rpm = Num2Str.toStr((int)(2.0*baseFreq*60.0/mach.getPoles()));
     	String baseV = Num2Str.toStr("0.0",mach.getBus().getBaseVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ANG)) 
-    		return id + "(Unit:Rad)";
+    		return id + "(Unit:Deg)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED))
     		return id + "(Unit:PU, RPM:" + rpm + ")";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PE))
@@ -176,7 +176,7 @@ public class ChartManager {
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VMAG))
     		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
-    		return id + "(Unit:Rad)";
+    		return id + "(Unit:Deg)";
     	else
     		return "unknown";
     }
@@ -230,7 +230,7 @@ public class ChartManager {
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VMAG))
     		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
-    		return id + "(Unit:Rad)";
+    		return id + "(Unit:Deg)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_PLOAD))
     		return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_QLOAD))
@@ -241,9 +241,8 @@ public class ChartManager {
 
     private static double getAutoRangeMinimumSize(String state) {
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ANG) || 
-    	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG) ||
     	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
-    		return 1.0;
+    		return 10.0;
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED))
         	return 0.2;
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PE) ||
