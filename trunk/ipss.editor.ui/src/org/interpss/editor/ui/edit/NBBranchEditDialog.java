@@ -250,6 +250,8 @@ public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDat
 
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
+        setAlwaysOnTop(true);
+        setModal(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
@@ -355,8 +357,7 @@ public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDat
         getContentPane().add(controlPanel, java.awt.BorderLayout.SOUTH);
 
         pack();
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void cancelActionHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelActionHandler
         setVisible(false);

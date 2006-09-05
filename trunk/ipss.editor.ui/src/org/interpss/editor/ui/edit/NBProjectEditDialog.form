@@ -7,6 +7,10 @@
     <Component class="javax.swing.ButtonGroup" name="netTypeButtonGroup">
     </Component>
   </NonVisualComponents>
+  <Properties>
+    <Property name="alwaysOnTop" type="boolean" value="true"/>
+    <Property name="modal" type="boolean" value="true"/>
+  </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
