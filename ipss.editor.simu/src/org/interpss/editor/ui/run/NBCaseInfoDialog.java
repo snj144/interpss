@@ -235,9 +235,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
+        setModal(true);
         caseInfoPanel.setLayout(new java.awt.GridBagLayout());
 
-        caseInfoPanel.setBorder(new javax.swing.border.TitledBorder(null, "Study Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        caseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Study Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         casenameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         casenameLabel.setText("Casename");
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -267,7 +269,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 10);
         caseInfoPanel.add(descLabel, gridBagConstraints);
 
-        scrollPane.setHorizontalScrollBarPolicy(javax.swing.JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         descTextArea.setColumns(30);
         descTextArea.setFont(new java.awt.Font("Dialog", 0, 12));
         descTextArea.setRows(2);
@@ -344,8 +346,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         getContentPane().add(controlPanel, gridBagConstraints);
 
         pack();
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 		_returnOK = false;
