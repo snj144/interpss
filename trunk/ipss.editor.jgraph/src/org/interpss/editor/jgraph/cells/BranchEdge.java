@@ -65,8 +65,12 @@ public class BranchEdge extends DefaultEdge implements IIpssEdge{
 		if (sourceLacation == null) {
 			//sourceLacation =  GraphUtilFunc.getPosition(graph, getSourceBus());
 			//List p= GraphConstants.getPoints(this.getAttributes());
-			Rectangle2D r = GraphConstants.getBounds(this.getAttributes());
-			sourceLacation = new java.awt.Point((r.OUT_LEFT+r.OUT_RIGHT)/2,(r.OUT_TOP+r.OUT_BOTTOM)/2);
+
+//			Rectangle2D r = GraphConstants.getBounds(this.getAttributes());
+//			sourceLacation = new java.awt.Point((r.OUT_LEFT+r.OUT_RIGHT)/2,(r.OUT_TOP+r.OUT_BOTTOM)/2);
+			
+			sourceLacation =  new Point2D.Double(GraphConstants.PERMILLE/8, -20);
+			
 		}	
 
 		if (extraLabelPositions != null && extraLabelPositions.length > 1) {
@@ -74,8 +78,11 @@ public class BranchEdge extends DefaultEdge implements IIpssEdge{
 		}
 		if (targetLacation == null) {
 			//targetLacation =  GraphUtilFunc.getPosition(graph, getTargetBus());
-			Rectangle2D r = GraphConstants.getBounds(this.getAttributes());
-			targetLacation = new java.awt.Point((int)sourceLacation.getX()+50,(int)sourceLacation.getY()+30);
+
+//			Rectangle2D r = GraphConstants.getBounds(this.getAttributes());
+//			targetLacation = new java.awt.Point((int)sourceLacation.getX()+50,(int)sourceLacation.getY()+30);
+			
+			targetLacation =  new Point2D.Double(GraphConstants.PERMILLE*7/8, -20);
 		}	
 			
 		AttributeMap map = new AttributeMap();
