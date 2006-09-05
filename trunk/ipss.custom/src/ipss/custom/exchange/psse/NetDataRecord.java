@@ -50,8 +50,8 @@ public class NetDataRecord {
     		}
     		
     		// at here we have "100.00 / PSS/E-29.0 THU, JUN 20 2002 14:19"
-  			st = new StringTokenizer(st.nextToken());
-    		double baseMVA = new Double(st.nextToken()).doubleValue();
+  			st = new StringTokenizer(st.nextToken(), "/");
+    		double baseMVA = new Double(st.nextToken().trim()).doubleValue();
 			adjNet.setBaseKva(baseMVA*1000.0);
 			
 			// PSS/E do not have ground branch concept
