@@ -247,6 +247,8 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
 
         setTitle("Bus Data Editor");
+        setAlwaysOnTop(true);
+        setModal(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
@@ -348,8 +350,7 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
         getContentPane().add(controlPanel, java.awt.BorderLayout.SOUTH);
 
         pack();
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
  
     private void saveActionHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionHandler
 		IpssLogger.getLogger().info("NBBusEditDialog.saveActionHandler() called");
