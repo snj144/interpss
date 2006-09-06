@@ -578,12 +578,12 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Input Data Error", errMsg);
+        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Network Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Input Data Error", e.toString());
+      		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Network Input Data Error", e.toString());
 			return;
         }	
         _netContainer.getGNetForm().setNewState(false);

@@ -369,13 +369,13 @@ public class NBLoadScheduleDialog extends javax.swing.JDialog implements IFormDa
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog("Load Schedule Data Error", errMsg);
+        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Load Schedule Data Error", errMsg);
         		IpssLogger.getLogger().info("Load Schedule Data Error" + errMsg.toString());
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		SpringAppContext.getEditorDialogUtil().showMsgDialog("Load Schedule Data Error", e.toString());
+      		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Load Schedule Data Error", e.toString());
 			return;
         }	
     	setVisible(false);

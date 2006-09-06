@@ -14,7 +14,6 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
-import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.ui.edit.dist.branch.NBDistBranchEditPanel;
 import org.interpss.editor.ui.edit.trans.branch.NBAclfTransBranchEditPanel;
@@ -367,12 +366,12 @@ public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDat
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog("Branch Input Data Error", errMsg);
+        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Branch Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		SpringAppContext.getEditorDialogUtil().showMsgDialog("Branch Input Data Error", e.toString());
+      		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Branch Input Data Error", e.toString());
 			return;
         }	
         InitDataUtil.setLastEntered_BranchData(_form);
