@@ -28,7 +28,7 @@ public class AcscFaultReport implements IIpssReport {
 	
 	public JasperPrint createReport(String version) {
 		Map<String, Object> parameters = new HashMap<String, Object>(); 
-		parameters.put("FaultSummaryJBeanDatasource", fnameSubFaultSummary);
+		parameters.put("FaultSummarySubreportFilename", fnameSubFaultSummary);
 		
 		try {
 			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
