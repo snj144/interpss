@@ -2,6 +2,8 @@ package org.interpss.editor.ui.run;
 
 import java.util.Vector;
 
+import javax.swing.JDialog;
+
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.acsc.AcscFaultData;
@@ -21,9 +23,11 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	private AppSimuContextImpl _appCtx = null;
 	
 	private NBFaultLocDataPanel _faultLocDataPanel = new NBFaultLocDataPanel();
+	private JDialog parentDialog = null;
     
     /** Creates new form NBCaseInfoDialog */
-    public NBAcscCasePanel() {
+    public NBAcscCasePanel(JDialog parent) {
+    	this.parentDialog = parent;
         initComponents();
 
         faultLocPanel.add(_faultLocDataPanel);
@@ -244,7 +248,8 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	        this.mFactorTextField.setEnabled(false);
 		}
 		else {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog("Warning", "Loadflow not run yet. Please run load flow analysis first");
+			SpringAppContext.getEditorDialogUtil().showMsgDialog(parentDialog, "Warning", 
+					"Loadflow not run yet. Please run load flow analysis first");
 	        this.mFactorLabel.setEnabled(true);
 	        this.mFactorTextField.setEnabled(true);
 	        fixedVoltRadioButton.setSelected(true);
