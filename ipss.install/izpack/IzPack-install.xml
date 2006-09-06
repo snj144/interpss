@@ -17,11 +17,10 @@
     -->
     <info>
         <appname>InterPSS Editor</appname>
-        <appversion>0.9.10</appversion>
-        <authors>            <author name="interpss" email="interpss@gmail.com"/>
+        <appversion>1.00-beta</appversion>
+        <authors>            <author name="The Interpss Team" email="info@interpss.org"/>
         </authors>
         <url>http://www.interpss.org/</url>
-        <url>http://code.google.com/p/interpss/</url>
     </info>
     
     <!-- 
