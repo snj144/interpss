@@ -99,6 +99,7 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
 
         setLayout(new java.awt.BorderLayout());
 
+        branchInfoEditTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         branchInfoEditTabbedPane.setName("branchInfoEditTabbedPane");
         branchInfoEditTabbedPane.addTab("Branch Info(+)", lfInfoEditPanel);
 
@@ -108,8 +109,7 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
 
         add(branchInfoEditTabbedPane, java.awt.BorderLayout.CENTER);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
