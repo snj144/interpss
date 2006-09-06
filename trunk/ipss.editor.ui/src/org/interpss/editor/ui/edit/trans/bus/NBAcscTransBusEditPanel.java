@@ -186,6 +186,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 
         setLayout(new java.awt.BorderLayout());
 
+        acscTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         acscTabbedPane.setName("acscTabbedPane");
         aclfInfoEditPanel.setLayout(new java.awt.BorderLayout());
 
@@ -193,7 +194,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 
         acscInfoEditPanel.setLayout(new java.awt.GridBagLayout());
 
-        scBusTypePanel.setBorder(new javax.swing.border.TitledBorder(null, "Sc Bus Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        scBusTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sc Bus Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         scBusTypeButtonGroup.add(contributeRadioButton);
         contributeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         contributeRadioButton.setText("Contribute     ");
@@ -322,8 +323,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 
         add(acscTabbedPane, java.awt.BorderLayout.CENTER);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void setRXLabelText(boolean enable) {
         r1Label.setEnabled(enable);
