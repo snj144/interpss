@@ -23,7 +23,7 @@ public class BranchRenderer extends AbstractBranchRenderer {
         if (aView.getBranchForm().getAppType().equals(IGNetForm.AppType_Distribution)) {
             String branchType = aView.getBranchForm().getDistBranchData().getBranchCode();
             boolean branchStatus = aView.getBranchForm().getStatus();
-            IpssLogger.getLogger().info("Paint dist branch, branchType: " + branchType);
+            IpssLogger.getLogger().fine("Paint dist branch, branchType: " + branchType);
             if (IGBranchForm.DistBranchCode_Feeder.equalsIgnoreCase(branchType)) {
                 if (branchStatus) {
                     addClosedFeederSymbol(  path, sz, src, dst); 
@@ -46,7 +46,7 @@ public class BranchRenderer extends AbstractBranchRenderer {
         }
         else {
             String branchType = aView.getBranchForm().getAcscBranchData().getLfCode(); 
-            IpssLogger.getLogger().info("Paint Aclf/Acsc branch, branchType: " + branchType);
+            IpssLogger.getLogger().fine("Paint Aclf/Acsc branch, branchType: " + branchType);
             boolean branchStatus = aView.getBranchForm().getStatus();
             if (IGBranchForm.TransBranchLfCode_Line.equalsIgnoreCase(branchType)) {
                 if (branchStatus) {
