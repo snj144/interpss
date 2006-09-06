@@ -8,7 +8,6 @@ import org.interpss.editor.form.InitDataUtil;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
-import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.ui.edit.dist.bus.NBDistBusEditPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBAclfTransBusEditPanel;
@@ -357,13 +356,14 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog("Bus Input Data Error", errMsg);
+        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Bus Input Data Error", errMsg);
         		IpssLogger.getLogger().info("Bus Input Data Error" + errMsg.toString());
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		SpringAppContext.getEditorDialogUtil().showMsgDialog("Bus Input Data Error", e.toString());
+            setAlwaysOnTop(false);
+      		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Bus Input Data Error", e.toString());
 			return;
         }	
         _netContainer.addBaseVolt(_form.getBaseVoltage());

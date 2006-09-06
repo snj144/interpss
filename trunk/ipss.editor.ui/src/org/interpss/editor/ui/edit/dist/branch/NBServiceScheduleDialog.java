@@ -305,13 +305,13 @@ public class NBServiceScheduleDialog extends javax.swing.JDialog implements IFor
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog("Service Schedule Data Error", errMsg);
+        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Service Schedule Data Error", errMsg);
         		IpssLogger.getLogger().info("Service Schedule  Data Error" + errMsg.toString());
 				return;
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-      		SpringAppContext.getEditorDialogUtil().showMsgDialog("Service Schedule  Data Error", e.toString());
+      		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Service Schedule  Data Error", e.toString());
 			return;
         }	
         setVisible(false);
