@@ -112,6 +112,7 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 
         setLayout(new java.awt.BorderLayout());
 
+        branchInfoEditTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         branchInfoEditTabbedPane.setName("branchInfoEditTabbedPane");
         branchInfoEditTabbedPane.addTab("Loadflow", lfInfoEditPanel);
 
@@ -121,8 +122,7 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 
         add(branchInfoEditTabbedPane, java.awt.BorderLayout.CENTER);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

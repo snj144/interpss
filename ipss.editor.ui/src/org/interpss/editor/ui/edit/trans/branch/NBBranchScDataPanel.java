@@ -245,7 +245,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 
         setLayout(new java.awt.GridBagLayout());
 
-        branchTypePanel.setBorder(new javax.swing.border.TitledBorder(null, "Branch Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        branchTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Branch Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         branchTypeButtonGroup.add(lineRadioButton);
         lineRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         lineRadioButton.setSelected(true);
@@ -286,7 +286,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(30, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
         add(branchTypePanel, gridBagConstraints);
 
         branchScInfoPanel.setLayout(new java.awt.GridBagLayout());
@@ -297,7 +297,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         branchScInfoPanel.add(r1Label, gridBagConstraints);
 
         r1TextField.setColumns(8);
@@ -307,7 +307,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         branchScInfoPanel.add(r1TextField, gridBagConstraints);
 
         x1Label.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -316,7 +316,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         branchScInfoPanel.add(x1Label, gridBagConstraints);
 
         x1TextField.setColumns(8);
@@ -326,7 +326,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 20);
         branchScInfoPanel.add(x1TextField, gridBagConstraints);
 
         r0Label.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -335,7 +335,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchScInfoPanel.add(r0Label, gridBagConstraints);
 
         r0TextField.setColumns(8);
@@ -345,7 +345,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchScInfoPanel.add(r0TextField, gridBagConstraints);
 
         x0Label.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -354,7 +354,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchScInfoPanel.add(x0Label, gridBagConstraints);
 
         x0TextField.setColumns(8);
@@ -364,7 +364,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 20);
         branchScInfoPanel.add(x0TextField, gridBagConstraints);
 
         hB1Label.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -373,6 +373,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchScInfoPanel.add(hB1Label, gridBagConstraints);
 
         hB1TextField.setColumns(8);
@@ -382,7 +383,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchScInfoPanel.add(hB1TextField, gridBagConstraints);
 
         hB0Label.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -391,6 +392,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchScInfoPanel.add(hB0Label, gridBagConstraints);
 
         hB0TextField.setColumns(8);
@@ -400,7 +402,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 20);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 20);
         branchScInfoPanel.add(hB0TextField, gridBagConstraints);
 
         fromTapLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -409,7 +411,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
         branchScInfoPanel.add(fromTapLabel, gridBagConstraints);
 
         fromTapTextField.setColumns(8);
@@ -420,7 +422,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
         branchScInfoPanel.add(fromTapTextField, gridBagConstraints);
 
         toTapLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -429,7 +431,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
         branchScInfoPanel.add(toTapLabel, gridBagConstraints);
 
         toTapTextField.setColumns(8);
@@ -441,7 +443,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 20);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 20);
         branchScInfoPanel.add(toTapTextField, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -452,18 +454,17 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         add(xfrFromGroundPanel, gridBagConstraints);
 
         xfrToGroundPanel.setLayout(new java.awt.BorderLayout());
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         add(xfrToGroundPanel, gridBagConstraints);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void psXfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrRadioButtonActionPerformed
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
