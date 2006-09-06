@@ -44,7 +44,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         deleteCaseButton.setEnabled(false);
         
         _aclfCaseInfoPanel = new NBAclfCasePanel();
-        _acscCaseInfoPanel = new NBAcscCasePanel();
+        _acscCaseInfoPanel = new NBAcscCasePanel(this);
         _dstabCaseInfoPanel = new NBDStabCasePanel();
 
         DataVerifier verifier = new DataVerifier();
