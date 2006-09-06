@@ -19,9 +19,9 @@ public class EditorActionAdapter {
 		if (doc instanceof GPDocument) {
 			IGNetForm form = ((GPDocument) doc).getGFormContainer()
 					.getGNetForm();
-			type = ReportUtil.getDefaultReportType(form, 
-					doc.getSimuAppContext().getLastRunType(),
-					doc.getSimuAppContext().isNonSymmetricFault());
+			type = ReportUtil.getDefaultReportType(form, doc
+					.getSimuAppContext().getLastRunType(), doc
+					.getSimuAppContext().isNonSymmetricFault());
 		}
 		doc.getGraphpad().expendTree2Object(doc);
 
@@ -72,14 +72,12 @@ public class EditorActionAdapter {
 
 	private static void displayReport(IpssEditorDocument doc, String type) {
 		IpssProjectItem item = doc.getGraphpad().getCurrentProjectItem();
-		String name = ReportUtil
-				.getReportName(type, item
-						.getFileNameNoExt());
+		String name = item.getProject().getProjectPath()
+		+ System.getProperty("file.separator") +ReportUtil.getReportName(type, item.getFileNameNoExt());
 		IpssProjectItem rptItem = doc.getGraphpad().newReportDocument(name,
 				item, type, true);
 
-		String filename = rptItem.getProject().getProjectPath()
-				+ System.getProperty("file.separator") + rptItem.getFileName();
+		String filename = rptItem.getName();
 
 		Utilities.delFile(filename);
 
