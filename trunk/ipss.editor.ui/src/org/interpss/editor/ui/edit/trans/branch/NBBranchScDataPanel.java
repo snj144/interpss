@@ -286,7 +286,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         add(branchTypePanel, gridBagConstraints);
 
         branchScInfoPanel.setLayout(new java.awt.GridBagLayout());
