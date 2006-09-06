@@ -208,6 +208,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 
         setLayout(new java.awt.BorderLayout());
 
+        dstabTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         dstabTabbedPane.setName("dstabTabbedPane");
         aclfInfoEditPanel.setLayout(new java.awt.BorderLayout());
 
