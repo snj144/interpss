@@ -2,6 +2,8 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
+import javax.swing.JDialog;
+
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
@@ -21,6 +23,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
 	private DStabCaseData   _caseData = null;   // current case data
 	private DStabDEventData _eventData = null;  // current cevent data
+	
+	private JDialog parentDialog = null;
 
     /** Creates new form NBCaseInfoDialog */
     public NBDynaEventPanel() {
@@ -33,9 +37,9 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         durationTextField.setInputVerifier(verifier);
     }
     
-    public void init(Object netContainer, Object _null) {
+    public void init(Object netContainer, Object parent) {
 		IpssLogger.getLogger().info("NBDStabCasePanel init() called");
-
+		this.parentDialog = (JDialog)parent;
 	    _faultLocDataPanel.init(netContainer, null);
 	    _loadChangePanel.init(netContainer, null);
     }
@@ -386,12 +390,12 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		Vector errMsg = new Vector();
 		try {
 			if (!saveEditor2Form(errMsg)) {
-				SpringAppContext.getEditorDialogUtil().showMsgDialog("Input Data Error", errMsg);
+				SpringAppContext.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
         		return;
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
-			SpringAppContext.getEditorDialogUtil().showMsgDialog("Input Data Error", e.toString());
+			SpringAppContext.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", e.toString());
        		return;
 		}
 		// event name may be modified, refresh the event list

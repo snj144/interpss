@@ -37,13 +37,13 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         staticLoadSwitchVoltTextField.setInputVerifier(verifier);
     }
     
-    public void init(Object netContainer, Object _null) {
+    public void init(Object netContainer, Object parent) {
 		IpssLogger.getLogger().info("NBDStabCasePanel init() called");
 
         refMachComboBox.setModel(new javax.swing.DefaultComboBoxModel(
         		((GFormContainer)netContainer).getMachIdArray()));
         machIdLargestInertia = ((GFormContainer)netContainer).getMachIdLargestInertia();
-        dynaEventPanel.init(netContainer, null);
+        dynaEventPanel.init(netContainer, parent);
     }
 
     public void setCaseData(CaseData caseData) {

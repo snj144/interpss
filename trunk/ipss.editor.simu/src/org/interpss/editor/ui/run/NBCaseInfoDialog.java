@@ -74,7 +74,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		else if (_caseType == CaseData.CaseType_DStab) {
 			this.setTitle("Run Transient Stability Simulation");
 			caseDataPanel.add(_dstabCaseInfoPanel);
-			_dstabCaseInfoPanel.init(netContainer, null);
+			_dstabCaseInfoPanel.init(netContainer, this);
 		}	
 		
         setForm2Editor();
@@ -385,12 +385,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		Vector errMsg = new Vector();
 		try {
         	if (!saveEditor2Form(errMsg)) {
-        		SpringAppContext.getEditorDialogUtil().showMsgDialog("Input Data Error", errMsg);
+        		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
 				return;
         	}
         } catch (Exception e) {
         	IpssLogger.logErr(e);
-        	SpringAppContext.getEditorDialogUtil().showMsgDialog("Input Data Error", e.toString());
+        	SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 			return;
         }	
 		_returnOK = true;
