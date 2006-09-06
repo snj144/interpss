@@ -89,7 +89,7 @@ public class NBGConnectionPanel extends javax.swing.JPanel  implements IFormData
         setLayout(new java.awt.GridBagLayout());
 
         setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
-        connectPanel.setBorder(new javax.swing.border.TitledBorder(null, "title", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        connectPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "title", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         connectButtonGroup.add(deltaRadioButton);
         deltaRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         deltaRadioButton.setSelected(true);
@@ -116,7 +116,7 @@ public class NBGConnectionPanel extends javax.swing.JPanel  implements IFormData
         connectPanel.add(wyeRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 20);
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 0, 20);
         add(connectPanel, gridBagConstraints);
 
         groundPanel.setLayout(new java.awt.BorderLayout());
@@ -125,8 +125,7 @@ public class NBGConnectionPanel extends javax.swing.JPanel  implements IFormData
         gridBagConstraints.gridy = 1;
         add(groundPanel, gridBagConstraints);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void wyeConnectionActionHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wyeConnectionActionHandler
         groundPanel.add(groundInputPanel, java.awt.BorderLayout.CENTER);
