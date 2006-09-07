@@ -13,10 +13,10 @@ public abstract class IpssProjectItemCollector {
 		return null;
 	}
 
-	public IpssProjectItem getItem(String itemfilename) {
+	public IpssProjectItem getItem(String itemname) {
 
 		for (int i = 0; i < projectItems.size(); i++) {
-			if (projectItems.get(i).getFileName().equalsIgnoreCase(itemfilename))
+			if (projectItems.get(i).getName().equalsIgnoreCase(itemname))
 				return projectItems.get(i);
 		}
 		return null;
