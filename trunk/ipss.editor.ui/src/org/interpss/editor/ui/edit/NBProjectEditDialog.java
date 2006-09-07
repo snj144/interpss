@@ -108,6 +108,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 		pack();
         WinUtilities.center(this);
         setVisible(true);
+		this.returnOk = false;
 	}
 
 	/**
