@@ -3,6 +3,8 @@ package org.interpss.editor.ui.run;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import javax.swing.JDialog;
+
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
@@ -39,9 +41,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     // holds the current case data being edited
     private AclfCaseData _caseData = null;
 	
+    private JDialog parentDialog = null;
+    
     /** Creates new form NBAclfCasePanel */
-    public NBAclfCasePanel() {
-        initComponents();
+    public NBAclfCasePanel(JDialog parent) {
+        parentDialog = parent;
+    	initComponents();
 
         DataVerifier verifier = new DataVerifier();
         this.accFactorTextField.setInputVerifier(verifier);
@@ -73,9 +78,11 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    _netContainer = (GFormContainer)netContainer;
 	    _simuCtx = (SimuContext)net;
     	_simuCtx.getLoadflowAlgorithm().setInitBusVoltage(false);
-    	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().setActivateAllAdjust(false);
+    	if (_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm() != null) {
+    		_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().setActivateAllAdjust(false);
+        	initAdvanceControlPanel();
+    	}
 		msgOutTextArea.setText("");
-    	initAdvanceControlPanel();
     }
     	
 	private void initAdvanceControlPanel() {
@@ -91,19 +98,21 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		funcLoadComboBox.setEnabled(list.length > 1);
 		funcLoadButton.setEnabled(list.length > 1);
 
-		list = RunActUtilFunc.getXfrTapControlList(_simuCtx.getAclfAdjNet(), 
+		list = null;
+		if (_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm() != null)
+			list = RunActUtilFunc.getXfrTapControlList(_simuCtx.getAclfAdjNet(),		
 				_simuCtx.getLoadflowAlgorithm().getTolerance()*_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().getVoltAdjToleranceFactor(),
 				_simuCtx.getMsgHub());
-		if (list.length > 1) {
+		if (list != null && list.length > 1) {
 			xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
 		}
 		else {
 			xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
 		}
-		xfrTapControlComboBox.setEnabled(list.length > 1);
-		xfrTapControlButton.setEnabled(list.length > 1);
-		xfrTapControlXLabel.setEnabled(list.length > 1);
-		xfrTapControlTextField.setEnabled(list.length > 1);
+		xfrTapControlComboBox.setEnabled(list != null && list.length > 1);
+		xfrTapControlButton.setEnabled(list != null && list.length > 1);
+		xfrTapControlXLabel.setEnabled(list != null && list.length > 1);
+		xfrTapControlTextField.setEnabled(list != null && list.length > 1);
 
 		list = RunActUtilFunc.getPSXfrPControlList(_simuCtx.getAclfAdjNet(), 
 				_simuCtx.getLoadflowAlgorithm().getTolerance(),
@@ -131,19 +140,21 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		interPControlXLabel.setEnabled(list.length > 1);
 		interPControlTextField.setEnabled(list.length > 1);
 		
-		list = RunActUtilFunc.getRemoteQBusList(_simuCtx.getAclfAdjNet(), 
+		list = null;
+		if (_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm() != null)
+			list = RunActUtilFunc.getRemoteQBusList(_simuCtx.getAclfAdjNet(), 
 				_simuCtx.getLoadflowAlgorithm().getTolerance()*_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().getVoltAdjToleranceFactor(),
 				_simuCtx.getMsgHub());
-		if (list.length > 1) {
+		if (list != null && list.length > 1) {
 			remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(list));
 		}
 		else {
 			remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] {"No Adjustment Needed"}));
 		}
-		remoteQBusComboBox.setEnabled(list.length > 1);
-		remoteQBusButton.setEnabled(list.length > 1);
-		remoteQBusXLabel.setEnabled(list.length > 1);
-		remoteQBusTextField.setEnabled(list.length > 1);
+		remoteQBusComboBox.setEnabled(list != null && list.length > 1);
+		remoteQBusButton.setEnabled(list != null && list.length > 1);
+		remoteQBusXLabel.setEnabled(list != null && list.length > 1);
+		remoteQBusTextField.setEnabled(list != null && list.length > 1);
 		
 		list = RunActUtilFunc.getPQBusLimitList(_simuCtx.getAclfAdjNet(), _simuCtx.getMsgHub());
 		if (list.length > 1) {
@@ -857,8 +868,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
     	IpssLogger.getLogger().info("Details ...");
+    	parentDialog.setAlwaysOnTop(false);
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
   		dialog.display(_simuCtx.getAclfAdjNet());
+  		parentDialog.setAlwaysOnTop(true);
     }//GEN-LAST:event_detailsButtonActionPerformed
 
     private void funcLoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcLoadButtonActionPerformed

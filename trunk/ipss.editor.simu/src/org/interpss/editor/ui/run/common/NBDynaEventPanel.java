@@ -27,7 +27,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	private JDialog parentDialog = null;
 
     /** Creates new form NBCaseInfoDialog */
-    public NBDynaEventPanel() {
+    public NBDynaEventPanel(JDialog parent) {
+    	parentDialog = parent;
         initComponents();
 
         eventInputPanel.add(_faultLocDataPanel);
@@ -37,9 +38,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         durationTextField.setInputVerifier(verifier);
     }
     
-    public void init(Object netContainer, Object parent) {
+    public void init(Object netContainer, Object net) {
 		IpssLogger.getLogger().info("NBDStabCasePanel init() called");
-		this.parentDialog = (JDialog)parent;
 	    _faultLocDataPanel.init(netContainer, null);
 	    _loadChangePanel.init(netContainer, null);
     }
