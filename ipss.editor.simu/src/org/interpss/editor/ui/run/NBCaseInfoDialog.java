@@ -43,9 +43,9 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         addCaseButton.setEnabled(false);
         deleteCaseButton.setEnabled(false);
         
-        _aclfCaseInfoPanel = new NBAclfCasePanel();
+        _aclfCaseInfoPanel = new NBAclfCasePanel(this);
         _acscCaseInfoPanel = new NBAcscCasePanel(this);
-        _dstabCaseInfoPanel = new NBDStabCasePanel();
+        _dstabCaseInfoPanel = new NBDStabCasePanel(this);
 
         DataVerifier verifier = new DataVerifier();
 		this.casenameComboBox.setInputVerifier(verifier);
@@ -74,9 +74,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		else if (_caseType == CaseData.CaseType_DStab) {
 			this.setTitle("Run Transient Stability Simulation");
 			caseDataPanel.add(_dstabCaseInfoPanel);
-			_dstabCaseInfoPanel.init(netContainer, this);
+			_dstabCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}	
 		
+        _returnOK = false;
         setForm2Editor();
         pack();
         WinUtilities.center(this);

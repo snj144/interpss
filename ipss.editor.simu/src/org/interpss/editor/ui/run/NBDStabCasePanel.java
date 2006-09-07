@@ -2,6 +2,8 @@ package org.interpss.editor.ui.run;
 
 import java.util.Vector;
 
+import javax.swing.JDialog;
+
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
@@ -16,16 +18,19 @@ import com.interpss.common.util.Num2Str;
 public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
 
-	private NBDynaEventPanel dynaEventPanel = new NBDynaEventPanel();
-	private NBAclfCasePanel aclfCasePanel = new NBAclfCasePanel();
+	private NBDynaEventPanel dynaEventPanel = null;
+	private NBAclfCasePanel aclfCasePanel = null;
 
 	private AclfCaseData    aclfCaseData = null;  // current case data
 	private DStabCaseData   dstabCaseData = null;  // current case data
 	private String machIdLargestInertia = "";
 
     /** Creates new form NBCaseInfoDialog */
-    public NBDStabCasePanel() {
+    public NBDStabCasePanel(JDialog parent) {
         initComponents();
+
+        dynaEventPanel = new NBDynaEventPanel(parent);
+    	aclfCasePanel = new NBAclfCasePanel(parent);
 
         dynamicEventPanel.add(dynaEventPanel);
         loadflowPanel.add(aclfCasePanel);
@@ -37,13 +42,14 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         staticLoadSwitchVoltTextField.setInputVerifier(verifier);
     }
     
-    public void init(Object netContainer, Object parent) {
+    public void init(Object netContainer, Object simuCtx) {
 		IpssLogger.getLogger().info("NBDStabCasePanel init() called");
 
         refMachComboBox.setModel(new javax.swing.DefaultComboBoxModel(
         		((GFormContainer)netContainer).getMachIdArray()));
         machIdLargestInertia = ((GFormContainer)netContainer).getMachIdLargestInertia();
-        dynaEventPanel.init(netContainer, parent);
+        dynaEventPanel.init(netContainer, simuCtx);
+        aclfCasePanel.init(netContainer, simuCtx);
     }
 
     public void setCaseData(CaseData caseData) {
@@ -231,12 +237,11 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         staticLoadSwitchDeadZoneLabel = new javax.swing.JLabel();
         staticLoadSwitchDeadZoneTextField = new javax.swing.JTextField();
         dynamicEventPanel = new javax.swing.JPanel();
-        initializationPanel = new javax.swing.JPanel();
         loadflowPanel = new javax.swing.JPanel();
-        otherInfoPanel = new javax.swing.JPanel();
 
         setLayout(new java.awt.BorderLayout());
 
+        detailInfoTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         detailInfoTabbedPane.setName("detailInfoTabbedPane");
         simulationPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -443,14 +448,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         dynamicEventPanel.setName("dynamicEventPanel");
         detailInfoTabbedPane.addTab("Dynamic Events", dynamicEventPanel);
 
-        initializationPanel.setLayout(new java.awt.BorderLayout());
-
-        initializationPanel.setName("dynamicEventPanel");
-        initializationPanel.add(loadflowPanel, java.awt.BorderLayout.NORTH);
-
-        initializationPanel.add(otherInfoPanel, java.awt.BorderLayout.CENTER);
-
-        detailInfoTabbedPane.addTab("Initialization", initializationPanel);
+        detailInfoTabbedPane.addTab("Initialization", loadflowPanel);
 
         add(detailInfoTabbedPane, java.awt.BorderLayout.CENTER);
 
@@ -488,7 +486,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     private javax.swing.JTabbedPane detailInfoTabbedPane;
     private javax.swing.JCheckBox disableEventCheckBox;
     private javax.swing.JPanel dynamicEventPanel;
-    private javax.swing.JPanel initializationPanel;
     private javax.swing.JPanel loadflowPanel;
     private javax.swing.JComboBox methodComboBox;
     private javax.swing.JLabel methodLabel;
@@ -498,7 +495,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     private javax.swing.JPanel netEqnItrPanel;
     private javax.swing.JLabel netEqnItrWithEventLabel;
     private javax.swing.JTextField netEqnItrWithEventTextField;
-    private javax.swing.JPanel otherInfoPanel;
     private javax.swing.JComboBox refMachComboBox;
     private javax.swing.JLabel refMachLabel;
     private javax.swing.JPanel refMachinejPanel;

@@ -68,6 +68,7 @@ public class SimuActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
+		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setSimpleFaultAlgorithm(SimuSpringAppContext.getSimpleFaultAlgorithm());
 
 		try {
@@ -94,6 +95,7 @@ public class SimuActionAdapter {
 			return;
 		appSimuCtx.setSimuNetDataDirty(false);
 		
+		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(SimuSpringAppContext.getDynamicSimuAlgorithm());
 
 		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_DStab, gFormContainer, appSimuCtx);
