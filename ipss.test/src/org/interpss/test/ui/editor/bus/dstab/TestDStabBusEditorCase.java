@@ -3,17 +3,17 @@ package org.interpss.test.ui.editor.bus.dstab;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.form.GBusForm;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBBusEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
-import org.interpss.test.ui.editor.bus.TestBusEditorBase;
 
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.*;
 
-public class TestDStabBusEditorCase extends TestBusEditorBase {
+public class TestDStabBusEditorCase extends TestUIBase {
 	public void testSimpleSaveCase() {
 		System.out.println("TestAclfBusEditorCase testSimpleSaveCase begin");
 		
@@ -26,7 +26,7 @@ public class TestDStabBusEditorCase extends TestBusEditorBase {
 		JButton saveButton = ( JButton ) finder.find( busEditor, 0);
 
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		System.out.println("TestAclfBusEditorCase testSimpleSaveCase end");
 	}

@@ -3,19 +3,19 @@ package org.interpss.test.ui.editor.bus.aclf;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.aclf.AclfBusData;
 import org.interpss.editor.data.acsc.AcscBusData;
 import org.interpss.editor.form.GBusForm;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBBusEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
-import org.interpss.test.ui.editor.bus.TestBusEditorBase;
 
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.*;
 
-public class TestAclfBusEditorCase extends TestBusEditorBase {
+public class TestAclfBusEditorCase extends TestUIBase {
 	public void testSimpleSaveCase() {
 		System.out.println("TestAclfBusEditorCase testSimpleSaveCase begin");
 		
@@ -43,7 +43,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		System.out.println("TestAclfBusEditorCase testSimpleSaveCase end");
 	}
@@ -67,7 +67,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		AcscBusData data = form.getAcscBusData();
 		assertTrue(data.getGenCode().equals(AclfBusData.GenCode_Swing));
@@ -86,7 +86,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		data = form.getAcscBusData();
 		assertTrue(data.getGenCode().equals(AclfBusData.GenCode_PV));
@@ -105,7 +105,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		data = form.getAcscBusData();
 		assertTrue(data.getGenCode().equals(AclfBusData.GenCode_PQ));
@@ -124,7 +124,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		data = form.getAcscBusData();
 		assertTrue(data.getGenCode().equals(AclfBusData.GenCode_Capacitor));
@@ -142,7 +142,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		data = form.getAcscBusData();
 		assertTrue(data.getGenCode().equals(AclfBusData.GenCode_NonGen));
@@ -174,7 +174,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		AcscBusData data = form.getAcscBusData();
 		assertTrue(data.getLoadCode().equals(AclfBusData.LoadCode_ConstP));
@@ -198,7 +198,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		data = form.getAcscBusData();
 		assertTrue(data.getLoadCode().equals(AclfBusData.LoadCode_ConstI));
@@ -222,7 +222,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		data = form.getAcscBusData();
 		assertTrue(data.getLoadCode().equals(AclfBusData.LoadCode_ConstZ));
@@ -246,7 +246,7 @@ public class TestAclfBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		data = form.getAcscBusData();
 		assertTrue(data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad));

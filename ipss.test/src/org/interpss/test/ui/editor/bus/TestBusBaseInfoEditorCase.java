@@ -7,13 +7,14 @@ import javax.swing.JComponent;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.ui.edit.NBBusEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
 
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.*;
 
-public class TestBusBaseInfoEditorCase extends TestBusEditorBase {
+public class TestBusBaseInfoEditorCase extends TestUIBase {
 	public void testSimpleSaveCase() {
 		System.out.println("TestAclfBusEditorCase testSimpleSaveCase begin");
 		

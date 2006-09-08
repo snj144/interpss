@@ -4,19 +4,19 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.dist.DistBranchData;
 import org.interpss.editor.form.GBranchForm;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBBranchEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
-import org.interpss.test.ui.editor.branch.TestBranchEditorBase;
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
-public class TestXfrBranchEditorCase extends TestBranchEditorBase {
+public class TestXfrBranchEditorCase extends TestUIBase {
 	public void testXfrCase() {
 		System.out.println("TestXfrBranchEditorCase testXfrCase begin");
 			
@@ -69,7 +69,7 @@ public class TestXfrBranchEditorCase extends TestBranchEditorBase {
 	    finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 			
 		DistBranchData data = form.getDistBranchData();
 		assertTrue(data.getBranchCode().equals(IGBranchForm.DistBranchCode_Xfr));		

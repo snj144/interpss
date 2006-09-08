@@ -4,18 +4,18 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.form.GBusForm;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBBusEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
-import org.interpss.test.ui.editor.bus.TestBusEditorBase;
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
 
-public class TestIndMotorBusEditorCase extends TestBusEditorBase {
+public class TestIndMotorBusEditorCase extends TestUIBase {
 	public void testIndMotorCase() {
 		System.out.println("TestIndMotorBusEditorCase testIndMotorCase begin");
 		
@@ -54,7 +54,7 @@ public class TestIndMotorBusEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 		
 		DistBusData data = form.getDistBusData();
 		assertTrue(data.getBusCode().equals(DistBusData.BusCode_IndMotor));		

@@ -11,9 +11,10 @@ import org.interpss.editor.data.aclf.AclfNetData;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.ui.edit.NBProjectEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
 
-public class TestProjEditorAclfCase extends TestProjEditorBase {
+public class TestProjEditorAclfCase extends TestUIBase {
 	public void testCase() {
 		System.out.println("TestProjEditorAclfCase testCase begin");
 		
