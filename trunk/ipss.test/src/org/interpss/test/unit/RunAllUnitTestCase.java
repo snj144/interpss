@@ -4,7 +4,6 @@ import java.util.logging.Level;
 
 import org.interpss.test.unit.adapter.RunAllCustomAdapterTestCase;
 import org.interpss.test.unit.core.RunAllCoreTestCase;
-import org.interpss.test.unit.db.RunAllDatabaseTestCase;
 import org.interpss.test.unit.dstab.RunAllDStabTestCase;
 import org.interpss.test.unit.spring.RunAllSpringTestCase;
 import org.interpss.test.unit.util.TestUtilCase;
@@ -29,8 +28,6 @@ public class RunAllUnitTestCase extends TestCase {
 		RunAllCustomAdapterTestCase.runAll();
 
 		RunAllCoreTestCase.runAll();
-
-		RunAllDatabaseTestCase.runAll();
 
 		RunAllDStabTestCase.runAll();
 

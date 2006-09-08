@@ -68,7 +68,7 @@ public class TestSimuAppCtx extends TestBaseAppCtx {
 		 */
 		assertEquals(true, compare(fault.getFaultResult().getSCCurrent_012(), 0.0, 0.0, 0.0, 32.57143, 0.0, 0.0) );
 		
-		System.out.println(AcscOut.faultResult2String(simuCtx.getAcscFaultNet()));
+		//System.out.println(AcscOut.faultResult2String(simuCtx.getAcscFaultNet()));
 		
 		System.out.println("\nEnd TestSimuCtx.testSimuCtxAcsc");
 	}

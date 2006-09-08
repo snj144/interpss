@@ -35,7 +35,7 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.99590) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.40106) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -54,7 +54,7 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.99590) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.40106) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -69,7 +69,7 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.99590) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.40106) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -88,7 +88,7 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.9959) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.40106) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-1.0) < 0.00001);
 		

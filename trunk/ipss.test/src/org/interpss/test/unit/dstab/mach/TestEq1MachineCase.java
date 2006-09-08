@@ -34,7 +34,7 @@ public class TestEq1MachineCase extends TestSetupBase {
 		// the following values to compare to are by long-hand calculation
 		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -46,7 +46,7 @@ public class TestEq1MachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getSpeed()-1.0) < 0.00001);
 		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -59,7 +59,7 @@ public class TestEq1MachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getSpeed()-1.0) < 0.00001);
 		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -79,7 +79,7 @@ public class TestEq1MachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.60114) < 0.00001);
 		assertTrue(Math.abs(mach.getSpeed()-1.0002) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-1.0) < 0.00001);
 		

@@ -12,7 +12,7 @@ public class TestCustomFileAdapter extends TestBaseAppCtx {
 		System.out.println("\nBegin TestCustomFileAdapter.testcustomFileAdapterList");
 		
 		List list = SimuAppSpringAppContext.getCustomFileAdapterList();
-		assertTrue(list.size() == 4);
+		assertTrue(list.size() >= 5);
 		assertTrue(SimuAppSpringAppCtxUtil.getCustomFileAdapter("m") != null);
 		assertTrue(SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee") != null);
 		
