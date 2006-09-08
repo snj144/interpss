@@ -575,7 +575,7 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 			    tq01TextField.setEnabled(false);
 
 			    xd11Label.setEnabled(true);
-			    xd11TextField.setEnabled(false);
+			    xd11TextField.setEnabled(true);
 			    xq11Label.setEnabled(true);
 			    xq11TextField.setEnabled(true);
 			    td011Label.setEnabled(true);
