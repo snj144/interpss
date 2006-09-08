@@ -26,7 +26,7 @@ public class TestMixedLoadBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-		TestUI_UtilFunc.radioButtonAction(finder, busEditor, "mixedLoadRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "mixedLoadRadioButton");
 		
 		JComboBox pfUnitComboBox = TestUI_UtilFunc.findComboBox(finder, busEditor, "pfUnitComboBox");
 		pfUnitComboBox.setSelectedIndex(0);
@@ -45,7 +45,7 @@ public class TestMixedLoadBusEditorCase extends TestUIBase {
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pfTextField", "0.8");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "motorPercentTextField", "95.0");		
 		
-	    TestUI_UtilFunc.setZTable_XR_5Points(finder, busEditor, "zTable");
+	    TestUI_UtilFunc.setZTable_XR_3Points(finder, busEditor, "zTable");
 
 		TestUI_UtilFunc.setSolidGrounding(finder, busEditor);
 		
@@ -64,7 +64,7 @@ public class TestMixedLoadBusEditorCase extends TestUIBase {
 		assertTrue(data.getPFactorUnit().equals("PU"));
 		assertTrue(data.getBusRatingUnit().equals("KVA"));
 		assertTrue(data.getRatedVoltUnit().equals("PU"));		
-		TestUI_UtilFunc.checkBusZ_XR_5Points(data);
+		TestUI_UtilFunc.checkBusZ_XR_3Points(data);
 		TestUI_UtilFunc.checkSolidGrounding(data);		
 		
 		// launch the editor again
@@ -83,7 +83,7 @@ public class TestMixedLoadBusEditorCase extends TestUIBase {
 		assertTrue(data.getPFactorUnit().equals("PU"));
 		assertTrue(data.getBusRatingUnit().equals("KVA"));
 		assertTrue(data.getRatedVoltUnit().equals("PU"));		
-		TestUI_UtilFunc.checkBusZ_XR_5Points(data);
+		TestUI_UtilFunc.checkBusZ_XR_3Points(data);
 		TestUI_UtilFunc.checkSolidGrounding(data);		
 
 		System.out.println("TestMixedLoadBusEditorCase testMixedLoadCase end");

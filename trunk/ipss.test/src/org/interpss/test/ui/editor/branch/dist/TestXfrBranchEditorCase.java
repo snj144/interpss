@@ -28,7 +28,7 @@ public class TestXfrBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "xfrRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "xfrRadioButton");
 
 		JComboBox nameComboBox = TestUI_UtilFunc.findComboBox(finder, branchEditor, "xfrNameComboBox");
 		nameComboBox.setSelectedItem("My Xfr"); 

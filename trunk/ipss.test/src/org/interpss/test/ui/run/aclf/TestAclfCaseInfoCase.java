@@ -31,7 +31,7 @@ public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Aclf Analysis Case" has been created
 		
 	    TestUI_UtilFunc.setTextArea(finder, caseDialog, "descTextArea", "My Case Desc Name");
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "nrRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "nrRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "errPUTextField", "0.0001");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "maxItrTextField", "20");
 	    TestUI_UtilFunc.checkBoxAction(finder, caseDialog, "initVoltCheckBox", true);
@@ -97,7 +97,7 @@ public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 		JComboBox casenameComboBox = ( JComboBox ) finder.find( caseDialog, 0);
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Aclf Analysis Case" has been created
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "pqRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "pqRadioButton");
 	    TestUI_UtilFunc.checkBoxAction(finder, caseDialog, "initVoltCheckBox", false);
 	    TestUI_UtilFunc.checkBoxAction(finder, caseDialog, "lfSummaryCheckBox", false);
 	    
@@ -155,7 +155,7 @@ public class TestAclfCaseInfoCase extends TestCaseInfoBase {
 		JComboBox casenameComboBox = ( JComboBox ) finder.find( caseDialog, 0);
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Aclf Analysis Case" has been created
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "gsRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "gsRadioButton");
 
 	    finder.setName( "accFactorTextField" );
 	    JTextField accFactorTextField = ( JTextField ) finder.find( caseDialog, 0 );

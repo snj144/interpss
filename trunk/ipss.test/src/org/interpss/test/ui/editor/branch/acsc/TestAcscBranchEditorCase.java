@@ -30,7 +30,7 @@ public class TestAcscBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "lineRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "lineRadioButton");
 		
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "r1TextField", "1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "x1TextField", "2");
@@ -85,7 +85,7 @@ public class TestAcscBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "xfrRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "xfrRadioButton");
 		
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "r1TextField", "1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "x1TextField", "2");
@@ -96,9 +96,9 @@ public class TestAcscBranchEditorCase extends TestUIBase {
 		TestUI_UtilFunc.checkTextFieldStatus(finder, branchEditor, "hB1TextField", false);
 		TestUI_UtilFunc.checkTextFieldStatus(finder, branchEditor, "hB0TextField", false);
 		
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "FromSide Grounding"+"deltaRadioButton");
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "ToSide Grounding"+"wyeRadioButton");
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "zGRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "FromSide Grounding"+"deltaRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "ToSide Grounding"+"wyeRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "zGRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, branchEditor, "gRTextField", "1.0");
 	    TestUI_UtilFunc.setTextField(finder, branchEditor, "gXTextField", "2.0");
 		
@@ -144,7 +144,7 @@ public class TestAcscBranchEditorCase extends TestUIBase {
 		// launch the editor again 
 		branchEditor.init(netContainer, form);
 
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "solidGRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "solidGRadioButton");
 
 		finder.setName("saveButton" );
 		saveButton = ( JButton ) finder.find( branchEditor, 0);
@@ -162,7 +162,7 @@ public class TestAcscBranchEditorCase extends TestUIBase {
 		// launch the editor again 
 		branchEditor.init(netContainer, form);
 
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "unGRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "unGRadioButton");
 
 		finder.setName("saveButton" );
 		saveButton = ( JButton ) finder.find( branchEditor, 0);
@@ -192,7 +192,7 @@ public class TestAcscBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "psXfrRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "psXfrRadioButton");
 		
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "r1TextField", "1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "x1TextField", "2");

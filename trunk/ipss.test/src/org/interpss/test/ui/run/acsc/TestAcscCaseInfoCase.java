@@ -71,7 +71,7 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 		JComboBox casenameComboBox = ( JComboBox ) finder.find( caseDialog, 0);
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Acsc Analysis Case" has been created
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "fixedVoltRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "fixedVoltRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "mFactorTextField", "90.0");
 
 		// click the Run button
@@ -133,7 +133,7 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 		JComboBox casenameComboBox = ( JComboBox ) finder.find( caseDialog, 0);
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Acsc Analysis Case" has been created
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "loadflowVoltRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "loadflowVoltRadioButton");
 	    
 		// click the Cancel button
 		finder.setName("runButton");		

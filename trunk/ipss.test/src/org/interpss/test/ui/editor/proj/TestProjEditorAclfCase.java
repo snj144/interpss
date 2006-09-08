@@ -20,6 +20,7 @@ public class TestProjEditorAclfCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
+		netContainer.getGNetForm().setNewState(true);
 		NBProjectEditDialog projDialog = (NBProjectEditDialog)SimuAppSpringAppCtxUtil.getProjectDataEditor(
 						netContainer, appSimuCtx.getProjData(), false);
 		

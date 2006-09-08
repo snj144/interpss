@@ -35,7 +35,7 @@ public class TestAcscBranchFaultCaseInfoCase extends TestCaseInfoBase {
 		JComboBox casenameComboBox = ( JComboBox ) finder.find( caseDialog, 0);
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Acsc Analysis Case" has been created
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "branchFaultRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "branchFaultRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "distanceTextField", "50.0");
 	    
 		// click the Run button

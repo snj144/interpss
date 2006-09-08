@@ -25,7 +25,7 @@ public class TestDistBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-		TestUI_UtilFunc.radioButtonAction(finder, busEditor, "nonContributeRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "nonContributeRadioButton");
 
 	    // click the Save Button
 	    finder.setName("saveButton");
@@ -49,7 +49,13 @@ public class TestDistBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-		TestUI_UtilFunc.radioButtonAction(finder, busEditor, "utilityRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "utilityRadioButton");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "voltageTextField", "1000.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "angleTextField", "0.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "mva3PTextField", "100");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "x_r3PTextField", "20.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "mva1PTextField", "50.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "x_r1PTextField", "30.0");
 
 	    // click the Save Button
 	    finder.setName("saveButton");
@@ -82,7 +88,9 @@ public class TestDistBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-		TestUI_UtilFunc.radioButtonAction(finder, busEditor, "generatorRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "generatorRadioButton");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "ratedKWTextField", "100.0");
+	    TestUI_UtilFunc.setZTable_XR_3Points(finder, busEditor, "zTable");
 
 	    // click the Save Button
 	    finder.setName("saveButton");
@@ -115,7 +123,10 @@ public class TestDistBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-		TestUI_UtilFunc.radioButtonAction(finder, busEditor, "synMotorRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "synMotorRadioButton");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "ratedHPTextField", "100.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "effTextField", "95.0");		
+	    TestUI_UtilFunc.setZTable_XR_3Points(finder, busEditor, "zTable");
 
 	    // click the Save Button
 	    finder.setName("saveButton");
@@ -148,7 +159,10 @@ public class TestDistBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-		TestUI_UtilFunc.radioButtonAction(finder, busEditor, "indMotorRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "indMotorRadioButton");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "ratedHPTextField", "100.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "effTextField", "95.0");		
+	    TestUI_UtilFunc.setZTable_XR_3Points(finder, busEditor, "zTable");
 
 	    // click the Save Button
 	    finder.setName("saveButton");
@@ -181,7 +195,9 @@ public class TestDistBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-		TestUI_UtilFunc.radioButtonAction(finder, busEditor, "mixedLoadRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "mixedLoadRadioButton");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "totalKVATextField", "100.0");
+	    TestUI_UtilFunc.setZTable_XR_3Points(finder, busEditor, "zTable");
 
 	    // click the Save Button
 	    finder.setName("saveButton");

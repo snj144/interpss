@@ -21,15 +21,17 @@ public class TestProjEditorDistCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
+		netContainer.getGNetForm().setNewState(true);
 		NBProjectEditDialog projDialog = (NBProjectEditDialog)SimuAppSpringAppCtxUtil.getProjectDataEditor(
 				netContainer, appSimuCtx.getProjData(), false);
 		
-		TestUI_UtilFunc.radioButtonAction(finder, projDialog, "distriAppRadioButton");
+		TestUI_UtilFunc.radioButtonEnableAction(finder, projDialog, "distriAppRadioButton", true);
+		TestUI_UtilFunc.radioButtonClickAction(finder, projDialog, "distriAppRadioButton");
 //		TestUI_UtilFunc.setTextField(finder, projDialog, "projNameTextField", "My Project Name");
 		TestUI_UtilFunc.setTextArea(finder, projDialog, "descTextArea", "My Project Desc");
 		TestUI_UtilFunc.setTextField(finder, projDialog, "baseKvaTextField", "1000000");
 		TestUI_UtilFunc.setTextField(finder, projDialog, "baseFreqTextField", "500");
-		TestUI_UtilFunc.radioButtonAction(finder, projDialog, "genericStdRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, projDialog, "genericStdRadioButton");
 //		TestUtilFunc.checkBoxAction(finder, projDialog, "pEnable_3_CheckBox", false);
 //		TestUtilFunc.checkBoxAction(finder, projDialog, "pEnable_5_CheckBox", false);
 //		TestUtilFunc.setTextField(finder, projDialog, "pName_1_TextField", "ScPointName1");
