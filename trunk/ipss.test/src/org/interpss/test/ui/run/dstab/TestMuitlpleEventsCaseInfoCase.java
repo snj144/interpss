@@ -9,7 +9,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
-import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.data.proj.CaseData;
@@ -40,7 +39,7 @@ public class TestMuitlpleEventsCaseInfoCase extends TestCaseInfoBase {
 	
 		finder.setName("detailInfoTabbedPane");
 		JTabbedPane detailInfoTabbedPane = ( JTabbedPane ) finder.find( caseDialog, 0);
-		detailInfoTabbedPane.setSelectedIndex(0);
+		detailInfoTabbedPane.setSelectedIndex(1);
 		IpssLogger.getLogger().info("The Dynamic Events Panel selected");
 		
 		// At this point, a "A Dynamic Event" created
@@ -114,7 +113,7 @@ public class TestMuitlpleEventsCaseInfoCase extends TestCaseInfoBase {
 	
 		finder.setName("detailInfoTabbedPane");
 		JTabbedPane detailInfoTabbedPane = ( JTabbedPane ) finder.find( caseDialog, 0);
-		detailInfoTabbedPane.setSelectedIndex(0);
+		detailInfoTabbedPane.setSelectedIndex(1);
 		IpssLogger.getLogger().info("The Dynamic Events Panel selected");
 		
 		// At this point, a "A Dynamic Event" created
@@ -205,7 +204,7 @@ public class TestMuitlpleEventsCaseInfoCase extends TestCaseInfoBase {
 	
 		finder.setName("detailInfoTabbedPane");
 		JTabbedPane detailInfoTabbedPane = ( JTabbedPane ) finder.find( caseDialog, 0);
-		detailInfoTabbedPane.setSelectedIndex(0);
+		detailInfoTabbedPane.setSelectedIndex(1);
 		IpssLogger.getLogger().info("The Dynamic Events Panel selected");
 		
 		// At this point, a "A Dynamic Event" created
