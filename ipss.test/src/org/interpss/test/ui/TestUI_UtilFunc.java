@@ -25,9 +25,9 @@ import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
-import com.interpss.editor.util.IOUtilFunc;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.util.IOUtilFunc;
 
 public class TestUI_UtilFunc extends JFCTestCase {
 	public static String JGraphEditorTestFilePath = "C:/eclipse/GEditor/projects/unittest/";
