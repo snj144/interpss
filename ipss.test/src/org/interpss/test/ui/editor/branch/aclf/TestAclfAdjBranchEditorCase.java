@@ -27,7 +27,7 @@ public class TestAclfAdjBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "xfrRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "xfrRadioButton");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "rTextField", "0.1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "xTextField", "0.5");
 		TestUI_UtilFunc.checkTextFieldStatus(finder, branchEditor, "hBTextField", false);
@@ -51,8 +51,8 @@ public class TestAclfAdjBranchEditorCase extends TestUIBase {
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "controlTapMaxTextField", "1.1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "controlTapMinTextField", "0.9");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "controlTapStepTextField", "0");
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "vcBusFromSideRadioButton");
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "controlTapOnFromSideRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "vcBusFromSideRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "controlTapOnFromSideRadioButton");
 		
 		finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( branchEditor, 0);
@@ -96,8 +96,8 @@ public class TestAclfAdjBranchEditorCase extends TestUIBase {
 		// launch the dialog again
 		branchEditor.init(netContainer, form);
 
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "vcBusToSideRadioButton");
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "controlTapOnToSideRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "vcBusToSideRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "controlTapOnToSideRadioButton");
 
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( branchEditor, 0);
@@ -120,7 +120,7 @@ public class TestAclfAdjBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "psXfrRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "psXfrRadioButton");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "rTextField", "0.1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "xTextField", "0.5");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "hBTextField", "5.0");
@@ -139,7 +139,7 @@ public class TestAclfAdjBranchEditorCase extends TestUIBase {
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "pSpecTextField", "1.0");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "angleMaxTextField", "2.0");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "angleMinTextField", "0.0");
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "pControlFromSideRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "pControlFromSideRadioButton");
 		
 		finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( branchEditor, 0);
@@ -181,7 +181,7 @@ public class TestAclfAdjBranchEditorCase extends TestUIBase {
 		// launch the dialog again
 		branchEditor.init(netContainer, form);
 
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "pControlToSideRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "pControlToSideRadioButton");
 
 		finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( branchEditor, 0);

@@ -1,7 +1,5 @@
 package org.interpss.test.ui;
 
-import java.io.File;
-
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -12,23 +10,22 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import org.interpss.editor.data.dist.DistBusData;
-import org.interpss.editor.form.GBranchForm;
-import org.interpss.editor.form.GBusForm;
-import org.interpss.editor.form.GFormContainer;
-import org.interpss.editor.form.GNetForm;
-import org.interpss.editor.form.InitDataUtil;
-import org.jgraph.JGraph;
-
 import junit.extensions.jfcunit.JFCTestCase;
 import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
-import com.interpss.common.datatype.ScGroundType;
-import com.interpss.common.msg.IPSSMsgHub;
+import org.interpss.editor.data.dist.DistBusData;
+import org.interpss.editor.form.GBranchForm;
+import org.interpss.editor.form.GBusForm;
+import org.interpss.editor.form.GNetForm;
+import org.interpss.editor.form.InitDataUtil;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.util.IOUtilFunc;
+import org.jgraph.JGraph;
+
+import com.interpss.common.datatype.ScGroundType;
+import com.interpss.common.msg.IPSSMsgHub;
 
 public class TestUI_UtilFunc extends JFCTestCase {
 	public static String JGraphEditorTestFilePath = "C:/eclipse/GEditor/projects/unittest/";
@@ -44,12 +41,20 @@ public class TestUI_UtilFunc extends JFCTestCase {
 	    	assertTrue(!radioButton.isEnabled());
 	}
 	
-	public static void radioButtonAction(NamedComponentFinder finder, JDialog dialog,
+	public static void radioButtonClickAction(NamedComponentFinder finder, JDialog dialog,
 							String rButtonName) {
 	    finder.setName(rButtonName);
 	    JRadioButton radioButton = ( JRadioButton ) finder.find( dialog, 0 );
 	    assertNotNull(radioButton);
     	radioButton.doClick();
+	}
+	
+	public static void radioButtonEnableAction(NamedComponentFinder finder, JDialog dialog,
+					String rButtonName, boolean enable) {
+		finder.setName(rButtonName);
+		JRadioButton radioButton = ( JRadioButton ) finder.find( dialog, 0 );
+		assertNotNull(radioButton);
+		radioButton.setEnabled(enable);
 	}
 	
 	public static void selectTabbedPane(NamedComponentFinder finder, JDialog dialog, 
@@ -150,6 +155,19 @@ public class TestUI_UtilFunc extends JFCTestCase {
 		dataModel.setValueAt(new Double(10.0), 4, 2);
 	}
 	
+	public static void setZTable_XR_3Points(NamedComponentFinder finder, JDialog dialog, String boxName) {
+	    finder.setName("zTable");
+		JTable zTable = ( JTable ) finder.find( dialog, 0);
+		assertNotNull(zTable);
+		DefaultTableModel dataModel = (DefaultTableModel)zTable.getModel();
+		dataModel.setValueAt(new Double(1.0), 0, 1);
+		dataModel.setValueAt(new Double(2.0), 0, 2);
+		dataModel.setValueAt(new Double(3.0), 1, 1);
+		dataModel.setValueAt(new Double(4.0), 1, 2);
+		dataModel.setValueAt(new Double(5.0), 2, 1);
+		dataModel.setValueAt(new Double(6.0), 2, 2);
+	}
+
 	public static void setZTable_XoverR_5Points(NamedComponentFinder finder, JDialog dialog, String boxName) {
 	    finder.setName("zTable");
 		JTable zTable = ( JTable ) finder.find( dialog, 0);
@@ -167,6 +185,19 @@ public class TestUI_UtilFunc extends JFCTestCase {
 		dataModel.setValueAt(new Double(10.0), 4, 2);
 	}
 	
+	public static void setZTable_XoverR_3Points(NamedComponentFinder finder, JDialog dialog, String boxName) {
+	    finder.setName("zTable");
+		JTable zTable = ( JTable ) finder.find( dialog, 0);
+		assertNotNull(zTable);
+		DefaultTableModel dataModel = (DefaultTableModel)zTable.getModel();
+		dataModel.setValueAt(new Double(1.0), 0, 1);
+		dataModel.setValueAt(new Double(2.0), 0, 3);
+		dataModel.setValueAt(new Double(3.0), 1, 1);
+		dataModel.setValueAt(new Double(4.0), 1, 3);
+		dataModel.setValueAt(new Double(5.0), 2, 1);
+		dataModel.setValueAt(new Double(6.0), 2, 3);
+	}
+
 	public static void checkBusZ_XR_5Points(DistBusData data) {
 		assertTrue(data.getZ1(0).getR() == 2.0);
 		assertTrue(data.getZ1(0).getX() == 1.0);
@@ -180,6 +211,15 @@ public class TestUI_UtilFunc extends JFCTestCase {
 		assertTrue(data.getZ0X() == 9.0);
 	}
 	
+	public static void checkBusZ_XR_3Points(DistBusData data) {
+		assertTrue(data.getZ1R() == 2.0);
+		assertTrue(data.getZ1X() == 1.0);
+		assertTrue(data.getZ2R() == 4.0);
+		assertTrue(data.getZ2X() == 3.0);
+		assertTrue(data.getZ0R() == 6.0);
+		assertTrue(data.getZ0X() == 5.0);
+	}
+
 	public static void checkBusZ_XoverR_5Points(DistBusData data) {
 		assertTrue(data.getZ1(0).getX_R() == 2.0);
 		assertTrue(data.getZ1(0).getX() == 1.0);
@@ -193,20 +233,29 @@ public class TestUI_UtilFunc extends JFCTestCase {
 		assertTrue(data.getZ0X() == 9.0);
 	}
 
+	public static void checkBusZ_XoverR_3Points(DistBusData data) {
+		assertTrue(data.getZ1R() == 2.0);
+		assertTrue(data.getZ1X() == 1.0);
+		assertTrue(data.getZ2R() == 4.0);
+		assertTrue(data.getZ2X() == 3.0);
+		assertTrue(data.getZ0R() == 6.0);
+		assertTrue(data.getZ0X() == 5.0);
+	}
+
 	public static void setSolidGrounding(NamedComponentFinder finder, JDialog dialog) {
-	    TestUI_UtilFunc.radioButtonAction(finder, dialog, "solidGRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, dialog, "solidGRadioButton");
 	    TestUI_UtilFunc.checkTextFieldStatus(finder, dialog, "gRTextField", false);
 	    TestUI_UtilFunc.checkTextFieldStatus(finder, dialog, "gXTextField", false);
 	}
 	
 	public static void setUnGrounding(NamedComponentFinder finder, JDialog dialog) {
-	    TestUI_UtilFunc.radioButtonAction(finder, dialog, "unGRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, dialog, "unGRadioButton");
 	    TestUI_UtilFunc.checkTextFieldStatus(finder, dialog, "gRTextField", false);
 	    TestUI_UtilFunc.checkTextFieldStatus(finder, dialog, "gXTextField", false);
 	}
 
 	public static void setZGrounding(NamedComponentFinder finder, JDialog dialog) {
-	    TestUI_UtilFunc.radioButtonAction(finder, dialog, "zGRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, dialog, "zGRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, dialog, "gRTextField", "1.0");
 	    TestUI_UtilFunc.setTextField(finder, dialog, "gXTextField", "2.0");
 	}

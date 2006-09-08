@@ -59,12 +59,12 @@ public class TestAclfAdjBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "remoteQRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "remoteQRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pGenTextField", "1.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qGenTextField", "1.05");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "maxTextField", "1.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "minTextField", "-1.0");
-	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", false);
+//	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", false);
 	    
 		JComboBox remoteBusComboBox = TestUI_UtilFunc.findComboBox(finder, busEditor, "remoteBusComboBox");
 		remoteBusComboBox.setSelectedIndex(1);
@@ -113,7 +113,7 @@ public class TestAclfAdjBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "pvRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "pvRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pGenTextField", "1.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qGenTextField", "1.05");
 	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", true);
@@ -160,7 +160,7 @@ public class TestAclfAdjBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "pqRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "pqRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pGenTextField", "2.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qGenTextField", "1.0");
 	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", true);
@@ -207,7 +207,7 @@ public class TestAclfAdjBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "funcLoadRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "funcLoadRadioButton");
 	    
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pLoadTextField", "2.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qLoadTextField", "1.0");

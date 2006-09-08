@@ -22,12 +22,13 @@ public class TestProjEditorAcscCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
+		netContainer.getGNetForm().setNewState(true);
 		NBProjectEditDialog projDialog = (NBProjectEditDialog)SimuAppSpringAppCtxUtil.getProjectDataEditor(
 				netContainer, appSimuCtx.getProjData(), false);
 		
 //		TestUI_UtilFunc.setTextField(finder, projDialog, "projNameTextField", "My Project Name");
 		TestUI_UtilFunc.setTextArea(finder, projDialog, "descTextArea", "My Project Desc");
-		TestUI_UtilFunc.radioButtonAction(finder, projDialog, "acscNetRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, projDialog, "acscNetRadioButton");
 		TestUI_UtilFunc.setTextField(finder, projDialog, "baseKvaTextField", "100000.0");
 		TestUI_UtilFunc.setTextField(finder, projDialog, "baseFreqTextField", "50");
 //		TestUI_UtilFunc.checkBoxAction(finder, projDialog, "allowParalellBranchCheckBox", false);

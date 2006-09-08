@@ -34,16 +34,16 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		JComboBox casenameComboBox = TestUI_UtilFunc.findComboBox(finder, caseDialog, "casenameComboBox");
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Acsc Analysis Case" has been created
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "busFaultRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "busFaultRadioButton");
 	    
 	    JComboBox faultBusComboBox = TestUI_UtilFunc.findComboBox(finder, caseDialog, "faultBusComboBox");
 		faultBusComboBox.setSelectedIndex(1); 
 	    //System.out.println(faultBusComboBox.getSelectedItem());
 	    
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "type3PRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "type3PRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "rLGTextField", "0.1");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "xLGTextField", "0.2");
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "fixedVoltRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "fixedVoltRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "mFactorTextField", "90.0");
 		
 		// click the Run button
@@ -119,13 +119,13 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		JComboBox casenameComboBox = TestUI_UtilFunc.findComboBox(finder, caseDialog, "casenameComboBox");
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Acsc Analysis Case" has been created
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "busFaultRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "busFaultRadioButton");
 	    
 	    JComboBox faultBusComboBox = TestUI_UtilFunc.findComboBox(finder, caseDialog, "faultBusComboBox");
 		faultBusComboBox.setSelectedIndex(1); 
 	    System.out.println(faultBusComboBox.getSelectedItem());
 	    
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "typeLLGRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "typeLLGRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "rLGTextField", "0.1");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "xLGTextField", "0.2");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "rLLTextField", "0.3");
@@ -284,13 +284,13 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		JComboBox casenameComboBox = TestUI_UtilFunc.findComboBox(finder, caseDialog, "casenameComboBox");
 		casenameComboBox.setSelectedIndex(0); // at this point, a case "Acsc Analysis Case" has been created
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "busFaultRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "busFaultRadioButton");
 	    
 	    JComboBox faultBusComboBox = TestUI_UtilFunc.findComboBox(finder, caseDialog, "faultBusComboBox");
 		faultBusComboBox.setSelectedIndex(1); 
 	    System.out.println(faultBusComboBox.getSelectedItem());
 	    
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "typeLLRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "typeLLRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "rLLTextField", "0.3");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "xLLTextField", "0.4");
 

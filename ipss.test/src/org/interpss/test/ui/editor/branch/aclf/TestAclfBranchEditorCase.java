@@ -27,7 +27,7 @@ public class TestAclfBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "lineRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "lineRadioButton");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "rTextField", "0.1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "xTextField", "0.5");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "hBTextField", "0.05");
@@ -71,7 +71,7 @@ public class TestAclfBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "xfrRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "xfrRadioButton");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "rTextField", "0.1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "xTextField", "0.5");
 		TestUI_UtilFunc.checkTextFieldStatus(finder, branchEditor, "hBTextField", false);
@@ -117,7 +117,7 @@ public class TestAclfBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 
-	    TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "psXfrRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "psXfrRadioButton");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "rTextField", "0.1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "xTextField", "0.5");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "hBTextField", "5.0");

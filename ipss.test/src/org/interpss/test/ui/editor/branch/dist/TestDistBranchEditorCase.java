@@ -28,7 +28,7 @@ public class TestDistBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "breakerRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "breakerRadioButton");
 
 		JComboBox nameComboBox = TestUI_UtilFunc.findComboBox(finder, branchEditor, "nameComboBox");
 		nameComboBox.setSelectedItem("My Breaker"); 
@@ -69,7 +69,7 @@ public class TestDistBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "feederRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "feederRadioButton");
 
 		JComboBox nameComboBox = TestUI_UtilFunc.findComboBox(finder, branchEditor, "nameComboBox");
 		nameComboBox.setSelectedItem("My Feeder"); 
@@ -147,7 +147,7 @@ public class TestDistBranchEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
-		TestUI_UtilFunc.radioButtonAction(finder, branchEditor, "xfrRadioButton");
+		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "xfrRadioButton");
 
 		JComboBox nameComboBox = TestUI_UtilFunc.findComboBox(finder, branchEditor, "xfrNameComboBox");
 		nameComboBox.setSelectedItem("My Xfr"); 

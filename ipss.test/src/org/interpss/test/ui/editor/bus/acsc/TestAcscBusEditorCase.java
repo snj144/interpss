@@ -28,7 +28,7 @@ public class TestAcscBusEditorCase extends TestUIBase {
 		
 		TestUI_UtilFunc.selectTabbedPane(finder, busEditor, "acscTabbedPane", 1);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "nonContributeRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "nonContributeRadioButton");
 		
 		finder.setName("saveButton" );
 		JButton saveButton = ( JButton ) finder.find( busEditor, 0);
@@ -62,7 +62,7 @@ public class TestAcscBusEditorCase extends TestUIBase {
 		
 		TestUI_UtilFunc.selectTabbedPane(finder, busEditor, "acscTabbedPane", 1);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "contributeRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "contributeRadioButton");
 
 		TestUI_UtilFunc.setTextField(finder, busEditor, "r1TextField", "1.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "x1TextField", "2.0");
@@ -71,7 +71,7 @@ public class TestAcscBusEditorCase extends TestUIBase {
 		TestUI_UtilFunc.setTextField(finder, busEditor, "r0TextField", "5.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "x0TextField", "6.0");
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "solidGRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "solidGRadioButton");
 	    TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "gRTextField", false);
 	    TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "gXTextField", false);
 		
@@ -121,9 +121,13 @@ public class TestAcscBusEditorCase extends TestUIBase {
 		
 		TestUI_UtilFunc.selectTabbedPane(finder, busEditor, "acscTabbedPane", 1);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "contributeRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "contributeRadioButton");
 
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "unGRadioButton");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "x1TextField", "2.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "x2TextField", "4.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "x0TextField", "6.0");
+	    
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "unGRadioButton");
 	    TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "gRTextField", false);
 	    TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "gXTextField", false);
 		
@@ -161,9 +165,13 @@ public class TestAcscBusEditorCase extends TestUIBase {
 		
 		TestUI_UtilFunc.selectTabbedPane(finder, busEditor, "acscTabbedPane", 1);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "contributeRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "contributeRadioButton");
 
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "zGRadioButton");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "x1TextField", "2.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "x2TextField", "4.0");
+		TestUI_UtilFunc.setTextField(finder, busEditor, "x0TextField", "6.0");
+	    
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "zGRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, busEditor, "gRTextField", "1.0");
 	    TestUI_UtilFunc.setTextField(finder, busEditor, "gXTextField", "2.0");
 		

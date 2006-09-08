@@ -36,7 +36,7 @@ public class TestDStabAdvancedCaseInfoCase extends TestCaseInfoBase {
 		IpssLogger.getLogger().info("The Advanced Panel selected");
 
 		TestUI_UtilFunc.selectTabbedPane(finder, caseDialog, "detailInfoTabbedPane", 0);
-	    TestUI_UtilFunc.radioButtonAction(finder, caseDialog, "staticLoadCPRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, caseDialog, "staticLoadCPRadioButton");
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "staticLoadSwitchVoltTextField", "0.85");
 	   
 	    TestUI_UtilFunc.setTextField(finder, caseDialog, "simuStepTextField", "0.05");

@@ -46,7 +46,7 @@ public class TestGeneratorBusEditorCase extends TestUIBase {
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pfTextField", "0.8");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "loadingTextField", "90.0");
 		
-	    TestUI_UtilFunc.setZTable_XR_5Points(finder, busEditor, "zTable");
+	    TestUI_UtilFunc.setZTable_XR_3Points(finder, busEditor, "zTable");
 
 		TestUI_UtilFunc.setSolidGrounding(finder, busEditor);
 	    
@@ -65,7 +65,7 @@ public class TestGeneratorBusEditorCase extends TestUIBase {
 		assertTrue(data.getPFactorUnit().equals("PU"));
 		assertTrue(data.getBusRatingUnit().equals("Mva"));
 		assertTrue(data.getRatedVoltUnit().equals("PU"));
-		TestUI_UtilFunc.checkBusZ_XR_5Points(data);
+		TestUI_UtilFunc.checkBusZ_XR_3Points(data);
 		TestUI_UtilFunc.checkSolidGrounding(data);
 		
 		// launch the editor again
@@ -83,7 +83,7 @@ public class TestGeneratorBusEditorCase extends TestUIBase {
 		assertTrue(data.getPFactorUnit().equals("PU"));
 		assertTrue(data.getBusRatingUnit().equals("Mva"));
 		assertTrue(data.getRatedVoltUnit().equals("PU"));
-		TestUI_UtilFunc.checkBusZ_XR_5Points(data);
+		TestUI_UtilFunc.checkBusZ_XR_3Points(data);
 		TestUI_UtilFunc.checkSolidGrounding(data);
 
 		// launch the editor again
@@ -101,7 +101,7 @@ public class TestGeneratorBusEditorCase extends TestUIBase {
 		ratedVUnitComboBox.setSelectedIndex(1);
 		TestUI_UtilFunc.checkComboBoxSelection(ratedVUnitComboBox, "Volt"); // PU | Volt | KV
 
-	    TestUI_UtilFunc.setZTable_XoverR_5Points(finder, busEditor, "zTable");
+	    TestUI_UtilFunc.setZTable_XoverR_3Points(finder, busEditor, "zTable");
 
 	    TestUI_UtilFunc.setUnGrounding(finder, busEditor);
 		
@@ -115,7 +115,7 @@ public class TestGeneratorBusEditorCase extends TestUIBase {
 		assertTrue(data.getBusRatingUnit().equals("MW"));
 		assertTrue(data.getRatedVoltUnit().equals("Volt"));
 		TestUI_UtilFunc.checkUnGrounding(data);
-		TestUI_UtilFunc.checkBusZ_XoverR_5Points(data);
+		TestUI_UtilFunc.checkBusZ_XoverR_3Points(data);
 
 		// launch the editor again
 		busEditor.init(netContainer, form);

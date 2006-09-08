@@ -58,7 +58,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "swingRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "swingRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pGenTextField", "1.05");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qGenTextField", "0.0");
 	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", false);
@@ -77,7 +77,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		// launch the editor again for PV bus
 		busEditor.init(netContainer, form);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "pvRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "pvRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pGenTextField", "2.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qGenTextField", "1.05");
 	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", false);
@@ -96,7 +96,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		// launch the editor again for PQ bus
 		busEditor.init(netContainer, form);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "pqRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "pqRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pGenTextField", "2.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qGenTextField", "1.0");
 	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", false);
@@ -115,7 +115,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		// launch the editor again for Capacitor bus
 		busEditor.init(netContainer, form);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "capRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "capRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pGenTextField", "1.0");
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "qGenTextField", false);
 	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", false);
@@ -133,7 +133,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		// launch the editor again for NonGen bus
 		busEditor.init(netContainer, form);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "nonGenRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "nonGenRadioButton");
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "pGenTextField", false);
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "qGenTextField", false);
 	    TestUI_UtilFunc.checkBoxStatus(finder, busEditor, "adjustCheckBox", false);
@@ -160,7 +160,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "" );
 
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "constPRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "constPRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pLoadTextField", "2.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qLoadTextField", "1.0");
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "constI_PTextField", false);
@@ -184,7 +184,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		// launch editor again for Const_I load
 		busEditor.init(netContainer, form);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "constIRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "constIRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pLoadTextField", "2.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qLoadTextField", "1.0");
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "constI_PTextField", false);
@@ -208,7 +208,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		// launch editor again for Const_Z load
 		busEditor.init(netContainer, form);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "constZRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "constZRadioButton");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "pLoadTextField", "2.0");
 		TestUI_UtilFunc.setTextField(finder, busEditor, "qLoadTextField", "1.0");
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "constI_PTextField", false);
@@ -232,7 +232,7 @@ public class TestAclfBusEditorCase extends TestUIBase {
 		// launch editor again for NonLoad load
 		busEditor.init(netContainer, form);
 		
-	    TestUI_UtilFunc.radioButtonAction(finder, busEditor, "nonLoadRadioButton");
+	    TestUI_UtilFunc.radioButtonClickAction(finder, busEditor, "nonLoadRadioButton");
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "pLoadTextField", false);
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "qLoadTextField", false);
 		TestUI_UtilFunc.checkTextFieldStatus(finder, busEditor, "constI_PTextField", false);
