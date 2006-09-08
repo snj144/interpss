@@ -46,7 +46,9 @@ public class TestAdapter {
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR_LITERAL);
-	  	algo.loadflow(msg);
+	  	algo.setMaxIterations(50);
+	  	algo.setTolerance(0.001);
+	  	//algo.loadflow(msg);
   		System.out.println(net.net2String());
 	}	
 }
