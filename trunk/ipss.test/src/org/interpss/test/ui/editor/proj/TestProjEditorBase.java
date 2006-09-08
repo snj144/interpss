@@ -9,9 +9,9 @@ import junit.extensions.jfcunit.JFCTestHelper;
 import junit.extensions.jfcunit.TestHelper;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.editor.EditorSpringAppContext;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
-import com.interpss.editor.jgraph.ui.form.IGFormContainer;
+import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 
 public class TestProjEditorBase extends JFCTestCase {
 	protected IGFormContainer netContainer = null;
@@ -29,7 +29,11 @@ public class TestProjEditorBase extends JFCTestCase {
 		}	
 		
 		appSimuCtx = (AppSimuContextImpl)SimuAppSpringAppContext.getAppSimuContext(); 
-        netContainer = GraphSpringAppContext.getEditorFormContainer();
+		
+		// inital project file path
+		appSimuCtx.getProjData().setFilepath("c:/tmp/workspace/myproject.ipss");
+
+		netContainer = GraphSpringAppContext.getEditorFormContainer();
 	}
 
 	protected void tearDown( ) throws Exception {

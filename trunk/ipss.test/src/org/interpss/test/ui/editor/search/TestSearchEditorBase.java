@@ -1,50 +1,51 @@
 package org.interpss.test.ui.editor.search;
 
-import org.interpss.editor.form.GFormContainer;
-import org.interpss.editor.jgraph.IpssGraph;
-import org.interpss.editor.jgraph.IpssModel;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
-import org.interpss.editor.ui.edit.NBProjectEditDialog;
+import junit.extensions.jfcunit.JFCTestCase;
+import junit.extensions.jfcunit.JFCTestHelper;
+import junit.extensions.jfcunit.TestHelper;
+
+import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.app.AppSimuContextImpl;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
+import org.interpss.test.TestConstants;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.editor.EditorSpringAppContext;
-import com.interpss.editor.GEditor;
-import com.interpss.editor.jgraph.GraphSpringAppContext;
-
-import junit.extensions.jfcunit.*;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.util.sample.SampleCases;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuSpringAppContext;
 
 public class TestSearchEditorBase extends JFCTestCase {
-	NBProjectEditDialog projDialog = null;
-	GFormContainer netContainer = null;
-	GEditor editor = null; 
-
+	protected IGFormContainer netContainer = null;
+	protected AppSimuContextImpl appSimuCtx = null;
+	
     protected void setUp( ) throws Exception {
         super.setUp( );        // Choose the text Helper
         
         setHelper( new JFCTestHelper( ) ); // Uses the AWT Event Queue.
         //setHelper( new RobotTestHelper( ) ); // Uses the OS Event Queue.        
 
-        if (SpringAppContext.SpringAppCtx == null) {
-			SpringAppContext.SpringAppCtxConfigXmlFile = "properties/geditor/applicationContext.xml";
+		if (SpringAppContext.SpringAppCtx == null) {
+			SpringAppContext.SpringAppCtxConfigXmlFile = TestConstants.SpringConfigXmlFile;
 			EditorSpringAppContext.springAppContextSetup();
-        }
- 		
-		editor = (GEditor)GraphSpringAppContext.getIpssGraphicEditor(); 
-
-		projDialog = (NBProjectEditDialog)SimuAppSpringAppCtxUtil.getProjectDataEditor(
-				netContainer, editor.getAppSimuContext().getProjData(), false);
-
-        IpssGraph graph = editor.getIpssGraph();
-        IpssModel model = graph.getIpssModel();
-		if (model.getProjIdLabel() == null)
-			model.insertProjIdLabel(graph);
-		graph.setSelectionCell(model.getProjIdLabel());
-		netContainer = (GFormContainer)model.getGFormContainer();
+		}	
+		
+		appSimuCtx = (AppSimuContextImpl)SimuAppSpringAppContext.getAppSimuContext(); 
+		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
+		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
+		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK_LITERAL);
+		simuCtx.setAclfNet(net);
+		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
+		
+        netContainer = GraphSpringAppContext.getEditorFormContainer();
 	}
 
 	protected void tearDown( ) throws Exception {
-	    projDialog = null;
-		editor.getRootFrame().dispose();
 	    TestHelper.cleanUp( this );
 	    super.tearDown( );
 	}
