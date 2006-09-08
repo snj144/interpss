@@ -3,7 +3,7 @@ package org.interpss.test.ui.editor.proj;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBProjectEditDialog;
 
 
@@ -16,7 +16,7 @@ public class TestProjEditorCancelCase extends TestProjEditorBase {
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "CancelButton" );
 		
 		NBProjectEditDialog projDialog = (NBProjectEditDialog)SimuAppSpringAppCtxUtil.getProjectDataEditor(
-				netContainer, editor.getAppSimuContext().getProjData(), false);
+				netContainer, appSimuCtx.getProjData(), false);
 		
 		JButton cancelButton = ( JButton ) finder.find( projDialog, 0);
 		assertNotNull( "Could not find the Cancel button", cancelButton );

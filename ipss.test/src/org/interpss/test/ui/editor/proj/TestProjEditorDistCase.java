@@ -9,7 +9,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.ui.edit.NBProjectEditDialog;
 import org.interpss.test.ui.TestUI_UtilFunc;
 
-import com.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.*;
@@ -24,7 +24,7 @@ public class TestProjEditorDistCase extends TestProjEditorBase {
 				netContainer, appSimuCtx.getProjData(), false);
 		
 		TestUI_UtilFunc.radioButtonAction(finder, projDialog, "distriAppRadioButton");
-		TestUI_UtilFunc.setTextField(finder, projDialog, "projNameTextField", "My Project Name");
+//		TestUI_UtilFunc.setTextField(finder, projDialog, "projNameTextField", "My Project Name");
 		TestUI_UtilFunc.setTextArea(finder, projDialog, "descTextArea", "My Project Desc");
 		TestUI_UtilFunc.setTextField(finder, projDialog, "baseKvaTextField", "1000000");
 		TestUI_UtilFunc.setTextField(finder, projDialog, "baseFreqTextField", "500");
@@ -41,7 +41,7 @@ public class TestProjEditorDistCase extends TestProjEditorBase {
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
 		assertTrue(appSimuCtx.getProjData().isDirty());
 		
-		assertTrue(appSimuCtx.getProjData().getProjectName().equals("My Project Name"));
+//		assertTrue(appSimuCtx.getProjData().getProjectName().equals("My Project Name"));
 		assertTrue(appSimuCtx.getProjData().getDescription().equals("My Project Desc"));
 		
 		GNetForm form = (GNetForm)netContainer.getGNetForm();
@@ -71,7 +71,7 @@ public class TestProjEditorDistCase extends TestProjEditorBase {
 		saveButton = ( JButton ) finder.find( projDialog, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
 	    
-		assertTrue(appSimuCtx.getProjData().getProjectName().equals("My Project Name"));
+//		assertTrue(appSimuCtx.getProjData().getProjectName().equals("My Project Name"));
 		assertTrue(appSimuCtx.getProjData().getDescription().equals("My Project Desc"));
 		
 		form = (GNetForm)netContainer.getGNetForm();

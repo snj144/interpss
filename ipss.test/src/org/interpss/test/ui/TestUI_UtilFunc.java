@@ -26,6 +26,7 @@ import junit.extensions.jfcunit.finder.NamedComponentFinder;
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.msg.IPSSMsgHub;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.util.IOUtilFunc;
 
@@ -227,21 +228,21 @@ public class TestUI_UtilFunc extends JFCTestCase {
 	// Create testing network
 	// ======================
 	
-	public static void createTestingAclfGNetForm(GFormContainer netContainer) {
+	public static void createTestingAclfGNetForm(IGFormContainer netContainer) {
 		GNetForm form = (GNetForm)netContainer.getGNetForm();
 		createTestingAcscGNetForm(netContainer);
 		form.setNetType(IGNetForm.NetType_AclfNetwork);
 		form.getAcscNetData().setHasAdjustment(false);
 	}
 	
-	public static void createTestingAclfAdjGNetForm(GFormContainer netContainer) {
+	public static void createTestingAclfAdjGNetForm(IGFormContainer netContainer) {
 		GNetForm form = (GNetForm)netContainer.getGNetForm();
 		createTestingAcscGNetForm(netContainer);
 		form.setNetType(IGNetForm.NetType_AclfAdjNetwork);
 		form.getAcscNetData().setHasAdjustment(true);
 	}
 
-	public static void createTestingAcscGNetForm(GFormContainer netContainer) {
+	public static void createTestingAcscGNetForm(IGFormContainer netContainer) {
 		GNetForm form = (GNetForm)netContainer.getGNetForm();
 		
 		form.setAppType(IGNetForm.AppType_Transmission);

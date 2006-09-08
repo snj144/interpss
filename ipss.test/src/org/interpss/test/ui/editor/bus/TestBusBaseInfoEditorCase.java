@@ -4,8 +4,8 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.form.GBusForm;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBBusEditDialog;
 import org.interpss.test.ui.TestUI_UtilFunc;
 
@@ -18,6 +18,7 @@ public class TestBusBaseInfoEditorCase extends TestBusEditorBase {
 		System.out.println("TestAclfBusEditorCase testSimpleSaveCase begin");
 		
 		TestUI_UtilFunc.createTestingAclfGNetForm(netContainer);
+		
 		GBusForm form = (GBusForm)netContainer.getGBusForm("0001");
 		NBBusEditDialog busEditor = (NBBusEditDialog)SimuAppSpringAppCtxUtil.getBusDataEditor(
 				netContainer, form, false);
@@ -26,7 +27,7 @@ public class TestBusBaseInfoEditorCase extends TestBusEditorBase {
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "saveButton" );
 		JButton saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		System.out.println("TestAclfBusEditorCase testSimpleSaveCase end");
 	}
@@ -57,7 +58,7 @@ public class TestBusBaseInfoEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		assertTrue(form.getName().equals("Bus Name"));
 		assertTrue(form.getBaseVoltage() == 2000.0);
@@ -94,7 +95,7 @@ public class TestBusBaseInfoEditorCase extends TestBusEditorBase {
 	    finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( busEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		assertTrue(form.getBaseVoltUnit().equals("KV"));
 		assertTrue(!form.getStatus());
