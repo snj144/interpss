@@ -273,7 +273,7 @@ public class TestUI_UtilFunc extends JFCTestCase {
 		//System.out.println(branch.toString());
 	}
 	
-	public static void createTestingDStabGNetForm(GFormContainer netContainer) {
+	public static void createTestingDStabGNetForm(IGFormContainer netContainer) {
 		GNetForm form = (GNetForm)netContainer.getGNetForm();
 		
 		form.setAppType(IGNetForm.AppType_Transmission);
@@ -300,7 +300,7 @@ public class TestUI_UtilFunc extends JFCTestCase {
 		netContainer.addGBranchForm(branch);
 	}	
 
-	public static void createTestingDistGNetForm(GFormContainer netContainer) {
+	public static void createTestingDistGNetForm(IGFormContainer netContainer) {
 		GNetForm form = (GNetForm)netContainer.getGNetForm();
 		
 		form.setAppType(IGNetForm.AppType_Distribution);

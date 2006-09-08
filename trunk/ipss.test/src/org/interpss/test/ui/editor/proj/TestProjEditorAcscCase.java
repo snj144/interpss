@@ -8,6 +8,7 @@ import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.acsc.AcscNetData;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.ui.edit.NBProjectEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
 
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
@@ -15,7 +16,7 @@ import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.*;
 
-public class TestProjEditorAcscCase extends TestProjEditorBase {
+public class TestProjEditorAcscCase extends TestUIBase {
 	public void testCase() {
 		System.out.println("TestProjEditorAcscCase testCase begin");
 		

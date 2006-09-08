@@ -3,19 +3,19 @@ package org.interpss.test.ui.editor.branch.aclf;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.form.GBranchForm;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBBranchEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
-import org.interpss.test.ui.editor.branch.TestBranchEditorBase;
 
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.*;
 
-public class TestAclfBranchEditorCase extends TestBranchEditorBase {
+public class TestAclfBranchEditorCase extends TestUIBase {
 	public void testBranchDataCase() {
 		System.out.println("TestAclfBranchEditorCase testBranchDataCase begin");
 		
@@ -37,7 +37,7 @@ public class TestAclfBranchEditorCase extends TestBranchEditorBase {
 		finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 		
 		AcscBranchData data = form.getAcscBranchData();
 		assertTrue(data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line));
@@ -81,7 +81,7 @@ public class TestAclfBranchEditorCase extends TestBranchEditorBase {
 		finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 		
 		AcscBranchData data = form.getAcscBranchData();
 		assertTrue(data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr));
@@ -127,7 +127,7 @@ public class TestAclfBranchEditorCase extends TestBranchEditorBase {
 		finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 		
 		AcscBranchData data = form.getAcscBranchData();
 		assertTrue(data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr));

@@ -3,16 +3,17 @@ package org.interpss.test.ui.editor.branch;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.form.GBranchForm;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBBranchEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
 
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.*;
 
-public class TestBranchBaseInfoEditorCase extends TestBranchEditorBase {
+public class TestBranchBaseInfoEditorCase extends TestUIBase {
 	public void testSimpleSaveCase() {
 		System.out.println("TestAclfBusEditorCase testSimpleSaveCase begin");
 		
@@ -32,7 +33,7 @@ public class TestBranchBaseInfoEditorCase extends TestBranchEditorBase {
 		finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		assertTrue(form.getName().equals("Branch Name"));
 		assertTrue(form.getArea() == 2);
@@ -44,7 +45,7 @@ public class TestBranchBaseInfoEditorCase extends TestBranchEditorBase {
 		finder.setName("saveButton");
 		saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 
 		assertTrue(form.getName().equals("Branch Name"));
 		assertTrue(form.getArea() == 2);

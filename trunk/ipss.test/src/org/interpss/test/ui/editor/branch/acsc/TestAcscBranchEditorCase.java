@@ -3,21 +3,21 @@ package org.interpss.test.ui.editor.branch.acsc;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.data.common.XfrConnectData;
 import org.interpss.editor.form.GBranchForm;
-import org.interpss.editor.ui.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.ui.edit.NBBranchEditDialog;
+import org.interpss.test.ui.TestUIBase;
 import org.interpss.test.ui.TestUI_UtilFunc;
-import org.interpss.test.ui.editor.branch.TestBranchEditorBase;
 
 import com.interpss.common.datatype.ScGroundType;
-import com.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import junit.extensions.jfcunit.eventdata.MouseEventData;
 import junit.extensions.jfcunit.finder.*;
 
-public class TestAcscBranchEditorCase extends TestBranchEditorBase {
+public class TestAcscBranchEditorCase extends TestUIBase {
 	public void testLineBranchCase() {
 		System.out.println("TestAcscBranchEditorCase testLineBranchCase begin");
 
@@ -44,7 +44,7 @@ public class TestAcscBranchEditorCase extends TestBranchEditorBase {
 		finder.setName("saveButton" );
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		AcscBranchData data = form.getAcscBranchData();
 		assertTrue(data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line));
@@ -105,7 +105,7 @@ public class TestAcscBranchEditorCase extends TestBranchEditorBase {
 		finder.setName("saveButton" );
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		AcscBranchData data = form.getAcscBranchData();
 		assertTrue(data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr));
@@ -206,7 +206,7 @@ public class TestAcscBranchEditorCase extends TestBranchEditorBase {
 		finder.setName("saveButton" );
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
-		assertTrue(editor.getIpssGraph().isGraphDirty());
+		assertTrue(netContainer.isDataDirty());
 	    
 		AcscBranchData data = form.getAcscBranchData();
 		assertTrue(data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr));
