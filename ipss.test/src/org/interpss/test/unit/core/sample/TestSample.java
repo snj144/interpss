@@ -29,7 +29,7 @@ public class TestSample extends TestBaseAppCtx {
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
-  		System.out.println(net.net2String());
+  		//System.out.println(net.net2String());
 	  	
   		assertEquals(true, net.isLfConverged());
   		

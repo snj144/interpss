@@ -33,7 +33,7 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.40106) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.9959) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.880064) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -47,7 +47,7 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.40106) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.9959) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.880064) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -61,7 +61,7 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.40106) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.9959) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.880064) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
@@ -79,7 +79,7 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.401033) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.9959) < 0.00001);
-		assertTrue(Math.abs(mach.getEfd()-1.88006) < 0.00001);
+		assertTrue(Math.abs(mach.getEfd()-1.88873) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.803) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-1.0) < 0.00001);
 		
