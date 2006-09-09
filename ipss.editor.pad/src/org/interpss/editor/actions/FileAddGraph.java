@@ -6,6 +6,7 @@ import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.coreframework.IpssAbstractProjectAction;
 import org.interpss.editor.doc.IpssProject;
+import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.project.IpssNewGraphDialog;
 import org.interpss.editor.resources.Translator;
@@ -53,7 +54,9 @@ public class FileAddGraph extends IpssAbstractProjectAction {
 				graphpad.error("Can't create graphic document.");
 				return;
 			}
-			graphpad.addGraphDocument(dstfile,project, file);
+			IpssProjectItem item = graphpad.addGraphDocument(dstfile,project, file);
+			org.interpss.editor.util.Utilities.loadProjectData(item);
+			
 		}
 		graphpad.saveProject(project);
 		graphpad.update();

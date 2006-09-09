@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import org.interpss.editor.coreframework.IpssAbstractProjectAction;
 import org.interpss.editor.coreframework.IpssCustomFile;
 import org.interpss.editor.doc.IpssProject;
+import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.project.IpssNewCustomDialog;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;
@@ -42,7 +43,8 @@ public class FileAddCustom extends IpssAbstractProjectAction {
 		IpssCustomFile file;
 		try {
 			file = org.interpss.editor.util.Utilities.OpenCustomFile(graphpad,dstfile);
-			graphpad.addCustomDocument(dstfile,project, file);
+			IpssProjectItem item = graphpad.addCustomDocument(dstfile,project, file);
+			org.interpss.editor.util.Utilities.loadProjectData(item);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

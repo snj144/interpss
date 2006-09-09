@@ -638,11 +638,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		addGraphDocument(name, p, null);
 	}
 
-	public void addGraphDocument(String name, IpssProject p,
+	public IpssProjectItem addGraphDocument(String name, IpssProject p,
 			GPGraphpadFile jgraphpadCEFile) {
 
 		if (p == null)
-			return;
+			return null;
 
 		GPDocument doc = new GPDocument(this, p, name, jgraphpadCEFile);
 		doc = GPPluginInvoker.decorateDocument(doc);
@@ -650,9 +650,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		p.addDocument(doc, 0);
 		addDocument2Frame(doc);
 
-		this.getProjectPanel().addNewProjectItem(p, doc);
+		IpssProjectItem item = this.getProjectPanel().addNewProjectItem(p, doc);
 
 		expendTree2CurrentDocument();
+		
+		return item;
 	}
 
 	public void addGraphDocument(IpssProjectItem item,
@@ -818,20 +820,22 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		expendTree2CurrentDocument();
 	}
 
-	public void addCustomDocument(String name, IpssProject p,
+	public IpssProjectItem addCustomDocument(String name, IpssProject p,
 			IpssCustomFile file) {
 
 		if (p == null)
-			return;
+			return null;
 
 		IpssCustomDocument doc = new IpssCustomDocument(this, p, name, file);
 
 		p.addDocument(doc, 0);
 		addDocument2Frame(doc);
 
-		this.getProjectPanel().addNewProjectItem(p, doc);
+		IpssProjectItem item = this.getProjectPanel().addNewProjectItem(p, doc);
 
 		expendTree2CurrentDocument();
+		
+		return item;
 	}
 
 	// public void addCustomDocument(IpssCustomDocument doc) {
@@ -949,18 +953,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			// Richard: the following logic also need to be applied when we import
 			// an exiting graphic or custom project.
 			// Begin
-			// load project data from DB
-			IpssLogger.getLogger().info("Load project data from DB ...");
-			IAppSimuContext appSimuContext = GraphSpringAppContext
-					.getIpssGraphicEditor().getCurrentAppSimuContext();
-			IProjectDataManager projManager = SpringAppContext
-					.getProjectDataDBManager();
-			projManager.loadProjectDataFromDB(item.getProjDbId(), item
-					.getName(), item.getFileNameNoExt(), appSimuContext);
-			IpssLogger.getLogger().info(
-					"Project set to projDbId = "
-							+ appSimuContext.getProjData().getProjectDbId());
-			item.setProjDbId(appSimuContext.getProjData().getProjectDbId());
+			IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities.loadProjectData(item);
 			// end
 			if (doc instanceof GPDocument) {
 				// we need synch some data in the graph with the project data,
@@ -975,6 +968,8 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			}
 		}
 	}
+
+
 
 	public boolean OpenDocument(IpssEditorDocument doc) {
 		if (doc.equals(getCurrentDocument()))
