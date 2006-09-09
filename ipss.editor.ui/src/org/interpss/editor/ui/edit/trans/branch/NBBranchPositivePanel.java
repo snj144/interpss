@@ -150,7 +150,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		
 	    controlTapMaxTextField.setText(Num2Str.toStr(_data.getVcTapMax(), "#0.0##"));
 	    controlTapMinTextField.setText(Num2Str.toStr(_data.getVcTapMin(), "#0.0##"));
-	    controlTapStepTextField.setText(Num2Str.toStr(_data.getVcStep()));
+	    controlTapStepTextField.setText(Num2Str.toStr(_data.getVcStep(),  "#0.00#"));
 	    if (_data.isVCTapOnFromSide())
     		controlTapOnFromSideRadioButton.setSelected(true);
     	else
@@ -269,7 +269,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     	    		_data.setHasTapVControl(true);
     	    		_data.setVcTapMax(VerifyUtil.getDouble(controlTapMaxTextField));
     	    		_data.setVcTapMin(VerifyUtil.getDouble(controlTapMinTextField));
-    	    		_data.setVcStep(VerifyUtil.getInt(controlTapStepTextField));
+    	    		_data.setVcStep(VerifyUtil.getDouble(controlTapStepTextField));
     			    _data.setVCTapOnFromSide(controlTapOnFromSideRadioButton.isSelected());
 
     			    if (voltageRadioButton.isSelected()) {
@@ -793,7 +793,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         controlTapStepsLabel.setText("          Step  ");
         controlTapLimitPanel.add(controlTapStepsLabel);
 
-        controlTapStepTextField.setColumns(2);
+        controlTapStepTextField.setColumns(4);
         controlTapStepTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         controlTapStepTextField.setText("0.0");
         controlTapStepTextField.setName("controlTapStepTextField");
