@@ -39,6 +39,8 @@ public class RunAllUIRunTestCase extends TestCase {
 		junit.textui.TestRunner.run(TestDStabAdvancedCaseInfoCase.class);
 		junit.textui.TestRunner.run(TestDStabDEventCaseInfoCase.class);
 		junit.textui.TestRunner.run(TestMuitlpleEventsCaseInfoCase.class);
-		junit.textui.TestRunner.run(TestMuitlpleCasesCaseInfoCase.class);
+
+		// multiple case has been disabled now
+		//		junit.textui.TestRunner.run(TestMuitlpleCasesCaseInfoCase.class);
 	}
 }

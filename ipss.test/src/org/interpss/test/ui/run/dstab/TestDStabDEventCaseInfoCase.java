@@ -124,7 +124,7 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 	public void testBusFaultEventCase() {
 		System.out.println("TestDStabDEventCaseInfoCase testBusFaultEventCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
 
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
@@ -218,7 +218,7 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 	public void testBranchFaultEventCase() {
 		System.out.println("TestDStabDEventCaseInfoCase testBranchFaultEventCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
 
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);
