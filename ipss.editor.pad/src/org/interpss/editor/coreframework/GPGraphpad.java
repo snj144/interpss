@@ -946,6 +946,9 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 
 		doc = item.getDocument();
 		if (doc instanceof GPDocument || doc instanceof IpssCustomDocument) {
+			// Richard: the following logic also need to be applied when we import
+			// an exiting graphic or custom project.
+			// Begin
 			// load project data from DB
 			IpssLogger.getLogger().info("Load project data from DB ...");
 			IAppSimuContext appSimuContext = GraphSpringAppContext
@@ -958,6 +961,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 					"Project set to projDbId = "
 							+ appSimuContext.getProjData().getProjectDbId());
 			item.setProjDbId(appSimuContext.getProjData().getProjectDbId());
+			// end
 			if (doc instanceof GPDocument) {
 				// we need synch some data in the graph with the project data,
 				// since project data may be
