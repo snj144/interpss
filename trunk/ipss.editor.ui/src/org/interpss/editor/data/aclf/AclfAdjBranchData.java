@@ -18,7 +18,7 @@ public class AclfAdjBranchData  extends AclfBranchData {
     private double  vcTapMax = 1.1d;
     private double  vcTapMin = 0.9d;
     private String  vcTapUnit = "PU";
-    private int     vcStep = 0;
+    private double  vcStep = 0;
 
     private boolean hasPSXfrPControl = false;
     private double  pcPSpec = 0d;
@@ -87,6 +87,6 @@ public class AclfAdjBranchData  extends AclfBranchData {
     public double getPcAngMin() { return this.pcAngMin;     }
     public void setPcAngMin(double angMin) { this.pcAngMin = angMin;     }
 
-    public int getVcStep() { return this.vcStep;     }
-    public void setVcStep(int step) { this.vcStep = step;     }
+    public double getVcStep() { return this.vcStep;     }
+    public void setVcStep(double step) { this.vcStep = step;     }
 }
