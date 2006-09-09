@@ -88,6 +88,10 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 	*/    
 	public void init(Object netContainer, Object obj) {
 		IpssLogger.getLogger().info("NBProjectEditDialog.init() called");
+
+	    distriAppRadioButton.setEnabled(true);
+	    transAppRadioButton.setEnabled(true);
+		
 		_netContainer = (GFormContainer)netContainer;
 		_projInfo = (ProjData)obj;
 		GNetForm form = (GNetForm)((GFormContainer)netContainer).getGNetForm();
