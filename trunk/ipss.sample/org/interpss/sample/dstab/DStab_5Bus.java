@@ -38,7 +38,11 @@ public class DStab_5Bus extends TestSetupBase {
 		algo.setSimuOutputHandler(handler);
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 		if (algo.initialization(msg)) {
-			handler.init(0, "");
+			try {
+				handler.init(0, "");
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+			}
 			algo.performSimulation(msg);
 		}
 		
