@@ -152,6 +152,10 @@ public class TestDistBranchEditorCase extends TestUIBase {
 		JComboBox nameComboBox = TestUI_UtilFunc.findComboBox(finder, branchEditor, "xfrNameComboBox");
 		nameComboBox.setSelectedItem("My Xfr"); 
 
+		TestUI_UtilFunc.setTextField(finder, branchEditor, "xfrRatingTextField", "1.0");
+		TestUI_UtilFunc.setTextField(finder, branchEditor, "xTextField", "4.0");
+		TestUI_UtilFunc.setTextField(finder, branchEditor, "x0_x1TextField", "1.0");
+		
 		finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
