@@ -12,7 +12,6 @@ import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.util.outfunc.AcscOut;
 import com.interpss.core.util.sample.SampleCases;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;

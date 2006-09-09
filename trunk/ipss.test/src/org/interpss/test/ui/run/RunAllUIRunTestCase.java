@@ -2,7 +2,8 @@ package org.interpss.test.ui.run;
 
 import java.util.logging.Level;
 
-import org.interpss.test.ui.run.TestCaseInfoDialogCase;
+import junit.framework.TestCase;
+
 import org.interpss.test.ui.run.aclf.TestAclfCaseInfoCase;
 import org.interpss.test.ui.run.acsc.TestAcscBranchFaultCaseInfoCase;
 import org.interpss.test.ui.run.acsc.TestAcscBusFaultCaseInfoCase;
@@ -10,12 +11,9 @@ import org.interpss.test.ui.run.acsc.TestAcscCaseInfoCase;
 import org.interpss.test.ui.run.dstab.TestDStabAdvancedCaseInfoCase;
 import org.interpss.test.ui.run.dstab.TestDStabCaseInfoCase;
 import org.interpss.test.ui.run.dstab.TestDStabDEventCaseInfoCase;
-import org.interpss.test.ui.run.dstab.TestMuitlpleCasesCaseInfoCase;
 import org.interpss.test.ui.run.dstab.TestMuitlpleEventsCaseInfoCase;
 
 import com.interpss.common.util.IpssLogger;
-
-import junit.framework.*;
 
 public class RunAllUIRunTestCase extends TestCase {
 	public static void main(String args[]) {

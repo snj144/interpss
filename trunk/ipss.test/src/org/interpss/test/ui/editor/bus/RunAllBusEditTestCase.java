@@ -2,9 +2,8 @@ package org.interpss.test.ui.editor.bus;
 
 import java.util.logging.Level;
 
-import org.interpss.test.ui.editor.branch.dist.TestDistBranchEditorCase;
-import org.interpss.test.ui.editor.branch.dist.TestXfrBranchEditorCase;
-import org.interpss.test.ui.editor.bus.TestBusBaseInfoEditorCase;
+import junit.framework.TestCase;
+
 import org.interpss.test.ui.editor.bus.aclf.TestAclfAdjBusEditorCase;
 import org.interpss.test.ui.editor.bus.aclf.TestAclfBusEditorCase;
 import org.interpss.test.ui.editor.bus.acsc.TestAcscBusEditorCase;
@@ -15,15 +14,8 @@ import org.interpss.test.ui.editor.bus.dist.TestMixedLoadBusEditorCase;
 import org.interpss.test.ui.editor.bus.dist.TestSynMotorBusEditorCase;
 import org.interpss.test.ui.editor.bus.dist.TestUtilityBusEditorCase;
 import org.interpss.test.ui.editor.bus.dstab.TestDStabBusEditorCase;
-import org.interpss.test.ui.editor.proj.TestProjEditorAclfCase;
-import org.interpss.test.ui.editor.proj.TestProjEditorAcscCase;
-import org.interpss.test.ui.editor.proj.TestProjEditorCancelCase;
-import org.interpss.test.ui.editor.proj.TestProjEditorDStabCase;
-import org.interpss.test.ui.editor.proj.TestProjEditorDistCase;
 
 import com.interpss.common.util.IpssLogger;
-
-import junit.framework.*;
 
 public class RunAllBusEditTestCase extends TestCase {
 	public static void main(String args[]) {

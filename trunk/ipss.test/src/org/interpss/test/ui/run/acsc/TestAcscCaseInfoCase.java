@@ -4,26 +4,25 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
-import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.runAct.AcscRunForm;
 import org.interpss.editor.ui.run.NBCaseInfoDialog;
 import org.interpss.test.ui.TestUI_UtilFunc;
 import org.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
 
 public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 	public void testSimpleRunCase() {
 		System.out.println("TesAcscCaseInfoCase testSimpleRunCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
 		
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
@@ -62,7 +61,7 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 	public void testUnitVoltCase() {
 		System.out.println("TesAcscCaseInfoCase testUnitVoltCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
 		
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
@@ -123,7 +122,7 @@ public class TestAcscCaseInfoCase extends TestCaseInfoBase {
 	public void testLFVoltCase() {
 		System.out.println("TesAcscCaseInfoCase testLFVoltCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
 		appSimuCtx.setLfConverged(true);
 		
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(

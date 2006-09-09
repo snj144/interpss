@@ -6,27 +6,26 @@ import javax.swing.JComponent;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
-import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.runAct.AcscRunForm;
 import org.interpss.editor.ui.run.NBCaseInfoDialog;
 import org.interpss.test.ui.TestUI_UtilFunc;
 import org.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
 
 public class TestAcscBranchFaultCaseInfoCase extends TestCaseInfoBase {
 	public void testBranchFault3PCase() {
 		System.out.println("TestAcscBranchFaultCaseInfoCase testBranchFault3PCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
 		
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
@@ -89,7 +88,7 @@ public class TestAcscBranchFaultCaseInfoCase extends TestCaseInfoBase {
 	public void testMuitiCase() {
 		System.out.println("TestAcscBranchFaultCaseInfoCase testMuitiCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
 		
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
