@@ -9,6 +9,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -79,7 +80,13 @@ public class DStabRunForm extends BaseRunForm {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
 		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
-		handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord");
+		try {
+			handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord");
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
+					e.toString() + "\nPlease contact InterPSS support");
+		}
 		setDbSimuCaseId(handler.getCaseId());
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
 

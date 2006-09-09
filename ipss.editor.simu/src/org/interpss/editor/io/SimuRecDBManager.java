@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.exp.InterpssRuntimeException;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
@@ -21,7 +21,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 	 * @param elemId
 	 * @return
 	 */
-	public List getSimuRecList(int caseId, String recType, String elemId, int appType) {
+	public List getSimuRecList(int caseId, String recType, String elemId, int appType)  throws InterpssException {
 		try {
 			if (appType == IProjectDataManager.CaseType_DStabSimuRec) {
 				int typeid = getRecTypeId(recType, appType);
@@ -35,7 +35,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 		} catch (SQLException e) {
 			IpssLogger.logErr(e);
 		}		
-		throw new InterpssRuntimeException("Cannot getSimuRecList, see log file for details");
+		throw new InterpssException("Cannot getSimuRecList, see log file for details");
 	}
 
 	/**
@@ -45,7 +45,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 	 * @param recType
 	 * @return
 	 */
-	public List getElemIdStrList(int caseId, String recType, int appType) {
+	public List getElemIdStrList(int caseId, String recType, int appType)  throws InterpssException {
 		try {
 			if (appType == IProjectDataManager.CaseType_DStabSimuRec) {
 				int typeid = getRecTypeId(recType, appType);
@@ -58,7 +58,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 		} catch (SQLException e) {
 			IpssLogger.logErr(e);
 		}		
-		throw new InterpssRuntimeException("Cannot getSimuRecList, see log file for details");
+		throw new InterpssException("Cannot getSimuRecList, see log file for details");
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 	 * @param id
 	 * @return
 	 */
-	public Object getSimuRec(int id, int appType) {
+	public Object getSimuRec(int id, int appType)  throws InterpssException {
 		try {
 			if (appType == IProjectDataManager.CaseType_DStabSimuRec) {
 				return DBManager.getSqlMap().queryForObject("selectDStabSimuRecord", new Integer(id));
@@ -75,7 +75,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 		} catch (SQLException e) {
 			IpssLogger.logErr(e);
 		}		
-		throw new InterpssRuntimeException("Cannot getSimuRec, see log file for details");
+		throw new InterpssException("Cannot getSimuRec, see log file for details");
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class SimuRecDBManager implements ISimuRecManager {
      * @param action insert and update implemented
      * @param aRec
      */
-	public void dbActionSimuRec(int action, Object aRec, int appType) {
+	public void dbActionSimuRec(int action, Object aRec, int appType)  throws InterpssException {
 		try {
 			if (appType == IProjectDataManager.CaseType_DStabSimuRec) {
 				switch (action) {
@@ -101,7 +101,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 		} catch (SQLException e) {
 			IpssLogger.logErr(e);
 		}		
-		throw new InterpssRuntimeException("Cannot dbActionSimuRec, see log file for details");
+		throw new InterpssException("Cannot dbActionSimuRec, see log file for details");
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 	 * 
 	 * @param caseId
 	 */
-	public void deleteAllSimuRec(int caseId, int appType) {
+	public void deleteAllSimuRec(int caseId, int appType)  throws InterpssException {
 		try {
 			if (appType == IProjectDataManager.CaseType_DStabSimuRec) {
 				DBManager.getSqlMap().delete("deleteDStabSimuRecord", new Integer(caseId));
@@ -118,7 +118,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 		} catch (SQLException e) {
 			IpssLogger.logErr(e);
 		}		
-		throw new InterpssRuntimeException("Cannot deleteSimuRec, see log file for details");
+		throw new InterpssException("Cannot deleteSimuRec, see log file for details");
 	}
 
 	/**
@@ -126,7 +126,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 	 * 
 	 * @param projId
 	 */
-	public void deleteAllSimuRecForProject(int projId, int appType) {
+	public void deleteAllSimuRecForProject(int projId, int appType)  throws InterpssException {
 		try {
 			if (appType == IProjectDataManager.CaseType_DStabSimuRec) {
 				List caseList = DBManager.getSqlMap().queryForList("selectIpssCaseForProject", projId);
@@ -137,10 +137,10 @@ public class SimuRecDBManager implements ISimuRecManager {
 				}
 				return;
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}		
-		throw new InterpssRuntimeException("Cannot deleteSimuRec, see log file for details");
+		throw new InterpssException("Cannot deleteSimuRec, see log file for details");
 	}
 	
 	/**
@@ -149,7 +149,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 	 * @param recType
 	 * @return the record type id
 	 */
-	public int getRecTypeId(String recType, int appType) {
+	public int getRecTypeId(String recType, int appType) throws InterpssException {
 		try {
 			if (appType == IProjectDataManager.CaseType_DStabSimuRec) {
 				Integer id = (Integer)DBManager.getSqlMap().queryForObject("selectRecordType", recType);
@@ -161,6 +161,6 @@ public class SimuRecDBManager implements ISimuRecManager {
 		} catch (SQLException e) {
 			IpssLogger.logErr(e);
 		}		
-		throw new InterpssRuntimeException("Cannot getRecTypeId, see log file for details");
+		throw new InterpssException("Cannot getRecTypeId, see log file for details");
 	}
 }

@@ -10,6 +10,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.exp.InterpssException;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
@@ -23,7 +24,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 	/**
 	 * Save the project data into DB
 	 */
-	public void saveProjectDataToDB(Object projData) {
+	public void saveProjectDataToDB(Object projData)  throws InterpssException {
 		dbActionProject(DBManager.SQL_ACTION_UPDATE, projData);
     }
 	
@@ -55,7 +56,13 @@ public class ProjectDataDBManager implements IProjectDataManager {
 			projData.setWorkspacePath(StringUtil.getWorkspacePath(filename));
 			projData.setProjectDbId(0);
     		projData.setProjectName(projName);
-    		p = (IProjectData)dbActionProject(DBManager.SQL_ACTION_INSERT, projData);
+    		try {
+    			p = (IProjectData)dbActionProject(DBManager.SQL_ACTION_INSERT, projData);
+    		} catch (Exception e) {
+    			IpssLogger.logErr(e);
+    			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB Project", 
+    					e.toString() + "\nPlease contact InterPSS support");
+    		}
 		}
     	((IAppSimuContext)appSimuCtx).setProjData(p);
 	}
@@ -68,7 +75,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 	 * @param projData projectData object for update and delete
 	 * @return created (INSERT), selected or updated project data oject
 	 */
-	public Object dbActionProject(int action, Object projectData) {
+	public Object dbActionProject(int action, Object projectData)  throws InterpssException {
 		try {
 			ProjData projData = (ProjData)projectData;
 			switch (action) {
@@ -156,13 +163,13 @@ public class ProjectDataDBManager implements IProjectDataManager {
 					return null;
 				}			
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}		
-		throw new InterpssRuntimeException("Cannot dbActionProject, see log file for details");
+		throw new InterpssException("Cannot dbActionProject, see log file for details");
 	}
 	
-	public static void deleteDbProject(int projDbId) throws SQLException {
+	public static void deleteDbProject(int projDbId) throws Exception {
 		IpssLogger.getLogger().info("Delete project: " + projDbId);
 		ISimuRecManager simuRecMgr = SpringAppContext.getSimuRecManager();
 		simuRecMgr.deleteAllSimuRecForProject(projDbId, IProjectDataManager.CaseType_DStabSimuRec);

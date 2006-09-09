@@ -40,9 +40,18 @@ public class MachStateSelDialog extends javax.swing.JDialog {
     public void init(int aCaseId) {
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
         this.caseId = aCaseId;
-	  	List list = simuRecManager.getElemIdStrList(this.caseId, ISimuRecManager.REC_TYPE_DStabMachineStates, IProjectDataManager.CaseType_DStabSimuRec);
-		this.machListComboBox.setModel(new javax.swing.DefaultComboBoxModel(list.toArray()));
-	    setStateComboList((String)this.machListComboBox.getSelectedItem());
+	  	List list = null;
+	  	try {
+	  		simuRecManager.getElemIdStrList(this.caseId, ISimuRecManager.REC_TYPE_DStabMachineStates, IProjectDataManager.CaseType_DStabSimuRec);
+	  	} catch (Exception e) {
+	  		IpssLogger.logErr(e);
+	  		SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to get mach list from DB", 
+	  				e.toString() + "\nPlease contact InterPSS support");
+	  	}
+		if (list != null) {
+			this.machListComboBox.setModel(new javax.swing.DefaultComboBoxModel(list.toArray()));
+		    setStateComboList((String)this.machListComboBox.getSelectedItem());
+		}
     }
     
     private void setStateComboList(String machId) {
