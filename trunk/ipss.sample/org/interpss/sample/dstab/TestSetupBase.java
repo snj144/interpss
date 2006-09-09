@@ -1,7 +1,7 @@
 package org.interpss.sample.dstab;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.test.unit.TestBaseAppCtx;
+import org.interpss.test.simu.TestBaseAppCtx;
 
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
