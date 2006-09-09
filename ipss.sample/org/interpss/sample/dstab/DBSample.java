@@ -1,11 +1,13 @@
 package org.interpss.sample.dstab;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.dstab.util.DStabSimuDBRecord;
@@ -20,7 +22,12 @@ public class DBSample {
 		String recType = ISimuRecManager.REC_TYPE_DStabExcStates;
 		String elemId = "Mach0001_EXC";
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
-		List elemRecList = simuRecManager.getSimuRecList(caseId, recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
+		List elemRecList = new ArrayList();
+		try {
+			elemRecList = simuRecManager.getSimuRecList(caseId, recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+		}
 		System.out.println("# of Elements: " + elemRecList.size());
 		
 		if (elemRecList.size() > 0) {
