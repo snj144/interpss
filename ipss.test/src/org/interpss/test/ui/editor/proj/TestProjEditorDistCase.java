@@ -25,7 +25,6 @@ public class TestProjEditorDistCase extends TestUIBase {
 		NBProjectEditDialog projDialog = (NBProjectEditDialog)SimuAppSpringAppCtxUtil.getProjectDataEditor(
 				netContainer, appSimuCtx.getProjData(), false);
 		
-		TestUI_UtilFunc.radioButtonEnableAction(finder, projDialog, "distriAppRadioButton", true);
 		TestUI_UtilFunc.radioButtonClickAction(finder, projDialog, "distriAppRadioButton");
 //		TestUI_UtilFunc.setTextField(finder, projDialog, "projNameTextField", "My Project Name");
 		TestUI_UtilFunc.setTextArea(finder, projDialog, "descTextArea", "My Project Desc");
