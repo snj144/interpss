@@ -1030,6 +1030,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     
     private void remoteQRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remoteQRadioButtonActionPerformed
     	IpssLogger.getLogger().info("remoteQRadioButtonActionPerformed() called");
+    	adjustCheckBox.setSelected(true);
         if (_data.getReQControlType()==AclfAdjBusData.ReQControlType_Voltage) {
             voltageRadioButton.setSelected(true);
             voltageRadioButtonActionPerformed(evt);
@@ -1038,6 +1039,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
             mvaFlowRadioButton.setSelected(true);
             mvaFlowRadioButtonActionPerformed(evt);
         }
+    	adjustCheckBox.setEnabled(false);
     }//GEN-LAST:event_remoteQRadioButtonActionPerformed
     
     private void adjustCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adjustCheckBoxActionPerformed
