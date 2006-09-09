@@ -97,9 +97,16 @@ public class ChartManager {
 		machStateMenu.add(new AbstractAction("Machine State Table Output") {
 			ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
 			public void actionPerformed(ActionEvent e) {
-	    		List machRecList = simuRecManager.getSimuRecList(caseId, 
-	    				ISimuRecManager.REC_TYPE_DStabMachineStates, mach.getId(), IProjectDataManager.CaseType_DStabSimuRec);
-				if (machRecList.size() > 0) {
+	    		List machRecList = null;
+	    		try {
+	    			simuRecManager.getSimuRecList(caseId, 
+		    				ISimuRecManager.REC_TYPE_DStabMachineStates, mach.getId(), IProjectDataManager.CaseType_DStabSimuRec);
+	    		} catch (Exception ex) {
+	    			IpssLogger.logErr(ex);
+	    			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList", 
+	    					ex.toString() + "\n Please contact InterPSS support");
+	    		}
+				if (machRecList != null && machRecList.size() > 0) {
 					IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.isSimuNetDataDirty()) {
 						SpringAppContext.getIpssMsgHub().sendWarnMsg("The SimuNetwork object is dirty. You may want to re-run the analysis");
@@ -280,8 +287,15 @@ public class ChartManager {
      */
     public static Object[] getStatesNameList(int caseId, String elemId, String recType) {
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
-    	List elemRecList = simuRecManager.getSimuRecList(caseId, recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
-		if (elemRecList.size() > 0) {
+    	List elemRecList = null;
+    	try {
+    		elemRecList = simuRecManager.getSimuRecList(caseId, recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
+		} catch (Exception ex) {
+			IpssLogger.logErr(ex);
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList form DB", 
+					ex.toString() + "\n Please contact InterPSS support");
+		}
+		if (elemRecList != null && elemRecList.size() > 0) {
 			DStabSimuDBRecord elemRec = (DStabSimuDBRecord)elemRecList.get(0);
 			Hashtable elemStates = StringUtil.parseStr2Hashtable(elemRec.getSimuRec());
 			elemStates.remove(DStabOutFunc.OUT_SYMBOL_TIME);
@@ -309,7 +323,15 @@ public class ChartManager {
 					"The SimuNetwork object is dirty. Network data may have been modified. You may want to re-run the analysis.");
 		}
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
-		List elemRecList = simuRecManager.getSimuRecList(caseId,	recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
+		List elemRecList = null;
+		try {
+			elemRecList = simuRecManager.getSimuRecList(caseId,	recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
+		} catch (Exception ex) {
+			IpssLogger.logErr(ex);
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList from DB", 
+					ex.toString() + "\n Please contact InterPSS support");
+		}
+		
 		IpssLogger.getLogger().info("CaseId, elemId, state, recType: " + caseId + ", " + elemId + ", " + yLabel + ", " + recType);
 		IpssLogger.getLogger().info("Plot state: " + yLabel + ", # of records " + elemRecList.size());
 		
