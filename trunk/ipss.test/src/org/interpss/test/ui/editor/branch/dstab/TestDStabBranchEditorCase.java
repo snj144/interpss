@@ -23,9 +23,13 @@ public class TestDStabBranchEditorCase extends TestUIBase {
 		NBBranchEditDialog branchEditor = (NBBranchEditDialog)SimuAppSpringAppCtxUtil.getBranchDataEditor(
 				netContainer, form, false);
 		
-		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "saveButton" );
-		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
+		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
+		
+		TestUI_UtilFunc.setTextField(finder, branchEditor, "x1TextField", "0.1");
+		TestUI_UtilFunc.setTextField(finder, branchEditor, "x0TextField", "0.1");
 
+		finder.setName("saveButton" );
+		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );
 		assertTrue(netContainer.isDataDirty());
 	    
