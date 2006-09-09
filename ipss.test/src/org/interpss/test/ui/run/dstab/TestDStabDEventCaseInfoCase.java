@@ -8,6 +8,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.acsc.AcscFaultData;
@@ -15,14 +18,10 @@ import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.data.proj.ProjData;
-import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.runAct.DStabRunForm;
 import org.interpss.editor.ui.run.NBCaseInfoDialog;
 import org.interpss.test.ui.TestUI_UtilFunc;
 import org.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
 import com.interpss.common.util.IpssLogger;
 
@@ -31,7 +30,7 @@ public class TestDStabDEventCaseInfoCase extends TestCaseInfoBase {
 	public void testSimpleRunCase() {
 		System.out.println("TestDStabDEventCaseInfoCase testSimpleRunCase begin");
 
-		TestUI_UtilFunc.createTestingDStabGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingDStabGNetForm(netContainer);
 
 		NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_DStab, netContainer, appSimuCtx, false);

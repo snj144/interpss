@@ -4,27 +4,26 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import junit.extensions.jfcunit.eventdata.MouseEventData;
+import junit.extensions.jfcunit.finder.NamedComponentFinder;
+
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
-import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.runAct.AcscRunForm;
 import org.interpss.editor.ui.run.NBCaseInfoDialog;
 import org.interpss.test.ui.TestUI_UtilFunc;
 import org.interpss.test.ui.run.TestCaseInfoBase;
-
-import junit.extensions.jfcunit.eventdata.MouseEventData;
-import junit.extensions.jfcunit.finder.NamedComponentFinder;
 
 
 public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 	public void testBusFault3PCase() {
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFault3PCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
 		
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
@@ -109,7 +108,7 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 	public void testBusFaultLLGCase() {
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFaultLLGCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
 		
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
@@ -274,7 +273,7 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 	public void testBusFaultLLCase() {
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFaultLLCase begin");
 
-		TestUI_UtilFunc.createTestingAcscGNetForm((GFormContainer)netContainer);
+		TestUI_UtilFunc.createTestingAcscGNetForm(netContainer);
 		
 	    NBCaseInfoDialog caseDialog = (NBCaseInfoDialog)SimuAppSpringAppCtxUtil.getCaseInfoDialog(
 				CaseData.CaseType_Acsc, netContainer, appSimuCtx, false);
