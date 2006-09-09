@@ -48,6 +48,7 @@ import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.coreframework.actions.FileService;
 import org.interpss.editor.coreframework.actions.PreferencesService;
 import org.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel;
+import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.form.base.BaseBranchForm;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.cells.GraphUtilFunc;
@@ -63,6 +64,7 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.simu.io.IpssFileAdapter;
@@ -383,6 +385,22 @@ public final class Utilities {
 		return file;
 	}
 
+	// load project data from DB
+	public static IAppSimuContext loadProjectData(IpssProjectItem item) {
+		IpssLogger.getLogger().info("Load project data from DB ...");
+		IAppSimuContext appSimuContext = GraphSpringAppContext
+				.getIpssGraphicEditor().getCurrentAppSimuContext();
+		IProjectDataManager projManager = SpringAppContext
+				.getProjectDataDBManager();
+		projManager.loadProjectDataFromDB(item.getProjDbId(), item
+				.getName(), item.getFileNameNoExt(), appSimuContext);
+		IpssLogger.getLogger().info(
+				"Project set to projDbId = "
+						+ appSimuContext.getProjData().getProjectDbId());
+		item.setProjDbId(appSimuContext.getProjData().getProjectDbId());
+		return appSimuContext;
+	}
+	
 	// Copies src file to dst file.
 	// If the dst file does not exist, it is created
 
