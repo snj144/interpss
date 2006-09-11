@@ -1,5 +1,7 @@
 package org.interpss.editor.runAct;
 
+import javax.swing.JDialog;
+
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
@@ -66,10 +68,6 @@ public class DStabRunForm extends BaseRunForm {
 		
 		LoadflowAlgorithm aclfAlgo = simuCtx.getDynSimuAlgorithm().getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
-	  	if (getAclfCaseData().getShowSummary()) {
-	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-	  		dialog.display(simuCtx.getDStabilityNet());
-	  	}
 	  	if (!simuCtx.getDStabilityNet().isLfConverged()) {
 	  		msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
 	  		return;
@@ -91,7 +89,11 @@ public class DStabRunForm extends BaseRunForm {
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
 
 	  	if (simuCtx.getDynSimuAlgorithm().initialization(msg)) {
-			simuCtx.getDynSimuAlgorithm().performSimulation(msg);
+		  	if (getAclfCaseData().getShowSummary()) {
+		  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+		  		dialog.display(simuCtx.getDynSimuAlgorithm());
+		  	}
+		  	simuCtx.getDynSimuAlgorithm().performSimulation(msg);
 		}
 	}
 	
