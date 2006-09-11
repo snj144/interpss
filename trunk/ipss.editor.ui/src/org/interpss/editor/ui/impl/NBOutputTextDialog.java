@@ -19,6 +19,7 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.util.outfunc.AclfOut;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dist.util.DistOutFunc;
+import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 
@@ -45,12 +46,19 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     public void display(Object aData) {
     	this.data = aData;
         showDialog();
+        setAlwaysOnTop(true);
     }
 	
     private void showDialog() {
         if (data instanceof DistNetwork) {
         	DistNetwork distNet = (DistNetwork)data;
         	textArea.setText(DistOutFunc.lfSummary(distNet, msg));
+        }
+        else if (data instanceof DynamicSimuAlgorithm) {
+        	DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)data;
+        	textArea.setText(DStabOutFunc.initConditionSummary(algo));
+            busStyleRadioButton.setEnabled(false);
+            summaryRadioButton.setEnabled(false);
         }
         else if (data instanceof AclfAdjNetwork) {
         	aclfAdjNet = (AclfAdjNetwork)data;
