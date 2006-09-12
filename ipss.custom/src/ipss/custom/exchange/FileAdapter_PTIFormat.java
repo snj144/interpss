@@ -1,3 +1,27 @@
+ /*
+  * @(#)FileAdapter_PTIFormat.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 09/15/2006
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package ipss.custom.exchange;
 
 /*
@@ -14,12 +38,12 @@ package ipss.custom.exchange;
 		Area Interchange Data
  */
 
-import ipss.custom.exchange.psse.BranchDataRecord;
-import ipss.custom.exchange.psse.BusDataRecord;
-import ipss.custom.exchange.psse.DCLintDataRecord;
-import ipss.custom.exchange.psse.NetDataRecord;
+import ipss.custom.exchange.psse.PSSEBranchDataRecord;
+import ipss.custom.exchange.psse.PSSEBusDataRecord;
+import ipss.custom.exchange.psse.PSSEDCLintDataRecord;
+import ipss.custom.exchange.psse.PSSENetDataRecord;
 import ipss.custom.exchange.psse.PSSEUtilFunc;
-import ipss.custom.exchange.psse.SwitchedShuntDataRecord;
+import ipss.custom.exchange.psse.PSSESwitchedShuntDataRecord;
 import ipss.custom.psse.aclf.PSSEGen;
 import ipss.custom.psse.aclf.PSSELoad;
 import ipss.custom.psse.aclf.PSSEXformer;
@@ -151,34 +175,34 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
       				if (!headerProcessed) {
 						if (lineNo == 3) 
       						headerProcessed = true;
-						NetDataRecord.processHeader(adjNet, lineStr, lineNo, msgHub);
+						PSSENetDataRecord.processHeader(adjNet, lineStr, lineNo, msgHub);
       				}
       				else if (!busProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 busProcessed = true;
 						else {
-							BusDataRecord.processBus(adjNet, lineStr, lineNo, msgHub);
+							PSSEBusDataRecord.processBus(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!loadProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 loadProcessed = true;
 						else {
-							BusDataRecord.processLoad(adjNet, lineStr, lineNo, msgHub);
+							PSSEBusDataRecord.processLoad(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!genProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 genProcessed = true;
 						else {
-							BusDataRecord.processGen(adjNet, lineStr, lineNo, msgHub);
+							PSSEBusDataRecord.processGen(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!lineProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 lineProcessed = true;
 						else {
-							BranchDataRecord.processLine(adjNet, lineStr, lineNo, msgHub);
+							PSSEBranchDataRecord.processLine(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!xfrProcessed) {
@@ -195,14 +219,14 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
           						lineStr4 = din.readLine();
           						lineNo++;
       						}
-							BranchDataRecord.processXfr(adjNet, lineStr, lineStr2, lineStr3, lineStr4, lineStr5, n, msgHub);
+							PSSEBranchDataRecord.processXfr(adjNet, lineStr, lineStr2, lineStr3, lineStr4, lineStr5, n, msgHub);
 						}	 
       				}
       				else if (!areaInterProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 areaInterProcessed = true;
 						else {
-							NetDataRecord.processAreaInterchange(adjNet, lineStr, lineNo, msgHub);
+							PSSENetDataRecord.processAreaInterchange(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!dcLine2TProcessed) {
@@ -212,70 +236,70 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
       						String lineStr2 = din.readLine();
       						String lineStr3 = din.readLine();
       						lineNo++; lineNo++;
-      						DCLintDataRecord.processDCLine(adjNet, lineStr, lineStr2, lineStr3, lineNo, msgHub);
+      						PSSEDCLintDataRecord.processDCLine(adjNet, lineStr, lineStr2, lineStr3, lineNo, msgHub);
 						}	 
       				}
       				else if (!vscDcLineProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							vscDcLineProcessed = true;
 						else {
-      						DCLintDataRecord.processVscDCLine(adjNet, lineStr, lineNo, msgHub);
+      						PSSEDCLintDataRecord.processVscDCLine(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!switchedShuntProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							 switchedShuntProcessed = true;
 						else {
-							SwitchedShuntDataRecord.processSwitchedShunt(adjNet, lineStr, lineNo, msgHub);
+							PSSESwitchedShuntDataRecord.processSwitchedShunt(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!xfrZCorrectionProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							xfrZCorrectionProcessed = true;
 						else {
-							BranchDataRecord.processXfrZCorrectionTable(adjNet, lineStr, lineNo, msgHub);
+							PSSEBranchDataRecord.processXfrZCorrectionTable(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!dcLineMTProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							dcLineMTProcessed = true;
 						else {
-							DCLintDataRecord.processMultiTerminalDCLine(adjNet, lineStr, lineNo, msgHub);
+							PSSEDCLintDataRecord.processMultiTerminalDCLine(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!multiSectionLineGroupProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							multiSectionLineGroupProcessed = true;
 						else {
-							NetDataRecord.processMultiSectionLineGroup(adjNet, lineStr, lineNo, msgHub);
+							PSSENetDataRecord.processMultiSectionLineGroup(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!zoneProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							zoneProcessed = true;
 						else {
-							NetDataRecord.processZone(adjNet, lineStr, lineNo, msgHub);
+							PSSENetDataRecord.processZone(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!interareaTransferProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							interareaTransferProcessed = true;
 						else {
-							NetDataRecord.processInterareaTransfer(adjNet, lineStr, lineNo, msgHub);
+							PSSENetDataRecord.processInterareaTransfer(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!ownerProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							ownerProcessed = true;
 						else {
-							NetDataRecord.processOwner(adjNet, lineStr, lineNo, msgHub);
+							PSSENetDataRecord.processOwner(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				else if (!factsProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
 							factsProcessed = true;
 						else {
-							SwitchedShuntDataRecord.processFACTS(adjNet, lineStr, lineNo, msgHub);
+							PSSESwitchedShuntDataRecord.processFACTS(adjNet, lineStr, lineNo, msgHub);
 						}	 
       				}
       				
