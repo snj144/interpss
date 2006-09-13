@@ -268,8 +268,11 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     	
 		boolean ok = true;
 		
-		_data.setZR(VerifyUtil.getDouble(rTextField));
-	    
+		if (VerifyUtil.getDouble(this.rTextField)== 0.0 && VerifyUtil.getDouble(this.xTextField)== 0.0) {
+			errMsg.add("Branch x == 0.0 and r = 0.0");
+			ok = false;
+		}
+	    _data.setZR(VerifyUtil.getDouble(rTextField));
 		_data.setZX(VerifyUtil.getDouble(xTextField));
 
 	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
@@ -472,7 +475,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 
         xTextField.setColumns(8);
         xTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        xTextField.setText("0.0");
+        xTextField.setText("0.01");
         xTextField.setName("xTextField");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;

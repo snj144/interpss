@@ -42,12 +42,12 @@ public class NBDStabTransProjPanel extends javax.swing.JPanel implements IFormDa
     
 	public void init(Object netContainer, Object form) {
 		_netContainer = (GFormContainer)netContainer;
+		allowParalellBranchCheckBox.setSelected(false);
+		allowParalellBranchCheckBox.setEnabled(false);
 	}
 	
     public boolean setForm2Editor() {
 		GNetForm form = (GNetForm)_netContainer.getGNetForm();
-		allowParalellBranchCheckBox.setSelected(form.isAllowParallelBranch());
-		allowParalellBranchCheckBox.setEnabled(false);
 		
 		adjustmentCheckBox.setSelected(form.getAcscNetData().isHasAdjustment());
     	return true;

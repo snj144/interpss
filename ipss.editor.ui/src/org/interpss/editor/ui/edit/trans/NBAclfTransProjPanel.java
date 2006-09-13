@@ -44,14 +44,14 @@ public class NBAclfTransProjPanel extends javax.swing.JPanel implements IFormDat
     
 	public void init(Object netContainer, Object form) {
 		_netContainer = (GFormContainer)netContainer;
+		allowParalellBranchCheckBox.setEnabled(false);
+		allowParalellBranchCheckBox.setSelected(false);
 	}
 	
     public boolean setForm2Editor() {
 		GNetForm form = (GNetForm)_netContainer.getGNetForm();
 
 		// this function is not needed for the GEditor
-		allowParalellBranchCheckBox.setEnabled(false);
-		allowParalellBranchCheckBox.setSelected(false);
 		//allowParalellBranchCheckBox.setSelected(form.isAllowParallelBranch());
 		
 		adjustmentCheckBox.setSelected(form.getNetType().equals(IGNetForm.NetType_AclfAdjNetwork));

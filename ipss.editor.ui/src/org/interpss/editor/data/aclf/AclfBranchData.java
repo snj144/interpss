@@ -40,7 +40,7 @@ public class AclfBranchData extends BaseDataBean  {
     private double  xfrTapFromSideTap = 1.0d;
     private double  xfrTapToSideTap = 1.0d;
     private String  xfrTapUnit = "PU";
-    private double  zX = 0d;                
+    private double  zX = 0.01d;                
     private double  zR = 0d;
     private String  zUnit = "PU";
     private double  rating1 = 0.0d;
