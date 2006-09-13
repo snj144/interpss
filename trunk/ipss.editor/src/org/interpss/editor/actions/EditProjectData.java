@@ -19,11 +19,12 @@ public class EditProjectData extends IpssAbstractActionDefault {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		IpssLogger.getLogger().info("Starting Editing Project Data and launch Dialog");
-		IpssProjectItem item = graphpad.getCurrentProjectItem();
-		if ((item == null) || (!item.isMain()) || (!item.isLoaded()))
-			return;
+//		IpssProjectItem item = graphpad.getCurrentProjectItem();
+//		if ((item == null) || (!item.isMain()) || (!item.isLoaded()))
+//			return;
 		
-		IpssDocument doc = item.getDocument();
+//		IpssDocument doc = item.getDocument();
+		IpssDocument doc = getCurrentDocument();
 		if (doc instanceof GPDocument)
 		{
 			GraphSpringAppContext.getEditorDialog(null, ((GPDocument)doc).getGraph());
