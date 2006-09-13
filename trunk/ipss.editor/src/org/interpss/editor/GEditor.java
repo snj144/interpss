@@ -249,17 +249,16 @@ public class GEditor extends Applet {
 						RenderingHints.VALUE_ANTIALIAS_ON);
 
 				g2.setFont(new Font("Arial", Font.BOLD, 27));
-				g2.setColor(Color.DARK_GRAY.darker());
+				g2.setColor(Color.WHITE);
 				Composite originalComposite = g2.getComposite();
-				g2.setComposite(AlphaComposite.getInstance(
-						AlphaComposite.SRC_OVER, 0.5f));
+				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
+				g2.setFont(new Font("Arial", Font.PLAIN, 12));
+
+				g2.drawString(Translator.getString("Prog.name")+ " " + Translator.getString("Prog.version"), 10, 185);
+
+				g2.setColor(Color.WHITE);
 				g2.setFont(new Font("Arial", Font.PLAIN, 10));
-
-				g2.drawString(Translator.getString("Prog.name")+ " " + Translator.getString("Prog.version"), 18, 172);
-
-				g2.setColor(Color.DARK_GRAY);
-				g2.setFont(new Font("Arial", Font.BOLD, 8));
 				String copyright = Translator.getString("Copyright");
 				if (copyright != null)
 					g2.drawString(copyright, 10, 202);
