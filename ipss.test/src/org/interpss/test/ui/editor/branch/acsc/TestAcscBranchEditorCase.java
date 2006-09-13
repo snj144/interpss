@@ -31,7 +31,7 @@ public class TestAcscBranchEditorCase extends TestUIBase {
 		NamedComponentFinder finder = new NamedComponentFinder(JComponent.class, "");
 		
 		TestUI_UtilFunc.radioButtonClickAction(finder, branchEditor, "lineRadioButton");
-		
+
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "r1TextField", "1");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "x1TextField", "2");
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "r0TextField", "3");

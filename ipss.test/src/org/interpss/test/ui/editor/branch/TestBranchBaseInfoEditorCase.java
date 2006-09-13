@@ -30,6 +30,8 @@ public class TestBranchBaseInfoEditorCase extends TestUIBase {
 		TestUI_UtilFunc.setTextField(finder, branchEditor, "zoneTextField", "2");
 		TestUI_UtilFunc.checkBoxAction(finder, branchEditor, "inServiceCheckBox", true);
 		
+		TestUI_UtilFunc.setTextField(finder, branchEditor, "xTextField", "0.1");
+
 		finder.setName("saveButton");
 		JButton saveButton = ( JButton ) finder.find( branchEditor, 0);
 	    getHelper().enterClickAndLeave( new MouseEventData( this, saveButton ) );

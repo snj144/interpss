@@ -47,7 +47,7 @@ public class TestProjEditorDStabCase extends TestUIBase {
 		assertTrue(form.getNetType().equals(IGNetForm.NetType_DStabilityNet));
 		assertTrue(form.getBaseKVA() == 100000.0);
 		assertTrue(form.getFreqHZ() == 50.0);
-		assertTrue(form.isAllowParallelBranch());
+//		assertTrue(form.isAllowParallelBranch());
 
 		DStabNetData data = form.getDStabNetData();
 		assertTrue(data.getAcscNetData().isHasAdjustment());
@@ -69,7 +69,7 @@ public class TestProjEditorDStabCase extends TestUIBase {
 		assertTrue(form.getNetType().equals(IGNetForm.NetType_DStabilityNet));
 		assertTrue(form.getBaseKVA() == 100000.0);
 		assertTrue(form.getFreqHZ() == 50.0);
-		assertTrue(form.isAllowParallelBranch());
+//		assertTrue(form.isAllowParallelBranch());
 
 		data = form.getDStabNetData();
 		assertTrue(data.getAcscNetData().isHasAdjustment());
