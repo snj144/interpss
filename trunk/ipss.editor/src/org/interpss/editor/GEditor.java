@@ -253,12 +253,12 @@ public class GEditor extends Applet {
 				Composite originalComposite = g2.getComposite();
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
-				g2.setFont(new Font("Arial", Font.PLAIN, 12));
+				g2.setFont(new Font("Arial", Font.BOLD, 12));
 
 				g2.drawString(Translator.getString("Prog.name")+ " " + Translator.getString("Prog.version"), 10, 185);
 
 				g2.setColor(Color.WHITE);
-				g2.setFont(new Font("Arial", Font.PLAIN, 10));
+				g2.setFont(new Font("Arial", Font.BOLD, 10));
 				String copyright = Translator.getString("Copyright");
 				if (copyright != null)
 					g2.drawString(copyright, 10, 202);
