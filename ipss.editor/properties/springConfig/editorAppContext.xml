@@ -39,7 +39,8 @@
 	</bean>
 
 	<bean id="ipssMsgHub" 
-	      class="com.interpss.common.msg.IPSSMsgHub">	
+	      class="com.interpss.common.msg.IPSSMsgHub"
+	      singleton="true">	
 		<property name="msgListeners">
 			<list>
 				<ref bean="ipssStatusPanel"/>
