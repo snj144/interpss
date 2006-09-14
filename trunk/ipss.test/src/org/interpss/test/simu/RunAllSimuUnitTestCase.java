@@ -12,7 +12,7 @@ import junit.framework.TestCase;
 
 import com.interpss.common.util.IpssLogger;
 
-public class RunAllUnitTestCase extends TestCase {
+public class RunAllSimuUnitTestCase extends TestCase {
 	public static void main(String args[]) {
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 		
