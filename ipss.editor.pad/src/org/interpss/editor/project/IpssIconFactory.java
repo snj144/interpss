@@ -20,7 +20,7 @@ public class IpssIconFactory {
 					.getString("Project.CUS")), ICON_ROOT = ImageLoader
 					.getImageIcon(Translator.getString("Project.Root")),
 			ICON_PROJECT = ImageLoader.getImageIcon(Translator
-					.getString("Project.Project")), ICON_TEXT = ImageLoader
+					.getString("Project.Folder.Close")), ICON_TEXT = ImageLoader
 					.getImageIcon(Translator.getString("Project.Text")), ICON_REPORT = ImageLoader
 					.getImageIcon(Translator.getString("Project.Report"));
 
