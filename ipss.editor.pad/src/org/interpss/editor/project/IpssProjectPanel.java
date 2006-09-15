@@ -211,7 +211,11 @@ public class IpssProjectPanel extends JPanel {
 				// expendTree2Object(init_OpenItems.get(j));
 				// graphpad.getCommand("FileProjectOpenItem")
 				// .actionPerformed(null);
-				graphpad.OpenProjectItem(init_OpenItems.get(j));
+				try {
+					graphpad.OpenProjectItem(init_OpenItems.get(j));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				// graphpad.OpenDocument((IpssEditorDocument) init_OpenItems
 				// .get(j).getDocument());
 
