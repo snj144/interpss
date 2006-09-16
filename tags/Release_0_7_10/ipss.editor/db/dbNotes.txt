@@ -1,7 +1,0 @@
-- Use Database Explorer to make connection
-
-- Use SQL Editor not SQL File Editor to edit *.sqlpage files
-
-- Right-click on a *.sqlpage file, select use database connection ...
-
-- Right-click -> Run Sql. The reults will be on the Data Output console
