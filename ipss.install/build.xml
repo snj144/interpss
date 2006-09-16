@@ -1,15 +1,16 @@
 <?xml version="1.0" ?>
 <project name="structured" default="make_izpack_install">
 	<target description="init setup" name="init">
-		<property name="dev_base" value="D:/develop/Java/eclipse" />
-		<property name="install_dest" value="D:/develop/install" />
-		<property name="program_version" value="0.9" />
+		<property name="editor" value="c:/eclipse/GEditor" />
+		<property name="dev_base" value="c:/eclipse/Interpss3.2" />
+		<property name="install_dest" value="c:/eclipse/GEditorInstall" />
+		<property name="program_version" value="1.00-beta" />
 
 		<property name="izPack_home" value="izpack_home" />
 		<taskdef name="izpack" classpath="${izPack_home}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
 		<property name="dev_ws_base" value="${dev_base}/workspace" />
 		<property name="install_temp" value="${install_dest}/temp" />
-		<property name="project_editor" value="${dev_ws_base}/ipss.editor" />
+		<property name="project_editor" value="${dev_base}/ipss.editor" />
 		<property name="project_lib" value="${dev_ws_base}/ipss.lib" />
 		<mkdir dir="${install_dest}" />
 		<mkdir dir="${install_temp}" />
@@ -23,27 +24,27 @@
 
 	<target name="copyfiles" depends="init">
 		<copy todir="${install_temp}/db">
-			<fileset dir="${project_editor}/db">
+			<fileset dir="${editor}/db" excludes="**/*.txt,**/*.sqlpage">
 			</fileset>
 		</copy>
 		<copy todir="${install_temp}/properties">
-			<fileset dir="${project_editor}/properties">
+			<fileset dir="${editor}/properties">
 			</fileset>
 		</copy>
 		<copy todir="${install_temp}/reportTemplate">
-			<fileset dir="${project_editor}/reportTemplate">
+			<fileset dir="${editor}/reportTemplate">
 			</fileset>
 		</copy>
 		<copy todir="${install_temp}/log">
-			<fileset dir="${project_editor}/log">
+			<fileset dir="${editor}/log" excludes="**/ipss_log.*,**/ipss_log.*.*">
 			</fileset>
 		</copy>
 		<copy todir="${install_temp}/workspace">
-			<fileset dir="${project_editor}/workspace">
+			<fileset dir="${editor}/workspace">
 			</fileset>
 		</copy>
 		<copy todir="${install_temp}/lib">
-			<fileset dir="${project_lib}/lib" excludes="ipss_chart.jar,ipss_custom.jar,ipss_control.jar,ipss_jgraph.jar,ipss_pad.jar,ipss_editor_simu.jar,ipss_editor_ui.jar,ipss_psat.jar,ipss_report.jar">
+			<fileset dir="${editor}/lib" excludes="ipss_editor.jar">
 			</fileset>
 		</copy>
 	</target>
@@ -51,27 +52,7 @@
 	<target depends="copyfiles" description="jar ipss editor project" name="jar_lib">
 		<jar destfile="${install_temp}/ipss_editor.jar" basedir="${project_editor}/runtime" 
 			manifest="MANIFEST.MF"
-			excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/.project,**/.classpath,**/.nbattrs,**/*.log" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_chart.jar" basedir="${dev_ws_base}/ipss.chart/runtime" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_custom.jar" basedir="${dev_ws_base}/ipss.custom/bin" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_control.jar" basedir="${dev_ws_base}/ipss.dstab.control/bin" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_jgraph.jar" basedir="${dev_ws_base}/ipss.editor.jgraph/runtime" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_pad.jar" basedir="${dev_ws_base}/ipss.editor.pad/runtime" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_editor_simu.jar" basedir="${dev_ws_base}/ipss.editor.simu/runtime" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_editor_ui.jar" basedir="${dev_ws_base}/ipss.editor.ui/runtime" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_psat.jar" basedir="${dev_ws_base}/ipss.psat/runtime" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/ipss/ipss_report.jar" basedir="${dev_ws_base}/ipss.report/runtime" excludes="CVS/**,model/**" />
-
-		<jar destfile="${install_temp}/lib/custom/tsinghua.jar" basedir="${dev_ws_base}/tsinghua/bin" excludes="CVS/**,model/**" />
+			excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/.project,**/.classpath,**/.nbattrs,**/*.log,**/*.doc" />
 	</target>
 
 	<target name="copy_izpack_files" depends="jar_lib">
