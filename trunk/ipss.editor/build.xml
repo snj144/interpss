@@ -4,7 +4,6 @@
       	<property name="dev_base" value="C:/eclipse/Interpss3.2"/>
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="fit_base" value="C:/eclipse/fitnesse"/>
-      	<property name="dist_mon" value="C:/eclipse/Monitor"/>
       	<property name="svn_lib" value="${dev_base}/ipss.lib/lib/ipss"/>
 
       	<property name="lib_base" value="${dist_base}/lib"/>
@@ -120,10 +119,6 @@
    	  <jar destfile="${ipss_base}/ipss_psat.jar" 
      	  		basedir="${dev_base}/ipss.psat/runtime" 
      	  		excludes="CVS/**,model/**" />	
-
-   	  <jar destfile="${dist_mon}/lib/ipss_mon.jar" 
-   	  		basedir="${dev_base}/ipss.monitor/runtime" 
-   	  		excludes="CVS/**,model/**" />	
 
    	  <jar destfile="${svn_lib}/tsinghua.jar" 
    	  		basedir="${dev_base}/tsinghua/bin" 
