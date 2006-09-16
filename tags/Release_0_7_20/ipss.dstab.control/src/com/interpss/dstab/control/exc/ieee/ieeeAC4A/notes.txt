@@ -1,7 +1,0 @@
-- change package name AC4A to ac4a. In Java we normally use lowercase for package name.
-
-- add getData() to IEEE_AC4AExcitor.java
-
-- Change panel layout manager to GridBagLayout
-
-- Modify ControllerRegister.java
