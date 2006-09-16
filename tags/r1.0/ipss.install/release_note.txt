@@ -1,0 +1,4 @@
+- Change version in 3 places
+   - IzPack-install.xml
+   - build_mike.xml
+   - editor.properties
