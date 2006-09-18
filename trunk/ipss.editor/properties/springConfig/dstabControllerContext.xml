@@ -23,7 +23,7 @@
 	-->
 	
 	<bean id="customExciter" 
-	  	class="ipss.custom.dstab.exc.CustomExciter"
+	  	class="org.interpss.custom.dstab.exc.CustomExciter"
 	    singleton="false">	
 	    <property name="name">
 	    	<value>Custom Exciter</value></property>
@@ -111,7 +111,7 @@
 		==========================
 	-->
 	<bean id="customGovernor" 
-	      class="ipss.custom.dstab.gov.CustomGovernor"
+	      class="org.interpss.custom.dstab.gov.CustomGovernor"
 	      singleton="false">	
 	    <property name="name">
 	    	<value>Custom Governor</value></property>
@@ -172,7 +172,7 @@
 		============================
 	-->
 	<bean id="customStabilizer" 
-	      class="ipss.custom.dstab.pss.CustomStabilizer"
+	      class="org.interpss.custom.dstab.pss.CustomStabilizer"
 	      singleton="false">	
 	    <property name="name">
 	    	<value>Custom Stabilizer</value></property>
