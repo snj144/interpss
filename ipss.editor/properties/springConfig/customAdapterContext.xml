@@ -49,7 +49,7 @@
 	</bean>
 
 	<bean id="fileAdapterPSATFormat" 
-	      class="psat.FileAdpater_PSATFormat"
+	      class="org.interpss.custom.exchange.FileAdpater_PSATFormat"
 	      singleton="true">	
 	    <property name="extension">
 	    	<value>psat</value></property>
