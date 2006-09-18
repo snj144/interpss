@@ -22,7 +22,7 @@
 	
 <beans>
 	<bean id="fileAdapterIpssInternalFormat" 
-	      class="ipss.custom.exchange.FileAdapter_IpssInternalFormat"
+	      class="org.interpss.custom.exchange.FileAdapter_IpssInternalFormat"
 	      singleton="true">	
 	    <property name="extension">
 	    	<value>ipssdat</value></property>
@@ -31,7 +31,7 @@
 	</bean>
 
 	<bean id="fileAdapterIeeeCommonFormat" 
-	      class="ipss.custom.exchange.FileAdapter_IeeeCommonFormat"
+	      class="org.interpss.custom.exchange.FileAdapter_IeeeCommonFormat"
 	      singleton="true">	
 	    <property name="extension">
 	    	<value>ieee</value></property>
@@ -58,7 +58,7 @@
 	</bean>
 	
 	<bean id="fileAdapterPSSEFormat" 
-	      class="ipss.custom.exchange.FileAdapter_PTIFormat"
+	      class="org.interpss.custom.exchange.FileAdapter_PTIFormat"
 	      singleton="true">	
 	    <property name="extension">
 	    	<value>psse</value></property>
