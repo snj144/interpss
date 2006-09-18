@@ -1,6 +1,6 @@
 package ipss.tools;
 
-import ipss.custom.exchange.FileAdapter_IeeeCommonFormat;
+import org.interpss.custom.exchange.FileAdapter_IeeeCommonFormat;
 
 import java.util.HashMap;
 import java.util.Map;

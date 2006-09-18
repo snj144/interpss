@@ -1,6 +1,6 @@
 package ipss.tools;
 
-import ipss.custom.exchange.FileAdapter_PTIFormat;
+import org.interpss.custom.exchange.FileAdapter_PTIFormat;
 
 import org.interpss.editor.EditorSpringAppContext;
 
