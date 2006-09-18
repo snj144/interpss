@@ -60,33 +60,12 @@
    	  		<fileset dir="${dev_base}/ipss.simu_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
 
-   	  <jar destfile="${svn_lib}/ipss_control.jar" 
-   	  		basedir="${dev_base}/ipss.dstab.control/bin" 
+   	  <jar destfile="${svn_lib}/ipss_plugin.jar" 
+   	  		basedir="${dev_base}/ipss.plugin/runtime" 
    	  		excludes="CVS/**,model/**" />	
-   	  <jar destfile="${ipss_base}/ipss_control.jar" 
-   	  		basedir="${dev_base}/ipss.dstab.control/bin" 
+   	  <jar destfile="${ipss_base}/ipss_plugin.jar" 
+   	  		basedir="${dev_base}/ipss.plugin/runtime" 
    	  		excludes="CVS/**,model/**" />	
-
-   	  <jar destfile="${svn_lib}/ipss_custom.jar" 
-   	  		basedir="${dev_base}/ipss.custom/bin" 
-   	  		excludes="CVS/**,model/**" />	
-   	  <jar destfile="${ipss_base}/ipss_custom.jar" 
-   	  		basedir="${dev_base}/ipss.custom/bin" 
-   	  		excludes="CVS/**,model/**" />	
-
-   	  <jar destfile="${svn_lib}/ipss_report.jar" 
-   	  		basedir="${dev_base}/ipss.report/runtime" 
-   	  		excludes="CVS/**,model/**" />	
-   	  <jar destfile="${ipss_base}/ipss_report.jar" 
-   	  		basedir="${dev_base}/ipss.report/runtime" 
-   	  		excludes="CVS/**,model/**" />	
-
-   	  <jar destfile="${svn_lib}/ipss_chart.jar" 
-   	  		basedir="${dev_base}/ipss.chart/runtime" 
-   	  		excludes="CVS/**,model/**" />
-   	  <jar destfile="${ipss_base}/ipss_chart.jar" 
-   	  		basedir="${dev_base}/ipss.chart/runtime" 
-   	  		excludes="CVS/**,model/**" />
 
    	  <jar destfile="${svn_lib}/ipss_editor_simu.jar" 
    	  		basedir="${dev_base}/ipss.editor.simu/runtime" 
@@ -112,13 +91,6 @@
    	  <jar destfile="${ipss_base}/ipss_jgraph.jar" 
    	  		basedir="${dev_base}/ipss.editor.jgraph/runtime" 
    	  		excludes="CVS/**,model/**" />	
-
-   	  <jar destfile="${svn_lib}/ipss_psat.jar" 
-     	  		basedir="${dev_base}/ipss.psat/runtime" 
-     	  		excludes="CVS/**,model/**" />	
-   	  <jar destfile="${ipss_base}/ipss_psat.jar" 
-     	  		basedir="${dev_base}/ipss.psat/runtime" 
-     	  		excludes="CVS/**,model/**" />	
 
    	  <jar destfile="${svn_lib}/tsinghua.jar" 
    	  		basedir="${dev_base}/tsinghua/bin" 
