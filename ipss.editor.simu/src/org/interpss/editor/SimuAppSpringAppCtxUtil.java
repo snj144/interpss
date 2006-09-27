@@ -24,6 +24,7 @@
 
 package org.interpss.editor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JDialog;
@@ -69,7 +70,7 @@ public class SimuAppSpringAppCtxUtil {
 	}
 	
 	/**
-	 * Get a CustomFileAdapter(prototype) object from the SpringAppContext.
+	 * This method will be retired. Use getCustomFileAdapterByName instead
 	 *  
 	 * @return the CustomFileAdapter object
 	 */	
@@ -78,6 +79,36 @@ public class SimuAppSpringAppCtxUtil {
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter)adapterList.get(i);
 			if (ext.equals(adapter.getExtension()))
+				return adapter;
+		}
+		return null;
+	}
+	
+	/**
+	 * Get a CustomFileAdapter(prototype) name list.
+	 *  
+	 * @return the CustomFileAdapter name list
+	 */	
+	public static Object[] getCustomFileAdapterNameList() {
+		List nameList = new ArrayList();
+		List adapterList = 	SimuAppSpringAppContext.getCustomFileAdapterList();
+		for (int i = 0; i < adapterList.size(); i++) {
+			IpssFileAdapter adapter = (IpssFileAdapter)adapterList.get(i);
+			nameList.add(adapter.getName());
+		}
+		return nameList.toArray();
+	}
+	
+	/**
+	 * Get a CustomFileAdapter(prototype) name list.
+	 *  
+	 * @return the CustomFileAdapter name list
+	 */	
+	public static IpssFileAdapter getCustomFileAdapterByName(String name) {
+		List adapterList = 	SimuAppSpringAppContext.getCustomFileAdapterList();
+		for (int i = 0; i < adapterList.size(); i++) {
+			IpssFileAdapter adapter = (IpssFileAdapter)adapterList.get(i);
+			if (name.equals(adapter.getName()))
 				return adapter;
 		}
 		return null;
