@@ -111,7 +111,11 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		rTextField.setText(Num2Str.toStr(_data.getZR(), "#0.0####"));
 	    xTextField.setText(Num2Str.toStr(_data.getZX(), "#0.0####"));
 	    
-    	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
+		mvaRating1TextField.setText(Num2Str.toStr(_data.getRating1(), "#0.0#"));
+		mvaRating2TextField.setText(Num2Str.toStr(_data.getRating2(), "#0.0#"));
+		mvaRating3TextField.setText(Num2Str.toStr(_data.getRating3(), "#0.0#"));
+
+	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
     	    setBranchLabelText(true, false);
     	    hBTextField.setText(Num2Str.toStr(_data.getHalfShuntB(), "#0.0####"));
 
@@ -275,7 +279,11 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	    _data.setZR(VerifyUtil.getDouble(rTextField));
 		_data.setZX(VerifyUtil.getDouble(xTextField));
 
-	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
+	    _data.setRating1(VerifyUtil.getDouble(mvaRating1TextField));
+		_data.setRating2(VerifyUtil.getDouble(mvaRating2TextField));
+	    _data.setRating3(VerifyUtil.getDouble(mvaRating3TextField));
+
+		if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
 	    	_data.setHalfShuntB(VerifyUtil.getDouble(hBTextField));
     	}
     	else  {
@@ -358,6 +366,12 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         fromTapTextField = new javax.swing.JTextField();
         toTapLabel = new javax.swing.JLabel();
         toTapTextField = new javax.swing.JTextField();
+        mvaRating1Label = new javax.swing.JLabel();
+        mvaRating1TextField = new javax.swing.JTextField();
+        mvaRating2Label = new javax.swing.JLabel();
+        mvaRating2TextField = new javax.swing.JTextField();
+        mvaRating3Label = new javax.swing.JLabel();
+        mvaRating3TextField = new javax.swing.JTextField();
         psXfrPControlPanel = new javax.swing.JPanel();
         psXfrPowerCheckBox = new javax.swing.JCheckBox();
         psXfrPControlEditPanel = new javax.swing.JPanel();
@@ -444,8 +458,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 4;
-        gridBagConstraints.insets = new java.awt.Insets(30, 0, 30, 0);
+        gridBagConstraints.gridwidth = 6;
+        gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
         branchDataPanel.add(branchTypePanel, gridBagConstraints);
 
         rLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -466,11 +480,12 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         branchDataPanel.add(rTextField, gridBagConstraints);
 
         xLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        xLabel.setText("          X(pu)  ");
+        xLabel.setText("X(pu)  ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         branchDataPanel.add(xLabel, gridBagConstraints);
 
         xTextField.setColumns(8);
@@ -485,9 +500,9 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         hBLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         hBLabel.setText("1/2 B(pu)  ");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchDataPanel.add(hBLabel, gridBagConstraints);
 
         hBTextField.setColumns(8);
@@ -495,19 +510,17 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         hBTextField.setText("0.0");
         hBTextField.setName("hBTextField");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchDataPanel.add(hBTextField, gridBagConstraints);
 
         fromTapLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         fromTapLabel.setText("From TurnRatio(pu)  ");
         fromTapLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         branchDataPanel.add(fromTapLabel, gridBagConstraints);
 
         fromTapTextField.setColumns(8);
@@ -517,19 +530,17 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         fromTapTextField.setEnabled(false);
         fromTapTextField.setName("fromTapTextField");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
+        gridBagConstraints.gridy = 1;
         branchDataPanel.add(fromTapTextField, gridBagConstraints);
 
         toTapLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        toTapLabel.setText("          To TurnRatio(pu)  ");
+        toTapLabel.setText("To TurnRatio(pu)  ");
         toTapLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 20, 0, 0);
         branchDataPanel.add(toTapLabel, gridBagConstraints);
 
         toTapTextField.setColumns(8);
@@ -540,10 +551,61 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         toTapTextField.setEnabled(false);
         toTapTextField.setName("toTapTextField");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 3;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 30, 0);
+        gridBagConstraints.gridx = 5;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchDataPanel.add(toTapTextField, gridBagConstraints);
+
+        mvaRating1Label.setFont(new java.awt.Font("Dialog", 0, 12));
+        mvaRating1Label.setText("MvaRating1  ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
+        branchDataPanel.add(mvaRating1Label, gridBagConstraints);
+
+        mvaRating1TextField.setColumns(8);
+        mvaRating1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        mvaRating1TextField.setText("0.0");
+        mvaRating1TextField.setName("hBTextField");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
+        branchDataPanel.add(mvaRating1TextField, gridBagConstraints);
+
+        mvaRating2Label.setFont(new java.awt.Font("Dialog", 0, 12));
+        mvaRating2Label.setText("MvaRating2   ");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 20, 10, 0);
+        branchDataPanel.add(mvaRating2Label, gridBagConstraints);
+
+        mvaRating2TextField.setColumns(8);
+        mvaRating2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        mvaRating2TextField.setText("0.0");
+        mvaRating2TextField.setName("hBTextField");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
+        branchDataPanel.add(mvaRating2TextField, gridBagConstraints);
+
+        mvaRating3Label.setFont(new java.awt.Font("Dialog", 0, 12));
+        mvaRating3Label.setText("MvaRating3");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 20, 10, 0);
+        branchDataPanel.add(mvaRating3Label, gridBagConstraints);
+
+        mvaRating3TextField.setColumns(8);
+        mvaRating3TextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        mvaRating3TextField.setText("0.0");
+        mvaRating3TextField.setName("hBTextField");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
+        branchDataPanel.add(mvaRating3TextField, gridBagConstraints);
 
         add(branchDataPanel, java.awt.BorderLayout.NORTH);
 
@@ -924,6 +986,12 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JLabel leftLabel;
     private javax.swing.JRadioButton lineRadioButton;
     private javax.swing.JRadioButton mvaFlowRadioButton;
+    private javax.swing.JLabel mvaRating1Label;
+    private javax.swing.JTextField mvaRating1TextField;
+    private javax.swing.JLabel mvaRating2Label;
+    private javax.swing.JTextField mvaRating2TextField;
+    private javax.swing.JLabel mvaRating3Label;
+    private javax.swing.JTextField mvaRating3TextField;
     private javax.swing.JRadioButton pControlFromSideRadioButton;
     private javax.swing.ButtonGroup pControlSideButtonGroup;
     private javax.swing.JPanel pControlSidePanel;
