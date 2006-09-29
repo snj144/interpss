@@ -27,7 +27,7 @@
 	    <property name="name">
 	    	<value>InterPSS Internal Format</value></property>
 	    <property name="fileFilterString">
-	    	<value>*.ipssdata,*.dat</value></property>
+	    	<value>ipssdata|dat</value></property>
 	    <property name="extension">
 	    	<value>ipssdat</value></property>
 	    <property name="description">
@@ -40,7 +40,7 @@
 	    <property name="name">
 	    	<value>IEEE Common Format</value></property>
 	    <property name="fileFilterString">
-	    	<value>*.dat</value></property>
+	    	<value>dat</value></property>
 	    <property name="extension">
 	    	<value>ieee</value></property>
 	    <property name="description">
@@ -53,7 +53,7 @@
 	    <property name="name">
 	    	<value>MatLat Data Format</value></property>
 	    <property name="fileFilterString">
-	    	<value>*.m</value></property>
+	    	<value>m</value></property>
 	    <property name="extension">
 	    	<value>m</value></property>
 	    <property name="description">
@@ -66,7 +66,7 @@
 	    <property name="name">
 	    	<value>PSAT Format</value></property>
 	    <property name="fileFilterString">
-	    	<value>*.m</value></property>
+	    	<value>m</value></property>
 	    <property name="extension">
 	    	<value>psat</value></property>
 	    <property name="description">
@@ -79,7 +79,7 @@
 	    <property name="name">
 	    	<value>PSS/E Format</value></property>
 	    <property name="fileFilterString">
-	    	<value>*.raw</value></property>
+	    	<value>raw</value></property>
 	    <property name="extension">
 	    	<value>psse</value></property>
 	    <property name="description">
