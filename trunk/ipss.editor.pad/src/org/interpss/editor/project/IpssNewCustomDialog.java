@@ -379,8 +379,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 
 	public String getFileName() {
 		return Utilities.getFilePathName(getFilepath(), nameTextField.getText()
-				+ "." + Utilities.getFileExt(getSrcFileName()));
-		// + Translator.getString("CustomDataFileExtension"));
+				+ "." + adapter.getExtension());
 	}
 
 	public void updateState() {
@@ -415,8 +414,8 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 // .provideInput(adapterList);
 
 	
-			String fileExtension = adapter.getExtension();
-			String extensionDescription = adapter.getDescription()+" ("+adapter.getFileFilterString()+")";
+			String fileExtension = adapter.getFileFilterString();
+			String extensionDescription = adapter.getDescription();
 			
 			NamedInputStream in = org.interpss.editor.util.Utilities.provideInput(fileExtension,extensionDescription);
 			

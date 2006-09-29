@@ -216,7 +216,7 @@ public final class Utilities {
 			FileService.Open open = null;
 			if (adapterList==null)
 			{
-				ExtensionFilter fileExtensionFilter = new ExtensionFilter(extensionDescription, new String[] { fileExtension });
+				ExtensionFilter fileExtensionFilter = new ExtensionFilter(extensionDescription,fileExtension);
 				open = fileService.open(defaultDirectory, null,fileExtensionFilter);
 			}
 			else
