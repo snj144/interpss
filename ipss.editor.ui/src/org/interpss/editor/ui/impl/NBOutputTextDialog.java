@@ -163,6 +163,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         lfFormatPanel = new javax.swing.JPanel();
         summaryRadioButton = new javax.swing.JRadioButton();
         busStyleRadioButton = new javax.swing.JRadioButton();
+        saveAsButton = new javax.swing.JButton();
         closeButton = new javax.swing.JButton();
 
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
@@ -222,6 +223,16 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 
         controlPanel.add(lfFormatPanel);
 
+        saveAsButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        saveAsButton.setText("SaveAs...");
+        saveAsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveAsButtonActionPerformed(evt);
+            }
+        });
+
+        controlPanel.add(saveAsButton);
+
         closeButton.setFont(new java.awt.Font("Dialog", 0, 12));
         closeButton.setText("Close");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -235,8 +246,14 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         getContentPane().add(controlPanel, java.awt.BorderLayout.SOUTH);
 
         pack();
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
+    	//IpssLogger.getLogger().info(textArea.getText());
+    	// Richard, we need to save the textArea.getText() to a user selected file
+    	// 1) ask user to select a file
+    	// 2) Save textArea.getText() to the file
+    }//GEN-LAST:event_saveAsButtonActionPerformed
 
     private void busStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busStyleRadioButtonActionPerformed
     	textArea.setText(AclfOut.lfResultsBusStyle(aclfAdjNet));
@@ -261,6 +278,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     private javax.swing.JPanel controlPanel;
     private javax.swing.ButtonGroup lfFormatButtonGroup;
     private javax.swing.JPanel lfFormatPanel;
+    private javax.swing.JButton saveAsButton;
     private javax.swing.JRadioButton summaryRadioButton;
     private javax.swing.JTextArea textArea;
     private javax.swing.JPanel textAreaPanel;
