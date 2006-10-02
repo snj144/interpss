@@ -372,6 +372,9 @@ public class AclfFormDataMapperImpl {
 						branch.getFromAclfBus().getBaseVoltage(), net.getBaseKva(), msg);
 			line.setHShuntY(new Complex(0.0, data.getHalfShuntB()), UnitType.toUnit(data.getHalfShuntBUnit()), 
 						branch.getFromAclfBus().getBaseVoltage(), net.getBaseKva());
+			line.setMvaRating1(data.getRating1());
+			line.setMvaRating2(data.getRating2());
+			line.setMvaRating3(data.getRating3());
 			return true;
 		} catch (Exception e) {
       		IpssLogger.logErr(e);
@@ -394,6 +397,9 @@ public class AclfFormDataMapperImpl {
 
 			xfr.setFromTurnRatio(data.getXfrTapFromSideTap(), UnitType.toUnit(data.getXfrTapUnit()));
 			xfr.setToTurnRatio(data.getXfrTapToSideTap(), UnitType.toUnit(data.getXfrTapUnit()));
+			xfr.setMvaRating1(data.getRating1());
+			xfr.setMvaRating2(data.getRating2());
+			xfr.setMvaRating3(data.getRating3());
 			return true;
 		} catch (Exception e) {
       		IpssLogger.logErr(e);
