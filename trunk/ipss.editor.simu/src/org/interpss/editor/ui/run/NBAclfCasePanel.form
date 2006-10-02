@@ -75,6 +75,9 @@
                     <Property name="text" type="java.lang.String" value="NR"/>
                     <Property name="name" type="java.lang.String" value="nrRadioButton"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nrRadioButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="pqRadioButton">
                   <Properties>
@@ -87,6 +90,9 @@
                     <Property name="text" type="java.lang.String" value="PQ"/>
                     <Property name="name" type="java.lang.String" value="pqRadioButton"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pqRadioButtonActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="gsRadioButton">
                   <Properties>
@@ -99,6 +105,9 @@
                     <Property name="text" type="java.lang.String" value="GS"/>
                     <Property name="name" type="java.lang.String" value="gsRadioButton"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gsRadioButtonActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
