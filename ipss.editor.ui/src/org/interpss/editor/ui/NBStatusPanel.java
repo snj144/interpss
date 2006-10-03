@@ -169,7 +169,7 @@ public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener
     }
 	
     public String getBusyMsg() {
-    	return this.progressMsg + " is busy";
+    	return this.progressMsg;
     }
     
     private void updateProgressBar() {
