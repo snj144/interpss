@@ -1081,7 +1081,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	public boolean isBGProcessingBusy() {
 		if (getStatusPanel().isBusy()) {
 			SpringAppContext.getEditorDialogUtil().showMsgDialog(
-					"Saving Report Warning",
+					"Processing Thread Busy",
 					"Please wait for the completion of "
 							+ getStatusPanel().getBusyMsg());
 			return true;
