@@ -369,18 +369,36 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         nrRadioButton.setSelected(true);
         nrRadioButton.setText("NR");
         nrRadioButton.setName("nrRadioButton");
+        nrRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nrRadioButtonActionPerformed(evt);
+            }
+        });
+
         methodPanel.add(nrRadioButton);
 
         methodButtonGroup.add(pqRadioButton);
         pqRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         pqRadioButton.setText("PQ");
         pqRadioButton.setName("pqRadioButton");
+        pqRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pqRadioButtonActionPerformed(evt);
+            }
+        });
+
         methodPanel.add(pqRadioButton);
 
         methodButtonGroup.add(gsRadioButton);
         gsRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         gsRadioButton.setText("GS");
         gsRadioButton.setName("gsRadioButton");
+        gsRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gsRadioButtonActionPerformed(evt);
+            }
+        });
+
         methodPanel.add(gsRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -599,6 +617,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         pvBusLimitComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
         pvBusLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        pvBusLimitComboBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
@@ -608,6 +627,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         pvBusLimitButton.setFont(new java.awt.Font("Dialog", 0, 10));
         pvBusLimitButton.setText("Apply");
+        pvBusLimitButton.setEnabled(false);
         pvBusLimitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pvBusLimitButtonActionPerformed(evt);
@@ -630,6 +650,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         pqBusLimitComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
         pqBusLimitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        pqBusLimitComboBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -638,6 +659,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         pqBusLimitButton.setFont(new java.awt.Font("Dialog", 0, 10));
         pqBusLimitButton.setText("Apply");
+        pqBusLimitButton.setEnabled(false);
         pqBusLimitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pqBusLimitButtonActionPerformed(evt);
@@ -661,6 +683,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         remoteQBusComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
         remoteQBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        remoteQBusComboBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -669,6 +692,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         remoteQBusButton.setFont(new java.awt.Font("Dialog", 0, 10));
         remoteQBusButton.setText("Apply");
+        remoteQBusButton.setEnabled(false);
         remoteQBusButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 remoteQBusButtonActionPerformed(evt);
@@ -679,10 +703,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         remoteQBusXLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         remoteQBusXLabel.setText("x");
+        remoteQBusXLabel.setEnabled(false);
         remoteQBusPanel.add(remoteQBusXLabel);
 
         remoteQBusTextField.setFont(new java.awt.Font("Dialog", 0, 10));
         remoteQBusTextField.setText("1.00");
+        remoteQBusTextField.setEnabled(false);
         remoteQBusPanel.add(remoteQBusTextField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -700,6 +726,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         funcLoadComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
         funcLoadComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        funcLoadComboBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -708,6 +735,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         funcLoadButton.setFont(new java.awt.Font("Dialog", 0, 10));
         funcLoadButton.setText("Apply");
+        funcLoadButton.setEnabled(false);
         funcLoadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 funcLoadButtonActionPerformed(evt);
@@ -731,6 +759,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         xfrTapControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
         xfrTapControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        xfrTapControlComboBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -739,6 +768,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         xfrTapControlButton.setFont(new java.awt.Font("Dialog", 0, 10));
         xfrTapControlButton.setText("Apply");
+        xfrTapControlButton.setEnabled(false);
         xfrTapControlButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xfrTapControlButtonActionPerformed(evt);
@@ -749,10 +779,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         xfrTapControlXLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         xfrTapControlXLabel.setText("x");
+        xfrTapControlXLabel.setEnabled(false);
         xfrTapControlPanel.add(xfrTapControlXLabel);
 
         xfrTapControlTextField.setFont(new java.awt.Font("Dialog", 0, 10));
         xfrTapControlTextField.setText("1.00");
+        xfrTapControlTextField.setEnabled(false);
         xfrTapControlPanel.add(xfrTapControlTextField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -770,6 +802,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         psXfrPControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
         psXfrPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        psXfrPControlComboBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -778,6 +811,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         psXfrPControlButton.setFont(new java.awt.Font("Dialog", 0, 10));
         psXfrPControlButton.setText("Apply");
+        psXfrPControlButton.setEnabled(false);
         psXfrPControlButton.setIconTextGap(5);
         psXfrPControlButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -789,10 +823,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         psXfrPControlXLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         psXfrPControlXLabel.setText("x");
+        psXfrPControlXLabel.setEnabled(false);
         psXfrPControlPanel.add(psXfrPControlXLabel);
 
         psXfrPControlTextField.setFont(new java.awt.Font("Dialog", 0, 10));
         psXfrPControlTextField.setText("1.00");
+        psXfrPControlTextField.setEnabled(false);
         psXfrPControlPanel.add(psXfrPControlTextField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -810,6 +846,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         interPControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
         interPControlComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "All" }));
+        interPControlComboBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -818,6 +855,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         interPControlButton.setFont(new java.awt.Font("Dialog", 0, 10));
         interPControlButton.setText("Apply");
+        interPControlButton.setEnabled(false);
         interPControlButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 interPControlButtonActionPerformed(evt);
@@ -828,10 +866,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         interPControlXLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         interPControlXLabel.setText("x");
+        interPControlXLabel.setEnabled(false);
         interPControlPanel.add(interPControlXLabel);
 
         interPControlTextField.setFont(new java.awt.Font("Dialog", 0, 10));
         interPControlTextField.setText("1.00");
+        interPControlTextField.setEnabled(false);
         interPControlPanel.add(interPControlTextField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -862,6 +902,21 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         add(runAclfTabbedPane, new java.awt.GridBagConstraints());
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void gsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsRadioButtonActionPerformed
+    	accFactorTextField.setEnabled(true);
+        accFactorLabel.setEnabled(true);
+    }//GEN-LAST:event_gsRadioButtonActionPerformed
+
+    private void pqRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqRadioButtonActionPerformed
+    	accFactorTextField.setEnabled(false);
+        accFactorLabel.setEnabled(false);
+    }//GEN-LAST:event_pqRadioButtonActionPerformed
+
+    private void nrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrRadioButtonActionPerformed
+    	accFactorTextField.setEnabled(false);
+        accFactorLabel.setEnabled(false);
+    }//GEN-LAST:event_nrRadioButtonActionPerformed
 
     private void pqQStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqQStepButtonActionPerformed
     	IpssLogger.getLogger().info("PQ-Q Step run");
