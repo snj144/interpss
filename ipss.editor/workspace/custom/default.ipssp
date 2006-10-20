@@ -1,0 +1,18 @@
+<ipssp-1.0>
+	<items>
+		<item filename="ieee14.ipssdat" projDbId ="3" status="active">
+		<items>
+		<item filename="test2.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="test.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="readme.txt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="BUS6384.ipssdat" projDbId ="0" status="close">
+	</item>
+		<item filename="test_ieee.ieee" projDbId ="0" status="close">
+	</item>
+	</items>
+</ipssp-1.0>

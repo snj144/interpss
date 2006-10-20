@@ -1,0 +1,30 @@
+<ipss-1.0>
+<model>
+</model>
+<attrs>
+</attrs>
+<user>
+</user>
+<view>
+	<a key="editable" val="true"/>
+	<a key="bendable" val="true"/>
+	<a key="cloneable" val="true"/>
+	<a key="connectable" val="true"/>
+	<a key="disconnectable" val="true"/>
+	<a key="disconnectOnMove" val="false"/>
+	<a key="doubleBuffered" val="true"/>
+	<a key="dragEnabled" val="false"/>
+	<a key="dropEnabled" val="true"/>
+	<a key="moveable" val="true"/>
+	<a key="sizeable" val="true"/>
+	<a key="gridVisible" val="false"/>
+	<a key="gridEnabled" val="false"/>
+	<a key="gridSize" val="10.0"/>
+	<a key="gridMode" val="0"/>
+	<a key="scale" val="1.0"/>
+	<a key="antiAlias" val="false"/>
+</view>
+<gNetForm>
+%3CGNetForm+new-state%3D%22true%22+next-branch-number%3D%220%22+next-bus-number%3D%220%22+base-kVA%3D%22100000.0%22+freq-hZ%3D%2250.0%22+allow-parallel-branch%3D%22true%22+check-bus-duplication%3D%22true%22%3E%3Cacsc-net-data+has-aclf-data%3D%22true%22+has-adjustment%3D%22false%22%2F%3E%3Capp-type%3ETransmission%3C%2Fapp-type%3E%3Cdisplay-str%3ENeed+to+be+deleted%2C+Not+use+anymore%3C%2Fdisplay-str%3E%3CDStabNetData%3E%3Cacsc-net-data+has-aclf-data%3D%22true%22+has-adjustment%3D%22false%22%2F%3E%3C%2FDStabNetData%3E%3Cnet-type%3EAclfNetwork%3C%2Fnet-type%3E%3Cdist-net-data+load-schedule-points%3D%220%22+active-sc-points%3D%220%22+total-loss-kw-hr%3D%220.0%22+sc-points%3D%220%22+load-schedule-period-length%3D%221.0%22%3E%3Cload-schedule-period-unit%3EHour%3C%2Fload-schedule-period-unit%3E%3Csc-std%3EGeneric%3C%2Fsc-std%3E%3C%2Fdist-net-data%3E%3Cname%3E%3C%2Fname%3E%3Cdescription%3EThis+network+is+created+by+InterPSS+OneLine+Draw+Module%3C%2Fdescription%3E%3Cid%3EInterPSS+Transient+Stabiliby+Network%3C%2Fid%3E%3C%2FGNetForm%3E
+</gNetForm>
+</ipss-1.0>

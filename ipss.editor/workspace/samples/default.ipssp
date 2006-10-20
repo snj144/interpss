@@ -1,0 +1,42 @@
+<ipssp-1.0>
+	<items>
+		<item filename="IEEE-14Bus.ipss" projDbId ="3" status="open">
+		<items>
+		<item filename="AclfSummary_IEEE-14Bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="AclfIeeeBusStyle_IEEE-14Bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="aclf-5bus.ipss" projDbId ="5" status="close">
+		<items>
+		<item filename="AclfSummary_aclf-5bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="acsc-5bus.ipss" projDbId ="6" status="close">
+		<items>
+		<item filename="Acsc3PFault_acsc-5bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="AcscNSFault_acsc-5bus.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="DStab-5Bus.ipss" projDbId ="4" status="open">
+	</item>
+		<item filename="PDCBook_2-11.ipss" projDbId ="7" status="close">
+	</item>
+		<item filename="PDCBook_2-12.ipss" projDbId ="8" status="close">
+		<items>
+		<item filename="AclfSummary_PDCBook_2-12.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="AclfIeeeBusStyle_PDCBook_2-12.ipssrpt" projDbId ="0" status="close">
+	</item>
+		<item filename="Acsc3PFault_PDCBook_2-12.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="acsc-5Bus-lf.ipss" projDbId ="16" status="close">
+	</item>
+	</items>
+</ipssp-1.0>
