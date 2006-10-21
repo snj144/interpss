@@ -85,6 +85,6 @@ public class ReportUtil {
 		else if (type.equals(IpssReportFactory.RPT_TYPE_ACSCNSFAULT)) {
 			name = Translator.getString("Report.Name.AcscNSFault");
 		} 
-		return name+"_"+projectName+"."+Translator.getString("ReportFileExtension");
+		return name+"_"+projectName+Translator.getString("ReportFileExtension");
 	}
 }
