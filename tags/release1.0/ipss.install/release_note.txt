@@ -2,3 +2,8 @@
    - IzPack-install.xml
    - build_mike.xml
    - editor.properties
+   - editor.properties in the GEditor dir
+   
+- go to ipss.install 
+   - run build.bat
+   

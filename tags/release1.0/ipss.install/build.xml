@@ -4,7 +4,7 @@
 		<property name="editor" value="c:/eclipse/release1.0/GEditor" />
 		<property name="dev_base" value="c:/eclipse/release1.0/workspace" />
 		<property name="install_dest" value="c:/eclipse/release1.0/GEditorInstall" />
-		<property name="program_version" value="1.0-Beta" />
+		<property name="program_version" value="1.0" />
 
 		<property name="izPack_home" value="izpack_home" />
 		<taskdef name="izpack" classpath="${izPack_home}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
