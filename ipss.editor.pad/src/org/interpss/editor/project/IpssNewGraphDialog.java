@@ -320,7 +320,7 @@ public class IpssNewGraphDialog extends javax.swing.JDialog {
 	}
 
 	public String getFileName() {
-		return Utilities.getFilePathName(getFilepath(), nameTextField.getText()
+		return Utilities.getFilePathName(getFilepath(), nameTextField.getText() +"."
 				+ Translator.getString("GraphFileExtension"));
 	}
 
