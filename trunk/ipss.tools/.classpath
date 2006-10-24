@@ -17,8 +17,11 @@
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jasperreports.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/report/jdt-compiler.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-collections.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-javaflow.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-beanutils.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
