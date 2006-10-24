@@ -36,6 +36,8 @@ import com.interpss.simu.io.IpssFileAdapter;
 
 
 public class ReportTester {
+	static String templateDir = "C:/eclipse/Interpss3.2/ipss.editor/";
+	
 	public static JasperPrint createAcscNSFaultReport(IPSSMsgHub msg) {
 		SimuContext simuCtx = SimuObjectFactory.createSimuCtxTypeAcscFaultNet(msg);
 		
@@ -52,14 +54,14 @@ public class ReportTester {
 	  	algo.calculateBusFault(fault, msg);
 	  	
 		Map<String,Object> parameters = new HashMap<String,Object>();
-		parameters.put("FaultSummarySubreportFilename", "reportTemplate/acsc/AcscFaultSummarySubReport.jasper");
+		parameters.put("FaultSummarySubreportFilename", templateDir+"reportTemplate/acsc/AcscFaultSummarySubReport.jasper");
 		try {
 			// set the main title bean attributes
 			parameters.put("ReportMainTitleBean", RptMainTitleBean.anAcscSample());	
 
 			parameters.put("FaultSummaryJBeanDatasource", AcscRptBeanFactory.getFaultSummaryDataSource(simuCtx));
 			
-			String rptName = "reportTemplate/acsc/AcscNSFaultMaster.jasper";
+			String rptName = templateDir+"reportTemplate/acsc/AcscNSFaultMaster.jasper";
 			JasperPrint jprint = JasperFillManager.fillReport(rptName, parameters,
 					                       AcscRptBeanFactory.getAcscVoltAmpsDataSource(simuCtx));
 //			JasperPrint jprint = JasperFillManager.fillReport(rptName, parameters, 
@@ -87,7 +89,7 @@ public class ReportTester {
 	  	algo.calculateBusFault(fault, msg);
 	  	
 		Map<String,Object> parameters = new HashMap<String,Object>();
-		parameters.put("FaultSummarySubreportFilename", "reportTemplate/acsc/AcscFaultSummarySubReport.jasper");
+		parameters.put("FaultSummarySubreportFilename", templateDir+"reportTemplate/acsc/AcscFaultSummarySubReport.jasper");
 		try {
 			// set the main title bean attributes
 			parameters.put("ReportMainTitleBean", RptMainTitleBean.anAcscSample());	
@@ -121,13 +123,13 @@ public class ReportTester {
 		
 		
 		Map<String,Object> parameters = new HashMap<String,Object>();
-		parameters.put("MismatchSubreportFilename", "reportTemplate/aclf/AclfMismatchSubReport.jasper");
-		parameters.put("PVLimitSubreportFilename",  "reportTemplate/aclf/AclfPVLimitSubReport.jasper");
-		parameters.put("PQLimitSubreportFilename",  "reportTemplate/aclf/AclfPQLimitSubReport.jasper");
-		parameters.put("FuncLoadSubreportFilename",  "reportTemplate/aclf/AclfFuncLoadSubReport.jasper");
-		parameters.put("RemoteQBusSubreportFilename",  "reportTemplate/aclf/AclfRemoteQBusSubReport.jasper");
-		parameters.put("TapVControlSubreportFilename",  "reportTemplate/aclf/AclfTapVControlSubReport.jasper");
-		parameters.put("PsXfrPControlSubreportFilename",  "reportTemplate/aclf/AclfPsXfrPControlSubReport.jasper");
+		parameters.put("MismatchSubreportFilename", templateDir+"reportTemplate/aclf/AclfMismatchSubReport.jasper");
+		parameters.put("PVLimitSubreportFilename",  templateDir+"reportTemplate/aclf/AclfPVLimitSubReport.jasper");
+		parameters.put("PQLimitSubreportFilename",  templateDir+"reportTemplate/aclf/AclfPQLimitSubReport.jasper");
+		parameters.put("FuncLoadSubreportFilename",  templateDir+"reportTemplate/aclf/AclfFuncLoadSubReport.jasper");
+		parameters.put("RemoteQBusSubreportFilename",  templateDir+"reportTemplate/aclf/AclfRemoteQBusSubReport.jasper");
+		parameters.put("TapVControlSubreportFilename",  templateDir+"reportTemplate/aclf/AclfTapVControlSubReport.jasper");
+		parameters.put("PsXfrPControlSubreportFilename",  templateDir+"reportTemplate/aclf/AclfPsXfrPControlSubReport.jasper");
 
 		try {
 			// set the main title bean attributes
@@ -148,11 +150,12 @@ public class ReportTester {
 			parameters.put("PsXfrPControlJBeanDatasource", AclfRptBeanFactory.getPSXfrPControlSampleDataSource());
 			parameters.put("SubreportControlRec", contRec);	
 
-			String rptName = "reportTemplate/aclf/AclfSummaryMaster.jasper";
+			String rptName = templateDir+"reportTemplate/aclf/AclfSummaryMaster.jasper";
 			JasperPrint jprint = JasperFillManager.fillReport(rptName, parameters,
 					                       AclfRptBeanFactory.getSummaryBusDataSource(simuCtx));
 			return jprint;
 		} catch (Exception e) {
+			e.printStackTrace();
 			IpssLogger.logErr(e);
 		}
 		return null;
@@ -173,13 +176,13 @@ public class ReportTester {
 		
 		
 		Map<String,Object> parameters = new HashMap<String,Object>();
-		parameters.put("MismatchSubreportFilename", "reportTemplate/aclf/AclfMismatchSubReport.jasper");
-		parameters.put("PVLimitSubreportFilename",  "reportTemplate/aclf/AclfPVLimitSubReport.jasper");
-		parameters.put("PQLimitSubreportFilename",  "reportTemplate/aclf/AclfPQLimitSubReport.jasper");
-		parameters.put("FuncLoadSubreportFilename",  "reportTemplate/aclf/AclfFuncLoadSubReport.jasper");
-		parameters.put("RemoteQBusSubreportFilename",  "reportTemplate/aclf/AclfRemoteQBusSubReport.jasper");
-		parameters.put("TapVControlSubreportFilename",  "reportTemplate/aclf/AclfTapVControlSubReport.jasper");
-		parameters.put("PsXfrPControlSubreportFilename",  "reportTemplate/aclf/AclfPsXfrPControlSubReport.jasper");
+		parameters.put("MismatchSubreportFilename", templateDir+"reportTemplate/aclf/AclfMismatchSubReport.jasper");
+		parameters.put("PVLimitSubreportFilename",  templateDir+"reportTemplate/aclf/AclfPVLimitSubReport.jasper");
+		parameters.put("PQLimitSubreportFilename",  templateDir+"reportTemplate/aclf/AclfPQLimitSubReport.jasper");
+		parameters.put("FuncLoadSubreportFilename",  templateDir+"reportTemplate/aclf/AclfFuncLoadSubReport.jasper");
+		parameters.put("RemoteQBusSubreportFilename",  templateDir+"reportTemplate/aclf/AclfRemoteQBusSubReport.jasper");
+		parameters.put("TapVControlSubreportFilename",  templateDir+"reportTemplate/aclf/AclfTapVControlSubReport.jasper");
+		parameters.put("PsXfrPControlSubreportFilename",  templateDir+"reportTemplate/aclf/AclfPsXfrPControlSubReport.jasper");
 
 		try {
 			// set the main title bean attributes
@@ -199,7 +202,7 @@ public class ReportTester {
 			parameters.put("TapVControlJBeanDatasource", AclfRptBeanFactory.getTapVControlSampleDataSource());
 			parameters.put("PsXfrPControlJBeanDatasource", AclfRptBeanFactory.getPSXfrPControlSampleDataSource());
 			parameters.put("SubreportControlRec", contRec);	
-			String rptName = "reportTemplate/aclf/AclfBusStyleMaster.jasper";
+			String rptName = templateDir+"reportTemplate/aclf/AclfBusStyleMaster.jasper";
 			JasperPrint jprint = JasperFillManager.fillReport(rptName, parameters,
 											AclfRptBeanFactory.getBusStyleDataSource(simuCtx));
 			return jprint;
@@ -213,10 +216,10 @@ public class ReportTester {
 		String xmlfile = "c:/eclipse/interpss3.2/ipss.editor/properties/springConfig/editorAppContext.xml";
 		SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(xmlfile);
 		
-//		JasperPrint jprint = createAclfSummaryReport(msg);
-//		JasperPrint jprint = createAclfBusStyleReport(msg);
+		JasperPrint jprint = createAclfSummaryReport(SpringAppContext.getIpssMsgHub());
+//		JasperPrint jprint = createAclfBusStyleReport(SpringAppContext.getIpssMsgHub());
 //		JasperPrint jprint = createAcsc3PFaultReport(SpringAppContext.getIpssMsgHub());
-		JasperPrint jprint = createAcscNSFaultReport(SpringAppContext.getIpssMsgHub());
+//		JasperPrint jprint = createAcscNSFaultReport(SpringAppContext.getIpssMsgHub());
 		JRViewer view = new JRViewer(jprint);
 		
 		JFrame frame = new JFrame();
