@@ -30,6 +30,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 
 import org.interpss.editor.report.IpssRptViewer;
+import org.interpss.editor.ui.util.IpssFileFilter;
 
 import com.interpss.simu.io.IpssFileAdapter;
 
@@ -57,9 +58,9 @@ public class FileChooserConfig {
 			for (int i = 0; i < adapterList.size(); i++) {
 				IpssFileAdapter adapter = (IpssFileAdapter)adapterList.get(i);
 				openProjFileChooser.addChoosableFileFilter(
-						new FileFilter(adapter.getExtension(), adapter.getDescription()));
+						new IpssFileFilter(adapter.getExtension(), adapter.getDescription()));
 			}
-			openProjFileChooser.addChoosableFileFilter(new FileFilter(GraphFileExt, GraphFileExtDesc));
+			openProjFileChooser.addChoosableFileFilter(new IpssFileFilter(GraphFileExt, GraphFileExtDesc));
 		}
 		openProjFileChooser.setCurrentDirectory(new File(CurrentProjDir));
     	return openProjFileChooser;
@@ -73,7 +74,7 @@ public class FileChooserConfig {
 	public static JFileChooser getOpenReportFileChooser() {
 		if (openRptFileChooser == null) {
 			openRptFileChooser = new JFileChooser();
-			openRptFileChooser.addChoosableFileFilter(new FileFilter(IpssRptViewer.REPORT_EXT, IpssRptViewer.REPORT_DESC));
+			openRptFileChooser.addChoosableFileFilter(new IpssFileFilter(IpssRptViewer.REPORT_EXT, IpssRptViewer.REPORT_DESC));
 		}
 		openRptFileChooser.setCurrentDirectory(new File(IpssRptViewer.REPORT_DEFAULT_DIR));
     	return openRptFileChooser;
@@ -87,7 +88,7 @@ public class FileChooserConfig {
 	public static JFileChooser getSaveProjFileChooser() {
 		if (saveProjFileChooser == null) {
 			saveProjFileChooser = new JFileChooser();
-			saveProjFileChooser.addChoosableFileFilter(new FileFilter(GraphFileExt, GraphFileExtDesc));
+			saveProjFileChooser.addChoosableFileFilter(new IpssFileFilter(GraphFileExt, GraphFileExtDesc));
 		}
 		saveProjFileChooser.setCurrentDirectory(new File(CurrentProjDir));
     	return saveProjFileChooser;
@@ -101,52 +102,9 @@ public class FileChooserConfig {
 	public static JFileChooser getSaveReportFileChooser() {
 		if (saveRptFileChooser == null) {
 			saveRptFileChooser = new JFileChooser();
-			saveRptFileChooser.addChoosableFileFilter(new FileFilter(IpssRptViewer.REPORT_EXT, IpssRptViewer.REPORT_DESC));
+			saveRptFileChooser.addChoosableFileFilter(new IpssFileFilter(IpssRptViewer.REPORT_EXT, IpssRptViewer.REPORT_DESC));
 		}
 		saveRptFileChooser.setCurrentDirectory(new File(IpssRptViewer.REPORT_DEFAULT_DIR));
     	return saveRptFileChooser;
 	}	
-	
-	public static class FileFilter extends javax.swing.filechooser.FileFilter {
-		private String fileExt = FileChooserConfig.GraphFileExt;
-		private String extDesc = null;
-
-		public FileFilter(String ext, String desc) {
-			this.fileExt = ext;
-			this.extDesc = desc;
-		}
-		
-		public boolean accept(File f) {
-	    	if (f.isDirectory()) {
-	        	return true;
-	    	}
-
-	    	String extension = getExtension(f);
-	    	if (extension != null) {
-	        	if (extension.toLowerCase().equals(this.fileExt)) {
-	            	return true;
-	        	} else {
-	            	return false;
-	        	}
-	    	}
-	    	return false;
-		}
-
-		private static String getExtension(File f) {
-	    	String ext = null;
-	    	String s = f.getName();
-	    	int i = s.lastIndexOf('.');
-	    	if (i > 0 &&  i < s.length() - 1) {
-	        	ext = s.substring(i+1).toLowerCase();
-	    	}
-	    	return ext;
-		}
-		
-		public String getDescription() {
-			String desc = "";
-			if (extDesc!=null && !extDesc.equals(""))
-				desc = extDesc;
-			return desc + "(" + "*." + this.fileExt + ")";
-		}
-	}
 }
