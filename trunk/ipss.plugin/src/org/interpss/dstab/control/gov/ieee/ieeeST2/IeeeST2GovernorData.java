@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.gov.ieee.ieeeST2;
 
-import org.interpss.dstab.control.gov.AbstractGovernor;
+import com.interpss.dstab.controller.AbstractGovernor;
 
 public class IeeeST2GovernorData {
 	public IeeeST2GovernorData() {}

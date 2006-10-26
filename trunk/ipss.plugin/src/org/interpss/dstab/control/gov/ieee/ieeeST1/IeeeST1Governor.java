@@ -30,7 +30,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DynamicSimuMethods;
-import org.interpss.dstab.control.gov.AbstractGovernor;
+import com.interpss.dstab.controller.AbstractGovernor;
 
 public class IeeeST1Governor extends AbstractGovernor {
 	// state variables

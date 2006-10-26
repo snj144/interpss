@@ -30,7 +30,7 @@ import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DynamicSimuMethods;
-import org.interpss.dstab.control.exc.AbstractExciter;
+import com.interpss.dstab.controller.AbstractExciter;
 
 public class IEEE_DC1AExciter extends AbstractExciter {
 	// state vriables
