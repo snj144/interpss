@@ -31,7 +31,7 @@ import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Num2Str;
 import com.interpss.dstab.DynamicSimuMethods;
-import org.interpss.dstab.control.pss.AbstractStabilizer;
+import com.interpss.dstab.controller.AbstractStabilizer;
 
 public class CustomStabilizer extends AbstractStabilizer {
 	// state variables

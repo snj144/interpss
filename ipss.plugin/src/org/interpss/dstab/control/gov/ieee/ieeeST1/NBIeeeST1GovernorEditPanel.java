@@ -29,8 +29,9 @@ import java.util.Vector;
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.Num2Str;
+import com.interpss.dstab.controller.AbstractGovernor;
+
 import org.interpss.dstab.control.common.ui.InputVerifyUtil;
-import org.interpss.dstab.control.gov.AbstractGovernor;
 
 public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
