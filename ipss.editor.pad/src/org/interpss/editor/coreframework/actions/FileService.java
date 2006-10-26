@@ -17,6 +17,7 @@ import org.interpss.editor.coreframework.GPPluginInvoker;
 import org.interpss.editor.io.FileChooserConfig;
 import org.interpss.editor.io.FileUtility;
 import org.interpss.editor.resources.Translator;
+import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.editor.util.ExtensionFilter;
 
 import com.interpss.simu.io.IpssFileAdapter;
@@ -174,7 +175,7 @@ public abstract class FileService {
 			for (int i = 0; i < adapterList.size(); i++) {
 				IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 				fileChooser
-						.addChoosableFileFilter(new FileChooserConfig.FileFilter(
+						.addChoosableFileFilter(new IpssFileFilter(
 								adapter.getExtension(), adapter
 										.getDescription()));
 			}
