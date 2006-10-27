@@ -30,7 +30,7 @@ import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -161,43 +161,43 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 			_faultData.setCategory(AcscFaultData.FaultCaty_All);
 
 		if (this.distanceTextField.isEnabled()) {
-			if (!VerifyUtil.largeEqualThan(this.distanceTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.distanceTextField, 0.0d)) {
 				errMsg.add("Branch fault distance < 0.0");
 				ok = false;
 			}
-			_faultData.setDistance(VerifyUtil.getDouble(this.distanceTextField));
+			_faultData.setDistance(SwingInputVerifyUtil.getDouble(this.distanceTextField));
 		}
 
 		if (this.rLGTextField.isEnabled()) {
-			if (!VerifyUtil.largeEqualThan(this.rLGTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.rLGTextField, 0.0d)) {
 				errMsg.add("Fault L-G R < 0.0");
 				ok = false;
 			}
-			_faultData.setLG_R(VerifyUtil.getDouble(this.rLGTextField));
+			_faultData.setLG_R(SwingInputVerifyUtil.getDouble(this.rLGTextField));
 		}
 
 		if (this.xLGTextField.isEnabled()) {
-			if (!VerifyUtil.largeEqualThan(this.xLGTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.xLGTextField, 0.0d)) {
 				errMsg.add("Fault L-G X < 0.0");
 				ok = false;
 			}
-			_faultData.setLG_X(VerifyUtil.getDouble(this.xLGTextField));
+			_faultData.setLG_X(SwingInputVerifyUtil.getDouble(this.xLGTextField));
 		}
 
 		if (this.rLLTextField.isEnabled()) {
-			if (!VerifyUtil.largeEqualThan(this.rLLTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.rLLTextField, 0.0d)) {
 				errMsg.add("Fault L-L R < 0.0");
 				ok = false;
 			}
-			_faultData.setLL_R(VerifyUtil.getDouble(this.rLLTextField));
+			_faultData.setLL_R(SwingInputVerifyUtil.getDouble(this.rLLTextField));
 		}
 
 		if (this.xLLTextField.isEnabled()) {
-			if (!VerifyUtil.largeEqualThan(this.xLLTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.xLLTextField, 0.0d)) {
 				errMsg.add("Fault L-L X < 0.0");
 				ok = false;
 			}
-			_faultData.setLL_X(VerifyUtil.getDouble(this.xLLTextField));
+			_faultData.setLL_X(SwingInputVerifyUtil.getDouble(this.xLLTextField));
 		}
 
 		return ok;
@@ -526,7 +526,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
        			    input == xLGTextField ||
        			    input == rLLTextField ||
        			    input == xLLTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

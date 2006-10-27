@@ -30,7 +30,7 @@ import org.interpss.editor.data.dstab.DStabLoadChangeData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -101,11 +101,11 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 		_loadChangeData.setBusNameId((String)this.loadBusComboBox.getSelectedItem());
 		
 		if (this.changeFactorTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.changeFactorTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.changeFactorTextField, 0.0d)) {
 				errMsg.add("Branch fault distance < 0.0");
 				ok = false;
 			}
-			_loadChangeData.setChangeFactor(VerifyUtil.getDouble(this.changeFactorTextField));
+			_loadChangeData.setChangeFactor(SwingInputVerifyUtil.getDouble(this.changeFactorTextField));
 		}
 
 		return ok;
@@ -174,7 +174,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 				return false;
        		try {
        			if (input == changeFactorTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

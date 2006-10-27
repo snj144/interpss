@@ -35,7 +35,7 @@ import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -150,21 +150,21 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     	}
     	_eventData.setEventName(eventName);
 
-    	if (!VerifyUtil.largeEqualThan(stratTimeTextField, 0.0d)) {
+    	if (!SwingInputVerifyUtil.largeEqualThan(stratTimeTextField, 0.0d)) {
 			errMsg.add("Dynamic event start time < 0.0");
 			ok = false;
 		}
-    	_eventData.setStartTime(VerifyUtil.getDouble(stratTimeTextField));
+    	_eventData.setStartTime(SwingInputVerifyUtil.getDouble(stratTimeTextField));
 
 
         _eventData.setPermanent(permanetCheckBox.isSelected());
 
         if (!permanetCheckBox.isSelected()) {
-            if (!VerifyUtil.largeThan(durationTextField, 0.0d)) {
+            if (!SwingInputVerifyUtil.largeThan(durationTextField, 0.0d)) {
     			errMsg.add("Dynamic event duration  <= 0.0");
     			ok = false;
     		}
-            _eventData.setDuration(VerifyUtil.getDouble(durationTextField));
+            _eventData.setDuration(SwingInputVerifyUtil.getDouble(durationTextField));
         }
         
         if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
@@ -505,7 +505,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 			try {
        			if (input == stratTimeTextField ||
            			input == durationTextField)
-     	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+     	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
 			} catch (Exception e) {
 				return false;
 			}		

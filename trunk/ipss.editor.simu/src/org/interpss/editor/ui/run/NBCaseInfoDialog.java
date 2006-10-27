@@ -35,7 +35,7 @@ import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.ICaseInfoDialog;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
@@ -206,7 +206,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		IpssLogger.getLogger().info("NBCaseInfoDialog saveEditor2Form() called");
         boolean ok = true;
 
-		if (VerifyUtil.isEmptyStr(this.casenameComboBox)) {
+		if (SwingInputVerifyUtil.isEmptyStr(this.casenameComboBox)) {
 			errMsg.add("Casename is empty");
 			ok = false;
 		}
@@ -468,7 +468,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				return false;
        		try {
 				if (input == casenameComboBox )
-					return !VerifyUtil.isEmptyStr((javax.swing.JComboBox)input);
+					return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JComboBox)input);
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		
