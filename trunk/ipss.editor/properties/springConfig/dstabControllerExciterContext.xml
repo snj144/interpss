@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<!--
+		Excitor model object list
+		=========================
+
+		defining an excitor model includes the following two steps:
+		
+		1) define the exciter model 
+			id: a unique Object id
+			class: the full class name of the implementation
+			name: exciter name, it has to be unique. Also, the name should not be changed
+			      since ipss data file is linked to this name.
+			description: description for the custom file
+		2) add the adapter to the customAdapterList
+		
+			<list>
+				...
+				<ref bean="myExciterId"/>
+			</list>
+	-->
+	
+	<bean id="sampleCustomExciter" 
+	  	class="custom.dstab.exc.sample.CustomExciter"
+	    singleton="false">	
+	    <property name="name">
+	    	<value>Sample Custom Exciter</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>A sample custom exciter implmementation</value></property>
+	</bean>
+
+	<bean id="simpleExciter" 
+	      class="org.interpss.dstab.control.exc.simple.SimpleExciter"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Simple Exciter</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>An InterPSS simple exciter implmementation</value></property>
+	</bean>
+
+	<bean id="ieeeDC_1AExciter" 
+	      class="org.interpss.dstab.control.exc.ieee.ieeeDC1A.IEEE_DC1AExciter"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE DC-1A</value></property>
+	    <property name="category">
+	    	<value>IEEE-Exciter</value></property>
+	    <property name="desc">
+	    	<value>The IEEE DC-1A Type exiter implementation</value></property>
+	</bean>
+	
+	<bean id="ieeeAC_4AExciter" 
+	      class="org.interpss.dstab.control.exc.ieee.ieeeAC4A.IEEE_AC4AExciter"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE AC-4A</value></property>
+	    <property name="category">
+	    	<value>IEEE-Exciter</value></property>
+	    <property name="desc">
+	    	<value>The IEEE AC-4A Type exiter implementation</value></property>
+	</bean>
+
+	<bean id="exciterList" 
+	      class="java.util.ArrayList"
+	      singleton="true">	
+		<constructor-arg>
+			<list>
+				<ref bean="simpleExciter"/>
+				<ref bean="ieeeDC_1AExciter"/>
+				<ref bean="ieeeAC_4AExciter"/>
+				<ref bean="sampleCustomExciter"/>
+			</list>
+		</constructor-arg>
+	</bean>
+</beans>

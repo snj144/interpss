@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="sampleCustomGovernor" 
+	      class="custom.dstab.gov.sample.CustomGovernor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Sample Custom Governor</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>A sample custom governor implmementation</value></property>
+	</bean>
+
+	<bean id="simpleGovernor" 
+	      class="org.interpss.dstab.control.gov.simple.SimpleGovernor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Simple Governor</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>An InterPSS simple governor implmementation</value></property>
+	</bean>
+
+	<bean id="ieeeST1Governor" 
+	      class="org.interpss.dstab.control.gov.ieee.ieeeST1.IeeeST1Governor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE ST1 Governor</value></property>
+	    <property name="category">
+	    	<value>IEEE-Governor</value></property>
+	    <property name="desc">
+	    	<value>IEEE ST1 Governor implmementation</value></property>
+	</bean>
+
+	<bean id="ieeeST2Governor" 
+	      class="org.interpss.dstab.control.gov.ieee.ieeeST2.IeeeST2Governor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE ST2 Governor</value></property>
+	    <property name="category">
+	    	<value>IEEE-Governor</value></property>
+	    <property name="desc">
+	    	<value>IEEE ST2 Governor implmementation</value></property>
+	</bean>
+
+	<bean id="governorList" 
+	      class="java.util.ArrayList"
+	      singleton="true">	
+		<constructor-arg>
+			<list>
+				<ref bean="ieeeST1Governor"/>
+				<ref bean="ieeeST2Governor"/>
+				<ref bean="simpleGovernor"/>
+				<ref bean="sampleCustomGovernor"/>
+			</list>
+		</constructor-arg>
+	</bean>
+</beans>
