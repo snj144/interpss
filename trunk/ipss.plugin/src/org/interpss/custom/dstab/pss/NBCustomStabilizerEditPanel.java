@@ -27,8 +27,8 @@ package org.interpss.custom.dstab.pss;
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
-import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 /**
  *
@@ -85,13 +85,13 @@ public class NBCustomStabilizerEditPanel extends javax.swing.JPanel implements I
 		boolean ok = true;
 
 		// TODO: add verification rules
-    	_data.setKs(InputVerifyUtil.getDouble(ksTextField));
-    	_data.setT1(InputVerifyUtil.getDouble(t1TextField));
-    	_data.setT2(InputVerifyUtil.getDouble(t2TextField));
-    	_data.setT3(InputVerifyUtil.getDouble(t3TextField));
-    	_data.setT4(InputVerifyUtil.getDouble(t4TextField));
-    	_data.setVsmax(InputVerifyUtil.getDouble(vsmaxTextField));
-    	_data.setVsmin(InputVerifyUtil.getDouble(vsminTextField));
+    	_data.setKs(SwingInputVerifyUtil.getDouble(ksTextField));
+    	_data.setT1(SwingInputVerifyUtil.getDouble(t1TextField));
+    	_data.setT2(SwingInputVerifyUtil.getDouble(t2TextField));
+    	_data.setT3(SwingInputVerifyUtil.getDouble(t3TextField));
+    	_data.setT4(SwingInputVerifyUtil.getDouble(t4TextField));
+    	_data.setVsmax(SwingInputVerifyUtil.getDouble(vsmaxTextField));
+    	_data.setVsmin(SwingInputVerifyUtil.getDouble(vsminTextField));
 		
 		return ok;
 	}
@@ -270,7 +270,7 @@ public class NBCustomStabilizerEditPanel extends javax.swing.JPanel implements I
              		 input == t3TextField ||
              		 input == t4TextField ||
              		 input == vsmaxTextField)
-    	       		return InputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;           			
+    	       		return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;           			
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

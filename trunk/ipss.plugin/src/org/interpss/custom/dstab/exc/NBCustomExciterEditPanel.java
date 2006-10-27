@@ -27,8 +27,8 @@ package org.interpss.custom.dstab.exc;
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
-import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 public class NBCustomExciterEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -74,10 +74,10 @@ public class NBCustomExciterEditPanel extends javax.swing.JPanel implements ICon
     public boolean saveEditorData(Vector errMsg) throws Exception  {
 		boolean ok = true;
 
-    	_data.setKa(InputVerifyUtil.getDouble(kaTextField));
-    	_data.setTa(InputVerifyUtil.getDouble(taTextField));
-    	_data.setVrmax(InputVerifyUtil.getDouble(vrmaxTextField));
-    	_data.setVrmin(InputVerifyUtil.getDouble(vrminTextField));
+    	_data.setKa(SwingInputVerifyUtil.getDouble(kaTextField));
+    	_data.setTa(SwingInputVerifyUtil.getDouble(taTextField));
+    	_data.setVrmax(SwingInputVerifyUtil.getDouble(vrmaxTextField));
+    	_data.setVrmin(SwingInputVerifyUtil.getDouble(vrminTextField));
     	
 		return ok;
 	}
@@ -190,7 +190,7 @@ public class NBCustomExciterEditPanel extends javax.swing.JPanel implements ICon
                 		 input == taTextField ||
                 		 input == vrmaxTextField ||
                 		 input == vrminTextField )
-       	       		return InputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;       			
+       	       		return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;       			
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

@@ -27,8 +27,8 @@ package org.interpss.custom.dstab.gov;
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
-import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 public class NBCustomGovernorEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -73,10 +73,10 @@ public class NBCustomGovernorEditPanel extends javax.swing.JPanel implements ICo
     public boolean saveEditorData(Vector errMsg) throws Exception {
 		boolean ok = true;
 
-    	_data.setK(InputVerifyUtil.getDouble(kTextField));
-    	_data.setT1(InputVerifyUtil.getDouble(t1TextField));
-    	_data.setPmax(InputVerifyUtil.getDouble(pmaxTextField));
-    	_data.setPmin(InputVerifyUtil.getDouble(pminTextField));
+    	_data.setK(SwingInputVerifyUtil.getDouble(kTextField));
+    	_data.setT1(SwingInputVerifyUtil.getDouble(t1TextField));
+    	_data.setPmax(SwingInputVerifyUtil.getDouble(pmaxTextField));
+    	_data.setPmin(SwingInputVerifyUtil.getDouble(pminTextField));
     	
 		return ok;
 	}
@@ -189,7 +189,7 @@ public class NBCustomGovernorEditPanel extends javax.swing.JPanel implements ICo
                    	 input == t1TextField ||
                    	 input == pmaxTextField ||
                    	 input == pminTextField )
-          	       		return InputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+          	       		return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
        		} catch (Exception e) {
  	    		return false;
  	       	}		
