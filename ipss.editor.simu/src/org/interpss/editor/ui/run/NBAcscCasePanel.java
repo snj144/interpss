@@ -36,7 +36,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -121,11 +121,11 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 			
 		if (this.fixedVoltRadioButton.isSelected()) {
 			_caseData.setBusInitVolt(AcscCaseData.ScBusVolt_UnitVolt);
-			if (!VerifyUtil.largeThan(this.mFactorTextField, 50.0d) || VerifyUtil.largeThan(this.mFactorTextField, 150.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.mFactorTextField, 50.0d) || SwingInputVerifyUtil.largeThan(this.mFactorTextField, 150.0d)) {
 				errMsg.add("Prefault bus voltage multiplying factor out of range < 50% or > 150%");
 				ok = false;
 			}
-			_caseData.setMFactor(VerifyUtil.getDouble(this.mFactorTextField));
+			_caseData.setMFactor(SwingInputVerifyUtil.getDouble(this.mFactorTextField));
 	    }
 	    else
 	    	_caseData.setBusInitVolt(AcscCaseData.ScBusVolt_LFVolt);
@@ -302,7 +302,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 				return false;
 			try {
        			if (input == mFactorTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
 			} catch (Exception e) {
 				return false;
 			}		

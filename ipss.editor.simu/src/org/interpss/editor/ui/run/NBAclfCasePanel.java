@@ -42,7 +42,7 @@ import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.SimuMessage;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 import com.interpss.core.aclfadj.FunctionLoad;
@@ -246,23 +246,23 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else 
         	_caseData.setMethod("GS");
 
-        if (!VerifyUtil.largeThan(this.errPUTextField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d)) {
             errMsg.add("Error tolerance <= 0.0");
             ok = false;
         }
-        _caseData.setTolerance(VerifyUtil.getDouble(this.errPUTextField));
+        _caseData.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
 
-        if (!VerifyUtil.largeThan(this.maxItrTextField, 0)) {
+        if (!SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0)) {
             errMsg.add("Max iterations <= 0");
             ok = false;
         }
-        _caseData.setMaxIteration(VerifyUtil.getInt(this.maxItrTextField));
+        _caseData.setMaxIteration(SwingInputVerifyUtil.getInt(this.maxItrTextField));
 
-        if (!VerifyUtil.largeThan(this.accFactorTextField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d)) {
             errMsg.add("GS acceleration factor <= 0.0");
             ok = false;
         }
-        _caseData.setAccFactor(VerifyUtil.getDouble(this.accFactorTextField));
+        _caseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
 
         _caseData.setInitBusVolt(this.initVoltCheckBox.isSelected());
         _caseData.setShowSummary(this.lfSummaryCheckBox.isSelected());
@@ -1171,12 +1171,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				return false;
 			try {
        			if (input == maxItrTextField )
- 	       			return VerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+ 	       			return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
        			else if (input == accFactorTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
        			else if (input == errPUTextField) {
- 	       			if (VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0) {
-                     double err = VerifyUtil.getDouble(errPUTextField);
+ 	       			if (SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0) {
+                     double err = SwingInputVerifyUtil.getDouble(errPUTextField);
                      errKVATextField.setEditable(true);
                      errKVATextField.setText(Num2Str.toStr(err*((GNetForm)_netContainer.getGNetForm()).getBaseKVA(), "#0.####"));
                      errKVATextField.setEditable(false);

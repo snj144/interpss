@@ -35,7 +35,7 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBDynaEventPanel;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -159,17 +159,17 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 			ok = false;
 		}
 
-        if (!VerifyUtil.largeThan(totalTimeTextField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(totalTimeTextField, 0.0d)) {
 			errMsg.add("Total Simulation time < 0.0");
 			ok = false;
 		}
-        dstabCaseData.setTotalSimuTime(VerifyUtil.getDouble(totalTimeTextField));
+        dstabCaseData.setTotalSimuTime(SwingInputVerifyUtil.getDouble(totalTimeTextField));
         
-        if (!VerifyUtil.largeThan(simuStepTextField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(simuStepTextField, 0.0d)) {
 			errMsg.add("Simulation step < 0.0");
 			ok = false;
 		}
-        dstabCaseData.setSimuStep(VerifyUtil.getDouble(simuStepTextField));
+        dstabCaseData.setSimuStep(SwingInputVerifyUtil.getDouble(simuStepTextField));
         
         if (dstabCaseData.getTotalSimuTime() < dstabCaseData.getSimuStep()) {
 			errMsg.add("Total simu time < simulation step");
@@ -184,17 +184,17 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
        		dstabCaseData.setRefMachId((String)refMachComboBox.getSelectedItem());
         }
 
-        if (!VerifyUtil.largeThan(netEqnItrNoEventTextField, 0)) {
+        if (!SwingInputVerifyUtil.largeThan(netEqnItrNoEventTextField, 0)) {
 			errMsg.add("Network equation solution iteration count (no event) <= 0");
 			ok = false;
 		}
-        dstabCaseData.setNetEqnItrNoEvent(VerifyUtil.getInt(netEqnItrNoEventTextField));
+        dstabCaseData.setNetEqnItrNoEvent(SwingInputVerifyUtil.getInt(netEqnItrNoEventTextField));
         
-        if (!VerifyUtil.largeThan(netEqnItrWithEventTextField, 0)) {
+        if (!SwingInputVerifyUtil.largeThan(netEqnItrWithEventTextField, 0)) {
 			errMsg.add("Network equation solution iteration count (with event) <= 0");
 			ok = false;
 		}
-        dstabCaseData.setNetEqnItrWithEvent(VerifyUtil.getInt(netEqnItrWithEventTextField));
+        dstabCaseData.setNetEqnItrWithEvent(SwingInputVerifyUtil.getInt(netEqnItrWithEventTextField));
         
 
         if (staticLoadCZRadioButton.isSelected()) {
@@ -202,17 +202,17 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         }
         else {
         	dstabCaseData.setStaticLoadType(DStabCaseData.StaticLoad_Const_P);
-            if (!VerifyUtil.largeEqualThan(staticLoadSwitchVoltTextField, 0.4d)) {
+            if (!SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchVoltTextField, 0.4d)) {
     			errMsg.add("Static load model switching voltage < 0.4 pu");
     			ok = false;
     		}
-            dstabCaseData.setStaticLoadSwitchVolt(VerifyUtil.getDouble(staticLoadSwitchVoltTextField));
+            dstabCaseData.setStaticLoadSwitchVolt(SwingInputVerifyUtil.getDouble(staticLoadSwitchVoltTextField));
 
-            if (!VerifyUtil.largeEqualThan(staticLoadSwitchDeadZoneTextField, 0.0d)) {
+            if (!SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchDeadZoneTextField, 0.0d)) {
     			errMsg.add("Static load model switching voltage dead zone< 0.0 pu");
     			ok = false;
     		}
-            dstabCaseData.setStaticLoadSwitchDeadZone(VerifyUtil.getDouble(staticLoadSwitchDeadZoneTextField));
+            dstabCaseData.setStaticLoadSwitchDeadZone(SwingInputVerifyUtil.getDouble(staticLoadSwitchDeadZoneTextField));
         }
 
         dstabCaseData.setDisableDynamicEvent(disableEventCheckBox.isSelected());
@@ -545,7 +545,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
        			if (input == totalTimeTextField ||
            			    input == simuStepTextField ||
            			    input == staticLoadSwitchVoltTextField)
-     	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+     	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
 			} catch (Exception e) {
 				return false;
 			}		
