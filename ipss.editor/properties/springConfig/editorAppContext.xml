@@ -78,7 +78,10 @@
 
 	<import resource="coreLibContext.xml"/>
 	<import resource="customAdapterContext.xml"/>
-	<import resource="dstabControllerContext.xml"/>
+
+	<import resource="dstabControllerExciterContext.xml"/>
+	<import resource="dstabControllerGovernorContext.xml"/>
+	<import resource="dstabControllerStabilizerContext.xml"/>
 
 	<import resource="jgraphContext.xml"/>
 
