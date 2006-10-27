@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="sampleCustomStabilizer" 
+	      class="custom.dstab.pss.sample.CustomStabilizer"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Sample Custom Stabilizer</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>A sample custom stabilizer implmementation</value></property>
+	</bean>
+
+	<bean id="simpleStabilizer" 
+	      class="org.interpss.dstab.control.pss.simple.SimpleStabilizer"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Simple Stabilizer</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>An InterPSS simple stabilizer implmementation</value></property>
+	</bean>
+	
+	<bean id="stabilizerList" 
+	      class="java.util.ArrayList"
+	      singleton="true">	
+		<constructor-arg>
+			<list>
+				<ref bean="simpleStabilizer"/>
+				<ref bean="sampleCustomStabilizer"/>
+			</list>
+		</constructor-arg>
+	</bean>	
+</beans>
