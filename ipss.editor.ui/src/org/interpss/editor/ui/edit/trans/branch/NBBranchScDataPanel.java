@@ -35,7 +35,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.ui.edit.common.NBGConnectionPanel;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
  
@@ -160,46 +160,46 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     	else
     		_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
 
-		if (!VerifyUtil.largeEqualThan(r1TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(r1TextField, 0.0d)) {
 			errMsg.add("R1 < 0.0");
 			ok = false;
 		}
-		_data.setZR(VerifyUtil.getDouble(r1TextField));
+		_data.setZR(SwingInputVerifyUtil.getDouble(r1TextField));
 
-		if (!VerifyUtil.largeThan(x1TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(x1TextField, 0.0d)) {
 			errMsg.add("X1 <= 0.0");
 			ok = false;
 		}
-		_data.setZX(VerifyUtil.getDouble(x1TextField));
+		_data.setZX(SwingInputVerifyUtil.getDouble(x1TextField));
 
-		if (!VerifyUtil.largeEqualThan(r0TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(r0TextField, 0.0d)) {
 			errMsg.add("R0 < 0.0");
 			ok = false;
 		}
-		_data.setZ0R(VerifyUtil.getDouble(r0TextField));
+		_data.setZ0R(SwingInputVerifyUtil.getDouble(r0TextField));
 
-		if (!VerifyUtil.largeThan(x0TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(x0TextField, 0.0d)) {
 			errMsg.add("X0 <= 0.0");
 			ok = false;
 		}
-		_data.setZ0X(VerifyUtil.getDouble(x0TextField));
+		_data.setZ0X(SwingInputVerifyUtil.getDouble(x0TextField));
 	    
 	    if ( _data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
 		     _data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
-			if (!VerifyUtil.within(fromTapTextField, 0.0d, 2.0d)) {
+			if (!SwingInputVerifyUtil.within(fromTapTextField, 0.0d, 2.0d)) {
 				errMsg.add("From tap < 0.0 or > 2.0");
 				ok = false;
 			}
-			_data.setXfrTapFromSideTap(VerifyUtil.getDouble(fromTapTextField));
+			_data.setXfrTapFromSideTap(SwingInputVerifyUtil.getDouble(fromTapTextField));
 
-			if (!VerifyUtil.within(toTapTextField, 0.0d, 2.0d)) {
+			if (!SwingInputVerifyUtil.within(toTapTextField, 0.0d, 2.0d)) {
 				errMsg.add("To tap < 0.0 or > 2.0");
 				ok = false;
 			}
-			_data.setXfrTapToSideTap(VerifyUtil.getDouble(toTapTextField));
+			_data.setXfrTapToSideTap(SwingInputVerifyUtil.getDouble(toTapTextField));
 
 			if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
-    			_data.setPhaseShiftAngle(VerifyUtil.getDouble(hB1TextField));
+    			_data.setPhaseShiftAngle(SwingInputVerifyUtil.getDouble(hB1TextField));
         	}    
 
             if (!_fromXfrConnectPanel.saveEditor2Form(errMsg))
@@ -208,17 +208,17 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
             	ok = false;
     	}
 	    else {
-			if (!VerifyUtil.largeEqualThan(hB1TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(hB1TextField, 0.0d)) {
 				errMsg.add("1/2B1 < 0.0");
 				ok = false;
 			}
-			_data.setHalfShuntB(VerifyUtil.getDouble(hB1TextField));
+			_data.setHalfShuntB(SwingInputVerifyUtil.getDouble(hB1TextField));
 
-			if (!VerifyUtil.largeEqualThan(hB0TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(hB0TextField, 0.0d)) {
 				errMsg.add("1/2B0 < 0.0");
 				ok = false;
 			}
-			_data.setHalfShuntB0(VerifyUtil.getDouble(hB0TextField));
+			_data.setHalfShuntB0(SwingInputVerifyUtil.getDouble(hB0TextField));
     	}
 
 	    return ok;
@@ -540,12 +540,12 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
                if ( input == r0TextField ||
           		    input == r1TextField ||
                		input == hB0TextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
                if ( input == fromTapTextField ||
           		    input == toTapTextField ||
           		    input == x1TextField ||
           		    input == x0TextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

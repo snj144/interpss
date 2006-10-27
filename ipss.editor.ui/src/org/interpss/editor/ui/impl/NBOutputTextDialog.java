@@ -25,12 +25,16 @@
 package org.interpss.editor.ui.impl;
 
 import java.awt.Frame;
+import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
+
+import javax.swing.JFileChooser;
 
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.editor.ui.util.IpssFileFilter;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -53,6 +57,8 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	private IPSSMsgHub msg = null;
 	private AclfAdjNetwork aclfAdjNet = null;
 	private Object data = null;
+
+	private static JFileChooser saveTextFileChooser = null;
 
 	/**
 	*	Constructor for browser dialog
@@ -250,11 +256,22 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 
     private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
     	//IpssLogger.getLogger().info(textArea.getText());
+    	JFileChooser fChooser = getSaveTextFileChooser();
+    	fChooser.showSaveDialog(this);
     	// Richard, we need to save the textArea.getText() to a user selected file
     	// 1) ask user to select a file
     	// 2) Save textArea.getText() to the file
     }//GEN-LAST:event_saveAsButtonActionPerformed
-
+	
+	public static JFileChooser getSaveTextFileChooser() {
+		if (saveTextFileChooser == null) {
+			saveTextFileChooser = new JFileChooser();
+			saveTextFileChooser.addChoosableFileFilter(new IpssFileFilter("txt", "Text File"));
+		}
+		saveTextFileChooser.setCurrentDirectory(new File("."));
+    	return saveTextFileChooser;
+	}	
+	
     private void busStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busStyleRadioButtonActionPerformed
     	textArea.setText(AclfOut.lfResultsBusStyle(aclfAdjNet));
     }//GEN-LAST:event_busStyleRadioButtonActionPerformed

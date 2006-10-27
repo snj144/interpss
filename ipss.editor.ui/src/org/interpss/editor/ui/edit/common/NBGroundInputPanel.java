@@ -30,7 +30,7 @@ import org.interpss.editor.data.common.GroundData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.datatype.ScGroundType;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -76,17 +76,17 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
 		if (this.zGRadioButton.isSelected()) {
 			_form.setCode(ScGroundType.GType_ZGrounded);
 
-			if (!VerifyUtil.largeEqualThan(this.gXField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.gXField, 0.0d)) {
 				errMsg.add("Grounding X < 0.0");
 				ok = false;
 			}
-    		_form.setX(VerifyUtil.getDouble(this.gXField));
+    		_form.setX(SwingInputVerifyUtil.getDouble(this.gXField));
 
-			if (!VerifyUtil.largeEqualThan(this.gRField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.gRField, 0.0d)) {
 				errMsg.add("Grounding R < 0.0");
 				ok = false;
 			}
-    		_form.setR(VerifyUtil.getDouble(this.gRField));
+    		_form.setR(SwingInputVerifyUtil.getDouble(this.gRField));
 		}
 		else if (this.solidGRadioButton.isSelected()) {
 			_form.setCode(ScGroundType.GType_SolidGrounded);
@@ -253,7 +253,7 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
 				return false;
        		try {
        			if (input == gRField || input == gXField) 
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

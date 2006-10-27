@@ -38,7 +38,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
  
@@ -272,25 +272,25 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     	
 		boolean ok = true;
 		
-		if (VerifyUtil.getDouble(this.rTextField)== 0.0 && VerifyUtil.getDouble(this.xTextField)== 0.0) {
+		if (SwingInputVerifyUtil.getDouble(this.rTextField)== 0.0 && SwingInputVerifyUtil.getDouble(this.xTextField)== 0.0) {
 			errMsg.add("Branch x == 0.0 and r = 0.0");
 			ok = false;
 		}
-	    _data.setZR(VerifyUtil.getDouble(rTextField));
-		_data.setZX(VerifyUtil.getDouble(xTextField));
+	    _data.setZR(SwingInputVerifyUtil.getDouble(rTextField));
+		_data.setZX(SwingInputVerifyUtil.getDouble(xTextField));
 
-	    _data.setRating1(VerifyUtil.getDouble(mvaRating1TextField));
-		_data.setRating2(VerifyUtil.getDouble(mvaRating2TextField));
-	    _data.setRating3(VerifyUtil.getDouble(mvaRating3TextField));
+	    _data.setRating1(SwingInputVerifyUtil.getDouble(mvaRating1TextField));
+		_data.setRating2(SwingInputVerifyUtil.getDouble(mvaRating2TextField));
+	    _data.setRating3(SwingInputVerifyUtil.getDouble(mvaRating3TextField));
 
 		if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
-	    	_data.setHalfShuntB(VerifyUtil.getDouble(hBTextField));
+	    	_data.setHalfShuntB(SwingInputVerifyUtil.getDouble(hBTextField));
     	}
     	else  {
-    		_data.setXfrTapFromSideTap(VerifyUtil.getDouble(fromTapTextField));
-    		_data.setXfrTapToSideTap(VerifyUtil.getDouble(toTapTextField));
+    		_data.setXfrTapFromSideTap(SwingInputVerifyUtil.getDouble(fromTapTextField));
+    		_data.setXfrTapToSideTap(SwingInputVerifyUtil.getDouble(toTapTextField));
         	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
-        		_data.setPhaseShiftAngle(VerifyUtil.getDouble(hBTextField));
+        		_data.setPhaseShiftAngle(SwingInputVerifyUtil.getDouble(hBTextField));
         		_data.setPhaseShiftAngleUnit("Deg");
         	}
         	
@@ -299,29 +299,29 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	    		_data.setHasPSXfrPControl(false);
     	    	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) && tapVControlCheckBox.isSelected()) {
     	    		_data.setHasTapVControl(true);
-    	    		_data.setVcTapMax(VerifyUtil.getDouble(controlTapMaxTextField));
-    	    		_data.setVcTapMin(VerifyUtil.getDouble(controlTapMinTextField));
-    	    		_data.setVcStep(VerifyUtil.getDouble(controlTapStepTextField));
+    	    		_data.setVcTapMax(SwingInputVerifyUtil.getDouble(controlTapMaxTextField));
+    	    		_data.setVcTapMin(SwingInputVerifyUtil.getDouble(controlTapMinTextField));
+    	    		_data.setVcStep(SwingInputVerifyUtil.getDouble(controlTapStepTextField));
     			    _data.setVCTapOnFromSide(controlTapOnFromSideRadioButton.isSelected());
 
     			    if (voltageRadioButton.isSelected()) {
     			    	_data.setTapVControlType(AclfAdjBranchData.TapControlType_Voltage);
     			    	_data.setVcBusId((String)vcBusComboBox.getSelectedItem());
-    			    	_data.setVcVSpec(VerifyUtil.getDouble(vSpecTextField));
+    			    	_data.setVcVSpec(SwingInputVerifyUtil.getDouble(vSpecTextField));
     			    	_data.setVCBusOnFromSide(vcBusFromSideRadioButton.isSelected());
     			    }
     			    else {
     			    	_data.setTapVControlType(AclfAdjBranchData.TapControlType_MvarFlow);
-    			    	_data.setMvarFlowSpec(VerifyUtil.getDouble(vSpecTextField));
+    			    	_data.setMvarFlowSpec(SwingInputVerifyUtil.getDouble(vSpecTextField));
     			    	_data.setFlowFrom2To(vcBusFromSideRadioButton.isSelected());
     			    	_data.setMvarSpecOnFromSide(vcBusComboBox.getSelectedIndex()==0);
     			    }
     	    	}
     	    	else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr) && psXfrPowerCheckBox.isSelected()) {
     	    		_data.setHasPSXfrPControl(true);
-    	    		_data.setPcPSpec(VerifyUtil.getDouble(pSpecTextField));
-    	    		_data.setPcAngMax(VerifyUtil.getDouble(angleMaxTextField));
-    	    		_data.setPcAngMin(VerifyUtil.getDouble(angleMinTextField));
+    	    		_data.setPcPSpec(SwingInputVerifyUtil.getDouble(pSpecTextField));
+    	    		_data.setPcAngMax(SwingInputVerifyUtil.getDouble(angleMaxTextField));
+    	    		_data.setPcAngMin(SwingInputVerifyUtil.getDouble(angleMinTextField));
     	            _data.setPcOnFromSide(pControlFromSideRadioButton.isSelected());
     	            _data.setFlowFrom2To(from2ToRadioButton.isSelected());
     	    	}
@@ -1051,7 +1051,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
        			 */
                if ( input == toTapTextField ||
           		         input == fromTapTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

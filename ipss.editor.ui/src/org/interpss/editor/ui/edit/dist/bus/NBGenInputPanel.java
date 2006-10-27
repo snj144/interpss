@@ -33,7 +33,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
  
@@ -81,35 +81,35 @@ public class NBGenInputPanel extends javax.swing.JPanel  implements IFormDataPan
 
 		boolean ok = true;
 
-		if (!VerifyUtil.largeThan(this.ratedKWField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.ratedKWField, 0.0d)) {
 			errMsg.add("Generator rating <= 0.0");
 			ok = false;
 		}
-    	this.data.setBusRating(VerifyUtil.getDouble(this.ratedKWField));
+    	this.data.setBusRating(SwingInputVerifyUtil.getDouble(this.ratedKWField));
 		this.data.setBusRatingUnit((String)this.ratedKWUnitComboBox.getSelectedItem());
 
-		if (!VerifyUtil.largeThan(this.ratedVTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.ratedVTextField, 0.0d)) {
 			errMsg.add("Generator rated voltage <= 0.0");
 			ok = false;
 		}
-    	this.data.setRatedVolt(VerifyUtil.getDouble(this.ratedVTextField));
+    	this.data.setRatedVolt(SwingInputVerifyUtil.getDouble(this.ratedVTextField));
 		this.data.setRatedVoltUnit((String)this.ratedVUnitComboBox.getSelectedItem());
 
-		if (this.data.getPFactorUnit().equals("%") && !VerifyUtil.within(this.pfTextField, -100.0d, 100.0d) ||
-          this.data.getPFactorUnit().equals("PU") && !VerifyUtil.within(this.pfTextField, -1.0d, 1.0d) ||
-          VerifyUtil.getDouble(this.pfTextField) == 0.0) {
+		if (this.data.getPFactorUnit().equals("%") && !SwingInputVerifyUtil.within(this.pfTextField, -100.0d, 100.0d) ||
+          this.data.getPFactorUnit().equals("PU") && !SwingInputVerifyUtil.within(this.pfTextField, -1.0d, 1.0d) ||
+          SwingInputVerifyUtil.getDouble(this.pfTextField) == 0.0) {
 			errMsg.add("Generator power factor is out of range or = 0.0");
 			ok = false;
 		}
-    	this.data.setPFactor(VerifyUtil.getDouble(this.pfTextField));  // Gen PF may be + or -
+    	this.data.setPFactor(SwingInputVerifyUtil.getDouble(this.pfTextField));  // Gen PF may be + or -
 		this.data.setPFactorUnit((String)this.pfUnitComboBox.getSelectedItem());
       
-		if (!VerifyUtil.largeThan(this.loadingTextField, 0.0d) || 
-          !VerifyUtil.within(this.loadingTextField, 0.0d, 100.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.loadingTextField, 0.0d) || 
+          !SwingInputVerifyUtil.within(this.loadingTextField, 0.0d, 100.0d)) {
 			errMsg.add("Generator loading <= 0.0 or > 100%");
 			ok = false;
 		}
-    	this.data.setLoading(VerifyUtil.getDouble(this.loadingTextField));  
+    	this.data.setLoading(SwingInputVerifyUtil.getDouble(this.loadingTextField));  
 
     	data.setHasLoadSchedule(includeLScheduleCheckBox.isSelected());
     	
@@ -307,7 +307,7 @@ public class NBGenInputPanel extends javax.swing.JPanel  implements IFormDataPan
 				return false;
        		try {
        			if (input == ratedKWField || input == ratedVTextField || input == loadingTextField)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

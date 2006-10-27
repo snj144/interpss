@@ -38,7 +38,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.EditUIEvent;
 import org.interpss.editor.ui.util.EditUIEventContainer;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
  
@@ -232,22 +232,22 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 
 	    if (pqRadioButton.isSelected()) {
 	    	_data.setGenCode(AclfBusData.GenCode_PQ);
-	    	_data.setGenP(VerifyUtil.getDouble(pGenTextField));
-	    	_data.setGenQ(VerifyUtil.getDouble(qGenTextField));
+	    	_data.setGenP(SwingInputVerifyUtil.getDouble(pGenTextField));
+	    	_data.setGenQ(SwingInputVerifyUtil.getDouble(qGenTextField));
 	    }
 	    else if (pvRadioButton.isSelected()) {
 	    	_data.setGenCode(AclfBusData.GenCode_PV);
-	    	_data.setGenP(VerifyUtil.getDouble(pGenTextField));
-	    	_data.setVoltageMag(VerifyUtil.getDouble(qGenTextField));
+	    	_data.setGenP(SwingInputVerifyUtil.getDouble(pGenTextField));
+	    	_data.setVoltageMag(SwingInputVerifyUtil.getDouble(qGenTextField));
 	    }
 	    else if (swingRadioButton.isSelected()) {
 	    	_data.setGenCode(AclfBusData.GenCode_Swing);
-	    	_data.setVoltageMag(VerifyUtil.getDouble(pGenTextField));
-	    	_data.setVoltageAng(VerifyUtil.getDouble(qGenTextField));
+	    	_data.setVoltageMag(SwingInputVerifyUtil.getDouble(pGenTextField));
+	    	_data.setVoltageAng(SwingInputVerifyUtil.getDouble(qGenTextField));
 	    }
 	    else if (capRadioButton.isSelected()) {
 	    	_data.setGenCode(AclfBusData.GenCode_Capacitor);
-	    	_data.setCapQ(VerifyUtil.getDouble(pGenTextField));
+	    	_data.setCapQ(SwingInputVerifyUtil.getDouble(pGenTextField));
 	    }
 	    else {
 	    	_data.setGenCode(AclfBusData.GenCode_NonGen);
@@ -267,24 +267,24 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    		_data.setLoadCode(AclfBusData.LoadCode_ConstI);
 	    	else if (constZRadioButton.isSelected())
 	    		_data.setLoadCode(AclfBusData.LoadCode_ConstZ);
-	    	_data.setLoadP(VerifyUtil.getDouble(pLoadTextField));
-	    	_data.setLoadQ(VerifyUtil.getDouble(qLoadTextField));
+	    	_data.setLoadP(SwingInputVerifyUtil.getDouble(pLoadTextField));
+	    	_data.setLoadQ(SwingInputVerifyUtil.getDouble(qLoadTextField));
 	    }
 
-    	_data.setShuntB(VerifyUtil.getDouble(shuntBTextField));
-    	_data.setShuntG(VerifyUtil.getDouble(shuntGTextField));
+    	_data.setShuntB(SwingInputVerifyUtil.getDouble(shuntBTextField));
+    	_data.setShuntG(SwingInputVerifyUtil.getDouble(shuntGTextField));
     	_data.setShuntYUnit("PU");
 
     	if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
 	    	if (remoteQRadioButton.isSelected() ) {
 	    		_data.setHasRemoteVControl(true);
 		    	_data.setGenCode(AclfBusData.GenCode_PQ);
-		    	_data.setGenP(VerifyUtil.getDouble(pGenTextField));
+		    	_data.setGenP(SwingInputVerifyUtil.getDouble(pGenTextField));
 		    	_data.setGenQ(0.0);
 		    	// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and ReQMvarFlow-MvarSpec
-		    	_data.setVoltageMag(VerifyUtil.getDouble(qGenTextField));
-	    		_data.setMaxGenQ(VerifyUtil.getDouble(maxTextField));
-	    		_data.setMinGenQ(VerifyUtil.getDouble(minTextField));
+		    	_data.setVoltageMag(SwingInputVerifyUtil.getDouble(qGenTextField));
+	    		_data.setMaxGenQ(SwingInputVerifyUtil.getDouble(maxTextField));
+	    		_data.setMinGenQ(SwingInputVerifyUtil.getDouble(minTextField));
 	    		if (voltageRadioButton.isSelected()) {
 	    			_data.setReQControlType(AclfAdjBusData.ReQControlType_Voltage);
 	    			_data.setRemoteControlBusId((String)remoteBusComboBox.getSelectedItem());
@@ -300,13 +300,13 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    		_data.setHasRemoteVControl(false);
 		    	if (pqRadioButton.isSelected() ) {
 		    		_data.setHasLimitControl(true);
-		    		_data.setMaxVoltMag(VerifyUtil.getDouble(maxTextField));
-		    		_data.setMinVoltMag(VerifyUtil.getDouble(minTextField));
+		    		_data.setMaxVoltMag(SwingInputVerifyUtil.getDouble(maxTextField));
+		    		_data.setMinVoltMag(SwingInputVerifyUtil.getDouble(minTextField));
 			    }	
 			    else if (pvRadioButton.isSelected()) {
 		    		_data.setHasLimitControl(true);
-		    		_data.setMaxGenQ(VerifyUtil.getDouble(maxTextField));
-		    		_data.setMinGenQ(VerifyUtil.getDouble(minTextField));
+		    		_data.setMaxGenQ(SwingInputVerifyUtil.getDouble(maxTextField));
+		    		_data.setMinGenQ(SwingInputVerifyUtil.getDouble(minTextField));
 			    }	
 		    }
 	    	else {
@@ -316,10 +316,10 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	
 	    	if (funcLoadRadioButton.isSelected()) {
 	    		_data.setLoadCode(AclfBusData.LoadCode_FuncLoad);
-				_data.setLoadP_PPct(VerifyUtil.getDouble(constP_PTextField));
-	    		_data.setLoadQ_PPct(VerifyUtil.getDouble(constP_QTextField));
-	    		_data.setLoadP_IPct(VerifyUtil.getDouble(constI_PTextField));
-	    		_data.setLoadQ_IPct(VerifyUtil.getDouble(constI_QTextField));
+				_data.setLoadP_PPct(SwingInputVerifyUtil.getDouble(constP_PTextField));
+	    		_data.setLoadQ_PPct(SwingInputVerifyUtil.getDouble(constP_QTextField));
+	    		_data.setLoadP_IPct(SwingInputVerifyUtil.getDouble(constI_PTextField));
+	    		_data.setLoadQ_IPct(SwingInputVerifyUtil.getDouble(constI_QTextField));
 	    	}	
 	    }
 
@@ -1227,15 +1227,15 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
           		    input == constI_PTextField ||
           		    input == constP_QTextField ||
           		    input == constI_QTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0 && VerifyUtil.getDouble((javax.swing.JTextField)input) <= 100.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0 && SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) <= 100.0;
                else if ( input == constZ_PTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0 &&
-					    	(VerifyUtil.getDouble(constP_PTextField)+VerifyUtil.getDouble(constI_PTextField)+
-					    			VerifyUtil.getDouble(constZ_PTextField) == 100.0);
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0 &&
+					    	(SwingInputVerifyUtil.getDouble(constP_PTextField)+SwingInputVerifyUtil.getDouble(constI_PTextField)+
+					    			SwingInputVerifyUtil.getDouble(constZ_PTextField) == 100.0);
                else if ( input == constZ_QTextField )
-       				return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0 &&
-       						(VerifyUtil.getDouble(constP_QTextField)+VerifyUtil.getDouble(constI_QTextField)+
-       								VerifyUtil.getDouble(constZ_QTextField) == 100.0);
+       				return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0 &&
+       						(SwingInputVerifyUtil.getDouble(constP_QTextField)+SwingInputVerifyUtil.getDouble(constI_QTextField)+
+       								SwingInputVerifyUtil.getDouble(constZ_QTextField) == 100.0);
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

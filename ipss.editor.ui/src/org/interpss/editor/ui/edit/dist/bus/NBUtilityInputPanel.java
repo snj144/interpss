@@ -30,7 +30,7 @@ import org.interpss.editor.data.dist.DistBusData;
 import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -75,38 +75,38 @@ public class NBUtilityInputPanel extends javax.swing.JPanel  implements IFormDat
 
 		boolean ok = true;
 
-		if (!VerifyUtil.largeThan(this.voltageTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.voltageTextField, 0.0d)) {
 			errMsg.add("Utility operation voltage <= 0.0");
 			ok = false;
 		}
-    	this._data.setRatedVolt(VerifyUtil.getDouble(this.voltageTextField));
-    	this._data.setVAngle(VerifyUtil.getDouble(this.angleTextField));
+    	this._data.setRatedVolt(SwingInputVerifyUtil.getDouble(this.voltageTextField));
+    	this._data.setVAngle(SwingInputVerifyUtil.getDouble(this.angleTextField));
 		this._data.setRatedVoltUnit((String)this.vUnitComboBox.getSelectedItem());
 		this._data.setVAngleUnit("Deg");
 
-      if (!VerifyUtil.largeThan(this.mva3PField, 0.0d)) {
+      if (!SwingInputVerifyUtil.largeThan(this.mva3PField, 0.0d)) {
 			errMsg.add("Utility three phase SC MVA <= 0.0");
 			ok = false;
 		}
-    	this._data.setMvaRating3P(VerifyUtil.getDouble(this.mva3PField));
+    	this._data.setMvaRating3P(SwingInputVerifyUtil.getDouble(this.mva3PField));
 
-		if (!VerifyUtil.largeThan(this.x_r3PField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.x_r3PField, 0.0d)) {
 			errMsg.add("Utility SC X/R three phase <= 0.0");
 			ok = false;
 		}
-    	this._data.setX_r3P(VerifyUtil.getDouble(this.x_r3PField));
+    	this._data.setX_r3P(SwingInputVerifyUtil.getDouble(this.x_r3PField));
 
-		if (!VerifyUtil.largeThan(this.mva1PField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.mva1PField, 0.0d)) {
 			errMsg.add("Utility single phase SC MVA <= 0.0");
 			ok = false;
 		}
-    	this._data.setMvaRating1P(VerifyUtil.getDouble(this.mva1PField));
+    	this._data.setMvaRating1P(SwingInputVerifyUtil.getDouble(this.mva1PField));
 
-      if (!VerifyUtil.largeThan(this.x_r1PTextField, 0.0d)) {
+      if (!SwingInputVerifyUtil.largeThan(this.x_r1PTextField, 0.0d)) {
 			errMsg.add("Utility SC X/R single phase <= 0.0");
 			ok = false;
 		}
-    	this._data.setX_r1P(VerifyUtil.getDouble(this.x_r1PTextField));
+    	this._data.setX_r1P(SwingInputVerifyUtil.getDouble(this.x_r1PTextField));
       
 		this._data.setMvaRatingUnit((String)this.mvaUnitComboBox.getSelectedItem());
 
@@ -299,7 +299,7 @@ public class NBUtilityInputPanel extends javax.swing.JPanel  implements IFormDat
        			if (input == mva3PField || input == mva1PField || 
                    input == x_r3PField || input == x_r1PTextField ||
                    input == voltageTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

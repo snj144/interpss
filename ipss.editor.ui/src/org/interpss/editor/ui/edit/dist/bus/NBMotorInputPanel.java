@@ -33,7 +33,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -82,37 +82,37 @@ public class NBMotorInputPanel extends javax.swing.JPanel  implements IFormDataP
 
 		boolean ok = true;
 
-		if (!VerifyUtil.largeThan(this.ratedHPField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.ratedHPField, 0.0d)) {
 			errMsg.add("Motor rating <= 0.0");
 			ok = false;
 		}
-    	this._data.setBusRating(VerifyUtil.getDouble(this.ratedHPField));
+    	this._data.setBusRating(SwingInputVerifyUtil.getDouble(this.ratedHPField));
 
 		this._data.setBusRatingUnit((String)this.ratedHPUnitComboBox.getSelectedItem());
 
-		if (!VerifyUtil.largeThan(this.ratedVTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.ratedVTextField, 0.0d)) {
 			errMsg.add("Motor rated voltage <= 0.0");
 			ok = false;
 		}
-    	this._data.setRatedVolt(VerifyUtil.getDouble(this.ratedVTextField));
+    	this._data.setRatedVolt(SwingInputVerifyUtil.getDouble(this.ratedVTextField));
 
 		this._data.setRatedVoltUnit((String)this.ratedVUnitComboBox.getSelectedItem());
 
-    	this._data.setPFactor(VerifyUtil.getDouble(this.pfField));   // SynMotor PF may be < 0.0
+    	this._data.setPFactor(SwingInputVerifyUtil.getDouble(this.pfField));   // SynMotor PF may be < 0.0
 
 		this._data.setPFactorUnit((String)this.pfUnitComboBox.getSelectedItem());
 
-      if (!VerifyUtil.largeThan(this.effTextField, 0.0d)) {
+      if (!SwingInputVerifyUtil.largeThan(this.effTextField, 0.0d)) {
 			errMsg.add("Motor efficiency <= 0.0");
 			ok = false;
 		}
-    	this._data.setEff(VerifyUtil.getDouble(this.effTextField));
+    	this._data.setEff(SwingInputVerifyUtil.getDouble(this.effTextField));
 
-      if (!VerifyUtil.largeThan(this.loadingTextField, 0.0d)) {
+      if (!SwingInputVerifyUtil.largeThan(this.loadingTextField, 0.0d)) {
 			errMsg.add("Motor loading <= 0.0");
 			ok = false;
 		}
-    	this._data.setLoading(VerifyUtil.getDouble(this.loadingTextField));
+    	this._data.setLoading(SwingInputVerifyUtil.getDouble(this.loadingTextField));
 
     	_data.setHasLoadSchedule(includeLScheduleCheckBox.isSelected());
 
@@ -315,7 +315,7 @@ public class NBMotorInputPanel extends javax.swing.JPanel  implements IFormDataP
 				return false;
        		try {
        			if (input == ratedHPField || input == ratedVTextField || input == effTextField || input == loadingTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		
