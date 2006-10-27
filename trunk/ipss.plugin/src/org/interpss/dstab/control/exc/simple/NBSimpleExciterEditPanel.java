@@ -14,9 +14,8 @@ package org.interpss.dstab.control.exc.simple;
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
-import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -65,29 +64,29 @@ public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICon
 	*/
     public boolean saveEditorData(Vector errMsg) throws Exception {
 		boolean ok = true;
-		if (!VerifyUtil.largeThan(this.kaTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.kaTextField, 0.0d)) {
 			errMsg.add("Ka <= 0.0");
 			ok = false;
 		}
-    	_data.setKa(InputVerifyUtil.getDouble(kaTextField));
+    	_data.setKa(SwingInputVerifyUtil.getDouble(kaTextField));
 
-		if (!VerifyUtil.largeThan(this.taTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.taTextField, 0.0d)) {
 			errMsg.add("Ta <= 0.0");
 			ok = false;
 		}
-    	_data.setTa(InputVerifyUtil.getDouble(taTextField));
+    	_data.setTa(SwingInputVerifyUtil.getDouble(taTextField));
 
-    	if (!VerifyUtil.largeThan(this.vrmaxTextField, 0.0d)) {
+    	if (!SwingInputVerifyUtil.largeThan(this.vrmaxTextField, 0.0d)) {
 			errMsg.add("Vrmax <= 0.0");
 			ok = false;
 		}
-    	_data.setVrmax(InputVerifyUtil.getDouble(vrmaxTextField));
+    	_data.setVrmax(SwingInputVerifyUtil.getDouble(vrmaxTextField));
 
-    	if (!VerifyUtil.largeEqualThan(this.vrminTextField, 0.0d)) {
+    	if (!SwingInputVerifyUtil.largeEqualThan(this.vrminTextField, 0.0d)) {
 			errMsg.add("Vrmin < 0.0");
 			ok = false;
 		}
-    	_data.setVrmin(InputVerifyUtil.getDouble(vrminTextField));
+    	_data.setVrmin(SwingInputVerifyUtil.getDouble(vrminTextField));
 		
     	if (_data.getVrmax() <= _data.getVrmin()) {
 			errMsg.add("Vrmax <= Vrmin");
@@ -206,7 +205,7 @@ public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICon
              		 input == taTextField ||
              		 input == vrmaxTextField ||
              		 input == vrminTextField )
-    	       		return InputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+    	       		return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

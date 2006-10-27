@@ -27,11 +27,10 @@ package org.interpss.dstab.control.gov.ieee.ieeeST1;
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
 import com.interpss.dstab.controller.AbstractGovernor;
 
-import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -90,53 +89,53 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
 		
     	_data.setOptMode(droopRadioButton.isSelected()? AbstractGovernor.DroopMode : AbstractGovernor.IsochMode); 
 
-    	if (!VerifyUtil.largeThan(this.rTextField, 0.0d)) {
+    	if (!SwingInputVerifyUtil.largeThan(this.rTextField, 0.0d)) {
 			errMsg.add("R <= 0.0");
 			ok = false;
 		}
-		_data.setR(InputVerifyUtil.getDouble(rTextField));
+		_data.setR(SwingInputVerifyUtil.getDouble(rTextField));
     	
-		if (!VerifyUtil.largeThan(this.fpTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.fpTextField, 0.0d)) {
 			errMsg.add("Fp <= 0.0");
 			ok = false;
 		}
-		_data.setFp(InputVerifyUtil.getDouble(fpTextField));
+		_data.setFp(SwingInputVerifyUtil.getDouble(fpTextField));
 
-		if (!VerifyUtil.largeThan(this.t1TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.t1TextField, 0.0d)) {
 			errMsg.add("T1 <= 0.0");
 			ok = false;
 		}		
-		_data.setT1(InputVerifyUtil.getDouble(t1TextField));
+		_data.setT1(SwingInputVerifyUtil.getDouble(t1TextField));
     	
-		if (!VerifyUtil.largeThan(this.t2TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.t2TextField, 0.0d)) {
 			errMsg.add("T2 <= 0.0");
 			ok = false;
 		}		
-		_data.setT2(InputVerifyUtil.getDouble(t1TextField));
+		_data.setT2(SwingInputVerifyUtil.getDouble(t1TextField));
 
-		if (!VerifyUtil.largeThan(this.t3TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.t3TextField, 0.0d)) {
 			errMsg.add("T3 <= 0.0");
 			ok = false;
 		}		
-		_data.setT3(InputVerifyUtil.getDouble(t3TextField));
+		_data.setT3(SwingInputVerifyUtil.getDouble(t3TextField));
 
-		if (!VerifyUtil.largeThan(this.t4TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.t4TextField, 0.0d)) {
 			errMsg.add("T4 <= 0.0");
 			ok = false;
 		}		
-		_data.setT4(InputVerifyUtil.getDouble(t4TextField));
+		_data.setT4(SwingInputVerifyUtil.getDouble(t4TextField));
 
-		if (!VerifyUtil.largeThan(this.pmaxTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.pmaxTextField, 0.0d)) {
 			errMsg.add("Pmax <= 0.0");
 			ok = false;
 		}
-		_data.setPmax(InputVerifyUtil.getDouble(pmaxTextField));
+		_data.setPmax(SwingInputVerifyUtil.getDouble(pmaxTextField));
     	
-		if (!VerifyUtil.largeEqualThan(this.pminTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(this.pminTextField, 0.0d)) {
 			errMsg.add("Pmin <= 0.0");
 			ok = false;
 		}
-		_data.setPmin(InputVerifyUtil.getDouble(pminTextField));
+		_data.setPmin(SwingInputVerifyUtil.getDouble(pminTextField));
     	
 		if (_data.getPmax() <= _data.getPmin()) {
 			errMsg.add("Pmax <= Pmin");
@@ -374,7 +373,7 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
                 	 input == t4TextField ||
                 	 input == pmaxTextField ||
                 	 input == pminTextField )
-       	       		return InputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+       	       		return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
        	    } catch (Exception e) {
  	    		return false;
  	       	}		
