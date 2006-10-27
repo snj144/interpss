@@ -33,7 +33,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
    
 
@@ -66,11 +66,11 @@ public class NBBreakerInputPanel extends javax.swing.JPanel implements IFormData
 		boolean ok = true;
 		_data.setBranchCode("Breaker");
 		_form.setName((String)this.nameComboBox.getSelectedItem());
-		if (!VerifyUtil.largeThan(this.rField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.rField, 0.0d)) {
 			errMsg.add("Breaker R <= 0.0");
 			ok = false;
 		}
-    	_data.setZR(VerifyUtil.getDouble(this.rField));
+    	_data.setZR(SwingInputVerifyUtil.getDouble(this.rField));
     	_data.setZX(0.0d);
     	_data.setZUnit("Ohms");
     	_data.setHalfShuntB(0.0d);
@@ -195,7 +195,7 @@ public class NBBreakerInputPanel extends javax.swing.JPanel implements IFormData
 				return false;
        		try {
        			if (input == rField)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

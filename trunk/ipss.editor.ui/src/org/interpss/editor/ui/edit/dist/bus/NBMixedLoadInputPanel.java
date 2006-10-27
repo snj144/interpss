@@ -33,7 +33,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.UISpringAppContext;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
 
@@ -80,19 +80,19 @@ public class NBMixedLoadInputPanel extends javax.swing.JPanel implements IFormDa
 
 		boolean ok = true;
 
-		if (!VerifyUtil.largeThan(this.totalKVAField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.totalKVAField, 0.0d)) {
 			errMsg.add("Total KVA <= 0.0");
 			ok = false;
 		}
-    	this.data.setBusRating(VerifyUtil.getDouble(this.totalKVAField));
+    	this.data.setBusRating(SwingInputVerifyUtil.getDouble(this.totalKVAField));
 
 		this.data.setBusRatingUnit((String)this.totalKVAUnitComboBox.getSelectedItem());
 
-		if (!VerifyUtil.largeThan(this.ratedVTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.ratedVTextField, 0.0d)) {
 			errMsg.add("Rated voltage <= 0.0");
 			ok = false;
 		}
-    	this.data.setRatedVolt(VerifyUtil.getDouble(this.ratedVTextField));
+    	this.data.setRatedVolt(SwingInputVerifyUtil.getDouble(this.ratedVTextField));
 
 		this.data.setRatedVoltUnit((String)this.ratedVUnitComboBox.getSelectedItem());
 
@@ -102,15 +102,15 @@ public class NBMixedLoadInputPanel extends javax.swing.JPanel implements IFormDa
 			ok = false;
 		}
 		*/
-    	this.data.setPFactor(VerifyUtil.getDouble(this.pfField));
+    	this.data.setPFactor(SwingInputVerifyUtil.getDouble(this.pfField));
 
 		this.data.setPFactorUnit((String)this.pfUnitComboBox.getSelectedItem());
 
-        if (!VerifyUtil.largeEqualThan(this.motorPercentTextField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeEqualThan(this.motorPercentTextField, 0.0d)) {
 			errMsg.add("Motor percent < 0.0");
 			ok = false;
 		}
-    	this.data.setMotorPercent(VerifyUtil.getDouble(this.motorPercentTextField));
+    	this.data.setMotorPercent(SwingInputVerifyUtil.getDouble(this.motorPercentTextField));
 
     	data.setHasLoadSchedule(includeLScheduleCheckBox.isSelected());
     	
@@ -292,9 +292,9 @@ public class NBMixedLoadInputPanel extends javax.swing.JPanel implements IFormDa
 				return false;
        		try {
        			if (input == totalKVAField || input == ratedVTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
                else if ( input == motorPercentTextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

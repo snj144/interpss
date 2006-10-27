@@ -35,7 +35,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.common.NBGroundInputPanel;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
  
@@ -126,41 +126,41 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    }
 
 	    if (_data.getScCode().equals(AcscBusData.ScCode_Contribute)) {
-			if (!VerifyUtil.largeEqualThan(r1TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(r1TextField, 0.0d)) {
 				errMsg.add("Xfr R1 < 0.0");
 				ok = false;
 			}
-			_data.setZ1R(VerifyUtil.getDouble(r1TextField));
+			_data.setZ1R(SwingInputVerifyUtil.getDouble(r1TextField));
 
-			if (!VerifyUtil.largeThan(x1TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(x1TextField, 0.0d)) {
 				errMsg.add("Xfr X1 <= 0.0");
 				ok = false;
 			}
-			_data.setZ1X(VerifyUtil.getDouble(x1TextField));
+			_data.setZ1X(SwingInputVerifyUtil.getDouble(x1TextField));
 
-			if (!VerifyUtil.largeEqualThan(r0TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(r0TextField, 0.0d)) {
 				errMsg.add("Xfr R0 < 0.0");
 				ok = false;
 			}
-			_data.setZ0R(VerifyUtil.getDouble(r0TextField));
+			_data.setZ0R(SwingInputVerifyUtil.getDouble(r0TextField));
 
-			if (!VerifyUtil.largeThan(x0TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(x0TextField, 0.0d)) {
 				errMsg.add("Xfr X1 <= 0.0");
 				ok = false;
 			}
-			_data.setZ0X(VerifyUtil.getDouble(x0TextField));
+			_data.setZ0X(SwingInputVerifyUtil.getDouble(x0TextField));
 
-			if (!VerifyUtil.largeEqualThan(r2TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(r2TextField, 0.0d)) {
 				errMsg.add("Xfr R2 < 0.0");
 				ok = false;
 			}
-			_data.setZ2R(VerifyUtil.getDouble(r2TextField));
+			_data.setZ2R(SwingInputVerifyUtil.getDouble(r2TextField));
 
-			if (!VerifyUtil.largeThan(x2TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(x2TextField, 0.0d)) {
 				errMsg.add("Xfr X2 <= 0.0");
 				ok = false;
 			}
-			_data.setZ2X(VerifyUtil.getDouble(x2TextField));
+			_data.setZ2X(SwingInputVerifyUtil.getDouble(x2TextField));
 
 			if (!_groundPanel.saveEditor2Form(errMsg))
 		    	ok = false;
@@ -412,11 +412,11 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
                if ( input == r1TextField ||
           		    input == r2TextField ||
           		    input == r0TextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
                if ( input == x1TextField ||
           		    input == x2TextField ||
           		    input == x0TextField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

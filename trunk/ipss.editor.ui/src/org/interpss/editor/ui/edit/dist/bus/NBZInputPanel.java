@@ -40,7 +40,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 
 
@@ -79,15 +79,15 @@ public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel
 						int i = e.getFirstRow();
 						if (e.getColumn() == 1 || e.getColumn() == 2) {
 							//System.out.println("modify x/r");
-							double x = VerifyUtil.getDouble(getScPointDataModel().getValueAt(i, 1));
-							double r = VerifyUtil.getDouble(getScPointDataModel().getValueAt(i, 2));
+							double x = SwingInputVerifyUtil.getDouble(getScPointDataModel().getValueAt(i, 1));
+							double r = SwingInputVerifyUtil.getDouble(getScPointDataModel().getValueAt(i, 2));
 							passEditing = true;
 							getScPointDataModel().setValueAt(new Double(NetDataUtil.ratio(x,r)), i, 3);
 						}	
 						else if (e.getColumn() == 3) {
 							//System.out.println("modify r");
-							double x = VerifyUtil.getDouble(getScPointDataModel().getValueAt(i, 1));
-							double x_r = VerifyUtil.getDouble(getScPointDataModel().getValueAt(i, 3));
+							double x = SwingInputVerifyUtil.getDouble(getScPointDataModel().getValueAt(i, 1));
+							double x_r = SwingInputVerifyUtil.getDouble(getScPointDataModel().getValueAt(i, 3));
 							passEditing = true;
 							if (x_r != 0.0)
 								getScPointDataModel().setValueAt(new Double(NetDataUtil.calValue(x,1.0/x_r)), i, 2);
@@ -109,15 +109,15 @@ public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel
 						int i = e.getFirstRow();
 						if (e.getColumn() == 1 || e.getColumn() == 2) {
 							//System.out.println("modify x/r");
-							double x = VerifyUtil.getDouble(getNormalDataModel().getValueAt(i, 1));
-							double r = VerifyUtil.getDouble(getNormalDataModel().getValueAt(i, 2));
+							double x = SwingInputVerifyUtil.getDouble(getNormalDataModel().getValueAt(i, 1));
+							double r = SwingInputVerifyUtil.getDouble(getNormalDataModel().getValueAt(i, 2));
 							passEditing = true;
 							getScPointDataModel().setValueAt(new Double(NetDataUtil.ratio(x,r)), i, 3);
 						}	
 						else if (e.getColumn() == 3) {
 							//System.out.println("modify r");
-							double x = VerifyUtil.getDouble(getNormalDataModel().getValueAt(i, 1));
-							double x_r = VerifyUtil.getDouble(getNormalDataModel().getValueAt(i, 3));
+							double x = SwingInputVerifyUtil.getDouble(getNormalDataModel().getValueAt(i, 1));
+							double x_r = SwingInputVerifyUtil.getDouble(getNormalDataModel().getValueAt(i, 3));
 							passEditing = true;
 							if (x_r != 0.0)
 								getNormalDataModel().setValueAt(new Double(NetDataUtil.calValue(x,1.0/x_r)), i, 2);
@@ -189,9 +189,9 @@ public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel
         }
 
         for (int i = 0; i < scPoints+2; i++) {
-			double x = VerifyUtil.getDouble(tableModel.getValueAt(i, 1));
-			double r = VerifyUtil.getDouble(tableModel.getValueAt(i, 2));
-			double x_r = VerifyUtil.getDouble(tableModel.getValueAt(i, 3));
+			double x = SwingInputVerifyUtil.getDouble(tableModel.getValueAt(i, 1));
+			double r = SwingInputVerifyUtil.getDouble(tableModel.getValueAt(i, 2));
+			double x_r = SwingInputVerifyUtil.getDouble(tableModel.getValueAt(i, 3));
 			if ( x <= 0.0 || r < 0.0 || x_r < 0.0 ) {
 				errMsg.add("x <= 0.0 or r < 0.0 or x_r < 0.0, row " + new Integer(i+1));
 				ok = false;

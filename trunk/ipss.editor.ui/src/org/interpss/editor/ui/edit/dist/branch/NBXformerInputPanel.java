@@ -37,7 +37,7 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.edit.common.NBGConnectionPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
    
 
@@ -125,60 +125,60 @@ public class NBXformerInputPanel extends javax.swing.JPanel implements IFormData
         _data.setZ0Unit((String)this.zUnitComboBox.getSelectedItem());
         _data.setXfrTapUnit((String)this.tapUnitComboBox.getSelectedItem());
 
-        if (!VerifyUtil.largeThan(this.xfrRatingField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.xfrRatingField, 0.0d)) {
             errMsg.add("Transformer rating <= 0.0");
             ok = false;
         }
-        _data.setXfrRating(VerifyUtil.getDouble(this.xfrRatingField));
+        _data.setXfrRating(SwingInputVerifyUtil.getDouble(this.xfrRatingField));
 
-        if (!VerifyUtil.largeThan(this.fromRatedVTextField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.fromRatedVTextField, 0.0d)) {
             errMsg.add("Transformer from side rated voltage <= 0.0");
             ok = false;
         }
-        _data.setFromRatedVolt(VerifyUtil.getDouble(this.fromRatedVTextField));
+        _data.setFromRatedVolt(SwingInputVerifyUtil.getDouble(this.fromRatedVTextField));
 
-        if (!VerifyUtil.largeThan(this.toRatedVTextField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.toRatedVTextField, 0.0d)) {
             errMsg.add("Transformer to side rated voltage <= 0.0");
             ok = false;
         }
-        _data.setToRatedVolt(VerifyUtil.getDouble(this.toRatedVTextField));
+        _data.setToRatedVolt(SwingInputVerifyUtil.getDouble(this.toRatedVTextField));
 
-        if (!VerifyUtil.largeThan(this.xField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.xField, 0.0d)) {
             errMsg.add("Transformer X <= 0.0");
             ok = false;
         }
-        _data.setZX(VerifyUtil.getDouble(this.xField));
+        _data.setZX(SwingInputVerifyUtil.getDouble(this.xField));
 
-        if (!VerifyUtil.largeEqualThan(this.rField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeEqualThan(this.rField, 0.0d)) {
             errMsg.add("Transformer R < 0.0");
             ok = false;
         }
-        _data.setZR(VerifyUtil.getDouble(this.rField));
+        _data.setZR(SwingInputVerifyUtil.getDouble(this.rField));
 
-        if (!VerifyUtil.largeThan(this.x0_x1Field, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.x0_x1Field, 0.0d)) {
             errMsg.add("Transformer x0/x1 <= 0.0");
             ok = false;
         }
         _data.setZ0X(NetDataUtil.calValue(_data.getZX(),
-    					VerifyUtil.getDouble(this.x0_x1Field)));
+    					SwingInputVerifyUtil.getDouble(this.x0_x1Field)));
 
-        if (!VerifyUtil.largeEqualThan(this.r0_r1Field, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeEqualThan(this.r0_r1Field, 0.0d)) {
             errMsg.add("Transformer r0/r1 < 0.0");
             ok = false;
         }
-        _data.setZ0R(NetDataUtil.calValue(_data.getZR(), VerifyUtil.getDouble(this.r0_r1Field)));
+        _data.setZ0R(NetDataUtil.calValue(_data.getZR(), SwingInputVerifyUtil.getDouble(this.r0_r1Field)));
 
-        if (!VerifyUtil.largeThan(this.fromTapField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.fromTapField, 0.0d)) {
             errMsg.add("Transformer to side tap <= 0.0");
             ok = false;
         }
-        _data.setXfrTapFromSideTap(VerifyUtil.getDouble(this.fromTapField));
+        _data.setXfrTapFromSideTap(SwingInputVerifyUtil.getDouble(this.fromTapField));
 
-        if (!VerifyUtil.largeThan(this.toTapField, 0.0d)) {
+        if (!SwingInputVerifyUtil.largeThan(this.toTapField, 0.0d)) {
             errMsg.add("Transformer to side tap <= 0.0");
             ok = false;
         }
-        _data.setXfrTapToSideTap(VerifyUtil.getDouble(this.toTapField));
+        _data.setXfrTapToSideTap(SwingInputVerifyUtil.getDouble(this.toTapField));
 
         if (!((IFormDataPanel)fromXfrConPanel).saveEditor2Form(errMsg))
             ok = false;
@@ -537,16 +537,16 @@ public class NBXformerInputPanel extends javax.swing.JPanel implements IFormData
 
     private void x_rFieldActionHandler(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_x_rFieldActionHandler
     	try {
-    		double x = VerifyUtil.getDouble(this.xField);
-			double r = NetDataUtil.calValue(x, 1.0/VerifyUtil.getDouble(this.x_rField));
+    		double x = SwingInputVerifyUtil.getDouble(this.xField);
+			double r = NetDataUtil.calValue(x, 1.0/SwingInputVerifyUtil.getDouble(this.x_rField));
         	this.rField.setText(Num2Str.toStr(r, "#0.0####"));
         } catch (Exception e) {}	
     }//GEN-LAST:event_x_rFieldActionHandler
 
     private void rFieldActionHandler(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_rFieldActionHandler
 		try {
-			double x_r = NetDataUtil.ratio(VerifyUtil.getDouble(this.xField), 
-						VerifyUtil.getDouble(this.rField));
+			double x_r = NetDataUtil.ratio(SwingInputVerifyUtil.getDouble(this.xField), 
+						SwingInputVerifyUtil.getDouble(this.rField));
         	this.x_rField.setText(Num2Str.toStr(x_r, "#0.0##"));
         } catch (Exception e) {}	
     }//GEN-LAST:event_rFieldActionHandler
@@ -603,12 +603,12 @@ public class NBXformerInputPanel extends javax.swing.JPanel implements IFormData
        			    input == x_rField ||
        			    input == fromTapField ||
        			    input == toTapField )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
 				else if (input == xfrRatingField ||
 					input == rField ||
 					input == x0_x1Field ||
 					input == r0_r1Field )
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

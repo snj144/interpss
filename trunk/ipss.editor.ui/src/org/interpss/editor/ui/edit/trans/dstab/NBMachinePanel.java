@@ -37,7 +37,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.common.NBGroundInputPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
  
@@ -197,54 +197,54 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 		DStabMachData machData = _data.getMachData();
 
 		if (machData.getType().equals(DStabMachData.MachType_InfiniteBus)) {
-			if (!VerifyUtil.largeThan(this.inertiaTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.inertiaTextField, 0.0d)) {
 				errMsg.add("MVA3P <= 0.0");
 				ok = false;
 			}
-			machData.setScMva3P(VerifyUtil.getDouble(inertiaTextField));
+			machData.setScMva3P(SwingInputVerifyUtil.getDouble(inertiaTextField));
 			
-			if (!VerifyUtil.largeEqualThan(this.dampingTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.dampingTextField, 0.0d)) {
 				errMsg.add("MVA1P < 0.0");
 				ok = false;
 			}
-			machData.setScMva1P(VerifyUtil.getDouble(dampingTextField));
+			machData.setScMva1P(SwingInputVerifyUtil.getDouble(dampingTextField));
 
-			if (!VerifyUtil.largeThan(this.x0TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.x0TextField, 0.0d)) {
 				errMsg.add("X/R 3P <= 0.0");
 				ok = false;
 			}
-			machData.setX_R_3P(VerifyUtil.getDouble(x0TextField));
+			machData.setX_R_3P(SwingInputVerifyUtil.getDouble(x0TextField));
 			
-			if (!VerifyUtil.largeThan(this.x2TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.x2TextField, 0.0d)) {
 				errMsg.add("X/R 1P <= 0.0");
 				ok = false;
 			}
-			machData.setX_R_1P(VerifyUtil.getDouble(x2TextField));
+			machData.setX_R_1P(SwingInputVerifyUtil.getDouble(x2TextField));
 		}
 		else {
-			if (!VerifyUtil.largeThan(this.inertiaTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.inertiaTextField, 0.0d)) {
 				errMsg.add("Inertia <= 0.0");
 				ok = false;
 			}
-			machData.setInertia(VerifyUtil.getDouble(inertiaTextField));
+			machData.setInertia(SwingInputVerifyUtil.getDouble(inertiaTextField));
 			
-			if (!VerifyUtil.largeThan(this.dampingTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.dampingTextField, 0.0d)) {
 				errMsg.add("Damping <= 0.0");
 				ok = false;
 			}
-			machData.setDamping(VerifyUtil.getDouble(dampingTextField));
+			machData.setDamping(SwingInputVerifyUtil.getDouble(dampingTextField));
 			
-			if (!VerifyUtil.largeThan(this.x0TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.x0TextField, 0.0d)) {
 				errMsg.add("X0 <= 0.0");
 				ok = false;
 			}
-			machData.setX0(VerifyUtil.getDouble(x0TextField));
+			machData.setX0(SwingInputVerifyUtil.getDouble(x0TextField));
 			
-			if (!VerifyUtil.largeThan(this.x2TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.x2TextField, 0.0d)) {
 				errMsg.add("X2 <= 0.0");
 				ok = false;
 			}
-			machData.setX2(VerifyUtil.getDouble(x2TextField));
+			machData.setX2(SwingInputVerifyUtil.getDouble(x2TextField));
 		}
 		
 		if (machNameTextField.isEnabled()) {
@@ -252,147 +252,147 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 		}
 
 		if (ratingTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.ratingTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.ratingTextField, 0.0d)) {
 				errMsg.add("Rating <= 0.0");
 				ok = false;
 			}
-			machData.setRating(VerifyUtil.getDouble(ratingTextField));
+			machData.setRating(SwingInputVerifyUtil.getDouble(ratingTextField));
 		}
 
 		if (ratedVoltTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.ratedVoltTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.ratedVoltTextField, 0.0d)) {
 				errMsg.add("Rated Voltage <= 0.0");
 				ok = false;
 			}
-			machData.setRatedVolt(VerifyUtil.getDouble(ratedVoltTextField));
+			machData.setRatedVolt(SwingInputVerifyUtil.getDouble(ratedVoltTextField));
 		}
 
 		if (polesTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.polesTextField, 0) | VerifyUtil.getInt(polesTextField) % 2 != 0) {
+			if (!SwingInputVerifyUtil.largeThan(this.polesTextField, 0) | SwingInputVerifyUtil.getInt(polesTextField) % 2 != 0) {
 				errMsg.add("Poles <= 0 or not even");
 				ok = false;
 			}
-			machData.setPoles(VerifyUtil.getInt(polesTextField));
+			machData.setPoles(SwingInputVerifyUtil.getInt(polesTextField));
 		}
 
 		if (xlTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.xlTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.xlTextField, 0.0d)) {
 				errMsg.add("Xl <= 0.0");
 				ok = false;
 			}
-			machData.setXl(VerifyUtil.getDouble(xlTextField));
+			machData.setXl(SwingInputVerifyUtil.getDouble(xlTextField));
 		}
 
 		if (raTextField.isEnabled()) {
-			if (!VerifyUtil.largeEqualThan(this.raTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeEqualThan(this.raTextField, 0.0d)) {
 				errMsg.add("X2 < 0.0");
 				ok = false;
 			}
-			machData.setRa(VerifyUtil.getDouble(raTextField));
+			machData.setRa(SwingInputVerifyUtil.getDouble(raTextField));
 		}
 		
 		if (xqTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.xqTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.xqTextField, 0.0d)) {
 				errMsg.add("Xq <= 0.0");
 				ok = false;
 			}
-			machData.setXq(VerifyUtil.getDouble(xqTextField));
+			machData.setXq(SwingInputVerifyUtil.getDouble(xqTextField));
 		}
 
 		if (xdTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.xdTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.xdTextField, 0.0d)) {
 				errMsg.add("Xd <= 0.0");
 				ok = false;
 			}
-			machData.setXd(VerifyUtil.getDouble(xdTextField));
+			machData.setXd(SwingInputVerifyUtil.getDouble(xdTextField));
 		}
 
 		if (xd1TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.xd1TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.xd1TextField, 0.0d)) {
 				errMsg.add("Xd1 <= 0.0");
 				ok = false;
 			}
-			machData.setXd1(VerifyUtil.getDouble(xd1TextField));
+			machData.setXd1(SwingInputVerifyUtil.getDouble(xd1TextField));
 		}
 		
 		if (xq1TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.xq1TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.xq1TextField, 0.0d)) {
 				errMsg.add("Xq1 <= 0.0");
 				ok = false;
 			}
-			machData.setXq1(VerifyUtil.getDouble(xq1TextField));
+			machData.setXq1(SwingInputVerifyUtil.getDouble(xq1TextField));
 		}
 		
 		if (td01TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.td01TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.td01TextField, 0.0d)) {
 				errMsg.add("Td01 <= 0.0");
 				ok = false;
 			}
-			machData.setTd01(VerifyUtil.getDouble(td01TextField));
+			machData.setTd01(SwingInputVerifyUtil.getDouble(td01TextField));
 		}
 		
 		if (tq01TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.tq01TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.tq01TextField, 0.0d)) {
 				errMsg.add("Tq01 <= 0.0");
 				ok = false;
 			}
-			machData.setTq01(VerifyUtil.getDouble(tq01TextField));
+			machData.setTq01(SwingInputVerifyUtil.getDouble(tq01TextField));
 		}
 		
 		if (xd11TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.xd11TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.xd11TextField, 0.0d)) {
 				errMsg.add("Xd11 <= 0.0");
 				ok = false;
 			}
-			machData.setXd11(VerifyUtil.getDouble(xd11TextField));
+			machData.setXd11(SwingInputVerifyUtil.getDouble(xd11TextField));
 		}
 		
 		if (xq11TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.xq11TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.xq11TextField, 0.0d)) {
 				errMsg.add("Xq11 <= 0.0");
 				ok = false;
 			}
-			machData.setXq11(VerifyUtil.getDouble(xq11TextField));
+			machData.setXq11(SwingInputVerifyUtil.getDouble(xq11TextField));
 		}
 		
 		if (td011TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.td011TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.td011TextField, 0.0d)) {
 				errMsg.add("Td011 <= 0.0");
 				ok = false;
 			}
-			machData.setTd011(VerifyUtil.getDouble(td011TextField));
+			machData.setTd011(SwingInputVerifyUtil.getDouble(td011TextField));
 		}
 
 		if (tq011TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.tq011TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.tq011TextField, 0.0d)) {
 				errMsg.add("Tq011 <= 0.0");
 				ok = false;
 			}
-			machData.setTq011(VerifyUtil.getDouble(tq011TextField));
+			machData.setTq011(SwingInputVerifyUtil.getDouble(tq011TextField));
 		}	
 
 		if (s100TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.s100TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.s100TextField, 0.0d)) {
 				errMsg.add("S100 <= 0.0");
 				ok = false;
 			}
-			machData.setS100(VerifyUtil.getDouble(s100TextField));
+			machData.setS100(SwingInputVerifyUtil.getDouble(s100TextField));
 		}
 
 		if (s120TextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.s120TextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.s120TextField, 0.0d)) {
 				errMsg.add("S120 <= 0.0");
 				ok = false;
 			}
-			machData.setS120(VerifyUtil.getDouble(s120TextField));
+			machData.setS120(SwingInputVerifyUtil.getDouble(s120TextField));
 		}
 
 		if (slinerTextField.isEnabled()) {
-			if (!VerifyUtil.largeThan(this.slinerTextField, 0.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.slinerTextField, 0.0d)) {
 				errMsg.add("SLiner <= 0.0");
 				ok = false;
 			}
-			machData.setSliner(VerifyUtil.getDouble(slinerTextField));
+			machData.setSliner(SwingInputVerifyUtil.getDouble(slinerTextField));
 		}
 
 	    if (!_groundPanel.saveEditor2Form(errMsg))

@@ -35,7 +35,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.form.InitDataUtil;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
  
@@ -123,17 +123,17 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 
 		form.getDistNetData().setLoadSchedulePoints(0);
 		if (loadAnalysisCheckBox.isSelected()) {
-			if ( VerifyUtil.largeThan(loadPonitsTextField, 24) ) {
+			if ( SwingInputVerifyUtil.largeThan(loadPonitsTextField, 24) ) {
 				errMsg.add("Load service points > 24");
 				ok = false;
 			}
-			form.getDistNetData().setLoadSchedulePoints(VerifyUtil.getInt(loadPonitsTextField));
+			form.getDistNetData().setLoadSchedulePoints(SwingInputVerifyUtil.getInt(loadPonitsTextField));
 
-			if ( !VerifyUtil.largeThan(periodLengthTextField, 0.0) ) {
+			if ( !SwingInputVerifyUtil.largeThan(periodLengthTextField, 0.0) ) {
 				errMsg.add("Load service length <= 0.0");
 				ok = false;
 			}
-			form.getDistNetData().setLoadSchedulePeriodLength(VerifyUtil.getDouble(periodLengthTextField));
+			form.getDistNetData().setLoadSchedulePeriodLength(SwingInputVerifyUtil.getDouble(periodLengthTextField));
 
 			form.getDistNetData().setLoadSchedulePeriodUnit((String)periodLengthUnitComboBox.getSelectedItem());
 		}
@@ -150,7 +150,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 				form.getDistNetData().setScStd(DistNetData.ScStd_IEC);
 	    	
 			if (form.getDistNetData().getScPointList().size() > 0) {
-				if ( VerifyUtil.isEmptyStr(this.pName_1_Field) ) {
+				if ( SwingInputVerifyUtil.isEmptyStr(this.pName_1_Field) ) {
 					errMsg.add("SC Point 1 name is empty");
 					ok = false;
 				}
@@ -160,7 +160,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 	    	}	
 
 			if (form.getDistNetData().getScPointList().size() > 1) {
-	        if ( VerifyUtil.isEmptyStr(this.pName_2_Field) ) {
+	        if ( SwingInputVerifyUtil.isEmptyStr(this.pName_2_Field) ) {
 	            errMsg.add("SC Point 2 name is empty");
 	            ok = false;
 	        }
@@ -170,7 +170,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 			}
 			
 			if (form.getDistNetData().getScPointList().size() > 2) {
-				if ( VerifyUtil.isEmptyStr(this.pName_3_Field) ) {
+				if ( SwingInputVerifyUtil.isEmptyStr(this.pName_3_Field) ) {
 					errMsg.add("SC Point 3 name is empty");
 					ok = false;
 				}
@@ -180,7 +180,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 			}
 			
 			if (form.getDistNetData().getScPointList().size() > 3) {
-	        if ( VerifyUtil.isEmptyStr(this.pName_4_Field) ) {
+	        if ( SwingInputVerifyUtil.isEmptyStr(this.pName_4_Field) ) {
 	            errMsg.add("SC Point 4 name is empty");
 	            ok = false;
 	        }
@@ -190,7 +190,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 			}
 			
 			if (form.getDistNetData().getScPointList().size() > 4) {
-	        if ( VerifyUtil.isEmptyStr(this.pName_5_Field) ) {
+	        if ( SwingInputVerifyUtil.isEmptyStr(this.pName_5_Field) ) {
 	            errMsg.add("SC Point 5 name is empty");
 	            ok = false;
 	        }
@@ -784,11 +784,11 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
    			         	 input == pName_3_Field ||
    					   	 input == pName_4_Field ||
    			         	 input == pName_5_Field )
- 	       			return !VerifyUtil.isEmptyStr((javax.swing.JTextField)input);
+ 	       			return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JTextField)input);
    				else if (input == loadPonitsTextField)
-   					return !VerifyUtil.largeThan(loadPonitsTextField, 24);
+   					return !SwingInputVerifyUtil.largeThan(loadPonitsTextField, 24);
    				else if (input == periodLengthTextField )
-   					return VerifyUtil.largeThan(periodLengthTextField, 0.0);
+   					return SwingInputVerifyUtil.largeThan(periodLengthTextField, 0.0);
  	       	} catch (Exception e) {
 				return false;
  	       	}		

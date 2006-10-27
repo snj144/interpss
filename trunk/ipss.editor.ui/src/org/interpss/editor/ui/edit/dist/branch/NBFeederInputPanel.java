@@ -31,7 +31,7 @@ import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
 
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
    
 
@@ -79,50 +79,50 @@ public class NBFeederInputPanel extends javax.swing.JPanel implements IFormDataP
 		_form.setName((String)this.nameComboBox.getSelectedItem());
 		_data.setLengthUnit((String)this.lengthUnitComboBox.getSelectedItem());
 		
-		if (!VerifyUtil.largeThan(this.lengthField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.lengthField, 0.0d)) {
 			errMsg.add("Feeder length <= 0.0");
 			ok = false;
 		}
-    	_data.setLength(VerifyUtil.getDouble(this.lengthField));
+    	_data.setLength(SwingInputVerifyUtil.getDouble(this.lengthField));
 
-		if (!VerifyUtil.largeThan(this.x_1000Field, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.x_1000Field, 0.0d)) {
 			errMsg.add("Feeder x/1000 <= 0.0");
 			ok = false;
 		}
-    	_data.setZX(VerifyUtil.getDouble(this.x_1000Field));
+    	_data.setZX(SwingInputVerifyUtil.getDouble(this.x_1000Field));
 
-		if (!VerifyUtil.largeEqualThan(this.r_1000Field, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(this.r_1000Field, 0.0d)) {
 			errMsg.add("Feeder r/1000 < 0.0");
 			ok = false;
 		}
-    	_data.setZR(VerifyUtil.getDouble(this.r_1000Field));
+    	_data.setZR(SwingInputVerifyUtil.getDouble(this.r_1000Field));
 
-		if (!VerifyUtil.largeEqualThan(this.b1_1000Field, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(this.b1_1000Field, 0.0d)) {
 			errMsg.add("Feeder r/1000 < 0.0");
 			ok = false;
 		}
-    	_data.setHalfShuntB(0.5*VerifyUtil.getDouble(this.b1_1000Field));
+    	_data.setHalfShuntB(0.5*SwingInputVerifyUtil.getDouble(this.b1_1000Field));
 
-		if (!VerifyUtil.largeEqualThan(this.x0_x1Field, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(this.x0_x1Field, 0.0d)) {
 			errMsg.add("Feeder x0/x1 < 0.0");
 			ok = false;
 		}
     	_data.setZ0X(NetDataUtil.calValue(_data.getZX(),
-    					VerifyUtil.getDouble(this.x0_x1Field)));
+    					SwingInputVerifyUtil.getDouble(this.x0_x1Field)));
 
-		if (!VerifyUtil.largeEqualThan(this.r0_r1Field, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(this.r0_r1Field, 0.0d)) {
 			errMsg.add("Feeder r0/r1 < 0.0");
 			ok = false;
 		}
     	_data.setZ0R(NetDataUtil.calValue(_data.getZR(),
-    					VerifyUtil.getDouble(this.r0_r1Field)));
+    					SwingInputVerifyUtil.getDouble(this.r0_r1Field)));
 
-		if (!VerifyUtil.largeEqualThan(this.b0_b1Field, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(this.b0_b1Field, 0.0d)) {
 			errMsg.add("Feeder b0/b1 < 0.0");
 			ok = false;
 		}
     	_data.setHalfShuntB0(NetDataUtil.calValue(_data.getHalfShuntB(),
-    					VerifyUtil.getDouble(this.b0_b1Field)));
+    					SwingInputVerifyUtil.getDouble(this.b0_b1Field)));
 
 		return ok;
     }
@@ -344,19 +344,19 @@ public class NBFeederInputPanel extends javax.swing.JPanel implements IFormDataP
 				return false;
        		try {
     			if (input == b0_b1Field)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
     			if (input == b1_1000Field)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
     			if (input == lengthField)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
     			if (input == r0_r1Field)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
     			if (input == r_1000Field)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
     			if (input == x0_x1Field)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
     			if (input == x_1000Field)
- 	       			return VerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

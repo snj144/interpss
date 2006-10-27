@@ -42,7 +42,7 @@ import org.interpss.editor.ui.edit.trans.NBDStabTransProjPanel;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
@@ -183,17 +183,17 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 
     	_projInfo.setDescription(this.descTextArea.getText());
 
-		if (!VerifyUtil.largeThan(this.baseKvaField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.baseKvaField, 0.0d)) {
 			errMsg.add("Base KVA <= 0.0");
 			ok = false;
 		}
-    	form.setBaseKVA(VerifyUtil.getDouble(this.baseKvaField));
+    	form.setBaseKVA(SwingInputVerifyUtil.getDouble(this.baseKvaField));
 
-		if (!VerifyUtil.largeThan(this.baseFreqField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.baseFreqField, 0.0d)) {
 			errMsg.add("Base Freq <= 0.0");
 			ok = false;
 		}
-    	form.setFreqHZ(VerifyUtil.getDouble(this.baseFreqField));
+    	form.setFreqHZ(SwingInputVerifyUtil.getDouble(this.baseFreqField));
     	
 		if (this.distriAppRadioButton.isSelected()) {
 			form.setAppType(IGNetForm.AppType_Distribution);
@@ -682,7 +682,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 					return false;
 				if (input == baseKvaField ||
 		   		   	input == baseFreqField)
-		    		return VerifyUtil.largeThan((javax.swing.JTextField)input, 0.0d);
+		    		return SwingInputVerifyUtil.largeThan((javax.swing.JTextField)input, 0.0d);
  	       	} catch (Exception e) {
 				return false;
  	       	}				

@@ -41,7 +41,7 @@ import org.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
@@ -186,29 +186,29 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
     	}
     	_form.setName(this.busNameField.getText());
     	
-    	if (!VerifyUtil.largeThan(this.areaField, 0)) {
+    	if (!SwingInputVerifyUtil.largeThan(this.areaField, 0)) {
 			errMsg.add("Area <= 0");
 			ok = false;
 		}
-    	_form.setArea(VerifyUtil.getInt(this.areaField));
+    	_form.setArea(SwingInputVerifyUtil.getInt(this.areaField));
 
-    	if (!VerifyUtil.largeThan(this.zoneField, 0)) {
+    	if (!SwingInputVerifyUtil.largeThan(this.zoneField, 0)) {
 			errMsg.add("Zone <= 0");
 			ok = false;
 		}
-    	_form.setZone(VerifyUtil.getInt(this.zoneField));
+    	_form.setZone(SwingInputVerifyUtil.getInt(this.zoneField));
     	
     	if (this.inServiceCheckBox.isSelected())
     		_form.setStatus(true);
     	else	
     		_form.setStatus(false);
 		
-		if (!VerifyUtil.largeThan(this.baseVoltComboBox, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.baseVoltComboBox, 0.0d)) {
 			errMsg.add("Bus base voltage <= 0.0");
 			ok = false;
 		}
 
-		_form.setBaseVoltage(VerifyUtil.getDouble(this.baseVoltComboBox));
+		_form.setBaseVoltage(SwingInputVerifyUtil.getDouble(this.baseVoltComboBox));
     	_form.setBaseVoltUnit((String)this.baseUnitComboBox.getSelectedItem());
         if (_netContainer.getGNetForm().getAppType().equals(IGNetForm.AppType_Distribution)) {
         	if (!_distBusEditPanel.saveEditor2Form(errMsg))
@@ -445,9 +445,9 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
        			if (input == busNameField) 
  	       			return NetUtilFunc.isValidBusid(((javax.swing.JTextField)input).getText());
        			else if (input == zoneField)
- 	       			return VerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+ 	       			return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
        			else if (input == baseVoltComboBox)
- 	       			return VerifyUtil.getDouble((javax.swing.JComboBox)input) > 0.0;
+ 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JComboBox)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		
