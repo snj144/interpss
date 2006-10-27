@@ -27,8 +27,8 @@ package org.interpss.dstab.control.exc.ieee.ieeeAC4A;
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
-import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 public class NBIEEE_AC4AExciterEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -91,18 +91,18 @@ public class NBIEEE_AC4AExciterEditPanel extends javax.swing.JPanel implements I
     public boolean saveEditorData(Vector errMsg) throws Exception {
 		boolean ok = true;
 		// TODO: add verification rules
-    	_data.setKa(InputVerifyUtil.getDouble(kaTextField));
-    	_data.setKc(InputVerifyUtil.getDouble(kcTextField));
-    	_data.setTb(InputVerifyUtil.getDouble(tbTextField));
-    	_data.setTc(InputVerifyUtil.getDouble(tcTextField));
-    	_data.setTr(InputVerifyUtil.getDouble(trTextField));
-    	_data.setTa(InputVerifyUtil.getDouble(taTextField));
-    	_data.setVoel(InputVerifyUtil.getDouble(voelTextField));
-    	_data.setVuel(InputVerifyUtil.getDouble(vuelTextField));
-    	_data.setVimax(InputVerifyUtil.getDouble(vimaxTextField));
-    	_data.setVimin(InputVerifyUtil.getDouble(viminTextField));
-    	_data.setVrmax(InputVerifyUtil.getDouble(vrmaxTextField));
-    	_data.setVrmin(InputVerifyUtil.getDouble(vrminTextField));	
+    	_data.setKa(SwingInputVerifyUtil.getDouble(kaTextField));
+    	_data.setKc(SwingInputVerifyUtil.getDouble(kcTextField));
+    	_data.setTb(SwingInputVerifyUtil.getDouble(tbTextField));
+    	_data.setTc(SwingInputVerifyUtil.getDouble(tcTextField));
+    	_data.setTr(SwingInputVerifyUtil.getDouble(trTextField));
+    	_data.setTa(SwingInputVerifyUtil.getDouble(taTextField));
+    	_data.setVoel(SwingInputVerifyUtil.getDouble(voelTextField));
+    	_data.setVuel(SwingInputVerifyUtil.getDouble(vuelTextField));
+    	_data.setVimax(SwingInputVerifyUtil.getDouble(vimaxTextField));
+    	_data.setVimin(SwingInputVerifyUtil.getDouble(viminTextField));
+    	_data.setVrmax(SwingInputVerifyUtil.getDouble(vrmaxTextField));
+    	_data.setVrmin(SwingInputVerifyUtil.getDouble(vrminTextField));	
 		return ok;
 	}
     
@@ -396,7 +396,7 @@ public class NBIEEE_AC4AExciterEditPanel extends javax.swing.JPanel implements I
              		 input == vrminTextField ||
              		 input == voelTextField ||
              		 input == vuelTextField )
-    	       		return InputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+    	       		return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

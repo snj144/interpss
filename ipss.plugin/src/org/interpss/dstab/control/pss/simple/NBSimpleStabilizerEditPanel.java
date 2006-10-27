@@ -28,9 +28,8 @@ package org.interpss.dstab.control.pss.simple;
 import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
-import org.interpss.dstab.control.common.ui.InputVerifyUtil;
 
 public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -81,43 +80,43 @@ public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements I
     public boolean saveEditorData(Vector errMsg) throws Exception {
 		boolean ok = true;
 		
-		if (!VerifyUtil.largeThan(this.ksTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.ksTextField, 0.0d)) {
 			errMsg.add("Ks <= 0.0");
 			ok = false;
 		}
-    	_data.setKs(InputVerifyUtil.getDouble(ksTextField));
+    	_data.setKs(SwingInputVerifyUtil.getDouble(ksTextField));
     	
-		if (!VerifyUtil.largeThan(this.t1TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.t1TextField, 0.0d)) {
 			errMsg.add("T1 <= 0.0");
 			ok = false;
 		}
-    	_data.setT1(InputVerifyUtil.getDouble(t1TextField));
+    	_data.setT1(SwingInputVerifyUtil.getDouble(t1TextField));
 
-		if (!VerifyUtil.largeThan(this.t2TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.t2TextField, 0.0d)) {
 			errMsg.add("T2 <= 0.0");
 			ok = false;
 		}
-    	_data.setT2(InputVerifyUtil.getDouble(t2TextField));
+    	_data.setT2(SwingInputVerifyUtil.getDouble(t2TextField));
 
-		if (!VerifyUtil.largeThan(this.t3TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.t3TextField, 0.0d)) {
 			errMsg.add("T3 <= 0.0");
 			ok = false;
 		}
-    	_data.setT3(InputVerifyUtil.getDouble(t3TextField));
+    	_data.setT3(SwingInputVerifyUtil.getDouble(t3TextField));
 
-		if (!VerifyUtil.largeThan(this.t4TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.t4TextField, 0.0d)) {
 			errMsg.add("T4 <= 0.0");
 			ok = false;
 		}
-    	_data.setT4(InputVerifyUtil.getDouble(t4TextField));
+    	_data.setT4(SwingInputVerifyUtil.getDouble(t4TextField));
 
-		if (!VerifyUtil.largeThan(this.vsmaxTextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeThan(this.vsmaxTextField, 0.0d)) {
 			errMsg.add("Vsmax <= 0.0");
 			ok = false;
 		}
-    	_data.setVsmax(InputVerifyUtil.getDouble(vsmaxTextField));
+    	_data.setVsmax(SwingInputVerifyUtil.getDouble(vsmaxTextField));
 
-    	_data.setVsmin(InputVerifyUtil.getDouble(vsminTextField));
+    	_data.setVsmin(SwingInputVerifyUtil.getDouble(vsminTextField));
 		if (_data.getVsmax() <= _data.getVsmin()) {
 			errMsg.add("Vsmax <= Vsmin");
 			ok = false;
@@ -298,7 +297,7 @@ public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements I
              		 input == t3TextField ||
              		 input == t4TextField ||
              		 input == vsmaxTextField)
-    	       		return InputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;       			
+    	       		return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;       			
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		
