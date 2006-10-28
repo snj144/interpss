@@ -37,7 +37,7 @@ import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.VerifyUtil;
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
    
@@ -114,17 +114,17 @@ public class DummyBranchEditDialog extends javax.swing.JDialog  implements IForm
 
     	_form.setName(this.branchNameField.getText());
 
-    	if (!VerifyUtil.largeThan(this.areaField, 0)) {
+    	if (!SwingInputVerifyUtil.largeThan(this.areaField, 0)) {
 			errMsg.add("Area <= 0");
 			ok = false;
 		}
-    	_form.setArea(VerifyUtil.getInt(this.areaField));
+    	_form.setArea(SwingInputVerifyUtil.getInt(this.areaField));
 
-    	if (!VerifyUtil.largeThan(this.zoneField, 0)) {
+    	if (!SwingInputVerifyUtil.largeThan(this.zoneField, 0)) {
 			errMsg.add("Zone <= 0");
 			ok = false;
 		}
-    	_form.setZone(VerifyUtil.getInt(this.zoneField));
+    	_form.setZone(SwingInputVerifyUtil.getInt(this.zoneField));
     	
     	if (this.inServiceCheckBox.isSelected())
     		_form.setStatus(true);
@@ -333,7 +333,7 @@ public class DummyBranchEditDialog extends javax.swing.JDialog  implements IForm
 				return false;
        		try {
        			if (input == zoneField)
- 	       			return VerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+ 	       			return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		
