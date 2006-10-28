@@ -25,7 +25,10 @@
 package org.interpss.editor.ui.impl;
 
 import java.awt.Frame;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -257,18 +260,29 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     private void saveAsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsButtonActionPerformed
     	//IpssLogger.getLogger().info(textArea.getText());
     	JFileChooser fChooser = getSaveTextFileChooser();
-    	fChooser.showSaveDialog(this);
-    	// Richard, we need to save the textArea.getText() to a user selected file
-    	// 1) ask user to select a file
-    	// 2) Save textArea.getText() to the file
-    }//GEN-LAST:event_saveAsButtonActionPerformed
+    	int retValue = fChooser.showSaveDialog(this);
+		if (retValue == JFileChooser.APPROVE_OPTION) {
+			File file = fChooser.getSelectedFile();
+			try {
+				String filename = file.getPath();
+				if (!filename.endsWith(".txt"))
+					filename += ".txt";
+		    	IpssLogger.getLogger().info("Textarea text saved to file: " + filename);
+				OutputStream out = new BufferedOutputStream(new FileOutputStream(filename));
+				out.write(textArea.getText().getBytes());
+				out.flush();
+				out.close();
+			} catch (Exception e) {
+			}
+		}    
+	}//GEN-LAST:event_saveAsButtonActionPerformed
 	
-	public static JFileChooser getSaveTextFileChooser() {
+	private JFileChooser getSaveTextFileChooser() {
 		if (saveTextFileChooser == null) {
 			saveTextFileChooser = new JFileChooser();
 			saveTextFileChooser.addChoosableFileFilter(new IpssFileFilter("txt", "Text File"));
+			saveTextFileChooser.setCurrentDirectory(new File(IpssFileFilter.OUTPUT_DEFAULT_DIR));
 		}
-		saveTextFileChooser.setCurrentDirectory(new File("."));
     	return saveTextFileChooser;
 	}	
 	

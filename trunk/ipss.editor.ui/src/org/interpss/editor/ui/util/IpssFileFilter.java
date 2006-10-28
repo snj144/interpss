@@ -27,6 +27,8 @@ package org.interpss.editor.ui.util;
 import java.io.File;
 
 public class IpssFileFilter extends javax.swing.filechooser.FileFilter {
+	public static String OUTPUT_DEFAULT_DIR = ".";
+	
 	private String fileExt = "";
 	private String extDesc = "";
 
