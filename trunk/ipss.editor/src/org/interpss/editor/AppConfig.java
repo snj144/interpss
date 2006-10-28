@@ -34,6 +34,7 @@ import java.sql.SQLException;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
+import org.interpss.editor.ui.util.IpssFileFilter;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
@@ -112,6 +113,8 @@ public class AppConfig {
 			IpssRptViewer.REPORT_DEFAULT_DIR = baseDir + Translator.getString("Report.File.Location");
 			IpssRptViewer.REPORT_EXT 	= Translator.getString("ReportFileExtension");
 			IpssRptViewer.REPORT_DESC	= Translator.getString("Report.File.Desc");
+			
+			IpssFileFilter.OUTPUT_DEFAULT_DIR = baseDir + Translator.getString("Output.Default.Location");
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			ok = false;
