@@ -63,37 +63,25 @@ public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICon
 	* @return false if there is any problem
 	*/
     public boolean saveEditorData(Vector errMsg) throws Exception {
-		boolean ok = true;
-		if (!SwingInputVerifyUtil.largeThan(this.kaTextField, 0.0d)) {
-			errMsg.add("Ka <= 0.0");
-			ok = false;
-		}
-    	_data.setKa(SwingInputVerifyUtil.getDouble(kaTextField));
+    	errMsg.clear();
+    	
+		if (SwingInputVerifyUtil.within(this.kaTextField, 1.0, 1000.0, errMsg, 
+				"Ka is out of the range [1.0, 1000.0]"))
+			_data.setKa(SwingInputVerifyUtil.getDouble(kaTextField));
 
-		if (!SwingInputVerifyUtil.largeThan(this.taTextField, 0.0d)) {
-			errMsg.add("Ta <= 0.0");
-			ok = false;
-		}
-    	_data.setTa(SwingInputVerifyUtil.getDouble(taTextField));
+		if (SwingInputVerifyUtil.within(this.taTextField, 0.001, 10.0, errMsg,
+				"Ta is out of the range [0.001, 10]"))
+			_data.setTa(SwingInputVerifyUtil.getDouble(taTextField));
 
-    	if (!SwingInputVerifyUtil.largeThan(this.vrmaxTextField, 0.0d)) {
-			errMsg.add("Vrmax <= 0.0");
-			ok = false;
-		}
-    	_data.setVrmax(SwingInputVerifyUtil.getDouble(vrmaxTextField));
+    	if (SwingInputVerifyUtil.within(this.vrmaxTextField, 0.0, 20.0, errMsg,
+    			"Vrmax is out of the range [0.0, 20.0]"))
+    		_data.setVrmax(SwingInputVerifyUtil.getDouble(vrmaxTextField));
 
-    	if (!SwingInputVerifyUtil.largeEqualThan(this.vrminTextField, 0.0d)) {
-			errMsg.add("Vrmin < 0.0");
-			ok = false;
-		}
-    	_data.setVrmin(SwingInputVerifyUtil.getDouble(vrminTextField));
+    	if (SwingInputVerifyUtil.within(this.vrminTextField, -20.0, 0.0d, errMsg,
+    		"Vrmin is out of the range [-20.0, 0.0]"))
+    		_data.setVrmin(SwingInputVerifyUtil.getDouble(vrminTextField));
 		
-    	if (_data.getVrmax() <= _data.getVrmin()) {
-			errMsg.add("Vrmax <= Vrmin");
-			ok = false;
-		}
-
-    	return ok;
+    	return errMsg.size() == 0;
 	}
     
 	/** This method is called from within the constructor to
