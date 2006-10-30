@@ -9,19 +9,20 @@
  */
 package org.interpss.dstab.control.exc.simple;
 
-import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
+import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.util.DStabOutFunc;
 
 public class SimpleExciter extends AbstractExciter {
 	// define state vriables
-	private double stateVref = 0.0, stateX1 = 0.0;
-	private LimitType limit = null; 
+	private double stateVref = 0.0;
+	private DelayControlBlock controlBlock = null;
 	
 	// define UI Editor panel for editing the controller data
 	private static final NBSimpleExciterEditPanel _editPanel = new NBSimpleExciterEditPanel();
@@ -74,11 +75,13 @@ public class SimpleExciter extends AbstractExciter {
 	 */
 	@Override
 	public boolean initStates(final IPSSMsgHub msg) {
-		limit = new LimitType(getData().getVrmax(), getData().getVrmin()); 
 		final Machine mach = getMachine();
-		stateX1 = mach.getEfd();
+		controlBlock = new DelayControlBlock(IControlBlock.Type_Limit,
+				getData().getKa(), getData().getTa(), getData().getVrmax(), getData().getVrmin()); 
+		controlBlock.initState(mach.getEfd());
+		
 		final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
-		stateVref = (stateX1 + getData().getKa()*vt) / getData().getKa();
+		stateVref = vt + controlBlock.getU0();
 		return true;
 	}
 	
@@ -93,26 +96,19 @@ public class SimpleExciter extends AbstractExciter {
 	@Override
 	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-			 //     Step-1 : x(1) = x(0) + dx_dt(1) * dt
-			final double dX1_dt = cal_dX1_dt(stateX1);
-			final double x1 = stateX1 + dX1_dt * dt;
-			//System.out.println("dX1_dt, X1: " + dX1_dt + ", " + X1);
+			final Machine mach = getMachine();
+			final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
+			final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
+			final double u = stateVref + vpss - vt;
 
-			 //     Step-2 : x(2) = x(0) + 0.5 * (dx_dt(2) + dx_dt(1)) * dt
-			stateX1 = stateX1 + 0.5 * ( cal_dX1_dt(x1) + dX1_dt ) * dt;
+			controlBlock.eulerStep1(u, dt);
+			controlBlock.eulerStep2(u, dt);
 		}
 		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
 			// TODO: TBImpl
 		} else {
 			throw new InvalidInputException("SimpleExciter.nextStep(), invalid method");
 		}
-	}
-
-	private double cal_dX1_dt(final double x1) {
-		final Machine mach = getMachine();
-		final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
-		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
-		return ( getData().getKa() * ( stateVref + vpss - vt ) - x1) / getData().getTa();
 	}
 	
 	/**
@@ -132,7 +128,7 @@ public class SimpleExciter extends AbstractExciter {
 	 */
 	@Override
 	public double getOutput() {
-		return limit.limit(stateX1);
+		return controlBlock.getY();
 	}
 
 	/**
@@ -161,7 +157,7 @@ public class SimpleExciter extends AbstractExciter {
 	 * @return Returns the x1.
 	 */
 	public double getStateX1() {
-		return stateX1;
+		return controlBlock.getStateX();
 	}
 } // SimpleExcAdapter
 
