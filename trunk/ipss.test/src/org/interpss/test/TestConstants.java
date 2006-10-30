@@ -25,6 +25,6 @@
 package org.interpss.test;
 
 public class TestConstants {
-	public static String SpringConfigXmlFile = "c:/eclipse/interpss3.2/ipss.editor/properties/springConfig/editorAppContext.xml";
+	public static String SpringConfigXmlFile = "c:/eclipse/InterpssDev/ipss.editor/properties/springConfig/editorAppContext.xml";
 	
 }
