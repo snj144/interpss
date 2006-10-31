@@ -96,10 +96,7 @@ public class SimpleExciter extends AbstractExciter {
 	@Override
 	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-			final Machine mach = getMachine();
-			final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
-			final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
-			final double u = stateVref + vpss - vt;
+			final double u = calculateU();
 
 			controlBlock.eulerStep1(u, dt);
 			controlBlock.eulerStep2(u, dt);
@@ -109,6 +106,13 @@ public class SimpleExciter extends AbstractExciter {
 		} else {
 			throw new InvalidInputException("SimpleExciter.nextStep(), invalid method");
 		}
+	}
+	
+	private double calculateU() {
+		final Machine mach = getMachine();
+		final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
+		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
+		return stateVref + vpss - vt;		
 	}
 	
 	/**
@@ -128,7 +132,7 @@ public class SimpleExciter extends AbstractExciter {
 	 */
 	@Override
 	public double getOutput() {
-		return controlBlock.getY();
+		return controlBlock.getY(calculateU());
 	}
 
 	/**
