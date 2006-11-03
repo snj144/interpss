@@ -140,214 +140,185 @@ public class NBIEEE_AC4AExciterEditPanel extends javax.swing.JPanel implements I
         vuelLabel = new javax.swing.JLabel();
         vuelTextField = new javax.swing.JTextField();
 
-        setLayout(new java.awt.GridBagLayout());
-
         kaLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         kaLabel.setText("Ka");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(kaLabel, gridBagConstraints);
 
         kaTextField.setColumns(5);
         kaTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         kaTextField.setText("200.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(kaTextField, gridBagConstraints);
 
         kcLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         kcLabel.setText("Kc");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(kcLabel, gridBagConstraints);
 
         kcTextField.setColumns(5);
         kcTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         kcTextField.setText("0.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(kcTextField, gridBagConstraints);
 
         trLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         trLabel.setText("Tr");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(trLabel, gridBagConstraints);
 
         trTextField.setColumns(5);
         trTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         trTextField.setText("0.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(trTextField, gridBagConstraints);
 
         tcLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         tcLabel.setText("Tc");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(tcLabel, gridBagConstraints);
 
         tcTextField.setColumns(5);
         tcTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         tcTextField.setText("1.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(tcTextField, gridBagConstraints);
 
         tbLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         tbLabel.setText("Tb");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(tbLabel, gridBagConstraints);
 
         tbTextField.setColumns(5);
         tbTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         tbTextField.setText("10.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(tbTextField, gridBagConstraints);
 
         taLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         taLabel.setText("Ta");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(taLabel, gridBagConstraints);
 
         taTextField.setColumns(5);
         taTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         taTextField.setText("0.015");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(taTextField, gridBagConstraints);
 
         vimaxLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         vimaxLabel.setText("Vimax");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(vimaxLabel, gridBagConstraints);
 
         vimaxTextField.setColumns(5);
         vimaxTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         vimaxTextField.setText("10.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(vimaxTextField, gridBagConstraints);
 
         viminLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         viminLabel.setText("Vimin");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(viminLabel, gridBagConstraints);
 
         viminTextField.setColumns(5);
         viminTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         viminTextField.setText("-10.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(viminTextField, gridBagConstraints);
 
         vrmaxLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         vrmaxLabel.setText("Vrmax");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(vrmaxLabel, gridBagConstraints);
 
         vrmaxTextField.setColumns(5);
         vrmaxTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         vrmaxTextField.setText("5.64");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(vrmaxTextField, gridBagConstraints);
 
         vrminLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         vrminLabel.setText("Vrmin");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(vrminLabel, gridBagConstraints);
 
         vrminTextField.setColumns(5);
         vrminTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         vrminTextField.setText("-4.53");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(vrminTextField, gridBagConstraints);
 
         voelLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         voelLabel.setText("Voel");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(voelLabel, gridBagConstraints);
 
         voelTextField.setColumns(5);
         voelTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         voelTextField.setText("10.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(voelTextField, gridBagConstraints);
 
         vuelLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         vuelLabel.setText("Vuel");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(vuelLabel, gridBagConstraints);
 
         vuelTextField.setColumns(5);
         vuelTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         vuelTextField.setText("-1.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 5, 10);
-        add(vuelTextField, gridBagConstraints);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(73, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(kaLabel)
+                        .add(48, 48, 48)
+                        .add(kaTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(30, 30, 30)
+                        .add(kcLabel)
+                        .add(47, 47, 47)
+                        .add(kcTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(30, 30, 30)
+                        .add(trLabel)
+                        .add(53, 53, 53)
+                        .add(trTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(tcLabel)
+                        .add(50, 50, 50)
+                        .add(tcTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(30, 30, 30)
+                        .add(tbLabel)
+                        .add(47, 47, 47)
+                        .add(tbTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(30, 30, 30)
+                        .add(taLabel)
+                        .add(50, 50, 50)
+                        .add(taTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(vimaxLabel)
+                        .add(30, 30, 30)
+                        .add(vimaxTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(30, 30, 30)
+                        .add(viminLabel)
+                        .add(30, 30, 30)
+                        .add(viminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(30, 30, 30)
+                        .add(vrmaxLabel)
+                        .add(30, 30, 30)
+                        .add(vrmaxTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(vrminLabel)
+                        .add(31, 31, 31)
+                        .add(vrminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(30, 30, 30)
+                        .add(voelLabel)
+                        .add(37, 37, 37)
+                        .add(voelTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(30, 30, 30)
+                        .add(vuelLabel)
+                        .add(40, 40, 40)
+                        .add(vuelTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(68, 68, 68))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(kaLabel)
+                    .add(kaTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(kcLabel)
+                    .add(kcTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(trLabel)
+                    .add(trTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(tcLabel)
+                    .add(tcTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tbLabel)
+                    .add(tbTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(taLabel)
+                    .add(taTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(vimaxLabel)
+                    .add(vimaxTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(viminLabel)
+                    .add(viminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(vrmaxLabel)
+                    .add(vrmaxTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(vrminLabel)
+                    .add(vrminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(voelLabel)
+                    .add(voelTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(vuelLabel)
+                    .add(vuelTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(55, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

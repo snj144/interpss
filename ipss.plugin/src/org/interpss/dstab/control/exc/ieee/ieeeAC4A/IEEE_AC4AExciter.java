@@ -271,4 +271,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 //		return this;
 	}
 
+	public void setRefPoint(double x) {
+		_Vref = x;
+	}	
 }// IEEE_AC4AExcAdapter
