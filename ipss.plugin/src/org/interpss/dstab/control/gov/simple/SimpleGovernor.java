@@ -168,4 +168,8 @@ public class SimpleGovernor extends AbstractGovernor {
 	public double getStateX1() {
 		return stateX1;
 	}
+	
+	public void setRefPoint(double x) {
+		pm0 = x;
+	}	
 } // SimpleExcAdapter
