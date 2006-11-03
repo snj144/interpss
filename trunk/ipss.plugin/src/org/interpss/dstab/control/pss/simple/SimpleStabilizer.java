@@ -31,7 +31,6 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractStabilizer;
-import com.interpss.dstab.util.DStabOutFunc;
 
 public class SimpleStabilizer extends AbstractStabilizer {
 	// state variables
@@ -132,17 +131,6 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public String[] getStateSymbolList() {
-		final String[] list = {DStabOutFunc.OUT_SYMBOL_PSS_VS};
-		return list;
-	}
-
-	/**
 	 * Get the controller output
 	 * 
 	 * @return the output
@@ -185,4 +173,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	public double getStateX2() {
 		return stateX2;
 	}
+	
+	public void setRefPoint(double x) {
+	}	
 } // SimpleExcAdapter
