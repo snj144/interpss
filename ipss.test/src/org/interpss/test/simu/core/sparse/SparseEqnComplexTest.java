@@ -96,8 +96,7 @@ public class SparseEqnComplexTest extends TestBaseAppCtx {
 	}
 	
 	public SparseEqnComplex createSampleEqn() {
-		SparseEqnComplex eqn = new SparseEqnComplexImpl();
-		eqn.setDimension(2);
+		SparseEqnComplex eqn = new SparseEqnComplexImpl(2);
 		eqn.reset();
 
 		Complex  a11 = new Complex( 1.0, 1.1 ),

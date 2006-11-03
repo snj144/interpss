@@ -108,8 +108,7 @@ public class SparseEqnDoubleTest extends TestBaseAppCtx {
 	}
 
 	public SparseEqnDouble createSampleEqn() {
-		SparseEqnDouble eqn = new SparseEqnDoubleImpl();
-		eqn.setDimension(4);
+		SparseEqnDouble eqn = new SparseEqnDoubleImpl(4);
 		eqn.reset();
 
 		eqn.addToAij( 1.0, 1, 1 );
