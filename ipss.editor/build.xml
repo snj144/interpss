@@ -124,21 +124,24 @@
     </target>	
 
 	<target depends="init" description="copy ipss lib files to finesse" name="copy_fit">
-		<copy todir="${fit_base}/lib/ipss">
+	<copy todir="${fit_base}/lib/ipss">
 	    	<fileset dir="${ipss_base}/" />
         </copy>
-		<copy todir="${fit_base}/lib/db">
+	<copy todir="${fit_base}/lib/ipss">
+	    	<fileset dir="${dist_base}/plugin/custController/dist/" />
+        </copy>
+	<copy todir="${fit_base}/lib/db">
 	    	<fileset dir="${lib_base}/db" />
         </copy>
-		<copy todir="${fit_base}/lib/custom">
+	<copy todir="${fit_base}/lib/custom">
 	    	<fileset dir="${lib_base}/custom" />
         </copy>
-		<copy todir="${fit_base}/lib/eclipse">
+	<copy todir="${fit_base}/lib/eclipse">
 	    	<fileset dir="${lib_base}/eclipse"/>
         </copy>
-		<copy file="${ipss_base}/ipss.test.user.jar" 
-			todir="${fit_base}/FitNesseRoot/files/usertest/lib/ipss"/>
-		<copy file="${dist_base}/lib/ipss_editor.jar" 
-			todir="${fit_base}/lib"/>
+	<copy file="${ipss_base}/ipss.test.user.jar" 
+		todir="${fit_base}/FitNesseRoot/files/usertest/lib/ipss"/>
+	<copy file="${dist_base}/lib/ipss_editor.jar" 
+		todir="${fit_base}/lib"/>
     </target>	
 </project>
