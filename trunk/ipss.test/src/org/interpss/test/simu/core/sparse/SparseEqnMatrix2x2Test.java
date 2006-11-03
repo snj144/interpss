@@ -73,8 +73,7 @@ public class SparseEqnMatrix2x2Test extends TestBaseAppCtx {
 	}
 	
 	private SparseEqnMatrix2x2 createSampleEqn() {
-		SparseEqnMatrix2x2 eqn = new SparseEqnMatrix2x2Impl();
-		eqn.setDimension(2);
+		SparseEqnMatrix2x2 eqn = new SparseEqnMatrix2x2Impl(2);
 		eqn.reset();
 		Matrix_xy a11 = new Matrix_xy( 1.0, 1.1, 0.0, 2.0 ),
 			        a12 = new Matrix_xy( 0.0, 0.0, 3.1, 4.1 ),

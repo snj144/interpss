@@ -126,8 +126,7 @@ public class SparseEqnIntegerTest extends TestBaseAppCtx {
 	}
 
 	private SparseEqnIntegerImpl createSampleEqn() {
-		SparseEqnIntegerImpl eqn = new SparseEqnIntegerImpl();
-		eqn.setDimension(3);
+		SparseEqnIntegerImpl eqn = new SparseEqnIntegerImpl(3);
 		eqn.setAij(1, 1, 1);
 		eqn.setAij(1, 2, 2);
 		eqn.setAij(1, 3, 3);
