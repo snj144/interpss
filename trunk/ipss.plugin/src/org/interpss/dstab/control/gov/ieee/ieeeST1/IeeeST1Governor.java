@@ -180,4 +180,8 @@ public class IeeeST1Governor extends AbstractGovernor {
 		_editPanel.init(this);
 		return _editPanel;
 	}
+	
+	public void setRefPoint(double x) {
+		statePref = x;
+	}	
 } // SimpleExcAdapter
