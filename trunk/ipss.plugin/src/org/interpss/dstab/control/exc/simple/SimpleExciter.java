@@ -17,7 +17,6 @@ import com.interpss.dstab.controller.AbstractExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.dstab.util.DStabOutFunc;
 
 public class SimpleExciter extends AbstractExciter {
 	// define state vriables
@@ -116,16 +115,6 @@ public class SimpleExciter extends AbstractExciter {
 	}
 	
 	/**
-	 * Get the controller state symbol list for display. This list has to be implemented in the
-	 * getStates() method
-	 */
-	@Override
-	public String[] getStateSymbolList() {
-		final String[] list = {DStabOutFunc.OUT_SYMBOL_EXC_EFD};
-		return list;
-	}
-	
-	/**
 	 * Get the controller output
 	 * 
 	 * @return the output
@@ -162,6 +151,10 @@ public class SimpleExciter extends AbstractExciter {
 	 */
 	public double getStateX1() {
 		return controlBlock.getStateX();
+	}
+	
+	public void setRefPoint(double x) {
+		stateVref = x;
 	}
 } // SimpleExcAdapter
 

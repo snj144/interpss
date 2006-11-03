@@ -91,8 +91,6 @@ public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICon
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
         kaLabel = new javax.swing.JLabel();
         kaTextField = new javax.swing.JTextField();
         taLabel = new javax.swing.JLabel();
@@ -135,7 +133,7 @@ public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICon
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(151, 151, 151)
+                .add(118, 118, 118)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(kaLabel)
@@ -153,12 +151,12 @@ public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICon
                         .add(vrminLabel)
                         .add(20, 20, 20)
                         .add(vrminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(183, Short.MAX_VALUE))
+                .addContainerGap(123, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(19, 19, 19)
+                .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(2, 2, 2)
@@ -178,7 +176,7 @@ public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICon
                         .add(2, 2, 2)
                         .add(vrminLabel))
                     .add(vrminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(117, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     

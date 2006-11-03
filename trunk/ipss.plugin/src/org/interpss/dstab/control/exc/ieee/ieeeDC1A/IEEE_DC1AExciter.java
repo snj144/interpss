@@ -143,5 +143,8 @@ public class IEEE_DC1AExciter extends AbstractExciter {
 		_editPanel.init(this);
 		return _editPanel;
 	}
+	
+	public void setRefPoint(double x) {
+	}	
 } // IEEE_DC1AExcAdapter
 

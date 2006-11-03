@@ -146,227 +146,226 @@ public class NBIEEE_DC1AExciterEditPanel extends javax.swing.JPanel implements I
         vrminLabel = new javax.swing.JLabel();
         vrminTextField = new javax.swing.JTextField();
 
-        setLayout(new java.awt.GridBagLayout());
-
         kaLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         kaLabel.setText("Ka");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 30, 5, 20);
-        add(kaLabel, gridBagConstraints);
 
         kaTextField.setColumns(5);
         kaTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         kaTextField.setText("46.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(kaTextField, gridBagConstraints);
 
         taLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         taLabel.setText("Ta");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 20);
-        add(taLabel, gridBagConstraints);
 
         taTextField.setColumns(5);
         taTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         taTextField.setText("0.06");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(taTextField, gridBagConstraints);
 
         tbLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         tbLabel.setText("Tb");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 20);
-        add(tbLabel, gridBagConstraints);
 
         tbTextField.setColumns(5);
         tbTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         tbTextField.setText("0.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(tbTextField, gridBagConstraints);
 
         tcLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         tcLabel.setText("Tc");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 30, 5, 20);
-        add(tcLabel, gridBagConstraints);
 
         tcTextField.setColumns(5);
         tcTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         tcTextField.setText("0.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(tcTextField, gridBagConstraints);
 
         teLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         teLabel.setText("Te");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 20);
-        add(teLabel, gridBagConstraints);
 
         teTextField.setColumns(5);
         teTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         teTextField.setText("0.46");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(teTextField, gridBagConstraints);
 
         kfLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         kfLabel.setText("Kf");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 20);
-        add(kfLabel, gridBagConstraints);
 
         kfTextField.setColumns(5);
         kfTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         kfTextField.setText("0.1");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(kfTextField, gridBagConstraints);
 
         tfLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         tfLabel.setText("Tf");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 30, 5, 20);
-        add(tfLabel, gridBagConstraints);
 
         tfTextField.setColumns(5);
         tfTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         tfTextField.setText("1.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(tfTextField, gridBagConstraints);
 
         seEfd1Label.setFont(new java.awt.Font("Dialog", 0, 12));
         seEfd1Label.setText("Se_Efd1");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 20);
-        add(seEfd1Label, gridBagConstraints);
 
         seEfd1TextField.setColumns(5);
         seEfd1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         seEfd1TextField.setText("0.33");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(seEfd1TextField, gridBagConstraints);
 
         seEfd2Label.setFont(new java.awt.Font("Dialog", 0, 12));
         seEfd2Label.setText("Se_Efd2");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 20);
-        add(seEfd2Label, gridBagConstraints);
 
         seEfd2TextField.setColumns(5);
         seEfd2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         seEfd2TextField.setText("0.1");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(seEfd2TextField, gridBagConstraints);
 
         efd1Label.setFont(new java.awt.Font("Dialog", 0, 12));
         efd1Label.setText("Efd1");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 30, 5, 20);
-        add(efd1Label, gridBagConstraints);
 
         efd1TextField.setColumns(5);
         efd1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         efd1TextField.setText("3.1");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(efd1TextField, gridBagConstraints);
 
         efd2Label.setFont(new java.awt.Font("Dialog", 0, 12));
         efd2Label.setText("Efd2");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 20);
-        add(efd2Label, gridBagConstraints);
 
         efd2TextField.setColumns(5);
         efd2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         efd2TextField.setText("2.3");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(efd2TextField, gridBagConstraints);
 
         vrmaxLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         vrmaxLabel.setText("Vrmax");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 50, 5, 20);
-        add(vrmaxLabel, gridBagConstraints);
 
         vrmaxTextField.setColumns(5);
         vrmaxTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         vrmaxTextField.setText("1.0");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(vrmaxTextField, gridBagConstraints);
 
         vrminLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         vrminLabel.setText("Vrmin");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 30, 5, 20);
-        add(vrminLabel, gridBagConstraints);
 
         vrminTextField.setColumns(5);
         vrminTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         vrminTextField.setText("-0.9");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
-        add(vrminTextField, gridBagConstraints);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(62, 62, 62)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(kaLabel)
+                        .add(37, 37, 37)
+                        .add(kaTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(50, 50, 50)
+                        .add(taLabel)
+                        .add(53, 53, 53)
+                        .add(taTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(50, 50, 50)
+                        .add(tbLabel)
+                        .add(53, 53, 53)
+                        .add(tbTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(tcLabel)
+                        .add(39, 39, 39)
+                        .add(tcTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(50, 50, 50)
+                        .add(teLabel)
+                        .add(53, 53, 53)
+                        .add(teTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(50, 50, 50)
+                        .add(kfLabel)
+                        .add(56, 56, 56)
+                        .add(kfTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(tfLabel)
+                        .add(42, 42, 42)
+                        .add(tfTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(50, 50, 50)
+                        .add(seEfd1Label)
+                        .add(20, 20, 20)
+                        .add(seEfd1TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(50, 50, 50)
+                        .add(seEfd2Label)
+                        .add(20, 20, 20)
+                        .add(seEfd2TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(efd1Label)
+                        .add(27, 27, 27)
+                        .add(efd1TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(50, 50, 50)
+                        .add(efd2Label)
+                        .add(42, 42, 42)
+                        .add(efd2TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(50, 50, 50)
+                        .add(vrmaxLabel)
+                        .add(33, 33, 33)
+                        .add(vrmaxTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(vrminLabel)
+                        .add(20, 20, 20)
+                        .add(vrminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(kaLabel))
+                    .add(kaTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(taLabel))
+                    .add(taTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(tbLabel))
+                    .add(tbTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(tcLabel))
+                    .add(tcTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(teLabel))
+                    .add(teTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(kfLabel))
+                    .add(kfTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(tfLabel))
+                    .add(tfTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(seEfd1Label))
+                    .add(seEfd1TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(seEfd2Label))
+                    .add(seEfd2TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(efd1Label))
+                    .add(efd1TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(efd2Label))
+                    .add(efd2TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(vrmaxLabel))
+                    .add(vrmaxTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(vrminLabel))
+                    .add(vrminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(61, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
