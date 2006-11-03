@@ -181,4 +181,8 @@ public class IeeeST2Governor extends AbstractGovernor {
 		_editPanel.init(this);
 		return _editPanel;
 	}
+	
+	public void setRefPoint(double x) {
+		statePref = x;
+	}	
 } // SimpleExcAdapter

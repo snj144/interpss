@@ -151,8 +151,6 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
         optModeButtonGroup = new javax.swing.ButtonGroup();
         optModePanel = new javax.swing.JPanel();
         droopRadioButton = new javax.swing.JRadioButton();
@@ -250,8 +248,8 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(118, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(49, 49, 49)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .add(124, 124, 124)
@@ -288,7 +286,7 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
                         .add(t4Label)
                         .add(27, 27, 27)
                         .add(t4TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(90, 90, 90))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
