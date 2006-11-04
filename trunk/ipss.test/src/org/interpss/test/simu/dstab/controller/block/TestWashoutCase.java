@@ -36,20 +36,30 @@ public class TestWashoutCase extends TestSetupBase {
 		WashoutControlBlock block = new WashoutControlBlock(1.0, 0.1);
 		
 		assertTrue(block.initState(1.0));
-		assertTrue(Math.abs(block.getStateX()-1.0) < 0.0001);
-		assertTrue(Math.abs(block.getU0()-0.0) < 0.0001);
+		assertTrue(Math.abs(block.getStateX()+1.0) < 0.0001);
+		assertTrue(Math.abs(block.getU0()-1.0) < 0.0001);
 		
-		block.eulerStep1(0.0, 0.001);
-		block.eulerStep2(0.0, 0.001);
+		double u = 1.0, dt = 0.01;
+		block.eulerStep1(u, dt);
+		block.eulerStep2(u, dt);
 		
-		block.eulerStep1(0.0, 0.001);
-		block.eulerStep2(0.0, 0.001);
+		block.eulerStep1(u, dt);
+		block.eulerStep2(u, dt);
 
-		block.eulerStep1(0.0, 0.001);
-		block.eulerStep2(0.0, 0.001);
+		block.eulerStep1(u, dt);
+		block.eulerStep2(u, dt);
 		
-		assertTrue(Math.abs(block.getStateX()-1.0) < 0.0001);
+		assertTrue(Math.abs(block.getStateX()+1.0) < 0.0001);
+		assertTrue(Math.abs(block.getY(u)) < 0.0001);
 
+		u = 2.0;
+		for (int i = 0; i < 1000; i++) {
+			block.eulerStep1(u, dt);
+			block.eulerStep2(u, dt);
+		}
+		assertTrue(Math.abs(block.getStateX()+2.0) < 0.0001);
+		assertTrue(Math.abs(block.getY(u)) < 0.0001);
+		
 		System.out.println("\nEnd TestWashoutCase Case1");
 	}
 }

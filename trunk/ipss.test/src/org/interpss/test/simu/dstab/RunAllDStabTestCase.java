@@ -26,6 +26,11 @@ package org.interpss.test.simu.dstab;
 
 import java.util.logging.Level;
 
+import org.interpss.test.simu.dstab.controller.block.TestDelayCase;
+import org.interpss.test.simu.dstab.controller.block.TestFilterCase;
+import org.interpss.test.simu.dstab.controller.block.TestIntegrationCase;
+import org.interpss.test.simu.dstab.controller.block.TestPIBlockCase;
+import org.interpss.test.simu.dstab.controller.block.TestWashoutCase;
 import org.interpss.test.simu.dstab.controller.exc.TestSimpleExcitorCase;
 import org.interpss.test.simu.dstab.controller.gov.TestSimpleGovernorCase;
 import org.interpss.test.simu.dstab.controller.pss.TestSimpleStabilizerCase;
@@ -58,5 +63,11 @@ public class RunAllDStabTestCase {
 		junit.textui.TestRunner.run(TestSimpleExcitorCase.class);
 		junit.textui.TestRunner.run(TestSimpleGovernorCase.class);
 		junit.textui.TestRunner.run(TestSimpleStabilizerCase.class);
+
+		junit.textui.TestRunner.run(TestDelayCase.class);
+		junit.textui.TestRunner.run(TestFilterCase.class);
+		junit.textui.TestRunner.run(TestWashoutCase.class);
+		junit.textui.TestRunner.run(TestIntegrationCase.class);
+		junit.textui.TestRunner.run(TestPIBlockCase.class);
 	}
 }
