@@ -26,54 +26,113 @@ package org.interpss.test.simu.dstab.controller.block;
 
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
-import com.interpss.dstab.DynamicSimuMethods;
-import org.interpss.dstab.control.exc.simple.SimpleExciter;
-import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.IControlBlock;
+import com.interpss.dstab.controller.block.PIControlBlock;
 
 public class TestPIBlockCase extends TestSetupBase {
-	
 	public void test_Case1() {
-		System.out.println("\nBegin TestSimpleExcitorCase Case1");
+		System.out.println("\nBegin TestPIBlockCase Case1");
 
-		Machine mach = createMachine();
+		PIControlBlock block = new PIControlBlock(2.0, 1.0);
+		
+		assertTrue(block.initState(1.0));
+		assertTrue(Math.abs(block.getStateX()-1.0) < 0.0001);
+		assertTrue(Math.abs(block.getU0()) < 0.0001);
+		
+		double u = 0.0, dt = 0.01;
+		block.eulerStep1(u, dt);
+		block.eulerStep2(u, dt);
+		
+		block.eulerStep1(u, dt);
+		block.eulerStep2(u, dt);
 
-		SimpleExciter exc = new SimpleExciter("ExcId", "ExcName", "InterPSS");
-		exc.getData().setKa(50.0);
-		exc.getData().setTa(0.05);
-		exc.getData().setVrmax(10.0);
-		exc.getData().setVrmin(0.0);
-		mach.addExciter(exc);
+		block.eulerStep1(u, dt);
+		block.eulerStep2(u, dt);
 		
-		mach.setEfd(2.0);
-		exc.initStates(this.msg);
-		assertTrue(Math.abs(exc.getStateVref() - 1.04) < 0.0001);
-		assertTrue(Math.abs(exc.getStateX1() - 2.0) < 0.0001);
-		
-		// calculate a step, the state should remain the same
-		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		assertTrue(Math.abs(exc.getStateX1() - 2.0) < 0.0001);
-		
-		// calculate more steps, the state should remain the same also
-		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		assertTrue(Math.abs(exc.getStateX1() - 2.0) < 0.0001);
+		assertTrue(Math.abs(block.getStateX()-1.0) < 0.0001);
 
-		/* Set machine voltage to 0.99 and move forward a step
-		 * 
-		 * vt = 0.99, X1(0) = 2.0
-		 * dXdt = [50*(1.04-0.99) - 2.0]/0.05 = 10.0
-		 * X1(1) = 2.0 + 10.0 * 0.01
-		 * dXdt = [50*(1.04-0.99) - 2.1]/0.05 = 8.0
-		 * X1 = 2.0 + 0.5 * (10.0 + 8.0) * 0.01 = 2.09
+		/* 
+		 * u = 2.0, x(0) = 1.0, K = 1.0, dt = 0.01
+		 * dXdt1 = Ku = 2.0
+		 * X(1) = x(0) + dXdt*dt = 1.0 + 2.0 * 0.01 = 1.02
+		 * dXdt2 = 2.0
+		 * X1 = x(0) + 0.5*(dXdt1+dXdt2)*dt = 1.0 + 0.5 * (2.0 + 2.0) * 0.01 = 1.02
 		 */
-		mach.getBus().setVoltageMag(0.99);
-		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		//System.out.println("X1 " + exc._X1);
-		assertTrue(Math.abs(exc.getStateX1() - 2.09) < 0.0001);
+		u = 2.0;
+		block.eulerStep1(u, dt);
+		block.eulerStep2(u, dt);
+		assertTrue(Math.abs(block.getStateX()-1.02) < 0.0001);
+		assertTrue(Math.abs(block.getY(u)-5.02) < 0.0001);
 
-		System.out.println("\nEnd TestSimpleExcitorCase Case1");
+		for (int i = 0; i < 999; i++) {
+			block.eulerStep1(u, dt);
+			block.eulerStep2(u, dt);
+		}
+
+		u = -2.0;
+		for (int i = 0; i < 1000; i++) {
+			block.eulerStep1(u, dt);
+			block.eulerStep2(u, dt);
+		}
+		assertTrue(Math.abs(block.getStateX()-1.0) < 0.0001);
+
+		System.out.println("\nEnd TestPIBlockCase Case1");
+	}
+
+	public void test_Case2() {
+		System.out.println("\nBegin TestPIBlockCase Case2");
+
+		PIControlBlock block = new PIControlBlock(IControlBlock.Type_Limit, 2.0, 1.0, 5.0, -5.0);
+		
+		assertTrue(!block.initState(6.0));
+		assertTrue(!block.initState(-6.0));
+
+		assertTrue(block.initState(0.0));
+
+		double u = 6.0, dt = 0.01;
+		for (int i = 0; i < 1000; i++) {
+			block.eulerStep1(u, dt);
+			block.eulerStep2(u, dt);
+		}
+		assertTrue(Math.abs(block.getY(u)-5.0) < 0.0001);
+
+		u = -6.0;
+		for (int i = 0; i < 1000; i++) {
+			block.eulerStep1(u, dt);
+			block.eulerStep2(u, dt);
+		}
+		assertTrue(Math.abs(block.getY(u)+5.0) < 0.0001);
+
+		System.out.println("\nEnd TestPIBlockCase Case3");
+	}
+
+	public void test_Case3() {
+		System.out.println("\nBegin TestPIBlockCase Case3");
+
+		PIControlBlock block = new PIControlBlock(IControlBlock.Type_NonWindup, 2.0, 1.0, 5.0, -5.0);
+		
+		assertTrue(!block.initState(6.0));
+		assertTrue(!block.initState(-6.0));
+
+		assertTrue(block.initState(0.0));
+
+		double u = 6.0, dt = 0.01;
+		for (int i = 0; i < 1000; i++) {
+			block.eulerStep1(u, dt);
+			block.eulerStep2(u, dt);
+		}
+		assertTrue(Math.abs(block.getStateX()+block.getKp()*u-5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY(u)-5.0) < 0.0001);
+
+		u = -6.0;
+		for (int i = 0; i < 1000; i++) {
+			block.eulerStep1(u, dt);
+			block.eulerStep2(u, dt);
+		}
+		assertTrue(Math.abs(block.getStateX()+block.getKp()*u+5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY(u)+5.0) < 0.0001);
+
+		System.out.println("\nEnd TestPIBlockCase Case3");
 	}
 }
