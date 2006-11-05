@@ -72,9 +72,6 @@ public class SimuRunWorker extends Thread {
 				
 			  	appStatus.busyStop("Run AC Loadflow Analysis finished");
 				
-			  	if (!converge)
-			  		simuCtx.getMsgHub().sendWarnMsg("Loadflow does not converge!");
-			  	
 			  	if (graph != null) {
 					GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACLF);
 				}
