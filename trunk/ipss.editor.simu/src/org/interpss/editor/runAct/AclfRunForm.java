@@ -51,19 +51,20 @@ public class AclfRunForm extends BaseRunForm {
   	public boolean runLoadflow(SimuContext simuCtx) {
   		boolean converge = false;
   		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET_LITERAL) {
-  			converge = runLoadflow(simuCtx.getDistNet(), simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub());
+  			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
   		}
   		else {
-  			converge = runLoadflow(simuCtx.getAclfAdjNet(), simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub());
+  			converge = runLoadflow(simuCtx.getAclfAdjNet(), simuCtx);
   		}
   		return converge;
   	}
   	
-  	private boolean runLoadflow(DistNetwork distNet, LoadflowAlgorithm algo, IPSSMsgHub msg) {
+  	private boolean runLoadflow(DistNetwork distNet, SimuContext simuCtx) {
   		boolean converge = true;
   		if (distNet.getLoadNetData().getSchedulePoints() == 0) {
-  			distNet.setNameplateAclfNetData(msg);
-			converge = runLoadflow_internal(distNet.getAcscNet(), algo, msg);
+  			distNet.setNameplateAclfNetData(simuCtx.getMsgHub());
+			converge = runLoadflow_internal(distNet.getAcscNet(), simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub());
+		  	
 		  	if (getAclfCaseData().getShowSummary()) {
 		  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 		  		dialog.display(distNet.getAcscNet());
@@ -72,8 +73,8 @@ public class AclfRunForm extends BaseRunForm {
   		else {
   			double loss = 0.0;
   			for (int i = 0; i < distNet.getLoadNetData().getSchedulePoints(); i++) {
-  				distNet.setPointAclfNetData(i, msg);
-  				if (!runLoadflow_internal(distNet.getAcscNet(), algo, msg))
+  				distNet.setPointAclfNetData(i, simuCtx.getMsgHub());
+  				if (!runLoadflow_internal(distNet.getAcscNet(), simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub()))
   					converge = false;
   				
   				for( Iterator itr = distNet.getBusList().iterator(); itr.hasNext();) {
@@ -82,18 +83,20 @@ public class AclfRunForm extends BaseRunForm {
   			  		aBusApt.setPointVoltage(distBus.getAcscBus().getVoltage(), i);
   				}
   			}
-  			distNet.getLoadNetData().setTotalLossKwHr(loss);  		
+
+		  	distNet.getLoadNetData().setTotalLossKwHr(loss);  		
 		  	if (getAclfCaseData().getShowSummary()) {
 		  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Distribution Loadflow Analysis Info");
 		  		dialog.display(distNet);
-		  		
 		  	}
   		}
   		return converge; 
   	}
   	
-  	private boolean runLoadflow(AclfAdjNetwork aclfAdjNet, LoadflowAlgorithm algo, IPSSMsgHub msg) {
-  	  	boolean converge = runLoadflow_internal(aclfAdjNet, algo, msg);
+  	private boolean runLoadflow(AclfAdjNetwork aclfAdjNet, SimuContext simuCtx) {
+  	  	boolean converge = runLoadflow_internal(aclfAdjNet, simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub());
+	  	if (!converge)
+	  		simuCtx.getMsgHub().sendWarnMsg("Loadflow does not converge!");
 	  	if (getAclfCaseData().getShowSummary()) {
 	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 	  		dialog.display(aclfAdjNet);
