@@ -70,6 +70,14 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         setBusBranchFaultPanel();
 	}
 	
+	public void setBranchReclosureStatus(boolean status) {
+        reclosureCheckBox.setEnabled(status);
+        if (!status) {
+            reclosureCheckBox.setSelected(status);
+            branchReclosureCheckboxActionPerformed(null);
+        }
+	}
+	
     public void setBusBranchFaultPanel() {
         faultLocPanel.remove(busFaultPanel);
         faultLocPanel.remove(branchFaultPanel);
@@ -105,7 +113,11 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBFaultLocDataPanel setForm2Editor() called");
 
-		if (this.distanceTextField.isEnabled())
+	    reclosureCheckBox.setSelected(_faultData.isBranchReclosure());		
+        branchReclosureCheckboxActionPerformed(null);
+	    atReclosureTimeTextField.setText(Num2Str.toStr(_faultData.getReclosureTime(), "0.00"));
+
+	    if (this.distanceTextField.isEnabled())
         	this.distanceTextField.setText(Num2Str.toStr(_faultData.getDistance(), "#0.##"));
 
         if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_3P)) 
@@ -160,7 +172,10 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 		else
 			_faultData.setCategory(AcscFaultData.FaultCaty_All);
 
-		if (this.distanceTextField.isEnabled()) {
+		_faultData.setBranchReclosure(reclosureCheckBox.isSelected());		
+		_faultData.setReclosureTime(SwingInputVerifyUtil.getDouble(this.atReclosureTimeTextField));
+
+	    if (this.distanceTextField.isEnabled()) {
 			if (!SwingInputVerifyUtil.largeEqualThan(this.distanceTextField, 0.0d)) {
 				errMsg.add("Branch fault distance < 0.0");
 				ok = false;
@@ -252,6 +267,9 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         distanceLabel = new javax.swing.JLabel();
         distanceTextField = new javax.swing.JTextField();
         disUnitLabel = new javax.swing.JLabel();
+        reclosureCheckBox = new javax.swing.JCheckBox();
+        atReclosureTimeLabel = new javax.swing.JLabel();
+        atReclosureTimeTextField = new javax.swing.JTextField();
         faultTypePanel = new javax.swing.JPanel();
         typePanel = new javax.swing.JPanel();
         type3PRadioButton = new javax.swing.JRadioButton();
@@ -269,7 +287,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         xLLTextField = new javax.swing.JTextField();
         zLLUnitLabel = new javax.swing.JLabel();
 
-        setLayout(new java.awt.BorderLayout());
+        setLayout(new java.awt.GridBagLayout());
 
         faultLocPanel.setLayout(new java.awt.BorderLayout());
 
@@ -285,54 +303,98 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
         faultLocPanel.add(busFaultPanel, java.awt.BorderLayout.NORTH);
 
-        branchFaultPanel.setLayout(new java.awt.GridBagLayout());
-
         faultBranchLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         faultBranchLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         faultBranchLabel.setText("Fault Branch     ");
         faultBranchLabel.setPreferredSize(new java.awt.Dimension(90, 25));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 0);
-        branchFaultPanel.add(faultBranchLabel, gridBagConstraints);
 
         faultBranchComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Branch id list" }));
         faultBranchComboBox.setName("faultBranchComboBox");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        branchFaultPanel.add(faultBranchComboBox, gridBagConstraints);
 
         distanceLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         distanceLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         distanceLabel.setText("Fault Distance     ");
         distanceLabel.setPreferredSize(new java.awt.Dimension(100, 25));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 0);
-        branchFaultPanel.add(distanceLabel, gridBagConstraints);
 
         distanceTextField.setColumns(5);
         distanceTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         distanceTextField.setText("0.0");
         distanceTextField.setName("distanceTextField");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
-        branchFaultPanel.add(distanceTextField, gridBagConstraints);
 
         disUnitLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         disUnitLabel.setText("(% from FromSide)");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 0);
-        branchFaultPanel.add(disUnitLabel, gridBagConstraints);
 
+        reclosureCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        reclosureCheckBox.setText("Branch Reclosure");
+        reclosureCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        reclosureCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        reclosureCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                branchReclosureCheckboxActionPerformed(evt);
+            }
+        });
+
+        atReclosureTimeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        atReclosureTimeLabel.setText("at(sec)");
+        atReclosureTimeLabel.setEnabled(false);
+
+        atReclosureTimeTextField.setColumns(3);
+        atReclosureTimeTextField.setText("0.0");
+        atReclosureTimeTextField.setEnabled(false);
+
+        org.jdesktop.layout.GroupLayout branchFaultPanelLayout = new org.jdesktop.layout.GroupLayout(branchFaultPanel);
+        branchFaultPanel.setLayout(branchFaultPanelLayout);
+        branchFaultPanelLayout.setHorizontalGroup(
+            branchFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(branchFaultPanelLayout.createSequentialGroup()
+                .add(38, 38, 38)
+                .add(branchFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(branchFaultPanelLayout.createSequentialGroup()
+                        .add(110, 110, 110)
+                        .add(distanceLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(distanceTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(branchFaultPanelLayout.createSequentialGroup()
+                        .add(faultBranchLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(faultBranchComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(10, 10, 10)
+                .add(branchFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(branchFaultPanelLayout.createSequentialGroup()
+                        .add(19, 19, 19)
+                        .add(reclosureCheckBox)
+                        .add(12, 12, 12)
+                        .add(atReclosureTimeLabel)
+                        .add(4, 4, 4)
+                        .add(atReclosureTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(disUnitLabel))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        branchFaultPanelLayout.setVerticalGroup(
+            branchFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, branchFaultPanelLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(branchFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(faultBranchLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(faultBranchComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(reclosureCheckBox)
+                    .add(atReclosureTimeLabel)
+                    .add(atReclosureTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(branchFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(distanceLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(branchFaultPanelLayout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(distanceTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(branchFaultPanelLayout.createSequentialGroup()
+                        .add(5, 5, 5)
+                        .add(disUnitLabel))))
+        );
         faultLocPanel.add(branchFaultPanel, java.awt.BorderLayout.SOUTH);
 
-        add(faultLocPanel, java.awt.BorderLayout.NORTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 0;
+        add(faultLocPanel, gridBagConstraints);
 
         faultTypePanel.setLayout(new java.awt.GridBagLayout());
 
@@ -431,12 +493,14 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
         zLLLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         zLLLabel.setText("L-L(r+jx)     ");
+        zLLLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         faultZPanel.add(zLLLabel, gridBagConstraints);
 
         rLLTextField.setColumns(8);
         rLLTextField.setText("0.0");
+        rLLTextField.setEnabled(false);
         rLLTextField.setName("rLLTextField");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -444,6 +508,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
         xLLTextField.setColumns(8);
         xLLTextField.setText("0.0");
+        xLLTextField.setEnabled(false);
         xLLTextField.setName("xLLTextField");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -452,6 +517,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
         zLLUnitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         zLLUnitLabel.setText("     (Ohms)");
+        zLLUnitLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         faultZPanel.add(zLLUnitLabel, gridBagConstraints);
@@ -461,9 +527,22 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         faultTypePanel.add(faultZPanel, gridBagConstraints);
 
-        add(faultTypePanel, java.awt.BorderLayout.SOUTH);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        add(faultTypePanel, gridBagConstraints);
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void branchReclosureCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchReclosureCheckboxActionPerformed
+        if (reclosureCheckBox.isSelected()) {
+        	atReclosureTimeLabel.setEnabled(true);
+        	atReclosureTimeTextField.setEnabled(true);
+        }
+        else {
+        	atReclosureTimeLabel.setEnabled(false);
+        	atReclosureTimeTextField.setEnabled(false);
+        }
+    }//GEN-LAST:event_branchReclosureCheckboxActionPerformed
 
     private void typeAllRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeAllRadioButtonActionPerformed
         setLabelText();
@@ -487,6 +566,8 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel atReclosureTimeLabel;
+    private javax.swing.JTextField atReclosureTimeTextField;
     private javax.swing.JPanel branchFaultPanel;
     private javax.swing.JPanel busFaultPanel;
     private javax.swing.JLabel disUnitLabel;
@@ -502,6 +583,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     private javax.swing.JPanel faultZPanel;
     private javax.swing.JTextField rLGTextField;
     private javax.swing.JTextField rLLTextField;
+    private javax.swing.JCheckBox reclosureCheckBox;
     private javax.swing.JRadioButton type3PRadioButton;
     private javax.swing.JRadioButton typeAllRadioButton;
     private javax.swing.JRadioButton typeLGRadioButton;

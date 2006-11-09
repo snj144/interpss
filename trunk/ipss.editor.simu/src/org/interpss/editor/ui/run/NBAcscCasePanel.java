@@ -65,6 +65,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    _appCtx = (AppSimuContextImpl)appCtx;
 	    
         _faultLocDataPanel.init(netContainer, null);
+        _faultLocDataPanel.setBranchReclosureStatus(false);
     }
 
     public void setCaseData(AcscCaseData data) {
