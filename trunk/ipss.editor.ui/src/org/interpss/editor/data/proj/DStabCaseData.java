@@ -43,7 +43,14 @@ public class DStabCaseData extends BaseDataBean {
 	private String simuMethod = Method_ModifiedEuler;
 	private double totalSimuTime = 0.0;
 	private double simuStep = 0.0;
+
 	private boolean disableDynamicEvent = false;
+	private boolean setPointChange = false;
+	private String  setPointChangeMachId = "";
+	private String  selectedController = "";
+	private double  setPointValueChange = 0.0;
+	private boolean setPointChangeAbsolute = false;
+	
 	private boolean absoluteMachValue = false;
 	private String refMachId = "";
 	private int netEqnItrNoEvent = 3;
@@ -52,6 +59,7 @@ public class DStabCaseData extends BaseDataBean {
 	// when const_P load, voltage lower than the SwitchVolt, change to const Z 
 	private double staticLoadSwitchVolt = 0.65;
 	private double staticLoadSwitchDeadZone = 0.05;
+
 	private List dEventList = new ArrayList();
 	
 	public DStabCaseData() {
@@ -251,5 +259,65 @@ public class DStabCaseData extends BaseDataBean {
 	 */
 	public void setRefMachId(String refMachId) {
 		this.refMachId = refMachId;
+	}
+	/**
+	 * @return the selectedController
+	 */
+	public String getSelectedController() {
+		return selectedController;
+	}
+	/**
+	 * @param selectedController the selectedController to set
+	 */
+	public void setSelectedController(String selectedController) {
+		this.selectedController = selectedController;
+	}
+	/**
+	 * @return the setPointChange
+	 */
+	public boolean isSetPointChange() {
+		return setPointChange;
+	}
+	/**
+	 * @param setPointChange the setPointChange to set
+	 */
+	public void setSetPointChange(boolean setPointChange) {
+		this.setPointChange = setPointChange;
+	}
+	/**
+	 * @return the setPointChangeAbsolute
+	 */
+	public boolean isSetPointChangeAbsolute() {
+		return setPointChangeAbsolute;
+	}
+	/**
+	 * @param setPointChangeAbsolute the setPointChangeAbsolute to set
+	 */
+	public void setSetPointChangeAbsolute(boolean setPointChangeAbsolute) {
+		this.setPointChangeAbsolute = setPointChangeAbsolute;
+	}
+	/**
+	 * @return the setPointChangeMachId
+	 */
+	public String getSetPointChangeMachId() {
+		return setPointChangeMachId;
+	}
+	/**
+	 * @param setPointChangeMachId the setPointChangeMachId to set
+	 */
+	public void setSetPointChangeMachId(String setPointChangeMachId) {
+		this.setPointChangeMachId = setPointChangeMachId;
+	}
+	/**
+	 * @return the setPointValueChange
+	 */
+	public double getSetPointValueChange() {
+		return setPointValueChange;
+	}
+	/**
+	 * @param setPointValueChange the setPointValueChange to set
+	 */
+	public void setSetPointValueChange(double setPointValueChange) {
+		this.setPointValueChange = setPointValueChange;
 	}
 }

@@ -71,4 +71,20 @@ public class AcscFaultData extends BaseDataBean {
 	protected double LL_X = 0.0;
     public double getLL_X() { return this.LL_X; }
     public void setLL_X(double fault_LL_X) { this.LL_X = fault_LL_X; }
+
+    // the following are for transient stability simulation
+    private boolean branchReclosure = false;
+    private double  reclosureTime = 0.0;
+  	public boolean isBranchReclosure() {
+		return branchReclosure;
+	}
+	public void setBranchReclosure(boolean branchReclosure) {
+		this.branchReclosure = branchReclosure;
+	}
+	public double getReclosureTime() {
+		return reclosureTime;
+	}
+	public void setReclosureTime(double reclosureTime) {
+		this.reclosureTime = reclosureTime;
+	}    
 }

@@ -55,7 +55,7 @@ public class DStabMachData extends BaseDataBean {
 	public void setExcData(DStabExcData data) { excData = data; }
 
 	private boolean hasPss = true;
-	public boolean getHasPss() { return hasPss; }
+	public boolean getHasPss() { return hasPss & hasExc; }
 	public void setHasPss(boolean t) { hasPss = t; }
 
 	private DStabPssData pssData = new DStabPssData();
