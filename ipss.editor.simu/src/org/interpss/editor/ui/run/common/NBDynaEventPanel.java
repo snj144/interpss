@@ -196,13 +196,14 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
         eventTypeButtonGroup = new javax.swing.ButtonGroup();
         dynamicEventPanel = new javax.swing.JPanel();
-        eventListLabel = new javax.swing.JLabel();
-        eventListComboBox = new javax.swing.JComboBox();
-        startTimeLabel = new javax.swing.JLabel();
-        stratTimeTextField = new javax.swing.JTextField();
+        eventListPanel = new javax.swing.JPanel();
         durationLabel = new javax.swing.JLabel();
-        durationTextField = new javax.swing.JTextField();
+        eventListLabel = new javax.swing.JLabel();
         permanetCheckBox = new javax.swing.JCheckBox();
+        eventListComboBox = new javax.swing.JComboBox();
+        durationTextField = new javax.swing.JTextField();
+        stratTimeTextField = new javax.swing.JTextField();
+        startTimeLabel = new javax.swing.JLabel();
         eventTypePanel = new javax.swing.JPanel();
         busFaultRadioButton = new javax.swing.JRadioButton();
         branchFaultRadioButton = new javax.swing.JRadioButton();
@@ -217,62 +218,11 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
         dynamicEventPanel.setLayout(new java.awt.GridBagLayout());
 
-        eventListLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        eventListLabel.setText("Dynamic Event List     ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        dynamicEventPanel.add(eventListLabel, gridBagConstraints);
-
-        eventListComboBox.setEditable(true);
-        eventListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        eventListComboBox.setName("eventListComboBox");
-        eventListComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eventListComboBoxActionPerformed(evt);
-            }
-        });
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        dynamicEventPanel.add(eventListComboBox, gridBagConstraints);
-
-        startTimeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        startTimeLabel.setText("          Start Time(sec)   ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        dynamicEventPanel.add(startTimeLabel, gridBagConstraints);
-
-        stratTimeTextField.setColumns(4);
-        stratTimeTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        stratTimeTextField.setText("0.0");
-        stratTimeTextField.setDragEnabled(true);
-        stratTimeTextField.setName("stratTimeTextField");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        dynamicEventPanel.add(stratTimeTextField, gridBagConstraints);
-
         durationLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         durationLabel.setText("          Duration(sec)   ");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        dynamicEventPanel.add(durationLabel, gridBagConstraints);
 
-        durationTextField.setColumns(4);
-        durationTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        durationTextField.setText("0.1");
-        durationTextField.setName("durationTextField");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        dynamicEventPanel.add(durationTextField, gridBagConstraints);
+        eventListLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        eventListLabel.setText("Dynamic Event List     ");
 
         permanetCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         permanetCheckBox.setText("Permanent");
@@ -284,10 +234,70 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
             }
         });
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 30, 0, 20);
-        dynamicEventPanel.add(permanetCheckBox, gridBagConstraints);
+        eventListComboBox.setEditable(true);
+        eventListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        eventListComboBox.setName("eventListComboBox");
+        eventListComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eventListComboBoxActionPerformed(evt);
+            }
+        });
+
+        durationTextField.setColumns(4);
+        durationTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        durationTextField.setText("0.1");
+        durationTextField.setName("durationTextField");
+
+        stratTimeTextField.setColumns(4);
+        stratTimeTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        stratTimeTextField.setText("0.0");
+        stratTimeTextField.setDragEnabled(true);
+        stratTimeTextField.setName("stratTimeTextField");
+
+        startTimeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        startTimeLabel.setText("          Start Time(sec)   ");
+
+        org.jdesktop.layout.GroupLayout eventListPanelLayout = new org.jdesktop.layout.GroupLayout(eventListPanel);
+        eventListPanel.setLayout(eventListPanelLayout);
+        eventListPanelLayout.setHorizontalGroup(
+            eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(eventListPanelLayout.createSequentialGroup()
+                .add(eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(eventListPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(startTimeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(stratTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(14, 14, 14)
+                        .add(durationLabel)
+                        .add(18, 18, 18)
+                        .add(durationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(31, 31, 31)
+                        .add(permanetCheckBox))
+                    .add(eventListPanelLayout.createSequentialGroup()
+                        .add(142, 142, 142)
+                        .add(eventListLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(61, 61, 61))
+        );
+        eventListPanelLayout.setVerticalGroup(
+            eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(eventListPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(eventListLabel)
+                    .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(10, 10, 10)
+                .add(eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(durationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(durationLabel)
+                    .add(stratTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(startTimeLabel)
+                    .add(permanetCheckBox))
+                .addContainerGap())
+        );
+        dynamicEventPanel.add(eventListPanel, new java.awt.GridBagConstraints());
 
         eventTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Event Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10), new java.awt.Color(0, 0, 0)));
         eventTypeButtonGroup.add(busFaultRadioButton);
@@ -330,13 +340,11 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
         dynamicEventPanel.add(eventTypePanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
         dynamicEventPanel.add(eventInputPanel, gridBagConstraints);
 
@@ -375,7 +383,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 15, 0);
         dynamicEventPanel.add(controlPanel, gridBagConstraints);
 
@@ -386,6 +393,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     private void permanetCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permanetCheckBoxActionPerformed
    	    durationLabel.setEnabled(!permanetCheckBox.isSelected());
    	    durationTextField.setEnabled(!permanetCheckBox.isSelected());
+   	    _faultLocDataPanel.setBranchReclosureStatus(!permanetCheckBox.isSelected());
     }//GEN-LAST:event_permanetCheckBoxActionPerformed
 
     private void deleteEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEventButtonActionPerformed
@@ -489,6 +497,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     private javax.swing.JPanel eventInputPanel;
     private javax.swing.JComboBox eventListComboBox;
     private javax.swing.JLabel eventListLabel;
+    private javax.swing.JPanel eventListPanel;
     private javax.swing.ButtonGroup eventTypeButtonGroup;
     private javax.swing.JPanel eventTypePanel;
     private javax.swing.JRadioButton loadChangeRadioButton;
