@@ -234,6 +234,26 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 		return vect.toArray();
 	}
 	
+
+	public Object[] getMachContrllerList(String machId) {
+		Vector vect = new Vector();
+		for ( int i = 0; i < getBusFormList().size(); i++ ) {
+	        GBusForm form = (GBusForm)getBusFormList().get(i);
+	        if (form.getDStabBusData().isMachineBus()) {
+	        	if (machId.equals(Constants.MachIdToken + form.getId())) {
+	        		if (form.getDStabBusData().getMachData().getHasExc())
+	        			vect.add(Constants.ExciterToken);
+	        		if (form.getDStabBusData().getMachData().getHasGov())
+	        			vect.add(Constants.GovernorToken);
+	        		if (form.getDStabBusData().getMachData().getHasPss())
+	        			vect.add(Constants.StabilizerToken);
+	        	}
+	        }
+		}
+		if (vect.size() == 0)
+			vect.add(new String("No Controller"));
+		return vect.toArray();
+	}
 	/** 
 	* 	Get machine ids into an array
 	*
