@@ -32,6 +32,7 @@ public class DStabDEventData extends BaseDataBean {
 	public static final String DEventType_BusFault = "BusFault";
 	public static final String DEventType_BranchFault = "BranchFault";
 	public static final String DEventType_LoadChange = "LoadChange";
+	public static final String DEventType_SetPointChange = "SetPointChange";
 	
 	public static final String NewEventName = "<Not Defined>";
 	
