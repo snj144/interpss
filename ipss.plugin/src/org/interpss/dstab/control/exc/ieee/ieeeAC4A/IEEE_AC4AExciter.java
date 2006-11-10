@@ -115,7 +115,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 		final int ctr_bus_id = getData().getCtrBusID();
 		//TODO
 		//double vt = mach.getBus(ctr_bus_id).getVoltage().abs() / mach.getVMultiFactor();
-		final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
+		final double vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
 		_X1 = vt;
 		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
 		_Vref = _X1 + _X2 - vpss;
@@ -125,7 +125,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	
 	private double cal_dX1_dt(final double X1) {
 		final Machine mach = getMachine();
-		final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
+		final double vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
 		return ( vt  - X1) / getData().getTa();
 	}
 	
@@ -150,7 +150,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 			final Machine mach = getMachine();
 			//Block 1
 			if(getData().getTa() < Constants.SmallDoubleNumber) {
-				_X1 = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
+				_X1 = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
 			}
 			else {
 				//Step-1 : x(1) = x(0) + dx_dt(1) * dt
