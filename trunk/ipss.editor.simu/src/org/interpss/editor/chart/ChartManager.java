@@ -183,7 +183,7 @@ public class ChartManager {
     	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
     	String rating = Num2Str.toStr("0.0",mach.getRating()*baseKva/1000.0);
     	String rpm = Num2Str.toStr((int)(2.0*baseFreq*60.0/mach.getPoles()));
-    	String baseV = Num2Str.toStr("0.0",mach.getBus().getBaseVoltage());
+    	String baseV = Num2Str.toStr("0.0",mach.getMachineBus().getBaseVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ANG)) 
     		return id + "(Unit:Deg)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED))
