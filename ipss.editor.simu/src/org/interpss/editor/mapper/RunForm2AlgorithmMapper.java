@@ -36,6 +36,7 @@ import org.interpss.editor.runAct.AcscRunForm;
 import org.interpss.editor.runAct.DStabRunForm;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.mapper.AbstractMapper;
@@ -56,9 +57,12 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.StaticLoadModel;
+import com.interpss.dstab.devent.DStabBranchFault;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.devent.LoadChangeEvent;
+import com.interpss.dstab.devent.SetPointChangeEvent;
+import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class RunForm2AlgorithmMapper extends AbstractMapper {
@@ -145,54 +149,54 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 	}
 
 	private void dStabRunForm2DynamicSimuAlgorithmMapping(DStabRunForm runForm, DynamicSimuAlgorithm algo) {
-		aclfRunForm2LFAlgorithmMapping(runForm.getAclfCaseData(), algo.getAclfAlgorithm());
-
-		algo.setSimuMethod(runForm.getDStabCaseData().getSimuMethod().equals(DStabCaseData.Method_RungeKutta)?
-				DynamicSimuMethods.RUNGE_KUTTA_LITERAL : DynamicSimuMethods.MODIFIED_EULER_LITERAL);
-		algo.setTotalSimuTimeSec(runForm.getDStabCaseData().getTotalSimuTime());
-		algo.setSimuStepSec(runForm.getDStabCaseData().getSimuStep());	
-		algo.setDisableDynamicEvent(runForm.getDStabCaseData().getDisableDynamicEvent());
+		mapDStabAlgorithm(runForm, algo);
 		
-		DStabilityNetwork dstabNet = algo.getDStabNet();
+		map2DStabNetwork(runForm, algo);
 
-		if (runForm.getDStabCaseData().isAbsoluteMachValue()) {
-			algo.setRefMachine(null);
+		DStabilityNetwork dstabNet = algo.getDStabNet();
+		if (runForm.getDStabCaseData().getDisableDynamicEvent()) {
+			if (runForm.getDStabCaseData().isSetPointChange()) {
+				IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
+				DStabCaseData caseData = runForm.getDStabCaseData();
+				String machId = caseData.getSetPointChangeMachId();
+				DynamicEvent event = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
+						DynamicEventType.SET_POINT_CHANGE_LITERAL, dstabNet, msg);
+				event.setStartTimeSec(0.0);
+				event.setDurationSec(runForm.getDStabCaseData().getTotalSimuTime());
+				SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, dstabNet);
+				eSetPoint.setControllerType(
+						caseData.getSelectedController().equals(Constants.ExciterToken)? ControllerType.EXCITER_LITERAL :
+							caseData.getSelectedController().equals(Constants.GovernorToken)? 
+									ControllerType.GOVERNOR_LITERAL : ControllerType.STABILIZER_LITERAL);
+				eSetPoint.setChangeValue(caseData.getSetPointValueChange());
+				eSetPoint.setAbusoluteChange(caseData.isSetPointChangeAbsolute());
+				event.setBusDynamicEvent(eSetPoint);
+			}
 		}
 		else {
-			Machine mach = dstabNet.getMachine(runForm.getDStabCaseData().getRefMachId());
-			IpssLogger.getLogger().info("Ref mach set to : " + mach.getId());
-			algo.setRefMachine(mach);
-		}
-		
-		dstabNet.setNetEqnIterationNoEvent(runForm.getDStabCaseData().getNetEqnItrNoEvent());
-		dstabNet.setNetEqnIterationWithEvent(runForm.getDStabCaseData().getNetEqnItrWithEvent());
+			for (int i = 0; i < runForm.getDStabCaseData().getDEventList().size(); i++) {
+				DStabDEventData eventData = (DStabDEventData)runForm.getDStabCaseData().getDEventList().get(i);
+				// make sure that event name is not "" or NewEventName
+				if (!eventData.getEventName().equals(DStabDEventData.NewEventName) && !eventData.getEventName().trim().equals("")) {
+					IpssLogger.getLogger().info("Event Data: " + eventData);
+					// create event name
+					String name = "EventAt_" + eventData.getStartTime() + eventData.getType();
+					// map event type 
+					DynamicEventType deType = getDEventType(eventData.getType());
+					// create the DStabEvent
+					DynamicEvent event = DStabObjectFactory.createDEvent(eventData.getEventName(), name, deType, dstabNet, msg);
+					if (event == null) {
+						SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
+						return;
+					}
 
-		dstabNet.setStaticLoadModel(runForm.getDStabCaseData().getStaticLoadType().equals(
-				DStabCaseData.StaticLoad_Const_Z)? StaticLoadModel.CONST_Z_LITERAL : StaticLoadModel.CONST_P_LITERAL);
-		dstabNet.setStaticLoadSwitchVolt(runForm.getDStabCaseData().getStaticLoadSwitchVolt());
-		dstabNet.setStaticLoadSwitchDeadZone(runForm.getDStabCaseData().getStaticLoadSwitchDeadZone());
-		for (int i = 0; i < runForm.getDStabCaseData().getDEventList().size(); i++) {
-			DStabDEventData eventData = (DStabDEventData)runForm.getDStabCaseData().getDEventList().get(i);
-			// make sure that event name is not "" or NewEventName
-			if (!eventData.getEventName().equals(DStabDEventData.NewEventName) && !eventData.getEventName().trim().equals("")) {
-				IpssLogger.getLogger().info("Event Data: " + eventData);
-				// create event name
-				String name = "EventAt_" + eventData.getStartTime() + eventData.getType();
-				// map event type 
-				DynamicEventType deType = getDEventType(eventData.getType());
-				// create the DStabEvent
-				DynamicEvent event = DStabObjectFactory.createDEvent(eventData.getEventName(), name, deType, dstabNet, msg);
-				if (event == null) {
-					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
-					return;
-				}
-
-				try {
-					setEventData(event, eventData, runForm.getDStabCaseData().getTotalSimuTime(), dstabNet, msg);
-				} catch (Exception e) {
-					IpssLogger.logErr(e);
-					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to process DynamicEvent", "See log file for details, " + e.toString());
-					return;				
+					try {
+						setEventData(event, eventData, runForm.getDStabCaseData().getTotalSimuTime(), dstabNet, msg);
+					} catch (Exception e) {
+						IpssLogger.logErr(e);
+						SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to process DynamicEvent", "See log file for details, " + e.toString());
+						return;				
+					}
 				}
 			}
 		}
@@ -205,6 +209,8 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			return DynamicEventType.BRANCH_FAULT_LITERAL;
 		else if (eventDataType.equals(DStabDEventData.DEventType_LoadChange))
 			return DynamicEventType.LOAD_CHANGE_LITERAL;		
+		else if (eventDataType.equals(DStabDEventData.DEventType_SetPointChange))
+			return DynamicEventType.SET_POINT_CHANGE_LITERAL;		
 		else 
 			throw new InvalidParameterException("Programming error, eventDataType: " + eventDataType);
 	}
@@ -246,8 +252,10 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 				}
 			}
 			else {
-				AcscBranchFault fault = CoreObjectFactory.createAcscBranchFault("Branch Fault at " + fdata.getBranchId());
+				DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault("Branch Fault at " + fdata.getBranchId());
 				mapping(fdata, fault, AcscBranchFault.class);
+				fault.setReclosure(fdata.isBranchReclosure());
+				fault.setReclosureTime(fdata.getReclosureTime());
 				event.setBranchFault(fault);
 				DStabBranch branch = dstabNet.getDStabBranch(fdata.getBranchId());
 				if (branch != null)
@@ -258,5 +266,34 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			}
 		}
 	}
+
+	private void mapDStabAlgorithm(DStabRunForm runForm, DynamicSimuAlgorithm algo) {
+		aclfRunForm2LFAlgorithmMapping(runForm.getAclfCaseData(), algo.getAclfAlgorithm());
+
+		algo.setSimuMethod(runForm.getDStabCaseData().getSimuMethod().equals(DStabCaseData.Method_RungeKutta)?
+				DynamicSimuMethods.RUNGE_KUTTA_LITERAL : DynamicSimuMethods.MODIFIED_EULER_LITERAL);
+		algo.setTotalSimuTimeSec(runForm.getDStabCaseData().getTotalSimuTime());
+		algo.setSimuStepSec(runForm.getDStabCaseData().getSimuStep());	
+		algo.setDisableDynamicEvent(runForm.getDStabCaseData().getDisableDynamicEvent());
+		
+		if (runForm.getDStabCaseData().isAbsoluteMachValue()) {
+			algo.setRefMachine(null);
+		}
+		else {
+			Machine mach = algo.getDStabNet().getMachine(runForm.getDStabCaseData().getRefMachId());
+			IpssLogger.getLogger().info("Ref mach set to : " + mach.getId());
+			algo.setRefMachine(mach);
+		}
+	}
 	
+	private void map2DStabNetwork(DStabRunForm runForm, DynamicSimuAlgorithm algo) {
+		DStabilityNetwork dstabNet = algo.getDStabNet();
+		dstabNet.setNetEqnIterationNoEvent(runForm.getDStabCaseData().getNetEqnItrNoEvent());
+		dstabNet.setNetEqnIterationWithEvent(runForm.getDStabCaseData().getNetEqnItrWithEvent());
+
+		dstabNet.setStaticLoadModel(runForm.getDStabCaseData().getStaticLoadType().equals(
+				DStabCaseData.StaticLoad_Const_Z)? StaticLoadModel.CONST_Z_LITERAL : StaticLoadModel.CONST_P_LITERAL);
+		dstabNet.setStaticLoadSwitchVolt(runForm.getDStabCaseData().getStaticLoadSwitchVolt());
+		dstabNet.setStaticLoadSwitchDeadZone(runForm.getDStabCaseData().getStaticLoadSwitchDeadZone());
+	}
 }
