@@ -58,7 +58,7 @@ import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-
+ 
 public class ChartManager {
 	public static void addPopupMenuAction(JPopupMenu menu, final Object cell) {
 		menu.addSeparator();
