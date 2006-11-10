@@ -79,7 +79,7 @@ public class SimpleExciter extends AbstractExciter {
 				getData().getKa(), getData().getTa(), getData().getVrmax(), getData().getVrmin()); 
 		controlBlock.initState(mach.getEfd());
 		
-		final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
+		final double vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
 		stateVref = vt + controlBlock.getU0();
 		return true;
 	}
@@ -109,7 +109,7 @@ public class SimpleExciter extends AbstractExciter {
 	
 	private double calculateU() {
 		final Machine mach = getMachine();
-		final double vt = mach.getBus().getVoltage().abs() / mach.getVMultiFactor();
+		final double vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
 		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
 		return stateVref + vpss - vt;		
 	}
