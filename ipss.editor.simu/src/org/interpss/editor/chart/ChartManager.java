@@ -177,7 +177,7 @@ public class ChartManager {
 	public static final String OUT_SYMBOL_MACH_EQ11 	= "Mach Eq11";
 	public static final String OUT_SYMBOL_MACH_ED1 		= "Mach Ed1";
 	public static final String OUT_SYMBOL_MACH_ED11 	= "Mach Ed11";
-*/    
+*/     
     private static String getMachDataLabel(Machine mach, String state, double baseFreq, double baseKva) {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
