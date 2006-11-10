@@ -69,7 +69,7 @@ public class TestSimpleExcitorCase extends TestSetupBase {
 		 * dXdt = [50*(1.04-0.99) - 2.1]/0.05 = 8.0
 		 * X1 = 2.0 + 0.5 * (10.0 + 8.0) * 0.01 = 2.09
 		 */
-		mach.getBus().setVoltageMag(0.99);
+		mach.getMachineBus().setVoltageMag(0.99);
 		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
 		//System.out.println("X1 " + exc._X1);
 		assertTrue(Math.abs(exc.getStateX1() - 2.09) < 0.0001);
