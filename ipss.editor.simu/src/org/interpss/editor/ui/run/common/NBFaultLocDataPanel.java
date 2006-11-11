@@ -46,6 +46,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
   		DataVerifier verifier = new DataVerifier();
       	this.distanceTextField.setInputVerifier(verifier);
+      	this.atReclosureTimeTextField.setInputVerifier(verifier);
       	this.rLGTextField.setInputVerifier(verifier);
       	this.xLGTextField.setInputVerifier(verifier);
       	this.rLLTextField.setInputVerifier(verifier);
@@ -173,7 +174,13 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 			_faultData.setCategory(AcscFaultData.FaultCaty_All);
 
 		_faultData.setBranchReclosure(reclosureCheckBox.isSelected());		
-		_faultData.setReclosureTime(SwingInputVerifyUtil.getDouble(this.atReclosureTimeTextField));
+		if (reclosureCheckBox.isSelected()) {
+			if (!SwingInputVerifyUtil.largeThan(this.atReclosureTimeTextField, 0.0d)) {
+				errMsg.add("Branch reclosure at Time <= 0.0");
+				ok = false;
+			}
+			_faultData.setReclosureTime(SwingInputVerifyUtil.getDouble(this.atReclosureTimeTextField));
+		}
 
 	    if (this.distanceTextField.isEnabled()) {
 			if (!SwingInputVerifyUtil.largeEqualThan(this.distanceTextField, 0.0d)) {
@@ -609,6 +616,8 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
        			    input == rLLTextField ||
        			    input == xLLTextField )
  	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+ 	       		else if (input == atReclosureTimeTextField)
+   	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		
