@@ -252,21 +252,35 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 				}
 			}
 			else {
-				DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault("Branch Fault at " + fdata.getBranchId());
-				mapping(fdata, fault, AcscBranchFault.class);
-				fault.setReclosure(fdata.isBranchReclosure());
-				fault.setReclosureTime(fdata.getReclosureTime());
+				DStabBranchFault fault = createDStabBranchFault(fdata, dstabNet);
 				event.setBranchFault(fault);
-				DStabBranch branch = dstabNet.getDStabBranch(fdata.getBranchId());
-				if (branch != null)
-					fault.setFaultBranch(branch);
-				else {
-					throw new InvalidParameterException("Programming error, Branch cannot be found, id:" + fdata.getBranchId());
+				if (fault.isReclosure()) {
+					String name = "EventAt_" + eventData.getStartTime() + eventData.getType();
+					DynamicEvent event2 = DStabObjectFactory.createDEvent(
+							event.getId()+"-Reclosure", name, DynamicEventType.BRANCH_RECLOSURE_LITERAL, dstabNet, msg);
+					event2.setStartTimeSec(fault.getReclosureTime());
+					event2.setDurationSec(toltalSimuTime);
+					event2.setPermanent(true);
+					event2.setBranchFault(createDStabBranchFault(fdata, dstabNet));
 				}
 			}
 		}
 	}
 
+	private DStabBranchFault createDStabBranchFault(AcscFaultData fdata, DStabilityNetwork dstabNet) {
+		DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault("Branch Fault at " + fdata.getBranchId());
+		mapping(fdata, fault, AcscBranchFault.class);
+		fault.setReclosure(fdata.isBranchReclosure());
+		fault.setReclosureTime(fdata.getReclosureTime());
+		DStabBranch branch = dstabNet.getDStabBranch(fdata.getBranchId());
+		if (branch != null)
+			fault.setFaultBranch(branch);
+		else {
+			throw new InvalidParameterException("Programming error, Branch cannot be found, id:" + fdata.getBranchId());
+		}
+		return fault;
+	}
+	
 	private void mapDStabAlgorithm(DStabRunForm runForm, DynamicSimuAlgorithm algo) {
 		aclfRunForm2LFAlgorithmMapping(runForm.getAclfCaseData(), algo.getAclfAlgorithm());
 

@@ -176,12 +176,14 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
             	ok = false;
         }
 
-		/*
-		if (_eventData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus)) 
-			_eventData.setType(DStabDEventData.DEventType_BusFault);
-		else
-			_eventData.setType(DStabDEventData.DEventType_BranchFault);
-		*/	
+		if (_eventData.getFaultData().getType().equals(AcscFaultData.FaultType_Branch) && !_eventData.isPermanent()) {
+			if (_eventData.getFaultData().isBranchReclosure()) {
+				if (_eventData.getFaultData().getReclosureTime() <= (_eventData.getStartTime()+_eventData.getDuration())) {
+	    			errMsg.add("Branch reclosure at time <= start+duration");
+	    			ok = false;
+				}
+			}
+		}
 		return ok;
 	}
     
