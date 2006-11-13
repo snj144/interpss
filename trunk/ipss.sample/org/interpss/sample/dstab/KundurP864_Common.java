@@ -32,7 +32,12 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.dstab.control.exc.simple.SimpleExciter;
+import org.interpss.dstab.control.gov.simple.SimpleGovernor;
+import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
+import org.interpss.editor.EditorSpringAppContext;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -57,24 +62,25 @@ import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
-
+import com.interpss.dstab.devent.DynamicEvent;
+import com.interpss.dstab.devent.DynamicEventType;
+import com.interpss.dstab.mach.EConstMachine;
 import com.interpss.dstab.mach.Eq1Machine;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
-import com.interpss.dstab.mach.EConstMachine;
 import com.interpss.dstab.util.DStabOutFunc;
-import org.interpss.dstab.control.exc.simple.SimpleExciter;
-import org.interpss.dstab.control.gov.simple.SimpleGovernor;
-import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
-import com.interpss.dstab.devent.DynamicEvent;
-import com.interpss.dstab.devent.DynamicEventType;
-
-import com.interpss.simu.*;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
 
 public class KundurP864_Common {
 	public static byte MsgOutLevel  = TextMessage.TYPE_WARN;
 	
 	public static void setUp(IPSSMsgHub msg) {
+		String SpringConfigXmlFile = "c:/eclipse/InterpssDev/ipss.editor/properties/springConfig/editorAppContext.xml";
+		SpringAppContext.SpringAppCtxConfigXmlFile = SpringConfigXmlFile;
+		EditorSpringAppContext.springAppContextSetup();
+
 		// Define a session message object to handle simulation session message
 		try {
 			msg.addMsgListener(new StdoutMsgListener(MsgOutLevel));

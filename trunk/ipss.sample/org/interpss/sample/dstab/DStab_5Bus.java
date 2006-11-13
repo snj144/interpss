@@ -32,7 +32,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.util.IDStabSimuOutputHandler;
-import com.interpss.dstab.util.TextOutDStabSimuActionHandler;
+import com.interpss.dstab.util.TextSimuOutputHandler;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -58,7 +58,7 @@ public class DStab_5Bus extends TestSetupBase {
 		net.removeAllDEvent();
 				
 		// set up output and run the simulation
-		IDStabSimuOutputHandler handler = new TextOutDStabSimuActionHandler();
+		IDStabSimuOutputHandler handler = new TextSimuOutputHandler();
 		algo.setSimuOutputHandler(handler);
 		IpssLogger.getLogger().setLevel(Level.WARNING);
 		if (algo.initialization(msg)) {
