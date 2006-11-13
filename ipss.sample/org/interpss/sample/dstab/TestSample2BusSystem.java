@@ -47,7 +47,7 @@ import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
 import com.interpss.dstab.util.DStabOutFunc;
-import com.interpss.dstab.util.DStabSimuTimeEventHandler;
+import com.interpss.dstab.util.DynamicEventProcessor;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -110,7 +110,7 @@ public class TestSample2BusSystem extends TestSetupBase {
 		double t = 0.0;
 		double dt = 0.01;
 
-		DStabSimuTimeEventHandler handler = new DStabSimuTimeEventHandler(msg);
+		DynamicEventProcessor handler = new DynamicEventProcessor(msg);
 		while (t <= totalTime) {
 			handler.onMsgEvent(new DStabSimuTimeEvent(DStabSimuTimeEvent.ProessDynamicEvent, net, t));
 

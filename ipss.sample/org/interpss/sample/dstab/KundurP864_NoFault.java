@@ -41,7 +41,7 @@ import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.datatype.DStabSimuTimeEvent;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.util.DStabOutFunc;
-import com.interpss.dstab.util.DStabSimuTimeEventHandler;
+import com.interpss.dstab.util.DynamicEventProcessor;
 
 public class KundurP864_NoFault {
 	public static void main(String[] args) {
@@ -76,7 +76,7 @@ public class KundurP864_NoFault {
 
 		Machine refMach = net.getMachine("InfBus");
 		
-		DStabSimuTimeEventHandler handler = new DStabSimuTimeEventHandler(msg);
+		DynamicEventProcessor handler = new DynamicEventProcessor(msg);
 		while (t <= totalTime) {
 			handler.onMsgEventStatus(new DStabSimuTimeEvent(DStabSimuTimeEvent.ProessDynamicEvent, net, t));
 
