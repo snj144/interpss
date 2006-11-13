@@ -23,17 +23,25 @@
 	</bean>
 	
 	<bean id="simuTimeEventHandler" 
-	      class="com.interpss.dstab.util.DStabSimuTimeEventHandler" 
+	      class="com.interpss.dstab.util.DynamicEventProcessor" 
 	      singleton="false">	
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 	
 	<bean id="dstabSimuOutputHandler" 
-	      class="com.interpss.dstab.util.DefaultDStabSimuActionHandler" 
+	      class="com.interpss.dstab.util.DatabaseSimuOutputHandler" 
 	      singleton="false">	
 	</bean>
-		
+
+<!-- 
+    To turn off transient stability output to database, use the following dstabSimuOutputHandler
+	<bean id="dstabSimuOutputHandler" 
+          class="com.interpss.dstab.util.BaseDBSimuOutputHandler"
+	      singleton="false">	
+	</bean>
+-->
+
 	<bean id="dynaSimuAlgorithm" 
 	      class="com.interpss.dstab.DStabObjectFactory"	
 		  factory-method="createDynamicSimuAlgorithm" 
@@ -90,12 +98,21 @@
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 
+	<bean id="netChangeHandler" 
+	      class="com.interpss.dstab.util.BaseNetChangeEventHandler" 
+	      singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+	
 	<bean id="simuCtxTypeDStabNet" 
 		  class="com.interpss.simu.SimuObjectFactory" 
 		  factory-method="createSimuCtxTypeDStabNet" 
 		  singleton="false">	
-	  	<constructor-arg>
+	  	<constructor-arg index="0">
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
+		<constructor-arg index="1">
+			<ref bean="netChangeHandler"/></constructor-arg>
 	</bean>
 
 	<!--
