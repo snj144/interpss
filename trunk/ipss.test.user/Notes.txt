@@ -1,7 +1,7 @@
-User acceptance testing development
+11/15/06
+- Moved Fitness to Eclipse
+- Migrate FitNesse to version 20060719
 
-- Run RunUserTestFixtures to start the test suite
 
-Unit testing
 	
 	
