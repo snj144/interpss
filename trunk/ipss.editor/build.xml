@@ -3,7 +3,7 @@
     <target description="init setup" name="init">
       	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
-      	<property name="fit_base" value="C:/eclipse/fitnesse"/>
+      	<property name="fit_base" value="C:/eclipse/InterpssDev/ipss.test.user/fitnesse"/>
       	<property name="svn_lib" value="${dev_base}/ipss.lib/lib/ipss"/>
 
       	<property name="lib_base" value="${dist_base}/lib"/>
