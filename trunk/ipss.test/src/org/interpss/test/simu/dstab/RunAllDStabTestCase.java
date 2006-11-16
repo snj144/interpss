@@ -34,6 +34,10 @@ import org.interpss.test.simu.dstab.controller.block.TestWashoutCase;
 import org.interpss.test.simu.dstab.controller.exc.TestSimpleExcitorCase;
 import org.interpss.test.simu.dstab.controller.gov.TestSimpleGovernorCase;
 import org.interpss.test.simu.dstab.controller.pss.TestSimpleStabilizerCase;
+import org.interpss.test.simu.dstab.ieeeModel.TestIEEE11ModelCase;
+import org.interpss.test.simu.dstab.ieeeModel.TestIEEE12ModelCase;
+import org.interpss.test.simu.dstab.ieeeModel.TestIEEE21ModelCase;
+import org.interpss.test.simu.dstab.ieeeModel.TestIEEE22ModelCase;
 import org.interpss.test.simu.dstab.mach.TestEConstMachineCase;
 import org.interpss.test.simu.dstab.mach.TestEq1Ed1MachineCase;
 import org.interpss.test.simu.dstab.mach.TestEq1MachineCase;
@@ -69,5 +73,10 @@ public class RunAllDStabTestCase {
 		junit.textui.TestRunner.run(TestWashoutCase.class);
 		junit.textui.TestRunner.run(TestIntegrationCase.class);
 		junit.textui.TestRunner.run(TestPIBlockCase.class);
+		
+		junit.textui.TestRunner.run(TestIEEE11ModelCase.class);
+		junit.textui.TestRunner.run(TestIEEE12ModelCase.class);
+		junit.textui.TestRunner.run(TestIEEE21ModelCase.class);
+		junit.textui.TestRunner.run(TestIEEE22ModelCase.class);		
 	}
 }
