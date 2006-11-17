@@ -68,6 +68,41 @@ public class DStabFixture extends AcscFixture {
 	private DStabilityNetwork getNet() {
 		return simuCtx.getDStabilityNet();
 	}
+	
+	public int noOfMachines() {
+		return getNet().getMachineList().size();
+	}
+
+	public int noOfExciters() {
+		int cnt = 0;
+		for (int i = 0; i < getNet().getMachineList().size(); i++) {
+			Machine mach = (Machine)getNet().getMachineList().get(i);
+			if (mach.hasExciter())
+				cnt++;
+		}
+		return cnt;
+	}
+
+	public int noOfGovernors() {
+		int cnt = 0;
+		for (int i = 0; i < getNet().getMachineList().size(); i++) {
+			Machine mach = (Machine)getNet().getMachineList().get(i);
+			if (mach.hasGovernor())
+				cnt++;
+		}
+		return cnt;
+	}
+
+	public int noOfStabilizers() {
+		int cnt = 0;
+		for (int i = 0; i < getNet().getMachineList().size(); i++) {
+			Machine mach = (Machine)getNet().getMachineList().get(i);
+			if (mach.hasExciter() && mach.hasStabilizer())
+				cnt++;
+		}
+		return cnt;
+	}
+
 	/**
 	 * Create DynamicSimulationAlgorithm and set the parameters
 	 * 
