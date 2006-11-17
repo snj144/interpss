@@ -35,6 +35,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
@@ -52,27 +53,41 @@ import com.interpss.dstab.test.YMatrixChangeTestRecorder;
 import com.interpss.simu.SimuSpringAppContext;
 
 public class DStabFixture extends AcscFixture {
-	private DynamicSimuAlgorithm dSimuAlgorithm;
+	// ActionFixture
+	private static DynamicSimuAlgorithm dSimuAlgorithm;
 	private DynamicEvent currentDEvent;
 	
-	private StateVariableTestRecorder stateTestRecorder;
-	private int timePoints = 0;
-	private double[] timePointArray;
+	private static StateVariableTestRecorder stateTestRecorder;
+	private static int timePoints = 0;
+	private static double[] timePointArray;
 	
-	private YMatrixChangeTestRecorder yTestRecorder;
+	private static YMatrixChangeTestRecorder yTestRecorder;
 	
+	// ColumnFixture
+	public static double measureTime;
+	
+	/**
+	 * Called when start this fixture
+	 *
+	 */
 	public void createDStabNetwork() {
 		simuCtx = SimuSpringAppContext.getSimuContextTypeDStab();
 	}	
 
-	private DStabilityNetwork getNet() {
-		return simuCtx.getDStabilityNet();
-	}
-	
+	/**
+	 * Get the number of machines in the net
+	 * 
+	 * @return
+	 */
 	public int noOfMachines() {
 		return getNet().getMachineList().size();
 	}
 
+	/**
+	 * Get the number of exc in the net
+	 * 
+	 * @return
+	 */
 	public int noOfExciters() {
 		int cnt = 0;
 		for (int i = 0; i < getNet().getMachineList().size(); i++) {
@@ -83,6 +98,11 @@ public class DStabFixture extends AcscFixture {
 		return cnt;
 	}
 
+	/**
+	 * Get the number of gov in the net
+	 * 
+	 * @return
+	 */
 	public int noOfGovernors() {
 		int cnt = 0;
 		for (int i = 0; i < getNet().getMachineList().size(); i++) {
@@ -93,6 +113,11 @@ public class DStabFixture extends AcscFixture {
 		return cnt;
 	}
 
+	/**
+	 * Get the number of pss in the net
+	 * 
+	 * @return
+	 */
 	public int noOfStabilizers() {
 		int cnt = 0;
 		for (int i = 0; i < getNet().getMachineList().size(); i++) {
@@ -106,15 +131,17 @@ public class DStabFixture extends AcscFixture {
 	/**
 	 * Create DynamicSimulationAlgorithm and set the parameters
 	 * 
-	 * @param startTime
-	 * @param timeStep
-	 * @param simuMethod  // not used currently
-	 * @param machId
+	 * @param data, format: double simuTime, double timeStep, String simuMethod, String machId
 	 */
-	public void cecreateDynamicSimuAlgorithm(double startTime, double timeStep, String simuMethod, String machId) {
+	public void createDynamicSimuAlgorithm(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		double simuTime = new Double(st.nextToken()).doubleValue();
+		double timeStep = new Double(st.nextToken()).doubleValue();
+		String simuMethod = st.nextToken();
+		String machId = st.nextToken();
 		dSimuAlgorithm = DStabObjectFactory.createDynamicSimuAlgorithm(getNet(), msg);
-		dSimuAlgorithm.setSimuStepSec(startTime);
-		dSimuAlgorithm.setTotalSimuTimeSec(timeStep);
+		dSimuAlgorithm.setTotalSimuTimeSec(simuTime);
+		dSimuAlgorithm.setSimuStepSec(timeStep);
 		Machine mach = getNet().getMachine(machId);
 		dSimuAlgorithm.setRefMachine(mach);
 	}
@@ -130,34 +157,39 @@ public class DStabFixture extends AcscFixture {
 	/**
 	 * Define a controller set point change event
 	 * 
-	 * @param machId
-	 * @param controllerType "Exciter", "Governor" or "Stabilizer"
-	 * @param changeValue
-	 * @param absoluteChange
+	 * @param data, format: String machId, String controllerType("Exciter", "Governor" or "Stabilizer"), 
+	 *                      double changeValue, boolean absoluteChange
 	 */
-	public void defineSetPointChange(String machId, String controllerType, double changeValue, boolean absoluteChange) {
+	public void defineSetPointChange(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String machId = st.nextToken();
+		String contType = st.nextToken();
+		double cValue = new Double(st.nextToken()).doubleValue();
+		boolean absChange = new Boolean(st.nextToken()).booleanValue();
 		dSimuAlgorithm.setDisableDynamicEvent(true);
-		currentDEvent = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
+		this.currentDEvent = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
 							DynamicEventType.SET_POINT_CHANGE_LITERAL, getNet(), msg);
-		currentDEvent.setStartTimeSec(0.0);
-		currentDEvent.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
+		this.currentDEvent.setStartTimeSec(0.0);
+		this.currentDEvent.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
 		SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, getNet());
 		eSetPoint.setControllerType(
-				controllerType.equals("Exciter")? ControllerType.EXCITER_LITERAL :
-					controllerType.equals("Governor")? ControllerType.GOVERNOR_LITERAL : ControllerType.STABILIZER_LITERAL);
-		eSetPoint.setChangeValue(changeValue);
-		eSetPoint.setAbusoluteChange(absoluteChange);
-		currentDEvent.setBusDynamicEvent(eSetPoint);
+				contType.equals("Exciter")? ControllerType.EXCITER_LITERAL :
+					contType.equals("Governor")? ControllerType.GOVERNOR_LITERAL : ControllerType.STABILIZER_LITERAL);
+		eSetPoint.setChangeValue(cValue);
+		eSetPoint.setAbusoluteChange(absChange);
+		this.currentDEvent.setBusDynamicEvent(eSetPoint);
 	}
 
 	/**
 	 * Create a dynamic event
 	 * 
-	 * @param id
-	 * @param name
-	 * @param type "BusFault", "BranchFault", "LoadChange"
+	 * @param data format: String id, String name, String type(BusFault, BranchFault, LoadChange)
 	 */
-	public void createDynamicEvent(String id, String name, String type) {
+	public void createDynamicEvent(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String id = st.nextToken();
+		String name = st.nextToken();
+		String type = st.nextToken();
 		this.currentDEvent = DStabObjectFactory.createDEvent(id, name, 
 				type.equals("BusFault")? DynamicEventType.BUS_FAULT_LITERAL :
 					type.equals("BranchFault")? DynamicEventType.BRANCH_FAULT_LITERAL : DynamicEventType.LOAD_CHANGE_LITERAL, 
@@ -167,61 +199,69 @@ public class DStabFixture extends AcscFixture {
 	/**
 	 * Set event attributes
 	 * 
-	 * @param startTime
+	 * @param data, format: double startTime, double duration, boolean permanent
 	 * @param duration
 	 * @param permanent
 	 */
-	public void setDynamicEventTiming(double startTime, double duration, boolean permanent) {
-		currentDEvent.setStartTimeSec(startTime);
-		currentDEvent.setPermanent(permanent);
+	public void setDynamicEventTiming(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		double startTime = new Double(st.nextToken()).doubleValue();
+		double duration = new Double(st.nextToken()).doubleValue();
+		boolean permanent = new Boolean(st.nextToken()).booleanValue();
+		this.currentDEvent.setStartTimeSec(startTime);
+		this.currentDEvent.setPermanent(permanent);
 		if (permanent) {
-			currentDEvent.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
+			this.currentDEvent.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
 		}
 		else {
-			currentDEvent.setDurationSec(0.1);
+			this.currentDEvent.setDurationSec(duration);
 		}
 	}
 	
 	/**
 	 * add a Bus fault to the event object
 	 * 
-	 * @param id
-	 * @param type "3P', 'LG', 'LL', 'LLG'
-	 * @param rLG
-	 * @param xLG
-	 * @param rLL
-	 * @param xLL
+	 * @param data, format: String id, String type, double rLG, double xLG, double rLL, double xLL
 	 */
-	public void addBusFault(String id, String type, double rLG, double xLG, double rLL, double xLL) {
+	public void addBusFault(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String id = st.nextToken();
+		String type = st.nextToken();
+		double rLG = new Double(st.nextToken()).doubleValue();
+		double xLG = new Double(st.nextToken()).doubleValue();
+		double rLL = new Double(st.nextToken()).doubleValue();
+		double xLL = new Double(st.nextToken()).doubleValue();
 		DStabBus faultBus = getNet().getDStabBus(id);
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault@"+id );
   		fault.setAcscBus(faultBus);
   		setFaultData(fault, type, rLG, xLG, rLL, xLL);
-		currentDEvent.setBusFault(fault);
+  		this.currentDEvent.setBusFault(fault);
 	}
 
 	/**
 	 * add a branch fault to the event object
 	 * 
-	 * @param fromBusId
-	 * @param toBusId
-	 * @param type
-	 * @param distance
-	 * @param rLG
-	 * @param xLG
-	 * @param rLL
-	 * @param xLL
-	 * @param reclosure
-	 * @param reclosureTime
+	 * @param data, format: String fromBusId, String toBusId, String type, double distance, 
+	 *                      double rLG, double xLG, double rLL, double xLL, boolean reclosure, double reclosureTime
 	 */
-	public void addBranchFault(String fromBusId, String toBusId, String type, double distance, 
-			double rLG, double xLG, double rLL, double xLL, boolean reclosure, double reclosureTime) {
+	public void addBranchFault(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String fromBusId = st.nextToken();
+		String toBusId = st.nextToken();
+		String type = st.nextToken();
+		double distance = new Double(st.nextToken()).doubleValue();
+		double rLG = new Double(st.nextToken()).doubleValue();
+		double xLG = new Double(st.nextToken()).doubleValue();
+		double rLL = new Double(st.nextToken()).doubleValue();
+		double xLL = new Double(st.nextToken()).doubleValue();
+		boolean reclosure = new Boolean(st.nextToken()).booleanValue();
+		double reclosureTime = new Double(st.nextToken()).doubleValue();
 		DStabBranchFault fault = createDStabbranchFault(fromBusId, toBusId, type, distance, 
-									rLG, xLG, rLL, xLL, reclosure, reclosureTime);
-		currentDEvent.setBranchFault(fault);
+				rLG, xLG, rLL, xLL, reclosure, reclosureTime);
+		this.currentDEvent.setBranchFault(fault);
 		if (fault.isReclosure()) {
-			String name = "EventAt_" + currentDEvent.getStartTimeSec() + currentDEvent.getType();
-			DynamicEvent event2 = DStabObjectFactory.createDEvent(currentDEvent.getId()+"-Reclosure", 
+			String name = "EventAt_" + this.currentDEvent.getStartTimeSec() + this.currentDEvent.getType();
+			DynamicEvent event2 = DStabObjectFactory.createDEvent(this.currentDEvent.getId()+"-Reclosure", 
 					name, DynamicEventType.BRANCH_RECLOSURE_LITERAL, getNet(), msg);
 			event2.setStartTimeSec(fault.getReclosureTime());
 			event2.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
@@ -234,82 +274,76 @@ public class DStabFixture extends AcscFixture {
 	/**
 	 * add a load change to the event object
 	 * 
-	 * @param loadBusId load change bus id
+	 * @param data, format: String loadBusId, double changeFactor
 	 * @param changeFactor change factor in %, for example 110%
 	 */
-	public void addLoadChangeEvent(String loadBusId, double changeFactor) {
-		currentDEvent.setType(DynamicEventType.LOAD_CHANGE_LITERAL);
+	public void addLoadChangeEvent(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String loadBusId = st.nextToken();
+		double changeFactor = new Double(st.nextToken()).doubleValue();
+		this.currentDEvent.setType(DynamicEventType.LOAD_CHANGE_LITERAL);
 		LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(loadBusId, getNet());
 		eLoad.setChangeFactor(changeFactor);
-		currentDEvent.setBusDynamicEvent(eLoad);
+		this.currentDEvent.setBusDynamicEvent(eLoad);
 	}
 
 	/**
-	 * Create a  StateVariableTestRecorder object  
+	 * Create a StateVariableTestRecorder object  
 	 * 
-	 * @param points
-	 * @param timePointList, time points list string, format: 0.0,1.0,2.0 ...
+	 * @param data, format: int points, String timePointList [0.0,1.0,2.0 ...]
 	 */
-	public void createStateTestRecorder(int points, String timePointList) {
+	public void createStateTestRecorder(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		timePoints = new Integer(st.nextToken()).intValue();
+		String timePointList = data.substring(data.indexOf('[')+1, data.indexOf(']'));
 		stateTestRecorder = new StateVariableTestRecorder(0.0001);
-		timePoints = points;
-		timePointArray = buildDoubleArray(points, timePointList);
+		timePointArray = buildDoubleArray(timePoints, timePointList);
 	}
 
 	
 	/**
 	 * add machine state variable test record
 	 * 
-	 * @param machId
-	 * @param statename
-	 * @param expectedPoints
+	 * @param data, format: String machId, String statename, String expectedPoints
 	 */
-	public void addMachineTestStateRecord(String machId, String statename, String expectedPoints) {
-		addTestStateRecord(machId, statename, StateVariableTestRecorder.RecType_Machine, expectedPoints);
+	public void addMachineTestStateRecord(String data) {
+		addTestStateRecord(data, StateVariableTestRecorder.RecType_Machine);
 	}
 	
 	/**
 	 * add exiter state variable test record
 	 * 
-	 * @param machId
-	 * @param statename
-	 * @param expectedPoints
+	 * @param data, format: String machId, String statename, String expectedPoints
 	 */
-	public void addExciterTestStateRecord(String machId, String statename, String expectedPoints) {
-		addTestStateRecord(machId, statename, StateVariableTestRecorder.RecType_Exciter, expectedPoints);
+	public void addExciterTestStateRecord(String data) {
+		addTestStateRecord(data, StateVariableTestRecorder.RecType_Exciter);
 	}
 	
 	/**
 	 * add governor state variable test record
 	 * 
-	 * @param machId
-	 * @param statename
-	 * @param expectedPoints
+	 * @param data, format: String machId, String statename, String expectedPoints
 	 */
-	public void addGovernorTestStateRecord(String machId, String statename, String expectedPoints) {
-		addTestStateRecord(machId, statename, StateVariableTestRecorder.RecType_Governor, expectedPoints);
+	public void addGovernorTestStateRecord(String data) {
+		addTestStateRecord(data, StateVariableTestRecorder.RecType_Governor);
 	}
 	
 	/**
 	 * add stabilizer state variable test record
 	 * 
-	 * @param machId
-	 * @param statename
-	 * @param expectedPoints
+	 * @param data, format: String machId, String statename, String expectedPoints
 	 */
-	public void addStabilizerTestStateRecord(String machId, String statename, String expectedPoints) {
-		addTestStateRecord(machId, statename, StateVariableTestRecorder.RecType_Stabilizer, expectedPoints);
+	public void addStabilizerTestStateRecord(String data) {
+		addTestStateRecord(data, StateVariableTestRecorder.RecType_Stabilizer);
 	}	
 	
 	/**
 	 * add bus state variable test record
 	 * 
-	 * @param machId
-	 * @param statename
-	 * @param expectedPoints
+	 * @param data, format: String busd, String vname, String expectedPoints
 	 */
-	public void addBusTestOutputRecord(String id, String name, String expectedPoints) {
-		addTestStateRecord(id, name, StateVariableTestRecorder.RecType_Bus, expectedPoints);
+	public void addBusTestOutputRecord(String data) {
+		addTestStateRecord(data, StateVariableTestRecorder.RecType_Bus);
 	}
 
 	/**
@@ -323,30 +357,75 @@ public class DStabFixture extends AcscFixture {
 	/**
 	 * Add a bus yii test record
 	 * 
-	 * @param yiiBusId
-	 * @param time
+	 * @param data, format: String yiiBusId, double time
 	 */
-	public void addBusYiiTest(String yiiBusId, double time) {
+	public void addBusYiiTest(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String yiiBusId = st.nextToken();
+		double time = new Double(st.nextToken()).doubleValue();
 		yTestRecorder.addTestRecord(new YMatrixChangeTestRecorder.TestRecord(yiiBusId, time));
 	}
 	
 	/**
 	 * Add a branch yij test record
 	 * 
-	 * @param fromBusId
+	 * @param data, format: String fromBusId, String toBusId, double time
 	 * @param toBusId
 	 * @param time
 	 */
-	public void addBranchYijTest(String fromBusId, String toBusId, double time) {
+	public void addBranchYijTest(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String fromBusId = st.nextToken();
+		String toBusId = st.nextToken();
+		double time = new Double(st.nextToken()).doubleValue();
 		yTestRecorder.addTestRecord(new YMatrixChangeTestRecorder.TestRecord(fromBusId, toBusId, time));
 	}
 
+	public void runDStabSimu() {
+		LoadflowAlgorithm aclfAlgo = dSimuAlgorithm.getAclfAlgorithm();
+		aclfAlgo.loadflow(msg);
+		
+		dSimuAlgorithm.setSimuOutputHandler(stateTestRecorder);
+	  	
+		yTestRecorder.initBusNumber(getNet());
+		getNet().setNetChangeListener(yTestRecorder);	
+
+		if (dSimuAlgorithm.initialization(msg)) {
+			dSimuAlgorithm.performSimulation(msg);
+		}		
+	}
+	
 	public void outputDStabDebugInfo() {
 		System.out.println(simuCtx.getDStabilityNet().net2String());
+		System.out.println(dSimuAlgorithm.toString());
+		System.out.println(stateTestRecorder);
+		System.out.println(yTestRecorder);
 	}
 
-	private void addTestStateRecord(String id, String name, int type, String expectedPoints) {
-		double[] statePoints =  buildDoubleArray(timePoints, expectedPoints);
+	/*
+	 *  Reuslt check functions 
+	 */
+	
+	// busId, measureTime needs to be set
+	public double yiiReal() {
+		return formatDouble(yTestRecorder.getTestRecord(measureTime, busId).y.getReal());
+	}
+	
+	// busId, measureTime needs to be set
+	public double yiiImaginary() {
+		return formatDouble(yTestRecorder.getTestRecord(measureTime, busId).y.getImaginary());
+	}
+
+	/*
+	 * Private methods
+	 * ===============
+	 */
+	private void addTestStateRecord(String data, int type) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String id = st.nextToken();
+		String name = st.nextToken();
+		String pointList = data.substring(data.indexOf('[')+1, data.indexOf(']'));
+		double[] statePoints =  buildDoubleArray(timePoints, pointList);
 		stateTestRecorder.addTestRecords(id, type, name, timePointArray, statePoints);
 	}	
 
@@ -360,7 +439,7 @@ public class DStabFixture extends AcscFixture {
 		int cnt = 0;
 		while(st.hasMoreTokens()) {
 			double t = new Double(st.nextToken()).doubleValue();
-			timePointArray[cnt++] = t;
+			dAry[cnt++] = t;
 		}
 		return dAry;
 	}	
@@ -397,5 +476,9 @@ public class DStabFixture extends AcscFixture {
 		fault.setReclosure(reclosure);
 		fault.setReclosureTime(reclosureTime);
 		return fault;
+	}
+
+	private DStabilityNetwork getNet() {
+		return simuCtx.getDStabilityNet();
 	}
 }
