@@ -50,7 +50,6 @@ import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.test.StateVariableTestRecorder;
 import com.interpss.dstab.test.YMatrixChangeTestRecorder;
-import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.simu.SimuSpringAppContext;
 
 public class DStabFixture extends AcscFixture {
