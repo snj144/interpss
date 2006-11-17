@@ -50,6 +50,7 @@ import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.test.StateVariableTestRecorder;
 import com.interpss.dstab.test.YMatrixChangeTestRecorder;
+import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.simu.SimuSpringAppContext;
 
 public class DStabFixture extends AcscFixture {
@@ -57,14 +58,17 @@ public class DStabFixture extends AcscFixture {
 	private static DynamicSimuAlgorithm dSimuAlgorithm;
 	private DynamicEvent currentDEvent;
 	
-	private static StateVariableTestRecorder stateTestRecorder;
 	private static int timePoints = 0;
 	private static double[] timePointArray;
-	
+	private static StateVariableTestRecorder stateTestRecorder;
 	private static YMatrixChangeTestRecorder yTestRecorder;
 	
 	// ColumnFixture
 	public static double measureTime;
+	public static String variableType;          // Machine, Exciter, Governor, Stabilizer, Bus
+	public static String variableName;
+	public static double errorTolerance;
+	
 	
 	/**
 	 * Called when start this fixture
@@ -416,6 +420,28 @@ public class DStabFixture extends AcscFixture {
 		return formatDouble(yTestRecorder.getTestRecord(measureTime, busId).y.getImaginary());
 	}
 
+	// busId, measureTime needs to be set
+	public boolean yiiChanged() {
+		return yTestRecorder.getTestRecord(measureTime, busId).measured;
+	}
+	
+	// busId, variableType (Machine, Exciter, Governor, Stabilizer, Bus), variableName, errorTolerance need to be defined
+	public boolean totalDiffLTErrorTolerance() {
+		if (variableType.equals("Bus")) {
+			return stateTestRecorder.diffTotal(busId, StateVariableTestRecorder.RecType_Bus, 
+					variableName) < errorTolerance;
+		}
+		else {
+			String machId = getNet().getDStabBus(busId).getMachine().getId();
+			return stateTestRecorder.diffTotal(machId, 
+					variableType.equals("Machine")?StateVariableTestRecorder.RecType_Machine :
+						variableType.equals("Exciter")?StateVariableTestRecorder.RecType_Exciter :
+							variableType.equals("Governor")?StateVariableTestRecorder.RecType_Governor :
+								StateVariableTestRecorder.RecType_Stabilizer, 
+					variableName) < errorTolerance;
+		}
+	}
+	
 	/*
 	 * Private methods
 	 * ===============
