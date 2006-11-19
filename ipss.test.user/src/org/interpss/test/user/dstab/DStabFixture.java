@@ -75,6 +75,7 @@ public class DStabFixture extends AcscFixture {
 	 */
 	public void createDStabNetwork() {
 		simuCtx = SimuSpringAppContext.getSimuContextTypeDStab();
+		yTestRecorder = null;
 	}	
 
 	/**
@@ -293,13 +294,14 @@ public class DStabFixture extends AcscFixture {
 	/**
 	 * Create a StateVariableTestRecorder object  
 	 * 
-	 * @param data, format: int points, String timePointList [0.0,1.0,2.0 ...]
+	 * @param data, format: int points, double measureTolerance, String timePointList [0.0,1.0,2.0 ...]
 	 */
 	public void createStateTestRecorder(String data) {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		timePoints = new Integer(st.nextToken()).intValue();
+		double tolerance = new Double(st.nextToken()).doubleValue();
 		String timePointList = data.substring(data.indexOf('[')+1, data.indexOf(']'));
-		stateTestRecorder = new StateVariableTestRecorder(0.0001);
+		stateTestRecorder = new StateVariableTestRecorder(tolerance);
 		timePointArray = buildDoubleArray(timePoints, timePointList);
 	}
 
@@ -352,9 +354,12 @@ public class DStabFixture extends AcscFixture {
 	/**
 	 * Create a Y-matrix test recorder
 	 *
+	 * @param data, format: double measureTolerance
 	 */
-	public void createYMatrixTestRecorder() {
-		yTestRecorder = new YMatrixChangeTestRecorder(0.0001);		
+	public void createYMatrixTestRecorder(String data) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		double tolerance = new Double(st.nextToken()).doubleValue();
+		yTestRecorder = new YMatrixChangeTestRecorder(tolerance);		
 	}
 	
 	/**
@@ -390,8 +395,10 @@ public class DStabFixture extends AcscFixture {
 		
 		dSimuAlgorithm.setSimuOutputHandler(stateTestRecorder);
 	  	
-		yTestRecorder.initBusNumber(getNet());
-		getNet().setNetChangeListener(yTestRecorder);	
+		if (yTestRecorder != null) {
+			yTestRecorder.initBusNumber(getNet());
+			getNet().setNetChangeListener(yTestRecorder);	
+		}
 
 		if (dSimuAlgorithm.initialization(msg)) {
 			dSimuAlgorithm.performSimulation(msg);
@@ -402,6 +409,14 @@ public class DStabFixture extends AcscFixture {
 		System.out.println(simuCtx.getDStabilityNet().net2String());
 		System.out.println(dSimuAlgorithm.toString());
 		System.out.println(stateTestRecorder);
+		System.out.println(yTestRecorder);
+	}
+
+	public void outputStateTestRecorderInfo() {
+		System.out.println(stateTestRecorder);
+	}
+
+	public void outputYMatrixTestRecorderInfo() {
 		System.out.println(yTestRecorder);
 	}
 
