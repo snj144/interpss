@@ -131,6 +131,14 @@ public class DStabFixture extends AcscFixture {
 		}
 		return cnt;
 	}
+	
+	/**
+	 * Init the DStab network for transient stability simulation.
+	 *
+	 */
+	public void initDStabNet() {
+		getNet().initialization(msg);
+	}
 
 	/**
 	 * Create DynamicSimulationAlgorithm and set the parameters
