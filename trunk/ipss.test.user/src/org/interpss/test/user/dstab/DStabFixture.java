@@ -416,8 +416,6 @@ public class DStabFixture extends AcscFixture {
 	public void outputDStabDebugInfo() {
 		System.out.println(simuCtx.getDStabilityNet().net2String());
 		System.out.println(dSimuAlgorithm.toString());
-		System.out.println(stateTestRecorder);
-		System.out.println(yTestRecorder);
 	}
 
 	public void outputStateTestRecorderInfo() {
@@ -445,6 +443,21 @@ public class DStabFixture extends AcscFixture {
 	// busId, measureTime needs to be set
 	public boolean yiiChanged() {
 		return yTestRecorder.getTestRecord(measureTime, busId).measured;
+	}
+	
+	// busId, measureTime needs to be set
+	public double yijReal() {
+		return formatDouble(yTestRecorder.getTestRecord(measureTime, branchFromBusId, branchToBusId).y.getReal());
+	}
+	
+	// busId, measureTime needs to be set
+	public double yijImaginary() {
+		return formatDouble(yTestRecorder.getTestRecord(measureTime, branchFromBusId, branchToBusId).y.getImaginary());
+	}
+
+	// busId, measureTime needs to be set
+	public boolean yijChanged() {
+		return yTestRecorder.getTestRecord(measureTime, branchFromBusId, branchToBusId).measured;
 	}
 	
 	// busId, variableType (Machine, Exciter, Governor, Stabilizer, Bus), variableName, errorTolerance need to be defined
