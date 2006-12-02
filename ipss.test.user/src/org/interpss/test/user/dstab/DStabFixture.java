@@ -24,6 +24,11 @@
 
 package org.interpss.test.user.dstab;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
@@ -50,6 +55,7 @@ import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.test.StateVariableTestRecorder;
 import com.interpss.dstab.test.YMatrixChangeTestRecorder;
+import com.interpss.dstab.test.StateVariableTestRecorder.TestRecord;
 import com.interpss.simu.SimuSpringAppContext;
 
 public class DStabFixture extends AcscFixture {
@@ -299,6 +305,71 @@ public class DStabFixture extends AcscFixture {
 		this.currentDEvent.setBusDynamicEvent(eLoad);
 	}
 
+	/*
+	 *  File Based test data approach
+	 *  =============================
+	 */
+	
+	/**
+	 * Create a StateVariableTestRecorder object  
+	 * 
+	 * @param data, format: double measureTolerance
+	 */
+	public void createFileBasedStateTestRecorder(String data) {
+		double tolerance = new Double(data).doubleValue();
+		stateTestRecorder = new StateVariableTestRecorder(tolerance);
+	}
+
+	/**
+	 * load machine state variable test data
+	 * 
+	 * @param data, format: String machId, String filename
+	 */
+	public void loadMachineTestStateData(String data) {
+		loadTestStateData(data, StateVariableTestRecorder.RecType_Machine);
+	}
+	
+	/**
+	 * load exiter state variable test data
+	 * 
+	 * @param data, format: String machId, String filename
+	 */
+	public void loadExciterTestStateData(String data) {
+		loadTestStateData(data, StateVariableTestRecorder.RecType_Exciter);
+	}
+	
+	/**
+	 * load governor state variable test data
+	 * 
+	 * @param data, format:  String machId, String filename
+	 */
+	public void loadGovernorTestStateData(String data) {
+		loadTestStateData(data, StateVariableTestRecorder.RecType_Governor);
+	}
+	
+	/**
+	 * load stabilizer state variable test data
+	 * 
+	 * @param data, format:  String machId, String fileaname
+	 */
+	public void loadStabilizerTestStateData(String data) {
+		loadTestStateData(data, StateVariableTestRecorder.RecType_Stabilizer);
+	}	
+
+	/**
+	 * load bus state variable test data
+	 * 
+	 * @param data, format: String busd, String filename
+	 */
+	public void loadBusTestOutputData(String data) {
+		loadTestStateData(data, StateVariableTestRecorder.RecType_Bus);
+	}
+	
+	/*
+	 *  Array Based test data approach
+	 *  ==============================
+	 */
+
 	/**
 	 * Create a StateVariableTestRecorder object  
 	 * 
@@ -312,7 +383,6 @@ public class DStabFixture extends AcscFixture {
 		stateTestRecorder = new StateVariableTestRecorder(tolerance);
 		timePointArray = buildDoubleArray(timePoints, timePointList);
 	}
-
 	
 	/**
 	 * add machine state variable test record
@@ -481,6 +551,56 @@ public class DStabFixture extends AcscFixture {
 	 * Private methods
 	 * ===============
 	 */
+	private void loadTestStateData(String data, int type) {
+		StringTokenizer st = new StringTokenizer(data, ",");
+		String id = st.nextToken();
+		String filename = st.nextToken();
+		/*
+		 * format : 
+		 *       line1: time, statename1, statename2, .... statenamen
+		 *       line2: 0.0,  0.1,        0.2,        .... 0.4
+		 *          
+		 */
+		final BufferedReader din;
+		try {
+			final File file = new File(filename);
+			final InputStream stream = new FileInputStream(file);
+			din = new BufferedReader(new InputStreamReader(stream));
+
+			boolean fileend = false;
+			int cnt = 0;
+			String[] nameList = null;
+			while (!fileend) {
+				String str = din.readLine();
+				if (str!= null && str.trim().equals("")) {
+					if (cnt == 0) {
+						st = new StringTokenizer(str, ",");
+						nameList = new String[st.countTokens()-1];  
+						st.nextElement();  // first element is Time
+						for (int i = 0; i < nameList.length; i++)
+							nameList[i] = st.nextToken();
+					}
+					else {
+						st = new StringTokenizer(str, ",");
+						double time = new Double(st.nextToken()).doubleValue();
+						for (int i = 0; i < nameList.length; i++) {
+							double value = new Double(st.nextToken()).doubleValue();
+							stateTestRecorder.addTestRecord(new TestRecord(id, type, time, nameList[i], value));
+						}
+					}
+				}
+				else {
+					fileend = true;
+				}
+	       	} 
+		} catch (Exception e) {
+			System.err.println("Load test data file error, " + e.toString()); 
+		}
+		
+		
+
+	}	
+
 	private void addTestStateRecord(String data, int type) {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		String id = st.nextToken();
