@@ -31,17 +31,15 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
-import org.apache.commons.math.complex.Complex;
 import org.interpss.test.user.core.AcscFixture;
 
-import com.interpss.common.datatype.Constants;
-import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.dstab.DStabBranch;
+import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
@@ -69,6 +67,7 @@ public class DStabFixture extends AcscFixture {
 	private static YMatrixChangeTestRecorder yTestRecorder;
 	
 	// ColumnFixture
+	public static String machId;
 	public static double measureTime;
 	public static String variableType;          // Machine, Exciter, Governor, Stabilizer, Bus
 	public static String variableName;
@@ -156,11 +155,11 @@ public class DStabFixture extends AcscFixture {
 		double simuTime = new Double(st.nextToken()).doubleValue();
 		double timeStep = new Double(st.nextToken()).doubleValue();
 		String simuMethod = st.nextToken();
-		String machId = st.nextToken();
+		String refMachId = st.nextToken();
 		dSimuAlgorithm = DStabObjectFactory.createDynamicSimuAlgorithm(getNet(), msg);
 		dSimuAlgorithm.setTotalSimuTimeSec(simuTime);
 		dSimuAlgorithm.setSimuStepSec(timeStep);
-		Machine mach = getNet().getMachine(machId);
+		Machine mach = getNet().getMachine(refMachId);
 		dSimuAlgorithm.setRefMachine(mach);
 	}
 	
@@ -228,7 +227,7 @@ public class DStabFixture extends AcscFixture {
 		boolean permanent = new Boolean(st.nextToken()).booleanValue();
 		this.currentDEvent.setStartTimeSec(startTime);
 		this.currentDEvent.setPermanent(permanent);
-		if (permanent) {
+		if (this.currentDEvent.isPermanent()) {
 			this.currentDEvent.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
 		}
 		else {
@@ -252,7 +251,7 @@ public class DStabFixture extends AcscFixture {
 		DStabBus faultBus = getNet().getDStabBus(id);
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault@"+id );
   		fault.setAcscBus(faultBus);
-  		setFaultData(fault, type, rLG, xLG, rLL, xLL);
+  		CoreUtilFunc.setBusFaultData(fault, toFaultCode(type), rLG, xLG, rLL, xLL);
   		this.currentDEvent.setBusFault(fault);
 	}
 
@@ -274,18 +273,13 @@ public class DStabFixture extends AcscFixture {
 		double xLL = new Double(st.nextToken()).doubleValue();
 		boolean reclosure = new Boolean(st.nextToken()).booleanValue();
 		double reclosureTime = new Double(st.nextToken()).doubleValue();
-		DStabBranchFault fault = createDStabbranchFault(fromBusId, toBusId, type, distance, 
+		DStabBranchFault fault = DStabObjectFactory.createDStabbranchFault(getNet(), fromBusId, toBusId, toFaultCode(type), distance, 
 				rLG, xLG, rLL, xLL, reclosure, reclosureTime);
 		this.currentDEvent.setBranchFault(fault);
 		if (fault.isReclosure()) {
 			String name = "EventAt_" + this.currentDEvent.getStartTimeSec() + this.currentDEvent.getType();
-			DynamicEvent event2 = DStabObjectFactory.createDEvent(this.currentDEvent.getId()+"-Reclosure", 
-					name, DynamicEventType.BRANCH_RECLOSURE_LITERAL, getNet(), msg);
-			event2.setStartTimeSec(fault.getReclosureTime());
-			event2.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
-			event2.setPermanent(true);
-			event2.setBranchFault(createDStabbranchFault(fromBusId, toBusId, type, distance, 
-									rLG, xLG, rLL, xLL, reclosure, reclosureTime));
+			String id = this.currentDEvent.getId()+"-Reclosure"; 
+			DStabObjectFactory.createBranchReclosureEvent(getNet(), fault, id, name, msg);
 		}
 	}
 
@@ -304,7 +298,7 @@ public class DStabFixture extends AcscFixture {
 		eLoad.setChangeFactor(changeFactor);
 		this.currentDEvent.setBusDynamicEvent(eLoad);
 	}
-
+	
 	/*
 	 *  File Based test data approach
 	 *  =============================
@@ -537,7 +531,6 @@ public class DStabFixture extends AcscFixture {
 					variableName) < errorTolerance;
 		}
 		else {
-			String machId = getNet().getDStabBus(busId).getMachine().getId();
 			return stateTestRecorder.diffTotal(machId, 
 					variableType.equals("Machine")?StateVariableTestRecorder.RecType_Machine :
 						variableType.equals("Exciter")?StateVariableTestRecorder.RecType_Exciter :
@@ -555,6 +548,7 @@ public class DStabFixture extends AcscFixture {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		String id = st.nextToken();
 		String filename = st.nextToken();
+		//System.out.println("id, filename--->" + id + ", " + filename);
 		/*
 		 * format : 
 		 *       line1: time, statename1, statename2, .... statenamen
@@ -562,23 +556,25 @@ public class DStabFixture extends AcscFixture {
 		 *          
 		 */
 		final BufferedReader din;
+		int cnt = 0;
 		try {
 			final File file = new File(filename);
 			final InputStream stream = new FileInputStream(file);
 			din = new BufferedReader(new InputStreamReader(stream));
 
 			boolean fileend = false;
-			int cnt = 0;
 			String[] nameList = null;
 			while (!fileend) {
 				String str = din.readLine();
-				if (str!= null && str.trim().equals("")) {
-					if (cnt == 0) {
+				//System.out.println("str--->" + str);
+				if (str!= null && !str.trim().equals("")) {
+					if (cnt++ == 0) {
 						st = new StringTokenizer(str, ",");
 						nameList = new String[st.countTokens()-1];  
 						st.nextElement();  // first element is Time
 						for (int i = 0; i < nameList.length; i++)
 							nameList[i] = st.nextToken();
+						//System.out.println("nameList--->" + nameList.toString());
 					}
 					else {
 						st = new StringTokenizer(str, ",");
@@ -594,11 +590,8 @@ public class DStabFixture extends AcscFixture {
 				}
 	       	} 
 		} catch (Exception e) {
-			System.err.println("Load test data file error, " + e.toString()); 
+			System.err.println("Load test data file error, at line" + cnt + "," + e.toString()); 
 		}
-		
-		
-
 	}	
 
 	private void addTestStateRecord(String data, int type) {
@@ -630,34 +623,6 @@ public class DStabFixture extends AcscFixture {
 				fStr.equals("LG")? SimpleFaultCode.GROUND_LG_LITERAL :
 					fStr.equals("LL")? SimpleFaultCode.GROUND_LL_LITERAL : SimpleFaultCode.GROUND_LLG_LITERAL;
 	}	
-
-	private void setFaultData(AcscBusFault fault, String type, double rLG, double xLG, double rLL, double xLL) {
-		fault.setFaultCode(toFaultCode(type));
-		Complex zLG = new Complex(rLG, xLG);
-		if (zLG.abs() < Constants.SmallScZ.abs())
-			zLG = Constants.SmallScZ;
-		fault.setZLGFault(zLG);
-		Complex zLL = new Complex(rLL, xLL);
-		if (zLL.abs() < Constants.SmallScZ.abs())
-			zLL = Constants.SmallScZ;
-		fault.setZLLFault(zLL);
-	}
-	
-	private DStabBranchFault createDStabbranchFault(String fromBusId, String toBusId, String type, double distance, 
-			double rLG, double xLG, double rLL, double xLL, boolean reclosure, double reclosureTime) {
-		DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault("BranchFault@" + fromBusId+"->"+toBusId);
-		DStabBranch fBranch = (DStabBranch)getNet().getBranch(fromBusId, toBusId);
-		if (fBranch != null)
-			fault.setFaultBranch(fBranch);
-		else {
-			throw new InvalidParameterException("Branch cannot be found");
-		}
-		setFaultData(fault, type, rLG, xLG, rLL, xLL);
-		fault.setDistance(distance);
-		fault.setReclosure(reclosure);
-		fault.setReclosureTime(reclosureTime);
-		return fault;
-	}
 
 	private DStabilityNetwork getNet() {
 		return simuCtx.getDStabilityNet();

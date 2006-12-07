@@ -42,7 +42,6 @@ import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.acsc.XfrConnectCode;
-import com.interpss.core.util.outfunc.AcscOut;
 import com.interpss.simu.SimuSpringAppContext;
 
 public class AcscFixture extends AclfBuildFixture {
@@ -63,7 +62,7 @@ public class AcscFixture extends AclfBuildFixture {
 	  	else
 	  		simuCtx.getSimpleFaultAlgorithm().calculateBusFault(acscFault, msg);		
 	  	
-		System.out.println(AcscOut.faultResult2String(simuCtx.getAcscFaultNet()));
+		//System.out.println(AcscOut.faultResult2String(simuCtx.getAcscFaultNet()));
 	}
 	
 	/*
