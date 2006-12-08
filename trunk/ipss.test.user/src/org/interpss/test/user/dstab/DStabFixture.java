@@ -33,7 +33,6 @@ import java.util.StringTokenizer;
 
 import org.interpss.test.user.core.AcscFixture;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBusFault;
