@@ -52,9 +52,8 @@ public class SimuActionAdapter {
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 		
 		IGFormContainer gFormContainer = null ;
-		if (appSimuCtx.isSimuNetDataDirty() && graphView) {
+		if (graphView) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-			IpssLogger.getLogger().info("SimuNetData is dirty, rebuild AclfNet object");
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
 			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
 				return;
@@ -84,17 +83,21 @@ public class SimuActionAdapter {
 	public static void menu_run_acsc(boolean graphView, JGraph graph) {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
-		IGFormContainer gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-		if (appSimuCtx.isSimuNetDataDirty() && graphView) {
-			IpssLogger.getLogger().info("SimuNetData is dirty, rebuild FaultNet object");
+		IGFormContainer gFormContainer = null;
+		if (graphView) {
+			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
 			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
 				return;
-			appSimuCtx.setSimuNetDataDirty(false);
 		}
+		else {
+			SpringAppContext.getIpssMsgHub().sendErrorMsg("Custom data file not supported for AC SC");
+			return;
+		}
+		
 		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setSimpleFaultAlgorithm(SimuSpringAppContext.getSimpleFaultAlgorithm());
-
+ 
 		try {
 			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Acsc, gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
@@ -112,13 +115,18 @@ public class SimuActionAdapter {
 	public static void menu_run_dstab(boolean graphView, JGraph graph) {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
-		IGFormContainer gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-		IpssLogger.getLogger().info("SimuNetData is dirty, rebuild DStabNet object");
-		IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
-		if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+		IGFormContainer gFormContainer = null;
+		if (graphView) {
+			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
+			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
+			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+				return;
+		}
+		else {
+			SpringAppContext.getIpssMsgHub().sendErrorMsg("Custom data file not supported for DStab simulation");
 			return;
-		appSimuCtx.setSimuNetDataDirty(false);
-		
+		}
+			
 		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(SimuSpringAppContext.getDynamicSimuAlgorithm());
 
