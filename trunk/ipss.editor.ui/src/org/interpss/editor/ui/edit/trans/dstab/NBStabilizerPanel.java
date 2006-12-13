@@ -69,6 +69,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
    		  	InitDataUtil.initDStabControllerData(machData.getPssData(), typeName, controller);
    		}	
    		controller.setData(machData.getPssData().getDataXmlStr(), controller.getDataClass());
+   		controller.setScripts(machData.getExcData().getScripts());
 		dataPanel.removeAll();
 		dataPanel.add((Component)controller.getEditPanel());
 	}
@@ -104,6 +105,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
     		ok = false;
     	}
     	machData.getPssData().setDataXmlStr(controller.getDataXmlString());
+    	machData.getPssData().setScripts(controller.getScripts());
 
 		return ok;
     }
