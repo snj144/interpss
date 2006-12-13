@@ -20,57 +20,39 @@ import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
 import com.interpss.dstab.mach.ControllerType;
 
-public class ScriptingController extends AbstractController {
+public abstract class AbstractScriptingController extends AbstractController {
 	public String ExciterScriptingObject = "exciter";
 	
 	ScriptEngine engine = null;
 	Invocable invoker = null;
-	Object exciter = null;
+	Object controller = null;
 	
 	// define UI Editor panel for editing the controller data
 	private static final NBControllerScriptsEditPanel _editPanel = new NBControllerScriptsEditPanel();
 
-	
-	public ScriptingController() {
-		this("excId", "ScriptingExciter", "InterPSS", null); 
+	public AbstractScriptingController() {
+		this("controllerId", "ScriptingController", "InterPSS", null); 
 	}
 	
-	/**
-	 * Constructor
-	 * 
-	 * @param id excitor id
-	 * @param name excitor name
-	 */
-	public ScriptingController(final String id, final String name, final String caty, ScriptEngine engine) {
-		super(id, name, caty, ControllerType.EXCITER_LITERAL);
-		this.engine = engine;
-	}
-	
-	/**
-	 * Set controller data from an xml string
-	 * 
-	 * @param xmlString controller parameter xml string
-	 */
-	@Override
-	public void setDataXmlString(final String xmlString) {
-	}
-	
+	public AbstractScriptingController(final String id, final String name, final String caty, final ControllerType type) {
+		super(id, name, caty, type);
+	}	
+
 	/**
 	 *  Init the controller states
 	 *  
 	 *  @param msg the SessionMsg object
 	 */
-	@Override
-	public boolean initStates(final IPSSMsgHub msg) {
+	public boolean initController(final String controllerName, final IPSSMsgHub msg) {
 		try {
 			engine.eval(getScripts());
 			invoker = (Invocable)engine;
-			exciter = engine.get(ExciterScriptingObject);
-			if (exciter == null) {
+			controller = engine.get(ExciterScriptingObject);
+			if (controller == null) {
 				msg.sendErrorMsg("The exciter scripting object not found, name");
 				return false;
 			}
-			invoker.invokeMethod(exciter, "initStates", getMachine());
+			invoker.invokeMethod(controller, "initStates", getMachine());
 		} catch (Exception e) {
 			msg.sendErrorMsg(e.toString());
 			return false;
@@ -89,7 +71,7 @@ public class ScriptingController extends AbstractController {
 	@Override
 	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		try {
-			invoker.invokeMethod(exciter, "nextStep", getMachine(), dt, method, baseFreq);
+			invoker.invokeMethod(controller, "nextStep", getMachine(), dt, method, baseFreq);
 		} catch (Exception e) {
 			msg.sendErrorMsg(e.toString());
 		}
@@ -103,7 +85,7 @@ public class ScriptingController extends AbstractController {
 	@Override
 	public double getOutput() {
 		try {
-			return ((Double)invoker.invokeMethod(exciter, "getOutput", getMachine())).doubleValue();
+			return ((Double)invoker.invokeMethod(controller, "getOutput", getMachine())).doubleValue();
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}
@@ -120,7 +102,7 @@ public class ScriptingController extends AbstractController {
 	public Hashtable getStates(Object ref) {
 		final Hashtable<String,Double> table = new Hashtable<String,Double>();
 		try {
-			invoker.invokeMethod(exciter, "getStates", getMachine(), table);
+			invoker.invokeMethod(controller, "getStates", getMachine(), table);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}
@@ -140,7 +122,7 @@ public class ScriptingController extends AbstractController {
 
 	public void setRefPoint(double x) {
 		try {
-			invoker.invokeMethod(exciter, "setRefPoint", x);
+			invoker.invokeMethod(controller, "setRefPoint", x);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}
