@@ -13,7 +13,7 @@ import com.interpss.dstab.mach.ControllerType;
 
 public class ScriptingGovernor extends BaseScriptingController {
 	/**
-	 * Constructor
+	 * Constructor 
 	 */
 	public ScriptingGovernor() {
 		super("govId", "govName", "govCaty", ControllerType.GOVERNOR_LITERAL);
