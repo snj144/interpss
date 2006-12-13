@@ -89,6 +89,7 @@ public class SimuActionAdapter {
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
 			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
 				return;
+			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		else {
 			SpringAppContext.getIpssMsgHub().sendErrorMsg("Custom data file not supported for AC SC");
@@ -121,6 +122,7 @@ public class SimuActionAdapter {
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
 			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
 				return;
+			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		else {
 			SpringAppContext.getIpssMsgHub().sendErrorMsg("Custom data file not supported for DStab simulation");
