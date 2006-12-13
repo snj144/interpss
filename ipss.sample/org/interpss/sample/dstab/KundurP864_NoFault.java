@@ -50,6 +50,7 @@ public class KundurP864_NoFault {
  		
 		DStabilityNetwork net = KundurP864_Common.setNetworkData(msg);
 		KundurP864_Common.addDSimuData(net, msg);
+		KundurP864_Common.addControllerData(net, msg);
 		
 		// run loadflow
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
