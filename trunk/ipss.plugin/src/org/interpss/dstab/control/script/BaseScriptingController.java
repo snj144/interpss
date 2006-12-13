@@ -16,13 +16,13 @@ import javax.script.ScriptEngine;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreObjectFactory;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
+import com.interpss.dstab.controller.AbstractScriptingController;
 import com.interpss.dstab.mach.ControllerType;
 
-public abstract class AbstractScriptingController extends AbstractController {
-	public String ExciterScriptingObject = "exciter";
-	
+public abstract class BaseScriptingController extends AbstractController {
 	ScriptEngine engine = null;
 	Invocable invoker = null;
 	Object controller = null;
@@ -30,11 +30,11 @@ public abstract class AbstractScriptingController extends AbstractController {
 	// define UI Editor panel for editing the controller data
 	private static final NBControllerScriptsEditPanel _editPanel = new NBControllerScriptsEditPanel();
 
-	public AbstractScriptingController() {
+	public BaseScriptingController() {
 		this("controllerId", "ScriptingController", "InterPSS", null); 
 	}
 	
-	public AbstractScriptingController(final String id, final String name, final String caty, final ControllerType type) {
+	public BaseScriptingController(final String id, final String name, final String caty, final ControllerType type) {
 		super(id, name, caty, type);
 	}	
 
@@ -45,9 +45,10 @@ public abstract class AbstractScriptingController extends AbstractController {
 	 */
 	public boolean initController(final String controllerName, final IPSSMsgHub msg) {
 		try {
+			engine = CoreObjectFactory.createScriptEngine();
 			engine.eval(getScripts());
 			invoker = (Invocable)engine;
-			controller = engine.get(ExciterScriptingObject);
+			controller = engine.get(controllerName);
 			if (controller == null) {
 				msg.sendErrorMsg("The exciter scripting object not found, name");
 				return false;
