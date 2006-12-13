@@ -9,8 +9,6 @@
  */
 package org.interpss.dstab.control.script;
 
-import javax.script.ScriptEngine;
-
 import com.interpss.dstab.mach.ControllerType;
 
 public class ScriptingGovernor extends BaseScriptingController {
