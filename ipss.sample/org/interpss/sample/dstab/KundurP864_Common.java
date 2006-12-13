@@ -76,6 +76,7 @@ public class KundurP864_Common {
 	
     public static String scripts = 
     	"var exciter = new Object();" +
+    	"function getObjectName() { return 'exciter';}" +
 
     	"exciter.Ka = 50.0;" +
     	"exciter.Ta = 0.05;" +
