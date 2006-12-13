@@ -12,13 +12,8 @@ package org.interpss.dstab.control.script;
 import com.interpss.dstab.mach.ControllerType;
 
 public class ScriptingGovernor extends BaseScriptingController {
-	public String GovernorScriptingObject = "governor";
-	
 	/**
 	 * Constructor
-	 * 
-	 * @param id governor id
-	 * @param name excitor name
 	 */
 	public ScriptingGovernor() {
 		super("govId", "govName", "govCaty", ControllerType.GOVERNOR_LITERAL);
@@ -28,7 +23,7 @@ public class ScriptingGovernor extends BaseScriptingController {
 	 * Constructor
 	 * 
 	 * @param id governor id
-	 * @param name excitor name
+	 * @param name governor name
 	 */
 	public ScriptingGovernor(final String id, final String name, final String caty) {
 		super(id, name, caty, ControllerType.GOVERNOR_LITERAL);

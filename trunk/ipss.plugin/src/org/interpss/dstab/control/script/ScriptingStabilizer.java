@@ -12,13 +12,8 @@ package org.interpss.dstab.control.script;
 import com.interpss.dstab.mach.ControllerType;
 
 public class ScriptingStabilizer extends BaseScriptingController {
-	public String StabilizerScriptingObject = "governor";
-	
 	/**
 	 * Constructor
-	 * 
-	 * @param id stabilizer id
-	 * @param name excitor name
 	 */
 	public ScriptingStabilizer() {
 		super("pssId", "pssName", "pssCaty", ControllerType.STABILIZER_LITERAL);
@@ -28,7 +23,7 @@ public class ScriptingStabilizer extends BaseScriptingController {
 	 * Constructor
 	 * 
 	 * @param id stabilizer id
-	 * @param name excitor name
+	 * @param name stabilizer name
 	 */
 	public ScriptingStabilizer(final String id, final String name, final String caty) {
 		super(id, name, caty, ControllerType.STABILIZER_LITERAL);
