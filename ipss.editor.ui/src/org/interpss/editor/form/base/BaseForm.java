@@ -39,6 +39,7 @@ public class BaseForm {
     private int area = 0;
     private int zone = 0;
 	private String  appType = IGNetForm.AppType_Distribution;  			// Transmision | Distribution 
+	private String  scripts = ""; 
 
     public BaseForm() { this(""); }	
     public BaseForm(String id) { setId(id); }	    
@@ -61,7 +62,10 @@ public class BaseForm {
     public String getAppType() { return this.appType; }
 	public void setAppType(String str) { this.appType = str; }
 	
-    public Object clone() {
+    public String getScripts() { return this.scripts; }
+	public void setScripts(String str) { this.scripts = str; }
+
+	public Object clone() {
 		String xml = XmlUtil.toXmlString(this);
 		return XmlUtil.toObject(xml);
     }

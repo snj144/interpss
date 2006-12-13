@@ -75,6 +75,7 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
    		  	InitDataUtil.initDStabControllerData(machData.getExcData(), typeName, controller);
    		}	
    		controller.setData(machData.getExcData().getDataXmlStr(), controller.getDataClass());
+   		controller.setScripts(machData.getExcData().getScripts());
 		dataPanel.removeAll();
 		dataPanel.add((Component)controller.getEditPanel());
 	}
@@ -122,6 +123,7 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
     		ok = false;
     	}
     	machData.getExcData().setDataXmlStr(controller.getDataXmlString());
+    	machData.getExcData().setScripts(controller.getScripts());
 
 		return ok;
     }

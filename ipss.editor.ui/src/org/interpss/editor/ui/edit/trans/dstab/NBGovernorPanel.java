@@ -71,6 +71,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
    		  	InitDataUtil.initDStabControllerData(machData.getGovData(), typeName, controller);
    		}	
    		controller.setData(machData.getGovData().getDataXmlStr(), controller.getDataClass());
+   		controller.setScripts(machData.getExcData().getScripts());
 		dataPanel.removeAll();
 		dataPanel.add((Component)controller.getEditPanel());
 	}
@@ -108,6 +109,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
     		ok = false;
     	}
     	machData.getGovData().setDataXmlStr(controller.getDataXmlString());
+    	machData.getGovData().setScripts(controller.getScripts());
 
 		return ok;
     }
