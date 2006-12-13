@@ -67,7 +67,7 @@ public class NBControllerScriptsEditPanel extends javax.swing.JPanel implements 
 
         scriptsTextArea.setColumns(80);
         scriptsTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
-        scriptsTextArea.setRows(20);
+        scriptsTextArea.setRows(25);
         scriptsTextArea.setTabSize(3);
         testAreaScrollPane.setViewportView(scriptsTextArea);
 
@@ -84,7 +84,7 @@ public class NBControllerScriptsEditPanel extends javax.swing.JPanel implements 
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(testAreaScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                .add(testAreaScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 403, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents

@@ -11,7 +11,6 @@ package org.interpss.dstab.control.script;
 
 import javax.script.ScriptEngine;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.mach.ControllerType;
 
 public class ScriptingExciter extends BaseScriptingController {
@@ -24,7 +23,7 @@ public class ScriptingExciter extends BaseScriptingController {
 	 * @param name excitor name
 	 */
 	public ScriptingExciter() {
-		super("id", "name", "caty", ControllerType.EXCITER_LITERAL);
+		super("excId", "excName", "excCaty", ControllerType.EXCITER_LITERAL);
 	}
 	
 	/**
@@ -33,19 +32,8 @@ public class ScriptingExciter extends BaseScriptingController {
 	 * @param id excitor id
 	 * @param name excitor name
 	 */
-	public ScriptingExciter(final String id, final String name, final String caty, ScriptEngine engine) {
+	public ScriptingExciter(final String id, final String name, final String caty) {
 		super(id, name, caty, ControllerType.EXCITER_LITERAL);
-		this.engine = engine;
-	}
-	
-	/**
-	 *  Init the controller states
-	 *  
-	 *  @param msg the SessionMsg object
-	 */
-	@Override
-	public boolean initStates(final IPSSMsgHub msg) {
-		return initController(ExciterScriptingObject, msg);
 	}
 } 
 

@@ -15,17 +15,15 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
-import com.interpss.dstab.controller.AbstractScriptingController;
 import com.interpss.dstab.mach.ControllerType;
 
 public abstract class BaseScriptingController extends AbstractController {
-	ScriptEngine engine = null;
 	Invocable invoker = null;
 	Object controller = null;
+	IPSSMsgHub message = null;
 	
 	// define UI Editor panel for editing the controller data
 	private static final NBControllerScriptsEditPanel _editPanel = new NBControllerScriptsEditPanel();
@@ -43,14 +41,17 @@ public abstract class BaseScriptingController extends AbstractController {
 	 *  
 	 *  @param msg the SessionMsg object
 	 */
-	public boolean initController(final String controllerName, final IPSSMsgHub msg) {
+	@Override
+	public boolean initStates(final IPSSMsgHub msg) {
 		try {
-			engine = CoreObjectFactory.createScriptEngine();
+			this.message = msg;
+			ScriptEngine engine = CoreObjectFactory.createScriptEngine();
 			engine.eval(getScripts());
 			invoker = (Invocable)engine;
-			controller = engine.get(controllerName);
+			String objName = (String)invoker.invokeFunction("getObjectName");
+			controller = engine.get(objName);
 			if (controller == null) {
-				msg.sendErrorMsg("The exciter scripting object not found, name");
+				msg.sendErrorMsg("The controller scripting object not found, name:" + objName);
 				return false;
 			}
 			invoker.invokeMethod(controller, "initStates", getMachine());
@@ -88,7 +89,7 @@ public abstract class BaseScriptingController extends AbstractController {
 		try {
 			return ((Double)invoker.invokeMethod(controller, "getOutput", getMachine())).doubleValue();
 		} catch (Exception e) {
-			IpssLogger.logErr(e);
+			message.sendErrorMsg(e.toString());
 		}
 		return 0.0;
 	}
@@ -105,7 +106,7 @@ public abstract class BaseScriptingController extends AbstractController {
 		try {
 			invoker.invokeMethod(controller, "getStates", getMachine(), table);
 		} catch (Exception e) {
-			IpssLogger.logErr(e);
+			message.sendErrorMsg(e.toString());
 		}
 		return table;
 	}
@@ -125,7 +126,7 @@ public abstract class BaseScriptingController extends AbstractController {
 		try {
 			invoker.invokeMethod(controller, "setRefPoint", x);
 		} catch (Exception e) {
-			IpssLogger.logErr(e);
+			message.sendErrorMsg(e.toString());
 		}
 	}
 } 
