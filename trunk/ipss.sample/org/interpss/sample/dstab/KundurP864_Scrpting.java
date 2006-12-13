@@ -55,14 +55,8 @@ public class KundurP864_Scrpting {
  		
 		DStabilityNetwork net = KundurP864_Common.setNetworkData(msg);
 		KundurP864_Common.addDSimuData(net, msg);
-		
-        // create a script engine manager
-        ScriptEngineManager factory = new ScriptEngineManager();
-        // create a JavaScript engine
-        ScriptEngine engine = factory.getEngineByName("JavaScript");
-		
         
-		ScriptingExciter exc = new ScriptingExciter("LT", "Exc1", "InterPSS", engine);
+		ScriptingExciter exc = new ScriptingExciter("LT", "Exc1", "InterPSS");
 		exc.setScripts(KundurP864_Common.scripts);
 		net.getMachine("LT").addExciter(exc);		
 		
