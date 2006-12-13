@@ -11,7 +11,6 @@ package org.interpss.dstab.control.script;
 
 import javax.script.ScriptEngine;
 
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.mach.ControllerType;
 
 public class ScriptingGovernor extends BaseScriptingController {
@@ -24,7 +23,7 @@ public class ScriptingGovernor extends BaseScriptingController {
 	 * @param name excitor name
 	 */
 	public ScriptingGovernor() {
-		super("id", "name", "caty", ControllerType.GOVERNOR_LITERAL);
+		super("govId", "govName", "govCaty", ControllerType.GOVERNOR_LITERAL);
 	}
 	
 	/**
@@ -33,19 +32,8 @@ public class ScriptingGovernor extends BaseScriptingController {
 	 * @param id governor id
 	 * @param name excitor name
 	 */
-	public ScriptingGovernor(final String id, final String name, final String caty, ScriptEngine engine) {
+	public ScriptingGovernor(final String id, final String name, final String caty) {
 		super(id, name, caty, ControllerType.GOVERNOR_LITERAL);
-		this.engine = engine;
-	}
-	
-	/**
-	 *  Init the controller states
-	 *  
-	 *  @param msg the SessionMsg object
-	 */
-	@Override
-	public boolean initStates(final IPSSMsgHub msg) {
-		return initController(GovernorScriptingObject, msg);
 	}
 } 
 

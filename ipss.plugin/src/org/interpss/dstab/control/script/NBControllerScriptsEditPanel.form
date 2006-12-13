@@ -24,7 +24,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="testAreaScrollPane" pref="335" max="32767" attributes="0"/>
+              <Component id="testAreaScrollPane" pref="403" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -46,7 +46,7 @@
                 <Font name="Courier New" size="12" style="0"/>
               </FontInfo>
             </Property>
-            <Property name="rows" type="int" value="20"/>
+            <Property name="rows" type="int" value="25"/>
             <Property name="tabSize" type="int" value="3"/>
           </Properties>
         </Component>
