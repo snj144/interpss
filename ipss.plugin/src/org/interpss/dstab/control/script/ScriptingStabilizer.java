@@ -14,8 +14,18 @@ import javax.script.ScriptEngine;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.mach.ControllerType;
 
-public class ScriptingStabilizer extends AbstractScriptingController {
+public class ScriptingStabilizer extends BaseScriptingController {
 	public String StabilizerScriptingObject = "governor";
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param id stabilizer id
+	 * @param name excitor name
+	 */
+	public ScriptingStabilizer() {
+		super("id", "name", "caty", ControllerType.STABILIZER_LITERAL);
+	}
 	
 	/**
 	 * Constructor

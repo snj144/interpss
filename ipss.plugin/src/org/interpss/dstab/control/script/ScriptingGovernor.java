@@ -14,8 +14,18 @@ import javax.script.ScriptEngine;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.mach.ControllerType;
 
-public class ScriptingGovernor extends AbstractScriptingController {
+public class ScriptingGovernor extends BaseScriptingController {
 	public String GovernorScriptingObject = "governor";
+	
+	/**
+	 * Constructor
+	 * 
+	 * @param id governor id
+	 * @param name excitor name
+	 */
+	public ScriptingGovernor() {
+		super("id", "name", "caty", ControllerType.GOVERNOR_LITERAL);
+	}
 	
 	/**
 	 * Constructor
