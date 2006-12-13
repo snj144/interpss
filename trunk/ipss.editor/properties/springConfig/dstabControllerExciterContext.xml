@@ -22,6 +22,17 @@
 			</list>
 	-->
 	
+	<bean id="scriptingExciter" 
+	  	class="org.interpss.dstab.control.script.ScriptingExciter"
+	    singleton="false">	
+	    <property name="name">
+	    	<value>Scripting Exciter</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>InterPSS scripting exciter implmementation</value></property>
+	</bean>
+	
 	<bean id="sampleCustomExciter" 
 	  	class="custom.dstab.exc.sample.CustomExciter"
 	    singleton="false">	
@@ -71,6 +82,7 @@
 	      singleton="true">	
 		<constructor-arg>
 			<list>
+				<ref bean="scriptingExciter"/>
 				<ref bean="simpleExciter"/>
 				<ref bean="ieeeDC_1AExciter"/>
 				<ref bean="ieeeAC_4AExciter"/>
