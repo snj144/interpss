@@ -1,5 +1,5 @@
  /*
-  * @(#)KundurP864_Fault.java   
+  * @(#)KundurP864_NoFault.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -30,8 +30,12 @@ package org.interpss.sample.dstab;
 
 import java.util.Iterator;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+
+import org.interpss.dstab.control.script.ScriptingExciter;
+
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.msg.TextMessage;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -39,21 +43,28 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.datatype.DStabSimuTimeEvent;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.dstab.test.YMatrixChangeTestRecorder;
 import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.dstab.util.DynamicEventProcessor;
 
-public class KundurP864_Fault {
-	public static byte MsgOutLevel  = TextMessage.TYPE_INFO;
+public class KundurP864_Scrpting {
 
-	public static void main(String[] args) {
+
+    public static void main(String[] args) {
 		IPSSMsgHub msg = new IPSSMsgHub();
 		KundurP864_Common.setUp(msg);
  		
 		DStabilityNetwork net = KundurP864_Common.setNetworkData(msg);
 		KundurP864_Common.addDSimuData(net, msg);
-		KundurP864_Common.addControllerData(net, msg);
-		KundurP864_Common.addDEnventData(net, msg);
+		
+        // create a script engine manager
+        ScriptEngineManager factory = new ScriptEngineManager();
+        // create a JavaScript engine
+        ScriptEngine engine = factory.getEngineByName("JavaScript");
+		
+        
+		ScriptingExciter exc = new ScriptingExciter("LT", "Exc1", "InterPSS", engine);
+		exc.setScripts(KundurP864_Common.scripts);
+		net.getMachine("LT").addExciter(exc);		
 		
 		// run loadflow
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
@@ -61,6 +72,8 @@ public class KundurP864_Fault {
 	  	algo.setMaxIterations(20);
 	  	algo.setTolerance(0.0001);
 	  	algo.loadflow(msg);
+		//System.out.println(net.net2String());
+	  	
 	  	if (!net.isLfConverged()) {
 	  		System.out.println("Loadflow diverged");
 	  		System.exit(0);
@@ -68,27 +81,20 @@ public class KundurP864_Fault {
 	  	
 		System.out.println(DStabOutFunc.getStateTitleStr());
 
-		YMatrixChangeTestRecorder yTestRecorder = new YMatrixChangeTestRecorder(0.0001);
-		yTestRecorder.addTestRecord(new YMatrixChangeTestRecorder.TestRecord("HT", 0.1));
-		yTestRecorder.addTestRecord(new YMatrixChangeTestRecorder.TestRecord("HT", 0.2));
-		yTestRecorder.initBusNumber(net);
-		net.setNetChangeListener(yTestRecorder);
-		
 		// initial bus sc data, transfer machine sc info to bus.
 		net.initialization(msg);
 	  	//System.out.println(net.net2String());
-
-		double totalTime = 1.0;
+	
+		double totalTime = 0.5;
 		double t = 0.0;
 		double dt = 0.05;
-		
+
 		Machine refMach = net.getMachine("InfBus");
-		//Machine refMach = null;
 		
 		DynamicEventProcessor handler = new DynamicEventProcessor(msg);
 		while (t <= totalTime) {
 			handler.onMsgEventStatus(new DStabSimuTimeEvent(DStabSimuTimeEvent.ProessDynamicEvent, net, t));
-			
+
 			for (Iterator itr = net.getMachineList().iterator(); itr.hasNext(); ) {
 				Machine mach = (Machine)itr.next();
 					
@@ -101,7 +107,5 @@ public class KundurP864_Fault {
 			t += dt;
 			System.out.println("");
 		}
-		
-		System.out.println(yTestRecorder);
 	}
  }

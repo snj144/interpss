@@ -33,8 +33,6 @@ import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
-import org.interpss.dstab.control.gov.simple.SimpleGovernor;
-import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
 import org.interpss.editor.EditorSpringAppContext;
 
 import com.interpss.common.SpringAppContext;
@@ -76,6 +74,58 @@ import com.interpss.simu.SimuObjectFactory;
 public class KundurP864_Common {
 	public static byte MsgOutLevel  = TextMessage.TYPE_WARN;
 	
+    public static String scripts = 
+    	"var exciter = new Object();" +
+
+    	"exciter.Ka = 50.0;" +
+    	"exciter.Ta = 0.05;" +
+    	"exciter.Vrmax = 10.0;" +
+    	"exciter.Vrmin = 0.0;" +
+
+    	"exciter.stateVref = 0.0;" +
+
+    	"var ImportBlock = JavaImporter(com.interpss.dstab.controller.block," +
+    	"                               com.interpss.dstab," +
+    	"                               com.interpss.dstab.util);" +
+    	"with (ImportBlock) {" +
+    	"   exciter.controlBlock = new DelayControlBlock(IControlBlock.Type_Limit, exciter.Ka, exciter.Ta, exciter.Vrmax, exciter.Vrmin);" +
+
+    	"   exciter.initStates = function(mach) {" +
+		"      exciter.controlBlock.initState(mach.getEfd());" +
+		"      var vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();" +
+		"      exciter.stateVref = vt + exciter.controlBlock.getU0();" +
+		"   };" +
+
+    	"   exciter.calculateU = function(mach) {" +
+    	"      var vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();" +
+    	"      var vpss = 0.0;" +
+    	"      if (mach.hasStabilizer()) {" +
+    	"         vpss = mach.getStabilizer().getOutput();" +
+    	"      };" +
+    	"      return exciter.stateVref + vpss - vt;" +
+    	"   };" +
+    	
+    	"   exciter.nextStep = function(mach, dt, method, baseFreq) {" +
+		"      if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {" +
+		"         var u = exciter.calculateU(mach);" +
+		"         exciter.controlBlock.eulerStep1(u, dt);" +
+		"         exciter.controlBlock.eulerStep2(u, dt);" +
+		"      }" +
+		"   };" +
+
+		"   exciter.getOutput = function(mach) {" +
+    	"      return exciter.controlBlock.getY(exciter.calculateU(mach));" +
+    	"   };" +
+
+    	"   exciter.getStates = function(mach, hashtable) {" +
+    	"      hashtable.put(DStabOutFunc.OUT_SYMBOL_EXC_EFD, new java.lang.Double(exciter.getOutput(mach)));" +
+    	"   };" +
+    	
+    	"   exciter.setRefPoint = function(x) {" +
+    	"      exciter.stateVref = xt;" +
+    	"   };" +
+    	"}";
+    
 	public static void setUp(IPSSMsgHub msg) {
 		String SpringConfigXmlFile = "c:/eclipse/InterpssDev/ipss.editor/properties/springConfig/editorAppContext.xml";
 		SpringAppContext.SpringAppCtxConfigXmlFile = SpringConfigXmlFile;
@@ -189,14 +239,21 @@ public class KundurP864_Common {
 		mach1.setS120(1.0);
 		System.out.println("MachineData: " + mach1.getMachData());
 		
+		// create and define a machine object on Gen2
+		EConstMachine mach2 = DStabObjectFactory.createInfiniteMachine("InfBus", "Mach2", net, "InfBus");
+		System.out.println("MachineData: " + mach2.getMachData());
+	}
+	
+	public static void addControllerData(DStabilityNetwork net, IPSSMsgHub msg) {
 		SimpleExciter exc1 = new SimpleExciter("LT", "Exc1", "InterPSS");
 		exc1.getData().setKa(50.0);
 		exc1.getData().setTa(0.05);
 		exc1.getData().setVrmax(10.0);
 		exc1.getData().setVrmin(0.0);
 		System.out.println("ExcData: " + exc1.getDataXmlString());
+		Machine mach1 = net.getMachine("LT");
 		mach1.addExciter(exc1);
-
+/*
 		SimpleStabilizer pss1 = new SimpleStabilizer("LT", "PSS1", "InterPSS");
 		pss1.getData().setKs(1.0);
 		pss1.getData().setT1(0.05);
@@ -213,12 +270,9 @@ public class KundurP864_Common {
 		gov1.getData().setPmax(1.2);
 		gov1.getData().setPmin(0.0);
 		System.out.println("GovData: " + gov1.getDataXmlString());
-
-		// create and define a machine object on Gen2
-		EConstMachine mach2 = DStabObjectFactory.createInfiniteMachine("InfBus", "Mach2", net, "InfBus");
-		System.out.println("MachineData: " + mach2.getMachData());
+*/
 	}
-	
+
 	public static void addDEnventData(DStabilityNetwork net, IPSSMsgHub msg) {
 		// define a bus fault event
 		DynamicEvent event1 = DStabObjectFactory.createDEvent("event1", "Bus Fault at Bus2", DynamicEventType.BUS_FAULT_LITERAL, net, msg);
