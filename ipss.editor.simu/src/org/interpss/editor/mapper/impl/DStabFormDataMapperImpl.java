@@ -180,6 +180,7 @@ public class DStabFormDataMapperImpl {
 		Controller controller = SimuSpringAppCtxUtil.getExciter(excData.getTypeName());
    		if (controller != null) {
    			controller.setData(excData.getDataXmlStr(), controller.getDataClass());
+   	   		controller.setScripts(machData.getExcData().getScripts());
    	   		mach.addExciter(controller);
    	   		IpssLogger.getLogger().info("Exciter info set to: " + excData.getDataXmlStr());		
    			if (machData.getHasPss()) {
@@ -197,6 +198,7 @@ public class DStabFormDataMapperImpl {
 		Controller controller = SimuSpringAppCtxUtil.getGovernor(govData.getTypeName());
 		if (controller != null) {
 	   		controller.setData(govData.getDataXmlStr(), controller.getDataClass());
+   	   		controller.setScripts(govData.getScripts());
 	   		IpssLogger.getLogger().info("Governor info set to: " + govData.getDataXmlStr());
 	   		mach.addGovernor(controller);
 		}
@@ -210,7 +212,8 @@ public class DStabFormDataMapperImpl {
    		IpssLogger.getLogger().info("Set Stabilizer info, machid: " + mach.getId());		
 		Controller controller = SimuSpringAppCtxUtil.getStabilizer(pssData.getTypeName());
    		if (controller != null) {
-   			controller.setDataXmlString(pssData.getDataXmlStr());
+	   		controller.setData(pssData.getDataXmlStr(), controller.getDataClass());
+   	   		controller.setScripts(pssData.getScripts());
    	   		IpssLogger.getLogger().info("Stabilizer info set to: " + pssData.getDataXmlStr());
    	   		mach.addStabilizer(controller);
    		}
