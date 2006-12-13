@@ -12,13 +12,8 @@ package org.interpss.dstab.control.script;
 import com.interpss.dstab.mach.ControllerType;
 
 public class ScriptingExciter extends BaseScriptingController {
-	public String ExciterScriptingObject = "exciter";
-	
 	/**
 	 * Constructor
-	 * 
-	 * @param id excitor id
-	 * @param name excitor name
 	 */
 	public ScriptingExciter() {
 		super("excId", "excName", "excCaty", ControllerType.EXCITER_LITERAL);
