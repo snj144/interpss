@@ -2,6 +2,17 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
+	<bean id="scriptingStabilizer" 
+	  	class="org.interpss.dstab.control.script.ScriptingStabilizer"
+	    singleton="false">	
+	    <property name="name">
+	    	<value>Scripting Stabilizer</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>InterPSS scripting stabilizer implmementation</value></property>
+	</bean>
+	
 	<bean id="sampleCustomStabilizer" 
 	      class="custom.dstab.pss.sample.CustomStabilizer"
 	      singleton="false">	
@@ -29,6 +40,7 @@
 	      singleton="true">	
 		<constructor-arg>
 			<list>
+				<ref bean="scriptingStabilizer"/>
 				<ref bean="simpleStabilizer"/>
 				<ref bean="sampleCustomStabilizer"/>
 			</list>

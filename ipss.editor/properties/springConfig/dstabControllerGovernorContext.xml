@@ -2,6 +2,17 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
+	<bean id="scriptingGovernor" 
+	  	class="org.interpss.dstab.control.script.ScriptingGovernor"
+	    singleton="false">	
+	    <property name="name">
+	    	<value>Scripting Governor</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>InterPSS scripting governor implmementation</value></property>
+	</bean>
+	
 	<bean id="sampleCustomGovernor" 
 	      class="custom.dstab.gov.sample.CustomGovernor"
 	      singleton="false">	
@@ -51,6 +62,7 @@
 	      singleton="true">	
 		<constructor-arg>
 			<list>
+				<ref bean="scriptingGovernor"/>
 				<ref bean="ieeeST1Governor"/>
 				<ref bean="ieeeST2Governor"/>
 				<ref bean="simpleGovernor"/>
