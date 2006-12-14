@@ -145,7 +145,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			final Machine mach = getMachine();
 			//Block 1
@@ -217,10 +217,11 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 			else {
 				_X6 = _X5;
 			}
-			
+			return true;
 		}
 		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
 			// TODO: TBImpl
+			return false;
 		} else {
 			throw new InvalidInputException("IEEE_AC4AExciter.nextStep(), invalid method");
 		}

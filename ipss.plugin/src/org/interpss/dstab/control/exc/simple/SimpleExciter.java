@@ -19,12 +19,12 @@ import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 public class SimpleExciter extends AbstractExciter {
+	// define UI Editor panel for editing the controller data
+	private static final NBSimpleExciterEditPanel _editPanel = new NBSimpleExciterEditPanel();
+	
 	// define state vriables
 	private double stateVref = 0.0;
 	private DelayControlBlock controlBlock = null;
-	
-	// define UI Editor panel for editing the controller data
-	private static final NBSimpleExciterEditPanel _editPanel = new NBSimpleExciterEditPanel();
 	
 	/**
 	 * Default Constructor
@@ -93,15 +93,17 @@ public class SimpleExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			final double u = calculateU();
 
 			controlBlock.eulerStep1(u, dt);
 			controlBlock.eulerStep2(u, dt);
+			return true;
 		}
 		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
 			// TODO: TBImpl
+			return false;
 		} else {
 			throw new InvalidInputException("SimpleExciter.nextStep(), invalid method");
 		}
@@ -125,6 +127,15 @@ public class SimpleExciter extends AbstractExciter {
 	}
 
 	/**
+	 * Get the ref voltage Vref, for testing purpose.
+	 * 
+	 * @return Returns the vref.
+	 */
+	public double getStateVref() {
+		return stateVref;
+	}
+	
+	/**
 	 * Get the editor panel for controller data editing
 	 * 
 	 * @return the editor panel object
@@ -134,16 +145,7 @@ public class SimpleExciter extends AbstractExciter {
 		_editPanel.init(this);
 		return _editPanel;
 	}
-
-	/**
-	 * Get the ref voltage Vref, for testing purpose.
-	 * 
-	 * @return Returns the vref.
-	 */
-	public double getStateVref() {
-		return stateVref;
-	}
-
+	
 	/**
 	 * Get state variable X1, for testing purpose.
 	 * 

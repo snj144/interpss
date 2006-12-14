@@ -109,7 +109,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			/*
 			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt
@@ -134,9 +134,11 @@ public class IeeeST1Governor extends AbstractGovernor {
 
 			IpssLogger.getLogger().fine("stateX1, stateX2, stateX3, stateX4: " + stateX1 + ", " + 
 					stateX2 + ", " + stateX3 + ", " + stateX4);
+			return true;
 		}
 		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
 			// TODO: TBImpl
+			return false;
 		} else {
 			throw new InvalidInputException("SimpleGovernor.nextStep(), invalid method");
 		}
