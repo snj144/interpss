@@ -24,10 +24,10 @@
 
 package org.interpss.test.simu.dstab.controller.exc;
 
+import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.DynamicSimuMethods;
-import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import com.interpss.dstab.mach.Machine;
 
 public class TestSimpleExcitorCase extends TestSetupBase {
