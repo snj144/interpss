@@ -24,11 +24,11 @@
 
 package org.interpss.test.simu.dstab.controller.pss;
 
+import org.interpss.dstab.control.exc.simple.SimpleExciter;
+import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.DynamicSimuMethods;
-import org.interpss.dstab.control.exc.simple.SimpleExciter;
-import org.interpss.dstab.control.pss.simple.SimpleStabilizer;
 import com.interpss.dstab.mach.Machine;
 
 public class TestSimpleStabilizerCase extends TestSetupBase {
