@@ -71,7 +71,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
    		  	InitDataUtil.initDStabControllerData(machData.getGovData(), typeName, controller);
    		}	
    		controller.setData(machData.getGovData().getDataXmlStr(), controller.getDataClass());
-   		controller.setScripts(machData.getExcData().getScripts());
+   		controller.setScripts(machData.getGovData().getScripts());
 		dataPanel.removeAll();
 		dataPanel.add((Component)controller.getEditPanel());
 	}
@@ -104,6 +104,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
 		boolean ok = true;
 		
    		machData.getGovData().setTypeName((String)typeListComboBox.getSelectedItem());
+   		machData.getGovData().setClassName(controller.getClass().getName());
 		
     	if (!((IControllerEditor)controller.getEditPanel()).saveEditorData(errMsg)) {
     		ok = false;

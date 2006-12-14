@@ -69,7 +69,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
    		  	InitDataUtil.initDStabControllerData(machData.getPssData(), typeName, controller);
    		}	
    		controller.setData(machData.getPssData().getDataXmlStr(), controller.getDataClass());
-   		controller.setScripts(machData.getExcData().getScripts());
+   		controller.setScripts(machData.getPssData().getScripts());
 		dataPanel.removeAll();
 		dataPanel.add((Component)controller.getEditPanel());
 	}
@@ -100,6 +100,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
 		boolean ok = true;
 		
    		machData.getPssData().setTypeName((String)typeListComboBox.getSelectedItem());
+   		machData.getPssData().setClassName(controller.getClass().getName());
 		
     	if (!((IControllerEditor)controller.getEditPanel()).saveEditorData(errMsg)) {
     		ok = false;
