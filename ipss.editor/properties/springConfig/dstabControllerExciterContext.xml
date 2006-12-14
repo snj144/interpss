@@ -34,7 +34,7 @@
 	</bean>
 	
 	<bean id="sampleCustomExciter" 
-	  	class="custom.dstab.exc.sample.CustomExciter"
+	  	class="custom.dstab.exc.sample.basic.CustomExciter"
 	    singleton="false">	
 	    <property name="name">
 	    	<value>Sample Custom Exciter</value></property>
