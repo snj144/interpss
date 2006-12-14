@@ -111,7 +111,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			// Step-1 : x(1) = x(0) + dx_dt(1) * dt
 			final double _dX1_dt = cal_dX1_dt(stateX1);
@@ -122,9 +122,11 @@ public class SimpleStabilizer extends AbstractStabilizer {
 			// Step-2 : x(2) = x(1) + (dx_dt(2) - dx_dt(1)) * dt
 			stateX1 = stateX1 + 0.5 * (cal_dX1_dt(x1_1) + _dX1_dt) * dt;
 			stateX2 = stateX2 + 0.5 * (cal_dX2_dt(x1_1, x2_1) + _dX2_dt) * dt;
+			return true;
 		}
 		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
 			// TODO: TBImpl
+			return false;
 		} else {
 			throw new InvalidInputException("SimplePSS.nextStep(), invalid method");
 		}

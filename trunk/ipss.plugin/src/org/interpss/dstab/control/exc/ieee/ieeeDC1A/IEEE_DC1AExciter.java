@@ -98,13 +98,15 @@ public class IEEE_DC1AExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq,  final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq,  final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			 //     Step-1 : x(1) = x(0) + dx_dt(1) * dt
-			// TODO: 
+			// TODO:
+			return true;
 		}
 		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
 			// TODO: TBImpl
+			return false;
 		} else {
 			throw new InvalidInputException("IEEE_DC1AExciter.nextStep(), invalid method");
 		}

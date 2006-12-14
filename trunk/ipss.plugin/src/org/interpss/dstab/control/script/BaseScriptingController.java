@@ -25,9 +25,6 @@ public abstract class BaseScriptingController extends AbstractController {
 	Object controller = null;
 	IPSSMsgHub message = null;
 	
-	// define UI Editor panel for editing the controller data
-	private static final NBControllerScriptsEditPanel _editPanel = new NBControllerScriptsEditPanel();
-
 	public BaseScriptingController() {
 		this("controllerId", "ScriptingController", "InterPSS", null); 
 	}
@@ -71,11 +68,13 @@ public abstract class BaseScriptingController extends AbstractController {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		try {
 			invoker.invokeMethod(controller, "nextStep", getMachine(), dt, method, baseFreq);
+			return true;
 		} catch (Exception e) {
 			msg.sendErrorMsg(e.toString());
+			return false;
 		}
 	}
 	
@@ -109,17 +108,6 @@ public abstract class BaseScriptingController extends AbstractController {
 			message.sendErrorMsg(e.toString());
 		}
 		return table;
-	}
-	
-	/**
-	 * Get the editor panel for controller data editing
-	 * 
-	 * @return the editor panel object
-	 */
-	@Override
-	public Object getEditPanel() {
-		_editPanel.init(this);
-		return _editPanel;
 	}
 
 	public void setRefPoint(double x) {

@@ -110,7 +110,7 @@ public class IeeeST2Governor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public void nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			/*
 			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt
@@ -132,9 +132,11 @@ public class IeeeST2Governor extends AbstractGovernor {
 			stateX3 = stateX3 + 0.5 * (cal_dX3_dt(X2_1,X3_1) + dX3_dt) * dt;
 			stateX4 = stateX4 + 0.5 * (cal_dX4_dt(X3_1,X4_1) + dX4_dt) * dt;
 			stateX5 = stateX5 + 0.5 * (cal_dX5_dt(X4_1,X5_1) + dX5_dt) * dt;
+			return true;
 		}
 		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
 			// TODO: TBImpl
+			return false;
 		} else {
 			throw new InvalidInputException("SimpleGovernor.nextStep(), invalid method");
 		}
