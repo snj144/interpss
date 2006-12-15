@@ -87,25 +87,25 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 			SpringAppContext.getIpssMsgHub().sendStatusMsg("Editor date mapped to simuCtx");
 
 			if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK_LITERAL) {
-				if (!simuCtx.getAclfNet().checkData(SpringAppContext.getIpssMsgHub())) {
+				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Loadflow Data Error", "Please see the message list for details");
 					return false;
 				}	
 			}	
 			else if (simuCtx.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK_LITERAL) {
-				if (!simuCtx.getAclfAdjNet().checkData(SpringAppContext.getIpssMsgHub())) {
+				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Loadflow Data Error", "Please see the message list for details");
 					return false;
 				}	
 			}	
 			else if (simuCtx.getNetType() == SimuCtxType.ACSC_FAULT_NET_LITERAL) {
-				if (!simuCtx.getAcscFaultNet().checkData(SpringAppContext.getIpssMsgHub())) {
+				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Ac Short Circuit Data Error", "Please see the message list for details");
 					return false;
 				}
 			}	
 			else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET_LITERAL) {
-				if (!simuCtx.getDStabilityNet().checkData(SpringAppContext.getIpssMsgHub())) {
+				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog("Transient stabiliry Data Error", "Please see the message list for details");
 					return false;
 				}
