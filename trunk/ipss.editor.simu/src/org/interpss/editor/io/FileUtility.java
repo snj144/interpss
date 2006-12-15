@@ -50,7 +50,7 @@ public class FileUtility {
 			return false;
 		}
 
-		if (!simuCtx.checkData()) {
+		if (simuCtx != null && !simuCtx.checkData()) {
 			SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Loadflow Data Error", "Please see the message list for details");
 			return false;
 		}
