@@ -15,10 +15,11 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
 import com.interpss.dstab.mach.ControllerType;
+import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.script.ScriptingUtil;
 
 public abstract class BaseScriptingController extends AbstractController {
 	Invocable invoker = null;
@@ -42,16 +43,10 @@ public abstract class BaseScriptingController extends AbstractController {
 	public boolean initStates(final IPSSMsgHub msg) {
 		try {
 			this.message = msg;
-			ScriptEngine engine = CoreObjectFactory.createScriptEngine();
+			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
 			engine.eval(getScripts());
-			invoker = (Invocable)engine;
-			String objName = (String)invoker.invokeFunction("getObjectName");
-			controller = engine.get(objName);
-			if (controller == null) {
-				msg.sendErrorMsg("The controller scripting object not found, name:" + objName);
-				return false;
-			}
-			invoker.invokeMethod(controller, "initStates", getMachine());
+			controller = ScriptingUtil.getScritingObject(engine, msg);
+			((Invocable)engine).invokeMethod(controller, "initStates", getMachine());
 		} catch (Exception e) {
 			msg.sendErrorMsg(e.toString());
 			return false;

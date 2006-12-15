@@ -24,17 +24,22 @@
 
 package org.interpss.custom.script;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.util.sample.SampleCases;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.io.IpssFileAdapterBase;
+import com.interpss.simu.script.ScriptingUtil;
 
 public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 
@@ -48,14 +53,19 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 */
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
-		final AclfAdjNetwork net = CoreObjectFactory.createAclfAdjNetwork();
-		SampleCases.load_LF_5BusSystem(net, msg);	
-
-		// set the simuContext object
-  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK_LITERAL);
-  		simuCtx.setAclfAdjNet(net);
-  		simuCtx.setName("");
-  		simuCtx.setDesc("");		
+		final File file = new File(filepath);
+		final InputStream stream = new FileInputStream(file);
+		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+      	String scripts = "", s;
+      	while ((s = din.readLine()) != null) {
+      		scripts += s + "\n";
+       	}
+      	// System.out.println(str);
+      	
+		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
+		engine.eval(scripts);
+		Object loader = ScriptingUtil.getScritingObject(engine, msg);
+		((Invocable)engine).invokeMethod(loader, "load", simuCtx, msg);		
 	}
 	
 	/**
