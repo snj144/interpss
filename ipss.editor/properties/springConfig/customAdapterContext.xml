@@ -90,6 +90,23 @@
 	    	<value>PSSE Data Format</value></property>
 	</bean>
 	
+	<bean id="fileAdapterJavaScripts" 
+	      class="org.interpss.custom.script.FileAdapter_JavaScripts"
+	      singleton="true">	
+	    <property name="name">
+	    	<value>InterPSS JavaScripts</value></property>
+	    <property name="fileFilterString">
+	    	<value>js</value></property>
+	    <property name="extension">
+	    	<value>js</value></property>
+	    <property name="versionList">
+	    	<list>
+	    		<value>Verion 1.0</value>
+	    	</list></property>
+	    <property name="description">
+	    	<value>InterPSS JavaScripts Scripting File</value></property>
+	</bean>
+	
 	<bean id="customFileAdapterList" 
 	      class="java.util.ArrayList"
 	      singleton="true">	
@@ -100,6 +117,7 @@
 				<ref bean="fileAdapterPSTMatlabFormat"/>
 				<ref bean="fileAdapterPSATFormat"/>
 				<ref bean="fileAdapterIpssInternalFormat"/>
+				<ref bean="fileAdapterJavaScripts"/>
 			</list>
 		</constructor-arg>
 	</bean>
