@@ -46,9 +46,10 @@ public abstract class BaseScriptingController extends AbstractController {
 			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
 			engine.eval(getScripts());
 			controller = ScriptingUtil.getScritingObject(engine, msg);
-			((Invocable)engine).invokeMethod(controller, "initStates", getMachine());
+			invoker = (Invocable)engine;
+			invoker.invokeMethod(controller, "initStates", getMachine());
 		} catch (Exception e) {
-			msg.sendErrorMsg(e.toString());
+			msg.sendErrorMsg("ScriptingController.initStates(), " + e.toString());
 			return false;
 		}
 		return true;
@@ -68,7 +69,7 @@ public abstract class BaseScriptingController extends AbstractController {
 			invoker.invokeMethod(controller, "nextStep", getMachine(), dt, method, baseFreq);
 			return true;
 		} catch (Exception e) {
-			msg.sendErrorMsg(e.toString());
+			msg.sendErrorMsg("ScriptingController.nextStep(), " + e.toString());
 			return false;
 		}
 	}
@@ -83,7 +84,7 @@ public abstract class BaseScriptingController extends AbstractController {
 		try {
 			return ((Double)invoker.invokeMethod(controller, "getOutput", getMachine())).doubleValue();
 		} catch (Exception e) {
-			message.sendErrorMsg(e.toString());
+			message.sendErrorMsg("ScriptingController.getOutput(), " + e.toString());
 		}
 		return 0.0;
 	}
@@ -100,7 +101,7 @@ public abstract class BaseScriptingController extends AbstractController {
 		try {
 			invoker.invokeMethod(controller, "getStates", getMachine(), table);
 		} catch (Exception e) {
-			message.sendErrorMsg(e.toString());
+			message.sendErrorMsg("ScriptingController.getStates(), "  + e.toString());
 		}
 		return table;
 	}
@@ -109,7 +110,7 @@ public abstract class BaseScriptingController extends AbstractController {
 		try {
 			invoker.invokeMethod(controller, "setRefPoint", x);
 		} catch (Exception e) {
-			message.sendErrorMsg(e.toString());
+			message.sendErrorMsg("ScriptingController.setRefPoint(), "  + e.toString());
 		}
 	}
 } 
