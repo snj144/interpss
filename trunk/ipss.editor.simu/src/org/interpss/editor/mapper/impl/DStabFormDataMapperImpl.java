@@ -55,6 +55,7 @@ import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
 import com.interpss.dstab.mach.RoundRotorMachine;
 import com.interpss.dstab.mach.SalientPoleMachine;
+import com.interpss.dstab.mach.impl.MachineDataImpl;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
 
 /**
@@ -76,6 +77,8 @@ public class DStabFormDataMapperImpl {
 		BaseFormDataMapperImpl.setBaseNetInfo((GNetForm)editNet.getGNetForm(), dstabNet);
 		AclfFormDataMapperImpl.setAclfNetInfo(editNet, dstabNet, msg);
 
+		MachineDataImpl.SaturatedData = ((GNetForm)editNet.getGNetForm()).getDStabNetData().isSaturatedMachData();
+		
 		List busList = editNet.getBusFormList();
 		for ( int i = 0; i < busList.size(); i++ ) {
 			GBusForm busForm = (GBusForm)busList.get(i);
