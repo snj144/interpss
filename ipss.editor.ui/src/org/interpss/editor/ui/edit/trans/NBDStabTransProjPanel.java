@@ -48,8 +48,11 @@ public class NBDStabTransProjPanel extends javax.swing.JPanel implements IFormDa
 	
     public boolean setForm2Editor() {
 		GNetForm form = (GNetForm)_netContainer.getGNetForm();
+		DStabNetData data = form.getDStabNetData();
 		
-		adjustmentCheckBox.setSelected(form.getAcscNetData().isHasAdjustment());
+	    saturatedRadioButton.setSelected(data.isSaturatedMachData());
+
+	    adjustmentCheckBox.setSelected(form.getAcscNetData().isHasAdjustment());
     	return true;
 	}
     
@@ -59,6 +62,8 @@ public class NBDStabTransProjPanel extends javax.swing.JPanel implements IFormDa
 
 		form.setNetType(IGNetForm.NetType_DStabilityNet);
 
+		data.setSaturatedMachData(saturatedRadioButton.isSelected());
+	    
 		form.setAllowParallelBranch(allowParalellBranchCheckBox.isSelected());
 		
 		if (adjustmentCheckBox.isSelected()) {
@@ -79,10 +84,32 @@ public class NBDStabTransProjPanel extends javax.swing.JPanel implements IFormDa
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+        machDataButtonGroup = new javax.swing.ButtonGroup();
+        jPanel1 = new javax.swing.JPanel();
+        unsaturatedRadioButton = new javax.swing.JRadioButton();
+        saturatedRadioButton = new javax.swing.JRadioButton();
         allowParalellBranchCheckBox = new javax.swing.JCheckBox();
         adjustmentCheckBox = new javax.swing.JCheckBox();
 
-        setLayout(new java.awt.GridLayout(2, 1));
+        setLayout(new java.awt.GridLayout(3, 1));
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Machine Data"));
+        machDataButtonGroup.add(unsaturatedRadioButton);
+        unsaturatedRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        unsaturatedRadioButton.setSelected(true);
+        unsaturatedRadioButton.setText("Unsaturated     ");
+        unsaturatedRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        unsaturatedRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel1.add(unsaturatedRadioButton);
+
+        machDataButtonGroup.add(saturatedRadioButton);
+        saturatedRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        saturatedRadioButton.setText("Saturated");
+        saturatedRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        saturatedRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        jPanel1.add(saturatedRadioButton);
+
+        add(jPanel1);
 
         allowParalellBranchCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         allowParalellBranchCheckBox.setSelected(true);
@@ -96,13 +123,16 @@ public class NBDStabTransProjPanel extends javax.swing.JPanel implements IFormDa
         adjustmentCheckBox.setName("adjustmentCheckBox");
         add(adjustmentCheckBox);
 
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox adjustmentCheckBox;
     private javax.swing.JCheckBox allowParalellBranchCheckBox;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.ButtonGroup machDataButtonGroup;
+    private javax.swing.JRadioButton saturatedRadioButton;
+    private javax.swing.JRadioButton unsaturatedRadioButton;
     // End of variables declaration//GEN-END:variables
     
 }

@@ -29,7 +29,21 @@ import org.interpss.editor.data.acsc.AcscNetData;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DStabNetData extends BaseDataBean{
+	private boolean saturatedMachData = false;
+	
 	private AcscNetData acscNetData = null;
 	public AcscNetData getAcscNetData() { return acscNetData; }
 	public void setAcscNetData(AcscNetData data) { acscNetData = data; }
+	/**
+	 * @return the saturatedMachData
+	 */
+	public boolean isSaturatedMachData() {
+		return saturatedMachData;
+	}
+	/**
+	 * @param saturatedMachData the saturatedMachData to set
+	 */
+	public void setSaturatedMachData(boolean saturatedMachData) {
+		this.saturatedMachData = saturatedMachData;
+	}
 }
