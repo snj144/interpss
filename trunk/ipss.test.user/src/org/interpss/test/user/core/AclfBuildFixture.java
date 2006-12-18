@@ -29,20 +29,13 @@ import java.util.StringTokenizer;
 import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
-import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.CapacitorBusAdapter;
-import com.interpss.core.aclf.LineAdapter;
-import com.interpss.core.aclf.LoadBusAdapter;
 import com.interpss.core.aclf.PQBusAdapter;
-import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
-import com.interpss.core.aclf.XfrAdapter;
+import com.interpss.core.util.input.AclfInputUtilFunc;
 import com.interpss.simu.SimuSpringAppContext;
 
 public class AclfBuildFixture extends AclfFixture {
@@ -61,16 +54,11 @@ public class AclfBuildFixture extends AclfFixture {
 		double loadP = new Double(st.nextToken()).doubleValue();
 		double loadQ = new Double(st.nextToken()).doubleValue();
 		
-  		AclfBus bus = CoreObjectFactory.createAclfBus(busId);
-  		bus.setAttributes(busId, "");
-  		bus.setBaseVoltage(baseVolt);
-  		bus.setGenCode(AclfGenCode.SWING_LITERAL);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+		AclfBus bus = AclfInputUtilFunc.addSwingBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
+				voltMag, UnitType.PU, voltAng, UnitType.Deg);
   		SwingBusAdapter swingBus = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
-  		swingBus.setVoltMag(voltMag, UnitType.PU);
-  		swingBus.setVoltAng(voltAng, UnitType.Deg);
+  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
   		swingBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
-  		simuCtx.getAclfNet().addBus(bus);
   	}
 
 	// format: busId,baseVoltage,genP_PU,genVolt_PU,loadP_PU,loadQ_PU
@@ -83,16 +71,11 @@ public class AclfBuildFixture extends AclfFixture {
 		double loadP = new Double(st.nextToken()).doubleValue();
 		double loadQ = new Double(st.nextToken()).doubleValue();
 
-		AclfBus bus = CoreObjectFactory.createAclfBus(busId);
-  		bus.setAttributes(busId, "");
-  		bus.setBaseVoltage(baseVolt);
-  		bus.setGenCode(AclfGenCode.GEN_PV_LITERAL);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+		AclfBus bus = AclfInputUtilFunc.addPVBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
+				genP, UnitType.PU, genVolt, UnitType.PU);
   		PVBusAdapter pvBus = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
-  		pvBus.setGenP(genP, UnitType.PU, simuCtx.getAclfNet().getBaseKva());
-  		pvBus.setVoltMag(genVolt, UnitType.PU);
+  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
   		pvBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
-  		simuCtx.getAclfNet().addBus(bus);
   	}
 	
 	// format: busId,baseVoltage,capQ_PU,loadP_PU,loadQ_PU
@@ -104,15 +87,11 @@ public class AclfBuildFixture extends AclfFixture {
 		double loadP = new Double(st.nextToken()).doubleValue();
 		double loadQ = new Double(st.nextToken()).doubleValue();
 
-		AclfBus bus = CoreObjectFactory.createAclfBus(busId);
-  		bus.setAttributes(busId, "");
-  		bus.setBaseVoltage(baseVolt);
-  		bus.setGenCode(AclfGenCode.CAPACITOR_LITERAL);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+		AclfBus bus = AclfInputUtilFunc.addCapacitorBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
+				capQ, UnitType.PU);
   		CapacitorBusAdapter capBus = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
-  		capBus.setQ(capQ, UnitType.PU, simuCtx.getAclfNet().getBaseKva());
+  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
   		capBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
-  		simuCtx.getAclfNet().addBus(bus);
   	}	
 
 	// format: busId,baseVoltage,genP_PU,genQ_PU,loadP_PU,loadQ_PU
@@ -125,15 +104,11 @@ public class AclfBuildFixture extends AclfFixture {
 		double loadP = new Double(st.nextToken()).doubleValue();
 		double loadQ = new Double(st.nextToken()).doubleValue();
 
-		AclfBus bus = CoreObjectFactory.createAclfBus(busId);
-  		bus.setAttributes(busId, "");
-  		bus.setBaseVoltage(baseVolt);
-  		bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+		AclfBus bus = AclfInputUtilFunc.addPQBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
+				genP, genQ, UnitType.PU);
   		PQBusAdapter pqBus = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
-  		pqBus.setGen(new Complex(genP, genQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
+  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
   		pqBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
-  		simuCtx.getAclfNet().addBus(bus);
   	}
 
 	// format: busId,baseVoltage
@@ -142,12 +117,7 @@ public class AclfBuildFixture extends AclfFixture {
 		busId = st.nextToken();
 		double baseVolt = new Double(st.nextToken()).doubleValue();
 
-		AclfBus bus = CoreObjectFactory.createAclfBus(busId);
-  		bus.setAttributes(busId, "");
-  		bus.setBaseVoltage(baseVolt);
-  		bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
-  		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
-  		simuCtx.getAclfNet().addBus(bus);
+		AclfInputUtilFunc.addNonGenNonLoadBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1);
   	}
 	
 	// format: busId,baseVoltage,loadP_PU,loadQ_PU
@@ -158,14 +128,8 @@ public class AclfBuildFixture extends AclfFixture {
 		double loadP = new Double(st.nextToken()).doubleValue();
 		double loadQ = new Double(st.nextToken()).doubleValue();
 
-		AclfBus bus = CoreObjectFactory.createAclfBus(busId);
-  		bus.setAttributes(busId, "");
-  		bus.setBaseVoltage(baseVolt);
-  		bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
-  		LoadBusAdapter loadBus = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
-  		loadBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
-  		simuCtx.getAclfNet().addBus(bus);
+		AclfInputUtilFunc.addLoadBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
+				AclfLoadCode.CONST_P_LITERAL, loadP, loadQ, UnitType.PU);
   	}
 
 	// format: busId,baseVoltage,loadP_PU,loadQ_PU
@@ -189,13 +153,8 @@ public class AclfBuildFixture extends AclfFixture {
 		double x = new Double(st.nextToken()).doubleValue();
 		double halfB = new Double(st.nextToken()).doubleValue();
 		
-		AclfBranch branch = CoreObjectFactory.createAclfBranch();
-  		branch.setAttributes(branchFromBusId+"->"+branchToBusId, "", "1");
-  		branch.setBranchCode(AclfBranchCode.LINE_LITERAL);
-		LineAdapter lineBranch = (LineAdapter)branch.adapt(LineAdapter.class);
-  		lineBranch.setZ(new Complex(r, x), UnitType.PU, 4000.0, simuCtx.getAclfNet().getBaseKva(), msg);
-  		lineBranch.setHShuntY(new Complex(0.0, halfB), UnitType.PU, 4000.0, simuCtx.getAclfNet().getBaseKva());
-  		simuCtx.getAclfNet().addBranch(branch, branchFromBusId, branchToBusId);		
+		AclfInputUtilFunc.addLineBranchTo(simuCtx.getAclfNet(), branchFromBusId, branchToBusId, 
+				r, x, UnitType.PU, halfB, UnitType.PU, simuCtx.getMsgHub());
 	}
 	
 	// format: fromBusId,toBusId,r_PU,x_PU,fromTurnRatio_PU,toTurnRatio_PU
@@ -208,15 +167,8 @@ public class AclfBuildFixture extends AclfFixture {
 		double fromRatio = new Double(st.nextToken()).doubleValue();
 		double toRatio = new Double(st.nextToken()).doubleValue();
 		
-		AclfBranch bra = CoreObjectFactory.createAclfBranch();
-		simuCtx.getAclfNet().addBranch(bra, branchFromBusId, branchToBusId);
-		bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
-		XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
-		double baseV = bra.getFromAclfBus().getBaseVoltage() > bra.getToAclfBus().getBaseVoltage() ?
-				           bra.getFromAclfBus().getBaseVoltage() : bra.getToAclfBus().getBaseVoltage();
-		xfr.setZ(new Complex(r,x), UnitType.PU, baseV, simuCtx.getAclfNet().getBaseKva(), msg);
-		xfr.setFromTurnRatio(fromRatio, UnitType.PU);
-		xfr.setToTurnRatio(toRatio, UnitType.PU);		
+		AclfInputUtilFunc.addXfrBranchTo(simuCtx.getAclfNet(), branchFromBusId, branchToBusId, 
+				r, x, UnitType.PU, fromRatio, toRatio, UnitType.PU, simuCtx.getMsgHub());
 	}
 
 	// format: fromBusId,toBusId,r_PU,x_PU,fromTurnRatio_PU,toTurnRatio_PU,shiftAngle_Deg
@@ -228,17 +180,11 @@ public class AclfBuildFixture extends AclfFixture {
 		double x = new Double(st.nextToken()).doubleValue();
 		double fromRatio = new Double(st.nextToken()).doubleValue();
 		double toRatio = new Double(st.nextToken()).doubleValue();
-		double angle = new Double(st.nextToken()).doubleValue();
+		double fangle = new Double(st.nextToken()).doubleValue();
+		double tangle = new Double(st.nextToken()).doubleValue();
 		
-		AclfBranch bra = CoreObjectFactory.createAclfBranch();
-		simuCtx.getAclfNet().addBranch(bra, branchFromBusId, branchToBusId);
-		bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
-		PSXfrAdapter xfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
-		double baseV = bra.getFromAclfBus().getBaseVoltage() > bra.getToAclfBus().getBaseVoltage() ?
-				           bra.getFromAclfBus().getBaseVoltage() : bra.getToAclfBus().getBaseVoltage();
-		xfr.setZ(new Complex(r,x), UnitType.PU, baseV, simuCtx.getAclfNet().getBaseKva(), msg);
-		xfr.setFromTurnRatio(fromRatio, UnitType.PU);
-		xfr.setToTurnRatio(toRatio, UnitType.PU);	
-		xfr.setFromAngle(angle, UnitType.Deg);
+		AclfInputUtilFunc.addPsXfrBranchTo(simuCtx.getAclfNet(), branchFromBusId, branchToBusId, 
+				r, x, UnitType.PU, fromRatio, toRatio, UnitType.PU, 
+				fangle, tangle, UnitType.Deg, simuCtx.getMsgHub());
 	}
 }

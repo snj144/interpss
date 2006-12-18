@@ -38,21 +38,23 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
+import com.interpss.core.util.input.AclfAdjInputUtilFunc;
 
 public class AclfAdjFixture extends AclfBuildFixture {
 	/*
 	 * PVBusLimit
 	 */
 	
-	// format: busId,maxQ_PU,minQ_PU
+	// format: busId,vSpec, maxQ_PU,minQ_PU
 	public void addPVBusLimit(String data) {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		busId = st.nextToken();
+		double vSpec = new Double(st.nextToken()).doubleValue();
 		double max = new Double(st.nextToken()).doubleValue();
 		double min = new Double(st.nextToken()).doubleValue();
 		
-	  	PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(simuCtx.getAclfAdjNet(), busId);
-		pvLimit.setQLimit(new LimitType(max, min), UnitType.PU, simuCtx.getAclfAdjNet().getBaseKva());
+		AclfAdjInputUtilFunc.addPVBusLimitTo(simuCtx.getAclfAdjNet(), busId, 
+				vSpec, UnitType.PU, max, min, UnitType.PU);
   	}
 
 	public boolean pvBusLimitStatus() {
@@ -78,11 +80,12 @@ public class AclfAdjFixture extends AclfBuildFixture {
 	public void addPQBusLimit(String data) {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		busId = st.nextToken();
+		double qSpec = new Double(st.nextToken()).doubleValue();
 		double max = new Double(st.nextToken()).doubleValue();
 		double min = new Double(st.nextToken()).doubleValue();
 		
-	  	PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(simuCtx.getAclfAdjNet(), busId);
-		pqLimit.setVLimit(new LimitType(max, min), UnitType.PU);
+		AclfAdjInputUtilFunc.addPQBusLimitTo(simuCtx.getAclfAdjNet(), busId, 
+				qSpec, UnitType.PU, max, min, UnitType.PU);
   	}
 
 	public boolean pqBusLimitStatus() {
@@ -108,16 +111,15 @@ public class AclfAdjFixture extends AclfBuildFixture {
 	public void addFunctionLoad(String data) {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		busId = st.nextToken();
+		double loadP0 = new Double(st.nextToken()).doubleValue();
+		double loadQ0 = new Double(st.nextToken()).doubleValue();
 		double p_a = new Double(st.nextToken()).doubleValue();
 		double p_b = new Double(st.nextToken()).doubleValue();
 		double q_a = new Double(st.nextToken()).doubleValue();
 		double q_b = new Double(st.nextToken()).doubleValue();
 		
-	  	FunctionLoad fload = CoreObjectFactory.createFunctionLoad(simuCtx.getAclfAdjNet(), busId);
-  		fload.getP().setA(p_a);
-  		fload.getP().setB(p_b);
-  		fload.getQ().setA(q_a);
-  		fload.getQ().setB(q_b);	  	
+		AclfAdjInputUtilFunc.addAclfFuncLoadTo(simuCtx.getAclfAdjNet(), busId, loadP0, loadQ0, 
+				p_a, p_b, q_a, q_b, UnitType.PU);
   	}
 
 	public double funcLoadP0() {
@@ -285,12 +287,8 @@ public class AclfAdjFixture extends AclfBuildFixture {
 		boolean onFromSide = new Boolean(st.nextToken()).booleanValue();
 		boolean flowFrom2To = new Boolean(st.nextToken()).booleanValue();
 		
-		PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(simuCtx.getAclfAdjNet(), getBranchId(),
-										FlowControlType.POINT_CONTROL_LITERAL);
-		psXfrControl.setPSpecified(pSpec);
-		psXfrControl.setAngLimit(new LimitType(maxAng*Constants.DtoR, minAng*Constants.DtoR));
-		psXfrControl.setControlOnFromSide(onFromSide);		
-		psXfrControl.setFlowFrom2To(flowFrom2To);		
+		AclfAdjInputUtilFunc.addPSXfrPControlTo(simuCtx.getAclfAdjNet(), branchFromBusId, branchToBusId, 
+				onFromSide, flowFrom2To, pSpec, UnitType.PU, maxAng, minAng, UnitType.Deg);
   	}
 
 	public double psXfrPControlMaxAng() {
