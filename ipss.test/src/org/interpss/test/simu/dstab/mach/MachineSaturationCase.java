@@ -24,6 +24,9 @@
 
 package org.interpss.test.simu.dstab.mach;
 
+import org.apache.commons.math.complex.Complex;
+
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.mach.Eq1Ed1Machine;
@@ -32,7 +35,7 @@ import com.interpss.dstab.mach.MachineType;
 public class MachineSaturationCase extends TestSetupBase {
 	
 	public void test_Case1() {
-		System.out.println("\nBegin TestEq1Ed1MachineCase Case1");
+		System.out.println("\nBegin MachineSaturationCase Case1");
 
 		// create a two-bus network. Loadflow calculated
 		DStabilityNetwork net = createTestDStabBus();
@@ -61,8 +64,12 @@ public class MachineSaturationCase extends TestSetupBase {
 		mach.setS100(12.5);
 		mach.setS120(50.0);		
 		
-		assert(Math.abs(mach.getXdAdjusted()-1.335373) < 0.00001);
+		assertTrue(Math.abs(mach.getXdAdjusted()-1.485327) < 0.0001);
 
-		System.out.println("\nEnd TestEq1Ed1MachineCase Case1");
+		DStabBus bus = net.getDStabBus("Gen");
+		bus.setVoltage(new Complex(1.4, 0.0));
+		assertTrue(Math.abs(mach.getXdAdjusted()-0.746303) < 0.0001);
+		
+		System.out.println("\nEnd MachineSaturationCase Case1");
 	}
 }
