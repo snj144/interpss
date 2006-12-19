@@ -168,16 +168,8 @@ public class AclfAdjFixture extends AclfBuildFixture {
 		int    steps  = new Integer(st.nextToken()).intValue();
 		boolean tapOnFromSide = new Boolean(st.nextToken()).booleanValue();
 		
-  		TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(simuCtx.getAclfAdjNet(), getBranchId(), busId,
-  				FlowControlType.POINT_CONTROL_LITERAL);
-  		tapv.setTapLimit(new LimitType(maxTap, minTap));
-  		tapv.setVSpecified(vSpec);
-  		tapv.setVcBusOnFromSide(vcBusOnFromSide);
-  		if (steps > 0)
-  			tapv.setTapStepSize((maxTap-minTap)/steps);
-  		else
-  			tapv.setTapStepSize(0.0);
-  		tapv.setControlOnFromSide(tapOnFromSide);
+  		AclfAdjInputUtilFunc.addTapControlVoltageTo(simuCtx.getAclfAdjNet(), branchFromBusId, branchToBusId, busId, 
+  				vcBusOnFromSide, vSpec, UnitType.PU, maxTap, minTap, tapOnFromSide, steps);
   	}
 
 	// format: xfrFromBusId,xfrToBusId,MvarSpec_PU,maxTap,minTap,adjSteps,tapOnFromSide(true/false),flowFrom2To(true/false),mvarSpecFromSide(true/false)
@@ -193,17 +185,8 @@ public class AclfAdjFixture extends AclfBuildFixture {
 		boolean flowFrom2To = new Boolean(st.nextToken()).booleanValue();
 		boolean mvarSpecOnFromSide = new Boolean(st.nextToken()).booleanValue();
 		
-  		TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(simuCtx.getAclfAdjNet(), getBranchId(),
-  				FlowControlType.POINT_CONTROL_LITERAL);
-  		tapv.setTapLimit(new LimitType(maxTap, minTap));
-  		tapv.setMvarSpecified(mvaSpec);
-  		if (steps > 0)
-  			tapv.setTapStepSize((maxTap-minTap)/steps);
-  		else
-  			tapv.setTapStepSize(0.0);
-  		tapv.setTapOnFromSide(tapOnFromSide);
-  		tapv.setFlowFrom2To(flowFrom2To);
-  		tapv.setMeteredOnFromSide(mvarSpecOnFromSide);
+  		AclfAdjInputUtilFunc.addTapControlMvarFlowTo(simuCtx.getAclfAdjNet(), branchFromBusId, branchToBusId, 
+  				flowFrom2To, mvarSpecOnFromSide, mvaSpec, UnitType.PU, maxTap, minTap, tapOnFromSide, steps);
   	}
 
 	public double tapControlMaxTap() {
@@ -233,10 +216,8 @@ public class AclfAdjFixture extends AclfBuildFixture {
 		double maxQ = new Double(st.nextToken()).doubleValue();
 		double minQ = new Double(st.nextToken()).doubleValue();
 		
-  		RemoteQBus reQ = CoreObjectFactory.createRemoteQBus(simuCtx.getAclfAdjNet(), busId, 
-  				RemoteQControlType.BUS_VOLTAGE_LITERAL, remoteBusId);
-  		reQ.setQLimit(new LimitType(maxQ, minQ));
-  		reQ.setVSpecified(spec);
+  		AclfAdjInputUtilFunc.addRemoteQBusVoltageTo(simuCtx.getAclfAdjNet(), busId, remoteBusId, 
+  				spec, UnitType.PU, maxQ, minQ, UnitType.PU);
   	}
 	
 	// format: controlBusId,remoteBranchId,spec_PU,maxQ,minQ,onFromSide(true/false),flowFrom2To(true/false)
@@ -250,12 +231,8 @@ public class AclfAdjFixture extends AclfBuildFixture {
 		boolean onFromSide = new Boolean(st.nextToken()).booleanValue();
 		boolean flowFrom2To = new Boolean(st.nextToken()).booleanValue();
 		
-  		RemoteQBus reQ = CoreObjectFactory.createRemoteQBus(simuCtx.getAclfAdjNet(), busId, 
-  							RemoteQControlType.BRANCH_Q_LITERAL, remoteBranchId);
-  		reQ.setQLimit(new LimitType(maxQ, minQ));
-  		reQ.setVSpecified(spec);
-  		reQ.setMvarOnFromSide(onFromSide);
-  		reQ.setFlowFrom2To(flowFrom2To);
+  		AclfAdjInputUtilFunc.addRemoteQBusMvarFlowTo(simuCtx.getAclfAdjNet(), busId, remoteBranchId, 
+  				spec, UnitType.PU, maxQ, minQ, UnitType.PU, onFromSide, flowFrom2To);
   	}
 
 	public boolean remoteQBusStatus() {
