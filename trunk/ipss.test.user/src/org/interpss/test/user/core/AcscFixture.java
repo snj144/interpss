@@ -28,20 +28,13 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranchCode;
-import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBranchFault;
-import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscBusFault;
-import com.interpss.core.acsc.AcscPSXfrAdapter;
-import com.interpss.core.acsc.AcscXfrAdapter;
-import com.interpss.core.acsc.BusScCode;
-import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.acsc.XfrConnectCode;
+import com.interpss.core.util.input.AcscInputUtilFunc;
 import com.interpss.simu.SimuSpringAppContext;
 
 public class AcscFixture extends AclfBuildFixture {
@@ -124,13 +117,7 @@ public class AcscFixture extends AclfBuildFixture {
 		busId = st.nextToken();
 		double baseVolt = new Double(st.nextToken()).doubleValue();
 		
-	  	AcscBus bus = CoreObjectFactory.createAcscBus(busId);
-		bus.setScCode(BusScCode.NON_CONTRI_LITERAL);
-		bus.setBaseVoltage(baseVolt, UnitType.Volt );
-		bus.setZ(new Complex(0.0, 1.0e10), SequenceCode.POSITIVE_LITERAL);
-		bus.setZ(new Complex(0.0, 1.0e10), SequenceCode.NEGATIVE_LITERAL);
-		bus.setZ(new Complex(0.0, 1.0e10), SequenceCode.ZERO_LITERAL);
-		simuCtx.getAcscFaultNet().addBus(bus);
+	  	AcscInputUtilFunc.addScNonContributeBusTo(simuCtx.getAcscFaultNet(), busId, baseVolt, 1, 1);
 	}
 
 	// format: busId,baseVoltage,r1_PU,x1_PU,r2_PU,x2_PU,r0_PU,x0_PU,groundCode(Ungrounded/ZGrounded/SolidGrounded),rg_Ohms,xg_Ohms
@@ -148,17 +135,8 @@ public class AcscFixture extends AclfBuildFixture {
 		double rg = new Double(st.nextToken()).doubleValue();
 		double xg = new Double(st.nextToken()).doubleValue();
 
-		AcscBus bus = CoreObjectFactory.createAcscBus(busId);
-		bus.setScCode(BusScCode.CONTRIBUTE_LITERAL);
-		bus.setBaseVoltage(baseVolt, UnitType.Volt );
-		bus.setZ(new Complex(r1, x1), SequenceCode.POSITIVE_LITERAL, UnitType.PU, simuCtx.getAcscFaultNet().getBaseKva());
-		bus.setZ(new Complex(r2, x2), SequenceCode.NEGATIVE_LITERAL, UnitType.PU, simuCtx.getAcscFaultNet().getBaseKva());
-		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO_LITERAL, UnitType.PU, simuCtx.getAcscFaultNet().getBaseKva());
-		ScGroundType type = new ScGroundType();
-		type.setCode(gCode);
-		type.setZ(new Complex(rg,xg), UnitType.Ohm, baseVolt, simuCtx.getAcscFaultNet().getBaseKva());
-		bus.setGrounding(type);
-		simuCtx.getAcscFaultNet().addBus(bus);		
+		AcscInputUtilFunc.addScContributeBusTo(simuCtx.getAcscFaultNet(), busId, baseVolt, 1, 1, 
+				r1, x1, r2, x2, r0, x0, UnitType.PU, gCode, rg, xg, UnitType.Ohm);
 	}
 
 	/*
@@ -175,11 +153,8 @@ public class AcscFixture extends AclfBuildFixture {
 		double r0 = new Double(st.nextToken()).doubleValue();
 		double x0 = new Double(st.nextToken()).doubleValue();
 		
-		AcscBranch branch = CoreObjectFactory.createAcscBranch();
-		branch.setBranchCode(AclfBranchCode.LINE_LITERAL);
-		branch.setZ( new Complex(r1,x1), msg );
-		branch.setZ0( new Complex(r0,x0), msg );
-		simuCtx.getAcscFaultNet().addBranch(branch, branchFromBusId, branchToBusId);
+		AcscInputUtilFunc.addAcscLineBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId, 
+				r1, x1, r0, x0, UnitType.PU, msg);
 	}
 
 	// format: fromBusId,toBusId,r1_PU,x1_PU,r0_PU,x0_PU,fromConnectCode(Delta/WyeUngrounded/WyeSolidGrounded/WyeZGrounded),fromRg_Ohm,fromXg_Ohm,toConnectCode(fromConnectCode),toRg_Ohm,toXg_Ohm,
@@ -198,14 +173,8 @@ public class AcscFixture extends AclfBuildFixture {
 		double toRg = new Double(st.nextToken()).doubleValue();
 		double toXg = new Double(st.nextToken()).doubleValue();
 		
-		AcscBranch branch = CoreObjectFactory.createAcscBranch();
-		branch.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
-		simuCtx.getAcscFaultNet().addBranch(branch, branchFromBusId, branchToBusId);
-		branch.setZ( new Complex(r1,x1), msg  );
-		branch.setZ0( new Complex(r0,x0), msg  );
-		AcscXfrAdapter xfr = (AcscXfrAdapter)branch.adapt(AcscXfrAdapter.class);
-		xfr.setFromConnectGroundZ(fromConCode, new Complex(fromRg,fromXg), UnitType.Ohm, simuCtx.getAcscFaultNet().getBaseKva());
-		xfr.setToConnectGroundZ(toConCode, new Complex(toRg,toXg), UnitType.Ohm, simuCtx.getAcscFaultNet().getBaseKva());
+		AcscInputUtilFunc.addAcscXformerBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId, 
+				r1, x1, r0, x0, UnitType.PU, fromConCode, fromRg, fromXg, toConCode, toRg, toXg, UnitType.Ohm, msg);
 	}
 	
 	// format: fromBusId,toBusId,r1_PU,x1_PU,angle_Deg,r0_PU,x0_PU,fromConnectCode(Delta/WyeUngrounded/WyeSolidGrounded/WyeZGrounded),fromRg_Ohm,fromXg_Ohm,toConnectCode(fromConnectCode),toRg_Ohm,toXg_Ohm,
@@ -225,15 +194,9 @@ public class AcscFixture extends AclfBuildFixture {
 		double toRg = new Double(st.nextToken()).doubleValue();
 		double toXg = new Double(st.nextToken()).doubleValue();
 		
-		AcscBranch branch = CoreObjectFactory.createAcscBranch();
-		branch.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
-		simuCtx.getAcscFaultNet().addBranch(branch, branchFromBusId, branchToBusId);
-		branch.setZ( new Complex(r1,x1), msg  );
-		branch.setZ0( new Complex(r0,x0), msg  );
-		AcscPSXfrAdapter xfr = (AcscPSXfrAdapter)branch.adapt(AcscPSXfrAdapter.class);
-		xfr.setFromAngle(angDeg, UnitType.Deg);
-		xfr.setFromConnectGroundZ(fromConCode, new Complex(fromRg,fromXg), UnitType.Ohm, simuCtx.getAcscFaultNet().getBaseKva());
-		xfr.setToConnectGroundZ(toConCode, new Complex(toRg,toXg), UnitType.Ohm, simuCtx.getAcscFaultNet().getBaseKva());
+		AcscInputUtilFunc.addAcscPSXfromerBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId, 
+				r1, x1, r0, x0, UnitType.PU, angDeg, 0.0, UnitType.Deg, 
+				fromConCode, fromRg, fromXg, toConCode, toRg, toXg, UnitType.Ohm, msg);
 	}
 
 	/*
