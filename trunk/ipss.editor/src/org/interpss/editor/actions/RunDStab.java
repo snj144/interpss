@@ -4,11 +4,14 @@ import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
+import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
+import org.interpss.editor.io.FileUtility;
 import org.interpss.editor.ui.SimuActionAdapter;
 import org.interpss.editor.util.DocumentUtilFunc;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.simu.SimuContext;
 
 public class RunDStab extends IpssAbstractGraphAction {
     
@@ -26,7 +29,23 @@ public class RunDStab extends IpssAbstractGraphAction {
 		if (doc instanceof GPDocument) {
 			SimuActionAdapter.menu_run_dstab(true, graphpad.getCurrentGraph());
 		}
-
+		else if (doc instanceof IpssCustomDocument) {
+			if (((IpssCustomDocument)doc).getDocFile().isModified()) {
+				String filepath = graphpad.getCurrentProject().getProjectPath() + "/" + 
+				((IpssCustomDocument)doc).getFileName();
+				SimuContext simuCtx = (SimuContext)doc.getSimuAppContext().getSimuCtx();
+				if (FileUtility.loadCustomFile(filepath, simuCtx)) {
+					SimuActionAdapter.menu_run_dstab(false, null);
+					doc.getSimuAppContext().setSimuNetDataDirty(false);
+				}	
+				else {
+					SpringAppContext.getIpssMsgHub().sendWarnMsg("Custom data file loading error, filename: " + filepath);
+				}
+			} 
+			else {
+				SimuActionAdapter.menu_run_dstab(false, null);
+			}
+		}
 		// After a run, some menuitems may need to be enabled
 		graphpad.update();
 	}

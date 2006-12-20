@@ -29,13 +29,10 @@ import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssReportDocument;
 import org.interpss.editor.form.GNetForm;
-import org.interpss.editor.io.FileUtility;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
-import org.interpss.editor.ui.SimuActionAdapter;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -136,8 +133,9 @@ public class DocumentUtilFunc  {
 			}
 		} else if (doc instanceof IpssCustomDocument) {
 			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK_LITERAL
-					|| simuCxt.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK_LITERAL) {
+			if (simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK_LITERAL || 
+					simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK_LITERAL ||
+					simuCxt.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK_LITERAL) {
 				return true;
 			} else if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET_LITERAL) {
 				return simuCxt.getAcscFaultNet().isLfDataLoaded();
@@ -165,7 +163,12 @@ public class DocumentUtilFunc  {
 					return true;
 				}
 			}
-		} 
+		} else if (doc instanceof IpssCustomDocument) {
+			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
+			if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET_LITERAL) {
+				return true;
+			}
+		} 		
 		return false;
 	}
 
@@ -187,7 +190,7 @@ public class DocumentUtilFunc  {
 			}
 		} else if (doc instanceof IpssCustomDocument) {
 			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.DISTRIBUTE_NET_LITERAL) 
+			if (simuCxt.getNetType() == SimuCtxType.DSTABILITY_NET_LITERAL) 
 				return true;
 		} 
 		
