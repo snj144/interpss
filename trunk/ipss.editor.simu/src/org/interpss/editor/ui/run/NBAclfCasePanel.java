@@ -97,10 +97,11 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
   	   throw new InvalidOperationException("Method not implemented");
      }
      
-    public void init(Object netContainer, Object net) {
+    public void init(Object netContainer, Object simuCtx) {
+    	// for non-graphic file, netContainer == null
 		IpssLogger.getLogger().info("NBAclfCasePanel init() called");
 	    _netContainer = (GFormContainer)netContainer;
-	    _simuCtx = (SimuContext)net;
+	    _simuCtx = (SimuContext)simuCtx;
     	_simuCtx.getLoadflowAlgorithm().setInitBusVoltage(false);
     	if (_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm() != null) {
     		_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().setActivateAllAdjust(false);

@@ -26,6 +26,7 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
+import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
@@ -33,11 +34,14 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.util.SimuCtxUtilFunc;
 
 public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormDataPanel{
 	private static final long serialVersionUID = 1;
 
 	private GFormContainer _netContainer = null;
+    private SimuContext _simuCtx = null;	
 	private AcscFaultData _faultData = null;
 	
     /** Creates new form FaultLocDataPanel */
@@ -53,16 +57,25 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
       	this.xLLTextField.setInputVerifier(verifier);
     }
     
-	public void init(Object netContainer, Object _null) {
+	public void init(Object netContainer, Object simuCtx) {
+		// for non-graph file, netContainer = null
 		IpssLogger.getLogger().info("NBFaultLocDataPanel init() called");
 
 		_netContainer = (GFormContainer)netContainer;
+	    _simuCtx = (SimuContext)simuCtx;
       
-    	this.faultBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(_netContainer.getBusNameIdArray()));
-
-    	Object[] branchNameId = _netContainer.getBranchNameIdArrayNoXfr(_netContainer.getGNetForm().getAppType());
-    	if (branchNameId.length > 0)
-    		this.faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(branchNameId));
+    	if (_netContainer != null) {
+    		this.faultBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(_netContainer.getBusNameIdArray()));
+    		Object[] branchNameId = _netContainer.getBranchNameIdArrayNoXfr(_netContainer.getGNetForm().getAppType());
+    		if (branchNameId.length > 0)
+    			this.faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(branchNameId));
+    	}
+    	else {
+    		this.faultBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxUtilFunc.getBusNameIdArray(_simuCtx)));
+    		Object[] branchNameId = SimuCtxUtilFunc.getBranchNameIdArrayNoXfr(_simuCtx);
+    		if (branchNameId.length > 0)
+    			this.faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(branchNameId));
+    	}
     	
 	}
 	
@@ -86,7 +99,8 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
             faultLocPanel.add(busFaultPanel, java.awt.BorderLayout.NORTH);
             if (_faultData.getBusBranchNameId().equals("")) {
                 IpssLogger.getLogger().info("faultBusComboBox.getSelectedItem() -> " + this.faultBusComboBox.getSelectedItem());
-                this.faultBusComboBox.setSelectedIndex(0);
+                if (this.faultBusComboBox.getSelectedItem() != null)
+                	this.faultBusComboBox.setSelectedIndex(0);
             }    
             else
                 this.faultBusComboBox.setSelectedItem(_faultData.getBusBranchNameId());

@@ -59,11 +59,6 @@ public class SimuActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		else {
-			// for non-graphic document, use the default setting for loadflow calculation
-			// This may need to be changed in the future.
-			gFormContainer = GraphSpringAppContext.getEditorFormContainer();
-		}
 		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 
 		try {
@@ -91,11 +86,6 @@ public class SimuActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		else {
-			SpringAppContext.getIpssMsgHub().sendErrorMsg("Custom data file not supported for AC SC");
-			return;
-		}
-		
 		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setSimpleFaultAlgorithm(SimuSpringAppContext.getSimpleFaultAlgorithm());
  
