@@ -1,5 +1,5 @@
+#summary Develop a generic solution for modeling generation station dynamics for transient stability simulation using InterPSS
 #labels Phase-Requirements
-#Develop a generic solution for modeling generation station dynamics for transient stability simulation using InterPSS
 
 = Introduction =
 
