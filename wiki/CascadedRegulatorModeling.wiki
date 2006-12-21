@@ -3,12 +3,16 @@
 
 = Introduction =
 
-About InterPSS
+== Background ==
+
+== Project Description ==
 
 About the problem (Ron)
 
-About the solution
+== Our Solution ==
+(mike)
 
+== Project Team Member ==
 Current the project has the following team members:
 
 Ron Oosterwijk
@@ -18,7 +22,7 @@ InterPSS Project Architect
 TIBCO Software Inc
 Palo Alto, CA USA
 
-Admin info
+== Administration information ==
 
 
 = Details =
