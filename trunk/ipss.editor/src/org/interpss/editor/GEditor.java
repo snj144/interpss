@@ -10,13 +10,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -29,13 +25,11 @@ import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import org.interpss.editor.EditorSpringAppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
-
 
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
