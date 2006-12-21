@@ -117,7 +117,7 @@ public class AcscFixture extends AclfBuildFixture {
 		busId = st.nextToken();
 		double baseVolt = new Double(st.nextToken()).doubleValue();
 		
-	  	AcscInputUtilFunc.addScNonContributeBusTo(simuCtx.getAcscFaultNet(), busId, baseVolt, 1, 1);
+	  	AcscInputUtilFunc.addScNonContributeBusTo(simuCtx.getAcscFaultNet(), busId, "Bus-"+busId, baseVolt, 1, 1);
 	}
 
 	// format: busId,baseVoltage,r1_PU,x1_PU,r2_PU,x2_PU,r0_PU,x0_PU,groundCode(Ungrounded/ZGrounded/SolidGrounded),rg_Ohms,xg_Ohms
@@ -135,7 +135,7 @@ public class AcscFixture extends AclfBuildFixture {
 		double rg = new Double(st.nextToken()).doubleValue();
 		double xg = new Double(st.nextToken()).doubleValue();
 
-		AcscInputUtilFunc.addScContributeBusTo(simuCtx.getAcscFaultNet(), busId, baseVolt, 1, 1, 
+		AcscInputUtilFunc.addScContributeBusTo(simuCtx.getAcscFaultNet(), busId, "Bus-"+busId, baseVolt, 1, 1, 
 				r1, x1, r2, x2, r0, x0, UnitType.PU, gCode, rg, xg, UnitType.Ohm);
 	}
 
@@ -153,7 +153,7 @@ public class AcscFixture extends AclfBuildFixture {
 		double r0 = new Double(st.nextToken()).doubleValue();
 		double x0 = new Double(st.nextToken()).doubleValue();
 		
-		AcscInputUtilFunc.addAcscLineBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId, 
+		AcscInputUtilFunc.addAcscLineBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId,  "branch",
 				r1, x1, r0, x0, UnitType.PU, msg);
 	}
 
@@ -173,7 +173,7 @@ public class AcscFixture extends AclfBuildFixture {
 		double toRg = new Double(st.nextToken()).doubleValue();
 		double toXg = new Double(st.nextToken()).doubleValue();
 		
-		AcscInputUtilFunc.addAcscXformerBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId, 
+		AcscInputUtilFunc.addAcscXformerBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId,  "branch",
 				r1, x1, r0, x0, UnitType.PU, fromConCode, fromRg, fromXg, toConCode, toRg, toXg, UnitType.Ohm, msg);
 	}
 	
@@ -194,7 +194,7 @@ public class AcscFixture extends AclfBuildFixture {
 		double toRg = new Double(st.nextToken()).doubleValue();
 		double toXg = new Double(st.nextToken()).doubleValue();
 		
-		AcscInputUtilFunc.addAcscPSXfromerBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId, 
+		AcscInputUtilFunc.addAcscPSXfromerBranchTo(simuCtx.getAcscFaultNet(), branchFromBusId, branchToBusId, "branch",
 				r1, x1, r0, x0, UnitType.PU, angDeg, 0.0, UnitType.Deg, 
 				fromConCode, fromRg, fromXg, toConCode, toRg, toXg, UnitType.Ohm, msg);
 	}
