@@ -1,6 +1,6 @@
 package org.interpss.editor;
 
-
+  
 import java.applet.Applet;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
