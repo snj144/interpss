@@ -3,7 +3,7 @@
 
 == Introduction ==
 
-In stability studies, there is sometimes a need to include a detailed representation of a machine, a station or a group of machines. The standard user interface for transient stability studies allows the general form of study to be performed with minimal customisation, however it is recognised that there may often be a need to represent a controller type or particular station configuration that the standard InterPSS release has not included.
+In stability studies, there is sometimes a need to include a detailed representation of a machine, a station or a group of machines. The standard user interface for transient stability studies allows the general form of study to be performed with minimal customization, however it is recognized that there may often be a need to represent a controller type or particular station configuration that the standard InterPSS release has not included.
 
 InterPSS is designed to be extended to allow the user to modify the environment according to their particular requirements and is therefore a useful tool in such cases. You can find an overview of the InterPSS [http://docs.google.com/View?docid=dz384d8_0chz25v Here].
 
