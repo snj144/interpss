@@ -24,7 +24,9 @@ To ensure the presentation is realistic, the model outputs are being compared wi
 A two machine station will be represented in detail. The network will be represented by the station feeding an infinite bus through a simple line impedance.
 
 The machines are 50Hz turbo generators, with a train of rotating exciter machines coupled directly to the main machine shaft of medium length.
-The excitation system is representative of a cascade-hybrid design, that is becoming more common as aging stations undergo control system retrofits. For this project we will consider that each machine has:
+The excitation system is representative of a cascade-hybrid design that is becoming more common as aging stations undergo control system retrofits. 
+
+For this project we will consider that each machine has:
 - A pilot exciter alternator (100Hz AC), the output voltage of the pilot exciter is regulated by a simple shunt connected AVR system.
 - A main exciter alternator (100Hz AC), the main exciter field is controlled by an HIR AVR with PSS and an under excitation limiter (rotor-angle limit). We will include consideration of the pilot exciter output voltage being the source for the main exciter AVR controller (Cascade of controllers).
 - Each machine feeds a common HV bus through a dedicated step-up transformer equipped with On Load Tap Changing. For our example the transformers have different parameters.
@@ -54,6 +56,5 @@ Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
-
 
 
