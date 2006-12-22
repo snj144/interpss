@@ -45,3 +45,7 @@ Palo Alto, CA USA
 {{{
 Ron Oosterwijk (oosterwijk.ron@gmail.com)
 }}}
+
+== Reference Documents ==
+
+ # [http://docs.google.com/View?docid=dd7m5rrq_0g5kwpf Cascaded Regulator Modeling With InterPSS] 
