@@ -31,7 +31,7 @@ The project developed uses data from an actual plant and controllers that are av
 To ensure the presentation is realistic, the model outputs are being compared with actual recordings from site tests where possible.
 
 == Our Solution ==
-InterPSS has an extension plugin architecture. InterPSS also provides a scripting environment. We are going to extend InterPSS by using Java to develop some custom components and JavaScrip to glue these components together  to solve the problem. Also, we will solve the problem in a generic way so that the method could apply to model any generation station dynamics for transient stability simulation. You can find project solution design document [http://docs.google.com/View?docid=dz384d8_3g8tmz7 Here]. 
+InterPSS has an extension plugin architecture. InterPSS also provides a scripting environment. We are going to extend InterPSS by using Java to develop some custom components and Java Script to glue these components together  to solve the problem. Also, we will solve the problem in a generic way so that the method could apply to model any generation station dynamics for transient stability simulation. You can find project solution design document [http://docs.google.com/View?docid=dz384d8_3g8tmz7 Here]. 
 
 == Project Team Member ==
 Current the project has the following team members:
