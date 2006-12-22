@@ -49,3 +49,5 @@ Ron Oosterwijk (oosterwijk.ron@gmail.com)
 == Reference Documents ==
 
  # [http://docs.google.com/View?docid=dd7m5rrq_0g5kwpf Cascaded Regulator Modeling With InterPSS] 
+ # [http://docs.google.com/View?docid=dz384d8_3g8tmz7 A Generic Approach to Model Generation Station Dynamics for Transient Stability Simulation]
+ # [http://docs.google.com/View?docid=dz384d8_0chz25v InterPSS - A New Power System Simulation Experience]
