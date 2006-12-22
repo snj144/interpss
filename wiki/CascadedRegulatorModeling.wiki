@@ -1,7 +1,7 @@
 #summary Develop a generic solution for modeling generation station dynamics for transient stability simulation using InterPSS
 #labels Phase-Requirements
 
-= Introduction =
+== Introduction ==
 
 In stability studies, there is sometimes a need to include a detailed representation of a machine, a station or a group of machines. The standard user interface for transient stability studies allows the general form of study to be performed with minimal customisation, however it is recognised that there may often be a need to represent a controller type or particular station configuration that the standard InterPSS release has not included.
 
