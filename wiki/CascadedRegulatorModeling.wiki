@@ -36,14 +36,12 @@ To ensure the presentation is realistic, the model outputs are being compared wi
 == Project Team Member ==
 Current the project has the following team members:
 
-
-Mike Zhou (mike@interpss.org)</ br>
+{{{
+Mike Zhou (mike@interpss.org)
 InterPSS Project Architect
-
 TIBCO Software Inc
-
 Palo Alto, CA USA
-
-
+}}}
+{{{
 Ron Oosterwijk (oosterwijk.ron@gmail.com)
-
+}}}
