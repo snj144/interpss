@@ -15,7 +15,7 @@ About the problem (Ron)
 == Project Team Member ==
 Current the project has the following team members:
 
-Ron Oosterwijk
+Ron Oosterwijk (oosterwijk.ron@gmail.com)
 
 Mike Zhou (mike@interpss.org)
 InterPSS Project Architect
