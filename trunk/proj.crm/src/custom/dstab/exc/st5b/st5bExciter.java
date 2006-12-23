@@ -42,7 +42,7 @@ import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.DynamicMachine;
-import funcTest.dstab.yallourn.common.RunCaseBase;
+
 
 public class st5bExciter extends AbstractExciter {
     // Step-1: Define controller variables
