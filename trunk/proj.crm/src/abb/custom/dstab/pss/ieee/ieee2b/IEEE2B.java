@@ -26,16 +26,14 @@ package abb.custom.dstab.pss.ieee.ieee2b;
 
 import java.util.Hashtable;
 
-import com.interpss.dstab.controller.block.WashoutControlBlock;
+import com.interpss.common.exp.InvalidInputException;
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.controller.AbstractStabilizer;
 import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.controller.block.FilterControlBlock;
 import com.interpss.dstab.controller.block.IControlBlock;
-
-import com.interpss.common.exp.InvalidInputException;
-import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.Num2Str;
-import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.controller.AbstractStabilizer;
+import com.interpss.dstab.controller.block.WashoutControlBlock;
 
 public class IEEE2B extends AbstractStabilizer {
     // declarations
@@ -295,5 +293,8 @@ public class IEEE2B extends AbstractStabilizer {
      * Set the ref point
      */
     public void setRefPoint(double x) {
+    	// Ron: we need to implement this method. For testing purpuse, we
+    	// change the set point of this PSS. I am not sure which variable need to 
+    	// be changed.
     }     
 } // SimpleExcAdapter
