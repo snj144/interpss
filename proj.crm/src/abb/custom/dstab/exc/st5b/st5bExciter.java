@@ -28,10 +28,6 @@ package abb.custom.dstab.exc.st5b;
  * Controller diff eqn implementation class
  */
 
-import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.FilterControlBlock;
-import com.interpss.dstab.controller.block.IControlBlock;
-import com.interpss.dstab.util.DStabOutFunc;
 import java.util.Hashtable;
 
 import com.interpss.common.datatype.LimitType;
@@ -40,7 +36,9 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Num2Str;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
-import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.FilterControlBlock;
+import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.mach.DynamicMachine;
 
 
