@@ -14,12 +14,14 @@
   * GNU General Public License for more details.
   *
   * @Author Ron Oosterwijk
-  * @Version 1.0
+  * @Version 1.01
   * @Date Dec 2006
   * 
   *   Revision History
   *   ================
-  *
+  * Ron Oosterwijk 25Dec2006
+  * added var stepTest to Pe channel
+  * setRefPoint() method included for testing purposes
   */
 
 package custom.dstab.pss.abb.ieee2b;
@@ -37,6 +39,7 @@ import com.interpss.dstab.controller.block.WashoutControlBlock;
 
 public class IEEE2B extends AbstractStabilizer {
     // declarations
+    private double stepTest = 0.0;
     private DelayControlBlock dwMeasure = null;
     private DelayControlBlock PeMeasure = null;
     private WashoutControlBlock wash1 = null;
@@ -62,6 +65,7 @@ public class IEEE2B extends AbstractStabilizer {
         
         final double dw = getMachine().getSpeed() - 1.0;
         final double pe = getMachine().getPe();
+        stepTest = 0.0;
         dwMeasure = new DelayControlBlock(1, 0.020);
         dwMeasure.initState(dw);
         PeMeasure = new DelayControlBlock(1, 0.020);
@@ -180,7 +184,7 @@ public class IEEE2B extends AbstractStabilizer {
     private double calculateW1() {
         return wash1.getY(calculateDww());    }
     private double calculatePe() {
-        return getMachine().getPe();    }
+        return getMachine().getPe()+stepTest;    }  // stepTest variable for testing
     private double calculatePef() {
         return PeMeasure.getY(calculatePe());    }
     private double calculateW3() {
@@ -291,10 +295,18 @@ public class IEEE2B extends AbstractStabilizer {
     
     /**
      * Set the ref point
+     *
+     * Puts a step to the V2 input (Pe), for testing purposes
      */
     public void setRefPoint(double x) {
-    	// Ron: we need to implement this method. For testing purpuse, we
-    	// change the set point of this PSS. I am not sure which variable need to 
-    	// be changed.
+    	stepTest = x;
     }     
+    /**
+     * Get the ref point
+     *
+     * Returns the step value, for testing purposes
+     */
+    public double getRefPoint() {
+        return stepTest;
+    }
 } // SimpleExcAdapter
