@@ -22,7 +22,7 @@
   *
   */
 
-package custom.dstab.exc.ieee.st5b;
+package abb.custom.dstab.exc.st5b;
 
 /*
  *  Controller data JavaBean class for holding controller data

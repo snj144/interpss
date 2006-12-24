@@ -22,7 +22,7 @@
   *
   */
 
-package custom.dstab.pss.abb.ieee2b;
+package abb.custom.dstab.pss.ieee.ieee2b;
 
 public class IEEE2BData {
 	public IEEE2BData() {}
