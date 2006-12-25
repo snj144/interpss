@@ -15,6 +15,7 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
 import com.interpss.dstab.mach.ControllerType;
@@ -64,9 +65,9 @@ public abstract class BaseScriptingController extends AbstractController {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
 		try {
-			invoker.invokeMethod(controller, "nextStep", getMachine(), dt, method, baseFreq);
+			invoker.invokeMethod(controller, "nextStep", getMachine(), dt, method, net);
 			return true;
 		} catch (Exception e) {
 			msg.sendErrorMsg("ScriptingController.nextStep(), " + e.toString());

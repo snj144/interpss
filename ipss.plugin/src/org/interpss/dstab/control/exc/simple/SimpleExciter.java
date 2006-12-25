@@ -12,6 +12,7 @@ package org.interpss.dstab.control.exc.simple;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
+import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
@@ -93,7 +94,7 @@ public class SimpleExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			final double u = calculateU();
 

@@ -29,6 +29,7 @@ import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
+import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractStabilizer;
 
@@ -111,7 +112,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			// Step-1 : x(1) = x(0) + dx_dt(1) * dt
 			final double _dX1_dt = cal_dX1_dt(stateX1);
