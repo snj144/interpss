@@ -26,6 +26,9 @@ public class PQLoadAngleLimiter implements IControlDevice {
 		return false;
 	}
 	
+	/**
+	 * This method called after the initState called.
+	 */
 	public double[] getU0() {
 		return u;
 	}
@@ -41,6 +44,7 @@ public class PQLoadAngleLimiter implements IControlDevice {
 	}
 
 	public double[] getY(double[] u) {
+		// need more impl
 		return y;
 	}
 
