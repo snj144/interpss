@@ -30,6 +30,7 @@ import java.util.Hashtable;
 
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractStabilizer;
 import com.interpss.dstab.controller.block.DelayControlBlock;
@@ -112,7 +113,7 @@ public class IEEE2B extends AbstractStabilizer {
      * @param method d-eqn solution method
      *  @param msg the SessionMsg object
      */
-    public boolean nextStep(double dt, DynamicSimuMethods method, double baseFreq, IPSSMsgHub msg) {
+    public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
         if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
             final double dw = calculateDw();
             dwMeasure.eulerStep1(dw, dt);
