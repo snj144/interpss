@@ -34,6 +34,7 @@ import com.interpss.common.datatype.LimitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Num2Str;
+import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
@@ -173,7 +174,7 @@ public class st5bExciter extends AbstractExciter {
      * @param method d-eqn solution method
      * @param msg the IPSSMsgHub object, for communication with the outside world
      */
-    public boolean nextStep(double dt, DynamicSimuMethods method, double baseFreq, IPSSMsgHub msg) {
+    public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
         if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
             
             final double vErr = calculateVerr();
