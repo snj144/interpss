@@ -30,6 +30,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
+import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
 import com.interpss.dstab.mach.Machine;
@@ -145,7 +146,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final double baseFreq, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			final Machine mach = getMachine();
 			//Block 1
@@ -237,17 +238,6 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 		final Hashtable table = new Hashtable();
 		table.put(DStabOutFunc.OUT_SYMBOL_EXC_EFD, new Double(_X5));
 		return table;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	@Override
-	public String[] getStateSymbolList() {
-		final String[] list = {DStabOutFunc.OUT_SYMBOL_EXC_EFD};
-		return list;
 	}
 	
 	/**
