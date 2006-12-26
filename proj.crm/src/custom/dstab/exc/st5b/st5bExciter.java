@@ -238,7 +238,7 @@ public class st5bExciter extends AbstractExciter {
         return 0.0 + calculatePSS();
     }
     private double calculateVc() {
-        return 0.0;
+        return Vc;
     }
     private double calculateVuel() {
         return 0.0;
@@ -379,4 +379,25 @@ public class st5bExciter extends AbstractExciter {
     public void setRefPoint(double x) {
 	vRef = x;
     }     
+    /**
+     * Get the voltage ref point
+     */
+    public double getRefPoint() {
+	return vRef;
+    }
+    /**
+     * Get the Vc controller error signal
+     * for input initialisation
+     */
+    public double getVc() {
+        return calculateVc();
+    }
+    /**
+     * Set the Vc controller error 
+     * from input class
+     */
+    public void setVc(double x) {
+        Vc = x;
+    }
+    
 }
