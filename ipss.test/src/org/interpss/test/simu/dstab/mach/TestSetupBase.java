@@ -44,6 +44,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 
 public class TestSetupBase extends TestBaseAppCtx {
 	protected IPSSMsgHub msg;
+	protected DStabilityNetwork net = null;
 
 	public TestSetupBase() { 
 		msg = SpringAppContext.getIpssMsgHub();
@@ -55,8 +56,9 @@ public class TestSetupBase extends TestBaseAppCtx {
 	 * @return the net contains the bus
 	 */
 	public DStabilityNetwork createTestDStabBus() {
-		DStabilityNetwork net = DStabObjectFactory.createDStabilityNetwork();
-
+		net = DStabObjectFactory.createDStabilityNetwork();
+		net.setFrequency(50.0);
+		
 		// First bus is PQ Gen bus
 		DStabBus bus1 = DStabObjectFactory.createDStabBus("Gen", net);
 		bus1.setName("Gen Bus");
