@@ -75,11 +75,11 @@ public class TestIssueSystem extends TestSetupBase {
 		while (t <= totalTime) {
 			handler.onMsgEvent(new DStabSimuTimeEvent(DStabSimuTimeEvent.ProessDynamicEvent, net, t));
 
-			for (Iterator itr = net.getMachineList().iterator(); itr.hasNext(); ) {
+			for (Iterator itr = net.getDBusDeviceList().iterator(); itr.hasNext(); ) {
 				Machine mach = (Machine)itr.next();
 					
 				// solve DEqn for the step. This includes all controller's nextStep() call
-				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 50.0, msg);  
+				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);  
 
 				Hashtable states = mach.getStates(null);
 				states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());
