@@ -38,13 +38,15 @@ import com.interpss.dstab.mach.MachineType;
 
 public class TestSetupBase extends TestBaseAppCtx {
 	protected IPSSMsgHub msg;
+	protected DStabilityNetwork net = null;
 
 	public TestSetupBase() { 
 		msg = SpringAppContext.getIpssMsgHub();
  	}
 	
 	public Machine createMachine() {
-		DStabilityNetwork net = DStabObjectFactory.createDStabilityNetwork();
+		net = DStabObjectFactory.createDStabilityNetwork();
+		net.setFrequency(60.0);
 
 		DStabBus bus = DStabObjectFactory.createDStabBus("BusId", net);
 		bus.setName("BusName");

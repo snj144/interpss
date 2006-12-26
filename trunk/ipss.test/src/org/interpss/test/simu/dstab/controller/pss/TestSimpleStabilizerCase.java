@@ -62,16 +62,16 @@ public class TestSimpleStabilizerCase extends TestSetupBase {
 		assertTrue(Math.abs(pss.getStateX2()) < 0.0001);
 	
 		// calculate a step, the state should remain the same
-		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
+		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
 		assertTrue(Math.abs(pss.getStateX1()) < 0.0001);
 		assertTrue(Math.abs(pss.getStateX2()) < 0.0001);
 		
 		// calculate more steps, the state should remain the same also
-		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
-		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
+		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
 		assertTrue(Math.abs(pss.getStateX1()) < 0.0001);
 		assertTrue(Math.abs(pss.getStateX2()) < 0.0001);
 		
@@ -88,7 +88,7 @@ public class TestSimpleStabilizerCase extends TestSetupBase {
 		 * X2 = 0.0 + 0.5*(0.032 + 0.03646) = 0.0003423
 		 */
 		mach.setSpeed(1.1);
-		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 60.0, msg);
+		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
 		//System.out.println("X1, X2: " + pss._X1 + ", " + pss._X2);
 		assertTrue(Math.abs(pss.getStateX1()-0.001782) < 0.0001);
 		assertTrue(Math.abs(pss.getStateX2()-0.0003423) < 0.0001);
