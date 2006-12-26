@@ -48,6 +48,8 @@ import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.devent.LoadChangeEvent;
 import com.interpss.dstab.devent.SetPointChangeEvent;
+import com.interpss.dstab.device.DynamicBusDevice;
+import com.interpss.dstab.device.DynamicBusDeviceType;
 import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.test.StateVariableTestRecorder;
@@ -88,7 +90,13 @@ public class DStabFixture extends AcscFixture {
 	 * @return
 	 */
 	public int noOfMachines() {
-		return getNet().getMachineList().size();
+		int cnt = 0;
+		for (Object device : getNet().getDBusDeviceList()) {
+			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL) {
+				cnt++;
+			}
+		}
+		return cnt;
 	}
 
 	/**
@@ -98,10 +106,11 @@ public class DStabFixture extends AcscFixture {
 	 */
 	public int noOfExciters() {
 		int cnt = 0;
-		for (int i = 0; i < getNet().getMachineList().size(); i++) {
-			Machine mach = (Machine)getNet().getMachineList().get(i);
-			if (mach.hasExciter())
-				cnt++;
+		for (Object device : getNet().getDBusDeviceList()) {
+			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL) {
+				if (((Machine)device).hasExciter())
+					cnt++;
+			}
 		}
 		return cnt;
 	}
@@ -113,10 +122,10 @@ public class DStabFixture extends AcscFixture {
 	 */
 	public int noOfGovernors() {
 		int cnt = 0;
-		for (int i = 0; i < getNet().getMachineList().size(); i++) {
-			Machine mach = (Machine)getNet().getMachineList().get(i);
-			if (mach.hasGovernor())
-				cnt++;
+		for (Object device : getNet().getDBusDeviceList()) {
+			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL)
+				if (((Machine)device).hasGovernor())
+					cnt++;
 		}
 		return cnt;
 	}
@@ -128,10 +137,10 @@ public class DStabFixture extends AcscFixture {
 	 */
 	public int noOfStabilizers() {
 		int cnt = 0;
-		for (int i = 0; i < getNet().getMachineList().size(); i++) {
-			Machine mach = (Machine)getNet().getMachineList().get(i);
-			if (mach.hasExciter() && mach.hasStabilizer())
-				cnt++;
+		for (Object device : getNet().getDBusDeviceList()) {
+			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL)
+				if (((Machine)device).hasStabilizer())
+					cnt++;
 		}
 		return cnt;
 	}
