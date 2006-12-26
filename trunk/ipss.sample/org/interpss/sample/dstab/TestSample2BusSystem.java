@@ -67,10 +67,10 @@ public class TestSample2BusSystem extends TestSetupBase {
 		assertTrue(net.getBranchList().size() == 1);
 
 		assertTrue(net.getDStabBus("0001").getMachine() != null);
-		assertTrue(net.getDStabBus("0001").getMachine().getType() == MachineType.EQ1_MODEL_LITERAL);
+		assertTrue(net.getDStabBus("0001").getMachine().getMachType() == MachineType.EQ1_MODEL_LITERAL);
 
 		assertTrue(net.getDStabBus("0002").getMachine() != null);
-		assertTrue(net.getDStabBus("0002").getMachine().getType() == MachineType.ECONSTANT_LITERAL);
+		assertTrue(net.getDStabBus("0002").getMachine().getMachType() == MachineType.ECONSTANT_LITERAL);
 		
 		assertTrue(net.getDEventList().size() == 0);
 
@@ -114,11 +114,11 @@ public class TestSample2BusSystem extends TestSetupBase {
 		while (t <= totalTime) {
 			handler.onMsgEvent(new DStabSimuTimeEvent(DStabSimuTimeEvent.ProessDynamicEvent, net, t));
 
-			for (Iterator itr = net.getMachineList().iterator(); itr.hasNext(); ) {
+			for (Iterator itr = net.getDBusDeviceList().iterator(); itr.hasNext(); ) {
 				Machine mach = (Machine)itr.next();
 					
 				// solve DEqn for the step. This includes all controller's nextStep() call
-				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, 50.0, msg);  
+				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);  
 
 				Hashtable states = mach.getStates(null);
 				states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());

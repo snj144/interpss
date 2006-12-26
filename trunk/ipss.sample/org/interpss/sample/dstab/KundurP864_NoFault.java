@@ -81,11 +81,11 @@ public class KundurP864_NoFault {
 		while (t <= totalTime) {
 			handler.onMsgEventStatus(new DStabSimuTimeEvent(DStabSimuTimeEvent.ProessDynamicEvent, net, t));
 
-			for (Iterator itr = net.getMachineList().iterator(); itr.hasNext(); ) {
+			for (Iterator itr = net.getDBusDeviceList().iterator(); itr.hasNext(); ) {
 				Machine mach = (Machine)itr.next();
 					
 				// solve DEqn for the step. This includes all controller's nextStep() call
-				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net.getFrequency(), msg);  
+				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);  
 
 				KundurP864_Common.outputSimuResults(mach, refMach, t, dt);
 			}	
