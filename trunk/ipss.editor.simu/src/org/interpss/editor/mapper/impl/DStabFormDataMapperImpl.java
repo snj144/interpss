@@ -128,7 +128,7 @@ public class DStabFormDataMapperImpl {
 			mach.setGrounding(gtype);
 			mach.setGroundZUnit("PU");
 			
-			if (mach.getType() == MachineType.ECONSTANT_LITERAL) {
+			if (mach.getMachType() == MachineType.ECONSTANT_LITERAL) {
 				EConstMachine m = (EConstMachine)mach;
 				m.setXd1(machData.getXd1());
 			}
@@ -146,19 +146,19 @@ public class DStabFormDataMapperImpl {
 				mEq1.setXd1(machData.getXd1());
 				mEq1.setTd01(machData.getTd01());
 
-				if (mach.getType() == MachineType.EQ1_ED1_MODEL_LITERAL) {
+				if (mach.getMachType() == MachineType.EQ1_ED1_MODEL_LITERAL) {
 					Eq1Ed1Machine mEq1Ed1 = (Eq1Ed1Machine)mach;
 					mEq1Ed1.setXq1(machData.getXq1());
 					mEq1Ed1.setTq01(machData.getTq01());
 				}
-				else if (mach.getType() == MachineType.EQ11_ED11_SALIENT_POLE_LITERAL || 
-						 mach.getType() == MachineType.EQ11_ED11_ROUND_ROTOR_LITERAL) {
+				else if (mach.getMachType() == MachineType.EQ11_ED11_SALIENT_POLE_LITERAL || 
+						 mach.getMachType() == MachineType.EQ11_ED11_ROUND_ROTOR_LITERAL) {
 					SalientPoleMachine mPole = (SalientPoleMachine)mach;
 					mPole.setXd11(machData.getXd11());
 					mPole.setXq11(machData.getXq11());
 					mPole.setTd011(machData.getTd011());
 					mPole.setTq011(machData.getTq011());
-					if (mach.getType() == MachineType.EQ11_ED11_ROUND_ROTOR_LITERAL) {
+					if (mach.getMachType() == MachineType.EQ11_ED11_ROUND_ROTOR_LITERAL) {
 						RoundRotorMachine mRotor = (RoundRotorMachine)mach;
 						mRotor.setXq1(machData.getXq1());
 						mRotor.setTq01(machData.getTq01());
