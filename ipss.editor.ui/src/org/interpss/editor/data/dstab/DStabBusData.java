@@ -30,6 +30,16 @@ import org.interpss.editor.data.acsc.AcscBusData;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DStabBusData extends BaseDataBean {
+	private boolean dBusScripting = false;
+	
+	public boolean isDBusScripting() {
+		return dBusScripting;
+	}
+
+	public void setDBusScripting(boolean busScripting) {
+		dBusScripting = busScripting;
+	}
+
 	public boolean isMachineBus() {
 		return getAcscBusData().getGenCode().equals(AclfBusData.GenCode_PQ) || 
 			   getAcscBusData().getGenCode().equals(AclfBusData.GenCode_PV) ||

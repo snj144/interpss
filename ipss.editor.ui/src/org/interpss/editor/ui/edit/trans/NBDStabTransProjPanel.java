@@ -21,7 +21,7 @@
   *   ================
   *
   */
-
+ 
 package org.interpss.editor.ui.edit.trans;
   
 import java.util.Vector;
