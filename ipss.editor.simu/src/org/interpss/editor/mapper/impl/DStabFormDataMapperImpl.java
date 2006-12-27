@@ -27,6 +27,7 @@ package org.interpss.editor.mapper.impl;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.dstab.script.DefaultScriptingDBusDevice;
 import org.interpss.editor.data.dstab.DStabBusData;
 import org.interpss.editor.data.dstab.DStabExcData;
 import org.interpss.editor.data.dstab.DStabGovData;
@@ -47,6 +48,7 @@ import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.device.DynamicBusDeviceType;
 import com.interpss.dstab.device.ScriptingDBusDevice;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.DynamicMachine;
@@ -106,9 +108,12 @@ public class DStabFormDataMapperImpl {
 
 	private static void setDBusScriptingInfo(DStabBusData busData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Set DBusScripting info, busId: " + busId);
-		ScriptingDBusDevice device = DStabObjectFactory.createScriptingDBusDevice(
-				Constants.DBusDeviceIdToken+busId, "DBus Device at " + busId, dstabNet, busId);
-		device.setScripts(busData.getScripts());
+		ScriptingDBusDevice busDevice = new DefaultScriptingDBusDevice();
+		dstabNet.addScriptingDBusDevice(busDevice, busId);
+		busDevice.setDeviceType(DynamicBusDeviceType.SRIPTING_BUS_DEVICE_LITERAL);
+		busDevice.setId(Constants.DBusDeviceIdToken+busId);
+		busDevice.setName(Constants.DBusDeviceIdToken+busId);
+		busDevice.setScripts(busData.getScripts());
 	}
 	
 	private static void setMachineInfo(DStabMachData machData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
