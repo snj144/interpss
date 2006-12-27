@@ -98,6 +98,7 @@ is divided into following sections:
         <condition property="have.sources">
             <or>
                 <available file="${src.dir}"/>
+                <available file="${src.funcTest.dir}"/>
             </or>
         </condition>
         <condition property="netbeans.home+have.tests">
@@ -126,6 +127,7 @@ is divided into following sections:
     </target>
     <target name="-init-check" depends="-pre-init,-init-private,-init-user,-init-project,-do-init">
         <fail unless="src.dir">Must set src.dir</fail>
+        <fail unless="src.funcTest.dir">Must set src.funcTest.dir</fail>
         <fail unless="test.src.dir">Must set test.src.dir</fail>
         <fail unless="build.dir">Must set build.dir</fail>
         <fail unless="dist.dir">Must set dist.dir</fail>
@@ -147,7 +149,7 @@ is divided into following sections:
     </target>
     <target name="-init-macrodef-javac">
         <macrodef name="javac" uri="http://www.netbeans.org/ns/j2se-project/3">
-            <attribute name="srcdir" default="${src.dir}"/>
+            <attribute name="srcdir" default="${src.dir}:${src.funcTest.dir}"/>
             <attribute name="destdir" default="${build.classes.dir}"/>
             <attribute name="classpath" default="${javac.classpath}"/>
             <attribute name="debug" default="${javac.debug}"/>
@@ -278,6 +280,7 @@ is divided into following sections:
         <j2seproject3:javac/>
         <copy todir="${build.classes.dir}">
             <fileset dir="${src.dir}" excludes="${build.classes.excludes}"/>
+            <fileset dir="${src.funcTest.dir}" excludes="${build.classes.excludes}"/>
         </copy>
     </target>
     <target name="-post-compile">
@@ -428,9 +431,12 @@ is divided into following sections:
             </classpath>
             <sourcepath>
                 <pathelement location="${src.dir}"/>
+                <pathelement location="${src.funcTest.dir}"/>
             </sourcepath>
             <packageset dir="${src.dir}" includes="*/**"/>
+            <packageset dir="${src.funcTest.dir}" includes="*/**"/>
             <fileset dir="${src.dir}" includes="*.java"/>
+            <fileset dir="${src.funcTest.dir}" includes="*.java"/>
         </javadoc>
     </target>
     <target name="-javadoc-browse" if="netbeans.home" unless="no.javadoc.preview" depends="init,-javadoc-build">
