@@ -98,20 +98,20 @@ public class st5bExciter extends AbstractExciter {
         tgr1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getTc1(), getData().getTb1(),
                getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!tgr1.initState((gcu.getU0()-cpd)/getData().getKr()*(1-1/tgrRatio))) {
-            msg.sendErrorMsg("Initialisation error: init exceeds limit");
+        if (!tgr1.initState((gcu.getU0()-cpd)/getData().getKr())) {
+            msg.sendErrorMsg("Initialisation error: tgr1 init exceeds limit");
             return false; }
         tgru1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getTuc1(), getData().getTub1(),
                getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!tgru1.initState((gcu.getU0()-cpd)/getData().getKr()*(1-1/tgruRatio))) {
-            msg.sendErrorMsg("Initialisation error: init exceeds limit");
+        if (!tgru1.initState((gcu.getU0()-cpd)/getData().getKr())) {
+            msg.sendErrorMsg("Initialisation error: tgru1 init exceeds limit");
             return false; }
         tgro1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getToc1(), getData().getTob1(),
                getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!tgro1.initState((gcu.getU0()-cpd)/getData().getKr()*(1-1/tgroRatio))) {
-            msg.sendErrorMsg("Initialisation error: init exceeds limit");
+        if (!tgro1.initState((gcu.getU0()-cpd)/getData().getKr())) {
+            msg.sendErrorMsg("Initialisation error: tgro1 init exceeds limit");
             return false; }
         
         double dgrRatio = 1.0, dgruRatio = 1.0, dgroRatio = 1.0;
@@ -127,22 +127,22 @@ public class st5bExciter extends AbstractExciter {
                1, getData().getTc2(), getData().getTb2(),
                getData().getVrmax()/getData().getKr()*tgrRatio,
                getData().getVrmin()/getData().getKr()*tgrRatio);
-        if (!tgr2.initState(tgr1.getU0()*(1-dgrRatio))) {
-            msg.sendErrorMsg("Initialisation error: init exceeds limit");
+        if (!tgr2.initState(tgr1.getU0()*(1-tgrRatio))) {
+            msg.sendErrorMsg("Initialisation error: tgr2 init exceeds limit");
             return false; }
         tgru2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getTuc2(), getData().getTub2(),
                getData().getVrmax()/getData().getKr()*tgruRatio,
                getData().getVrmin()/getData().getKr()*tgruRatio);
-        if (!tgru2.initState(tgru1.getU0()*(1-dgruRatio))) {
-            msg.sendErrorMsg("Initialisation error: init exceeds limit");
+        if (!tgru2.initState(tgru1.getU0()*(1-tgruRatio))) {
+            msg.sendErrorMsg("Initialisation error: tgru2 init exceeds limit");
             return false; }
         tgro2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getToc2(), getData().getTob2(),
                getData().getVrmax()/getData().getKr()*tgroRatio,
                getData().getVrmin()/getData().getKr()*tgroRatio);
-        if (!tgro2.initState(tgro1.getU0()*(1-dgroRatio))) {
-            msg.sendErrorMsg("Initialisation error: init exceeds limit");
+        if (!tgro2.initState(tgro1.getU0()*(1-tgroRatio))) {
+            msg.sendErrorMsg("Initialisation error: tgro2 init exceeds limit");
             return false; }
         
         Vc = tgr2.getU0();
