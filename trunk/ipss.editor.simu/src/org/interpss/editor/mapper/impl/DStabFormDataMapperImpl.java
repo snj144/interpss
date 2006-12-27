@@ -27,6 +27,7 @@ package org.interpss.editor.mapper.impl;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.editor.data.dstab.DStabBusData;
 import org.interpss.editor.data.dstab.DStabExcData;
 import org.interpss.editor.data.dstab.DStabGovData;
 import org.interpss.editor.data.dstab.DStabMachData;
@@ -46,6 +47,7 @@ import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.device.ScriptingDBusDevice;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.DynamicMachine;
 import com.interpss.dstab.mach.EConstMachine;
@@ -85,6 +87,9 @@ public class DStabFormDataMapperImpl {
 			if (busForm.getDStabBusData().isMachineBus()) {
 				setMachineInfo(busForm.getDStabBusData().getMachData(), dstabNet, busForm.getId(), msg);
 			}
+			else if (busForm.getDStabBusData().isDBusScripting()) {
+				setDBusScriptingInfo(busForm.getDStabBusData(), dstabNet, busForm.getId(), msg);
+			}
 		}
 
 		List branchList = editNet.getBranchFormList();
@@ -99,6 +104,13 @@ public class DStabFormDataMapperImpl {
 		return dstabNet;
 	}
 
+	private static void setDBusScriptingInfo(DStabBusData busData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
+		IpssLogger.getLogger().info("Set DBusScripting info, busId: " + busId);
+		ScriptingDBusDevice device = DStabObjectFactory.createScriptingDBusDevice(
+				Constants.DBusDeviceIdToken+busId, "DBus Device at " + busId, dstabNet, busId);
+		device.setScripts(busData.getScripts());
+	}
+	
 	private static void setMachineInfo(DStabMachData machData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Set Machine info, busId: " + busId);
 		if (machData.getType().equals(DStabMachData.MachType_InfiniteBus)) {
