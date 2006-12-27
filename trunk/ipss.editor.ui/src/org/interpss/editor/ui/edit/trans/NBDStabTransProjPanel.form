@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.4" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.0" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="machDataButtonGroup">
     </Component>
@@ -35,11 +35,6 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="machDataButtonGroup"/>
             </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-              <FontInfo relative="false">
-                <Font name="Dialog" size="12" style="0"/>
-              </FontInfo>
-            </Property>
             <Property name="selected" type="boolean" value="true"/>
             <Property name="text" type="java.lang.String" value="Unsaturated     "/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -57,11 +52,6 @@
             <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
               <ComponentRef name="machDataButtonGroup"/>
             </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-              <FontInfo relative="false">
-                <Font name="Dialog" size="12" style="0"/>
-              </FontInfo>
-            </Property>
             <Property name="text" type="java.lang.String" value="Saturated"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -77,11 +67,6 @@
     </Container>
     <Component class="javax.swing.JCheckBox" name="allowParalellBranchCheckBox">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-          <FontInfo relative="false">
-            <Font name="Dialog" size="12" style="0"/>
-          </FontInfo>
-        </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Allow paralell branches"/>
         <Property name="name" type="java.lang.String" value="allowParalellBranchCheckBox"/>
@@ -89,11 +74,6 @@
     </Component>
     <Component class="javax.swing.JCheckBox" name="adjustmentCheckBox">
       <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-          <FontInfo relative="false">
-            <Font name="Dialog" size="12" style="0"/>
-          </FontInfo>
-        </Property>
         <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="Include adjustments/Controls"/>
         <Property name="name" type="java.lang.String" value="adjustmentCheckBox"/>

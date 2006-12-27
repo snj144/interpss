@@ -91,6 +91,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 		setExcTabbedPaneEnabled(false);
 		setGovTabbedPaneEnabled(false);
 		setPssTabbedPaneEnabled(false);
+		setScriptingTabbedPaneEnabled(false);
 	}
 	
 	public void onEvent(EditUIEvent e) {
@@ -161,9 +162,27 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 			_pssPanel.setForm2Editor();
 	}
 
+	public void setScriptingTabbedPaneEnabled(boolean e) {
+	    dstabTabbedPane.setEnabledAt(5, e);
+	    if (e) {
+			setMachTabbedPaneEnabled(false);
+			setExcTabbedPaneEnabled(false);
+			setGovTabbedPaneEnabled(false);
+			setPssTabbedPaneEnabled(false);
+		}
+	    else
+	    	setTabbedPanel();
+	}
+
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("DStabTransBusEditPanel setForm2Editor() called");
     	_aclfTransBusEditPanel.setForm2Editor();
+    	
+    	scriptingCheckBox.setSelected(_form.getDStabBusData().isDBusScripting());
+    	setScriptingTabbedPaneEnabled(_form.getDStabBusData().isDBusScripting());
+    	if (_form.getDStabBusData().isDBusScripting()) {
+    		scriptTextArea.setText(_form.getDStabBusData().getScripts());
+    	}
     	
     	// There is no need to do the following, since aclfTransBusEditPanel.setForm2Editor() fires
     	// an event to setup the TabbedPanel when Swing, PV or PQ bus is selected.
@@ -184,27 +203,32 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 		
     	if (!_aclfTransBusEditPanel.saveEditor2Form(errMsg))
     		ok = false;
-	    
-	    if (_form.getDStabBusData().isMachineBus()) {
-	    	if (!_machPanel.saveEditor2Form(errMsg))
-	    		ok = false;
+    	
+		_form.getDStabBusData().setDBusScripting(scriptingCheckBox.isSelected());
+    	if (scriptingCheckBox.isSelected()) {
+       		_form.getDStabBusData().setScripts(scriptTextArea.getText());
+    	}
+    	else {
+        	if (_form.getDStabBusData().isMachineBus()) {
+    	    	if (!_machPanel.saveEditor2Form(errMsg))
+    	    		ok = false;
 
-	    	if (!_form.getDStabBusData().getMachData().getType().equals(DStabMachData.MachType_InfiniteBus) &&
-	    		!_form.getDStabBusData().getMachData().getType().equals(DStabMachData.MachType_EConst)	) {
-	    		if (_form.getDStabBusData().getMachData().getHasExc()) { 
-		    		if (!_excPanel.saveEditor2Form(errMsg))
-		    			ok = false;
-			    	if (_form.getDStabBusData().getMachData().getHasPss())  
-				    	if (!_pssPanel.saveEditor2Form(errMsg))
-				    		ok = false;
-		    	}
+    	    	if (!_form.getDStabBusData().getMachData().getType().equals(DStabMachData.MachType_InfiniteBus) &&
+    	    		!_form.getDStabBusData().getMachData().getType().equals(DStabMachData.MachType_EConst)	) {
+    	    		if (_form.getDStabBusData().getMachData().getHasExc()) { 
+    		    		if (!_excPanel.saveEditor2Form(errMsg))
+    		    			ok = false;
+    			    	if (_form.getDStabBusData().getMachData().getHasPss())  
+    				    	if (!_pssPanel.saveEditor2Form(errMsg))
+    				    		ok = false;
+    		    	}
 
-		    	if (_form.getDStabBusData().getMachData().getHasGov()) 
-		    		if (!_govPanel.saveEditor2Form(errMsg))
-		    			ok = false;
-	    	}
-	    }
-
+    		    	if (_form.getDStabBusData().getMachData().getHasGov()) 
+    		    		if (!_govPanel.saveEditor2Form(errMsg))
+    		    			ok = false;
+    	    	}
+    	    }
+    	}
     	return ok;
     }
     
@@ -221,19 +245,41 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         dstabTabbedPane = new javax.swing.JTabbedPane();
+        mainEditPanel = new javax.swing.JPanel();
         aclfInfoEditPanel = new javax.swing.JPanel();
+        extraInfoEditPanel = new javax.swing.JPanel();
+        scriptingCheckBox = new javax.swing.JCheckBox();
         machInfoEditPanel = new javax.swing.JPanel();
         excInfoEditPanel = new javax.swing.JPanel();
         govInfoEditPanel = new javax.swing.JPanel();
         pssInfoEditPanel = new javax.swing.JPanel();
+        scriptingEditPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        scriptTextArea = new javax.swing.JTextArea();
 
         setLayout(new java.awt.BorderLayout());
 
         dstabTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         dstabTabbedPane.setName("dstabTabbedPane");
-        aclfInfoEditPanel.setLayout(new java.awt.BorderLayout());
+        mainEditPanel.setLayout(new java.awt.BorderLayout(0, 10));
 
-        dstabTabbedPane.addTab("Bus Info", aclfInfoEditPanel);
+        mainEditPanel.add(aclfInfoEditPanel, java.awt.BorderLayout.NORTH);
+
+        scriptingCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        scriptingCheckBox.setText("Dynamic Bus Device Scripting");
+        scriptingCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scriptingCheckBox.setMargin(new java.awt.Insets(10, 0, 10, 0));
+        scriptingCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scriptingCheckBoxClicked(evt);
+            }
+        });
+
+        extraInfoEditPanel.add(scriptingCheckBox);
+
+        mainEditPanel.add(extraInfoEditPanel, java.awt.BorderLayout.SOUTH);
+
+        dstabTabbedPane.addTab("Bus Info", mainEditPanel);
 
         machInfoEditPanel.setLayout(new java.awt.BorderLayout());
 
@@ -251,16 +297,35 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 
         dstabTabbedPane.addTab("PSS Info", pssInfoEditPanel);
 
+        scriptTextArea.setColumns(80);
+        scriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
+        scriptTextArea.setRows(35);
+        jScrollPane1.setViewportView(scriptTextArea);
+
+        scriptingEditPanel.add(jScrollPane1);
+
+        dstabTabbedPane.addTab("Scripting", scriptingEditPanel);
+
         add(dstabTabbedPane, java.awt.BorderLayout.NORTH);
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void scriptingCheckBoxClicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptingCheckBoxClicked
+		setScriptingTabbedPaneEnabled(scriptingCheckBox.isSelected());
+    }//GEN-LAST:event_scriptingCheckBoxClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aclfInfoEditPanel;
     private javax.swing.JTabbedPane dstabTabbedPane;
     private javax.swing.JPanel excInfoEditPanel;
+    private javax.swing.JPanel extraInfoEditPanel;
     private javax.swing.JPanel govInfoEditPanel;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel machInfoEditPanel;
+    private javax.swing.JPanel mainEditPanel;
     private javax.swing.JPanel pssInfoEditPanel;
+    private javax.swing.JTextArea scriptTextArea;
+    private javax.swing.JCheckBox scriptingCheckBox;
+    private javax.swing.JPanel scriptingEditPanel;
     // End of variables declaration//GEN-END:variables
 }
