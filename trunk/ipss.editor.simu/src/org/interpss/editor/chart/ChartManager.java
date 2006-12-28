@@ -315,7 +315,7 @@ public class ChartManager {
 			final String yDataLabel = yLabel;
 			deviceStateMenu.add(new AbstractAction("Plot Script DBus Device Variable - " + yLabel) {
 				public void actionPerformed(ActionEvent e) {
-				    plotStateCurve(caseId, device.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabBusStates);
+				    plotStateCurve(caseId, device.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates);
 				}
 			});
 		}
