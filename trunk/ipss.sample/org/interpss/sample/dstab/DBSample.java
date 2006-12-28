@@ -61,7 +61,7 @@ public class DBSample {
 			if (recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates))
 				elemStates.remove(DStabOutFunc.OUT_SYMBOL_MACH_ID);
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
-				elemStates.remove("BusId");
+				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
 			System.out.println(elemStates.toString());
 		}
 	}
