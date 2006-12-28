@@ -1,25 +1,25 @@
-- Switch to Database Development Nature
+Version 1.1 DB change
 
-- Use Database Explorer to make connection
-
-- Use SQL Editor not SQL File Editor to edit *.sqlpage files
-
-- Right-click on a *.sqlpage file, select use database connection ...
-
-- Right-click -> Run Sql. The reults will be on the Data Output console
+INSERT INTO SIMURECORDTYPE (NAME) VALUES('DStabScripDBusStates');
+INSERT INTO SIMURECORDTYPE (NAME) VALUES('DStabDynamicLoadStates');
+INSERT INTO SIMURECORDTYPE (NAME) VALUES('DStabSVCStates');
+INSERT INTO SIMURECORDTYPE (NAME) VALUES('DStabFACSTStates');
+INSERT INTO SIMURECORDTYPE (NAME) VALUES('DStabRelayStates');
+INSERT INTO SIMURECORDTYPE (NAME) VALUES('DStabScripDBranchStates');
 
 Config Data Source Explorer
-
+===========================
 - Select Derby Embbeded JDBC Driver
 - select derby.jar file
 - Url: jdbc:derby:C:\eclipse\InterpssDev\ipss.editor\db\IpssDB
 
-Derby
-
+Derby IJ
+========
 connect 'jdbc:derby:C:\eclipse\InterpssDev\ipss.editor\db\IpssDB;create=false;user=ipss;password=ipss';
+connect 'jdbc:derby:C:\eclipse\GEditor\db\IpssDB;create=false;user=ipss;password=ipss';
 
 Use Data Dev Tools
-
+==================
 - Create a Sql file
 - Open a Sql file
 - Right-click to make a connection
