@@ -160,7 +160,7 @@ public class RunCaseBase {
         while (t <= totalTime) {
             handler.onMsgEventStatus(new DStabSimuTimeEvent(DStabSimuTimeEvent.ProessDynamicEvent, net, t));
             
-            for (Iterator itr = net.getMachineList().iterator(); itr.hasNext(); ) {
+            for (Iterator itr = net.getDBusDeviceList().iterator(); itr.hasNext(); ) {
                 Machine mach = (Machine)itr.next();
                 
                 // solve DEqn for the step. This includes all controller's nextStep() call
