@@ -1,6 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<SQLPage nameConnection="">
-<Statement><![CDATA[DROP TABLE LoadScheduleItem;
 DROP TABLE LoadSchedule;
 
 CREATE TABLE LoadSchedule ( 
@@ -108,5 +105,4 @@ INSERT INTO LoadScheduleItem VALUES(2, 22, 100, 100);
 
 INSERT INTO LoadScheduleItem VALUES(2, 23, 100, 100);
 
-INSERT INTO LoadScheduleItem VALUES(2, 24, 50,  40);]]></Statement>
-</SQLPage>
+INSERT INTO LoadScheduleItem VALUES(2, 24, 50,  40);
