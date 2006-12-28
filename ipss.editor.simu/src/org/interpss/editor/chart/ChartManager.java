@@ -53,6 +53,8 @@ import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabBus;
+import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.device.ScriptingDBusDevice;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.dstab.util.DStabSimuDBRecord;
@@ -92,6 +94,9 @@ public class ChartManager {
 					    addControllerItem2ActionList(menu, dstabBus.getMachine(), caseId, "Stabilizer", 
 					    		ISimuRecManager.REC_TYPE_DStabPssStates, DStabSimuDBRecord.STABILIZER_ID_EXT, 
 					    		simuCtx.getDStabilityNet().getBaseKva());
+					}
+					else if (dstabBus.getScriptDBusDevice() != null) {
+					    addScriptDBusDeviceItem2ActionList(menu, dstabBus.getScriptDBusDevice(), caseId, simuCtx.getDStabilityNet());
 					}
 					else {
 					    addBusItem2ActionList(menu, dstabBus, caseId, simuCtx.getDStabilityNet().getBaseKva());
@@ -301,6 +306,21 @@ public class ChartManager {
 		}
 	}
     
+    private static void addScriptDBusDeviceItem2ActionList(JPopupMenu menu, final ScriptingDBusDevice device, final int caseId, DStabilityNetwork net) {
+		JMenu deviceStateMenu = new JMenu("Script DBus Device Variable");
+		menu.add(deviceStateMenu);
+		Object[] stateList = getStatesNameList(caseId, device.getId(), ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates);
+		for (int i = 0; i < stateList.length; i++) {
+			final String yLabel = (String)stateList[i];
+			final String yDataLabel = yLabel;
+			deviceStateMenu.add(new AbstractAction("Plot Script DBus Device Variable - " + yLabel) {
+				public void actionPerformed(ActionEvent e) {
+				    plotStateCurve(caseId, device.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabBusStates);
+				}
+			});
+		}
+	}
+
     /**
      * Get plot element (Machine, Bus) state name list
      * 
@@ -326,7 +346,11 @@ public class ChartManager {
 			if (recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates))
 				elemStates.remove(DStabOutFunc.OUT_SYMBOL_MACH_ID);
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
-				elemStates.remove("BusId");
+				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
+			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates)) {
+				elemStates.remove(DStabOutFunc.OUT_SYMBOL_DEVICE_ID);
+				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
+			}
 			return elemStates.keySet().toArray();
 		}
 		return new Object[0];
@@ -370,6 +394,8 @@ public class ChartManager {
 			plot = new SimpleOneStateChart("Stabilizer State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
 			plot = new SimpleOneStateChart("Bus Voltage State Curve Plot");
+		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates))
+			plot = new SimpleOneStateChart("Scripting Dynamic Bus Device Curve Plot");
 
     	double[] xdata = new double[elemRecList.size()];
     	double[] ydata = new double[elemRecList.size()];
