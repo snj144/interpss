@@ -1,3 +1,5 @@
+- Switch to Database Development Nature
+
 - Use Database Explorer to make connection
 
 - Use SQL Editor not SQL File Editor to edit *.sqlpage files
@@ -5,3 +7,20 @@
 - Right-click on a *.sqlpage file, select use database connection ...
 
 - Right-click -> Run Sql. The reults will be on the Data Output console
+
+Config Data Source Explorer
+
+- Select Derby Embbeded JDBC Driver
+- select derby.jar file
+- Url: jdbc:derby:C:\eclipse\InterpssDev\ipss.editor\db\IpssDB
+
+Derby
+
+connect 'jdbc:derby:C:\eclipse\InterpssDev\ipss.editor\db\IpssDB;create=false;user=ipss;password=ipss';
+
+Use Data Dev Tools
+
+- Create a Sql file
+- Open a Sql file
+- Right-click to make a connection
+- Excute all to run 
