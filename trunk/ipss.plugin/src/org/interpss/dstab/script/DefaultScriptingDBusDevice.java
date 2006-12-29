@@ -26,7 +26,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 			engine.eval(getScripts());
 			controller = ScriptingUtil.getScritingObject(engine, msg);
 			invoker = (Invocable)engine;
-			invoker.invokeMethod(controller, "initStates", getDeviceBus(), net, msg);
+			invoker.invokeMethod(controller, "initStates", abus, net, msg);
 		} catch (Exception e) {
 			msg.sendErrorMsg("DefaultScriptingDBusDevice.initStates(), " + e.toString());
 			return false;
@@ -37,7 +37,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	@Override
 	public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Network net, IPSSMsgHub msg) {
 		try {
-			invoker.invokeMethod(controller, "nextStep", getDeviceBus(), dt, method, net, msg);
+			invoker.invokeMethod(controller, "nextStep", dt, method, abus, net, msg);
 			return true;
 		} catch (Exception e) {
 			msg.sendErrorMsg("DefaultScriptingDBusDevice.nextStep(), " + e.toString());
@@ -48,7 +48,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	@Override
 	public Object getOutputObject(DStabBus abus) {
 		try {
-			return invoker.invokeMethod(controller, "getOutput", getDeviceBus());
+			return invoker.invokeMethod(controller, "getOutput", abus);
 		} catch (Exception e) {
 			message.sendErrorMsg("DefaultScriptingDBusDevice.getOutput(), " + e.toString());
 		}
@@ -57,13 +57,12 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 
 	@Override
 	public Hashtable getStates(DStabBus abus, Object refMach) {
-		final Hashtable<String,Double> table = new Hashtable<String,Double>();
 		try {
-			invoker.invokeMethod(controller, "getStates", getDeviceBus(), refMach, table);
+			return (Hashtable)invoker.invokeMethod(controller, "getStates", abus, refMach);
 		} catch (Exception e) {
 			message.sendErrorMsg("DefaultScriptingDBusDevice.getStates(), "  + e.toString());
 		}
-		return table;
+		return null;
 	}
 
 }
