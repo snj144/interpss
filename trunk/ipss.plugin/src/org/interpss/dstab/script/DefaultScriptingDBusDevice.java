@@ -35,7 +35,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	}
 
 	@Override
-	public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
+	public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Network net, IPSSMsgHub msg) {
 		try {
 			invoker.invokeMethod(controller, "nextStep", getDeviceBus(), dt, method, net, msg);
 			return true;
@@ -46,7 +46,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	}
 
 	@Override
-	public Object getOutputObject() {
+	public Object getOutputObject(DStabBus abus) {
 		try {
 			return invoker.invokeMethod(controller, "getOutput", getDeviceBus());
 		} catch (Exception e) {
@@ -56,7 +56,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	}
 
 	@Override
-	public Hashtable getStates(Object refMach) {
+	public Hashtable getStates(DStabBus abus, Object refMach) {
 		final Hashtable<String,Double> table = new Hashtable<String,Double>();
 		try {
 			invoker.invokeMethod(controller, "getStates", getDeviceBus(), refMach, table);

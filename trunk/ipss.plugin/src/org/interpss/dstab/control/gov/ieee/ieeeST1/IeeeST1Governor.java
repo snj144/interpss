@@ -111,7 +111,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			/*
 			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt
@@ -169,7 +169,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 * @return the output
 	 */	
 	@Override
-	public double getOutput() {
+	public double getOutput(DStabBus abus) {
 		IpssLogger.getLogger().fine("Pm: " + (stateX3 * getData().getFp() + stateX4));
 		return stateX3 * getData().getFp() + stateX4;
 	}

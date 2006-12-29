@@ -113,7 +113,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			// Step-1 : x(1) = x(0) + dx_dt(1) * dt
 			final double _dX1_dt = cal_dX1_dt(stateX1);
@@ -140,7 +140,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 * @return the output
 	 */	
 	@Override
-	public double getOutput() {
+	public double getOutput(DStabBus abus) {
 		final double a = getData().getT3()/getData().getT4();
 		final double dw = getMachine().getSpeed() - 1.0;
 		return limit.limit(getData().getKs()*dw*a*getData().getT1()/getData().getT2() + a*stateX1 + stateX2);

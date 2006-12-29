@@ -66,7 +66,7 @@ public abstract class BaseScriptingController extends AbstractController {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
 		try {
 			invoker.invokeMethod(controller, "nextStep", getMachine(), dt, method, net);
 			return true;
@@ -82,7 +82,7 @@ public abstract class BaseScriptingController extends AbstractController {
 	 * @return the output
 	 */
 	@Override
-	public double getOutput() {
+	public double getOutput(DStabBus abus) {
 		try {
 			return ((Double)invoker.invokeMethod(controller, "getOutput", getMachine())).doubleValue();
 		} catch (Exception e) {
@@ -98,7 +98,7 @@ public abstract class BaseScriptingController extends AbstractController {
 	 * @return hashtable of the states
 	 */
 	@Override
-	public Hashtable getStates(Object ref) {
+	public Hashtable getStates(DStabBus abus, Object ref) {
 		final Hashtable<String,Double> table = new Hashtable<String,Double>();
 		try {
 			invoker.invokeMethod(controller, "getStates", getMachine(), table);
