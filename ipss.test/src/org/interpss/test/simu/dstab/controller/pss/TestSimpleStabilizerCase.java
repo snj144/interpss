@@ -57,7 +57,7 @@ public class TestSimpleStabilizerCase extends TestSetupBase {
 		
 		
 		mach.setSpeed(1.0);
-		pss.initStates(this.msg);
+		pss.initStates(mach.getDeviceBus(), this.msg);
 		assertTrue(Math.abs(pss.getStateX1()) < 0.0001);
 		assertTrue(Math.abs(pss.getStateX2()) < 0.0001);
 	
