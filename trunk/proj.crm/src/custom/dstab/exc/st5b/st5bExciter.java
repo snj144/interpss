@@ -76,7 +76,7 @@ public class st5bExciter extends AbstractExciter {
         vt = getMachine().getMachineBus().getVoltage().abs() / getMachine().getVMultiFactor();
         Xadu = getMachine().getMachData().getXd() 
                           - getMachine().getMachData().getXl();
-        Ifd = ((DynamicMachine)getMachine()).calculateIfd() *Xadu;
+        Ifd = ((DynamicMachine)getMachine()).calculateIfd(abus) *Xadu;
         // Ifd is converted to excitation standard rotor base
 
         double cpd = Ifd*getData().getKc();
@@ -204,7 +204,7 @@ public class st5bExciter extends AbstractExciter {
                                    
             double Xadu = getMachine().getMachData().getXd() 
                           - getMachine().getMachData().getXl();
-            Ifd = ((DynamicMachine)getMachine()).calculateIfd() *Xadu;
+            Ifd = ((DynamicMachine)getMachine()).calculateIfd(abus) *Xadu;
             
             vt = getMachine().getMachineBus().getVoltage().abs() / getMachine().getVMultiFactor();
             final double v2 = calculateV2(abus);
