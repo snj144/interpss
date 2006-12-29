@@ -230,7 +230,7 @@ public class st5bExciter extends AbstractExciter {
             // TODO: TBImpl, currently only Euler method has been implemented
             return false;
         } else
-            throw new InvalidInputException("UN5000Exciter.nextStep(), invalid method");
+            throw new InvalidInputException("st5bExciter.nextStep(), invalid method");
     }
     
     
