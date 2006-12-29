@@ -31,6 +31,7 @@ import java.util.Hashtable;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Network;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractStabilizer;
 import com.interpss.dstab.controller.block.DelayControlBlock;
@@ -62,7 +63,7 @@ public class IEEE2B extends AbstractStabilizer {
      *
      *  @param msg the SessionMsg object
      */
-    public boolean initStates(IPSSMsgHub msg) {
+    public boolean initStates(DStabBus abus, IPSSMsgHub msg) {
         
         final double dw = getMachine().getSpeed() - 1.0;
         final double pe = getMachine().getPe();
@@ -113,7 +114,7 @@ public class IEEE2B extends AbstractStabilizer {
      * @param method d-eqn solution method
      *  @param msg the SessionMsg object
      */
-    public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
+    public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Network net, IPSSMsgHub msg) {
         if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
             final double dw = calculateDw();
             dwMeasure.eulerStep1(dw, dt);
@@ -231,8 +232,8 @@ public class IEEE2B extends AbstractStabilizer {
      *
      * @return hashtable of the states
      */
-    public Hashtable getStates(Object ref) {
-        Hashtable table = super.getStates(ref);
+    public Hashtable getStates(DStabBus abus, Object ref) {
+        Hashtable table = super.getStates(abus, ref);
         //table.put("PSS_Vs", Num2Str.toStr("0.0000", getOutput()));
         return table;
     }
@@ -242,7 +243,7 @@ public class IEEE2B extends AbstractStabilizer {
      *
      * @return the output
      */
-    public double getOutput() {
+    public double getOutput(DStabBus abus) {
         final double out = calculateLL3();
         return out;
     }

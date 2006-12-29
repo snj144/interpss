@@ -35,6 +35,7 @@ import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Num2Str;
 import com.interpss.core.net.Network;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
@@ -71,7 +72,7 @@ public class st5bExciter extends AbstractExciter {
      *
      *  @param msg the SessionMsg object
      */
-    public boolean initStates(IPSSMsgHub msg) {
+    public boolean initStates(DStabBus abus, IPSSMsgHub msg) {
         vt = getMachine().getMachineBus().getVoltage().abs() / getMachine().getVMultiFactor();
         Xadu = getMachine().getMachData().getXd() 
                           - getMachine().getMachData().getXl();
@@ -174,10 +175,10 @@ public class st5bExciter extends AbstractExciter {
      * @param method d-eqn solution method
      * @param msg the IPSSMsgHub object, for communication with the outside world
      */
-    public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
+    public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Network net, IPSSMsgHub msg) {
         if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
             
-            final double vErr = calculateVerr();
+            final double vErr = calculateVerr(abus);
             if (withD) {
                 tgr2.eulerStep1(vErr, dt);
                 tgr2.eulerStep2(vErr, dt); }
@@ -188,15 +189,15 @@ public class st5bExciter extends AbstractExciter {
                 tgro2.eulerStep1(vErr, dt);
                 tgro2.eulerStep2(vErr, dt); }
             
-            final double v1 = calculateV1();
+            final double v1 = calculateV1(abus);
             if (withI) {
                 tgr1.eulerStep1(v1, dt);
                 tgr1.eulerStep2(v1, dt); }
-            final double v1u = calculateV1u();
+            final double v1u = calculateV1u(abus);
             if (withUI) {
                 tgru1.eulerStep1(v1u, dt);
                 tgru1.eulerStep2(v1u, dt); }
-            final double v1o = calculateV1o();
+            final double v1o = calculateV1o(abus);
             if (withOI) {
                 tgro1.eulerStep1(v1o, dt);
                 tgro1.eulerStep2(v1o, dt); }
@@ -206,7 +207,7 @@ public class st5bExciter extends AbstractExciter {
             Ifd = ((DynamicMachine)getMachine()).calculateIfd() *Xadu;
             
             vt = getMachine().getMachineBus().getVoltage().abs() / getMachine().getVMultiFactor();
-            final double v2 = calculateV2();
+            final double v2 = calculateV2(abus);
             if (withGCU){
                 gcu.eulerStep1(v2, dt);
                 gcu.eulerStep2(v2, dt);
@@ -234,8 +235,8 @@ public class st5bExciter extends AbstractExciter {
     
     
     
-    private double calculateVerr() {
-        return 0.0 + calculatePSS();
+    private double calculateVerr(DStabBus abus) {
+        return 0.0 + calculatePSS(abus);
     }
     private double calculateVc() {
         return Vc;
@@ -246,36 +247,36 @@ public class st5bExciter extends AbstractExciter {
     private double calculateVoel() {
         return 0.0;
     }
-    private double calculatePSS() {
-        return getMachine().hasStabilizer()? getMachine().getStabilizer().getOutput() : 0.0;
+    private double calculatePSS(DStabBus abus) {
+        return getMachine().hasStabilizer()? getMachine().getStabilizer().getOutput(abus) : 0.0;
     }
-    private double calculateV1() {
-        return withD? tgr2.getY(calculateVerr()) : calculateVerr();
+    private double calculateV1(DStabBus abus) {
+        return withD? tgr2.getY(calculateVerr(abus)) : calculateVerr(abus);
     }
-    private double calculateV1u() {
-        return withUD? tgru2.getY(calculateVerr()) : calculateVerr();
+    private double calculateV1u(DStabBus abus) {
+        return withUD? tgru2.getY(calculateVerr(abus)) : calculateVerr(abus);
     }
-    private double calculateV1o() {
-        return withOD? tgro2.getY(calculateVerr()) : calculateVerr();
+    private double calculateV1o(DStabBus abus) {
+        return withOD? tgro2.getY(calculateVerr(abus)) : calculateVerr(abus);
     }
-    private double calculateVr1() {
-        return withI? tgr1.getY(calculateV1()) : calculateV1();
+    private double calculateVr1(DStabBus abus) {
+        return withI? tgr1.getY(calculateV1(abus)) : calculateV1(abus);
     }
-    private double calculateVru1() {
-        return withUI? tgru1.getY(calculateV1u()) : calculateV1u();
+    private double calculateVru1(DStabBus abus) {
+        return withUI? tgru1.getY(calculateV1u(abus)) : calculateV1u(abus);
     }
-    private double calculateVro1() {
-        return withOI? tgro1.getY(calculateV1o()) : calculateV1o();
+    private double calculateVro1(DStabBus abus) {
+        return withOI? tgro1.getY(calculateV1o(abus)) : calculateV1o(abus);
     }
     
-    private double calculateV2() {
+    private double calculateV2(DStabBus abus) {
         double hv = (calculateVc() >= calculateVuel())? calculateVc() : calculateVuel();
         double lv = (hv <= calculateVoel())? hv : calculateVoel();
         if (lv == calculateVc()) { 
-            return vLimit.limit(calculateVr1()*getData().getKr()) - Ifd*getData().getKc();
+            return vLimit.limit(calculateVr1(abus)*getData().getKr()) - Ifd*getData().getKc();
         }else if (lv == calculateVuel()){
-            return vLimit.limit(calculateVru1()*getData().getKr()) - Ifd*getData().getKc();
-        }else return vLimit.limit(calculateVro1()*getData().getKr()) - Ifd*getData().getKc();
+            return vLimit.limit(calculateVru1(abus)*getData().getKr()) - Ifd*getData().getKc();
+        }else return vLimit.limit(calculateVro1(abus)*getData().getKr()) - Ifd*getData().getKc();
     }
     
     private double findWindup() {
@@ -289,7 +290,7 @@ public class st5bExciter extends AbstractExciter {
     // Step-5: Define Controller output (Efd)
     // =====================================
     
-    public double getOutput() {
+    public double getOutput(DStabBus abus) {
         return gcu.getStateX();
     }
     
@@ -297,10 +298,10 @@ public class st5bExciter extends AbstractExciter {
     // ============================================
         
     
-    public Hashtable getStates(Object ref) {
-        Hashtable table = super.getStates(ref);
+    public Hashtable getStates(DStabBus abus, Object ref) {
+        Hashtable table = super.getStates(abus, ref);
         // Efd already added to the output symbol list, you can add more output variables as follows:
-        table.put("vPSS", Num2Str.toStr("0.0000", calculatePSS()));
+        table.put("vPSS", Num2Str.toStr("0.0000", calculatePSS(abus)));
         table.put("Ifd", Num2Str.toStr("0.0000", Ifd));
         return table;
     }
