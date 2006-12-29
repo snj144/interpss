@@ -44,8 +44,8 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		//System.out.println("Igen: " + mach.getIgen());
 		assertTrue(Math.abs(mach.getYgen().getReal()-0.16658) < 0.00001);
 		assertTrue(Math.abs(mach.getYgen().getImaginary()+7.49625) < 0.00001);
-		assertTrue(Math.abs(mach.getIgen().getReal()-0.96657) < 0.00001);
-		assertTrue(Math.abs(mach.getIgen().getImaginary()+8.09623) < 0.00001);		
+		assertTrue(Math.abs(mach.getIgen(mach.getMachineBus()).getReal()-0.96657) < 0.00001);
+		assertTrue(Math.abs(mach.getIgen(mach.getMachineBus()).getImaginary()+8.09623) < 0.00001);		
 
 		// the following values to compare to are by long-hand calculation
 		/*
@@ -121,7 +121,7 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		// set machine data
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
-		mach.setMultiFactors();
+		mach.setMultiFactors(mach.getMachineBus());
 		mach.setH(5.0);
 		mach.setD(0.01);
 		mach.setX0(0.1);

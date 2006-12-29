@@ -57,7 +57,7 @@ public class TestSetupBase extends TestBaseAppCtx {
 							createMachine("MachId", "MachName", MachineType.EQ1_MODEL_LITERAL, net, "BusId");
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
-		mach.setMultiFactors();
+		mach.setMultiFactors(mach.getMachineBus());
 		return mach;
 	}
 }
