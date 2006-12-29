@@ -52,15 +52,15 @@ public class TestSimpleGovernorCase extends TestSetupBase {
 		assertTrue(Math.abs(gov.getStateX1()) < 0.0001);
 		
 		// calculate a step, the state should remain the same
-		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		assertTrue(Math.abs(gov.getStateX1()) < 0.0001);
 		
 		// calculate more steps, the state should remain the same also
-		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		assertTrue(Math.abs(gov.getStateX1()) < 0.0001);
 
 		/*
@@ -73,7 +73,7 @@ public class TestSimpleGovernorCase extends TestSetupBase {
 		 * X1 = 0.0 + 0.5 * [0.2 + 0.196] * 0.01 = 0.00198
 		 */
 		mach.setSpeed(1.01);
-		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		//System.out.println("X1 " + gov._X1);
 		assertTrue(Math.abs(gov.getStateX1() - 0.00198) < 0.0001);
 		

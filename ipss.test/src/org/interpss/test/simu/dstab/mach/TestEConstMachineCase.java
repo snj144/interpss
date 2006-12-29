@@ -53,18 +53,18 @@ public class TestEConstMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.8) < 0.00001);
 		
 		// Move forward one step
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-11.49656) < 0.00001);
 		assertTrue(Math.abs(mach.getE()-1.20416) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.8) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.8) < 0.00001);
 		
 		// Move forward more steps, we should have the same value, since there is no disturbance
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-11.49656) < 0.00001);
 		assertTrue(Math.abs(mach.getE()-1.20416) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.8) < 0.00001);
@@ -72,7 +72,7 @@ public class TestEConstMachineCase extends TestSetupBase {
 
 		// create an event by changing Pm from 2.0 to 1.0
 		mach.setPm(1.0);  
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL,  mach.getMachineBus(),net, msg);
 		/*
 		System.out.println("Angle(deg) " + mach.getAngle()*Constants.RtoD);
 		System.out.println("Speed " + mach.getSpeed());

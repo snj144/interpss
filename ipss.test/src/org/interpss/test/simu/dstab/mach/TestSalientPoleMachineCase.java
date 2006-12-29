@@ -62,7 +62,7 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
 		// Move forward one step
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 
 		// again, the following values to compare to are by long-hand calculation. There
 		// should be no change
@@ -76,11 +76,11 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
 		// Move forward more steps, we should have the same value, since there is no disturbance
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		assertTrue(Math.abs(mach.getAngle()-0.48142) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd11()+0.40106) < 0.00001);
@@ -91,7 +91,7 @@ public class TestSalientPoleMachineCase extends TestSetupBase {
 		
 		// create an event by changing Pm from 2.0 to 1.0
 		mach.setPm(1.0);  
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 
 		// again, the following values to compare to are by long-hand calculation
 		/*
