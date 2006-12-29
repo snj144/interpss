@@ -74,7 +74,7 @@ public class RunCaseBase {
     }
     
     public static void outputSimuResults(Machine mach, Machine refMach, double t, double dt, byte outType) {
-        Hashtable states = mach.getStates(refMach);
+        Hashtable states = mach.getStates(mach.getMachineBus(), refMach);
         if (outType == Output_Default) {
             states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());
             states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
@@ -164,7 +164,8 @@ public class RunCaseBase {
                 Machine mach = (Machine)itr.next();
                 
                 // solve DEqn for the step. This includes all controller's nextStep() call
-                mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+                mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getDStabBus(), net, msg);
+                
                 
                 if (mach.getId().equals("G1bus"))
                     outputSimuResults(mach, refMach, t, dt, outType);
