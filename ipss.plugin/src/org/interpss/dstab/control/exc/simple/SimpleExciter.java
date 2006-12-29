@@ -81,7 +81,7 @@ public class SimpleExciter extends AbstractExciter {
 				getData().getKa(), getData().getTa(), getData().getVrmax(), getData().getVrmin()); 
 		controlBlock.initState(mach.getEfd());
 		
-		final double vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
+		final double vt = abus.getVoltage().abs() / mach.getVMultiFactor();
 		stateVref = vt + controlBlock.getU0();
 		return true;
 	}
@@ -97,7 +97,7 @@ public class SimpleExciter extends AbstractExciter {
 	@Override
 	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-			final double u = calculateU();
+			final double u = calculateU(abus);
 
 			controlBlock.eulerStep1(u, dt);
 			controlBlock.eulerStep2(u, dt);
@@ -111,10 +111,10 @@ public class SimpleExciter extends AbstractExciter {
 		}
 	}
 	
-	private double calculateU() {
+	private double calculateU(DStabBus abus) {
 		final Machine mach = getMachine();
-		final double vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
-		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput(mach.getMachineBus()) : 0.0;
+		final double vt = abus.getVoltage().abs() / mach.getVMultiFactor();
+		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput(abus) : 0.0;
 		return stateVref + vpss - vt;		
 	}
 	
@@ -125,7 +125,7 @@ public class SimpleExciter extends AbstractExciter {
 	 */
 	@Override
 	public double getOutput(DStabBus abus) {
-		return controlBlock.getY(calculateU());
+		return controlBlock.getY(calculateU(abus));
 	}
 
 	/**
