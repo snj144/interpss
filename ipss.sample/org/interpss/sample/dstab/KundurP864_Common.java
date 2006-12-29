@@ -290,7 +290,7 @@ public class KundurP864_Common {
 	}
 	
 	public static void outputSimuResults(Machine mach, Machine refMach, double t, double dt) {
-		Hashtable states = mach.getStates(refMach);
+		Hashtable states = mach.getStates(mach.getMachineBus(), refMach);
 		states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());
 		states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
 		try{
