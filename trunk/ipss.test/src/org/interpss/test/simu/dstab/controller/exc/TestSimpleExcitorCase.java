@@ -45,7 +45,7 @@ public class TestSimpleExcitorCase extends TestSetupBase {
 		mach.addExciter(exc);
 		
 		mach.setEfd(2.0);
-		exc.initStates(this.msg);
+		exc.initStates(mach.getDeviceBus(), this.msg);
 		assertTrue(Math.abs(exc.getStateVref() - 1.04) < 0.0001);
 		assertTrue(Math.abs(exc.getStateX1() - 2.0) < 0.0001);
 		

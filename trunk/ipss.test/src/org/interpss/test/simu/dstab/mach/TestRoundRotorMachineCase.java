@@ -40,7 +40,7 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 		RoundRotorMachine mach = createMachine();
 		
 		// calculate mach state init values
-		mach.initStates(msg);
+		mach.initStates(mach.getDeviceBus(), msg);
 		//System.out.println("Ygen: " + mach.getYgen());
 		//System.out.println("Igen: " + mach.getIgen());
 		assertTrue(Math.abs(mach.getYgen().getReal()-0.16658) < 0.00001);

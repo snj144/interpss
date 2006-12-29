@@ -46,7 +46,7 @@ public class TestSimpleGovernorCase extends TestSetupBase {
 		
 		mach.setPm(1.0);
 		mach.setSpeed(1.0);
-		gov.initStates(this.msg);
+		gov.initStates(mach.getDeviceBus(), this.msg);
 		//System.out.println("Pm0, X1 " + gov._Pm0 + ", " + gov._X1);
 		assertTrue(Math.abs(gov.getPm0() - 1.0) < 0.0001);
 		assertTrue(Math.abs(gov.getStateX1()) < 0.0001);

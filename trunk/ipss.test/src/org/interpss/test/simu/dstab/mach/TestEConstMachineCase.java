@@ -40,7 +40,7 @@ public class TestEConstMachineCase extends TestSetupBase {
 		EConstMachine mach = createMachine();
 		
 		// calculate mach state init values
-		mach.initStates(msg);
+		mach.initStates(mach.getDeviceBus(), msg);
 		/*
 		System.out.println("Angle(deg) " + mach.getAngle()*Constants.RtoD);
 		System.out.println("E " + mach.getE());
