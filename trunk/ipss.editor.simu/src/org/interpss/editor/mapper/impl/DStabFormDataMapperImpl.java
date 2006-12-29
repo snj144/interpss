@@ -86,11 +86,11 @@ public class DStabFormDataMapperImpl {
 		List busList = editNet.getBusFormList();
 		for ( int i = 0; i < busList.size(); i++ ) {
 			GBusForm busForm = (GBusForm)busList.get(i);
-			if (busForm.getDStabBusData().isMachineBus()) {
-				setMachineInfo(busForm.getDStabBusData().getMachData(), dstabNet, busForm.getId(), msg);
-			}
-			else if (busForm.getDStabBusData().isDBusScripting()) {
+			if (busForm.getDStabBusData().isDBusScripting()) {
 				setDBusScriptingInfo(busForm.getDStabBusData(), dstabNet, busForm.getId(), msg);
+			}
+			else if (busForm.getDStabBusData().isMachineBus()) {
+				setMachineInfo(busForm.getDStabBusData().getMachData(), dstabNet, busForm.getId(), msg);
 			}
 		}
 
