@@ -118,9 +118,9 @@ public class TestSample2BusSystem extends TestSetupBase {
 				Machine mach = (Machine)itr.next();
 					
 				// solve DEqn for the step. This includes all controller's nextStep() call
-				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);  
+				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);  
 
-				Hashtable states = mach.getStates(null);
+				Hashtable states = mach.getStates(mach.getMachineBus(), null);
 				states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());
 				states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
 				try{

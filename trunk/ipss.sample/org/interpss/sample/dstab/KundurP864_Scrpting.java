@@ -90,7 +90,7 @@ public class KundurP864_Scrpting {
 				Machine mach = (Machine)itr.next();
 					
 				// solve DEqn for the step. This includes all controller's nextStep() call
-				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);  
+				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL,  mach.getMachineBus(), net, msg);  
 
 				KundurP864_Common.outputSimuResults(mach, refMach, t, dt);
 			}	
