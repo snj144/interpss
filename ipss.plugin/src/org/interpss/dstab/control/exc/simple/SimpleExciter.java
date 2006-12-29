@@ -95,7 +95,7 @@ public class SimpleExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			final double u = calculateU();
 
@@ -114,7 +114,7 @@ public class SimpleExciter extends AbstractExciter {
 	private double calculateU() {
 		final Machine mach = getMachine();
 		final double vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
-		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
+		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput(mach.getMachineBus()) : 0.0;
 		return stateVref + vpss - vt;		
 	}
 	
@@ -124,7 +124,7 @@ public class SimpleExciter extends AbstractExciter {
 	 * @return the output
 	 */
 	@Override
-	public double getOutput() {
+	public double getOutput(DStabBus abus) {
 		return controlBlock.getY(calculateU());
 	}
 

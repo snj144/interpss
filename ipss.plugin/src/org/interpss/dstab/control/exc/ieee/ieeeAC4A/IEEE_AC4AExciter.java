@@ -119,7 +119,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 		//double vt = mach.getBus(ctr_bus_id).getVoltage().abs() / mach.getVMultiFactor();
 		final double vt = mach.getMachineBus().getVoltage().abs() / mach.getVMultiFactor();
 		_X1 = vt;
-		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
+		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput(abus) : 0.0;
 		_Vref = _X1 + _X2 - vpss;
 		return true;
 
@@ -147,7 +147,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			final Machine mach = getMachine();
 			//Block 1
@@ -164,7 +164,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 			}
 			//Block 2
 			final double _X2_old = _X2;
-			final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
+			final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput(abus) : 0.0;
 			if( ( _Vref + vpss - _X1 ) > getData().getVimax()) {
 				_X2 = getData().getVimax();
 			}
@@ -235,7 +235,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @return hashtable of the states
 	 */
 	@Override
-	public Hashtable getStates(Object ref) {
+	public Hashtable getStates(DStabBus abus, Object ref) {
 		final Hashtable table = new Hashtable();
 		table.put(DStabOutFunc.OUT_SYMBOL_EXC_EFD, new Double(_X5));
 		return table;
@@ -247,7 +247,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @return the output
 	 */
 	@Override
-	public double getOutput() {
+	public double getOutput(DStabBus abus) {
 		return _X6;
 	}
 
