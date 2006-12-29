@@ -97,7 +97,7 @@ public class TestEConstMachineCase extends TestSetupBase {
 							createMachine("MachId", "MachName", MachineType.ECONSTANT_LITERAL, net, "Gen");
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
-		mach.setMultiFactors();
+		mach.setMultiFactors(mach.getMachineBus());
 		mach.setH(5.0);
 		mach.setD(0.01);
 		mach.setXd1(0.3);

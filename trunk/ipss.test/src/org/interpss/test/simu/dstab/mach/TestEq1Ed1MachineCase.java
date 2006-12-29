@@ -45,8 +45,8 @@ public class TestEq1Ed1MachineCase extends TestSetupBase {
 		//System.out.println("Igen: " + mach.getIgen());
 		assertTrue(Math.abs(mach.getYgen().getReal()-0.0567) < 0.00001);
 		assertTrue(Math.abs(mach.getYgen().getImaginary()+4.34709) < 0.00001);
-		assertTrue(Math.abs(mach.getIgen().getReal()-0.85669) < 0.00001);
-		assertTrue(Math.abs(mach.getIgen().getImaginary()+4.94707) < 0.00001);	
+		assertTrue(Math.abs(mach.getIgen(mach.getMachineBus()).getReal()-0.85669) < 0.00001);
+		assertTrue(Math.abs(mach.getIgen(mach.getMachineBus()).getImaginary()+4.94707) < 0.00001);	
 		
 		// the following values to compare to are by long-hand calculation
 		//System.out.println("Angle, Ed1, Eq1, Efd, Pe: " + mach.getAngle()*Constants.RtoD + ", " + 
@@ -112,7 +112,7 @@ public class TestEq1Ed1MachineCase extends TestSetupBase {
 		// set machine data
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
-		mach.setMultiFactors();
+		mach.setMultiFactors(mach.getMachineBus());
 		mach.setH(5.0);
 		mach.setD(0.01);
 		mach.setXd(1.1);
