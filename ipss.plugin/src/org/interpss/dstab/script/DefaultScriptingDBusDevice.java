@@ -7,6 +7,7 @@ import javax.script.ScriptEngine;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Network;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.device.impl.ScriptingDBusDeviceImpl;
 import com.interpss.simu.SimuObjectFactory;
@@ -18,7 +19,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	IPSSMsgHub message = null;
 	
 	@Override
-	public boolean initStates(Network net, IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Network net, IPSSMsgHub msg) {
 		try {
 			this.message = msg;
 			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
@@ -36,7 +37,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	@Override
 	public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
 		try {
-			invoker.invokeMethod(controller, "nextStep", getDeviceBus(), dt, method, net);
+			invoker.invokeMethod(controller, "nextStep", getDeviceBus(), dt, method, net, msg);
 			return true;
 		} catch (Exception e) {
 			msg.sendErrorMsg("DefaultScriptingDBusDevice.nextStep(), " + e.toString());

@@ -30,6 +30,7 @@ import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.core.net.Network;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractStabilizer;
 
@@ -83,7 +84,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, final IPSSMsgHub msg) {
 		limit = new LimitType(getData().getVsmax(), getData().getVsmin());
 		stateX1 = 0.0;
 		stateX2 = 0.0;

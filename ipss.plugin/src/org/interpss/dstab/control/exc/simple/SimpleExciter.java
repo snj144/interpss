@@ -13,6 +13,7 @@ import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.core.net.Network;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
@@ -74,7 +75,7 @@ public class SimpleExciter extends AbstractExciter {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, final IPSSMsgHub msg) {
 		final Machine mach = getMachine();
 		controlBlock = new DelayControlBlock(IControlBlock.Type_Limit,
 				getData().getKa(), getData().getTa(), getData().getVrmax(), getData().getVrmin()); 
