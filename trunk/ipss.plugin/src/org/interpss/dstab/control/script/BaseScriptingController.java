@@ -16,6 +16,7 @@ import javax.script.ScriptEngine;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Network;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
 import com.interpss.dstab.mach.ControllerType;
@@ -41,7 +42,7 @@ public abstract class BaseScriptingController extends AbstractController {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, final IPSSMsgHub msg) {
 		try {
 			this.message = msg;
 			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
