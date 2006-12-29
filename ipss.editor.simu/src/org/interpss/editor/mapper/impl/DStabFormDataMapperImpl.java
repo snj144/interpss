@@ -131,7 +131,7 @@ public class DStabFormDataMapperImpl {
 			Machine mach = DStabObjectFactory.createMachine(Constants.MachIdToken+busId, machData.getName(), getMachType(machData.getType()), dstabNet, busId);
 			mach.setRating(machData.getRating(), "Mva", dstabNet.getBaseKva());
 			mach.setRatedVoltage(machData.getRatedVolt());
-			mach.setMultiFactors();
+			mach.setMultiFactors(mach.getMachineBus());
 			mach.setH(machData.getInertia());
 			mach.setD(machData.getDamping());
 			mach.setPoles(machData.getPoles());
