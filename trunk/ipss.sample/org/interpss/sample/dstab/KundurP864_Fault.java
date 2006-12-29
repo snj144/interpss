@@ -95,7 +95,7 @@ public class KundurP864_Fault {
 				// solve DEqn for the step. This includes all controller's nextStep() call
 				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);  
 
-				KundurP864_Common.outputSimuResults(mach, refMach, t, dt);
+				KundurP864_Common.outputSimuResults(mach.getMachineBus(), refMach, t, dt);
 			}	
 			net.solveNetEqn(false, msg);
 			t += dt;

@@ -226,7 +226,7 @@ public class KundurP864_Common {
 		// set gen data
 		mach1.setRating(2220, "Mva", net.getBaseKva());
 		mach1.setRatedVoltage(24000.0);
-		mach1.setMultiFactors();
+		mach1.setMultiFactors(mach1.getMachineBus());
 		mach1.setH(3.5);
 		mach1.setPoles(2);
 		mach1.setXd(1.81);
@@ -289,9 +289,9 @@ public class KundurP864_Common {
 		event1.setBusFault(fault);		
 	}
 	
-	public static void outputSimuResults(Machine mach, Machine refMach, double t, double dt) {
-		Hashtable states = mach.getStates(mach.getMachineBus(), refMach);
-		states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());
+	public static void outputSimuResults(DStabBus abus, Machine refMach, double t, double dt) {
+		Hashtable states = abus.getMachine().getStates(abus, refMach);
+		states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, abus.getMachine().getId());
 		states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
 		try{
 			System.out.print(DStabOutFunc.getStateStr(states));
