@@ -43,6 +43,7 @@ import com.interpss.dstab.controller.block.PIControlBlock;
 import com.interpss.dstab.controller.block.IntegrationControlBlock;
 import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.mach.DynamicMachine;
+import com.interpss.dstab.mach.Machine;
 
 
 public class PIDchopper extends AbstractExciter {
@@ -65,13 +66,13 @@ public class PIDchopper extends AbstractExciter {
      *
      *  @param msg the SessionMsg object
      */
-    public boolean initStates(DStabBus abus, IPSSMsgHub msg) {
-        double vt = getMachine().getMachineBus().getVoltage().abs() / getMachine().getVMultiFactor();
+    public boolean initStates(DStabBus abus, Machine mach, IPSSMsgHub msg) {
+        double vt = abus.getVoltage().abs() / mach.getVMultiFactor();
 
         pi1 = new PIControlBlock(IControlBlock.Type_NonWindup,
                getData().getKp(), getData().getKi(),
                getData().getVrmax(), getData().getVrmin());
-        if (!pi1.initState(getMachine().getEfd()/vt)) {
+        if (!pi1.initState(mach.getEfd()/vt)) {
             msg.sendErrorMsg("Initialisation error: Efd exceeds limit");
             return false; }
         d1 = new IntegrationControlBlock(1.0);
@@ -98,16 +99,16 @@ public class PIDchopper extends AbstractExciter {
      * @param method d-eqn solution method
      * @param msg the IPSSMsgHub object, for communication with the outside world
      */
-    public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Network net, IPSSMsgHub msg) {
+    public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Machine mach, Network net, IPSSMsgHub msg) {
         if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
             
-            final double vt = getMachine().getMachineBus().getVoltage().abs() / getMachine().getVMultiFactor();
+            final double vt = abus.getVoltage().abs() / mach.getVMultiFactor();
             UgMeasure.eulerStep1(vt, dt);
             UgMeasure.eulerStep1(vt, dt);
-            final double ud = calculateUd();
+            final double ud = calculateUd(abus, mach);
             d1.eulerStep1(ud, dt);
             d1.eulerStep2(ud, dt);
-            final double uerr = calculateUerr(abus);
+            final double uerr = calculateUerr(abus, mach);
             pi1.eulerStep1(uerr, dt);
             pi1.eulerStep2(uerr, dt);
             
@@ -120,41 +121,41 @@ public class PIDchopper extends AbstractExciter {
     }
     
     
-    private double calculateUg() {
-        final double vt = getMachine().getMachineBus().getVoltage().abs() / getMachine().getVMultiFactor();
+    private double calculateUg(DStabBus bus, Machine mach) {
+        final double vt = bus.getVoltage().abs() / mach.getVMultiFactor();
         return UgMeasure.getY(vt);
     }
     
-    private double calculateUd() {
-        return (calculateUg()-d1.getStateX())*getData().getKb()/(getData().getKb()*getData().getTb());
+    private double calculateUd(DStabBus bus, Machine mach) {
+        return (calculateUg(bus, mach)-d1.getStateX())*getData().getKb()/(getData().getKb()*getData().getTb());
     }
    
-    private double calculatePSS(DStabBus abus) {
-        return getMachine().hasStabilizer()? getMachine().getStabilizer().getOutput(abus) : 0.0;
+    private double calculatePSS(DStabBus abus, Machine mach) {
+        return mach.hasStabilizer()? mach.getStabilizer().getOutput(abus, mach) : 0.0;
     }
     
-    private double calculateUerr(DStabBus abus) {
-        final double udout = (calculateUg()-d1.getStateX())*(1.0 + getData().getKb());
-        double vpss = calculatePSS(abus);
+    private double calculateUerr(DStabBus abus, Machine mach) {
+        final double udout = (calculateUg(abus, mach)-d1.getStateX())*(1.0 + getData().getKb());
+        double vpss = calculatePSS(abus, mach);
         return vRef - udout + vpss;
     }
     
     // Step-5: Define Controller output (Efd)
     // =====================================
     
-    public double getOutput(DStabBus abus) {
-        final double vt = getMachine().getMachineBus().getVoltage().abs() / getMachine().getVMultiFactor();
-        return pi1.getY(calculateUerr(abus))*vt;
+    public double getOutput(DStabBus abus, Machine mach) {
+        final double vt = abus.getVoltage().abs() / mach.getVMultiFactor();
+        return pi1.getY(calculateUerr(abus, mach))*vt;
     }
     
     // Step-6: Defined Controller display variables
     // ============================================
         
     
-    public Hashtable getStates(DStabBus abus, Object ref) {
+    public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
         Hashtable table = super.getStates(abus, ref);
         // Efd already added to the output symbol list, you can add more output variables as follows:
-        table.put("vPSS", Num2Str.toStr("0.0000", calculatePSS(abus)));
+        table.put("vPSS", Num2Str.toStr("0.0000", calculatePSS(abus, mach)));
         return table;
     }
     
