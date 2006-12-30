@@ -38,6 +38,7 @@ import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.controller.block.FilterControlBlock;
 import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.controller.block.WashoutControlBlock;
+import com.interpss.dstab.mach.Machine;
 
 public class IEEE2B extends AbstractStabilizer {
     // declarations
@@ -63,10 +64,10 @@ public class IEEE2B extends AbstractStabilizer {
      *
      *  @param msg the SessionMsg object
      */
-    public boolean initStates(DStabBus abus, IPSSMsgHub msg) {
+    public boolean initStates(DStabBus abus, Machine mach, IPSSMsgHub msg) {
         
-        final double dw = getMachine().getSpeed() - 1.0;
-        final double pe = getMachine().getPe();
+        final double dw = mach.getSpeed() - 1.0;
+        final double pe = mach.getPe();
         stepTest = 0.0;
         dwMeasure = new DelayControlBlock(1, 0.020);
         dwMeasure.initState(dw);
@@ -114,15 +115,15 @@ public class IEEE2B extends AbstractStabilizer {
      * @param method d-eqn solution method
      *  @param msg the SessionMsg object
      */
-    public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Network net, IPSSMsgHub msg) {
+    public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Machine mach, Network net, IPSSMsgHub msg) {
         if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-            final double dw = calculateDw();
+            final double dw = calculateDw(mach);
             dwMeasure.eulerStep1(dw, dt);
             dwMeasure.eulerStep2(dw, dt);
-            final double dww = calculateDww();
+            final double dww = calculateDww(mach);
             wash1.eulerStep1(dww, dt);
             wash1.eulerStep2(dww, dt);
-            final double w1 = calculateW1();
+            final double w1 = calculateW1(mach);
             wash2.eulerStep1(w1, dt);
             wash2.eulerStep2(w1, dt);
             final double pe = calculatePe();
@@ -134,7 +135,7 @@ public class IEEE2B extends AbstractStabilizer {
             final double w3 = calculateW3();
             dpInt.eulerStep1(w3, dt);
             dpInt.eulerStep2(w3, dt);
-            final double rtin = calculateRtin();
+            final double rtin = calculateRtin(mach);
             if (!(getData().getT8() == 0)) {
                 withT8.eulerStep1(rtin, dt);
                 withT8.eulerStep2(rtin, dt);
@@ -142,26 +143,26 @@ public class IEEE2B extends AbstractStabilizer {
                 noT8.eulerStep1(rtin, dt);
                 noT8.eulerStep2(rtin, dt);
             }
-            final double rt1 = calculateRt1();
+            final double rt1 = calculateRt1(mach);
             rtfilt2.eulerStep1(rt1, dt);
             rtfilt2.eulerStep2(rt1, dt);
-            final double rt2 = calculateRt2();
+            final double rt2 = calculateRt2(mach);
             rtfilt3.eulerStep1(rt2, dt);
             rtfilt3.eulerStep2(rt2, dt);
-            final double rt3 = calculateRt3();
+            final double rt3 = calculateRt3(mach);
             rtfilt4.eulerStep1(rt3, dt);
             rtfilt4.eulerStep2(rt3, dt);
-            final double rt4 = calculateRt4();
+            final double rt4 = calculateRt4(mach);
             rtfilt5.eulerStep1(rt4, dt);
             rtfilt5.eulerStep2(rt4, dt);
             
-            final double pacc = calculateDPacc();
+            final double pacc = calculateDPacc(mach);
             leadlag1.eulerStep1(pacc, dt);
             leadlag1.eulerStep2(pacc, dt);
-            final double LL1 = calculateLL1();
+            final double LL1 = calculateLL1(mach);
             leadlag2.eulerStep1(LL1, dt);
             leadlag2.eulerStep2(LL1, dt);
-            final double LL2= calculateLL2();
+            final double LL2= calculateLL2(mach);
             leadlag3.eulerStep1(LL2, dt);
             leadlag3.eulerStep2(LL2, dt);
             
@@ -179,49 +180,49 @@ public class IEEE2B extends AbstractStabilizer {
      *
      */
     
-    private double calculateDw() {
-        return getMachine().getSpeed() -1.0;    }
-    private double calculateDww() {
-        return dwMeasure.getY(calculateDw());    }
-    private double calculateW1() {
-        return wash1.getY(calculateDww());    }
+    private double calculateDw(Machine mach) {
+        return mach.getSpeed() -1.0;    }
+    private double calculateDww(Machine mach) {
+        return dwMeasure.getY(calculateDw(mach));    }
+    private double calculateW1(Machine mach) {
+        return wash1.getY(calculateDww(mach));    }
     private double calculatePe() {
         return getMachine().getPe()+stepTest;    }  // stepTest variable for testing
     private double calculatePef() {
         return PeMeasure.getY(calculatePe());    }
     private double calculateW3() {
         return wash3.getY(calculatePef());    }
-    private double calculateRtin() {
-        return wash2.getY(calculateW1())+(dpInt.getY(calculateW3())*getData().getKs3());
+    private double calculateRtin(Machine mach) {
+        return wash2.getY(calculateW1(mach))+(dpInt.getY(calculateW3())*getData().getKs3());
     }
-    private double calculateRt1() {
+    private double calculateRt1(Machine mach) {
         if (!(getData().getT8() == 0.0)) {
-            return withT8.getY(calculateRtin());
-        }else return noT8.getY(calculateRtin());
+            return withT8.getY(calculateRtin(mach));
+        }else return noT8.getY(calculateRtin(mach));
     }
-    private double calculateRt2() {
-        return rtfilt2.getY(calculateRt1());
+    private double calculateRt2(Machine mach) {
+        return rtfilt2.getY(calculateRt1(mach));
     }
-    private double calculateRt3() {
-        return rtfilt3.getY(calculateRt2());
+    private double calculateRt3(Machine mach) {
+        return rtfilt3.getY(calculateRt2(mach));
     }
-    private double calculateRt4() {
-        return rtfilt4.getY(calculateRt3());
+    private double calculateRt4(Machine mach) {
+        return rtfilt4.getY(calculateRt3(mach));
     }
-    private double calculateRt5() {
-        return rtfilt5.getY(calculateRt4());
+    private double calculateRt5(Machine mach) {
+        return rtfilt5.getY(calculateRt4(mach));
     }
-    private double calculateDPacc() {
-        return calculateRt5() - dpInt.getY(calculateW3());
+    private double calculateDPacc(Machine mach) {
+        return calculateRt5(mach) - dpInt.getY(calculateW3());
     }
-    private double calculateLL1() {
-        return leadlag1.getY(calculateDPacc());
+    private double calculateLL1(Machine mach) {
+        return leadlag1.getY(calculateDPacc(mach));
     }
-    private double calculateLL2() {
-        return leadlag2.getY(calculateLL1());
+    private double calculateLL2(Machine mach) {
+        return leadlag2.getY(calculateLL1(mach));
     }
-    private double calculateLL3() {
-        return leadlag3.getY(calculateLL2());
+    private double calculateLL3(Machine mach) {
+        return leadlag3.getY(calculateLL2(mach));
     }
     
     
@@ -232,8 +233,8 @@ public class IEEE2B extends AbstractStabilizer {
      *
      * @return hashtable of the states
      */
-    public Hashtable getStates(DStabBus abus, Object ref) {
-        Hashtable table = super.getStates(abus, ref);
+    public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
+        Hashtable table = super.getStates(abus, mach, ref);
         //table.put("PSS_Vs", Num2Str.toStr("0.0000", getOutput()));
         return table;
     }
@@ -243,8 +244,8 @@ public class IEEE2B extends AbstractStabilizer {
      *
      * @return the output
      */
-    public double getOutput(DStabBus abus) {
-        final double out = calculateLL3();
+    public double getOutput(DStabBus abus, Machine mach) {
+        final double out = calculateLL3(mach);
         return out;
     }
     
