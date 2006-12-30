@@ -33,6 +33,7 @@ import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
+import com.interpss.dstab.mach.Machine;
 
 public class IEEE_DC1AExciter extends AbstractExciter {
 	// state vriables
@@ -87,7 +88,7 @@ public class IEEE_DC1AExciter extends AbstractExciter {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
 		// TODO: 
 		return true;
 	}
@@ -100,7 +101,7 @@ public class IEEE_DC1AExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net,  final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net,  final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			 //     Step-1 : x(1) = x(0) + dx_dt(1) * dt
 			// TODO:
@@ -132,7 +133,7 @@ public class IEEE_DC1AExciter extends AbstractExciter {
 	 * @return the output
 	 */
 	@Override
-	public double getOutput(DStabBus abus) {
+	public double getOutput(DStabBus abus, Machine mach) {
 		// TODO: 
 		return 0.0;
 	}

@@ -90,8 +90,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, final IPSSMsgHub msg) {
-		final Machine mach = getMachine();
+	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
 		_X5 = mach.getEfd();
 		//Check Efd limit
 		//TODO
@@ -147,9 +146,8 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-			final Machine mach = getMachine();
 			//Block 1
 			if(getData().getTa() < Constants.SmallDoubleNumber) {
 				_X1 = abus.getVoltage().abs() / mach.getVMultiFactor();
@@ -247,7 +245,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @return the output
 	 */
 	@Override
-	public double getOutput(DStabBus abus) {
+	public double getOutput(DStabBus abus, Machine mach) {
 		return _X6;
 	}
 
