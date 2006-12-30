@@ -15,7 +15,7 @@ import com.interpss.simu.script.ScriptingUtil;
 
 public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	Invocable invoker = null;
-	Object controller = null;
+	Object dBusDevice = null;
 	IPSSMsgHub message = null;
 	
 	@Override
@@ -24,9 +24,9 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 			this.message = msg;
 			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
 			engine.eval(getScripts());
-			controller = ScriptingUtil.getScritingObject(engine, msg);
+			dBusDevice = ScriptingUtil.getScritingObject(engine, msg);
 			invoker = (Invocable)engine;
-			invoker.invokeMethod(controller, "initStates", abus, net, msg);
+			invoker.invokeMethod(dBusDevice, "initStates", abus, net, msg);
 		} catch (Exception e) {
 			msg.sendErrorMsg("DefaultScriptingDBusDevice.initStates(), " + e.toString());
 			return false;
@@ -37,7 +37,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	@Override
 	public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Network net, IPSSMsgHub msg) {
 		try {
-			invoker.invokeMethod(controller, "nextStep", dt, method, abus, net, msg);
+			invoker.invokeMethod(dBusDevice, "nextStep", dt, method, abus, net, msg);
 			return true;
 		} catch (Exception e) {
 			msg.sendErrorMsg("DefaultScriptingDBusDevice.nextStep(), " + e.toString());
@@ -48,7 +48,7 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	@Override
 	public Object getOutputObject(DStabBus abus) {
 		try {
-			return invoker.invokeMethod(controller, "getOutput", abus);
+			return invoker.invokeMethod(dBusDevice, "getOutput", abus);
 		} catch (Exception e) {
 			message.sendErrorMsg("DefaultScriptingDBusDevice.getOutput(), " + e.toString());
 		}
@@ -58,11 +58,21 @@ public class DefaultScriptingDBusDevice extends ScriptingDBusDeviceImpl {
 	@Override
 	public Hashtable getStates(DStabBus abus, Object refMach) {
 		try {
-			return (Hashtable)invoker.invokeMethod(controller, "getStates", abus, refMach);
+			return (Hashtable)invoker.invokeMethod(dBusDevice, "getStates", abus, refMach);
 		} catch (Exception e) {
 			message.sendErrorMsg("DefaultScriptingDBusDevice.getStates(), "  + e.toString());
 		}
 		return null;
 	}
 
+	@Override
+	public boolean updateAttributes(DStabBus bus, boolean netChange)  {
+		try {
+			invoker.invokeMethod(dBusDevice, "updateAttributes", bus, netChange);
+			return true;
+		} catch (Exception e) {
+			message.sendErrorMsg("DefaultScriptingDBusDevice.updateAttributes(), "  + e.toString());
+		}
+		return false;
+	}
 }
