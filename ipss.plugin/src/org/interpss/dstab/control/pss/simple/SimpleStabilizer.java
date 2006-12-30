@@ -33,6 +33,7 @@ import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractStabilizer;
+import com.interpss.dstab.mach.Machine;
 
 public class SimpleStabilizer extends AbstractStabilizer {
 	// state variables
@@ -84,7 +85,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
 		limit = new LimitType(getData().getVsmax(), getData().getVsmin());
 		stateX1 = 0.0;
 		stateX2 = 0.0;
@@ -113,7 +114,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			// Step-1 : x(1) = x(0) + dx_dt(1) * dt
 			final double _dX1_dt = cal_dX1_dt(stateX1);
@@ -140,7 +141,7 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	 * @return the output
 	 */	
 	@Override
-	public double getOutput(DStabBus abus) {
+	public double getOutput(DStabBus abus, Machine mach) {
 		final double a = getData().getT3()/getData().getT4();
 		final double dw = getMachine().getSpeed() - 1.0;
 		return limit.limit(getData().getKs()*dw*a*getData().getT1()/getData().getT2() + a*stateX1 + stateX2);

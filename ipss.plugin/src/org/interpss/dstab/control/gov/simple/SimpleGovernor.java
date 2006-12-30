@@ -33,6 +33,7 @@ import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractGovernor;
+import com.interpss.dstab.mach.Machine;
 
 public class SimpleGovernor extends AbstractGovernor {
 	// state variables
@@ -88,7 +89,7 @@ public class SimpleGovernor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
 		limit = new LimitType(getData().getPmax(), getData().getPmin());
 		pm0 = getMachine().getPm();
 		stateX1 = 0.0;
@@ -109,7 +110,7 @@ public class SimpleGovernor extends AbstractGovernor {
 	 *  @param msg the SessionMsg object
 	 */	
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			/*
 			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt
@@ -136,7 +137,7 @@ public class SimpleGovernor extends AbstractGovernor {
 	 * @return the output
 	 */	
 	@Override
-	public double getOutput(DStabBus abus) {
+	public double getOutput(DStabBus abus, Machine mach) {
 		IpssLogger.getLogger().fine("Governor _Pm0 - _X1: " + (pm0 - stateX1));
 		return limit.limit(pm0 - stateX1);
 	}

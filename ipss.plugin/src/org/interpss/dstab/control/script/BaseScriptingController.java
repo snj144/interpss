@@ -20,6 +20,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
 import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.script.ScriptingUtil;
 
@@ -42,14 +43,14 @@ public abstract class BaseScriptingController extends AbstractController {
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean initStates(DStabBus abus, final IPSSMsgHub msg) {
+	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
 		try {
 			this.message = msg;
 			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
 			engine.eval(getScripts());
 			controller = ScriptingUtil.getScritingObject(engine, msg);
 			invoker = (Invocable)engine;
-			invoker.invokeMethod(controller, "initStates", getMachine());
+			invoker.invokeMethod(controller, "initStates", mach);
 		} catch (Exception e) {
 			msg.sendErrorMsg("ScriptingController.initStates(), " + e.toString());
 			return false;
@@ -66,9 +67,9 @@ public abstract class BaseScriptingController extends AbstractController {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
 		try {
-			invoker.invokeMethod(controller, "nextStep", getMachine(), dt, method, net);
+			invoker.invokeMethod(controller, "nextStep", mach, dt, method, net);
 			return true;
 		} catch (Exception e) {
 			msg.sendErrorMsg("ScriptingController.nextStep(), " + e.toString());
@@ -82,9 +83,9 @@ public abstract class BaseScriptingController extends AbstractController {
 	 * @return the output
 	 */
 	@Override
-	public double getOutput(DStabBus abus) {
+	public double getOutput(DStabBus abus, Machine mach) {
 		try {
-			return ((Double)invoker.invokeMethod(controller, "getOutput", getMachine())).doubleValue();
+			return ((Double)invoker.invokeMethod(controller, "getOutput", mach)).doubleValue();
 		} catch (Exception e) {
 			message.sendErrorMsg("ScriptingController.getOutput(), " + e.toString());
 		}
@@ -98,10 +99,10 @@ public abstract class BaseScriptingController extends AbstractController {
 	 * @return hashtable of the states
 	 */
 	@Override
-	public Hashtable getStates(DStabBus abus, Object ref) {
+	public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
 		final Hashtable<String,Double> table = new Hashtable<String,Double>();
 		try {
-			invoker.invokeMethod(controller, "getStates", getMachine(), table);
+			invoker.invokeMethod(controller, "getStates", mach, table);
 		} catch (Exception e) {
 			message.sendErrorMsg("ScriptingController.getStates(), "  + e.toString());
 		}
