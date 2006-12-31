@@ -62,10 +62,10 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         durationTextField.setInputVerifier(verifier);
     }
     
-    public void init(Object netContainer, Object net) {
+    public void init(Object netContainer, Object simuCtx) {
 		IpssLogger.getLogger().info("NBDStabCasePanel init() called");
-	    _faultLocDataPanel.init(netContainer, null);
-	    _loadChangePanel.init(netContainer, null);
+	    _faultLocDataPanel.init(netContainer, simuCtx);
+	    _loadChangePanel.init(netContainer, simuCtx);
     }
 
     public void setCaseData(DStabCaseData data) {

@@ -38,6 +38,8 @@ import org.interpss.editor.ui.run.common.NBDynaEventPanel;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.util.SimuCtxUtilFunc;
 
 public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -46,6 +48,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 	private NBAclfCasePanel aclfCasePanel = null;
 
 	private GFormContainer netContainer = null;
+	private SimuContext simuCtx = null;
 	
 	private AclfCaseData    aclfCaseData = null;  // current case data
 	private DStabCaseData   dstabCaseData = null;  // current case data
@@ -72,23 +75,34 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 		IpssLogger.getLogger().info("NBDStabCasePanel init() called");
 
 		this.netContainer = (GFormContainer)netCtr;
-		
-        refMachComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-        		this.netContainer.getMachIdArray()));
-        
-        setPointMachineComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-        		this.netContainer.getMachIdArray()));
+	    this.simuCtx = (SimuContext)simuCtx;	
+    	if (this.netContainer != null) {
+            refMachComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.netContainer.getMachIdArray()));
+            setPointMachineComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.netContainer.getMachIdArray()));
+            machIdLargestInertia = this.netContainer.getMachIdLargestInertia();
+    	}
+    	else {
+            refMachComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxUtilFunc.getMachIdArray(this.simuCtx)));
+            setPointMachineComboBox.setModel(new javax.swing.DefaultComboBoxModel(SimuCtxUtilFunc.getMachIdArray(this.simuCtx)));
+            machIdLargestInertia = SimuCtxUtilFunc.getMachIdLargestInertia(this.simuCtx);
+    	}
+         
         setControllerList();
 
-        machIdLargestInertia = this.netContainer.getMachIdLargestInertia();
         dynaEventPanel.init(this.netContainer, simuCtx);
         aclfCasePanel.init(this.netContainer, simuCtx);
     }
 
     private void setControllerList() {
     	String machId = (String)setPointMachineComboBox.getSelectedItem();
-    	setPointControllerComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    	if (this.netContainer != null) {
+    		setPointControllerComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     			this.netContainer.getMachContrllerList(machId)));
+    	}
+    	else {
+    		setPointControllerComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				SimuCtxUtilFunc.getMachContrllerList(machId, this.simuCtx)));
+    	}
     }
     
     public void setCaseData(CaseData caseData) {
