@@ -3,7 +3,7 @@ package org.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.GPDocument;
-import org.interpss.editor.coreframework.IpssAbstractGraphAction;
+import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.io.FileUtility;
@@ -13,7 +13,7 @@ import org.interpss.editor.util.DocumentUtilFunc;
 import com.interpss.common.SpringAppContext;
 import com.interpss.simu.SimuContext;
 
-public class RunDStab extends IpssAbstractGraphAction {
+public class RunDStab extends IpssAbstractActionDefault {
     
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
