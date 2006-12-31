@@ -26,7 +26,6 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
-import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;

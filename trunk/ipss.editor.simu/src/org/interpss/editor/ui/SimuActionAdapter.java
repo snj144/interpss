@@ -114,11 +114,6 @@ public class SimuActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		else {
-			SpringAppContext.getIpssMsgHub().sendErrorMsg("Custom data file not supported for DStab simulation");
-			return;
-		}
-			
 		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(SimuSpringAppContext.getDynamicSimuAlgorithm());
 

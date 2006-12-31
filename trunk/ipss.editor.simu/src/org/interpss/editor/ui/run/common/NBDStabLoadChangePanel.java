@@ -33,6 +33,8 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Num2Str;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.util.SimuCtxUtilFunc;
 
 /**
  *
@@ -43,6 +45,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 	private static final long serialVersionUID = 1;
 
 	private GFormContainer _netContainer = null;
+	private SimuContext    _simuCtx = null;
 	private DStabLoadChangeData _loadChangeData = null;
 	
     /** Creates new form FaultLocDataPanel */
@@ -53,14 +56,18 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
       	this.changeFactorTextField.setInputVerifier(verifier);
     }
     
-	public void init(Object netContainer, Object _null) {
+	public void init(Object netContainer, Object simuCtx) {
 		IpssLogger.getLogger().info("NBDStabLoadChangePanel init() called");
 
 		_netContainer = (GFormContainer)netContainer;
+		_simuCtx = (SimuContext)simuCtx;
       
-    	Object[] busNameId = _netContainer.getLoadBusNameIdArray();
-    	if (busNameId.length > 0)
-    		this.loadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(busNameId));
+    	if (_netContainer != null)
+    		this.loadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				_netContainer.getLoadBusNameIdArray()));
+    	else	
+    		this.loadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				SimuCtxUtilFunc.getLoadBusNameIdArray(_simuCtx)));
 	}
 	
 	public void setLoadChangeData(DStabLoadChangeData data) {
