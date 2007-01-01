@@ -1,0 +1,21 @@
+1. Change IzPack-install.xml
+
+        <appversion>1.1.00-beta</appversion>
+        
+2. Modify the install-mike.xml
+
+3. Modify the editor.properties
+
+         Prog.version = v1.1.00-Beta        
+         
+4. Modify ipss.install build.xml
+
+		<property name="program_version" value="1.1.00-beta" />
+		
+5. Modify MANIFEST.MF if new jar file(s) added		
+		
+5. Copy IpssCustomController.jar to lib/plugin     
+
+6. cmd ipss.install, ant to build the distribution
+
+7. After build, edit the InterPSSInstall/readme.txt file    
