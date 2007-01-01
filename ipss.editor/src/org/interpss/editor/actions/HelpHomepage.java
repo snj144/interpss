@@ -26,6 +26,7 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.coreframework.GPPluginInvoker;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
+import org.interpss.editor.resources.Translator;
 
 
 public class HelpHomepage extends IpssAbstractGraphAction {
@@ -35,7 +36,7 @@ public class HelpHomepage extends IpssAbstractGraphAction {
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = "http://www.interpss.org";
+	private String url = Translator.getString("URL.InterPSS.Home");
 
 	/**
 	 * Opens the url <a href="http://www.jgraph.com/">http://www.jgraph.com/</a>.

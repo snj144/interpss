@@ -26,6 +26,7 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.coreframework.GPPluginInvoker;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
+import org.interpss.editor.resources.Translator;
 
 
 public class HelpProjectSiteUpdate extends IpssAbstractGraphAction {
@@ -35,7 +36,7 @@ public class HelpProjectSiteUpdate extends IpssAbstractGraphAction {
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = "https://sourceforge.net/projects/interpss/";
+	private String url = Translator.getString("URL.InterPSS.Proj.Download");
 
 	public void actionPerformed(ActionEvent e) {
 		GPPluginInvoker.openURL(url);

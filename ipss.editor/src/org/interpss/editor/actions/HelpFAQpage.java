@@ -29,15 +29,20 @@ import org.interpss.editor.coreframework.IpssAbstractGraphAction;
 import org.interpss.editor.resources.Translator;
 
 
-public class HelpProjectSiteSubmitBug extends IpssAbstractGraphAction {
+public class HelpFAQpage extends IpssAbstractGraphAction {
 
 	/**
 	 * The about dialog for GPGraphpad
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = Translator.getString("URL.InterPSS.Proj.Issue");
+	private String url = Translator.getString("URL.InterPSS.FAQ");
 
+	/**
+	 * Opens the url <a href="http://www.jgraph.com/">http://www.jgraph.com/</a>.
+	 * 
+	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
 		GPPluginInvoker.openURL(url);
 	}

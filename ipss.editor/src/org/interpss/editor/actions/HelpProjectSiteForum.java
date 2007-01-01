@@ -26,6 +26,7 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.coreframework.GPPluginInvoker;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
+import org.interpss.editor.resources.Translator;
 
 
 public class HelpProjectSiteForum extends IpssAbstractGraphAction {
@@ -35,7 +36,7 @@ public class HelpProjectSiteForum extends IpssAbstractGraphAction {
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = "http://groups.google.com/group/Interpss-Project";
+	private String url = Translator.getString("URL.InterPSS.Proj.Forum");
 
 	public void actionPerformed(ActionEvent e) {
 		GPPluginInvoker.openURL(url);
