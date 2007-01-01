@@ -2,9 +2,9 @@
 <project name="structured" default="make_izpack_install">
 	<target description="init setup" name="init">
 		<property name="editor" value="c:/eclipse/GEditor" />
-		<property name="dev_base" value="c:/eclipse/Interpss3.2" />
+		<property name="dev_base" value="c:/eclipse/InterpssDev" />
 		<property name="install_dest" value="c:/eclipse/GEditorInstall" />
-		<property name="program_version" value="1.00-beta" />
+		<property name="program_version" value="1.1.00-beta" />
 
 		<property name="izPack_home" value="izpack_home" />
 		<taskdef name="izpack" classpath="${izPack_home}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
@@ -24,7 +24,7 @@
 
 	<target name="copyfiles" depends="init">
 		<copy todir="${install_temp}/db">
-			<fileset dir="${editor}/db" excludes="**/*.txt,**/*.sqlpage">
+			<fileset dir="${editor}/db" excludes="**/*.txt,**/*.sql">
 			</fileset>
 		</copy>
 		<copy todir="${install_temp}/properties">
