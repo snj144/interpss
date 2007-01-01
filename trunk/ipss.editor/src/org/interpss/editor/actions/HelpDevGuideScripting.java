@@ -29,14 +29,14 @@ import org.interpss.editor.coreframework.IpssAbstractGraphAction;
 import org.interpss.editor.resources.Translator;
 
 
-public class HelpProjectSiteSubmitBug extends IpssAbstractGraphAction {
+public class HelpDevGuideScripting extends IpssAbstractGraphAction {
 
 	/**
 	 * The about dialog for GPGraphpad
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = Translator.getString("URL.InterPSS.Proj.Issue");
+	private String url = Translator.getString("URL.InterPSS.DevGuide.Scripting");
 
 	public void actionPerformed(ActionEvent e) {
 		GPPluginInvoker.openURL(url);
