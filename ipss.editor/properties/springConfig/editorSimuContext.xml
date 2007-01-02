@@ -58,7 +58,7 @@
 
 	<bean id="dstabRunForm" 
 	      class="org.interpss.editor.runAct.DStabRunForm"
-	      singleton="true">	
+	      singleton="false">	
 	</bean>
 	
 
