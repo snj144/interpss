@@ -32,6 +32,7 @@ import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.runAct.DStabRunForm;
 import org.interpss.editor.ui.ICaseInfoDialog;
 
 import com.interpss.common.SpringAppContext;
@@ -187,8 +188,9 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		}
 		else if (_caseType == CaseData.CaseType_DStab) {
 			projData.setDStabCaseName(casename);
-			SimuAppSpringAppContext.getDStabRunForm().setDStabCaseData(_caseData.getDStabCaseData());
-			SimuAppSpringAppContext.getDStabRunForm().setAclfCaseData(_caseData.getAclfCaseData());
+			DStabRunForm dsatbRunForm = (DStabRunForm)_appSimuCtx.getDStabRunForm();
+			dsatbRunForm.setDStabCaseData(_caseData.getDStabCaseData());
+			dsatbRunForm.setAclfCaseData(_caseData.getAclfCaseData());
 			_dstabCaseInfoPanel.setCaseData(_caseData);
 			_dstabCaseInfoPanel.setForm2Editor();
 		}

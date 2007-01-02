@@ -97,7 +97,7 @@ public class SimuRunWorker extends Thread {
 				appStatus.busyStart(Constants.StatusBusyIndicatorPeriod, "Run Transient Stability Simulation ...", "Run DStab");
 				IpssLogger.getLogger().info("SimuRunWorker starts Run Transient Stability");
 				
-			  	DStabRunForm runForm = SimuAppSpringAppContext.getDStabRunForm();
+			  	DStabRunForm runForm = (DStabRunForm)appSimuCtx.getDStabRunForm();
 				runForm.runDStab(simuCtx, simuCtx.getMsgHub());
 
 				appStatus.busyStop("Run Transient Stability Simulation finished");

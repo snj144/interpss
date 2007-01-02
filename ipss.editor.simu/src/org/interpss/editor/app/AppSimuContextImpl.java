@@ -44,6 +44,7 @@ import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.AcscRunForm;
+import org.interpss.editor.runAct.DStabRunForm;
 
 import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
@@ -62,6 +63,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	private boolean lfConverged = false;
 	private boolean scCalculated = false;
 	
+	private DStabRunForm dStabRunForm = null;
+	
 	// track the last run type
 	private int lastRunType = 0;   //  SimuRunWorker.RUN_TYPE_ACLF, RUN_TYPE_ACSC, RUN_TYPE_DSTAB;
 	
@@ -74,7 +77,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
   		this.lfConverged = false;
   		this.scCalculated = false;
   		this.simuCtxDataDirty = true;
-  		SimuAppSpringAppContext.getDStabRunForm().setDbSimuCaseId(0);
+  		getDStabRunForm().setDbSimuCaseId(0);
 	}
 	
 	public Object getSimuCtx() { 
@@ -227,7 +230,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 			else if (caseType.equals(CaseData.CaseType_DStab)) {
 		   		caseData.setDStabCaseData(new DStabCaseData());
 		   		caseData.setAclfCaseData(new AclfCaseData());
-		   		SimuAppSpringAppContext.getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
+		   		getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
 			}   
 			else {
 				IpssLogger.getLogger().severe("Wrong caseType");
@@ -285,6 +288,12 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 	public boolean hasLastRun() {
 		return lastRunType > 0;
+	}
+	
+	public DStabRunForm getDStabRunForm() {
+   		if (this.dStabRunForm == null)
+   			this.dStabRunForm = SimuAppSpringAppContext.getDStabRunForm();
+   		return this.dStabRunForm;
 	}
 	
 	/**
