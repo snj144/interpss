@@ -52,6 +52,7 @@ public interface IAppSimuContext {
 	int getLastRunType();
 	void setLastRunType(int lastRunType);	
 	boolean hasLastRun();	
+	Object getDStabRunForm();
 	
 	/**
 	 * Check if the current AcscRunForm has a non-symmetric fault
