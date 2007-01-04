@@ -35,7 +35,6 @@ import javax.swing.JPopupMenu;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.chart.dist.LoadScheduleChart;
 import org.interpss.chart.dstab.SimpleOneStateChart;
-import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;

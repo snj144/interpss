@@ -24,13 +24,15 @@
 
 package org.interpss.editor.ui.chart;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.util.SimuCtxUtilFunc;
 
 /**
  *
@@ -38,32 +40,108 @@ import com.interpss.common.util.IpssLogger;
  */
 public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     private int caseId = 0;
+    private SimuContext simuCtx;
+    
+    final private List<String> itemList = new ArrayList<String>();
+    final private List<String> stateList = new ArrayList<String>();
     
     /** Creates new form MachStateSelDialog */
     public DStabPlotSelectionDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         WinUtilities.center(this);
+
+        setBranchDeviceStatus(false);
+        setBranchVariableStatus(false);
+    }
+
+    public void init(SimuContext simuCtx, int aCaseId) {
+        this.caseId = aCaseId;
+        this.simuCtx = simuCtx;
+        
+        this.allRadioButton.setSelected(true);
+        Object[] strList = SimuCtxUtilFunc.getDStabElemIdArray(simuCtx);
+    	itemList.clear();
+        for (Object obj : strList) 
+        	itemList.add((String)obj);
+        refreashItemList();
+
+        setBranchDeviceStatus(false);
+        setBranchVariableStatus(false);
+        setBusDeviceStatus(false);
+        setBusVariableStatus(false);
+        setExcStateStatus(false);
+        setGovStateStatus(false);
+        setMachStateStatus(false);
+        setPssStateStatus(false);
+
+        stateList.clear();
+        refreashStateList();
+        
+        this.pack();
         this.setVisible(true);
     }
 
-    public void init(int aCaseId) {
-    	/*
-		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
-        this.caseId = aCaseId;
-	  	List list = null;
-	  	try {
-	  		simuRecManager.getElemIdStrList(this.caseId, ISimuRecManager.REC_TYPE_DStabMachineStates, IProjectDataManager.CaseType_DStabSimuRec);
-	  	} catch (Exception e) {
-	  		IpssLogger.logErr(e);
-	  		SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to get mach list from DB", 
-	  				e.toString() + "\nPlease contact InterPSS support");
-	  	}
-		if (list != null) {
-//			this.machListComboBox.setModel(new javax.swing.DefaultComboBoxModel(list.toArray()));
-		    //setStateComboList((String)this.machListComboBox.getSelectedItem());
-		}
-		*/
+    private void refreashItemList() {
+    	itemSelectList.setModel(new javax.swing.AbstractListModel() {
+            public int getSize() { return itemList.size(); }
+            public Object getElementAt(int i) { return itemList.get(i); }
+        });
+    }
+
+    private void refreashStateList() {
+    	stateSelectList.setModel(new javax.swing.AbstractListModel() {
+            public int getSize() { return stateList.size(); }
+            public Object getElementAt(int i) { return stateList.get(i); }
+        });
+    }
+
+    private void setBranchDeviceStatus(boolean b) {
+    	addBranchDeviceStateButton.setEnabled(b);
+        branchDeviceComboBox.setEnabled(b);
+        branchDeviceLabel.setEnabled(b);
+    }
+
+    private void setBranchVariableStatus(boolean b) {
+    	branchVariableComboBox.setEnabled(b);
+    	branchVariableLabel.setEnabled(b);
+    	addBranchStateButton.setEnabled(b);
+    }
+
+    private void setBusDeviceStatus(boolean b) {
+    	busDeviceComboBox.setEnabled(b);
+    	busDeviceLabel.setEnabled(b);
+    	addBusDeviceStateButton.setEnabled(b);
+    }
+    
+    private void setBusVariableStatus(boolean b) {
+    	busVariableComboBox.setEnabled(b);
+    	busVariableLabel.setEnabled(b);
+    	addBusStateButton.setEnabled(b);
+    }
+
+    private void setExcStateStatus(boolean b) {
+    	excStateComboBox.setEnabled(b);
+    	excStateLabel.setEnabled(b);
+    	addExcStateButton.setEnabled(b);
+    }
+
+    private void setGovStateStatus(boolean b) {
+    	govStateComboBox.setEnabled(b);
+    	govStateLabel.setEnabled(b);
+    	addGovStateButton.setEnabled(b);
+    }
+
+    private void setMachStateStatus(boolean b) {
+    	machStateComboBox.setEnabled(b);
+    	machStateLabel.setEnabled(b);
+    	addMachStateButton.setEnabled(b);
+    }
+
+    private void setPssStateStatus(boolean b) {
+    	pssStateComboBox.setEnabled(b);
+    	pssstateLabel.setEnabled(b);
+    	addPSSStateButton.setEnabled(b);
     }
     
     private void setStateComboList(String machId) {
@@ -80,6 +158,8 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         typeButtonGroup = new javax.swing.ButtonGroup();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        plotPanel = new javax.swing.JPanel();
         typeSelectPanel = new javax.swing.JPanel();
         allRadioButton = new javax.swing.JRadioButton();
         machRadioButton = new javax.swing.JRadioButton();
@@ -92,17 +172,58 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         itemSelectList = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
         stateSelectList = new javax.swing.JList();
-        closeButton = new javax.swing.JButton();
         plotButton = new javax.swing.JButton();
+        scriptingButton = new javax.swing.JButton();
+        deleteButton = new javax.swing.JButton();
+        machStateLabel = new javax.swing.JLabel();
+        excStateLabel = new javax.swing.JLabel();
+        govStateLabel = new javax.swing.JLabel();
+        pssstateLabel = new javax.swing.JLabel();
+        busVariableLabel = new javax.swing.JLabel();
+        busDeviceLabel = new javax.swing.JLabel();
+        branchVariableLabel = new javax.swing.JLabel();
+        branchDeviceLabel = new javax.swing.JLabel();
+        machStateComboBox = new javax.swing.JComboBox();
+        excStateComboBox = new javax.swing.JComboBox();
+        govStateComboBox = new javax.swing.JComboBox();
+        pssStateComboBox = new javax.swing.JComboBox();
+        busVariableComboBox = new javax.swing.JComboBox();
+        busDeviceComboBox = new javax.swing.JComboBox();
+        branchVariableComboBox = new javax.swing.JComboBox();
+        branchDeviceComboBox = new javax.swing.JComboBox();
+        addMachStateButton = new javax.swing.JButton();
+        addExcStateButton = new javax.swing.JButton();
+        addGovStateButton = new javax.swing.JButton();
+        addPSSStateButton = new javax.swing.JButton();
+        addBusStateButton = new javax.swing.JButton();
+        addBusDeviceStateButton = new javax.swing.JButton();
+        addBranchStateButton = new javax.swing.JButton();
+        addBranchDeviceStateButton = new javax.swing.JButton();
+        machStateLabel1 = new javax.swing.JLabel();
+        machStateLabel2 = new javax.swing.JLabel();
+        scriptingPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        scriptTextArea = new javax.swing.JTextArea();
+        closeButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Transient Stability Simulation Plotting Dialog");
+        jTabbedPane1.setFont(new java.awt.Font("Dialog", 0, 12));
+        typeSelectPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Variable Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         typeButtonGroup.add(allRadioButton);
+        allRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        allRadioButton.setSelected(true);
         allRadioButton.setText("All");
         allRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         allRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        allRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                allRadioButtonActionPerformed(evt);
+            }
+        });
 
         typeButtonGroup.add(machRadioButton);
+        machRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         machRadioButton.setText("Machine");
         machRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         machRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
@@ -113,26 +234,50 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         });
 
         typeButtonGroup.add(busRadioButton);
+        busRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         busRadioButton.setText("Bus");
         busRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         busRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        busRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                busRadioButtonActionPerformed(evt);
+            }
+        });
 
         typeButtonGroup.add(busDeviceRadioButton);
+        busDeviceRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         busDeviceRadioButton.setText("Dynamic Bus Device");
         busDeviceRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         busDeviceRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        busDeviceRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                busDeviceRadioButtonActionPerformed(evt);
+            }
+        });
 
         typeButtonGroup.add(branchRadioButton);
+        branchRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         branchRadioButton.setText("Branch");
         branchRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         branchRadioButton.setEnabled(false);
         branchRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        branchRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                branchRadioButtonActionPerformed(evt);
+            }
+        });
 
         typeButtonGroup.add(branchDeviceRadioButton);
+        branchDeviceRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         branchDeviceRadioButton.setText("Dynamic Branch Device");
         branchDeviceRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         branchDeviceRadioButton.setEnabled(false);
         branchDeviceRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        branchDeviceRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                branchDeviceRadioButtonActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout typeSelectPanelLayout = new org.jdesktop.layout.GroupLayout(typeSelectPanel);
         typeSelectPanel.setLayout(typeSelectPanelLayout);
@@ -151,12 +296,12 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
                 .add(branchRadioButton)
                 .add(23, 23, 23)
                 .add(branchDeviceRadioButton)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         typeSelectPanelLayout.setVerticalGroup(
             typeSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(typeSelectPanelLayout.createSequentialGroup()
-                .add(24, 24, 24)
+                .addContainerGap()
                 .add(typeSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(allRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(machRadioButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -168,31 +313,187 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
                 .addContainerGap())
         );
 
+        itemSelectList.setFont(new java.awt.Font("Dialog", 0, 12));
         itemSelectList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        itemSelectList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                itemSelectListValueChanged(evt);
+        itemSelectList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        itemSelectList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itemSelectListMouseClicked(evt);
             }
         });
 
         jScrollPane1.setViewportView(itemSelectList);
 
+        stateSelectList.setFont(new java.awt.Font("Dialog", 0, 12));
         stateSelectList.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        stateSelectList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                stateSelectListValueChanged(evt);
+        stateSelectList.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                stateSelectListMouseClicked(evt);
             }
         });
 
         jScrollPane2.setViewportView(stateSelectList);
+
+        plotButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        plotButton.setText("P");
+        plotButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        plotButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                plotButtonActionPerformed(evt);
+            }
+        });
+
+        scriptingButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        scriptingButton.setText("S");
+        scriptingButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        scriptingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scriptingButtonActionPerformed(evt);
+            }
+        });
+
+        deleteButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        deleteButton.setText("X");
+        deleteButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
+        machStateLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        machStateLabel.setText("Mach States");
+
+        excStateLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        excStateLabel.setText("Exc States");
+
+        govStateLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        govStateLabel.setText("Gov States");
+
+        pssstateLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        pssstateLabel.setText("PSS States");
+
+        busVariableLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        busVariableLabel.setText("Bus Var");
+
+        busDeviceLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        busDeviceLabel.setText("Bus Device");
+
+        branchVariableLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchVariableLabel.setText("Branch Var");
+
+        branchDeviceLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchDeviceLabel.setText("Branch Device");
+
+        machStateComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        machStateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        excStateComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        excStateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        govStateComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        govStateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        pssStateComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        pssStateComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        busVariableComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        busVariableComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        busDeviceComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        busDeviceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        branchVariableComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchVariableComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        branchDeviceComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchDeviceComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        addMachStateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addMachStateButton.setText(">");
+        addMachStateButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        addMachStateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addMachStateButtonActionPerformed(evt);
+            }
+        });
+
+        addExcStateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addExcStateButton.setText(">");
+        addExcStateButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        addExcStateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addExcStateButtonActionPerformed(evt);
+            }
+        });
+
+        addGovStateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addGovStateButton.setText(">");
+        addGovStateButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        addGovStateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addGovStateButtonActionPerformed(evt);
+            }
+        });
+
+        addPSSStateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addPSSStateButton.setText(">");
+        addPSSStateButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        addPSSStateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addPSSStateButtonActionPerformed(evt);
+            }
+        });
+
+        addBusStateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addBusStateButton.setText(">");
+        addBusStateButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        addBusStateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBusStateButtonActionPerformed(evt);
+            }
+        });
+
+        addBusDeviceStateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addBusDeviceStateButton.setText(">");
+        addBusDeviceStateButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        addBusDeviceStateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBusDeviceStateButtonActionPerformed(evt);
+            }
+        });
+
+        addBranchStateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addBranchStateButton.setText(">");
+        addBranchStateButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        addBranchStateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBranchStateButtonActionPerformed(evt);
+            }
+        });
+
+        addBranchDeviceStateButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addBranchDeviceStateButton.setText(">");
+        addBranchDeviceStateButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        addBranchDeviceStateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addBranchDeviceStateButtonActionPerformed(evt);
+            }
+        });
+
+        machStateLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
+        machStateLabel1.setText("Mach/Bus/Branch Id");
+
+        machStateLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
+        machStateLabel2.setText("State/Variable");
 
         org.jdesktop.layout.GroupLayout itemSelectPanelLayout = new org.jdesktop.layout.GroupLayout(itemSelectPanel);
         itemSelectPanel.setLayout(itemSelectPanelLayout);
@@ -200,32 +501,166 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
             itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(itemSelectPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 136, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(33, 33, 33)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 322, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(machStateLabel1))
+                .add(31, 31, 31)
+                .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(excStateLabel)
+                    .add(govStateLabel)
+                    .add(pssstateLabel)
+                    .add(busVariableLabel)
+                    .add(busDeviceLabel)
+                    .add(branchVariableLabel)
+                    .add(branchDeviceLabel)
+                    .add(machStateLabel))
+                .add(35, 35, 35)
+                .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(excStateComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 103, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(govStateComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 103, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(pssStateComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 103, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(busVariableComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 103, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(busDeviceComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 103, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(branchVariableComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 103, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(branchDeviceComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 103, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(machStateComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 103, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(addBranchDeviceStateButton)
+                    .add(addBusDeviceStateButton)
+                    .add(addBusStateButton)
+                    .add(addPSSStateButton)
+                    .add(addGovStateButton)
+                    .add(addExcStateButton)
+                    .add(addMachStateButton)
+                    .add(addBranchStateButton))
+                .add(45, 45, 45)
+                .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 124, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(itemSelectPanelLayout.createSequentialGroup()
+                        .add(plotButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(scriptingButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 55, Short.MAX_VALUE)
+                        .add(deleteButton))
+                    .add(machStateLabel2))
+                .addContainerGap())
         );
         itemSelectPanelLayout.setVerticalGroup(
             itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, itemSelectPanelLayout.createSequentialGroup()
+            .add(itemSelectPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE))
-                .addContainerGap())
+                .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(itemSelectPanelLayout.createSequentialGroup()
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(machStateLabel2)
+                            .add(machStateLabel1))
+                        .add(13, 13, 13)
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+                            .add(itemSelectPanelLayout.createSequentialGroup()
+                                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 208, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 15, Short.MAX_VALUE)
+                                .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                    .add(plotButton)
+                                    .add(scriptingButton)
+                                    .add(deleteButton))))
+                        .addContainerGap())
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, itemSelectPanelLayout.createSequentialGroup()
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(machStateComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(machStateLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
+                            .add(addMachStateButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(excStateComboBox)
+                            .add(excStateLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(addExcStateButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(govStateComboBox)
+                            .add(govStateLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(addGovStateButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(pssStateComboBox)
+                            .add(pssstateLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(addPSSStateButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(busVariableComboBox)
+                            .add(busVariableLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(addBusStateButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(busDeviceComboBox)
+                            .add(busDeviceLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(addBusDeviceStateButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(branchVariableComboBox)
+                                .add(branchVariableLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, addBranchStateButton))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(itemSelectPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(branchDeviceComboBox)
+                            .add(branchDeviceLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(addBranchDeviceStateButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(19, 19, 19))))
         );
 
+        org.jdesktop.layout.GroupLayout plotPanelLayout = new org.jdesktop.layout.GroupLayout(plotPanel);
+        plotPanel.setLayout(plotPanelLayout);
+        plotPanelLayout.setHorizontalGroup(
+            plotPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(plotPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(plotPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(plotPanelLayout.createSequentialGroup()
+                        .add(10, 10, 10)
+                        .add(itemSelectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(typeSelectPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        plotPanelLayout.setVerticalGroup(
+            plotPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(plotPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(typeSelectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 56, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(itemSelectPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jTabbedPane1.addTab("Curve Plot", plotPanel);
+
+        scriptTextArea.setColumns(20);
+        scriptTextArea.setRows(5);
+        jScrollPane3.setViewportView(scriptTextArea);
+
+        org.jdesktop.layout.GroupLayout scriptingPanelLayout = new org.jdesktop.layout.GroupLayout(scriptingPanel);
+        scriptingPanel.setLayout(scriptingPanelLayout);
+        scriptingPanelLayout.setHorizontalGroup(
+            scriptingPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(scriptingPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 608, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        scriptingPanelLayout.setVerticalGroup(
+            scriptingPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(scriptingPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jTabbedPane1.addTab("Scripting", scriptingPanel);
+
+        closeButton.setFont(new java.awt.Font("Dialog", 0, 12));
         closeButton.setText("  Close  ");
         closeButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 closeButtonActionPerformed(evt);
-            }
-        });
-
-        plotButton.setText("    Plot   ");
-        plotButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                plotButtonActionPerformed(evt);
             }
         });
 
@@ -234,61 +669,140 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, typeSelectPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, itemSelectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .add(layout.createSequentialGroup()
-                        .add(175, 175, 175)
-                        .add(plotButton)
-                        .add(49, 49, 49)
-                        .add(closeButton)))
+                .addContainerGap()
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 633, Short.MAX_VALUE)
                 .addContainerGap())
+            .add(layout.createSequentialGroup()
+                .add(280, 280, 280)
+                .add(closeButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
+                .add(294, 294, 294))
         );
-
-        layout.linkSize(new java.awt.Component[] {closeButton, plotButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(typeSelectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(16, 16, 16)
-                .add(itemSelectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(16, 16, 16)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(closeButton)
-                    .add(plotButton))
-                .addContainerGap(25, Short.MAX_VALUE))
+                .add(jTabbedPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 411, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(15, 15, 15)
+                .add(closeButton)
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void stateSelectListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_stateSelectListValueChanged
-// TODO add your handling code here:
-    }//GEN-LAST:event_stateSelectListValueChanged
+    private void stateSelectListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stateSelectListMouseClicked
+    	IpssLogger.getLogger().info("state list mouse clicked, item: " + stateSelectList.getSelectedValue());
+    }//GEN-LAST:event_stateSelectListMouseClicked
 
-    private void itemSelectListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_itemSelectListValueChanged
+    private void itemSelectListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemSelectListMouseClicked
+    	IpssLogger.getLogger().info("item list mouse clicked, item: " + itemSelectList.getSelectedValue());
+    	String elemId = (String)itemSelectList.getSelectedValue();
+    	
+    }//GEN-LAST:event_itemSelectListMouseClicked
+
+    private void addBranchDeviceStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBranchDeviceStateButtonActionPerformed
+    	this.stateList.add((String)branchDeviceComboBox.getSelectedItem());
+        refreashStateList();
+    }//GEN-LAST:event_addBranchDeviceStateButtonActionPerformed
+
+    private void addBranchStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBranchStateButtonActionPerformed
+    	this.stateList.add((String)branchVariableComboBox.getSelectedItem());
+        refreashStateList();
+    }//GEN-LAST:event_addBranchStateButtonActionPerformed
+
+    private void addBusDeviceStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusDeviceStateButtonActionPerformed
+    	this.stateList.add((String)busDeviceComboBox.getSelectedItem());
+        refreashStateList();
+    }//GEN-LAST:event_addBusDeviceStateButtonActionPerformed
+
+    private void addBusStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusStateButtonActionPerformed
+    	IpssLogger.getLogger().info("Add bus button clicked");
+    	this.stateList.add((String)busVariableComboBox.getSelectedItem());
+        refreashStateList();
+    }//GEN-LAST:event_addBusStateButtonActionPerformed
+
+    private void addPSSStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addPSSStateButtonActionPerformed
+    	this.stateList.add((String)pssStateComboBox.getSelectedItem());
+        refreashStateList();
+    }//GEN-LAST:event_addPSSStateButtonActionPerformed
+
+    private void addGovStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addGovStateButtonActionPerformed
+    	this.stateList.add((String)govStateComboBox.getSelectedItem());
+        refreashStateList();
+    }//GEN-LAST:event_addGovStateButtonActionPerformed
+
+    private void addExcStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addExcStateButtonActionPerformed
+    	this.stateList.add((String)excStateComboBox.getSelectedItem());
+        refreashStateList();
+    }//GEN-LAST:event_addExcStateButtonActionPerformed
+
+    private void allRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_allRadioButtonActionPerformed
+    	IpssLogger.getLogger().info("all button clicked");
+    	this.itemList.clear();
+        this.itemList.add("Mach1");
+        this.itemList.add("Bus1");
+        this.itemList.add("Device1");
+        refreashItemList();
+    }//GEN-LAST:event_allRadioButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    	Object[] items = stateSelectList.getSelectedValues();
+    	if (items.length > 0) {
+    		for (Object obj : items) {
+    			stateList.remove((String)obj);	
+    		}
+            refreashStateList();
+    	}
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void scriptingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptingButtonActionPerformed
 // TODO add your handling code here:
-    }//GEN-LAST:event_itemSelectListValueChanged
+    }//GEN-LAST:event_scriptingButtonActionPerformed
+
+    private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotButtonActionPerformed
+// TODO add your handling code here:
+    }//GEN-LAST:event_plotButtonActionPerformed
+
+    private void addMachStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMachStateButtonActionPerformed
+    	IpssLogger.getLogger().info("Add mach button clicked");
+    	this.stateList.add((String)machStateComboBox.getSelectedItem());
+        refreashStateList();
+    }//GEN-LAST:event_addMachStateButtonActionPerformed
+
+    private void branchDeviceRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchDeviceRadioButtonActionPerformed
+// TODO add your handling code here:
+    }//GEN-LAST:event_branchDeviceRadioButtonActionPerformed
+
+    private void branchRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchRadioButtonActionPerformed
+// TODO add your handling code here:
+    }//GEN-LAST:event_branchRadioButtonActionPerformed
+
+    private void busDeviceRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busDeviceRadioButtonActionPerformed
+    	IpssLogger.getLogger().info("Bus device button clicked");
+    	this.itemList.clear();
+        this.itemList.add("Device1");
+        this.itemList.add("Device2");
+        refreashItemList();
+    }//GEN-LAST:event_busDeviceRadioButtonActionPerformed
+
+    private void busRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busRadioButtonActionPerformed
+    	IpssLogger.getLogger().info("Bus button clicked");
+    	this.itemList.clear();
+        this.itemList.add("Bus1");
+        this.itemList.add("Bus2");
+        refreashItemList();
+    }//GEN-LAST:event_busRadioButtonActionPerformed
 
     private void machRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_machRadioButtonActionPerformed
-// TODO add your handling code here:
+    	IpssLogger.getLogger().info("machine button clicked");
+    	this.itemList.clear();
+        this.itemList.add("Mach1");
+        this.itemList.add("Mach2");
+        refreashItemList();
     }//GEN-LAST:event_machRadioButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
         this.setVisible(false);
         dispose();
     }//GEN-LAST:event_closeButtonActionPerformed
-
-    private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotButtonActionPerformed
-    	if (machRadioButton.isSelected()) {
-//    		String state = (String)machStateComboBox.getSelectedItem();
-//    		String machId = (String)this.machListComboBox.getSelectedItem();
-//    		ChartManager.plotStateCurve(this.caseId, machId, state, "Not defined", ISimuRecManager.REC_TYPE_DStabMachineStates);
-    	}
-    }//GEN-LAST:event_plotButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -302,18 +816,51 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addBranchDeviceStateButton;
+    private javax.swing.JButton addBranchStateButton;
+    private javax.swing.JButton addBusDeviceStateButton;
+    private javax.swing.JButton addBusStateButton;
+    private javax.swing.JButton addExcStateButton;
+    private javax.swing.JButton addGovStateButton;
+    private javax.swing.JButton addMachStateButton;
+    private javax.swing.JButton addPSSStateButton;
     private javax.swing.JRadioButton allRadioButton;
+    private javax.swing.JComboBox branchDeviceComboBox;
+    private javax.swing.JLabel branchDeviceLabel;
     private javax.swing.JRadioButton branchDeviceRadioButton;
     private javax.swing.JRadioButton branchRadioButton;
+    private javax.swing.JComboBox branchVariableComboBox;
+    private javax.swing.JLabel branchVariableLabel;
+    private javax.swing.JComboBox busDeviceComboBox;
+    private javax.swing.JLabel busDeviceLabel;
     private javax.swing.JRadioButton busDeviceRadioButton;
     private javax.swing.JRadioButton busRadioButton;
+    private javax.swing.JComboBox busVariableComboBox;
+    private javax.swing.JLabel busVariableLabel;
     private javax.swing.JButton closeButton;
+    private javax.swing.JButton deleteButton;
+    private javax.swing.JComboBox excStateComboBox;
+    private javax.swing.JLabel excStateLabel;
+    private javax.swing.JComboBox govStateComboBox;
+    private javax.swing.JLabel govStateLabel;
     private javax.swing.JList itemSelectList;
     private javax.swing.JPanel itemSelectPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JRadioButton machRadioButton;
+    private javax.swing.JComboBox machStateComboBox;
+    private javax.swing.JLabel machStateLabel;
+    private javax.swing.JLabel machStateLabel1;
+    private javax.swing.JLabel machStateLabel2;
     private javax.swing.JButton plotButton;
+    private javax.swing.JPanel plotPanel;
+    private javax.swing.JComboBox pssStateComboBox;
+    private javax.swing.JLabel pssstateLabel;
+    private javax.swing.JTextArea scriptTextArea;
+    private javax.swing.JButton scriptingButton;
+    private javax.swing.JPanel scriptingPanel;
     private javax.swing.JList stateSelectList;
     private javax.swing.ButtonGroup typeButtonGroup;
     private javax.swing.JPanel typeSelectPanel;
