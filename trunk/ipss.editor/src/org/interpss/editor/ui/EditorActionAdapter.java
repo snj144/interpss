@@ -80,7 +80,7 @@ public class EditorActionAdapter {
 	public static void menu_output_dstabcurve(IpssEditorDocument doc) {
 		DStabPlotSelectionDialog dialog = new DStabPlotSelectionDialog(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), true);
 		DStabRunForm dsatbRunForm = (DStabRunForm)doc.getSimuAppContext().getDStabRunForm();
-		dialog.init(dsatbRunForm.getDbSimuCaseId());
+		dialog.init((SimuContext)doc.getSimuAppContext().getSimuCtx(), dsatbRunForm.getDbSimuCaseId());
 	}
 	public static void menu_report_save(IpssEditorDocument doc) {
 	}
