@@ -494,7 +494,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
     	
 //    	Columns 20-29   Branch resistance R, per unit [F] *
 //    	Columns 30-40   Branch reactance X, per unit [F] * No zero impedance lines
-//    	Columns 41-50   Line charging B, per unit [F] * (total line charging, +B)
+//    	Columns 41-50   Line charging B, per unit [F] * (total line charging, +B), Xfr B is negative
     	final double rpu = new Double(strAry[6]).doubleValue();
     	final double xpu = new Double(strAry[7]).doubleValue();
     	final double bpu = new Double(strAry[8]).doubleValue();
@@ -557,6 +557,10 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
     	 	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
     		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
         	xfr.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
+        	if (bpu < 0.0) {
+        		IpssLogger.getLogger().fine("Xfr B: " + bpu);
+        		bra.getFromAclfBus().setShuntY(new Complex(0.0, -bpu));
+        	}
         	xfr.setFromTurnRatio(ratio, UnitType.PU);
         	xfr.setToTurnRatio(1.0, UnitType.PU); 
         	if (angle != 0.0) {
