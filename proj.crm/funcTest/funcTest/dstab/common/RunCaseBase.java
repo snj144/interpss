@@ -89,7 +89,9 @@ public class RunCaseBase {
                 x = ((Double)states.get(DStabOutFunc.OUT_SYMBOL_MACH_ANG));
             else if (outType == Output_Exc_Efd) {
                 Hashtable excStates = 	(Hashtable)states.get(ControllerType.EXCITER_LITERAL);
-                x = ((Double)excStates.get(DStabOutFunc.OUT_SYMBOL_EXC_EFD));
+//                x = ((Double)excStates.get(DStabOutFunc.OUT_SYMBOL_EXC_EFD));
+                excStates.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
+                System.out.println(excStates);
             }
             else if (outType == Output_Gov_Pm)
                 x = ((Double)states.get(DStabOutFunc.OUT_SYMBOL_MACH_PM));
@@ -98,7 +100,7 @@ public class RunCaseBase {
                 x = ((Double)pssStates.get(DStabOutFunc.OUT_SYMBOL_PSS_VS));
             }
             str += Num2Str.toStr(10, Num2Str.toStr("0.0000", x));
-            System.out.println(str);
+//            System.out.println(str);
         }
     }
     

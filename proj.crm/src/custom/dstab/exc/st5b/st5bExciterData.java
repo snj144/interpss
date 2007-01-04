@@ -97,7 +97,50 @@ public class st5bExciterData {
     public double getKc() { return kc; }
     public void setKc(double kc) { this.kc = kc; }
     
-
+    private double tr = 0.020;
+    public double getTr() { return tr; }
+    public void setTr(double tr) { this.tr = tr; }
+    
+    private double kir = -0.050;
+    public double getKir() { return kir; }
+    public void setKir(double kir) { this.kir = kir; }
+    
+    private double kia = 0.000;
+    public double getKia() { return kia; }
+    public void setKia(double kia) { this.kia = kia; }
+    
+    private double k3 = 4.0;
+    public double getK3() { return k3; }
+    public void setK3(double k3) { this.k3 = k3; }
+    
+    private double t3 = 0.011;
+    public double getT3() { return t3; }
+    public void setT3(double t3) { this.t3 = t3; }
+    
+    private double k4 = 2.9;
+    public double getK4() { return k4; }
+    public void setK4(double k4) { this.k4 = k4; }
+    
+    private double t4 = 0.9000;
+    public double getT4() { return t4; }
+    public void setT4(double t4) { this.t4 = t4; }
+    
+    private double kvf = 0.750;
+    public double getKvf() { return kvf; }
+    public void setKvf(double kvf) { this.kvf = kvf; }
+    
+    private double kif = 1.900;
+    public double getKif() { return kif; }
+    public void setKif(double kif) { this.kif = kif; }
+    
+    private double v3max = 7.00;
+    public double getV3max() { return v3max; }
+    public void setV3max(double v3max) { this.v3max = v3max; }
+    
+    private double v3min = -6.40;
+    public double getV3min() { return v3min; }
+    public void setV3min(double v3min) { this.v3min = v3min; }
+    
     private double vrmax = 7.00;
     public double getVrmax() { return vrmax; }
     public void setVrmax(double vrmax) { this.vrmax = vrmax; }
@@ -105,4 +148,12 @@ public class st5bExciterData {
     private double vrmin = -6.40;
     public double getVrmin() { return vrmin; }
     public void setVrmin(double vrmin) { this.vrmin = vrmin; }
+
+    private double vfdmax = 7.00;
+    public double getVfdmax() { return vfdmax; }
+    public void setVfdmax(double vfdmax) { this.vfdmax = vfdmax; }
+    
+    private double vfdmin = 0.000;
+    public double getVfdmin() { return vfdmin; }
+    public void setVfdmin(double vfdmin) { this.vfdmin = vfdmin; }
 }

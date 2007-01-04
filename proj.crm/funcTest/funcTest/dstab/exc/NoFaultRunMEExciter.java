@@ -44,23 +44,26 @@ public class NoFaultRunMEExciter extends RunCaseBase {
         
         // Create an MEExciter object
         custom.dstab.exc.st5b.st5bExciter exc = new custom.dstab.exc.st5b.st5bExciter();
-        exc.getData().setKc(0.06);
+        exc.getData().setKc(0.000);
+        exc.getData().setKia(0.000);
+        exc.getData().setKir(0.000);
         exc.getData().setKr(300.0);
         exc.getData().setT1(0.003);
-        exc.getData().setTb1(0.350);
-        exc.getData().setTb2(0.020);
+        exc.getData().setTb1(10.00);
+        exc.getData().setTb2(0.050);
         exc.getData().setTc1(2.0);
-        exc.getData().setTc2(10.0);
-        exc.getData().setTob1(0.35);
-        exc.getData().setTob2(0.02);
+        exc.getData().setTc2(0.100);
+        exc.getData().setTob1(10.000);
+        exc.getData().setTob2(0.050);
         exc.getData().setToc1(2.0);
-        exc.getData().setToc2(10.0);
-        exc.getData().setTub1(2.0);
-        exc.getData().setTub2(0.0);
-        exc.getData().setTuc1(10.0);
-        exc.getData().setTuc2(0.02);
-        exc.getData().setVrmax(10.0);
-        exc.getData().setVrmin(-0.85);
+        exc.getData().setToc2(0.100);
+        exc.getData().setTr(0.020);
+        exc.getData().setTub1(10.000);
+        exc.getData().setTub2(0.050);
+        exc.getData().setTuc1(2.0);
+        exc.getData().setTuc2(0.100);
+        exc.getData().setVrmax(10.00);
+        exc.getData().setVrmin(-8.50);
         
         // add exciter to the machine G1
         DStabBus bus = net.getDStabBus("G1bus");
@@ -71,14 +74,14 @@ public class NoFaultRunMEExciter extends RunCaseBase {
         
         // Initial system for transient stability simulaiton.
         net.initialization(msg);
-        System.out.println(net.net2String());
+        //System.out.println(net.net2String());
         
-        double totalTime = 1.0;
+        double totalTime = 1.000;
         double dt = 0.005;
         
         // Perform transent stability simulation. 
         // You can use [Output_Default, Output_Mach_Angle, Output_Exc_Efd, Output_Gov_Pm, Output_Pss_Vpss] for the output type
-        runDStabSimulation(net, msg, totalTime, dt, Output_Default);
+        runDStabSimulation(net, msg, totalTime, dt, Output_Exc_Efd);
     }
     
 }
