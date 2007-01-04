@@ -50,6 +50,7 @@ public class st5bExciter extends AbstractExciter {
     // ===================================
     
     private double vRef = 0.0, Vc = 0.0, Xadu = 0.0, Ifd = 0.0, vt = 0.0, vWindup = 0.0;
+    private double pt = 0.0, qt = 0.0, Uf = 0.0, v3lim = 0.0;
     private boolean uelOn = false, oelOn = false;
     private boolean withD = true, withI = true,
                     withUD = true, withOD = true,
@@ -62,7 +63,16 @@ public class st5bExciter extends AbstractExciter {
     private FilterControlBlock tgro1 = null;
     private FilterControlBlock tgro2 = null;
     private DelayControlBlock gcu = null;
-    private LimitType vLimit = null;
+    private LimitType vrLimit = null;
+    // blocks for the input conditioning
+    private DelayControlBlock UgMeas = null;
+    private DelayControlBlock QgMeas = null;
+    private DelayControlBlock PgMeas = null;
+    // blocks for the rotating exciter
+    private DelayControlBlock excSub = null;
+    private DelayControlBlock excTran = null;
+    private LimitType v3Limit = null;
+    private LimitType vfdLimit = null;
 
     
     // Step-2: Initialization
@@ -78,15 +88,41 @@ public class st5bExciter extends AbstractExciter {
         Xadu = mach.getMachData().getXd() - mach.getMachData().getXl();
         Ifd = ((DynamicMachine)mach).calculateIfd(abus) *Xadu;
         // Ifd is converted to excitation standard rotor base
-
+        // used in rotating exciter and/or st5b controller
         double cpd = Ifd*getData().getKc();
         
+        /*
+         * This section implements the rotating exciter part
+         */
+        double efo = mach.getEfd();
+        double ifda = Ifd*getData().getKif();
+        vfdLimit = new LimitType(getData().getVfdmax(),getData().getVfdmin());
+        efo = (efo > getData().getVfdmax())? getData().getVfdmax() : efo;
+        efo = (efo < getData().getVfdmin())? getData().getVfdmin() : efo;
+        excTran = new DelayControlBlock(getData().getK4(), getData().getT4());
+        if (!(excTran.initState(efo+ifda))) {
+            msg.sendErrorMsg("Initialisation error: exciter Tran");
+            return false; }
+        v3Limit = new LimitType(getData().getV3max(), getData().getV3min());
+        double v3 = excTran.getU0();
+        v3 = (v3 > getData().getV3max())? getData().getV3max() : v3;
+        v3 = (v3 < getData().getV3min())? getData().getV3min() : v3;
+        v3lim = v3;
+        excSub = new DelayControlBlock(getData().getK3(), getData().getT3());
+        if (!(excSub.initState(v3))) {
+            msg.sendErrorMsg("Initialisation error: exciter Sub");
+            return false; }
+        Uf = excSub.getU0()+ efo*getData().getKvf();
+        
+        /*
+         * this section implements the st5b regulator part
+         */
         gcu = new DelayControlBlock(1, getData().getT1());
-        if (!gcu.initState(mach.getEfd())) {
-            msg.sendErrorMsg("Initialisation error: Efd exceeds limit");
+        if (!gcu.initState(Uf)) {
+            msg.sendErrorMsg("Initialisation error: Uf ");
             return false; }
         
-        vLimit = new LimitType(getData().getVrmax(), getData().getVrmin());
+        vrLimit = new LimitType(getData().getVrmax(), getData().getVrmin());
         
         double tgrRatio = 1.0, tgruRatio = 1.0, tgroRatio = 1.0;
         if (!(getData().getTb1()==0)) 
@@ -99,19 +135,19 @@ public class st5bExciter extends AbstractExciter {
         tgr1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getTc1(), getData().getTb1(),
                getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!tgr1.initState((gcu.getU0()-cpd)/getData().getKr())) {
+        if (!(tgr1.initState(gcu.getU0()/getData().getKr()))) {
             msg.sendErrorMsg("Initialisation error: tgr1 init exceeds limit");
             return false; }
         tgru1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getTuc1(), getData().getTub1(),
                getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!tgru1.initState((gcu.getU0()-cpd)/getData().getKr())) {
+        if (!(tgru1.initState(gcu.getU0()/getData().getKr()))) {
             msg.sendErrorMsg("Initialisation error: tgru1 init exceeds limit");
             return false; }
         tgro1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getToc1(), getData().getTob1(),
                getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!tgro1.initState((gcu.getU0()-cpd)/getData().getKr())) {
+        if (!(tgro1.initState(gcu.getU0()/getData().getKr()))) {
             msg.sendErrorMsg("Initialisation error: tgro1 init exceeds limit");
             return false; }
         
@@ -128,25 +164,26 @@ public class st5bExciter extends AbstractExciter {
                1, getData().getTc2(), getData().getTb2(),
                getData().getVrmax()/getData().getKr()*tgrRatio,
                getData().getVrmin()/getData().getKr()*tgrRatio);
-        if (!tgr2.initState(tgr1.getU0()*(1-tgrRatio))) {
+        if (!tgr2.initState(tgr1.getU0())) {
             msg.sendErrorMsg("Initialisation error: tgr2 init exceeds limit");
             return false; }
         tgru2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getTuc2(), getData().getTub2(),
                getData().getVrmax()/getData().getKr()*tgruRatio,
                getData().getVrmin()/getData().getKr()*tgruRatio);
-        if (!tgru2.initState(tgru1.getU0()*(1-tgruRatio))) {
+        if (!tgru2.initState(tgru1.getU0())) {
             msg.sendErrorMsg("Initialisation error: tgru2 init exceeds limit");
             return false; }
         tgro2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
                1, getData().getToc2(), getData().getTob2(),
                getData().getVrmax()/getData().getKr()*tgroRatio,
                getData().getVrmin()/getData().getKr()*tgroRatio);
-        if (!tgro2.initState(tgro1.getU0()*(1-tgroRatio))) {
+        if (!tgro2.initState(tgro1.getU0())) {
             msg.sendErrorMsg("Initialisation error: tgro2 init exceeds limit");
             return false; }
         
         Vc = tgr2.getU0();
+
         if (getData().getTb1()==0)
             withI = false;
         if (getData().getTub1()==0)
@@ -161,6 +198,26 @@ public class st5bExciter extends AbstractExciter {
             withOD = false;
         if (getData().getT1()==0)
             withGCU = false;
+        
+        /*
+         * This section implements the input conditioning
+         */
+        
+        UgMeas = new DelayControlBlock(1, getData().getTr());
+        if (!UgMeas.initState(vt)) {
+            msg.sendErrorMsg("Initialisation error: V measuring");
+            return false; }
+        QgMeas = new DelayControlBlock(1, getData().getTr());
+        if (!QgMeas.initState(mach.getQBus())) {
+            msg.sendErrorMsg("Initialisation error: Q measuring");
+            return false; }
+        PgMeas = new DelayControlBlock(1, getData().getTr());
+        if (!PgMeas.initState(mach.getPe())) {
+            msg.sendErrorMsg("Initialisation error: P measuring");
+            return false; }
+        
+        vRef = Vc + UgMeas.getU0() - QgMeas.getU0()*getData().getKir() - PgMeas.getU0()*getData().getKia();
+
         
         return true;
     }
@@ -177,17 +234,27 @@ public class st5bExciter extends AbstractExciter {
      */
     public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Machine mach, Network net, IPSSMsgHub msg) {
         if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-            
-            final double vErr = calculateVerr(abus, mach);
+            // inputs
+            vt = abus.getVoltage().abs() / mach.getVMultiFactor();
+            UgMeas.eulerStep1(vt, dt);
+            UgMeas.eulerStep2(vt, dt);
+            qt = mach.getQBus();
+            QgMeas.eulerStep1(qt, dt);
+            QgMeas.eulerStep2(qt, dt);
+            pt = mach.getPe();
+            PgMeas.eulerStep1(pt, dt);
+            PgMeas.eulerStep2(pt, dt);
+            // regulator
+            Vc = calculateVerr(abus, mach);
             if (withD) {
-                tgr2.eulerStep1(vErr, dt);
-                tgr2.eulerStep2(vErr, dt); }
+                tgr2.eulerStep1(Vc, dt);
+                tgr2.eulerStep2(Vc, dt); }
             if (withUD) {
-                tgru2.eulerStep1(vErr, dt);
-                tgru2.eulerStep2(vErr, dt); }
+                tgru2.eulerStep1(Vc, dt);
+                tgru2.eulerStep2(Vc, dt); }
             if (withOD) {
-                tgro2.eulerStep1(vErr, dt);
-                tgro2.eulerStep2(vErr, dt); }
+                tgro2.eulerStep1(Vc, dt);
+                tgro2.eulerStep2(Vc, dt); }
             
             final double v1 = calculateV1(abus, mach);
             if (withI) {
@@ -206,7 +273,7 @@ public class st5bExciter extends AbstractExciter {
                           - mach.getMachData().getXl();
             Ifd = ((DynamicMachine)mach).calculateIfd(abus) *Xadu;
             
-            vt = abus.getVoltage().abs() / mach.getVMultiFactor();
+            
             final double v2 = calculateV2(abus, mach);
             if (withGCU){
                 gcu.eulerStep1(v2, dt);
@@ -214,16 +281,20 @@ public class st5bExciter extends AbstractExciter {
                 vWindup = findWindup();
             if (vWindup == 1) {
                     gcu.setDxDt(0.0);
-                    gcu.setStateX(vt*getData().getVrmax());  }                  
+                    gcu.setStateX(getData().getVrmax());  }                  
             if (vWindup == -1) {
                     gcu.setDxDt(0.0);
-                    gcu.setStateX(vt*getData().getVrmin());  }
-            
+                    gcu.setStateX(getData().getVrmin());  }
             }
-            
-            
-            
-            
+            // rotating exciter
+            final double Uf = calculateUf();
+            double ufi = Uf - mach.getEfd();
+            excSub.eulerStep1(ufi, dt);
+            excSub.eulerStep2(ufi, dt);
+            final double v3 = calculateV3(mach);
+            v3lim = v3Limit.limit(v3);
+            excTran.eulerStep1(v3lim, dt);
+            excTran.eulerStep2(v3lim, dt);
             
             return true;
         } else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
@@ -236,16 +307,18 @@ public class st5bExciter extends AbstractExciter {
     
     
     private double calculateVerr(DStabBus abus, Machine mach) {
-        return 0.0 + calculatePSS(abus, mach);
+        double vpss = calculatePSS(abus, mach);
+        double ug = UgMeas.getY(vt);
+        double qgr = QgMeas.getY(qt)*getData().getKir();
+        double pgr = PgMeas.getY(pt)*getData().getKia();
+        return vRef - ug + qgr + pgr + vpss;
     }
-    private double calculateVc() {
-        return Vc;
-    }
+    
     private double calculateVuel() {
-        return 0.0;
+        return -10.0;
     }
     private double calculateVoel() {
-        return 0.0;
+        return 10.0;
     }
     private double calculatePSS(DStabBus abus, Machine mach) {
         return mach.hasStabilizer()? mach.getStabilizer().getOutput(abus) : 0.0;
@@ -270,13 +343,13 @@ public class st5bExciter extends AbstractExciter {
     }
     
     private double calculateV2(DStabBus abus, Machine mach) {
-        double hv = (calculateVc() >= calculateVuel())? calculateVc() : calculateVuel();
+        double hv = (Vc >= calculateVuel())? Vc : calculateVuel();
         double lv = (hv <= calculateVoel())? hv : calculateVoel();
-        if (lv == calculateVc()) { 
-            return vLimit.limit(calculateVr1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
+        if (lv == Vc) { 
+            return vrLimit.limit(calculateVr1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
         }else if (lv == calculateVuel()){
-            return vLimit.limit(calculateVru1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
-        }else return vLimit.limit(calculateVro1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
+            return vrLimit.limit(calculateVru1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
+        }else return vrLimit.limit(calculateVro1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
     }
     
     private double findWindup() {
@@ -287,11 +360,20 @@ public class st5bExciter extends AbstractExciter {
         }else return 0.0;
     }
     
+    private double calculateUf() {
+        return gcu.getStateX();
+    }
+    private double calculateV3(Machine mach) {
+        return excSub.getY(calculateUf()-(mach.getEfd()*getData().getKvf()));
+    }
+    
+    
     // Step-5: Define Controller output (Efd)
     // =====================================
     
     public double getOutput(DStabBus abus, Machine mach) {
-        return gcu.getStateX();
+        double v4 = excTran.getY(v3lim)-Ifd*getData().getKif();
+        return vfdLimit.limit(v4);
     }
     
     // Step-6: Defined Controller display variables
@@ -299,10 +381,18 @@ public class st5bExciter extends AbstractExciter {
         
     
     public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
-        Hashtable table = super.getStates(abus, ref);
+        Hashtable table = super.getStates(abus, mach, ref);
         // Efd already added to the output symbol list, you can add more output variables as follows:
-        table.put("vPSS", Num2Str.toStr("0.0000", calculatePSS(abus, mach)));
-        table.put("Ifd", Num2Str.toStr("0.0000", Ifd));
+        table.put("vPSS", Num2Str.toStr("0.00000000", calculatePSS(abus, mach)));
+        table.put("Ifd", Num2Str.toStr("0.00000000", Ifd));
+        table.put("Vt", Num2Str.toStr("0.00000000", vt));
+        table.put("Ug", Num2Str.toStr("0.00000000", UgMeas.getY(vt)));
+        table.put("Pt", Num2Str.toStr("0.00000000", mach.getPe()));
+        table.put("Pg", Num2Str.toStr("0.00000000", PgMeas.getY(mach.getPe())));
+        table.put("Qt", Num2Str.toStr("0.00000000", mach.getQBus()));
+        table.put("Qg", Num2Str.toStr("0.00000000", QgMeas.getY(mach.getQBus())));
+        table.put("vRef", Num2Str.toStr("0.00000000", vRef));
+        table.put("Vc", Num2Str.toStr("0.00000000", Vc));
         return table;
     }
     
@@ -386,19 +476,6 @@ public class st5bExciter extends AbstractExciter {
     public double getRefPoint() {
 	return vRef;
     }
-    /**
-     * Get the Vc controller error signal
-     * for input initialisation
-     */
-    public double getVc() {
-        return calculateVc();
-    }
-    /**
-     * Set the Vc controller error 
-     * from input class
-     */
-    public void setVc(double x) {
-        Vc = x;
-    }
+
     
 }

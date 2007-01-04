@@ -123,7 +123,7 @@ public class simpleSMIB {
         // set gen data
         mach1.setRating(389, "Mva", net.getBaseKva());
         mach1.setRatedVoltage(20000.0);
-        mach1.setMultiFactors();
+        mach1.setMultiFactors(mach1.getDStabBus());
         mach1.setPoles(2);
         mach1.setH(3.28);
         mach1.setXd(1.98);
