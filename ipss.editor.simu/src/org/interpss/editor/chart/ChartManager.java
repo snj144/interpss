@@ -183,7 +183,7 @@ public class ChartManager {
 	public static final String OUT_SYMBOL_MACH_ED1 		= "Mach Ed1";
 	public static final String OUT_SYMBOL_MACH_ED11 	= "Mach Ed11";
 */     
-    private static String getMachDataLabel(Machine mach, String state, double baseFreq, double baseKva) {
+    public static String getMachDataLabel(Machine mach, String state, double baseFreq, double baseKva) {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
     	String rating = Num2Str.toStr("0.0",mach.getRating()*baseKva/1000.0);
@@ -385,17 +385,23 @@ public class ChartManager {
 		
 		SimpleOneStateChart plot = null;
 		if (recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates))
-			plot = new SimpleOneStateChart("Machine State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
+					            true, "Machine State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabExcStates))
-			plot = new SimpleOneStateChart("Exciter State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
+					            true, "Exciter State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabGovStates))
-			plot = new SimpleOneStateChart("Governor State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
+					            true, "Governor State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabPssStates))
-			plot = new SimpleOneStateChart("Stabilizer State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
+					            true, "Stabilizer State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
-			plot = new SimpleOneStateChart("Bus Voltage State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), true, 
+					            "Bus Voltage State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates))
-			plot = new SimpleOneStateChart("Scripting Dynamic Bus Device Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
+					            true, "Scripting Dynamic Bus Device Curve Plot");
 
     	double[] xdata = new double[elemRecList.size()];
     	double[] ydata = new double[elemRecList.size()];
