@@ -26,7 +26,7 @@ package org.interpss.chart.dstab;
 
 import java.awt.Color;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 
 import org.jfree.chart.ChartFactory;
@@ -47,7 +47,7 @@ import com.interpss.common.ui.WinUtilities;
 /**
  * Demo for {@link XYSeries}, where all the y values are the same.
  */
-public class SimpleOneStateChart extends JFrame {
+public class SimpleOneStateChart extends JDialog {
 	public static int Chart_Width = 800;
 	public static int Chart_Height = 500;
 	
@@ -68,8 +68,9 @@ public class SimpleOneStateChart extends JFrame {
      *
      * @param title  the frame title.
      */
-    public SimpleOneStateChart(final String title) {
-        super(title);
+    public SimpleOneStateChart(java.awt.Frame parent, boolean modal, final String title) {
+        super(parent, modal);
+        setTitle("Transient Stability Curve Plotting");
         setPlotTitle(title);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	}
@@ -153,7 +154,7 @@ public class SimpleOneStateChart extends JFrame {
      * @param args  ignored.
      */
     public static void main(final String[] args) {
-    	final SimpleOneStateChart plot = new SimpleOneStateChart("Bus Load Schedule");
+    	final SimpleOneStateChart plot = new SimpleOneStateChart(null, true, "Bus Load Schedule");
     	
     	final double[] xData = new double[100];
     	final double[] yData = new double[100];
