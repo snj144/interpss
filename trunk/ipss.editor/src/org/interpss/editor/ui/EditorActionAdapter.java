@@ -26,17 +26,17 @@ package org.interpss.editor.ui;
 
 import java.io.File;
 
-import javax.swing.JDialog;
-
+import org.interpss.editor.app.ProjectScriptFileUtil;
+import org.interpss.editor.chart.DStabPlotSelectionDialog;
 import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssReportDocument;
+import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.report.ReportUtil;
 import org.interpss.editor.runAct.DStabRunForm;
-import org.interpss.editor.ui.chart.DStabPlotSelectionDialog;
 import org.interpss.editor.util.Utilities;
 import org.interpss.report.IpssReportFactory;
 
@@ -80,7 +80,9 @@ public class EditorActionAdapter {
 	public static void menu_output_dstabcurve(IpssEditorDocument doc) {
 		DStabPlotSelectionDialog dialog = new DStabPlotSelectionDialog(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), true);
 		DStabRunForm dsatbRunForm = (DStabRunForm)doc.getSimuAppContext().getDStabRunForm();
-		dialog.init((SimuContext)doc.getSimuAppContext().getSimuCtx(), dsatbRunForm.getDbSimuCaseId());
+    	IpssTextFile file = ProjectScriptFileUtil.getDStabPlotScriptFile(doc);
+		dialog.init((SimuContext)doc.getSimuAppContext().getSimuCtx(), dsatbRunForm.getDbSimuCaseId(), 
+				    	file==null?null:file.getFilePathName());
 	}
 	public static void menu_report_save(IpssEditorDocument doc) {
 	}
