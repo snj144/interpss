@@ -160,4 +160,11 @@ public class DummyProjData implements IProjectData {
 
 	public void setDbSchemaVersion(String v) {
 	}
+	
+	public String getScripts() {
+		return "";
+	}
+
+	public void setScripts(String scripts) {
+	}	
 }

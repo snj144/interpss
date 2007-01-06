@@ -135,6 +135,21 @@ public interface IProjectData {
 	 */
 	public void setDbSchemaVersion(String dbSchemaVersion);
 
+	
+	/**
+	 * Get prject scripts, which is a XML string of the scripts bean
+	 * 
+	 * @return
+	 */
+	public String getScripts();
+
+	/**
+     * Set project scripts
+	 * 
+	 * @param scripts
+	 */
+	public void setScripts(String scripts);
+	
 	/**
 	 * Convert this object to an Xml string for persistance
 	 * 
