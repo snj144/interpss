@@ -4,8 +4,8 @@ public class IpssTextFile {
 	private String filePathName;
 	protected boolean modified = false;
 	
-	public IpssTextFile(String filePath) {
-		setFilePathName(filePath);
+	public IpssTextFile(String filePathName) {
+		setFilePathName(filePathName);
 		setModified(false);
 	}
 
