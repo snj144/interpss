@@ -10,14 +10,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.event.CaretEvent;
-import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.resources.Translator;
-import org.jgraph.graph.GraphConstants;
 
 
 public class IpssTextDocument extends IpssEditorDocument{
