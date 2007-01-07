@@ -37,6 +37,7 @@ import javax.swing.JFileChooser;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
 
 import com.interpss.common.exp.InvalidOperationException;
@@ -263,17 +264,11 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     	int retValue = fChooser.showSaveDialog(this);
 		if (retValue == JFileChooser.APPROVE_OPTION) {
 			File file = fChooser.getSelectedFile();
-			try {
-				String filename = file.getPath();
-				if (!filename.endsWith(".txt"))
-					filename += ".txt";
-		    	IpssLogger.getLogger().info("Textarea text saved to file: " + filename);
-				OutputStream out = new BufferedOutputStream(new FileOutputStream(filename));
-				out.write(textArea.getText().getBytes());
-				out.flush();
-				out.close();
-			} catch (Exception e) {
-			}
+			String filename = file.getPath();
+			if (!filename.endsWith(".txt"))
+				filename += ".txt";
+		    IpssLogger.getLogger().info("Textarea text saved to file: " + filename);
+		    GUIFileUtil.writeTextarea2File(filename, textArea);
 		}    
 	}//GEN-LAST:event_saveAsButtonActionPerformed
 	
