@@ -29,7 +29,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import funcTest.dstab.common.simpleSMIB;
 import funcTest.dstab.common.RunCaseBase;
 
-public class NoFaultRunMEExciter extends RunCaseBase {
+public class SPChangeRunMEExciter extends RunCaseBase {
     
     public static void main(String[] args) {
         setUp();
@@ -46,8 +46,8 @@ public class NoFaultRunMEExciter extends RunCaseBase {
         custom.dstab.exc.st5b.st5bExciter exc = new custom.dstab.exc.st5b.st5bExciter();
         // input conditioning
         exc.getData().setTr(0.020);
-        exc.getData().setKir(0.000);
-        exc.getData().setKia(0.000);
+        exc.getData().setKir(-0.050);
+        exc.getData().setKia(0.020);
         // voltage regulator
         exc.getData().setTb1(10.00);
         exc.getData().setTc1(2.0);
@@ -90,6 +90,10 @@ public class NoFaultRunMEExciter extends RunCaseBase {
         // Initial system for transient stability simulaiton.
         net.initialization(msg);
         //System.out.println(net.net2String());
+        
+        // Setpoint change 
+        double v = exc.getRefPoint() + 0.05;
+        exc.setRefPoint(v);
         
         double totalTime = 15.0;
         double dt = 0.002;
