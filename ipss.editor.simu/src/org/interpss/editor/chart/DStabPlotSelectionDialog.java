@@ -24,20 +24,28 @@
 
 package org.interpss.editor.chart;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
-import org.interpss.editor.jgraph.ui.data.IProjectData;
+import javax.script.Invocable;
+import javax.script.ScriptEngine;
+
 import org.interpss.editor.ui.util.GUIFileUtil;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.ISimuRecManager;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.net.Network;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.script.ScriptingUtil;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 
 /**
@@ -45,6 +53,10 @@ import com.interpss.simu.util.SimuCtxUtilFunc;
  * @author  mzhou
  */
 public class DStabPlotSelectionDialog extends javax.swing.JDialog {
+	private static final long serialVersionUID = 1;
+
+	public static String ScriptTemplateFilename = "template/DStabPlotScriptTemplate.txt";
+	
     private int caseId = 0;
     private SimuContext simuCtx;
     private String scriptFilename;
@@ -59,7 +71,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         WinUtilities.center(this);
     }
 
-    public void init(SimuContext simuCtx, int aCaseId, String scriptFilename) {
+    public void init(SimuContext simuCtx, int aCaseId, String scriptFilename, String workspace) {
         this.caseId = aCaseId;
         this.simuCtx = simuCtx;
         this.scriptFilename = scriptFilename;
@@ -75,6 +87,9 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         	IpssLogger.getLogger().info("scriptFilename: " + scriptFilename);
         	mainTabbedPane.setEnabledAt(1, true);
         	GUIFileUtil.readFile2Textarea(scriptFilename, scriptTextArea);
+        	if (scriptTextArea.getText().trim().equals(""))
+            	GUIFileUtil.readFile2Textarea(
+            			workspace+System.getProperty("file.separator")+ScriptTemplateFilename, scriptTextArea);
         } else {
         	mainTabbedPane.setEnabledAt(1, false);
         }
@@ -799,19 +814,56 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void scriptingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptingButtonActionPerformed
-// TODO add your handling code here:
+    	Object[] strList = stateItemSelectList.getSelectedValues();
+    	if (strList.length > 0) {
+    		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
+        	try {
+       			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
+       			engine.eval(scriptTextArea.getText());
+        		Object plotObj = ScriptingUtil.getScritingObject(engine, msg);
+        		List<String> nameList = new ArrayList<String>();
+        		nameList.add("Time");
+        		for (Object strObj : strList) {
+            		nameList.add((String)strObj);
+        		}
+        		List<Hashtable<String,String>> valueList = new ArrayList<Hashtable<String,String>>();
+        		for (int i = 0; i < 3; i++) {
+        			Hashtable<String,String> row = new Hashtable<String,String>();
+        			row.put("Time", "0.00");
+            		for (Object strObj : strList) {
+                		row.put((String)strObj, "0.0");
+            		}
+            		valueList.add(row);
+        		}
+       			((Invocable)engine).invokeMethod(plotObj, "processPlotScripts", this.simuCtx, msg, nameList, valueList);
+    		} catch (Exception e) {
+    			msg.sendErrorMsg("DStabPlotSelectDialog.scriptingButtonActionPerformed(), " + e.toString());
+    		}
+    	}
     }//GEN-LAST:event_scriptingButtonActionPerformed
 
+    private Hashtable<String,String> parseStateSelection(String str) {
+		Hashtable<String,String> state = new Hashtable<String,String>();
+		state.put("ElemId", str.substring(str.indexOf("(")+1, str.indexOf(")")));
+		state.put("StateName", str.substring(0, str.indexOf("(")));
+		String type;
+		if (state.get("ElemId").startsWith("Mach@"))
+			type = 	ISimuRecManager.REC_TYPE_DStabMachineStates;
+		else
+			type = 	ISimuRecManager.REC_TYPE_DStabBusStates;
+		state.put("RecType", type);
+    	return state;
+    }
+    
     private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotButtonActionPerformed
     	String str = (String)stateItemSelectList.getSelectedValue();
     	if (str != null) {
-    		String stateName = str.substring(0, str.indexOf("("));
-        	String stateId = str.substring(str.indexOf("(")+1, str.indexOf(")"));
-        	IpssLogger.getLogger().info("stateId, stateName: " + stateId + ", " + stateName);
-        	String recType = ISimuRecManager.REC_TYPE_DStabMachineStates;
+    	    Hashtable<String,String> state = parseStateSelection(str);
+        	IpssLogger.getLogger().info("ElemId, stateName: " + state.get("ElemId") + ", " + state.get("StateName"));
         	DStabilityNetwork net = simuCtx.getDStabilityNet();
-        	String yDataLabel = ChartManager.getMachDataLabel(net.getMachine(stateId), stateName, net.getFrequency(), net.getBaseKva());
-        	ChartManager.plotStateCurve(caseId, stateId, stateName, yDataLabel, recType);
+        	String yDataLabel = ChartManager.getMachDataLabel(net.getMachine(state.get("ElemId")), 
+        			state.get("StateName"), net.getFrequency(), net.getBaseKva());
+        	ChartManager.plotStateCurve(caseId, state.get("ElemId"), state.get("StateName"), yDataLabel, state.get("RecType"));
     	}
     }//GEN-LAST:event_plotButtonActionPerformed
 

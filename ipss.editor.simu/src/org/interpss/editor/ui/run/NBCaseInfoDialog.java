@@ -126,6 +126,14 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     public void setCaseType(String type) {
         _caseType = type;
     }
+    
+    public void setWorkspaceDir(String wsDir) {
+    	_dstabCaseInfoPanel.setWorkspaceDir(wsDir);
+    }
+    
+    public void setDStabOutputScriptFilename(String filename) {
+    	_dstabCaseInfoPanel.setDStabOutputScriptFilename(filename);    
+    }
 
 	/**
 	*	Set form data to the editor

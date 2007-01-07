@@ -34,6 +34,7 @@ import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBDynaEventPanel;
+import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
@@ -42,6 +43,8 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 
 public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPanel {
+	public static String OutpuScriptTemplateFilename = "template/DStabOutputScriptTemplate.txt";
+
 	private static final long serialVersionUID = 1;
 
 	private NBDynaEventPanel dynaEventPanel = null;
@@ -49,6 +52,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
 	private GFormContainer netContainer = null;
 	private SimuContext simuCtx = null;
+	
+	private String workspaceDir;
+	private String dstabOutputScriptFilename;
 	
 	private AclfCaseData    aclfCaseData = null;  // current case data
 	private DStabCaseData   dstabCaseData = null;  // current case data
@@ -88,9 +94,29 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	}
          
         setControllerList();
-
+        scriptTextArea.setText("");
+        
+        setOutputFilterPanel(false);
+        setOutputScriptingPanel(false);
+        
         dynaEventPanel.init(this.netContainer, simuCtx);
         aclfCasePanel.init(this.netContainer, simuCtx);
+    }
+    
+    public void setWorkspaceDir(String wsDir) {
+    	this.workspaceDir = wsDir;
+    }
+    
+    public void setDStabOutputScriptFilename(String filename) {
+    	this.dstabOutputScriptFilename = filename;    
+    }
+    
+    private void setOutputFilterPanel(boolean status) {
+    	detailInfoTabbedPane.setEnabledAt(3, status);
+    }
+    
+    private void setOutputScriptingPanel(boolean status) {
+    	detailInfoTabbedPane.setEnabledAt(4, status);
     }
 
     private void setControllerList() {
@@ -170,7 +196,19 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         }
         disableEventCheckBoxActionPerformed(null);
 
-		return true;
+        outputFilterCheckBox.setSelected(dstabCaseData.isOutputFilter());
+        setOutputFilterPanel(outputFilterCheckBox.isSelected());
+
+        outputScriptCheckBox.setSelected(dstabCaseData.isOutputScripting());
+        setOutputScriptingPanel(outputScriptCheckBox.isSelected());
+        if (outputScriptCheckBox.isSelected() && dstabOutputScriptFilename != null) {
+        	IpssLogger.getLogger().info("scriptFilename: " + dstabOutputScriptFilename);
+        	GUIFileUtil.readFile2Textarea(dstabOutputScriptFilename, scriptTextArea);
+        	if (scriptTextArea.getText().trim().equals(""))
+            	GUIFileUtil.readFile2Textarea(workspaceDir+System.getProperty("file.separator")+
+            			OutpuScriptTemplateFilename, scriptTextArea);
+        } 
+        return true;
 	}
     
 	/**
@@ -267,7 +305,14 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         	}        	
         }
         IpssLogger.getLogger().info("" + dstabCaseData);
-		return ok;
+
+        dstabCaseData.setOutputFilter(outputFilterCheckBox.isSelected());
+        dstabCaseData.setOutputScripting(outputScriptCheckBox.isSelected());
+        if (outputScriptCheckBox.isSelected() && dstabOutputScriptFilename != null) {
+        	GUIFileUtil.writeTextarea2File(dstabOutputScriptFilename, scriptTextArea);
+    	}        
+        
+        return ok;
 	}
     
     /** This method is called from within the constructor to
@@ -277,8 +322,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
         staticLoadButtonGroup = new javax.swing.ButtonGroup();
         setPointChangeButtonGroup = new javax.swing.ButtonGroup();
         detailInfoTabbedPane = new javax.swing.JTabbedPane();
@@ -318,12 +361,15 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         setPointValueTextField = new javax.swing.JTextField();
         setPointAbsoluteRadioButton = new javax.swing.JRadioButton();
         setPointDeltaRadioButton = new javax.swing.JRadioButton();
+        outputOptPanel = new javax.swing.JPanel();
+        outputFilterCheckBox = new javax.swing.JCheckBox();
+        outputScriptCheckBox = new javax.swing.JCheckBox();
         dynamicEventPanel = new javax.swing.JPanel();
         loadflowPanel = new javax.swing.JPanel();
         outputFilterPanel = new javax.swing.JPanel();
         outScriptingjPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        scriptTextArea1 = new javax.swing.JTextArea();
+        scriptTextArea = new javax.swing.JTextArea();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -430,27 +476,22 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         refMachinejPanelLayout.setHorizontalGroup(
             refMachinejPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(refMachinejPanelLayout.createSequentialGroup()
-                .add(116, 116, 116)
+                .add(32, 32, 32)
                 .add(refMachLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(refMachComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 76, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(20, 20, 20)
+                .add(refMachComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 93, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(33, 33, 33)
                 .add(absMachCheckBox)
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         refMachinejPanelLayout.setVerticalGroup(
             refMachinejPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(refMachinejPanelLayout.createSequentialGroup()
-                .add(refMachinejPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(refMachinejPanelLayout.createSequentialGroup()
-                        .add(9, 9, 9)
-                        .add(refMachLabel))
-                    .add(refMachinejPanelLayout.createSequentialGroup()
-                        .add(8, 8, 8)
-                        .add(absMachCheckBox))
-                    .add(refMachinejPanelLayout.createSequentialGroup()
-                        .add(5, 5, 5)
-                        .add(refMachComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(5, 5, 5)
+                .add(refMachinejPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(refMachLabel)
+                    .add(refMachComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(absMachCheckBox))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -493,21 +534,14 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         netEqnItrPanelLayout.setVerticalGroup(
             netEqnItrPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(netEqnItrPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .add(netEqnItrPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netEqnItrPanelLayout.createSequentialGroup()
-                        .add(5, 5, 5)
-                        .add(netEqnItrPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(netEqnItrLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(netEqnItrNoEventTextField)))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netEqnItrPanelLayout.createSequentialGroup()
-                        .add(5, 5, 5)
-                        .add(netEqnItrPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(netEqnItrNoEventLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
-                            .add(netEqnItrWithEventTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, Short.MAX_VALUE)))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netEqnItrPanelLayout.createSequentialGroup()
-                        .add(5, 5, 5)
-                        .add(netEqnItrWithEventLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netEqnItrPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(netEqnItrLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(netEqnItrNoEventTextField))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netEqnItrPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(netEqnItrNoEventLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                        .add(netEqnItrWithEventTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netEqnItrWithEventLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -660,30 +694,26 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
             setPointChangePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(setPointChangePanelLayout.createSequentialGroup()
                 .add(30, 30, 30)
-                .add(setPointChangePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(setPointChangePanelLayout.createSequentialGroup()
-                        .add(setPointCheckBox)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 62, Short.MAX_VALUE)
-                        .add(setPointMachineLabel)
-                        .add(26, 26, 26))
-                    .add(setPointChangePanelLayout.createSequentialGroup()
-                        .add(setPointValueLabel)
-                        .add(40, 40, 40)
-                        .add(setPointValueTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(12, 12, 12)))
-                .add(setPointChangePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(setPointMachineComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(setPointChangePanelLayout.createSequentialGroup()
-                        .add(10, 10, 10)
-                        .add(setPointAbsoluteRadioButton)))
+                .add(setPointCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 62, Short.MAX_VALUE)
+                .add(setPointMachineLabel)
+                .add(26, 26, 26)
+                .add(setPointMachineComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(35, 35, 35)
-                .add(setPointChangePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(setPointChangePanelLayout.createSequentialGroup()
-                        .add(setPointControllerLabel)
-                        .add(23, 23, 23)
-                        .add(setPointControllerComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(setPointDeltaRadioButton))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .add(setPointControllerLabel)
+                .add(23, 23, 23)
+                .add(setPointControllerComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(41, Short.MAX_VALUE))
+            .add(setPointChangePanelLayout.createSequentialGroup()
+                .add(57, 57, 57)
+                .add(setPointValueLabel)
+                .add(40, 40, 40)
+                .add(setPointValueTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(22, 22, 22)
+                .add(setPointAbsoluteRadioButton)
+                .add(35, 35, 35)
+                .add(setPointDeltaRadioButton)
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         setPointChangePanelLayout.setVerticalGroup(
             setPointChangePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -704,6 +734,47 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        outputOptPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Output Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        outputFilterCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        outputFilterCheckBox.setText("Output Result Filter");
+        outputFilterCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        outputFilterCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        outputFilterCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outputFilterCheckBoxActionPerformed(evt);
+            }
+        });
+
+        outputScriptCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        outputScriptCheckBox.setText("Output Result Scripting");
+        outputScriptCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        outputScriptCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        outputScriptCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                outputScriptCheckBoxActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout outputOptPanelLayout = new org.jdesktop.layout.GroupLayout(outputOptPanel);
+        outputOptPanel.setLayout(outputOptPanelLayout);
+        outputOptPanelLayout.setHorizontalGroup(
+            outputOptPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(outputOptPanelLayout.createSequentialGroup()
+                .add(88, 88, 88)
+                .add(outputFilterCheckBox)
+                .add(68, 68, 68)
+                .add(outputScriptCheckBox)
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        outputOptPanelLayout.setVerticalGroup(
+            outputOptPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(outputOptPanelLayout.createSequentialGroup()
+                .add(outputOptPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(outputFilterCheckBox)
+                    .add(outputScriptCheckBox))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         org.jdesktop.layout.GroupLayout simulationPanelLayout = new org.jdesktop.layout.GroupLayout(simulationPanel);
         simulationPanel.setLayout(simulationPanelLayout);
         simulationPanelLayout.setHorizontalGroup(
@@ -714,15 +785,19 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                         .add(35, 35, 35)
                         .add(simulationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(simuMathodPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(simulationPanelLayout.createSequentialGroup()
+                                .add(48, 48, 48)
+                                .add(refMachinejPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(setPointChangePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(simulationPanelLayout.createSequentialGroup()
-                                .add(70, 70, 70)
-                                .add(netEqnItrPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                            .add(refMachinejPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                                .add(58, 58, 58)
+                                .add(simulationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(outputOptPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(netEqnItrPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
                     .add(simulationPanelLayout.createSequentialGroup()
-                        .add(126, 126, 126)
+                        .add(107, 107, 107)
                         .add(staticLoadPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         simulationPanelLayout.setVerticalGroup(
             simulationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -733,11 +808,13 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                 .add(refMachinejPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(netEqnItrPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(25, 25, 25)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(outputOptPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(staticLoadPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(27, 27, 27)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(setPointChangePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .add(32, 32, 32))
         );
         detailInfoTabbedPane.addTab("Simulation", simulationPanel);
 
@@ -754,18 +831,18 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         outputFilterPanel.setLayout(outputFilterPanelLayout);
         outputFilterPanelLayout.setHorizontalGroup(
             outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 638, Short.MAX_VALUE)
+            .add(0, 639, Short.MAX_VALUE)
         );
         outputFilterPanelLayout.setVerticalGroup(
             outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 446, Short.MAX_VALUE)
+            .add(0, 486, Short.MAX_VALUE)
         );
         detailInfoTabbedPane.addTab("Output Filter", outputFilterPanel);
 
         outScriptingjPanel.setFont(new java.awt.Font("Dialog", 0, 12));
-        scriptTextArea1.setColumns(20);
-        scriptTextArea1.setRows(5);
-        jScrollPane1.setViewportView(scriptTextArea1);
+        scriptTextArea.setColumns(20);
+        scriptTextArea.setRows(5);
+        jScrollPane1.setViewportView(scriptTextArea);
 
         org.jdesktop.layout.GroupLayout outScriptingjPanelLayout = new org.jdesktop.layout.GroupLayout(outScriptingjPanel);
         outScriptingjPanel.setLayout(outScriptingjPanelLayout);
@@ -773,14 +850,14 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
             outScriptingjPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outScriptingjPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
                 .addContainerGap())
         );
         outScriptingjPanelLayout.setVerticalGroup(
             outScriptingjPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outScriptingjPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 424, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
                 .addContainerGap())
         );
         detailInfoTabbedPane.addTab("Output Scripting", outScriptingjPanel);
@@ -788,6 +865,14 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         add(detailInfoTabbedPane, null);
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void outputScriptCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputScriptCheckBoxActionPerformed
+        setOutputScriptingPanel(outputScriptCheckBox.isSelected());
+    }//GEN-LAST:event_outputScriptCheckBoxActionPerformed
+
+    private void outputFilterCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputFilterCheckBoxActionPerformed
+        setOutputFilterPanel(outputFilterCheckBox.isSelected());
+    }//GEN-LAST:event_outputFilterCheckBoxActionPerformed
 
     private void simuStepTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simuStepTextFieldActionPerformed
 // TODO add your handling code here:
@@ -862,11 +947,14 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     private javax.swing.JLabel netEqnItrWithEventLabel;
     private javax.swing.JTextField netEqnItrWithEventTextField;
     private javax.swing.JPanel outScriptingjPanel;
+    private javax.swing.JCheckBox outputFilterCheckBox;
     private javax.swing.JPanel outputFilterPanel;
+    private javax.swing.JPanel outputOptPanel;
+    private javax.swing.JCheckBox outputScriptCheckBox;
     private javax.swing.JComboBox refMachComboBox;
     private javax.swing.JLabel refMachLabel;
     private javax.swing.JPanel refMachinejPanel;
-    private javax.swing.JTextArea scriptTextArea1;
+    private javax.swing.JTextArea scriptTextArea;
     private javax.swing.JRadioButton setPointAbsoluteRadioButton;
     private javax.swing.ButtonGroup setPointChangeButtonGroup;
     private javax.swing.JPanel setPointChangePanel;
