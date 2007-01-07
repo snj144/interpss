@@ -31,7 +31,6 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
@@ -49,10 +48,10 @@ public class SimuAppSpringAppCtxUtil {
 	 *  
 	 * @return the CaseInfoDialog object
 	 */	
-	public static ICaseInfoDialog getCaseInfoDialog(String caseType, IGFormContainer netContainer, IAppSimuContext appSimuCtx) {
+	public static ICaseInfoDialog getCaseInfoDialog(String caseType, String workspaceDir) {
 		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog)SpringAppContext.SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
 		caseInfoDialog.setCaseType(caseType);
-		caseInfoDialog.init(netContainer, appSimuCtx);
+		caseInfoDialog.setWorkspaceDir(workspaceDir);
 		return caseInfoDialog;
 	}	
 
