@@ -49,30 +49,36 @@ public class st5bExciter extends AbstractExciter {
     // Step-1: Define controller variables
     // ===================================
     
-    private double vRef = 0.0, Vc = 0.0, Xadu = 0.0, Ifd = 0.0, vt = 0.0, vWindup = 0.0;
-    private double pt = 0.0, qt = 0.0, Uf = 0.0, v3lim = 0.0;
-    private boolean uelOn = false, oelOn = false;
-    private boolean withD = true, withI = true,
-                    withUD = true, withOD = true,
-                    withUI = true, withOI = true,
-                    withGCU = true;
-    private FilterControlBlock tgr1 = null;
-    private FilterControlBlock tgr2 = null;
-    private FilterControlBlock tgru1 = null;
-    private FilterControlBlock tgru2 = null;
-    private FilterControlBlock tgro1 = null;
-    private FilterControlBlock tgro2 = null;
-    private DelayControlBlock gcu = null;
-    private LimitType vrLimit = null;
-    // blocks for the input conditioning
-    private DelayControlBlock UgMeas = null;
-    private DelayControlBlock QgMeas = null;
-    private DelayControlBlock PgMeas = null;
-    // blocks for the rotating exciter
-    private DelayControlBlock excSub = null;
-    private DelayControlBlock excTran = null;
-    private LimitType v3Limit = null;
-    private LimitType vfdLimit = null;
+    private double vRef = 0.0, vt = 0.0, Xadu = 0.0, Ifd = 0.0;  /* general constants */
+    private double Vc = 0.0, Vfd = 0.0;
+    private boolean withGCU = true;     /* model gate controller delay */
+    private boolean withIr = true;      /* model AVR regulator I-part */
+    private boolean withDr = true;      /* model AVR regulator D-part */
+    private boolean withIu = true;      /* model uel I-part */
+    private boolean withDu = false;     /* model uel D-part, normally not in static */
+    private boolean withIo = true;      /* model oel I-part */
+    private boolean withDo = true;      /* model oel D-part */
+    private boolean OELactive = false;
+    private boolean UELactive = false;
+    
+    private boolean withTR = true;      /* non-zero measuring delays */
+    
+    LimitType vfdLimit = null;          /* rotating exciter final output limit */
+    DelayControlBlock excTran = null;   /* rotating exciter transient block */
+    DelayControlBlock excSub = null;    /* rotating exciter subtransient block */
+    /* standard regulator */
+    DelayControlBlock gcu = null;       /* regulator gcu block */
+    LimitType vrLimit = null;           /* P-part limit */
+    FilterControlBlock tgr1 = null;     /* I-part filter AVR */
+    FilterControlBlock tgr2 = null;     /* D-part filter AVR */
+    FilterControlBlock tgro1 = null;    /* I-part filter oel regulator */
+    FilterControlBlock tgro2 = null;    /* D-part filter oel regulator */
+    FilterControlBlock tgru1 = null;    /* I-part filter uel regulator */
+    FilterControlBlock tgru2 = null;    /* D-part filter uel regulator */
+    /* input conditioning */
+    DelayControlBlock UgMeas = null;    /* Voltage measuring transducer */
+    DelayControlBlock QgMeas = null;    /* VAr measuring transducer */
+    DelayControlBlock PgMeas = null;    /* Power measuring transducer */
 
     
     // Step-2: Initialization
@@ -87,139 +93,183 @@ public class st5bExciter extends AbstractExciter {
         vt = abus.getVoltage().abs() / mach.getVMultiFactor();
         Xadu = mach.getMachData().getXd() - mach.getMachData().getXl();
         Ifd = ((DynamicMachine)mach).calculateIfd(abus) *Xadu;
-        // Ifd is converted to excitation standard rotor base
-        // used in rotating exciter and/or st5b controller
-        double cpd = Ifd*getData().getKc();
+        /* Ifd is converted to excitation standard rotor base */
+        
+//        double cpd = Ifd*getData().getKc();     /* this would be used if a static exciter */
         
         /*
-         * This section implements the rotating exciter part
+         * This section inits the rotating exciter part
          */
         double efo = mach.getEfd();
-        double ifda = Ifd*getData().getKif();
+        if (efo > getData().getVfdmax()) {
+            msg.sendErrorMsg("Machine Field Voltage exceeds limit");
+            return false;        }
+        if (efo < getData().getVfdmin()) {
+            msg.sendErrorMsg("Machine Field Voltage exceeds limit");
+            return false;        }
         vfdLimit = new LimitType(getData().getVfdmax(),getData().getVfdmin());
-        efo = (efo > getData().getVfdmax())? getData().getVfdmax() : efo;
-        efo = (efo < getData().getVfdmin())? getData().getVfdmin() : efo;
+        double ifda = Ifd*getData().getKif();
+        double vfda = efo * getData().getKvf();
+        
         excTran = new DelayControlBlock(getData().getK4(), getData().getT4());
         if (!(excTran.initState(efo+ifda))) {
             msg.sendErrorMsg("Initialisation error: exciter Tran");
             return false; }
-        v3Limit = new LimitType(getData().getV3max(), getData().getV3min());
-        double v3 = excTran.getU0();
-        v3 = (v3 > getData().getV3max())? getData().getV3max() : v3;
-        v3 = (v3 < getData().getV3min())? getData().getV3min() : v3;
-        v3lim = v3;
-        excSub = new DelayControlBlock(getData().getK3(), getData().getT3());
-        if (!(excSub.initState(v3))) {
+        
+        excSub = new DelayControlBlock(IControlBlock.Type_Limit,
+               getData().getK3(), getData().getT3(),
+               getData().getV3max(), getData().getV3min());
+        if (!(excSub.initState(excTran.getU0()))) {
             msg.sendErrorMsg("Initialisation error: exciter Sub");
             return false; }
-        Uf = excSub.getU0()+ efo*getData().getKvf();
+        double Uf = excSub.getU0() + vfda;
         
         /*
-         * this section implements the st5b regulator part
+         * this section inits the st5b AVR regulator part
+         * Uf is the unmodified gcu output
          */
-        gcu = new DelayControlBlock(1, getData().getT1());
-        if (!gcu.initState(Uf)) {
-            msg.sendErrorMsg("Initialisation error: Uf ");
-            return false; }
         
+        withGCU = (!(getData().getT1() == 0.0));  // T1 not zero?
+        withIr = (!(getData().getTb1() == 0.0));  // Tb1 not zero?
+        withDr = (!(getData().getTb2() == 0.0));  // Tb2 not zero?
+        //System.out.println("Has GCU block = " +withGCU +", Has AVR I-block = " +withIr +", Has AVR D-block = " +withDr);
+
+        if (withGCU) {
+        gcu = new DelayControlBlock(1, getData().getT1());
+            if (!(gcu.initState(Uf))) {
+                msg.sendErrorMsg("Initialisation error: GCU");
+                return false;        }
+            if (gcu.getU0() > getData().getVrmax()) {
+                msg.sendErrorMsg("Initialisation error: Regulator output");
+                return false;        }
+            if (gcu.getU0() < getData().getVrmin()) {
+                msg.sendErrorMsg("Initialisation error: Regulator output");
+                return false;        }
+        }
+        
+        /* static limit here used, should really be dynamic according to converter input voltage */
         vrLimit = new LimitType(getData().getVrmax(), getData().getVrmin());
         
-        double tgrRatio = 1.0, tgruRatio = 1.0, tgroRatio = 1.0;
-        if (!(getData().getTb1()==0)) 
-            tgrRatio = getData().getTb1()/getData().getTc1();
-        if (!(getData().getTub1()==0)) 
-            tgruRatio = getData().getTub1()/getData().getTuc1();
-        if (!(getData().getTob1()==0)) 
-            tgroRatio = getData().getTob1()/getData().getToc1();
+        double vr1 = (withGCU)?   (gcu.getU0() / getData().getKr())
+                                    : (Uf / getData().getKr());
         
-        tgr1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
-               1, getData().getTc1(), getData().getTb1(),
-               getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!(tgr1.initState(gcu.getU0()/getData().getKr()))) {
-            msg.sendErrorMsg("Initialisation error: tgr1 init exceeds limit");
-            return false; }
-        tgru1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
-               1, getData().getTuc1(), getData().getTub1(),
-               getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!(tgru1.initState(gcu.getU0()/getData().getKr()))) {
-            msg.sendErrorMsg("Initialisation error: tgru1 init exceeds limit");
-            return false; }
-        tgro1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
-               1, getData().getToc1(), getData().getTob1(),
-               getData().getVrmax()/getData().getKr(), getData().getVrmin()/getData().getKr());
-        if (!(tgro1.initState(gcu.getU0()/getData().getKr()))) {
-            msg.sendErrorMsg("Initialisation error: tgro1 init exceeds limit");
-            return false; }
-        
-        double dgrRatio = 1.0, dgruRatio = 1.0, dgroRatio = 1.0;
-        if (!(getData().getTb2()==0)) 
-            dgrRatio = getData().getTc2()/getData().getTb2();
-        if (!(getData().getTub2()==0)) 
-            dgruRatio = getData().getTuc2()/getData().getTub2();
-        if (!(getData().getTob2()==0)) 
-            dgroRatio = getData().getToc2()/getData().getTob2();
-        
-        
-        tgr2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
-               1, getData().getTc2(), getData().getTb2(),
-               getData().getVrmax()/getData().getKr()*tgrRatio,
-               getData().getVrmin()/getData().getKr()*tgrRatio);
-        if (!tgr2.initState(tgr1.getU0())) {
-            msg.sendErrorMsg("Initialisation error: tgr2 init exceeds limit");
-            return false; }
-        tgru2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
-               1, getData().getTuc2(), getData().getTub2(),
-               getData().getVrmax()/getData().getKr()*tgruRatio,
-               getData().getVrmin()/getData().getKr()*tgruRatio);
-        if (!tgru2.initState(tgru1.getU0())) {
-            msg.sendErrorMsg("Initialisation error: tgru2 init exceeds limit");
-            return false; }
-        tgro2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
-               1, getData().getToc2(), getData().getTob2(),
-               getData().getVrmax()/getData().getKr()*tgroRatio,
-               getData().getVrmin()/getData().getKr()*tgroRatio);
-        if (!tgro2.initState(tgro1.getU0())) {
-            msg.sendErrorMsg("Initialisation error: tgro2 init exceeds limit");
-            return false; }
-        
-        Vc = tgr2.getU0();
+        if (withIr) {
+            tgr1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
+                   1, getData().getTc1(), getData().getTb1(),
+                    getData().getVrmax() / getData().getKr(), 
+                    getData().getVrmin() / getData().getKr());
+            if(!(tgr1.initState(vr1))) {
+                msg.sendErrorMsg("Initialisation Error AVR leadlag 1");
+                return false;
+            }
+        }
 
-        if (getData().getTb1()==0)
-            withI = false;
-        if (getData().getTub1()==0)
-            withUI = false;
-        if (getData().getTob1()==0)
-            withOI = false;
-        if (getData().getTb2()==0)
-            withD = false;
-        if (getData().getTub2()==0)
-            withUD = false;
-        if (getData().getTob2()==0)
-            withOD = false;
-        if (getData().getT1()==0)
-            withGCU = false;
+        double vr2 = (withIr)? (tgr1.getU0()) : (vr1);
+        double limitModifier = (withIr)? (getData().getTb1()/getData().getTc1()) : 1;
+        
+        if (withDr) {
+            tgr2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
+                   1, getData().getTc2(), getData().getTb2(),
+                    getData().getVrmax() / getData().getKr() * limitModifier, 
+                    getData().getVrmin() / getData().getKr() * limitModifier);
+            if(!(tgr2.initState(vr2))) {
+                msg.sendErrorMsg("Initialisation Error AVR leadlag 2");
+                return false;
+            }
+        }
+        
+        Vc = (withDr)? (tgr2.getU0()) : (vr2);
         
         /*
-         * This section implements the input conditioning
+         * This section inits the input conditioning
          */
         
-        UgMeas = new DelayControlBlock(1, getData().getTr());
-        if (!UgMeas.initState(vt)) {
-            msg.sendErrorMsg("Initialisation error: V measuring");
-            return false; }
-        QgMeas = new DelayControlBlock(1, getData().getTr());
-        if (!QgMeas.initState(mach.getQBus())) {
-            msg.sendErrorMsg("Initialisation error: Q measuring");
-            return false; }
-        PgMeas = new DelayControlBlock(1, getData().getTr());
-        if (!PgMeas.initState(mach.getPe())) {
-            msg.sendErrorMsg("Initialisation error: P measuring");
-            return false; }
+        withTR = (!(getData().getTr() == 0.0));  /* true if TR non-zero */
         
-        vRef = Vc + UgMeas.getU0() - QgMeas.getU0()*getData().getKir() - PgMeas.getU0()*getData().getKia();
-
+        if (withTR) {
+            UgMeas = new DelayControlBlock(1, getData().getTr());
+            if (!(UgMeas.initState(vt))) {
+                msg.sendErrorMsg("Initialisation error Voltage measuring");
+                return false;
+            }
+            QgMeas = new DelayControlBlock(1, getData().getTr());
+            if (!(QgMeas.initState(mach.getQBus()))) {
+                msg.sendErrorMsg("initialisation error VAr measuring");
+                return false;
+            }
+            PgMeas = new DelayControlBlock(1, getData().getTr());
+            if (!(PgMeas.initState(mach.getPe()))) {
+                msg.sendErrorMsg("Initialisation error Pe measuring");
+                return false;
+            }
+            
+        } 
+            
         
-        return true;
+        vRef = Vc + vt 
+               - (mach.getQBus() * getData().getKir())
+               - (mach.getPe() * getData().getKia());
+        
+        
+        //System.out.println("Vt = "+vt +", Ug = " +UgMeas.getU0());
+        
+        /*
+         * This section inits the limiter regulators
+         */
+        withIu = (!(getData().getTub1() == 0.0));
+        withDu = (!(getData().getTub2() == 0.0));
+        withIo = (!(getData().getTob1() == 0.0));
+        withDo = (!(getData().getTob2() == 0.0));
+        double olimMod = (withIo)? (getData().getTob1()/getData().getToc1()) : 1;
+        double ulimMod = (withIu)? (getData().getTub1()/getData().getTuc1()) : 1;
+        
+        double tgro2Y = Vc;
+        if (withIo) {
+            tgro2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
+                    1, getData().getToc2(), getData().getTob2(),
+                    getData().getVrmax() / getData().getKr() * olimMod, 
+                    getData().getVrmin() / getData().getKr() * olimMod);
+            if (!(tgro2.initState(Vc/getData().getTob2()))) {
+                msg.sendErrorMsg("Initialisation error tgro2");
+                return false;        }
+            tgro2Y = (Vc / getData().getTob2()) + (Vc * getData().getToc2());
+        }
+        
+        double tgru2Y = Vc;
+        if (withIu) {
+            tgru2 = new FilterControlBlock(IControlBlock.Type_NonWindup,
+                    1, getData().getTuc2(), getData().getTub2(),
+                    getData().getVrmax() / getData().getKr() * ulimMod, 
+                    getData().getVrmin() / getData().getKr() * ulimMod);
+            if (!(tgru2.initState(Vc/getData().getTub2()))) {
+                msg.sendErrorMsg("Initialisation error tgru2");
+                return false;        }
+            tgru2Y = (Vc / getData().getTub2()) + (Vc * getData().getTuc2());
+        }
+        
+        if (withDo) {
+            tgro1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
+                    1, getData().getToc1(), getData().getTob1(),
+                    getData().getVrmax() / getData().getKr(), 
+                    getData().getVrmin() / getData().getKr());
+            if (!(tgro1.initState(tgro2Y/getData().getTob1()))) {
+                msg.sendErrorMsg("Initialisation error tgro1");
+                return false;        }
+        }
+        
+        if (withDu) {
+            tgru1 = new FilterControlBlock(IControlBlock.Type_NonWindup,
+                    1, getData().getTuc1(), getData().getTub1(),
+                    getData().getVrmax() / getData().getKr(), 
+                    getData().getVrmin() / getData().getKr());
+            if (!(tgru1.initState(tgru2Y/getData().getTub1()))) {
+                msg.sendErrorMsg("Initialisation error tgru1");
+                return false;        }
+        }
+        
+        
+        
+        return true;    // Successfully completed init phase
     }
     
     // Step-4: Code Diff-Eqn
@@ -234,67 +284,93 @@ public class st5bExciter extends AbstractExciter {
      */
     public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Machine mach, Network net, IPSSMsgHub msg) {
         if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-            // inputs
+            /* input conditioning */
             vt = abus.getVoltage().abs() / mach.getVMultiFactor();
-            UgMeas.eulerStep1(vt, dt);
-            UgMeas.eulerStep2(vt, dt);
-            qt = mach.getQBus();
-            QgMeas.eulerStep1(qt, dt);
-            QgMeas.eulerStep2(qt, dt);
-            pt = mach.getPe();
-            PgMeas.eulerStep1(pt, dt);
-            PgMeas.eulerStep2(pt, dt);
-            // regulator
-            Vc = calculateVerr(abus, mach);
-            if (withD) {
-                tgr2.eulerStep1(Vc, dt);
-                tgr2.eulerStep2(Vc, dt); }
-            if (withUD) {
-                tgru2.eulerStep1(Vc, dt);
-                tgru2.eulerStep2(Vc, dt); }
-            if (withOD) {
-                tgro2.eulerStep1(Vc, dt);
-                tgro2.eulerStep2(Vc, dt); }
+            double qt = mach.getQBus();
+            double pt = mach.getPe();
             
-            final double v1 = calculateV1(abus, mach);
-            if (withI) {
-                tgr1.eulerStep1(v1, dt);
-                tgr1.eulerStep2(v1, dt); }
-            final double v1u = calculateV1u(abus, mach);
-            if (withUI) {
-                tgru1.eulerStep1(v1u, dt);
-                tgru1.eulerStep2(v1u, dt); }
-            final double v1o = calculateV1o(abus, mach);
-            if (withOI) {
-                tgro1.eulerStep1(v1o, dt);
-                tgro1.eulerStep2(v1o, dt); }
-                                   
-            double Xadu = mach.getMachData().getXd() 
-                          - mach.getMachData().getXl();
-            Ifd = ((DynamicMachine)mach).calculateIfd(abus) *Xadu;
-            
-            
-            final double v2 = calculateV2(abus, mach);
-            if (withGCU){
-                gcu.eulerStep1(v2, dt);
-                gcu.eulerStep2(v2, dt);
-                vWindup = findWindup();
-            if (vWindup == 1) {
-                    gcu.setDxDt(0.0);
-                    gcu.setStateX(getData().getVrmax());  }                  
-            if (vWindup == -1) {
-                    gcu.setDxDt(0.0);
-                    gcu.setStateX(getData().getVrmin());  }
+            if (withTR) {
+                UgMeas.eulerStep1(vt, dt);
+                UgMeas.eulerStep2(vt, dt);
+                QgMeas.eulerStep1(qt, dt);
+                QgMeas.eulerStep2(qt, dt);
+                PgMeas.eulerStep1(pt, dt);
+                PgMeas.eulerStep2(pt, dt);
             }
-            // rotating exciter
-            final double Uf = calculateUf();
-            double ufi = Uf - mach.getEfd();
+            final double ug = getUg(abus, mach);
+            final double Qdroop = getQdroop(abus, mach);
+            final double Pdroop = getPdroop(abus, mach);
+            Vc = vRef - ug + Qdroop + Pdroop;
+            
+            
+            /* regulators */
+            
+            double vin = Math.min(Math.max(Vc, calculateVuel()), calculateVoel())
+                            + calculatePSS(abus, mach);
+            
+            OELactive = (vin > Vc);
+            UELactive = (vin < Vc);
+            
+            if (withDr) {
+                tgr2.eulerStep1(vin, dt);
+                tgr2.eulerStep2(vin, dt);
+            }
+            
+            if (withDo) {
+                tgro2.eulerStep1(vin, dt);
+                tgro2.eulerStep2(vin, dt);
+            }
+            
+            if (withDu) {
+                tgru2.eulerStep1(vin, dt);
+                tgru2.eulerStep2(vin, dt);
+            }
+            
+            double[] vr2 = getVr2(vin);     /* [AVR, OEL, UEL] d-part y values */
+            
+            if (withIr) {
+                tgr1.eulerStep1(vr2[0], dt);
+                tgr1.eulerStep2(vr2[0], dt);
+            }
+            
+            if (withIo) {
+                tgro1.eulerStep1(vr2[1], dt);
+                tgro1.eulerStep2(vr2[1], dt);
+            }
+            
+            if (withIu) {
+                tgru1.eulerStep1(vr2[2], dt);
+                tgru1.eulerStep2(vr2[2], dt);
+            }
+            
+            double[] vr1 = getVr1(vr2);     /* order is [AVR, OEL, UEL] */
+            /*
+             * following code selects which regulator is active 
+             * then multiplies by regulator gain, limited to Vrmax/min
+             */
+            double Uc = vrLimit.limit(
+                        (UELactive)? vr1[2] : ((OELactive)? vr1[1] : vr1[0])
+                        * getData().getKr());
+            
+            if (withGCU) {
+                gcu.eulerStep1(Uc, dt);
+                gcu.eulerStep2(Uc, dt);
+            }
+            
+            double Uf = getUf(Uc);
+            
+
+            /* rotating exciter */
+            
+            double ufi = Uf - mach.getEfd()*getData().getKvf();
             excSub.eulerStep1(ufi, dt);
             excSub.eulerStep2(ufi, dt);
-            final double v3 = calculateV3(mach);
-            v3lim = v3Limit.limit(v3);
-            excTran.eulerStep1(v3lim, dt);
-            excTran.eulerStep2(v3lim, dt);
+            final double v3 = calculateV3(ufi);
+            excTran.eulerStep1(v3, dt);
+            excTran.eulerStep2(v3, dt);
+            final double v4 = calculateV4(v3);
+            Ifd = ((DynamicMachine)mach).calculateIfd(abus) *Xadu;
+            Vfd = v4 - Ifd * getData().getKif();
             
             return true;
         } else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
@@ -306,73 +382,65 @@ public class st5bExciter extends AbstractExciter {
     
     
     
-    private double calculateVerr(DStabBus abus, Machine mach) {
-        double vpss = calculatePSS(abus, mach);
-        double ug = UgMeas.getY(vt);
-        double qgr = QgMeas.getY(qt)*getData().getKir();
-        double pgr = PgMeas.getY(pt)*getData().getKia();
-        return vRef - ug + qgr + pgr + vpss;
+    private double getUg(DStabBus abus, Machine mach) {
+        if (withTR) { return UgMeas.getY(vt);
+        } else return vt;
+    }
+    
+    private double getQdroop(DStabBus abus, Machine mach) {
+        if (withTR) { return QgMeas.getY(mach.getQBus()) * getData().getKir();
+        }else return mach.getQBus() * getData().getKir();
+    }
+    
+    private double getPdroop(DStabBus abus, Machine mach) {
+        if (withTR) { return PgMeas.getY(mach.getPe()) * getData().getKia();
+        } else return mach.getPe() * getData().getKia();
     }
     
     private double calculateVuel() {
-        return -10.0;
+        return -100.0;
     }
     private double calculateVoel() {
-        return 10.0;
+        return 100.0;
     }
     private double calculatePSS(DStabBus abus, Machine mach) {
         return mach.hasStabilizer()? mach.getStabilizer().getOutput(abus) : 0.0;
     }
-    private double calculateV1(DStabBus abus, Machine mach) {
-        return withD? tgr2.getY(calculateVerr(abus, mach)) : calculateVerr(abus, mach);
-    }
-    private double calculateV1u(DStabBus abus, Machine mach) {
-        return withUD? tgru2.getY(calculateVerr(abus, mach)) : calculateVerr(abus, mach);
-    }
-    private double calculateV1o(DStabBus abus, Machine mach) {
-        return withOD? tgro2.getY(calculateVerr(abus, mach)) : calculateVerr(abus, mach);
-    }
-    private double calculateVr1(DStabBus abus, Machine mach) {
-        return withI? tgr1.getY(calculateV1(abus, mach)) : calculateV1(abus, mach);
-    }
-    private double calculateVru1(DStabBus abus, Machine mach) {
-        return withUI? tgru1.getY(calculateV1u(abus, mach)) : calculateV1u(abus, mach);
-    }
-    private double calculateVro1(DStabBus abus, Machine mach) {
-        return withOI? tgro1.getY(calculateV1o(abus, mach)) : calculateV1o(abus, mach);
+    private double[] getVr2(double vin) {
+        double[] vr2y = new double[3];
+        vr2y[0] = (withDr)? tgr2.getY(vin) : vin;
+        vr2y[1] = (withDo)? tgro2.getY(vin) : vin;
+        vr2y[2] = (withDu)? tgru2.getY(vin) : vin;
+        
+        return vr2y;
     }
     
-    private double calculateV2(DStabBus abus, Machine mach) {
-        double hv = (Vc >= calculateVuel())? Vc : calculateVuel();
-        double lv = (hv <= calculateVoel())? hv : calculateVoel();
-        if (lv == Vc) { 
-            return vrLimit.limit(calculateVr1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
-        }else if (lv == calculateVuel()){
-            return vrLimit.limit(calculateVru1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
-        }else return vrLimit.limit(calculateVro1(abus, mach)*getData().getKr()) - Ifd*getData().getKc();
+    private double[] getVr1(double[] vr2) {
+        double[] vr1y = new double[3];
+        vr1y[0] = (withIr)? tgr1.getY(vr2[0]) : vr2[0];
+        vr1y[1] = (withIo)? tgro1.getY(vr2[1]) : vr2[1];
+        vr1y[2] = (withIu)? tgru1.getY(vr2[2]) : vr2[2];
+        
+        return vr1y;
     }
     
-    private double findWindup() {
-        if (gcu.getStateX() > getData().getVrmax()) {
-            return 1.0;
-        }else if (gcu.getStateX() < getData().getVrmin()) {
-            return -1.0;
-        }else return 0.0;
+    private double getUf(double Uc) {
+        return (withGCU)? gcu.getY(Uc) : Uc;
     }
-    
-    private double calculateUf() {
-        return gcu.getStateX();
+
+
+    private double calculateV3(double ufi) {
+        return excSub.getY(ufi);
     }
-    private double calculateV3(Machine mach) {
-        return excSub.getY(calculateUf()-(mach.getEfd()*getData().getKvf()));
+    private double calculateV4(double v3) {
+        return excTran.getY(v3);
     }
-    
     
     // Step-5: Define Controller output (Efd)
     // =====================================
     
     public double getOutput(DStabBus abus, Machine mach) {
-        double v4 = excTran.getY(v3lim)-Ifd*getData().getKif();
+        double v4 = excTran.getStateX() - Ifd*getData().getKif();
         return vfdLimit.limit(v4);
     }
     
@@ -383,16 +451,26 @@ public class st5bExciter extends AbstractExciter {
     public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
         Hashtable table = super.getStates(abus, mach, ref);
         // Efd already added to the output symbol list, you can add more output variables as follows:
-        table.put("vPSS", Num2Str.toStr("0.00000000", calculatePSS(abus, mach)));
-        table.put("Ifd", Num2Str.toStr("0.00000000", Ifd));
-        table.put("Vt", Num2Str.toStr("0.00000000", vt));
-        table.put("Ug", Num2Str.toStr("0.00000000", UgMeas.getY(vt)));
-        table.put("Pt", Num2Str.toStr("0.00000000", mach.getPe()));
-        table.put("Pg", Num2Str.toStr("0.00000000", PgMeas.getY(mach.getPe())));
-        table.put("Qt", Num2Str.toStr("0.00000000", mach.getQBus()));
-        table.put("Qg", Num2Str.toStr("0.00000000", QgMeas.getY(mach.getQBus())));
-        table.put("vRef", Num2Str.toStr("0.00000000", vRef));
-        table.put("Vc", Num2Str.toStr("0.00000000", Vc));
+        table.put("vRef", vRef);
+        table.put("Pt", mach.getPe());
+        table.put("Pdroop", getPdroop(abus, mach));
+        table.put("Qt", mach.getQBus());
+        table.put("Qdroop", getQdroop(abus, mach));
+        table.put("Vt", abus.getVoltage().abs() / mach.getVMultiFactor());
+        table.put("Ug", getUg(abus, mach));
+        table.put("vPSS", calculatePSS(abus, mach));
+        
+        table.put("vr2", tgr2.getStateX());
+        table.put("vr1", tgr1.getStateX());
+        table.put("Vc", Vc);
+        
+        table.put("Ifd", Ifd);
+        table.put("v4", excTran.getStateX());
+        table.put("v3", excSub.getStateX());
+        table.put("OEL", OELactive);
+        table.put("UEL", UELactive);
+        
+        
         return table;
     }
     
@@ -461,7 +539,7 @@ public class st5bExciter extends AbstractExciter {
      * @return Returns the x.
      */
     public double getStateX() {
-        return gcu.getStateX();
+        return excTran.getStateX();
     }
     
     /**
