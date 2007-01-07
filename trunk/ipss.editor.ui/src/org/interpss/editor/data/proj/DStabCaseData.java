@@ -34,6 +34,8 @@ import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
 
 public class DStabCaseData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	public static final String Method_ModifiedEuler = "Modified Euler";
 	public static final String Method_RungeKutta = "Runge Kutta";
 	
@@ -44,6 +46,9 @@ public class DStabCaseData extends BaseDataBean {
 	private double totalSimuTime = 0.0;
 	private double simuStep = 0.0;
 
+	private boolean outputFilter = false;
+	private boolean outputScripting = false;
+	
 	private boolean disableDynamicEvent = false;
 	private boolean setPointChange = false;
 	private String  setPointChangeMachId = "";
@@ -319,5 +324,17 @@ public class DStabCaseData extends BaseDataBean {
 	 */
 	public void setSetPointValueChange(double setPointValueChange) {
 		this.setPointValueChange = setPointValueChange;
+	}
+	public boolean isOutputFilter() {
+		return outputFilter;
+	}
+	public void setOutputFilter(boolean outputFilter) {
+		this.outputFilter = outputFilter;
+	}
+	public boolean isOutputScripting() {
+		return outputScripting;
+	}
+	public void setOutputScripting(boolean outputScripting) {
+		this.outputScripting = outputScripting;
 	}
 }
