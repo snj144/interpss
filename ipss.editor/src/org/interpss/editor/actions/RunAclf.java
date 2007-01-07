@@ -7,7 +7,7 @@ import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.io.FileUtility;
-import org.interpss.editor.ui.SimuActionAdapter;
+import org.interpss.editor.ui.EditorActionAdapter;
 import org.interpss.editor.util.DocumentUtilFunc;
 
 import com.interpss.common.SpringAppContext;
@@ -28,7 +28,7 @@ public class RunAclf extends IpssAbstractActionDefault {
 
 		IpssEditorDocument doc = getCurrentDocument();
 		if (doc instanceof GPDocument) {
-			SimuActionAdapter.menu_run_aclf(true, graphpad.getCurrentGraph());
+			EditorActionAdapter.menu_run_aclf(true, graphpad.getCurrentGraph(), doc);
 		} 
 		else if (doc instanceof IpssCustomDocument) {
 			if (((IpssCustomDocument)doc).getDocFile().isModified()) {
@@ -36,7 +36,7 @@ public class RunAclf extends IpssAbstractActionDefault {
 				((IpssCustomDocument)doc).getFileName();
 				SimuContext simuCtx = (SimuContext)doc.getSimuAppContext().getSimuCtx();
 				if (FileUtility.loadCustomFile(filepath, simuCtx)) {
-					SimuActionAdapter.menu_run_aclf(false, null);
+					EditorActionAdapter.menu_run_aclf(false, null, doc);
 					doc.getSimuAppContext().setSimuNetDataDirty(false);
 				}	
 				else {
@@ -44,7 +44,7 @@ public class RunAclf extends IpssAbstractActionDefault {
 				}
 			} 
 			else {
-				SimuActionAdapter.menu_run_aclf(false, null);
+				EditorActionAdapter.menu_run_aclf(false, null, doc);
 			}
 		}
 		// After a run, some menuitems may need to be enabled

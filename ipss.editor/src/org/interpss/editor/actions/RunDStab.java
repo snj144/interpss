@@ -7,13 +7,14 @@ import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.io.FileUtility;
-import org.interpss.editor.ui.SimuActionAdapter;
+import org.interpss.editor.ui.EditorActionAdapter;
 import org.interpss.editor.util.DocumentUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.simu.SimuContext;
 
 public class RunDStab extends IpssAbstractActionDefault {
+	private static final long serialVersionUID = 1;
     
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
@@ -27,7 +28,7 @@ public class RunDStab extends IpssAbstractActionDefault {
 
 		IpssEditorDocument doc = getCurrentDocument();
 		if (doc instanceof GPDocument) {
-			SimuActionAdapter.menu_run_dstab(true, graphpad.getCurrentGraph());
+			EditorActionAdapter.menu_run_dstab(true, graphpad.getCurrentGraph(), doc);
 		}
 		else if (doc instanceof IpssCustomDocument) {
 			if (((IpssCustomDocument)doc).getDocFile().isModified()) {
@@ -35,7 +36,7 @@ public class RunDStab extends IpssAbstractActionDefault {
 				((IpssCustomDocument)doc).getFileName();
 				SimuContext simuCtx = (SimuContext)doc.getSimuAppContext().getSimuCtx();
 				if (FileUtility.loadCustomFile(filepath, simuCtx)) {
-					SimuActionAdapter.menu_run_dstab(false, null);
+					EditorActionAdapter.menu_run_dstab(false, null, doc);
 					doc.getSimuAppContext().setSimuNetDataDirty(false);
 				}	
 				else {
@@ -43,7 +44,7 @@ public class RunDStab extends IpssAbstractActionDefault {
 				}
 			} 
 			else {
-				SimuActionAdapter.menu_run_dstab(false, null);
+				EditorActionAdapter.menu_run_dstab(false, null, doc);
 			}
 		}
 		// After a run, some menuitems may need to be enabled
