@@ -823,15 +823,13 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
     	if (strList.length > 0) {
         	try {
+        		List<String> nameList = DStabPlotDialogRecord.getStateNameList(strList);
+        		List<Hashtable<String,String>> valueList = DStabPlotDialogRecord.createValueList(caseId, strList);
+        		
        			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
        			engine.eval(scriptTextArea.getText());
         		Object plotObj = ScriptingUtil.getScritingObject(engine, msg);
-        		
-        		List<String> selectedNameList = getSelectedNameList(strList);
-        		List<String> nameList = getStateNameList(selectedNameList);
-        		List<Hashtable<String,String>> valueList = createValueList(selectedNameList);
-        		
-       			((Invocable)engine).invokeMethod(plotObj, "processPlotScripts", this.simuCtx, msg, nameList, valueList);
+       			((Invocable)engine).invokeMethod(plotObj, "processPlotScripts", nameList, valueList, this.simuCtx, msg);
     		} catch (Exception e) {
     			msg.sendErrorMsg("DStabPlotSelectDialog.scriptingButtonActionPerformed(), " + e.toString());
     		}
@@ -841,115 +839,16 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     	}
     }//GEN-LAST:event_scriptingButtonActionPerformed
 
-    private List<Hashtable<String,String>> createValueList(List<String> nameList) {
-    	Map<String,String> map = new HashMap<String,String>();
-    	for (String str : nameList) {
-    	    if (!str.equals("Time")) {
-    	    	Hashtable<String,String> table = parseStateSelection(str);
-        	    String elemId = table.get("ElemId");
-        	    if (!map.containsKey(elemId))
-        	    	map.put(elemId, table.get("RecType"));
-    	    }
-    	}
-    	
-    	Object[] objList = map.keySet().toArray();
-    	String[] elemIdList = new String[objList.length];
-    	String[] recTypeList = new String[objList.length];
-    	int cnt = 0;
-    	for (Object obj: objList) {
-    		elemIdList[cnt] = (String)obj;
-    		recTypeList[cnt++] = map.get((String)obj);
-    	}
-    	
-		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
-		List<DStabSimuDBRecord> elemRecList = null;
-		try {
-			elemRecList = simuRecManager.getSimuRecList(caseId,	recTypeList, elemIdList, IProjectDataManager.CaseType_DStabSimuRec);
-		} catch (Exception ex) {
-			IpssLogger.logErr(ex);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList from DB", 
-					ex.toString() + "\n Please contact InterPSS support");
-		}
-
-		// find time array
-		List<Double> timeList = new ArrayList<Double>();
-		double time = 0.0;
-		for (DStabSimuDBRecord rec : elemRecList) {
-			if (rec.getSimuTime() > time) {
-				time = rec.getSimuTime();
-				timeList.add(new Double(time));
-			}
-		}
-		
-		List<Hashtable<String,String>> valueList = new ArrayList<Hashtable<String,String>>();
-		for (Double tPoint : timeList) {
-			Hashtable<String,String> row = new Hashtable<String,String>();
-			double t = tPoint.doubleValue();
-			row.put("Time", Num2Str.toStr(t,"00.000"));
-    		for (String str : nameList) {
-        	    if (!str.equals("Time")) {
-    				String stateName = getStateName(str);
-        			for (DStabSimuDBRecord rec : elemRecList) {
-        				if (Math.abs(rec.getSimuTime()-t) < 0.000001) {
-        					Hashtable table = StringUtil.parseStr2Hashtable(rec.getSimuRec());
-        					row.put(stateName, (String)(table.get(stateName)));
-        				}
-        			}
-    			}
-    		}
-    		valueList.add(row);
-		}
-		return valueList;
-    }
-    
-    private List<String> getStateNameList(List<String> selectedNameList) {
-		List<String> nameList = new ArrayList<String>();
-		for (String str : selectedNameList) {
-    	    if (str.equals("Time")) {
-    	    	nameList.add("Time");
-    	    }
-    	    else
-    	    	nameList.add(getStateName(str));
-		}
-		return nameList;
-    }
-
-    private List<String> getSelectedNameList(Object[] strList) {
-		List<String> nameList = new ArrayList<String>();
-		nameList.add("Time");
-		for (Object strObj : strList) {
-    		nameList.add((String)strObj);
-		}
-		return nameList;
-    }
-
-    private String getStateName(String str) {
-    	return parseStateSelection(str).get("StateName");
-    }
-
-    private Hashtable<String,String> parseStateSelection(String str) {
-		Hashtable<String,String> state = new Hashtable<String,String>();
-		state.put("ElemId", str.substring(str.indexOf("(")+1, str.indexOf(")")));
-		state.put("StateName", str.substring(0, str.indexOf("(")));
-		String type;
-		if (state.get("ElemId").startsWith("Mach@"))
-			type = 	ISimuRecManager.REC_TYPE_DStabMachineStates;
-		else
-			type = 	ISimuRecManager.REC_TYPE_DStabBusStates;
-		state.put("RecType", type);
-    	return state;
-    }
-    
     private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotButtonActionPerformed
     	String str = (String)stateItemSelectList.getSelectedValue();
 		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
     	if (str != null) {
-    	    Hashtable<String,String> state = parseStateSelection(str);
-        	IpssLogger.getLogger().info("ElemId, stateName: " + state.get("ElemId") + ", " + state.get("StateName"));
+    		DStabPlotDialogRecord rec = DStabPlotDialogRecord.parseStateSelection(str);
+        	IpssLogger.getLogger().info("ElemId, stateName: " + rec.elemId + ", " + rec.stateName);
         	DStabilityNetwork net = simuCtx.getDStabilityNet();
-        	String yDataLabel = ChartManager.getMachDataLabel(net.getMachine(state.get("ElemId")), 
-        			state.get("StateName"), net.getFrequency(), net.getBaseKva());
-        	ChartManager.plotStateCurve(caseId, state.get("ElemId"), state.get("StateName"), yDataLabel, state.get("RecType"));
+        	String yDataLabel = ChartManager.getMachDataLabel(net.getMachine(rec.elemId), 
+        			rec.stateName, net.getFrequency(), net.getBaseKva());
+        	ChartManager.plotStateCurve(caseId, rec.elemId, rec.stateName, yDataLabel, rec.recType);
     	}
     	else {
 			msg.sendWarnMsg("Please select a varible/state to plotting");
