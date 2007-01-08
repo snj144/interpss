@@ -25,6 +25,7 @@
 package org.interpss.editor.io;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.interpss.common.SpringAppContext;
@@ -55,6 +56,36 @@ public class SimuRecDBManager implements ISimuRecManager {
 				aRec.setElemIdStr(elemId);
 				List list = DBManager.getSqlMap().queryForList("selectDStabSimuRecordList", aRec);
 				return list;
+			}
+		} catch (SQLException e) {
+			IpssLogger.logErr(e);
+		}		
+		throw new InterpssException("Cannot getSimuRecList, see log file for details");
+	}
+	
+	/**
+	 * Get SimuRecord list for the case, record types and element ids
+	 * 
+	 * @param caseId
+	 * @param recType
+	 * @param elemId
+	 * @return
+	 */
+	public List getSimuRecList(int caseId, String[] recTypeList, String[] elemIdList, int appType)  throws InterpssException {
+		try {
+			if (appType == IProjectDataManager.CaseType_DStabSimuRec) {
+				int cnt = 0;
+				List<DStabSimuDBRecord> totalList = new ArrayList<DStabSimuDBRecord>();
+				for (String recType : recTypeList) {
+					int typeid = getRecTypeId(recType, appType);
+					DStabSimuDBRecord aRec = new DStabSimuDBRecord();
+					aRec.setCaseId(caseId);
+					aRec.setRecTypeId(typeid);
+					aRec.setElemIdStr(elemIdList[cnt++]);
+					List<DStabSimuDBRecord> list = DBManager.getSqlMap().queryForList("selectDStabSimuRecordList", aRec);
+					totalList.addAll(list);
+				}
+				return totalList;
 			}
 		} catch (SQLException e) {
 			IpssLogger.logErr(e);

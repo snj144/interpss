@@ -25,8 +25,10 @@
 package org.interpss.editor.chart;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -35,10 +37,13 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.StringUtil;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
@@ -815,32 +820,112 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 
     private void scriptingButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptingButtonActionPerformed
     	Object[] strList = stateItemSelectList.getSelectedValues();
+		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
     	if (strList.length > 0) {
-    		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
         	try {
        			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
        			engine.eval(scriptTextArea.getText());
         		Object plotObj = ScriptingUtil.getScritingObject(engine, msg);
-        		List<String> nameList = new ArrayList<String>();
-        		nameList.add("Time");
-        		for (Object strObj : strList) {
-            		nameList.add((String)strObj);
-        		}
-        		List<Hashtable<String,String>> valueList = new ArrayList<Hashtable<String,String>>();
-        		for (int i = 0; i < 3; i++) {
-        			Hashtable<String,String> row = new Hashtable<String,String>();
-        			row.put("Time", "0.00");
-            		for (Object strObj : strList) {
-                		row.put((String)strObj, "0.0");
-            		}
-            		valueList.add(row);
-        		}
+        		
+        		List<String> selectedNameList = getSelectedNameList(strList);
+        		List<String> nameList = getStateNameList(selectedNameList);
+        		List<Hashtable<String,String>> valueList = createValueList(selectedNameList);
+        		
        			((Invocable)engine).invokeMethod(plotObj, "processPlotScripts", this.simuCtx, msg, nameList, valueList);
     		} catch (Exception e) {
     			msg.sendErrorMsg("DStabPlotSelectDialog.scriptingButtonActionPerformed(), " + e.toString());
     		}
     	}
+    	else {
+			msg.sendWarnMsg("Please select a varible/state to script plotting");
+    	}
     }//GEN-LAST:event_scriptingButtonActionPerformed
+
+    private List<Hashtable<String,String>> createValueList(List<String> nameList) {
+    	Map<String,String> map = new HashMap<String,String>();
+    	for (String str : nameList) {
+    	    if (!str.equals("Time")) {
+    	    	Hashtable<String,String> table = parseStateSelection(str);
+        	    String elemId = table.get("ElemId");
+        	    if (!map.containsKey(elemId))
+        	    	map.put(elemId, table.get("RecType"));
+    	    }
+    	}
+    	
+    	Object[] objList = map.keySet().toArray();
+    	String[] elemIdList = new String[objList.length];
+    	String[] recTypeList = new String[objList.length];
+    	int cnt = 0;
+    	for (Object obj: objList) {
+    		elemIdList[cnt] = (String)obj;
+    		recTypeList[cnt++] = map.get((String)obj);
+    	}
+    	
+		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
+		List<DStabSimuDBRecord> elemRecList = null;
+		try {
+			elemRecList = simuRecManager.getSimuRecList(caseId,	recTypeList, elemIdList, IProjectDataManager.CaseType_DStabSimuRec);
+		} catch (Exception ex) {
+			IpssLogger.logErr(ex);
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList from DB", 
+					ex.toString() + "\n Please contact InterPSS support");
+		}
+
+		// find time array
+		List<Double> timeList = new ArrayList<Double>();
+		double time = 0.0;
+		for (DStabSimuDBRecord rec : elemRecList) {
+			if (rec.getSimuTime() > time) {
+				time = rec.getSimuTime();
+				timeList.add(new Double(time));
+			}
+		}
+		
+		List<Hashtable<String,String>> valueList = new ArrayList<Hashtable<String,String>>();
+		for (Double tPoint : timeList) {
+			Hashtable<String,String> row = new Hashtable<String,String>();
+			double t = tPoint.doubleValue();
+			row.put("Time", Num2Str.toStr(t,"00.000"));
+    		for (String str : nameList) {
+        	    if (!str.equals("Time")) {
+    				String stateName = getStateName(str);
+        			for (DStabSimuDBRecord rec : elemRecList) {
+        				if (Math.abs(rec.getSimuTime()-t) < 0.000001) {
+        					Hashtable table = StringUtil.parseStr2Hashtable(rec.getSimuRec());
+        					row.put(stateName, (String)(table.get(stateName)));
+        				}
+        			}
+    			}
+    		}
+    		valueList.add(row);
+		}
+		return valueList;
+    }
+    
+    private List<String> getStateNameList(List<String> selectedNameList) {
+		List<String> nameList = new ArrayList<String>();
+		for (String str : selectedNameList) {
+    	    if (str.equals("Time")) {
+    	    	nameList.add("Time");
+    	    }
+    	    else
+    	    	nameList.add(getStateName(str));
+		}
+		return nameList;
+    }
+
+    private List<String> getSelectedNameList(Object[] strList) {
+		List<String> nameList = new ArrayList<String>();
+		nameList.add("Time");
+		for (Object strObj : strList) {
+    		nameList.add((String)strObj);
+		}
+		return nameList;
+    }
+
+    private String getStateName(String str) {
+    	return parseStateSelection(str).get("StateName");
+    }
 
     private Hashtable<String,String> parseStateSelection(String str) {
 		Hashtable<String,String> state = new Hashtable<String,String>();
@@ -857,6 +942,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     
     private void plotButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plotButtonActionPerformed
     	String str = (String)stateItemSelectList.getSelectedValue();
+		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
     	if (str != null) {
     	    Hashtable<String,String> state = parseStateSelection(str);
         	IpssLogger.getLogger().info("ElemId, stateName: " + state.get("ElemId") + ", " + state.get("StateName"));
@@ -865,6 +951,9 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         			state.get("StateName"), net.getFrequency(), net.getBaseKva());
         	ChartManager.plotStateCurve(caseId, state.get("ElemId"), state.get("StateName"), yDataLabel, state.get("RecType"));
     	}
+    	else {
+			msg.sendWarnMsg("Please select a varible/state to plotting");
+    	}    	
     }//GEN-LAST:event_plotButtonActionPerformed
 
     private void addMachStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addMachStateButtonActionPerformed
