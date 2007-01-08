@@ -25,10 +25,8 @@
 package org.interpss.editor.chart;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
-import java.util.Map;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -37,15 +35,10 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
-import com.interpss.common.util.StringUtil;
-import com.interpss.core.net.Network;
-import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
@@ -749,10 +742,17 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 							ISimuRecManager.REC_TYPE_DStabPssStates)));
     	}
     	else if (elemId.startsWith(Constants.DBusDeviceIdToken)) {
-    		
+      	   IpssLogger.getLogger().info("setStateComboList for busDeviceId: " + elemId);
+      	   setBusDeviceStatus(true);
+		   this.busDeviceComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				ChartManager.getStatesNameList(this.caseId, elemId, ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates)));
     	}
     	else if (elemId.startsWith(Constants.BusIdToken)) {
-    		
+     	   IpssLogger.getLogger().info("setStateComboList for busId: " + elemId);
+     	   setBusVariableStatus(true);
+     	   String busId = elemId.replaceAll(Constants.BusIdToken, "");
+		   this.busVariableComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+    				ChartManager.getStatesNameList(this.caseId, busId, ISimuRecManager.REC_TYPE_DStabBusStates)));
     	}
     }//GEN-LAST:event_idItemSelectListMouseClicked
 
@@ -767,13 +767,16 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_addBranchStateButtonActionPerformed
 
     private void addBusDeviceStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusDeviceStateButtonActionPerformed
-    	this.stateItemList.add((String)busDeviceComboBox.getSelectedItem());
+    	IpssLogger.getLogger().info("Add bus device button clicked");
+    	String elemId = (String)idItemSelectList.getSelectedValue();
+    	this.stateItemList.add((String)busDeviceComboBox.getSelectedItem()+"("+elemId+")");
         refreashStateItemList();
     }//GEN-LAST:event_addBusDeviceStateButtonActionPerformed
 
     private void addBusStateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBusStateButtonActionPerformed
     	IpssLogger.getLogger().info("Add bus button clicked");
-    	this.stateItemList.add((String)busVariableComboBox.getSelectedItem());
+    	String elemId = (String)idItemSelectList.getSelectedValue();
+    	this.stateItemList.add((String)busVariableComboBox.getSelectedItem()+"("+elemId+")");
         refreashStateItemList();
     }//GEN-LAST:event_addBusStateButtonActionPerformed
 
@@ -846,9 +849,31 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     		DStabPlotDialogRecord rec = DStabPlotDialogRecord.parseStateSelection(str);
         	IpssLogger.getLogger().info("ElemId, stateName: " + rec.elemId + ", " + rec.stateName);
         	DStabilityNetwork net = simuCtx.getDStabilityNet();
-        	String yDataLabel = ChartManager.getMachDataLabel(net.getMachine(rec.elemId), 
-        			rec.stateName, net.getFrequency(), net.getBaseKva());
-        	ChartManager.plotStateCurve(caseId, rec.elemId, rec.stateName, yDataLabel, rec.recType);
+        	String yDataLabel = "";
+        	String elemId = "";
+        	if (rec.recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates)) {
+            	yDataLabel = ChartManager.getMachDataLabel(net.getMachine(rec.machId), 
+            			rec.stateName, net.getFrequency(), net.getBaseKva());
+            	elemId = rec.elemId;
+        	}
+        	else if (rec.recType.equals(ISimuRecManager.REC_TYPE_DStabExcStates) ||
+        			 rec.recType.equals(ISimuRecManager.REC_TYPE_DStabGovStates) ||
+                	 rec.recType.equals(ISimuRecManager.REC_TYPE_DStabPssStates)) {
+            	yDataLabel = ChartManager.getExcDataLabel(net.getMachine(rec.machId), rec.stateName);
+            	elemId = rec.elemId;
+        	}
+        	else if (rec.recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates)) {
+            	elemId = rec.busId;
+            	yDataLabel = ChartManager.getBusDataLabel(net.getDStabBus(rec.busId), rec.stateName, net.getBaseKva());
+        	}
+        	else if (rec.recType.equals(ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates)) {
+            	elemId = rec.elemId;
+            	yDataLabel = rec.stateName;
+        	}
+        	if (!elemId.equals("")) 
+        		ChartManager.plotStateCurve(caseId, elemId, rec.stateName, yDataLabel, rec.recType);
+        	else
+        		msg.sendWarnMsg("State/variable plotting not implemented yet");
     	}
     	else {
 			msg.sendWarnMsg("Please select a varible/state to plotting");

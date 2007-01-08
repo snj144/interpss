@@ -220,7 +220,7 @@ public class ChartManager {
     /*
 	public static final String OUT_SYMBOL_EXC_EFD 		= "Exciter Efd";
 */    
-    private static String getExcDataLabel(Machine mach, String state) {
+    public static String getExcDataLabel(Machine mach, String state) {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_EXC_EFD))
@@ -232,7 +232,7 @@ public class ChartManager {
     /*
 	public static final String OUT_SYMBOL_GOV_PM 		= "Governor Pm";
 */    
-    private static String getGovDataLabel(Machine mach, String state, double baseKva) {
+    public static String getGovDataLabel(Machine mach, String state, double baseKva) {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String rating = Num2Str.toStr("0.0",mach.getRating()*baseKva/1000.0);
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_GOV_PM))
@@ -244,7 +244,7 @@ public class ChartManager {
     /*
 	public static final String OUT_SYMBOL_PSS_VS 		= "PSS Vs";
 */    
-    private static String getPssDataLabel(Machine mach, String state) {
+    public static String getPssDataLabel(Machine mach, String state) {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_PSS_VS))
@@ -259,7 +259,7 @@ public class ChartManager {
 	public static final String OUT_SYMBOL_BUS_PLOAD 	= "Bus Load P";
 	public static final String OUT_SYMBOL_BUS_QLOAD 	= "Bus Load Q";
 */    
-    private static String getBusDataLabel(Bus bus, String state, double baseKva) {
+    public static String getBusDataLabel(Bus bus, String state, double baseKva) {
     	String id = "Bus Id:" + bus.getId() + ", ";
     	String baseV = Num2Str.toStr("0.0", bus.getBaseVoltage());
     	String baseMva = Num2Str.toStr("0.0", baseKva/1000.0);
