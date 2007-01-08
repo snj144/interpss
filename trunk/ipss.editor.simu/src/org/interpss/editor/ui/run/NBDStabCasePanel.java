@@ -314,6 +314,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         dstabCaseData.setOutputScripting(outputScriptCheckBox.isSelected());
         if (outputScriptCheckBox.isSelected() && dstabOutputScriptFilename != null) {
         	GUIFileUtil.writeTextarea2File(dstabOutputScriptFilename, scriptTextArea);
+        	dstabCaseData.setOutputScriptFilename(dstabOutputScriptFilename);
     	}        
         
         return ok;
@@ -845,6 +846,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
         outScriptingjPanel.setFont(new java.awt.Font("Dialog", 0, 12));
         scriptTextArea.setColumns(20);
+        scriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
         scriptTextArea.setRows(5);
         jScrollPane1.setViewportView(scriptTextArea);
 
