@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.util.IpssLogger;
@@ -24,6 +25,8 @@ public class DStabPlotDialogRecord {
 	public static final double TimeErrorTolerance = 0.0000001;
 	
 	public String elemId;
+	public String machId;
+	public String busId;
 	public String stateName;
 	public String recType;
 	
@@ -38,14 +41,35 @@ public class DStabPlotDialogRecord {
 		rec.elemId = str.substring(str.indexOf("(")+1, str.indexOf(")"));
 		rec.stateName = str.substring(0, str.indexOf("("));
 		String type;
-		if (rec.elemId.startsWith("Mach@"))
-			type = 	ISimuRecManager.REC_TYPE_DStabMachineStates;
-		else
+		if (rec.elemId.startsWith(Constants.MachIdToken)) {
+			if (rec.elemId.endsWith(DStabSimuDBRecord.EXCITER_ID_EXT)) {
+				type = ISimuRecManager.REC_TYPE_DStabExcStates;
+				rec.machId = rec.elemId.replaceAll(DStabSimuDBRecord.EXCITER_ID_EXT, "");
+			}
+			else if (rec.elemId.endsWith(DStabSimuDBRecord.GOVERNER_ID_EXT)) {
+				type = ISimuRecManager.REC_TYPE_DStabGovStates;
+				rec.machId = rec.elemId.replaceAll(DStabSimuDBRecord.GOVERNER_ID_EXT, "");
+			}
+			else if (rec.elemId.endsWith(DStabSimuDBRecord.STABILIZER_ID_EXT)) {
+				type = ISimuRecManager.REC_TYPE_DStabPssStates;
+				rec.machId = rec.elemId.replaceAll(DStabSimuDBRecord.STABILIZER_ID_EXT, "");
+			}
+			else {		
+				type = 	ISimuRecManager.REC_TYPE_DStabMachineStates;
+				rec.machId = rec.elemId;
+			}
+		}
+		else if (rec.elemId.startsWith(Constants.DBusDeviceIdToken)) {
+			type = 	ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates;
+		}
+		else {
 			type = 	ISimuRecManager.REC_TYPE_DStabBusStates;
+			rec.busId = rec.elemId.replaceAll(Constants.BusIdToken, "");
+		}
 		rec.recType = type;
     	return rec;
     }	
-        
+       
     /**
      * Translate the selection str set to a state name list: Time, Machine Angle ....
      * 
@@ -75,8 +99,11 @@ public class DStabPlotDialogRecord {
     	Map<String,String> map = new HashMap<String,String>();
     	for (Object strObj : strList) {
    	    	DStabPlotDialogRecord rec = DStabPlotDialogRecord.parseStateSelection((String)strObj);
-       	    if (!map.containsKey(rec.elemId))
-       	    	map.put(rec.elemId, rec.recType);
+   	    	String elemId = rec.elemId;
+   	    	if (rec.recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
+   	    		elemId = rec.busId;
+       	    if (!map.containsKey(elemId))
+       	    	map.put(elemId, rec.recType);
     	}
     	
     	// create elemId[], recType[]
@@ -88,6 +115,7 @@ public class DStabPlotDialogRecord {
     		elemIdList[cnt] = (String)obj;
     		recTypeList[cnt++] = map.get((String)obj);
     	}
+    	IpssLogger.getLogger().info("Plot Dialog selected ElemIdList, RecTyprList: " + map.toString());
     	
     	// retrieve rec from DB
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
@@ -121,7 +149,10 @@ public class DStabPlotDialogRecord {
        			for (DStabSimuDBRecord rec : elemRecList) {
        				if (Math.abs(rec.getSimuTime()-t) < TimeErrorTolerance) {
        					Hashtable table = StringUtil.parseStr2Hashtable(rec.getSimuRec());
-       					row.put(stateName, (String)(table.get(stateName)));
+       					Object obj = table.get(stateName);
+       					if (obj != null) {
+       						row.put(stateName, Num2Str.toStr(new Double((String)obj).doubleValue(),"0.0000"));
+       					}
        				}
        			}
     		}
