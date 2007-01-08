@@ -25,10 +25,7 @@
 package org.interpss.editor.ui.impl;
 
 import java.awt.Frame;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -83,7 +80,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         setAlwaysOnTop(true);
     }
 	
-    private void showDialog() {
+    public void showDialog() {
         if (data instanceof DistNetwork) {
         	DistNetwork distNet = (DistNetwork)data;
         	textArea.setText(DistOutFunc.lfSummary(distNet, msg));
@@ -117,7 +114,8 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         	}
 		}
         else {
-        	textArea.setText(data.toString());
+        	if (data != null)
+        		textArea.setText(data.toString());
         }
         pack();
         setVisible(true);	
@@ -156,6 +154,10 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 
     public void appendText(String text) {
 		textArea.append(text);
+	}
+
+    public void clearTextArea() {
+		textArea.setText("");
 	}
 
     /** This method is called from within the constructor to

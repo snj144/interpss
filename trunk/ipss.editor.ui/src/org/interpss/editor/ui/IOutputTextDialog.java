@@ -34,4 +34,7 @@ public interface IOutputTextDialog extends IpssMsgListener {
 	
 	void appendText(String text);
     
+    void showDialog();
+
+    void clearTextArea();
 }
