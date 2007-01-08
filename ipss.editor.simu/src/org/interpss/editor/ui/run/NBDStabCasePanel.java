@@ -71,6 +71,10 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         loadflowPanel.add(aclfCasePanel);
         //otherInfoPanel
         
+        // not implemented yet
+        outputFilterCheckBox.setSelected(false);
+        outputFilterCheckBox.setEnabled(false);
+        
         DataVerifier verifier = new DataVerifier();
         totalTimeTextField.setInputVerifier(verifier);
         simuStepTextField.setInputVerifier(verifier);
