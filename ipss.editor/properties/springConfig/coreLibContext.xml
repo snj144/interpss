@@ -29,11 +29,15 @@
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 	
-	<bean id="dstabSimuOutputHandler" 
+	<bean id="dbDStabSimuOutputHandler" 
 	      class="com.interpss.dstab.util.DatabaseSimuOutputHandler" 
 	      singleton="false">	
 	</bean>
-
+	
+	<bean id="scriptDStabSimuOutputHandler" 
+	      class="org.interpss.dstab.script.ScriptSimuOutputHandler" 
+	      singleton="false">	
+	</bean>
 <!-- 
     To turn off transient stability output to database, use the following dstabSimuOutputHandler
 	<bean id="dstabSimuOutputHandler" 
@@ -51,7 +55,7 @@
 		<constructor-arg index="1">
 			<ref bean="simuTimeEventHandler"/></constructor-arg>
 		<constructor-arg index="2">
-			<ref bean="dstabSimuOutputHandler"/></constructor-arg>
+			<ref bean="dbDStabSimuOutputHandler"/></constructor-arg>
 	</bean>
 	
 	<!--
