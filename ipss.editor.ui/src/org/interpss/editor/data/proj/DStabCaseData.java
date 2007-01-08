@@ -48,6 +48,7 @@ public class DStabCaseData extends BaseDataBean {
 
 	private boolean outputFilter = false;
 	private boolean outputScripting = false;
+	private String  outputScriptFilename = "";
 	
 	private boolean disableDynamicEvent = false;
 	private boolean setPointChange = false;
@@ -336,5 +337,11 @@ public class DStabCaseData extends BaseDataBean {
 	}
 	public void setOutputScripting(boolean outputScripting) {
 		this.outputScripting = outputScripting;
+	}
+	public String getOutputScriptFilename() {
+		return outputScriptFilename;
+	}
+	public void setOutputScriptFilename(String outputScriptFilename) {
+		this.outputScriptFilename = outputScriptFilename;
 	}
 }
