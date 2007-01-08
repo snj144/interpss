@@ -483,10 +483,10 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                 .add(32, 32, 32)
                 .add(refMachLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(refMachComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 93, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(33, 33, 33)
+                .add(refMachComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 125, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
                 .add(absMachCheckBox)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .add(19, 19, 19))
         );
         refMachinejPanelLayout.setVerticalGroup(
             refMachinejPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -494,8 +494,8 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                 .add(5, 5, 5)
                 .add(refMachinejPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(refMachLabel)
-                    .add(refMachComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(absMachCheckBox))
+                    .add(absMachCheckBox)
+                    .add(refMachComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 

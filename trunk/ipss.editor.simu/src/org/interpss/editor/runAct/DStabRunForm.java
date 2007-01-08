@@ -110,12 +110,20 @@ public class DStabRunForm extends BaseRunForm {
 		setDbSimuCaseId(handler.getCaseId());
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
 
+		if (dStabCaseData.isOutputScripting()) {
+		   // add scripting handler to the algo	
+		}
+		
 	  	if (simuCtx.getDynSimuAlgorithm().initialization(msg)) {
 		  	if (getAclfCaseData().getShowSummary()) {
 		  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 		  		dialog.display(simuCtx.getDynSimuAlgorithm());
 		  	}
 		  	simuCtx.getDynSimuAlgorithm().performSimulation(msg);
+		}
+
+	  	if (dStabCaseData.isOutputScripting()) {
+		   // perform close action after the simulation	
 		}
 	}
 	

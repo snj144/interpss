@@ -246,10 +246,10 @@
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="refMachLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="refMachComboBox" min="-2" pref="93" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                          <Component id="refMachComboBox" min="-2" pref="125" max="-2" attributes="0"/>
+                          <EmptySpace pref="36" max="32767" attributes="0"/>
                           <Component id="absMachCheckBox" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="54" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -259,8 +259,8 @@
                           <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="refMachLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="refMachComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="absMachCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="refMachComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
