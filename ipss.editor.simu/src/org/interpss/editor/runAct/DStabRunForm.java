@@ -41,6 +41,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuOutputHandler;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuSpringAppContext;
 
 public class DStabRunForm extends BaseRunForm {
 	private int dbSimuCaseId = 0;
@@ -110,8 +111,16 @@ public class DStabRunForm extends BaseRunForm {
 		setDbSimuCaseId(handler.getCaseId());
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
 
+		IDStabSimuOutputHandler scriptHandler = null;
 		if (dStabCaseData.isOutputScripting()) {
-		   // add scripting handler to the algo	
+			scriptHandler = SimuSpringAppContext.getDStabScriptOutputHandler();
+			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
+			try {
+				scriptHandler.init(dStabCaseData.getOutputScriptFilename(), simuCtx.getDStabilityNet());
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+				return;
+			}
 		}
 		
 	  	if (simuCtx.getDynSimuAlgorithm().initialization(msg)) {
@@ -123,7 +132,8 @@ public class DStabRunForm extends BaseRunForm {
 		}
 
 	  	if (dStabCaseData.isOutputScripting()) {
-		   // perform close action after the simulation	
+	  		if (scriptHandler != null)
+	  			scriptHandler.close();	
 		}
 	}
 	
