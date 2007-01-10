@@ -98,7 +98,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	}
          
         setControllerList();
-        scriptTextArea.setText("");
         
         setOutputFilterPanel(false);
         setOutputScriptingPanel(false);
@@ -205,13 +204,15 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
         outputScriptCheckBox.setSelected(dstabCaseData.isOutputScripting());
         setOutputScriptingPanel(outputScriptCheckBox.isSelected());
-        if (outputScriptCheckBox.isSelected() && dstabOutputScriptFilename != null) {
-        	IpssLogger.getLogger().info("scriptFilename: " + dstabOutputScriptFilename);
-        	GUIFileUtil.readFile2Textarea(dstabOutputScriptFilename, scriptTextArea);
-        	if (scriptTextArea.getText().trim().equals(""))
-            	GUIFileUtil.readFile2Textarea(workspaceDir+System.getProperty("file.separator")+
-            			OutpuScriptTemplateFilename, scriptTextArea);
-        } 
+        if (outputScriptCheckBox.isSelected()) {
+            if (dstabOutputScriptFilename != null) {
+            	IpssLogger.getLogger().info("scriptFilename: " + dstabOutputScriptFilename);
+            	GUIFileUtil.readFile2Textarea(dstabOutputScriptFilename, scriptTextArea);
+            	if (scriptTextArea.getText().trim().equals(""))
+                	GUIFileUtil.readFile2Textarea(workspaceDir+System.getProperty("file.separator")+
+                			OutpuScriptTemplateFilename, scriptTextArea);
+            }         
+        }
         return true;
 	}
     
@@ -874,6 +875,15 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
     private void outputScriptCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputScriptCheckBoxActionPerformed
         setOutputScriptingPanel(outputScriptCheckBox.isSelected());
+        if (outputScriptCheckBox.isSelected()) {
+            if (dstabOutputScriptFilename != null) {
+            	IpssLogger.getLogger().info("scriptFilename: " + dstabOutputScriptFilename);
+            	GUIFileUtil.readFile2Textarea(dstabOutputScriptFilename, scriptTextArea);
+            	if (scriptTextArea.getText().trim().equals(""))
+                	GUIFileUtil.readFile2Textarea(workspaceDir+System.getProperty("file.separator")+
+                			OutpuScriptTemplateFilename, scriptTextArea);
+            }         
+        }
     }//GEN-LAST:event_outputScriptCheckBoxActionPerformed
 
     private void outputFilterCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputFilterCheckBoxActionPerformed
