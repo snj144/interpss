@@ -1,12 +1,27 @@
-/**
- * <copyright>
- * 	Copyright www.interpss.com 2005
- * </copyright>
- * 
- * An implementation of the Simple excitor model
- *
- * $Id$
- */
+ /*
+  * @(#)ScriptingStabilizer.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 05/01/2007
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss.dstab.control.script;
 
 import com.interpss.dstab.mach.ControllerType;
