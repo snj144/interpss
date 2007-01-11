@@ -9,7 +9,7 @@ import javax.swing.filechooser.FileFilter;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssTextDocument;
-import org.interpss.editor.io.FileUtility;
+import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.resources.Translator;
 
