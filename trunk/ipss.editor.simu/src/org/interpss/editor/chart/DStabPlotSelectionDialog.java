@@ -1,5 +1,5 @@
  /*
-  * @(#)MachStateSelDialog.java   
+  * @(#)DStabPlotSelectionDialog.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2006
+  * @Date 05/01/2007
   * 
   *   Revision History
   *   ================

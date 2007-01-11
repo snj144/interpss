@@ -1,5 +1,5 @@
  /*
-  * @(#)FileUtility.java   
+  * @(#)CustomFileUtility.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -31,7 +31,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
 
-public class FileUtility {
+public class CustomFileUtility {
 	public static boolean loadCustomFile(String filepath, SimuContext simuCtx) {
 		IpssLogger.getLogger().info("Custom file path: " + filepath);
 
