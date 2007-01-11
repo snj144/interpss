@@ -9,7 +9,7 @@ import javax.swing.filechooser.FileFilter;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssCustomDocument;
-import org.interpss.editor.io.FileUtility;
+import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.resources.Translator;
 
@@ -74,7 +74,7 @@ public class IpssCustomDataCodec {
 	public IAppSimuContext read(String abpath) {
 		IAppSimuContext appSimuContext = SimuAppSpringAppContext.getAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuContext.getSimuCtx();
-		boolean ok = FileUtility.loadCustomFile(abpath, simuCtx);
+		boolean ok = CustomFileUtility.loadCustomFile(abpath, simuCtx);
 		if (ok) {
 			appSimuContext.setSimuNetDataDirty(false);
 		}
