@@ -348,7 +348,7 @@ public class ChartManager {
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
 				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates)) {
-				elemStates.remove(DStabOutFunc.OUT_SYMBOL_DEVICE_ID);
+				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_DEVICE_ID);
 				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
 			}
 			return elemStates.keySet().toArray();
