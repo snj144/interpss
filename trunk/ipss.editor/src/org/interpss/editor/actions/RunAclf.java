@@ -6,7 +6,7 @@ import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssEditorDocument;
-import org.interpss.editor.io.FileUtility;
+import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.ui.EditorActionAdapter;
 import org.interpss.editor.util.DocumentUtilFunc;
 
@@ -35,7 +35,7 @@ public class RunAclf extends IpssAbstractActionDefault {
 				String filepath = graphpad.getCurrentProject().getProjectPath() + "/" + 
 				((IpssCustomDocument)doc).getFileName();
 				SimuContext simuCtx = (SimuContext)doc.getSimuAppContext().getSimuCtx();
-				if (FileUtility.loadCustomFile(filepath, simuCtx)) {
+				if (CustomFileUtility.loadCustomFile(filepath, simuCtx)) {
 					EditorActionAdapter.menu_run_aclf(false, null, doc);
 					doc.getSimuAppContext().setSimuNetDataDirty(false);
 				}	
