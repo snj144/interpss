@@ -22,9 +22,9 @@
   *
   */
 
-package org.interpss.custom.psse.aclf;
+package org.interpss.custom.exchange.psse.aclf;
 
-import org.interpss.custom.psse.OwnerRec;
+import org.interpss.custom.exchange.psse.OwnerRec;
 
 import com.interpss.core.aclf.impl.AclfBranchExtImpl;
 
