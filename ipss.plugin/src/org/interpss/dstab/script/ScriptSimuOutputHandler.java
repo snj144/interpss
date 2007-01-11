@@ -67,6 +67,9 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 			   	Hashtable busDeviceStates = e.getHashtableData();
 				invoker.invokeMethod(scriptObj, "processBusDeviceStates", net, busDeviceStates, msg);
 			}
+			else if (e.getType() == DStabSimuAction.EndOfSimuStep) {
+				invoker.invokeMethod(scriptObj, "processEndOfSimuStep", msg);
+			}
 		} catch (Exception ex) {
 			msg.sendErrorMsg("ScriptSimuOutputHandler.onMsgEventStatus(), " + ex.toString());
 			return false;
