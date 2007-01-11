@@ -14,8 +14,14 @@
 		
 5. Modify MANIFEST.MF if new jar file(s) added		
 		
-5. Copy IpssCustomController.jar to lib/plugin     
+5. Rebuld IpssCustomController.jar and copy it lib/plugin     
 
-6. cmd ipss.install, ant to build the distribution
+6. cd to ipss.install dir, ant to build the distribution
 
 7. After build, edit the InterPSSInstall/readme.txt file    
+
+8. Run install_mike to test the installation file
+
+9. Package the installation file
+
+10. Any problem java -jar ipss_editor.jar
