@@ -8,7 +8,7 @@
 
    <shortcut
      name="InterPSS Editor"
-     target="$INSTALL_PATH\ipss_editor.jar"     
+     target="$INSTALL_PATH\run.bat"     
      commandLine=""
      workingDirectory="$INSTALL_PATH"
      description="InterPSS Editor"
@@ -24,13 +24,13 @@
 
    <shortcut
      name="InterPSS Editor Uninstaller"
+     target="$INSTALL_PATH\Uninstaller\uninstaller.jar" 
+     commandLine=""
      programGroup="yes"
      desktop="no"
      applications="no"
      startMenu="no"
      startup="no"
-     target="$INSTALL_PATH\Uninstaller\uninstaller.jar"     
-     commandLine=""
 	 iconFile="%SystemRoot%\system32\SHELL32.dll"
      iconIndex="31" 
      description="This uninstalls InterPSS Editor">
