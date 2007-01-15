@@ -11,6 +11,7 @@
 		<property name="install_temp" value="${install_dest}/temp" />
 		<property name="project_editor" value="${dev_ws_base}/ipss.editor" />
 		<property name="project_lib" value="${dev_ws_base}/ipss.lib" />
+		<property name="project_install" value="${dev_ws_base}/ipss.install" />
 		<mkdir dir="${install_dest}" />
 		<mkdir dir="${install_temp}" />
 		<mkdir dir="${install_temp}/db" />
@@ -44,6 +45,10 @@
 		</copy>
 		<copy todir="${install_temp}/lib">
 			<fileset dir="${project_lib}/lib" excludes="ipss_jgraph.jar,ipss_pad.jar,ipss_editor_simu.jar,ipss_editor_ui.jar,tsinghua.jar,ipss_plugin.jar">
+			</fileset>
+		</copy>
+		<copy todir="${install_temp}">
+			<fileset dir="${project_install}/bat">
 			</fileset>
 		</copy>
 	</target>
