@@ -19,8 +19,9 @@ Mike Zhou, Ph.D. InterPSS Project Architect (mike@interpss.org)
 
  * [http://home.interpss.org:81/wiki/index.php?title=InterPSS_Development_Guide_:_How_to_Customize_InterPSS_Report How to Customize InterPSS Report]
 
+ * [http://home.interpss.org:81/wiki/index.php?title=InterPSS_Roadmap_:_Reporting#Requirements InterPSS Development and Customization Requirements]
+ 
  * [http://www.jasperforge.org/ JasperReports]
-
 
 
 
