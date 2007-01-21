@@ -9,14 +9,17 @@ The currently InterPSS reports are quite rudimentary. They are only for preview 
 
 == Contributor ==
 
+{{{
+Flavio Arthur Leal Ferreira, graduate Student in Brazil, (flavio-arthur@via-rs.net)
+Ron Oosterwijk (oosterwijk.ron@gmail.com)
 Mike Zhou, Ph.D. InterPSS Project Architect (mike@interpss.org)
+}}}
 
 == Reference Links and Documents ==
 
  * [http://home.interpss.org:81/wiki/index.php?title=InterPSS_Development_Guide_:_How_to_Customize_InterPSS_Report How to Customize InterPSS Report]
 
  * [http://www.jasperforge.org/ JasperReports]
-
 
 
 
