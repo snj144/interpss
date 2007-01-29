@@ -26,6 +26,7 @@ package org.interpss.test.simu.core.common;
 
 import junit.framework.TestCase;
 
+import com.interpss.common.func.ExpCalculator;
 import com.interpss.common.func.LookupTable;
 
 /**
@@ -33,6 +34,24 @@ import com.interpss.common.func.LookupTable;
  *
  */
 public class CommonFuncTest extends TestCase {
+	public void testExpCalculator() {
+		try {
+			ExpCalculator calc = new ExpCalculator("-a+b/c-d*e");
+			double[] dAry = {1.0, 2.0, 3.0, 4.0, 5.0}; 
+			assertTrue(Math.abs(calc.eval(dAry)+20.33333) < 0.00001);
+
+			calc = new ExpCalculator("-a+b*c*d-e");
+			double[] dAry1 = {1.0, 2.0, 3.0, 4.0, 5.0}; 
+			assertTrue(Math.abs(calc.eval(dAry1)-18.0) < 0.00001);
+
+			calc = new ExpCalculator("a+b*c*d-e");
+			double[] dAry2 = {1.0, 2.0, 3.0, 4.0, 5.0}; 
+			assertTrue(Math.abs(calc.eval(dAry2)-20.0) < 0.00001);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void testLookupTable() {
 		LookupTable ltable = new LookupTable(LookupTable.TypeLinearLine);
 		ltable.addPoint(new LookupTable.Point(1.0, 1.0));
