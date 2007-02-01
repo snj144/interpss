@@ -50,7 +50,7 @@ public class TestWashoutCase extends TestSetupBase {
 		block.eulerStep2(u, dt);
 		
 		assertTrue(Math.abs(block.getStateX()+1.0) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)) < 0.0001);
+		assertTrue(Math.abs(block.getY()) < 0.0001);
 
 		u = 2.0;
 		for (int i = 0; i < 1000; i++) {
@@ -58,7 +58,7 @@ public class TestWashoutCase extends TestSetupBase {
 			block.eulerStep2(u, dt);
 		}
 		assertTrue(Math.abs(block.getStateX()+2.0) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)) < 0.0001);
+		assertTrue(Math.abs(block.getY()) < 0.0001);
 		
 		System.out.println("\nEnd TestWashoutCase Case1");
 	}

@@ -62,7 +62,7 @@ public class TestPIBlockCase extends TestSetupBase {
 		block.eulerStep1(u, dt);
 		block.eulerStep2(u, dt);
 		assertTrue(Math.abs(block.getStateX()-1.02) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)-5.02) < 0.0001);
+		assertTrue(Math.abs(block.getY()-5.02) < 0.0001);
 
 		for (int i = 0; i < 999; i++) {
 			block.eulerStep1(u, dt);
@@ -94,14 +94,14 @@ public class TestPIBlockCase extends TestSetupBase {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getY(u)-5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()-5.0) < 0.0001);
 
 		u = -6.0;
 		for (int i = 0; i < 1000; i++) {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getY(u)+5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()+5.0) < 0.0001);
 
 		System.out.println("\nEnd TestPIBlockCase Case3");
 	}
@@ -122,7 +122,7 @@ public class TestPIBlockCase extends TestSetupBase {
 			block.eulerStep2(u, dt);
 		}
 		assertTrue(Math.abs(block.getStateX()+block.getKp()*u-5.0) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)-5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()-5.0) < 0.0001);
 
 		u = -6.0;
 		for (int i = 0; i < 1000; i++) {
@@ -130,7 +130,7 @@ public class TestPIBlockCase extends TestSetupBase {
 			block.eulerStep2(u, dt);
 		}
 		assertTrue(Math.abs(block.getStateX()+block.getKp()*u+5.0) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)+5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()+5.0) < 0.0001);
 
 		System.out.println("\nEnd TestPIBlockCase Case3");
 	}
