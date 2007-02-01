@@ -123,7 +123,7 @@ public class SimpleExciter extends AbstractExciter {
 	 */
 	@Override
 	public double getOutput(DStabBus abus, Machine mach) {
-		return controlBlock.getY(calculateU(abus, mach));
+		return controlBlock.getY();
 	}
 
 	/**

@@ -16,7 +16,7 @@ import com.interpss.dstab.mach.Controller;
         display= {"str.Efd, this.delayBlock.y"})
 // User custom code end
         
-// Your custom class has to extend the AbstractAnnotateController. Do not the following line         
+// Your custom class has to extend the AbstractAnnotateController class         
 public class CustomAnnotateExciter extends AbstractAnnotateController {
 
 	// User custom code begin
