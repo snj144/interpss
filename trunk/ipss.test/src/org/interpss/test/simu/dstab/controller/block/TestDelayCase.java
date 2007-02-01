@@ -95,14 +95,14 @@ public class TestDelayCase extends TestSetupBase {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getY(u)-5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()-5.0) < 0.0001);
 
 		u = -6.0;
 		for (int i = 0; i < 1000; i++) {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getY(u)+5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()+5.0) < 0.0001);
 
 		System.out.println("\nEnd TestDelayCase Case3");
 	}
@@ -123,7 +123,7 @@ public class TestDelayCase extends TestSetupBase {
 			block.eulerStep2(u, dt);
 		}
 		assertTrue(Math.abs(block.getStateX()-5.0) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)-5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()-5.0) < 0.0001);
 
 		u = -6.0;
 		for (int i = 0; i < 1000; i++) {
@@ -131,7 +131,7 @@ public class TestDelayCase extends TestSetupBase {
 			block.eulerStep2(u, dt);
 		}
 		assertTrue(Math.abs(block.getStateX()+5.0) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)+5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()+5.0) < 0.0001);
 
 		System.out.println("\nEnd TestDelayCase Case3");
 	}

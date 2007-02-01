@@ -51,7 +51,7 @@ public class TestFilterCase extends TestSetupBase {
 		block.eulerStep2(u, dt);
 		
 		assertTrue(Math.abs(block.getStateX()-0.9) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)-1.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()-1.0) < 0.0001);
 
 		/* 
 		 * u = 2.0, x(0) = 0.9, K = 1.0, dt = 0.01, T1 = 0.1, T2=1.0
@@ -69,14 +69,14 @@ public class TestFilterCase extends TestSetupBase {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getY(u)-2.0) < 0.001);
+		assertTrue(Math.abs(block.getY()-2.0) < 0.001);
 
 		u = -1.0;
 		for (int i = 0; i < 1000; i++) {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getY(u)+1.0) < 0.001);
+		assertTrue(Math.abs(block.getY()+1.0) < 0.001);
 
 		System.out.println("\nEnd TestFilterCase Case1");
 	}
@@ -96,14 +96,14 @@ public class TestFilterCase extends TestSetupBase {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getY(u)-5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()-5.0) < 0.0001);
 
 		u = -6.0;
 		for (int i = 0; i < 1000; i++) {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getY(u)+5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()+5.0) < 0.0001);
 
 		System.out.println("\nEnd TestFilterCase Case3");
 	}
@@ -124,7 +124,7 @@ public class TestFilterCase extends TestSetupBase {
 			block.eulerStep2(u, dt);
 		}
 		assertTrue(Math.abs((block.getStateX()+block.getK()*(block.getT1()/block.getT2())*u)-5.0) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)-5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()-5.0) < 0.0001);
 
 		u = -6.0;
 		for (int i = 0; i < 1000; i++) {
@@ -132,7 +132,7 @@ public class TestFilterCase extends TestSetupBase {
 			block.eulerStep2(u, dt);
 		}
 		assertTrue(Math.abs((block.getStateX()+block.getK()*(block.getT1()/block.getT2())*u)+5.0) < 0.0001);
-		assertTrue(Math.abs(block.getY(u)+5.0) < 0.0001);
+		assertTrue(Math.abs(block.getY()+5.0) < 0.0001);
 
 		System.out.println("\nEnd TestFilterCase Case3");
 	}
