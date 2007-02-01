@@ -183,46 +183,46 @@ public class IEEE2B extends AbstractStabilizer {
     private double calculateDw(Machine mach) {
         return mach.getSpeed() -1.0;    }
     private double calculateDww(Machine mach) {
-        return dwMeasure.getY(calculateDw(mach));    }
+        return dwMeasure.getY();    }
     private double calculateW1(Machine mach) {
-        return wash1.getY(calculateDww(mach));    }
+        return wash1.getY();    }
     private double calculatePe() {
         return getMachine().getPe()+stepTest;    }  // stepTest variable for testing
     private double calculatePef() {
-        return PeMeasure.getY(calculatePe());    }
+        return PeMeasure.getY();    }
     private double calculateW3() {
-        return wash3.getY(calculatePef());    }
+        return wash3.getY();    }
     private double calculateRtin(Machine mach) {
-        return wash2.getY(calculateW1(mach))+(dpInt.getY(calculateW3())*getData().getKs3());
+        return wash2.getY()+(dpInt.getY()*getData().getKs3());
     }
     private double calculateRt1(Machine mach) {
         if (!(getData().getT8() == 0.0)) {
-            return withT8.getY(calculateRtin(mach));
-        }else return noT8.getY(calculateRtin(mach));
+            return withT8.getY();
+        }else return noT8.getY();
     }
     private double calculateRt2(Machine mach) {
-        return rtfilt2.getY(calculateRt1(mach));
+        return rtfilt2.getY();
     }
     private double calculateRt3(Machine mach) {
-        return rtfilt3.getY(calculateRt2(mach));
+        return rtfilt3.getY();
     }
     private double calculateRt4(Machine mach) {
-        return rtfilt4.getY(calculateRt3(mach));
+        return rtfilt4.getY();
     }
     private double calculateRt5(Machine mach) {
-        return rtfilt5.getY(calculateRt4(mach));
+        return rtfilt5.getY();
     }
     private double calculateDPacc(Machine mach) {
-        return calculateRt5(mach) - dpInt.getY(calculateW3());
+        return calculateRt5(mach) - dpInt.getY();
     }
     private double calculateLL1(Machine mach) {
-        return leadlag1.getY(calculateDPacc(mach));
+        return leadlag1.getY();
     }
     private double calculateLL2(Machine mach) {
-        return leadlag2.getY(calculateLL1(mach));
+        return leadlag2.getY();
     }
     private double calculateLL3(Machine mach) {
-        return leadlag3.getY(calculateLL2(mach));
+        return leadlag3.getY();
     }
     
     

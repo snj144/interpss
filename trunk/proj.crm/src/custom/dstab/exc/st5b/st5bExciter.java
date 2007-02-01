@@ -383,17 +383,17 @@ public class st5bExciter extends AbstractExciter {
     
     
     private double getUg(DStabBus abus, Machine mach) {
-        if (withTR) { return UgMeas.getY(vt);
+        if (withTR) { return UgMeas.getY();
         } else return vt;
     }
     
     private double getQdroop(DStabBus abus, Machine mach) {
-        if (withTR) { return QgMeas.getY(mach.getQBus()) * getData().getKir();
+        if (withTR) { return QgMeas.getY() * getData().getKir();
         }else return mach.getQBus() * getData().getKir();
     }
     
     private double getPdroop(DStabBus abus, Machine mach) {
-        if (withTR) { return PgMeas.getY(mach.getPe()) * getData().getKia();
+        if (withTR) { return PgMeas.getY() * getData().getKia();
         } else return mach.getPe() * getData().getKia();
     }
     
@@ -408,32 +408,32 @@ public class st5bExciter extends AbstractExciter {
     }
     private double[] getVr2(double vin) {
         double[] vr2y = new double[3];
-        vr2y[0] = (withDr)? tgr2.getY(vin) : vin;
-        vr2y[1] = (withDo)? tgro2.getY(vin) : vin;
-        vr2y[2] = (withDu)? tgru2.getY(vin) : vin;
+        vr2y[0] = (withDr)? tgr2.getY() : vin;
+        vr2y[1] = (withDo)? tgro2.getY() : vin;
+        vr2y[2] = (withDu)? tgru2.getY() : vin;
         
         return vr2y;
     }
     
     private double[] getVr1(double[] vr2) {
         double[] vr1y = new double[3];
-        vr1y[0] = (withIr)? tgr1.getY(vr2[0]) : vr2[0];
-        vr1y[1] = (withIo)? tgro1.getY(vr2[1]) : vr2[1];
-        vr1y[2] = (withIu)? tgru1.getY(vr2[2]) : vr2[2];
+        vr1y[0] = (withIr)? tgr1.getY() : vr2[0];
+        vr1y[1] = (withIo)? tgro1.getY() : vr2[1];
+        vr1y[2] = (withIu)? tgru1.getY() : vr2[2];
         
         return vr1y;
     }
     
     private double getUf(double Uc) {
-        return (withGCU)? gcu.getY(Uc) : Uc;
+        return (withGCU)? gcu.getY() : Uc;
     }
 
 
     private double calculateV3(double ufi) {
-        return excSub.getY(ufi);
+        return excSub.getY();
     }
     private double calculateV4(double v3) {
-        return excTran.getY(v3);
+        return excTran.getY();
     }
     
     // Step-5: Define Controller output (Efd)
