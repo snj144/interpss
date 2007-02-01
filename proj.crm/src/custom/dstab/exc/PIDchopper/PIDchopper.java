@@ -123,7 +123,7 @@ public class PIDchopper extends AbstractExciter {
     
     private double calculateUg(DStabBus bus, Machine mach) {
         final double vt = bus.getVoltage().abs() / mach.getVMultiFactor();
-        return UgMeasure.getY(vt);
+        return UgMeasure.getY();
     }
     
     private double calculateUd(DStabBus bus, Machine mach) {
@@ -145,7 +145,7 @@ public class PIDchopper extends AbstractExciter {
     
     public double getOutput(DStabBus abus, Machine mach) {
         final double vt = abus.getVoltage().abs() / mach.getVMultiFactor();
-        return pi1.getY(calculateUerr(abus, mach))*vt;
+        return pi1.getY()*vt;
     }
     
     // Step-6: Defined Controller display variables

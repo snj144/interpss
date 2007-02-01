@@ -99,12 +99,12 @@ public class RotatingExciter2LL implements IControlDevice {
         
 	}
         
-        private double calculateV2() { return tran.getY(V1); }
+        private double calculateV2() { return tran.getY(); }
 
 	public double[] getY(double[] u) {
 		// u[0] = Vf   u[1] = Ifd
                 // y[0] = Efd  y[1] = Ifd0
-            y[0] = vLimit.limit((tran.getY(subtran.getY(u[0]-Efd*Kvf)) - u[1]*KIf));
+            y[0] = vLimit.limit(tran.getY());
             y[1] = Ifd0;
 		return y;
 	}

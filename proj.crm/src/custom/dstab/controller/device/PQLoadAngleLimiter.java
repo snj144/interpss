@@ -112,7 +112,7 @@ public class PQLoadAngleLimiter implements IControlDevice {
 	}
         
         private double calculateV1(double[] u) {
-            return VgMeas.getY(u[1])*VgMeas.getY(u[1])*QPLookup.getY(PgMeas.getY(u[2]));
+            return VgMeas.getY()*VgMeas.getY()*QPLookup.getY(PgMeas.getY());
         }
         
 

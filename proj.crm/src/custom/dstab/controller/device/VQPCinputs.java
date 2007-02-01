@@ -100,10 +100,10 @@ public class VQPCinputs implements IControlDevice {
         public double[] getY(double[] u) {
             // y[0] - Vc, y[1] - vRef
             vRef = u[0];
-            y[0] = vRef + QgMeas.getY(u[2])*KIR
-                        + (QgMeas.getY(u[2])+QcMeas.getY(u[3]))*KCC
-                        + PgMeas.getY(u[4])*KIA
-                        - UgMeas.getY(u[1]);
+            y[0] = vRef + QgMeas.getY()*KIR
+                        + (QgMeas.getY()+QcMeas.getY())*KCC
+                        + PgMeas.getY()*KIA
+                        - UgMeas.getY();
             y[1] = vRef;
 	return y;
 	}
