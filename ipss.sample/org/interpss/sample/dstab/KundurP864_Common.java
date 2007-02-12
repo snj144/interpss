@@ -32,6 +32,7 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.dstab.control.annotate.CustomAnnotateExciter;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import org.interpss.editor.EditorSpringAppContext;
 
@@ -246,12 +247,21 @@ public class KundurP864_Common {
 	}
 	
 	public static void addControllerData(DStabilityNetwork net, IPSSMsgHub msg) {
+/*
 		SimpleExciter exc1 = new SimpleExciter("LT", "Exc1", "InterPSS");
 		exc1.getData().setKa(50.0);
 		exc1.getData().setTa(0.05);
 		exc1.getData().setVrmax(10.0);
 		exc1.getData().setVrmin(0.0);
 		System.out.println("ExcData: " + exc1.getDataXmlString());
+*/		
+		CustomAnnotateExciter exc1 = new CustomAnnotateExciter();
+		exc1.k = 50.0;
+		exc1.t = 0.05;
+		exc1.vmax = 10.0;
+		exc1.vmin = 0.0;
+		//System.out.println("ExcData: " + exc1.toString());
+
 		Machine mach1 = net.getMachine("LT");
 		mach1.addExciter(exc1);
 /*
@@ -295,6 +305,8 @@ public class KundurP864_Common {
 		states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
 		try{
 			System.out.print(DStabOutFunc.getStateStr(states));
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
  }
