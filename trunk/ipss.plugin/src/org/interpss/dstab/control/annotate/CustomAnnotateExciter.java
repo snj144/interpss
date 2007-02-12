@@ -13,11 +13,11 @@ import com.interpss.dstab.mach.Controller;
         input="pss.vs - mach.vt",
         output="this.delayBlock.y",
         refPoint="this.delayBlock.u0 - pss.vs + mach.vt",
-        display= {"str.Efd, this.delayBlock.y"})
+        display= {"str.Efd, this.output", "str.ExciterState, this.delayBlock.state"})
 // User custom code end
         
 // Your custom class has to extend the AbstractAnnotateController class         
-public class CustomAnnotateExciter extends AbstractAnnotateController {
+public class CustomAnnotateExciter extends AnnotateExciter {
 
 	// User custom code begin
 	// Define controller parameters, fields and field annotation here 
