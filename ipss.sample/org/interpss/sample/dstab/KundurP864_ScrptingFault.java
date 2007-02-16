@@ -30,7 +30,7 @@ package org.interpss.sample.dstab;
 
 import java.util.Iterator;
 
-import org.interpss.dstab.control.script.ScriptingExciter;
+import org.interpss.dstab.control.script.javaScript.ScriptingExciter;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
