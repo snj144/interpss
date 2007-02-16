@@ -22,15 +22,26 @@
 			</list>
 	-->
 	
-	<bean id="scriptingExciter" 
-	  	class="org.interpss.dstab.control.script.ScriptingExciter"
+	<bean id="cmlScriptingExciter" 
+	  	class="org.interpss.dstab.control.script.cml.CMLScriptingExciter"
 	    singleton="false">	
 	    <property name="name">
-	    	<value>Scripting Exciter</value></property>
+	    	<value>CML Scripting Exciter</value></property>
 	    <property name="category">
 	    	<value>InterPSS</value></property>
 	    <property name="desc">
-	    	<value>InterPSS scripting exciter implmementation</value></property>
+	    	<value>InterPSS CML scripting exciter implmementation</value></property>
+	</bean>
+
+	<bean id="javaScriptScriptingExciter" 
+	  	class="org.interpss.dstab.control.script.javaScript.ScriptingExciter"
+	    singleton="false">	
+	    <property name="name">
+	    	<value>JavaScript Scripting Exciter</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>InterPSS JavaScript scripting exciter implmementation</value></property>
 	</bean>
 	
 	<bean id="sampleCustomExciter" 
@@ -82,7 +93,8 @@
 	      singleton="true">	
 		<constructor-arg>
 			<list>
-				<ref bean="scriptingExciter"/>
+				<ref bean="cmlScriptingExciter"/>
+				<ref bean="javaScriptScriptingExciter"/>
 				<ref bean="simpleExciter"/>
 				<ref bean="ieeeDC_1AExciter"/>
 				<ref bean="ieeeAC_4AExciter"/>

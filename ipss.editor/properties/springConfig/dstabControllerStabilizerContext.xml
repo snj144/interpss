@@ -3,14 +3,14 @@
 
 <beans>
 	<bean id="scriptingStabilizer" 
-	  	class="org.interpss.dstab.control.script.ScriptingStabilizer"
+	  	class="org.interpss.dstab.control.script.javaScript.ScriptingStabilizer"
 	    singleton="false">	
 	    <property name="name">
-	    	<value>Scripting Stabilizer</value></property>
+	    	<value>JavaScript Scripting Stabilizer</value></property>
 	    <property name="category">
 	    	<value>InterPSS</value></property>
 	    <property name="desc">
-	    	<value>InterPSS scripting stabilizer implmementation</value></property>
+	    	<value>InterPSS JavaScript scripting stabilizer implmementation</value></property>
 	</bean>
 	
 	<bean id="sampleCustomStabilizer" 
