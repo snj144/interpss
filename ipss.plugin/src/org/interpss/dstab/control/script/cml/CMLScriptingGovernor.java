@@ -22,18 +22,18 @@
   *
   */
 
-package org.interpss.dstab.control.script;
+package org.interpss.dstab.control.script.cml;
 
 import com.interpss.dstab.mach.ControllerType;
 
-public class ScriptingGovernor extends BaseScriptingController {
+public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	// define UI Editor panel for editing the controller data
 	private static final NBControllerScriptsEditPanel _editPanel = new NBControllerScriptsEditPanel();
 
 	/**
 	 * Constructor 
 	 */
-	public ScriptingGovernor() {
+	public CMLScriptingGovernor() {
 		super("govId", "govName", "govCaty", ControllerType.GOVERNOR_LITERAL);
 	}
 	
@@ -43,7 +43,7 @@ public class ScriptingGovernor extends BaseScriptingController {
 	 * @param id governor id
 	 * @param name governor name
 	 */
-	public ScriptingGovernor(final String id, final String name, final String caty) {
+	public CMLScriptingGovernor(final String id, final String name, final String caty) {
 		super(id, name, caty, ControllerType.GOVERNOR_LITERAL);
 	}
 	

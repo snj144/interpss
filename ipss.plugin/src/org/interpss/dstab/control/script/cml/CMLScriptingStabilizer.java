@@ -22,18 +22,18 @@
   *
   */
 
-package org.interpss.dstab.control.script;
+package org.interpss.dstab.control.script.cml;
 
 import com.interpss.dstab.mach.ControllerType;
 
-public class ScriptingStabilizer extends BaseScriptingController {
+public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 	// define UI Editor panel for editing the controller data
 	private static final NBControllerScriptsEditPanel _editPanel = new NBControllerScriptsEditPanel();
 
 	/**
 	 * Constructor
 	 */
-	public ScriptingStabilizer() {
+	public CMLScriptingStabilizer() {
 		super("pssId", "pssName", "pssCaty", ControllerType.STABILIZER_LITERAL);
 	}
 	
@@ -43,7 +43,7 @@ public class ScriptingStabilizer extends BaseScriptingController {
 	 * @param id stabilizer id
 	 * @param name stabilizer name
 	 */
-	public ScriptingStabilizer(final String id, final String name, final String caty) {
+	public CMLScriptingStabilizer(final String id, final String name, final String caty) {
 		super(id, name, caty, ControllerType.STABILIZER_LITERAL);
 	}
 	
