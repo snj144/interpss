@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.dstab.control.script;
+package org.interpss.dstab.control.script.cml;
 
 import java.util.Vector;
 

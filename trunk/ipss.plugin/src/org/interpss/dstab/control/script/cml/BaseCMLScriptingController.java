@@ -22,12 +22,11 @@
   *
   */
 
-package org.interpss.dstab.control.script;
+package org.interpss.dstab.control.script.cml;
 
 import java.util.Hashtable;
 
 import javax.script.Invocable;
-import javax.script.ScriptEngine;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Network;
@@ -36,19 +35,17 @@ import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
 import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.script.ScriptingUtil;
 
-public abstract class BaseScriptingController extends AbstractController {
+public abstract class BaseCMLScriptingController extends AbstractController {
 	Invocable invoker = null;
 	Object controller = null;
 	IPSSMsgHub message = null;
 	
-	public BaseScriptingController() {
+	public BaseCMLScriptingController() {
 		this("controllerId", "ScriptingController", "InterPSS", null); 
 	}
 	
-	public BaseScriptingController(final String id, final String name, final String caty, final ControllerType type) {
+	public BaseCMLScriptingController(final String id, final String name, final String caty, final ControllerType type) {
 		super(id, name, caty, type);
 	}	
 
@@ -59,17 +56,6 @@ public abstract class BaseScriptingController extends AbstractController {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-		try {
-			this.message = msg;
-			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
-			engine.eval(getScripts());
-			controller = ScriptingUtil.getScritingObject(engine, msg);
-			invoker = (Invocable)engine;
-			invoker.invokeMethod(controller, "initStates", mach);
-		} catch (Exception e) {
-			msg.sendErrorMsg("ScriptingController.initStates(), " + e.toString());
-			return false;
-		}
 		return true;
 	}
 	
@@ -83,13 +69,7 @@ public abstract class BaseScriptingController extends AbstractController {
 	 */
 	@Override
 	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
-		try {
-			invoker.invokeMethod(controller, "nextStep", mach, dt, method, net);
-			return true;
-		} catch (Exception e) {
-			msg.sendErrorMsg("ScriptingController.nextStep(), " + e.toString());
-			return false;
-		}
+		return true;
 	}
 	
 	/**
@@ -99,11 +79,6 @@ public abstract class BaseScriptingController extends AbstractController {
 	 */
 	@Override
 	public double getOutput(DStabBus abus, Machine mach) {
-		try {
-			return ((Double)invoker.invokeMethod(controller, "getOutput", mach)).doubleValue();
-		} catch (Exception e) {
-			message.sendErrorMsg("ScriptingController.getOutput(), " + e.toString());
-		}
 		return 0.0;
 	}
 
@@ -116,20 +91,10 @@ public abstract class BaseScriptingController extends AbstractController {
 	@Override
 	public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
 		final Hashtable<String,Double> table = new Hashtable<String,Double>();
-		try {
-			invoker.invokeMethod(controller, "getStates", mach, table);
-		} catch (Exception e) {
-			message.sendErrorMsg("ScriptingController.getStates(), "  + e.toString());
-		}
 		return table;
 	}
 
 	public void setRefPoint(double x) {
-		try {
-			invoker.invokeMethod(controller, "setRefPoint", x);
-		} catch (Exception e) {
-			message.sendErrorMsg("ScriptingController.setRefPoint(), "  + e.toString());
-		}
 	}
 } 
 
