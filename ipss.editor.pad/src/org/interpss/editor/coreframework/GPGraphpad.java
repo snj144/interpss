@@ -24,8 +24,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Frame;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.event.ContainerListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -45,7 +43,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -56,12 +53,9 @@ import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
-import org.interpss.editor.jgraph.ui.form.IGFormContainer;
-import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.project.IpssProjectCodec;
 import org.interpss.editor.project.IpssProjectPanel;
 import org.interpss.editor.project.IpssTabbedPane;
@@ -75,9 +69,9 @@ import org.interpss.editor.util.Utilities;
 import org.jgraph.JGraph;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
 
 /**
  * This is the UI delegate of the JGraphpad multi JGraph document interface. To
@@ -1170,5 +1164,21 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 
 	public void refreshCurrentDocumentEditorPanel() {
 		refreshDocumentEditorPanel(getCurrentDocument());
+	}
+	
+	public String getRootDir() {
+		return StringUtil.getInstallLocation();
+	}
+	
+	public String getWorkspace() {
+		return EditorSpringAppContext.getAppContext().getWorkspaceDir();
+	}
+	
+	public String getCurrentProjectFolder() {
+		return getCurrentDocument().getProject().getProjectName();
+	}
+
+	public String getCurrentProjectName() {
+		return Utilities.getFileNameNoExt(getCurrentDocument().getName());	
 	}
 }
