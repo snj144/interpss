@@ -33,6 +33,8 @@ import java.io.OutputStream;
 
 import javax.swing.JTextArea;
 
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
 
@@ -44,7 +46,7 @@ public class GUIFileUtil {
 	 * @param textArea
 	 * @return
 	 */
-	public static boolean readFile2Textarea(String filename, JTextArea textArea) {
+	public static boolean readFile2TextareaAbsolutePath(String filename, JTextArea textArea) {
 		IpssLogger.getLogger().info("GUIFileUtil.readFile2Textarea() info from file: " + filename);
 		File textfile = new File(filename);
 	      FileReader reader = null;
@@ -65,6 +67,33 @@ public class GUIFileUtil {
 	      }		
 	      return false;
 	}
+
+	/**
+	 * Read to contents of the file (text file) into the textarea
+	 * 
+	 * @param filename, retive file path
+	 * @param textArea
+	 * @return
+	 */
+	public static boolean readFile2TextareaRativePath(String filename, JTextArea textArea) {
+		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+		filename = wdir+System.getProperty("file.separator")+filename;		
+		return readFile2TextareaAbsolutePath(filename, textArea);
+	}
+	
+	/**
+	 * Write the contents of the textarea to the file
+	 * 
+	 * @param filename relative path
+	 * @param textArea
+	 * @return
+	 */
+	public static boolean writeTextarea2FileRativePath(String filename, JTextArea textArea) {
+		IpssLogger.getLogger().info("GUIFileUtil.writeTextarea2File() info to file: " + filename);
+		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+		filename = wdir+System.getProperty("file.separator")+filename;		
+		return writeTextarea2FileAbsolutePath(filename, textArea);
+	}
 	
 	/**
 	 * Write the contents of the textarea to the file
@@ -73,11 +102,36 @@ public class GUIFileUtil {
 	 * @param textArea
 	 * @return
 	 */
-	public static boolean writeTextarea2File(String filename, JTextArea textArea) {
+	public static boolean writeTextarea2FileAbsolutePath(String filename, JTextArea textArea) {
+		return 	writeText2FileAbsolutePath(filename, textArea.getText());
+	}
+	
+	/**
+	 * Write the text to the file
+	 * 
+	 * @param filename relative path
+	 * @param textArea
+	 * @return
+	 */
+	public static boolean writeText2FileRativePath(String filename, String text) {
+		IpssLogger.getLogger().info("GUIFileUtil.writeTextarea2File() info to file: " + filename);
+		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+		filename = wdir+System.getProperty("file.separator")+filename;		
+		return writeText2FileAbsolutePath(filename, text);
+	}
+	
+	/**
+	 * Write the text to the file
+	 * 
+	 * @param filename
+	 * @param textArea
+	 * @return
+	 */
+	public static boolean writeText2FileAbsolutePath(String filename, String text) {
 		IpssLogger.getLogger().info("GUIFileUtil.writeTextarea2File() info to file: " + filename);
 		try {
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(filename));
-			out.write(textArea.getText().getBytes());
+			out.write(text.getBytes());
 			out.flush();
 			out.close();
 			return true;
@@ -86,4 +140,5 @@ public class GUIFileUtil {
 		}
 		return false;
 	}
+	
 }

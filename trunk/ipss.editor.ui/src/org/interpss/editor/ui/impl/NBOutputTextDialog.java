@@ -270,7 +270,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 			if (!filename.endsWith(".txt"))
 				filename += ".txt";
 		    IpssLogger.getLogger().info("Textarea text saved to file: " + filename);
-		    GUIFileUtil.writeTextarea2File(filename, textArea);
+		    GUIFileUtil.writeTextarea2FileAbsolutePath(filename, textArea);
 		}    
 	}//GEN-LAST:event_saveAsButtonActionPerformed
 	

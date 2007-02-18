@@ -40,6 +40,7 @@ import org.interpss.editor.data.dstab.DStabNetData;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
+import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.mach.Controller;
 
 public class InitDataUtil {
@@ -214,9 +215,13 @@ public class InitDataUtil {
     // Machine Controller
     // ==================
     
+    /**
+     * set init data to the data object, which will be edited.
+     */
   	public static void initDStabControllerData(DStabControllerData data, String typeName, Controller controller) {
   		data.setTypeName(typeName);
 		data.setDataXmlStr(controller.getDataXmlString());
+		data.setScripts("");
   	}
 
   	public static void initDStabMachineData(DStabMachData machData) {
