@@ -3,7 +3,7 @@ package org.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
-import org.interpss.editor.util.JavaCompiler;
+import org.interpss.editor.ui.util.JavaCompiler;
 
 import com.interpss.common.util.IpssLogger;
 

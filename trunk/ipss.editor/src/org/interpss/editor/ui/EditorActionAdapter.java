@@ -72,8 +72,7 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 
 		try {
-	    	String wsDir = EditorSpringAppContext.getAppContext().getWorkspaceDir();
-			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Aclf, wsDir);
+			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Aclf);
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Aclf SimuRunWorker");
@@ -102,8 +101,7 @@ public class EditorActionAdapter {
 		simuCtx.setSimpleFaultAlgorithm(SimuSpringAppContext.getSimpleFaultAlgorithm());
  
 		try {
-	    	String wsDir = EditorSpringAppContext.getAppContext().getWorkspaceDir();
-			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Acsc, wsDir);
+			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Acsc);
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Acsc SimuRunWorker");
@@ -131,8 +129,7 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(SimuSpringAppContext.getDynamicSimuAlgorithm());
 
-    	String wsDir = EditorSpringAppContext.getAppContext().getWorkspaceDir();
-		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_DStab, wsDir);
+		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_DStab);
     	IpssTextFile file = ProjectScriptFileUtil.getProjectScriptFile(doc, ProjectScriptFileUtil.DStabOutputScriptFilename);
     	dialog.setDStabOutputScriptFilename(file.getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
@@ -181,9 +178,8 @@ public class EditorActionAdapter {
 		DStabPlotSelectionDialog dialog = new DStabPlotSelectionDialog(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), true);
 		DStabRunForm dsatbRunForm = (DStabRunForm)doc.getSimuAppContext().getDStabRunForm();
     	IpssTextFile file = ProjectScriptFileUtil.getProjectScriptFile(doc, ProjectScriptFileUtil.DStabPlotScriptFilename);
-    	String wsDir = EditorSpringAppContext.getAppContext().getWorkspaceDir();
     	dialog.init((SimuContext)doc.getSimuAppContext().getSimuCtx(), dsatbRunForm.getDbSimuCaseId(), 
-				    	file==null?null:file.getFilePathName(), wsDir);
+				    	file==null?null:file.getFilePathName());
 	}
 	public static void menu_report_save(IpssEditorDocument doc) {
 	}
