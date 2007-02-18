@@ -28,7 +28,7 @@ import com.interpss.dstab.mach.ControllerType;
 
 public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	// define UI Editor panel for editing the controller data
-	private static final NBControllerScriptsEditPanel _editPanel = new NBControllerScriptsEditPanel();
+	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
 
 	/**
 	 * Constructor 

@@ -57,7 +57,7 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
 
 		JTextArea textarea = new JTextArea();
-		GUIFileUtil.readFile2Textarea(scriptFilename, textarea);
+		GUIFileUtil.readFile2TextareaRativePath(scriptFilename, textarea);
 		
 		try {
 			engine.eval(textarea.getText());
