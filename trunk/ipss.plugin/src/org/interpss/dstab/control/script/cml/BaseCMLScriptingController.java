@@ -26,19 +26,20 @@ package org.interpss.dstab.control.script.cml;
 
 import java.util.Hashtable;
 
-import javax.script.Invocable;
-
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractController;
+import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public abstract class BaseCMLScriptingController extends AbstractController {
-	Invocable invoker = null;
-	Object controller = null;
+	public static String PackageName = "dsl.controller";
+	
+	AbstractAnnotateController controller = null;
+	String classname = "";
 	IPSSMsgHub message = null;
 	
 	public BaseCMLScriptingController() {
@@ -95,6 +96,14 @@ public abstract class BaseCMLScriptingController extends AbstractController {
 	}
 
 	public void setRefPoint(double x) {
+	}
+
+	public String getClassname() {
+		return classname;
+	}
+
+	public void setClassname(String classname) {
+		this.classname = classname;
 	}
 } 
 
