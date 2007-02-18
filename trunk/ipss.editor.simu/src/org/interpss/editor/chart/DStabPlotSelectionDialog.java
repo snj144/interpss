@@ -31,6 +31,7 @@ import java.util.List;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 
+import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.SpringAppContext;
@@ -69,7 +70,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         WinUtilities.center(this);
     }
 
-    public void init(SimuContext simuCtx, int aCaseId, String scriptFilename, String workspace) {
+    public void init(SimuContext simuCtx, int aCaseId, String scriptFilename) {
         this.caseId = aCaseId;
         this.simuCtx = simuCtx;
         this.scriptFilename = scriptFilename;
@@ -84,10 +85,10 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         if (scriptFilename != null) {
         	IpssLogger.getLogger().info("scriptFilename: " + scriptFilename);
         	mainTabbedPane.setEnabledAt(1, true);
-        	GUIFileUtil.readFile2Textarea(scriptFilename, scriptTextArea);
-        	if (scriptTextArea.getText().trim().equals(""))
-            	GUIFileUtil.readFile2Textarea(
-            			workspace+System.getProperty("file.separator")+ScriptTemplateFilename, scriptTextArea);
+        	GUIFileUtil.readFile2TextareaRativePath(scriptFilename, scriptTextArea);
+        	if (scriptTextArea.getText().trim().equals("")) {
+            	GUIFileUtil.readFile2TextareaRativePath(ScriptTemplateFilename, scriptTextArea);
+        	}
         } else {
         	mainTabbedPane.setEnabledAt(1, false);
         }
@@ -915,7 +916,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
     	if (this.scriptFilename != null) {
     		// save scripts
-        	GUIFileUtil.writeTextarea2File(scriptFilename, scriptTextArea);
+        	GUIFileUtil.writeTextarea2FileAbsolutePath(scriptFilename, scriptTextArea);
     	}
         this.setVisible(false);
         dispose();

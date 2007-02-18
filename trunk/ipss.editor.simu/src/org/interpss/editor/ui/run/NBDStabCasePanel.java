@@ -53,7 +53,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 	private GFormContainer netContainer = null;
 	private SimuContext simuCtx = null;
 	
-	private String workspaceDir;
 	private String dstabOutputScriptFilename;
 	
 	private AclfCaseData    aclfCaseData = null;  // current case data
@@ -105,10 +104,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         dynaEventPanel.init(this.netContainer, simuCtx);
         aclfCasePanel.init(this.netContainer, simuCtx);
     }
-    
-    public void setWorkspaceDir(String wsDir) {
-    	this.workspaceDir = wsDir;
-    }
+
     
     public void setDStabOutputScriptFilename(String filename) {
     	this.dstabOutputScriptFilename = filename;    
@@ -207,10 +203,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         if (outputScriptCheckBox.isSelected()) {
             if (dstabOutputScriptFilename != null) {
             	IpssLogger.getLogger().info("scriptFilename: " + dstabOutputScriptFilename);
-            	GUIFileUtil.readFile2Textarea(dstabOutputScriptFilename, scriptTextArea);
+            	GUIFileUtil.readFile2TextareaRativePath(dstabOutputScriptFilename, scriptTextArea);
             	if (scriptTextArea.getText().trim().equals(""))
-                	GUIFileUtil.readFile2Textarea(workspaceDir+System.getProperty("file.separator")+
-                			OutpuScriptTemplateFilename, scriptTextArea);
+                	GUIFileUtil.readFile2TextareaRativePath(OutpuScriptTemplateFilename, scriptTextArea);
             }         
         }
         return true;
@@ -314,7 +309,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         dstabCaseData.setOutputFilter(outputFilterCheckBox.isSelected());
         dstabCaseData.setOutputScripting(outputScriptCheckBox.isSelected());
         if (outputScriptCheckBox.isSelected() && dstabOutputScriptFilename != null) {
-        	GUIFileUtil.writeTextarea2File(dstabOutputScriptFilename, scriptTextArea);
+        	GUIFileUtil.writeTextarea2FileAbsolutePath(dstabOutputScriptFilename, scriptTextArea);
         	dstabCaseData.setOutputScriptFilename(dstabOutputScriptFilename);
     	}        
         
@@ -878,10 +873,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         if (outputScriptCheckBox.isSelected()) {
             if (dstabOutputScriptFilename != null) {
             	IpssLogger.getLogger().info("scriptFilename: " + dstabOutputScriptFilename);
-            	GUIFileUtil.readFile2Textarea(dstabOutputScriptFilename, scriptTextArea);
+            	GUIFileUtil.readFile2TextareaRativePath(dstabOutputScriptFilename, scriptTextArea);
             	if (scriptTextArea.getText().trim().equals(""))
-                	GUIFileUtil.readFile2Textarea(workspaceDir+System.getProperty("file.separator")+
-                			OutpuScriptTemplateFilename, scriptTextArea);
+                	GUIFileUtil.readFile2TextareaRativePath(OutpuScriptTemplateFilename, scriptTextArea);
             }         
         }
     }//GEN-LAST:event_outputScriptCheckBoxActionPerformed
