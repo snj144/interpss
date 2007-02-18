@@ -48,10 +48,9 @@ public class SimuAppSpringAppCtxUtil {
 	 *  
 	 * @return the CaseInfoDialog object
 	 */	
-	public static ICaseInfoDialog getCaseInfoDialog(String caseType, String workspaceDir) {
+	public static ICaseInfoDialog getCaseInfoDialog(String caseType) {
 		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog)SpringAppContext.SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
 		caseInfoDialog.setCaseType(caseType);
-		caseInfoDialog.setWorkspaceDir(workspaceDir);
 		return caseInfoDialog;
 	}	
 
