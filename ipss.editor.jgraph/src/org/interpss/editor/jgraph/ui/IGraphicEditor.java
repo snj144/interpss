@@ -58,4 +58,24 @@ public interface IGraphicEditor {
 	 * refresh the current document editor panel to reflect data change
 	 */
 	void refreshCurrentDocumentEditorPanel();
+
+	/**
+	 * get installation root directory
+	 */
+	String getRootDir();
+	
+	/**
+	 * get workspace absolute path
+	 */
+	String getWorkspace();
+
+	/**
+	 * get current project folder name
+	 */
+	String getCurrentProjectFolder();
+
+	/**
+	 * get current project name
+	 */
+	String getCurrentProjectName();
 }
