@@ -35,6 +35,7 @@ import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.ui.util.IpssFileFilter;
+import org.interpss.editor.ui.util.IpssJavaCompiler;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
@@ -115,6 +116,25 @@ public class AppConfig {
 			IpssRptViewer.REPORT_DESC	= Translator.getString("Report.File.Desc");
 			
 			IpssFileFilter.OUTPUT_DEFAULT_DIR = baseDir + Translator.getString("Output.Default.Location");
+			
+			
+			IpssJavaCompiler.JavaSrcDir = Translator.getString("Java.Compile.JavaSrcDir");
+			IpssJavaCompiler.JavaClassDir = Translator.getString("Java.Compile.JavaClassDir");
+			IpssJavaCompiler.JavaLibPath = Translator.getString("Java.Compile.JavaLibPath");
+
+			IpssJavaCompiler.CMLControllerPath = Translator.getString("Java.Compile.CMLController.Path");
+	
+			IpssJavaCompiler.ClassnameToken = Translator.getString("Java.Compile.CMLController.ClassnameToken");
+			IpssJavaCompiler.JavaClasspath = Translator.getString("Java.Compile.CMLController.JavaClasspath");
+			IpssJavaCompiler.ClassnameLine = Translator.getString("Java.Compile.CMLController.ClassnameLine");
+
+			IpssJavaCompiler.CMLControllerTag_ContDescBegin = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin");
+			IpssJavaCompiler.CMLControllerTag_ContrDescEnd = Translator.getString("Java.Compile.CMLController.Tag.ContrDesc.End");
+			IpssJavaCompiler.CMLControllerTag_FieldDescBegin = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.Begin");
+			IpssJavaCompiler.CMLControllerTag_FieldDescEnd = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End");
+
+			IpssJavaCompiler.CMLControllerTag_ContDescBegin_Code = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin.Code");
+			IpssJavaCompiler.CMLControllerTag_FieldDescEnd_Code = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End.Code");
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			ok = false;
