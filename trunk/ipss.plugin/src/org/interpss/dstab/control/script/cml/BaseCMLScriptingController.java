@@ -26,6 +26,9 @@ package org.interpss.dstab.control.script.cml;
 
 import java.util.Hashtable;
 
+import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.editor.ui.util.IpssJavaCompiler;
+
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
@@ -38,6 +41,9 @@ import com.interpss.dstab.mach.Machine;
 public abstract class BaseCMLScriptingController extends AbstractController {
 	public static String PackageName = "dsl.controller";
 	
+	// define UI Editor panel for editing the controller data
+	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
+
 	AbstractAnnotateController controller = null;
 	String classname = "";
 	IPSSMsgHub message = null;
@@ -57,6 +63,11 @@ public abstract class BaseCMLScriptingController extends AbstractController {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+    	generateJavaCode();
+    	compileJavaCode();
+    	
+    	controller = IpssJavaCompiler.createCMLControllerObject(this.classname);
+    	controller.initStates(abus, mach, msg);
 		return true;
 	}
 	
@@ -70,7 +81,7 @@ public abstract class BaseCMLScriptingController extends AbstractController {
 	 */
 	@Override
 	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
-		return true;
+		return controller.nextStep(dt, method, abus, mach, net, msg);
 	}
 	
 	/**
@@ -80,7 +91,7 @@ public abstract class BaseCMLScriptingController extends AbstractController {
 	 */
 	@Override
 	public double getOutput(DStabBus abus, Machine mach) {
-		return 0.0;
+		return controller.getOutput(abus, mach);
 	}
 
 	/**
@@ -91,19 +102,39 @@ public abstract class BaseCMLScriptingController extends AbstractController {
 	 */
 	@Override
 	public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
-		final Hashtable<String,Double> table = new Hashtable<String,Double>();
-		return table;
+		return controller.getStates(abus, mach, ref);
 	}
 
 	public void setRefPoint(double x) {
+		controller.setRefPoint(x);
 	}
 
-	public String getClassname() {
-		return classname;
-	}
+	abstract public void generateJavaCode();
+	abstract public boolean checkJavaCode();
 
-	public void setClassname(String classname) {
-		this.classname = classname;
+	public void generateJavaCode(String baseClassname) {
+		this.classname = IpssJavaCompiler.createClassName(getId());
+		String javacode = IpssJavaCompiler.parseCMLControllerTag(getScripts(), this.classname, baseClassname);
+		String filename = IpssJavaCompiler.createCMLControllerJavaFilename(this.classname);
+		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
 	}
+	
+	public void compileJavaCode() {
+		String filename = IpssJavaCompiler.createCMLControllerJavaFilename(this.classname);
+		IpssJavaCompiler.compileCMLControllerJavaCode(filename);
+	}
+	
+	public boolean checkJavaCode(String baseClassname) {
+		String javacode = IpssJavaCompiler.parseCMLControllerTag(getScripts(), "CheckCode", baseClassname);
+		String filename = IpssJavaCompiler.createCMLControllerJavaFilename("CheckCode");
+		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
+		return IpssJavaCompiler.compileCMLControllerJavaCode(filename);
+	}
+	
+	@Override
+	public Object getEditPanel() {
+		_editPanel.init(this);
+		return _editPanel;
+	}	
 } 
 

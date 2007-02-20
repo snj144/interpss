@@ -24,12 +24,15 @@
 
 package org.interpss.dstab.control.script.cml;
 
+import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.editor.ui.util.IpssJavaCompiler;
+
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.Machine;
 
 public class CMLScriptingExciter extends BaseCMLScriptingController {
-	// define UI Editor panel for editing the controller data
-	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
-
 	/**
 	 * Constructor
 	 */
@@ -52,10 +55,24 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 	 * 
 	 * @return the editor panel object
 	 */
+	
+	/**
+	 *  Init the controller states
+	 *  
+	 *  @param msg the SessionMsg object
+	 */
 	@Override
-	public Object getEditPanel() {
-		_editPanel.init(this);
-		return _editPanel;
+	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+		setId(mach.getId() + "_Exc");
+		return super.initStates(abus, mach, msg);
+	}
+	
+	public void generateJavaCode() {
+		generateJavaCode("AnnotateExciter");
+	}
+	
+	public boolean checkJavaCode() {
+		return checkJavaCode("AnnotateExciter");
 	}	
 } 
 
