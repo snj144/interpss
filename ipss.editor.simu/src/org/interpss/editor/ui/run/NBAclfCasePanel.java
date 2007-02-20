@@ -948,10 +948,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
     	IpssLogger.getLogger().info("Details ...");
-    	parentDialog.setAlwaysOnTop(false);
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
   		dialog.display(_simuCtx.getAclfAdjNet());
-  		parentDialog.setAlwaysOnTop(true);
     }//GEN-LAST:event_detailsButtonActionPerformed
 
     private void funcLoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcLoadButtonActionPerformed
