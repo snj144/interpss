@@ -47,6 +47,10 @@ public class CommonFuncTest extends TestCase {
 			calc = new ExpCalculator("a+b*c*d-e");
 			double[] dAry2 = {1.0, 2.0, 3.0, 4.0, 5.0}; 
 			assertTrue(Math.abs(calc.eval(dAry2)-20.0) < 0.00001);
+
+			calc = new ExpCalculator("a-b-c+d-e");
+			double[] dAry3 = {1.0, 2.0, 3.0, 4.0, 5.0}; 
+			assertTrue(Math.abs(calc.eval(dAry3)+5.0) < 0.00001);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
