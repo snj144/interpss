@@ -77,7 +77,6 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     public void display(Object aData) {
     	this.data = aData;
         showDialog();
-        setAlwaysOnTop(true);
     }
 	
     public void showDialog() {

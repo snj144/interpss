@@ -270,7 +270,6 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
         getContentPane().setLayout(new java.awt.BorderLayout(5, 5));
 
         setTitle("Bus Data Editor");
-        setAlwaysOnTop(true);
         setModal(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -386,7 +385,6 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
         	}
         } catch (Exception e) {
       		IpssLogger.logErr(e);
-            setAlwaysOnTop(false);
       		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Bus Input Data Error", e.toString());
 			return;
         }	
