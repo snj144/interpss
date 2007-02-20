@@ -84,7 +84,7 @@ public class GUIFileUtil {
 	/**
 	 * Write the contents of the textarea to the file
 	 * 
-	 * @param filename relative path
+	 * @param filename relative path to the workspace
 	 * @param textArea
 	 * @return
 	 */
@@ -98,7 +98,7 @@ public class GUIFileUtil {
 	/**
 	 * Write the contents of the textarea to the file
 	 * 
-	 * @param filename
+	 * @param filename abusolute path
 	 * @param textArea
 	 * @return
 	 */
@@ -109,7 +109,7 @@ public class GUIFileUtil {
 	/**
 	 * Write the text to the file
 	 * 
-	 * @param filename relative path
+	 * @param filename relative path to the workspace
 	 * @param textArea
 	 * @return
 	 */
@@ -123,7 +123,7 @@ public class GUIFileUtil {
 	/**
 	 * Write the text to the file
 	 * 
-	 * @param filename
+	 * @param filename abusolute path filename
 	 * @param textArea
 	 * @return
 	 */

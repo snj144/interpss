@@ -341,7 +341,6 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 
         getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
-        setAlwaysOnTop(true);
         setModal(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
