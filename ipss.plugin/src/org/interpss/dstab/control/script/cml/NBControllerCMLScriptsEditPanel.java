@@ -26,12 +26,9 @@ package org.interpss.dstab.control.script.cml;
 
 import java.util.Vector;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
-import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.ui.IControllerEditor;
-import com.interpss.common.util.IpssLogger;
 
 public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -62,12 +59,10 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
     public boolean setData2Editor() {
     	if (controller.getScripts() == null || controller.getScripts().trim().equals("")) {
     		String filename = ExciterTemplateFilename;
-/*
-    		if (controller instanceof AnnotateGovernor)
-        		filename = ExciterTemplateFilename;
-    		else if (controller instanceof AnnotateStabilizer)
-        		filename = ExciterTemplateFilename;
-*/        		
+    		if (controller instanceof CMLScriptingGovernor)
+        		filename = GovernorTemplateFilename;
+    		else if (controller instanceof CMLScriptingStabilizer)
+        		filename = StabilizerTemplateFilename;
     		GUIFileUtil.readFile2TextareaRativePath(filename, scriptsTextArea);
     	}
     	else
@@ -84,29 +79,11 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
     public boolean saveEditorData(Vector errMsg) throws Exception {
     	errMsg.clear();
     	controller.setScripts(scriptsTextArea.getText());
-    	
-    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
-    	
-    	String classname = editor.getCurrentProjectFolder() + "_" +
-    	                   editor.getCurrentProjectName() + "_" + controller.getId();
-    	classname = classname.replace('-', '_');
-    	classname = classname.replace('.', '_');
-    	IpssLogger.getLogger().info("Java class generated, " + classname);
-    	controller.setClassname(classname);
-    	
-    	String str = "java/src/dsl/controller/";
-    	str = str.replace('/', System.getProperty("file.separator").charAt(0));
-    	String filename = editor.getRootDir() + str + classname + ".java";
-    	GUIFileUtil.writeText2FileAbsolutePath(filename, scriptsTextArea.getText());
-
-    	/*
-<ControllerDescriptionBegin>  // do not modify this tag line
-<ControllerDescriptionEnd>  // do not modify this tag line
-
-<ControllerFieldDescriptionBegin>  // do not modify this tag line        
-<ControllerFieldDescriptionEnd>  // do not modify this tag line        
-    	 */
-    	
+    	// we compile the JavaCode here to make sure that there is no syntex error.
+    	if (!controller.checkJavaCode()) {
+        	errMsg.add(new String("Java compile error"));
+    		return false;
+    	}	
     	return true;
 	}
     

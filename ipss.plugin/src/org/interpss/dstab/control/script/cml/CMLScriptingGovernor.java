@@ -24,12 +24,12 @@
 
 package org.interpss.dstab.control.script.cml;
 
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.ControllerType;
+import com.interpss.dstab.mach.Machine;
 
 public class CMLScriptingGovernor extends BaseCMLScriptingController {
-	// define UI Editor panel for editing the controller data
-	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
-
 	/**
 	 * Constructor 
 	 */
@@ -48,14 +48,22 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	}
 	
 	/**
-	 * Get the editor panel for controller data editing
-	 * 
-	 * @return the editor panel object
+	 *  Init the controller states
+	 *  
+	 *  @param msg the SessionMsg object
 	 */
 	@Override
-	public Object getEditPanel() {
-		_editPanel.init(this);
-		return _editPanel;
+	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+		setId(mach.getId() + "_Gov");
+		return super.initStates(abus, mach, msg);
+	}	
+	
+	public void generateJavaCode() {
+		generateJavaCode("AnnotateGovernor");
+	}
+	
+	public boolean checkJavaCode() {
+		return checkJavaCode("AnnotateGovernor");
 	}	
 } 
 
