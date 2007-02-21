@@ -59,11 +59,11 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	}	
 	
 	public void generateJavaCode() {
-		generateJavaCode("AnnotateGovernor");
+		generateJavaCode("AnnotateGovernor"); // all CMLScriptingExciter extends AnnotateGovernor
 	}
 	
 	public boolean checkJavaCode() {
-		return checkJavaCode("AnnotateGovernor");
+		return checkJavaCode("AnnotateGovernor"); // all CMLScriptingExciter extends AnnotateGovernor
 	}	
 } 
 

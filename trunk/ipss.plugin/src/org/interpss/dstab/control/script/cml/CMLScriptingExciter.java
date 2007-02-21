@@ -24,9 +24,6 @@
 
 package org.interpss.dstab.control.script.cml;
 
-import org.interpss.editor.ui.util.GUIFileUtil;
-import org.interpss.editor.ui.util.IpssJavaCompiler;
-
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.mach.ControllerType;
@@ -68,11 +65,11 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 	}
 	
 	public void generateJavaCode() {
-		generateJavaCode("AnnotateExciter");
+		generateJavaCode("AnnotateExciter");   // all CMLScriptingExciter extends AnnotateExciter
 	}
 	
 	public boolean checkJavaCode() {
-		return checkJavaCode("AnnotateExciter");
+		return checkJavaCode("AnnotateExciter");  // all CMLScriptingExciter extends AnnotateExciter
 	}	
 } 
 
