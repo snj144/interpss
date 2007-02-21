@@ -59,11 +59,11 @@ public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 	}	
 	
 	public void generateJavaCode() {
-		generateJavaCode("AnnotateStabilizer");
+		generateJavaCode("AnnotateStabilizer"); // all CMLScriptingExciter extends AnnotateStabilizer
 	}
 	
 	public boolean checkJavaCode() {
-		return checkJavaCode("AnnotateStabilizer");
+		return checkJavaCode("AnnotateStabilizer"); // all CMLScriptingExciter extends AnnotateStabilizer
 	}	
 } 
 

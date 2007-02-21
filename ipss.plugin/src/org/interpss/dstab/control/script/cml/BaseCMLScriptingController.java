@@ -27,7 +27,7 @@ package org.interpss.dstab.control.script.cml;
 import java.util.Hashtable;
 
 import org.interpss.editor.ui.util.GUIFileUtil;
-import org.interpss.editor.ui.util.IpssJavaCompiler;
+import org.interpss.editor.ui.util.CMLJavaCompiler;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.net.Network;
@@ -66,7 +66,7 @@ public abstract class BaseCMLScriptingController extends AbstractController {
     	generateJavaCode();
     	compileJavaCode();
     	
-    	controller = IpssJavaCompiler.createCMLControllerObject(this.classname);
+    	controller = CMLJavaCompiler.createObject(this.classname);
     	controller.initStates(abus, mach, msg);
 		return true;
 	}
@@ -113,22 +113,22 @@ public abstract class BaseCMLScriptingController extends AbstractController {
 	abstract public boolean checkJavaCode();
 
 	public void generateJavaCode(String baseClassname) {
-		this.classname = IpssJavaCompiler.createClassName(getId());
-		String javacode = IpssJavaCompiler.parseCMLControllerTag(getScripts(), this.classname, baseClassname);
-		String filename = IpssJavaCompiler.createCMLControllerJavaFilename(this.classname);
+		this.classname = CMLJavaCompiler.createClassName(getId());
+		String javacode = CMLJavaCompiler.parseTag(getScripts(), this.classname, baseClassname);
+		String filename = CMLJavaCompiler.createJavaFilename(this.classname);
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
 	}
 	
 	public void compileJavaCode() {
-		String filename = IpssJavaCompiler.createCMLControllerJavaFilename(this.classname);
-		IpssJavaCompiler.compileCMLControllerJavaCode(filename);
+		String filename = CMLJavaCompiler.createJavaFilename(this.classname);
+		CMLJavaCompiler.compileJavaCode(filename);
 	}
 	
 	public boolean checkJavaCode(String baseClassname) {
-		String javacode = IpssJavaCompiler.parseCMLControllerTag(getScripts(), "CheckCode", baseClassname);
-		String filename = IpssJavaCompiler.createCMLControllerJavaFilename("CheckCode");
+		String javacode = CMLJavaCompiler.parseTag(getScripts(), "CheckCode", baseClassname);
+		String filename = CMLJavaCompiler.createJavaFilename("CheckCode");
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
-		return IpssJavaCompiler.compileCMLControllerJavaCode(filename);
+		return CMLJavaCompiler.compileJavaCode(filename);
 	}
 	
 	@Override
