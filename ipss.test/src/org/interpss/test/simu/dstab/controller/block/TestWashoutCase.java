@@ -35,7 +35,7 @@ public class TestWashoutCase extends TestSetupBase {
 
 		WashoutControlBlock block = new WashoutControlBlock(1.0, 0.1);
 		
-		assertTrue(block.initState(1.0));
+		assertTrue(block.initStateY0(1.0));
 		assertTrue(Math.abs(block.getStateX()+1.0) < 0.0001);
 		assertTrue(Math.abs(block.getU0()-1.0) < 0.0001);
 		
