@@ -27,7 +27,7 @@ package org.interpss.test.simu.dstab.controller.block;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.IControlBlock;
+import com.interpss.dstab.controller.block.IBlock;
 
 public class TestDelayCase extends TestSetupBase {
 	
@@ -36,7 +36,7 @@ public class TestDelayCase extends TestSetupBase {
 
 		DelayControlBlock block = new DelayControlBlock(1.0, 0.1);
 		
-		assertTrue(block.initState(1.0));
+		assertTrue(block.initStateY0(1.0));
 		assertTrue(Math.abs(block.getStateX()-1.0) < 0.0001);
 		assertTrue(Math.abs(block.getU0()-1.0) < 0.0001);
 		
@@ -83,12 +83,12 @@ public class TestDelayCase extends TestSetupBase {
 	public void test_Case2() {
 		System.out.println("\nBegin TestDelayCase Case2");
 
-		DelayControlBlock block = new DelayControlBlock(IControlBlock.Type_Limit, 1.0, 0.1, 5.0, -5.0);
+		DelayControlBlock block = new DelayControlBlock(IBlock.Type.Limit, 1.0, 0.1, 5.0, -5.0);
 		
-		assertTrue(!block.initState(6.0));
-		assertTrue(!block.initState(-6.0));
+		assertTrue(!block.initStateY0(6.0));
+		assertTrue(!block.initStateY0(-6.0));
 
-		assertTrue(block.initState(0.0));
+		assertTrue(block.initStateY0(0.0));
 
 		double u = 6.0, dt = 0.01;
 		for (int i = 0; i < 1000; i++) {
@@ -110,12 +110,12 @@ public class TestDelayCase extends TestSetupBase {
 	public void test_Case3() {
 		System.out.println("\nBegin TestDelayCase Case3");
 
-		DelayControlBlock block = new DelayControlBlock(IControlBlock.Type_NonWindup, 1.0, 0.1, 5.0, -5.0);
+		DelayControlBlock block = new DelayControlBlock(IBlock.Type.NonWindup, 1.0, 0.1, 5.0, -5.0);
 		
-		assertTrue(!block.initState(6.0));
-		assertTrue(!block.initState(-6.0));
+		assertTrue(!block.initStateY0(6.0));
+		assertTrue(!block.initStateY0(-6.0));
 
-		assertTrue(block.initState(0.0));
+		assertTrue(block.initStateY0(0.0));
 
 		double u = 6.0, dt = 0.01;
 		for (int i = 0; i < 1000; i++) {

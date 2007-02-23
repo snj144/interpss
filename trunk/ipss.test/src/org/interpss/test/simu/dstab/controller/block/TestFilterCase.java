@@ -27,7 +27,7 @@ package org.interpss.test.simu.dstab.controller.block;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.controller.block.FilterControlBlock;
-import com.interpss.dstab.controller.block.IControlBlock;
+import com.interpss.dstab.controller.block.IBlock;
 
 public class TestFilterCase extends TestSetupBase {
 	
@@ -36,7 +36,7 @@ public class TestFilterCase extends TestSetupBase {
 
 		FilterControlBlock block = new FilterControlBlock(1.0, 0.1, 1.0);
 		
-		assertTrue(block.initState(1.0));
+		assertTrue(block.initStateY0(1.0));
 		assertTrue(Math.abs(block.getStateX()-0.9) < 0.0001);
 		assertTrue(Math.abs(block.getU0()-1.0) < 0.0001);
 		
@@ -84,12 +84,12 @@ public class TestFilterCase extends TestSetupBase {
 	public void test_Case2() {
 		System.out.println("\nBegin TestFilterCase Case2");
 
-		FilterControlBlock block = new FilterControlBlock(IControlBlock.Type_Limit, 1.0, 0.1, 1.0, 5.0, -5.0);
+		FilterControlBlock block = new FilterControlBlock(IBlock.Type.Limit, 1.0, 0.1, 1.0, 5.0, -5.0);
 		
-		assertTrue(!block.initState(6.0));
-		assertTrue(!block.initState(-6.0));
+		assertTrue(!block.initStateY0(6.0));
+		assertTrue(!block.initStateY0(-6.0));
 
-		assertTrue(block.initState(0.0));
+		assertTrue(block.initStateY0(0.0));
 
 		double u = 6.0, dt = 0.01;
 		for (int i = 0; i < 1000; i++) {
@@ -111,12 +111,12 @@ public class TestFilterCase extends TestSetupBase {
 	public void test_Case3() {
 		System.out.println("\nBegin TestFilterCase Case3");
 
-		FilterControlBlock block = new FilterControlBlock(IControlBlock.Type_NonWindup, 1.0, 0.1, 1.0, 5.0, -5.0);
+		FilterControlBlock block = new FilterControlBlock(IBlock.Type.NonWindup, 1.0, 0.1, 1.0, 5.0, -5.0);
 		
-		assertTrue(!block.initState(6.0));
-		assertTrue(!block.initState(-6.0));
+		assertTrue(!block.initStateY0(6.0));
+		assertTrue(!block.initStateY0(-6.0));
 
-		assertTrue(block.initState(0.0));
+		assertTrue(block.initStateY0(0.0));
 
 		double u = 6.0, dt = 0.01;
 		for (int i = 0; i < 1000; i++) {

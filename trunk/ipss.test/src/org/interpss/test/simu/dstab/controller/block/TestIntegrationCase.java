@@ -26,7 +26,7 @@ package org.interpss.test.simu.dstab.controller.block;
 
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
-import com.interpss.dstab.controller.block.IControlBlock;
+import com.interpss.dstab.controller.block.IBlock;
 import com.interpss.dstab.controller.block.IntegrationControlBlock;
 
 public class TestIntegrationCase extends TestSetupBase {
@@ -36,7 +36,7 @@ public class TestIntegrationCase extends TestSetupBase {
 
 		IntegrationControlBlock block = new IntegrationControlBlock(1.0);
 		
-		assertTrue(block.initState(1.0));
+		assertTrue(block.initStateY0(1.0));
 		assertTrue(Math.abs(block.getStateX()-1.0) < 0.0001);
 		assertTrue(Math.abs(block.getU0()-0.0) < 0.0001);
 		
@@ -82,12 +82,12 @@ public class TestIntegrationCase extends TestSetupBase {
 	public void test_Case2() {
 		System.out.println("\nBegin TestIntegrationCase Case2");
 
-		IntegrationControlBlock block = new IntegrationControlBlock(IControlBlock.Type_Limit, 1.0, 5.0, -5.0);
+		IntegrationControlBlock block = new IntegrationControlBlock(IBlock.Type.Limit, 1.0, 5.0, -5.0);
 		
-		assertTrue(!block.initState(6.0));
-		assertTrue(!block.initState(-6.0));
+		assertTrue(!block.initStateY0(6.0));
+		assertTrue(!block.initStateY0(-6.0));
 
-		assertTrue(block.initState(0.0));
+		assertTrue(block.initStateY0(0.0));
 
 		double u = 1.0, dt = 0.01;
 		for (int i = 0; i < 1000; i++) {
@@ -109,12 +109,12 @@ public class TestIntegrationCase extends TestSetupBase {
 	public void Xtest_Case3() {
 		System.out.println("\nBegin TestIntegrationCase Case3");
 
-		IntegrationControlBlock block = new IntegrationControlBlock(IControlBlock.Type_NonWindup, 1.0, 5.0, -5.0);
+		IntegrationControlBlock block = new IntegrationControlBlock(IBlock.Type.NonWindup, 1.0, 5.0, -5.0);
 		
-		assertTrue(!block.initState(6.0));
-		assertTrue(!block.initState(-6.0));
+		assertTrue(!block.initStateY0(6.0));
+		assertTrue(!block.initStateY0(-6.0));
 
-		assertTrue(block.initState(0.0));
+		assertTrue(block.initStateY0(0.0));
 
 		double u = 1.0, dt = 0.01;
 		for (int i = 0; i < 1000; i++) {
