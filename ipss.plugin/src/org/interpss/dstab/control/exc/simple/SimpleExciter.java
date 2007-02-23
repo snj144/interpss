@@ -17,7 +17,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.AbstractExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.IControlBlock;
+import com.interpss.dstab.controller.block.IBlock;
 import com.interpss.dstab.mach.Machine;
 
 public class SimpleExciter extends AbstractExciter {
@@ -76,9 +76,9 @@ public class SimpleExciter extends AbstractExciter {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-		controlBlock = new DelayControlBlock(IControlBlock.Type_Limit,
+		controlBlock = new DelayControlBlock(IBlock.Type.Limit,
 				getData().getKa(), getData().getTa(), getData().getVrmax(), getData().getVrmin()); 
-		controlBlock.initState(mach.getEfd());
+		controlBlock.initStateY0(mach.getEfd());
 		
 		final double vt = abus.getVoltage().abs() / mach.getVMultiFactor();
 		stateVref = vt + controlBlock.getU0();
