@@ -18,10 +18,9 @@ import com.interpss.dstab.mach.Controller;
         
 // Your custom class has to extend the AbstractAnnotateController class         
 public class CustomAnnotateStabilizer extends AnnotateStabilizer {
-
 	// User custom code begin
 	// Define controller parameters, fields and field annotation here 
-	public double k1 = 50.0, t1 = 0.05, t2 = 0.01;
+	public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
     @AnControllerField(
             type= "type.ControlBlock",
             input="mach.speed - this.refPoint",
@@ -29,7 +28,7 @@ public class CustomAnnotateStabilizer extends AnnotateStabilizer {
             y0="this.filterBlock2.u0"	)
     FilterControlBlock filterBlock1;
 	
-    public double k2 = 1.0, t3 = 0.01, t4 = 0.01, vmax = 1.2, vmin = 0.0;
+    public double k2 = 1.0, t3 = 0.05, t4 = 0.25, vmax = 0.2, vmin = -0.2;
     @AnControllerField(
             type= "type.ControlBlock",
             input="this.filterBlock1.y",
