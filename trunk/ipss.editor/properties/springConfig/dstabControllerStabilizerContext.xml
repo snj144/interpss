@@ -2,15 +2,15 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-	<bean id="scriptingStabilizer" 
-	  	class="org.interpss.dstab.control.script.javaScript.ScriptingStabilizer"
+	<bean id="cmlScriptingStabilizer" 
+	  	class="org.interpss.dstab.control.script.cml.CMLScriptingStabilizer"
 	    singleton="false">	
 	    <property name="name">
-	    	<value>JavaScript Scripting Stabilizer</value></property>
+	    	<value>CML Scripting Stabilizer</value></property>
 	    <property name="category">
 	    	<value>InterPSS</value></property>
 	    <property name="desc">
-	    	<value>InterPSS JavaScript scripting stabilizer implmementation</value></property>
+	    	<value>InterPSS CML scripting stabilizer implmementation</value></property>
 	</bean>
 	
 	<bean id="sampleCustomStabilizer" 
@@ -40,7 +40,7 @@
 	      singleton="true">	
 		<constructor-arg>
 			<list>
-				<ref bean="scriptingStabilizer"/>
+				<ref bean="cmlScriptingStabilizer"/>
 				<ref bean="simpleStabilizer"/>
 				<ref bean="sampleCustomStabilizer"/>
 			</list>

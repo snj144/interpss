@@ -2,15 +2,15 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-	<bean id="scriptingGovernor" 
-	  	class="org.interpss.dstab.control.script.javaScript.ScriptingGovernor"
+	<bean id="cmlScriptingGovernor" 
+	  	class="org.interpss.dstab.control.script.cml.CMLScriptingGovernor"
 	    singleton="false">	
 	    <property name="name">
-	    	<value>JavaScript Scripting Governor</value></property>
+	    	<value>CML Scripting Governor</value></property>
 	    <property name="category">
 	    	<value>InterPSS</value></property>
 	    <property name="desc">
-	    	<value>InterPSS JavaScript scripting governor implmementation</value></property>
+	    	<value>InterPSS CML scripting governor implmementation</value></property>
 	</bean>
 	
 	<bean id="sampleCustomGovernor" 
@@ -62,7 +62,7 @@
 	      singleton="true">	
 		<constructor-arg>
 			<list>
-				<ref bean="scriptingGovernor"/>
+				<ref bean="cmlScriptingGovernor"/>
 				<ref bean="ieeeST1Governor"/>
 				<ref bean="ieeeST2Governor"/>
 				<ref bean="simpleGovernor"/>
