@@ -39,11 +39,6 @@ import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public abstract class BaseCMLScriptingController extends AbstractController {
-	public static String PackageName = "dsl.controller";
-	
-	// define UI Editor panel for editing the controller data
-	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
-
 	AbstractAnnotateController controller = null;
 	String classname = "";
 	IPSSMsgHub message = null;
@@ -130,11 +125,5 @@ public abstract class BaseCMLScriptingController extends AbstractController {
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
 		return CMLJavaCompiler.compileJavaCode(filename);
 	}
-	
-	@Override
-	public Object getEditPanel() {
-		_editPanel.init(this);
-		return _editPanel;
-	}	
 } 
 

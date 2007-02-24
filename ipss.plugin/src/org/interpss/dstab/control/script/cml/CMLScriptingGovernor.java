@@ -30,6 +30,12 @@ import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class CMLScriptingGovernor extends BaseCMLScriptingController {
+	public static String BaseClass = "AnnotateGovernor";
+	
+	// define UI Editor panel for editing the controller data
+	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
+
+
 	/**
 	 * Constructor 
 	 */
@@ -59,11 +65,17 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	}	
 	
 	public void generateJavaCode() {
-		generateJavaCode("AnnotateGovernor"); // all CMLScriptingExciter extends AnnotateGovernor
+		generateJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateGovernor
 	}
 	
 	public boolean checkJavaCode() {
-		return checkJavaCode("AnnotateGovernor"); // all CMLScriptingExciter extends AnnotateGovernor
+		return checkJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateGovernor
 	}	
+
+	@Override
+	public Object getEditPanel() {
+		_editPanel.init(this);
+		return _editPanel;
+	}
 } 
 

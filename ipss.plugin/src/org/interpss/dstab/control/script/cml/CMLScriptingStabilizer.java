@@ -30,6 +30,12 @@ import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class CMLScriptingStabilizer extends BaseCMLScriptingController {
+	public static String BaseClass = "AnnotateStabilizer";
+
+	// define UI Editor panel for editing the controller data
+	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
+
+
 	/**
 	 * Constructor
 	 */
@@ -59,11 +65,17 @@ public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 	}	
 	
 	public void generateJavaCode() {
-		generateJavaCode("AnnotateStabilizer"); // all CMLScriptingExciter extends AnnotateStabilizer
+		generateJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateStabilizer
 	}
 	
 	public boolean checkJavaCode() {
-		return checkJavaCode("AnnotateStabilizer"); // all CMLScriptingExciter extends AnnotateStabilizer
+		return checkJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateStabilizer
+	}	
+	
+	@Override
+	public Object getEditPanel() {
+		_editPanel.init(this);
+		return _editPanel;
 	}	
 } 
 

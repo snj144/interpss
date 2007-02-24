@@ -30,6 +30,11 @@ import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 
 public class CMLScriptingExciter extends BaseCMLScriptingController {
+	public static String BaseClass = "AnnotateExciter";
+	
+	// define UI Editor panel for editing the controller data
+	private static final NBControllerCMLScriptsEditPanel _editPanel = new NBControllerCMLScriptsEditPanel();
+
 	/**
 	 * Constructor
 	 */
@@ -65,11 +70,18 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 	}
 	
 	public void generateJavaCode() {
-		generateJavaCode("AnnotateExciter");   // all CMLScriptingExciter extends AnnotateExciter
+		generateJavaCode(BaseClass);   // all CMLScriptingExciter extends AnnotateExciter
 	}
 	
 	public boolean checkJavaCode() {
-		return checkJavaCode("AnnotateExciter");  // all CMLScriptingExciter extends AnnotateExciter
+		return checkJavaCode(BaseClass);  // all CMLScriptingExciter extends AnnotateExciter
+	}	
+	
+	
+	@Override
+	public Object getEditPanel() {
+		_editPanel.init(this);
+		return _editPanel;
 	}	
 } 
 
