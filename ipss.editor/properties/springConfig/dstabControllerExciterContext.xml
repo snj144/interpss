@@ -32,17 +32,6 @@
 	    <property name="desc">
 	    	<value>InterPSS CML scripting exciter implmementation</value></property>
 	</bean>
-
-	<bean id="javaScriptScriptingExciter" 
-	  	class="org.interpss.dstab.control.script.javaScript.ScriptingExciter"
-	    singleton="false">	
-	    <property name="name">
-	    	<value>JavaScript Scripting Exciter</value></property>
-	    <property name="category">
-	    	<value>InterPSS</value></property>
-	    <property name="desc">
-	    	<value>InterPSS JavaScript scripting exciter implmementation</value></property>
-	</bean>
 	
 	<bean id="sampleCustomExciter" 
 	  	class="custom.dstab.exc.sample.basic.CustomExciter"
@@ -94,7 +83,6 @@
 		<constructor-arg>
 			<list>
 				<ref bean="cmlScriptingExciter"/>
-				<ref bean="javaScriptScriptingExciter"/>
 				<ref bean="simpleExciter"/>
 				<ref bean="ieeeDC_1AExciter"/>
 				<ref bean="ieeeAC_4AExciter"/>
