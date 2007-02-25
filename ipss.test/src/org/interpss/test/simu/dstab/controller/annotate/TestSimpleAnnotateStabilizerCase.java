@@ -83,7 +83,6 @@ public class TestSimpleAnnotateStabilizerCase extends TestSetupBase {
 		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		//System.out.println("X1, X2: " + pss._X1 + ", " + pss._X2);
 		assertTrue(Math.abs(pss.getControlBlockState("filterBlock1")-0.001782) < 0.0001);
-		System.out.println(pss.getControlBlockState("filterBlock2"));
 		assertTrue(Math.abs(pss.getControlBlockState("filterBlock2")-1.888E-4) < 0.0001);
 
 		System.out.println("\nEnd TestSimpleStabilizerCase Case1");

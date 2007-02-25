@@ -30,12 +30,9 @@ import org.interpss.dstab.control.annotate.CustomAnnotateStabilizer;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.common.func.ExpCalculator;
-import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.ControlBlockField;
 import com.interpss.dstab.controller.annotate.StaticBlockField;
 import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.FilterControlBlock;
-import com.interpss.dstab.controller.block.GainBlock;
 import com.interpss.dstab.mach.Machine;
 
 public class TestAnnotateParserCase extends TestSetupBase {
@@ -150,5 +147,42 @@ public class TestAnnotateParserCase extends TestSetupBase {
 		}
 		
 		System.out.println("\nEnd TestAnnotateParserCase Case1");
+	}
+
+	public void test_Case2() {
+		System.out.println("\nBegin TestAnnotateParserCase Case2");
+
+		Machine mach = createMachine();
+
+		ControlBlockField cfield = null;
+		StaticBlockField sfield = null;
+
+		try {
+			TestAnnotateStabilizer001 pss = new TestAnnotateStabilizer001();
+			pss.initStates(mach.getDStabBus(), mach, null);
+
+			assertTrue(pss.getBlock("gainBlock1") != null);
+			sfield = (StaticBlockField)(pss.getBlockField("gainBlock1"));
+			assertTrue(sfield.getInitOrder() == -2);
+
+			assertTrue(pss.getBlock("gainBlock2") != null);
+			sfield = (StaticBlockField)(pss.getBlockField("gainBlock2"));
+			assertTrue(sfield.getInitOrder() == -1);
+			
+			assertTrue(pss.getBlock("filterBlock1") != null);
+			cfield = (ControlBlockField)(pss.getBlockField("filterBlock1"));
+			assertTrue(cfield.getInitOrder() == 1);
+			assertTrue(cfield.getY0Exp().hasField("filterBlock2"));
+
+			assertTrue(pss.getBlock("filterBlock2") != null);
+			cfield = (ControlBlockField)(pss.getBlockField("filterBlock2"));
+			assertTrue(cfield.getInitOrder() == 2);
+			assertTrue(cfield.getInputExp().hasField("filterBlock1"));
+			//System.out.println(pss.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		System.out.println("\nEnd TestAnnotateParserCase Case2");
 	}
 }
