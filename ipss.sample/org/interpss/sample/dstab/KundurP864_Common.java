@@ -32,9 +32,9 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.dstab.control.annotate.CustomAnnotateExciter;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.test.simu.dstab.controller.annotate.CustomAnnotateExciter;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
