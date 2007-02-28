@@ -25,20 +25,38 @@
 
 package org.interpss.dstab.control.pss.simple;
 
-import com.interpss.common.datatype.LimitType;
-import com.interpss.common.exp.InvalidInputException;
+import java.lang.reflect.Field;
+
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.XmlUtil;
-import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.controller.AbstractStabilizer;
+import com.interpss.dstab.controller.annotate.AnController;
+import com.interpss.dstab.controller.annotate.AnControllerField;
+import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
+import com.interpss.dstab.controller.block.FilterControlBlock;
+import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.Machine;
 
-public class SimpleStabilizer extends AbstractStabilizer {
-	// state variables
-	private double 	stateX1 = 0.0, stateX2 = 0.0;
-	private LimitType limit = null;
+@AnController(
+        input="mach.speed",
+        output="this.filterBlock2.y",
+        refPoint="mach.speed",
+        display= {"str.Vpss, this.output", "str.PssState1, this.filterBlock1.state", "str.PssState2, this.filterBlock2.state"})
+public class SimpleStabilizer extends AnnotateStabilizer {
+	public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
+    @AnControllerField(
+            type= "type.ControlBlock",
+            input="mach.speed - this.refPoint",
+            parameter={"type.NoLimit", "this.k1", "this.t1", "this.t2"},
+            y0="this.filterBlock2.u0"	)
+    FilterControlBlock filterBlock1;
+	
+    public double k2 = 1.0, t3 = 0.05, t4 = 0.25, vmax = 0.2, vmin = -0.2;
+    @AnControllerField(
+            type= "type.ControlBlock",
+            input="this.filterBlock1.y",
+            parameter={"type.Limit", "this.k2", "this.t3", "this.t4", "this.vmax", "this.vmin"},
+            y0="pss.vs"	)
+    FilterControlBlock filterBlock2;
 
 	// UI Editor panel
 	private static final NBSimpleStabilizerEditPanel _editPanel = new NBSimpleStabilizerEditPanel();
@@ -69,82 +87,20 @@ public class SimpleStabilizer extends AbstractStabilizer {
 	}
 	
 	/**
-	 * Set controller parameters
-	 * 
-	 * @param xmlString controller parameter xml string
-	 */
-	@Override
-	public void setDataXmlString(final String xmlString) {
-		super.setDataXmlString(xmlString);
-		_data = XmlUtil.toObject(xmlString, SimpleStabilizerData.class);
-	}
-	
-	/**
 	 *  Init the controller states
 	 *  
 	 *  @param msg the SessionMsg object
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-		limit = new LimitType(getData().getVsmax(), getData().getVsmin());
-		stateX1 = 0.0;
-		stateX2 = 0.0;
-		return true;
-	}
-
-	private double cal_dX1_dt(final double x1) {
-		final double a = ( 1.0 - getData().getT1()/getData().getT2() );
-		final double dw = getMachine().getSpeed() - 1.0;
-		final double x = getData().getKs() * a * dw - x1;
-		return x / getData().getT2();
-	}
-
-	private double cal_dX2_dt(final double x1, final double x2) {
-		final double a = ( 1.0 - getData().getT3()/getData().getT4() );
-		final double dw = getMachine().getSpeed() - 1.0;
-		final double x = a * ( getData().getKs() * dw * getData().getT1() / getData().getT2() + x1 ) - x2;
-		return x / getData().getT4();
-	}
-	
-	/**
-	 * Perform one step d-eqn calculation
-	 *  
-	 * @param dt simulation time interval
-	 * @param method d-eqn solution method
-	 *  @param msg the SessionMsg object
-	 */	
-	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
-		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-			// Step-1 : x(1) = x(0) + dx_dt(1) * dt
-			final double _dX1_dt = cal_dX1_dt(stateX1);
-			final double _dX2_dt = cal_dX2_dt(stateX1, stateX2);
-			final double x1_1 = stateX1 + _dX1_dt * dt;
-			final double x2_1 = stateX2 + _dX2_dt * dt;
-
-			// Step-2 : x(2) = x(1) + (dx_dt(2) - dx_dt(1)) * dt
-			stateX1 = stateX1 + 0.5 * (cal_dX1_dt(x1_1) + _dX1_dt) * dt;
-			stateX2 = stateX2 + 0.5 * (cal_dX2_dt(x1_1, x2_1) + _dX2_dt) * dt;
-			return true;
-		}
-		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
-			// TODO: TBImpl
-			return false;
-		} else {
-			throw new InvalidInputException("SimplePSS.nextStep(), invalid method");
-		}
-	}
-
-	/**
-	 * Get the controller output
-	 * 
-	 * @return the output
-	 */	
-	@Override
-	public double getOutput(DStabBus abus, Machine mach) {
-		final double a = getData().getT3()/getData().getT4();
-		final double dw = getMachine().getSpeed() - 1.0;
-		return limit.limit(getData().getKs()*dw*a*getData().getT1()/getData().getT2() + a*stateX1 + stateX2);
+        this.k1 = getData().getKs();
+        this.t1 = getData().getT1();
+        this.t2 = getData().getT2();
+        this.t3 = getData().getT3();
+        this.t4 = getData().getT4();
+        this.vmax = getData().getVsmax();
+        this.vmin = getData().getVsmin();
+        return super.initStates(abus, mach, msg);
 	}
 
 	/**
@@ -157,28 +113,12 @@ public class SimpleStabilizer extends AbstractStabilizer {
 		_editPanel.init(this);
 		return _editPanel;
 	}
-
-	/**
-	 * @return Returns the limit.
-	 */
-	public LimitType getLimit() {
-		return limit;
-	}
-
-	/**
-	 * @return Returns the x1.
-	 */
-	public double getStateX1() {
-		return stateX1;
-	}
-
-	/**
-	 * @return Returns the x2.
-	 */
-	public double getStateX2() {
-		return stateX2;
-	}
 	
-	public void setRefPoint(double x) {
-	}	
-} // SimpleExcAdapter
+    public AnController getAnController() {
+    	return (AnController)getClass().getAnnotation(AnController.class);  }
+    public double getDoubleField(String fieldName) throws Exception {
+    	Field field = getClass().getField(fieldName);
+    	return ((Double)field.get(this)).doubleValue();   }
+    public Controller getControllerField(Field field) throws Exception {
+    	return (Controller)field.get(this);    }
+} // SimpleStabilizer

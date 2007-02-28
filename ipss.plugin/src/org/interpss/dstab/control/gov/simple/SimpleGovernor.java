@@ -24,157 +24,100 @@
 
 package org.interpss.dstab.control.gov.simple;
 
-import com.interpss.common.datatype.LimitType;
-import com.interpss.common.exp.InvalidInputException;
+import java.lang.reflect.Field;
+
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.XmlUtil;
-import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.controller.AbstractGovernor;
+import com.interpss.dstab.controller.annotate.AnController;
+import com.interpss.dstab.controller.annotate.AnControllerField;
+import com.interpss.dstab.controller.annotate.AnnotateGovernor;
+import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.GainBlock;
+import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.Machine;
 
-public class SimpleGovernor extends AbstractGovernor {
-	// state variables
-	private double pm0 = 0.0, stateX1 = 0.0;
-	private LimitType limit = null;
+@AnController(
+        input="mach.speed - 1.0",
+        output="this.gainBlock.y",
+        refPoint="this.gainBlock.u0 + this.delayBlock.y",
+        display= {"str.Pm, this.output", "str.GovState, this.delayBlock.state"})
+public class SimpleGovernor extends AnnotateGovernor {
+	public double ka = 10.0, ta = 0.5;
+    @AnControllerField(
+            type= "type.ControlBlock",
+            input="mach.speed - 1.0",
+            parameter={"type.NoLimit", "this.ka", "this.ta"},
+            y0="this.refPoint - this.gainBlock.u0"	)
+    DelayControlBlock delayBlock;
 	
-	// UI Editor panel
-	private static final NBSimpleGovernorEditPanel _editPanel = new NBSimpleGovernorEditPanel();
+    public double ks = 1.0, pmax = 1.2, pmin = 0.0;
+    @AnControllerField(
+            type= "type.StaticBlock",
+            input="this.refPoint - this.delayBlock.y",
+            parameter={"type.Limit", "this.ks", "this.pmax", "this.pmin"},
+            y0="mach.pm"	)
+    GainBlock gainBlock;
+ 	
+    // UI Editor panel
+    private static NBSimpleGovernorEditPanel _editPanel = new NBSimpleGovernorEditPanel();
+    
+    /**
+     * Default Constructor
+     *
+     */
+    public SimpleGovernor() {
+        this("govId", "govName", "InterPSS");
+    }
+    
+    /**
+     * Constructor
+     *
+     * @param id excitor id
+     * @param name excitor name
+     */
+    public SimpleGovernor(String id, String name, String caty) {
+        super(id, name, caty);
+        // _data is defined in the parent class. However init it here is a MUST
+        _data = new SimpleGovernorData();
+    }
+    
+    /**
+     * Get the excitor data
+     *
+     * @return the data object
+     */
+    public SimpleGovernorData getData() {
+        return (SimpleGovernorData)_data;
+    }
+    
+    /**
+     *  Init the controller states
+     *
+     *  @param msg the SessionMsg object
+     */
+    public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
+        this.ka = getData().getK();
+        this.ta = getData().getT1();
+        this.pmax = getData().getPmax();
+        this.pmin = getData().getPmin();
+        return super.initStates(bus, mach, msg);
+    }
 
-	/**
-	 * Default Constructor
-	 *
-	 */
-	public SimpleGovernor() {
-		this("govId", "SimpleGovernor", "InterPSS");
-	}
-	
-	/**
-	 * Constructor
-	 * 
-	 * @param id governor id
-	 * @param name governor name
-	 */	
-	public SimpleGovernor(final String id, final String name, final String caty) {
-		super(id, name, caty);
-		// _data is defined in the parent class. However init it here is a MUST
-		_data = new SimpleGovernorData();
-	}
-	
-	/**
-	 * Get the governor data 
-	 * 
-	 * @return the data object
-	 */
-	public SimpleGovernorData getData() {
-		return (SimpleGovernorData)_data;
-	}
-	
-	/**
-	 * Set controller parameters
-	 * 
-	 * @param xmlString controller parameter xml string
-	 */
-	@Override
-	public void setDataXmlString(final String xmlString) {
-		super.setDataXmlString(xmlString);
-		_data = XmlUtil.toObject(xmlString, SimpleGovernorData.class);
-	}
-	
-	/**
-	 *  Init the controller states
-	 *  
-	 *  @param msg the SessionMsg object
-	 */
-	@Override
-	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-		limit = new LimitType(getData().getPmax(), getData().getPmin());
-		pm0 = getMachine().getPm();
-		stateX1 = 0.0;
-		IpssLogger.getLogger().fine("Governor Limit:      " + limit);
-		return true;
-	}
-
-	private double cal_dX1_dt(final double x1) {
-		IpssLogger.getLogger().fine("dW: " + (getMachine().getSpeed()-1.0));
-		return ( getData().getK() * (getMachine().getSpeed() - 1.0) - x1 ) / getData().getT1();
-	}
-	
-	/**
-	 * Perform one step d-eqn calculation
-	 *  
-	 * @param dt simulation time interval
-	 * @param method d-eqn solution method
-	 *  @param msg the SessionMsg object
-	 */	
-	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
-		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
-			/*
-			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt
-			 *     Step-2 : x(2) = x(0) + 0.5 * (dx_dt(2) +- dx_dt(1)) * dt
-			 */
-			final double dX1_dt = cal_dX1_dt(stateX1);
-			IpssLogger.getLogger().fine("SimpleGovernor dX1_dt: " + dX1_dt);
-			final double x1_1 = stateX1 + dX1_dt * dt;
-
-			stateX1 = stateX1 + 0.5 * (cal_dX1_dt(x1_1) + dX1_dt) * dt;
-			return true;
-		}
-		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
-			// TODO: TBImpl
-			return false;
-		} else {
-			throw new InvalidInputException("SimpleGovernor.nextStep(), invalid method");
-		}
-	}	
-	
-	/**
-	 * Get the controller output
-	 * 
-	 * @return the output
-	 */	
-	@Override
-	public double getOutput(DStabBus abus, Machine mach) {
-		IpssLogger.getLogger().fine("Governor _Pm0 - _X1: " + (pm0 - stateX1));
-		return limit.limit(pm0 - stateX1);
-	}
-
-	/**
-	 * Get the editor panel for controller data editing
-	 * 
-	 * @return the editor panel object
-	 */	
-	@Override
-	public Object getEditPanel() {
-		_editPanel.init(this);
-		return _editPanel;
-	}
-
-	/**
-	 * @return Returns the limit.
-	 */
-	public LimitType getLimit() {
-		return limit;
-	}
-
-	/**
-	 * @return Returns the pm0.
-	 */
-	public double getPm0() {
-		return pm0;
-	}
-
-	/**
-	 * @return Returns the x1.
-	 */
-	public double getStateX1() {
-		return stateX1;
-	}
-	
-	public void setRefPoint(double x) {
-		pm0 = x;
-	}	
-} // SimpleExcAdapter
+    /**
+     * Get the editor panel for controller data editing
+     *
+     * @return the editor panel object
+     */
+    public Object getEditPanel() {
+        _editPanel.init(this);
+        return _editPanel;
+    }
+ 
+    public AnController getAnController() {
+    	return (AnController)getClass().getAnnotation(AnController.class);  }
+    public double getDoubleField(String fieldName) throws Exception {
+    	Field field = getClass().getField(fieldName);
+    	return ((Double)field.get(this)).doubleValue();   }
+    public Controller getControllerField(Field field) throws Exception {
+    	return (Controller)field.get(this);    }
+} // SimpleGovernor
