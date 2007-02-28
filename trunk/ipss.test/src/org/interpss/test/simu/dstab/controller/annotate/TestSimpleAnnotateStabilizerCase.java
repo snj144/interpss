@@ -24,7 +24,6 @@
 
 package org.interpss.test.simu.dstab.controller.annotate;
 
-import org.interpss.dstab.control.annotate.CustomAnnotateStabilizer;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 

@@ -24,7 +24,6 @@
 
 package org.interpss.test.simu.dstab.controller.annotate;
 
-import org.interpss.dstab.control.annotate.CustomAnnotateGovernor;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.DynamicSimuMethods;

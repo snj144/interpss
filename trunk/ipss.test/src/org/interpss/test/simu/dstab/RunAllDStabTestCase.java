@@ -31,9 +31,6 @@ import org.interpss.test.simu.dstab.controller.block.TestFilterCase;
 import org.interpss.test.simu.dstab.controller.block.TestIntegrationCase;
 import org.interpss.test.simu.dstab.controller.block.TestPIBlockCase;
 import org.interpss.test.simu.dstab.controller.block.TestWashoutCase;
-import org.interpss.test.simu.dstab.controller.exc.TestSimpleExcitorCase;
-import org.interpss.test.simu.dstab.controller.gov.TestSimpleGovernorCase;
-import org.interpss.test.simu.dstab.controller.pss.TestSimpleStabilizerCase;
 import org.interpss.test.simu.dstab.ieeeModel.TestIEEE11ModelCase;
 import org.interpss.test.simu.dstab.ieeeModel.TestIEEE12ModelCase;
 import org.interpss.test.simu.dstab.ieeeModel.TestIEEE21ModelCase;
@@ -63,10 +60,6 @@ public class RunAllDStabTestCase {
 		junit.textui.TestRunner.run(TestEConstMachineCase.class);
 		junit.textui.TestRunner.run(TestRoundRotorMachineCase.class);
 		junit.textui.TestRunner.run(TestSalientPoleMachineCase.class);
-
-		junit.textui.TestRunner.run(TestSimpleExcitorCase.class);
-		junit.textui.TestRunner.run(TestSimpleGovernorCase.class);
-		junit.textui.TestRunner.run(TestSimpleStabilizerCase.class);
 
 		junit.textui.TestRunner.run(TestDelayCase.class);
 		junit.textui.TestRunner.run(TestFilterCase.class);
