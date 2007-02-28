@@ -73,6 +73,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
    		controller.setData(machData.getGovData().getDataXmlStr(), controller.getDataClass());
    		controller.setScripts(machData.getGovData().getScripts());
 		dataPanel.removeAll();
+		dataPanel.repaint();
 		dataPanel.add((Component)controller.getEditPanel());
 	}
 	

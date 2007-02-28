@@ -71,6 +71,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
    		controller.setData(machData.getPssData().getDataXmlStr(), controller.getDataClass());
    		controller.setScripts(machData.getPssData().getScripts());
 		dataPanel.removeAll();
+		dataPanel.repaint();
 		dataPanel.add((Component)controller.getEditPanel());
 	}
 	
