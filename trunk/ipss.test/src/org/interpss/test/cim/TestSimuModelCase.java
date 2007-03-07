@@ -29,15 +29,26 @@ import junit.framework.TestCase;
 import org.opencim.cim.SimulationModel;
 import org.opencim.cim.iec61970.core.BaseVoltage;
 import org.opencim.cim.iec61970.core.Bay;
+import org.opencim.cim.iec61970.core.Company;
 import org.opencim.cim.iec61970.core.SubControlArea;
 import org.opencim.cim.iec61970.core.Substation;
+import org.opencim.cim.iec61970.core.Terminal;
 import org.opencim.cim.iec61970.core.VoltageLevel;
+import org.opencim.cim.iec61970.domain.CompanyType;
+import org.opencim.cim.iec61970.gen.production.GeneratingUnit;
+import org.opencim.cim.iec61970.load.LoadArea;
 import org.opencim.cim.iec61970.topology.ConnectivityNode;
 import org.opencim.cim.iec61970.topology.TopologicalIsland;
 import org.opencim.cim.iec61970.topology.TopologicalNode;
+import org.opencim.cim.iec61970.wire.EnergyConsumer;
+import org.opencim.cim.iec61970.wire.SynchronousMachine;
 import org.opencim.datatype.Units;
+import org.opencim.simu.GenerationHelper;
+import org.opencim.simu.LoadHelper;
+import org.opencim.simu.PsResourceHelper;
 import org.opencim.simu.SimuModelFactory;
 import org.opencim.simu.SimuModelHelper;
+import org.opencim.simu.TopologyHelper;
 
 public class TestSimuModelCase extends TestCase {
 	public void testCase1() throws Exception {
@@ -46,7 +57,7 @@ public class TestSimuModelCase extends TestCase {
 		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
 				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
 		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
-
+		
 		// Base Power and Voltage
 		// ======================
 		sModelHelper.defineBasePower(100.0);  // power in MVA
@@ -71,52 +82,47 @@ public class TestSimuModelCase extends TestCase {
 		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
 				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
 		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
-
-		// Base Power and Voltage
-		// ======================
-		sModelHelper.defineBasePower(100.0);  // power in MVA
-
-		sModelHelper.addBaseVoltage("110.0kV", 110.0);
-		sModelHelper.addBaseVoltage("35.0kV", 35.0);
+		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
 		
-		// Define Topological ojects
-		// =========================
-		TopologicalIsland tIsland = sModelHelper.addTopologicalIsland(
-				"TIslandId", "TopolicalIslandName", "Sample TopolicalIsland Desc");
-
-		TopologicalNode tnode = sModelHelper.addTopologicalNode(tIsland, "Bus-1", "Bus-1", "T-node, bus-1");
-
-		sModelHelper.addConnectivityNode(tnode, "Bus-1_CNode-1", "Bus-1_CNode-1", "T-node, bus-1_CNode-1");
-		sModelHelper.addConnectivityNode(tnode, "Bus-1_CNode-2", "Bus-1_CNode-2", "T-node, bus-1_CNode-2");
-
-		tnode = sModelHelper.addTopologicalNode(tIsland, "Bus-2", "Bus-2", "T-node, bus-2");
-		sModelHelper.addConnectivityNode(tnode, "Bus-2_CNode-1", "Bus-2_CNode-1", "T-node, bus-2_CNode-1");
-  		
-		tIsland = simuModel.getTopologicalIsland("TIslandId");
+	    setSampleSimuModel(simuModel);
+		
+	    TopologicalIsland tIsland = topoHelper.getTopologicalIsland("TIslandId");
 		assertTrue(tIsland != null);
 		assertTrue(tIsland.getTopologicalNodes().size() == 2);
 
-		TopologicalNode bus1 = simuModel.getTopologicalNode("Bus-1"); 
+		TopologicalNode bus1 = topoHelper.getTopologicalNode("Bus-1"); 
 		assertTrue(bus1 != null);
-		assertTrue(simuModel.getTopologicalNode("Bus-1", tIsland) != null);
+		assertTrue(topoHelper.getTopologicalNode("Bus-1", tIsland) != null);
 		assertTrue(bus1.getTopologicalIsland().getMRID().equals("TIslandId"));
 		
-		TopologicalNode bus2 = simuModel.getTopologicalNode("Bus-2"); 
+		TopologicalNode bus2 = topoHelper.getTopologicalNode("Bus-2"); 
 		assertTrue(bus2 != null);
 		assertTrue(bus2.getTopologicalIsland().getMRID().equals("TIslandId"));
 
-		ConnectivityNode cnode1 = simuModel.getConnectivityNode("Bus-1_CNode-1");
+		ConnectivityNode cnode1 = topoHelper.getConnectivityNode("Bus-1_CNode-1");
 		assertTrue(cnode1 != null);
 		assertTrue(cnode1.getTopologicalNode().getMRID().equals("Bus-1"));
 		
-		ConnectivityNode cnode2 = simuModel.getConnectivityNode("Bus-1_CNode-2");
+		ConnectivityNode cnode2 = topoHelper.getConnectivityNode("Bus-1_CNode-2");
 		assertTrue(cnode2 != null);
-		assertTrue(simuModel.getConnectivityNode("Bus-1_CNode-2", bus1) != null);
+		assertTrue(topoHelper.getConnectivityNode("Bus-1_CNode-2", bus1) != null);
 
-		ConnectivityNode cnode3 = simuModel.getConnectivityNode("Bus-2_CNode-1");
+		ConnectivityNode cnode3 = topoHelper.getConnectivityNode("Bus-2_CNode-2");
 		assertTrue(cnode3 != null);
 
-  		System.out.println("TestSimuModelCase testCase2 ends");
+		Terminal t = topoHelper.getTerminal("T1_Bus-1_CNode-1");
+		assertTrue(t != null);
+		assertTrue(t.getConnectivityNode().getMRID().equals("Bus-1_CNode-1"));
+
+		t = topoHelper.getTerminal("T2_Bus-1_CNode-2");
+		assertTrue(t != null);
+		assertTrue(t.getConnectivityNode().getMRID().equals("Bus-1_CNode-2"));
+
+		t = topoHelper.getTerminal("T3_Bus-2_CNode-1");
+		assertTrue(t != null);
+		assertTrue(t.getConnectivityNode().getMRID().equals("Bus-2_CNode-2"));
+
+		System.out.println("TestSimuModelCase testCase2 ends");
 	}
 
 
@@ -126,62 +132,44 @@ public class TestSimuModelCase extends TestCase {
 		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
 				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
 		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
-
-		// Base Power and Voltage
-		// ======================
-		sModelHelper.defineBasePower(100.0);  // power in MVA
-
-		BaseVoltage bVolt110kV = sModelHelper.addBaseVoltage("110.0kV", 110.0);
-		BaseVoltage bVolt35kV = sModelHelper.addBaseVoltage("35.0kV", 35.0);
-  		
-		// Define Operational objects
-		// ==========================
-		SubControlArea carea = sModelHelper.addSubControlArea(
-				"SubCArea-1", "SubControlAreaName", "Sample SubControlArea Desc");
+		PsResourceHelper resHelper = new PsResourceHelper(simuModel);
 		
-		Substation sub = sModelHelper.addSubstation(carea, 
-				"Sub-1", "Substation-1 Name", "Sample Substation-1 Desc");
-		
-		VoltageLevel vlevel = sModelHelper.addVoltageLevel(sub, "sub1-vLevel35kv", bVolt35kV, 36.0, 34.0);
+	    setSampleSimuModel(simuModel);
 
-		sModelHelper.addBay(vlevel, "sub1-vLevel35kv-bay", "BayName", "Sample Bay Desc");
-		
-		vlevel = sModelHelper.addVoltageLevel(sub, "sub1-vLevel110kv", bVolt110kV, 120.0, 100.0);
-
-		sModelHelper.addBay(vlevel, "sub1-vLevel110kv-bay", "BayName", "Sample Bay Desc");
-
-		SubControlArea subArea = simuModel.getSubControlArea("SubCArea-1");
+		SubControlArea subArea = resHelper.getSubControlArea("SubCArea-1");
 		assertTrue(subArea != null);
+		assertTrue(subArea.getCompanies().size() == 1);
+		assertTrue(simuModel.getCompany("OpenCIM").getPSRs().size() == 1);
 		assertTrue(subArea.getSubstations().size() == 1);
 		
-		Substation substation = simuModel.getSubstation("Sub-1");
+		Substation substation = resHelper.getSubstation("Sub-1");
 		assertTrue(substation != null);
-		assertTrue(simuModel.getSubstation("Sub-1", subArea) != null);
+		assertTrue(resHelper.getSubstation("Sub-1", subArea) != null);
 		assertTrue(substation.getSubControlArea().getMRID().equals("SubCArea-1"));
 		assertTrue(substation.getVoltageLevels().size() == 2);
 		
-		VoltageLevel v35kv = simuModel.getVoltageLevel("sub1-vLevel35kv");
+		VoltageLevel v35kv = resHelper.getVoltageLevel("sub1-vLevel35kv");
 		assertTrue(v35kv != null);
 		assertTrue(v35kv.getBaseVoltage().getNominalVoltage().getValue() == 35.0);
 		assertTrue(v35kv.getBaseVoltage().getNominalVoltage().getUnits().equals(Units.kV));
 		
-		VoltageLevel v110kv = simuModel.getVoltageLevel("sub1-vLevel110kv");
+		VoltageLevel v110kv = resHelper.getVoltageLevel("sub1-vLevel110kv");
 		assertTrue(v110kv != null);
-		assertTrue(simuModel.getVoltageLevel("sub1-vLevel110kv", substation) != null);
+		assertTrue(resHelper.getVoltageLevel("sub1-vLevel110kv", substation) != null);
 		assertTrue(v110kv.getBaseVoltage().getNominalVoltage().getValue() == 110.0);
 
 		assertTrue(v35kv.getBays().size() == 1);
 		assertTrue(v110kv.getBays().size() == 1);
 		
-		Bay bay1 = simuModel.getBay("sub1-vLevel35kv-bay");
+		Bay bay1 = resHelper.getBay("sub1-vLevel35kv-bay");
 		assertTrue(bay1 != null);
-		assertTrue(simuModel.getBay("sub1-vLevel35kv-bay", v35kv) != null);
+		assertTrue(resHelper.getBay("sub1-vLevel35kv-bay", v35kv) != null);
 		assertTrue(bay1.getVoltageLevel().getHighVoltageLimit().getValue() == 36.0);
 		assertTrue(bay1.getVoltageLevel().getLowVoltageLimit().getValue() == 34.0);
 
-		Bay bay2 = simuModel.getBay("sub1-vLevel110kv-bay");
+		Bay bay2 = resHelper.getBay("sub1-vLevel110kv-bay");
 		assertTrue(bay2 != null);
-		assertTrue(simuModel.getBay("sub1-vLevel110kv-bay", v110kv) != null);
+		assertTrue(resHelper.getBay("sub1-vLevel110kv-bay", v110kv) != null);
 		assertTrue(bay2.getVoltageLevel().getHighVoltageLimit().getValue() == 120.0);
 		assertTrue(bay2.getVoltageLevel().getLowVoltageLimit().getValue() == 100.0);
 
@@ -199,7 +187,88 @@ public class TestSimuModelCase extends TestCase {
 		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
 				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
 		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
+		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
+		PsResourceHelper resHelper = new PsResourceHelper(simuModel);
+		
+	    setSampleSimuModel(simuModel);
 
+	    TopologicalIsland tIsland = topoHelper.getTopologicalIsland("TIslandId");
+		assertTrue(topoHelper.addTopologicalIsland("TIslandId", "", "") == null);
+		assertTrue(topoHelper.addTopologicalNode(tIsland, "Bus-1", "", "") == null);
+
+		TopologicalNode tnode = topoHelper.getTopologicalNode("Bus-1"); 
+		assertTrue(topoHelper.addConnectivityNode(tnode, "Bus-1_CNode-1", "", "") == null);
+		assertTrue(topoHelper.addConnectivityNode(tnode, "Bus-1_CNode-2", "", "") == null);
+
+		assertTrue(topoHelper.addTopologicalNode(tIsland, "Bus-2", "", "") == null);
+		assertTrue(topoHelper.addConnectivityNode(tnode, "Bus-2_CNode-2", "", "") == null);
+		
+		assertTrue(resHelper.addSubControlArea("SubCArea-1", "", "") == null);
+
+		SubControlArea carea = resHelper.getSubControlArea("SubCArea-1");
+		assertTrue(resHelper.addSubstation(carea, "Sub-1", "", "") == null);
+		
+		Substation sub = resHelper.getSubstation("Sub-1");
+		BaseVoltage bVolt35kV = sModelHelper.addBaseVoltage("35.0kV", 35.0);
+		assertTrue(resHelper.addVoltageLevel(sub, "sub1-vLevel35kv", bVolt35kV, 36.0, 34.0) == null);
+
+		VoltageLevel v35kv = resHelper.getVoltageLevel("sub1-vLevel35kv");
+		assertTrue(resHelper.addBay(v35kv, "sub1-vLevel35kv-bay", "", "") == null);
+		BaseVoltage bVolt110kV = sModelHelper.addBaseVoltage("110.0kV", 110.0);
+		assertTrue(resHelper.addVoltageLevel(sub, "sub1-vLevel110kv", bVolt110kV, 120.0, 100.0) == null);
+
+		VoltageLevel v110kv = resHelper.getVoltageLevel("sub1-vLevel110kv");
+		assertTrue(resHelper.addBay(v110kv, "sub1-vLevel110kv-bay", "", "") == null);
+		
+		System.out.println("TestSimuModelCase testCase4 ends");
+	}	
+
+	/**
+	 * test MRID duplication
+	 * 
+	 * @throws Exception
+	 */
+	public void testCase5() throws Exception {
+  		System.out.println("TestSimuModelCase testCase5 begins ...");
+  		
+		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
+				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
+		SimuModelHelper  sModelHelper = new SimuModelHelper(simuModel);
+		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
+		PsResourceHelper resHelper = new PsResourceHelper(simuModel);
+		LoadHelper       loadHelper = new LoadHelper(simuModel);
+		GenerationHelper genHelper = new GenerationHelper(simuModel);
+		
+	    setSampleSimuModel(simuModel);
+
+//		loadHelper.addEquivalentLoad("Load1", 20.0, 30.0, loadArea, bay35kv, t1);
+//		loadHelper.addEquivalentLoad("Load2", 40.0, 50.0, loadArea, bay110kv, t2);
+
+	    assertTrue(loadHelper.getEquivalentLoad("Load1") != null);
+		Bay bay35kv = resHelper.getBay("sub1-vLevel35kv-bay");
+		EnergyConsumer load1 = loadHelper.getEnergyConsumer("Load1", bay35kv);
+	    assertTrue(load1 != null);
+	    assertTrue(load1.getLoadArea().getMRID().equals("LoadAreaId"));
+	    assertTrue(load1.getTerminals().size() == 1);
+	    assertTrue(((Terminal)(load1.getTerminals().get(0))).getMRID().equals("T1_Bus-1_CNode-1"));
+	    
+	    assertTrue(loadHelper.getEquivalentLoad("Load2") != null);
+		Bay bay110kv = resHelper.getBay("sub1-vLevel110kv-bay");
+	    assertTrue(loadHelper.getEnergyConsumer("Load2", bay110kv) != null);
+
+	    System.out.println("TestSimuModelCase testCase5 ends");
+	}	
+
+	private void setSampleSimuModel(SimulationModel simuModel) {
+		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
+		PsResourceHelper resHelper = new PsResourceHelper(simuModel);
+		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
+		LoadHelper       loadHelper = new LoadHelper(simuModel);
+		GenerationHelper genHelper = new GenerationHelper(simuModel);
+		
+		Company company = sModelHelper.addCompany("OpenCIM", "CompanyName", "", CompanyType.POOL_LITERAL);
+		LoadArea loadArea = loadHelper.addLoadArea("LoadAreaId", "LoadAreaName", "Sample LoadArea Desc");
+		
 		// Base Power and Voltage
 		// ======================
 		sModelHelper.defineBasePower(100.0);  // power in MVA
@@ -209,50 +278,49 @@ public class TestSimuModelCase extends TestCase {
   		
 		// Define Topological ojects
 		// =========================
-		TopologicalIsland tIsland = sModelHelper.addTopologicalIsland(
-				"TIslandId", "TopolicalIslandName", "Sample TopolicalIsland Desc");
+		TopologicalIsland tIsland = topoHelper.addTopologicalIsland("TIslandId", "TopolicalIslandName", "Sample TopolicalIsland Desc");
 
-		TopologicalNode tnode = sModelHelper.addTopologicalNode(tIsland, "Bus-1", "Bus-1", "T-node, bus-1");
+		TopologicalNode tn1 = topoHelper.addTopologicalNode(tIsland, "Bus-1", "Bus-1", "T-node, bus-1");
+		ConnectivityNode cn1 = topoHelper.addConnectivityNode(tn1, "Bus-1_CNode-1", "Bus-1_CNode-1", "T-node, bus-1_CNode-1");
+		ConnectivityNode cn2 = topoHelper.addConnectivityNode(tn1, "Bus-1_CNode-2", "Bus-1_CNode-2", "T-node, bus-1_CNode-2");
 
-		sModelHelper.addConnectivityNode(tnode, "Bus-1_CNode-1", "Bus-1_CNode-1", "T-node, bus-1_CNode-1");
-		sModelHelper.addConnectivityNode(tnode, "Bus-1_CNode-2", "Bus-1_CNode-2", "T-node, bus-1_CNode-2");
-
-		tnode = sModelHelper.addTopologicalNode(tIsland, "Bus-2", "Bus-2", "T-node, bus-2");
-		sModelHelper.addConnectivityNode(tnode, "Bus-2_CNode-1", "Bus-2_CNode-1", "T-node, bus-2_CNode-1");
-
+		TopologicalNode tn2 = topoHelper.addTopologicalNode(tIsland, "Bus-2", "Bus-2", "T-node, bus-2");
+		ConnectivityNode cn3 = topoHelper.addConnectivityNode(tn2, "Bus-2_CNode-2", "Bus-2_CNode-2", "T-node, bus-2_CNode-2");
+		
+		Terminal t1 = topoHelper.addTerminal(cn1, "T1_Bus-1_CNode-1", "T1", "T1, Bus-1_CNode-1");
+		Terminal t2 = topoHelper.addTerminal(cn2, "T2_Bus-1_CNode-2", "T2", "T2, Bus-1_CNode-2");
+		Terminal t3 = topoHelper.addTerminal(cn3, "T3_Bus-2_CNode-1", "T3", "T3, Bus-2_CNode-1");
+		
 		// Define Operational objects
 		// ==========================
-		SubControlArea carea = sModelHelper.addSubControlArea(
+		SubControlArea carea = resHelper.addSubControlArea(
 				"SubCArea-1", "SubControlAreaName", "Sample SubControlArea Desc");
+		carea.getCompanies().add(company);
 		
-		Substation sub = sModelHelper.addSubstation(carea, 
+		Substation sub = resHelper.addSubstation(carea, 
 				"Sub-1", "Substation-1 Name", "Sample Substation-1 Desc");
+		sub.setLoadArea(loadArea);
 		
-		VoltageLevel vlevel = sModelHelper.addVoltageLevel(sub, "sub1-vLevel35kv", bVolt35kV, 36.0, 34.0);
+		VoltageLevel vlevel = resHelper.addVoltageLevel(sub, "sub1-vLevel35kv", bVolt35kV, 36.0, 34.0);
 
-		sModelHelper.addBay(vlevel, "sub1-vLevel35kv-bay", "BayName", "Sample Bay Desc");
+		Bay bay35kv = resHelper.addBay(vlevel, "sub1-vLevel35kv-bay", "BayName", "Sample Bay Desc");
 		
-		vlevel = sModelHelper.addVoltageLevel(sub, "sub1-vLevel110kv", bVolt110kV, 120.0, 100.0);
+		vlevel = resHelper.addVoltageLevel(sub, "sub1-vLevel110kv", bVolt110kV, 120.0, 100.0);
 
-		sModelHelper.addBay(vlevel, "sub1-vLevel110kv-bay", "BayName", "Sample Bay Desc");
-
-		assertTrue(sModelHelper.addTopologicalIsland("TIslandId", "", "") == null);
-		assertTrue(sModelHelper.addTopologicalNode(tIsland, "Bus-1", "", "") == null);
-
-		assertTrue(sModelHelper.addConnectivityNode(tnode, "Bus-1_CNode-1", "", "") == null);
-		assertTrue(sModelHelper.addConnectivityNode(tnode, "Bus-1_CNode-2", "", "") == null);
-
-		assertTrue(sModelHelper.addTopologicalNode(tIsland, "Bus-2", "", "") == null);
-		assertTrue(sModelHelper.addConnectivityNode(tnode, "Bus-2_CNode-1", "", "") == null);
+		Bay bay110kv = resHelper.addBay(vlevel, "sub1-vLevel110kv-bay", "BayName", "Sample Bay Desc");    
 		
-		assertTrue(sModelHelper.addSubControlArea("SubCArea-1", "", "") == null);
-		assertTrue(sModelHelper.addSubstation(carea, "Sub-1", "", "") == null);
-		assertTrue(sModelHelper.addVoltageLevel(sub, "sub1-vLevel35kv", bVolt35kV, 36.0, 34.0) == null);
-		assertTrue(sModelHelper.addBay(vlevel, "sub1-vLevel35kv-bay", "", "") == null);
-		assertTrue(sModelHelper.addVoltageLevel(sub, "sub1-vLevel110kv", bVolt110kV, 120.0, 100.0) == null);
-		assertTrue(sModelHelper.addBay(vlevel, "sub1-vLevel110kv-bay", "", "") == null);
-		
-		System.out.println("TestSimuModelCase testCase4 ends");
-	}	
+		// Define Load objects
+		// ===================
+		loadHelper.addEquivalentLoad("Load1", 20.0, 30.0, loadArea, bay35kv, t1);
+		loadHelper.addEquivalentLoad("Load2", 40.0, 50.0, loadArea, bay110kv, t2);
+
+		// Define Gen objects
+		// ==================
+		GeneratingUnit gen = genHelper.addGeneratingUnit(bay35kv, "Gen1", "name", "desc");
+		gen.setSubControlArea(carea);
+
+		SynchronousMachine mach = genHelper.addSynchronousMachine(gen, "Mach1", "name", "desc");
+		mach.getTerminals().add(t3);		
+	}
 }
 
