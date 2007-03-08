@@ -40,15 +40,20 @@ import org.opencim.cim.iec61970.load.LoadArea;
 import org.opencim.cim.iec61970.topology.ConnectivityNode;
 import org.opencim.cim.iec61970.topology.TopologicalIsland;
 import org.opencim.cim.iec61970.topology.TopologicalNode;
+import org.opencim.cim.iec61970.wire.ACLineSegment;
 import org.opencim.cim.iec61970.wire.EnergyConsumer;
+import org.opencim.cim.iec61970.wire.Line;
+import org.opencim.cim.iec61970.wire.PowerTransformer;
 import org.opencim.cim.iec61970.wire.SynchronousMachine;
+import org.opencim.cim.iec61970.wire.TransformerWinding;
 import org.opencim.datatype.Units;
 import org.opencim.simu.GenerationHelper;
 import org.opencim.simu.LoadHelper;
-import org.opencim.simu.PsResourceHelper;
+import org.opencim.simu.OperationHelper;
 import org.opencim.simu.SimuModelFactory;
 import org.opencim.simu.SimuModelHelper;
 import org.opencim.simu.TopologyHelper;
+import org.opencim.simu.WireHelper;
 
 public class TestSimuModelCase extends TestCase {
 	public void testCase1() throws Exception {
@@ -132,7 +137,7 @@ public class TestSimuModelCase extends TestCase {
 		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
 				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
 		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
-		PsResourceHelper resHelper = new PsResourceHelper(simuModel);
+		OperationHelper resHelper = new OperationHelper(simuModel);
 		
 	    setSampleSimuModel(simuModel);
 
@@ -188,7 +193,7 @@ public class TestSimuModelCase extends TestCase {
 				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
 		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
 		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
-		PsResourceHelper resHelper = new PsResourceHelper(simuModel);
+		OperationHelper resHelper = new OperationHelper(simuModel);
 		
 	    setSampleSimuModel(simuModel);
 
@@ -224,7 +229,7 @@ public class TestSimuModelCase extends TestCase {
 	}	
 
 	/**
-	 * test MRID duplication
+	 * test Load and Gen
 	 * 
 	 * @throws Exception
 	 */
@@ -233,9 +238,7 @@ public class TestSimuModelCase extends TestCase {
   		
 		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
 				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
-		SimuModelHelper  sModelHelper = new SimuModelHelper(simuModel);
-		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
-		PsResourceHelper resHelper = new PsResourceHelper(simuModel);
+		OperationHelper  resHelper = new OperationHelper(simuModel);
 		LoadHelper       loadHelper = new LoadHelper(simuModel);
 		GenerationHelper genHelper = new GenerationHelper(simuModel);
 		
@@ -251,20 +254,107 @@ public class TestSimuModelCase extends TestCase {
 	    assertTrue(load1.getLoadArea().getMRID().equals("LoadAreaId"));
 	    assertTrue(load1.getTerminals().size() == 1);
 	    assertTrue(((Terminal)(load1.getTerminals().get(0))).getMRID().equals("T1_Bus-1_CNode-1"));
+	    assertTrue(load1.getBaseVoltage().getNominalVoltage().getValue() == 35.0);
+	    assertTrue(load1.getPfixed().getValue() == 20.0);
+	    assertTrue(load1.getQfixed().getValue() == 30.0);
 	    
 	    assertTrue(loadHelper.getEquivalentLoad("Load2") != null);
 		Bay bay110kv = resHelper.getBay("sub1-vLevel110kv-bay");
 	    assertTrue(loadHelper.getEnergyConsumer("Load2", bay110kv) != null);
 
+//		GeneratingUnit gen = genHelper.addGeneratingUnit(bay35kv, "Gen1", "name", "desc", carea);
+//		SynchronousMachine mach = genHelper.addSynchronousMachine(bay35kv, "Mach1", "name", "desc", gen, t3);
+
+	    GeneratingUnit gen = genHelper.getGeneratingUnit("Gen1");
+	    assertTrue(gen != null);
+	    assertTrue(genHelper.getGeneratingUnit("Gen1", bay35kv) != null);
+
+	    SynchronousMachine mach = genHelper.getSynchronousMachine("Mach1");
+	    assertTrue(mach != null);
+	    assertTrue(mach.getTerminals().size() == 1);
+	    assertTrue(((Terminal)mach.getTerminals().get(0)).getMRID().equals("T3_Bus-2_CNode-1"));
+	    assertTrue(mach.getGeneratingUnit().getMRID().equals("Gen1"));
+	    assertTrue(mach.getBaseVoltage().getNominalVoltage().getValue() == 35.0);
+	    assertTrue(genHelper.getSynchronousMachine("Mach1", bay35kv) != null);
+	    
 	    System.out.println("TestSimuModelCase testCase5 ends");
+	}	
+
+	/**
+	 * test Line and Xfr
+	 * 
+	 * @throws Exception
+	 */
+	public void testCase6() throws Exception {
+  		System.out.println("TestSimuModelCase testCase6 begins ...");
+  		
+		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
+				"simuModelId", "OpenCIM", "Sample OpenCIM Simulation Model");
+		OperationHelper  resHelper = new OperationHelper(simuModel);
+		LoadHelper       loadHelper = new LoadHelper(simuModel);
+		GenerationHelper genHelper = new GenerationHelper(simuModel);
+		WireHelper       wireHelper = new WireHelper(simuModel);		
+		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
+		
+	    setSampleSimuModel(simuModel);
+
+//		Line line = wireHelper.addLine("Bus-1->Bus-2", "name", "desc");
+//		wireHelper.addACLineSegment("Bus-1->Bus-2-seg-1", "name", "desc", line, t4, t5);
+	    Line line = wireHelper.getLine("Bus-1->Bus-2");
+	    assertTrue(line != null);
+	    assertTrue(line.getACLineSegments().size() == 1);
+	    
+	    ACLineSegment lseg = wireHelper.getACLineSegment("Bus-1->Bus-2-seg-1");
+	    assertTrue(lseg != null);
+	    assertTrue(wireHelper.getACLineSegment("Bus-1->Bus-2-seg-1", line) != null);
+	    assertTrue(lseg.getTerminals().size() == 2);
+	    
+		Terminal t4 = topoHelper.getTerminal("T4_Bus-2_CNode-1");
+		Terminal t5 = topoHelper.getTerminal("T5_Bus-2_CNode-1");
+	    assertTrue(t4 != null);
+	    assertTrue(t5 != null);
+	    assertTrue(t4.getConductingEquipment().getMRID().equals("Bus-1->Bus-2-seg-1"));
+	    assertTrue(t5.getConductingEquipment().getMRID().equals("Bus-1->Bus-2-seg-1"));
+
+	    
+//		PowerTransformer xfr = wireHelper.addPowerTransformer(sub, "T-Bus-1->Bus-2", "name", "desc");
+//		wireHelper.addTransformerWinding(sub, "W1-Bus-1->Bus-2", "name", "desc", xfr, t6);
+//		wireHelper.addTransformerWinding(sub, "W2-Bus-1->Bus-2", "name", "desc", xfr, t7);		
+		PowerTransformer xfr = wireHelper.getPowerTransformer("T-Bus-1->Bus-2");
+	    assertTrue(xfr != null);
+	    assertTrue(xfr.getEquipmentContainer().getMRID().equals("Sub-1"));
+	    Substation sub = resHelper.getSubstation("Sub-1");
+	    assertTrue(wireHelper.getPowerTransformer("T-Bus-1->Bus-2", sub) != null);
+
+	    assertTrue(xfr.getTransformerWindings().size() == 2);
+	    TransformerWinding w1 = wireHelper.getTransformerWinding("W1-Bus-1->Bus-2");
+	    TransformerWinding w2 = wireHelper.getTransformerWinding("W2-Bus-1->Bus-2");		
+	    assertTrue(w1 != null);
+	    assertTrue(w2 != null);
+	    assertTrue(wireHelper.getTransformerWinding("W1-Bus-1->Bus-2", sub) != null);
+	    assertTrue(wireHelper.getTransformerWinding("W2-Bus-1->Bus-2", sub) != null);
+	    assertTrue(w1.getPowerTransformer().getMRID().equals("T-Bus-1->Bus-2"));
+	    assertTrue(w2.getPowerTransformer().getMRID().equals("T-Bus-1->Bus-2"));
+
+	    Terminal t6 = topoHelper.getTerminal("T6_Bus-2_CNode-1");
+		Terminal t7 = topoHelper.getTerminal("T7_Bus-2_CNode-1");
+	    assertTrue(t6 != null);
+	    assertTrue(t7 != null);
+	    assertTrue(t6.getConductingEquipment().getMRID().equals("W1-Bus-1->Bus-2"));
+	    assertTrue(t7.getConductingEquipment().getMRID().equals("W2-Bus-1->Bus-2"));
+	    assertTrue(t6.getConductingEquipment() instanceof TransformerWinding);
+	    assertTrue(t7.getConductingEquipment() instanceof TransformerWinding);
+	    
+	    System.out.println("TestSimuModelCase testCase6 ends");
 	}	
 
 	private void setSampleSimuModel(SimulationModel simuModel) {
 		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
-		PsResourceHelper resHelper = new PsResourceHelper(simuModel);
+		OperationHelper resHelper = new OperationHelper(simuModel);
 		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
 		LoadHelper       loadHelper = new LoadHelper(simuModel);
 		GenerationHelper genHelper = new GenerationHelper(simuModel);
+		WireHelper       wireHelper = new WireHelper(simuModel);		
 		
 		Company company = sModelHelper.addCompany("OpenCIM", "CompanyName", "", CompanyType.POOL_LITERAL);
 		LoadArea loadArea = loadHelper.addLoadArea("LoadAreaId", "LoadAreaName", "Sample LoadArea Desc");
@@ -290,6 +380,10 @@ public class TestSimuModelCase extends TestCase {
 		Terminal t1 = topoHelper.addTerminal(cn1, "T1_Bus-1_CNode-1", "T1", "T1, Bus-1_CNode-1");
 		Terminal t2 = topoHelper.addTerminal(cn2, "T2_Bus-1_CNode-2", "T2", "T2, Bus-1_CNode-2");
 		Terminal t3 = topoHelper.addTerminal(cn3, "T3_Bus-2_CNode-1", "T3", "T3, Bus-2_CNode-1");
+		Terminal t4 = topoHelper.addTerminal(cn3, "T4_Bus-2_CNode-1", "T4", "T4, Bus-2_CNode-1");
+		Terminal t5 = topoHelper.addTerminal(cn3, "T5_Bus-2_CNode-1", "T5", "T5, Bus-2_CNode-1");
+		Terminal t6 = topoHelper.addTerminal(cn3, "T6_Bus-2_CNode-1", "T6", "T6, Bus-2_CNode-1");
+		Terminal t7 = topoHelper.addTerminal(cn3, "T7_Bus-2_CNode-1", "T7", "T7, Bus-2_CNode-1");		
 		
 		// Define Operational objects
 		// ==========================
@@ -316,11 +410,16 @@ public class TestSimuModelCase extends TestCase {
 
 		// Define Gen objects
 		// ==================
-		GeneratingUnit gen = genHelper.addGeneratingUnit(bay35kv, "Gen1", "name", "desc");
-		gen.setSubControlArea(carea);
+		GeneratingUnit gen = genHelper.addGeneratingUnit(bay35kv, "Gen1", "name", "desc", carea);
+		genHelper.addSynchronousMachine(bay35kv, "Mach1", "name", "desc", gen, t3);
+		
+		// Line and Xfr
+		Line line = wireHelper.addLine("Bus-1->Bus-2", "name", "desc");
+		wireHelper.addACLineSegment("Bus-1->Bus-2-seg-1", "name", "desc", line, t4, t5);
 
-		SynchronousMachine mach = genHelper.addSynchronousMachine(gen, "Mach1", "name", "desc");
-		mach.getTerminals().add(t3);		
+		PowerTransformer xfr = wireHelper.addPowerTransformer(sub, "T-Bus-1->Bus-2", "name", "desc");
+		wireHelper.addTransformerWinding(sub, "W1-Bus-1->Bus-2", "name", "desc", xfr, t6);
+		wireHelper.addTransformerWinding(sub, "W2-Bus-1->Bus-2", "name", "desc", xfr, t7);		
 	}
 }
 
