@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Money extends DoubleType {
 	public Money(double value) {
 		super(value, Units.uoc);
+	}
+
+	@AnInitConstructor
+	public Money(String str) {
+		super(str);
 	}
 }

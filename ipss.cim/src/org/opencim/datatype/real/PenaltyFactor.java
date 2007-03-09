@@ -24,10 +24,16 @@
 
 package org.opencim.datatype.real;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class PenaltyFactor extends DoubleType {
 	public PenaltyFactor(double value) {
 		super(value);
+	}
+
+	@AnInitConstructor
+	public PenaltyFactor(String str) {
+		super(str);
 	}
 }

@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class AngleDegrees extends DoubleType {
 	public AngleDegrees(double value) {
 		super(value, Units.Degrees);
+	}
+
+	@AnInitConstructor
+	public AngleDegrees(String str) {
+		super(str);
 	}
 }

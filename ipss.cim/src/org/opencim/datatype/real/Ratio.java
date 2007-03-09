@@ -24,10 +24,16 @@
 
 package org.opencim.datatype.real;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Ratio extends DoubleType {
 	public Ratio(double value) {
 		super(value);
 	}
+
+	@AnInitConstructor
+	public Ratio(String str) {
+		super(str);
+	}	
 }

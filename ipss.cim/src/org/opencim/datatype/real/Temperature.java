@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Temperature extends DoubleType {
 	public Temperature(double value) {
 		super(value, Units.MW);
 	}
+
+	@AnInitConstructor
+	public Temperature(String str) {
+		super(str);
+	}	
 }

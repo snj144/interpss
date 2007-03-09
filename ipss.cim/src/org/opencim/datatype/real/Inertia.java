@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Inertia extends DoubleType {
 	public Inertia(double value) {
 		super(value, Units.PUMWSecond);
+	}
+
+	@AnInitConstructor
+	public Inertia(String str) {
+		super(str);
 	}
 }

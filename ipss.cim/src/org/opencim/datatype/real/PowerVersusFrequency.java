@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class PowerVersusFrequency extends DoubleType {
 	public PowerVersusFrequency(double value) {
 		super(value, Units.MW);
 	}
+
+	@AnInitConstructor
+	public PowerVersusFrequency(String str) {
+		super(str);
+	}	
 }

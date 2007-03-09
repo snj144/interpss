@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Admittance extends DoubleType {
 	public Admittance(double value) {
 		super(value, Units.Siemens);
+	}
+	
+	@AnInitConstructor
+	public Admittance(String str) {
+		super(str);
 	}
 }

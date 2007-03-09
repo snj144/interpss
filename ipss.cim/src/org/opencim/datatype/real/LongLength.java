@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class LongLength extends DoubleType {
 	public LongLength(double value) {
 		super(value, Units.LongLength);
+	}
+
+	@AnInitConstructor
+	public LongLength(String str) {
+		super(str);
 	}
 }

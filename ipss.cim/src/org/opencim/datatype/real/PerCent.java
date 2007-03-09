@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class PerCent extends DoubleType {
 	public PerCent(double value) {
 		super(value, Units.PerCent);
+	}
+
+	@AnInitConstructor
+	public PerCent(String str) {
+		super(str);
 	}
 }

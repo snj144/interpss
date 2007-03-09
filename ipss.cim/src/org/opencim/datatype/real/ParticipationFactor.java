@@ -24,10 +24,16 @@
 
 package org.opencim.datatype.real;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class ParticipationFactor extends DoubleType {
 	public ParticipationFactor(double value) {
 		super(value);
+	}
+
+	@AnInitConstructor
+	public ParticipationFactor(String str) {
+		super(str);
 	}
 }

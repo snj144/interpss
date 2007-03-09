@@ -24,10 +24,16 @@
 
 package org.opencim.datatype.real;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class ShortLength extends DoubleType {
 	public ShortLength(double value) {
 		super(value);
 	}
+
+	@AnInitConstructor
+	public ShortLength(String str) {
+		super(str);
+	}	
 }

@@ -27,10 +27,11 @@ package org.opencim.simu;
 import org.opencim.cim.SimulationModel;
 import org.opencim.cim.iec61970.core.BaseVoltage;
 import org.opencim.cim.iec61970.core.Bay;
+import org.opencim.cim.iec61970.core.Company;
 import org.opencim.cim.iec61970.core.SubControlArea;
 import org.opencim.cim.iec61970.core.Substation;
 import org.opencim.cim.iec61970.core.VoltageLevel;
-import org.opencim.datatype.CIMLogger;
+import org.opencim.common.CIMLogger;
 import org.opencim.datatype.exp.CIMException;
 import org.opencim.datatype.real.Voltage;
 
@@ -59,7 +60,7 @@ public class OperationHelper {
 	 * @param desc the description attribute per CIM specification
 	 * @return the created SubControlArea object
 	 */
-	public SubControlArea addSubControlArea(String mRID, String name, String desc) {
+	public SubControlArea addSubControlArea(String mRID, String name, String desc, Company company) {
 		if (model.getPsResource(mRID, SubControlArea.class) != null) {
 			CIMLogger.getLogger().severe("Error in adding SubControlArea, MRID duplication");
 			return null;
@@ -67,6 +68,7 @@ public class OperationHelper {
 		try {
 			SubControlArea carea = SimuModelFactory.createSubControlArea(mRID, name, desc);
 			model.getPsResources().add(carea);
+			carea.getCompanies().add(company);
 			return carea;
 		} catch (CIMException e) {
 			CIMLogger.getLogger().severe("Error in adding SubControlArea, " + e.toString());

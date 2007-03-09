@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class WaterLevel extends DoubleType {
 	public WaterLevel(double value) {
 		super(value, Units.m);
 	}
+	
+	@AnInitConstructor
+	public WaterLevel(String str) {
+		super(str);
+	}	
 }

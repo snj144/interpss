@@ -26,6 +26,7 @@ package org.opencim.simu;
 
 import org.opencim.cim.SimulationModel;
 import org.opencim.cim.iec61970.core.Bay;
+import org.opencim.cim.iec61970.core.Company;
 import org.opencim.cim.iec61970.core.Equipment;
 import org.opencim.cim.iec61970.core.EquipmentContainer;
 import org.opencim.cim.iec61970.core.Substation;
@@ -33,8 +34,9 @@ import org.opencim.cim.iec61970.core.Terminal;
 import org.opencim.cim.iec61970.core.VoltageLevel;
 import org.opencim.cim.iec61970.load.EquivalentLoad;
 import org.opencim.cim.iec61970.load.LoadArea;
+import org.opencim.cim.iec61970.topology.ConnectivityNode;
 import org.opencim.cim.iec61970.wire.EnergyConsumer;
-import org.opencim.datatype.CIMLogger;
+import org.opencim.common.CIMLogger;
 import org.opencim.datatype.exp.CIMException;
 import org.opencim.datatype.real.ActivePower;
 import org.opencim.datatype.real.ReactivePower;
@@ -64,7 +66,7 @@ public class LoadHelper {
 	 * @param desc the description attribute per CIM specification
 	 * @return the created LoadArea object
 	 */
-	public LoadArea addLoadArea(String mRID, String name, String desc) {
+	public LoadArea addLoadArea(String mRID, String name, String desc, Company company) {
 		if (model.getPsResource(mRID, LoadArea.class) != null) {
 			CIMLogger.getLogger().severe("Error in adding LoadArea, MRID duplication");
 			return null;
@@ -72,6 +74,7 @@ public class LoadHelper {
 		try {
 			LoadArea larea = SimuModelFactory.createLoadArea(mRID, name, desc);
 			model.getPsResources().add(larea);
+			larea.getCompanies().add(company);
 			return larea;
 		} catch (CIMException e) {
 			CIMLogger.getLogger().severe("Error in adding LoadArea, " + e.toString());
@@ -157,11 +160,11 @@ public class LoadHelper {
 	 * @param pMw 
 	 * @param qMw
 	 * @param loadArea
-	 * @param terminal
+	 * @param node
 	 * @param bay
 	 * @return the created EquivalentLoad object
 	 */
-	public EquivalentLoad addEquivalentLoad(String mRID, double pMw, double qMw, LoadArea loadArea, Bay bay, Terminal terminal) {
+	public EquivalentLoad addEquivalentLoad(String mRID, double pMw, double qMw, LoadArea loadArea, Bay bay, ConnectivityNode cnode) {
 		EquivalentLoad load = (EquivalentLoad)addEnergyConsumer(bay, mRID, 
 				"Load1Name", "Sample Load Desc", EquivalentLoad.class);
 		load.setPfixed(new ActivePower(pMw));
@@ -169,7 +172,7 @@ public class LoadHelper {
 		SimuModelHelper.setBaseVoltage(bay, load);
 		loadArea.getEnergyConsumers().add(load);
 		// Add to the Topological View
-		load.getTerminals().add(terminal);
+		load.getTerminals().add(TopologyHelper.addTerminal(cnode, model));
 		return load;
 	}
 

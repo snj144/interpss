@@ -24,10 +24,16 @@
 
 package org.opencim.datatype.real;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Fraction extends DoubleType {
 	public Fraction(double value) {
 		super(value);
+	}
+
+	@AnInitConstructor
+	public Fraction(String str) {
+		super(str);
 	}
 }

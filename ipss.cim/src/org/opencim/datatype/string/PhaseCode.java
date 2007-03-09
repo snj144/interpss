@@ -24,9 +24,11 @@
 
 package org.opencim.datatype.string;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.StringType;
 
 public class PhaseCode extends StringType {
+	@AnInitConstructor
 	public PhaseCode(String value) {
 		super(value);
 	}

@@ -24,10 +24,16 @@
 
 package org.opencim.datatype.integer;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.IntegerType;
 
 public class Priority extends IntegerType {
 	public Priority(int value) {
 		super(value);
+	}
+	
+	@AnInitConstructor
+	public Priority(String str) {
+		super(str);
 	}
 }

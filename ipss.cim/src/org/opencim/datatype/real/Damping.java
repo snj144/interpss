@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Damping extends DoubleType {
 	public Damping(double value) {
 		super(value, Units.PUMWPUFrequency);
+	}
+
+	@AnInitConstructor
+	public Damping(String str) {
+		super(str);
 	}
 }

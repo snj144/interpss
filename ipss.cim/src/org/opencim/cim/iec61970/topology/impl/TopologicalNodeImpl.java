@@ -611,7 +611,7 @@ public class TopologicalNodeImpl extends NamingImpl implements TopologicalNode {
 	 * @generated NOT
 	 */
 	public String toString() {
-		StringBuffer result = new StringBuffer("\nTopologicalNode: \n" + super.toString());
+		StringBuffer result = new StringBuffer("\nTopologicalNode: \n" + super.toString() + "\n");
 		result.append(" (energized: ");
 		result.append(energized);
 		result.append(", loadCarrying: ");

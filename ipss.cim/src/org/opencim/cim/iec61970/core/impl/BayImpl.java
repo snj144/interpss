@@ -470,7 +470,7 @@ public class BayImpl extends EquipmentContainerImpl implements Bay {
 	 * @generated NOT
 	 */
 	public String toString() {
-		StringBuffer result = new StringBuffer("Bay: " + super.toString() + "\n");
+		StringBuffer result = new StringBuffer("Bay: \n" + super.toString() + "\n");
 		result.append(" (bayEnergyMeasFlag: ");
 		result.append(bayEnergyMeasFlag);
 		result.append(", bayPowerMeasFlag: ");

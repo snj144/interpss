@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class ExcitingCurrent extends DoubleType {
 	public ExcitingCurrent(double value) {
 		super(value, Units.PerCent);
+	}
+
+	@AnInitConstructor
+	public ExcitingCurrent(String str) {
+		super(str);
 	}
 }

@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class PowerROCPerSec extends DoubleType {
 	public PowerROCPerSec(double value) {
 		super(value, Units.MWsecond);
 	}
+
+	@AnInitConstructor
+	public PowerROCPerSec(String str) {
+		super(str);
+	}	
 }

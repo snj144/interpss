@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Conductance extends DoubleType {
 	public Conductance(double value) {
 		super(value, Units.Siemens);
+	}
+
+	@AnInitConstructor
+	public Conductance(String str) {
+		super(str);
 	}
 }

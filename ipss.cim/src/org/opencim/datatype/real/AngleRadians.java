@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class AngleRadians extends DoubleType {
 	public AngleRadians(double value) {
 		super(value, Units.Radians);
+	}
+
+	@AnInitConstructor
+	public AngleRadians(String str) {
+		super(str);
 	}
 }
