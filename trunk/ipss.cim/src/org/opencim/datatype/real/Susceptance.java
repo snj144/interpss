@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Susceptance extends DoubleType {
 	public Susceptance(double value) {
 		super(value, Units.Siemens);
 	}
+
+	@AnInitConstructor
+	public Susceptance(String str) {
+		super(str);
+	}	
 }

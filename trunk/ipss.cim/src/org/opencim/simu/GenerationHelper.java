@@ -28,10 +28,10 @@ import org.opencim.cim.SimulationModel;
 import org.opencim.cim.iec61970.core.Equipment;
 import org.opencim.cim.iec61970.core.EquipmentContainer;
 import org.opencim.cim.iec61970.core.SubControlArea;
-import org.opencim.cim.iec61970.core.Terminal;
 import org.opencim.cim.iec61970.gen.production.GeneratingUnit;
+import org.opencim.cim.iec61970.topology.ConnectivityNode;
 import org.opencim.cim.iec61970.wire.SynchronousMachine;
-import org.opencim.datatype.CIMLogger;
+import org.opencim.common.CIMLogger;
 import org.opencim.datatype.exp.CIMException;
 
 /**
@@ -104,7 +104,7 @@ public class GenerationHelper {
 	 * @return the created SynchronousMachine object
 	 */
 	public SynchronousMachine addSynchronousMachine(EquipmentContainer container, String mRID, String name, String desc,
-								GeneratingUnit genUnit, Terminal terminal) {
+								GeneratingUnit genUnit, ConnectivityNode cNode) {
 		if (model.getPsResource(mRID, Equipment.class) != null) {
 			CIMLogger.getLogger().severe("Error in adding SynchronousMachine, MRID duplication");
 			return null;
@@ -113,7 +113,7 @@ public class GenerationHelper {
 			SynchronousMachine mach = SimuModelFactory.createSynchronousMachine(mRID, name, desc);
 			container.getEquipments().add(mach);
 			genUnit.getSynchronousMachines().add(mach);
-			mach.getTerminals().add(terminal);
+			mach.getTerminals().add(TopologyHelper.addTerminal(cNode, model));
 			SimuModelHelper.setBaseVoltage(container, mach);
 			return mach;
 		} catch (CIMException e) {

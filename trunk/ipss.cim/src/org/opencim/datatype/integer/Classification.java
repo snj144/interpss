@@ -24,10 +24,16 @@
 package org.opencim.datatype.integer;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.IntegerType;
 
 public class Classification extends IntegerType {
 	public Classification(int value) {
 		super(value, Units.Count);
+	}
+	
+	@AnInitConstructor
+	public Classification(String str) {
+		super(str);
 	}
 }

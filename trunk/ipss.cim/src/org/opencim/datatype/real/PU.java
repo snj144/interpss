@@ -24,10 +24,16 @@
 
 package org.opencim.datatype.real;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class PU extends DoubleType {
 	public PU(double value) {
 		super(value);
 	}
+
+	@AnInitConstructor
+	public PU(String str) {
+		super(str);
+	}	
 }

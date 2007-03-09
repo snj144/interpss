@@ -26,7 +26,7 @@
  * A logging class, which is a wrapper around the java.util.logging.Logg class. 
  */
 
-package org.opencim.datatype;
+package org.opencim.common;
 
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -34,11 +34,19 @@ import java.util.logging.Logger;
 
 public class CIMLogger {
 	/**
-	 * The Logger object should be set by the system which uses this lib
+	 * The Logger object should be set by the system which uses this library.
 	 */
-	public static Logger cimLogger = null; 
+	public static Logger cimLogger = null;
+	/**
+	 * logger object name
+	 */
 	public static String cimLoggerName = "OpenCIM.Logger"; 
 	
+	/**
+	 * get the logger object
+	 * 
+	 * @return the logger object
+	 */
 	public static Logger getLogger() {
 		if (cimLogger == null) {
 			// if Logger is not inited, create a default logger

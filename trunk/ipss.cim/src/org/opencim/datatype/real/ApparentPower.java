@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class ApparentPower extends DoubleType {
 	public ApparentPower(double value) {
 		super(value, Units.MVA);
+	}
+
+	@AnInitConstructor
+	public ApparentPower(String str) {
+		super(str);
 	}
 }

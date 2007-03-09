@@ -29,7 +29,7 @@ import org.opencim.cim.iec61970.core.Terminal;
 import org.opencim.cim.iec61970.topology.ConnectivityNode;
 import org.opencim.cim.iec61970.topology.TopologicalIsland;
 import org.opencim.cim.iec61970.topology.TopologicalNode;
-import org.opencim.datatype.CIMLogger;
+import org.opencim.common.CIMLogger;
 import org.opencim.datatype.exp.CIMException;
 
 /**
@@ -170,29 +170,16 @@ public class TopologyHelper {
 	 * @param desc the description attribute per CIM specification
 	 * @return the created Terminal object
 	 */
-	public Terminal addTerminal(ConnectivityNode cNode, String mRID, String name, String desc) {
-		if (model.getTopologicalObject(mRID, Terminal.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding ConnectivityNode, MRID duplication");
-			return null;
-		}
+	public static Terminal addTerminal(ConnectivityNode cNode, SimulationModel sModel) {
 		try {
-			Terminal t = SimuModelFactory.createTerminal(mRID, name, desc);
+			String idStr = "_Terminal_" + (cNode.getTerminals().size()+1);
+			Terminal t = SimuModelFactory.createTerminal(cNode.getMRID()+idStr, cNode.getName()+idStr, cNode.getDescription()+idStr);
 			cNode.getTerminals().add(t);
 			return t;
 		} catch (CIMException e) {
 			CIMLogger.getLogger().severe("Error in adding Terminal, " + e.toString());
 		}
 		return null;
-	}
-
-	/**
-	 * Get the Terminal object in the model identified by mRID
-	 * 
-	 * @param mRID the MRID attribute per CIM specification
-	 * @return the Terminal object
-	 */	
-	public Terminal getTerminal(String mRID) {
-		return (Terminal)model.getTopologicalObject(mRID, Terminal.class);
 	}
 
 	/**

@@ -25,10 +25,16 @@
 package org.opencim.datatype.integer;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.IntegerType;
 
 public class Counter extends IntegerType {
 	public Counter(int value) {
 		super(value, Units.Count);
+	}
+	
+	@AnInitConstructor
+	public Counter(String str) {
+		super(str);
 	}
 }

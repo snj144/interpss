@@ -24,6 +24,12 @@
 
 package org.opencim.simu;
 
+import java.io.File;
+
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.opencim.cim.SimulationModel;
 import org.opencim.cim.iec61970.core.BasePower;
 import org.opencim.cim.iec61970.core.BaseVoltage;
@@ -33,7 +39,7 @@ import org.opencim.cim.iec61970.core.ConductingEquipment;
 import org.opencim.cim.iec61970.core.EquipmentContainer;
 import org.opencim.cim.iec61970.core.VoltageLevel;
 import org.opencim.cim.iec61970.domain.CompanyType;
-import org.opencim.datatype.CIMLogger;
+import org.opencim.common.CIMLogger;
 import org.opencim.datatype.exp.CIMException;
 
 /**
@@ -42,6 +48,7 @@ import org.opencim.datatype.exp.CIMException;
  *
  */
 public class SimuModelHelper {
+	public static String SimuModel_FileExt = "xml";
 	/**
 	 * BasePower object MRID
 	 */
@@ -121,6 +128,12 @@ public class SimuModelHelper {
 		return null;
 	}
 	
+	/**
+	 * Set the equipment object base voltage to its container object
+	 * 
+	 * @param container the container object
+	 * @param equipment the equipment object
+	 */
 	public static void setBaseVoltage(EquipmentContainer container, ConductingEquipment equipment) {
 		if (container instanceof Bay)
 			equipment.setBaseVoltage(((Bay)container).getVoltageLevel().getBaseVoltage());

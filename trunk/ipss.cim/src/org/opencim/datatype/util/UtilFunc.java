@@ -24,8 +24,40 @@
 
 package org.opencim.datatype.util;
 
+import java.lang.reflect.Constructor;
+
+import org.opencim.common.CIMLogger;
+import org.opencim.datatype.base.AnInitConstructor;
+
 public class UtilFunc {
+	/**
+	 *  Check if MRID string has ilegal charaters.
+	 * 
+	 * @param mRID
+	 * @return
+	 */
 	public static boolean hasMRIDIlegalChar(String mRID) {
 		return false;
+	}
+	
+	/**
+	 * Create a object based on the class type and a init string.
+	 * 
+	 * @param klass Class of the object to be created
+	 * @param str init string, for example (10.0, MVA) for ApparentPower
+	 * @return
+	 */
+	public static Object createDataObject(Class klass, String str) {
+		for (Constructor c : klass.getConstructors() ) {
+			if (c.getAnnotation(AnInitConstructor.class) != null)
+				try {
+					return c.newInstance(str);
+				} catch (Exception e) {
+					CIMLogger.getLogger().severe(e.toString());
+					return null;
+				}
+		}
+		CIMLogger.getLogger().warning("Class " + klass.getName() + " does not have a annotated constructor");
+		return null;
 	}
 }

@@ -40,8 +40,17 @@ public class IntegerType {
 		this.units = units;
 	}
 
+	public IntegerType(String str) {
+		// format (1.0, Mva)
+		int n1 = str.indexOf('(');
+		int n2 = str.indexOf(',');
+		int n3 = str.indexOf(')');
+		this.value = new Integer(str.substring(n1+1, n2)).intValue();
+		this.units = str.substring(n2+1, n3).trim();		
+	}
+
 	public String toString() {
-		return "value, units: " + value + ", " + units;
+		return "(" + value + ", " + units + ")";
 	}
 
 	public String getUnits() {

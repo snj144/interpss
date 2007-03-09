@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class NoLoadLoss extends DoubleType {
 	public NoLoadLoss(double value) {
 		super(value, Units.kW);
+	}
+
+	@AnInitConstructor
+	public NoLoadLoss(String str) {
+		super(str);
 	}
 }

@@ -35,6 +35,15 @@ public class DoubleType {
 		this.value = value;
 	}
 	
+	public DoubleType(String str) {
+		// format (1.0, Mva)
+		int n1 = str.indexOf('(');
+		int n2 = str.indexOf(',');
+		int n3 = str.indexOf(')');
+		this.value = new Double(str.substring(n1+1, n2)).doubleValue();
+		this.units = str.substring(n2+1, n3).trim();
+	}
+	
 	public DoubleType(double value, String units) {
 		this.value = value;
 		this.units = units;
@@ -57,6 +66,6 @@ public class DoubleType {
 	}
 
 	public String toString() {
-		return "value, units: " + value + ", " + units;
+		return "(" + value + ", " + units + ")";
 	}
 }

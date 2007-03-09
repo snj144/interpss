@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class PowerFactor extends DoubleType {
 	public PowerFactor(double value) {
 		super(value, Units.Ratio);
+	}
+
+	@AnInitConstructor
+	public PowerFactor(String str) {
+		super(str);
 	}
 }

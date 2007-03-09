@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Reactance extends DoubleType {
 	public Reactance(double value) {
 		super(value, Units.Ohms);
 	}
+
+	@AnInitConstructor
+	public Reactance(String str) {
+		super(str);
+	}	
 }

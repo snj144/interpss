@@ -25,10 +25,17 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Resistance extends DoubleType {
 	public Resistance(double value) {
 		super(value, Units.Ohms);
 	}
+
+	@AnInitConstructor
+	public Resistance(String str) {
+		super(str);
+	}	
+	
 }

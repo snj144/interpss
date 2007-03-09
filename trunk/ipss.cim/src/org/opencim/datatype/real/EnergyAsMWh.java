@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class EnergyAsMWh extends DoubleType {
 	public EnergyAsMWh(double value) {
 		super(value, Units.KVMVAr);
+	}
+
+	@AnInitConstructor
+	public EnergyAsMWh(String str) {
+		super(str);
 	}
 }

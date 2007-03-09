@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Seconds extends DoubleType {
 	public Seconds(double value) {
 		super(value, Units.Seconds);
+	}
+
+	@AnInitConstructor
+	public Seconds(String str) {
+		super(str);
 	}
 }

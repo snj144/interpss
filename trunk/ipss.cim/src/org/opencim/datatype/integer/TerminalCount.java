@@ -24,10 +24,16 @@
 
 package org.opencim.datatype.integer;
 
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.IntegerType;
 
 public class TerminalCount extends IntegerType {
 	public TerminalCount(int value) {
 		super(value);
+	}
+	
+	@AnInitConstructor
+	public TerminalCount(String str) {
+		super(str);
 	}
 }

@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Pressure extends DoubleType {
 	public Pressure(double value) {
 		super(value, Units.lbfIn2);
 	}
+
+	@AnInitConstructor
+	public Pressure(String str) {
+		super(str);
+	}	
 }

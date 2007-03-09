@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class CostPerEnergyUnit extends DoubleType {
 	public CostPerEnergyUnit(double value) {
 		super(value, Units.uocMWh);
+	}
+
+	@AnInitConstructor
+	public CostPerEnergyUnit(String str) {
+		super(str);
 	}
 }

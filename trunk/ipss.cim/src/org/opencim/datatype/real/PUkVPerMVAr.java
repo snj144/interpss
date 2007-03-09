@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class PUkVPerMVAr extends DoubleType {
 	public PUkVPerMVAr(double value) {
 		super(value, Units.PUKVMVAr);
 	}
+
+	@AnInitConstructor
+	public PUkVPerMVAr(String str) {
+		super(str);
+	}	
 }

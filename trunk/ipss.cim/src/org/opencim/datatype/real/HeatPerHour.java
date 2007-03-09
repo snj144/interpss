@@ -25,10 +25,17 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class HeatPerHour extends DoubleType {
 	public HeatPerHour(double value) {
 		super(value, Units.MBtuHour);
+	}
+
+
+	@AnInitConstructor
+	public HeatPerHour(String str) {
+		super(str);
 	}
 }

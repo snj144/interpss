@@ -310,7 +310,7 @@ public class ConductingEquipmentImpl extends EquipmentImpl implements Conducting
 	 * @generated NOT
 	 */
 	public String toString() {
-		StringBuffer result = new StringBuffer("\nConductingEquipment: \n" + super.toString());
+		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (phases: ");
 		result.append(phases);
 		result.append(')' + "\n");

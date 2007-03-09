@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Volume extends DoubleType {
 	public Volume(double value) {
 		super(value, Units.Mm3);
 	}
+
+	@AnInitConstructor
+	public Volume(String str) {
+		super(str);
+	}	
 }

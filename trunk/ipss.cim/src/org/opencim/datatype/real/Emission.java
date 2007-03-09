@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Emission extends DoubleType {
 	public Emission(double value) {
 		super(value, Units.kgMBtu);
+	}
+
+	@AnInitConstructor
+	public Emission(String str) {
+		super(str);
 	}
 }

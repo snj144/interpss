@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Exponent extends DoubleType {
 	public Exponent(double value) {
 		super(value, Units.Exponent);
+	}
+
+	@AnInitConstructor
+	public Exponent(String str) {
+		super(str);
 	}
 }

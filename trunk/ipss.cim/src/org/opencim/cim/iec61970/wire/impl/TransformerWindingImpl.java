@@ -1225,7 +1225,7 @@ public class TransformerWindingImpl extends ConductingEquipmentImpl implements T
 	 * @generated NOT
 	 */
 	public String toString() {
-		StringBuffer result = new StringBuffer("\nTransformerWinding:" + super.toString());
+		StringBuffer result = new StringBuffer("\nTransformerWinding:\n" + super.toString());
 		result.append(" (b: ");
 		result.append(b);
 		result.append(", insulationKV: ");
@@ -1258,7 +1258,7 @@ public class TransformerWindingImpl extends ConductingEquipmentImpl implements T
 		result.append(x0);
 		result.append(", xground: ");
 		result.append(xground);
-		result.append(')');
+		result.append(')' + "\n");
 		return result.toString();
 	}
 

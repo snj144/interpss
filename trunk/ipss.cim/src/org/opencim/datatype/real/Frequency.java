@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class Frequency extends DoubleType {
 	public Frequency(double value) {
 		super(value, Units.Hertz);
+	}
+
+	@AnInitConstructor
+	public Frequency(String str) {
+		super(str);
 	}
 }

@@ -25,10 +25,16 @@
 package org.opencim.datatype.real;
 
 import org.opencim.datatype.Units;
+import org.opencim.datatype.base.AnInitConstructor;
 import org.opencim.datatype.base.DoubleType;
 
 public class ReactivePower extends DoubleType {
 	public ReactivePower(double value) {
 		super(value, Units.MVAr);
 	}
+
+	@AnInitConstructor
+	public ReactivePower(String str) {
+		super(str);
+	}	
 }

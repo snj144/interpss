@@ -28,11 +28,12 @@ import org.opencim.cim.SimulationModel;
 import org.opencim.cim.iec61970.core.Equipment;
 import org.opencim.cim.iec61970.core.EquipmentContainer;
 import org.opencim.cim.iec61970.core.Terminal;
+import org.opencim.cim.iec61970.topology.ConnectivityNode;
 import org.opencim.cim.iec61970.wire.ACLineSegment;
 import org.opencim.cim.iec61970.wire.Line;
 import org.opencim.cim.iec61970.wire.PowerTransformer;
 import org.opencim.cim.iec61970.wire.TransformerWinding;
-import org.opencim.datatype.CIMLogger;
+import org.opencim.common.CIMLogger;
 import org.opencim.datatype.exp.CIMException;
 
 /**
@@ -94,7 +95,7 @@ public class WireHelper {
 	 * @return the created ACLineSegment object
 	 */
 	public ACLineSegment addACLineSegment(String mRID, String name, String desc,
-								Line line, Terminal from_terminal, Terminal to_terminal) {
+								Line line, ConnectivityNode from_cnode, ConnectivityNode to_cnode) {
 		if (model.getPsResource(mRID, Equipment.class) != null) {
 			CIMLogger.getLogger().severe("Error in adding ACLineSegment, MRID duplication");
 			return null;
@@ -102,8 +103,8 @@ public class WireHelper {
 		try {
 			ACLineSegment lseg = SimuModelFactory.createACLineSegment(mRID, name, desc);
 			line.getACLineSegments().add(lseg);
-			lseg.getTerminals().add(from_terminal);
-			lseg.getTerminals().add(to_terminal);
+			lseg.getTerminals().add(TopologyHelper.addTerminal(from_cnode, model));
+			lseg.getTerminals().add(TopologyHelper.addTerminal(to_cnode, model));
 			return lseg;
 		} catch (CIMException e) {
 			CIMLogger.getLogger().severe("Error in adding ACLineSegment, " + e.toString());
@@ -185,7 +186,7 @@ public class WireHelper {
 	 * @return the created PowerTransformer object
 	 */
 	public TransformerWinding addTransformerWinding(EquipmentContainer container, String mRID, String name, String desc,
-								PowerTransformer xfr, Terminal terminal) {
+								PowerTransformer xfr, ConnectivityNode cNode) {
 		if (model.getPsResource(mRID, Equipment.class) != null) {
 			CIMLogger.getLogger().severe("Error in adding TransformerWinding, MRID duplication");
 			return null;
@@ -193,7 +194,7 @@ public class WireHelper {
 		try {
 			TransformerWinding w = SimuModelFactory.createTransformerWinding(mRID, name, desc);
 			container.getEquipments().add(w);
-			terminal.setConductingEquipment(w);
+			TopologyHelper.addTerminal(cNode, model).setConductingEquipment(w);
 			w.setPowerTransformer(xfr);
 			return w;
 		} catch (CIMException e) {

@@ -28,11 +28,18 @@ public class StringType {
 	private String value = "";
 	
 	public StringType(String value) {
-		this.value = value;
+			// may in format (String), we need to get rid of ( and )
+		if (value.startsWith("(") && value.endsWith(")")) {
+			int n1 = value.indexOf('(');
+			int n2 = value.indexOf(')');
+			this.value = value.substring(n1+1, n2);
+		}	
+		else
+			this.value = value;
 	}
 	
 	public String toString() {
-		return "value: " + value;
+		return "(" + value + ")";
 	}
 
 	public String getValue() {

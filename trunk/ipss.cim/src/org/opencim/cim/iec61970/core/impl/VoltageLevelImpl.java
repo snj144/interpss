@@ -437,16 +437,16 @@ public class VoltageLevelImpl extends EquipmentContainerImpl implements VoltageL
 	public String toString() {
 		if (eIsProxy()) return super.toString();
 
-		StringBuffer result = new StringBuffer("\nVoltageLevel: " + super.toString() + "\n");
+		StringBuffer result = new StringBuffer("\nVoltageLevel: \n" + super.toString() + "\n");
 		result.append(" (highVoltageLimit: ");
 		result.append(highVoltageLimit);
 		result.append(", lowVoltageLimit: ");
 		result.append(lowVoltageLimit);
 		result.append(')' + "\n");
-		result.append("     BaseVoltage: " + getBaseVoltage().getMRID());
+		result.append("     BaseVoltage: " + getBaseVoltage().getMRID() + "\n");
 		
 		if (getBays().size() > 0)
-			result.append("Bays: \n" + getBays().toString() + "\n");
+			result.append(getBays().toString() + "\n");
 				
 		return result.toString();
 	}

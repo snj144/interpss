@@ -53,7 +53,7 @@ import org.opencim.cim.iec61970.wire.PowerTransformer;
 import org.opencim.cim.iec61970.wire.SynchronousMachine;
 import org.opencim.cim.iec61970.wire.TransformerWinding;
 import org.opencim.cim.iec61970.wire.WireFactory;
-import org.opencim.datatype.CIMLogger;
+import org.opencim.common.CIMLogger;
 import org.opencim.datatype.exp.CIMException;
 import org.opencim.datatype.real.ApparentPower;
 import org.opencim.datatype.real.Voltage;
