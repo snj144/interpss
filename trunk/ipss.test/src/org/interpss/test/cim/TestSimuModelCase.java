@@ -115,18 +115,6 @@ public class TestSimuModelCase extends TestCase {
 		ConnectivityNode cnode3 = topoHelper.getConnectivityNode("Bus-2_CNode-2");
 		assertTrue(cnode3 != null);
 
-		Terminal t = topoHelper.getTerminal("T1_Bus-1_CNode-1");
-		assertTrue(t != null);
-		assertTrue(t.getConnectivityNode().getMRID().equals("Bus-1_CNode-1"));
-
-		t = topoHelper.getTerminal("T2_Bus-1_CNode-2");
-		assertTrue(t != null);
-		assertTrue(t.getConnectivityNode().getMRID().equals("Bus-1_CNode-2"));
-
-		t = topoHelper.getTerminal("T3_Bus-2_CNode-1");
-		assertTrue(t != null);
-		assertTrue(t.getConnectivityNode().getMRID().equals("Bus-2_CNode-2"));
-
 		System.out.println("TestSimuModelCase testCase2 ends");
 	}
 
@@ -144,7 +132,7 @@ public class TestSimuModelCase extends TestCase {
 		SubControlArea subArea = resHelper.getSubControlArea("SubCArea-1");
 		assertTrue(subArea != null);
 		assertTrue(subArea.getCompanies().size() == 1);
-		assertTrue(simuModel.getCompany("OpenCIM").getPSRs().size() == 1);
+		assertTrue(simuModel.getCompany("OpenCIM").getPSRs().size() == 2);  // SubCArea and LoadArea
 		assertTrue(subArea.getSubstations().size() == 1);
 		
 		Substation substation = resHelper.getSubstation("Sub-1");
@@ -208,7 +196,7 @@ public class TestSimuModelCase extends TestCase {
 		assertTrue(topoHelper.addTopologicalNode(tIsland, "Bus-2", "", "") == null);
 		assertTrue(topoHelper.addConnectivityNode(tnode, "Bus-2_CNode-2", "", "") == null);
 		
-		assertTrue(resHelper.addSubControlArea("SubCArea-1", "", "") == null);
+		assertTrue(resHelper.addSubControlArea("SubCArea-1", "", "", null) == null);
 
 		SubControlArea carea = resHelper.getSubControlArea("SubCArea-1");
 		assertTrue(resHelper.addSubstation(carea, "Sub-1", "", "") == null);
@@ -253,7 +241,6 @@ public class TestSimuModelCase extends TestCase {
 	    assertTrue(load1 != null);
 	    assertTrue(load1.getLoadArea().getMRID().equals("LoadAreaId"));
 	    assertTrue(load1.getTerminals().size() == 1);
-	    assertTrue(((Terminal)(load1.getTerminals().get(0))).getMRID().equals("T1_Bus-1_CNode-1"));
 	    assertTrue(load1.getBaseVoltage().getNominalVoltage().getValue() == 35.0);
 	    assertTrue(load1.getPfixed().getValue() == 20.0);
 	    assertTrue(load1.getQfixed().getValue() == 30.0);
@@ -272,7 +259,6 @@ public class TestSimuModelCase extends TestCase {
 	    SynchronousMachine mach = genHelper.getSynchronousMachine("Mach1");
 	    assertTrue(mach != null);
 	    assertTrue(mach.getTerminals().size() == 1);
-	    assertTrue(((Terminal)mach.getTerminals().get(0)).getMRID().equals("T3_Bus-2_CNode-1"));
 	    assertTrue(mach.getGeneratingUnit().getMRID().equals("Gen1"));
 	    assertTrue(mach.getBaseVoltage().getNominalVoltage().getValue() == 35.0);
 	    assertTrue(genHelper.getSynchronousMachine("Mach1", bay35kv) != null);
@@ -309,14 +295,6 @@ public class TestSimuModelCase extends TestCase {
 	    assertTrue(wireHelper.getACLineSegment("Bus-1->Bus-2-seg-1", line) != null);
 	    assertTrue(lseg.getTerminals().size() == 2);
 	    
-		Terminal t4 = topoHelper.getTerminal("T4_Bus-2_CNode-1");
-		Terminal t5 = topoHelper.getTerminal("T5_Bus-2_CNode-1");
-	    assertTrue(t4 != null);
-	    assertTrue(t5 != null);
-	    assertTrue(t4.getConductingEquipment().getMRID().equals("Bus-1->Bus-2-seg-1"));
-	    assertTrue(t5.getConductingEquipment().getMRID().equals("Bus-1->Bus-2-seg-1"));
-
-	    
 //		PowerTransformer xfr = wireHelper.addPowerTransformer(sub, "T-Bus-1->Bus-2", "name", "desc");
 //		wireHelper.addTransformerWinding(sub, "W1-Bus-1->Bus-2", "name", "desc", xfr, t6);
 //		wireHelper.addTransformerWinding(sub, "W2-Bus-1->Bus-2", "name", "desc", xfr, t7);		
@@ -336,15 +314,6 @@ public class TestSimuModelCase extends TestCase {
 	    assertTrue(w1.getPowerTransformer().getMRID().equals("T-Bus-1->Bus-2"));
 	    assertTrue(w2.getPowerTransformer().getMRID().equals("T-Bus-1->Bus-2"));
 
-	    Terminal t6 = topoHelper.getTerminal("T6_Bus-2_CNode-1");
-		Terminal t7 = topoHelper.getTerminal("T7_Bus-2_CNode-1");
-	    assertTrue(t6 != null);
-	    assertTrue(t7 != null);
-	    assertTrue(t6.getConductingEquipment().getMRID().equals("W1-Bus-1->Bus-2"));
-	    assertTrue(t7.getConductingEquipment().getMRID().equals("W2-Bus-1->Bus-2"));
-	    assertTrue(t6.getConductingEquipment() instanceof TransformerWinding);
-	    assertTrue(t7.getConductingEquipment() instanceof TransformerWinding);
-	    
 	    System.out.println("TestSimuModelCase testCase6 ends");
 	}	
 
@@ -357,7 +326,7 @@ public class TestSimuModelCase extends TestCase {
 		WireHelper       wireHelper = new WireHelper(simuModel);		
 		
 		Company company = sModelHelper.addCompany("OpenCIM", "CompanyName", "", CompanyType.POOL_LITERAL);
-		LoadArea loadArea = loadHelper.addLoadArea("LoadAreaId", "LoadAreaName", "Sample LoadArea Desc");
+		LoadArea loadArea = loadHelper.addLoadArea("LoadAreaId", "LoadAreaName", "Sample LoadArea Desc", company);
 		
 		// Base Power and Voltage
 		// ======================
@@ -366,8 +335,8 @@ public class TestSimuModelCase extends TestCase {
 		BaseVoltage bVolt110kV = sModelHelper.addBaseVoltage("110.0kV", 110.0);
 		BaseVoltage bVolt35kV = sModelHelper.addBaseVoltage("35.0kV", 35.0);
   		
-		// Define Topological ojects
-		// =========================
+		// Define Topological objects
+		// ==========================
 		TopologicalIsland tIsland = topoHelper.addTopologicalIsland("TIslandId", "TopolicalIslandName", "Sample TopolicalIsland Desc");
 
 		TopologicalNode tn1 = topoHelper.addTopologicalNode(tIsland, "Bus-1", "Bus-1", "T-node, bus-1");
@@ -377,19 +346,10 @@ public class TestSimuModelCase extends TestCase {
 		TopologicalNode tn2 = topoHelper.addTopologicalNode(tIsland, "Bus-2", "Bus-2", "T-node, bus-2");
 		ConnectivityNode cn3 = topoHelper.addConnectivityNode(tn2, "Bus-2_CNode-2", "Bus-2_CNode-2", "T-node, bus-2_CNode-2");
 		
-		Terminal t1 = topoHelper.addTerminal(cn1, "T1_Bus-1_CNode-1", "T1", "T1, Bus-1_CNode-1");
-		Terminal t2 = topoHelper.addTerminal(cn2, "T2_Bus-1_CNode-2", "T2", "T2, Bus-1_CNode-2");
-		Terminal t3 = topoHelper.addTerminal(cn3, "T3_Bus-2_CNode-1", "T3", "T3, Bus-2_CNode-1");
-		Terminal t4 = topoHelper.addTerminal(cn3, "T4_Bus-2_CNode-1", "T4", "T4, Bus-2_CNode-1");
-		Terminal t5 = topoHelper.addTerminal(cn3, "T5_Bus-2_CNode-1", "T5", "T5, Bus-2_CNode-1");
-		Terminal t6 = topoHelper.addTerminal(cn3, "T6_Bus-2_CNode-1", "T6", "T6, Bus-2_CNode-1");
-		Terminal t7 = topoHelper.addTerminal(cn3, "T7_Bus-2_CNode-1", "T7", "T7, Bus-2_CNode-1");		
-		
 		// Define Operational objects
 		// ==========================
 		SubControlArea carea = resHelper.addSubControlArea(
-				"SubCArea-1", "SubControlAreaName", "Sample SubControlArea Desc");
-		carea.getCompanies().add(company);
+				"SubCArea-1", "SubControlAreaName", "Sample SubControlArea Desc", company);
 		
 		Substation sub = resHelper.addSubstation(carea, 
 				"Sub-1", "Substation-1 Name", "Sample Substation-1 Desc");
@@ -405,21 +365,21 @@ public class TestSimuModelCase extends TestCase {
 		
 		// Define Load objects
 		// ===================
-		loadHelper.addEquivalentLoad("Load1", 20.0, 30.0, loadArea, bay35kv, t1);
-		loadHelper.addEquivalentLoad("Load2", 40.0, 50.0, loadArea, bay110kv, t2);
+		loadHelper.addEquivalentLoad("Load1", 20.0, 30.0, loadArea, bay35kv, cn1);
+		loadHelper.addEquivalentLoad("Load2", 40.0, 50.0, loadArea, bay110kv, cn1);
 
 		// Define Gen objects
 		// ==================
 		GeneratingUnit gen = genHelper.addGeneratingUnit(bay35kv, "Gen1", "name", "desc", carea);
-		genHelper.addSynchronousMachine(bay35kv, "Mach1", "name", "desc", gen, t3);
+		genHelper.addSynchronousMachine(bay35kv, "Mach1", "name", "desc", gen, cn1);
 		
 		// Line and Xfr
 		Line line = wireHelper.addLine("Bus-1->Bus-2", "name", "desc");
-		wireHelper.addACLineSegment("Bus-1->Bus-2-seg-1", "name", "desc", line, t4, t5);
+		wireHelper.addACLineSegment("Bus-1->Bus-2-seg-1", "name", "desc", line, cn1, cn2);
 
 		PowerTransformer xfr = wireHelper.addPowerTransformer(sub, "T-Bus-1->Bus-2", "name", "desc");
-		wireHelper.addTransformerWinding(sub, "W1-Bus-1->Bus-2", "name", "desc", xfr, t6);
-		wireHelper.addTransformerWinding(sub, "W2-Bus-1->Bus-2", "name", "desc", xfr, t7);		
+		wireHelper.addTransformerWinding(sub, "W1-Bus-1->Bus-2", "name", "desc", xfr, cn1);
+		wireHelper.addTransformerWinding(sub, "W2-Bus-1->Bus-2", "name", "desc", xfr, cn2);		
 	}
 }
 
