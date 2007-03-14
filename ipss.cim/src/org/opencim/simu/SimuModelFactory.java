@@ -57,7 +57,7 @@ import org.opencim.common.CIMLogger;
 import org.opencim.datatype.exp.CIMException;
 import org.opencim.datatype.real.ApparentPower;
 import org.opencim.datatype.real.Voltage;
-import org.opencim.datatype.util.UtilFunc;
+import org.opencim.datatype.util.DataTypeUtilFunc;
 
 /**
  * A factory class for creating CIM objects for the SimulationModel 
@@ -384,7 +384,7 @@ public class SimuModelFactory {
 	}
 
 	private static void setNamingAttrib(Naming elem, String mRID, String name, String desc) throws CIMException {
-		if (mRID == null || mRID.equals("") || UtilFunc.hasMRIDIlegalChar(mRID)) {
+		if (mRID == null || mRID.equals("") || DataTypeUtilFunc.hasMRIDIlegalChar(mRID)) {
 			CIMLogger.getLogger().severe("Element MRID is invalid, " + mRID);
 			throw new CIMException("Element MRID is invalid, " + mRID);
 		}

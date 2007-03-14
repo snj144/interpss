@@ -29,7 +29,7 @@ import java.lang.reflect.Constructor;
 import org.opencim.common.CIMLogger;
 import org.opencim.datatype.base.AnInitConstructor;
 
-public class UtilFunc {
+public class DataTypeUtilFunc {
 	/**
 	 *  Check if MRID string has ilegal charaters.
 	 * 
