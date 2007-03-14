@@ -57,7 +57,7 @@ public class UtilFunc {
 					return null;
 				}
 		}
-		CIMLogger.getLogger().warning("Class " + klass.getName() + " does not have a annotated constructor");
+		//CIMLogger.getLogger().warning("Class " + klass.getName() + " does not have a annotated constructor");
 		return null;
 	}
 }

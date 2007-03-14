@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opencim.cim.iec61970.domain.*;
+
 import org.opencim.cim.iec61970.domain.AreaControlMode;
 import org.opencim.cim.iec61970.domain.AxisQuantity;
 import org.opencim.cim.iec61970.domain.BoilerControlMode;
@@ -179,9 +181,231 @@ public class DomainFactoryImpl extends EFactoryImpl implements DomainFactory {
 	 */
 	public Object createFromString(EDataType eDataType, String initialValue) {
 		Object obj = UtilFunc.createDataObject(eDataType.getInstanceClass(), initialValue);
-		if (obj == null)
-			throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-		return obj;
+		if (obj != null)
+			return obj;
+		
+		switch (eDataType.getClassifierID()) {
+			case DomainPackage.BOILER_CONTROL_MODE:
+				return createBoilerControlModeFromString(eDataType, initialValue);
+			case DomainPackage.SWITCH_STATE:
+				return createSwitchStateFromString(eDataType, initialValue);
+			case DomainPackage.TEMPERATURE_UNITS:
+				return createTemperatureUnitsFromString(eDataType, initialValue);
+			case DomainPackage.WINDING_TYPE:
+				return createWindingTypeFromString(eDataType, initialValue);
+			case DomainPackage.WINDING_CONNECTION:
+				return createWindingConnectionFromString(eDataType, initialValue);
+			case DomainPackage.SEASON_NAME:
+				return createSeasonNameFromString(eDataType, initialValue);
+			case DomainPackage.DAY_TYPE_NAME:
+				return createDayTypeNameFromString(eDataType, initialValue);
+			case DomainPackage.BREAKER_CONFIGURATION:
+				return createBreakerConfigurationFromString(eDataType, initialValue);
+			case DomainPackage.BUSBAR_CONFIGURATION:
+				return createBusbarConfigurationFromString(eDataType, initialValue);
+			case DomainPackage.COMPANY_TYPE:
+				return createCompanyTypeFromString(eDataType, initialValue);
+			case DomainPackage.COOLANT_TYPE:
+				return createCoolantTypeFromString(eDataType, initialValue);
+			case DomainPackage.CURVE_STYLE:
+				return createCurveStyleFromString(eDataType, initialValue);
+			case DomainPackage.EMISSION_TYPE:
+				return createEmissionTypeFromString(eDataType, initialValue);
+			case DomainPackage.EMISSION_VALUE_SOURCE:
+				return createEmissionValueSourceFromString(eDataType, initialValue);
+			case DomainPackage.FUEL_TYPE:
+				return createFuelTypeFromString(eDataType, initialValue);
+			case DomainPackage.PENSTOCK_TYPE:
+				return createPenstockTypeFromString(eDataType, initialValue);
+			case DomainPackage.RAMP_METHOD:
+				return createRampMethodFromString(eDataType, initialValue);
+			case DomainPackage.RAMP_START_METHOD:
+				return createRampStartMethodFromString(eDataType, initialValue);
+			case DomainPackage.RAMP_UNITS:
+				return createRampUnitsFromString(eDataType, initialValue);
+			case DomainPackage.SPILLWAY_GATE_TYPE:
+				return createSpillwayGateTypeFromString(eDataType, initialValue);
+			case DomainPackage.SURGE_TANK_CODE:
+				return createSurgeTankCodeFromString(eDataType, initialValue);
+			case DomainPackage.TRANSFORMER_COOLING_TYPE:
+				return createTransformerCoolingTypeFromString(eDataType, initialValue);
+			case DomainPackage.TURBINE_TYPE:
+				return createTurbineTypeFromString(eDataType, initialValue);
+			case DomainPackage.YAXIS_TYPE:
+				return createYAxisTypeFromString(eDataType, initialValue);
+			case DomainPackage.AXIS_QUANTITY:
+				return createAxisQuantityFromString(eDataType, initialValue);
+			case DomainPackage.HYDRO_PLANT_TYPE:
+				return createHydroPlantTypeFromString(eDataType, initialValue);
+			case DomainPackage.NUMERIC_TYPE:
+				return createNumericTypeFromString(eDataType, initialValue);
+			case DomainPackage.TRANSFORMER_TYPE:
+				return createTransformerTypeFromString(eDataType, initialValue);
+			case DomainPackage.COMPENSATOR_TYPE:
+				return createCompensatorTypeFromString(eDataType, initialValue);
+			case DomainPackage.VALIDITY:
+				return createValidityFromString(eDataType, initialValue);
+			case DomainPackage.SOURCE:
+				return createSourceFromString(eDataType, initialValue);
+			case DomainPackage.REMOTE_UNIT_TYPE:
+				return createRemoteUnitTypeFromString(eDataType, initialValue);
+			case DomainPackage.SYNCHRONOUS_MACHINE_OPERATING_MODE:
+				return createSynchronousMachineOperatingModeFromString(eDataType, initialValue);
+			case DomainPackage.SYNCHRONOUS_MACHINE_TYPE:
+				return createSynchronousMachineTypeFromString(eDataType, initialValue);
+			case DomainPackage.TRANSFORMER_CONTROL_MODE:
+				return createTransformerControlModeFromString(eDataType, initialValue);
+			case DomainPackage.GENERATOR_OPERATING_MODE:
+				return createGeneratorOperatingModeFromString(eDataType, initialValue);
+			case DomainPackage.GENERATOR_CONTROL_MODE:
+				return createGeneratorControlModeFromString(eDataType, initialValue);
+			case DomainPackage.GENERATOR_CONTROL_SOURCE:
+				return createGeneratorControlSourceFromString(eDataType, initialValue);
+			case DomainPackage.AREA_CONTROL_MODE:
+				return createAreaControlModeFromString(eDataType, initialValue);
+			case DomainPackage.CONTROL_HOUSE_EQUIPMENT_TYPE:
+				return createControlHouseEquipmentTypeFromString(eDataType, initialValue);
+			case DomainPackage.ACTIVE_POWER:
+				return createActivePowerFromString(eDataType, initialValue);
+			case DomainPackage.APPARENT_POWER:
+				return createApparentPowerFromString(eDataType, initialValue);
+			case DomainPackage.CLASSIFICATION:
+				return createClassificationFromString(eDataType, initialValue);
+			case DomainPackage.CONTROL_MODE:
+				return createControlModeFromString(eDataType, initialValue);
+			case DomainPackage.COST_PER_ENERGY_UNIT:
+				return createCostPerEnergyUnitFromString(eDataType, initialValue);
+			case DomainPackage.COST_PER_HEAT_UNIT:
+				return createCostPerHeatUnitFromString(eDataType, initialValue);
+			case DomainPackage.COST_PER_HOUR:
+				return createCostPerHourFromString(eDataType, initialValue);
+			case DomainPackage.COUNTER:
+				return createCounterFromString(eDataType, initialValue);
+			case DomainPackage.CURRENT_FLOW:
+				return createCurrentFlowFromString(eDataType, initialValue);
+			case DomainPackage.DAMPING:
+				return createDampingFromString(eDataType, initialValue);
+			case DomainPackage.ANGLE_DEGREES:
+				return createAngleDegreesFromString(eDataType, initialValue);
+			case DomainPackage.EMISSION:
+				return createEmissionFromString(eDataType, initialValue);
+			case DomainPackage.ENERGY_AS_MWH:
+				return createEnergyAsMWhFromString(eDataType, initialValue);
+			case DomainPackage.EXCITING_CURRENT:
+				return createExcitingCurrentFromString(eDataType, initialValue);
+			case DomainPackage.EXPONENT:
+				return createExponentFromString(eDataType, initialValue);
+			case DomainPackage.FRACTION:
+				return createFractionFromString(eDataType, initialValue);
+			case DomainPackage.FREQ_BIAS_FACTOR:
+				return createFreqBiasFactorFromString(eDataType, initialValue);
+			case DomainPackage.FREQUENCY:
+				return createFrequencyFromString(eDataType, initialValue);
+			case DomainPackage.HEAT_PER_HOUR:
+				return createHeatPerHourFromString(eDataType, initialValue);
+			case DomainPackage.HOURS:
+				return createHoursFromString(eDataType, initialValue);
+			case DomainPackage.INDUCTANCE:
+				return createInductanceFromString(eDataType, initialValue);
+			case DomainPackage.INERTIA:
+				return createInertiaFromString(eDataType, initialValue);
+			case DomainPackage.LOAD:
+				return createLoadFromString(eDataType, initialValue);
+			case DomainPackage.LOAD_LOSS:
+				return createLoadLossFromString(eDataType, initialValue);
+			case DomainPackage.LONG_LENGTH:
+				return createLongLengthFromString(eDataType, initialValue);
+			case DomainPackage.MONEY:
+				return createMoneyFromString(eDataType, initialValue);
+			case DomainPackage.NO_LOAD_LOSS:
+				return createNoLoadLossFromString(eDataType, initialValue);
+			case DomainPackage.OPERATING_MODE:
+				return createOperatingModeFromString(eDataType, initialValue);
+			case DomainPackage.PARTICIPATION_FACTOR:
+				return createParticipationFactorFromString(eDataType, initialValue);
+			case DomainPackage.PENALTY_FACTOR:
+				return createPenaltyFactorFromString(eDataType, initialValue);
+			case DomainPackage.PER_CENT:
+				return createPerCentFromString(eDataType, initialValue);
+			case DomainPackage.ANGLE_RADIANS:
+				return createAngleRadiansFromString(eDataType, initialValue);
+			case DomainPackage.POWER_FACTOR:
+				return createPowerFactorFromString(eDataType, initialValue);
+			case DomainPackage.POWER_ROC_PER_MIN:
+				return createPowerROCPerMinFromString(eDataType, initialValue);
+			case DomainPackage.POWER_ROC_PER_SEC:
+				return createPowerROCPerSecFromString(eDataType, initialValue);
+			case DomainPackage.POWER_VERSUS_FREQUENCY:
+				return createPowerVersusFrequencyFromString(eDataType, initialValue);
+			case DomainPackage.POWER_VERSUS_VOLTAGE:
+				return createPowerVersusVoltageFromString(eDataType, initialValue);
+			case DomainPackage.PRESSURE:
+				return createPressureFromString(eDataType, initialValue);
+			case DomainPackage.PRIORITY:
+				return createPriorityFromString(eDataType, initialValue);
+			case DomainPackage.PU:
+				return createPUFromString(eDataType, initialValue);
+			case DomainPackage.PUK_VPER_MV_AR:
+				return createPUkVPerMVArFromString(eDataType, initialValue);
+			case DomainPackage.RATE_OF_CHANGE:
+				return createRateOfChangeFromString(eDataType, initialValue);
+			case DomainPackage.RATIO:
+				return createRatioFromString(eDataType, initialValue);
+			case DomainPackage.REACTANCE:
+				return createReactanceFromString(eDataType, initialValue);
+			case DomainPackage.REACTIVE_POWER:
+				return createReactivePowerFromString(eDataType, initialValue);
+			case DomainPackage.REFERENCE:
+				return createReferenceFromString(eDataType, initialValue);
+			case DomainPackage.RESISTANCE:
+				return createResistanceFromString(eDataType, initialValue);
+			case DomainPackage.SECONDS:
+				return createSecondsFromString(eDataType, initialValue);
+			case DomainPackage.SHORT_LENGTH:
+				return createShortLengthFromString(eDataType, initialValue);
+			case DomainPackage.TAP_STEP:
+				return createTapStepFromString(eDataType, initialValue);
+			case DomainPackage.TEMPERATURE:
+				return createTemperatureFromString(eDataType, initialValue);
+			case DomainPackage.TERMINAL_COUNT:
+				return createTerminalCountFromString(eDataType, initialValue);
+			case DomainPackage.TERMINAL_TYPE:
+				return createTerminalTypeFromString(eDataType, initialValue);
+			case DomainPackage.VOLTAGE:
+				return createVoltageFromString(eDataType, initialValue);
+			case DomainPackage.VOLUME:
+				return createVolumeFromString(eDataType, initialValue);
+			case DomainPackage.WATER_LEVEL:
+				return createWaterLevelFromString(eDataType, initialValue);
+			case DomainPackage.PHASE_CODE:
+				return createPhaseCodeFromString(eDataType, initialValue);
+			case DomainPackage.ADMITTANCE:
+				return createAdmittanceFromString(eDataType, initialValue);
+			case DomainPackage.IMPEDANCE:
+				return createImpedanceFromString(eDataType, initialValue);
+			case DomainPackage.CONDUCTANCE:
+				return createConductanceFromString(eDataType, initialValue);
+			case DomainPackage.SUSCEPTANCE:
+				return createSusceptanceFromString(eDataType, initialValue);
+			case DomainPackage.COMPOSITE_SWITCH_TYPE:
+				return createCompositeSwitchTypeFromString(eDataType, initialValue);
+			case DomainPackage.TIME_STAMP:
+				return createTimeStampFromString(eDataType, initialValue);
+			case DomainPackage.VOLTAGE_PER_REACTIVE_POWER:
+				return createVoltagePerReactivePowerFromString(eDataType, initialValue);
+			case DomainPackage.DATE:
+				return createDateFromString(eDataType, initialValue);
+			case DomainPackage.ABSOLUTE_DATE_TIME:
+				return createAbsoluteDateTimeFromString(eDataType, initialValue);
+			case DomainPackage.NUMERIC:
+				return createNumericFromString(eDataType, initialValue);
+			case DomainPackage.JAVA_CLASS:
+				return createJavaClassFromString(eDataType, initialValue);
+			case DomainPackage.JAVA_OBJECT:
+				return createJavaObjectFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
 	}
 
 	/**

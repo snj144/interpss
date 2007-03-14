@@ -29,9 +29,6 @@ import org.opencim.cim.iec61970.core.Bay;
 import org.opencim.cim.iec61970.core.Company;
 import org.opencim.cim.iec61970.core.Equipment;
 import org.opencim.cim.iec61970.core.EquipmentContainer;
-import org.opencim.cim.iec61970.core.Substation;
-import org.opencim.cim.iec61970.core.Terminal;
-import org.opencim.cim.iec61970.core.VoltageLevel;
 import org.opencim.cim.iec61970.load.EquivalentLoad;
 import org.opencim.cim.iec61970.load.LoadArea;
 import org.opencim.cim.iec61970.topology.ConnectivityNode;
@@ -47,6 +44,8 @@ import org.opencim.datatype.real.ReactivePower;
  *
  */
 public class LoadHelper {
+	public static boolean CheckLoadObjectDup = false;
+	
 	private SimulationModel model = null;
 
 	/**
@@ -67,10 +66,11 @@ public class LoadHelper {
 	 * @return the created LoadArea object
 	 */
 	public LoadArea addLoadArea(String mRID, String name, String desc, Company company) {
-		if (model.getPsResource(mRID, LoadArea.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding LoadArea, MRID duplication");
-			return null;
-		}
+		if (CheckLoadObjectDup)
+			if (model.getPsResource(mRID, LoadArea.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding LoadArea, MRID duplication");
+				return null;
+			}
 		try {
 			LoadArea larea = SimuModelFactory.createLoadArea(mRID, name, desc);
 			model.getPsResources().add(larea);
@@ -102,10 +102,11 @@ public class LoadHelper {
 	 * @return the created EnergyConsumer object
 	 */
 	public EnergyConsumer addEnergyConsumer(EquipmentContainer container, String mRID, String name, String desc, Class klass) {
-		if (model.getPsResource(mRID, EnergyConsumer.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding EnergyConsumer, MRID duplication");
-			return null;
-		}
+		if (CheckLoadObjectDup)
+			if (model.getPsResource(mRID, EnergyConsumer.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding EnergyConsumer, MRID duplication");
+				return null;
+			}
 		try {
 			EnergyConsumer energy;
 			if (klass == EquivalentLoad.class)
