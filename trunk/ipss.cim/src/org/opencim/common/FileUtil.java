@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.opencim.cim.SimulationModel;
+import org.opencim.cim.cimPackage;
 
 /**
  *  A file utility class for persisting/loading cim model to/from files. 
@@ -88,6 +89,7 @@ public class FileUtil {
   		ResourceSet resourceSet = new ResourceSetImpl();
 	  	resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
 	  			ext, new org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl()); 	
+	  	cimPackage packageInstance = cimPackage.eINSTANCE;
 	  	return resourceSet;
   	}	
 }

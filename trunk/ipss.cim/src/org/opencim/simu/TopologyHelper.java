@@ -38,6 +38,8 @@ import org.opencim.datatype.exp.CIMException;
  *
  */
 public class TopologyHelper {
+	public static boolean CheckTopologicaObjectDup = false; 
+	
 	private SimulationModel model = null;
 
 	/**
@@ -58,10 +60,11 @@ public class TopologyHelper {
 	 * @return the created TopologicalIsland object
 	 */
 	public TopologicalIsland addTopologicalIsland(String mRID, String name, String desc) {
-		if (model.getTopologicalObject(mRID, TopologicalIsland.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding TopologicalIsland, MRID duplication");
-			return null;
-		}
+		if (CheckTopologicaObjectDup) 
+			if (model.getTopologicalObject(mRID, TopologicalIsland.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding TopologicalIsland, MRID duplication");
+				return null;
+			}
 		try {
 			TopologicalIsland tisland = SimuModelFactory.createTopologicalIsland(mRID, name, desc);
 			model.getTopologicalIslands().add(tisland);
@@ -85,10 +88,11 @@ public class TopologyHelper {
 	 * @return the created TopologicalNode object
 	 */
 	public TopologicalNode addTopologicalNode(TopologicalIsland tIsland, String mRID, String name, String desc) {
-		if (model.getTopologicalObject(mRID, TopologicalNode.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding TopologicalNode, MRID duplication");
-			return null;
-		}
+		if (CheckTopologicaObjectDup) 
+			if (model.getTopologicalObject(mRID, TopologicalNode.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding TopologicalNode, MRID duplication");
+				return null;
+			}
 		try {
 			TopologicalNode tnode = SimuModelFactory.createTopologicalNode(mRID, name, desc);
 			tIsland.getTopologicalNodes().add(tnode);
@@ -128,10 +132,11 @@ public class TopologyHelper {
 	 * @return the created ConnectivityNode object
 	 */
 	public ConnectivityNode addConnectivityNode(TopologicalNode tNode, String mRID, String name, String desc) {
-		if (model.getTopologicalObject(mRID, ConnectivityNode.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding ConnectivityNode, MRID duplication");
-			return null;
-		}
+		if (CheckTopologicaObjectDup) 
+			if (model.getTopologicalObject(mRID, ConnectivityNode.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding ConnectivityNode, MRID duplication");
+				return null;
+			}
 		try {
 			ConnectivityNode cnode = SimuModelFactory.createConnectivityNode(mRID, name, desc);
 			tNode.getConnectivityNodes().add(cnode);

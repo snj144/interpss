@@ -40,6 +40,8 @@ import org.opencim.datatype.exp.CIMException;
  *
  */
 public class GenerationHelper {
+	public static boolean CheckGenObjectDup = false;
+
 	private SimulationModel model = null;
 
 	/**
@@ -60,10 +62,11 @@ public class GenerationHelper {
 	 * @return the created GeneratingUnit object
 	 */
 	public GeneratingUnit addGeneratingUnit(EquipmentContainer container, String mRID, String name, String desc, SubControlArea subCArea) {
-		if (model.getPsResource(mRID, Equipment.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding GeneratingUnit, MRID duplication");
-			return null;
-		}
+		if (CheckGenObjectDup)
+			if (model.getPsResource(mRID, Equipment.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding GeneratingUnit, MRID duplication");
+				return null;
+			}
 		try {
 			GeneratingUnit gen = SimuModelFactory.createGeneratingUnit(mRID, name, desc);
 			container.getEquipments().add(gen);
@@ -105,10 +108,11 @@ public class GenerationHelper {
 	 */
 	public SynchronousMachine addSynchronousMachine(EquipmentContainer container, String mRID, String name, String desc,
 								GeneratingUnit genUnit, ConnectivityNode cNode) {
-		if (model.getPsResource(mRID, Equipment.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding SynchronousMachine, MRID duplication");
-			return null;
-		}
+		if (CheckGenObjectDup)
+			if (model.getPsResource(mRID, Equipment.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding SynchronousMachine, MRID duplication");
+				return null;
+			}
 		try {
 			SynchronousMachine mach = SimuModelFactory.createSynchronousMachine(mRID, name, desc);
 			container.getEquipments().add(mach);

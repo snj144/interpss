@@ -41,6 +41,8 @@ import org.opencim.datatype.real.Voltage;
  *
  */
 public class OperationHelper {
+	public static boolean CheckOperationalObjectDup = false;
+	
 	private SimulationModel model = null;
 
 	/**
@@ -61,10 +63,11 @@ public class OperationHelper {
 	 * @return the created SubControlArea object
 	 */
 	public SubControlArea addSubControlArea(String mRID, String name, String desc, Company company) {
-		if (model.getPsResource(mRID, SubControlArea.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding SubControlArea, MRID duplication");
-			return null;
-		}
+		if (CheckOperationalObjectDup)
+			if (model.getPsResource(mRID, SubControlArea.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding SubControlArea, MRID duplication");
+				return null;
+			}
 		try {
 			SubControlArea carea = SimuModelFactory.createSubControlArea(mRID, name, desc);
 			model.getPsResources().add(carea);
@@ -96,10 +99,11 @@ public class OperationHelper {
 	 * @return the created Substation object
 	 */
 	public Substation addSubstation(SubControlArea carea, String mRID, String name, String desc) {
-		if (model.getPsResource(mRID, Substation.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding Substation, MRID duplication");
-			return null;
-		}
+		if (CheckOperationalObjectDup)
+			if (model.getPsResource(mRID, Substation.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding Substation, MRID duplication");
+				return null;
+			}
 		try {
 			Substation sub = SimuModelFactory.createSubstation(mRID, name, desc);
 			carea.getSubstations().add(sub);
@@ -140,10 +144,11 @@ public class OperationHelper {
 	 * @return the created VoltageLevel object
 	 */
 	public VoltageLevel addVoltageLevel(Substation sub, String mRID, BaseVoltage baseV, double hVoltLimit, double lVoltLimit) {
-		if (model.getPsResource(mRID, VoltageLevel.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding VoltageLevel, MRID duplication");
-			return null;
-		}
+		if (CheckOperationalObjectDup)
+			if (model.getPsResource(mRID, VoltageLevel.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding VoltageLevel, MRID duplication");
+				return null;
+			}
 		try {
 			VoltageLevel vlevel = SimuModelFactory.createVoltageLevel(mRID,
 					"Voltage Level "+mRID , "VoltageLevel " + mRID);
@@ -188,10 +193,11 @@ public class OperationHelper {
 	 * @return the created Bay object
 	 */
 	public Bay addBay(VoltageLevel vlevel, String mRID, String name, String desc) {
-		if (model.getPsResource(mRID, Bay.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding Bay, MRID duplication");
-			return null;
-		}
+		if (CheckOperationalObjectDup)
+			if (model.getPsResource(mRID, Bay.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding Bay, MRID duplication");
+				return null;
+			}
 		try {
 			Bay bay = SimuModelFactory.createBay(mRID, name, desc);
 			vlevel.getBays().add(bay);
@@ -212,10 +218,11 @@ public class OperationHelper {
 	 * @return the created Bay object
 	 */
 	public Bay addBay(Substation sub, String mRID, String name, String desc) {
-		if (model.getPsResource(mRID, Bay.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding Bay, MRID duplication");
-			return null;
-		}
+		if (CheckOperationalObjectDup)
+			if (model.getPsResource(mRID, Bay.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding Bay, MRID duplication");
+				return null;
+			}
 		try {
 			Bay bay = SimuModelFactory.createBay(mRID, name, desc);
 			sub.getBays().add(bay);

@@ -27,7 +27,6 @@ package org.opencim.simu;
 import org.opencim.cim.SimulationModel;
 import org.opencim.cim.iec61970.core.Equipment;
 import org.opencim.cim.iec61970.core.EquipmentContainer;
-import org.opencim.cim.iec61970.core.Terminal;
 import org.opencim.cim.iec61970.topology.ConnectivityNode;
 import org.opencim.cim.iec61970.wire.ACLineSegment;
 import org.opencim.cim.iec61970.wire.Line;
@@ -42,6 +41,8 @@ import org.opencim.datatype.exp.CIMException;
  *
  */
 public class WireHelper {
+	public static boolean CheckWireObjectDup = false;
+
 	private SimulationModel model = null;
 
 	/**
@@ -62,10 +63,11 @@ public class WireHelper {
 	 * @return the created Line object
 	 */
 	public Line addLine(String mRID, String name, String desc) {
-		if (model.getPsResource(mRID, Line.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding Line, MRID duplication");
-			return null;
-		}
+		if (CheckWireObjectDup)
+			if (model.getPsResource(mRID, Line.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding Line, MRID duplication");
+				return null;
+			}
 		try {
 			Line line = SimuModelFactory.createLine(mRID, name, desc);
 			model.getPsResources().add(line);
@@ -96,10 +98,11 @@ public class WireHelper {
 	 */
 	public ACLineSegment addACLineSegment(String mRID, String name, String desc,
 								Line line, ConnectivityNode from_cnode, ConnectivityNode to_cnode) {
-		if (model.getPsResource(mRID, Equipment.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding ACLineSegment, MRID duplication");
-			return null;
-		}
+		if (CheckWireObjectDup)
+			if (model.getPsResource(mRID, Equipment.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding ACLineSegment, MRID duplication");
+				return null;
+			}
 		try {
 			ACLineSegment lseg = SimuModelFactory.createACLineSegment(mRID, name, desc);
 			line.getACLineSegments().add(lseg);
@@ -142,10 +145,11 @@ public class WireHelper {
 	 * @return the created PowerTransformer object
 	 */
 	public PowerTransformer addPowerTransformer(EquipmentContainer container, String mRID, String name, String desc) {
-		if (model.getPsResource(mRID, Equipment.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding PowerTransformer, MRID duplication");
-			return null;
-		}
+		if (CheckWireObjectDup)
+			if (model.getPsResource(mRID, Equipment.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding PowerTransformer, MRID duplication");
+				return null;
+			}
 		try {
 			PowerTransformer xfr = SimuModelFactory.createPowerTransformer(mRID, name, desc);
 			container.getEquipments().add(xfr);
@@ -187,10 +191,11 @@ public class WireHelper {
 	 */
 	public TransformerWinding addTransformerWinding(EquipmentContainer container, String mRID, String name, String desc,
 								PowerTransformer xfr, ConnectivityNode cNode) {
-		if (model.getPsResource(mRID, Equipment.class) != null) {
-			CIMLogger.getLogger().severe("Error in adding TransformerWinding, MRID duplication");
-			return null;
-		}
+		if (CheckWireObjectDup)
+			if (model.getPsResource(mRID, Equipment.class) != null) {
+				CIMLogger.getLogger().severe("Error in adding TransformerWinding, MRID duplication");
+				return null;
+			}
 		try {
 			TransformerWinding w = SimuModelFactory.createTransformerWinding(mRID, name, desc);
 			container.getEquipments().add(w);

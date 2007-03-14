@@ -24,12 +24,6 @@
 
 package org.opencim.simu;
 
-import java.io.File;
-
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.opencim.cim.SimulationModel;
 import org.opencim.cim.iec61970.core.BasePower;
 import org.opencim.cim.iec61970.core.BaseVoltage;
