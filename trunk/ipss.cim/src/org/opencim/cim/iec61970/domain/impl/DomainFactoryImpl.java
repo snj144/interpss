@@ -14,8 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.opencim.cim.iec61970.domain.*;
-
 import org.opencim.cim.iec61970.domain.AreaControlMode;
 import org.opencim.cim.iec61970.domain.AxisQuantity;
 import org.opencim.cim.iec61970.domain.BoilerControlMode;
@@ -123,7 +121,7 @@ import org.opencim.datatype.string.OperatingMode;
 import org.opencim.datatype.string.PhaseCode;
 import org.opencim.datatype.string.Reference;
 import org.opencim.datatype.string.TimeStamp;
-import org.opencim.datatype.util.UtilFunc;
+import org.opencim.datatype.util.DataTypeUtilFunc;
 
 /**
  * <!-- begin-user-doc -->
@@ -180,10 +178,11 @@ public class DomainFactoryImpl extends EFactoryImpl implements DomainFactory {
 	 * @generated NOT
 	 */
 	public Object createFromString(EDataType eDataType, String initialValue) {
-		Object obj = UtilFunc.createDataObject(eDataType.getInstanceClass(), initialValue);
+		// create those objects defined in the org.opencim.datatype package
+		Object obj = DataTypeUtilFunc.createDataObject(eDataType.getInstanceClass(), initialValue);
 		if (obj != null)
 			return obj;
-		
+		// continuing to create object of other type
 		switch (eDataType.getClassifierID()) {
 			case DomainPackage.BOILER_CONTROL_MODE:
 				return createBoilerControlModeFromString(eDataType, initialValue);
