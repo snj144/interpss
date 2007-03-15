@@ -174,7 +174,7 @@ public class TestSimuModelCase extends TestCase {
 	 * 
 	 * @throws Exception
 	 */
-	public void testCase4() throws Exception {
+	public void xtestCase4() throws Exception {
   		System.out.println("TestSimuModelCase testCase4 begins ...");
   		
 		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
