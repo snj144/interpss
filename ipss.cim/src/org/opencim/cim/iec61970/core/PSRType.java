@@ -25,7 +25,6 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getPSRType()
- * @model
  * @generated
  */
 public interface PSRType extends Naming {
@@ -42,7 +41,6 @@ public interface PSRType extends Naming {
 	 * @return the value of the '<em>Power System Resource</em>' reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getPSRType_PowerSystemResource()
 	 * @see org.opencim.cim.iec61970.core.PowerSystemResource#getPSRType
-	 * @model type="org.opencim.cim.iec61970.core.PowerSystemResource" opposite="PSRType"
 	 * @generated
 	 */
 	EList getPowerSystemResource();

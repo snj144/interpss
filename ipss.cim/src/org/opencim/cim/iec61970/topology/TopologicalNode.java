@@ -40,7 +40,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode()
- * @model
  * @generated
  */
 public interface TopologicalNode extends Naming {
@@ -54,7 +53,6 @@ public interface TopologicalNode extends Naming {
 	 * @return the value of the '<em>Energized</em>' attribute.
 	 * @see #setEnergized(Boolean)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_Energized()
-	 * @model
 	 * @generated
 	 */
 	Boolean getEnergized();
@@ -79,7 +77,6 @@ public interface TopologicalNode extends Naming {
 	 * @return the value of the '<em>Load Carrying</em>' attribute.
 	 * @see #setLoadCarrying(Boolean)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_LoadCarrying()
-	 * @model
 	 * @generated
 	 */
 	Boolean getLoadCarrying();
@@ -104,7 +101,6 @@ public interface TopologicalNode extends Naming {
 	 * @return the value of the '<em>Net Injection MVar</em>' attribute.
 	 * @see #setNetInjectionMVar(ReactivePower)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_NetInjectionMVar()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ReactivePower"
 	 * @generated
 	 */
 	ReactivePower getNetInjectionMVar();
@@ -129,7 +125,6 @@ public interface TopologicalNode extends Naming {
 	 * @return the value of the '<em>Net Injection MW</em>' attribute.
 	 * @see #setNetInjectionMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_NetInjectionMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getNetInjectionMW();
@@ -154,7 +149,6 @@ public interface TopologicalNode extends Naming {
 	 * @return the value of the '<em>Observability Flag</em>' attribute.
 	 * @see #setObservabilityFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_ObservabilityFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getObservabilityFlag();
@@ -179,7 +173,6 @@ public interface TopologicalNode extends Naming {
 	 * @return the value of the '<em>Phase Angle</em>' attribute.
 	 * @see #setPhaseAngle(AngleRadians)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_PhaseAngle()
-	 * @model dataType="org.opencim.cim.iec61970.domain.AngleRadians"
 	 * @generated
 	 */
 	AngleRadians getPhaseAngle();
@@ -204,7 +197,6 @@ public interface TopologicalNode extends Naming {
 	 * @return the value of the '<em>Voltage</em>' attribute.
 	 * @see #setVoltage(Voltage)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_Voltage()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getVoltage();
@@ -231,7 +223,6 @@ public interface TopologicalNode extends Naming {
 	 * @return the value of the '<em>Connectivity Nodes</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_ConnectivityNodes()
 	 * @see org.opencim.cim.iec61970.topology.ConnectivityNode#getTopologicalNode
-	 * @model type="org.opencim.cim.iec61970.topology.ConnectivityNode" opposite="TopologicalNode" containment="true"
 	 * @generated
 	 */
 	EList getConnectivityNodes();
@@ -248,7 +239,6 @@ public interface TopologicalNode extends Naming {
 	 * @see #setTopologicalIsland(TopologicalIsland)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalNode_TopologicalIsland()
 	 * @see org.opencim.cim.iec61970.topology.TopologicalIsland#getTopologicalNodes
-	 * @model opposite="TopologicalNodes" required="true"
 	 * @generated
 	 */
 	TopologicalIsland getTopologicalIsland();

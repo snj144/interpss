@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EPackage;
  * This package contains the definition of primitive datatypes, including units of measure and permissible values. Each datatype contains a value attribute and an optional unit of measure, which is specified as a static variable initialized to the textual description of the unit of measure. The value of the "units" string may be country or customer specific. Typical values are given. Permissible values for enumerations are listed in the documentation for the attribute using UML constraint syntax inside curly braces. Lengths of variable strings are listed in the descriptive text where required.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainFactory
- * @model kind="package"
  * @generated
  */
 public interface DomainPackage extends EPackage {
@@ -1632,7 +1631,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Active Power</em>'.
 	 * @see org.opencim.datatype.real.ActivePower
-	 * @model instanceClass="org.opencim.datatype.real.ActivePower"
 	 * @generated
 	 */
 	EDataType getActivePower();
@@ -1643,7 +1641,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Apparent Power</em>'.
 	 * @see org.opencim.datatype.real.ApparentPower
-	 * @model instanceClass="org.opencim.datatype.real.ApparentPower"
 	 * @generated
 	 */
 	EDataType getApparentPower();
@@ -1654,7 +1651,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Classification</em>'.
 	 * @see org.opencim.datatype.integer.Classification
-	 * @model instanceClass="org.opencim.datatype.integer.Classification"
 	 * @generated
 	 */
 	EDataType getClassification();
@@ -1665,7 +1661,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Control Mode</em>'.
 	 * @see org.opencim.datatype.string.ControlMode
-	 * @model instanceClass="org.opencim.datatype.string.ControlMode"
 	 * @generated
 	 */
 	EDataType getControlMode();
@@ -1676,7 +1671,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Cost Per Energy Unit</em>'.
 	 * @see org.opencim.datatype.real.CostPerEnergyUnit
-	 * @model instanceClass="org.opencim.datatype.real.CostPerEnergyUnit"
 	 * @generated
 	 */
 	EDataType getCostPerEnergyUnit();
@@ -1687,7 +1681,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Cost Per Heat Unit</em>'.
 	 * @see org.opencim.datatype.real.CostPerHeatUnit
-	 * @model instanceClass="org.opencim.datatype.real.CostPerHeatUnit"
 	 * @generated
 	 */
 	EDataType getCostPerHeatUnit();
@@ -1698,7 +1691,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Cost Per Hour</em>'.
 	 * @see org.opencim.datatype.real.CostPerHour
-	 * @model instanceClass="org.opencim.datatype.real.CostPerHour"
 	 * @generated
 	 */
 	EDataType getCostPerHour();
@@ -1709,7 +1701,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Counter</em>'.
 	 * @see org.opencim.datatype.integer.Counter
-	 * @model instanceClass="org.opencim.datatype.integer.Counter"
 	 * @generated
 	 */
 	EDataType getCounter();
@@ -1720,7 +1711,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Current Flow</em>'.
 	 * @see org.opencim.datatype.real.CurrentFlow
-	 * @model instanceClass="org.opencim.datatype.real.CurrentFlow"
 	 * @generated
 	 */
 	EDataType getCurrentFlow();
@@ -1731,7 +1721,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Damping</em>'.
 	 * @see org.opencim.datatype.real.Damping
-	 * @model instanceClass="org.opencim.datatype.real.Damping"
 	 * @generated
 	 */
 	EDataType getDamping();
@@ -1742,7 +1731,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Angle Degrees</em>'.
 	 * @see org.opencim.datatype.real.AngleDegrees
-	 * @model instanceClass="org.opencim.datatype.real.AngleDegrees"
 	 * @generated
 	 */
 	EDataType getAngleDegrees();
@@ -1753,7 +1741,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Emission</em>'.
 	 * @see org.opencim.datatype.real.Emission
-	 * @model instanceClass="org.opencim.datatype.real.Emission"
 	 * @generated
 	 */
 	EDataType getEmission();
@@ -1764,7 +1751,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Energy As MWh</em>'.
 	 * @see org.opencim.datatype.real.EnergyAsMWh
-	 * @model instanceClass="org.opencim.datatype.real.EnergyAsMWh"
 	 * @generated
 	 */
 	EDataType getEnergyAsMWh();
@@ -1775,7 +1761,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Exciting Current</em>'.
 	 * @see org.opencim.datatype.real.ExcitingCurrent
-	 * @model instanceClass="org.opencim.datatype.real.ExcitingCurrent"
 	 * @generated
 	 */
 	EDataType getExcitingCurrent();
@@ -1786,7 +1771,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Exponent</em>'.
 	 * @see org.opencim.datatype.real.Exponent
-	 * @model instanceClass="org.opencim.datatype.real.Exponent"
 	 * @generated
 	 */
 	EDataType getExponent();
@@ -1797,7 +1781,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Fraction</em>'.
 	 * @see org.opencim.datatype.real.Fraction
-	 * @model instanceClass="org.opencim.datatype.real.Fraction"
 	 * @generated
 	 */
 	EDataType getFraction();
@@ -1808,7 +1791,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Freq Bias Factor</em>'.
 	 * @see org.opencim.datatype.real.FreqBiasFactor
-	 * @model instanceClass="org.opencim.datatype.real.FreqBiasFactor"
 	 * @generated
 	 */
 	EDataType getFreqBiasFactor();
@@ -1819,7 +1801,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Frequency</em>'.
 	 * @see org.opencim.datatype.real.Frequency
-	 * @model instanceClass="org.opencim.datatype.real.Frequency"
 	 * @generated
 	 */
 	EDataType getFrequency();
@@ -1830,7 +1811,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Heat Per Hour</em>'.
 	 * @see org.opencim.datatype.real.HeatPerHour
-	 * @model instanceClass="org.opencim.datatype.real.HeatPerHour"
 	 * @generated
 	 */
 	EDataType getHeatPerHour();
@@ -1841,7 +1821,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Hours</em>'.
 	 * @see org.opencim.datatype.real.Hours
-	 * @model instanceClass="org.opencim.datatype.real.Hours"
 	 * @generated
 	 */
 	EDataType getHours();
@@ -1852,7 +1831,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Inductance</em>'.
 	 * @see org.opencim.datatype.real.Inductance
-	 * @model instanceClass="org.opencim.datatype.real.Inductance"
 	 * @generated
 	 */
 	EDataType getInductance();
@@ -1863,7 +1841,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Inertia</em>'.
 	 * @see org.opencim.datatype.real.Inertia
-	 * @model instanceClass="org.opencim.datatype.real.Inertia"
 	 * @generated
 	 */
 	EDataType getInertia();
@@ -1874,7 +1851,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Load</em>'.
 	 * @see org.opencim.datatype.real.Load
-	 * @model instanceClass="org.opencim.datatype.real.Load"
 	 * @generated
 	 */
 	EDataType getLoad();
@@ -1885,7 +1861,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Load Loss</em>'.
 	 * @see org.opencim.datatype.real.LoadLoss
-	 * @model instanceClass="org.opencim.datatype.real.LoadLoss"
 	 * @generated
 	 */
 	EDataType getLoadLoss();
@@ -1896,7 +1871,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Long Length</em>'.
 	 * @see org.opencim.datatype.real.LongLength
-	 * @model instanceClass="org.opencim.datatype.real.LongLength"
 	 * @generated
 	 */
 	EDataType getLongLength();
@@ -1907,7 +1881,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Money</em>'.
 	 * @see org.opencim.datatype.real.Money
-	 * @model instanceClass="org.opencim.datatype.real.Money"
 	 * @generated
 	 */
 	EDataType getMoney();
@@ -1918,7 +1891,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>No Load Loss</em>'.
 	 * @see org.opencim.datatype.real.NoLoadLoss
-	 * @model instanceClass="org.opencim.datatype.real.NoLoadLoss"
 	 * @generated
 	 */
 	EDataType getNoLoadLoss();
@@ -1929,7 +1901,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Operating Mode</em>'.
 	 * @see org.opencim.datatype.string.OperatingMode
-	 * @model instanceClass="org.opencim.datatype.string.OperatingMode"
 	 * @generated
 	 */
 	EDataType getOperatingMode();
@@ -1940,7 +1911,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Participation Factor</em>'.
 	 * @see org.opencim.datatype.real.ParticipationFactor
-	 * @model instanceClass="org.opencim.datatype.real.ParticipationFactor"
 	 * @generated
 	 */
 	EDataType getParticipationFactor();
@@ -1951,7 +1921,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Penalty Factor</em>'.
 	 * @see org.opencim.datatype.real.PenaltyFactor
-	 * @model instanceClass="org.opencim.datatype.real.PenaltyFactor"
 	 * @generated
 	 */
 	EDataType getPenaltyFactor();
@@ -1962,7 +1931,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Per Cent</em>'.
 	 * @see org.opencim.datatype.real.PerCent
-	 * @model instanceClass="org.opencim.datatype.real.PerCent"
 	 * @generated
 	 */
 	EDataType getPerCent();
@@ -1973,7 +1941,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Angle Radians</em>'.
 	 * @see org.opencim.datatype.real.AngleRadians
-	 * @model instanceClass="org.opencim.datatype.real.AngleRadians"
 	 * @generated
 	 */
 	EDataType getAngleRadians();
@@ -1984,7 +1951,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Power Factor</em>'.
 	 * @see org.opencim.datatype.real.PowerFactor
-	 * @model instanceClass="org.opencim.datatype.real.PowerFactor"
 	 * @generated
 	 */
 	EDataType getPowerFactor();
@@ -1995,7 +1961,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Power ROC Per Min</em>'.
 	 * @see org.opencim.datatype.real.PowerROCPerMin
-	 * @model instanceClass="org.opencim.datatype.real.PowerROCPerMin"
 	 * @generated
 	 */
 	EDataType getPowerROCPerMin();
@@ -2006,7 +1971,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Power ROC Per Sec</em>'.
 	 * @see org.opencim.datatype.real.PowerROCPerSec
-	 * @model instanceClass="org.opencim.datatype.real.PowerROCPerSec"
 	 * @generated
 	 */
 	EDataType getPowerROCPerSec();
@@ -2017,7 +1981,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Power Versus Frequency</em>'.
 	 * @see org.opencim.datatype.real.PowerVersusFrequency
-	 * @model instanceClass="org.opencim.datatype.real.PowerVersusFrequency"
 	 * @generated
 	 */
 	EDataType getPowerVersusFrequency();
@@ -2028,7 +1991,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Power Versus Voltage</em>'.
 	 * @see org.opencim.datatype.real.PowerVersusVoltage
-	 * @model instanceClass="org.opencim.datatype.real.PowerVersusVoltage"
 	 * @generated
 	 */
 	EDataType getPowerVersusVoltage();
@@ -2039,7 +2001,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Pressure</em>'.
 	 * @see org.opencim.datatype.real.Pressure
-	 * @model instanceClass="org.opencim.datatype.real.Pressure"
 	 * @generated
 	 */
 	EDataType getPressure();
@@ -2050,7 +2011,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Priority</em>'.
 	 * @see org.opencim.datatype.integer.Priority
-	 * @model instanceClass="org.opencim.datatype.integer.Priority"
 	 * @generated
 	 */
 	EDataType getPriority();
@@ -2061,7 +2021,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>PU</em>'.
 	 * @see org.opencim.datatype.real.PU
-	 * @model instanceClass="org.opencim.datatype.real.PU"
 	 * @generated
 	 */
 	EDataType getPU();
@@ -2072,7 +2031,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>PUk VPer MV Ar</em>'.
 	 * @see org.opencim.datatype.real.PUkVPerMVAr
-	 * @model instanceClass="org.opencim.datatype.real.PUkVPerMVAr"
 	 * @generated
 	 */
 	EDataType getPUkVPerMVAr();
@@ -2083,7 +2041,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Rate Of Change</em>'.
 	 * @see org.opencim.datatype.real.RateOfChange
-	 * @model instanceClass="org.opencim.datatype.real.RateOfChange"
 	 * @generated
 	 */
 	EDataType getRateOfChange();
@@ -2094,7 +2051,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Ratio</em>'.
 	 * @see org.opencim.datatype.real.Ratio
-	 * @model instanceClass="org.opencim.datatype.real.Ratio"
 	 * @generated
 	 */
 	EDataType getRatio();
@@ -2105,7 +2061,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Reactance</em>'.
 	 * @see org.opencim.datatype.real.Reactance
-	 * @model instanceClass="org.opencim.datatype.real.Reactance"
 	 * @generated
 	 */
 	EDataType getReactance();
@@ -2116,7 +2071,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Reactive Power</em>'.
 	 * @see org.opencim.datatype.real.ReactivePower
-	 * @model instanceClass="org.opencim.datatype.real.ReactivePower"
 	 * @generated
 	 */
 	EDataType getReactivePower();
@@ -2127,7 +2081,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Reference</em>'.
 	 * @see org.opencim.datatype.string.Reference
-	 * @model instanceClass="org.opencim.datatype.string.Reference"
 	 * @generated
 	 */
 	EDataType getReference();
@@ -2138,7 +2091,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Resistance</em>'.
 	 * @see org.opencim.datatype.real.Resistance
-	 * @model instanceClass="org.opencim.datatype.real.Resistance"
 	 * @generated
 	 */
 	EDataType getResistance();
@@ -2149,7 +2101,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Seconds</em>'.
 	 * @see org.opencim.datatype.real.Seconds
-	 * @model instanceClass="org.opencim.datatype.real.Seconds"
 	 * @generated
 	 */
 	EDataType getSeconds();
@@ -2160,7 +2111,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Short Length</em>'.
 	 * @see org.opencim.datatype.real.ShortLength
-	 * @model instanceClass="org.opencim.datatype.real.ShortLength"
 	 * @generated
 	 */
 	EDataType getShortLength();
@@ -2171,7 +2121,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Tap Step</em>'.
 	 * @see org.opencim.datatype.integer.TapStep
-	 * @model instanceClass="org.opencim.datatype.integer.TapStep"
 	 * @generated
 	 */
 	EDataType getTapStep();
@@ -2182,7 +2131,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Temperature</em>'.
 	 * @see org.opencim.datatype.real.Temperature
-	 * @model instanceClass="org.opencim.datatype.real.Temperature"
 	 * @generated
 	 */
 	EDataType getTemperature();
@@ -2193,7 +2141,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Terminal Count</em>'.
 	 * @see org.opencim.datatype.integer.TerminalCount
-	 * @model instanceClass="org.opencim.datatype.integer.TerminalCount"
 	 * @generated
 	 */
 	EDataType getTerminalCount();
@@ -2204,7 +2151,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Terminal Type</em>'.
 	 * @see org.opencim.datatype.integer.TerminalType
-	 * @model instanceClass="org.opencim.datatype.integer.TerminalType"
 	 * @generated
 	 */
 	EDataType getTerminalType();
@@ -2215,7 +2161,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Voltage</em>'.
 	 * @see org.opencim.datatype.real.Voltage
-	 * @model instanceClass="org.opencim.datatype.real.Voltage"
 	 * @generated
 	 */
 	EDataType getVoltage();
@@ -2226,7 +2171,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Volume</em>'.
 	 * @see org.opencim.datatype.real.Volume
-	 * @model instanceClass="org.opencim.datatype.real.Volume"
 	 * @generated
 	 */
 	EDataType getVolume();
@@ -2237,7 +2181,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Water Level</em>'.
 	 * @see org.opencim.datatype.real.WaterLevel
-	 * @model instanceClass="org.opencim.datatype.real.WaterLevel"
 	 * @generated
 	 */
 	EDataType getWaterLevel();
@@ -2248,7 +2191,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Phase Code</em>'.
 	 * @see org.opencim.datatype.string.PhaseCode
-	 * @model instanceClass="org.opencim.datatype.string.PhaseCode"
 	 * @generated
 	 */
 	EDataType getPhaseCode();
@@ -2259,7 +2201,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Admittance</em>'.
 	 * @see org.opencim.datatype.real.Admittance
-	 * @model instanceClass="org.opencim.datatype.real.Admittance"
 	 * @generated
 	 */
 	EDataType getAdmittance();
@@ -2270,7 +2211,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Impedance</em>'.
 	 * @see org.opencim.datatype.real.Impedance
-	 * @model instanceClass="org.opencim.datatype.real.Impedance"
 	 * @generated
 	 */
 	EDataType getImpedance();
@@ -2281,7 +2221,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Conductance</em>'.
 	 * @see org.opencim.datatype.real.Conductance
-	 * @model instanceClass="org.opencim.datatype.real.Conductance"
 	 * @generated
 	 */
 	EDataType getConductance();
@@ -2292,7 +2231,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Susceptance</em>'.
 	 * @see org.opencim.datatype.real.Susceptance
-	 * @model instanceClass="org.opencim.datatype.real.Susceptance"
 	 * @generated
 	 */
 	EDataType getSusceptance();
@@ -2303,7 +2241,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Composite Switch Type</em>'.
 	 * @see org.opencim.datatype.string.CompositeSwitchType
-	 * @model instanceClass="org.opencim.datatype.string.CompositeSwitchType"
 	 * @generated
 	 */
 	EDataType getCompositeSwitchType();
@@ -2314,7 +2251,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Time Stamp</em>'.
 	 * @see org.opencim.datatype.string.TimeStamp
-	 * @model instanceClass="org.opencim.datatype.string.TimeStamp"
 	 * @generated
 	 */
 	EDataType getTimeStamp();
@@ -2325,7 +2261,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Voltage Per Reactive Power</em>'.
 	 * @see org.opencim.datatype.real.VoltagePerReactivePower
-	 * @model instanceClass="org.opencim.datatype.real.VoltagePerReactivePower"
 	 * @generated
 	 */
 	EDataType getVoltagePerReactivePower();
@@ -2336,7 +2271,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Date</em>'.
 	 * @see java.util.Date
-	 * @model instanceClass="java.util.Date"
 	 * @generated
 	 */
 	EDataType getDate();
@@ -2347,7 +2281,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Absolute Date Time</em>'.
 	 * @see java.util.Date
-	 * @model instanceClass="java.util.Date"
 	 * @generated
 	 */
 	EDataType getAbsoluteDateTime();
@@ -2358,7 +2291,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Numeric</em>'.
 	 * @see java.lang.Object
-	 * @model instanceClass="java.lang.Object"
 	 * @generated
 	 */
 	EDataType getNumeric();
@@ -2369,7 +2301,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Java Class</em>'.
 	 * @see java.lang.Class
-	 * @model instanceClass="java.lang.Class"
 	 * @generated
 	 */
 	EDataType getJavaClass();
@@ -2380,7 +2311,6 @@ public interface DomainPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Java Object</em>'.
 	 * @see java.lang.Object
-	 * @model instanceClass="java.lang.Object"
 	 * @generated
 	 */
 	EDataType getJavaObject();

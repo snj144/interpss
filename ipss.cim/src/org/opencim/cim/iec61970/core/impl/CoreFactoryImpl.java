@@ -109,6 +109,15 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public CorePackage getCorePackage() {
+		return (CorePackage)getEPackage();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public ConductingEquipment createConductingEquipment() {
 		ConductingEquipmentImpl conductingEquipment = new ConductingEquipmentImpl();
 		return conductingEquipment;
@@ -282,15 +291,6 @@ public class CoreFactoryImpl extends EFactoryImpl implements CoreFactory {
 	public CoreVersion createCoreVersion() {
 		CoreVersionImpl coreVersion = new CoreVersionImpl();
 		return coreVersion;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public CorePackage getCorePackage() {
-		return (CorePackage)getEPackage();
 	}
 
 	/**

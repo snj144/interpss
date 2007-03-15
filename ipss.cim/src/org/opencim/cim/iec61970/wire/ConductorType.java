@@ -33,7 +33,6 @@ import org.opencim.datatype.real.Resistance;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getConductorType()
- * @model
  * @generated
  */
 public interface ConductorType extends Naming {
@@ -47,7 +46,6 @@ public interface ConductorType extends Naming {
 	 * @return the value of the '<em>Sheath Resistance</em>' attribute.
 	 * @see #setSheathResistance(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductorType_SheathResistance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getSheathResistance();
@@ -72,7 +70,6 @@ public interface ConductorType extends Naming {
 	 * @return the value of the '<em>Sheath Reactance</em>' attribute.
 	 * @see #setSheathReactance(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductorType_SheathReactance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getSheathReactance();
@@ -99,7 +96,6 @@ public interface ConductorType extends Naming {
 	 * @return the value of the '<em>Conductors</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductorType_Conductors()
 	 * @see org.opencim.cim.iec61970.wire.Conductor#getConductorType
-	 * @model type="org.opencim.cim.iec61970.wire.Conductor" opposite="ConductorType"
 	 * @generated
 	 */
 	EList getConductors();
@@ -116,7 +112,6 @@ public interface ConductorType extends Naming {
 	 * @return the value of the '<em>Wire Arrangements</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductorType_WireArrangements()
 	 * @see org.opencim.cim.iec61970.wire.WireArrangement#getConductorType
-	 * @model type="org.opencim.cim.iec61970.wire.WireArrangement" opposite="ConductorType"
 	 * @generated
 	 */
 	EList getWireArrangements();

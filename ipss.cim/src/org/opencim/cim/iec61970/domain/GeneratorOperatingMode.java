@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Operating mode for secondary generator control, e.g.: Unavailable, Manual, Fixed, Load Frequency Control, AGC, EDC, RPN, MRN, or REG
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getGeneratorOperatingMode()
- * @model
  * @generated
  */
 public final class GeneratorOperatingMode extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OFF_LITERAL
-	 * @model name="Off"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MANUAL_LITERAL
-	 * @model name="Manual"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FIXED_LITERAL
-	 * @model name="Fixed"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LFC_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +89,6 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #AGC_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -109,7 +103,6 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EDC_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -124,7 +117,6 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MRN_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -139,7 +131,6 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #REG_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */

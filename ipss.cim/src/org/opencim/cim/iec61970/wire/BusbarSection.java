@@ -25,7 +25,6 @@ package org.opencim.cim.iec61970.wire;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getBusbarSection()
- * @model
  * @generated
  */
 public interface BusbarSection extends Connector {
@@ -41,7 +40,6 @@ public interface BusbarSection extends Connector {
 	 * @see #setVoltageControlZone(VoltageControlZone)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getBusbarSection_VoltageControlZone()
 	 * @see org.opencim.cim.iec61970.wire.VoltageControlZone#getBusbarSection
-	 * @model opposite="BusbarSection"
 	 * @generated
 	 */
 	VoltageControlZone getVoltageControlZone();

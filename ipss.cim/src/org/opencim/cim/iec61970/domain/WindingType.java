@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The winding type, i.e., Primary, Secondary, Tertiary, Quaternary.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getWindingType()
- * @model
  * @generated
  */
 public final class WindingType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class WindingType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PRIMARY_LITERAL
-	 * @model name="primary"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class WindingType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SECONDARY_LITERAL
-	 * @model name="secondary"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class WindingType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TERTIARY_LITERAL
-	 * @model name="tertiary"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class WindingType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #QUATERNARY_LITERAL
-	 * @model name="quaternary"
 	 * @generated
 	 * @ordered
 	 */

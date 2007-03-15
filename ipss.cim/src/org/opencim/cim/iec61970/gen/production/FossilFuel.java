@@ -45,7 +45,6 @@ import org.opencim.datatype.real.PerCent;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel()
- * @model
  * @generated
  */
 public interface FossilFuel extends Naming {
@@ -61,7 +60,6 @@ public interface FossilFuel extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.FuelType
 	 * @see #setFossilFuelType(FuelType)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FossilFuelType()
-	 * @model
 	 * @generated
 	 */
 	FuelType getFossilFuelType();
@@ -87,7 +85,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Fuel Cost</em>' attribute.
 	 * @see #setFuelCost(CostPerHeatUnit)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FuelCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CostPerHeatUnit"
 	 * @generated
 	 */
 	CostPerHeatUnit getFuelCost();
@@ -112,7 +109,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Fuel Dispatch Cost</em>' attribute.
 	 * @see #setFuelDispatchCost(CostPerHeatUnit)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FuelDispatchCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CostPerHeatUnit"
 	 * @generated
 	 */
 	CostPerHeatUnit getFuelDispatchCost();
@@ -137,7 +133,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Fuel Eff Factor</em>' attribute.
 	 * @see #setFuelEffFactor(PU)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FuelEffFactor()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getFuelEffFactor();
@@ -162,7 +157,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Fuel Handling Cost</em>' attribute.
 	 * @see #setFuelHandlingCost(CostPerHeatUnit)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FuelHandlingCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CostPerHeatUnit"
 	 * @generated
 	 */
 	CostPerHeatUnit getFuelHandlingCost();
@@ -187,7 +181,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Fuel Heat Content</em>' attribute.
 	 * @see #setFuelHeatContent(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FuelHeatContent()
-	 * @model
 	 * @generated
 	 */
 	Float getFuelHeatContent();
@@ -212,7 +205,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Fuel Mixture</em>' attribute.
 	 * @see #setFuelMixture(PerCent)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FuelMixture()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getFuelMixture();
@@ -237,7 +229,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Fuel Sulfur</em>' attribute.
 	 * @see #setFuelSulfur(PU)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FuelSulfur()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getFuelSulfur();
@@ -262,7 +253,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>High MW Breakpoint</em>' attribute.
 	 * @see #setHighMWBreakpoint(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_HighMWBreakpoint()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getHighMWBreakpoint();
@@ -287,7 +277,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Low MW Breakpoint</em>' attribute.
 	 * @see #setLowMWBreakpoint(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_LowMWBreakpoint()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getLowMWBreakpoint();
@@ -314,7 +303,6 @@ public interface FossilFuel extends Naming {
 	 * @return the value of the '<em>Fuel Allocation Schedule</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_FuelAllocationSchedule()
 	 * @see org.opencim.cim.iec61970.gen.production.FuelAllocationSchedule#getFossilFuel
-	 * @model type="org.opencim.cim.iec61970.gen.production.FuelAllocationSchedule" opposite="FossilFuel"
 	 * @generated
 	 */
 	EList getFuelAllocationSchedule();
@@ -331,7 +319,6 @@ public interface FossilFuel extends Naming {
 	 * @see #setThermalGeneratingUnit(ThermalGeneratingUnit)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFossilFuel_ThermalGeneratingUnit()
 	 * @see org.opencim.cim.iec61970.gen.production.ThermalGeneratingUnit#getFossilFuels
-	 * @model opposite="FossilFuels" required="true"
 	 * @generated
 	 */
 	ThermalGeneratingUnit getThermalGeneratingUnit();

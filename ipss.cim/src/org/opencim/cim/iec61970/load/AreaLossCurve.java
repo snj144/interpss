@@ -25,7 +25,6 @@ import org.opencim.cim.iec61970.core.CurveSchedule;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getAreaLossCurve()
- * @model
  * @generated
  */
 public interface AreaLossCurve extends CurveSchedule {
@@ -41,7 +40,6 @@ public interface AreaLossCurve extends CurveSchedule {
 	 * @see #setLoadArea(LoadArea)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getAreaLossCurve_LoadArea()
 	 * @see org.opencim.cim.iec61970.load.LoadArea#getAreaLossCurves
-	 * @model opposite="AreaLossCurves" required="true"
 	 * @generated
 	 */
 	LoadArea getLoadArea();

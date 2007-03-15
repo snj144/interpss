@@ -18,7 +18,6 @@ package org.opencim.cim.iec61970.gen.generationdynamics;
  *
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSupercritical()
- * @model
  * @generated
  */
 public interface Supercritical extends FossilSteamSupply {

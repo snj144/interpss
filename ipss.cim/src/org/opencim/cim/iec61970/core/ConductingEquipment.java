@@ -29,7 +29,6 @@ import org.opencim.datatype.string.PhaseCode;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getConductingEquipment()
- * @model
  * @generated
  */
 public interface ConductingEquipment extends Equipment {
@@ -43,7 +42,6 @@ public interface ConductingEquipment extends Equipment {
 	 * @return the value of the '<em>Phases</em>' attribute.
 	 * @see #setPhases(PhaseCode)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getConductingEquipment_Phases()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PhaseCode"
 	 * @generated
 	 */
 	PhaseCode getPhases();
@@ -70,7 +68,6 @@ public interface ConductingEquipment extends Equipment {
 	 * @return the value of the '<em>Terminals</em>' reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getConductingEquipment_Terminals()
 	 * @see org.opencim.cim.iec61970.core.Terminal#getConductingEquipment
-	 * @model type="org.opencim.cim.iec61970.core.Terminal" opposite="ConductingEquipment"
 	 * @generated
 	 */
 	EList getTerminals();
@@ -88,7 +85,6 @@ public interface ConductingEquipment extends Equipment {
 	 * @see #setBaseVoltage(BaseVoltage)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getConductingEquipment_BaseVoltage()
 	 * @see org.opencim.cim.iec61970.core.BaseVoltage#getConductingEquipment
-	 * @model opposite="ConductingEquipment" required="true"
 	 * @generated
 	 */
 	BaseVoltage getBaseVoltage();

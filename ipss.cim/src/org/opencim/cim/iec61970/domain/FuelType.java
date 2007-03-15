@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Type of fuel.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getFuelType()
- * @model
  * @generated
  */
 public final class FuelType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class FuelType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #COAL_LITERAL
-	 * @model name="coal"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class FuelType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OIL_LITERAL
-	 * @model name="oil"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class FuelType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #GAS_LITERAL
-	 * @model name="gas"
 	 * @generated
 	 * @ordered
 	 */

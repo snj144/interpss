@@ -29,7 +29,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getNaming()
- * @model
  * @generated
  */
 public interface Naming extends EObject {
@@ -43,7 +42,6 @@ public interface Naming extends EObject {
 	 * @return the value of the '<em>Alias Name</em>' attribute.
 	 * @see #setAliasName(String)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getNaming_AliasName()
-	 * @model
 	 * @generated
 	 */
 	String getAliasName();
@@ -68,7 +66,6 @@ public interface Naming extends EObject {
 	 * @return the value of the '<em>Description</em>' attribute.
 	 * @see #setDescription(String)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getNaming_Description()
-	 * @model
 	 * @generated
 	 */
 	String getDescription();
@@ -93,7 +90,6 @@ public interface Naming extends EObject {
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getNaming_Name()
-	 * @model
 	 * @generated
 	 */
 	String getName();
@@ -118,7 +114,6 @@ public interface Naming extends EObject {
 	 * @return the value of the '<em>Path Name</em>' attribute.
 	 * @see #setPathName(String)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getNaming_PathName()
-	 * @model
 	 * @generated
 	 */
 	String getPathName();
@@ -143,7 +138,6 @@ public interface Naming extends EObject {
 	 * @return the value of the '<em>MRID</em>' attribute.
 	 * @see #setMRID(String)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getNaming_MRID()
-	 * @model
 	 * @generated
 	 */
 	String getMRID();

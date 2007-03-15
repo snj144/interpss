@@ -26,7 +26,6 @@ import org.opencim.cim.iec61970.core.CorePackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.opencim.cim.cimFactory
- * @model kind="package"
  * @generated
  */
 public interface cimPackage extends EPackage {

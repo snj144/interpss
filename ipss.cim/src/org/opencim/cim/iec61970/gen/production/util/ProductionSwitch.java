@@ -18,6 +18,8 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
 
 import org.opencim.cim.iec61970.gen.production.*;
 
+import org.opencim.cim.iec61970.gen.production.impl.ProductionPackageImpl;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.

@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.core.Naming;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getDayType()
- * @model
  * @generated
  */
 public interface DayType extends Naming {
@@ -44,7 +43,6 @@ public interface DayType extends Naming {
 	 * @return the value of the '<em>Area Load Curves</em>' reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getDayType_AreaLoadCurves()
 	 * @see org.opencim.cim.iec61970.load.AreaLoadCurve#getDayType
-	 * @model type="org.opencim.cim.iec61970.load.AreaLoadCurve" opposite="DayType"
 	 * @generated
 	 */
 	EList getAreaLoadCurves();
@@ -61,7 +59,6 @@ public interface DayType extends Naming {
 	 * @return the value of the '<em>Load Demand Models</em>' reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getDayType_LoadDemandModels()
 	 * @see org.opencim.cim.iec61970.load.LoadDemandModel#getDayType
-	 * @model type="org.opencim.cim.iec61970.load.LoadDemandModel" opposite="DayType"
 	 * @generated
 	 */
 	EList getLoadDemandModels();

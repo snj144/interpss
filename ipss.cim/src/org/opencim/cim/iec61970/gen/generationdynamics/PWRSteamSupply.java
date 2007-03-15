@@ -44,7 +44,6 @@ import org.opencim.datatype.real.PU;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply()
- * @model
  * @generated
  */
 public interface PWRSteamSupply extends SteamSupply {
@@ -58,7 +57,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Cold Leg FB Lag TC</em>' attribute.
 	 * @see #setColdLegFBLagTC(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_ColdLegFBLagTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getColdLegFBLagTC();
@@ -83,7 +81,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Cold Leg FB Lead TC1</em>' attribute.
 	 * @see #setColdLegFBLeadTC1(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_ColdLegFBLeadTC1()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getColdLegFBLeadTC1();
@@ -108,7 +105,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Cold Leg FB Lead TC2</em>' attribute.
 	 * @see #setColdLegFBLeadTC2(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_ColdLegFBLeadTC2()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getColdLegFBLeadTC2();
@@ -133,7 +129,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Cold Leg FG1</em>' attribute.
 	 * @see #setColdLegFG1(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_ColdLegFG1()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getColdLegFG1();
@@ -158,7 +153,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Cold Leg FG2</em>' attribute.
 	 * @see #setColdLegFG2(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_ColdLegFG2()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getColdLegFG2();
@@ -183,7 +177,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Cold Leg Lag TC</em>' attribute.
 	 * @see #setColdLegLagTC(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_ColdLegLagTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getColdLegLagTC();
@@ -208,7 +201,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Core HT Lag TC1</em>' attribute.
 	 * @see #setCoreHTLagTC1(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_CoreHTLagTC1()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getCoreHTLagTC1();
@@ -233,7 +225,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Core HT Lag TC2</em>' attribute.
 	 * @see #setCoreHTLagTC2(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_CoreHTLagTC2()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getCoreHTLagTC2();
@@ -258,7 +249,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Core Neutronics Eff TC</em>' attribute.
 	 * @see #setCoreNeutronicsEffTC(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_CoreNeutronicsEffTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getCoreNeutronicsEffTC();
@@ -283,7 +273,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Core Neutronics HT</em>' attribute.
 	 * @see #setCoreNeutronicsHT(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_CoreNeutronicsHT()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getCoreNeutronicsHT();
@@ -308,7 +297,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Feedback Factor</em>' attribute.
 	 * @see #setFeedbackFactor(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_FeedbackFactor()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getFeedbackFactor();
@@ -333,7 +321,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Hot Leg Lag TC</em>' attribute.
 	 * @see #setHotLegLagTC(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_HotLegLagTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getHotLegLagTC();
@@ -358,7 +345,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Hot Leg Steam Gain</em>' attribute.
 	 * @see #setHotLegSteamGain(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_HotLegSteamGain()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getHotLegSteamGain();
@@ -383,7 +369,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Hot Leg To Cold Leg Gain</em>' attribute.
 	 * @see #setHotLegToColdLegGain(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_HotLegToColdLegGain()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getHotLegToColdLegGain();
@@ -408,7 +393,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure CG</em>' attribute.
 	 * @see #setPressureCG(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_PressureCG()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getPressureCG();
@@ -433,7 +417,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Steam Flow FG</em>' attribute.
 	 * @see #setSteamFlowFG(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_SteamFlowFG()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getSteamFlowFG();
@@ -458,7 +441,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Steam Pressure Drop Lag TC</em>' attribute.
 	 * @see #setSteamPressureDropLagTC(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_SteamPressureDropLagTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getSteamPressureDropLagTC();
@@ -483,7 +465,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Steam Pressure FG</em>' attribute.
 	 * @see #setSteamPressureFG(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_SteamPressureFG()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getSteamPressureFG();
@@ -508,7 +489,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Throttle Pressure Factor</em>' attribute.
 	 * @see #setThrottlePressureFactor(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_ThrottlePressureFactor()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getThrottlePressureFactor();
@@ -533,7 +513,6 @@ public interface PWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Throttle Pressure SP</em>' attribute.
 	 * @see #setThrottlePressureSP(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPWRSteamSupply_ThrottlePressureSP()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getThrottlePressureSP();

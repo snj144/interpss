@@ -28,7 +28,6 @@ import org.opencim.datatype.real.Resistance;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getDCLineSegment()
- * @model
  * @generated
  */
 public interface DCLineSegment extends Conductor {
@@ -42,7 +41,6 @@ public interface DCLineSegment extends Conductor {
 	 * @return the value of the '<em>Dc Segment Inductance</em>' attribute.
 	 * @see #setDcSegmentInductance(Inductance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getDCLineSegment_DcSegmentInductance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Inductance"
 	 * @generated
 	 */
 	Inductance getDcSegmentInductance();
@@ -67,7 +65,6 @@ public interface DCLineSegment extends Conductor {
 	 * @return the value of the '<em>Dc Segment Resistance</em>' attribute.
 	 * @see #setDcSegmentResistance(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getDCLineSegment_DcSegmentResistance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getDcSegmentResistance();
@@ -94,7 +91,6 @@ public interface DCLineSegment extends Conductor {
 	 * @see #setLine(Line)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getDCLineSegment_Line()
 	 * @see org.opencim.cim.iec61970.wire.Line#getDCLineSegments
-	 * @model opposite="DCLineSegments" required="true"
 	 * @generated
 	 */
 	Line getLine();

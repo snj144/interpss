@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Name of day type.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getDayTypeName()
- * @model
  * @generated
  */
 public final class DayTypeName extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class DayTypeName extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #WEEKDAY_LITERAL
-	 * @model name="weekday"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class DayTypeName extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #WEEKEND_LITERAL
-	 * @model name="weekend"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class DayTypeName extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #HOLIDAY_LITERAL
-	 * @model name="holiday"
 	 * @generated
 	 * @ordered
 	 */

@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.opencim.cim.iec61970.gen.*;
 
+import org.opencim.cim.iec61970.gen.impl.GenPackageImpl;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.

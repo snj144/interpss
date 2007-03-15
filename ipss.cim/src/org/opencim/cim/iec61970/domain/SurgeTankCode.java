@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Type (or absence) of surge tank that is associated with the hydro power plant.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getSurgeTankCode()
- * @model
  * @generated
  */
 public final class SurgeTankCode extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TYPE_LITERAL
-	 * @model name="Type"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #_OR_LITERAL
-	 * @model name="_or"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ABSENCE_LITERAL
-	 * @model name="absence"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OF_LITERAL
-	 * @model name="of"
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +89,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SURGE_LITERAL
-	 * @model name="surge"
 	 * @generated
 	 * @ordered
 	 */
@@ -109,7 +103,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TANK_LITERAL
-	 * @model name="tank"
 	 * @generated
 	 * @ordered
 	 */
@@ -124,7 +117,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #THAT_LITERAL
-	 * @model name="that"
 	 * @generated
 	 * @ordered
 	 */
@@ -139,7 +131,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #IS_LITERAL
-	 * @model name="is"
 	 * @generated
 	 * @ordered
 	 */
@@ -154,7 +145,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ASSOCIATED_LITERAL
-	 * @model name="associated"
 	 * @generated
 	 * @ordered
 	 */
@@ -169,7 +159,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #WITH_LITERAL
-	 * @model name="with"
 	 * @generated
 	 * @ordered
 	 */
@@ -184,7 +173,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #THE_LITERAL
-	 * @model name="the"
 	 * @generated
 	 * @ordered
 	 */
@@ -199,7 +187,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #HYDRO_LITERAL
-	 * @model name="hydro"
 	 * @generated
 	 * @ordered
 	 */
@@ -214,7 +201,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #POWER_LITERAL
-	 * @model name="power"
 	 * @generated
 	 * @ordered
 	 */
@@ -229,7 +215,6 @@ public final class SurgeTankCode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PLANT_LITERAL
-	 * @model name="plant"
 	 * @generated
 	 * @ordered
 	 */

@@ -30,7 +30,6 @@ import org.opencim.datatype.real.ActivePower;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCombinedCyclePlant()
- * @model
  * @generated
  */
 public interface CombinedCyclePlant extends PowerSystemResource {
@@ -44,7 +43,6 @@ public interface CombinedCyclePlant extends PowerSystemResource {
 	 * @return the value of the '<em>Comb Cycle Plant Rating</em>' attribute.
 	 * @see #setCombCyclePlantRating(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCombinedCyclePlant_CombCyclePlantRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getCombCyclePlantRating();
@@ -71,7 +69,6 @@ public interface CombinedCyclePlant extends PowerSystemResource {
 	 * @return the value of the '<em>Contain Thermal Generating Units</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCombinedCyclePlant_Contain_ThermalGeneratingUnits()
 	 * @see org.opencim.cim.iec61970.gen.production.ThermalGeneratingUnit#getMemberOf_CombinedCyclePlant
-	 * @model type="org.opencim.cim.iec61970.gen.production.ThermalGeneratingUnit" opposite="MemberOf_CombinedCyclePlant"
 	 * @generated
 	 */
 	EList getContain_ThermalGeneratingUnits();

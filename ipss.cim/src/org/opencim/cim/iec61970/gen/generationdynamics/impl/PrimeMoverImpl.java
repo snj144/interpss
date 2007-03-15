@@ -27,6 +27,8 @@ import org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage
 import org.opencim.cim.iec61970.gen.generationdynamics.PrimeMover;
 
 import org.opencim.cim.iec61970.wire.SynchronousMachine;
+import org.opencim.cim.iec61970.wire.impl.WirePackageImpl;
+
 import org.opencim.cim.iec61970.wire.WirePackage;
 
 /**

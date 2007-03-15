@@ -30,7 +30,6 @@ import org.opencim.cim.iec61970.core.Naming;
  * </p>
  *
  * @see org.opencim.cim.iec61970.topology.TopologyPackage#getConnectivityNode()
- * @model
  * @generated
  */
 public interface ConnectivityNode extends Naming {
@@ -46,7 +45,6 @@ public interface ConnectivityNode extends Naming {
 	 * @see #setTopologicalNode(TopologicalNode)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getConnectivityNode_TopologicalNode()
 	 * @see org.opencim.cim.iec61970.topology.TopologicalNode#getConnectivityNodes
-	 * @model opposite="ConnectivityNodes" required="true"
 	 * @generated
 	 */
 	TopologicalNode getTopologicalNode();
@@ -73,7 +71,6 @@ public interface ConnectivityNode extends Naming {
 	 * @return the value of the '<em>Terminals</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getConnectivityNode_Terminals()
 	 * @see org.opencim.cim.iec61970.core.Terminal#getConnectivityNode
-	 * @model type="org.opencim.cim.iec61970.core.Terminal" opposite="ConnectivityNode" containment="true"
 	 * @generated
 	 */
 	EList getTerminals();
@@ -91,7 +88,6 @@ public interface ConnectivityNode extends Naming {
 	 * @see #setEquipmentContainer(EquipmentContainer)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getConnectivityNode_EquipmentContainer()
 	 * @see org.opencim.cim.iec61970.core.EquipmentContainer#getConnectivityNodes
-	 * @model opposite="ConnectivityNodes" required="true"
 	 * @generated
 	 */
 	EquipmentContainer getEquipmentContainer();

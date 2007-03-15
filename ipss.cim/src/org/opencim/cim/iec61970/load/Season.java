@@ -35,7 +35,6 @@ import org.opencim.cim.iec61970.domain.SeasonName;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getSeason()
- * @model
  * @generated
  */
 public interface Season extends EObject {
@@ -52,7 +51,6 @@ public interface Season extends EObject {
 	 * @see org.opencim.cim.iec61970.domain.SeasonName
 	 * @see #setName(SeasonName)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getSeason_Name()
-	 * @model
 	 * @generated
 	 */
 	SeasonName getName();
@@ -78,7 +76,6 @@ public interface Season extends EObject {
 	 * @return the value of the '<em>End Date</em>' attribute.
 	 * @see #setEndDate(Date)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getSeason_EndDate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.AbsoluteDateTime"
 	 * @generated
 	 */
 	Date getEndDate();
@@ -103,7 +100,6 @@ public interface Season extends EObject {
 	 * @return the value of the '<em>Start Date</em>' attribute.
 	 * @see #setStartDate(Date)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getSeason_StartDate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getStartDate();
@@ -130,7 +126,6 @@ public interface Season extends EObject {
 	 * @return the value of the '<em>Area Load Curves</em>' reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getSeason_AreaLoadCurves()
 	 * @see org.opencim.cim.iec61970.load.AreaLoadCurve#getSeason
-	 * @model type="org.opencim.cim.iec61970.load.AreaLoadCurve" opposite="Season"
 	 * @generated
 	 */
 	EList getAreaLoadCurves();
@@ -147,7 +142,6 @@ public interface Season extends EObject {
 	 * @return the value of the '<em>Load Demand Models</em>' reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getSeason_LoadDemandModels()
 	 * @see org.opencim.cim.iec61970.load.LoadDemandModel#getBasisFor
-	 * @model type="org.opencim.cim.iec61970.load.LoadDemandModel" opposite="BasisFor"
 	 * @generated
 	 */
 	EList getLoadDemandModels();

@@ -19,7 +19,6 @@ import org.opencim.cim.iec61970.core.Equipment;
  *
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getHeatExchanger()
- * @model
  * @generated
  */
 public interface HeatExchanger extends Equipment {

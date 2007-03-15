@@ -18,7 +18,6 @@ package org.opencim.cim.iec61970.core;
  *
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getUnit()
- * @model
  * @generated
  */
 public interface Unit extends Naming {

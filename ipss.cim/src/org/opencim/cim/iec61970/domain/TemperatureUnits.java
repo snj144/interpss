@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Units for temperature measurement {celsius , fahrenheit}
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getTemperatureUnits()
- * @model
  * @generated
  */
 public final class TemperatureUnits extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class TemperatureUnits extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CELSIUS_LITERAL
-	 * @model name="celsius"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class TemperatureUnits extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FAHRENHEIT_LITERAL
-	 * @model name="fahrenheit"
 	 * @generated
 	 * @ordered
 	 */

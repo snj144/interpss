@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -29,8 +30,12 @@ import org.opencim.cim.iec61970.domain.SynchronousMachineType;
 import org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage;
 import org.opencim.cim.iec61970.gen.generationdynamics.PrimeMover;
 
+import org.opencim.cim.iec61970.gen.generationdynamics.impl.GenerationdynamicsPackageImpl;
+
 import org.opencim.cim.iec61970.gen.production.GeneratingUnit;
 import org.opencim.cim.iec61970.gen.production.HydroPump;
+import org.opencim.cim.iec61970.gen.production.impl.ProductionPackageImpl;
+
 import org.opencim.cim.iec61970.gen.production.ProductionPackage;
 
 import org.opencim.cim.iec61970.wire.MVArCapabilityCurve;

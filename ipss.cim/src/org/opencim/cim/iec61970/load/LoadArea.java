@@ -30,7 +30,6 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadArea()
- * @model
  * @generated
  */
 public interface LoadArea extends PowerSystemResource {
@@ -46,7 +45,6 @@ public interface LoadArea extends PowerSystemResource {
 	 * @return the value of the '<em>Energy Consumers</em>' reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadArea_EnergyConsumers()
 	 * @see org.opencim.cim.iec61970.wire.EnergyConsumer#getLoadArea
-	 * @model type="org.opencim.cim.iec61970.wire.EnergyConsumer" opposite="LoadArea"
 	 * @generated
 	 */
 	EList getEnergyConsumers();
@@ -63,7 +61,6 @@ public interface LoadArea extends PowerSystemResource {
 	 * @return the value of the '<em>Area Loss Curves</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadArea_AreaLossCurves()
 	 * @see org.opencim.cim.iec61970.load.AreaLossCurve#getLoadArea
-	 * @model type="org.opencim.cim.iec61970.load.AreaLossCurve" opposite="LoadArea" containment="true"
 	 * @generated
 	 */
 	EList getAreaLossCurves();
@@ -80,7 +77,6 @@ public interface LoadArea extends PowerSystemResource {
 	 * @return the value of the '<em>Area Load Curves</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadArea_AreaLoadCurves()
 	 * @see org.opencim.cim.iec61970.load.AreaLoadCurve#getLoadArea
-	 * @model type="org.opencim.cim.iec61970.load.AreaLoadCurve" opposite="LoadArea" containment="true"
 	 * @generated
 	 */
 	EList getAreaLoadCurves();
@@ -98,7 +94,6 @@ public interface LoadArea extends PowerSystemResource {
 	 * @return the value of the '<em>Substations</em>' reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadArea_Substations()
 	 * @see org.opencim.cim.iec61970.core.Substation#getLoadArea
-	 * @model type="org.opencim.cim.iec61970.core.Substation" opposite="LoadArea"
 	 * @generated
 	 */
 	EList getSubstations();

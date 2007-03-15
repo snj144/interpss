@@ -30,7 +30,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.opencim.cim.iec61970.Iec61970Package#getIec61970Version()
- * @model
  * @generated
  */
 public interface Iec61970Version extends EObject {
@@ -46,7 +45,6 @@ public interface Iec61970Version extends EObject {
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)
 	 * @see org.opencim.cim.iec61970.Iec61970Package#getIec61970Version_Version()
-	 * @model default="cim61970_v002"
 	 * @generated
 	 */
 	String getVersion();
@@ -73,7 +71,6 @@ public interface Iec61970Version extends EObject {
 	 * @return the value of the '<em>Date</em>' attribute.
 	 * @see #setDate(Date)
 	 * @see org.opencim.cim.iec61970.Iec61970Package#getIec61970Version_Date()
-	 * @model default="2005-04-28" dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getDate();

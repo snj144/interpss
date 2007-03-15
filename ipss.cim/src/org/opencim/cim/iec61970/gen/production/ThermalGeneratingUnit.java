@@ -39,7 +39,6 @@ import org.opencim.datatype.real.CostPerHeatUnit;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit()
- * @model
  * @generated
  */
 public interface ThermalGeneratingUnit extends GeneratingUnit {
@@ -53,7 +52,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>OM Cost</em>' attribute.
 	 * @see #setOMCost(CostPerHeatUnit)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_OMCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CostPerHeatUnit"
 	 * @generated
 	 */
 	CostPerHeatUnit getOMCost();
@@ -78,7 +76,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Emmission Accounts</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_EmmissionAccounts()
-	 * @model type="org.opencim.cim.iec61970.gen.production.EmissionAccount" containment="true"
 	 * @generated
 	 */
 	EList getEmmissionAccounts();
@@ -93,7 +90,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Emission Curves</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_EmissionCurves()
-	 * @model type="org.opencim.cim.iec61970.gen.production.EmissionCurve" containment="true"
 	 * @generated
 	 */
 	EList getEmissionCurves();
@@ -110,7 +106,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>Fossil Fuels</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_FossilFuels()
 	 * @see org.opencim.cim.iec61970.gen.production.FossilFuel#getThermalGeneratingUnit
-	 * @model type="org.opencim.cim.iec61970.gen.production.FossilFuel" opposite="ThermalGeneratingUnit"
 	 * @generated
 	 */
 	EList getFossilFuels();
@@ -125,7 +120,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Fuel Allocation Schedules</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_FuelAllocationSchedules()
-	 * @model type="org.opencim.cim.iec61970.gen.production.FuelAllocationSchedule" containment="true"
 	 * @generated
 	 */
 	EList getFuelAllocationSchedules();
@@ -140,7 +134,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>Heat Input Curve</em>' containment reference.
 	 * @see #setHeatInputCurve(HeatInputCurve)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_HeatInputCurve()
-	 * @model containment="true"
 	 * @generated
 	 */
 	HeatInputCurve getHeatInputCurve();
@@ -165,7 +158,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>Heat Rate Curve</em>' containment reference.
 	 * @see #setHeatRateCurve(HeatRateCurve)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_HeatRateCurve()
-	 * @model containment="true"
 	 * @generated
 	 */
 	HeatRateCurve getHeatRateCurve();
@@ -190,7 +182,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>Incremental Heat Rate Curve</em>' containment reference.
 	 * @see #setIncrementalHeatRateCurve(IncrementalHeatRateCurve)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_IncrementalHeatRateCurve()
-	 * @model containment="true"
 	 * @generated
 	 */
 	IncrementalHeatRateCurve getIncrementalHeatRateCurve();
@@ -215,7 +206,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>Shutdown Curve</em>' containment reference.
 	 * @see #setShutdownCurve(ShutdownCurve)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_ShutdownCurve()
-	 * @model containment="true"
 	 * @generated
 	 */
 	ShutdownCurve getShutdownCurve();
@@ -240,7 +230,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>Startup Model</em>' containment reference.
 	 * @see #setStartupModel(StartupModel)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_StartupModel()
-	 * @model containment="true"
 	 * @generated
 	 */
 	StartupModel getStartupModel();
@@ -267,7 +256,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @see #setMemberOf_CAESPlant(CAESPlant)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_MemberOf_CAESPlant()
 	 * @see org.opencim.cim.iec61970.gen.production.CAESPlant#getContain_ThermalGeneratingUnit
-	 * @model opposite="Contain_ThermalGeneratingUnit"
 	 * @generated
 	 */
 	CAESPlant getMemberOf_CAESPlant();
@@ -294,7 +282,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @see #setMembmerOf_CogenerationPlant(CogenerationPlant)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_MembmerOf_CogenerationPlant()
 	 * @see org.opencim.cim.iec61970.gen.production.CogenerationPlant#getContain_ThermalGeneratingUnits
-	 * @model opposite="Contain_ThermalGeneratingUnits"
 	 * @generated
 	 */
 	CogenerationPlant getMembmerOf_CogenerationPlant();
@@ -321,7 +308,6 @@ public interface ThermalGeneratingUnit extends GeneratingUnit {
 	 * @see #setMemberOf_CombinedCyclePlant(CombinedCyclePlant)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getThermalGeneratingUnit_MemberOf_CombinedCyclePlant()
 	 * @see org.opencim.cim.iec61970.gen.production.CombinedCyclePlant#getContain_ThermalGeneratingUnits
-	 * @model opposite="Contain_ThermalGeneratingUnits"
 	 * @generated
 	 */
 	CombinedCyclePlant getMemberOf_CombinedCyclePlant();

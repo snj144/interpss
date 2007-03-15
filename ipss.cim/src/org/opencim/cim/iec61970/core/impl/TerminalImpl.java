@@ -21,6 +21,8 @@ import org.opencim.cim.iec61970.core.CorePackage;
 import org.opencim.cim.iec61970.core.Terminal;
 
 import org.opencim.cim.iec61970.topology.ConnectivityNode;
+import org.opencim.cim.iec61970.topology.impl.TopologyPackageImpl;
+
 import org.opencim.cim.iec61970.topology.TopologyPackage;
 
 /**

@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.core.CorePackage;
  * The production package is responsible for classes which describe various kinds of generators. These classes also provide production costing information which is used to economically allocate demand among committed units and calculate reserve quantities.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.gen.production.ProductionFactory
- * @model kind="package"
  * @generated
  */
 public interface ProductionPackage extends EPackage {

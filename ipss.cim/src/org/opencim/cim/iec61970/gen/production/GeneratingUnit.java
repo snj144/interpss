@@ -89,7 +89,6 @@ import org.opencim.datatype.real.Seconds;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit()
- * @model
  * @generated
  */
 public interface GeneratingUnit extends Equipment {
@@ -103,7 +102,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Control Deadband</em>' attribute.
 	 * @see #setControlDeadband(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_ControlDeadband()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getControlDeadband();
@@ -128,7 +126,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Control Pulse High</em>' attribute.
 	 * @see #setControlPulseHigh(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_ControlPulseHigh()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getControlPulseHigh();
@@ -153,7 +150,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Control Pulse Low</em>' attribute.
 	 * @see #setControlPulseLow(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_ControlPulseLow()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getControlPulseLow();
@@ -178,7 +174,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Control Response Rate</em>' attribute.
 	 * @see #setControlResponseRate(PowerROCPerSec)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_ControlResponseRate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerROCPerSec"
 	 * @generated
 	 */
 	PowerROCPerSec getControlResponseRate();
@@ -203,7 +198,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Efficiency</em>' attribute.
 	 * @see #setEfficiency(PU)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_Efficiency()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getEfficiency();
@@ -230,7 +224,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @see org.opencim.cim.iec61970.domain.GeneratorControlMode
 	 * @see #setGenControlMode(GeneratorControlMode)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_GenControlMode()
-	 * @model
 	 * @generated
 	 */
 	GeneratorControlMode getGenControlMode();
@@ -258,7 +251,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @see org.opencim.cim.iec61970.domain.GeneratorControlSource
 	 * @see #setGenControlSource(GeneratorControlSource)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_GenControlSource()
-	 * @model
 	 * @generated
 	 */
 	GeneratorControlSource getGenControlSource();
@@ -284,7 +276,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Governor MPL</em>' attribute.
 	 * @see #setGovernorMPL(PU)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_GovernorMPL()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getGovernorMPL();
@@ -309,7 +300,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Governor SCD</em>' attribute.
 	 * @see #setGovernorSCD(PerCent)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_GovernorSCD()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getGovernorSCD();
@@ -334,7 +324,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>High Control Limit</em>' attribute.
 	 * @see #setHighControlLimit(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_HighControlLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getHighControlLimit();
@@ -359,7 +348,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Initial MW</em>' attribute.
 	 * @see #setInitialMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_InitialMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getInitialMW();
@@ -384,7 +372,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Low Control Limit</em>' attribute.
 	 * @see #setLowControlLimit(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_LowControlLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getLowControlLimit();
@@ -409,7 +396,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Maximum Allowable Spinning Reserve</em>' attribute.
 	 * @see #setMaximumAllowableSpinningReserve(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_MaximumAllowableSpinningReserve()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMaximumAllowableSpinningReserve();
@@ -434,7 +420,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Maximum Economic MW</em>' attribute.
 	 * @see #setMaximumEconomicMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_MaximumEconomicMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMaximumEconomicMW();
@@ -459,7 +444,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Maximum Operating MW</em>' attribute.
 	 * @see #setMaximumOperatingMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_MaximumOperatingMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMaximumOperatingMW();
@@ -484,7 +468,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Minimum Economic MW</em>' attribute.
 	 * @see #setMinimumEconomicMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_MinimumEconomicMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMinimumEconomicMW();
@@ -509,7 +492,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Minimum Operating MW</em>' attribute.
 	 * @see #setMinimumOperatingMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_MinimumOperatingMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMinimumOperatingMW();
@@ -534,7 +516,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Model Detail</em>' attribute.
 	 * @see #setModelDetail(Classification)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_ModelDetail()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Classification"
 	 * @generated
 	 */
 	Classification getModelDetail();
@@ -559,7 +540,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Rated Gross Max MW</em>' attribute.
 	 * @see #setRatedGrossMaxMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_RatedGrossMaxMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getRatedGrossMaxMW();
@@ -584,7 +564,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Rated Gross Min MW</em>' attribute.
 	 * @see #setRatedGrossMinMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_RatedGrossMinMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getRatedGrossMinMW();
@@ -609,7 +588,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Rated Net Max MW</em>' attribute.
 	 * @see #setRatedNetMaxMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_RatedNetMaxMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getRatedNetMaxMW();
@@ -634,7 +612,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Startup Time</em>' attribute.
 	 * @see #setStartupTime(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_StartupTime()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getStartupTime();
@@ -659,7 +636,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Auto Cntrl Margin MW</em>' attribute.
 	 * @see #setAutoCntrlMarginMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_AutoCntrlMarginMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getAutoCntrlMarginMW();
@@ -684,7 +660,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Alloc Spin Res MW</em>' attribute.
 	 * @see #setAllocSpinResMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_AllocSpinResMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getAllocSpinResMW();
@@ -709,7 +684,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Base MW</em>' attribute.
 	 * @see #setBaseMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_BaseMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getBaseMW();
@@ -735,7 +709,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Disp Reserve Flag</em>' attribute.
 	 * @see #setDispReserveFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_DispReserveFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getDispReserveFlag();
@@ -761,7 +734,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Energy Min MW</em>' attribute.
 	 * @see #setEnergyMinMW(HeatPerHour)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_EnergyMinMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.HeatPerHour"
 	 * @generated
 	 */
 	HeatPerHour getEnergyMinMW();
@@ -787,7 +759,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Fast Start Flag</em>' attribute.
 	 * @see #setFastStartFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_FastStartFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getFastStartFlag();
@@ -813,7 +784,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Fuel Priority</em>' attribute.
 	 * @see #setFuelPriority(Priority)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_FuelPriority()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Priority"
 	 * @generated
 	 */
 	Priority getFuelPriority();
@@ -840,7 +810,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @see org.opencim.cim.iec61970.domain.GeneratorOperatingMode
 	 * @see #setGenOperatingMode(GeneratorOperatingMode)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_GenOperatingMode()
-	 * @model
 	 * @generated
 	 */
 	GeneratorOperatingMode getGenOperatingMode();
@@ -867,7 +836,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Long PF</em>' attribute.
 	 * @see #setLongPF(ParticipationFactor)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_LongPF()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ParticipationFactor"
 	 * @generated
 	 */
 	ParticipationFactor getLongPF();
@@ -893,7 +861,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Lower Ramp Rate</em>' attribute.
 	 * @see #setLowerRampRate(PowerROCPerMin)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_LowerRampRate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerROCPerMin"
 	 * @generated
 	 */
 	PowerROCPerMin getLowerRampRate();
@@ -919,7 +886,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Normal PF</em>' attribute.
 	 * @see #setNormalPF(ParticipationFactor)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_NormalPF()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ParticipationFactor"
 	 * @generated
 	 */
 	ParticipationFactor getNormalPF();
@@ -945,7 +911,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Penalty Factor</em>' attribute.
 	 * @see #setPenaltyFactor(PenaltyFactor)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_PenaltyFactor()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PenaltyFactor"
 	 * @generated
 	 */
 	PenaltyFactor getPenaltyFactor();
@@ -971,7 +936,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Raise Ramp Rate</em>' attribute.
 	 * @see #setRaiseRampRate(PowerROCPerMin)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_RaiseRampRate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerROCPerMin"
 	 * @generated
 	 */
 	PowerROCPerMin getRaiseRampRate();
@@ -997,7 +961,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Short PF</em>' attribute.
 	 * @see #setShortPF(ParticipationFactor)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_ShortPF()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ParticipationFactor"
 	 * @generated
 	 */
 	ParticipationFactor getShortPF();
@@ -1023,7 +986,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Spin Reserve Ramp</em>' attribute.
 	 * @see #setSpinReserveRamp(PowerROCPerMin)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_SpinReserveRamp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerROCPerMin"
 	 * @generated
 	 */
 	PowerROCPerMin getSpinReserveRamp();
@@ -1049,7 +1011,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Step Change</em>' attribute.
 	 * @see #setStepChange(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_StepChange()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getStepChange();
@@ -1075,7 +1036,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Tie Line PF</em>' attribute.
 	 * @see #setTieLinePF(ParticipationFactor)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_TieLinePF()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ParticipationFactor"
 	 * @generated
 	 */
 	ParticipationFactor getTieLinePF();
@@ -1100,7 +1060,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Minimum Off Time</em>' attribute.
 	 * @see #setMinimumOffTime(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_MinimumOffTime()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getMinimumOffTime();
@@ -1125,7 +1084,6 @@ public interface GeneratingUnit extends Equipment {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Gen Unit Op Cost Curves</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_GenUnitOpCostCurves()
-	 * @model type="org.opencim.cim.iec61970.gen.production.GenUnitOpCostCurve" containment="true"
 	 * @generated
 	 */
 	EList getGenUnitOpCostCurves();
@@ -1140,7 +1098,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Gen Unit Op Schedule</em>' containment reference.
 	 * @see #setGenUnitOpSchedule(GenUnitOpSchedule)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_GenUnitOpSchedule()
-	 * @model containment="true"
 	 * @generated
 	 */
 	GenUnitOpSchedule getGenUnitOpSchedule();
@@ -1165,7 +1122,6 @@ public interface GeneratingUnit extends Equipment {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Gross To Net MW Curves</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_GrossToNetMWCurves()
-	 * @model type="org.opencim.cim.iec61970.gen.production.GrossToNetMWCurve" containment="true"
 	 * @generated
 	 */
 	EList getGrossToNetMWCurves();
@@ -1182,7 +1138,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @see #setSubControlArea(SubControlArea)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_SubControlArea()
 	 * @see org.opencim.cim.iec61970.core.SubControlArea#getGeneratingUnits
-	 * @model opposite="GeneratingUnits"
 	 * @generated
 	 */
 	SubControlArea getSubControlArea();
@@ -1209,7 +1164,6 @@ public interface GeneratingUnit extends Equipment {
 	 * @return the value of the '<em>Synchronous Machines</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGeneratingUnit_SynchronousMachines()
 	 * @see org.opencim.cim.iec61970.wire.SynchronousMachine#getGeneratingUnit
-	 * @model type="org.opencim.cim.iec61970.wire.SynchronousMachine" opposite="GeneratingUnit" required="true"
 	 * @generated
 	 */
 	EList getSynchronousMachines();

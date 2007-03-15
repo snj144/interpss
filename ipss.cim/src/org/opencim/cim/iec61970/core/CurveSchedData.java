@@ -29,7 +29,6 @@ package org.opencim.cim.iec61970.core;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedData()
- * @model
  * @generated
  */
 public interface CurveSchedData extends Naming {
@@ -43,7 +42,6 @@ public interface CurveSchedData extends Naming {
 	 * @return the value of the '<em>Ramp Data</em>' attribute.
 	 * @see #setRampData(Object)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedData_RampData()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Numeric"
 	 * @generated
 	 */
 	Object getRampData();
@@ -68,7 +66,6 @@ public interface CurveSchedData extends Naming {
 	 * @return the value of the '<em>Ramp Data Value</em>' attribute.
 	 * @see #setRampDataValue(Object)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedData_RampDataValue()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Numeric"
 	 * @generated
 	 */
 	Object getRampDataValue();
@@ -93,7 +90,6 @@ public interface CurveSchedData extends Naming {
 	 * @return the value of the '<em>XAxis Data</em>' attribute.
 	 * @see #setXAxisData(Object)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedData_XAxisData()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Numeric"
 	 * @generated
 	 */
 	Object getXAxisData();
@@ -118,7 +114,6 @@ public interface CurveSchedData extends Naming {
 	 * @return the value of the '<em>Y1 Axis Data</em>' attribute.
 	 * @see #setY1AxisData(Object)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedData_Y1AxisData()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Numeric"
 	 * @generated
 	 */
 	Object getY1AxisData();
@@ -143,7 +138,6 @@ public interface CurveSchedData extends Naming {
 	 * @return the value of the '<em>Y2 Axis Data</em>' attribute.
 	 * @see #setY2AxisData(Object)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedData_Y2AxisData()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Numeric"
 	 * @generated
 	 */
 	Object getY2AxisData();
@@ -170,7 +164,6 @@ public interface CurveSchedData extends Naming {
 	 * @see #setCurveSchedule(CurveSchedule)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedData_CurveSchedule()
 	 * @see org.opencim.cim.iec61970.core.CurveSchedule#getCurveScheduleDatas
-	 * @model opposite="CurveScheduleDatas" required="true"
 	 * @generated
 	 */
 	CurveSchedule getCurveSchedule();

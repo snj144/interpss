@@ -32,7 +32,6 @@ import org.opencim.cim.iec61970.wire.WirePackage;
  * This information is used by Load Forecasting and Load Management.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.load.LoadFactory
- * @model kind="package"
  * @generated
  */
 public interface LoadPackage extends EPackage {

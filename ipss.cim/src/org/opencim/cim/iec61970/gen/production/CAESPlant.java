@@ -31,7 +31,6 @@ import org.opencim.datatype.real.EnergyAsMWh;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCAESPlant()
- * @model
  * @generated
  */
 public interface CAESPlant extends PowerSystemResource {
@@ -45,7 +44,6 @@ public interface CAESPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Energy Storage Capacity</em>' attribute.
 	 * @see #setEnergyStorageCapacity(EnergyAsMWh)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCAESPlant_EnergyStorageCapacity()
-	 * @model dataType="org.opencim.cim.iec61970.domain.EnergyAsMWh"
 	 * @generated
 	 */
 	EnergyAsMWh getEnergyStorageCapacity();
@@ -70,7 +68,6 @@ public interface CAESPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Rated Capacity MW</em>' attribute.
 	 * @see #setRatedCapacityMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCAESPlant_RatedCapacityMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getRatedCapacityMW();
@@ -95,7 +92,6 @@ public interface CAESPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Contain Air Compressor</em>' containment reference.
 	 * @see #setContain_AirCompressor(AirCompressor)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCAESPlant_Contain_AirCompressor()
-	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	AirCompressor getContain_AirCompressor();
@@ -122,7 +118,6 @@ public interface CAESPlant extends PowerSystemResource {
 	 * @see #setContain_ThermalGeneratingUnit(ThermalGeneratingUnit)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCAESPlant_Contain_ThermalGeneratingUnit()
 	 * @see org.opencim.cim.iec61970.gen.production.ThermalGeneratingUnit#getMemberOf_CAESPlant
-	 * @model opposite="MemberOf_CAESPlant"
 	 * @generated
 	 */
 	ThermalGeneratingUnit getContain_ThermalGeneratingUnit();

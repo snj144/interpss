@@ -26,7 +26,6 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getVoltageControlZone()
- * @model
  * @generated
  */
 public interface VoltageControlZone extends PowerSystemResource {
@@ -42,7 +41,6 @@ public interface VoltageControlZone extends PowerSystemResource {
 	 * @see #setBusbarSection(BusbarSection)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getVoltageControlZone_BusbarSection()
 	 * @see org.opencim.cim.iec61970.wire.BusbarSection#getVoltageControlZone
-	 * @model opposite="VoltageControlZone" required="true"
 	 * @generated
 	 */
 	BusbarSection getBusbarSection();
@@ -69,7 +67,6 @@ public interface VoltageControlZone extends PowerSystemResource {
 	 * @see #setRegulationSchedule(RegulationSchedule)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getVoltageControlZone_RegulationSchedule()
 	 * @see org.opencim.cim.iec61970.wire.RegulationSchedule#getVoltageControlZones
-	 * @model opposite="VoltageControlZones"
 	 * @generated
 	 */
 	RegulationSchedule getRegulationSchedule();

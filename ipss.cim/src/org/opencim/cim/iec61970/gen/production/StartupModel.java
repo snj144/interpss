@@ -48,7 +48,6 @@ import org.opencim.datatype.real.Money;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel()
- * @model
  * @generated
  */
 public interface StartupModel extends Naming {
@@ -62,7 +61,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Fixed Maint Cost</em>' attribute.
 	 * @see #setFixedMaintCost(CostPerHour)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_FixedMaintCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CostPerHour"
 	 * @generated
 	 */
 	CostPerHour getFixedMaintCost();
@@ -87,7 +85,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Hot Standby Heat</em>' attribute.
 	 * @see #setHotStandbyHeat(HeatPerHour)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_HotStandbyHeat()
-	 * @model dataType="org.opencim.cim.iec61970.domain.HeatPerHour"
 	 * @generated
 	 */
 	HeatPerHour getHotStandbyHeat();
@@ -112,7 +109,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Incremental Maint Cost</em>' attribute.
 	 * @see #setIncrementalMaintCost(CostPerEnergyUnit)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_IncrementalMaintCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CostPerEnergyUnit"
 	 * @generated
 	 */
 	CostPerEnergyUnit getIncrementalMaintCost();
@@ -137,7 +133,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Minimum Down Time</em>' attribute.
 	 * @see #setMinimumDownTime(Hours)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_MinimumDownTime()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Hours"
 	 * @generated
 	 */
 	Hours getMinimumDownTime();
@@ -162,7 +157,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Minimum Run Time</em>' attribute.
 	 * @see #setMinimumRunTime(Hours)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_MinimumRunTime()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Hours"
 	 * @generated
 	 */
 	Hours getMinimumRunTime();
@@ -187,7 +181,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Risk Factor Cost</em>' attribute.
 	 * @see #setRiskFactorCost(Money)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_RiskFactorCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Money"
 	 * @generated
 	 */
 	Money getRiskFactorCost();
@@ -212,7 +205,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Startup Cost</em>' attribute.
 	 * @see #setStartupCost(Money)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_StartupCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Money"
 	 * @generated
 	 */
 	Money getStartupCost();
@@ -237,7 +229,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Startup Date</em>' attribute.
 	 * @see #setStartupDate(Date)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_StartupDate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getStartupDate();
@@ -262,7 +253,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Startup Priority</em>' attribute.
 	 * @see #setStartupPriority(Priority)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_StartupPriority()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Priority"
 	 * @generated
 	 */
 	Priority getStartupPriority();
@@ -287,7 +277,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Stby Aux Power MW</em>' attribute.
 	 * @see #setStbyAuxPowerMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_StbyAuxPowerMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getStbyAuxPowerMW();
@@ -312,7 +301,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Start Ign Fuel Curve</em>' containment reference.
 	 * @see #setStartIgnFuelCurve(StartIgnFuelCurve)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_StartIgnFuelCurve()
-	 * @model containment="true"
 	 * @generated
 	 */
 	StartIgnFuelCurve getStartIgnFuelCurve();
@@ -337,7 +325,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Start Main Fuel Curve</em>' containment reference.
 	 * @see #setStartMainFuelCurve(StartMainFuelCurve)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_StartMainFuelCurve()
-	 * @model containment="true"
 	 * @generated
 	 */
 	StartMainFuelCurve getStartMainFuelCurve();
@@ -362,7 +349,6 @@ public interface StartupModel extends Naming {
 	 * @return the value of the '<em>Start Ramp Curve</em>' containment reference.
 	 * @see #setStartRampCurve(StartRampCurve)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartupModel_StartRampCurve()
-	 * @model containment="true"
 	 * @generated
 	 */
 	StartRampCurve getStartRampCurve();

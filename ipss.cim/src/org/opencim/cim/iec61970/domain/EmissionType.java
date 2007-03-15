@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The type of emission
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getEmissionType()
- * @model
  * @generated
  */
 public final class EmissionType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class EmissionType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SULFUR_DIOXIDE_LITERAL
-	 * @model name="sulfurDioxide"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class EmissionType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CARBON_DIOXIDE_LITERAL
-	 * @model name="carbonDioxide"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class EmissionType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NITROGEN_OXIDE_LITERAL
-	 * @model name="nitrogenOxide"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class EmissionType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #HYDROGEN_SULFIDE_LITERAL
-	 * @model name="hydrogenSulfide"
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +89,6 @@ public final class EmissionType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CHLORINE_LITERAL
-	 * @model name="chlorine"
 	 * @generated
 	 * @ordered
 	 */
@@ -109,7 +103,6 @@ public final class EmissionType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CARBON_DISULFIDE_LITERAL
-	 * @model name="carbonDisulfide"
 	 * @generated
 	 * @ordered
 	 */

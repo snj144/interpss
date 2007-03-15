@@ -28,7 +28,6 @@ import org.opencim.datatype.real.ApparentPower;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getBasePower()
- * @model
  * @generated
  */
 public interface BasePower extends Naming {
@@ -42,7 +41,6 @@ public interface BasePower extends Naming {
 	 * @return the value of the '<em>Base Power</em>' attribute.
 	 * @see #setBasePower(ApparentPower)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBasePower_BasePower()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ApparentPower"
 	 * @generated
 	 */
 	ApparentPower getBasePower();
@@ -69,7 +67,6 @@ public interface BasePower extends Naming {
 	 * @return the value of the '<em>Base Voltages</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBasePower_BaseVoltages()
 	 * @see org.opencim.cim.iec61970.core.BaseVoltage#getBasePower
-	 * @model type="org.opencim.cim.iec61970.core.BaseVoltage" opposite="BasePower" containment="true"
 	 * @generated
 	 */
 	EList getBaseVoltages();

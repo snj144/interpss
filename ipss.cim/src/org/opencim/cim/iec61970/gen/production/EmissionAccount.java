@@ -27,7 +27,6 @@ import org.opencim.cim.iec61970.domain.EmissionValueSource;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getEmissionAccount()
- * @model
  * @generated
  */
 public interface EmissionAccount extends AccountBalance {
@@ -43,7 +42,6 @@ public interface EmissionAccount extends AccountBalance {
 	 * @see org.opencim.cim.iec61970.domain.EmissionType
 	 * @see #setEmissionType(EmissionType)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getEmissionAccount_EmissionType()
-	 * @model
 	 * @generated
 	 */
 	EmissionType getEmissionType();
@@ -71,7 +69,6 @@ public interface EmissionAccount extends AccountBalance {
 	 * @see org.opencim.cim.iec61970.domain.EmissionValueSource
 	 * @see #setEmissionValueSource(EmissionValueSource)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getEmissionAccount_EmissionValueSource()
-	 * @model
 	 * @generated
 	 */
 	EmissionValueSource getEmissionValueSource();

@@ -26,7 +26,6 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getEquipmentContainer()
- * @model
  * @generated
  */
 public interface EquipmentContainer extends PowerSystemResource {
@@ -43,7 +42,6 @@ public interface EquipmentContainer extends PowerSystemResource {
 	 * @return the value of the '<em>Connectivity Nodes</em>' reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getEquipmentContainer_ConnectivityNodes()
 	 * @see org.opencim.cim.iec61970.topology.ConnectivityNode#getEquipmentContainer
-	 * @model type="org.opencim.cim.iec61970.topology.ConnectivityNode" opposite="EquipmentContainer"
 	 * @generated
 	 */
 	EList getConnectivityNodes();
@@ -61,7 +59,6 @@ public interface EquipmentContainer extends PowerSystemResource {
 	 * @return the value of the '<em>Equipments</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getEquipmentContainer_Equipments()
 	 * @see org.opencim.cim.iec61970.core.Equipment#getEquipmentContainer
-	 * @model type="org.opencim.cim.iec61970.core.Equipment" opposite="EquipmentContainer" containment="true"
 	 * @generated
 	 */
 	EList getEquipments();

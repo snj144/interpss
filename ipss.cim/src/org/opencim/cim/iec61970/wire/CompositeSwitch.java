@@ -31,7 +31,6 @@ import org.opencim.datatype.string.CompositeSwitchType;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getCompositeSwitch()
- * @model
  * @generated
  */
 public interface CompositeSwitch extends EquipmentContainer {
@@ -45,7 +44,6 @@ public interface CompositeSwitch extends EquipmentContainer {
 	 * @return the value of the '<em>Composite Switch Type</em>' attribute.
 	 * @see #setCompositeSwitchType(CompositeSwitchType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompositeSwitch_CompositeSwitchType()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CompositeSwitchType"
 	 * @generated
 	 */
 	CompositeSwitchType getCompositeSwitchType();
@@ -73,7 +71,6 @@ public interface CompositeSwitch extends EquipmentContainer {
 	 * @return the value of the '<em>Switches</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompositeSwitch_Switches()
 	 * @see org.opencim.cim.iec61970.wire.Switch#getCompositeSwitch
-	 * @model type="org.opencim.cim.iec61970.wire.Switch" opposite="CompositeSwitch"
 	 * @generated
 	 */
 	EList getSwitches();

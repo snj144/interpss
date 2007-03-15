@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * NumericType is an enumeration of the defined Numeric value types.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getNumericType()
- * @model
  * @generated
  */
 public final class NumericType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #INT_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OCTET_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UNSIGNED_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FLOAT_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +89,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #COMPLEX_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -109,7 +103,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DATE_TIME_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -124,7 +117,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ULONG_LONG_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -139,7 +131,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SHORT_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -154,7 +145,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LONG_LONG_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -169,7 +159,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LONG_DOUBLE_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -184,7 +173,6 @@ public final class NumericType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #BOOLEAN_TYPE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */

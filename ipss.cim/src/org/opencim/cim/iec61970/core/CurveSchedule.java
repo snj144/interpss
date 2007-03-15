@@ -42,7 +42,6 @@ import org.opencim.cim.iec61970.domain.RampUnits;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule()
- * @model
  * @generated
  */
 public interface CurveSchedule extends Naming {
@@ -58,7 +57,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.CurveStyle
 	 * @see #setCurveStyle(CurveStyle)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_CurveStyle()
-	 * @model
 	 * @generated
 	 */
 	CurveStyle getCurveStyle();
@@ -86,7 +84,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.RampMethod
 	 * @see #setRampMethod(RampMethod)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_RampMethod()
-	 * @model
 	 * @generated
 	 */
 	RampMethod getRampMethod();
@@ -114,7 +111,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.RampStartMethod
 	 * @see #setRampStartMethod(RampStartMethod)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_RampStartMethod()
-	 * @model
 	 * @generated
 	 */
 	RampStartMethod getRampStartMethod();
@@ -142,7 +138,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.RampUnits
 	 * @see #setRampUnits(RampUnits)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_RampUnits()
-	 * @model
 	 * @generated
 	 */
 	RampUnits getRampUnits();
@@ -170,7 +165,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.NumericType
 	 * @see #setXAxisType(NumericType)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_XAxisType()
-	 * @model
 	 * @generated
 	 */
 	NumericType getXAxisType();
@@ -199,7 +193,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.AxisQuantity
 	 * @see #setXAxisQuantity(AxisQuantity)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_XAxisQuantity()
-	 * @model
 	 * @generated
 	 */
 	AxisQuantity getXAxisQuantity();
@@ -227,7 +220,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.AxisQuantity
 	 * @see #setY1AxisQuantity(AxisQuantity)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_Y1AxisQuantity()
-	 * @model
 	 * @generated
 	 */
 	AxisQuantity getY1AxisQuantity();
@@ -255,7 +247,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.AxisQuantity
 	 * @see #setY2AxisQuantity(AxisQuantity)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_Y2AxisQuantity()
-	 * @model
 	 * @generated
 	 */
 	AxisQuantity getY2AxisQuantity();
@@ -283,7 +274,6 @@ public interface CurveSchedule extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.NumericType
 	 * @see #setYAxisType(NumericType)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_YAxisType()
-	 * @model
 	 * @generated
 	 */
 	NumericType getYAxisType();
@@ -311,7 +301,6 @@ public interface CurveSchedule extends Naming {
 	 * @return the value of the '<em>Curve Schedule Datas</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_CurveScheduleDatas()
 	 * @see org.opencim.cim.iec61970.core.CurveSchedData#getCurveSchedule
-	 * @model type="org.opencim.cim.iec61970.core.CurveSchedData" opposite="CurveSchedule" containment="true"
 	 * @generated
 	 */
 	EList getCurveScheduleDatas();
@@ -328,7 +317,6 @@ public interface CurveSchedule extends Naming {
 	 * @return the value of the '<em>Curve Schedule Formula</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedule_CurveScheduleFormula()
 	 * @see org.opencim.cim.iec61970.core.CurveSchedFormula#getCurveSchedule
-	 * @model type="org.opencim.cim.iec61970.core.CurveSchedFormula" opposite="CurveSchedule" containment="true"
 	 * @generated
 	 */
 	EList getCurveScheduleFormula();

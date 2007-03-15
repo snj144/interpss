@@ -31,7 +31,6 @@ import org.opencim.datatype.real.PerCent;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getPowerCutZone()
- * @model
  * @generated
  */
 public interface PowerCutZone extends PowerSystemResource {
@@ -45,7 +44,6 @@ public interface PowerCutZone extends PowerSystemResource {
 	 * @return the value of the '<em>Cut Level1</em>' attribute.
 	 * @see #setCutLevel1(PerCent)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getPowerCutZone_CutLevel1()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getCutLevel1();
@@ -70,7 +68,6 @@ public interface PowerCutZone extends PowerSystemResource {
 	 * @return the value of the '<em>Cut Level2</em>' attribute.
 	 * @see #setCutLevel2(PerCent)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getPowerCutZone_CutLevel2()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getCutLevel2();
@@ -97,7 +94,6 @@ public interface PowerCutZone extends PowerSystemResource {
 	 * @return the value of the '<em>Energy Consumers</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getPowerCutZone_EnergyConsumers()
 	 * @see org.opencim.cim.iec61970.wire.EnergyConsumer#getPowerCutZone
-	 * @model type="org.opencim.cim.iec61970.wire.EnergyConsumer" opposite="PowerCutZone" containment="true" required="true"
 	 * @generated
 	 */
 	EList getEnergyConsumers();

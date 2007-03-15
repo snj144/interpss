@@ -42,7 +42,6 @@ import org.opencim.datatype.string.PhaseCode;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer()
- * @model
  * @generated
  */
 public interface PowerTransformer extends Equipment {
@@ -56,7 +55,6 @@ public interface PowerTransformer extends Equipment {
 	 * @return the value of the '<em>Bmag Sat</em>' attribute.
 	 * @see #setBmagSat(PerCent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer_BmagSat()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getBmagSat();
@@ -81,7 +79,6 @@ public interface PowerTransformer extends Equipment {
 	 * @return the value of the '<em>Mag Base KV</em>' attribute.
 	 * @see #setMagBaseKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer_MagBaseKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMagBaseKV();
@@ -106,7 +103,6 @@ public interface PowerTransformer extends Equipment {
 	 * @return the value of the '<em>Mag Sat Flux</em>' attribute.
 	 * @see #setMagSatFlux(PerCent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer_MagSatFlux()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getMagSatFlux();
@@ -131,7 +127,6 @@ public interface PowerTransformer extends Equipment {
 	 * @return the value of the '<em>Phases</em>' attribute.
 	 * @see #setPhases(PhaseCode)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer_Phases()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PhaseCode"
 	 * @generated
 	 */
 	PhaseCode getPhases();
@@ -158,7 +153,6 @@ public interface PowerTransformer extends Equipment {
 	 * @see org.opencim.cim.iec61970.domain.TransformerCoolingType
 	 * @see #setTransfCoolingType(TransformerCoolingType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer_TransfCoolingType()
-	 * @model
 	 * @generated
 	 */
 	TransformerCoolingType getTransfCoolingType();
@@ -187,7 +181,6 @@ public interface PowerTransformer extends Equipment {
 	 * @see org.opencim.cim.iec61970.domain.TransformerType
 	 * @see #setTransformerType(TransformerType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer_TransformerType()
-	 * @model
 	 * @generated
 	 */
 	TransformerType getTransformerType();
@@ -213,7 +206,6 @@ public interface PowerTransformer extends Equipment {
 	 * @return the value of the '<em>Heat Exchanger</em>' containment reference.
 	 * @see #setHeatExchanger(HeatExchanger)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer_HeatExchanger()
-	 * @model containment="true"
 	 * @generated
 	 */
 	HeatExchanger getHeatExchanger();
@@ -240,7 +232,6 @@ public interface PowerTransformer extends Equipment {
 	 * @return the value of the '<em>Transformer Windings</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getPowerTransformer_TransformerWindings()
 	 * @see org.opencim.cim.iec61970.wire.TransformerWinding#getPowerTransformer
-	 * @model type="org.opencim.cim.iec61970.wire.TransformerWinding" opposite="PowerTransformer" required="true"
 	 * @generated
 	 */
 	EList getTransformerWindings();

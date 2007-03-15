@@ -47,7 +47,6 @@ import org.opencim.datatype.real.Seconds;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply()
- * @model
  * @generated
  */
 public interface BWRSteamSupply extends SteamSupply {
@@ -61,7 +60,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>High Power Limit</em>' attribute.
 	 * @see #setHighPowerLimit(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_HighPowerLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getHighPowerLimit();
@@ -86,7 +84,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>In Core Thermal TC</em>' attribute.
 	 * @see #setInCoreThermalTC(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_InCoreThermalTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getInCoreThermalTC();
@@ -111,7 +108,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Integral Gain</em>' attribute.
 	 * @see #setIntegralGain(RateOfChange)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_IntegralGain()
-	 * @model dataType="org.opencim.cim.iec61970.domain.RateOfChange"
 	 * @generated
 	 */
 	RateOfChange getIntegralGain();
@@ -136,7 +132,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Lower Limit</em>' attribute.
 	 * @see #setLowerLimit(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_LowerLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getLowerLimit();
@@ -161,7 +156,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Low Power Limit</em>' attribute.
 	 * @see #setLowPowerLimit(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_LowPowerLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getLowPowerLimit();
@@ -186,7 +180,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure Limit</em>' attribute.
 	 * @see #setPressureLimit(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_PressureLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getPressureLimit();
@@ -211,7 +204,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure Setpoint GA</em>' attribute.
 	 * @see #setPressureSetpointGA(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_PressureSetpointGA()
-	 * @model
 	 * @generated
 	 */
 	Float getPressureSetpointGA();
@@ -236,7 +228,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure Setpoint TC1</em>' attribute.
 	 * @see #setPressureSetpointTC1(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_PressureSetpointTC1()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getPressureSetpointTC1();
@@ -261,7 +252,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure Setpoint TC2</em>' attribute.
 	 * @see #setPressureSetpointTC2(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_PressureSetpointTC2()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getPressureSetpointTC2();
@@ -286,7 +276,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Proportional Gain</em>' attribute.
 	 * @see #setProportionalGain(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_ProportionalGain()
-	 * @model
 	 * @generated
 	 */
 	Float getProportionalGain();
@@ -311,7 +300,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rf Aux1</em>' attribute.
 	 * @see #setRfAux1(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RfAux1()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRfAux1();
@@ -336,7 +324,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rf Aux2</em>' attribute.
 	 * @see #setRfAux2(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RfAux2()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRfAux2();
@@ -361,7 +348,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rf Aux3</em>' attribute.
 	 * @see #setRfAux3(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RfAux3()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRfAux3();
@@ -386,7 +372,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rf Aux4</em>' attribute.
 	 * @see #setRfAux4(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RfAux4()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRfAux4();
@@ -411,7 +396,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rf Aux5</em>' attribute.
 	 * @see #setRfAux5(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RfAux5()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRfAux5();
@@ -436,7 +420,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rf Aux6</em>' attribute.
 	 * @see #setRfAux6(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RfAux6()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRfAux6();
@@ -461,7 +444,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rf Aux7</em>' attribute.
 	 * @see #setRfAux7(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RfAux7()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRfAux7();
@@ -486,7 +468,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rf Aux8</em>' attribute.
 	 * @see #setRfAux8(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RfAux8()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRfAux8();
@@ -511,7 +492,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rod Pattern</em>' attribute.
 	 * @see #setRodPattern(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RodPattern()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getRodPattern();
@@ -536,7 +516,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Rod Pattern Constant</em>' attribute.
 	 * @see #setRodPatternConstant(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_RodPatternConstant()
-	 * @model
 	 * @generated
 	 */
 	Float getRodPatternConstant();
@@ -561,7 +540,6 @@ public interface BWRSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Upper Limit</em>' attribute.
 	 * @see #setUpperLimit(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getBWRSteamSupply_UpperLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getUpperLimit();

@@ -22,7 +22,6 @@ import org.eclipse.emf.ecore.EPackage;
  * </ul>
  * <!-- end-user-doc -->
  * @see org.opencim.cim.iec61970.Iec61970Factory
- * @model kind="package"
  * @generated
  */
 public interface Iec61970Package extends EPackage {
@@ -149,7 +148,7 @@ public interface Iec61970Package extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	interface Literals {
+	interface Literals  {
 		/**
 		 * The meta object literal for the '{@link org.opencim.cim.iec61970.impl.Iec61970VersionImpl <em>Version</em>}' class.
 		 * <!-- begin-user-doc -->

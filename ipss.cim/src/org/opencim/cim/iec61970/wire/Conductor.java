@@ -40,7 +40,6 @@ import org.opencim.datatype.real.Susceptance;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor()
- * @model
  * @generated
  */
 public interface Conductor extends ConductingEquipment {
@@ -54,7 +53,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>B0ch</em>' attribute.
 	 * @see #setB0ch(Susceptance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_B0ch()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Susceptance"
 	 * @generated
 	 */
 	Susceptance getB0ch();
@@ -79,7 +77,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>Bch</em>' attribute.
 	 * @see #setBch(Susceptance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_Bch()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Susceptance"
 	 * @generated
 	 */
 	Susceptance getBch();
@@ -104,7 +101,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>G0ch</em>' attribute.
 	 * @see #setG0ch(Conductance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_G0ch()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Conductance"
 	 * @generated
 	 */
 	Conductance getG0ch();
@@ -129,7 +125,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>Gch</em>' attribute.
 	 * @see #setGch(Conductance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_Gch()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Conductance"
 	 * @generated
 	 */
 	Conductance getGch();
@@ -154,7 +149,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>Length</em>' attribute.
 	 * @see #setLength(LongLength)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_Length()
-	 * @model dataType="org.opencim.cim.iec61970.domain.LongLength"
 	 * @generated
 	 */
 	LongLength getLength();
@@ -179,7 +173,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>R</em>' attribute.
 	 * @see #setR(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_R()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR();
@@ -204,7 +197,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>R0</em>' attribute.
 	 * @see #setR0(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_R0()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR0();
@@ -229,7 +221,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>X</em>' attribute.
 	 * @see #setX(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_X()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX();
@@ -254,7 +245,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @return the value of the '<em>X0</em>' attribute.
 	 * @see #setX0(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_X0()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX0();
@@ -281,7 +271,6 @@ public interface Conductor extends ConductingEquipment {
 	 * @see #setConductorType(ConductorType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getConductor_ConductorType()
 	 * @see org.opencim.cim.iec61970.wire.ConductorType#getConductors
-	 * @model opposite="Conductors"
 	 * @generated
 	 */
 	ConductorType getConductorType();

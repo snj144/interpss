@@ -19,7 +19,6 @@ import org.opencim.cim.iec61970.wire.EnergyConsumer;
  *
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getStationSupply()
- * @model
  * @generated
  */
 public interface StationSupply extends EnergyConsumer {

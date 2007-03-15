@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.core.CorePackage;
  * The Generation Dynamics package contains prime movers, such as turbines and boilers, which are needed for simulation and educational purposes. 
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsFactory
- * @model kind="package"
  * @generated
  */
 public interface GenerationdynamicsPackage extends EPackage {

@@ -40,7 +40,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource()
- * @model
  * @generated
  */
 public interface EquivalentSource extends ConductingEquipment {
@@ -54,7 +53,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>Xn</em>' attribute.
 	 * @see #setXn(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_Xn()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getXn();
@@ -79,7 +77,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>Rn</em>' attribute.
 	 * @see #setRn(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_Rn()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getRn();
@@ -104,7 +101,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>Nominal Voltage</em>' attribute.
 	 * @see #setNominalVoltage(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_NominalVoltage()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getNominalVoltage();
@@ -129,7 +125,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>X</em>' attribute.
 	 * @see #setX(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_X()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX();
@@ -154,7 +149,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>R</em>' attribute.
 	 * @see #setR(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_R()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR();
@@ -179,7 +173,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>Voltage Angle</em>' attribute.
 	 * @see #setVoltageAngle(AngleRadians)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_VoltageAngle()
-	 * @model dataType="org.opencim.cim.iec61970.domain.AngleRadians"
 	 * @generated
 	 */
 	AngleRadians getVoltageAngle();
@@ -204,7 +197,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>Voltage Magnitude</em>' attribute.
 	 * @see #setVoltageMagnitude(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_VoltageMagnitude()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getVoltageMagnitude();
@@ -229,7 +221,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>X0</em>' attribute.
 	 * @see #setX0(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_X0()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX0();
@@ -254,7 +245,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>R0</em>' attribute.
 	 * @see #setR0(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_R0()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR0();
@@ -279,7 +269,6 @@ public interface EquivalentSource extends ConductingEquipment {
 	 * @return the value of the '<em>Active Power</em>' attribute.
 	 * @see #setActivePower(ActivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEquivalentSource_ActivePower()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getActivePower();

@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Source gives information related to the origin of a value. The value may be acquired from the process, defaulted or substituted.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getSource()
- * @model
  * @generated
  */
 public final class Source extends AbstractEnumerator {
@@ -33,7 +32,6 @@ public final class Source extends AbstractEnumerator {
 	 * The value is provided by input from the process I/O or being calculated from some function.
 	 * <!-- end-model-doc -->
 	 * @see #PROCESS_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -47,7 +45,6 @@ public final class Source extends AbstractEnumerator {
 	 * The value contains a default value.
 	 * <!-- end-model-doc -->
 	 * @see #DEFAULTED_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -61,7 +58,6 @@ public final class Source extends AbstractEnumerator {
 	 * The value is provided by input of an operator or by an automatic source.
 	 * <!-- end-model-doc -->
 	 * @see #SUBSTITUTED_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */

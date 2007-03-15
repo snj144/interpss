@@ -30,7 +30,6 @@ import org.opencim.cim.SimulationModel;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getPowerSystemResource()
- * @model
  * @generated
  */
 public interface PowerSystemResource extends Naming {
@@ -47,7 +46,6 @@ public interface PowerSystemResource extends Naming {
 	 * @see #setSimuModel(SimulationModel)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getPowerSystemResource_SimuModel()
 	 * @see org.opencim.cim.SimulationModel#getPsResources
-	 * @model opposite="psResources" required="true"
 	 * @generated
 	 */
 	SimulationModel getSimuModel();
@@ -74,7 +72,6 @@ public interface PowerSystemResource extends Naming {
 	 * @return the value of the '<em>Companies</em>' reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getPowerSystemResource_Companies()
 	 * @see org.opencim.cim.iec61970.core.Company#getPSRs
-	 * @model type="org.opencim.cim.iec61970.core.Company" opposite="PSRs"
 	 * @generated
 	 */
 	EList getCompanies();
@@ -92,7 +89,6 @@ public interface PowerSystemResource extends Naming {
 	 * @see #setPSRType(PSRType)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getPowerSystemResource_PSRType()
 	 * @see org.opencim.cim.iec61970.core.PSRType#getPowerSystemResource
-	 * @model opposite="PowerSystemResource"
 	 * @generated
 	 */
 	PSRType getPSRType();

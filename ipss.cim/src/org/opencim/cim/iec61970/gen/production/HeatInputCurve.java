@@ -33,7 +33,6 @@ import org.opencim.datatype.real.PU;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHeatInputCurve()
- * @model
  * @generated
  */
 public interface HeatInputCurve extends CurveSchedule {
@@ -47,7 +46,6 @@ public interface HeatInputCurve extends CurveSchedule {
 	 * @return the value of the '<em>Aux Power Offset</em>' attribute.
 	 * @see #setAuxPowerOffset(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHeatInputCurve_AuxPowerOffset()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getAuxPowerOffset();
@@ -72,7 +70,6 @@ public interface HeatInputCurve extends CurveSchedule {
 	 * @return the value of the '<em>Aux Power Mult</em>' attribute.
 	 * @see #setAuxPowerMult(PU)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHeatInputCurve_AuxPowerMult()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getAuxPowerMult();
@@ -97,7 +94,6 @@ public interface HeatInputCurve extends CurveSchedule {
 	 * @return the value of the '<em>Heat Input Eff</em>' attribute.
 	 * @see #setHeatInputEff(PU)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHeatInputCurve_HeatInputEff()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getHeatInputEff();
@@ -122,7 +118,6 @@ public interface HeatInputCurve extends CurveSchedule {
 	 * @return the value of the '<em>Heat Input Offset</em>' attribute.
 	 * @see #setHeatInputOffset(HeatPerHour)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHeatInputCurve_HeatInputOffset()
-	 * @model dataType="org.opencim.cim.iec61970.domain.HeatPerHour"
 	 * @generated
 	 */
 	HeatPerHour getHeatInputOffset();
@@ -147,7 +142,6 @@ public interface HeatInputCurve extends CurveSchedule {
 	 * @return the value of the '<em>Net Gross MW Flag</em>' attribute.
 	 * @see #setNetGrossMWFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHeatInputCurve_NetGrossMWFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getNetGrossMWFlag();

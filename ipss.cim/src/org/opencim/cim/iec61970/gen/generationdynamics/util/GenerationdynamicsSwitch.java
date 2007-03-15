@@ -17,6 +17,8 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
 
 import org.opencim.cim.iec61970.gen.generationdynamics.*;
 
+import org.opencim.cim.iec61970.gen.generationdynamics.impl.GenerationdynamicsPackageImpl;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.

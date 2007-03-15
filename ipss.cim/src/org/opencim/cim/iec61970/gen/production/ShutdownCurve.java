@@ -30,7 +30,6 @@ import org.opencim.datatype.real.Money;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getShutdownCurve()
- * @model
  * @generated
  */
 public interface ShutdownCurve extends CurveSchedule {
@@ -44,7 +43,6 @@ public interface ShutdownCurve extends CurveSchedule {
 	 * @return the value of the '<em>Shutdown Cost</em>' attribute.
 	 * @see #setShutdownCost(Money)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getShutdownCurve_ShutdownCost()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Money"
 	 * @generated
 	 */
 	Money getShutdownCost();
@@ -69,7 +67,6 @@ public interface ShutdownCurve extends CurveSchedule {
 	 * @return the value of the '<em>Shutdown Date</em>' attribute.
 	 * @see #setShutdownDate(Date)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getShutdownCurve_ShutdownDate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getShutdownDate();

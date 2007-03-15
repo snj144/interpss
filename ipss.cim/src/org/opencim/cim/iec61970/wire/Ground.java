@@ -19,7 +19,6 @@ import org.opencim.cim.iec61970.core.ConductingEquipment;
  *
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getGround()
- * @model
  * @generated
  */
 public interface Ground extends ConductingEquipment {

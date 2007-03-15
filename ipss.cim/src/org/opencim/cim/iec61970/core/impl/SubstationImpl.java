@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -30,6 +31,8 @@ import org.opencim.cim.iec61970.core.Substation;
 import org.opencim.cim.iec61970.core.VoltageLevel;
 
 import org.opencim.cim.iec61970.load.LoadArea;
+import org.opencim.cim.iec61970.load.impl.LoadPackageImpl;
+
 import org.opencim.cim.iec61970.load.LoadPackage;
 
 import org.opencim.cim.iec61970.wire.CompositeSwitch;

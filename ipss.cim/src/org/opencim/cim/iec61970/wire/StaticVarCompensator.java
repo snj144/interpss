@@ -37,7 +37,6 @@ import org.opencim.datatype.string.ControlMode;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getStaticVarCompensator()
- * @model
  * @generated
  */
 public interface StaticVarCompensator extends RegulatingCondEq {
@@ -51,7 +50,6 @@ public interface StaticVarCompensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Capacitive Rating</em>' attribute.
 	 * @see #setCapacitiveRating(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getStaticVarCompensator_CapacitiveRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getCapacitiveRating();
@@ -76,7 +74,6 @@ public interface StaticVarCompensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Inductive Rating</em>' attribute.
 	 * @see #setInductiveRating(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getStaticVarCompensator_InductiveRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getInductiveRating();
@@ -101,7 +98,6 @@ public interface StaticVarCompensator extends RegulatingCondEq {
 	 * @return the value of the '<em>SVC Control Mode</em>' attribute.
 	 * @see #setSVCControlMode(ControlMode)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getStaticVarCompensator_SVCControlMode()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ControlMode"
 	 * @generated
 	 */
 	ControlMode getSVCControlMode();
@@ -126,7 +122,6 @@ public interface StaticVarCompensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Slope</em>' attribute.
 	 * @see #setSlope(VoltagePerReactivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getStaticVarCompensator_Slope()
-	 * @model dataType="org.opencim.cim.iec61970.domain.VoltagePerReactivePower"
 	 * @generated
 	 */
 	VoltagePerReactivePower getSlope();
@@ -151,7 +146,6 @@ public interface StaticVarCompensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Voltage Set Point</em>' attribute.
 	 * @see #setVoltageSetPoint(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getStaticVarCompensator_VoltageSetPoint()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getVoltageSetPoint();

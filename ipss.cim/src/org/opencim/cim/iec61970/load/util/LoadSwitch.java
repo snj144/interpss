@@ -19,6 +19,8 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
 
 import org.opencim.cim.iec61970.load.*;
 
+import org.opencim.cim.iec61970.load.impl.LoadPackageImpl;
+
 import org.opencim.cim.iec61970.wire.EnergyConsumer;
 
 /**

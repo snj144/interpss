@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getDomainVersion()
- * @model
  * @generated
  */
 public interface DomainVersion extends EObject {
@@ -40,7 +39,6 @@ public interface DomainVersion extends EObject {
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)
 	 * @see org.opencim.cim.iec61970.domain.DomainPackage#getDomainVersion_Version()
-	 * @model default="Domain_v003"
 	 * @generated
 	 */
 	String getVersion();
@@ -67,7 +65,6 @@ public interface DomainVersion extends EObject {
 	 * @return the value of the '<em>Date</em>' attribute.
 	 * @see #setDate(Date)
 	 * @see org.opencim.cim.iec61970.domain.DomainPackage#getDomainVersion_Date()
-	 * @model default="2004-07-02" dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getDate();

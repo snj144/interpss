@@ -56,7 +56,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding()
- * @model
  * @generated
  */
 public interface TransformerWinding extends ConductingEquipment {
@@ -70,7 +69,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>B</em>' attribute.
 	 * @see #setB(Susceptance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_B()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Susceptance"
 	 * @generated
 	 */
 	Susceptance getB();
@@ -95,7 +93,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>Insulation KV</em>' attribute.
 	 * @see #setInsulationKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_InsulationKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getInsulationKV();
@@ -122,7 +119,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @see org.opencim.cim.iec61970.domain.WindingConnection
 	 * @see #setConnectionType(WindingConnection)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_ConnectionType()
-	 * @model
 	 * @generated
 	 */
 	WindingConnection getConnectionType();
@@ -148,7 +144,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>Emergency MVA</em>' attribute.
 	 * @see #setEmergencyMVA(ApparentPower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_EmergencyMVA()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ApparentPower"
 	 * @generated
 	 */
 	ApparentPower getEmergencyMVA();
@@ -173,7 +168,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>G</em>' attribute.
 	 * @see #setG(Conductance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_G()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Conductance"
 	 * @generated
 	 */
 	Conductance getG();
@@ -198,7 +192,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>Grounded</em>' attribute.
 	 * @see #setGrounded(Boolean)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_Grounded()
-	 * @model
 	 * @generated
 	 */
 	Boolean getGrounded();
@@ -223,7 +216,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>R</em>' attribute.
 	 * @see #setR(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_R()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR();
@@ -248,7 +240,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>R0</em>' attribute.
 	 * @see #setR0(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_R0()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR0();
@@ -273,7 +264,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>Rated KV</em>' attribute.
 	 * @see #setRatedKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_RatedKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getRatedKV();
@@ -298,7 +288,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>Rated MVA</em>' attribute.
 	 * @see #setRatedMVA(ApparentPower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_RatedMVA()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ApparentPower"
 	 * @generated
 	 */
 	ApparentPower getRatedMVA();
@@ -323,7 +312,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>Rground</em>' attribute.
 	 * @see #setRground(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_Rground()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getRground();
@@ -348,7 +336,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>Short Term MVA</em>' attribute.
 	 * @see #setShortTermMVA(ApparentPower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_ShortTermMVA()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ApparentPower"
 	 * @generated
 	 */
 	ApparentPower getShortTermMVA();
@@ -375,7 +362,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @see org.opencim.cim.iec61970.domain.WindingType
 	 * @see #setWindingType(WindingType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_WindingType()
-	 * @model
 	 * @generated
 	 */
 	WindingType getWindingType();
@@ -401,7 +387,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>X</em>' attribute.
 	 * @see #setX(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_X()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX();
@@ -426,7 +411,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>X0</em>' attribute.
 	 * @see #setX0(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_X0()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX0();
@@ -451,7 +435,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>Xground</em>' attribute.
 	 * @see #setXground(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_Xground()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getXground();
@@ -478,7 +461,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @see #setPowerTransformer(PowerTransformer)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_PowerTransformer()
 	 * @see org.opencim.cim.iec61970.wire.PowerTransformer#getTransformerWindings
-	 * @model opposite="TransformerWindings" required="true"
 	 * @generated
 	 */
 	PowerTransformer getPowerTransformer();
@@ -503,7 +485,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Tap Changers</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_TapChangers()
-	 * @model type="org.opencim.cim.iec61970.wire.TapChanger" containment="true"
 	 * @generated
 	 */
 	EList getTapChangers();
@@ -520,7 +501,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @return the value of the '<em>From Winding Tests</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_From_WindingTests()
 	 * @see org.opencim.cim.iec61970.wire.WindingTest#getFrom_TransformerWinding
-	 * @model type="org.opencim.cim.iec61970.wire.WindingTest" opposite="From_TransformerWinding"
 	 * @generated
 	 */
 	EList getFrom_WindingTests();
@@ -537,7 +517,6 @@ public interface TransformerWinding extends ConductingEquipment {
 	 * @see #setTo_WindingTest(WindingTest)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTransformerWinding_To_WindingTest()
 	 * @see org.opencim.cim.iec61970.wire.WindingTest#getTo_TransformeWindings
-	 * @model opposite="To_TransformeWindings"
 	 * @generated
 	 */
 	WindingTest getTo_WindingTest();

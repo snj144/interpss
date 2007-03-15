@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.GenPackage#getGenerationVersion()
- * @model
  * @generated
  */
 public interface GenerationVersion extends EObject {
@@ -40,7 +39,6 @@ public interface GenerationVersion extends EObject {
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)
 	 * @see org.opencim.cim.iec61970.gen.GenPackage#getGenerationVersion_Version()
-	 * @model default="Generation_v002"
 	 * @generated
 	 */
 	String getVersion();
@@ -67,7 +65,6 @@ public interface GenerationVersion extends EObject {
 	 * @return the value of the '<em>Date</em>' attribute.
 	 * @see #setDate(Date)
 	 * @see org.opencim.cim.iec61970.gen.GenPackage#getGenerationVersion_Date()
-	 * @model default="2004-06-30" dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getDate();

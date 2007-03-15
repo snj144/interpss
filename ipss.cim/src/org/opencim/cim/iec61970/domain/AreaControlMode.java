@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getAreaControlMode()
- * @model
  * @generated
  */
 public final class AreaControlMode extends AbstractEnumerator {
@@ -30,7 +29,6 @@ public final class AreaControlMode extends AbstractEnumerator {
 	 * Constant frequency
 	 * <!-- end-model-doc -->
 	 * @see #CF_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -44,7 +42,6 @@ public final class AreaControlMode extends AbstractEnumerator {
 	 * Constant tie-line
 	 * <!-- end-model-doc -->
 	 * @see #CTL_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -58,7 +55,6 @@ public final class AreaControlMode extends AbstractEnumerator {
 	 * Tie-line bias
 	 * <!-- end-model-doc -->
 	 * @see #TLB_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -72,7 +68,6 @@ public final class AreaControlMode extends AbstractEnumerator {
 	 * Off control
 	 * <!-- end-model-doc -->
 	 * @see #OFF_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */

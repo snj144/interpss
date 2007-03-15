@@ -18,7 +18,6 @@ package org.opencim.cim.iec61970.wire;
  *
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getDisconnector()
- * @model
  * @generated
  */
 public interface Disconnector extends Switch {

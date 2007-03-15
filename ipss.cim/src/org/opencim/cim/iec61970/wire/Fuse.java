@@ -25,7 +25,6 @@ import org.opencim.datatype.real.CurrentFlow;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getFuse()
- * @model
  * @generated
  */
 public interface Fuse extends Switch {
@@ -39,7 +38,6 @@ public interface Fuse extends Switch {
 	 * @return the value of the '<em>Amp Rating</em>' attribute.
 	 * @see #setAmpRating(CurrentFlow)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getFuse_AmpRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CurrentFlow"
 	 * @generated
 	 */
 	CurrentFlow getAmpRating();

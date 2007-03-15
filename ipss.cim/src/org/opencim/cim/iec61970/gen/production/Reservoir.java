@@ -50,7 +50,6 @@ import org.opencim.datatype.real.WaterLevel;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir()
- * @model
  * @generated
  */
 public interface Reservoir extends PowerSystemResource {
@@ -64,7 +63,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Active Storage Capacity</em>' attribute.
 	 * @see #setActiveStorageCapacity(Volume)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_ActiveStorageCapacity()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Volume"
 	 * @generated
 	 */
 	Volume getActiveStorageCapacity();
@@ -89,7 +87,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Energy Storage Rating</em>' attribute.
 	 * @see #setEnergyStorageRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_EnergyStorageRating()
-	 * @model
 	 * @generated
 	 */
 	Float getEnergyStorageRating();
@@ -114,7 +111,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Full Supply Level</em>' attribute.
 	 * @see #setFullSupplyLevel(WaterLevel)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_FullSupplyLevel()
-	 * @model dataType="org.opencim.cim.iec61970.domain.WaterLevel"
 	 * @generated
 	 */
 	WaterLevel getFullSupplyLevel();
@@ -139,7 +135,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Gross Capacity</em>' attribute.
 	 * @see #setGrossCapacity(Volume)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_GrossCapacity()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Volume"
 	 * @generated
 	 */
 	Volume getGrossCapacity();
@@ -164,7 +159,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Normal Min Operate Level</em>' attribute.
 	 * @see #setNormalMinOperateLevel(WaterLevel)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_NormalMinOperateLevel()
-	 * @model dataType="org.opencim.cim.iec61970.domain.WaterLevel"
 	 * @generated
 	 */
 	WaterLevel getNormalMinOperateLevel();
@@ -189,7 +183,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>River Outlet Works</em>' attribute.
 	 * @see #setRiverOutletWorks(String)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_RiverOutletWorks()
-	 * @model
 	 * @generated
 	 */
 	String getRiverOutletWorks();
@@ -214,7 +207,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Spill Travel Delay</em>' attribute.
 	 * @see #setSpillTravelDelay(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_SpillTravelDelay()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getSpillTravelDelay();
@@ -239,7 +231,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Spillway Capacity</em>' attribute.
 	 * @see #setSpillwayCapacity(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_SpillwayCapacity()
-	 * @model
 	 * @generated
 	 */
 	Float getSpillwayCapacity();
@@ -264,7 +255,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Spillway Crest Length</em>' attribute.
 	 * @see #setSpillwayCrestLength(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_SpillwayCrestLength()
-	 * @model
 	 * @generated
 	 */
 	Float getSpillwayCrestLength();
@@ -289,7 +279,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Spillway Crest Level</em>' attribute.
 	 * @see #setSpillwayCrestLevel(WaterLevel)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_SpillwayCrestLevel()
-	 * @model dataType="org.opencim.cim.iec61970.domain.WaterLevel"
 	 * @generated
 	 */
 	WaterLevel getSpillwayCrestLevel();
@@ -316,7 +305,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @see org.opencim.cim.iec61970.domain.SpillwayGateType
 	 * @see #setSpillWayGateType(SpillwayGateType)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_SpillWayGateType()
-	 * @model
 	 * @generated
 	 */
 	SpillwayGateType getSpillWayGateType();
@@ -344,7 +332,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Hydro Power Plants</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_HydroPowerPlants()
 	 * @see org.opencim.cim.iec61970.gen.production.HydroPowerPlant#getReservoir
-	 * @model type="org.opencim.cim.iec61970.gen.production.HydroPowerPlant" opposite="Reservoir"
 	 * @generated
 	 */
 	EList getHydroPowerPlants();
@@ -361,7 +348,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Upstream From</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_UpstreamFrom()
 	 * @see org.opencim.cim.iec61970.gen.production.HydroPowerPlant#getGenSourcePumpDischarge
-	 * @model type="org.opencim.cim.iec61970.gen.production.HydroPowerPlant" opposite="GenSourcePumpDischarge"
 	 * @generated
 	 */
 	EList getUpstreamFrom();
@@ -376,7 +362,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Level Vs Volume Curve</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_LevelVsVolumeCurve()
-	 * @model type="org.opencim.cim.iec61970.gen.production.LevelVsVolumeCurve" containment="true"
 	 * @generated
 	 */
 	EList getLevelVsVolumeCurve();
@@ -391,7 +376,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Target Level Schedule</em>' containment reference.
 	 * @see #setTargetLevelSchedule(TargetLevelSchedule)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_TargetLevelSchedule()
-	 * @model containment="true"
 	 * @generated
 	 */
 	TargetLevelSchedule getTargetLevelSchedule();
@@ -416,7 +400,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Inflow Forecast</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_InflowForecast()
-	 * @model type="org.opencim.cim.iec61970.gen.production.InflowForecast" containment="true"
 	 * @generated
 	 */
 	EList getInflowForecast();
@@ -433,7 +416,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @return the value of the '<em>Spills Into</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_SpillsInto()
 	 * @see org.opencim.cim.iec61970.gen.production.Reservoir#getSpillsFrom
-	 * @model type="org.opencim.cim.iec61970.gen.production.Reservoir" opposite="SpillsFrom"
 	 * @generated
 	 */
 	EList getSpillsInto();
@@ -450,7 +432,6 @@ public interface Reservoir extends PowerSystemResource {
 	 * @see #setSpillsFrom(Reservoir)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getReservoir_SpillsFrom()
 	 * @see org.opencim.cim.iec61970.gen.production.Reservoir#getSpillsInto
-	 * @model opposite="SpillsInto"
 	 * @generated
 	 */
 	Reservoir getSpillsFrom();

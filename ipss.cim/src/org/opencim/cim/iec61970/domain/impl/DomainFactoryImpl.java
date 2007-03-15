@@ -14,6 +14,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.opencim.cim.iec61970.domain.*;
+
 import org.opencim.cim.iec61970.domain.AreaControlMode;
 import org.opencim.cim.iec61970.domain.AxisQuantity;
 import org.opencim.cim.iec61970.domain.BoilerControlMode;

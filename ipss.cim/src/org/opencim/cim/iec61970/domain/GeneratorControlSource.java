@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The source of controls for a generating unit, i.e., Unavailable, Off-AGC, On-AGC, Plant Control
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getGeneratorControlSource()
- * @model
  * @generated
  */
 public final class GeneratorControlSource extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class GeneratorControlSource extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #UNAVAILABLE_LITERAL
-	 * @model name="Unavailable"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class GeneratorControlSource extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OFF_AGC_LITERAL
-	 * @model name="offAGC"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class GeneratorControlSource extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ON_AGC_LITERAL
-	 * @model name="onAGC"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class GeneratorControlSource extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PLANT_CONTROL_LITERAL
-	 * @model name="PlantControl"
 	 * @generated
 	 * @ordered
 	 */

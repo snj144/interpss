@@ -18,7 +18,6 @@ package org.opencim.cim.iec61970.wire;
  *
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getGroundDisconnector()
- * @model
  * @generated
  */
 public interface GroundDisconnector extends Switch {

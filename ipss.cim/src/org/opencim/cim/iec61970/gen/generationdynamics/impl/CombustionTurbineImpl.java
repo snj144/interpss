@@ -20,6 +20,8 @@ import org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage
 import org.opencim.cim.iec61970.gen.generationdynamics.HeatRecoveryBoiler;
 
 import org.opencim.cim.iec61970.gen.production.AirCompressor;
+import org.opencim.cim.iec61970.gen.production.impl.ProductionPackageImpl;
+
 import org.opencim.cim.iec61970.gen.production.ProductionPackage;
 
 import org.opencim.datatype.real.PU;

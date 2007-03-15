@@ -34,7 +34,6 @@ import org.opencim.cim.iec61970.domain.FuelType;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFuelAllocationSchedule()
- * @model
  * @generated
  */
 public interface FuelAllocationSchedule extends CurveSchedule {
@@ -48,7 +47,6 @@ public interface FuelAllocationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Fuel Allocation End Date</em>' attribute.
 	 * @see #setFuelAllocationEndDate(Date)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFuelAllocationSchedule_FuelAllocationEndDate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getFuelAllocationEndDate();
@@ -73,7 +71,6 @@ public interface FuelAllocationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Fuel Allocation Start Date</em>' attribute.
 	 * @see #setFuelAllocationStartDate(Date)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFuelAllocationSchedule_FuelAllocationStartDate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getFuelAllocationStartDate();
@@ -100,7 +97,6 @@ public interface FuelAllocationSchedule extends CurveSchedule {
 	 * @see org.opencim.cim.iec61970.domain.FuelType
 	 * @see #setFuelType(FuelType)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFuelAllocationSchedule_FuelType()
-	 * @model
 	 * @generated
 	 */
 	FuelType getFuelType();
@@ -126,7 +122,6 @@ public interface FuelAllocationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Max Fuel Allocation</em>' attribute.
 	 * @see #setMaxFuelAllocation(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFuelAllocationSchedule_MaxFuelAllocation()
-	 * @model
 	 * @generated
 	 */
 	Float getMaxFuelAllocation();
@@ -151,7 +146,6 @@ public interface FuelAllocationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Min Fuel Allocation</em>' attribute.
 	 * @see #setMinFuelAllocation(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFuelAllocationSchedule_MinFuelAllocation()
-	 * @model
 	 * @generated
 	 */
 	Float getMinFuelAllocation();
@@ -178,7 +172,6 @@ public interface FuelAllocationSchedule extends CurveSchedule {
 	 * @see #setFossilFuel(FossilFuel)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getFuelAllocationSchedule_FossilFuel()
 	 * @see org.opencim.cim.iec61970.gen.production.FossilFuel#getFuelAllocationSchedule
-	 * @model opposite="FuelAllocationSchedule" required="true"
 	 * @generated
 	 */
 	FossilFuel getFossilFuel();

@@ -25,7 +25,6 @@ import org.opencim.cim.iec61970.core.CurveSchedule;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGenUnitOpCostCurve()
- * @model
  * @generated
  */
 public interface GenUnitOpCostCurve extends CurveSchedule {
@@ -39,7 +38,6 @@ public interface GenUnitOpCostCurve extends CurveSchedule {
 	 * @return the value of the '<em>Net Gross MW Flag</em>' attribute.
 	 * @see #setNetGrossMWFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGenUnitOpCostCurve_NetGrossMWFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getNetGrossMWFlag();

@@ -44,6 +44,15 @@ public interface CoreFactory extends EFactory {
 	Company createCompany();
 
 	/**
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
+	CorePackage getCorePackage();
+
+	/**
 	 * Returns a new object of class '<em>Conducting Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -204,14 +213,5 @@ public interface CoreFactory extends EFactory {
 	 * @generated
 	 */
 	CoreVersion createCoreVersion();
-
-	/**
-	 * Returns the package supported by this factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the package supported by this factory.
-	 * @generated
-	 */
-	CorePackage getCorePackage();
 
 } //CoreFactory

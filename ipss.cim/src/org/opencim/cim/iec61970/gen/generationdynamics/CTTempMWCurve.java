@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.domain.TemperatureUnits;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCTTempMWCurve()
- * @model
  * @generated
  */
 public interface CTTempMWCurve extends CurveSchedule {
@@ -44,7 +43,6 @@ public interface CTTempMWCurve extends CurveSchedule {
 	 * @see org.opencim.cim.iec61970.domain.TemperatureUnits
 	 * @see #setTemperatureUnits(TemperatureUnits)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCTTempMWCurve_TemperatureUnits()
-	 * @model
 	 * @generated
 	 */
 	TemperatureUnits getTemperatureUnits();
@@ -72,7 +70,6 @@ public interface CTTempMWCurve extends CurveSchedule {
 	 * @see #setCombustionTurbine(CombustionTurbine)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCTTempMWCurve_CombustionTurbine()
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.CombustionTurbine#getCTTempMWCurve
-	 * @model opposite="CTTempMWCurve" required="true"
 	 * @generated
 	 */
 	CombustionTurbine getCombustionTurbine();

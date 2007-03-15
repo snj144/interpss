@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.core.CorePackage;
  * An extension to the Core and Topology package that models information on the electrical characteristics of Transmission and Distribution networks. This package is used by network applications such as State Estimation, Load Flow and Optimal Power Flow.  
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.wire.WireFactory
- * @model kind="package"
  * @generated
  */
 public interface WirePackage extends EPackage {

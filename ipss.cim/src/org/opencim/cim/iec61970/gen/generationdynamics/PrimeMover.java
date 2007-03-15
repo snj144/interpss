@@ -30,7 +30,6 @@ import org.opencim.cim.iec61970.wire.SynchronousMachine;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPrimeMover()
- * @model
  * @generated
  */
 public interface PrimeMover extends PowerSystemResource {
@@ -44,7 +43,6 @@ public interface PrimeMover extends PowerSystemResource {
 	 * @return the value of the '<em>Prime Mover Rating</em>' attribute.
 	 * @see #setPrimeMoverRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPrimeMover_PrimeMoverRating()
-	 * @model
 	 * @generated
 	 */
 	Float getPrimeMoverRating();
@@ -72,7 +70,6 @@ public interface PrimeMover extends PowerSystemResource {
 	 * @see #setSynchronousMachines(SynchronousMachine)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getPrimeMover_SynchronousMachines()
 	 * @see org.opencim.cim.iec61970.wire.SynchronousMachine#getPrimeMover
-	 * @model opposite="PrimeMover" required="true"
 	 * @generated
 	 */
 	SynchronousMachine getSynchronousMachines();

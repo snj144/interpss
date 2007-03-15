@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * D | Y | Z for Delta | Wye | ZigZag winding connections
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getWindingConnection()
- * @model
  * @generated
  */
 public final class WindingConnection extends AbstractEnumerator {
@@ -33,7 +32,6 @@ public final class WindingConnection extends AbstractEnumerator {
 	 * Delta
 	 * <!-- end-model-doc -->
 	 * @see #D_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -47,7 +45,6 @@ public final class WindingConnection extends AbstractEnumerator {
 	 * Wye
 	 * <!-- end-model-doc -->
 	 * @see #Y_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -61,7 +58,6 @@ public final class WindingConnection extends AbstractEnumerator {
 	 * ZigZag
 	 * <!-- end-model-doc -->
 	 * @see #Z_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */

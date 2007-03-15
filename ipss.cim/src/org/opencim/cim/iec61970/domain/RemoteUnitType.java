@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getRemoteUnitType()
- * @model
  * @generated
  */
 public final class RemoteUnitType extends AbstractEnumerator {
@@ -31,7 +30,6 @@ public final class RemoteUnitType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RTU_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -46,7 +44,6 @@ public final class RemoteUnitType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SUBSTATION_CONTROL_SYSTEM_LITERAL
-	 * @model name="SubstationControlSystem"
 	 * @generated
 	 * @ordered
 	 */
@@ -61,7 +58,6 @@ public final class RemoteUnitType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CONTROL_CENTER_LITERAL
-	 * @model name="ControlCenter"
 	 * @generated
 	 * @ordered
 	 */
@@ -76,7 +72,6 @@ public final class RemoteUnitType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #IED_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */

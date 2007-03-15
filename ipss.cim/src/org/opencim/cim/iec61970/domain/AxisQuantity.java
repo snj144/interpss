@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The quantities that can be used at the CurveSchedule axes.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getAxisQuantity()
- * @model
  * @generated
  */
 public final class AxisQuantity extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class AxisQuantity extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NONE_LITERAL
-	 * @model name="none"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class AxisQuantity extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TIME_LITERAL
-	 * @model name="time"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class AxisQuantity extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ACTIVE_POWER_LITERAL
-	 * @model name="activePower"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class AxisQuantity extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #REACTIVE_POWER_LITERAL
-	 * @model name="reactivePower"
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +89,6 @@ public final class AxisQuantity extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CURRENCY_LITERAL
-	 * @model name="currency"
 	 * @generated
 	 * @ordered
 	 */
