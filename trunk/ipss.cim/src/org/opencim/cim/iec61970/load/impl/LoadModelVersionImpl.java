@@ -12,10 +12,14 @@ import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EClass;
 
+import org.eclipse.emf.ecore.EFactory;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 import org.opencim.cim.iec61970.domain.DomainFactory;
+import org.opencim.cim.iec61970.domain.impl.DomainPackageImpl;
+
 import org.opencim.cim.iec61970.domain.DomainPackage;
 
 import org.opencim.cim.iec61970.load.LoadModelVersion;

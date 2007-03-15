@@ -19,7 +19,6 @@ import org.opencim.cim.iec61970.core.CurveSchedule;
  *
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getGrossToNetMWCurve()
- * @model
  * @generated
  */
 public interface GrossToNetMWCurve extends CurveSchedule {

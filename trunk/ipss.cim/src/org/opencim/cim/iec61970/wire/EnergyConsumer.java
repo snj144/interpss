@@ -56,7 +56,6 @@ import org.opencim.datatype.real.ReactivePower;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer()
- * @model
  * @generated
  */
 public interface EnergyConsumer extends ConductingEquipment {
@@ -72,7 +71,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Load Demand Models</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_LoadDemandModels()
 	 * @see org.opencim.cim.iec61970.load.LoadDemandModel#getEnergyConsumer
-	 * @model type="org.opencim.cim.iec61970.load.LoadDemandModel" opposite="EnergyConsumer" containment="true"
 	 * @generated
 	 */
 	EList getLoadDemandModels();
@@ -89,7 +87,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Non Conform Load Schedules</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_NonConformLoadSchedules()
 	 * @see org.opencim.cim.iec61970.load.NonConformLoadSchedule#getEnergyConsumer
-	 * @model type="org.opencim.cim.iec61970.load.NonConformLoadSchedule" opposite="EnergyConsumer" containment="true"
 	 * @generated
 	 */
 	EList getNonConformLoadSchedules();
@@ -106,7 +103,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @see #setLoadArea(LoadArea)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_LoadArea()
 	 * @see org.opencim.cim.iec61970.load.LoadArea#getEnergyConsumers
-	 * @model opposite="EnergyConsumers" required="true"
 	 * @generated
 	 */
 	LoadArea getLoadArea();
@@ -133,7 +129,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @see #setPowerCutZone(PowerCutZone)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_PowerCutZone()
 	 * @see org.opencim.cim.iec61970.load.PowerCutZone#getEnergyConsumers
-	 * @model opposite="EnergyConsumers" required="true"
 	 * @generated
 	 */
 	PowerCutZone getPowerCutZone();
@@ -158,7 +153,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Conforming Load Flag</em>' attribute.
 	 * @see #setConformingLoadFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_ConformingLoadFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getConformingLoadFlag();
@@ -183,7 +177,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Customer Count</em>' attribute.
 	 * @see #setCustomerCount(Counter)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_CustomerCount()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Counter"
 	 * @generated
 	 */
 	Counter getCustomerCount();
@@ -208,7 +201,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>PFexp</em>' attribute.
 	 * @see #setPFexp(Exponent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_PFexp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Exponent"
 	 * @generated
 	 */
 	Exponent getPFexp();
@@ -233,7 +225,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Pfixed</em>' attribute.
 	 * @see #setPfixed(ActivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_Pfixed()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getPfixed();
@@ -258,7 +249,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Pfixed Pct</em>' attribute.
 	 * @see #setPfixedPct(PerCent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_PfixedPct()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getPfixedPct();
@@ -283,7 +273,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Pnom</em>' attribute.
 	 * @see #setPnom(ActivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_Pnom()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getPnom();
@@ -308,7 +297,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Pnom Pct</em>' attribute.
 	 * @see #setPnomPct(PerCent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_PnomPct()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getPnomPct();
@@ -333,7 +321,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Power Factor</em>' attribute.
 	 * @see #setPowerFactor(PowerFactor)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_PowerFactor()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerFactor"
 	 * @generated
 	 */
 	PowerFactor getPowerFactor();
@@ -358,7 +345,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>PVexp</em>' attribute.
 	 * @see #setPVexp(Exponent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_PVexp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Exponent"
 	 * @generated
 	 */
 	Exponent getPVexp();
@@ -383,7 +369,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>QFexp</em>' attribute.
 	 * @see #setQFexp(Exponent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_QFexp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Exponent"
 	 * @generated
 	 */
 	Exponent getQFexp();
@@ -408,7 +393,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Qfixed</em>' attribute.
 	 * @see #setQfixed(ReactivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_Qfixed()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ReactivePower"
 	 * @generated
 	 */
 	ReactivePower getQfixed();
@@ -433,7 +417,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Qfixed Pct</em>' attribute.
 	 * @see #setQfixedPct(PerCent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_QfixedPct()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getQfixedPct();
@@ -458,7 +441,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Qnom</em>' attribute.
 	 * @see #setQnom(ReactivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_Qnom()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ReactivePower"
 	 * @generated
 	 */
 	ReactivePower getQnom();
@@ -483,7 +465,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>Qnom Pct</em>' attribute.
 	 * @see #setQnomPct(PerCent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_QnomPct()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getQnomPct();
@@ -508,7 +489,6 @@ public interface EnergyConsumer extends ConductingEquipment {
 	 * @return the value of the '<em>QVexp</em>' attribute.
 	 * @see #setQVexp(Exponent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getEnergyConsumer_QVexp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Exponent"
 	 * @generated
 	 */
 	Exponent getQVexp();

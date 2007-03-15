@@ -28,7 +28,6 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroGeneratingUnit()
- * @model
  * @generated
  */
 public interface HydroGeneratingUnit extends GeneratingUnit {
@@ -42,7 +41,6 @@ public interface HydroGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>Hydro Unit Water Cost</em>' attribute.
 	 * @see #setHydroUnitWaterCost(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroGeneratingUnit_HydroUnitWaterCost()
-	 * @model
 	 * @generated
 	 */
 	Float getHydroUnitWaterCost();
@@ -67,7 +65,6 @@ public interface HydroGeneratingUnit extends GeneratingUnit {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Hydro Generating Efficiency Curves</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroGeneratingUnit_HydroGeneratingEfficiencyCurves()
-	 * @model type="org.opencim.cim.iec61970.gen.production.HydroGeneratingEfficiencyCurve" containment="true"
 	 * @generated
 	 */
 	EList getHydroGeneratingEfficiencyCurves();
@@ -82,7 +79,6 @@ public interface HydroGeneratingUnit extends GeneratingUnit {
 	 * @return the value of the '<em>Penstock Loss Curve</em>' containment reference.
 	 * @see #setPenstockLossCurve(PenstockLossCurve)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroGeneratingUnit_PenstockLossCurve()
-	 * @model containment="true"
 	 * @generated
 	 */
 	PenstockLossCurve getPenstockLossCurve();
@@ -107,7 +103,6 @@ public interface HydroGeneratingUnit extends GeneratingUnit {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Tailbay Loss Curve</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroGeneratingUnit_TailbayLossCurve()
-	 * @model type="org.opencim.cim.iec61970.gen.production.TailbayLossCurve" containment="true"
 	 * @generated
 	 */
 	EList getTailbayLossCurve();

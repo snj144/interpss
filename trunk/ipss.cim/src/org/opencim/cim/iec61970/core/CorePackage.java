@@ -26,7 +26,6 @@ import org.eclipse.emf.ecore.EReference;
  * Contains the core PowerSystemResource and ConductingEquipment entities shared by all applications plus common collections of those entities. Not all applications require all the Core entities.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.core.CoreFactory
- * @model kind="package"
  * @generated
  */
 public interface CorePackage extends EPackage {

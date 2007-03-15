@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Style or shape of curve.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getCurveStyle()
- * @model
  * @generated
  */
 public final class CurveStyle extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class CurveStyle extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CONSTANT_YVALUE_LITERAL
-	 * @model name="constantYValue"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class CurveStyle extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #STRAIGHT_LINE_YVALUES_LITERAL
-	 * @model name="straightLineYValues"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class CurveStyle extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RAMP_YVALUE_LITERAL
-	 * @model name="rampYValue"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class CurveStyle extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FORMULA_LITERAL
-	 * @model name="formula"
 	 * @generated
 	 * @ordered
 	 */

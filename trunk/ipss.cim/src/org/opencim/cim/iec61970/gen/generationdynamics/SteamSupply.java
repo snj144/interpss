@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamSupply()
- * @model
  * @generated
  */
 public interface SteamSupply extends PowerSystemResource {
@@ -42,7 +41,6 @@ public interface SteamSupply extends PowerSystemResource {
 	 * @return the value of the '<em>Steam Supply Rating</em>' attribute.
 	 * @see #setSteamSupplyRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamSupply_SteamSupplyRating()
-	 * @model
 	 * @generated
 	 */
 	Float getSteamSupplyRating();
@@ -69,7 +67,6 @@ public interface SteamSupply extends PowerSystemResource {
 	 * @return the value of the '<em>Steam Turbines</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamSupply_SteamTurbines()
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.SteamTurbine#getSteamSupplys
-	 * @model type="org.opencim.cim.iec61970.gen.generationdynamics.SteamTurbine" opposite="SteamSupplys"
 	 * @generated
 	 */
 	EList getSteamTurbines();

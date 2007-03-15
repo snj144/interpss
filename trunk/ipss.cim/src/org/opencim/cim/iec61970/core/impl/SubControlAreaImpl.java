@@ -15,6 +15,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -25,6 +26,8 @@ import org.opencim.cim.iec61970.core.SubControlArea;
 import org.opencim.cim.iec61970.core.Substation;
 
 import org.opencim.cim.iec61970.gen.production.GeneratingUnit;
+import org.opencim.cim.iec61970.gen.production.impl.ProductionPackageImpl;
+
 import org.opencim.cim.iec61970.gen.production.ProductionPackage;
 
 /**

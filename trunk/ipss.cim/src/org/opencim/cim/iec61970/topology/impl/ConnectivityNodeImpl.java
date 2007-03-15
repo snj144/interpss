@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -27,6 +28,7 @@ import org.opencim.cim.iec61970.core.CorePackage;
 import org.opencim.cim.iec61970.core.EquipmentContainer;
 import org.opencim.cim.iec61970.core.Terminal;
 
+import org.opencim.cim.iec61970.core.impl.CorePackageImpl;
 import org.opencim.cim.iec61970.core.impl.NamingImpl;
 
 import org.opencim.cim.iec61970.topology.ConnectivityNode;

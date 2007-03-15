@@ -27,7 +27,6 @@ import org.opencim.cim.iec61970.topology.ConnectivityNode;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getTerminal()
- * @model
  * @generated
  */
 public interface Terminal extends Naming {
@@ -43,7 +42,6 @@ public interface Terminal extends Naming {
 	 * @see #setConductingEquipment(ConductingEquipment)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getTerminal_ConductingEquipment()
 	 * @see org.opencim.cim.iec61970.core.ConductingEquipment#getTerminals
-	 * @model opposite="Terminals" required="true"
 	 * @generated
 	 */
 	ConductingEquipment getConductingEquipment();
@@ -70,7 +68,6 @@ public interface Terminal extends Naming {
 	 * @see #setConnectivityNode(ConnectivityNode)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getTerminal_ConnectivityNode()
 	 * @see org.opencim.cim.iec61970.topology.ConnectivityNode#getTerminals
-	 * @model opposite="Terminals" required="true"
 	 * @generated
 	 */
 	ConnectivityNode getConnectivityNode();

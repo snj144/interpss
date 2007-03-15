@@ -27,7 +27,6 @@ import org.opencim.cim.iec61970.wire.EnergyConsumer;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getNonConformLoadSchedule()
- * @model
  * @generated
  */
 public interface NonConformLoadSchedule extends CurveSchedule {
@@ -43,7 +42,6 @@ public interface NonConformLoadSchedule extends CurveSchedule {
 	 * @see #setEnergyConsumer(EnergyConsumer)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getNonConformLoadSchedule_EnergyConsumer()
 	 * @see org.opencim.cim.iec61970.wire.EnergyConsumer#getNonConformLoadSchedules
-	 * @model opposite="NonConformLoadSchedules" required="true"
 	 * @generated
 	 */
 	EnergyConsumer getEnergyConsumer();

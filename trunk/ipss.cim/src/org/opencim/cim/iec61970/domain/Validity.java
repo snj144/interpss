@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getValidity()
- * @model
  * @generated
  */
 public final class Validity extends AbstractEnumerator {
@@ -30,7 +29,6 @@ public final class Validity extends AbstractEnumerator {
 	 * The value is marked good if no abnormal condition of the acquisition function or the information source is detected.
 	 * <!-- end-model-doc -->
 	 * @see #GOOD_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -44,7 +42,6 @@ public final class Validity extends AbstractEnumerator {
 	 * The value is marked questionable if a supervision function detects an abnormal behaviour, however the value could still be valid. The client is responsible for determining whether or not values marked "questionable" should be used.
 	 * <!-- end-model-doc -->
 	 * @see #QUESTIONABLE_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -58,7 +55,6 @@ public final class Validity extends AbstractEnumerator {
 	 * The value is marked invalid when a supervision function recognises abnormal conditions of the acquisition function or the information source (missing or non-operating updating devices). The value is not defined under this condition. The mark invalid is used to indicate to the client that the value may be incorrect and shall not be used.
 	 * <!-- end-model-doc -->
 	 * @see #INVALID_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */

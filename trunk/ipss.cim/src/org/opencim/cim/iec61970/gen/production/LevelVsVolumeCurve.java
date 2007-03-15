@@ -19,7 +19,6 @@ import org.opencim.cim.iec61970.core.CurveSchedule;
  *
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getLevelVsVolumeCurve()
- * @model
  * @generated
  */
 public interface LevelVsVolumeCurve extends CurveSchedule {

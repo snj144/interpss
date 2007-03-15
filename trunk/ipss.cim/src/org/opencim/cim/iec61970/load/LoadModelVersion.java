@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadModelVersion()
- * @model
  * @generated
  */
 public interface LoadModelVersion extends EObject {
@@ -40,7 +39,6 @@ public interface LoadModelVersion extends EObject {
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadModelVersion_Version()
-	 * @model default="LoadModel_v001"
 	 * @generated
 	 */
 	String getVersion();
@@ -67,7 +65,6 @@ public interface LoadModelVersion extends EObject {
 	 * @return the value of the '<em>Date</em>' attribute.
 	 * @see #setDate(Date)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadModelVersion_Date()
-	 * @model default="2004-06-30" dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getDate();

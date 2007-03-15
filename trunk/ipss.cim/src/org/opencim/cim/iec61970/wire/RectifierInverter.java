@@ -46,7 +46,6 @@ import org.opencim.datatype.string.OperatingMode;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter()
- * @model
  * @generated
  */
 public interface RectifierInverter extends ConductingEquipment {
@@ -60,7 +59,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Rated KV</em>' attribute.
 	 * @see #setRatedKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_RatedKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getRatedKV();
@@ -85,7 +83,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Bridges</em>' attribute.
 	 * @see #setBridges(Counter)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_Bridges()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Counter"
 	 * @generated
 	 */
 	Counter getBridges();
@@ -110,7 +107,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Commutating Reactance</em>' attribute.
 	 * @see #setCommutatingReactance(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_CommutatingReactance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getCommutatingReactance();
@@ -135,7 +131,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Commutating Resistance</em>' attribute.
 	 * @see #setCommutatingResistance(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_CommutatingResistance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getCommutatingResistance();
@@ -160,7 +155,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Compound Resistance</em>' attribute.
 	 * @see #setCompoundResistance(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_CompoundResistance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getCompoundResistance();
@@ -185,7 +179,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Min Compound Voltage</em>' attribute.
 	 * @see #setMinCompoundVoltage(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_MinCompoundVoltage()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMinCompoundVoltage();
@@ -210,7 +203,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Frequency</em>' attribute.
 	 * @see #setFrequency(Frequency)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_Frequency()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Frequency"
 	 * @generated
 	 */
 	Frequency getFrequency();
@@ -235,7 +227,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Maximum MW</em>' attribute.
 	 * @see #setMaximumMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_MaximumMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMaximumMW();
@@ -260,7 +251,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Minimum MW</em>' attribute.
 	 * @see #setMinimumMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_MinimumMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMinimumMW();
@@ -285,7 +275,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Maximum KV</em>' containment reference.
 	 * @see #setMaximumKV(VoltageControlZone)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_MaximumKV()
-	 * @model containment="true"
 	 * @generated
 	 */
 	VoltageControlZone getMaximumKV();
@@ -310,7 +299,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Minimum KV</em>' attribute.
 	 * @see #setMinimumKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_MinimumKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMinimumKV();
@@ -335,7 +323,6 @@ public interface RectifierInverter extends ConductingEquipment {
 	 * @return the value of the '<em>Operating Mode</em>' attribute.
 	 * @see #setOperatingMode(OperatingMode)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRectifierInverter_OperatingMode()
-	 * @model dataType="org.opencim.cim.iec61970.domain.OperatingMode"
 	 * @generated
 	 */
 	OperatingMode getOperatingMode();

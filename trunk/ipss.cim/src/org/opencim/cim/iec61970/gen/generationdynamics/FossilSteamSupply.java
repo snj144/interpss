@@ -57,7 +57,6 @@ import org.opencim.datatype.real.Seconds;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply()
- * @model
  * @generated
  */
 public interface FossilSteamSupply extends SteamSupply {
@@ -71,7 +70,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Aux Power Versus Frequency</em>' attribute.
 	 * @see #setAuxPowerVersusFrequency(PowerVersusFrequency)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_AuxPowerVersusFrequency()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerVersusFrequency"
 	 * @generated
 	 */
 	PowerVersusFrequency getAuxPowerVersusFrequency();
@@ -96,7 +94,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Aux Powerversus Voltage</em>' attribute.
 	 * @see #setAuxPowerversusVoltage(PowerVersusVoltage)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_AuxPowerversusVoltage()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerVersusVoltage"
 	 * @generated
 	 */
 	PowerVersusVoltage getAuxPowerversusVoltage();
@@ -121,7 +118,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Control IC</em>' attribute.
 	 * @see #setControlIC(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_ControlIC()
-	 * @model
 	 * @generated
 	 */
 	Float getControlIC();
@@ -148,7 +144,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @see org.opencim.cim.iec61970.domain.BoilerControlMode
 	 * @see #setBoilerControlMode(BoilerControlMode)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_BoilerControlMode()
-	 * @model
 	 * @generated
 	 */
 	BoilerControlMode getBoilerControlMode();
@@ -174,7 +169,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Control MWEB</em>' attribute.
 	 * @see #setControlMWEB(Ratio)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_ControlMWEB()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Ratio"
 	 * @generated
 	 */
 	Ratio getControlMWEB();
@@ -199,7 +193,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Control PC</em>' attribute.
 	 * @see #setControlPC(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_ControlPC()
-	 * @model
 	 * @generated
 	 */
 	Float getControlPC();
@@ -224,7 +217,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Control PEB</em>' attribute.
 	 * @see #setControlPEB(Ratio)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_ControlPEB()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Ratio"
 	 * @generated
 	 */
 	Ratio getControlPEB();
@@ -249,7 +241,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Control PED</em>' attribute.
 	 * @see #setControlPED(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_ControlPED()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getControlPED();
@@ -274,7 +265,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Control TC</em>' attribute.
 	 * @see #setControlTC(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_ControlTC()
-	 * @model
 	 * @generated
 	 */
 	Float getControlTC();
@@ -299,7 +289,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Feed Water IG</em>' attribute.
 	 * @see #setFeedWaterIG(Ratio)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_FeedWaterIG()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Ratio"
 	 * @generated
 	 */
 	Ratio getFeedWaterIG();
@@ -324,7 +313,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Feed Water PG</em>' attribute.
 	 * @see #setFeedWaterPG(Ratio)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_FeedWaterPG()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Ratio"
 	 * @generated
 	 */
 	Ratio getFeedWaterPG();
@@ -349,7 +337,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Feed Water TC</em>' attribute.
 	 * @see #setFeedWaterTC(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_FeedWaterTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getFeedWaterTC();
@@ -374,7 +361,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Fuel Demand Limit</em>' attribute.
 	 * @see #setFuelDemandLimit(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_FuelDemandLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getFuelDemandLimit();
@@ -399,7 +385,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Fuel Supply Delay</em>' attribute.
 	 * @see #setFuelSupplyDelay(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_FuelSupplyDelay()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getFuelSupplyDelay();
@@ -424,7 +409,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Mech Power Sensor Lag</em>' attribute.
 	 * @see #setMechPowerSensorLag(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_MechPowerSensorLag()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getMechPowerSensorLag();
@@ -449,7 +433,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Fuel Supply TC</em>' attribute.
 	 * @see #setFuelSupplyTC(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_FuelSupplyTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getFuelSupplyTC();
@@ -474,7 +457,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>MW Maximum ER</em>' attribute.
 	 * @see #setMWMaximumER(RateOfChange)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_MWMaximumER()
-	 * @model dataType="org.opencim.cim.iec61970.domain.RateOfChange"
 	 * @generated
 	 */
 	RateOfChange getMWMaximumER();
@@ -499,7 +481,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>MW Minimum ER</em>' attribute.
 	 * @see #setMWMinimumER(RateOfChange)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_MWMinimumER()
-	 * @model dataType="org.opencim.cim.iec61970.domain.RateOfChange"
 	 * @generated
 	 */
 	RateOfChange getMWMinimumER();
@@ -524,7 +505,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure Ctrl DG</em>' attribute.
 	 * @see #setPressureCtrlDG(Ratio)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_PressureCtrlDG()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Ratio"
 	 * @generated
 	 */
 	Ratio getPressureCtrlDG();
@@ -549,7 +529,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure Ctrl IG</em>' attribute.
 	 * @see #setPressureCtrlIG(Ratio)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_PressureCtrlIG()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Ratio"
 	 * @generated
 	 */
 	Ratio getPressureCtrlIG();
@@ -574,7 +553,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure Ctrl PG</em>' attribute.
 	 * @see #setPressureCtrlPG(Ratio)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_PressureCtrlPG()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Ratio"
 	 * @generated
 	 */
 	Ratio getPressureCtrlPG();
@@ -599,7 +577,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Pressure Feedback</em>' attribute.
 	 * @see #setPressureFeedback(Integer)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_PressureFeedback()
-	 * @model
 	 * @generated
 	 */
 	Integer getPressureFeedback();
@@ -624,7 +601,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Super Heater1 Capacity</em>' attribute.
 	 * @see #setSuperHeater1Capacity(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_SuperHeater1Capacity()
-	 * @model
 	 * @generated
 	 */
 	Float getSuperHeater1Capacity();
@@ -649,7 +625,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Super Heater2 Capacity</em>' attribute.
 	 * @see #setSuperHeater2Capacity(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_SuperHeater2Capacity()
-	 * @model
 	 * @generated
 	 */
 	Float getSuperHeater2Capacity();
@@ -674,7 +649,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Super Heater Pipe PD</em>' attribute.
 	 * @see #setSuperHeaterPipePD(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_SuperHeaterPipePD()
-	 * @model
 	 * @generated
 	 */
 	Float getSuperHeaterPipePD();
@@ -699,7 +673,6 @@ public interface FossilSteamSupply extends SteamSupply {
 	 * @return the value of the '<em>Throttle Pressure SP</em>' attribute.
 	 * @see #setThrottlePressureSP(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getFossilSteamSupply_ThrottlePressureSP()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getThrottlePressureSP();

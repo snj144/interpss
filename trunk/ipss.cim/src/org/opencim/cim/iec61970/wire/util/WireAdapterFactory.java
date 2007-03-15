@@ -22,6 +22,8 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
 
 import org.opencim.cim.iec61970.wire.*;
 
+import org.opencim.cim.iec61970.wire.impl.WirePackageImpl;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.

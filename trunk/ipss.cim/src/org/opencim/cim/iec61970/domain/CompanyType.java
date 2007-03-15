@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Type of company.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getCompanyType()
- * @model
  * @generated
  */
 public final class CompanyType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class CompanyType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #POOL_LITERAL
-	 * @model name="pool"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class CompanyType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MUNICIPAL_LITERAL
-	 * @model name="municipal"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class CompanyType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #IS_PRIVATE_LITERAL
-	 * @model name="isPrivate"
 	 * @generated
 	 * @ordered
 	 */

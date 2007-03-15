@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getSynchronousMachineOperatingMode()
- * @model
  * @generated
  */
 public final class SynchronousMachineOperatingMode extends AbstractEnumerator {
@@ -31,7 +30,6 @@ public final class SynchronousMachineOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #GENERATOR_LITERAL
-	 * @model name="generator"
 	 * @generated
 	 * @ordered
 	 */
@@ -46,7 +44,6 @@ public final class SynchronousMachineOperatingMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CONDENSER_LITERAL
-	 * @model name="condenser"
 	 * @generated
 	 * @ordered
 	 */

@@ -25,7 +25,6 @@ import org.opencim.cim.iec61970.core.ConductingEquipment;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulatingCondEq()
- * @model abstract="true"
  * @generated
  */
 public interface RegulatingCondEq extends ConductingEquipment {
@@ -41,7 +40,6 @@ public interface RegulatingCondEq extends ConductingEquipment {
 	 * @see #setRegulationSchedule(RegulationSchedule)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulatingCondEq_RegulationSchedule()
 	 * @see org.opencim.cim.iec61970.wire.RegulationSchedule#getRegulatingCondEqs
-	 * @model opposite="RegulatingCondEqs"
 	 * @generated
 	 */
 	RegulationSchedule getRegulationSchedule();

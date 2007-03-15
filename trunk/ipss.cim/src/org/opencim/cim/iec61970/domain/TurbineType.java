@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Type of turbine.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getTurbineType()
- * @model
  * @generated
  */
 public final class TurbineType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class TurbineType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FRANCIS_LITERAL
-	 * @model name="francis"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class TurbineType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PELTON_LITERAL
-	 * @model name="pelton"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class TurbineType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #KAPLAN_LITERAL
-	 * @model name="kaplan"
 	 * @generated
 	 * @ordered
 	 */

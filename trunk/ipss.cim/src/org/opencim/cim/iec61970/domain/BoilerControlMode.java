@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Boiler { Following, Coordinated}
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getBoilerControlMode()
- * @model
  * @generated
  */
 public final class BoilerControlMode extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class BoilerControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FOLLOWING_LITERAL
-	 * @model name="following"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class BoilerControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #COORDINATED_LITERAL
-	 * @model name="coordinated"
 	 * @generated
 	 * @ordered
 	 */

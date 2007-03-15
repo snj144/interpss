@@ -30,7 +30,6 @@ import org.opencim.cim.iec61970.core.Naming;
  * </p>
  *
  * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalIsland()
- * @model
  * @generated
  */
 public interface TopologicalIsland extends Naming {
@@ -47,7 +46,6 @@ public interface TopologicalIsland extends Naming {
 	 * @see #setSimuModel(SimulationModel)
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalIsland_SimuModel()
 	 * @see org.opencim.cim.SimulationModel#getTopologicalIslands
-	 * @model opposite="topologicalIslands" required="true"
 	 * @generated
 	 */
 	SimulationModel getSimuModel();
@@ -74,7 +72,6 @@ public interface TopologicalIsland extends Naming {
 	 * @return the value of the '<em>Topological Nodes</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.topology.TopologyPackage#getTopologicalIsland_TopologicalNodes()
 	 * @see org.opencim.cim.iec61970.topology.TopologicalNode#getTopologicalIsland
-	 * @model type="org.opencim.cim.iec61970.topology.TopologicalNode" opposite="TopologicalIsland" containment="true" required="true"
 	 * @generated
 	 */
 	EList getTopologicalNodes();

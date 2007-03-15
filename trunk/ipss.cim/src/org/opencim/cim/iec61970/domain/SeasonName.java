@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Name of season
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getSeasonName()
- * @model
  * @generated
  */
 public final class SeasonName extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class SeasonName extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #WINTER_LITERAL
-	 * @model name="winter"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class SeasonName extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SPRING_LITERAL
-	 * @model name="spring"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class SeasonName extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SUMMER_LITERAL
-	 * @model name="summer"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class SeasonName extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FALL_LITERAL
-	 * @model name="fall"
 	 * @generated
 	 * @ordered
 	 */

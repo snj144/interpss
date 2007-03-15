@@ -25,7 +25,6 @@ import org.eclipse.emf.ecore.EPackage;
  * This package contains packages that have information for Unit Commitment and Economic Dispatch of Hydro and Thermal Generating Units, Load Forecasting, Automatic Generation Control, and Unit Modeling for Dynamic Training Simulator.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.gen.GenFactory
- * @model kind="package"
  * @generated
  */
 public interface GenPackage extends EPackage {
@@ -152,7 +151,7 @@ public interface GenPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	interface Literals {
+	interface Literals  {
 		/**
 		 * The meta object literal for the '{@link org.opencim.cim.iec61970.gen.impl.GenerationVersionImpl <em>Generation Version</em>}' class.
 		 * <!-- begin-user-doc -->

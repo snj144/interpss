@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The method of applying the ramp.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getRampStartMethod()
- * @model
  * @generated
  */
 public final class RampStartMethod extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class RampStartMethod extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ZERO_LITERAL
-	 * @model name="zero"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class RampStartMethod extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FIFTY_PER_CENT_LITERAL
-	 * @model name="fiftyPerCent"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class RampStartMethod extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #ONE_HUNDRED_PER_CENT_LITERAL
-	 * @model name="oneHundredPerCent"
 	 * @generated
 	 * @ordered
 	 */

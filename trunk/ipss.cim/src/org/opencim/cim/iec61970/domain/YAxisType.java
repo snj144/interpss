@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The type of dependent variable.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getYAxisType()
- * @model
  * @generated
  */
 public final class YAxisType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class YAxisType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SINGLE_YVALUE_LITERAL
-	 * @model name="singleYValue"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class YAxisType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TWO_YVALUES_LITERAL
-	 * @model name="twoYValues"
 	 * @generated
 	 * @ordered
 	 */

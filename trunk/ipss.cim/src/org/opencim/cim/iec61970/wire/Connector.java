@@ -19,7 +19,6 @@ import org.opencim.cim.iec61970.core.ConductingEquipment;
  *
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getConnector()
- * @model
  * @generated
  */
 public interface Connector extends ConductingEquipment {

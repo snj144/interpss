@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Control modes for a transformer, i.e., Off, Local, Volt, MVAr
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getTransformerControlMode()
- * @model
  * @generated
  */
 public final class TransformerControlMode extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class TransformerControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OFF_LITERAL
-	 * @model name="off"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class TransformerControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LOCAL_LITERAL
-	 * @model name="local"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class TransformerControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #VOLT_LITERAL
-	 * @model name="volt"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class TransformerControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MW_LITERAL
-	 * @model
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +89,6 @@ public final class TransformerControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MV_AR_LITERAL
-	 * @model name="mVAr"
 	 * @generated
 	 * @ordered
 	 */

@@ -31,7 +31,6 @@ import org.opencim.cim.iec61970.domain.BusbarConfiguration;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getBay()
- * @model
  * @generated
  */
 public interface Bay extends EquipmentContainer {
@@ -45,7 +44,6 @@ public interface Bay extends EquipmentContainer {
 	 * @return the value of the '<em>Bay Energy Meas Flag</em>' attribute.
 	 * @see #setBayEnergyMeasFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBay_BayEnergyMeasFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getBayEnergyMeasFlag();
@@ -70,7 +68,6 @@ public interface Bay extends EquipmentContainer {
 	 * @return the value of the '<em>Bay Power Meas Flag</em>' attribute.
 	 * @see #setBayPowerMeasFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBay_BayPowerMeasFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getBayPowerMeasFlag();
@@ -97,7 +94,6 @@ public interface Bay extends EquipmentContainer {
 	 * @see org.opencim.cim.iec61970.domain.BreakerConfiguration
 	 * @see #setBreakerConfiguration(BreakerConfiguration)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBay_BreakerConfiguration()
-	 * @model
 	 * @generated
 	 */
 	BreakerConfiguration getBreakerConfiguration();
@@ -125,7 +121,6 @@ public interface Bay extends EquipmentContainer {
 	 * @see org.opencim.cim.iec61970.domain.BusbarConfiguration
 	 * @see #setBusBarConfiguration(BusbarConfiguration)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBay_BusBarConfiguration()
-	 * @model
 	 * @generated
 	 */
 	BusbarConfiguration getBusBarConfiguration();
@@ -153,7 +148,6 @@ public interface Bay extends EquipmentContainer {
 	 * @see #setVoltageLevel(VoltageLevel)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBay_VoltageLevel()
 	 * @see org.opencim.cim.iec61970.core.VoltageLevel#getBays
-	 * @model opposite="Bays" required="true"
 	 * @generated
 	 */
 	VoltageLevel getVoltageLevel();
@@ -181,7 +175,6 @@ public interface Bay extends EquipmentContainer {
 	 * @see #setSubstation(Substation)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBay_Substation()
 	 * @see org.opencim.cim.iec61970.core.Substation#getBays
-	 * @model opposite="Bays" required="true"
 	 * @generated
 	 */
 	Substation getSubstation();

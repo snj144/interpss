@@ -27,7 +27,6 @@ import org.opencim.datatype.real.PowerROCPerMin;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartRampCurve()
- * @model
  * @generated
  */
 public interface StartRampCurve extends CurveSchedule {
@@ -41,7 +40,6 @@ public interface StartRampCurve extends CurveSchedule {
 	 * @return the value of the '<em>Hot Standby Ramp</em>' attribute.
 	 * @see #setHotStandbyRamp(PowerROCPerMin)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartRampCurve_HotStandbyRamp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerROCPerMin"
 	 * @generated
 	 */
 	PowerROCPerMin getHotStandbyRamp();

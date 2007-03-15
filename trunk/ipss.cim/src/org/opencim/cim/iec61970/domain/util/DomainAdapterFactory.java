@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.EObject;
 
 import org.opencim.cim.iec61970.domain.*;
 
+import org.opencim.cim.iec61970.domain.impl.DomainPackageImpl;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.

@@ -24,7 +24,6 @@ package org.opencim.cim.iec61970.core;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getEquipment()
- * @model
  * @generated
  */
 public interface Equipment extends PowerSystemResource {
@@ -41,7 +40,6 @@ public interface Equipment extends PowerSystemResource {
 	 * @see #setEquipmentContainer(EquipmentContainer)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getEquipment_EquipmentContainer()
 	 * @see org.opencim.cim.iec61970.core.EquipmentContainer#getEquipments
-	 * @model opposite="Equipments" required="true"
 	 * @generated
 	 */
 	EquipmentContainer getEquipmentContainer();

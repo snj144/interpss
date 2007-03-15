@@ -53,7 +53,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator()
- * @model
  * @generated
  */
 public interface Compensator extends RegulatingCondEq {
@@ -67,7 +66,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>AVR Delay</em>' attribute.
 	 * @see #setAVRDelay(Seconds)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_AVRDelay()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getAVRDelay();
@@ -92,7 +90,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Impedance</em>' attribute.
 	 * @see #setImpedance(Impedance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_Impedance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Impedance"
 	 * @generated
 	 */
 	Impedance getImpedance();
@@ -117,7 +114,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Maximumk V</em>' attribute.
 	 * @see #setMaximumkV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_MaximumkV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMaximumkV();
@@ -142,7 +138,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Maximum Sections</em>' attribute.
 	 * @see #setMaximumSections(Counter)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_MaximumSections()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Counter"
 	 * @generated
 	 */
 	Counter getMaximumSections();
@@ -167,7 +162,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Minimumk V</em>' attribute.
 	 * @see #setMinimumkV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_MinimumkV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMinimumkV();
@@ -192,7 +186,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>MV Ar Per Section</em>' attribute.
 	 * @see #setMVArPerSection(ReactivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_MVArPerSection()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ReactivePower"
 	 * @generated
 	 */
 	ReactivePower getMVArPerSection();
@@ -217,7 +210,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Nominalk V</em>' attribute.
 	 * @see #setNominalkV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_NominalkV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getNominalkV();
@@ -242,7 +234,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Nominal MV Ar</em>' attribute.
 	 * @see #setNominalMVAr(ReactivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_NominalMVAr()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ReactivePower"
 	 * @generated
 	 */
 	ReactivePower getNominalMVAr();
@@ -267,7 +258,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Normal Sections</em>' attribute.
 	 * @see #setNormalSections(Counter)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_NormalSections()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Counter"
 	 * @generated
 	 */
 	Counter getNormalSections();
@@ -292,7 +282,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>R</em>' attribute.
 	 * @see #setR(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_R()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR();
@@ -317,7 +306,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Switch On Count</em>' attribute.
 	 * @see #setSwitchOnCount(Counter)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_SwitchOnCount()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Counter"
 	 * @generated
 	 */
 	Counter getSwitchOnCount();
@@ -342,7 +330,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Switch On Date</em>' attribute.
 	 * @see #setSwitchOnDate(Date)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_SwitchOnDate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.AbsoluteDateTime"
 	 * @generated
 	 */
 	Date getSwitchOnDate();
@@ -367,7 +354,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>Volt Sensitivity</em>' attribute.
 	 * @see #setVoltSensitivity(PUkVPerMVAr)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_VoltSensitivity()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PUkVPerMVAr"
 	 * @generated
 	 */
 	PUkVPerMVAr getVoltSensitivity();
@@ -392,7 +378,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>X</em>' attribute.
 	 * @see #setX(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_X()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX();
@@ -417,7 +402,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @return the value of the '<em>YPer Section</em>' attribute.
 	 * @see #setYPerSection(Admittance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_YPerSection()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Admittance"
 	 * @generated
 	 */
 	Admittance getYPerSection();
@@ -444,7 +428,6 @@ public interface Compensator extends RegulatingCondEq {
 	 * @see org.opencim.cim.iec61970.domain.CompensatorType
 	 * @see #setCompensatorType(CompensatorType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getCompensator_CompensatorType()
-	 * @model
 	 * @generated
 	 */
 	CompensatorType getCompensatorType();

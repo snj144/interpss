@@ -29,7 +29,6 @@ import org.opencim.cim.iec61970.wire.EnergyConsumer;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadDemandModel()
- * @model
  * @generated
  */
 public interface LoadDemandModel extends CurveSchedule {
@@ -45,7 +44,6 @@ public interface LoadDemandModel extends CurveSchedule {
 	 * @see #setEnergyConsumer(EnergyConsumer)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadDemandModel_EnergyConsumer()
 	 * @see org.opencim.cim.iec61970.wire.EnergyConsumer#getLoadDemandModels
-	 * @model opposite="LoadDemandModels" required="true"
 	 * @generated
 	 */
 	EnergyConsumer getEnergyConsumer();
@@ -72,7 +70,6 @@ public interface LoadDemandModel extends CurveSchedule {
 	 * @see #setBasisFor(Season)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadDemandModel_BasisFor()
 	 * @see org.opencim.cim.iec61970.load.Season#getLoadDemandModels
-	 * @model opposite="LoadDemandModels" required="true"
 	 * @generated
 	 */
 	Season getBasisFor();
@@ -99,7 +96,6 @@ public interface LoadDemandModel extends CurveSchedule {
 	 * @see #setDayType(DayType)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getLoadDemandModel_DayType()
 	 * @see org.opencim.cim.iec61970.load.DayType#getLoadDemandModels
-	 * @model opposite="LoadDemandModels" required="true"
 	 * @generated
 	 */
 	DayType getDayType();

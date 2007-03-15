@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Possible states for a switch.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getSwitchState()
- * @model
  * @generated
  */
 public final class SwitchState extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class SwitchState extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OPEN_LITERAL
-	 * @model name="open"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class SwitchState extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CLOSE_LITERAL
-	 * @model name="close"
 	 * @generated
 	 * @ordered
 	 */

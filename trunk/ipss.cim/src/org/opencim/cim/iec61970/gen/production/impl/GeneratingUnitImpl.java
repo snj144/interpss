@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
@@ -26,6 +27,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
 import org.opencim.cim.iec61970.core.CorePackage;
 import org.opencim.cim.iec61970.core.SubControlArea;
 
+import org.opencim.cim.iec61970.core.impl.CorePackageImpl;
 import org.opencim.cim.iec61970.core.impl.EquipmentImpl;
 
 import org.opencim.cim.iec61970.domain.GeneratorControlMode;
@@ -39,6 +41,8 @@ import org.opencim.cim.iec61970.gen.production.GrossToNetMWCurve;
 import org.opencim.cim.iec61970.gen.production.ProductionPackage;
 
 import org.opencim.cim.iec61970.wire.SynchronousMachine;
+import org.opencim.cim.iec61970.wire.impl.WirePackageImpl;
+
 import org.opencim.cim.iec61970.wire.WirePackage;
 
 import org.opencim.datatype.integer.Classification;

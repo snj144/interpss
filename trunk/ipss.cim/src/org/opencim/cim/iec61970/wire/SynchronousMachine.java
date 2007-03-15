@@ -71,7 +71,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine()
- * @model
  * @generated
  */
 public interface SynchronousMachine extends RegulatingCondEq {
@@ -85,7 +84,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>AVR To Manual Lag</em>' attribute.
 	 * @see #setAVRToManualLag(Seconds)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_AVRToManualLag()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getAVRToManualLag();
@@ -110,7 +108,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>AVR To Manual Lead</em>' attribute.
 	 * @see #setAVRToManualLead(Seconds)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_AVRToManualLead()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getAVRToManualLead();
@@ -135,7 +132,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Base MV Ar</em>' attribute.
 	 * @see #setBaseMVAr(ReactivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_BaseMVAr()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ReactivePower"
 	 * @generated
 	 */
 	ReactivePower getBaseMVAr();
@@ -160,7 +156,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Coolant Condition</em>' attribute.
 	 * @see #setCoolantCondition(Float)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_CoolantCondition()
-	 * @model
 	 * @generated
 	 */
 	Float getCoolantCondition();
@@ -187,7 +182,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @see org.opencim.cim.iec61970.domain.CoolantType
 	 * @see #setCoolantType(CoolantType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_CoolantType()
-	 * @model
 	 * @generated
 	 */
 	CoolantType getCoolantType();
@@ -213,7 +207,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Damping</em>' attribute.
 	 * @see #setDamping(Damping)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_Damping()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Damping"
 	 * @generated
 	 */
 	Damping getDamping();
@@ -238,7 +231,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Inertia</em>' attribute.
 	 * @see #setInertia(Inertia)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_Inertia()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Inertia"
 	 * @generated
 	 */
 	Inertia getInertia();
@@ -263,7 +255,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Manual To AVR</em>' attribute.
 	 * @see #setManualToAVR(Seconds)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_ManualToAVR()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getManualToAVR();
@@ -288,7 +279,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Maximum KV</em>' attribute.
 	 * @see #setMaximumKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_MaximumKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMaximumKV();
@@ -313,7 +303,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Maximum MV Ar</em>' attribute.
 	 * @see #setMaximumMVAr(ReactivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_MaximumMVAr()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ReactivePower"
 	 * @generated
 	 */
 	ReactivePower getMaximumMVAr();
@@ -338,7 +327,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Minimum KV</em>' attribute.
 	 * @see #setMinimumKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_MinimumKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMinimumKV();
@@ -363,7 +351,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Minimum MV Ar</em>' attribute.
 	 * @see #setMinimumMVAr(ReactivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_MinimumMVAr()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ReactivePower"
 	 * @generated
 	 */
 	ReactivePower getMinimumMVAr();
@@ -388,7 +375,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>R</em>' attribute.
 	 * @see #setR(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_R()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR();
@@ -413,7 +399,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>R0</em>' attribute.
 	 * @see #setR0(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_R0()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getR0();
@@ -438,7 +423,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Rated MVA</em>' attribute.
 	 * @see #setRatedMVA(ApparentPower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_RatedMVA()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ApparentPower"
 	 * @generated
 	 */
 	ApparentPower getRatedMVA();
@@ -463,7 +447,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>X</em>' attribute.
 	 * @see #setX(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_X()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX();
@@ -488,7 +471,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>X0</em>' attribute.
 	 * @see #setX0(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_X0()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getX0();
@@ -513,7 +495,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>XDirect Subtrans</em>' attribute.
 	 * @see #setXDirectSubtrans(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_XDirectSubtrans()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getXDirectSubtrans();
@@ -538,7 +519,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>XDirect Sync</em>' attribute.
 	 * @see #setXDirectSync(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_XDirectSync()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getXDirectSync();
@@ -563,7 +543,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>XDirect Trans</em>' attribute.
 	 * @see #setXDirectTrans(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_XDirectTrans()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getXDirectTrans();
@@ -588,7 +567,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>XQuad Subtrans</em>' attribute.
 	 * @see #setXQuadSubtrans(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_XQuadSubtrans()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getXQuadSubtrans();
@@ -613,7 +591,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>XQuad Sync</em>' attribute.
 	 * @see #setXQuadSync(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_XQuadSync()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getXQuadSync();
@@ -638,7 +615,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>XQuad Trans</em>' attribute.
 	 * @see #setXQuadTrans(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_XQuadTrans()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getXQuadTrans();
@@ -665,7 +641,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @see org.opencim.cim.iec61970.domain.SynchronousMachineOperatingMode
 	 * @see #setOperatingMode(SynchronousMachineOperatingMode)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_OperatingMode()
-	 * @model
 	 * @generated
 	 */
 	SynchronousMachineOperatingMode getOperatingMode();
@@ -693,7 +668,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @see org.opencim.cim.iec61970.domain.SynchronousMachineType
 	 * @see #setType(SynchronousMachineType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_Type()
-	 * @model
 	 * @generated
 	 */
 	SynchronousMachineType getType();
@@ -720,7 +694,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Condenser MW</em>' attribute.
 	 * @see #setCondenserMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_CondenserMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getCondenserMW();
@@ -748,7 +721,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>MV Ar Capability Curves</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_MVArCapabilityCurves()
 	 * @see org.opencim.cim.iec61970.wire.MVArCapabilityCurve#getSynchronousMachines
-	 * @model type="org.opencim.cim.iec61970.wire.MVArCapabilityCurve" opposite="SynchronousMachines"
 	 * @generated
 	 */
 	EList getMVArCapabilityCurves();
@@ -763,7 +735,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Drives Hydro Pump</em>' reference.
 	 * @see #setDrives_HydroPump(HydroPump)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_Drives_HydroPump()
-	 * @model
 	 * @generated
 	 */
 	HydroPump getDrives_HydroPump();
@@ -790,7 +761,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @see #setGeneratingUnit(GeneratingUnit)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_GeneratingUnit()
 	 * @see org.opencim.cim.iec61970.gen.production.GeneratingUnit#getSynchronousMachines
-	 * @model opposite="SynchronousMachines" required="true"
 	 * @generated
 	 */
 	GeneratingUnit getGeneratingUnit();
@@ -818,7 +788,6 @@ public interface SynchronousMachine extends RegulatingCondEq {
 	 * @return the value of the '<em>Prime Mover</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSynchronousMachine_PrimeMover()
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.PrimeMover#getSynchronousMachines
-	 * @model type="org.opencim.cim.iec61970.gen.generationdynamics.PrimeMover" opposite="SynchronousMachines"
 	 * @generated
 	 */
 	EList getPrimeMover();

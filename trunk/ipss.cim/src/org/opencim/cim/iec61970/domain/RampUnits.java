@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The deltaY versus deltaX units of measure.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getRampUnits()
- * @model
  * @generated
  */
 public final class RampUnits extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class RampUnits extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MW_PER_MINUTE_LITERAL
-	 * @model name="MWPerMinute"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class RampUnits extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RAMP_COMPLETION_IN_MIN_LITERAL
-	 * @model name="rampCompletionInMin"
 	 * @generated
 	 * @ordered
 	 */

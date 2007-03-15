@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The source of the emission value.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getEmissionValueSource()
- * @model
  * @generated
  */
 public final class EmissionValueSource extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class EmissionValueSource extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MEASURED_LITERAL
-	 * @model name="measured"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class EmissionValueSource extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CALCULATED_LITERAL
-	 * @model name="calculated"
 	 * @generated
 	 * @ordered
 	 */

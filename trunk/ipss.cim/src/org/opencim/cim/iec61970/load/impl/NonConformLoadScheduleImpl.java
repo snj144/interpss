@@ -23,6 +23,8 @@ import org.opencim.cim.iec61970.load.LoadPackage;
 import org.opencim.cim.iec61970.load.NonConformLoadSchedule;
 
 import org.opencim.cim.iec61970.wire.EnergyConsumer;
+import org.opencim.cim.iec61970.wire.impl.WirePackageImpl;
+
 import org.opencim.cim.iec61970.wire.WirePackage;
 
 /**

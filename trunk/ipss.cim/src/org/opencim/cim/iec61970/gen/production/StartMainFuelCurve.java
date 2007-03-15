@@ -27,7 +27,6 @@ import org.opencim.cim.iec61970.domain.FuelType;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartMainFuelCurve()
- * @model
  * @generated
  */
 public interface StartMainFuelCurve extends CurveSchedule {
@@ -43,7 +42,6 @@ public interface StartMainFuelCurve extends CurveSchedule {
 	 * @see org.opencim.cim.iec61970.domain.FuelType
 	 * @see #setMainFuelType(FuelType)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getStartMainFuelCurve_MainFuelType()
-	 * @model
 	 * @generated
 	 */
 	FuelType getMainFuelType();

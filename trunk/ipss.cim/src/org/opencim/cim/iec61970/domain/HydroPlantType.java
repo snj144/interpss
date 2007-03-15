@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * The type of hydro power plant, e.g.: Run-of-River, Pumped Storage, Major Storage, Minor Storage.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getHydroPlantType()
- * @model
  * @generated
  */
 public final class HydroPlantType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class HydroPlantType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RUN_OF_RIVER_LITERAL
-	 * @model name="runOfRiver"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class HydroPlantType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PUMPED_STORAGE_LITERAL
-	 * @model name="pumpedStorage"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class HydroPlantType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MAJOR_STORAGE_LITERAL
-	 * @model name="majorStorage"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class HydroPlantType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MINOR_STORAGE_LITERAL
-	 * @model name="minorStorage"
 	 * @generated
 	 * @ordered
 	 */

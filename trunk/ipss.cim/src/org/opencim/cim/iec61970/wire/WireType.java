@@ -39,7 +39,6 @@ import org.opencim.datatype.real.ShortLength;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getWireType()
- * @model
  * @generated
  */
 public interface WireType extends Naming {
@@ -53,7 +52,6 @@ public interface WireType extends Naming {
 	 * @return the value of the '<em>Phase Conductor Count</em>' attribute.
 	 * @see #setPhaseConductorCount(Counter)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireType_PhaseConductorCount()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Counter"
 	 * @generated
 	 */
 	Counter getPhaseConductorCount();
@@ -78,7 +76,6 @@ public interface WireType extends Naming {
 	 * @return the value of the '<em>Phase Conductor Spacing</em>' attribute.
 	 * @see #setPhaseConductorSpacing(ShortLength)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireType_PhaseConductorSpacing()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ShortLength"
 	 * @generated
 	 */
 	ShortLength getPhaseConductorSpacing();
@@ -103,7 +100,6 @@ public interface WireType extends Naming {
 	 * @return the value of the '<em>Amp Rating</em>' attribute.
 	 * @see #setAmpRating(CurrentFlow)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireType_AmpRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CurrentFlow"
 	 * @generated
 	 */
 	CurrentFlow getAmpRating();
@@ -128,7 +124,6 @@ public interface WireType extends Naming {
 	 * @return the value of the '<em>GMR</em>' attribute.
 	 * @see #setGMR(ShortLength)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireType_GMR()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ShortLength"
 	 * @generated
 	 */
 	ShortLength getGMR();
@@ -153,7 +148,6 @@ public interface WireType extends Naming {
 	 * @return the value of the '<em>Radius</em>' attribute.
 	 * @see #setRadius(ShortLength)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireType_Radius()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ShortLength"
 	 * @generated
 	 */
 	ShortLength getRadius();
@@ -178,7 +172,6 @@ public interface WireType extends Naming {
 	 * @return the value of the '<em>Resistance</em>' attribute.
 	 * @see #setResistance(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireType_Resistance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getResistance();
@@ -205,7 +198,6 @@ public interface WireType extends Naming {
 	 * @return the value of the '<em>Wire Arrangements</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireType_WireArrangements()
 	 * @see org.opencim.cim.iec61970.wire.WireArrangement#getWireType
-	 * @model type="org.opencim.cim.iec61970.wire.WireArrangement" opposite="WireType"
 	 * @generated
 	 */
 	EList getWireArrangements();

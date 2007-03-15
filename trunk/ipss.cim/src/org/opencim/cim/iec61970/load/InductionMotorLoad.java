@@ -19,7 +19,6 @@ import org.opencim.cim.iec61970.wire.EnergyConsumer;
  *
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getInductionMotorLoad()
- * @model
  * @generated
  */
 public interface InductionMotorLoad extends EnergyConsumer {

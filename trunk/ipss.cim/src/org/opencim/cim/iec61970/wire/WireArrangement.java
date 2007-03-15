@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.core.Naming;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getWireArrangement()
- * @model
  * @generated
  */
 public interface WireArrangement extends Naming {
@@ -42,7 +41,6 @@ public interface WireArrangement extends Naming {
 	 * @return the value of the '<em>Mounting Point X</em>' attribute.
 	 * @see #setMountingPointX(Integer)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireArrangement_MountingPointX()
-	 * @model
 	 * @generated
 	 */
 	Integer getMountingPointX();
@@ -67,7 +65,6 @@ public interface WireArrangement extends Naming {
 	 * @return the value of the '<em>Mounting Point Y</em>' attribute.
 	 * @see #setMountingPointY(Integer)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireArrangement_MountingPointY()
-	 * @model
 	 * @generated
 	 */
 	Integer getMountingPointY();
@@ -94,7 +91,6 @@ public interface WireArrangement extends Naming {
 	 * @see #setConductorType(ConductorType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireArrangement_ConductorType()
 	 * @see org.opencim.cim.iec61970.wire.ConductorType#getWireArrangements
-	 * @model opposite="WireArrangements"
 	 * @generated
 	 */
 	ConductorType getConductorType();
@@ -121,7 +117,6 @@ public interface WireArrangement extends Naming {
 	 * @see #setWireType(WireType)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWireArrangement_WireType()
 	 * @see org.opencim.cim.iec61970.wire.WireType#getWireArrangements
-	 * @model opposite="WireArrangements"
 	 * @generated
 	 */
 	WireType getWireType();

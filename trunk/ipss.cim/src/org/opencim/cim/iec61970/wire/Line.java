@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getLine()
- * @model
  * @generated
  */
 public interface Line extends PowerSystemResource {
@@ -44,7 +43,6 @@ public interface Line extends PowerSystemResource {
 	 * @return the value of the '<em>AC Line Segments</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getLine_ACLineSegments()
 	 * @see org.opencim.cim.iec61970.wire.ACLineSegment#getLine
-	 * @model type="org.opencim.cim.iec61970.wire.ACLineSegment" opposite="Line" containment="true"
 	 * @generated
 	 */
 	EList getACLineSegments();
@@ -61,7 +59,6 @@ public interface Line extends PowerSystemResource {
 	 * @return the value of the '<em>DC Line Segments</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getLine_DCLineSegments()
 	 * @see org.opencim.cim.iec61970.wire.DCLineSegment#getLine
-	 * @model type="org.opencim.cim.iec61970.wire.DCLineSegment" opposite="Line" containment="true"
 	 * @generated
 	 */
 	EList getDCLineSegments();

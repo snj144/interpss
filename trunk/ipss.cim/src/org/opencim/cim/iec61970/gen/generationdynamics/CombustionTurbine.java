@@ -41,7 +41,6 @@ import org.opencim.datatype.real.Temperature;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine()
- * @model
  * @generated
  */
 public interface CombustionTurbine extends PrimeMover {
@@ -55,7 +54,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @return the value of the '<em>Ambient Temp</em>' attribute.
 	 * @see #setAmbientTemp(Temperature)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_AmbientTemp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Temperature"
 	 * @generated
 	 */
 	Temperature getAmbientTemp();
@@ -80,7 +78,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @return the value of the '<em>Aux Power Versus Frequency</em>' attribute.
 	 * @see #setAuxPowerVersusFrequency(PowerVersusFrequency)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_AuxPowerVersusFrequency()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerVersusFrequency"
 	 * @generated
 	 */
 	PowerVersusFrequency getAuxPowerVersusFrequency();
@@ -105,7 +102,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @return the value of the '<em>Aux Power Versus Voltage</em>' attribute.
 	 * @see #setAuxPowerVersusVoltage(PowerVersusVoltage)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_AuxPowerVersusVoltage()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerVersusVoltage"
 	 * @generated
 	 */
 	PowerVersusVoltage getAuxPowerVersusVoltage();
@@ -130,7 +126,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @return the value of the '<em>Capability Versus Frequency</em>' attribute.
 	 * @see #setCapabilityVersusFrequency(PowerVersusFrequency)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_CapabilityVersusFrequency()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PowerVersusFrequency"
 	 * @generated
 	 */
 	PowerVersusFrequency getCapabilityVersusFrequency();
@@ -155,7 +150,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @return the value of the '<em>Heat Recovery Flag</em>' attribute.
 	 * @see #setHeatRecoveryFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_HeatRecoveryFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getHeatRecoveryFlag();
@@ -180,7 +174,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @return the value of the '<em>Power Variation By Temp</em>' attribute.
 	 * @see #setPowerVariationByTemp(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_PowerVariationByTemp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getPowerVariationByTemp();
@@ -205,7 +198,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @return the value of the '<em>Reference Temp</em>' attribute.
 	 * @see #setReferenceTemp(Temperature)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_ReferenceTemp()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Temperature"
 	 * @generated
 	 */
 	Temperature getReferenceTemp();
@@ -230,7 +222,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @return the value of the '<em>Time Constant</em>' attribute.
 	 * @see #setTimeConstant(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_TimeConstant()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getTimeConstant();
@@ -257,7 +248,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @see #setHeatRecoveryBoiler(HeatRecoveryBoiler)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_HeatRecoveryBoiler()
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.HeatRecoveryBoiler#getCombustionTurbines
-	 * @model opposite="CombustionTurbines" required="true"
 	 * @generated
 	 */
 	HeatRecoveryBoiler getHeatRecoveryBoiler();
@@ -284,7 +274,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @see #setCTTempMWCurve(CTTempMWCurve)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_CTTempMWCurve()
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.CTTempMWCurve#getCombustionTurbine
-	 * @model opposite="CombustionTurbine" containment="true"
 	 * @generated
 	 */
 	CTTempMWCurve getCTTempMWCurve();
@@ -311,7 +300,6 @@ public interface CombustionTurbine extends PrimeMover {
 	 * @see #setAirCompressor(AirCompressor)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getCombustionTurbine_AirCompressor()
 	 * @see org.opencim.cim.iec61970.gen.production.AirCompressor#getCombustionTurbine
-	 * @model opposite="CombustionTurbine"
 	 * @generated
 	 */
 	AirCompressor getAirCompressor();

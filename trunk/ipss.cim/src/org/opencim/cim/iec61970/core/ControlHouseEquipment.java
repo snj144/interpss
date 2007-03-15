@@ -25,7 +25,6 @@ import org.opencim.cim.iec61970.domain.ControlHouseEquipmentType;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getControlHouseEquipment()
- * @model
  * @generated
  */
 public interface ControlHouseEquipment extends PowerSystemResource {
@@ -41,7 +40,6 @@ public interface ControlHouseEquipment extends PowerSystemResource {
 	 * @see org.opencim.cim.iec61970.domain.ControlHouseEquipmentType
 	 * @see #setControlHouseEquipType(ControlHouseEquipmentType)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getControlHouseEquipment_ControlHouseEquipType()
-	 * @model
 	 * @generated
 	 */
 	ControlHouseEquipmentType getControlHouseEquipType();

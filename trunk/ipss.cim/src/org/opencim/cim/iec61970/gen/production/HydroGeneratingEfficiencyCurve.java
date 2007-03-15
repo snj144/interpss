@@ -21,7 +21,6 @@ import org.opencim.cim.iec61970.core.CurveSchedule;
  *
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroGeneratingEfficiencyCurve()
- * @model
  * @generated
  */
 public interface HydroGeneratingEfficiencyCurve extends CurveSchedule {

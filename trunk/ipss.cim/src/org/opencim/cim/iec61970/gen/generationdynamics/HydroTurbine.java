@@ -40,7 +40,6 @@ import org.opencim.datatype.real.Seconds;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine()
- * @model
  * @generated
  */
 public interface HydroTurbine extends PrimeMover {
@@ -54,7 +53,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Gate Rate Limit</em>' attribute.
 	 * @see #setGateRateLimit(RateOfChange)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_GateRateLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.RateOfChange"
 	 * @generated
 	 */
 	RateOfChange getGateRateLimit();
@@ -79,7 +77,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Gate Upper Limit</em>' attribute.
 	 * @see #setGateUpperLimit(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_GateUpperLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getGateUpperLimit();
@@ -104,7 +101,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Max Eff MWat Min Head</em>' attribute.
 	 * @see #setMaxEffMWatMinHead(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_MaxEffMWatMinHead()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMaxEffMWatMinHead();
@@ -129,7 +125,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Max Eff MWat Max Head</em>' attribute.
 	 * @see #setMaxEffMWatMaxHead(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_MaxEffMWatMaxHead()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMaxEffMWatMaxHead();
@@ -154,7 +149,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Speed Rating</em>' attribute.
 	 * @see #setSpeedRating(Integer)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_SpeedRating()
-	 * @model
 	 * @generated
 	 */
 	Integer getSpeedRating();
@@ -179,7 +173,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Speed Regulation</em>' attribute.
 	 * @see #setSpeedRegulation(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_SpeedRegulation()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getSpeedRegulation();
@@ -204,7 +197,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Transient Droop Time</em>' attribute.
 	 * @see #setTransientDroopTime(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_TransientDroopTime()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getTransientDroopTime();
@@ -229,7 +221,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Transient Regulation</em>' attribute.
 	 * @see #setTransientRegulation(PU)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_TransientRegulation()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PU"
 	 * @generated
 	 */
 	PU getTransientRegulation();
@@ -254,7 +245,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Turbine Rating</em>' attribute.
 	 * @see #setTurbineRating(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_TurbineRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getTurbineRating();
@@ -281,7 +271,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @see org.opencim.cim.iec61970.domain.TurbineType
 	 * @see #setTurbineType(TurbineType)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_TurbineType()
-	 * @model
 	 * @generated
 	 */
 	TurbineType getTurbineType();
@@ -307,7 +296,6 @@ public interface HydroTurbine extends PrimeMover {
 	 * @return the value of the '<em>Water Starting Time</em>' attribute.
 	 * @see #setWaterStartingTime(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHydroTurbine_WaterStartingTime()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getWaterStartingTime();

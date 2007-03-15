@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.opencim.cim.iec61970.core.impl.PowerSystemResourceImpl;
 
 import org.opencim.cim.iec61970.gen.generationdynamics.CombustionTurbine;
+import org.opencim.cim.iec61970.gen.generationdynamics.impl.GenerationdynamicsPackageImpl;
+
 import org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage;
 
 import org.opencim.cim.iec61970.gen.production.AirCompressor;

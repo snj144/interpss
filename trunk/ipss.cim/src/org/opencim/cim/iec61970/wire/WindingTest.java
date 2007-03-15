@@ -45,7 +45,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest()
- * @model
  * @generated
  */
 public interface WindingTest extends Naming {
@@ -59,7 +58,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>Exciting Current</em>' attribute.
 	 * @see #setExcitingCurrent(ExcitingCurrent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_ExcitingCurrent()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ExcitingCurrent"
 	 * @generated
 	 */
 	ExcitingCurrent getExcitingCurrent();
@@ -84,7 +82,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>From Tap Step</em>' attribute.
 	 * @see #setFromTapStep(TapStep)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_FromTapStep()
-	 * @model dataType="org.opencim.cim.iec61970.domain.TapStep"
 	 * @generated
 	 */
 	TapStep getFromTapStep();
@@ -109,7 +106,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>Leakage Impedance</em>' attribute.
 	 * @see #setLeakageImpedance(Impedance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_LeakageImpedance()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Impedance"
 	 * @generated
 	 */
 	Impedance getLeakageImpedance();
@@ -134,7 +130,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>Load Loss</em>' attribute.
 	 * @see #setLoadLoss(LoadLoss)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_LoadLoss()
-	 * @model dataType="org.opencim.cim.iec61970.domain.LoadLoss"
 	 * @generated
 	 */
 	LoadLoss getLoadLoss();
@@ -159,7 +154,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>No Load Loss</em>' attribute.
 	 * @see #setNoLoadLoss(NoLoadLoss)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_NoLoadLoss()
-	 * @model dataType="org.opencim.cim.iec61970.domain.NoLoadLoss"
 	 * @generated
 	 */
 	NoLoadLoss getNoLoadLoss();
@@ -184,7 +178,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>Phase Shift</em>' attribute.
 	 * @see #setPhaseShift(AngleDegrees)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_PhaseShift()
-	 * @model dataType="org.opencim.cim.iec61970.domain.AngleDegrees"
 	 * @generated
 	 */
 	AngleDegrees getPhaseShift();
@@ -209,7 +202,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>To Tap Step</em>' attribute.
 	 * @see #setToTapStep(TapStep)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_ToTapStep()
-	 * @model dataType="org.opencim.cim.iec61970.domain.TapStep"
 	 * @generated
 	 */
 	TapStep getToTapStep();
@@ -234,7 +226,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>Voltage</em>' attribute.
 	 * @see #setVoltage(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_Voltage()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getVoltage();
@@ -261,7 +252,6 @@ public interface WindingTest extends Naming {
 	 * @see #setFrom_TransformerWinding(TransformerWinding)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_From_TransformerWinding()
 	 * @see org.opencim.cim.iec61970.wire.TransformerWinding#getFrom_WindingTests
-	 * @model opposite="From_WindingTests" required="true"
 	 * @generated
 	 */
 	TransformerWinding getFrom_TransformerWinding();
@@ -288,7 +278,6 @@ public interface WindingTest extends Naming {
 	 * @return the value of the '<em>To Transforme Windings</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getWindingTest_To_TransformeWindings()
 	 * @see org.opencim.cim.iec61970.wire.TransformerWinding#getTo_WindingTest
-	 * @model type="org.opencim.cim.iec61970.wire.TransformerWinding" opposite="To_WindingTest"
 	 * @generated
 	 */
 	EList getTo_TransformeWindings();

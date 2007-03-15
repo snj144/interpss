@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getCompensatorType()
- * @model
  * @generated
  */
 public final class CompensatorType extends AbstractEnumerator {
@@ -31,7 +30,6 @@ public final class CompensatorType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SHUNT_LITERAL
-	 * @model name="shunt"
 	 * @generated
 	 * @ordered
 	 */
@@ -46,7 +44,6 @@ public final class CompensatorType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SERIES_LITERAL
-	 * @model name="series"
 	 * @generated
 	 * @ordered
 	 */

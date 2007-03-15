@@ -47,7 +47,6 @@ import org.opencim.datatype.real.WaterLevel;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant()
- * @model
  * @generated
  */
 public interface HydroPowerPlant extends PowerSystemResource {
@@ -61,7 +60,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Discharge Travel Delay</em>' attribute.
 	 * @see #setDischargeTravelDelay(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_DischargeTravelDelay()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getDischargeTravelDelay();
@@ -88,7 +86,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @see org.opencim.cim.iec61970.domain.HydroPlantType
 	 * @see #setHydroPlantType(HydroPlantType)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_HydroPlantType()
-	 * @model
 	 * @generated
 	 */
 	HydroPlantType getHydroPlantType();
@@ -116,7 +113,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @see org.opencim.cim.iec61970.domain.PenstockType
 	 * @see #setPenstockType(PenstockType)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_PenstockType()
-	 * @model
 	 * @generated
 	 */
 	PenstockType getPenstockType();
@@ -142,7 +138,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Plant Discharge Capacity</em>' attribute.
 	 * @see #setPlantDischargeCapacity(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_PlantDischargeCapacity()
-	 * @model
 	 * @generated
 	 */
 	Float getPlantDischargeCapacity();
@@ -167,7 +162,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Plant MW Gen Rating</em>' attribute.
 	 * @see #setPlantMWGenRating(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_PlantMWGenRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getPlantMWGenRating();
@@ -192,7 +186,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Plant MW Pump Rating</em>' attribute.
 	 * @see #setPlantMWPumpRating(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_PlantMWPumpRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getPlantMWPumpRating();
@@ -217,7 +210,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Plant Rated Head</em>' attribute.
 	 * @see #setPlantRatedHead(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_PlantRatedHead()
-	 * @model
 	 * @generated
 	 */
 	Float getPlantRatedHead();
@@ -244,7 +236,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @see org.opencim.cim.iec61970.domain.SurgeTankCode
 	 * @see #setSurgeTankCode(SurgeTankCode)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_SurgeTankCode()
-	 * @model
 	 * @generated
 	 */
 	SurgeTankCode getSurgeTankCode();
@@ -270,7 +261,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Surge Tank Crest Level</em>' attribute.
 	 * @see #setSurgeTankCrestLevel(WaterLevel)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_SurgeTankCrestLevel()
-	 * @model dataType="org.opencim.cim.iec61970.domain.WaterLevel"
 	 * @generated
 	 */
 	WaterLevel getSurgeTankCrestLevel();
@@ -295,7 +285,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Contain Hydro Generating Units</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_Contain_HydroGeneratingUnits()
-	 * @model type="org.opencim.cim.iec61970.gen.production.HydroGeneratingUnit" containment="true" required="true"
 	 * @generated
 	 */
 	EList getContain_HydroGeneratingUnits();
@@ -310,7 +299,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Contain Hydro Pumps</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_Contain_HydroPumps()
-	 * @model type="org.opencim.cim.iec61970.gen.production.HydroPump" containment="true" required="true"
 	 * @generated
 	 */
 	EList getContain_HydroPumps();
@@ -327,7 +315,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @see #setReservoir(Reservoir)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_Reservoir()
 	 * @see org.opencim.cim.iec61970.gen.production.Reservoir#getHydroPowerPlants
-	 * @model opposite="HydroPowerPlants"
 	 * @generated
 	 */
 	Reservoir getReservoir();
@@ -354,7 +341,6 @@ public interface HydroPowerPlant extends PowerSystemResource {
 	 * @see #setGenSourcePumpDischarge(Reservoir)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPowerPlant_GenSourcePumpDischarge()
 	 * @see org.opencim.cim.iec61970.gen.production.Reservoir#getUpstreamFrom
-	 * @model opposite="UpstreamFrom" required="true"
 	 * @generated
 	 */
 	Reservoir getGenSourcePumpDischarge();

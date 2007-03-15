@@ -26,7 +26,6 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getSubControlArea()
- * @model
  * @generated
  */
 public interface SubControlArea extends PowerSystemResource {
@@ -43,7 +42,6 @@ public interface SubControlArea extends PowerSystemResource {
 	 * @return the value of the '<em>Substations</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getSubControlArea_Substations()
 	 * @see org.opencim.cim.iec61970.core.Substation#getSubControlArea
-	 * @model type="org.opencim.cim.iec61970.core.Substation" opposite="SubControlArea" containment="true" required="true"
 	 * @generated
 	 */
 	EList getSubstations();
@@ -60,7 +58,6 @@ public interface SubControlArea extends PowerSystemResource {
 	 * @return the value of the '<em>Generating Units</em>' reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getSubControlArea_GeneratingUnits()
 	 * @see org.opencim.cim.iec61970.gen.production.GeneratingUnit#getSubControlArea
-	 * @model type="org.opencim.cim.iec61970.gen.production.GeneratingUnit" opposite="SubControlArea"
 	 * @generated
 	 */
 	EList getGeneratingUnits();

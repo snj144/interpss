@@ -27,7 +27,6 @@ import org.opencim.datatype.real.Seconds;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getBreaker()
- * @model
  * @generated
  */
 public interface Breaker extends Switch {
@@ -41,7 +40,6 @@ public interface Breaker extends Switch {
 	 * @return the value of the '<em>Amp Rating</em>' attribute.
 	 * @see #setAmpRating(CurrentFlow)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getBreaker_AmpRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CurrentFlow"
 	 * @generated
 	 */
 	CurrentFlow getAmpRating();
@@ -66,7 +64,6 @@ public interface Breaker extends Switch {
 	 * @return the value of the '<em>In Transit Time</em>' attribute.
 	 * @see #setInTransitTime(Seconds)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getBreaker_InTransitTime()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getInTransitTime();

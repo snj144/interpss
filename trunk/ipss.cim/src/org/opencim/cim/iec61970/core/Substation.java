@@ -31,7 +31,6 @@ import org.opencim.cim.iec61970.load.LoadArea;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getSubstation()
- * @model
  * @generated
  */
 public interface Substation extends EquipmentContainer {
@@ -48,7 +47,6 @@ public interface Substation extends EquipmentContainer {
 	 * @see #setSubControlArea(SubControlArea)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getSubstation_SubControlArea()
 	 * @see org.opencim.cim.iec61970.core.SubControlArea#getSubstations
-	 * @model opposite="Substations" required="true"
 	 * @generated
 	 */
 	SubControlArea getSubControlArea();
@@ -76,7 +74,6 @@ public interface Substation extends EquipmentContainer {
 	 * @see #setLoadArea(LoadArea)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getSubstation_LoadArea()
 	 * @see org.opencim.cim.iec61970.load.LoadArea#getSubstations
-	 * @model opposite="Substations" required="true"
 	 * @generated
 	 */
 	LoadArea getLoadArea();
@@ -103,7 +100,6 @@ public interface Substation extends EquipmentContainer {
 	 * @return the value of the '<em>Voltage Levels</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getSubstation_VoltageLevels()
 	 * @see org.opencim.cim.iec61970.core.VoltageLevel#getSubstation
-	 * @model type="org.opencim.cim.iec61970.core.VoltageLevel" opposite="Substation" containment="true"
 	 * @generated
 	 */
 	EList getVoltageLevels();
@@ -121,7 +117,6 @@ public interface Substation extends EquipmentContainer {
 	 * @return the value of the '<em>Bays</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getSubstation_Bays()
 	 * @see org.opencim.cim.iec61970.core.Bay#getSubstation
-	 * @model type="org.opencim.cim.iec61970.core.Bay" opposite="Substation" containment="true"
 	 * @generated
 	 */
 	EList getBays();
@@ -137,7 +132,6 @@ public interface Substation extends EquipmentContainer {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Contains Composite Switches</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getSubstation_Contains_CompositeSwitches()
-	 * @model type="org.opencim.cim.iec61970.wire.CompositeSwitch" containment="true"
 	 * @generated
 	 */
 	EList getContains_CompositeSwitches();

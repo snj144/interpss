@@ -18,7 +18,6 @@ package org.opencim.cim.iec61970.wire;
  *
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getJunction()
- * @model
  * @generated
  */
 public interface Junction extends Connector {

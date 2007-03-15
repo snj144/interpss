@@ -24,7 +24,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  *
  * @see org.opencim.cim.cimPackage#getCombinedVersion()
- * @model
  * @generated
  */
 public interface CombinedVersion extends EObject {
@@ -40,7 +39,6 @@ public interface CombinedVersion extends EObject {
 	 * @return the value of the '<em>Version</em>' attribute.
 	 * @see #setVersion(String)
 	 * @see org.opencim.cim.cimPackage#getCombinedVersion_Version()
-	 * @model default="cimCombined_v003"
 	 * @generated
 	 */
 	String getVersion();
@@ -67,7 +65,6 @@ public interface CombinedVersion extends EObject {
 	 * @return the value of the '<em>Date</em>' attribute.
 	 * @see #setDate(Date)
 	 * @see org.opencim.cim.cimPackage#getCombinedVersion_Date()
-	 * @model default="2005-12-19" dataType="org.opencim.cim.iec61970.domain.Date"
 	 * @generated
 	 */
 	Date getDate();

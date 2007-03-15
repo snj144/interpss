@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Busbar layout for Bay.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getBusbarConfiguration()
- * @model
  * @generated
  */
 public final class BusbarConfiguration extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class BusbarConfiguration extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SINGLE_BUS_LITERAL
-	 * @model name="singleBus"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class BusbarConfiguration extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DOUBLE_BUS_LITERAL
-	 * @model name="doubleBus"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class BusbarConfiguration extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #MAIN_WITH_TRANSFER_LITERAL
-	 * @model name="mainWithTransfer"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class BusbarConfiguration extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RING_BUS_LITERAL
-	 * @model name="ringBus"
 	 * @generated
 	 * @ordered
 	 */

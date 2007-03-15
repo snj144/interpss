@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
@@ -29,6 +30,8 @@ import org.opencim.cim.iec61970.core.Company;
 import org.opencim.cim.iec61970.core.CorePackage;
 import org.opencim.cim.iec61970.core.PSRType;
 import org.opencim.cim.iec61970.core.PowerSystemResource;
+
+import org.opencim.cim.impl.cimPackageImpl;
 
 /**
  * <!-- begin-user-doc -->

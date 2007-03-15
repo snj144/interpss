@@ -30,7 +30,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getBaseVoltage()
- * @model
  * @generated
  */
 public interface BaseVoltage extends Naming {
@@ -44,7 +43,6 @@ public interface BaseVoltage extends Naming {
 	 * @return the value of the '<em>Nominal Voltage</em>' attribute.
 	 * @see #setNominalVoltage(Voltage)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBaseVoltage_NominalVoltage()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getNominalVoltage();
@@ -71,7 +69,6 @@ public interface BaseVoltage extends Naming {
 	 * @see #setBasePower(BasePower)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBaseVoltage_BasePower()
 	 * @see org.opencim.cim.iec61970.core.BasePower#getBaseVoltages
-	 * @model opposite="BaseVoltages" required="true"
 	 * @generated
 	 */
 	BasePower getBasePower();
@@ -99,7 +96,6 @@ public interface BaseVoltage extends Naming {
 	 * @return the value of the '<em>Conducting Equipment</em>' reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBaseVoltage_ConductingEquipment()
 	 * @see org.opencim.cim.iec61970.core.ConductingEquipment#getBaseVoltage
-	 * @model type="org.opencim.cim.iec61970.core.ConductingEquipment" opposite="BaseVoltage"
 	 * @generated
 	 */
 	EList getConductingEquipment();
@@ -117,7 +113,6 @@ public interface BaseVoltage extends Naming {
 	 * @return the value of the '<em>Voltage Level</em>' reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getBaseVoltage_VoltageLevel()
 	 * @see org.opencim.cim.iec61970.core.VoltageLevel#getBaseVoltage
-	 * @model type="org.opencim.cim.iec61970.core.VoltageLevel" opposite="BaseVoltage"
 	 * @generated
 	 */
 	EList getVoltageLevel();

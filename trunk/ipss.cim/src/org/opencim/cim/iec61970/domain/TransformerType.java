@@ -18,7 +18,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * and utility methods for working with them.
  * <!-- end-user-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getTransformerType()
- * @model
  * @generated
  */
 public final class TransformerType extends AbstractEnumerator {
@@ -31,7 +30,6 @@ public final class TransformerType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #FIX_LITERAL
-	 * @model name="fix"
 	 * @generated
 	 * @ordered
 	 */
@@ -46,7 +44,6 @@ public final class TransformerType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #VOLTAGE_CONTROL_LITERAL
-	 * @model name="voltageControl"
 	 * @generated
 	 * @ordered
 	 */
@@ -61,7 +58,6 @@ public final class TransformerType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PHASE_CONTROL_LITERAL
-	 * @model name="phaseControl"
 	 * @generated
 	 * @ordered
 	 */
@@ -76,7 +72,6 @@ public final class TransformerType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #VOLTAGE_AND_PHASE_CONTROL_LITERAL
-	 * @model name="voltageAndPhaseControl"
 	 * @generated
 	 * @ordered
 	 */

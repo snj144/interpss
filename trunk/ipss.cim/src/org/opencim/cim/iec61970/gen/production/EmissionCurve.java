@@ -31,7 +31,6 @@ import org.opencim.datatype.real.Emission;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getEmissionCurve()
- * @model
  * @generated
  */
 public interface EmissionCurve extends CurveSchedule {
@@ -45,7 +44,6 @@ public interface EmissionCurve extends CurveSchedule {
 	 * @return the value of the '<em>Emission Content</em>' attribute.
 	 * @see #setEmissionContent(Emission)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getEmissionCurve_EmissionContent()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Emission"
 	 * @generated
 	 */
 	Emission getEmissionContent();
@@ -72,7 +70,6 @@ public interface EmissionCurve extends CurveSchedule {
 	 * @see org.opencim.cim.iec61970.domain.EmissionType
 	 * @see #setEmissionType(EmissionType)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getEmissionCurve_EmissionType()
-	 * @model
 	 * @generated
 	 */
 	EmissionType getEmissionType();
@@ -98,7 +95,6 @@ public interface EmissionCurve extends CurveSchedule {
 	 * @return the value of the '<em>Net Gross MW Flag</em>' attribute.
 	 * @see #setNetGrossMWFlag(Boolean)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getEmissionCurve_NetGrossMWFlag()
-	 * @model
 	 * @generated
 	 */
 	Boolean getNetGrossMWFlag();

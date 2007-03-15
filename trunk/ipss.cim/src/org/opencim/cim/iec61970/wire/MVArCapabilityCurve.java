@@ -32,7 +32,6 @@ import org.opencim.datatype.real.Temperature;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getMVArCapabilityCurve()
- * @model
  * @generated
  */
 public interface MVArCapabilityCurve extends CurveSchedule {
@@ -46,7 +45,6 @@ public interface MVArCapabilityCurve extends CurveSchedule {
 	 * @return the value of the '<em>Coolant Temperature</em>' attribute.
 	 * @see #setCoolantTemperature(Temperature)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getMVArCapabilityCurve_CoolantTemperature()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Temperature"
 	 * @generated
 	 */
 	Temperature getCoolantTemperature();
@@ -71,7 +69,6 @@ public interface MVArCapabilityCurve extends CurveSchedule {
 	 * @return the value of the '<em>Hydrogen Pressure</em>' attribute.
 	 * @see #setHydrogenPressure(Pressure)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getMVArCapabilityCurve_HydrogenPressure()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Pressure"
 	 * @generated
 	 */
 	Pressure getHydrogenPressure();
@@ -99,7 +96,6 @@ public interface MVArCapabilityCurve extends CurveSchedule {
 	 * @return the value of the '<em>Synchronous Machines</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getMVArCapabilityCurve_SynchronousMachines()
 	 * @see org.opencim.cim.iec61970.wire.SynchronousMachine#getMVArCapabilityCurves
-	 * @model type="org.opencim.cim.iec61970.wire.SynchronousMachine" opposite="MVArCapabilityCurves" required="true"
 	 * @generated
 	 */
 	EList getSynchronousMachines();

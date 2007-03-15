@@ -28,7 +28,6 @@ import org.opencim.datatype.real.WaterLevel;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getTargetLevelSchedule()
- * @model
  * @generated
  */
 public interface TargetLevelSchedule extends CurveSchedule {
@@ -42,7 +41,6 @@ public interface TargetLevelSchedule extends CurveSchedule {
 	 * @return the value of the '<em>High Level Limit</em>' attribute.
 	 * @see #setHighLevelLimit(WaterLevel)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getTargetLevelSchedule_HighLevelLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.WaterLevel"
 	 * @generated
 	 */
 	WaterLevel getHighLevelLimit();
@@ -67,7 +65,6 @@ public interface TargetLevelSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Low Level Limit</em>' attribute.
 	 * @see #setLowLevelLimit(WaterLevel)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getTargetLevelSchedule_LowLevelLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.WaterLevel"
 	 * @generated
 	 */
 	WaterLevel getLowLevelLimit();

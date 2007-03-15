@@ -31,7 +31,6 @@ import org.opencim.cim.iec61970.domain.CompanyType;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getCompany()
- * @model
  * @generated
  */
 public interface Company extends Naming {
@@ -48,7 +47,6 @@ public interface Company extends Naming {
 	 * @see #setSimuModel(SimulationModel)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCompany_SimuModel()
 	 * @see org.opencim.cim.SimulationModel#getCompanies
-	 * @model opposite="companies" required="true"
 	 * @generated
 	 */
 	SimulationModel getSimuModel();
@@ -75,7 +73,6 @@ public interface Company extends Naming {
 	 * @see org.opencim.cim.iec61970.domain.CompanyType
 	 * @see #setCompanyType(CompanyType)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCompany_CompanyType()
-	 * @model
 	 * @generated
 	 */
 	CompanyType getCompanyType();
@@ -103,7 +100,6 @@ public interface Company extends Naming {
 	 * @return the value of the '<em>PS Rs</em>' reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCompany_PSRs()
 	 * @see org.opencim.cim.iec61970.core.PowerSystemResource#getCompanies
-	 * @model type="org.opencim.cim.iec61970.core.PowerSystemResource" opposite="Companies"
 	 * @generated
 	 */
 	EList getPSRs();

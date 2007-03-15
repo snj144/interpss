@@ -33,7 +33,6 @@ import org.opencim.datatype.integer.Counter;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getSwitch()
- * @model
  * @generated
  */
 public interface Switch extends ConductingEquipment {
@@ -47,7 +46,6 @@ public interface Switch extends ConductingEquipment {
 	 * @return the value of the '<em>Normal Open</em>' attribute.
 	 * @see #setNormalOpen(Boolean)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSwitch_NormalOpen()
-	 * @model
 	 * @generated
 	 */
 	Boolean getNormalOpen();
@@ -72,7 +70,6 @@ public interface Switch extends ConductingEquipment {
 	 * @return the value of the '<em>Switch On Count</em>' attribute.
 	 * @see #setSwitchOnCount(Counter)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSwitch_SwitchOnCount()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Counter"
 	 * @generated
 	 */
 	Counter getSwitchOnCount();
@@ -97,7 +94,6 @@ public interface Switch extends ConductingEquipment {
 	 * @return the value of the '<em>Switch On Date</em>' attribute.
 	 * @see #setSwitchOnDate(Date)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSwitch_SwitchOnDate()
-	 * @model dataType="org.opencim.cim.iec61970.domain.AbsoluteDateTime"
 	 * @generated
 	 */
 	Date getSwitchOnDate();
@@ -125,7 +121,6 @@ public interface Switch extends ConductingEquipment {
 	 * @see #setCompositeSwitch(CompositeSwitch)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getSwitch_CompositeSwitch()
 	 * @see org.opencim.cim.iec61970.wire.CompositeSwitch#getSwitches
-	 * @model opposite="Switches"
 	 * @generated
 	 */
 	CompositeSwitch getCompositeSwitch();

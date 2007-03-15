@@ -27,7 +27,6 @@ import org.opencim.cim.iec61970.core.CurveSchedule;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getAreaLoadCurve()
- * @model
  * @generated
  */
 public interface AreaLoadCurve extends CurveSchedule {
@@ -43,7 +42,6 @@ public interface AreaLoadCurve extends CurveSchedule {
 	 * @see #setLoadArea(LoadArea)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getAreaLoadCurve_LoadArea()
 	 * @see org.opencim.cim.iec61970.load.LoadArea#getAreaLoadCurves
-	 * @model opposite="AreaLoadCurves" required="true"
 	 * @generated
 	 */
 	LoadArea getLoadArea();
@@ -70,7 +68,6 @@ public interface AreaLoadCurve extends CurveSchedule {
 	 * @see #setDayType(DayType)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getAreaLoadCurve_DayType()
 	 * @see org.opencim.cim.iec61970.load.DayType#getAreaLoadCurves
-	 * @model opposite="AreaLoadCurves"
 	 * @generated
 	 */
 	DayType getDayType();
@@ -97,7 +94,6 @@ public interface AreaLoadCurve extends CurveSchedule {
 	 * @see #setSeason(Season)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getAreaLoadCurve_Season()
 	 * @see org.opencim.cim.iec61970.load.Season#getAreaLoadCurves
-	 * @model opposite="AreaLoadCurves" required="true"
 	 * @generated
 	 */
 	Season getSeason();

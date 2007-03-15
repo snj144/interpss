@@ -44,7 +44,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger()
- * @model
  * @generated
  */
 public interface TapChanger extends PowerSystemResource {
@@ -58,7 +57,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>High Step</em>' attribute.
 	 * @see #setHighStep(TapStep)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_HighStep()
-	 * @model dataType="org.opencim.cim.iec61970.domain.TapStep"
 	 * @generated
 	 */
 	TapStep getHighStep();
@@ -83,7 +81,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>Initial Delay</em>' attribute.
 	 * @see #setInitialDelay(Seconds)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_InitialDelay()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getInitialDelay();
@@ -108,7 +105,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>Low Step</em>' attribute.
 	 * @see #setLowStep(TapStep)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_LowStep()
-	 * @model dataType="org.opencim.cim.iec61970.domain.TapStep"
 	 * @generated
 	 */
 	TapStep getLowStep();
@@ -133,7 +129,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>Neutral KV</em>' attribute.
 	 * @see #setNeutralKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_NeutralKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getNeutralKV();
@@ -158,7 +153,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>Neutral Step</em>' attribute.
 	 * @see #setNeutralStep(TapStep)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_NeutralStep()
-	 * @model dataType="org.opencim.cim.iec61970.domain.TapStep"
 	 * @generated
 	 */
 	TapStep getNeutralStep();
@@ -183,7 +177,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>Normal Step</em>' attribute.
 	 * @see #setNormalStep(TapStep)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_NormalStep()
-	 * @model dataType="org.opencim.cim.iec61970.domain.TapStep"
 	 * @generated
 	 */
 	TapStep getNormalStep();
@@ -208,7 +201,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>Step Phase Shift Increment</em>' attribute.
 	 * @see #setStepPhaseShiftIncrement(AngleDegrees)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_StepPhaseShiftIncrement()
-	 * @model dataType="org.opencim.cim.iec61970.domain.AngleDegrees"
 	 * @generated
 	 */
 	AngleDegrees getStepPhaseShiftIncrement();
@@ -233,7 +225,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>Step Voltage Increment</em>' attribute.
 	 * @see #setStepVoltageIncrement(PerCent)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_StepVoltageIncrement()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getStepVoltageIncrement();
@@ -258,7 +249,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @return the value of the '<em>Subsequent Delay</em>' attribute.
 	 * @see #setSubsequentDelay(Seconds)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_SubsequentDelay()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getSubsequentDelay();
@@ -285,7 +275,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @see org.opencim.cim.iec61970.domain.TransformerControlMode
 	 * @see #setTculControlMode(TransformerControlMode)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_TculControlMode()
-	 * @model
 	 * @generated
 	 */
 	TransformerControlMode getTculControlMode();
@@ -313,7 +302,6 @@ public interface TapChanger extends PowerSystemResource {
 	 * @see #setRegulationSchedule(RegulationSchedule)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getTapChanger_RegulationSchedule()
 	 * @see org.opencim.cim.iec61970.wire.RegulationSchedule#getTapChangers
-	 * @model opposite="TapChangers"
 	 * @generated
 	 */
 	RegulationSchedule getRegulationSchedule();

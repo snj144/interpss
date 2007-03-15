@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.gen.generationdynamics.CombustionTurbine;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getAirCompressor()
- * @model
  * @generated
  */
 public interface AirCompressor extends PowerSystemResource {
@@ -42,7 +41,6 @@ public interface AirCompressor extends PowerSystemResource {
 	 * @return the value of the '<em>Air Compressor Rating</em>' attribute.
 	 * @see #setAirCompressorRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getAirCompressor_AirCompressorRating()
-	 * @model
 	 * @generated
 	 */
 	Float getAirCompressorRating();
@@ -69,7 +67,6 @@ public interface AirCompressor extends PowerSystemResource {
 	 * @see #setCombustionTurbine(CombustionTurbine)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getAirCompressor_CombustionTurbine()
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.CombustionTurbine#getAirCompressor
-	 * @model opposite="AirCompressor" required="true"
 	 * @generated
 	 */
 	CombustionTurbine getCombustionTurbine();

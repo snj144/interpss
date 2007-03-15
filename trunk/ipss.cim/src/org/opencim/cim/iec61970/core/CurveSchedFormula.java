@@ -27,7 +27,6 @@ package org.opencim.cim.iec61970.core;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedFormula()
- * @model
  * @generated
  */
 public interface CurveSchedFormula extends Naming {
@@ -41,7 +40,6 @@ public interface CurveSchedFormula extends Naming {
 	 * @return the value of the '<em>XLower Bound</em>' attribute.
 	 * @see #setXLowerBound(Object)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedFormula_XLowerBound()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Numeric"
 	 * @generated
 	 */
 	Object getXLowerBound();
@@ -66,7 +64,6 @@ public interface CurveSchedFormula extends Naming {
 	 * @return the value of the '<em>XUpper Bound</em>' attribute.
 	 * @see #setXUpperBound(Object)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedFormula_XUpperBound()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Numeric"
 	 * @generated
 	 */
 	Object getXUpperBound();
@@ -91,7 +88,6 @@ public interface CurveSchedFormula extends Naming {
 	 * @return the value of the '<em>YFunction</em>' attribute.
 	 * @see #setYFunction(String)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedFormula_YFunction()
-	 * @model
 	 * @generated
 	 */
 	String getYFunction();
@@ -118,7 +114,6 @@ public interface CurveSchedFormula extends Naming {
 	 * @see #setCurveSchedule(CurveSchedule)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getCurveSchedFormula_CurveSchedule()
 	 * @see org.opencim.cim.iec61970.core.CurveSchedule#getCurveScheduleFormula
-	 * @model opposite="CurveScheduleFormula" required="true"
 	 * @generated
 	 */
 	CurveSchedule getCurveSchedule();

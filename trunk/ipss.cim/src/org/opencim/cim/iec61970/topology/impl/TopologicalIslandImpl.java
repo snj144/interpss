@@ -16,6 +16,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
@@ -30,6 +31,8 @@ import org.opencim.cim.iec61970.core.impl.NamingImpl;
 
 import org.opencim.cim.iec61970.topology.TopologicalIsland;
 import org.opencim.cim.iec61970.topology.TopologicalNode;
+import org.opencim.cim.impl.cimPackageImpl;
+
 import org.opencim.cim.iec61970.topology.TopologyPackage;
 
 /**

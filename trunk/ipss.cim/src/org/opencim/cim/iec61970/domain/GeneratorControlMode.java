@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Unit control modes, i.e., Setpoint  or Pulse
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getGeneratorControlMode()
- * @model
  * @generated
  */
 public final class GeneratorControlMode extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class GeneratorControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SETPOINT_LITERAL
-	 * @model name="setpoint"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class GeneratorControlMode extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PULSE_LITERAL
-	 * @model name="pulse"
 	 * @generated
 	 * @ordered
 	 */

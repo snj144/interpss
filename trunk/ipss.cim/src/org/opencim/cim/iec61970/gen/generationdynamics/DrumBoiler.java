@@ -24,7 +24,6 @@ package org.opencim.cim.iec61970.gen.generationdynamics;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getDrumBoiler()
- * @model
  * @generated
  */
 public interface DrumBoiler extends FossilSteamSupply {
@@ -38,7 +37,6 @@ public interface DrumBoiler extends FossilSteamSupply {
 	 * @return the value of the '<em>Drum Boiler Rating</em>' attribute.
 	 * @see #setDrumBoilerRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getDrumBoiler_DrumBoilerRating()
-	 * @model
 	 * @generated
 	 */
 	Float getDrumBoilerRating();

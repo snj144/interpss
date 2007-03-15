@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Type of spillway gate.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getSpillwayGateType()
- * @model
  * @generated
  */
 public final class SpillwayGateType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class SpillwayGateType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TYPE_LITERAL
-	 * @model name="Type"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class SpillwayGateType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OF_LITERAL
-	 * @model name="of"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class SpillwayGateType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SPILLWAY_LITERAL
-	 * @model name="spillway"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class SpillwayGateType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #GATE_LITERAL
-	 * @model name="gate"
 	 * @generated
 	 * @ordered
 	 */

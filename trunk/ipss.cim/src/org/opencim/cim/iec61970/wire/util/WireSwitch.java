@@ -20,6 +20,8 @@ import org.opencim.cim.iec61970.core.PowerSystemResource;
 
 import org.opencim.cim.iec61970.wire.*;
 
+import org.opencim.cim.iec61970.wire.impl.WirePackageImpl;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.

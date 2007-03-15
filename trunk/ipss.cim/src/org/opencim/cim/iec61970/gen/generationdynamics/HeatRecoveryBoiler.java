@@ -26,7 +26,6 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHeatRecoveryBoiler()
- * @model
  * @generated
  */
 public interface HeatRecoveryBoiler extends FossilSteamSupply {
@@ -40,7 +39,6 @@ public interface HeatRecoveryBoiler extends FossilSteamSupply {
 	 * @return the value of the '<em>Steam Supply Rating2</em>' attribute.
 	 * @see #setSteamSupplyRating2(Float)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHeatRecoveryBoiler_SteamSupplyRating2()
-	 * @model
 	 * @generated
 	 */
 	Float getSteamSupplyRating2();
@@ -67,7 +65,6 @@ public interface HeatRecoveryBoiler extends FossilSteamSupply {
 	 * @return the value of the '<em>Combustion Turbines</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getHeatRecoveryBoiler_CombustionTurbines()
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.CombustionTurbine#getHeatRecoveryBoiler
-	 * @model type="org.opencim.cim.iec61970.gen.generationdynamics.CombustionTurbine" opposite="HeatRecoveryBoiler"
 	 * @generated
 	 */
 	EList getCombustionTurbines();

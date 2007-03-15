@@ -15,6 +15,8 @@ import org.opencim.cim.iec61970.core.Naming;
 
 import org.opencim.cim.iec61970.topology.*;
 
+import org.opencim.cim.iec61970.topology.impl.TopologyPackageImpl;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Switch</b> for the model's inheritance hierarchy.

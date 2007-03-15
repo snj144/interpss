@@ -35,7 +35,6 @@ import org.opencim.datatype.real.ActivePower;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCogenerationPlant()
- * @model
  * @generated
  */
 public interface CogenerationPlant extends PowerSystemResource {
@@ -49,7 +48,6 @@ public interface CogenerationPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Cogen HP Sendout Rating</em>' attribute.
 	 * @see #setCogenHPSendoutRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCogenerationPlant_CogenHPSendoutRating()
-	 * @model
 	 * @generated
 	 */
 	Float getCogenHPSendoutRating();
@@ -74,7 +72,6 @@ public interface CogenerationPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Cogen HP Steam Rating</em>' attribute.
 	 * @see #setCogenHPSteamRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCogenerationPlant_CogenHPSteamRating()
-	 * @model
 	 * @generated
 	 */
 	Float getCogenHPSteamRating();
@@ -99,7 +96,6 @@ public interface CogenerationPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Cogen LP Sendout Rating</em>' attribute.
 	 * @see #setCogenLPSendoutRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCogenerationPlant_CogenLPSendoutRating()
-	 * @model
 	 * @generated
 	 */
 	Float getCogenLPSendoutRating();
@@ -124,7 +120,6 @@ public interface CogenerationPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Cogen LP Steam Rating</em>' attribute.
 	 * @see #setCogenLPSteamRating(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCogenerationPlant_CogenLPSteamRating()
-	 * @model
 	 * @generated
 	 */
 	Float getCogenLPSteamRating();
@@ -149,7 +144,6 @@ public interface CogenerationPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Cogen Plant MW Rating</em>' attribute.
 	 * @see #setCogenPlantMWRating(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCogenerationPlant_CogenPlantMWRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getCogenPlantMWRating();
@@ -176,7 +170,6 @@ public interface CogenerationPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Contain Thermal Generating Units</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCogenerationPlant_Contain_ThermalGeneratingUnits()
 	 * @see org.opencim.cim.iec61970.gen.production.ThermalGeneratingUnit#getMembmerOf_CogenerationPlant
-	 * @model type="org.opencim.cim.iec61970.gen.production.ThermalGeneratingUnit" opposite="MembmerOf_CogenerationPlant"
 	 * @generated
 	 */
 	EList getContain_ThermalGeneratingUnits();
@@ -191,7 +184,6 @@ public interface CogenerationPlant extends PowerSystemResource {
 	 * @return the value of the '<em>Steam Sendout Schedule</em>' containment reference.
 	 * @see #setSteamSendoutSchedule(SteamSendoutSchedule)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getCogenerationPlant_SteamSendoutSchedule()
-	 * @model containment="true" required="true"
 	 * @generated
 	 */
 	SteamSendoutSchedule getSteamSendoutSchedule();

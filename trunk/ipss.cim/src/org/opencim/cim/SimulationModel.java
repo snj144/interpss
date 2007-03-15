@@ -46,7 +46,6 @@ import org.opencim.cim.iec61970.topology.TopologicalNode;
  * </p>
  *
  * @see org.opencim.cim.cimPackage#getSimulationModel()
- * @model
  * @generated
  */
 public interface SimulationModel extends Naming {
@@ -64,7 +63,6 @@ public interface SimulationModel extends Naming {
 	 * @return the value of the '<em>Base Power</em>' containment reference.
 	 * @see #setBasePower(BasePower)
 	 * @see org.opencim.cim.cimPackage#getSimulationModel_BasePower()
-	 * @model containment="true"
 	 * @generated
 	 */
 	BasePower getBasePower();
@@ -92,7 +90,6 @@ public interface SimulationModel extends Naming {
 	 * @return the value of the '<em>Companies</em>' containment reference list.
 	 * @see org.opencim.cim.cimPackage#getSimulationModel_Companies()
 	 * @see org.opencim.cim.iec61970.core.Company#getSimuModel
-	 * @model type="org.opencim.cim.iec61970.core.Company" opposite="simuModel" containment="true"
 	 * @generated
 	 */
 	EList getCompanies();
@@ -110,7 +107,6 @@ public interface SimulationModel extends Naming {
 	 * @return the value of the '<em>Topological Islands</em>' containment reference list.
 	 * @see org.opencim.cim.cimPackage#getSimulationModel_TopologicalIslands()
 	 * @see org.opencim.cim.iec61970.topology.TopologicalIsland#getSimuModel
-	 * @model type="org.opencim.cim.iec61970.topology.TopologicalIsland" opposite="simuModel" containment="true"
 	 * @generated
 	 */
 	EList getTopologicalIslands();
@@ -128,7 +124,6 @@ public interface SimulationModel extends Naming {
 	 * @return the value of the '<em>Ps Resources</em>' containment reference list.
 	 * @see org.opencim.cim.cimPackage#getSimulationModel_PsResources()
 	 * @see org.opencim.cim.iec61970.core.PowerSystemResource#getSimuModel
-	 * @model type="org.opencim.cim.iec61970.core.PowerSystemResource" opposite="simuModel" containment="true"
 	 * @generated
 	 */
 	EList getPsResources();
@@ -139,7 +134,6 @@ public interface SimulationModel extends Naming {
 	 * <!-- begin-model-doc -->
 	 * Get BaseVoltage object by MRID
 	 * <!-- end-model-doc -->
-	 * @model
 	 * @generated
 	 */
 	BaseVoltage getBaseVoltage(String mRID);
@@ -150,7 +144,6 @@ public interface SimulationModel extends Naming {
 	 * <!-- begin-model-doc -->
 	 * Get Company object by MRID
 	 * <!-- end-model-doc -->
-	 * @model
 	 * @generated
 	 */
 	Company getCompany(String mRID);
@@ -161,7 +154,6 @@ public interface SimulationModel extends Naming {
 	 * <!-- begin-model-doc -->
 	 * Get Topological object (Island, Node, ConnectivityNode or Terminal) by MRID and Class type.
 	 * <!-- end-model-doc -->
-	 * @model klassDataType="org.opencim.cim.iec61970.domain.JavaClass"
 	 * @generated
 	 */
 	Naming getTopologicalObject(String mRID, Class klass);
@@ -172,7 +164,6 @@ public interface SimulationModel extends Naming {
 	 * <!-- begin-model-doc -->
 	 * Get a Topological object by MRID and its parent container for performance purpose. 
 	 * <!-- end-model-doc -->
-	 * @model klassDataType="org.opencim.cim.iec61970.domain.JavaClass" parentDataType="org.opencim.cim.iec61970.domain.JavaObject"
 	 * @generated
 	 */
 	Naming getTopologicalObject(String mRID, Class klass, Object parent);
@@ -183,7 +174,6 @@ public interface SimulationModel extends Naming {
 	 * <!-- begin-model-doc -->
 	 * Get a PowerSystemResource object by MRID
 	 * <!-- end-model-doc -->
-	 * @model klassDataType="org.opencim.cim.iec61970.domain.JavaClass"
 	 * @generated
 	 */
 	PowerSystemResource getPsResource(String mRID, Class klass);
@@ -194,7 +184,6 @@ public interface SimulationModel extends Naming {
 	 * <!-- begin-model-doc -->
 	 * Get a PowerSystemResource object by MRID and its parement container for performance prupose.
 	 * <!-- end-model-doc -->
-	 * @model klassDataType="org.opencim.cim.iec61970.domain.JavaClass" parentDataType="org.opencim.cim.iec61970.domain.JavaObject"
 	 * @generated
 	 */
 	PowerSystemResource getPsResource(String mRID, Class klass, Object parent);

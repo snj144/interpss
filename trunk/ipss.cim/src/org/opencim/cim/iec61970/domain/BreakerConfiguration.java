@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Switching arrangement for Bay. 
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getBreakerConfiguration()
- * @model
  * @generated
  */
 public final class BreakerConfiguration extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class BreakerConfiguration extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #SINGLE_BREAKER_LITERAL
-	 * @model name="singleBreaker"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class BreakerConfiguration extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #BREAKER_AND_AHALF_LITERAL
-	 * @model name="breakerAndAHalf"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class BreakerConfiguration extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #DOUBLE_BREAKER_LITERAL
-	 * @model name="doubleBreaker"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class BreakerConfiguration extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #NO_BREAKER_LITERAL
-	 * @model name="noBreaker"
 	 * @generated
 	 * @ordered
 	 */

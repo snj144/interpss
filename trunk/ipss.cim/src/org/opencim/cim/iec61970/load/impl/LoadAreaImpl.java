@@ -12,17 +12,21 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.util.BasicInternalEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.opencim.cim.iec61970.core.CorePackage;
 import org.opencim.cim.iec61970.core.Substation;
+import org.opencim.cim.iec61970.core.impl.CorePackageImpl;
 import org.opencim.cim.iec61970.core.impl.PowerSystemResourceImpl;
 import org.opencim.cim.iec61970.load.AreaLoadCurve;
 import org.opencim.cim.iec61970.load.AreaLossCurve;
 import org.opencim.cim.iec61970.load.LoadArea;
 import org.opencim.cim.iec61970.load.LoadPackage;
 import org.opencim.cim.iec61970.wire.EnergyConsumer;
+import org.opencim.cim.iec61970.wire.impl.WirePackageImpl;
+
 import org.opencim.cim.iec61970.wire.WirePackage;
 
 /**

@@ -35,7 +35,6 @@ import org.opencim.datatype.real.Resistance;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulationSchedule()
- * @model
  * @generated
  */
 public interface RegulationSchedule extends CurveSchedule {
@@ -49,7 +48,6 @@ public interface RegulationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Line Drop Compensation</em>' attribute.
 	 * @see #setLineDropCompensation(Boolean)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulationSchedule_LineDropCompensation()
-	 * @model
 	 * @generated
 	 */
 	Boolean getLineDropCompensation();
@@ -74,7 +72,6 @@ public interface RegulationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Line Drop R</em>' attribute.
 	 * @see #setLineDropR(Resistance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulationSchedule_LineDropR()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Resistance"
 	 * @generated
 	 */
 	Resistance getLineDropR();
@@ -99,7 +96,6 @@ public interface RegulationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Line Drop X</em>' attribute.
 	 * @see #setLineDropX(Reactance)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulationSchedule_LineDropX()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Reactance"
 	 * @generated
 	 */
 	Reactance getLineDropX();
@@ -126,7 +122,6 @@ public interface RegulationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Voltage Control Zones</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulationSchedule_VoltageControlZones()
 	 * @see org.opencim.cim.iec61970.wire.VoltageControlZone#getRegulationSchedule
-	 * @model type="org.opencim.cim.iec61970.wire.VoltageControlZone" opposite="RegulationSchedule"
 	 * @generated
 	 */
 	EList getVoltageControlZones();
@@ -143,7 +138,6 @@ public interface RegulationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Regulating Cond Eqs</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulationSchedule_RegulatingCondEqs()
 	 * @see org.opencim.cim.iec61970.wire.RegulatingCondEq#getRegulationSchedule
-	 * @model type="org.opencim.cim.iec61970.wire.RegulatingCondEq" opposite="RegulationSchedule"
 	 * @generated
 	 */
 	EList getRegulatingCondEqs();
@@ -160,7 +154,6 @@ public interface RegulationSchedule extends CurveSchedule {
 	 * @return the value of the '<em>Tap Changers</em>' reference list.
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getRegulationSchedule_TapChangers()
 	 * @see org.opencim.cim.iec61970.wire.TapChanger#getRegulationSchedule
-	 * @model type="org.opencim.cim.iec61970.wire.TapChanger" opposite="RegulationSchedule"
 	 * @generated
 	 */
 	EList getTapChangers();

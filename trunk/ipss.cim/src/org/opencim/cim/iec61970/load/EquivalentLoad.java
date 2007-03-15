@@ -32,7 +32,6 @@ import org.opencim.datatype.real.PerCent;
  * </p>
  *
  * @see org.opencim.cim.iec61970.load.LoadPackage#getEquivalentLoad()
- * @model
  * @generated
  */
 public interface EquivalentLoad extends EnergyConsumer {
@@ -46,7 +45,6 @@ public interface EquivalentLoad extends EnergyConsumer {
 	 * @return the value of the '<em>Feeder Load Mgt Factor</em>' attribute.
 	 * @see #setFeederLoadMgtFactor(PerCent)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getEquivalentLoad_FeederLoadMgtFactor()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getFeederLoadMgtFactor();
@@ -71,7 +69,6 @@ public interface EquivalentLoad extends EnergyConsumer {
 	 * @return the value of the '<em>MV Ar Cold Pick Up Factor</em>' attribute.
 	 * @see #setMVArColdPickUpFactor(PerCent)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getEquivalentLoad_MVArColdPickUpFactor()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getMVArColdPickUpFactor();
@@ -96,7 +93,6 @@ public interface EquivalentLoad extends EnergyConsumer {
 	 * @return the value of the '<em>MW Cold Pick Up Factor</em>' attribute.
 	 * @see #setMWColdPickUpFactor(PerCent)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getEquivalentLoad_MWColdPickUpFactor()
-	 * @model dataType="org.opencim.cim.iec61970.domain.PerCent"
 	 * @generated
 	 */
 	PerCent getMWColdPickUpFactor();
@@ -121,7 +117,6 @@ public interface EquivalentLoad extends EnergyConsumer {
 	 * @return the value of the '<em>Phase Amp Rating</em>' attribute.
 	 * @see #setPhaseAmpRating(CurrentFlow)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getEquivalentLoad_PhaseAmpRating()
-	 * @model dataType="org.opencim.cim.iec61970.domain.CurrentFlow"
 	 * @generated
 	 */
 	CurrentFlow getPhaseAmpRating();
@@ -146,7 +141,6 @@ public interface EquivalentLoad extends EnergyConsumer {
 	 * @return the value of the '<em>Load Allocation Factor</em>' attribute.
 	 * @see #setLoadAllocationFactor(Float)
 	 * @see org.opencim.cim.iec61970.load.LoadPackage#getEquivalentLoad_LoadAllocationFactor()
-	 * @model
 	 * @generated
 	 */
 	Float getLoadAllocationFactor();

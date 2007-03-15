@@ -18,7 +18,6 @@ package org.opencim.cim.iec61970.wire;
  *
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getJumper()
- * @model
  * @generated
  */
 public interface Jumper extends Switch {

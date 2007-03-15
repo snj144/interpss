@@ -31,7 +31,6 @@ import org.opencim.datatype.real.Voltage;
  * </p>
  *
  * @see org.opencim.cim.iec61970.core.CorePackage#getVoltageLevel()
- * @model
  * @generated
  */
 public interface VoltageLevel extends EquipmentContainer {
@@ -45,7 +44,6 @@ public interface VoltageLevel extends EquipmentContainer {
 	 * @return the value of the '<em>High Voltage Limit</em>' attribute.
 	 * @see #setHighVoltageLimit(Voltage)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getVoltageLevel_HighVoltageLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getHighVoltageLimit();
@@ -70,7 +68,6 @@ public interface VoltageLevel extends EquipmentContainer {
 	 * @return the value of the '<em>Low Voltage Limit</em>' attribute.
 	 * @see #setLowVoltageLimit(Voltage)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getVoltageLevel_LowVoltageLimit()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getLowVoltageLimit();
@@ -97,7 +94,6 @@ public interface VoltageLevel extends EquipmentContainer {
 	 * @see #setSubstation(Substation)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getVoltageLevel_Substation()
 	 * @see org.opencim.cim.iec61970.core.Substation#getVoltageLevels
-	 * @model opposite="VoltageLevels" required="true"
 	 * @generated
 	 */
 	Substation getSubstation();
@@ -124,7 +120,6 @@ public interface VoltageLevel extends EquipmentContainer {
 	 * @return the value of the '<em>Bays</em>' containment reference list.
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getVoltageLevel_Bays()
 	 * @see org.opencim.cim.iec61970.core.Bay#getVoltageLevel
-	 * @model type="org.opencim.cim.iec61970.core.Bay" opposite="VoltageLevel" containment="true"
 	 * @generated
 	 */
 	EList getBays();
@@ -142,7 +137,6 @@ public interface VoltageLevel extends EquipmentContainer {
 	 * @see #setBaseVoltage(BaseVoltage)
 	 * @see org.opencim.cim.iec61970.core.CorePackage#getVoltageLevel_BaseVoltage()
 	 * @see org.opencim.cim.iec61970.core.BaseVoltage#getVoltageLevel
-	 * @model opposite="VoltageLevel" required="true"
 	 * @generated
 	 */
 	BaseVoltage getBaseVoltage();

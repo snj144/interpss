@@ -34,7 +34,6 @@ import org.opencim.datatype.string.OperatingMode;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getFrequencyConverter()
- * @model
  * @generated
  */
 public interface FrequencyConverter extends RegulatingCondEq {
@@ -48,7 +47,6 @@ public interface FrequencyConverter extends RegulatingCondEq {
 	 * @return the value of the '<em>Frequency</em>' attribute.
 	 * @see #setFrequency(Frequency)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getFrequencyConverter_Frequency()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Frequency"
 	 * @generated
 	 */
 	Frequency getFrequency();
@@ -73,7 +71,6 @@ public interface FrequencyConverter extends RegulatingCondEq {
 	 * @return the value of the '<em>Maximum MW</em>' attribute.
 	 * @see #setMaximumMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getFrequencyConverter_MaximumMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMaximumMW();
@@ -98,7 +95,6 @@ public interface FrequencyConverter extends RegulatingCondEq {
 	 * @return the value of the '<em>Maximum KV</em>' attribute.
 	 * @see #setMaximumKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getFrequencyConverter_MaximumKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMaximumKV();
@@ -123,7 +119,6 @@ public interface FrequencyConverter extends RegulatingCondEq {
 	 * @return the value of the '<em>Minimum MW</em>' attribute.
 	 * @see #setMinimumMW(ActivePower)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getFrequencyConverter_MinimumMW()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getMinimumMW();
@@ -148,7 +143,6 @@ public interface FrequencyConverter extends RegulatingCondEq {
 	 * @return the value of the '<em>Minimum KV</em>' attribute.
 	 * @see #setMinimumKV(Voltage)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getFrequencyConverter_MinimumKV()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Voltage"
 	 * @generated
 	 */
 	Voltage getMinimumKV();
@@ -173,7 +167,6 @@ public interface FrequencyConverter extends RegulatingCondEq {
 	 * @return the value of the '<em>Operating Mode</em>' attribute.
 	 * @see #setOperatingMode(OperatingMode)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getFrequencyConverter_OperatingMode()
-	 * @model dataType="org.opencim.cim.iec61970.domain.OperatingMode"
 	 * @generated
 	 */
 	OperatingMode getOperatingMode();

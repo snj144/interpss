@@ -40,7 +40,6 @@ import org.opencim.datatype.real.Seconds;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine()
- * @model
  * @generated
  */
 public interface SteamTurbine extends PrimeMover {
@@ -54,7 +53,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Crossover TC</em>' attribute.
 	 * @see #setCrossoverTC(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_CrossoverTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getCrossoverTC();
@@ -79,7 +77,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Reheater1 TC</em>' attribute.
 	 * @see #setReheater1TC(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Reheater1TC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getReheater1TC();
@@ -104,7 +101,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Reheater2 TC</em>' attribute.
 	 * @see #setReheater2TC(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Reheater2TC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getReheater2TC();
@@ -129,7 +125,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Shaft1 Power HP</em>' attribute.
 	 * @see #setShaft1PowerHP(Fraction)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Shaft1PowerHP()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Fraction"
 	 * @generated
 	 */
 	Fraction getShaft1PowerHP();
@@ -154,7 +149,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Shaft1 Power IP</em>' attribute.
 	 * @see #setShaft1PowerIP(Fraction)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Shaft1PowerIP()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Fraction"
 	 * @generated
 	 */
 	Fraction getShaft1PowerIP();
@@ -179,7 +173,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Shaft1 Power LP1</em>' attribute.
 	 * @see #setShaft1PowerLP1(Fraction)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Shaft1PowerLP1()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Fraction"
 	 * @generated
 	 */
 	Fraction getShaft1PowerLP1();
@@ -204,7 +197,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Shaft1 Power LP2</em>' attribute.
 	 * @see #setShaft1PowerLP2(Fraction)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Shaft1PowerLP2()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Fraction"
 	 * @generated
 	 */
 	Fraction getShaft1PowerLP2();
@@ -229,7 +221,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Shaft2 Power HP</em>' attribute.
 	 * @see #setShaft2PowerHP(Fraction)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Shaft2PowerHP()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Fraction"
 	 * @generated
 	 */
 	Fraction getShaft2PowerHP();
@@ -254,7 +245,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Shaft2 Power IP</em>' attribute.
 	 * @see #setShaft2PowerIP(Fraction)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Shaft2PowerIP()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Fraction"
 	 * @generated
 	 */
 	Fraction getShaft2PowerIP();
@@ -279,7 +269,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Shaft2 Power LP1</em>' attribute.
 	 * @see #setShaft2PowerLP1(Fraction)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Shaft2PowerLP1()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Fraction"
 	 * @generated
 	 */
 	Fraction getShaft2PowerLP1();
@@ -304,7 +293,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Shaft2 Power LP2</em>' attribute.
 	 * @see #setShaft2PowerLP2(Fraction)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_Shaft2PowerLP2()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Fraction"
 	 * @generated
 	 */
 	Fraction getShaft2PowerLP2();
@@ -329,7 +317,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Steam Chest TC</em>' attribute.
 	 * @see #setSteamChestTC(Seconds)
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_SteamChestTC()
-	 * @model dataType="org.opencim.cim.iec61970.domain.Seconds"
 	 * @generated
 	 */
 	Seconds getSteamChestTC();
@@ -356,7 +343,6 @@ public interface SteamTurbine extends PrimeMover {
 	 * @return the value of the '<em>Steam Supplys</em>' reference list.
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.GenerationdynamicsPackage#getSteamTurbine_SteamSupplys()
 	 * @see org.opencim.cim.iec61970.gen.generationdynamics.SteamSupply#getSteamTurbines
-	 * @model type="org.opencim.cim.iec61970.gen.generationdynamics.SteamSupply" opposite="SteamTurbines"
 	 * @generated
 	 */
 	EList getSteamSupplys();

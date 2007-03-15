@@ -31,7 +31,6 @@ import org.opencim.datatype.real.ActivePower;
  * </p>
  *
  * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPump()
- * @model
  * @generated
  */
 public interface HydroPump extends PowerSystemResource {
@@ -45,7 +44,6 @@ public interface HydroPump extends PowerSystemResource {
 	 * @return the value of the '<em>Pump Disch At Max Head</em>' attribute.
 	 * @see #setPumpDischAtMaxHead(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPump_PumpDischAtMaxHead()
-	 * @model
 	 * @generated
 	 */
 	Float getPumpDischAtMaxHead();
@@ -70,7 +68,6 @@ public interface HydroPump extends PowerSystemResource {
 	 * @return the value of the '<em>Pump Disch At Min Head</em>' attribute.
 	 * @see #setPumpDischAtMinHead(Float)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPump_PumpDischAtMinHead()
-	 * @model
 	 * @generated
 	 */
 	Float getPumpDischAtMinHead();
@@ -95,7 +92,6 @@ public interface HydroPump extends PowerSystemResource {
 	 * @return the value of the '<em>Pump Power At Max Head</em>' attribute.
 	 * @see #setPumpPowerAtMaxHead(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPump_PumpPowerAtMaxHead()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getPumpPowerAtMaxHead();
@@ -120,7 +116,6 @@ public interface HydroPump extends PowerSystemResource {
 	 * @return the value of the '<em>Pump Power At Min Head</em>' attribute.
 	 * @see #setPumpPowerAtMinHead(ActivePower)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPump_PumpPowerAtMinHead()
-	 * @model dataType="org.opencim.cim.iec61970.domain.ActivePower"
 	 * @generated
 	 */
 	ActivePower getPumpPowerAtMinHead();
@@ -145,7 +140,6 @@ public interface HydroPump extends PowerSystemResource {
 	 * @return the value of the '<em>Hydro Pump Op Schedule</em>' containment reference.
 	 * @see #setHydroPumpOpSchedule(HydroPumpOpSchedule)
 	 * @see org.opencim.cim.iec61970.gen.production.ProductionPackage#getHydroPump_HydroPumpOpSchedule()
-	 * @model containment="true"
 	 * @generated
 	 */
 	HydroPumpOpSchedule getHydroPumpOpSchedule();

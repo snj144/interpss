@@ -17,6 +17,8 @@ import org.opencim.cim.*;
 
 import org.opencim.cim.iec61970.core.Naming;
 
+import org.opencim.cim.impl.cimPackageImpl;
+
 /**
  * <!-- begin-user-doc -->
  * The <b>Adapter Factory</b> for the model.

@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Type of hydro plant penstock.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getPenstockType()
- * @model
  * @generated
  */
 public final class PenstockType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class PenstockType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TYPE_LITERAL
-	 * @model name="Type"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class PenstockType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OF_LITERAL
-	 * @model name="of"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class PenstockType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #HYDRO_LITERAL
-	 * @model name="hydro"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class PenstockType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PLANT_LITERAL
-	 * @model name="plant"
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +89,6 @@ public final class PenstockType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #PENSTOCK_LITERAL
-	 * @model name="penstock"
 	 * @generated
 	 * @ordered
 	 */

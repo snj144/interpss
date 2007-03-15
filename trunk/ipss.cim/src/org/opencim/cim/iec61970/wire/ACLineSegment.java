@@ -24,7 +24,6 @@ package org.opencim.cim.iec61970.wire;
  * </p>
  *
  * @see org.opencim.cim.iec61970.wire.WirePackage#getACLineSegment()
- * @model
  * @generated
  */
 public interface ACLineSegment extends Conductor {
@@ -40,7 +39,6 @@ public interface ACLineSegment extends Conductor {
 	 * @see #setLine(Line)
 	 * @see org.opencim.cim.iec61970.wire.WirePackage#getACLineSegment_Line()
 	 * @see org.opencim.cim.iec61970.wire.Line#getACLineSegments
-	 * @model opposite="ACLineSegments" required="true"
 	 * @generated
 	 */
 	Line getLine();

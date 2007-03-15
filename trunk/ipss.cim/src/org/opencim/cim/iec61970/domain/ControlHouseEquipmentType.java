@@ -21,7 +21,6 @@ import org.eclipse.emf.common.util.AbstractEnumerator;
  * Type of control house equipment.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.domain.DomainPackage#getControlHouseEquipmentType()
- * @model
  * @generated
  */
 public final class ControlHouseEquipmentType extends AbstractEnumerator {
@@ -34,7 +33,6 @@ public final class ControlHouseEquipmentType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #TYPE_LITERAL
-	 * @model name="Type"
 	 * @generated
 	 * @ordered
 	 */
@@ -49,7 +47,6 @@ public final class ControlHouseEquipmentType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #OF_LITERAL
-	 * @model name="of"
 	 * @generated
 	 * @ordered
 	 */
@@ -64,7 +61,6 @@ public final class ControlHouseEquipmentType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #CONTROL_LITERAL
-	 * @model name="control"
 	 * @generated
 	 * @ordered
 	 */
@@ -79,7 +75,6 @@ public final class ControlHouseEquipmentType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #HOUSE_LITERAL
-	 * @model name="house"
 	 * @generated
 	 * @ordered
 	 */
@@ -94,7 +89,6 @@ public final class ControlHouseEquipmentType extends AbstractEnumerator {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #EQUIPMENT_LITERAL
-	 * @model name="equipment"
 	 * @generated
 	 * @ordered
 	 */

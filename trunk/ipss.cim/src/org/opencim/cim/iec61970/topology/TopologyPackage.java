@@ -28,7 +28,6 @@ import org.opencim.cim.iec61970.core.CorePackage;
  * An extension to the Core Package that in association with the Terminal class models Connectivity, that is the physical definition of how equipment is connected together. In addition it models Topology, that is the logical definition of how equipment is connected via closed switches. The Topology definition is independent of the other electrical characteristics.
  * <!-- end-model-doc -->
  * @see org.opencim.cim.iec61970.topology.TopologyFactory
- * @model kind="package"
  * @generated
  */
 public interface TopologyPackage extends EPackage {
