@@ -55,13 +55,13 @@ public class GUIFileUtil {
 	    	  textArea.read(reader, null);
 	    	  return true;
 	      } catch (IOException ex) {
-				SpringAppContext.getIpssMsgHub().sendErrorMsg("Cannot readt file: " + filename);
+				IpssLogger.getLogger().info("Cannot readt file: " + filename);
 	      } finally {
 	    	  if (reader != null) {
 	    		  try {
 	    			  reader.close();
 	    		  } catch (IOException x) {
-	  				SpringAppContext.getIpssMsgHub().sendErrorMsg("Cannot close file: " + filename);
+	  				  SpringAppContext.getIpssMsgHub().sendErrorMsg("Cannot close file: " + filename);
 	    		  }
 	    	  }
 	      }		
