@@ -178,7 +178,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 		}
 		_data.setZ0R(SwingInputVerifyUtil.getDouble(r0TextField));
 
-		if (!SwingInputVerifyUtil.largeThan(x0TextField, 0.0d)) {
+		if (!SwingInputVerifyUtil.largeEqualThan(x0TextField, 0.0d)) {
 			errMsg.add("X0 <= 0.0");
 			ok = false;
 		}
