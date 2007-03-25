@@ -51,13 +51,13 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 	}
 
 	@Override
-	public void init(String scriptFilename, DStabilityNetwork net) {
+	public boolean init(String scriptFilename, DStabilityNetwork net) {
 		this.msg = SpringAppContext.getIpssMsgHub();
 		this.net = net;
 		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
 
 		JTextArea textarea = new JTextArea();
-		GUIFileUtil.readFile2TextareaRativePath(scriptFilename, textarea);
+		GUIFileUtil.readFile2TextareaAbsolutePath(scriptFilename, textarea);
 		
 		try {
 			engine.eval(textarea.getText());
@@ -65,34 +65,55 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 			invoker = (Invocable)engine;
 			invoker.invokeMethod(scriptObj, "init", net, msg);
 		} catch (Exception e) {
-			msg.sendErrorMsg("ScriptSimuOutputHandler.init(), " + e.toString());
+			msg.sendErrorMsg("Error in the init() section: " + e.toString());
+			return false;
 		}
+		return true;
 	}
 
 	@Override
 	public boolean onMsgEventStatus(IpssMessage event) {
 		DStabSimuAction e = (DStabSimuAction)event;
-		try {
-			if (e.getType() == DStabSimuAction.TimeStepMachineStates) {
+		if (e.getType() == DStabSimuAction.TimeStepMachineStates) {
+			try {
 			   	Hashtable machStates = e.getHashtableData();
 				invoker.invokeMethod(scriptObj, "processMachStates", net, machStates, msg);
+			} catch (Exception ex) {
+				msg.sendErrorMsg("Error in processMachStates section, " + ex.toString());
+				return false;
 			}
-			else if (e.getType() == DStabSimuAction.TimeStepBusStates) {
+		}
+
+		if (e.getType() == DStabSimuAction.TimeStepBusStates) {
+			try {
 			   	Hashtable busStates = e.getHashtableData();
 				invoker.invokeMethod(scriptObj, "processBusVariables", net, busStates, msg);
+			} catch (Exception ex) {
+				msg.sendErrorMsg("Error in processBusVariables section, " + ex.toString());
+				return false;
 			}
-			else if (e.getType() == DStabSimuAction.TimeStepScriptDBusDeviceStates) {
+		}
+
+		if (e.getType() == DStabSimuAction.TimeStepScriptDBusDeviceStates) {
+			try {
 			   	Hashtable busDeviceStates = e.getHashtableData();
 				invoker.invokeMethod(scriptObj, "processBusDeviceStates", net, busDeviceStates, msg);
+			} catch (Exception ex) {
+				msg.sendErrorMsg("Error in processBusDeviceStates section, " + ex.toString());
+				return false;
 			}
-			else if (e.getType() == DStabSimuAction.EndOfSimuStep) {
-				invoker.invokeMethod(scriptObj, "processEndOfSimuStep", msg);
-			}
-		} catch (Exception ex) {
-			msg.sendErrorMsg("ScriptSimuOutputHandler.onMsgEventStatus(), " + ex.toString());
-			return false;
 		}
-	   return true;
+
+		if (e.getType() == DStabSimuAction.EndOfSimuStep) {
+			try {
+				invoker.invokeMethod(scriptObj, "processEndOfSimuStep", msg);
+			} catch (Exception ex) {
+				msg.sendErrorMsg("Error in processEndOfSimuStep section, " + ex.toString());
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	@Override
