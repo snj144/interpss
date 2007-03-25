@@ -174,7 +174,7 @@ public class TestSimuModelCase extends TestCase {
 	 * 
 	 * @throws Exception
 	 */
-	public void xtestCase4() throws Exception {
+	public void testCase4() throws Exception {
   		System.out.println("TestSimuModelCase testCase4 begins ...");
   		
 		SimulationModel simuModel = SimuModelFactory.createSimulationModel(
@@ -182,6 +182,9 @@ public class TestSimuModelCase extends TestCase {
 		SimuModelHelper sModelHelper = new SimuModelHelper(simuModel);
 		TopologyHelper   topoHelper = new TopologyHelper(simuModel);
 		OperationHelper resHelper = new OperationHelper(simuModel);
+
+		TopologyHelper.CheckTopologicaObjectDup = true;
+		OperationHelper.CheckOperationalObjectDup = true;
 		
 	    setSampleSimuModel(simuModel);
 
