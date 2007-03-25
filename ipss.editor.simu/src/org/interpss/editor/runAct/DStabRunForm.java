@@ -102,7 +102,8 @@ public class DStabRunForm extends BaseRunForm {
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
 		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
 		try {
-			handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord");
+			if (!handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord"))
+				return;
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
@@ -116,7 +117,8 @@ public class DStabRunForm extends BaseRunForm {
 			scriptHandler = SimuSpringAppContext.getDStabScriptOutputHandler();
 			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
 			try {
-				scriptHandler.init(dStabCaseData.getOutputScriptFilename(), simuCtx.getDStabilityNet());
+				if (!scriptHandler.init(dStabCaseData.getOutputScriptFilename(), simuCtx.getDStabilityNet()))
+					return;
 			} catch (Exception e) {
 				IpssLogger.logErr(e);
 				return;

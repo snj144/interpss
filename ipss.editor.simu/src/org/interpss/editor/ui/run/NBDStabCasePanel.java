@@ -203,7 +203,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         if (outputScriptCheckBox.isSelected()) {
             if (dstabOutputScriptFilename != null) {
             	IpssLogger.getLogger().info("scriptFilename: " + dstabOutputScriptFilename);
-            	GUIFileUtil.readFile2TextareaRativePath(dstabOutputScriptFilename, scriptTextArea);
+            	GUIFileUtil.readFile2TextareaAbsolutePath(dstabOutputScriptFilename, scriptTextArea);
             	if (scriptTextArea.getText().trim().equals(""))
                 	GUIFileUtil.readFile2TextareaRativePath(OutpuScriptTemplateFilename, scriptTextArea);
             }         
