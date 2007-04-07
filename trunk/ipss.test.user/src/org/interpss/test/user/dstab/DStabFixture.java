@@ -539,6 +539,7 @@ public class DStabFixture extends AcscFixture {
 					variableName) < errorTolerance;
 		}
 		else {
+			//System.out.println(stateTestRecorder.toString());
 			return stateTestRecorder.diffTotal(machId, 
 					variableType.equals("Machine")?StateVariableTestRecorder.RecType_Machine :
 						variableType.equals("Exciter")?StateVariableTestRecorder.RecType_Exciter :
