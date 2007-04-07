@@ -28,6 +28,7 @@ import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
 import com.interpss.dstab.mach.Machine;
 
 public class TestSimpleAnnotateStabilizerCase extends TestSetupBase {
@@ -49,13 +50,13 @@ public class TestSimpleAnnotateStabilizerCase extends TestSetupBase {
 		
 		mach.setSpeed(1.0);
 		pss.initStates(mach.getDeviceBus(), this.msg);
-		assertTrue(Math.abs(pss.getControlBlockState("filterBlock1")) < 0.0001);
-		assertTrue(Math.abs(pss.getControlBlockState("filterBlock2")) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("filterBlock1", pss.getFieldList())) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("filterBlock2", pss.getFieldList())) < 0.0001);
 	
 		// calculate a step, the state should remain the same
 		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		assertTrue(Math.abs(pss.getControlBlockState("filterBlock1")) < 0.0001);
-		assertTrue(Math.abs(pss.getControlBlockState("filterBlock2")) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("filterBlock1", pss.getFieldList())) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("filterBlock2", pss.getFieldList())) < 0.0001);
 		
 		// calculate more steps, the state should remain the same also
 		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
@@ -63,8 +64,8 @@ public class TestSimpleAnnotateStabilizerCase extends TestSetupBase {
 		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		assertTrue(Math.abs(pss.getControlBlockState("filterBlock1")) < 0.0001);
-		assertTrue(Math.abs(pss.getControlBlockState("filterBlock2")) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("filterBlock1", pss.getFieldList())) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("filterBlock2", pss.getFieldList())) < 0.0001);
 		
 		/*
 		 * dw = 0.1, X1(0) = 0.0, X2(0) = 0.0
@@ -81,8 +82,8 @@ public class TestSimpleAnnotateStabilizerCase extends TestSetupBase {
 		mach.setSpeed(1.1);
 		pss.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		//System.out.println("X1, X2: " + pss._X1 + ", " + pss._X2);
-		assertTrue(Math.abs(pss.getControlBlockState("filterBlock1")-0.001782) < 0.0001);
-		assertTrue(Math.abs(pss.getControlBlockState("filterBlock2")-1.888E-4) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("filterBlock1", pss.getFieldList())-0.001782) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("filterBlock2", pss.getFieldList())-1.888E-4) < 0.0001);
 
 		System.out.println("\nEnd TestSimpleStabilizerCase Case1");
 	}

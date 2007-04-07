@@ -27,6 +27,7 @@ package org.interpss.test.simu.dstab.controller.annotate;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
 import com.interpss.dstab.mach.Machine;
 
 public class TestSimpleAnnotateGovernorCase extends TestSetupBase {
@@ -44,11 +45,11 @@ public class TestSimpleAnnotateGovernorCase extends TestSetupBase {
 		gov.initStates(mach.getDeviceBus(), this.msg);
 		//System.out.println("Pm0, X1 " + gov._Pm0 + ", " + gov._X1);
 		assertTrue(Math.abs(gov.getRefPoint() - 1.0) < 0.0001);
-		assertTrue(Math.abs(gov.getControlBlockState("delayBlock")) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("delayBlock", gov.getFieldList())) < 0.0001);
 		
 		// calculate a step, the state should remain the same
 		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		assertTrue(Math.abs(gov.getControlBlockState("delayBlock")) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("delayBlock", gov.getFieldList())) < 0.0001);
 		
 		// calculate more steps, the state should remain the same also
 		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
@@ -56,7 +57,7 @@ public class TestSimpleAnnotateGovernorCase extends TestSetupBase {
 		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		assertTrue(Math.abs(gov.getControlBlockState("delayBlock")) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("delayBlock", gov.getFieldList())) < 0.0001);
 
 		/*
 		 * Set mach speed to 1.01 pu
@@ -70,7 +71,7 @@ public class TestSimpleAnnotateGovernorCase extends TestSetupBase {
 		mach.setSpeed(1.01);
 		gov.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		//System.out.println("X1 " + gov._X1);
-		assertTrue(Math.abs(gov.getControlBlockState("delayBlock") - 0.00198) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("delayBlock", gov.getFieldList()) - 0.00198) < 0.0001);
 		
 		System.out.println("\nEnd TestSimpleGovernorCase Case1");
 	}
