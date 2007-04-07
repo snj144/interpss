@@ -27,6 +27,7 @@ package org.interpss.test.simu.dstab.controller.annotate;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.DynamicSimuMethods;
+import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
 import com.interpss.dstab.mach.Machine;
 
 public class TestSimpleAnnotateExcitorCase extends TestSetupBase {
@@ -42,11 +43,11 @@ public class TestSimpleAnnotateExcitorCase extends TestSetupBase {
 		mach.setEfd(2.0);
 		exc.initStates(mach.getDeviceBus(), this.msg);
 		assertTrue(Math.abs(exc.getRefPoint() - 1.04) < 0.0001);
-		assertTrue(Math.abs(exc.getControlBlockState("delayBlock") - 2.0) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("delayBlock", exc.getFieldList()) - 2.0) < 0.0001);
 		
 		// calculate a step, the state should remain the same
 		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		assertTrue(Math.abs(exc.getControlBlockState("delayBlock") - 2.0) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("delayBlock", exc.getFieldList()) - 2.0) < 0.0001);
 		
 		// calculate more steps, the state should remain the same also
 		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
@@ -54,7 +55,7 @@ public class TestSimpleAnnotateExcitorCase extends TestSetupBase {
 		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		assertTrue(Math.abs(exc.getControlBlockState("delayBlock") - 2.0) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("delayBlock", exc.getFieldList()) - 2.0) < 0.0001);
 
 		/* Set machine voltage to 0.99 and move forward a step
 		 * 
@@ -67,7 +68,7 @@ public class TestSimpleAnnotateExcitorCase extends TestSetupBase {
 		mach.getMachineBus().setVoltageMag(0.99);
 		exc.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
 		//System.out.println("X1 " + exc._X1);
-		assertTrue(Math.abs(exc.getControlBlockState("delayBlock") - 2.09) < 0.0001);
+		assertTrue(Math.abs(AnCntlUtilFunc.getControlBlockState("delayBlock", exc.getFieldList()) - 2.09) < 0.0001);
 
 		System.out.println("\nEnd TestSimpleExcitorCase Case1");
 	}
