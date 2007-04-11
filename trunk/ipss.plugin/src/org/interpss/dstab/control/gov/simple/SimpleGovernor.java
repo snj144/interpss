@@ -26,6 +26,7 @@ package org.interpss.dstab.control.gov.simple;
 
 import java.lang.reflect.Field;
 
+import com.interpss.common.func.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
@@ -44,7 +45,7 @@ import com.interpss.dstab.mach.Machine;
 public class SimpleGovernor extends AnnotateGovernor {
 	public double ka = 10.0, ta = 0.5;
     @AnControllerField(
-            type= "type.ControlBlock",
+            type= CMLFieldType.ControlBlock,
             input="mach.speed - 1.0",
             parameter={"type.NoLimit", "this.ka", "this.ta"},
             y0="this.refPoint - this.gainBlock.u0"	)
@@ -52,7 +53,7 @@ public class SimpleGovernor extends AnnotateGovernor {
 	
     public double ks = 1.0, pmax = 1.2, pmin = 0.0;
     @AnControllerField(
-            type= "type.StaticBlock",
+            type= CMLFieldType.StaticBlock,
             input="this.refPoint - this.delayBlock.y",
             parameter={"type.Limit", "this.ks", "this.pmax", "this.pmin"},
             y0="mach.pm"	)

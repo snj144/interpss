@@ -11,6 +11,7 @@ package org.interpss.dstab.control.exc.simple;
 
 import java.lang.reflect.Field;
 
+import com.interpss.common.func.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
@@ -28,7 +29,7 @@ import com.interpss.dstab.mach.Machine;
 public class SimpleExciter extends AnnotateExciter {
 	public double k = 50.0, t = 0.05, vmax = 10.0, vmin = 0.0;
     @AnControllerField(
-            type= "type.ControlBlock",
+            type= CMLFieldType.ControlBlock,
             input="this.refPoint + pss.vs - mach.vt",
             parameter={"type.Limit", "this.k", "this.t", "this.vmax", "this.vmin"},
             y0="mach.efd"	)
