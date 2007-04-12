@@ -27,7 +27,7 @@ package org.interpss.test.simu.dstab.controller.block;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.controller.block.FilterControlBlock;
-import com.interpss.dstab.controller.block.IBlock;
+import com.interpss.dstab.controller.block.IStaticBlock;
 
 public class TestFilterCase extends TestSetupBase {
 	
@@ -84,7 +84,7 @@ public class TestFilterCase extends TestSetupBase {
 	public void test_Case2() {
 		System.out.println("\nBegin TestFilterCase Case2");
 
-		FilterControlBlock block = new FilterControlBlock(IBlock.Type.Limit, 1.0, 0.1, 1.0, 5.0, -5.0);
+		FilterControlBlock block = new FilterControlBlock(IStaticBlock.Type.Limit, 1.0, 0.1, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
@@ -111,7 +111,7 @@ public class TestFilterCase extends TestSetupBase {
 	public void test_Case3() {
 		System.out.println("\nBegin TestFilterCase Case3");
 
-		FilterControlBlock block = new FilterControlBlock(IBlock.Type.NonWindup, 1.0, 0.1, 1.0, 5.0, -5.0);
+		FilterControlBlock block = new FilterControlBlock(IStaticBlock.Type.NonWindup, 1.0, 0.1, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
