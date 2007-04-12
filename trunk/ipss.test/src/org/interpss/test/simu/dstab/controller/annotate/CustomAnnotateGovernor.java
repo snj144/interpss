@@ -2,6 +2,7 @@ package org.interpss.test.simu.dstab.controller.annotate;
 
 import java.lang.reflect.Field;
 
+import com.interpss.common.func.CMLFieldType;
 import com.interpss.dstab.controller.annotate.*;
 import com.interpss.dstab.controller.block.*;
 import com.interpss.dstab.mach.Controller;
@@ -23,7 +24,7 @@ public class CustomAnnotateGovernor extends AnnotateGovernor {
 	// Define controller parameters, fields and field annotation here 
 	public double ka = 10.0, ta = 0.5;
     @AnControllerField(
-            type= "type.ControlBlock",
+            type= CMLFieldType.ControlBlock,
             input="mach.speed - 1.0",
             parameter={"type.NoLimit", "this.ka", "this.ta"},
             y0="this.refPoint - this.gainBlock.u0"	)
@@ -31,7 +32,7 @@ public class CustomAnnotateGovernor extends AnnotateGovernor {
 	
     public double ks = 1.0, pmax = 1.2, pmin = 0.0;
     @AnControllerField(
-            type= "type.StaticBlock",
+            type= CMLFieldType.StaticBlock,
             input="this.refPoint - this.delayBlock.y",
             parameter={"type.Limit", "this.ks", "this.pmax", "this.pmin"},
             y0="mach.pm"	)
@@ -44,6 +45,9 @@ public class CustomAnnotateGovernor extends AnnotateGovernor {
     public double getDoubleField(String fieldName) throws Exception {
     	Field field = getClass().getField(fieldName);
     	return ((Double)field.get(this)).doubleValue();   }
+    public IFunction getFunctionField(String fieldName) throws Exception {
+    	Field field = getClass().getField(fieldName);
+    	return (IFunction)field.get(this);   }    
     public Controller getControllerField(Field field) throws Exception {
     	return (Controller)field.get(this);    }
 }

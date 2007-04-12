@@ -27,7 +27,7 @@ package org.interpss.test.simu.dstab.controller.block;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.IBlock;
+import com.interpss.dstab.controller.block.IStaticBlock;
 
 public class TestDelayCase extends TestSetupBase {
 	
@@ -83,7 +83,7 @@ public class TestDelayCase extends TestSetupBase {
 	public void test_Case2() {
 		System.out.println("\nBegin TestDelayCase Case2");
 
-		DelayControlBlock block = new DelayControlBlock(IBlock.Type.Limit, 1.0, 0.1, 5.0, -5.0);
+		DelayControlBlock block = new DelayControlBlock(IStaticBlock.Type.Limit, 1.0, 0.1, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
@@ -110,7 +110,7 @@ public class TestDelayCase extends TestSetupBase {
 	public void test_Case3() {
 		System.out.println("\nBegin TestDelayCase Case3");
 
-		DelayControlBlock block = new DelayControlBlock(IBlock.Type.NonWindup, 1.0, 0.1, 5.0, -5.0);
+		DelayControlBlock block = new DelayControlBlock(IStaticBlock.Type.NonWindup, 1.0, 0.1, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));

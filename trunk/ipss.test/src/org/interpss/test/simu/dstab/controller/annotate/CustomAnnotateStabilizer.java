@@ -2,6 +2,7 @@ package org.interpss.test.simu.dstab.controller.annotate;
 
 import java.lang.reflect.Field;
 
+import com.interpss.common.func.CMLFieldType;
 import com.interpss.dstab.controller.annotate.*;
 import com.interpss.dstab.controller.block.*;
 import com.interpss.dstab.mach.Controller;
@@ -22,7 +23,7 @@ public class CustomAnnotateStabilizer extends AnnotateStabilizer {
 	// Define controller parameters, fields and field annotation here 
 	public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
     @AnControllerField(
-            type= "type.ControlBlock",
+            type= CMLFieldType.ControlBlock,
             input="mach.speed - this.refPoint",
             parameter={"type.NoLimit", "this.k1", "this.t1", "this.t2"},
             y0="this.filterBlock2.u0"	)
@@ -30,7 +31,7 @@ public class CustomAnnotateStabilizer extends AnnotateStabilizer {
 	
     public double k2 = 1.0, t3 = 0.05, t4 = 0.25, vmax = 0.2, vmin = -0.2;
     @AnControllerField(
-            type= "type.ControlBlock",
+            type= CMLFieldType.ControlBlock,
             input="this.filterBlock1.y",
             parameter={"type.Limit", "this.k2", "this.t3", "this.t4", "this.vmax", "this.vmin"},
             y0="pss.vs"	)
@@ -43,6 +44,9 @@ public class CustomAnnotateStabilizer extends AnnotateStabilizer {
     public double getDoubleField(String fieldName) throws Exception {
     	Field field = getClass().getField(fieldName);
     	return ((Double)field.get(this)).doubleValue();   }
+    public IFunction getFunctionField(String fieldName) throws Exception {
+    	Field field = getClass().getField(fieldName);
+    	return (IFunction)field.get(this);   }    
     public Controller getControllerField(Field field) throws Exception {
     	return (Controller)field.get(this);    }
 }

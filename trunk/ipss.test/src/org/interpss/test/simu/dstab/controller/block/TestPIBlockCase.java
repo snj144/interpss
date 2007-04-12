@@ -26,7 +26,7 @@ package org.interpss.test.simu.dstab.controller.block;
 
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
-import com.interpss.dstab.controller.block.IBlock;
+import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.PIControlBlock;
 
 public class TestPIBlockCase extends TestSetupBase {
@@ -82,7 +82,7 @@ public class TestPIBlockCase extends TestSetupBase {
 	public void test_Case2() {
 		System.out.println("\nBegin TestPIBlockCase Case2");
 
-		PIControlBlock block = new PIControlBlock(IBlock.Type.Limit, 2.0, 1.0, 5.0, -5.0);
+		PIControlBlock block = new PIControlBlock(IStaticBlock.Type.Limit, 2.0, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
@@ -109,7 +109,7 @@ public class TestPIBlockCase extends TestSetupBase {
 	public void test_Case3() {
 		System.out.println("\nBegin TestPIBlockCase Case3");
 
-		PIControlBlock block = new PIControlBlock(IBlock.Type.NonWindup, 2.0, 1.0, 5.0, -5.0);
+		PIControlBlock block = new PIControlBlock(IStaticBlock.Type.NonWindup, 2.0, 1.0, 5.0, -5.0);
 		
 		assertTrue(!block.initStateY0(6.0));
 		assertTrue(!block.initStateY0(-6.0));
