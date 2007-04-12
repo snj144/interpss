@@ -34,6 +34,7 @@ import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateGovernor;
 import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.controller.block.GainBlock;
+import com.interpss.dstab.controller.block.IFunction;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.Machine;
 
@@ -119,6 +120,9 @@ public class SimpleGovernor extends AnnotateGovernor {
     public double getDoubleField(String fieldName) throws Exception {
     	Field field = getClass().getField(fieldName);
     	return ((Double)field.get(this)).doubleValue();   }
+    public IFunction getFunctionField(String fieldName) throws Exception {
+    	Field field = getClass().getField(fieldName);
+    	return (IFunction)field.get(this);   }    
     public Controller getControllerField(Field field) throws Exception {
     	return (Controller)field.get(this);    }
 } // SimpleGovernor
