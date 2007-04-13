@@ -32,7 +32,6 @@ import com.interpss.dstab.controller.annotate.FunctionField;
 import com.interpss.dstab.controller.annotate.StaticBlockField;
 import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
 import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.SeFunction;
 import com.interpss.dstab.mach.Machine;
 
 public class TestAnnotateParserCase extends TestSetupBase {
@@ -84,9 +83,9 @@ public class TestAnnotateParserCase extends TestSetupBase {
 			
 			assertTrue(AnCntlUtilFunc.getBlockField("seFunc", exc.getFieldList()) != null);
 
-			SeFunction seFunc = (SeFunction)(AnCntlUtilFunc.getBlock("seFunc", exc.getFieldList()));
-			assertTrue(seFunc.getSe1_0() == 50.0);
-			assertTrue(seFunc.getSe0_75() == 1.0);
+//			SeFunction seFunc = (SeFunction)(AnCntlUtilFunc.getBlock("seFunc", exc.getFieldList()));
+//			assertTrue(seFunc.g.getSe1_0() == 50.0);
+//			assertTrue(seFunc.getSe0_75() == 1.0);
 
 			FunctionField field = (FunctionField)(AnCntlUtilFunc.getBlockField("seFunc", exc.getFieldList()));
 			assertTrue(field.getInputs().length == 3);

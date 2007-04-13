@@ -30,9 +30,9 @@ public class CustomAnnotateExciter extends AnnotateExciter {
             y0="mach.efd"	)
     DelayControlBlock delayBlock;
     
-	public double se1_0 = 50.0, se0_75 = 1.0;
+	public double e1 = 50.0, se_e1 = 1.0, e2 = 50.0, se_e2 = 1.0;
     @AnFunctionField(
-            parameter=	{"this.se1_0", "this.se0_75"},
+            parameter=	{"this.e1", "this.se_e1", "this.e2", "this.se_e2"},
             input={"this.refPoint", "pss.vs", "mach.vt"})
     SeFunction seFunc;
     
