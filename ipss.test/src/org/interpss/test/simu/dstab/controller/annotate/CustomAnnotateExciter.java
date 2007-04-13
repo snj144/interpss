@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import com.interpss.common.func.CMLFieldType;
 import com.interpss.dstab.controller.annotate.*;
 import com.interpss.dstab.controller.block.*;
+import com.interpss.dstab.controller.func.IFunction;
+import com.interpss.dstab.controller.func.SeFunction;
 import com.interpss.dstab.mach.Controller;
 // do not modify any code above this point
 
