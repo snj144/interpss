@@ -66,7 +66,6 @@
 				<ref bean="ieeeST1Governor"/>
 				<ref bean="ieeeST2Governor"/>
 				<ref bean="simpleGovernor"/>
-				<ref bean="sampleCustomGovernor"/>
 			</list>
 		</constructor-arg>
 	</bean>

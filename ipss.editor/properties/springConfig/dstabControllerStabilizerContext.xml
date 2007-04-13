@@ -42,7 +42,6 @@
 			<list>
 				<ref bean="cmlScriptingStabilizer"/>
 				<ref bean="simpleStabilizer"/>
-				<ref bean="sampleCustomStabilizer"/>
 			</list>
 		</constructor-arg>
 	</bean>	
