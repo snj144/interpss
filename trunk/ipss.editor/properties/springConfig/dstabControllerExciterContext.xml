@@ -86,7 +86,6 @@
 				<ref bean="simpleExciter"/>
 				<ref bean="ieeeDC_1AExciter"/>
 				<ref bean="ieeeAC_4AExciter"/>
-				<ref bean="sampleCustomExciter"/>
 			</list>
 		</constructor-arg>
 	</bean>
