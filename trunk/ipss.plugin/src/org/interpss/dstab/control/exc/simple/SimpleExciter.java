@@ -18,7 +18,7 @@ import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.IFunction;
+import com.interpss.dstab.controller.func.IFunction;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.Machine;
 
