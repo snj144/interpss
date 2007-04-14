@@ -3,11 +3,10 @@ package org.interpss.test.simu.dstab.controller.annotate;
 import java.lang.reflect.Field;
 
 import com.interpss.common.func.CMLFieldType;
-import com.interpss.dstab.controller.annotate.*;
-import com.interpss.dstab.controller.block.*;
-import com.interpss.dstab.controller.func.IFunction;
-import com.interpss.dstab.mach.Controller;
-// do not modify any code above this point
+import com.interpss.dstab.controller.annotate.AnController;
+import com.interpss.dstab.controller.annotate.AnControllerField;
+import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
+import com.interpss.dstab.controller.block.FilterControlBlock;
 
 // User custom code begin 
 // Define controller annotation here
@@ -42,12 +41,8 @@ public class CustomAnnotateStabilizer extends AnnotateStabilizer {
 // do not modify any code below this point     
     public AnController getAnController() {
     	return (AnController)getClass().getAnnotation(AnController.class);  }
-    public double getDoubleField(String fieldName) throws Exception {
-    	Field field = getClass().getField(fieldName);
-    	return ((Double)field.get(this)).doubleValue();   }
-    public IFunction getFunctionField(String fieldName) throws Exception {
-    	Field field = getClass().getField(fieldName);
-    	return (IFunction)field.get(this);   }    
-    public Controller getControllerField(Field field) throws Exception {
-    	return (Controller)field.get(this);    }
+    public Field getField(String fieldName) throws Exception {
+    	return getClass().getField(fieldName);   }
+    public Object getFieldObject(Field field) throws Exception {
+    	return field.get(this);    }
 }
