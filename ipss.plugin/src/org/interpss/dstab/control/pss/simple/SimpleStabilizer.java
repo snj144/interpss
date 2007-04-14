@@ -34,8 +34,6 @@ import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
 import com.interpss.dstab.controller.block.FilterControlBlock;
-import com.interpss.dstab.controller.func.IFunction;
-import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
@@ -118,12 +116,9 @@ public class SimpleStabilizer extends AnnotateStabilizer {
 	
     public AnController getAnController() {
     	return (AnController)getClass().getAnnotation(AnController.class);  }
-    public double getDoubleField(String fieldName) throws Exception {
-    	Field field = getClass().getField(fieldName);
-    	return ((Double)field.get(this)).doubleValue();   }
-    public IFunction getFunctionField(String fieldName) throws Exception {
-    	Field field = getClass().getField(fieldName);
-    	return (IFunction)field.get(this);   }    
-    public Controller getControllerField(Field field) throws Exception {
-    	return (Controller)field.get(this);    }
+    public Field getField(String fieldName) throws Exception {
+    	return getClass().getField(fieldName);   }
+    public Object getFieldObject(Field field) throws Exception {
+    	return field.get(this);    }
+
 } // SimpleStabilizer
