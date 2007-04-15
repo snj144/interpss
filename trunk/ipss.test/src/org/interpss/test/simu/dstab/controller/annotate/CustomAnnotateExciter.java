@@ -8,7 +8,7 @@ import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.FunctionAdapter;
+import com.interpss.dstab.controller.func.FunctionAdapter;
 import com.interpss.dstab.controller.func.IFunction;
 import com.interpss.dstab.controller.func.SeFunction;
 
