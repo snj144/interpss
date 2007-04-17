@@ -27,9 +27,9 @@ package org.interpss.test.simu.dstab.controller.annotate;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.common.func.CMLVarType;
-import com.interpss.dstab.controller.annotate.ControlBlockField;
-import com.interpss.dstab.controller.annotate.FunctionField;
-import com.interpss.dstab.controller.annotate.StaticBlockField;
+import com.interpss.dstab.controller.annotate.ControlBlockFieldHolder;
+import com.interpss.dstab.controller.annotate.FunctionFieldHolder;
+import com.interpss.dstab.controller.annotate.StaticBlockFieldHolder;
 import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
 import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.mach.Machine;
@@ -41,8 +41,8 @@ public class TestAnnotateParserCase extends TestSetupBase {
 
 		Machine mach = createMachine();
 
-		ControlBlockField cfield = null;
-		StaticBlockField sfield = null;
+		ControlBlockFieldHolder cfield = null;
+		StaticBlockFieldHolder sfield = null;
 
 		try {
 			/*
@@ -67,7 +67,7 @@ public class TestAnnotateParserCase extends TestSetupBase {
 			assertTrue(block.getLimit().getMax() == 10.0);
 			assertTrue(block.getLimit().getMin() == 0.0);
 
-			cfield = (ControlBlockField)(AnCntlUtilFunc.getBlockField("delayBlock", exc.getFieldList()));
+			cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockField("delayBlock", exc.getFieldList()));
 			assertTrue(cfield.getInitOrder() == 1);
 			assertTrue(cfield.hasRefPointAsInput());
 			assertTrue(!cfield.hasRefPointAsOutput());
@@ -87,12 +87,12 @@ public class TestAnnotateParserCase extends TestSetupBase {
 //			assertTrue(seFunc.g.getSe1_0() == 50.0);
 //			assertTrue(seFunc.getSe0_75() == 1.0);
 
-			FunctionField field = (FunctionField)(AnCntlUtilFunc.getBlockField("seFunc", exc.getFieldList()));
+			FunctionFieldHolder field = (FunctionFieldHolder)(AnCntlUtilFunc.getBlockField("seFunc", exc.getFieldList()));
 			assertTrue(field.getInputs().length == 3);
 			assertTrue(field.getParameters().length == 2);
 
 			assertTrue(AnCntlUtilFunc.getBlockField("seFunc1", exc.getFieldList()) != null);
-			field = (FunctionField)(AnCntlUtilFunc.getBlockField("seFunc1", exc.getFieldList()));
+			field = (FunctionFieldHolder)(AnCntlUtilFunc.getBlockField("seFunc1", exc.getFieldList()));
 			assertTrue(field.getInputs().length == 3);
 
 			/*
@@ -116,12 +116,12 @@ public class TestAnnotateParserCase extends TestSetupBase {
 			gov.initStates(mach.getDStabBus(), mach, null);
 			
 			assertTrue(AnCntlUtilFunc.getBlockField("delayBlock", gov.getFieldList()) != null);
-			cfield = (ControlBlockField)(AnCntlUtilFunc.getBlockField("delayBlock", gov.getFieldList()));
+			cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockField("delayBlock", gov.getFieldList()));
 			assertTrue(cfield.getInitOrder() == -1);
 			assertTrue(cfield.getY0Exp().hasField("gainBlock"));
 
 			assertTrue(AnCntlUtilFunc.getBlockField("gainBlock", gov.getFieldList()) != null);
-			sfield = (StaticBlockField)(AnCntlUtilFunc.getBlockField("gainBlock", gov.getFieldList()));
+			sfield = (StaticBlockFieldHolder)(AnCntlUtilFunc.getBlockField("gainBlock", gov.getFieldList()));
 			assertTrue(sfield.getInitOrder() == 1);
 			assertTrue(sfield.getInputExp().hasField("delayBlock"));
 			//System.out.println(gov.toString());
@@ -147,12 +147,12 @@ public class TestAnnotateParserCase extends TestSetupBase {
 			pss.initStates(mach.getDStabBus(), mach, null);
 
 			assertTrue(AnCntlUtilFunc.getBlockField("filterBlock1", pss.getFieldList()) != null);
-			cfield = (ControlBlockField)(AnCntlUtilFunc.getBlockField("filterBlock1", pss.getFieldList()));
+			cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockField("filterBlock1", pss.getFieldList()));
 			assertTrue(cfield.getInitOrder() == 1);
 			assertTrue(cfield.getY0Exp().hasField("filterBlock2"));
 
 			assertTrue(AnCntlUtilFunc.getBlockField("filterBlock2", pss.getFieldList()) != null);
-			cfield = (ControlBlockField)(AnCntlUtilFunc.getBlockField("filterBlock2", pss.getFieldList()));
+			cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockField("filterBlock2", pss.getFieldList()));
 			assertTrue(cfield.getInitOrder() == 2);
 			assertTrue(cfield.getInputExp().hasField("filterBlock1"));
 			//System.out.println(pss.toString());
@@ -168,28 +168,28 @@ public class TestAnnotateParserCase extends TestSetupBase {
 
 		Machine mach = createMachine();
 
-		ControlBlockField cfield = null;
-		StaticBlockField sfield = null;
+		ControlBlockFieldHolder cfield = null;
+		StaticBlockFieldHolder sfield = null;
 
 		try {
 			TestAnnotateStabilizer001 pss = new TestAnnotateStabilizer001();
 			pss.initStates(mach.getDStabBus(), mach, null);
 
 			assertTrue(AnCntlUtilFunc.getBlockField("gainBlock1", pss.getFieldList()) != null);
-			sfield = (StaticBlockField)(AnCntlUtilFunc.getBlockField("gainBlock1", pss.getFieldList()));
+			sfield = (StaticBlockFieldHolder)(AnCntlUtilFunc.getBlockField("gainBlock1", pss.getFieldList()));
 			assertTrue(sfield.getInitOrder() == -2);
 
 			assertTrue(AnCntlUtilFunc.getBlockField("gainBlock2", pss.getFieldList()) != null);
-			sfield = (StaticBlockField)(AnCntlUtilFunc.getBlockField("gainBlock2", pss.getFieldList()));
+			sfield = (StaticBlockFieldHolder)(AnCntlUtilFunc.getBlockField("gainBlock2", pss.getFieldList()));
 			assertTrue(sfield.getInitOrder() == -1);
 			
 			assertTrue(AnCntlUtilFunc.getBlockField("filterBlock1", pss.getFieldList()) != null);
-			cfield = (ControlBlockField)(AnCntlUtilFunc.getBlockField("filterBlock1", pss.getFieldList()));
+			cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockField("filterBlock1", pss.getFieldList()));
 			assertTrue(cfield.getInitOrder() == 1);
 			assertTrue(cfield.getY0Exp().hasField("filterBlock2"));
 
 			assertTrue(AnCntlUtilFunc.getBlockField("filterBlock2", pss.getFieldList()) != null);
-			cfield = (ControlBlockField)(AnCntlUtilFunc.getBlockField("filterBlock2", pss.getFieldList()));
+			cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockField("filterBlock2", pss.getFieldList()));
 			assertTrue(cfield.getInitOrder() == 2);
 			assertTrue(cfield.getInputExp().hasField("filterBlock1"));
 			//System.out.println(pss.toString());
