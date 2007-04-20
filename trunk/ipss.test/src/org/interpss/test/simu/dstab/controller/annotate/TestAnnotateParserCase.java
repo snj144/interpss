@@ -69,8 +69,8 @@ public class TestAnnotateParserCase extends TestSetupBase {
 
 			cfield = (ControlBlockFieldHolder)(AnCntlUtilFunc.getBlockField("delayBlock", exc.getFieldList()));
 			assertTrue(cfield.getInitOrder() == 1);
-			assertTrue(cfield.hasRefPointAsInput());
-			assertTrue(!cfield.hasRefPointAsOutput());
+			assertTrue(cfield.hasInput(CMLVarType.ControllerRefPoint));
+			assertTrue(!cfield.hasOutput(CMLVarType.ControllerRefPoint));
 			assertTrue(cfield.getInputExp().getRecList().length == 3);
 			assertTrue(cfield.getInputExp().hasVarType(CMLVarType.ControllerRefPoint));
 			assertTrue(cfield.getInputExp().hasVarType(CMLVarType.PssVs));
