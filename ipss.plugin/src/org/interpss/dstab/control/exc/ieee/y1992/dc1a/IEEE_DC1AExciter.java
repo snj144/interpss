@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.dstab.control.exc.ieee.ieeeDC1A;
+package org.interpss.dstab.control.exc.ieee.y1992.dc1a;
 
 import java.util.Hashtable;
 
