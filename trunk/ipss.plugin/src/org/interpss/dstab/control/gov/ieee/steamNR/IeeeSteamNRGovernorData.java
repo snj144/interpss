@@ -24,59 +24,129 @@
 
 package org.interpss.dstab.control.gov.ieee.steamNR;
 
-public class IeeeSteamNRGovernorData {
-	public IeeeSteamNRGovernorData() {}
+import org.interpss.dstab.control.base.BaseControllerData;
+
+public class IeeeSteamNRGovernorData extends BaseControllerData {
+	private double k = 1.0;
+	private double t1 = 2.0;
+	private double t2 = 2.0;
+	private double t3 = 2.0;
+	private double pmax = 3.0;
+	private double pmin = 4.0;
+	private double pup = 0.0;
+	private double pdown = 0.0;
+	private double tch = 0.0;
 	
-	private double k = 10.0;
-	private double t1 = 0.5;
-	private double pmax = 1.5;
-	private double pmin = 0.0;
-	/**
-	 * @return Returns the k.
-	 */
+	private static String[][] controllerParameters= { 
+		//          min         max
+		{"k", 		"-1000.0", 	"1000.0"}, 
+		{"t1", 		"-1000.0", 	"1000.0"}, 
+		{"t2", 		"-1000.0", 	"1000.0"}, 
+		{"t3", 		"-1000.0", 	"1000.0"}, 
+		{"pmax", 	"-1000.0", 	"1000.0"}, 
+		{"pmin", 	"-1000.0", 	"1000.0"}, 
+		{"pup", 	"-1000.0", 	"1000.0"}, 
+		{"pdown", 	"-1000.0", 	"1000.0"}, 
+		{"tch",		"-1000.0", 	"1000.0"} 
+	};
+
+	public IeeeSteamNRGovernorData() {
+		setParameters(controllerParameters);
+	}
+
+	public void setValue(String name, int value) {
+	}
+
+	public void setValue(String name, double value) {
+		if (name.equals("k"))
+			this.k = value;
+		else if (name.equals("t1"))
+			this.t1 = value;
+		else if (name.equals("t2"))
+			this.t2 = value;
+		else if (name.equals("t3"))
+			this.t3 = value;
+		else if (name.equals("pmax"))
+			this.pmax = value;
+		else if (name.equals("pmin"))
+			this.pmin = value;
+		else if (name.equals("pup"))
+			this.pup = value;
+		else if (name.equals("pdown"))
+			this.pdown = value;
+		else if (name.equals("tch"))
+			this.tch = value;
+	}
+
 	public double getK() {
 		return k;
 	}
-	/**
-	 * @param k The k to set.
-	 */
-	public void setK(final double k) {
+
+	public void setK(double k) {
 		this.k = k;
 	}
-	/**
-	 * @return Returns the pmax.
-	 */
+
+	public double getPdown() {
+		return pdown;
+	}
+
+	public void setPdown(double pdown) {
+		this.pdown = pdown;
+	}
+
 	public double getPmax() {
 		return pmax;
 	}
-	/**
-	 * @param pmax The pmax to set.
-	 */
-	public void setPmax(final double pmax) {
+
+	public void setPmax(double pmax) {
 		this.pmax = pmax;
 	}
-	/**
-	 * @return Returns the pmin.
-	 */
+
 	public double getPmin() {
 		return pmin;
 	}
-	/**
-	 * @param pmin The pmin to set.
-	 */
-	public void setPmin(final double pmin) {
+
+	public void setPmin(double pmin) {
 		this.pmin = pmin;
 	}
-	/**
-	 * @return Returns the t1.
-	 */
+
+	public double getPup() {
+		return pup;
+	}
+
+	public void setPup(double pup) {
+		this.pup = pup;
+	}
+
 	public double getT1() {
 		return t1;
 	}
-	/**
-	 * @param t1 The t1 to set.
-	 */
-	public void setT1(final double t1) {
+
+	public void setT1(double t1) {
 		this.t1 = t1;
 	}
-} // SimpleExcAdapter
+
+	public double getT2() {
+		return t2;
+	}
+
+	public void setT2(double t2) {
+		this.t2 = t2;
+	}
+
+	public double getT3() {
+		return t3;
+	}
+
+	public void setT3(double t3) {
+		this.t3 = t3;
+	}
+
+	public double getTch() {
+		return tch;
+	}
+
+	public void setTch(double tch) {
+		this.tch = tch;
+	}
+} 
