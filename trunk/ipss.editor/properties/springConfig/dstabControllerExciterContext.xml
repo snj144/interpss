@@ -55,6 +55,17 @@
 	    	<value>An InterPSS simple exciter implmementation</value></property>
 	</bean>
 
+	<bean id="ieee1968Type1Exciter" 
+	      class="org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1968 Type1</value></property>
+	    <property name="category">
+	    	<value>IEEE-1968</value></property>
+	    <property name="desc">
+	    	<value>IEEE 1968 Type-1 exciter implmementation</value></property>
+	</bean>
+<!--
 	<bean id="ieeeDC_1AExciter" 
 	      class="org.interpss.dstab.control.exc.ieee.ieeeDC1A.IEEE_DC1AExciter"
 	      singleton="false">	
@@ -76,7 +87,7 @@
 	    <property name="desc">
 	    	<value>The IEEE AC-4A Type exiter implementation</value></property>
 	</bean>
-
+-->
 	<bean id="exciterList" 
 	      class="java.util.ArrayList"
 	      singleton="true">	
@@ -84,8 +95,7 @@
 			<list>
 				<ref bean="cmlScriptingExciter"/>
 				<ref bean="simpleExciter"/>
-				<ref bean="ieeeDC_1AExciter"/>
-				<ref bean="ieeeAC_4AExciter"/>
+				<ref bean="ieee1968Type1Exciter"/>
 			</list>
 		</constructor-arg>
 	</bean>
