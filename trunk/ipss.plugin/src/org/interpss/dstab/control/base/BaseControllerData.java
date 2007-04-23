@@ -25,5 +25,9 @@ public abstract class BaseControllerData {
 	}
 	
 	public abstract void setValue(String name, double value);
-	public abstract boolean isOutRange(String name, double value);
+	public abstract void setValue(String name, int value);
+
+	public boolean isOutRange(String name, double value) {
+		return getMaxValue(name) <= value && value >= getMinValue(name);
+	}
 }
