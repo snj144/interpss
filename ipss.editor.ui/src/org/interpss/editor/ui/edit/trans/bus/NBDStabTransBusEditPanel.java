@@ -74,7 +74,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 	    dstabTabbedPane.setEnabledAt(0, true);
 	    aclfInfoEditPanel.add(_aclfTransBusEditPanel);
 		_aclfTransBusEditPanel.init(_netContainer, _form);
-	    
+
 	    machInfoEditPanel.add(_machPanel);
 		_machPanel.init(_netContainer, _form);
 
