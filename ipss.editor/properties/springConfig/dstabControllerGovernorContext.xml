@@ -34,7 +34,7 @@
 	    <property name="desc">
 	    	<value>An InterPSS simple governor implmementation</value></property>
 	</bean>
-
+<!--
 	<bean id="ieeeST1Governor" 
 	      class="org.interpss.dstab.control.gov.ieee.ieeeST1.IeeeST1Governor"
 	      singleton="false">	
@@ -56,15 +56,13 @@
 	    <property name="desc">
 	    	<value>IEEE ST2 Governor implmementation</value></property>
 	</bean>
-
+-->
 	<bean id="governorList" 
 	      class="java.util.ArrayList"
 	      singleton="true">	
 		<constructor-arg>
 			<list>
 				<ref bean="cmlScriptingGovernor"/>
-				<ref bean="ieeeST1Governor"/>
-				<ref bean="ieeeST2Governor"/>
 				<ref bean="simpleGovernor"/>
 			</list>
 		</constructor-arg>
