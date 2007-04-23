@@ -74,7 +74,7 @@ public class IeeePSS2AStabilizer extends AnnotateStabilizer {
 	public IeeePSS2AStabilizer(final String id, final String name, final String caty) {
 		super(id, name, caty);
 		// _data is defined in the parent class. However init it here is a MUST
-		_data = new SimpleStabilizerData();
+		_data = new IeeePSS2AStabilizerData();
 	}
 	
 	/**
@@ -82,8 +82,8 @@ public class IeeePSS2AStabilizer extends AnnotateStabilizer {
 	 * 
 	 * @return the data object
 	 */
-	public SimpleStabilizerData getData() {
-		return (SimpleStabilizerData)_data;
+	public IeeePSS2AStabilizerData getData() {
+		return (IeeePSS2AStabilizerData)_data;
 	}
 	
 	/**
@@ -93,13 +93,13 @@ public class IeeePSS2AStabilizer extends AnnotateStabilizer {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-        this.k1 = getData().getKs();
+        this.k1 = getData().getKs1();
         this.t1 = getData().getT1();
         this.t2 = getData().getT2();
         this.t3 = getData().getT3();
         this.t4 = getData().getT4();
-        this.vmax = getData().getVsmax();
-        this.vmin = getData().getVsmin();
+        this.vmax = getData().getVstmax();
+        this.vmin = getData().getVstmin();
         return super.initStates(abus, mach, msg);
 	}
 

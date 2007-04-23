@@ -65,8 +65,8 @@ public class NBIeeePSS1AStabilizerEditPanel extends javax.swing.JPanel implement
   	    t2TextField.setText(Num2Str.toStr(_data.getT2(), "#0.000"));
   	    t3TextField.setText(Num2Str.toStr(_data.getT3(), "#0.000"));
   	    t4TextField.setText(Num2Str.toStr(_data.getT4(), "#0.000"));
-  	    vsmaxTextField.setText(Num2Str.toStr(_data.getVsmax(), "#0.00"));
-  	    vsminTextField.setText(Num2Str.toStr(_data.getVsmin(), "#0.00"));
+  	    vsmaxTextField.setText(Num2Str.toStr(_data.getVstmax(), "#0.00"));
+  	    vsminTextField.setText(Num2Str.toStr(_data.getVstmin(), "#0.00"));
   	    
         return true;
 	}
@@ -114,10 +114,10 @@ public class NBIeeePSS1AStabilizerEditPanel extends javax.swing.JPanel implement
 			errMsg.add("Vsmax <= 0.0");
 			ok = false;
 		}
-    	_data.setVsmax(SwingInputVerifyUtil.getDouble(vsmaxTextField));
+    	_data.setVstmax(SwingInputVerifyUtil.getDouble(vsmaxTextField));
 
-    	_data.setVsmin(SwingInputVerifyUtil.getDouble(vsminTextField));
-		if (_data.getVsmax() <= _data.getVsmin()) {
+    	_data.setVstmin(SwingInputVerifyUtil.getDouble(vsminTextField));
+		if (_data.getVstmax() <= _data.getVstmin()) {
 			errMsg.add("Vsmax <= Vsmin");
 			ok = false;
 		}    	
