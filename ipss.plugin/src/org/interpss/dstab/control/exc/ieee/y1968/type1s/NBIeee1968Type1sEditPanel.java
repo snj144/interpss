@@ -51,7 +51,7 @@ public class NBIeee1968Type1sEditPanel extends javax.swing.JPanel implements ICo
     public boolean setData2Editor() {
   	    kaTextField.setText(Num2Str.toStr(_data.getKa(), "#0.00"));
   	    taTextField.setText(Num2Str.toStr(_data.getTa(), "#0.000"));
-  	    vrmaxTextField.setText(Num2Str.toStr(_data.getVrmax(), "#0.00"));
+  	    vrmaxTextField.setText(Num2Str.toStr(_data.getKp(), "#0.00"));
   	    vrminTextField.setText(Num2Str.toStr(_data.getVrmin(), "#0.00"));
         return true;
 	}
@@ -75,7 +75,7 @@ public class NBIeee1968Type1sEditPanel extends javax.swing.JPanel implements ICo
 
     	if (SwingInputVerifyUtil.within(this.vrmaxTextField, 0.0, 20.0, errMsg,
     			"Vrmax is out of the range [0.0, 20.0]"))
-    		_data.setVrmax(SwingInputVerifyUtil.getDouble(vrmaxTextField));
+    		_data.setKp(SwingInputVerifyUtil.getDouble(vrmaxTextField));
 
     	if (SwingInputVerifyUtil.within(this.vrminTextField, -20.0, 0.0d, errMsg,
     		"Vrmin is out of the range [-20.0, 0.0]"))

@@ -72,8 +72,8 @@ public class Ieee1968Type4Exciter extends AnnotateExciter {
      *  @param msg the SessionMsg object
      */
     public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
-        this.k = getData().getKa();
-        this.t = getData().getTa();
+        this.k = getData().getKv();
+        this.t = getData().getTrh();
         this.vmax = getData().getVrmax();
         this.vmin = getData().getVrmin();
         return super.initStates(bus, mach, msg);
