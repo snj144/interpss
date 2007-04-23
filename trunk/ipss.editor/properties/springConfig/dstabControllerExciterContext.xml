@@ -65,6 +65,50 @@
 	    <property name="desc">
 	    	<value>IEEE 1968 Type-1 exciter implmementation</value></property>
 	</bean>
+
+	<bean id="ieee1968Type1sExciter" 
+	      class="org.interpss.dstab.control.exc.ieee.y1968.type1s.Ieee1968Type1sExciter"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1968 Type1s</value></property>
+	    <property name="category">
+	    	<value>IEEE-1968</value></property>
+	    <property name="desc">
+	    	<value>IEEE 1968 Type-1s exciter implmementation</value></property>
+	</bean>
+
+	<bean id="ieee1968Type2Exciter" 
+	      class="org.interpss.dstab.control.exc.ieee.y1968.type2.Ieee1968Type2Exciter"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1968 Type2</value></property>
+	    <property name="category">
+	    	<value>IEEE-1968</value></property>
+	    <property name="desc">
+	    	<value>IEEE 1968 Type-2 exciter implmementation</value></property>
+	</bean>
+
+	<bean id="ieee1968Type3Exciter" 
+	      class="org.interpss.dstab.control.exc.ieee.y1968.type3.Ieee1968Type3Exciter"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1968 Type3</value></property>
+	    <property name="category">
+	    	<value>IEEE-1968</value></property>
+	    <property name="desc">
+	    	<value>IEEE 1968 Type-3 exciter implmementation</value></property>
+	</bean>
+
+	<bean id="ieee1968Type4Exciter" 
+	      class="org.interpss.dstab.control.exc.ieee.y1968.type4.Ieee1968Type4Exciter"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1968 Type4</value></property>
+	    <property name="category">
+	    	<value>IEEE-1968</value></property>
+	    <property name="desc">
+	    	<value>IEEE 1968 Type-4 exciter implmementation</value></property>
+	</bean>
 <!--
 	<bean id="ieeeDC_1AExciter" 
 	      class="org.interpss.dstab.control.exc.ieee.ieeeDC1A.IEEE_DC1AExciter"
@@ -96,6 +140,10 @@
 				<ref bean="cmlScriptingExciter"/>
 				<ref bean="simpleExciter"/>
 				<ref bean="ieee1968Type1Exciter"/>
+				<ref bean="ieee1968Type1sExciter"/>
+				<ref bean="ieee1968Type2Exciter"/>
+				<ref bean="ieee1968Type3Exciter"/>
+				<ref bean="ieee1968Type4Exciter"/>
 			</list>
 		</constructor-arg>
 	</bean>

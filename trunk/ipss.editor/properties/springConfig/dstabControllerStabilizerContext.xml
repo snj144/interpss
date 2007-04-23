@@ -12,7 +12,7 @@
 	    <property name="desc">
 	    	<value>InterPSS CML scripting stabilizer implmementation</value></property>
 	</bean>
-	
+<!--	
 	<bean id="sampleCustomStabilizer" 
 	      class="custom.dstab.pss.sample.CustomStabilizer"
 	      singleton="false">	
@@ -23,7 +23,7 @@
 	    <property name="desc">
 	    	<value>A sample custom stabilizer implmementation</value></property>
 	</bean>
-
+-->
 	<bean id="simpleStabilizer" 
 	      class="org.interpss.dstab.control.pss.simple.SimpleStabilizer"
 	      singleton="false">	
@@ -35,6 +35,28 @@
 	    	<value>An InterPSS simple stabilizer implmementation</value></property>
 	</bean>
 	
+	<bean id="ieee1992PSS1AStabilizer" 
+	      class="org.interpss.dstab.control.pss.ieee.y1992.pss1a.IeeePSS1AStabilizer"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1992 PSS1A</value></property>
+	    <property name="category">
+	    	<value>IEEE-1992</value></property>
+	    <property name="desc">
+	    	<value>An IEEE-1992 PSS1A stabilizer implmementation</value></property>
+	</bean>
+
+	<bean id="ieee1992PSS2AStabilizer" 
+	      class="org.interpss.dstab.control.pss.ieee.y1992.pss2a.IeeePSS2AStabilizer"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1992 PSS2A</value></property>
+	    <property name="category">
+	    	<value>IEEE-1992</value></property>
+	    <property name="desc">
+	    	<value>An IEEE-1992 PSS2A stabilizer implmementation</value></property>
+	</bean>
+
 	<bean id="stabilizerList" 
 	      class="java.util.ArrayList"
 	      singleton="true">	
@@ -42,6 +64,8 @@
 			<list>
 				<ref bean="cmlScriptingStabilizer"/>
 				<ref bean="simpleStabilizer"/>
+				<ref bean="ieee1992PSS1AStabilizer"/>
+				<ref bean="ieee1992PSS2AStabilizer"/>
 			</list>
 		</constructor-arg>
 	</bean>	
