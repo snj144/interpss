@@ -98,8 +98,8 @@ public class IeeePSS1AStabilizer extends AnnotateStabilizer {
         this.t2 = getData().getT2();
         this.t3 = getData().getT3();
         this.t4 = getData().getT4();
-        this.vmax = getData().getVsmax();
-        this.vmin = getData().getVsmin();
+        this.vmax = getData().getVstmax();
+        this.vmin = getData().getVstmin();
         return super.initStates(abus, mach, msg);
 	}
 
