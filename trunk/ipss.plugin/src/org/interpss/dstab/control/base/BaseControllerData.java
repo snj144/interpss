@@ -16,17 +16,14 @@ public abstract class BaseControllerData {
 		return 0.0;
 	}
 
-	public double getInitValue(String s) {
-		return getParamValue(s, 1);
-	}
-	
 	public double getMaxValue(String s) {
 		return getParamValue(s, 2);
 	}
 
 	public double getMinValue(String s) {
-		return getParamValue(s, 3);
+		return getParamValue(s, 1);
 	}
 	
 	public abstract void setValue(String name, double value);
+	public abstract boolean isOutRange(String name, double value);
 }

@@ -13,49 +13,37 @@ package org.interpss.dstab.control.exc.ieee.y1968.type1;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1968Type1ExciterData extends BaseControllerData {
-	private double ka;
-	private double ta;
-	private double vrmax;
-	private double vrmin;
-	private double ke;
-	private double te;
-	private double e1;
-	private double seE1;
-	private double e2;
-	private double seE2;
-	private double kf;
-	private double tf;
+	private double ka = 1.0;
+	private double ta = 2.0;
+	private double vrmax = 3.0;
+	private double vrmin = 4.0;
+	private double ke = 0.0;
+	private double te = 0.0;
+	private double e1 = 0.0;
+	private double seE1 = 0.0;
+	private double e2 = 0.0;
+	private double seE2 = 0.0;
+	private double kf = 0.0;
+	private double tf = 0.0;
 	
 	private static String[][] controllerParameters= { 
-		//          init    max         min
-		{"ka", 		"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"ta", 		"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"vrmax", 	"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"vrman", 	"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"ke", 		"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"te", 		"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"e1", 		"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"seE1", 	"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"e2", 		"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"seE2", 	"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"kf", 		"0.0", 	"-1000.0", 	"1000.0"}, 
-		{"tf", 		"0.0", 	"-1000.0", 	"1000.0"} 
+		//          min         max
+		{"ka", 		"-1000.0", 	"1000.0"}, 
+		{"ta", 		"-1000.0", 	"1000.0"}, 
+		{"vrmax", 	"-1000.0", 	"1000.0"}, 
+		{"vrmin", 	"-1000.0", 	"1000.0"}, 
+		{"ke", 		"-1000.0", 	"1000.0"}, 
+		{"te", 		"-1000.0", 	"1000.0"}, 
+		{"e1", 		"-1000.0", 	"1000.0"}, 
+		{"seE1", 	"-1000.0", 	"1000.0"}, 
+		{"e2", 		"-1000.0", 	"1000.0"}, 
+		{"seE2", 	"-1000.0", 	"1000.0"}, 
+		{"kf", 		"-1000.0", 	"1000.0"}, 
+		{"tf", 		"-1000.0", 	"1000.0"} 
 	};
 
 	public Ieee1968Type1ExciterData() {
 		setParameters(controllerParameters);
-		this.ka = getInitValue("ka");
-		this.ta = getInitValue("ta");
-		this.vrmax = getInitValue("vrmax");
-		this.vrmin = getInitValue("vrmin");
-		this.ke = getInitValue("ke");
-		this.te = getInitValue("te");
-		this.e1 = getInitValue("e1");
-		this.seE1 = getInitValue("seE1");
-		this.e2 = getInitValue("e2");
-		this.seE2 = getInitValue("seE2");
-		this.kf = getInitValue("kf");
-		this.tf = getInitValue("tf");
 	}
 
 	public void setValue(String name, double value) {
@@ -83,6 +71,10 @@ public class Ieee1968Type1ExciterData extends BaseControllerData {
 			this.kf = value;
 		else if (name.equals("tf"))
 			this.tf = value;
+	}
+	
+	public boolean isOutRange(String name, double value) {
+		return getMaxValue(name) <= value && value >= getMinValue(name);
 	}
 	
 	public double getKa() {
