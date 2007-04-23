@@ -16,6 +16,7 @@ import java.util.Vector;
 import org.interpss.dstab.control.base.EditUtilFunct;
 
 import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.util.IpssLogger;
 
 public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -83,16 +84,16 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICon
     public boolean saveEditorData(Vector errMsg) throws Exception {
     	errMsg.clear();
     	
+    	IpssLogger.getLogger().info("--->" + this.kaTextField.getText());
+    	
     	EditUtilFunct.saveTextField(_data, kaTextField, "ka", errMsg);
     	EditUtilFunct.saveTextField(_data, taTextField, "ta", errMsg);
     	EditUtilFunct.saveTextField(_data, vrmaxTextField, "vrmax", errMsg);
     	EditUtilFunct.saveTextField(_data, vrminTextField, "vrmin", errMsg);
-		
     	EditUtilFunct.saveTextField(_data, keTextField, "ke", errMsg);
     	EditUtilFunct.saveTextField(_data, teTextField, "te", errMsg);
     	EditUtilFunct.saveTextField(_data, e1TextField, "e1", errMsg);
     	EditUtilFunct.saveTextField(_data, seE1TextField, "seE1", errMsg);
-
     	EditUtilFunct.saveTextField(_data, e2TextField, "e2", errMsg);
     	EditUtilFunct.saveTextField(_data, seE2TextField, "seE2", errMsg);
     	EditUtilFunct.saveTextField(_data, kfTextField, "kf", errMsg);

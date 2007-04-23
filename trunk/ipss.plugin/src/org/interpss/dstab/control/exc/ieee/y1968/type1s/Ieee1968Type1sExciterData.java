@@ -10,62 +10,85 @@
 
 package org.interpss.dstab.control.exc.ieee.y1968.type1s;
 
-public class Ieee1968Type1sExciterData {
-	public Ieee1968Type1sExciterData() {}
+import org.interpss.dstab.control.base.BaseControllerData;
 
-	// We need to put the default values here, so that the controller could be 
-	// properly initialized
-	private double ka = 10.0;
-	private double ta = 0.05;
-	private double vrmax = 10.0;
-	private double vrmin = 0.0;
-	/**
-	 * @return Returns the ka.
-	 */
+public class Ieee1968Type1sExciterData extends BaseControllerData {
+	private double ka = 1.0;
+	private double ta = 2.0;
+	private double kp = 0.0;
+	private double vrmin = 4.0;
+	private double kf = 0.0;
+	private double tf = 0.0;
+	
+	private static String[][] controllerParameters= { 
+		//          min         max
+		{"ka", 		"-1000.0", 	"1000.0"}, 
+		{"ta", 		"-1000.0", 	"1000.0"}, 
+		{"kp", 		"-1000.0", 	"1000.0"}, 
+		{"vrmin", 	"-1000.0", 	"1000.0"}, 
+		{"kf", 		"-1000.0", 	"1000.0"}, 
+		{"tf", 		"-1000.0", 	"1000.0"} 
+	};
+
+	public Ieee1968Type1sExciterData() {
+		setParameters(controllerParameters);
+	}
+
+	public void setValue(String name, int value) {
+	}
+
+	public void setValue(String name, double value) {
+		if (name.equals("ka"))
+			this.ta = value;
+		else if (name.equals("ta"))
+			this.ta = value;
+		else if (name.equals("kp"))
+			this.kp = value;
+		else if (name.equals("vrmin"))
+			this.vrmin = value;
+		else if (name.equals("kf"))
+			this.kf = value;
+		else if (name.equals("tf"))
+			this.tf = value;
+	}
+	
 	public double getKa() {
 		return ka;
 	}
-	/**
-	 * @param ka The ka to set.
-	 */
 	public void setKa(final double ka) {
 		this.ka = ka;
 	}
-	/**
-	 * @return Returns the ta.
-	 */
 	public double getTa() {
 		return ta;
 	}
-	/**
-	 * @param ta The ta to set.
-	 */
 	public void setTa(final double ta) {
 		this.ta = ta;
 	}
-	/**
-	 * @return Returns the vrmax.
-	 */
-	public double getVrmax() {
-		return vrmax;
-	}
-	/**
-	 * @param vrmax The vrmax to set.
-	 */
-	public void setVrmax(final double vrmax) {
-		this.vrmax = vrmax;
-	}
-	/**
-	 * @return Returns the vrmin.
-	 */
 	public double getVrmin() {
 		return vrmin;
 	}
-	/**
-	 * @param vrmin The vrmin to set.
-	 */
 	public void setVrmin(final double vrmin) {
 		this.vrmin = vrmin;
+	}
+	public double getKf() {
+		return kf;
+	}
+	public void setKf(double kf) {
+		this.kf = kf;
+	}
+	public double getTf() {
+		return tf;
+	}
+	public void setTf(double tf) {
+		this.tf = tf;
+	}
+
+	public double getKp() {
+		return kp;
+	}
+
+	public void setKp(double kp) {
+		this.kp = kp;
 	}
 }
 

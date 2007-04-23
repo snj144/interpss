@@ -46,9 +46,12 @@ public class Ieee1968Type1ExciterData extends BaseControllerData {
 		setParameters(controllerParameters);
 	}
 
+	public void setValue(String name, int value) {
+	}
+
 	public void setValue(String name, double value) {
 		if (name.equals("ka"))
-			this.ta = value;
+			this.ka = value;
 		else if (name.equals("ta"))
 			this.ta = value;
 		else if (name.equals("vrmax"))
@@ -71,10 +74,6 @@ public class Ieee1968Type1ExciterData extends BaseControllerData {
 			this.kf = value;
 		else if (name.equals("tf"))
 			this.tf = value;
-	}
-	
-	public boolean isOutRange(String name, double value) {
-		return getMaxValue(name) <= value && value >= getMinValue(name);
 	}
 	
 	public double getKa() {

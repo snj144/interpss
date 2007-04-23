@@ -49,8 +49,8 @@ public class NBIeee1968Type4ExciterEditPanel extends javax.swing.JPanel implemen
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor() {
-  	    kaTextField.setText(Num2Str.toStr(_data.getKa(), "#0.00"));
-  	    taTextField.setText(Num2Str.toStr(_data.getTa(), "#0.000"));
+  	    kaTextField.setText(Num2Str.toStr(_data.getKv(), "#0.00"));
+  	    taTextField.setText(Num2Str.toStr(_data.getTrh(), "#0.000"));
   	    vrmaxTextField.setText(Num2Str.toStr(_data.getVrmax(), "#0.00"));
   	    vrminTextField.setText(Num2Str.toStr(_data.getVrmin(), "#0.00"));
         return true;
@@ -67,11 +67,11 @@ public class NBIeee1968Type4ExciterEditPanel extends javax.swing.JPanel implemen
     	
 		if (SwingInputVerifyUtil.within(this.kaTextField, 1.0, 1000.0, errMsg, 
 				"Ka is out of the range [1.0, 1000.0]"))
-			_data.setKa(SwingInputVerifyUtil.getDouble(kaTextField));
+			_data.setKv(SwingInputVerifyUtil.getDouble(kaTextField));
 
 		if (SwingInputVerifyUtil.within(this.taTextField, 0.001, 10.0, errMsg,
 				"Ta is out of the range [0.001, 10]"))
-			_data.setTa(SwingInputVerifyUtil.getDouble(taTextField));
+			_data.setTrh(SwingInputVerifyUtil.getDouble(taTextField));
 
     	if (SwingInputVerifyUtil.within(this.vrmaxTextField, 0.0, 20.0, errMsg,
     			"Vrmax is out of the range [0.0, 20.0]"))
