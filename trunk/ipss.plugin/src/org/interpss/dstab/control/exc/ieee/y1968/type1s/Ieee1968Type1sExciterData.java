@@ -15,10 +15,10 @@ import org.interpss.dstab.control.base.BaseControllerData;
 public class Ieee1968Type1sExciterData extends BaseControllerData {
 	private double ka = 1.0;
 	private double ta = 2.0;
-	private double kp = 0.0;
+	private double kp = 3.0;
 	private double vrmin = 4.0;
-	private double kf = 0.0;
-	private double tf = 0.0;
+	private double kf = 5.0;
+	private double tf = 6.0;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
@@ -31,7 +31,7 @@ public class Ieee1968Type1sExciterData extends BaseControllerData {
 	};
 
 	public Ieee1968Type1sExciterData() {
-		setParameters(controllerParameters);
+		setRangeParameters(controllerParameters);
 	}
 
 	public void setValue(String name, int value) {

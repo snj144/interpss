@@ -61,7 +61,7 @@ public class IeeeSteamTCSRGovernorData extends BaseControllerData {
 	};
 
 	public IeeeSteamTCSRGovernorData() {
-		setParameters(controllerParameters);
+		setRangeParameters(controllerParameters);
 	}
 
 	public void setValue(String name, int value) {

@@ -27,7 +27,7 @@ import com.interpss.dstab.mach.Machine;
    input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
    output="this.delayBlock.y",
    refPoint="this.kaDelayBlock.u0 - pss.vs + mach.vt + this.washoutBlock.y",
-   display= {"str.Efd, this.output"}
+   display= {}
 )
 public class Ieee1968Type1Exciter extends AnnotateExciter {
 	   public double ka = 50.0, ta = 0.05, vrmax = 10.0, vrmin = 0.0;
@@ -49,7 +49,7 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
 	   public double e1 = 3.1, seE1 = 0.33, e2 = 2.3, seE2 = 0.1;
 	   @AnFunctionField(
 	      input= {"this.delayBlock.y"},
-	      parameter={"this.e1", "this.se_e1", "this.e2", "this.se_e2"}	)
+	      parameter={"this.e1", "this.seE1", "this.e2", "this.seE2"}	)
 	   SeFunction seFunc;
 
 	   public double kf = 1.0, tf = 0.05;

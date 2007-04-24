@@ -56,7 +56,7 @@ public class IeeePSS1AStabilizerData extends BaseControllerData {
 	};
 
 	public IeeePSS1AStabilizerData() {
-		setParameters(controllerParameters);
+		setRangeParameters(controllerParameters);
 	}
 
 	public void setValue(String name, int value) {
