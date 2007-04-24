@@ -16,7 +16,6 @@ import java.util.Vector;
 import org.interpss.dstab.control.base.EditUtilFunct;
 
 import com.interpss.common.ui.IControllerEditor;
-import com.interpss.common.util.IpssLogger;
 
 public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -27,7 +26,10 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICon
     /** Creates new form FaultLocDataPanel */
     public NBIeee1968Type1EditPanel() {
         initComponents();
-
+        // init the field to the default values
+        _data = new Ieee1968Type1ExciterData();
+        setData2Editor();
+        
         // associate the editing fields with the verifier class defined at the end of this calss
   		DataVerifier verifier = new DataVerifier();
   	    kaTextField.setInputVerifier(verifier);
@@ -50,7 +52,6 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICon
 	public void init(Object controller) {
 		// init the data object from the bus object being edited
 		_data = ((Ieee1968Type1Exciter)controller).getData();
-	    setData2Editor();
 	}
 	
 	/**
@@ -83,8 +84,6 @@ public class NBIeee1968Type1EditPanel extends javax.swing.JPanel implements ICon
 	*/
     public boolean saveEditorData(Vector errMsg) throws Exception {
     	errMsg.clear();
-    	
-    	IpssLogger.getLogger().info("--->" + this.kaTextField.getText());
     	
     	EditUtilFunct.saveTextField(_data, kaTextField, "ka", errMsg);
     	EditUtilFunct.saveTextField(_data, taTextField, "ta", errMsg);

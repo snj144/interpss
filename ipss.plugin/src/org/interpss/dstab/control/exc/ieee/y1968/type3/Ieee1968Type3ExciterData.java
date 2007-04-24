@@ -41,7 +41,7 @@ public class Ieee1968Type3ExciterData extends BaseControllerData {
 	};
 
 	public Ieee1968Type3ExciterData() {
-		setParameters(controllerParameters);
+		setRangeParameters(controllerParameters);
 	}
 
 	public void setValue(String name, int value) {

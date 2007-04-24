@@ -51,7 +51,7 @@ public class IeeeSteamNRGovernorData extends BaseControllerData {
 	};
 
 	public IeeeSteamNRGovernorData() {
-		setParameters(controllerParameters);
+		setRangeParameters(controllerParameters);
 	}
 
 	public void setValue(String name, int value) {

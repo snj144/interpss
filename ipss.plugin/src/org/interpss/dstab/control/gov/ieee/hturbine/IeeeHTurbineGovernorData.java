@@ -47,7 +47,7 @@ public class IeeeHTurbineGovernorData extends BaseControllerData {
 	};
 
 	public IeeeHTurbineGovernorData() {
-		setParameters(controllerParameters);
+		setRangeParameters(controllerParameters);
 	}
 
 	public void setValue(String name, int value) {
