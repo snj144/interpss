@@ -23,70 +23,48 @@
   */
 
 
-package org.interpss.dstab.control.pss.ieee.y1992.pss2a;
+package org.interpss.dstab.control.pss.ieee.y1992.pss1a;
 
 import org.interpss.dstab.control.base.BaseControllerData;
 
-public class IeeePSS2AStabilizerData extends BaseControllerData {
-	private double ks1 = 1.0;
+public class Ieee1992PSS1AStabilizerData extends BaseControllerData {
+	private double ks = 1.0;
 	private double t1 = 2.0;
 	private double t2 = 2.0;
 	private double t3 = 2.0;
 	private double t4 = 2.0;
 	private double t5 = 2.0;
 	private double t6 = 2.0;
-	private double t7 = 2.0;
-	private double t8 = 2.0;
-	private double t9 = 2.0;
-	private int n = 1;
-	private int m = 1;
 	private double vstmax = 3.0;
 	private double vstmin = 4.0;
-	private double ks2 = 1.0;
-	private double ks3 = 1.0;
-	private double tw1 = 0.0;
-	private double tw2 = 0.0;
-	private double tw3 = 0.0;
-	private double tw4 = 0.0;
+	private double a1 = 0.0;
+	private double a2 = 0.0;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
-		{"ks1",		"-1000.0", 	"1000.0"}, 
+		{"ks", 		"-1000.0", 	"1000.0"}, 
 		{"t1", 		"-1000.0", 	"1000.0"}, 
 		{"t2", 		"-1000.0", 	"1000.0"}, 
 		{"t3", 		"-1000.0", 	"1000.0"}, 
 		{"t4", 		"-1000.0", 	"1000.0"}, 
 		{"t5", 		"-1000.0", 	"1000.0"}, 
 		{"t6", 		"-1000.0", 	"1000.0"}, 
-		{"t7", 		"-1000.0", 	"1000.0"}, 
-		{"t8", 		"-1000.0", 	"1000.0"}, 
-		{"t9", 		"0", 		"100"}, 
-		{"n", 		"0", 		"100"}, 
-		{"n", 		"-1000.0", 	"1000.0"}, 
 		{"vstmax", 	"-1000.0", 	"1000.0"}, 
 		{"vstmin", 	"-1000.0", 	"1000.0"}, 
-		{"ks2",		"-1000.0", 	"1000.0"}, 
-		{"ks3",		"-1000.0", 	"1000.0"}, 
-		{"tw1",		"-1000.0", 	"1000.0"}, 
-		{"tw2",		"-1000.0", 	"1000.0"}, 
-		{"tw3",		"-1000.0", 	"1000.0"}, 
-		{"tw4",		"-1000.0", 	"1000.0"} 
+		{"a1", 		"-1000.0", 	"1000.0"}, 
+		{"a2", 		"-1000.0", 	"1000.0"} 
 	};
 
-	public IeeePSS2AStabilizerData() {
+	public Ieee1992PSS1AStabilizerData() {
 		setRangeParameters(controllerParameters);
 	}
 
 	public void setValue(String name, int value) {
-		if (name.equals("n"))
-			this.n = value;
-		else if (name.equals("m"))
-			this.m = value;
 	}
-	
+
 	public void setValue(String name, double value) {
-		if (name.equals("ks1"))
-			this.ks1 = value;
+		if (name.equals("ks"))
+			this.ks = value;
 		else if (name.equals("t1"))
 			this.t1 = value;
 		else if (name.equals("t2"))
@@ -99,101 +77,38 @@ public class IeeePSS2AStabilizerData extends BaseControllerData {
 			this.t5 = value;
 		else if (name.equals("t6"))
 			this.t6 = value;
-		else if (name.equals("t7"))
-			this.t4 = value;
-		else if (name.equals("t8"))
-			this.t5 = value;
-		else if (name.equals("t9"))
-			this.t6 = value;
 		else if (name.equals("vstmax"))
 			this.vstmax = value;
 		else if (name.equals("vstmin"))
 			this.vstmin = value;
-		else if (name.equals("ks2"))
-			this.ks2 = value;
-		else if (name.equals("ks3"))
-			this.ks3 = value;
-		else if (name.equals("tw1"))
-			this.tw1 = value;
-		else if (name.equals("tw2"))
-			this.tw2 = value;
-		else if (name.equals("tw3"))
-			this.tw3 = value;
-		else if (name.equals("tw4"))
-			this.tw4 = value;
+		else if (name.equals("a1"))
+			this.a1 = value;
+		else if (name.equals("a2"))
+			this.a2 = value;
 	}
 	
-	public double getKs1() {
-		return ks1;
+	public double getA1() {
+		return a1;
 	}
 
-	public void setKs1(double ks1) {
-		this.ks1 = ks1;
+	public void setA1(double a1) {
+		this.a1 = a1;
 	}
 
-	public double getKs2() {
-		return ks2;
+	public double getA2() {
+		return a2;
 	}
 
-	public void setKs2(double ks2) {
-		this.ks2 = ks2;
+	public void setA2(double a2) {
+		this.a2 = a2;
 	}
 
-	public double getKs3() {
-		return ks3;
+	public double getKs() {
+		return ks;
 	}
 
-	public void setKs3(double ks3) {
-		this.ks3 = ks3;
-	}
-
-
-	public double getTw1() {
-		return tw1;
-	}
-
-	public void setTw1(double tw1) {
-		this.tw1 = tw1;
-	}
-
-	public double getTw2() {
-		return tw2;
-	}
-
-	public void setTw2(double tw2) {
-		this.tw2 = tw2;
-	}
-
-	public double getTw3() {
-		return tw3;
-	}
-
-	public void setTw3(double tw3) {
-		this.tw3 = tw3;
-	}
-
-	public double getTw4() {
-		return tw4;
-	}
-
-	public void setTw4(double tw4) {
-		this.tw4 = tw4;
-	}
-
-	public int getM() {
-		return m;
-	}
-
-	public void setM(int m) {
-		this.m = m;
-	}
-
-	public int getN() {
-		return n;
-	}
-
-	public void setN(int n) {
-		this.n = n;
+	public void setKs(double ks) {
+		this.ks = ks;
 	}
 
 	public double getT1() {
@@ -242,30 +157,6 @@ public class IeeePSS2AStabilizerData extends BaseControllerData {
 
 	public void setT6(double t6) {
 		this.t6 = t6;
-	}
-
-	public double getT7() {
-		return t7;
-	}
-
-	public void setT7(double t7) {
-		this.t7 = t7;
-	}
-
-	public double getT8() {
-		return t8;
-	}
-
-	public void setT8(double t8) {
-		this.t8 = t8;
-	}
-
-	public double getT9() {
-		return t9;
-	}
-
-	public void setT9(double t9) {
-		this.t9 = t9;
 	}
 
 	public double getVstmax() {

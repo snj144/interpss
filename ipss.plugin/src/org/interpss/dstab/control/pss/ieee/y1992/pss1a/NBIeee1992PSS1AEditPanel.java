@@ -31,13 +31,13 @@ import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
 
-public class NBIeeePSS1AStabilizerEditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBIeee1992PSS1AEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
 	
-	IeeePSS1AStabilizerData _data;
+	Ieee1992PSS1AStabilizerData _data;
 
     /** Creates new form FaultLocDataPanel */
-    public NBIeeePSS1AStabilizerEditPanel() {
+    public NBIeee1992PSS1AEditPanel() {
         initComponents();
 
   		DataVerifier verifier = new DataVerifier();
@@ -51,7 +51,7 @@ public class NBIeeePSS1AStabilizerEditPanel extends javax.swing.JPanel implement
     }
     
 	public void init(Object controller) {
-		_data = ((IeeePSS1AStabilizer)controller).getData();
+		_data = ((Ieee1992PSS1AStabilizer)controller).getData();
 	}
 	
 	/**
