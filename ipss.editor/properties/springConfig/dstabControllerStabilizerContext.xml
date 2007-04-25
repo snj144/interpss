@@ -36,7 +36,7 @@
 	</bean>
 	
 	<bean id="ieee1992PSS1AStabilizer" 
-	      class="org.interpss.dstab.control.pss.ieee.y1992.pss1a.IeeePSS1AStabilizer"
+	      class="org.interpss.dstab.control.pss.ieee.y1992.pss1a.Ieee1992PSS1AStabilizer"
 	      singleton="false">	
 	    <property name="name">
 	    	<value>IEEE-1992 PSS1A</value></property>
@@ -47,7 +47,7 @@
 	</bean>
 
 	<bean id="ieee1992PSS2AStabilizer" 
-	      class="org.interpss.dstab.control.pss.ieee.y1992.pss2a.IeeePSS2AStabilizer"
+	      class="org.interpss.dstab.control.pss.ieee.y1992.pss2a.Ieee1992PSS2AStabilizer"
 	      singleton="false">	
 	    <property name="name">
 	    	<value>IEEE-1992 PSS2A</value></property>
