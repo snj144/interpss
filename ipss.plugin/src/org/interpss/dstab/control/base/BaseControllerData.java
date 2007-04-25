@@ -37,20 +37,33 @@ public abstract class BaseControllerData {
 	public abstract void setValue(String name, int value);
 
 	/**
+	 * Get max value for range check fot the parameter, for example 'ka'
 	 * 
-	 * 
-	 * @param s
-	 * @return
+	 * @param s parameter string, like "ka"
+	 * @return the max value
 	 */
 	public double getMaxValue(String s) {
 		return getParamValue(s, 2);
 	}
 
+	/**
+	 * Get min value for range check fot the parameter, for example 'ka'
+	 * 
+	 * @param s parameter string, like "ka"
+	 * @return the min value
+	 */
 	public double getMinValue(String s) {
 		return getParamValue(s, 1);
 	}
 	
 
+	/**
+	 * check if the vaule is out of the range for the parameter, for example "ka"
+	 * 
+	 * @param name parameter name, for example, "ka"
+	 * @param value parameter value
+	 * @return true or false
+	 */
 	public boolean isOutRange(String name, double value) {
 		return getMaxValue(name) <= value && value >= getMinValue(name);
 	}
