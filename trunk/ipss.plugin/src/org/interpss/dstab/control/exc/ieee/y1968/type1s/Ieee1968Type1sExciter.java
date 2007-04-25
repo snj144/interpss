@@ -18,22 +18,31 @@ import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.WashoutControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
-        input="pss.vs - mach.vt",
-        output="this.delayBlock.y",
-        refPoint="this.delayBlock.u0 - pss.vs + mach.vt",
-        display= {"str.Efd, this.output", "str.ExciterState, this.delayBlock.state"})
+		   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
+		   output="this.delayBlock.y",
+		   refPoint="this.delayBlock.u0 - pss.vs + mach.vt + this.washoutBlock.y",
+		   display= {"str.Efd, this.output"} )
 public class Ieee1968Type1sExciter extends AnnotateExciter {
-	public double k = 50.0, t = 0.05, vmax = 10.0, vmin = 0.0;
-    @AnControllerField(
-            type= CMLFieldType.ControlBlock,
-            input="this.refPoint + pss.vs - mach.vt",
-            parameter={"type.Limit", "this.k", "this.t", "this.vmax", "this.vmin"},
-            y0="mach.efd"	)
-    DelayControlBlock delayBlock;
- 	
+	   public double ka = 50.0, ta = 0.05, kp = 10.0, vrmin = 0.0;
+	   @AnControllerField(
+	      type= CMLFieldType.ControlBlock,
+	      input="this.refPoint + pss.vs - mach.vt - this.washoutBlock.y",
+	      parameter={"type.Limit", "this.ka", "this.ta", "this.kp * mach.vt", "this.vrmin"},
+	      y0="mach.efd"	)
+	   DelayControlBlock delayBlock;
+
+	   public double kf = 1.0, tf = 0.1;
+	   @AnControllerField(
+	      type= CMLFieldType.ControlBlock,
+	      input="this.delayBlock.y",
+	      parameter={"type.NoLimit", "this.kf", "this.tf"},
+	      feedback = true	)
+	   WashoutControlBlock washoutBlock;
+
     // UI Editor panel
     private static NBIeee1968Type1sEditPanel _editPanel = new NBIeee1968Type1sEditPanel();
     
@@ -72,10 +81,12 @@ public class Ieee1968Type1sExciter extends AnnotateExciter {
      *  @param msg the SessionMsg object
      */
     public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
-        this.k = getData().getKa();
-        this.t = getData().getTa();
-        this.vmax = getData().getKp();
-        this.vmin = getData().getVrmin();
+        this.ka = getData().getKa();
+        this.ta = getData().getTa();
+        this.kp = getData().getKp();
+        this.vrmin = getData().getVrmin();
+        this.kf = getData().getKf();
+        this.tf = getData().getTf();
         return super.initStates(bus, mach, msg);
     }
 
