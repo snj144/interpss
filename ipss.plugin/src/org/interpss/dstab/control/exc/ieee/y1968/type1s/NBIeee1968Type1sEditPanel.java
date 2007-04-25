@@ -54,12 +54,12 @@ public class NBIeee1968Type1sEditPanel extends javax.swing.JPanel implements ICo
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor() {
-    	EditUtilFunct.setTextFiled(kaTextField, 	_data.getKa(), "#0.00");
-    	EditUtilFunct.setTextFiled(taTextField, 	_data.getTa(), "#0.000");
-    	EditUtilFunct.setTextFiled(kpTextField, 	_data.getKp(), "#0.00");
-    	EditUtilFunct.setTextFiled(vrminTextField, 	_data.getVrmin(), "#0.00");
-    	EditUtilFunct.setTextFiled(kfTextField, 	_data.getKf(), "#0.00");
-    	EditUtilFunct.setTextFiled(tfTextField, 	_data.getTf(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(kaTextField, 	_data.getKa(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(taTextField, 	_data.getTa(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(kpTextField, 	_data.getKp(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(vrminTextField, 	_data.getVrmin(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(kfTextField, 	_data.getKf(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(tfTextField, 	_data.getTf(), "#0.000");
 
     	return true;
 	}
@@ -73,12 +73,12 @@ public class NBIeee1968Type1sEditPanel extends javax.swing.JPanel implements ICo
     public boolean saveEditorData(Vector errMsg) throws Exception {
     	errMsg.clear();
     	
-    	EditUtilFunct.saveTextField(_data, kaTextField, "ka", errMsg);
-    	EditUtilFunct.saveTextField(_data, taTextField, "ta", errMsg);
-    	EditUtilFunct.saveTextField(_data, kpTextField, "kp", errMsg);
-    	EditUtilFunct.saveTextField(_data, vrminTextField, "vrmin", errMsg);
-    	EditUtilFunct.saveTextField(_data, kfTextField, "kf", errMsg);
-    	EditUtilFunct.saveTextField(_data, tfTextField, "tf", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, kaTextField, "ka", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, taTextField, "ta", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, kpTextField, "kp", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, vrminTextField, "vrmin", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, kfTextField, "kf", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, tfTextField, "tf", errMsg);
 
     	return errMsg.size() == 0;
 	}
@@ -231,17 +231,17 @@ public class NBIeee1968Type1sEditPanel extends javax.swing.JPanel implements ICo
        		try {
        			// data field verification rules
     			if ( input == kaTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "ka");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "ka");
     			if ( input == taTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "ta");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "ta");
     			if ( input == kpTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "kp");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "kp");
     			if ( input == vrminTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "vrmin");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "vrmin");
     			if ( input == kfTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "kf");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "kf");
     			if ( input == tfTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "tf");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "tf");
     			
  	       	} catch (Exception e) {
  	    		return false;

@@ -37,18 +37,28 @@ import com.interpss.common.util.Num2Str;
 
 public class EditUtilFunct {
 	/**
-	 * Set the TextFeild with the data in the format
+	 * Set the TextFeild (double) with the data in the format
 	 * 
 	 * @param textField a text field 
 	 * @param data the data 
 	 * @param format format of the data
 	 */
-	public static void setTextFiled(JTextField textField, double data, String format) {
+	public static void setDblTextFiled(JTextField textField, double data, String format) {
 		textField.setText(Num2Str.toStr(data, format));
 	}
 	
 	/**
-	 * Save the TextField value to the controller data object under the dataName "ka"
+	 * Set the TextFeild (int) with the data in the format
+	 * 
+	 * @param textField a text field 
+	 * @param data the data 
+	 */
+	public static void setIntTextFiled(JTextField textField, int data) {
+		textField.setText(Num2Str.toStr(data));
+	}
+
+	/**
+	 * Save the TextField value (double) to the controller data object under the dataName "ka"
 	 * 
 	 * @param data controller data object
 	 * @param textField a screen text field
@@ -56,7 +66,7 @@ public class EditUtilFunct {
 	 * @param errMsg error message container in case the data is out of range
 	 * @throws Exception
 	 */
-	public static void saveTextField(BaseControllerData data, JTextField textField, String dataName, Vector<String> errMsg) throws Exception {
+	public static void saveDblTextField(BaseControllerData data, JTextField textField, String dataName, Vector<String> errMsg) throws Exception {
 		double max = data.getMaxValue(dataName);
 		double min = data.getMinValue(dataName);
 		double x = SwingInputVerifyUtil.getDouble(textField);
@@ -66,7 +76,25 @@ public class EditUtilFunct {
 	}
 	
 	/**
-	 * Check screen input (TextField) value range violation
+	 * Save the TextField value (int) to the controller data object under the dataName "ka"
+	 * 
+	 * @param data controller data object
+	 * @param textField a screen text field
+	 * @param dataName data filed name, for example, "ka"
+	 * @param errMsg error message container in case the data is out of range
+	 * @throws Exception
+	 */
+	public static void saveIntTextField(BaseControllerData data, JTextField textField, String dataName, Vector<String> errMsg) throws Exception {
+		double max = data.getMaxValue(dataName);
+		double min = data.getMinValue(dataName);
+		int x = SwingInputVerifyUtil.getInt(textField);
+		if (SwingInputVerifyUtil.within(textField, min, max, errMsg, 
+					dataName + "(" + x + ") is out of the range [" + max + "," + min + "]"))
+			data.setValue(dataName, x);
+	}
+
+	/**
+	 * Check screen input (TextField) value (double) range violation
 	 * 
 	 * @param input screen input text field
 	 * @param data controller data object
@@ -74,8 +102,22 @@ public class EditUtilFunct {
 	 * @return true or false
 	 * @throws Exception
 	 */
-	public static boolean checkDataRange(Object input, BaseControllerData data, String dataName) throws Exception {
+	public static boolean checkDblDataRange(Object input, BaseControllerData data, String dataName) throws Exception {
 		double x = SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input);
-		return !data.isOutRange(dataName, x);
+		return !data.isDblOutRange(dataName, x);
+	}
+
+	/**
+	 * Check screen input (TextField) value (double) range violation
+	 * 
+	 * @param input screen input text field
+	 * @param data controller data object
+	 * @param dataName data field name, for example, "ka"
+	 * @return true or false
+	 * @throws Exception
+	 */
+	public static boolean checkIntDataRange(Object input, BaseControllerData data, String dataName) throws Exception {
+		int x = SwingInputVerifyUtil.getInt((javax.swing.JTextField)input);
+		return !data.isDblOutRange(dataName, x);
 	}
 }

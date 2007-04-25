@@ -1,5 +1,5 @@
  /*
-  * @(#)SimpleStabilizerData.java   
+  * @(#)Ieee1992PSS2AStabilizerData.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -29,25 +29,24 @@ import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1992PSS2AStabilizerData extends BaseControllerData {
 	private double ks1 = 1.0;
-	private double t1 = 2.0;
-	private double t2 = 2.0;
-	private double t3 = 2.0;
-	private double t4 = 2.0;
-	private double t5 = 2.0;
-	private double t6 = 2.0;
-	private double t7 = 2.0;
-	private double t8 = 2.0;
-	private double t9 = 2.0;
+	private double t1 = 0.05;
+	private double t2 = 0.5;
+	private double t3 = 0.05;
+	private double t4 = 0.25;
+	private double t6 = 0.05;
+	private double t7 = 0.05;
+	private double t8 = 0.1;
+	private double t9 = 0.05;
 	private int n = 1;
 	private int m = 1;
-	private double vstmax = 3.0;
-	private double vstmin = 4.0;
+	private double vstmax = 0.2;
+	private double vstmin = -0.2;
 	private double ks2 = 1.0;
 	private double ks3 = 1.0;
-	private double tw1 = 0.0;
-	private double tw2 = 0.0;
-	private double tw3 = 0.0;
-	private double tw4 = 0.0;
+	private double tw1 = 0.1;
+	private double tw2 = 0.05;
+	private double tw3 = 0.1;
+	private double tw4 = 0.05;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
@@ -56,13 +55,12 @@ public class Ieee1992PSS2AStabilizerData extends BaseControllerData {
 		{"t2", 		"-1000.0", 	"1000.0"}, 
 		{"t3", 		"-1000.0", 	"1000.0"}, 
 		{"t4", 		"-1000.0", 	"1000.0"}, 
-		{"t5", 		"-1000.0", 	"1000.0"}, 
 		{"t6", 		"-1000.0", 	"1000.0"}, 
 		{"t7", 		"-1000.0", 	"1000.0"}, 
 		{"t8", 		"-1000.0", 	"1000.0"}, 
-		{"t9", 		"0", 		"100"}, 
+		{"t9", 		"-1000.0", 	"1000.0"}, 
 		{"n", 		"0", 		"100"}, 
-		{"n", 		"-1000.0", 	"1000.0"}, 
+		{"m", 		"0", 		"100"}, 
 		{"vstmax", 	"-1000.0", 	"1000.0"}, 
 		{"vstmin", 	"-1000.0", 	"1000.0"}, 
 		{"ks2",		"-1000.0", 	"1000.0"}, 
@@ -95,16 +93,14 @@ public class Ieee1992PSS2AStabilizerData extends BaseControllerData {
 			this.t3 = value;
 		else if (name.equals("t4"))
 			this.t4 = value;
-		else if (name.equals("t5"))
-			this.t5 = value;
 		else if (name.equals("t6"))
 			this.t6 = value;
 		else if (name.equals("t7"))
-			this.t4 = value;
+			this.t7 = value;
 		else if (name.equals("t8"))
-			this.t5 = value;
+			this.t8 = value;
 		else if (name.equals("t9"))
-			this.t6 = value;
+			this.t9 = value;
 		else if (name.equals("vstmax"))
 			this.vstmax = value;
 		else if (name.equals("vstmin"))
@@ -226,14 +222,6 @@ public class Ieee1992PSS2AStabilizerData extends BaseControllerData {
 
 	public void setT4(double t4) {
 		this.t4 = t4;
-	}
-
-	public double getT5() {
-		return t5;
-	}
-
-	public void setT5(double t5) {
-		this.t5 = t5;
 	}
 
 	public double getT6() {

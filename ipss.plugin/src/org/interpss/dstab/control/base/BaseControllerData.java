@@ -58,16 +58,27 @@ public abstract class BaseControllerData {
 	
 
 	/**
-	 * check if the vaule is out of the range for the parameter, for example "ka"
+	 * check if the vaule (double) is out of the range for the parameter, for example "ka"
 	 * 
 	 * @param name parameter name, for example, "ka"
 	 * @param value parameter value
 	 * @return true or false
 	 */
-	public boolean isOutRange(String name, double value) {
+	public boolean isDblOutRange(String name, double value) {
 		return getMaxValue(name) <= value && value >= getMinValue(name);
 	}
 
+	/**
+	 * check if the vaule (int) is out of the range for the parameter, for example "ka"
+	 * 
+	 * @param name parameter name, for example, "ka"
+	 * @param value parameter value
+	 * @return true or false
+	 */
+	public boolean isIntOutRange(String name, int value) {
+		return getMaxValue(name) <= value && value >= getMinValue(name);
+	}
+	
 	protected void setRangeParameters(String[][] p) {
 		rangeParameters = p;
 	}
