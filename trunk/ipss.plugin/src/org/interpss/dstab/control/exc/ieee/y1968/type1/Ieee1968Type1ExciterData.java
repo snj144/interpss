@@ -7,7 +7,7 @@ import org.interpss.dstab.control.base.BaseControllerData;
 public class Ieee1968Type1ExciterData extends BaseControllerData {
 	private double ka = 50.0;
 	private double ta = 0.06;
-	private double vrmax = 1.0;
+	private double vrmax = 2.0;
 	private double vrmin = -0.9;
 	private double ke = 1.0;
 	private double te = 0.46;

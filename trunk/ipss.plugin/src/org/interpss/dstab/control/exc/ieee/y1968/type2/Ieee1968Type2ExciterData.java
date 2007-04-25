@@ -13,19 +13,19 @@ package org.interpss.dstab.control.exc.ieee.y1968.type2;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1968Type2ExciterData extends BaseControllerData {
-	private double ka = 1.0;
-	private double ta = 2.0;
-	private double vrmax = 3.0;
-	private double vrmin = 4.0;
-	private double ke = 0.0;
-	private double te = 0.0;
-	private double e1 = 0.0;
-	private double seE1 = 0.0;
-	private double e2 = 0.0;
-	private double seE2 = 0.0;
-	private double kf = 0.0;
-	private double tf1 = 0.0;
-	private double tf2 = 0.0;
+	private double ka = 50.0;
+	private double ta = 0.06;
+	private double vrmax = 2.0;
+	private double vrmin = -0.9;
+	private double ke = 1.0;
+	private double te = 0.46;
+	private double e1 = 3.1;
+	private double seE1 = 0.33;
+	private double e2 = 2.3;
+	private double seE2 = 0.10;
+	private double kf = 0.1;
+	private double tf1 = 1.0;
+	private double tf2 = 0.5;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max

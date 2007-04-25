@@ -16,26 +16,82 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
+import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
+import com.interpss.dstab.controller.block.ControlBlockAdapter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.IControlBlock;
+import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.IntegrationControlBlock;
+import com.interpss.dstab.controller.block.WashoutControlBlock;
+import com.interpss.dstab.controller.func.SeFunction;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
-        input="pss.vs - mach.vt",
-        output="this.delayBlock.y",
-        refPoint="this.delayBlock.u0 - pss.vs + mach.vt",
-        display= {"str.Efd, this.output", "str.ExciterState, this.delayBlock.state"})
+		   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
+		   output="this.delayBlock.y",
+		   refPoint="this.customBlock.u0 - pss.vs + mach.vt + this.washoutBlock.y",
+		   display= {"str.Efd, this.output"})
 public class Ieee1968Type4Exciter extends AnnotateExciter {
-	public double k = 50.0, t = 0.05, vmax = 10.0, vmin = 0.0;
-    @AnControllerField(
-            type= CMLFieldType.ControlBlock,
-            input="this.refPoint + pss.vs - mach.vt",
-            parameter={"type.Limit", "this.k", "this.t", "this.vmax", "this.vmin"},
-            y0="mach.efd"	)
-    DelayControlBlock delayBlock;
- 	
+	   public double trh = 1.0, kv = 0.05, vrmax = 10.0, vrmin = 0.0;
+	   @AnControllerField(
+	      type= CMLFieldType.ControlBlock,
+	      input="this.refPoint + pss.vs - mach.vt - this.washoutBlock.y",
+	      y0="this.delayBlock.u0 + this.seFunc.y"	)
+	   public IControlBlock customBlock = new ControlBlockAdapter() {
+	       private IntegrationControlBlock block = new IntegrationControlBlock(
+	                      IStaticBlock.Type.Limit, 1.0/trh, vrmax, vrmin);
+
+	       public boolean initStateY0(double y0) {
+	         return block.initStateY0(y0);
+	       }
+	       public double getU0(){
+	         return 0.0;
+	       }  
+	       public void eulerStep1(double u, double dt){
+	         block.eulerStep1(u, dt);
+	       }
+	       public void eulerStep2(double u, double dt){
+	         block.eulerStep2(u, dt);
+	       }
+	       public double getY(){
+		      double u = block.getU();
+	         if ( u > kv )
+	            return vrmax;
+	         else if ( u < -kv )
+	            return vrmin;
+	         else
+	            return block.getY();
+	       }
+	       public double getStateX() {
+	           return block.getStateX();
+	       }
+	   };
+
+	   public double ke1 = 1.0 /* ke1 = 1/Ke  */, te_ke = 0.1 /* te_ke = Te/Ke */;
+	   @AnControllerField(
+	      type= CMLFieldType.ControlBlock,
+	      input="this.customBlock.y - this.seFunc.y",
+	      parameter={"type.NoLimit", "this.ke1", "this.te_ke"},
+	      y0="mach.efd"	)
+	   DelayControlBlock delayBlock;
+
+	   public double e1 = 3.1, seE1 = 0.33, e2 = 2.3, seE2 = 0.1;
+	   @AnFunctionField(
+	      input= {"this.delayBlock.y"},
+	      parameter={"this.e1", "this.seE1", "this.e2", "this.seE2"}	)
+	   SeFunction seFunc;
+
+	   public double kf = 1.0, tf = 0.05;
+	   @AnControllerField(
+	      type= CMLFieldType.ControlBlock,
+	      input="this.delayBlock.y",
+	      parameter={"type.NoLimit", "this.kf", "this.tf"},
+	      feedback = true	)
+	   WashoutControlBlock washoutBlock;
+
     // UI Editor panel
-    private static NBIeee1968Type4ExciterEditPanel _editPanel = new NBIeee1968Type4ExciterEditPanel();
+    private static NBIeee1968Type4EditPanel _editPanel = new NBIeee1968Type4EditPanel();
     
     /**
      * Default Constructor
@@ -72,10 +128,18 @@ public class Ieee1968Type4Exciter extends AnnotateExciter {
      *  @param msg the SessionMsg object
      */
     public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
-        this.k = getData().getKv();
-        this.t = getData().getTrh();
-        this.vmax = getData().getVrmax();
-        this.vmin = getData().getVrmin();
+        this.trh = getData().getTrh();
+        this.kv = getData().getKv();
+        this.vrmax = getData().getVrmax();
+        this.vrmin = getData().getVrmin();
+		this.ke1 = 1.0/getData().getKe();
+		this.te_ke = getData().getTe() / getData().getKe();
+		this.e1 = getData().getE1();
+		this.seE1 = getData().getSeE1();
+		this.e2 = getData().getE2();
+		this.seE2 = getData().getSeE2();
+		this.kf = getData().getKf();
+		this.tf = getData().getTf();
         return super.initStates(bus, mach, msg);
     }
 

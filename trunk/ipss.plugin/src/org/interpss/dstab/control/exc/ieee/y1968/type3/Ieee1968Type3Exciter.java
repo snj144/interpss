@@ -11,6 +11,9 @@ package org.interpss.dstab.control.exc.ieee.y1968.type3;
 
 import java.lang.reflect.Field;
 
+import org.apache.commons.math.complex.Complex;
+
+import com.interpss.common.datatype.LimitType;
 import com.interpss.common.func.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
@@ -18,24 +21,114 @@ import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
 import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.StaticBlockAdapter;
+import com.interpss.dstab.controller.block.WashoutControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
-        input="pss.vs - mach.vt",
-        output="this.delayBlock.y",
-        refPoint="this.delayBlock.u0 - pss.vs + mach.vt",
-        display= {"str.Efd, this.output", "str.ExciterState, this.delayBlock.state"})
+		   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
+		   output="this.delayBlock.y",
+		   refPoint="this.kaDelayBlock.u0 - pss.vs + mach.vt + this.washoutBlock.y",
+		   display= {"str.Efd, this.output"})
 public class Ieee1968Type3Exciter extends AnnotateExciter {
-	public double k = 50.0, t = 0.05, vmax = 10.0, vmin = 0.0;
-    @AnControllerField(
-            type= CMLFieldType.ControlBlock,
-            input="this.refPoint + pss.vs - mach.vt",
-            parameter={"type.Limit", "this.k", "this.t", "this.vmax", "this.vmin"},
-            y0="mach.efd"	)
-    DelayControlBlock delayBlock;
- 	
+	   public double ka = 50.0, ta = 0.05, vrmax = 10.0, vrmin = 0.0;
+	   @AnControllerField(
+	      type= CMLFieldType.ControlBlock,
+	      input="this.refPoint + pss.vs - mach.vt - this.washoutBlock.y",
+	      parameter={"type.NonWindup", "this.ka", "this.ta", "this.vrmax", "this.vrmin"},
+	      y0="this.customBlock.u0"	)
+	   DelayControlBlock kaDelayBlock;
+
+	   public double kp = 2.0, ki = 1.0, vbmax = 10.0;
+	   @AnControllerField(
+	      type= CMLFieldType.StaticBlock,
+	      input= "this.kaDelayBlock.y", 
+	      y0="this.delayBlock.u0"    )
+	   public IStaticBlock customBlock = new StaticBlockAdapter() {
+	      private LimitType limit = new LimitType(vbmax, 0.0);
+	      private boolean A_gt_1 = false;
+	      private double u = 0.0;
+	                  
+	      public boolean initStateY0(double y0) {
+	         if ( y0 > vbmax || y0 < 0.0) {
+	            getMsgHub().sendWarnMsg("CustomBlock init problem: y0 > vbmax or y0 < 0.0");
+	            return false;
+	         }
+	         double x = calFunc();
+	         if ( this.A_gt_1 && y0 != 0.0 ) {
+	            getMsgHub().sendWarnMsg("CustomBlock init problem: A > 1 and y0 != 0.0");
+	            return false;         
+	         }
+	         this.u = y0 - x;
+	         return true;
+	      }
+
+	      public double getU0() {
+	         return this.u;
+	      }
+
+	      public void eulerStep1(double u, double dt) {
+	         this.u = u;
+	      }
+
+	      public void eulerStep2(double u, double dt) {
+	         this.u = u;
+	      }
+	 
+	      public double getY() {
+	         double x = calFunc();
+	         if ( this.A_gt_1 )
+	           return 0.0;
+	         else {
+	           return this.limit.limit(this.u + x);
+	         }
+	      }
+
+	      private double calFunc() {
+	         Machine mach = getMachine();
+	         DStabBus dbus = mach.getDStabBus();
+
+	         // calculate Ve
+	         double vt = mach.getVdq(dbus).abs();
+	         double it = mach.getIdq(dbus).abs();
+	         double ve = new Complex(kp*vt, ki*it).abs();
+
+	         // calculate sqrt( 1 - A )
+	         double xad = mach.getMachData().getXd() - mach.getMachData().getXl();
+	         double ifd = mach.calculateIfd(dbus);
+	         double a = 0.78 * xad * ifd * ifd / ve;
+	         if (a > 1.0) {
+	            //System.out.println("ve, xad, ifd, a: " + ve + ", " + xad + ", " + ifd + ", " + a);
+	            this.A_gt_1 = true;
+	 				return 0.0;
+	         }
+	         else {
+	            this.A_gt_1 = false;
+	            return ve * Math.sqrt(1.0 - a);
+	         }
+	      }
+	   };
+
+	   public double ke1 = 1.0 /* ke1 = 1/Ke  */, te_ke = 0.1 /* te_ke = Te/Ke */;
+	   @AnControllerField(
+	      type= CMLFieldType.ControlBlock,
+	      input="this.customBlock.y",
+	      parameter={"type.NoLimit", "this.ke1", "this.te_ke"},
+	      y0="mach.efd"	)
+	   DelayControlBlock delayBlock;
+
+
+	   public double kf = 1.0, tf = 0.05;
+	   @AnControllerField(
+	      type= CMLFieldType.ControlBlock,
+	      input="this.delayBlock.y",
+	      parameter={"type.NoLimit", "this.kf", "this.tf"},
+	      feedback = true	)
+	   WashoutControlBlock washoutBlock;
+
     // UI Editor panel
-    private static NBIeee1968Type3ExciterEditPanel _editPanel = new NBIeee1968Type3ExciterEditPanel();
+    private static NBIeee1968Type3EditPanel _editPanel = new NBIeee1968Type3EditPanel();
     
     /**
      * Default Constructor
@@ -72,10 +165,17 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
      *  @param msg the SessionMsg object
      */
     public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
-        this.k = getData().getKa();
-        this.t = getData().getTa();
-        this.vmax = getData().getVrmax();
-        this.vmin = getData().getVrmin();
+        this.ka = getData().getKa();
+        this.ta = getData().getTa();
+        this.vrmax = getData().getVrmax();
+        this.vrmin = getData().getVrmin();
+		this.ke1 = 1.0/getData().getKe();
+		this.te_ke = getData().getTe() / getData().getKe();
+		this.kp = getData().getKp();
+		this.ki = getData().getKi();
+		this.vbmax = getData().getVbmax();
+		this.kf = getData().getKf();
+		this.tf = getData().getTf();
         return super.initStates(bus, mach, msg);
     }
 

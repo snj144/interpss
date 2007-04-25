@@ -13,62 +13,52 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="seE2Label" pref="71" max="32767" attributes="0"/>
+                  <Component id="e1Label" alignment="0" pref="71" max="32767" attributes="0"/>
+                  <Component id="vrminLabel" alignment="0" pref="71" max="32767" attributes="0"/>
+                  <Component id="trhLabel" alignment="0" pref="71" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="trhTextField" pref="68" max="32767" attributes="0"/>
+                  <Component id="seE2TextField" pref="68" max="32767" attributes="0"/>
+                  <Component id="vrminTextField" pref="68" max="32767" attributes="0"/>
+                  <Component id="e1TextField" alignment="0" pref="68" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="kfLabel" pref="55" max="32767" attributes="0"/>
+                  <Component id="kvLabel" alignment="0" pref="55" max="32767" attributes="0"/>
+                  <Component id="keLabel" alignment="0" pref="55" max="32767" attributes="0"/>
+                  <Component id="seE1Label" alignment="0" pref="55" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="kfTextField" pref="66" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="keTextField" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="kvTextField" alignment="0" max="32767" attributes="0"/>
+                  <Component id="seE1TextField" alignment="0" max="32767" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="tf2Label" min="-2" pref="71" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="tf2TextField" min="-2" pref="66" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="412" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="seE2Label" pref="70" max="32767" attributes="0"/>
-                          <Component id="e1Label" alignment="0" pref="70" max="32767" attributes="0"/>
-                          <Component id="vrminLabel" alignment="0" pref="70" max="32767" attributes="0"/>
-                          <Component id="kaLabel" alignment="0" pref="70" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="kaTextField" pref="67" max="32767" attributes="0"/>
-                          <Component id="seE2TextField" pref="67" max="32767" attributes="0"/>
-                          <Component id="vrminTextField" pref="67" max="32767" attributes="0"/>
-                          <Component id="e1TextField" alignment="0" pref="67" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="kfLabel" pref="55" max="32767" attributes="0"/>
-                          <Component id="taLabel" alignment="0" pref="55" max="32767" attributes="0"/>
-                          <Component id="keLabel" alignment="0" pref="55" max="32767" attributes="0"/>
-                          <Component id="seE1Label" alignment="0" pref="55" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="kfTextField" pref="66" max="32767" attributes="0"/>
-                          <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="keTextField" max="32767" attributes="0"/>
-                          </Group>
-                          <Component id="taTextField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="seE1TextField" alignment="0" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="tf1Label" pref="71" max="32767" attributes="1"/>
-                          <Component id="e2Label" pref="71" max="32767" attributes="1"/>
-                          <Component id="teLabel" pref="71" max="32767" attributes="1"/>
-                          <Component id="vrmaxtaLabel" pref="71" max="32767" attributes="1"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="tf1TextField" pref="66" max="32767" attributes="2"/>
-                          <Component id="vrmaxTextField" alignment="1" max="32767" attributes="0"/>
-                          <Component id="teTextField" alignment="0" max="32767" attributes="2"/>
-                          <Component id="e2TextField" alignment="0" max="32767" attributes="2"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="tfLabel" pref="71" max="32767" attributes="1"/>
+                  <Component id="e2Label" pref="71" max="32767" attributes="1"/>
+                  <Component id="teLabel" pref="71" max="32767" attributes="1"/>
+                  <Component id="vrmaxtaLabel" pref="71" max="32767" attributes="1"/>
               </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="tfTextField" pref="66" max="32767" attributes="2"/>
+                  <Component id="vrmaxTextField" alignment="1" max="32767" attributes="0"/>
+                  <Component id="teTextField" alignment="0" max="32767" attributes="2"/>
+                  <Component id="e2TextField" alignment="0" max="32767" attributes="2"/>
+              </Group>
+              <EmptySpace min="-2" pref="54" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -94,16 +84,16 @@
                       </Group>
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="tf1TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="tf1Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tfLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" max="-2" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="kaLabel" alignment="0" max="32767" attributes="1"/>
-                          <Component id="taLabel" alignment="0" max="32767" attributes="1"/>
-                          <Component id="taTextField" alignment="0" max="32767" attributes="1"/>
-                          <Component id="kaTextField" alignment="1" max="32767" attributes="1"/>
+                          <Component id="trhLabel" alignment="0" max="32767" attributes="1"/>
+                          <Component id="kvLabel" alignment="0" max="32767" attributes="1"/>
+                          <Component id="kvTextField" alignment="0" max="32767" attributes="1"/>
+                          <Component id="trhTextField" alignment="1" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -132,26 +122,21 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="tf2Label" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tf2TextField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="kaLabel">
+    <Component class="javax.swing.JLabel" name="trhLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Ka(pu)"/>
+        <Property name="text" type="java.lang.String" value="Trh(s)"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="kaTextField">
+    <Component class="javax.swing.JTextField" name="trhTextField">
       <Properties>
         <Property name="columns" type="int" value="5"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -160,15 +145,15 @@
         <Property name="text" type="java.lang.String" value="0.0"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="taLabel">
+    <Component class="javax.swing.JLabel" name="kvLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Ta(s)"/>
+        <Property name="text" type="java.lang.String" value="Kv(pu)"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="taTextField">
+    <Component class="javax.swing.JTextField" name="kvTextField">
       <Properties>
         <Property name="columns" type="int" value="5"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
@@ -330,32 +315,15 @@
         <Property name="text" type="java.lang.String" value="0.0"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="tf1Label">
+    <Component class="javax.swing.JLabel" name="tfLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Tf1(s)"/>
+        <Property name="text" type="java.lang.String" value="Tf(s)"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="tf1TextField">
-      <Properties>
-        <Property name="columns" type="int" value="5"/>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="0.0"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="tf2Label">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Tf2(s)"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="tf2TextField">
+    <Component class="javax.swing.JTextField" name="tfTextField">
       <Properties>
         <Property name="columns" type="int" value="5"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
