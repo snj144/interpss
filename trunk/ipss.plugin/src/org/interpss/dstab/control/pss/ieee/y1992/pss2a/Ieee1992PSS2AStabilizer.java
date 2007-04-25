@@ -23,7 +23,7 @@
   */
 
 
-package org.interpss.dstab.control.pss.ieee.y1992.pss1a;
+package org.interpss.dstab.control.pss.ieee.y1992.pss2a;
 
 import java.lang.reflect.Field;
 
@@ -41,7 +41,7 @@ import com.interpss.dstab.mach.Machine;
         output="this.filterBlock2.y",
         refPoint="mach.speed",
         display= {"str.Vpss, this.output", "str.PssState1, this.filterBlock1.state", "str.PssState2, this.filterBlock2.state"})
-public class IeeePSS1AStabilizer extends AnnotateStabilizer {
+public class Ieee1992PSS2AStabilizer extends AnnotateStabilizer {
 	public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
     @AnControllerField(
             type= CMLFieldType.ControlBlock,
@@ -59,9 +59,9 @@ public class IeeePSS1AStabilizer extends AnnotateStabilizer {
     FilterControlBlock filterBlock2;
 
 	// UI Editor panel
-	private static final NBIeeePSS1AStabilizerEditPanel _editPanel = new NBIeeePSS1AStabilizerEditPanel();
+	private static final NBIeee1992PSS2AEditPanel _editPanel = new NBIeee1992PSS2AEditPanel();
 	
-	public IeeePSS1AStabilizer() {
+	public Ieee1992PSS2AStabilizer() {
 		this("pssId", "SimpleStabilizer", "InterPSS");
 	}
 	
@@ -71,10 +71,10 @@ public class IeeePSS1AStabilizer extends AnnotateStabilizer {
 	 * @param id pss id
 	 * @param name pss name
 	 */	
-	public IeeePSS1AStabilizer(final String id, final String name, final String caty) {
+	public Ieee1992PSS2AStabilizer(final String id, final String name, final String caty) {
 		super(id, name, caty);
 		// _data is defined in the parent class. However init it here is a MUST
-		_data = new IeeePSS1AStabilizerData();
+		_data = new Ieee1992PSS2AStabilizerData();
 	}
 	
 	/**
@@ -82,8 +82,8 @@ public class IeeePSS1AStabilizer extends AnnotateStabilizer {
 	 * 
 	 * @return the data object
 	 */
-	public IeeePSS1AStabilizerData getData() {
-		return (IeeePSS1AStabilizerData)_data;
+	public Ieee1992PSS2AStabilizerData getData() {
+		return (Ieee1992PSS2AStabilizerData)_data;
 	}
 	
 	/**
@@ -93,7 +93,7 @@ public class IeeePSS1AStabilizer extends AnnotateStabilizer {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-        this.k1 = getData().getKs();
+        this.k1 = getData().getKs1();
         this.t1 = getData().getT1();
         this.t2 = getData().getT2();
         this.t3 = getData().getT3();
