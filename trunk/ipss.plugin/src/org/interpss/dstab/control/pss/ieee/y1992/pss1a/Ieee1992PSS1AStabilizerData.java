@@ -1,5 +1,5 @@
  /*
-  * @(#)SimpleStabilizerData.java   
+  * @(#)Ieee1992PSS1AStabilizerData.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -29,16 +29,16 @@ import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1992PSS1AStabilizerData extends BaseControllerData {
 	private double ks = 1.0;
-	private double t1 = 2.0;
-	private double t2 = 2.0;
-	private double t3 = 2.0;
-	private double t4 = 2.0;
-	private double t5 = 2.0;
-	private double t6 = 2.0;
-	private double vstmax = 3.0;
-	private double vstmin = 4.0;
-	private double a1 = 0.0;
-	private double a2 = 0.0;
+	private double t1 = 0.05;
+	private double t2 = 0.5;
+	private double t3 = 0.05;
+	private double t4 = 0.25;
+	private double t5 = 0.1;
+	private double t6 = 0.05;
+	private double vstmax = 0.2;
+	private double vstmin = -0.2;
+	private double a1 = 0.05;
+	private double a2 = 0.5;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max

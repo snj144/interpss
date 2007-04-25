@@ -1,5 +1,5 @@
  /*
-  * @(#)SimpleStabilizer.java   
+  * @(#)Ieee1992PSS2AStabilizer.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -30,34 +30,107 @@ import java.lang.reflect.Field;
 import com.interpss.common.func.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
+import com.interpss.dstab.controller.annotate.AbstractChildAnnotateController;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
+import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.controller.block.FilterControlBlock;
+import com.interpss.dstab.controller.block.FilterNthOrderBlock;
+import com.interpss.dstab.controller.block.WashoutControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
         input="mach.speed",
         output="this.filterBlock2.y",
-        refPoint="mach.speed",
-        display= {"str.Vpss, this.output", "str.PssState1, this.filterBlock1.state", "str.PssState2, this.filterBlock2.state"})
+        refPoint="0.0",
+        display= {"str.CustomBlock1, this.customBlock1.y",
+                  "str.CustomBlock2, this.customBlock2.y",
+                  "str.NthOrderFilter, this.filterNthBlock.y" })
 public class Ieee1992PSS2AStabilizer extends AnnotateStabilizer {
-	public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
-    @AnControllerField(
-            type= CMLFieldType.ControlBlock,
-            input="mach.speed - this.refPoint",
-            parameter={"type.NoLimit", "this.k1", "this.t1", "this.t2"},
-            y0="this.filterBlock2.u0"	)
-    FilterControlBlock filterBlock1;
-	
-    public double k2 = 1.0, t3 = 0.05, t4 = 0.25, vmax = 0.2, vmin = -0.2;
-    @AnControllerField(
-            type= CMLFieldType.ControlBlock,
-            input="this.filterBlock1.y",
-            parameter={"type.Limit", "this.k2", "this.t3", "this.t4", "this.vmax", "this.vmin"},
-            y0="pss.vs"	)
-    FilterControlBlock filterBlock2;
+	    public double tw1 = 0.1, tw2 = 0.05, t6 = 0.05;
+	    @AnControllerField(
+	            type= CMLFieldType.Controller,
+	            input="mach.speed",
+	            y0="0.0",
+	            initOrderNumber=-2	)
+	    public CustomExciter customBlock1 = new CustomExciter(tw1, tw2, 1.0, t6);
 
+	    public double tw3 = 0.1, tw4 = 0.05, t7 = 0.05, ks2 = 1.0;
+	    @AnControllerField(
+	            type= CMLFieldType.Controller,
+	            input="mach.pe",
+	            y0="0.0",
+	            initOrderNumber=-3	)
+	    public CustomExciter customBlock2 = new CustomExciter(tw3, tw4, ks2, t7);
+
+	    public double t8 = 0.1, t9 = 0.05, ks3 = 1.0;
+	    public int m = 1, n = 1;
+	    @AnControllerField(
+	            type= CMLFieldType.ControlBlock,
+	            input="this.customBlock1.y + this.ks3*this.customBlock2.y",
+	            parameter={"type.t8", "this.t9", "this.m", "this.n"},
+	            y0="this.filterBlock1.u0 - this.refPoint + this.customBlock2.y"	)
+	    FilterNthOrderBlock filterNthBlock;
+
+	    public double ks1 = 10.0, t1 = 0.05, t2 = 0.5;
+	    @AnControllerField(
+	            type= CMLFieldType.ControlBlock,
+	            input="this.refPoint + this.filterNthBlock.y - this.customBlock2.y",
+	            parameter={"type.NoLimit", "this.ks1", "this.t1", "this.t2"},
+	            y0="this.filterBlock2.u0"	)
+	    FilterControlBlock filterBlock1;
+		
+	    public double one = 1.0, t3 = 0.05, t4 = 0.25, vstmax = 0.2, vstmin = -0.2;
+	    @AnControllerField(
+	            type= CMLFieldType.ControlBlock,
+	            input="this.filterBlock1.y",
+	            parameter={"type.Limit", "this.one", "this.t3", "this.t4", "this.vstmax", "this.vstmin"},
+	            y0="pss.vs"	)
+	    FilterControlBlock filterBlock2;
+
+	@AnController( )
+	class CustomExciter extends AbstractChildAnnotateController {
+	    public CustomExciter(double tw1, double tw2, double k, double t) {
+	        super();
+	        this.tw1 = tw1;
+	        this.tw2 = tw2;
+	        this.k = k;
+	        this.t1 = t;
+	    }
+
+		 public double one = 1.0, tw1 = 0.05;
+	    @AnControllerField(
+	            type= CMLFieldType.ControlBlock,
+	            input="this.input - this.refPoint",
+	            parameter={"type.NoLimit", "this.one", "this.tw1"},
+	            y0="this.washoutBlock2.u0"	)
+	    WashoutControlBlock washoutBlock1;
+
+		 public double tw2 = 0.05;
+	    @AnControllerField(
+	            type= CMLFieldType.ControlBlock,
+	            input="this.washoutBlock1.y",
+	            parameter={"type.NoLimit", "this.one", "this.tw2"},
+	            y0="this.delayBlock.u0"	)
+	    WashoutControlBlock washoutBlock2;
+
+		 public double k = 1.0, t1 = 0.05;
+	    @AnControllerField(
+	            type= CMLFieldType.ControlBlock,
+	            input="this.washoutBlock2.y",
+	            parameter={"type.NoLimit", "this.k", "this.t1"},
+	            y0="this.output"	)
+	    DelayControlBlock delayBlock;
+	 	
+	    public AnController getAnController() {
+	    	return (AnController)getClass().getAnnotation(AnController.class);  }
+	    public Field getField(String fieldName) throws Exception {
+	    	return getClass().getField(fieldName);   }
+	    public Object getFieldObject(Field field) throws Exception {
+	    	return field.get(this);    }
+	}
+	
 	// UI Editor panel
 	private static final NBIeee1992PSS2AEditPanel _editPanel = new NBIeee1992PSS2AEditPanel();
 	
@@ -93,13 +166,26 @@ public class Ieee1992PSS2AStabilizer extends AnnotateStabilizer {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-        this.k1 = getData().getKs1();
+        this.ks1 = getData().getKs1();
         this.t1 = getData().getT1();
         this.t2 = getData().getT2();
         this.t3 = getData().getT3();
         this.t4 = getData().getT4();
-        this.vmax = getData().getVstmax();
-        this.vmin = getData().getVstmin();
+        this.t6 = getData().getT6();
+        this.t7 = getData().getT7();
+        this.t8 = getData().getT8();
+        this.t9 = getData().getT9();
+        this.n = getData().getN();
+        this.m = getData().getM();
+        this.vstmax = getData().getVstmax();
+        this.vstmin = getData().getVstmin();
+        this.ks2 = getData().getKs2();
+        this.ks3 = getData().getKs3();
+        this.tw1 = getData().getTw1();
+        this.tw2 = getData().getTw2();
+        this.tw3 = getData().getTw3();
+        this.tw4 = getData().getTw4();
+        
         return super.initStates(abus, mach, msg);
 	}
 

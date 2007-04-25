@@ -13,96 +13,117 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="ksLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="40" pref="40" max="40" attributes="0"/>
-                      <Component id="ksTextField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="50" pref="50" max="50" attributes="0"/>
-                      <Component id="t1Label" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="50" pref="50" max="50" attributes="0"/>
-                      <Component id="t1TextField" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="t2Label" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="48" pref="48" max="48" attributes="0"/>
-                      <Component id="t2TextField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="50" pref="50" max="50" attributes="0"/>
-                      <Component id="t3Label" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="50" pref="50" max="50" attributes="0"/>
-                      <Component id="t3TextField" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="t4Label" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="48" pref="48" max="48" attributes="0"/>
-                      <Component id="t4TextField" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="50" pref="50" max="50" attributes="0"/>
-                      <Component id="vsmaxLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="20" pref="20" max="20" attributes="0"/>
-                      <Component id="vsmaxTextField" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="vsminLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="20" pref="20" max="20" attributes="0"/>
-                      <Component id="vsminTextField" min="-2" max="-2" attributes="0"/>
-                  </Group>
+              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="ksLabel" pref="75" max="32767" attributes="0"/>
+                  <Component id="a1Label" alignment="1" pref="75" max="32767" attributes="0"/>
+                  <Component id="t6Label" alignment="0" pref="75" max="32767" attributes="0"/>
+                  <Component id="t3Label" alignment="0" pref="75" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="120" max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                  <Component id="a1TextField" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+                  <Component id="t6TextField" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+                  <Component id="t3TextField" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+                  <Component id="ksTextField" alignment="0" min="-2" pref="56" max="-2" attributes="1"/>
+              </Group>
+              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="t1Label" pref="67" max="32767" attributes="0"/>
+                  <Component id="a2Label" alignment="1" pref="67" max="32767" attributes="0"/>
+                  <Component id="t4Label" alignment="0" pref="67" max="32767" attributes="0"/>
+                  <Component id="vstmaxLabel" alignment="0" pref="67" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="a2TextField" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+                  <Component id="vstmaxTextField" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+                  <Group type="102" alignment="0" attributes="1">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="t4TextField" min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="t1TextField" alignment="0" min="-2" pref="50" max="-2" attributes="1"/>
+              </Group>
+              <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="t5Label" pref="72" max="32767" attributes="1"/>
+                  <Component id="t2Label" pref="72" max="32767" attributes="1"/>
+                  <Component id="t8Label" alignment="1" pref="72" max="32767" attributes="1"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="t2TextField" alignment="1" pref="46" max="32767" attributes="0"/>
+                  <Component id="t5TextField" alignment="0" pref="46" max="32767" attributes="2"/>
+                  <Component id="vstminTextField" alignment="0" pref="46" max="32767" attributes="2"/>
+              </Group>
+              <EmptySpace min="-2" pref="60" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                      <Component id="ksLabel" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="t2TextField" alignment="0" max="32767" attributes="1"/>
+                          <Component id="t2Label" alignment="0" min="-2" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="t5TextField" alignment="0" max="32767" attributes="1"/>
+                          <Component id="t5Label" alignment="0" min="-2" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="vstminTextField" alignment="3" min="-2" max="-2" attributes="1"/>
+                          <Component id="t8Label" alignment="3" min="-2" max="-2" attributes="1"/>
+                      </Group>
                   </Group>
-                  <Component id="ksTextField" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                      <Component id="t1Label" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="t1TextField" alignment="3" max="32767" attributes="1"/>
+                              <Component id="t1Label" alignment="3" min="-2" max="-2" attributes="1"/>
+                          </Group>
+                          <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                              <Component id="ksTextField" alignment="3" max="32767" attributes="1"/>
+                              <Component id="ksLabel" alignment="3" max="32767" attributes="1"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="t4TextField" max="32767" attributes="1"/>
+                          <Component id="t3TextField" max="32767" attributes="1"/>
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="t3Label" alignment="0" max="32767" attributes="1"/>
+                              <Component id="t4Label" alignment="0" min="-2" max="-2" attributes="1"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="vstmaxTextField" max="32767" attributes="1"/>
+                          <Component id="t6TextField" max="32767" attributes="1"/>
+                          <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="t6Label" alignment="0" max="32767" attributes="1"/>
+                              <Component id="vstmaxLabel" alignment="0" min="-2" max="-2" attributes="1"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="a2Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="a2TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="a1Label" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="a1TextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <Component id="t1TextField" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                      <Component id="t2Label" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="t2TextField" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                      <Component id="t3Label" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="t3TextField" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                      <Component id="t4Label" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="t4TextField" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                      <Component id="vsmaxLabel" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="vsmaxTextField" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace min="10" pref="10" max="10" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="2" pref="2" max="2" attributes="0"/>
-                      <Component id="vsminLabel" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="vsminTextField" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="45" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -122,7 +143,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="10.0"/>
+        <Property name="text" type="java.lang.String" value="0.0"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="t1Label">
@@ -139,7 +160,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="0.05"/>
+        <Property name="text" type="java.lang.String" value="0.0"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="t2Label">
@@ -156,7 +177,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="10.0"/>
+        <Property name="text" type="java.lang.String" value="0.0"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="t3Label">
@@ -190,41 +211,109 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="10.0"/>
+        <Property name="text" type="java.lang.String" value="0.0"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="vsmaxLabel">
+    <Component class="javax.swing.JLabel" name="t5Label">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Vsmax(pu)"/>
+        <Property name="text" type="java.lang.String" value="T5(s)"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="vsmaxTextField">
-      <Properties>
-        <Property name="columns" type="int" value="5"/>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="0.05"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="vsminLabel">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Vsmin(pu)"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="vsminTextField">
+    <Component class="javax.swing.JTextField" name="t5TextField">
       <Properties>
         <Property name="columns" type="int" value="5"/>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="10.0"/>
+        <Property name="text" type="java.lang.String" value="0.0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="t6Label">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="T6(s)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="t6TextField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="0.0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="vstmaxLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Vstmax(pu)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="vstmaxTextField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="0.0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="t8Label">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Vstmin(pu)"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="vstminTextField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="0.0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="a1Label">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="A1"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="a1TextField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="0.0"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="a2Label">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="A2"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="a2TextField">
+      <Properties>
+        <Property name="columns" type="int" value="5"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="0.0"/>
       </Properties>
     </Component>
   </SubComponents>

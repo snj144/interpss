@@ -60,18 +60,18 @@ public class NBIeee1968Type4EditPanel extends javax.swing.JPanel implements ICon
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor() {
-    	EditUtilFunct.setTextFiled(trhTextField, 	_data.getTrh(), "#0.00");
-    	EditUtilFunct.setTextFiled(kvTextField, 	_data.getKv(), "#0.000");
-    	EditUtilFunct.setTextFiled(vrmaxTextField, 	_data.getVrmax(), "#0.00");
-    	EditUtilFunct.setTextFiled(vrminTextField, 	_data.getVrmin(), "#0.00");
-    	EditUtilFunct.setTextFiled(keTextField, 	_data.getKe(), "#0.00");
-    	EditUtilFunct.setTextFiled(teTextField, 	_data.getTe(), "#0.000");
-    	EditUtilFunct.setTextFiled(e1TextField, 	_data.getE1(), "#0.000");
-    	EditUtilFunct.setTextFiled(seE1TextField, 	_data.getSeE1(), "#0.000");
-    	EditUtilFunct.setTextFiled(e2TextField, 	_data.getE2(), "#0.000");
-    	EditUtilFunct.setTextFiled(seE2TextField, 	_data.getSeE2(), "#0.000");
-    	EditUtilFunct.setTextFiled(kfTextField, 	_data.getKf(), "#0.00");
-    	EditUtilFunct.setTextFiled(tfTextField, 	_data.getTf(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(trhTextField, 	_data.getTrh(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(kvTextField, 	_data.getKv(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(vrmaxTextField, 	_data.getVrmax(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(vrminTextField, 	_data.getVrmin(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(keTextField, 	_data.getKe(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(teTextField, 	_data.getTe(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(e1TextField, 	_data.getE1(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(seE1TextField, 	_data.getSeE1(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(e2TextField, 	_data.getE2(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(seE2TextField, 	_data.getSeE2(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(kfTextField, 	_data.getKf(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(tfTextField, 	_data.getTf(), "#0.000");
 
     	return true;
 	}
@@ -85,17 +85,17 @@ public class NBIeee1968Type4EditPanel extends javax.swing.JPanel implements ICon
     public boolean saveEditorData(Vector errMsg) throws Exception {
     	errMsg.clear();
     	
-    	EditUtilFunct.saveTextField(_data, kvTextField, "kv", errMsg);
-    	EditUtilFunct.saveTextField(_data, vrmaxTextField, "vrmax", errMsg);
-    	EditUtilFunct.saveTextField(_data, vrminTextField, "vrmin", errMsg);
-    	EditUtilFunct.saveTextField(_data, keTextField, "ke", errMsg);
-    	EditUtilFunct.saveTextField(_data, teTextField, "te", errMsg);
-    	EditUtilFunct.saveTextField(_data, e1TextField, "e1", errMsg);
-    	EditUtilFunct.saveTextField(_data, seE1TextField, "seE1", errMsg);
-    	EditUtilFunct.saveTextField(_data, e2TextField, "e2", errMsg);
-    	EditUtilFunct.saveTextField(_data, seE2TextField, "seE2", errMsg);
-    	EditUtilFunct.saveTextField(_data, kfTextField, "kf", errMsg);
-    	EditUtilFunct.saveTextField(_data, tfTextField, "tf", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, kvTextField, "kv", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, vrmaxTextField, "vrmax", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, vrminTextField, "vrmin", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, keTextField, "ke", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, teTextField, "te", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, e1TextField, "e1", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, seE1TextField, "seE1", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, e2TextField, "e2", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, seE2TextField, "seE2", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, kfTextField, "kf", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, tfTextField, "tf", errMsg);
 
     	return errMsg.size() == 0;
 	}
@@ -348,29 +348,29 @@ public class NBIeee1968Type4EditPanel extends javax.swing.JPanel implements ICon
        		try {
        			// data field verification rules
     			if ( input == trhTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "trh");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "trh");
     			if ( input == kvTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "kv");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "kv");
     			if ( input == vrmaxTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "vrmax");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "vrmax");
     			if ( input == vrminTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "vrmin");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "vrmin");
     			if ( input == keTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "ke");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "ke");
     			if ( input == teTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "te");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "te");
     			if ( input == e1TextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "e1");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "e1");
     			if ( input == seE1TextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "seE1");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "seE1");
     			if ( input == e2TextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "e2");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "e2");
     			if ( input == seE2TextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "seE2");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "seE2");
     			if ( input == kfTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "kf");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "kf");
     			if ( input == tfTextField)
-    				return EditUtilFunct.checkDataRange(input, _data, "tf");
+    				return EditUtilFunct.checkDblDataRange(input, _data, "tf");
     			
  	       	} catch (Exception e) {
  	    		return false;

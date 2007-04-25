@@ -1,5 +1,5 @@
  /*
-  * @(#)NBSimpleStabilizerEditPanel.java   
+  * @(#)NBIeee1992PSS2AEditPanel.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -22,106 +22,93 @@
   *
   */
 
-
 package org.interpss.dstab.control.pss.ieee.y1992.pss1a;
 
 import java.util.Vector;
 
+import org.interpss.dstab.control.base.EditUtilFunct;
+
 import com.interpss.common.ui.IControllerEditor;
-import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
 
 public class NBIeee1992PSS1AEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
-	
+
+	// define data to be edited
 	Ieee1992PSS1AStabilizerData _data;
 
     /** Creates new form FaultLocDataPanel */
     public NBIeee1992PSS1AEditPanel() {
         initComponents();
-
+        // init the field to the default values
+        _data = new Ieee1992PSS1AStabilizerData();
+        setData2Editor();
+        
+        // associate the editing fields with the verifier class defined at the end of this calss
   		DataVerifier verifier = new DataVerifier();
   	    ksTextField.setInputVerifier(verifier);
   	    t1TextField.setInputVerifier(verifier);
   	    t2TextField.setInputVerifier(verifier);
   	    t3TextField.setInputVerifier(verifier);
   	    t4TextField.setInputVerifier(verifier);
-  	    vsmaxTextField.setInputVerifier(verifier);
-  	    vsminTextField.setInputVerifier(verifier);  		
+  	    t5TextField.setInputVerifier(verifier);
+  	    t6TextField.setInputVerifier(verifier);
+  	    vstmaxTextField.setInputVerifier(verifier);
+  	    vstminTextField.setInputVerifier(verifier);
+  	    a1TextField.setInputVerifier(verifier);
+  	    a2TextField.setInputVerifier(verifier);
     }
     
+    /**
+     * Init the editor panel, which will be called from its parent editor
+     */
 	public void init(Object controller) {
+		// init the data object from the bus object being edited
 		_data = ((Ieee1992PSS1AStabilizer)controller).getData();
 	}
 	
 	/**
-	*	Set form data to the editor
+	*	Set controller data to the editor
 	*
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor() {
-  	    ksTextField.setText(Num2Str.toStr(_data.getKs(), "#0.00"));
-  	    t1TextField.setText(Num2Str.toStr(_data.getT1(), "#0.000"));
-  	    t2TextField.setText(Num2Str.toStr(_data.getT2(), "#0.000"));
-  	    t3TextField.setText(Num2Str.toStr(_data.getT3(), "#0.000"));
-  	    t4TextField.setText(Num2Str.toStr(_data.getT4(), "#0.000"));
-  	    vsmaxTextField.setText(Num2Str.toStr(_data.getVstmax(), "#0.00"));
-  	    vsminTextField.setText(Num2Str.toStr(_data.getVstmin(), "#0.00"));
-  	    
-        return true;
+    	EditUtilFunct.setDblTextFiled(ksTextField, 	_data.getKs(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(t1TextField, 	_data.getT1(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(t2TextField, 	_data.getT2(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(t3TextField, 	_data.getT3(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(t4TextField, 	_data.getT4(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(t5TextField, 	_data.getT5(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(t6TextField, 	_data.getT6(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(vstmaxTextField, _data.getVstmax(), "#0.00");
+    	EditUtilFunct.setDblTextFiled(vstminTextField, _data.getVstmin(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(a1TextField, 	_data.getA1(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(a2TextField, 	_data.getA2(), "#0.000");
+
+    	return true;
 	}
     
 	/**
-	*	Save editor screen data to the form
+	*	Save editor screen data to the controller data object
 	*
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
     public boolean saveEditorData(Vector errMsg) throws Exception {
-		boolean ok = true;
-		
-		if (!SwingInputVerifyUtil.largeThan(this.ksTextField, 0.0d)) {
-			errMsg.add("Ks <= 0.0");
-			ok = false;
-		}
-    	_data.setKs(SwingInputVerifyUtil.getDouble(ksTextField));
+    	errMsg.clear();
     	
-		if (!SwingInputVerifyUtil.largeThan(this.t1TextField, 0.0d)) {
-			errMsg.add("T1 <= 0.0");
-			ok = false;
-		}
-    	_data.setT1(SwingInputVerifyUtil.getDouble(t1TextField));
+    	EditUtilFunct.saveDblTextField(_data, ksTextField, "ks", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, t1TextField, "t1", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, t2TextField, "t2", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, t3TextField, "t3", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, t4TextField, "t4", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, t5TextField, "t5", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, t6TextField, "t6", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, vstmaxTextField, "vstmax", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, vstminTextField, "vstmin", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, a1TextField, "a1", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, a2TextField, "a2", errMsg);
 
-		if (!SwingInputVerifyUtil.largeThan(this.t2TextField, 0.0d)) {
-			errMsg.add("T2 <= 0.0");
-			ok = false;
-		}
-    	_data.setT2(SwingInputVerifyUtil.getDouble(t2TextField));
-
-		if (!SwingInputVerifyUtil.largeThan(this.t3TextField, 0.0d)) {
-			errMsg.add("T3 <= 0.0");
-			ok = false;
-		}
-    	_data.setT3(SwingInputVerifyUtil.getDouble(t3TextField));
-
-		if (!SwingInputVerifyUtil.largeThan(this.t4TextField, 0.0d)) {
-			errMsg.add("T4 <= 0.0");
-			ok = false;
-		}
-    	_data.setT4(SwingInputVerifyUtil.getDouble(t4TextField));
-
-		if (!SwingInputVerifyUtil.largeThan(this.vsmaxTextField, 0.0d)) {
-			errMsg.add("Vsmax <= 0.0");
-			ok = false;
-		}
-    	_data.setVstmax(SwingInputVerifyUtil.getDouble(vsmaxTextField));
-
-    	_data.setVstmin(SwingInputVerifyUtil.getDouble(vsminTextField));
-		if (_data.getVstmax() <= _data.getVstmin()) {
-			errMsg.add("Vsmax <= Vsmin");
-			ok = false;
-		}    	
-		return ok;
+    	return errMsg.size() == 0;
 	}
     
 	/** This method is called from within the constructor to
@@ -131,8 +118,6 @@ public class NBIeee1992PSS1AEditPanel extends javax.swing.JPanel implements ICon
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
         ksLabel = new javax.swing.JLabel();
         ksTextField = new javax.swing.JTextField();
         t1Label = new javax.swing.JLabel();
@@ -143,31 +128,39 @@ public class NBIeee1992PSS1AEditPanel extends javax.swing.JPanel implements ICon
         t3TextField = new javax.swing.JTextField();
         t4Label = new javax.swing.JLabel();
         t4TextField = new javax.swing.JTextField();
-        vsmaxLabel = new javax.swing.JLabel();
-        vsmaxTextField = new javax.swing.JTextField();
-        vsminLabel = new javax.swing.JLabel();
-        vsminTextField = new javax.swing.JTextField();
+        t5Label = new javax.swing.JLabel();
+        t5TextField = new javax.swing.JTextField();
+        t6Label = new javax.swing.JLabel();
+        t6TextField = new javax.swing.JTextField();
+        vstmaxLabel = new javax.swing.JLabel();
+        vstmaxTextField = new javax.swing.JTextField();
+        t8Label = new javax.swing.JLabel();
+        vstminTextField = new javax.swing.JTextField();
+        a1Label = new javax.swing.JLabel();
+        a1TextField = new javax.swing.JTextField();
+        a2Label = new javax.swing.JLabel();
+        a2TextField = new javax.swing.JTextField();
 
         ksLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         ksLabel.setText("Ks(pu)");
 
         ksTextField.setColumns(5);
         ksTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        ksTextField.setText("10.0");
+        ksTextField.setText("0.0");
 
         t1Label.setFont(new java.awt.Font("Dialog", 0, 12));
         t1Label.setText("T1(s)");
 
         t1TextField.setColumns(5);
         t1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        t1TextField.setText("0.05");
+        t1TextField.setText("0.0");
 
         t2Label.setFont(new java.awt.Font("Dialog", 0, 12));
         t2Label.setText("T2(s)");
 
         t2TextField.setColumns(5);
         t2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        t2TextField.setText("10.0");
+        t2TextField.setText("0.0");
 
         t3Label.setFont(new java.awt.Font("Dialog", 0, 12));
         t3Label.setText("T3(s)");
@@ -181,104 +174,150 @@ public class NBIeee1992PSS1AEditPanel extends javax.swing.JPanel implements ICon
 
         t4TextField.setColumns(5);
         t4TextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        t4TextField.setText("10.0");
+        t4TextField.setText("0.0");
 
-        vsmaxLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        vsmaxLabel.setText("Vsmax(pu)");
+        t5Label.setFont(new java.awt.Font("Dialog", 0, 12));
+        t5Label.setText("T5(s)");
 
-        vsmaxTextField.setColumns(5);
-        vsmaxTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        vsmaxTextField.setText("0.05");
+        t5TextField.setColumns(5);
+        t5TextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        t5TextField.setText("0.0");
 
-        vsminLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        vsminLabel.setText("Vsmin(pu)");
+        t6Label.setFont(new java.awt.Font("Dialog", 0, 12));
+        t6Label.setText("T6(s)");
 
-        vsminTextField.setColumns(5);
-        vsminTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        vsminTextField.setText("10.0");
+        t6TextField.setColumns(5);
+        t6TextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        t6TextField.setText("0.0");
+
+        vstmaxLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        vstmaxLabel.setText("Vstmax(pu)");
+
+        vstmaxTextField.setColumns(5);
+        vstmaxTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        vstmaxTextField.setText("0.0");
+
+        t8Label.setFont(new java.awt.Font("Dialog", 0, 12));
+        t8Label.setText("Vstmin(pu)");
+
+        vstminTextField.setColumns(5);
+        vstminTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        vstminTextField.setText("0.0");
+
+        a1Label.setFont(new java.awt.Font("Dialog", 0, 12));
+        a1Label.setText("A1");
+
+        a1TextField.setColumns(5);
+        a1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        a1TextField.setText("0.0");
+
+        a2Label.setFont(new java.awt.Font("Dialog", 0, 12));
+        a2Label.setText("A2");
+
+        a2TextField.setColumns(5);
+        a2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        a2TextField.setText("0.0");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(103, 103, 103)
+                .add(45, 45, 45)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(ksLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                    .add(a1Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, t6Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, t3Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, a1TextField, 0, 0, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, t6TextField, 0, 0, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, t3TextField, 0, 0, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, ksTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 56, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(55, 55, 55)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(t1Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                    .add(a2Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, t4Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, vstmaxLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(a2TextField, 0, 0, Short.MAX_VALUE)
+                    .add(vstmaxTextField, 0, 0, Short.MAX_VALUE)
+                    .add(layout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(t4TextField, 0, 0, Short.MAX_VALUE))
+                    .add(t1TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(46, 46, 46)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(ksLabel)
-                        .add(40, 40, 40)
-                        .add(ksTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(50, 50, 50)
-                        .add(t1Label)
-                        .add(50, 50, 50)
-                        .add(t1TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(t2Label)
-                        .add(48, 48, 48)
-                        .add(t2TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(50, 50, 50)
-                        .add(t3Label)
-                        .add(50, 50, 50)
-                        .add(t3TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(t4Label)
-                        .add(48, 48, 48)
-                        .add(t4TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(50, 50, 50)
-                        .add(vsmaxLabel)
-                        .add(20, 20, 20)
-                        .add(vsmaxTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(layout.createSequentialGroup()
-                        .add(vsminLabel)
-                        .add(20, 20, 20)
-                        .add(vsminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(120, Short.MAX_VALUE))
+                    .add(t5Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                    .add(t2Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, t8Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, t2TextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                    .add(t5TextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+                    .add(vstminTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
+                .add(60, 60, 60))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
+                .add(23, 23, 23)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(ksLabel))
-                    .add(ksTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(t2TextField)
+                            .add(t2Label))
+                        .add(13, 13, 13)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(t5TextField)
+                            .add(t5Label))
+                        .add(12, 12, 12)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(vstminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(t8Label)))
                     .add(layout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(t1Label))
-                    .add(t1TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(10, 10, 10)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(t2Label))
-                    .add(t2TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(layout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(t3Label))
-                    .add(t3TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(10, 10, 10)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(t4Label))
-                    .add(t4TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(layout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(vsmaxLabel))
-                    .add(vsmaxTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(10, 10, 10)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(vsminLabel))
-                    .add(vsminTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(t1TextField)
+                                .add(t1Label))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(ksTextField)
+                                .add(ksLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .add(13, 13, 13)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(t4TextField)
+                            .add(t3TextField)
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                .add(t3Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(t4Label)))
+                        .add(12, 12, 12)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(vstmaxTextField)
+                            .add(t6TextField)
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                                .add(t6Label, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .add(vstmaxLabel)))
+                        .add(14, 14, 14)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(a2Label)
+                                .add(a2TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(a1Label)
+                                .add(a1TextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                .add(23, 23, 23))
         );
     }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel a1Label;
+    private javax.swing.JTextField a1TextField;
+    private javax.swing.JLabel a2Label;
+    private javax.swing.JTextField a2TextField;
     private javax.swing.JLabel ksLabel;
     private javax.swing.JTextField ksTextField;
     private javax.swing.JLabel t1Label;
@@ -289,25 +328,45 @@ public class NBIeee1992PSS1AEditPanel extends javax.swing.JPanel implements ICon
     private javax.swing.JTextField t3TextField;
     private javax.swing.JLabel t4Label;
     private javax.swing.JTextField t4TextField;
-    private javax.swing.JLabel vsmaxLabel;
-    private javax.swing.JTextField vsmaxTextField;
-    private javax.swing.JLabel vsminLabel;
-    private javax.swing.JTextField vsminTextField;
+    private javax.swing.JLabel t5Label;
+    private javax.swing.JTextField t5TextField;
+    private javax.swing.JLabel t6Label;
+    private javax.swing.JTextField t6TextField;
+    private javax.swing.JLabel t8Label;
+    private javax.swing.JLabel vstmaxLabel;
+    private javax.swing.JTextField vstmaxTextField;
+    private javax.swing.JTextField vstminTextField;
     // End of variables declaration//GEN-END:variables
 
+    // define data validation rules
 	class DataVerifier extends javax.swing.InputVerifier {
     	public boolean verify(javax.swing.JComponent input) {
 			if (input == null)
 				return false;
        		try {
        			// data field verification rules
-    			if ( input == ksTextField ||
-             		 input == t1TextField ||
-             		 input == t2TextField ||
-             		 input == t3TextField ||
-             		 input == t4TextField ||
-             		 input == vsmaxTextField)
-    	       		return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;       			
+    			if ( input == ksTextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "ks");
+    			if ( input == t1TextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "t1");
+    			if ( input == t2TextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "t2");
+    			if ( input == t3TextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "t3");
+    			if ( input == t4TextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "t4");
+    			if ( input == t5TextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "t5");
+    			if ( input == t6TextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "t6");
+    			if ( input == vstmaxTextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "vstmax");
+    			if ( input == vstminTextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "vstmin");
+    			if ( input == a1TextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "a1");
+    			if ( input == a2TextField)
+    				return EditUtilFunct.checkDblDataRange(input, _data, "a2");
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		
