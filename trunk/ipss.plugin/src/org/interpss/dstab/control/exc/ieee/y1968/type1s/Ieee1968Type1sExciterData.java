@@ -13,12 +13,12 @@ package org.interpss.dstab.control.exc.ieee.y1968.type1s;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1968Type1sExciterData extends BaseControllerData {
-	private double ka = 1.0;
-	private double ta = 2.0;
-	private double kp = 3.0;
-	private double vrmin = 4.0;
-	private double kf = 5.0;
-	private double tf = 6.0;
+	private double ka = 50.0;
+	private double ta = 0.05;
+	private double kp = 1.0;
+	private double vrmin = 0.0;
+	private double kf = 0.1;
+	private double tf = 1.0;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
