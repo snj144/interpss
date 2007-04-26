@@ -59,7 +59,7 @@ public class IeeeSteamTCSRGovernor extends AnnotateGovernor {
     GainBlock gainBlock;
  	
     // UI Editor panel
-    private static NBIeeeSteamTCSRGovernorEditPanel _editPanel = new NBIeeeSteamTCSRGovernorEditPanel();
+    private static NBIeeeSteamTCSREditPanel _editPanel = new NBIeeeSteamTCSREditPanel();
     
     /**
      * Default Constructor

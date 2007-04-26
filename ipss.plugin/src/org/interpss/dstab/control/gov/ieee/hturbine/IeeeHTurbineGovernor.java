@@ -59,7 +59,7 @@ public class IeeeHTurbineGovernor extends AnnotateGovernor {
     GainBlock gainBlock;
  	
     // UI Editor panel
-    private static NBIeeeHTurbineGovernorEditPanel _editPanel = new NBIeeeHTurbineGovernorEditPanel();
+    private static NBIeeeHTurbineEditPanel _editPanel = new NBIeeeHTurbineEditPanel();
     
     /**
      * Default Constructor
