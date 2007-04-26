@@ -27,22 +27,22 @@ package org.interpss.dstab.control.gov.ieee.steamTDSR;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class IeeeSteamTDSRGovernorData extends BaseControllerData {
-	private double k = 1.0;
-	private double t1 = 2.0;
-	private double t2 = 2.0;
-	private double t3 = 2.0;
-	private double pmax = 3.0;
-	private double pmin = 4.0;
-	private double pup = 0.0;
+	private double k = 10.0;
+	private double t1 = 0.5;
+	private double t2 = 0.1;
+	private double t3 = 1.0;
+	private double pmax = 2.0;
+	private double pmin = 0.0;
+	private double pup = 1.2;
 	private double pdown = 0.0;
-	private double tch = 0.0;
-	private double trh1 = 0.0;
-	private double trh2 = 0.0;
-	private double tco = 0.0;
-	private double fvhp = 0.0;
-	private double fhp = 0.0;
-	private double fip = 0.0;
-	private double flp = 0.0;
+	private double tch = 1.2;
+	private double trh1 = 1.2;
+	private double trh2 = 1.2;
+	private double tco = 1.2;
+	private double fvhp = 0.1;
+	private double fhp = 0.1;
+	private double fip = 0.3;
+	private double flp = 0.5;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
@@ -55,9 +55,11 @@ public class IeeeSteamTDSRGovernorData extends BaseControllerData {
 		{"pup", 	"-1000.0", 	"1000.0"}, 
 		{"pdown", 	"-1000.0", 	"1000.0"}, 
 		{"tch",		"-1000.0", 	"1000.0"}, 
-		{"trh", 	"-1000.0", 	"1000.0"}, 
+		{"trh1", 	"-1000.0", 	"1000.0"}, 
+		{"trh2", 	"-1000.0", 	"1000.0"}, 
 		{"tco", 	"-1000.0", 	"1000.0"}, 
-		{"fch", 	"-1000.0", 	"1000.0"}, 
+		{"fvhp", 	"-1000.0", 	"1000.0"}, 
+		{"fhp", 	"-1000.0", 	"1000.0"}, 
 		{"fip", 	"-1000.0", 	"1000.0"}, 
 		{"flp",		"-1000.0", 	"1000.0"} 
 	};

@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.dstab.control.gov.ieee.hturbine;
+package org.interpss.dstab.control.gov.ieee.steamNR;
 
 import java.util.Vector;
 
@@ -30,13 +30,13 @@ import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Num2Str;
 
-public class NBIeeeHTurbineGovernorEditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBIeeeSteamNREditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
 	
-	IeeeHTurbineGovernorData _data;
+	IeeeSteamNRGovernorData _data;
 
     /** Creates new form FaultLocDataPanel */
-    public NBIeeeHTurbineGovernorEditPanel() {
+    public NBIeeeSteamNREditPanel() {
         initComponents();
 
   		DataVerifier verifier = new DataVerifier();
@@ -47,7 +47,7 @@ public class NBIeeeHTurbineGovernorEditPanel extends javax.swing.JPanel implemen
   	}
     
 	public void init(Object controller) {
-		_data = ((IeeeHTurbineGovernor)controller).getData();
+		_data = ((IeeeSteamNRGovernor)controller).getData();
 	}
 	
 	/**
