@@ -33,31 +33,48 @@ import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateGovernor;
 import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.FilterControlBlock;
 import com.interpss.dstab.controller.block.GainBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
         input="mach.speed - 1.0",
-        output="this.gainBlock.y",
+        output="this.wFilterBlock.y",
         refPoint="this.gainBlock.u0 + this.delayBlock.y",
-        display= {"str.Pm, this.output", "str.GovState, this.delayBlock.state"})
+        display= {"str.Pm, this.output"})
 public class IeeeHTurbineGovernor extends AnnotateGovernor {
-	public double ka = 10.0, ta = 0.5;
+	 public double k = 1.0, t2 = 0.5, t1 = 0.01;
     @AnControllerField(
             type= CMLFieldType.ControlBlock,
             input="mach.speed - 1.0",
-            parameter={"type.NoLimit", "this.ka", "this.ta"},
-            y0="this.refPoint - this.gainBlock.u0"	)
+            parameter={"type.NoLimit", "this.k", "this.t2", "this.t1"},
+            y0="this.delayBlock.u0"	)
+    FilterControlBlock filterBlock;
+
+	 public double k1 = 10.0, t3 = 0.5;
+    @AnControllerField(
+            type= CMLFieldType.ControlBlock,
+            input="this.filterBlock.y",
+            parameter={"type.NoLimit", "this.k1", "this.t3"},
+            y0="this.refPoint - this.gainBlock.y"	)
     DelayControlBlock delayBlock;
-	
-    public double ks = 1.0, pmax = 1.2, pmin = 0.0;
+
+    public double kgain = 1.0, pmax = 1.2, pmin = 0.0;
     @AnControllerField(
             type= CMLFieldType.StaticBlock,
             input="this.refPoint - this.delayBlock.y",
-            parameter={"type.Limit", "this.ks", "this.pmax", "this.pmin"},
-            y0="mach.pm"	)
+            parameter={"type.Limit", "this.kgain", "this.pmax", "this.pmin"},
+            y0="this.wFilterBlock.u0"	)
     GainBlock gainBlock;
- 	
+
+	 public double kf2 = 1.0, tw = 0.1, t4 = -0.5*tw, t5 = 0.5*tw;
+    @AnControllerField(
+            type= CMLFieldType.ControlBlock,
+            input="this.gainBlock.y",
+            parameter={"type.NoLimit", "this.kf2", "this.t4", "this.t5"},
+            y0="mach.pm"	)
+    FilterControlBlock wFilterBlock;
+
     // UI Editor panel
     private static NBIeeeHTurbineEditPanel _editPanel = new NBIeeeHTurbineEditPanel();
     
@@ -96,10 +113,13 @@ public class IeeeHTurbineGovernor extends AnnotateGovernor {
      *  @param msg the SessionMsg object
      */
     public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
-        this.ka = getData().getK();
-        this.ta = getData().getT1();
+        this.k = getData().getK();
+        this.t1 = getData().getT1();
+        this.t2 = getData().getT2();
+        this.t3 = getData().getT3();
         this.pmax = getData().getPmax();
         this.pmin = getData().getPmin();
+        this.tw = getData().getTw();
         return super.initStates(bus, mach, msg);
     }
 

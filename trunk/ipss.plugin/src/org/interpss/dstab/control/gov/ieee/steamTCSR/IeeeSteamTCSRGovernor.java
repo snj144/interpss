@@ -33,31 +33,68 @@ import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateGovernor;
 import com.interpss.dstab.controller.block.DelayControlBlock;
+import com.interpss.dstab.controller.block.FilterControlBlock;
 import com.interpss.dstab.controller.block.GainBlock;
+import com.interpss.dstab.controller.block.IntegrationControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
-        input="mach.speed - 1.0",
-        output="this.gainBlock.y",
-        refPoint="this.gainBlock.u0 + this.delayBlock.y",
-        display= {"str.Pm, this.output", "str.GovState, this.delayBlock.state"})
+		   input="mach.speed - 1.0",
+		   output="this.fch*this.chDelayBlock.y + this.fip*this.rhDelayBlock.y + this.flp*this.coDelayBlock.y",
+		   refPoint="this.gainBlock.u0 + this.filterBlock.y + this.intBlock.y",
+		   display= {"str.Pm, this.output", "str.CoBlock, this.coDelayBlock.y",
+		             "str.RhBlock, this.rhDelayBlock.y", "str.ChBlock, this.chDelayBlock.y"})
 public class IeeeSteamTCSRGovernor extends AnnotateGovernor {
-	public double ka = 10.0, ta = 0.5;
+    public double fch = 0.2, fip = 0.3, flp = 0.5;
+
+	public double k = 1.0, t1 = 0.5, t2 = 0.1;
     @AnControllerField(
             type= CMLFieldType.ControlBlock,
             input="mach.speed - 1.0",
-            parameter={"type.NoLimit", "this.ka", "this.ta"},
-            y0="this.refPoint - this.gainBlock.u0"	)
-    DelayControlBlock delayBlock;
+            parameter={"type.NoLimit", "this.k", "this.t2", "this.t1"},
+            y0 = "this.refPoint - this.gainBlock.y - this.intBlock.y"  )
+    FilterControlBlock filterBlock;
 	
-    public double ks = 1.0, pmax = 1.2, pmin = 0.0;
+    public double k3 = 1.0 /* 1.0/t3 */, pup = 1.2, pdown = 0.0;
     @AnControllerField(
             type= CMLFieldType.StaticBlock,
-            input="this.refPoint - this.delayBlock.y",
-            parameter={"type.Limit", "this.ks", "this.pmax", "this.pmin"},
-            y0="mach.pm"	)
+            input="this.refPoint - this.filterBlock.y - this.intBlock.y",
+            parameter={"type.Limit", "this.k3", "this.pup", "this.pdown"},
+            y0="this.intBlock.u0"	)
     GainBlock gainBlock;
- 	
+
+    public double kint = 1.0, pmax = 10.0, pmin = 0.0;
+    @AnControllerField(
+            type= CMLFieldType.ControlBlock,
+            input="this.gainBlock.y",
+            parameter={"type.Limit", "this.kint", "this.pmax", "this.pmin"},
+            y0="this.chDelayBlock.u0"	)
+    IntegrationControlBlock intBlock;
+
+    public double kch = 1.0, tch = 1.2;
+    @AnControllerField(
+            type= CMLFieldType.ControlBlock,
+            input="this.intBlock.y",
+            parameter={"type.NoLimit", "this.kch", "this.tch"},
+            y0="this.rhDelayBlock.u0"	)
+    DelayControlBlock chDelayBlock;
+
+    public double krh = 1.0, trh = 1.2;
+    @AnControllerField(
+            type= CMLFieldType.ControlBlock,
+            input="this.chDelayBlock.y",
+            parameter={"type.NoLimit", "this.krh", "this.trh"},
+            y0="this.coDelayBlock.u0"	)
+    DelayControlBlock rhDelayBlock;
+
+    public double kco = 1.0, /**/ tco = 1.2, factor = 1.0 / (fch+fip+flp);
+    @AnControllerField(
+            type= CMLFieldType.ControlBlock,
+            input="this.rhDelayBlock.y",
+            parameter={"type.NoLimit", "this.kco", "this.tco"},
+            y0="this.factor*mach.pm"	)
+    DelayControlBlock coDelayBlock;
+
     // UI Editor panel
     private static NBIeeeSteamTCSREditPanel _editPanel = new NBIeeeSteamTCSREditPanel();
     
@@ -96,10 +133,21 @@ public class IeeeSteamTCSRGovernor extends AnnotateGovernor {
      *  @param msg the SessionMsg object
      */
     public boolean initStates(DStabBus bus, Machine mach, IPSSMsgHub msg) {
-        this.ka = getData().getK();
-        this.ta = getData().getT1();
+        this.k = getData().getK();
+        this.t1 = getData().getT1();
+        this.t2 = getData().getT2();
+        this.k3 = 1.0/getData().getT3();
         this.pmax = getData().getPmax();
         this.pmin = getData().getPmin();
+        this.pup = getData().getPup();
+        this.pdown = getData().getPdown();
+        this.tch = getData().getTch();
+        this.trh = getData().getTrh();
+        this.tco = getData().getTco();
+ 	   	this.fch = getData().getFch();
+ 	   	this.fip = getData().getFip();
+ 	   	this.flp = getData().getFlp();
+	    this.factor = 1.0 / (this.fch+this.fip+this.flp);
         return super.initStates(bus, mach, msg);
     }
 

@@ -27,20 +27,20 @@ package org.interpss.dstab.control.gov.ieee.steamTCSR;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class IeeeSteamTCSRGovernorData extends BaseControllerData {
-	private double k = 1.0;
-	private double t1 = 2.0;
-	private double t2 = 2.0;
-	private double t3 = 2.0;
-	private double pmax = 3.0;
-	private double pmin = 4.0;
-	private double pup = 0.0;
+	private double k = 10.0;
+	private double t1 = 0.5;
+	private double t2 = 0.1;
+	private double t3 = 1.0;
+	private double pmax = 2.0;
+	private double pmin = 0.0;
+	private double pup = 1.2;
 	private double pdown = 0.0;
-	private double tch = 0.0;
-	private double trh = 0.0;
-	private double tco = 0.0;
-	private double fch = 0.0;
-	private double fip = 0.0;
-	private double flp = 0.0;
+	private double tch = 1.2;
+	private double trh = 1.2;
+	private double tco = 1.2;
+	private double fch = 0.1;
+	private double fip = 0.3;
+	private double flp = 0.5;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
