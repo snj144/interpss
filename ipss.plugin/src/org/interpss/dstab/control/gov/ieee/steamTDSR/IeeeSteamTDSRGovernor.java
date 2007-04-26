@@ -153,9 +153,9 @@ public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
         this.trh2 = getData().getTrh2();
         this.tco = getData().getTco();
  	   	this.fvhp = getData().getFvhp();
- 	   	this.fhp = getData().getFvhp();
- 	   	this.fip = getData().getFvhp();
- 	   	this.flp = getData().getFvhp();
+ 	   	this.fhp = getData().getFhp();
+ 	   	this.fip = getData().getFip();
+ 	   	this.flp = getData().getFlp();
 	    this.factor = 1.0 / (this.fvhp+this.fhp+this.fip+this.flp);
         return super.initStates(bus, mach, msg);
     }

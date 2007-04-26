@@ -27,15 +27,15 @@ package org.interpss.dstab.control.gov.ieee.steamNR;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class IeeeSteamNRGovernorData extends BaseControllerData {
-	private double k = 1.0;
-	private double t1 = 2.0;
-	private double t2 = 2.0;
-	private double t3 = 2.0;
-	private double pmax = 3.0;
-	private double pmin = 4.0;
-	private double pup = 0.0;
+	private double k = 10.0;
+	private double t1 = 0.5;
+	private double t2 = 0.1;
+	private double t3 = 1.0;
+	private double pmax = 2.0;
+	private double pmin = 0.0;
+	private double pup = 1.2;
 	private double pdown = 0.0;
-	private double tch = 0.0;
+	private double tch = 1.2;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
