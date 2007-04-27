@@ -1,5 +1,5 @@
  /*
-  * @(#)SimpleGovernor.java   
+  * @(#)IeeeHTurbineGovernor.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *

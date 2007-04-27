@@ -1,5 +1,5 @@
  /*
-  * @(#)NBIeee1992PSS2AEditPanel.java   
+  * @(#)NBIeee1992PSS1AEditPanel.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *

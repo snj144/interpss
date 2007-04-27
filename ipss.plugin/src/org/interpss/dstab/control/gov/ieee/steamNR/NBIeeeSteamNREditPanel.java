@@ -1,5 +1,5 @@
  /*
-  * @(#)NBIeeeSteamTDSREditPanel.java   
+  * @(#)NBIeeeSteamNREditPanel.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
