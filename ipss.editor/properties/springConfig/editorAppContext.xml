@@ -34,7 +34,7 @@
 	</bean>
 
 	<bean id="editorDialogUtil" 
-	      class="com.interpss.common.ui.DialogUtil"
+	      class="com.interpss.common.ui.DialogUtilImpl"
 	      singleton="true">	
 	</bean>
 
