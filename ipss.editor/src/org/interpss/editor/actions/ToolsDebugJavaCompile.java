@@ -3,8 +3,8 @@ package org.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
-import org.interpss.editor.ui.util.CMLJavaCompiler;
 
+import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.IpssLogger;
 
 public class ToolsDebugJavaCompile extends IpssAbstractActionDefault {
@@ -14,6 +14,6 @@ public class ToolsDebugJavaCompile extends IpssAbstractActionDefault {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		IpssLogger.getLogger().info("Tools | Degug | Java Compile");
-		CMLJavaCompiler.test();
+		IpssJavaCompiler.test();
 	}
 }
