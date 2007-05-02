@@ -84,7 +84,7 @@ public class DStabPlotDialogRecord {
 			}
 		}
 		else if (rec.elemId.startsWith(Constants.DBusDeviceIdToken)) {
-			type = 	ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates;
+			type = 	ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates;
 		}
 		else {
 			type = 	ISimuRecManager.REC_TYPE_DStabBusStates;

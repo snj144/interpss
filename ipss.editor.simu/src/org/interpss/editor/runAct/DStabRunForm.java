@@ -110,6 +110,10 @@ public class DStabRunForm extends BaseRunForm {
 					e.toString() + "\nPlease contact InterPSS support");
 		}
 		setDbSimuCaseId(handler.getCaseId());
+		// setup if there is output filtering
+		handler.setOutputFilter(dStabCaseData.isOutputFilter());
+		if (handler.isOutputFilter()) 
+			handler.setOutputVarIdList(dStabCaseData.getOutVarList());
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
 
 		IDStabSimuOutputHandler scriptHandler = null;

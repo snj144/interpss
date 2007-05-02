@@ -70,10 +70,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         loadflowPanel.add(aclfCasePanel);
         //otherInfoPanel
         
-        // not implemented yet
-        outputFilterCheckBox.setSelected(false);
-        outputFilterCheckBox.setEnabled(false);
-        
         DataVerifier verifier = new DataVerifier();
         totalTimeTextField.setInputVerifier(verifier);
         simuStepTextField.setInputVerifier(verifier);
@@ -103,6 +99,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         
         dynaEventPanel.init(this.netContainer, simuCtx);
         aclfCasePanel.init(this.netContainer, simuCtx);
+
+        // always set the first tab-panel active
+        detailInfoTabbedPane.setSelectedIndex(0);
     }
 
     
@@ -112,6 +111,12 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     
     private void setOutputFilterPanel(boolean status) {
     	detailInfoTabbedPane.setEnabledAt(3, status);
+    	if (status) {
+    	    setOutputVarList();
+    	    setMachOutVarList();
+    	    setBusOutVarList();
+    	    setBranchOutVarList();
+    	}
     }
     
     private void setOutputScriptingPanel(boolean status) {
@@ -129,7 +134,35 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     				SimuCtxUtilFunc.getMachContrllerList(machId, this.simuCtx)));
     	}
     }
+
+    private void setOutputVarList() {
+    	if (this.netContainer != null) {
+    		outputVarList.setModel(new javax.swing.DefaultComboBoxModel(
+    			this.dstabCaseData.getOutVarList().toArray()));
+    	}
+    }
+
+    private void setMachOutVarList() {
+    	if (this.netContainer != null) {
+    		machOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
+    			this.netContainer.getMachIdArray()));
+    	}
+    }
     
+    private void setBusOutVarList() {
+    	if (this.netContainer != null) {
+    		busOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
+    			this.netContainer.getBusIdArray()));
+    	}
+    }
+
+    private void setBranchOutVarList() {
+    	if (this.netContainer != null) {
+    		branchOutVarList.setModel(new javax.swing.DefaultComboBoxModel(
+    			this.netContainer.getBranchIdArray()));
+    	}
+    }
+
     public void setCaseData(CaseData caseData) {
     	dstabCaseData = caseData.getDStabCaseData();
     	if (caseData.getAclfCaseData() == null)
@@ -368,6 +401,21 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         dynamicEventPanel = new javax.swing.JPanel();
         loadflowPanel = new javax.swing.JPanel();
         outputFilterPanel = new javax.swing.JPanel();
+        outputVarLabel = new javax.swing.JLabel();
+        outputVarScrollPane = new javax.swing.JScrollPane();
+        outputVarList = new javax.swing.JList();
+        machVarLabel = new javax.swing.JLabel();
+        machOutVarScrollPane = new javax.swing.JScrollPane();
+        machOutVarList = new javax.swing.JList();
+        busOutVarLabel = new javax.swing.JLabel();
+        busOutVarScrollPane = new javax.swing.JScrollPane();
+        busOutVarList = new javax.swing.JList();
+        branchOutVarLabel = new javax.swing.JLabel();
+        branchVarScrollPane = new javax.swing.JScrollPane();
+        branchOutVarList = new javax.swing.JList();
+        addOutVarButton = new javax.swing.JButton();
+        removeOurVarButton = new javax.swing.JButton();
+        addAllOutVarButton = new javax.swing.JButton();
         outScriptingjPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         scriptTextArea = new javax.swing.JTextArea();
@@ -410,11 +458,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         simuStepTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         simuStepTextField.setText("0.05");
         simuStepTextField.setName("simuStepTextField");
-        simuStepTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                simuStepTextFieldActionPerformed(evt);
-            }
-        });
 
         org.jdesktop.layout.GroupLayout simuMathodPanelLayout = new org.jdesktop.layout.GroupLayout(simuMathodPanel);
         simuMathodPanel.setLayout(simuMathodPanelLayout);
@@ -737,7 +780,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
         outputOptPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Output Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         outputFilterCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        outputFilterCheckBox.setText("Output Result Filter");
+        outputFilterCheckBox.setText("Output state/variable Filter");
         outputFilterCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         outputFilterCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
         outputFilterCheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -765,7 +808,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                 .add(outputFilterCheckBox)
                 .add(68, 68, 68)
                 .add(outputScriptCheckBox)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
         outputOptPanelLayout.setVerticalGroup(
             outputOptPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -792,13 +835,14 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                             .add(setPointChangePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(simulationPanelLayout.createSequentialGroup()
                                 .add(58, 58, 58)
-                                .add(simulationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(outputOptPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(netEqnItrPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                                .add(netEqnItrPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(simulationPanelLayout.createSequentialGroup()
+                                .add(16, 16, 16)
+                                .add(outputOptPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                     .add(simulationPanelLayout.createSequentialGroup()
                         .add(107, 107, 107)
                         .add(staticLoadPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         simulationPanelLayout.setVerticalGroup(
             simulationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -815,7 +859,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                 .add(staticLoadPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(setPointChangePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(32, 32, 32))
+                .add(38, 38, 38))
         );
         detailInfoTabbedPane.addTab("Simulation", simulationPanel);
 
@@ -828,15 +872,137 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
         outputFilterPanel.setEnabled(false);
         outputFilterPanel.setFont(new java.awt.Font("Dialog", 0, 12));
+        outputVarLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        outputVarLabel.setText("Output States/Variables");
+
+        outputVarList.setFont(new java.awt.Font("Dialog", 0, 12));
+        outputVarList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        outputVarScrollPane.setViewportView(outputVarList);
+
+        machVarLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        machVarLabel.setText("Machine States");
+
+        machOutVarList.setFont(new java.awt.Font("Dialog", 0, 12));
+        machOutVarList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        machOutVarScrollPane.setViewportView(machOutVarList);
+
+        busOutVarLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        busOutVarLabel.setText("Bus Variables");
+
+        busOutVarList.setFont(new java.awt.Font("Dialog", 0, 12));
+        busOutVarList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        busOutVarScrollPane.setViewportView(busOutVarList);
+
+        branchOutVarLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchOutVarLabel.setText("Branch Variables");
+        branchOutVarLabel.setEnabled(false);
+
+        branchOutVarList.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchOutVarList.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        branchOutVarList.setEnabled(false);
+        branchVarScrollPane.setViewportView(branchOutVarList);
+
+        addOutVarButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addOutVarButton.setText(">");
+        addOutVarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addOutVarButtonActionPerformed(evt);
+            }
+        });
+
+        removeOurVarButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        removeOurVarButton.setText("<");
+        removeOurVarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeOurVarButtonActionPerformed(evt);
+            }
+        });
+
+        addAllOutVarButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        addAllOutVarButton.setText("All > ");
+        addAllOutVarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAllOutVarButtonActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout outputFilterPanelLayout = new org.jdesktop.layout.GroupLayout(outputFilterPanel);
         outputFilterPanel.setLayout(outputFilterPanelLayout);
         outputFilterPanelLayout.setHorizontalGroup(
             outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 639, Short.MAX_VALUE)
+            .add(outputFilterPanelLayout.createSequentialGroup()
+                .add(60, 60, 60)
+                .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(outputFilterPanelLayout.createSequentialGroup()
+                        .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(branchOutVarLabel)
+                            .add(machVarLabel))
+                        .add(283, 283, 283))
+                    .add(outputFilterPanelLayout.createSequentialGroup()
+                        .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, branchVarScrollPane)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, busOutVarLabel)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, machOutVarScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, busOutVarScrollPane))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
+                        .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(addAllOutVarButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(removeOurVarButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(addOutVarButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(87, 87, 87)))
+                .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(outputVarLabel)
+                    .add(outputFilterPanelLayout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(outputVarScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(58, 58, 58))
         );
         outputFilterPanelLayout.setVerticalGroup(
             outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 486, Short.MAX_VALUE)
+            .add(outputFilterPanelLayout.createSequentialGroup()
+                .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(outputFilterPanelLayout.createSequentialGroup()
+                        .add(21, 21, 21)
+                        .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(machVarLabel)
+                            .add(outputVarLabel))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(outputFilterPanelLayout.createSequentialGroup()
+                                .add(machOutVarScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 102, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(22, 22, 22)
+                                .add(busOutVarLabel)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(busOutVarScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(24, 24, 24)
+                                .add(branchOutVarLabel)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(branchVarScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(outputVarScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE)))
+                    .add(outputFilterPanelLayout.createSequentialGroup()
+                        .add(180, 180, 180)
+                        .add(addOutVarButton)
+                        .add(22, 22, 22)
+                        .add(removeOurVarButton)
+                        .add(20, 20, 20)
+                        .add(addAllOutVarButton)))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         detailInfoTabbedPane.addTab("Output Filter", outputFilterPanel);
 
@@ -852,21 +1018,56 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
             outScriptingjPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outScriptingjPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 619, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 625, Short.MAX_VALUE)
                 .addContainerGap())
         );
         outScriptingjPanelLayout.setVerticalGroup(
             outScriptingjPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outScriptingjPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                 .addContainerGap())
         );
         detailInfoTabbedPane.addTab("Output Scripting", outScriptingjPanel);
 
-        add(detailInfoTabbedPane, null);
+        add(detailInfoTabbedPane, java.awt.BorderLayout.NORTH);
 
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addOutVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOutVarButtonActionPerformed
+    	for (Object obj : this.machOutVarList.getSelectedValues()) {
+    		String id = "Machine - " + (String)obj;
+    		if (!this.dstabCaseData.getOutVarList().contains(id))
+    			this.dstabCaseData.getOutVarList().add(id);
+    	}
+    	for (Object obj : this.busOutVarList.getSelectedValues()) {
+    		String id = "Bus - " + (String)obj;
+    		if (!this.dstabCaseData.getOutVarList().contains(id))
+    			this.dstabCaseData.getOutVarList().add(id);
+    	}
+    	for (Object obj : this.branchOutVarList.getSelectedValues()) {
+    		String id = "Branch - " + (String)obj;
+    		if (!this.dstabCaseData.getOutVarList().contains(id))
+    			this.dstabCaseData.getOutVarList().add(id);
+    	}
+    	setOutputVarList();
+    }//GEN-LAST:event_addOutVarButtonActionPerformed
+
+    private void removeOurVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeOurVarButtonActionPerformed
+    	for (Object obj : this.outputVarList.getSelectedValues())
+   			this.dstabCaseData.getOutVarList().remove((String)obj);
+    	setOutputVarList();
+    }//GEN-LAST:event_removeOurVarButtonActionPerformed
+
+    private void addAllOutVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAllOutVarButtonActionPerformed
+    	for (Object obj : this.netContainer.getMachIdArray())
+    		if (!this.dstabCaseData.getOutVarList().contains(obj))
+    			this.dstabCaseData.getOutVarList().add((String)obj);
+    	for (Object obj : this.netContainer.getBusIdArray())
+    		if (!this.dstabCaseData.getOutVarList().contains(obj))
+    			this.dstabCaseData.getOutVarList().add((String)obj);
+    	setOutputVarList();
+    }//GEN-LAST:event_addAllOutVarButtonActionPerformed
 
     private void outputScriptCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputScriptCheckBoxActionPerformed
         setOutputScriptingPanel(outputScriptCheckBox.isSelected());
@@ -883,10 +1084,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     private void outputFilterCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_outputFilterCheckBoxActionPerformed
         setOutputFilterPanel(outputFilterCheckBox.isSelected());
     }//GEN-LAST:event_outputFilterCheckBoxActionPerformed
-
-    private void simuStepTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_simuStepTextFieldActionPerformed
-// TODO add your handling code here:
-    }//GEN-LAST:event_simuStepTextFieldActionPerformed
 
     private void setPointCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPointCheckBoxActionPerformed
        	setSetpointPanel(setPointCheckBox.isSelected());
@@ -943,11 +1140,22 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox absMachCheckBox;
+    private javax.swing.JButton addAllOutVarButton;
+    private javax.swing.JButton addOutVarButton;
+    private javax.swing.JLabel branchOutVarLabel;
+    private javax.swing.JList branchOutVarList;
+    private javax.swing.JScrollPane branchVarScrollPane;
+    private javax.swing.JLabel busOutVarLabel;
+    private javax.swing.JList busOutVarList;
+    private javax.swing.JScrollPane busOutVarScrollPane;
     private javax.swing.JTabbedPane detailInfoTabbedPane;
     private javax.swing.JCheckBox disableEventCheckBox;
     private javax.swing.JPanel dynamicEventPanel;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel loadflowPanel;
+    private javax.swing.JList machOutVarList;
+    private javax.swing.JScrollPane machOutVarScrollPane;
+    private javax.swing.JLabel machVarLabel;
     private javax.swing.JComboBox methodComboBox;
     private javax.swing.JLabel methodLabel;
     private javax.swing.JLabel netEqnItrLabel;
@@ -961,9 +1169,13 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     private javax.swing.JPanel outputFilterPanel;
     private javax.swing.JPanel outputOptPanel;
     private javax.swing.JCheckBox outputScriptCheckBox;
+    private javax.swing.JLabel outputVarLabel;
+    private javax.swing.JList outputVarList;
+    private javax.swing.JScrollPane outputVarScrollPane;
     private javax.swing.JComboBox refMachComboBox;
     private javax.swing.JLabel refMachLabel;
     private javax.swing.JPanel refMachinejPanel;
+    private javax.swing.JButton removeOurVarButton;
     private javax.swing.JTextArea scriptTextArea;
     private javax.swing.JRadioButton setPointAbsoluteRadioButton;
     private javax.swing.ButtonGroup setPointChangeButtonGroup;
