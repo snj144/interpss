@@ -54,7 +54,7 @@ import com.interpss.dist.DistBus;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.device.ScriptingDBusDevice;
+import com.interpss.dstab.device.ScriptDynamicBusDevice;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.dstab.util.DStabSimuDBRecord;
@@ -95,9 +95,14 @@ public class ChartManager {
 					    		ISimuRecManager.REC_TYPE_DStabPssStates, DStabSimuDBRecord.STABILIZER_ID_EXT, 
 					    		simuCtx.getDStabilityNet().getBaseKva());
 					}
+					else if (dstabBus.getScriptDynamicBusDevice() != null) {
+					    addCMLDynamicBusDeviceItem2ActionList(menu, dstabBus.getScriptDynamicBusDevice(), caseId, simuCtx.getDStabilityNet());
+					}
+					/*
 					else if (dstabBus.getScriptDBusDevice() != null) {
 					    addScriptDBusDeviceItem2ActionList(menu, dstabBus.getScriptDBusDevice(), caseId, simuCtx.getDStabilityNet());
 					}
+					*/
 					else {
 					    addBusItem2ActionList(menu, dstabBus, caseId, simuCtx.getDStabilityNet().getBaseKva());
 					}
@@ -306,6 +311,22 @@ public class ChartManager {
 		}
 	}
     
+    private static void addCMLDynamicBusDeviceItem2ActionList(JPopupMenu menu, final ScriptDynamicBusDevice device, final int caseId, DStabilityNetwork net) {
+		JMenu deviceStateMenu = new JMenu("CML Script Device Variable");
+		menu.add(deviceStateMenu);
+		Object[] stateList = getStatesNameList(caseId, device.getId(), ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
+		for (int i = 0; i < stateList.length; i++) {
+			final String yLabel = (String)stateList[i];
+			final String yDataLabel = yLabel;
+			deviceStateMenu.add(new AbstractAction("Plot Script Bus Device Variable - " + yLabel) {
+				public void actionPerformed(ActionEvent e) {
+				    plotStateCurve(caseId, device.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
+				}
+			});
+		}
+	}
+
+    /*
     private static void addScriptDBusDeviceItem2ActionList(JPopupMenu menu, final ScriptingDBusDevice device, final int caseId, DStabilityNetwork net) {
 		JMenu deviceStateMenu = new JMenu("Script DBus Device Variable");
 		menu.add(deviceStateMenu);
@@ -320,7 +341,7 @@ public class ChartManager {
 			});
 		}
 	}
-
+    */
     /**
      * Get plot element (Machine, Bus) state name list
      * 
@@ -347,7 +368,7 @@ public class ChartManager {
 				elemStates.remove(DStabOutFunc.OUT_SYMBOL_MACH_ID);
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
 				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
-			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates)) {
+			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates)) {
 				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_DEVICE_ID);
 				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
 			}
@@ -399,7 +420,7 @@ public class ChartManager {
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
 			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), true, 
 					            "Bus Voltage State Curve Plot");
-		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates))
+		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates))
 			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
 					            true, "Scripting Dynamic Bus Device Curve Plot");
 

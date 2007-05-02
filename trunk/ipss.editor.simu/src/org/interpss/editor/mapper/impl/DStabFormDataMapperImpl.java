@@ -27,7 +27,7 @@ package org.interpss.editor.mapper.impl;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.dstab.script.DefaultScriptingDBusDevice;
+import org.interpss.dstab.device.ScriptDynamicBusDeviceHolder;
 import org.interpss.editor.data.dstab.DStabBusData;
 import org.interpss.editor.data.dstab.DStabExcData;
 import org.interpss.editor.data.dstab.DStabGovData;
@@ -49,7 +49,6 @@ import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.device.DynamicBusDeviceType;
-import com.interpss.dstab.device.ScriptingDBusDevice;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.DynamicMachine;
 import com.interpss.dstab.mach.EConstMachine;
@@ -87,7 +86,8 @@ public class DStabFormDataMapperImpl {
 		for ( int i = 0; i < busList.size(); i++ ) {
 			GBusForm busForm = (GBusForm)busList.get(i);
 			if (busForm.getDStabBusData().isDBusScripting()) {
-				setDBusScriptingInfo(busForm.getDStabBusData(), dstabNet, busForm.getId(), msg);
+				setScriptDynamicBusCodeInfo(busForm.getDStabBusData(), dstabNet, busForm.getId(), msg);
+//				setDBusScriptingInfo(busForm.getDStabBusData(), dstabNet, busForm.getId(), msg);
 			}
 			else if (busForm.getDStabBusData().isMachineBus()) {
 				setMachineInfo(busForm.getDStabBusData().getMachData(), dstabNet, busForm.getId(), msg);
@@ -106,6 +106,17 @@ public class DStabFormDataMapperImpl {
 		return dstabNet;
 	}
 
+	private static void setScriptDynamicBusCodeInfo(DStabBusData busData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
+		IpssLogger.getLogger().info("Set CML Dynamic Bus code info, busId: " + busId);
+		ScriptDynamicBusDeviceHolder busDevice = new ScriptDynamicBusDeviceHolder();
+		dstabNet.addScriptDynamicBusDevice(busDevice, busId);
+		busDevice.setDeviceType(DynamicBusDeviceType.SCRIPT_DYNAMIC_BUS_DEVICE_LITERAL);
+		busDevice.setId(Constants.DBusDeviceIdToken+busId);
+		busDevice.setName(Constants.DBusDeviceIdToken+busId);
+		busDevice.setScripts(busData.getScripts());
+	}
+	
+/*  replaced by CML DynamicBusDevice
 	private static void setDBusScriptingInfo(DStabBusData busData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Set DBusScripting info, busId: " + busId);
 		ScriptingDBusDevice busDevice = new DefaultScriptingDBusDevice();
@@ -115,7 +126,7 @@ public class DStabFormDataMapperImpl {
 		busDevice.setName(Constants.DBusDeviceIdToken+busId);
 		busDevice.setScripts(busData.getScripts());
 	}
-	
+*/	
 	private static void setMachineInfo(DStabMachData machData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Set Machine info, busId: " + busId);
 		if (machData.getType().equals(DStabMachData.MachType_InfiniteBus)) {

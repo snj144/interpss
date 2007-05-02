@@ -31,7 +31,6 @@ import java.util.List;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.SpringAppContext;
@@ -746,7 +745,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
       	   IpssLogger.getLogger().info("setStateComboList for busDeviceId: " + elemId);
       	   setBusDeviceStatus(true);
 		   this.busDeviceComboBox.setModel(new javax.swing.DefaultComboBoxModel(
-    				ChartManager.getStatesNameList(this.caseId, elemId, ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates)));
+    				ChartManager.getStatesNameList(this.caseId, elemId, ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates)));
     	}
     	else if (elemId.startsWith(Constants.BusIdToken)) {
      	   IpssLogger.getLogger().info("setStateComboList for busId: " + elemId);
@@ -867,7 +866,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
             	elemId = rec.busId;
             	yDataLabel = ChartManager.getBusDataLabel(net.getDStabBus(rec.busId), rec.stateName, net.getBaseKva());
         	}
-        	else if (rec.recType.equals(ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates)) {
+        	else if (rec.recType.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates)) {
             	elemId = rec.elemId;
             	yDataLabel = rec.stateName;
         	}
