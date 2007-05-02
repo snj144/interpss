@@ -67,7 +67,8 @@ public class DStabCaseData extends BaseDataBean {
 	private double staticLoadSwitchDeadZone = 0.05;
 
 	private List dEventList = new ArrayList();
-	
+ 	private List<String> outVarList = new ArrayList<String>();
+ 	
 	public DStabCaseData() {
 		
 	}
@@ -343,5 +344,11 @@ public class DStabCaseData extends BaseDataBean {
 	}
 	public void setOutputScriptFilename(String outputScriptFilename) {
 		this.outputScriptFilename = outputScriptFilename;
+	}
+	public List<String> getOutVarList() {
+		return outVarList;
+	}
+	public void setOutVarList(List<String> outVarList) {
+		this.outVarList = outVarList;
 	}
 }
