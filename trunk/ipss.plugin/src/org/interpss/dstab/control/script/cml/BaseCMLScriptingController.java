@@ -26,43 +26,72 @@ package org.interpss.dstab.control.script.cml;
 
 import java.util.Hashtable;
 
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
-import org.interpss.editor.ui.util.CMLJavaCompiler;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
-import com.interpss.dstab.controller.AbstractController;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
+import com.interpss.dstab.mach.impl.ControllerImpl;
 
-public abstract class BaseCMLScriptingController extends AbstractController {
-	AbstractAnnotateController controller = null;
+/**
+ * A holder class to wrap an Annotation Controller. The java code is stored in the scripts (getScripts()) field.
+ * The code is parsed to replace all the tokens (<className> ...) and then compiled. The compiled class is loaded
+ * to create the anController object. All the simulation work will be delegated to the anController object.
+ * 
+ * @author mzhou
+ *
+ */
+public abstract class BaseCMLScriptingController extends ControllerImpl {
+	AbstractAnnotateController anController = null;
 	String classname = "";
 	IPSSMsgHub message = null;
 	
+	/**
+	 * default constructor
+	 *
+	 */
 	public BaseCMLScriptingController() {
 		this("controllerId", "ScriptingController", "InterPSS", null); 
 	}
 	
+	/**
+	 * Contructor
+	 * 
+	 * @param id controller id
+	 * @param name controller name
+	 * @param caty controller category
+	 * @param type controller type
+	 */
 	public BaseCMLScriptingController(final String id, final String name, final String caty, final ControllerType type) {
-		super(id, name, caty, type);
+		setId(id);
+		setName(name);
+		setCategory(caty);
+		this.setStatus(true);
+		setType(type);
 	}	
 
 	/**
 	 *  Init the controller states
 	 *  
+	 *  @param abus the bus object 
+	 *  @param mach the machine
 	 *  @param msg the SessionMsg object
+	 *  @return false if there is any init problem
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
     	generateJavaCode();
     	compileJavaCode();
     	
-    	controller = CMLJavaCompiler.createObject(this.classname);
-    	controller.initStates(abus, mach, msg);
+    	anController.initStates(abus, mach, msg);
 		return true;
 	}
 	
@@ -76,54 +105,81 @@ public abstract class BaseCMLScriptingController extends AbstractController {
 	 */
 	@Override
 	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
-		return controller.nextStep(dt, method, abus, mach, net, msg);
+		return anController.nextStep(dt, method, abus, mach, net, msg);
 	}
 	
 	/**
 	 * Get the controller output
 	 * 
+	 * @param abus the bus object 
+	 * @param mach the machine
 	 * @return the output
 	 */
 	@Override
 	public double getOutput(DStabBus abus, Machine mach) {
-		return controller.getOutput(abus, mach);
+		return anController.getOutput(abus, mach);
 	}
 
 	/**
 	 * Get controller states for display purpose
 	 * 
+	 *  @param abus the bus object 
+	 *  @param mach the machine
 	 * @param ref, a reference object for output. May not be used
 	 * @return hashtable of the states
 	 */
 	@Override
 	public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
-		return controller.getStates(abus, mach, ref);
+		return anController.getStates(abus, mach, ref);
 	}
 
+	/**
+	 * Set controller set point
+	 * 
+	 * @param x the set point value
+	 */
 	public void setRefPoint(double x) {
-		controller.setRefPoint(x);
+		anController.setRefPoint(x);
 	}
 
 	abstract public void generateJavaCode();
 	abstract public boolean checkJavaCode();
 
+	/**
+	 * Generate java code when the CML dialog is saved
+	 * 
+	 * @param baseClassname the base class name
+	 */
 	public void generateJavaCode(String baseClassname) {
-		this.classname = CMLJavaCompiler.createClassName(getId());
-		String javacode = CMLJavaCompiler.parseTag(getScripts(), this.classname, baseClassname);
-		String filename = CMLJavaCompiler.createJavaFilename(this.classname);
+    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
+		this.classname = IpssJavaCompiler.createClassName(getId(), 
+							editor.getCurrentProjectFolder(), editor.getCurrentProjectName());
+		String javacode = ScriptJavacUtilFunc.parseCMLTag(getScripts(), this.classname, baseClassname);
+		String filename = IpssJavaCompiler.createJavaFilename(this.classname, 
+								ScriptJavacUtilFunc.CMLControllerPackageName, editor.getRootDir());
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
 	}
 	
+	/**
+	 * Compile the java code, after the code is generated
+	 * 
+	 */
 	public void compileJavaCode() {
-		String filename = CMLJavaCompiler.createJavaFilename(this.classname);
-		CMLJavaCompiler.compileJavaCode(filename);
+    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
+		String filename = IpssJavaCompiler.createJavaFilename(this.classname, 
+								ScriptJavacUtilFunc.CMLControllerPackageName, editor.getRootDir());
+		if (IpssJavaCompiler.javac(filename))
+			anController = ScriptJavacUtilFunc.createCMLControllerObject(this.classname);
 	}
 	
+	/**
+	 * Before saving java code, the code is saved as temp file and compiled to check any syntax error
+	 * 
+	 * @param baseClassname, base class name (AbstractExciter, AbstractGovernor ...)
+	 * @return
+	 */
 	public boolean checkJavaCode(String baseClassname) {
-		String javacode = CMLJavaCompiler.parseTag(getScripts(), "CheckCode", baseClassname);
-		String filename = CMLJavaCompiler.createJavaFilename("CheckCode");
-		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
-		return CMLJavaCompiler.compileJavaCode(filename);
+		return ScriptJavacUtilFunc.checkJavaCode(getScripts(), baseClassname);
 	}
 } 
 

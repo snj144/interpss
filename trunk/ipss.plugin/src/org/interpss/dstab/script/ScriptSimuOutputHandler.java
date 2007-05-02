@@ -94,7 +94,7 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 			}
 		}
 
-		if (e.getType() == DStabSimuAction.TimeStepScriptDBusDeviceStates) {
+		if (e.getType() == DStabSimuAction.TimeStepScriptDynamicBusDeviceStates) {
 			try {
 			   	Hashtable busDeviceStates = e.getHashtableData();
 				invoker.invokeMethod(scriptObj, "processBusDeviceStates", net, busDeviceStates, msg);
