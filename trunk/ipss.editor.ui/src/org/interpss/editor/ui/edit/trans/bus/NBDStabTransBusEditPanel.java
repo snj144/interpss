@@ -37,14 +37,17 @@ import org.interpss.editor.ui.edit.trans.dstab.NBExciterPanel;
 import org.interpss.editor.ui.edit.trans.dstab.NBGovernorPanel;
 import org.interpss.editor.ui.edit.trans.dstab.NBMachinePanel;
 import org.interpss.editor.ui.edit.trans.dstab.NBStabilizerPanel;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.editor.ui.util.EditUIEvent;
-
+import org.interpss.editor.ui.util.GUIFileUtil;
 import com.interpss.common.util.IpssLogger;
  
 public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFormDataPanel, IEditUIEventListener {
 	private static final long serialVersionUID = 1;
 	private JDialog parent = null;
 
+	public static String DynamicBusDeviceTemplateFilename = "template/DStabCMLDynamicBusDeviceTemplate.txt";;
+	
     private GFormContainer _netContainer = null;
     private GBusForm _form = null;
     
@@ -181,24 +184,27 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
     	scriptingCheckBox.setSelected(_form.getDStabBusData().isDBusScripting());
     	setScriptingTabbedPaneEnabled(_form.getDStabBusData().isDBusScripting());
     	if (_form.getDStabBusData().isDBusScripting()) {
-    		scriptTextArea.setText(_form.getDStabBusData().getScripts());
+        	if (_form.getDStabBusData().getScripts() == null || _form.getDStabBusData().getScripts().trim().equals("")) {
+        		String filename = DynamicBusDeviceTemplateFilename;
+        		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
+        	}
+        	else
+        		scriptTextArea.setText(_form.getDStabBusData().getScripts());
     	}
-    	
-    	// There is no need to do the following, since aclfTransBusEditPanel.setForm2Editor() fires
-    	// an event to setup the TabbedPanel when Swing, PV or PQ bus is selected.
-    	//setTabbedPanel();
-    	
-    	// set the select pane to an enabled pane
-    	int selectIndex = dstabTabbedPane.getSelectedIndex();
-	    while (selectIndex > 0 && !dstabTabbedPane.isEnabledAt(selectIndex)) {
-	    	dstabTabbedPane.setSelectedIndex(--selectIndex);
-	    	IpssLogger.getLogger().info("Set selected pane to " + selectIndex);
-	    }
+    	else {
+        	// set the select pane to an enabled pane
+        	int selectIndex = dstabTabbedPane.getSelectedIndex();
+    	    while (selectIndex > 0 && !dstabTabbedPane.isEnabledAt(selectIndex)) {
+    	    	dstabTabbedPane.setSelectedIndex(--selectIndex);
+    	    	IpssLogger.getLogger().info("Set selected pane to " + selectIndex);
+    	    }
+    	}
 	    return true;
 	}
     
     public boolean saveEditor2Form(Vector errMsg) throws Exception {
 		IpssLogger.getLogger().info("DStabTransBusEditPanel saveEditor2Form() called");
+    	errMsg.clear();
 		boolean ok = true;
 		
     	if (!_aclfTransBusEditPanel.saveEditor2Form(errMsg))
@@ -206,7 +212,12 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
     	
 		_form.getDStabBusData().setDBusScripting(scriptingCheckBox.isSelected());
     	if (scriptingCheckBox.isSelected()) {
-       		_form.getDStabBusData().setScripts(scriptTextArea.getText());
+        	_form.getDStabBusData().setScripts(scriptTextArea.getText());
+        	// we compile the JavaCode here to make sure that there is no syntex error.
+        	if (!ScriptJavacUtilFunc.checkJavaCode(scriptTextArea.getText())) {
+            	errMsg.add(new String("Java compile error"));
+        		return false;
+        	}
     	}
     	else {
         	if (_form.getDStabBusData().isMachineBus()) {
