@@ -28,8 +28,7 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 
 import com.interpss.common.util.IpssJavaCompiler;
-import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
-import com.interpss.dstab.device.ScriptDynamicBusDevice;
+import com.interpss.common.util.MemoryJavaCompiler;
 
 public class ScriptJavacUtilFunc {
 	public static String CMLTempPackageName = "dsl/temp/";
@@ -89,26 +88,7 @@ public class ScriptJavacUtilFunc {
 		String filename = IpssJavaCompiler.createJavaFilename("CheckCode", 
 								ScriptJavacUtilFunc.CMLTempPackageName, editor.getRootDir());
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
-		return IpssJavaCompiler.javac(filename);
+		MemoryJavaCompiler.javac(CMLTempPackageName+"CheckCode", javacode);
+		return true;
 	}
-	
-	/**
-	 * create a CML controller object by loading the classname class file
-	 * 
-	 * @param classname class name to be loaded
-	 * @return the created object
-	 */
-    public static ScriptDynamicBusDevice createCMLDynamicBusDeviceObject(String classname) {
-    	return (ScriptDynamicBusDevice)IpssJavaCompiler.createObject(CMLDynamicBusControllerPackageName.replace('/', '.')+classname);
-    }
-    
-	/**
-	 * create a CML controller object by loading the classname class file
-	 * 
-	 * @param classname class name to be loaded
-	 * @return the created object
-	 */
-    public static AbstractAnnotateController createCMLControllerObject(String classname) {
-    	return (AbstractAnnotateController)IpssJavaCompiler.createObject(CMLControllerPackageName.replace('/', '.')+classname);
-    }
 }
