@@ -29,10 +29,11 @@ import java.util.Hashtable;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
-import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssJavaCompiler;
+import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
@@ -62,8 +63,14 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @return false if there is anything wrong 
 	 */
 	public boolean initStates(DStabBus abus, Network net, IPSSMsgHub msg) {
-    	generateJavaCode();
-    	compileJavaCode();
+    	//generateJavaCode();
+    	//compileJavaCode();
+    	try {
+    		createControllerObject();
+    	} catch (Exception e) {
+    		IpssLogger.logErr(e);
+    		return false;
+    	}
     	
 		return device.initStates(abus, net, msg);
 	}
@@ -111,7 +118,17 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	public boolean updateAttributes(DStabBus abus, boolean netChange)  {
 		return device.updateAttributes(abus, netChange);
 	}
-
+	
+	private void createControllerObject() throws Exception {
+    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
+		this.classname = IpssJavaCompiler.createClassName(getId(), 
+							editor.getCurrentProjectFolder(), editor.getCurrentProjectName());
+		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, this.classname);
+		device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
+				ScriptJavacUtilFunc.CMLControllerPackageName+this.classname, javacode).newInstance();
+	}
+	
+/*
 	private boolean generateJavaCode() {
     	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
 		this.classname = IpssJavaCompiler.createClassName(getId(), 
@@ -131,4 +148,5 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 			device = ScriptJavacUtilFunc.createCMLDynamicBusDeviceObject(this.classname);		
 		return true;
 	}
+*/	
 }

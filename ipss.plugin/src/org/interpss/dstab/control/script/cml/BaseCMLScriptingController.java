@@ -29,10 +29,11 @@ import java.util.Hashtable;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
-import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssJavaCompiler;
+import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
@@ -88,8 +89,14 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-    	generateJavaCode();
-    	compileJavaCode();
+    	//generateJavaCode();
+    	//compileJavaCode();
+    	try {
+    		createControllerObject();
+    	} catch (Exception e) {
+    		IpssLogger.logErr(e);
+    		return false;
+    	}
     	
     	anController.initStates(abus, mach, msg);
 		return true;
@@ -142,36 +149,24 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 		anController.setRefPoint(x);
 	}
 
-	abstract public void generateJavaCode();
 	abstract public boolean checkJavaCode();
+	abstract public void createControllerObject() throws Exception;
 
 	/**
-	 * Generate java code when the CML dialog is saved
+	 * Compile the java code and create the controller object
 	 * 
-	 * @param baseClassname the base class name
+	 * @param baseClassname
+	 * @throws Exception
 	 */
-	public void generateJavaCode(String baseClassname) {
+	protected void createControllerObject(String baseClassname) throws Exception {
     	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
 		this.classname = IpssJavaCompiler.createClassName(getId(), 
 							editor.getCurrentProjectFolder(), editor.getCurrentProjectName());
 		String javacode = ScriptJavacUtilFunc.parseCMLTag(getScripts(), this.classname, baseClassname);
-		String filename = IpssJavaCompiler.createJavaFilename(this.classname, 
-								ScriptJavacUtilFunc.CMLControllerPackageName, editor.getRootDir());
-		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
+		anController = (AbstractAnnotateController)MemoryJavaCompiler.javac( 
+				ScriptJavacUtilFunc.CMLControllerPackageName+this.classname, javacode).newInstance();
 	}
-	
-	/**
-	 * Compile the java code, after the code is generated
-	 * 
-	 */
-	public void compileJavaCode() {
-    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
-		String filename = IpssJavaCompiler.createJavaFilename(this.classname, 
-								ScriptJavacUtilFunc.CMLControllerPackageName, editor.getRootDir());
-		if (IpssJavaCompiler.javac(filename))
-			anController = ScriptJavacUtilFunc.createCMLControllerObject(this.classname);
-	}
-	
+
 	/**
 	 * Before saving java code, the code is saved as temp file and compiled to check any syntax error
 	 * 
