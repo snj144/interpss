@@ -64,14 +64,14 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 		return super.initStates(abus, mach, msg);
 	}	
 	
-	public void generateJavaCode() {
-		generateJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateGovernor
-	}
-	
 	public boolean checkJavaCode() {
 		return checkJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateGovernor
 	}	
 
+	public void createControllerObject() throws Exception {
+		createControllerObject(BaseClass);  
+	}	
+	
 	@Override
 	public Object getEditPanel() {
 		_editPanel.init(this);

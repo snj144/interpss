@@ -64,12 +64,12 @@ public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 		return super.initStates(abus, mach, msg);
 	}	
 	
-	public void generateJavaCode() {
-		generateJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateStabilizer
-	}
-	
 	public boolean checkJavaCode() {
 		return checkJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateStabilizer
+	}	
+	
+	public void createControllerObject() throws Exception {
+		createControllerObject(BaseClass);  
 	}	
 	
 	@Override

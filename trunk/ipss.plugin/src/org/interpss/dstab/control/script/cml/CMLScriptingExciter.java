@@ -68,15 +68,14 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 		setId(mach.getId() + "_Exc");
 		return super.initStates(abus, mach, msg);
 	}
-	
-	public void generateJavaCode() {
-		generateJavaCode(BaseClass);   // all CMLScriptingExciter extends AnnotateExciter
-	}
-	
+
 	public boolean checkJavaCode() {
 		return checkJavaCode(BaseClass);  // all CMLScriptingExciter extends AnnotateExciter
 	}	
 	
+	public void createControllerObject() throws Exception {
+		createControllerObject(BaseClass);  
+	}	
 	
 	@Override
 	public Object getEditPanel() {
