@@ -165,7 +165,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	 * @return
 	 */
 	public boolean checkJavaCode(String baseClassname) {
-		return ScriptJavacUtilFunc.checkJavaCode(getScripts(), baseClassname);
+		return ScriptJavacUtilFunc.checkJavaCode(getScripts(), baseClassname, ScriptJavacUtilFunc.CMLControllerPackageName);
 	}
 } 
 

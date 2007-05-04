@@ -21,7 +21,7 @@ import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
-        input="pss.vs - mach.vt",
+        input="this.refPoint + pss.vs - mach.vt",
         output="this.delayBlock.y",
         refPoint="this.delayBlock.u0 - pss.vs + mach.vt",
         display= {"str.Efd, this.output", "str.ExciterState, this.delayBlock.state"})
