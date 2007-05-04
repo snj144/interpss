@@ -3,7 +3,7 @@
 
 <beans>
 	<bean id="cmlScriptingStabilizer" 
-	  	class="org.interpss.dstab.control.script.cml.CMLScriptingStabilizer"
+	  	class="org.interpss.dstab.control.cml.CMLScriptingStabilizer"
 	    singleton="false">	
 	    <property name="name">
 	    	<value>CML Scripting Stabilizer</value></property>
