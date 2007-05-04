@@ -23,7 +23,7 @@
 	-->
 	
 	<bean id="cmlScriptingExciter" 
-	  	class="org.interpss.dstab.control.script.cml.CMLScriptingExciter"
+	  	class="org.interpss.dstab.control.cml.CMLScriptingExciter"
 	    singleton="false">	
 	    <property name="name">
 	    	<value>CML Scripting Exciter</value></property>

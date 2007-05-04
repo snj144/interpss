@@ -3,7 +3,7 @@
 
 <beans>
 	<bean id="cmlScriptingGovernor" 
-	  	class="org.interpss.dstab.control.script.cml.CMLScriptingGovernor"
+	  	class="org.interpss.dstab.control.cml.CMLScriptingGovernor"
 	    singleton="false">	
 	    <property name="name">
 	    	<value>CML Scripting Governor</value></property>
