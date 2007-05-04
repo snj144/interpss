@@ -214,7 +214,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
     	if (scriptingCheckBox.isSelected()) {
         	_form.getDStabBusData().setScripts(scriptTextArea.getText());
         	// we compile the JavaCode here to make sure that there is no syntex error.
-        	if (!ScriptJavacUtilFunc.checkJavaCode(scriptTextArea.getText())) {
+        	if (!ScriptJavacUtilFunc.checkJavaCode(scriptTextArea.getText(), ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName)) {
             	errMsg.add(new String("Java compile error"));
         		return false;
         	}

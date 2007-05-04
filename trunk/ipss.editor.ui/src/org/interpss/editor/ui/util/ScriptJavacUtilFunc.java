@@ -72,8 +72,8 @@ public class ScriptJavacUtilFunc {
 	 * @param javaCode java code to be checked
 	 * @return false if compile fails
 	 */
-	public static boolean checkJavaCode(String javaCode) {
-		return checkJavaCode(javaCode, "");
+	public static boolean checkJavaCode(String javaCode, String packageName) {
+		return checkJavaCode(javaCode, "", packageName);
 	}
 	
 	/**
@@ -82,13 +82,13 @@ public class ScriptJavacUtilFunc {
 	 * @param baseClassname, base class name (AbstractExciter, AbstractGovernor ...)
 	 * @return false if there is compiling error
 	 */
-	public static boolean checkJavaCode(String javaCode, String baseClassname) {
+	public static boolean checkJavaCode(String javaCode, String baseClassname, String packageName) {
     	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
 		String javacode = ScriptJavacUtilFunc.parseCMLTag(javaCode, "CheckCode", baseClassname);
 		String filename = IpssJavaCompiler.createJavaFilename("CheckCode", 
 								ScriptJavacUtilFunc.CMLTempPackageName, editor.getRootDir());
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
-		MemoryJavaCompiler.javac(CMLTempPackageName+"CheckCode", javacode);
+		MemoryJavaCompiler.javac(packageName+"CheckCode", javacode);
 		return true;
 	}
 }
