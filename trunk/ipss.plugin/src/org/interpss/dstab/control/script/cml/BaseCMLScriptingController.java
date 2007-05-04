@@ -32,7 +32,6 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssJavaCompiler;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
@@ -89,17 +88,11 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
-    	//generateJavaCode();
-    	//compileJavaCode();
-    	try {
-    		createControllerObject();
-    	} catch (Exception e) {
-    		IpssLogger.logErr(e);
+   		createControllerObject();
+    	if (anController != null)
+    		return anController.initStates(abus, mach, msg);
+    	else
     		return false;
-    	}
-    	
-    	anController.initStates(abus, mach, msg);
-		return true;
 	}
 	
 	/**
@@ -150,7 +143,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	}
 
 	abstract public boolean checkJavaCode();
-	abstract public void createControllerObject() throws Exception;
+	abstract public void createControllerObject();
 
 	/**
 	 * Compile the java code and create the controller object
@@ -158,13 +151,13 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	 * @param baseClassname
 	 * @throws Exception
 	 */
-	protected void createControllerObject(String baseClassname) throws Exception {
+	protected void createControllerObject(String baseClassname) {
     	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
 		this.classname = IpssJavaCompiler.createClassName(getId(), 
 							editor.getCurrentProjectFolder(), editor.getCurrentProjectName());
 		String javacode = ScriptJavacUtilFunc.parseCMLTag(getScripts(), this.classname, baseClassname);
 		anController = (AbstractAnnotateController)MemoryJavaCompiler.javac( 
-				ScriptJavacUtilFunc.CMLControllerPackageName+this.classname, javacode).newInstance();
+				ScriptJavacUtilFunc.CMLControllerPackageName+this.classname, javacode);
 	}
 
 	/**

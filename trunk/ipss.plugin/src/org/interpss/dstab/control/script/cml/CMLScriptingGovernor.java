@@ -68,7 +68,7 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 		return checkJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateGovernor
 	}	
 
-	public void createControllerObject() throws Exception {
+	public void createControllerObject() {
 		createControllerObject(BaseClass);  
 	}	
 	
