@@ -49,8 +49,6 @@ import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
  */
 public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	private ScriptDynamicBusDevice device = null;
-	private String classname = "";
-	
 	
 	/**
 	 * Generate Java code, compile code, load compile class and then delegate init to the 
@@ -115,11 +113,11 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	
 	private void createDeviceObject() {
     	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
-		this.classname = IpssJavaCompiler.createClassName(getId(), 
+		String classname = IpssJavaCompiler.createClassName(getId(), 
 							editor.getCurrentProjectFolder(), editor.getCurrentProjectName());
-		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, this.classname);
+		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
 		device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
-				ScriptJavacUtilFunc.CMLControllerPackageName+this.classname, javacode);
+				ScriptJavacUtilFunc.CMLControllerPackageName+classname, javacode);
 	}
 	
 /*
