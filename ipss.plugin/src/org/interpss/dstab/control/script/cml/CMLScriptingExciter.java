@@ -73,7 +73,7 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 		return checkJavaCode(BaseClass);  // all CMLScriptingExciter extends AnnotateExciter
 	}	
 	
-	public void createControllerObject() throws Exception {
+	public void createControllerObject() {
 		createControllerObject(BaseClass);  
 	}	
 	

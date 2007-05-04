@@ -68,7 +68,7 @@ public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 		return checkJavaCode(BaseClass); // all CMLScriptingExciter extends AnnotateStabilizer
 	}	
 	
-	public void createControllerObject() throws Exception {
+	public void createControllerObject() {
 		createControllerObject(BaseClass);  
 	}	
 	
