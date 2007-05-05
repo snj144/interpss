@@ -35,7 +35,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 
@@ -167,7 +167,7 @@ public class DStabPlotDialogRecord {
 		for (Double tPoint : timeList) {
 			Hashtable<String,String> row = new Hashtable<String,String>();
 			double t = tPoint.doubleValue();
-			row.put("Time", Num2Str.toStr(t,"00.000"));
+			row.put("Time", Number2String.toStr(t,"00.000"));
     		for (Object strObj : strList) {
    				String stateName = DStabPlotDialogRecord.parseStateSelection((String)strObj).stateName;
        			for (DStabSimuDBRecord rec : elemRecList) {
@@ -175,7 +175,7 @@ public class DStabPlotDialogRecord {
        					Hashtable table = StringUtil.parseStr2Hashtable(rec.getSimuRec());
        					Object obj = table.get(stateName);
        					if (obj != null) {
-       						row.put(stateName, Num2Str.toStr(new Double((String)obj).doubleValue(),"0.0000"));
+       						row.put(stateName, Number2String.toStr(new Double((String)obj).doubleValue(),"0.0000"));
        					}
        				}
        			}

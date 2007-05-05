@@ -47,7 +47,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
@@ -190,10 +190,10 @@ public class ChartManager {
 */     
     public static String getMachDataLabel(Machine mach, String state, double baseFreq, double baseKva) {
     	String id = "Machine Id:" + mach.getId() + ", ";
-    	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
-    	String rating = Num2Str.toStr("0.0",mach.getRating()*baseKva/1000.0);
-    	String rpm = Num2Str.toStr((int)(2.0*baseFreq*60.0/mach.getPoles()));
-    	String baseV = Num2Str.toStr("0.0",mach.getMachineBus().getBaseVoltage());
+    	String ratedV = Number2String.toStr("0.0",mach.getRatedVoltage());
+    	String rating = Number2String.toStr("0.0",mach.getRating()*baseKva/1000.0);
+    	String rpm = Number2String.toStr((int)(2.0*baseFreq*60.0/mach.getPoles()));
+    	String baseV = Number2String.toStr("0.0",mach.getMachineBus().getBaseVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ANG)) 
     		return id + "(Unit:Deg)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED))
@@ -227,7 +227,7 @@ public class ChartManager {
 */    
     public static String getExcDataLabel(Machine mach, String state) {
     	String id = "Machine Id:" + mach.getId() + ", ";
-    	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
+    	String ratedV = Number2String.toStr("0.0",mach.getRatedVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_EXC_EFD))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else
@@ -239,7 +239,7 @@ public class ChartManager {
 */    
     public static String getGovDataLabel(Machine mach, String state, double baseKva) {
     	String id = "Machine Id:" + mach.getId() + ", ";
-    	String rating = Num2Str.toStr("0.0",mach.getRating()*baseKva/1000.0);
+    	String rating = Number2String.toStr("0.0",mach.getRating()*baseKva/1000.0);
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_GOV_PM))
     		return id + "(Unit:PU, Rating:" + rating + " mva)";
     	else
@@ -251,7 +251,7 @@ public class ChartManager {
 */    
     public static String getPssDataLabel(Machine mach, String state) {
     	String id = "Machine Id:" + mach.getId() + ", ";
-    	String ratedV = Num2Str.toStr("0.0",mach.getRatedVoltage());
+    	String ratedV = Number2String.toStr("0.0",mach.getRatedVoltage());
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_PSS_VS))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else
@@ -266,8 +266,8 @@ public class ChartManager {
 */    
     public static String getBusDataLabel(Bus bus, String state, double baseKva) {
     	String id = "Bus Id:" + bus.getId() + ", ";
-    	String baseV = Num2Str.toStr("0.0", bus.getBaseVoltage());
-    	String baseMva = Num2Str.toStr("0.0", baseKva/1000.0);
+    	String baseV = Number2String.toStr("0.0", bus.getBaseVoltage());
+    	String baseMva = Number2String.toStr("0.0", baseKva/1000.0);
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VMAG))
     		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))

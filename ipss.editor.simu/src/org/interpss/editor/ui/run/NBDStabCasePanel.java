@@ -38,7 +38,7 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 
@@ -184,8 +184,8 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 		aclfCasePanel.setForm2Editor();
 		
         methodComboBox.setSelectedItem(dstabCaseData.getSimuMethod());
-        totalTimeTextField.setText(Num2Str.toStr(dstabCaseData.getTotalSimuTime(), "#0.00"));
-        simuStepTextField.setText(Num2Str.toStr(dstabCaseData.getSimuStep(), "#0.00#"));
+        totalTimeTextField.setText(Number2String.toStr(dstabCaseData.getTotalSimuTime(), "#0.00"));
+        simuStepTextField.setText(Number2String.toStr(dstabCaseData.getSimuStep(), "#0.00#"));
         disableEventCheckBox.setSelected(dstabCaseData.getDisableDynamicEvent());
         
         if (dstabCaseData.isAbsoluteMachValue()) {
@@ -207,8 +207,8 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         else {
             staticLoadCPRadioButton.setSelected(true);
             setStaticLoadCPStatus(true);
-            staticLoadSwitchVoltTextField.setText(Num2Str.toStr(dstabCaseData.getStaticLoadSwitchVolt(), "#0.00"));
-            staticLoadSwitchDeadZoneTextField.setText(Num2Str.toStr(dstabCaseData.getStaticLoadSwitchDeadZone(), "#0.00"));
+            staticLoadSwitchVoltTextField.setText(Number2String.toStr(dstabCaseData.getStaticLoadSwitchVolt(), "#0.00"));
+            staticLoadSwitchDeadZoneTextField.setText(Number2String.toStr(dstabCaseData.getStaticLoadSwitchDeadZone(), "#0.00"));
         }
         
         if(!dstabCaseData.getDisableDynamicEvent()) {
@@ -222,7 +222,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         	if (setPointCheckBox.isSelected()) {
                 setPointMachineComboBox.setSelectedItem(dstabCaseData.getSetPointChangeMachId());
             	setPointControllerComboBox.setSelectedItem(dstabCaseData.getSelectedController());
-                setPointValueTextField.setText(Num2Str.toStr(dstabCaseData.getSetPointValueChange(), "#0.00"));
+                setPointValueTextField.setText(Number2String.toStr(dstabCaseData.getSetPointValueChange(), "#0.00"));
                 setPointAbsoluteRadioButton.setSelected(dstabCaseData.isSetPointChangeAbsolute());
         	}
         }

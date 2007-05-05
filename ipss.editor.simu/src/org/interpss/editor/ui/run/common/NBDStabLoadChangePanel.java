@@ -32,7 +32,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 
@@ -89,7 +89,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
         else
              this.loadBusComboBox.setSelectedItem(_loadChangeData.getBusNameId());
         
-       	changeFactorTextField.setText(Num2Str.toStr(_loadChangeData.getChangeFactor(), "#0.0"));        
+       	changeFactorTextField.setText(Number2String.toStr(_loadChangeData.getChangeFactor(), "#0.0"));        
 
        	return true;
 	}
