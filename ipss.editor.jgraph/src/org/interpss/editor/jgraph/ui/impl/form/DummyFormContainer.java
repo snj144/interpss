@@ -43,7 +43,7 @@ import org.interpss.editor.jgraph.ui.impl.data.DummyProjData;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.DataChangeMessage;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.common.util.XmlUtil;
 
 public class DummyFormContainer implements IGFormContainer {
@@ -362,7 +362,7 @@ public class DummyFormContainer implements IGFormContainer {
 	* @param volt the base voltage to add
 	*/
 	public void addBaseVolt(double volt) {
-		String str = Num2Str.toStr(volt, "#0.00");
+		String str = Number2String.toStr(volt, "#0.00");
 		Iterator itr = getGNetForm().getBaseVoltList().iterator();
 		while (itr.hasNext()) {
 			String v = (String)(itr.next());
