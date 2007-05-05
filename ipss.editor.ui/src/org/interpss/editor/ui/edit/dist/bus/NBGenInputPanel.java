@@ -35,7 +35,7 @@ import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
  
 public class NBGenInputPanel extends javax.swing.JPanel  implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -63,13 +63,13 @@ public class NBGenInputPanel extends javax.swing.JPanel  implements IFormDataPan
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBGenInputPanel setForm2Editor() called");
 
-		this.ratedKWField.setText(Num2Str.toStr(this.data.getBusRating(), "#0.0#"));
+		this.ratedKWField.setText(Number2String.toStr(this.data.getBusRating(), "#0.0#"));
 		this.ratedKWUnitComboBox.setSelectedItem(this.data.getBusRatingUnit());
-        this.ratedVTextField.setText(Num2Str.toStr(this.data.getRatedVolt(), "#0.0##"));
+        this.ratedVTextField.setText(Number2String.toStr(this.data.getRatedVolt(), "#0.0##"));
         this.ratedVUnitComboBox.setSelectedItem(this.data.getRatedVoltUnit());
-    	this.pfTextField.setText(Num2Str.toStr(this.data.getPFactor(), "#0.0#"));
+    	this.pfTextField.setText(Number2String.toStr(this.data.getPFactor(), "#0.0#"));
 		this.pfUnitComboBox.setSelectedItem(this.data.getPFactorUnit());
-    	this.loadingTextField.setText(Num2Str.toStr(this.data.getLoading(), "#0.0#"));
+    	this.loadingTextField.setText(Number2String.toStr(this.data.getLoading(), "#0.0#"));
     	
         includeLScheduleCheckBox.setSelected(data.isHasLoadSchedule());
     	

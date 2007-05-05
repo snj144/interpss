@@ -37,7 +37,7 @@ import org.interpss.editor.ui.edit.common.NBGConnectionPanel;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
  
  
 public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -82,16 +82,16 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBBranchScPanel setForm2Editor() called");
 
-		r1TextField.setText(Num2Str.toStr(_data.getZR(), "#0.0####"));
-	    x1TextField.setText(Num2Str.toStr(_data.getZX(), "#0.0####"));
+		r1TextField.setText(Number2String.toStr(_data.getZR(), "#0.0####"));
+	    x1TextField.setText(Number2String.toStr(_data.getZX(), "#0.0####"));
 
-	    r0TextField.setText(Num2Str.toStr(_data.getZ0R(), "#0.0####"));
-	    x0TextField.setText(Num2Str.toStr(_data.getZ0X(), "#0.0####"));
+	    r0TextField.setText(Number2String.toStr(_data.getZ0R(), "#0.0####"));
+	    x0TextField.setText(Number2String.toStr(_data.getZ0X(), "#0.0####"));
 
 	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
 	    	_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
-	    	fromTapTextField.setText(Num2Str.toStr(_data.getXfrTapFromSideTap(), "#0.0##"));
-	    	toTapTextField.setText(Num2Str.toStr(_data.getXfrTapToSideTap(), "#0.0##"));
+	    	fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0##"));
+	    	toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0##"));
         	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {
         		xfrRadioButton.setSelected(true);
         	    setBTapLabelText(false, false);
@@ -99,7 +99,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         	else {
         		psXfrRadioButton.setSelected(true);
         	    setBTapLabelText(false, true);
-        	    hB1TextField.setText(Num2Str.toStr(_data.getPhaseShiftAngle(), "#0.0##"));
+        	    hB1TextField.setText(Number2String.toStr(_data.getPhaseShiftAngle(), "#0.0##"));
         	}    
 
             xfrFromGroundPanel.add(_fromXfrConnectPanel);
@@ -112,8 +112,8 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     		lineRadioButton.setSelected(true);
     	    setBTapLabelText(true, false);
 
-    	    hB1TextField.setText(Num2Str.toStr(_data.getHalfShuntB(), "#0.0####"));
-    	    hB0TextField.setText(Num2Str.toStr(_data.getHalfShuntB0(), "#0.0####"));
+    	    hB1TextField.setText(Number2String.toStr(_data.getHalfShuntB(), "#0.0####"));
+    	    hB0TextField.setText(Number2String.toStr(_data.getHalfShuntB0(), "#0.0####"));
     	    
             xfrFromGroundPanel.remove(_fromXfrConnectPanel);
             xfrToGroundPanel.remove(_toXfrConnectPanel);

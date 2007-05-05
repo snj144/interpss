@@ -40,7 +40,7 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
  
  
 public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -108,24 +108,24 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		else 
 	   		psXfrRadioButton.setSelected(true);
 
-		rTextField.setText(Num2Str.toStr(_data.getZR(), "#0.0####"));
-	    xTextField.setText(Num2Str.toStr(_data.getZX(), "#0.0####"));
+		rTextField.setText(Number2String.toStr(_data.getZR(), "#0.0####"));
+	    xTextField.setText(Number2String.toStr(_data.getZX(), "#0.0####"));
 	    
-		mvaRating1TextField.setText(Num2Str.toStr(_data.getRating1(), "#0.0#"));
-		mvaRating2TextField.setText(Num2Str.toStr(_data.getRating2(), "#0.0#"));
-		mvaRating3TextField.setText(Num2Str.toStr(_data.getRating3(), "#0.0#"));
+		mvaRating1TextField.setText(Number2String.toStr(_data.getRating1(), "#0.0#"));
+		mvaRating2TextField.setText(Number2String.toStr(_data.getRating2(), "#0.0#"));
+		mvaRating3TextField.setText(Number2String.toStr(_data.getRating3(), "#0.0#"));
 
 	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
     	    setBranchLabelText(true, false);
-    	    hBTextField.setText(Num2Str.toStr(_data.getHalfShuntB(), "#0.0####"));
+    	    hBTextField.setText(Number2String.toStr(_data.getHalfShuntB(), "#0.0####"));
 
        	    remove(tapVControlPanel);
             remove(psXfrPControlPanel);
     	}
     	else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {
     	    setBranchLabelText(false, false);
-    	    fromTapTextField.setText(Num2Str.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
-    	    toTapTextField.setText(Num2Str.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
+    	    fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
+    	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
     	    
     		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
         		remove(psXfrPControlPanel);
@@ -146,9 +146,9 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     	}
     	else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
     	    setBranchLabelText(false, true);
-    	    hBTextField.setText(Num2Str.toStr(_data.getPhaseShiftAngle(), "#0.0####"));
-    	    fromTapTextField.setText(Num2Str.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
-    	    toTapTextField.setText(Num2Str.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
+    	    hBTextField.setText(Number2String.toStr(_data.getPhaseShiftAngle(), "#0.0####"));
+    	    fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
+    	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
     	    
     		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
         		remove(tapVControlPanel);
@@ -173,9 +173,9 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.gridy = 1;
 		tapVControlPanel.add(tapVControlEditPanel, gridBagConstraints);
 		
-	    controlTapMaxTextField.setText(Num2Str.toStr(_data.getVcTapMax(), "#0.0##"));
-	    controlTapMinTextField.setText(Num2Str.toStr(_data.getVcTapMin(), "#0.0##"));
-	    controlTapStepTextField.setText(Num2Str.toStr(_data.getVcStep(),  "#0.00#"));
+	    controlTapMaxTextField.setText(Number2String.toStr(_data.getVcTapMax(), "#0.0##"));
+	    controlTapMinTextField.setText(Number2String.toStr(_data.getVcTapMin(), "#0.0##"));
+	    controlTapStepTextField.setText(Number2String.toStr(_data.getVcStep(),  "#0.00#"));
 	    if (_data.isVCTapOnFromSide())
     		controlTapOnFromSideRadioButton.setSelected(true);
     	else
@@ -187,7 +187,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	        vcBusSidePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "VC Bus On", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
 		    vcBusFromSideRadioButton.setText("From Side   ");
 		    vcBusToSideRadioButton.setText("To Side");
-			vSpecTextField.setText(Num2Str.toStr(_data.getVcVSpec(), "#0.0####"));
+			vSpecTextField.setText(Number2String.toStr(_data.getVcVSpec(), "#0.0####"));
 
 	        vcBusLabel.setText("Target VC Bus  ");
 	        vcBusComboBox.setModel(new DefaultComboBoxModel(_netContainer.getTargetVCBusNameIdArray()));
@@ -206,7 +206,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	        vcBusSidePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mva Flow Direction", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
 		    vcBusFromSideRadioButton.setText("From->To   ");
 		    vcBusToSideRadioButton.setText("To->From");	    	
-			vSpecTextField.setText(Num2Str.toStr(_data.getMvarFlowSpec(), "#0.0####"));
+			vSpecTextField.setText(Number2String.toStr(_data.getMvarFlowSpec(), "#0.0####"));
 
 	        vcBusLabel.setText("Mvar Spec On  ");
 	        vcBusComboBox.setModel(new DefaultComboBoxModel(new String[] {"From Side", "To Side"}));
@@ -226,9 +226,9 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.gridy = 1;
         psXfrPControlPanel.add(psXfrPControlEditPanel, gridBagConstraints);
         
-        pSpecTextField.setText(Num2Str.toStr(_data.getPcPSpec(), "#0.0####"));
-        angleMaxTextField.setText(Num2Str.toStr(_data.getPcAngMax(), "#0.0#"));
-        angleMinTextField.setText(Num2Str.toStr(_data.getPcAngMin(), "#0.0#"));
+        pSpecTextField.setText(Number2String.toStr(_data.getPcPSpec(), "#0.0####"));
+        angleMaxTextField.setText(Number2String.toStr(_data.getPcAngMax(), "#0.0#"));
+        angleMinTextField.setText(Number2String.toStr(_data.getPcAngMin(), "#0.0#"));
         if (_data.isPcOnFromSide())
         	pControlFromSideRadioButton.setSelected(true);
         else

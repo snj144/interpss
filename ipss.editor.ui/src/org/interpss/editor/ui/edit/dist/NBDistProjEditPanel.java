@@ -37,7 +37,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
  
 public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -86,8 +86,8 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 		if (form.getDistNetData().getLoadSchedulePoints() > 0) {
 		    setLoadAnalysisFields(true);
 		    loadAnalysisCheckBox.setSelected(true);
-	        loadPonitsTextField.setText(Num2Str.toStr(form.getDistNetData().getLoadSchedulePoints()));
-	        periodLengthTextField.setText(Num2Str.toStr(form.getDistNetData().getLoadSchedulePeriodLength(), "0.0"));
+	        loadPonitsTextField.setText(Number2String.toStr(form.getDistNetData().getLoadSchedulePoints()));
+	        periodLengthTextField.setText(Number2String.toStr(form.getDistNetData().getLoadSchedulePeriodLength(), "0.0"));
 	        periodLengthUnitComboBox.setSelectedItem(form.getDistNetData().getLoadSchedulePeriodUnit());
 		}
 		else {

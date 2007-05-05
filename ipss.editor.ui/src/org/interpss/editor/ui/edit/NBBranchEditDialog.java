@@ -50,7 +50,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
    
 
 public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDataDialog {
@@ -137,7 +137,7 @@ public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDat
         this.branchNameField.setText(_form.getName());
     	this.fromNameField.setText(_form.getFromBusName());
     	this.toNameField.setText(_form.getToBusName());
-    	this.zoneField.setText(Num2Str.toStr(_form.getZone()));
+    	this.zoneField.setText(Number2String.toStr(_form.getZone()));
     	
     	if (_form.getStatus())
     		this.inServiceCheckBox.setSelected(true);

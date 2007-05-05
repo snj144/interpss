@@ -32,7 +32,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
    
 
 public class NBFeederInputPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -59,17 +59,17 @@ public class NBFeederInputPanel extends javax.swing.JPanel implements IFormDataP
 	
     public boolean setForm2Editor() {
     	this.nameComboBox.setSelectedItem(_form.getName());
-    	this.lengthField.setText(Num2Str.toStr(_data.getLength(), "#.0"));
+    	this.lengthField.setText(Number2String.toStr(_data.getLength(), "#.0"));
     	this.lengthUnitComboBox.setSelectedItem(_data.getLengthUnit());
-    	this.x_1000Field.setText(Num2Str.toStr(_data.getZX(), "#0.0####"));
-    	this.r_1000Field.setText(Num2Str.toStr(_data.getZR(), "#0.0####"));
-    	this.b1_1000Field.setText(Num2Str.toStr(2.0*_data.getHalfShuntB(), "#0.0####"));
+    	this.x_1000Field.setText(Number2String.toStr(_data.getZX(), "#0.0####"));
+    	this.r_1000Field.setText(Number2String.toStr(_data.getZR(), "#0.0####"));
+    	this.b1_1000Field.setText(Number2String.toStr(2.0*_data.getHalfShuntB(), "#0.0####"));
 		double 	x0_x1 = NetDataUtil.ratio(_data.getZ0X(), _data.getZX()),
 				r0_r1 = NetDataUtil.ratio(_data.getZ0R(), _data.getZR()),
 				b0_b1 = NetDataUtil.ratio(_data.getHalfShuntB0(), _data.getHalfShuntB());
-    	this.x0_x1Field.setText(Num2Str.toStr(x0_x1, "#0.0##"));
-    	this.r0_r1Field.setText(Num2Str.toStr(r0_r1, "#0.0##"));
-    	this.b0_b1Field.setText(Num2Str.toStr(b0_b1, "#0.0##"));
+    	this.x0_x1Field.setText(Number2String.toStr(x0_x1, "#0.0##"));
+    	this.r0_r1Field.setText(Number2String.toStr(r0_r1, "#0.0##"));
+    	this.b0_b1Field.setText(Number2String.toStr(b0_b1, "#0.0##"));
     	return true;
 	}
     

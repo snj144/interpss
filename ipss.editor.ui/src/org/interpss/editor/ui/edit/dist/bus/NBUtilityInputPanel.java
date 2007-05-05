@@ -32,7 +32,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 
 public class NBUtilityInputPanel extends javax.swing.JPanel  implements IFormDataPanel {
@@ -59,13 +59,13 @@ public class NBUtilityInputPanel extends javax.swing.JPanel  implements IFormDat
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBUtilityInputPanel setForm2Editor() called");
 
-		this.voltageTextField.setText(Num2Str.toStr(this._data.getRatedVolt(), "#0.0###"));
+		this.voltageTextField.setText(Number2String.toStr(this._data.getRatedVolt(), "#0.0###"));
 		this.vUnitComboBox.setSelectedItem(this._data.getRatedVoltUnit());
-		this.angleTextField.setText(Num2Str.toStr(this._data.getVAngle(), "#0.0#"));
-    	this.mva3PField.setText(Num2Str.toStr(this._data.getMvaRating3P(), "#0.0#"));
-    	this.x_r3PField.setText(Num2Str.toStr(this._data.getX_r3P(), "#0.0##"));
-    	this.mva1PField.setText(Num2Str.toStr(this._data.getMvaRating1P(), "#0.0#"));
-    	this.x_r1PTextField.setText(Num2Str.toStr(this._data.getX_r1P(), "#0.0##"));
+		this.angleTextField.setText(Number2String.toStr(this._data.getVAngle(), "#0.0#"));
+    	this.mva3PField.setText(Number2String.toStr(this._data.getMvaRating3P(), "#0.0#"));
+    	this.x_r3PField.setText(Number2String.toStr(this._data.getX_r3P(), "#0.0##"));
+    	this.mva1PField.setText(Number2String.toStr(this._data.getMvaRating1P(), "#0.0#"));
+    	this.x_r1PTextField.setText(Number2String.toStr(this._data.getX_r1P(), "#0.0##"));
 		this.mvaUnitComboBox.setSelectedItem(this._data.getMvaRatingUnit());
     	return true;
 	}

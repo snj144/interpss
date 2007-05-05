@@ -45,7 +45,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
   
  
 public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDataDialog {
@@ -150,8 +150,8 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
     	this.filenameLabel.setText(_projInfo.getFilename());
     	this.descTextArea.setText(_projInfo.getDescription());
 
-		this.baseKvaField.setText(Num2Str.toStr(form.getBaseKVA(), "#.0"));
-    	this.baseFreqField.setText(Num2Str.toStr(form.getFreqHZ(), "#.0"));
+		this.baseKvaField.setText(Number2String.toStr(form.getBaseKVA(), "#.0"));
+    	this.baseFreqField.setText(Number2String.toStr(form.getFreqHZ(), "#.0"));
     	
         if (_netContainer.getGNetForm().getAppType().equals(IGNetForm.AppType_Distribution)) {
     		_distriEditPanel.setForm2Editor();

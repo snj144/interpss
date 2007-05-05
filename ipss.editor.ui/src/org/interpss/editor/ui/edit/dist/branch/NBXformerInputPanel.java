@@ -38,7 +38,7 @@ import org.interpss.editor.ui.edit.common.NBGConnectionPanel;
 import org.interpss.editor.ui.util.NetDataUtil;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
    
 
 public class NBXformerInputPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -89,23 +89,23 @@ public class NBXformerInputPanel extends javax.swing.JPanel implements IFormData
         this.zUnitComboBox.setSelectedItem(_data.getZUnit());
         this.tapUnitComboBox.setSelectedItem(_data.getXfrTapUnit());
 
-        this.fromRatedVTextField.setText(Num2Str.toStr(_data.getFromRatedVolt(), "#0.0#"));
-        this.toRatedVTextField.setText(Num2Str.toStr(_data.getToRatedVolt(), "#0.0#"));
+        this.fromRatedVTextField.setText(Number2String.toStr(_data.getFromRatedVolt(), "#0.0#"));
+        this.toRatedVTextField.setText(Number2String.toStr(_data.getToRatedVolt(), "#0.0#"));
         this.voltUnitComboBox.setSelectedItem(_data.getRatedVoltUnit());
 
-        this.xfrRatingField.setText(Num2Str.toStr(_data.getXfrRating(), "#0.0#"));
-        this.xField.setText(Num2Str.toStr(_data.getZX(), "#0.0####"));
-        this.rField.setText(Num2Str.toStr(_data.getZR(), "#0.0####"));
+        this.xfrRatingField.setText(Number2String.toStr(_data.getXfrRating(), "#0.0#"));
+        this.xField.setText(Number2String.toStr(_data.getZX(), "#0.0####"));
+        this.rField.setText(Number2String.toStr(_data.getZR(), "#0.0####"));
         
         double x_r = NetDataUtil.ratio(_data.getZX(), _data.getZR()),
 				   x0_x1 = NetDataUtil.ratio(_data.getZ0X(), _data.getZX()),
 				   r0_r1 = NetDataUtil.ratio(_data.getZ0R(), _data.getZR());
-        this.x_rField.setText(Num2Str.toStr(x_r, "#0.0##"));
-        this.x0_x1Field.setText(Num2Str.toStr(x0_x1, "#0.0##"));
-        this.r0_r1Field.setText(Num2Str.toStr(r0_r1, "#0.0##"));
+        this.x_rField.setText(Number2String.toStr(x_r, "#0.0##"));
+        this.x0_x1Field.setText(Number2String.toStr(x0_x1, "#0.0##"));
+        this.r0_r1Field.setText(Number2String.toStr(r0_r1, "#0.0##"));
 
-        this.fromTapField.setText(Num2Str.toStr(_data.getXfrTapFromSideTap(), "#.0##"));
-        this.toTapField.setText(Num2Str.toStr(_data.getXfrTapToSideTap(), "#.0##"));
+        this.fromTapField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#.0##"));
+        this.toTapField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#.0##"));
 
         fromXfrConPanel.setForm2Editor();
         toXfrConPanel.setForm2Editor();
@@ -539,7 +539,7 @@ public class NBXformerInputPanel extends javax.swing.JPanel implements IFormData
     	try {
     		double x = SwingInputVerifyUtil.getDouble(this.xField);
 			double r = NetDataUtil.calValue(x, 1.0/SwingInputVerifyUtil.getDouble(this.x_rField));
-        	this.rField.setText(Num2Str.toStr(r, "#0.0####"));
+        	this.rField.setText(Number2String.toStr(r, "#0.0####"));
         } catch (Exception e) {}	
     }//GEN-LAST:event_x_rFieldActionHandler
 
@@ -547,7 +547,7 @@ public class NBXformerInputPanel extends javax.swing.JPanel implements IFormData
 		try {
 			double x_r = NetDataUtil.ratio(SwingInputVerifyUtil.getDouble(this.xField), 
 						SwingInputVerifyUtil.getDouble(this.rField));
-        	this.x_rField.setText(Num2Str.toStr(x_r, "#0.0##"));
+        	this.x_rField.setText(Number2String.toStr(x_r, "#0.0##"));
         } catch (Exception e) {}	
     }//GEN-LAST:event_rFieldActionHandler
 

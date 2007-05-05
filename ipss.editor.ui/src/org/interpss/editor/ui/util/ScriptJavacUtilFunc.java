@@ -31,6 +31,8 @@ import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.MemoryJavaCompiler;
 
 public class ScriptJavacUtilFunc {
+	public static String OutDStabResultClassName = "ipss/tools/OutDStabResult2TextDialog";
+	
 	public static String CMLTempPackageName = "dsl/temp/";
 	public static String CMLControllerPackageName = "dsl/controller/";
 	public static String CMLDynamicBusControllerPackageName = "dsl/device/";
