@@ -36,7 +36,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
  
 public class DummyProjectEditDialog extends javax.swing.JDialog implements IFormDataDialog {
 	private static final long serialVersionUID = 1;
@@ -111,8 +111,8 @@ public class DummyProjectEditDialog extends javax.swing.JDialog implements IForm
 
 	    this.projNameTextField.setText(form.getName());
 	    this.descTextArea.setText(form.getDescription());
-	    this.baseKvaField.setText(Num2Str.toStr(form.getBaseKVA(), "#.0"));
-    	this.baseFreqField.setText(Num2Str.toStr(form.getFreqHZ(), "#.0"));
+	    this.baseKvaField.setText(Number2String.toStr(form.getBaseKVA(), "#.0"));
+    	this.baseFreqField.setText(Number2String.toStr(form.getFreqHZ(), "#.0"));
     	
 		pack();
 		return true;
