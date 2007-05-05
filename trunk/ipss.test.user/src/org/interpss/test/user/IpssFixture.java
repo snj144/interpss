@@ -35,7 +35,7 @@ import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import org.interpss.editor.EditorSpringAppContext;
@@ -127,7 +127,7 @@ public class IpssFixture extends ColumnFixture {
 	 */
 	
 	protected double formatDouble(double x) {
-		return new Double(Num2Str.toStr(x)).doubleValue();
+		return new Double(Number2String.toStr(x)).doubleValue();
 	}
 
 	protected AclfBus getBus() throws Exception {
