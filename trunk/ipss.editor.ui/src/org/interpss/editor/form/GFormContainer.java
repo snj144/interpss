@@ -47,7 +47,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.common.util.XmlUtil;
 
 public class GFormContainer extends BaseFormContainer implements IGFormContainer {
@@ -145,7 +145,7 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 	* @param volt the base voltage to add
 	*/
 	public void addBaseVolt(double volt) {
-		String str = Num2Str.toStr(volt, "#0.00");
+		String str = Number2String.toStr(volt, "#0.00");
 		Iterator itr = getGNetForm().getBaseVoltList().iterator();
 		while (itr.hasNext()) {
 			String v = (String)(itr.next());

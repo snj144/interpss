@@ -45,7 +45,7 @@ import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
   
 
 public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDialog {
@@ -132,7 +132,7 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
       this.busNumberLabel.setText("Bus [" + _form.getId() + "]");
     	this.busNameField.setText(_form.getName());
 
-    	this.zoneField.setText(Num2Str.toStr(_form.getZone()));
+    	this.zoneField.setText(Number2String.toStr(_form.getZone()));
     	if (_form.getStatus())
     		this.inServiceCheckBox.setSelected(true);
     	else	
@@ -140,7 +140,7 @@ public class NBBusEditDialog extends javax.swing.JDialog  implements IFormDataDi
 
 		this.baseVoltComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				_netContainer.getBaseVoltArray()));
-		this.baseVoltComboBox.setSelectedItem(Num2Str.toStr(
+		this.baseVoltComboBox.setSelectedItem(Number2String.toStr(
 				_form.getBaseVoltage(), "#0.00"));
     	this.baseUnitComboBox.setSelectedItem(_form.getBaseVoltUnit());
     	

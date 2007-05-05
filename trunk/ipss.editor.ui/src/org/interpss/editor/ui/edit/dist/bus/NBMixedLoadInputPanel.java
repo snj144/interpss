@@ -35,7 +35,7 @@ import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 
 public class NBMixedLoadInputPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -62,13 +62,13 @@ public class NBMixedLoadInputPanel extends javax.swing.JPanel implements IFormDa
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBMixedLoadInputPanel setForm2Editor() called");
 
-		this.totalKVAField.setText(Num2Str.toStr(this.data.getBusRating(), "#0.0#"));
+		this.totalKVAField.setText(Number2String.toStr(this.data.getBusRating(), "#0.0#"));
 		this.totalKVAUnitComboBox.setSelectedItem(this.data.getBusRatingUnit());
-        this.ratedVTextField.setText(Num2Str.toStr(this.data.getRatedVolt(), "#0.0##"));
+        this.ratedVTextField.setText(Number2String.toStr(this.data.getRatedVolt(), "#0.0##"));
         this.ratedVUnitComboBox.setSelectedItem(this.data.getRatedVoltUnit());
-    	this.pfField.setText(Num2Str.toStr(this.data.getPFactor(), "#0.0#"));
+    	this.pfField.setText(Number2String.toStr(this.data.getPFactor(), "#0.0#"));
 		this.pfUnitComboBox.setSelectedItem(this.data.getPFactorUnit());
-        this.motorPercentTextField.setText(Num2Str.toStr(this.data.getMotorPercent(), "#0.##"));
+        this.motorPercentTextField.setText(Number2String.toStr(this.data.getMotorPercent(), "#0.##"));
 
         includeLScheduleCheckBox.setSelected(data.isHasLoadSchedule());        
         

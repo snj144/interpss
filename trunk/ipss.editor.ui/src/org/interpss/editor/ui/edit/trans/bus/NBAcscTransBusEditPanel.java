@@ -37,7 +37,7 @@ import org.interpss.editor.ui.edit.common.NBGroundInputPanel;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
  
  
 public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -95,14 +95,14 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 
 	        setRXLabelText(true);
 
-		    r1TextField.setText(Num2Str.toStr(_data.getZ1R(), "#0.0####"));
-		    x1TextField.setText(Num2Str.toStr(_data.getZ1X(), "#0.0####"));
+		    r1TextField.setText(Number2String.toStr(_data.getZ1R(), "#0.0####"));
+		    x1TextField.setText(Number2String.toStr(_data.getZ1X(), "#0.0####"));
 
-		    r0TextField.setText(Num2Str.toStr(_data.getZ0R(), "#0.0####"));
-		    x0TextField.setText(Num2Str.toStr(_data.getZ0X(), "#0.0####"));
+		    r0TextField.setText(Number2String.toStr(_data.getZ0R(), "#0.0####"));
+		    x0TextField.setText(Number2String.toStr(_data.getZ0X(), "#0.0####"));
 
-		    r2TextField.setText(Num2Str.toStr(_data.getZ2R(), "#0.0####"));
-		    x2TextField.setText(Num2Str.toStr(_data.getZ2X(), "#0.0####"));
+		    r2TextField.setText(Number2String.toStr(_data.getZ2R(), "#0.0####"));
+		    x2TextField.setText(Number2String.toStr(_data.getZ2X(), "#0.0####"));
 
 		    groundingPanel.add(_groundPanel);
 		    _groundPanel.setForm2Editor();

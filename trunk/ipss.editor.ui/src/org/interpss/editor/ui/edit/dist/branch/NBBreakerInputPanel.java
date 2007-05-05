@@ -34,7 +34,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
    
 
 public class NBBreakerInputPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -56,7 +56,7 @@ public class NBBreakerInputPanel extends javax.swing.JPanel implements IFormData
 	}
 	
     public boolean setForm2Editor() {
-		this.rField.setText(Num2Str.toStr(_data.getZR(), "#0.0###"));
+		this.rField.setText(Number2String.toStr(_data.getZR(), "#0.0###"));
     	this.nameComboBox.setSelectedItem(_form.getName());
         includeSScheduleCheckBox.setSelected(_data.isHasServiceSchedule());
     	return true;

@@ -32,7 +32,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 
 public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -59,8 +59,8 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
     		this.zGRadioButton.setSelected(true);
         	this.gXField.setEnabled(true);
         	this.gRField.setEnabled(true);
-			this.gXField.setText(Num2Str.toStr(_form.getX(), "#0.0###"));
-			this.gRField.setText(Num2Str.toStr(_form.getR(), "#0.0###"));
+			this.gXField.setText(Number2String.toStr(_form.getX(), "#0.0###"));
+			this.gRField.setText(Number2String.toStr(_form.getR(), "#0.0###"));
 		}
 		else if (_form.getCode().equals(ScGroundType.GType_Ungrounded))
     		this.unGRadioButton.setSelected(true);
@@ -222,8 +222,8 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
     private void zTypeActionHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zTypeActionHandler
         gXField.setEnabled(true);
         gRField.setEnabled(true);
-		this.gXField.setText(Num2Str.toStr(_form.getR(), "#0.0###"));
-		this.gRField.setText(Num2Str.toStr(_form.getX(), "#0.0###"));
+		this.gXField.setText(Number2String.toStr(_form.getR(), "#0.0###"));
+		this.gRField.setText(Number2String.toStr(_form.getX(), "#0.0###"));
     }//GEN-LAST:event_zTypeActionHandler
 
     private void solidTypeActionHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_solidTypeActionHandler

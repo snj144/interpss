@@ -39,7 +39,7 @@ import org.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
  
  
 public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -151,40 +151,40 @@ public class NBMachinePanel extends javax.swing.JPanel implements IFormDataPanel
 		}    
 
 		if (machData.getType().equals(DStabMachData.MachType_InfiniteBus)) {
-		    inertiaTextField.setText(Num2Str.toStr(machData.getScMva3P(), "#0.00"));
-		    dampingTextField.setText(Num2Str.toStr(machData.getScMva1P(), "#0.00"));
-		    x0TextField.setText(Num2Str.toStr(machData.getX_R_3P(), "#0.00"));
-		    x2TextField.setText(Num2Str.toStr(machData.getX_R_1P(), "#0.00"));
+		    inertiaTextField.setText(Number2String.toStr(machData.getScMva3P(), "#0.00"));
+		    dampingTextField.setText(Number2String.toStr(machData.getScMva1P(), "#0.00"));
+		    x0TextField.setText(Number2String.toStr(machData.getX_R_3P(), "#0.00"));
+		    x2TextField.setText(Number2String.toStr(machData.getX_R_1P(), "#0.00"));
 		}
 		else {
-		    inertiaTextField.setText(Num2Str.toStr(machData.getInertia(), "#0.00"));
-		    dampingTextField.setText(Num2Str.toStr(machData.getDamping(), "#0.0000"));
-		    x2TextField.setText(Num2Str.toStr(machData.getX2(), "#0.0000"));
-		    x0TextField.setText(Num2Str.toStr(machData.getX0(), "#0.0000"));
+		    inertiaTextField.setText(Number2String.toStr(machData.getInertia(), "#0.00"));
+		    dampingTextField.setText(Number2String.toStr(machData.getDamping(), "#0.0000"));
+		    x2TextField.setText(Number2String.toStr(machData.getX2(), "#0.0000"));
+		    x0TextField.setText(Number2String.toStr(machData.getX0(), "#0.0000"));
 		}
 	    machNameTextField.setText(machData.getName());
-	    ratingTextField.setText(Num2Str.toStr(machData.getRating(), "#0.00"));
-	    ratedVoltTextField.setText(Num2Str.toStr(machData.getRatedVolt(), "#0.0"));
-	    polesTextField.setText(Num2Str.toStr(machData.getPoles()));
+	    ratingTextField.setText(Number2String.toStr(machData.getRating(), "#0.00"));
+	    ratedVoltTextField.setText(Number2String.toStr(machData.getRatedVolt(), "#0.0"));
+	    polesTextField.setText(Number2String.toStr(machData.getPoles()));
 		
-	    xlTextField.setText(Num2Str.toStr(machData.getXl(), "#0.0000"));
-	    raTextField.setText(Num2Str.toStr(machData.getRa(), "#0.0000"));
-	    xqTextField.setText(Num2Str.toStr(machData.getXq(), "#0.00"));
-	    xdTextField.setText(Num2Str.toStr(machData.getXd(), "#0.00"));
+	    xlTextField.setText(Number2String.toStr(machData.getXl(), "#0.0000"));
+	    raTextField.setText(Number2String.toStr(machData.getRa(), "#0.0000"));
+	    xqTextField.setText(Number2String.toStr(machData.getXq(), "#0.00"));
+	    xdTextField.setText(Number2String.toStr(machData.getXd(), "#0.00"));
 
-	    xd1TextField.setText(Num2Str.toStr(machData.getXd1(), "#0.000"));
-	    xq1TextField.setText(Num2Str.toStr(machData.getXq1(), "#0.000"));
-	    td01TextField.setText(Num2Str.toStr(machData.getTd01(), "#0.000"));
-	    tq01TextField.setText(Num2Str.toStr(machData.getTq01(), "#0.000"));
+	    xd1TextField.setText(Number2String.toStr(machData.getXd1(), "#0.000"));
+	    xq1TextField.setText(Number2String.toStr(machData.getXq1(), "#0.000"));
+	    td01TextField.setText(Number2String.toStr(machData.getTd01(), "#0.000"));
+	    tq01TextField.setText(Number2String.toStr(machData.getTq01(), "#0.000"));
 
-	    xd11TextField.setText(Num2Str.toStr(machData.getXd11(), "#0.0000"));
-	    xq11TextField.setText(Num2Str.toStr(machData.getXq11(), "#0.0000"));
-	    td011TextField.setText(Num2Str.toStr(machData.getTd011(), "#0.0000"));
-	    tq011TextField.setText(Num2Str.toStr(machData.getTq011(), "#0.0000"));
+	    xd11TextField.setText(Number2String.toStr(machData.getXd11(), "#0.0000"));
+	    xq11TextField.setText(Number2String.toStr(machData.getXq11(), "#0.0000"));
+	    td011TextField.setText(Number2String.toStr(machData.getTd011(), "#0.0000"));
+	    tq011TextField.setText(Number2String.toStr(machData.getTq011(), "#0.0000"));
 
-	    s100TextField.setText(Num2Str.toStr(machData.getS100(), "#0.0"));
-	    s120TextField.setText(Num2Str.toStr(machData.getS120(), "#0.0"));
-	    slinerTextField.setText(Num2Str.toStr(machData.getSliner(), "#0.0"));
+	    s100TextField.setText(Number2String.toStr(machData.getS100(), "#0.0"));
+	    s120TextField.setText(Number2String.toStr(machData.getS120(), "#0.0"));
+	    slinerTextField.setText(Number2String.toStr(machData.getSliner(), "#0.0"));
 
 	    _groundPanel.setForm2Editor();
     	return true;

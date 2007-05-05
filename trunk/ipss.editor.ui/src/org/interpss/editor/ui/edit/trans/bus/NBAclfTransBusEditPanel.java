@@ -40,7 +40,7 @@ import org.interpss.editor.ui.util.EditUIEventContainer;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
  
 public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -110,39 +110,39 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    if (_data.getGenCode().equals(AclfBusData.GenCode_PQ)) {
 	    	pqRadioButton.setSelected(true);
 	        pqRadioButtonSelected(null);
-	    	pGenTextField.setText(Num2Str.toStr(_data.getGenP(), "#0.0####"));
-		    qGenTextField.setText(Num2Str.toStr(_data.getGenQ(), "#0.0####"));
+	    	pGenTextField.setText(Number2String.toStr(_data.getGenP(), "#0.0####"));
+		    qGenTextField.setText(Number2String.toStr(_data.getGenQ(), "#0.0####"));
 	    }
 	    else if (_data.getGenCode().equals(AclfBusData.GenCode_PV)) {
 	    	pvRadioButton.setSelected(true);
 	        pvRadioButtonSelected(null);
-	    	pGenTextField.setText(Num2Str.toStr(_data.getGenP(), "#0.0####"));
-		    qGenTextField.setText(Num2Str.toStr(_data.getVoltageMag(), "#0.0####"));
+	    	pGenTextField.setText(Number2String.toStr(_data.getGenP(), "#0.0####"));
+		    qGenTextField.setText(Number2String.toStr(_data.getVoltageMag(), "#0.0####"));
 	    }
 	    else if (_data.getGenCode().equals(AclfBusData.GenCode_Swing)) {
 	    	swingRadioButton.setSelected(true);
 	        swingRadioButtonSelected(null);
-	    	pGenTextField.setText(Num2Str.toStr(_data.getVoltageMag(), "#0.0####"));
-		    qGenTextField.setText(Num2Str.toStr(_data.getVoltageAng(), "#0.0####"));
+	    	pGenTextField.setText(Number2String.toStr(_data.getVoltageMag(), "#0.0####"));
+		    qGenTextField.setText(Number2String.toStr(_data.getVoltageAng(), "#0.0####"));
 	    }
 	    else if (_data.getGenCode().equals(AclfBusData.GenCode_Capacitor)) {
 	    	capRadioButton.setSelected(true);
 	        capRadioButtonSelected(null);
-	    	pGenTextField.setText(Num2Str.toStr(_data.getCapQ(), "#0.0####"));
-		    qGenTextField.setText(Num2Str.toStr(0.0, "#0.0####"));
+	    	pGenTextField.setText(Number2String.toStr(_data.getCapQ(), "#0.0####"));
+		    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    }
 	    else {
 	    	nonGenRadioButton.setSelected(true);
 	        nonGenRadioButtonSelected(null);
-	    	pGenTextField.setText(Num2Str.toStr(0.0, "#0.0####"));
-		    qGenTextField.setText(Num2Str.toStr(0.0, "#0.0####"));
+	    	pGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
+		    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    }
 	    
 	    if (_data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad)) {
 	    	nonLoadRadioButton.setSelected(true);
 	        nonLoadRadioButtonSelected(null);
-		    pLoadTextField.setText(Num2Str.toStr(0.0, "#0.0####"));
-	    	qLoadTextField.setText(Num2Str.toStr(0.0, "#0.0####"));
+		    pLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
+	    	qLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    } 
 	    else {
 	    	if (_data.getLoadCode().equals(AclfBusData.LoadCode_ConstP)) {
@@ -157,12 +157,12 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    		constZRadioButton.setSelected(true);
 		        constZRadioButtonSelected(null);
 	    	}	
-	    	pLoadTextField.setText(Num2Str.toStr(_data.getLoadP(), "#0.0####"));
-		    qLoadTextField.setText(Num2Str.toStr(_data.getLoadQ(), "#0.0####"));
+	    	pLoadTextField.setText(Number2String.toStr(_data.getLoadP(), "#0.0####"));
+		    qLoadTextField.setText(Number2String.toStr(_data.getLoadQ(), "#0.0####"));
 	    }
 
-	    shuntBTextField.setText(Num2Str.toStr(_data.getShuntB(), "#0.0####"));
-	    shuntGTextField.setText(Num2Str.toStr(_data.getShuntG(), "#0.0####"));
+	    shuntBTextField.setText(Number2String.toStr(_data.getShuntB(), "#0.0####"));
+	    shuntGTextField.setText(Number2String.toStr(_data.getShuntG(), "#0.0####"));
 
 	    if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
 	    	maxTextField.setText("0.0");
@@ -172,10 +172,10 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    	adjustCheckBox.setSelected(true);
 		    	remoteQRadioButton.setSelected(true);
 		    	remoteQRadioButtonActionPerformed(null);
-		    	pGenTextField.setText(Num2Str.toStr(_data.getGenP(), "#0.0####"));
-			    qGenTextField.setText(Num2Str.toStr(_data.getVoltageMag(), "#0.0####"));
-		    	maxTextField.setText(Num2Str.toStr(_data.getMaxGenQ(), "#0.0####"));
-			    minTextField.setText(Num2Str.toStr(_data.getMinGenQ(), "#0.0####"));
+		    	pGenTextField.setText(Number2String.toStr(_data.getGenP(), "#0.0####"));
+			    qGenTextField.setText(Number2String.toStr(_data.getVoltageMag(), "#0.0####"));
+		    	maxTextField.setText(Number2String.toStr(_data.getMaxGenQ(), "#0.0####"));
+			    minTextField.setText(Number2String.toStr(_data.getMinGenQ(), "#0.0####"));
 			    /*
 			    setAdjLabelText(true, _data.getReQControlType()==AclfAdjBusData.ReQControlType_Voltage?
     	        		BUS_TYPE_ReQVolt : BUS_TYPE_ReQMvar);
@@ -198,28 +198,28 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    }
 		    else if (_data.getGenCode().equals(AclfBusData.GenCode_PQ) && _data.isHasLimitControl()) {
 		    	adjustCheckBox.setSelected(true);
-		    	maxTextField.setText(Num2Str.toStr(_data.getMaxVoltMag(), "#0.0####"));
-			    minTextField.setText(Num2Str.toStr(_data.getMinVoltMag(), "#0.0####"));
+		    	maxTextField.setText(Number2String.toStr(_data.getMaxVoltMag(), "#0.0####"));
+			    minTextField.setText(Number2String.toStr(_data.getMinVoltMag(), "#0.0####"));
 			    setAdjLabelText(true, BUS_TYPE_PQ);
 		    }
 		    else if (_data.getGenCode().equals(AclfBusData.GenCode_PV) && _data.isHasLimitControl()) {
 		    	adjustCheckBox.setSelected(true);
-			    maxTextField.setText(Num2Str.toStr(_data.getMaxGenQ(), "#0.0####"));
-			    minTextField.setText(Num2Str.toStr(_data.getMinGenQ(), "#0.0####"));
+			    maxTextField.setText(Number2String.toStr(_data.getMaxGenQ(), "#0.0####"));
+			    minTextField.setText(Number2String.toStr(_data.getMinGenQ(), "#0.0####"));
 			    setAdjLabelText(true, BUS_TYPE_PV);
 		    }
 	    	
 	    	if (_data.getLoadCode().equals(AclfBusData.LoadCode_FuncLoad)) {
 		    	funcLoadRadioButton.setSelected(true);
 			    funcLoadRadioButtonSelected(null);
-		    	pLoadTextField.setText(Num2Str.toStr(_data.getLoadP(), "#0.0####"));
-			    qLoadTextField.setText(Num2Str.toStr(_data.getLoadQ(), "#0.0####"));
-			    constP_PTextField.setText(Num2Str.toStr(_data.getLoadP_PPct(), "#0.#"));
-			    constP_QTextField.setText(Num2Str.toStr(_data.getLoadQ_PPct(), "#0.#"));
-		    	constI_PTextField.setText(Num2Str.toStr(_data.getLoadP_IPct(), "#0.#"));
-			    constI_QTextField.setText(Num2Str.toStr(_data.getLoadQ_IPct(), "#0.#"));
-			    constZ_PTextField.setText(Num2Str.toStr(100.0-_data.getLoadP_PPct()-_data.getLoadP_IPct(), "#0.#"));
-			    constZ_QTextField.setText(Num2Str.toStr(100.0-_data.getLoadQ_PPct()-_data.getLoadQ_IPct(), "#0.#"));
+		    	pLoadTextField.setText(Number2String.toStr(_data.getLoadP(), "#0.0####"));
+			    qLoadTextField.setText(Number2String.toStr(_data.getLoadQ(), "#0.0####"));
+			    constP_PTextField.setText(Number2String.toStr(_data.getLoadP_PPct(), "#0.#"));
+			    constP_QTextField.setText(Number2String.toStr(_data.getLoadQ_PPct(), "#0.#"));
+		    	constI_PTextField.setText(Number2String.toStr(_data.getLoadP_IPct(), "#0.#"));
+			    constI_QTextField.setText(Number2String.toStr(_data.getLoadQ_IPct(), "#0.#"));
+			    constZ_PTextField.setText(Number2String.toStr(100.0-_data.getLoadP_PPct()-_data.getLoadP_IPct(), "#0.#"));
+			    constZ_QTextField.setText(Number2String.toStr(100.0-_data.getLoadQ_PPct()-_data.getLoadQ_IPct(), "#0.#"));
 	    	}	
 	    }
 

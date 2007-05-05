@@ -35,7 +35,7 @@ import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 
 public class NBMotorInputPanel extends javax.swing.JPanel  implements IFormDataPanel {
@@ -63,14 +63,14 @@ public class NBMotorInputPanel extends javax.swing.JPanel  implements IFormDataP
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBMotorInputPanel setForm2Editor() called");
 
-		this.ratedHPField.setText(Num2Str.toStr(this._data.getBusRating(), "#0.0#"));
+		this.ratedHPField.setText(Number2String.toStr(this._data.getBusRating(), "#0.0#"));
 		this.ratedHPUnitComboBox.setSelectedItem(this._data.getBusRatingUnit());
-		this.ratedVTextField.setText(Num2Str.toStr(this._data.getRatedVolt(), "#0.0##"));
+		this.ratedVTextField.setText(Number2String.toStr(this._data.getRatedVolt(), "#0.0##"));
 		this.ratedVUnitComboBox.setSelectedItem(this._data.getRatedVoltUnit());
-    	this.pfField.setText(Num2Str.toStr(this._data.getPFactor(), "#0.0#"));
+    	this.pfField.setText(Number2String.toStr(this._data.getPFactor(), "#0.0#"));
 		this.pfUnitComboBox.setSelectedItem(this._data.getPFactorUnit());
-		this.effTextField.setText(Num2Str.toStr(this._data.getEff(), "#0.##"));
-		this.loadingTextField.setText(Num2Str.toStr(this._data.getLoading(), "#0.##"));
+		this.effTextField.setText(Number2String.toStr(this._data.getEff(), "#0.##"));
+		this.loadingTextField.setText(Number2String.toStr(this._data.getLoading(), "#0.##"));
 
         includeLScheduleCheckBox.setSelected(_data.isHasLoadSchedule());
         
