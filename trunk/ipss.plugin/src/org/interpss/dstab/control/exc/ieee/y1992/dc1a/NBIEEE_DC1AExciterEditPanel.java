@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 public class NBIEEE_DC1AExciterEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -67,19 +67,19 @@ public class NBIEEE_DC1AExciterEditPanel extends javax.swing.JPanel implements I
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor() {
-  	    kaTextField.setText(Num2Str.toStr(_data.getKa(), "#0.00"));
-  	    taTextField.setText(Num2Str.toStr(_data.getTa(), "#0.000"));
-  	    tbTextField.setText(Num2Str.toStr(_data.getTb(), "#0.000"));
-  	    tcTextField.setText(Num2Str.toStr(_data.getTc(), "#0.000"));
-  	    teTextField.setText(Num2Str.toStr(_data.getTe(), "#0.000"));
-  	    tfTextField.setText(Num2Str.toStr(_data.getTf(), "#0.000"));
-  	    kfTextField.setText(Num2Str.toStr(_data.getKf(), "#0.000"));
-  	    seEfd1TextField.setText(Num2Str.toStr(_data.getSe_Efd1(), "#0.000"));
-  	    seEfd2TextField.setText(Num2Str.toStr(_data.getSe_Efd2(), "#0.000"));
-  	    efd1TextField.setText(Num2Str.toStr(_data.getEfd1(), "#0.000"));
-  	    efd2TextField.setText(Num2Str.toStr(_data.getEfd2(), "#0.000"));
-  	    vrmaxTextField.setText(Num2Str.toStr(_data.getVrmax(), "#0.00"));
-  	    vrminTextField.setText(Num2Str.toStr(_data.getVrmin(), "#0.00"));
+  	    kaTextField.setText(Number2String.toStr(_data.getKa(), "#0.00"));
+  	    taTextField.setText(Number2String.toStr(_data.getTa(), "#0.000"));
+  	    tbTextField.setText(Number2String.toStr(_data.getTb(), "#0.000"));
+  	    tcTextField.setText(Number2String.toStr(_data.getTc(), "#0.000"));
+  	    teTextField.setText(Number2String.toStr(_data.getTe(), "#0.000"));
+  	    tfTextField.setText(Number2String.toStr(_data.getTf(), "#0.000"));
+  	    kfTextField.setText(Number2String.toStr(_data.getKf(), "#0.000"));
+  	    seEfd1TextField.setText(Number2String.toStr(_data.getSe_Efd1(), "#0.000"));
+  	    seEfd2TextField.setText(Number2String.toStr(_data.getSe_Efd2(), "#0.000"));
+  	    efd1TextField.setText(Number2String.toStr(_data.getEfd1(), "#0.000"));
+  	    efd2TextField.setText(Number2String.toStr(_data.getEfd2(), "#0.000"));
+  	    vrmaxTextField.setText(Number2String.toStr(_data.getVrmax(), "#0.00"));
+  	    vrminTextField.setText(Number2String.toStr(_data.getVrmin(), "#0.00"));
 
         return true;
 	}
