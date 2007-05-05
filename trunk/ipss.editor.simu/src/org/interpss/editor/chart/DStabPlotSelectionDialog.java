@@ -28,10 +28,11 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.IScriptTool;
+import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -39,11 +40,10 @@ import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.script.ScriptingUtil;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 
 /**
@@ -84,7 +84,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         if (scriptFilename != null) {
         	IpssLogger.getLogger().info("scriptFilename: " + scriptFilename);
         	mainTabbedPane.setEnabledAt(1, true);
-        	GUIFileUtil.readFile2TextareaRativePath(scriptFilename, scriptTextArea);
+        	GUIFileUtil.readFile2TextareaAbsolutePath(scriptFilename, scriptTextArea);
         	if (scriptTextArea.getText().trim().equals("")) {
             	GUIFileUtil.readFile2TextareaRativePath(ScriptTemplateFilename, scriptTextArea);
         	}
@@ -829,10 +829,12 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         		List<String> nameList = DStabPlotDialogRecord.getStateNameList(strList);
         		List<Hashtable<String,String>> valueList = DStabPlotDialogRecord.createValueList(caseId, strList);
         		
-       			ScriptEngine engine = SimuObjectFactory.createScriptEngine();
-       			engine.eval(scriptTextArea.getText());
-        		Object plotObj = ScriptingUtil.getScritingObject(engine, msg);
-       			((Invocable)engine).invokeMethod(plotObj, "processPlotScripts", nameList, valueList, this.simuCtx, msg);
+       			String javacode = scriptTextArea.getText();
+       			//System.out.println(javacode);
+       			IScriptTool tool = (IScriptTool)MemoryJavaCompiler.javac(
+       					ScriptJavacUtilFunc.OutDStabResultClassName, javacode);
+		  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("State/Varible Output");
+       			tool.outDStabResult2TextDialog(dialog, nameList, valueList);
     		} catch (Exception e) {
     			msg.sendErrorMsg("DStabPlotSelectDialog.scriptingButtonActionPerformed(), " + e.toString());
     		}

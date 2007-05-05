@@ -38,7 +38,7 @@ import org.interpss.editor.ui.run.common.NBFaultLocDataPanel;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -95,7 +95,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
             this.fixedVoltRadioButton.setSelected(true);
             this.mFactorLabel.setEnabled(true);
             this.mFactorTextField.setEnabled(true);
-            this.mFactorTextField.setText(Num2Str.toStr(_caseData.getMFactor(), "#0.##"));
+            this.mFactorTextField.setText(Number2String.toStr(_caseData.getMFactor(), "#0.##"));
         } 
         else
             this.loadflowVoltRadioButton.setSelected(true);

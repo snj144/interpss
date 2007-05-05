@@ -44,7 +44,7 @@ import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
@@ -219,10 +219,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else
         	this.nrRadioButton.setSelected(true);
         
-        this.accFactorTextField.setText(Num2Str.toStr(_caseData.getAccFactor(), "#0.0#"));
-        this.errPUTextField.setText(Num2Str.toStr(_caseData.getTolerance(), "#0.#####"));
+        this.accFactorTextField.setText(Number2String.toStr(_caseData.getAccFactor(), "#0.0#"));
+        this.errPUTextField.setText(Number2String.toStr(_caseData.getTolerance(), "#0.#####"));
         double baseKva = _netContainer != null? ((GNetForm)_netContainer.getGNetForm()).getBaseKVA() : 100000.0;
-        this.errKVATextField.setText(Num2Str.toStr(_caseData.getTolerance()*baseKva, "#0.####"));
+        this.errKVATextField.setText(Number2String.toStr(_caseData.getTolerance()*baseKva, "#0.####"));
         this.maxItrTextField.setText(new Integer(_caseData.getMaxIteration()).toString());
         this.initVoltCheckBox.setSelected(_caseData.getInitBusVolt());
 		this.lfSummaryCheckBox.setSelected(_caseData.getShowSummary());
@@ -1177,7 +1177,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
  	       			if (SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0) {
                      double err = SwingInputVerifyUtil.getDouble(errPUTextField);
                      errKVATextField.setEditable(true);
-                     errKVATextField.setText(Num2Str.toStr(err*((GNetForm)_netContainer.getGNetForm()).getBaseKVA(), "#0.####"));
+                     errKVATextField.setText(Number2String.toStr(err*((GNetForm)_netContainer.getGNetForm()).getBaseKVA(), "#0.####"));
                      errKVATextField.setEditable(false);
                      return true;
                   }

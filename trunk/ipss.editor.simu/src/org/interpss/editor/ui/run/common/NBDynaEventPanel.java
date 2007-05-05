@@ -37,7 +37,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
@@ -104,14 +104,14 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         if (_eventData.getEventName() != null && !_eventData.getEventName().equals(""))
         	eventListComboBox.setSelectedItem(_eventData.getEventName());
         
-        stratTimeTextField.setText(Num2Str.toStr(_eventData.getStartTime(), "#0.0#"));
+        stratTimeTextField.setText(Number2String.toStr(_eventData.getStartTime(), "#0.0#"));
 
         if (_eventData.isPermanent()) {
         	permanetCheckBox.setSelected(true);
         }
         else {
         	permanetCheckBox.setSelected(false);
-            durationTextField.setText(Num2Str.toStr(_eventData.getDuration(), "#0.00#"));
+            durationTextField.setText(Number2String.toStr(_eventData.getDuration(), "#0.00#"));
         }
         permanetCheckBoxActionPerformed(null);
 

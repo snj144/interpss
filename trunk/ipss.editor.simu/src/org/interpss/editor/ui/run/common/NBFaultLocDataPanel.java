@@ -32,7 +32,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 
@@ -129,10 +129,10 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
 	    reclosureCheckBox.setSelected(_faultData.isBranchReclosure());		
         branchReclosureCheckboxActionPerformed(null);
-	    atReclosureTimeTextField.setText(Num2Str.toStr(_faultData.getReclosureTime(), "0.00"));
+	    atReclosureTimeTextField.setText(Number2String.toStr(_faultData.getReclosureTime(), "0.00"));
 
 	    if (this.distanceTextField.isEnabled())
-        	this.distanceTextField.setText(Num2Str.toStr(_faultData.getDistance(), "#0.##"));
+        	this.distanceTextField.setText(Number2String.toStr(_faultData.getDistance(), "#0.##"));
 
         if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_3P)) 
             this.type3PRadioButton.setSelected(true);
@@ -148,13 +148,13 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         setLabelText();
 		
 		if (this.rLGTextField.isEnabled())
-			this.rLGTextField.setText(Num2Str.toStr(_faultData.getLG_R(), "#0.0000"));
+			this.rLGTextField.setText(Number2String.toStr(_faultData.getLG_R(), "#0.0000"));
         if (this.xLGTextField.isEnabled())
-        	this.xLGTextField.setText(Num2Str.toStr(_faultData.getLG_X(), "#0.0000"));
+        	this.xLGTextField.setText(Number2String.toStr(_faultData.getLG_X(), "#0.0000"));
         if (this.rLLTextField.isEnabled())
-        	this.rLLTextField.setText(Num2Str.toStr(_faultData.getLL_R(), "#0.0000"));
+        	this.rLLTextField.setText(Number2String.toStr(_faultData.getLL_R(), "#0.0000"));
         if (this.xLLTextField.isEnabled())
-        	this.xLLTextField.setText(Num2Str.toStr(_faultData.getLL_X(), "#0.0000"));
+        	this.xLLTextField.setText(Number2String.toStr(_faultData.getLL_X(), "#0.0000"));
 
         return true;
 	}
