@@ -41,7 +41,7 @@ import org.interpss.report.bean.aclf.RptTapVControlBean;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -65,11 +65,11 @@ public class AclfResultMapperImpl {
 		double baseKVA = net.getBaseKva();
 		Mismatch mis = net.maxMismatch(AclfMethod.NR_LITERAL);
 		bean.setPMaxBusId(mis.maxPBus.getId());
-		bean.setPMaxPu(Num2Str.toStr( "####0.000000",mis.maxMis.getReal()));
-		bean.setPMaxKva(Num2Str.toStr( "####0.000", baseKVA*mis.maxMis.getReal()));
+		bean.setPMaxPu(Number2String.toStr( "####0.000000",mis.maxMis.getReal()));
+		bean.setPMaxKva(Number2String.toStr( "####0.000", baseKVA*mis.maxMis.getReal()));
 		bean.setQMaxBusId(mis.maxQBus.getId());
-		bean.setQMaxPu(Num2Str.toStr( "####0.000000",mis.maxMis.getImaginary()));
-		bean.setQMaxKva(Num2Str.toStr( "####0.000", baseKVA*mis.maxMis.getImaginary()));			
+		bean.setQMaxPu(Number2String.toStr( "####0.000000",mis.maxMis.getImaginary()));
+		bean.setQMaxKva(Number2String.toStr( "####0.000", baseKVA*mis.maxMis.getImaginary()));			
 	}
 	
 	public static Object[] createAclfSummaryBusBeanArray(AclfNetwork net) {
@@ -86,11 +86,11 @@ public class AclfResultMapperImpl {
 				}
 				RptAclfSummaryBusBean bean = new RptAclfSummaryBusBean();
 				bean.setBusId(new String(bus.getId()));
-				bean.setBusCode(Num2Str.toStr(-13, bus.code2String() ));
-				bean.setBusVolt(Num2Str.toStr("####0.0000", bus.getVoltageMag(UnitType.PU)));
-				bean.setBusAngle(Num2Str.toStr("####0.00", bus.getVoltageAng(UnitType.Deg)));
-				bean.setBusP(Num2Str.toStr("####0.0000", busPQ.getReal()));
-				bean.setBusQ(Num2Str.toStr("####0.0000", busPQ.getImaginary()));
+				bean.setBusCode(Number2String.toStr(-13, bus.code2String() ));
+				bean.setBusVolt(Number2String.toStr("####0.0000", bus.getVoltageMag(UnitType.PU)));
+				bean.setBusAngle(Number2String.toStr("####0.00", bus.getVoltageAng(UnitType.Deg)));
+				bean.setBusP(Number2String.toStr("####0.0000", busPQ.getReal()));
+				bean.setBusQ(Number2String.toStr("####0.0000", busPQ.getImaginary()));
 				list.add(bean); 
 			}
 	  	} catch (Exception e) {
@@ -115,13 +115,13 @@ public class AclfResultMapperImpl {
 				}
 				RptAclfBusStyleBean bean = new RptAclfBusStyleBean();
 				bean.setBusId(bus.getId());
-				bean.setBaseVolt(Num2Str.toStr( "#######0", bus.getBaseVoltage()));
-				bean.setVoltMsg(Num2Str.toStr( "0.0000", bus.getVoltageMag(UnitType.PU)));
-				bean.setVoltAng(Num2Str.toStr( "##0.0", bus.getVoltageAng(UnitType.Deg)));
-				bean.setPGen(Num2Str.toStr( "####0.00", busGen.getReal()));
-				bean.setQGen(Num2Str.toStr( "####0.00", busGen.getImaginary()));
-				bean.setPLoad(Num2Str.toStr( "####0.00", busLoad.getReal()));
-				bean.setQLoad(Num2Str.toStr( "####0.00", busLoad.getImaginary()));
+				bean.setBaseVolt(Number2String.toStr( "#######0", bus.getBaseVoltage()));
+				bean.setVoltMsg(Number2String.toStr( "0.0000", bus.getVoltageMag(UnitType.PU)));
+				bean.setVoltAng(Number2String.toStr( "##0.0", bus.getVoltageAng(UnitType.Deg)));
+				bean.setPGen(Number2String.toStr( "####0.00", busGen.getReal()));
+				bean.setQGen(Number2String.toStr( "####0.00", busGen.getImaginary()));
+				bean.setPLoad(Number2String.toStr( "####0.00", busLoad.getReal()));
+				bean.setQLoad(Number2String.toStr( "####0.00", busLoad.getImaginary()));
 				
 				Iterator eb = bus.getBranchList().iterator();
 				int cnt = 0;
@@ -169,22 +169,22 @@ public class AclfResultMapperImpl {
 						bean.setQLoad("");
 					}  
 					bean.setToBusId(busj.getId());
-					bean.setBranchP(Num2Str.toStr( "####0.00", pq.getReal() ));
-					bean.setBranchQ(Num2Str.toStr( "####0.00", pq.getImaginary()));
-					bean.setBranchKA(Num2Str.toStr( "##0.0##", 0.001*amp));
+					bean.setBranchP(Number2String.toStr( "####0.00", pq.getReal() ));
+					bean.setBranchQ(Number2String.toStr( "####0.00", pq.getImaginary()));
+					bean.setBranchKA(Number2String.toStr( "##0.0##", 0.001*amp));
 					bean.setXfrRatioFrom("");
 					bean.setXfrRatioTo("");
 					bean.setPsXfrAngle("");
 					if (bra.isXfr() || bra.isPSXfr()) {
 						if (fromRatio != 1.0)
-							bean.setXfrRatioFrom(Num2Str.toStr( "0.0###", fromRatio ));
+							bean.setXfrRatioFrom(Number2String.toStr( "0.0###", fromRatio ));
 
 						if (toRatio != 1.0)
-							bean.setXfrRatioTo(Num2Str.toStr( "0.0###", toRatio ));
+							bean.setXfrRatioTo(Number2String.toStr( "0.0###", toRatio ));
 
 						if (bra.isPSXfr()) {
 							PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
-							bean.setPsXfrAngle(Num2Str.toStr( "##0.0", psXfr.getFromAngle(UnitType.Deg)));
+							bean.setPsXfrAngle(Number2String.toStr( "##0.0", psXfr.getFromAngle(UnitType.Deg)));
 						}	
 					}
 					list.add(bean);
@@ -204,13 +204,13 @@ public class AclfResultMapperImpl {
 			PVBusLimit pv = (PVBusLimit)itr.next();
 			GenBusAdapter genBus = (GenBusAdapter)pv.getAclfBus().adapt(GenBusAdapter.class);
 			RptPVLimitBean bean = new RptPVLimitBean();
-			bean.setBusId(Num2Str.toStr(-8, pv.getAclfBus().getId()));
-			bean.setVact(Num2Str.toStr( "###0.0000", pv.getAclfBus().getVoltageMag(UnitType.PU)));
-			bean.setVspec(Num2Str.toStr( "###0.0000", pv.getVSpecified(UnitType.PU) ));
-			bean.setQ(Num2Str.toStr( "#####0.00", genBus.getGenResults(UnitType.PU,baseKva).getImaginary() ));
-			bean.setQmax(Num2Str.toStr( "#####0.00", pv.getQLimit(UnitType.PU,baseKva).getMax() ));
-			bean.setQmin(Num2Str.toStr( "#####0.00", pv.getQLimit(UnitType.PU,baseKva).getMin() ));
-			bean.setStatus(Num2Str.toStr(6, pv.isActive() ? "on" : "off" ) + "\n");
+			bean.setBusId(Number2String.toStr(-8, pv.getAclfBus().getId()));
+			bean.setVact(Number2String.toStr( "###0.0000", pv.getAclfBus().getVoltageMag(UnitType.PU)));
+			bean.setVspec(Number2String.toStr( "###0.0000", pv.getVSpecified(UnitType.PU) ));
+			bean.setQ(Number2String.toStr( "#####0.00", genBus.getGenResults(UnitType.PU,baseKva).getImaginary() ));
+			bean.setQmax(Number2String.toStr( "#####0.00", pv.getQLimit(UnitType.PU,baseKva).getMax() ));
+			bean.setQmin(Number2String.toStr( "#####0.00", pv.getQLimit(UnitType.PU,baseKva).getMin() ));
+			bean.setStatus(Number2String.toStr(6, pv.isActive() ? "on" : "off" ) + "\n");
 			list.add(bean); 
 		}
 		return list.toArray();
@@ -223,13 +223,13 @@ public class AclfResultMapperImpl {
 			PQBusLimit pq = (PQBusLimit)itr.next();
 			GenBusAdapter genBus = (GenBusAdapter)pq.getAclfBus().adapt(GenBusAdapter.class);
 			RptPQLimitBean bean = new RptPQLimitBean();
-			bean.setBusId(Num2Str.toStr(-8, pq.getAclfBus().getId()));
-			bean.setQact(Num2Str.toStr("####0.00",genBus.getGenResults(UnitType.PU,baseKva).getImaginary()));
-			bean.setQspec(Num2Str.toStr("####0.00",pq.getQSpecified(UnitType.PU,baseKva)));
-			bean.setV(Num2Str.toStr("##0.0000",pq.getAclfBus().getVoltageMag(UnitType.PU)));
-			bean.setVmax(Num2Str.toStr("##0.0000",pq.getVLimit(UnitType.PU).getMax()));
-			bean.setVmin(Num2Str.toStr("##0.0000",pq.getVLimit(UnitType.PU).getMin()));
-			bean.setStatus(Num2Str.toStr(5, pq.isActive() ? "on" : "off" ));
+			bean.setBusId(Number2String.toStr(-8, pq.getAclfBus().getId()));
+			bean.setQact(Number2String.toStr("####0.00",genBus.getGenResults(UnitType.PU,baseKva).getImaginary()));
+			bean.setQspec(Number2String.toStr("####0.00",pq.getQSpecified(UnitType.PU,baseKva)));
+			bean.setV(Number2String.toStr("##0.0000",pq.getAclfBus().getVoltageMag(UnitType.PU)));
+			bean.setVmax(Number2String.toStr("##0.0000",pq.getVLimit(UnitType.PU).getMax()));
+			bean.setVmin(Number2String.toStr("##0.0000",pq.getVLimit(UnitType.PU).getMin()));
+			bean.setStatus(Number2String.toStr(5, pq.isActive() ? "on" : "off" ));
 			list.add(bean); 
 		}
 		return list.toArray();
@@ -243,12 +243,12 @@ public class AclfResultMapperImpl {
 		  	double vpu = fload.getAclfBus().getVoltage().abs();
 			RptFuncLoadBean bean = new RptFuncLoadBean();
 			bean.setBusId(fload.getAclfBus().getId());
-			bean.setPact(Num2Str.toStr("##0.0000",fload.getP().getLoad(vpu,UnitType.PU,baseKva)));
-			bean.setQact(Num2Str.toStr("##0.0000",fload.getQ().getLoad(vpu,UnitType.PU,baseKva)));
-			bean.setV(Num2Str.toStr("##0.0000",fload.getAclfBus().getVoltageMag(UnitType.PU)));
-			bean.setP0(Num2Str.toStr("##0.0000",fload.getP().getLoad0(UnitType.PU,baseKva)));
-			bean.setQ0(Num2Str.toStr("##0.0000",fload.getQ().getLoad0(UnitType.PU,baseKva)));
-			bean.setStatus(Num2Str.toStr(5, fload.isActive() ? "on" : "off" ));
+			bean.setPact(Number2String.toStr("##0.0000",fload.getP().getLoad(vpu,UnitType.PU,baseKva)));
+			bean.setQact(Number2String.toStr("##0.0000",fload.getQ().getLoad(vpu,UnitType.PU,baseKva)));
+			bean.setV(Number2String.toStr("##0.0000",fload.getAclfBus().getVoltageMag(UnitType.PU)));
+			bean.setP0(Number2String.toStr("##0.0000",fload.getP().getLoad0(UnitType.PU,baseKva)));
+			bean.setQ0(Number2String.toStr("##0.0000",fload.getQ().getLoad0(UnitType.PU,baseKva)));
+			bean.setStatus(Number2String.toStr(5, fload.isActive() ? "on" : "off" ));
 			list.add(bean); 
 		}
 		return list.toArray();
@@ -262,18 +262,18 @@ public class AclfResultMapperImpl {
 			GenBusAdapter genBus = (GenBusAdapter)re.getAclfBus().adapt(GenBusAdapter.class);
 			RptRemoteQBusBean bean = new RptRemoteQBusBean();
 			bean.setVcBusId(re.getAclfBus().getId());
-			bean.setType(Num2Str.toStr(-9, (re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
+			bean.setType(Number2String.toStr(-9, (re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
 					 				" Voltage":"MvarFlow")));
-			bean.setReQBusBranch(Num2Str.toStr(15, re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
+			bean.setReQBusBranch(Number2String.toStr(15, re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
 									re.getRemoteBus().getId():re.getRemoteBranch().getId()));
-			bean.setActual(Num2Str.toStr( "###0.0000", re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
+			bean.setActual(Number2String.toStr( "###0.0000", re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
 					re.getRemoteBus().getVoltageMag(UnitType.PU): 
 						re.getMvarFlowCalculated(re.getRemoteBranch(), UnitType.PU, baseKva) ));
-			bean.setSpec(Num2Str.toStr( "###0.0000", re.getVSpecified(UnitType.PU) ));
-			bean.setQ(Num2Str.toStr( "#####0.00", genBus.getGenResults(UnitType.PU,baseKva).getImaginary()));
-			bean.setQmax(Num2Str.toStr( "#####0.00", re.getQLimit(UnitType.PU,baseKva).getMax() ));
-			bean.setQmin(Num2Str.toStr( "#####0.00", re.getQLimit(UnitType.PU,baseKva).getMin()));
-			bean.setStatus(Num2Str.toStr(6, re.isActive() ? "on" : "off" ));
+			bean.setSpec(Number2String.toStr( "###0.0000", re.getVSpecified(UnitType.PU) ));
+			bean.setQ(Number2String.toStr( "#####0.00", genBus.getGenResults(UnitType.PU,baseKva).getImaginary()));
+			bean.setQmax(Number2String.toStr( "#####0.00", re.getQLimit(UnitType.PU,baseKva).getMax() ));
+			bean.setQmin(Number2String.toStr( "#####0.00", re.getQLimit(UnitType.PU,baseKva).getMin()));
+			bean.setStatus(Number2String.toStr(6, re.isActive() ? "on" : "off" ));
 			list.add(bean); 
 		}
 		return list.toArray();
@@ -286,15 +286,15 @@ public class AclfResultMapperImpl {
 			PSXfrPControl psCtrl = (PSXfrPControl)itr.next();
 			RptPSXfrPControlBean bean = new RptPSXfrPControlBean();
 			bean.setBranchId(psCtrl.getAclfBranch().getId());
-			bean.setPact(Num2Str.toStr("##0.0000", (psCtrl.isControlOnFromSide()?
+			bean.setPact(Number2String.toStr("##0.0000", (psCtrl.isControlOnFromSide()?
 							psCtrl.getAclfBranch().powerFrom2To(UnitType.PU,baseKva).getReal() :
 								psCtrl.getAclfBranch().powerTo2From(UnitType.PU,baseKva).getReal())));
-			bean.setPspec(Num2Str.toStr("##0.0000", psCtrl.getPSpecified(UnitType.PU,baseKva)));
+			bean.setPspec(Number2String.toStr("##0.0000", psCtrl.getPSpecified(UnitType.PU,baseKva)));
 			PSXfrAdapter psXfr = (PSXfrAdapter)psCtrl.getAclfBranch().adapt(PSXfrAdapter.class);
-			bean.setAngle(Num2Str.toStr("#0.00", psXfr.getFromAngle(UnitType.Deg)));
-			bean.setAngMax(Num2Str.toStr("#0.00", psCtrl.getAngLimit(UnitType.Deg).getMax()));
-			bean.setAngMin(Num2Str.toStr("#0.00", psCtrl.getAngLimit(UnitType.Deg).getMin()));
-			bean.setStatus(Num2Str.toStr(6, psCtrl.isActive() ? "on" : "off" ));
+			bean.setAngle(Number2String.toStr("#0.00", psXfr.getFromAngle(UnitType.Deg)));
+			bean.setAngMax(Number2String.toStr("#0.00", psCtrl.getAngLimit(UnitType.Deg).getMax()));
+			bean.setAngMin(Number2String.toStr("#0.00", psCtrl.getAngLimit(UnitType.Deg).getMin()));
+			bean.setStatus(Number2String.toStr(6, psCtrl.isActive() ? "on" : "off" ));
 			list.add(bean); 
 		}
 		return list.toArray();
@@ -309,20 +309,20 @@ public class AclfResultMapperImpl {
 			bean.setBranchId(tap.getAclfBranch().getId());
 			if (tap.getControlType() == XfrTapControlType.BUS_VOLTAGE_LITERAL) {
 				bean.setVcBusId(tap.getVcBus().getId());
-				bean.setActual(Num2Str.toStr("##0.0000", tap.getVcBus().getVoltageMag(UnitType.PU)));
-				bean.setSpec(Num2Str.toStr("##0.0000", tap.getVSpecified(UnitType.PU)));
+				bean.setActual(Number2String.toStr("##0.0000", tap.getVcBus().getVoltageMag(UnitType.PU)));
+				bean.setSpec(Number2String.toStr("##0.0000", tap.getVSpecified(UnitType.PU)));
 			}
 			else {
-				bean.setVcBusId(Num2Str.toStr(-8, " "));
-				bean.setActual(Num2Str.toStr("##0.0000", tap.getMvarFlowCalculated(UnitType.PU,baseKva)));
-				bean.setSpec(Num2Str.toStr("##0.0000", tap.getMvarSpecified(UnitType.PU,baseKva)));
+				bean.setVcBusId(Number2String.toStr(-8, " "));
+				bean.setActual(Number2String.toStr("##0.0000", tap.getMvarFlowCalculated(UnitType.PU,baseKva)));
+				bean.setSpec(Number2String.toStr("##0.0000", tap.getMvarSpecified(UnitType.PU,baseKva)));
 			}
-			bean.setTap(Num2Str.toStr("0.000", (tap.isControlOnFromSide()? tap.getAclfBranch().getFromTurnRatio() :
+			bean.setTap(Number2String.toStr("0.000", (tap.isControlOnFromSide()? tap.getAclfBranch().getFromTurnRatio() :
 												tap.getAclfBranch().getToTurnRatio())));
-			bean.setTapMax(Num2Str.toStr("0.000", tap.getTapLimit().getMax()));
-			bean.setTapMin(Num2Str.toStr("0.000", tap.getTapLimit().getMin()));
-			bean.setStepSize(Num2Str.toStr("####0", tap.getTapStepSize()));
-			bean.setStatus(Num2Str.toStr(6, tap.isActive() ? "on" : "off" ));
+			bean.setTapMax(Number2String.toStr("0.000", tap.getTapLimit().getMax()));
+			bean.setTapMin(Number2String.toStr("0.000", tap.getTapLimit().getMin()));
+			bean.setStepSize(Number2String.toStr("####0", tap.getTapStepSize()));
+			bean.setStatus(Number2String.toStr(6, tap.isActive() ? "on" : "off" ));
 			list.add(bean); 
 		}
 		return list.toArray();

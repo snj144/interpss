@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 import com.interpss.dstab.controller.AbstractGovernor;
 
 
@@ -66,14 +66,14 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
     	    droopRadioButton.setSelected(true);
     	else
     	    isochRadioButton.setSelected(true);
-  	    rTextField.setText(Num2Str.toStr(_data.getR(), "#0.00"));
-  	    fpTextField.setText(Num2Str.toStr(_data.getFp(), "#0.00"));
-  	    t1TextField.setText(Num2Str.toStr(_data.getT1(), "#0.00"));
-  	    t2TextField.setText(Num2Str.toStr(_data.getT2(), "#0.00"));
-  	    t3TextField.setText(Num2Str.toStr(_data.getT3(), "#0.00"));
-  	    t4TextField.setText(Num2Str.toStr(_data.getT4(), "#0.00"));
-  	    pmaxTextField.setText(Num2Str.toStr(_data.getPmax(), "#0.00"));
-  	    pminTextField.setText(Num2Str.toStr(_data.getPmin(), "#0.00"));
+  	    rTextField.setText(Number2String.toStr(_data.getR(), "#0.00"));
+  	    fpTextField.setText(Number2String.toStr(_data.getFp(), "#0.00"));
+  	    t1TextField.setText(Number2String.toStr(_data.getT1(), "#0.00"));
+  	    t2TextField.setText(Number2String.toStr(_data.getT2(), "#0.00"));
+  	    t3TextField.setText(Number2String.toStr(_data.getT3(), "#0.00"));
+  	    t4TextField.setText(Number2String.toStr(_data.getT4(), "#0.00"));
+  	    pmaxTextField.setText(Number2String.toStr(_data.getPmax(), "#0.00"));
+  	    pminTextField.setText(Number2String.toStr(_data.getPmin(), "#0.00"));
   	    
         return true;
 	}

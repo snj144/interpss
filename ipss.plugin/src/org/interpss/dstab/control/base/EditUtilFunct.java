@@ -33,7 +33,7 @@ import java.util.Vector;
 import javax.swing.JTextField;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 public class EditUtilFunct {
 	/**
@@ -44,7 +44,7 @@ public class EditUtilFunct {
 	 * @param format format of the data
 	 */
 	public static void setDblTextFiled(JTextField textField, double data, String format) {
-		textField.setText(Num2Str.toStr(data, format));
+		textField.setText(Number2String.toStr(data, format));
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class EditUtilFunct {
 	 * @param data the data 
 	 */
 	public static void setIntTextFiled(JTextField textField, int data) {
-		textField.setText(Num2Str.toStr(data));
+		textField.setText(Number2String.toStr(data));
 	}
 
 	/**

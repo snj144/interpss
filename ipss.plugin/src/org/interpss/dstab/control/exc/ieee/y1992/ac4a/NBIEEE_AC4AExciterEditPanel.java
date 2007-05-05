@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 public class NBIEEE_AC4AExciterEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -66,18 +66,18 @@ public class NBIEEE_AC4AExciterEditPanel extends javax.swing.JPanel implements I
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor() {
-  	    kaTextField.setText(Num2Str.toStr(_data.getKa(), "#0.00"));
-  	    taTextField.setText(Num2Str.toStr(_data.getTa(), "#0.000"));
-  	    tbTextField.setText(Num2Str.toStr(_data.getTb(), "#0.000"));
-  	    tcTextField.setText(Num2Str.toStr(_data.getTc(), "#0.000"));
-  	    trTextField.setText(Num2Str.toStr(_data.getTr(), "#0.000"));
-  	    kcTextField.setText(Num2Str.toStr(_data.getKc(), "#0.000"));
-  	    vuelTextField.setText(Num2Str.toStr(_data.getVuel(), "#0.000"));
-  	    voelTextField.setText(Num2Str.toStr(_data.getVoel(), "#0.000"));
-  	    vimaxTextField.setText(Num2Str.toStr(_data.getVimax(), "#0.000"));
-  	    viminTextField.setText(Num2Str.toStr(_data.getVimin(), "#0.000"));
-  	    vrmaxTextField.setText(Num2Str.toStr(_data.getVrmax(), "#0.00"));
-  	    vrminTextField.setText(Num2Str.toStr(_data.getVrmin(), "#0.00"));
+  	    kaTextField.setText(Number2String.toStr(_data.getKa(), "#0.00"));
+  	    taTextField.setText(Number2String.toStr(_data.getTa(), "#0.000"));
+  	    tbTextField.setText(Number2String.toStr(_data.getTb(), "#0.000"));
+  	    tcTextField.setText(Number2String.toStr(_data.getTc(), "#0.000"));
+  	    trTextField.setText(Number2String.toStr(_data.getTr(), "#0.000"));
+  	    kcTextField.setText(Number2String.toStr(_data.getKc(), "#0.000"));
+  	    vuelTextField.setText(Number2String.toStr(_data.getVuel(), "#0.000"));
+  	    voelTextField.setText(Number2String.toStr(_data.getVoel(), "#0.000"));
+  	    vimaxTextField.setText(Number2String.toStr(_data.getVimax(), "#0.000"));
+  	    viminTextField.setText(Number2String.toStr(_data.getVimin(), "#0.000"));
+  	    vrmaxTextField.setText(Number2String.toStr(_data.getVrmax(), "#0.00"));
+  	    vrminTextField.setText(Number2String.toStr(_data.getVrmin(), "#0.00"));
 
         return true;
 	}

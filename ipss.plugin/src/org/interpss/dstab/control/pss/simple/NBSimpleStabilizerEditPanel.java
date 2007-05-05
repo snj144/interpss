@@ -29,7 +29,7 @@ import java.util.Vector;
 
 import com.interpss.common.ui.IControllerEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
-import com.interpss.common.util.Num2Str;
+import com.interpss.common.util.Number2String;
 
 public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
@@ -60,13 +60,13 @@ public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements I
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor() {
-  	    ksTextField.setText(Num2Str.toStr(_data.getKs(), "#0.00"));
-  	    t1TextField.setText(Num2Str.toStr(_data.getT1(), "#0.000"));
-  	    t2TextField.setText(Num2Str.toStr(_data.getT2(), "#0.000"));
-  	    t3TextField.setText(Num2Str.toStr(_data.getT3(), "#0.000"));
-  	    t4TextField.setText(Num2Str.toStr(_data.getT4(), "#0.000"));
-  	    vsmaxTextField.setText(Num2Str.toStr(_data.getVsmax(), "#0.00"));
-  	    vsminTextField.setText(Num2Str.toStr(_data.getVsmin(), "#0.00"));
+  	    ksTextField.setText(Number2String.toStr(_data.getKs(), "#0.00"));
+  	    t1TextField.setText(Number2String.toStr(_data.getT1(), "#0.000"));
+  	    t2TextField.setText(Number2String.toStr(_data.getT2(), "#0.000"));
+  	    t3TextField.setText(Number2String.toStr(_data.getT3(), "#0.000"));
+  	    t4TextField.setText(Number2String.toStr(_data.getT4(), "#0.000"));
+  	    vsmaxTextField.setText(Number2String.toStr(_data.getVsmax(), "#0.00"));
+  	    vsminTextField.setText(Number2String.toStr(_data.getVsmin(), "#0.00"));
   	    
         return true;
 	}
