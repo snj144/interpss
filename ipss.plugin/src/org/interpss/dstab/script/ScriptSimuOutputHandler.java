@@ -28,11 +28,14 @@ import java.util.Hashtable;
 
 import javax.swing.JTextArea;
 
+import org.interpss.editor.ui.IScriptTool;
 import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
+import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.DStabSimuAction;
 import com.interpss.dstab.util.SimuOutputHandlerAdapter;
@@ -40,6 +43,7 @@ import com.interpss.dstab.util.SimuOutputHandlerAdapter;
 public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 	private IPSSMsgHub msg = null;
 	private DStabilityNetwork net = null;
+	private IScriptTool tool = null;
 	
 	public ScriptSimuOutputHandler() {
 	}
@@ -51,9 +55,13 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 
 		JTextArea textarea = new JTextArea();
 		GUIFileUtil.readFile2TextareaAbsolutePath(scriptFilename, textarea);
+		//System.out.println(textarea.getText());
 		
+		String javacode = textarea.getText();
+		this.tool = (IScriptTool)MemoryJavaCompiler.javac(
+   					ScriptJavacUtilFunc.DStabOutputScriptingClassName, javacode);
 		try {
-//			invoker.invokeMethod(scriptObj, "init", net, msg);
+			tool.initDStabOutputScripting(net);
 		} catch (Exception e) {
 			msg.sendErrorMsg("Error in the init() section: " + e.toString());
 			return false;
@@ -65,38 +73,26 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 	public boolean onMsgEventStatus(IpssMessage event) {
 		DStabSimuAction e = (DStabSimuAction)event;
 		if (e.getType() == DStabSimuAction.TimeStepMachineStates) {
-			try {
-			   	Hashtable machStates = e.getHashtableData();
-//				invoker.invokeMethod(scriptObj, "processMachStates", net, machStates, msg);
-			} catch (Exception ex) {
-				msg.sendErrorMsg("Error in processMachStates section, " + ex.toString());
+		   	Hashtable machStates = e.getHashtableData();
+			if (!this.tool.machStatesDStabOutputScripting(net, machStates))
 				return false;
-			}
 		}
 
 		if (e.getType() == DStabSimuAction.TimeStepBusStates) {
-			try {
-			   	Hashtable busStates = e.getHashtableData();
-//				invoker.invokeMethod(scriptObj, "processBusVariables", net, busStates, msg);
-			} catch (Exception ex) {
-				msg.sendErrorMsg("Error in processBusVariables section, " + ex.toString());
+		   	Hashtable busStates = e.getHashtableData();
+			if (!this.tool.busVariablesDStabOutputScripting(net, busStates))
 				return false;
-			}
 		}
 
 		if (e.getType() == DStabSimuAction.TimeStepScriptDynamicBusDeviceStates) {
-			try {
-			   	Hashtable busDeviceStates = e.getHashtableData();
-//				invoker.invokeMethod(scriptObj, "processBusDeviceStates", net, busDeviceStates, msg);
-			} catch (Exception ex) {
-				msg.sendErrorMsg("Error in processBusDeviceStates section, " + ex.toString());
+		   	Hashtable busDeviceStates = e.getHashtableData();
+			if (!this.tool.busDeviceStatesDStabOutputScripting(net, busDeviceStates))
 				return false;
-			}
 		}
 
 		if (e.getType() == DStabSimuAction.EndOfSimuStep) {
 			try {
-//				invoker.invokeMethod(scriptObj, "processEndOfSimuStep", msg);
+				this.tool.endOfSimuStepDStabOutputScripting();
 			} catch (Exception ex) {
 				msg.sendErrorMsg("Error in processEndOfSimuStep section, " + ex.toString());
 				return false;
@@ -109,7 +105,7 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 	@Override
 	public boolean close() {
 		try {
-//			invoker.invokeMethod(scriptObj, "close", msg);
+			this.tool.closeDStabOutputScripting();
 		} catch (Exception ex) {
 			msg.sendErrorMsg("ScriptSimuOutputHandler.close(), " + ex.toString());
 			return false;
