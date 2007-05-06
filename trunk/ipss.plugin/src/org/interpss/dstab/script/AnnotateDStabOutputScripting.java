@@ -7,9 +7,8 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.interpss.editor.ui.impl.ScriptToolAdapter;
-
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.BusVariableRec;
@@ -20,6 +19,10 @@ public class AnnotateDStabOutputScripting {
 
 	private List<Rec> displayRecList = new ArrayList<Rec>(); 
 	private FileWriter fileWriter = null;
+	private String timeStr = ""; 
+	private String machStr = ""; 
+	private String busStr = ""; 
+	private String busDeviceStr = ""; 
 	
 	public AnnotateDStabOutputScripting(IDStabOutputScripting output) {
 		this.anOutput = output;
@@ -45,46 +48,58 @@ public class AnnotateDStabOutputScripting {
 		this.fileWriter.write(header);
 	}	
 	
-	  // This method is called when a machine is processed
-	  public boolean machStates(DStabilityNetwork net, Hashtable stateTable) {
-		  MachineStateRec machRec = new MachineStateRec(stateTable);
-//	     if (machRec.machId.equals(this.machId0004)) {
-//	        timeStr = Number2String.toStr(machRec.time, "0.000");
-//	        mach0004Str = Number2String.toStr(machRec.angle,  "0.0000") + ',' + 
-//	        			  Number2String.toStr(machRec.speed,  "0.0000") + ',' + 
-//	        			  Number2String.toStr(machRec.excEfd, "0.0000") + ',' + 
-//	        			  Number2String.toStr(machRec.govPm,  "0.0000") + ',' + 
-//	        			  Number2String.toStr(machRec.pssVs,  "0.0000");
-//	     } 
-	     return true;
-	  }
+	// This method is called when a machine is processed
+	public boolean machStates(DStabilityNetwork net, Hashtable stateTable) {
+		MachineStateRec machRec = new MachineStateRec(stateTable);
+		String machId = machRec.machId;
+		this.timeStr = Number2String.toStr(machRec.time, "0.000");
+		this.machStr = "";
+		for (Rec rec : displayRecList) {
+			if (machId.equals(rec.id)) {
+				double value = 0.0;
+				this.machStr += ',' + Number2String.toStr(value,  "0.0000"); 
+			}
+		}
+		return true;
+	}
 
-	  // This method is called when a bus object is processed
-	  public boolean busVariables(DStabilityNetwork net, Hashtable varTable) {
-		  BusVariableRec busRec = new BusVariableRec(varTable);
-//	     if (busRec.busId.equals(busId0001)) {
-//	        this.bus0001Str = Number2String.toStr(busRec.vMag, "0.0000");
-//	     } 
-	     return true;
-	  }
+	// This method is called when a bus object is processed
+	public boolean busVariables(DStabilityNetwork net, Hashtable varTable) {
+		BusVariableRec busRec = new BusVariableRec(varTable);
+		String busId = busRec.busId;
+		this.busStr += ""; 
+		for (Rec rec : displayRecList) {
+			if (busId.equals(rec.id)) {
+				double value = 0.0;
+				this.busStr += ',' + Number2String.toStr(value,  "0.0000"); 
+			}
+		}
+		return true;
+	}
 
-	  // This method is called when a dynamic bus device is processed
-	  public boolean busDeviceStatesDStabOutputScripting(DStabilityNetwork net, Hashtable stateTable) {
-	     // output dynamic bus device here
-		  return true;
-	  }
+	// This method is called when a dynamic bus device is processed
+	public boolean busDeviceStates(DStabilityNetwork net, Hashtable stateTable) {
+		// output dynamic bus device here
+		return true;
+	}
 
-	  // This method is called when a simulation step is completed. At
-	  // this point, we write a line in the file
-	  public void endOfSimuStep() throws Exception {
-//	        fileWriter.write( this.timeStr + ',' + this.mach0004Str + ',' + 
-//	                 this.bus0001Str + '\n');
-	  }
+	// This method is called when a simulation step is completed. At
+	// this point, we write a line in the file
+	public void endOfSimuStep() throws Exception {
+		String str = this.timeStr;
+		if (!this.machStr.equals(""))
+			str += this.machStr;
+		if (!this.busStr.equals(""))
+			str += this.busStr;
+		if (!this.busDeviceStr.equals(""))
+			str += this.busDeviceStr;
+		fileWriter.write( str + '\n');
+	}
 	  
-	  public void close() throws Exception {
-	    	 fileWriter.flush();
-	         fileWriter.close();
-	  }
+	public void close() throws Exception {
+		fileWriter.flush();
+		fileWriter.close();
+	}
 	
 	private void parseVariableList(String[] varList) throws Exception {
 		for (String str : varList) {
