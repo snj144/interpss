@@ -32,6 +32,7 @@ import com.interpss.common.util.MemoryJavaCompiler;
 
 public class ScriptJavacUtilFunc {
 	public static String OutDStabResultClassName = "ipss/tools/OutDStabResult2TextDialog";
+	public static String DStabOutputScriptingClassName = "ipss/tools/DStabOutputScripting";
 	
 	public static String CMLTempPackageName = "dsl/temp/";
 	public static String CMLControllerPackageName = "dsl/controller/";
