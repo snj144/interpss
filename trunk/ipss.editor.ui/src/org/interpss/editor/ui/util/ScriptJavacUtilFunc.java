@@ -51,6 +51,11 @@ public class ScriptJavacUtilFunc {
 	public static String Tag_ControllerFieldDescBegin = "<ControllerFieldDescriptionBegin>";
 	public static String Tag_ControllerFieldDescEnd = "<ControllerFieldDescriptionEnd>";
 
+	public static String Tag_DStabOutScriptDescBegin_Code = "package ipss.tools; \n	import org.interpss.dstab.script.AnDStabOutputScripting; \n import org.interpss.dstab.script.IDStabOutputScripting;\n";
+	public static String Tag_DStabOutScriptDescEnd_Code = "public class DStabOutputScripting implements IDStabOutputScripting {\n public AnDStabOutputScripting getAnOutputScripting() { \n return (AnDStabOutputScripting)getClass().getAnnotation(AnDStabOutputScripting.class);  } \n}";
+	public static String Tag_DStabOutScriptDescBegin = "<DStabOutScriptDescriptionBegin>";
+	public static String Tag_DStabOutScriptDescEnd = "<DStabOutScriptDescriptionEnd>";
+	
 	/**
 	 * Parse CML controller template Java Code by substituting tags.
 	 * 
