@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.DStabilityNetwork;
@@ -15,10 +16,20 @@ import com.interpss.dstab.datatype.BusVariableRec;
 import com.interpss.dstab.datatype.MachineStateRec;
 
 public class AnnotateDStabOutputScripting {
+	enum OutType {
+		Mach_Angle, Mach_Speed,   Mach_Pe,     Mach_Pm,    Mach_Q,
+		Mach_E,     Mach_Eq1,     Mach_Eq11,   Mach_Ed1,   Mach_Ed11,
+		Exc_Efd,
+		Gov_Pm,
+		Pss_Vs,
+		Bus_VMag,   Bus_VAng,     Bus_PLoad,   Bus_QLoad,
+	};
+
 	private IDStabOutputScripting anOutput = null;
 
 	private List<Rec> displayRecList = new ArrayList<Rec>(); 
 	private FileWriter fileWriter = null;
+	
 	private String timeStr = ""; 
 	private String machStr = ""; 
 	private String busStr = ""; 
@@ -28,7 +39,7 @@ public class AnnotateDStabOutputScripting {
 		this.anOutput = output;
 	}
 	
-	  // This method is called at the initialization stage
+	// This method is called at the initialization stage
 	public void init(DStabilityNetwork net) throws Exception {
         String filename = "";
         String[] varList = null;
@@ -46,6 +57,9 @@ public class AnnotateDStabOutputScripting {
 		}
 		header += "\n";
 		this.fileWriter.write(header);
+		this.machStr = "";
+		this.busStr = ""; 
+		this.busDeviceStr = ""; 
 	}	
 	
 	// This method is called when a machine is processed
@@ -53,10 +67,9 @@ public class AnnotateDStabOutputScripting {
 		MachineStateRec machRec = new MachineStateRec(stateTable);
 		String machId = machRec.machId;
 		this.timeStr = Number2String.toStr(machRec.time, "0.000");
-		this.machStr = "";
 		for (Rec rec : displayRecList) {
 			if (machId.equals(rec.id)) {
-				double value = 0.0;
+				double value = 	getMachValue(rec, machRec);
 				this.machStr += ',' + Number2String.toStr(value,  "0.0000"); 
 			}
 		}
@@ -67,10 +80,9 @@ public class AnnotateDStabOutputScripting {
 	public boolean busVariables(DStabilityNetwork net, Hashtable varTable) {
 		BusVariableRec busRec = new BusVariableRec(varTable);
 		String busId = busRec.busId;
-		this.busStr += ""; 
 		for (Rec rec : displayRecList) {
 			if (busId.equals(rec.id)) {
-				double value = 0.0;
+				double value = 	getBusValue(rec, busRec);
 				this.busStr += ',' + Number2String.toStr(value,  "0.0000"); 
 			}
 		}
@@ -94,13 +106,62 @@ public class AnnotateDStabOutputScripting {
 		if (!this.busDeviceStr.equals(""))
 			str += this.busDeviceStr;
 		fileWriter.write( str + '\n');
+		this.machStr = "";
+		this.busStr = ""; 
+		this.busDeviceStr = ""; 
 	}
 	  
 	public void close() throws Exception {
 		fileWriter.flush();
 		fileWriter.close();
 	}
+
+	private double getMachValue(Rec rec, MachineStateRec machRec) {
+		if (rec.type == OutType.Mach_Angle)
+			return machRec.angle;
+		else if (rec.type == OutType.Mach_Speed)
+			return machRec.speed;
+		else if (rec.type == OutType.Mach_Pe)
+			return machRec.Pe;
+		else if (rec.type == OutType.Mach_Pm)
+			return machRec.Pm;
+		else if (rec.type == OutType.Mach_Q)
+			return machRec.Q;
+		else if (rec.type == OutType.Mach_E)
+			return machRec.E;
+		else if (rec.type == OutType.Mach_Eq1)
+			return machRec.Eq1;
+		else if (rec.type == OutType.Mach_Eq11)
+			return machRec.Eq11;
+		else if (rec.type == OutType.Mach_Ed1)
+			return machRec.Ed1;
+		else if (rec.type == OutType.Mach_Ed11)
+			return machRec.Ed11;
+		else if (rec.type == OutType.Exc_Efd)
+			return machRec.excEfd;
+		else if (rec.type == OutType.Gov_Pm)
+			return machRec.govPm;
+		else if (rec.type == OutType.Pss_Vs)
+			return machRec.pssVs;
+
+		IpssLogger.getLogger().warning("No value found for rec: " + rec);
+		return 0.0;
+	}
 	
+	private double getBusValue(Rec rec, BusVariableRec busRec) {
+		if (rec.type == OutType.Bus_VMag)
+			return busRec.vMag;
+		else if (rec.type == OutType.Bus_VAng)
+			return busRec.vAng;
+		else if (rec.type == OutType.Bus_PLoad)
+			return busRec.pLoad;
+		else if (rec.type == OutType.Bus_QLoad)
+			return busRec.qLoad;
+		
+		IpssLogger.getLogger().warning("No value found for rec: " + rec);
+		return 0.0;
+	}
+
 	private void parseVariableList(String[] varList) throws Exception {
 		for (String str : varList) {
 			StringTokenizer st = new StringTokenizer(str, ",");
@@ -169,13 +230,4 @@ public class AnnotateDStabOutputScripting {
 			return "name, id, type: " + name + ", " + id + ", " + type;
 		}
 	}
-	
-	enum OutType {
-		Mach_Angle, Mach_Speed,   Mach_Pe,     Mach_Pm,    Mach_Q,
-		Mach_E,     Mach_Eq1,     Mach_Eq11,   Mach_Ed1,   Mach_Ed11,
-		Exc_Efd,
-		Gov_Pm,
-		Pss_Vs,
-		Bus_VMag,   Bus_VAng,     Bus_PLoad,   Bus_QLoad,
-	};
 }

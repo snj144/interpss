@@ -56,14 +56,21 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 		GUIFileUtil.readFile2TextareaAbsolutePath(scriptFilename, textarea);
 		//System.out.println(textarea.getText());
 		
+		// get the javacode, compile and create the annotated object
 		String javacode = textarea.getText();
+		javacode = javacode.replaceFirst(ScriptJavacUtilFunc.Tag_DStabOutScriptDescBegin, 
+	            			ScriptJavacUtilFunc.Tag_DStabOutScriptDescBegin_Code);
+		javacode = javacode.replaceFirst(ScriptJavacUtilFunc.Tag_DStabOutScriptDescEnd, 
+    						ScriptJavacUtilFunc.Tag_DStabOutScriptDescEnd_Code);
+		System.out.println(javacode);
 		IDStabOutputScripting obj = (IDStabOutputScripting)MemoryJavaCompiler.javac(
    					ScriptJavacUtilFunc.DStabOutputScriptingClassName, javacode);
+		
 		this.anOutput = new AnnotateDStabOutputScripting(obj);
 		try {
 			this.anOutput.init(net);
 		} catch (Exception e) {
-			msg.sendErrorMsg("Error in the init() section: " + e.toString());
+			msg.sendErrorMsg("Error in the ScriptSimuOutputHandler.init() section: " + e.toString());
 			return false;
 		}
 		return true;
