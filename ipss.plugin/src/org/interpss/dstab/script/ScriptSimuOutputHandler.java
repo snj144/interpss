@@ -28,7 +28,6 @@ import java.util.Hashtable;
 
 import javax.swing.JTextArea;
 
-import org.interpss.editor.ui.IScriptTool;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
@@ -43,7 +42,7 @@ import com.interpss.dstab.util.SimuOutputHandlerAdapter;
 public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 	private IPSSMsgHub msg = null;
 	private DStabilityNetwork net = null;
-	private IScriptTool tool = null;
+	private AnnotateDStabOutputScripting anOutput = null;
 	
 	public ScriptSimuOutputHandler() {
 	}
@@ -58,10 +57,11 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 		//System.out.println(textarea.getText());
 		
 		String javacode = textarea.getText();
-		this.tool = (IScriptTool)MemoryJavaCompiler.javac(
+		IDStabOutputScripting obj = (IDStabOutputScripting)MemoryJavaCompiler.javac(
    					ScriptJavacUtilFunc.DStabOutputScriptingClassName, javacode);
+		this.anOutput = new AnnotateDStabOutputScripting(obj);
 		try {
-			tool.initDStabOutputScripting(net);
+			this.anOutput.init(net);
 		} catch (Exception e) {
 			msg.sendErrorMsg("Error in the init() section: " + e.toString());
 			return false;
@@ -74,25 +74,25 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 		DStabSimuAction e = (DStabSimuAction)event;
 		if (e.getType() == DStabSimuAction.TimeStepMachineStates) {
 		   	Hashtable machStates = e.getHashtableData();
-			if (!this.tool.machStatesDStabOutputScripting(net, machStates))
+			if (!this.anOutput.machStates(net, machStates))
 				return false;
 		}
 
 		if (e.getType() == DStabSimuAction.TimeStepBusStates) {
 		   	Hashtable busStates = e.getHashtableData();
-			if (!this.tool.busVariablesDStabOutputScripting(net, busStates))
+			if (!this.anOutput.busVariables(net, busStates))
 				return false;
 		}
 
 		if (e.getType() == DStabSimuAction.TimeStepScriptDynamicBusDeviceStates) {
 		   	Hashtable busDeviceStates = e.getHashtableData();
-			if (!this.tool.busDeviceStatesDStabOutputScripting(net, busDeviceStates))
+			if (!this.anOutput.busDeviceStatesDStabOutputScripting(net, busDeviceStates))
 				return false;
 		}
 
 		if (e.getType() == DStabSimuAction.EndOfSimuStep) {
 			try {
-				this.tool.endOfSimuStepDStabOutputScripting();
+				this.anOutput.endOfSimuStep();
 			} catch (Exception ex) {
 				msg.sendErrorMsg("Error in processEndOfSimuStep section, " + ex.toString());
 				return false;
@@ -105,7 +105,7 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 	@Override
 	public boolean close() {
 		try {
-			this.tool.closeDStabOutputScripting();
+			this.anOutput.close();
 		} catch (Exception ex) {
 			msg.sendErrorMsg("ScriptSimuOutputHandler.close(), " + ex.toString());
 			return false;
