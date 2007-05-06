@@ -86,7 +86,7 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 
 		if (e.getType() == DStabSimuAction.TimeStepScriptDynamicBusDeviceStates) {
 		   	Hashtable busDeviceStates = e.getHashtableData();
-			if (!this.anOutput.busDeviceStatesDStabOutputScripting(net, busDeviceStates))
+			if (!this.anOutput.busDeviceStates(net, busDeviceStates))
 				return false;
 		}
 
