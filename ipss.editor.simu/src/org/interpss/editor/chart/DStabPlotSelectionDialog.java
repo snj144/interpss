@@ -825,19 +825,19 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     	Object[] strList = stateItemSelectList.getSelectedValues();
 		IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
     	if (strList.length > 0) {
-        	try {
-        		List<String> nameList = DStabPlotDialogRecord.getStateNameList(strList);
-        		List<Hashtable<String,String>> valueList = DStabPlotDialogRecord.createValueList(caseId, strList);
+       		List<String> nameList = DStabPlotDialogRecord.getStateNameList(strList);
+       		List<Hashtable<String,String>> valueList = DStabPlotDialogRecord.createValueList(caseId, strList);
         		
-       			String javacode = scriptTextArea.getText();
-       			//System.out.println(javacode);
-       			IScriptTool tool = (IScriptTool)MemoryJavaCompiler.javac(
+   			String javacode = scriptTextArea.getText();
+   			//System.out.println(javacode);
+   			IScriptTool tool = (IScriptTool)MemoryJavaCompiler.javac(
        					ScriptJavacUtilFunc.OutDStabResultClassName, javacode);
-		  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("State/Varible Output");
-       			tool.outDStabResult2TextDialog(dialog, nameList, valueList);
-    		} catch (Exception e) {
-    			msg.sendErrorMsg("DStabPlotSelectDialog.scriptingButtonActionPerformed(), " + e.toString());
-    		}
+   			if (tool == null) {
+   				msg.sendErrorMsg("Java compile error, please check your java code.");
+   				return;
+   			}
+   			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("State/Varible Output");
+    		tool.outDStabResult2TextDialog(dialog, nameList, valueList);
     	}
     	else {
 			msg.sendWarnMsg("Please select a varible/state to script plotting");

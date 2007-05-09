@@ -46,6 +46,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.util.CoreUtilFunc;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.device.DynamicBusDeviceType;
@@ -129,6 +130,7 @@ public class DStabFormDataMapperImpl {
 */	
 	private static void setMachineInfo(DStabMachData machData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Set Machine info, busId: " + busId);
+		DStabBus dstabBus = dstabNet.getDStabBus(busId);
 		if (machData.getType().equals(DStabMachData.MachType_InfiniteBus)) {
 			Complex z1 = new Complex(0.0, 0.0);
 			if (machData.getScMva3P() > 0.0 && machData.getX_R_3P() > 0.0)
@@ -136,13 +138,15 @@ public class DStabFormDataMapperImpl {
 			Complex z0 = new Complex(0.0, 0.0);
 			if (machData.getScMva1P() > 0 && machData.getX_R_1P() > 0.0 )
 				z0 = CoreUtilFunc.calUitilityZ0PU(machData.getScMva1P()*1000, machData.getX_R_1P(), dstabNet.getBaseKva(), z1);
-			DStabObjectFactory.createInfiniteMachine(Constants.MachIdToken+busId, machData.getName(), z1, z0, dstabNet, busId);
+			Machine mach = DStabObjectFactory.createInfiniteMachine(Constants.MachIdToken+busId, machData.getName(), z1, z0, dstabNet, busId);
+			dstabBus.setDeviceAdjElement(mach);   // bind bus and machine together
 		}
 		else {
 			Machine mach = DStabObjectFactory.createMachine(Constants.MachIdToken+busId, machData.getName(), getMachType(machData.getType()), dstabNet, busId);
+			dstabBus.setDeviceAdjElement(mach);   // bind bus and machine together
 			mach.setRating(machData.getRating(), "Mva", dstabNet.getBaseKva());
 			mach.setRatedVoltage(machData.getRatedVolt());
-			mach.setMultiFactors(mach.getMachineBus());
+			mach.setMultiFactors(dstabBus);
 			mach.setH(machData.getInertia());
 			mach.setD(machData.getDamping());
 			mach.setPoles(machData.getPoles());
