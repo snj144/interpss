@@ -86,6 +86,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+		//super.initStates(abus, mach, msg);
    		createControllerObject();
     	if (anController != null)
     		return anController.initStates(abus, mach, msg);
@@ -102,8 +103,8 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
-		return anController.nextStep(dt, method, abus, mach, net, msg);
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final Network net, final IPSSMsgHub msg) {
+		return anController.nextStep(dt, method, mach, net, msg);
 	}
 	
 	/**
@@ -114,8 +115,8 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	 * @return the output
 	 */
 	@Override
-	public double getOutput(DStabBus abus, Machine mach) {
-		return anController.getOutput(abus, mach);
+	public double getOutput(Machine mach) {
+		return anController.getOutput(mach);
 	}
 
 	/**
@@ -127,8 +128,8 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	 * @return hashtable of the states
 	 */
 	@Override
-	public Hashtable getStates(DStabBus abus, Machine mach, Object ref) {
-		return anController.getStates(abus, mach, ref);
+	public Hashtable getStates(Machine mach, Object ref) {
+		return anController.getStates(mach, ref);
 	}
 
 	/**

@@ -60,11 +60,15 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @return false if there is anything wrong 
 	 */
 	public boolean initStates(DStabBus abus, Network net, IPSSMsgHub msg) {
+		super.initStates(abus, net, msg);
+		
    		createDeviceObject();
    		if (device != null)
    			return device.initStates(abus, net, msg);
-   		else 
+   		else {
+   			msg.sendErrorMsg("ScriptDynamicBusDevice create error, device == null");
    			return false;
+   		}
 	}
 
 	/**
@@ -77,8 +81,8 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @param msg the MessageHub object
 	 * @return false if there is anything wrong 
 	 */
-	public boolean nextStep(double dt, DynamicSimuMethods method, DStabBus abus, Network net, IPSSMsgHub msg) {
-		return device.nextStep(dt, method, abus, net, msg);
+	public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
+		return device.nextStep(dt, method, net, msg);
 	}
 
 	/**
@@ -86,8 +90,8 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * 
 	 * @param abus the bus object
 	 */
-	public Object getOutputObject(DStabBus abus) {
-		return device.getOutputObject(abus);
+	public Object getOutputObject() {
+		return device.getOutputObject();
 	}
 
 	/**
@@ -96,8 +100,8 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @param abus the bus object
 	 * @refMach the ref machine object
 	 */
-	public Hashtable getStates(DStabBus abus, Object refMach) {
-		return device.getStates(abus, refMach);
+	public Hashtable getStates(Object refMach) {
+		return device.getStates(refMach);
 	}
 
 	/**
@@ -107,8 +111,8 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @param netChange if there is any network change event
 	 * @return false if there is any problem
 	 */
-	public boolean updateAttributes(DStabBus abus, boolean netChange)  {
-		return device.updateAttributes(abus, netChange);
+	public boolean updateAttributes(boolean netChange)  {
+		return device.updateAttributes(netChange);
 	}
 	
 	private void createDeviceObject() {
@@ -118,7 +122,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 		String classname = IpssJavaCompiler.createClassName(getId(), folderName, projName); 
 		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
 		device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
-				ScriptJavacUtilFunc.CMLControllerPackageName+classname, javacode);
+					ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName+classname, javacode);
 	}
 	
 /*

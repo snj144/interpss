@@ -19,9 +19,8 @@ public class AnnotateDStabOutputScripting {
 	enum OutType {
 		Mach_Angle, Mach_Speed,   Mach_Pe,     Mach_Pm,    Mach_Q,
 		Mach_E,     Mach_Eq1,     Mach_Eq11,   Mach_Ed1,   Mach_Ed11,
-		Exc_Efd,
-		Gov_Pm,
-		Pss_Vs,
+		Mach_Ifd,    Mach_Efd,
+		Exc_Efd,	Gov_Pm,		  Pss_Vs,
 		Bus_VMag,   Bus_VAng,     Bus_PLoad,   Bus_QLoad,
 	};
 
@@ -137,6 +136,10 @@ public class AnnotateDStabOutputScripting {
 			return machRec.Ed1;
 		else if (rec.type == OutType.Mach_Ed11)
 			return machRec.Ed11;
+		else if (rec.type == OutType.Mach_Ifd)
+			return machRec.Ifd;
+		else if (rec.type == OutType.Mach_Efd)
+			return machRec.Efd;
 		else if (rec.type == OutType.Exc_Efd)
 			return machRec.excEfd;
 		else if (rec.type == OutType.Gov_Pm)
@@ -196,6 +199,10 @@ public class AnnotateDStabOutputScripting {
 				rec.type = OutType.Mach_Ed1;   
 			else if (var.equals("mach.ed11"))
 				rec.type = OutType.Mach_Ed11;
+			else if (var.equals("mach.ifd"))
+				rec.type = OutType.Mach_Ifd;
+			else if (var.equals("mach.efd"))
+				rec.type = OutType.Mach_Efd;
 			else if (var.equals("exc.efd"))
 				rec.type = OutType.Exc_Efd;
 			else if (var.equals("gov.pm"))
