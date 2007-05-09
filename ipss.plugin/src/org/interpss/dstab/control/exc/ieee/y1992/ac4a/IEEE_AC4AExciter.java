@@ -118,7 +118,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 		//double vt = mach.getBus(ctr_bus_id).getVoltage().abs() / mach.getVMultiFactor();
 		final double vt = abus.getVoltage().abs() / mach.getVMultiFactor();
 		_X1 = vt;
-		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput(abus) : 0.0;
+		final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
 		_Vref = _X1 + _X2 - vpss;
 		return true;
 
@@ -146,23 +146,23 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public boolean nextStep(final double dt, final DynamicSimuMethods method, DStabBus abus, Machine mach, final Network net, final IPSSMsgHub msg) {
+	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final Network net, final IPSSMsgHub msg) {
 		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
 			//Block 1
 			if(getData().getTa() < Constants.SmallDoubleNumber) {
-				_X1 = abus.getVoltage().abs() / mach.getVMultiFactor();
+				_X1 = getDStabBus().getVoltage().abs() / mach.getVMultiFactor();
 			}
 			else {
 				//Step-1 : x(1) = x(0) + dx_dt(1) * dt
-				final double dX1_dt = cal_dX1_dt(abus, _X1);
+				final double dX1_dt = cal_dX1_dt(getDStabBus(), _X1);
 				final double X1 = _X1 + dX1_dt * dt;
 				//System.out.println("dX1_dt, X1: " + dX1_dt + ", " + X1);
 				 //Step-2 : x(2) = x(0) + 0.5 * (dx_dt(2) + dx_dt(1)) * dt
-				_X1 = _X1 + 0.5 * ( cal_dX1_dt(abus, X1) + dX1_dt ) * dt;
+				_X1 = _X1 + 0.5 * ( cal_dX1_dt(getDStabBus(), X1) + dX1_dt ) * dt;
 			}
 			//Block 2
 			final double _X2_old = _X2;
-			final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput(abus) : 0.0;
+			final double vpss = mach.hasStabilizer()? mach.getStabilizer().getOutput() : 0.0;
 			if( ( _Vref + vpss - _X1 ) > getData().getVimax()) {
 				_X2 = getData().getVimax();
 			}
@@ -233,7 +233,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @return hashtable of the states
 	 */
 	@Override
-	public Hashtable getStates(DStabBus abus, Object ref) {
+	public Hashtable getStates(Object ref) {
 		final Hashtable table = new Hashtable();
 		table.put(DStabOutFunc.OUT_SYMBOL_EXC_EFD, new Double(_X5));
 		return table;
@@ -245,7 +245,7 @@ public class IEEE_AC4AExciter extends AbstractExciter {
 	 * @return the output
 	 */
 	@Override
-	public double getOutput(DStabBus abus, Machine mach) {
+	public double getOutput(Machine mach) {
 		return _X6;
 	}
 
