@@ -96,7 +96,7 @@ public class ScriptJavacUtilFunc {
 		String filename = IpssJavaCompiler.createJavaFilename("CheckCode", 
 								ScriptJavacUtilFunc.CMLTempPackageName, editor.getRootDir());
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
-		MemoryJavaCompiler.javac(packageName+"CheckCode", javacode);
-		return true;
+		Object obj = MemoryJavaCompiler.javac(packageName+"CheckCode", javacode);
+		return obj != null;
 	}
 }
