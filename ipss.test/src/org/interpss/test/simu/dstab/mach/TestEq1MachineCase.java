@@ -25,6 +25,7 @@
 package org.interpss.test.simu.dstab.mach;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuMethods;
@@ -40,13 +41,14 @@ public class TestEq1MachineCase extends TestSetupBase {
 		Eq1Machine mach = createMachine();
 		
 		// calculate mach state init values
-		mach.initStates(mach.getDeviceBus(), msg);
+		DStabBus bus = net.getDStabBus("Gen");
+		mach.initStates(bus, msg);
 		//System.out.println("Ygen: " + mach.getYgen());
 		//System.out.println("Igen: " + mach.getIgen());
 		assertTrue(Math.abs(mach.getYgen().getReal()-0.01208) < 0.00001);
 		assertTrue(Math.abs(mach.getYgen().getImaginary()+2.63678) < 0.00001);
-		assertTrue(Math.abs(mach.getIgen(mach.getMachineBus()).getReal()-0.81207) < 0.00001);
-		assertTrue(Math.abs(mach.getIgen(mach.getMachineBus()).getImaginary()+3.23676) < 0.00001);			
+		assertTrue(Math.abs(mach.getIgen(mach.getDStabBus()).getReal()-0.81207) < 0.00001);
+		assertTrue(Math.abs(mach.getIgen(mach.getDStabBus()).getImaginary()+3.23676) < 0.00001);			
 
 		/*
 		System.out.println("Angle(deg) " + mach.getAngle()*Constants.RtoD);
@@ -63,7 +65,7 @@ public class TestEq1MachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
 		// Move forward one step
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
 
 		// again, the following values to compare to are by long-hand calculation. There
 		// should be no change
@@ -75,11 +77,11 @@ public class TestEq1MachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
 		// Move forward more steps, we should have the same value, since there is no disturbance
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
 		assertTrue(Math.abs(mach.getSpeed()-1.0) < 0.00001);
 		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
@@ -89,7 +91,7 @@ public class TestEq1MachineCase extends TestSetupBase {
 		
 		// create an event by changing Pm from 2.0 to 1.0
 		mach.setPm(1.0);  
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, mach.getMachineBus(), net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
 		
 		/*
 		System.out.println("Angle(deg) " + mach.getAngle()*Constants.RtoD);
@@ -117,11 +119,11 @@ public class TestEq1MachineCase extends TestSetupBase {
 		// create a machine and connect to the bus "Gen"
 		Eq1Machine mach = (Eq1Machine)DStabObjectFactory.
 							createMachine("MachId", "MachName", MachineType.EQ1_MODEL_LITERAL, net, "Gen");
-		
+		DStabBus bus = net.getDStabBus("Gen");		
 		// set machine data
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
-		mach.setMultiFactors(mach.getMachineBus());
+		mach.setMultiFactors(bus);
 		mach.setH(5.0);
 		mach.setD(0.01);
 		mach.setRa(0.003);
