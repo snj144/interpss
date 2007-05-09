@@ -219,15 +219,17 @@ public class KundurP864_Common {
 		// create and define the first machine object
 		Eq1Machine mach1 = (Eq1Machine)DStabObjectFactory.
 						createMachine("LT", "Mach1", MachineType.EQ1_MODEL_LITERAL, net, "LT");
+/*
 		if (!mach1.getDStabBus().getId().equals("LT"))
 			System.out.println("*** Something is worng");
+*/
 		if (net.getDStabBus("LT").getMachine() == null)
 			System.out.println("**** Something is worng");
 
 		// set gen data
 		mach1.setRating(2220, "Mva", net.getBaseKva());
 		mach1.setRatedVoltage(24000.0);
-		mach1.setMultiFactors(mach1.getMachineBus());
+		mach1.setMultiFactors(net.getDStabBus("LT"));
 		mach1.setH(3.5);
 		mach1.setPoles(2);
 		mach1.setXd(1.81);
@@ -300,7 +302,7 @@ public class KundurP864_Common {
 	}
 	
 	public static void outputSimuResults(DStabBus abus, Machine refMach, double t, double dt) {
-		Hashtable states = abus.getMachine().getStates(abus, refMach);
+		Hashtable states = abus.getMachine().getStates(refMach);
 		states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, abus.getMachine().getId());
 		states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
 		try{
