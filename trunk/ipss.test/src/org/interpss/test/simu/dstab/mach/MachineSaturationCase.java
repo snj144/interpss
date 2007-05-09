@@ -43,11 +43,11 @@ public class MachineSaturationCase extends TestSetupBase {
 		// create a machine and connect to the bus "Gen"
 		Eq1Ed1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
 							createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL_LITERAL, net, "Gen");
-		
+		DStabBus bus = net.getDStabBus("Gen");
 		// set machine data
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
-		mach.setMultiFactors(mach.getMachineBus());
+		mach.setMultiFactors(bus);
 		mach.setH(5.0);
 		mach.setD(0.01);
 		mach.setXd(1.81);
@@ -64,11 +64,10 @@ public class MachineSaturationCase extends TestSetupBase {
 		mach.setS100(12.5);
 		mach.setS120(50.0);		
 		
-		assertTrue(Math.abs(mach.getXdAdjusted(mach.getMachineBus())-1.485327) < 0.0001);
+		assertTrue(Math.abs(mach.getXdAdjusted(bus)-1.485327) < 0.0001);
 
-		DStabBus bus = net.getDStabBus("Gen");
 		bus.setVoltage(new Complex(1.4, 0.0));
-		assertTrue(Math.abs(mach.getXdAdjusted(mach.getMachineBus())-0.746303) < 0.0001);
+		assertTrue(Math.abs(mach.getXdAdjusted(bus)-0.746303) < 0.0001);
 		
 		System.out.println("\nEnd MachineSaturationCase Case1");
 	}
