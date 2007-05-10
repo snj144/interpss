@@ -60,7 +60,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @return false if there is anything wrong 
 	 */
 	public boolean initStates(DStabBus abus, Network net, IPSSMsgHub msg) {
-		super.initStates(abus, net, msg);
+		super.initStates(abus, msg);
 		
    		createDeviceObject();
    		if (device != null)
