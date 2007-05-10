@@ -111,6 +111,8 @@ public class DStabFormDataMapperImpl {
 		IpssLogger.getLogger().info("Set CML Dynamic Bus code info, busId: " + busId);
 		ScriptDynamicBusDeviceHolder busDevice = new ScriptDynamicBusDeviceHolder();
 		dstabNet.addScriptDynamicBusDevice(busDevice, busId);
+		DStabBus dstabBus = dstabNet.getDStabBus(busId);
+		dstabBus.setDeviceAdjElement(busDevice);   // bind bus and machine together
 		busDevice.setDeviceType(DynamicBusDeviceType.SCRIPT_DYNAMIC_BUS_DEVICE_LITERAL);
 		busDevice.setId(Constants.DBusDeviceIdToken+busId);
 		busDevice.setName(Constants.DBusDeviceIdToken+busId);
@@ -131,6 +133,7 @@ public class DStabFormDataMapperImpl {
 	private static void setMachineInfo(DStabMachData machData, DStabilityNetwork dstabNet, String busId, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Set Machine info, busId: " + busId);
 		DStabBus dstabBus = dstabNet.getDStabBus(busId);
+		Machine mach = null;
 		if (machData.getType().equals(DStabMachData.MachType_InfiniteBus)) {
 			Complex z1 = new Complex(0.0, 0.0);
 			if (machData.getScMva3P() > 0.0 && machData.getX_R_3P() > 0.0)
@@ -138,12 +141,10 @@ public class DStabFormDataMapperImpl {
 			Complex z0 = new Complex(0.0, 0.0);
 			if (machData.getScMva1P() > 0 && machData.getX_R_1P() > 0.0 )
 				z0 = CoreUtilFunc.calUitilityZ0PU(machData.getScMva1P()*1000, machData.getX_R_1P(), dstabNet.getBaseKva(), z1);
-			Machine mach = DStabObjectFactory.createInfiniteMachine(Constants.MachIdToken+busId, machData.getName(), z1, z0, dstabNet, busId);
-			dstabBus.setDeviceAdjElement(mach);   // bind bus and machine together
+			mach = DStabObjectFactory.createInfiniteMachine(Constants.MachIdToken+busId, machData.getName(), z1, z0, dstabNet, busId);
 		}
 		else {
-			Machine mach = DStabObjectFactory.createMachine(Constants.MachIdToken+busId, machData.getName(), getMachType(machData.getType()), dstabNet, busId);
-			dstabBus.setDeviceAdjElement(mach);   // bind bus and machine together
+			mach = DStabObjectFactory.createMachine(Constants.MachIdToken+busId, machData.getName(), getMachType(machData.getType()), dstabNet, busId);
 			mach.setRating(machData.getRating(), "Mva", dstabNet.getBaseKva());
 			mach.setRatedVoltage(machData.getRatedVolt());
 			mach.setMultiFactors(dstabBus);
@@ -206,7 +207,9 @@ public class DStabFormDataMapperImpl {
 				setGovernorInfo(machData.getGovData(), mach, msg);
 			}
 		}
-   		IpssLogger.getLogger().info("Machine info set to: " + machData.toString());
+		dstabBus.setDeviceAdjElement(mach);   // bind bus and machine together
+
+		IpssLogger.getLogger().info("Machine info set to: " + machData.toString());
 	}
 
 	private static void setExciterInfo(DStabMachData machData, Machine mach, IPSSMsgHub msg) {
