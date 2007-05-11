@@ -43,7 +43,7 @@ import com.interpss.dstab.mach.Machine;
         input="mach.speed",
         output="this.filterBlock2.y",
         refPoint="1.0",
-        display= {"str.Vpss, this.output"})
+        display= {})
 public class Ieee1992PSS1AStabilizer extends AnnotateStabilizer {
 	    public double one = 1.0, t6 = 0.05;
 	    @AnControllerField(

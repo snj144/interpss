@@ -40,7 +40,7 @@ import com.interpss.dstab.mach.Machine;
         input="mach.speed",
         output="this.filterBlock2.y",
         refPoint="mach.speed",
-        display= {"str.Vpss, this.output", "str.PssState1, this.filterBlock1.state", "str.PssState2, this.filterBlock2.state"})
+        display= {})
 public class SimpleStabilizer extends AnnotateStabilizer {
 	public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
     @AnControllerField(

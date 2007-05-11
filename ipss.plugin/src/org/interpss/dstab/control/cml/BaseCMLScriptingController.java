@@ -32,6 +32,7 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssJavaCompiler;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
@@ -141,7 +142,18 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 		anController.setRefPoint(x);
 	}
 
+	/**
+	 * Compile the java source code to check for possible syntax errors
+	 * 
+	 * @return true if no error
+	 */
 	abstract public boolean checkJavaCode();
+	
+	/**
+	 * Create the actual controller object by loading the source code, compiling code and
+	 * createing the object. To be implemented by child classes
+	 *
+	 */
 	abstract public void createControllerObject();
 
 	/**

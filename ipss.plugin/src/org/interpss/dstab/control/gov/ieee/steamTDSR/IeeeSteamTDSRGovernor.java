@@ -42,7 +42,7 @@ import com.interpss.dstab.mach.Machine;
 		   input="mach.speed - 1.0",
 		   output="this.fvhp*this.chDelayBlock.y + this.fhp*this.rh1DelayBlock.y + this.fip*this.rh2DelayBlock.y + this.flp*this.coDelayBlock.y",
 		   refPoint="this.gainBlock.u0 + this.filterBlock.y + this.intBlock.y",
-		   display= {"str.Pm, this.output"}		)
+		   display= {}		)
 public class IeeeSteamTDSRGovernor extends AnnotateGovernor {
    public double fvhp = 0.1, fhp = 0.1, fip = 0.3, flp = 0.5;
 

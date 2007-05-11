@@ -40,7 +40,7 @@ import com.interpss.dstab.mach.Machine;
         input="mach.speed - 1.0",
         output="this.gainBlock.y",
         refPoint="this.gainBlock.u0 + this.delayBlock.y",
-        display= {"str.Pm, this.output", "str.GovState, this.delayBlock.state"})
+        display= {})
 public class SimpleGovernor extends AnnotateGovernor {
 	public double ka = 10.0, ta = 0.5;
     @AnControllerField(
