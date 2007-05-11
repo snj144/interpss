@@ -42,15 +42,20 @@ public class ScriptJavacUtilFunc {
 	public static String Tag_BaseClassname = "<baseClassname>";
 	public static String Tal_ClassnameLine = "public class <classname> extends <baseClassname> {";
 
+	/*
+	 *  the Begin_Code and End_Code have to be current, since in the testing situation, the fields are not 
+	 *  set from the configuration file
+	 */
 	// CML contrller specific tags
-	public static String Tag_ControllerDescBegin_Code = "package dsl.controller;\n import java.lang.reflect.Field;\n import com.interpss.dstab.controller.annotate.*;\n import com.interpss.dstab.controller.block.*;\n import com.interpss.dstab.mach.Controller;\n";
-	public static String Tag_ControllerFieldDescEnd_Code = "public AnController getAnController() {\n return (AnController)getClass().getAnnotation(AnController.class);  }\n public double getDoubleField(String fieldName) throws Exception {\n Field field = getClass().getField(fieldName);\n return ((Double)field.get(this)).doubleValue();   }\n public Controller getControllerField(Field field) throws Exception {\n return (Controller)field.get(this);    }\n }";
+	public static String Tag_ControllerDescBegin_Code = "package dsl.controller;\n import java.lang.reflect.Field;\n import com.interpss.dstab.controller.annotate.*;\n import com.interpss.dstab.controller.block.*;\n import com.interpss.dstab.controller.func.*;\n import com.interpss.dstab.mach.Controller;\n import com.interpss.common.func.*;\n";
+	public static String Tag_ControllerFieldDescEnd_Code = "public AnController getAnController() {\n return (AnController)getClass().getAnnotation(AnController.class);  }\npublic Field getField(String fieldName) throws Exception {\n return getClass().getField(fieldName);   }\n public Object getFieldObject(Field field) throws Exception {\n return field.get(this);    }\n}";
 
 	public static String Tag_ControllerDescBegin = "<ControllerDescriptionBegin>";
 	public static String Tag_ControllerDescEnd = "<ControllerDescriptionEnd>";
 	public static String Tag_ControllerFieldDescBegin = "<ControllerFieldDescriptionBegin>";
 	public static String Tag_ControllerFieldDescEnd = "<ControllerFieldDescriptionEnd>";
 
+	// DStab output scripting specific tags
 	public static String Tag_DStabOutScriptDescBegin_Code = "package ipss.tools; \n	import org.interpss.dstab.script.AnDStabOutputScripting; \n import org.interpss.dstab.script.IDStabOutputScripting;\n";
 	public static String Tag_DStabOutScriptDescEnd_Code = "public class DStabOutputScripting implements IDStabOutputScripting {\n public AnDStabOutputScripting getAnOutputScripting() { \n return (AnDStabOutputScripting)getClass().getAnnotation(AnDStabOutputScripting.class);  } \n}";
 	public static String Tag_DStabOutScriptDescBegin = "<DStabOutScriptDescriptionBegin>";
