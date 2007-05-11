@@ -87,7 +87,10 @@ public class Ieee1992PSS2AStabilizer extends AnnotateStabilizer {
 	            y0="pss.vs"	)
 	    FilterControlBlock filterBlock2;
 
-	@AnController( )
+	@AnController(
+			output="this.delayBlock.y",
+			refPoint="0.0"
+	)
 	class CustomExciter extends AbstractChildAnnotateController {
 	    public CustomExciter(double tw1, double tw2, double k, double t) {
 	        super();
