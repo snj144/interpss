@@ -1175,10 +1175,16 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 	
 	public String getCurrentProjectFolder() {
-		return getCurrentDocument().getProject().getProjectName();
+		if (getCurrentDocument() != null) 
+			return getCurrentDocument().getProject().getProjectName();
+		else
+			return "testing";  // in testing situations, the document is not existing
 	}
 
 	public String getCurrentProjectName() {
-		return Utilities.getFileNameNoExt(getCurrentDocument().getName());	
+		if (getCurrentDocument() != null) 
+			return Utilities.getFileNameNoExt(getCurrentDocument().getName());	
+		else
+			return "TestProject";  // in testing situations, the document is not existing
 	}
 }
