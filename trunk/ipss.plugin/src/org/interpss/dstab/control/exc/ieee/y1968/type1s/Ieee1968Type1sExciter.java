@@ -39,7 +39,7 @@ import com.interpss.dstab.mach.Machine;
 		   input="this.refPoint - mach.vt + pss.vs - this.washoutBlock.y",
 		   output="this.delayBlock.y",
 		   refPoint="this.delayBlock.u0 - pss.vs + mach.vt + this.washoutBlock.y",
-		   display= {"str.Efd, this.output"} )
+		   display= {} )
 public class Ieee1968Type1sExciter extends AnnotateExciter {
 	   public double ka = 50.0, ta = 0.05, kp = 10.0, vrmin = 0.0;
 	   @AnControllerField(

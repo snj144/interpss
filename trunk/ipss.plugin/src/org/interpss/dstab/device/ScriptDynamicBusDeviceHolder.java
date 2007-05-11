@@ -124,26 +124,4 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 		device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
 					ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName+classname, javacode);
 	}
-	
-/*
-	private boolean generateJavaCode() {
-    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
-		this.classname = IpssJavaCompiler.createClassName(getId(), 
-							editor.getCurrentProjectFolder(), editor.getCurrentProjectName());
-		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, this.classname);
-		String filename = IpssJavaCompiler.createJavaFilename(this.classname, 
-								ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName, editor.getRootDir());
-		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);			
-		return true;
-	}
-	
-	private boolean compileJavaCode() {
-    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
-		String filename = IpssJavaCompiler.createJavaFilename(this.classname, 
-								ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName, editor.getRootDir());
-		if (IpssJavaCompiler.javac(filename))
-			device = ScriptJavacUtilFunc.createCMLDynamicBusDeviceObject(this.classname);		
-		return true;
-	}
-*/	
 }

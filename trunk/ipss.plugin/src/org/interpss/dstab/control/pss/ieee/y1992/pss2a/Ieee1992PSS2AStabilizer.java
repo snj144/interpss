@@ -44,9 +44,7 @@ import com.interpss.dstab.mach.Machine;
         input="mach.speed",
         output="this.filterBlock2.y",
         refPoint="0.0",
-        display= {"str.CustomBlock1, this.customBlock1.y",
-                  "str.CustomBlock2, this.customBlock2.y",
-                  "str.NthOrderFilter, this.filterNthBlock.y" })
+        display= {})
 public class Ieee1992PSS2AStabilizer extends AnnotateStabilizer {
 	    public double tw1 = 0.1, tw2 = 0.05, t6 = 0.05;
 	    @AnControllerField(

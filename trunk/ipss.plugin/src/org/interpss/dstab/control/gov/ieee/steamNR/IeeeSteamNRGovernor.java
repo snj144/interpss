@@ -42,7 +42,7 @@ import com.interpss.dstab.mach.Machine;
 		   input="mach.speed - 1.0",
 		   output="this.delayBlock.y",
 		   refPoint="this.gainBlock.u0 + this.filterBlock.y + this.intBlock.y",
-		   display= {"str.Pm, this.output"}	)
+		   display= {}	)
 public class IeeeSteamNRGovernor extends AnnotateGovernor {
 	public double k = 10.0, t1 = 0.5, t2 = 0.1;
     @AnControllerField(
