@@ -34,7 +34,7 @@ public class Ieee1968Type3ExciterData extends BaseControllerData {
 	private double vrmin = -0.9;
 	private double ke = 1.0;
 	private double te = 0.46;
-	private double kp = 1.0;
+	private double kp = 2.0;
 	private double ki = 1.0;
 	private double vbmax = 10.0;
 	private double kf = 0.1;
