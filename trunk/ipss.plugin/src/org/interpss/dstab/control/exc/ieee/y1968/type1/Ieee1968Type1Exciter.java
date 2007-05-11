@@ -66,11 +66,11 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
 	      parameter={"this.e1", "this.seE1", "this.e2", "this.seE2"}	)
 	   SeFunction seFunc;
 
-	   public double kf = 1.0, tf = 0.05;
+	   public double kf = 1.0, tf = 0.05, k = kf/tf;
 	   @AnControllerField(
 	      type= CMLFieldType.ControlBlock,
 	      input="this.delayBlock.y",
-	      parameter={"type.NoLimit", "this.kf", "this.tf"},
+	      parameter={"type.NoLimit", "this.k", "this.tf"},
 	      feedback = true	)
 	   WashoutControlBlock washoutBlock;
  	
