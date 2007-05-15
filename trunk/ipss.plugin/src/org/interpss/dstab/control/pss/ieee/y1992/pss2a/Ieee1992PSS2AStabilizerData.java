@@ -28,7 +28,7 @@ package org.interpss.dstab.control.pss.ieee.y1992.pss2a;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1992PSS2AStabilizerData extends BaseControllerData {
-	private double ks1 = 1.0;
+	private double ks1 = 10.0;
 	private double t1 = 0.05;
 	private double t2 = 0.5;
 	private double t3 = 0.05;

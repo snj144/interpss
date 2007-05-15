@@ -29,16 +29,16 @@ import org.interpss.dstab.control.base.BaseControllerData;
 public class Ieee1968Type4ExciterData extends BaseControllerData {
 	private double kv = 1.0;
 	private double trh = 0.05;
-	private double vrmax = 2.0;
-	private double vrmin = -0.9;
+	private double vrmax = 10.0;
+	private double vrmin = 0.0;
 	private double ke = 1.0;
-	private double te = 0.46;
+	private double te = 0.1;
 	private double e1 = 3.1;
 	private double seE1 = 0.33;
 	private double e2 = 2.3;
 	private double seE2 = 0.10;
-	private double kf = 0.1;
-	private double tf = 1.0;	
+	private double kf = 0.05;
+	private double tf = 0.05;	
 	
 	private static String[][] controllerParameters= { 
 		//          min         max

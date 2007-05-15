@@ -29,16 +29,16 @@ import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1968Type3ExciterData extends BaseControllerData {
 	private double ka = 50.0;
-	private double ta = 0.06;
-	private double vrmax = 2.0;
-	private double vrmin = -0.9;
+	private double ta = 0.05;
+	private double vrmax = 10.0;
+	private double vrmin = 0.0;
 	private double ke = 1.0;
-	private double te = 0.46;
+	private double te = 0.1;
 	private double kp = 2.0;
 	private double ki = 1.0;
 	private double vbmax = 10.0;
 	private double kf = 0.1;
-	private double tf = 1.0;	
+	private double tf = 0.5;	
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
@@ -64,7 +64,7 @@ public class Ieee1968Type3ExciterData extends BaseControllerData {
 
 	public void setValue(String name, double value) {
 		if (name.equals("ka"))
-			this.ta = value;
+			this.ka = value;
 		else if (name.equals("ta"))
 			this.ta = value;
 		else if (name.equals("vrmax"))

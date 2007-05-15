@@ -86,7 +86,7 @@ public class NBIeeeSteamTCSREditPanel extends javax.swing.JPanel implements ICon
     	EditUtilFunct.setDblTextFiled(tchTextField, 	_data.getTch(), "#0.000");
     	EditUtilFunct.setDblTextFiled(trhTextField, 	_data.getTrh(), "#0.000");
     	EditUtilFunct.setDblTextFiled(tcoTextField, _data.getTco(), "#0.00");
-    	EditUtilFunct.setDblTextFiled(fchTextField, _data.getFch(), "#0.000");
+    	EditUtilFunct.setDblTextFiled(fhpTextField, _data.getFhp(), "#0.000");
     	EditUtilFunct.setDblTextFiled(fipTextField, 	_data.getFip(), "#0.000");
     	EditUtilFunct.setDblTextFiled(flpTextField, 	_data.getFlp(), "#0.000");
 
@@ -113,7 +113,7 @@ public class NBIeeeSteamTCSREditPanel extends javax.swing.JPanel implements ICon
     	EditUtilFunct.saveDblTextField(_data, tchTextField, "tch", errMsg);
     	EditUtilFunct.saveDblTextField(_data, trhTextField, "trh", errMsg);
     	EditUtilFunct.saveDblTextField(_data, tcoTextField, "tco", errMsg);
-    	EditUtilFunct.saveDblTextField(_data, fchTextField, "fch", errMsg);
+    	EditUtilFunct.saveDblTextField(_data, fhpTextField, "fhp", errMsg);
     	EditUtilFunct.saveDblTextField(_data, fipTextField, "fip", errMsg);
     	EditUtilFunct.saveDblTextField(_data, flpTextField, "flp", errMsg);
 
@@ -248,19 +248,19 @@ public class NBIeeeSteamTCSREditPanel extends javax.swing.JPanel implements ICon
 
         fchLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         fchLabel.setText("Fch(pu)");
+        fchLabel.setEnabled(false);
 
         fchTextField.setColumns(5);
         fchTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         fchTextField.setText("0.0");
+        fchTextField.setEnabled(false);
 
         fhpLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         fhpLabel.setText("Fhp(pu)");
-        fhpLabel.setEnabled(false);
 
         fhpTextField.setColumns(5);
         fhpTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         fhpTextField.setText("0.0");
-        fhpTextField.setEnabled(false);
 
         fipLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         fipLabel.setText("Fip(pu)");

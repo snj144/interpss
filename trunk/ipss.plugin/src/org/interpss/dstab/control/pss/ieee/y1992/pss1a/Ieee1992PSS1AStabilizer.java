@@ -120,13 +120,18 @@ public class Ieee1992PSS1AStabilizer extends AnnotateStabilizer {
 	 */
 	@Override
 	public boolean initStates(DStabBus abus, Machine mach, final IPSSMsgHub msg) {
+        this.ks = getData().getKs();
         this.k1 = getData().getKs();
         this.t1 = getData().getT1();
         this.t2 = getData().getT2();
         this.t3 = getData().getT3();
         this.t4 = getData().getT4();
+        this.t5 = getData().getT5();
+        this.t6 = getData().getT6();
         this.vmax = getData().getVstmax();
         this.vmin = getData().getVstmin();
+        this.a1 = getData().getA1();
+        this.a2 = getData().getA2();
         return super.initStates(abus, mach, msg);
 	}
 

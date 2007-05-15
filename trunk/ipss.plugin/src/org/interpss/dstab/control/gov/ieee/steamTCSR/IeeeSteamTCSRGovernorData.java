@@ -27,7 +27,7 @@ package org.interpss.dstab.control.gov.ieee.steamTCSR;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class IeeeSteamTCSRGovernorData extends BaseControllerData {
-	private double k = 10.0;
+	private double k = 1.0;
 	private double t1 = 0.5;
 	private double t2 = 0.1;
 	private double t3 = 1.0;
@@ -38,7 +38,7 @@ public class IeeeSteamTCSRGovernorData extends BaseControllerData {
 	private double tch = 1.2;
 	private double trh = 1.2;
 	private double tco = 1.2;
-	private double fch = 0.1;
+	private double fhp = 0.2;
 	private double fip = 0.3;
 	private double flp = 0.5;
 	
@@ -55,7 +55,7 @@ public class IeeeSteamTCSRGovernorData extends BaseControllerData {
 		{"tch",		"-1000.0", 	"1000.0"}, 
 		{"trh", 	"-1000.0", 	"1000.0"}, 
 		{"tco", 	"-1000.0", 	"1000.0"}, 
-		{"fch", 	"-1000.0", 	"1000.0"}, 
+		{"fhp", 	"-1000.0", 	"1000.0"}, 
 		{"fip", 	"-1000.0", 	"1000.0"}, 
 		{"flp",		"-1000.0", 	"1000.0"} 
 	};
@@ -90,8 +90,8 @@ public class IeeeSteamTCSRGovernorData extends BaseControllerData {
 			this.trh = value;
 		else if (name.equals("tco"))
 			this.tco = value;
-		else if (name.equals("fch"))
-			this.fch = value;
+		else if (name.equals("fhp"))
+			this.fhp = value;
 		else if (name.equals("fip"))
 			this.fip = value;
 		else if (name.equals("flp"))
@@ -170,12 +170,12 @@ public class IeeeSteamTCSRGovernorData extends BaseControllerData {
 		this.tch = tch;
 	}
 
-	public double getFch() {
-		return fch;
+	public double getFhp() {
+		return fhp;
 	}
 
-	public void setFch(double fch) {
-		this.fch = fch;
+	public void setFhp(double fch) {
+		this.fhp = fch;
 	}
 
 	public double getFip() {

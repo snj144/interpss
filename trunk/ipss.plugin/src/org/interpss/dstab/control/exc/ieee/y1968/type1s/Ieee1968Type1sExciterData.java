@@ -53,7 +53,7 @@ public class Ieee1968Type1sExciterData extends BaseControllerData {
 
 	public void setValue(String name, double value) {
 		if (name.equals("ka"))
-			this.ta = value;
+			this.ka = value;
 		else if (name.equals("ta"))
 			this.ta = value;
 		else if (name.equals("kp"))
