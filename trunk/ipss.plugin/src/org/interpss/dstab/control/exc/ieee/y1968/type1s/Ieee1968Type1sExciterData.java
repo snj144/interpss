@@ -29,10 +29,10 @@ import org.interpss.dstab.control.base.BaseControllerData;
 public class Ieee1968Type1sExciterData extends BaseControllerData {
 	private double ka = 50.0;
 	private double ta = 0.05;
-	private double kp = 1.0;
+	private double kp = 10.0;
 	private double vrmin = 0.0;
 	private double kf = 0.1;
-	private double tf = 1.0;
+	private double tf = 0.5;
 	
 	private static String[][] controllerParameters= { 
 		//          min         max
