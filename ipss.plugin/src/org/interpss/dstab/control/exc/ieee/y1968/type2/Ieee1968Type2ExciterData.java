@@ -28,11 +28,11 @@ import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1968Type2ExciterData extends BaseControllerData {
 	private double ka = 50.0;
-	private double ta = 0.06;
+	private double ta = 0.05;
 	private double vrmax = 10.0;
 	private double vrmin = 0.0;
 	private double ke = 1.0;
-	private double te = 0.46;
+	private double te = 0.05;
 	private double e1 = 3.1;
 	private double seE1 = 0.33;
 	private double e2 = 2.3;

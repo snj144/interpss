@@ -51,7 +51,7 @@ public class Ieee1968Type2Exciter extends AnnotateExciter {
 	      y0="this.delayBlock.u0 + this.seFunc.y"	)
 	   DelayControlBlock kaDelayBlock;
 
-	   public double ke1 = 1.0 /* ke1 = 1.0/Ke */, te_ke = 0.05 /* te_ke = Ke/Ke*/;
+	   public double ke1 = 1.0 /* ke1 = 1.0/Ke */, te_ke = 0.05 /* te_ke = Te/Ke*/;
 	   @AnControllerField(
 	      type= CMLFieldType.ControlBlock,
 	      input="this.kaDelayBlock.y - this.seFunc.y",
