@@ -134,7 +134,7 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 	   DelayControlBlock delayBlock;
 
 
-	   public double kf = 1.0, tf = 0.05, k = kf/tf;
+	   public double kf = 0.1, tf = 0.5, k = kf/tf;
 	   @AnControllerField(
 	      type= CMLFieldType.ControlBlock,
 	      input="this.delayBlock.y",
@@ -189,7 +189,7 @@ public class Ieee1968Type3Exciter extends AnnotateExciter {
 		this.kp = getData().getKp();
 		this.ki = getData().getKi();
 		this.vbmax = getData().getVbmax();
-		this.kf = getData().getKf();
+		this.k = getData().getKf() / getData().getTf();
 		this.tf = getData().getTf();
         return super.initStates(bus, mach, msg);
     }

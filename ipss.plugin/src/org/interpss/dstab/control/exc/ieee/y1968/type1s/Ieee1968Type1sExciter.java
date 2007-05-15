@@ -99,7 +99,7 @@ public class Ieee1968Type1sExciter extends AnnotateExciter {
         this.ta = getData().getTa();
         this.kp = getData().getKp();
         this.vrmin = getData().getVrmin();
-        this.kf = getData().getKf();
+        this.k = getData().getKf()/getData().getTf();
         this.tf = getData().getTf();
         return super.initStates(bus, mach, msg);
     }

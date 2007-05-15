@@ -65,19 +65,19 @@ public class Ieee1968Type2Exciter extends AnnotateExciter {
 	      parameter={"this.e1", "this.seE1", "this.e2", "this.seE2"}	)
 	   SeFunction seFunc;
 
-	   public double kf = 1.0, tf1 = 0.05;
+	   public double kf2 = 1.0, tf2 = 0.05;
 	   @AnControllerField(
 	      type= CMLFieldType.ControlBlock,
 	      input="this.kaDelayBlock.y",
-	      parameter={"type.NoLimit", "this.kf", "this.tf1"},
+	      parameter={"type.NoLimit", "this.kf2", "this.tf2"},
 	      feedback = true	)
 	   DelayControlBlock f2DelayBlock;
 
-	   public double kf2 = 1.0, tf2 = 0.05, k = kf2/tf2;
+	   public double kf = 0.05, tf1 = 0.05, k = kf/tf1;
 	   @AnControllerField(
 	      type= CMLFieldType.ControlBlock,
 	      input="this.f2DelayBlock.y",
-	      parameter={"type.NoLimit", "this.k", "this.tf2"},
+	      parameter={"type.NoLimit", "this.k", "this.tf1"},
 	      feedback = true	)
 	   WashoutControlBlock washoutBlock;
 
@@ -129,7 +129,7 @@ public class Ieee1968Type2Exciter extends AnnotateExciter {
 		this.seE1 = getData().getSeE1();
 		this.e2 = getData().getE2();
 		this.seE2 = getData().getSeE2();
-		this.kf = getData().getKf();
+		this.k = getData().getKf() / getData().getTf1();
 		this.tf1 = getData().getTf1();
 		this.tf2 = getData().getTf2();
 

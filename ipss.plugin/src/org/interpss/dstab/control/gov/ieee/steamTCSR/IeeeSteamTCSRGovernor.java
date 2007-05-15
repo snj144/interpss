@@ -40,11 +40,11 @@ import com.interpss.dstab.mach.Machine;
 
 @AnController(
 		   input="mach.speed - 1.0",
-		   output="this.fch*this.chDelayBlock.y + this.fip*this.rhDelayBlock.y + this.flp*this.coDelayBlock.y",
+		   output="this.fhp*this.chDelayBlock.y + this.fip*this.rhDelayBlock.y + this.flp*this.coDelayBlock.y",
 		   refPoint="this.gainBlock.u0 + this.filterBlock.y + this.intBlock.y",
 		   display= {})
 public class IeeeSteamTCSRGovernor extends AnnotateGovernor {
-    public double fch = 0.2, fip = 0.3, flp = 0.5;
+    public double fhp = 0.2, fip = 0.3, flp = 0.5;
 
 	public double k = 1.0, t1 = 0.5, t2 = 0.1;
     @AnControllerField(
@@ -86,7 +86,7 @@ public class IeeeSteamTCSRGovernor extends AnnotateGovernor {
             y0="this.coDelayBlock.u0"	)
     DelayControlBlock rhDelayBlock;
 
-    public double kco = 1.0, /**/ tco = 1.2, factor = 1.0 / (fch+fip+flp);
+    public double kco = 1.0, /**/ tco = 1.2, factor = 1.0 / (fhp+fip+flp);
     @AnControllerField(
             type= CMLFieldType.ControlBlock,
             input="this.rhDelayBlock.y",
@@ -143,10 +143,10 @@ public class IeeeSteamTCSRGovernor extends AnnotateGovernor {
         this.tch = getData().getTch();
         this.trh = getData().getTrh();
         this.tco = getData().getTco();
- 	   	this.fch = getData().getFch();
+ 	   	this.fhp = getData().getFhp();
  	   	this.fip = getData().getFip();
  	   	this.flp = getData().getFlp();
-	    this.factor = 1.0 / (this.fch+this.fip+this.flp);
+	    this.factor = 1.0 / (this.fhp+this.fip+this.flp);
         return super.initStates(bus, mach, msg);
     }
 

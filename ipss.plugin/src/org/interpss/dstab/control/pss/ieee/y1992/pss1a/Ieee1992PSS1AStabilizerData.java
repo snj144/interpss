@@ -28,7 +28,8 @@ package org.interpss.dstab.control.pss.ieee.y1992.pss1a;
 import org.interpss.dstab.control.base.BaseControllerData;
 
 public class Ieee1992PSS1AStabilizerData extends BaseControllerData {
-	private double ks = 1.0;
+	private double ks = 10.0;
+	private double k1 = 10.0;
 	private double t1 = 0.05;
 	private double t2 = 0.5;
 	private double t3 = 0.05;
@@ -43,6 +44,7 @@ public class Ieee1992PSS1AStabilizerData extends BaseControllerData {
 	private static String[][] controllerParameters= { 
 		//          min         max
 		{"ks", 		"-1000.0", 	"1000.0"}, 
+		{"k1", 		"-1000.0", 	"1000.0"}, 
 		{"t1", 		"-1000.0", 	"1000.0"}, 
 		{"t2", 		"-1000.0", 	"1000.0"}, 
 		{"t3", 		"-1000.0", 	"1000.0"}, 
@@ -65,6 +67,8 @@ public class Ieee1992PSS1AStabilizerData extends BaseControllerData {
 	public void setValue(String name, double value) {
 		if (name.equals("ks"))
 			this.ks = value;
+		else if (name.equals("k1"))
+			this.k1 = value;
 		else if (name.equals("t1"))
 			this.t1 = value;
 		else if (name.equals("t2"))
@@ -103,6 +107,14 @@ public class Ieee1992PSS1AStabilizerData extends BaseControllerData {
 		this.a2 = a2;
 	}
 
+	public double getK1() {
+		return k1;
+	}
+
+	public void setK1(double k1) {
+		this.k1 = k1;
+	}
+	
 	public double getKs() {
 		return ks;
 	}
