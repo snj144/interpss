@@ -156,6 +156,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	}
 
     public void clearTextArea() {
+    	this.data = null;  // when clear the text area text, we assume that more text will writen to the area
 		textArea.setText("");
 	}
 
