@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="cmlScriptingGovernor" 
+	  	class="org.interpss.dstab.control.cml.CMLScriptingGovernor"
+	    singleton="false">	
+	    <property name="name">
+	    	<value>CML Scripting Governor</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>InterPSS CML scripting governor implmementation</value></property>
+	</bean>
+	
+	<bean id="simpleGovernor" 
+	      class="org.interpss.dstab.control.gov.simple.SimpleGovernor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Simple Governor</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>An InterPSS simple governor implmementation</value></property>
+	</bean>
+
+	<bean id="ieeeSteamNRGovernor" 
+	      class="org.interpss.dstab.control.gov.ieee.steamNR.IeeeSteamNRGovernor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE Steam NR</value></property>
+	    <property name="category">
+	    	<value>IEEE</value></property>
+	    <property name="desc">
+	    	<value>An IEEE Steam NR governor implmementation</value></property>
+	</bean>
+
+	<bean id="ieeeSteamTDSRGovernor" 
+	      class="org.interpss.dstab.control.gov.ieee.steamTDSR.IeeeSteamTDSRGovernor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE Steam TD SR</value></property>
+	    <property name="category">
+	    	<value>IEEE</value></property>
+	    <property name="desc">
+	    	<value>An IEEE Steam TD SR governor implmementation</value></property>
+	</bean>
+
+	<bean id="ieeeSteamTCSRGovernor" 
+	      class="org.interpss.dstab.control.gov.ieee.steamTCSR.IeeeSteamTCSRGovernor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE Steam TC SR</value></property>
+	    <property name="category">
+	    	<value>IEEE</value></property>
+	    <property name="desc">
+	    	<value>An IEEE Steam TC SR governor implmementation</value></property>
+	</bean>
+	
+	<bean id="ieeeHTurbineGovernor" 
+	      class="org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE Hydro Turbine</value></property>
+	    <property name="category">
+	    	<value>IEEE</value></property>
+	    <property name="desc">
+	    	<value>An IEEE Hydro Turbine governor implmementation</value></property>
+	</bean>
+	
+<!--
+	<bean id="sampleCustomGovernor" 
+	      class="custom.dstab.gov.sample.CustomGovernor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Sample Custom Governor</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>A sample custom governor implmementation</value></property>
+	</bean>
+
+	<bean id="ieeeST1Governor" 
+	      class="org.interpss.dstab.control.gov.ieee.ieeeST1.IeeeST1Governor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE ST1 Governor</value></property>
+	    <property name="category">
+	    	<value>IEEE-Governor</value></property>
+	    <property name="desc">
+	    	<value>IEEE ST1 Governor implmementation</value></property>
+	</bean>
+
+	<bean id="ieeeST2Governor" 
+	      class="org.interpss.dstab.control.gov.ieee.ieeeST2.IeeeST2Governor"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE ST2 Governor</value></property>
+	    <property name="category">
+	    	<value>IEEE-Governor</value></property>
+	    <property name="desc">
+	    	<value>IEEE ST2 Governor implmementation</value></property>
+	</bean>
+-->
+	<bean id="governorList" 
+	      class="java.util.ArrayList"
+	      singleton="true">	
+		<constructor-arg>
+			<list>
+				<ref bean="cmlScriptingGovernor"/>
+				<ref bean="simpleGovernor"/>
+				<ref bean="ieeeSteamNRGovernor"/>
+				<ref bean="ieeeSteamTDSRGovernor"/>
+				<ref bean="ieeeSteamTCSRGovernor"/>
+				<ref bean="ieeeHTurbineGovernor"/>
+			</list>
+		</constructor-arg>
+	</bean>
+</beans>

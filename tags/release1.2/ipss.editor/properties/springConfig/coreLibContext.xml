@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<!--  
+	Define ipss core lib objects
+-->
+
+<beans>
+	<!--
+		Define Loadflow, Short circuit and Stability algorithms
+		=======================================================
+	-->
+	<bean id="loadflowAlgorithm" 
+	      class="com.interpss.core.CoreObjectFactory"	
+		  factory-method="createLoadflowAlgorithm" 
+		  singleton="false">	
+	</bean>
+
+	<bean id="simpleFaultAlgorithm" 
+	      class="com.interpss.core.CoreObjectFactory"	
+		  factory-method="createSimpleFaultAlgorithm" 
+		  singleton="false">	
+	</bean>
+	
+	<bean id="simuTimeEventHandler" 
+	      class="com.interpss.dstab.util.DynamicEventProcessor" 
+	      singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+	
+	<bean id="dbDStabSimuOutputHandler" 
+	      class="com.interpss.dstab.util.DatabaseSimuOutputHandler" 
+	      singleton="false">	
+	</bean>
+	
+	<bean id="scriptDStabSimuOutputHandler" 
+	      class="org.interpss.dstab.script.ScriptSimuOutputHandler" 
+	      singleton="false">	
+	</bean>
+<!-- 
+    To turn off transient stability output to database, use the following dstabSimuOutputHandler
+	<bean id="dstabSimuOutputHandler" 
+          class="com.interpss.dstab.util.BaseDBSimuOutputHandler"
+	      singleton="false">	
+	</bean>
+-->
+
+	<bean id="dynaSimuAlgorithm" 
+	      class="com.interpss.dstab.DStabObjectFactory"	
+		  factory-method="createDynamicSimuAlgorithm" 
+		  singleton="false">	
+		<constructor-arg index="0">
+			<ref bean="loadflowAlgorithm"/></constructor-arg>
+		<constructor-arg index="1">
+			<ref bean="simuTimeEventHandler"/></constructor-arg>
+		<constructor-arg index="2">
+			<ref bean="dbDStabSimuOutputHandler"/></constructor-arg>
+	</bean>
+	
+	<!--
+		Define the SimuContext objects for different network type applications.
+		======================================================================
+	-->
+	<bean id="simuContext" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuContext" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+	
+	<bean id="simuCtxTypeAclfNet" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeAclfNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="simuCtxTypeAclfAdjNet" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeAclfAdjNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+	
+	<bean id="simuCtxTypeAcscFaultNet" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeAcscFaultNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="simuCtxTypeDistNet" 
+	      class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeDistNet" 
+		  singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+
+	<bean id="netChangeHandler" 
+	      class="com.interpss.dstab.util.BaseNetChangeEventHandler" 
+	      singleton="false">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>
+	
+	<bean id="simuCtxTypeDStabNet" 
+		  class="com.interpss.simu.SimuObjectFactory" 
+		  factory-method="createSimuCtxTypeDStabNet" 
+		  singleton="false">	
+	  	<constructor-arg index="0">
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+		<constructor-arg index="1">
+			<ref bean="netChangeHandler"/></constructor-arg>
+	</bean>
+
+	<!--
+		Define the SparseEquation objects
+		=================================
+	-->
+	<bean id="sparseEqnInteger" 
+	      class="com.interpss.core.sparse.impl.SparseEqnIntegerImpl" 
+		  singleton="false">	
+	</bean>
+
+	<bean id="sparseEqnDouble" 
+	      class="com.interpss.core.sparse.impl.SparseEqnDoubleImpl" 
+		  singleton="false">	
+	</bean>
+
+	<bean id="sparseEqnComplex" 
+	      class="com.interpss.core.sparse.impl.SparseEqnComplexImpl" 
+		  singleton="false">	
+	</bean>
+
+	<bean id="sparseEqnMatrix2x2" 
+	      class="com.interpss.core.sparse.impl.SparseEqnMatrix2x2Impl" 
+		  singleton="false">	
+	</bean>
+</beans>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="cmlScriptingStabilizer" 
+	  	class="org.interpss.dstab.control.cml.CMLScriptingStabilizer"
+	    singleton="false">	
+	    <property name="name">
+	    	<value>CML Scripting Stabilizer</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>InterPSS CML scripting stabilizer implmementation</value></property>
+	</bean>
+<!--	
+	<bean id="sampleCustomStabilizer" 
+	      class="custom.dstab.pss.sample.CustomStabilizer"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Sample Custom Stabilizer</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>A sample custom stabilizer implmementation</value></property>
+	</bean>
+-->
+	<bean id="simpleStabilizer" 
+	      class="org.interpss.dstab.control.pss.simple.SimpleStabilizer"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>Simple Stabilizer</value></property>
+	    <property name="category">
+	    	<value>InterPSS</value></property>
+	    <property name="desc">
+	    	<value>An InterPSS simple stabilizer implmementation</value></property>
+	</bean>
+	
+	<bean id="ieee1992PSS1AStabilizer" 
+	      class="org.interpss.dstab.control.pss.ieee.y1992.pss1a.Ieee1992PSS1AStabilizer"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1992 PSS1A</value></property>
+	    <property name="category">
+	    	<value>IEEE-1992</value></property>
+	    <property name="desc">
+	    	<value>An IEEE-1992 PSS1A stabilizer implmementation</value></property>
+	</bean>
+
+	<bean id="ieee1992PSS2AStabilizer" 
+	      class="org.interpss.dstab.control.pss.ieee.y1992.pss2a.Ieee1992PSS2AStabilizer"
+	      singleton="false">	
+	    <property name="name">
+	    	<value>IEEE-1992 PSS2A</value></property>
+	    <property name="category">
+	    	<value>IEEE-1992</value></property>
+	    <property name="desc">
+	    	<value>An IEEE-1992 PSS2A stabilizer implmementation</value></property>
+	</bean>
+
+	<bean id="stabilizerList" 
+	      class="java.util.ArrayList"
+	      singleton="true">	
+		<constructor-arg>
+			<list>
+				<ref bean="cmlScriptingStabilizer"/>
+				<ref bean="simpleStabilizer"/>
+				<ref bean="ieee1992PSS1AStabilizer"/>
+				<ref bean="ieee1992PSS2AStabilizer"/>
+			</list>
+		</constructor-arg>
+	</bean>	
+</beans>
