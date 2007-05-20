@@ -57,6 +57,10 @@
 			<fileset dir="${editor}/lib" excludes="ipss_editor.jar">
 			</fileset>
 		</copy>
+        <copy todir="${install_temp}">
+                <fileset dir="${dev_base}/ipss.install/bat">
+                </fileset>
+        </copy>		
 	</target>
 
 	<target depends="copyfiles" description="jar ipss editor project" name="jar_lib">
