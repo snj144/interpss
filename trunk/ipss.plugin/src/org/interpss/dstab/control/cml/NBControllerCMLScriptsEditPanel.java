@@ -29,13 +29,12 @@ import java.util.Vector;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.ui.IControllerEditor;
+import com.interpss.dstab.controller.annotate.ICMLScriptingController;
 
 public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
 
-	public static String ExciterTemplateFilename = "template/DStabCMLExciterTemplete.txt";
-	public static String GovernorTemplateFilename = "template/DStabCMLGovernorTemplete.txt";
-	public static String StabilizerTemplateFilename = "template/DStabCMLStabilizerTemplete.txt";
+
 	
 	private BaseCMLScriptingController controller = null;
 	
@@ -49,6 +48,8 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
      */
 	public void init(Object cntler) {
 		this.controller = (BaseCMLScriptingController)cntler;
+    	if (controller.getScripts() == null || controller.getScripts().trim().equals(""))
+    		loadTemplate2Textarea();
 	}
 	
 	/**
@@ -57,18 +58,21 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
 	* @return false if there is any problem
 	*/
     public boolean setData2Editor() {
-    	if (controller.getScripts() == null || controller.getScripts().trim().equals("")) {
-    		String filename = ExciterTemplateFilename;
-    		if (controller instanceof CMLScriptingGovernor)
-        		filename = GovernorTemplateFilename;
-    		else if (controller instanceof CMLScriptingStabilizer)
-        		filename = StabilizerTemplateFilename;
-    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptsTextArea);
-    	}
+    	if (controller.getScripts() == null || controller.getScripts().trim().equals(""))
+    		loadTemplate2Textarea();
     	else
     		scriptsTextArea.setText(controller.getScripts());
         return true;
 	}
+    
+    private void loadTemplate2Textarea() {
+		String filename = ICMLScriptingController.ExciterTemplateFilename;
+		if (controller instanceof CMLScriptingGovernor)
+    		filename = ICMLScriptingController.GovernorTemplateFilename;
+		else if (controller instanceof CMLScriptingStabilizer)
+    		filename = ICMLScriptingController.StabilizerTemplateFilename;
+		GUIFileUtil.readFile2TextareaRativePath(filename, scriptsTextArea);
+    }
     
 	/**
 	*	Save editor screen data to the controller data object
@@ -78,6 +82,7 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
 	*/
     public boolean saveEditorData(Vector errMsg) throws Exception {
     	errMsg.clear();
+    	//IpssLogger.getLogger().info(scriptsTextArea.getText());
     	controller.setScripts(scriptsTextArea.getText());
     	// we compile the JavaCode here to make sure that there is no syntex error.
     	if (!controller.checkJavaCode()) {
