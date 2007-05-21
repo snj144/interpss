@@ -32,12 +32,12 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssJavaCompiler;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
+import com.interpss.dstab.controller.annotate.ICMLScriptingController;
 import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.impl.ControllerImpl;
@@ -50,7 +50,7 @@ import com.interpss.dstab.mach.impl.ControllerImpl;
  * @author mzhou
  *
  */
-public abstract class BaseCMLScriptingController extends ControllerImpl {
+public abstract class BaseCMLScriptingController extends ControllerImpl implements ICMLScriptingController {
 	private AbstractAnnotateController anController = null;
 	
 	/**
@@ -141,20 +141,6 @@ public abstract class BaseCMLScriptingController extends ControllerImpl {
 	public void setRefPoint(double x) {
 		anController.setRefPoint(x);
 	}
-
-	/**
-	 * Compile the java source code to check for possible syntax errors
-	 * 
-	 * @return true if no error
-	 */
-	abstract public boolean checkJavaCode();
-	
-	/**
-	 * Create the actual controller object by loading the source code, compiling code and
-	 * createing the object. To be implemented by child classes
-	 *
-	 */
-	abstract public void createControllerObject();
 
 	/**
 	 * Compile the java code and create the controller object
