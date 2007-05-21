@@ -36,6 +36,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBDynaEventPanel;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
@@ -214,6 +215,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         if(!dstabCaseData.getDisableDynamicEvent()) {
         	disableEventCheckBox.setSelected(false);
         	dynaEventPanel.setForm2Editor();
+            setSetpointPanel(false);
         }
         else {
         	disableEventCheckBox.setSelected(true);
@@ -329,13 +331,18 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         		ok = false;
         }
         else {
-        	dstabCaseData.setSetPointChange(setPointCheckBox.isSelected());
         	if (setPointCheckBox.isSelected()) {
-        		dstabCaseData.setSetPointChangeMachId((String)setPointMachineComboBox.getSelectedItem());
-        		dstabCaseData.setSelectedController((String)setPointControllerComboBox.getSelectedItem());
-        		dstabCaseData.setSetPointValueChange(SwingInputVerifyUtil.getDouble(setPointValueTextField));
-        		dstabCaseData.setSetPointChangeAbsolute(setPointAbsoluteRadioButton.isSelected());
-        	}        	
+        		String str = (String)setPointControllerComboBox.getSelectedItem();
+        		if (!str.equals(Constants.NoControllerToken)) {
+        			dstabCaseData.setSetPointChange(setPointCheckBox.isSelected());
+        			if (setPointCheckBox.isSelected()) {
+            			dstabCaseData.setSetPointChangeMachId((String)setPointMachineComboBox.getSelectedItem());
+            			dstabCaseData.setSelectedController((String)setPointControllerComboBox.getSelectedItem());
+            			dstabCaseData.setSetPointValueChange(SwingInputVerifyUtil.getDouble(setPointValueTextField));
+            			dstabCaseData.setSetPointChangeAbsolute(setPointAbsoluteRadioButton.isSelected());
+            		}
+            	}        	
+        	}
         }
         IpssLogger.getLogger().info("" + dstabCaseData);
 
