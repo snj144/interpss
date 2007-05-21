@@ -30,7 +30,6 @@ public class DStabControllerData extends BaseDataBean {
 	private String typeName = "";
 	private String className = "";   // this property is not used anymore	
 	private String dataXmlStr = "";
-	private String scripts = "";
 
 	/**
 	 * @return Returns the dataXmlStr.
@@ -67,17 +66,5 @@ public class DStabControllerData extends BaseDataBean {
 	 */
 	public void setClassName(String className) {
 		this.className = className;
-	}
-	/**
-	 * @return the scripts
-	 */
-	public String getScripts() {
-		return scripts;
-	}
-	/**
-	 * @param scripts the scripts to set
-	 */
-	public void setScripts(String scripts) {
-		this.scripts = scripts;
 	}
 }
