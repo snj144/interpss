@@ -251,7 +251,7 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 	        }
 		}
 		if (vect.size() == 0)
-			vect.add(new String("No Controller"));
+			vect.add(new String(Constants.NoControllerToken));
 		return vect.toArray();
 	}
 	/** 

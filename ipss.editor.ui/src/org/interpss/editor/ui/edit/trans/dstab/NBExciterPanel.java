@@ -77,8 +77,8 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
    		controller.setData(machData.getExcData().getDataXmlStr(), controller.getDataClass());
    		controller.setScripts(machData.getExcData().getScripts());
 		dataPanel.removeAll();
-		dataPanel.repaint();
 		dataPanel.add((Component)controller.getEditPanel());
+		dataPanel.repaint();
 	}
 	
     public boolean setForm2Editor() {
