@@ -80,11 +80,11 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditorData(Vector errMsg) throws Exception {
+    public boolean saveEditorData(Vector<String> errMsg) throws Exception {
     	errMsg.clear();
     	//IpssLogger.getLogger().info(scriptsTextArea.getText());
     	controller.setScripts(scriptsTextArea.getText());
-    	// we compile the JavaCode here to make sure that there is no syntex error.
+    	// we compile the JavaCode here to make sure that there is no syntax error.
     	if (!controller.checkJavaCode()) {
         	errMsg.add(new String("Java compile error"));
     		return false;
