@@ -32,7 +32,7 @@ package org.interpss.custom.exchange.psse;
  * 
  * 		Case Identification
 		Bus Data
-		Gnerator Data
+		Generator Data
 		Nontransformer Branch Data
 		Transformer Data
 		Area Interchange Data
