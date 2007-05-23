@@ -34,6 +34,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
+import com.interpss.common.rec.BaseSimuDBRecord;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
 import com.interpss.common.util.StringUtil;
@@ -143,7 +144,7 @@ public class DStabPlotDialogRecord {
     	
     	// retrieve rec from DB
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
-		List<DStabSimuDBRecord> elemRecList = null;
+		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId,	recTypeList, elemIdList, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
@@ -155,7 +156,8 @@ public class DStabPlotDialogRecord {
 		// find time array from the elemRecList, there may be multiple sets
 		List<Double> timeList = new ArrayList<Double>();
 		double time = 0.0;
-		for (DStabSimuDBRecord rec : elemRecList) {
+		for (BaseSimuDBRecord r : elemRecList) {
+			DStabSimuDBRecord rec = (DStabSimuDBRecord)r;
 			if (rec.getSimuTime() > time) {
 				time = rec.getSimuTime();
 				timeList.add(new Double(time));
@@ -170,7 +172,8 @@ public class DStabPlotDialogRecord {
 			row.put("Time", Number2String.toStr(t,"00.000"));
     		for (Object strObj : strList) {
    				String stateName = DStabPlotDialogRecord.parseStateSelection((String)strObj).stateName;
-       			for (DStabSimuDBRecord rec : elemRecList) {
+       			for (BaseSimuDBRecord r : elemRecList) {
+       				DStabSimuDBRecord rec = (DStabSimuDBRecord)r;
        				if (Math.abs(rec.getSimuTime()-t) < TimeErrorTolerance) {
        					Hashtable table = StringUtil.parseStr2Hashtable(rec.getSimuRec());
        					Object obj = table.get(stateName);
