@@ -252,7 +252,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-	public boolean saveEditor2Form(Vector errMsg) throws Exception {
+	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBDStabCasePanel saveEditor2Form() called");
 
 		boolean ok = true;
