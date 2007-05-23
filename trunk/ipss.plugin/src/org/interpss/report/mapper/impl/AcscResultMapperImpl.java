@@ -25,10 +25,10 @@
 package org.interpss.report.mapper.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.math.complex.ComplexFormat;
+import org.eclipse.emf.common.util.EList;
 import org.interpss.report.bean.acsc.RptAcscVoltAmpsBean;
 import org.interpss.report.bean.acsc.RptFaultSummaryBean;
 
@@ -42,6 +42,8 @@ import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
 
 public class AcscResultMapperImpl {
 	public static void mapAcscFaultSummary(SimpleFaultNetwork faultNet, RptFaultSummaryBean bean) {
@@ -81,8 +83,8 @@ public class AcscResultMapperImpl {
 			if (fault != null) {
 				fault.getFaultResult().calContributingCurrent(faultNet);
 				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P_LITERAL) {
-					for( Iterator itr = faultNet.getBusList().iterator(); itr.hasNext();) {
-						AcscBus bus = (AcscBus)itr.next();
+					for( Bus b : faultNet.getBusList()) {
+						AcscBus bus = (AcscBus)b;
 						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
 						bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus3P);
 						bean.setBusName(bus.getName());
@@ -99,8 +101,8 @@ public class AcscResultMapperImpl {
 					}
 				}
 				else {
-					for( Iterator itr = faultNet.getBusList().iterator(); itr.hasNext();) {
-						AcscBus bus = (AcscBus)itr.next();
+					for( Bus b : faultNet.getBusList()) {
+						AcscBus bus = (AcscBus)b;
 						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
 						bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus012);
 						bean.setBusName(bus.getName());
@@ -127,8 +129,8 @@ public class AcscResultMapperImpl {
 						list.add(bean);
 					}
 
-					for( Iterator itr = faultNet.getBusList().iterator(); itr.hasNext();) {
-						AcscBus bus = (AcscBus)itr.next();
+					for( Bus b : faultNet.getBusList()) {
+						AcscBus bus = (AcscBus)b;
 						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
 						bean.setRecType(RptAcscVoltAmpsBean.RecType_BusABC);
 						bean.setBusName(bus.getName());
@@ -161,7 +163,7 @@ public class AcscResultMapperImpl {
 				
 				fault.getFaultResult().calBranchCurrent(faultNet);
 				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P_LITERAL) {
-					List branchList = faultNet.getBranchList();
+					EList<Branch> branchList = faultNet.getBranchList();
 					int cnt = 0;
 					for ( int n = 0; n < branchList.size(); n++ ) {
 						AcscBranch bra = (AcscBranch)branchList.get(n);
@@ -177,7 +179,7 @@ public class AcscResultMapperImpl {
 					}
 				}
 				else {
-					List branchList = faultNet.getBranchList();
+					EList<Branch> branchList = faultNet.getBranchList();
 					int cnt = 0;
 					for ( int n = 0; n < branchList.size(); n++ ) {
 						AcscBranch bra = (AcscBranch)branchList.get(n);
