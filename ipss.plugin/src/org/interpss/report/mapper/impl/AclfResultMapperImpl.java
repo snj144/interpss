@@ -25,7 +25,6 @@
 package org.interpss.report.mapper.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
@@ -59,6 +58,7 @@ import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.aclfadj.XfrTapControlType;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.datatype.Mismatch;
+import com.interpss.core.net.Bus;
 
 public class AclfResultMapperImpl {
 	public static void mapAclfMaxMismatch(AclfNetwork net, RptAclfMaxMismatchBean bean) {
@@ -76,8 +76,8 @@ public class AclfResultMapperImpl {
 		List<RptAclfSummaryBusBean> list = new ArrayList<RptAclfSummaryBusBean>();
 	  	try {
 		  	double baseKVA = net.getBaseKva();
-			for( Iterator itr = net.getBusList().iterator(); itr.hasNext();) {
-				AclfBus bus = (AclfBus)itr.next();
+			for( Bus b : net.getBusList()) {
+				AclfBus bus = (AclfBus)b;
 				GenBusAdapter genBus = (GenBusAdapter)bus.adapt(GenBusAdapter.class);
 				Complex busPQ = genBus.getGenResults(UnitType.PU, baseKVA).subtract(genBus.getLoadResults(UnitType.PU, baseKVA));
 				if ( bus.isCapacitor() ) {
@@ -104,8 +104,8 @@ public class AclfResultMapperImpl {
 		List<RptAclfBusStyleBean> list = new ArrayList<RptAclfBusStyleBean>();
 	  	try {
 		  	double baseKVA = net.getBaseKva();
-			for( Iterator itr = net.getBusList().iterator(); itr.hasNext();) {
-				AclfBus bus = (AclfBus)itr.next();
+			for( Bus b : net.getBusList()) {
+				AclfBus bus = (AclfBus)b;
 				GenBusAdapter genBus = (GenBusAdapter)bus.adapt(GenBusAdapter.class);
 				Complex busGen = genBus.getGenResults(UnitType.mVA, baseKVA);
 				Complex busLoad = genBus.getLoadResults(UnitType.mVA, baseKVA);
@@ -123,10 +123,9 @@ public class AclfResultMapperImpl {
 				bean.setPLoad(Number2String.toStr( "####0.00", busLoad.getReal()));
 				bean.setQLoad(Number2String.toStr( "####0.00", busLoad.getImaginary()));
 				
-				Iterator eb = bus.getBranchList().iterator();
 				int cnt = 0;
-				while (eb.hasNext()) {
-					AclfBranch bra = (AclfBranch) eb.next();
+				for (Object br : bus.getBranchList()) {
+					AclfBranch bra = (AclfBranch)br;
 					AclfBus busj;
 					if ( bus.equals(bra.getFromAclfBus()) )
 						busj = bra.getToAclfBus();
@@ -200,8 +199,7 @@ public class AclfResultMapperImpl {
 	public static Object[] createPVBusLimitBeanArray(AclfAdjNetwork net) {
 		List<RptPVLimitBean> list = new ArrayList<RptPVLimitBean>();
 	  	double baseKva = net.getBaseKva();
-		for( Iterator itr = net.getPvBusLimitList().iterator(); itr.hasNext();) {
-			PVBusLimit pv = (PVBusLimit)itr.next();
+		for( PVBusLimit pv : net.getPvBusLimitList()) {
 			GenBusAdapter genBus = (GenBusAdapter)pv.getAclfBus().adapt(GenBusAdapter.class);
 			RptPVLimitBean bean = new RptPVLimitBean();
 			bean.setBusId(Number2String.toStr(-8, pv.getAclfBus().getId()));
@@ -219,8 +217,7 @@ public class AclfResultMapperImpl {
 	public static Object[] createPQBusLimitBeanArray(AclfAdjNetwork net) {
 		List<RptPQLimitBean> list = new ArrayList<RptPQLimitBean>();
 	  	double baseKva = net.getBaseKva();
-		for( Iterator itr = net.getPqBusLimitList().iterator(); itr.hasNext();) {
-			PQBusLimit pq = (PQBusLimit)itr.next();
+		for( PQBusLimit pq : net.getPqBusLimitList()) {
 			GenBusAdapter genBus = (GenBusAdapter)pq.getAclfBus().adapt(GenBusAdapter.class);
 			RptPQLimitBean bean = new RptPQLimitBean();
 			bean.setBusId(Number2String.toStr(-8, pq.getAclfBus().getId()));
@@ -238,8 +235,7 @@ public class AclfResultMapperImpl {
 	public static Object[] createFunctionLoadBeanArray(AclfAdjNetwork net) {
 		List<RptFuncLoadBean> list = new ArrayList<RptFuncLoadBean>();
 	  	double baseKva = net.getBaseKva();
-		for( Iterator itr = net.getFunctionLoadList().iterator(); itr.hasNext();) {
-			FunctionLoad fload = (FunctionLoad)itr.next();
+		for( FunctionLoad fload : net.getFunctionLoadList()) {
 		  	double vpu = fload.getAclfBus().getVoltage().abs();
 			RptFuncLoadBean bean = new RptFuncLoadBean();
 			bean.setBusId(fload.getAclfBus().getId());
@@ -257,8 +253,7 @@ public class AclfResultMapperImpl {
 	public static Object[] createRemoteQBusBeanArray(AclfAdjNetwork net) {
 		List<RptRemoteQBusBean> list = new ArrayList<RptRemoteQBusBean>();
 	  	double baseKva = net.getBaseKva();
-		for( Iterator itr = net.getRemoteQBusList().iterator(); itr.hasNext();) {
-			RemoteQBus re = (RemoteQBus)itr.next();
+		for( RemoteQBus re : net.getRemoteQBusList()) {
 			GenBusAdapter genBus = (GenBusAdapter)re.getAclfBus().adapt(GenBusAdapter.class);
 			RptRemoteQBusBean bean = new RptRemoteQBusBean();
 			bean.setVcBusId(re.getAclfBus().getId());
@@ -282,8 +277,7 @@ public class AclfResultMapperImpl {
 	public static Object[] createPSXfrPControlBeanArray(AclfAdjNetwork net) {
 		List<RptPSXfrPControlBean> list = new ArrayList<RptPSXfrPControlBean>();
 	  	double baseKva = net.getBaseKva();
-		for( Iterator itr = net.getPsXfrPControlList().iterator(); itr.hasNext();) {
-			PSXfrPControl psCtrl = (PSXfrPControl)itr.next();
+		for( PSXfrPControl psCtrl : net.getPsXfrPControlList()) {
 			RptPSXfrPControlBean bean = new RptPSXfrPControlBean();
 			bean.setBranchId(psCtrl.getAclfBranch().getId());
 			bean.setPact(Number2String.toStr("##0.0000", (psCtrl.isControlOnFromSide()?
@@ -303,8 +297,7 @@ public class AclfResultMapperImpl {
 	public static Object[] createTapVControlBeanArray(AclfAdjNetwork net) {
 		List<RptTapVControlBean> list = new ArrayList<RptTapVControlBean>();
 	  	double baseKva = net.getBaseKva();
-		for( Iterator itr = net.getTapControlList().iterator(); itr.hasNext();) {
-			TapControl tap = (TapControl)itr.next();
+		for( TapControl tap : net.getTapControlList()) {
 			RptTapVControlBean bean = new RptTapVControlBean();
 			bean.setBranchId(tap.getAclfBranch().getId());
 			if (tap.getControlType() == XfrTapControlType.BUS_VOLTAGE_LITERAL) {

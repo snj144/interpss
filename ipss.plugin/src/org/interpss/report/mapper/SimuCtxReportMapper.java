@@ -69,7 +69,7 @@ public class SimuCtxReportMapper extends AbstractMapper {
 	 * @param toObj a report bean object
 	 * @param kclass class type of the toObj 
 	 */	
-	public boolean mapping(Object fromObj, Object toObj, Class klass) {
+	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
 		IAppSimuContext appSimuCtx = null;
 		SimuContext simuCtx = null;
 		if (fromObj instanceof IAppSimuContext) {
@@ -103,7 +103,7 @@ public class SimuCtxReportMapper extends AbstractMapper {
 	 * @param kclass report bean class
 	 * @param a set of attributes
 	 */
-	public Object[] mappingMultiObject(Object fromObj, Class klass, Map parameters) {
+	public Object[] mappingMultiObject(Object fromObj, Class<?> klass, Map<String, Object> parameters) {
 		SimuContext simuCtx = null;
 		if (fromObj instanceof IAppSimuContext) {
 			IAppSimuContext appSimuCtx = (IAppSimuContext)fromObj;
