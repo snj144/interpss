@@ -38,24 +38,22 @@ package org.interpss.custom.exchange;
 		Area Interchange Data
  */
 
-import org.interpss.custom.exchange.psse.PSSEBranchDataRecord;
-import org.interpss.custom.exchange.psse.PSSEBusDataRecord;
-import org.interpss.custom.exchange.psse.PSSEDCLintDataRecord;
-import org.interpss.custom.exchange.psse.PSSENetDataRecord;
-import org.interpss.custom.exchange.psse.PSSEUtilFunc;
-import org.interpss.custom.exchange.psse.PSSESwitchedShuntDataRecord;
-import org.interpss.custom.exchange.psse.aclf.PSSEGen;
-import org.interpss.custom.exchange.psse.aclf.PSSELoad;
-import org.interpss.custom.exchange.psse.aclf.PSSEXformer;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Iterator;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.custom.exchange.psse.PSSEBranchDataRecord;
+import org.interpss.custom.exchange.psse.PSSEBusDataRecord;
+import org.interpss.custom.exchange.psse.PSSEDCLintDataRecord;
+import org.interpss.custom.exchange.psse.PSSENetDataRecord;
+import org.interpss.custom.exchange.psse.PSSESwitchedShuntDataRecord;
+import org.interpss.custom.exchange.psse.PSSEUtilFunc;
+import org.interpss.custom.exchange.psse.aclf.PSSEGen;
+import org.interpss.custom.exchange.psse.aclf.PSSELoad;
+import org.interpss.custom.exchange.psse.aclf.PSSEXformer;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
@@ -78,6 +76,7 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
+import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -312,8 +311,8 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	}
 	
 	private void processPSSEDataAfterLoad(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
-		for( Iterator itr = adjNet.getBusList().iterator(); itr.hasNext();) {
-			AclfBus bus = (AclfBus)itr.next();
+		for( Bus b : adjNet.getBusList()) {
+			AclfBus bus = (AclfBus)b;
 
 			double loadPSum = 0.0, loadQSum = 0.0;
 			boolean isFuncLoad = false;
@@ -325,8 +324,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			double genQmax = 0.0, genQmin = 0.0;
 			
 			if (bus.getRegDeviceList().size() > 0) {
-				for( Iterator itrReg = bus.getRegDeviceList().iterator(); itrReg.hasNext();) {
-					Object obj = itrReg.next();
+				for( Object obj : bus.getRegDeviceList()) {
 					if (obj instanceof PSSELoad) {
 						PSSELoad load = (PSSELoad)obj;
 						loadPSum += load.getConstPLoad().getReal() + load.getConstILoad().getReal() +load.getConstZLoad().getReal(); 
@@ -427,8 +425,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 				when |COD| is 3. No default is allowed.
 			• Not used when |COD| is 0 or 4; VMA = 1.1 and VMI = 0.9 by default.
 */
-		for( Iterator itr = adjNet.getBranchList().iterator(); itr.hasNext();) {
-			Object obj = itr.next();
+		for( Object obj : adjNet.getBranchList()) {
 			if (obj instanceof PSSEXformer) {
 				PSSEXformer xfr = (PSSEXformer)obj;
 	          	if (xfr.getControlMode() == 1) {
