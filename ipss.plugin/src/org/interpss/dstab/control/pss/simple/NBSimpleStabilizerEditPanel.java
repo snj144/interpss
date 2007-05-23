@@ -77,7 +77,7 @@ public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements I
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditorData(Vector errMsg) throws Exception {
+    public boolean saveEditorData(Vector<String> errMsg) throws Exception {
 		boolean ok = true;
 		
 		if (!SwingInputVerifyUtil.largeThan(this.ksTextField, 0.0d)) {
