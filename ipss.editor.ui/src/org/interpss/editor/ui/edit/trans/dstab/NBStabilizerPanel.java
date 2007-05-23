@@ -95,7 +95,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
 		return true;
 	}
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBStabilizerPanel saveEditor2Form() called");
 
 		boolean ok = true;
