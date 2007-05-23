@@ -48,6 +48,8 @@ import com.interpss.common.ui.WinUtilities;
  * Demo for {@link XYSeries}, where all the y values are the same.
  */
 public class SimpleOneStateChart extends JDialog {
+	private static final long serialVersionUID = 1;
+
 	public static int Chart_Width = 800;
 	public static int Chart_Height = 500;
 	
