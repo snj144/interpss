@@ -84,7 +84,7 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditorData(Vector errMsg) throws Exception {
+    public boolean saveEditorData(Vector<String> errMsg) throws Exception {
 		boolean ok = true;
 		
     	_data.setOptMode(droopRadioButton.isSelected()? AbstractGovernor.DroopMode : AbstractGovernor.IsochMode); 

@@ -109,7 +109,7 @@ public class NBIeee1992PSS2AEditPanel extends javax.swing.JPanel implements ICon
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditorData(Vector errMsg) throws Exception {
+    public boolean saveEditorData(Vector<String> errMsg) throws Exception {
     	errMsg.clear();
     	
     	EditUtilFunct.saveDblTextField(_data, ks1TextField, "ks1", errMsg);

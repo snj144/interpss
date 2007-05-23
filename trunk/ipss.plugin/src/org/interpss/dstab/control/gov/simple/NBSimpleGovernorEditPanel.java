@@ -70,7 +70,7 @@ public class NBSimpleGovernorEditPanel extends javax.swing.JPanel implements ICo
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditorData(Vector errMsg) throws Exception {
+    public boolean saveEditorData(Vector<String> errMsg) throws Exception {
 		boolean ok = true;
 		
 		if (!SwingInputVerifyUtil.largeThan(this.kTextField, 0.0d)) {
