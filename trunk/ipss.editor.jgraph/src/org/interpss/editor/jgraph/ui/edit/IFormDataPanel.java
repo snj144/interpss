@@ -24,6 +24,8 @@
 
 package org.interpss.editor.jgraph.ui.edit;
 
+import java.util.Vector;
+
 
 /**
 *	Common functions for Net, Bus and Branch editor to handle form data
@@ -33,7 +35,7 @@ public interface IFormDataPanel {
 	/**
 	*	For performance reason, editor objects are static member of the 
 	*   CellEditorFactory or other factory. This method is for init the editor for the form
-	* 	object to be edtied
+	* 	object to be edited
 	*
 	* @param container the Container object for the form object
 	* @param form the form object to be edited
@@ -54,5 +56,5 @@ public interface IFormDataPanel {
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-	boolean saveEditor2Form(java.util.Vector errMsg) throws Exception;
+	boolean saveEditor2Form(Vector<String> errMsg) throws Exception;
 }
