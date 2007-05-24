@@ -62,7 +62,7 @@ public class AnnotateDStabOutputScripting {
 	}	
 	
 	// This method is called when a machine is processed
-	public boolean machStates(DStabilityNetwork net, Hashtable stateTable) {
+	public boolean machStates(DStabilityNetwork net, Hashtable<String, Object> stateTable) {
 		MachineStateRec machRec = new MachineStateRec(stateTable);
 		String machId = machRec.machId;
 		this.timeStr = Number2String.toStr(machRec.time, "0.000");
@@ -76,7 +76,7 @@ public class AnnotateDStabOutputScripting {
 	}
 
 	// This method is called when a bus object is processed
-	public boolean busVariables(DStabilityNetwork net, Hashtable varTable) {
+	public boolean busVariables(DStabilityNetwork net, Hashtable<String, Object> varTable) {
 		BusVariableRec busRec = new BusVariableRec(varTable);
 		String busId = busRec.busId;
 		for (Rec rec : displayRecList) {
@@ -89,7 +89,7 @@ public class AnnotateDStabOutputScripting {
 	}
 
 	// This method is called when a dynamic bus device is processed
-	public boolean busDeviceStates(DStabilityNetwork net, Hashtable stateTable) {
+	public boolean busDeviceStates(DStabilityNetwork net, Hashtable<String, Object> stateTable) {
 		// output dynamic bus device here
 		return true;
 	}

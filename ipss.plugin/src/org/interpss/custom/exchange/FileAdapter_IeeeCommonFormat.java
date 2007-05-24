@@ -508,10 +508,13 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 //    	Columns 57-61   Line MVA rating No 2 [I] Left justify!
 //    	Columns 63-67   Line MVA rating No 3 [I] Left justify!
     	// InterPSS currently is not using these three fields
+    	
+    	/*
     	final double rating1Mvar = new Integer(strAry[9]).intValue();
     	final double rating2Mvar = new Integer(strAry[10]).intValue();
     	final double rating3Mvar = new Integer(strAry[11]).intValue();
-
+        */
+    	
     	String controlBusId = "";
     	int controlSide = 0;
     	double stepSize = 0.0, maxTapAng = 0.0, minTapAng = 0.0, maxVoltPQ = 0.0, minVoltPQ = 0.0;

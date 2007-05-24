@@ -129,7 +129,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * @return hashtable of the states
 	 */
 	@Override
-	public Hashtable getStates(Machine mach, Object ref) {
+	public Hashtable<String, Object> getStates(Machine mach, Object ref) {
 		return anController.getStates(mach, ref);
 	}
 

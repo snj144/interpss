@@ -131,8 +131,6 @@ public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements I
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
-
         ksLabel = new javax.swing.JLabel();
         ksTextField = new javax.swing.JTextField();
         t1Label = new javax.swing.JLabel();

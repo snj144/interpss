@@ -100,7 +100,7 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	 * @param abus the bus object
 	 * @refMach the ref machine object
 	 */
-	public Hashtable getStates(Object refMach) {
+	public Hashtable<String, Object> getStates(Object refMach) {
 		return device.getStates(refMach);
 	}
 
