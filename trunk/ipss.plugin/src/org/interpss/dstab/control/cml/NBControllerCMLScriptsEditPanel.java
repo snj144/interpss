@@ -34,8 +34,6 @@ import com.interpss.dstab.controller.annotate.ICMLScriptingController;
 public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements IControllerEditor {
 	private static final long serialVersionUID = 1;
 
-
-	
 	private BaseCMLScriptingController controller = null;
 	
     /** Creates new form FaultLocDataPanel */

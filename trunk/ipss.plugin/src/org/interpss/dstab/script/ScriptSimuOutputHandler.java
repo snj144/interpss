@@ -84,19 +84,19 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 	public boolean onMsgEventStatus(IpssMessage event) {
 		DStabSimuAction e = (DStabSimuAction)event;
 		if (e.getType() == DStabSimuAction.TimeStepMachineStates) {
-		   	Hashtable machStates = e.getHashtableData();
+		   	Hashtable<String, Object> machStates = e.getHashtableData();
 			if (!this.anOutput.machStates(net, machStates))
 				return false;
 		}
 
 		if (e.getType() == DStabSimuAction.TimeStepBusStates) {
-		   	Hashtable busStates = e.getHashtableData();
+		   	Hashtable<String, Object> busStates = e.getHashtableData();
 			if (!this.anOutput.busVariables(net, busStates))
 				return false;
 		}
 
 		if (e.getType() == DStabSimuAction.TimeStepScriptDynamicBusDeviceStates) {
-		   	Hashtable busDeviceStates = e.getHashtableData();
+		   	Hashtable<String, Object> busDeviceStates = e.getHashtableData();
 			if (!this.anOutput.busDeviceStates(net, busDeviceStates))
 				return false;
 		}

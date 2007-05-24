@@ -38,10 +38,7 @@ package org.interpss.custom.exchange.psse;
 		Area Interchange Data
  */
 
-import java.util.StringTokenizer;
-
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
 
@@ -56,6 +53,8 @@ public class PSSESwitchedShuntDataRecord  {
 		/*
 		I,MODSW,VSWHI,VSWLO,SWREM,BINIT,N1,B1,N2,B2...N8,B8
 */				
+		
+/*		
   		StringTokenizer st = new StringTokenizer(lineStr);
 
 		int I = new Integer(st.nextToken()).intValue();
@@ -83,6 +82,7 @@ public class PSSESwitchedShuntDataRecord  {
 		double B8  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
 
 		IpssLogger.getLogger().info("Switched shunt data Line:" + lineNo + " " + lineStr);
+*/		
 	}	
 	
 	

@@ -38,10 +38,7 @@ package org.interpss.custom.exchange.psse;
 		Area Interchange Data
  */
 
-import java.util.StringTokenizer;
-
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
 
@@ -63,7 +60,9 @@ public class PSSEDCLintDataRecord  {
 				IPSSMsgHub msg) throws Exception {
 		msg.sendWarnMsg("DC Line record has not been implemented");
 		
+		/*  		
   		StringTokenizer st = new StringTokenizer(lineStr1);
+
 		int I  = new Integer(st.nextToken()).intValue();
 		int MDC  = new Integer(st.nextToken()).intValue();
 		double RDC = new Double(st.nextToken()).doubleValue();
@@ -77,7 +76,7 @@ public class PSSEDCLintDataRecord  {
 		IpssLogger.getLogger().info("DC Line data Line1:" + (lineNo-2) + "-->" + lineStr1);
 
   		st = new StringTokenizer(lineStr2);
-		int IPR = new Integer(st.nextToken()).intValue();
+  		int IPR = new Integer(st.nextToken()).intValue();
 		int NBR = new Integer(st.nextToken()).intValue();
 		double ALFMAX = new Double(st.nextToken()).doubleValue();
 		double ALFMN = new Double(st.nextToken()).doubleValue();
@@ -95,18 +94,19 @@ public class PSSEDCLintDataRecord  {
   		st = new StringTokenizer(lineStr3);
 		IPR = new Integer(st.nextToken()).intValue();
 		NBR = new Integer(st.nextToken()).intValue();
-		ALFMAX = new Double(st.nextToken()).doubleValue();
-		ALFMN = new Double(st.nextToken()).doubleValue();
-		RCR = new Double(st.nextToken()).doubleValue();
-		XCR = new Double(st.nextToken()).doubleValue();
-		EBASR = new Double(st.nextToken()).doubleValue();
-		TRR = new Double(st.nextToken()).doubleValue();
-		TAPR = new Double(st.nextToken()).doubleValue();
-		TPMXR = new Double(st.nextToken()).doubleValue();
-		TPMNR = new Double(st.nextToken()).doubleValue();
-		TSTPR = new Double(st.nextToken()).doubleValue();
+		double ALFMAX = new Double(st.nextToken()).doubleValue();
+		double ALFMN = new Double(st.nextToken()).doubleValue();
+		double RCR = new Double(st.nextToken()).doubleValue();
+		double XCR = new Double(st.nextToken()).doubleValue();
+		double EBASR = new Double(st.nextToken()).doubleValue();
+		double TRR = new Double(st.nextToken()).doubleValue();
+		double TAPR = new Double(st.nextToken()).doubleValue();
+		double TPMXR = new Double(st.nextToken()).doubleValue();
+		double TPMNR = new Double(st.nextToken()).doubleValue();
+		double TSTPR = new Double(st.nextToken()).doubleValue();
 
 		IpssLogger.getLogger().info("DC Line data Line3:" + lineNo + "-->" + lineStr3);
+*/		
 	}			
 	
 	public static void processVscDCLine(
