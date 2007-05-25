@@ -77,7 +77,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 	 * @param toObj an Algorithm object
 	 * @param kclass class type of the toObj 
 	 */	
-	public boolean mapping(Object fromObj, Object toObj, Class klass) {
+	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
 		if (klass == LoadflowAlgorithm.class) {
 			AclfRunForm runForm = (AclfRunForm)fromObj;
 	  		LoadflowAlgorithm algo = (LoadflowAlgorithm)toObj;
@@ -113,9 +113,10 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 	private void aclfRunForm2LFAlgorithmMapping(AclfCaseData caseData, LoadflowAlgorithm algo) {
 	  	algo.setLfMethod(caseData.getMethod().equals(AclfCaseData.Method_NR)? AclfMethod.NR_LITERAL :
 	  				(caseData.getMethod().equals(AclfCaseData.Method_PQ)? AclfMethod.PQ_LITERAL : AclfMethod.GS_LITERAL));
+/* no need for this. PQ method can handle PSXfr now
 	  	if (algo.getAclfAdjNetwork().hasPSXfr() && algo.getLfMethod() == AclfMethod.PQ_LITERAL)
 		  	algo.setLfMethod(AclfMethod.NR_LITERAL);
-	  		
+*/	  		
 	  	algo.setMaxIterations(caseData.getMaxIteration());
 	  	algo.setTolerance(caseData.getTolerance());
 	  	algo.setInitBusVoltage(caseData.getInitBusVolt());
