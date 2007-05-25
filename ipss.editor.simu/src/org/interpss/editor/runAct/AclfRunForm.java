@@ -24,8 +24,6 @@
 
 package org.interpss.editor.runAct;
 
-import java.util.Iterator;
-
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.ui.IOutputTextDialog;
@@ -35,6 +33,7 @@ import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistBusAdapter;
 import com.interpss.dist.DistNetwork;
@@ -77,8 +76,8 @@ public class AclfRunForm extends BaseRunForm {
   				if (!runLoadflow_internal(distNet.getAcscNet(), simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub()))
   					converge = false;
   				
-  				for( Iterator itr = distNet.getBusList().iterator(); itr.hasNext();) {
-  					DistBus distBus = (DistBus)itr.next();
+  				for( Bus b : distNet.getBusList()) {
+  					DistBus distBus = (DistBus)b;
   			  		DistBusAdapter aBusApt = (DistBusAdapter)distBus.adapt(DistBusAdapter.class);
   			  		aBusApt.setPointVoltage(distBus.getAcscBus().getVoltage(), i);
   				}
