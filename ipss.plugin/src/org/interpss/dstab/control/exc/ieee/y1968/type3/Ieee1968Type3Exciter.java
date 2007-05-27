@@ -27,6 +27,8 @@ package org.interpss.dstab.control.exc.ieee.y1968.type3;
 import java.lang.reflect.Field;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.dstab.control.cml.block.DelayControlBlock;
+import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.func.CMLFieldType;
@@ -35,10 +37,8 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
-import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.StaticBlockAdapter;
-import com.interpss.dstab.controller.block.WashoutControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
