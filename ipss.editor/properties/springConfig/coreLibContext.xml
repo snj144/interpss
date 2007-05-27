@@ -58,6 +58,11 @@
 			<ref bean="dbDStabSimuOutputHandler"/></constructor-arg>
 	</bean>
 	
+	<bean id="cmlFieldObjectFactory" 
+	      class="org.interpss.dstab.control.cml.CMLFieldObjectFactoryImpl"	
+		  singleton="true">	
+	</bean>
+
 	<!--
 		Define the SimuContext objects for different network type applications.
 		======================================================================
