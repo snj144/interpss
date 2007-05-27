@@ -27,16 +27,17 @@ package org.interpss.dstab.control.pss.ieee.y1992.pss1a;
 
 import java.lang.reflect.Field;
 
+import org.interpss.dstab.control.cml.block.DelayControlBlock;
+import org.interpss.dstab.control.cml.block.FilterControlBlock;
+import org.interpss.dstab.control.cml.block.TFunc2ndOrderBlock;
+import org.interpss.dstab.control.cml.block.WashoutControlBlock;
+
 import com.interpss.common.func.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
-import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.block.FilterControlBlock;
-import com.interpss.dstab.controller.block.TFunc2ndOrderBlock;
-import com.interpss.dstab.controller.block.WashoutControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
