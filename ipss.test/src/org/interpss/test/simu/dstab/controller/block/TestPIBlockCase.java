@@ -24,10 +24,10 @@
 
 package org.interpss.test.simu.dstab.controller.block;
 
+import org.interpss.dstab.control.cml.block.PIControlBlock;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.controller.block.IStaticBlock;
-import com.interpss.dstab.controller.block.PIControlBlock;
 
 public class TestPIBlockCase extends TestSetupBase {
 	public void test_Case1() {

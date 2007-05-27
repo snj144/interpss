@@ -2,15 +2,16 @@ package org.interpss.test.simu.dstab.controller.annotate;
 
 import java.lang.reflect.Field;
 
+import org.interpss.dstab.control.cml.block.DelayControlBlock;
+import org.interpss.dstab.control.cml.func.SeFunction;
+
 import com.interpss.common.func.CMLFieldType;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
-import com.interpss.dstab.controller.block.DelayControlBlock;
-import com.interpss.dstab.controller.func.FunctionAdapter;
-import com.interpss.dstab.controller.func.IFunction;
-import com.interpss.dstab.controller.func.SeFunction;
+import com.interpss.dstab.controller.block.FunctionAdapter;
+import com.interpss.dstab.controller.block.IFunction;
 
 // User custom code begin 
 // Define controller annotation here

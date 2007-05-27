@@ -24,9 +24,9 @@
 
 package org.interpss.test.simu.dstab.controller.block;
 
+import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
-import com.interpss.dstab.controller.block.FilterControlBlock;
 import com.interpss.dstab.controller.block.IStaticBlock;
 
 public class TestFilterCase extends TestSetupBase {
