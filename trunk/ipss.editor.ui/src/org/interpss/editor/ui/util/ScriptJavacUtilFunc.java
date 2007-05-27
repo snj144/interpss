@@ -47,7 +47,7 @@ public class ScriptJavacUtilFunc {
 	 *  set from the configuration file
 	 */
 	// CML contrller specific tags
-	public static String Tag_ControllerDescBegin_Code = "package dsl.controller;\n import java.lang.reflect.Field;\n import com.interpss.dstab.controller.annotate.*;\n import com.interpss.dstab.controller.block.*;\n import com.interpss.dstab.controller.func.*;\n import com.interpss.dstab.mach.Controller;\n import com.interpss.common.func.*;\n";
+	public static String Tag_ControllerDescBegin_Code = "package dsl.controller;\n import java.lang.reflect.Field;\n import com.interpss.dstab.controller.annotate.*;\n import com.interpss.dstab.controller.block.*;\n import org.interpss.dstab.control.cml.block.*;\n import org.interpss.dstab.control.cml.func.*;\n import com.interpss.dstab.mach.Controller;\n import com.interpss.common.func.*;\n";
 	public static String Tag_ControllerFieldDescEnd_Code = "public AnController getAnController() {\n return (AnController)getClass().getAnnotation(AnController.class);  }\npublic Field getField(String fieldName) throws Exception {\n return getClass().getField(fieldName);   }\n public Object getFieldObject(Field field) throws Exception {\n return field.get(this);    }\n}";
 
 	public static String Tag_ControllerDescBegin = "<ControllerDescriptionBegin>";
