@@ -11,13 +11,15 @@ package org.interpss.dstab.control.exc.simple;
 
 import java.lang.reflect.Field;
 
+import org.interpss.dstab.control.cml.block.DelayControlBlock;
+
+
 import com.interpss.common.func.CMLFieldType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
-import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(
