@@ -24,6 +24,7 @@
 
 package org.interpss.test.simu.dstab.controller.annotate;
 
+import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.common.func.CMLVarType;
@@ -31,7 +32,6 @@ import com.interpss.dstab.controller.annotate.ControlBlockFieldHolder;
 import com.interpss.dstab.controller.annotate.FunctionFieldHolder;
 import com.interpss.dstab.controller.annotate.StaticBlockFieldHolder;
 import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
-import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.mach.Machine;
 
 public class TestAnnotateParserCase extends TestSetupBase {

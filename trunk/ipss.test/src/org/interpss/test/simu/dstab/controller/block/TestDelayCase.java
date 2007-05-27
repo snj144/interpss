@@ -24,9 +24,9 @@
 
 package org.interpss.test.simu.dstab.controller.block;
 
+import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
-import com.interpss.dstab.controller.block.DelayControlBlock;
 import com.interpss.dstab.controller.block.IStaticBlock;
 
 public class TestDelayCase extends TestSetupBase {

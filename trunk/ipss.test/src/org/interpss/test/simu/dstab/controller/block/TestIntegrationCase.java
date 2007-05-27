@@ -24,10 +24,10 @@
 
 package org.interpss.test.simu.dstab.controller.block;
 
+import org.interpss.dstab.control.cml.block.IntegrationControlBlock;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
 import com.interpss.dstab.controller.block.IStaticBlock;
-import com.interpss.dstab.controller.block.IntegrationControlBlock;
 
 public class TestIntegrationCase extends TestSetupBase {
 	

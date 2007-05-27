@@ -24,9 +24,9 @@
 
 package org.interpss.test.simu.dstab.controller.block;
 
+import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.test.simu.dstab.controller.TestSetupBase;
 
-import com.interpss.dstab.controller.block.WashoutControlBlock;
 
 public class TestWashoutCase extends TestSetupBase {
 	

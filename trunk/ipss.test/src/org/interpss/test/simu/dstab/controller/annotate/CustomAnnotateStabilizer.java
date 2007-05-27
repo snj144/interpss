@@ -2,11 +2,12 @@ package org.interpss.test.simu.dstab.controller.annotate;
 
 import java.lang.reflect.Field;
 
+import org.interpss.dstab.control.cml.block.FilterControlBlock;
+
 import com.interpss.common.func.CMLFieldType;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateStabilizer;
-import com.interpss.dstab.controller.block.FilterControlBlock;
 
 // User custom code begin 
 // Define controller annotation here
