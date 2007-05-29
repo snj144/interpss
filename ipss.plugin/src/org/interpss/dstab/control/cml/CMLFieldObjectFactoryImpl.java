@@ -36,7 +36,9 @@ import org.interpss.dstab.control.cml.block.TFunc2ndOrderBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.dstab.control.cml.func.FexFunction;
 import org.interpss.dstab.control.cml.func.GainFunction;
+import org.interpss.dstab.control.cml.func.HighValueExpFunction;
 import org.interpss.dstab.control.cml.func.HighValueFunction;
+import org.interpss.dstab.control.cml.func.LowValueExpFunction;
 import org.interpss.dstab.control.cml.func.LowValueFunction;
 import org.interpss.dstab.control.cml.func.SeFunction;
 import org.interpss.dstab.control.cml.func.SquareFunction;
@@ -49,6 +51,7 @@ import com.interpss.dstab.controller.annotate.IFieldObjectFactory;
 import com.interpss.dstab.controller.annotate.util.CMLSymbolMapper;
 import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.controller.block.IFunction;
+import com.interpss.dstab.controller.block.IFunctionExpression;
 import com.interpss.dstab.controller.block.IStaticBlock;
 
 /**
@@ -235,19 +238,19 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
     	    return new GainFunction(k);
     	}
     	else if (field.getType() == SquareFunction.class) {
-	    	// format : no input
+	    	// format : no parameter
     	    return new SquareFunction();
     	}
     	else if (field.getType() == HighValueFunction.class) {
-	    	// format : no input
+	    	// format : no parameter
     	    return new HighValueFunction();
     	}
     	else if (field.getType() == LowValueFunction.class) {
-	    	// format : no input
+	    	// format : no parameter
     	    return new LowValueFunction();
     	}
     	else if (field.getType() == FexFunction.class) {
-	    	// format : no input
+	    	// format : no parameter
     	    return new FexFunction();
     	}
     	else if (field.getType() == VthevFunction.class) {
@@ -255,6 +258,27 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
     	    double kp = controllor.getDoubleField(StringUtil.getParameterName(parameters[0]));
     	    double ki = controllor.getDoubleField(StringUtil.getParameterName(parameters[1]));
     	    return new VthevFunction(kp, ki);
+    	}
+    	return null;   
+    }    
+
+    /**
+	 * Create a FunctionExpression object based on the annotation filed and parameters
+	 * 
+	 * @param controllor the parent controller object
+	 * @param field the FunctionExpression field
+	 * @param parameters block parameters
+	 * @return the created object
+	 * @throws Exception
+	 */
+    public IFunctionExpression createFunctionExpressionField(AbstractAnnotateController controllor, Field field, String[] parameters) throws Exception {
+    	if (field.getType() == LowValueExpFunction.class) {
+	    	// format : no parameter
+    	    return new LowValueExpFunction();
+    	}
+    	else if (field.getType() == HighValueExpFunction.class) {
+	    	// format : no parameter
+    	    return new HighValueExpFunction();
     	}
     	return null;   
     }    

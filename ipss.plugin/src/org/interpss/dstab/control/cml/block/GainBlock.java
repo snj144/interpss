@@ -28,7 +28,6 @@ package org.interpss.dstab.control.cml.block;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.dstab.controller.block.IStaticBlock;
 import com.interpss.dstab.controller.block.StaticBlockAdapter;
-import com.interpss.dstab.controller.block.IStaticBlock.Type;
 
 public class GainBlock extends StaticBlockAdapter {
 	private double k = 0.0;

@@ -24,25 +24,23 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.FunctionAdapter;
 
 /**
- * A function to select high input value y = max[u1, u2]
+ * A function to select high input value y = max[u1Expression, u2Expression]. u1, u2 are expression of
+ * system variables, for example, "mach.vt - this.delay.y" 
  * 
  * @author mzhou
  *
  */
 
-public class HighValueFunction extends FunctionAdapter {
+public class HighValueExpFunction extends GateValueExpFunction {
 	/**
-	 * evaluate function value based on the input double array. The array matches the input var rec list
+	 * evaluate function value based on the input 2D double array. The array matches the input expression list
 	 *
-	 * @param dAry contains two values [u1, u2]
+	 * @param dAry2D contains two arrays [u1Ary, u2Ary]
 	 * @return the function value
 	 */	
-	@Override
-	public double eval(double[] dAry) {
-		// always there are two input values 
-		return dAry[0] > dAry[1] ? dAry[0] : dAry[1];
+	public double eval(double[][] dAry2D) throws Exception {
+		return eval(dAry2D, true);
 	}
 }

@@ -28,7 +28,6 @@ import com.interpss.common.datatype.LimitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.controller.block.ControlBlock1stOrderAdapter;
 import com.interpss.dstab.controller.block.IStaticBlock;
-import com.interpss.dstab.controller.block.IStaticBlock.Type;
 
 public class FilterControlBlock extends ControlBlock1stOrderAdapter {
 	private double k = 0.0;
