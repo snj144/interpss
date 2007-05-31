@@ -41,7 +41,7 @@ public class GainFunction extends FunctionAdapter {
 	}
 	
 	/**
-	 * evaluate function value based on the input double array. The array matchs the input var rec list
+	 * evaluate function value based on the input double array. The array matches the input var rec list
 	 *
 	 * @param dAry contains only one value
 	 * @return the function value

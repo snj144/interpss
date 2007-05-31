@@ -35,7 +35,7 @@ import com.interpss.dstab.controller.block.FunctionAdapter;
 
 public class FexFunction extends FunctionAdapter {
 	/**
-	 * evaluate function value based on the input double array. The array matchs the innput var rec list
+	 * evaluate function value based on the input double array. The array matches the input var rec list
 	 *
 	 * @param dAry contains only one value In
 	 * @return the function value
