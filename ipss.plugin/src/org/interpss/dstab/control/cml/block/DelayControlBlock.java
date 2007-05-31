@@ -82,10 +82,26 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements IL
 			return true;
 	}
 	
+	public boolean initStateY0(double y0) {
+		if ( getK() <= 0.0 ) {
+			IpssLogger.getLogger().severe("DelayControlBlock.initState(), k <= 0.0");
+			return false;
+		}
+		setU(y0/getK());
+		setStateX(y0);
+		return true;
+	}
+
 	public boolean initStateU0(double u0, double[] maxDAry, double[] minDAry) {
 		setU(u0);
 		double y0 = u0 * getK();
 		return initStateY0(y0, maxDAry, minDAry);
+	}
+	
+	public boolean initStateU0(double u0) {
+		setU(u0);
+		double y0 = u0 * getK();
+		return initStateY0(y0);
 	}
 
 	public double getU0() {
