@@ -42,7 +42,7 @@ import org.interpss.dstab.control.cml.func.LookupTableFunction;
 import org.interpss.dstab.control.cml.func.LowValueExpFunction;
 import org.interpss.dstab.control.cml.func.LowValueFunction;
 import org.interpss.dstab.control.cml.func.SeFunction;
-import org.interpss.dstab.control.cml.func.SquareFunction;
+import org.interpss.dstab.control.cml.func.PowerFunction;
 import org.interpss.dstab.control.cml.func.VthevFunction;
 
 import com.interpss.common.func.ExpCalculator;
@@ -241,9 +241,12 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
     	    double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[0]));
     	    return new GainFunction(k);
     	}
-    	else if (field.getType() == SquareFunction.class) {
-	    	// format : no parameter
-    	    return new SquareFunction();
+    	else if (field.getType() == PowerFunction.class) {
+	    	// format : {"this.k"},
+    		int k = controllor.getIntField(StringUtil.getParameterName(parameters[0]));
+    		if ( k < 0)
+    			throw new Exception("Power function, n has to be >= 0");
+    	    return new PowerFunction(k);
     	}
     	else if (field.getType() == HighValueFunction.class) {
 	    	// format : no parameter

@@ -1,5 +1,5 @@
  /*
-  * @(#)SquareFunction.java   
+  * @(#)PowerFunction.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -27,12 +27,18 @@ package org.interpss.dstab.control.cml.func;
 import com.interpss.dstab.controller.block.FunctionAdapter;
 
 /**
- * Square function: output = iput * input
+ * Power function: output = input ^ k, k = 0, 1, 2, ...
  * 
  * @author mzhou
  *
  */
-public class SquareFunction extends FunctionAdapter {
+public class PowerFunction extends FunctionAdapter {
+	private int k = 0;
+	
+	public PowerFunction(int k) {
+		this.k = k;
+	}
+	
 	/**
 	 * evaluate function value based on the input double array. The array matches the input var rec list
 	 *
@@ -41,6 +47,16 @@ public class SquareFunction extends FunctionAdapter {
 	 */	
 	@Override
 	public double eval(double[] dAry) {
-		return  dAry[0] * dAry[0]; 
+		if (k == 0)
+			return 1.0;  
+		else if ( k == 1 )
+			return dAry[0];
+		else {
+			double product = dAry[0];
+			for (int i = 1; i < k; i++) {
+				product *= dAry[0];
+			}
+			return product;
+		}
 	}
 }
