@@ -24,10 +24,12 @@
 
 package org.interpss.test.simu.core.common;
 
+
 import junit.framework.TestCase;
 
 import com.interpss.common.func.ExpCalculator;
-import com.interpss.common.func.LookupTable;
+import com.interpss.common.func.ILookupTable;
+import com.interpss.common.util.LookupTableImpl;
 
 /**
  * @author mzhou
@@ -57,11 +59,11 @@ public class CommonFuncTest extends TestCase {
 	}
 
 	public void testLookupTable() {
-		LookupTable ltable = new LookupTable(LookupTable.TypeLinearLine);
-		ltable.addPoint(new LookupTable.Point(1.0, 1.0));
-		ltable.addPoint(new LookupTable.Point(3.0, 3.0));
-		ltable.addPoint(new LookupTable.Point(5.0, 4.0));
-		ltable.addPoint(new LookupTable.Point(7.0, 3.0));
+		LookupTableImpl ltable = new LookupTableImpl(ILookupTable.Type.LinearLine);
+		ltable.addPoint(new ILookupTable.Point(1.0, 1.0));
+		ltable.addPoint(new ILookupTable.Point(3.0, 3.0));
+		ltable.addPoint(new ILookupTable.Point(5.0, 4.0));
+		ltable.addPoint(new ILookupTable.Point(7.0, 3.0));
 		
 		//System.out.println(ltable);
 
