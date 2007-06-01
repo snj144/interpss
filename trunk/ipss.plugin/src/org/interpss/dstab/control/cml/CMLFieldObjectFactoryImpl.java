@@ -38,6 +38,7 @@ import org.interpss.dstab.control.cml.func.FexFunction;
 import org.interpss.dstab.control.cml.func.GainFunction;
 import org.interpss.dstab.control.cml.func.HighValueExpFunction;
 import org.interpss.dstab.control.cml.func.HighValueFunction;
+import org.interpss.dstab.control.cml.func.LookupTableFunction;
 import org.interpss.dstab.control.cml.func.LowValueExpFunction;
 import org.interpss.dstab.control.cml.func.LowValueFunction;
 import org.interpss.dstab.control.cml.func.SeFunction;
@@ -45,6 +46,8 @@ import org.interpss.dstab.control.cml.func.SquareFunction;
 import org.interpss.dstab.control.cml.func.VthevFunction;
 
 import com.interpss.common.func.ExpCalculator;
+import com.interpss.common.func.ILookupTable;
+import com.interpss.common.util.LookupTableImpl;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.controller.annotate.IFieldObjectFactory;
@@ -52,6 +55,7 @@ import com.interpss.dstab.controller.annotate.util.CMLSymbolMapper;
 import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.controller.block.IFunction;
 import com.interpss.dstab.controller.block.IFunctionExpression;
+import com.interpss.dstab.controller.block.ILookupTableFunction;
 import com.interpss.dstab.controller.block.IStaticBlock;
 
 /**
@@ -282,4 +286,26 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
     	}
     	return null;   
     }    
+    
+    /**
+	 * Create a FunctionExpression object based on the annotation filed and parameters
+	 * 
+	 * @param controllor the parent controller object
+	 * @param field the FunctionExpression field
+	 * @param lookupTableType block parameters
+	 * @param dataPoints block parameters
+	 * @return the created object
+	 * @throws Exception
+	 */
+    public ILookupTableFunction createLookupTableFunctionField(AbstractAnnotateController controllor, Field field, 
+    		                             ILookupTable.Type lookupTabletype, String[] dataPoints) throws Exception {
+    	if (field.getType() == LookupTableFunction.class) {
+	    	// format : no parameter
+    		ILookupTable table = new LookupTableImpl(lookupTabletype);
+    		ILookupTableFunction func = new LookupTableFunction();
+    		func.setLookupTable(table);
+    		return func;
+    	}
+    	return null;   
+    }      
 }
