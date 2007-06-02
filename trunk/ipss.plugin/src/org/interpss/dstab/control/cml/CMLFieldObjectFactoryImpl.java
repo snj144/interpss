@@ -25,6 +25,7 @@
 package org.interpss.dstab.control.cml;
 
 import java.lang.reflect.Field;
+import java.util.StringTokenizer;
 
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
@@ -298,15 +299,21 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
 	 * @param lookupTableType block parameters
 	 * @param dataPoints block parameters
 	 * @return the created object
-	 * @throws Exception
+	 * @throws Exception 
 	 */
     public ILookupTableFunction createLookupTableFunctionField(AbstractAnnotateController controllor, Field field, 
     		                             ILookupTable.Type lookupTabletype, String[] dataPoints) throws Exception {
     	if (field.getType() == LookupTableFunction.class) {
-	    	// format : no parameter
     		ILookupTable table = new LookupTableImpl(lookupTabletype);
-    		ILookupTableFunction func = new LookupTableFunction();
-    		func.setLookupTable(table);
+    		// dataPoints format : {"1.0, 5.0", "2.0, 6.0", "3.0, 5.5"}
+    		for (String str : dataPoints) {
+    			StringTokenizer st = new StringTokenizer(str, ",");
+    			double x = new Double(st.nextToken()).doubleValue();
+    			double y = new Double(st.nextToken()).doubleValue();
+    			ILookupTable.Point point = new ILookupTable.Point(x, y);
+    			table.addPoint(point);
+    		}
+    		ILookupTableFunction func = new LookupTableFunction(table);
     		return func;
     	}
     	return null;   
