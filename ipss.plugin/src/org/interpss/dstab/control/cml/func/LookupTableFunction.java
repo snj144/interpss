@@ -24,6 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
+import com.interpss.common.func.ILookupTable;
 import com.interpss.dstab.controller.block.LookupTableFunctionAdapter;
 
 /**
@@ -35,8 +36,9 @@ import com.interpss.dstab.controller.block.LookupTableFunctionAdapter;
 
 public class LookupTableFunction extends LookupTableFunctionAdapter {
 	
-	public LookupTableFunction() {
+	public LookupTableFunction(ILookupTable table) {
 		super();
+		this.table = table;
 	}
 	
 	/**
