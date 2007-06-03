@@ -41,6 +41,16 @@ public class GainFunction extends FunctionAdapter {
 	}
 	
 	/**
+	 * Calculate input from the output value
+	 * 
+	 * @return input u
+	 */
+	@Override
+	public double getU(double y) throws Exception {
+		return y / this.k;
+	}
+	
+	/**
 	 * evaluate function value based on the input double array. The array matches the input var rec list
 	 *
 	 * @param dAry contains only one value
