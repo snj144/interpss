@@ -36,6 +36,7 @@ import org.interpss.dstab.control.cml.block.PIControlBlock;
 import org.interpss.dstab.control.cml.block.TFunc2ndOrderBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 import org.interpss.dstab.control.cml.func.FexFunction;
+import org.interpss.dstab.control.cml.func.GainExpFunction;
 import org.interpss.dstab.control.cml.func.GainFunction;
 import org.interpss.dstab.control.cml.func.HighValueExpFunction;
 import org.interpss.dstab.control.cml.func.HighValueFunction;
@@ -287,6 +288,11 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
     	else if (field.getType() == HighValueExpFunction.class) {
 	    	// format : no parameter
     	    return new HighValueExpFunction();
+    	}
+    	else if (field.getType() == GainExpFunction.class) {
+	    	// format : {"this.k"},
+    	    double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[0]));
+    	    return new GainExpFunction(k);
     	}
     	return null;   
     }    
