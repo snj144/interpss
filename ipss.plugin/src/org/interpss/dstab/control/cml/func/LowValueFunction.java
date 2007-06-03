@@ -35,6 +35,16 @@ import com.interpss.dstab.controller.block.FunctionAdapter;
 
 public class LowValueFunction extends FunctionAdapter {
 	/**
+	 * Calculate input from the output value
+	 * 
+	 * @return input u
+	 */
+	@Override
+	public double getU(double y) throws Exception {
+		return y;
+	}
+	
+	/**
 	 * evaluate function value based on the input double array. The array matches the input var rec list
 	 *
 	 * @param dAry contains two values [u1, u2]

@@ -35,6 +35,16 @@ package org.interpss.dstab.control.cml.func;
 
 public class HighValueExpFunction extends GateValueExpFunction {
 	/**
+	 * Calculate input from the output value
+	 * 
+	 * @return input u
+	 */
+	@Override
+	public double getU(double y) throws Exception {
+		return y;
+	}
+	
+	/**
 	 * evaluate function value based on the input 2D double array. The array matches the input expression list
 	 *
 	 * @param dAry2D contains two arrays [u1Ary, u2Ary]
