@@ -45,6 +45,7 @@ import org.interpss.dstab.control.cml.func.LowValueExpFunction;
 import org.interpss.dstab.control.cml.func.LowValueFunction;
 import org.interpss.dstab.control.cml.func.SeFunction;
 import org.interpss.dstab.control.cml.func.PowerFunction;
+import org.interpss.dstab.control.cml.func.SwitchFunction;
 import org.interpss.dstab.control.cml.func.VthevFunction;
 
 import com.interpss.common.func.ExpCalculator;
@@ -242,6 +243,11 @@ public class CMLFieldObjectFactoryImpl implements IFieldObjectFactory {
 	    	// format : {"this.k"},
     	    double k = controllor.getDoubleField(StringUtil.getParameterName(parameters[0]));
     	    return new GainFunction(k);
+    	}
+    	else if (field.getType() == SwitchFunction.class) {
+	    	// format : {"this.e"},
+    	    double e = controllor.getDoubleField(StringUtil.getParameterName(parameters[0]));
+    	    return new SwitchFunction(e);
     	}
     	else if (field.getType() == PowerFunction.class) {
 	    	// format : {"this.k"},
