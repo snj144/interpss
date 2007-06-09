@@ -62,7 +62,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	}
 	
 	/**
-	 * Contructor
+	 * Constructor
 	 * 
 	 * @param id controller id
 	 * @param name controller name
@@ -156,6 +156,13 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 		String javacode = ScriptJavacUtilFunc.parseCMLTag(getScripts(), classname, baseClassname);
 		anController = (AbstractAnnotateController)MemoryJavaCompiler.javac( 
 				ScriptJavacUtilFunc.CMLControllerPackageName+classname, javacode);
+	}
+	
+	/**
+	 * 
+	 */
+	public AbstractAnnotateController getAnnotateController() {
+		return this.anController; 
 	}
 
 	/**
