@@ -111,7 +111,7 @@ public class DStabPlotDialogRecord {
     }    
     
     /**
-     * Accroding to the selection str set, retrieve data from the DB and create the value list
+     * According to the selection str set, retrieve data from the DB and create the value list
      *    [<Time, 0.00>, <Machine Angle, 50.0> ....]
      *    [<Time, 0.01>, <Machine Angle, 50.0> ....]
      * 
@@ -120,7 +120,7 @@ public class DStabPlotDialogRecord {
      * @return
      */
     public static List<Hashtable<String,String>> createValueList(int caseId, Object[] strList) {
-        // find <elemId, recType> set. elemId may be duplicated in the selectin strList
+        // find <elemId, recType> set. elemId may be duplicated in the selecting strList
     	Map<String,String> map = new HashMap<String,String>();
     	for (Object strObj : strList) {
    	    	DStabPlotDialogRecord rec = DStabPlotDialogRecord.parseStateSelection((String)strObj);
