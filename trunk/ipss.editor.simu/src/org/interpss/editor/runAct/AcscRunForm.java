@@ -89,15 +89,15 @@ public class AcscRunForm extends BaseRunForm {
   		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
   		mapper.mapping(this, algo, SimpleFaultAlgorithm.class);
 		
-  	  	if (getAcscCaseData().getFaultData().getCategory().equals(AcscFaultData.FaultCaty_All)) {
+  	  	if (getAcscCaseData().getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_All)) {
   	  		for (int i = 0; i < 4; i++) {
-  	  			String fCaty = i == 0? AcscFaultData.FaultCaty_3P :
-  	  							( i == 1? AcscFaultData.FaultCaty_LL :
-  	  								( i == 2? AcscFaultData.FaultCaty_LLG : AcscFaultData.FaultCaty_LG));
+  	  			String fCaty = i == 0? AcscFaultData.FaultCaty_Fault_3P :
+  	  							( i == 1? AcscFaultData.FaultCaty_Fault_LL :
+  	  								( i == 2? AcscFaultData.FaultCaty_Fault_LLG : AcscFaultData.FaultCaty_Fault_LG));
   	  			getAcscCaseData().getFaultData().setCategory(fCaty); // temporarilly set fault Caty for the calculation
   	  			calFault(getAcscCaseData().getFaultData().getType(), faultIdStr, faultNet, algo, msg);
   	  		}
-  	  		getAcscCaseData().getFaultData().setCategory(AcscFaultData.FaultCaty_All); // set to original value
+  	  		getAcscCaseData().getFaultData().setCategory(AcscFaultData.FaultCaty_Fault_All); // set to original value
   	  	}
   	  	else {
   	  		calFault(getAcscCaseData().getFaultData().getType(), faultIdStr, faultNet, algo, msg);
@@ -106,7 +106,7 @@ public class AcscRunForm extends BaseRunForm {
   	
   	private void calFault(String ftype, String idStr, SimpleFaultNetwork faultNet, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
   		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
-  		if (getAcscCaseData().getFaultData().getType().equals(AcscFaultData.FaultType_Bus)) {
+  		if (getAcscCaseData().getFaultData().getType().equals(AcscFaultData.FaultType_BusFault)) {
 	  		AcscBus faultBus = (AcscBus)faultNet.getBus(getAcscCaseData().getFaultData().getBusId());
 			if (faultBus == null) {
 				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found");

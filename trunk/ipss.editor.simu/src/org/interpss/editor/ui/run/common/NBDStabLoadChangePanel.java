@@ -100,7 +100,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBDStabLoadChangePanel saveEditor2Form() called");
 
 		boolean ok = true;
@@ -125,54 +125,75 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        busLoadChangePanel = new javax.swing.JPanel();
-        loadBusLabel = new javax.swing.JLabel();
+
         loadBusComboBox = new javax.swing.JComboBox();
-        loadChangeDataPanel = new javax.swing.JPanel();
+        loadBusLabel = new javax.swing.JLabel();
         changeFactorGLabel = new javax.swing.JLabel();
         changeFactorTextField = new javax.swing.JTextField();
         changeFactorUnitLabel1 = new javax.swing.JLabel();
 
-        setLayout(new java.awt.BorderLayout());
+        loadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        loadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No Load Bus" }));
+        loadBusComboBox.setName("faultBusComboBox"); // NOI18N
 
         loadBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         loadBusLabel.setText("Load Bus   ");
         loadBusLabel.setPreferredSize(new java.awt.Dimension(70, 25));
-        busLoadChangePanel.add(loadBusLabel);
-
-        loadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        loadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No Load Bus" }));
-        loadBusComboBox.setName("faultBusComboBox");
-        busLoadChangePanel.add(loadBusComboBox);
-
-        add(busLoadChangePanel, java.awt.BorderLayout.NORTH);
 
         changeFactorGLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         changeFactorGLabel.setText("Change Factor     ");
-        loadChangeDataPanel.add(changeFactorGLabel);
 
         changeFactorTextField.setColumns(8);
         changeFactorTextField.setText("100.0");
-        changeFactorTextField.setName("rLGTextField");
-        loadChangeDataPanel.add(changeFactorTextField);
+        changeFactorTextField.setName("rLGTextField"); // NOI18N
 
         changeFactorUnitLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
         changeFactorUnitLabel1.setText("%");
-        loadChangeDataPanel.add(changeFactorUnitLabel1);
 
-        add(loadChangeDataPanel, java.awt.BorderLayout.SOUTH);
-
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(82, 82, 82)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(layout.createSequentialGroup()
+                        .add(loadBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(33, 33, 33))
+                    .add(layout.createSequentialGroup()
+                        .add(changeFactorGLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(changeFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(changeFactorUnitLabel1))
+                    .add(loadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 121, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(loadBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(loadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(changeFactorGLabel)
+                    .add(changeFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(changeFactorUnitLabel1))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel busLoadChangePanel;
     private javax.swing.JLabel changeFactorGLabel;
     private javax.swing.JTextField changeFactorTextField;
     private javax.swing.JLabel changeFactorUnitLabel1;
     private javax.swing.JComboBox loadBusComboBox;
     private javax.swing.JLabel loadBusLabel;
-    private javax.swing.JPanel loadChangeDataPanel;
     // End of variables declaration//GEN-END:variables
 
 	class DataVerifier extends javax.swing.InputVerifier {

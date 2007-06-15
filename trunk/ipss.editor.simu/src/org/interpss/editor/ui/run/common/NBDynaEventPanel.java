@@ -31,6 +31,7 @@ import javax.swing.JDialog;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
+import org.interpss.editor.data.dstab.DStabDEventType;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
@@ -44,6 +45,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
 	private NBFaultLocDataPanel    _faultLocDataPanel = new NBFaultLocDataPanel();
 	private NBDStabLoadChangePanel _loadChangePanel = new NBDStabLoadChangePanel();
+	private NBBranchOutagePanel _branchOutagePanel = new NBBranchOutagePanel();
 
 	private DStabCaseData   _caseData = null;   // current case data
 	private DStabDEventData _eventData = null;  // current cevent data
@@ -66,6 +68,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		IpssLogger.getLogger().info("NBDStabCasePanel init() called");
 	    _faultLocDataPanel.init(netContainer, simuCtx);
 	    _loadChangePanel.init(netContainer, simuCtx);
+	    _branchOutagePanel.init(netContainer, simuCtx);
     }
 
     public void setCaseData(DStabCaseData data) {
@@ -81,10 +84,14 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     private void setCurrentEventData(DStabDEventData eventData) {
 		// update the event data editing screen
 	    _loadChangePanel.setLoadChangeData(eventData.getLoadChangeData());
+	    _branchOutagePanel.setFaultData(eventData.getFaultData());
     	_faultLocDataPanel.setFaultData(eventData.getFaultData());
         eventInputPanel.removeAll();
-        if (eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+        if (eventData.getType() == DStabDEventType.LoadChange) {
             eventInputPanel.add(_loadChangePanel);
+        }
+        else if (eventData.getType() == DStabDEventType.BranchOutage) {
+            eventInputPanel.add(_branchOutagePanel);
         }
         else {
             eventInputPanel.add(_faultLocDataPanel);
@@ -106,7 +113,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         
         stratTimeTextField.setText(Number2String.toStr(_eventData.getStartTime(), "#0.0#"));
 
-        if (_eventData.isPermanent()) {
+        if (_eventData.isPermanent() || _eventData.getType() == DStabDEventType.BranchOutage) {
         	permanetCheckBox.setSelected(true);
         }
         else {
@@ -115,12 +122,16 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         }
         permanetCheckBoxActionPerformed(null);
 
-        if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+        if (_eventData.getType() == DStabDEventType.LoadChange) {
             loadChangeRadioButton.setSelected(true);        	
         	_loadChangePanel.setForm2Editor();
         }
+        else if (_eventData.getType() == DStabDEventType.BranchOutage) {
+            branchOutageRadioButton.setSelected(true);        	
+        	_branchOutagePanel.setForm2Editor();
+        }
         else {
-        	if (_eventData.getType().equals(DStabDEventData.DEventType_BranchFault)) {
+        	if (_eventData.getType() == DStabDEventType.BranchFault) {
         		branchFaultRadioButton.setSelected(true);
         	}
         	else {
@@ -138,7 +149,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-	public boolean saveEditor2Form(Vector errMsg) throws Exception {
+	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBDynaEventPanel saveEditor2Form() called");
 
 		boolean ok = true;
@@ -156,7 +167,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		}
     	_eventData.setStartTime(SwingInputVerifyUtil.getDouble(stratTimeTextField));
 
-
         _eventData.setPermanent(permanetCheckBox.isSelected());
 
         if (!permanetCheckBox.isSelected()) {
@@ -167,23 +177,29 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
             _eventData.setDuration(SwingInputVerifyUtil.getDouble(durationTextField));
         }
         
-        if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+        if (_eventData.getType() == DStabDEventType.LoadChange) {
             if (!_loadChangePanel.saveEditor2Form(errMsg))
+            	ok = false;
+        }
+        else if (_eventData.getType() == DStabDEventType.BranchOutage) {
+            if (!_branchOutagePanel.saveEditor2Form(errMsg))
             	ok = false;
         }
         else {
             if (!_faultLocDataPanel.saveEditor2Form(errMsg))
             	ok = false;
+
+            if (_eventData.getFaultData().getType().equals(AcscFaultData.FaultType_BranchFault) 
+    				&& !_eventData.isPermanent()) {
+    			if (_eventData.getFaultData().isBranchReclosure()) {
+    				if (_eventData.getFaultData().getReclosureTime() <= (_eventData.getStartTime()+_eventData.getDuration())) {
+    	    			errMsg.add("Branch reclosure at time <= start+duration");
+    	    			ok = false;
+    				}
+    			}
+    		}
         }
 
-		if (_eventData.getFaultData().getType().equals(AcscFaultData.FaultType_Branch) && !_eventData.isPermanent()) {
-			if (_eventData.getFaultData().isBranchReclosure()) {
-				if (_eventData.getFaultData().getReclosureTime() <= (_eventData.getStartTime()+_eventData.getDuration())) {
-	    			errMsg.add("Branch reclosure at time <= start+duration");
-	    			ok = false;
-				}
-			}
-		}
 		return ok;
 	}
     
@@ -209,6 +225,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         eventTypePanel = new javax.swing.JPanel();
         busFaultRadioButton = new javax.swing.JRadioButton();
         branchFaultRadioButton = new javax.swing.JRadioButton();
+        branchOutageRadioButton = new javax.swing.JRadioButton();
         loadChangeRadioButton = new javax.swing.JRadioButton();
         eventInputPanel = new javax.swing.JPanel();
         controlPanel = new javax.swing.JPanel();
@@ -229,7 +246,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         permanetCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         permanetCheckBox.setText("Permanent");
         permanetCheckBox.setToolTipText("A permanent fault is clear by disconnecting all associated branches");
-        permanetCheckBox.setName("permanetCheckBox");
+        permanetCheckBox.setName("permanetCheckBox"); // NOI18N
         permanetCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 permanetCheckBoxActionPerformed(evt);
@@ -238,7 +255,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
         eventListComboBox.setEditable(true);
         eventListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        eventListComboBox.setName("eventListComboBox");
+        eventListComboBox.setName("eventListComboBox"); // NOI18N
         eventListComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 eventListComboBoxActionPerformed(evt);
@@ -248,13 +265,13 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         durationTextField.setColumns(4);
         durationTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         durationTextField.setText("0.1");
-        durationTextField.setName("durationTextField");
+        durationTextField.setName("durationTextField"); // NOI18N
 
         stratTimeTextField.setColumns(4);
         stratTimeTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         stratTimeTextField.setText("0.0");
         stratTimeTextField.setDragEnabled(true);
-        stratTimeTextField.setName("stratTimeTextField");
+        stratTimeTextField.setName("stratTimeTextField"); // NOI18N
 
         startTimeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         startTimeLabel.setText("          Start Time(sec)   ");
@@ -299,33 +316,43 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                     .add(permanetCheckBox))
                 .addContainerGap())
         );
+
         dynamicEventPanel.add(eventListPanel, new java.awt.GridBagConstraints());
 
-        eventTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Event Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10), new java.awt.Color(0, 0, 0)));
         eventTypeButtonGroup.add(busFaultRadioButton);
         busFaultRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         busFaultRadioButton.setSelected(true);
         busFaultRadioButton.setText("Bus Fault");
-        busFaultRadioButton.setName("busFaultRadioButton");
+        busFaultRadioButton.setName("busFaultRadioButton"); // NOI18N
         busFaultRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 busFaultRadioButtonActionPerformed(evt);
             }
         });
-
         eventTypePanel.add(busFaultRadioButton);
 
         eventTypeButtonGroup.add(branchFaultRadioButton);
         branchFaultRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         branchFaultRadioButton.setText("Branch Fault");
-        branchFaultRadioButton.setName("branchFaultRadioButton");
+        branchFaultRadioButton.setName("branchFaultRadioButton"); // NOI18N
         branchFaultRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 branchFaultRadioButtonActionPerformed(evt);
             }
         });
-
         eventTypePanel.add(branchFaultRadioButton);
+
+        eventTypeButtonGroup.add(branchOutageRadioButton);
+        branchOutageRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchOutageRadioButton.setText("Branch Outage");
+        branchOutageRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        branchOutageRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        branchOutageRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                branchOutageRadioButtonActionPerformed(evt);
+            }
+        });
+        eventTypePanel.add(branchOutageRadioButton);
 
         eventTypeButtonGroup.add(loadChangeRadioButton);
         loadChangeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -337,14 +364,12 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 loadChangeRadioButtonActionPerformed(evt);
             }
         });
-
         eventTypePanel.add(loadChangeRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
         dynamicEventPanel.add(eventTypePanel, gridBagConstraints);
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
@@ -352,35 +377,32 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
         saveEventButton.setFont(new java.awt.Font("Dialog", 0, 12));
         saveEventButton.setText("SaveEvent");
-        saveEventButton.setName("saveEventButton");
+        saveEventButton.setName("saveEventButton"); // NOI18N
         saveEventButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveEventButtonActionPerformed(evt);
             }
         });
-
         controlPanel.add(saveEventButton);
 
         addEventButton.setFont(new java.awt.Font("Dialog", 0, 12));
         addEventButton.setText("AddEvent");
-        addEventButton.setName("addEventButton");
+        addEventButton.setName("addEventButton"); // NOI18N
         addEventButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 addEventButtonActionPerformed(evt);
             }
         });
-
         controlPanel.add(addEventButton);
 
         deleteEventButton.setFont(new java.awt.Font("Dialog", 0, 12));
         deleteEventButton.setText("DeleteEvent");
-        deleteEventButton.setName("deleteEventButton");
+        deleteEventButton.setName("deleteEventButton"); // NOI18N
         deleteEventButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 deleteEventButtonActionPerformed(evt);
             }
         });
-
         controlPanel.add(deleteEventButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -389,8 +411,16 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         dynamicEventPanel.add(controlPanel, gridBagConstraints);
 
         add(dynamicEventPanel, java.awt.BorderLayout.CENTER);
-
     }// </editor-fold>//GEN-END:initComponents
+
+    private void branchOutageRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchOutageRadioButtonActionPerformed
+		_eventData.setType(DStabDEventType.BranchOutage);
+		permanetCheckBox.setSelected(true);
+        permanetCheckBoxActionPerformed(null);
+    	IpssLogger.getLogger().info("Branch outage event :" + _eventData.getEventName());
+    	// refresh the fault data editing screen, which is depending on the caseData.faulData object
+        refreshEditorPanel();
+    }//GEN-LAST:event_branchOutageRadioButtonActionPerformed
 
     private void permanetCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permanetCheckBoxActionPerformed
    	    durationLabel.setEnabled(!permanetCheckBox.isSelected());
@@ -421,7 +451,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     }//GEN-LAST:event_addEventButtonActionPerformed
 
     private void saveEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveEventButtonActionPerformed
-		Vector errMsg = new Vector();
+		Vector<String> errMsg = new Vector<String>();
 		try {
 			if (!saveEditor2Form(errMsg)) {
 				SpringAppContext.getEditorDialogUtil().showMsgDialog(parentDialog, "Input Data Error", errMsg);
@@ -453,23 +483,23 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     }//GEN-LAST:event_eventListComboBoxActionPerformed
 
     private void branchFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFaultRadioButtonActionPerformed
-		_eventData.setType(DStabDEventData.DEventType_BranchFault);
-    	_eventData.getFaultData().setType(AcscFaultData.FaultType_Branch);
+		_eventData.setType(DStabDEventType.BranchFault);
+    	_eventData.getFaultData().setType(AcscFaultData.FaultType_BranchFault);
     	IpssLogger.getLogger().info("Branch fault event :" + _eventData.getEventName());
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
         refreshEditorPanel();
     }//GEN-LAST:event_branchFaultRadioButtonActionPerformed
 
     private void busFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busFaultRadioButtonActionPerformed
-		_eventData.setType(DStabDEventData.DEventType_BusFault);
-		_eventData.getFaultData().setType(AcscFaultData.FaultType_Bus);
+		_eventData.setType(DStabDEventType.BusFault);
+		_eventData.getFaultData().setType(AcscFaultData.FaultType_BusFault);
     	IpssLogger.getLogger().info("Bus fault event :" + _eventData.getEventName());
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
         refreshEditorPanel();
     }//GEN-LAST:event_busFaultRadioButtonActionPerformed
     
     private void loadChangeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadChangeRadioButtonActionPerformed
-		_eventData.setType(DStabDEventData.DEventType_LoadChange);
+		_eventData.setType(DStabDEventType.LoadChange);
     	IpssLogger.getLogger().info("LoadChange event :" + _eventData.getEventName());
     	// refresh the fault data editing screen, which is depending on the object
         refreshEditorPanel();
@@ -477,8 +507,11 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
     private void refreshEditorPanel() {
         eventInputPanel.removeAll();
-		if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+		if (_eventData.getType() == DStabDEventType.LoadChange) {
 			eventInputPanel.add(_loadChangePanel);
+		}
+		else if (_eventData.getType() == DStabDEventType.BranchOutage) {
+			eventInputPanel.add(_branchOutagePanel);
 		}
 		else {
 	        eventInputPanel.add(_faultLocDataPanel);
@@ -490,6 +523,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addEventButton;
     private javax.swing.JRadioButton branchFaultRadioButton;
+    private javax.swing.JRadioButton branchOutageRadioButton;
     private javax.swing.JRadioButton busFaultRadioButton;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JButton deleteEventButton;

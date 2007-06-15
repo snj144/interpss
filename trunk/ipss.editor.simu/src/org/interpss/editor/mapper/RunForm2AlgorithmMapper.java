@@ -27,6 +27,7 @@ package org.interpss.editor.mapper;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
+import org.interpss.editor.data.dstab.DStabDEventType;
 import org.interpss.editor.data.dstab.DStabLoadChangeData;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.AcscCaseData;
@@ -57,6 +58,8 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.StaticLoadModel;
+import com.interpss.dstab.devent.BranchOutageEvent;
+import com.interpss.dstab.devent.BranchOutageType;
 import com.interpss.dstab.devent.DStabBranchFault;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
@@ -131,18 +134,18 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 	}
 
 	private void acscFaultData2AcscBusFaultMapping(AcscFaultData data, AcscBusFault fault) {
-		fault.setFaultCode(data.getCategory().equals(AcscFaultData.FaultCaty_LLG)? SimpleFaultCode.GROUND_LLG_LITERAL :
-			(data.getCategory().equals(AcscFaultData.FaultCaty_LG)? SimpleFaultCode.GROUND_LG_LITERAL :
-				(data.getCategory().equals(AcscFaultData.FaultCaty_LL)? SimpleFaultCode.GROUND_LL_LITERAL :
+		fault.setFaultCode(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG)? SimpleFaultCode.GROUND_LLG_LITERAL :
+			(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LG)? SimpleFaultCode.GROUND_LG_LITERAL :
+				(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LL)? SimpleFaultCode.GROUND_LL_LITERAL :
 					SimpleFaultCode.GROUND_3P_LITERAL)));
 		fault.setZLGFault(new Complex(data.getLG_R(), data.getLG_X()));
 		fault.setZLLFault(new Complex(data.getLL_R(), data.getLL_X())); 
 	}
 	
 	private void acscFaultData2AcscBranchFaultMapping(AcscFaultData data, AcscBranchFault fault) {
-		fault.setFaultCode(data.getCategory().equals(AcscFaultData.FaultCaty_LLG)? SimpleFaultCode.GROUND_LLG_LITERAL :
-			(data.getCategory().equals(AcscFaultData.FaultCaty_LG)? SimpleFaultCode.GROUND_LG_LITERAL :
-				(data.getCategory().equals(AcscFaultData.FaultCaty_LL)? SimpleFaultCode.GROUND_LL_LITERAL :
+		fault.setFaultCode(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG)? SimpleFaultCode.GROUND_LLG_LITERAL :
+			(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LG)? SimpleFaultCode.GROUND_LG_LITERAL :
+				(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LL)? SimpleFaultCode.GROUND_LL_LITERAL :
 					SimpleFaultCode.GROUND_3P_LITERAL)));
 		fault.setZLGFault(new Complex(data.getLG_R(), data.getLG_X()));
 		fault.setZLLFault(new Complex(data.getLL_R(), data.getLL_X()));  		
@@ -203,15 +206,17 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		}
 	}
 	
-	private DynamicEventType getDEventType(String eventDataType) {
-		if (eventDataType.equals(DStabDEventData.DEventType_BusFault))
+	private DynamicEventType getDEventType(DStabDEventType eventDataType) {
+		if (eventDataType == DStabDEventType.BusFault)
 			return DynamicEventType.BUS_FAULT_LITERAL;
-		else if (eventDataType.equals(DStabDEventData.DEventType_BranchFault))
+		else if (eventDataType == DStabDEventType.BranchFault)
 			return DynamicEventType.BRANCH_FAULT_LITERAL;
-		else if (eventDataType.equals(DStabDEventData.DEventType_LoadChange))
+		else if (eventDataType == DStabDEventType.LoadChange)
 			return DynamicEventType.LOAD_CHANGE_LITERAL;		
-		else if (eventDataType.equals(DStabDEventData.DEventType_SetPointChange))
+		else if (eventDataType == DStabDEventType.SetPointChange)
 			return DynamicEventType.SET_POINT_CHANGE_LITERAL;		
+		else if (eventDataType == DStabDEventType.BranchOutage)
+			return DynamicEventType.BRANCH_OUTAGE_LITERAL;		
 		else 
 			throw new InvalidParameterException("Programming error, eventDataType: " + eventDataType);
 	}
@@ -227,7 +232,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			event.setDurationSec(eventData.getDuration());
 		}
 		
-		if (eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+		if (eventData.getType() == DStabDEventType.LoadChange) {
 			IpssLogger.getLogger().info("Dynamic Event Type: LoadChange");
 			event.setType(DynamicEventType.LOAD_CHANGE_LITERAL);
 			DStabLoadChangeData ldata = eventData.getLoadChangeData();
@@ -235,13 +240,26 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			eLoad.setChangeFactor(ldata.getChangeFactor());
 			event.setBusDynamicEvent(eLoad);
 		}
+		else if (eventData.getType() == DStabDEventType.BranchOutage) {
+			IpssLogger.getLogger().info("Dynamic Event Type: BranchOutage");
+			event.setType(DynamicEventType.BRANCH_OUTAGE_LITERAL);
+			AcscFaultData fdata = eventData.getFaultData();
+			BranchOutageEvent e = DStabObjectFactory.createBranchOutageEvent(fdata.getBranchId(), dstabNet);
+			if (fdata.getCategory().equals(AcscFaultData.FaultCaty_Outage_3P))
+				e.setOutageType(BranchOutageType.THREE_PHASE);
+			else if (fdata.getCategory().equals(AcscFaultData.FaultCaty_Outage_1P))
+				e.setOutageType(BranchOutageType.SINGLE_PHASE);
+			else if (fdata.getCategory().equals(AcscFaultData.FaultCaty_Outage_2P))
+				e.setOutageType(BranchOutageType.DOUBLE_PHASE);
+			event.setBranchDynamicEvent(e);
+		}
 		else {
 			IpssLogger.getLogger().info("Dynamic Event Type: Fualt");
-			event.setType(eventData.getType().equals(DStabDEventData.DEventType_BusFault) ? 
+			event.setType(eventData.getType() == DStabDEventType.BusFault ? 
 					DynamicEventType.BUS_FAULT_LITERAL : DynamicEventType.BRANCH_FAULT_LITERAL );
 			
 			AcscFaultData fdata = eventData.getFaultData();
-			if (fdata.getType().equals(AcscFaultData.FaultType_Bus)) {
+			if (fdata.getType().equals(AcscFaultData.FaultType_BusFault)) {
 				AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at " +	fdata.getBusId());
 				mapping(fdata, fault, AcscBusFault.class);
 				event.setBusFault(fault);

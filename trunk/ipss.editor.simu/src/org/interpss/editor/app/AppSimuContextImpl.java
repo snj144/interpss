@@ -121,7 +121,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 		AcscRunForm form = SimuAppSpringAppContext.getAcscRunForm();
 		if (form.getAcscCaseData() != null)
 			return !form.getAcscCaseData().getFaultData().getCategory()
-			        .equals(AcscFaultData.FaultCaty_3P);
+			        .equals(AcscFaultData.FaultCaty_Fault_3P);
 		else 
 			return false;
 	}
@@ -149,8 +149,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 * @return case data array of type Object[]
 	 */
 	public Object[] getCasenameArray(String caseType) {
-	    Vector vect = new Vector();
-	    List caseList = getProjData().getCaseList();
+	    Vector<String> vect = new Vector<String>();
+	    List<?> caseList = getProjData().getCaseList();
 	    for (int i = 0; i < caseList.size(); i++) {
 	         CaseData caseData = (CaseData)caseList.get(i);
 	         if (caseData != null)
@@ -194,7 +194,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 * @return the case data object
 	 */
 	public CaseData getCaseData(String casename, String caseType) {
-       List caseList = getProjData().getCaseList();
+       List<?> caseList = getProjData().getCaseList();
        for (int i = 0; i < caseList.size(); i++) {
            CaseData caseData = (CaseData)caseList.get(i);
            if (caseData != null)
