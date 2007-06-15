@@ -42,6 +42,8 @@ import com.interpss.common.msg.SimuMessage;
 
 
 public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener {
+	private static final long serialVersionUID = 1;
+
 	/** contains the message at the current
 	 *  Status bar
 	 */
