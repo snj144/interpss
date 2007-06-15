@@ -29,10 +29,11 @@ import org.interpss.editor.data.acsc.AcscFaultData;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DStabDEventData extends BaseDataBean {
-	//public static final String DEventType_BusFault = "BusFault";
-	//public static final String DEventType_BranchFault = "BranchFault";
-	//public static final String DEventType_LoadChange = "LoadChange";
-	//public static final String DEventType_SetPointChange = "SetPointChange";
+	public static final String DEventType_BusFault = "BusFault";
+	public static final String DEventType_BranchFault = "BranchFault";
+	public static final String DEventType_BranchOutage = "BranchOutage";
+	public static final String DEventType_LoadChange = "LoadChange";
+	public static final String DEventType_SetPointChange = "SetPointChange";
 	
 	public static final String NewEventName = "<Not Defined>";
 	
@@ -40,7 +41,7 @@ public class DStabDEventData extends BaseDataBean {
     private double startTime = 0.0;
     private double duration = 0.0;
     private boolean permanent = false;
-    private DStabDEventType type = DStabDEventType.BusFault;
+    private String type = DEventType_BusFault;
     private AcscFaultData faultData = null;
     private DStabLoadChangeData loadChangeData = null;
 
@@ -119,14 +120,14 @@ public class DStabDEventData extends BaseDataBean {
 	/**
 	 * @return Returns the type.
 	 */
-	public DStabDEventType getType() {
+	public String getType() {
 		return type;
 	}
 
 	/**
 	 * @param type The type to set.
 	 */
-	public void setType(DStabDEventType type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 
