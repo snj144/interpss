@@ -93,7 +93,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
             machIdLargestInertia = SimuCtxUtilFunc.getMachIdLargestInertia(this.simuCtx);
     	}
          
-        setControllerList();
+        setSetPointControllerList();
         
         setOutputFilterPanel(false);
         setOutputScriptingPanel(false);
@@ -124,7 +124,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	detailInfoTabbedPane.setEnabledAt(4, status);
     }
 
-    private void setControllerList() {
+    private void setSetPointControllerList() {
     	String machId = (String)setPointMachineComboBox.getSelectedItem();
     	if (this.netContainer != null) {
     		setPointControllerComboBox.setModel(new javax.swing.DefaultComboBoxModel(
@@ -1097,7 +1097,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     }//GEN-LAST:event_setPointCheckBoxActionPerformed
 
     private void setPointMachineListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPointMachineListActionPerformed
-    	setControllerList();
+    	setSetPointControllerList();
     }//GEN-LAST:event_setPointMachineListActionPerformed
 
     private void absMachCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_absMachCheckBoxActionPerformed

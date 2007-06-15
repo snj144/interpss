@@ -27,7 +27,6 @@ package org.interpss.editor.mapper;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
-import org.interpss.editor.data.dstab.DStabDEventType;
 import org.interpss.editor.data.dstab.DStabLoadChangeData;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.AcscCaseData;
@@ -105,6 +104,17 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			DStabRunForm runForm = (DStabRunForm)fromObj;
 			DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)toObj;
 			dStabRunForm2DynamicSimuAlgorithmMapping(runForm, algo);
+		}
+		else if (klass == BranchOutageEvent.class) {
+			AcscFaultData data = (AcscFaultData)fromObj;
+			BranchOutageEvent event = (BranchOutageEvent)toObj;
+			if (data.getCategory().equals(AcscFaultData.FaultCaty_Outage_3P))
+				event.setOutageType(BranchOutageType.THREE_PHASE);
+			else if (data.getCategory().equals(AcscFaultData.FaultCaty_Outage_1P))
+				event.setOutageType(BranchOutageType.SINGLE_PHASE);
+			else if (data.getCategory().equals(AcscFaultData.FaultCaty_Outage_2P))
+				event.setOutageType(BranchOutageType.DOUBLE_PHASE);
+
 		}
 		return true;
 	}
@@ -206,16 +216,16 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		}
 	}
 	
-	private DynamicEventType getDEventType(DStabDEventType eventDataType) {
-		if (eventDataType == DStabDEventType.BusFault)
+	private DynamicEventType getDEventType(String eventDataType) {
+		if (eventDataType.equals(DStabDEventData.DEventType_BusFault))
 			return DynamicEventType.BUS_FAULT_LITERAL;
-		else if (eventDataType == DStabDEventType.BranchFault)
+		else if (eventDataType.equals(DStabDEventData.DEventType_BranchFault))
 			return DynamicEventType.BRANCH_FAULT_LITERAL;
-		else if (eventDataType == DStabDEventType.LoadChange)
+		else if (eventDataType.equals(DStabDEventData.DEventType_LoadChange))
 			return DynamicEventType.LOAD_CHANGE_LITERAL;		
-		else if (eventDataType == DStabDEventType.SetPointChange)
+		else if (eventDataType.equals(DStabDEventData.DEventType_SetPointChange))
 			return DynamicEventType.SET_POINT_CHANGE_LITERAL;		
-		else if (eventDataType == DStabDEventType.BranchOutage)
+		else if (eventDataType.equals(DStabDEventData.DEventType_BranchOutage))
 			return DynamicEventType.BRANCH_OUTAGE_LITERAL;		
 		else 
 			throw new InvalidParameterException("Programming error, eventDataType: " + eventDataType);
@@ -232,7 +242,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			event.setDurationSec(eventData.getDuration());
 		}
 		
-		if (eventData.getType() == DStabDEventType.LoadChange) {
+		if (eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
 			IpssLogger.getLogger().info("Dynamic Event Type: LoadChange");
 			event.setType(DynamicEventType.LOAD_CHANGE_LITERAL);
 			DStabLoadChangeData ldata = eventData.getLoadChangeData();
@@ -240,22 +250,17 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			eLoad.setChangeFactor(ldata.getChangeFactor());
 			event.setBusDynamicEvent(eLoad);
 		}
-		else if (eventData.getType() == DStabDEventType.BranchOutage) {
+		else if (eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
 			IpssLogger.getLogger().info("Dynamic Event Type: BranchOutage");
 			event.setType(DynamicEventType.BRANCH_OUTAGE_LITERAL);
 			AcscFaultData fdata = eventData.getFaultData();
 			BranchOutageEvent e = DStabObjectFactory.createBranchOutageEvent(fdata.getBranchId(), dstabNet);
-			if (fdata.getCategory().equals(AcscFaultData.FaultCaty_Outage_3P))
-				e.setOutageType(BranchOutageType.THREE_PHASE);
-			else if (fdata.getCategory().equals(AcscFaultData.FaultCaty_Outage_1P))
-				e.setOutageType(BranchOutageType.SINGLE_PHASE);
-			else if (fdata.getCategory().equals(AcscFaultData.FaultCaty_Outage_2P))
-				e.setOutageType(BranchOutageType.DOUBLE_PHASE);
+			mapping(fdata, e, BranchOutageEvent.class);
 			event.setBranchDynamicEvent(e);
 		}
 		else {
 			IpssLogger.getLogger().info("Dynamic Event Type: Fualt");
-			event.setType(eventData.getType() == DStabDEventType.BusFault ? 
+			event.setType(eventData.getType().equals(DStabDEventData.DEventType_BusFault) ? 
 					DynamicEventType.BUS_FAULT_LITERAL : DynamicEventType.BRANCH_FAULT_LITERAL );
 			
 			AcscFaultData fdata = eventData.getFaultData();
