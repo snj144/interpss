@@ -66,7 +66,7 @@ public class DStabCaseData extends BaseDataBean {
 	private double staticLoadSwitchVolt = 0.65;
 	private double staticLoadSwitchDeadZone = 0.05;
 
-	private List dEventList = new ArrayList();
+	private List<DStabDEventData> dEventList = new ArrayList<DStabDEventData>();
  	private List<String> outVarList = new ArrayList<String>();
  	
 	public DStabCaseData() {
@@ -109,14 +109,14 @@ public class DStabCaseData extends BaseDataBean {
 		this.totalSimuTime = totalSimuTime;
 	}
 
-	public List getDEventList() {return this.dEventList;}
-	public void setDEventList(List list) {this.dEventList = list;}
+	public List<DStabDEventData> getDEventList() {return this.dEventList;}
+	public void setDEventList(List<DStabDEventData> list) {this.dEventList = list;}
 	
 	/**
 	 * @return Returns the dEventData.
 	 */
 	public DStabDEventData getDEventData(String eventName) {
-		List eventList = getDEventList();
+		List<DStabDEventData> eventList = getDEventList();
 		for (int i = 0; i < getDEventList().size(); i++) {
 			DStabDEventData eventData = (DStabDEventData)eventList.get(i);
 			if (eventData != null)
@@ -135,7 +135,7 @@ public class DStabCaseData extends BaseDataBean {
 	 * @return an evnet object
 	 */
 	public DStabDEventData getAnyEventData() {
-		List eventList = getDEventList();
+		List<DStabDEventData> eventList = getDEventList();
 		if (eventList.size() == 0)
 			addDEventData(new DStabDEventData());
 		return (DStabDEventData)eventList.get(0);
@@ -160,8 +160,8 @@ public class DStabCaseData extends BaseDataBean {
 	}
 	
 	public Object[] getEventNameArray() {
-	    Vector vect = new Vector();
-		List eventList = getDEventList();
+	    Vector<String> vect = new Vector<String>();
+		List<DStabDEventData> eventList = getDEventList();
 		if (getDEventList().size() > 0)
 			for (int i = 0; i < getDEventList().size(); i++) {
 				DStabDEventData eventData = (DStabDEventData)eventList.get(i);
