@@ -43,6 +43,7 @@ import com.interpss.common.util.IpssLogger;
  * @see org.interpss.editor.coreframework.GPGraphpad
  */
 public class GEditor extends Applet {
+	private static final long serialVersionUID = 1;
 
 	/**
 	 * is properly set by the ant buildfile to ensure the source version match
@@ -235,6 +236,7 @@ public class GEditor extends Applet {
 				.getString("Splash"));
 		info.setForeground(Color.black);
 		JLabel lab = new JLabel(logoIcon) {
+			private static final long serialVersionUID = 1;
 			public void paint(Graphics g) {
 				super.paint(g);
 

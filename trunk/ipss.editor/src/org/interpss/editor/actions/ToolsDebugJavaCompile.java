@@ -8,6 +8,7 @@ import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.IpssLogger;
 
 public class ToolsDebugJavaCompile extends IpssAbstractActionDefault {
+	private static final long serialVersionUID = 1;
     
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)

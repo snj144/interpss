@@ -7,7 +7,8 @@ import org.interpss.editor.ui.SimuActionAdapter;
 
 
 public class ToolsDebugRefData extends IpssAbstractActionDefault {
-    
+	private static final long serialVersionUID = 1;
+   
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */

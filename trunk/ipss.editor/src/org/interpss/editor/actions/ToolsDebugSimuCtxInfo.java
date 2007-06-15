@@ -9,7 +9,8 @@ import org.interpss.editor.util.DocumentUtilFunc;
 
 
 public class ToolsDebugSimuCtxInfo extends IpssAbstractActionDefault {
-    
+	private static final long serialVersionUID = 1;
+   
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
