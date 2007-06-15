@@ -6,13 +6,13 @@ import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.doc.IpssDocument;
-import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.util.DocumentUtilFunc;
 
 import com.interpss.common.util.IpssLogger;
 
 public class EditProjectData extends IpssAbstractActionDefault {
+	private static final long serialVersionUID = 1;
 
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)

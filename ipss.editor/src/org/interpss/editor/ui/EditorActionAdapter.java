@@ -26,7 +26,6 @@ package org.interpss.editor.ui;
 
 import java.io.File;
 
-import org.interpss.editor.EditorSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.app.ProjectScriptFileUtil;

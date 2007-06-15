@@ -30,6 +30,7 @@ import org.interpss.editor.resources.Translator;
 
 
 public class HelpUserGuideEnglish extends IpssAbstractGraphAction {
+	private static final long serialVersionUID = 1;
 
 	/**
 	 * The about dialog for GPGraphpad

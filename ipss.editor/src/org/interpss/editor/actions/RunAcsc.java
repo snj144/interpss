@@ -14,6 +14,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.simu.SimuContext;
 
 public class RunAcsc extends IpssAbstractActionDefault {
+	private static final long serialVersionUID = 1;
 
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
