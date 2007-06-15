@@ -81,7 +81,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAcscCasePanel setForm2Editor() called");
 
-		if (_caseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus)) {
+		if (_caseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault)) {
             this.busFaultRadioButton.setSelected(true);
             // refresh the fault data editing pandel
             busFaultRadioButtonActionPerformed(null);
@@ -116,9 +116,9 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 		boolean ok = true;
 
 		if (this.busFaultRadioButton.isSelected()) 
-			_caseData.getFaultData().setType(AcscFaultData.FaultType_Bus);
+			_caseData.getFaultData().setType(AcscFaultData.FaultType_BusFault);
 	    else 
-	    	_caseData.getFaultData().setType(AcscFaultData.FaultType_Branch);
+	    	_caseData.getFaultData().setType(AcscFaultData.FaultType_BranchFault);
 			
 		if (this.fixedVoltRadioButton.isSelected()) {
 			_caseData.setBusInitVolt(AcscCaseData.ScBusVolt_UnitVolt);
@@ -248,7 +248,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void branchFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFaultRadioButtonActionPerformed
     	IpssLogger.getLogger().info("Branch Fault Type selected");
-    	_caseData.getFaultData().setType(AcscFaultData.FaultType_Branch);
+    	_caseData.getFaultData().setType(AcscFaultData.FaultType_BranchFault);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
     	SimuAppSpringAppContext.getCaseInfoDialog().pack();
@@ -256,7 +256,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void busFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busFaultRadioButtonActionPerformed
     	IpssLogger.getLogger().info("Bus Fault Type selected");
-    	_caseData.getFaultData().setType(AcscFaultData.FaultType_Bus);
+    	_caseData.getFaultData().setType(AcscFaultData.FaultType_BusFault);
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
     	_faultLocDataPanel.setBusBranchFaultPanel();
     	SimuAppSpringAppContext.getCaseInfoDialog().pack();

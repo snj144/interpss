@@ -75,7 +75,6 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     		if (branchNameId.length > 0)
     			this.faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(branchNameId));
     	}
-    	
 	}
 	
 	public void setFaultData(AcscFaultData data) {
@@ -94,7 +93,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     public void setBusBranchFaultPanel() {
         faultLocPanel.remove(busFaultPanel);
         faultLocPanel.remove(branchFaultPanel);
-        if (_faultData.getType().equals(AcscFaultData.FaultType_Bus)) {
+        if (_faultData.getType().equals(AcscFaultData.FaultType_BusFault)) {
             faultLocPanel.add(busFaultPanel, java.awt.BorderLayout.NORTH);
             if (_faultData.getBusBranchNameId().equals("")) {
                 IpssLogger.getLogger().info("faultBusComboBox.getSelectedItem() -> " + this.faultBusComboBox.getSelectedItem());
@@ -134,13 +133,13 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 	    if (this.distanceTextField.isEnabled())
         	this.distanceTextField.setText(Number2String.toStr(_faultData.getDistance(), "#0.##"));
 
-        if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_3P)) 
+        if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Fault_3P)) 
             this.type3PRadioButton.setSelected(true);
-        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_LG)) 
+        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Fault_LG)) 
             this.typeLGRadioButton.setSelected(true);
-        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_LL)) 
+        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Fault_LL)) 
             this.typeLLRadioButton.setSelected(true);
-        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_LLG)) 
+        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG)) 
             this.typeLLGRadioButton.setSelected(true);
         else 
             this.typeAllRadioButton.setSelected(true);
@@ -165,26 +164,26 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBFaultLocDataPanel saveEditor2Form() called");
 
 		boolean ok = true;
 
-		if (_faultData.getType().equals(AcscFaultData.FaultType_Bus))
+		if (_faultData.getType().equals(AcscFaultData.FaultType_BusFault))
 			_faultData.setBusBranchNameId((String)this.faultBusComboBox.getSelectedItem());
 		else 
 			_faultData.setBusBranchNameId((String)this.faultBranchComboBox.getSelectedItem());
 		
 		if (this.type3PRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_3P);
+			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_3P);
 		else if (this.typeLGRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_LG);
+			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_LG);
 		else if (this.typeLLRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_LL);
+			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_LL);
 		else if (this.typeLLGRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_LLG);
+			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_LLG);
 		else
-			_faultData.setCategory(AcscFaultData.FaultCaty_All);
+			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_All);
 
 		_faultData.setBranchReclosure(reclosureCheckBox.isSelected());		
 		if (reclosureCheckBox.isSelected()) {
