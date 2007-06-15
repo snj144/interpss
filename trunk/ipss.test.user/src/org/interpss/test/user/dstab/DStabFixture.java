@@ -91,8 +91,8 @@ public class DStabFixture extends AcscFixture {
 	 */
 	public int noOfMachines() {
 		int cnt = 0;
-		for (Object device : getNet().getDBusDeviceList()) {
-			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL) {
+		for (DynamicBusDevice device : getNet().getDBusDeviceList()) {
+			if (device.getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL) {
 				cnt++;
 			}
 		}
@@ -281,7 +281,7 @@ public class DStabFixture extends AcscFixture {
 		double xLL = new Double(st.nextToken()).doubleValue();
 		boolean reclosure = new Boolean(st.nextToken()).booleanValue();
 		double reclosureTime = new Double(st.nextToken()).doubleValue();
-		DStabBranchFault fault = DStabObjectFactory.createDStabbranchFault(getNet(), fromBusId, toBusId, toFaultCode(type), distance, 
+		DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault(getNet(), fromBusId, toBusId, toFaultCode(type), distance, 
 				rLG, xLG, rLL, xLL, reclosure, reclosureTime);
 		this.currentDEvent.setBranchFault(fault);
 		if (fault.isReclosure()) {
