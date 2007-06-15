@@ -103,13 +103,13 @@ public interface IProjectData {
 	 * Get project case info list
 	 * @return
 	 */
-	List getCaseList();
+	List<?> getCaseList();
 	
 	/**
 	 * Set project case info list
 	 * @param list
 	 */
-	void setCaseList(List list);
+	void setCaseList(List<?> list);
 
 	/**
 	 * Check if project is a new project
