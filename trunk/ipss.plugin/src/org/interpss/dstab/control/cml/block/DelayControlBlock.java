@@ -27,9 +27,9 @@ package org.interpss.dstab.control.cml.block;
 import com.interpss.common.datatype.LimitExpression;
 import com.interpss.common.func.ExpCalculator;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.dstab.controller.block.ControlBlock1stOrderAdapter;
 import com.interpss.dstab.controller.block.ILimitExpression;
 import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class DelayControlBlock extends ControlBlock1stOrderAdapter implements ILimitExpression {
 	private double k = 0.0;

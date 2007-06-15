@@ -37,9 +37,9 @@ import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnFunctionField;
 import com.interpss.dstab.controller.annotate.AnnotateExciter;
-import com.interpss.dstab.controller.block.ControlBlockAdapter;
 import com.interpss.dstab.controller.block.IControlBlock;
 import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.adapt.ControlBlockAdapter;
 import com.interpss.dstab.mach.Machine;
 
 @AnController(

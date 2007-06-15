@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 
 /**
  * A function to select high input value y = max[u1, u2]
