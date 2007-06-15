@@ -191,7 +191,7 @@ public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDat
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		errMsg.clear();
 		boolean ok = true;
 
@@ -386,7 +386,7 @@ public class NBBranchEditDialog extends javax.swing.JDialog  implements IFormDat
     }//GEN-LAST:event_cancelActionHandler
 
     private void saveActionHandler(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionHandler
-		Vector errMsg = new Vector();
+		Vector<String> errMsg = new Vector<String>();
 		try {
         	if (!saveEditor2Form(errMsg)) {
         		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Branch Input Data Error", errMsg);

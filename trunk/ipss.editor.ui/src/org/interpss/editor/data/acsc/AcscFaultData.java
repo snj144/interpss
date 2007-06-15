@@ -28,16 +28,22 @@ import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.NetUtilFunc;
 
 public class AcscFaultData extends BaseDataBean {
-	public static final String FaultCaty_3P = "3P";
-	public static final String FaultCaty_LG = "LG";
-	public static final String FaultCaty_LL = "LL";
-	public static final String FaultCaty_LLG = "LLG";
-	public static final String FaultCaty_All = "All";
+	private static final long serialVersionUID = 1;
 	
-	public static final String FaultType_Bus = "Bus";
-	public static final String FaultType_Branch = "Branch";
+	public static final String FaultCaty_Fault_3P = "3P";
+	public static final String FaultCaty_Fault_LG = "LG";
+	public static final String FaultCaty_Fault_LL = "LL";
+	public static final String FaultCaty_Fault_LLG = "LLG";
+	public static final String FaultCaty_Outage_3P = "Outage_3P";
+	public static final String FaultCaty_Outage_1P = "Outage_1P";
+	public static final String FaultCaty_Outage_2P = "Outage_2P";
+	public static final String FaultCaty_Fault_All = "All";
 	
-  	protected String type = FaultType_Bus;  
+	public static final String FaultType_BusFault = "Bus";
+	public static final String FaultType_BranchFault = "Branch";
+	public static final String FaultType_BranchOutage = "BranchOutage";
+	
+  	protected String type = FaultType_BusFault;  
   	public String getType() { return this.type; }
   	public void setType(String faultType) { this.type = faultType; }
 
@@ -52,7 +58,7 @@ public class AcscFaultData extends BaseDataBean {
     public double getDistance() { return this.distance; }
     public void setDistance(double d) { this.distance = d; }
 
-  	protected String category = FaultCaty_3P;   
+  	protected String category = FaultCaty_Fault_3P;   
   	public String getCategory() { return this.category;  }
   	public void setCategory(String faultCategory) { this.category = faultCategory; }
 
