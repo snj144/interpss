@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml.func;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.dstab.controller.block.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 
 /**
  * Function : y = | Kp * Vt + j Ki * It |

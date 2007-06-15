@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 
 /**
  * A Function to calculate Rectifier regulation Fex(In) per IEEE 421.5, Appendix-D

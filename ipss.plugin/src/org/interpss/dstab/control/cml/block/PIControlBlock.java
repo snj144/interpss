@@ -25,8 +25,8 @@
 package org.interpss.dstab.control.cml.block;
 
 import com.interpss.common.datatype.LimitType;
-import com.interpss.dstab.controller.block.ControlBlock1stOrderAdapter;
 import com.interpss.dstab.controller.block.IStaticBlock;
+import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 public class PIControlBlock extends ControlBlock1stOrderAdapter {
 	private double kp = 0.0;

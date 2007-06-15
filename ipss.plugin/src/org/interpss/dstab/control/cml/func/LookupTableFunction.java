@@ -25,7 +25,7 @@
 package org.interpss.dstab.control.cml.func;
 
 import com.interpss.common.func.ILookupTable;
-import com.interpss.dstab.controller.block.LookupTableFunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.LookupTableFunctionAdapter;
 
 /**
  * A function for calculating y = k * u

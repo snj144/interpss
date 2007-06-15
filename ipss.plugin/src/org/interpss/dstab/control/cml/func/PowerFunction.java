@@ -24,7 +24,7 @@
 
 package org.interpss.dstab.control.cml.func;
 
-import com.interpss.dstab.controller.block.FunctionAdapter;
+import com.interpss.dstab.controller.block.adapt.FunctionAdapter;
 
 /**
  * Power function: output = input ^ k, k = 0, 1, 2, ...
