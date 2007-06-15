@@ -31,7 +31,6 @@ import javax.swing.JDialog;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
-import org.interpss.editor.data.dstab.DStabDEventType;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
@@ -48,7 +47,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	private NBBranchOutagePanel _branchOutagePanel = new NBBranchOutagePanel();
 
 	private DStabCaseData   _caseData = null;   // current case data
-	private DStabDEventData _eventData = null;  // current cevent data
+	private DStabDEventData _eventData = null;  // current event data
 	
 	private JDialog parentDialog = null;
 
@@ -87,10 +86,10 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	    _branchOutagePanel.setFaultData(eventData.getFaultData());
     	_faultLocDataPanel.setFaultData(eventData.getFaultData());
         eventInputPanel.removeAll();
-        if (eventData.getType() == DStabDEventType.LoadChange) {
+        if (eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
             eventInputPanel.add(_loadChangePanel);
         }
-        else if (eventData.getType() == DStabDEventType.BranchOutage) {
+        else if (eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
             eventInputPanel.add(_branchOutagePanel);
         }
         else {
@@ -113,7 +112,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         
         stratTimeTextField.setText(Number2String.toStr(_eventData.getStartTime(), "#0.0#"));
 
-        if (_eventData.isPermanent() || _eventData.getType() == DStabDEventType.BranchOutage) {
+        if (_eventData.isPermanent() || _eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
         	permanetCheckBox.setSelected(true);
         }
         else {
@@ -122,16 +121,16 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         }
         permanetCheckBoxActionPerformed(null);
 
-        if (_eventData.getType() == DStabDEventType.LoadChange) {
+        if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
             loadChangeRadioButton.setSelected(true);        	
         	_loadChangePanel.setForm2Editor();
         }
-        else if (_eventData.getType() == DStabDEventType.BranchOutage) {
+        else if (_eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
             branchOutageRadioButton.setSelected(true);        	
         	_branchOutagePanel.setForm2Editor();
         }
         else {
-        	if (_eventData.getType() == DStabDEventType.BranchFault) {
+        	if (_eventData.getType().equals(DStabDEventData.DEventType_BranchFault)) {
         		branchFaultRadioButton.setSelected(true);
         	}
         	else {
@@ -177,11 +176,11 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
             _eventData.setDuration(SwingInputVerifyUtil.getDouble(durationTextField));
         }
         
-        if (_eventData.getType() == DStabDEventType.LoadChange) {
+        if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
             if (!_loadChangePanel.saveEditor2Form(errMsg))
             	ok = false;
         }
-        else if (_eventData.getType() == DStabDEventType.BranchOutage) {
+        else if (_eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
             if (!_branchOutagePanel.saveEditor2Form(errMsg))
             	ok = false;
         }
@@ -414,7 +413,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     }// </editor-fold>//GEN-END:initComponents
 
     private void branchOutageRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchOutageRadioButtonActionPerformed
-		_eventData.setType(DStabDEventType.BranchOutage);
+		_eventData.setType(DStabDEventData.DEventType_BranchOutage);
+    	_eventData.getFaultData().setType(AcscFaultData.FaultType_BranchOutage);
 		permanetCheckBox.setSelected(true);
         permanetCheckBoxActionPerformed(null);
     	IpssLogger.getLogger().info("Branch outage event :" + _eventData.getEventName());
@@ -483,7 +483,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     }//GEN-LAST:event_eventListComboBoxActionPerformed
 
     private void branchFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFaultRadioButtonActionPerformed
-		_eventData.setType(DStabDEventType.BranchFault);
+		_eventData.setType(DStabDEventData.DEventType_BranchFault);
     	_eventData.getFaultData().setType(AcscFaultData.FaultType_BranchFault);
     	IpssLogger.getLogger().info("Branch fault event :" + _eventData.getEventName());
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
@@ -491,7 +491,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     }//GEN-LAST:event_branchFaultRadioButtonActionPerformed
 
     private void busFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busFaultRadioButtonActionPerformed
-		_eventData.setType(DStabDEventType.BusFault);
+		_eventData.setType(DStabDEventData.DEventType_BusFault);
 		_eventData.getFaultData().setType(AcscFaultData.FaultType_BusFault);
     	IpssLogger.getLogger().info("Bus fault event :" + _eventData.getEventName());
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
@@ -499,7 +499,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     }//GEN-LAST:event_busFaultRadioButtonActionPerformed
     
     private void loadChangeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadChangeRadioButtonActionPerformed
-		_eventData.setType(DStabDEventType.LoadChange);
+		_eventData.setType(DStabDEventData.DEventType_LoadChange);
     	IpssLogger.getLogger().info("LoadChange event :" + _eventData.getEventName());
     	// refresh the fault data editing screen, which is depending on the object
         refreshEditorPanel();
@@ -507,10 +507,10 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 
     private void refreshEditorPanel() {
         eventInputPanel.removeAll();
-		if (_eventData.getType() == DStabDEventType.LoadChange) {
+		if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
 			eventInputPanel.add(_loadChangePanel);
 		}
-		else if (_eventData.getType() == DStabDEventType.BranchOutage) {
+		else if (_eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
 			eventInputPanel.add(_branchOutagePanel);
 		}
 		else {
