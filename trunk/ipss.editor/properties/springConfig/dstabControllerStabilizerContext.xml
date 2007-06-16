@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<beans>
 	<bean id="cmlScriptingStabilizer" 
 	  	class="org.interpss.dstab.control.cml.CMLScriptingStabilizer"
-	    singleton="false">	
+	    scope="prototype">	
 	    <property name="name">
 	    	<value>CML Scripting Stabilizer</value></property>
 	    <property name="category">
@@ -15,7 +16,7 @@
 <!--	
 	<bean id="sampleCustomStabilizer" 
 	      class="custom.dstab.pss.sample.CustomStabilizer"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>Sample Custom Stabilizer</value></property>
 	    <property name="category">
@@ -26,7 +27,7 @@
 -->
 	<bean id="simpleStabilizer" 
 	      class="org.interpss.dstab.control.pss.simple.SimpleStabilizer"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>Simple Stabilizer</value></property>
 	    <property name="category">
@@ -37,7 +38,7 @@
 	
 	<bean id="ieee1992PSS1AStabilizer" 
 	      class="org.interpss.dstab.control.pss.ieee.y1992.pss1a.Ieee1992PSS1AStabilizer"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE-1992 PSS1A</value></property>
 	    <property name="category">
@@ -48,7 +49,7 @@
 
 	<bean id="ieee1992PSS2AStabilizer" 
 	      class="org.interpss.dstab.control.pss.ieee.y1992.pss2a.Ieee1992PSS2AStabilizer"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE-1992 PSS2A</value></property>
 	    <property name="category">
@@ -59,7 +60,7 @@
 
 	<bean id="stabilizerList" 
 	      class="java.util.ArrayList"
-	      singleton="true">	
+	      scope="singleton">	
 		<constructor-arg>
 			<list>
 				<ref bean="cmlScriptingStabilizer"/>

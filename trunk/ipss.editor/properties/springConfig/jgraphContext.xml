@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 <!--  
 	This config file defines object config for the 
 	ipss.editor.jgraph packages
 -->
-
-<beans>
 	<bean id="editorFormContainer" 
 	      class="org.interpss.editor.form.GFormContainer"
-	      singleton="false">	
+	      scope="prototype">	
 	</bean>
 	
 	<bean id="ipssModel" 
 	      class="org.interpss.editor.coreframework.jgraphsubclassers.GPGraphModel"
-	      singleton="false">	
+	      scope="prototype">	
 	      <constructor-arg>
 		  	<ref bean="editorFormContainer"/>
 		  </constructor-arg>
@@ -22,7 +22,7 @@
 
 	<bean id="ipssGraph" 
 	      class="org.interpss.editor.plugins.gpgraph.GPGraph"
-	      singleton="false">	
+	      scope="prototype">	
 	      <property name="model">
 	          <ref bean="ipssModel"/></property>
 	</bean>

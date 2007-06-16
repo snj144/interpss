@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 <!--  
 	Define ipss core lib objects
 -->
 
-<beans>
 	<!--
 		Define Loadflow, Short circuit and Stability algorithms
 		=======================================================
@@ -13,43 +14,43 @@
 	<bean id="loadflowAlgorithm" 
 	      class="com.interpss.core.CoreObjectFactory"	
 		  factory-method="createLoadflowAlgorithm" 
-		  singleton="false">	
+		  scope="prototype">	
 	</bean>
 
 	<bean id="simpleFaultAlgorithm" 
 	      class="com.interpss.core.CoreObjectFactory"	
 		  factory-method="createSimpleFaultAlgorithm" 
-		  singleton="false">	
+		  scope="prototype">	
 	</bean>
 	
 	<bean id="simuTimeEventHandler" 
 	      class="com.interpss.dstab.util.DynamicEventProcessor" 
-	      singleton="false">	
+	      scope="prototype">	
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 	
 	<bean id="dbDStabSimuOutputHandler" 
 	      class="com.interpss.dstab.util.DatabaseSimuOutputHandler" 
-	      singleton="false">	
+	      scope="prototype">	
 	</bean>
 	
 	<bean id="scriptDStabSimuOutputHandler" 
 	      class="org.interpss.dstab.script.ScriptSimuOutputHandler" 
-	      singleton="false">	
+	      scope="prototype">	
 	</bean>
 <!-- 
     To turn off transient stability output to database, use the following dstabSimuOutputHandler
 	<bean id="dstabSimuOutputHandler" 
           class="com.interpss.dstab.util.BaseDBSimuOutputHandler"
-	      singleton="false">	
+	      scope="prototype">	
 	</bean>
 -->
 
 	<bean id="dynaSimuAlgorithm" 
 	      class="com.interpss.dstab.DStabObjectFactory"	
 		  factory-method="createDynamicSimuAlgorithm" 
-		  singleton="false">	
+		  scope="prototype">	
 		<constructor-arg index="0">
 			<ref bean="loadflowAlgorithm"/></constructor-arg>
 		<constructor-arg index="1">
@@ -60,7 +61,7 @@
 	
 	<bean id="cmlFieldObjectFactory" 
 	      class="org.interpss.dstab.control.cml.CMLFieldObjectFactoryImpl"	
-		  singleton="true">	
+		  scope="singleton">	
 	</bean>
 
 	<!--
@@ -70,7 +71,7 @@
 	<bean id="simuContext" 
 	      class="com.interpss.simu.SimuObjectFactory" 
 		  factory-method="createSimuContext" 
-		  singleton="false">	
+		  scope="prototype">	
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
@@ -78,7 +79,7 @@
 	<bean id="simuCtxTypeAclfNet" 
 	      class="com.interpss.simu.SimuObjectFactory" 
 		  factory-method="createSimuCtxTypeAclfNet" 
-		  singleton="false">	
+		  scope="prototype">	
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
@@ -86,7 +87,7 @@
 	<bean id="simuCtxTypeAclfAdjNet" 
 	      class="com.interpss.simu.SimuObjectFactory" 
 		  factory-method="createSimuCtxTypeAclfAdjNet" 
-		  singleton="false">	
+		  scope="prototype">	
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
@@ -94,7 +95,7 @@
 	<bean id="simuCtxTypeAcscFaultNet" 
 	      class="com.interpss.simu.SimuObjectFactory" 
 		  factory-method="createSimuCtxTypeAcscFaultNet" 
-		  singleton="false">	
+		  scope="prototype">	
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
@@ -102,14 +103,14 @@
 	<bean id="simuCtxTypeDistNet" 
 	      class="com.interpss.simu.SimuObjectFactory" 
 		  factory-method="createSimuCtxTypeDistNet" 
-		  singleton="false">	
+		  scope="prototype">	
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 
 	<bean id="netChangeHandler" 
 	      class="com.interpss.dstab.util.BaseNetChangeEventHandler" 
-	      singleton="false">	
+	      scope="prototype">	
 	  	<constructor-arg>
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
@@ -117,7 +118,7 @@
 	<bean id="simuCtxTypeDStabNet" 
 		  class="com.interpss.simu.SimuObjectFactory" 
 		  factory-method="createSimuCtxTypeDStabNet" 
-		  singleton="false">	
+		  scope="prototype">	
 	  	<constructor-arg index="0">
 	  		<ref bean="ipssMsgHub"/></constructor-arg>
 		<constructor-arg index="1">
@@ -130,21 +131,21 @@
 	-->
 	<bean id="sparseEqnInteger" 
 	      class="com.interpss.core.sparse.impl.SparseEqnIntegerImpl" 
-		  singleton="false">	
+		  scope="prototype">	
 	</bean>
 
 	<bean id="sparseEqnDouble" 
 	      class="com.interpss.core.sparse.impl.SparseEqnDoubleImpl" 
-		  singleton="false">	
+		  scope="prototype">	
 	</bean>
 
 	<bean id="sparseEqnComplex" 
 	      class="com.interpss.core.sparse.impl.SparseEqnComplexImpl" 
-		  singleton="false">	
+		  scope="prototype">	
 	</bean>
 
 	<bean id="sparseEqnMatrix2x2" 
 	      class="com.interpss.core.sparse.impl.SparseEqnMatrix2x2Impl" 
-		  singleton="false">	
+		  scope="prototype">	
 	</bean>
 </beans>

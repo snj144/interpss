@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 <!--  
 	Define ipss editor ui package objects
 -->
-
-<beans>
 	<bean id="outputTextDialog" 
 	      class="org.interpss.editor.ui.impl.NBOutputTextDialog"
-	      singleton="true">	
+	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
 	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
@@ -19,7 +19,7 @@
 
 	<bean id="projectDataEditor" 
 	      class="org.interpss.editor.ui.edit.NBProjectEditDialog"
-	      singleton="true">	
+	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
 	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
@@ -30,7 +30,7 @@
 
 	<bean id="busDataEditor" 
 	      class="org.interpss.editor.ui.edit.NBBusEditDialog"
-	      singleton="true">	
+	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
 	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
@@ -41,7 +41,7 @@
 
 	<bean id="branchDataEditor" 
 	      class="org.interpss.editor.ui.edit.NBBranchEditDialog"
-	      singleton="true">	
+	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
 	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
@@ -52,7 +52,7 @@
 
 	<bean id="searchElementDialog" 
 	      class="org.interpss.editor.ui.edit.common.NBSearchElementDialog"
-	      singleton="true">	
+	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
 	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
@@ -63,7 +63,7 @@
 
 	<bean id="serviceScheduleDialog" 
 	      class="org.interpss.editor.ui.edit.dist.branch.NBServiceScheduleDialog"
-	      singleton="true">	
+	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
 	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
@@ -71,7 +71,7 @@
 
 	<bean id="loadScheduleDialog" 
 	      class="org.interpss.editor.ui.edit.dist.bus.NBLoadScheduleDialog"
-	      singleton="true">	
+	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
 	  			<ref bean="ipssGraphicEditor"/></constructor-arg>
