@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<beans>
 	<!--
 		Excitor model object list
 		=========================
@@ -24,7 +25,7 @@
 	
 	<bean id="cmlScriptingExciter" 
 	  	class="org.interpss.dstab.control.cml.CMLScriptingExciter"
-	    singleton="false">	
+	    scope="prototype">	
 	    <property name="name">
 	    	<value>CML Scripting Exciter</value></property>
 	    <property name="category">
@@ -35,7 +36,7 @@
 	
 	<bean id="sampleCustomExciter" 
 	  	class="dstab.exc.sample.CustomExciter"
-	    singleton="false">	
+	    scope="prototype">	
 	    <property name="name">
 	    	<value>Sample Custom Exciter</value></property>
 	    <property name="category">
@@ -46,7 +47,7 @@
 
 	<bean id="simpleExciter" 
 	      class="org.interpss.dstab.control.exc.simple.SimpleExciter"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>Simple Exciter</value></property>
 	    <property name="category">
@@ -57,7 +58,7 @@
 
 	<bean id="ieee1968Type1Exciter" 
 	      class="org.interpss.dstab.control.exc.ieee.y1968.type1.Ieee1968Type1Exciter"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE-1968 Type1</value></property>
 	    <property name="category">
@@ -68,7 +69,7 @@
 
 	<bean id="ieee1968Type1sExciter" 
 	      class="org.interpss.dstab.control.exc.ieee.y1968.type1s.Ieee1968Type1sExciter"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE-1968 Type1s</value></property>
 	    <property name="category">
@@ -79,7 +80,7 @@
 
 	<bean id="ieee1968Type2Exciter" 
 	      class="org.interpss.dstab.control.exc.ieee.y1968.type2.Ieee1968Type2Exciter"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE-1968 Type2</value></property>
 	    <property name="category">
@@ -90,7 +91,7 @@
 
 	<bean id="ieee1968Type3Exciter" 
 	      class="org.interpss.dstab.control.exc.ieee.y1968.type3.Ieee1968Type3Exciter"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE-1968 Type3</value></property>
 	    <property name="category">
@@ -101,7 +102,7 @@
 
 	<bean id="ieee1968Type4Exciter" 
 	      class="org.interpss.dstab.control.exc.ieee.y1968.type4.Ieee1968Type4Exciter"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE-1968 Type4</value></property>
 	    <property name="category">
@@ -112,7 +113,7 @@
 <!--
 	<bean id="ieeeDC_1AExciter" 
 	      class="org.interpss.dstab.control.exc.ieee.ieeeDC1A.IEEE_DC1AExciter"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE DC-1A</value></property>
 	    <property name="category">
@@ -123,7 +124,7 @@
 	
 	<bean id="ieeeAC_4AExciter" 
 	      class="org.interpss.dstab.control.exc.ieee.ieeeAC4A.IEEE_AC4AExciter"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE AC-4A</value></property>
 	    <property name="category">
@@ -134,7 +135,7 @@
 -->
 	<bean id="exciterList" 
 	      class="java.util.ArrayList"
-	      singleton="true">	
+	      scope="singleton">	
 		<constructor-arg>
 			<list>
 				<ref bean="cmlScriptingExciter"/>

@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 <!--  
 	Define ipss editor simu package objects
 -->
 
-<beans>
 	<!--
 		Define mappers
 		==============
 	-->
 	<bean id="editorJGraphDataMapper" 
 	      class="org.interpss.editor.mapper.EditorJGraphDataMapper"
-	      singleton="true">	
+	      scope="singleton">	
 	  	<property name="msg">
 	  		<ref bean="ipssMsgHub"/></property>
 	</bean>
 
 	<bean id="runForm2AlgorithmMapper" 
 	      class="org.interpss.editor.mapper.RunForm2AlgorithmMapper"
-	      singleton="true">	
+	      scope="singleton">	
 	  	<property name="msg">
 	  		<ref bean="ipssMsgHub"/></property>
 	</bean>
@@ -30,12 +31,12 @@
 	-->
 	<bean id="ipssProjectData" 
 	      class="org.interpss.editor.data.proj.ProjData"
-	      singleton="false">	
+	      scope="prototype">	
 	</bean>
 
 	<bean id="ipssAppSimuContext" 
 	      class="org.interpss.editor.app.AppSimuContextImpl"
-	      singleton="false">	
+	      scope="prototype">	
 	      <property name="projData">
 	          <ref bean="ipssProjectData"/></property>
 	      <property name="simuCtx">
@@ -48,17 +49,17 @@
 	-->
 	<bean id="aclfRunForm" 
 	      class="org.interpss.editor.runAct.AclfRunForm"
-	      singleton="true">	
+	      scope="singleton">	
 	</bean>
 
 	<bean id="acscRunForm" 
 	      class="org.interpss.editor.runAct.AcscRunForm"
-	      singleton="true">	
+	      scope="singleton">	
 	</bean>
 
 	<bean id="dstabRunForm" 
 	      class="org.interpss.editor.runAct.DStabRunForm"
-	      singleton="false">	
+	      scope="prototype">	
 	</bean>
 	
 
@@ -68,7 +69,7 @@
 	-->
 	<bean id="caseInfoDialog" 
 	      class="org.interpss.editor.ui.run.NBCaseInfoDialog"
-	      singleton="true">	
+	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
 	  			<ref bean="ipssGraphicEditor"/></constructor-arg>

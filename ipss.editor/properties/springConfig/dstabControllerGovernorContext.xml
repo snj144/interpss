@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-<beans>
 	<bean id="cmlScriptingGovernor" 
 	  	class="org.interpss.dstab.control.cml.CMLScriptingGovernor"
-	    singleton="false">	
+	    scope="prototype">	
 	    <property name="name">
 	    	<value>CML Scripting Governor</value></property>
 	    <property name="category">
@@ -15,7 +16,7 @@
 	
 	<bean id="simpleGovernor" 
 	      class="org.interpss.dstab.control.gov.simple.SimpleGovernor"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>Simple Governor</value></property>
 	    <property name="category">
@@ -26,7 +27,7 @@
 
 	<bean id="ieeeSteamNRGovernor" 
 	      class="org.interpss.dstab.control.gov.ieee.steamNR.IeeeSteamNRGovernor"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE Steam NR</value></property>
 	    <property name="category">
@@ -37,7 +38,7 @@
 
 	<bean id="ieeeSteamTDSRGovernor" 
 	      class="org.interpss.dstab.control.gov.ieee.steamTDSR.IeeeSteamTDSRGovernor"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE Steam TD SR</value></property>
 	    <property name="category">
@@ -48,7 +49,7 @@
 
 	<bean id="ieeeSteamTCSRGovernor" 
 	      class="org.interpss.dstab.control.gov.ieee.steamTCSR.IeeeSteamTCSRGovernor"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE Steam TC SR</value></property>
 	    <property name="category">
@@ -59,7 +60,7 @@
 	
 	<bean id="ieeeHTurbineGovernor" 
 	      class="org.interpss.dstab.control.gov.ieee.hturbine.IeeeHTurbineGovernor"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE Hydro Turbine</value></property>
 	    <property name="category">
@@ -71,7 +72,7 @@
 <!--
 	<bean id="sampleCustomGovernor" 
 	      class="custom.dstab.gov.sample.CustomGovernor"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>Sample Custom Governor</value></property>
 	    <property name="category">
@@ -82,7 +83,7 @@
 
 	<bean id="ieeeST1Governor" 
 	      class="org.interpss.dstab.control.gov.ieee.ieeeST1.IeeeST1Governor"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE ST1 Governor</value></property>
 	    <property name="category">
@@ -93,7 +94,7 @@
 
 	<bean id="ieeeST2Governor" 
 	      class="org.interpss.dstab.control.gov.ieee.ieeeST2.IeeeST2Governor"
-	      singleton="false">	
+	      scope="prototype">	
 	    <property name="name">
 	    	<value>IEEE ST2 Governor</value></property>
 	    <property name="category">
@@ -104,7 +105,7 @@
 -->
 	<bean id="governorList" 
 	      class="java.util.ArrayList"
-	      singleton="true">	
+	      scope="singleton">	
 		<constructor-arg>
 			<list>
 				<ref bean="cmlScriptingGovernor"/>
