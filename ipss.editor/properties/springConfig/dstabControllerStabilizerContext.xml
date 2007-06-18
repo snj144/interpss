@@ -6,58 +6,38 @@
 
 	<bean id="cmlScriptingStabilizer" 
 	  	class="org.interpss.dstab.control.cml.CMLScriptingStabilizer"
-	    scope="prototype">	
-	    <property name="name">
-	    	<value>CML Scripting Stabilizer</value></property>
-	    <property name="category">
-	    	<value>InterPSS</value></property>
-	    <property name="desc">
-	    	<value>InterPSS CML scripting stabilizer implmementation</value></property>
-	</bean>
+	    scope="prototype"	
+	    p:name="CML Scripting Stabilizer"
+	    p:category="InterPSS"
+	    p:desc="InterPSS CML scripting stabilizer implementation" />
 <!--	
 	<bean id="sampleCustomStabilizer" 
 	      class="custom.dstab.pss.sample.CustomStabilizer"
-	      scope="prototype">	
-	    <property name="name">
-	    	<value>Sample Custom Stabilizer</value></property>
-	    <property name="category">
-	    	<value>InterPSS</value></property>
-	    <property name="desc">
-	    	<value>A sample custom stabilizer implmementation</value></property>
-	</bean>
+	      scope="prototype"	
+	    p:name="Sample Custom Stabilizer"
+	    p:category="InterPSS"
+	    p:desc="A sample custom stabilizer implementation" />
 -->
 	<bean id="simpleStabilizer" 
 	      class="org.interpss.dstab.control.pss.simple.SimpleStabilizer"
-	      scope="prototype">	
-	    <property name="name">
-	    	<value>Simple Stabilizer</value></property>
-	    <property name="category">
-	    	<value>InterPSS</value></property>
-	    <property name="desc">
-	    	<value>An InterPSS simple stabilizer implmementation</value></property>
-	</bean>
+	      scope="prototype"	
+	    p:name="Simple Stabilizer"
+	    p:category="InterPSS"
+	    p:desc="An InterPSS simple stabilizer implementation" />
 	
 	<bean id="ieee1992PSS1AStabilizer" 
 	      class="org.interpss.dstab.control.pss.ieee.y1992.pss1a.Ieee1992PSS1AStabilizer"
-	      scope="prototype">	
-	    <property name="name">
-	    	<value>IEEE-1992 PSS1A</value></property>
-	    <property name="category">
-	    	<value>IEEE-1992</value></property>
-	    <property name="desc">
-	    	<value>An IEEE-1992 PSS1A stabilizer implmementation</value></property>
-	</bean>
+	      scope="prototype"	
+	    p:name="IEEE-1992 PSS1A"
+	    p:category="IEEE-1992"
+	    p:desc="An IEEE-1992 PSS1A stabilizer implementation" />
 
 	<bean id="ieee1992PSS2AStabilizer" 
 	      class="org.interpss.dstab.control.pss.ieee.y1992.pss2a.Ieee1992PSS2AStabilizer"
-	      scope="prototype">	
-	    <property name="name">
-	    	<value>IEEE-1992 PSS2A</value></property>
-	    <property name="category">
-	    	<value>IEEE-1992</value></property>
-	    <property name="desc">
-	    	<value>An IEEE-1992 PSS2A stabilizer implmementation</value></property>
-	</bean>
+	      scope="prototype"	
+	    p:name="IEEE-1992 PSS2A"
+	    p:category="IEEE-1992"
+	    p:desc="An IEEE-1992 PSS2A stabilizer implementation" />
 
 	<bean id="stabilizerList" 
 	      class="java.util.ArrayList"
