@@ -285,7 +285,8 @@ public class ChartManager {
     	if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ANG) || 
     	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
     		return 10.0;
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED))
+    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED) ||
+    			 state.equals(DStabOutFunc.OUT_SYMBOL_BUS_FREQ))
         	return 0.2;
     	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PE) ||
                 state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PM) ||
