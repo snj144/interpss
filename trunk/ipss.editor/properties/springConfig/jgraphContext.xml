@@ -23,8 +23,6 @@
 
 	<bean id="ipssGraph" 
 	      class="org.interpss.editor.plugins.gpgraph.GPGraph"
-	      scope="prototype">	
-	      <property name="model">
-	          <ref bean="ipssModel"/></property>
-	</bean>
+	      scope="prototype"	
+	      p:model-ref="ipssModel" />
 </beans>
