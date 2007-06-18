@@ -24,6 +24,10 @@
 
 package org.interpss.dstab.control.cml.block;
 
+/*
+ * Transfer function  K * ( T * s ) / ( 1 + T * s )
+ */
+
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
