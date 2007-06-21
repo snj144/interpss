@@ -69,9 +69,9 @@
 	      class="org.interpss.dstab.measure.BusFreqMeasurementImpl"	
 		  scope="prototype">	
 		<constructor-arg index="0">
-				<value>0.5</value></constructor-arg>  <!-- Tf -->
+				<value>0.01</value></constructor-arg>  <!-- Tf -->
 		<constructor-arg index="1">
-				<value>0.1</value></constructor-arg>  <!-- Tw -->
+				<value>0.01</value></constructor-arg>  <!-- Tw -->
 	</bean>
 	
 		<!--
