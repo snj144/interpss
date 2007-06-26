@@ -89,7 +89,12 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements IL
 		}
 		setU(y0/getK());
 		setStateX(y0);
-		return true;
+		if (getType() == IStaticBlock.Type.Limit ||
+				getType() == IStaticBlock.Type.NonWindup) {
+				return !limit.isViolated(y0);
+		}	
+		else
+			return true;
 	}
 
 	public boolean initStateU0(double u0, double[] maxDAry, double[] minDAry) {
@@ -108,6 +113,14 @@ public class DelayControlBlock extends ControlBlock1stOrderAdapter implements IL
 		return getU();
 	}
 	
+	public void eulerStep1(double u, double dt) {
+		eulerStep1(u, dt, null, null);
+	}
+
+	public void eulerStep2(double u, double dt) {
+		eulerStep2(u, dt, null, null);
+	}
+
 	public void eulerStep1(double u, double dt, double[] maxDAry, double[] minDAry) {
 		super.eulerStep1(u, dt);
 		if (getType() == IStaticBlock.Type.NonWindup) {
