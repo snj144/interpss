@@ -29,16 +29,18 @@ import org.junit.*;
 
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
+import com.interpss.common.exp.InterpssRuntimeException;
+
 public class WashoutControlBlockTests {
 	@Test
 	public void testCase() {
 		WashoutControlBlock block = new WashoutControlBlock(1.0, 0.1);
 		
-		assertTrue(block.initStateY0(1.0));
-		assertTrue(Math.abs(block.getStateX()+1.0) < 0.0001);
-		assertTrue(Math.abs(block.getU0()-1.0) < 0.0001);
+		assertTrue(block.initStateY0(0.0));
+		assertTrue(Math.abs(block.getStateX()+0.0) < 0.0001);
+		assertTrue(Math.abs(block.getU0()-0.0) < 0.0001);
 		
-		double u = 1.0, dt = 0.01;
+		double u = 0.0, dt = 0.01;
 		block.eulerStep1(u, dt);
 		block.eulerStep2(u, dt);
 		
@@ -48,7 +50,7 @@ public class WashoutControlBlockTests {
 		block.eulerStep1(u, dt);
 		block.eulerStep2(u, dt);
 		
-		assertTrue(Math.abs(block.getStateX()+1.0) < 0.0001);
+		assertTrue(Math.abs(block.getStateX()+0.0) < 0.0001);
 		assertTrue(Math.abs(block.getY()) < 0.0001);
 
 		u = 2.0;
@@ -56,7 +58,13 @@ public class WashoutControlBlockTests {
 			block.eulerStep1(u, dt);
 			block.eulerStep2(u, dt);
 		}
-		assertTrue(Math.abs(block.getStateX()+2.0) < 0.0001);
+		assertTrue(Math.abs(block.getStateX()-2.0) < 0.0001);
 		assertTrue(Math.abs(block.getY()) < 0.0001);
+	}
+	
+	@Test(expected=InterpssRuntimeException.class)
+	public void testException() {
+		WashoutControlBlock block = new WashoutControlBlock(1.0, 0.1);
+		assertTrue(block.initStateY0(1.0));
 	}
 }
