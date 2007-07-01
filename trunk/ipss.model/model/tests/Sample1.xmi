@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ASCII"?>
+<ipss.tree:Node xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ipss.tree="http://www.interpss.org/tree" xsi:schemaLocation="http://www.interpss.org/tree tree.ecore" label="Root">
+  <childList label="Child1">
+    <childList label="Child2"/>
+  </childList>
+</ipss.tree:Node>

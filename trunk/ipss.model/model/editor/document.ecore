@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Document"
+    nsURI="http://www.interpss.org/editor/document" nsPrefix="ipss.editor.doc">
+  <eClassifiers xsi:type="ecore:EClass" name="IpssDocument">
+    <eTypeParameters name="TWSItem"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workspaceItem">
+      <eGenericType eTypeParameter="#//IpssDocument/TWSItem"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssEditorDocument" eSuperTypes="#//IpssDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssEditableDocument" eSuperTypes="#//IpssEditorDocument">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modified" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssReportDocument" eSuperTypes="#//IpssEditorDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssDBDocument" eSuperTypes="#//IpssEditorDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssTextDocument" eSuperTypes="#//IpssEditableDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssSimuDocument" eSuperTypes="#//IpssEditableDocument">
+    <eTypeParameters name="TAppSimuCtx"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="appSimuContext">
+      <eGenericType eTypeParameter="#//IpssSimuDocument/TAppSimuCtx"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssJGraphDocument" eSuperTypes="#//IpssSimuDocument"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssCustomDocument" eSuperTypes="#//IpssSimuDocument"/>
+</ecore:EPackage>
