@@ -1,3 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0"
-    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"/>
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Tree"
+    nsURI="http://www.interpss.org/tree" nsPrefix="ipss.tree">
+  <eClassifiers xsi:type="ecore:EClass" name="Node">
+    <eTypeParameters name="T"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="label" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+        defaultValueLiteral="&quot;Not defined&quot;"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="childList" upperBound="-1"
+        containment="true" resolveProxies="false" eOpposite="#//Node/parent" eKeys="#//Node/label">
+      <eGenericType eClassifier="#//Node">
+        <eTypeArguments eTypeParameter="#//Node/T"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" transient="true"
+        eOpposite="#//Node/childList">
+      <eGenericType eClassifier="#//Node">
+        <eTypeArguments eTypeParameter="#//Node/T"/>
+      </eGenericType>
+    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="data">
+      <eGenericType eTypeParameter="#//Node/T"/>
+    </eStructuralFeatures>
+  </eClassifiers>
+</ecore:EPackage>
