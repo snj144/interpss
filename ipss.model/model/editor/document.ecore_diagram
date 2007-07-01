@@ -40,7 +40,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zHW-kSfYEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="document.ecore#//IpssEditorDocument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-kifYEdyxLJvViID4gw" x="204" y="108"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-kifYEdyxLJvViID4gw" x="192" y="96"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_zHW-oCfYEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_zHW-oyfYEdyxLJvViID4gw" type="5001"/>
@@ -61,7 +61,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zHW-oSfYEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="document.ecore#//IpssEditableDocument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-oifYEdyxLJvViID4gw" x="96" y="228"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-oifYEdyxLJvViID4gw" x="60" y="168"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_zHW-sCfYEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_zHW-syfYEdyxLJvViID4gw" type="5001"/>
@@ -82,7 +82,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zHW-sSfYEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="document.ecore#//IpssReportDocument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-sifYEdyxLJvViID4gw" x="324" y="228"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-sifYEdyxLJvViID4gw" x="240" y="180"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_zHW-wCfYEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_zHW-wyfYEdyxLJvViID4gw" type="5001"/>
@@ -103,7 +103,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zHW-wSfYEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="document.ecore#//IpssDBDocument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-wifYEdyxLJvViID4gw" x="540" y="228"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-wifYEdyxLJvViID4gw" x="420" y="168"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_zHW-0CfYEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_zHW-0yfYEdyxLJvViID4gw" type="5001"/>
@@ -124,7 +124,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zHW-0SfYEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="document.ecore#//IpssTextDocument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-0ifYEdyxLJvViID4gw" x="24" y="372"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-0ifYEdyxLJvViID4gw" x="12" y="276"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_zHW-4CfYEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_zHW-4yfYEdyxLJvViID4gw" type="5001"/>
@@ -145,7 +145,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zHW-4SfYEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="document.ecore#//IpssSimuDocument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-4ifYEdyxLJvViID4gw" x="288" y="348"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-4ifYEdyxLJvViID4gw" x="204" y="276"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_zHW-8CfYEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_zHW-8yfYEdyxLJvViID4gw" type="5001"/>
@@ -166,7 +166,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zHW-8SfYEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="document.ecore#//IpssJGraphDocument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-8ifYEdyxLJvViID4gw" x="180" y="468"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHW-8ifYEdyxLJvViID4gw" x="96" y="384"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_zHgvgCfYEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_zHgvgyfYEdyxLJvViID4gw" type="5001"/>
@@ -187,7 +187,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_zHgvgSfYEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="document.ecore#//IpssCustomDocument"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHgvgifYEdyxLJvViID4gw" x="396" y="468"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_zHgvgifYEdyxLJvViID4gw" x="300" y="384"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_gsnzcSfWEdyxLJvViID4gw"/>
   <element xmi:type="ecore:EPackage" href="document.ecore#/"/>

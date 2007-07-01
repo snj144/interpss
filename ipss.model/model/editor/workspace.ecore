@@ -8,11 +8,14 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="document">
       <eGenericType eTypeParameter="#//WorkspaceItem/TDoc"/>
     </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//WorkspaceItemContainer"
-        eOpposite="#//WorkspaceItemContainer/wsItemList"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eOpposite="#//WorkspaceItemContainer/wsItemList">
+      <eGenericType eClassifier="#//WorkspaceItemContainer">
+        <eTypeArguments eTypeParameter="#//WorkspaceItem/TDoc"/>
+      </eGenericType>
+    </eStructuralFeatures>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="WorkspaceItemContainer" eSuperTypes="#//WorkspaceItem">
+  <eClassifiers xsi:type="ecore:EClass" name="WorkspaceItemContainer">
     <eTypeParameters name="TDoc"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="wsItemList" upperBound="-1"
         containment="true" resolveProxies="false" eOpposite="#//WorkspaceItem/parent"
@@ -21,6 +24,9 @@
         <eTypeArguments eTypeParameter="#//WorkspaceItemContainer/TDoc"/>
       </eGenericType>
     </eStructuralFeatures>
+    <eGenericSuperTypes eClassifier="#//WorkspaceItem">
+      <eTypeArguments eTypeParameter="#//WorkspaceItemContainer/TDoc"/>
+    </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItem">
     <eTypeParameters name="TDoc"/>
