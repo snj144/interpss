@@ -40,7 +40,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_WsFegSfdEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="workspace.ecore#//WorkspaceItemContainer"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WsFegifdEdyxLJvViID4gw" x="168" y="192"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WsFegifdEdyxLJvViID4gw" x="120" y="168"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_Vbp74CfeEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_Vbp74yfeEdyxLJvViID4gw" type="5001"/>
@@ -61,7 +61,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_Vbp74SfeEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="workspace.ecore#//IpssProjectItem"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp74ifeEdyxLJvViID4gw" x="408" y="108"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp74ifeEdyxLJvViID4gw" x="348" y="168"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_Vbp78CfeEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_Vbp78yfeEdyxLJvViID4gw" type="5001"/>
@@ -82,7 +82,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_Vbp78SfeEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="workspace.ecore#//IpssWorkspace"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp78ifeEdyxLJvViID4gw" x="24" y="300"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp78ifeEdyxLJvViID4gw" x="12" y="300"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_Vbp8ACfeEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_Vbp8AyfeEdyxLJvViID4gw" type="5001"/>
@@ -103,7 +103,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_Vbp8ASfeEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="workspace.ecore#//IpssProjectFolder"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp8AifeEdyxLJvViID4gw" x="180" y="300"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp8AifeEdyxLJvViID4gw" x="156" y="300"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_Vbp8ECfeEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_Vbp8EyfeEdyxLJvViID4gw" type="5001"/>
@@ -124,7 +124,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_Vbp8ESfeEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="workspace.ecore#//IpssProject"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp8EifeEdyxLJvViID4gw" x="348" y="300"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp8EifeEdyxLJvViID4gw" x="324" y="300"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_Vbp8ICfeEdyxLJvViID4gw" type="2001">
     <children xmi:type="notation:Node" xmi:id="_Vbp8IyfeEdyxLJvViID4gw" type="5001"/>
@@ -145,7 +145,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_Vbp8ISfeEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EClass" href="workspace.ecore#//IpssProjectItemGroup"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp8IifeEdyxLJvViID4gw" x="480" y="228"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Vbp8IifeEdyxLJvViID4gw" x="456" y="288"/>
   </children>
   <children xmi:type="notation:Node" xmi:id="_K1j1BCfgEdyxLJvViID4gw" type="2005">
     <children xmi:type="notation:Node" xmi:id="_K1j1ByfgEdyxLJvViID4gw" type="5005"/>
@@ -161,7 +161,7 @@
     </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_K1j1BSfgEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EEnum" href="workspace.ecore#//ProjectItemStatus"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_K1j1BifgEdyxLJvViID4gw" x="600" y="48"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_K1j1BifgEdyxLJvViID4gw" x="504" y="132"/>
   </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_cBQQgSfWEdyxLJvViID4gw"/>
   <element xmi:type="ecore:EPackage" href="workspace.ecore#/"/>
@@ -175,7 +175,7 @@
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_WsPPcSfdEdyxLJvViID4gw"/>
     <styles xmi:type="notation:FontStyle" xmi:id="_WsPPcifdEdyxLJvViID4gw"/>
     <element xmi:type="ecore:EReference" href="workspace.ecore#//WorkspaceItemContainer/wsItemList"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WsPPcyfdEdyxLJvViID4gw" points="[-78, 0, -100, 129]$[-166, 0, -188, 129]$[-166, -129, -188, 0]$[-30, -129, -52, 0]"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_WsPPcyfdEdyxLJvViID4gw" points="[-78, 9, -124, 106]$[-138, 9, -184, 106]$[-145, -97, -191, 0]$[-6, -97, -52, 0]"/>
   </edges>
   <edges xmi:type="notation:Edge" xmi:id="_WsPPeCfdEdyxLJvViID4gw" type="4004" source="_WsFegCfdEdyxLJvViID4gw" target="_WsFecCfdEdyxLJvViID4gw">
     <styles xmi:type="notation:ConnectorStyle" xmi:id="_WsPPeSfdEdyxLJvViID4gw"/>
