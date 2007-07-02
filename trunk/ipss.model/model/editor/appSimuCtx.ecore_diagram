@@ -107,11 +107,4 @@
     <element xmi:type="ecore:EReference" href="appSimuCtx.ecore#//AppSimuContext/projData"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-EOf0yhIEdyokacA88AuEw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
   </edges>
-  <edges xmi:type="notation:Edge" xmi:id="_46DEgChJEdyokacA88AuEw" type="NoteAttachment" source="_oJEiAChGEdyokacA88AuEw" target="_CY-PUChFEdyokacA88AuEw">
-    <styles xmi:type="notation:ConnectorStyle" xmi:id="_46DEgShJEdyokacA88AuEw"/>
-    <element xsi:nil="true"/>
-    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_46DEgihJEdyokacA88AuEw" points="[0, 0, 103, -16]$[-99, 11, 4, -5]"/>
-    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_46DEgyhJEdyokacA88AuEw" id="(0.12274368,1.0)"/>
-    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_46DEhChJEdyokacA88AuEw" id="(0.6756757,0.08196721)"/>
-  </edges>
 </notation:Diagram>
