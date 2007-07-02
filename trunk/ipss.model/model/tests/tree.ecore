@@ -23,4 +23,5 @@
       <eGenericType eTypeParameter="#//Node/T"/>
     </eStructuralFeatures>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="xxx"/>
 </ecore:EPackage>
