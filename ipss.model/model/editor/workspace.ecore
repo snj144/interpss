@@ -4,63 +4,29 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Workspace"
     nsURI="http://www.interpss.org/editor/workspace" nsPrefix="ipss.editor.workspace">
   <eClassifiers xsi:type="ecore:EClass" name="WorkspaceItem">
-    <eTypeParameters name="TDoc"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="document">
-      <eGenericType eTypeParameter="#//WorkspaceItem/TDoc"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eOpposite="#//WorkspaceItemContainer/wsItemList">
-      <eGenericType eClassifier="#//WorkspaceItemContainer">
-        <eTypeArguments eTypeParameter="#//WorkspaceItem/TDoc"/>
-      </eGenericType>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//WorkspaceItemContainer"
+        eOpposite="#//WorkspaceItemContainer/wsItemList"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ipssDocument" eType="ecore:EClass document.ecore#//IpssDocument"
+        containment="true" eOpposite="document.ecore#//IpssDocument/workspaceItem"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="WorkspaceItemContainer">
-    <eTypeParameters name="TDoc"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorkspaceItemContainer" eSuperTypes="#//WorkspaceItem">
     <eStructuralFeatures xsi:type="ecore:EReference" name="wsItemList" upperBound="-1"
-        containment="true" resolveProxies="false" eOpposite="#//WorkspaceItem/parent"
-        eKeys="#//WorkspaceItem/name">
-      <eGenericType eClassifier="#//WorkspaceItem">
-        <eTypeArguments eTypeParameter="#//WorkspaceItemContainer/TDoc"/>
-      </eGenericType>
-    </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//WorkspaceItem">
-      <eTypeArguments eTypeParameter="#//WorkspaceItemContainer/TDoc"/>
-    </eGenericSuperTypes>
+        eType="#//WorkspaceItem" containment="true" resolveProxies="false" eOpposite="#//WorkspaceItem/parent"
+        eKeys="#//WorkspaceItem/name"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItem">
-    <eTypeParameters name="TDoc"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItem" eSuperTypes="#//WorkspaceItem">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="initStatus" eType="#//ProjectItemStatus"/>
-    <eGenericSuperTypes eClassifier="#//WorkspaceItem">
-      <eTypeArguments eTypeParameter="#//IpssProjectItem/TDoc"/>
-    </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IpssWorkspace">
-    <eTypeParameters name="TDoc"/>
-    <eGenericSuperTypes eClassifier="#//WorkspaceItemContainer">
-      <eTypeArguments eTypeParameter="#//IpssWorkspace/TDoc"/>
-    </eGenericSuperTypes>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssWorkspace" eSuperTypes="#//WorkspaceItemContainer">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="absolutionPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IpssProjectFolder">
-    <eTypeParameters name="TDoc"/>
-    <eGenericSuperTypes eClassifier="#//WorkspaceItemContainer">
-      <eTypeArguments eTypeParameter="#//IpssProjectFolder/TDoc"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IpssProject">
-    <eTypeParameters name="TDoc"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssProjectFolder" eSuperTypes="#//WorkspaceItemContainer"/>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssProject" eSuperTypes="#//WorkspaceItemContainer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="projDbId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="parentPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eGenericSuperTypes eClassifier="#//WorkspaceItemContainer">
-      <eTypeArguments eTypeParameter="#//IpssProject/TDoc"/>
-    </eGenericSuperTypes>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItemGroup">
-    <eTypeParameters name="TDoc"/>
-    <eGenericSuperTypes eClassifier="#//WorkspaceItemContainer">
-      <eTypeArguments eTypeParameter="#//IpssProjectItemGroup/TDoc"/>
-    </eGenericSuperTypes>
-  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItemGroup" eSuperTypes="#//WorkspaceItemContainer"/>
   <eClassifiers xsi:type="ecore:EEnum" name="ProjectItemStatus">
     <eLiterals name="Open"/>
     <eLiterals name="Close" value="1"/>

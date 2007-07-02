@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_y33ZQChBEdyokacA88AuEw" type="Ecore" name="appSimuCtx.ecore_diagram" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_CY-PUChFEdyokacA88AuEw" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_CY-PUyhFEdyokacA88AuEw" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_CY-PVChFEdyokacA88AuEw" type="7001">
+      <children xmi:type="notation:Node" xmi:id="_dtcwUChJEdyokacA88AuEw" type="3001">
+        <element xmi:type="ecore:EAttribute" href="appSimuCtx.ecore#//AppSimuContext/aclfConverged"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_dtcwUShJEdyokacA88AuEw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_d91VsChJEdyokacA88AuEw" type="3001">
+        <element xmi:type="ecore:EAttribute" href="appSimuCtx.ecore#//AppSimuContext/scCalculated"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_d91VsShJEdyokacA88AuEw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_eEjBsChJEdyokacA88AuEw" type="3001">
+        <element xmi:type="ecore:EAttribute" href="appSimuCtx.ecore#//AppSimuContext/@eStructuralFeatures.5"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_eEjBsShJEdyokacA88AuEw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_eGx2UChJEdyokacA88AuEw" type="3001">
+        <element xmi:type="ecore:EAttribute" href="appSimuCtx.ecore#//AppSimuContext/@eStructuralFeatures.6"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_eGx2UShJEdyokacA88AuEw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_eI3hAChJEdyokacA88AuEw" type="3001">
+        <element xmi:type="ecore:EAttribute" href="appSimuCtx.ecore#//AppSimuContext/@eStructuralFeatures.7"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_eI3hAShJEdyokacA88AuEw"/>
+      </children>
+      <children xmi:type="notation:Node" xmi:id="_e5JHYChJEdyokacA88AuEw" type="3001">
+        <element xmi:type="ecore:EAttribute" href="appSimuCtx.ecore#//AppSimuContext/@eStructuralFeatures.8"/>
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_e5JHYShJEdyokacA88AuEw"/>
+      </children>
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_CY-PVShFEdyokacA88AuEw" collapsed="true"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_CY-PVihFEdyokacA88AuEw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_CY-PVyhFEdyokacA88AuEw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_CY-PWChFEdyokacA88AuEw" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_CY-PWShFEdyokacA88AuEw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_CY-PWihFEdyokacA88AuEw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_CY-PWyhFEdyokacA88AuEw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_CY-PXChFEdyokacA88AuEw" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_CY-PXShFEdyokacA88AuEw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_CY-PXihFEdyokacA88AuEw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_CY-PXyhFEdyokacA88AuEw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_CY-PUShFEdyokacA88AuEw"/>
+    <element xmi:type="ecore:EClass" href="appSimuCtx.ecore#//AppSimuContext"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_CY-PUihFEdyokacA88AuEw" x="96" y="72" height="61"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_oJEiAChGEdyokacA88AuEw" type="Note">
+    <children xmi:type="notation:Node" xmi:id="_oJEiAyhGEdyokacA88AuEw" type="DiagramName">
+      <element xsi:nil="true"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_oJEiBChGEdyokacA88AuEw" type="Description">
+      <element xsi:nil="true"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_oJEiAShGEdyokacA88AuEw" description="contained by IpssSimuDocument, use eContainer to get parent" fillColor="13369343" lineColor="6737151"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oJEiAihGEdyokacA88AuEw" x="240" y="12" width="277" height="49"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_srQo4ChIEdyokacA88AuEw" type="2001">
+    <children xmi:type="notation:Node" xmi:id="_srQo4yhIEdyokacA88AuEw" type="5001"/>
+    <children xmi:type="notation:Node" xmi:id="_srQo5ChIEdyokacA88AuEw" type="7001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_srQo5ShIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_srQo5ihIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_srQo5yhIEdyokacA88AuEw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_srQo6ChIEdyokacA88AuEw" type="7002">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_srQo6ShIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_srQo6ihIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_srQo6yhIEdyokacA88AuEw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_srQo7ChIEdyokacA88AuEw" type="7003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_srQo7ShIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_srQo7ihIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_srQo7yhIEdyokacA88AuEw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_srQo4ShIEdyokacA88AuEw"/>
+    <element xmi:type="ecore:EClass" href="appSimuCtx.ecore#//ProjectData"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_srQo4ihIEdyokacA88AuEw" x="312" y="84"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_srQo8ChIEdyokacA88AuEw" type="2005">
+    <children xmi:type="notation:Node" xmi:id="_srQo8yhIEdyokacA88AuEw" type="5005"/>
+    <children xmi:type="notation:Node" xmi:id="_srQo9ChIEdyokacA88AuEw" type="7011">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_srQo9ShIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_srQo9ihIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_srQo9yhIEdyokacA88AuEw"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_srQo-ChIEdyokacA88AuEw" type="7012">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_srQo-ShIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_srQo-ihIEdyokacA88AuEw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_srQo-yhIEdyokacA88AuEw"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_srQo8ShIEdyokacA88AuEw"/>
+    <element xmi:type="ecore:EEnum" href="appSimuCtx.ecore#//SimuRunType"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_srQo8ihIEdyokacA88AuEw" x="444" y="72"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_y33ZQShBEdyokacA88AuEw"/>
+  <element xmi:type="ecore:EPackage" href="appSimuCtx.ecore#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_-EOf0ChIEdyokacA88AuEw" type="4003" source="_CY-PUChFEdyokacA88AuEw" target="_srQo4ChIEdyokacA88AuEw">
+    <children xmi:type="notation:Node" xmi:id="_-EOf1ChIEdyokacA88AuEw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_-EOf1ShIEdyokacA88AuEw" x="25" y="-17"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_-EOf1ihIEdyokacA88AuEw" type="6004">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_-EOf1yhIEdyokacA88AuEw" x="-5" y="28"/>
+    </children>
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_-EOf0ShIEdyokacA88AuEw"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_-EOf0ihIEdyokacA88AuEw"/>
+    <element xmi:type="ecore:EReference" href="appSimuCtx.ecore#//AppSimuContext/projData"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_-EOf0yhIEdyokacA88AuEw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_46DEgChJEdyokacA88AuEw" type="NoteAttachment" source="_oJEiAChGEdyokacA88AuEw" target="_CY-PUChFEdyokacA88AuEw">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_46DEgShJEdyokacA88AuEw"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_46DEgihJEdyokacA88AuEw" points="[0, 0, 103, -16]$[-99, 11, 4, -5]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_46DEgyhJEdyokacA88AuEw" id="(0.12274368,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_46DEhChJEdyokacA88AuEw" id="(0.6756757,0.08196721)"/>
+  </edges>
+</notation:Diagram>

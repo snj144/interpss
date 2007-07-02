@@ -4,93 +4,75 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="Document"
     nsURI="http://www.interpss.org/editor/document" nsPrefix="ipss.editor.doc">
   <eClassifiers xsi:type="ecore:EClass" name="IpssDocument">
-    <eTypeParameters name="TWSItem"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="workspaceItem">
-      <eGenericType eTypeParameter="#//IpssDocument/TWSItem"/>
-    </eStructuralFeatures>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="workspaceItem" eType="ecore:EClass workspace.ecore#//WorkspaceItem"
+        eOpposite="workspace.ecore#//WorkspaceItem/ipssDocument"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="IpssEditorDocument">
+  <eClassifiers xsi:type="ecore:EClass" name="IpssEditorDocument" eSuperTypes="#//IpssDocument">
     <eTypeParameters name="TViewer"/>
-    <eTypeParameters name="TMSItem"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="viewer">
       <eGenericType eTypeParameter="#//IpssEditorDocument/TViewer"/>
     </eStructuralFeatures>
-    <eGenericSuperTypes eClassifier="#//IpssDocument">
-      <eTypeArguments eTypeParameter="#//IpssEditorDocument/TMSItem"/>
-    </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IpssEditableDocument">
     <eTypeParameters name="TEditor"/>
     <eTypeParameters name="TViewer"/>
-    <eTypeParameters name="TMSItem"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="modified" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eGenericSuperTypes eClassifier="#//IpssEditorDocument">
       <eTypeArguments eTypeParameter="#//IpssEditableDocument/TViewer"/>
-      <eTypeArguments eTypeParameter="#//IpssEditableDocument/TMSItem"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IpssReportDocument">
     <eTypeParameters name="TViewer"/>
-    <eTypeParameters name="TMSItem"/>
     <eGenericSuperTypes eClassifier="#//IpssEditorDocument">
       <eTypeArguments eTypeParameter="#//IpssReportDocument/TViewer"/>
-      <eTypeArguments eTypeParameter="#//IpssReportDocument/TMSItem"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IpssDBDocument">
     <eTypeParameters name="TViewer"/>
-    <eTypeParameters name="TWSItem"/>
     <eGenericSuperTypes eClassifier="#//IpssEditorDocument">
       <eTypeArguments eTypeParameter="#//IpssDBDocument/TViewer"/>
-      <eTypeArguments eTypeParameter="#//IpssDBDocument/TWSItem"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IpssTextDocument">
     <eTypeParameters name="TEditor"/>
     <eTypeParameters name="TViewer"/>
-    <eTypeParameters name="TMSItem"/>
     <eGenericSuperTypes eClassifier="#//IpssEditableDocument">
       <eTypeArguments eTypeParameter="#//IpssTextDocument/TEditor"/>
       <eTypeArguments eTypeParameter="#//IpssTextDocument/TViewer"/>
-      <eTypeArguments eTypeParameter="#//IpssTextDocument/TMSItem"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IpssSimuDocument">
-    <eTypeParameters name="TAppSimuCtx"/>
+    <eTypeParameters name="TSimuCtx"/>
     <eTypeParameters name="TEditor"/>
     <eTypeParameters name="TViewer"/>
-    <eTypeParameters name="TMSItem"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="appSimuContext">
-      <eGenericType eTypeParameter="#//IpssSimuDocument/TAppSimuCtx"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="appSimuCtx" containment="true">
+      <eGenericType eClassifier="ecore:EClass appSimuCtx.ecore#//AppSimuContext">
+        <eTypeArguments eTypeParameter="#//IpssSimuDocument/TSimuCtx"/>
+      </eGenericType>
     </eStructuralFeatures>
     <eGenericSuperTypes eClassifier="#//IpssEditableDocument">
       <eTypeArguments eTypeParameter="#//IpssSimuDocument/TEditor"/>
       <eTypeArguments eTypeParameter="#//IpssSimuDocument/TViewer"/>
-      <eTypeArguments eTypeParameter="#//IpssSimuDocument/TMSItem"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IpssJGraphDocument">
     <eTypeParameters name="TAppSimuCtx"/>
     <eTypeParameters name="TEditor"/>
     <eTypeParameters name="TViewer"/>
-    <eTypeParameters name="TMSItem"/>
     <eGenericSuperTypes eClassifier="#//IpssSimuDocument">
       <eTypeArguments eTypeParameter="#//IpssJGraphDocument/TAppSimuCtx"/>
       <eTypeArguments eTypeParameter="#//IpssJGraphDocument/TEditor"/>
       <eTypeArguments eTypeParameter="#//IpssJGraphDocument/TViewer"/>
-      <eTypeArguments eTypeParameter="#//IpssJGraphDocument/TMSItem"/>
     </eGenericSuperTypes>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="IpssCustomDocument">
     <eTypeParameters name="TAppSimuCtx"/>
     <eTypeParameters name="TEditor"/>
     <eTypeParameters name="TViewer"/>
-    <eTypeParameters name="TMSItem"/>
     <eGenericSuperTypes eClassifier="#//IpssSimuDocument">
       <eTypeArguments eTypeParameter="#//IpssCustomDocument/TAppSimuCtx"/>
       <eTypeArguments eTypeParameter="#//IpssCustomDocument/TEditor"/>
       <eTypeArguments eTypeParameter="#//IpssCustomDocument/TViewer"/>
-      <eTypeArguments eTypeParameter="#//IpssCustomDocument/TMSItem"/>
     </eGenericSuperTypes>
   </eClassifiers>
 </ecore:EPackage>
