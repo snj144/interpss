@@ -5,6 +5,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({CommonFuncTest.class})
+@SuiteClasses({
+	CommonFuncTest.class,
+	ComplexFuncTest.class
+})
 public class TestSuite {
 }
