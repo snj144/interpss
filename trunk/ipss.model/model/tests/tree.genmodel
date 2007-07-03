@@ -5,7 +5,7 @@
     modelPluginID="ipss.model" modelName="Tree" importerID="org.eclipse.emf.importer.ecore"
     complianceLevel="6.0" copyrightFields="false">
   <foreignModel>tree.ecore</foreignModel>
-  <genPackages prefix="Tree" basePackage="org.interpss.model.tests" disposableProviderFactory="true"
+  <genPackages prefix="Tree" basePackage="org.interpss.tests" disposableProviderFactory="true"
       ecorePackage="tree.ecore#/">
     <genClasses ecoreClass="tree.ecore#//Node">
       <genTypeParameters ecoreTypeParameter="tree.ecore#//Node/T"/>
@@ -14,5 +14,6 @@
       <genFeatures property="None" notify="false" createChild="false" ecoreFeature="ecore:EReference tree.ecore#//Node/parent"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute tree.ecore#//Node/data"/>
     </genClasses>
+    <genClasses ecoreClass="tree.ecore#//xxx"/>
   </genPackages>
 </genmodel:GenModel>
