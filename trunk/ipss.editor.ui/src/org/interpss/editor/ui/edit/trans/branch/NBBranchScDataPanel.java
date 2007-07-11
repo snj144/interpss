@@ -42,7 +42,8 @@ import com.interpss.common.util.Number2String;
  
 public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
-	private JDialog parent = null;
+	private JDialog parentDialog = null;
+	private Object  parentPanel = null;
 
     private GFormContainer _netContainer = null;
     private GBranchForm  _form = null;
@@ -51,11 +52,12 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     private static NBGConnectionPanel _fromXfrConnectPanel = new NBGConnectionPanel();
     private static NBGConnectionPanel _toXfrConnectPanel = new NBGConnectionPanel();
     
-	public void initPanel(JDialog aParent) {
-		parent = aParent;
+	public void initPanel(JDialog pDialog, Object pPanel) {
+		parentDialog = pDialog;
+		parentPanel =  pPanel;
 		
-	    _fromXfrConnectPanel.initPanel(parent, "FromSide Grounding");
-	    _toXfrConnectPanel.initPanel(parent, "ToSide Grounding");
+	    _fromXfrConnectPanel.initPanel(parentDialog, "FromSide Grounding");
+	    _toXfrConnectPanel.initPanel(parentDialog, "ToSide Grounding");
 	    
 		DataVerifier verifier = new DataVerifier();
 	    fromTapTextField.setInputVerifier(verifier);
@@ -90,6 +92,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 
 	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
 	    	_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
+    	    setDataFieldStatus(true);
 	    	fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0##"));
 	    	toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0##"));
         	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {
@@ -108,8 +111,9 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
             xfrToGroundPanel.add(_toXfrConnectPanel);
             _toXfrConnectPanel.setForm2Editor();
     	}
-    	else {
+	    else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
     		lineRadioButton.setSelected(true);
+    	    setDataFieldStatus(true);
     	    setBTapLabelText(true, false);
 
     	    hB1TextField.setText(Number2String.toStr(_data.getHalfShuntB(), "#0.0####"));
@@ -117,10 +121,39 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     	    
             xfrFromGroundPanel.remove(_fromXfrConnectPanel);
             xfrToGroundPanel.remove(_toXfrConnectPanel);
+	    }
+    	else {
+    		scriptRadioButton.setSelected(true);
+    	    setDataFieldStatus(false);
+    	    
+            xfrFromGroundPanel.remove(_fromXfrConnectPanel);
+            xfrToGroundPanel.remove(_toXfrConnectPanel);
     	}
-        
+	    parentDialog.pack();
         return true;
 	}
+
+    private void setDataFieldStatus(boolean status) {
+    	if (parentPanel instanceof NBAcscTransBranchEditPanel)
+    		((NBAcscTransBranchEditPanel)parentPanel).setScriptPanelStatus(!status);
+	    fromTapTextField.setEnabled(status);
+	    hB0TextField.setEnabled(status);
+	    hB1TextField.setEnabled(status);
+	    r0TextField.setEnabled(status);
+	    r1TextField.setEnabled(status);
+	    toTapTextField.setEnabled(status);
+	    x0TextField.setEnabled(status);
+	    x1TextField.setEnabled(status);
+
+	    fromTapLabel.setEnabled(status);
+	    hB0Label.setEnabled(status);
+	    hB1Label.setEnabled(status);
+	    r0Label.setEnabled(status);
+	    r1Label.setEnabled(status);
+	    toTapLabel.setEnabled(status);
+	    x0Label.setEnabled(status);
+	    x1Label.setEnabled(status);
+    }
     
     private void setBTapLabelText(boolean isLine, boolean isPsXfr) {
         hB0Label.setEnabled(isLine);
@@ -496,25 +529,23 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     }// </editor-fold>//GEN-END:initComponents
 
 private void scriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptRadioButtonActionPerformed
-    // TODO add your handling code here:
+	_data.setLfCode(IGBranchForm.TransBranchScCode_Scripting);
+	setForm2Editor();
 }//GEN-LAST:event_scriptRadioButtonActionPerformed
 
     private void psXfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrRadioButtonActionPerformed
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
     	setForm2Editor();
-    	parent.pack();
     }//GEN-LAST:event_psXfrRadioButtonActionPerformed
 
     private void xfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xfrRadioButtonActionPerformed
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_Xfr);
     	setForm2Editor();
-    	parent.pack();
     }//GEN-LAST:event_xfrRadioButtonActionPerformed
 
     private void lineRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineRadioButtonActionPerformed
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_Line);
     	setForm2Editor();
-    	parent.pack();
     }//GEN-LAST:event_lineRadioButtonActionPerformed
     
     

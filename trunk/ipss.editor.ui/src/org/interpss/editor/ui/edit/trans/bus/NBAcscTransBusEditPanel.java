@@ -82,6 +82,8 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    }
 	    
 		_groundPanel.init(_netContainer, _data.getGround());
+        acscTabbedPane.setSelectedIndex(1);
+        acscTabbedPane.setEnabledAt(2, false);
 	}
 	
     public boolean setForm2Editor() {
@@ -106,11 +108,19 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 
 		    groundingPanel.add(_groundPanel);
 		    _groundPanel.setForm2Editor();
+	        acscTabbedPane.setEnabledAt(2, false);
 	    }
-	    else {
+	    else if (_data.getScCode().equals(AcscBusData.ScCode_NonContribute)) {
 	        nonContributeRadioButton.setSelected(true);
 	        setRXLabelText(false);
 	    	groundingPanel.remove(_groundPanel);
+	        acscTabbedPane.setEnabledAt(2, false);
+	    }
+	    else {
+	        scriptRadioButton.setSelected(true);
+	        setRXLabelText(false);
+	    	groundingPanel.remove(_groundPanel);
+	        acscTabbedPane.setEnabledAt(2, true);
 	    }
 	    parent.pack();
 	    return true;
@@ -357,7 +367,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 
         acscBusScriptTextArea.setColumns(80);
         acscBusScriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
-        acscBusScriptTextArea.setRows(35);
+        acscBusScriptTextArea.setRows(30);
         acscBusScriptTextArea.setTabSize(3);
         acscBusScriptScrollPane.setViewportView(acscBusScriptTextArea);
 
@@ -371,7 +381,8 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
     }// </editor-fold>//GEN-END:initComponents
 
 private void scriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptRadioButtonActionPerformed
-    // TODO add your handling code here:
+	_data.setScCode(AcscBusData.ScCode_BusScripting);
+    setForm2Editor();
 }//GEN-LAST:event_scriptRadioButtonActionPerformed
 
     private void setRXLabelText(boolean enable) {
@@ -384,6 +395,8 @@ private void scriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {/
         x1Label.setEnabled(enable);
         x1TextField.setEnabled(enable);
         x0Label.setEnabled(enable);
+        
+        
         x0TextField.setEnabled(enable);
         x2Label.setEnabled(enable);
         x2TextField.setEnabled(enable);

@@ -1061,7 +1061,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 
         scriptTextArea.setColumns(80);
         scriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
-        scriptTextArea.setRows(35);
+        scriptTextArea.setRows(30);
         scriptTextArea.setTabSize(3);
         scriptScrollPane.setViewportView(scriptTextArea);
 
@@ -1073,17 +1073,11 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(busTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 669, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .add(busTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 669, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(busTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 540, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .add(busTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
 
         busTabbedPane.getAccessibleContext().setAccessibleName("");

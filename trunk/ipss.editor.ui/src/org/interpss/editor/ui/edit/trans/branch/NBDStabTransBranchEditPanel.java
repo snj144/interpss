@@ -45,7 +45,7 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
 	public void initPanel(JDialog aParent) {
 		parent = aParent;
 		_positiveEditPanel.initPanel(parent);
-		_scEditPanel.initPanel(parent);
+		_scEditPanel.initPanel(parent, this);
     	scInfoEditPanel.add(_scEditPanel);
 	    
 	    branchInfoEditTabbedPane.addChangeListener(new ChangeListener() {
