@@ -126,11 +126,21 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         loadBusComboBox = new javax.swing.JComboBox();
         loadBusLabel = new javax.swing.JLabel();
         changeFactorGLabel = new javax.swing.JLabel();
         changeFactorTextField = new javax.swing.JTextField();
         changeFactorUnitLabel1 = new javax.swing.JLabel();
+        threshholdLabel = new javax.swing.JLabel();
+        threshholdTextField = new javax.swing.JTextField();
+        threshholdUnitLabel = new javax.swing.JLabel();
+        delaySecLabel = new javax.swing.JLabel();
+        delaySecTextField = new javax.swing.JTextField();
+        loadChangeTypePanel = new javax.swing.JPanel();
+        lowfreqRadioButton = new javax.swing.JRadioButton();
+        lowVoltRadioButton = new javax.swing.JRadioButton();
+        fixedTimeRadioButton = new javax.swing.JRadioButton();
 
         loadBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         loadBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "No Load Bus" }));
@@ -150,50 +160,165 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
         changeFactorUnitLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
         changeFactorUnitLabel1.setText("%");
 
+        threshholdLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        threshholdLabel.setText("Label  ");
+
+        threshholdTextField.setColumns(4);
+        threshholdTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        threshholdTextField.setText("0.0");
+        threshholdTextField.setDragEnabled(true);
+        threshholdTextField.setName("threshholdTextField"); // NOI18N
+
+        threshholdUnitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        threshholdUnitLabel.setText("unit");
+
+        delaySecLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        delaySecLabel.setText("Delay(sec)");
+
+        delaySecTextField.setColumns(4);
+        delaySecTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        delaySecTextField.setText("0.0");
+        delaySecTextField.setDragEnabled(true);
+        delaySecTextField.setName("threshholdTextField"); // NOI18N
+
+        loadChangeTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 10));
+
+        buttonGroup1.add(lowfreqRadioButton);
+        lowfreqRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        lowfreqRadioButton.setSelected(true);
+        lowfreqRadioButton.setText("Low Frequency");
+        lowfreqRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        lowfreqRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        lowfreqRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lowfreqRadioButtonActionPerformed(evt);
+            }
+        });
+        loadChangeTypePanel.add(lowfreqRadioButton);
+
+        buttonGroup1.add(lowVoltRadioButton);
+        lowVoltRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        lowVoltRadioButton.setText("Low Voltage");
+        lowVoltRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        lowVoltRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        lowVoltRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lowVoltRadioButtonActionPerformed(evt);
+            }
+        });
+        loadChangeTypePanel.add(lowVoltRadioButton);
+
+        buttonGroup1.add(fixedTimeRadioButton);
+        fixedTimeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        fixedTimeRadioButton.setText("Fixed Time");
+        fixedTimeRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        fixedTimeRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        fixedTimeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fixedTimeRadioButtonActionPerformed(evt);
+            }
+        });
+        loadChangeTypePanel.add(fixedTimeRadioButton);
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(82, 82, 82)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(layout.createSequentialGroup()
-                        .add(loadBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(33, 33, 33))
-                    .add(layout.createSequentialGroup()
-                        .add(changeFactorGLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)))
+            .add(layout.createSequentialGroup()
+                .add(31, 31, 31)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(layout.createSequentialGroup()
+                            .add(threshholdLabel)
+                            .add(50, 50, 50)
+                            .add(threshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(threshholdUnitLabel)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 98, Short.MAX_VALUE)
+                            .add(delaySecLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(delaySecTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(layout.createSequentialGroup()
+                            .add(31, 31, 31)
+                            .add(loadChangeTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                     .add(layout.createSequentialGroup()
-                        .add(changeFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(changeFactorUnitLabel1))
-                    .add(loadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 121, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .add(42, 42, 42)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(changeFactorGLabel)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(changeFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(changeFactorUnitLabel1))
+                            .add(layout.createSequentialGroup()
+                                .add(loadBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(30, 30, 30)
+                                .add(loadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 183, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+                .add(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(loadBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(loadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(changeFactorGLabel)
-                    .add(changeFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(changeFactorUnitLabel1))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, loadBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, loadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(15, 15, 15)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, changeFactorGLabel)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, changeFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, changeFactorUnitLabel1))
+                .add(17, 17, 17)
+                .add(loadChangeTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, threshholdLabel)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, threshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, threshholdUnitLabel)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, delaySecLabel)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, delaySecTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+private void lowVoltRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowVoltRadioButtonActionPerformed
+    setLableTextFiels("Volt Below", "pu", true);
+}//GEN-LAST:event_lowVoltRadioButtonActionPerformed
+
+private void fixedTimeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedTimeRadioButtonActionPerformed
+    threshholdLabel.setText("Change Time");
+    threshholdUnitLabel.setText("sec");
+    setLableTextFiels("Change Time", "sec", false);
+}//GEN-LAST:event_fixedTimeRadioButtonActionPerformed
+
+private void lowfreqRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowfreqRadioButtonActionPerformed
+    setLableTextFiels("Freq Below", "hz", true);
+}//GEN-LAST:event_lowfreqRadioButtonActionPerformed
     
+private void setLableTextFiels(String thLabel, String thUnit, boolean delayEnable) {
+    threshholdLabel.setText(thLabel);
+    threshholdUnitLabel.setText(thUnit);
+    delaySecLabel.setEnabled(delayEnable);
+    delaySecTextField.setEditable(delayEnable);
+}
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JLabel changeFactorGLabel;
     private javax.swing.JTextField changeFactorTextField;
     private javax.swing.JLabel changeFactorUnitLabel1;
+    private javax.swing.JLabel delaySecLabel;
+    private javax.swing.JTextField delaySecTextField;
+    private javax.swing.JRadioButton fixedTimeRadioButton;
     private javax.swing.JComboBox loadBusComboBox;
     private javax.swing.JLabel loadBusLabel;
+    private javax.swing.JPanel loadChangeTypePanel;
+    private javax.swing.JRadioButton lowVoltRadioButton;
+    private javax.swing.JRadioButton lowfreqRadioButton;
+    private javax.swing.JLabel threshholdLabel;
+    private javax.swing.JTextField threshholdTextField;
+    private javax.swing.JLabel threshholdUnitLabel;
     // End of variables declaration//GEN-END:variables
 
 	class DataVerifier extends javax.swing.InputVerifier {
@@ -201,7 +326,7 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
 			if (input == null)
 				return false;
        		try {
-       			if (input == changeFactorTextField )
+         	   	if (input == changeFactorTextField )
  	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;

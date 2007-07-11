@@ -35,14 +35,12 @@ import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
 
 public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;
 
-	private NBFaultLocDataPanel    _faultLocDataPanel = new NBFaultLocDataPanel();
+	private NBDStabFaultDataPanel  _dstabFaultDataPanel = new NBDStabFaultDataPanel();
 	private NBDStabLoadChangePanel _loadChangePanel = new NBDStabLoadChangePanel();
 	private NBBranchOutagePanel _branchOutagePanel = new NBBranchOutagePanel();
 
@@ -56,16 +54,13 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     	parentDialog = parent;
         initComponents();
 
-        eventInputPanel.add(_faultLocDataPanel);
+        eventInputPanel.add(_dstabFaultDataPanel);
         
-        DataVerifier verifier = new DataVerifier();
-        stratTimeTextField.setInputVerifier(verifier);
-        durationTextField.setInputVerifier(verifier);
     }
     
     public void init(Object netContainer, Object simuCtx) {
 		IpssLogger.getLogger().info("NBDStabCasePanel init() called");
-	    _faultLocDataPanel.init(netContainer, simuCtx);
+	    _dstabFaultDataPanel.init(netContainer, simuCtx);
 	    _loadChangePanel.init(netContainer, simuCtx);
 	    _branchOutagePanel.init(netContainer, simuCtx);
     }
@@ -83,8 +78,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     private void setCurrentEventData(DStabDEventData eventData) {
 		// update the event data editing screen
 	    _loadChangePanel.setLoadChangeData(eventData.getLoadChangeData());
-	    _branchOutagePanel.setFaultData(eventData.getFaultData());
-    	_faultLocDataPanel.setFaultData(eventData.getFaultData());
+	    _branchOutagePanel.setDStabDEventData(eventData);
+    	_dstabFaultDataPanel.setDStabDEventData(eventData);
         eventInputPanel.removeAll();
         if (eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
             eventInputPanel.add(_loadChangePanel);
@@ -93,7 +88,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
             eventInputPanel.add(_branchOutagePanel);
         }
         else {
-            eventInputPanel.add(_faultLocDataPanel);
+            eventInputPanel.add(_dstabFaultDataPanel);
         }
     }
     
@@ -110,17 +105,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         if (_eventData.getEventName() != null && !_eventData.getEventName().equals(""))
         	eventListComboBox.setSelectedItem(_eventData.getEventName());
         
-        stratTimeTextField.setText(Number2String.toStr(_eventData.getStartTime(), "#0.0#"));
-
-        if (_eventData.isPermanent() || _eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
-        	permanetCheckBox.setSelected(true);
-        }
-        else {
-        	permanetCheckBox.setSelected(false);
-            durationTextField.setText(Number2String.toStr(_eventData.getDuration(), "#0.00#"));
-        }
-        permanetCheckBoxActionPerformed(null);
-
         if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
             loadChangeRadioButton.setSelected(true);        	
         	_loadChangePanel.setForm2Editor();
@@ -136,7 +120,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         	else {
         		busFaultRadioButton.setSelected(true);
         	}
-        	_faultLocDataPanel.setForm2Editor();
+        	_dstabFaultDataPanel.setForm2Editor();
         }	
 
 		return true;
@@ -160,22 +144,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     	}
     	_eventData.setEventName(eventName);
 
-    	if (!SwingInputVerifyUtil.largeEqualThan(stratTimeTextField, 0.0d)) {
-			errMsg.add("Dynamic event start time < 0.0");
-			ok = false;
-		}
-    	_eventData.setStartTime(SwingInputVerifyUtil.getDouble(stratTimeTextField));
-
-        _eventData.setPermanent(permanetCheckBox.isSelected());
-
-        if (!permanetCheckBox.isSelected()) {
-            if (!SwingInputVerifyUtil.largeThan(durationTextField, 0.0d)) {
-    			errMsg.add("Dynamic event duration  <= 0.0");
-    			ok = false;
-    		}
-            _eventData.setDuration(SwingInputVerifyUtil.getDouble(durationTextField));
-        }
-        
         if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
             if (!_loadChangePanel.saveEditor2Form(errMsg))
             	ok = false;
@@ -185,7 +153,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
             	ok = false;
         }
         else {
-            if (!_faultLocDataPanel.saveEditor2Form(errMsg))
+            if (!_dstabFaultDataPanel.saveEditor2Form(errMsg))
             	ok = false;
 
             if (_eventData.getFaultData().getType().equals(AcscFaultData.FaultType_BranchFault) 
@@ -209,48 +177,23 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         eventTypeButtonGroup = new javax.swing.ButtonGroup();
         dynamicEventPanel = new javax.swing.JPanel();
-        eventListPanel = new javax.swing.JPanel();
-        durationLabel = new javax.swing.JLabel();
         eventListLabel = new javax.swing.JLabel();
-        permanetCheckBox = new javax.swing.JCheckBox();
         eventListComboBox = new javax.swing.JComboBox();
-        durationTextField = new javax.swing.JTextField();
-        stratTimeTextField = new javax.swing.JTextField();
-        startTimeLabel = new javax.swing.JLabel();
-        eventTypePanel = new javax.swing.JPanel();
         busFaultRadioButton = new javax.swing.JRadioButton();
         branchFaultRadioButton = new javax.swing.JRadioButton();
         branchOutageRadioButton = new javax.swing.JRadioButton();
         loadChangeRadioButton = new javax.swing.JRadioButton();
         eventInputPanel = new javax.swing.JPanel();
         controlPanel = new javax.swing.JPanel();
-        saveEventButton = new javax.swing.JButton();
         addEventButton = new javax.swing.JButton();
+        saveEventButton = new javax.swing.JButton();
         deleteEventButton = new javax.swing.JButton();
-
-        setLayout(new java.awt.BorderLayout());
-
-        dynamicEventPanel.setLayout(new java.awt.GridBagLayout());
-
-        durationLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        durationLabel.setText("          Duration(sec)   ");
 
         eventListLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         eventListLabel.setText("Dynamic Event List     ");
-
-        permanetCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        permanetCheckBox.setText("Permanent");
-        permanetCheckBox.setToolTipText("A permanent fault is clear by disconnecting all associated branches");
-        permanetCheckBox.setName("permanetCheckBox"); // NOI18N
-        permanetCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                permanetCheckBoxActionPerformed(evt);
-            }
-        });
 
         eventListComboBox.setEditable(true);
         eventListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -260,63 +203,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 eventListComboBoxActionPerformed(evt);
             }
         });
-
-        durationTextField.setColumns(4);
-        durationTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        durationTextField.setText("0.1");
-        durationTextField.setName("durationTextField"); // NOI18N
-
-        stratTimeTextField.setColumns(4);
-        stratTimeTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        stratTimeTextField.setText("0.0");
-        stratTimeTextField.setDragEnabled(true);
-        stratTimeTextField.setName("stratTimeTextField"); // NOI18N
-
-        startTimeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        startTimeLabel.setText("          Start Time(sec)   ");
-
-        org.jdesktop.layout.GroupLayout eventListPanelLayout = new org.jdesktop.layout.GroupLayout(eventListPanel);
-        eventListPanel.setLayout(eventListPanelLayout);
-        eventListPanelLayout.setHorizontalGroup(
-            eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(eventListPanelLayout.createSequentialGroup()
-                .add(eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(eventListPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(startTimeLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(stratTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(14, 14, 14)
-                        .add(durationLabel)
-                        .add(18, 18, 18)
-                        .add(durationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(31, 31, 31)
-                        .add(permanetCheckBox))
-                    .add(eventListPanelLayout.createSequentialGroup()
-                        .add(142, 142, 142)
-                        .add(eventListLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(61, 61, 61))
-        );
-        eventListPanelLayout.setVerticalGroup(
-            eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(eventListPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(eventListLabel)
-                    .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(10, 10, 10)
-                .add(eventListPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(durationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(durationLabel)
-                    .add(stratTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(startTimeLabel)
-                    .add(permanetCheckBox))
-                .addContainerGap())
-        );
-
-        dynamicEventPanel.add(eventListPanel, new java.awt.GridBagConstraints());
 
         eventTypeButtonGroup.add(busFaultRadioButton);
         busFaultRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -328,7 +214,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 busFaultRadioButtonActionPerformed(evt);
             }
         });
-        eventTypePanel.add(busFaultRadioButton);
 
         eventTypeButtonGroup.add(branchFaultRadioButton);
         branchFaultRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -339,7 +224,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 branchFaultRadioButtonActionPerformed(evt);
             }
         });
-        eventTypePanel.add(branchFaultRadioButton);
 
         eventTypeButtonGroup.add(branchOutageRadioButton);
         branchOutageRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -351,7 +235,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 branchOutageRadioButtonActionPerformed(evt);
             }
         });
-        eventTypePanel.add(branchOutageRadioButton);
 
         eventTypeButtonGroup.add(loadChangeRadioButton);
         loadChangeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -363,26 +246,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 loadChangeRadioButtonActionPerformed(evt);
             }
         });
-        eventTypePanel.add(loadChangeRadioButton);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 15, 0);
-        dynamicEventPanel.add(eventTypePanel, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 20);
-        dynamicEventPanel.add(eventInputPanel, gridBagConstraints);
-
-        saveEventButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        saveEventButton.setText("SaveEvent");
-        saveEventButton.setName("saveEventButton"); // NOI18N
-        saveEventButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveEventButtonActionPerformed(evt);
-            }
-        });
-        controlPanel.add(saveEventButton);
+        controlPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 20));
 
         addEventButton.setFont(new java.awt.Font("Dialog", 0, 12));
         addEventButton.setText("AddEvent");
@@ -394,6 +259,16 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         });
         controlPanel.add(addEventButton);
 
+        saveEventButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        saveEventButton.setText("SaveEvent");
+        saveEventButton.setName("saveEventButton"); // NOI18N
+        saveEventButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveEventButtonActionPerformed(evt);
+            }
+        });
+        controlPanel.add(saveEventButton);
+
         deleteEventButton.setFont(new java.awt.Font("Dialog", 0, 12));
         deleteEventButton.setText("DeleteEvent");
         deleteEventButton.setName("deleteEventButton"); // NOI18N
@@ -404,29 +279,71 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         });
         controlPanel.add(deleteEventButton);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 15, 0);
-        dynamicEventPanel.add(controlPanel, gridBagConstraints);
+        org.jdesktop.layout.GroupLayout dynamicEventPanelLayout = new org.jdesktop.layout.GroupLayout(dynamicEventPanel);
+        dynamicEventPanel.setLayout(dynamicEventPanelLayout);
+        dynamicEventPanelLayout.setHorizontalGroup(
+            dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(dynamicEventPanelLayout.createSequentialGroup()
+                .add(dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(dynamicEventPanelLayout.createSequentialGroup()
+                        .add(80, 80, 80)
+                        .add(eventListLabel)
+                        .add(29, 29, 29)
+                        .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(dynamicEventPanelLayout.createSequentialGroup()
+                        .add(104, 104, 104)
+                        .add(controlPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(dynamicEventPanelLayout.createSequentialGroup()
+                        .add(54, 54, 54)
+                        .add(busFaultRadioButton)
+                        .add(5, 5, 5)
+                        .add(branchFaultRadioButton)
+                        .add(5, 5, 5)
+                        .add(branchOutageRadioButton)
+                        .add(5, 5, 5)
+                        .add(loadChangeRadioButton)))
+                .addContainerGap(112, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, dynamicEventPanelLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(eventInputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 525, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        dynamicEventPanelLayout.setVerticalGroup(
+            dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, dynamicEventPanelLayout.createSequentialGroup()
+                .add(18, 18, 18)
+                .add(dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(eventListLabel)
+                    .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
+                .add(dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(busFaultRadioButton)
+                    .add(branchFaultRadioButton)
+                    .add(dynamicEventPanelLayout.createSequentialGroup()
+                        .add(4, 4, 4)
+                        .add(branchOutageRadioButton))
+                    .add(dynamicEventPanelLayout.createSequentialGroup()
+                        .add(4, 4, 4)
+                        .add(loadChangeRadioButton)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(eventInputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .add(20, 20, 20)
+                .add(controlPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
 
-        add(dynamicEventPanel, java.awt.BorderLayout.CENTER);
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(dynamicEventPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(dynamicEventPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void branchOutageRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchOutageRadioButtonActionPerformed
-		_eventData.setType(DStabDEventData.DEventType_BranchOutage);
-    	_eventData.getFaultData().setType(AcscFaultData.FaultType_BranchOutage);
-		permanetCheckBox.setSelected(true);
-        permanetCheckBoxActionPerformed(null);
-    	IpssLogger.getLogger().info("Branch outage event :" + _eventData.getEventName());
-    	// refresh the fault data editing screen, which is depending on the caseData.faulData object
-        refreshEditorPanel();
-    }//GEN-LAST:event_branchOutageRadioButtonActionPerformed
-
-    private void permanetCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_permanetCheckBoxActionPerformed
-   	    durationLabel.setEnabled(!permanetCheckBox.isSelected());
-   	    durationTextField.setEnabled(!permanetCheckBox.isSelected());
-   	    _faultLocDataPanel.setBranchReclosureStatus(!permanetCheckBox.isSelected());
-    }//GEN-LAST:event_permanetCheckBoxActionPerformed
 
     private void deleteEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEventButtonActionPerformed
 		_caseData.removeDEventData(_eventData);
@@ -505,6 +422,14 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         refreshEditorPanel();
     }//GEN-LAST:event_loadChangeRadioButtonActionPerformed
 
+    private void branchOutageRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchOutageRadioButtonActionPerformed
+		_eventData.setType(DStabDEventData.DEventType_BranchOutage);
+    	_eventData.getFaultData().setType(AcscFaultData.FaultType_BranchOutage);
+    	IpssLogger.getLogger().info("Branch outage event :" + _eventData.getEventName());
+    	// refresh the fault data editing screen, which is depending on the caseData.faulData object
+        refreshEditorPanel();
+    }//GEN-LAST:event_branchOutageRadioButtonActionPerformed
+
     private void refreshEditorPanel() {
         eventInputPanel.removeAll();
 		if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
@@ -514,10 +439,10 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 			eventInputPanel.add(_branchOutagePanel);
 		}
 		else {
-	        eventInputPanel.add(_faultLocDataPanel);
-    		_faultLocDataPanel.setBusBranchFaultPanel();
+	        eventInputPanel.add(_dstabFaultDataPanel);
+    		_dstabFaultDataPanel.refresh();
 		}
-    	SimuAppSpringAppContext.getCaseInfoDialog().pack();
+    	//SimuAppSpringAppContext.getCaseInfoDialog().pack();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -527,34 +452,13 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     private javax.swing.JRadioButton busFaultRadioButton;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JButton deleteEventButton;
-    private javax.swing.JLabel durationLabel;
-    private javax.swing.JTextField durationTextField;
     private javax.swing.JPanel dynamicEventPanel;
     private javax.swing.JPanel eventInputPanel;
     private javax.swing.JComboBox eventListComboBox;
     private javax.swing.JLabel eventListLabel;
-    private javax.swing.JPanel eventListPanel;
     private javax.swing.ButtonGroup eventTypeButtonGroup;
-    private javax.swing.JPanel eventTypePanel;
     private javax.swing.JRadioButton loadChangeRadioButton;
-    private javax.swing.JCheckBox permanetCheckBox;
     private javax.swing.JButton saveEventButton;
-    private javax.swing.JLabel startTimeLabel;
-    private javax.swing.JTextField stratTimeTextField;
     // End of variables declaration//GEN-END:variables
     
-	class DataVerifier extends javax.swing.InputVerifier {
-		public boolean verify(javax.swing.JComponent input) {
-			if (input == null)
-				return false;
-			try {
-       			if (input == stratTimeTextField ||
-           			input == durationTextField)
-     	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
-			} catch (Exception e) {
-				return false;
-			}		
-			return true;
-		}
-	}
 }

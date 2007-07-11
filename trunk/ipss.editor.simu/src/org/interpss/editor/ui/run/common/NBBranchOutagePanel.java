@@ -27,9 +27,11 @@ package org.interpss.editor.ui.run.common;
 import java.util.Vector;
 
 import org.interpss.editor.data.acsc.AcscFaultData;
+import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
+import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
@@ -39,11 +41,14 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
 
 	private GFormContainer _netContainer = null;
     private SimuContext _simuCtx = null;	
-	private AcscFaultData _faultData = null;
+	private DStabDEventData _eventData = null;  // current event data
 	
     /** Creates new form FaultLocDataPanel */
     public NBBranchOutagePanel() {
         initComponents();
+
+        DataVerifier verifier = new DataVerifier();
+        stratTimeTextField.setInputVerifier(verifier);
     }
     
 	public void init(Object netContainer, Object simuCtx) {
@@ -65,8 +70,8 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
     	}
 	}
 	
-	public void setFaultData(AcscFaultData data) {
-		_faultData = data;
+	public void setDStabDEventData(DStabDEventData data) {
+		_eventData = data;
 	}
 	
 	/**
@@ -77,18 +82,18 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBBranchOutagePanel setForm2Editor() called");
 
-        if (_faultData.getBusBranchNameId().equals("")) {
+        if (_eventData.getFaultData().getBusBranchNameId().equals("")) {
             IpssLogger.getLogger().info("faultBranchComboBox.getSelectedItem() -> " + this.faultBranchComboBox.getSelectedItem());
             this.faultBranchComboBox.setSelectedIndex(0);
         }    
         else
-             this.faultBranchComboBox.setSelectedItem(_faultData.getBusBranchNameId());
+             this.faultBranchComboBox.setSelectedItem(_eventData.getFaultData().getBusBranchNameId());
         
-		if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Outage_3P))
+		if (_eventData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Outage_3P))
 			branchOutage3PRadioButton.setSelected(true);
-		else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Outage_1P))
+		else if (_eventData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Outage_1P))
 			branchOutage1PRadioButton.setSelected(true);
-		else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Outage_2P))
+		else if (_eventData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Outage_2P))
 			branchOutage2PRadioButton.setSelected(true);
 
 		return true;
@@ -105,13 +110,13 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
 
 		boolean ok = true;
 
-		_faultData.setBusBranchNameId((String)this.faultBranchComboBox.getSelectedItem());
+		_eventData.getFaultData().setBusBranchNameId((String)this.faultBranchComboBox.getSelectedItem());
 		if (branchOutage3PRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_Outage_3P);
+			_eventData.getFaultData().setCategory(AcscFaultData.FaultCaty_Outage_3P);
 		else if (branchOutage1PRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_Outage_1P);
+			_eventData.getFaultData().setCategory(AcscFaultData.FaultCaty_Outage_1P);
 		else if (branchOutage2PRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_Outage_2P);
+			_eventData.getFaultData().setCategory(AcscFaultData.FaultCaty_Outage_2P);
 
 		return ok;
 	}
@@ -130,6 +135,8 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
         branchOutage3PRadioButton = new javax.swing.JRadioButton();
         branchOutage1PRadioButton = new javax.swing.JRadioButton();
         branchOutage2PRadioButton = new javax.swing.JRadioButton();
+        startTimeLabel = new javax.swing.JLabel();
+        stratTimeTextField = new javax.swing.JTextField();
 
         faultBranchComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Branch id list" }));
@@ -161,38 +168,58 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
         branchOutage2PRadioButton.setEnabled(false);
         branchOutage2PRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
+        startTimeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        startTimeLabel.setText("          Start Time(sec)   ");
+
+        stratTimeTextField.setColumns(4);
+        stratTimeTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        stratTimeTextField.setText("0.0");
+        stratTimeTextField.setDragEnabled(true);
+        stratTimeTextField.setName("stratTimeTextField"); // NOI18N
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(51, 51, 51)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(faultBranchLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 111, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(faultBranchComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 192, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(52, 52, 52)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(branchOutage3PRadioButton)
+                                .add(45, 45, 45)
+                                .add(branchOutage1PRadioButton)
+                                .add(32, 32, 32)
+                                .add(branchOutage2PRadioButton))
+                            .add(layout.createSequentialGroup()
+                                .add(faultBranchLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 111, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(faultBranchComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 192, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                     .add(layout.createSequentialGroup()
-                        .add(branchOutage3PRadioButton)
-                        .add(45, 45, 45)
-                        .add(branchOutage1PRadioButton)
-                        .add(32, 32, 32)
-                        .add(branchOutage2PRadioButton)))
-                .addContainerGap(27, Short.MAX_VALUE))
+                        .add(114, 114, 114)
+                        .add(startTimeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(stratTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(63, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(35, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(stratTimeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(startTimeLabel))
+                .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(faultBranchLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(faultBranchComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(18, 18, 18)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(branchOutage2PRadioButton)
                     .add(branchOutage1PRadioButton)
                     .add(branchOutage3PRadioButton))
-                .addContainerGap(21, Short.MAX_VALUE))
+                .add(23, 23, 23))
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -204,5 +231,22 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
     private javax.swing.JComboBox faultBranchComboBox;
     private javax.swing.JLabel faultBranchLabel;
     private javax.swing.ButtonGroup outageButtonGroup;
+    private javax.swing.JLabel startTimeLabel;
+    private javax.swing.JTextField stratTimeTextField;
     // End of variables declaration//GEN-END:variables
+    
+	class DataVerifier extends javax.swing.InputVerifier {
+		public boolean verify(javax.swing.JComponent input) {
+			if (input == null)
+				return false;
+			try {
+       			if (input == stratTimeTextField )
+     	       			return SwingInputVerifyUtil.getDouble((javax.swing.JTextField)input) >= 0.0;
+			} catch (Exception e) {
+				return false;
+			}		
+			return true;
+		}
+	}
+    
 }

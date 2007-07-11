@@ -41,7 +41,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
 	private GFormContainer _netContainer = null;
     private SimuContext _simuCtx = null;	
-	private AcscFaultData _faultData = null;
+	private AcscFaultData _faultData = null;  // current event data
 	
     /** Creates new form FaultLocDataPanel */
     public NBFaultLocDataPanel() {
@@ -94,7 +94,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         faultLocPanel.remove(busFaultPanel);
         faultLocPanel.remove(branchFaultPanel);
         if (_faultData.getType().equals(AcscFaultData.FaultType_BusFault)) {
-            faultLocPanel.add(busFaultPanel, java.awt.BorderLayout.NORTH);
+            faultLocPanel.add(busFaultPanel);
             if (_faultData.getBusBranchNameId().equals("")) {
                 IpssLogger.getLogger().info("faultBusComboBox.getSelectedItem() -> " + this.faultBusComboBox.getSelectedItem());
                 if (this.faultBusComboBox.getSelectedItem() != null)
@@ -106,7 +106,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
             IpssLogger.getLogger().info("Bus Fault input panel added");
         }	
         else{
-            faultLocPanel.add(branchFaultPanel, java.awt.BorderLayout.NORTH);
+            faultLocPanel.add(branchFaultPanel);
            if (_faultData.getBusBranchNameId().equals("")) {
                IpssLogger.getLogger().info("faultBranchComboBox.getSelectedItem() -> " + this.faultBranchComboBox.getSelectedItem());
                this.faultBranchComboBox.setSelectedIndex(0);
@@ -124,8 +124,6 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 	* @return false if there is any problem
 	*/
     public boolean setForm2Editor() {
-		IpssLogger.getLogger().info("NBFaultLocDataPanel setForm2Editor() called");
-
 	    reclosureCheckBox.setSelected(_faultData.isBranchReclosure());		
         branchReclosureCheckboxActionPerformed(null);
 	    atReclosureTimeTextField.setText(Number2String.toStr(_faultData.getReclosureTime(), "0.00"));
@@ -168,9 +166,11 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 		IpssLogger.getLogger().info("NBFaultLocDataPanel saveEditor2Form() called");
 
 		boolean ok = true;
+    	
+    	IpssLogger.getLogger().info("NBFaultLocDataPanel setForm2Editor() called");
 
-		if (_faultData.getType().equals(AcscFaultData.FaultType_BusFault))
-			_faultData.setBusBranchNameId((String)this.faultBusComboBox.getSelectedItem());
+        if (_faultData.getType().equals(AcscFaultData.FaultType_BusFault))
+        	_faultData.setBusBranchNameId((String)this.faultBusComboBox.getSelectedItem());
 		else 
 			_faultData.setBusBranchNameId((String)this.faultBranchComboBox.getSelectedItem());
 		
@@ -273,7 +273,6 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         faultTypeButtonGroup = new javax.swing.ButtonGroup();
         faultLocPanel = new javax.swing.JPanel();
@@ -306,21 +305,34 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         xLLTextField = new javax.swing.JTextField();
         zLLUnitLabel = new javax.swing.JLabel();
 
-        setLayout(new java.awt.GridBagLayout());
-
-        faultLocPanel.setLayout(new java.awt.BorderLayout());
-
         faultBusLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         faultBusLabel.setText("Fault Bus   ");
         faultBusLabel.setPreferredSize(new java.awt.Dimension(70, 25));
-        busFaultPanel.add(faultBusLabel);
 
         faultBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         faultBusComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Bus id list" }));
-        faultBusComboBox.setName("faultBusComboBox");
-        busFaultPanel.add(faultBusComboBox);
+        faultBusComboBox.setName("faultBusComboBox"); // NOI18N
 
-        faultLocPanel.add(busFaultPanel, java.awt.BorderLayout.NORTH);
+        org.jdesktop.layout.GroupLayout busFaultPanelLayout = new org.jdesktop.layout.GroupLayout(busFaultPanel);
+        busFaultPanel.setLayout(busFaultPanelLayout);
+        busFaultPanelLayout.setHorizontalGroup(
+            busFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(busFaultPanelLayout.createSequentialGroup()
+                .add(164, 164, 164)
+                .add(faultBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(41, 41, 41)
+                .add(faultBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(193, Short.MAX_VALUE))
+        );
+        busFaultPanelLayout.setVerticalGroup(
+            busFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, busFaultPanelLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(busFaultPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(faultBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(faultBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         faultBranchLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         faultBranchLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -329,7 +341,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
         faultBranchComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Branch id list" }));
-        faultBranchComboBox.setName("faultBranchComboBox");
+        faultBranchComboBox.setName("faultBranchComboBox"); // NOI18N
 
         distanceLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         distanceLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -339,7 +351,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         distanceTextField.setColumns(5);
         distanceTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         distanceTextField.setText("0.0");
-        distanceTextField.setName("distanceTextField");
+        distanceTextField.setName("distanceTextField"); // NOI18N
 
         disUnitLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         disUnitLabel.setText("(% from FromSide)");
@@ -409,147 +421,224 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
                         .add(5, 5, 5)
                         .add(disUnitLabel))))
         );
-        faultLocPanel.add(branchFaultPanel, java.awt.BorderLayout.SOUTH);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 0;
-        add(faultLocPanel, gridBagConstraints);
+        org.jdesktop.layout.GroupLayout faultLocPanelLayout = new org.jdesktop.layout.GroupLayout(faultLocPanel);
+        faultLocPanel.setLayout(faultLocPanelLayout);
+        faultLocPanelLayout.setHorizontalGroup(
+            faultLocPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, faultLocPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(faultLocPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, busFaultPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, branchFaultPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(40, 40, 40))
+        );
+        faultLocPanelLayout.setVerticalGroup(
+            faultLocPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(faultLocPanelLayout.createSequentialGroup()
+                .add(busFaultPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(branchFaultPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
 
-        faultTypePanel.setLayout(new java.awt.GridBagLayout());
-
-        typePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
-
-        typePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Fault Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         faultTypeButtonGroup.add(type3PRadioButton);
         type3PRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         type3PRadioButton.setSelected(true);
         type3PRadioButton.setText("3P");
-        type3PRadioButton.setName("type3PRadioButton");
+        type3PRadioButton.setName("type3PRadioButton"); // NOI18N
         type3PRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 type3PRadioButtonActionPerformed(evt);
             }
         });
 
-        typePanel.add(type3PRadioButton);
-
         faultTypeButtonGroup.add(typeLGRadioButton);
         typeLGRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         typeLGRadioButton.setText("L-G");
-        typeLGRadioButton.setName("typeLGRadioButton");
+        typeLGRadioButton.setName("typeLGRadioButton"); // NOI18N
         typeLGRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 typeLGRadioButtonActionPerformed(evt);
             }
         });
 
-        typePanel.add(typeLGRadioButton);
-
         faultTypeButtonGroup.add(typeLLRadioButton);
         typeLLRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         typeLLRadioButton.setText("L-L");
-        typeLLRadioButton.setName("typeLLRadioButton");
+        typeLLRadioButton.setName("typeLLRadioButton"); // NOI18N
         typeLLRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 typeLLRadioButtonActionPerformed(evt);
             }
         });
 
-        typePanel.add(typeLLRadioButton);
-
         faultTypeButtonGroup.add(typeLLGRadioButton);
         typeLLGRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         typeLLGRadioButton.setText("LL-G");
-        typeLLGRadioButton.setName("typeLLGRadioButton");
+        typeLLGRadioButton.setName("typeLLGRadioButton"); // NOI18N
         typeLLGRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 typeLLGRadioButtonActionPerformed(evt);
             }
         });
 
-        typePanel.add(typeLLGRadioButton);
-
         faultTypeButtonGroup.add(typeAllRadioButton);
         typeAllRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         typeAllRadioButton.setText("All");
         typeAllRadioButton.setEnabled(false);
-        typeAllRadioButton.setName("typeAllRadioButton");
+        typeAllRadioButton.setName("typeAllRadioButton"); // NOI18N
         typeAllRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 typeAllRadioButtonActionPerformed(evt);
             }
         });
 
-        typePanel.add(typeAllRadioButton);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 30);
-        faultTypePanel.add(typePanel, gridBagConstraints);
-
-        faultZPanel.setLayout(new java.awt.GridBagLayout());
+        org.jdesktop.layout.GroupLayout typePanelLayout = new org.jdesktop.layout.GroupLayout(typePanel);
+        typePanel.setLayout(typePanelLayout);
+        typePanelLayout.setHorizontalGroup(
+            typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(typePanelLayout.createSequentialGroup()
+                .add(20, 20, 20)
+                .add(type3PRadioButton)
+                .add(20, 20, 20)
+                .add(typeLGRadioButton)
+                .add(20, 20, 20)
+                .add(typeLLRadioButton)
+                .add(20, 20, 20)
+                .add(typeLLGRadioButton)
+                .add(20, 20, 20)
+                .add(typeAllRadioButton))
+        );
+        typePanelLayout.setVerticalGroup(
+            typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(typePanelLayout.createSequentialGroup()
+                .add(5, 5, 5)
+                .add(typePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(type3PRadioButton)
+                    .add(typeLGRadioButton)
+                    .add(typeLLRadioButton)
+                    .add(typeLLGRadioButton)
+                    .add(typeAllRadioButton)))
+        );
 
         zLGLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         zLGLabel.setText("L-G(r+jx)     ");
-        faultZPanel.add(zLGLabel, new java.awt.GridBagConstraints());
 
         rLGTextField.setColumns(8);
         rLGTextField.setText("0.0");
-        rLGTextField.setName("rLGTextField");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 5, 0);
-        faultZPanel.add(rLGTextField, gridBagConstraints);
+        rLGTextField.setName("rLGTextField"); // NOI18N
 
         xLGTextField.setColumns(8);
         xLGTextField.setText("0.0");
-        xLGTextField.setName("xLGTextField");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 5, 0);
-        faultZPanel.add(xLGTextField, gridBagConstraints);
+        xLGTextField.setName("xLGTextField"); // NOI18N
 
         zLGUnitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         zLGUnitLabel.setText("     (Ohms)");
-        faultZPanel.add(zLGUnitLabel, new java.awt.GridBagConstraints());
 
         zLLLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         zLLLabel.setText("L-L(r+jx)     ");
         zLLLabel.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        faultZPanel.add(zLLLabel, gridBagConstraints);
 
         rLLTextField.setColumns(8);
         rLLTextField.setText("0.0");
         rLLTextField.setEnabled(false);
-        rLLTextField.setName("rLLTextField");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        faultZPanel.add(rLLTextField, gridBagConstraints);
+        rLLTextField.setName("rLLTextField"); // NOI18N
 
         xLLTextField.setColumns(8);
         xLLTextField.setText("0.0");
         xLLTextField.setEnabled(false);
-        xLLTextField.setName("xLLTextField");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
-        faultZPanel.add(xLLTextField, gridBagConstraints);
+        xLLTextField.setName("xLLTextField"); // NOI18N
 
         zLLUnitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         zLLUnitLabel.setText("     (Ohms)");
         zLLUnitLabel.setEnabled(false);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        faultZPanel.add(zLLUnitLabel, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
-        faultTypePanel.add(faultZPanel, gridBagConstraints);
+        org.jdesktop.layout.GroupLayout faultZPanelLayout = new org.jdesktop.layout.GroupLayout(faultZPanel);
+        faultZPanel.setLayout(faultZPanelLayout);
+        faultZPanelLayout.setHorizontalGroup(
+            faultZPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(faultZPanelLayout.createSequentialGroup()
+                .add(zLGLabel)
+                .add(rLGTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(20, 20, 20)
+                .add(xLGTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(zLGUnitLabel))
+            .add(faultZPanelLayout.createSequentialGroup()
+                .add(1, 1, 1)
+                .add(zLLLabel)
+                .add(1, 1, 1)
+                .add(rLLTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(20, 20, 20)
+                .add(xLLTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(zLLUnitLabel))
+        );
+        faultZPanelLayout.setVerticalGroup(
+            faultZPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(faultZPanelLayout.createSequentialGroup()
+                .add(9, 9, 9)
+                .add(faultZPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(zLGLabel)
+                    .add(faultZPanelLayout.createSequentialGroup()
+                        .add(1, 1, 1)
+                        .add(rLGTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(faultZPanelLayout.createSequentialGroup()
+                        .add(1, 1, 1)
+                        .add(xLGTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(zLGUnitLabel))
+                .add(5, 5, 5)
+                .add(faultZPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(faultZPanelLayout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(zLLLabel))
+                    .add(rLLTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(xLLTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(faultZPanelLayout.createSequentialGroup()
+                        .add(2, 2, 2)
+                        .add(zLLUnitLabel))))
+        );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        add(faultTypePanel, gridBagConstraints);
+        org.jdesktop.layout.GroupLayout faultTypePanelLayout = new org.jdesktop.layout.GroupLayout(faultTypePanel);
+        faultTypePanel.setLayout(faultTypePanelLayout);
+        faultTypePanelLayout.setHorizontalGroup(
+            faultTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(faultTypePanelLayout.createSequentialGroup()
+                .add(30, 30, 30)
+                .add(typePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(faultTypePanelLayout.createSequentialGroup()
+                .add(51, 51, 51)
+                .add(faultZPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
+        faultTypePanelLayout.setVerticalGroup(
+            faultTypePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(faultTypePanelLayout.createSequentialGroup()
+                .add(typePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(10, 10, 10)
+                .add(faultZPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+        );
 
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(149, 149, 149)
+                .add(faultTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(119, Short.MAX_VALUE))
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(faultLocPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(faultLocPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(faultTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
     }// </editor-fold>//GEN-END:initComponents
 
     private void branchReclosureCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchReclosureCheckboxActionPerformed
