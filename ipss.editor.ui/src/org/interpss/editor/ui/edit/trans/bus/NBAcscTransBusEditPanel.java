@@ -190,6 +190,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         scBusTypePanel = new javax.swing.JPanel();
         contributeRadioButton = new javax.swing.JRadioButton();
         nonContributeRadioButton = new javax.swing.JRadioButton();
+        scriptRadioButton = new javax.swing.JRadioButton();
         scBusInfojPanel = new javax.swing.JPanel();
         r1Label = new javax.swing.JLabel();
         r1TextField = new javax.swing.JTextField();
@@ -204,28 +205,32 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         x0Label = new javax.swing.JLabel();
         x0TextField = new javax.swing.JTextField();
         groundingPanel = new javax.swing.JPanel();
+        scriptPanel = new javax.swing.JPanel();
+        acscBusScriptScrollPane = new javax.swing.JScrollPane();
+        acscBusScriptTextArea = new javax.swing.JTextArea();
 
         setLayout(new java.awt.BorderLayout());
 
         acscTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
-        acscTabbedPane.setName("acscTabbedPane");
-        aclfInfoEditPanel.setLayout(new java.awt.BorderLayout());
+        acscTabbedPane.setName("acscTabbedPane"); // NOI18N
 
+        aclfInfoEditPanel.setLayout(new java.awt.BorderLayout());
         acscTabbedPane.addTab("Loadflow", aclfInfoEditPanel);
 
         acscInfoEditPanel.setLayout(new java.awt.GridBagLayout());
 
         scBusTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Sc Bus Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        scBusTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
+
         scBusTypeButtonGroup.add(contributeRadioButton);
         contributeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        contributeRadioButton.setText("Contribute     ");
-        contributeRadioButton.setName("contributeRadioButton");
+        contributeRadioButton.setText("Contribute");
+        contributeRadioButton.setName("contributeRadioButton"); // NOI18N
         contributeRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 contributeRadioButtonActionPerformed(evt);
             }
         });
-
         scBusTypePanel.add(contributeRadioButton);
 
         scBusTypeButtonGroup.add(nonContributeRadioButton);
@@ -233,14 +238,25 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         nonContributeRadioButton.setSelected(true);
         nonContributeRadioButton.setText("NonContribute");
         nonContributeRadioButton.setAutoscrolls(true);
-        nonContributeRadioButton.setName("nonContributeRadioButton");
+        nonContributeRadioButton.setName("nonContributeRadioButton"); // NOI18N
         nonContributeRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nonContributeRadioButtonActionPerformed(evt);
             }
         });
-
         scBusTypePanel.add(nonContributeRadioButton);
+
+        scBusTypeButtonGroup.add(scriptRadioButton);
+        scriptRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        scriptRadioButton.setText("Scripting");
+        scriptRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scriptRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        scriptRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scriptRadioButtonActionPerformed(evt);
+            }
+        });
+        scBusTypePanel.add(scriptRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
@@ -257,7 +273,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         r1TextField.setColumns(8);
         r1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         r1TextField.setText("0.0");
-        r1TextField.setName("r1TextField");
+        r1TextField.setName("r1TextField"); // NOI18N
         scBusInfojPanel.add(r1TextField, new java.awt.GridBagConstraints());
 
         x1Label.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -267,7 +283,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         x1TextField.setColumns(8);
         x1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         x1TextField.setText("0.0");
-        x1TextField.setName("x1TextField");
+        x1TextField.setName("x1TextField"); // NOI18N
         scBusInfojPanel.add(x1TextField, new java.awt.GridBagConstraints());
 
         r2Label.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -279,7 +295,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         r2TextField.setColumns(8);
         r2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         r2TextField.setText("0.0");
-        r2TextField.setName("r2TextField");
+        r2TextField.setName("r2TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
@@ -294,7 +310,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         x2TextField.setColumns(8);
         x2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         x2TextField.setText("0.0");
-        x2TextField.setName("x2TextField");
+        x2TextField.setName("x2TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         scBusInfojPanel.add(x2TextField, gridBagConstraints);
@@ -308,7 +324,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         r0TextField.setColumns(8);
         r0TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         r0TextField.setText("0.0");
-        r0TextField.setName("r0TextField");
+        r0TextField.setName("r0TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         scBusInfojPanel.add(r0TextField, gridBagConstraints);
@@ -322,7 +338,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         x0TextField.setColumns(8);
         x0TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         x0TextField.setText("0.0");
-        x0TextField.setName("x0TextField");
+        x0TextField.setName("x0TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         scBusInfojPanel.add(x0TextField, gridBagConstraints);
@@ -332,7 +348,6 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
         acscInfoEditPanel.add(scBusInfojPanel, gridBagConstraints);
 
         groundingPanel.setLayout(new java.awt.BorderLayout());
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
@@ -340,11 +355,24 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 
         acscTabbedPane.addTab("Short Circuit", acscInfoEditPanel);
 
+        acscBusScriptTextArea.setColumns(80);
+        acscBusScriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
+        acscBusScriptTextArea.setRows(35);
+        acscBusScriptTextArea.setTabSize(3);
+        acscBusScriptScrollPane.setViewportView(acscBusScriptTextArea);
+
+        scriptPanel.add(acscBusScriptScrollPane);
+
+        acscTabbedPane.addTab("SC Bus Scripting", scriptPanel);
+
         acscTabbedPane.setSelectedIndex(1);
 
         add(acscTabbedPane, java.awt.BorderLayout.CENTER);
-
     }// </editor-fold>//GEN-END:initComponents
+
+private void scriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptRadioButtonActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_scriptRadioButtonActionPerformed
 
     private void setRXLabelText(boolean enable) {
         r1Label.setEnabled(enable);
@@ -382,6 +410,8 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel aclfInfoEditPanel;
+    private javax.swing.JScrollPane acscBusScriptScrollPane;
+    private javax.swing.JTextArea acscBusScriptTextArea;
     private javax.swing.JPanel acscInfoEditPanel;
     private javax.swing.JTabbedPane acscTabbedPane;
     private javax.swing.JRadioButton contributeRadioButton;
@@ -396,6 +426,8 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
     private javax.swing.JPanel scBusInfojPanel;
     private javax.swing.ButtonGroup scBusTypeButtonGroup;
     private javax.swing.JPanel scBusTypePanel;
+    private javax.swing.JPanel scriptPanel;
+    private javax.swing.JRadioButton scriptRadioButton;
     private javax.swing.JLabel x0Label;
     private javax.swing.JTextField x0TextField;
     private javax.swing.JLabel x1Label;

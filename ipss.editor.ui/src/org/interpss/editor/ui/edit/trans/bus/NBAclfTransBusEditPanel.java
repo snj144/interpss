@@ -103,6 +103,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    adjustCheckBox.setEnabled(false);
 		    funcLoadRadioButton.setEnabled(false);
 		}
+		busTabbedPane.setEnabledAt(1, false);
 	}
 	
     public boolean setForm2Editor() {
@@ -437,6 +438,8 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         reQControlButtonGroup = new javax.swing.ButtonGroup();
         flowDirectionButtonGroup = new javax.swing.ButtonGroup();
         mvarSideButtonGroup = new javax.swing.ButtonGroup();
+        busTabbedPane = new javax.swing.JTabbedPane();
+        lfDataPanel = new javax.swing.JPanel();
         genTypePanel = new javax.swing.JPanel();
         swingRadioButton = new javax.swing.JRadioButton();
         pvRadioButton = new javax.swing.JRadioButton();
@@ -444,6 +447,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         remoteQRadioButton = new javax.swing.JRadioButton();
         capRadioButton = new javax.swing.JRadioButton();
         nonGenRadioButton = new javax.swing.JRadioButton();
+        scrptGenRadioButton = new javax.swing.JRadioButton();
         getInfoPanel = new javax.swing.JPanel();
         pGenLabel = new javax.swing.JLabel();
         pGenTextField = new javax.swing.JTextField();
@@ -473,6 +477,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         constZRadioButton = new javax.swing.JRadioButton();
         funcLoadRadioButton = new javax.swing.JRadioButton();
         nonLoadRadioButton = new javax.swing.JRadioButton();
+        scriptLoadRadioButton = new javax.swing.JRadioButton();
         loadInfoPanel = new javax.swing.JPanel();
         pLoadLabel = new javax.swing.JLabel();
         pLoadTextField = new javax.swing.JTextField();
@@ -494,47 +499,49 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         shutYLabel = new javax.swing.JLabel();
         shuntGTextField = new javax.swing.JTextField();
         shuntBTextField = new javax.swing.JTextField();
+        scriptPanel = new javax.swing.JPanel();
+        scriptScrollPane = new javax.swing.JScrollPane();
+        scriptTextArea = new javax.swing.JTextArea();
 
-        setLayout(new java.awt.GridBagLayout());
+        busTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
 
-        genTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
+        lfDataPanel.setLayout(new java.awt.GridBagLayout());
 
         genTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Generator Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        genTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 0));
+
         genTypeButtonGroup.add(swingRadioButton);
         swingRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         swingRadioButton.setText("Swing");
-        swingRadioButton.setName("swingRadioButton");
+        swingRadioButton.setName("swingRadioButton"); // NOI18N
         swingRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 swingRadioButtonSelected(evt);
             }
         });
-
         genTypePanel.add(swingRadioButton);
 
         genTypeButtonGroup.add(pvRadioButton);
         pvRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        pvRadioButton.setText("PV     ");
-        pvRadioButton.setName("pvRadioButton");
+        pvRadioButton.setText("PV");
+        pvRadioButton.setName("pvRadioButton"); // NOI18N
         pvRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pvRadioButtonSelected(evt);
             }
         });
-
         genTypePanel.add(pvRadioButton);
 
         genTypeButtonGroup.add(pqRadioButton);
         pqRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         pqRadioButton.setSelected(true);
-        pqRadioButton.setText("PQ     ");
-        pqRadioButton.setName("pqRadioButton");
+        pqRadioButton.setText("PQ");
+        pqRadioButton.setName("pqRadioButton"); // NOI18N
         pqRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pqRadioButtonSelected(evt);
             }
         });
-
         genTypePanel.add(pqRadioButton);
 
         genTypeButtonGroup.add(remoteQRadioButton);
@@ -542,44 +549,52 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         remoteQRadioButton.setText("RemoteControl");
         remoteQRadioButton.setToolTipText("Control a remote bus voltage by adjusting the current bus Q. The remote bus can not be a PV, PQ or Swing bus. ");
         remoteQRadioButton.setEnabled(false);
-        remoteQRadioButton.setName("remoteQRadioButton");
+        remoteQRadioButton.setName("remoteQRadioButton"); // NOI18N
         remoteQRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 remoteQRadioButtonActionPerformed(evt);
             }
         });
-
         genTypePanel.add(remoteQRadioButton);
 
         genTypeButtonGroup.add(capRadioButton);
         capRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         capRadioButton.setText("Capacitor");
-        capRadioButton.setName("capRadioButton");
+        capRadioButton.setName("capRadioButton"); // NOI18N
         capRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 capRadioButtonSelected(evt);
             }
         });
-
         genTypePanel.add(capRadioButton);
 
         genTypeButtonGroup.add(nonGenRadioButton);
         nonGenRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         nonGenRadioButton.setText("NonGen");
-        nonGenRadioButton.setName("nonGenRadioButton");
+        nonGenRadioButton.setName("nonGenRadioButton"); // NOI18N
         nonGenRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nonGenRadioButtonSelected(evt);
             }
         });
-
         genTypePanel.add(nonGenRadioButton);
+
+        genTypeButtonGroup.add(scrptGenRadioButton);
+        scrptGenRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        scrptGenRadioButton.setText("GenScripting");
+        scrptGenRadioButton.setName("nonGenRadioButton"); // NOI18N
+        scrptGenRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scrptGenRadioButtonSelected(evt);
+            }
+        });
+        genTypePanel.add(scrptGenRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
-        add(genTypePanel, gridBagConstraints);
+        lfDataPanel.add(genTypePanel, gridBagConstraints);
 
         getInfoPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -594,7 +609,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         pGenTextField.setColumns(8);
         pGenTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         pGenTextField.setText("0.0");
-        pGenTextField.setName("pGenTextField");
+        pGenTextField.setName("pGenTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 0);
@@ -610,7 +625,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         qGenTextField.setColumns(8);
         qGenTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         qGenTextField.setText("0.0");
-        qGenTextField.setName("qGenTextField");
+        qGenTextField.setName("qGenTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -620,13 +635,12 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         adjustCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         adjustCheckBox.setText("PV Limit Control");
         adjustCheckBox.setEnabled(false);
-        adjustCheckBox.setName("adjustCheckBox");
+        adjustCheckBox.setName("adjustCheckBox"); // NOI18N
         adjustCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 adjustCheckBoxActionPerformed(evt);
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -652,7 +666,6 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
                 voltageRadioButtonActionPerformed(evt);
             }
         });
-
         reQControlTypePanel.add(voltageRadioButton);
 
         reQControlButtonGroup.add(mvaFlowRadioButton);
@@ -666,7 +679,6 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
                 mvaFlowRadioButtonActionPerformed(evt);
             }
         });
-
         reQControlTypePanel.add(mvaFlowRadioButton);
 
         reQControl2Label.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -693,7 +705,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         maxTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         maxTextField.setText("0.0");
         maxTextField.setEnabled(false);
-        maxTextField.setName("maxTextField");
+        maxTextField.setName("maxTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -712,7 +724,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         minTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         minTextField.setText("0.0");
         minTextField.setEnabled(false);
-        minTextField.setName("minTextField");
+        minTextField.setName("minTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
@@ -724,20 +736,23 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         remoteBusLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         getInfoPanel.add(remoteBusLabel, gridBagConstraints);
 
         remoteBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         remoteBusComboBox.setToolTipText("Remote bus cannot be a Swing, PV or PQ bus");
         remoteBusComboBox.setEnabled(false);
-        remoteBusComboBox.setName("remoteBusComboBox");
+        remoteBusComboBox.setName("remoteBusComboBox"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         getInfoPanel.add(remoteBusComboBox, gridBagConstraints);
 
         flowDirectionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mvar Flow Direction", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+
         flowDirectionButtonGroup.add(from2ToRadioButton);
         from2ToRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         from2ToRadioButton.setSelected(true);
@@ -756,12 +771,13 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         flowDirectionPanel.add(to2FromRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 0);
         getInfoPanel.add(flowDirectionPanel, gridBagConstraints);
 
         mvarSodePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Mvar Spec On", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+
         mvarSideButtonGroup.add(mvarOnFromSideRadioButton);
         mvarOnFromSideRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         mvarOnFromSideRadioButton.setSelected(true);
@@ -780,7 +796,8 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         mvarSodePanel.add(mvarOnToSideRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 20);
         getInfoPanel.add(mvarSodePanel, gridBagConstraints);
 
@@ -788,77 +805,83 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
-        add(getInfoPanel, gridBagConstraints);
-
-        loadTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 0));
+        lfDataPanel.add(getInfoPanel, gridBagConstraints);
 
         loadTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        loadTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 0));
+
         loadTypeButtonGroup.add(constPRadioButton);
         constPRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         constPRadioButton.setSelected(true);
-        constPRadioButton.setText("Const-P  ");
-        constPRadioButton.setName("constPRadioButton");
+        constPRadioButton.setText("Const-P");
+        constPRadioButton.setName("constPRadioButton"); // NOI18N
         constPRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 constPRadioButtonSelected(evt);
             }
         });
-
         loadTypePanel.add(constPRadioButton);
 
         loadTypeButtonGroup.add(constIRadioButton);
         constIRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        constIRadioButton.setText("Const-I  ");
-        constIRadioButton.setName("constIRadioButton");
+        constIRadioButton.setText("Const-I");
+        constIRadioButton.setName("constIRadioButton"); // NOI18N
         constIRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 constIRadioButtonSelected(evt);
             }
         });
-
         loadTypePanel.add(constIRadioButton);
 
         loadTypeButtonGroup.add(constZRadioButton);
         constZRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        constZRadioButton.setText("Const-Z  ");
-        constZRadioButton.setName("constZRadioButton");
+        constZRadioButton.setText("Const-Z");
+        constZRadioButton.setName("constZRadioButton"); // NOI18N
         constZRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 constZRadioButtonSelected(evt);
             }
         });
-
         loadTypePanel.add(constZRadioButton);
 
         loadTypeButtonGroup.add(funcLoadRadioButton);
         funcLoadRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        funcLoadRadioButton.setText("Functional  ");
+        funcLoadRadioButton.setText("Functional");
         funcLoadRadioButton.setEnabled(false);
-        funcLoadRadioButton.setName("funcLoadRadioButton");
+        funcLoadRadioButton.setName("funcLoadRadioButton"); // NOI18N
         funcLoadRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 funcLoadRadioButtonSelected(evt);
             }
         });
-
         loadTypePanel.add(funcLoadRadioButton);
 
         loadTypeButtonGroup.add(nonLoadRadioButton);
         nonLoadRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        nonLoadRadioButton.setText("NonLoad  ");
-        nonLoadRadioButton.setName("nonLoadRadioButton");
+        nonLoadRadioButton.setText("NonLoad");
+        nonLoadRadioButton.setName("nonLoadRadioButton"); // NOI18N
         nonLoadRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nonLoadRadioButtonSelected(evt);
             }
         });
-
         loadTypePanel.add(nonLoadRadioButton);
+
+        loadTypeButtonGroup.add(scriptLoadRadioButton);
+        scriptLoadRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        scriptLoadRadioButton.setText("LoadScripting");
+        scriptLoadRadioButton.setName("nonLoadRadioButton"); // NOI18N
+        scriptLoadRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scriptLoadRadioButtonSelected(evt);
+            }
+        });
+        loadTypePanel.add(scriptLoadRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
-        add(loadTypePanel, gridBagConstraints);
+        lfDataPanel.add(loadTypePanel, gridBagConstraints);
 
         loadInfoPanel.setLayout(new java.awt.GridBagLayout());
 
@@ -872,7 +895,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         pLoadTextField.setColumns(8);
         pLoadTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         pLoadTextField.setText("0.0");
-        pLoadTextField.setName("pLoadTextField");
+        pLoadTextField.setName("pLoadTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         loadInfoPanel.add(pLoadTextField, gridBagConstraints);
@@ -888,7 +911,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         qLoadTextField.setColumns(8);
         qLoadTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         qLoadTextField.setText("0.0");
-        qLoadTextField.setName("qLoadTextField");
+        qLoadTextField.setName("qLoadTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -904,7 +927,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         constP_PTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         constP_PTextField.setText("100.0");
         constP_PTextField.setEnabled(false);
-        constP_PTextField.setName("constP_PTextField");
+        constP_PTextField.setName("constP_PTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -923,7 +946,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         constP_QTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         constP_QTextField.setText("100.0");
         constP_QTextField.setEnabled(false);
-        constP_QTextField.setName("constP_QTextField");
+        constP_QTextField.setName("constP_QTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -942,7 +965,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         constI_PTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         constI_PTextField.setText("0.0");
         constI_PTextField.setEnabled(false);
-        constI_PTextField.setName("constI_PTextField");
+        constI_PTextField.setName("constI_PTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 0;
@@ -961,7 +984,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         constI_QTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         constI_QTextField.setText("0.0");
         constI_QTextField.setEnabled(false);
-        constI_QTextField.setName("constI_QTextField");
+        constI_QTextField.setName("constI_QTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 1;
@@ -978,7 +1001,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         constZ_PTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         constZ_PTextField.setText("0.0");
         constZ_PTextField.setEnabled(false);
-        constZ_PTextField.setName("constZ_PTextField");
+        constZ_PTextField.setName("constZ_PTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 0;
@@ -997,7 +1020,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         constZ_QTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         constZ_QTextField.setText("0.0");
         constZ_QTextField.setEnabled(false);
-        constZ_QTextField.setName("constZ_QTextField");
+        constZ_QTextField.setName("constZ_QTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 7;
         gridBagConstraints.gridy = 1;
@@ -1008,7 +1031,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        add(loadInfoPanel, gridBagConstraints);
+        lfDataPanel.add(loadInfoPanel, gridBagConstraints);
 
         shuntYPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
 
@@ -1019,22 +1042,64 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         shuntGTextField.setColumns(8);
         shuntGTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         shuntGTextField.setText("0.0");
-        shuntGTextField.setName("pLoadTextField");
+        shuntGTextField.setName("pLoadTextField"); // NOI18N
         shuntYPanel.add(shuntGTextField);
 
         shuntBTextField.setColumns(8);
         shuntBTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         shuntBTextField.setText("0.0");
-        shuntBTextField.setName("constP_PTextField");
+        shuntBTextField.setName("constP_PTextField"); // NOI18N
         shuntYPanel.add(shuntBTextField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
-        add(shuntYPanel, gridBagConstraints);
+        lfDataPanel.add(shuntYPanel, gridBagConstraints);
 
+        busTabbedPane.addTab("Bus LF Data", lfDataPanel);
+
+        scriptTextArea.setColumns(80);
+        scriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
+        scriptTextArea.setRows(35);
+        scriptTextArea.setTabSize(3);
+        scriptScrollPane.setViewportView(scriptTextArea);
+
+        scriptPanel.add(scriptScrollPane);
+
+        busTabbedPane.addTab("Bus LF Scripting", scriptPanel);
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(busTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 669, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(busTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 540, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        busTabbedPane.getAccessibleContext().setAccessibleName("");
     }// </editor-fold>//GEN-END:initComponents
+
+    private void scriptLoadRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptLoadRadioButtonSelected
+    	_data.setLoadCode(AclfBusData.LoadCode_LoadScripting);
+        setLoadLabelText(false, true);
+		busTabbedPane.setEnabledAt(1, true);
+}//GEN-LAST:event_scriptLoadRadioButtonSelected
+
+    private void scrptGenRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scrptGenRadioButtonSelected
+        setGenLabelText("Pgen(pu)", false, "0.0", "Qgen(pu)", false, "0.0");
+        setAdjLabelText(false, BUS_TYPE_PV);
+		busTabbedPane.setEnabledAt(1, true);
+}//GEN-LAST:event_scrptGenRadioButtonSelected
 
     private void mvaFlowRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mvaFlowRadioButtonActionPerformed
     	IpssLogger.getLogger().info("mvaFlowRadioButtonActionPerformed() called");
@@ -1073,30 +1138,35 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     	_data.setLoadCode(AclfBusData.LoadCode_NonLoad);
         setLoadLabelText(false, true);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_nonLoadRadioButtonSelected
 
     private void funcLoadRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_funcLoadRadioButtonSelected
     	_data.setLoadCode(AclfBusData.LoadCode_FuncLoad);
         setLoadLabelText(true, false);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_funcLoadRadioButtonSelected
 
     private void constZRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constZRadioButtonSelected
     	_data.setLoadCode(AclfBusData.LoadCode_ConstZ);
         setLoadLabelText(false, false);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_constZRadioButtonSelected
 
     private void constIRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constIRadioButtonSelected
     	_data.setLoadCode(AclfBusData.LoadCode_ConstI);
         setLoadLabelText(false, false);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_constIRadioButtonSelected
 
     private void constPRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_constPRadioButtonSelected
     	_data.setLoadCode(AclfBusData.LoadCode_ConstP);
         setLoadLabelText(false, false);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_constPRadioButtonSelected
 
     private void nonGenRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonGenRadioButtonSelected
@@ -1104,6 +1174,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         setGenLabelText("Pgen(pu)", false, "0.0", "Qgen(pu)", false, "0.0");
         setAdjLabelText(false, BUS_TYPE_PV);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_nonGenRadioButtonSelected
 
     private void capRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_capRadioButtonSelected
@@ -1111,6 +1182,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         setGenLabelText("Qcap(pu)", true, "0.0", "  ", false, "0.0");
         setAdjLabelText(false, BUS_TYPE_PV);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_capRadioButtonSelected
 
     private void pqRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqRadioButtonSelected
@@ -1118,6 +1190,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         setGenLabelText("Pgen(pu)", true, "0.0", "Qgen(pu)", true, "0.0");
         setAdjLabelText(((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment(), BUS_TYPE_PQ);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_pqRadioButtonSelected
 
     private void pvRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvRadioButtonSelected
@@ -1125,6 +1198,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         setGenLabelText("Pgen(pu)", true, "0.0", "Vspec(pu)", true, "1.0");
         setAdjLabelText(((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment(), BUS_TYPE_PV);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_pvRadioButtonSelected
 
     private void swingRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_swingRadioButtonSelected
@@ -1132,8 +1206,13 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         setGenLabelText("Vspec(pu)", true, "1.0", "Angle(deg)", true, "0.0");
         setAdjLabelText(false, BUS_TYPE_PV);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
+        setScriptPanel();
     }//GEN-LAST:event_swingRadioButtonSelected
     
+    private void setScriptPanel() {
+		if (!scriptLoadRadioButton.isSelected() && !scrptGenRadioButton.isSelected())
+			busTabbedPane.setEnabledAt(1, false);
+    }
 
     private void setGenLabelText(String pLabel, boolean pEnabled, String pValue, 
     		                     String qLabel, boolean qEnabled, String qValue) {
@@ -1155,6 +1234,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     }    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox adjustCheckBox;
+    private javax.swing.JTabbedPane busTabbedPane;
     private javax.swing.JRadioButton capRadioButton;
     private javax.swing.JRadioButton constIRadioButton;
     private javax.swing.JLabel constI_PLabel;
@@ -1178,6 +1258,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     private javax.swing.ButtonGroup genTypeButtonGroup;
     private javax.swing.JPanel genTypePanel;
     private javax.swing.JPanel getInfoPanel;
+    private javax.swing.JPanel lfDataPanel;
     private javax.swing.JPanel loadInfoPanel;
     private javax.swing.ButtonGroup loadTypeButtonGroup;
     private javax.swing.JPanel loadTypePanel;
@@ -1209,6 +1290,11 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     private javax.swing.JComboBox remoteBusComboBox;
     private javax.swing.JLabel remoteBusLabel;
     private javax.swing.JRadioButton remoteQRadioButton;
+    private javax.swing.JRadioButton scriptLoadRadioButton;
+    private javax.swing.JPanel scriptPanel;
+    private javax.swing.JScrollPane scriptScrollPane;
+    private javax.swing.JTextArea scriptTextArea;
+    private javax.swing.JRadioButton scrptGenRadioButton;
     private javax.swing.JTextField shuntBTextField;
     private javax.swing.JTextField shuntGTextField;
     private javax.swing.JPanel shuntYPanel;

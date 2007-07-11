@@ -94,8 +94,19 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	             _data.setLfCode(IGBranchForm.TransBranchLfCode_Xfr);
 		}
 		   
-		remove(tapVControlPanel);
-        remove(psXfrPControlPanel);
+		dataPanel.remove(tapVControlPanel);
+		dataPanel.remove(psXfrPControlPanel);
+		branchTabbedPane.setEnabledAt(1, false);
+	}
+	
+	private void repaintDialog() {
+		tapVControlPanel.invalidate();
+		psXfrPControlPanel.invalidate();
+		tapVControlEditPanel.invalidate();
+        psXfrPControlEditPanel.invalidate();
+		dataPanel.repaint();
+		parent.invalidate();
+		parent.pack();
 	}
 	
     public boolean setForm2Editor() {
@@ -103,6 +114,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 
 		if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line))
 			lineRadioButton.setSelected(true);
+		else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Scripting))
+			branchScriptRadioButton.setSelected(true);
 		else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr))
 			xfrRadioButton.setSelected(true);
 		else 
@@ -115,12 +128,18 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		mvaRating2TextField.setText(Number2String.toStr(_data.getRating2(), "#0.0#"));
 		mvaRating3TextField.setText(Number2String.toStr(_data.getRating3(), "#0.0#"));
 
+	    setDataFieldStatus(!_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Scripting));
+
 	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
     	    setBranchLabelText(true, false);
     	    hBTextField.setText(Number2String.toStr(_data.getHalfShuntB(), "#0.0####"));
 
-       	    remove(tapVControlPanel);
-            remove(psXfrPControlPanel);
+    	    dataPanel.remove(tapVControlPanel);
+    	    dataPanel.remove(psXfrPControlPanel);
+    	}
+	    else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Scripting)) {
+    	    dataPanel.remove(tapVControlPanel);
+    	    dataPanel.remove(psXfrPControlPanel);
     	}
     	else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {
     	    setBranchLabelText(false, false);
@@ -128,8 +147,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
     	    
     		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
-        		remove(psXfrPControlPanel);
-    			add(tapVControlPanel);
+    			dataPanel.remove(psXfrPControlPanel);
+    			dataPanel.add(tapVControlPanel);
     	    	if (_data.isHasTapVControl()) {
 					tapVControlCheckBox.setSelected(true);
 					voltageRadioButton.setEnabled(true);
@@ -151,8 +170,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
     	    
     		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
-        		remove(tapVControlPanel);
-    	        add(psXfrPControlPanel);
+    			dataPanel.remove(tapVControlPanel);
+    			dataPanel.add(psXfrPControlPanel);
     	    	if (_data.isHasPSXfrPControl()) {
     	        	psXfrPowerCheckBox.setSelected(true);
     	            setPsXfrPControlPanel();
@@ -163,11 +182,26 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     	    	}    		
     	    }
     	}
-    	parent.pack();
+    	repaintDialog();
     	
     	return true;
 	}
 
+    private void setDataFieldStatus(boolean status) {
+		rTextField.setEnabled(status);
+	    xTextField.setEnabled(status);
+		mvaRating1TextField.setEnabled(status);
+		mvaRating2TextField.setEnabled(status);
+		mvaRating3TextField.setEnabled(status);
+   	    hBTextField.setEnabled(status);
+		rLabel.setEnabled(status);
+	    xLabel.setEnabled(status);
+		mvaRating1Label.setEnabled(status);
+		mvaRating2Label.setEnabled(status);
+		mvaRating3Label.setEnabled(status);
+   	    hBLabel.setEnabled(status);
+    }
+    
     private void setTapVControlPanel() {
 		java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -260,7 +294,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         }
     }
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBBranchPositivePanel saveEditor2Form() called");
 		
     	if (lineRadioButton.isSelected())
@@ -351,11 +385,14 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         branchTypeButtonGroup = new javax.swing.ButtonGroup();
         flowDirectionButtonGroup = new javax.swing.ButtonGroup();
         tapControlTypeButtonGroup = new javax.swing.ButtonGroup();
+        branchTabbedPane = new javax.swing.JTabbedPane();
+        dataPanel = new javax.swing.JPanel();
         branchDataPanel = new javax.swing.JPanel();
         branchTypePanel = new javax.swing.JPanel();
         lineRadioButton = new javax.swing.JRadioButton();
         xfrRadioButton = new javax.swing.JRadioButton();
         psXfrRadioButton = new javax.swing.JRadioButton();
+        branchScriptRadioButton = new javax.swing.JRadioButton();
         rLabel = new javax.swing.JLabel();
         rTextField = new javax.swing.JTextField();
         xLabel = new javax.swing.JLabel();
@@ -412,48 +449,63 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         controlTapMinTextField = new javax.swing.JTextField();
         controlTapStepsLabel = new javax.swing.JLabel();
         controlTapStepTextField = new javax.swing.JTextField();
+        scriptPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
-        setLayout(new java.awt.BorderLayout());
+        branchTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
+
+        dataPanel.setLayout(new java.awt.BorderLayout());
 
         branchDataPanel.setLayout(new java.awt.GridBagLayout());
 
         branchTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Branch Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        branchTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
+
         branchTypeButtonGroup.add(lineRadioButton);
         lineRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         lineRadioButton.setSelected(true);
-        lineRadioButton.setText("Line     ");
-        lineRadioButton.setName("lineRadioButton");
+        lineRadioButton.setText("Line");
+        lineRadioButton.setName("lineRadioButton"); // NOI18N
         lineRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lineRadioButtonActionPerformed(evt);
             }
         });
-
         branchTypePanel.add(lineRadioButton);
 
         branchTypeButtonGroup.add(xfrRadioButton);
         xfrRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         xfrRadioButton.setText("XFormer");
-        xfrRadioButton.setName("xfrRadioButton");
+        xfrRadioButton.setName("xfrRadioButton"); // NOI18N
         xfrRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xfrRadioButtonActionPerformed(evt);
             }
         });
-
         branchTypePanel.add(xfrRadioButton);
 
         branchTypeButtonGroup.add(psXfrRadioButton);
         psXfrRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         psXfrRadioButton.setText("PhaseShift-Xfr");
-        psXfrRadioButton.setName("psXfrRadioButton");
+        psXfrRadioButton.setName("psXfrRadioButton"); // NOI18N
         psXfrRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 psXfrRadioButtonActionPerformed(evt);
             }
         });
-
         branchTypePanel.add(psXfrRadioButton);
+
+        branchTypeButtonGroup.add(branchScriptRadioButton);
+        branchScriptRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchScriptRadioButton.setText("Branch Scripting");
+        branchScriptRadioButton.setName("psXfrRadioButton"); // NOI18N
+        branchScriptRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                branchScriptRadioButtonActionPerformed(evt);
+            }
+        });
+        branchTypePanel.add(branchScriptRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -473,7 +525,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         rTextField.setColumns(8);
         rTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         rTextField.setText("0.0");
-        rTextField.setName("rTextField");
+        rTextField.setName("rTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -491,7 +543,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         xTextField.setColumns(8);
         xTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         xTextField.setText("0.01");
-        xTextField.setName("xTextField");
+        xTextField.setName("xTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -508,7 +560,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         hBTextField.setColumns(8);
         hBTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         hBTextField.setText("0.0");
-        hBTextField.setName("hBTextField");
+        hBTextField.setName("hBTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
@@ -528,7 +580,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         fromTapTextField.setText("0.0");
         fromTapTextField.setToolTipText("FromBus o----fromTap:1------z------1:toTap----o toBus");
         fromTapTextField.setEnabled(false);
-        fromTapTextField.setName("fromTapTextField");
+        fromTapTextField.setName("fromTapTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         branchDataPanel.add(fromTapTextField, gridBagConstraints);
@@ -549,7 +601,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         toTapTextField.setToolTipText("FromBus o----fromTap:1------z------1:toTap----o toBus");
         toTapTextField.setAutoscrolls(false);
         toTapTextField.setEnabled(false);
-        toTapTextField.setName("toTapTextField");
+        toTapTextField.setName("toTapTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 5;
         gridBagConstraints.gridy = 2;
@@ -567,7 +619,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         mvaRating1TextField.setColumns(8);
         mvaRating1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         mvaRating1TextField.setText("0.0");
-        mvaRating1TextField.setName("hBTextField");
+        mvaRating1TextField.setName("hBTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
@@ -584,7 +636,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         mvaRating2TextField.setColumns(8);
         mvaRating2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         mvaRating2TextField.setText("0.0");
-        mvaRating2TextField.setName("hBTextField");
+        mvaRating2TextField.setName("hBTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
@@ -601,25 +653,24 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         mvaRating3TextField.setColumns(8);
         mvaRating3TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         mvaRating3TextField.setText("0.0");
-        mvaRating3TextField.setName("hBTextField");
+        mvaRating3TextField.setName("hBTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
         branchDataPanel.add(mvaRating3TextField, gridBagConstraints);
 
-        add(branchDataPanel, java.awt.BorderLayout.NORTH);
+        dataPanel.add(branchDataPanel, java.awt.BorderLayout.NORTH);
 
         psXfrPControlPanel.setLayout(new java.awt.GridBagLayout());
 
         psXfrPowerCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         psXfrPowerCheckBox.setText("PSXfr Power Control");
-        psXfrPowerCheckBox.setName("psXfrPowerCheckBox");
+        psXfrPowerCheckBox.setName("psXfrPowerCheckBox"); // NOI18N
         psXfrPowerCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 psXfrPowerCheckBoxActionPerformed(evt);
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -640,24 +691,25 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         pSpecTextField.setColumns(4);
         pSpecTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         pSpecTextField.setText("0.0");
-        pSpecTextField.setName("pSpecTextField");
+        pSpecTextField.setName("pSpecTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         psXfrPControlEditPanel.add(pSpecTextField, gridBagConstraints);
 
         pControlSidePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "P-Control On", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+
         pControlSideButtonGroup.add(pControlFromSideRadioButton);
         pControlFromSideRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         pControlFromSideRadioButton.setSelected(true);
         pControlFromSideRadioButton.setText("From Side   ");
-        pControlFromSideRadioButton.setName("pControlFromSideRadioButton");
+        pControlFromSideRadioButton.setName("pControlFromSideRadioButton"); // NOI18N
         pControlSidePanel.add(pControlFromSideRadioButton);
 
         pControlSideButtonGroup.add(pControlToSideRadioButton);
         pControlToSideRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         pControlToSideRadioButton.setText("To Side");
-        pControlToSideRadioButton.setName("pControlToSideRadioButton");
+        pControlToSideRadioButton.setName("pControlToSideRadioButton"); // NOI18N
         pControlSidePanel.add(pControlToSideRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -678,7 +730,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         angleMaxTextField.setColumns(4);
         angleMaxTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         angleMaxTextField.setText("15.0");
-        angleMaxTextField.setName("angleMaxTextField");
+        angleMaxTextField.setName("angleMaxTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -695,13 +747,14 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         angleMinTextField.setColumns(4);
         angleMinTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         angleMinTextField.setText("-15.0");
-        angleMinTextField.setName("angleMinTextField");
+        angleMinTextField.setName("angleMinTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
         psXfrPControlEditPanel.add(angleMinTextField, gridBagConstraints);
 
         flowDirectionPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "P-Flow Direction", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+
         flowDirectionButtonGroup.add(from2ToRadioButton);
         from2ToRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         from2ToRadioButton.setSelected(true);
@@ -727,19 +780,18 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.gridy = 1;
         psXfrPControlPanel.add(psXfrPControlEditPanel, gridBagConstraints);
 
-        add(psXfrPControlPanel, java.awt.BorderLayout.CENTER);
+        dataPanel.add(psXfrPControlPanel, java.awt.BorderLayout.CENTER);
 
         tapVControlPanel.setLayout(new java.awt.GridBagLayout());
 
         tapVControlCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         tapVControlCheckBox.setText("Tap Voltage Control               ");
-        tapVControlCheckBox.setName("tapVControlCheckBox");
+        tapVControlCheckBox.setName("tapVControlCheckBox"); // NOI18N
         tapVControlCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tapVControlCheckBoxActionPerformed(evt);
             }
         });
-
         tapControlPanel.add(tapVControlCheckBox);
 
         leftLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -758,7 +810,6 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
                 voltageButtonActionPerformed(evt);
             }
         });
-
         tapControlPanel.add(voltageRadioButton);
 
         tapControlTypeButtonGroup.add(mvaFlowRadioButton);
@@ -772,7 +823,6 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
                 mvaFlowButtonActionPerformed(evt);
             }
         });
-
         tapControlPanel.add(mvaFlowRadioButton);
 
         rightLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -791,7 +841,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         tapVControlEditPanel.add(vcBusLabel, gridBagConstraints);
 
         vcBusComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        vcBusComboBox.setName("vcBusComboBox");
+        vcBusComboBox.setName("vcBusComboBox"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -808,24 +858,25 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         vSpecTextField.setColumns(5);
         vSpecTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         vSpecTextField.setText("1.0");
-        vSpecTextField.setName("vSpecTextField");
+        vSpecTextField.setName("vSpecTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
         tapVControlEditPanel.add(vSpecTextField, gridBagConstraints);
 
         vcBusSidePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "VC Bus On", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+
         vcBusOnButtonGroup.add(vcBusFromSideRadioButton);
         vcBusFromSideRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         vcBusFromSideRadioButton.setSelected(true);
         vcBusFromSideRadioButton.setText("From Side   ");
-        vcBusFromSideRadioButton.setName("vcBusFromSideRadioButton");
+        vcBusFromSideRadioButton.setName("vcBusFromSideRadioButton"); // NOI18N
         vcBusSidePanel.add(vcBusFromSideRadioButton);
 
         vcBusOnButtonGroup.add(vcBusToSideRadioButton);
         vcBusToSideRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         vcBusToSideRadioButton.setText("To Side");
-        vcBusToSideRadioButton.setName("vcBusToSideRadioButton");
+        vcBusToSideRadioButton.setName("vcBusToSideRadioButton"); // NOI18N
         vcBusSidePanel.add(vcBusToSideRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -835,17 +886,18 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         tapVControlEditPanel.add(vcBusSidePanel, gridBagConstraints);
 
         controlTapSidePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Control Tap On", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+
         controlTapOnButtonGroup.add(controlTapOnFromSideRadioButton);
         controlTapOnFromSideRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         controlTapOnFromSideRadioButton.setSelected(true);
         controlTapOnFromSideRadioButton.setText("From Side   ");
-        controlTapOnFromSideRadioButton.setName("controlTapOnFromSideRadioButton");
+        controlTapOnFromSideRadioButton.setName("controlTapOnFromSideRadioButton"); // NOI18N
         controlTapSidePanel.add(controlTapOnFromSideRadioButton);
 
         controlTapOnButtonGroup.add(controlTapOnToSideRadioButton);
         controlTapOnToSideRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         controlTapOnToSideRadioButton.setText("To Side");
-        controlTapOnToSideRadioButton.setName("controlTapOnToSideRadioButton");
+        controlTapOnToSideRadioButton.setName("controlTapOnToSideRadioButton"); // NOI18N
         controlTapSidePanel.add(controlTapOnToSideRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -862,7 +914,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         controlTapMaxTextField.setColumns(4);
         controlTapMaxTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         controlTapMaxTextField.setText("0.1");
-        controlTapMaxTextField.setName("controlTapMaxTextField");
+        controlTapMaxTextField.setName("controlTapMaxTextField"); // NOI18N
         controlTapLimitPanel.add(controlTapMaxTextField);
 
         controlTapMinLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -872,7 +924,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         controlTapMinTextField.setColumns(4);
         controlTapMinTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         controlTapMinTextField.setText("-0.1");
-        controlTapMinTextField.setName("controlTapMinTextField");
+        controlTapMinTextField.setName("controlTapMinTextField"); // NOI18N
         controlTapLimitPanel.add(controlTapMinTextField);
 
         controlTapStepsLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -882,7 +934,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         controlTapStepTextField.setColumns(4);
         controlTapStepTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         controlTapStepTextField.setText("0.0");
-        controlTapStepTextField.setName("controlTapStepTextField");
+        controlTapStepTextField.setName("controlTapStepTextField"); // NOI18N
         controlTapLimitPanel.add(controlTapStepTextField);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -896,9 +948,38 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.gridy = 1;
         tapVControlPanel.add(tapVControlEditPanel, gridBagConstraints);
 
-        add(tapVControlPanel, java.awt.BorderLayout.SOUTH);
+        dataPanel.add(tapVControlPanel, java.awt.BorderLayout.SOUTH);
 
+        branchTabbedPane.addTab("Branch LF Data", dataPanel);
+
+        jTextArea1.setColumns(80);
+        jTextArea1.setRows(35);
+        jTextArea1.setTabSize(3);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        scriptPanel.add(jScrollPane1);
+
+        branchTabbedPane.addTab("Branch LF Scripting", scriptPanel);
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(branchTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 642, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(branchTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 639, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void branchScriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchScriptRadioButtonActionPerformed
+    	_data.setLfCode(IGBranchForm.TransBranchLfCode_Scripting);
+    	setForm2Editor();
+		branchTabbedPane.setEnabledAt(1, true);
+    }//GEN-LAST:event_branchScriptRadioButtonActionPerformed
 
     private void mvaFlowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mvaFlowButtonActionPerformed
         vcBusLabel.setText("Mvar Spec On  ");
@@ -921,16 +1002,19 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private void psXfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrRadioButtonActionPerformed
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
     	setForm2Editor();
+		branchTabbedPane.setEnabledAt(1, false);
     }//GEN-LAST:event_psXfrRadioButtonActionPerformed
 
     private void lineRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineRadioButtonActionPerformed
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_Line);
     	setForm2Editor();
+		branchTabbedPane.setEnabledAt(1, false);
     }//GEN-LAST:event_lineRadioButtonActionPerformed
 
     private void xfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_Xfr);
     	setForm2Editor();
+		branchTabbedPane.setEnabledAt(1, false);
     }                                              
 
     private void tapVControlCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tapVControlCheckBoxActionPerformed
@@ -944,7 +1028,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 			mvaFlowRadioButton.setEnabled(false);
 			tapVControlPanel.remove(tapVControlEditPanel);
 		}	
-    	parent.pack();
+    	repaintDialog();
     }//GEN-LAST:event_tapVControlCheckBoxActionPerformed
 
     private void psXfrPowerCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrPowerCheckBoxActionPerformed
@@ -954,7 +1038,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     	else {
 	        psXfrPControlPanel.remove(psXfrPControlEditPanel);
     	}
-    	parent.pack();
+    	repaintDialog();
     }//GEN-LAST:event_psXfrPowerCheckBoxActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -963,6 +1047,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JLabel angleMinLabel;
     private javax.swing.JTextField angleMinTextField;
     private javax.swing.JPanel branchDataPanel;
+    private javax.swing.JRadioButton branchScriptRadioButton;
+    private javax.swing.JTabbedPane branchTabbedPane;
     private javax.swing.ButtonGroup branchTypeButtonGroup;
     private javax.swing.JPanel branchTypePanel;
     private javax.swing.JPanel controlTapLimitPanel;
@@ -976,6 +1062,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JPanel controlTapSidePanel;
     private javax.swing.JTextField controlTapStepTextField;
     private javax.swing.JLabel controlTapStepsLabel;
+    private javax.swing.JPanel dataPanel;
     private javax.swing.ButtonGroup flowDirectionButtonGroup;
     private javax.swing.JPanel flowDirectionPanel;
     private javax.swing.JRadioButton from2ToRadioButton;
@@ -983,6 +1070,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JTextField fromTapTextField;
     private javax.swing.JLabel hBLabel;
     private javax.swing.JTextField hBTextField;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel leftLabel;
     private javax.swing.JRadioButton lineRadioButton;
     private javax.swing.JRadioButton mvaFlowRadioButton;
@@ -1005,6 +1094,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JLabel rLabel;
     private javax.swing.JTextField rTextField;
     private javax.swing.JLabel rightLabel;
+    private javax.swing.JPanel scriptPanel;
     private javax.swing.JPanel tapControlPanel;
     private javax.swing.ButtonGroup tapControlTypeButtonGroup;
     private javax.swing.JCheckBox tapVControlCheckBox;

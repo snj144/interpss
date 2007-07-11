@@ -127,22 +127,34 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         branchInfoEditTabbedPane = new javax.swing.JTabbedPane();
         lfInfoEditPanel = new javax.swing.JPanel();
         scInfoEditPanel = new javax.swing.JPanel();
+        scriptPanel = new javax.swing.JPanel();
+        scriptScrollPane = new javax.swing.JScrollPane();
+        scriptTextArea = new javax.swing.JTextArea();
 
         setLayout(new java.awt.BorderLayout());
 
         branchInfoEditTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
-        branchInfoEditTabbedPane.setName("branchInfoEditTabbedPane");
+        branchInfoEditTabbedPane.setName("branchInfoEditTabbedPane"); // NOI18N
         branchInfoEditTabbedPane.addTab("Loadflow", lfInfoEditPanel);
-
         branchInfoEditTabbedPane.addTab("Short Circuit", scInfoEditPanel);
+
+        scriptTextArea.setColumns(80);
+        scriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
+        scriptTextArea.setRows(35);
+        scriptTextArea.setTabSize(3);
+        scriptScrollPane.setViewportView(scriptTextArea);
+
+        scriptPanel.add(scriptScrollPane);
+
+        branchInfoEditTabbedPane.addTab("SC Branch Scripting", scriptPanel);
 
         branchInfoEditTabbedPane.setSelectedIndex(1);
 
         add(branchInfoEditTabbedPane, java.awt.BorderLayout.CENTER);
-
     }// </editor-fold>//GEN-END:initComponents
     
     
@@ -150,5 +162,8 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
     private javax.swing.JTabbedPane branchInfoEditTabbedPane;
     private javax.swing.JPanel lfInfoEditPanel;
     private javax.swing.JPanel scInfoEditPanel;
+    private javax.swing.JPanel scriptPanel;
+    private javax.swing.JScrollPane scriptScrollPane;
+    private javax.swing.JTextArea scriptTextArea;
     // End of variables declaration//GEN-END:variables
 }	
