@@ -44,12 +44,12 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
     private GFormContainer _netContainer = null;
     
     private NBBranchPositivePanel _positiveEditPanel = new NBBranchPositivePanel();
-    private NBBranchScDataPanel       _scEditPanel = new NBBranchScDataPanel();
+    private NBBranchScDataPanel   _scEditPanel = new NBBranchScDataPanel();
     
 	public void initPanel(JDialog aParent) {
 		parent = aParent;
 		_positiveEditPanel.initPanel(parent);
-		_scEditPanel.initPanel(parent);
+		_scEditPanel.initPanel(parent, this);
     	scInfoEditPanel.add(_scEditPanel);
 	    
 	    branchInfoEditTabbedPane.addChangeListener(new ChangeListener() {
@@ -87,6 +87,12 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 	    }
     	
 	    _scEditPanel.init(netContainer, form);
+        branchInfoEditTabbedPane.setSelectedIndex(1);
+    	setScriptPanelStatus(false);
+	}
+	
+	public void setScriptPanelStatus(boolean b) {
+        branchInfoEditTabbedPane.setEnabledAt(2, b);
 	}
 	
     public boolean setForm2Editor() {

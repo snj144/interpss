@@ -522,7 +522,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         branchDataPanel.add(rLabel, gridBagConstraints);
 
-        rTextField.setColumns(8);
+        rTextField.setColumns(6);
         rTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         rTextField.setText("0.0");
         rTextField.setName("rTextField"); // NOI18N
@@ -540,7 +540,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         branchDataPanel.add(xLabel, gridBagConstraints);
 
-        xTextField.setColumns(8);
+        xTextField.setColumns(6);
         xTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         xTextField.setText("0.01");
         xTextField.setName("xTextField"); // NOI18N
@@ -557,7 +557,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         branchDataPanel.add(hBLabel, gridBagConstraints);
 
-        hBTextField.setColumns(8);
+        hBTextField.setColumns(6);
         hBTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         hBTextField.setText("0.0");
         hBTextField.setName("hBTextField"); // NOI18N
@@ -575,7 +575,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.insets = new java.awt.Insets(0, 20, 0, 0);
         branchDataPanel.add(fromTapLabel, gridBagConstraints);
 
-        fromTapTextField.setColumns(8);
+        fromTapTextField.setColumns(6);
         fromTapTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         fromTapTextField.setText("0.0");
         fromTapTextField.setToolTipText("FromBus o----fromTap:1------z------1:toTap----o toBus");
@@ -595,7 +595,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.insets = new java.awt.Insets(5, 20, 0, 0);
         branchDataPanel.add(toTapLabel, gridBagConstraints);
 
-        toTapTextField.setColumns(8);
+        toTapTextField.setColumns(6);
         toTapTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         toTapTextField.setText("0.0");
         toTapTextField.setToolTipText("FromBus o----fromTap:1------z------1:toTap----o toBus");
@@ -616,7 +616,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
         branchDataPanel.add(mvaRating1Label, gridBagConstraints);
 
-        mvaRating1TextField.setColumns(8);
+        mvaRating1TextField.setColumns(6);
         mvaRating1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         mvaRating1TextField.setText("0.0");
         mvaRating1TextField.setName("hBTextField"); // NOI18N
@@ -633,7 +633,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.insets = new java.awt.Insets(5, 20, 10, 0);
         branchDataPanel.add(mvaRating2Label, gridBagConstraints);
 
-        mvaRating2TextField.setColumns(8);
+        mvaRating2TextField.setColumns(6);
         mvaRating2TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         mvaRating2TextField.setText("0.0");
         mvaRating2TextField.setName("hBTextField"); // NOI18N
@@ -650,7 +650,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.insets = new java.awt.Insets(5, 20, 10, 0);
         branchDataPanel.add(mvaRating3Label, gridBagConstraints);
 
-        mvaRating3TextField.setColumns(8);
+        mvaRating3TextField.setColumns(6);
         mvaRating3TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         mvaRating3TextField.setText("0.0");
         mvaRating3TextField.setName("hBTextField"); // NOI18N
@@ -948,12 +948,13 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.gridy = 1;
         tapVControlPanel.add(tapVControlEditPanel, gridBagConstraints);
 
-        dataPanel.add(tapVControlPanel, java.awt.BorderLayout.SOUTH);
+        dataPanel.add(tapVControlPanel, java.awt.BorderLayout.CENTER);
 
         branchTabbedPane.addTab("Branch LF Data", dataPanel);
 
         jTextArea1.setColumns(80);
-        jTextArea1.setRows(35);
+        jTextArea1.setFont(new java.awt.Font("Courier New", 0, 12));
+        jTextArea1.setRows(30);
         jTextArea1.setTabSize(3);
         jScrollPane1.setViewportView(jTextArea1);
 
@@ -965,13 +966,16 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .add(branchTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 642, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(branchTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 615, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(branchTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 639, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(layout.createSequentialGroup()
+                .add(branchTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

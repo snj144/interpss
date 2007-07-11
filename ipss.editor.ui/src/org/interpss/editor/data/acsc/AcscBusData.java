@@ -34,7 +34,8 @@ import org.interpss.editor.data.common.GroundData;
 public class AcscBusData extends AclfAdjBusData {
 	public static String 
 			ScCode_Contribute = "Contribute",
-			ScCode_NonContribute = "Non-Contribute";
+			ScCode_NonContribute = "Non-Contribute",
+			ScCode_BusScripting = "Scripting";
 	
     private String  scCode = "Non-Contribute";        //  Contribute | Non-Contribute
     private double  z0X = 0d;
