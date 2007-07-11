@@ -33,9 +33,9 @@ import org.interpss.dstab.control.cml.controller.util.TestAnnotateStabilizer;
 import org.interpss.dstab.control.cml.controller.util.TestAnnotateStabilizerComplex;
 import org.interpss.dstab.control.cml.controller.util.TestUtil;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.interpss.common.SpringAppCtxTest;
 import com.interpss.common.datatype.CMLVarType;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
