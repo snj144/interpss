@@ -11,5 +11,7 @@
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.common_2.3.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.ecore_2.3.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.ecore.xmi_2.3.0.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common.test"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-logging.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
