@@ -38,12 +38,14 @@ public class AclfBusData extends BaseDataBean{
 			GenCode_Swing = "Swing",
 			GenCode_Capacitor = "Capacitor",
 			GenCode_NonGen = "NonGen",
+			GenCode_GenScripting = "GenScripting",
 			
 			LoadCode_ConstP = "ConstantP",
 			LoadCode_ConstI = "ConstantI",
 			LoadCode_ConstZ = "ConstantZ",
 			LoadCode_FuncLoad = "FuncLoad",
-			LoadCode_NonLoad = "NonLoad";
+			LoadCode_NonLoad = "NonLoad",
+			LoadCode_LoadScripting = "LoadScripting";
 	
     private String  genCode = GenCode_NonGen;  
     private double  voltageAng = 0d;

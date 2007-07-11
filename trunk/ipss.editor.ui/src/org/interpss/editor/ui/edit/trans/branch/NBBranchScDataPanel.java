@@ -243,6 +243,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         lineRadioButton = new javax.swing.JRadioButton();
         xfrRadioButton = new javax.swing.JRadioButton();
         psXfrRadioButton = new javax.swing.JRadioButton();
+        scriptRadioButton = new javax.swing.JRadioButton();
         branchScInfoPanel = new javax.swing.JPanel();
         r1Label = new javax.swing.JLabel();
         r1TextField = new javax.swing.JTextField();
@@ -266,42 +267,53 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         setLayout(new java.awt.GridBagLayout());
 
         branchTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Branch Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        branchTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 15, 5));
+
         branchTypeButtonGroup.add(lineRadioButton);
         lineRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         lineRadioButton.setSelected(true);
-        lineRadioButton.setText("Line     ");
-        lineRadioButton.setName("lineRadioButton");
+        lineRadioButton.setText("Line");
+        lineRadioButton.setName("lineRadioButton"); // NOI18N
         lineRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lineRadioButtonActionPerformed(evt);
             }
         });
-
         branchTypePanel.add(lineRadioButton);
 
         branchTypeButtonGroup.add(xfrRadioButton);
         xfrRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         xfrRadioButton.setText("XFormer");
-        xfrRadioButton.setName("xfrRadioButton");
+        xfrRadioButton.setName("xfrRadioButton"); // NOI18N
         xfrRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 xfrRadioButtonActionPerformed(evt);
             }
         });
-
         branchTypePanel.add(xfrRadioButton);
 
         branchTypeButtonGroup.add(psXfrRadioButton);
         psXfrRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         psXfrRadioButton.setText("PhaseShift-Xfr");
-        psXfrRadioButton.setName("psXfrRadioButton");
+        psXfrRadioButton.setName("psXfrRadioButton"); // NOI18N
         psXfrRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 psXfrRadioButtonActionPerformed(evt);
             }
         });
-
         branchTypePanel.add(psXfrRadioButton);
+
+        branchTypeButtonGroup.add(scriptRadioButton);
+        scriptRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        scriptRadioButton.setText("Scripting");
+        scriptRadioButton.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scriptRadioButton.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        scriptRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scriptRadioButtonActionPerformed(evt);
+            }
+        });
+        branchTypePanel.add(scriptRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -323,7 +335,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         r1TextField.setColumns(8);
         r1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         r1TextField.setText("0.0");
-        r1TextField.setName("r1TextField");
+        r1TextField.setName("r1TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -342,7 +354,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         x1TextField.setColumns(8);
         x1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         x1TextField.setText("0.0");
-        x1TextField.setName("x1TextField");
+        x1TextField.setName("x1TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 0;
@@ -361,7 +373,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         r0TextField.setColumns(8);
         r0TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         r0TextField.setText("0.0");
-        r0TextField.setName("r0TextField");
+        r0TextField.setName("r0TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -380,7 +392,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         x0TextField.setColumns(8);
         x0TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         x0TextField.setText("0.0");
-        x0TextField.setName("x0TextField");
+        x0TextField.setName("x0TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 1;
@@ -399,7 +411,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         hB1TextField.setColumns(8);
         hB1TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         hB1TextField.setText("0.0");
-        hB1TextField.setName("hB1TextField");
+        hB1TextField.setName("hB1TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -418,7 +430,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         hB0TextField.setColumns(8);
         hB0TextField.setFont(new java.awt.Font("Dialog", 0, 12));
         hB0TextField.setText("0.0");
-        hB0TextField.setName("hB0TextField");
+        hB0TextField.setName("hB0TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 2;
@@ -438,7 +450,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         fromTapTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         fromTapTextField.setText("0.0");
         fromTapTextField.setEnabled(false);
-        fromTapTextField.setName("fromTapTextField");
+        fromTapTextField.setName("fromTapTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -459,7 +471,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         toTapTextField.setText("0.0");
         toTapTextField.setAutoscrolls(false);
         toTapTextField.setEnabled(false);
-        toTapTextField.setName("toTapTextField");
+        toTapTextField.setName("toTapTextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 3;
         gridBagConstraints.gridy = 3;
@@ -471,20 +483,21 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         add(branchScInfoPanel, gridBagConstraints);
 
         xfrFromGroundPanel.setLayout(new java.awt.BorderLayout());
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
         add(xfrFromGroundPanel, gridBagConstraints);
 
         xfrToGroundPanel.setLayout(new java.awt.BorderLayout());
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         add(xfrToGroundPanel, gridBagConstraints);
-
     }// </editor-fold>//GEN-END:initComponents
+
+private void scriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptRadioButtonActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_scriptRadioButtonActionPerformed
 
     private void psXfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrRadioButtonActionPerformed
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
@@ -521,6 +534,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     private javax.swing.JTextField r0TextField;
     private javax.swing.JLabel r1Label;
     private javax.swing.JTextField r1TextField;
+    private javax.swing.JRadioButton scriptRadioButton;
     private javax.swing.JLabel toTapLabel;
     private javax.swing.JTextField toTapTextField;
     private javax.swing.JLabel x0Label;

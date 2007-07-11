@@ -255,6 +255,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         dstabTabbedPane = new javax.swing.JTabbedPane();
         mainEditPanel = new javax.swing.JPanel();
         aclfInfoEditPanel = new javax.swing.JPanel();
@@ -271,9 +272,9 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
         setLayout(new java.awt.BorderLayout());
 
         dstabTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
-        dstabTabbedPane.setName("dstabTabbedPane");
-        mainEditPanel.setLayout(new java.awt.BorderLayout(0, 10));
+        dstabTabbedPane.setName("dstabTabbedPane"); // NOI18N
 
+        mainEditPanel.setLayout(new java.awt.BorderLayout(0, 10));
         mainEditPanel.add(aclfInfoEditPanel, java.awt.BorderLayout.NORTH);
 
         scriptingCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -285,7 +286,6 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
                 scriptingCheckBoxClicked(evt);
             }
         });
-
         extraInfoEditPanel.add(scriptingCheckBox);
 
         mainEditPanel.add(extraInfoEditPanel, java.awt.BorderLayout.SOUTH);
@@ -293,24 +293,21 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
         dstabTabbedPane.addTab("Bus Info", mainEditPanel);
 
         machInfoEditPanel.setLayout(new java.awt.BorderLayout());
-
         dstabTabbedPane.addTab("Machin Info", machInfoEditPanel);
 
         excInfoEditPanel.setLayout(new java.awt.BorderLayout());
-
         dstabTabbedPane.addTab("Exciter Info", excInfoEditPanel);
 
         govInfoEditPanel.setLayout(new java.awt.BorderLayout());
-
         dstabTabbedPane.addTab("Governor Info", govInfoEditPanel);
 
         pssInfoEditPanel.setLayout(new java.awt.BorderLayout());
-
         dstabTabbedPane.addTab("PSS Info", pssInfoEditPanel);
 
         scriptTextArea.setColumns(80);
         scriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
         scriptTextArea.setRows(35);
+        scriptTextArea.setTabSize(3);
         jScrollPane1.setViewportView(scriptTextArea);
 
         scriptingEditPanel.add(jScrollPane1);
@@ -318,7 +315,6 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
         dstabTabbedPane.addTab("Scripting", scriptingEditPanel);
 
         add(dstabTabbedPane, java.awt.BorderLayout.NORTH);
-
     }// </editor-fold>//GEN-END:initComponents
 
     private void scriptingCheckBoxClicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptingCheckBoxClicked
