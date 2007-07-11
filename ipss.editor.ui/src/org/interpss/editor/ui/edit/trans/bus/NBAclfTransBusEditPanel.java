@@ -133,14 +133,21 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    }
 	    else {
-	    	nonGenRadioButton.setSelected(true);
+		    if (_data.getGenCode().equals(AclfBusData.GenCode_NonGen))
+		    	nonGenRadioButton.setSelected(true);
+		    else 	
+		    	scriptGenRadioButton.setSelected(true);
 	        nonGenRadioButtonSelected(null);
 	    	pGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 		    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    }
 	    
-	    if (_data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad)) {
-	    	nonLoadRadioButton.setSelected(true);
+	    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad) || 
+	    	 _data.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)	) {
+		    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad)) 
+		    	nonLoadRadioButton.setSelected(true);
+		    else
+		    	scriptLoadRadioButton.setSelected(true);
 	        nonLoadRadioButtonSelected(null);
 		    pLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    	qLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
@@ -224,10 +231,12 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	}	
 	    }
 
+	    setScriptPanel();
+
     	return true;
 	}
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAclfTransBusEditPanel saveEditor2Form() called");
 		boolean ok = true;
 
@@ -250,6 +259,10 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	_data.setGenCode(AclfBusData.GenCode_Capacitor);
 	    	_data.setCapQ(SwingInputVerifyUtil.getDouble(pGenTextField));
 	    }
+	    else if (scriptGenRadioButton.isSelected()) {
+	    	_data.setGenCode(AclfBusData.GenCode_GenScripting);
+	    	// TODO: save scripts
+	    }
 	    else {
 	    	_data.setGenCode(AclfBusData.GenCode_NonGen);
 	    	_data.setGenP(0.0);
@@ -260,6 +273,10 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	_data.setLoadCode(AclfBusData.LoadCode_NonLoad);
 	    	_data.setLoadP(0.0);
 	    	_data.setLoadQ(0.0);
+	    } 
+	    else if (scriptLoadRadioButton.isSelected()) {
+	    	_data.setLoadCode(AclfBusData.LoadCode_LoadScripting);
+	    	// TODO: save scripts
 	    } 
 	    else {
 	    	if (constPRadioButton.isSelected())
@@ -272,56 +289,58 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	_data.setLoadQ(SwingInputVerifyUtil.getDouble(qLoadTextField));
 	    }
 
-    	_data.setShuntB(SwingInputVerifyUtil.getDouble(shuntBTextField));
-    	_data.setShuntG(SwingInputVerifyUtil.getDouble(shuntGTextField));
-    	_data.setShuntYUnit("PU");
+	    if (!scriptLoadRadioButton.isSelected()) {
+	    	_data.setShuntB(SwingInputVerifyUtil.getDouble(shuntBTextField));
+	    	_data.setShuntG(SwingInputVerifyUtil.getDouble(shuntGTextField));
+	    	_data.setShuntYUnit("PU");
 
-    	if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
-	    	if (remoteQRadioButton.isSelected() ) {
-	    		_data.setHasRemoteVControl(true);
-		    	_data.setGenCode(AclfBusData.GenCode_PQ);
-		    	_data.setGenP(SwingInputVerifyUtil.getDouble(pGenTextField));
-		    	_data.setGenQ(0.0);
-		    	// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and ReQMvarFlow-MvarSpec
-		    	_data.setVoltageMag(SwingInputVerifyUtil.getDouble(qGenTextField));
-	    		_data.setMaxGenQ(SwingInputVerifyUtil.getDouble(maxTextField));
-	    		_data.setMinGenQ(SwingInputVerifyUtil.getDouble(minTextField));
-	    		if (voltageRadioButton.isSelected()) {
-	    			_data.setReQControlType(AclfAdjBusData.ReQControlType_Voltage);
-	    			_data.setRemoteControlBusId((String)remoteBusComboBox.getSelectedItem());
-	    		}
-	    		else {
-	    			_data.setReQControlType(AclfAdjBusData.ReQControlType_MvarFlow);
-	    			_data.setFlowFrom2To(from2ToRadioButton.isSelected());
-	    			_data.setMvarControlOnFromSide(mvarOnFromSideRadioButton.isSelected());
-	    			_data.setRemoteControlBusId((String)remoteBusComboBox.getSelectedItem());
-	    		}
-		    }	
-	    	else if (adjustCheckBox.isSelected()) {
-	    		_data.setHasRemoteVControl(false);
-		    	if (pqRadioButton.isSelected() ) {
-		    		_data.setHasLimitControl(true);
-		    		_data.setMaxVoltMag(SwingInputVerifyUtil.getDouble(maxTextField));
-		    		_data.setMinVoltMag(SwingInputVerifyUtil.getDouble(minTextField));
-			    }	
-			    else if (pvRadioButton.isSelected()) {
-		    		_data.setHasLimitControl(true);
+	    	if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
+		    	if (remoteQRadioButton.isSelected() ) {
+		    		_data.setHasRemoteVControl(true);
+			    	_data.setGenCode(AclfBusData.GenCode_PQ);
+			    	_data.setGenP(SwingInputVerifyUtil.getDouble(pGenTextField));
+			    	_data.setGenQ(0.0);
+			    	// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and ReQMvarFlow-MvarSpec
+			    	_data.setVoltageMag(SwingInputVerifyUtil.getDouble(qGenTextField));
 		    		_data.setMaxGenQ(SwingInputVerifyUtil.getDouble(maxTextField));
 		    		_data.setMinGenQ(SwingInputVerifyUtil.getDouble(minTextField));
+		    		if (voltageRadioButton.isSelected()) {
+		    			_data.setReQControlType(AclfAdjBusData.ReQControlType_Voltage);
+		    			_data.setRemoteControlBusId((String)remoteBusComboBox.getSelectedItem());
+		    		}
+		    		else {
+		    			_data.setReQControlType(AclfAdjBusData.ReQControlType_MvarFlow);
+		    			_data.setFlowFrom2To(from2ToRadioButton.isSelected());
+		    			_data.setMvarControlOnFromSide(mvarOnFromSideRadioButton.isSelected());
+		    			_data.setRemoteControlBusId((String)remoteBusComboBox.getSelectedItem());
+		    		}
 			    }	
+		    	else if (adjustCheckBox.isSelected()) {
+		    		_data.setHasRemoteVControl(false);
+			    	if (pqRadioButton.isSelected() ) {
+			    		_data.setHasLimitControl(true);
+			    		_data.setMaxVoltMag(SwingInputVerifyUtil.getDouble(maxTextField));
+			    		_data.setMinVoltMag(SwingInputVerifyUtil.getDouble(minTextField));
+				    }	
+				    else if (pvRadioButton.isSelected()) {
+			    		_data.setHasLimitControl(true);
+			    		_data.setMaxGenQ(SwingInputVerifyUtil.getDouble(maxTextField));
+			    		_data.setMinGenQ(SwingInputVerifyUtil.getDouble(minTextField));
+				    }	
+			    }
+		    	else {
+		    		_data.setHasLimitControl(false);
+		    		_data.setHasRemoteVControl(false);
+		    	}
+		    	
+		    	if (funcLoadRadioButton.isSelected()) {
+		    		_data.setLoadCode(AclfBusData.LoadCode_FuncLoad);
+					_data.setLoadP_PPct(SwingInputVerifyUtil.getDouble(constP_PTextField));
+		    		_data.setLoadQ_PPct(SwingInputVerifyUtil.getDouble(constP_QTextField));
+		    		_data.setLoadP_IPct(SwingInputVerifyUtil.getDouble(constI_PTextField));
+		    		_data.setLoadQ_IPct(SwingInputVerifyUtil.getDouble(constI_QTextField));
+		    	}	
 		    }
-	    	else {
-	    		_data.setHasLimitControl(false);
-	    		_data.setHasRemoteVControl(false);
-	    	}
-	    	
-	    	if (funcLoadRadioButton.isSelected()) {
-	    		_data.setLoadCode(AclfBusData.LoadCode_FuncLoad);
-				_data.setLoadP_PPct(SwingInputVerifyUtil.getDouble(constP_PTextField));
-	    		_data.setLoadQ_PPct(SwingInputVerifyUtil.getDouble(constP_QTextField));
-	    		_data.setLoadP_IPct(SwingInputVerifyUtil.getDouble(constI_PTextField));
-	    		_data.setLoadQ_IPct(SwingInputVerifyUtil.getDouble(constI_QTextField));
-	    	}	
 	    }
 
 	    return ok;
@@ -447,7 +466,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         remoteQRadioButton = new javax.swing.JRadioButton();
         capRadioButton = new javax.swing.JRadioButton();
         nonGenRadioButton = new javax.swing.JRadioButton();
-        scrptGenRadioButton = new javax.swing.JRadioButton();
+        scriptGenRadioButton = new javax.swing.JRadioButton();
         getInfoPanel = new javax.swing.JPanel();
         pGenLabel = new javax.swing.JLabel();
         pGenTextField = new javax.swing.JTextField();
@@ -579,16 +598,16 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         });
         genTypePanel.add(nonGenRadioButton);
 
-        genTypeButtonGroup.add(scrptGenRadioButton);
-        scrptGenRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        scrptGenRadioButton.setText("GenScripting");
-        scrptGenRadioButton.setName("nonGenRadioButton"); // NOI18N
-        scrptGenRadioButton.addActionListener(new java.awt.event.ActionListener() {
+        genTypeButtonGroup.add(scriptGenRadioButton);
+        scriptGenRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        scriptGenRadioButton.setText("GenScripting");
+        scriptGenRadioButton.setName("nonGenRadioButton"); // NOI18N
+        scriptGenRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                scrptGenRadioButtonSelected(evt);
+                scriptGenRadioButtonSelected(evt);
             }
         });
-        genTypePanel.add(scrptGenRadioButton);
+        genTypePanel.add(scriptGenRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -1086,14 +1105,14 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     private void scriptLoadRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptLoadRadioButtonSelected
     	_data.setLoadCode(AclfBusData.LoadCode_LoadScripting);
         setLoadLabelText(false, true);
-		busTabbedPane.setEnabledAt(1, true);
+        setScriptPanel();
 }//GEN-LAST:event_scriptLoadRadioButtonSelected
 
-    private void scrptGenRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scrptGenRadioButtonSelected
+    private void scriptGenRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptGenRadioButtonSelected
         setGenLabelText("Pgen(pu)", false, "0.0", "Qgen(pu)", false, "0.0");
         setAdjLabelText(false, BUS_TYPE_PV);
-		busTabbedPane.setEnabledAt(1, true);
-}//GEN-LAST:event_scrptGenRadioButtonSelected
+        setScriptPanel();
+}//GEN-LAST:event_scriptGenRadioButtonSelected
 
     private void mvaFlowRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mvaFlowRadioButtonActionPerformed
     	IpssLogger.getLogger().info("mvaFlowRadioButtonActionPerformed() called");
@@ -1204,8 +1223,12 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     }//GEN-LAST:event_swingRadioButtonSelected
     
     private void setScriptPanel() {
-		if (!scriptLoadRadioButton.isSelected() && !scrptGenRadioButton.isSelected())
+		if (!scriptLoadRadioButton.isSelected() && !scriptGenRadioButton.isSelected())
 			busTabbedPane.setEnabledAt(1, false);
+		else
+			busTabbedPane.setEnabledAt(1, true);
+		if (scriptLoadRadioButton.isSelected() && scriptGenRadioButton.isSelected())
+			busTabbedPane.setSelectedIndex(1);
     }
 
     private void setGenLabelText(String pLabel, boolean pEnabled, String pValue, 
@@ -1284,11 +1307,11 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     private javax.swing.JComboBox remoteBusComboBox;
     private javax.swing.JLabel remoteBusLabel;
     private javax.swing.JRadioButton remoteQRadioButton;
+    private javax.swing.JRadioButton scriptGenRadioButton;
     private javax.swing.JRadioButton scriptLoadRadioButton;
     private javax.swing.JPanel scriptPanel;
     private javax.swing.JScrollPane scriptScrollPane;
     private javax.swing.JTextArea scriptTextArea;
-    private javax.swing.JRadioButton scrptGenRadioButton;
     private javax.swing.JTextField shuntBTextField;
     private javax.swing.JTextField shuntGTextField;
     private javax.swing.JPanel shuntYPanel;
