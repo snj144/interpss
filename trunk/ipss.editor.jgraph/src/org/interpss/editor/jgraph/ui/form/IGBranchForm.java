@@ -33,8 +33,7 @@ public interface IGBranchForm extends IUserData {
 		TransBranchLfCode_Line = "Line",
 		TransBranchLfCode_Xfr  = "Xformer",
 		TransBranchLfCode_PsXfr = "PSXformer",
-	    TransBranchLfCode_Scripting = "LFScripting",
-    	TransBranchScCode_Scripting = "SCScripting";
+	    TransBranchCode_Scripting = "Scripting";
 	
 	public static final String
 		DistBranchCode_Feeder = "Feeder",
