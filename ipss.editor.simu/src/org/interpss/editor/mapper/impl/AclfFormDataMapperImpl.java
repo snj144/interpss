@@ -239,15 +239,24 @@ public class AclfFormDataMapperImpl {
 			CapacitorBusAdapter cBus = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
 			cBus.setQ(busData.getCapQ(), UnitType.toUnit(busData.getCapQUnit()), aclfNet.getBaseKva());
 		}
+		else if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting)) {   
+			bus.setGenCode(AclfGenCode.GEN_SCRIPTING_LITERAL);
+			bus.setScripts(busData.getScripts());
+		}
 		else {   
 			bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
 		}
 		
 		bus.setLoadCode(parseLoadCode(busData.getLoadCode()));
-		LoadBusAdapter loadBus = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
-		if (!busData.getLoadCode().equals(AclfBusData.LoadCode_NonLoad))
-			loadBus.setLoad(new Complex(busData.getLoadP(),busData.getLoadQ()), 
-				UnitType.toUnit(busData.getLoadUnit()), aclfNet.getBaseKva());
+		if (busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
+			bus.setScripts(busData.getScripts());
+		}
+		else {
+			LoadBusAdapter loadBus = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
+			if (!busData.getLoadCode().equals(AclfBusData.LoadCode_NonLoad))
+				loadBus.setLoad(new Complex(busData.getLoadP(),busData.getLoadQ()), 
+					UnitType.toUnit(busData.getLoadUnit()), aclfNet.getBaseKva());
+		}
 		
 		Complex ypu = UnitType.yConversion(new Complex(busData.getShuntG(),busData.getShuntB()), bus.getBaseVoltage(), 
 						aclfNet.getBaseKva(), UnitType.toUnit(busData.getShuntYUnit()), UnitType.PU);
@@ -319,7 +328,8 @@ public class AclfFormDataMapperImpl {
 		return code.equals(AclfBusData.LoadCode_ConstP) || code.equals(AclfBusData.LoadCode_FuncLoad) ? AclfLoadCode.CONST_P_LITERAL : 
 				(code.equals(AclfBusData.LoadCode_ConstI)? AclfLoadCode.CONST_I_LITERAL : 
 					(code.equals(AclfBusData.LoadCode_ConstZ)? AclfLoadCode.CONST_Z_LITERAL : 
-							AclfLoadCode.NON_LOAD_LITERAL));
+						(code.equals(AclfBusData.LoadCode_LoadScripting)? AclfLoadCode.LOAD_SCRIPTING_LITERAL : 
+							AclfLoadCode.NON_LOAD_LITERAL)));
 	}
 	
 	/**
@@ -342,6 +352,11 @@ public class AclfFormDataMapperImpl {
 		}
 		else if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {   // psxfr branch
 			setPSXfrBranchFormInfo(formBranch, branch, aclfNet, msg);
+			return true;
+		}
+		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) { 
+			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
+			branch.setScripts(data.getScripts());
 			return true;
 		}
 		return false;

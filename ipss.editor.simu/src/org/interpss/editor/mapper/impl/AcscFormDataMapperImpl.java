@@ -45,6 +45,7 @@ import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscLineAdapter;
@@ -150,6 +151,11 @@ public class AcscFormDataMapperImpl {
 		else if (data.getScCode().equals(AcscBusData.ScCode_NonContribute)) {
 			return setNonContributeBusFormInfo(data, bus, net);
 		}
+		else if (data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
+			bus.setScCode(BusScCode.NON_CONTRI_LITERAL);
+			bus.setScripts(data.getScripts());
+			return true;
+		}
 		else {
 			throw new InvalidParameterException("Wrong bus Branch type for mapping AcscBusInfo, type: " + data.getScCode()); 
 		}
@@ -213,6 +219,11 @@ public class AcscFormDataMapperImpl {
 		else if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
 				 data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {   // psxfr branch
 			return setAcscXfrFormInfo(data, branch, net, msg);
+		}
+		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
+			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
+			branch.setScripts(data.getScripts());
+			return true;
 		}
 		else {
 			throw new InvalidParameterException("Wrong Aclf Branch type for mapping AcscBranchInfo, type: " + data.getLfCode()); 
