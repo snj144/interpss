@@ -130,8 +130,8 @@
         <Container class="javax.swing.JPanel" name="scriptingEditPanel">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Scripting">
-                <Property name="tabTitle" type="java.lang.String" value="Scripting"/>
+              <JTabbedPaneConstraints tabName="Bus Device Scripting">
+                <Property name="tabTitle" type="java.lang.String" value="Bus Device Scripting"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>

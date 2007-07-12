@@ -39,6 +39,8 @@ public class BaseForm {
     private int area = 0;
     private int zone = 0;
 	private String  appType = IGNetForm.AppType_Distribution;  			// Transmision | Distribution 
+	// we assume that scripts can only be defined at one level, for AcscBus, it is at AcscBus level. One can
+	// not define script at AclfBus level for an AcscBus    
 	private String  scripts = ""; 
 
     public BaseForm() { this(""); }	

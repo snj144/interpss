@@ -69,24 +69,17 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
     	return true;
 	}
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBGroundInputPanel saveEditor2Form() called");
-		boolean ok = true;
 
 		if (this.zGRadioButton.isSelected()) {
 			_form.setCode(ScGroundType.GType_ZGrounded);
 
-			if (!SwingInputVerifyUtil.largeEqualThan(this.gXField, 0.0d)) {
-				errMsg.add("Grounding X < 0.0");
-				ok = false;
-			}
-    		_form.setX(SwingInputVerifyUtil.getDouble(this.gXField));
+			if (SwingInputVerifyUtil.largeEqualThan(this.gXField, 0.0d, errMsg, "Grounding X < 0.0"))
+				_form.setX(SwingInputVerifyUtil.getDouble(this.gXField));
 
-			if (!SwingInputVerifyUtil.largeEqualThan(this.gRField, 0.0d)) {
-				errMsg.add("Grounding R < 0.0");
-				ok = false;
-			}
-    		_form.setR(SwingInputVerifyUtil.getDouble(this.gRField));
+			if (SwingInputVerifyUtil.largeEqualThan(this.gRField, 0.0d, errMsg, "Grounding R < 0.0"))
+				_form.setR(SwingInputVerifyUtil.getDouble(this.gRField));
 		}
 		else if (this.solidGRadioButton.isSelected()) {
 			_form.setCode(ScGroundType.GType_SolidGrounded);
@@ -94,7 +87,7 @@ public class NBGroundInputPanel extends javax.swing.JPanel implements IFormDataP
 		else
 			_form.setCode(ScGroundType.GType_Ungrounded);
 
-		return ok;
+		return errMsg.size() == 0;
     }
     
 	// The following code is controlled by NetBean IDE

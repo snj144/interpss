@@ -61,6 +61,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 		parent = aParent;
 		
 		_aclfTransBusEditPanel.initPanel(aParent);
+		_aclfTransBusEditPanel.disableScripting();
 		_aclfTransBusEditPanel.getEditUIEventContainer().addEditUIEventListener(this);
 		
 		_machPanel.initPanel(this);
@@ -312,7 +313,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 
         scriptingEditPanel.add(jScrollPane1);
 
-        dstabTabbedPane.addTab("Scripting", scriptingEditPanel);
+        dstabTabbedPane.addTab("Bus Device Scripting", scriptingEditPanel);
 
         add(dstabTabbedPane, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents

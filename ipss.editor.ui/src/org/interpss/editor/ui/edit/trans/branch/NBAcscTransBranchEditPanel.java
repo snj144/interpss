@@ -30,9 +30,12 @@ import javax.swing.JDialog;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.interpss.editor.data.acsc.AcscBranchData;
+import org.interpss.editor.form.GBranchForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.util.IpssLogger;
  
@@ -42,6 +45,7 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 	private JDialog parent = null;
 
     private GFormContainer _netContainer = null;
+    private AcscBranchData  _data = null;
     
     private NBBranchPositivePanel _positiveEditPanel = new NBBranchPositivePanel();
     private NBBranchScDataPanel   _scEditPanel = new NBBranchScDataPanel();
@@ -49,6 +53,7 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 	public void initPanel(JDialog aParent) {
 		parent = aParent;
 		_positiveEditPanel.initPanel(parent);
+		_positiveEditPanel.disableScripting();
 		_scEditPanel.initPanel(parent, this);
     	scInfoEditPanel.add(_scEditPanel);
 	    
@@ -57,7 +62,7 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 				if (branchInfoEditTabbedPane.getSelectedIndex() == 0) {
 					IpssLogger.getLogger().info("Loadflow Info Tab selected");
 					try {
-						Vector errMsg = new Vector();
+						Vector<String> errMsg = new Vector<String>();
 						_scEditPanel.saveEditor2Form(errMsg);
 					} catch (Exception exc) {}	
 				    _positiveEditPanel.setForm2Editor();
@@ -65,7 +70,7 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 				else if (branchInfoEditTabbedPane.getSelectedIndex() == 1) {
 					IpssLogger.getLogger().info("Short Circut Info Tab selected");
 					try {
-						Vector errMsg = new Vector();
+						Vector<String> errMsg = new Vector<String>();
 						_positiveEditPanel.saveEditor2Form(errMsg);
 					} catch (Exception exc) {}	
 				    _scEditPanel.setForm2Editor();
@@ -76,6 +81,7 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 	public void init(Object netContainer, Object form) {
 		IpssLogger.getLogger().info("AcscTransBranchEditPanel init() called");
 		_netContainer = (GFormContainer)netContainer;
+		_data = ((GBranchForm)form).getAcscBranchData();
 		
     	if (((GNetForm)((GFormContainer)netContainer).getGNetForm()).getAcscNetData().isHasAclfData()) {
 	    	branchInfoEditTabbedPane.setEnabledAt(0, true);
@@ -102,23 +108,23 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 	    }
 	    
 		_scEditPanel.setForm2Editor();
-
+		if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting))
+			scriptTextArea.setText(_data.getScripts());
+		
 		return true;
 	}
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("AcscTransBranchEditPanel saveEditor2Form() called");
-		boolean ok = true;
-
 	    if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAclfData() ) {
-		    if (!_positiveEditPanel.saveEditor2Form(errMsg))
-		    	ok = false;
+		    _positiveEditPanel.saveEditor2Form(errMsg);
 	    }
 
-	    if (!_scEditPanel.saveEditor2Form(errMsg))
-	    	ok = false;
+	    _scEditPanel.saveEditor2Form(errMsg);
+		if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting))
+			_data.setScripts(scriptTextArea.getText());
 
-	    return ok;
+	    return errMsg.size() == 0;
     }
     
     /** Creates new form AclfEditPanel */

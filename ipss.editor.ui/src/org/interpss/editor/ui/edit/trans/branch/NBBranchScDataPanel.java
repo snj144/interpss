@@ -81,6 +81,10 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 		_toXfrConnectPanel.init(_netContainer, _data.getToXfrConnectData());	    
 	}
 	
+	public void disableScripting() {
+		scriptRadioButton.setEnabled(false);
+	}
+	
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBBranchScPanel setForm2Editor() called");
 
@@ -122,7 +126,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
             xfrFromGroundPanel.remove(_fromXfrConnectPanel);
             xfrToGroundPanel.remove(_toXfrConnectPanel);
 	    }
-    	else {
+    	else { // branch scripting
     		scriptRadioButton.setSelected(true);
     	    setDataFieldStatus(false);
     	    
@@ -182,79 +186,57 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         }
     }
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBBranchScPanel saveEditor2Form() called");
-		boolean ok = true;
 
-    	if (lineRadioButton.isSelected())
-    		_data.setLfCode(IGBranchForm.TransBranchLfCode_Line);
-    	else if (xfrRadioButton.isSelected())
-    		_data.setLfCode(IGBranchForm.TransBranchLfCode_Xfr);
-    	else
-    		_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
-
-		if (!SwingInputVerifyUtil.largeEqualThan(r1TextField, 0.0d)) {
-			errMsg.add("R1 < 0.0");
-			ok = false;
-		}
-		_data.setZR(SwingInputVerifyUtil.getDouble(r1TextField));
-
-		if (!SwingInputVerifyUtil.largeThan(x1TextField, 0.0d)) {
-			errMsg.add("X1 <= 0.0");
-			ok = false;
-		}
-		_data.setZX(SwingInputVerifyUtil.getDouble(x1TextField));
-
-		if (!SwingInputVerifyUtil.largeEqualThan(r0TextField, 0.0d)) {
-			errMsg.add("R0 < 0.0");
-			ok = false;
-		}
-		_data.setZ0R(SwingInputVerifyUtil.getDouble(r0TextField));
-
-		if (!SwingInputVerifyUtil.largeEqualThan(x0TextField, 0.0d)) {
-			errMsg.add("X0 <= 0.0");
-			ok = false;
-		}
-		_data.setZ0X(SwingInputVerifyUtil.getDouble(x0TextField));
-	    
-	    if ( _data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
-		     _data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
-			if (!SwingInputVerifyUtil.within(fromTapTextField, 0.0d, 2.0d)) {
-				errMsg.add("From tap < 0.0 or > 2.0");
-				ok = false;
-			}
-			_data.setXfrTapFromSideTap(SwingInputVerifyUtil.getDouble(fromTapTextField));
-
-			if (!SwingInputVerifyUtil.within(toTapTextField, 0.0d, 2.0d)) {
-				errMsg.add("To tap < 0.0 or > 2.0");
-				ok = false;
-			}
-			_data.setXfrTapToSideTap(SwingInputVerifyUtil.getDouble(toTapTextField));
-
-			if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
-    			_data.setPhaseShiftAngle(SwingInputVerifyUtil.getDouble(hB1TextField));
-        	}    
-
-            if (!_fromXfrConnectPanel.saveEditor2Form(errMsg))
-            	ok = false;
-            if (!_toXfrConnectPanel.saveEditor2Form(errMsg))
-            	ok = false;
+    	if (scriptRadioButton.isSelected()) {
+    		_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
     	}
-	    else {
-			if (!SwingInputVerifyUtil.largeEqualThan(hB1TextField, 0.0d)) {
-				errMsg.add("1/2B1 < 0.0");
-				ok = false;
-			}
-			_data.setHalfShuntB(SwingInputVerifyUtil.getDouble(hB1TextField));
+    	else {
+        	if (lineRadioButton.isSelected())
+        		_data.setLfCode(IGBranchForm.TransBranchLfCode_Line);
+        	else if (xfrRadioButton.isSelected())
+        		_data.setLfCode(IGBranchForm.TransBranchLfCode_Xfr);
+        	else if (psXfrRadioButton.isSelected())
+        		_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
 
-			if (!SwingInputVerifyUtil.largeEqualThan(hB0TextField, 0.0d)) {
-				errMsg.add("1/2B0 < 0.0");
-				ok = false;
-			}
-			_data.setHalfShuntB0(SwingInputVerifyUtil.getDouble(hB0TextField));
+    		if (SwingInputVerifyUtil.largeEqualThan(r1TextField, 0.0d, errMsg, "R1 < 0.0"))
+    			_data.setZR(SwingInputVerifyUtil.getDouble(r1TextField));
+
+    		if (SwingInputVerifyUtil.largeThan(x1TextField, 0.0d, errMsg, "X1 <= 0.0") )
+    			_data.setZX(SwingInputVerifyUtil.getDouble(x1TextField));
+
+    		if (SwingInputVerifyUtil.largeEqualThan(r0TextField, 0.0d, errMsg, "R0 < 0.0"))
+    			_data.setZ0R(SwingInputVerifyUtil.getDouble(r0TextField));
+
+    		if (SwingInputVerifyUtil.largeEqualThan(x0TextField, 0.0d, errMsg, "X0 <= 0.0"))
+    			_data.setZ0X(SwingInputVerifyUtil.getDouble(x0TextField));
+    	    
+    	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
+    		    _data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
+    			if (SwingInputVerifyUtil.within(fromTapTextField, 0.0d, 2.0d, errMsg, "From tap < 0.0 or > 2.0"))
+    				_data.setXfrTapFromSideTap(SwingInputVerifyUtil.getDouble(fromTapTextField));
+
+    			if (SwingInputVerifyUtil.within(toTapTextField, 0.0d, 2.0d, errMsg, "To tap < 0.0 or > 2.0"))
+    				_data.setXfrTapToSideTap(SwingInputVerifyUtil.getDouble(toTapTextField));
+
+    			if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
+        			_data.setPhaseShiftAngle(SwingInputVerifyUtil.getDouble(hB1TextField));
+            	}    
+
+                _fromXfrConnectPanel.saveEditor2Form(errMsg);
+                _toXfrConnectPanel.saveEditor2Form(errMsg);
+        	}
+    	    else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
+    			if (SwingInputVerifyUtil.largeEqualThan(hB1TextField, 0.0d, errMsg, "1/2B1 < 0.0"))
+    				_data.setHalfShuntB(SwingInputVerifyUtil.getDouble(hB1TextField));
+
+    			if (SwingInputVerifyUtil.largeEqualThan(hB0TextField, 0.0d, errMsg, "1/2B0 < 0.0"))
+    				_data.setHalfShuntB0(SwingInputVerifyUtil.getDouble(hB0TextField));
+        	}
     	}
 
-	    return ok;
+	    return errMsg.size() == 0;
     }
     
     /** Creates new form AclfEditPanel */
@@ -529,7 +511,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     }// </editor-fold>//GEN-END:initComponents
 
 private void scriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptRadioButtonActionPerformed
-	_data.setLfCode(IGBranchForm.TransBranchScCode_Scripting);
+	_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
 	setForm2Editor();
 }//GEN-LAST:event_scriptRadioButtonActionPerformed
 

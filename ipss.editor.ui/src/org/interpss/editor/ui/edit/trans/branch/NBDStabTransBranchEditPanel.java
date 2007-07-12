@@ -40,12 +40,14 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
 	private JDialog parent = null;
 
     private NBBranchPositivePanel _positiveEditPanel = new NBBranchPositivePanel();
-    private NBBranchScDataPanel       _scEditPanel = new NBBranchScDataPanel();
+    private NBBranchScDataPanel   _scEditPanel = new NBBranchScDataPanel();
     
 	public void initPanel(JDialog aParent) {
 		parent = aParent;
 		_positiveEditPanel.initPanel(parent);
+		_positiveEditPanel.disableScripting();
 		_scEditPanel.initPanel(parent, this);
+		_scEditPanel.disableScripting();
     	scInfoEditPanel.add(_scEditPanel);
 	    
 	    branchInfoEditTabbedPane.addChangeListener(new ChangeListener() {
@@ -53,7 +55,7 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
 				if (branchInfoEditTabbedPane.getSelectedIndex() == 0) {
 					IpssLogger.getLogger().info("Loadflow Info Tab selected");
 					try {
-						Vector errMsg = new Vector();
+						Vector<String> errMsg = new Vector<String>();
 						_scEditPanel.saveEditor2Form(errMsg);
 					} catch (Exception exc) {}	
 				    _positiveEditPanel.setForm2Editor();
@@ -61,7 +63,7 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
 				else if (branchInfoEditTabbedPane.getSelectedIndex() == 1) {
 					IpssLogger.getLogger().info("Short Circut Info Tab selected");
 					try {
-						Vector errMsg = new Vector();
+						Vector<String> errMsg = new Vector<String>();
 						_positiveEditPanel.saveEditor2Form(errMsg);
 					} catch (Exception exc) {}	
 				    _scEditPanel.setForm2Editor();
@@ -77,6 +79,10 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
 	    _positiveEditPanel.init(netContainer, form);
     	
 	    _scEditPanel.init(netContainer, form);
+
+	    // Branch device scripting not implemented yet
+	    branchInfoEditTabbedPane.setEnabledAt(2, false);
+	    scriptingCheckBox.setEnabled(false);
 	}
 	
     public boolean setForm2Editor() {
@@ -88,17 +94,14 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
 		return true;
 	}
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("DStabTransBranchEditPanel saveEditor2Form() called");
-		boolean ok = true;
 
-	    if (!_positiveEditPanel.saveEditor2Form(errMsg))
-	    	ok = false;
+	    _positiveEditPanel.saveEditor2Form(errMsg);
 
-	    if (!_scEditPanel.saveEditor2Form(errMsg))
-	    	ok = false;
+	    _scEditPanel.saveEditor2Form(errMsg);
 
-	    return ok;
+	    return errMsg.size() == 0;
     }
     
     /** Creates new form AclfEditPanel */
@@ -113,28 +116,64 @@ public class NBDStabTransBranchEditPanel extends javax.swing.JPanel implements I
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         branchInfoEditTabbedPane = new javax.swing.JTabbedPane();
         lfInfoEditPanel = new javax.swing.JPanel();
         scInfoEditPanel = new javax.swing.JPanel();
+        scriptPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        scriptCheckPanel = new javax.swing.JPanel();
+        scriptingCheckBox = new javax.swing.JCheckBox();
 
         setLayout(new java.awt.BorderLayout());
 
         branchInfoEditTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
-        branchInfoEditTabbedPane.setName("branchInfoEditTabbedPane");
+        branchInfoEditTabbedPane.setName("branchInfoEditTabbedPane"); // NOI18N
         branchInfoEditTabbedPane.addTab("Branch Info(+)", lfInfoEditPanel);
-
         branchInfoEditTabbedPane.addTab("Branch Info(+/-/0)", scInfoEditPanel);
+
+        jTextArea1.setColumns(80);
+        jTextArea1.setFont(new java.awt.Font("Courier New", 0, 12));
+        jTextArea1.setRows(30);
+        jTextArea1.setTabSize(3);
+        jScrollPane1.setViewportView(jTextArea1);
+
+        scriptPanel.add(jScrollPane1);
+
+        branchInfoEditTabbedPane.addTab("Branch Device Scripting", scriptPanel);
 
         branchInfoEditTabbedPane.setSelectedIndex(1);
 
         add(branchInfoEditTabbedPane, java.awt.BorderLayout.CENTER);
 
+        scriptingCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        scriptingCheckBox.setText("Dynamic Branch Device Scripting");
+        scriptingCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        scriptingCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        scriptingCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                scriptingCheckBoxActionPerformed(evt);
+            }
+        });
+        scriptCheckPanel.add(scriptingCheckBox);
+
+        add(scriptCheckPanel, java.awt.BorderLayout.SOUTH);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void scriptingCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptingCheckBoxActionPerformed
+    // TODO add your handling code here:
+}//GEN-LAST:event_scriptingCheckBoxActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTabbedPane branchInfoEditTabbedPane;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel lfInfoEditPanel;
     private javax.swing.JPanel scInfoEditPanel;
+    private javax.swing.JPanel scriptCheckPanel;
+    private javax.swing.JPanel scriptPanel;
+    private javax.swing.JCheckBox scriptingCheckBox;
     // End of variables declaration//GEN-END:variables
 }	

@@ -77,6 +77,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		_form = (GBranchForm)form;
 		_data = _form.getAcscBranchData();
 		
+		// init branch, if fromBaseV != toBaseV, init as a Xfr branch
 		if (_form.isNewState()) {
 		     GBusForm fromBusForm = (GBusForm)((GFormContainer)netContainer).getGBusForm(_form.getFromId());
 		     GBusForm toBusForm = (GBusForm)((GFormContainer)netContainer).getGBusForm(_form.getToId());
@@ -99,6 +100,159 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		branchTabbedPane.setEnabledAt(1, false);
 	}
 	
+	public void disableScripting() {
+		branchScriptRadioButton.setEnabled(false);
+	}
+	
+    public boolean setForm2Editor() {
+		IpssLogger.getLogger().info("NBBranchPositivePanel setForm2Editor() called");
+
+	    if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
+		    setDataFieldEnabled(false);
+			branchScriptRadioButton.setSelected(true);
+			scriptTextArea.setText(_data.getScripts());
+    	    dataPanel.remove(tapVControlPanel);
+    	    dataPanel.remove(psXfrPControlPanel);
+	    }
+	    else {
+		    setDataFieldEnabled(true);
+	    	rTextField.setText(Number2String.toStr(_data.getZR(), "#0.0####"));
+		    xTextField.setText(Number2String.toStr(_data.getZX(), "#0.0####"));
+		    
+			mvaRating1TextField.setText(Number2String.toStr(_data.getRating1(), "#0.0#"));
+			mvaRating2TextField.setText(Number2String.toStr(_data.getRating2(), "#0.0#"));
+			mvaRating3TextField.setText(Number2String.toStr(_data.getRating3(), "#0.0#"));
+			if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
+				lineRadioButton.setSelected(true);
+	    	    setBranchLabelText(true, false);
+	    	    hBTextField.setText(Number2String.toStr(_data.getHalfShuntB(), "#0.0####"));
+
+	    	    dataPanel.remove(tapVControlPanel);
+	    	    dataPanel.remove(psXfrPControlPanel);
+			}
+			else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {
+				xfrRadioButton.setSelected(true);
+	    	    setBranchLabelText(false, false);
+	    	    fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
+	    	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
+	    	    
+	    		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
+	    			dataPanel.remove(psXfrPControlPanel);
+	    			dataPanel.add(tapVControlPanel);
+	    	    	if (_data.isHasTapVControl()) {
+						tapVControlCheckBox.setSelected(true);
+						voltageRadioButton.setEnabled(true);
+						mvaFlowRadioButton.setEnabled(true);
+	    			    setTapVControlPanel();
+	    	    	}
+	    			else { 
+						tapVControlCheckBox.setSelected(false);
+						voltageRadioButton.setEnabled(false);
+						mvaFlowRadioButton.setEnabled(false);
+	    				tapVControlPanel.remove(tapVControlEditPanel);
+	    			}	
+	    	    }
+			}
+			else { // PS_Xfr case
+		   		psXfrRadioButton.setSelected(true);
+	    	    setBranchLabelText(false, true);
+	    	    hBTextField.setText(Number2String.toStr(_data.getPhaseShiftAngle(), "#0.0####"));
+	    	    fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
+	    	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
+	    	    
+	    		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
+	    			dataPanel.remove(tapVControlPanel);
+	    			dataPanel.add(psXfrPControlPanel);
+	    	    	if (_data.isHasPSXfrPControl()) {
+	    	        	psXfrPowerCheckBox.setSelected(true);
+	    	            setPsXfrPControlPanel();
+	    	    	}
+	    	    	else {
+	    	        	psXfrPowerCheckBox.setSelected(false);
+	    		        psXfrPControlPanel.remove(psXfrPControlEditPanel);
+	    	    	}    		
+	    	    }
+			}
+	    }
+
+    	repaintDialog();
+    	
+    	return true;
+	}
+
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
+		IpssLogger.getLogger().info("NBBranchPositivePanel saveEditor2Form() called");
+
+		if (branchScriptRadioButton.isSelected()) {
+    		_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
+	    	_data.setScripts(scriptTextArea.getText());
+		}
+		else {
+			if (SwingInputVerifyUtil.getDouble(this.rTextField)== 0.0 && SwingInputVerifyUtil.getDouble(this.xTextField)== 0.0) {
+				errMsg.add("Branch x == 0.0 and r = 0.0");
+			}
+		    _data.setZR(SwingInputVerifyUtil.getDouble(rTextField));
+			_data.setZX(SwingInputVerifyUtil.getDouble(xTextField));
+
+		    _data.setRating1(SwingInputVerifyUtil.getDouble(mvaRating1TextField));
+			_data.setRating2(SwingInputVerifyUtil.getDouble(mvaRating2TextField));
+		    _data.setRating3(SwingInputVerifyUtil.getDouble(mvaRating3TextField));
+
+	    	if (lineRadioButton.isSelected()) {
+	    		_data.setLfCode(IGBranchForm.TransBranchLfCode_Line);
+		    	_data.setHalfShuntB(SwingInputVerifyUtil.getDouble(hBTextField));
+	    	}
+	    	else  {
+	    		_data.setXfrTapFromSideTap(SwingInputVerifyUtil.getDouble(fromTapTextField));
+	    		_data.setXfrTapToSideTap(SwingInputVerifyUtil.getDouble(toTapTextField));
+	        	if (xfrRadioButton.isSelected()) {
+	        		_data.setLfCode(IGBranchForm.TransBranchLfCode_Xfr);
+	        	}
+	        	else if (psXfrRadioButton.isSelected()) {
+	        		_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
+	        		_data.setPhaseShiftAngle(SwingInputVerifyUtil.getDouble(hBTextField));
+	        		_data.setPhaseShiftAngleUnit("Deg");
+	        	}
+	        	
+	    		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
+		    		_data.setHasTapVControl(false);
+		    		_data.setHasPSXfrPControl(false);
+	    	    	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) && tapVControlCheckBox.isSelected()) {
+	    	    		_data.setHasTapVControl(true);
+	    	    		_data.setVcTapMax(SwingInputVerifyUtil.getDouble(controlTapMaxTextField));
+	    	    		_data.setVcTapMin(SwingInputVerifyUtil.getDouble(controlTapMinTextField));
+	    	    		_data.setVcStep(SwingInputVerifyUtil.getDouble(controlTapStepTextField));
+	    			    _data.setVCTapOnFromSide(controlTapOnFromSideRadioButton.isSelected());
+
+	    			    if (voltageRadioButton.isSelected()) {
+	    			    	_data.setTapVControlType(AclfAdjBranchData.TapControlType_Voltage);
+	    			    	_data.setVcBusId((String)vcBusComboBox.getSelectedItem());
+	    			    	_data.setVcVSpec(SwingInputVerifyUtil.getDouble(vSpecTextField));
+	    			    	_data.setVCBusOnFromSide(vcBusFromSideRadioButton.isSelected());
+	    			    }
+	    			    else {
+	    			    	_data.setTapVControlType(AclfAdjBranchData.TapControlType_MvarFlow);
+	    			    	_data.setMvarFlowSpec(SwingInputVerifyUtil.getDouble(vSpecTextField));
+	    			    	_data.setFlowFrom2To(vcBusFromSideRadioButton.isSelected());
+	    			    	_data.setMvarSpecOnFromSide(vcBusComboBox.getSelectedIndex()==0);
+	    			    }
+	    	    	}
+	    	    	else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr) && psXfrPowerCheckBox.isSelected()) {
+	    	    		_data.setHasPSXfrPControl(true);
+	    	    		_data.setPcPSpec(SwingInputVerifyUtil.getDouble(pSpecTextField));
+	    	    		_data.setPcAngMax(SwingInputVerifyUtil.getDouble(angleMaxTextField));
+	    	    		_data.setPcAngMin(SwingInputVerifyUtil.getDouble(angleMinTextField));
+	    	            _data.setPcOnFromSide(pControlFromSideRadioButton.isSelected());
+	    	            _data.setFlowFrom2To(from2ToRadioButton.isSelected());
+	    	    	}
+	    	    }
+	    	}
+		}
+
+		return errMsg.size() == 0;
+    }
+    
+    // repaint the dialog 
 	private void repaintDialog() {
 		tapVControlPanel.invalidate();
 		psXfrPControlPanel.invalidate();
@@ -109,88 +263,10 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		parent.pack();
 	}
 	
-    public boolean setForm2Editor() {
-		IpssLogger.getLogger().info("NBBranchPositivePanel setForm2Editor() called");
-
-		if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line))
-			lineRadioButton.setSelected(true);
-		else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Scripting)) {
-			branchScriptRadioButton.setSelected(true);
-		}
-		else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr))
-			xfrRadioButton.setSelected(true);
-		else 
-	   		psXfrRadioButton.setSelected(true);
-
-		rTextField.setText(Number2String.toStr(_data.getZR(), "#0.0####"));
-	    xTextField.setText(Number2String.toStr(_data.getZX(), "#0.0####"));
-	    
-		mvaRating1TextField.setText(Number2String.toStr(_data.getRating1(), "#0.0#"));
-		mvaRating2TextField.setText(Number2String.toStr(_data.getRating2(), "#0.0#"));
-		mvaRating3TextField.setText(Number2String.toStr(_data.getRating3(), "#0.0#"));
-
-	    setDataFieldStatus(!_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Scripting));
-
-	    if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
-    	    setBranchLabelText(true, false);
-    	    hBTextField.setText(Number2String.toStr(_data.getHalfShuntB(), "#0.0####"));
-
-    	    dataPanel.remove(tapVControlPanel);
-    	    dataPanel.remove(psXfrPControlPanel);
-    	}
-	    else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Scripting)) {
-    	    dataPanel.remove(tapVControlPanel);
-    	    dataPanel.remove(psXfrPControlPanel);
-    	}
-    	else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {
-    	    setBranchLabelText(false, false);
-    	    fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
-    	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
-    	    
-    		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
-    			dataPanel.remove(psXfrPControlPanel);
-    			dataPanel.add(tapVControlPanel);
-    	    	if (_data.isHasTapVControl()) {
-					tapVControlCheckBox.setSelected(true);
-					voltageRadioButton.setEnabled(true);
-					mvaFlowRadioButton.setEnabled(true);
-    			    setTapVControlPanel();
-    	    	}
-    			else { 
-					tapVControlCheckBox.setSelected(false);
-					voltageRadioButton.setEnabled(false);
-					mvaFlowRadioButton.setEnabled(false);
-    				tapVControlPanel.remove(tapVControlEditPanel);
-    			}	
-    	    }
-    	}
-    	else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
-    	    setBranchLabelText(false, true);
-    	    hBTextField.setText(Number2String.toStr(_data.getPhaseShiftAngle(), "#0.0####"));
-    	    fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
-    	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
-    	    
-    		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
-    			dataPanel.remove(tapVControlPanel);
-    			dataPanel.add(psXfrPControlPanel);
-    	    	if (_data.isHasPSXfrPControl()) {
-    	        	psXfrPowerCheckBox.setSelected(true);
-    	            setPsXfrPControlPanel();
-    	    	}
-    	    	else {
-    	        	psXfrPowerCheckBox.setSelected(false);
-    		        psXfrPControlPanel.remove(psXfrPControlEditPanel);
-    	    	}    		
-    	    }
-    	}
-    	repaintDialog();
-    	
-    	return true;
-	}
-
-    private void setDataFieldStatus(boolean status) {
-		branchTabbedPane.setEnabledAt(1, !status);
-		if (status)
+	// Enable/disable fields for scripting option
+    private void setDataFieldEnabled(boolean status) {
+		branchTabbedPane.setEnabledAt(1, !status&&branchScriptRadioButton.isEnabled());
+		if (status || !branchScriptRadioButton.isEnabled())
 			branchTabbedPane.setSelectedIndex(0);
 		else
 			branchTabbedPane.setSelectedIndex(1);
@@ -208,6 +284,29 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
    	    hBLabel.setEnabled(status);
     }
     
+    // set branch field labels for diff type of branch
+    private void setBranchLabelText(boolean isLine, boolean isPsXfr) {
+        hBLabel.setEnabled(isLine || isPsXfr);
+        hBTextField.setEnabled(isLine || isPsXfr);    
+        if (!hBTextField.isEnabled())
+            hBTextField.setText("0.0");    
+        fromTapLabel.setEnabled(!isLine);
+        fromTapTextField.setEnabled(!isLine);
+        toTapLabel.setEnabled(!isLine);
+        toTapTextField.setEnabled(!isLine);
+        if (isLine) {
+            fromTapTextField.setText("0.0");
+            toTapTextField.setText("0.0");
+        }
+        if (isPsXfr) {
+            hBLabel.setText("Shift Angle(deg)  ");
+        }
+        else {
+            hBLabel.setText("1/2 B(pu)  ");
+        }
+    }
+
+    // set TapVControl data
     private void setTapVControlPanel() {
 		java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -261,6 +360,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	    }
     }
     
+    // set PsXfrPControl data
     private void setPsXfrPControlPanel() {
 		java.awt.GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
@@ -279,105 +379,6 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         	to2FromRadioButton.setSelected(true);  
     }
     
-    private void setBranchLabelText(boolean isLine, boolean isPsXfr) {
-        hBLabel.setEnabled(isLine || isPsXfr);
-        hBTextField.setEnabled(isLine || isPsXfr);    
-        if (!hBTextField.isEnabled())
-            hBTextField.setText("0.0");    
-        fromTapLabel.setEnabled(!isLine);
-        fromTapTextField.setEnabled(!isLine);
-        toTapLabel.setEnabled(!isLine);
-        toTapTextField.setEnabled(!isLine);
-        if (isLine) {
-            fromTapTextField.setText("0.0");
-            toTapTextField.setText("0.0");
-        }
-        if (isPsXfr) {
-            hBLabel.setText("Shift Angle(deg)  ");
-        }
-        else {
-            hBLabel.setText("1/2 B(pu)  ");
-        }
-    }
-    
-    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
-		IpssLogger.getLogger().info("NBBranchPositivePanel saveEditor2Form() called");
-		
-    	if (lineRadioButton.isSelected())
-    		_data.setLfCode(IGBranchForm.TransBranchLfCode_Line);
-    	else if (xfrRadioButton.isSelected())
-    		_data.setLfCode(IGBranchForm.TransBranchLfCode_Xfr);
-    	else if (psXfrRadioButton.isSelected())
-    		_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
-    	else
-    		_data.setLfCode(IGBranchForm.TransBranchLfCode_Scripting);
-    	
-		boolean ok = true;
-		
-		if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Scripting)) {
-	    	// TODO: save scripts
-		}
-		else {
-			if (SwingInputVerifyUtil.getDouble(this.rTextField)== 0.0 && SwingInputVerifyUtil.getDouble(this.xTextField)== 0.0) {
-				errMsg.add("Branch x == 0.0 and r = 0.0");
-				ok = false;
-			}
-		    _data.setZR(SwingInputVerifyUtil.getDouble(rTextField));
-			_data.setZX(SwingInputVerifyUtil.getDouble(xTextField));
-
-		    _data.setRating1(SwingInputVerifyUtil.getDouble(mvaRating1TextField));
-			_data.setRating2(SwingInputVerifyUtil.getDouble(mvaRating2TextField));
-		    _data.setRating3(SwingInputVerifyUtil.getDouble(mvaRating3TextField));
-
-			if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
-		    	_data.setHalfShuntB(SwingInputVerifyUtil.getDouble(hBTextField));
-	    	}
-	    	else  {
-	    		_data.setXfrTapFromSideTap(SwingInputVerifyUtil.getDouble(fromTapTextField));
-	    		_data.setXfrTapToSideTap(SwingInputVerifyUtil.getDouble(toTapTextField));
-	        	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
-	        		_data.setPhaseShiftAngle(SwingInputVerifyUtil.getDouble(hBTextField));
-	        		_data.setPhaseShiftAngleUnit("Deg");
-	        	}
-	        	
-	    		if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
-		    		_data.setHasTapVControl(false);
-		    		_data.setHasPSXfrPControl(false);
-	    	    	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) && tapVControlCheckBox.isSelected()) {
-	    	    		_data.setHasTapVControl(true);
-	    	    		_data.setVcTapMax(SwingInputVerifyUtil.getDouble(controlTapMaxTextField));
-	    	    		_data.setVcTapMin(SwingInputVerifyUtil.getDouble(controlTapMinTextField));
-	    	    		_data.setVcStep(SwingInputVerifyUtil.getDouble(controlTapStepTextField));
-	    			    _data.setVCTapOnFromSide(controlTapOnFromSideRadioButton.isSelected());
-
-	    			    if (voltageRadioButton.isSelected()) {
-	    			    	_data.setTapVControlType(AclfAdjBranchData.TapControlType_Voltage);
-	    			    	_data.setVcBusId((String)vcBusComboBox.getSelectedItem());
-	    			    	_data.setVcVSpec(SwingInputVerifyUtil.getDouble(vSpecTextField));
-	    			    	_data.setVCBusOnFromSide(vcBusFromSideRadioButton.isSelected());
-	    			    }
-	    			    else {
-	    			    	_data.setTapVControlType(AclfAdjBranchData.TapControlType_MvarFlow);
-	    			    	_data.setMvarFlowSpec(SwingInputVerifyUtil.getDouble(vSpecTextField));
-	    			    	_data.setFlowFrom2To(vcBusFromSideRadioButton.isSelected());
-	    			    	_data.setMvarSpecOnFromSide(vcBusComboBox.getSelectedIndex()==0);
-	    			    }
-	    	    	}
-	    	    	else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr) && psXfrPowerCheckBox.isSelected()) {
-	    	    		_data.setHasPSXfrPControl(true);
-	    	    		_data.setPcPSpec(SwingInputVerifyUtil.getDouble(pSpecTextField));
-	    	    		_data.setPcAngMax(SwingInputVerifyUtil.getDouble(angleMaxTextField));
-	    	    		_data.setPcAngMin(SwingInputVerifyUtil.getDouble(angleMinTextField));
-	    	            _data.setPcOnFromSide(pControlFromSideRadioButton.isSelected());
-	    	            _data.setFlowFrom2To(from2ToRadioButton.isSelected());
-	    	    	}
-	    	    }
-	        	
-	    	}
-		}
-
-		return ok;
-    }
     
     /** Creates new form AclfEditPanel */
     public NBBranchPositivePanel() {
@@ -464,8 +465,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         controlTapStepsLabel = new javax.swing.JLabel();
         controlTapStepTextField = new javax.swing.JTextField();
         scriptPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        scriptScrollPane = new javax.swing.JScrollPane();
+        scriptTextArea = new javax.swing.JTextArea();
 
         branchTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
 
@@ -966,13 +967,13 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 
         branchTabbedPane.addTab("Branch LF Data", dataPanel);
 
-        jTextArea1.setColumns(80);
-        jTextArea1.setFont(new java.awt.Font("Courier New", 0, 12));
-        jTextArea1.setRows(30);
-        jTextArea1.setTabSize(3);
-        jScrollPane1.setViewportView(jTextArea1);
+        scriptTextArea.setColumns(80);
+        scriptTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
+        scriptTextArea.setRows(30);
+        scriptTextArea.setTabSize(3);
+        scriptScrollPane.setViewportView(scriptTextArea);
 
-        scriptPanel.add(jScrollPane1);
+        scriptPanel.add(scriptScrollPane);
 
         branchTabbedPane.addTab("Branch LF Scripting", scriptPanel);
 
@@ -994,7 +995,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     }// </editor-fold>//GEN-END:initComponents
 
     private void branchScriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchScriptRadioButtonActionPerformed
-    	_data.setLfCode(IGBranchForm.TransBranchLfCode_Scripting);
+    	_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
     	setForm2Editor();
 		branchTabbedPane.setEnabledAt(1, true);
     }//GEN-LAST:event_branchScriptRadioButtonActionPerformed
@@ -1029,11 +1030,11 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		branchTabbedPane.setEnabledAt(1, false);
     }//GEN-LAST:event_lineRadioButtonActionPerformed
 
-    private void xfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {                                               
+    private void xfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                                                              
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_Xfr);
     	setForm2Editor();
 		branchTabbedPane.setEnabledAt(1, false);
-    }                                              
+    }                                                                                            
 
     private void tapVControlCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tapVControlCheckBoxActionPerformed
     	if (tapVControlCheckBox.isSelected()) {
@@ -1088,8 +1089,6 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JTextField fromTapTextField;
     private javax.swing.JLabel hBLabel;
     private javax.swing.JTextField hBTextField;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JLabel leftLabel;
     private javax.swing.JRadioButton lineRadioButton;
     private javax.swing.JRadioButton mvaFlowRadioButton;
@@ -1113,6 +1112,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JTextField rTextField;
     private javax.swing.JLabel rightLabel;
     private javax.swing.JPanel scriptPanel;
+    private javax.swing.JScrollPane scriptScrollPane;
+    private javax.swing.JTextArea scriptTextArea;
     private javax.swing.JPanel tapControlPanel;
     private javax.swing.ButtonGroup tapControlTypeButtonGroup;
     private javax.swing.JCheckBox tapVControlCheckBox;
