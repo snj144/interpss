@@ -88,6 +88,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		_form = (GBusForm)form;
 		_data = _form.getAcscBusData();
 		
+		// prepare for network with adjustment
 		if (((GNetForm)((GFormContainer)netContainer).getGNetForm()).getAcscNetData().isHasAdjustment()) {
 		    remoteQRadioButton.setEnabled(true);
 		    if (adjustCheckBox.isEnabled() && adjustCheckBox.isSelected()) {
@@ -103,12 +104,21 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    adjustCheckBox.setEnabled(false);
 		    funcLoadRadioButton.setEnabled(false);
 		}
+		
+		// disable the scripting panel
 		busTabbedPane.setEnabledAt(1, false);
+	}
+	
+	public void disableScripting() {
+		scriptLoadRadioButton.setEnabled(false);
+		scriptGenRadioButton.setEnabled(false);
 	}
 	
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAclfTransBusEditPanel setForm2Editor() called");
-	    if (_data.getGenCode().equals(AclfBusData.GenCode_PQ)) {
+
+		// set gen data panel
+		if (_data.getGenCode().equals(AclfBusData.GenCode_PQ)) {
 	    	pqRadioButton.setSelected(true);
 	        pqRadioButtonSelected(null);
 	    	pGenTextField.setText(Number2String.toStr(_data.getGenP(), "#0.0####"));
@@ -135,19 +145,24 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    else {
 		    if (_data.getGenCode().equals(AclfBusData.GenCode_NonGen))
 		    	nonGenRadioButton.setSelected(true);
-		    else 	
+		    else {	
 		    	scriptGenRadioButton.setSelected(true);
+		    	scriptTextArea.setText(_data.getScripts());
+		    }
 	        nonGenRadioButtonSelected(null);
 	    	pGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 		    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    }
 	    
+		// set load data panel
 	    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad) || 
 	    	 _data.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)	) {
 		    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad)) 
 		    	nonLoadRadioButton.setSelected(true);
-		    else
+		    else {
 		    	scriptLoadRadioButton.setSelected(true);
+		    	scriptTextArea.setText(_data.getScripts());
+		    }
 	        nonLoadRadioButtonSelected(null);
 		    pLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    	qLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
@@ -169,14 +184,17 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    qLoadTextField.setText(Number2String.toStr(_data.getLoadQ(), "#0.0####"));
 	    }
 
+	    // set shunt G+jB fields
 	    shuntBTextField.setText(Number2String.toStr(_data.getShuntB(), "#0.0####"));
 	    shuntGTextField.setText(Number2String.toStr(_data.getShuntG(), "#0.0####"));
 
+	    // set Bus adjustment data
 	    if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment()) {
 	    	maxTextField.setText("0.0");
 		    minTextField.setText("0.0");
 	    	adjustCheckBox.setSelected(false);
-		    if (_data.isHasRemoteVControl()) {
+		    // set RemoteQ bus ajustment
+	    	if (_data.isHasRemoteVControl()) {
 		    	adjustCheckBox.setSelected(true);
 		    	remoteQRadioButton.setSelected(true);
 		    	remoteQRadioButtonActionPerformed(null);
@@ -204,12 +222,14 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 			    	}
 			    }
 		    }
+		    // set PQ bus with limit adjustment
 		    else if (_data.getGenCode().equals(AclfBusData.GenCode_PQ) && _data.isHasLimitControl()) {
 		    	adjustCheckBox.setSelected(true);
 		    	maxTextField.setText(Number2String.toStr(_data.getMaxVoltMag(), "#0.0####"));
 			    minTextField.setText(Number2String.toStr(_data.getMinVoltMag(), "#0.0####"));
 			    setAdjLabelText(true, BUS_TYPE_PQ);
 		    }
+		    // set PV bus with limit adjustment
 		    else if (_data.getGenCode().equals(AclfBusData.GenCode_PV) && _data.isHasLimitControl()) {
 		    	adjustCheckBox.setSelected(true);
 			    maxTextField.setText(Number2String.toStr(_data.getMaxGenQ(), "#0.0####"));
@@ -217,6 +237,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 			    setAdjLabelText(true, BUS_TYPE_PV);
 		    }
 	    	
+		    // set func load data
 	    	if (_data.getLoadCode().equals(AclfBusData.LoadCode_FuncLoad)) {
 		    	funcLoadRadioButton.setSelected(true);
 			    funcLoadRadioButtonSelected(null);
@@ -231,6 +252,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	}	
 	    }
 
+	    // set enable/disable the script panal
 	    setScriptPanel();
 
     	return true;
@@ -240,6 +262,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		IpssLogger.getLogger().info("NBAclfTransBusEditPanel saveEditor2Form() called");
 		boolean ok = true;
 
+		// save Gen data
 	    if (pqRadioButton.isSelected()) {
 	    	_data.setGenCode(AclfBusData.GenCode_PQ);
 	    	_data.setGenP(SwingInputVerifyUtil.getDouble(pGenTextField));
@@ -261,7 +284,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    }
 	    else if (scriptGenRadioButton.isSelected()) {
 	    	_data.setGenCode(AclfBusData.GenCode_GenScripting);
-	    	// TODO: save scripts
+	    	_data.setScripts(scriptTextArea.getText());
 	    }
 	    else {
 	    	_data.setGenCode(AclfBusData.GenCode_NonGen);
@@ -269,6 +292,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	_data.setGenP(0.0);
 	    }
 	    
+	    // save Load data
 	    if (nonLoadRadioButton.isSelected()) {
 	    	_data.setLoadCode(AclfBusData.LoadCode_NonLoad);
 	    	_data.setLoadP(0.0);
@@ -276,7 +300,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    } 
 	    else if (scriptLoadRadioButton.isSelected()) {
 	    	_data.setLoadCode(AclfBusData.LoadCode_LoadScripting);
-	    	// TODO: save scripts
+	    	_data.setScripts(scriptTextArea.getText());
 	    } 
 	    else {
 	    	if (constPRadioButton.isSelected())
@@ -289,6 +313,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	_data.setLoadQ(SwingInputVerifyUtil.getDouble(qLoadTextField));
 	    }
 
+	    // Save adjustment data
 	    if (!scriptLoadRadioButton.isSelected()) {
 	    	_data.setShuntB(SwingInputVerifyUtil.getDouble(shuntBTextField));
 	    	_data.setShuntG(SwingInputVerifyUtil.getDouble(shuntGTextField));
@@ -346,6 +371,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    return ok;
     }
 
+    // set adjustment field label according to adj type 
     private void setAdjLabelText(boolean adjEnabled, String type ) {  // "PV", "PQ", "ReQVolt", "ReQMvar"
     	IpssLogger.getLogger().info("Set Adjustment type: " + type);
     	adjustCheckBox.setEnabled(adjEnabled);
@@ -406,6 +432,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    }
     }
 
+    // set load field label
     private void setLoadLabelText(boolean funcLoad, boolean nonLoad) {
         pLoadLabel.setEnabled(!nonLoad);
         pLoadTextField.setEnabled(!nonLoad);
@@ -437,6 +464,36 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
             constZ_QTextField.setText("0.0");
         }
     }
+
+    // set script panel status
+    private void setScriptPanel() {
+		if (!scriptLoadRadioButton.isSelected() && !scriptGenRadioButton.isSelected())
+			busTabbedPane.setEnabledAt(1, false);
+		else
+			busTabbedPane.setEnabledAt(1, true);
+		if (scriptLoadRadioButton.isSelected() && scriptGenRadioButton.isSelected())
+			busTabbedPane.setSelectedIndex(1);
+    }
+
+    // set Gen data field lable and status
+    private void setGenLabelText(String pLabel, boolean pEnabled, String pValue, 
+    		                     String qLabel, boolean qEnabled, String qValue) {
+    	pGenLabel.setText(pLabel);
+    	pGenLabel.setEnabled(pEnabled);
+    	pGenTextField.setEnabled(pEnabled);
+    	if (pEnabled)
+    		pGenTextField.setText(pValue);
+    	else
+    		pGenTextField.setText("0.0");
+    		
+    	qGenLabel.setText(qLabel);
+    	qGenLabel.setEnabled(qEnabled);
+    	qGenTextField.setEnabled(qEnabled);
+    	if (qEnabled)
+    		qGenTextField.setText(qValue);
+    	else
+    		qGenTextField.setText("0.0");
+    }    
 
     /** Creates new form AclfEditPanel */
     public NBAclfTransBusEditPanel() {
@@ -1222,33 +1279,6 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         setScriptPanel();
     }//GEN-LAST:event_swingRadioButtonSelected
     
-    private void setScriptPanel() {
-		if (!scriptLoadRadioButton.isSelected() && !scriptGenRadioButton.isSelected())
-			busTabbedPane.setEnabledAt(1, false);
-		else
-			busTabbedPane.setEnabledAt(1, true);
-		if (scriptLoadRadioButton.isSelected() && scriptGenRadioButton.isSelected())
-			busTabbedPane.setSelectedIndex(1);
-    }
-
-    private void setGenLabelText(String pLabel, boolean pEnabled, String pValue, 
-    		                     String qLabel, boolean qEnabled, String qValue) {
-    	pGenLabel.setText(pLabel);
-    	pGenLabel.setEnabled(pEnabled);
-    	pGenTextField.setEnabled(pEnabled);
-    	if (pEnabled)
-    		pGenTextField.setText(pValue);
-    	else
-    		pGenTextField.setText("0.0");
-    		
-    	qGenLabel.setText(qLabel);
-    	qGenLabel.setEnabled(qEnabled);
-    	qGenTextField.setEnabled(qEnabled);
-    	if (qEnabled)
-    		qGenTextField.setText(qValue);
-    	else
-    		qGenTextField.setText("0.0");
-    }    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox adjustCheckBox;
     private javax.swing.JTabbedPane busTabbedPane;

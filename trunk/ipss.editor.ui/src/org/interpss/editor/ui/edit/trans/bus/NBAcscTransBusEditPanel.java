@@ -55,6 +55,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 		parent = aParent;
 		
 		_aclfTransBusEditPanel.initPanel(aParent);
+		_aclfTransBusEditPanel.disableScripting();
 		_groundPanel.initPanel();
 		
 		DataVerifier verifier = new DataVerifier();
@@ -119,6 +120,7 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    else {
 	        scriptRadioButton.setSelected(true);
 	        setRXLabelText(false);
+	        acscBusScriptTextArea.setText(_data.getScripts());
 	    	groundingPanel.remove(_groundPanel);
 	        acscTabbedPane.setEnabledAt(2, true);
 	    }
@@ -126,58 +128,66 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    return true;
 	}
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAcscTransBusEditPanel saveEditor2Form() called");
-		boolean ok = true;
 		
 	    if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAclfData()) {
-	    	if (!_aclfTransBusEditPanel.saveEditor2Form(errMsg))
-	    		ok = false;
+	    	_aclfTransBusEditPanel.saveEditor2Form(errMsg);
 	    }
 
 	    if (_data.getScCode().equals(AcscBusData.ScCode_Contribute)) {
-			if (!SwingInputVerifyUtil.largeEqualThan(r1TextField, 0.0d)) {
-				errMsg.add("Xfr R1 < 0.0");
-				ok = false;
-			}
-			_data.setZ1R(SwingInputVerifyUtil.getDouble(r1TextField));
+			if (SwingInputVerifyUtil.largeEqualThan(r1TextField, 0.0d, errMsg, "Xfr R1 < 0.0"))
+				_data.setZ1R(SwingInputVerifyUtil.getDouble(r1TextField));
 
-			if (!SwingInputVerifyUtil.largeThan(x1TextField, 0.0d)) {
-				errMsg.add("Xfr X1 <= 0.0");
-				ok = false;
-			}
-			_data.setZ1X(SwingInputVerifyUtil.getDouble(x1TextField));
+			if (SwingInputVerifyUtil.largeThan(x1TextField, 0.0d, errMsg, "Xfr X1 <= 0.0"))
+				_data.setZ1X(SwingInputVerifyUtil.getDouble(x1TextField));
 
-			if (!SwingInputVerifyUtil.largeEqualThan(r0TextField, 0.0d)) {
-				errMsg.add("Xfr R0 < 0.0");
-				ok = false;
-			}
-			_data.setZ0R(SwingInputVerifyUtil.getDouble(r0TextField));
+			if (SwingInputVerifyUtil.largeEqualThan(r0TextField, 0.0d, errMsg, "Xfr R0 < 0.0"))
+				_data.setZ0R(SwingInputVerifyUtil.getDouble(r0TextField));
 
-			if (!SwingInputVerifyUtil.largeEqualThan(x0TextField, 0.0d)) {
-				errMsg.add("Xfr X0 < 0.0");
-				ok = false;
-			}
-			_data.setZ0X(SwingInputVerifyUtil.getDouble(x0TextField));
+			if (SwingInputVerifyUtil.largeEqualThan(x0TextField, 0.0d, errMsg, "Xfr X0 < 0.0"))
+				_data.setZ0X(SwingInputVerifyUtil.getDouble(x0TextField));
 
-			if (!SwingInputVerifyUtil.largeEqualThan(r2TextField, 0.0d)) {
-				errMsg.add("Xfr R2 < 0.0");
-				ok = false;
-			}
-			_data.setZ2R(SwingInputVerifyUtil.getDouble(r2TextField));
+			if (SwingInputVerifyUtil.largeEqualThan(r2TextField, 0.0d, errMsg, "Xfr R2 < 0.0"))
+				_data.setZ2R(SwingInputVerifyUtil.getDouble(r2TextField));
 
-			if (!SwingInputVerifyUtil.largeEqualThan(x2TextField, 0.0d)) {
-				errMsg.add("Xfr X2 <= 0.0");
-				ok = false;
-			}
-			_data.setZ2X(SwingInputVerifyUtil.getDouble(x2TextField));
+			if (SwingInputVerifyUtil.largeEqualThan(x2TextField, 0.0d, errMsg, "Xfr X2 <= 0.0"))
+				_data.setZ2X(SwingInputVerifyUtil.getDouble(x2TextField));
 
-			if (!_groundPanel.saveEditor2Form(errMsg))
-		    	ok = false;
+			_groundPanel.saveEditor2Form(errMsg);
+	    }
+	    else if (_data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
+	    	_data.setScripts(acscBusScriptTextArea.getText());
 	    }
 
-	    return ok;
+	    return errMsg.size() == 0;
     }
+    
+    private void setRXLabelText(boolean enable) {
+        r1Label.setEnabled(enable);
+        r1TextField.setEnabled(enable);
+        r0Label.setEnabled(enable);
+        r0TextField.setEnabled(enable);
+        r2Label.setEnabled(enable);
+        r2TextField.setEnabled(enable);
+        x1Label.setEnabled(enable);
+        x1TextField.setEnabled(enable);
+        x0Label.setEnabled(enable);
+        
+        
+        x0TextField.setEnabled(enable);
+        x2Label.setEnabled(enable);
+        x2TextField.setEnabled(enable);
+        if (!enable) {
+            r1TextField.setText("0.0");
+            r0TextField.setText("0.0");
+            r2TextField.setText("0.0");
+            x1TextField.setText("0.0");
+            x0TextField.setText("0.0");
+            x2TextField.setText("0.0");
+        }
+    }
+    
     
     /** Creates new form AclfEditPanel */
     public NBAcscTransBusEditPanel() {
@@ -385,31 +395,6 @@ private void scriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {/
     setForm2Editor();
 }//GEN-LAST:event_scriptRadioButtonActionPerformed
 
-    private void setRXLabelText(boolean enable) {
-        r1Label.setEnabled(enable);
-        r1TextField.setEnabled(enable);
-        r0Label.setEnabled(enable);
-        r0TextField.setEnabled(enable);
-        r2Label.setEnabled(enable);
-        r2TextField.setEnabled(enable);
-        x1Label.setEnabled(enable);
-        x1TextField.setEnabled(enable);
-        x0Label.setEnabled(enable);
-        
-        
-        x0TextField.setEnabled(enable);
-        x2Label.setEnabled(enable);
-        x2TextField.setEnabled(enable);
-        if (!enable) {
-            r1TextField.setText("0.0");
-            r0TextField.setText("0.0");
-            r2TextField.setText("0.0");
-            x1TextField.setText("0.0");
-            x0TextField.setText("0.0");
-            x2TextField.setText("0.0");
-        }
-    }
-    
     private void nonContributeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonContributeRadioButtonActionPerformed
     	_data.setScCode(AcscBusData.ScCode_NonContribute);
         setForm2Editor();
