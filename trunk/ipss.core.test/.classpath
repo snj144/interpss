@@ -9,5 +9,8 @@
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.common_2.3.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.ecore_2.3.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.ecore.xmi_2.3.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/apache/commons-logging.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
