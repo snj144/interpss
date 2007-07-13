@@ -24,17 +24,19 @@
 
 package com.interpss.core.net;
 
-import static org.junit.Assert.*;
-import org.junit.*;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.exp.ElementDuplicationException;
 import com.interpss.common.exp.ElementNotFoundException;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.exp.InvalidParameterException;
+import com.interpss.core.BaseTestSetup;
 import com.interpss.core.CoreObjectFactory;
 
-public class NetRuleTest {
+public class NetRuleTest extends BaseTestSetup {
 	/*
 	 * Test duplication detacting, non-existing bus, parallel branch, ground branch
 	 */
@@ -124,6 +126,7 @@ public class NetRuleTest {
   		assertEquals(true, (net.getBusList().size() == 2 && net.getBranchList().size() == 1));
 	}
 
+	@Test
 	public void checkDataTest() {
 	  	Network net = buildTestNet(); 
   		assertEquals(true, net.checkData(SpringAppContext.getIpssMsgHub()));
