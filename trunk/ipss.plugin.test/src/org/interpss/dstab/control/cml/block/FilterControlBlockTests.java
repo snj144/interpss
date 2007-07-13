@@ -102,6 +102,7 @@ public class FilterControlBlockTests {
 		assertTrue(Math.abs(block.getY()+5.0) < 0.0001);
 	}
 
+	@Test
 	public void nonWindupTestCase() {
 		FilterControlBlock block = new FilterControlBlock(IStaticBlock.Type.NonWindup, 1.0, 0.1, 1.0, 5.0, -5.0);
 		
