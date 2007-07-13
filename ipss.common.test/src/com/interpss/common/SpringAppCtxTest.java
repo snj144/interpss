@@ -34,7 +34,7 @@ public class SpringAppCtxTest {
 	@BeforeClass
 	public static void setSpringAppCtx() {
 		if (SpringAppContext.SpringAppCtx == null) {
-			String xmlFile = TestUtilFunc.SpringConfigXmlFile;
+			String xmlFile = TestUtilFunc.Common_SpringConfigXmlFile;
 			// Set the SpringAppContext to all ApplicationContextAware objects.
 			SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(xmlFile);
 		}
