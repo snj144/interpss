@@ -14,7 +14,7 @@ public class CommonFuncTest {
 	private double   result;
 	
 	@Test
-	public void expCalculatorText() {
+	public void expCalculatorTest() {
 		try {
 			exp = "-a+b/c-d*e";
 			dAry = new double[]{1.0, 2.0, 3.0, 4.0, 5.0}; 
