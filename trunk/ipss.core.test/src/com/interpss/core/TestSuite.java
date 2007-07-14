@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.interpss.core.aclf.AclfSampleTest;
+import com.interpss.core.aclfAdj.AreaControlTest;
 import com.interpss.core.acsc.AcscSampleTest;
 import com.interpss.core.net.AreaImplTest;
 import com.interpss.core.net.BranchImplTest;
@@ -26,6 +27,8 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2Test;
 	SparseEqnMatrix2x2Test.class,
 
 	AclfSampleTest.class,
+	
+	AreaControlTest.class,
 	
 	AcscSampleTest.class
 })
