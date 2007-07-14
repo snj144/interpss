@@ -362,11 +362,11 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			if (genPSum != 0.0 || vSpec != 0.0) {
 				IpssLogger.getLogger().fine("genPSum, genQSum, vSpec, genQmax, genQmin: " + 
 						genPSum + ", " + genQSum + ", " + vSpec + ", " + genQmax + ", " + genQmin);
-				if (bus.getGenCode() == AclfGenCode.SWING_LITERAL) {
+				if (bus.isSwing()) {
 		  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
 		  			gen.setVoltMag(vSpec, UnitType.PU);
 				}
-				else if (bus.getGenCode() == AclfGenCode.GEN_PV_LITERAL) {
+				else if (bus.isGenPV()) {
 					if (remoteBusId.equals("0")) {
 						// PVLimit
 			  			final PVBusAdapter gen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
