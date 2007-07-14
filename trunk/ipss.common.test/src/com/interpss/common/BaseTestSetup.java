@@ -1,5 +1,5 @@
  /*
-  * @(#)TestBaseAppCtx.java   
+  * @(#)BaseTestSetup.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2006
+  * @Date 07/15/2007
   * 
   *   Revision History
   *   ================
@@ -30,7 +30,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.TestUtilFunc;
 
-public class SpringAppCtxTest {
+public class BaseTestSetup {
 	@BeforeClass
 	public static void setSpringAppCtx() {
 		if (SpringAppContext.SpringAppCtx == null) {
