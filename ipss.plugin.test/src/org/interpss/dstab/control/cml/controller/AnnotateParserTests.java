@@ -35,7 +35,7 @@ import org.interpss.dstab.control.cml.controller.util.TestUtil;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppCtxTest;
+import com.interpss.common.BaseTestSetup;
 import com.interpss.common.datatype.CMLVarType;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
