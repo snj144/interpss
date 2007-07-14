@@ -1,5 +1,5 @@
  /*
-  * @(#)TestSample.java   
+  * @(#)CustomAclfBusTest.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2006
+  * @Date 07/15/2007
   * 
   *   Revision History
   *   ================
