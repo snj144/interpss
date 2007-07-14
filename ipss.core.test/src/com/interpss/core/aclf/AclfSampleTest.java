@@ -24,7 +24,9 @@
 
 package com.interpss.core.aclf;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -46,7 +48,7 @@ public class AclfSampleTest extends BaseTestSetup {
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
-  		//System.out.println(net.net2String());
+  		System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());
   		
