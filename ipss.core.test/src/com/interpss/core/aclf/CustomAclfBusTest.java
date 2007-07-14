@@ -70,7 +70,6 @@ public class CustomAclfBusTest extends BaseTestSetup {
   		
   		AclfBus swingBus = (AclfBus)net.getBus("5");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
-  		System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).toString());
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.57943)<0.0001);
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-2.2994)<0.0001);
 	}
@@ -107,7 +106,6 @@ public class CustomAclfBusTest extends BaseTestSetup {
   		
   		AclfBus swingBus = (AclfBus)net.getBus("5");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
-  		System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).toString());
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.57943)<0.0001);
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-2.2994)<0.0001);
 	}
@@ -145,7 +143,6 @@ public class CustomAclfBusTest extends BaseTestSetup {
   		
   		AclfBus swingBus = (AclfBus)net.getBus("5");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
-  		System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).toString());
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.57943)<0.0001);
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-2.2994)<0.0001);
 	}
@@ -183,7 +180,6 @@ public class CustomAclfBusTest extends BaseTestSetup {
   		
   		AclfBus swingBus = (AclfBus)net.getBus("5");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
-  		System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).toString());
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.57943)<0.0001);
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-2.2994)<0.0001);
 	}
