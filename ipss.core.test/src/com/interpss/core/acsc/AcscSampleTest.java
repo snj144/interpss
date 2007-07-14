@@ -1,5 +1,5 @@
  /*
-  * @(#)TestSample.java   
+  * @(#)AcscSampleTest.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
