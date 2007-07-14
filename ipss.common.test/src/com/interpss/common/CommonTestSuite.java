@@ -9,5 +9,5 @@ import org.junit.runners.Suite.SuiteClasses;
 	CommonFuncTest.class,
 	ComplexFuncTest.class
 })
-public class CoomonTestSuite {
+public class CommonTestSuite {
 }
