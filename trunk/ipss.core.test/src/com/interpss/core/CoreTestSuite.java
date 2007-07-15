@@ -34,6 +34,7 @@ import com.interpss.core.aclf.CustomAclfBusTest;
 import com.interpss.core.aclf.CustomFuncLoadTest;
 import com.interpss.core.aclfAdj.AreaControlTest;
 import com.interpss.core.acsc.AcscSampleTest;
+import com.interpss.core.acsc.CustomAcscBranchTest;
 import com.interpss.core.acsc.CustomAcscBusTest;
 import com.interpss.core.net.AreaImplTest;
 import com.interpss.core.net.BranchImplTest;
@@ -61,6 +62,7 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2Test;
 	
 	AreaControlTest.class,
 	CustomAcscBusTest.class,
+	CustomAcscBranchTest.class,
 	
 	AcscSampleTest.class
 })
