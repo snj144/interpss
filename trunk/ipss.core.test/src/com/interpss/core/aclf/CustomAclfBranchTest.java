@@ -105,5 +105,52 @@ public class CustomAclfBranchTest extends BaseTestSetup {
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.57943)<0.0001);
 		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-2.2994)<0.0001);
 	}
+
+	public void lineBranchCurrentInjecttionTests() {
+		lineBranchCurrentInjecttionTest(AclfMethod.NR_LITERAL, 50);
+	}
+	
+	private void lineBranchCurrentInjecttionTest(AclfMethod method, int maxItr) {
+  		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
+		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
+		//System.out.println(net.net2String());
+		
+  		AclfBranch branch = (AclfBranch)net.getBranch("1", "2");
+  		branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
+  		branch.setExternalAclfBranch(new BaseAclfBranchImpl() {
+  			private final Complex z = new Complex(0.04,0.25);   // pu
+  			private final Complex y = ComplexFunc.div(1.0, z);   // pu
+  			private final Complex hShuntY = new Complex(0.0, 0.25);  //pu
+
+  			public Complex currentIntoNetFromSide() {
+  			   Complex vi   = getParentAclfBranch().getFromAclfBus().getVoltage();
+  			   Complex vj   = getParentAclfBranch().getToAclfBus().getVoltage();
+  			   Complex i_ij = ComplexFunc.mul(y, ComplexFunc.sub(vi, vj));
+  			   i_ij.add(vi.multiply(hShuntY));
+  			   return ComplexFunc.mul(-1.0, i_ij);
+  			}
+
+  			public Complex currentIntoNetToSide() {
+   			   Complex vi   = getParentAclfBranch().getFromAclfBus().getVoltage();
+  			   Complex vj   = getParentAclfBranch().getToAclfBus().getVoltage();
+  			   Complex i_ji = ComplexFunc.mul(y, ComplexFunc.sub(vj, vi));
+  			   i_ji.add(vj.multiply(hShuntY));
+  			   return  ComplexFunc.mul(-1.0, i_ji);
+  			}
+
+  			});
+
+  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.setLfMethod(method);
+	  	algo.setMaxIterations(maxItr);
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+  		//System.out.println(net.net2String());
+  		assertTrue(net.isLfConverged());
+  		
+  		AclfBus swingBus = (AclfBus)net.getBus("5");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.57943)<0.0001);
+		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-2.2994)<0.0001);
+	}
 }
 
