@@ -24,8 +24,6 @@
 
 package org.interpss.editor.mapper.impl;
 
-import java.util.List;
-
 import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.aclf.AclfAdjBranchData;
 import org.interpss.editor.data.aclf.AclfAdjBusData;
@@ -111,19 +109,17 @@ public class AclfFormDataMapperImpl {
 		IpssLogger.getLogger().info("AclfFormDataMapperImpl.setBaseNetInfo() called");
 
 		// first put AclfBus and AclfBranch info into Net
-		List busList = editNet.getBusFormList();
-		for ( int i = 0; i < busList.size(); i++ ) {
+		for ( Object obj : editNet.getBusFormList() ) {
 			// For each AcscBus xml object, parse for an AcscBus form object
-			GBusForm busForm = (GBusForm)busList.get(i);
+			GBusForm busForm = (GBusForm)obj;
 			setAddBusForm2Net(busForm, aclfNet);
 			//System.out.println("\nBus info, #:" + (i+1));
 			//System.out.println(busForm.toString());
 		}
 
-		List branchList = editNet.getBranchFormList();
-		for ( int i = 0; i < branchList.size(); i++ ) {
+		for ( Object obj : editNet.getBranchFormList()) {
 			// For each AcscBranch xml object, parse for an AcscBranch form object
-			GBranchForm branchForm = (GBranchForm)branchList.get(i);
+			GBranchForm branchForm = (GBranchForm)obj;
 			setAddBranchForm2Net(branchForm, aclfNet, msg);
 			//System.out.println("\nBranch info, #:" + (i+1));
 			//System.out.println(branchForm.toString());
@@ -131,17 +127,17 @@ public class AclfFormDataMapperImpl {
 
 		// Then put AclfAdjBus and AclfAdjBranch info into Net
 		if (((GNetForm)editNet.getGNetForm()).getAcscNetData().isHasAdjustment()) {
-			for ( int i = 0; i < busList.size(); i++ ) {
+			for ( Object obj : editNet.getBusFormList() ) {
 				// For each AcscBus xml object, parse for an AcscBus form object
-				GBusForm busForm = (GBusForm)busList.get(i);
+				GBusForm busForm = (GBusForm)obj;
 				addAclfAdjBusFormInfo(busForm, aclfNet);
 				//System.out.println("\nBus info, #:" + (i+1));
 				//System.out.println(busForm.toString());
 			}
 
-			for ( int i = 0; i < branchList.size(); i++ ) {
+			for ( Object obj : editNet.getBranchFormList() ) {
 				// For each AcscBranch xml object, parse for an AcscBranch form object
-				GBranchForm branchForm = (GBranchForm)branchList.get(i);
+				GBranchForm branchForm = (GBranchForm)obj;
 				addAclfAdjBranchFormInfo(branchForm, aclfNet, msg);
 				//System.out.println("\nBranch info, #:" + (i+1));
 				//System.out.println(branchForm.toString());
