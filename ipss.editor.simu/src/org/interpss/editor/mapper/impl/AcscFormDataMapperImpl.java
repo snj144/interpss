@@ -24,8 +24,6 @@
 
 package org.interpss.editor.mapper.impl;
 
-import java.util.List;
-
 import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.data.acsc.AcscBusData;
@@ -36,6 +34,7 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScGroundType;
@@ -44,6 +43,7 @@ import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.AcscBranch;
@@ -51,6 +51,8 @@ import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscLineAdapter;
 import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.AcscXfrAdapter;
+import com.interpss.core.acsc.BaseAcscBranch;
+import com.interpss.core.acsc.BaseAcscBus;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
@@ -84,10 +86,9 @@ public class AcscFormDataMapperImpl {
 			acscNet.setLfDataLoaded(false);
 		}
 
-		List busList = editNet.getBusFormList();
-		for ( int i = 0; i < busList.size(); i++ ) {
+		for ( Object obj : editNet.getBusFormList() ) {
 			// For each AcscBus xml object, parse for an AcscBus form object
-			GBusForm busForm = (GBusForm)busList.get(i);
+			GBusForm busForm = (GBusForm)obj;
 			if (!acscNet.isLfDataLoaded()) 
 				setAddBusForm2Net(busForm, acscNet);
 			else {
@@ -98,10 +99,9 @@ public class AcscFormDataMapperImpl {
 			//System.out.println(busForm.toString());
 		}
 
-		List branchList = editNet.getBranchFormList();
-		for ( int i = 0; i < branchList.size(); i++ ) {
+		for ( Object obj : editNet.getBranchFormList() ) {
 			// For each AcscBranch xml object, parse for an AcscBranch form object
-			GBranchForm branchForm = (GBranchForm)branchList.get(i);
+			GBranchForm branchForm = (GBranchForm)obj;
 			if (!acscNet.isLfDataLoaded()) 
 				setAddBranchForm2Net(branchForm, acscNet, msg);
 			else {
@@ -152,8 +152,19 @@ public class AcscFormDataMapperImpl {
 			return setNonContributeBusFormInfo(data, bus, net);
 		}
 		else if (data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
-			bus.setScCode(BusScCode.NON_CONTRI_LITERAL);
-			//bus.setScripts(data.getScripts());
+			bus.setScCode(BusScCode.SC_BUS_SCRIPTING_LITERAL);
+			String javacode = data.getScripts();
+			String str = ScriptJavacUtilFunc.Tag_AcscScript_Begin_Code.replaceFirst(
+							ScriptJavacUtilFunc.Tag_Package, 
+					        ScriptJavacUtilFunc.AcscScriptingPackageName.replaceAll("/", "."));
+			str = str.replaceFirst(
+					ScriptJavacUtilFunc.Tag_BaseClassname, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBus_Baseclass);
+			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
+			str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
+			javacode = javacode.replaceFirst("<AcscBusScriptingClassname>", str);
+			bus.setExternalAcscBus((BaseAcscBus)MemoryJavaCompiler.javac( 
+					ScriptJavacUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
 			return true;
 		}
 		else {
@@ -210,7 +221,7 @@ public class AcscFormDataMapperImpl {
 	
 	public static boolean setBranchInfo(GBranchForm formBranch, AcscBranch branch, 
 							AcscNetwork net, IPSSMsgHub msg) {
-	  	AclfFormDataMapperImpl.setAclfBranchFormInfo(formBranch, branch, net, msg);
+	  	AclfFormDataMapperImpl.setAclfBranchFormInfo(formBranch, branch, net, false, msg);
 	  	
 	  	AcscBranchData data = formBranch.getAcscBranchData();
 		if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {   // line branch
@@ -220,9 +231,22 @@ public class AcscFormDataMapperImpl {
 				 data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {   // psxfr branch
 			return setAcscXfrFormInfo(data, branch, net, msg);
 		}
-		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
+		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) &&
+				 branch instanceof AcscBranch) {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
 			//branch.setScripts(data.getScripts());
+			String javacode = data.getScripts();
+			String str = ScriptJavacUtilFunc.Tag_AcscScript_Begin_Code.replaceFirst(
+							ScriptJavacUtilFunc.Tag_Package, 
+							ScriptJavacUtilFunc.AcscScriptingPackageName.replaceAll("/", "."));
+			str = str.replaceFirst(
+					ScriptJavacUtilFunc.Tag_BaseClassname, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBranch_Baseclass);
+			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
+			str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
+			javacode = javacode.replaceFirst(ScriptJavacUtilFunc.Tag_AcscScriptBranch_Begin, str);
+			branch.setExternalAcscBranch((BaseAcscBranch)MemoryJavaCompiler.javac( 
+					ScriptJavacUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
 			return true;
 		}
 		else {
