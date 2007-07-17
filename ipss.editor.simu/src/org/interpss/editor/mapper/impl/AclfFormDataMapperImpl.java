@@ -36,6 +36,7 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
@@ -43,6 +44,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
@@ -51,6 +53,8 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.BaseAclfBranch;
+import com.interpss.core.aclf.BaseAclfBus;
 import com.interpss.core.aclf.CapacitorBusAdapter;
 import com.interpss.core.aclf.LineAdapter;
 import com.interpss.core.aclf.LoadBusAdapter;
@@ -265,6 +269,18 @@ public class AclfFormDataMapperImpl {
 		if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting) ||
 			busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
 			// compile the source code
+			String javacode = busData.getScripts();
+			String str = ScriptJavacUtilFunc.Tag_AclfScript_Begin_Code.replaceFirst(
+							ScriptJavacUtilFunc.Tag_Package, 
+					        ScriptJavacUtilFunc.AclfScriptingPackageName.replaceAll("/", "."));
+			str = str.replaceFirst(
+					ScriptJavacUtilFunc.Tag_BaseClassname, 
+					ScriptJavacUtilFunc.Tag_AclfScriptBus_Baseclass);
+			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
+			str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
+			javacode = javacode.replaceFirst("<AclfBusScriptingClassname>", str);
+			bus.setExternalAclfBus((BaseAclfBus)MemoryJavaCompiler.javac( 
+					ScriptJavacUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
 		}
  		return true;
 	}
@@ -362,7 +378,18 @@ public class AclfFormDataMapperImpl {
 		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) { 
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
 			//branch.setScripts(data.getScripts());
-			// compile the source code
+			String javacode = data.getScripts();
+			String str = ScriptJavacUtilFunc.Tag_AclfScript_Begin_Code.replaceFirst(
+							ScriptJavacUtilFunc.Tag_Package, 
+							ScriptJavacUtilFunc.AclfScriptingPackageName.replaceAll("/", "."));
+			str = str.replaceFirst(
+					ScriptJavacUtilFunc.Tag_BaseClassname, 
+					ScriptJavacUtilFunc.Tag_AclfScriptBranch_Baseclass);
+			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
+			str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
+			javacode = javacode.replaceFirst(ScriptJavacUtilFunc.Tag_AclfScriptBranch_Begin, str);
+			branch.setExternalAclfBranch((BaseAclfBranch)MemoryJavaCompiler.javac( 
+					ScriptJavacUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
 			return true;
 		}
 		return false;
