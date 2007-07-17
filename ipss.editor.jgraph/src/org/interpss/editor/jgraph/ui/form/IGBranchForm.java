@@ -25,7 +25,7 @@
 package org.interpss.editor.jgraph.ui.form;
 
 /**
- * Branch form interface. A branch form object is a placeholder for branch data
+ * Branch form interface. A branch form object is a place holder for branch data
  */
 
 public interface IGBranchForm extends IUserData {
@@ -33,8 +33,7 @@ public interface IGBranchForm extends IUserData {
 		TransBranchLfCode_Line = "Line",
 		TransBranchLfCode_Xfr  = "Xformer",
 		TransBranchLfCode_PsXfr = "PSXformer",
-	    TransBranchCode_LFScripting = "LFScripting",
-    	TransBranchCode_SCScripting = "ScScripting";
+	    TransBranchCode_Scripting = "Scripting";
 	
 	public static final String
 		DistBranchCode_Feeder = "Feeder",
