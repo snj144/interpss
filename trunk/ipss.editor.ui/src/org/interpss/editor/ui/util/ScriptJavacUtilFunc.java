@@ -37,7 +37,10 @@ public class ScriptJavacUtilFunc {
 	public static String CMLTempPackageName = "dsl/temp/";
 	public static String CMLControllerPackageName = "dsl/controller/";
 	public static String CMLDynamicBusControllerPackageName = "dsl/device/";
+	public static String AclfScriptingPackageName = "script/aclf";
+	public static String AcscScriptingPackageName = "script/acsc/";
 	
+	public static String Tag_Package = "<package>";
 	public static String Tag_Classname = "<classname>";
 	public static String Tag_BaseClassname = "<baseClassname>";
 	public static String Tal_ClassnameLine = "public class <classname> extends <baseClassname> {";
@@ -60,6 +63,12 @@ public class ScriptJavacUtilFunc {
 	public static String Tag_DStabOutScriptDescEnd_Code = "public class DStabOutputScripting implements IDStabOutputScripting {\n public AnDStabOutputScripting getAnOutputScripting() { \n return (AnDStabOutputScripting)getClass().getAnnotation(AnDStabOutputScripting.class);  } \n}";
 	public static String Tag_DStabOutScriptDescBegin = "<DStabOutScriptDescriptionBegin>";
 	public static String Tag_DStabOutScriptDescEnd = "<DStabOutScriptDescriptionEnd>";
+	
+	public static String Tag_AclfScript_Begin_Code = "package <package>; \n import org.apache.commons.math.complex.Complex;\n import com.interpss.common.datatype.*;\n import com.interpss.common.util.MemoryJavaCompiler;\n import com.interpss.core.aclf.*;\n import com.interpss.core.aclf.impl.*;\n public class <classname> extends <baseClassname>";
+	public static String Tag_AclfScriptBus_Begin = "<AclfBusScriptingClassname>";
+	public static String Tag_AclfScriptBus_Baseclass = "BaseAclfBusImpl";
+	public static String Tag_AclfScriptBranch_Begin = "<AclfBranchScriptingClassname>";
+	public static String Tag_AclfScriptBranch_Baseclass = "BaseAclfBranchImpl";
 	
 	/**
 	 * Parse CML controller template Java Code by substituting tags.
