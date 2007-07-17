@@ -38,7 +38,7 @@ public class ScriptJavacUtilFunc {
 	public static String CMLControllerPackageName = "dsl/controller/";
 	public static String CMLDynamicBusControllerPackageName = "dsl/device/";
 	public static String AclfScriptingPackageName = "script/aclf";
-	public static String AcscScriptingPackageName = "script/acsc/";
+	public static String AcscScriptingPackageName = "script/acsc";
 	
 	public static String Tag_Package = "<package>";
 	public static String Tag_Classname = "<classname>";
@@ -70,6 +70,12 @@ public class ScriptJavacUtilFunc {
 	public static String Tag_AclfScriptBranch_Begin = "<AclfBranchScriptingClassname>";
 	public static String Tag_AclfScriptBranch_Baseclass = "BaseAclfBranchImpl";
 	
+	public static String Tag_AcscScript_Begin_Code = "package <package>; \n import org.apache.commons.math.complex.Complex;\n import com.interpss.common.datatype.*;\n import com.interpss.common.util.MemoryJavaCompiler;\n import com.interpss.core.aclf.*;\n import com.interpss.core.aclf.impl.*;\n import com.interpss.core.acsc.*;\n import com.interpss.core.acsc.impl.*;\n public class <classname> extends <baseClassname>";
+	public static String Tag_AcscScriptBus_Begin = "<AcscBusScriptingClassname>";
+	public static String Tag_AcscScriptBus_Baseclass = "BaseAcscBusImpl";
+	public static String Tag_AcscScriptBranch_Begin = "<AcscBranchScriptingClassname>";
+	public static String Tag_AcscScriptBranch_Baseclass = "BaseAcscBranchImpl";
+
 	/**
 	 * Parse CML controller template Java Code by substituting tags.
 	 * 

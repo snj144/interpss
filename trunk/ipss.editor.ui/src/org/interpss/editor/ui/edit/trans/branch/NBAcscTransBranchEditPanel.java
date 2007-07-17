@@ -104,7 +104,7 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("AcscTransBranchEditPanel setForm2Editor() called");
 	    if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAclfData() ) {
-			_positiveEditPanel.setForm2Editor();
+	    	_positiveEditPanel.setForm2Editor();
 	    }
 	    
 		_scEditPanel.setForm2Editor();
