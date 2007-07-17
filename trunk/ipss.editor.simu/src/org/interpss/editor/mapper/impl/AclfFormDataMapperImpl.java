@@ -204,7 +204,7 @@ public class AclfFormDataMapperImpl {
 		}
 
 		BaseFormDataMapperImpl.setBaseBranchInfo(form, branch, net);
-		setAclfBranchFormInfo(form, branch, net, msg);
+		setAclfBranchFormInfo(form, branch, net, true, msg);
 		
 		return branch;
 	}
@@ -362,7 +362,7 @@ public class AclfFormDataMapperImpl {
 	 * @return the status
 	 */
 	public static boolean setAclfBranchFormInfo(GBranchForm formBranch, AclfBranch branch, 
-							AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+							AclfAdjNetwork aclfNet, boolean aclf, IPSSMsgHub msg) {
 		AclfBranchData data = formBranch.getAcscBranchData();
 		if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {   // line branch
 			return setLineBranchFormInfo(formBranch, branch, aclfNet, msg);
@@ -375,7 +375,7 @@ public class AclfFormDataMapperImpl {
 			setPSXfrBranchFormInfo(formBranch, branch, aclfNet, msg);
 			return true;
 		}
-		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) { 
+		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) && aclf) { 
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
 			//branch.setScripts(data.getScripts());
 			String javacode = data.getScripts();
