@@ -132,6 +132,14 @@ public class AppConfig {
 
 			ScriptJavacUtilFunc.Tag_ControllerDescBegin_Code = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin.Code");
 			ScriptJavacUtilFunc.Tag_ControllerFieldDescEnd_Code = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End.Code");
+
+			ScriptJavacUtilFunc.Tag_AclfScript_Begin_Code = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScript_Begin_Code");
+			ScriptJavacUtilFunc.Tag_AclfScriptBus_Begin = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScriptBus_Begin");
+			ScriptJavacUtilFunc.Tag_AclfScriptBranch_Begin = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScriptBranch_Begin");
+			
+			ScriptJavacUtilFunc.Tag_AcscScript_Begin_Code = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScript_Begin_Code");
+			ScriptJavacUtilFunc.Tag_AcscScriptBus_Begin = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScriptBus_Begin");
+			ScriptJavacUtilFunc.Tag_AcscScriptBranch_Begin = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScriptBranch_Begin");
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			ok = false;
