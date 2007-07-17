@@ -104,4 +104,17 @@ public class ScriptJavacUtilFunc {
 		Object obj = MemoryJavaCompiler.javac(packageName+"CheckCode", javacode);
 		return obj != null;
 	}
+	
+	/**
+	 * create scripting object classname foldername/projectname/id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public static String createScriptingClassname(String id) {
+    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
+		String	folderName = editor.getCurrentProjectFolder();
+		String	projName = editor.getCurrentProjectName();
+		return IpssJavaCompiler.createClassName(id, folderName, projName);
+	}
 }
