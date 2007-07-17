@@ -149,10 +149,7 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * @throws Exception
 	 */
 	protected void createControllerObject(String baseClassname) {
-    	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
-		String	folderName = editor.getCurrentProjectFolder();
-		String	projName = editor.getCurrentProjectName();
-		String classname = IpssJavaCompiler.createClassName(getId(), folderName, projName); 
+		String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
 		String javacode = ScriptJavacUtilFunc.parseCMLTag(getScripts(), classname, baseClassname);
 		anController = (AbstractAnnotateController)MemoryJavaCompiler.javac( 
 				ScriptJavacUtilFunc.CMLControllerPackageName+classname, javacode);
