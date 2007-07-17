@@ -153,7 +153,7 @@ public class AcscFormDataMapperImpl {
 		}
 		else if (data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
 			bus.setScCode(BusScCode.NON_CONTRI_LITERAL);
-			bus.setScripts(data.getScripts());
+			//bus.setScripts(data.getScripts());
 			return true;
 		}
 		else {
@@ -222,7 +222,7 @@ public class AcscFormDataMapperImpl {
 		}
 		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
-			branch.setScripts(data.getScripts());
+			//branch.setScripts(data.getScripts());
 			return true;
 		}
 		else {

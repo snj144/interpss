@@ -241,7 +241,7 @@ public class AclfFormDataMapperImpl {
 		}
 		else if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting)) {   
 			bus.setGenCode(AclfGenCode.GEN_SCRIPTING_LITERAL);
-			bus.setScripts(busData.getScripts());
+			//bus.setScripts(busData.getScripts());
 		}
 		else {   
 			bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
@@ -249,7 +249,7 @@ public class AclfFormDataMapperImpl {
 		
 		bus.setLoadCode(parseLoadCode(busData.getLoadCode()));
 		if (busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
-			bus.setScripts(busData.getScripts());
+			//bus.setScripts(busData.getScripts());
 		}
 		else {
 			LoadBusAdapter loadBus = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
@@ -261,6 +261,11 @@ public class AclfFormDataMapperImpl {
 		Complex ypu = UnitType.yConversion(new Complex(busData.getShuntG(),busData.getShuntB()), bus.getBaseVoltage(), 
 						aclfNet.getBaseKva(), UnitType.toUnit(busData.getShuntYUnit()), UnitType.PU);
 		bus.setShuntY(ypu);
+		
+		if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting) ||
+			busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
+			// compile the source code
+		}
  		return true;
 	}
 
@@ -356,7 +361,8 @@ public class AclfFormDataMapperImpl {
 		}
 		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) { 
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
-			branch.setScripts(data.getScripts());
+			//branch.setScripts(data.getScripts());
+			// compile the source code
 			return true;
 		}
 		return false;
