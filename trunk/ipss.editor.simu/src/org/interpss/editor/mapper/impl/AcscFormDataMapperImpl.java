@@ -53,10 +53,12 @@ import com.interpss.core.acsc.AcscNetwork;
 import com.interpss.core.acsc.AcscXfrAdapter;
 import com.interpss.core.acsc.BaseAcscBranch;
 import com.interpss.core.acsc.BaseAcscBus;
+import com.interpss.core.acsc.BusGroundCode;
 import com.interpss.core.acsc.BusScCode;
 import com.interpss.core.acsc.SequenceCode;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.acsc.XfrConnectCode;
+import com.interpss.core.util.CoreUtilFunc;
 
 /**
  * Map functions for BaseNetForm, BaseBusForm, BaseBranchForm to/from Network, Bus, Branch simu objects
@@ -174,7 +176,7 @@ public class AcscFormDataMapperImpl {
 					busData.getZ2R(), busData.getZ2X(), 
 					busData.getZ0R(), busData.getZ0X(), 
 					UnitType.toUnit(busData.getZUnit()));
-			setBusScZg(bus, net.getBaseKva(), 
+			setBusScZg(bus, bus.getBaseVoltage(), net.getBaseKva(), 
 					busData.getGround().getCode(), 
 					busData.getGround().getR(), busData.getGround().getX(), 
 					UnitType.toUnit(busData.getGround().getUnit()));
@@ -190,7 +192,8 @@ public class AcscFormDataMapperImpl {
 		bus.setZ(Constants.LargeBusZ, SequenceCode.POSITIVE_LITERAL);
 		bus.setZ(Constants.LargeBusZ, SequenceCode.NEGATIVE_LITERAL);
 		bus.setZ(Constants.LargeBusZ, SequenceCode.ZERO_LITERAL);
-		bus.setGrounding(new ScGroundType());
+		bus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
+		bus.getGrounding().setZ(Constants.LargeBusZ);
 		return true;
 	}
 
@@ -204,13 +207,11 @@ public class AcscFormDataMapperImpl {
 		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO_LITERAL, zUnit, baseKVA);
 	}
 
-	private static void setBusScZg(AcscBus bus, double baseKVA,
+	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA,
 						String   gType, double rg,    
 						double xg, byte zgUnit) {
-		ScGroundType gtype = new ScGroundType();
-		gtype.setCode(gType);
-		gtype.setZ(new Complex(rg, xg), zgUnit, bus.getBaseVoltage(), baseKVA);
-		bus.setGrounding(gtype);
+		bus.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(gType));
+		bus.getGrounding().setZ(new Complex(rg,xg), zgUnit, baseV, baseKVA);
 	}
 	
 	public static boolean setBranchInfo(GBranchForm formBranch, AcscBranch branch, 
