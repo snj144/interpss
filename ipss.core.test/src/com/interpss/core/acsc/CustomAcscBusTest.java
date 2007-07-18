@@ -63,8 +63,8 @@ public class CustomAcscBusTest extends BaseTestSetup {
   			public Complex getZ0() {
   				return new Complex(0.0, 0.02);
   			}
-  			public String getGroundCode() {
-  				return ScGroundType.GType_SolidGrounded;
+  			public BusGroundCode getGroundCode() {
+  				return BusGroundCode.SOLID_GROUNDED;
   			}
   		});
 
