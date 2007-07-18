@@ -57,7 +57,7 @@ public class CustomAcscBranchTest extends BaseTestSetup {
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
   		
   		AcscBranch branch = (AcscBranch)faultNet.getBranch("1", "2");
-  		branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
+  		branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
   		branch.setExternalAcscBranch(new BaseAcscBranchImpl() {
   			private final Complex z = new Complex(0.00,0.25);   // pu
   			private final Complex y = ComplexFunc.div(1.0, z);   // pu
@@ -110,7 +110,7 @@ public class CustomAcscBranchTest extends BaseTestSetup {
   		});
   		
   		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("2", faultNet);
-		fault.setFaultCode(SimpleFaultCode.GROUND_3P_LITERAL);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(new Complex(0.0, 0.0));
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		

@@ -46,7 +46,7 @@ public class AreaControlTest extends BaseTestSetup {
 		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
 
 		AclfBus bus4 = net.getAclfBus("4");
-		bus4.setGenCode(AclfGenCode.SWING_LITERAL);
+		bus4.setGenCode(AclfGenCode.SWING);
 		final SwingBusAdapter swing = (SwingBusAdapter)bus4.adapt(SwingBusAdapter.class);
 		swing.setVoltMag(1.05, UnitType.PU);
 		swing.setVoltAng(0.38, UnitType.Rad);
