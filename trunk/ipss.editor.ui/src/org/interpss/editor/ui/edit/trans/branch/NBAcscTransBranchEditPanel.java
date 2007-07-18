@@ -36,6 +36,7 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.util.IpssLogger;
  
@@ -121,8 +122,17 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 	    }
 
 	    _scEditPanel.saveEditor2Form(errMsg);
-		if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting))
+		if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
 			_data.setScripts(scriptTextArea.getText());
+			String code = ScriptJavacUtilFunc.parseAcscJavaCode(scriptTextArea.getText(), 
+					ScriptJavacUtilFunc.CheckCodeClassname, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBranch_Baseclass, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBranch_Begin);
+			if (!ScriptJavacUtilFunc.checkJavaCode(code, ScriptJavacUtilFunc.AcscScriptingPackageName)) {
+            	errMsg.add(new String("Java compile error"));
+        		return false;
+			}
+		}	
 
 	    return errMsg.size() == 0;
     }

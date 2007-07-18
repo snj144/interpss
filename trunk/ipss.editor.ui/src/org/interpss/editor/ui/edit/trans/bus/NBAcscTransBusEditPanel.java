@@ -34,6 +34,7 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.common.NBGroundInputPanel;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
@@ -158,6 +159,14 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    }
 	    else if (_data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
 	    	_data.setScripts(acscBusScriptTextArea.getText());
+			String code = ScriptJavacUtilFunc.parseAcscJavaCode(acscBusScriptTextArea.getText(), 
+					ScriptJavacUtilFunc.CheckCodeClassname, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBus_Baseclass, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBus_Begin);
+			if (!ScriptJavacUtilFunc.checkJavaCode(code, ScriptJavacUtilFunc.AcscScriptingPackageName)) {
+            	errMsg.add(new String("Java compile error"));
+        		return false;
+			}
 	    }
 
 	    return errMsg.size() == 0;
