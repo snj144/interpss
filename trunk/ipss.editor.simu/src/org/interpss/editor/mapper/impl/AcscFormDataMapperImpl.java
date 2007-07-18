@@ -153,16 +153,10 @@ public class AcscFormDataMapperImpl {
 		}
 		else if (data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
 			bus.setScCode(BusScCode.SC_BUS_SCRIPTING_LITERAL);
-			String javacode = data.getScripts();
-			String str = ScriptJavacUtilFunc.Tag_AcscScript_Begin_Code.replaceFirst(
-							ScriptJavacUtilFunc.Tag_Package, 
-					        ScriptJavacUtilFunc.AcscScriptingPackageName.replaceAll("/", "."));
-			str = str.replaceFirst(
-					ScriptJavacUtilFunc.Tag_BaseClassname, 
-					ScriptJavacUtilFunc.Tag_AcscScriptBus_Baseclass);
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
-			str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
-			javacode = javacode.replaceFirst("<AcscBusScriptingClassname>", str);
+			String javacode = ScriptJavacUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBus_Baseclass, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBus_Begin);
 			bus.setExternalAcscBus((BaseAcscBus)MemoryJavaCompiler.javac( 
 					ScriptJavacUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
 			return true;
@@ -235,16 +229,10 @@ public class AcscFormDataMapperImpl {
 				 branch instanceof AcscBranch) {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
 			//branch.setScripts(data.getScripts());
-			String javacode = data.getScripts();
-			String str = ScriptJavacUtilFunc.Tag_AcscScript_Begin_Code.replaceFirst(
-							ScriptJavacUtilFunc.Tag_Package, 
-							ScriptJavacUtilFunc.AcscScriptingPackageName.replaceAll("/", "."));
-			str = str.replaceFirst(
-					ScriptJavacUtilFunc.Tag_BaseClassname, 
-					ScriptJavacUtilFunc.Tag_AcscScriptBranch_Baseclass);
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
-			str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
-			javacode = javacode.replaceFirst(ScriptJavacUtilFunc.Tag_AcscScriptBranch_Begin, str);
+			String javacode = ScriptJavacUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBranch_Baseclass, 
+					ScriptJavacUtilFunc.Tag_AcscScriptBranch_Begin);
 			branch.setExternalAcscBranch((BaseAcscBranch)MemoryJavaCompiler.javac( 
 					ScriptJavacUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
 			return true;
