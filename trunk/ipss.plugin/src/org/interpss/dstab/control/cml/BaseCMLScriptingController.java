@@ -26,12 +26,9 @@ package org.interpss.dstab.control.cml;
 
 import java.util.Hashtable;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
-import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
@@ -169,7 +166,8 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * @return
 	 */
 	public boolean checkJavaCode(String baseClassname) {
-		return ScriptJavacUtilFunc.checkJavaCode(getScripts(), baseClassname, ScriptJavacUtilFunc.CMLControllerPackageName);
+		String javacode = ScriptJavacUtilFunc.parseCMLTag(getScripts(), ScriptJavacUtilFunc.CheckCodeClassname, baseClassname);
+		return ScriptJavacUtilFunc.checkJavaCode(javacode, ScriptJavacUtilFunc.CMLControllerPackageName);
 	}
 } 
 
