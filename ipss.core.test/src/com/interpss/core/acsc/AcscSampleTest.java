@@ -46,7 +46,7 @@ public class AcscSampleTest extends BaseTestSetup {
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
   		
   		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("2", faultNet);
-		fault.setFaultCode(SimpleFaultCode.GROUND_3P_LITERAL);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(new Complex(0.0, 0.0));
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		

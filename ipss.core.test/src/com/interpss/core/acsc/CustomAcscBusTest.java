@@ -51,11 +51,11 @@ public class CustomAcscBusTest extends BaseTestSetup {
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
   		
   		AcscBus bus = (AcscBus)faultNet.getBus("1");
-  		bus.setScCode(BusScCode.SC_BUS_SCRIPTING_LITERAL);
+  		bus.setScCode(BusScCode.SC_BUS_SCRIPTING);
   		bus.setExternalAcscBus(new BaseAcscBusImpl() {});
   		
   		bus = (AcscBus)faultNet.getBus("4");
-  		bus.setScCode(BusScCode.SC_BUS_SCRIPTING_LITERAL);
+  		bus.setScCode(BusScCode.SC_BUS_SCRIPTING);
   		bus.setExternalAcscBus(new BaseAcscBusImpl() {
   			public Complex getZ1() {
   				return new Complex(0.0, 0.02);
@@ -69,7 +69,7 @@ public class CustomAcscBusTest extends BaseTestSetup {
   		});
 
   		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("2", faultNet);
-		fault.setFaultCode(SimpleFaultCode.GROUND_3P_LITERAL);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(new Complex(0.0, 0.0));
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		

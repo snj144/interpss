@@ -49,7 +49,7 @@ public class CustomFuncLoadTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
   		AclfBus loadBus = (AclfBus)net.getBus("1");
-  		loadBus.setLoadCode(AclfLoadCode.LOAD_SCRIPTING_LITERAL);
+  		loadBus.setLoadCode(AclfLoadCode.LOAD_SCRIPTING);
   		loadBus.setExternalAclfBus(fload);
 
   		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);

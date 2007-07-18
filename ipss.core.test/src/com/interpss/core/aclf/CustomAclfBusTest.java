@@ -40,9 +40,9 @@ import com.interpss.core.util.sample.SampleCases;
 public class CustomAclfBusTest extends BaseTestSetup {
 	@Test
 	public void loadBusTests() {
-		loadBusTest(AclfMethod.NR_LITERAL, 20);
-		loadBusTest(AclfMethod.PQ_LITERAL, 20);
-		loadBusTest(AclfMethod.GS_LITERAL, 1000);
+		loadBusTest(AclfMethod.NR, 20);
+		loadBusTest(AclfMethod.PQ, 20);
+		loadBusTest(AclfMethod.GS, 1000);
 	}
 	
 	private void loadBusTest(AclfMethod method, int maxItr) {
@@ -51,7 +51,7 @@ public class CustomAclfBusTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
   		AclfBus loadBus = (AclfBus)net.getBus("1");
-  		loadBus.setLoadCode(AclfLoadCode.LOAD_SCRIPTING_LITERAL);
+  		loadBus.setLoadCode(AclfLoadCode.LOAD_SCRIPTING);
   		loadBus.setExternalAclfBus(new BaseAclfBusImpl() {
   			public boolean isLoad() {
   				return true; }
@@ -76,9 +76,9 @@ public class CustomAclfBusTest extends BaseTestSetup {
 	
 	@Test
 	public void pqBusTests() {
-		pqBusTest(AclfMethod.NR_LITERAL, 20);
-		pqBusTest(AclfMethod.PQ_LITERAL, 20);
-		pqBusTest(AclfMethod.GS_LITERAL, 1000);
+		pqBusTest(AclfMethod.NR, 20);
+		pqBusTest(AclfMethod.PQ, 20);
+		pqBusTest(AclfMethod.GS, 1000);
 	}
 	
 	private void pqBusTest(AclfMethod method, int maxItr) {
@@ -87,7 +87,7 @@ public class CustomAclfBusTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
   		AclfBus loadBus = (AclfBus)net.getBus("1");
-  		loadBus.setGenCode(AclfGenCode.GEN_SCRIPTING_LITERAL);
+  		loadBus.setGenCode(AclfGenCode.GEN_SCRIPTING);
   		loadBus.setExternalAclfBus(new BaseAclfBusImpl() {
   			public boolean isGenPQ() {
   				return true; }
@@ -112,9 +112,9 @@ public class CustomAclfBusTest extends BaseTestSetup {
 
 	@Test
 	public void pvBusTests() {
-		pvBusTest(AclfMethod.NR_LITERAL, 20);
-		pvBusTest(AclfMethod.PQ_LITERAL, 20);
-		pvBusTest(AclfMethod.GS_LITERAL, 1000);
+		pvBusTest(AclfMethod.NR, 20);
+		pvBusTest(AclfMethod.PQ, 20);
+		pvBusTest(AclfMethod.GS, 1000);
 	}
 
 	private void pvBusTest(AclfMethod method, int maxItr) {
@@ -123,7 +123,7 @@ public class CustomAclfBusTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
   		AclfBus pvBus = (AclfBus)net.getBus("4");
-  		pvBus.setGenCode(AclfGenCode.GEN_SCRIPTING_LITERAL);
+  		pvBus.setGenCode(AclfGenCode.GEN_SCRIPTING);
   		pvBus.setExternalAclfBus(new BaseAclfBusImpl() {
   			public boolean isGenPV() {
   				return true; }
@@ -149,9 +149,9 @@ public class CustomAclfBusTest extends BaseTestSetup {
 
 	@Test
 	public void swingBusTests() {
-		swingBusTest(AclfMethod.NR_LITERAL, 20);
-		swingBusTest(AclfMethod.PQ_LITERAL, 20);
-		swingBusTest(AclfMethod.GS_LITERAL, 1000);
+		swingBusTest(AclfMethod.NR, 20);
+		swingBusTest(AclfMethod.PQ, 20);
+		swingBusTest(AclfMethod.GS, 1000);
 	}
 
 	private void swingBusTest(AclfMethod method, int maxItr) {
@@ -160,7 +160,7 @@ public class CustomAclfBusTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
   		AclfBus pvBus = (AclfBus)net.getBus("5");
-  		pvBus.setGenCode(AclfGenCode.GEN_SCRIPTING_LITERAL);
+  		pvBus.setGenCode(AclfGenCode.GEN_SCRIPTING);
   		pvBus.setExternalAclfBus(new BaseAclfBusImpl() {
   			public boolean isSwing() {
   				return true; }

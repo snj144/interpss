@@ -42,9 +42,9 @@ import com.interpss.core.util.sample.SampleCases;
 public class CustomAclfBranchTest extends BaseTestSetup {
 	@Test
 	public void lineBranchTests() {
-		lineBranchTest(AclfMethod.NR_LITERAL, 10);
-		lineBranchTest(AclfMethod.PQ_LITERAL, 20);
-		lineBranchTest(AclfMethod.GS_LITERAL, 1000);
+		lineBranchTest(AclfMethod.NR, 10);
+		lineBranchTest(AclfMethod.PQ, 20);
+		lineBranchTest(AclfMethod.GS, 1000);
 	}
 	
 	private void lineBranchTest(AclfMethod method, int maxItr) {
@@ -53,7 +53,7 @@ public class CustomAclfBranchTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
   		AclfBranch branch = (AclfBranch)net.getBranch("1", "2");
-  		branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
+  		branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
   		branch.setExternalAclfBranch(new BaseAclfBranchImpl() {
   			private final Complex z = new Complex(0.04,0.25);   // pu
   			private final Complex y = ComplexFunc.div(1.0, z);   // pu
@@ -107,7 +107,7 @@ public class CustomAclfBranchTest extends BaseTestSetup {
 	}
 
 	public void lineBranchCurrentInjecttionTests() {
-		lineBranchCurrentInjecttionTest(AclfMethod.NR_LITERAL, 50);
+		lineBranchCurrentInjecttionTest(AclfMethod.NR, 50);
 	}
 	
 	private void lineBranchCurrentInjecttionTest(AclfMethod method, int maxItr) {
@@ -116,7 +116,7 @@ public class CustomAclfBranchTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
   		AclfBranch branch = (AclfBranch)net.getBranch("1", "2");
-  		branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
+  		branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
   		branch.setExternalAclfBranch(new BaseAclfBranchImpl() {
   			private final Complex z = new Complex(0.04,0.25);   // pu
   			private final Complex y = ComplexFunc.div(1.0, z);   // pu
