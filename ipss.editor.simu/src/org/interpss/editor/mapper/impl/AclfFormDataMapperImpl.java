@@ -265,16 +265,10 @@ public class AclfFormDataMapperImpl {
 		if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting) ||
 			busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
 			// compile the source code
-			String javacode = busData.getScripts();
-			String str = ScriptJavacUtilFunc.Tag_AclfScript_Begin_Code.replaceFirst(
-							ScriptJavacUtilFunc.Tag_Package, 
-					        ScriptJavacUtilFunc.AclfScriptingPackageName.replaceAll("/", "."));
-			str = str.replaceFirst(
-					ScriptJavacUtilFunc.Tag_BaseClassname, 
-					ScriptJavacUtilFunc.Tag_AclfScriptBus_Baseclass);
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
-			str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
-			javacode = javacode.replaceFirst("<AclfBusScriptingClassname>", str);
+			String javacode = ScriptJavacUtilFunc.parseAclfJavaCode(busData.getScripts(), classname, 
+								ScriptJavacUtilFunc.Tag_AclfScriptBus_Baseclass, 
+								ScriptJavacUtilFunc.Tag_AclfScriptBus_Begin);
 			bus.setExternalAclfBus((BaseAclfBus)MemoryJavaCompiler.javac( 
 					ScriptJavacUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
 		}
@@ -374,16 +368,10 @@ public class AclfFormDataMapperImpl {
 		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) && aclf) { 
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
 			//branch.setScripts(data.getScripts());
-			String javacode = data.getScripts();
-			String str = ScriptJavacUtilFunc.Tag_AclfScript_Begin_Code.replaceFirst(
-							ScriptJavacUtilFunc.Tag_Package, 
-							ScriptJavacUtilFunc.AclfScriptingPackageName.replaceAll("/", "."));
-			str = str.replaceFirst(
-					ScriptJavacUtilFunc.Tag_BaseClassname, 
-					ScriptJavacUtilFunc.Tag_AclfScriptBranch_Baseclass);
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
-			str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
-			javacode = javacode.replaceFirst(ScriptJavacUtilFunc.Tag_AclfScriptBranch_Begin, str);
+			String javacode = ScriptJavacUtilFunc.parseAclfJavaCode(data.getScripts(), classname, 
+								ScriptJavacUtilFunc.Tag_AclfScriptBranch_Baseclass, 
+								ScriptJavacUtilFunc.Tag_AclfScriptBranch_Begin);
 			branch.setExternalAclfBranch((BaseAclfBranch)MemoryJavaCompiler.javac( 
 					ScriptJavacUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
 			return true;
