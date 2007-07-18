@@ -37,6 +37,8 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
@@ -185,7 +187,18 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 
 		if (branchScriptRadioButton.isSelected()) {
     		_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
-	    	_data.setScripts(scriptTextArea.getText());
+	    	if (_netContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_AclfNetwork) ||
+	    		_netContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_AclfAdjNetwork)	) {
+		    	_data.setScripts(scriptTextArea.getText());
+				String code = ScriptJavacUtilFunc.parseAclfJavaCode(scriptTextArea.getText(), 
+						ScriptJavacUtilFunc.CheckCodeClassname, 
+						ScriptJavacUtilFunc.Tag_AclfScriptBranch_Baseclass, 
+						ScriptJavacUtilFunc.Tag_AclfScriptBranch_Begin);
+				if (!ScriptJavacUtilFunc.checkJavaCode(code, ScriptJavacUtilFunc.AclfScriptingPackageName)) {
+	            	errMsg.add(new String("Java compile error"));
+	        		return false;
+				}
+	    	}
 		}
 		else {
 			if (SwingInputVerifyUtil.getDouble(this.rTextField)== 0.0 && SwingInputVerifyUtil.getDouble(this.xTextField)== 0.0) {
