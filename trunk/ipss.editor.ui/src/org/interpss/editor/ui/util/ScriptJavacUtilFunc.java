@@ -31,18 +31,20 @@ import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.MemoryJavaCompiler;
 
 public class ScriptJavacUtilFunc {
-	public static String OutDStabResultClassName = "ipss/tools/OutDStabResult2TextDialog";
-	public static String DStabOutputScriptingClassName = "ipss/tools/DStabOutputScripting";
+	public final static String OutDStabResultClassName = "ipss/tools/OutDStabResult2TextDialog";
+	public final static String DStabOutputScriptingClassName = "ipss/tools/DStabOutputScripting";
 	
-	public static String CMLTempPackageName = "dsl/temp/";
-	public static String CMLControllerPackageName = "dsl/controller/";
-	public static String CMLDynamicBusControllerPackageName = "dsl/device/";
-	public static String AclfScriptingPackageName = "script/aclf";
-	public static String AcscScriptingPackageName = "script/acsc";
+	public final static String CheckCodeTempPackageName = "temp/";
+	public final static String CheckCodeClassname = "CheckCode";
 	
-	public static String Tag_Package = "<package>";
-	public static String Tag_Classname = "<classname>";
-	public static String Tag_BaseClassname = "<baseClassname>";
+	public final static String CMLControllerPackageName = "dsl/controller/";
+	public final static String CMLDynamicBusControllerPackageName = "dsl/device/";
+	public final static String AclfScriptingPackageName = "script/aclf";
+	public final static String AcscScriptingPackageName = "script/acsc";
+	
+	public final static String Tag_Package = "<package>";
+	public final static String Tag_Classname = "<classname>";
+	public final static String Tag_BaseClassname = "<baseClassname>";
 	public static String Tal_ClassnameLine = "public class <classname> extends <baseClassname> {";
 
 	/*
@@ -66,15 +68,15 @@ public class ScriptJavacUtilFunc {
 	
 	public static String Tag_AclfScript_Begin_Code = "package <package>; \n import org.apache.commons.math.complex.Complex;\n import com.interpss.common.datatype.*;\n import com.interpss.common.util.MemoryJavaCompiler;\n import com.interpss.core.aclf.*;\n import com.interpss.core.aclf.impl.*;\n public class <classname> extends <baseClassname>";
 	public static String Tag_AclfScriptBus_Begin = "<AclfBusScriptingClassname>";
-	public static String Tag_AclfScriptBus_Baseclass = "BaseAclfBusImpl";
+	public final static String Tag_AclfScriptBus_Baseclass = "BaseAclfBusImpl";
 	public static String Tag_AclfScriptBranch_Begin = "<AclfBranchScriptingClassname>";
-	public static String Tag_AclfScriptBranch_Baseclass = "BaseAclfBranchImpl";
+	public final static String Tag_AclfScriptBranch_Baseclass = "BaseAclfBranchImpl";
 	
 	public static String Tag_AcscScript_Begin_Code = "package <package>; \n import org.apache.commons.math.complex.Complex;\n import com.interpss.common.datatype.*;\n import com.interpss.common.util.MemoryJavaCompiler;\n import com.interpss.core.aclf.*;\n import com.interpss.core.aclf.impl.*;\n import com.interpss.core.acsc.*;\n import com.interpss.core.acsc.impl.*;\n public class <classname> extends <baseClassname>";
 	public static String Tag_AcscScriptBus_Begin = "<AcscBusScriptingClassname>";
-	public static String Tag_AcscScriptBus_Baseclass = "BaseAcscBusImpl";
+	public final static String Tag_AcscScriptBus_Baseclass = "BaseAcscBusImpl";
 	public static String Tag_AcscScriptBranch_Begin = "<AcscBranchScriptingClassname>";
-	public static String Tag_AcscScriptBranch_Baseclass = "BaseAcscBranchImpl";
+	public final static String Tag_AcscScriptBranch_Baseclass = "BaseAcscBranchImpl";
 
 	/**
 	 * Parse CML controller template Java Code by substituting tags.
@@ -93,16 +95,6 @@ public class ScriptJavacUtilFunc {
 		javacode = javacode.replaceFirst(Tag_BaseClassname, baseClassname);
 		return javacode;
 	}
-
-	/**
-	 * check java code syntex error by creating a temp class and compiling.
-	 * 
-	 * @param javaCode java code to be checked
-	 * @return false if compile fails
-	 */
-	public static boolean checkJavaCode(String javaCode, String packageName) {
-		return checkJavaCode(javaCode, "", packageName);
-	}
 	
 	/**
 	 * Before saving java code, the code is saved as temp file and compiled to check any syntax error
@@ -110,16 +102,17 @@ public class ScriptJavacUtilFunc {
 	 * @param baseClassname, base class name (AbstractExciter, AbstractGovernor ...)
 	 * @return false if there is compiling error
 	 */
-	public static boolean checkJavaCode(String javaCode, String baseClassname, String packageName) {
+	public static boolean checkJavaCode(String javacode, String packageName) {
     	IGraphicEditor editor = GraphSpringAppContext.getIpssGraphicEditor();
-		String javacode = ScriptJavacUtilFunc.parseCMLTag(javaCode, "CheckCode", baseClassname);
-		String filename = IpssJavaCompiler.createJavaFilename("CheckCode", 
-								ScriptJavacUtilFunc.CMLTempPackageName, editor.getRootDir());
+		String filename = IpssJavaCompiler.createJavaFilename(CheckCodeClassname, 
+								ScriptJavacUtilFunc.CheckCodeTempPackageName, editor.getRootDir());
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
-		Object obj = MemoryJavaCompiler.javac(packageName+"CheckCode", javacode);
+		if (!packageName.endsWith("/"))
+			packageName += "/";
+		Object obj = MemoryJavaCompiler.javac(packageName+CheckCodeClassname, javacode);
 		return obj != null;
 	}
-	
+
 	/**
 	 * create scripting object classname foldername/projectname/id
 	 * 
@@ -132,4 +125,41 @@ public class ScriptJavacUtilFunc {
 		String	projName = editor.getCurrentProjectName();
 		return IpssJavaCompiler.createClassName(id, folderName, projName);
 	}
+	
+	/**
+	 * 
+	 * @param javacode
+	 * @param elemId
+	 * @param baseClassname
+	 * @param beginTag
+	 * @return
+	 */
+	public static String parseAclfJavaCode(String javacode, 
+			                 String classname, String baseClassname, String beginTag) {
+		String str = ScriptJavacUtilFunc.Tag_AclfScript_Begin_Code.replaceFirst(
+				ScriptJavacUtilFunc.Tag_Package, 
+				ScriptJavacUtilFunc.AclfScriptingPackageName.replaceAll("/", "."));
+		str = str.replaceFirst(ScriptJavacUtilFunc.Tag_BaseClassname, baseClassname);
+		str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
+		return javacode.replaceFirst(beginTag, str);		
+	}
+
+	/**
+	 * 
+	 * 
+	 * @param javacode
+	 * @param elemId
+	 * @param baseClassname
+	 * @param beginTag
+	 * @return
+	 */
+	public static String parseAcscJavaCode(String javacode, 
+            				String classname, String baseClassname, String beginTag) {
+		String str = ScriptJavacUtilFunc.Tag_AcscScript_Begin_Code.replaceFirst(
+				ScriptJavacUtilFunc.Tag_Package, 
+				ScriptJavacUtilFunc.AcscScriptingPackageName.replaceAll("/", "."));
+		str = str.replaceFirst(ScriptJavacUtilFunc.Tag_BaseClassname, baseClassname);
+		str = str.replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
+		return javacode.replaceFirst(beginTag, str);		
+}
 }

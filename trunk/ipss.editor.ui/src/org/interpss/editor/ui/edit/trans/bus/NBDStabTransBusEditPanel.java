@@ -203,7 +203,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 	    return true;
 	}
     
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("DStabTransBusEditPanel saveEditor2Form() called");
     	errMsg.clear();
 		boolean ok = true;
@@ -214,8 +214,9 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 		_form.getDStabBusData().setDBusScripting(scriptingCheckBox.isSelected());
     	if (scriptingCheckBox.isSelected()) {
         	_form.getDStabBusData().setScripts(scriptTextArea.getText());
-        	// we compile the JavaCode here to make sure that there is no syntex error.
-        	if (!ScriptJavacUtilFunc.checkJavaCode(scriptTextArea.getText(), ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName)) {
+        	// we compile the JavaCode here to make sure that there is no syntax error.
+    		String javacode = ScriptJavacUtilFunc.parseCMLTag(scriptTextArea.getText(), ScriptJavacUtilFunc.CheckCodeClassname, "");
+        	if (!ScriptJavacUtilFunc.checkJavaCode(javacode, ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName)) {
             	errMsg.add(new String("Java compile error"));
         		return false;
         	}
