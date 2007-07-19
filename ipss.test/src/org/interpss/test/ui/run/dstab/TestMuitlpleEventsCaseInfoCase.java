@@ -325,15 +325,15 @@ public class TestMuitlpleEventsCaseInfoCase extends TestCaseInfoBase {
 		
 		DStabDEventData event = dstabCaseData.getDEventData("My First Event Case");
 		assertNotNull(event);
-		assertTrue(event.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
+		assertTrue(event.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
 		assertTrue(event.getFaultData().getBusId().equals("0002"));
-		assertTrue(event.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_3P));
+		assertTrue(event.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_3P));
 		assertTrue(event.getFaultData().getLG_R() == 0.1);
 		assertTrue(event.getFaultData().getLG_X() == 0.2);
 		
 		event = dstabCaseData.getDEventData("My 2nd Event Case");
 		assertNotNull(event);
-		assertTrue(event.getFaultData().getType().equals(AcscFaultData.FaultType_Branch));
+		assertTrue(event.getFaultData().getType().equals(AcscFaultData.FaultType_BranchFault));
 		assertTrue(event.getFaultData().getBusId().equals("0001->0002"));
 		assertTrue(event.getFaultData().getDistance() == 50.0);
 		

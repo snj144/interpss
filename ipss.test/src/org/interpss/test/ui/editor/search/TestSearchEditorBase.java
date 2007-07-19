@@ -43,7 +43,7 @@ public class TestSearchEditorBase extends TestUIBase {
 		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
-		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK_LITERAL);
+		simuCtx.setNetType(SimuCtxType.ACLF_NETWORK);
 		simuCtx.setAclfNet(net);
 		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
 	}

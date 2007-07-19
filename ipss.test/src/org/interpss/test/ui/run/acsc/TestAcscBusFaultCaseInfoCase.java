@@ -87,9 +87,9 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(acscCaseData);
 		assertTrue(acscCaseData.getBusInitVolt().equals(AcscCaseData.ScBusVolt_UnitVolt));
 		assertTrue(acscCaseData.getMFactor() == 90.0);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
 		assertTrue(acscCaseData.getFaultData().getBusId().equals("0002"));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_3P));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_3P));
 		assertTrue(acscCaseData.getFaultData().getLG_R() == 0.1);
 		assertTrue(acscCaseData.getFaultData().getLG_X() == 0.2);
 		
@@ -101,9 +101,9 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(acscCaseData);
 		assertTrue(acscCaseData.getBusInitVolt().equals(AcscCaseData.ScBusVolt_UnitVolt));
 		assertTrue(acscCaseData.getMFactor() == 90.0);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
 		assertTrue(acscCaseData.getFaultData().getBusId().equals("0002"));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_3P));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_3P));
 		assertTrue(acscCaseData.getFaultData().getLG_R() == 0.1);
 		assertTrue(acscCaseData.getFaultData().getLG_X() == 0.2);
 		
@@ -120,9 +120,9 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(acscCaseData);
 		assertTrue(acscCaseData.getBusInitVolt().equals(AcscCaseData.ScBusVolt_UnitVolt));
 		assertTrue(acscCaseData.getMFactor() == 90.0);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
 		assertTrue(acscCaseData.getFaultData().getBusId().equals("0002"));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_3P));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_3P));
 		assertTrue(acscCaseData.getFaultData().getLG_R() == 0.1);
 		assertTrue(acscCaseData.getFaultData().getLG_X() == 0.2);
 		
@@ -170,8 +170,8 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(caseData);
 		AcscCaseData acscCaseData = caseData.getAcscCaseData();
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_LLG));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG));
 		assertTrue(acscCaseData.getFaultData().getLG_R() == 0.1);
 		assertTrue(acscCaseData.getFaultData().getLG_X() == 0.2);
 		assertTrue(acscCaseData.getFaultData().getLL_R() == 0.3);
@@ -183,8 +183,8 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 			// ref the current case data, which is the same as the one
 			// hold by CaaseData
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_LLG));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG));
 		assertTrue(acscCaseData.getFaultData().getLG_R() == 0.1);
 		assertTrue(acscCaseData.getFaultData().getLG_X() == 0.2);
 		assertTrue(acscCaseData.getFaultData().getLL_R() == 0.3);
@@ -201,8 +201,8 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(caseData);
 		acscCaseData = caseData.getAcscCaseData();
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_LLG));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG));
 		assertTrue(acscCaseData.getFaultData().getLG_R() == 0.1);
 		assertTrue(acscCaseData.getFaultData().getLG_X() == 0.2);
 		assertTrue(acscCaseData.getFaultData().getLL_R() == 0.3);
@@ -333,8 +333,8 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(caseData);
 		AcscCaseData acscCaseData = caseData.getAcscCaseData();
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_LL));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_LL));
 		assertTrue(acscCaseData.getFaultData().getLL_R() == 0.3);
 		assertTrue(acscCaseData.getFaultData().getLL_X() == 0.4);
 		
@@ -344,8 +344,8 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 			// ref the current case data, which is the same as the one
 			// hold by CaaseData
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_LL));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_LL));
 		assertTrue(acscCaseData.getFaultData().getLL_R() == 0.3);
 		assertTrue(acscCaseData.getFaultData().getLL_X() == 0.4);
 	    
@@ -360,8 +360,8 @@ public class TestAcscBusFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(caseData);
 		acscCaseData = caseData.getAcscCaseData();
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
-		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_LL));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
+		assertTrue(acscCaseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_LL));
 		assertTrue(acscCaseData.getFaultData().getLL_R() == 0.3);
 		assertTrue(acscCaseData.getFaultData().getLL_X() == 0.4);	    
 		System.out.println("TesAcscBusFaultCaseInfoCase testBusFaultLLCase end");
