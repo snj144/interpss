@@ -35,6 +35,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.common.NBGroundInputPanel;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
+import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
@@ -121,10 +122,17 @@ public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    }
 	    else {
 	        scriptRadioButton.setSelected(true);
-	        setRXLabelText(false);
-	        acscBusScriptTextArea.setText(_data.getScripts());
-	    	groundingPanel.remove(_groundPanel);
 	        acscTabbedPane.setEnabledAt(2, true);
+	    	if (_data.getScripts() != null && !_data.getScripts().equals("")) {
+	    		acscBusScriptTextArea.setText(_data.getScripts());
+	    	}
+	    	else {
+	    		// load from the template
+	    		String filename = CoreScriptUtilFunc.AcscBusTemplateFilename;
+	    		GUIFileUtil.readFile2TextareaRativePath(filename, acscBusScriptTextArea);
+	    	}
+	        setRXLabelText(false);
+	    	groundingPanel.remove(_groundPanel);
 	    }
 	    parent.pack();
 	    return true;
