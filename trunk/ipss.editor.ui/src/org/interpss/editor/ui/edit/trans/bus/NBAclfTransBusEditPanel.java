@@ -35,8 +35,10 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.EditUIEvent;
 import org.interpss.editor.ui.util.EditUIEventContainer;
+import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
@@ -148,7 +150,14 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    	nonGenRadioButton.setSelected(true);
 		    else {	
 		    	scriptGenRadioButton.setSelected(true);
-		    	scriptTextArea.setText(_data.getScripts());
+		    	if (_data.getScripts() != null && !_data.getScripts().equals("")) {
+		    		scriptTextArea.setText(_data.getScripts());
+		    	}
+		    	else {
+		    		// load from the template
+		    		String filename = "template/DStabCMLExciterTemplete.txt";
+		    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
+		    	}
 		    }
 	        nonGenRadioButtonSelected(null);
 	    	pGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
@@ -371,11 +380,11 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    
     	if (_data.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting) ||
     		_data.getGenCode().equals(AclfBusData.GenCode_GenScripting)	) {
-			String code = ScriptJavacUtilFunc.parseAclfJavaCode(scriptTextArea.getText(), 
+			String code = CoreScriptUtilFunc.parseAclfJavaCode(scriptTextArea.getText(), 
 					ScriptJavacUtilFunc.CheckCodeClassname, 
-					ScriptJavacUtilFunc.Tag_AclfScriptBus_Baseclass, 
-					ScriptJavacUtilFunc.Tag_AclfScriptBus_Begin);
-			if (!ScriptJavacUtilFunc.checkJavaCode(code, ScriptJavacUtilFunc.AclfScriptingPackageName)) {
+					CoreScriptUtilFunc.Tag_AclfScriptBus_Baseclass, 
+					CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
+			if (!ScriptJavacUtilFunc.checkJavaCode(code, CoreScriptUtilFunc.AclfScriptingPackageName)) {
             	errMsg.add(new String("Java compile error"));
         		return false;
 			}

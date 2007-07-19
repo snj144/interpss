@@ -37,6 +37,7 @@ import org.interpss.editor.ui.edit.trans.dstab.NBExciterPanel;
 import org.interpss.editor.ui.edit.trans.dstab.NBGovernorPanel;
 import org.interpss.editor.ui.edit.trans.dstab.NBMachinePanel;
 import org.interpss.editor.ui.edit.trans.dstab.NBStabilizerPanel;
+import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.editor.ui.util.EditUIEvent;
 import org.interpss.editor.ui.util.GUIFileUtil;
@@ -215,8 +216,8 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
     	if (scriptingCheckBox.isSelected()) {
         	_form.getDStabBusData().setScripts(scriptTextArea.getText());
         	// we compile the JavaCode here to make sure that there is no syntax error.
-    		String javacode = ScriptJavacUtilFunc.parseCMLTag(scriptTextArea.getText(), ScriptJavacUtilFunc.CheckCodeClassname, "");
-        	if (!ScriptJavacUtilFunc.checkJavaCode(javacode, ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName)) {
+    		String javacode = DStabScriptUtilFunc.parseCMLTag(scriptTextArea.getText(), ScriptJavacUtilFunc.CheckCodeClassname, "");
+        	if (!ScriptJavacUtilFunc.checkJavaCode(javacode, DStabScriptUtilFunc.CMLDynamicBusControllerPackageName)) {
             	errMsg.add(new String("Java compile error"));
         		return false;
         	}

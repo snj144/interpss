@@ -38,6 +38,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
@@ -190,11 +191,11 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	    	if (_netContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_AclfNetwork) ||
 	    		_netContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_AclfAdjNetwork)	) {
 		    	_data.setScripts(scriptTextArea.getText());
-				String code = ScriptJavacUtilFunc.parseAclfJavaCode(scriptTextArea.getText(), 
+				String code = CoreScriptUtilFunc.parseAclfJavaCode(scriptTextArea.getText(), 
 						ScriptJavacUtilFunc.CheckCodeClassname, 
-						ScriptJavacUtilFunc.Tag_AclfScriptBranch_Baseclass, 
-						ScriptJavacUtilFunc.Tag_AclfScriptBranch_Begin);
-				if (!ScriptJavacUtilFunc.checkJavaCode(code, ScriptJavacUtilFunc.AclfScriptingPackageName)) {
+						CoreScriptUtilFunc.Tag_AclfScriptBranch_Baseclass, 
+						CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin);
+				if (!ScriptJavacUtilFunc.checkJavaCode(code, CoreScriptUtilFunc.AclfScriptingPackageName)) {
 	            	errMsg.add(new String("Java compile error"));
 	        		return false;
 				}
