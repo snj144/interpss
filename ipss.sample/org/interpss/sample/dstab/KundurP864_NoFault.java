@@ -54,7 +54,7 @@ public class KundurP864_NoFault {
 		
 		// run loadflow
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.PQ_LITERAL);
+	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.setMaxIterations(20);
 	  	algo.setTolerance(0.0001);
 	  	algo.loadflow(msg);
@@ -85,7 +85,7 @@ public class KundurP864_NoFault {
 				Machine mach = (Machine)itr.next();
 					
 				// solve DEqn for the step. This includes all controller's nextStep() call
-				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);  
+				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER, net, msg);  
 
 				KundurP864_Common.outputSimuResults(mach.getDStabBus(), refMach, t, dt);
 			}	

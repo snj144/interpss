@@ -63,7 +63,7 @@ public class SampleLoadflow {
   		// set bus base voltage 
   		bus1.setBaseVoltage(4000.0);
   		// set bus to be a swing bus
-  		bus1.setGenCode(AclfGenCode.SWING_LITERAL);
+  		bus1.setGenCode(AclfGenCode.SWING);
   		// adapt the bus object to a swing bus object
   		SwingBusAdapter swingBus = (SwingBusAdapter)bus1.adapt(SwingBusAdapter.class);
   		// set swing bus attributes
@@ -76,9 +76,9 @@ public class SampleLoadflow {
   		bus2.setAttributes("Bus 2", "");
   		bus2.setBaseVoltage(4000.0);
   		// set the bus to a non-generator bus
-  		bus2.setGenCode(AclfGenCode.NON_GEN_LITERAL);
+  		bus2.setGenCode(AclfGenCode.NON_GEN);
   		// set the bus to a constant power load bus
-  		bus2.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+  		bus2.setLoadCode(AclfLoadCode.CONST_P);
   		// adapt the bus object to a Load bus object
   		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.adapt(LoadBusAdapter.class);
   		// set load to the bus
@@ -90,7 +90,7 @@ public class SampleLoadflow {
   		// set branch name, description and circuit number
   		branch.setAttributes("Branch 1", "", "1");
   		// set branch to a Line branch
-  		branch.setBranchCode(AclfBranchCode.LINE_LITERAL);
+  		branch.setBranchCode(AclfBranchCode.LINE);
   		// adapte the branch object to a line branch object
 		LineAdapter lineBranch = (LineAdapter)branch.adapt(LineAdapter.class);
 		// set branch parameters
