@@ -26,12 +26,10 @@ package org.interpss.dstab.device;
 
 import java.util.Hashtable;
 
-import org.interpss.editor.jgraph.GraphSpringAppContext;
-import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
@@ -119,6 +117,6 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 		String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
 		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
 		device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
-					ScriptJavacUtilFunc.CMLDynamicBusControllerPackageName+classname, javacode);
+				DStabScriptUtilFunc.CMLDynamicBusControllerPackageName+classname, javacode);
 	}
 }

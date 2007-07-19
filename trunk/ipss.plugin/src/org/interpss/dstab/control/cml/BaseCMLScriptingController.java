@@ -26,6 +26,7 @@ package org.interpss.dstab.control.cml;
 
 import java.util.Hashtable;
 
+import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -147,9 +148,9 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 */
 	protected void createControllerObject(String baseClassname) {
 		String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
-		String javacode = ScriptJavacUtilFunc.parseCMLTag(getScripts(), classname, baseClassname);
+		String javacode = DStabScriptUtilFunc.parseCMLTag(getScripts(), classname, baseClassname);
 		anController = (AbstractAnnotateController)MemoryJavaCompiler.javac( 
-				ScriptJavacUtilFunc.CMLControllerPackageName+classname, javacode);
+				DStabScriptUtilFunc.CMLControllerPackageName+classname, javacode);
 	}
 	
 	/**
@@ -166,8 +167,8 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * @return
 	 */
 	public boolean checkJavaCode(String baseClassname) {
-		String javacode = ScriptJavacUtilFunc.parseCMLTag(getScripts(), ScriptJavacUtilFunc.CheckCodeClassname, baseClassname);
-		return ScriptJavacUtilFunc.checkJavaCode(javacode, ScriptJavacUtilFunc.CMLControllerPackageName);
+		String javacode = DStabScriptUtilFunc.parseCMLTag(getScripts(), ScriptJavacUtilFunc.CheckCodeClassname, baseClassname);
+		return ScriptJavacUtilFunc.checkJavaCode(javacode, DStabScriptUtilFunc.CMLControllerPackageName);
 	}
 } 
 
