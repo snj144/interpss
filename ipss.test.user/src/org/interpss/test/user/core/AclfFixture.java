@@ -52,8 +52,8 @@ public class AclfFixture extends IpssFixture {
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 		simuCtx.getLoadflowAlgorithm().setTolerance(tolerance, UnitType.PU, net.getBaseKva());
 		simuCtx.getLoadflowAlgorithm().setMaxIterations(maxIterations);
-		simuCtx.getLoadflowAlgorithm().setLfMethod(lfMethod.equals("NR")? AclfMethod.NR_LITERAL :
-	  		(lfMethod.equals("PQ")? AclfMethod.PQ_LITERAL : AclfMethod.GS_LITERAL));
+		simuCtx.getLoadflowAlgorithm().setLfMethod(lfMethod.equals("NR")? AclfMethod.NR :
+	  		(lfMethod.equals("PQ")? AclfMethod.PQ : AclfMethod.GS));
 	  	if (lfMethod.equals("GS"))
 	  		simuCtx.getLoadflowAlgorithm().setGsAccFactor(gsAccelerator);
 	  	simuCtx.getLoadflowAlgorithm().loadflow(msg);		
