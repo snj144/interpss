@@ -77,7 +77,7 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
         AclfAdjNetwork adjNet = loadFile(din, msg);
         IpssLogger.getLogger().fine(adjNet.net2String());
 
-        simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK_LITERAL);
+        simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
         simuCtx.setAclfAdjNet(adjNet);
         simuCtx.setName(filepath.substring(filepath
                 .lastIndexOf(File.separatorChar) + 1));
@@ -97,7 +97,7 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
      */
     public SimuContext load(String filepath, IPSSMsgHub msg) throws Exception {
         SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(
-                SimuCtxType.NOT_DEFINED_LITERAL, msg);
+                SimuCtxType.NOT_DEFINED, msg);
         load(simuCtx, filepath, msg);
         return simuCtx;
     }
@@ -241,8 +241,8 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
         // set input data to the bus object
         if (type == 1) {
             // Swing bus
-            bus.setGenCode(AclfGenCode.SWING_LITERAL);
-            bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+            bus.setGenCode(AclfGenCode.SWING);
+            bus.setLoadCode(AclfLoadCode.CONST_P);
             SwingBusAdapter gen = (SwingBusAdapter) bus
                     .adapt(SwingBusAdapter.class);
             gen.setVoltMag(vpu, UnitType.PU);
@@ -251,8 +251,8 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
                     .getBaseKva());
         } else if (type == 3) {
             // PQ bus
-            bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
-            bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+            bus.setGenCode(AclfGenCode.GEN_PQ);
+            bus.setLoadCode(AclfLoadCode.CONST_P);
             if (Math.abs(genP) > 1e-4 || Math.abs(genQ) > 1e-4) {
                 PQBusAdapter gen = (PQBusAdapter) bus.adapt(PQBusAdapter.class);
                 gen.setGen(new Complex(genP, genQ), UnitType.PU, net
@@ -267,8 +267,8 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
             }
         } else if (type == 2) {
             // PV or remote Q bus
-            bus.setGenCode(AclfGenCode.GEN_PV_LITERAL);
-            bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+            bus.setGenCode(AclfGenCode.GEN_PV);
+            bus.setLoadCode(AclfLoadCode.CONST_P);
             PVBusAdapter gen = (PVBusAdapter) bus.adapt(PVBusAdapter.class);
             gen.setGenP(genP, UnitType.PU, net.getBaseKva());
             gen.setVoltMag(vpu, UnitType.PU);
@@ -352,14 +352,14 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
 
         if (type == 0) {
             // A line branch
-            bra.setBranchCode(AclfBranchCode.LINE_LITERAL);
+            bra.setBranchCode(AclfBranchCode.LINE);
             LineAdapter line = (LineAdapter) bra.adapt(LineAdapter.class);
             line.getAclfBranch().setZ(new Complex(rpu, xpu), msg);
             line.setHShuntY(new Complex(0.0, 0.5 * bpu), UnitType.PU, 1.0, net
                     .getBaseKva()); // Unit is PU, no need to enter baseV
         } else if (type == 1) {
             // Transformer branch
-            bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+            bra.setBranchCode(AclfBranchCode.XFORMER);
             XfrAdapter xfr = (XfrAdapter) bra.adapt(XfrAdapter.class);
             xfr.getAclfBranch().setZ(new Complex(rpu, xpu), msg);
             xfr.setFromTurnRatio(ratio, UnitType.PU);
