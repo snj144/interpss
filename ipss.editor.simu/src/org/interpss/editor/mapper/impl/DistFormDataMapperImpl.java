@@ -48,6 +48,7 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dist.DistBranch;
 import com.interpss.dist.DistBranchCode;
 import com.interpss.dist.DistBus;
@@ -121,8 +122,8 @@ public class DistFormDataMapperImpl {
 		net.getLoadNetData().setSchedulePeriodUnit(netData.getLoadSchedulePeriodUnit());
 		
 		// multi-point SC data
-		net.setScStd(netData.getScStd().equals(DistNetData.ScStd_Generic)?ScStanderd.GENERIC_LITERAL:
-						(netData.getScStd().equals(DistNetData.ScStd_ANSI)?ScStanderd.ANSI_LITERAL:ScStanderd.IEC_LITERAL));
+		net.setScStd(netData.getScStd().equals(DistNetData.ScStd_Generic)?ScStanderd.GENERIC:
+						(netData.getScStd().equals(DistNetData.ScStd_ANSI)?ScStanderd.ANSI:ScStanderd.IEC));
 		
 	    java.util.List plist = netData.getScPointList(); 
 		for ( int i = 0; i < plist.size(); i++) {
@@ -149,12 +150,12 @@ public class DistFormDataMapperImpl {
 
 		BaseFormDataMapperImpl.setBaseBusInfo(form, bus, distNet);
 		// Utility | Generator | SynMotor | IndMotor | MixedLoad | Non-Contribute
-		bus.setBusCode(busData.getBusCode().equals(DistBusData.BusCode_Utility)? DistBusCode.UTILITY_LITERAL :
-						(busData.getBusCode().equals(DistBusData.BusCode_Generator)? DistBusCode.GENERATOR_LITERAL :
-							(busData.getBusCode().equals(DistBusData.BusCode_SynMotor)? DistBusCode.SYN_MOTOR_LITERAL :
-								(busData.getBusCode().equals(DistBusData.BusCode_IndMotor)? DistBusCode.IND_MOTOR_LITERAL :
-									(busData.getBusCode().equals(DistBusData.BusCode_MixedLoad)? DistBusCode.MIXED_LOAD_LITERAL :
-										DistBusCode.NON_CONTRIBUTE_LITERAL)))));
+		bus.setBusCode(busData.getBusCode().equals(DistBusData.BusCode_Utility)? DistBusCode.UTILITY :
+						(busData.getBusCode().equals(DistBusData.BusCode_Generator)? DistBusCode.GENERATOR :
+							(busData.getBusCode().equals(DistBusData.BusCode_SynMotor)? DistBusCode.SYN_MOTOR :
+								(busData.getBusCode().equals(DistBusData.BusCode_IndMotor)? DistBusCode.IND_MOTOR :
+									(busData.getBusCode().equals(DistBusData.BusCode_MixedLoad)? DistBusCode.MIXED_LOAD :
+										DistBusCode.NON_CONTRIBUTE)))));
 		bus.setVoltageMag(busData.getVoltage());
 		bus.setVMagUnit(busData.getVoltageUnit());
 		bus.setVoltageAng(busData.getVAngle());
@@ -181,7 +182,12 @@ public class DistFormDataMapperImpl {
 		bus.setZ0(new Complex(busData.getZ0R(),busData.getZ0X()));
 		bus.setZ2(new Complex(busData.getZ2R(),busData.getZ2X()));
 		bus.setZUnit(busData.getZUnit());
-		bus.setGrounding(createScGroundType(busData.getGround(), bus.getBaseVoltage(), distNet.getBaseKva()));
+		
+		bus.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(
+						busData.getGround().getCode()));
+		bus.getGrounding().setZ(new Complex(busData.getGround().getR(),busData.getGround().getX()),
+				        UnitType.toUnit(busData.getGround().getUnit()), bus.getBaseVoltage(), 
+				        distNet.getBaseKva());
 
 		if (distNet.getLoadNetData().getSchedulePoints() > 0 && busData.isHasLoadSchedule()) {
 			for (int i = 0; i < busData.getLoadScheduleList().size(); i++) {
@@ -207,14 +213,14 @@ public class DistFormDataMapperImpl {
 		
 		BaseFormDataMapperImpl.setBaseBranchInfo(branchForm, branch, distNet);
 		
-		branch.setBranchCode(branchData.getBranchCode().equals(IGBranchForm.DistBranchCode_Feeder)? DistBranchCode.FEEDER_LITERAL :
-								(branchData.getBranchCode().equals(IGBranchForm.DistBranchCode_Breaker)? DistBranchCode.BREAKER_LITERAL :
-									(branchData.getBranchCode().equals(IGBranchForm.DistBranchCode_Xfr)? DistBranchCode.TRANSFROMER_LITERAL :
-										DistBranchCode.W3_TRANSFORMER_LITERAL)));
+		branch.setBranchCode(branchData.getBranchCode().equals(IGBranchForm.DistBranchCode_Feeder)? DistBranchCode.FEEDER :
+								(branchData.getBranchCode().equals(IGBranchForm.DistBranchCode_Breaker)? DistBranchCode.BREAKER :
+									(branchData.getBranchCode().equals(IGBranchForm.DistBranchCode_Xfr)? DistBranchCode.TRANSFROMER :
+										DistBranchCode.W3_TRANSFORMER)));
 		branch.setZ1(new Complex(branchData.getZR(),branchData.getZX()));
 		branch.setZ0(new Complex(branchData.getZ0R(),branchData.getZ0X()));
-		if (branch.getBranchCode() == DistBranchCode.FEEDER_LITERAL ||
-			branch.getBranchCode() == DistBranchCode.BREAKER_LITERAL) {
+		if (branch.getBranchCode() == DistBranchCode.FEEDER ||
+			branch.getBranchCode() == DistBranchCode.BREAKER) {
 			branch.setZUnit("Ohm");
 		}
 		else
@@ -234,30 +240,26 @@ public class DistFormDataMapperImpl {
 		branch.setRatedVUnit(branchData.getRatedVoltUnit());
 
 		branch.setPrimaryConnect(branchData.getFromXfrConnectData().getCode().equals(XfrConnectData.Code_Wye)?
-				TransformConnectCode.WYE_LITERAL : TransformConnectCode.DELTA_LITERAL );
+				TransformConnectCode.WYE : TransformConnectCode.DELTA );
 		branch.setSecondaryConnect(branchData.getToXfrConnectData().getCode().equals(XfrConnectData.Code_Wye)?
-				TransformConnectCode.WYE_LITERAL : TransformConnectCode.DELTA_LITERAL);
+				TransformConnectCode.WYE : TransformConnectCode.DELTA);
 		double baseV = 1.0;
 		if (!branchData.getFromXfrConnectData().getGrounding().getUnit().toUpperCase().equals("PU")) {
 			baseV = distNet.getBus(branchForm.getFromId()).getBaseVoltage();
 		}
-		branch.setPrimaryGrounding(createScGroundType(branchData.getFromXfrConnectData().getGrounding(),
-				baseV, distNet.getFrequency()));
+		GroundData gdata = branchData.getFromXfrConnectData().getGrounding();
+		branch.getPrimaryGrounding().setZ(new Complex(gdata.getR(),	gdata.getX()),
+		        UnitType.toUnit(gdata.getUnit()), baseV, distNet.getBaseKva());
+
 		if (!branchData.getToXfrConnectData().getGrounding().getUnit().toUpperCase().equals("PU")) {
 			baseV = distNet.getBus(branchForm.getToId()).getBaseVoltage();
 		}
-		branch.setSecondaryGrounding(createScGroundType(branchData.getToXfrConnectData().getGrounding(),
-				baseV, distNet.getBaseKva()));
+		gdata = branchData.getToXfrConnectData().getGrounding();
+		branch.getSecondaryGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(gdata.getCode()));
+		branch.getSecondaryGrounding().setZ(new Complex(gdata.getR(),gdata.getX()),
+		        UnitType.toUnit(gdata.getUnit()), baseV, distNet.getBaseKva());
 
 		distNet.addBranch(branch, branchForm.getFromId(), branchForm.getToId());
 		return branch;
-	}
-	
-	private static ScGroundType createScGroundType(GroundData gform, double baseV, double baseKva) {
-		ScGroundType stype = new ScGroundType();
-		//	Ungrounded | ZGrounded |SolidGrounded
-		stype.setCode(gform.getCode());
-		stype.setZ(new Complex(gform.getR(),gform.getX()), UnitType.toUnit(gform.getUnit()), baseV, baseKva);
-		return stype;
 	}
 }

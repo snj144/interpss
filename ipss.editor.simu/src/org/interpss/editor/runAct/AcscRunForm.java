@@ -51,11 +51,11 @@ public class AcscRunForm extends BaseRunForm {
 
   	public void runShortCircuit(SimuContext simuCtx) {
 	  	simuCtx.getAcscFaultNet().removeAllFault();
-	  	if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET_LITERAL) {
+	  	if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
 	  		runShortCircuit(simuCtx.getDistNet(), simuCtx.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
 	  	}
 	  	else {
-	  		if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET_LITERAL) {
+	  		if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 	  			simuCtx.getDStabilityNet().initialization(simuCtx.getMsgHub());
 	  		}
 	  		runShortCircuit(simuCtx.getAcscFaultNet(), simuCtx.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());

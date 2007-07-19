@@ -124,11 +124,11 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 	}
 
 	private void aclfRunForm2LFAlgorithmMapping(AclfCaseData caseData, LoadflowAlgorithm algo) {
-	  	algo.setLfMethod(caseData.getMethod().equals(AclfCaseData.Method_NR)? AclfMethod.NR_LITERAL :
-	  				(caseData.getMethod().equals(AclfCaseData.Method_PQ)? AclfMethod.PQ_LITERAL : AclfMethod.GS_LITERAL));
+	  	algo.setLfMethod(caseData.getMethod().equals(AclfCaseData.Method_NR)? AclfMethod.NR :
+	  				(caseData.getMethod().equals(AclfCaseData.Method_PQ)? AclfMethod.PQ : AclfMethod.GS));
 /* no need for this. PQ method can handle PSXfr now
-	  	if (algo.getAclfAdjNetwork().hasPSXfr() && algo.getLfMethod() == AclfMethod.PQ_LITERAL)
-		  	algo.setLfMethod(AclfMethod.NR_LITERAL);
+	  	if (algo.getAclfAdjNetwork().hasPSXfr() && algo.getLfMethod() == AclfMethod.PQ)
+		  	algo.setLfMethod(AclfMethod.NR);
 */	  		
 	  	algo.setMaxIterations(caseData.getMaxIteration());
 	  	algo.setTolerance(caseData.getTolerance());
@@ -140,23 +140,23 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		algo.setMultiFactor(runForm.getAcscCaseData().getMFactor()*0.01);
 		// algo.multiFactor in PU and acscData.getMFactor in %
 		algo.setScBusVoltage(runForm.getAcscCaseData().getBusInitVolt().equals(AcscCaseData.ScBusVolt_UnitVolt)?
-				ScBusVoltage.UNIT_VOLT_LITERAL : ScBusVoltage.LOADFLOW_VOLT_LITERAL); // UnitV | LFVolt	
+				ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt	
 	}
 
 	private void acscFaultData2AcscBusFaultMapping(AcscFaultData data, AcscBusFault fault) {
-		fault.setFaultCode(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG)? SimpleFaultCode.GROUND_LLG_LITERAL :
-			(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LG)? SimpleFaultCode.GROUND_LG_LITERAL :
-				(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LL)? SimpleFaultCode.GROUND_LL_LITERAL :
-					SimpleFaultCode.GROUND_3P_LITERAL)));
+		fault.setFaultCode(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG)? SimpleFaultCode.GROUND_LLG :
+			(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LG)? SimpleFaultCode.GROUND_LG :
+				(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LL)? SimpleFaultCode.GROUND_LL :
+					SimpleFaultCode.GROUND_3P)));
 		fault.setZLGFault(new Complex(data.getLG_R(), data.getLG_X()));
 		fault.setZLLFault(new Complex(data.getLL_R(), data.getLL_X())); 
 	}
 	
 	private void acscFaultData2AcscBranchFaultMapping(AcscFaultData data, AcscBranchFault fault) {
-		fault.setFaultCode(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG)? SimpleFaultCode.GROUND_LLG_LITERAL :
-			(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LG)? SimpleFaultCode.GROUND_LG_LITERAL :
-				(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LL)? SimpleFaultCode.GROUND_LL_LITERAL :
-					SimpleFaultCode.GROUND_3P_LITERAL)));
+		fault.setFaultCode(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG)? SimpleFaultCode.GROUND_LLG :
+			(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LG)? SimpleFaultCode.GROUND_LG :
+				(data.getCategory().equals(AcscFaultData.FaultCaty_Fault_LL)? SimpleFaultCode.GROUND_LL :
+					SimpleFaultCode.GROUND_3P)));
 		fault.setZLGFault(new Complex(data.getLG_R(), data.getLG_X()));
 		fault.setZLLFault(new Complex(data.getLL_R(), data.getLL_X()));  		
 		fault.setDistance(data.getDistance(), UnitType.Percent);
@@ -174,14 +174,14 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 				DStabCaseData caseData = runForm.getDStabCaseData();
 				String machId = caseData.getSetPointChangeMachId();
 				DynamicEvent event = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
-						DynamicEventType.SET_POINT_CHANGE_LITERAL, dstabNet, msg);
+						DynamicEventType.SET_POINT_CHANGE, dstabNet, msg);
 				event.setStartTimeSec(0.0);
 				event.setDurationSec(runForm.getDStabCaseData().getTotalSimuTime());
 				SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, dstabNet);
 				eSetPoint.setControllerType(
-						caseData.getSelectedController().equals(Constants.ExciterToken)? ControllerType.EXCITER_LITERAL :
+						caseData.getSelectedController().equals(Constants.ExciterToken)? ControllerType.EXCITER :
 							caseData.getSelectedController().equals(Constants.GovernorToken)? 
-									ControllerType.GOVERNOR_LITERAL : ControllerType.STABILIZER_LITERAL);
+									ControllerType.GOVERNOR : ControllerType.STABILIZER);
 				eSetPoint.setChangeValue(caseData.getSetPointValueChange());
 				eSetPoint.setAbusoluteChange(caseData.isSetPointChangeAbsolute());
 				event.setBusDynamicEvent(eSetPoint);
@@ -218,15 +218,15 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 	
 	private DynamicEventType getDEventType(String eventDataType) {
 		if (eventDataType.equals(DStabDEventData.DEventType_BusFault))
-			return DynamicEventType.BUS_FAULT_LITERAL;
+			return DynamicEventType.BUS_FAULT;
 		else if (eventDataType.equals(DStabDEventData.DEventType_BranchFault))
-			return DynamicEventType.BRANCH_FAULT_LITERAL;
+			return DynamicEventType.BRANCH_FAULT;
 		else if (eventDataType.equals(DStabDEventData.DEventType_LoadChange))
-			return DynamicEventType.LOAD_CHANGE_LITERAL;		
+			return DynamicEventType.LOAD_CHANGE;		
 		else if (eventDataType.equals(DStabDEventData.DEventType_SetPointChange))
-			return DynamicEventType.SET_POINT_CHANGE_LITERAL;		
+			return DynamicEventType.SET_POINT_CHANGE;		
 		else if (eventDataType.equals(DStabDEventData.DEventType_BranchOutage))
-			return DynamicEventType.BRANCH_OUTAGE_LITERAL;		
+			return DynamicEventType.BRANCH_OUTAGE;		
 		else 
 			throw new InvalidParameterException("Programming error, eventDataType: " + eventDataType);
 	}
@@ -244,7 +244,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		
 		if (eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
 			IpssLogger.getLogger().info("Dynamic Event Type: LoadChange");
-			event.setType(DynamicEventType.LOAD_CHANGE_LITERAL);
+			event.setType(DynamicEventType.LOAD_CHANGE);
 			DStabLoadChangeData ldata = eventData.getLoadChangeData();
 			LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(ldata.getBusId(), dstabNet);
 			eLoad.setChangeFactor(ldata.getChangeFactor());
@@ -252,7 +252,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		}
 		else if (eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
 			IpssLogger.getLogger().info("Dynamic Event Type: BranchOutage");
-			event.setType(DynamicEventType.BRANCH_OUTAGE_LITERAL);
+			event.setType(DynamicEventType.BRANCH_OUTAGE);
 			AcscFaultData fdata = eventData.getFaultData();
 			BranchOutageEvent e = DStabObjectFactory.createBranchOutageEvent(fdata.getBranchId(), dstabNet);
 			mapping(fdata, e, BranchOutageEvent.class);
@@ -261,7 +261,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		else {
 			IpssLogger.getLogger().info("Dynamic Event Type: Fualt");
 			event.setType(eventData.getType().equals(DStabDEventData.DEventType_BusFault) ? 
-					DynamicEventType.BUS_FAULT_LITERAL : DynamicEventType.BRANCH_FAULT_LITERAL );
+					DynamicEventType.BUS_FAULT : DynamicEventType.BRANCH_FAULT );
 			
 			AcscFaultData fdata = eventData.getFaultData();
 			if (fdata.getType().equals(AcscFaultData.FaultType_BusFault)) {
@@ -281,7 +281,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 				if (fault.isReclosure()) {
 					String name = "EventAt_" + eventData.getStartTime() + eventData.getType();
 					DynamicEvent event2 = DStabObjectFactory.createDEvent(
-							event.getId()+"-Reclosure", name, DynamicEventType.BRANCH_RECLOSURE_LITERAL, dstabNet, msg);
+							event.getId()+"-Reclosure", name, DynamicEventType.BRANCH_RECLOSURE, dstabNet, msg);
 					event2.setStartTimeSec(fault.getReclosureTime());
 					event2.setDurationSec(toltalSimuTime);
 					event2.setPermanent(true);
@@ -309,7 +309,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		aclfRunForm2LFAlgorithmMapping(runForm.getAclfCaseData(), algo.getAclfAlgorithm());
 
 		algo.setSimuMethod(runForm.getDStabCaseData().getSimuMethod().equals(DStabCaseData.Method_RungeKutta)?
-				DynamicSimuMethods.RUNGE_KUTTA_LITERAL : DynamicSimuMethods.MODIFIED_EULER_LITERAL);
+				DynamicSimuMethods.RUNGE_KUTTA : DynamicSimuMethods.MODIFIED_EULER);
 		algo.setTotalSimuTimeSec(runForm.getDStabCaseData().getTotalSimuTime());
 		algo.setSimuStepSec(runForm.getDStabCaseData().getSimuStep());	
 		algo.setDisableDynamicEvent(runForm.getDStabCaseData().getDisableDynamicEvent());
@@ -330,7 +330,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		dstabNet.setNetEqnIterationWithEvent(runForm.getDStabCaseData().getNetEqnItrWithEvent());
 
 		dstabNet.setStaticLoadModel(runForm.getDStabCaseData().getStaticLoadType().equals(
-				DStabCaseData.StaticLoad_Const_Z)? StaticLoadModel.CONST_Z_LITERAL : StaticLoadModel.CONST_P_LITERAL);
+				DStabCaseData.StaticLoad_Const_Z)? StaticLoadModel.CONST_Z : StaticLoadModel.CONST_P);
 		dstabNet.setStaticLoadSwitchVolt(runForm.getDStabCaseData().getStaticLoadSwitchVolt());
 		dstabNet.setStaticLoadSwitchDeadZone(runForm.getDStabCaseData().getStaticLoadSwitchDeadZone());
 	}

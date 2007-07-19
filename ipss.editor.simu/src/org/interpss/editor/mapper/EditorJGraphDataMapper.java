@@ -70,41 +70,41 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 			SpringAppContext.getIpssMsgHub().sendStatusMsg("SimuContext data is dirty, map editor date from GFormContainer to simuCtx");
 			Object net = createMappingObject(gFormContainer, GFormContainer.class);
 			if (gFormContainer.getGNetForm().getAppType().equals(IGNetForm.AppType_Distribution)) {
-				simuCtx.setNetwork(net, SimuCtxType.DISTRIBUTE_NET_LITERAL);
+				simuCtx.setNetwork(net, SimuCtxType.DISTRIBUTE_NET);
 			}
 			else {
 				if (gFormContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_DStabilityNet)) {
-					simuCtx.setNetwork(net, SimuCtxType.DSTABILITY_NET_LITERAL);
+					simuCtx.setNetwork(net, SimuCtxType.DSTABILITY_NET);
 				}
 				else if (gFormContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_AclfNetwork) ||
 						gFormContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_AclfAdjNetwork)) {
-					simuCtx.setNetwork(net, SimuCtxType.ACLF_ADJ_NETWORK_LITERAL);
+					simuCtx.setNetwork(net, SimuCtxType.ACLF_ADJ_NETWORK);
 				}
 				else if (gFormContainer.getGNetForm().getNetType().equals(IGNetForm.NetType_AcscNetwork)) {	
-					simuCtx.setNetwork(net, SimuCtxType.ACSC_FAULT_NET_LITERAL);
+					simuCtx.setNetwork(net, SimuCtxType.ACSC_FAULT_NET);
 				}
 			}		
 			SpringAppContext.getIpssMsgHub().sendStatusMsg("Editor date mapped to simuCtx");
 
-			if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK_LITERAL) {
+			if (simuCtx.getNetType() == SimuCtxType.ACLF_NETWORK) {
 				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Loadflow Data Error", "Please see the message list for details");
 					return false;
 				}	
 			}	
-			else if (simuCtx.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK_LITERAL) {
+			else if (simuCtx.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
 				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Loadflow Data Error", "Please see the message list for details");
 					return false;
 				}	
 			}	
-			else if (simuCtx.getNetType() == SimuCtxType.ACSC_FAULT_NET_LITERAL) {
+			else if (simuCtx.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
 				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog("Network Ac Short Circuit Data Error", "Please see the message list for details");
 					return false;
 				}
 			}	
-			else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET_LITERAL) {
+			else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				if (!simuCtx.checkData()) {
 					SpringAppContext.getEditorDialogUtil().showMsgDialog("Transient stabiliry Data Error", "Please see the message list for details");
 					return false;
