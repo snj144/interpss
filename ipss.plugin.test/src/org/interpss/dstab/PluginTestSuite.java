@@ -17,5 +17,5 @@ import org.junit.runners.Suite.SuiteClasses;
 	PIControlBlockTests.class,
 	WashoutControlBlockTests.class
 })
-public class TestSuite {
+public class PluginTestSuite {
 }
