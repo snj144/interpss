@@ -82,7 +82,7 @@ public class AcscResultMapperImpl {
 		  	AcscBusFault fault = (AcscBusFault)faultNet.getFaultList().get(0);
 			if (fault != null) {
 				fault.getFaultResult().calContributingCurrent(faultNet);
-				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P_LITERAL) {
+				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P) {
 					for( Bus b : faultNet.getBusList()) {
 						AcscBus bus = (AcscBus)b;
 						RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
@@ -162,7 +162,7 @@ public class AcscResultMapperImpl {
 				}
 				
 				fault.getFaultResult().calBranchCurrent(faultNet);
-				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P_LITERAL) {
+				if (fault.getFaultCode() == SimpleFaultCode.GROUND_3P) {
 					EList<Branch> branchList = faultNet.getBranchList();
 					int cnt = 0;
 					for ( int n = 0; n < branchList.size(); n++ ) {

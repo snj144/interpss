@@ -40,7 +40,7 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	 * Constructor 
 	 */
 	public CMLScriptingGovernor() {
-		super("govId", "govName", "govCaty", ControllerType.GOVERNOR_LITERAL);
+		super("govId", "govName", "govCaty", ControllerType.GOVERNOR);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class CMLScriptingGovernor extends BaseCMLScriptingController {
 	 * @param name governor name
 	 */
 	public CMLScriptingGovernor(final String id, final String name, final String caty) {
-		super(id, name, caty, ControllerType.GOVERNOR_LITERAL);
+		super(id, name, caty, ControllerType.GOVERNOR);
 	}
 	
 	/**

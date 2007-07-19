@@ -105,8 +105,8 @@ public class PSSEBusDataRecord {
     	// set input data to the bus object
       	if ( IDE == 3 ) {
       		// Swing bus
-   		 	bus.setGenCode(AclfGenCode.SWING_LITERAL);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+   		 	bus.setGenCode(AclfGenCode.SWING);
+    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
   			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
   			gen.setVoltMag(VM, UnitType.PU);
   			gen.setVoltAng(VA, UnitType.Deg);
@@ -114,18 +114,18 @@ public class PSSEBusDataRecord {
     	else if ( IDE == 2 ) {
     		// Gen bus, we first set it to a PQ bus. It will be adjusted in the 
     		// Generator data section.
-    		bus.setGenCode(AclfGenCode.GEN_PV_LITERAL);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+    		bus.setGenCode(AclfGenCode.GEN_PV);
+    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
     	}
     	else if ( IDE == 1 ) {
     		// Non-gen load bus
-   		 	bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+   		 	bus.setGenCode(AclfGenCode.NON_GEN);
+    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
     	}
     	else {
     		// Isolated bus, an isolated bus will not participate in Loadflow calculaiton
-    		bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+    		bus.setGenCode(AclfGenCode.NON_GEN);
+    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
     		bus.setStatus(false);
     	}
 	}			

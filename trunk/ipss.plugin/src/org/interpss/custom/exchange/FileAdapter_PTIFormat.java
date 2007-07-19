@@ -106,7 +106,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		processPSSEDataAfterLoad(adjNet, msg);
 		
 		// set the simuContext object
-  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK_LITERAL);
+  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
   		simuCtx.setAclfAdjNet(adjNet);
   		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   		simuCtx.setDesc("This project is created by input file " + filepath);
@@ -122,7 +122,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED_LITERAL, msg);
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
   		load(simuCtx, filepath, msg);
   		return simuCtx;
 	}
@@ -379,9 +379,9 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 					else {
 						// remote bus voltage
 	  					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + bus.getId());
-	  					bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
+	  					bus.setGenCode(AclfGenCode.GEN_PQ);
 	  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(adjNet, bus.getId(), 
-	  			  				RemoteQControlType.BUS_VOLTAGE_LITERAL, remoteBusId);
+	  			  				RemoteQControlType.BUS_VOLTAGE, remoteBusId);
 			  			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
 			  			gen.setGen(new Complex(genPSum,genQSum), UnitType.PU, adjNet.getBaseKva());
 	  			  		reQ1.setQLimit(new LimitType(genQmax, genQmin), UnitType.PU, adjNet.getBaseKva());
@@ -394,7 +394,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			}
 			
 			if (loadPSum != 0.0 || loadQSum != 0.0 || isFuncLoad ) {
-				bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+				bus.setLoadCode(AclfLoadCode.CONST_P);
 				bus.setLoadP(loadPSum);
 				bus.setLoadQ(loadQSum);
 				if (isFuncLoad) {
@@ -437,7 +437,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		 */
 	          		IpssLogger.getLogger().info("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has voltage control");
 	          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
-	          				adjNet, xfr.getId(), xfr.getContBusId(), FlowControlType.RANGE_CONTROL_LITERAL);
+	          				adjNet, xfr.getId(), xfr.getContBusId(), FlowControlType.RANGE_CONTROL);
 	          		tapv.setTapLimit(xfr.getRmLimit());
 	          		tapv.setControlRange(xfr.getVmLimit());
 	          		tapv.setVSpecified(1.0);
@@ -455,7 +455,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 					VMIN-VMAX.	        
 	          		 */
 	          		IpssLogger.getLogger().info("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has reactive power flow control");
-	          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
+	          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL);
 	          		tapv.setTapLimit(xfr.getRmLimit());
 	          		tapv.setControlRange(xfr.getVmLimit());
 	          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
@@ -473,7 +473,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 					through the phase shifter between the limits VMAX and VMIN.
 	          		 */
 	          		IpssLogger.getLogger().info("PSXfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has active power control");
-	          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
+	          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL);
 	          		ps.setAngLimit(new LimitType(xfr.getRmLimit().getMax()*Constants.DtoR, 
 	          									 xfr.getRmLimit().getMin()*Constants.DtoR));
 	          		double baseMva = adjNet.getBaseKva() * 0.001;

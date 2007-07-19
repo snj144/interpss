@@ -98,7 +98,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 		final AclfAdjNetwork adjNet = loadFile(din, msg);
   		// System.out.println(adjNet.net2String());
 	  		
-  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK_LITERAL);
+  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
   		simuCtx.setAclfAdjNet(adjNet);
   		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   		simuCtx.setDesc("This project is created by input file " + filepath);
@@ -114,7 +114,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED_LITERAL, msg);
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
   		load(simuCtx, filepath, msg);
   		return simuCtx;
 	}
@@ -334,8 +334,8 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
     	// set input data to the bus object
       	if ( type == 3 ) {
       		// Swing bus
-   		 	bus.setGenCode(AclfGenCode.SWING_LITERAL);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+   		 	bus.setGenCode(AclfGenCode.SWING);
+   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
   			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
   			gen.setVoltMag(vpu, UnitType.PU);
   			gen.setVoltAng(angDeg, UnitType.Deg);
@@ -343,8 +343,8 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
     	}
     	else if ( type == 1 ) {
     		// PQ bus
-    		bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
-    		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+    		bus.setGenCode(AclfGenCode.GEN_PQ);
+    		bus.setLoadCode(AclfLoadCode.CONST_P);
    			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
     		gen.setGen(new Complex(genMw, genMvar), UnitType.mVA, net.getBaseKva());
     		gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
@@ -356,8 +356,8 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
     	}
     	else if ( type == 2 ) {
     		// PV or remote Q bus
-   		 	bus.setGenCode(AclfGenCode.GEN_PV_LITERAL);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+   		 	bus.setGenCode(AclfGenCode.GEN_PV);
+   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
   			final PVBusAdapter gen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
   			gen.setGenP(genMw, UnitType.mW, net.getBaseKva());
   			gen.setVoltMag(vpu, UnitType.PU);
@@ -373,7 +373,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
   					// Remote Q  Bus control
   					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + busId);
   			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(net, busId, 
-  			  				RemoteQControlType.BUS_VOLTAGE_LITERAL, reBusId);
+  			  				RemoteQControlType.BUS_VOLTAGE, reBusId);
   			  		reQ1.setQLimit(new LimitType(max, min), UnitType.mVar, net.getBaseKva());
   			  		reQ1.setVSpecified(vSpecPu);
   				}
@@ -381,15 +381,15 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
     	}
     	else if ( (loadMw != 0.0) || (loadMvar != 0.0)  ) {
     		// Non-gen load bus
-   		 	bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+   		 	bus.setGenCode(AclfGenCode.NON_GEN);
+   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
   			final LoadBusAdapter load = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
   			load.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
     	}
     	else {
     		// Non-gen and non-load bus
-    		bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+    		bus.setGenCode(AclfGenCode.NON_GEN);
+    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
     	}
     }
 
@@ -550,14 +550,14 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 
       	if (type == 0) {
       		// A line branch
-        	bra.setBranchCode(AclfBranchCode.LINE_LITERAL);
+        	bra.setBranchCode(AclfBranchCode.LINE);
     		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
         	line.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
         	line.setHShuntY(new Complex(0.0,0.5*bpu), UnitType.PU, 1.0, net.getBaseKva()); // Unit is PU, no need to enter baseV
       	}
       	else if (type >= 1) {
       		// Transformer branch
-    	 	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+    	 	bra.setBranchCode(AclfBranchCode.XFORMER);
     		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
         	xfr.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
         	if (bpu < 0.0) {
@@ -568,14 +568,14 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
         	xfr.setToTurnRatio(1.0, UnitType.PU); 
         	if (angle != 0.0) {
         		// PhaseShifting transformer branch
-        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
+        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
         		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
         		psXfr.setFromAngle(angle*Constants.DtoR);
         	}
         	
           	if (type == 2) {
 //                2 - Variable tap for voltage control (TCUL, LTC)
-          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, FlowControlType.RANGE_CONTROL_LITERAL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, FlowControlType.RANGE_CONTROL);
           		tapv.setTapLimit(new LimitType(maxTapAng, minTapAng));
           		// TODO: volt spec is not defined
           		tapv.setVSpecified(1.0);
@@ -585,7 +585,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
           	}
           	else if (type == 3) {
 //              3 - Variable tap (turns ratio) for MVAR control
-          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), FlowControlType.RANGE_CONTROL);
           		tapv.setTapLimit(new LimitType(maxVoltPQ, minVoltPQ));
           		// TODO: volt spec is not defined
           		tapv.setVSpecified(1.0);
@@ -595,7 +595,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
           	}
           	else if (type == 4) {
 //              4 - Variable phase angle for MW control (phase shifter)
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL_LITERAL);
+          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL);
           		// TODO pSpec not defined
           		ps.setPSpecified(0.2);
           		ps.setAngLimit(new LimitType(maxTapAng*Constants.DtoR, minTapAng*Constants.DtoR));

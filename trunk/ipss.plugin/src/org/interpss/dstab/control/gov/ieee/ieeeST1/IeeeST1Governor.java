@@ -113,7 +113,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 */	
 	@Override
 	public boolean nextStep(final double dt, final DynamicSimuMethods method, Machine mach, final Network net, final IPSSMsgHub msg) {
-		if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {
+		if (method == DynamicSimuMethods.MODIFIED_EULER) {
 			/*
 			 *     Step-1 : x(1) = x(0) + dx_dt(1) * dt
 			 *     Step-2 : x(2) = x(0) + 0.5 * (dx_dt(2) + dx_dt(1)) * dt
@@ -139,7 +139,7 @@ public class IeeeST1Governor extends AbstractGovernor {
 					stateX2 + ", " + stateX3 + ", " + stateX4);
 			return true;
 		}
-		else if (method == DynamicSimuMethods.RUNGE_KUTTA_LITERAL) {
+		else if (method == DynamicSimuMethods.RUNGE_KUTTA) {
 			// TODO: TBImpl
 			return false;
 		} else {
