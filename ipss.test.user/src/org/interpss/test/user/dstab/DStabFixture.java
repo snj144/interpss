@@ -92,7 +92,7 @@ public class DStabFixture extends AcscFixture {
 	public int noOfMachines() {
 		int cnt = 0;
 		for (DynamicBusDevice device : getNet().getDBusDeviceList()) {
-			if (device.getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL) {
+			if (device.getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE) {
 				cnt++;
 			}
 		}
@@ -107,7 +107,7 @@ public class DStabFixture extends AcscFixture {
 	public int noOfExciters() {
 		int cnt = 0;
 		for (Object device : getNet().getDBusDeviceList()) {
-			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL) {
+			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE) {
 				if (((Machine)device).hasExciter())
 					cnt++;
 			}
@@ -123,7 +123,7 @@ public class DStabFixture extends AcscFixture {
 	public int noOfGovernors() {
 		int cnt = 0;
 		for (Object device : getNet().getDBusDeviceList()) {
-			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL)
+			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE)
 				if (((Machine)device).hasGovernor())
 					cnt++;
 		}
@@ -138,7 +138,7 @@ public class DStabFixture extends AcscFixture {
 	public int noOfStabilizers() {
 		int cnt = 0;
 		for (Object device : getNet().getDBusDeviceList()) {
-			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE_LITERAL)
+			if (((DynamicBusDevice)device).getDeviceType() == DynamicBusDeviceType.DYNAMIC_MACHINE)
 				if (((Machine)device).hasStabilizer())
 					cnt++;
 		}
@@ -193,13 +193,13 @@ public class DStabFixture extends AcscFixture {
 		boolean absChange = new Boolean(st.nextToken()).booleanValue();
 		dSimuAlgorithm.setDisableDynamicEvent(true);
 		this.currentDEvent = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
-							DynamicEventType.SET_POINT_CHANGE_LITERAL, getNet(), msg);
+							DynamicEventType.SET_POINT_CHANGE, getNet(), msg);
 		this.currentDEvent.setStartTimeSec(0.0);
 		this.currentDEvent.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
 		SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, getNet());
 		eSetPoint.setControllerType(
-				contType.equals("Exciter")? ControllerType.EXCITER_LITERAL :
-					contType.equals("Governor")? ControllerType.GOVERNOR_LITERAL : ControllerType.STABILIZER_LITERAL);
+				contType.equals("Exciter")? ControllerType.EXCITER :
+					contType.equals("Governor")? ControllerType.GOVERNOR : ControllerType.STABILIZER);
 		eSetPoint.setChangeValue(cValue);
 		eSetPoint.setAbusoluteChange(absChange);
 		this.currentDEvent.setBusDynamicEvent(eSetPoint);
@@ -216,8 +216,8 @@ public class DStabFixture extends AcscFixture {
 		String name = st.nextToken();
 		String type = st.nextToken();
 		this.currentDEvent = DStabObjectFactory.createDEvent(id, name, 
-				type.equals("BusFault")? DynamicEventType.BUS_FAULT_LITERAL :
-					type.equals("BranchFault")? DynamicEventType.BRANCH_FAULT_LITERAL : DynamicEventType.LOAD_CHANGE_LITERAL, 
+				type.equals("BusFault")? DynamicEventType.BUS_FAULT :
+					type.equals("BranchFault")? DynamicEventType.BRANCH_FAULT : DynamicEventType.LOAD_CHANGE, 
 				getNet(), msg);
 	}
 	
@@ -301,7 +301,7 @@ public class DStabFixture extends AcscFixture {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		String loadBusId = st.nextToken();
 		double changeFactor = new Double(st.nextToken()).doubleValue();
-		this.currentDEvent.setType(DynamicEventType.LOAD_CHANGE_LITERAL);
+		this.currentDEvent.setType(DynamicEventType.LOAD_CHANGE);
 		LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(loadBusId, getNet());
 		eLoad.setChangeFactor(changeFactor);
 		this.currentDEvent.setBusDynamicEvent(eLoad);
@@ -628,9 +628,9 @@ public class DStabFixture extends AcscFixture {
 	}	
 	
 	private SimpleFaultCode toFaultCode(String fStr) {
-		return fStr.equals("3P")? SimpleFaultCode.GROUND_3P_LITERAL :
-				fStr.equals("LG")? SimpleFaultCode.GROUND_LG_LITERAL :
-					fStr.equals("LL")? SimpleFaultCode.GROUND_LL_LITERAL : SimpleFaultCode.GROUND_LLG_LITERAL;
+		return fStr.equals("3P")? SimpleFaultCode.GROUND_3P :
+				fStr.equals("LG")? SimpleFaultCode.GROUND_LG :
+					fStr.equals("LL")? SimpleFaultCode.GROUND_LL : SimpleFaultCode.GROUND_LLG;
 	}	
 
 	private DStabilityNetwork getNet() {
