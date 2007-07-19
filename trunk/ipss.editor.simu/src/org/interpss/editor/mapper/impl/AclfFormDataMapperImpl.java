@@ -34,6 +34,7 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.datatype.Constants;
@@ -266,11 +267,11 @@ public class AclfFormDataMapperImpl {
 			busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
 			// compile the source code
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
-			String javacode = ScriptJavacUtilFunc.parseAclfJavaCode(busData.getScripts(), classname, 
-								ScriptJavacUtilFunc.Tag_AclfScriptBus_Baseclass, 
-								ScriptJavacUtilFunc.Tag_AclfScriptBus_Begin);
+			String javacode = CoreScriptUtilFunc.parseAclfJavaCode(busData.getScripts(), classname, 
+								CoreScriptUtilFunc.Tag_AclfScriptBus_Baseclass, 
+								CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
 			bus.setExternalAclfBus((BaseAclfBus)MemoryJavaCompiler.javac( 
-					ScriptJavacUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
+					CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
 		}
  		return true;
 	}
@@ -369,11 +370,11 @@ public class AclfFormDataMapperImpl {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
 			//branch.setScripts(data.getScripts());
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
-			String javacode = ScriptJavacUtilFunc.parseAclfJavaCode(data.getScripts(), classname, 
-								ScriptJavacUtilFunc.Tag_AclfScriptBranch_Baseclass, 
-								ScriptJavacUtilFunc.Tag_AclfScriptBranch_Begin);
+			String javacode = CoreScriptUtilFunc.parseAclfJavaCode(data.getScripts(), classname, 
+								CoreScriptUtilFunc.Tag_AclfScriptBranch_Baseclass, 
+								CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin);
 			branch.setExternalAclfBranch((BaseAclfBranch)MemoryJavaCompiler.javac( 
-					ScriptJavacUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
+					CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
 			return true;
 		}
 		return false;

@@ -34,6 +34,7 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.datatype.Constants;
@@ -156,11 +157,11 @@ public class AcscFormDataMapperImpl {
 		else if (data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
 			bus.setScCode(BusScCode.SC_BUS_SCRIPTING);
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
-			String javacode = ScriptJavacUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
-					ScriptJavacUtilFunc.Tag_AcscScriptBus_Baseclass, 
-					ScriptJavacUtilFunc.Tag_AcscScriptBus_Begin);
+			String javacode = CoreScriptUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
+					CoreScriptUtilFunc.Tag_AcscScriptBus_Baseclass, 
+					CoreScriptUtilFunc.Tag_AcscScriptBus_Begin);
 			bus.setExternalAcscBus((BaseAcscBus)MemoryJavaCompiler.javac( 
-					ScriptJavacUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+					CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
 			return true;
 		}
 		else {
@@ -231,11 +232,11 @@ public class AcscFormDataMapperImpl {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
 			//branch.setScripts(data.getScripts());
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
-			String javacode = ScriptJavacUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
-					ScriptJavacUtilFunc.Tag_AcscScriptBranch_Baseclass, 
-					ScriptJavacUtilFunc.Tag_AcscScriptBranch_Begin);
+			String javacode = CoreScriptUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
+					CoreScriptUtilFunc.Tag_AcscScriptBranch_Baseclass, 
+					CoreScriptUtilFunc.Tag_AcscScriptBranch_Begin);
 			branch.setExternalAcscBranch((BaseAcscBranch)MemoryJavaCompiler.javac( 
-					ScriptJavacUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+					CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
 			return true;
 		}
 		else {
