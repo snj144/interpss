@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import org.interpss.dstab.control.cml.block.FilterControlBlock;
 import org.interpss.dstab.control.cml.block.GainBlock;
 
-import com.interpss.common.func.CMLFieldType;
+import com.interpss.common.datatype.CMLFieldType;
 import com.interpss.dstab.controller.annotate.AnController;
 import com.interpss.dstab.controller.annotate.AnControllerField;
 import com.interpss.dstab.controller.annotate.AnnotateStabilizer;

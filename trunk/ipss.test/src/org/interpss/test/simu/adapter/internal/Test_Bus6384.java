@@ -49,7 +49,7 @@ public class Test_Bus6384 extends TestBaseAppCtx {
   		assertEquals(true, (net.getBusList().size() == 6384));
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.PQ_LITERAL);
+	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
   		//System.out.println(net.net2String());
 	  	

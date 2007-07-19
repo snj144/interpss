@@ -63,8 +63,8 @@ public class TestSetupBase extends TestBaseAppCtx {
 		DStabBus bus1 = DStabObjectFactory.createDStabBus("Gen", net);
 		bus1.setName("Gen Bus");
 		bus1.setBaseVoltage(1000);
-		bus1.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
-		bus1.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+		bus1.setGenCode(AclfGenCode.GEN_PQ);
+		bus1.setLoadCode(AclfLoadCode.CONST_P);
 		bus1.setGenP(0.8);
 		bus1.setGenQ(0.6);
 		
@@ -72,19 +72,19 @@ public class TestSetupBase extends TestBaseAppCtx {
 		DStabBus bus2 = DStabObjectFactory.createDStabBus("Swing", net);
 		bus2.setName("Swing Bus");
 		bus2.setBaseVoltage(1000);
-		bus2.setGenCode(AclfGenCode.SWING_LITERAL);
+		bus2.setGenCode(AclfGenCode.SWING);
 		SwingBusAdapter swing = (SwingBusAdapter)bus2.adapt(SwingBusAdapter.class);
 		swing.setVoltMag(0.9434, UnitType.PU);
 		swing.setVoltAng(-4.86444, UnitType.Deg);
 
 		// a line branch connect the two buses
 		DStabBranch branch = DStabObjectFactory.createDStabBranch("Gen", "Swing", net);
-		branch.setBranchCode(AclfBranchCode.LINE_LITERAL);
+		branch.setBranchCode(AclfBranchCode.LINE);
 		branch.setZ(new Complex(0.0, 0.1));
 		
 		// run load flow
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.NR_LITERAL);
+	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.loadflow(msg);
 	  	
 	  	// uncommet this line to see the net object states

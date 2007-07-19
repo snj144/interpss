@@ -48,7 +48,7 @@ public class TestIEEE11ModelCase extends TestSetupBase {
 	public void test_Case1() {
 		System.out.println("\nBegin TestIEEE11ModelCase Case1");
 
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET_LITERAL, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		loadCaseData("testData/dstab_test/ieee1-1Model.ipss", simuCtx);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();

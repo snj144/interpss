@@ -66,7 +66,7 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
 		// Move forward one step
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 
 		// again, the following values to compare to are by long-hand calculation. There
 		// should be no change
@@ -85,11 +85,11 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 		assertTrue(Math.abs(mach.getPm()-0.803) < 0.00001);
 		
 		// Move forward more steps, we should have the same value, since there is no disturbance
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
@@ -101,7 +101,7 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 		
 		// create an event by changing Pm from 2.0 to 1.0
 		mach.setPm(1.0);  
-		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);
+		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 
 		// again, the following values to compare to are by long-hand calculation
 		/*
@@ -127,7 +127,7 @@ public class TestRoundRotorMachineCase extends TestSetupBase {
 
 		// create a machine and connect to the bus "Gen"
 		RoundRotorMachine mach = (RoundRotorMachine)DStabObjectFactory.
-							createMachine("MachId", "MachName", MachineType.EQ11_ED11_ROUND_ROTOR_LITERAL, net, "Gen");
+							createMachine("MachId", "MachName", MachineType.EQ11_ED11_ROUND_ROTOR, net, "Gen");
 		DStabBus bus = net.getDStabBus("Gen");		
 		// set machine data
 		mach.setRating(100, "Mva", net.getBaseKva());

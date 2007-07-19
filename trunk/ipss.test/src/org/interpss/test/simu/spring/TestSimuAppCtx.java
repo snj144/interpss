@@ -77,7 +77,7 @@ public class TestSimuAppCtx extends TestBaseAppCtx {
   					       simuCtx.getAcscFaultNet().getBranchList().size() == 5));
   		
   		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("2", simuCtx.getAcscFaultNet());
-		fault.setFaultCode(SimpleFaultCode.GROUND_3P_LITERAL);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(new Complex(0.0, 0.0));
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		
