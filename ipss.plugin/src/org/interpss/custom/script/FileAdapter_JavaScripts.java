@@ -78,7 +78,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 */
 	@Override
 	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception {
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED_LITERAL, msg);
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
   		load(simuCtx, filepath, msg);
   		return simuCtx;
 	}

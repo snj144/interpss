@@ -40,7 +40,7 @@ public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 	 * Constructor
 	 */
 	public CMLScriptingStabilizer() {
-		super("pssId", "pssName", "pssCaty", ControllerType.STABILIZER_LITERAL);
+		super("pssId", "pssName", "pssCaty", ControllerType.STABILIZER);
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class CMLScriptingStabilizer extends BaseCMLScriptingController {
 	 * @param name stabilizer name
 	 */
 	public CMLScriptingStabilizer(final String id, final String name, final String caty) {
-		super(id, name, caty, ControllerType.STABILIZER_LITERAL);
+		super(id, name, caty, ControllerType.STABILIZER);
 	}
 	
 	/**

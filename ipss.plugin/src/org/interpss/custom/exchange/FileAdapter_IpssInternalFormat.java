@@ -78,7 +78,7 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
   		// System.out.println(adjNet.net2String());
 
 		// set the simuContext object
-  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK_LITERAL);
+  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
   		simuCtx.setAclfAdjNet(adjNet);
   		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   		simuCtx.setDesc("This project is created by input file " + filepath);
@@ -94,7 +94,7 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED_LITERAL, msg);
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
   		load(simuCtx, filepath, msg);
   		return simuCtx;
 	}
@@ -227,24 +227,24 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
     	bus.setBaseVoltage(vBase, UnitType.Volt);
     	bus.setVoltage(vAct, ang);
     	if ( ( pg != 0.0 ) || ( qg != 0.0 ) ) {
-    		 bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
-    		 bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+    		 bus.setGenCode(AclfGenCode.GEN_PQ);
+    		 bus.setLoadCode(AclfLoadCode.CONST_P);
    			 final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
     		 gen.setGen(new Complex(pg,qg), UnitType.mVA, net.getBaseKva());
     		 gen.setLoad(new Complex(pl,ql), UnitType.mVA, net.getBaseKva());
     	}
     	else if ( ( pl != 0.0 ) || ( ql != 0.0 ) ) {
-    		 bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
+    		 bus.setGenCode(AclfGenCode.NON_GEN);
     		 //bus.setGen(new complex(pg,qg), UnitType.mVA, net.getBaseKva());
-    		 bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+    		 bus.setLoadCode(AclfLoadCode.CONST_P);
    			 final LoadBusAdapter load = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
     		 load.setLoad(new Complex(pl,ql), UnitType.mVA, net.getBaseKva());
     	}
     	else {
-    		 bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
+    		 bus.setGenCode(AclfGenCode.NON_GEN);
    			 final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
     		 gen.setGen(new Complex(0.0,0.0), UnitType.mVA, net.getBaseKva());
-    		 bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+    		 bus.setLoadCode(AclfLoadCode.NON_LOAD);
     		 //bus.setLoad(new complex(0.0,0.0), UnitType.mVA, net.getBaseKva());
     	}
       	net.addBus(bus);
@@ -274,24 +274,24 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
      	bus.setBaseVoltage(vBase, UnitType.Volt);
      	bus.setVoltage(vAct, ang);
      	if ( ( pg != 0.0 ) || ( qg != 0.0 ) ) {
-    	 	bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
-    	 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+    	 	bus.setGenCode(AclfGenCode.GEN_PQ);
+    	 	bus.setLoadCode(AclfLoadCode.CONST_P);
   			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
     	 	gen.setGen(new Complex(pg,qg), UnitType.mVA, net.getBaseKva());
     	 	gen.setLoad(new Complex(pl,ql), UnitType.mVA, net.getBaseKva());
      	}
      	else if ( ( pl != 0.0 ) || ( ql != 0.0 ) ) {
-    	 	bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
+    	 	bus.setGenCode(AclfGenCode.NON_GEN);
     	 	//bus.setGen(new complex(pg,qg), UnitType.mVA, net.getBaseKva());
-    	 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+    	 	bus.setLoadCode(AclfLoadCode.CONST_P);
   			final LoadBusAdapter load = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
     	 	load.setLoad(new Complex(pl,ql), UnitType.mVA, net.getBaseKva());
      	}
      	else {
-    	 	bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
+    	 	bus.setGenCode(AclfGenCode.GEN_PQ);
   			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
     	 	gen.setGen(new Complex(0.0,0.0), UnitType.mVA, net.getBaseKva());
-    	 	bus.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+    	 	bus.setLoadCode(AclfLoadCode.NON_LOAD);
     	 	//bus.setLoad(new complex(0.0,0.0), UnitType.mVA, net.getBaseKva());
      	}
     	net.addBus(bus);
@@ -311,7 +311,7 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 
       	final AclfBus bus = (AclfBus)net.getBus(id);
       	if (bus != null ) {
-        	bus.setGenCode(AclfGenCode.SWING_LITERAL);
+        	bus.setGenCode(AclfGenCode.SWING);
 			final SwingBusAdapter swing = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
     		swing.setVoltMag(bus.getVoltageMag(), UnitType.PU);
     		swing.setVoltAng(bus.getVoltageAng(UnitType.Rad), UnitType.Rad);
@@ -337,7 +337,7 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 
       	final AclfBus bus = adjNet.getAclfBus(id);
     	if (bus != null ) {
-        	bus.setGenCode(AclfGenCode.GEN_PV_LITERAL);
+        	bus.setGenCode(AclfGenCode.GEN_PV);
       		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, id);
       		pvLimit.setVSpecified(v, UnitType.PU);
       		pvLimit.setQLimit(new LimitType(qmax,qmin), UnitType.mVA, adjNet.getBaseKva());
@@ -368,7 +368,7 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 
       	final AclfBus bus = adjNet.getAclfBus(id);
     	if (bus != null) {
-       	    bus.setGenCode(AclfGenCode.CAPACITOR_LITERAL);
+       	    bus.setGenCode(AclfGenCode.CAPACITOR);
 			final CapacitorBusAdapter cap = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
 			cap.setQ(b, UnitType.PU, adjNet.getBaseKva());
     	} else {
@@ -395,7 +395,7 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
       	}
 
       	final AclfBranch bra = CoreObjectFactory.createAclfBranch();
-    	bra.setBranchCode(AclfBranchCode.LINE_LITERAL);
+    	bra.setBranchCode(AclfBranchCode.LINE);
 		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
     	
     	line.getAclfBranch().setZ(new Complex(r,x), msgHub);
@@ -422,14 +422,14 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 
     	AclfBranch bra = (AclfBranch)net.getBranch(fid, tid, cirNo);
     	if (bra != null) {
-    	 	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+    	 	bra.setBranchCode(AclfBranchCode.XFORMER);
         	bra.setFromTurnRatio( t );
         	bra.setToTurnRatio( 1.0 );
       	}
     	else {
     		bra = (AclfBranch)net.getBranch(tid, fid, cirNo);
         	if (bra != null) {
-          	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+          	bra.setBranchCode(AclfBranchCode.XFORMER);
     			bra.setFromTurnRatio(1.0);
     			bra.setToTurnRatio(t);
         	} else {

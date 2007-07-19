@@ -63,7 +63,7 @@ import com.interpss.core.net.Bus;
 public class AclfResultMapperImpl {
 	public static void mapAclfMaxMismatch(AclfNetwork net, RptAclfMaxMismatchBean bean) {
 		double baseKVA = net.getBaseKva();
-		Mismatch mis = net.maxMismatch(AclfMethod.NR_LITERAL);
+		Mismatch mis = net.maxMismatch(AclfMethod.NR);
 		bean.setPMaxBusId(mis.maxPBus.getId());
 		bean.setPMaxPu(Number2String.toStr( "####0.000000",mis.maxMis.getReal()));
 		bean.setPMaxKva(Number2String.toStr( "####0.000", baseKVA*mis.maxMis.getReal()));
@@ -257,11 +257,11 @@ public class AclfResultMapperImpl {
 			GenBusAdapter genBus = (GenBusAdapter)re.getAclfBus().adapt(GenBusAdapter.class);
 			RptRemoteQBusBean bean = new RptRemoteQBusBean();
 			bean.setVcBusId(re.getAclfBus().getId());
-			bean.setType(Number2String.toStr(-9, (re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
+			bean.setType(Number2String.toStr(-9, (re.getControlType()==RemoteQControlType.BUS_VOLTAGE?
 					 				" Voltage":"MvarFlow")));
-			bean.setReQBusBranch(Number2String.toStr(15, re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
+			bean.setReQBusBranch(Number2String.toStr(15, re.getControlType()==RemoteQControlType.BUS_VOLTAGE?
 									re.getRemoteBus().getId():re.getRemoteBranch().getId()));
-			bean.setActual(Number2String.toStr( "###0.0000", re.getControlType()==RemoteQControlType.BUS_VOLTAGE_LITERAL?
+			bean.setActual(Number2String.toStr( "###0.0000", re.getControlType()==RemoteQControlType.BUS_VOLTAGE?
 					re.getRemoteBus().getVoltageMag(UnitType.PU): 
 						re.getMvarFlowCalculated(re.getRemoteBranch(), UnitType.PU, baseKva) ));
 			bean.setSpec(Number2String.toStr( "###0.0000", re.getVSpecified(UnitType.PU) ));
@@ -300,7 +300,7 @@ public class AclfResultMapperImpl {
 		for( TapControl tap : net.getTapControlList()) {
 			RptTapVControlBean bean = new RptTapVControlBean();
 			bean.setBranchId(tap.getAclfBranch().getId());
-			if (tap.getControlType() == XfrTapControlType.BUS_VOLTAGE_LITERAL) {
+			if (tap.getControlType() == XfrTapControlType.BUS_VOLTAGE) {
 				bean.setVcBusId(tap.getVcBus().getId());
 				bean.setActual(Number2String.toStr("##0.0000", tap.getVcBus().getVoltageMag(UnitType.PU)));
 				bean.setSpec(Number2String.toStr("##0.0000", tap.getVSpecified(UnitType.PU)));

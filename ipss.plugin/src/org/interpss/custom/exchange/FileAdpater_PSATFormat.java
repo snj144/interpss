@@ -54,7 +54,7 @@ public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
 		AclfAdjNetwork adjNet = loadFile(din, msg);
   		//System.out.println(adjNet.net2String());
   		
-  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK_LITERAL);
+  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
   		simuCtx.setAclfAdjNet(adjNet);
   		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   		simuCtx.setDesc("This project is created by input file " + filepath);
@@ -69,7 +69,7 @@ public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	public SimuContext load(String filepath, IPSSMsgHub msg) throws Exception {
-  		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED_LITERAL, msg);
+  		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
   		load(simuCtx, filepath, msg);
   		return simuCtx;
 	}
@@ -183,7 +183,7 @@ public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
       	if (bus == null) {
       		throw new Exception("Swing Bus not found in the network, bus munber: " + busNumber);
       	}
-		bus.setGenCode(AclfGenCode.SWING_LITERAL);
+		bus.setGenCode(AclfGenCode.SWING);
 		SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
 		gen.setVoltMag(vpu, UnitType.PU);
 		gen.setVoltAng(ang, UnitType.Deg);
@@ -214,7 +214,7 @@ public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
       	if (bus == null) {
       		throw new Exception("PQ Bus not found in the network, bus munber: " + busNumber);
       	}
-	 	bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+	 	bus.setLoadCode(AclfLoadCode.CONST_P);
 		LoadBusAdapter load = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
 		load.setLoad(new Complex(pl, ql), UnitType.PU, adjNet.getBaseKva());      	
     }
@@ -253,7 +253,7 @@ public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
   		// A line branch
       	if (l == 0.0) 
       		l = 1.0;
-    	bra.setBranchCode(AclfBranchCode.LINE_LITERAL);
+    	bra.setBranchCode(AclfBranchCode.LINE);
 		LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
     	line.getAclfBranch().setZ(new Complex(l*r,l*x), msg);
     	line.setHShuntY(new Complex(0.0,0.5*l*b), UnitType.PU, 1.0, adjNet.getBaseKva()); 

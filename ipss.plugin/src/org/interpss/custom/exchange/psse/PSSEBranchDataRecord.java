@@ -131,7 +131,7 @@ public class PSSEBranchDataRecord {
        	bra.getOwnerRec(3).setOwnerNumber(O4);
        	bra.getOwnerRec(3).setOwnershipFactor(F4);
       	
-       	bra.setBranchCode(AclfBranchCode.LINE_LITERAL);
+       	bra.setBranchCode(AclfBranchCode.LINE);
    		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
        	line.getAclfBranch().setZ(new Complex(R,X), msg);
        	// Unit is PU, no need to enter baseV
@@ -208,7 +208,7 @@ public class PSSEBranchDataRecord {
 			String iStr = new Integer(I).toString();
 			String jStr = new Integer(J).toString();
 	      	adjNet.addBranch(bra, iStr, jStr);
-    	 	bra.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+    	 	bra.setBranchCode(AclfBranchCode.XFORMER);
     		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
     		
 	    	bra.setFlagWinding(CW);
@@ -301,7 +301,7 @@ public class PSSEBranchDataRecord {
 
         	if (ANG1 != 0.0 || COD == 3 || COD == -3) {
         		// PhaseShifting transformer branch
-        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
+        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
         		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
         		psXfr.setFromAngle(ANG1*Constants.DtoR);
         		psXfr.setToAngle(0.0);

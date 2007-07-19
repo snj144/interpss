@@ -39,7 +39,7 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 	 * Constructor
 	 */
 	public CMLScriptingExciter() {
-		super("excId", "excName", "excCaty", ControllerType.EXCITER_LITERAL);
+		super("excId", "excName", "excCaty", ControllerType.EXCITER);
 	}
 	
 	/**
@@ -49,7 +49,7 @@ public class CMLScriptingExciter extends BaseCMLScriptingController {
 	 * @param name excitor name
 	 */
 	public CMLScriptingExciter(final String id, final String name, final String caty) {
-		super(id, name, caty, ControllerType.EXCITER_LITERAL);
+		super(id, name, caty, ControllerType.EXCITER);
 	}
 	
 	/**
