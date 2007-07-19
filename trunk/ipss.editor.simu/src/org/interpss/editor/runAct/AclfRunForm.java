@@ -49,7 +49,7 @@ public class AclfRunForm extends BaseRunForm {
 	
   	public boolean runLoadflow(SimuContext simuCtx) {
   		boolean converge = false;
-  		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET_LITERAL) {
+  		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
   			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
   		}
   		else {

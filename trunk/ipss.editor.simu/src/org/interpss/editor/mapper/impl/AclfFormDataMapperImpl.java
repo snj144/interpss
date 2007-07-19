@@ -216,35 +216,35 @@ public class AclfFormDataMapperImpl {
 	public static boolean setAclfBusFormInfo(GBusForm formBus, AclfBus bus, AclfAdjNetwork aclfNet) {
 		AclfBusData busData = formBus.getAcscBusData();
 		if (busData.getGenCode().equals(AclfBusData.GenCode_PQ)) {   
-			bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
+			bus.setGenCode(AclfGenCode.GEN_PQ);
 			PQBusAdapter pqBus = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
 		  	pqBus.setGen(new Complex(busData.getGenP(), busData.getGenQ()), 
 		  			UnitType.toUnit(busData.getGenUnit()), aclfNet.getBaseKva() );
 		}
 		else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {   
-		  	bus.setGenCode(AclfGenCode.GEN_PV_LITERAL);
+		  	bus.setGenCode(AclfGenCode.GEN_PV);
 			PVBusAdapter pvBus = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
 		  	pvBus.setGenP(busData.getGenP(), UnitType.toUnit(busData.getGenUnit()), aclfNet.getBaseKva());
 	    	// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and ReQMvarFlow-MvarSpec
 		  	pvBus.setVoltMag(busData.getVoltageMag(),	UnitType.toUnit(busData.getVoltageMagUnit()) );
 		}
 		else if (busData.getGenCode().equals(AclfBusData.GenCode_Swing)) {  
-			bus.setGenCode(AclfGenCode.SWING_LITERAL);
+			bus.setGenCode(AclfGenCode.SWING);
 			SwingBusAdapter swing = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
 		  	swing.setVoltMag( busData.getVoltageMag(), UnitType.toUnit(busData.getVoltageMagUnit()) );
 		  	swing.setVoltAng( busData.getVoltageAng(), UnitType.toUnit(busData.getVoltageAngUnit()) );
 		}
 		else if (busData.getGenCode().equals(AclfBusData.GenCode_Capacitor)) {   // capacitor bus
-			bus.setGenCode(AclfGenCode.CAPACITOR_LITERAL);
+			bus.setGenCode(AclfGenCode.CAPACITOR);
 			CapacitorBusAdapter cBus = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
 			cBus.setQ(busData.getCapQ(), UnitType.toUnit(busData.getCapQUnit()), aclfNet.getBaseKva());
 		}
 		else if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting)) {   
-			bus.setGenCode(AclfGenCode.GEN_SCRIPTING_LITERAL);
+			bus.setGenCode(AclfGenCode.GEN_SCRIPTING);
 			//bus.setScripts(busData.getScripts());
 		}
 		else {   
-			bus.setGenCode(AclfGenCode.NON_GEN_LITERAL);
+			bus.setGenCode(AclfGenCode.NON_GEN);
 		}
 		
 		bus.setLoadCode(parseLoadCode(busData.getLoadCode()));
@@ -291,7 +291,7 @@ public class AclfFormDataMapperImpl {
 				if (adjData.getReQControlType() == AclfAdjBusData.ReQControlType_Voltage) {
 					String remoteBusId = NetUtilFunc.getBusIdFromDisplayNameId(adjData.getRemoteControlBusId());
 					RemoteQBus reQ = CoreObjectFactory.createRemoteQBus(aclfNet, bus.getId(), 
-										RemoteQControlType.BUS_VOLTAGE_LITERAL, remoteBusId);
+										RemoteQControlType.BUS_VOLTAGE, remoteBusId);
 					reQ.setQLimit(new LimitType(adjData.getMaxGenQ(), adjData.getMinGenQ()));
 					// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and ReQMvarFlow-MvarSpec
 					reQ.setVSpecified(adjData.getVoltageMag());		 
@@ -299,7 +299,7 @@ public class AclfFormDataMapperImpl {
 				else if (adjData.getReQControlType() == AclfAdjBusData.ReQControlType_MvarFlow) {
 					String remoteBranchId = NetUtilFunc.getBranchIdFromDisplayNameId(adjData.getRemoteControlBranchId());
 					RemoteQBus reQ = CoreObjectFactory.createRemoteQBus(aclfNet, bus.getId(), 
-										RemoteQControlType.BRANCH_Q_LITERAL, remoteBranchId);
+										RemoteQControlType.BRANCH_Q, remoteBranchId);
 					reQ.setQLimit(new LimitType(adjData.getMaxGenQ(), adjData.getMinGenQ()));
 					// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and ReQMvarFlow-MvarSpec
 					reQ.setMvarSpecified(adjData.getVoltageMag(), UnitType.PU, aclfNet.getBaseKva());		
@@ -336,11 +336,11 @@ public class AclfFormDataMapperImpl {
 	}
 
 	private static AclfLoadCode parseLoadCode(String code) {
-		return code.equals(AclfBusData.LoadCode_ConstP) || code.equals(AclfBusData.LoadCode_FuncLoad) ? AclfLoadCode.CONST_P_LITERAL : 
-				(code.equals(AclfBusData.LoadCode_ConstI)? AclfLoadCode.CONST_I_LITERAL : 
-					(code.equals(AclfBusData.LoadCode_ConstZ)? AclfLoadCode.CONST_Z_LITERAL : 
-						(code.equals(AclfBusData.LoadCode_LoadScripting)? AclfLoadCode.LOAD_SCRIPTING_LITERAL : 
-							AclfLoadCode.NON_LOAD_LITERAL)));
+		return code.equals(AclfBusData.LoadCode_ConstP) || code.equals(AclfBusData.LoadCode_FuncLoad) ? AclfLoadCode.CONST_P : 
+				(code.equals(AclfBusData.LoadCode_ConstI)? AclfLoadCode.CONST_I : 
+					(code.equals(AclfBusData.LoadCode_ConstZ)? AclfLoadCode.CONST_Z : 
+						(code.equals(AclfBusData.LoadCode_LoadScripting)? AclfLoadCode.LOAD_SCRIPTING : 
+							AclfLoadCode.NON_LOAD)));
 	}
 	
 	/**
@@ -366,7 +366,7 @@ public class AclfFormDataMapperImpl {
 			return true;
 		}
 		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) && aclf) { 
-			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
+			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
 			//branch.setScripts(data.getScripts());
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
 			String javacode = ScriptJavacUtilFunc.parseAclfJavaCode(data.getScripts(), classname, 
@@ -398,7 +398,7 @@ public class AclfFormDataMapperImpl {
 						AclfNetwork net, IPSSMsgHub msg) {
 		try {
 			AclfBranchData data = branchForm.getAcscBranchData();
-			branch.setBranchCode(AclfBranchCode.LINE_LITERAL);
+			branch.setBranchCode(AclfBranchCode.LINE);
 			LineAdapter line = (LineAdapter)branch.adapt(LineAdapter.class);
 			line.setZ(new Complex(data.getZR(), data.getZX()), UnitType.toUnit(data.getZUnit()), 
 						branch.getFromAclfBus().getBaseVoltage(), net.getBaseKva(), msg);
@@ -418,7 +418,7 @@ public class AclfFormDataMapperImpl {
 						AclfAdjNetwork net, IPSSMsgHub msg) {
 		try {
 			AclfBranchData data = branchForm.getAcscBranchData();
-			branch.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+			branch.setBranchCode(AclfBranchCode.XFORMER);
 		    double fromBaseV = branch.getFromAclfBus().getBaseVoltage(),
 		  	       toBaseV = branch.getToAclfBus().getBaseVoltage();
 	        // the follow only applies if zUnit is in Ohms, which is very unlikely
@@ -446,12 +446,12 @@ public class AclfFormDataMapperImpl {
 	  		TapControl tapv = null;
 			if (adjData.getTapVControlType() == AclfAdjBranchData.TapControlType_Voltage) {
 				String vcBusId = NetUtilFunc.getBusIdFromDisplayNameId(adjData.getVcBusId());
-		  		tapv = CoreObjectFactory.createTapVControlBusVoltage(net, branch.getId(), vcBusId, FlowControlType.POINT_CONTROL_LITERAL);
+		  		tapv = CoreObjectFactory.createTapVControlBusVoltage(net, branch.getId(), vcBusId, FlowControlType.POINT_CONTROL);
 		  		tapv.setVSpecified(adjData.getVcVSpec());
 		  		tapv.setVcBusOnFromSide(adjData.isVCBusOnFromSide());
 			}
 			else {
-		  		tapv = CoreObjectFactory.createTapVControlMvarFlow(net, branch.getId(), FlowControlType.POINT_CONTROL_LITERAL);
+		  		tapv = CoreObjectFactory.createTapVControlMvarFlow(net, branch.getId(), FlowControlType.POINT_CONTROL);
 		  		tapv.setMvarSpecified(adjData.getMvarFlowSpec());
 		  		tapv.setMeteredOnFromSide(adjData.isMvarSpecOnFromSide());
 		  		tapv.setFlowFrom2To(adjData.isFlowFrom2To());
@@ -471,7 +471,7 @@ public class AclfFormDataMapperImpl {
 						AclfAdjNetwork net, IPSSMsgHub msg) {
 		setXfrBranchFormInfo(formBranch, branch, net, msg);
 		AclfBranchData data = formBranch.getAcscBranchData();
-		branch.setBranchCode(AclfBranchCode.PS_XFORMER_LITERAL);
+		branch.setBranchCode(AclfBranchCode.PS_XFORMER);
 		PSXfrAdapter psXfr = (PSXfrAdapter)branch.adapt(PSXfrAdapter.class);
 		psXfr.setFromAngle(data.getPhaseShiftAngle(), UnitType.toUnit(data.getPhaseShiftAngleUnit()));
 		return true;
@@ -481,7 +481,7 @@ public class AclfFormDataMapperImpl {
 			AclfAdjNetwork net, IPSSMsgHub msg) {
 		AclfAdjBranchData adjData = formBranch.getAcscBranchData();
 		if (adjData.isHasPSXfrPControl()) {
-			PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(net, branch.getId(), FlowControlType.POINT_CONTROL_LITERAL);
+			PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(net, branch.getId(), FlowControlType.POINT_CONTROL);
 			psXfrControl.setPSpecified(adjData.getPcPSpec());
 			psXfrControl.setAngLimit(new LimitType(adjData.getPcAngMax()*Constants.DtoR, adjData.getPcAngMin()*Constants.DtoR));
 			psXfrControl.setControlOnFromSide(adjData.isPcOnFromSide());			

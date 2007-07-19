@@ -113,7 +113,7 @@ public class DStabFormDataMapperImpl {
 		dstabNet.addScriptDynamicBusDevice(busDevice, busId);
 		DStabBus dstabBus = dstabNet.getDStabBus(busId);
 		dstabBus.setDeviceAdjElement(busDevice);   // bind bus and machine together
-		busDevice.setDeviceType(DynamicBusDeviceType.SCRIPT_DYNAMIC_BUS_DEVICE_LITERAL);
+		busDevice.setDeviceType(DynamicBusDeviceType.SCRIPT_DYNAMIC_BUS_DEVICE);
 		busDevice.setId(Constants.DBusDeviceIdToken+busId);
 		busDevice.setName(Constants.DBusDeviceIdToken+busId);
 		busDevice.setScripts(busData.getScripts());
@@ -124,7 +124,7 @@ public class DStabFormDataMapperImpl {
 		IpssLogger.getLogger().info("Set DBusScripting info, busId: " + busId);
 		ScriptingDBusDevice busDevice = new DefaultScriptingDBusDevice();
 		dstabNet.addScriptingDBusDevice(busDevice, busId);
-		busDevice.setDeviceType(DynamicBusDeviceType.SRIPTING_BUS_DEVICE_LITERAL);
+		busDevice.setDeviceType(DynamicBusDeviceType.SRIPTING_BUS_DEVICE);
 		busDevice.setId(Constants.DBusDeviceIdToken+busId);
 		busDevice.setName(Constants.DBusDeviceIdToken+busId);
 		busDevice.setScripts(busData.getScripts());
@@ -154,14 +154,16 @@ public class DStabFormDataMapperImpl {
 			mach.setX0(machData.getX0());
 			mach.setX2(machData.getX2());
 			ScGroundType gtype = new ScGroundType();
-			gtype.setCode(machData.getGround().getCode());
 			gtype.setZ(new Complex(machData.getGround().getR(),machData.getGround().getX()), 
 						UnitType.toUnit(machData.getGround().getUnit()), 
 						machData.getRatedVolt(), machData.getRating()*1000.0);
-			mach.setGrounding(gtype);
-			mach.setGroundZUnit("PU");
+			mach.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(machData.getGround().getCode()));
+			mach.getGrounding().setZ(new Complex(machData.getGround().getR(),machData.getGround().getX()), 
+					UnitType.toUnit(machData.getGround().getUnit()), 
+					machData.getRatedVolt(), machData.getRating()*1000.0);
+			mach.getGrounding().setUnit(UnitType.PU); 
 			
-			if (mach.getMachType() == MachineType.ECONSTANT_LITERAL) {
+			if (mach.getMachType() == MachineType.ECONSTANT) {
 				EConstMachine m = (EConstMachine)mach;
 				m.setXd1(machData.getXd1());
 			}
@@ -179,19 +181,19 @@ public class DStabFormDataMapperImpl {
 				mEq1.setXd1(machData.getXd1());
 				mEq1.setTd01(machData.getTd01());
 
-				if (mach.getMachType() == MachineType.EQ1_ED1_MODEL_LITERAL) {
+				if (mach.getMachType() == MachineType.EQ1_ED1_MODEL) {
 					Eq1Ed1Machine mEq1Ed1 = (Eq1Ed1Machine)mach;
 					mEq1Ed1.setXq1(machData.getXq1());
 					mEq1Ed1.setTq01(machData.getTq01());
 				}
-				else if (mach.getMachType() == MachineType.EQ11_ED11_SALIENT_POLE_LITERAL || 
-						 mach.getMachType() == MachineType.EQ11_ED11_ROUND_ROTOR_LITERAL) {
+				else if (mach.getMachType() == MachineType.EQ11_ED11_SALIENT_POLE || 
+						 mach.getMachType() == MachineType.EQ11_ED11_ROUND_ROTOR) {
 					SalientPoleMachine mPole = (SalientPoleMachine)mach;
 					mPole.setXd11(machData.getXd11());
 					mPole.setXq11(machData.getXq11());
 					mPole.setTd011(machData.getTd011());
 					mPole.setTq011(machData.getTq011());
-					if (mach.getMachType() == MachineType.EQ11_ED11_ROUND_ROTOR_LITERAL) {
+					if (mach.getMachType() == MachineType.EQ11_ED11_ROUND_ROTOR) {
 						RoundRotorMachine mRotor = (RoundRotorMachine)mach;
 						mRotor.setXq1(machData.getXq1());
 						mRotor.setTq01(machData.getTq01());
@@ -263,15 +265,15 @@ public class DStabFormDataMapperImpl {
 	
 	private static MachineType getMachType(String mtype) {
 		if (mtype.equals(DStabMachData.MachType_EConst))
-			return MachineType.ECONSTANT_LITERAL;
+			return MachineType.ECONSTANT;
 		else if (mtype.equals(DStabMachData.MachType_Eq1))
-			return MachineType.EQ1_MODEL_LITERAL;
+			return MachineType.EQ1_MODEL;
 		else if (mtype.equals(DStabMachData.MachType_Eq1Ed1))
-			return MachineType.EQ1_ED1_MODEL_LITERAL;
+			return MachineType.EQ1_ED1_MODEL;
 		else if (mtype.equals(DStabMachData.MachType_SalientPole))
-			return MachineType.EQ11_ED11_SALIENT_POLE_LITERAL;
+			return MachineType.EQ11_ED11_SALIENT_POLE;
 		else if (mtype.equals(DStabMachData.MachType_RoundRotor))
-			return MachineType.EQ11_ED11_ROUND_ROTOR_LITERAL;
+			return MachineType.EQ11_ED11_ROUND_ROTOR;
 		else {
 			IpssLogger.getLogger().severe("Wrong Machine Type String: " + mtype);
 			throw new InvalidParameterException("Wrong Machine Type String: " + mtype);

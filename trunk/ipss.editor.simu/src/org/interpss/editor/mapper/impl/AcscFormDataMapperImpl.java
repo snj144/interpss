@@ -154,7 +154,7 @@ public class AcscFormDataMapperImpl {
 			return setNonContributeBusFormInfo(data, bus, net);
 		}
 		else if (data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
-			bus.setScCode(BusScCode.SC_BUS_SCRIPTING_LITERAL);
+			bus.setScCode(BusScCode.SC_BUS_SCRIPTING);
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
 			String javacode = ScriptJavacUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
 					ScriptJavacUtilFunc.Tag_AcscScriptBus_Baseclass, 
@@ -169,7 +169,7 @@ public class AcscFormDataMapperImpl {
 	}
 
 	private static boolean setContributeBusFormInfo(AcscBusData busData, AcscBus bus, AcscNetwork net) {
-		bus.setScCode(BusScCode.CONTRIBUTE_LITERAL);
+		bus.setScCode(BusScCode.CONTRIBUTE);
 		try {
 			setBusScZ(bus, net.getBaseKva(), 
 					busData.getZ1R(), busData.getZ1X(), 
@@ -188,10 +188,10 @@ public class AcscFormDataMapperImpl {
 	}
 
 	private static boolean setNonContributeBusFormInfo(AcscBusData busData, AcscBus bus, AcscNetwork net) {
-		bus.setScCode(BusScCode.NON_CONTRI_LITERAL);
-		bus.setZ(Constants.LargeBusZ, SequenceCode.POSITIVE_LITERAL);
-		bus.setZ(Constants.LargeBusZ, SequenceCode.NEGATIVE_LITERAL);
-		bus.setZ(Constants.LargeBusZ, SequenceCode.ZERO_LITERAL);
+		bus.setScCode(BusScCode.NON_CONTRI);
+		bus.setZ(Constants.LargeBusZ, SequenceCode.POSITIVE);
+		bus.setZ(Constants.LargeBusZ, SequenceCode.NEGATIVE);
+		bus.setZ(Constants.LargeBusZ, SequenceCode.ZERO);
 		bus.getGrounding().setCode(BusGroundCode.UNGROUNDED);
 		bus.getGrounding().setZ(Constants.LargeBusZ);
 		return true;
@@ -202,9 +202,9 @@ public class AcscFormDataMapperImpl {
 						double r2,    double x2,
 						double r0,    double x0, 
 						byte zUnit	) {
-		bus.setZ(new Complex(r1, x1), SequenceCode.POSITIVE_LITERAL, zUnit, baseKVA);
-		bus.setZ(new Complex(r2, x2), SequenceCode.NEGATIVE_LITERAL, zUnit, baseKVA);
-		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO_LITERAL, zUnit, baseKVA);
+		bus.setZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit, baseKVA);
+		bus.setZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit, baseKVA);
+		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit, baseKVA);
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA,
@@ -228,7 +228,7 @@ public class AcscFormDataMapperImpl {
 		}
 		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) &&
 				 branch instanceof AcscBranch) {
-			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING_LITERAL);
+			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
 			//branch.setScripts(data.getScripts());
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
 			String javacode = ScriptJavacUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
@@ -282,14 +282,14 @@ public class AcscFormDataMapperImpl {
 		// groundCode : [SolidGrounded | ZGrounded | Ungrounded ]
 		if (connect.getCode().equals(XfrConnectData.Code_Delta)) 
 			// str set [ DeltaConnected | SolidGrounded | ZGrounded | Ungrounded ]
-			return XfrConnectCode.DELTA_LITERAL;
+			return XfrConnectCode.DELTA;
 		else {
 			if (connect.getGrounding().getCode().equals(ScGroundType.GType_Ungrounded))
-				return XfrConnectCode.WYE_UNGROUNDED_LITERAL;
+				return XfrConnectCode.WYE_UNGROUNDED;
 			else if (connect.getGrounding().getCode().equals(ScGroundType.GType_ZGrounded))
-				return XfrConnectCode.WYE_ZGROUNDED_LITERAL;
+				return XfrConnectCode.WYE_ZGROUNDED;
 			if (connect.getGrounding().getCode().equals(ScGroundType.GType_SolidGrounded))
-				return XfrConnectCode.WYE_SOLID_GROUNDED_LITERAL;
+				return XfrConnectCode.WYE_SOLID_GROUNDED;
 		}	
 		throw new InvalidParameterException("Wrong input in AcscFormDataMapperImpl.calXfrConnectCode()"); 
 	}

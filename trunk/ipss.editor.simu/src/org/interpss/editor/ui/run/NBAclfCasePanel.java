@@ -921,10 +921,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void pqQStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqQStepButtonActionPerformed
     	IpssLogger.getLogger().info("PQ-Q Step run");
-    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_QSTEP_LITERAL);
+    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_QSTEP);
     	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqQStepButtonActionPerformed
 
     private void panelSelectionChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_panelSelectionChanged
@@ -933,7 +933,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	else if ( runAclfTabbedPane.getSelectedIndex() == 1 ) {
         	IpssLogger.getLogger().info("Panel selection changed - Advanced Panel");
             initAdvanceControlPanel();
-        	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+        	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     	}	
     }//GEN-LAST:event_panelSelectionChanged
 
@@ -943,7 +943,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	_simuCtx.getAclfAdjNet().activateAllAdjust(_simuCtx.getMsgHub());
 		msgOutTextArea.setText("");
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
@@ -965,7 +965,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	IpssLogger.getLogger().info("Apply Function load adjustment: " + id);
         }
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_funcLoadButtonActionPerformed
 
     private void xfrTapControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xfrTapControlButtonActionPerformed
@@ -981,7 +981,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	IpssLogger.getLogger().info("Apply Xfr Tap Control: " + id);
         }
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_xfrTapControlButtonActionPerformed
 
     private void psXfrPControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrPControlButtonActionPerformed
@@ -997,7 +997,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	IpssLogger.getLogger().info("Apply PS Xfr PControl: " + id);
         }
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_psXfrPControlButtonActionPerformed
 
     private void interPControlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_interPControlButtonActionPerformed
@@ -1017,7 +1017,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			IpssLogger.getLogger().info("Apply Interarea exchagnge controls: " + no);
         }
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_interPControlButtonActionPerformed
 
     private void remoteQBusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remoteQBusButtonActionPerformed
@@ -1033,14 +1033,14 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	IpssLogger.getLogger().info("Apply Remote Q Bus adjustment: " + id);
         }
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_remoteQBusButtonActionPerformed
 
     private void pqBusLimitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqBusLimitButtonActionPerformed
         String selected = (String)pqBusLimitComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All PQ Bus Limit");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPQBusLimitAdjust(AclfMethod.PQ_LITERAL, _simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPQBusLimitAdjust(AclfMethod.PQ, _simuCtx.getMsgHub());
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
@@ -1049,14 +1049,14 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	IpssLogger.getLogger().info("Apply PQ Bus Limit: " + id);
         }
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqBusLimitButtonActionPerformed
 
     private void pvBusLimitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvBusLimitButtonActionPerformed
         String selected = (String)pvBusLimitComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All PV Bus Limit");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPVBusLimitAdjust(AclfMethod.PQ_LITERAL, _simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPVBusLimitAdjust(AclfMethod.PQ, _simuCtx.getMsgHub());
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
@@ -1065,31 +1065,31 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	IpssLogger.getLogger().info("Apply PV Bus Limit: " + id);
         }
         initAdvanceControlPanel();
-        mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+        mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pvBusLimitButtonActionPerformed
 
     private void gsStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsStepButtonActionPerformed
     	IpssLogger.getLogger().info("GS Step run");
-    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.GS_STEP_LITERAL);
+    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.GS_STEP);
     	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_gsStepButtonActionPerformed
 
     private void nrStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrStepButtonActionPerformed
     	IpssLogger.getLogger().info("NR Step run");
-    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.NR_STEP_LITERAL);
+    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.NR_STEP);
     	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_nrStepButtonActionPerformed
 
     private void pqPStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqPStepButtonActionPerformed
     	IpssLogger.getLogger().info("PQ-P Step run");
-    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_PSTEP_LITERAL);
+    	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_PSTEP);
     	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
         initAdvanceControlPanel();
-    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR_LITERAL).toString());
+    	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqPStepButtonActionPerformed
     
     

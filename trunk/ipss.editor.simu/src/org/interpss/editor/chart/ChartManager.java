@@ -70,7 +70,7 @@ public class ChartManager {
 			final IGBusForm bus = ((BusCell)cell).getBusForm();
 			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 			SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
-			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET_LITERAL &&
+			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET &&
 					simuCtx.getDistNet().getLoadNetData().getSchedulePoints() > 0 &&
 					appSimuCtx.isLfConverged()) {
 				menu.add(new AbstractAction("Plot Load Curve") {
@@ -79,7 +79,7 @@ public class ChartManager {
 					}
 				});
 			}
-			else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET_LITERAL) {
+			else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				int caseId = ((DStabRunForm)appSimuCtx.getDStabRunForm()).getDbSimuCaseId();
 				if (caseId > 0 ) {
 					DStabBus dstabBus = simuCtx.getDStabilityNet().getDStabBus(bus.getId());

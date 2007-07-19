@@ -84,7 +84,7 @@ public class RunActUtilFunc {
 		for (int i = 0; i < adjNet.getRemoteQBusList().size(); i++) {
 			RemoteQBus reQ = (RemoteQBus)adjNet.getRemoteQBusList().get(i);
 			if (reQ.needAdjust(tolerance, adjNet.getBaseKva(), msg)) {
-				if (reQ.getControlType() == RemoteQControlType.BUS_VOLTAGE_LITERAL)
+				if (reQ.getControlType() == RemoteQControlType.BUS_VOLTAGE)
 					list.add( reQ.getId() + " at " + reQ.getBus().getName() +
 							"-> Bus:" + reQ.getRemoteBus().getId());
 				else
