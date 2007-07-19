@@ -68,7 +68,7 @@ public class SparseEqnIntegerTest extends TestBaseAppCtx {
   		assertEquals(true, (net.getBusList().size() == 9 && net.getBranchList().size() == 8));
 
   		NetworkAlgorithm netAlgo = CoreObjectFactory.createNetworkAlgorithm(net);
-  		netAlgo.arrangeBusNumber(BusArrangeRule.TINNEY1_LITERAL, SpringAppContext.getIpssMsgHub());
+  		netAlgo.arrangeBusNumber(BusArrangeRule.TINNEY1, SpringAppContext.getIpssMsgHub());
   		//System.out.println(net.net2String());
   		
   		assertEquals(true, net.getBus("A").getSortNumber() == 1);
@@ -82,7 +82,7 @@ public class SparseEqnIntegerTest extends TestBaseAppCtx {
   		assertEquals(true, (net.getBusList().size() == 9 && net.getBranchList().size() == 8));
 
   		NetworkAlgorithm netAlgo = CoreObjectFactory.createNetworkAlgorithm(net);
-  		netAlgo.arrangeBusNumber(BusArrangeRule.TINNEY2_LITERAL, SpringAppContext.getIpssMsgHub());
+  		netAlgo.arrangeBusNumber(BusArrangeRule.TINNEY2, SpringAppContext.getIpssMsgHub());
   		//System.out.println(net.net2String());
   		
   		assertEquals(true, net.getBus("A").getSortNumber() == 1);
@@ -97,7 +97,7 @@ public class SparseEqnIntegerTest extends TestBaseAppCtx {
   		assertEquals(true, (net.getBusList().size() == 9 && net.getBranchList().size() == 8));
 
   		NetworkAlgorithm netAlgo = CoreObjectFactory.createNetworkAlgorithm(net);
-  		netAlgo.arrangeBusNumber(BusArrangeRule.TINNEY3_LITERAL, SpringAppContext.getIpssMsgHub());
+  		netAlgo.arrangeBusNumber(BusArrangeRule.TINNEY3, SpringAppContext.getIpssMsgHub());
   		//System.out.println(net.net2String());
 
   		assertEquals(true, net.getBus("A").getSortNumber() == 1);

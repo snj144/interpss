@@ -80,14 +80,14 @@ public class TestSetupBase extends TestBaseAppCtx {
 	public void addDynamicEventData(DStabilityNetwork net) {
 		// define a bus fault event
 		DynamicEvent event1 = DStabObjectFactory.createDEvent("BusFault3P@0003", "Bus Fault 3P@0003", 
-				DynamicEventType.BUS_FAULT_LITERAL, net, msg);
+				DynamicEventType.BUS_FAULT, net, msg);
 		event1.setStartTimeSec(1.0);
 		event1.setDurationSec(0.1);
 		
 		DStabBus faultBus = net.getDStabBus("0003");
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault 3P@0003" );
   		fault.setAcscBus(faultBus);
-		fault.setFaultCode(SimpleFaultCode.GROUND_3P_LITERAL);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(Constants.SmallScZ);
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		event1.setBusFault(fault);		

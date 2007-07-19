@@ -42,7 +42,7 @@ public class MachineSaturationCase extends TestSetupBase {
 
 		// create a machine and connect to the bus "Gen"
 		Eq1Ed1Machine mach = (Eq1Ed1Machine)DStabObjectFactory.
-							createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL_LITERAL, net, "Gen");
+							createMachine("MachId", "MachName", MachineType.EQ1_ED1_MODEL, net, "Gen");
 		DStabBus bus = net.getDStabBus("Gen");
 		// set machine data
 		mach.setRating(100, "Mva", net.getBaseKva());
