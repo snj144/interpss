@@ -15,10 +15,10 @@ public class TestUtil {
 		DStabBus bus = DStabObjectFactory.createDStabBus("BusId", net);
 		bus.setName("BusName");
 		bus.setBaseVoltage(1000);
-		bus.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
+		bus.setGenCode(AclfGenCode.GEN_PQ);
 
 		Eq1Machine mach = (Eq1Machine)DStabObjectFactory.
-							createMachine("MachId", "MachName", MachineType.EQ1_MODEL_LITERAL, net, "BusId");
+							createMachine("MachId", "MachName", MachineType.EQ1_MODEL, net, "BusId");
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
 		mach.setMultiFactors(bus);
