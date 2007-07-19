@@ -34,6 +34,8 @@ import java.sql.SQLException;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
+import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
@@ -125,21 +127,21 @@ public class AppConfig {
 			IpssJavaCompiler.ClassnameToken = Translator.getString("Java.Compile.ClassnameToken");
 			IpssJavaCompiler.JavaClasspath = Translator.getString("Java.Compile.JavaClasspath");
 
-			ScriptJavacUtilFunc.Tag_ControllerDescBegin = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin");
-			ScriptJavacUtilFunc.Tag_ControllerDescEnd = Translator.getString("Java.Compile.CMLController.Tag.ContrDesc.End");
-			ScriptJavacUtilFunc.Tag_ControllerFieldDescBegin = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.Begin");
-			ScriptJavacUtilFunc.Tag_ControllerFieldDescEnd = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End");
+			DStabScriptUtilFunc.Tag_ControllerDescBegin = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin");
+			DStabScriptUtilFunc.Tag_ControllerDescEnd = Translator.getString("Java.Compile.CMLController.Tag.ContrDesc.End");
+			DStabScriptUtilFunc.Tag_ControllerFieldDescBegin = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.Begin");
+			DStabScriptUtilFunc.Tag_ControllerFieldDescEnd = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End");
 
-			ScriptJavacUtilFunc.Tag_ControllerDescBegin_Code = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin.Code");
-			ScriptJavacUtilFunc.Tag_ControllerFieldDescEnd_Code = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End.Code");
+			DStabScriptUtilFunc.Tag_ControllerDescBegin_Code = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin.Code");
+			DStabScriptUtilFunc.Tag_ControllerFieldDescEnd_Code = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End.Code");
 
-			ScriptJavacUtilFunc.Tag_AclfScript_Begin_Code = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScript_Begin_Code");
-			ScriptJavacUtilFunc.Tag_AclfScriptBus_Begin = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScriptBus_Begin");
-			ScriptJavacUtilFunc.Tag_AclfScriptBranch_Begin = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScriptBranch_Begin");
+			CoreScriptUtilFunc.Tag_AclfScript_Begin_Code = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScript_Begin_Code");
+			CoreScriptUtilFunc.Tag_AclfScriptBus_Begin = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScriptBus_Begin");
+			CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScriptBranch_Begin");
 			
-			ScriptJavacUtilFunc.Tag_AcscScript_Begin_Code = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScript_Begin_Code");
-			ScriptJavacUtilFunc.Tag_AcscScriptBus_Begin = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScriptBus_Begin");
-			ScriptJavacUtilFunc.Tag_AcscScriptBranch_Begin = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScriptBranch_Begin");
+			CoreScriptUtilFunc.Tag_AcscScript_Begin_Code = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScript_Begin_Code");
+			CoreScriptUtilFunc.Tag_AcscScriptBus_Begin = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScriptBus_Begin");
+			CoreScriptUtilFunc.Tag_AcscScriptBranch_Begin = Translator.getString("Java.Compile.AcscScripting.Tag.AcscScriptBranch_Begin");
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			ok = false;
