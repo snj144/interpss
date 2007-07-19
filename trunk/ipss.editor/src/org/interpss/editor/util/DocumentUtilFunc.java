@@ -133,11 +133,11 @@ public class DocumentUtilFunc  {
 			}
 		} else if (doc instanceof IpssCustomDocument) {
 			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK_LITERAL || 
-					simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK_LITERAL ||
-					simuCxt.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK_LITERAL) {
+			if (simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK || 
+					simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK ||
+					simuCxt.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
 				return true;
-			} else if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET_LITERAL) {
+			} else if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
 				return simuCxt.getAcscFaultNet().isLfDataLoaded();
 			}
 		} 
@@ -165,7 +165,7 @@ public class DocumentUtilFunc  {
 			}
 		} else if (doc instanceof IpssCustomDocument) {
 			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET_LITERAL) {
+			if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
 				return true;
 			}
 		} 		
@@ -190,7 +190,7 @@ public class DocumentUtilFunc  {
 			}
 		} else if (doc instanceof IpssCustomDocument) {
 			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.DSTABILITY_NET_LITERAL) 
+			if (simuCxt.getNetType() == SimuCtxType.DSTABILITY_NET) 
 				return true;
 		} 
 		
