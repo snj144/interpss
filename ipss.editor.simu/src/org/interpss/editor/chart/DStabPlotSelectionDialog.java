@@ -31,8 +31,8 @@ import java.util.List;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.IScriptTool;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
-import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -831,7 +831,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
    			String javacode = scriptTextArea.getText();
    			//System.out.println(javacode);
    			IScriptTool tool = (IScriptTool)MemoryJavaCompiler.javac(
-       					ScriptJavacUtilFunc.OutDStabResultClassName, javacode);
+   					DStabScriptUtilFunc.OutDStabResultClassName, javacode);
    			if (tool == null) {
    				msg.sendErrorMsg("Java compile error, please check your java code.");
    				return;
