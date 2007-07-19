@@ -31,9 +31,9 @@ import org.interpss.test.user.IpssFixture;
 import org.interpss.test.user.core.AclfFixture;
 import org.interpss.test.user.core.AcscFixture;
 
-import com.interpss.common.datatype.ScGroundType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssRuntimeException;
+import com.interpss.core.util.CoreUtilFunc;
 import com.interpss.dist.BreakerAdapter;
 import com.interpss.dist.DistBranch;
 import com.interpss.dist.DistBranchCode;
@@ -273,7 +273,8 @@ public class DistFixture extends IpssFixture {
 		ut.setVoltage(voltMag, "PU", voltAng, "Deg");
 		ut.setMvaRating(mvaRating3P, mvaRating1P, "MVA");
 		ut.setX_R(x_r3P, x_r1P);
-		ut.setGrounding(setGrounding(gCode, gR, gX, bus.getBaseVoltage(), simuCtx.getDistNet().getBaseKva()));		
+		ut.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(gCode));
+		ut.getGrounding().setZ(new Complex(gR,gX), UnitType.Ohm, bus.getBaseVoltage(), simuCtx.getDistNet().getBaseKva());
 	}
 	
 	// format: busId,ratedKW,ratingUnit(Kva,KW,Mva,MW),ratedV_PU,loading_%,pfactor_PU,r1_PU,x1_PU,r0_PU,x0_PU,r2_PU,x2_PU,groundCode(Ungrounded/ZGrounded/SolidGrounded),rG_Ohm,xG_Ohm
@@ -304,7 +305,8 @@ public class DistFixture extends IpssFixture {
 		gen.setZ1(new Complex(r1,x1));
 		gen.setZ0_2(new Complex(r0,x0), new Complex(r2,x2));
 		gen.setZUnit("PU");
-		gen.setGrounding(setGrounding(gCode, gR, gX, bus.getBaseVoltage(), simuCtx.getDistNet().getBaseKva()));		
+		gen.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(gCode));
+		gen.getGrounding().setZ(new Complex(gR,gX), UnitType.Ohm, bus.getBaseVoltage(), simuCtx.getDistNet().getBaseKva());
 	}
 
 	// format: busId,ratedHP,ratingUnit(HP,KW),eff_%,loading_%,pfactor_PU,r1_PU,x1_PU,r0_PU,x0_PU,r2_PU,x2_PU,groundCode(Ungrounded/ZGrounded/SolidGrounded),rG_Ohm,xG_Ohm
@@ -332,8 +334,9 @@ public class DistFixture extends IpssFixture {
 		mot.setZ1(new Complex(r1,x1));
 		mot.setZ0_2(new Complex(r0,x0), new Complex(r2,x2));
 		mot.setZUnit("PU");
-		mot.setGrounding(setGrounding(gCode, gR, gX, baseV, simuCtx.getDistNet().getBaseKva()));		
-	}
+		mot.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(gCode));
+		mot.getGrounding().setZ(new Complex(gR,gX), UnitType.Ohm, baseV, simuCtx.getDistNet().getBaseKva());
+}
 
 	public void setSynMotorBusData(String data) {
 		StringTokenizer st = new StringTokenizer(data, ",");
@@ -375,8 +378,9 @@ public class DistFixture extends IpssFixture {
 		mload.setZ1(new Complex(r1,x1));
 		mload.setZ0_2(new Complex(r0,x0), new Complex(r2,x2));
 		mload.setZUnit("PU");
-		mload.setGrounding(setGrounding(gCode, gR, gX, bus.getBaseVoltage(), simuCtx.getDistNet().getBaseKva()));		
-	}
+		mload.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(gCode));
+		mload.getGrounding().setZ(new Complex(gR,gX), UnitType.Ohm, bus.getBaseVoltage(), simuCtx.getDistNet().getBaseKva());
+}
 	
 	/*
 	 * Branch input function 
@@ -469,9 +473,10 @@ public class DistFixture extends IpssFixture {
 		xfr.setConnect(getXfrConnCode(priConnCode), getXfrConnCode(secConnCode));
 		double fromBaseV = simuCtx.getDistNet().getBus(branchFromBusId).getBaseVoltage();
 		double toBaseV = simuCtx.getDistNet().getBus(branchToBusId).getBaseVoltage();
-		xfr.setGrounding(
-				setGrounding(priGCode, priGR, priGX, fromBaseV, simuCtx.getDistNet().getBaseKva()),
-				setGrounding(secGCode, secGR, secGX, toBaseV, simuCtx.getDistNet().getBaseKva()));		
+		xfr.getPrimaryGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(priGCode));
+		xfr.getPrimaryGrounding().setZ(new Complex(priGR,priGX), UnitType.Ohm, fromBaseV, simuCtx.getDistNet().getBaseKva());
+		xfr.getSecondaryGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(secGCode));
+		xfr.getSecondaryGrounding().setZ(new Complex(secGR,secGX), UnitType.Ohm, toBaseV, simuCtx.getDistNet().getBaseKva());
 	}
 
 	public void set3WXformerBranchData(String data) {
@@ -484,40 +489,33 @@ public class DistFixture extends IpssFixture {
 	
 	private TransformConnectCode getXfrConnCode(String code) {
 		if ("Wye".equals(code))
-			return TransformConnectCode.WYE_LITERAL;
+			return TransformConnectCode.WYE;
 		else
-			return TransformConnectCode.DELTA_LITERAL;
+			return TransformConnectCode.DELTA;
 	}
 	private DistBusCode getDistBusCode(String code) {
 		if ("Utility".equals(code))
-			return DistBusCode.UTILITY_LITERAL;
+			return DistBusCode.UTILITY;
 		else if ("Generator".equals(code))
-			return DistBusCode.GENERATOR_LITERAL;
+			return DistBusCode.GENERATOR;
 		else if ("SynMotor".equals(code))
-			return DistBusCode.SYN_MOTOR_LITERAL;
+			return DistBusCode.SYN_MOTOR;
 		else if ("IndMotor".equals(code))
-			return DistBusCode.IND_MOTOR_LITERAL;
+			return DistBusCode.IND_MOTOR;
 		else if ("MixedLoad".equals(code))
-			return DistBusCode.MIXED_LOAD_LITERAL;
+			return DistBusCode.MIXED_LOAD;
 		else
-			return DistBusCode.NON_CONTRIBUTE_LITERAL;
+			return DistBusCode.NON_CONTRIBUTE;
 	}
 
 	private DistBranchCode getDistBranchCode(String code) {
 		if ("Feeder".equals(code))
-			return DistBranchCode.FEEDER_LITERAL;
+			return DistBranchCode.FEEDER;
 		else if ("Xformer".equals(code))
-			return DistBranchCode.TRANSFROMER_LITERAL;
+			return DistBranchCode.TRANSFROMER;
 		else if ("Breaker".equals(code))
-			return DistBranchCode.BREAKER_LITERAL;
+			return DistBranchCode.BREAKER;
 		else
-			return DistBranchCode.W3_TRANSFORMER_LITERAL;
-	}
-	
-	private ScGroundType setGrounding(String gCode, double gR, double gX, double baseV, double baseKva) {
-		ScGroundType g = new ScGroundType();
-		g.setCode(gCode);
-		g.setZ(new Complex(gR,gX), UnitType.Ohm, baseV, baseKva);
-		return g;
+			return DistBranchCode.W3_TRANSFORMER;
 	}
 }
