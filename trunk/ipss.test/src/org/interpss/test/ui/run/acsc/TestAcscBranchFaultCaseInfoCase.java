@@ -77,7 +77,7 @@ public class TestAcscBranchFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(caseData);
 		AcscCaseData acscCaseData = caseData.getAcscCaseData();
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Branch));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BranchFault));
 		assertTrue(acscCaseData.getFaultData().getBusId().equals("0001->0002"));
 		assertTrue(acscCaseData.getFaultData().getDistance() == 50.0);
 		
@@ -87,7 +87,7 @@ public class TestAcscBranchFaultCaseInfoCase extends TestCaseInfoBase {
 			// ref the current case data, which is the same as the one
 			// hold by CaaseData
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Branch));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BranchFault));
 		assertTrue(acscCaseData.getFaultData().getBusId().equals("0001->0002"));
 		assertTrue(acscCaseData.getFaultData().getDistance() == 50.0);
 
@@ -102,7 +102,7 @@ public class TestAcscBranchFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(caseData);
 		acscCaseData = caseData.getAcscCaseData();
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Branch));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BranchFault));
 		assertTrue(acscCaseData.getFaultData().getBusId().equals("0001->0002"));
 		assertTrue(acscCaseData.getFaultData().getDistance() == 50.0);	    
 	    
@@ -144,7 +144,7 @@ public class TestAcscBranchFaultCaseInfoCase extends TestCaseInfoBase {
 		assertNotNull(caseData);
 		AcscCaseData acscCaseData = caseData.getAcscCaseData();
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Bus));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault));
 		
 		// launch the dialog again
 		caseDialog.init(netContainer, appSimuCtx);
@@ -193,7 +193,7 @@ public class TestAcscBranchFaultCaseInfoCase extends TestCaseInfoBase {
 		AcscRunForm runForm = SimuAppSpringAppContext.getAcscRunForm();
 		acscCaseData = runForm.getAcscCaseData();    
 		assertNotNull(acscCaseData);
-		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_Branch));
+		assertTrue(acscCaseData.getFaultData().getType().equals(AcscFaultData.FaultType_BranchFault));
 /*
 		// now we should have two cases in the projData.caseList
 		// this is a BusFault, LL
