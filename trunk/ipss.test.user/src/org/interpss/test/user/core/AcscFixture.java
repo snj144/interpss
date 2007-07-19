@@ -257,23 +257,23 @@ public class AcscFixture extends AclfBuildFixture {
 	
 	private XfrConnectCode getXfrConnectCode(String code) {
 		if ("WyeUngrounded".equals(code))
-			return XfrConnectCode.WYE_UNGROUNDED_LITERAL;
+			return XfrConnectCode.WYE_UNGROUNDED;
 		else if ("WyeSolidGrounded".equals(code))
-			return XfrConnectCode.WYE_SOLID_GROUNDED_LITERAL;
+			return XfrConnectCode.WYE_SOLID_GROUNDED;
 		else if ("WyeZGrounded".equals(code))
-			return XfrConnectCode.WYE_ZGROUNDED_LITERAL;
+			return XfrConnectCode.WYE_ZGROUNDED;
 		else
-			return XfrConnectCode.DELTA_LITERAL;
+			return XfrConnectCode.DELTA;
 	}
 
 	private SimpleFaultCode getFaultCode(String code) {
 		if ("3P".equals(code))
-			return SimpleFaultCode.GROUND_3P_LITERAL;
+			return SimpleFaultCode.GROUND_3P;
 		else if ("LG".equals(code))
-			return SimpleFaultCode.GROUND_LG_LITERAL;
+			return SimpleFaultCode.GROUND_LG;
 		else if ("LLG".equals(code))
-			return SimpleFaultCode.GROUND_LLG_LITERAL;
+			return SimpleFaultCode.GROUND_LLG;
 		else
-			return SimpleFaultCode.GROUND_LL_LITERAL;
+			return SimpleFaultCode.GROUND_LL;
 	}
 }

@@ -57,7 +57,7 @@ public class AclfBuildFixture extends AclfFixture {
 		AclfBus bus = AclfInputUtilFunc.addSwingBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
 				voltMag, UnitType.PU, voltAng, UnitType.Deg);
   		SwingBusAdapter swingBus = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+  		bus.setLoadCode(AclfLoadCode.CONST_P);
   		swingBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
   	}
 
@@ -74,7 +74,7 @@ public class AclfBuildFixture extends AclfFixture {
 		AclfBus bus = AclfInputUtilFunc.addPVBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
 				genP, UnitType.PU, genVolt, UnitType.PU);
   		PVBusAdapter pvBus = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+  		bus.setLoadCode(AclfLoadCode.CONST_P);
   		pvBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
   	}
 	
@@ -90,7 +90,7 @@ public class AclfBuildFixture extends AclfFixture {
 		AclfBus bus = AclfInputUtilFunc.addCapacitorBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
 				capQ, UnitType.PU);
   		CapacitorBusAdapter capBus = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+  		bus.setLoadCode(AclfLoadCode.CONST_P);
   		capBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
   	}	
 
@@ -107,7 +107,7 @@ public class AclfBuildFixture extends AclfFixture {
 		AclfBus bus = AclfInputUtilFunc.addPQBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
 				genP, genQ, UnitType.PU);
   		PQBusAdapter pqBus = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
-  		bus.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+  		bus.setLoadCode(AclfLoadCode.CONST_P);
   		pqBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
   	}
 
@@ -129,19 +129,19 @@ public class AclfBuildFixture extends AclfFixture {
 		double loadQ = new Double(st.nextToken()).doubleValue();
 
 		AclfInputUtilFunc.addLoadBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
-				AclfLoadCode.CONST_P_LITERAL, loadP, loadQ, UnitType.PU);
+				AclfLoadCode.CONST_P, loadP, loadQ, UnitType.PU);
   	}
 
 	// format: busId,baseVoltage,loadP_PU,loadQ_PU
 	public void addLoadBusConstZ(String data) {
 		addLoadBus(data);
-		simuCtx.getAclfNet().getAclfBus(busId).setLoadCode(AclfLoadCode.CONST_Z_LITERAL);
+		simuCtx.getAclfNet().getAclfBus(busId).setLoadCode(AclfLoadCode.CONST_Z);
   	}
 	
 	// format: busId,baseVoltage,loadP_PU,loadQ_PU
 	public void addLoadBusConstI(String data) {
 		addLoadBus(data);
-		simuCtx.getAclfNet().getAclfBus(busId).setLoadCode(AclfLoadCode.CONST_I_LITERAL);
+		simuCtx.getAclfNet().getAclfBus(busId).setLoadCode(AclfLoadCode.CONST_I);
   	}
 
 	// format: fromBusId,toBusId,r_PU,x_PU,halfB_PU
