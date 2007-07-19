@@ -37,6 +37,7 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
+import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.util.IpssLogger;
@@ -105,14 +106,22 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 	
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("AcscTransBranchEditPanel setForm2Editor() called");
+	    
+		_scEditPanel.setForm2Editor();
+		if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
+	    	if (_data.getScripts() != null && !_data.getScripts().equals("")) {
+	    		scriptTextArea.setText(_data.getScripts());
+	    	}
+	    	else {
+	    		// load from the template
+	    		String filename = CoreScriptUtilFunc.AcscBranchTemplateFilename;
+	    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
+	    	}
+		}	
+		
 	    if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAclfData() ) {
 	    	_positiveEditPanel.setForm2Editor();
 	    }
-	    
-		_scEditPanel.setForm2Editor();
-		if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting))
-			scriptTextArea.setText(_data.getScripts());
-		
 		return true;
 	}
     
