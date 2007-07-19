@@ -150,14 +150,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    	nonGenRadioButton.setSelected(true);
 		    else {	
 		    	scriptGenRadioButton.setSelected(true);
-		    	if (_data.getScripts() != null && !_data.getScripts().equals("")) {
-		    		scriptTextArea.setText(_data.getScripts());
-		    	}
-		    	else {
-		    		// load from the template
-		    		String filename = "template/DStabCMLExciterTemplete.txt";
-		    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
-		    	}
+		    	setScriptPanel();
 		    }
 	        nonGenRadioButtonSelected(null);
 	    	pGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
@@ -171,7 +164,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    	nonLoadRadioButton.setSelected(true);
 		    else {
 		    	scriptLoadRadioButton.setSelected(true);
-		    	scriptTextArea.setText(_data.getScripts());
+		    	setScriptPanel();
 		    }
 	        nonLoadRadioButtonSelected(null);
 		    pLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
@@ -493,8 +486,19 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 			busTabbedPane.setEnabledAt(1, false);
 		else
 			busTabbedPane.setEnabledAt(1, true);
-		if (scriptLoadRadioButton.isSelected() && scriptGenRadioButton.isSelected())
+		if (scriptLoadRadioButton.isSelected() || scriptGenRadioButton.isSelected()) {
 			busTabbedPane.setSelectedIndex(1);
+	    	if (_data.getScripts() != null && !_data.getScripts().equals("")) {
+	    		scriptTextArea.setText(_data.getScripts());
+	    	}
+	    	else {
+	    		// load from the template
+	    		String filename = CoreScriptUtilFunc.AclfBusTemplateFilename;
+	    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
+	    	}
+		}
+		else
+			busTabbedPane.setSelectedIndex(0);
     }
 
     // set Gen data field lable and status

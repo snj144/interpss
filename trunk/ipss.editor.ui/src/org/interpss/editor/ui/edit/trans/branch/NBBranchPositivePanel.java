@@ -39,6 +39,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
+import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
@@ -113,7 +114,14 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	    if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
 		    setDataFieldEnabled(false);
 			branchScriptRadioButton.setSelected(true);
-			scriptTextArea.setText(_data.getScripts());
+	    	if (_data.getScripts() != null && !_data.getScripts().equals("")) {
+	    		scriptTextArea.setText(_data.getScripts());
+	    	}
+	    	else {
+	    		// load from the template
+	    		String filename = CoreScriptUtilFunc.AclfBranchTemplateFilename;
+	    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
+	    	}
     	    dataPanel.remove(tapVControlPanel);
     	    dataPanel.remove(psXfrPControlPanel);
 	    }

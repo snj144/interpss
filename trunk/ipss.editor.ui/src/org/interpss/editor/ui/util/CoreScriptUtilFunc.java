@@ -41,6 +41,11 @@ public class CoreScriptUtilFunc {
 	public static String Tag_AcscScriptBranch_Begin = "<AcscBranchScriptingClassname>";
 	public final static String Tag_AcscScriptBranch_Baseclass = "BaseAcscBranchImpl";
 
+	public static String AclfBusTemplateFilename = "template/AclfBusScriptingTemplate.txt";
+	public static String AclfBranchTemplateFilename = "template/AclfBranchScriptingTemplate.txt";
+	public static String AcscBusTemplateFilename = "template/AcscBusScriptingTemplate.txt";
+	public static String AcscBranchTemplateFilename = "template/AcscBranchScriptingTemplate.txt";
+	
 	/**
 	 * 
 	 * @param javacode
