@@ -45,14 +45,14 @@ public class TestIssueSystem extends TestSetupBase {
 	public void testCase1() {
 		System.out.println("Begin TestIssueSystem.testCase1()");
 
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET_LITERAL, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		TestCommonUtil.loadCaseData("testData/TSTest_3_30_06.ipss", simuCtx, msg);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
 
 		// run loadflow
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.PQ_LITERAL);
+	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.setMaxIterations(20);
 	  	algo.setTolerance(0.0001);
 	  	algo.loadflow(msg);
@@ -79,7 +79,7 @@ public class TestIssueSystem extends TestSetupBase {
 				Machine mach = (Machine)itr.next();
 					
 				// solve DEqn for the step. This includes all controller's nextStep() call
-				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);  
+				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER, net, msg);  
 
 				Hashtable states = mach.getStates(null);
 				states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());

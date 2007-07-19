@@ -59,7 +59,7 @@ public class TestSample2BusSystem extends TestSetupBase {
 
  		IpssLogger.getLogger().setLevel(Level.INFO);
 		
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET_LITERAL, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		TestCommonUtil.loadCaseData("testData/DStab-2Bus.ipss", simuCtx, msg);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
@@ -67,16 +67,16 @@ public class TestSample2BusSystem extends TestSetupBase {
 		assertTrue(net.getBranchList().size() == 1);
 
 		assertTrue(net.getDStabBus("0001").getMachine() != null);
-		assertTrue(net.getDStabBus("0001").getMachine().getMachType() == MachineType.EQ1_MODEL_LITERAL);
+		assertTrue(net.getDStabBus("0001").getMachine().getMachType() == MachineType.EQ1_MODEL);
 
 		assertTrue(net.getDStabBus("0002").getMachine() != null);
-		assertTrue(net.getDStabBus("0002").getMachine().getMachType() == MachineType.ECONSTANT_LITERAL);
+		assertTrue(net.getDStabBus("0002").getMachine().getMachType() == MachineType.ECONSTANT);
 		
 		assertTrue(net.getDEventList().size() == 0);
 
 		// run loadflow
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.setLfMethod(AclfMethod.PQ_LITERAL);
+	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.setMaxIterations(20);
 	  	algo.setTolerance(0.0001);
 	  	algo.loadflow(msg);
@@ -90,14 +90,14 @@ public class TestSample2BusSystem extends TestSetupBase {
 		System.out.println(DStabOutFunc.getStateTitleStr());
 
 		// define a bus fault event
-		DynamicEvent event1 = DStabObjectFactory.createDEvent("event1", "Bus Fault at 0001", DynamicEventType.BUS_FAULT_LITERAL, net, msg);
+		DynamicEvent event1 = DStabObjectFactory.createDEvent("event1", "Bus Fault at 0001", DynamicEventType.BUS_FAULT, net, msg);
 		event1.setStartTimeSec(0.1);
 		event1.setDurationSec(0.1);
 		
 		DStabBus faultBus = net.getDStabBus("0001");
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at 0001");
   		fault.setAcscBus(faultBus);
-		fault.setFaultCode(SimpleFaultCode.GROUND_3P_LITERAL);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(Constants.SmallScZ);
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		event1.setBusFault(fault);			
@@ -118,7 +118,7 @@ public class TestSample2BusSystem extends TestSetupBase {
 				Machine mach = (Machine)itr.next();
 					
 				// solve DEqn for the step. This includes all controller's nextStep() call
-				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER_LITERAL, net, msg);  
+				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER, net, msg);  
 
 				Hashtable states = mach.getStates(null);
 				states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());

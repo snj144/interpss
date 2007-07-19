@@ -43,7 +43,7 @@ public class DStab_5Bus extends TestSetupBase {
 	public void testCase() {
 		System.out.println("Begin DStab_5Bus.testCase()");
 
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET_LITERAL, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		TestCommonUtil.loadCaseData("testData/DStab-5bus.ipss", simuCtx, msg);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();

@@ -108,7 +108,7 @@ public class KundurP864_Common {
     	"   };" +
     	
     	"   exciter.nextStep = function(mach, dt, method, baseFreq) {" +
-		"      if (method == DynamicSimuMethods.MODIFIED_EULER_LITERAL) {" +
+		"      if (method == DynamicSimuMethods.MODIFIED_EULER) {" +
 		"         var u = exciter.calculateU(mach);" +
 		"         exciter.controlBlock.eulerStep1(u, dt);" +
 		"         exciter.controlBlock.eulerStep2(u, dt);" +
@@ -147,7 +147,7 @@ public class KundurP864_Common {
 	 */
 	public static DStabilityNetwork setNetworkData(IPSSMsgHub msg) {
 		// Create a DStabNetwork object 
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET_LITERAL, msg);
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
 		net.setAllowParallelBranch(true);
 
@@ -160,20 +160,20 @@ public class KundurP864_Common {
 		bus1.setArea(area);
 		bus1.setZone(zone);
 		bus1.setBaseVoltage(24000);
-		bus1.setGenCode(AclfGenCode.GEN_PQ_LITERAL);
+		bus1.setGenCode(AclfGenCode.GEN_PQ);
 		PQBusAdapter pqBus = (PQBusAdapter)bus1.adapt(PQBusAdapter.class);
 		pqBus.setGen(new Complex(22.2*0.9, 22.2*0.436), UnitType.PU, net.getBaseKva());
-		bus1.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+		bus1.setLoadCode(AclfLoadCode.NON_LOAD);
 		
 		DStabBus bus2 = DStabObjectFactory.createDStabBus("HT", net);
 		bus2.setName("HT Bus");
 		bus2.setArea(area);
 		bus2.setZone(zone);
 		bus2.setBaseVoltage(500000);
-		bus2.setGenCode(AclfGenCode.CAPACITOR_LITERAL);
+		bus2.setGenCode(AclfGenCode.CAPACITOR);
 		CapacitorBusAdapter capBus = (CapacitorBusAdapter)bus2.adapt(CapacitorBusAdapter.class);
 		capBus.setQ(4.0, UnitType.PU, net.getBaseKva());
-		bus2.setLoadCode(AclfLoadCode.CONST_P_LITERAL);
+		bus2.setLoadCode(AclfLoadCode.CONST_P);
 		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.adapt(LoadBusAdapter.class);
 		loadBus.setLoad(new Complex(10.0, 8.0), UnitType.PU, net.getBaseKva());
         
@@ -182,17 +182,17 @@ public class KundurP864_Common {
 		bus3.setArea(area);
 		bus3.setZone(zone);
 		bus3.setBaseVoltage(500000);
-		bus3.setGenCode(AclfGenCode.SWING_LITERAL);
+		bus3.setGenCode(AclfGenCode.SWING);
 		SwingBusAdapter swing = (SwingBusAdapter)bus3.adapt(SwingBusAdapter.class);
 		swing.setVoltMag(0.90081, UnitType.PU);
 		swing.setVoltAng(0.0, UnitType.Deg);
-		bus3.setLoadCode(AclfLoadCode.NON_LOAD_LITERAL);
+		bus3.setLoadCode(AclfLoadCode.NON_LOAD);
 
 		DStabBranch branch1 = DStabObjectFactory.createDStabBranch("LT", "HT", net);
 		branch1.setName("Branch1");
 		branch1.setArea(area);
 		branch1.setZone(zone);
-		branch1.setBranchCode(AclfBranchCode.XFORMER_LITERAL);
+		branch1.setBranchCode(AclfBranchCode.XFORMER);
 		XfrAdapter xfr = (XfrAdapter)branch1.adapt(XfrAdapter.class);	
 		xfr.setZ(new Complex(0.0, 0.15/22.2), UnitType.PU, 1.0, 1.0, msg);  
 				// when z unit = PU, base volt and base Kva are not needed
@@ -201,7 +201,7 @@ public class KundurP864_Common {
 		branch2.setName("Branch2");
 		branch2.setArea(area);
 		branch2.setZone(zone);
-		branch2.setBranchCode(AclfBranchCode.LINE_LITERAL);
+		branch2.setBranchCode(AclfBranchCode.LINE);
 		LineAdapter line2 = (LineAdapter)branch2.adapt(LineAdapter.class);
 		line2.setZ(new Complex(0.0, 0.5/22.2), UnitType.PU, 1.0, 1.0, msg);
 
@@ -209,7 +209,7 @@ public class KundurP864_Common {
 		branch3.setName("Branch1");
 		branch3.setArea(area);
 		branch3.setZone(zone);
-		branch3.setBranchCode(AclfBranchCode.LINE_LITERAL);
+		branch3.setBranchCode(AclfBranchCode.LINE);
 		LineAdapter line3 = (LineAdapter)branch3.adapt(LineAdapter.class);			
 		line3.setZ(new Complex(0.0, 0.93/22.2), UnitType.PU, 1.0, 1.0, msg);
 		return net;
@@ -218,7 +218,7 @@ public class KundurP864_Common {
 	public static void addDSimuData(DStabilityNetwork net, IPSSMsgHub msg) {
 		// create and define the first machine object
 		Eq1Machine mach1 = (Eq1Machine)DStabObjectFactory.
-						createMachine("LT", "Mach1", MachineType.EQ1_MODEL_LITERAL, net, "LT");
+						createMachine("LT", "Mach1", MachineType.EQ1_MODEL, net, "LT");
 /*
 		if (!mach1.getDStabBus().getId().equals("LT"))
 			System.out.println("*** Something is worng");
@@ -288,14 +288,14 @@ public class KundurP864_Common {
 
 	public static void addDEnventData(DStabilityNetwork net, IPSSMsgHub msg) {
 		// define a bus fault event
-		DynamicEvent event1 = DStabObjectFactory.createDEvent("event1", "Bus Fault at Bus2", DynamicEventType.BUS_FAULT_LITERAL, net, msg);
+		DynamicEvent event1 = DStabObjectFactory.createDEvent("event1", "Bus Fault at Bus2", DynamicEventType.BUS_FAULT, net, msg);
 		event1.setStartTimeSec(0.1);
 		event1.setDurationSec(0.1);
 		
 		DStabBus faultBus = net.getDStabBus("HT");
 		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at HT" );
   		fault.setAcscBus(faultBus);
-		fault.setFaultCode(SimpleFaultCode.GROUND_3P_LITERAL);
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
 		fault.setZLGFault(Constants.SmallScZ);
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		event1.setBusFault(fault);		
