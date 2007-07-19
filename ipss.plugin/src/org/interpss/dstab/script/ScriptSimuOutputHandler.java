@@ -28,8 +28,8 @@ import java.util.Hashtable;
 
 import javax.swing.JTextArea;
 
+import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
-import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -58,13 +58,13 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 		
 		// get the javacode, compile and create the annotated object
 		String javacode = textarea.getText();
-		javacode = javacode.replaceFirst(ScriptJavacUtilFunc.Tag_DStabOutScriptDescBegin, 
-	            			ScriptJavacUtilFunc.Tag_DStabOutScriptDescBegin_Code);
-		javacode = javacode.replaceFirst(ScriptJavacUtilFunc.Tag_DStabOutScriptDescEnd, 
-    						ScriptJavacUtilFunc.Tag_DStabOutScriptDescEnd_Code);
+		javacode = javacode.replaceFirst(DStabScriptUtilFunc.Tag_DStabOutScriptDescBegin, 
+				DStabScriptUtilFunc.Tag_DStabOutScriptDescBegin_Code);
+		javacode = javacode.replaceFirst(DStabScriptUtilFunc.Tag_DStabOutScriptDescEnd, 
+				DStabScriptUtilFunc.Tag_DStabOutScriptDescEnd_Code);
 		//System.out.println(javacode);
 		IDStabOutputScripting obj = (IDStabOutputScripting)MemoryJavaCompiler.javac(
-   					ScriptJavacUtilFunc.DStabOutputScriptingClassName, javacode);
+				DStabScriptUtilFunc.DStabOutputScriptingClassName, javacode);
 		if (obj == null) {
 			msg.sendErrorMsg("Java compile error, please check your code");
 			return false;
