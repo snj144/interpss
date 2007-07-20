@@ -31,20 +31,12 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.ComplexFunc;
-import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.ScGroundType;
-import com.interpss.common.datatype.UnitType;
-import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.BaseTestSetup;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.acsc.impl.BaseAcscBranchImpl;
-import com.interpss.core.acsc.impl.BaseAcscBusImpl;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.util.CoreUtilFunc;
-import com.interpss.core.util.input.AcscInputUtilFunc;
 import com.interpss.core.util.sample.SampleCases;
 
 public class CustomAcscBranchTest extends BaseTestSetup {
