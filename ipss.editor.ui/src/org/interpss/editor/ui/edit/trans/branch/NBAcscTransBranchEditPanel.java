@@ -102,6 +102,18 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 	
 	public void setScriptPanelStatus(boolean b) {
         branchInfoEditTabbedPane.setEnabledAt(2, b);
+        if (b) {
+    		if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
+    	    	if (_data.getScripts() != null && !_data.getScripts().equals("")) {
+    	    		scriptTextArea.setText(_data.getScripts());
+    	    	}
+    	    	else {
+    	    		// load from the template
+    	    		String filename = CoreScriptUtilFunc.AcscBranchTemplateFilename;
+    	    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
+    	    	}
+    		}	
+        }
 	}
 	
     public boolean setForm2Editor() {
