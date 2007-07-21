@@ -111,7 +111,7 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-	public boolean saveEditor2Form(Vector errMsg) throws Exception {
+	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAcscCasePanel saveEditor2Form() called");
 		boolean ok = true;
 
