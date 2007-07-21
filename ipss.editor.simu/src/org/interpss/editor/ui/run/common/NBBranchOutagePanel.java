@@ -33,6 +33,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.Number2String;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 
@@ -89,6 +90,8 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
         else
              this.faultBranchComboBox.setSelectedItem(_eventData.getFaultData().getBusBranchNameId());
         
+        stratTimeTextField.setText(Number2String.toStr(_eventData.getStartTime(), "#0.000"));   
+        
 		if (_eventData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Outage_3P))
 			branchOutage3PRadioButton.setSelected(true);
 		else if (_eventData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Outage_1P))
@@ -108,7 +111,9 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
     public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBBranchOutagePanel saveEditor2Form() called");
 
-		boolean ok = true;
+		if (SwingInputVerifyUtil.largeThan(this.stratTimeTextField, 0.0d,
+						errMsg, "Branch outage start time < 0.0"))
+			_eventData.setStartTime(SwingInputVerifyUtil.getDouble(this.stratTimeTextField));
 
 		_eventData.getFaultData().setBusBranchNameId((String)this.faultBranchComboBox.getSelectedItem());
 		if (branchOutage3PRadioButton.isSelected())
@@ -118,7 +123,7 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
 		else if (branchOutage2PRadioButton.isSelected())
 			_eventData.getFaultData().setCategory(AcscFaultData.FaultCaty_Outage_2P);
 
-		return ok;
+		return errMsg.size() == 0;
 	}
     
 	/** This method is called from within the constructor to

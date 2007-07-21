@@ -89,7 +89,22 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
         else
              this.loadBusComboBox.setSelectedItem(_loadChangeData.getBusNameId());
         
-       	changeFactorTextField.setText(Number2String.toStr(_loadChangeData.getChangeFactor(), "#0.0"));        
+       	changeFactorTextField.setText(Number2String.toStr(_loadChangeData.getChangeFactor(), "#0.0"));   
+
+       	if (_loadChangeData.getChangeType().equals(DStabLoadChangeData.LowFreq)) {
+       		lowfreqRadioButtonActionPerformed(null);
+       		threshholdTextField.setText(Number2String.toStr(_loadChangeData.getThreshhold(), "#0.000"));   
+           	delaySecTextField.setText(Number2String.toStr(_loadChangeData.getDelayTime(), "#0.000"));   
+       	}
+       	else if (_loadChangeData.getChangeType().equals(DStabLoadChangeData.LowVolt)) {
+       		lowVoltRadioButtonActionPerformed(null);
+       		threshholdTextField.setText(Number2String.toStr(_loadChangeData.getThreshhold(), "#0.000"));   
+           	delaySecTextField.setText(Number2String.toStr(_loadChangeData.getDelayTime(), "#0.000"));   
+       	}
+       	else {
+       		fixedTimeRadioButtonActionPerformed(null);
+       		threshholdTextField.setText(Number2String.toStr(_loadChangeData.getThreshhold(), "#0.000"));   
+       	}
 
        	return true;
 	}
@@ -103,19 +118,40 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
     public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBDStabLoadChangePanel saveEditor2Form() called");
 
-		boolean ok = true;
-
 		_loadChangeData.setBusNameId((String)this.loadBusComboBox.getSelectedItem());
 		
 		if (this.changeFactorTextField.isEnabled()) {
-			if (!SwingInputVerifyUtil.largeThan(this.changeFactorTextField, 0.0d)) {
-				errMsg.add("Branch fault distance < 0.0");
-				ok = false;
-			}
-			_loadChangeData.setChangeFactor(SwingInputVerifyUtil.getDouble(this.changeFactorTextField));
+			if (SwingInputVerifyUtil.largeThan(this.changeFactorTextField, 0.0d,
+					errMsg, "Branch fault distance < 0.0"))
+				_loadChangeData.setChangeFactor(SwingInputVerifyUtil.getDouble(this.changeFactorTextField));
 		}
 
-		return ok;
+       	if (lowfreqRadioButton.isSelected()) {
+       		_loadChangeData.setChangeType(DStabLoadChangeData.LowFreq);
+			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
+					errMsg, "Load change freq < 0.0"))
+				_loadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));
+			if (SwingInputVerifyUtil.largeThan(this.delaySecTextField, 0.0d,
+					errMsg, "Load change delay time < 0.0"))
+				_loadChangeData.setDelayTime(SwingInputVerifyUtil.getDouble(this.delaySecTextField));
+       	}
+       	else if (lowVoltRadioButton.isSelected()) {
+       		_loadChangeData.setChangeType(DStabLoadChangeData.LowVolt);
+			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
+					errMsg, "Load change voltage < 0.0"))
+				_loadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));
+			if (SwingInputVerifyUtil.largeThan(this.delaySecTextField, 0.0d,
+					errMsg, "Load change delay time < 0.0"))
+				_loadChangeData.setDelayTime(SwingInputVerifyUtil.getDouble(this.delaySecTextField));
+       	}
+       	else {
+       		_loadChangeData.setChangeType(DStabLoadChangeData.FixedTime);
+			if (SwingInputVerifyUtil.largeThan(this.threshholdTextField, 0.0d,
+					errMsg, "Load change time < 0.0"))
+				_loadChangeData.setThreshhold(SwingInputVerifyUtil.getDouble(this.threshholdTextField));
+       	}
+
+		return errMsg.size() == 0;
 	}
 	
 	/** This method is called from within the constructor to
@@ -227,21 +263,6 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
             .add(layout.createSequentialGroup()
                 .add(31, 31, 31)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                        .add(layout.createSequentialGroup()
-                            .add(threshholdLabel)
-                            .add(50, 50, 50)
-                            .add(threshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                            .add(threshholdUnitLabel)
-                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 98, Short.MAX_VALUE)
-                            .add(delaySecLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                            .add(delaySecTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(layout.createSequentialGroup()
-                            .add(31, 31, 31)
-                            .add(loadChangeTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                     .add(layout.createSequentialGroup()
                         .add(42, 42, 42)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -254,8 +275,25 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
                             .add(layout.createSequentialGroup()
                                 .add(loadBusLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .add(30, 30, 30)
-                                .add(loadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 183, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
-                .add(45, 45, 45))
+                                .add(loadBusComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 183, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(31, 31, 31)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(10, 10, 10)
+                                .add(threshholdLabel)
+                                .add(30, 30, 30)
+                                .add(threshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(threshholdUnitLabel)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 41, Short.MAX_VALUE)
+                                .add(delaySecLabel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(delaySecTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                .add(loadChangeTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))))
+                .add(81, 81, 81))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -273,8 +311,8 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
                 .add(loadChangeTypePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.CENTER, threshholdLabel)
                     .add(org.jdesktop.layout.GroupLayout.CENTER, threshholdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.CENTER, threshholdLabel)
                     .add(org.jdesktop.layout.GroupLayout.CENTER, threshholdUnitLabel)
                     .add(org.jdesktop.layout.GroupLayout.CENTER, delaySecLabel)
                     .add(org.jdesktop.layout.GroupLayout.CENTER, delaySecTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))

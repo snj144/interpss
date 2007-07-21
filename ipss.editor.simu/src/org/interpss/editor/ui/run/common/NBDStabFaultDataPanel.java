@@ -63,6 +63,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 	}
 	
 	public void refresh() {
+	    setForm2Editor();
 		_faultLocDataPanel.setBusBranchFaultPanel();
 	}
 	
@@ -74,15 +75,14 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
     public boolean setForm2Editor() {
     	stratTimeTextField.setText(Number2String.toStr(_eventData.getStartTime(), "#0.0#"));
 
-        if (_eventData.isPermanent() || _eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
-        	permanetCheckBox.setSelected(true);
+       	if (_eventData.isPermanent()) {
+           	permanetCheckBox.setSelected(true);
         }
         else {
-        	permanetCheckBox.setSelected(false);
+           	permanetCheckBox.setSelected(false);
             durationTextField.setText(Number2String.toStr(_eventData.getDuration(), "#0.00#"));
         }
         permanetCheckBoxActionPerformed(null);
-        
         return true;
 	}
     
@@ -160,17 +160,6 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
             }
         });
 
-        org.jdesktop.layout.GroupLayout faultDataPanelLayout = new org.jdesktop.layout.GroupLayout(faultDataPanel);
-        faultDataPanel.setLayout(faultDataPanelLayout);
-        faultDataPanelLayout.setHorizontalGroup(
-            faultDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 650, Short.MAX_VALUE)
-        );
-        faultDataPanelLayout.setVerticalGroup(
-            faultDataPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 100, Short.MAX_VALUE)
-        );
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -187,7 +176,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
                 .add(31, 31, 31)
                 .add(permanetCheckBox)
                 .add(69, 69, 69))
-            .add(faultDataPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(faultDataPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -201,7 +190,7 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
                     .add(permanetCheckBox))
                 .add(18, 18, 18)
                 .add(faultDataPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(113, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

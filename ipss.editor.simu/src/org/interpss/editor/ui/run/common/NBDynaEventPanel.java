@@ -55,7 +55,6 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         initComponents();
 
         eventInputPanel.add(_dstabFaultDataPanel);
-        
     }
     
     public void init(Object netContainer, Object simuCtx) {
@@ -442,7 +441,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	        eventInputPanel.add(_dstabFaultDataPanel);
     		_dstabFaultDataPanel.refresh();
 		}
-    	//SimuAppSpringAppContext.getCaseInfoDialog().pack();
+    	SimuAppSpringAppContext.getCaseInfoDialog().pack();
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
