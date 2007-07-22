@@ -63,6 +63,7 @@ import com.interpss.dstab.devent.DStabBranchFault;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.devent.LoadChangeEvent;
+import com.interpss.dstab.devent.LoadChangeEventType;
 import com.interpss.dstab.devent.SetPointChangeEvent;
 import com.interpss.dstab.mach.ControllerType;
 import com.interpss.dstab.mach.Machine;
@@ -233,6 +234,19 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 	
 	private void setEventData(DynamicEvent event, DStabDEventData eventData, 
 			double toltalSimuTime, DStabilityNetwork dstabNet, IPSSMsgHub msg) throws Exception {
+		// for LoadChange
+		//       LowFreq and LowVolt startTime will set by system
+		//       FixedTime startTime = threshhold
+		//   always permanent
+		if (eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+			event.setPermanent(true);
+			eventData.setDuration(0.0);
+			if (eventData.getLoadChangeData().getChangeType().equals(DStabLoadChangeData.FixedTime ))
+				eventData.setStartTime(eventData.getLoadChangeData().getThreshhold());
+			else
+				eventData.setStartTime(toltalSimuTime);
+		}
+		
 		event.setStartTimeSec(eventData.getStartTime());
 		event.setPermanent(eventData.isPermanent());
 		if (event.isPermanent()) {
@@ -247,7 +261,12 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			event.setType(DynamicEventType.LOAD_CHANGE);
 			DStabLoadChangeData ldata = eventData.getLoadChangeData();
 			LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(ldata.getBusId(), dstabNet);
+			eLoad.setType(ldata.getChangeType().equals(DStabLoadChangeData.LowFreq)? LoadChangeEventType.LOW_FREQUENCY : (
+							ldata.getChangeType().equals(DStabLoadChangeData.LowVolt)?
+									LoadChangeEventType.LOW_VOLTAGE : LoadChangeEventType.FIXED_TIME ));
 			eLoad.setChangeFactor(ldata.getChangeFactor());
+			eLoad.setThreshhold(ldata.getThreshhold());
+			eLoad.setDelaySec(ldata.getDelayTime());
 			event.setBusDynamicEvent(eLoad);
 		}
 		else if (eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
