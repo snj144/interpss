@@ -27,8 +27,16 @@ package org.interpss.editor.data.dstab;
 import com.interpss.common.util.NetUtilFunc;
 
 public class DStabLoadChangeData extends DStabControllerData {
+	public final static String LowFreq = "LowFrequency";
+	public final static String LowVolt = "LowVoltage";
+	public final static String FixedTime = "FixedTime";
+	
 	private String busNameId;
 	private double changeFactor;  // in %
+	private String changeType = LowFreq;
+	private double threshhold = 0.0;
+	private double delayTime = 0.0;
+	
 	/**
 	 * @return Returns the busId.
 	 */
@@ -55,5 +63,23 @@ public class DStabLoadChangeData extends DStabControllerData {
 	 */
 	public void setChangeFactor(double changeFactor) {
 		this.changeFactor = changeFactor;
+	}
+	public String getChangeType() {
+		return changeType;
+	}
+	public void setChangeType(String changeType) {
+		this.changeType = changeType;
+	}
+	public double getThreshhold() {
+		return threshhold;
+	}
+	public void setThreshhold(double threshhold) {
+		this.threshhold = threshhold;
+	}
+	public double getDelayTime() {
+		return delayTime;
+	}
+	public void setDelayTime(double delayTime) {
+		this.delayTime = delayTime;
 	}
 }
