@@ -92,17 +92,17 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
        	changeFactorTextField.setText(Number2String.toStr(_loadChangeData.getChangeFactor(), "#0.0"));   
 
        	if (_loadChangeData.getChangeType().equals(DStabLoadChangeData.LowFreq)) {
-       		lowfreqRadioButtonActionPerformed(null);
+       		lowfreqRadioButton.setSelected(true);
        		threshholdTextField.setText(Number2String.toStr(_loadChangeData.getThreshhold(), "#0.000"));   
            	delaySecTextField.setText(Number2String.toStr(_loadChangeData.getDelayTime(), "#0.000"));   
        	}
        	else if (_loadChangeData.getChangeType().equals(DStabLoadChangeData.LowVolt)) {
-       		lowVoltRadioButtonActionPerformed(null);
+       		lowVoltRadioButton.setSelected(true);
        		threshholdTextField.setText(Number2String.toStr(_loadChangeData.getThreshhold(), "#0.000"));   
            	delaySecTextField.setText(Number2String.toStr(_loadChangeData.getDelayTime(), "#0.000"));   
        	}
        	else {
-       		fixedTimeRadioButtonActionPerformed(null);
+       		fixedTimeRadioButton.setSelected(true);
        		threshholdTextField.setText(Number2String.toStr(_loadChangeData.getThreshhold(), "#0.000"));   
        	}
 
@@ -321,17 +321,23 @@ public class NBDStabLoadChangePanel extends javax.swing.JPanel implements IFormD
     }// </editor-fold>//GEN-END:initComponents
 
 private void lowVoltRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowVoltRadioButtonActionPerformed
-    setLableTextFiels("Volt Below", "pu", true);
+	if (lowVoltRadioButton.isSelected()) {
+		setLableTextFiels("Volt Below", "pu", true);
+	}
 }//GEN-LAST:event_lowVoltRadioButtonActionPerformed
 
 private void fixedTimeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fixedTimeRadioButtonActionPerformed
-    threshholdLabel.setText("Change Time");
-    threshholdUnitLabel.setText("sec");
-    setLableTextFiels("Change Time", "sec", false);
+    if (fixedTimeRadioButton.isSelected()) {
+    	threshholdLabel.setText("Change Time");
+        threshholdUnitLabel.setText("sec");
+        setLableTextFiels("Change Time", "sec", false);
+    }
 }//GEN-LAST:event_fixedTimeRadioButtonActionPerformed
 
 private void lowfreqRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lowfreqRadioButtonActionPerformed
-    setLableTextFiels("Freq Below", "hz", true);
+    if (lowfreqRadioButton.isSelected()) {
+    	setLableTextFiels("Freq Below", "hz", true);
+    }
 }//GEN-LAST:event_lowfreqRadioButtonActionPerformed
     
 private void setLableTextFiels(String thLabel, String thUnit, boolean delayEnable) {
