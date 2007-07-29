@@ -151,9 +151,12 @@ public interface IProjectData {
 	public void setScripts(String scripts);
 	
 	/**
-	 * Convert this object to an Xml string for persistance
+	 * Convert this object to an Xml string for persistence
 	 * 
 	 * @return
 	 */
+	
+	public String getScriptsCaseName();
+	
 	String toString();
 }
