@@ -167,4 +167,8 @@ public class DummyProjData implements IProjectData {
 
 	public void setScripts(String scripts) {
 	}	
+	
+	public String getScriptsCaseName() {
+		return "";
+	}	
 }

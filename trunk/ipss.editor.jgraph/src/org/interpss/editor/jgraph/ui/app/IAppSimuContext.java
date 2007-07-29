@@ -28,6 +28,8 @@ import javax.swing.JPopupMenu;
 
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 
+import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.rec.IpssDBCase;
 
 public interface IAppSimuContext {
 	void reset();
@@ -49,8 +51,8 @@ public interface IAppSimuContext {
    
 	String getCurrentCaseName(String caseType);
 
-	int getLastRunType();
-	void setLastRunType(int lastRunType);	
+	SimuRunType getLastRunType();
+	void setLastRunType(SimuRunType lastRunType);	
 	boolean hasLastRun();	
 	Object getDStabRunForm();
 	
@@ -62,4 +64,6 @@ public interface IAppSimuContext {
 	boolean isNonSymmetricFault();
 	
 	void addPopupMenuAction(JPopupMenu menu, final Object cell);
+	
+	public IpssDBCase getCaseData(String casename, String caseType);
 }
