@@ -232,22 +232,28 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			errMsg.add("Casename is empty");
 			ok = false;
 		}
-		_caseData.setCaseName((String)this.casenameComboBox.getSelectedItem());
+		String casename = (String)this.casenameComboBox.getSelectedItem();
+		_caseData.setCaseName(casename);
 		_caseData.setDescription(this.descTextArea.getText());
 
+		ProjData projData = (ProjData)_appSimuCtx.getProjData();
 		if (_caseType == CaseData.CaseType_Aclf) {
+			projData.setAclfCaseName(casename);
 			if (!_aclfCaseInfoPanel.saveEditor2Form(errMsg))
 				ok = false;
 		}
 		else if (_caseType == CaseData.CaseType_Acsc) {
+			projData.setAcscCaseName(casename);
 			if (!_acscCaseInfoPanel.saveEditor2Form(errMsg))
 				ok = false;
 		}
 		else if (_caseType == CaseData.CaseType_DStab) {
+			projData.setDStabCaseName(casename);
 			if (!_dstabCaseInfoPanel.saveEditor2Form(errMsg))
 				ok = false;
 		}
 		else if (_caseType == CaseData.CaseType_Scripts) {
+			projData.setScriptsCaseName(casename);
 			if (!_scrptsCaseInfoPanel.saveEditor2Form(errMsg))
 				ok = false;
 		}
