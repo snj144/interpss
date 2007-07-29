@@ -50,7 +50,9 @@ import org.interpss.report.IpssReportFactory;
 import org.jgraph.JGraph;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
+import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
@@ -75,9 +77,9 @@ public class EditorActionAdapter {
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Aclf SimuRunWorker");
-				worker.configRun(SimuRunWorker.RUN_TYPE_ACLF, simuCtx, graph);
+				worker.configRun(SimuRunType.Aclf, simuCtx, graph);
 				worker.start();
-				appSimuCtx.setLastRunType(SimuRunWorker.RUN_TYPE_ACLF);
+				appSimuCtx.setLastRunType(SimuRunType.Aclf);
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -104,9 +106,9 @@ public class EditorActionAdapter {
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Acsc SimuRunWorker");
-				worker.configRun(SimuRunWorker.RUN_TYPE_ACSC, simuCtx, graph);
+				worker.configRun(SimuRunType.Acsc, simuCtx, graph);
 				worker.start();
-				appSimuCtx.setLastRunType(SimuRunWorker.RUN_TYPE_ACSC);
+				appSimuCtx.setLastRunType(SimuRunType.Acsc);
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -134,12 +136,36 @@ public class EditorActionAdapter {
 		dialog.init(gFormContainer, appSimuCtx);
     	if (dialog.isReturnOk()) {
 			SimuRunWorker worker = new SimuRunWorker("DStab SimuRunWorker");
-			worker.configRun(SimuRunWorker.RUN_TYPE_DSTAB, simuCtx, null);
+			worker.configRun(SimuRunType.DStab, simuCtx);
 			worker.start();
-			appSimuCtx.setLastRunType(SimuRunWorker.RUN_TYPE_DSTAB);
+			appSimuCtx.setLastRunType(SimuRunType.DStab);
 		}	
 	}
 	
+	public static void menu_run_scripting(boolean graphView, JGraph graph, IpssEditorDocument doc) {
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
+		IGFormContainer gFormContainer = null;
+		if (graphView) {
+			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
+			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
+			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+				return;
+			appSimuCtx.setSimuNetDataDirty(false);
+		}
+		
+		IpssLogger.getLogger().info("Run Scripts");
+		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Scripts);
+		dialog.init(gFormContainer, appSimuCtx);
+    	if (dialog.isReturnOk()) {
+			SimuRunWorker worker = new SimuRunWorker("Scripting SimuRunWorker");
+			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), CaseData.CaseType_Scripts);
+			worker.configRun(SimuRunType.Scripts, simuCtx, caseData.getScripts());
+			worker.start();
+			appSimuCtx.setLastRunType(SimuRunType.DStab);
+		}	
+	}
+
 	public static void menu_report_current(IpssEditorDocument doc) {
 		String type = IpssReportFactory.RPT_TYPE_ACLFSUMMARY;
 		if (doc instanceof GPDocument) {
