@@ -36,6 +36,8 @@ import com.interpss.core.aclfAdj.AreaControlTest;
 import com.interpss.core.acsc.AcscSampleTest;
 import com.interpss.core.acsc.CustomAcscBranchTest;
 import com.interpss.core.acsc.CustomAcscBusTest;
+import com.interpss.core.dclf.DclfSampleTest;
+import com.interpss.core.ms_case.MultiCaseStudyTest;
 import com.interpss.core.net.AreaImplTest;
 import com.interpss.core.net.BranchImplTest;
 import com.interpss.core.net.BusImplTest;
@@ -64,7 +66,11 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2Test;
 	CustomAcscBusTest.class,
 	CustomAcscBranchTest.class,
 	
-	AcscSampleTest.class
+	AcscSampleTest.class,
+
+	DclfSampleTest.class,
+
+	MultiCaseStudyTest.class
 })
 public class CoreTestSuite {
 }
