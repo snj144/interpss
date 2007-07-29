@@ -58,6 +58,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     private NBAclfCasePanel  _aclfCaseInfoPanel = null;
     private NBAcscCasePanel  _acscCaseInfoPanel = null;
     private NBDStabCasePanel _dstabCaseInfoPanel = null;
+    private NBScriptingCasePanel _scrptsCaseInfoPanel = null;
     
     public NBCaseInfoDialog(java.awt.Frame parent) {
         super(parent, "Run AC Loadflow Analysis", true);
@@ -71,6 +72,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         _aclfCaseInfoPanel = new NBAclfCasePanel(this);
         _acscCaseInfoPanel = new NBAcscCasePanel(this);
         _dstabCaseInfoPanel = new NBDStabCasePanel(this);
+        _scrptsCaseInfoPanel = new NBScriptingCasePanel(this);
 
         DataVerifier verifier = new DataVerifier();
 		this.casenameComboBox.setInputVerifier(verifier);
@@ -100,6 +102,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			this.setTitle("Run Transient Stability Simulation");
 			caseDataPanel.add(_dstabCaseInfoPanel);
 			_dstabCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
+		}	
+		else if (_caseType == CaseData.CaseType_Scripts) {
+			this.setTitle("Run Custom Scripts");
+			caseDataPanel.add(_scrptsCaseInfoPanel);
+			_scrptsCaseInfoPanel.init(netContainer, _appSimuCtx);
 		}	
 		
         _returnOK = false;
@@ -159,6 +166,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			casename = projData.getDStabCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 		}
+		else if (_caseType == CaseData.CaseType_Scripts && projData.getScriptsCaseName() != null) {
+			casename = projData.getScriptsCaseName();
+			this.casenameComboBox.setSelectedItem(casename); 
+		}
 		else {
 			// in this case, the projData.<*>Casename is null, a new case
 			IpssLogger.getLogger().info("casenameComboBox.getSelectedItem() -> " + this.casenameComboBox.getSelectedItem());
@@ -198,6 +209,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_dstabCaseInfoPanel.setCaseData(_caseData);
 			_dstabCaseInfoPanel.setForm2Editor();
 		}
+		else if (_caseType == CaseData.CaseType_Scripts) {
+			projData.setScriptsCaseName(casename);
+			_scrptsCaseInfoPanel.setCaseData(_caseData);
+			_scrptsCaseInfoPanel.setForm2Editor();
+		}
 		
         return true;
 	}
@@ -208,7 +224,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-    public boolean saveEditor2Form(Vector errMsg) throws Exception {
+    public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBCaseInfoDialog saveEditor2Form() called");
         boolean ok = true;
 
@@ -229,6 +245,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		}
 		else if (_caseType == CaseData.CaseType_DStab) {
 			if (!_dstabCaseInfoPanel.saveEditor2Form(errMsg))
+				ok = false;
+		}
+		else if (_caseType == CaseData.CaseType_Scripts) {
+			if (!_scrptsCaseInfoPanel.saveEditor2Form(errMsg))
 				ok = false;
 		}
 		
@@ -412,7 +432,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     }//GEN-LAST:event_addCaseButtonActionPerformed
 
     private void runButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runButtonActionPerformed
-		Vector errMsg = new Vector();
+		Vector<String> errMsg = new Vector<String>();
 		try {
         	if (!saveEditor2Form(errMsg)) {
         		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
@@ -447,6 +467,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				projData.setAcscCaseName(casename);
 			else if (_caseType == CaseData.CaseType_DStab) 
 				projData.setDStabCaseName(casename);
+			else if (_caseType == CaseData.CaseType_Scripts) 
+				projData.setScriptsCaseName(casename);
 			// refresh the screen data
 			setForm2Editor();
 		}

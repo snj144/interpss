@@ -46,6 +46,7 @@ import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.AcscRunForm;
 import org.interpss.editor.runAct.DStabRunForm;
 
+import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
@@ -66,7 +67,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	private DStabRunForm dStabRunForm = null;
 	
 	// track the last run type
-	private int lastRunType = 0;   //  SimuRunWorker.RUN_TYPE_ACLF, RUN_TYPE_ACSC, RUN_TYPE_DSTAB;
+	private SimuRunType lastRunType = null;   
 	
 	public AppSimuContextImpl() {
 		this.simuCtxDataDirty = true;
@@ -198,7 +199,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
        for (int i = 0; i < caseList.size(); i++) {
            CaseData caseData = (CaseData)caseList.get(i);
            if (caseData != null)
-        	   if (casename.equals(caseData.getCaseName()) && caseData.getCaseType().equals(caseType)) {
+        	   if (casename.equals(caseData.getCaseName()) && (caseData.getCaseType().equals(caseType))) {
         		   IpssLogger.getLogger().info("CaseInfo found, casename: " + casename);
         		   return caseData;
         	   }    
@@ -231,6 +232,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 		   		caseData.setDStabCaseData(new DStabCaseData());
 		   		caseData.setAclfCaseData(new AclfCaseData());
 		   		getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
+			}   
+			else if (caseType.equals(CaseData.CaseType_Scripts)) {
 			}   
 			else {
 				IpssLogger.getLogger().severe("Wrong caseType");
@@ -282,12 +285,12 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	/**
 	 * @return the lastRunType
 	 */
-	public int getLastRunType() {
+	public SimuRunType getLastRunType() {
 		return lastRunType;
 	}
 
 	public boolean hasLastRun() {
-		return lastRunType > 0;
+		return lastRunType != null;
 	}
 	
 	public DStabRunForm getDStabRunForm() {
@@ -299,7 +302,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	/**
 	 * @param lastRunType the lastRunType to set
 	 */
-	public void setLastRunType(int lastRunType) {
+	public void setLastRunType(SimuRunType lastRunType) {
 		this.lastRunType = lastRunType;
 	}    
 }

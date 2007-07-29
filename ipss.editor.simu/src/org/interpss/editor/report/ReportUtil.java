@@ -28,10 +28,10 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.resources.Translator;
-import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.report.IpssReportFactory;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.SimuRunType;
 
 public class ReportUtil {
 	public static void displayReport(String rptType) {
@@ -50,11 +50,11 @@ public class ReportUtil {
 		appStatus.busyStop("Report displayed");
 	}
 
-	public static String getDefaultReportType(IGNetForm form, int lastRunType, boolean nsFault) {
+	public static String getDefaultReportType(IGNetForm form, SimuRunType lastRunType, boolean nsFault) {
 		if (form.getAppType().equals(IGNetForm.AppType_Distribution)) {
-			if (lastRunType == SimuRunWorker.RUN_TYPE_ACSC)
+			if (lastRunType == SimuRunType.Acsc)
 				return IpssReportFactory.RPT_TYPE_ACSC3PFAULT;
-			else if (lastRunType == SimuRunWorker.RUN_TYPE_ACLF)
+			else if (lastRunType == SimuRunType.Aclf)
 				return IpssReportFactory.RPT_TYPE_ACLFSUMMARY;
 		} else {
 			if (form.getNetType().equals(IGNetForm.NetType_AclfNetwork)

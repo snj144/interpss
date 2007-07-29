@@ -40,10 +40,11 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuOutputHandler;
+import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
 
-public class DStabRunForm extends BaseRunForm {
+public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	private int dbSimuCaseId = 0;
 	
 	public DStabRunForm() {}
@@ -65,14 +66,21 @@ public class DStabRunForm extends BaseRunForm {
 	public void setDStabCaseData(DStabCaseData stabCaseData) {
 		dStabCaseData = stabCaseData;
 	}
-
+	
+	public void displayResult(SimuContext simuCtx) {
+	  	if (getAclfCaseData().getShowSummary()) {
+	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+	  		dialog.display(simuCtx.getDynSimuAlgorithm());
+	  	}
+	}
+	
 	/**
 	 * 
 	 * @param dstabNet
 	 * @param msg
 	 * @return case id
 	 */
-	public void runDStab(SimuContext simuCtx, IPSSMsgHub msg) {
+	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 		
   		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
@@ -80,20 +88,20 @@ public class DStabRunForm extends BaseRunForm {
 
 		if (!simuCtx.getDynSimuAlgorithm().checkData(msg)) {
 			IpssLogger.getLogger().warning("DStab simulation data checking failed");
-			return;
+			return false;
 		}
 
 		// dstab net data changed in the mapping process
 		if (!simuCtx.getDStabilityNet().checkData(msg)) {
 			IpssLogger.getLogger().warning("DStab network data checking failed");
-			return;
+			return false;
 		}
 		
 		LoadflowAlgorithm aclfAlgo = simuCtx.getDynSimuAlgorithm().getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
 	  	if (!simuCtx.getDStabilityNet().isLfConverged()) {
 	  		msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
-	  		return;
+	  		return false;
 	  	}
 
 	  	// set up output and run the simulation
@@ -103,7 +111,7 @@ public class DStabRunForm extends BaseRunForm {
 		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
 		try {
 			if (!handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord"))
-				return;
+				return false;
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
@@ -122,18 +130,15 @@ public class DStabRunForm extends BaseRunForm {
 			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
 			try {
 				if (!scriptHandler.init(dStabCaseData.getOutputScriptFilename(), simuCtx.getDStabilityNet()))
-					return;
+					return false;
 			} catch (Exception e) {
 				IpssLogger.logErr(e);
-				return;
+				return false;
 			}
 		}
 		
 	  	if (simuCtx.getDynSimuAlgorithm().initialization(msg)) {
-		  	if (getAclfCaseData().getShowSummary()) {
-		  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-		  		dialog.display(simuCtx.getDynSimuAlgorithm());
-		  	}
+	  		displayResult(simuCtx);
 		  	simuCtx.getDynSimuAlgorithm().performSimulation(msg);
 		}
 
@@ -141,6 +146,7 @@ public class DStabRunForm extends BaseRunForm {
 	  		if (scriptHandler != null)
 	  			scriptHandler.close();	
 		}
+	  	return true;
 	}
 	
 	/**

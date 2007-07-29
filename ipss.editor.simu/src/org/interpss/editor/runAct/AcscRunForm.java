@@ -27,6 +27,8 @@ package org.interpss.editor.runAct;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.proj.AcscCaseData;
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -38,18 +40,20 @@ import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.core.util.outfunc.AcscOut;
 import com.interpss.dist.DistNetwork;
+import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class AcscRunForm extends BaseRunForm {
+public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 	public AcscRunForm() {}
 	
 	private AcscCaseData acscCaseData;
 	public AcscCaseData getAcscCaseData() { return this.acscCaseData; }
 	public void setAcscCaseData(AcscCaseData acase) {this.acscCaseData = acase;}
 
-  	public void runShortCircuit(SimuContext simuCtx) {
+  	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
 	  	simuCtx.getAcscFaultNet().removeAllFault();
 	  	if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
 	  		runShortCircuit(simuCtx.getDistNet(), simuCtx.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
@@ -60,7 +64,13 @@ public class AcscRunForm extends BaseRunForm {
 	  		}
 	  		runShortCircuit(simuCtx.getAcscFaultNet(), simuCtx.getSimpleFaultAlgorithm(), simuCtx.getMsgHub());
 	  	}
+	  	return true;
 	}	
+	
+	public void displayResult(SimuContext simuCtx) {
+  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Short Circuit Analysis Result Summary");
+  		dialog.display(AcscOut.faultResult2String(simuCtx.getAcscFaultNet()));
+	}
 	
   	private void runShortCircuit(DistNetwork distNet, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
 	  	if (distNet.getScPointNetData().getScPointList().size() > 1) {
