@@ -28,8 +28,6 @@ package org.interpss.editor.data.proj;
 	Current user project info
 */
 
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +53,7 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	private String aclfCaseName = null;
 	private String acscCaseName = null;
 	private String dStabCaseName = null;
+	private String scriptsCaseName = null;
 
 	public ProjData() {}
 
@@ -167,5 +166,13 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	 */
 	public void setDbSchemaVersion(String dbSchemaVersion) {
 		this.dbSchemaVersion = dbSchemaVersion;
+	}
+
+	public String getScriptsCaseName() {
+		return scriptsCaseName;
+	}
+
+	public void setScriptsCaseName(String scriptsCaseName) {
+		this.scriptsCaseName = scriptsCaseName;
 	}
 }

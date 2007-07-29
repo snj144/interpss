@@ -35,6 +35,7 @@ public class CaseData extends IpssDBCase {
 	public static final String CaseType_Aclf  = "AclfStudyCase";
 	public static final String CaseType_Acsc  = "AcscStudyCase";
 	public static final String CaseType_DStab = "DStabStudyCase";
+	public static final String CaseType_Scripts = "ScriptsStudyCase";
 	
     public CaseData() {}
 
