@@ -37,17 +37,18 @@ import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistBusAdapter;
 import com.interpss.dist.DistNetwork;
+import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
-public class AclfRunForm extends BaseRunForm {
+public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	public AclfRunForm() {}
 
 	private AclfCaseData aclfCaseData;
 	public AclfCaseData getAclfCaseData() {	return this.aclfCaseData; }
 	public void setAclfCaseData(AclfCaseData acase) {this.aclfCaseData = acase;}
 	
-  	public boolean runLoadflow(SimuContext simuCtx) {
+  	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
   		boolean converge = false;
   		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
   			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
@@ -57,6 +58,13 @@ public class AclfRunForm extends BaseRunForm {
   		}
   		return converge;
   	}
+  	
+	public void displayResult(SimuContext simuCtx) {
+	  	if (getAclfCaseData().getShowSummary()) {
+	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+	  		dialog.display(simuCtx.getAclfAdjNet());
+	  	}
+	}
   	
   	private boolean runLoadflow(DistNetwork distNet, SimuContext simuCtx) {
   		boolean converge = true;
@@ -96,10 +104,7 @@ public class AclfRunForm extends BaseRunForm {
   	  	boolean converge = runLoadflow_internal(aclfAdjNet, simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub());
 	  	if (!converge)
 	  		simuCtx.getMsgHub().sendWarnMsg("Loadflow does not converge!");
-	  	if (getAclfCaseData().getShowSummary()) {
-	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-	  		dialog.display(aclfAdjNet);
-	  	}
+	  	displayResult(simuCtx);
   	  	return converge;
   	}
   	
