@@ -1,5 +1,5 @@
  /*
-  * @(#)NBAcscCasePanel.java   
+  * @(#)NBScriptingCasePanel.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2006
+  * @Date 07/15/2007
   * 
   *   Revision History
   *   ================
@@ -30,6 +30,9 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
+import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.util.IpssLogger;
 
@@ -44,7 +47,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     }
     
     public void init(Object netContainer, Object appCtx) {
-		IpssLogger.getLogger().info("NBAcscCasePanel init() called");
+		IpssLogger.getLogger().info("NBScriptingCasePanel init() called");
     }
 
     public void setCaseData(CaseData data) {
@@ -57,8 +60,18 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
 	* @return false if there is any problem
 	*/
 	public boolean setForm2Editor() {
-		IpssLogger.getLogger().info("NBAcscCasePanel setForm2Editor() called");
+		IpssLogger.getLogger().info("NBScriptingCasePanel setForm2Editor() called");
+		
 		scriptsTextArea.setText(_caseData.getScripts());
+		
+    	if (_caseData.getScripts() != null && !_caseData.getScripts().equals("")) {
+    		scriptsTextArea.setText(_caseData.getScripts());
+    	}
+    	else {
+    		// load from the template
+    		String filename = CoreScriptUtilFunc.RunScriptsTemplateFilename;
+    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptsTextArea);
+    	}		
         return true;
 	}
     
@@ -69,10 +82,16 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
 	* @return false if there is any problem
 	*/
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
-		IpssLogger.getLogger().info("NBAcscCasePanel saveEditor2Form() called");
-		boolean ok = true;
+		IpssLogger.getLogger().info("NBScriptingCasePanel saveEditor2Form() called");
+		// compile the code to check for error
+		String code = CoreScriptUtilFunc.parseRunCaseJavaCode(scriptsTextArea.getText(), 
+				             ScriptJavacUtilFunc.CheckCodeClassname);
+		if (!ScriptJavacUtilFunc.checkJavaCode(code, CoreScriptUtilFunc.RunCaseScriptingPackageName)) {
+        	errMsg.add(new String("Java compile error"));
+		}		
+		// save the java code
 		_caseData.setScripts(scriptsTextArea.getText());
-		return ok;
+		return errMsg.size() == 0;
 	}
     
 

@@ -165,6 +165,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 			      name = "Acsc Analysis Case";
 	      	  else if (caseType.equals(CaseData.CaseType_DStab))
 				  name = "Transient Stability Case";
+	      	  else if (caseType.equals(CaseData.CaseType_Scripts))
+				  name = "Custom Scripting Run Case";
 	          createCaseData(name, caseType);
 	          vect.add(new String(name));
 	    }    

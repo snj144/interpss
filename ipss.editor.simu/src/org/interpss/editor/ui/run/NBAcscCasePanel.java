@@ -113,7 +113,6 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 	*/
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAcscCasePanel saveEditor2Form() called");
-		boolean ok = true;
 
 		if (this.busFaultRadioButton.isSelected()) 
 			_caseData.getFaultData().setType(AcscFaultData.FaultType_BusFault);
@@ -122,19 +121,18 @@ public class NBAcscCasePanel extends javax.swing.JPanel implements IFormDataPane
 			
 		if (this.fixedVoltRadioButton.isSelected()) {
 			_caseData.setBusInitVolt(AcscCaseData.ScBusVolt_UnitVolt);
-			if (!SwingInputVerifyUtil.largeThan(this.mFactorTextField, 50.0d) || SwingInputVerifyUtil.largeThan(this.mFactorTextField, 150.0d)) {
+			if (!SwingInputVerifyUtil.largeThan(this.mFactorTextField, 50.0d) || 
+				 SwingInputVerifyUtil.largeThan(this.mFactorTextField, 150.0d)) {
 				errMsg.add("Prefault bus voltage multiplying factor out of range < 50% or > 150%");
-				ok = false;
 			}
 			_caseData.setMFactor(SwingInputVerifyUtil.getDouble(this.mFactorTextField));
 	    }
 	    else
 	    	_caseData.setBusInitVolt(AcscCaseData.ScBusVolt_LFVolt);
 
-        if (!_faultLocDataPanel.saveEditor2Form(errMsg))
-        	ok = false;
+        _faultLocDataPanel.saveEditor2Form(errMsg);
 
-		return ok;
+		return errMsg.size() == 0;
 	}
     
 

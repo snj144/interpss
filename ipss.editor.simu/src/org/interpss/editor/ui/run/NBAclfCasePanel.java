@@ -238,7 +238,6 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	*/
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
-		boolean ok = true;
 
         if (this.nrRadioButton.isSelected())
         	_caseData.setMethod(AclfCaseData.Method_NR);
@@ -247,28 +246,19 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else 
         	_caseData.setMethod("GS");
 
-        if (!SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d)) {
-            errMsg.add("Error tolerance <= 0.0");
-            ok = false;
-        }
-        _caseData.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
+        if (!SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d, errMsg, "Error tolerance <= 0.0"))
+        	_caseData.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
 
-        if (!SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0)) {
-            errMsg.add("Max iterations <= 0");
-            ok = false;
-        }
-        _caseData.setMaxIteration(SwingInputVerifyUtil.getInt(this.maxItrTextField));
+        if (!SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0, errMsg, "Max iterations <= 0") )
+        	_caseData.setMaxIteration(SwingInputVerifyUtil.getInt(this.maxItrTextField));
 
-        if (!SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d)) {
-            errMsg.add("GS acceleration factor <= 0.0");
-            ok = false;
-        }
-        _caseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
+        if (!SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d, errMsg, "GS acceleration factor <= 0.0"))
+        	_caseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
 
         _caseData.setInitBusVolt(this.initVoltCheckBox.isSelected());
         _caseData.setShowSummary(this.lfSummaryCheckBox.isSelected());
 
-        return ok;
+        return errMsg.size() == 0;
 	}
     
 

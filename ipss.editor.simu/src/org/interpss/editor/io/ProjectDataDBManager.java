@@ -141,7 +141,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 					List caseList = (List)DBManager.getSqlMap().queryForList("selectStudyCaseForProject", newProjData.getProjectDbId());
 					for (int i = 0; i < caseList.size(); i++) {
 						DBStudyCase dbCase = (DBStudyCase)caseList.get(i);
-						IpssLogger.getLogger().info(XmlUtil.toXmlString(dbCase));
+						IpssLogger.getLogger().fine(XmlUtil.toXmlString(dbCase));
 						// rebuild the CaseData object from the DBStudyCase object (xmlDataString)
 						CaseData aCase = dbCase.getCaseData();
 						// add CaseData object to the ProjectData object

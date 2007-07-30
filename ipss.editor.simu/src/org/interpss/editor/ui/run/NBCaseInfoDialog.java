@@ -104,7 +104,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_dstabCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}	
 		else if (_caseType == CaseData.CaseType_Scripts) {
-			this.setTitle("Run Custom Scripts");
+			this.setTitle("Custom Scripting Run Case");
 			caseDataPanel.add(_scrptsCaseInfoPanel);
 			_scrptsCaseInfoPanel.init(netContainer, _appSimuCtx);
 		}	
@@ -226,11 +226,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	*/
     public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBCaseInfoDialog saveEditor2Form() called");
-        boolean ok = true;
 
 		if (SwingInputVerifyUtil.isEmptyStr(this.casenameComboBox)) {
 			errMsg.add("Casename is empty");
-			ok = false;
+			return false;
 		}
 		String casename = (String)this.casenameComboBox.getSelectedItem();
 		_caseData.setCaseName(casename);
@@ -239,26 +238,22 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		ProjData projData = (ProjData)_appSimuCtx.getProjData();
 		if (_caseType == CaseData.CaseType_Aclf) {
 			projData.setAclfCaseName(casename);
-			if (!_aclfCaseInfoPanel.saveEditor2Form(errMsg))
-				ok = false;
+			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
 		}
 		else if (_caseType == CaseData.CaseType_Acsc) {
 			projData.setAcscCaseName(casename);
-			if (!_acscCaseInfoPanel.saveEditor2Form(errMsg))
-				ok = false;
+			_acscCaseInfoPanel.saveEditor2Form(errMsg);
 		}
 		else if (_caseType == CaseData.CaseType_DStab) {
 			projData.setDStabCaseName(casename);
-			if (!_dstabCaseInfoPanel.saveEditor2Form(errMsg))
-				ok = false;
+			_dstabCaseInfoPanel.saveEditor2Form(errMsg);
 		}
 		else if (_caseType == CaseData.CaseType_Scripts) {
 			projData.setScriptsCaseName(casename);
-			if (!_scrptsCaseInfoPanel.saveEditor2Form(errMsg))
-				ok = false;
+			_scrptsCaseInfoPanel.saveEditor2Form(errMsg);
 		}
 		
-        return ok;
+        return errMsg.size() == 0;
 	}
     
     /** Creates new form NBAclfCalDialog */
