@@ -37,7 +37,10 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.ms_case.impl.BusResultImpl;
+import com.interpss.core.ms_case.impl.NetworkResultImpl;
 import com.interpss.core.ms_case.impl.StudyCaseRunnerImpl;
+import com.interpss.core.ms_case.util.AbstractAclfStudyCaseRunner;
 import com.interpss.core.net.Bus;
 import com.interpss.core.util.sample.SampleCases;
 
@@ -67,7 +70,7 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
 		MultiStudyCase mcase = CoreObjectFactory.createMultiStudyCase(net);
-		mcase.setCaseRunner(new AbstractStudyCaseRunner() {
+		mcase.setCaseRunner(new AbstractAclfStudyCaseRunner() {
 			private StudyCase baseCase = null;
 			public boolean generateCaseData(StudyCase studyCase) {
 				if (baseCase == null) {
@@ -75,10 +78,9 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 				}
 				try {
 					AclfBusResult r = (AclfBusResult)baseCase.getBusResult("1");
-					Complex p = r.getPowerIntoNet();
 					AclfBus bus = (AclfBus)r.getBus();
-					bus.setLoadP(-p.getReal());
-					bus.setLoadQ(-p.getImaginary());
+					bus.setLoadP(r.load.getReal());
+					bus.setLoadQ(r.load.getImaginary());
 				} catch (InterpssException e) {
 					SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
 					return false;
@@ -89,11 +91,12 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 
 		mcase.createBaseCase();
 		StudyCase baseCase = mcase.getStudyCase(Constants.BaseStudyCaseName);
-		assertTrue(((AclfNetworkResult)baseCase.getNetResult()).isLfConverged());
+		assertTrue(((AbstractAclfStudyCaseRunner.AclfNetworkResult)baseCase.getNetResult()).converged);
 
-  		AclfBusResult swingBusResult = (AclfBusResult)baseCase.getBusResult("5");
-		assertTrue(Math.abs(swingBusResult.getPowerIntoNet().getReal()-2.57943)<0.0001);
-		assertTrue(Math.abs(swingBusResult.getPowerIntoNet().getImaginary()-2.2994)<0.0001);
+		AbstractAclfStudyCaseRunner.AclfBusResult swingBusResult = 
+			(AbstractAclfStudyCaseRunner.AclfBusResult)baseCase.getBusResult("5");
+		assertTrue(Math.abs(swingBusResult.gen.getReal()-2.57943)<0.0001);
+		assertTrue(Math.abs(swingBusResult.gen.getImaginary()-2.2994)<0.0001);
 
 		for (int i = 1; i <= 10; i++ ) {
 			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+i, "Case"+i, i, mcase);
@@ -101,16 +104,16 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 		}
 
 		StudyCase case1 = mcase.getStudyCase("StudyCase1");
-		assertTrue(((AclfNetworkResult)case1.getNetResult()).isLfConverged());
-  		swingBusResult = (AclfBusResult)case1.getBusResult("5");
-		assertTrue(Math.abs(swingBusResult.getPowerIntoNet().getReal()-2.57943)<0.0001);
-		assertTrue(Math.abs(swingBusResult.getPowerIntoNet().getImaginary()-2.2994)<0.0001);
+		assertTrue(((AbstractAclfStudyCaseRunner.AclfNetworkResult)case1.getNetResult()).converged);
+  		swingBusResult = (AbstractAclfStudyCaseRunner.AclfBusResult)case1.getBusResult("5");
+		assertTrue(Math.abs(swingBusResult.gen.getReal()-2.57943)<0.0001);
+		assertTrue(Math.abs(swingBusResult.gen.getImaginary()-2.2994)<0.0001);
 
 		StudyCase case9 = mcase.getStudyCase("StudyCase9");
-		assertTrue(((AclfNetworkResult)case9.getNetResult()).isLfConverged());
-  		swingBusResult = (AclfBusResult)case9.getBusResult("5");
-		assertTrue(Math.abs(swingBusResult.getPowerIntoNet().getReal()-2.57943)<0.0001);
-		assertTrue(Math.abs(swingBusResult.getPowerIntoNet().getImaginary()-2.2994)<0.0001);
+		assertTrue(((AbstractAclfStudyCaseRunner.AclfNetworkResult)case9.getNetResult()).converged);
+  		swingBusResult = (AbstractAclfStudyCaseRunner.AclfBusResult)case9.getBusResult("5");
+		assertTrue(Math.abs(swingBusResult.gen.getReal()-2.57943)<0.0001);
+		assertTrue(Math.abs(swingBusResult.gen.getImaginary()-2.2994)<0.0001);
 	}
 
 	@Test
@@ -120,7 +123,7 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
 		MultiStudyCase mcase = CoreObjectFactory.createMultiStudyCase(net);
-		mcase.setCaseRunner(new AbstractStudyCaseRunner() {
+		mcase.setCaseRunner(new AbstractAclfStudyCaseRunner() {
 			private StudyCase baseCase = null;
 			public boolean generateCaseData(StudyCase studyCase) {
 				if (baseCase == null) {
@@ -128,10 +131,9 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 				}
 				try {
 					AclfBusResult r = (AclfBusResult)baseCase.getBusResult("1");
-					Complex p = r.getPowerIntoNet();
 					AclfBus bus = (AclfBus)r.getBus();
-					bus.setLoadP(-p.getReal() + studyCase.getCaseNumber()*0.1);
-					bus.setLoadQ(-p.getImaginary() + studyCase.getCaseNumber()*0.05);
+					bus.setLoadP(r.load.getReal() + studyCase.getCaseNumber()*0.1);
+					bus.setLoadQ(r.load.getImaginary() + studyCase.getCaseNumber()*0.05);
 				} catch (InterpssException e) {
 					SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
 					return false;
@@ -151,27 +153,7 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 		}
 		assertTrue(cnt == 5);
 		StudyCase case4 = mcase.getStudyCase("StudyCase4");
-		assertTrue(((AclfNetworkResult)case4.getNetResult()).isLfConverged());
-	}
-
-	private class AbstractStudyCaseRunner extends StudyCaseRunnerImpl {
-			public boolean runCase(StudyCase studyCase) {
-				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(studyCase.getParent().getNetwork());
-				algo.loadflow(SpringAppContext.getIpssMsgHub());
-				return ((AclfNetwork)studyCase.getParent().getNetwork()).isLfConverged();
-			}			
-
-			public boolean saveCase(StudyCase studyCase) {
-				AclfNetwork aclfNet = (AclfNetwork)studyCase.getParent().getNetwork();
-				AclfNetworkResult rNet = CoreObjectFactory.createAclfNetworkResult(aclfNet);
-				studyCase.setNetResult(rNet);
-				for (Bus b : aclfNet.getBusList()) {
-					AclfBus bus = (AclfBus)b;
-					AclfBusResult r = CoreObjectFactory.createAclfBusResult(bus);
-					studyCase.getBusResultList().add(r);
-				}
-				return true;
-			}			
+		assertTrue(((AbstractAclfStudyCaseRunner.AclfNetworkResult)case4.getNetResult()).converged);
 	}
 }
 
