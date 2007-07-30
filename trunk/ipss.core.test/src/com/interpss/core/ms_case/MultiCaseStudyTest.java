@@ -37,8 +37,6 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.ms_case.impl.StudyCaseDataGeneratorImpl;
-import com.interpss.core.ms_case.impl.StudyCaseResultSaverImpl;
 import com.interpss.core.ms_case.impl.StudyCaseRunnerImpl;
 import com.interpss.core.net.Bus;
 import com.interpss.core.util.sample.SampleCases;
@@ -69,7 +67,7 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
 		MultiStudyCase mcase = CoreObjectFactory.createMultiStudyCase(net);
-		mcase.setDataGenerator(new StudyCaseDataGeneratorImpl() {
+		mcase.setCaseRunner(new AbstractStudyCaseRunner() {
 			private StudyCase baseCase = null;
 			public boolean generateCaseData(StudyCase studyCase) {
 				if (baseCase == null) {
@@ -88,9 +86,6 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 				return true;
 			}			
 		});
-		
-		mcase.setCaseRunner(createStudyCaseRunner());
-		mcase.setCaseResultSaver(createStudyCaseResultSaver());
 
 		mcase.createBaseCase();
 		StudyCase baseCase = mcase.getStudyCase(Constants.BaseStudyCaseName);
@@ -125,7 +120,7 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
 		MultiStudyCase mcase = CoreObjectFactory.createMultiStudyCase(net);
-		mcase.setDataGenerator(new StudyCaseDataGeneratorImpl() {
+		mcase.setCaseRunner(new AbstractStudyCaseRunner() {
 			private StudyCase baseCase = null;
 			public boolean generateCaseData(StudyCase studyCase) {
 				if (baseCase == null) {
@@ -145,9 +140,6 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 			}			
 		});
 		
-		mcase.setCaseRunner(createStudyCaseRunner());
-		mcase.setCaseResultSaver(createStudyCaseResultSaver());
-
 		mcase.createBaseCase();
 
 		int cnt = 0;
@@ -162,18 +154,13 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 		assertTrue(((AclfNetworkResult)case4.getNetResult()).isLfConverged());
 	}
 
-	private StudyCaseRunner createStudyCaseRunner() {
-		return new StudyCaseRunnerImpl() {
+	private class AbstractStudyCaseRunner extends StudyCaseRunnerImpl {
 			public boolean runCase(StudyCase studyCase) {
 				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(studyCase.getParent().getNetwork());
 				algo.loadflow(SpringAppContext.getIpssMsgHub());
 				return ((AclfNetwork)studyCase.getParent().getNetwork()).isLfConverged();
 			}			
-		};
-	}
 
-	private StudyCaseResultSaver createStudyCaseResultSaver() {
-		return new StudyCaseResultSaverImpl() {
 			public boolean saveCase(StudyCase studyCase) {
 				AclfNetwork aclfNet = (AclfNetwork)studyCase.getParent().getNetwork();
 				AclfNetworkResult rNet = CoreObjectFactory.createAclfNetworkResult(aclfNet);
@@ -185,7 +172,6 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 				}
 				return true;
 			}			
-		};
 	}
 }
 
