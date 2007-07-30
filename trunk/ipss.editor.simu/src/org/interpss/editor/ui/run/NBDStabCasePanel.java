@@ -255,10 +255,8 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBDStabCasePanel saveEditor2Form() called");
 
-		boolean ok = true;
-		
 		// save aclf panel data
-		ok = aclfCasePanel.saveEditor2Form(errMsg);
+		aclfCasePanel.saveEditor2Form(errMsg);
 		
 		String method = (String)methodComboBox.getSelectedItem();
 		if (method.equals(DStabCaseData.Method_ModifiedEuler)) {
@@ -266,24 +264,16 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 		}
 		else {
 			errMsg.add("Differential Eqn solution method: " + method + " has not implemented yet");
-			ok = false;
 		}
 
-        if (!SwingInputVerifyUtil.largeThan(totalTimeTextField, 0.0d)) {
-			errMsg.add("Total Simulation time < 0.0");
-			ok = false;
-		}
-        dstabCaseData.setTotalSimuTime(SwingInputVerifyUtil.getDouble(totalTimeTextField));
+        if (!SwingInputVerifyUtil.largeThan(totalTimeTextField, 0.0d, errMsg, "Total Simulation time < 0.0"))
+        	dstabCaseData.setTotalSimuTime(SwingInputVerifyUtil.getDouble(totalTimeTextField));
         
-        if (!SwingInputVerifyUtil.largeThan(simuStepTextField, 0.0d)) {
-			errMsg.add("Simulation step < 0.0");
-			ok = false;
-		}
-        dstabCaseData.setSimuStep(SwingInputVerifyUtil.getDouble(simuStepTextField));
+        if (!SwingInputVerifyUtil.largeThan(simuStepTextField, 0.0d, errMsg, "Simulation step < 0.0"))
+        	dstabCaseData.setSimuStep(SwingInputVerifyUtil.getDouble(simuStepTextField));
         
         if (dstabCaseData.getTotalSimuTime() < dstabCaseData.getSimuStep()) {
 			errMsg.add("Total simu time < simulation step");
-			ok = false;
         }
         
         if (absMachCheckBox.isSelected()) {
@@ -294,17 +284,13 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
        		dstabCaseData.setRefMachId((String)refMachComboBox.getSelectedItem());
         }
 
-        if (!SwingInputVerifyUtil.largeThan(netEqnItrNoEventTextField, 0)) {
-			errMsg.add("Network equation solution iteration count (no event) <= 0");
-			ok = false;
-		}
-        dstabCaseData.setNetEqnItrNoEvent(SwingInputVerifyUtil.getInt(netEqnItrNoEventTextField));
+        if (!SwingInputVerifyUtil.largeThan(netEqnItrNoEventTextField, 0, errMsg,
+        		"Network equation solution iteration count (no event) <= 0"))
+        	dstabCaseData.setNetEqnItrNoEvent(SwingInputVerifyUtil.getInt(netEqnItrNoEventTextField));
         
-        if (!SwingInputVerifyUtil.largeThan(netEqnItrWithEventTextField, 0)) {
-			errMsg.add("Network equation solution iteration count (with event) <= 0");
-			ok = false;
-		}
-        dstabCaseData.setNetEqnItrWithEvent(SwingInputVerifyUtil.getInt(netEqnItrWithEventTextField));
+        if (!SwingInputVerifyUtil.largeThan(netEqnItrWithEventTextField, 0, errMsg,
+        		"Network equation solution iteration count (with event) <= 0"))
+        	dstabCaseData.setNetEqnItrWithEvent(SwingInputVerifyUtil.getInt(netEqnItrWithEventTextField));
         
 
         if (staticLoadCZRadioButton.isSelected()) {
@@ -312,23 +298,18 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         }
         else {
         	dstabCaseData.setStaticLoadType(DStabCaseData.StaticLoad_Const_P);
-            if (!SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchVoltTextField, 0.4d)) {
-    			errMsg.add("Static load model switching voltage < 0.4 pu");
-    			ok = false;
-    		}
-            dstabCaseData.setStaticLoadSwitchVolt(SwingInputVerifyUtil.getDouble(staticLoadSwitchVoltTextField));
+            if (!SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchVoltTextField, 0.4d, errMsg,
+            		"Static load model switching voltage < 0.4 pu"))
+            	dstabCaseData.setStaticLoadSwitchVolt(SwingInputVerifyUtil.getDouble(staticLoadSwitchVoltTextField));
 
-            if (!SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchDeadZoneTextField, 0.0d)) {
-    			errMsg.add("Static load model switching voltage dead zone< 0.0 pu");
-    			ok = false;
-    		}
-            dstabCaseData.setStaticLoadSwitchDeadZone(SwingInputVerifyUtil.getDouble(staticLoadSwitchDeadZoneTextField));
+            if (!SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchDeadZoneTextField, 0.0d, errMsg,
+    				"Static load model switching voltage dead zone< 0.0 pu"))
+            	dstabCaseData.setStaticLoadSwitchDeadZone(SwingInputVerifyUtil.getDouble(staticLoadSwitchDeadZoneTextField));
         }
 
         dstabCaseData.setDisableDynamicEvent(disableEventCheckBox.isSelected());
         if(!dstabCaseData.getDisableDynamicEvent()) {
-        	if (!dynaEventPanel.saveEditor2Form(errMsg))
-        		ok = false;
+        	dynaEventPanel.saveEditor2Form(errMsg);
         }
         else {
         	if (setPointCheckBox.isSelected()) {
@@ -353,7 +334,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         	dstabCaseData.setOutputScriptFilename(dstabOutputScriptFilename);
     	}        
         
-        return ok;
+        return errMsg.size() == 0;
 	}
     
     /** This method is called from within the constructor to
