@@ -1,5 +1,6 @@
-package org.interpss.dstab;
+package org.interpss;
 
+import org.interpss.core.ms_case.MultiCaseStudyTest;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
 import org.interpss.dstab.control.cml.block.FilterControlBlockTests;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlockTests;
@@ -15,7 +16,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	FilterControlBlockTests.class,
 	IntegrationControlBlockTests.class,
 	PIControlBlockTests.class,
-	WashoutControlBlockTests.class
+	WashoutControlBlockTests.class,
+	
+	MultiCaseStudyTest.class
 })
 public class PluginTestSuite {
 }
