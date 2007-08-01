@@ -7,7 +7,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
@@ -18,5 +17,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.common_2.3.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.ecore_2.3.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
