@@ -35,6 +35,7 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.ms_case.BusResult;
 import com.interpss.core.ms_case.MultiStudyCase;
 import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.util.sample.SampleCases;
@@ -151,10 +152,6 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 				break;
 			}
 		}
-		assertTrue(cnt == 5);
-		StudyCase case4 = mcase.getStudyCase("StudyCase4");
-		assertTrue(((AclfNetworkResult)case4.getNetResult()).converged);
-		
 		/*
 		for ( StudyCase c : mcase.getStudyCaseList()) {
 			System.out.println("StudyCase: " + c.getCaseNumber() + ", " + c.getName());
@@ -164,6 +161,78 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 			}
 		}
 		*/
+	}
+
+	@Test
+	public void loadProfileCaseTest() throws InterpssException {
+  		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
+		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
+		//System.out.println(net.net2String());
+		
+		MultiStudyCase mcase = CoreObjectFactory.createMultiStudyCase(net);
+		mcase.setCaseRunner(new AbstractAclfStudyCaseRunner() {
+			private double[] pFactorList = {
+					0.3, 0.3, 0.3, 0.3, 1.0, 1.0,
+					1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+					1.0, 1.0, 1.4, 1.3, 1.3, 1.0,
+					1.0, 1.0, 0.2, 0.2, 0.2, 0.1
+					};
+			private double[] qFactorList = {
+					0.2, 0.2, 0.2, 0.2, 0.3, 1.0,
+					1.0, 1.0, 1.0, 1.0, 1.0, 1.0,
+					1.0, 1.0, 1.0, 1.2, 1.2, 1.2,
+					1.0, 1.0, 1.0, 0.1, 0.1, 0.1
+					};
+			private StudyCase baseCase = null;
+			public boolean generateCaseData(StudyCase studyCase) {
+				if (baseCase == null) {
+					baseCase = studyCase.getParent().getStudyCase(Constants.BaseStudyCaseName);
+				}
+				try {
+					int index = studyCase.getCaseNumber()-1;
+					
+					AclfBusResult r = (AclfBusResult)baseCase.getBusResult("1");
+					AbstractAclfStudyCaseRunner.increaseBusLoad(r, pFactorList[index], qFactorList[index]);
+				} catch (InterpssException e) {
+					SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
+					return false;
+				}
+				return true;
+			}			
+		});
+		
+		mcase.createBaseCase();
+
+		for (int i = 1; i <= 24; i++ ) {
+			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+i, "Case"+i, i, mcase);
+			mcase.runStudyCase(studyCase);
+		}
+		
+		StudyCase case1 = mcase.getStudyCase("StudyCase1");
+		assertTrue(((AclfNetworkResult)case1.getNetResult()).converged);
+		AclfBusResult busResult = (AclfBusResult)case1.getBusResult("1");
+		assertTrue(Math.abs(busResult.load.getReal()-0.48)<0.0001);
+		assertTrue(Math.abs(busResult.load.getImaginary()-0.16) < 0.0001);
+
+		StudyCase case12 = mcase.getStudyCase("StudyCase12");
+		assertTrue(((AclfNetworkResult)case12.getNetResult()).converged);
+		busResult = (AclfBusResult)case12.getBusResult("1");
+		assertTrue(Math.abs(busResult.load.getReal()-1.6)<0.0001);
+		assertTrue(Math.abs(busResult.load.getImaginary()-0.8)<0.0001);
+		
+		StudyCase case24 = mcase.getStudyCase("StudyCase24");
+		assertTrue(((AclfNetworkResult)case24.getNetResult()).converged);
+		busResult = (AclfBusResult)case24.getBusResult("1");
+		assertTrue(Math.abs(busResult.load.getReal()-0.16)<0.0001);
+		assertTrue(Math.abs(busResult.load.getImaginary()-0.08)<0.0001);
+
+		for ( StudyCase c : mcase.getStudyCaseList()) {
+			System.out.println("StudyCase: " + c.getCaseNumber() + ", " + c.getName());
+			for (BusResult r : c.getBusResultList()) {
+				AclfBusResult result = (AclfBusResult)r;
+				System.out.println(result);
+			}
+		}
 	}
 }
 
