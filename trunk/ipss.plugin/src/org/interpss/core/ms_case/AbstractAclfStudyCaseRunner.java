@@ -20,6 +20,12 @@ public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 		bus.setLoadQ(busResult.load.getImaginary() + dQ);		
 	}
 	
+	public static void increaseBusLoad(AclfBusResult busResult, double pFactor, double qFactor) {
+		AclfBus bus = (AclfBus)busResult.getBus();
+		bus.setLoadP(busResult.load.getReal()*pFactor);
+		bus.setLoadQ(busResult.load.getImaginary()*qFactor);		
+	}
+
 	public static void increaseBusGenConstPF(AclfBusResult busResult, double dP) {
 		AclfBus bus = (AclfBus)busResult.getBus();
 		dP = dP * 0.5;
