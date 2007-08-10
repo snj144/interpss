@@ -1192,7 +1192,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 }//GEN-LAST:event_scriptLoadRadioButtonSelected
 
     private void scriptGenRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptGenRadioButtonSelected
-        setGenLabelText("Pgen(pu)", false, "0.0", "Qgen(pu)", false, "0.0");
+        setGenLabelText("Pgen(pu)", false, "0.0", "    Qgen(pu)", false, "0.0");
         setAdjLabelText(false, BUS_TYPE_PV);
         setScriptPanel();
 }//GEN-LAST:event_scriptGenRadioButtonSelected
@@ -1267,7 +1267,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 
     private void nonGenRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonGenRadioButtonSelected
     	_data.setGenCode(AclfBusData.GenCode_NonGen);
-        setGenLabelText("Pgen(pu)", false, "0.0", "Qgen(pu)", false, "0.0");
+        setGenLabelText("Pgen(pu)", false, "0.0", "    Qgen(pu)", false, "0.0");
         setAdjLabelText(false, BUS_TYPE_PV);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
         setScriptPanel();
@@ -1283,7 +1283,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 
     private void pqRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqRadioButtonSelected
     	_data.setGenCode(AclfBusData.GenCode_PQ);
-        setGenLabelText("Pgen(pu)", true, "0.0", "Qgen(pu)", true, "0.0");
+        setGenLabelText("Pgen(pu)", true, "0.0", "    Qgen(pu)", true, "0.0");
         setAdjLabelText(((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment(), BUS_TYPE_PQ);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
         setScriptPanel();
@@ -1291,7 +1291,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 
     private void pvRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pvRadioButtonSelected
     	_data.setGenCode(AclfBusData.GenCode_PV);
-        setGenLabelText("Pgen(pu)", true, "0.0", "Vspec(pu)", true, "1.0");
+        setGenLabelText("Pgen(pu)", true, "0.0", "    Vspec(pu)", true, "1.0");
         setAdjLabelText(((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAdjustment(), BUS_TYPE_PV);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
         setScriptPanel();
@@ -1299,7 +1299,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 
     private void swingRadioButtonSelected(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_swingRadioButtonSelected
     	_data.setGenCode(AclfBusData.GenCode_Swing);
-        setGenLabelText("Vspec(pu)", true, "1.0", "Angle(deg)", true, "0.0");
+        setGenLabelText("Vspec(pu)", true, "1.0", "    Angle(deg)", true, "0.0");
         setAdjLabelText(false, BUS_TYPE_PV);
         editUIEventContainer.fireEvent(new EditUIEvent(EditUIEvent.BusCodeChanged));
         setScriptPanel();
