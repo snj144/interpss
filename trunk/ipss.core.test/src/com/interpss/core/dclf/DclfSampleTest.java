@@ -29,9 +29,12 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.Constants;
+import com.interpss.common.util.Number2String;
 import com.interpss.core.BaseTestSetup;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Bus;
 import com.interpss.core.util.sample.SampleCases;
 
 public class DclfSampleTest extends BaseTestSetup {
@@ -50,11 +53,17 @@ public class DclfSampleTest extends BaseTestSetup {
 		
 		System.out.println(algo.getBMatrix());
 		
-		assertTrue(Math.abs(algo.getBMatrix().getBi(1)+0.41933)<0.0001);
+		for (Bus bus : net.getBusList()) {
+			int n = bus.getSortNumber();
+			System.out.println("Bus id, dAng : " + bus.getId() + ", " + 
+					Number2String.toStr(algo.getBMatrix().getBi(n)*Constants.RtoD));
+		}
+		
+		assertTrue(Math.abs(algo.getBMatrix().getBi(1)-0.41933)<0.0001);
 		assertTrue(Math.abs(algo.getBMatrix().getBi(2))<0.0001);
-		assertTrue(Math.abs(algo.getBMatrix().getBi(3)-0.06122)<0.0001);
-		assertTrue(Math.abs(algo.getBMatrix().getBi(4)+0.34433)<0.0001);
-		assertTrue(Math.abs(algo.getBMatrix().getBi(5)-0.069)<0.0001);
+		assertTrue(Math.abs(algo.getBMatrix().getBi(3)+0.06122)<0.0001);
+		assertTrue(Math.abs(algo.getBMatrix().getBi(4)-0.34433)<0.0001);
+		assertTrue(Math.abs(algo.getBMatrix().getBi(5)+0.069)<0.0001);
 	}
 }
 
