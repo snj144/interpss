@@ -945,7 +945,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         tapVControlEditPanel.add(controlTapSidePanel, gridBagConstraints);
 
         controlTapMaxLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        controlTapMaxLabel.setText("TapMax(pu)  ");
+        controlTapMaxLabel.setText("TurnRatioMax(pu)  ");
         controlTapLimitPanel.add(controlTapMaxLabel);
 
         controlTapMaxTextField.setColumns(4);
@@ -955,7 +955,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         controlTapLimitPanel.add(controlTapMaxTextField);
 
         controlTapMinLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        controlTapMinLabel.setText("         TapMin(pu)  ");
+        controlTapMinLabel.setText("         TurnRatioMin(pu)  ");
         controlTapLimitPanel.add(controlTapMinLabel);
 
         controlTapMinTextField.setColumns(4);
