@@ -453,7 +453,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         branchScInfoPanel.add(hB0TextField, gridBagConstraints);
 
         fromTapLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        fromTapLabel.setText("     From Tap(pu)  ");
+        fromTapLabel.setText("     From TurnRatio(pu)  ");
         fromTapLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -473,7 +473,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
         branchScInfoPanel.add(fromTapTextField, gridBagConstraints);
 
         toTapLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        toTapLabel.setText("          To Tap(pu)  ");
+        toTapLabel.setText("          To TurnRatio(pu)  ");
         toTapLabel.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
