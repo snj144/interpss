@@ -25,12 +25,14 @@
 package org.interpss.editor.ui;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JToggleButton;
 import javax.swing.border.BevelBorder;
 
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
@@ -60,6 +62,7 @@ public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener
 	
     private JProgressBar progressBar;
     private JPanel progressPanel;
+    private JToggleButton runToggleButton;
 
     private JPanel graphPanel;
 	
@@ -133,8 +136,9 @@ public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener
     */
     public void busyStart(long period, String aStatusLabel, String progLabel) {
     	progressBar.setEnabled(true);
-    	progressLabel.setText(progLabel);
+    	progressLabel.setText(progLabel+"  ");
     	statusLabel.setText(aStatusLabel);
+    	runToggleButton.setEnabled(true);
     	this.busy = true;
     	this.progressMsg = progLabel;
     	timer = new Timer();
@@ -153,6 +157,7 @@ public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener
    		progressBar.setValue(ProcessBarMin);
     	progressBar.setEnabled(false);
     	statusLabel.setText(aStatusLabel);
+    	runToggleButton.setEnabled(false);
     	cnt = 0;
     	/*
     	if (console != null && autoClose) {
@@ -182,13 +187,17 @@ public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener
    		progressBar.setValue(cnt);
     }
     
+	private void runToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		busyStop("Stoped by User");
+	}
+    
     private void initComponents() {
     	
 		setBorder(new BevelBorder(BevelBorder.LOWERED));
 		setLayout(new BorderLayout());
 
 		progressPanel = new JPanel();
-		progressPanel.setLayout(new BorderLayout());
+		progressPanel.setLayout(new FlowLayout());
 //		progressPanel.setBorder(new BevelBorder(BevelBorder.LOWERED));
 		add(progressPanel, BorderLayout.EAST);
 
@@ -199,11 +208,22 @@ public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener
         progressBar = new JProgressBar();
         progressBar.setEnabled(false);
         progressBar.setMinimumSize(new java.awt.Dimension(50, 8));
-        progressBar.setPreferredSize(new java.awt.Dimension(50, 18));
-        
-		progressPanel.add(progressBar, BorderLayout.EAST);
+        progressBar.setPreferredSize(new java.awt.Dimension(50, 16));
+		progressPanel.add(progressBar);
 
-		
+        runToggleButton = new JToggleButton();
+		progressPanel.add(runToggleButton);
+        runToggleButton.setEnabled(false);
+        runToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/org/interpss/editor/resources/runActive.jpg"))); // NOI18N
+        runToggleButton.setDisabledSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/org/interpss/editor/resources/runStopped.jpg"))); // NOI18N
+        runToggleButton.setDisabledIcon(new javax.swing.ImageIcon(getClass().getResource("/org/interpss/editor/resources/runStopped.jpg"))); // NOI18N
+        runToggleButton.setPreferredSize(new java.awt.Dimension(16, 16));
+        runToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            	runToggleButtonActionPerformed(evt);
+            }
+        });
+        
 		graphPanel = new JPanel();
 		graphPanel.setLayout(new BorderLayout());
 		add(graphPanel, BorderLayout.WEST);
