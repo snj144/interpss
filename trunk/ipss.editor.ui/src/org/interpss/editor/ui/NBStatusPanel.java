@@ -30,6 +30,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JToggleButton;
@@ -188,7 +189,12 @@ public class NBStatusPanel extends JPanel implements IAppStatus, IpssMsgListener
     }
     
 	private void runToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		busyStop("Stoped by User");
+		if (JOptionPane.showConfirmDialog(
+				null, 
+				"Do you want to stop the project running indicator?", 
+				"Stop Runninng Indicator", JOptionPane.YES_NO_OPTION) 
+			== JOptionPane.YES_OPTION)
+			busyStop("Stoped by User");
 	}
     
     private void initComponents() {
