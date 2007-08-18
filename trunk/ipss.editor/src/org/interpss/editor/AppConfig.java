@@ -98,6 +98,7 @@ public class AppConfig {
 			DBManager.DB_SCHEMA_VERSION = Translator.getString("IpssDb.shema.version");
 			IpssLogger.getLogger().info("DBManager.SQLMAP_CONFIG_PATH:" + DBManager.SQLMAP_CONFIG_PATH );
 			IpssLogger.getLogger().info("DBManager.SQLMAP_SAMPLE_CONFIG_PATH:" + DBManager.SQLMAP_SAMPLE_CONFIG_PATH );
+/*
 			try {
 				DBManager.getSqlMapIpss().getDataSource().getConnection();
 				DBManager.getSqlMapSample().getDataSource().getConnection();
@@ -105,7 +106,7 @@ public class AppConfig {
 				IpssLogger.logErr(e);
 				ok = false;
 			}
-			
+*/			
 			SpringAppContext.SpringAppCtxConfigXmlFile = Translator.getString("springframework.config.xmlfile");
 			GEditor.Pty_UserWorkspace = Translator.getString("WorkSpace.Location");
 			GEditor.Pty_SampleWorkspace = Translator.getString("WorkSpace.Location.Sample");
