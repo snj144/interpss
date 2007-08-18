@@ -37,7 +37,6 @@ import org.interpss.editor.resources.Translator;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
-import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
@@ -95,10 +94,13 @@ public class AppConfig {
 //			FileChooserConfig.setCustomFileExts(appProps);
 			
 			DBManager.SQLMAP_CONFIG_PATH = Translator.getString("Sqlmap.Config.Path");
+			DBManager.SQLMAP_SAMPLE_CONFIG_PATH = Translator.getString("Sqlmap.Sample.Config.Path");
 			DBManager.DB_SCHEMA_VERSION = Translator.getString("IpssDb.shema.version");
 			IpssLogger.getLogger().info("DBManager.SQLMAP_CONFIG_PATH:" + DBManager.SQLMAP_CONFIG_PATH );
+			IpssLogger.getLogger().info("DBManager.SQLMAP_SAMPLE_CONFIG_PATH:" + DBManager.SQLMAP_SAMPLE_CONFIG_PATH );
 			try {
-				DBManager.getSqlMap().getDataSource().getConnection();
+				DBManager.getSqlMapIpss().getDataSource().getConnection();
+				DBManager.getSqlMapSample().getDataSource().getConnection();
 			} catch (SQLException e) {
 				IpssLogger.logErr(e);
 				ok = false;
