@@ -152,16 +152,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	
 	private JFrame smartFrame = null;
 	
-	private static WorkspaceType wsType = WorkspaceType.UserWorkspace; 
-
-	public static WorkspaceType getWorkspaceType() {
-		return wsType; 
-	}	
-
-	public static void setWorkspaceType(WorkspaceType type) {
-		wsType = type; 
-	}	
-
 	/**
 	 * A configuration specific to the Graphpad instance. Remark: we would
 	 * hardly need it, the static configuration should be sufficient.
