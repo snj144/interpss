@@ -35,6 +35,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.io.ISimuRecManager;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 
 public class EditorSpringAppContext extends SpringAppContext {
@@ -86,8 +87,5 @@ public class EditorSpringAppContext extends SpringAppContext {
 	public static void springAppContextSetup() {
 		// Set the SpringAppContext to all ApplicationContextAware objects.
 		SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(SpringAppCtxConfigXmlFile);
-
-		EditorSpringAppContext.getAppContext().setWorkspaceDir(
-				StringUtil.getInstallLocation() + Translator.getString("WorkSpace.Location"));
 	}	
 }

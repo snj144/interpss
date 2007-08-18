@@ -39,6 +39,7 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
@@ -60,11 +61,13 @@ import org.interpss.editor.project.IpssProjectCodec;
 import org.interpss.editor.project.IpssProjectPanel;
 import org.interpss.editor.project.IpssTabbedPane;
 import org.interpss.editor.refData.LoadScheduleRefData;
+import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.swing.GPSplitPane;
 import org.interpss.editor.swing.tabbedpane.CloseListener;
 import org.interpss.editor.swing.tabbedpane.DoubleClickListener;
 import org.interpss.editor.util.ICommandRegistery;
+import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
 import org.jgraph.JGraph;
 
@@ -140,10 +143,24 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * The main Panel with the status bar and the desktop pane
 	 */
 	protected JPanel mainPanel = new JPanel(new BorderLayout());
+	
+	private JPanel editorPanel = new JPanel();
 
 	protected IpssProjectPanel projectPanel;
 
 	protected boolean isDocMaxSize = false;
+	
+	private JFrame smartFrame = null;
+	
+	private static WorkspaceType wsType = WorkspaceType.UserWorkspace; 
+
+	public static WorkspaceType getWorkspaceType() {
+		return wsType; 
+	}	
+
+	public static void setWorkspaceType(WorkspaceType type) {
+		wsType = type; 
+	}	
 
 	/**
 	 * A configuration specific to the Graphpad instance. Remark: we would
@@ -1186,5 +1203,36 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			return Utilities.getFileNameNoExt(getCurrentDocument().getName());	
 		else
 			return "TestProject";  // in testing situations, the document is not existing
+	}
+	
+	public JFrame getSmartFrame() {
+		return this.smartFrame;
+	}
+
+	public void createEditorPanel(GPSessionParameters sessionParameters) {
+		setSessionParameters(sessionParameters);
+		init();
+		
+		editorPanel = new JPanel();
+		editorPanel.setLayout(new BorderLayout());
+		editorPanel.add(this, BorderLayout.CENTER);
+		editorPanel.setVisible(false);
+		
+		this.smartFrame = new SmartFrame();
+		smartFrame.setName("MainGraphpad");
+		smartFrame.setIconImage(ImageLoader.getImageIcon(Translator.getString("Icon")).getImage());
+		smartFrame.setTitle(Translator.getString("Title"));
+		smartFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		smartFrame.getContentPane().add(editorPanel, BorderLayout.CENTER);
+		smartFrame.addWindowListener(getAppCloser());
+		smartFrame.setVisible(true);
+		
+		initData();
+		editorPanel.setVisible(true);
+		initActive();		
+	}
+	
+	public JPanel getEditorPanel() {
+		return editorPanel;
 	}
 }

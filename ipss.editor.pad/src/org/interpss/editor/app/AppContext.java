@@ -32,6 +32,8 @@ import java.util.ArrayList;
 
 import org.interpss.editor.doc.IpssProject;
 
+import com.interpss.common.util.IpssLogger;
+
 public class AppContext {
 	private String workspaceDir = "";
 	private ArrayList<IpssProject> projList = new ArrayList<IpssProject>();
@@ -41,6 +43,7 @@ public class AppContext {
 	}
 
 	public void setWorkspaceDir(String workspaceDir) {
+		IpssLogger.getLogger().info("Workspace set to: " + workspaceDir);
 		this.workspaceDir = workspaceDir;
 	}
 
