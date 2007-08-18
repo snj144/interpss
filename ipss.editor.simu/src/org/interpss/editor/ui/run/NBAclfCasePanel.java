@@ -246,13 +246,13 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         else 
         	_caseData.setMethod("GS");
 
-        if (!SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d, errMsg, "Error tolerance <= 0.0"))
+        if (SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d, errMsg, "Error tolerance <= 0.0"))
         	_caseData.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
 
-        if (!SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0, errMsg, "Max iterations <= 0") )
+        if (SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0, errMsg, "Max iterations <= 0") )
         	_caseData.setMaxIteration(SwingInputVerifyUtil.getInt(this.maxItrTextField));
 
-        if (!SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d, errMsg, "GS acceleration factor <= 0.0"))
+        if (SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d, errMsg, "GS acceleration factor <= 0.0"))
         	_caseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
 
         _caseData.setInitBusVolt(this.initVoltCheckBox.isSelected());
