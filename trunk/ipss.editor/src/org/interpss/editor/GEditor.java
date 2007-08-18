@@ -26,13 +26,13 @@ import javax.swing.UIManager;
 
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
-import org.interpss.editor.coreframework.WorkspaceType;
 import org.interpss.editor.resources.BasicProperLoader;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
 
 import com.interpss.common.ui.WinUtilities;
+import com.interpss.common.ui.Workspace;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 
@@ -135,9 +135,9 @@ public class GEditor extends Applet {
 			GEditor.pad = EditorSpringAppContext.getGraphicEditor();
 			String str = BasicProperLoader.getUserPty(Pty_CurrentWorkspace);
 			if (str.equals(Translator.getString("WorkSpace.Location")))
-				GPGraphpad.setWorkspaceType(WorkspaceType.UserWorkspace);
+				Workspace.setCurrentType(Workspace.Type.User);
 			else
-				GPGraphpad.setWorkspaceType(WorkspaceType.SampleWorkspace);
+				Workspace.setCurrentType(Workspace.Type.Sample);
 			GEditor.pad.createEditorPanel(sessionParameters);
 		} catch (Exception e) {
 			info.setText(e.getMessage());

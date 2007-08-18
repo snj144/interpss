@@ -3,10 +3,10 @@ package org.interpss.editor.actions;
 import java.awt.event.ActionEvent;
 
 import org.interpss.editor.GEditor;
-import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
-import org.interpss.editor.coreframework.WorkspaceType;
 import org.interpss.editor.resources.BasicProperLoader;
+
+import com.interpss.common.ui.Workspace;
 
 public class FileSelectWorkspaceSample extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
@@ -23,6 +23,6 @@ public class FileSelectWorkspaceSample extends IpssAbstractActionDefault {
 	}
 	
 	public void update() {
-		setEnabled(GPGraphpad.getWorkspaceType() == WorkspaceType.UserWorkspace);
+		setEnabled(Workspace.getCurrentType() == Workspace.Type.User);
 	}	
 }
