@@ -24,3 +24,17 @@ Use Data Dev Tools
 - Open a Sql file
 - Right-click to make a connection
 - Excute all to run 
+
+Add a new DB
+============
+- create a new db under db dir
+- add a db url property
+  sqlmap.sample.url=jdbc:derby:db/SampleDB
+  
+- Create a SqlMapConfig.xml file
+
+- Add a new property to tell the config file location
+  Sqlmap.Sample.Config.Path=sqlMapConfig/SqlMapSampleConfig.xml
+  
+- Modify DBManager.java, AppConfig.java  
+    
