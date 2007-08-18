@@ -77,12 +77,6 @@ public class AppConfig {
 		ProjData.NewProjName = "UnSaved";
 	}
 	
-	// load user preference and config the app Mike 12/25/05
-	public static boolean userPreConfiguration() {
-		// To be implemented
-		return true;
-	}
-	
 	public static boolean loadAppProperties() {
 		IpssLogger.initLogger("log/log.properties");
 		IpssLogger.getLogger().info("\n============================================\n" +
@@ -111,8 +105,8 @@ public class AppConfig {
 			}
 			
 			SpringAppContext.SpringAppCtxConfigXmlFile = Translator.getString("springframework.config.xmlfile");
-//			GraphCellFactory.TAG_NetForm = Translator.getString("graphicfile.tag.netform");
-//			GraphCellFactory.TAG_BusForm = Translator.getString("graphicfile.tag.busform");
+			GEditor.Pty_UserWorkspace = Translator.getString("WorkSpace.Location");
+			GEditor.Pty_SampleWorkspace = Translator.getString("WorkSpace.Location.Sample");
 			
 			IpssRptViewer.REPORT_DEFAULT_DIR = baseDir + Translator.getString("Report.File.Location");
 			IpssRptViewer.REPORT_EXT 	= Translator.getString("ReportFileExtension");
