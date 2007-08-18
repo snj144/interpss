@@ -100,16 +100,16 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 
     	IpssLogger.getLogger().info("NBFaultLocDataPanel setForm2Editor() called");
 
-    	if (!SwingInputVerifyUtil.largeEqualThan(stratTimeTextField, 0.0d, errMsg,
+    	if (SwingInputVerifyUtil.largeEqualThan(stratTimeTextField, 0.0d, errMsg,
     					"Dynamic event start time < 0.0") )
     		_eventData.setStartTime(SwingInputVerifyUtil.getDouble(stratTimeTextField));
 
         _eventData.setPermanent(permanetCheckBox.isSelected());
 
         if (!permanetCheckBox.isSelected()) {
-            if (!SwingInputVerifyUtil.largeThan(durationTextField, 0.0d, errMsg,
+            if (SwingInputVerifyUtil.largeThan(durationTextField, 0.0d, errMsg,
     			       "Dynamic event duration  <= 0.0") )
-            _eventData.setDuration(SwingInputVerifyUtil.getDouble(durationTextField));
+            	_eventData.setDuration(SwingInputVerifyUtil.getDouble(durationTextField));
         }
         
         _faultLocDataPanel.saveEditor2Form(errMsg);

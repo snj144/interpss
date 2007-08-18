@@ -100,6 +100,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 	 * @return created (INSERT), selected or updated project data oject
 	 */
 	public Object dbActionProject(int action, Object projectData)  throws InterpssException {
+		IpssLogger.getLogger().info("Current DB : " + DBManager.getCurrentDBName());
 		try {
 			ProjData projData = (ProjData)projectData;
 			switch (action) {

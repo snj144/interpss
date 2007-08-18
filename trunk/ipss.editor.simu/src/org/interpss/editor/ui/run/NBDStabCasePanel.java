@@ -266,10 +266,10 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 			errMsg.add("Differential Eqn solution method: " + method + " has not implemented yet");
 		}
 
-        if (!SwingInputVerifyUtil.largeThan(totalTimeTextField, 0.0d, errMsg, "Total Simulation time < 0.0"))
+        if (SwingInputVerifyUtil.largeThan(totalTimeTextField, 0.0d, errMsg, "Total Simulation time < 0.0"))
         	dstabCaseData.setTotalSimuTime(SwingInputVerifyUtil.getDouble(totalTimeTextField));
         
-        if (!SwingInputVerifyUtil.largeThan(simuStepTextField, 0.0d, errMsg, "Simulation step < 0.0"))
+        if (SwingInputVerifyUtil.largeThan(simuStepTextField, 0.0d, errMsg, "Simulation step <= 0.0"))
         	dstabCaseData.setSimuStep(SwingInputVerifyUtil.getDouble(simuStepTextField));
         
         if (dstabCaseData.getTotalSimuTime() < dstabCaseData.getSimuStep()) {
@@ -284,11 +284,11 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
        		dstabCaseData.setRefMachId((String)refMachComboBox.getSelectedItem());
         }
 
-        if (!SwingInputVerifyUtil.largeThan(netEqnItrNoEventTextField, 0, errMsg,
+        if (SwingInputVerifyUtil.largeThan(netEqnItrNoEventTextField, 0, errMsg,
         		"Network equation solution iteration count (no event) <= 0"))
         	dstabCaseData.setNetEqnItrNoEvent(SwingInputVerifyUtil.getInt(netEqnItrNoEventTextField));
         
-        if (!SwingInputVerifyUtil.largeThan(netEqnItrWithEventTextField, 0, errMsg,
+        if (SwingInputVerifyUtil.largeThan(netEqnItrWithEventTextField, 0, errMsg,
         		"Network equation solution iteration count (with event) <= 0"))
         	dstabCaseData.setNetEqnItrWithEvent(SwingInputVerifyUtil.getInt(netEqnItrWithEventTextField));
         
@@ -298,11 +298,11 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         }
         else {
         	dstabCaseData.setStaticLoadType(DStabCaseData.StaticLoad_Const_P);
-            if (!SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchVoltTextField, 0.4d, errMsg,
+            if (SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchVoltTextField, 0.4d, errMsg,
             		"Static load model switching voltage < 0.4 pu"))
             	dstabCaseData.setStaticLoadSwitchVolt(SwingInputVerifyUtil.getDouble(staticLoadSwitchVoltTextField));
 
-            if (!SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchDeadZoneTextField, 0.0d, errMsg,
+            if (SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchDeadZoneTextField, 0.0d, errMsg,
     				"Static load model switching voltage dead zone< 0.0 pu"))
             	dstabCaseData.setStaticLoadSwitchDeadZone(SwingInputVerifyUtil.getDouble(staticLoadSwitchDeadZoneTextField));
         }
