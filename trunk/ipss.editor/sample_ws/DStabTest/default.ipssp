@@ -1,0 +1,22 @@
+<ipssp-1.0>
+	<items>
+		<item filename="IEEE_2_2_TestCase.ipss" projDbId ="13" status="close">
+		<items>
+		<item filename="AclfSummary_IEEE_2_2_TestCase.ipssrpt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="readme.txt" projDbId ="0" status="close">
+	</item>
+		<item filename="ieee1-1model.ipss" projDbId ="21" status="close">
+		<items>
+		<item filename="ieee1-1modelDStabOutputScripts.txt" projDbId ="0" status="close">
+	</item>
+	</items>
+	</item>
+		<item filename="ieee1-2model.ipss" projDbId ="0" status="close">
+	</item>
+		<item filename="ieee2-1model.ipss" projDbId ="24" status="close">
+	</item>
+	</items>
+</ipssp-1.0>

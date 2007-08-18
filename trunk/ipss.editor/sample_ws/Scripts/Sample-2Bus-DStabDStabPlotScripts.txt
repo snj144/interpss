@@ -1,0 +1,50 @@
+/*
+     Template for scripting transient stability simulation plotting
+*/
+// define a plotter object
+var sPlotter = new Object();
+function getObjectName() { return 'sPlotter';}
+
+// import InterPSS core library
+var IpssLibImport = JavaImporter(org.interpss.editor.ui);
+with (IpssLibImport) {
+   // define a text output dialog object
+   sPlotter.textDialog = UISpringAppContext.getOutputTextDialog("Transient Stability Simulation Output");
+
+   /*
+      nameList - display state/variable name list, first one is 'Time'
+      valueList - a list of hashtables holding values matching the diaplay names
+      simuCtx - the SimuContext object
+      msg - the IPSSMsgHub object
+   */
+   sPlotter.processPlotScripts = function(nameList, valueList, simuCtx, msg) {
+      // clear the text area
+      sPlotter.textDialog.clearTextArea();
+ 
+      // create a comma delimited names (Time, Machine Angle ...
+      var nameLine = '';
+      for ( i = 0; i < nameList.size(); i++) {
+         nameLine = nameLine + nameList.get(i);
+         if ( i < nameList.size()-1)
+            nameLine = nameLine + ', ';
+      }
+      sPlotter.textDialog.appendText(nameLine + '\n');
+      //msg.sendStatusMsg(nameLine);
+
+      // create comma delimited value lines
+      for ( i = 0; i < valueList.size(); i++) {
+         var valueLine = '';
+         var valueTable = valueList.get(i);
+         for ( j = 0; j < nameList.size(); j++) {
+            var name = nameList.get(j);
+            valueLine = valueLine + valueTable.get(name);
+            if ( j < nameList.size()-1)
+               valueLine = valueLine + ', ';
+         }
+         //msg.sendStatusMsg(valueLine);
+         sPlotter.textDialog.appendText(valueLine + '\n');
+      }
+      // show the text dialog box 
+      sPlotter.textDialog.showDialog();
+   }
+}

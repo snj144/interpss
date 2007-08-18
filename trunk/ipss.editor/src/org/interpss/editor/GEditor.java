@@ -20,19 +20,21 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
+import org.interpss.editor.coreframework.WorkspaceType;
+import org.interpss.editor.resources.BasicProperLoader;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
 
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
 
 /**
  * A class with some static methods (including main and init) to properly
@@ -44,14 +46,31 @@ import com.interpss.common.util.IpssLogger;
  */
 public class GEditor extends Applet {
 	private static final long serialVersionUID = 1;
-
-	/**
-	 * is properly set by the ant buildfile to ensure the source version match
-	 * the binary version
-	 */
 	
-	private static GPSessionParameters sessionParameters;
+	public static String Pty_CurrentWorkspace = "workspace.current";
+	public static String Pty_UserWorkspace = "workspace";
+	public static String Pty_SampleWorkspace = "sample_ws";
 
+	private static GPSessionParameters sessionParameters;
+	private static GPGraphpad pad = null;
+
+	public static GPGraphpad getGraphPad() {
+		return GEditor.pad;
+	}
+	
+	public static GPSessionParameters getSessionParameters() {
+		return sessionParameters;
+	}
+
+	private static void setWorkspaceDirectory() {
+		String str = BasicProperLoader.getUserPty(Pty_CurrentWorkspace);
+		if (str == null) {
+			str = Translator.getString(Pty_UserWorkspace);
+			BasicProperLoader.setUserPty(Pty_CurrentWorkspace, str);
+		}
+		EditorSpringAppContext.getAppContext().setWorkspaceDir(StringUtil.getInstallLocation() + str);
+	}
+	
 	/*
 	 * Main method for creating a JGraphpad in an application deployed either
 	 * offline, either via webstart
@@ -64,8 +83,6 @@ public class GEditor extends Applet {
 		boolean ok = true;
 		if (!AppConfig.loadAppProperties())
 			ok = false;
-		if (!AppConfig.userPreConfiguration())
-			ok = false;
 
 		if (!ok)
 		{			// we need to do something to inform the user
@@ -75,7 +92,6 @@ public class GEditor extends Applet {
 					"Configuration Error", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
-
 		
 	 	// start splash ...
 		JWindow frame = new JWindow();
@@ -86,6 +102,10 @@ public class GEditor extends Applet {
 		
 		// load Spring configuration
 		EditorSpringAppContext.springAppContextSetup();
+		
+		// set workspace
+		setWorkspaceDirectory();
+		
 		showSplashInfo(info,Translator.getString("Splash.SpringConfig"));
 
 		// set application contants
@@ -112,27 +132,13 @@ public class GEditor extends Applet {
 		showSplashInfo(info,Translator.getString("Splash.Start"));
 
 		try {
-			//try to set up a console:
-			GPGraphpad pad = EditorSpringAppContext.getGraphicEditor();
-			pad.setSessionParameters(sessionParameters);
-			pad.init();
-			JFrame gpframe = createFrame();
-			
-			final JPanel panel = new JPanel();
-			panel.setLayout(new BorderLayout());
-			panel.add(pad, BorderLayout.CENTER);
-			panel.setVisible(false);
-			gpframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
-			gpframe.getContentPane().add(panel, BorderLayout.CENTER);
-			
-			gpframe.addWindowListener(pad.getAppCloser());
-			
-			gpframe.setVisible(true);
-			// Richard: the screen is blank while we are waiting for initData. Can we load the data
-			// then set gpFrame visible?
-			pad.initData();
-			panel.setVisible(true);
-			pad.initActive();
+			GEditor.pad = EditorSpringAppContext.getGraphicEditor();
+			String str = BasicProperLoader.getUserPty(Pty_CurrentWorkspace);
+			if (str.equals(Translator.getString("WorkSpace.Location")))
+				GPGraphpad.setWorkspaceType(WorkspaceType.UserWorkspace);
+			else
+				GPGraphpad.setWorkspaceType(WorkspaceType.SampleWorkspace);
+			GEditor.pad.createEditorPanel(sessionParameters);
 		} catch (Exception e) {
 			info.setText(e.getMessage());
 			e.printStackTrace();
@@ -151,11 +157,15 @@ public class GEditor extends Applet {
 	 * By default we put the GPGraphpad in a JFrame
 	 * @return
 	 */
-	public static JFrame createFrame() {
+	public static JFrame createFrame(GPGraphpad pad) {
 		JFrame frame = new SmartFrame();
-		frame.setName("MainGraphpad");
+		frame.setName("MainGraphpad"); 
 		frame.setIconImage(ImageLoader.getImageIcon(Translator.getString("Icon")).getImage());
 		frame.setTitle(Translator.getString("Title"));
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.getContentPane().add(pad.getEditorPanel(), BorderLayout.CENTER);
+		frame.addWindowListener(pad.getAppCloser());
+		frame.setVisible(true);
 		return frame;
 	}
 
@@ -188,7 +198,7 @@ public class GEditor extends Applet {
 		sessionParameters.setApplet(this);
 		GPGraphpad pad = new GPGraphpad(sessionParameters);
 		pad.init();
-		JFrame gpframe = createFrame();
+		JFrame gpframe = createFrame(pad);
 		gpframe.getContentPane().add(pad);
 		gpframe.addWindowListener(pad.getAppCloser());
 		gpframe.setVisible(true);

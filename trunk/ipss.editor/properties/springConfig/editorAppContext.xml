@@ -104,7 +104,7 @@
 	-->
 	<bean id="ipssGraphicEditor" 
 	      class="org.interpss.editor.coreframework.GPGraphpad"
-	      scope="singleton">	
+	      >	
 	      <constructor-arg>
 	  	  	<ref bean="ipssStatusPanel"/>
 	  	  </constructor-arg>
