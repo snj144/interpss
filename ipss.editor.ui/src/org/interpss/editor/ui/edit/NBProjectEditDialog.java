@@ -339,18 +339,18 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
-
+        setAlwaysOnTop(true);
         setModal(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 closeDialog(evt);
             }
         });
-
-        inputPanel.setLayout(new java.awt.BorderLayout(5, 5));
+        getContentPane().setLayout(new java.awt.BorderLayout(10, 10));
 
         inputPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 20, 1, 20));
+        inputPanel.setLayout(new java.awt.BorderLayout(5, 5));
+
         selectionPanel.setLayout(new java.awt.GridBagLayout());
 
         projFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -380,14 +380,15 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
         selectionPanel.add(descLabel, gridBagConstraints);
 
-        descTextArea.setColumns(30);
+        descTextArea.setColumns(40);
         descTextArea.setLineWrap(true);
         descTextArea.setRows(3);
         descTextArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
-        descTextArea.setName("descTextArea");
+        descTextArea.setName("descTextArea"); // NOI18N
         jScrollPane1.setViewportView(descTextArea);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         selectionPanel.add(jScrollPane1, gridBagConstraints);
@@ -399,7 +400,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 
         baseKvaField.setColumns(8);
         baseKvaField.setText("100000.0");
-        baseKvaField.setName("baseKvaTextField");
+        baseKvaField.setName("baseKvaTextField"); // NOI18N
         kvaPanel.add(baseKvaField);
 
         kvaUnitLabel.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -413,7 +414,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 
         baseFreqField.setColumns(4);
         baseFreqField.setText("60.0");
-        baseFreqField.setName("baseFreqTextField");
+        baseFreqField.setName("baseFreqTextField"); // NOI18N
         kvaPanel.add(baseFreqField);
 
         fUnitLabel.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -423,7 +424,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.ipadx = 5;
         gridBagConstraints.ipady = 5;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
@@ -431,75 +432,70 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 
         typeSelectPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
 
+        appTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Application Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         appTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
 
-        appTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Application Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         appTypeButtonGroup.add(transAppRadioButton);
         transAppRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         transAppRadioButton.setSelected(true);
         transAppRadioButton.setText("Transmission");
-        transAppRadioButton.setName("transAppRadioButton");
+        transAppRadioButton.setName("transAppRadioButton"); // NOI18N
         transAppRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 transAppTypeActionHandler(evt);
             }
         });
-
         appTypePanel.add(transAppRadioButton);
 
         appTypeButtonGroup.add(distriAppRadioButton);
         distriAppRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         distriAppRadioButton.setText("Distribution");
-        distriAppRadioButton.setName("distriAppRadioButton");
+        distriAppRadioButton.setName("distriAppRadioButton"); // NOI18N
         distriAppRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 distriAppTypeActionHandler(evt);
             }
         });
-
         appTypePanel.add(distriAppRadioButton);
 
         typeSelectPanel.add(appTypePanel);
 
+        netTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Network Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         netTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
 
-        netTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Network Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         netTypeButtonGroup.add(aclfNetRadioButton);
         aclfNetRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         aclfNetRadioButton.setSelected(true);
         aclfNetRadioButton.setText("ACLF");
-        aclfNetRadioButton.setName("aclfNetRadioButton");
+        aclfNetRadioButton.setName("aclfNetRadioButton"); // NOI18N
         aclfNetRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 aclfNetTypeActionHandler(evt);
             }
         });
-
         netTypePanel.add(aclfNetRadioButton);
 
         netTypeButtonGroup.add(acscNetRadioButton);
         acscNetRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         acscNetRadioButton.setText("ACSC");
-        acscNetRadioButton.setName("acscNetRadioButton");
+        acscNetRadioButton.setName("acscNetRadioButton"); // NOI18N
         acscNetRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 acscNetTypeActionHandler(evt);
             }
         });
-
         netTypePanel.add(acscNetRadioButton);
 
         netTypeButtonGroup.add(dstabNetRadioButton);
         dstabNetRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         dstabNetRadioButton.setSelected(true);
         dstabNetRadioButton.setText("TranStability");
-        dstabNetRadioButton.setName("dstabNetRadioButton");
+        dstabNetRadioButton.setName("dstabNetRadioButton"); // NOI18N
         dstabNetRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dstabNetRadioButtonActionPerformed(evt);
             }
         });
-
         netTypePanel.add(dstabNetRadioButton);
 
         typeSelectPanel.add(netTypePanel);
@@ -513,19 +509,14 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 
         inputPanel.add(selectionPanel, java.awt.BorderLayout.NORTH);
 
+        editContainerPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         editContainerPanel.setLayout(new java.awt.BorderLayout(5, 5));
 
-        editContainerPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         editPanel.setLayout(new java.awt.BorderLayout());
-
         editContainerPanel.add(editPanel, java.awt.BorderLayout.CENTER);
-
         editContainerPanel.add(westEmptyPanel, java.awt.BorderLayout.WEST);
-
         editContainerPanel.add(eastEmptyPanel, java.awt.BorderLayout.EAST);
-
         editContainerPanel.add(northEmptyPanel, java.awt.BorderLayout.NORTH);
-
         editContainerPanel.add(southEmptyPanel, java.awt.BorderLayout.SOUTH);
 
         inputPanel.add(editContainerPanel, java.awt.BorderLayout.CENTER);
@@ -533,26 +524,25 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         getContentPane().add(inputPanel, java.awt.BorderLayout.CENTER);
 
         controlPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 10, 1));
+
         saveButton.setFont(new java.awt.Font("Dialog", 0, 12));
         saveButton.setText("Save");
-        saveButton.setName("SaveButton");
+        saveButton.setName("SaveButton"); // NOI18N
         saveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveActionHandler(evt);
             }
         });
-
         controlPanel.add(saveButton);
 
         cancelButton.setFont(new java.awt.Font("Dialog", 0, 12));
         cancelButton.setText("Cancel");
-        cancelButton.setName("CancelButton");
+        cancelButton.setName("CancelButton"); // NOI18N
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cancelActionHandler(evt);
             }
         });
-
         controlPanel.add(cancelButton);
 
         getContentPane().add(controlPanel, java.awt.BorderLayout.SOUTH);
