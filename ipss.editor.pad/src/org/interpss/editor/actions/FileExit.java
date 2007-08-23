@@ -22,41 +22,16 @@ package org.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
-import org.interpss.editor.EditorSpringAppContext;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
-import org.interpss.editor.coreframework.IpssEditorDocument;
-import org.interpss.editor.doc.IpssProject;
-import org.interpss.editor.doc.IpssProjectItem;
-
 
 public class FileExit extends IpssAbstractActionDefault {
+	private static final long serialVersionUID = 1;
 
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-
-		getGraphpad().expendTree2Object(graphpad.getCurrentDocument());
-		IpssProjectItem aitem = graphpad.getCurrentProjectItem();
-
-		IpssProjectItem[] items = graphpad.getAllOpenProjectItem();
-
-		graphpad.getCommand("FileCloseAllOpenItem").actionPerformed(e);
-
-		if ((items != null) && (items.length > 0))
-			for (int i = 0; i < items.length; i++) {
-				if (items[i].equals(aitem))
-					items[i].setInit_Status(IpssProjectItem.STATUS_ACTIVE);
-				else
-					items[i].setInit_Status(IpssProjectItem.STATUS_OPEN);
-			}
-		// Save projects
-		IpssProject[] projects = EditorSpringAppContext.getAppContext()
-				.getAllProjects();
-		if ((projects != null) && (projects.length > 0))
-			for (int i = 0; i < projects.length; i++)
-				graphpad.saveProject(projects[i]);
-
+		getGraphpad().closeWorkspace(e);
 		graphpad.exit();
 	}
 

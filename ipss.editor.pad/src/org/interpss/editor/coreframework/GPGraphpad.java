@@ -24,6 +24,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Frame;
+import java.awt.event.ActionEvent;
 import java.awt.event.ContainerListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -91,6 +92,7 @@ import com.interpss.common.util.StringUtil;
  */
 public class GPGraphpad extends JComponent implements ICommandRegistery,
 		IGraphicEditor {
+	private static final long serialVersionUID = 1;
 
 	/**
 	 * parameters that can change from one sessions to another
@@ -1224,5 +1226,28 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	
 	public JPanel getEditorPanel() {
 		return editorPanel;
+	}
+	
+	public void closeWorkspace(ActionEvent e) {
+		expendTree2Object(getCurrentDocument());
+		IpssProjectItem aitem = getCurrentProjectItem();
+
+		IpssProjectItem[] items = getAllOpenProjectItem();
+
+		getCommand("FileCloseAllOpenItem").actionPerformed(e);
+
+		if ((items != null) && (items.length > 0))
+			for (int i = 0; i < items.length; i++) {
+				if (items[i].equals(aitem))
+					items[i].setInit_Status(IpssProjectItem.STATUS_ACTIVE);
+				else
+					items[i].setInit_Status(IpssProjectItem.STATUS_OPEN);
+			}
+		// Save projects
+		IpssProject[] projects = EditorSpringAppContext.getAppContext()
+				.getAllProjects();
+		if ((projects != null) && (projects.length > 0))
+			for (int i = 0; i < projects.length; i++)
+				saveProject(projects[i]);		
 	}
 }
