@@ -15,6 +15,7 @@ public class FileSelectWorkspaceUser extends IpssAbstractActionDefault {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
+		GEditor.getGraphPad().closeWorkspace(e);
 		GEditor.getGraphPad().getSmartFrame().setVisible(false);
 		GEditor.getGraphPad().getSmartFrame().dispose();
 
