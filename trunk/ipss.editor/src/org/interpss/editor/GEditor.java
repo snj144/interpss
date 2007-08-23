@@ -80,12 +80,8 @@ public class GEditor extends Applet {
 		parseCmdLineParameters(args);
 
 		// load properties from property files
-		boolean ok = true;
-		if (!AppConfig.loadAppProperties())
-			ok = false;
-
-		if (!ok)
-		{			// we need to do something to inform the user
+		if (!AppConfig.loadAppProperties()) {
+			// we need to do something to inform the user
 			System.err.println("System configuration has problems, please see the log file for details");
 			JOptionPane.showMessageDialog(new JFrame(),
 					"Your configuration has problems which prevent the GraphicEditor to start. Please see the log file in the log dir for details", 
