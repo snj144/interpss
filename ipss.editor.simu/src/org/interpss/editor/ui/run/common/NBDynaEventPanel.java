@@ -181,6 +181,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         dynamicEventPanel = new javax.swing.JPanel();
         eventListLabel = new javax.swing.JLabel();
         eventListComboBox = new javax.swing.JComboBox();
+        jPanel1 = new javax.swing.JPanel();
         busFaultRadioButton = new javax.swing.JRadioButton();
         branchFaultRadioButton = new javax.swing.JRadioButton();
         branchOutageRadioButton = new javax.swing.JRadioButton();
@@ -203,6 +204,8 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
             }
         });
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Event Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+
         eventTypeButtonGroup.add(busFaultRadioButton);
         busFaultRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         busFaultRadioButton.setSelected(true);
@@ -213,6 +216,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 busFaultRadioButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(busFaultRadioButton);
 
         eventTypeButtonGroup.add(branchFaultRadioButton);
         branchFaultRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -223,6 +227,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 branchFaultRadioButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(branchFaultRadioButton);
 
         eventTypeButtonGroup.add(branchOutageRadioButton);
         branchOutageRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -234,6 +239,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 branchOutageRadioButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(branchOutageRadioButton);
 
         eventTypeButtonGroup.add(loadChangeRadioButton);
         loadChangeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -245,6 +251,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 loadChangeRadioButtonActionPerformed(evt);
             }
         });
+        jPanel1.add(loadChangeRadioButton);
 
         controlPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 20));
 
@@ -283,29 +290,22 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
         dynamicEventPanelLayout.setHorizontalGroup(
             dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(dynamicEventPanelLayout.createSequentialGroup()
+                .add(80, 80, 80)
                 .add(dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(dynamicEventPanelLayout.createSequentialGroup()
-                        .add(80, 80, 80)
                         .add(eventListLabel)
-                        .add(29, 29, 29)
-                        .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(dynamicEventPanelLayout.createSequentialGroup()
-                        .add(104, 104, 104)
-                        .add(controlPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(dynamicEventPanelLayout.createSequentialGroup()
-                        .add(54, 54, 54)
-                        .add(busFaultRadioButton)
-                        .add(5, 5, 5)
-                        .add(branchFaultRadioButton)
-                        .add(5, 5, 5)
-                        .add(branchOutageRadioButton)
-                        .add(5, 5, 5)
-                        .add(loadChangeRadioButton)))
-                .addContainerGap(112, Short.MAX_VALUE))
+                        .add(18, 18, 18)
+                        .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .add(76, 76, 76))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, dynamicEventPanelLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(26, Short.MAX_VALUE)
                 .add(eventInputPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 525, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .add(dynamicEventPanelLayout.createSequentialGroup()
+                .add(116, 116, 116)
+                .add(controlPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         dynamicEventPanelLayout.setVerticalGroup(
             dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -314,19 +314,11 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
                 .add(dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(eventListLabel)
                     .add(eventListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(18, 18, 18)
-                .add(dynamicEventPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(busFaultRadioButton)
-                    .add(branchFaultRadioButton)
-                    .add(dynamicEventPanelLayout.createSequentialGroup()
-                        .add(4, 4, 4)
-                        .add(branchOutageRadioButton))
-                    .add(dynamicEventPanelLayout.createSequentialGroup()
-                        .add(4, 4, 4)
-                        .add(loadChangeRadioButton)))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(eventInputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                .add(20, 20, 20)
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(4, 4, 4)
+                .add(eventInputPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(controlPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -456,6 +448,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     private javax.swing.JComboBox eventListComboBox;
     private javax.swing.JLabel eventListLabel;
     private javax.swing.ButtonGroup eventTypeButtonGroup;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JRadioButton loadChangeRadioButton;
     private javax.swing.JButton saveEventButton;
     // End of variables declaration//GEN-END:variables
