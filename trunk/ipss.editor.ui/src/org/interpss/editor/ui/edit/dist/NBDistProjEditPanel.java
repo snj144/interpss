@@ -332,7 +332,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         loadScheduelPanel.setLayout(new java.awt.GridBagLayout());
 
         loadAnalysisCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        loadAnalysisCheckBox.setText("Load Schedule Analysis and Optimization");
+        loadAnalysisCheckBox.setText("Load Schedule Analysis");
         loadAnalysisCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         loadAnalysisCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
         loadAnalysisCheckBox.addActionListener(new java.awt.event.ActionListener() {
@@ -340,7 +340,6 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
                 loadAnalysisCheckBoxActionPerformed(evt);
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridwidth = 5;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 10, 0);
@@ -394,44 +393,41 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 
         upperPanel.setLayout(new java.awt.GridBagLayout());
 
+        stdPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "SC Standard", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         stdPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 5));
 
-        stdPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "SC Standard", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         scStdButtonGroup.add(genericStdRadioButton);
         genericStdRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         genericStdRadioButton.setSelected(true);
         genericStdRadioButton.setText("Generic");
-        genericStdRadioButton.setName("genericStdRadioButton");
+        genericStdRadioButton.setName("genericStdRadioButton"); // NOI18N
         genericStdRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 genericStdRadioButtonActionPerformed(evt);
             }
         });
-
         stdPanel.add(genericStdRadioButton);
 
         scStdButtonGroup.add(ansiStdRadioButton);
         ansiStdRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         ansiStdRadioButton.setText("ANSI");
-        ansiStdRadioButton.setName("ansiStdRadioButton");
+        ansiStdRadioButton.setName("ansiStdRadioButton"); // NOI18N
         ansiStdRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ansiStdRadioButtonActionPerformed(evt);
             }
         });
-
         stdPanel.add(ansiStdRadioButton);
 
         scStdButtonGroup.add(iecStdRadioButton);
         iecStdRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         iecStdRadioButton.setText("IEC");
-        iecStdRadioButton.setName("iecStdRadioButton");
+        iecStdRadioButton.setName("iecStdRadioButton"); // NOI18N
         iecStdRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 iecStdRadioButtonActionPerformed(evt);
             }
         });
-
         stdPanel.add(iecStdRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -442,9 +438,9 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 
         scPanel.add(upperPanel, java.awt.BorderLayout.NORTH);
 
+        scPointsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "SC Calculation Points", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         scPointsPanel.setLayout(new java.awt.GridBagLayout());
 
-        scPointsPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "SC Calculation Points", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         pNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         pNameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         pNameLabel.setText("Name");
@@ -472,7 +468,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pName_1_Field.setColumns(8);
         pName_1_Field.setText(" ");
         pName_1_Field.setEnabled(false);
-        pName_1_Field.setName("pName_1_TextField");
+        pName_1_Field.setName("pName_1_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -481,13 +477,12 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 
         pEnable_1_CheckBox.setSelected(true);
         pEnable_1_CheckBox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pEnable_1_CheckBox.setName("pEnable_1_CheckBox");
+        pEnable_1_CheckBox.setName("pEnable_1_CheckBox"); // NOI18N
         pEnable_1_CheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enableSCPoint1_ActionHandler(evt);
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
@@ -496,7 +491,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pDesc_1_Field.setColumns(30);
         pDesc_1_Field.setText(" ");
         pDesc_1_Field.setEnabled(false);
-        pDesc_1_Field.setName("pDesc_1_TextField");
+        pDesc_1_Field.setName("pDesc_1_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
@@ -506,7 +501,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pName_2_Field.setColumns(8);
         pName_2_Field.setText(" ");
         pName_2_Field.setEnabled(false);
-        pName_2_Field.setName("pName_2_TextField");
+        pName_2_Field.setName("pName_2_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
@@ -515,13 +510,12 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 
         pEnable_2_CheckBox.setSelected(true);
         pEnable_2_CheckBox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pEnable_2_CheckBox.setName("pEnable_2_CheckBox");
+        pEnable_2_CheckBox.setName("pEnable_2_CheckBox"); // NOI18N
         pEnable_2_CheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enableSCPoint2_ActionHandler(evt);
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -530,7 +524,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pDesc_2_Field.setColumns(30);
         pDesc_2_Field.setText(" ");
         pDesc_2_Field.setEnabled(false);
-        pDesc_2_Field.setName("pDesc_2_TextField");
+        pDesc_2_Field.setName("pDesc_2_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
@@ -540,7 +534,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pName_3_Field.setColumns(8);
         pName_3_Field.setText(" ");
         pName_3_Field.setEnabled(false);
-        pName_3_Field.setName("pName_3_TextField");
+        pName_3_Field.setName("pName_3_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -549,13 +543,12 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 
         pEnable_3_CheckBox.setSelected(true);
         pEnable_3_CheckBox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pEnable_3_CheckBox.setName("pEnable_3_CheckBox");
+        pEnable_3_CheckBox.setName("pEnable_3_CheckBox"); // NOI18N
         pEnable_3_CheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enableSCPoint3_ActionHandler(evt);
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 3;
@@ -564,7 +557,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pDesc_3_Field.setColumns(30);
         pDesc_3_Field.setText(" ");
         pDesc_3_Field.setEnabled(false);
-        pDesc_3_Field.setName("pDesc_3_TextField");
+        pDesc_3_Field.setName("pDesc_3_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 3;
@@ -574,7 +567,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pName_4_Field.setColumns(8);
         pName_4_Field.setText(" ");
         pName_4_Field.setEnabled(false);
-        pName_4_Field.setName("pName_4_TextField");
+        pName_4_Field.setName("pName_4_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
@@ -583,13 +576,12 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 
         pEnable_4_CheckBox.setSelected(true);
         pEnable_4_CheckBox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pEnable_4_CheckBox.setName("pEnable_4_CheckBox");
+        pEnable_4_CheckBox.setName("pEnable_4_CheckBox"); // NOI18N
         pEnable_4_CheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enableSCPoint4_ActionHandler(evt);
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 4;
@@ -598,7 +590,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pDesc_4_Field.setColumns(30);
         pDesc_4_Field.setText(" ");
         pDesc_4_Field.setEnabled(false);
-        pDesc_4_Field.setName("pDesc_4_TextField");
+        pDesc_4_Field.setName("pDesc_4_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
@@ -608,7 +600,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pName_5_Field.setColumns(8);
         pName_5_Field.setText(" ");
         pName_5_Field.setEnabled(false);
-        pName_5_Field.setName("pName_5_TextField");
+        pName_5_Field.setName("pName_5_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 5;
@@ -617,13 +609,12 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 
         pEnable_5_CheckBox.setSelected(true);
         pEnable_5_CheckBox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        pEnable_5_CheckBox.setName("pEnable_5_CheckBox");
+        pEnable_5_CheckBox.setName("pEnable_5_CheckBox"); // NOI18N
         pEnable_5_CheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enableSCPoint5_ActionHandler(evt);
             }
         });
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 5;
@@ -633,7 +624,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         pDesc_5_Field.setColumns(30);
         pDesc_5_Field.setText(" ");
         pDesc_5_Field.setEnabled(false);
-        pDesc_5_Field.setName("pDesc_5_TextField");
+        pDesc_5_Field.setName("pDesc_5_TextField"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 5;
@@ -643,9 +634,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
         scPanel.add(scPointsPanel, java.awt.BorderLayout.CENTER);
 
         add(scPanel, java.awt.BorderLayout.CENTER);
-
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
 
     private void loadAnalysisCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadAnalysisCheckBoxActionPerformed
         setLoadAnalysisFields(loadAnalysisCheckBox.isSelected());
