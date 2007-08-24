@@ -1,5 +1,5 @@
  /*
-  * @(#)BaseTestSetup.java   
+  * @(#)TestCustomFileAdapter.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,29 +15,30 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 07/15/2007
+  * @Date 09/15/2006
   * 
   *   Revision History
   *   ================
   *
   */
 
-package org.interpss;
+package org.interpss.spring;
 
-import org.junit.BeforeClass;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import static org.junit.Assert.*;
 
-import com.interpss.common.SpringAppContext;
-import com.interpss.common.util.TestUtilFunc;
+import java.util.List;
 
-public class BaseTestSetup {
-	@BeforeClass
-	public static void setSpringAppCtx() {
-		if (SpringAppContext.SpringAppCtx == null) {
-			String xmlFile = TestUtilFunc.Plugin_SpringConfigXmlFile;
-			// Set the SpringAppContext to all ApplicationContextAware objects.
-			SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(xmlFile);
-		}
+import org.interpss.BaseTestSetup;
+import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.SimuAppSpringAppCtxUtil;
+import org.junit.Test;
+
+public class CustomFileAdapterTest extends BaseTestSetup {
+	@Test
+	public void testcustomFileAdapterList() {
+		List list = SimuAppSpringAppContext.getCustomFileAdapterList();
+		assertTrue(list.size() >= 5);
+		assertTrue(SimuAppSpringAppCtxUtil.getCustomFileAdapter("m") != null);
+		assertTrue(SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee") != null);
 	}
 }
-
