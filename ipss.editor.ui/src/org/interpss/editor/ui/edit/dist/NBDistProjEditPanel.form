@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.0" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.4" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <NonVisualComponents>
     <Component class="javax.swing.ButtonGroup" name="scStdButtonGroup">
     </Component>
   </NonVisualComponents>
   <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
@@ -29,7 +31,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Dialog" size="12" style="0"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Load Schedule Analysis and Optimization"/>
+            <Property name="text" type="java.lang.String" value="Load Schedule Analysis"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="0" right="0" top="0"/>
@@ -175,7 +177,7 @@
                     </Property>
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Generic"/>
-                    <Property name="name" type="java.lang.String" value="genericStdRadioButton"/>
+                    <Property name="name" type="java.lang.String" value="genericStdRadioButton" noResource="true"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="genericStdRadioButtonActionPerformed"/>
@@ -190,7 +192,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="ANSI"/>
-                    <Property name="name" type="java.lang.String" value="ansiStdRadioButton"/>
+                    <Property name="name" type="java.lang.String" value="ansiStdRadioButton" noResource="true"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ansiStdRadioButtonActionPerformed"/>
@@ -205,7 +207,7 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="IEC"/>
-                    <Property name="name" type="java.lang.String" value="iecStdRadioButton"/>
+                    <Property name="name" type="java.lang.String" value="iecStdRadioButton" noResource="true"/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="iecStdRadioButtonActionPerformed"/>
@@ -280,7 +282,7 @@
                 <Property name="columns" type="int" value="8"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pName_1_TextField"/>
+                <Property name="name" type="java.lang.String" value="pName_1_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -292,7 +294,7 @@
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="name" type="java.lang.String" value="pEnable_1_CheckBox"/>
+                <Property name="name" type="java.lang.String" value="pEnable_1_CheckBox" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enableSCPoint1_ActionHandler"/>
@@ -308,7 +310,7 @@
                 <Property name="columns" type="int" value="30"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pDesc_1_TextField"/>
+                <Property name="name" type="java.lang.String" value="pDesc_1_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -321,7 +323,7 @@
                 <Property name="columns" type="int" value="8"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pName_2_TextField"/>
+                <Property name="name" type="java.lang.String" value="pName_2_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -333,7 +335,7 @@
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="name" type="java.lang.String" value="pEnable_2_CheckBox"/>
+                <Property name="name" type="java.lang.String" value="pEnable_2_CheckBox" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enableSCPoint2_ActionHandler"/>
@@ -349,7 +351,7 @@
                 <Property name="columns" type="int" value="30"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pDesc_2_TextField"/>
+                <Property name="name" type="java.lang.String" value="pDesc_2_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -362,7 +364,7 @@
                 <Property name="columns" type="int" value="8"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pName_3_TextField"/>
+                <Property name="name" type="java.lang.String" value="pName_3_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -374,7 +376,7 @@
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="name" type="java.lang.String" value="pEnable_3_CheckBox"/>
+                <Property name="name" type="java.lang.String" value="pEnable_3_CheckBox" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enableSCPoint3_ActionHandler"/>
@@ -390,7 +392,7 @@
                 <Property name="columns" type="int" value="30"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pDesc_3_TextField"/>
+                <Property name="name" type="java.lang.String" value="pDesc_3_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -403,7 +405,7 @@
                 <Property name="columns" type="int" value="8"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pName_4_TextField"/>
+                <Property name="name" type="java.lang.String" value="pName_4_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -415,7 +417,7 @@
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="name" type="java.lang.String" value="pEnable_4_CheckBox"/>
+                <Property name="name" type="java.lang.String" value="pEnable_4_CheckBox" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enableSCPoint4_ActionHandler"/>
@@ -431,7 +433,7 @@
                 <Property name="columns" type="int" value="30"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pDesc_4_TextField"/>
+                <Property name="name" type="java.lang.String" value="pDesc_4_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -444,7 +446,7 @@
                 <Property name="columns" type="int" value="8"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pName_5_TextField"/>
+                <Property name="name" type="java.lang.String" value="pName_5_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
@@ -456,7 +458,7 @@
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="name" type="java.lang.String" value="pEnable_5_CheckBox"/>
+                <Property name="name" type="java.lang.String" value="pEnable_5_CheckBox" noResource="true"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="enableSCPoint5_ActionHandler"/>
@@ -472,7 +474,7 @@
                 <Property name="columns" type="int" value="30"/>
                 <Property name="text" type="java.lang.String" value=" "/>
                 <Property name="enabled" type="boolean" value="false"/>
-                <Property name="name" type="java.lang.String" value="pDesc_5_TextField"/>
+                <Property name="name" type="java.lang.String" value="pDesc_5_TextField" noResource="true"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout" value="org.netbeans.modules.form.compat2.layouts.DesignGridBagLayout$GridBagConstraintsDescription">
