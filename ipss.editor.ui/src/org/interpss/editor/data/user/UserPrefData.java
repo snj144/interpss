@@ -27,6 +27,8 @@ package org.interpss.editor.data.user;
 import com.interpss.common.rec.BaseDataBean;
 
 public class UserPrefData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	private boolean autoSave = true;
 	public boolean isAutoSave() { return this.autoSave; }
 	public void setAutoSave(boolean b) { this.autoSave = b;}

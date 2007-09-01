@@ -25,6 +25,8 @@
 package org.interpss.editor.data.dstab;
 
 public class DStabGovData extends DStabControllerData {
+	private static final long serialVersionUID = 1;
+
 	public static final String GovType_Simple = "SimpleGovernor";
 	
 	public DStabGovData() {

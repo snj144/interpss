@@ -40,7 +40,6 @@ import org.interpss.editor.data.dstab.DStabNetData;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.dstab.controller.annotate.AbstractAnnotateController;
 import com.interpss.dstab.mach.Controller;
 
 public class InitDataUtil {
@@ -70,7 +69,7 @@ public class InitDataUtil {
     	form.setCheckBusDuplication(true);
 
     	form.getDistNetData().setScStd(DistNetData.ScStd_Generic);
-    	form.getDistNetData().setScPointList(new Vector());
+    	form.getDistNetData().setScPointList(new Vector<ScPointData>());
     	
     	form.getDistNetData().setLoadSchedulePoints(0);
     	form.getDistNetData().setLoadSchedulePeriodLength(1.0);
@@ -160,8 +159,8 @@ public class InitDataUtil {
 		form.getAcscBranchData().getToXfrConnectData().setCode(XfrConnectData.Code_Delta);
    }
    
-    public static Vector getAcsc5Points() {
-    	Vector vect = new Vector();
+    public static Vector<ScPointData> getAcsc5Points() {
+    	Vector<ScPointData> vect = new Vector<ScPointData>();
     	ScPointData row = new ScPointData("1/2 cycle", true, "Half cycle for ...");
     	vect.add(row);
 
@@ -179,8 +178,8 @@ public class InitDataUtil {
        return vect;
    }
    
-   public static Vector getAcscANSIPoints() {
-    	Vector vect = new Vector();
+   public static Vector<ScPointData> getAcscANSIPoints() {
+    	Vector<ScPointData> vect = new Vector<ScPointData>();
     	ScPointData row = new ScPointData("1/2 cycle", true, "For momentary SC current calculation");
     	vect.add(row);
 

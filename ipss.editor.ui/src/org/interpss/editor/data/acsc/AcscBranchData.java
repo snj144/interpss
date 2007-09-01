@@ -31,7 +31,9 @@ import org.interpss.editor.data.common.XfrConnectData;
 */
 
 public class AcscBranchData  extends AclfAdjBranchData {
-    private double  z0R = 0d;            
+	private static final long serialVersionUID = 1;
+
+	private double  z0R = 0d;            
     private double  z0X = 0d;
     private String  z0Unit = "PU";
     private double  halfShuntB0 = 0d;     

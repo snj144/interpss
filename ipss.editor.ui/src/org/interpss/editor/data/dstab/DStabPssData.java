@@ -25,6 +25,8 @@
 package org.interpss.editor.data.dstab;
 
 public class DStabPssData extends DStabControllerData {
+	private static final long serialVersionUID = 1;
+
 	public static final String PssType_Simple = "SimpleStabilizer";
 	
 	public DStabPssData() {

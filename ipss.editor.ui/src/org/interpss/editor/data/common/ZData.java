@@ -34,6 +34,8 @@ import com.interpss.common.util.IpssLogger;
 */
 
 public class ZData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	private double r = 0.0;
 	private double x = 0.0;
 

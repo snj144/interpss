@@ -39,6 +39,8 @@ import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DistBusData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	public static String
 			BusCode_Utility 		= "Utility",
 			BusCode_Generator 		= "Generator",
@@ -78,7 +80,7 @@ public class DistBusData extends BaseDataBean {
     private GroundData ground = new GroundData();
 
     // multi-points SC analysis
-    private List    z1List = new ArrayList();   // of ZForm
+    private List<ZData>    z1List = new ArrayList<ZData>();   // of ZForm
 
     // load schedule analysis
     private boolean hasLoadSchedule = false;
@@ -142,8 +144,8 @@ public class DistBusData extends BaseDataBean {
 	public double getLoading() { return this.loading; }    
 	public void setLoading(double d) { this.loading = d; } 
 
-	public List getZ1List() { return this.z1List; }
-	public void setZ1List(List list) { this.z1List = list; }
+	public List<ZData> getZ1List() { return this.z1List; }
+	public void setZ1List(List<ZData> list) { this.z1List = list; }
 	public ZData getZ1(int index) { 
 		if (z1List.size() > index)
 			return (ZData)z1List.get(index);

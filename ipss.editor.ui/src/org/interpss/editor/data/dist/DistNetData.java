@@ -37,21 +37,23 @@ import com.interpss.common.rec.BaseDataBean;
 */
 
 public class DistNetData extends BaseDataBean {
-	public static final String ScStd_ANSI = "ANSI"; 
+	private static final long serialVersionUID = 1;
+
 	public static final String ScStd_Generic = "Generic"; 
+	public static final String ScStd_ANSI = "ANSI"; 
 	public static final String ScStd_IEC = "IEC"; 
 
 	// multi-points SC analysis only applies to ANSI and IEC
 	private String  scStd = ScStd_Generic;          // Generic | ANSI | IEC
 	private int     scPoints = 0;
-	private List    scPointList = new ArrayList();	// vector of ScPointForm objects
+	private List<ScPointData>    scPointList = new ArrayList<ScPointData>();	// vector of ScPointForm objects
 
 	// if loadSchedulePoints = 0, no load schedule analysis
 	private int     loadSchedulePoints = 0;
 	private double  loadSchedulePeriodLength = 1.0;
 	private String  loadSchedulePeriodUnit = "Hour";
 	private double  totalLossKwHr = 0.0;
-	private List    lfStatusList = new ArrayList();
+	private List<Boolean>    lfStatusList = new ArrayList<Boolean>();
 	
     public DistNetData() { }	
    
@@ -84,16 +86,16 @@ public class DistNetData extends BaseDataBean {
 	public void setScStd(String s) { this.scStd = s; }
     public String getScStd() { return this.scStd; }
 
-    public List getScPointList() { return this.scPointList; }
-	public void setScPointList(List list) { this.scPointList = list; }
+    public List<ScPointData> getScPointList() { return this.scPointList; }
+	public void setScPointList(List<ScPointData> list) { this.scPointList = list; }
 
 	/**
 	 * @return Returns the ifStatusList.
 	 */
-	public List getLfStatusList() {
+	public List<Boolean> getLfStatusList() {
 		return lfStatusList;
 	}
-	public void setLfStatusList(List list) {
+	public void setLfStatusList(List<Boolean> list) {
 		lfStatusList = list;
 	}
 	

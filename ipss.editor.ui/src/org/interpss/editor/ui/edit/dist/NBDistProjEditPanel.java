@@ -116,7 +116,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 	* @param errMsg error messages during the saving process.
 	* @return false if there is any problem
 	*/
-	public boolean saveEditor2Form(Vector errMsg) throws Exception {
+	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBDistProjEditPanel.saveEditor2Form() called");
 		GNetForm form = (GNetForm)_netContainer.getGNetForm();
 		boolean ok = true;
@@ -140,7 +140,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
 		
 		if (this.genericStdRadioButton.isSelected()) {
 			form.getDistNetData().setScStd(DistNetData.ScStd_Generic);
-	    	form.getDistNetData().setScPointList(new Vector());
+	    	form.getDistNetData().setScPointList(new Vector<ScPointData>());
 	    	form.getDistNetData().setScPoints(0);
 		}
 		else {
@@ -647,7 +647,7 @@ public class NBDistProjEditPanel extends javax.swing.JPanel implements IFormData
     private void genericStdRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genericStdRadioButtonActionPerformed
 		GNetForm form = (GNetForm)_netContainer.getGNetForm();
 		form.getDistNetData().setScStd(DistNetData.ScStd_Generic);
-        form.getDistNetData().setScPointList(new Vector());
+        form.getDistNetData().setScPointList(new Vector<ScPointData>());
         form.getDistNetData().setScPoints(0);
         scPanel.remove(scPointsPanel);
         _parent.pack();

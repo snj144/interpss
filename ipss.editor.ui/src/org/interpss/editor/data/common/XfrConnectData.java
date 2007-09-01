@@ -28,6 +28,8 @@ import com.interpss.common.rec.BaseDataBean;
 
 
 public class XfrConnectData  extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	public static String 
 			Code_Wye = "Wye",
 			Code_Delta = "Delta";			
