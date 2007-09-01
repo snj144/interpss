@@ -32,7 +32,9 @@ import com.interpss.common.rec.BaseDataBean;
 */
 
 public class AclfBranchData extends BaseDataBean  {
-    private String  lfCode = IGBranchForm.TransBranchLfCode_Line;    
+	private static final long serialVersionUID = 1;
+
+	private String  lfCode = IGBranchForm.TransBranchLfCode_Line;    
     private double  halfShuntB = 0d;     
     private String  halfShuntBUnit = "PU";
     private double  phaseShiftAngle = 0d;

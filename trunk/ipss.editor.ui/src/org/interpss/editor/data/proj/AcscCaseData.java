@@ -29,6 +29,8 @@ import org.interpss.editor.data.acsc.AcscFaultData;
 import com.interpss.common.rec.BaseDataBean;
 
 public class AcscCaseData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	public static final String ScBusVolt_UnitVolt = "UnitV";
 	public static final String ScBusVolt_LFVolt = "LFVolt";
 	

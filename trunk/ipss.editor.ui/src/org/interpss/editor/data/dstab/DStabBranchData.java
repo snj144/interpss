@@ -29,6 +29,8 @@ import org.interpss.editor.data.acsc.AcscBranchData;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DStabBranchData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	private AcscBranchData acscBranchData = null;
 	public AcscBranchData getAcscBranchData() { return acscBranchData; }
 	public void setAcscBranchData(AcscBranchData data) { acscBranchData = data; }

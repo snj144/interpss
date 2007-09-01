@@ -31,6 +31,8 @@ package org.interpss.editor.data.proj;
 import com.interpss.common.rec.IpssDBCase;
 
 public class CaseData extends IpssDBCase {
+	private static final long serialVersionUID = 1;
+
 	// Contants defined in the StudyCaseType table
 	public static final String CaseType_Aclf  = "AclfStudyCase";
 	public static final String CaseType_Acsc  = "AcscStudyCase";

@@ -28,6 +28,8 @@ package org.interpss.editor.data.aclf;
 */
 
 public class AclfAdjBusData extends AclfBusData {
+	private static final long serialVersionUID = 1;
+
 	public static final int ReQControlType_Voltage = 1;
 	public static final int ReQControlType_MvarFlow = 2;
 	

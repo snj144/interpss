@@ -29,6 +29,8 @@ package org.interpss.editor.data.aclf;
 */
 
 public class AclfAdjBranchData  extends AclfBranchData {
+	private static final long serialVersionUID = 1;
+
 	public static final int TapControlType_Voltage = 1;
 	public static final int TapControlType_MvarFlow = 2;
 	

@@ -31,7 +31,9 @@ import com.interpss.common.rec.BaseDataBean;
 */
 
 public class ScPointData extends BaseDataBean {
-    private String  name = "";
+	private static final long serialVersionUID = 1;
+
+	private String  name = "";
 	private boolean enable = true;
 	private String  description = "";
 

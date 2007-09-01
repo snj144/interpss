@@ -25,6 +25,8 @@
 package org.interpss.editor.data.dstab;
 
 public class DStabExcData extends DStabControllerData {
+	private static final long serialVersionUID = 1;
+
 	public static final String ExcType_Simple = "SimpleExciter";
 	
 	public DStabExcData() {

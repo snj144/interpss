@@ -38,6 +38,8 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 
 public class ProjData extends BaseDataBean implements IProjectData {
+	private static final long serialVersionUID = 1;
+
 	public static String NewProjName = "UnSaved";
 
 	private int projectDbId = 0;

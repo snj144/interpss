@@ -37,7 +37,9 @@ import com.interpss.common.rec.BaseDataBean;
 */
 
 public class DistBranchData  extends BaseDataBean {
-    private String  branchCode = IGBranchForm.DistBranchCode_Feeder;     // Transformer | 3WTransformer | Feeder | Breaker
+	private static final long serialVersionUID = 1;
+
+	private String  branchCode = IGBranchForm.DistBranchCode_Feeder;     // Transformer | 3WTransformer | Feeder | Breaker
     private String  zUnit = "PU";
     private double  zX = 0d;                
     private double  zR = 0d;

@@ -27,6 +27,8 @@ package org.interpss.editor.data.proj;
 import com.interpss.common.rec.BaseDataBean;
 
 public class AclfCaseData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	public static final String Method_NR = "NR";
 	public static final String Method_PQ = "PQ";
 	public static final String Method_GS = "GS";

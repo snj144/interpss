@@ -30,6 +30,8 @@ import org.interpss.editor.form.InitDataUtil;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DStabMachData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	public static final String MachType_InfiniteBus = "InfiniteBus";
 	public static final String MachType_EConst = "EConstModel";
 	public static final String MachType_Eq1 = "Eq1Model";

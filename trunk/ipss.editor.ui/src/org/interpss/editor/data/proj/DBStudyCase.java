@@ -31,6 +31,8 @@ import com.interpss.common.util.XmlUtil;
 */
 
 public class DBStudyCase {
+	private static final long serialVersionUID = 1;
+
 	private int caseId = 0;
 	private int projDbId = 0;
 	private String caseName = "";

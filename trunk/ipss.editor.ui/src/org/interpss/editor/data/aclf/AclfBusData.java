@@ -32,6 +32,8 @@ import com.interpss.common.rec.BaseDataBean;
 
 
 public class AclfBusData extends BaseDataBean{
+	private static final long serialVersionUID = 1;
+
 	public static final String 
 			GenCode_PQ = "PQ",
 			GenCode_PV = "PV",

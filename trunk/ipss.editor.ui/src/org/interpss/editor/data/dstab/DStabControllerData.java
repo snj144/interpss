@@ -27,6 +27,8 @@ package org.interpss.editor.data.dstab;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DStabControllerData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	private String typeName = "";
 	private String className = "";   // this property is not used anymore	
 	private String dataXmlStr = "";

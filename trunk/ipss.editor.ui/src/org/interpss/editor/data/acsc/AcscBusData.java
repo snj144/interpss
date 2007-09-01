@@ -32,6 +32,8 @@ import org.interpss.editor.data.common.GroundData;
 */
 
 public class AcscBusData extends AclfAdjBusData {
+	private static final long serialVersionUID = 1;
+
 	public static String 
 			ScCode_Contribute = "Contribute",
 			ScCode_NonContribute = "Non-Contribute",

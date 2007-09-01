@@ -27,6 +27,8 @@ package org.interpss.editor.data.dstab;
 import com.interpss.common.util.NetUtilFunc;
 
 public class DStabLoadChangeData extends DStabControllerData {
+	private static final long serialVersionUID = 1;
+
 	public final static String LowFreq = "LowFrequency";
 	public final static String LowVolt = "LowVoltage";
 	public final static String FixedTime = "FixedTime";

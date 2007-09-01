@@ -29,6 +29,8 @@ import org.interpss.editor.data.acsc.AcscFaultData;
 import com.interpss.common.rec.BaseDataBean;
 
 public class DStabDEventData extends BaseDataBean {
+	private static final long serialVersionUID = 1;
+
 	public static final String DEventType_BusFault = "BusFault";
 	public static final String DEventType_BranchFault = "BranchFault";
 	public static final String DEventType_BranchOutage = "BranchOutage";

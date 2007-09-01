@@ -31,7 +31,9 @@ import com.interpss.common.rec.BaseDataBean;
 */
 
 public class AclfNetData extends BaseDataBean {
-    private boolean hasAdjustment = false;
+	private static final long serialVersionUID = 1;
+
+	private boolean hasAdjustment = false;
     public boolean isHasAdjustment() { return this.hasAdjustment; }
     public void setHasAdjustment(boolean b) { this.hasAdjustment = b; }
 }
