@@ -301,6 +301,7 @@ public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         unitButtonGroup = new javax.swing.ButtonGroup();
         editPanel = new javax.swing.JPanel();
         scPointPanel = new javax.swing.JPanel();
@@ -323,34 +324,34 @@ public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel
         perUnitRadioButton = new javax.swing.JRadioButton();
         endLabel = new javax.swing.JLabel();
 
+        setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 100, 1, 100));
         setLayout(new java.awt.BorderLayout(0, 20));
 
-        setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 100, 1, 100));
+        editPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Short Circuit Impedence", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        editPanel.setMinimumSize(new java.awt.Dimension(258, 150));
+        editPanel.setPreferredSize(new java.awt.Dimension(300, 150));
         editPanel.setLayout(new java.awt.BorderLayout());
 
-        editPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Short Circuit Impedence", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
-        editPanel.setMinimumSize(new java.awt.Dimension(258, 135));
-        editPanel.setPreferredSize(new java.awt.Dimension(300, 135));
         scPointPanel.setLayout(new java.awt.BorderLayout());
 
         scPointTitlePanel.setLayout(new java.awt.GridLayout(1, 4));
 
-        sc_nameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        sc_nameLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         sc_nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sc_nameLabel.setText("Name");
         scPointTitlePanel.add(sc_nameLabel);
 
-        sc_xLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        sc_xLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         sc_xLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sc_xLabel.setText("X");
         scPointTitlePanel.add(sc_xLabel);
 
-        sc_rLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        sc_rLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         sc_rLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sc_rLabel.setText("R");
         scPointTitlePanel.add(sc_rLabel);
 
-        sc_x_rLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        sc_x_rLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         sc_x_rLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         sc_x_rLabel.setText("X/R");
         scPointTitlePanel.add(sc_x_rLabel);
@@ -388,10 +389,9 @@ public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel
             }
         });
         scPointZTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        scPointZTable.setAutoscrolls(false);
         scPointZTable.setCellSelectionEnabled(true);
         scPointZTable.setMinimumSize(new java.awt.Dimension(100, 112));
-        scPointZTable.setName("zTable");
+        scPointZTable.setName("zTable"); // NOI18N
         scPointZTable.setPreferredSize(new java.awt.Dimension(300, 20*_rows)
         );
         scPointPanel.add(scPointZTable, java.awt.BorderLayout.CENTER);
@@ -402,22 +402,22 @@ public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel
 
         normalTitlePanel.setLayout(new java.awt.GridLayout(1, 4));
 
-        n_nameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        n_nameLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         n_nameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         n_nameLabel.setText("Name");
         normalTitlePanel.add(n_nameLabel);
 
-        n_xLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        n_xLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         n_xLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         n_xLabel.setText("X");
         normalTitlePanel.add(n_xLabel);
 
-        n_rLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        n_rLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         n_rLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         n_rLabel.setText("R");
         normalTitlePanel.add(n_rLabel);
 
-        x_rLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
+        x_rLabel1.setFont(new java.awt.Font("Dialog", 0, 10));
         x_rLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         x_rLabel1.setText("X/R");
         normalTitlePanel.add(x_rLabel1);
@@ -451,42 +451,40 @@ public class NBZInputPanel extends javax.swing.JPanel  implements IFormDataPanel
             }
         });
         normalZTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
-        normalZTable.setAutoscrolls(false);
         normalZTable.setCellSelectionEnabled(true);
         normalZTable.setMinimumSize(new java.awt.Dimension(100, 48));
-        normalZTable.setName("zTable");
+        normalZTable.setName("zTable"); // NOI18N
         normalZTable.setPreferredSize(new java.awt.Dimension(300, 20*_rows)
         );
         normalZPanel.add(normalZTable, java.awt.BorderLayout.CENTER);
 
         editPanel.add(normalZPanel, java.awt.BorderLayout.CENTER);
 
-        zUnitLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        zUnitLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         zUnitLabel.setText("Z Unit  [");
         unitPanel.add(zUnitLabel);
 
         unitButtonGroup.add(puUnitRadioButton);
-        puUnitRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        puUnitRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         puUnitRadioButton.setSelected(true);
         puUnitRadioButton.setText("PU");
-        puUnitRadioButton.setName("puUnitRadioButton");
+        puUnitRadioButton.setName("puUnitRadioButton"); // NOI18N
         unitPanel.add(puUnitRadioButton);
 
         unitButtonGroup.add(perUnitRadioButton);
-        perUnitRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        perUnitRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         perUnitRadioButton.setText("%");
-        perUnitRadioButton.setName("perUnitRadioButton");
+        perUnitRadioButton.setName("perUnitRadioButton"); // NOI18N
         unitPanel.add(perUnitRadioButton);
 
+        endLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         endLabel.setText("]");
         unitPanel.add(endLabel);
 
         editPanel.add(unitPanel, java.awt.BorderLayout.SOUTH);
 
         add(editPanel, java.awt.BorderLayout.CENTER);
-
-    }
-    // </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

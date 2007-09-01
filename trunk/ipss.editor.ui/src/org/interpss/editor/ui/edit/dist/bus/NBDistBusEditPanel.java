@@ -217,77 +217,72 @@ public class NBDistBusEditPanel extends javax.swing.JPanel implements IFormDataP
         setLayout(new java.awt.GridBagLayout());
 
         busTypeSelectPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Bus Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+
         busTypeButtonGroup.add(utilityRadioButton);
-        utilityRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        utilityRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         utilityRadioButton.setText("Utility");
-        utilityRadioButton.setName("utilityRadioButton");
+        utilityRadioButton.setName("utilityRadioButton"); // NOI18N
         utilityRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 utilityButtonClicked(evt);
             }
         });
-
         busTypeSelectPanel.add(utilityRadioButton);
 
         busTypeButtonGroup.add(generatorRadioButton);
-        generatorRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        generatorRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         generatorRadioButton.setText("Generator");
-        generatorRadioButton.setName("generatorRadioButton");
+        generatorRadioButton.setName("generatorRadioButton"); // NOI18N
         generatorRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 generatorButtonClicked(evt);
             }
         });
-
         busTypeSelectPanel.add(generatorRadioButton);
 
         busTypeButtonGroup.add(synMotorRadioButton);
-        synMotorRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        synMotorRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         synMotorRadioButton.setText("SynMotor");
-        synMotorRadioButton.setName("synMotorRadioButton");
+        synMotorRadioButton.setName("synMotorRadioButton"); // NOI18N
         synMotorRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 synMotorButtonClicked(evt);
             }
         });
-
         busTypeSelectPanel.add(synMotorRadioButton);
 
         busTypeButtonGroup.add(indMotorRadioButton);
-        indMotorRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        indMotorRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         indMotorRadioButton.setText("IndMotor");
-        indMotorRadioButton.setName("indMotorRadioButton");
+        indMotorRadioButton.setName("indMotorRadioButton"); // NOI18N
         indMotorRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 indMotorButtonClicked(evt);
             }
         });
-
         busTypeSelectPanel.add(indMotorRadioButton);
 
         busTypeButtonGroup.add(mixedLoadRadioButton);
-        mixedLoadRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        mixedLoadRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         mixedLoadRadioButton.setText("MixedLoad");
-        mixedLoadRadioButton.setName("mixedLoadRadioButton");
+        mixedLoadRadioButton.setName("mixedLoadRadioButton"); // NOI18N
         mixedLoadRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mixedLoadButtonClicked(evt);
             }
         });
-
         busTypeSelectPanel.add(mixedLoadRadioButton);
 
         busTypeButtonGroup.add(nonContributeRadioButton);
-        nonContributeRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        nonContributeRadioButton.setFont(new java.awt.Font("Dialog", 0, 10));
         nonContributeRadioButton.setSelected(true);
         nonContributeRadioButton.setText("NonContribute");
-        nonContributeRadioButton.setName("nonContributeRadioButton");
+        nonContributeRadioButton.setName("nonContributeRadioButton"); // NOI18N
         nonContributeRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nonContributeButtonClicked(evt);
             }
         });
-
         busTypeSelectPanel.add(nonContributeRadioButton);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -296,14 +291,12 @@ public class NBDistBusEditPanel extends javax.swing.JPanel implements IFormDataP
         add(busTypeSelectPanel, gridBagConstraints);
 
         editPanel.setLayout(new java.awt.BorderLayout(0, 10));
-
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipady = 20;
         gridBagConstraints.insets = new java.awt.Insets(20, 0, 20, 0);
         add(editPanel, gridBagConstraints);
-
     }// </editor-fold>//GEN-END:initComponents
 
     private void utilityButtonClicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_utilityButtonClicked
