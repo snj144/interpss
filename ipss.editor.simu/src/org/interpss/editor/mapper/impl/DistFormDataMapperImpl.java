@@ -174,8 +174,7 @@ public class DistFormDataMapperImpl {
 		bus.setEff(busData.getEff());
 		bus.setMotorPercent(busData.getMotorPercent());
 		bus.setLoading(busData.getLoading());
-		for (int i=0; i<busData.getZ1List().size(); i++) {
-			ZData zdata = (ZData)busData.getZ1List().get(i);
+		for (ZData zdata : busData.getZ1List()) {
 			bus.getScPointBusData().getZ1List().add(new Complex(zdata.getR(), zdata.getX()));
 		}
 		bus.setZ1(new Complex(busData.getZ1R(),busData.getZ1X()));
