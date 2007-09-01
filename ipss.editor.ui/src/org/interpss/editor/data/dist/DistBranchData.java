@@ -67,7 +67,7 @@ public class DistBranchData  extends BaseDataBean {
 
     // load schedule analysis
     private boolean hasServiceSchedule = false;
-    private List serviceScheduleList = new ArrayList();
+    private List<Boolean> serviceScheduleList = new ArrayList<Boolean>();
 
     public String getBranchCode() { return this.branchCode;     }
     public void setBranchCode(String value) { this.branchCode = value;     }
@@ -137,10 +137,10 @@ public class DistBranchData  extends BaseDataBean {
 	/**
 	 * @return Returns the serviceScheduleList.
 	 */
-	public List getServiceScheduleList() {
+	public List<Boolean> getServiceScheduleList() {
 		return serviceScheduleList;
 	}
-	public void setServiceScheduleList(List list) {
+	public void setServiceScheduleList(List<Boolean> list) {
 		serviceScheduleList = list;
 	}
 	public boolean getServiceSchedule(int index) { 

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.editor.data.common.ComplexData;
 import org.interpss.editor.data.common.GroundData;
 import org.interpss.editor.data.common.ZData;
 
@@ -84,8 +85,8 @@ public class DistBusData extends BaseDataBean {
 
     // load schedule analysis
     private boolean hasLoadSchedule = false;
-    private List loadScheduleList = new ArrayList();
-    private List pointVoltageList = new ArrayList();
+    private List<ComplexData> loadScheduleList = new ArrayList<ComplexData>();
+    private List<ComplexData> pointVoltageList = new ArrayList<ComplexData>();
 
     public String getBusCode() { return this.busCode; }
     public void setBusCode(String c) { this.busCode = c;  }
@@ -200,16 +201,16 @@ public class DistBusData extends BaseDataBean {
 		}
 	}
 	
-	public List getLoadScheduleList() {
+	public List<ComplexData> getLoadScheduleList() {
 		return loadScheduleList;
 	}
-	public void setLoadScheduleList(List list) {
+	public void setLoadScheduleList(List<ComplexData> list) {
 		loadScheduleList = list;
 	}
 	
 	public Complex getLoadSchedule(int index) {
 		if (loadScheduleList.size() > index)
-			return (Complex)loadScheduleList.get(index);
+			return loadScheduleList.get(index).createComplex();
 		else {
 			return null;
 		}	
@@ -217,22 +218,22 @@ public class DistBusData extends BaseDataBean {
 
 	public void setLoadSchedule(Complex loadSchedule, int index) {
 		if (loadScheduleList.size() > index)
-			loadScheduleList.set(index, loadSchedule);
+			loadScheduleList.set(index, new ComplexData(loadSchedule));
 		else 
-			loadScheduleList.add(index, loadSchedule);
+			loadScheduleList.add(index, new ComplexData(loadSchedule));
 	}
 	
-	public List getPointVoltageList() {
+	public List<ComplexData> getPointVoltageList() {
 		return pointVoltageList;
 	}
 
-	public void setPointVoltageList(List list) {
+	public void setPointVoltageList(List<ComplexData> list) {
 		pointVoltageList = list;
 	}
 
 	public Complex getPointVoltage(int index) {
 		if (pointVoltageList.size() > index)
-			return (Complex)pointVoltageList.get(index);
+			return pointVoltageList.get(index).createComplex();
 		else {
 			return null;
 		}	
@@ -240,9 +241,9 @@ public class DistBusData extends BaseDataBean {
 
 	public void setPointVoltage(Complex voltage, int index) {
 		if (pointVoltageList.size() > index)
-			pointVoltageList.set(index, voltage);
+			pointVoltageList.set(index, new ComplexData(voltage));
 		else 
-			pointVoltageList.add(index, voltage);
+			pointVoltageList.add(index, new ComplexData(voltage));
 	}
 	
 	/**
