@@ -45,7 +45,7 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
-import com.interpss.common.datatype.ScGroundType;
+import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.util.CoreUtilFunc;
@@ -190,8 +190,12 @@ public class DistFormDataMapperImpl {
 
 		if (distNet.getLoadNetData().getSchedulePoints() > 0 && busData.isHasLoadSchedule()) {
 			for (int i = 0; i < busData.getLoadScheduleList().size(); i++) {
-				bus.getLoadBusData().getLoadScheduleList().add(i, busData.getLoadSchedule(i));
-				bus.getLoadBusData().getPointVoltageList().add(i, new Complex(1.0,0.0));
+				/*
+				 * LoadScheduleList and PointVoltageList are EList
+				 */
+				Complex c = busData.getLoadSchedule(i);
+				bus.getLoadBusData().getLoadScheduleList().add(c);
+				bus.getLoadBusData().getPointVoltageList().add(new Complex(1.0,0.0));
 			}
 		}
 		distNet.addBus(bus);
