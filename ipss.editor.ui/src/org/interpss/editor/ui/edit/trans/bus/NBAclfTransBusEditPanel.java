@@ -146,29 +146,31 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    }
 	    else {
-		    if (_data.getGenCode().equals(AclfBusData.GenCode_NonGen))
+		    if (_data.getGenCode().equals(AclfBusData.GenCode_NonGen)) {
 		    	nonGenRadioButton.setSelected(true);
+		        nonGenRadioButtonSelected(null);
+		    	pGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
+			    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
+		    }
 		    else {	
 		    	scriptGenRadioButton.setSelected(true);
 		    	setScriptPanel();
 		    }
-	        nonGenRadioButtonSelected(null);
-	    	pGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
-		    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    }
 	    
 		// set load data panel
 	    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad) || 
 	    	 _data.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)	) {
-		    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad)) 
+		    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad)) { 
 		    	nonLoadRadioButton.setSelected(true);
+		        nonLoadRadioButtonSelected(null);
+			    pLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
+		    	qLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
+		    }
 		    else {
 		    	scriptLoadRadioButton.setSelected(true);
 		    	setScriptPanel();
 		    }
-	        nonLoadRadioButtonSelected(null);
-		    pLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
-	    	qLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    } 
 	    else {
 	    	if (_data.getLoadCode().equals(AclfBusData.LoadCode_ConstP)) {
@@ -255,7 +257,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    	}	
 	    }
 
-	    // set enable/disable the script panal
+	    // set enable/disable the script panel
 	    setScriptPanel();
 
     	return true;
