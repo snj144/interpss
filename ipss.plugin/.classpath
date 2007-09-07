@@ -18,5 +18,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.common_2.3.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/eclipse/org.eclipse.emf.ecore_2.3.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/grid/gridgain-1.5.1.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
