@@ -1,4 +1,4 @@
-package org.interpss.core.grid;
+package org.interpss.core.grid.gridgain;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
@@ -12,8 +12,10 @@ public class IpssGridUtil {
         try {
             Grid grid = GridFactory.getGrid();
             IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
-            grid.execute(IpssGridTask.class.getName(), model).get();
+            String str = (String)grid.execute(IpssGridTask.class.getName(), model).get();
             IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
+
+            IpssLogger.getLogger().info("Result - " + str );
         }
         finally {
             GridFactory.stop(true);

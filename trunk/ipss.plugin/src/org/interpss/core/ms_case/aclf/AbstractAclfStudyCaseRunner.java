@@ -1,4 +1,4 @@
-package org.interpss.core.ms_case;
+package org.interpss.core.ms_case.aclf;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;

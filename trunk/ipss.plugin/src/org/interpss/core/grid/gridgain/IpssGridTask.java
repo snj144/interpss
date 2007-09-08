@@ -1,4 +1,4 @@
-package org.interpss.core.grid;
+package org.interpss.core.grid.gridgain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,6 +11,7 @@ import org.gridgain.grid.GridJobAdapter;
 import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridTaskSplitAdapter;
 
+import com.interpss.core.CorePackage;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.io.SerializeEMFObjectUtil;
 
@@ -27,11 +28,13 @@ public class IpssGridTask extends GridTaskSplitAdapter<String> {
             jobs.add(new GridJobAdapter<String>(model) {
             	private static final long serialVersionUID = 1;
                 public Serializable execute() {
+                	// This is necessary to init for EMF 
+                	CorePackage corePackage = CorePackage.eINSTANCE;
                 	String modelStr = getArgument();
-                	System.out.println(modelStr);
+                	//System.out.println(modelStr);
             		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(modelStr);
             		System.out.println("NetID - " + net.getId());
-            		return null;
+            		return "NetID - " + net.getId();
                 }
             });
         }
@@ -41,8 +44,11 @@ public class IpssGridTask extends GridTaskSplitAdapter<String> {
 
 	@Override
 	public Object reduce(List<GridJobResult> results) throws GridException {
-		// TODO Auto-generated method stub
-		return null;
+		String str = "";
+		for (GridJobResult result : results) {
+			str += (String)result.getData() + "\n";
+		}
+		return str;
 	}
 
 }
