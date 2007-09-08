@@ -1,4 +1,4 @@
-package org.interpss.core.ms_case;
+package org.interpss.core.ms_case.aclf;
 
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.ms_case.impl.NetworkResultImpl;
