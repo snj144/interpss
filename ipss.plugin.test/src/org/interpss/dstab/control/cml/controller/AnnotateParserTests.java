@@ -27,12 +27,12 @@ package org.interpss.dstab.control.cml.controller;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
+import org.interpss.dstab.control.cml.controller.util.DStabTestUtilFunc;
 import org.interpss.dstab.control.cml.controller.util.TestAnnotateExciter;
 import org.interpss.dstab.control.cml.controller.util.TestAnnotateGovernor;
 import org.interpss.dstab.control.cml.controller.util.TestAnnotateStabilizer;
 import org.interpss.dstab.control.cml.controller.util.TestAnnotateStabilizerComplex;
-import org.interpss.dstab.control.cml.controller.util.TestUtil;
-import org.junit.Before;
+import org.interpss.dstab.ieeeModel.TestSetupBase;
 import org.junit.Test;
 
 import com.interpss.common.datatype.CMLVarType;
@@ -45,23 +45,16 @@ import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
 import com.interpss.dstab.controller.block.IFunction;
 import com.interpss.dstab.mach.Machine;
 
-public class AnnotateParserTests {
+public class AnnotateParserTests extends TestSetupBase {
 	private ControlBlockFieldHolder cfield;
 	private StaticBlockFieldHolder sfield;
 	private FunctionFieldHolder<?> field;
 
-	private DStabBus bus;
-	private Machine  machine;
-
-	@Before
-	public void buildTestNetwork() {
-		DStabilityNetwork net = TestUtil.createTestNetwork();
-		bus = net.getDStabBus("BusId");
-		machine = bus.getMachine();
-	}
-	
 	@Test
 	public void exciterTestCase() throws Exception {
+		DStabilityNetwork net = DStabTestUtilFunc.createTestNetwork();
+		DStabBus bus = net.getDStabBus("BusId");
+		Machine machine = bus.getMachine();
 		/*
 			public double k = 50.0, t = 0.05, vmax = 10.0, vmin = 0.0;
     		@AnControllerField(
@@ -116,6 +109,9 @@ public class AnnotateParserTests {
 
 	@Test
 	public void governorTestCase() {
+		DStabilityNetwork net = DStabTestUtilFunc.createTestNetwork();
+		DStabBus bus = net.getDStabBus("BusId");
+		Machine machine = bus.getMachine();
 		/*
 		public double ka = 10.0, ta = 0.5;
 		@AnControllerField(
@@ -151,6 +147,9 @@ public class AnnotateParserTests {
 
 	@Test
 	public void stabilizerTestCase() {
+		DStabilityNetwork net = DStabTestUtilFunc.createTestNetwork();
+		DStabBus bus = net.getDStabBus("BusId");
+		Machine machine = bus.getMachine();
 		/*
 		public double k1 = 1.0, t1 = 0.05, t2 = 0.5;
 		@AnControllerField(
@@ -186,6 +185,10 @@ public class AnnotateParserTests {
 
 	@Test
 	public void stabilizerComplexTestCase() {
+		DStabilityNetwork net = DStabTestUtilFunc.createTestNetwork();
+		DStabBus bus = net.getDStabBus("BusId");
+		Machine machine = bus.getMachine();
+
 		//Machine mach = TestUtil.createMachine();
 		TestAnnotateStabilizerComplex pss = new TestAnnotateStabilizerComplex();
 
