@@ -27,6 +27,10 @@ package org.interpss.core.ms_case;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.core.ms_case.aclf.AbstractAclfStudyCaseRunner;
+import org.interpss.core.ms_case.aclf.AclfBusResult;
+import org.interpss.core.ms_case.aclf.AclfNetworkResult;
+import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -129,10 +133,10 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 					studyCase.setDesc(" increase load(pu) " + dP);
 					
 					AclfBusResult r = (AclfBusResult)baseCase.getBusResult("1");
-					AbstractAclfStudyCaseRunner.increaseBusLoadConstPF(r, dP);
+					AclfStudyCaseUtilFunc.increaseBusLoadConstPF(r, dP);
 					
 					r = (AclfBusResult)baseCase.getBusResult("4");
-					AbstractAclfStudyCaseRunner.increaseBusGenConstPF(r, dP*0.5);
+					AclfStudyCaseUtilFunc.increaseBusGenConstPF(r, dP*0.5);
 				} catch (InterpssException e) {
 					SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
 					return false;
@@ -191,8 +195,9 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 				try {
 					int index = studyCase.getCaseNumber()-1;
 					
-					AclfBusResult r = (AclfBusResult)baseCase.getBusResult("1");
-					AbstractAclfStudyCaseRunner.increaseBusLoad(r, pFactorList[index], qFactorList[index]);
+					String busId = "1";
+					AclfBusResult r = (AclfBusResult)baseCase.getBusResult(busId);
+					AclfStudyCaseUtilFunc.increaseBusLoad(r, pFactorList[index], qFactorList[index]);
 				} catch (InterpssException e) {
 					SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
 					return false;
@@ -204,7 +209,10 @@ public class MultiCaseStudyTest extends BaseTestSetup {
 		mcase.createBaseCase();
 
 		for (int i = 1; i <= 24; i++ ) {
-			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+i, "Case"+i, i, mcase);
+			String caseId = "StudyCase"+i;
+			String caseName = "Case" + i;
+			int caseNumber = i;
+			StudyCase studyCase = CoreObjectFactory.createStudyCase(caseId, caseName, caseNumber, mcase);
 			mcase.runStudyCase(studyCase);
 		}
 		

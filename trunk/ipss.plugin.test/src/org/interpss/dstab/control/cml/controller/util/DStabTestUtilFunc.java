@@ -7,7 +7,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.mach.Eq1Machine;
 import com.interpss.dstab.mach.MachineType;
 
-public class TestUtil {
+public class DStabTestUtilFunc {
 	public static DStabilityNetwork createTestNetwork() {
 		DStabilityNetwork net = DStabObjectFactory.createDStabilityNetwork();
 		net.setFrequency(60.0);
@@ -22,6 +22,7 @@ public class TestUtil {
 		mach.setRating(100, "Mva", net.getBaseKva());
 		mach.setRatedVoltage(1000.0);
 		mach.setMultiFactors(bus);
+		mach.setEventBus(bus);
 		return net;
 	}
 }
