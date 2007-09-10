@@ -24,30 +24,36 @@
 
 package org.interpss.core.grid.gridgain;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobAdapter;
 
+import com.interpss.common.ui.SerializeEMFObjectUtil;
 import com.interpss.core.CorePackage;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.simu.io.SerializeEMFObjectUtil;
 
-public class TestGridGainTask extends AbstractIpssGridGainTask {
+public class TestGridGainTask extends IpssGridGainTask {
 	private static final long serialVersionUID = 1;
 	
 	@Override
-	protected Collection<? extends GridJob> split(int gridSize, String model) throws GridException {
+	protected Collection<? extends GridJob> split(int gridSize, EObject net) throws GridException {
+		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+		SerializeEMFObjectUtil.saveModel(net, outStream);
+		String modelStr = outStream.toString();
+
 		int cnt = 2;
 		List<GridJob> jobs = new ArrayList<GridJob>(cnt);
 
         for (int i = 0; i < cnt; i++) {
             // Every job gets its own word as an argument.
-            jobs.add(new GridJobAdapter<String>(model) {
+            jobs.add(new GridJobAdapter<String>(modelStr) {
             	private static final long serialVersionUID = 1;
                 public Serializable execute() {
                 	// This is necessary to init for EMF 

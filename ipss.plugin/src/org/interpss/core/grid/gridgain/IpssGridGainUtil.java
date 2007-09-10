@@ -24,6 +24,7 @@
 
 package org.interpss.core.grid.gridgain;
 
+import org.eclipse.emf.ecore.EObject;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
@@ -31,15 +32,22 @@ import org.gridgain.grid.GridFactory;
 import com.interpss.common.util.IpssLogger;
 
 public class IpssGridGainUtil {
-    public static Object[] performGridTask(String desc, IpssGridTaskType type, String model) throws GridException {
+	/**
+	 * 
+	 * 
+	 * @param desc a description string
+	 * @param type gird task type for looking up 
+	 * @param model
+	 * @return
+	 * @throws GridException
+	 */
+    public static Object[] performGridTask(String desc, EObject model) throws GridException {
         GridFactory.start();
         Object[] objList = null;
         try {
             Grid grid = GridFactory.getGrid();
             IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
-            if (type == IpssGridTaskType.GridGainTest) {
-            	objList = (Object[])grid.execute(TestGridGainTask.class.getName(), model).get();
-            }
+           	objList = (Object[])grid.execute(IpssGridGainTask.class.getName(), model).get();
             IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
         }
         finally {
