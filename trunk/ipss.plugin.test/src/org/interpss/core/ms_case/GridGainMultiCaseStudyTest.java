@@ -29,6 +29,7 @@ import java.io.Serializable;
 
 import org.gridgain.grid.GridJobAdapter;
 import org.interpss.BaseTestSetup;
+import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.core.ms_case.aclf.AbstractAclfStudyCaseRunner;
 import org.interpss.core.ms_case.aclf.AclfBusResult;
@@ -126,12 +127,9 @@ public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 			SerializeEMFObjectUtil.saveModel(gridMCase.getNetwork(), outStream);
 			String modelStr = outStream.toString();
 			
-			gridMCase.getGridJobs().add(new GridJobAdapter<String>(modelStr) {
+			gridMCase.getGridJobs().add(new AbstractIpssGridGainJob(modelStr) {
             	private static final long serialVersionUID = 1;
                 public Serializable execute() {
-                	// This is necessary to init for EMF 
-                	CorePackage corePackage = CorePackage.eINSTANCE;
-                	
                 	// de-serialized the model to a AclfNetwork object 
                 	String modelStr = getArgument();
             		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(modelStr);
