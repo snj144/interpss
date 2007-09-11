@@ -27,12 +27,20 @@ package org.interpss.core.grid.gridgain;
 import org.gridgain.grid.GridJobAdapter;
 
 import com.interpss.core.CorePackage;
+import com.interpss.core.ms_case.MStudyCasePackage;
 
 public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	private static final long serialVersionUID = 1;
 	
 	public AbstractIpssGridGainJob(String arg) {
 		super(arg);
+	}
+
+	/**
+	 * Prepare for EMF package for serialize/deserialize EMF objects
+	 */
+	public void initEMFPackage() {
     	CorePackage corePackage = CorePackage.eINSTANCE;
+    	MStudyCasePackage msCasePackage = MStudyCasePackage.eINSTANCE;
 	}
 }
