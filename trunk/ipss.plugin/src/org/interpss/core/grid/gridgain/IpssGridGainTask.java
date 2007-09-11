@@ -22,12 +22,15 @@
   *
   */
 
+/*
+ *  This Class is for performing grid computing on the GridMultiStudyCase model 
+ */
+
 package org.interpss.core.grid.gridgain;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobResult;
@@ -35,13 +38,12 @@ import org.gridgain.grid.GridTaskSplitAdapter;
 
 import com.interpss.core.ms_case.GridMultiStudyCase;
 
-public class IpssGridGainTask extends GridTaskSplitAdapter<EObject> {
+public class IpssGridGainTask extends GridTaskSplitAdapter<GridMultiStudyCase> {
 	private static final long serialVersionUID = 1;
 
 	@Override
-	protected Collection<? extends GridJob> split(int gridSize, EObject model) throws GridException {
-		GridMultiStudyCase gridMCase = (GridMultiStudyCase)model;
-        return gridMCase.getGridJobs();
+	protected Collection<? extends GridJob> split(int gridSize, GridMultiStudyCase model) throws GridException {
+        return model.getGridJobs();
      }
 
 	@Override
