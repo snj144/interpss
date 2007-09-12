@@ -30,13 +30,21 @@ import org.eclipse.emf.ecore.EObject;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
+import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
 import com.interpss.common.ui.SerializeEMFObjectUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.ms_case.GridMultiStudyCase;
-import com.interpss.core.ms_case.result.GridAclfNetResult;
+import com.interpss.core.ms_case.result.AclfNetworkResult;
+
+/*
+ *    - Each study case has a unique caseNumber 
+ *      When a EMF model, a Network object, is sent to a remote location, by creating a
+ *          GridGainJob extends AbstractIpssGridGainJob, net.sortNumber = caseNumber
+ *    - The result NetworkResult.caseNumber = net.sortNumber before returning to the Master node
+ *    - Result net is set back to the StudyCase using caseNumber correlation.     
+ */
 
 public class IpssGridGainUtil {
 	private static Hashtable<String,String> nodeNameLookupTable = new Hashtable<String,String>();
@@ -82,10 +90,8 @@ public class IpssGridGainUtil {
     	return name;
     }
     
-	public static String serializeAclfResult(String uid, AclfNetwork net) {
-		GridAclfNetResult rnet = CoreObjectFactory.createGridAclfNetResult(uid);
-		rnet.setLfConverged(net.isLfConverged());
-		rnet.setCaseNumber(net.getSortNumber());
+	public static String serializeGridAclfResult(String uid, AclfNetwork net) {
+		AclfNetworkResult rnet = AclfStudyCaseUtilFunc.saveAclfNetResult(uid, net);
 		return SerializeEMFObjectUtil.saveModel(rnet);
 	}    
 }
