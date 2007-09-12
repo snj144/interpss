@@ -2,8 +2,8 @@ package org.interpss.core.ms_case;
 
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 
-import com.interpss.common.ui.SerializeEMFObjectUtil;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.impl.AbstractGridStudyCaseRunner;
 import com.interpss.core.ms_case.result.AclfNetworkResult;

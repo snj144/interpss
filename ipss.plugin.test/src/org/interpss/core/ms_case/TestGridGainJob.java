@@ -8,7 +8,7 @@ import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.ui.SerializeEMFObjectUtil;
+import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
