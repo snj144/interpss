@@ -102,16 +102,20 @@ public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 			public boolean gridRunCase() {
 				try {
 					// get the containing GridMultiStudyCase object
-					GridMultiStudyCase gridMCase = (GridMultiStudyCase)this.eContainer;
+					GridMultiStudyCase gridMCase = (GridMultiStudyCase)getParent();
+
+					// use grid node(s) to perform GridMultiStudyCase computation
 					Object[] results = (Object[])
 						IpssGridGainUtil.performGridTask("Test Custom IpssGrid Task impl ", gridMCase);
+					
+					// persist calculation results to study cases
 					for (Object obj : results) {
-						String modelStr = (String)obj;
-						//System.out.println((String)obj);
 						// deserialize the result from remote node
+						String modelStr = (String)obj;
 						AclfNetworkResult rnet = (AclfNetworkResult)SerializeEMFObjectUtil.loadModel(modelStr);
-						// transfer result to StudyCase
+						// transfer result to StudyCase, use case number for object correlation
 						StudyCase studyCase = gridMCase.getStudyCase(rnet.getCaseNumber()); 
+						// reference relationship between AclfNetwork and AclfNetworkResult will also build
 						AclfStudyCaseUtilFunc.setAclfNetResult2StudyCase(studyCase, rnet);
 					}
 					return true;
@@ -160,14 +164,22 @@ public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 		});
 		
 		// step-5 : define grid task jobs
+		// create the base case, including solve Loadflow for the base case
 		gridMCase.createBaseCase();
+		
 		for (int i = 1; i <= 24; i++ ) {
 			// create study case i
 			int caseNumber = i;
 			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+i, "Case" + i, caseNumber, gridMCase);
-			gridMCase.getNetwork().setSortNumber(caseNumber);
 			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
+			
+			// set case number to the network for grid node result correlation. SortNumber is used to hold the number
+			gridMCase.getNetwork().setSortNumber(caseNumber);
+
+			// serialize the network model to a string 
 			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase.getNetwork());
+			
+			// add a Grid job to perform computation the model
 			gridMCase.getGridJobs().add(new AbstractIpssGridGainJob(modelStr) {
 				private static final long serialVersionUID = 1;
 				
@@ -184,9 +196,9 @@ public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 					LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 					algo.loadflow(SpringAppContext.getIpssMsgHub());
 					
+					// serialize the Aclf result to a string
 					return IpssGridGainUtil.serializeGridAclfResult(nodeId.toString(), net);
 			    }
-
 			});
 		}
 
