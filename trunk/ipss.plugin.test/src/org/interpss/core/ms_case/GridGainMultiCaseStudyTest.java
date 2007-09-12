@@ -24,6 +24,8 @@
 
 package org.interpss.core.ms_case;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -32,10 +34,8 @@ import org.interpss.BaseTestSetup;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.core.ms_case.aclf.AbstractAclfStudyCaseRunner;
-import org.interpss.core.ms_case.aclf.AclfBusResult;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -48,12 +48,46 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.ms_case.impl.AbstractGridStudyCaseRunner;
-import com.interpss.core.ms_case.result.GridAclfNetResult;
+import com.interpss.core.ms_case.result.AclfBusResult;
+import com.interpss.core.ms_case.result.AclfNetworkResult;
 import com.interpss.core.util.sample.SampleCases;
 
 public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 	@Test
 	public void loadProfileCaseTest() throws InterpssException {
+		// step-1: define and load a EMF network object
+  		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
+		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
+		//System.out.println(net.net2String());
+		
+		// step-2: create a GridMultiStudyCase object, holding the net object
+		GridMultiStudyCase gridMCase = CoreObjectFactory.createGridMultiStudyCase(net);
+		
+		// step-3: define a GridStudyCaseRunner
+		gridMCase.setCaseRunner(new TestGridStudyCaseRunner());
+		
+		// step-4: define an actual case runner to run the case. The actual work is 
+		//         delegated to the case runner
+		gridMCase.getGridStudyCaseRunner().setCaseRunner(new TestAclfStudyCaseRunner());
+		
+		// step-5 : define grid task jobs
+		gridMCase.createBaseCase();
+		for (int i = 1; i <= 24; i++ ) {
+			// create study case i
+			int caseNumber = i;
+			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+i, "Case" + i, caseNumber, gridMCase);
+			gridMCase.getNetwork().setSortNumber(caseNumber);
+			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
+			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase.getNetwork());
+			gridMCase.getGridJobs().add(new TestGridGainJob(modelStr));
+		}
+
+		// ste-6 : run all grid task jobs 
+		assertTrue(gridMCase.runAllCase());
+	}	
+	
+	@Test
+	public void loadProfileInlineClassCaseTest() throws InterpssException {
 		// step-1: define and load a EMF network object
   		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
 		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
@@ -74,9 +108,11 @@ public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 					for (Object obj : results) {
 						String modelStr = (String)obj;
 						//System.out.println((String)obj);
-						GridAclfNetResult rnet = (GridAclfNetResult)SerializeEMFObjectUtil.loadModel(modelStr);
-						if (!rnet.isLfConverged())
-							return false;
+						// deserialize the result from remote node
+						AclfNetworkResult rnet = (AclfNetworkResult)SerializeEMFObjectUtil.loadModel(modelStr);
+						// transfer result to StudyCase
+						StudyCase studyCase = gridMCase.getStudyCase(rnet.getCaseNumber()); 
+						AclfStudyCaseUtilFunc.setAclfNetResult2StudyCase(studyCase, rnet);
 					}
 					return true;
 				} catch (Exception e) {
@@ -124,11 +160,13 @@ public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 		});
 		
 		// step-5 : define grid task jobs
+		gridMCase.createBaseCase();
 		for (int i = 1; i <= 24; i++ ) {
 			// create study case i
 			int caseNumber = i;
-			CoreObjectFactory.createStudyCase("StudyCase"+i, "Case" + i, caseNumber, gridMCase);
+			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+i, "Case" + i, caseNumber, gridMCase);
 			gridMCase.getNetwork().setSortNumber(caseNumber);
+			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
 			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase.getNetwork());
 			gridMCase.getGridJobs().add(new AbstractIpssGridGainJob(modelStr) {
 				private static final long serialVersionUID = 1;
@@ -146,7 +184,7 @@ public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 					LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 					algo.loadflow(SpringAppContext.getIpssMsgHub());
 					
-					return IpssGridGainUtil.serializeAclfResult(nodeId.toString(), net);
+					return IpssGridGainUtil.serializeGridAclfResult(nodeId.toString(), net);
 			    }
 
 			});
@@ -154,5 +192,23 @@ public class GridGainMultiCaseStudyTest extends BaseTestSetup {
 
 		// ste-6 : run all grid task jobs 
 		assertTrue(gridMCase.runAllCase());
-	}	
+		
+		StudyCase case1 = gridMCase.getStudyCase("StudyCase1");
+		assertTrue(((AclfNetworkResult)case1.getNetResult()).isLfConverged());
+		AclfBusResult busResult = (AclfBusResult)case1.getBusResult("1");
+		assertTrue(Math.abs(busResult.getLoad().getReal()-0.48)<0.0001);
+		assertTrue(Math.abs(busResult.getLoad().getImaginary()-0.16) < 0.0001);
+
+		StudyCase case12 = gridMCase.getStudyCase("StudyCase12");
+		assertTrue(((AclfNetworkResult)case12.getNetResult()).isLfConverged());
+		busResult = (AclfBusResult)case12.getBusResult("1");
+		assertTrue(Math.abs(busResult.getLoad().getReal()-1.6)<0.0001);
+		assertTrue(Math.abs(busResult.getLoad().getImaginary()-0.8)<0.0001);
+		
+		StudyCase case24 = gridMCase.getStudyCase("StudyCase24");
+		assertTrue(((AclfNetworkResult)case24.getNetResult()).isLfConverged());
+		busResult = (AclfBusResult)case24.getBusResult("1");
+		assertTrue(Math.abs(busResult.getLoad().getReal()-0.16)<0.0001);
+		assertTrue(Math.abs(busResult.getLoad().getImaginary()-0.08)<0.0001);		
+	}		
 }

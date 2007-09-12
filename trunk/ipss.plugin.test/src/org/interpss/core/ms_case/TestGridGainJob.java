@@ -35,7 +35,7 @@ public class TestGridGainJob extends AbstractIpssGridGainJob {
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		algo.loadflow(SpringAppContext.getIpssMsgHub());
 		
-		return IpssGridGainUtil.serializeAclfResult(nodeId.toString(), net);
+		return IpssGridGainUtil.serializeGridAclfResult(nodeId.toString(), net);
     }
 
 }
