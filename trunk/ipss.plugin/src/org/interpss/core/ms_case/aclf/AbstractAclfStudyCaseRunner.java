@@ -25,16 +25,15 @@
 package org.interpss.core.ms_case.aclf;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.ms_case.BusResult;
 import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.ms_case.impl.StudyCaseRunnerImpl;
-import com.interpss.core.net.Bus;
+import com.interpss.core.ms_case.result.AclfBusResult;
+import com.interpss.core.ms_case.result.AclfNetworkResult;
+import com.interpss.core.ms_case.result.BusResult;
 
 public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 	public boolean runCase(StudyCase studyCase) {
@@ -47,27 +46,15 @@ public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 
 
 	public boolean saveCase(StudyCase studyCase) {
-		AclfNetwork aclfNet = (AclfNetwork)studyCase.getParent().getNetwork();
-		AclfNetworkResult rNet = new AclfNetworkResult(aclfNet);
-		studyCase.setNetResult(rNet);
-		rNet.converged = aclfNet.isLfConverged();
-		for (Bus b : aclfNet.getBusList()) {
-			AclfBus bus = (AclfBus)b;
-			AclfBusResult r = new AclfBusResult(bus);
-			studyCase.getBusResultList().add(r);
-			r.load = bus.getLoad();
-			r.gen = bus.powerIntoNet().add(r.load);
-			r.voltage = bus.getVoltage();
-		}
-		
+		AclfNetworkResult rNet = AclfStudyCaseUtilFunc.saveAclfNetResult(studyCase);
 		String str = "StudyCase: " + studyCase.getCaseNumber() + ", " + studyCase.getName() + 
-					(rNet.converged? "  LF converged":"  LF diverged") + 
+					(rNet.isLfConverged()? "  LF converged":"  LF diverged") + 
 					"," + studyCase.getDesc() + "\n";
-		for (BusResult r : studyCase.getBusResultList()) {
+		for (BusResult r : studyCase.getNetResult().getBusResultList()) {
 			AclfBusResult result = (AclfBusResult)r;
 			str += result.toString() + "\n";
 		}
-		IpssLogger.getLogger().info(str);
+		//IpssLogger.getLogger().info(str);
 		
 		return true;
 	}		
