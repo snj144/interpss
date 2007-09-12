@@ -90,8 +90,15 @@ public class IpssGridGainUtil {
     	return name;
     }
     
-	public static String serializeGridAclfResult(String uid, AclfNetwork net) {
-		AclfNetworkResult rnet = AclfStudyCaseUtilFunc.saveAclfNetResult(uid, net);
+    /**
+     * Transfer AclfNetwork result to an AclfNetworkResult object and serialize the result object to a String
+     * 
+     * @param uid grid node UUID string 
+     * @param net the AclfNetwork object
+     * @return serialized AclfNetworkResult string
+     */
+    public static String serializeGridAclfResult(String uid, AclfNetwork net) {
+		AclfNetworkResult rnet = AclfStudyCaseUtilFunc.createAclfNetResult(uid, net);
 		return SerializeEMFObjectUtil.saveModel(rnet);
 	}    
 }

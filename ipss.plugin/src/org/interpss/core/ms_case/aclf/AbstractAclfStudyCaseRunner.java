@@ -36,6 +36,12 @@ import com.interpss.core.ms_case.result.AclfNetworkResult;
 import com.interpss.core.ms_case.result.BusResult;
 
 public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
+	/**
+	 * Run Loadflow on the AclfNetwork object contained by the studycase object
+
+	 * @param studyCase StudyCase object containing AclfNetwork
+	 * @return if Loadflow converged
+	 */
 	public boolean runCase(StudyCase studyCase) {
 		AclfNetwork aclfNet = (AclfNetwork)studyCase.getParent().getNetwork();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
@@ -44,9 +50,15 @@ public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 		return aclfNet.isLfConverged();
 	}			
 
-
+	/**
+	 * Save AclfNetwork result, reference by the StudyCase object to an AclfNetworkResult object, which
+	 * is also hold by the studyCase object
+	 * 
+	 * @param studyCase StudyCase object containing AclfNetwork and AclfNetworkResult
+	 * @return true if there is no problem
+	 */
 	public boolean saveCase(StudyCase studyCase) {
-		AclfNetworkResult rNet = AclfStudyCaseUtilFunc.saveAclfNetResult(studyCase);
+		AclfNetworkResult rNet = AclfStudyCaseUtilFunc.createAclfNetResult(studyCase);
 		String str = "StudyCase: " + studyCase.getCaseNumber() + ", " + studyCase.getName() + 
 					(rNet.isLfConverged()? "  LF converged":"  LF diverged") + 
 					"," + studyCase.getDesc() + "\n";
@@ -59,6 +71,12 @@ public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 		return true;
 	}		
 	
+	/**
+	 * Reset study case data
+	 * 
+	 * @param studyCase a StudyCase object
+	 * @return true if there is no problem
+	 */
 	public boolean resetCaseData(StudyCase studyCase) {
 		if (studyCase.getParent().getNetwork() instanceof AclfAdjNetwork ) {
 			AclfAdjNetwork aclfNet = (AclfAdjNetwork)studyCase.getParent().getNetwork();
