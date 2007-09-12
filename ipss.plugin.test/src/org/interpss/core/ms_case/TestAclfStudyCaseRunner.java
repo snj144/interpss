@@ -1,7 +1,6 @@
 package org.interpss.core.ms_case;
 
 import org.interpss.core.ms_case.aclf.AbstractAclfStudyCaseRunner;
-import org.interpss.core.ms_case.aclf.AclfBusResult;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
 import com.interpss.common.SpringAppContext;
@@ -9,6 +8,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.ms_case.StudyCase;
+import com.interpss.core.ms_case.result.AclfBusResult;
 
 public class TestAclfStudyCaseRunner extends AbstractAclfStudyCaseRunner {
 	private double[] pFactorList = {

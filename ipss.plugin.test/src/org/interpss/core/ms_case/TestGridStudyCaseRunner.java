@@ -6,7 +6,7 @@ import com.interpss.common.ui.SerializeEMFObjectUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.impl.AbstractGridStudyCaseRunner;
-import com.interpss.core.ms_case.result.GridAclfNetResult;
+import com.interpss.core.ms_case.result.AclfNetworkResult;
 
 public class TestGridStudyCaseRunner extends AbstractGridStudyCaseRunner {
 	@Override
@@ -19,7 +19,7 @@ public class TestGridStudyCaseRunner extends AbstractGridStudyCaseRunner {
 			for (Object obj : results) {
 				String modelStr = (String)obj;
 				//System.out.println((String)obj);
-				GridAclfNetResult rnet = (GridAclfNetResult)SerializeEMFObjectUtil.loadModel(modelStr);
+				AclfNetworkResult rnet = (AclfNetworkResult)SerializeEMFObjectUtil.loadModel(modelStr);
 				if (!rnet.isLfConverged())
 					return false;
 			}
