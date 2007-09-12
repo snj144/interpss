@@ -1,5 +1,5 @@
  /*
-  * @(#)AbstractAclfStudyCaseRunner.java   
+  * @(#)AclfStudyCaseUtilFunc.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -35,6 +35,12 @@ import com.interpss.core.ms_case.result.BusResult;
 import com.interpss.core.net.Bus;
 
 public class AclfStudyCaseUtilFunc {
+	/**
+	 * Increase load of the AclfBus, referenced by the BusResult object by dP using constant power factor 
+	 * 
+	 * @param busResult AclfBusResult object
+	 * @param dP delta P
+	 */
 	public static void increaseBusLoadConstPF(AclfBusResult busResult, double dP) {
 		AclfBus bus = (AclfBus)busResult.getBus();
 		double dQ = busResult.getLoad().getReal() == 0.0 ? 0.0 : dP * busResult.getLoad().getImaginary() / busResult.getLoad().getReal(); 
@@ -42,12 +48,25 @@ public class AclfStudyCaseUtilFunc {
 		bus.setLoadQ(busResult.getLoad().getImaginary() + dQ);		
 	}
 	
+	/**
+	 * Increase load of the AclfBus, referenced by the BusResult object by P = P * pFactor, Q = Q * qFactor 
+	 * 
+	 * @param busResult AclfBusResult object
+	 * @param pFactor P factor
+	 * @param qFactor Q factor
+	 */
 	public static void increaseBusLoad(AclfBusResult busResult, double pFactor, double qFactor) {
 		AclfBus bus = (AclfBus)busResult.getBus();
 		bus.setLoadP(busResult.getLoad().getReal()*pFactor);
 		bus.setLoadQ(busResult.getLoad().getImaginary()*qFactor);		
 	}
 
+	/**
+	 * Increase gen of the AclfBus, referenced by the BusResult object by dP using constant power factor 
+	 * 
+	 * @param busResult AclfBusResult object
+	 * @param dP delta P
+	 */
 	public static void increaseBusGenConstPF(AclfBusResult busResult, double dP) {
 		AclfBus bus = (AclfBus)busResult.getBus();
 		dP = dP * 0.5;
@@ -61,6 +80,12 @@ public class AclfStudyCaseUtilFunc {
 		}		
 	}
 	
+	/**
+	 * Set the AclfNetworkResult object to the StudyCase object
+	 * 
+	 * @param studyCase
+	 * @param rnet
+	 */
 	public static void setAclfNetResult2StudyCase(StudyCase studyCase, AclfNetworkResult rnet) {
 		studyCase.setNetResult(rnet);
 		AclfNetwork net = (AclfNetwork)studyCase.getParent().getNetwork();
@@ -72,18 +97,31 @@ public class AclfStudyCaseUtilFunc {
 		}
 	}
 
-	public static AclfNetworkResult saveAclfNetResult(StudyCase studyCase) {
+	/**
+	 * Create an AclfNetworkResult object based on the AclfNetwork object contained by studyCase
+	 * 
+	 * @param studyCase
+	 * @return
+	 */
+	public static AclfNetworkResult createAclfNetResult(StudyCase studyCase) {
 		AclfNetwork net = (AclfNetwork)studyCase.getParent().getNetwork();
-		return saveAclfNetResult(net, studyCase);
+		return createAclfNetResult(net, studyCase);
 	}
 
-	public static AclfNetworkResult saveAclfNetResult(String uid, AclfNetwork net) {
-		AclfNetworkResult rnet = saveAclfNetResult(net, null);
+	/**
+	 * Create an AclfNetworkResult object based on the AclfNetwork object
+
+	 * @param uid Grid node UUDI
+	 * @param net
+	 * @return
+	 */
+	public static AclfNetworkResult createAclfNetResult(String uid, AclfNetwork net) {
+		AclfNetworkResult rnet = createAclfNetResult(net, null);
 		rnet.setUid(uid);
 		return rnet;
 	}
 
-	private static AclfNetworkResult saveAclfNetResult(AclfNetwork net, StudyCase studyCase) {
+	private static AclfNetworkResult createAclfNetResult(AclfNetwork net, StudyCase studyCase) {
 		AclfNetworkResult rnet = CoreObjectFactory.createAclfNetworkResult(net.getId());
 		if (studyCase != null)
 			studyCase.setNetResult(rnet);
