@@ -36,7 +36,7 @@
 
 		<appname>InterPSS_Editor</appname>
 
-		<appversion>1.2.01</appversion>
+		<appversion>1.3.00</appversion>
 
 		<authors>
 			<author name="The Interpss Team" email="info@interpss.org" />
@@ -183,20 +183,36 @@
 			 <executable targetfile="$INSTALL_PATH/run.sh" stage="never"/>
 		</pack>
 
-		<pack name="Samples" required="no">
+		<pack name="Ipss Workspace" required="no">
 			<description>
-				Sample workspace and project Files. Required for a new
+				Ipss/User workspace and project files. Required for a new
 				installation
 			</description>
 			<file src="workspace" targetdir="$INSTALL_PATH" />
 		</pack>
 
-		<pack name="Database files" required="no">
+		<pack name="Ipss/User Database files" required="no">
 			<description>
-				Database schema and data files. Required for a new
+				Ipss/User workspce database schema and data files. Required for a new
 				installation
 			</description>
-			<file src="db" targetdir="$INSTALL_PATH" />
+			<file src="db/IpssDB" targetdir="$INSTALL_PATH/db" />
+		</pack>
+
+		<pack name="Samples Workspace" required="no">
+			<description>
+				Sample workspace and project files. Required for a new
+				installation
+			</description>
+			<file src="sample_ws" targetdir="$INSTALL_PATH" />
+		</pack>
+
+		<pack name="Sample Database files" required="no">
+			<description>
+				Sample workspce database schema and data files. Required for a new
+				installation
+			</description>
+			<file src="db/SampleDB" targetdir="$INSTALL_PATH/db" />
 		</pack>
 
 	</packs>
