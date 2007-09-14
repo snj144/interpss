@@ -117,6 +117,6 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 		String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
 		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
 		device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
-				DStabScriptUtilFunc.CMLDynamicBusControllerPackageName+classname, javacode);
+				DStabScriptUtilFunc.ScriptDynamicBusControllerPackageName+classname, javacode);
 	}
 }
