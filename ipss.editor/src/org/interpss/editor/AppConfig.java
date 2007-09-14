@@ -29,8 +29,6 @@ package org.interpss.editor;
 *
 */
 
-import java.sql.SQLException;
-
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
