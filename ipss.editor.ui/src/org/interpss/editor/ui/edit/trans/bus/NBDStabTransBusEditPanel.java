@@ -47,7 +47,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 	private static final long serialVersionUID = 1;
 	private JDialog parent = null;
 
-	public static String DynamicBusDeviceTemplateFilename = "template/DStabCMLDynamicBusDeviceTemplate.txt";;
+	public static String DynamicBusDeviceTemplateFilename = "template/DStabScriptDynamicBusDeviceTemplate.txt";;
 	
     private GFormContainer _netContainer = null;
     private GBusForm _form = null;
@@ -167,6 +167,15 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 			_pssPanel.setForm2Editor();
 	}
 
+	private void setBusDeviceScriptTextarea() {
+    	if (_form.getDStabBusData().getScripts() == null || _form.getDStabBusData().getScripts().trim().equals("")) {
+    		String filename = DynamicBusDeviceTemplateFilename;
+    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
+    	}
+    	else
+    		scriptTextArea.setText(_form.getDStabBusData().getScripts());
+	}
+	
 	public void setScriptingTabbedPaneEnabled(boolean e) {
 	    dstabTabbedPane.setEnabledAt(5, e);
 	    if (e) {
@@ -174,6 +183,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
 			setExcTabbedPaneEnabled(false);
 			setGovTabbedPaneEnabled(false);
 			setPssTabbedPaneEnabled(false);
+			setBusDeviceScriptTextarea();
 		}
 	    else
 	    	setTabbedPanel();
@@ -186,12 +196,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
     	scriptingCheckBox.setSelected(_form.getDStabBusData().isDBusScripting());
     	setScriptingTabbedPaneEnabled(_form.getDStabBusData().isDBusScripting());
     	if (_form.getDStabBusData().isDBusScripting()) {
-        	if (_form.getDStabBusData().getScripts() == null || _form.getDStabBusData().getScripts().trim().equals("")) {
-        		String filename = DynamicBusDeviceTemplateFilename;
-        		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
-        	}
-        	else
-        		scriptTextArea.setText(_form.getDStabBusData().getScripts());
+    		setBusDeviceScriptTextarea();
     	}
     	else {
         	// set the select pane to an enabled pane
@@ -217,7 +222,7 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
         	_form.getDStabBusData().setScripts(scriptTextArea.getText());
         	// we compile the JavaCode here to make sure that there is no syntax error.
     		String javacode = DStabScriptUtilFunc.parseCMLTag(scriptTextArea.getText(), ScriptJavacUtilFunc.CheckCodeClassname, "");
-        	if (!ScriptJavacUtilFunc.checkJavaCode(javacode, DStabScriptUtilFunc.CMLDynamicBusControllerPackageName)) {
+        	if (!ScriptJavacUtilFunc.checkJavaCode(javacode, DStabScriptUtilFunc.ScriptDynamicBusControllerPackageName)) {
             	errMsg.add(new String("Java compile error"));
         		return false;
         	}

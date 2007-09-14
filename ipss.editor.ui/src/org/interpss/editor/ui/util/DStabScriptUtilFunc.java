@@ -30,7 +30,7 @@ public class DStabScriptUtilFunc {
 	public final static String DStabOutputScriptingClassName = "ipss/tools/DStabOutputScripting";
 	
 	public final static String CMLControllerPackageName = "dsl/controller/";
-	public final static String CMLDynamicBusControllerPackageName = "dsl/device/";
+	public final static String ScriptDynamicBusControllerPackageName = "dsl/device/";
 	
 	/*
 	 *  the Begin_Code and End_Code have to be current, since in the testing situation, the fields are not 
