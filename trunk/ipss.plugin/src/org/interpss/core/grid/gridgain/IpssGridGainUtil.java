@@ -60,17 +60,13 @@ public class IpssGridGainUtil {
     public static Object[] performGridTask(String desc, EObject model) throws GridException {
         GridFactory.start();
         Object[] objList = null;
-        try {
-            Grid grid = GridFactory.getGrid();
-            IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
-           	if (model instanceof GridMultiStudyCase)
+        Grid grid = GridFactory.getGrid();
+        IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
+        if (model instanceof GridMultiStudyCase)
            		// IpssGridGainTask is designed to process the GridMultiStudyCase model
            		objList = (Object[])grid.execute(IpssGridGainTask.class.getName(), model).get();
-            IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
-        }
-        finally {
-            GridFactory.stop(true);
-        }
+        IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
+        GridFactory.stop(true);
         return objList;
     }
     
