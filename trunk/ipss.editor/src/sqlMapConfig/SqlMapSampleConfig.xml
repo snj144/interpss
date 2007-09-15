@@ -12,7 +12,7 @@
 	<transactionManager type="JDBC">
 		<dataSource type="SIMPLE">
 			<property value="${sqlmap.driver}" name="JDBC.Driver"/>
-			<property value="${sqlmap.ipss.url}" name="JDBC.ConnectionURL"/>
+			<property value="${sqlmap.sample.url}" name="JDBC.ConnectionURL"/>
 			<property value="${sqlmap.username}" name="JDBC.Username"/>
 			<property value="${sqlmap.password}" name="JDBC.Password"/>
 			<property value="15" name="Pool.MaximumActiveConnections"/>
