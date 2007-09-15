@@ -29,7 +29,7 @@ import org.interpss.editor.coreframework.IpssAbstractGraphAction;
 import org.interpss.editor.resources.Translator;
 
 
-public class HelpFAQpage extends IpssAbstractGraphAction {
+public class HelpUserFAQpage extends IpssAbstractGraphAction {
 	private static final long serialVersionUID = 1;
 
 	/**
