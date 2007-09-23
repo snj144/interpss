@@ -30,6 +30,7 @@ import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
@@ -116,7 +117,11 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	private void createDeviceObject() {
 		String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
 		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
-		device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
-				DStabScriptUtilFunc.ScriptDynamicBusControllerPackageName+classname, javacode);
+		try {
+			device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
+					DStabScriptUtilFunc.ScriptDynamicBusControllerPackageName+classname, javacode);
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+		}
 	}
 }

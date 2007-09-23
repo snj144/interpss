@@ -30,6 +30,7 @@ import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
@@ -149,8 +150,12 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	protected void createControllerObject(String baseClassname) {
 		String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
 		String javacode = DStabScriptUtilFunc.parseCMLTag(getScripts(), classname, baseClassname);
-		anController = (AbstractAnnotateController)MemoryJavaCompiler.javac( 
-				DStabScriptUtilFunc.CMLControllerPackageName+classname, javacode);
+		try {
+			anController = (AbstractAnnotateController)MemoryJavaCompiler.javac( 
+					DStabScriptUtilFunc.CMLControllerPackageName+classname, javacode);
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+		}
 	}
 	
 	/**
