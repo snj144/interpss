@@ -267,11 +267,18 @@ public class AclfFormDataMapperImpl {
 			busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
 			// compile the source code
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
+			if (!classname.equals("Support_nan_aoIII_0011")) 
+				classname = "Support_nan_aoIII_0011";
 			String javacode = CoreScriptUtilFunc.parseAclfJavaCode(busData.getScripts(), classname, 
 								CoreScriptUtilFunc.Tag_AclfScriptBus_Baseclass, 
 								CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
-			bus.setExternalAclfBus((BaseAclfBus)MemoryJavaCompiler.javac( 
-					CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
+			try {
+				bus.setExternalAclfBus((BaseAclfBus)MemoryJavaCompiler.javac( 
+						CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+				return false;
+			}
 		}
  		return true;
 	}
@@ -373,8 +380,13 @@ public class AclfFormDataMapperImpl {
 			String javacode = CoreScriptUtilFunc.parseAclfJavaCode(data.getScripts(), classname, 
 								CoreScriptUtilFunc.Tag_AclfScriptBranch_Baseclass, 
 								CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin);
-			branch.setExternalAclfBranch((BaseAclfBranch)MemoryJavaCompiler.javac( 
+			try {
+				branch.setExternalAclfBranch((BaseAclfBranch)MemoryJavaCompiler.javac( 
 					CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+				return false;
+			}			
 			return true;
 		}
 		return false;

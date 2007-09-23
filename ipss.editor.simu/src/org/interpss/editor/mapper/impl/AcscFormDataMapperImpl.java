@@ -160,8 +160,13 @@ public class AcscFormDataMapperImpl {
 			String javacode = CoreScriptUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
 					CoreScriptUtilFunc.Tag_AcscScriptBus_Baseclass, 
 					CoreScriptUtilFunc.Tag_AcscScriptBus_Begin);
-			bus.setExternalAcscBus((BaseAcscBus)MemoryJavaCompiler.javac( 
-					CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+			try {
+				bus.setExternalAcscBus((BaseAcscBus)MemoryJavaCompiler.javac( 
+						CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+				return false;
+			}
 			return true;
 		}
 		else {
@@ -235,8 +240,13 @@ public class AcscFormDataMapperImpl {
 			String javacode = CoreScriptUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
 					CoreScriptUtilFunc.Tag_AcscScriptBranch_Baseclass, 
 					CoreScriptUtilFunc.Tag_AcscScriptBranch_Begin);
-			branch.setExternalAcscBranch((BaseAcscBranch)MemoryJavaCompiler.javac( 
+			try {
+				branch.setExternalAcscBranch((BaseAcscBranch)MemoryJavaCompiler.javac( 
 					CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+				return false;
+			}
 			return true;
 		}
 		else {
