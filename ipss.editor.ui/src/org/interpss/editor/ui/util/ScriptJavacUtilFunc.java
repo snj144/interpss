@@ -28,6 +28,7 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 
 import com.interpss.common.util.IpssJavaCompiler;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 
 public class ScriptJavacUtilFunc {
@@ -52,8 +53,13 @@ public class ScriptJavacUtilFunc {
 		GUIFileUtil.writeText2FileAbsolutePath(filename, javacode);	
 		if (!packageName.endsWith("/"))
 			packageName += "/";
-		Object obj = MemoryJavaCompiler.javac(packageName+CheckCodeClassname, javacode);
-		return obj != null;
+		try {
+			MemoryJavaCompiler.javac(packageName+CheckCodeClassname, javacode);
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			return false;
+		}
+		return true;
 	}
 
 	/**
