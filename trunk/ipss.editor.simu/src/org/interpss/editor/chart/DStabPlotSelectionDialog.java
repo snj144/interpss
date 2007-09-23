@@ -830,15 +830,15 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
         		
    			String javacode = scriptTextArea.getText();
    			//System.out.println(javacode);
-   			IScriptTool tool = (IScriptTool)MemoryJavaCompiler.javac(
+   			try {
+   				IScriptTool tool = (IScriptTool)MemoryJavaCompiler.javac(
    					DStabScriptUtilFunc.OutDStabResultClassName, javacode);
-   			if (tool == null) {
-   				msg.sendErrorMsg("Java compile error, please check your java code.");
-   				return;
+   				IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("State/Varible Output");
+   				tool.outDStabResult2TextDialog(dialog, nameList, valueList);
+   			} catch (Exception e) {
+   				IpssLogger.logErr(e);
    			}
-   			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("State/Varible Output");
-    		tool.outDStabResult2TextDialog(dialog, nameList, valueList);
-    	}
+   		}
     	else {
 			msg.sendWarnMsg("Please select a varible/state to script plotting");
     	}

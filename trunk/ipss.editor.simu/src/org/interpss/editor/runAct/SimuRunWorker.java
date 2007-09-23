@@ -115,12 +115,15 @@ public class SimuRunWorker extends Thread {
 			// compile the source code
 			String classname = ScriptJavacUtilFunc.createScriptingClassname(CoreScriptUtilFunc.RunScriptsClass);
 			String javacode = CoreScriptUtilFunc.parseRunCaseJavaCode(this.scripts, classname);
-			ISimuCaseRunner runner = (ISimuCaseRunner)MemoryJavaCompiler.javac( 
-					CoreScriptUtilFunc.RunCaseScriptingPackageName+"/"+classname, javacode);
-			
-			// run the custom scripts
-			if (runner.runCase(simuCtx, simuCtx.getMsgHub()))
-				runner.displayResult(simuCtx);
+			try {
+				ISimuCaseRunner runner = (ISimuCaseRunner)MemoryJavaCompiler.javac( 
+						CoreScriptUtilFunc.RunCaseScriptingPackageName+"/"+classname, javacode);
+				// run the custom scripts
+				if (runner.runCase(simuCtx, simuCtx.getMsgHub()))
+					runner.displayResult(simuCtx);
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+			}			
 			
 			appStatus.busyStop("Run Transient Stability Simulation finished");
 		}
