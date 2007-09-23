@@ -32,7 +32,6 @@ import org.opencim.cim.iec61970.core.Bay;
 import org.opencim.cim.iec61970.core.Company;
 import org.opencim.cim.iec61970.core.SubControlArea;
 import org.opencim.cim.iec61970.core.Substation;
-import org.opencim.cim.iec61970.core.Terminal;
 import org.opencim.cim.iec61970.core.VoltageLevel;
 import org.opencim.cim.iec61970.domain.CompanyType;
 import org.opencim.cim.iec61970.gen.production.GeneratingUnit;
