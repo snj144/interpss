@@ -34,6 +34,7 @@ import org.interpss.editor.ui.util.GUIFileUtil;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.DStabSimuAction;
@@ -63,13 +64,14 @@ public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
 		javacode = javacode.replaceFirst(DStabScriptUtilFunc.Tag_DStabOutScriptDescEnd, 
 				DStabScriptUtilFunc.Tag_DStabOutScriptDescEnd_Code);
 		//System.out.println(javacode);
-		IDStabOutputScripting obj = (IDStabOutputScripting)MemoryJavaCompiler.javac(
-				DStabScriptUtilFunc.DStabOutputScriptingClassName, javacode);
-		if (obj == null) {
-			msg.sendErrorMsg("Java compile error, please check your code");
+		try {
+			IDStabOutputScripting obj = (IDStabOutputScripting)MemoryJavaCompiler.javac(
+					DStabScriptUtilFunc.DStabOutputScriptingClassName, javacode);
+			this.anOutput = new AnnotateDStabOutputScripting(obj);
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
 			return false;
 		}
-		this.anOutput = new AnnotateDStabOutputScripting(obj);
 
 		try {
 			this.anOutput.init(net);
