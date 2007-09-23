@@ -5,7 +5,6 @@ import cn.edu.tsinghua.dps.adapter.aclf.FileAdpater_PSTMatlabFormat;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.StdoutMsgListener;
 import com.interpss.common.msg.TextMessage;
-import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
  
 public class TestAdapter {
@@ -20,7 +19,7 @@ public class TestAdapter {
 			msg.addMsgListener(new StdoutMsgListener(TextMessage.TYPE_STATUS));
 
 			IpssFileAdapter adapter = new FileAdpater_PSTMatlabFormat();
-			SimuContext simuCtx = adapter.load("testData/data3m9b.m", msg);
+			adapter.load("testData/data3m9b.m", msg);
  		} catch (Exception e) {
  			e.printStackTrace();
 		}
