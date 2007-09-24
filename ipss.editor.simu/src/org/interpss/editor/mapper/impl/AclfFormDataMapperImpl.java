@@ -266,12 +266,17 @@ public class AclfFormDataMapperImpl {
 		if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting) ||
 			busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
 			// compile the source code
-			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
-			if (!classname.equals("Support_nan_aoIII_0011")) 
-				classname = "Support_nan_aoIII_0011";
-			String javacode = CoreScriptUtilFunc.parseAclfJavaCode(busData.getScripts(), classname, 
+			String classname = "";
+			String javacode = busData.getScripts(); 
+			if (javacode.startsWith(ScriptJavacUtilFunc.Token_CodeReuse)) {    // format @busId
+				classname = ScriptJavacUtilFunc.createScriptingClassname(javacode.substring(1));
+			}
+			else {
+				classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
+				javacode = CoreScriptUtilFunc.parseAclfJavaCode(busData.getScripts(), classname, 
 								CoreScriptUtilFunc.Tag_AclfScriptBus_Baseclass, 
 								CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
+			}
 			try {
 				bus.setExternalAclfBus((BaseAclfBus)MemoryJavaCompiler.javac( 
 						CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
