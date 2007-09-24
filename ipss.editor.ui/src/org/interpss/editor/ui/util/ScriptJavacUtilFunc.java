@@ -35,6 +35,7 @@ public class ScriptJavacUtilFunc {
 	public final static String CheckCodeTempPackageName = "temp/";
 	public final static String CheckCodeClassname = "CheckCode";
 	
+	public final static String Token_CodeReuse = "@";
 	public final static String Tag_Package = "<package>";
 	public final static String Tag_Classname = "<classname>";
 	public final static String Tag_BaseClassname = "<baseClassname>";

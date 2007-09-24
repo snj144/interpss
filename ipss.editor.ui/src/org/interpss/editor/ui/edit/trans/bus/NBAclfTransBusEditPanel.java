@@ -375,13 +375,15 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 	    
     	if (_data.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting) ||
     		_data.getGenCode().equals(AclfBusData.GenCode_GenScripting)	) {
-			String code = CoreScriptUtilFunc.parseAclfJavaCode(scriptTextArea.getText(), 
-					ScriptJavacUtilFunc.CheckCodeClassname, 
-					CoreScriptUtilFunc.Tag_AclfScriptBus_Baseclass, 
-					CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
-			if (!ScriptJavacUtilFunc.checkJavaCode(code, CoreScriptUtilFunc.AclfScriptingPackageName)) {
-            	errMsg.add(new String("Java compile error"));
-        		return false;
+			if (!scriptTextArea.getText().startsWith(ScriptJavacUtilFunc.Token_CodeReuse)) {
+				String code = CoreScriptUtilFunc.parseAclfJavaCode(scriptTextArea.getText(), 
+						ScriptJavacUtilFunc.CheckCodeClassname, 
+						CoreScriptUtilFunc.Tag_AclfScriptBus_Baseclass, 
+						CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
+				if (!ScriptJavacUtilFunc.checkJavaCode(code, CoreScriptUtilFunc.AclfScriptingPackageName)) {
+	            	errMsg.add(new String("Java compile error"));
+	        		return false;
+				}
 			}
     	}
 
