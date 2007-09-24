@@ -94,4 +94,8 @@ public class AclfBranchData extends BaseDataBean  {
 
     public String getRatingUnit() { return this.ratingUnit;     }
     public void setRatingUnit(String value) { this.ratingUnit = value;     }
+    
+    public boolean isR_LT_X() {
+    	return this.zR > this.zX;
+    }
 }

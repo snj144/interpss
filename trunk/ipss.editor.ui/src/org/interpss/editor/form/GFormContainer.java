@@ -107,6 +107,22 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 	}
 	
 	/** 
+	* Check if any branch R > X
+	*
+	* @return true or false
+	*/
+	public boolean isBranchR_LT_X() {
+		for ( int i = 0; i < getBranchFormList().size(); i++ ) {
+          GBranchForm form = (GBranchForm)getBranchFormList().get(i);
+          if (form.isR_LT_X()) {
+        	  IpssLogger.getLogger().info("Branch R > X, id " + form.getFromId() + "->" + form.getToId());
+        	  return true;
+          }
+        }   
+		return false;
+	}
+	
+	/** 
 	* 	Check the NetContainer form data
 	*		- Rule-1: at least two buses and a branch in the net
 	*
