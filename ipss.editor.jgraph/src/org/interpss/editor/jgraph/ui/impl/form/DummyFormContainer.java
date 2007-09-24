@@ -411,6 +411,8 @@ public class DummyFormContainer implements IGFormContainer {
 		gNetForm.setFreqHZ(50.0);
 	}	
 	
+	public boolean isBranchR_LT_X() { return false; }
+	
     /**
 	*	Convert the object to a string representation
 	*

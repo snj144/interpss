@@ -52,6 +52,7 @@ public interface IGFormContainer {
 	void rebuildRelation();
 	
 	boolean isDataDirty();
+	boolean isBranchR_LT_X();
 	
 	Object xml2Object(String xmlStr, Class klass);
 }
