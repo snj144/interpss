@@ -167,5 +167,9 @@ public class DistBranchData  extends BaseDataBean {
 	 */
 	public void setHasServiceSchedule(boolean hasServiceSchedule) {
 		this.hasServiceSchedule = hasServiceSchedule;
-	}          
+	}       
+	
+    public boolean isR_LT_X() {
+    	return this.zR > this.zX;
+    }	
 }

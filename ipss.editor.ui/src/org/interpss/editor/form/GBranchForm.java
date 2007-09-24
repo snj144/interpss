@@ -69,6 +69,14 @@ public class GBranchForm extends BaseBranchForm implements IGBranchForm, java.io
 			dstabBranchData.setAcscBranchData(acscBranchData);
     }
     
+    public boolean isR_LT_X() {
+		if (getAppType().equals(IGNetForm.AppType_Distribution))
+			return distBranchData.isR_LT_X();
+		else {
+    		return acscBranchData.isR_LT_X();
+		}	
+    }
+    
 	/*
 	*	Clone the current branch object
 	*
