@@ -38,6 +38,7 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.IpssMsgListener;
@@ -65,11 +66,8 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     // holds the current case data being edited
     private AclfCaseData _caseData = null;
 	
-    private JDialog parentDialog = null;
-    
     /** Creates new form NBAclfCasePanel */
     public NBAclfCasePanel(JDialog parent) {
-        parentDialog = parent;
     	initComponents();
 
         DataVerifier verifier = new DataVerifier();
@@ -214,7 +212,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
 
-        if (_netContainer != null && IGNetForm.AppType_Transmission.equals(_netContainer.getGNetForm().getAppType()))
+        if (_netContainer != null && 
+        		IGNetForm.AppType_Transmission.equals(_netContainer.getGNetForm().getAppType()) &&
+        		!_netContainer.isBranchR_LT_X())
             this.pqRadioButton.setSelected(true);
         else
         	this.nrRadioButton.setSelected(true);
@@ -902,6 +902,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void pqRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqRadioButtonActionPerformed
     	accFactorTextField.setEnabled(false);
         accFactorLabel.setEnabled(false);
+        if (_netContainer != null && _netContainer.isBranchR_LT_X()) {
+        	SpringAppContext.getEditorDialogUtil().showMsgDialog("Warning", 
+        			"You have branch(es) R > X in your next work, PQ method may diverge. Use NR is recommended");
+        }
     }//GEN-LAST:event_pqRadioButtonActionPerformed
 
     private void nrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrRadioButtonActionPerformed
