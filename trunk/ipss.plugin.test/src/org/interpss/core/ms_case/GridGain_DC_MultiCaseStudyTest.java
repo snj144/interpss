@@ -22,11 +22,14 @@
   *
   */
 
-package org.interpss.core.ms_case.masterCreation;
+package org.interpss.core.ms_case;
 
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.core.ms_case.impl.TestAclfStudyCaseRunner;
+import org.interpss.core.ms_case.impl.TestGridGainJob;
+import org.interpss.core.ms_case.impl.TestGridStudyCaseRunner;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -38,7 +41,7 @@ import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.util.sample.SampleCases;
 
-public class GridGain_MC_MultiCaseStudyTest extends BaseTestSetup {
+public class GridGain_DC_MultiCaseStudyTest extends BaseTestSetup {
 	@Test
 	public void loadProfileCaseTest() throws InterpssException {
 		// step-1: define and load a EMF network object
@@ -50,11 +53,11 @@ public class GridGain_MC_MultiCaseStudyTest extends BaseTestSetup {
 		GridMultiStudyCase gridMCase = CoreObjectFactory.createGridMultiStudyCase(net);
 		
 		// step-3: define a GridStudyCaseRunner
-		gridMCase.setCaseRunner(new MC_TestGridStudyCaseRunner());
+		gridMCase.setCaseRunner(new TestGridStudyCaseRunner());
 		
 		// step-4: define an actual case runner to run the case. The actual work is 
 		//         delegated to the case runner
-		gridMCase.getGridStudyCaseRunner().setCaseRunner(new MC_TestAclfStudyCaseRunner());
+		gridMCase.getGridStudyCaseRunner().setCaseRunner(new TestAclfStudyCaseRunner());
 		
 		// step-5 : define grid task jobs
 		gridMCase.createBaseCase();
@@ -65,7 +68,7 @@ public class GridGain_MC_MultiCaseStudyTest extends BaseTestSetup {
 			gridMCase.getNetwork().setSortNumber(caseNumber);
 			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
 			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase.getNetwork());
-			gridMCase.getGridJobs().add(new MC_TestGridGainJob(modelStr));
+			gridMCase.getGridJobs().add(new TestGridGainJob(modelStr));
 		}
 
 		// ste-6 : run all grid task jobs 

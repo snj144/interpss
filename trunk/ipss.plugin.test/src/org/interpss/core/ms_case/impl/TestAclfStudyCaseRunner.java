@@ -1,4 +1,4 @@
-package org.interpss.core.ms_case.masterCreation;
+package org.interpss.core.ms_case.impl;
 
 import org.interpss.core.ms_case.aclf.AbstractAclfStudyCaseRunner;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
@@ -10,7 +10,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.ms_case.result.AclfBusResult;
 
-public class MC_TestAclfStudyCaseRunner extends AbstractAclfStudyCaseRunner {
+public class TestAclfStudyCaseRunner extends AbstractAclfStudyCaseRunner {
 	private double[] pFactorList = {
 			0.3, 0.3, 0.3, 0.3, 1.0, 1.0,
 			1.0, 1.0, 1.0, 1.0, 1.0, 1.0,

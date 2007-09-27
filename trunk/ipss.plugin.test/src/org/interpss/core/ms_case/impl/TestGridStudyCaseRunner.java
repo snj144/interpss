@@ -1,4 +1,4 @@
-package org.interpss.core.ms_case;
+package org.interpss.core.ms_case.impl;
 
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 
