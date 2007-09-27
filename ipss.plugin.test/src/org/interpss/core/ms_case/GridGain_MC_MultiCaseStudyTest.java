@@ -27,6 +27,9 @@ package org.interpss.core.ms_case;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.core.ms_case.impl.TestAclfStudyCaseRunner;
+import org.interpss.core.ms_case.impl.TestGridGainJob;
+import org.interpss.core.ms_case.impl.TestGridStudyCaseRunner;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -38,7 +41,7 @@ import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.util.sample.SampleCases;
 
-public class GridGainMultiCaseStudyTest extends BaseTestSetup {
+public class GridGain_MC_MultiCaseStudyTest extends BaseTestSetup {
 	@Test
 	public void loadProfileCaseTest() throws InterpssException {
 		// step-1: define and load a EMF network object

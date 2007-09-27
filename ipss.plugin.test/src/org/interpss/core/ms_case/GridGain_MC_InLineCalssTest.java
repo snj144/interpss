@@ -52,7 +52,7 @@ import com.interpss.core.ms_case.result.AclfBusResult;
 import com.interpss.core.ms_case.result.AclfNetworkResult;
 import com.interpss.core.util.sample.SampleCases;
 
-public class GridGaininInLineCalssTest extends BaseTestSetup {
+public class GridGain_MC_InLineCalssTest extends BaseTestSetup {
 	@Test
 	public void loadProfileInlineClassCaseTest() throws InterpssException {
 		// step-1: define and load a EMF network object
