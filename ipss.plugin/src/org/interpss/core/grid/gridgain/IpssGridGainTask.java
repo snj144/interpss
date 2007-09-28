@@ -34,16 +34,28 @@ import java.util.List;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobResult;
+import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.GridTaskSplitAdapter;
+import org.gridgain.grid.resources.GridTaskSessionResource;
 
+import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.ms_case.GridMultiStudyCase;
+import com.interpss.core.ms_case.StudyCaseCreationType;
 
 public class IpssGridGainTask extends GridTaskSplitAdapter<GridMultiStudyCase> {
 	private static final long serialVersionUID = 1;
+	
+    /** Grid task session will be injected. */
+    @GridTaskSessionResource
+    private GridTaskSession ses = null;	
 
 	@Override
 	protected Collection<? extends GridJob> split(int gridSize, GridMultiStudyCase model) throws GridException {
-        return model.getGridJobs();
+		ses.setAttribute("creationType", model.getCaseCreationType());
+		if (model.getCaseCreationType() == StudyCaseCreationType.DISTRIBUTED_CREATION) {
+			ses.setAttribute("network", SerializeEMFObjectUtil.saveModel(model.getNetwork()));
+		}
+		return model.getGridJobs();
      }
 
 	@Override
