@@ -34,11 +34,10 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.ms_case.GridMultiStudyCase;
-import com.interpss.core.ms_case.StudyCase;
+import com.interpss.core.ms_case.StudyCaseCreationType;
 import com.interpss.core.util.sample.SampleCases;
 
 public class GridGain_DC_MultiCaseStudyTest extends BaseTestSetup {
@@ -50,7 +49,7 @@ public class GridGain_DC_MultiCaseStudyTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 		
 		// step-2: create a GridMultiStudyCase object, holding the net object
-		GridMultiStudyCase gridMCase = CoreObjectFactory.createGridMultiStudyCase(net);
+		GridMultiStudyCase gridMCase = CoreObjectFactory.createGridMultiStudyCase(net, StudyCaseCreationType.DISTRIBUTED_CREATION);
 		
 		// step-3: define a GridStudyCaseRunner
 		gridMCase.setCaseRunner(new TestGridStudyCaseRunner());
@@ -64,11 +63,7 @@ public class GridGain_DC_MultiCaseStudyTest extends BaseTestSetup {
 		for (int i = 1; i <= 24; i++ ) {
 			// create study case i
 			int caseNumber = i;
-			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+i, "Case" + i, caseNumber, gridMCase);
-			gridMCase.getNetwork().setSortNumber(caseNumber);
-			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
-			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase.getNetwork());
-			gridMCase.getGridJobs().add(new TestGridGainJob(modelStr));
+			gridMCase.getGridJobs().add(new TestGridGainJob(Integer.toString(caseNumber)));
 		}
 
 		// ste-6 : run all grid task jobs 

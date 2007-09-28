@@ -15,6 +15,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.ms_case.GridMultiStudyCase;
+import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.ms_case.StudyCaseCreationType;
 
 public class TestGridGainJob extends AbstractIpssGridGainJob {
@@ -36,14 +37,30 @@ public class TestGridGainJob extends AbstractIpssGridGainJob {
     public Serializable execute() {
     	initEMFPackage();
 
+		AclfNetwork net;
 		if ((StudyCaseCreationType)ses.getAttribute("creationType") == StudyCaseCreationType.DISTRIBUTED_CREATION) {
-			GridMultiStudyCase gridMCase = (GridMultiStudyCase)SerializeEMFObjectUtil.loadModel((String)ses.getAttribute("model"));
-    		System.out.println("--->" + ses.getAttribute("model"));
+			// de-serialize the base network
+			AclfNetwork baseNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel((String)ses.getAttribute("network"));
+			// create a GridMultiStudyCase object with the base object
+			GridMultiStudyCase gridMCase = CoreObjectFactory.createGridMultiStudyCase(baseNet);
+			gridMCase.setCaseRunner(new TestGridStudyCaseRunner());
+			gridMCase.getGridStudyCaseRunner().setCaseRunner(new TestAclfStudyCaseRunner());
+
+			// create base study case
+			gridMCase.createBaseCase();
+			
+			// crate current study case
+			int caseNumber = new Integer(getArgument()).intValue();
+			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+caseNumber, "Case"+caseNumber, caseNumber, gridMCase);
+			gridMCase.getNetwork().setSortNumber(caseNumber);
+			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
+			net = (AclfNetwork)gridMCase.getNetwork();
 		}
-    	
-    	// de-serialized the model to a AclfNetwork object 
-    	String modelStr = getArgument();
-		AclfNetwork net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(modelStr);
+		else {
+			// de-serialized the model to a AclfNetwork object 
+			String modelStr = getArgument();
+			net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(modelStr);
+		}
 		 
 		// perform loadflow calculation
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
