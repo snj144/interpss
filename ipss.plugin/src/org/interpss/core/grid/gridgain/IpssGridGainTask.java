@@ -45,15 +45,19 @@ import com.interpss.core.ms_case.StudyCaseCreationType;
 public class IpssGridGainTask extends GridTaskSplitAdapter<GridMultiStudyCase> {
 	private static final long serialVersionUID = 1;
 	
+	public static final String Token_CreationType = "creationType";
+	public static final String Token_RefNetwork = "refNetwork";
+	
     /** Grid task session will be injected. */
     @GridTaskSessionResource
-    private GridTaskSession ses = null;	
+    private GridTaskSession session = null;	
 
 	@Override
 	protected Collection<? extends GridJob> split(int gridSize, GridMultiStudyCase model) throws GridException {
-		ses.setAttribute("creationType", model.getCaseCreationType());
+		session.setAttribute(Token_CreationType, model.getCaseCreationType());
 		if (model.getCaseCreationType() == StudyCaseCreationType.DISTRIBUTED_CREATION) {
-			ses.setAttribute("network", SerializeEMFObjectUtil.saveModel(model.getNetwork()));
+			// for distributed study case creation, the ref network is sent to remote node for case creation
+			session.setAttribute(Token_RefNetwork, SerializeEMFObjectUtil.saveModel(model.getNetwork()));
 		}
 		return model.getGridJobs();
      }

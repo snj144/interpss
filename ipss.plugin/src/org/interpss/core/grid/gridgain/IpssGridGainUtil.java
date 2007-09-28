@@ -54,7 +54,8 @@ public class IpssGridGainUtil {
 	 * 
 	 * @param desc a description string
 	 * @param model an EMF model object
-	 * @return a list of result objects
+	 * @return a list of result objects, for example AclfNetworkResult objects, in serialized fromat (String)
+	 *         in no particular order
 	 * @throws GridException
 	 */
     public static Object[] performGridTask(String desc, EObject model) throws GridException {
