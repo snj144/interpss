@@ -7,6 +7,7 @@ import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridLocalNodeIdResource;
 import org.gridgain.grid.resources.GridTaskSessionResource;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
+import org.interpss.core.grid.gridgain.IpssGridGainTask;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 
 import com.interpss.common.SpringAppContext;
@@ -38,9 +39,9 @@ public class TestGridGainJob extends AbstractIpssGridGainJob {
     	initEMFPackage();
 
 		AclfNetwork net;
-		if ((StudyCaseCreationType)ses.getAttribute("creationType") == StudyCaseCreationType.DISTRIBUTED_CREATION) {
+		if ((StudyCaseCreationType)ses.getAttribute(IpssGridGainTask.Token_CreationType) ==	StudyCaseCreationType.DISTRIBUTED_CREATION) {
 			// de-serialize the base network
-			AclfNetwork baseNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel((String)ses.getAttribute("network"));
+			AclfNetwork baseNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel((String)ses.getAttribute(IpssGridGainTask.Token_RefNetwork));
 			// create a GridMultiStudyCase object with the base object
 			GridMultiStudyCase gridMCase = CoreObjectFactory.createGridMultiStudyCase(baseNet);
 			gridMCase.setCaseRunner(new TestGridStudyCaseRunner());
@@ -49,7 +50,7 @@ public class TestGridGainJob extends AbstractIpssGridGainJob {
 			// create base study case
 			gridMCase.createBaseCase();
 			
-			// crate current study case
+			// crate current study case, case number is sent from the GridTask
 			int caseNumber = new Integer(getArgument()).intValue();
 			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+caseNumber, "Case"+caseNumber, caseNumber, gridMCase);
 			gridMCase.getNetwork().setSortNumber(caseNumber);
