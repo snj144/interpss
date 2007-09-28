@@ -5,7 +5,7 @@ import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.Bus6384Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
-import org.interpss.core.ms_case.GridGainMultiCaseStudyTest;
+import org.interpss.core.ms_case.GridGain_MC_MultiCaseStudyTest;
 import org.interpss.core.ms_case.MultiCaseStudyTest;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
 import org.interpss.dstab.control.cml.block.FilterControlBlockTests;
@@ -44,7 +44,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	// multi-case study
 	MultiCaseStudyTest.class,
-	GridGainMultiCaseStudyTest.class,
+	GridGain_MC_MultiCaseStudyTest.class,
 	
 	// Spring 
 	CustomFileAdapterTest.class,
