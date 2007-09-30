@@ -39,7 +39,7 @@ public class TestGridGainJob extends AbstractIpssGridGainJob {
     	initEMFPackage();
 
 		AclfNetwork net;
-		if ((StudyCaseCreationType)ses.getAttribute(IpssGridGainTask.Token_CreationType) ==	StudyCaseCreationType.DISTRIBUTED_CREATION) {
+		if (((String)ses.getAttribute(IpssGridGainTask.Token_CreationType)).equals("D")) {
 			// de-serialize the base network
 			AclfNetwork baseNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel((String)ses.getAttribute(IpssGridGainTask.Token_RefNetwork));
 			// create a GridMultiStudyCase object with the base object
