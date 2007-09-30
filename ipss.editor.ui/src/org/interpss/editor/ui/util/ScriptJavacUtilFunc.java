@@ -55,6 +55,7 @@ public class ScriptJavacUtilFunc {
 		if (!packageName.endsWith("/"))
 			packageName += "/";
 		try {
+			MemoryJavaCompiler.clearClassMap();
 			MemoryJavaCompiler.javac(packageName+CheckCodeClassname, javacode);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
