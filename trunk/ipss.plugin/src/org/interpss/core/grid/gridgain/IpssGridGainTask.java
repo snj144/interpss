@@ -54,10 +54,13 @@ public class IpssGridGainTask extends GridTaskSplitAdapter<GridMultiStudyCase> {
 
 	@Override
 	protected Collection<? extends GridJob> split(int gridSize, GridMultiStudyCase model) throws GridException {
-		session.setAttribute(Token_CreationType, model.getCaseCreationType());
 		if (model.getCaseCreationType() == StudyCaseCreationType.DISTRIBUTED_CREATION) {
+			session.setAttribute(Token_CreationType, "D");
 			// for distributed study case creation, the ref network is sent to remote node for case creation
 			session.setAttribute(Token_RefNetwork, SerializeEMFObjectUtil.saveModel(model.getNetwork()));
+		}
+		else {
+			session.setAttribute(Token_CreationType, "M");
 		}
 		return model.getGridJobs();
      }
