@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
+import org.gridgain.grid.GridNode;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
 import com.interpss.common.util.IpssLogger;
@@ -63,7 +64,13 @@ public class IpssGridGainUtil {
         Object[] objList = null;
         try {
             Grid grid = GridFactory.getGrid();
+            
             IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
+            IpssLogger.getLogger().info("Number of Grid Nodes: " + grid.getAllNodes().size());
+            for (GridNode node : grid.getAllNodes()) {
+                IpssLogger.getLogger().info("Node name, id: " + nodeNameLookup(node.getId().toString()) +
+                		", " + node.getId().toString());
+            }
             if (model instanceof GridMultiStudyCase)
                		// IpssGridGainTask is designed to process the GridMultiStudyCase model
                		objList = (Object[])grid.execute(IpssGridGainTask.class.getName(), model).get();
@@ -85,7 +92,7 @@ public class IpssGridGainUtil {
     	String name = nodeNameLookupTable.get(uid); 
     	if (name == null) {
     		int cnt = nodeNameLookupTable.size();
-    		name = "Logical Node - " + (cnt+1);
+    		name = "Logical Node-" + (cnt+1);
     		nodeNameLookupTable.put(uid, name);
     	}
     	return name;
@@ -102,4 +109,15 @@ public class IpssGridGainUtil {
 		AclfNetworkResult rnet = AclfStudyCaseUtilFunc.createAclfNetResult(uid, net);
 		return SerializeEMFObjectUtil.saveModel(rnet);
 	}    
+    
+    public static boolean isGridLibLoaded() {
+        try {
+        	GridFactory.start();
+            GridFactory.getGrid();
+            GridFactory.stop(true);
+        } catch (GridException e) {
+        	return false;
+        }
+    	return true;
+    }
 }
