@@ -25,6 +25,7 @@
 package org.interpss.core.grid.gridgain;
 
 import java.util.Hashtable;
+import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gridgain.grid.Grid;
@@ -48,6 +49,7 @@ import com.interpss.core.ms_case.result.AclfNetworkResult;
  */
 
 public class IpssGridGainUtil {
+	public static final String LocalGridNodeName = "Master Grid Noce";
 	private static Hashtable<String,String> nodeNameLookupTable = new Hashtable<String,String>();
 	
 	/**
@@ -110,14 +112,55 @@ public class IpssGridGainUtil {
 		return SerializeEMFObjectUtil.saveModel(rnet);
 	}    
     
-    public static boolean isGridLibLoaded() {
+    /**
+     * Check if the GridGain could be started. 
+     * 
+     * @return
+     */
+    public static boolean isGridLibLoaded() throws NoClassDefFoundError {
         try {
         	GridFactory.start();
             GridFactory.getGrid();
             GridFactory.stop(true);
-        } catch (GridException e) {
+        } catch (GridException e2) {
+        	IpssLogger.logErr(e2);
         	return false;
         }
     	return true;
+    }
+    
+    /**
+     * Get all grid node name
+     * 
+     * @return
+     */
+    public static String[] gridNodeNameList() {
+        try {
+        	GridFactory.start();
+            String[] nameList = null;
+            try {
+                Grid grid = GridFactory.getGrid();
+                String localId = grid.getLocalNode().getId().toString();
+                Vector<String> vct = new Vector<String>();
+            	vct.add(LocalGridNodeName);
+                for (GridNode node : grid.getAllNodes()) {
+                    if (!localId.equals(node.getId().toString())) {
+                    	String name = nodeNameLookup(node.getId().toString());
+                    	vct.add(name);
+                    }
+                }
+                nameList = new String[vct.size()];
+                int cnt = 0;
+                for (String s : vct) {
+                	nameList[cnt++] = s;
+                }
+            }
+            finally {
+                GridFactory.stop(true);
+            }
+            return nameList;
+        } catch (GridException e) {
+        	return null;
+        }
     }
 }
