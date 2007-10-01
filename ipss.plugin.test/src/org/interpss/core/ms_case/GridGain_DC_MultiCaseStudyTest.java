@@ -27,9 +27,9 @@ package org.interpss.core.ms_case;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.core.ms_case.impl.TestAclfStudyCaseRunner;
-import org.interpss.core.ms_case.impl.TestGridGainJob;
-import org.interpss.core.ms_case.impl.TestGridStudyCaseRunner;
+import org.interpss.core.grid.gridgain.impl.aclf.Aclf5BusSampleAclfStudyCaseRunner;
+import org.interpss.core.grid.gridgain.impl.aclf.SampleGridGainJob;
+import org.interpss.core.grid.gridgain.impl.aclf.SampleGridStudyCaseRunner;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -55,18 +55,18 @@ public class GridGain_DC_MultiCaseStudyTest extends BaseTestSetup {
 		GridMultiStudyCase gridMCase = CoreObjectFactory.createGridMultiStudyCase(net, StudyCaseCreationType.DISTRIBUTED_CREATION);
 		
 		// step-3: define a GridStudyCaseRunner
-		gridMCase.setCaseRunner(new TestGridStudyCaseRunner());
+		gridMCase.setCaseRunner(new SampleGridStudyCaseRunner());
 		
 		// step-4: define an actual case runner to run the case. The actual work is 
 		//         delegated to the case runner
-		gridMCase.getGridStudyCaseRunner().setCaseRunner(new TestAclfStudyCaseRunner());
+		gridMCase.getGridStudyCaseRunner().setCaseRunner(new Aclf5BusSampleAclfStudyCaseRunner());
 		
 		// step-5 : define grid task jobs
 		gridMCase.createBaseCase();
 		for (int i = 1; i <= 24; i++ ) {
 			// create study case i
 			int caseNumber = i;
-			gridMCase.getGridJobs().add(new TestGridGainJob(Integer.toString(caseNumber)));
+			gridMCase.getGridJobs().add(new SampleGridGainJob(Integer.toString(caseNumber)));
 		}
 
 		// ste-6 : run all grid task jobs 
