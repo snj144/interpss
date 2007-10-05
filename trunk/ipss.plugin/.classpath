@@ -17,6 +17,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/GirdGain"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

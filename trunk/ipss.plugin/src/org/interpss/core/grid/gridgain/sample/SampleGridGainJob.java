@@ -1,4 +1,4 @@
-package org.interpss.core.grid.gridgain.impl.aclf;
+package org.interpss.core.grid.gridgain.sample;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -7,8 +7,8 @@ import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridLocalNodeIdResource;
 import org.gridgain.grid.resources.GridTaskSessionResource;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
-import org.interpss.core.grid.gridgain.IpssGridGainTask;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
+import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -38,9 +38,9 @@ public class SampleGridGainJob extends AbstractIpssGridGainJob {
     	initEMFPackage();
 
 		AclfNetwork net;
-		if (((String)ses.getAttribute(IpssGridGainTask.Token_CreationType)).equals("D")) {
+		if (((String)ses.getAttribute(IpssMultiStudyCaseGridGainTask.Token_CreationType)).equals("D")) {
 			// de-serialize the base network
-			AclfNetwork baseNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel((String)ses.getAttribute(IpssGridGainTask.Token_RefNetwork));
+			AclfNetwork baseNet = (AclfNetwork)SerializeEMFObjectUtil.loadModel((String)ses.getAttribute(IpssMultiStudyCaseGridGainTask.Token_RefNetwork));
 			// create a GridMultiStudyCase object with the base object
 			GridMultiStudyCase gridMCase = CoreObjectFactory.createGridMultiStudyCase(baseNet);
 			gridMCase.setCaseRunner(new SampleGridStudyCaseRunner());

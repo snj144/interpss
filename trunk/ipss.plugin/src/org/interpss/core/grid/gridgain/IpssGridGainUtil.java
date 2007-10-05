@@ -32,11 +32,14 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.GridNode;
+import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
+import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.result.AclfNetworkResult;
 
@@ -57,33 +60,48 @@ public class IpssGridGainUtil {
 	 * 
 	 * @param desc a description string
 	 * @param model an EMF model object
-	 * @return a list of result objects, for example AclfNetworkResult objects, in serialized fromat (String)
-	 *         in no particular order
+	 * @return result object or a list of result objects, 
 	 * @throws GridException
 	 */
-    public static Object[] performGridTask(String desc, EObject model) throws GridException {
+    public static Object performGridTask(String desc, EObject model) throws GridException {
         GridFactory.start();
-        Object[] objList = null;
-        try {
-            Grid grid = GridFactory.getGrid();
+        Object result = null;
+        //try {
+        Grid grid = GridFactory.getGrid();
             
-            IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
-            IpssLogger.getLogger().info("Number of Grid Nodes: " + grid.getAllNodes().size());
-            for (GridNode node : grid.getAllNodes()) {
-                IpssLogger.getLogger().info("Node name, id: " + nodeNameLookup(node.getId().toString()) +
-                		", " + node.getId().toString());
-            }
-            if (model instanceof GridMultiStudyCase)
-               		// IpssGridGainTask is designed to process the GridMultiStudyCase model
-               		objList = (Object[])grid.execute(IpssGridGainTask.class.getName(), model).get();
-            IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
-        }
-        finally {
-            GridFactory.stop(true);
-        }
-        return objList;
+        IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
+        IpssLogger.getLogger().info("Number of Grid Nodes: " + grid.getAllNodes().size());
+        if (model instanceof GridMultiStudyCase)
+           	// IpssMultiStudyCaseGridGainTask is designed to process the GridMultiStudyCase model
+          	// return a list of results object, for example AclfNetworkResult objects in serialized 
+           	// fromat (String) in no particular order
+           	result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model).get();
+        else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork)
+        	// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
+          	// return an AclfAdjNetork object in 
+        	result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model).get();
+        IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
+        //}
+        //finally {
+        GridFactory.stop(true);
+        //}
+        return result;
     }
     
+    /**
+     * From Grid node name to node UDDI string lookup
+     * 
+     * @param name
+     * @return
+     */
+    public static String nodeIdLookup(String name) {
+    	for (String id : nodeNameLookupTable.keySet()) {
+    		if (nodeNameLookupTable.get(id).equals(name))
+    			return id;
+    	}
+    	return null;
+    }
+
     /**
      * From Grid node UDDI string to Logical node name lookup
      * 
@@ -117,14 +135,19 @@ public class IpssGridGainUtil {
      * 
      * @return
      */
+    private static boolean gridLibLoaded = false;
+    
     public static boolean isGridLibLoaded() throws NoClassDefFoundError {
-        try {
-        	GridFactory.start();
-            GridFactory.getGrid();
-            GridFactory.stop(true);
-        } catch (GridException e2) {
-        	IpssLogger.logErr(e2);
-        	return false;
+        if (!gridLibLoaded) {
+        	try {
+            	GridFactory.start();
+                GridFactory.getGrid();
+                GridFactory.stop(true);
+                gridLibLoaded = true;
+            } catch (GridException e2) {
+            	IpssLogger.logErr(e2);
+            	return false;
+            }
         }
     	return true;
     }
