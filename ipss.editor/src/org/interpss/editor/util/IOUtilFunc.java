@@ -43,7 +43,7 @@ public class IOUtilFunc  {
 	 * 
 	 * @param filename
 	 * @return the JGraph object
-	 */
+	 */   
 	public static JGraph loadIpssGraphFile(String filename) {
 		GPGraphpad pad = new GPGraphpad((GPSessionParameters)null); 
 		JGraph graph = GraphSpringAppContext.getIpssGraph();
