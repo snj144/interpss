@@ -26,7 +26,7 @@
  *  This Class is for performing grid computing on the GridMultiStudyCase model 
  */
 
-package org.interpss.core.grid.gridgain;
+package org.interpss.core.ms_case;
 
 import java.util.Collection;
 import java.util.List;
@@ -42,7 +42,7 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.StudyCaseCreationType;
 
-public class IpssGridGainTask extends GridTaskSplitAdapter<GridMultiStudyCase> {
+public class IpssMultiStudyCaseGridGainTask extends GridTaskSplitAdapter<GridMultiStudyCase> {
 	private static final long serialVersionUID = 1;
 	
 	public static final String Token_CreationType = "creationType";

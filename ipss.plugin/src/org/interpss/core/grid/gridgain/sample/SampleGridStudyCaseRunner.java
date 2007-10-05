@@ -1,4 +1,4 @@
-package org.interpss.core.grid.gridgain.impl.aclf;
+package org.interpss.core.grid.gridgain.sample;
 
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
