@@ -27,9 +27,9 @@ package org.interpss.core.ms_case;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.core.grid.gridgain.impl.aclf.Aclf5BusSampleAclfStudyCaseRunner;
-import org.interpss.core.grid.gridgain.impl.aclf.SampleGridGainJob;
-import org.interpss.core.grid.gridgain.impl.aclf.SampleGridStudyCaseRunner;
+import org.interpss.core.grid.gridgain.sample.Aclf5BusSampleAclfStudyCaseRunner;
+import org.interpss.core.grid.gridgain.sample.SampleGridGainJob;
+import org.interpss.core.grid.gridgain.sample.SampleGridStudyCaseRunner;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
