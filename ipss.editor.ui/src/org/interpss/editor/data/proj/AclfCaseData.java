@@ -62,4 +62,14 @@ public class AclfCaseData extends BaseDataBean {
 	private boolean showSummary = true;    
 	public boolean getShowSummary() {return this.showSummary;}
 	public void setShowSummary(boolean b) {this.showSummary = b;}
+
+	/* if true, perform grid computing */	
+	private boolean gridComputing = false;    
+	public boolean isGridComputing() {return this.gridComputing;}
+	public void setGridComputing(boolean b) {this.gridComputing = b;}
+
+	/* if true, perform grid computing */	
+	private String gridNodeId = "";    
+	public String isGridNodeId() {return this.gridNodeId;}
+	public void setGridNodeId(String s) {this.gridNodeId = s;}
 }
