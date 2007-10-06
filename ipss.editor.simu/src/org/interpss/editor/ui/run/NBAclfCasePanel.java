@@ -270,7 +270,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         
         _caseData.setGridComputing(enableGridCheckBox.isEnabled()&&enableGridCheckBox.isSelected());
         if (_caseData.isGridComputing())
-        	_caseData.setGridNodeId((String)selectGridNodeComboBox.getSelectedItem());
+        	_caseData.setGridNodeName((String)selectGridNodeComboBox.getSelectedItem());
 
         return errMsg.size() == 0;
 	}

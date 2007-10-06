@@ -24,13 +24,18 @@
 
 package org.interpss.editor.runAct;
 
+import org.gridgain.grid.GridException;
+import org.interpss.core.grid.gridgain.IpssGridGainUtil;
+import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Bus;
@@ -54,7 +59,24 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
   			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
   		}
   		else {
-  			converge = runLoadflow(simuCtx.getAclfAdjNet(), simuCtx);
+  			if (aclfCaseData.isGridComputing()) {
+  				String nodeId = IpssGridGainUtil.nodeIdLookup(aclfCaseData.getGridNodeName());
+  				IpssAclfNetGridGainTask.nodeId = nodeId;
+  				try {
+  					String str = (String)IpssGridGainUtil.performGridTask("Grid Aclf 5-Bus Sample system", simuCtx.getAclfAdjNet());
+  	  				AclfAdjNetwork adjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(str);
+  	  				simuCtx.setAclfAdjNet(adjNet);
+  	  				converge = adjNet.isLfConverged();
+  	  				if (getAclfCaseData().getShowSummary()) {
+  	  					IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+  	  					dialog.display(adjNet);
+  	  				}
+  				} catch (GridException e) {
+  					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());  					return false;
+  				}
+  			}
+  			else
+  				converge = runLoadflow(simuCtx.getAclfAdjNet(), simuCtx);
   		}
   		return converge;
   	}
