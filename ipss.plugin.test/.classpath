@@ -18,6 +18,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/GirdGain"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
