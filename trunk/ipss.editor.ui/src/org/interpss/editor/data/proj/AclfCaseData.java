@@ -69,7 +69,7 @@ public class AclfCaseData extends BaseDataBean {
 	public void setGridComputing(boolean b) {this.gridComputing = b;}
 
 	/* if true, perform grid computing */	
-	private String gridNodeId = "";    
-	public String isGridNodeId() {return this.gridNodeId;}
-	public void setGridNodeId(String s) {this.gridNodeId = s;}
+	private String gridNodeName = "";    
+	public String getGridNodeName() {return this.gridNodeName;}
+	public void setGridNodeName(String s) {this.gridNodeName = s;}
 }
