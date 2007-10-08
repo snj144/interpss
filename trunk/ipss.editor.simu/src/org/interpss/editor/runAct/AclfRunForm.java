@@ -63,7 +63,8 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
   				String nodeId = IpssGridGainUtil.nodeIdLookup(aclfCaseData.getGridNodeName());
   				IpssAclfNetGridGainTask.nodeId = nodeId;
   				try {
-  					String str = (String)IpssGridGainUtil.performGridTask("Grid Aclf 5-Bus Sample system", simuCtx.getAclfAdjNet());
+  					String str = (String)IpssGridGainUtil.performGridTask(IpssGridGainUtil.getDefaultGrid(),
+  									"Grid Aclf 5-Bus Sample system", simuCtx.getAclfAdjNet());
   	  				AclfAdjNetwork adjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(str);
   	  				simuCtx.setAclfAdjNet(adjNet);
   	  				converge = adjNet.isLfConverged();
@@ -72,7 +73,8 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
   	  					dialog.display(adjNet);
   	  				}
   				} catch (GridException e) {
-  					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());  					return false;
+  					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
+  					return false;
   				}
   			}
   			else
