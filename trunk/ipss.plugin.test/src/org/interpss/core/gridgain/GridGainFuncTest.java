@@ -45,7 +45,9 @@ import com.interpss.simu.io.IpssFileAdapter;
 public class GridGainFuncTest extends BaseTestSetup {
 	@Test
 	public void isGridLibLoadedCaseTest() {
-		assertTrue(IpssGridGainUtil.isGridLibLoaded());
+		IpssGridGainUtil.startDaultGrid();
+		assertTrue(IpssGridGainUtil.isGridEnabled());
+		IpssGridGainUtil.stopDaultGrid();
 	}	
 	
 	@Test
@@ -64,7 +66,7 @@ public class GridGainFuncTest extends BaseTestSetup {
 		
 		IpssAclfNetGridGainTask.nodeId = nodeId;
 
-		String str = (String)IpssGridGainUtil.performGridTask("Grid Aclf 5-Bus Sample system", net);
+		String str = (String)IpssGridGainUtil.runGridTask("Grid Aclf 5-Bus Sample system", net);
 		net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(str);
 		assertTrue(net.isLfConverged());
 	}	
@@ -82,7 +84,7 @@ public class GridGainFuncTest extends BaseTestSetup {
 		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
 		IpssAclfNetGridGainTask.nodeId = nodeId;
 
-		String str = (String)IpssGridGainUtil.performGridTask("Grid Aclf 1824-Bus Sample system", net);
+		String str = (String)IpssGridGainUtil.runGridTask("Grid Aclf 1824-Bus Sample system", net);
 		net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(str);
 		assertTrue(net.isLfConverged());
 	}

@@ -73,7 +73,7 @@ public class GridGain_MC_InLineCalssTest extends BaseTestSetup {
 
 					// use grid node(s) to perform GridMultiStudyCase computation
 					Object[] results = (Object[])
-						IpssGridGainUtil.performGridTask("Test Custom IpssGrid Task impl ", gridMCase);
+						IpssGridGainUtil.runGridTask("Test Custom IpssGrid Task impl ", gridMCase);
 					
 					// persist calculation results to study cases
 					for (Object obj : results) {
