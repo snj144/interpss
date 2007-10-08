@@ -229,7 +229,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		this.lfSummaryCheckBox.setSelected(_caseData.getShowSummary());
 
 	    try {
-	    	if (IpssGridGainUtil.isGridLibLoaded()) {
+	    	if (IpssGridGainUtil.isGridEnabled()) {
 		       	 enableGridCheckBox.setEnabled(true);
 		       	 enableGridCheckBox.setSelected(false);
 	    	}
@@ -938,7 +938,7 @@ private void enableGridCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {
    	selectGridNodeLabel.setEnabled(b);
    	selectGridNodeComboBox.setEnabled(b);
    	if (b) {
-   		selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(IpssGridGainUtil.gridNodeNameList()));
+   		selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(IpssGridGainUtil.getDefaultGridNodeNameList()));
    	}
 }//GEN-LAST:event_enableGridCheckBoxActionPerformed
 
