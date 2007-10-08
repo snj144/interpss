@@ -19,7 +19,7 @@ public class SampleGridStudyCaseRunner extends AbstractGridStudyCaseRunner {
 			// get the containing GridMultiStudyCase object
 			GridMultiStudyCase gridMCase = (GridMultiStudyCase)this.eContainer;
 			Object[] results = (Object[])
-				IpssGridGainUtil.performGridTask("Test Custom IpssGrid Task impl ", gridMCase);
+				IpssGridGainUtil.runGridTask("Test Custom IpssGrid Task impl ", gridMCase);
 
 			boolean converged = true;
 			for (Object obj : results) {
