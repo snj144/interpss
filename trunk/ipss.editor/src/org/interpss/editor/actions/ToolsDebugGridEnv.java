@@ -17,19 +17,12 @@ public class ToolsDebugGridEnv extends IpssAbstractActionDefault {
 	public void actionPerformed(ActionEvent e) {
 		IpssLogger.getLogger().info("Tools | Degug | Grid Environment");
 		
-		try {
-			if (IpssGridGainUtil.isGridLibLoaded()) {
-				IpssLogger.getLogger().info("Grid Computing env has been setup properly");
-				IpssLogger.getLogger().info("Number of grid nodes: " + IpssGridGainUtil.gridNodeNameList().length);
-				SpringAppContext.getEditorDialogUtil().showMsgDialog("Info", "Grid Computing env has been setup properly");
-			}
-			else {
-				IpssLogger.getLogger().info("Grid Computing env has not been set up properly");
-				SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Cannot start Grid computation environment");
-			}
-        } catch (NoClassDefFoundError ex) {
-        	IpssLogger.getLogger().severe(ex.toString());
-			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Grid Computing env has not been set up properly, Please include GridGain library");
+		if (IpssGridGainUtil.isGridEnabled()) {
+			SpringAppContext.getEditorDialogUtil().showMsgDialog("Info", "Grid Computing env has been setup properly");
+		}
+		else {
+			IpssLogger.getLogger().info("Grid Computing env has not been set up properly");
+			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Cannot start Grid computation environment");
 		}
 	}
 }
