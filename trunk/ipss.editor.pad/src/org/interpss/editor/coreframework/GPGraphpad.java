@@ -50,6 +50,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.editor.EditorSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.doc.IpssDocument;
@@ -554,6 +555,8 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		if (!sessionParameters.isApplet()) {
 			System.exit(0);
 		} else {
+			// stop the grid if started
+			IpssGridGainUtil.stopDaultGrid();
 			getFrame().dispose();
 			String viewPath = sessionParameters.getParam(
 					GPSessionParameters.VIEWPATH, false);
