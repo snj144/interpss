@@ -31,11 +31,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
+import org.gridgain.grid.GridFactoryState;
 import org.gridgain.grid.GridNode;
 import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
 import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
@@ -55,6 +57,63 @@ public class IpssGridGainUtil {
 	public static final String LocalGridNodeName = "Master Grid Noce";
 	private static Hashtable<String,String> nodeNameLookupTable = new Hashtable<String,String>();
 	
+   	private static Grid defaultGrid = null;
+   	private static boolean gridEnabled = false;
+
+   	public static void startDaultGrid() {
+		IpssLogger.getLogger().info("Start GridGain env ...");
+       	try {
+       		GridFactory.start();
+           	defaultGrid = GridFactory.getGrid();
+            String[] list = gridNodeNameList(defaultGrid); 
+            if (list.length > 0) {
+               	gridEnabled = true;
+    			IpssLogger.getLogger().info("Grid Computing env has been setup properly");
+    			IpssLogger.getLogger().info("# of Grid node = " + list.length);
+            }
+       	} catch (NoClassDefFoundError ex) {
+       		IpssLogger.getLogger().severe(ex.toString());
+       		SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Grid Computing env has not been set up properly, Please include GridGain library");
+       	} catch (GridException e) {
+           	gridEnabled = false;
+			IpssLogger.getLogger().info("Grid Computing env has not been set up properly");
+			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Cannot start Grid computation environment");
+       	}       	
+    }
+    
+   	public static void stopDaultGrid() {
+   		if (GridFactory.getState() == GridFactoryState.STARTED) {
+   			GridFactory.stop(true);
+   		}
+    }
+
+   	public static Grid getDefaultGrid() {
+   		return defaultGrid;
+   	}
+   	
+   	public static boolean isGridEnabled() {
+   		return gridEnabled;
+   	}
+   	
+   	/**
+	 * run complete grid task on the model object.
+	 * 
+	 * @param desc a description string
+	 * @param model an EMF model object
+	 * @return result object or a list of result objects, 
+	 * @throws GridException
+	 */
+    public static Object runGridTask(String desc, EObject model) throws GridException {
+       	GridFactory.start();
+        try {
+        	Grid newGrid = GridFactory.getGrid();
+            return performGridTask(newGrid, desc, model);
+        }
+        finally {
+        	GridFactory.stop(true);
+        }
+    }
+    
 	/**
 	 * Perform grid computing on the model object.
 	 * 
@@ -63,31 +122,23 @@ public class IpssGridGainUtil {
 	 * @return result object or a list of result objects, 
 	 * @throws GridException
 	 */
-    public static Object performGridTask(String desc, EObject model) throws GridException {
-        GridFactory.start();
+    public static Object performGridTask(Grid grid, String desc, EObject model) throws GridException {
         Object result = null;
-        //try {
-        Grid grid = GridFactory.getGrid();
-            
-        IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
-        IpssLogger.getLogger().info("Number of Grid Nodes: " + grid.getAllNodes().size());
-        if (model instanceof GridMultiStudyCase)
-           	// IpssMultiStudyCaseGridGainTask is designed to process the GridMultiStudyCase model
-          	// return a list of results object, for example AclfNetworkResult objects in serialized 
-           	// fromat (String) in no particular order
-           	result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model).get();
-        else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork)
-        	// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
-          	// return an AclfAdjNetork object in 
-        	result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model).get();
-        IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
-        //}
-        //finally {
-        GridFactory.stop(true);
-        //}
+       	IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
+       	IpssLogger.getLogger().info("Number of Grid Nodes: " + grid.getAllNodes().size());
+       	if (model instanceof GridMultiStudyCase)
+       		// IpssMultiStudyCaseGridGainTask is designed to process the GridMultiStudyCase model
+       		// return a list of results object, for example AclfNetworkResult objects in serialized 
+       		// fromat (String) in no particular order
+       		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model).get();
+       	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork)
+       		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
+       		// return an AclfAdjNetork object in 
+       		result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model).get();
+       	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
         return result;
     }
-    
+
     /**
      * From Grid node name to node UDDI string lookup
      * 
@@ -131,28 +182,6 @@ public class IpssGridGainUtil {
 	}    
     
     /**
-     * Check if the GridGain could be started. 
-     * 
-     * @return
-     */
-    private static boolean gridLibLoaded = false;
-    
-    public static boolean isGridLibLoaded() throws NoClassDefFoundError {
-        if (!gridLibLoaded) {
-        	try {
-            	GridFactory.start();
-                GridFactory.getGrid();
-                GridFactory.stop(true);
-                gridLibLoaded = true;
-            } catch (GridException e2) {
-            	IpssLogger.logErr(e2);
-            	return false;
-            }
-        }
-    	return true;
-    }
-    
-    /**
      * Get all grid node name
      * 
      * @return
@@ -160,30 +189,38 @@ public class IpssGridGainUtil {
     public static String[] gridNodeNameList() {
         try {
         	GridFactory.start();
-            String[] nameList = null;
             try {
                 Grid grid = GridFactory.getGrid();
-                String localId = grid.getLocalNode().getId().toString();
-                Vector<String> vct = new Vector<String>();
-            	vct.add(LocalGridNodeName);
-                for (GridNode node : grid.getAllNodes()) {
-                    if (!localId.equals(node.getId().toString())) {
-                    	String name = nodeNameLookup(node.getId().toString());
-                    	vct.add(name);
-                    }
-                }
-                nameList = new String[vct.size()];
-                int cnt = 0;
-                for (String s : vct) {
-                	nameList[cnt++] = s;
-                }
+                return gridNodeNameList(grid);
             }
             finally {
                 GridFactory.stop(true);
             }
-            return nameList;
         } catch (GridException e) {
         	return null;
         }
+    }
+
+    public static String[] getDefaultGridNodeNameList() {
+    	return gridNodeNameList(getDefaultGrid());
+    }
+
+    public static String[] gridNodeNameList(Grid grid) {
+        String[] nameList = null;
+        String localId = grid.getLocalNode().getId().toString();
+        Vector<String> vct = new Vector<String>();
+      	//vct.add(LocalGridNodeName);
+      	for (GridNode node : grid.getAllNodes()) {
+      		if (!localId.equals(node.getId().toString())) {
+      			String name = nodeNameLookup(node.getId().toString());
+               	vct.add(name);
+           }
+        }
+        nameList = new String[vct.size()];
+        int cnt = 0;
+        for (String s : vct) {
+          	nameList[cnt++] = s;
+        }
+        return nameList;
     }
 }
