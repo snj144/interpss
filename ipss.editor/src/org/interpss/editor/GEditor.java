@@ -24,6 +24,7 @@ import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
 import org.interpss.editor.resources.BasicProperLoader;
@@ -134,6 +135,11 @@ public class GEditor extends Applet {
 				Workspace.setCurrentType(Workspace.Type.User);
 			else
 				Workspace.setCurrentType(Workspace.Type.Sample);
+			
+			// try to start the grid engine
+			if (args.length == 1 && args[0].trim().equals("GridGain"))
+				IpssGridGainUtil.startDaultGrid();
+			
 			GEditor.pad.createEditorPanel(sessionParameters);
 		} catch (Exception e) {
 			info.setText(e.getMessage());
