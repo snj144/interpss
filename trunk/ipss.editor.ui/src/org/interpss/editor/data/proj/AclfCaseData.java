@@ -68,8 +68,13 @@ public class AclfCaseData extends BaseDataBean {
 	public boolean isGridComputing() {return this.gridComputing;}
 	public void setGridComputing(boolean b) {this.gridComputing = b;}
 
-	/* if true, perform grid computing */	
+	/* grid node name */	
 	private String gridNodeName = "";    
 	public String getGridNodeName() {return this.gridNodeName;}
 	public void setGridNodeName(String s) {this.gridNodeName = s;}
+
+	/* if true, perform grid computing */	
+	private double gridTimeout = 0.0;    
+	public double getGridTimeout() {return this.gridTimeout;}
+	public void setGridTimeout(double d) {this.gridTimeout = d;}
 }
