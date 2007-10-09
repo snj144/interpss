@@ -2,6 +2,7 @@ package org.interpss.core.grid.gridgain.aclf;
 
 import java.io.Serializable;
 
+import org.gridgain.grid.GridException;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 
 import com.interpss.common.SpringAppContext;
@@ -17,7 +18,7 @@ public class AclfNetGridGainJob extends AbstractIpssGridGainJob {
 		super(model);
 	}
 	
-    public Serializable execute() {
+    public Serializable execute() throws GridException {
     	initEMFPackage();
 
 		// de-serialized the model to a AclfNetwork object 

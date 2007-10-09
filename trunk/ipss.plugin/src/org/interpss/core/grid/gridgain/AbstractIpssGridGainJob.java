@@ -24,6 +24,10 @@
 
 package org.interpss.core.grid.gridgain;
 
+/**
+ * An abstract Grid job class, which should be extended by all GridJob implementation  
+ */
+
 import org.gridgain.grid.GridJobAdapter;
 
 import com.interpss.core.CorePackage;
@@ -37,7 +41,12 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	}
 
 	/**
-	 * Prepare for EMF package for serialize/deserialize EMF objects
+	 * Prepare for EMF package for serialize/deserialize EMF objects. This method should be
+	 * call at the beginning of the execute() method 
+	 *      public Serializable execute() {
+    			initEMFPackage();
+    			...
+    		}
 	 */
 	public void initEMFPackage() {
     	CorePackage corePackage = CorePackage.eINSTANCE;

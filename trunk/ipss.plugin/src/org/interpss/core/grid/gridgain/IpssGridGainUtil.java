@@ -45,75 +45,29 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.result.AclfNetworkResult;
 
-/*
+/**
+ *   For IpssMultiStudyCaseGridGainTask implementation
  *    - Each study case has a unique caseNumber 
  *      When a EMF model, a Network object, is sent to a remote location, by creating a
  *          GridGainJob extends AbstractIpssGridGainJob, net.sortNumber = caseNumber
  *    - The result NetworkResult.caseNumber = net.sortNumber before returning to the Master node
  *    - Result net is set back to the StudyCase using caseNumber correlation.     
+
+ *   For IpssAclfNetGridGainTask implementation
+ *    - An AclfNetwork or AclfAdjNetwork is sent to a remote grid node 
+ *    - Result is the same net with Loadflow calculation results     
  */
 
 public class IpssGridGainUtil {
-	public static final String LocalGridNodeName = "Master Grid Noce";
+	private static final String Token_MasterNode = "Master Grid Node";
+	private static final String Token_RemoteNode = "Logical Node";
+
+	// hold node name to node id lookup info
 	private static Hashtable<String,String> nodeNameLookupTable = new Hashtable<String,String>();
-	
-   	private static Grid defaultGrid = null;
+
+	private static Grid defaultGrid = null;
    	private static boolean gridEnabled = false;
 
-   	public static void startDaultGrid() {
-		IpssLogger.getLogger().info("Start GridGain env ...");
-       	try {
-       		GridFactory.start();
-           	defaultGrid = GridFactory.getGrid();
-            String[] list = gridNodeNameList(defaultGrid); 
-            if (list.length > 0) {
-               	gridEnabled = true;
-    			IpssLogger.getLogger().info("Grid Computing env has been setup properly");
-    			IpssLogger.getLogger().info("# of Grid node = " + list.length);
-            }
-       	} catch (NoClassDefFoundError ex) {
-       		IpssLogger.getLogger().severe(ex.toString());
-       		SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Grid Computing env has not been set up properly, Please include GridGain library");
-       	} catch (GridException e) {
-           	gridEnabled = false;
-			IpssLogger.getLogger().info("Grid Computing env has not been set up properly");
-			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Cannot start Grid computation environment");
-       	}       	
-    }
-    
-   	public static void stopDaultGrid() {
-   		if (GridFactory.getState() == GridFactoryState.STARTED) {
-   			GridFactory.stop(true);
-   		}
-    }
-
-   	public static Grid getDefaultGrid() {
-   		return defaultGrid;
-   	}
-   	
-   	public static boolean isGridEnabled() {
-   		return gridEnabled;
-   	}
-   	
-   	/**
-	 * run complete grid task on the model object.
-	 * 
-	 * @param desc a description string
-	 * @param model an EMF model object
-	 * @return result object or a list of result objects, 
-	 * @throws GridException
-	 */
-    public static Object runGridTask(String desc, EObject model) throws GridException {
-       	GridFactory.start();
-        try {
-        	Grid newGrid = GridFactory.getGrid();
-            return performGridTask(newGrid, desc, model);
-        }
-        finally {
-        	GridFactory.stop(true);
-        }
-    }
-    
 	/**
 	 * Perform grid computing on the model object.
 	 * 
@@ -140,10 +94,78 @@ public class IpssGridGainUtil {
     }
 
     /**
+     * Start the Grid and create the default grid object
+     */
+   	public static void startDefaultGrid() {
+		IpssLogger.getLogger().info("Start GridGain env ...");
+       	try {
+       		GridFactory.start();
+           	defaultGrid = GridFactory.getGrid();
+            String[] list = gridNodeNameList(defaultGrid, true); 
+            if (list.length > 0) {
+               	gridEnabled = true;
+    			IpssLogger.getLogger().info("Grid Computing env has been setup properly");
+    			IpssLogger.getLogger().info("# of Grid node = " + list.length);
+            }
+       	} catch (NoClassDefFoundError ex) {
+       		IpssLogger.getLogger().severe(ex.toString());
+       		SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Grid Computing env has not been set up properly, Please include GridGain library");
+       	} catch (GridException e) {
+           	gridEnabled = false;
+			IpssLogger.getLogger().info("Grid Computing env has not been set up properly");
+			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Warnnig", "Cannot start Grid computation environment");
+       	}       	
+    }
+    
+   	/**
+   	 * Stop the Grid 
+   	 */
+   	public static void stopDaultGrid() {
+   		if (GridFactory.getState() == GridFactoryState.STARTED) {
+   			GridFactory.stop(true);
+   		}
+    }
+
+   	/**
+   	 * Re-discover grid nodes and refresh the node list
+   	 * 
+   	 * @return refreshed grid object
+   	 */
+   	public static Grid freshDefaultGrid() {
+       	defaultGrid = GridFactory.getGrid();
+       	nodeNameLookupTable.clear();
+        String[] list = gridNodeNameList(defaultGrid, true); 
+        if (list.length > 0) {
+           	gridEnabled = true;
+			IpssLogger.getLogger().info("Grid Computing env has been setup properly");
+			IpssLogger.getLogger().info("# of Grid node = " + list.length);
+        }
+   		return defaultGrid;
+   	}
+
+   	/**
+   	 * Get the default grid object
+   	 * 
+   	 * @return the object
+   	 */
+   	public static Grid getDefaultGrid() {
+   		return defaultGrid;
+   	}
+   	
+   	/**
+   	 * Check if the grid env is ready 
+   	 * 
+   	 * @return true or false
+   	 */
+   	public static boolean isGridEnabled() {
+   		return gridEnabled;
+   	}
+   	
+    /**
      * From Grid node name to node UDDI string lookup
      * 
      * @param name
-     * @return
+     * @return grid node UUDI string, or null if not found
      */
     public static String nodeIdLookup(String name) {
     	for (String id : nodeNameLookupTable.keySet()) {
@@ -154,16 +176,17 @@ public class IpssGridGainUtil {
     }
 
     /**
-     * From Grid node UDDI string to Logical node name lookup
+     * From Grid node UDDI string to remote Logical node name lookup. If no name existing
+     * a new name Logical Node-<Node Cnt> will be assigned to the grid node
      * 
      * @param uid
-     * @return
+     * @return node name
      */
     public static String nodeNameLookup(String uid) {
     	String name = nodeNameLookupTable.get(uid); 
     	if (name == null) {
     		int cnt = nodeNameLookupTable.size();
-    		name = "Logical Node-" + (cnt+1);
+    		name = Token_RemoteNode + " - " + (cnt+1);
     		nodeNameLookupTable.put(uid, name);
     	}
     	return name;
@@ -182,34 +205,27 @@ public class IpssGridGainUtil {
 	}    
     
     /**
-     * Get all grid node name
+     * Get all remote grid node name, except the local node
      * 
-     * @return
+     * @return the grid node name list
      */
-    public static String[] gridNodeNameList() {
-        try {
-        	GridFactory.start();
-            try {
-                Grid grid = GridFactory.getGrid();
-                return gridNodeNameList(grid);
-            }
-            finally {
-                GridFactory.stop(true);
-            }
-        } catch (GridException e) {
-        	return null;
-        }
+    public static String[] getRemoteGridNodeNameList() {
+    	return gridNodeNameList(getDefaultGrid(), true);
     }
 
-    public static String[] getDefaultGridNodeNameList() {
-    	return gridNodeNameList(getDefaultGrid());
-    }
+    /**
+     * Get all grid node name
 
-    public static String[] gridNodeNameList(Grid grid) {
+     * @param gird the Grid object
+     * @param remote include/exclude local grid node 
+     * @return the grid node name list
+     */
+    public static String[] gridNodeNameList(Grid grid, boolean remote) {
         String[] nameList = null;
         String localId = grid.getLocalNode().getId().toString();
         Vector<String> vct = new Vector<String>();
-      	//vct.add(LocalGridNodeName);
+        if (!remote)
+        	vct.add(Token_MasterNode);
       	for (GridNode node : grid.getAllNodes()) {
       		if (!localId.equals(node.getId().toString())) {
       			String name = nodeNameLookup(node.getId().toString());
