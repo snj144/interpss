@@ -236,6 +236,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	    } catch (NoClassDefFoundError e) {
 	    	 enableGridCheckBox.setEnabled(false);
 	    }
+	    enableGridCheckBoxActionPerformed(null);
 
 		return true;
 	}
@@ -271,7 +272,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         _caseData.setGridComputing(enableGridCheckBox.isEnabled()&&enableGridCheckBox.isSelected());
         if (_caseData.isGridComputing()) {
         	_caseData.setGridNodeName((String)selectGridNodeComboBox.getSelectedItem());
-        	_caseData.setGridTimeout(SwingInputVerifyUtil.getDouble(this.gridTimeoutTextField));
+        	_caseData.setGridTimeout(SwingInputVerifyUtil.getInt(this.gridTimeoutTextField)*1000);
         }
 
         return errMsg.size() == 0;
@@ -581,7 +582,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gridTimeoutTextField.setColumns(3);
         gridTimeoutTextField.setFont(new java.awt.Font("Dialog", 0, 10));
-        gridTimeoutTextField.setText("0.0");
+        gridTimeoutTextField.setText("60");
         gridTimeoutTextField.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
