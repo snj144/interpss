@@ -64,12 +64,12 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
   				IpssAclfNetGridGainTask.nodeId = nodeId;
   				try {
   					String str = (String)IpssGridGainUtil.performGridTask(IpssGridGainUtil.getDefaultGrid(),
-  									"Grid Aclf 5-Bus Sample system", simuCtx.getAclfAdjNet());
+  									"Grid Aclf 5-Bus Sample system", simuCtx.getAclfAdjNet(), aclfCaseData.getGridTimeout());
   	  				AclfAdjNetwork adjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(str);
   	  				simuCtx.setAclfAdjNet(adjNet);
   	  				converge = adjNet.isLfConverged();
   	  				if (getAclfCaseData().getShowSummary()) {
-  	  					IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+  	  					IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Run by Remote " + aclfCaseData.getGridNodeName());
   	  					dialog.display(adjNet);
   	  				}
   				} catch (GridException e) {
