@@ -77,7 +77,7 @@ public class GridGain_MC_InLineCalssTest extends BaseTestSetup {
 		        	Object[] results;
 			        try {
 			        	Grid grid = GridFactory.getGrid();
-			        	results = (Object[])IpssGridGainUtil.performGridTask(grid, "Test Custom IpssGrid Task impl ", gridMCase);
+			        	results = (Object[])IpssGridGainUtil.performGridTask(grid, "Test Custom IpssGrid Task impl ", gridMCase, 0);
 			        }
 			        finally {
 			        	GridFactory.stop(true);
