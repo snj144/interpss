@@ -28,6 +28,11 @@
 
 package org.interpss.core.grid.gridgain.aclf;
 
+/**
+ *  An implementation of GridTask for AclfNetwor or AclfAdjNetwork. The job will be assigned to
+ *  the node identified by the nodeId attribute.  
+ */
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +77,13 @@ public class IpssAclfNetGridGainTask extends GridTaskAdapter<AclfNetwork> {
 
 	@Override
 	public Object reduce(List<GridJobResult> results) throws GridException {
+		// There should be only one return
+		if (results.size() != 1) {
+			throw new GridException("Programming error, return results.size() != 1");
+		}
+		if (results.get(0).getException() != null) {
+            throw results.get(0).getException();
+        }
 		return results.get(0).getData();
 	}
 }
