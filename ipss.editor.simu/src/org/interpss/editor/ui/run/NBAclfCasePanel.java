@@ -269,8 +269,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         _caseData.setShowSummary(this.lfSummaryCheckBox.isSelected());
         
         _caseData.setGridComputing(enableGridCheckBox.isEnabled()&&enableGridCheckBox.isSelected());
-        if (_caseData.isGridComputing())
+        if (_caseData.isGridComputing()) {
         	_caseData.setGridNodeName((String)selectGridNodeComboBox.getSelectedItem());
+        	_caseData.setGridTimeout(SwingInputVerifyUtil.getDouble(this.gridTimeoutTextField));
+        }
 
         return errMsg.size() == 0;
 	}
@@ -309,6 +311,9 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridComputingPanel = new javax.swing.JPanel();
         selectGridNodeLabel = new javax.swing.JLabel();
         selectGridNodeComboBox = new javax.swing.JComboBox();
+        refreashGridButton = new javax.swing.JButton();
+        gridTimeoutLabel = new javax.swing.JLabel();
+        gridTimeoutTextField = new javax.swing.JTextField();
         advancedPanel = new javax.swing.JPanel();
         misTitleLabel = new javax.swing.JLabel();
         mismatchLabel = new javax.swing.JLabel();
@@ -534,18 +539,54 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gridComputingPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "InterPSS Grid Computing", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
         gridComputingPanel.setEnabled(false);
-        gridComputingPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
+        gridComputingPanel.setLayout(new java.awt.GridBagLayout());
 
         selectGridNodeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         selectGridNodeLabel.setText("Select Grid Node");
         selectGridNodeLabel.setEnabled(false);
-        gridComputingPanel.add(selectGridNodeLabel);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 30, 5, 10);
+        gridComputingPanel.add(selectGridNodeLabel, gridBagConstraints);
 
         selectGridNodeComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Local Node" }));
         selectGridNodeComboBox.setEnabled(false);
         selectGridNodeComboBox.setPreferredSize(new java.awt.Dimension(150, 20));
-        gridComputingPanel.add(selectGridNodeComboBox);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        gridComputingPanel.add(selectGridNodeComboBox, gridBagConstraints);
+
+        refreashGridButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        refreashGridButton.setText("Refresh");
+        refreashGridButton.setEnabled(false);
+        refreashGridButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreashGridButtonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 30);
+        gridComputingPanel.add(refreashGridButton, gridBagConstraints);
+
+        gridTimeoutLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        gridTimeoutLabel.setText("Timeout(s)");
+        gridTimeoutLabel.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        gridComputingPanel.add(gridTimeoutLabel, gridBagConstraints);
+
+        gridTimeoutTextField.setColumns(3);
+        gridTimeoutTextField.setFont(new java.awt.Font("Dialog", 0, 10));
+        gridTimeoutTextField.setText("0.0");
+        gridTimeoutTextField.setEnabled(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 5, 10);
+        gridComputingPanel.add(gridTimeoutTextField, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
@@ -932,13 +973,21 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         add(runAclfTabbedPane, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
+private void refreashGridButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreashGridButtonActionPerformed
+	IpssGridGainUtil.freshDefaultGrid();
+	selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(IpssGridGainUtil.getRemoteGridNodeNameList()));
+}//GEN-LAST:event_refreashGridButtonActionPerformed
+
 private void enableGridCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enableGridCheckBoxActionPerformed
 	boolean b = enableGridCheckBox.isEnabled() && enableGridCheckBox.isSelected();
 	gridComputingPanel.setEnabled(b);
    	selectGridNodeLabel.setEnabled(b);
    	selectGridNodeComboBox.setEnabled(b);
+    gridTimeoutLabel.setEnabled(b);
+    gridTimeoutTextField.setEnabled(b);
+    refreashGridButton.setEnabled(b);
    	if (b) {
-   		selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(IpssGridGainUtil.getDefaultGridNodeNameList()));
+   		selectGridNodeComboBox.setModel(new javax.swing.DefaultComboBoxModel(IpssGridGainUtil.getRemoteGridNodeNameList()));
    	}
 }//GEN-LAST:event_enableGridCheckBoxActionPerformed
 
@@ -1151,6 +1200,8 @@ private void gsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JLabel funcLoadLabel;
     private javax.swing.JPanel funcLoadPanel;
     private javax.swing.JPanel gridComputingPanel;
+    private javax.swing.JLabel gridTimeoutLabel;
+    private javax.swing.JTextField gridTimeoutTextField;
     private javax.swing.JRadioButton gsRadioButton;
     private javax.swing.JButton gsStepButton;
     private javax.swing.JCheckBox initVoltCheckBox;
@@ -1190,6 +1241,7 @@ private void gsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JComboBox pvBusLimitComboBox;
     private javax.swing.JLabel pvBusLimitLabel;
     private javax.swing.JPanel pvBusLimitPanel;
+    private javax.swing.JButton refreashGridButton;
     private javax.swing.JButton remoteQBusButton;
     private javax.swing.JComboBox remoteQBusComboBox;
     private javax.swing.JLabel remoteQBusLabel;
