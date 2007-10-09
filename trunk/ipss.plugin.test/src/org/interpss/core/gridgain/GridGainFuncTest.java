@@ -26,7 +26,9 @@ package org.interpss.core.gridgain;
 
 import static org.junit.Assert.assertTrue;
 
+import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
+import org.gridgain.grid.GridFactory;
 import org.interpss.BaseTestSetup;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
@@ -45,7 +47,7 @@ import com.interpss.simu.io.IpssFileAdapter;
 public class GridGainFuncTest extends BaseTestSetup {
 	@Test
 	public void isGridLibLoadedCaseTest() {
-		IpssGridGainUtil.startDaultGrid();
+		IpssGridGainUtil.startDefaultGrid();
 		assertTrue(IpssGridGainUtil.isGridEnabled());
 		IpssGridGainUtil.stopDaultGrid();
 	}	
@@ -57,16 +59,25 @@ public class GridGainFuncTest extends BaseTestSetup {
 		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
 		//System.out.println(net.net2String());
 		
-		String[] list = IpssGridGainUtil.gridNodeNameList();
-		assertTrue(list.length > 0);
-		
-		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
-		if (list.length >= 2)  // there is remote node in this case
-			assertTrue(nodeId != null);
-		
-		IpssAclfNetGridGainTask.nodeId = nodeId;
+    	String str;
+    	GridFactory.start();
+        try {
+        	Grid grid = GridFactory.getGrid();
 
-		String str = (String)IpssGridGainUtil.runGridTask("Grid Aclf 5-Bus Sample system", net);
+        	String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
+    		assertTrue(list.length > 0);
+    		
+    		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
+    		if (list.length >= 2)  // there is remote node in this case
+    			assertTrue(nodeId != null);
+    		
+    		IpssAclfNetGridGainTask.nodeId = nodeId;
+
+        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net);
+        }
+        finally {
+        	GridFactory.stop(true);
+        }
 		net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(str);
 		assertTrue(net.isLfConverged());
 	}	
@@ -80,12 +91,21 @@ public class GridGainFuncTest extends BaseTestSetup {
   		//System.out.println(net.net2String());
   		assertTrue((net.getBusList().size() == 1824));
 
-		String[] list = IpssGridGainUtil.gridNodeNameList();
-		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
-		IpssAclfNetGridGainTask.nodeId = nodeId;
+    	String str;
+    	GridFactory.start();
+        try {
+        	Grid grid = GridFactory.getGrid();
 
-		String str = (String)IpssGridGainUtil.runGridTask("Grid Aclf 1824-Bus Sample system", net);
-		net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(str);
+        	String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
+    		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
+    		IpssAclfNetGridGainTask.nodeId = nodeId;
+
+        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net);
+        }
+        finally {
+        	GridFactory.stop(true);
+        }
+        net = (AclfNetwork)SerializeEMFObjectUtil.loadModel(str);
 		assertTrue(net.isLfConverged());
 	}
 }
