@@ -44,10 +44,15 @@ import com.interpss.common.util.StringUtil;
  * either as an application, either as an applet.
  * 
  * @see org.interpss.editor.coreframework.GPGraphpad
+
+ 	-g GridGain for grid computing using GridGain
  */
+
 public class GEditor extends Applet {
 	private static final long serialVersionUID = 1;
 	
+	public static String Parm_GridGain = "GridGain";
+
 	public static String Pty_CurrentWorkspace = "workspace.current";
 	public static String Pty_UserWorkspace = "workspace";
 	public static String Pty_SampleWorkspace = "sample_ws";
@@ -137,8 +142,10 @@ public class GEditor extends Applet {
 				Workspace.setCurrentType(Workspace.Type.Sample);
 			
 			// try to start the grid engine
-			if (args.length == 1 && args[0].trim().equals("GridGain"))
-				IpssGridGainUtil.startDaultGrid();
+			if (sessionParameters.getParam("-g", false) != null && sessionParameters.getParam("-g", false).equals(Parm_GridGain)) {
+				showSplashInfo(info,Translator.getString("Splash.StartGrid"));
+				IpssGridGainUtil.startDefaultGrid();
+			}
 			
 			GEditor.pad.createEditorPanel(sessionParameters);
 		} catch (Exception e) {
@@ -299,7 +306,7 @@ public class GEditor extends Applet {
 				i = i - 1;
 				continue;
 			}
-			sessionParameters.setParamWithCommand(args[i], args[i + 1]);
+			sessionParameters.setParam(args[i], args[i + 1]);
 		}		
 	}
 }
