@@ -73,7 +73,7 @@ public class GridGainFuncTest extends BaseTestSetup {
     		
     		IpssAclfNetGridGainTask.nodeId = nodeId;
 
-        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net);
+        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
         }
         finally {
         	GridFactory.stop(true);
@@ -100,7 +100,7 @@ public class GridGainFuncTest extends BaseTestSetup {
     		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
     		IpssAclfNetGridGainTask.nodeId = nodeId;
 
-        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net);
+        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
         }
         finally {
         	GridFactory.stop(true);
