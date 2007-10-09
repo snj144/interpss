@@ -33,6 +33,7 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.GridFactoryState;
 import org.gridgain.grid.GridNode;
+import org.gridgain.grid.GridTaskTimeoutException;
 import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
 import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
@@ -76,20 +77,25 @@ public class IpssGridGainUtil {
 	 * @return result object or a list of result objects, 
 	 * @throws GridException
 	 */
-    public static Object performGridTask(Grid grid, String desc, EObject model) throws GridException {
+    public static Object performGridTask(Grid grid, String desc, EObject model, long timeout) throws GridException {
         Object result = null;
        	IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
        	IpssLogger.getLogger().info("Number of Grid Nodes: " + grid.getAllNodes().size());
-       	if (model instanceof GridMultiStudyCase)
-       		// IpssMultiStudyCaseGridGainTask is designed to process the GridMultiStudyCase model
-       		// return a list of results object, for example AclfNetworkResult objects in serialized 
-       		// fromat (String) in no particular order
-       		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model).get();
-       	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork)
-       		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
-       		// return an AclfAdjNetork object in 
-       		result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model).get();
-       	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
+       	try {
+       		if (model instanceof GridMultiStudyCase)
+           		// IpssMultiStudyCaseGridGainTask is designed to process the GridMultiStudyCase model
+           		// return a list of results object, for example AclfNetworkResult objects in serialized 
+           		// fromat (String) in no particular order
+           		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model, timeout).get();
+           	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork)
+           		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
+           		// return an AclfAdjNetork object in 
+           		result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model, timeout).get();
+           	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
+       	} catch (GridTaskTimeoutException e) {
+       		IpssLogger.logErr(e);
+       		throw new GridException("Grid computing timeout, please check the state of remote grid node(s)");
+       	}
         return result;
     }
 
