@@ -29,6 +29,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.Serializable;
 import java.util.UUID;
 
+import org.gridgain.grid.Grid;
+import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.resources.GridLocalNodeIdResource;
 import org.interpss.BaseTestSetup;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
@@ -72,8 +74,14 @@ public class GridGain_MC_InLineCalssTest extends BaseTestSetup {
 					GridMultiStudyCase gridMCase = (GridMultiStudyCase)getParent();
 
 					// use grid node(s) to perform GridMultiStudyCase computation
-					Object[] results = (Object[])
-						IpssGridGainUtil.runGridTask("Test Custom IpssGrid Task impl ", gridMCase);
+		        	Object[] results;
+			        try {
+			        	Grid grid = GridFactory.getGrid();
+			        	results = (Object[])IpssGridGainUtil.performGridTask(grid, "Test Custom IpssGrid Task impl ", gridMCase);
+			        }
+			        finally {
+			        	GridFactory.stop(true);
+			        }
 					
 					// persist calculation results to study cases
 					for (Object obj : results) {
