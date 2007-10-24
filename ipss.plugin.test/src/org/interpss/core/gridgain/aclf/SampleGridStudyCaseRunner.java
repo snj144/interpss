@@ -1,4 +1,4 @@
-package org.interpss.core.gridgain;
+package org.interpss.core.gridgain.aclf;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridFactory;
