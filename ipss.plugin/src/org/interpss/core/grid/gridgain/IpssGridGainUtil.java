@@ -35,6 +35,7 @@ import org.gridgain.grid.GridFactoryState;
 import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskTimeoutException;
 import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
+import org.interpss.core.grid.gridgain.dstab.IpssDStabGridGainTask;
 import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
@@ -45,6 +46,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.core.ms_case.result.AclfNetworkResult;
+import com.interpss.dstab.DStabilityNetwork;
 
 /**
  *   For IpssMultiStudyCaseGridGainTask implementation
@@ -91,6 +93,10 @@ public class IpssGridGainUtil {
            		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
            		// return an AclfAdjNetork object in 
            		result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model, timeout).get();
+           	else if (model instanceof DStabilityNetwork)
+           		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
+           		// return an AclfAdjNetork object in 
+           		result = grid.execute(IpssDStabGridGainTask.class.getName(), model, timeout).get();
            	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
        	} catch (GridTaskTimeoutException e) {
        		IpssLogger.logErr(e);
