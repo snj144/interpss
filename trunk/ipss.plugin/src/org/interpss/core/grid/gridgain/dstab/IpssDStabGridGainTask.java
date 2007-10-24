@@ -26,7 +26,7 @@
  *  This Class is for performing grid computing on the GridMultiStudyCase model 
  */
 
-package org.interpss.core.grid.gridgain.aclf;
+package org.interpss.core.grid.gridgain.dstab;
 
 /**
  *  An implementation of GridTask for AclfNetwor or AclfAdjNetwork. The job will be assigned to
@@ -44,17 +44,17 @@ import org.gridgain.grid.GridNode;
 import org.interpss.core.grid.gridgain.AbstractOneNodePerTask;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.dstab.DStabilityNetwork;
 
-public class IpssAclfNetGridGainTask extends AbstractOneNodePerTask<AclfNetwork> {
+public class IpssDStabGridGainTask extends AbstractOneNodePerTask<DStabilityNetwork> {
 	private static final long serialVersionUID = 1;
 	
 	@Override
-	public Map<? extends GridJob,GridNode> map(List<GridNode> subgrid, AclfNetwork net) throws GridException {
+	public Map<? extends GridJob,GridNode> map(List<GridNode> subgrid, DStabilityNetwork net) throws GridException {
 		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
 		GridNode node = getGridNode(subgrid);
 		String modelStr = SerializeEMFObjectUtil.saveModel(net);
-		jobMap.put(new AclfNetGridGainJob(modelStr), node);	
+		jobMap.put(new DStabNetGridGainJob(modelStr), node);	
 		return jobMap;
      }
 
