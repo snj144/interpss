@@ -51,10 +51,10 @@ import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 
-public class TestSetupBase extends BaseTestSetup {
+public class DStabTestSetupBase extends BaseTestSetup {
 	protected IPSSMsgHub msg;
 
-	public TestSetupBase() { 
+	public DStabTestSetupBase() { 
 		msg = SpringAppContext.getIpssMsgHub();
 		IpssLogger.getLogger().setLevel(Level.WARNING);
  	}

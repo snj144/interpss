@@ -32,7 +32,7 @@ import org.interpss.dstab.control.cml.controller.util.TestAnnotateExciter;
 import org.interpss.dstab.control.cml.controller.util.TestAnnotateGovernor;
 import org.interpss.dstab.control.cml.controller.util.TestAnnotateStabilizer;
 import org.interpss.dstab.control.cml.controller.util.TestAnnotateStabilizerComplex;
-import org.interpss.dstab.ieeeModel.TestSetupBase;
+import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.junit.Test;
 
 import com.interpss.common.datatype.CMLVarType;
@@ -45,7 +45,7 @@ import com.interpss.dstab.controller.annotate.util.AnCntlUtilFunc;
 import com.interpss.dstab.controller.block.IFunction;
 import com.interpss.dstab.mach.Machine;
 
-public class AnnotateParserTests extends TestSetupBase {
+public class AnnotateParserTests extends DStabTestSetupBase {
 	private ControlBlockFieldHolder cfield;
 	private StaticBlockFieldHolder sfield;
 	private FunctionFieldHolder<?> field;
