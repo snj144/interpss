@@ -31,6 +31,7 @@ package org.interpss.sample.dstab;
 import java.util.Iterator;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -45,7 +46,7 @@ import com.interpss.dstab.util.DynamicEventProcessor;
 
 public class KundurP864_NoFault {
 	public static void main(String[] args) {
-		IPSSMsgHub msg = new IPSSMsgHub();
+		IPSSMsgHub msg = new IPSSMsgHubImpl();
 		KundurP864_Common.setUp(msg);
  		
 		DStabilityNetwork net = KundurP864_Common.setNetworkData(msg);

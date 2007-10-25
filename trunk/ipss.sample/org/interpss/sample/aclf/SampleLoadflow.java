@@ -30,6 +30,7 @@ import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.common.msg.StdoutMsgListener;
 import com.interpss.common.msg.TextMessage;
 import com.interpss.common.util.IpssLogger;
@@ -147,7 +148,7 @@ public class SampleLoadflow {
 	
 	public static void main(String args[]) {
 		// set session message to Warning level
-		IPSSMsgHub msg = new IPSSMsgHub();
+		IPSSMsgHub msg = new IPSSMsgHubImpl();
 		msg.addMsgListener(new StdoutMsgListener(TextMessage.TYPE_WARN));
 		
 		IpssLogger.getLogger().setLevel(Level.WARNING);

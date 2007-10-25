@@ -31,6 +31,7 @@ package org.interpss.sample.dstab;
 import java.util.Iterator;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.common.msg.TextMessage;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.AclfMethod;
@@ -47,7 +48,7 @@ public class KundurP864_Fault {
 	public static byte MsgOutLevel  = TextMessage.TYPE_INFO;
 
 	public static void main(String[] args) {
-		IPSSMsgHub msg = new IPSSMsgHub();
+		IPSSMsgHub msg = new IPSSMsgHubImpl();
 		KundurP864_Common.setUp(msg);
  		
 		DStabilityNetwork net = KundurP864_Common.setNetworkData(msg);
