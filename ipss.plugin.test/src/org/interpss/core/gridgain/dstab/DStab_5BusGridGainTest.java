@@ -1,7 +1,7 @@
  /*
-  * @(#)TestEq1MachineCase.java   
+  * @(#)DStab_5BusGridGainTest.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  * Copyright (C) 2007 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2006
+  * @Date 10/15/2007
   * 
   *   Revision History
   *   ================
@@ -26,11 +26,15 @@ package org.interpss.core.gridgain.dstab;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.Serializable;
+import java.util.UUID;
+
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
+import org.gridgain.grid.GridMessageListener;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
-import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
+import org.interpss.core.grid.gridgain.dstab.IpssDStabGridGainTask;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.junit.Test;
 
@@ -53,6 +57,12 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
     	GridFactory.start();
         try {
         	Grid grid = GridFactory.getGrid();
+        	
+        	grid.addMessageListener(new GridMessageListener() {
+        		public void onMessage(UUID arg0, Serializable arg1) {
+        			System.out.println("*** on Message:"+arg1);
+        		}        		
+        	});
 
         	String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
     		assertTrue(list.length > 0);
@@ -61,7 +71,7 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
     		if (list.length >= 2)  // there is remote node in this case
     			assertTrue(nodeId != null);
     		
-    		IpssAclfNetGridGainTask.nodeId = nodeId;
+    		IpssDStabGridGainTask.RemoteNodeId = nodeId;
 
         	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
         }

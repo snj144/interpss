@@ -57,7 +57,7 @@ public class Bus1824AclfGridGainFuncTest extends BaseTestSetup {
 
         	String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
     		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
-    		IpssAclfNetGridGainTask.nodeId = nodeId;
+    		IpssAclfNetGridGainTask.RemoteNodeId = nodeId;
 
         	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
         }
