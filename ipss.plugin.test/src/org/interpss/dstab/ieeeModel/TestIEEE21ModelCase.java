@@ -38,7 +38,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class TestIEEE21ModelCase extends TestSetupBase {
+public class TestIEEE21ModelCase extends DStabTestSetupBase {
 	private double[] 
      	      timePoints    = {0.0,    1.0,    2.0,    3.0,    4.0,    5.0,    6.0,    7.0,    8.0,    9.0,    10.0},
      	      machAngPoints = {49.460, 49.460, 48.043, 49.554, 50.366, 50.746, 50.871, 50.853, 50.759, 50.631, 50.493},
