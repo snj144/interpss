@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+         xmlns:p="http://www.springframework.org/schema/p"
+	     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+	<!--
+		Custom File Adapter object list
+		===============================
+		
+		defining a custom adapter includes the following two steps:
+		
+		1) define the adapter 
+			id: a unique custom adapter Spring Object id
+			class: the full class name of the adapter implementation
+			extension: custom file extension, it has to be unique. 
+			description: description for the custom file
+		2) add the adapter to the customAdapterList
+		
+			<list>
+				...
+				<ref bean="myCustomAdapterId"/>
+			</list>
+	-->
+
+	<bean id="fileAdapterIpssInternalFormat" 
+	      class="org.interpss.custom.exchange.FileAdapter_IpssInternalFormat"
+	      scope="singleton"	
+	      p:name="InterPSS Internal Format"
+	      p:fileFilterString="ipssdata|dat"
+	      p:extension="ipssdat"
+	      p:description="InterPSS Text File Format" />
+
+	<bean id="fileAdapterIeeeCommonFormat" 
+	      class="org.interpss.custom.exchange.FileAdapter_IeeeCommonFormat"
+	      scope="singleton"	
+	      p:name="IEEE Common Format"
+	      p:fileFilterString="dat"
+	      p:extension="ieee"
+	      p:description="IEEE Common Format"	/>
+
+	<bean id="fileAdapterPSTMatlabFormat" 
+	      class="cn.edu.tsinghua.dps.adapter.aclf.FileAdpater_PSTMatlabFormat"
+	      scope="singleton"	
+	      p:name="MatLat Data Format"
+	      p:fileFilterString="m"
+	      p:extension="m"
+	      p:description="MatLab Power Flow Data Format" />
+
+	<bean id="fileAdapterPSATFormat" 
+	      class="org.interpss.custom.exchange.FileAdpater_PSATFormat"
+	      scope="singleton"	
+	      p:name="PSAT Format"
+	      p:fileFilterString="m"
+	      p:extension="psat"
+	      p:description="PSAT Data Format" />
+	
+	<bean id="fileAdapterPSSEFormat" 
+	      class="org.interpss.custom.exchange.FileAdapter_PTIFormat"
+	      scope="singleton"	
+	      p:name="PSS/E Format"
+	      p:fileFilterString="raw"
+	      p:extension="psse"
+	      p:description="PSSE Data Format">
+	    <property name="versionList">
+	    	<list>
+	    		<value>PSS/E-30</value>
+	    	</list></property>
+	</bean>
+	
+	<bean id="fileAdapterJavaScripts" 
+	      class="org.interpss.custom.script.FileAdapter_JavaScripts"
+	      scope="singleton"	
+	      p:name="InterPSS JavaScripts"
+	      p:fileFilterString="js"
+	      p:extension="js"
+	      p:description="InterPSS JavaScripts Scripting File" >
+	    <property name="versionList">
+	    	<list>
+	    		<value>Verion 1.0</value>
+	    	</list></property>
+	</bean>
+	
+	<bean id="customFileAdapterList" 
+	      class="java.util.ArrayList"
+	      scope="singleton">	
+		<constructor-arg>
+			<list>
+				<ref bean="fileAdapterPSSEFormat"/>
+				<ref bean="fileAdapterIeeeCommonFormat"/>
+				<ref bean="fileAdapterPSTMatlabFormat"/>
+				<ref bean="fileAdapterPSATFormat"/>
+				<ref bean="fileAdapterIpssInternalFormat"/>
+				<ref bean="fileAdapterJavaScripts"/>
+			</list>
+		</constructor-arg>
+	</bean>
+</beans>
