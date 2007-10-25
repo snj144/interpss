@@ -61,7 +61,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
   		else {
   			if (aclfCaseData.isGridComputing()) {
   				String nodeId = IpssGridGainUtil.nodeIdLookup(aclfCaseData.getGridNodeName());
-  				IpssAclfNetGridGainTask.nodeId = nodeId;
+  				IpssAclfNetGridGainTask.RemoteNodeId = nodeId;
   				try {
   					String str = (String)IpssGridGainUtil.performGridTask(IpssGridGainUtil.getDefaultGrid(),
   									"Grid Aclf 5-Bus Sample system", simuCtx.getAclfAdjNet(), aclfCaseData.getGridTimeout());

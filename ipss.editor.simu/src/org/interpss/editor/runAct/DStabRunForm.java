@@ -37,6 +37,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuOutputHandler;
@@ -136,6 +137,8 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 				return false;
 			}
 		}
+		
+		simuCtx.getDStabilityNet().setNetChangeListener(CoreSpringAppContext.getNetChangeHandler());
 		
 	  	if (simuCtx.getDynSimuAlgorithm().initialization(msg)) {
 	  		displayResult(simuCtx);
