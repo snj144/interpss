@@ -61,7 +61,7 @@ public class Sample5BusAclfTest extends BaseTestSetup {
     		if (list.length >= 2)  // there is remote node in this case
     			assertTrue(nodeId != null);
     		
-    		IpssAclfNetGridGainTask.nodeId = nodeId;
+    		IpssAclfNetGridGainTask.RemoteNodeId = nodeId;
 
         	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
         }
