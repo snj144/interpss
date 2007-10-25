@@ -41,7 +41,7 @@
 	</bean>
 
 	<bean id="ipssMsgHub" 
-	      class="com.interpss.common.msg.IPSSMsgHub"
+	      class="com.interpss.common.msg.IPSSMsgHubImpl"
 	      scope="singleton">	
 		<property name="msgListeners">
 			<list>
