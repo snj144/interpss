@@ -3,6 +3,7 @@ package dev;
 import cn.edu.tsinghua.dps.adapter.aclf.FileAdpater_PSTMatlabFormat;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.common.msg.StdoutMsgListener;
 import com.interpss.common.msg.TextMessage;
 import com.interpss.simu.io.IpssFileAdapter;
@@ -15,7 +16,7 @@ public class TestAdapter {
 	public static void main(String[] args) {
 		IPSSMsgHub msg = null;
 		try {
-			msg = new IPSSMsgHub();
+			msg = new IPSSMsgHubImpl();
 			msg.addMsgListener(new StdoutMsgListener(TextMessage.TYPE_STATUS));
 
 			IpssFileAdapter adapter = new FileAdpater_PSTMatlabFormat();
