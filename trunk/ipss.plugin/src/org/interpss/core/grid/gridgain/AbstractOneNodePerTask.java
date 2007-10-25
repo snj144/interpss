@@ -42,16 +42,17 @@ import org.gridgain.grid.GridTaskAdapter;
 public abstract class AbstractOneNodePerTask<T> extends GridTaskAdapter<T> {
 	private static final long serialVersionUID = 1;
 	
-	public static String nodeId = "";
+	// Remote node id, the node will be assigned to perform the Task - One job task
+	public static String RemoteNodeId = "";
 	
-	public GridNode getGridNode(List<GridNode> subgrid) throws GridException {
+	public GridNode getRemoteNode(List<GridNode> subgrid) throws GridException {
 		GridNode node = null;
-		if (nodeId == null)
+		if (RemoteNodeId == null)
 			node = subgrid.get(0);
 		else {
 			// select calculation node by nodeId
 			for (GridNode n : subgrid) {
-				if (nodeId.equals(n.getId().toString())) {
+				if (RemoteNodeId.equals(n.getId().toString())) {
 					node = n;
 					break;
 				}
