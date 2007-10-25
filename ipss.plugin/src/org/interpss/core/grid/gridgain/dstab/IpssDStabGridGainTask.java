@@ -41,6 +41,8 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridNode;
+import org.gridgain.grid.GridTaskSession;
+import org.gridgain.grid.resources.GridTaskSessionResource;
 import org.interpss.core.grid.gridgain.AbstractOneNodePerTask;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -49,10 +51,17 @@ import com.interpss.dstab.DStabilityNetwork;
 public class IpssDStabGridGainTask extends AbstractOneNodePerTask<DStabilityNetwork> {
 	private static final long serialVersionUID = 1;
 	
+    /** Grid task session will be injected. */
+    @GridTaskSessionResource
+    private GridTaskSession session = null;
+    
 	@Override
 	public Map<? extends GridJob,GridNode> map(List<GridNode> subgrid, DStabilityNetwork net) throws GridException {
-		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
-		GridNode node = getGridNode(subgrid);
+        // Set session attribute with value of this job's argument.
+        //session.setAttribute(Token_MasterNodeId, MasterNodeId);
+        
+        Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
+		GridNode node = getRemoteNode(subgrid);
 		String modelStr = SerializeEMFObjectUtil.saveModel(net);
 		jobMap.put(new DStabNetGridGainJob(modelStr), node);	
 		return jobMap;

@@ -52,7 +52,7 @@ public class IpssAclfNetGridGainTask extends AbstractOneNodePerTask<AclfNetwork>
 	@Override
 	public Map<? extends GridJob,GridNode> map(List<GridNode> subgrid, AclfNetwork net) throws GridException {
 		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
-		GridNode node = getGridNode(subgrid);
+		GridNode node = getRemoteNode(subgrid);
 		String modelStr = SerializeEMFObjectUtil.saveModel(net);
 		jobMap.put(new AclfNetGridGainJob(modelStr), node);	
 		return jobMap;

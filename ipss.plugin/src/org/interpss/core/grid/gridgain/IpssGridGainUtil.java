@@ -89,14 +89,14 @@ public class IpssGridGainUtil {
            		// return a list of results object, for example AclfNetworkResult objects in serialized 
            		// fromat (String) in no particular order
            		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model, timeout).get();
-           	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork)
-           		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
-           		// return an AclfAdjNetork object in 
-           		result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model, timeout).get();
            	else if (model instanceof DStabilityNetwork)
            		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
            		// return an AclfAdjNetork object in 
            		result = grid.execute(IpssDStabGridGainTask.class.getName(), model, timeout).get();
+           	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork)
+           		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
+           		// return an AclfAdjNetork object in 
+           		result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model, timeout).get();
            	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
        	} catch (GridTaskTimeoutException e) {
        		IpssLogger.logErr(e);
