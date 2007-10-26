@@ -32,6 +32,7 @@ import org.gridgain.grid.GridJobAdapter;
 
 import com.interpss.core.CorePackage;
 import com.interpss.core.ms_case.MStudyCasePackage;
+import com.interpss.dstab.DstabPackage;
 
 public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	private static final long serialVersionUID = 1;
@@ -51,5 +52,6 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	public void initEMFPackage() {
     	CorePackage corePackage = CorePackage.eINSTANCE;
     	MStudyCasePackage msCasePackage = MStudyCasePackage.eINSTANCE;
+    	DstabPackage dstabPackage = DstabPackage.eINSTANCE;
 	}
 }
