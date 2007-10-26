@@ -32,6 +32,8 @@ import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 
 public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
+	private static final long serialVersionUID = 1;
+	
 	private double baseFreq = 0.0;
 	private double angle0 = 0.0;
 	private double tf = 0.0;
