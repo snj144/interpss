@@ -48,7 +48,7 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
 	@Test
 	public void testDStab5BusCase() throws InterpssException, GridException {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
-		loadCaseData("testData/dstab_test/DStab-5Bus.ipss", simuCtx);
+		loadCaseData("testData/dstab_test/DStab-5BusNoReg.ipss", simuCtx);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
 		//System.out.println(net.net2String());
@@ -60,7 +60,7 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
         	
         	grid.addMessageListener(new GridMessageListener() {
         		public void onMessage(UUID arg0, Serializable arg1) {
-        			System.out.println("*** on Message:"+arg1);
+        			System.out.println(arg1);
         		}        		
         	});
 
