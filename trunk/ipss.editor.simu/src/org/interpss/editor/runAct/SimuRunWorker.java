@@ -34,6 +34,7 @@ import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.jgraph.JGraph;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.ScriptLanguageType;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
@@ -45,6 +46,7 @@ public class SimuRunWorker extends Thread {
 	private SimuContext simuCtx = null;
 	private JGraph graph = null;
 	private String scripts = null;
+	private ScriptLanguageType scriptLanguage = ScriptLanguageType.Java;
 	
 	public SimuRunWorker(String str) { 
 		super(str); 
@@ -61,10 +63,11 @@ public class SimuRunWorker extends Thread {
 		this.graph = aGraph;
 	}
 	
-	public void configRun(SimuRunType aRunType, SimuContext aCtx, String scripts) {
+	public void configRun(SimuRunType aRunType, SimuContext aCtx, String scripts, ScriptLanguageType lanType) {
 		this.runType = aRunType;
 		this.simuCtx = aCtx;
 		this.scripts = scripts;
+		this.scriptLanguage = lanType;
 	}
 
 	public void run() { 
@@ -103,7 +106,10 @@ public class SimuRunWorker extends Thread {
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Transient Stability");
 			
 		  	DStabRunForm runForm = (DStabRunForm)appSimuCtx.getDStabRunForm();
-			runForm.runCase(simuCtx, simuCtx.getMsgHub());
+		  	if (runForm.getDStabCaseData().isGridComputing())
+				runForm.runGridCase(simuCtx, simuCtx.getMsgHub());
+		  	else
+		  		runForm.runCase(simuCtx, simuCtx.getMsgHub());
 
 			appStatus.busyStop("Run Transient Stability Simulation finished");
 		}
@@ -113,19 +119,23 @@ public class SimuRunWorker extends Thread {
 			
 			//System.out.println("Run Scripts: " + this.scripts);
 			// compile the source code
-			String classname = ScriptJavacUtilFunc.createScriptingClassname(CoreScriptUtilFunc.RunScriptsClass);
-			String javacode = CoreScriptUtilFunc.parseRunCaseJavaCode(this.scripts, classname);
-			try {
-				ISimuCaseRunner runner = (ISimuCaseRunner)MemoryJavaCompiler.javac( 
-						CoreScriptUtilFunc.RunCaseScriptingPackageName+"/"+classname, javacode);
-				// run the custom scripts
-				if (runner.runCase(simuCtx, simuCtx.getMsgHub()))
-					runner.displayResult(simuCtx);
-			} catch (Exception e) {
-				IpssLogger.logErr(e);
-			}			
-			
-			appStatus.busyStop("Run Transient Stability Simulation finished");
+			if (this.scriptLanguage == ScriptLanguageType.Java) {
+				String classname = ScriptJavacUtilFunc.createScriptingClassname(CoreScriptUtilFunc.RunScriptsClass);
+				String javacode = CoreScriptUtilFunc.parseRunCaseJavaCode(this.scripts, classname);
+				try {
+					ISimuCaseRunner runner = (ISimuCaseRunner)MemoryJavaCompiler.javac( 
+							CoreScriptUtilFunc.RunCaseScriptingPackageName+"/"+classname, javacode);
+					// run the custom scripts
+					if (runner.runCase(simuCtx, simuCtx.getMsgHub()))
+						runner.displayResult(simuCtx);
+				} catch (Exception e) {
+					IpssLogger.logErr(e);
+				}			
+			}
+			else if (this.scriptLanguage == ScriptLanguageType.Xml) {
+				XmlScriptRunWorker.runCase(this.scripts, simuCtx);
+			}
+			appStatus.busyStop("Run Scripts finished");
 		}
 	}
 }

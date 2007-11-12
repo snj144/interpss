@@ -361,7 +361,9 @@ public class ChartManager {
 			IpssLogger.logErr(ex);
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList form DB", 
 					ex.toString() + "\n Please contact InterPSS support");
+			return null;
 		}
+		
 		if (elemRecList != null && elemRecList.size() > 0) {
 			DStabSimuDBRecord elemRec = (DStabSimuDBRecord)elemRecList.get(0);
 			Hashtable<String,String> elemStates = StringUtil.parseStr2Hashtable(elemRec.getSimuRec());
@@ -397,10 +399,16 @@ public class ChartManager {
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
 			elemRecList = simuRecManager.getSimuRecList(caseId,	recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
+			/*
+			for (BaseSimuDBRecord rec : elemRecList) {
+				System.out.println(((DStabSimuDBRecord)rec).getSimuTime());
+			}
+			*/
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList from DB", 
 					ex.toString() + "\n Please contact InterPSS support");
+			return;
 		}
 		
 		IpssLogger.getLogger().info("CaseId, elemId, state, recType: " + caseId + ", " + elemId + ", " + yLabel + ", " + recType);
