@@ -145,7 +145,7 @@ public class IpssFixture extends ColumnFixture {
 	}	
 
 	protected String getBranchId() {
-		return NetUtilFunc.formBranchID(branchFromBusId, branchToBusId, "1");
+		return NetUtilFunc.formBranchId(branchFromBusId, branchToBusId, "1");
 	}
 
 	public void setBaseKva(double kva) {
