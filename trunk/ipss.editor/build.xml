@@ -150,4 +150,73 @@
 	<copy file="${dist_base}/lib/ipss_editor.jar" 
 		todir="${fit_base}/lib"/>
     </target>	
+
+	<target depends="init" name="copy2G">
+		<copy todir="G:/backup/ipss/ipss.common">
+	    	<fileset dir="${dev_base}/ipss.common" >
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/ipss.core">
+	    	<fileset dir="${dev_base}/ipss.core_EMF" >
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/ipss.dist">
+	    	<fileset dir="${dev_base}/ipss.dist_EMF" >
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/ipss.dstab">
+	    	<fileset dir="${dev_base}/ipss.dstab_EMF" >
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/ipss.simu">
+	    	<fileset dir="${dev_base}/ipss.simu_EMF">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/ipss.simu.test">
+	    	<fileset dir="${dev_base}/ipss.simu.test">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+        
+		<copy todir="G:/backup/ipss/ipss.plugin">
+	    	<fileset dir="${dev_base}/ipss.plugin">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/ipss.plugin.test">
+	    	<fileset dir="${dev_base}/ipss.plugin.test">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/ipss.editor">
+	    	<fileset dir="${dev_base}/ipss.editor">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/ipss.editor.simu">
+	    	<fileset dir="${dev_base}/ipss.editor.simu">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="G:/backup/ipss/RoseModel">
+	    	<fileset dir="${dev_base}/RoseModel">
+      			<exclude name="**/*.java,**/*.class"/>
+    		</fileset>	    	
+        </copy>
+    </target>	
+        
 </project>
