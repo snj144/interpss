@@ -59,7 +59,7 @@ public class EditorJGraphDataMapper extends AbstractMapper {
 			GFormContainer gFormContainer = (GFormContainer)fromObj;
 			SimuContext simuCtx = (SimuContext)toObj;
 
-			// check if current case data is dirty and mapping to SimuContext object if necessory. 
+			// check if current case data is dirty and mapping to SimuContext object if necessary. 
 			// Currently only project in graph mode needs the mapping 
 			Vector errMsg = gFormContainer.checkData(SpringAppContext.getIpssMsgHub());
 			if (errMsg != null) {
