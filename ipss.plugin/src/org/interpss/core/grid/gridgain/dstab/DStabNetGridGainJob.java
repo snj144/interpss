@@ -2,34 +2,21 @@ package org.interpss.core.grid.gridgain.dstab;
 
 import java.io.Serializable;
 
-import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.gridgain.grid.GridTaskSession;
-import org.gridgain.grid.resources.GridInstanceResource;
-import org.gridgain.grid.resources.GridTaskSessionResource;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
-import org.interpss.core.grid.gridgain.IPSSGridMsgHubImpl;
+import org.interpss.core.grid.gridgain.util.DStabSimuGridOutputHandler;
 
-import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.msg.TextMessage;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.util.DynamicEventProcessor;
+import com.interpss.dstab.util.IDStabSimuOutputHandler;
 
 public class DStabNetGridGainJob extends AbstractIpssGridGainJob {
 	private static final long serialVersionUID = 1;
 	
-    /** Grid task session will be injected. */
-    @GridTaskSessionResource
-    private GridTaskSession session = null;
-    
-    @GridInstanceResource
-    private Grid grid = null;
-    
-    private IPSSMsgHub msgHub = null;
-    
 	public DStabNetGridGainJob(String model) {
 		super(model);
 	}
@@ -37,28 +24,47 @@ public class DStabNetGridGainJob extends AbstractIpssGridGainJob {
     public Serializable execute() throws GridException {
     	initEMFPackage();
 
-		if (this.msgHub == null)
-			this.msgHub = new IPSSGridMsgHubImpl(grid, TextMessage.TYPE_INFO);
-
 		// de-serialized the model to a DSatbilityNetwork object 
 		String modelStr = getArgument();
+		//System.out.println(modelStr);
 		DStabilityNetwork net = (DStabilityNetwork)SerializeEMFObjectUtil.loadModel(modelStr);
-/*		
-		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msgHub);
-		algo.setSimuStepSec(0.002);
-		algo.setTotalSimuTimeSec(10.0);
-		
-//		addDynamicEventData(net);
-		
-		LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
-		aclfAlgo.loadflow(msgHub);
-		
-		if (algo.initialization(msgHub)) {
-			msgHub.sendStatusMsg("Running DStab simulation ...");
-			algo.performSimulation(msgHub);
-		}
-*/		
-		return null;
-    }
+	
+		// get serialized algo string from the task session
+		String algoStr = (String)getSession().getAttribute(IpssDStabGridGainTask.Token_DStabAlgo+net.getId());
+		//System.out.println(algoStr);
+		DynamicSimuAlgorithm algo;
+		if (algoStr != null) {
+			// set algo attributes. These attributes are not serialized
+			algo = (DynamicSimuAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
+			
+			algoStr = (String)getSession().getAttribute(IpssDStabGridGainTask.Token_AclfAlgo+net.getId());
+			LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
+			algo.setAclfAlgorithm(lfAlgo);
 
+			algo.setDynamicEventHandler(new DynamicEventProcessor(getMsgHub()));
+			algo.setDStabNet(net);
+    	}
+		else {
+			// this is more for testing purpose
+			algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, getMsgHub());
+			algo.setSimuStepSec(0.01);
+			algo.setTotalSimuTimeSec(10.0);
+		}
+		
+		// set simulation result handler
+		IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(getMsgHub());
+		algo.setSimuOutputHandler(handler);
+		
+		// perform load flow calculation
+		LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
+		aclfAlgo.loadflow(getMsgHub());
+		
+		if (algo.initialization(getMsgHub())) {
+			getMsgHub().sendStatusMsg("Running DStab simulation at remote node " + getGrid().getLocalNode());
+			if (algo.performSimulation(getMsgHub()))
+				return Boolean.TRUE;
+		}
+		
+		return Boolean.FALSE;
+    }
 }

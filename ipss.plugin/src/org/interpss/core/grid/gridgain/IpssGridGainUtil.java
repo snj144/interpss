@@ -37,16 +37,15 @@ import org.gridgain.grid.GridTaskTimeoutException;
 import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
 import org.interpss.core.grid.gridgain.dstab.IpssDStabGridGainTask;
 import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
-import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.ms_case.GridMultiStudyCase;
-import com.interpss.core.ms_case.result.AclfNetworkResult;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.DynamicSimuAlgorithm;
 
 /**
  *   For IpssMultiStudyCaseGridGainTask implementation
@@ -89,11 +88,11 @@ public class IpssGridGainUtil {
            		// return a list of results object, for example AclfNetworkResult objects in serialized 
            		// fromat (String) in no particular order
            		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model, timeout).get();
-           	else if (model instanceof DStabilityNetwork)
-           		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
-           		// return an AclfAdjNetork object in 
+           	else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm )
+           		// IpssDStabGridGainTask is designed to process the DStabilityNetwork or DynamicSimuAlgorithm model
+           		// return Boolean object 
            		result = grid.execute(IpssDStabGridGainTask.class.getName(), model, timeout).get();
-           	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork)
+           	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork || model instanceof LoadflowAlgorithm)
            		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
            		// return an AclfAdjNetork object in 
            		result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model, timeout).get();
@@ -203,18 +202,6 @@ public class IpssGridGainUtil {
     	}
     	return name;
     }
-    
-    /**
-     * Transfer AclfNetwork result to an AclfNetworkResult object and serialize the result object to a String
-     * 
-     * @param uid grid node UUID string 
-     * @param net the AclfNetwork object
-     * @return serialized AclfNetworkResult string
-     */
-    public static String serializeGridAclfResult(String uid, AclfNetwork net) {
-		AclfNetworkResult rnet = AclfStudyCaseUtilFunc.createAclfNetResult(uid, net);
-		return SerializeEMFObjectUtil.saveModel(rnet);
-	}    
     
     /**
      * Get all remote grid node name, except the local node

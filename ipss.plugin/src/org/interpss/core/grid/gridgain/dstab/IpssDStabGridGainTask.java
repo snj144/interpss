@@ -41,28 +41,46 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridNode;
-import org.gridgain.grid.GridTaskSession;
-import org.gridgain.grid.resources.GridTaskSessionResource;
-import org.interpss.core.grid.gridgain.AbstractOneNodePerTask;
+import org.interpss.core.grid.gridgain.AbstractAssignJob2NodeTask;
+import org.interpss.core.grid.gridgain.util.IpssGridUtilFunc;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.DynamicSimuAlgorithm;
 
-public class IpssDStabGridGainTask extends AbstractOneNodePerTask<DStabilityNetwork> {
+public class IpssDStabGridGainTask extends AbstractAssignJob2NodeTask<Object> {
 	private static final long serialVersionUID = 1;
 	
-    /** Grid task session will be injected. */
-    @GridTaskSessionResource
-    private GridTaskSession session = null;
-    
 	@Override
-	public Map<? extends GridJob,GridNode> map(List<GridNode> subgrid, DStabilityNetwork net) throws GridException {
-        // Set session attribute with value of this job's argument.
-        //session.setAttribute(Token_MasterNodeId, MasterNodeId);
+	public Map<? extends GridJob,GridNode> map(List<GridNode> subgrid, Object obj) throws GridException {
+        // Send master node id to all nodes.
+        getSession().setAttribute(Token_MasterNodeId, MasterNodeId);
         
-        Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
+        // serialize the model object
+		String modelStr = "";
+		if (obj instanceof DynamicSimuAlgorithm) {
+			DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)obj; 
+			
+			// serialize the network object
+			DStabilityNetwork net = algo.getDStabNet(); 
+			modelStr = SerializeEMFObjectUtil.saveModel(net);
+
+			String lfAlgoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo.getAclfAlgorithm());
+	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
+			
+			String algoStr = IpssGridUtilFunc.serializeDStabAlgorithm(algo);
+	        getSession().setAttribute(Token_DStabAlgo+net.getId(), algoStr);
+		}
+		else if (obj instanceof DStabilityNetwork) {
+			DStabilityNetwork net = (DStabilityNetwork)obj; 
+			modelStr = SerializeEMFObjectUtil.saveModel(net);
+		}
+
+		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
+		// get the remote grid node
 		GridNode node = getRemoteNode(subgrid);
-		String modelStr = SerializeEMFObjectUtil.saveModel(net);
+		// set the DStab object with the Algorithm info to the remote node
 		jobMap.put(new DStabNetGridGainJob(modelStr), node);	
 		return jobMap;
      }
@@ -76,6 +94,7 @@ public class IpssDStabGridGainTask extends AbstractOneNodePerTask<DStabilityNetw
 		if (results.get(0).getException() != null) {
             throw results.get(0).getException();
         }
+		// for Grid DStab the return is a Boolean object
 		return results.get(0).getData();
 	}
 }
