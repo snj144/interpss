@@ -103,7 +103,8 @@ public class IeeeSteamTCSRGovernor extends AnnotateGovernor {
      *
      */
     public IeeeSteamTCSRGovernor() {
-        this("govId", "govName", "InterPSS");
+        this.setName("ieeeSteamTCSRGovernor");
+        this.setCategory("IEEE");
     }
     
     /**

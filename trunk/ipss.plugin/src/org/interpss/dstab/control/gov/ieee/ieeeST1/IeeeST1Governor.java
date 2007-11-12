@@ -47,10 +47,12 @@ public class IeeeST1Governor extends AbstractGovernor {
 	 * Default Constructor
 	 *
 	 */
+	/*
 	public IeeeST1Governor() {
-		this("govId", "IeeeST1Governor", "IEEE-Governor");
+        this.setName("InterPSS IEEEST1");
+        this.setCategory("InterPSS");
 	}
-	
+	*/
 	/**
 	 * Constructor
 	 * 

@@ -1,5 +1,5 @@
  /*
-  * @(#)FilterNthOrderBlock.java   
+  * @(#)BusFreqMeasurementImpl.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 10/30/2006
+  * @Date 7/30/2007
   * 
   *   Revision History
   *   ================
@@ -24,10 +24,13 @@
 
 package org.interpss.dstab.measure;
 
+import java.util.StringTokenizer;
+
 import org.interpss.dstab.control.cml.block.DelayControlBlock;
 import org.interpss.dstab.control.cml.block.WashoutControlBlock;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.dstab.controller.block.adapt.ControlBlock1stOrderAdapter;
 
 
@@ -41,6 +44,11 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	
 	private WashoutControlBlock washoutBlock = null;
 	private DelayControlBlock delayBlock = null;
+	
+	public BusFreqMeasurementImpl() {
+		this.tf = 0.01;
+		this.tw = 0.01;
+	}
 	
 	public BusFreqMeasurementImpl(double tf, double tw ) {
 		this.tf = tf;
@@ -115,4 +123,24 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	public void setTw(double tw) {
 		this.tw = tw;
 	}	
+	
+	/* To make this controller ready for Grid computing, we need to implement 1) Default Constructor
+	 * 2) serialze() and 3) deseralize().
+	 */
+	
+	public String serialize() {
+		String name = this.getClass().getName();
+		return name + "|" + tf + "," + tw;
+	}
+
+	public void deserialize(String str) throws InvalidParameterException {
+		String classname = str.substring(0, str.indexOf('|'));
+		if (!classname.equals(this.getClass().getName())) {
+			throw new InvalidParameterException("Programming error, deserialize() of " + this.getClass().getName());
+		}
+		String params = str.substring(str.indexOf('|')+1);
+		StringTokenizer st = new StringTokenizer(params, ",");
+		this.tf = new Double(st.nextToken()).doubleValue();
+		this.tw = new Double(st.nextToken()).doubleValue();
+	}
 }

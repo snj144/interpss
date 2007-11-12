@@ -83,7 +83,9 @@ public class Ieee1968Type1Exciter extends AnnotateExciter {
      *
      */
     public Ieee1968Type1Exciter() {
-        this("excId", "excName", "InterPSS");
+		this("id", "name", "caty");
+        this.setName("IEEE-1968 Type1");
+        this.setCategory("IEEE-1968");
     }
     
     /**

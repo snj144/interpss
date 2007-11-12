@@ -63,7 +63,9 @@ public class SimpleStabilizer extends AnnotateStabilizer {
 	private static final NBSimpleStabilizerEditPanel _editPanel = new NBSimpleStabilizerEditPanel();
 	
 	public SimpleStabilizer() {
-		this("pssId", "SimpleStabilizer", "InterPSS");
+		this("id", "name", "caty");
+        this.setName("Simple Stabilizer");
+        this.setCategory("InterPSS");
 	}
 	
 	/**

@@ -137,7 +137,8 @@ public class Ieee1992PSS2AStabilizer extends AnnotateStabilizer {
 	private static final NBIeee1992PSS2AEditPanel _editPanel = new NBIeee1992PSS2AEditPanel();
 	
 	public Ieee1992PSS2AStabilizer() {
-		this("pssId", "SimpleStabilizer", "InterPSS");
+        this.setName("ieee1992PSS2AStabilizer");
+        this.setCategory("IEEE-1992");
 	}
 	
 	/**
