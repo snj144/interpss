@@ -44,7 +44,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class DStab_5BusGridGainTest extends DStabTestSetupBase {
+public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
 	@Test
 	public void testDStab5BusCase() throws InterpssException, GridException {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
@@ -72,8 +72,10 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
     			assertTrue(nodeId != null);
     		
     		IpssDStabGridGainTask.RemoteNodeId = nodeId;
+    		IpssDStabGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
 
-        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
+        	Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
+        	assertTrue(rtn.booleanValue());
         }
         finally {
         	GridFactory.stop(true);

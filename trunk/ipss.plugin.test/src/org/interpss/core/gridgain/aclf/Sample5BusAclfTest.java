@@ -39,6 +39,7 @@ import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.util.sample.SampleCases;
 
 public class Sample5BusAclfTest extends BaseTestSetup {
@@ -49,7 +50,11 @@ public class Sample5BusAclfTest extends BaseTestSetup {
 		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
 		//System.out.println(net.net2String());
 		
-    	String str;
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		algo.setTolerance(0.001);
+		algo.setMaxIterations(30);
+
+		String str;
     	GridFactory.start();
         try {
         	Grid grid = GridFactory.getGrid();
@@ -63,7 +68,7 @@ public class Sample5BusAclfTest extends BaseTestSetup {
     		
     		IpssAclfNetGridGainTask.RemoteNodeId = nodeId;
 
-        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
+        	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", algo, 0);
         }
         finally {
         	GridFactory.stop(true);

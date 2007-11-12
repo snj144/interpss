@@ -24,19 +24,42 @@
 
 package org.interpss;
 
+import java.util.logging.Level;
+
+import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.jgraph.ui.IIpssGraphModel;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
+import org.interpss.editor.mapper.EditorJGraphDataMapper;
+import org.interpss.editor.util.IOUtilFunc;
+import org.jgraph.JGraph;
 import org.junit.BeforeClass;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.TestUtilFunc;
+import com.interpss.simu.SimuContext;
 
 public class BaseTestSetup {
+	protected static IPSSMsgHub msg;
+
+	public void loadCaseData(String filename, SimuContext simuCtx) {
+		JGraph graph = IOUtilFunc.loadIpssGraphFile(filename);
+		IGFormContainer gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
+		EditorJGraphDataMapper mapper = new EditorJGraphDataMapper();
+		mapper.setMsg(msg);
+		mapper.mapping(gFormContainer, simuCtx, GFormContainer.class);
+	}
+
 	@BeforeClass
 	public static void setSpringAppCtx() {
 		if (SpringAppContext.SpringAppCtx == null) {
 			String xmlFile = TestUtilFunc.Plugin_SpringConfigXmlFile;
 			// Set the SpringAppContext to all ApplicationContextAware objects.
 			SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(xmlFile);
+			msg = SpringAppContext.getIpssMsgHub();
+			IpssLogger.getLogger().setLevel(Level.WARNING);
 		}
 	}
 }
