@@ -33,4 +33,9 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="editorDialogUtil" 
+	      class="com.interpss.common.ui.DialogUtilImpl"
+	      scope="singleton">	
+	</bean>	
 </beans>

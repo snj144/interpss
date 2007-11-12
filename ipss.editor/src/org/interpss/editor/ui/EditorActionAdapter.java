@@ -160,7 +160,7 @@ public class EditorActionAdapter {
     	if (dialog.isReturnOk()) {
 			SimuRunWorker worker = new SimuRunWorker("Scripting SimuRunWorker");
 			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), CaseData.CaseType_Scripts);
-			worker.configRun(SimuRunType.Scripts, simuCtx, caseData.getScripts());
+			worker.configRun(SimuRunType.Scripts, simuCtx, caseData.getScripts(), caseData.getScriptLanguageType());
 			worker.start();
 			appSimuCtx.setLastRunType(SimuRunType.DStab);
 		}	

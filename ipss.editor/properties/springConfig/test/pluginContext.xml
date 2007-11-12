@@ -17,4 +17,14 @@
 	<import resource="../dstabControllerStabilizerContext.xml"/>
 
 	<import resource="../jgraphContext.xml"/>
+
+	<bean id="projectDataManager" 
+	      class="org.interpss.editor.io.ProjectDataDBManager"
+	      scope="singleton">	
+	</bean>	
+	
+	<bean id="simuRecManager" 
+	      class="org.interpss.editor.io.SimuRecDBManager"
+	      scope="singleton">	
+	</bean>	
 </beans>
