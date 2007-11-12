@@ -28,8 +28,16 @@ package org.interpss.core.grid.gridgain;
  * An abstract Grid job class, which should be extended by all GridJob implementation  
  */
 
+import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridJobAdapter;
+import org.gridgain.grid.GridTaskSession;
+import org.gridgain.grid.resources.GridInstanceResource;
+import org.gridgain.grid.resources.GridTaskSessionResource;
+import org.interpss.core.grid.gridgain.dstab.IpssDStabGridGainTask;
+import org.interpss.core.grid.gridgain.util.IPSSGridMsgHubImpl;
 
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.msg.TextMessage;
 import com.interpss.core.CorePackage;
 import com.interpss.core.ms_case.MStudyCasePackage;
 import com.interpss.dstab.DstabPackage;
@@ -37,21 +45,44 @@ import com.interpss.dstab.DstabPackage;
 public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	private static final long serialVersionUID = 1;
 	
+    /** Grid task session will be injected. */
+    @GridTaskSessionResource
+    private GridTaskSession session = null;
+    
+    @GridInstanceResource
+    private Grid grid = null;
+    
+    private static IPSSMsgHub msgHub = null;
+    private static CorePackage corePackage = null;
+    private static MStudyCasePackage msCasePackage = null;
+    private static DstabPackage dstabPackage = null;
+    
 	public AbstractIpssGridGainJob(String arg) {
 		super(arg);
 	}
 
-	/**
-	 * Prepare for EMF package for serialize/deserialize EMF objects. This method should be
-	 * call at the beginning of the execute() method 
-	 *      public Serializable execute() {
-    			initEMFPackage();
-    			...
-    		}
-	 */
-	public void initEMFPackage() {
-    	CorePackage corePackage = CorePackage.eINSTANCE;
-    	MStudyCasePackage msCasePackage = MStudyCasePackage.eINSTANCE;
-    	DstabPackage dstabPackage = DstabPackage.eINSTANCE;
+	public IPSSMsgHub getMsgHub() {
+		if (msgHub == null) {
+			String masterNodeId = (String)session.getAttribute(IpssDStabGridGainTask.Token_MasterNodeId);
+			msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId, TextMessage.TYPE_INFO);
+		}
+		return msgHub;
+	}
+	
+    public GridTaskSession getSession() {
+    	return session;
+    }
+
+    public Grid getGrid() {
+    	return grid;
+    }
+    
+    public void initEMFPackage() {
+    	if (corePackage == null)
+    		corePackage = CorePackage.eINSTANCE;
+    	if (msCasePackage == null)
+    		msCasePackage = MStudyCasePackage.eINSTANCE;
+    	if (dstabPackage == null)
+    		dstabPackage = DstabPackage.eINSTANCE;
 	}
 }

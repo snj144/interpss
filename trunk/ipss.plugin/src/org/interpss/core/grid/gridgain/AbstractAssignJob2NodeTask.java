@@ -38,13 +38,38 @@ import java.util.List;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskAdapter;
+import org.gridgain.grid.GridTaskSession;
+import org.gridgain.grid.resources.GridTaskSessionResource;
 
-public abstract class AbstractOneNodePerTask<T> extends GridTaskAdapter<T> {
+public abstract class AbstractAssignJob2NodeTask<T> extends GridTaskAdapter<T> {
 	private static final long serialVersionUID = 1;
 	
+	public static final String Token_MasterNodeId = "MasterNodeId";
+	public static final String Token_DStabAlgo = "DStabAlgorithm";
+	public static final String Token_AclfAlgo = "LoadflowAlgorithm";
+	
+    /** Grid task session will be injected. */
+    @GridTaskSessionResource
+    private GridTaskSession session = null;
+    
 	// Remote node id, the node will be assigned to perform the Task - One job task
 	public static String RemoteNodeId = "";
 	
+	// Master node id
+	public static String MasterNodeId = "";
+
+	public GridTaskSession getSession() {
+		return this.session;
+	}
+	
+	/**
+	 * Using the remoteNodeId to locate the remote node to distribute grid jobs. If RemoteNodeId == null
+	 * the first available node will be selected.
+	 * 
+	 * @param subgrid list of all grid nodes in the grid
+	 * @return the select remote grid node
+	 * @throws GridException
+	 */
 	public GridNode getRemoteNode(List<GridNode> subgrid) throws GridException {
 		GridNode node = null;
 		if (RemoteNodeId == null)
@@ -59,7 +84,7 @@ public abstract class AbstractOneNodePerTask<T> extends GridTaskAdapter<T> {
 			}
 		}
 		if (node == null) {
-			throw new GridException("Cannot find a grid node");
+			throw new GridException("Cannot find a grid node to distribute the grid job");
 		}
 		return node;
      }

@@ -41,19 +41,38 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridNode;
-import org.interpss.core.grid.gridgain.AbstractOneNodePerTask;
+import org.interpss.core.grid.gridgain.AbstractAssignJob2NodeTask;
+import org.interpss.core.grid.gridgain.util.IpssGridUtilFunc;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 
-public class IpssAclfNetGridGainTask extends AbstractOneNodePerTask<AclfNetwork> {
+public class IpssAclfNetGridGainTask extends AbstractAssignJob2NodeTask<Object> {
 	private static final long serialVersionUID = 1;
 	
 	@Override
-	public Map<? extends GridJob,GridNode> map(List<GridNode> subgrid, AclfNetwork net) throws GridException {
+	public Map<? extends GridJob,GridNode> map(List<GridNode> subgrid, Object model) throws GridException {
+		AclfNetwork net = null;
+		if (model instanceof LoadflowAlgorithm) {
+			LoadflowAlgorithm algo = (LoadflowAlgorithm)model;
+			net = algo.getAclfNetwork();
+
+			String algoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo);
+	        getSession().setAttribute(Token_AclfAlgo+net.getId(), algoStr);
+		}
+		else if (model instanceof AclfAdjNetwork) {
+			net = (AclfAdjNetwork)model;
+		}
+		else {
+			net = (AclfNetwork)model;
+		}
+		String modelStr = SerializeEMFObjectUtil.saveModel(net);
+
 		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
 		GridNode node = getRemoteNode(subgrid);
-		String modelStr = SerializeEMFObjectUtil.saveModel(net);
+		// send the net object to the remote node for Loadflow calculation
 		jobMap.put(new AclfNetGridGainJob(modelStr), node);	
 		return jobMap;
      }
