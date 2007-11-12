@@ -58,7 +58,17 @@ public class ProjectDataDBManager implements IProjectDataManager {
 	 * 
 	 */
 	public void loadProjectDataFromDB(int projDbId, String filename, String projName, Object appSimuCtx) {
-		IProjectData projData = ((IAppSimuContext)appSimuCtx).getProjData();
+		IProjectData p = loadProjectDataFromDB(projDbId, filename, projName);
+		((IAppSimuContext)appSimuCtx).setProjData(p);
+	}
+
+	/**
+	 * Load project data from DB using projDbId. If no projDbId or no project with the projDbId found,
+	 * use filename, projName to create a DB record for the project  
+	 * 
+	 */
+	public IProjectData loadProjectDataFromDB(int projDbId, String filename, String projName) {
+		IProjectData projData = new ProjData();
 		IProjectData p = null;
 		// first try to select the project with the projDbId
 		if (projDbId > 0) {
@@ -88,9 +98,8 @@ public class ProjectDataDBManager implements IProjectDataManager {
     					e.toString() + "\nPlease contact InterPSS support");
     		}
 		}
-    	((IAppSimuContext)appSimuCtx).setProjData(p);
+    	return p;
 	}
-
 	
 	/**
 	 * Perform db action for the Project Data tables

@@ -90,7 +90,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		if (_caseType == CaseData.CaseType_Aclf) {
 			this.setTitle("Run Aclf Loadflow Analysis");
 			caseDataPanel.add(_aclfCaseInfoPanel);
-			_aclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
+			_aclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx(), true);
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().addMsgListener(_aclfCaseInfoPanel);
 		}
 		else if (_caseType == CaseData.CaseType_Acsc) {

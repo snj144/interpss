@@ -24,6 +24,12 @@
 
 package org.interpss.editor.runAct;
 
+import org.gridgain.grid.Grid;
+import org.gridgain.grid.GridException;
+import org.interpss.core.grid.gridgain.IpssGridGainUtil;
+import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
+import org.interpss.core.grid.gridgain.dstab.IpssDStabGridGainTask;
+import org.interpss.core.grid.gridgain.util.GridMessageRouter;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
@@ -39,8 +45,9 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.util.IDStabSimuOutputHandler;
+import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
@@ -82,21 +89,8 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	 * @return case id
 	 */
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		simuCtx.getDStabilityNet().removeAllDEvent();
-		
-  		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
-  		mapper.mapping(this, simuCtx.getDynSimuAlgorithm(), DynamicSimuAlgorithm.class);
-
-		if (!simuCtx.getDynSimuAlgorithm().checkData(msg)) {
-			IpssLogger.getLogger().warning("DStab simulation data checking failed");
+		if (!preprocessing(simuCtx, msg))
 			return false;
-		}
-
-		// dstab net data changed in the mapping process
-		if (!simuCtx.getDStabilityNet().checkData(msg)) {
-			IpssLogger.getLogger().warning("DStab network data checking failed");
-			return false;
-		}
 		
 		LoadflowAlgorithm aclfAlgo = simuCtx.getDynSimuAlgorithm().getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
@@ -106,28 +100,19 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	  	}
 
 	  	// set up output and run the simulation
-		IDStabSimuOutputHandler handler = simuCtx.getDynSimuAlgorithm().getSimuOutputHandler();
-		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		ProjData projData = (ProjData)appSimuCtx.getProjData();
-		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
-		try {
-			if (!handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord"))
-				return false;
-		} catch (Exception e) {
-			IpssLogger.logErr(e);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
-					e.toString() + "\nPlease contact InterPSS support");
-		}
-		setDbSimuCaseId(handler.getCaseId());
+		IDStabSimuDatabaseOutputHandler handler = initDBOutputHandler(simuCtx);
+		if (handler == null)
+			return false;
+		
 		// setup if there is output filtering
 		handler.setOutputFilter(dStabCaseData.isOutputFilter());
 		if (handler.isOutputFilter()) 
 			handler.setOutputVarIdList(dStabCaseData.getOutVarList());
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
 
-		IDStabSimuOutputHandler scriptHandler = null;
+		IDStabSimuDatabaseOutputHandler scriptHandler = null;
 		if (dStabCaseData.isOutputScripting()) {
-			scriptHandler = SimuSpringAppContext.getDStabScriptOutputHandler();
+			scriptHandler = (IDStabSimuDatabaseOutputHandler)SimuSpringAppContext.getDStabScriptOutputHandler();
 			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
 			try {
 				if (!scriptHandler.init(dStabCaseData.getOutputScriptFilename(), simuCtx.getDStabilityNet()))
@@ -153,6 +138,48 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	}
 	
 	/**
+	 * 
+	 * @param dstabNet
+	 * @param msg
+	 * @return case id
+	 */
+	public boolean runGridCase(SimuContext simuCtx, IPSSMsgHub msg) {
+		if (!preprocessing(simuCtx, msg))
+			return false;
+		
+		// get the selected remote node
+		Grid grid = IpssGridGainUtil.getDefaultGrid();
+		String nodeId = IpssGridGainUtil.nodeIdLookup(dStabCaseData.getGridNodeName());
+		IpssAclfNetGridGainTask.RemoteNodeId = nodeId;
+		IpssDStabGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
+		
+    	GridMessageRouter msgRouter = new GridMessageRouter();
+    	grid.addMessageListener(msgRouter);
+    	msgRouter.setIPSSMsgHub(msg);
+    	
+		IDStabSimuDatabaseOutputHandler dstabDbHandler = initDBOutputHandler(simuCtx);
+		if (dstabDbHandler == null)
+			return false;
+    	msgRouter.setIDStabSimuDatabaseOutputHandler(dstabDbHandler);
+
+		try {
+			long timeout = 0;
+			DStabilityNetwork net = simuCtx.getDStabilityNet();
+			Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid,
+									"InterPSS Transient Stability Simulation", 
+									simuCtx.getDynSimuAlgorithm(), 
+									timeout);
+			simuCtx.setDStabilityNet(net);
+			// for plotting purpose
+			net.initialization(msg);
+			return rtn.booleanValue();
+		} catch (GridException e) {
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid DStab Error", e.toString());
+			return false;
+		}
+	}
+
+	/**
 	 * @return Returns the dbSimuCaseId.
 	 */
 	public int getDbSimuCaseId() {
@@ -177,5 +204,41 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	 */
 	public void setAclfCaseData(AclfCaseData aclfCaseData) {
 		this.aclfCaseData = aclfCaseData;
+	}
+
+	private boolean preprocessing(SimuContext simuCtx, IPSSMsgHub msg) {
+		simuCtx.getDStabilityNet().removeAllDEvent();
+		
+  		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
+  		mapper.mapping(this, simuCtx.getDynSimuAlgorithm(), DynamicSimuAlgorithm.class);
+
+		if (!simuCtx.getDynSimuAlgorithm().checkData(msg)) {
+			IpssLogger.getLogger().warning("DStab simulation data checking failed");
+			return false;
+		}
+
+		// dstab net data changed in the mapping process
+		if (!simuCtx.getDStabilityNet().checkData(msg)) {
+			IpssLogger.getLogger().warning("DStab network data checking failed");
+			return false;
+		}
+		return true;
+	}
+	
+	private IDStabSimuDatabaseOutputHandler initDBOutputHandler(SimuContext simuCtx) {
+		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler)simuCtx.getDynSimuAlgorithm().getSimuOutputHandler();
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		ProjData projData = (ProjData)appSimuCtx.getProjData();
+		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
+		try {
+			if (!handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord"))
+				return null;
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
+					e.toString() + "\nPlease contact InterPSS support");
+		}
+		setDbSimuCaseId(handler.getCaseId());
+		return handler;
 	}
 }

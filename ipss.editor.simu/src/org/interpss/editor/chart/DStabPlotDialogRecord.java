@@ -53,13 +53,13 @@ public class DStabPlotDialogRecord {
 	public String machId;
 	public String busId;
 	public String stateName;
-	public String recType;
+	public String recType;     // of type ISimuRecManager.REC_TYPE_DStabExcStates
 	
 	/**
-	 * Parse plot dialog selection string, format: stateName(elemId)
+	 * Parse plot dialog selection string, format: stateName(elemId) to a DStabPlotDialogRecord
 	 * 
-	 * @param str
-	 * @return
+	 * @param str stateName(elemId)
+	 * @return a DStabPlotDialogRecord 
 	 */
     public static DStabPlotDialogRecord parseStateSelection(String str) {
     	DStabPlotDialogRecord rec = new DStabPlotDialogRecord();
@@ -114,6 +114,7 @@ public class DStabPlotDialogRecord {
      * According to the selection str set, retrieve data from the DB and create the value list
      *    [<Time, 0.00>, <Machine Angle, 50.0> ....]
      *    [<Time, 0.01>, <Machine Angle, 50.0> ....]
+     * Please note the record in database maybe out of order regarding time    
      * 
      * @param caseId
      * @param strList

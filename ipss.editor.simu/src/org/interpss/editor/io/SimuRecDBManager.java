@@ -155,6 +155,7 @@ public class SimuRecDBManager implements ISimuRecManager {
 			}
 		} catch (SQLException e) {
 			IpssLogger.logErr(e);
+			e.printStackTrace();
 		}		
 		throw new InterpssException("Cannot dbActionSimuRec, see log file for details");
 	}
