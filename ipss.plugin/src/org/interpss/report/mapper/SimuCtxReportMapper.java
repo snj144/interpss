@@ -27,15 +27,15 @@ package org.interpss.report.mapper;
 import java.util.Map;
 
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.mapper.report.AclfResultMapperImpl;
+import org.interpss.mapper.report.AcscResultMapperImpl;
+import org.interpss.mapper.report.MasterfResultMapperImpl;
 import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.aclf.RptAclfBusStyleBean;
 import org.interpss.report.bean.aclf.RptAclfMaxMismatchBean;
 import org.interpss.report.bean.aclf.RptAclfSummaryBusBean;
 import org.interpss.report.bean.acsc.RptAcscVoltAmpsBean;
 import org.interpss.report.bean.acsc.RptFaultSummaryBean;
-import org.interpss.report.mapper.impl.AclfResultMapperImpl;
-import org.interpss.report.mapper.impl.AcscResultMapperImpl;
-import org.interpss.report.mapper.impl.MasterfResultMapperImpl;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.common.msg.IPSSMsgHub;
