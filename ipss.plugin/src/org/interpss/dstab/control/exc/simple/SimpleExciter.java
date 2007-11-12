@@ -45,14 +45,16 @@ public class SimpleExciter extends AnnotateExciter {
      *
      */
     public SimpleExciter() {
-        this("excId", "excName", "InterPSS");
+		this("id", "name", "caty");
+        this.setName("SimpleExcitor");
+        this.setCategory("InterPSS");
     }
     
     /**
      * Constructor
      *
-     * @param id excitor id
-     * @param name excitor name
+     * @param id exciter id
+     * @param name exciter name
      */
     public SimpleExciter(String id, String name, String caty) {
         super(id, name, caty);

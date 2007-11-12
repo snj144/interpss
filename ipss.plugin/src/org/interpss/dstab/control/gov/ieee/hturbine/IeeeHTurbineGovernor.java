@@ -84,7 +84,8 @@ public class IeeeHTurbineGovernor extends AnnotateGovernor {
      *
      */
     public IeeeHTurbineGovernor() {
-        this("govId", "govName", "InterPSS");
+        this.setName("ieeeHTurbineGovernor");
+        this.setCategory("IEEE");
     }
     
     /**

@@ -67,7 +67,9 @@ public class SimpleGovernor extends AnnotateGovernor {
      *
      */
     public SimpleGovernor() {
-        this("govId", "govName", "InterPSS");
+		this("id", "name", "caty");
+        this.setName("SimpleGovernor");
+        this.setCategory("InterPSS");
     }
     
     /**

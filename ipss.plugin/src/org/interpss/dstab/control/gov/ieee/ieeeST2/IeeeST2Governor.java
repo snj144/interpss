@@ -47,10 +47,12 @@ public class IeeeST2Governor extends AbstractGovernor {
 	 * Default Constructor
 	 *
 	 */
+/*
 	public IeeeST2Governor() {
-		this("govId", "IeeeST2Governor", "IEEE-Governor");
+        setName("InterPSS IEEEST2");
+        setCategory("InterPSS");
 	}
-	
+*/	
 	/**
 	 * Constructor
 	 * 
