@@ -3,7 +3,6 @@ package org.interpss;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
-import org.interpss.core.adapter.internal.Bus6384Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.ms_case.MultiCaseStudyTest;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
@@ -17,6 +16,7 @@ import org.interpss.dstab.mach.Eq1MachineCaseTest;
 import org.interpss.dstab.mach.MachineSaturationTest;
 import org.interpss.dstab.mach.RoundRotorMachineTest;
 import org.interpss.dstab.mach.SalientPoleMachineTest;
+import org.interpss.schema.Ieee14BusXmlScriptRunAclfCaseTest;
 import org.interpss.spring.CustomFileAdapterTest;
 import org.interpss.spring.DStabControllerTest;
 import org.interpss.spring.SimuAppCtxTest;
@@ -55,8 +55,11 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	IEEE14Test.class,
 	Bus1824Test.class,
-	Bus6384Test.class,
+//	Bus6384Test.class,
 //	Bus11856Test.class,
+	
+	// run case xml scripts
+	Ieee14BusXmlScriptRunAclfCaseTest.class,
 })
 public class PluginTestSuite {
 }

@@ -52,6 +52,7 @@ import com.interpss.dstab.mach.Machine;
 import com.interpss.simu.SimuContext;
 
 public class DStabTestSetupBase extends BaseTestSetup {
+/*	
 	protected IPSSMsgHub msg;
 
 	public DStabTestSetupBase() { 
@@ -66,7 +67,7 @@ public class DStabTestSetupBase extends BaseTestSetup {
 		mapper.setMsg(msg);
 		mapper.mapping(gFormContainer, simuCtx, GFormContainer.class);
 	}
-	
+*/	
 	public DynamicSimuAlgorithm createDStabAlgo(DStabilityNetwork net) {
 		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
 		algo.setSimuStepSec(0.002);
