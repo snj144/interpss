@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns:schema targetNamespace="http://www.interpss.org/schema" 
+            xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+            xmlns:ipss="http://www.interpss.org/schema" 
+            elementFormDefault="qualified">
+
+    <ns:complexType name="ComplexDataType">
+    	<ns:sequence>
+    		<ns:element name="re" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
+    		<ns:element name="im" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
+    	</ns:sequence>
+    </ns:complexType>
+
+    <ns:complexType name="BusRecType">
+    	<ns:complexContent>
+    		<ns:extension base="ipss:RecordType">
+    			<ns:sequence>
+    				<ns:element name="id" type="ns:string" maxOccurs="1" minOccurs="1">
+    				</ns:element>
+    				<ns:element name="name" type="ns:string" maxOccurs="1" minOccurs="0">
+    				</ns:element>
+    			</ns:sequence>
+
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+    <ns:complexType name="BranchRecType">
+    	<ns:complexContent>
+    		<ns:extension base="ipss:RecordType">
+    			<ns:sequence>
+    				<ns:element name="fromBusId" type="ns:string" maxOccurs="1" minOccurs="1">
+    				</ns:element>
+    				<ns:element name="toBusId" type="ns:string" maxOccurs="1" minOccurs="1">
+    				</ns:element>
+    				<ns:element name="circuitNumber" type="ns:string" maxOccurs="1" minOccurs="0">
+    				</ns:element>
+    				<ns:element name="name" type="ns:string" maxOccurs="1" minOccurs="0">
+    				</ns:element>
+    			</ns:sequence>
+
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+    <ns:simpleType name="UnitDataType">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="PU"></ns:enumeration>
+    		<ns:enumeration value="Percent"></ns:enumeration>
+    		<ns:enumeration value="KW"></ns:enumeration>
+    		<ns:enumeration value="KVar"></ns:enumeration>
+    		<ns:enumeration value="KVA"></ns:enumeration>
+    		<ns:enumeration value="MVA"></ns:enumeration>
+    		<ns:enumeration value="MW"></ns:enumeration>
+    		<ns:enumeration value="MVar"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+    <ns:simpleType name="AclfMethodDataType">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="NR"></ns:enumeration>
+    		<ns:enumeration value="PQ"></ns:enumeration>
+    		<ns:enumeration value="GS"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+    
+	<ns:simpleType name="ChangeActionDataType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="add"></ns:enumeration>
+			<ns:enumeration value="set"></ns:enumeration>
+			<ns:enumeration value="increase"></ns:enumeration>
+			<ns:enumeration value="decrease"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>    
+
+	<ns:complexType name="RecordType">
+		<ns:sequence>
+			<ns:element name="recId" type="ns:ID" maxOccurs="1" minOccurs="1"></ns:element>
+			<ns:element name="recName" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="recDesc" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:simpleType name="RunTaskDataType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="RunAclf"></ns:enumeration>
+			<ns:enumeration value="RunAcsc"></ns:enumeration>
+			<ns:enumeration value="RunDStab"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+</ns:schema>

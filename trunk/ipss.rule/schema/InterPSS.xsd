@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns:schema targetNamespace="http://www.interpss.org/schema" 
+           elementFormDefault="qualified" 
+           xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+           xmlns:ipss="http://www.interpss.org/schema">
+
+	<ns:include schemaLocation="Modification.xsd"></ns:include>
+	<ns:include schemaLocation="RunStudyCase.xsd"></ns:include>
+	
+	<ns:element name="InterPSS" type="ipss:InterPSSType"></ns:element>
+	<ns:complexType name="InterPSSType">
+        <ns:annotation>
+        	<ns:documentation>
+        		Mofication could be defined at root level and at
+        		StudyCase level. Modification at root level applies to
+        		all study cases, while modification at StudyCase level
+        		only applies to the case only.
+        	</ns:documentation>
+        </ns:annotation>
+        <ns:sequence>
+			<ns:element name="runTask" type="ipss:RunTaskDataType"></ns:element>
+			<ns:element name="modification" type="ipss:ModificationType" maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="runStudyCase" type="ipss:RunStudyCaseType" maxOccurs="1" minOccurs="0">
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+</ns:schema>

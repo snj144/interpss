@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns:schema targetNamespace="http://www.interpss.org/schema" 
+           elementFormDefault="qualified" 
+           xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+           xmlns:ipss="http://www.interpss.org/schema">
+
+	<ns:include schemaLocation="Modification.xsd"></ns:include>
+	<ns:complexType name="RunStudyCaseType">
+		<ns:sequence>
+			<ns:element name="runAclfStudyCase" type="ipss:RunAclfStudyCaseType" maxOccurs="unbounded" minOccurs="0">
+			</ns:element>
+			<ns:element name="runAcscStudyCase" type="ipss:RunAcscStudyCaseType" maxOccurs="unbounded" minOccurs="0">
+			</ns:element>
+			<ns:element name="runDStabStudyCase" type="ipss:RunDStabStudyCaseType" maxOccurs="unbounded" minOccurs="0">
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="RunAclfStudyCaseType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RunStudyCaseBaseType">
+				<ns:sequence>
+					<ns:element name="lfMethod" type="ipss:AclfMethodDataType">
+					</ns:element>
+					<ns:element name="maxIterations" type="ns:int"></ns:element>
+					<ns:element name="tolerance" type="ns:double"></ns:element>
+					<ns:element name="toleranceUnit" type="ipss:UnitDataType"></ns:element>
+					<ns:element name="initBusVoltage" type="ns:boolean"></ns:element>
+					<ns:element name="diaplaySummary" type="ns:boolean"></ns:element>
+					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0">
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="RunAcscStudyCaseType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RunStudyCaseBaseType"></ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="RunDStabStudyCaseType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RunStudyCaseBaseType"></ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="RunStudyCaseBaseType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RecordType">
+				<ns:sequence>
+					<ns:element name="modification" type="ipss:ModificationType" maxOccurs="unbounded" minOccurs="0">
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+</ns:schema>
