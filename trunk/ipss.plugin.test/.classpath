@@ -18,10 +18,10 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xerces.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu.test"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
