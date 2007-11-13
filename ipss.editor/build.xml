@@ -218,5 +218,11 @@
     		</fileset>	    	
         </copy>
     </target>	
+
+	<target depends="init" name="copySVN">
+		<copy todir="F:/SVN">
+	    	<fileset dir="C:/SVN" />
+        </copy>
+    </target>	
         
 </project>
