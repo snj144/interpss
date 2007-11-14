@@ -529,14 +529,14 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         misTitleLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         misTitleLabel.setText("Power Mismatch");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(15, 0, 5, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         advancedPanel.add(misTitleLabel, gridBagConstraints);
 
         mismatchLabel.setFont(new java.awt.Font("Dialog", 0, 10));
         mismatchLabel.setText("mismatch");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         advancedPanel.add(mismatchLabel, gridBagConstraints);
 
         stepRunPanel.setLayout(new java.awt.GridBagLayout());
@@ -609,7 +609,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         advancedPanel.add(stepRunPanel, gridBagConstraints);
 
         controlPanel.setLayout(new java.awt.GridBagLayout());
@@ -618,7 +618,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         pvBusLimitLabel.setText("PV Bus Limit Control");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(pvBusLimitLabel, gridBagConstraints);
 
         pvBusLimitComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -626,7 +626,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         pvBusLimitComboBox.setEnabled(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(pvBusLimitComboBox, gridBagConstraints);
 
         pvBusLimitPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
@@ -643,6 +643,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(pvBusLimitPanel, gridBagConstraints);
 
         pqBusLimitLabel.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -650,7 +651,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(pqBusLimitLabel, gridBagConstraints);
 
         pqBusLimitComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -659,7 +660,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(pqBusLimitComboBox, gridBagConstraints);
 
         pqBusLimitButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -675,6 +676,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(pqBusLimitPanel, gridBagConstraints);
 
         remoteQBusLabel.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -682,7 +684,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(remoteQBusLabel, gridBagConstraints);
 
         remoteQBusComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -691,7 +693,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(remoteQBusComboBox, gridBagConstraints);
 
         remoteQBusButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -717,6 +719,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(remoteQBusPanel, gridBagConstraints);
 
         funcLoadLabel.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -724,7 +727,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(funcLoadLabel, gridBagConstraints);
 
         funcLoadComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -733,7 +736,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(funcLoadComboBox, gridBagConstraints);
 
         funcLoadButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -749,6 +752,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(funcLoadPanel, gridBagConstraints);
 
         xfrTapControlLabel.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -756,7 +760,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(xfrTapControlLabel, gridBagConstraints);
 
         xfrTapControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -765,7 +769,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(xfrTapControlComboBox, gridBagConstraints);
 
         xfrTapControlButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -791,6 +795,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(xfrTapControlPanel, gridBagConstraints);
 
         psXfrPControlLabel.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -798,7 +803,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(psXfrPControlLabel, gridBagConstraints);
 
         psXfrPControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -807,7 +812,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(psXfrPControlComboBox, gridBagConstraints);
 
         psXfrPControlButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -834,6 +839,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(psXfrPControlPanel, gridBagConstraints);
 
         interPControlLabel.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -841,7 +847,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 10);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(interPControlLabel, gridBagConstraints);
 
         interPControlComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -850,7 +856,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(5, 10, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(interPControlComboBox, gridBagConstraints);
 
         interPControlButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -876,11 +882,12 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(1, 10, 1, 10);
         controlPanel.add(interPControlPanel, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(0, 20, 10, 20);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         advancedPanel.add(controlPanel, gridBagConstraints);
 
         msgScrollPane.setPreferredSize(new java.awt.Dimension(480, 60));
@@ -894,7 +901,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         advancedPanel.add(msgScrollPane, gridBagConstraints);
 
         runAclfTabbedPane.addTab("Loadflow Lab", advancedPanel);
