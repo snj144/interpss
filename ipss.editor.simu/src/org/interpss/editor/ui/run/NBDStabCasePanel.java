@@ -672,17 +672,6 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
         gridPanel.setEnabled(false);
 
-        org.jdesktop.layout.GroupLayout gridPanelLayout = new org.jdesktop.layout.GroupLayout(gridPanel);
-        gridPanel.setLayout(gridPanelLayout);
-        gridPanelLayout.setHorizontalGroup(
-            gridPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 509, Short.MAX_VALUE)
-        );
-        gridPanelLayout.setVerticalGroup(
-            gridPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 72, Short.MAX_VALUE)
-        );
-
         outputOptPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Output Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
 
         outputFilterCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -736,7 +725,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                     .add(staticLoadPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(gridPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(outputOptPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(106, 106, 106))
+                .add(130, 130, 130))
         );
         simulationPanelLayout.setVerticalGroup(
             simulationPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -753,7 +742,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                 .add(staticLoadPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(gridPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(98, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         detailInfoTabbedPane.addTab("Simulation", simulationPanel);
@@ -862,11 +851,11 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                             .add(removeOurVarButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(addOutVarButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .add(34, 34, 34)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(29, 29, 29)
                 .add(outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(outputVarLabel)
-                    .add(outputVarScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 199, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(65, 65, 65))
+                    .add(outputVarScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 204, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(outputVarLabel))
+                .add(55, 55, 55))
         );
         outputFilterPanelLayout.setVerticalGroup(
             outputFilterPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -915,15 +904,15 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
             outScriptingjPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outScriptingjPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 628, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 652, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         outScriptingjPanelLayout.setVerticalGroup(
             outScriptingjPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outScriptingjPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 447, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 434, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         detailInfoTabbedPane.addTab("Output Scripting", outScriptingjPanel);
@@ -1041,7 +1030,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
             .add(validatePanelLayout.createSequentialGroup()
                 .add(42, 42, 42)
                 .add(setPointChangePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(102, 102, 102))
+                .add(126, 126, 126))
         );
         validatePanelLayout.setVerticalGroup(
             validatePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
