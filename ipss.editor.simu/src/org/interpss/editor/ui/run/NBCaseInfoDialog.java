@@ -341,7 +341,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         caseDataPanel.setLayout(new java.awt.BorderLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(5, 20, 0, 20);
+        gridBagConstraints.insets = new java.awt.Insets(5, 40, 0, 40);
         getContentPane().add(caseDataPanel, gridBagConstraints);
 
         runButton.setFont(new java.awt.Font("Dialog", 0, 12));
