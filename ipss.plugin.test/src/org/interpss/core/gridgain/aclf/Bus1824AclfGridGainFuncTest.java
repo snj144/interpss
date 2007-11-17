@@ -30,7 +30,7 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridFactory;
 import org.interpss.BaseTestSetup;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
-import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
+import org.interpss.core.grid.gridgain.task.AssignJob2NodeTask;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.junit.Test;
 
@@ -57,7 +57,7 @@ public class Bus1824AclfGridGainFuncTest extends BaseTestSetup {
 
         	String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
     		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
-    		IpssAclfNetGridGainTask.RemoteNodeId = nodeId;
+    		AssignJob2NodeTask.RemoteNodeId = nodeId;
 
         	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
         }
