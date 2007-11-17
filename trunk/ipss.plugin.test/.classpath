@@ -13,15 +13,15 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/tsinghua"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/jgraph.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xerces.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu.test"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
-	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
+	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/xml/xbean.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/xml/xerces.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
