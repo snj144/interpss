@@ -27,8 +27,8 @@ package org.interpss.editor.runAct;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
-import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
-import org.interpss.core.grid.gridgain.dstab.IpssDStabGridGainTask;
+import org.interpss.core.grid.gridgain.task.AssignJob2NodeTask;
+import org.interpss.core.grid.gridgain.task.IpssGridGainTask;
 import org.interpss.core.grid.gridgain.util.GridMessageRouter;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
@@ -150,8 +150,8 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		// get the selected remote node
 		Grid grid = IpssGridGainUtil.getDefaultGrid();
 		String nodeId = IpssGridGainUtil.nodeIdLookup(dStabCaseData.getGridNodeName());
-		IpssAclfNetGridGainTask.RemoteNodeId = nodeId;
-		IpssDStabGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
+		AssignJob2NodeTask.RemoteNodeId = nodeId;
+		IpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
 		
     	GridMessageRouter msgRouter = new GridMessageRouter();
     	grid.addMessageListener(msgRouter);
