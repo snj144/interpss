@@ -34,8 +34,7 @@ import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.GridFactoryState;
 import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskTimeoutException;
-import org.interpss.core.grid.gridgain.aclf.IpssAclfNetGridGainTask;
-import org.interpss.core.grid.gridgain.dstab.IpssDStabGridGainTask;
+import org.interpss.core.grid.gridgain.task.AssignJob2NodeTask;
 import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 
 import com.interpss.common.SpringAppContext;
@@ -55,7 +54,7 @@ import com.interpss.dstab.DynamicSimuAlgorithm;
  *    - The result NetworkResult.caseNumber = net.sortNumber before returning to the Master node
  *    - Result net is set back to the StudyCase using caseNumber correlation.     
 
- *   For IpssAclfNetGridGainTask implementation
+ *   For IpssGridGainTask implementation
  *    - An AclfNetwork or AclfAdjNetwork is sent to a remote grid node 
  *    - Result is the same net with Loadflow calculation results     
  */
@@ -88,14 +87,11 @@ public class IpssGridGainUtil {
            		// return a list of results object, for example AclfNetworkResult objects in serialized 
            		// fromat (String) in no particular order
            		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model, timeout).get();
-           	else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm )
-           		// IpssDStabGridGainTask is designed to process the DStabilityNetwork or DynamicSimuAlgorithm model
-           		// return Boolean object 
-           		result = grid.execute(IpssDStabGridGainTask.class.getName(), model, timeout).get();
-           	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork || model instanceof LoadflowAlgorithm)
+           	else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm ||
+           	         model instanceof AclfNetwork || model instanceof AclfAdjNetwork || model instanceof LoadflowAlgorithm)
            		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
            		// return an AclfAdjNetork object in 
-           		result = grid.execute(IpssAclfNetGridGainTask.class.getName(), model, timeout).get();
+           		result = grid.execute(AssignJob2NodeTask.class.getName(), model, timeout).get();
            	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
        	} catch (GridTaskTimeoutException e) {
        		IpssLogger.logErr(e);
