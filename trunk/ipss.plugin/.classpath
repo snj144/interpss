@@ -19,6 +19,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/grid/gridgain-1.5.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

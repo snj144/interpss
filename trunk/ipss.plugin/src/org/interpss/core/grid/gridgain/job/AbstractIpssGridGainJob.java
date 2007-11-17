@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.core.grid.gridgain;
+package org.interpss.core.grid.gridgain.job;
 
 /**
  * An abstract Grid job class, which should be extended by all GridJob implementation  
@@ -33,7 +33,7 @@ import org.gridgain.grid.GridJobAdapter;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridInstanceResource;
 import org.gridgain.grid.resources.GridTaskSessionResource;
-import org.interpss.core.grid.gridgain.dstab.IpssDStabGridGainTask;
+import org.interpss.core.grid.gridgain.task.IpssGridGainTask;
 import org.interpss.core.grid.gridgain.util.IPSSGridMsgHubImpl;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -63,7 +63,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 
 	public IPSSMsgHub getMsgHub() {
 		if (msgHub == null) {
-			String masterNodeId = (String)session.getAttribute(IpssDStabGridGainTask.Token_MasterNodeId);
+			String masterNodeId = (String)session.getAttribute(IpssGridGainTask.Token_MasterNodeId);
 			msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId, TextMessage.TYPE_INFO);
 		}
 		return msgHub;
