@@ -28,7 +28,7 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.core.grid.gridgain.task.AssignJob2NodeTask;
-import org.interpss.core.grid.gridgain.task.IpssGridGainTask;
+import org.interpss.core.grid.gridgain.task.AbstractIpssGridGainTask;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.ui.IOutputTextDialog;
@@ -65,7 +65,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
   				Grid grid = IpssGridGainUtil.getDefaultGrid();
   				String nodeId = IpssGridGainUtil.nodeIdLookup(aclfCaseData.getGridNodeName());
   				AssignJob2NodeTask.RemoteNodeId = nodeId;
-  	    		IpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
+  	    		AbstractIpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
   				try {
   					String str = (String)IpssGridGainUtil.performGridTask(grid,
   									"InterPSS Grid Aclf Calculation", 
