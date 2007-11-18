@@ -54,9 +54,7 @@ import com.interpss.dstab.DynamicSimuAlgorithm;
  *    - The result NetworkResult.caseNumber = net.sortNumber before returning to the Master node
  *    - Result net is set back to the StudyCase using caseNumber correlation.     
 
- *   For IpssGridGainTask implementation
- *    - An AclfNetwork or AclfAdjNetwork is sent to a remote grid node 
- *    - Result is the same net with Loadflow calculation results     
+ *   For AssignJob2NodeTask implementation
  */
 
 public class IpssGridGainUtil {
@@ -89,8 +87,6 @@ public class IpssGridGainUtil {
            		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model, timeout).get();
            	else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm ||
            	         model instanceof AclfNetwork || model instanceof AclfAdjNetwork || model instanceof LoadflowAlgorithm)
-           		// IpssAclfNetGridGainTask is designed to process the AclfAdjNetwork model
-           		// return an AclfAdjNetork object in 
            		result = grid.execute(AssignJob2NodeTask.class.getName(), model, timeout).get();
            	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
        	} catch (GridTaskTimeoutException e) {

@@ -51,62 +51,26 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 
-public class AssignJob2NodeTask extends IpssGridGainTask<Object> {
+public class AssignJob2NodeTask extends AbstractIpssGridGainTask<Object> {
 	private static final long serialVersionUID = 1;
 	
 	// Remote node id, the node will be assigned to perform the Task - One job task
 	public static String RemoteNodeId = "";
 	
 	@Override
-	public Map<? extends GridJob, GridNode> map(List<GridNode> subgrid, Object obj) throws GridException {
+	public Map<? extends GridJob, GridNode> map(List<GridNode> subgrid, Object model) throws GridException {
         // Send master node id to all nodes.
         getSession().setAttribute(Token_MasterNodeId, MasterNodeId);
         
         // serialize the model object
 		String modelStr = "";
 		
-		if (obj instanceof DynamicSimuAlgorithm) {
-	        getSession().setAttribute(Token_TaskType, TaskType_DStab_Job2Node);
-
-	        DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)obj; 
-			
-			// serialize the network object
-			DStabilityNetwork net = algo.getDStabNet(); 
-			modelStr = SerializeEMFObjectUtil.saveModel(net);
-
-			String lfAlgoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo.getAclfAlgorithm());
-	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
-			
-			String algoStr = IpssGridUtilFunc.serializeDStabAlgorithm(algo);
-	        getSession().setAttribute(Token_DStabAlgo+net.getId(), algoStr);
+		if (model instanceof DynamicSimuAlgorithm || model instanceof DStabilityNetwork) {
+			modelStr = serializeDStabModel(model);
 		}
-		else if (obj instanceof DStabilityNetwork) {
-	        getSession().setAttribute(Token_TaskType, TaskType_DStab_Job2Node);
-			DStabilityNetwork net = (DStabilityNetwork)obj; 
-			modelStr = SerializeEMFObjectUtil.saveModel(net);
-		}
-
-		else if (obj instanceof LoadflowAlgorithm) {
-	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
-			AclfNetwork net = null;
-			LoadflowAlgorithm algo = (LoadflowAlgorithm)obj;
-			net = algo.getAclfNetwork();
-
-			String algoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo);
-	        getSession().setAttribute(Token_AclfAlgo+net.getId(), algoStr);
-			modelStr = SerializeEMFObjectUtil.saveModel(net);
-		}
-		else if (obj instanceof AclfAdjNetwork) {
-	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
-			AclfAdjNetwork net = null;
-			net = (AclfAdjNetwork)obj;
-			modelStr = SerializeEMFObjectUtil.saveModel(net);
-		}
-		else {
-	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
-			AclfNetwork net = null;
-			net = (AclfNetwork)obj;
-			modelStr = SerializeEMFObjectUtil.saveModel(net);
+		else if (model instanceof LoadflowAlgorithm || model instanceof AclfAdjNetwork ||
+				 model instanceof AclfNetwork ) {
+			modelStr = serializeAclfModel(model);
 		}
 
 		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
@@ -129,6 +93,58 @@ public class AssignJob2NodeTask extends IpssGridGainTask<Object> {
 		// for Grid DStab the return is a Boolean object
 		return results.get(0).getData();
 	}
+
+	private String serializeAclfModel(Object model) throws GridException {
+		String modelStr = "";
+		if (model instanceof LoadflowAlgorithm) {
+	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
+			AclfNetwork net = null;
+			LoadflowAlgorithm algo = (LoadflowAlgorithm)model;
+			net = algo.getAclfNetwork();
+
+			String algoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo);
+	        getSession().setAttribute(Token_AclfAlgo+net.getId(), algoStr);
+			modelStr = SerializeEMFObjectUtil.saveModel(net);
+		}
+		else if (model instanceof AclfAdjNetwork) {
+	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
+			AclfAdjNetwork net = null;
+			net = (AclfAdjNetwork)model;
+			modelStr = SerializeEMFObjectUtil.saveModel(net);
+		}
+		else {
+	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
+			AclfNetwork net = null;
+			net = (AclfNetwork)model;
+			modelStr = SerializeEMFObjectUtil.saveModel(net);
+		}
+		return modelStr;
+	}
+	
+	private String serializeDStabModel(Object model) throws GridException {
+		String modelStr = "";
+		if (model instanceof DynamicSimuAlgorithm) {
+	        getSession().setAttribute(Token_TaskType, TaskType_DStab_Job2Node);
+
+	        DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)model; 
+			
+			// serialize the network object
+			DStabilityNetwork net = algo.getDStabNet(); 
+			modelStr = SerializeEMFObjectUtil.saveModel(net);
+
+			String lfAlgoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo.getAclfAlgorithm());
+	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
+			
+			String algoStr = IpssGridUtilFunc.serializeDStabAlgorithm(algo);
+	        getSession().setAttribute(Token_DStabAlgo+net.getId(), algoStr);
+		}
+		else if (model instanceof DStabilityNetwork) {
+	        getSession().setAttribute(Token_TaskType, TaskType_DStab_Job2Node);
+			DStabilityNetwork net = (DStabilityNetwork)model; 
+			modelStr = SerializeEMFObjectUtil.saveModel(net);
+		}
+		return modelStr;
+	}
 	
 	/**
 	 * Using the remoteNodeId to locate the remote node to distribute grid jobs. If RemoteNodeId == null
@@ -138,7 +154,7 @@ public class AssignJob2NodeTask extends IpssGridGainTask<Object> {
 	 * @return the select remote grid node
 	 * @throws GridException
 	 */
-	public GridNode getRemoteNode(List<GridNode> subgrid) throws GridException {
+	private GridNode getRemoteNode(List<GridNode> subgrid) throws GridException {
 		GridNode node = null;
 		if (RemoteNodeId == null)
 			node = subgrid.get(0);
