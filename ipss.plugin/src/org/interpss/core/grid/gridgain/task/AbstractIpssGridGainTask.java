@@ -37,7 +37,7 @@ import org.gridgain.grid.GridTaskAdapter;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridTaskSessionResource;
 
-public abstract class IpssGridGainTask<T> extends GridTaskAdapter<T> {
+public abstract class AbstractIpssGridGainTask<T> extends GridTaskAdapter<T> {
 	private static final long serialVersionUID = 1;
 	
 	public static final String Token_TaskType              = "Gridgain_TaskType";
