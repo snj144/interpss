@@ -42,7 +42,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.util.sample.SampleCases;
 
-public class Sample5BusAclfTest extends BaseTestSetup {
+public class Sample5BusAclfGridTest extends BaseTestSetup {
 	@Test
 	public void aclfSampleCaseTest() throws InterpssException, GridException {
 		// step-1: define and load a EMF network object
