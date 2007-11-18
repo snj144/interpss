@@ -35,7 +35,7 @@ import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.GridMessageListener;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.core.grid.gridgain.task.AssignJob2NodeTask;
-import org.interpss.core.grid.gridgain.task.IpssGridGainTask;
+import org.interpss.core.grid.gridgain.task.AbstractIpssGridGainTask;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.junit.Test;
 
@@ -54,7 +54,6 @@ public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
 		//System.out.println(net.net2String());
 		
-    	String str;
     	GridFactory.start();
         try {
         	Grid grid = GridFactory.getGrid();
@@ -73,7 +72,7 @@ public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
     			assertTrue(nodeId != null);
     		
     		AssignJob2NodeTask.RemoteNodeId = nodeId;
-    		IpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
+    		AbstractIpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
 
         	Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
         	assertTrue(rtn.booleanValue());
