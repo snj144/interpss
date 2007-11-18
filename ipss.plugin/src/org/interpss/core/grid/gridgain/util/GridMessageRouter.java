@@ -1,5 +1,5 @@
  /*
-  * @(#)DStab_5BusGridGainTest.java   
+  * @(#)GridMessageRouter.java   
   *
   * Copyright (C) 2007 www.interpss.org
   *
@@ -36,21 +36,51 @@ import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.datatype.DStabSimuAction;
 
+/*
+ * During the simulation process, messages are sent from remote node to the master node as
+ * a String starting with a msg type token. Depending on msg type, the msg will be routed 
+ * to appropriate msg handler to process 
+ * 
+ */
+
 public class GridMessageRouter implements GridMessageListener {
+	/*
+	 * regular msg handler
+	 */
 	private IPSSMsgHub msgHub = null;
-	IpssMsgListener dstabOutputHandler = null;
 	
+	/*
+	 * DStab simulation msg handler 
+	 */
+	private IpssMsgListener dstabOutputHandler = null;
+	
+	
+	/**
+	 * Default constructor
+	 */
 	public GridMessageRouter() {
 	}
 
+	/**
+	 * Set the regular message handler for Info, Status, Warn, Error msg from remote
+	 * nodes
+	 * 
+	 * @param msg
+	 */
 	public void setIPSSMsgHub(IPSSMsgHub msg) {
 		this.msgHub = msg;
 	}
 	
+	/**
+	 * Set DStab message handler
+	 * 
+	 * @param msg
+	 */
 	public void setIDStabSimuDatabaseOutputHandler(IpssMsgListener msg) {
 		this.dstabOutputHandler = msg;
 	}
 
+	@Override
 	public void onMessage(UUID arg0, Serializable arg1) {
 		String msgStr = (String)arg1;
 		if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_DStabSimuMsg)) {

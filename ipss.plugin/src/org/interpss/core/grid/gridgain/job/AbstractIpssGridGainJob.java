@@ -61,7 +61,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 		super(arg);
 	}
 
-	public IPSSMsgHub getMsgHub() {
+	protected IPSSMsgHub getMsgHub() {
 		if (msgHub == null) {
 			String masterNodeId = (String)session.getAttribute(AbstractIpssGridGainTask.Token_MasterNodeId);
 			msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId, TextMessage.TYPE_INFO);
@@ -69,15 +69,15 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 		return msgHub;
 	}
 	
-    public GridTaskSession getSession() {
+    protected GridTaskSession getSession() {
     	return session;
     }
 
-    public Grid getGrid() {
+    protected Grid getGrid() {
     	return grid;
     }
     
-    public void initEMFPackage() {
+    protected void initEMFPackage() {
     	if (corePackage == null)
     		corePackage = CorePackage.eINSTANCE;
     	if (msCasePackage == null)

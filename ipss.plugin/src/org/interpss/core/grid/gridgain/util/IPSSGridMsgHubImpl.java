@@ -1,3 +1,27 @@
+ /*
+  * @(#)IPSSGridMsgHubImpl.java   
+  *
+  * Copyright (C) 2007 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 10/15/2007
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss.core.grid.gridgain.util;
 
 import java.util.EventListener;
@@ -16,9 +40,9 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.datatype.DStabSimuAction;
 
 /**
- * Remote node messages are re-send to the master node using this class. 
+ * Grid InterPSS message hub implementation. Grid messages are sent to the master node for 
+ * processing. 
  * 
- * @author mzhou
  */
 public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	public static final String Token_RemoteMsg = "[RemoteMessage]";
@@ -39,8 +63,8 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	/**
 	 * Constructor
 	 * 
-	 * @param grid
-	 * @param masterNodeId
+	 * @param grid Gridgain grid object
+	 * @param masterNodeId the master node id
 	 * @param level logger level
 	 */
 	public IPSSGridMsgHubImpl(Grid grid, String masterNodeId, byte level) {

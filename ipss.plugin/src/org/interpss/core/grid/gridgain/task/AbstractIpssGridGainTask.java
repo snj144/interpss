@@ -1,5 +1,5 @@
  /*
-  * @(#)IpssGridGainTask.java   
+  * @(#)AbstractIpssGridGainTask.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -55,7 +55,7 @@ public abstract class AbstractIpssGridGainTask<T> extends GridTaskAdapter<T> {
 	// Master node id
 	public static String MasterNodeId = "";
 
-	public GridTaskSession getSession() {
+	protected GridTaskSession getSession() {
 		return this.session;
 	}
 }
