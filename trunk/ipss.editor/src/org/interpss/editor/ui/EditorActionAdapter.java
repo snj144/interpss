@@ -54,6 +54,8 @@ import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreSpringAppContext;
+import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
 
@@ -70,7 +72,7 @@ public class EditorActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
+		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 
 		try {
 			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Aclf);
@@ -98,8 +100,8 @@ public class EditorActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
-		simuCtx.setSimpleFaultAlgorithm(SimuSpringAppContext.getSimpleFaultAlgorithm());
+		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
+		simuCtx.setSimpleFaultAlgorithm(CoreSpringAppContext.getSimpleFaultAlgorithm());
  
 		try {
 			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Acsc);
@@ -127,8 +129,8 @@ public class EditorActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
-		simuCtx.setDynSimuAlgorithm(SimuSpringAppContext.getDynamicSimuAlgorithm());
+		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
+		simuCtx.setDynSimuAlgorithm(DStabSpringAppContext.getDynamicSimuAlgorithm());
 
 		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_DStab);
     	IpssTextFile file = ProjectScriptFileUtil.getProjectScriptFile(doc, ProjectScriptFileUtil.DStabOutputScriptFilename);
