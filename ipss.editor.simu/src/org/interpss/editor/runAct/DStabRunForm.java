@@ -45,6 +45,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
@@ -54,14 +55,14 @@ import com.interpss.simu.SimuSpringAppContext;
 
 public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	private int dbSimuCaseId = 0;
-	
-	public DStabRunForm() {}
-
 	private AclfCaseData aclfCaseData = null;
-
 	private DStabCaseData dStabCaseData = null;
 	
+	public DStabRunForm() {}
+	
 	/**
+	 * get the DStabCaseData object
+	 * 
 	 * @return the dStabCaseData
 	 */
 	public DStabCaseData getDStabCaseData() {
@@ -69,13 +70,20 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	}
 
 	/**
+	 * set the DStabCaseData object
+	 * 
 	 * @param stabCaseData the dStabCaseData to set
 	 */
 	public void setDStabCaseData(DStabCaseData stabCaseData) {
 		dStabCaseData = stabCaseData;
 	}
 	
-	public void displayResult(SimuContext simuCtx) {
+	/**
+	 * Display Aclf summary if selected by the user
+	 * 
+	 * @param simuCtx
+	 */
+	public void displayAclfSummaryResult(SimuContext simuCtx) {
 	  	if (getAclfCaseData().getShowSummary()) {
 	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 	  		dialog.display(simuCtx.getDynSimuAlgorithm());
@@ -83,10 +91,10 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	}
 	
 	/**
+	 * Run DStab simulation
 	 * 
-	 * @param dstabNet
+	 * @param simuCtx
 	 * @param msg
-	 * @return case id
 	 */
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
 		if (!preprocessing(simuCtx, msg))
@@ -112,7 +120,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 
 		IDStabSimuDatabaseOutputHandler scriptHandler = null;
 		if (dStabCaseData.isOutputScripting()) {
-			scriptHandler = (IDStabSimuDatabaseOutputHandler)SimuSpringAppContext.getDStabScriptOutputHandler();
+			scriptHandler = (IDStabSimuDatabaseOutputHandler)DStabSpringAppContext.getDStabScriptOutputHandler();
 			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
 			try {
 				if (!scriptHandler.init(dStabCaseData.getOutputScriptFilename(), simuCtx.getDStabilityNet()))
@@ -126,7 +134,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		simuCtx.getDStabilityNet().setNetChangeListener(CoreSpringAppContext.getNetChangeHandler());
 		
 	  	if (simuCtx.getDynSimuAlgorithm().initialization(msg)) {
-	  		displayResult(simuCtx);
+	  		displayAclfSummaryResult(simuCtx);
 		  	simuCtx.getDynSimuAlgorithm().performSimulation(msg);
 		}
 
@@ -138,10 +146,10 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	}
 	
 	/**
+	 * Run DStab grid simulation
 	 * 
-	 * @param dstabNet
+	 * @param simuCtx
 	 * @param msg
-	 * @return case id
 	 */
 	public boolean runGridCase(SimuContext simuCtx, IPSSMsgHub msg) {
 		if (!preprocessing(simuCtx, msg))
@@ -161,6 +169,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		if (dstabDbHandler == null)
 			return false;
     	msgRouter.setIDStabSimuDatabaseOutputHandler(dstabDbHandler);
+		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(dstabDbHandler);
 
 		try {
 			long timeout = 0;

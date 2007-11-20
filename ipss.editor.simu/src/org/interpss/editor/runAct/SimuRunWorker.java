@@ -96,7 +96,7 @@ public class SimuRunWorker extends Thread {
 			
 			appStatus.busyStop("Run AC Short Circuit Analysis finished");
 			
-			SimuAppSpringAppContext.getAcscRunForm().displayResult(simuCtx);
+			SimuAppSpringAppContext.getAcscRunForm().displayAclfSummaryResult(simuCtx);
 			if (graph != null) {
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
 			}
@@ -127,7 +127,7 @@ public class SimuRunWorker extends Thread {
 							CoreScriptUtilFunc.RunCaseScriptingPackageName+"/"+classname, javacode);
 					// run the custom scripts
 					if (runner.runCase(simuCtx, simuCtx.getMsgHub()))
-						runner.displayResult(simuCtx);
+						runner.displayAclfSummaryResult(simuCtx);
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
 				}			

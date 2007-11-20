@@ -67,7 +67,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 	  	return true;
 	}	
 	
-	public void displayResult(SimuContext simuCtx) {
+	public void displayAclfSummaryResult(SimuContext simuCtx) {
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Short Circuit Analysis Result Summary");
   		dialog.display(AcscOut.faultResult2String(simuCtx.getAcscFaultNet()));
 	}
