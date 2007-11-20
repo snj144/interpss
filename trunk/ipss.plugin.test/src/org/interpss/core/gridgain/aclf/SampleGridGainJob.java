@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import org.gridgain.grid.resources.GridLocalNodeIdResource;
-import org.interpss.core.grid.gridgain.job.AbstractIpssGridGainJob;
+import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.util.IpssGridUtilFunc;
 import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 
@@ -63,4 +63,8 @@ public class SampleGridGainJob extends AbstractIpssGridGainJob {
 		return IpssGridUtilFunc.serializeGridAclfResult(nodeId.toString(), net);
     }
 
+	@Override
+	protected Serializable performGridJob(String modelStr) {
+		return null;
+	}
 }
