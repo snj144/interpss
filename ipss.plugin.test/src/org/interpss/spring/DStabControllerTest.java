@@ -24,7 +24,7 @@
 
 package org.interpss.spring;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -32,21 +32,22 @@ import org.interpss.BaseTestSetup;
 import org.junit.Test;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.simu.SimuSpringAppContext;
+import com.interpss.dstab.DStabSpringAppContext;
+import com.interpss.dstab.mach.Controller;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
 
 public class DStabControllerTest extends BaseTestSetup {
 	@Test
 	public void testSimuControllerList() {
-		List excList = SimuSpringAppContext.getControllerList(Constants.SID_ExciterList);
+		List<Controller> excList = DStabSpringAppContext.getControllerList(Constants.SID_ExciterList);
 		assertTrue(excList.size() > 0);
 		assertTrue(SimuSpringAppCtxUtil.getExciter("Simple Exciter") != null);
 		
-		List govList = SimuSpringAppContext.getControllerList(Constants.SID_GovernorList);
+		List<Controller> govList = DStabSpringAppContext.getControllerList(Constants.SID_GovernorList);
 		assertTrue(govList.size() > 0);
 		assertTrue(SimuSpringAppCtxUtil.getGovernor("Simple Governor") != null);
 
-		List pssList = SimuSpringAppContext.getControllerList(Constants.SID_StabilizerList);
+		List<Controller> pssList = DStabSpringAppContext.getControllerList(Constants.SID_StabilizerList);
 		assertTrue(pssList.size() > 0);
 		assertTrue(SimuSpringAppCtxUtil.getStabilizer("Simple Stabilizer") != null);
 	}
