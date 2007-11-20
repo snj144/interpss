@@ -89,7 +89,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
   		return converge;
   	}
   	
-	public void displayResult(SimuContext simuCtx) {
+	public void displayAclfSummaryResult(SimuContext simuCtx) {
 	  	if (getAclfCaseData().getShowSummary()) {
 	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 	  		dialog.display(simuCtx.getAclfAdjNet());
@@ -134,7 +134,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
   	  	boolean converge = runLoadflow_internal(aclfAdjNet, simuCtx.getLoadflowAlgorithm(), simuCtx.getMsgHub());
 	  	if (!converge)
 	  		simuCtx.getMsgHub().sendWarnMsg("Loadflow does not converge!");
-	  	displayResult(simuCtx);
+	  	displayAclfSummaryResult(simuCtx);
   	  	return converge;
   	}
   	
