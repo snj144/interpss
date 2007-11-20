@@ -38,9 +38,9 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.datatype.DStabSimuAction;
-import com.interpss.dstab.util.SimuOutputHandlerAdapter;
+import com.interpss.dstab.util.AbstractSimuOutputHandler;
 
-public class ScriptSimuOutputHandler extends SimuOutputHandlerAdapter {
+public class ScriptSimuOutputHandler extends AbstractSimuOutputHandler {
 	private IPSSMsgHub msg = null;
 	private DStabilityNetwork net = null;
 	private AnnotateDStabOutputScripting anOutput = null;

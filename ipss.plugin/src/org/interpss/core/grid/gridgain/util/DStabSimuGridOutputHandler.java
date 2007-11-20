@@ -25,22 +25,20 @@
 package org.interpss.core.grid.gridgain.util;
 
 import java.util.Hashtable;
-import java.util.List;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.datatype.DStabSimuAction;
+import com.interpss.dstab.util.AbstractSimuOutputHandler;
 import com.interpss.dstab.util.DStabOutFunc;
-import com.interpss.dstab.util.IDStabSimuOutputHandler;
 
 /**
  * DStab simulation result messages are re-sent to the master node
  */
 
-public class DStabSimuGridOutputHandler implements IDStabSimuOutputHandler {
+public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 	/**
 	 * IPSSGridMsgHubImpl, a message router which routes message to the master node
 	 */
@@ -85,28 +83,5 @@ public class DStabSimuGridOutputHandler implements IDStabSimuOutputHandler {
 			return false;
 		}
 	   return true;
-	}
-
-	@Override
-	public List<String> getOutputVarIdList() {
-		return null;
-	}
-
-	@Override
-	public boolean isOutputFilter() {
-		return false;
-	}
-
-	@Override
-	public void setOutputFilter(boolean b) {
-	}
-
-	@Override
-	public void setOutputVarIdList(List<String> list) {
-	}
-
-	@Override
-	public void onMsgEvent(IpssMessage e) {
-		throw new InterpssRuntimeException("Programming error, DStabSimuGridOutputHandler.onMsgEvent() not implemnted");
 	}
 }

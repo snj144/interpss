@@ -64,7 +64,6 @@ public class AssignJob2NodeTask extends AbstractIpssGridGainTask<Object> {
         
         // serialize the model object
 		String modelStr = "";
-		
 		if (model instanceof DynamicSimuAlgorithm || model instanceof DStabilityNetwork) {
 			modelStr = serializeDStabModel(model);
 		}
@@ -96,26 +95,21 @@ public class AssignJob2NodeTask extends AbstractIpssGridGainTask<Object> {
 
 	private String serializeAclfModel(Object model) throws GridException {
 		String modelStr = "";
+        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
 		if (model instanceof LoadflowAlgorithm) {
-	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
-			AclfNetwork net = null;
 			LoadflowAlgorithm algo = (LoadflowAlgorithm)model;
-			net = algo.getAclfNetwork();
+			AclfNetwork net = algo.getAclfNetwork();
 
-			String algoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo);
-	        getSession().setAttribute(Token_AclfAlgo+net.getId(), algoStr);
+			String lfAlgoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo);
+	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
 		else if (model instanceof AclfAdjNetwork) {
-	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
-			AclfAdjNetwork net = null;
-			net = (AclfAdjNetwork)model;
+			AclfAdjNetwork net = (AclfAdjNetwork)model;
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
 		else {
-	        getSession().setAttribute(Token_TaskType, TaskType_Aclf_Job2Node);
-			AclfNetwork net = null;
-			net = (AclfNetwork)model;
+			AclfNetwork net = (AclfNetwork)model;
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
 		return modelStr;
@@ -123,9 +117,8 @@ public class AssignJob2NodeTask extends AbstractIpssGridGainTask<Object> {
 	
 	private String serializeDStabModel(Object model) throws GridException {
 		String modelStr = "";
+        getSession().setAttribute(Token_TaskType, TaskType_DStab_Job2Node);
 		if (model instanceof DynamicSimuAlgorithm) {
-	        getSession().setAttribute(Token_TaskType, TaskType_DStab_Job2Node);
-
 	        DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)model; 
 			
 			// serialize the network object
@@ -135,11 +128,10 @@ public class AssignJob2NodeTask extends AbstractIpssGridGainTask<Object> {
 			String lfAlgoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo.getAclfAlgorithm());
 	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
 			
-			String algoStr = IpssGridUtilFunc.serializeDStabAlgorithm(algo);
-	        getSession().setAttribute(Token_DStabAlgo+net.getId(), algoStr);
+			String dstabAlgoStr = IpssGridUtilFunc.serializeDStabAlgorithm(algo);
+	        getSession().setAttribute(Token_DStabAlgo+net.getId(), dstabAlgoStr);
 		}
 		else if (model instanceof DStabilityNetwork) {
-	        getSession().setAttribute(Token_TaskType, TaskType_DStab_Job2Node);
 			DStabilityNetwork net = (DStabilityNetwork)model; 
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
