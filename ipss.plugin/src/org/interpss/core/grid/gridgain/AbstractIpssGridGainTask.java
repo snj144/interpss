@@ -26,7 +26,7 @@
  *  This Class is for performing grid computing on the GridMultiStudyCase model 
  */
 
-package org.interpss.core.grid.gridgain.task;
+package org.interpss.core.grid.gridgain;
 
 /**
  *  An abstract GridTask for implement one node per task. The job will be assigned to
@@ -40,9 +40,9 @@ import org.gridgain.grid.resources.GridTaskSessionResource;
 public abstract class AbstractIpssGridGainTask<T> extends GridTaskAdapter<T> {
 	private static final long serialVersionUID = 1;
 	
-	public static final String Token_TaskType              = "Gridgain_TaskType";
-	public static final String TaskType_Aclf_Job2Node      = "Aclf_Job2Node";
-	public static final String TaskType_DStab_Job2Node     = "DStab_Job2Node";
+//	public static final String Token_TaskType              = "Gridgain_TaskType";
+//	public static final String TaskType_Aclf_Job2Node      = "Aclf_Job2Node";
+//	public static final String TaskType_DStab_Job2Node     = "DStab_Job2Node";
 
 	public static final String Token_MasterNodeId = "MasterNodeId";
 	public static final String Token_DStabAlgo    = "DStabAlgorithm";

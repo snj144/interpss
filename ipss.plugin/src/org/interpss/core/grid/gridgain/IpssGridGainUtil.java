@@ -34,7 +34,8 @@ import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.GridFactoryState;
 import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskTimeoutException;
-import org.interpss.core.grid.gridgain.task.AssignJob2NodeTask;
+import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeAclfTask;
+import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 
 import com.interpss.common.SpringAppContext;
@@ -85,9 +86,11 @@ public class IpssGridGainUtil {
            		// return a list of results object, for example AclfNetworkResult objects in serialized 
            		// fromat (String) in no particular order
            		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model, timeout).get();
-           	else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm ||
-           	         model instanceof AclfNetwork || model instanceof AclfAdjNetwork || model instanceof LoadflowAlgorithm)
-           		result = grid.execute(AssignJob2NodeTask.class.getName(), model, timeout).get();
+           	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork || 
+           			 model instanceof LoadflowAlgorithm)
+           		result = grid.execute(AssignJob2NodeAclfTask.class.getName(), model, timeout).get();
+           	else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm)
+          		result = grid.execute(AssignJob2NodeDStabTask.class.getName(), model, timeout).get();
            	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
        	} catch (GridTaskTimeoutException e) {
        		IpssLogger.logErr(e);

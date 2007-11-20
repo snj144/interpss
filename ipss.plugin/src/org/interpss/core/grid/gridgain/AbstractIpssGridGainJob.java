@@ -22,18 +22,20 @@
   *
   */
 
-package org.interpss.core.grid.gridgain.job;
+package org.interpss.core.grid.gridgain;
 
 /**
  * An abstract Grid job class, which should be extended by all GridJob implementation  
  */
 
+import java.io.Serializable;
+
 import org.gridgain.grid.Grid;
+import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJobAdapter;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridInstanceResource;
 import org.gridgain.grid.resources.GridTaskSessionResource;
-import org.interpss.core.grid.gridgain.task.AbstractIpssGridGainTask;
 import org.interpss.core.grid.gridgain.util.IPSSGridMsgHubImpl;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -85,4 +87,13 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
     	if (dstabPackage == null)
     		dstabPackage = DstabPackage.eINSTANCE;
 	}
+    
+	@Override
+	public Serializable execute() throws GridException {
+    	initEMFPackage();
+		String modelStr = getArgument();
+	    return performGridJob(modelStr);
+    }
+
+	protected abstract Serializable performGridJob(String modelStr);
 }
