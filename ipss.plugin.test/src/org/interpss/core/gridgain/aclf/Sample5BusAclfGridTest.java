@@ -31,7 +31,7 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
 import org.interpss.BaseTestSetup;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
-import org.interpss.core.grid.gridgain.task.AssignJob2NodeTask;
+import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeDStabTask;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -66,7 +66,7 @@ public class Sample5BusAclfGridTest extends BaseTestSetup {
     		if (list.length >= 2)  // there is remote node in this case
     			assertTrue(nodeId != null);
     		
-    		AssignJob2NodeTask.RemoteNodeId = nodeId;
+    		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
 
         	str = (String)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", algo, 0);
         }

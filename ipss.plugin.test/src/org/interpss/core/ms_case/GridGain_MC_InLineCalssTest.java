@@ -33,8 +33,8 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.resources.GridLocalNodeIdResource;
 import org.interpss.BaseTestSetup;
+import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
-import org.interpss.core.grid.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.util.IpssGridUtilFunc;
 import org.interpss.core.ms_case.aclf.AbstractAclfStudyCaseRunner;
 import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
@@ -175,6 +175,11 @@ public class GridGain_MC_InLineCalssTest extends BaseTestSetup {
 					// serialize the Aclf result to a string
 					return IpssGridUtilFunc.serializeGridAclfResult(nodeId.toString(), net);
 			    }
+
+			    @Override
+				protected Serializable performGridJob(String modelStr) {
+					return null;
+				}
 			});
 		}
 

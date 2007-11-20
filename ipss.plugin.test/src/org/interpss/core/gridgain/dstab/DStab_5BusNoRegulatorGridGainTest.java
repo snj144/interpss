@@ -33,9 +33,9 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.GridMessageListener;
+import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
 import org.interpss.core.grid.gridgain.IpssGridGainUtil;
-import org.interpss.core.grid.gridgain.task.AssignJob2NodeTask;
-import org.interpss.core.grid.gridgain.task.AbstractIpssGridGainTask;
+import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.junit.Test;
 
@@ -71,7 +71,7 @@ public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
     		if (list.length >= 2)  // there is remote node in this case
     			assertTrue(nodeId != null);
     		
-    		AssignJob2NodeTask.RemoteNodeId = nodeId;
+    		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
     		AbstractIpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
 
         	Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
