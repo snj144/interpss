@@ -27,6 +27,7 @@ package org.interpss.test.user.core;
 import org.interpss.test.user.IpssFixture;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.aclf.CapacitorBusAdapter;
 import com.interpss.core.aclf.GenBusAdapter;
 import com.interpss.core.aclf.LoadBusAdapter;
@@ -35,7 +36,6 @@ import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.util.outfunc.AclfOut;
-import com.interpss.simu.SimuSpringAppContext;
 
 public class AclfFixture extends IpssFixture {
 	private double tolerance = 0.0001;
@@ -48,7 +48,7 @@ public class AclfFixture extends IpssFixture {
 	 */
 
 	public void runAcLoadFlow() {
-		simuCtx.setLoadflowAlgorithm(SimuSpringAppContext.getLoadflowAlgorithm());
+		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 		simuCtx.getLoadflowAlgorithm().setTolerance(tolerance, UnitType.PU, net.getBaseKva());
 		simuCtx.getLoadflowAlgorithm().setMaxIterations(maxIterations);
