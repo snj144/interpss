@@ -30,6 +30,7 @@ import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.acsc.AcscBranchFault;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
@@ -49,7 +50,7 @@ public class AcscFixture extends AclfBuildFixture {
 	}
 	
 	public void runAcShortCircuit() {
-		simuCtx.setSimpleFaultAlgorithm(SimuSpringAppContext.getSimpleFaultAlgorithm());
+		simuCtx.setSimpleFaultAlgorithm(CoreSpringAppContext.getSimpleFaultAlgorithm());
 	  	if (acscFault instanceof AcscBranchFault)
 	  		simuCtx.getSimpleFaultAlgorithm().calculateBranchFault((AcscBranchFault)acscFault, msg);		
 	  	else
