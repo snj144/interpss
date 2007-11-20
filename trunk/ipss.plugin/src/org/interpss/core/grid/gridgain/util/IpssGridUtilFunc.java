@@ -55,9 +55,9 @@ public class IpssGridUtilFunc {
      */
     public static String serializeAclfAlgorithm(LoadflowAlgorithm algo) {
 		AclfNetwork net = algo.getAclfNetwork();
-		algo.setAclfNetwork(null);
+		//algo.setAclfNetwork(null);  the attrib has made transient
 		AclfAdjustAlgorithm adjAlgo = algo.getAdjAlgorithm();
-		algo.setAdjAlgorithm(null);
+		//algo.setAdjAlgorithm(null); AdjAlgo is serialized
 		String algoStr = SerializeEMFObjectUtil.saveModel(algo);
 		algo.setAclfNetwork(net);
 		algo.setAdjAlgorithm(adjAlgo);
@@ -71,17 +71,16 @@ public class IpssGridUtilFunc {
      * @return
      */
     public static String serializeDStabAlgorithm(DynamicSimuAlgorithm algo) {
-		DStabilityNetwork net = algo.getDStabNet();
-		algo.setDStabNet(null);
-		LoadflowAlgorithm lfAlgo = algo.getAclfAlgorithm();
-		algo.setAclfAlgorithm(null);
-		algo.setDynamicEventHandler(null);
-		algo.getDEventList().clear();
-		algo.setScriptOutputHandler(null);
-		//algo.setSimuOutputHandler(null);
+		//DStabilityNetwork net = algo.getDStabNet();
+		//algo.setDStabNet(null);
+		//LoadflowAlgorithm lfAlgo = algo.getAclfAlgorithm();
+		//algo.setAclfAlgorithm(null);
+		//algo.setDynamicEventHandler(null);
+		//algo.setScriptOutputHandler(null);
+		algo.setSimuOutputHandler(null);
 		String algoStr = SerializeEMFObjectUtil.saveModel(algo);
-        algo.setAclfAlgorithm(lfAlgo);
-        algo.setDStabNet(net);
+        //algo.setAclfAlgorithm(lfAlgo);
+        //algo.setDStabNet(net);
         return algoStr;
     }
 }
