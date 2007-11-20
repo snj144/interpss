@@ -78,7 +78,7 @@ public class IpssGridUtilFunc {
 		algo.setDynamicEventHandler(null);
 		algo.getDEventList().clear();
 		algo.setScriptOutputHandler(null);
-		algo.setSimuOutputHandler(null);
+		//algo.setSimuOutputHandler(null);
 		String algoStr = SerializeEMFObjectUtil.saveModel(algo);
         algo.setAclfAlgorithm(lfAlgo);
         algo.setDStabNet(net);

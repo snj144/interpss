@@ -74,37 +74,40 @@ public class IpssGridGainJob extends AbstractIpssGridGainJob {
 		
 		// get serialized algo string from the task session
 		String algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_DStabAlgo+net.getId());
-		//System.out.println(algoStr);
-		DynamicSimuAlgorithm algo;
+		System.out.println(algoStr);
+		DynamicSimuAlgorithm dstabAlgo;
 		if (algoStr != null) {
 			// set algo attributes. These attributes are not serialized
-			algo = (DynamicSimuAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
+			dstabAlgo = (DynamicSimuAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
 			
 			algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_AclfAlgo+net.getId());
 			LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
-			algo.setAclfAlgorithm(lfAlgo);
+			dstabAlgo.setAclfAlgorithm(lfAlgo);
 
-			algo.setDynamicEventHandler(new DynamicEventProcessor(getMsgHub()));
-			algo.setDStabNet(net);
+			dstabAlgo.setDynamicEventHandler(new DynamicEventProcessor(getMsgHub()));
+			dstabAlgo.setDStabNet(net);
     	}
 		else {
 			// this is more for testing purpose
-			algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, getMsgHub());
-			algo.setSimuStepSec(0.01);
-			algo.setTotalSimuTimeSec(10.0);
+			dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(net, getMsgHub());
+			dstabAlgo.setSimuStepSec(0.01);
+			dstabAlgo.setTotalSimuTimeSec(10.0);
 		}
 		
 		// set simulation result handler
 		IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(getMsgHub());
-		algo.setSimuOutputHandler(handler);
+		if (dstabAlgo.getSimuOutputHandler() != null) {
+			// transfer info to the GridOutputHandler
+		}
+		dstabAlgo.setSimuOutputHandler(handler);
 		
 		// perform load flow calculation
-		LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
+		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow(getMsgHub());
 		
-		if (algo.initialization(getMsgHub())) {
+		if (dstabAlgo.initialization(getMsgHub())) {
 			getMsgHub().sendStatusMsg("Running DStab simulation at remote node " + getGrid().getLocalNode());
-			if (algo.performSimulation(getMsgHub()))
+			if (dstabAlgo.performSimulation(getMsgHub()))
 				return Boolean.TRUE;
 		}
 		
