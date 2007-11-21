@@ -93,6 +93,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 		};
 	}
 	
+	@Override
 	protected String serializeModel(Object model) throws GridException {
 		String modelStr = "";
 		if (model instanceof LoadflowAlgorithm) {
