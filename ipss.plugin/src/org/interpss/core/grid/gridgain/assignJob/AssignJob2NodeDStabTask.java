@@ -106,6 +106,7 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 		};
 	}
 
+	@Override
 	protected String serializeModel(Object model) throws GridException {
 		String modelStr = "";
 		if (model instanceof DynamicSimuAlgorithm) {
