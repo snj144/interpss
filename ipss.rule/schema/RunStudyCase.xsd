@@ -5,52 +5,97 @@
            xmlns:ipss="http://www.interpss.org/schema">
 
 	<ns:include schemaLocation="Modification.xsd"></ns:include>
-	<ns:complexType name="RunStudyCaseType">
-		<ns:sequence>
-			<ns:element name="runAclfStudyCase" type="ipss:RunAclfStudyCaseType" maxOccurs="unbounded" minOccurs="0">
+	<ns:complexType name="RunStudyCaseXmlType">
+        <ns:annotation>
+        	<ns:documentation>
+        		For describe a or a set of analysis run(s). The type of
+        		run is defined by the analysisRunTask element.
+        	</ns:documentation>
+        </ns:annotation>
+        <ns:sequence>
+			<ns:element name="analysisRunTask" type="ipss:AnalysisRunTaskXmlData"></ns:element>
+			<ns:element name="runAclfStudyCase"
+				type="ipss:RunAclfStudyCaseXmlType" maxOccurs="unbounded"
+				minOccurs="0">
 			</ns:element>
-			<ns:element name="runAcscStudyCase" type="ipss:RunAcscStudyCaseType" maxOccurs="unbounded" minOccurs="0">
+			<ns:element name="runAcscStudyCase"
+				type="ipss:RunAcscStudyCaseXmlType" maxOccurs="unbounded"
+				minOccurs="0">
 			</ns:element>
-			<ns:element name="runDStabStudyCase" type="ipss:RunDStabStudyCaseType" maxOccurs="unbounded" minOccurs="0">
+			<ns:element name="runDStabStudyCase"
+				type="ipss:RunDStabStudyCaseXmlType" maxOccurs="unbounded"
+				minOccurs="0">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
-	<ns:complexType name="RunAclfStudyCaseType">
+	<ns:complexType name="RunAclfStudyCaseXmlType">
 		<ns:complexContent>
-			<ns:extension base="ipss:RunStudyCaseBaseType">
+			<ns:extension base="ipss:RunStudyCaseBaseXmlType">
 				<ns:sequence>
-					<ns:element name="lfMethod" type="ipss:AclfMethodDataType">
+					<ns:element name="lfMethod"
+						type="ipss:AclfMethodXmlData">
 					</ns:element>
 					<ns:element name="maxIterations" type="ns:int"></ns:element>
 					<ns:element name="tolerance" type="ns:double"></ns:element>
-					<ns:element name="toleranceUnit" type="ipss:UnitDataType"></ns:element>
-					<ns:element name="initBusVoltage" type="ns:boolean"></ns:element>
-					<ns:element name="diaplaySummary" type="ns:boolean"></ns:element>
-					<ns:element name="accFactor" type="ns:double" maxOccurs="1" minOccurs="0">
+					<ns:element name="toleranceUnit"
+						type="ipss:UnitXmlData">
+					</ns:element>
+					<ns:element name="initBusVoltage"
+						type="ns:boolean">
+					</ns:element>
+					<ns:element name="diaplaySummary"
+						type="ns:boolean">
+					</ns:element>
+					<ns:element name="accFactor" type="ns:double"
+						maxOccurs="1" minOccurs="0">
+					</ns:element>
+					<ns:element name="adjustChangeStep" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="RunAcscStudyCaseXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RunStudyCaseBaseXmlType"></ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="RunDStabStudyCaseXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RunStudyCaseBaseXmlType">
+				<ns:sequence>
+					<ns:element name="totalSimuTimeSec"
+						type="ns:double" maxOccurs="1" minOccurs="1">
+					</ns:element>
+					<ns:element name="simuStepSec" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
+					<ns:element name="simuMethod"
+						type="ipss:DynamicSimuMethodXmlData" maxOccurs="1" minOccurs="1">
+					</ns:element>
+					<ns:element name="refMachineBusId" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
+					<ns:element name="disableDEvent"
+						type="ns:boolean" maxOccurs="1" minOccurs="0">
+					</ns:element>
+					<ns:element name="aclfAlgorithm"
+						type="ipss:RunAclfStudyCaseXmlType" maxOccurs="1" minOccurs="1">
 					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="RunAcscStudyCaseType">
-		<ns:complexContent>
-			<ns:extension base="ipss:RunStudyCaseBaseType"></ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-	<ns:complexType name="RunDStabStudyCaseType">
-		<ns:complexContent>
-			<ns:extension base="ipss:RunStudyCaseBaseType"></ns:extension>
-		</ns:complexContent>
-	</ns:complexType>
-
-	<ns:complexType name="RunStudyCaseBaseType">
-		<ns:complexContent>
-			<ns:extension base="ipss:RecordType">
+	<ns:complexType name="RunStudyCaseBaseXmlType">
+        <ns:annotation>
+        	<ns:documentation>
+        		Base study case. It has a modification record, which
+        		only applies to this study case.
+        	</ns:documentation>
+        </ns:annotation>
+        <ns:complexContent>
+			<ns:extension base="ipss:RecordXmlType">
 				<ns:sequence>
-					<ns:element name="modification" type="ipss:ModificationType" maxOccurs="unbounded" minOccurs="0">
+					<ns:element name="modification" type="ipss:ModificationXmlType" maxOccurs="1" minOccurs="0">
 					</ns:element>
 				</ns:sequence>
 			</ns:extension>

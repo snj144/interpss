@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.schema.InterPSSDocument;
-import org.interpss.schema.InterPSSType;
+import org.interpss.schema.InterPSSXmlType;
 import org.junit.Test;
 
 public class SampleModificationTestCase {
@@ -18,7 +18,7 @@ public class SampleModificationTestCase {
 		}
 		
 		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlFile);	
-		InterPSSType ipss = ipssDoc.getInterPSS();
+		InterPSSXmlType ipss = ipssDoc.getInterPSS();
 		
 		assertTrue(ipss.getModification().getNetChangeRec().getBusChangeRecArray().length == 1);
 		assertTrue(ipss.getModification().getNetChangeRec().getBranchChangeRecArray().length == 1);

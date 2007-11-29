@@ -4,20 +4,20 @@
             xmlns:ipss="http://www.interpss.org/schema" 
             elementFormDefault="qualified">
 
-    <ns:complexType name="ComplexDataType">
+    <ns:complexType name="ComplexXmlType">
     	<ns:sequence>
     		<ns:element name="re" type="ns:double" maxOccurs="1" minOccurs="0"></ns:element>
     		<ns:element name="im" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
     	</ns:sequence>
     </ns:complexType>
 
-    <ns:complexType name="BusRecType">
+    <ns:complexType name="BusRecXmlType">
     	<ns:complexContent>
-    		<ns:extension base="ipss:RecordType">
+    		<ns:extension base="ipss:RecordXmlType">
     			<ns:sequence>
-    				<ns:element name="id" type="ns:string" maxOccurs="1" minOccurs="1">
+    				<ns:element name="busId" type="ns:string" maxOccurs="1" minOccurs="1">
     				</ns:element>
-    				<ns:element name="name" type="ns:string" maxOccurs="1" minOccurs="0">
+    				<ns:element name="busName" type="ns:string" maxOccurs="1" minOccurs="0">
     				</ns:element>
     			</ns:sequence>
 
@@ -25,9 +25,9 @@
     	</ns:complexContent>
     </ns:complexType>
 
-    <ns:complexType name="BranchRecType">
+    <ns:complexType name="BranchRecXmlType">
     	<ns:complexContent>
-    		<ns:extension base="ipss:RecordType">
+    		<ns:extension base="ipss:RecordXmlType">
     			<ns:sequence>
     				<ns:element name="fromBusId" type="ns:string" maxOccurs="1" minOccurs="1">
     				</ns:element>
@@ -35,7 +35,7 @@
     				</ns:element>
     				<ns:element name="circuitNumber" type="ns:string" maxOccurs="1" minOccurs="0">
     				</ns:element>
-    				<ns:element name="name" type="ns:string" maxOccurs="1" minOccurs="0">
+    				<ns:element name="branchName" type="ns:string" maxOccurs="1" minOccurs="0">
     				</ns:element>
     			</ns:sequence>
 
@@ -43,20 +43,35 @@
     	</ns:complexContent>
     </ns:complexType>
 
-    <ns:simpleType name="UnitDataType">
+    <ns:simpleType name="UnitXmlData">
     	<ns:restriction base="ns:string">
     		<ns:enumeration value="PU"></ns:enumeration>
     		<ns:enumeration value="Percent"></ns:enumeration>
+    		<ns:enumeration value="Deg"></ns:enumeration>
+    		<ns:enumeration value="Rad"></ns:enumeration>
+    		<ns:enumeration value="Volt"></ns:enumeration>
+    		<ns:enumeration value="kV"></ns:enumeration>
+    		<ns:enumeration value="kAmp"></ns:enumeration>
+    		<ns:enumeration value="Amp"></ns:enumeration>
+    		<ns:enumeration value="MilliAmp"></ns:enumeration>
+    		<ns:enumeration value="Watt"></ns:enumeration>
     		<ns:enumeration value="KW"></ns:enumeration>
+    		<ns:enumeration value="mW"></ns:enumeration>
+    		<ns:enumeration value="Var"></ns:enumeration>
     		<ns:enumeration value="KVar"></ns:enumeration>
+    		<ns:enumeration value="mVar"></ns:enumeration>
+    		<ns:enumeration value="VA"></ns:enumeration>
     		<ns:enumeration value="KVA"></ns:enumeration>
-    		<ns:enumeration value="MVA"></ns:enumeration>
-    		<ns:enumeration value="MW"></ns:enumeration>
-    		<ns:enumeration value="MVar"></ns:enumeration>
+    		<ns:enumeration value="mVA"></ns:enumeration>
+    		<ns:enumeration value="Ohm"></ns:enumeration>
+    		<ns:enumeration value="kOhm"></ns:enumeration>
+    		<ns:enumeration value="MilliOhm"></ns:enumeration>
+    		<ns:enumeration value="Mho"></ns:enumeration>
+    		<ns:enumeration value="MicroMho"></ns:enumeration>
     	</ns:restriction>
     </ns:simpleType>
 
-    <ns:simpleType name="AclfMethodDataType">
+    <ns:simpleType name="AclfMethodXmlData">
     	<ns:restriction base="ns:string">
     		<ns:enumeration value="NR"></ns:enumeration>
     		<ns:enumeration value="PQ"></ns:enumeration>
@@ -64,7 +79,7 @@
     	</ns:restriction>
     </ns:simpleType>
     
-	<ns:simpleType name="ChangeActionDataType">
+	<ns:simpleType name="ChangeActionXmlData">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="add"></ns:enumeration>
 			<ns:enumeration value="set"></ns:enumeration>
@@ -73,19 +88,163 @@
 		</ns:restriction>
 	</ns:simpleType>    
 
-	<ns:complexType name="RecordType">
-		<ns:sequence>
+	<ns:complexType name="RecordXmlType">
+        <ns:annotation>
+        	<ns:documentation>
+        		Base record structure for describing a record, with an
+        		Id, name(?) and desc(?)
+        	</ns:documentation>
+        </ns:annotation>
+        <ns:sequence>
 			<ns:element name="recId" type="ns:ID" maxOccurs="1" minOccurs="1"></ns:element>
 			<ns:element name="recName" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
 			<ns:element name="recDesc" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
-	<ns:simpleType name="RunTaskDataType">
+	<ns:simpleType name="AnalysisRunTaskXmlData">
 		<ns:restriction base="ns:string">
-			<ns:enumeration value="RunAclf"></ns:enumeration>
-			<ns:enumeration value="RunAcsc"></ns:enumeration>
+			<ns:enumeration value="RunAclf"></ns:enumeration>			<ns:enumeration value="RunAcsc"></ns:enumeration>
 			<ns:enumeration value="RunDStab"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
+
+	<ns:simpleType name="FaultTypeXmlData">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="BusFault"></ns:enumeration>
+			<ns:enumeration value="BranchFault"></ns:enumeration>
+			<ns:enumeration value="BranchOutage"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+
+	<ns:simpleType name="FaultCategoryXmlData">
+		<ns:restriction base="ns:string">
+		 	<ns:enumeration value="Fault_3P"></ns:enumeration>
+			<ns:enumeration value="Fault_LG"></ns:enumeration>
+			<ns:enumeration value="Fault_LL"></ns:enumeration>
+			<ns:enumeration value="Fault_LLG"></ns:enumeration>
+			<ns:enumeration value="Outage_3P"></ns:enumeration>
+			<ns:enumeration value="Outage_1P"></ns:enumeration>
+			<ns:enumeration value="Outage_2P"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+
+	<ns:complexType name="AcscFaultXmlType">
+		<ns:sequence>
+			<ns:element name="type" type="ipss:FaultTypeXmlData"></ns:element>
+			<ns:element name="category"
+				type="ipss:FaultCategoryXmlData">
+			</ns:element>
+			<ns:element name="busBranchid" type="ns:string"></ns:element>
+			<ns:element name="zLG" type="ipss:ComplexXmlType"
+				maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="zLL" type="ipss:ComplexXmlType"
+				maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="distance" type="ns:double" maxOccurs="1"
+				minOccurs="0">
+			</ns:element>
+			<ns:element name="branchReclosure" type="ns:boolean"
+				maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="reclosureTime" type="ns:double"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:simpleType name="DEventTypeXmlData">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="BusFault"></ns:enumeration>
+			<ns:enumeration value="BranchFault"></ns:enumeration>
+			<ns:enumeration value="BranchOutage"></ns:enumeration>
+			<ns:enumeration value="LoadChange"></ns:enumeration>
+			<ns:enumeration value="SetPointChange"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
+
+	<ns:complexType name="DStabDEventXmlType">
+		<ns:sequence>
+			<ns:element name="type" type="ipss:DEventTypeXmlData"></ns:element>
+			<ns:element name="startTimeSec" type="ns:double"></ns:element>
+			<ns:element name="durationSec" type="ns:double"
+				maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="permanent" type="ns:boolean" maxOccurs="1"
+				minOccurs="0">
+			</ns:element>
+			<ns:element name="fault" type="ipss:AcscFaultXmlType"
+				maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="loadChange" type="ipss:DStabLoadChangeXmlType"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	
+
+	<ns:complexType name="ComplexParamChangeXmlType">
+		<ns:sequence>
+			<ns:element name="action" type="ipss:ChangeActionXmlData" maxOccurs="1" minOccurs="1">
+			</ns:element>
+			<ns:element name="percent" type="ns:double" maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="value" type="ipss:ComplexXmlType" maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="unit" type="ipss:UnitXmlData	" maxOccurs="1" minOccurs="1"></ns:element>
+		</ns:sequence>
+	</ns:complexType>	
+
+	<ns:complexType name="DStabLoadChangeXmlType">
+		<ns:sequence>
+			<ns:element name="busId" type="ns:string"></ns:element>
+			<ns:element name="type"
+				type="ipss:DStabLoadChangeTypeXmlData">
+			</ns:element>
+			<ns:element name="changeFactor" type="ns:double"></ns:element>
+			<ns:element name="changeFactorUnit"
+				type="ipss:UnitXmlData">
+				<ns:annotation>
+					<ns:documentation>PU or Percent</ns:documentation>
+				</ns:annotation>
+			</ns:element>
+			<ns:element name="threshhold" type="ns:double"></ns:element>
+			<ns:element name="delayTime" type="ns:double"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	
+    <ns:simpleType name="DStabLoadChangeTypeXmlData">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="LowFrequency"></ns:enumeration>
+    		<ns:enumeration value="LowVoltage"></ns:enumeration>
+    		<ns:enumeration value="FixedTime"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+    <ns:simpleType name="DynamicSimuMethodXmlData">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="ModifiedEuler"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+    <ns:simpleType name="AclfLoadCodeXmlData">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="ConstP"></ns:enumeration>
+    		<ns:enumeration value="ConstI"></ns:enumeration>
+    		<ns:enumeration value="ConstZ"></ns:enumeration>
+    		<ns:enumeration value="Exponential"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+    <ns:complexType name="AclfLoadChangeXmlType">
+    	<ns:sequence>
+    		<ns:element name="codeChange" type="ipss:AclfLoadCodeChangeXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+    		<ns:element name="valueChange" type="ipss:ComplexParamChangeXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+    	</ns:sequence>
+    </ns:complexType>
+
+    <ns:complexType name="AclfLoadCodeChangeXmlType">
+    	<ns:sequence>
+    		<ns:element name="code" type="ipss:AclfLoadCodeXmlData"></ns:element>
+    		<ns:element name="expLoadP" type="ns:double"></ns:element>
+    		<ns:element name="expLoadQ" type="ns:double"></ns:element>
+    	</ns:sequence>
+    </ns:complexType>
 </ns:schema>
