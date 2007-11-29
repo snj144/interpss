@@ -16,7 +16,7 @@ import org.interpss.dstab.mach.Eq1MachineCaseTest;
 import org.interpss.dstab.mach.MachineSaturationTest;
 import org.interpss.dstab.mach.RoundRotorMachineTest;
 import org.interpss.dstab.mach.SalientPoleMachineTest;
-import org.interpss.schema.Ieee14BusXmlScriptRunAclfCaseTest;
+import org.interpss.schema.IpssSchemaIeee14BusCaseTest;
 import org.interpss.spring.CustomFileAdapterTest;
 import org.interpss.spring.DStabControllerTest;
 import org.interpss.spring.SimuAppCtxTest;
@@ -59,7 +59,7 @@ import org.junit.runners.Suite.SuiteClasses;
 //	Bus11856Test.class,
 	
 	// run case xml scripts
-	Ieee14BusXmlScriptRunAclfCaseTest.class,
+	IpssSchemaIeee14BusCaseTest.class,
 })
 public class PluginTestSuite {
 }
