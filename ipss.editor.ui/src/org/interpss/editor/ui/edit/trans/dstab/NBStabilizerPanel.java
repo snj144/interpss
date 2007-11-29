@@ -33,7 +33,7 @@ import org.interpss.editor.data.dstab.DStabMachData;
 import org.interpss.editor.form.InitDataUtil;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
@@ -90,7 +90,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
 		typeName = (String)typeListComboBox.getSelectedItem();
     	setEditPanel(typeName);  // a new controller instance is always created
 
-    	((IControllerEditor)controller.getEditPanel()).setData2Editor();
+    	((ICustomPluginEditor)controller.getEditPanel()).setData2Editor("");
 
 		return true;
 	}
@@ -103,7 +103,7 @@ public class NBStabilizerPanel extends javax.swing.JPanel implements IFormDataPa
    		machData.getPssData().setTypeName((String)typeListComboBox.getSelectedItem());
    		machData.getPssData().setClassName(controller.getClass().getName());
 		
-    	if (!((IControllerEditor)controller.getEditPanel()).saveEditorData(errMsg)) {
+    	if (!((ICustomPluginEditor)controller.getEditPanel()).saveEditorData(errMsg)) {
     		ok = false;
     	}
     	machData.getPssData().setDataXmlStr(controller.getDataXmlString());
