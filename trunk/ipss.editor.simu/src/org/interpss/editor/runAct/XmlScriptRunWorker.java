@@ -28,8 +28,8 @@ import org.apache.xmlbeans.XmlException;
 import org.interpss.core.adapter.IpssXmlAdapter;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.schema.RunAclfStudyCaseType;
-import org.interpss.schema.RunTaskDataType;
+import org.interpss.schema.RunAclfStudyCaseXmlType;
+import org.interpss.schema.AnalysisRunTaskXmlData;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
@@ -54,12 +54,12 @@ public class XmlScriptRunWorker {
   			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", e.toString());
 			return false;
 		}
-
-		if (parser.getRootElem().getRunTask() == RunTaskDataType.RUN_ACLF ) {
+ 
+		if (parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF ) {
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfAdjNet());
 		  	if (parser.getRunAclfStudyCaseList().length > 0) {
-			  	RunAclfStudyCaseType aclfCase = parser.getRunAclfStudyCaseList()[0];
-			  	parser.mapping(aclfCase, algo, RunAclfStudyCaseType.class);
+			  	RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
+			  	parser.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 						  	
 				algo.loadflow(simuCtx.getMsgHub());
 			  	if (aclfCase.getDiaplaySummary()) {

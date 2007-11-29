@@ -136,11 +136,11 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
 
         languageButtonGroup.add(javaRadioButton);
         javaRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        javaRadioButton.setSelected(true);
         javaRadioButton.setText("Java");
 
         languageButtonGroup.add(xmlRadioButton);
         xmlRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        xmlRadioButton.setSelected(true);
         xmlRadioButton.setText("Xml");
 
         driverLabel.setFont(new java.awt.Font("Dialog", 0, 12));

@@ -31,7 +31,7 @@ import java.util.List;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.IScriptTool;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.editor.ui.util.DStabScriptUtilFunc;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.SpringAppContext;
@@ -832,7 +832,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
    			//System.out.println(javacode);
    			try {
    				IScriptTool tool = (IScriptTool)MemoryJavaCompiler.javac(
-   					DStabScriptUtilFunc.OutDStabResultClassName, javacode);
+   						CoreScriptUtilFunc.OutDStabResultClassName, javacode);
    				IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("State/Varible Output");
    				tool.outDStabResult2TextDialog(dialog, nameList, valueList);
    			} catch (Exception e) {
