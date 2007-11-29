@@ -69,7 +69,7 @@
 	</bean>
 	
 	<bean id="fileAdapterJavaScripts" 
-	      class="org.interpss.custom.script.FileAdapter_JavaScripts"
+	      class="org.interpss.custom.script.proj.FileAdapter_JavaScripts"
 	      scope="singleton"	
 	      p:name="InterPSS JavaScripts"
 	      p:fileFilterString="js"
@@ -95,4 +95,90 @@
 			</list>
 		</constructor-arg>
 	</bean>
+	
+	<!--
+		AclfBus Scripting Custom Plugin List
+		====================================
+		
+	-->	
+	<bean id="inductionGenerator"  
+	  	class="org.interpss.custom.script.aclf.indgen.InductionGenerator"
+	    scope="prototype"	
+	    p:name="Aclf Induction Generator"
+	    p:desc="InterPSS Aclf Induction Generator implementation" />
+
+	<bean id="customAclfBusScriptPluginList" 
+	      class="java.util.ArrayList"
+	      scope="singleton">	
+		<constructor-arg>
+			<list>
+				<ref bean="inductionGenerator"/>
+			</list>
+		</constructor-arg>
+	</bean>	
+
+	<!--
+		AclfBranch Scripting Custom Plugin List
+		=======================================
+		
+	-->	
+	<bean id="customAclfBranchScriptPluginList" 
+	      class="java.util.ArrayList"
+	      scope="singleton">	
+		<constructor-arg>
+			<list>
+			</list>
+		</constructor-arg>
+	</bean>	
+
+	<!--
+		AcscBus Scripting Custom Plugin List
+		====================================
+		
+	-->	
+	<bean id="customAcscBusScriptPluginList" 
+	      class="java.util.ArrayList"
+	      scope="singleton">	
+		<constructor-arg>
+			<list>
+			</list>
+		</constructor-arg>
+	</bean>	
+
+	<!--
+		AcscBranch Scripting Custom Plugin List
+		=======================================
+		
+	-->	
+	<bean id="customAcscBranchScriptPluginList" 
+	      class="java.util.ArrayList"
+	      scope="singleton">	
+		<constructor-arg>
+			<list>
+			</list>
+		</constructor-arg>
+	</bean>	
+	
+	<!--
+		Dynamic Bus Device Scripting Custom Plugin List
+		===============================================
+		
+	-->	
+
+	<bean id="sampleStaticLoad"  
+	  	class="org.interpss.custom.script.dstab.z.SampleConstantZ"
+	    scope="prototype"	
+	    p:name="Sample Static Load"
+	    p:desc="A sample static load dynamic bus device implementation" />
+
+	<bean id="customDynamicBusDeviceScriptPluginList" 
+	      class="java.util.ArrayList"
+	      scope="singleton">	
+		<constructor-arg>
+			<list>
+				<ref bean="sampleStaticLoad"/>
+			</list>
+		</constructor-arg>
+	</bean>	
+	
 </beans>

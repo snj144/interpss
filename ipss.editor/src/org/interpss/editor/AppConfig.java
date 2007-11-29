@@ -33,7 +33,6 @@ import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
-import org.interpss.editor.ui.util.DStabScriptUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
 
 import com.interpss.common.SpringAppContext;
@@ -115,20 +114,19 @@ public class AppConfig {
 			
 			IpssFileFilter.OUTPUT_DEFAULT_DIR = baseDir + Translator.getString("Output.Default.Location");
 			
-			
 			IpssJavaCompiler.JavaSrcDir = Translator.getString("Java.Compile.JavaSrcDir");
 			IpssJavaCompiler.JavaClassDir = Translator.getString("Java.Compile.JavaClassDir");
 			IpssJavaCompiler.JavaLibPath = Translator.getString("Java.Compile.JavaLibPath");
 			IpssJavaCompiler.ClassnameToken = Translator.getString("Java.Compile.ClassnameToken");
 			IpssJavaCompiler.JavaClasspath = Translator.getString("Java.Compile.JavaClasspath");
 
-			DStabScriptUtilFunc.Tag_ControllerDescBegin = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin");
-			DStabScriptUtilFunc.Tag_ControllerDescEnd = Translator.getString("Java.Compile.CMLController.Tag.ContrDesc.End");
-			DStabScriptUtilFunc.Tag_ControllerFieldDescBegin = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.Begin");
-			DStabScriptUtilFunc.Tag_ControllerFieldDescEnd = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End");
+			CoreScriptUtilFunc.Tag_ControllerDescBegin = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin");
+			CoreScriptUtilFunc.Tag_ControllerDescEnd = Translator.getString("Java.Compile.CMLController.Tag.ContrDesc.End");
+			CoreScriptUtilFunc.Tag_ControllerFieldDescBegin = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.Begin");
+			CoreScriptUtilFunc.Tag_ControllerFieldDescEnd = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End");
 
-			DStabScriptUtilFunc.Tag_ControllerDescBegin_Code = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin.Code");
-			DStabScriptUtilFunc.Tag_ControllerFieldDescEnd_Code = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End.Code");
+			CoreScriptUtilFunc.Tag_ControllerDescBegin_Code = Translator.getString("Java.Compile.CMLController.Tag.ContDesc.Begin.Code");
+			CoreScriptUtilFunc.Tag_ControllerFieldDescEnd_Code = Translator.getString("Java.Compile.CMLController.Tag.FieldDesc.End.Code");
 
 			CoreScriptUtilFunc.Tag_AclfScript_Begin_Code = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScript_Begin_Code");
 			CoreScriptUtilFunc.Tag_AclfScriptBus_Begin = Translator.getString("Java.Compile.AclfScripting.Tag.AclfScriptBus_Begin");
