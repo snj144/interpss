@@ -37,7 +37,7 @@ import org.interpss.editor.form.InitDataUtil;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.trans.bus.NBDStabTransBusEditPanel;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
@@ -98,7 +98,7 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
 		typeName = (String)typeListComboBox.getSelectedItem();
     	setEditPanel(typeName);  // a new controller instance is always created
 
-    	((IControllerEditor)controller.getEditPanel()).setData2Editor();
+    	((ICustomPluginEditor)controller.getEditPanel()).setData2Editor("desc");
 
     	// enable or disable the PSS editing pane
     	if (machData.getHasPss()) {
@@ -120,7 +120,7 @@ public class NBExciterPanel extends javax.swing.JPanel implements IFormDataPanel
    		machData.getExcData().setTypeName((String)typeListComboBox.getSelectedItem());
    		machData.getExcData().setClassName(controller.getClass().getName());
 		
-    	if (!((IControllerEditor)controller.getEditPanel()).saveEditorData(errMsg)) {
+    	if (!((ICustomPluginEditor)controller.getEditPanel()).saveEditorData(errMsg)) {
     		ok = false;
     	}
     	machData.getExcData().setDataXmlStr(controller.getDataXmlString());

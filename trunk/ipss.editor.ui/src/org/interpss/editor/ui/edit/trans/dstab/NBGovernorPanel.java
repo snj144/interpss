@@ -35,7 +35,7 @@ import org.interpss.editor.data.dstab.DStabMachData;
 import org.interpss.editor.form.InitDataUtil;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.simu.util.SimuSpringAppCtxUtil;
@@ -94,7 +94,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
 		typeName = (String)typeListComboBox.getSelectedItem();
     	setEditPanel(typeName);  // a new controller instance is always created
 
-    	((IControllerEditor)controller.getEditPanel()).setData2Editor();
+    	((ICustomPluginEditor)controller.getEditPanel()).setData2Editor("");
 
     	return true;
 	}
@@ -107,7 +107,7 @@ public class NBGovernorPanel extends javax.swing.JPanel implements IFormDataPane
    		machData.getGovData().setTypeName((String)typeListComboBox.getSelectedItem());
    		machData.getGovData().setClassName(controller.getClass().getName());
 		
-    	if (!((IControllerEditor)controller.getEditPanel()).saveEditorData(errMsg)) {
+    	if (!((ICustomPluginEditor)controller.getEditPanel()).saveEditorData(errMsg)) {
     		ok = false;
     	}
     	machData.getGovData().setDataXmlStr(controller.getDataXmlString());

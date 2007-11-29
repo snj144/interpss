@@ -28,7 +28,6 @@ package org.interpss.editor.data.proj;
 	Study case info
 */
 
-import com.interpss.common.datatype.ScriptLanguageType;
 import com.interpss.common.rec.IpssDBCase;
 
 public class CaseData extends IpssDBCase {
