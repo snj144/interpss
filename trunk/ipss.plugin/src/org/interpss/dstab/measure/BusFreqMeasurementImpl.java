@@ -61,7 +61,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	 */
 	public boolean initStateU0(double u0) {
 		// this.baseFreq has to be set by calling the setParameter method
-		double kWashout = 1.0 / (2.0 * Constants.Pai * this.baseFreq * tf);   // 1.0 / 2*Pai*f0 / Tf
+		double kWashout = 1.0 / (2.0 * Math.PI * this.baseFreq * tf);   // 1.0 / 2*Pai*f0 / Tf
 		this.washoutBlock = new WashoutControlBlock(kWashout, tf);
 		this.delayBlock = new DelayControlBlock(1.0, tw);
 		

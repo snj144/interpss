@@ -28,9 +28,9 @@ import java.util.Vector;
 
 import org.interpss.dstab.control.base.EditUtilFunct;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 
-public class NBIeee1992PSS2AEditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBIeee1992PSS2AEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	// define data to be edited
@@ -41,7 +41,7 @@ public class NBIeee1992PSS2AEditPanel extends javax.swing.JPanel implements ICon
         initComponents();
         // init the field to the default values
         _data = new Ieee1992PSS2AStabilizerData();
-        setData2Editor();
+        setData2Editor("");
         
         // associate the editing fields with the verifier class defined at the end of this calss
   		DataVerifier verifier = new DataVerifier();
@@ -79,7 +79,7 @@ public class NBIeee1992PSS2AEditPanel extends javax.swing.JPanel implements ICon
 	*
 	* @return false if there is any problem
 	*/
-    public boolean setData2Editor() {
+    public boolean setData2Editor(String desc) {
     	EditUtilFunct.setDblTextFiled(ks1TextField, 	_data.getKs1(), "#0.00");
     	EditUtilFunct.setDblTextFiled(t1TextField, 	_data.getT1(), "#0.000");
     	EditUtilFunct.setDblTextFiled(t2TextField, 	_data.getT2(), "#0.000");

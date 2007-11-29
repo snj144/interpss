@@ -35,6 +35,7 @@ import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.mapper.editor.BaseFormDataMapperImpl;
+import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
@@ -266,24 +267,30 @@ public class AclfFormDataMapperImpl {
 		
 		if (busData.getGenCode().equals(AclfBusData.GenCode_GenScripting) ||
 			busData.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) {
-			// compile the source code
-			String classname = "";
-			String javacode = busData.getScripts(); 
-			if (javacode.startsWith(ScriptJavacUtilFunc.Token_CodeReuse)) {    // format @busId
-				classname = ScriptJavacUtilFunc.createScriptingClassname(javacode.substring(1));
+			if (busData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
+				// compile the source code
+				String classname = "";
+				String javacode = busData.getScripts(); 
+				if (javacode.startsWith(ScriptJavacUtilFunc.Token_CodeReuse)) {    // format @busId
+					classname = ScriptJavacUtilFunc.createScriptingClassname(javacode.substring(1));
+				}
+				else {
+					classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
+					javacode = CoreScriptUtilFunc.parseAclfJavaCode(busData.getScripts(), classname, 
+									CoreScriptUtilFunc.Tag_AclfScriptBus_Baseclass, 
+									CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
+				}
+				try {
+					bus.setExternalAclfBus((BaseAclfBus)MemoryJavaCompiler.javac( 
+							CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
+				} catch (Exception e) {
+					IpssLogger.logErr(e);
+					return false;
+				}
 			}
 			else {
-				classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
-				javacode = CoreScriptUtilFunc.parseAclfJavaCode(busData.getScripts(), classname, 
-								CoreScriptUtilFunc.Tag_AclfScriptBus_Baseclass, 
-								CoreScriptUtilFunc.Tag_AclfScriptBus_Begin);
-			}
-			try {
-				bus.setExternalAclfBus((BaseAclfBus)MemoryJavaCompiler.javac( 
-						CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
-			} catch (Exception e) {
-				IpssLogger.logErr(e);
-				return false;
+				Object plugin = UISpringAppContext.getCustomAclfBusScriptPlugin(busData.getScriptPluginName());
+				bus.setExternalAclfBus((BaseAclfBus)plugin); 
 			}
 		}
  		return true;

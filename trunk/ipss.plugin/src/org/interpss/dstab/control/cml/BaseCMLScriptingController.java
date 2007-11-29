@@ -26,7 +26,7 @@ package org.interpss.dstab.control.cml;
 
 import java.util.Hashtable;
 
-import org.interpss.editor.ui.util.DStabScriptUtilFunc;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -149,10 +149,10 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 */
 	protected void createControllerObject(String baseClassname) {
 		String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
-		String javacode = DStabScriptUtilFunc.parseCMLTag(getScripts(), classname, baseClassname);
+		String javacode = CoreScriptUtilFunc.parseCMLTag(getScripts(), classname, baseClassname);
 		try {
 			anController = (AbstractAnnotateController)MemoryJavaCompiler.javac( 
-					DStabScriptUtilFunc.CMLControllerPackageName+classname, javacode);
+					CoreScriptUtilFunc.CMLControllerPackageName+classname, javacode);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}
@@ -172,8 +172,8 @@ public abstract class BaseCMLScriptingController extends ControllerImpl implemen
 	 * @return
 	 */
 	public boolean checkJavaCode(String baseClassname) {
-		String javacode = DStabScriptUtilFunc.parseCMLTag(getScripts(), ScriptJavacUtilFunc.CheckCodeClassname, baseClassname);
-		return ScriptJavacUtilFunc.checkJavaCode(javacode, DStabScriptUtilFunc.CMLControllerPackageName);
+		String javacode = CoreScriptUtilFunc.parseCMLTag(getScripts(), ScriptJavacUtilFunc.CheckCodeClassname, baseClassname);
+		return ScriptJavacUtilFunc.checkJavaCode(javacode, CoreScriptUtilFunc.CMLControllerPackageName);
 	}
 } 
 

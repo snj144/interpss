@@ -13,11 +13,11 @@ package org.interpss.dstab.control.exc.simple;
 
 import java.util.Vector;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Number2String;
 
-public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	// define data to be edited
@@ -48,7 +48,7 @@ public class NBSimpleExciterEditPanel extends javax.swing.JPanel implements ICon
 	*
 	* @return false if there is any problem
 	*/
-    public boolean setData2Editor() {
+    public boolean setData2Editor(String desc) {
   	    kaTextField.setText(Number2String.toStr(_data.getKa(), "#0.00"));
   	    taTextField.setText(Number2String.toStr(_data.getTa(), "#0.000"));
   	    vrmaxTextField.setText(Number2String.toStr(_data.getVrmax(), "#0.00"));

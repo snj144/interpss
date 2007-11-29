@@ -62,7 +62,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	public AbstractIpssGridGainJob(String arg) {
 		super(arg);
 	}
-
+ 
 	protected IPSSMsgHub getMsgHub() {
 		if (msgHub == null) {
 			String masterNodeId = (String)session.getAttribute(AbstractIpssGridGainTask.Token_MasterNodeId);

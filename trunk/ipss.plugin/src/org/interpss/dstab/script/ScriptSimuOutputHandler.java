@@ -28,7 +28,7 @@ import java.util.Hashtable;
 
 import javax.swing.JTextArea;
 
-import org.interpss.editor.ui.util.DStabScriptUtilFunc;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 
 import com.interpss.common.SpringAppContext;
@@ -59,14 +59,14 @@ public class ScriptSimuOutputHandler extends AbstractSimuOutputHandler {
 		
 		// get the javacode, compile and create the annotated object
 		String javacode = textarea.getText();
-		javacode = javacode.replaceFirst(DStabScriptUtilFunc.Tag_DStabOutScriptDescBegin, 
-				DStabScriptUtilFunc.Tag_DStabOutScriptDescBegin_Code);
-		javacode = javacode.replaceFirst(DStabScriptUtilFunc.Tag_DStabOutScriptDescEnd, 
-				DStabScriptUtilFunc.Tag_DStabOutScriptDescEnd_Code);
+		javacode = javacode.replaceFirst(CoreScriptUtilFunc.Tag_DStabOutScriptDescBegin, 
+				CoreScriptUtilFunc.Tag_DStabOutScriptDescBegin_Code);
+		javacode = javacode.replaceFirst(CoreScriptUtilFunc.Tag_DStabOutScriptDescEnd, 
+				CoreScriptUtilFunc.Tag_DStabOutScriptDescEnd_Code);
 		//System.out.println(javacode);
 		try {
 			IDStabOutputScripting obj = (IDStabOutputScripting)MemoryJavaCompiler.javac(
-					DStabScriptUtilFunc.DStabOutputScriptingClassName, javacode);
+					CoreScriptUtilFunc.DStabOutputScriptingClassName, javacode);
 			this.anOutput = new AnnotateDStabOutputScripting(obj);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);

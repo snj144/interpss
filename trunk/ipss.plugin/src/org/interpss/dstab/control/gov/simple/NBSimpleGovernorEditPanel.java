@@ -26,11 +26,11 @@ package org.interpss.dstab.control.gov.simple;
 
 import java.util.Vector;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Number2String;
 
-public class NBSimpleGovernorEditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBSimpleGovernorEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 	
 	SimpleGovernorData _data;
@@ -55,7 +55,7 @@ public class NBSimpleGovernorEditPanel extends javax.swing.JPanel implements ICo
 	*
 	* @return false if there is any problem
 	*/
-    public boolean setData2Editor() {
+    public boolean setData2Editor(String desc) {
   	    kTextField.setText(Number2String.toStr(_data.getK(), "#0.00"));
   	    t1TextField.setText(Number2String.toStr(_data.getT1(), "#0.00"));
   	    pmaxTextField.setText(Number2String.toStr(_data.getPmax(), "#0.00"));

@@ -26,13 +26,13 @@ package org.interpss.dstab.control.gov.ieee.ieeeST1;
 
 import java.util.Vector;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Number2String;
 import com.interpss.dstab.controller.AbstractGovernor;
 
 
-public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 	
 	IeeeST1GovernorData _data;
@@ -61,7 +61,7 @@ public class NBIeeeST1GovernorEditPanel extends javax.swing.JPanel implements IC
 	*
 	* @return false if there is any problem
 	*/
-    public boolean setData2Editor() {
+    public boolean setData2Editor(String desc) {
     	if (_data.getOptMode() == AbstractGovernor.DroopMode) 
     	    droopRadioButton.setSelected(true);
     	else

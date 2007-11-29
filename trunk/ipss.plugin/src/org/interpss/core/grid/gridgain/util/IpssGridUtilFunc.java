@@ -28,11 +28,7 @@ import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.algorithm.AclfAdjustAlgorithm;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.ms_case.result.AclfNetworkResult;
-import com.interpss.dstab.DStabilityNetwork;
-import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class IpssGridUtilFunc {
     /**
@@ -46,41 +42,4 @@ public class IpssGridUtilFunc {
 		AclfNetworkResult rnet = AclfStudyCaseUtilFunc.createAclfNetResult(uid, net);
 		return SerializeEMFObjectUtil.saveModel(rnet);
 	} 
-    
-    /**
-     * Serialize the Aclf Algorithm object
-     * 
-     * @param algo
-     * @return
-     */
-    public static String serializeAclfAlgorithm(LoadflowAlgorithm algo) {
-		AclfNetwork net = algo.getAclfNetwork();
-		//algo.setAclfNetwork(null);  the attrib has made transient
-		AclfAdjustAlgorithm adjAlgo = algo.getAdjAlgorithm();
-		//algo.setAdjAlgorithm(null); AdjAlgo is serialized
-		String algoStr = SerializeEMFObjectUtil.saveModel(algo);
-		algo.setAclfNetwork(net);
-		algo.setAdjAlgorithm(adjAlgo);
-		return algoStr;
-    }
-    
-    /**
-     * Serialize the DStab algorithm object
-     * 
-     * @param algo
-     * @return
-     */
-    public static String serializeDStabAlgorithm(DynamicSimuAlgorithm algo) {
-		//DStabilityNetwork net = algo.getDStabNet();
-		//algo.setDStabNet(null);
-		//LoadflowAlgorithm lfAlgo = algo.getAclfAlgorithm();
-		//algo.setAclfAlgorithm(null);
-		//algo.setDynamicEventHandler(null);
-		//algo.setScriptOutputHandler(null);
-		algo.setSimuOutputHandler(null);
-		String algoStr = SerializeEMFObjectUtil.saveModel(algo);
-        //algo.setAclfAlgorithm(lfAlgo);
-        //algo.setDStabNet(net);
-        return algoStr;
-    }
 }

@@ -40,7 +40,6 @@ import org.gridgain.grid.GridJob;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
 import org.interpss.core.grid.gridgain.util.DStabSimuGridOutputHandler;
-import org.interpss.core.grid.gridgain.util.IpssGridUtilFunc;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -110,16 +109,18 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 	protected String serializeModel(Object model) throws GridException {
 		String modelStr = "";
 		if (model instanceof DynamicSimuAlgorithm) {
-	        DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)model; 
+	        DynamicSimuAlgorithm dstabAlgo = (DynamicSimuAlgorithm)model; 
 			
 			// serialize the network object
-			DStabilityNetwork net = algo.getDStabNet(); 
+			DStabilityNetwork net = dstabAlgo.getDStabNet(); 
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 
-			String lfAlgoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo.getAclfAlgorithm());
+			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo.getAclfAlgorithm());
 	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
 			
-			String dstabAlgoStr = IpssGridUtilFunc.serializeDStabAlgorithm(algo);
+	        // TODO - this part should be implemented in the future
+	        dstabAlgo.setSimuOutputHandler(null);
+	        String dstabAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo);
 	        getSession().setAttribute(Token_DStabAlgo+net.getId(), dstabAlgoStr);
 		}
 		else if (model instanceof DStabilityNetwork) {
