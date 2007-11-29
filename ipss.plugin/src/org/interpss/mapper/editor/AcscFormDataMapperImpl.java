@@ -25,6 +25,7 @@
 package org.interpss.mapper.editor;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.editor.data.aclf.AclfBusData;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.data.acsc.AcscBusData;
 import org.interpss.editor.data.acsc.AcscNetData;
@@ -34,6 +35,7 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
+import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.interpss.mapper.editor.AclfFormDataMapperImpl;
@@ -48,6 +50,8 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
+import com.interpss.core.aclf.BaseAclfBranch;
+import com.interpss.core.aclf.BaseAclfBus;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscLineAdapter;
@@ -148,31 +152,38 @@ public class AcscFormDataMapperImpl {
 	public static boolean setBusInfo(GBusForm formBus, AcscBus bus, AcscNetwork net) {
 		AclfFormDataMapperImpl.setAclfBusFormInfo(formBus, bus, net);
 
-		AcscBusData data = formBus.getAcscBusData();
-		if (data.getScCode().equals(AcscBusData.ScCode_Contribute)) {
-			return setContributeBusFormInfo(data, bus, net);
+		AcscBusData busData = formBus.getAcscBusData();
+		if (busData.getScCode().equals(AcscBusData.ScCode_Contribute)) {
+			return setContributeBusFormInfo(busData, bus, net);
 		}
-		else if (data.getScCode().equals(AcscBusData.ScCode_NonContribute)) {
-			return setNonContributeBusFormInfo(data, bus, net);
+		else if (busData.getScCode().equals(AcscBusData.ScCode_NonContribute)) {
+			return setNonContributeBusFormInfo(busData, bus, net);
 		}
-		else if (data.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
+		else if (busData.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
 			bus.setScCode(BusScCode.SC_BUS_SCRIPTING);
-			String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
-			String javacode = CoreScriptUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
-					CoreScriptUtilFunc.Tag_AcscScriptBus_Baseclass, 
-					CoreScriptUtilFunc.Tag_AcscScriptBus_Begin);
-			try {
-				bus.setExternalAcscBus((BaseAcscBus)MemoryJavaCompiler.javac( 
-						CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
-			} catch (Exception e) {
-				IpssLogger.logErr(e);
-				return false;
+
+			if (busData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
+				String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
+				String javacode = CoreScriptUtilFunc.parseAcscJavaCode(busData.getScripts(), classname, 
+						CoreScriptUtilFunc.Tag_AcscScriptBus_Baseclass, 
+						CoreScriptUtilFunc.Tag_AcscScriptBus_Begin);
+				try {
+					bus.setExternalAcscBus((BaseAcscBus)MemoryJavaCompiler.javac( 
+							CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+				} catch (Exception e) {
+					IpssLogger.logErr(e);
+					return false;
+				}
 			}
-			return true;
+			else {
+				Object plugin = UISpringAppContext.getCustomAcscBusScriptPlugin(busData.getScriptPluginName());
+				bus.setExternalAcscBus((BaseAcscBus)plugin); 
+			}
 		}
 		else {
-			throw new InvalidParameterException("Wrong bus Branch type for mapping AcscBusInfo, type: " + data.getScCode()); 
+			throw new InvalidParameterException("Wrong bus Branch type for mapping AcscBusInfo, type: " + busData.getScCode()); 
 		}
+		return true;
 	}
 
 	private static boolean setContributeBusFormInfo(AcscBusData busData, AcscBus bus, AcscNetwork net) {
@@ -225,34 +236,42 @@ public class AcscFormDataMapperImpl {
 							AcscNetwork net, IPSSMsgHub msg) {
 	  	AclfFormDataMapperImpl.setAclfBranchFormInfo(formBranch, branch, net, false, msg);
 	  	
-	  	AcscBranchData data = formBranch.getAcscBranchData();
-		if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {   // line branch
-			return setAcscLineFormInfo(data, branch, net, msg);
+	  	AcscBranchData braData = formBranch.getAcscBranchData();
+		if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {   // line branch
+			return setAcscLineFormInfo(braData, branch, net, msg);
 		}
-		else if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
-				 data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {   // psxfr branch
-			return setAcscXfrFormInfo(data, branch, net, msg);
+		else if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
+				 braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {   // psxfr branch
+			return setAcscXfrFormInfo(braData, branch, net, msg);
 		}
-		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) &&
+		else if (braData.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) &&
 				 branch instanceof AcscBranch) {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
 			//branch.setScripts(data.getScripts());
-			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
-			String javacode = CoreScriptUtilFunc.parseAcscJavaCode(data.getScripts(), classname, 
-					CoreScriptUtilFunc.Tag_AcscScriptBranch_Baseclass, 
-					CoreScriptUtilFunc.Tag_AcscScriptBranch_Begin);
-			try {
-				branch.setExternalAcscBranch((BaseAcscBranch)MemoryJavaCompiler.javac( 
-					CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
-			} catch (Exception e) {
-				IpssLogger.logErr(e);
-				return false;
+
+			if (braData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
+				//branch.setScripts(data.getScripts());
+				String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
+				String javacode = CoreScriptUtilFunc.parseAcscJavaCode(braData.getScripts(), classname, 
+						CoreScriptUtilFunc.Tag_AcscScriptBranch_Baseclass, 
+						CoreScriptUtilFunc.Tag_AcscScriptBranch_Begin);
+				try {
+					branch.setExternalAcscBranch((BaseAcscBranch)MemoryJavaCompiler.javac( 
+						CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+				} catch (Exception e) {
+					IpssLogger.logErr(e);
+					return false;
+				}
 			}
-			return true;
+			else {
+				Object plugin = UISpringAppContext.getCustomAcscBranchScriptPlugin(braData.getScriptPluginName());
+				branch.setExternalAcscBranch((BaseAcscBranch)plugin); 
+			}
 		}
 		else {
-			throw new InvalidParameterException("Wrong Aclf Branch type for mapping AcscBranchInfo, type: " + data.getLfCode()); 
+			throw new InvalidParameterException("Wrong Aclf Branch type for mapping AcscBranchInfo, type: " + braData.getLfCode()); 
 		}
+		return true;
 	}
 
 	private static boolean setAcscLineFormInfo(AcscBranchData branchData, AcscBranch branch, 
