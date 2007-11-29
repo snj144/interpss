@@ -77,6 +77,7 @@ public class CaseData2AlgorithmMapperImpl {
     */	  		
 	  	algo.setMaxIterations(caseData.getMaxIteration());
 	  	algo.setTolerance(caseData.getTolerance());
+	  	algo.setAdjustChangeStep(caseData.getAdjustChangeStep());
 	  	algo.setInitBusVoltage(caseData.getInitBusVolt());
 	  	algo.setGsAccFactor(caseData.getAccFactor());			
 	}

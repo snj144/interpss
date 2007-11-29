@@ -39,7 +39,6 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
-import org.interpss.core.grid.gridgain.util.IpssGridUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -100,7 +99,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 			LoadflowAlgorithm algo = (LoadflowAlgorithm)model;
 			AclfNetwork net = algo.getAclfNetwork();
 
-			String lfAlgoStr = IpssGridUtilFunc.serializeAclfAlgorithm(algo);
+			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(algo);
 	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}

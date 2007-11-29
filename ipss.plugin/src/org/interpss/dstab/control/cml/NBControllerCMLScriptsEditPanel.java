@@ -28,10 +28,10 @@ import java.util.Vector;
 
 import org.interpss.editor.ui.util.GUIFileUtil;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.dstab.controller.annotate.ICMLScriptingController;
 
-public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	private BaseCMLScriptingController controller = null;
@@ -55,7 +55,7 @@ public class NBControllerCMLScriptsEditPanel extends javax.swing.JPanel implemen
 	*
 	* @return false if there is any problem
 	*/
-    public boolean setData2Editor() {
+    public boolean setData2Editor(String desc) {
     	if (controller.getScripts() == null || controller.getScripts().trim().equals(""))
     		loadTemplate2Textarea();
     	else

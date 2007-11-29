@@ -28,9 +28,9 @@ import java.util.Vector;
 
 import org.interpss.dstab.control.base.EditUtilFunct;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 
-public class NBIeeeSteamNREditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBIeeeSteamNREditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 
 	// define data to be edited
@@ -41,7 +41,7 @@ public class NBIeeeSteamNREditPanel extends javax.swing.JPanel implements IContr
         initComponents();
         // init the field to the default values
         _data = new IeeeSteamNRGovernorData();
-        setData2Editor();
+        setData2Editor("");
         
         // associate the editing fields with the verifier class defined at the end of this calss
   		DataVerifier verifier = new DataVerifier();
@@ -69,7 +69,7 @@ public class NBIeeeSteamNREditPanel extends javax.swing.JPanel implements IContr
 	*
 	* @return false if there is any problem
 	*/
-    public boolean setData2Editor() {
+    public boolean setData2Editor(String desc) {
     	EditUtilFunct.setDblTextFiled(kTextField, 	_data.getK(), "#0.00");
     	EditUtilFunct.setDblTextFiled(t1TextField, 	_data.getT1(), "#0.000");
     	EditUtilFunct.setDblTextFiled(t2TextField, 	_data.getT2(), "#0.000");

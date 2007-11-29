@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.custom.script;
+package org.interpss.custom.script.proj;
 
 import java.io.BufferedReader;
 import java.io.File;

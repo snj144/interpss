@@ -51,6 +51,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.device.DynamicBusDeviceType;
+import com.interpss.dstab.device.ScriptLangType;
 import com.interpss.dstab.mach.Controller;
 import com.interpss.dstab.mach.DynamicMachine;
 import com.interpss.dstab.mach.EConstMachine;
@@ -117,7 +118,14 @@ public class DStabFormDataMapperImpl {
 		busDevice.setDeviceType(DynamicBusDeviceType.SCRIPT_DYNAMIC_BUS_DEVICE);
 		busDevice.setId(Constants.DBusDeviceIdToken+busId);
 		busDevice.setName(Constants.DBusDeviceIdToken+busId);
-		busDevice.setScripts(busData.getScripts());
+		busDevice.setScriptLang(busData.getScriptLanguage() == DStabBusData.ScriptLanguage_Java?
+				ScriptLangType.JAVA : ScriptLangType.PLUGIN);
+		if (busData.getScriptLanguage() == DStabBusData.ScriptLanguage_Java)
+			busDevice.setScripts(busData.getScripts());
+		else {
+			busDevice.setPluginName(busData.getScriptPluginName());
+			busDevice.setPluginDataXmlStr(busData.getScriptPluginXmlStr());
+		}
 	}
 	
 /*  replaced by CML DynamicBusDevice

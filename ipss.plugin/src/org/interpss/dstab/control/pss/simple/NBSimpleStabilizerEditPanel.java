@@ -27,11 +27,11 @@ package org.interpss.dstab.control.pss.simple;
 
 import java.util.Vector;
 
-import com.interpss.common.ui.IControllerEditor;
+import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.Number2String;
 
-public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements IControllerEditor {
+public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements ICustomPluginEditor {
 	private static final long serialVersionUID = 1;
 	
 	SimpleStabilizerData _data;
@@ -59,7 +59,7 @@ public class NBSimpleStabilizerEditPanel extends javax.swing.JPanel implements I
 	*
 	* @return false if there is any problem
 	*/
-    public boolean setData2Editor() {
+    public boolean setData2Editor(String desc) {
   	    ksTextField.setText(Number2String.toStr(_data.getKs(), "#0.00"));
   	    t1TextField.setText(Number2String.toStr(_data.getT1(), "#0.000"));
   	    t2TextField.setText(Number2String.toStr(_data.getT2(), "#0.000"));

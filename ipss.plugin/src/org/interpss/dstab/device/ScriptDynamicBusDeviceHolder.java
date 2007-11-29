@@ -26,7 +26,9 @@ package org.interpss.dstab.device;
 
 import java.util.Hashtable;
 
-import org.interpss.editor.ui.util.DStabScriptUtilFunc;
+import org.interpss.editor.ui.IScriptPluginEditing;
+import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -36,6 +38,7 @@ import com.interpss.core.net.Network;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.device.ScriptDynamicBusDevice;
+import com.interpss.dstab.device.ScriptLangType;
 import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
 
 /**
@@ -48,7 +51,17 @@ import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
  */
 public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	private ScriptDynamicBusDevice device = null;
+	private String pluginName = "";
+	private String pluginDataXmlStr = "";
 	
+	public void setPluginName(String pluginName) {
+		this.pluginName = pluginName;
+	}
+
+	public void setPluginDataXmlStr(String pluginDataXmlStr) {
+		this.pluginDataXmlStr = pluginDataXmlStr;
+	}
+
 	/**
 	 * Generate Java code, compile code, load compile class and then delegate init to the 
 	 * created device object
@@ -115,13 +128,20 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	}
 	
 	private void createDeviceObject() {
-		String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
-		String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
-		try {
-			device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
-					DStabScriptUtilFunc.ScriptDynamicBusControllerPackageName+classname, javacode);
-		} catch (Exception e) {
-			IpssLogger.logErr(e);
+		if (getScriptLang() == ScriptLangType.JAVA) {
+			String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
+			String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
+			try {
+				device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
+						CoreScriptUtilFunc.ScriptDynamicBusControllerPackageName+classname, javacode);
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+			}
+		}
+		else {
+			IpssLogger.getLogger().info("Create custom plugin: " + this.pluginName + " with data: " + this.pluginDataXmlStr);
+			device = (ScriptDynamicBusDevice)UISpringAppContext.getCustomDynamicBusDeviceScriptPlugin(this.pluginName);
+			((IScriptPluginEditing)device).setData(this.pluginDataXmlStr);
 		}
 	}
 }
