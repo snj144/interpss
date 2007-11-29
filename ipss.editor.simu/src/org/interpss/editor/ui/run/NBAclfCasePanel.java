@@ -229,16 +229,21 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         if (_netContainer != null && 
         		IGNetForm.AppType_Transmission.equals(_netContainer.getGNetForm().getAppType()) &&
-        		!_netContainer.isBranchR_LT_X())
+        		!_netContainer.isBranchR_LT_X()) {
             this.pqRadioButton.setSelected(true);
-        else
+        	this.nonDivergeCheckBox.setEnabled(false);
+        }
+        else {
         	this.nrRadioButton.setSelected(true);
+        	this.nonDivergeCheckBox.setEnabled(true);
+        }
         
         this.accFactorTextField.setText(Number2String.toStr(_caseData.getAccFactor(), "#0.0#"));
         this.errPUTextField.setText(Number2String.toStr(_caseData.getTolerance(), "#0.#####"));
         double baseKva = _netContainer != null? ((GNetForm)_netContainer.getGNetForm()).getBaseKVA() : 100000.0;
         this.errKVATextField.setText(Number2String.toStr(_caseData.getTolerance()*baseKva, "#0.####"));
         this.maxItrTextField.setText(new Integer(_caseData.getMaxIteration()).toString());
+        this.nonDivergeCheckBox.setSelected(_caseData.getAdjustChangeStep());
         this.initVoltCheckBox.setSelected(_caseData.getInitBusVolt());
 		this.lfSummaryCheckBox.setSelected(_caseData.getShowSummary());
 		
@@ -273,6 +278,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         if (SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d, errMsg, "GS acceleration factor <= 0.0"))
         	_caseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
 
+        _caseData.setAdjustChangeStep(this.nonDivergeCheckBox.isSelected());
         _caseData.setInitBusVolt(this.initVoltCheckBox.isSelected());
         _caseData.setShowSummary(this.lfSummaryCheckBox.isSelected());
         
@@ -310,6 +316,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         maxItrTextField = new javax.swing.JTextField();
         accFactorLabel = new javax.swing.JLabel();
         accFactorTextField = new javax.swing.JTextField();
+        nonDivergeCheckBox = new javax.swing.JCheckBox();
         initVoltCheckBox = new javax.swing.JCheckBox();
         lfSummaryCheckBox = new javax.swing.JCheckBox();
         gridComputingPanel = new javax.swing.JPanel();
@@ -491,13 +498,25 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         paramPanel.add(accFactorTextField, gridBagConstraints);
 
+        nonDivergeCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        nonDivergeCheckBox.setSelected(true);
+        nonDivergeCheckBox.setText("Adjust Change Step for Non-divergence");
+        nonDivergeCheckBox.setName("initVoltCheckBox"); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        gridBagConstraints.insets = new java.awt.Insets(5, 40, 0, 0);
+        paramPanel.add(nonDivergeCheckBox, gridBagConstraints);
+
         initVoltCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         initVoltCheckBox.setSelected(true);
         initVoltCheckBox.setText("Initialize Bus Voltage");
         initVoltCheckBox.setName("initVoltCheckBox"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(5, 40, 5, 0);
@@ -509,7 +528,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         lfSummaryCheckBox.setName("lfSummaryCheckBox"); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 5;
         gridBagConstraints.gridwidth = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 40, 5, 0);
@@ -909,24 +928,27 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         add(runAclfTabbedPane, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
-private void nrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrRadioButtonActionPerformed
-    accFactorTextField.setEnabled(false);
-    accFactorLabel.setEnabled(false);
-}//GEN-LAST:event_nrRadioButtonActionPerformed
+    private void nrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrRadioButtonActionPerformed
+    	accFactorTextField.setEnabled(false);
+    	accFactorLabel.setEnabled(false);
+        this.nonDivergeCheckBox.setEnabled(true);
+    }//GEN-LAST:event_nrRadioButtonActionPerformed
 
-private void pqRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqRadioButtonActionPerformed
-    accFactorTextField.setEnabled(false);
-    accFactorLabel.setEnabled(false);
-    if (_netContainer != null && _netContainer.isBranchR_LT_X()) {
-        SpringAppContext.getEditorDialogUtil().showMsgDialog("Warning",
+    private void pqRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqRadioButtonActionPerformed
+    	accFactorTextField.setEnabled(false);
+    	accFactorLabel.setEnabled(false);
+    	this.nonDivergeCheckBox.setEnabled(false);
+    	if (_netContainer != null && _netContainer.isBranchR_LT_X()) {
+    		SpringAppContext.getEditorDialogUtil().showMsgDialog("Warning",
                 "You have branch(es) R > X in your next work, PQ method may diverge. Use NR is recommended");
-    }
-}//GEN-LAST:event_pqRadioButtonActionPerformed
+    	}
+    }//GEN-LAST:event_pqRadioButtonActionPerformed
 
-private void gsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsRadioButtonActionPerformed
-    accFactorTextField.setEnabled(true);
-    accFactorLabel.setEnabled(true);
-}//GEN-LAST:event_gsRadioButtonActionPerformed
+    private void gsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsRadioButtonActionPerformed
+    	accFactorTextField.setEnabled(true);
+    	accFactorLabel.setEnabled(true);
+		this.nonDivergeCheckBox.setEnabled(false);
+	}//GEN-LAST:event_gsRadioButtonActionPerformed
 
     private void pqQStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqQStepButtonActionPerformed
     	IpssLogger.getLogger().info("PQ-Q Step run");
@@ -1136,6 +1158,7 @@ private void gsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JLabel mismatchLabel;
     private javax.swing.JTextArea msgOutTextArea;
     private javax.swing.JScrollPane msgScrollPane;
+    private javax.swing.JCheckBox nonDivergeCheckBox;
     private javax.swing.JRadioButton nrRadioButton;
     private javax.swing.JButton nrStepButton;
     private javax.swing.JPanel paramPanel;
