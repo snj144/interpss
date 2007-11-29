@@ -7,21 +7,28 @@
 	<ns:include schemaLocation="Modification.xsd"></ns:include>
 	<ns:include schemaLocation="RunStudyCase.xsd"></ns:include>
 	
-	<ns:element name="InterPSS" type="ipss:InterPSSType"></ns:element>
-	<ns:complexType name="InterPSSType">
+	<ns:element name="InterPSS" type="ipss:InterPSSXmlType">
+		<ns:annotation>
+			<ns:documentation>
+				Root element of the InterPSS schema 1) ComplexType ends
+				with XmlType 2) SimpleType ends with XmlData
+			</ns:documentation>
+		</ns:annotation></ns:element>
+	<ns:complexType name="InterPSSXmlType">
         <ns:annotation>
         	<ns:documentation>
-        		Mofication could be defined at root level and at
+        		InterPSS schema root element type.
+
+        		(1) Mofication could be defined at root level and/or at
         		StudyCase level. Modification at root level applies to
         		all study cases, while modification at StudyCase level
         		only applies to the case only.
         	</ns:documentation>
         </ns:annotation>
-        <ns:sequence>
-			<ns:element name="runTask" type="ipss:RunTaskDataType"></ns:element>
-			<ns:element name="modification" type="ipss:ModificationType" maxOccurs="1" minOccurs="0">
+        <ns:sequence>
+			<ns:element name="modification" type="ipss:ModificationXmlType" maxOccurs="1" minOccurs="0">
 			</ns:element>
-			<ns:element name="runStudyCase" type="ipss:RunStudyCaseType" maxOccurs="1" minOccurs="0">
+			<ns:element name="runStudyCase" type="ipss:RunStudyCaseXmlType" maxOccurs="1" minOccurs="0">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
