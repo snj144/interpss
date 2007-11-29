@@ -374,35 +374,38 @@ public class AclfFormDataMapperImpl {
 	 */
 	public static boolean setAclfBranchFormInfo(GBranchForm formBranch, AclfBranch branch, 
 							AclfAdjNetwork aclfNet, boolean aclf, IPSSMsgHub msg) {
-		AclfBranchData data = formBranch.getAcscBranchData();
-		if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {   // line branch
+		AclfBranchData braData = formBranch.getAcscBranchData();
+		if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {   // line branch
 			return setLineBranchFormInfo(formBranch, branch, aclfNet, msg);
 		}
-		else if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {   // xfr branch
+		else if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {   // xfr branch
 			setXfrBranchFormInfo(formBranch, branch, aclfNet, msg);
-			return true;
 		}
-		else if (data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {   // psxfr branch
+		else if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {   // psxfr branch
 			setPSXfrBranchFormInfo(formBranch, branch, aclfNet, msg);
-			return true;
 		}
-		else if (data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) && aclf) { 
+		else if (braData.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) && aclf) { 
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
-			//branch.setScripts(data.getScripts());
-			String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
-			String javacode = CoreScriptUtilFunc.parseAclfJavaCode(data.getScripts(), classname, 
-								CoreScriptUtilFunc.Tag_AclfScriptBranch_Baseclass, 
-								CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin);
-			try {
-				branch.setExternalAclfBranch((BaseAclfBranch)MemoryJavaCompiler.javac( 
-					CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
-			} catch (Exception e) {
-				IpssLogger.logErr(e);
-				return false;
+			if (braData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
+				//branch.setScripts(data.getScripts());
+				String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
+				String javacode = CoreScriptUtilFunc.parseAclfJavaCode(braData.getScripts(), classname, 
+									CoreScriptUtilFunc.Tag_AclfScriptBranch_Baseclass, 
+									CoreScriptUtilFunc.Tag_AclfScriptBranch_Begin);
+				try {
+					branch.setExternalAclfBranch((BaseAclfBranch)MemoryJavaCompiler.javac( 
+						CoreScriptUtilFunc.AclfScriptingPackageName+"/"+classname, javacode));
+				} catch (Exception e) {
+					IpssLogger.logErr(e);
+					return false;
+				}			
+			}
+			else {
+				Object plugin = UISpringAppContext.getCustomAclfBranchScriptPlugin(braData.getScriptPluginName());
+				branch.setExternalAclfBranch((BaseAclfBranch)plugin); 
 			}			
-			return true;
 		}
-		return false;
+		return true;
 	}
 
 	private static boolean addAclfAdjBranchFormInfo(GBranchForm formBranch, 
