@@ -433,12 +433,16 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		Vector<String> errMsg = new Vector<String>();
 		try {
         	if (!saveEditor2Form(errMsg)) {
+        		this.setModal(false);
         		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
+        		this.setModal(true);
 				return;
         	}
         } catch (Exception e) {
         	IpssLogger.logErr(e);
+    		this.setModal(false);
         	SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
+    		this.setModal(true);
 			return;
         }	
 		_returnOK = true;

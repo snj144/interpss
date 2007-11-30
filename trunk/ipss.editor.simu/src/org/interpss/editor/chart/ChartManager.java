@@ -97,7 +97,7 @@ public class ChartManager {
 					    		simuCtx.getDStabilityNet().getBaseKva());
 					}
 					else if (dstabBus.getScriptDynamicBusDevice() != null) {
-					    addCMLDynamicBusDeviceItem2ActionList(menu, dstabBus.getScriptDynamicBusDevice(), caseId, simuCtx.getDStabilityNet());
+					    addDynamicBusDeviceItem2ActionList(menu, dstabBus.getScriptDynamicBusDevice(), caseId, simuCtx.getDStabilityNet());
 					}
 					/*
 					else if (dstabBus.getScriptDBusDevice() != null) {
@@ -313,14 +313,14 @@ public class ChartManager {
 		}
 	}
     
-    private static void addCMLDynamicBusDeviceItem2ActionList(JPopupMenu menu, final ScriptDynamicBusDevice device, final int caseId, DStabilityNetwork net) {
-		JMenu deviceStateMenu = new JMenu("CML Script Device Variable");
+    private static void addDynamicBusDeviceItem2ActionList(JPopupMenu menu, final ScriptDynamicBusDevice device, final int caseId, DStabilityNetwork net) {
+		JMenu deviceStateMenu = new JMenu("Dynamic Bus Device Variable");
 		menu.add(deviceStateMenu);
 		Object[] stateList = getStatesNameList(caseId, device.getId(), ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
 		for (int i = 0; i < stateList.length; i++) {
 			final String yLabel = (String)stateList[i];
 			final String yDataLabel = yLabel;
-			deviceStateMenu.add(new AbstractAction("Plot Script Bus Device Variable - " + yLabel) {
+			deviceStateMenu.add(new AbstractAction("Plot Dynamic Bus Device Variable - " + yLabel) {
 				public void actionPerformed(ActionEvent e) {
 				    plotStateCurve(caseId, device.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
 				}
