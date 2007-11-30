@@ -3,8 +3,6 @@ package org.interpss.custom.script.dstab.z;
 import java.util.Hashtable;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.script.aclf.indgen.InductionGeneratorData;
-import org.interpss.custom.script.aclf.indgen.NBInductionGenEditPanel;
 import org.interpss.custom.script.dstab.AbstractDynamicBusDeviceScriptEditing;
 
 import com.interpss.common.datatype.ComplexFunc;
@@ -17,8 +15,8 @@ import com.interpss.dstab.mach.Machine;
 
 public class SampleConstantZ extends AbstractDynamicBusDeviceScriptEditing {
 	public SampleConstantZ() {
-		setData(new InductionGeneratorData());
-		setEditPanel(new NBInductionGenEditPanel());
+		setData(new SampleConstantZData());
+		setEditPanel(new NBSampleConstantZEditPanel());
 	}
 /*
 	public SampleConstantZ(String name, String desc) {
