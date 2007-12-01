@@ -1,4 +1,4 @@
-package org.interpss.custom.script.dstab.z;
+package org.interpss.custom.script.dstab.staticz;
 
 import java.util.Hashtable;
 

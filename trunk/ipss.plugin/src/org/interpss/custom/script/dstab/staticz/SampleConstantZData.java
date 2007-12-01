@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.custom.script.dstab.z;
+package org.interpss.custom.script.dstab.staticz;
 
 public class SampleConstantZData {
 	public SampleConstantZData() {}
