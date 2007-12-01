@@ -122,11 +122,17 @@
 		=======================================
 		
 	-->	
+	<bean id="sampleLine"  
+	  	class="org.interpss.custom.script.aclf.line.SampleLine"
+	    scope="prototype"	
+	    p:name="Aclf Sample Line"
+	    p:desc="A sample line Aclf branch scripting implementation" />
 	<bean id="customAclfBranchScriptPluginList" 
 	      class="java.util.ArrayList"
 	      scope="singleton">	
 		<constructor-arg>
 			<list>
+				<ref bean="sampleLine"/>
 			</list>
 		</constructor-arg>
 	</bean>	
@@ -166,7 +172,7 @@
 	-->	
 
 	<bean id="sampleStaticLoad"  
-	  	class="org.interpss.custom.script.dstab.z.SampleConstantZ"
+	  	class="org.interpss.custom.script.dstab.staticz.SampleConstantZ"
 	    scope="prototype"	
 	    p:name="Sample Static Load"
 	    p:desc="A sample static load dynamic bus device implementation" />
