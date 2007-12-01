@@ -73,12 +73,16 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
 		else if (scriptType == Type.DynamicBusDevice)
 			customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				UISpringAppContext.getCustomDynamicBusDeviceScriptPluginNameList()));
+		if (customPluginComboBox.getItemCount() == 0) {
+    		scriptingRadioButton.setSelected(true);
+    		customPluginRadioButton.setEnabled(false);
+		}
 	}
 	
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBCustomScriptEditPanel setForm2Editor() called");
 
-    	if (_data.getScriptLanguage() == CaseData.ScriptLanguage_Java) {
+    	if (_data.getScriptLanguage() == CaseData.ScriptLanguage_Java || !customPluginRadioButton.isEnabled()) {
     		this.scriptingRadioButton.setSelected(true);
     		if (_data.getScripts() != null && !_data.getScripts().trim().equals("")) {
 	    		scriptTextArea.setText(_data.getScripts());
