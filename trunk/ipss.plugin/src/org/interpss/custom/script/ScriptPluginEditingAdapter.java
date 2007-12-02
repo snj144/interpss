@@ -41,6 +41,11 @@ public class ScriptPluginEditingAdapter implements IScriptPluginEditing {
 	private String name;
 	private String desc;
 	
+	public ScriptPluginEditingAdapter(String name, String desc) {
+		this.name = name;
+		this.desc = desc;
+	}
+	
 	@Override
 	public void setData(Object obj) {
 		_data = obj;

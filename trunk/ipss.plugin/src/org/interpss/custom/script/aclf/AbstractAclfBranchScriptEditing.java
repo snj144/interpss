@@ -33,12 +33,11 @@ import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.core.aclf.impl.BaseAclfBranchImpl;
 
 public abstract class AbstractAclfBranchScriptEditing extends BaseAclfBranchImpl implements IScriptPluginEditing {  
-	private ScriptPluginEditingAdapter pluginAdapter = new ScriptPluginEditingAdapter();
-	/*
-		public AbstractAclfBusScriptEditing(String name, String desc) {
-			this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
-		}
-	*/
+	private ScriptPluginEditingAdapter pluginAdapter = null;
+
+	public AbstractAclfBranchScriptEditing(String name, String desc) {
+		this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
+	}
 	
 	@Override
 	public void setData(Object obj) {

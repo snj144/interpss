@@ -35,12 +35,12 @@ import com.interpss.core.aclf.impl.BaseAclfBusImpl;
 
 public abstract class AbstractAclfBusScriptEditing extends BaseAclfBusImpl implements IScriptPluginEditing {  
 
-	private ScriptPluginEditingAdapter pluginAdapter = new ScriptPluginEditingAdapter();
-/*
+	private ScriptPluginEditingAdapter pluginAdapter = null;
+
 	public AbstractAclfBusScriptEditing(String name, String desc) {
 		this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
 	}
-*/		
+
 	@Override
 	public void setData(Object obj) {
 		this.pluginAdapter.setData(obj);

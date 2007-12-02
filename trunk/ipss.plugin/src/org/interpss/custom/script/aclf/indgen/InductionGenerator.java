@@ -35,12 +35,17 @@ public class InductionGenerator extends AbstractAclfBusScriptEditing {
 	 * Default constructor
 	 */
 	public InductionGenerator() {
+		this("", "");
+	}
+
+	public InductionGenerator(String name, String desc) {
+		super(name, desc);
 		// set the plugin data object
 		setData(new InductionGeneratorData());
 		// set the plugin editor Pandel
 		setEditPanel(new NBInductionGenEditPanel());
 	}
-
+	
 	/**
      * Get the data object
      *

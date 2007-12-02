@@ -33,12 +33,11 @@ import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
 
 public abstract class AbstractDynamicBusDeviceScriptEditing extends ScriptDynamicBusDeviceImpl implements IScriptPluginEditing {  
-	private ScriptPluginEditingAdapter pluginAdapter = new ScriptPluginEditingAdapter();
-	/*
-		public AbstractAclfBusScriptEditing(String name, String desc) {
-			this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
-		}
-	*/
+	private ScriptPluginEditingAdapter pluginAdapter = null;
+
+	public AbstractDynamicBusDeviceScriptEditing(String name, String desc) {
+		this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
+	}
 	
 	@Override
 	public void setData(Object obj) {

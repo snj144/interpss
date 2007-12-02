@@ -33,12 +33,11 @@ import com.interpss.common.ui.ICustomPluginEditor;
 import com.interpss.core.acsc.impl.BaseAcscBusImpl;
 
 public abstract class AbstractAcscBusScriptEditing extends BaseAcscBusImpl implements IScriptPluginEditing {  
-	private ScriptPluginEditingAdapter pluginAdapter = new ScriptPluginEditingAdapter();
-	/*
-		public AbstractAclfBusScriptEditing(String name, String desc) {
-			this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
-		}
-	*/
+	private ScriptPluginEditingAdapter pluginAdapter = null;
+
+	public AbstractAcscBusScriptEditing(String name, String desc) {
+		this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
+	}
 	
 	@Override
 	public void setData(Object obj) {
