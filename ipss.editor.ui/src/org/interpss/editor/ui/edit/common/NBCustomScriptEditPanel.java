@@ -84,43 +84,16 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
 
     	if (_data.getScriptLanguage() == CaseData.ScriptLanguage_Java || !customPluginRadioButton.isEnabled()) {
     		this.scriptingRadioButton.setSelected(true);
-    		if (_data.getScripts() != null && !_data.getScripts().trim().equals("")) {
-	    		scriptTextArea.setText(_data.getScripts());
-	    	}
-	    	else {
-	    		// load from the template
-	    		String filename = "";
-	    		if (scriptType == Type.AclfBus)
-		    		filename = CoreScriptUtilFunc.AclfBusTemplateFilename;
-	    		else if (scriptType == Type.AclfBranch)
-		    		filename = CoreScriptUtilFunc.AclfBranchTemplateFilename;
-	    		else if (scriptType == Type.AcscBus)
-		    		filename = CoreScriptUtilFunc.AcscBusTemplateFilename;
-	    		else if (scriptType == Type.AcscBranch)
-		    		filename = CoreScriptUtilFunc.AcscBranchTemplateFilename;
-	    		else if (scriptType == Type.DynamicBusDevice)
-		    		filename = CoreScriptUtilFunc.DynamicBusDeviceTemplateFilename;
-	    		
-	    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
-	    	}
+    	    scriptingRadioButtonActionPerformed(null);
     	}
     	else if (_data.getScriptLanguage() == CaseData.ScriptLanguage_Plugin) {
     		customPluginRadioButton.setSelected(true);
-    		if (_data.getScriptPluginName() != null && !_data.getScriptPluginName().trim().equals("")) {
-    			customPluginComboBox.setSelectedItem(_data.getScriptPluginName());
-    		}
-    		else 
-    			customPluginComboBox.setSelectedIndex(0);
-       	    customPluginComboBoxActionPerformed(null);
-       		if (!_data.getScriptPluginXmlStr().trim().equals(""))
-       			plugin.setData(_data.getScriptPluginXmlStr());
-       		((ICustomPluginEditor)plugin.getEditPanel()).setData2Editor(plugin.getDesc());
-        	parent.pack();
+    		customPluginRadioButtonActionPerformed(null);
     	}
 
     	return true;
 	}
-    
+
     public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBCustomScriptEditPanel saveEditor2Form() called");
 		boolean ok = true;
@@ -191,6 +164,7 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         scriptingButtonGroup = new javax.swing.ButtonGroup();
         scriptPanel = new javax.swing.JPanel();
         scriptSelectPanel = new javax.swing.JPanel();
@@ -228,7 +202,6 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
 
         customPluginComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        customPluginComboBox.setEnabled(false);
         customPluginComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 customPluginComboBoxActionPerformed(evt);
@@ -271,26 +244,29 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
     }// </editor-fold>//GEN-END:initComponents
         
     private void scriptingRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptingRadioButtonActionPerformed
-    	customPluginComboBox.setEnabled(false);
-    	_data.setScriptLanguage(CaseData.ScriptLanguage_Java);
-    	scriptEditPanel.removeAll();
-    	scriptEditPanel.add(scriptScrollPane);
-    	setForm2Editor();
-    	parent.pack();
-    	this.repaint();
+    	if (scriptingRadioButton.isSelected()) {
+    		customPluginComboBox.setEnabled(false);
+    		_data.setScriptLanguage(CaseData.ScriptLanguage_Java);
+        	scriptEditPanel.removeAll();
+        	scriptEditPanel.add(scriptScrollPane);
+    	    setScriptTextArea();
+        	parent.pack();
+        	this.repaint();
+    	}
     }//GEN-LAST:event_scriptingRadioButtonActionPerformed
 
     private void customPluginRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customPluginRadioButtonActionPerformed
-    	customPluginComboBox.setEnabled(true);
-    	_data.setScriptLanguage(CaseData.ScriptLanguage_Plugin);
-        customPluginComboBoxActionPerformed(evt);
-    	setForm2Editor();
-    	parent.pack();
-    	this.repaint();
+    	if (customPluginRadioButton.isSelected()) {
+    		customPluginComboBox.setEnabled(true);
+        	_data.setScriptLanguage(CaseData.ScriptLanguage_Plugin);
+    		if (_data.getScriptPluginName() != null && !_data.getScriptPluginName().trim().equals("")) {
+    			customPluginComboBox.setSelectedItem(_data.getScriptPluginName());
+    		}
+    	    customPluginComboBoxActionPerformed(null);
+    	}
     }//GEN-LAST:event_customPluginRadioButtonActionPerformed
 
     private void customPluginComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customPluginComboBoxActionPerformed
-    	scriptEditPanel.removeAll();
 		String pluginName =  (String)customPluginComboBox.getSelectedItem();
 		if (this.scriptType == Type.AclfBus)
 			this.plugin = UISpringAppContext.getCustomAclfBusScriptPlugin(pluginName);
@@ -302,10 +278,36 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
 			this.plugin = UISpringAppContext.getCustomAcscBranchScriptPlugin(pluginName);
 		else if (this.scriptType == Type.DynamicBusDevice)
 			this.plugin = UISpringAppContext.getCustomDynamicBusDeviceScriptPlugin(pluginName);
+    	scriptEditPanel.removeAll();
     	scriptEditPanel.add(plugin.getEditPanel());
+		if (!_data.getScriptPluginXmlStr().trim().equals(""))
+   			plugin.setData(_data.getScriptPluginXmlStr());
+   		((ICustomPluginEditor)plugin.getEditPanel()).setData2Editor(plugin.getDesc());
     	parent.pack();
     	this.repaint();
     }//GEN-LAST:event_customPluginComboBoxActionPerformed
+    
+    private void setScriptTextArea() {
+		if (_data.getScripts() != null && !_data.getScripts().trim().equals("")) {
+    		scriptTextArea.setText(_data.getScripts());
+    	}
+    	else {
+    		// load from the template
+    		String filename = "";
+    		if (scriptType == Type.AclfBus)
+	    		filename = CoreScriptUtilFunc.AclfBusTemplateFilename;
+    		else if (scriptType == Type.AclfBranch)
+	    		filename = CoreScriptUtilFunc.AclfBranchTemplateFilename;
+    		else if (scriptType == Type.AcscBus)
+	    		filename = CoreScriptUtilFunc.AcscBusTemplateFilename;
+    		else if (scriptType == Type.AcscBranch)
+	    		filename = CoreScriptUtilFunc.AcscBranchTemplateFilename;
+    		else if (scriptType == Type.DynamicBusDevice)
+	    		filename = CoreScriptUtilFunc.DynamicBusDeviceTemplateFilename;
+    		
+    		GUIFileUtil.readFile2TextareaRativePath(filename, scriptTextArea);
+    	}
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox customPluginComboBox;
