@@ -277,6 +277,7 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
     	scriptEditPanel.add(scriptScrollPane);
     	setForm2Editor();
     	parent.pack();
+    	this.repaint();
     }//GEN-LAST:event_scriptingRadioButtonActionPerformed
 
     private void customPluginRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customPluginRadioButtonActionPerformed
@@ -302,6 +303,8 @@ public class NBCustomScriptEditPanel extends javax.swing.JPanel implements IForm
 		else if (this.scriptType == Type.DynamicBusDevice)
 			this.plugin = UISpringAppContext.getCustomDynamicBusDeviceScriptPlugin(pluginName);
     	scriptEditPanel.add(plugin.getEditPanel());
+    	parent.pack();
+    	this.repaint();
     }//GEN-LAST:event_customPluginComboBoxActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
