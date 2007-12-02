@@ -34,12 +34,11 @@ import com.interpss.core.acsc.impl.BaseAcscBranchImpl;
 
 
 public abstract class AbstractAcscBranchScriptEditing extends BaseAcscBranchImpl implements IScriptPluginEditing {  
-	private ScriptPluginEditingAdapter pluginAdapter = new ScriptPluginEditingAdapter();
-	/*
-		public AbstractAclfBusScriptEditing(String name, String desc) {
-			this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
-		}
-	*/
+	private ScriptPluginEditingAdapter pluginAdapter = null;
+
+	public AbstractAcscBranchScriptEditing(String name, String desc) {
+		this.pluginAdapter = new ScriptPluginEditingAdapter(name, desc);;
+	}
 	
 	@Override
 	public void setData(Object obj) {
