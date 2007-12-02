@@ -107,10 +107,10 @@
 	    p:name="Aclf Induction Generator"
 	    p:desc="InterPSS Aclf Induction Generator implementation" />
 	<bean id="sampleAclfBusPlugin"  
-	  	class="org.interpss.sample.plugin.aclf.load.SampleLoad"
+	  	class="org.interpss.sample.plugin.aclf.funcload.SampleFuncLoad"
 	    scope="prototype"	
-	    p:name="Sample Aclf Scripting Load"
-	    p:desc="A sample line Aclf bus scripting implementation" />
+	    p:name="Sample Aclf Scripting FuncLoad"
+	    p:desc="A sample Functional Load Aclf bus scripting implementation" />
 
 	<bean id="customAclfBusScriptPluginList" 
 	      class="java.util.ArrayList"
