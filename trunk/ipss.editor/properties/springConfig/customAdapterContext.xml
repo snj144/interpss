@@ -182,7 +182,6 @@
 	    scope="prototype"	
 	    p:name="Sample Static Load"
 	    p:desc="A sample static load dynamic bus device implementation" />
-
 	<bean id="customDynamicBusDeviceScriptPluginList" 
 	      class="java.util.ArrayList"
 	      scope="singleton">	
