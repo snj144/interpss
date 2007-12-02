@@ -14,7 +14,7 @@
 	<classpathentry kind="var" path="IPSS_LIB/report/jdt-compiler.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
-	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.jar"/>
+	<classpathentry kind="var" path="IPSS_LIB/swing/swing-layout-1.0.3.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/spring/spring.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
