@@ -27,7 +27,6 @@ package org.interpss.editor;
 import org.interpss.editor.app.AppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
-import org.interpss.editor.resources.Translator;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.interpss.common.SpringAppContext;
@@ -35,8 +34,6 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.IRefDataManager;
 import com.interpss.common.io.ISimuRecManager;
-import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.StringUtil;
 
 public class EditorSpringAppContext extends SpringAppContext {
 	/**
