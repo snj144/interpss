@@ -30,13 +30,6 @@
 	    p:name="CML Scripting Exciter"
 	    p:category="InterPSS" 
 	    p:desc="InterPSS CML scripting exciter implementation" />
-	
-	<bean id="sampleCustomExciter" 
-	  	class="dstab.exc.sample.CustomExciter"
-	    scope="prototype"	
-	    p:name="Sample Custom Exciter"
-	    p:category="InterPSS"
-	    p:desc="A sample custom exciter implementation" />
 
 	<bean id="simpleExciter" 
 	      class="org.interpss.dstab.control.exc.simple.SimpleExciter"
@@ -94,6 +87,12 @@
 	      p:category="IEEE-Exciter"
 	      p:desc="The IEEE AC-4A Type exciter implementation" />
 -->
+	<bean id="sampleCustomExciter" 
+	  	class="org.interpss.sample.plugin.dstab.cml.exc.SampleExc"
+	    scope="prototype"	
+	    p:name="Sample Custom Exciter"
+	    p:category="InterPSS Sample"
+	    p:desc="A sample custom exciter plugin implementation" />
 	<bean id="exciterList" 
 	      class="java.util.ArrayList"
 	      scope="singleton">	
@@ -106,6 +105,7 @@
 				<ref bean="ieee1968Type2Exciter"/>
 				<ref bean="ieee1968Type3Exciter"/>
 				<ref bean="ieee1968Type4Exciter"/>
+				<ref bean="sampleCustomExciter"/>
 			</list>
 		</constructor-arg>
 	</bean>

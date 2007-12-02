@@ -10,14 +10,7 @@
 	    p:name="CML Scripting Stabilizer"
 	    p:category="InterPSS"
 	    p:desc="InterPSS CML scripting stabilizer implementation" />
-<!--	
-	<bean id="sampleCustomStabilizer" 
-	      class="custom.dstab.pss.sample.CustomStabilizer"
-	      scope="prototype"	
-	    p:name="Sample Custom Stabilizer"
-	    p:category="InterPSS"
-	    p:desc="A sample custom stabilizer implementation" />
--->
+
 	<bean id="simpleStabilizer" 
 	      class="org.interpss.dstab.control.pss.simple.SimpleStabilizer"
 	      scope="prototype"	
