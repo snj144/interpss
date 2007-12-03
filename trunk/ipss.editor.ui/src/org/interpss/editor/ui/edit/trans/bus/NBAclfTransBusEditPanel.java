@@ -686,7 +686,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
         lfDataPanel.add(genTypePanel, gridBagConstraints);
 
         getInfoPanel.setLayout(new java.awt.GridBagLayout());
@@ -897,7 +897,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 5, 0);
         lfDataPanel.add(getInfoPanel, gridBagConstraints);
 
         loadTypePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Load Type", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
@@ -1123,7 +1123,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(5, 0, 0, 0);
         lfDataPanel.add(loadInfoPanel, gridBagConstraints);
 
         shuntYPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
@@ -1147,7 +1147,7 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 0, 10, 0);
         lfDataPanel.add(shuntYPanel, gridBagConstraints);
 
         busTabbedPane.addTab("Bus LF Data", lfDataPanel);
