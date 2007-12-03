@@ -269,8 +269,8 @@ public class NBDStabTransBusEditPanel extends javax.swing.JPanel implements IFor
         dstabTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         dstabTabbedPane.setName("dstabTabbedPane"); // NOI18N
 
-        mainEditPanel.setLayout(new java.awt.BorderLayout(0, 10));
-        mainEditPanel.add(aclfInfoEditPanel, java.awt.BorderLayout.NORTH);
+        mainEditPanel.setLayout(new java.awt.BorderLayout(0, 5));
+        mainEditPanel.add(aclfInfoEditPanel, java.awt.BorderLayout.CENTER);
 
         scriptingCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         scriptingCheckBox.setText("Dynamic Bus Device Scripting");
