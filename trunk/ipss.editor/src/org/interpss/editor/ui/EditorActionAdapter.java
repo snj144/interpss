@@ -57,10 +57,27 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuSpringAppContext;
 
 public class EditorActionAdapter {
-	public static void menu_run_aclf(boolean graphView, JGraph graph, IpssEditorDocument doc) {
+	public static enum RunType {Dclf, Aclf, Acsc, DStab, Script};
+	
+	public static void menu_run(RunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
+		if (type == RunType.Dclf)
+			menu_run_dclf(graphView, graph, doc);
+		else if (type == RunType.Aclf)
+			menu_run_aclf(graphView, graph, doc);
+		else if (type == RunType.Acsc)
+			menu_run_acsc(graphView, graph, doc);
+		else if (type == RunType.DStab)
+			menu_run_dstab(graphView, graph, doc);
+		else if (type == RunType.Script)
+			menu_run_scripting(graphView, graph, doc);
+	}
+
+	private static void menu_run_dclf(boolean graphView, JGraph graph, IpssEditorDocument doc) {
+	}
+	
+	private static void menu_run_aclf(boolean graphView, JGraph graph, IpssEditorDocument doc) {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 		
@@ -89,7 +106,7 @@ public class EditorActionAdapter {
 		}
 	}
 
-	public static void menu_run_acsc(boolean graphView, JGraph graph, IpssEditorDocument doc) {
+	private static void menu_run_acsc(boolean graphView, JGraph graph, IpssEditorDocument doc) {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 		IGFormContainer gFormContainer = null;
@@ -118,7 +135,7 @@ public class EditorActionAdapter {
 		}
 	}
 
-	public static void menu_run_dstab(boolean graphView, JGraph graph, IpssEditorDocument doc) {
+	private static void menu_run_dstab(boolean graphView, JGraph graph, IpssEditorDocument doc) {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 		IGFormContainer gFormContainer = null;
@@ -144,7 +161,7 @@ public class EditorActionAdapter {
 		}	
 	}
 	
-	public static void menu_run_scripting(boolean graphView, JGraph graph, IpssEditorDocument doc) {
+	private static void menu_run_scripting(boolean graphView, JGraph graph, IpssEditorDocument doc) {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 		IGFormContainer gFormContainer = null;
