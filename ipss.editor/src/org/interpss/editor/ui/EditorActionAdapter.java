@@ -54,6 +54,7 @@ import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.simu.SimuContext;
@@ -87,7 +88,11 @@ public class EditorActionAdapter {
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
-		//simuCtx.set.setLoadflowAlgorithm(CoreObjectFactory.createDclfAlgorithm(net));
+		
+		if (type == RunType.Dclf) {
+			IpssLogger.getLogger().info("Run Dclf analysis");
+			simuCtx.setDclfAlgorithm(CoreObjectFactory.createDclfAlgorithm());
+		}
 	}
 	
 	private static void menu_run_aclf(boolean graphView, JGraph graph, IpssEditorDocument doc) {
