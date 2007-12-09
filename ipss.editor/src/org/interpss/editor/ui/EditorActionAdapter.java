@@ -59,11 +59,12 @@ import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.simu.SimuContext;
 
 public class EditorActionAdapter {
-	public static enum RunType {Dclf, Aclf, Acsc, DStab, Script};
+	public static enum RunType {Dclf, Aclf, Acsc, DStab, Script, GenShiftFactor, LineOutageDistFactor, PowerTransferDistFactor};
 	
 	public static void menu_run(RunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
-		if (type == RunType.Dclf)
-			menu_run_dclf(graphView, graph, doc);
+		if (type == RunType.Dclf || type == RunType.GenShiftFactor ||
+				type == RunType.LineOutageDistFactor || type == RunType.PowerTransferDistFactor)
+			menu_run_dclf(type, graphView, graph, doc);
 		else if (type == RunType.Aclf)
 			menu_run_aclf(graphView, graph, doc);
 		else if (type == RunType.Acsc)
@@ -74,7 +75,19 @@ public class EditorActionAdapter {
 			menu_run_scripting(graphView, graph, doc);
 	}
 
-	private static void menu_run_dclf(boolean graphView, JGraph graph, IpssEditorDocument doc) {
+	private static void menu_run_dclf(RunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
+		
+		IGFormContainer gFormContainer = null ;
+		if (graphView) {
+			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
+			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
+			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+				return;
+			appSimuCtx.setSimuNetDataDirty(false);
+		}
+		//simuCtx.set.setLoadflowAlgorithm(CoreObjectFactory.createDclfAlgorithm(net));
 	}
 	
 	private static void menu_run_aclf(boolean graphView, JGraph graph, IpssEditorDocument doc) {

@@ -12,6 +12,12 @@
 		Define Loadflow, Short circuit and Stability algorithms
 		=======================================================
 	-->
+	<bean id="dclfAlgorithm" 
+	      class="com.interpss.core.CoreObjectFactory"	
+		  factory-method="createDclfAlgorithm" 
+		  scope="prototype">	
+	</bean>
+
 	<bean id="loadflowAlgorithm" 
 	      class="com.interpss.core.CoreObjectFactory"	
 		  factory-method="createLoadflowAlgorithm" 
