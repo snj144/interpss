@@ -146,15 +146,15 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * The main Panel with the status bar and the desktop pane
 	 */
 	protected JPanel mainPanel = new JPanel(new BorderLayout());
-	
+
 	private JPanel editorPanel = new JPanel();
 
 	protected IpssProjectPanel projectPanel;
 
 	protected boolean isDocMaxSize = false;
-	
+
 	private JFrame smartFrame = null;
-	
+
 	/**
 	 * A configuration specific to the Graphpad instance. Remark: we would
 	 * hardly need it, the static configuration should be sufficient.
@@ -171,7 +171,9 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public void init() {
-		IpssLogger.getLogger().info("Command search path: " + Translator.getString("CommandSearchPath"));
+		IpssLogger.getLogger().info(
+				"Command search path: "
+						+ Translator.getString("CommandSearchPath"));
 		GPPluginInvoker.setCommandSearchPath(Utilities.tokenize(Translator
 				.getString("CommandSearchPath")));
 		// instanciations of the singletons:
@@ -179,7 +181,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		logger = (Component) GPPluginInvoker.createSingleton("Console.class");
 		GPPluginInvoker.createGraphpadAwareSingleton("BarFactory.class", this);
 
-		
 		setBorder(BorderFactory.createEtchedBorder());
 		setLayout(new BorderLayout());
 
@@ -352,9 +353,10 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public IpssEditorDocument getCurrentDocument() {
-        if (desktop == null) // added by Mike, desktop may be null during unit testing  
-        	return null;
-        
+		if (desktop == null) // added by Mike, desktop may be null during
+								// unit testing
+			return null;
+
 		IpssDocInternalFrame internalFrame = (IpssDocInternalFrame) desktop
 				.getSelectedComponent();
 		if (internalFrame == null)
@@ -659,7 +661,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		IpssProjectItem item = this.getProjectPanel().addNewProjectItem(p, doc);
 
 		expendTree2CurrentDocument();
-		
+
 		return item;
 	}
 
@@ -775,23 +777,23 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			addDocument2Frame(doc);
 			if (add2Project) {
 				IpssProjectItem rptitem = item.getItem(name);
-				if (rptitem==null){
+				if (rptitem == null) {
 					item.addDocument(doc, 0);
-					IpssProjectItem newItem = this.getProjectPanel().addNewProjectItem(item, doc);
+					IpssProjectItem newItem = this.getProjectPanel()
+							.addNewProjectItem(item, doc);
 					expendTree2CurrentDocument();
 					// return item for saving report file
 					return newItem;
-				}
-				else{
+				} else {
 					if (rptitem.isLoaded())
-						this.closeDocument((IpssEditorDocument)rptitem.getDocument());
+						this.closeDocument((IpssEditorDocument) rptitem
+								.getDocument());
 					rptitem.setDocument(doc);
 					this.OpenDocument(doc);
 					expendTree2Object(doc);
 					return rptitem;
 				}
-				
-				
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -840,8 +842,63 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		IpssProjectItem item = this.getProjectPanel().addNewProjectItem(p, doc);
 
 		expendTree2CurrentDocument();
-		
+
 		return item;
+	}
+
+	public IpssProjectItem addXmlDocument(String name, IpssProject p,
+			IpssXmlFile file) {
+
+		if (p == null)
+			return null;
+
+		IpssXmlDocument doc = new IpssXmlDocument(this, p, name, file);
+
+		p.addDocument(doc, 0);
+		addDocument2Frame(doc);
+
+		IpssProjectItem item = this.getProjectPanel().addNewProjectItem(p, doc);
+
+		expendTree2CurrentDocument();
+
+		return item;
+	}
+
+	public void addXmlDocument(String name, IpssProjectItem item,
+			IpssXmlFile file) {
+
+		if (item == null)
+			return;
+
+		IpssXmlDocument doc = new IpssXmlDocument(this, item.getProject(),
+				name, file);
+
+		item.addDocument(doc, 0);
+		addDocument2Frame(doc);
+
+		this.getProjectPanel().addNewProjectItem(item, doc);
+
+		expendTree2CurrentDocument();
+	}
+
+	public void addXmlDocument(String name, IpssProjectItem item) {
+		addXmlDocument(name, item, null);
+	}
+
+	public void addXmlDocument(String name, IpssProject p) {
+		addXmlDocument(name, p, null);
+	}
+
+	public void addXmlDocument(IpssProjectItem item, IpssXmlFile file) {
+
+		IpssXmlDocument doc = new IpssXmlDocument(this, item.getProject(), item
+				.getName(), file);
+
+		item.setDocument(doc);
+
+		addDocument2Frame(doc);
+
+		expendTree2CurrentDocument();
 	}
 
 	// public void addCustomDocument(IpssCustomDocument doc) {
@@ -919,6 +976,20 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 							ex.toString());
 					ex.printStackTrace();
 				}
+			} else if (item.getName().endsWith("xml")) {
+				try {
+					IpssXmlFile file = Utilities.OpenXmlFile(this, item
+							.getName());
+
+					if (file == null)
+						return;
+					addXmlDocument(item, file);
+				} catch (Exception ex) {
+					SpringAppContext.getEditorDialogUtil().showMsgDialog(
+							"InterPSS Xml Data File Open Error", ex.toString());
+					ex.printStackTrace();
+
+				}
 			} else if (item.getName().endsWith("txt")) {
 				try {
 					IpssTextFile file = Utilities.OpenTextFile(this, item
@@ -956,26 +1027,28 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 
 		doc = item.getDocument();
 		if (doc instanceof GPDocument || doc instanceof IpssCustomDocument) {
-			// Richard: the following logic also need to be applied when we import
+			// Richard: the following logic also need to be applied when we
+			// import
 			// an exiting graphic or custom project.
 			// Begin
-			IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities.loadProjectData(item);
+			IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities
+					.loadProjectData(item);
 			// end
 			if (doc instanceof GPDocument) {
 				// we need synch some data in the graph with the project data,
 				// since project data may be
 				// created later.
-				//String str = ((GPDocument) doc).getGFormContainer()
-				//		.getGNetForm().getLabel(IUserData.NET_LABEL);
-				//IpssLogger.getLogger().info(
-				//		"ProjectData.name updated to " + str);
-				appSimuContext.getProjData().setProjectName(appSimuContext.getProjData().getFilename());
-				((GPDocument) doc).getGFormContainer().getGNetForm().setNewState(false);
+				// String str = ((GPDocument) doc).getGFormContainer()
+				// .getGNetForm().getLabel(IUserData.NET_LABEL);
+				// IpssLogger.getLogger().info(
+				// "ProjectData.name updated to " + str);
+				appSimuContext.getProjData().setProjectName(
+						appSimuContext.getProjData().getFilename());
+				((GPDocument) doc).getGFormContainer().getGNetForm()
+						.setNewState(false);
 			}
 		}
 	}
-
-
 
 	public boolean OpenDocument(IpssEditorDocument doc) {
 		if (doc.equals(getCurrentDocument()))
@@ -1154,8 +1227,9 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 
 	public void refreshDocumentEditorPanel(IpssEditorDocument doc) {
 
-		//if ((doc instanceof GPDocument) || (doc instanceof IpssTextDocument)) {
-		if (doc != null) {  // add by Mike, doc may be null during unit testing
+		// if ((doc instanceof GPDocument) || (doc instanceof IpssTextDocument))
+		// {
+		if (doc != null) { // add by Mike, doc may be null during unit testing
 			doc.updateFrameTitle();
 			IpssDocInternalFrame iFrame = (IpssDocInternalFrame) getDoc2InternalFrame()
 					.get(doc);
@@ -1164,42 +1238,44 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			desktop.setTitleAt(index, doc.getTabTitle());
 		}
 
-			// IGFormContainer netContainer
-			// =((GPDocument)getCurrentDocument()).getGFormContainer();
-			// if (netContainer.isDataDirty()) {
-			// // When the current graphic file is edited, the dataDirty set
-			// true, we need to
-			// // do something for example put a dirty * indicator
-			// }
-		//}
+		// IGFormContainer netContainer
+		// =((GPDocument)getCurrentDocument()).getGFormContainer();
+		// if (netContainer.isDataDirty()) {
+		// // When the current graphic file is edited, the dataDirty set
+		// true, we need to
+		// // do something for example put a dirty * indicator
+		// }
+		// }
 	}
 
 	public void refreshCurrentDocumentEditorPanel() {
 		refreshDocumentEditorPanel(getCurrentDocument());
 	}
-	
+
 	public String getRootDir() {
 		return StringUtil.getInstallLocation();
 	}
-	
+
 	public String getWorkspace() {
 		return EditorSpringAppContext.getAppContext().getWorkspaceDir();
 	}
-	
+
 	public String getCurrentProjectFolder() {
-		if (getCurrentDocument() != null) 
+		if (getCurrentDocument() != null)
 			return getCurrentDocument().getProject().getProjectName();
 		else
-			return "testing";  // in testing situations, the document is not existing
+			return "testing"; // in testing situations, the document is not
+								// existing
 	}
 
 	public String getCurrentProjectName() {
-		if (getCurrentDocument() != null) 
-			return Utilities.getFileNameNoExt(getCurrentDocument().getName());	
+		if (getCurrentDocument() != null)
+			return Utilities.getFileNameNoExt(getCurrentDocument().getName());
 		else
-			return "TestProject";  // in testing situations, the document is not existing
+			return "TestProject"; // in testing situations, the document is
+									// not existing
 	}
-	
+
 	public JFrame getSmartFrame() {
 		return this.smartFrame;
 	}
@@ -1207,30 +1283,31 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	public void createEditorPanel(GPSessionParameters sessionParameters) {
 		setSessionParameters(sessionParameters);
 		init();
-		
+
 		editorPanel = new JPanel();
 		editorPanel.setLayout(new BorderLayout());
 		editorPanel.add(this, BorderLayout.CENTER);
 		editorPanel.setVisible(false);
-		
+
 		this.smartFrame = new SmartFrame();
 		smartFrame.setName("MainGraphpad");
-		smartFrame.setIconImage(ImageLoader.getImageIcon(Translator.getString("Icon")).getImage());
+		smartFrame.setIconImage(ImageLoader.getImageIcon(
+				Translator.getString("Icon")).getImage());
 		smartFrame.setTitle(Translator.getString("Title"));
 		smartFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		smartFrame.getContentPane().add(editorPanel, BorderLayout.CENTER);
 		smartFrame.addWindowListener(getAppCloser());
 		smartFrame.setVisible(true);
-		
+
 		initData();
 		editorPanel.setVisible(true);
-		initActive();		
+		initActive();
 	}
-	
+
 	public JPanel getEditorPanel() {
 		return editorPanel;
 	}
-	
+
 	public void closeWorkspace(ActionEvent e) {
 		expendTree2Object(getCurrentDocument());
 		IpssProjectItem aitem = getCurrentProjectItem();
@@ -1251,6 +1328,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 				.getAllProjects();
 		if ((projects != null) && (projects.length > 0))
 			for (int i = 0; i < projects.length; i++)
-				saveProject(projects[i]);		
+				saveProject(projects[i]);
 	}
 }
