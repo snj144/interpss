@@ -42,6 +42,7 @@ import java.util.zip.GZIPOutputStream;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.coreframework.GPPluginInvoker;
+import org.interpss.editor.coreframework.IpssXmlFile;
 import org.interpss.editor.coreframework.IpssCustomFile;
 import org.interpss.editor.coreframework.IpssReportFile;
 import org.interpss.editor.coreframework.IpssTextFile;
@@ -57,6 +58,7 @@ import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.project.IpssCustomDataCodec;
 import org.interpss.editor.project.IpssGraphCodec;
+import org.interpss.editor.project.IpssXmlCodec;
 import org.interpss.editor.resources.Translator;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellViewFactory;
@@ -385,6 +387,34 @@ public final class Utilities {
 		return file;
 	}
 
+	public static IpssXmlFile OpenXmlFile(GPGraphpad graphpad, String abpath) throws Exception {
+		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
+				IAppStatus.BusyIndicatorPeriod, "Load XML data file ...", "");
+		IpssLogger.getLogger().info("Load XML file: " + abpath);
+		
+		IpssXmlFile file = new IpssXmlFile();
+
+		IAppSimuContext appSimuContext = IpssXmlCodec.getInstance(graphpad).read(abpath);
+		if (appSimuContext == null) {
+			SpringAppContext.getEditorDialogUtil().showMsgDialog("InterPSS XML File Open Error", "");
+			return null;
+		} else {
+			file.setSimuAppContext(appSimuContext);
+			file.setModified(false);
+			file.getSimuAppContext().getProjData().setDirty(false);
+			file.getSimuAppContext().getProjData().setFilepath(abpath);
+			file.getSimuAppContext().getProjData().setWorkspacePath(StringUtil.getWorkspacePath(abpath));
+			file.getSimuAppContext().getProjData().setProjectName(StringUtil.getFileName(abpath));
+			file.setFilePathName(abpath);
+			//graphpad.setStatus("Custom Data loaded, File:" + abpath); no need anymore
+			SpringAppContext.getIpssMsgHub().sendStatusMsg("Xml Data, File:" + abpath);
+		}
+
+		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Custom Data loaded, " + abpath);
+		return file;
+	}
+
+	
 	// load project data from DB
 	public static IAppSimuContext loadProjectData(IpssProjectItem item) {
 		IpssLogger.getLogger().info("Load project data from DB ...");

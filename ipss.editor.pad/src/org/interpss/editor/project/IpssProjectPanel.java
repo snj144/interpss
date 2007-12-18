@@ -61,7 +61,7 @@ public class IpssProjectPanel extends JPanel {
 	private JPopupMenu popupItem;
 
 	private ArrayList<IpssProjectItem> init_OpenItems = new ArrayList<IpssProjectItem>();
-	
+
 	private IpssProjectItem init_ActiveItem;
 
 	/**
@@ -89,6 +89,7 @@ public class IpssProjectPanel extends JPanel {
 
 		Hashtable icons = new Hashtable();
 		icons.put("ipss", IpssIconFactory.ICON_GRAPH);
+		icons.put("xml", IpssIconFactory.ICON_XML);
 		icons.put("txt", IpssIconFactory.ICON_TEXT);
 		icons.put("ipssrpt", IpssIconFactory.ICON_REPORT);
 
@@ -193,13 +194,13 @@ public class IpssProjectPanel extends JPanel {
 
 				// if (items[j].isOpen() && !items[j].isLoaded())
 				// graphpad.OpenProjectItem(items[j]);
-				if (items[j].isOpen() && !items[j].isLoaded()){
+				if (items[j].isOpen() && !items[j].isLoaded()) {
 					init_OpenItems.add(items[j]);
-					if (items[j].isActive()){
-						init_ActiveItem = items[j]; 
+					if (items[j].isActive()) {
+						init_ActiveItem = items[j];
 					}
 				}
-					
+
 				items[j].setInit_Status(IpssProjectItem.STATUS_CLOSE);
 			}
 	}
@@ -229,9 +230,11 @@ public class IpssProjectPanel extends JPanel {
 	}
 
 	public void showActiveItem() {
-		if (init_ActiveItem!=null)
-			graphpad.OpenDocument((IpssEditorDocument)init_ActiveItem.getDocument());
+		if (init_ActiveItem != null)
+			graphpad.OpenDocument((IpssEditorDocument) init_ActiveItem
+					.getDocument());
 	}
+
 	public void showOpenItems(int j) {
 		graphpad.OpenProjectItem(init_OpenItems.get(j));
 	}
@@ -376,7 +379,7 @@ public class IpssProjectPanel extends JPanel {
 		// modified by Mike, findedTreeNode may be null
 		if (findedTreeNode != null)
 			return (IpssProjectItem) (findedTreeNode.getUserObject());
-		else 
+		else
 			return null;
 	}
 
@@ -484,7 +487,8 @@ public class IpssProjectPanel extends JPanel {
 			return true;
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
-			return (item.getFileExt().equals("ipss"))
+			return (item.getFileExt().equals("xml"))
+					|| (item.getFileExt().equals("ipss"))
 					|| (Utilities.haveExt(SimuAppSpringAppContext
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
@@ -538,19 +542,19 @@ public class IpssProjectPanel extends JPanel {
 						.actionPerformed(null);
 			}
 
-			//super.mouseClicked(e);
+			// super.mouseClicked(e);
 		}
 
-//		@Override
-//		public void mousePressed(MouseEvent e) {
-//			if ((graphpad.getCurrentProjectItem() != null)
-//					&& (graphpad.getCurrentProjectItem().getDocument() != null)) {
-//				graphpad.getCommand("FileProjectOpenItem").actionPerformed(
-//						null);
-//			}
-//
-//			super.mousePressed(e);
-//		}
+		// @Override
+		// public void mousePressed(MouseEvent e) {
+		// if ((graphpad.getCurrentProjectItem() != null)
+		// && (graphpad.getCurrentProjectItem().getDocument() != null)) {
+		// graphpad.getCommand("FileProjectOpenItem").actionPerformed(
+		// null);
+		// }
+		//
+		// super.mousePressed(e);
+		// }
 
 		public void mouseReleased(MouseEvent e) {
 			if (e.isPopupTrigger()) {
