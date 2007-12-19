@@ -151,30 +151,30 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
 		    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 	    }
 	    else {
-		    if (_data.getGenCode().equals(AclfBusData.GenCode_NonGen)) {
+		    if (_data.getGenCode().equals(AclfBusData.GenCode_GenScripting)) {
+		    	scriptGenRadioButton.setSelected(true);
+		    	setScriptPanel();
+		    }
+		    else {
 		    	nonGenRadioButton.setSelected(true);
 		        nonGenRadioButtonSelected(null);
 		    	pGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 			    qGenTextField.setText(Number2String.toStr(0.0, "#0.0####"));
-		    }
-		    else {	
-		    	scriptGenRadioButton.setSelected(true);
-		    	setScriptPanel();
 		    }
 	    }
 	    
 		// set load data panel
 	    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad) || 
 	    	 _data.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)	) {
-		    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_NonLoad)) { 
+		    if ( _data.getLoadCode().equals(AclfBusData.LoadCode_LoadScripting)) { 
+		    	scriptLoadRadioButton.setSelected(true);
+		    	setScriptPanel();
+		    }
+		    else {
 		    	nonLoadRadioButton.setSelected(true);
 		        nonLoadRadioButtonSelected(null);
 			    pLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
 		    	qLoadTextField.setText(Number2String.toStr(0.0, "#0.0####"));
-		    }
-		    else {
-		    	scriptLoadRadioButton.setSelected(true);
-		    	setScriptPanel();
 		    }
 	    } 
 	    else {
@@ -532,7 +532,6 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
         reQControlButtonGroup = new javax.swing.ButtonGroup();
         flowDirectionButtonGroup = new javax.swing.ButtonGroup();
         mvarSideButtonGroup = new javax.swing.ButtonGroup();
-        scriptingButtonGroup = new javax.swing.ButtonGroup();
         busTabbedPane = new javax.swing.JTabbedPane();
         lfDataPanel = new javax.swing.JPanel();
         genTypePanel = new javax.swing.JPanel();
@@ -1348,7 +1347,6 @@ public class NBAclfTransBusEditPanel extends javax.swing.JPanel implements IForm
     private javax.swing.JRadioButton scriptGenRadioButton;
     private javax.swing.JRadioButton scriptLoadRadioButton;
     private javax.swing.JPanel scriptPanel;
-    private javax.swing.ButtonGroup scriptingButtonGroup;
     private javax.swing.JTextField shuntBTextField;
     private javax.swing.JTextField shuntGTextField;
     private javax.swing.JPanel shuntYPanel;

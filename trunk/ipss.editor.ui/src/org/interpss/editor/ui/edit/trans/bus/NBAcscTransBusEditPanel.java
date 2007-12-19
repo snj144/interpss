@@ -35,14 +35,11 @@ import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.edit.common.NBCustomScriptEditPanel;
 import org.interpss.editor.ui.edit.common.NBGroundInputPanel;
-import org.interpss.editor.ui.util.CoreScriptUtilFunc;
-import org.interpss.editor.ui.util.GUIFileUtil;
-import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
- 
+
  
 public class NBAcscTransBusEditPanel extends javax.swing.JPanel implements IFormDataPanel {
 	private static final long serialVersionUID = 1;

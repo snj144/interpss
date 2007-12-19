@@ -67,8 +67,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 	    r1TextField.setInputVerifier(verifier);
 	    toTapTextField.setInputVerifier(verifier);
 	    x0TextField.setInputVerifier(verifier);
-	    x1TextField.setInputVerifier(verifier);
-	    
+	    x1TextField.setInputVerifier(verifier);   
 	}
     
 	public void init(Object netContainer, Object form) {
@@ -87,6 +86,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 	
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBBranchScPanel setForm2Editor() called");
+		IpssLogger.getLogger().info("NBBranchScPanel LfCode = " + _data.getLfCode());
 
 		r1TextField.setText(Number2String.toStr(_data.getZR(), "#0.0####"));
 	    x1TextField.setText(Number2String.toStr(_data.getZX(), "#0.0####"));
@@ -101,10 +101,12 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 	    	toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0##"));
         	if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {
         		xfrRadioButton.setSelected(true);
+        		IpssLogger.getLogger().info("NBBranchScPanel xfrRadioButton.setSelected(true)");
         	    setBTapLabelText(false, false);
         	}    
         	else {
         		psXfrRadioButton.setSelected(true);
+        		IpssLogger.getLogger().info("NBBranchScPanel psXfrRadioButton.setSelected(true)");
         	    setBTapLabelText(false, true);
         	    hB1TextField.setText(Number2String.toStr(_data.getPhaseShiftAngle(), "#0.0##"));
         	}    
@@ -115,20 +117,22 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
             xfrToGroundPanel.add(_toXfrConnectPanel);
             _toXfrConnectPanel.setForm2Editor();
     	}
-	    else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
+	    else if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
+    		scriptRadioButton.setSelected(true);
+    		IpssLogger.getLogger().info("NBBranchScPanel scriptRadioButton.setSelected(true)");
+    	    setDataFieldStatus(false);
+    	    
+            xfrFromGroundPanel.remove(_fromXfrConnectPanel);
+            xfrToGroundPanel.remove(_toXfrConnectPanel);
+	    }
+    	else { 
     		lineRadioButton.setSelected(true);
+    		IpssLogger.getLogger().info("NBBranchScPanel lineRadioButton.setSelected(true)");
     	    setDataFieldStatus(true);
     	    setBTapLabelText(true, false);
 
     	    hB1TextField.setText(Number2String.toStr(_data.getHalfShuntB(), "#0.0####"));
     	    hB0TextField.setText(Number2String.toStr(_data.getHalfShuntB0(), "#0.0####"));
-    	    
-            xfrFromGroundPanel.remove(_fromXfrConnectPanel);
-            xfrToGroundPanel.remove(_toXfrConnectPanel);
-	    }
-    	else { // branch scripting
-    		scriptRadioButton.setSelected(true);
-    	    setDataFieldStatus(false);
     	    
             xfrFromGroundPanel.remove(_fromXfrConnectPanel);
             xfrToGroundPanel.remove(_toXfrConnectPanel);
@@ -191,6 +195,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
 
     	if (scriptRadioButton.isSelected()) {
     		_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
+    		// scripting data saved by the parent editing panel
     	}
     	else {
         	if (lineRadioButton.isSelected())
@@ -511,6 +516,7 @@ public class NBBranchScDataPanel extends javax.swing.JPanel implements IFormData
     }// </editor-fold>//GEN-END:initComponents
 
 private void scriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_scriptRadioButtonActionPerformed
+	IpssLogger.getLogger().info("NBBranchScDataPanel.scriptRadioButtonActionPerformed()");
 	_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
 	setForm2Editor();
 }//GEN-LAST:event_scriptRadioButtonActionPerformed
