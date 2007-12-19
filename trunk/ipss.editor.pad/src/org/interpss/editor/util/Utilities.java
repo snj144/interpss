@@ -387,30 +387,19 @@ public final class Utilities {
 		return file;
 	}
 
-	public static IpssXmlFile OpenXmlFile(GPGraphpad graphpad, String abpath) throws Exception {
+	public static IpssXmlFile OpenXmlFile(GPGraphpad graphpad,
+			String filepath) throws Exception {
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
-				IAppStatus.BusyIndicatorPeriod, "Load XML data file ...", "");
-		IpssLogger.getLogger().info("Load XML file: " + abpath);
+				IAppStatus.BusyIndicatorPeriod,	"Load XML File ...", "");
+
+		IpssXmlFile file = new IpssXmlFile(filepath);
+
+//		file.setModified(false);
+//		file.setFilePathName(filepath);
+		//graphpad.setStatus("Text loaded, File:" + filepath); no need anymore
+		SpringAppContext.getIpssMsgHub().sendStatusMsg("XML File:" + filepath);
 		
-		IpssXmlFile file = new IpssXmlFile();
-
-		IAppSimuContext appSimuContext = IpssXmlCodec.getInstance(graphpad).read(abpath);
-		if (appSimuContext == null) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog("InterPSS XML File Open Error", "");
-			return null;
-		} else {
-			file.setSimuAppContext(appSimuContext);
-			file.setModified(false);
-			file.getSimuAppContext().getProjData().setDirty(false);
-			file.getSimuAppContext().getProjData().setFilepath(abpath);
-			file.getSimuAppContext().getProjData().setWorkspacePath(StringUtil.getWorkspacePath(abpath));
-			file.getSimuAppContext().getProjData().setProjectName(StringUtil.getFileName(abpath));
-			file.setFilePathName(abpath);
-			//graphpad.setStatus("Custom Data loaded, File:" + abpath); no need anymore
-			SpringAppContext.getIpssMsgHub().sendStatusMsg("Xml Data, File:" + abpath);
-		}
-
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("Custom Data loaded, " + abpath);
+		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("XML File loaded, " + filepath);
 		return file;
 	}
 
