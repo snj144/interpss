@@ -74,11 +74,10 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 				}
 				else if (branchInfoEditTabbedPane.getSelectedIndex() == 1) {
 					IpssLogger.getLogger().info("Short Circut Info Tab selected");
-					try {
-						Vector<String> errMsg = new Vector<String>();
-						_positiveEditPanel.saveEditor2Form(errMsg);
-					} catch (Exception exc) {}	
 				    _scEditPanel.setForm2Editor();
+				}
+				else if (branchInfoEditTabbedPane.getSelectedIndex() == 2) {
+					IpssLogger.getLogger().info("Scripting Tab selected");
 				}
 			}});
 	}
@@ -119,9 +118,9 @@ public class NBAcscTransBranchEditPanel extends javax.swing.JPanel implements IF
 		_scEditPanel.setForm2Editor();
 		if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
 			this.customScriptEditPanel.setForm2Editor();
+	        branchInfoEditTabbedPane.setSelectedIndex(2);
 		}	
-		
-	    if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAclfData() ) {
+		else if (((GNetForm)_netContainer.getGNetForm()).getAcscNetData().isHasAclfData() ) {
 	    	_positiveEditPanel.setForm2Editor();
 	    }
 		return true;

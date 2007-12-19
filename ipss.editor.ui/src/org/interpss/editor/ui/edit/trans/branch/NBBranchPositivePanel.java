@@ -82,6 +82,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 		_netContainer = (GFormContainer)netContainer;
 		_form = (GBranchForm)form;
 		_data = _form.getAcscBranchData();
+		IpssLogger.getLogger().info("NBBranchPositivePanel id: " + _form.getId() + " LfCode = " + _data.getLfCode());
 		
 		customScriptEditPanel.init(_data, NBCustomScriptEditPanel.Type.AclfBranch);
 		
@@ -114,10 +115,12 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBBranchPositivePanel setForm2Editor() called");
+		IpssLogger.getLogger().info("NBBranchPositivePanel id: " + _form.getId() + " LfCode = " + _data.getLfCode());
 
 	    if (_data.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting)) {
 		    setDataFieldEnabled(false);
 			branchScriptRadioButton.setSelected(true);
+			IpssLogger.getLogger().info("NBBranchPositivePanel branchScriptRadioButton.setSelected(true)");
 			this.customScriptEditPanel.setForm2Editor();
     	    dataPanel.remove(tapVControlPanel);
     	    dataPanel.remove(psXfrPControlPanel);
@@ -132,6 +135,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 			mvaRating3TextField.setText(Number2String.toStr(_data.getRating3(), "#0.0#"));
 			if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
 				lineRadioButton.setSelected(true);
+				IpssLogger.getLogger().info("NBBranchPositivePanel lineRadioButton.setSelected(true)");
 	    	    setBranchLabelText(true, false);
 	    	    hBTextField.setText(Number2String.toStr(_data.getHalfShuntB(), "#0.0####"));
 
@@ -140,6 +144,7 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 			}
 			else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr)) {
 				xfrRadioButton.setSelected(true);
+				IpssLogger.getLogger().info("NBBranchPositivePanel xfrRadioButton.setSelected(true)");
 	    	    setBranchLabelText(false, false);
 	    	    fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
 	    	    toTapTextField.setText(Number2String.toStr(_data.getXfrTapToSideTap(), "#0.0####"));
@@ -161,8 +166,9 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	    			}	
 	    	    }
 			}
-			else { // PS_Xfr case
+			else if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {
 		   		psXfrRadioButton.setSelected(true);
+				IpssLogger.getLogger().info("NBBranchPositivePanel psXfrRadioButton.setSelected(true)");
 	    	    setBranchLabelText(false, true);
 	    	    hBTextField.setText(Number2String.toStr(_data.getPhaseShiftAngle(), "#0.0####"));
 	    	    fromTapTextField.setText(Number2String.toStr(_data.getXfrTapFromSideTap(), "#0.0####"));
@@ -992,12 +998,6 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void branchScriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchScriptRadioButtonActionPerformed
-    	_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
-    	setForm2Editor();
-		branchTabbedPane.setEnabledAt(1, true);
-    }//GEN-LAST:event_branchScriptRadioButtonActionPerformed
-
     private void mvaFlowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mvaFlowButtonActionPerformed
         vcBusLabel.setText("Mvar Spec On  ");
         vcBusComboBox.setModel(new DefaultComboBoxModel(new String[] {"From Side", "To Side"}));
@@ -1015,6 +1015,13 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	    vcBusFromSideRadioButton.setText("From Side   ");
 	    vcBusToSideRadioButton.setText("To Side");
     }//GEN-LAST:event_voltageButtonActionPerformed
+
+    private void branchScriptRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchScriptRadioButtonActionPerformed
+    	IpssLogger.getLogger().info("NBBranchPositivePanel.scriptRadioButtonActionPerformed()");
+    	_data.setLfCode(IGBranchForm.TransBranchCode_Scripting);
+    	setForm2Editor();
+		branchTabbedPane.setEnabledAt(1, true);
+    }//GEN-LAST:event_branchScriptRadioButtonActionPerformed
 
     private void psXfrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_psXfrRadioButtonActionPerformed
     	_data.setLfCode(IGBranchForm.TransBranchLfCode_PsXfr);
