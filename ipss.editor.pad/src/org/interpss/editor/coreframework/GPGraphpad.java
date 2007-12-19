@@ -846,22 +846,8 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		return item;
 	}
 
-	public IpssProjectItem addXmlDocument(String name, IpssProject p,
-			IpssXmlFile file) {
-
-		if (p == null)
-			return null;
-
-		IpssXmlDocument doc = new IpssXmlDocument(this, p, name, file);
-
-		p.addDocument(doc, 0);
-		addDocument2Frame(doc);
-
-		IpssProjectItem item = this.getProjectPanel().addNewProjectItem(p, doc);
-
-		expendTree2CurrentDocument();
-
-		return item;
+	public void addXmlDocument(String name, IpssProjectItem item) {
+		addXmlDocument(name, item, null);
 	}
 
 	public void addXmlDocument(String name, IpssProjectItem item,
@@ -881,18 +867,29 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		expendTree2CurrentDocument();
 	}
 
-	public void addXmlDocument(String name, IpssProjectItem item) {
-		addXmlDocument(name, item, null);
-	}
-
 	public void addXmlDocument(String name, IpssProject p) {
 		addXmlDocument(name, p, null);
 	}
 
+	public void addXmlDocument(String name, IpssProject p, IpssXmlFile file) {
+
+		if (p == null)
+			return;
+
+		IpssXmlDocument doc = new IpssXmlDocument(this, p, name, file);
+
+		p.addDocument(doc, 0);
+		addDocument2Frame(doc);
+
+		this.getProjectPanel().addNewProjectItem(p, doc);
+
+		expendTree2CurrentDocument();
+	}
+
 	public void addXmlDocument(IpssProjectItem item, IpssXmlFile file) {
 
-		IpssXmlDocument doc = new IpssXmlDocument(this, item.getProject(), item
-				.getName(), file);
+		IpssXmlDocument doc = new IpssXmlDocument(this, item.getProject(),
+				item.getName(), file);
 
 		item.setDocument(doc);
 

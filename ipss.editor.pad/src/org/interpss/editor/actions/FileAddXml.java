@@ -63,7 +63,7 @@ public class FileAddXml extends IpssAbstractProjectAction {
 	public void update() {
 		if (graphpad.getCurrentProject() == null)
 			setEnabled(false);
-		else if (graphpad.getProjectPanel().isProjectSelected())
+		else if (graphpad.getProjectPanel().isTextAddable())
 			setEnabled(true);
 		else
 			setEnabled(false);

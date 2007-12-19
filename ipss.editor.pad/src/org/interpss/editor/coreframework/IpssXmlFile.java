@@ -1,22 +1,12 @@
 package org.interpss.editor.coreframework;
 
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
-
 public class IpssXmlFile {
-	private IAppSimuContext appSimuContext;
 	private String filePathName;
-
-	/** 
-	 * True if this documents graph model was modified since last save.
-	 */
 	protected boolean modified = false;
-
-	public void setSimuAppContext(IAppSimuContext appSimuContext) {
-		this.appSimuContext = appSimuContext;
-	}
-
-	public IAppSimuContext getSimuAppContext() {
-		return appSimuContext;
+	
+	public IpssXmlFile(String filePathName) {
+		setFilePathName(filePathName);
+		setModified(false);
 	}
 
 	public void setFilePathName(String filePathName) {
@@ -40,4 +30,5 @@ public class IpssXmlFile {
 	public void setModified(boolean dirty) {
 		this.modified = dirty;
 	}
+	
 }

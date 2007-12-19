@@ -48,10 +48,9 @@ public class IpssXmlDocument extends IpssEditorDocument{
 		setProject(p);
 		
 		if (file != null) {
-			setSimuAppContext(file.getSimuAppContext());
 			this.docFile = file;
 		} else {
-//			this.docFile = new IpssCustomFile();
+			this.docFile = new IpssXmlFile(name);
 		}
 		
 		setBorder(BorderFactory.createEtchedBorder());
@@ -152,6 +151,10 @@ public class IpssXmlDocument extends IpssEditorDocument{
 	
 	public IpssXmlFile getDocFile() {
 		return this.docFile;
+	}
+	
+	public boolean isModified() {
+		return this.docFile.isModified();
 	}
 	
 	public void setModified(boolean dirty) {

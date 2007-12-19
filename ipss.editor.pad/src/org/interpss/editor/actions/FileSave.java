@@ -14,6 +14,7 @@ import org.interpss.editor.io.ProjectDataDBManager;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.project.IpssCustomDataCodec;
+import org.interpss.editor.project.IpssXmlCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.project.IpssTextCodec;
 
@@ -73,6 +74,13 @@ public class FileSave extends IpssAbstractActionDefault {
 						projManager.saveProjectDataToDB(getCurrentDocument().getProjData());
 						getCurrentDocument().getProjData().setDirty(false);
 					}
+				}
+				else if (graphpad.getCurrentDocument() instanceof IpssXmlDocument)
+				{
+					IpssXmlCodec.getInstance(graphpad).write(
+							new FileOutputStream(fileName),
+							(IpssXmlDocument)getCurrentDocument());
+					getCurrentDocument().setModified(false);
 				}
 				else if (graphpad.getCurrentDocument() instanceof IpssTextDocument)
 				{

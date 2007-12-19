@@ -76,7 +76,7 @@ public class IpssNewXmlDialog extends javax.swing.JDialog {
 
 	public IpssNewXmlDialog(GPGraphpad graphpad, String title) {
 		// super(graphpad.getFrame(), title, true);
-		super(graphpad.getFrame(), "New Project", true);
+		super(graphpad.getFrame(), "New XML File", true);
 
 		this.graphpad = graphpad;
 		this.parentFrame = graphpad.getFrame();

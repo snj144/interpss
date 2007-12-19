@@ -8,13 +8,12 @@ import javax.swing.filechooser.FileFilter;
 
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
-import org.interpss.editor.coreframework.IpssTextDocument;
+import org.interpss.editor.coreframework.IpssXmlDocument;
 import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.resources.Translator;
 
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.simu.SimuContext;
  
 public class IpssXmlCodec {
@@ -43,7 +42,7 @@ public class IpssXmlCodec {
 					return false;
 				if (f.getName() == null)
 					return false;
-				if (f.getName().endsWith(Translator.getString("TextFileExtension")))
+				if (f.getName().endsWith(Translator.getString("XmlFileExtension")))
 					return true;
 				if (f.isDirectory())
 					return true;
@@ -55,12 +54,12 @@ public class IpssXmlCodec {
 			 * @see javax.swing.filechooser.FileFilter#getDescription()
 			 */
 			public String getDescription() {
-				return Translator.getString("TextFileExtensionDescription"); 
+				return Translator.getString("XmlFileExtensionDescription"); 
 			}
 		};
 	}
 	
-	public void write(OutputStream out, IpssTextDocument doc) throws Exception {
+	public void write(OutputStream out, IpssXmlDocument doc) throws Exception {
 
 		// don't try / catch this command
 		// sothat we get error messages at the
@@ -74,20 +73,6 @@ public class IpssXmlCodec {
 		out.close();
 	}
 	
-	public IAppSimuContext read(String abpath) {
-		IAppSimuContext appSimuContext = SimuAppSpringAppContext.getAppSimuContext();
-		SimuContext simuCtx = (SimuContext)appSimuContext.getSimuCtx();
-// TODO addXML appSimuContext
-//		boolean ok = CustomFileUtility.loadCustomFile(abpath, simuCtx);
-//		if (ok) {
-//			appSimuContext.setSimuNetDataDirty(false);
-//		}
-//		else {
-//			appSimuContext.setSimuCtx(null);
-//			SpringAppContext.getIpssMsgHub().sendWarnMsg("Custom data file loading error, filename: " + abpath);
-//		}
-		return appSimuContext;
-	}
 	
-	
+
 }

@@ -487,8 +487,7 @@ public class IpssProjectPanel extends JPanel {
 			return true;
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
-			return (item.getFileExt().equals("xml"))
-					|| (item.getFileExt().equals("ipss"))
+			return (item.getFileExt().equals("ipss"))
 					|| (Utilities.haveExt(SimuAppSpringAppContext
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
