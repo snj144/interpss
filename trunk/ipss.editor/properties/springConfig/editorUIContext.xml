@@ -8,7 +8,7 @@
 	Define ipss editor ui package objects
 -->
 	<bean id="outputTextDialog" 
-	      class="org.interpss.editor.ui.impl.NBOutputTextDialog"
+	      class="org.interpss.display.NBOutputTextDialog"
 	      scope="singleton">	
 	      <constructor-arg>
 	      		<!-- ipssMainFrame defined in editorContext.xml -->
