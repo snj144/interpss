@@ -10,7 +10,6 @@ import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.CapacitorBusAdapter;
 import com.interpss.core.aclf.GenBusAdapter;
 import com.interpss.core.net.Bus;
-import com.interpss.core.util.outfunc.AclfOut;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
@@ -98,7 +97,7 @@ public class DStabOutFunc {
 		  		refAng = refMach.getAngle() * Constants.RtoD;
 		  	
 			str.append( "\n                          Initial Condition Summary\n" );
-			str.append( AclfOut.maxMismatchToString(net) + "\n");
+			str.append( AclfOutFunc.maxMismatchToString(net) + "\n");
 			str.append( "     BusID     Volt(pu)     Angle(deg)   P(pu)     Q(pu)   Mach Model     PowerAng(deg)\n" );
 			str.append( "  -------------------------------------------------------------------------------------\n" );
 
