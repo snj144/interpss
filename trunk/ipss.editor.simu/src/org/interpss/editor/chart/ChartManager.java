@@ -57,7 +57,7 @@ import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.device.ScriptDynamicBusDevice;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.dstab.util.DStabOutFunc;
+import com.interpss.dstab.util.DStabOutSymbol;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -195,29 +195,29 @@ public class ChartManager {
     	String rating = Number2String.toStr("0.0",mach.getRating()*baseKva/1000.0);
     	String rpm = Number2String.toStr((int)(2.0*baseFreq*60.0/mach.getPoles()));
     	String baseV = Number2String.toStr("0.0",mach.getDStabBus().getBaseVoltage());
-    	if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ANG)) 
+    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ANG)) 
     		return id + "(Unit:Deg)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_SPEED))
     		return id + "(Unit:PU, RPM:" + rpm + ")";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PE))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PE))
     		return id + "(Unit:PU, Rating:" + rating + " mva)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PM))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PM))
     		return id + "(Unit:PU, Rating:" + rating + " mva)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_Q ))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_Q ))
     		return id + "(Unit:PU, Rating:" + rating + " mva)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_E))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_E))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_EQ1))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_EQ1))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_EQ11))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_EQ11))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ED1))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ED1))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ED11))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ED11))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VMAG))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VMAG))
     		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
     		return id + "(Unit:Deg)";
     	else
     		return "unknown";
@@ -229,7 +229,7 @@ public class ChartManager {
     public static String getExcDataLabel(Machine mach, String state) {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String ratedV = Number2String.toStr("0.0",mach.getRatedVoltage());
-    	if (state.equals(DStabOutFunc.OUT_SYMBOL_EXC_EFD))
+    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_EXC_EFD))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else
     		return "unknown";
@@ -241,7 +241,7 @@ public class ChartManager {
     public static String getGovDataLabel(Machine mach, String state, double baseKva) {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String rating = Number2String.toStr("0.0",mach.getRating()*baseKva/1000.0);
-    	if (state.equals(DStabOutFunc.OUT_SYMBOL_GOV_PM))
+    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_GOV_PM))
     		return id + "(Unit:PU, Rating:" + rating + " mva)";
     	else
     		return "unknown";
@@ -253,7 +253,7 @@ public class ChartManager {
     public static String getPssDataLabel(Machine mach, String state) {
     	String id = "Machine Id:" + mach.getId() + ", ";
     	String ratedV = Number2String.toStr("0.0",mach.getRatedVoltage());
-    	if (state.equals(DStabOutFunc.OUT_SYMBOL_PSS_VS))
+    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_PSS_VS))
     		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
     	else
     		return "unknown";
@@ -269,31 +269,31 @@ public class ChartManager {
     	String id = "Bus Id:" + bus.getId() + ", ";
     	String baseV = Number2String.toStr("0.0", bus.getBaseVoltage());
     	String baseMva = Number2String.toStr("0.0", baseKva/1000.0);
-    	if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VMAG))
+    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VMAG))
     		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
     		return id + "(Unit:Deg)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_PLOAD))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_PLOAD))
     		return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_BUS_QLOAD))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_QLOAD))
     		return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
     	else
     		return "unknown";
     }
 
     private static double getAutoRangeMinimumSize(String state) {
-    	if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_ANG) || 
-    	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_VANG))
+    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ANG) || 
+    	    state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
     		return 10.0;
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_SPEED) ||
-    			 state.equals(DStabOutFunc.OUT_SYMBOL_BUS_FREQ))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_SPEED) ||
+    			 state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_FREQ))
         	return 0.2;
-    	else if (state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PE) ||
-                state.equals(DStabOutFunc.OUT_SYMBOL_MACH_PM) ||
-                state.equals(DStabOutFunc.OUT_SYMBOL_MACH_Q ) ||
-        	    state.equals(DStabOutFunc.OUT_SYMBOL_GOV_PM) ||
-        	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_PLOAD) ||
-        	    state.equals(DStabOutFunc.OUT_SYMBOL_BUS_QLOAD))
+    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PE) ||
+                state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PM) ||
+                state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_Q ) ||
+        	    state.equals(DStabOutSymbol.OUT_SYMBOL_GOV_PM) ||
+        	    state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_PLOAD) ||
+        	    state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_QLOAD))
        		return 0.2;
     	return 1.0;
     }
@@ -367,14 +367,14 @@ public class ChartManager {
 		if (elemRecList != null && elemRecList.size() > 0) {
 			DStabSimuDBRecord elemRec = (DStabSimuDBRecord)elemRecList.get(0);
 			Hashtable<String,String> elemStates = StringUtil.parseStr2Hashtable(elemRec.getSimuRec());
-			elemStates.remove(DStabOutFunc.OUT_SYMBOL_TIME);
+			elemStates.remove(DStabOutSymbol.OUT_SYMBOL_TIME);
 			if (recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates))
-				elemStates.remove(DStabOutFunc.OUT_SYMBOL_MACH_ID);
+				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_MACH_ID);
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
-				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
+				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_BUS_ID);
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates)) {
-				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_DEVICE_ID);
-				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
+				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_BUS_DEVICE_ID);
+				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_BUS_ID);
 			}
 			return elemStates.keySet().toArray();
 		}

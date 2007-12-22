@@ -29,6 +29,8 @@ import org.interpss.editor.graph.GraphSimuUtilFunc;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.jgraph.JGraph;
@@ -38,6 +40,11 @@ import com.interpss.common.datatype.ScriptLanguageType;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
+import com.interpss.common.util.Number2String;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.dclf.DclfAlgorithm;
+import com.interpss.core.net.Bus;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
@@ -136,6 +143,38 @@ public class SimuRunWorker extends Thread {
 				XmlScriptRunWorker.runCase(this.scripts, simuCtx);
 			}
 			appStatus.busyStop("Run Scripts finished");
+		}
+		
+		else if (this.runType == SimuRunType.Dclf ) {
+			appStatus.busyStart(
+					Constants.StatusBusyIndicatorPeriod, "Run DC Loadflow Analysis ...", "Run Dclf");
+			IpssLogger.getLogger().info("SimuRunWorker starts Run DC Loadflow");
+
+			AclfNetwork net = simuCtx.getAclfNet();
+			// create DCLoadflow Algorithm object 
+			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(net);
+			// run DCLoadflow to calculate bus voltage angle
+	        if (!algo.checkCondition(simuCtx.getMsgHub()))
+	        	return;
+	        algo.calculateAngle(simuCtx.getMsgHub());
+
+			String	str = "BudId          VoltAng(deg)\n"; 
+			str +=        "=================================\n"; 
+		    for (Bus bus : net.getBusList()) {
+				int n = bus.getSortNumber();
+				double angle = algo.getBMatrix().getBi(n);
+				str += Number2String.toFixLengthStr(8, bus.getId()) + "        " + Number2String.toStr(angle*Constants.RtoD) + "\n";
+			}
+		    IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("DC Loadflow Analysis Info");
+			dialog.display(str);
+			
+		  	appStatus.busyStop("Run DC Loadflow Analysis finished");
+		}
+		else if (this.runType == SimuRunType.GenShiftFactor ) {
+		}
+		else if (this.runType == SimuRunType.LineOutageDistFactor ) {
+		}
+		else if (this.runType == SimuRunType.PowerTransferDistFactor ) {
 		}
 	}
 }
