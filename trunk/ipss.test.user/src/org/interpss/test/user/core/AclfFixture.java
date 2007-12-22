@@ -24,6 +24,7 @@
 
 package org.interpss.test.user.core;
 
+import org.interpss.display.AclfOutFunc;
 import org.interpss.test.user.IpssFixture;
 
 import com.interpss.common.datatype.UnitType;
@@ -35,7 +36,6 @@ import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
-import com.interpss.core.util.outfunc.AclfOut;
 
 public class AclfFixture extends IpssFixture {
 	private double tolerance = 0.0001;
@@ -82,7 +82,7 @@ public class AclfFixture extends IpssFixture {
 	}
 	
 	public void outputAclfResults() {
-		System.out.println(AclfOut.lfResultsBusStyle(simuCtx.getAclfNet()));
+		System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
 	}
 	
 	public void outputAclfDebugInfo() {
