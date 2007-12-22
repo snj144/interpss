@@ -26,13 +26,15 @@ package org.interpss.core.grid.gridgain.util;
 
 import java.util.Hashtable;
 
+import org.interpss.display.DStabOutFunc;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.datatype.DStabSimuAction;
 import com.interpss.dstab.util.AbstractSimuOutputHandler;
-import com.interpss.dstab.util.DStabOutFunc;
+import com.interpss.dstab.util.DStabOutSymbol;
 
 /**
  * DStab simulation result messages are re-sent to the master node
@@ -57,21 +59,21 @@ public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 		try {
 			if (e.getType() == DStabSimuAction.PlotStepMachineStates) {
 			   	Hashtable<String, Object> machStates = e.getHashtableData();
-				String machId = (String)machStates.get(DStabOutFunc.OUT_SYMBOL_MACH_ID);
+				String machId = (String)machStates.get(DStabOutSymbol.OUT_SYMBOL_MACH_ID);
 				if (!this.isOutputFilter() || this.getOutputVarIdList().contains("Machine - " + machId)) {
 					msgHub.sendMsg(event);
 				}
 		   }
 		   else if (e.getType() == DStabSimuAction.PlotStepBusStates) {
 			   	Hashtable<String, Object> busStates = e.getHashtableData();
-				String busId = (String)busStates.get(DStabOutFunc.OUT_SYMBOL_BUS_ID);
+				String busId = (String)busStates.get(DStabOutSymbol.OUT_SYMBOL_BUS_ID);
 				if (!this.isOutputFilter()  || this.getOutputVarIdList().contains("Bus - " + busId)) {
 					msgHub.sendMsg(event);
 				}				
 		   }
 		   else if (e.getType() == DStabSimuAction.PlotStepScriptDynamicBusDeviceStates) {
 			   	Hashtable<String, Object> deviceStates = e.getHashtableData();
-				String deviceId = (String)deviceStates.get(DStabOutFunc.OUT_SYMBOL_BUS_DEVICE_ID);
+				String deviceId = (String)deviceStates.get(DStabOutSymbol.OUT_SYMBOL_BUS_DEVICE_ID);
 				if (!this.isOutputFilter()  || this.getOutputVarIdList().contains(deviceId)) {
 					msgHub.sendMsg(event);
 				}
