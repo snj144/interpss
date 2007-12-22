@@ -45,9 +45,7 @@ import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.util.outfunc.AclfOut;
 import com.interpss.dist.DistNetwork;
-import com.interpss.dist.util.DistOutFunc;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 
@@ -91,7 +89,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         }
         else if (data instanceof AclfAdjNetwork) {
         	aclfAdjNet = (AclfAdjNetwork)data;
-        	textArea.setText(AclfOut.loadFlowSummary(aclfAdjNet));
+        	textArea.setText(AclfOutFunc.loadFlowSummary(aclfAdjNet));
             busStyleRadioButton.setEnabled(true);
             summaryRadioButton.setEnabled(true);
             summaryRadioButton.setSelected(true);
@@ -283,11 +281,11 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	}	
 	
     private void busStyleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busStyleRadioButtonActionPerformed
-    	textArea.setText(AclfOut.lfResultsBusStyle(aclfAdjNet));
+    	textArea.setText(AclfOutFunc.lfResultsBusStyle(aclfAdjNet));
     }//GEN-LAST:event_busStyleRadioButtonActionPerformed
 
     private void summaryRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryRadioButtonActionPerformed
-    	textArea.setText(AclfOut.loadFlowSummary(aclfAdjNet));
+    	textArea.setText(AclfOutFunc.loadFlowSummary(aclfAdjNet));
     }//GEN-LAST:event_summaryRadioButtonActionPerformed
 
     private void closeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeButtonActionPerformed
