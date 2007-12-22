@@ -33,7 +33,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.test.StateVariableTestRecorder;
 import com.interpss.dstab.test.YMatrixChangeTestRecorder;
-import com.interpss.dstab.util.DStabOutFunc;
+import com.interpss.dstab.util.DStabOutSymbol;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -65,9 +65,9 @@ public class TestIEEE22ModelCase extends DStabTestSetupBase {
 		
 		StateVariableTestRecorder stateTestRecorder = new StateVariableTestRecorder(0.0001);
 		stateTestRecorder.addTestRecords("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
-				DStabOutFunc.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
+				DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
 		stateTestRecorder.addTestRecords("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
-				DStabOutFunc.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
+				DStabOutSymbol.OUT_SYMBOL_MACH_PE, timePoints, machPePoints);
 		algo.setSimuOutputHandler(stateTestRecorder);
 
 	  	
@@ -85,9 +85,9 @@ public class TestIEEE22ModelCase extends DStabTestSetupBase {
 		}
 
 		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
-				DStabOutFunc.OUT_SYMBOL_MACH_ANG) < 0.01);
+				DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
 		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
-				DStabOutFunc.OUT_SYMBOL_MACH_PE) < 0.01);
+				DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);
 
 		// check 3P fault at t = 1.0
 		assertTrue(yTestRecorder.getTestRecord(1.0, "0003").isChanged());
