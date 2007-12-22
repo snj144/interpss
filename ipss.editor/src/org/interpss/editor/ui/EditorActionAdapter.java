@@ -54,29 +54,27 @@ import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.simu.SimuContext;
 
 public class EditorActionAdapter {
-	public static enum RunType {Dclf, Aclf, Acsc, DStab, Script, GenShiftFactor, LineOutageDistFactor, PowerTransferDistFactor};
 	
-	public static void menu_run(RunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
-		if (type == RunType.Dclf || type == RunType.GenShiftFactor ||
-				type == RunType.LineOutageDistFactor || type == RunType.PowerTransferDistFactor)
+	public static void menu_run(SimuRunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
+		if (type == SimuRunType.Dclf || type == SimuRunType.GenShiftFactor ||
+				type == SimuRunType.LineOutageDistFactor || type == SimuRunType.PowerTransferDistFactor)
 			menu_run_dclf(type, graphView, graph, doc);
-		else if (type == RunType.Aclf)
+		else if (type == SimuRunType.Aclf)
 			menu_run_aclf(graphView, graph, doc);
-		else if (type == RunType.Acsc)
+		else if (type == SimuRunType.Acsc)
 			menu_run_acsc(graphView, graph, doc);
-		else if (type == RunType.DStab)
+		else if (type == SimuRunType.DStab)
 			menu_run_dstab(graphView, graph, doc);
-		else if (type == RunType.Script)
+		else if (type == SimuRunType.Scripts)
 			menu_run_scripting(graphView, graph, doc);
 	}
 
-	private static void menu_run_dclf(RunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
+	private static void menu_run_dclf(SimuRunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 		
@@ -89,10 +87,11 @@ public class EditorActionAdapter {
 			appSimuCtx.setSimuNetDataDirty(false);
 		}
 		
-		if (type == RunType.Dclf) {
-			IpssLogger.getLogger().info("Run Dclf analysis");
-			simuCtx.setDclfAlgorithm(CoreObjectFactory.createDclfAlgorithm());
-		}
+		IpssLogger.getLogger().info("Run " + type.toString() + " analysis");
+		SimuRunWorker worker = new SimuRunWorker("Dclf SimuRunWorker");
+		worker.configRun(type, simuCtx, graph);
+		worker.start();
+		appSimuCtx.setLastRunType(type);
 	}
 	
 	private static void menu_run_aclf(boolean graphView, JGraph graph, IpssEditorDocument doc) {

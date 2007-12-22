@@ -32,6 +32,7 @@ import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.ui.EditorActionAdapter;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.SimuRunType;
 import com.interpss.simu.SimuContext;
 
 public class RunUtilFunc  {
@@ -42,7 +43,7 @@ public class RunUtilFunc  {
 	 * @param type run type (Aclf, Dclf ....)
 	 * @param graphpad the graph pad object
 	 */
-	public static void performRunAction(IpssEditorDocument doc, EditorActionAdapter.RunType type, GPGraphpad graphpad) {
+	public static void performRunAction(IpssEditorDocument doc, SimuRunType type, GPGraphpad graphpad) {
 		if (graphpad.isBGProcessingBusy()) {
     		SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Simulation Thread Busy", 
 				"The run-simulation thread is busy. Please wait for its finishing before starting another one.");

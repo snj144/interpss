@@ -4,9 +4,10 @@ import java.awt.event.ActionEvent;
 
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssEditorDocument;
-import org.interpss.editor.ui.EditorActionAdapter;
 import org.interpss.editor.util.DocumentUtilFunc;
 import org.interpss.editor.util.RunUtilFunc;
+
+import com.interpss.common.datatype.SimuRunType;
 
 public class RunScripting extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
@@ -15,7 +16,7 @@ public class RunScripting extends IpssAbstractActionDefault {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		RunUtilFunc.performRunAction(getCurrentDocument(), EditorActionAdapter.RunType.Script, graphpad);
+		RunUtilFunc.performRunAction(getCurrentDocument(), SimuRunType.Scripts, graphpad);
 	}
 
 	public void update() {
