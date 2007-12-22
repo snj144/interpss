@@ -35,6 +35,7 @@ import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.jgraph.JGraph;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScriptLanguageType;
 import com.interpss.common.datatype.SimuRunType;
@@ -171,10 +172,16 @@ public class SimuRunWorker extends Thread {
 		  	appStatus.busyStop("Run DC Loadflow Analysis finished");
 		}
 		else if (this.runType == SimuRunType.GenShiftFactor ) {
+			SpringAppContext.getEditorDialogUtil().showMsgDialog("Status Message", 
+					"Generation Shift Factor calculation will be implemented in the future");
 		}
 		else if (this.runType == SimuRunType.LineOutageDistFactor ) {
+			SpringAppContext.getEditorDialogUtil().showMsgDialog("Status Message", 
+				"Line Outage Distribution Factor calculation will be implemented in the future");
 		}
 		else if (this.runType == SimuRunType.PowerTransferDistFactor ) {
+			SpringAppContext.getEditorDialogUtil().showMsgDialog("Status Message", 
+				"Power Transer Distribution Factor calculation will be implemented in the future");
 		}
 	}
 }
