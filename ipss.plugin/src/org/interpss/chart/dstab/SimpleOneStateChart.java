@@ -68,7 +68,9 @@ public class SimpleOneStateChart extends JDialog {
     /**
      * A demonstration application showing an {@link XYSeries} where all the y-values are the same.
      *
-     * @param title  the frame title.
+     * @param parent 
+     * @param model  
+     * @param title  
      */
     public SimpleOneStateChart(java.awt.Frame parent, boolean modal, final String title) {
         super(parent, modal);
@@ -77,12 +79,24 @@ public class SimpleOneStateChart extends JDialog {
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 	}
     
+    /**
+     * After constructing the chart object properly, call this method to show the chart dialog box
+     */
     public void showChart() {
         pack();
         WinUtilities.center(this);
         setVisible(true);
     }
     
+    /**
+     * Set chart plot data
+     * 
+     * @param yLabel
+     * @param yDataLabel
+     * @param xData
+     * @param yData
+     * @param autoRangeMinimumSize
+     */
     public void setPlotData(final String yLabel, final String yDataLabel, 
     		final double[] xData, final double[] yData, double autoRangeMinimumSize) {
     	this.yLabel = yLabel;
@@ -92,37 +106,70 @@ public class SimpleOneStateChart extends JDialog {
     	this.autoRangeMinimumSize = autoRangeMinimumSize;
     }
     
+    /**
+     * Set y-axis label
+     * 
+     * @param label
+     */
 	public void setYLabel(final String label) {
 		yLabel = label;
 	}
 
+	/**
+	 * Set x-axis label
+	 * 
+	 * @param label
+	 */
 	public void setXLabel(final String label) {
 		xLabel = label;
 	}
 	
+	/**
+	 * set chart plot title
+	 * 
+	 * @param title plot title string
+	 */
 	public void setPlotTitle(final String title) {
 		plotTitle = title;
 	}
 
+	/**
+	 * Set chart plot height and width in pixel
+	 * 
+	 * @param h
+	 * @param w
+	 */
 	public void setDimension(final int h, final int w) {
 		Chart_Height = h;
 		Chart_Width = w;
 	}
 	
-    public XYDataset createDataSet(final double[] xData, final double[] yData, final String label) {
+	/**
+	 * create a XYDataSet object
+	 * 
+	 * @param xData x-axis data points
+	 * @param yData y-axis data points
+	 * @param label y-axis data label
+	 * @return
+	 */
+    public static XYDataset createXYDataSet(final double[] xData, final double[] yData, final String label) {
         final XYSeries series = new XYSeries(label);
-        for (int i = 0; i < xDataAry.length; i++) {
+        for (int i = 0; i < xData.length; i++) {
             series.add(xData[i], yData[i]);
         }
         return new XYSeriesCollection(series);
     }
         
+    /**
+     * create the chart based on the data attributes
+     * 
+     */
     public void createChart() {
         final JFreeChart chart = ChartFactory.createXYLineChart(
             	plotTitle,
                 xLabel, 
                 yLabel, 
-                createDataSet(xDataAry, yDataAry, yDataLabel),
+                createXYDataSet(xDataAry, yDataAry, yDataLabel),
                 PlotOrientation.VERTICAL,
                 true,
                 false,
@@ -151,7 +198,7 @@ public class SimpleOneStateChart extends JDialog {
     }
 
     /**
-     * Starting point for the demonstration application.
+     * Starting point for the demonstration application. Only for debug
      *
      * @param args  ignored.
      */
