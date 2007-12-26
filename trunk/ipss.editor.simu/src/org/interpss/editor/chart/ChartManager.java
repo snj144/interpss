@@ -442,7 +442,28 @@ public class ChartManager {
 			Hashtable<String, String> machStates = StringUtil.parseStr2Hashtable(machRec.getSimuRec());
     		ydata[i] = new Double((String)machStates.get(yLabel)).doubleValue();
     	}
-    	plot.setPlotData(yLabel, yDataLabel, xdata, ydata, getAutoRangeMinimumSize(yLabel));
+
+    	// sort data points. They may be out of order in the case of Grid computing
+    	boolean done = false;
+   		while (!done) {
+   			done = true;
+   	    	for (int i = 0; i < elemRecList.size()-1; i++) {
+   	    		if (xdata[i] > xdata[i+1]) {
+   	    			double x = xdata[i+1], y = ydata[i+1];
+   	    			xdata[i+1] = xdata[i];
+   	    			ydata[i+1] = ydata[i];
+   	    			xdata[i] = x;
+   	    			ydata[i] = y;
+   	    			done = false;
+   	    		}
+   	    	}
+   		}
+   		/*
+    	for (int i = 0; i < elemRecList.size(); i++) {
+    		System.out.println("time, y: " + xdata[i] + "," + ydata[i]);
+	    }
+	    */
+	    plot.setPlotData(yLabel, yDataLabel, xdata, ydata, getAutoRangeMinimumSize(yLabel));
 		
     	plot.createChart();
     	plot.showChart();	    		
