@@ -85,9 +85,19 @@ public class GridMessageRouter implements GridMessageListener {
 		String msgStr = (String)arg1;
 		if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_DStabSimuMsg)) {
 			// format:	Token_DStabSimuMsg  + simuMsg.getType() + "|" + simuMsg.getHashtableData().toString());
+
+			// debug:	Token_DStabSimuMsg  + " 1_" + simuMsg.getType() + "|" + simuMsg.getHashtableData().toString());
+//			System.out.println("DStab Msg Cnt: " + msgStr.substring(IPSSGridMsgHubImpl.Token_DStabSimuMsg.length(), msgStr.indexOf('_')));
+//			String type = msgStr.substring(msgStr.indexOf('_')+1, msgStr.indexOf('|'));
+
 			String type = msgStr.substring(IPSSGridMsgHubImpl.Token_DStabSimuMsg.length(), msgStr.indexOf('|'));
 			String msg = msgStr.substring(msgStr.indexOf('|')+1);
 			Hashtable<String,String> states = StringUtil.parseStr2Hashtable(msg);
+			/*
+			if (states.get("BusId") != null && states.get("BusId").equals("0001")) {
+				System.out.println("DStab Msg : " + states.get("Time"));
+			}
+			*/
 			if (this.dstabOutputHandler != null) {
 				DStabSimuAction event = new DStabSimuAction(new Byte(type).byteValue(), states);
 				this.dstabOutputHandler.onMsgEventStatus(event);
