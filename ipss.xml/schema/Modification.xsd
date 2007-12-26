@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ns:schema targetNamespace="http://www.interpss.org/schema" 
+           elementFormDefault="qualified" 
+           xmlns:ns="http://www.w3.org/2001/XMLSchema" 
+           xmlns:ipss="http://www.interpss.org/schema">
+
+	<ns:include schemaLocation="Datatype.xsd"></ns:include>
+	<ns:complexType name="ModificationXmlType">
+		<ns:sequence>
+			<ns:element name="aclfNetChangeRec" type="ipss:AclfNetChangeRecXmlType" maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="netChangeRec" type="ipss:NetworkChangeXmlRecType" maxOccurs="1" minOccurs="0"></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="NetworkChangeXmlRecType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RecordXmlType">
+				<ns:sequence>
+					<ns:element name="busChangeRec" type="ipss:BusChangeRecXmlType" maxOccurs="unbounded" minOccurs="0">
+					</ns:element>
+					<ns:element name="branchChangeRec" type="ipss:BranchChangeRecXmlType" maxOccurs="unbounded" minOccurs="0">
+					</ns:element>
+				</ns:sequence>
+
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="AclfNetChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RecordXmlType">
+				<ns:sequence>
+					<ns:element name="aclfBusChangeRec" type="ipss:AclfBusChangeRecXmlType" maxOccurs="unbounded" minOccurs="0">
+					</ns:element>
+					<ns:element name="aclfBranchChangeRec" type="ipss:AclfBranchChangeRecXmlType" maxOccurs="unbounded" minOccurs="0">
+					</ns:element>
+				</ns:sequence>
+
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="BusChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BusRecXmlType">
+				<ns:sequence>
+					<ns:element name="setSatus" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="BranchChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BranchRecXmlType">
+				<ns:sequence>
+					<ns:element name="setInService" type="ns:boolean" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+
+	<ns:complexType name="AclfBranchChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BranchRecXmlType">
+				<ns:sequence>
+					<ns:element name="zChange" type="ipss:ComplexParamChangeXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="AclfBusChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BusRecXmlType">
+				<ns:sequence>
+					<ns:element name="loadChange" type="ipss:AclfLoadChangeXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+</ns:schema>
