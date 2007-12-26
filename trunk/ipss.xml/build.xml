@@ -1,0 +1,23 @@
+<project name="ipss.rule" default="" basedir=".">
+	
+  <!-- Initializing the environment -->
+  <target name="init" depends="">
+  	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
+  	<property name="dev_lib_base" value="${dev_base}/ipss.lib/lib"/>
+
+  	<property name="dist_base" value="C:/eclipse/GEditor"/>
+  	<property name="dist_lib_base" value="${dist_base}/lib"/>
+
+  	<property name="xmlbeans.classpath" value="${dist_lib_base}/xml/xbean.jar"/>
+
+  	<taskdef name="xmlbean"
+  	     classname="org.apache.xmlbeans.impl.tool.XMLBean"
+  	     classpath="${xmlbeans.classpath}" />	
+  </target>
+
+   <!-- Create deployment xml schema jar -->
+   <target name="createIpssSchemas" depends="init"> 
+    	<xmlbean schema="schema/interpss.xsd" destfile="${dev_lib_base}/ipss/ipss_schemas.jar"
+	    classpath="${xmlbeans.classpath}" />	
+   	</target>	
+</project>

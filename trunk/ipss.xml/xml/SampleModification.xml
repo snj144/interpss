@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:InterPSS xmlns:tns="http://www.interpss.org/schema" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xsi:schemaLocation="http://www.interpss.org/schema ../schema/interpss.xsd ">
+	<tns:modification>
+		<tns:aclfNetChangeRec>
+			<tns:aclfBusChangeRec>
+				<tns:recId>AclfBusChangeRec_Bus-1</tns:recId>
+				<tns:id>Bus-1</tns:id>
+				<tns:name>Bus 1</tns:name>
+				<tns:loadChange>
+					<tns:action>increase</tns:action>
+					<tns:percent>10</tns:percent>
+					<tns:unit>Percent</tns:unit>
+				</tns:loadChange>
+			</tns:aclfBusChangeRec>
+			<tns:aclfBusChangeRec>
+				<tns:recId>AclfBusChangeRec_Bus-2</tns:recId>
+				<tns:id>Bus-2</tns:id>
+				<tns:loadChange>
+					<tns:action>add</tns:action>
+					<tns:value>
+						<tns:re>0.05</tns:re>
+						<tns:im>0.1</tns:im>
+					</tns:value>
+					<tns:unit>PU</tns:unit>
+				</tns:loadChange>
+			</tns:aclfBusChangeRec></tns:aclfNetChangeRec>
+		<tns:netChangeRec>
+			<tns:busChangeRec>
+				<tns:recId>NetBusChangeRec_Bus-1</tns:recId>
+				<tns:id>Bus-1</tns:id>
+				<tns:setSatus>false</tns:setSatus>
+			</tns:busChangeRec>
+			<tns:branchChangeRec>
+				<tns:recId>NetBranchChangeRec_Bus-1->Bus-2</tns:recId>
+				<tns:fromBusId>Bus-1</tns:fromBusId>
+				<tns:toBusId>Bus-2</tns:toBusId>
+				<tns:setInService>false</tns:setInService>
+			</tns:branchChangeRec></tns:netChangeRec></tns:modification>
+	<tns:runStudyCase>
+		<tns:runAclfStudyCase>
+			<tns:recId>RunAclfCase-1</tns:recId>
+			<tns:lfMethod>NR</tns:lfMethod>
+			<tns:maxIterations>20</tns:maxIterations>
+			<tns:tolerance>0.0001</tns:tolerance>
+			<tns:toleranceUnit>PU</tns:toleranceUnit>
+			<tns:initBusVoltage>true</tns:initBusVoltage>
+		</tns:runAclfStudyCase></tns:runStudyCase>
+</tns:InterPSS>
