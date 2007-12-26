@@ -26,8 +26,6 @@ package org.interpss.core.grid.gridgain.util;
 
 import java.util.Hashtable;
 
-import org.interpss.display.DStabOutFunc;
-
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;

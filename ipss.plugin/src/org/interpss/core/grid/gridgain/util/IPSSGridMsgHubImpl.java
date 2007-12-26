@@ -59,6 +59,7 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	private GridNode masterNode = null;
 	
 	private byte level = TextMessage.TYPE_INFO;
+	private long msgCnt = 0;  // for debug purpose
 	
 	/**
 	 * Constructor
@@ -83,7 +84,10 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	public void sendMsg(IpssMessage msg) {
 		if (msg instanceof DStabSimuAction) {
 			DStabSimuAction simuMsg = (DStabSimuAction)msg;
-			sendMessage(Token_DStabSimuMsg  + simuMsg.getType() + "|" + simuMsg.getHashtableData().toString());
+//    		System.out.println(Token_DStabSimuMsg  + " "+(++msgCnt)+"_");
+			sendMessage(Token_DStabSimuMsg  + 
+					/* " "+(msgCnt)+"_" + */   // for debug purpose 
+					simuMsg.getType() + "|" + simuMsg.getHashtableData().toString());
 		}
 		else if (msg instanceof SimuMessage) {
 			SimuMessage simuMsg = (SimuMessage)msg;
