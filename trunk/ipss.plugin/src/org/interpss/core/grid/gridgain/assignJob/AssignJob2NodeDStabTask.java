@@ -41,6 +41,7 @@ import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
 import org.interpss.core.grid.gridgain.util.DStabSimuGridOutputHandler;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
@@ -85,14 +86,18 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 				
 				// set simulation result handler
 				IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(getMsgHub(), caseId);
-				if (dstabAlgo.getSimuOutputHandler() != null) {
-					// transfer info to the GridOutputHandler
-				}
 				dstabAlgo.setSimuOutputHandler(handler);
 				
 				// perform load flow calculation
 				LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 				aclfAlgo.loadflow(getMsgHub());
+				
+				handler.setOutputFilter(dstabAlgo.isOutputFilted());
+				if (dstabAlgo.isOutputFilted()) {
+					for (String str : dstabAlgo.getOutputVarIdList())
+						handler.getOutputVarIdList().add(str);
+					IpssLogger.getLogger().info("Output Var List: " + handler.getOutputVarIdList());
+				}
 				
 				if (dstabAlgo.initialization(getMsgHub())) {
 					getMsgHub().sendStatusMsg("Running DStab simulation at remote node " + getGrid().getLocalNode());
