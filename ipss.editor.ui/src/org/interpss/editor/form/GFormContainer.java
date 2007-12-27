@@ -243,7 +243,7 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 		for ( int i = 0; i < getBusFormList().size(); i++ ) {
 	        GBusForm form = (GBusForm)getBusFormList().get(i);
 	        if (form.getDStabBusData().isMachineBus()) {
-	        	String machId = Constants.MachIdToken + form.getId();
+	        	String machId = Constants.Token_MachId + form.getId();
 	        	vect.add(machId);
 	        }
 		}   
@@ -256,18 +256,18 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 		for ( int i = 0; i < getBusFormList().size(); i++ ) {
 	        GBusForm form = (GBusForm)getBusFormList().get(i);
 	        if (form.getDStabBusData().isMachineBus()) {
-	        	if (machId.equals(Constants.MachIdToken + form.getId())) {
+	        	if (machId.equals(Constants.Token_MachId + form.getId())) {
 	        		if (form.getDStabBusData().getMachData().getHasExc())
-	        			vect.add(Constants.ExciterToken);
+	        			vect.add(Constants.Token_Exciter);
 	        		if (form.getDStabBusData().getMachData().getHasGov())
-	        			vect.add(Constants.GovernorToken);
+	        			vect.add(Constants.Token_Governor);
 	        		if (form.getDStabBusData().getMachData().getHasPss())
-	        			vect.add(Constants.StabilizerToken);
+	        			vect.add(Constants.Token_Stabilizer);
 	        	}
 	        }
 		}
 		if (vect.size() == 0)
-			vect.add(new String(Constants.NoControllerToken));
+			vect.add(new String(Constants.Token_NoController));
 		return vect.toArray();
 	}
 	/** 
@@ -283,7 +283,7 @@ public class GFormContainer extends BaseFormContainer implements IGFormContainer
 	        if (form.getDStabBusData().isMachineBus()) {
 	        	if (form.getDStabBusData().getMachData().getInertia() > x) {
 	        		x = form.getDStabBusData().getMachData().getInertia();
-		        	id = Constants.MachIdToken + form.getId();
+		        	id = Constants.Token_MachId + form.getId();
 	        	}
 	        }
 		}   
