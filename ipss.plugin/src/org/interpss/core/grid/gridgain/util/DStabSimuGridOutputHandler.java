@@ -36,7 +36,8 @@ import com.interpss.dstab.util.AbstractSimuOutputHandler;
 import com.interpss.dstab.util.DStabOutSymbol;
 
 /**
- * DStab simulation result messages are re-sent to the master node
+ * DStab output message handler. The simulation result messages are re-sent to the master node
+ * using the msgHub object (IPSSGridMsgHubImpl)
  */
 
 public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {

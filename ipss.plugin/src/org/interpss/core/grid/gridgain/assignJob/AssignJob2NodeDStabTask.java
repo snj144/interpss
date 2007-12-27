@@ -1,5 +1,5 @@
  /*
-  * @(#)IpssGridGainTask.java   
+  * @(#)AssignJob2NodeDStabTask.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -58,16 +58,22 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 		return new AbstractIpssGridGainJob(modelStr) {
 			private static final long serialVersionUID = 1;
 
+			/**
+			 * perform the actual grid job computation
+			 * 
+			 * @param modelStr serialized DStabNet object
+			 */
 			protected Serializable performGridJob(String modelStr) {
+				// deserialized the model into DStabNet object 
 				DStabilityNetwork net = (DStabilityNetwork)SerializeEMFObjectUtil.loadModel(modelStr);
+				// we always assume that the case id is carried to the remote grid node by the id field
 				String caseId = net.getId();
 				
 				// get serialized algo string from the task session
 				String algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_DStabAlgo+caseId);
-				System.out.println(algoStr);
+				//System.out.println(algoStr);
 				DynamicSimuAlgorithm dstabAlgo;
 				if (algoStr != null) {
-					// set algo attributes. These attributes are not serialized
 					dstabAlgo = (DynamicSimuAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
 					
 					algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_AclfAlgo+caseId);
@@ -78,7 +84,7 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 					dstabAlgo.setDStabNet(net);
 		    	}
 				else {
-					// this is more for testing purpose
+					// this approach is more for testing purpose
 					dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(net, getMsgHub());
 					dstabAlgo.setSimuStepSec(0.01);
 					dstabAlgo.setTotalSimuTimeSec(10.0);
@@ -87,17 +93,19 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 				// set simulation result handler
 				IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(getMsgHub(), caseId);
 				dstabAlgo.setSimuOutputHandler(handler);
-				
-				// perform load flow calculation
-				LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-				aclfAlgo.loadflow(getMsgHub());
-				
+
+				// set output var filter info, which is carried to the remote node by
+				// the DStabAlgo object
 				handler.setOutputFilter(dstabAlgo.isOutputFilted());
 				if (dstabAlgo.isOutputFilted()) {
 					for (String str : dstabAlgo.getOutputVarIdList())
 						handler.getOutputVarIdList().add(str);
 					IpssLogger.getLogger().info("Output Var List: " + handler.getOutputVarIdList());
 				}
+				
+				// perform load flow calculation
+				LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
+				aclfAlgo.loadflow(getMsgHub());
 				
 				if (dstabAlgo.initialization(getMsgHub())) {
 					getMsgHub().sendStatusMsg("Running DStab simulation at remote node " + getGrid().getLocalNode());
@@ -110,6 +118,12 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 		};
 	}
 
+	/**
+	 * Serialize the model object to a string
+	 * 
+	 * @param model, Model object, could be DStabAlgo or DStabNet object
+	 * @return the serialized object (String)
+	 */
 	@Override
 	protected String serializeModel(Object model) throws GridException {
 		String modelStr = "";
