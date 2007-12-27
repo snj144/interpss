@@ -28,12 +28,12 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.core.adapter.IpssXmlAdapter;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
+import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.util.IpssLogger;
 
@@ -98,7 +98,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
 		}
 		else {
 			try {
-				IpssXmlAdapter parser = new IpssXmlAdapter(scriptsTextArea.getText());
+				IpssXmlParser parser = new IpssXmlParser(scriptsTextArea.getText());
 			} catch (Exception e) {
 	        	errMsg.add(new String("Invalid Xml, ") + e.toString());
 			}

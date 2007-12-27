@@ -29,6 +29,8 @@ import org.interpss.editor.runAct.AclfRunForm;
 import org.interpss.editor.runAct.AcscRunForm;
 import org.interpss.editor.runAct.DStabRunForm;
 import org.interpss.mapper.runCase.CaseData2AlgorithmMapperImpl;
+import org.interpss.mapper.runCase.Xml2AlgorithmMapperImpl;
+import org.interpss.schema.RunAclfStudyCaseXmlType;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -60,35 +62,16 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			SimpleFaultAlgorithm algo = (SimpleFaultAlgorithm)toObj;
 			acscRunForm2SimpleFaultAlgorithmMapping(runForm, algo);
 		}
-		/*
-		else if (klass == AcscBusFault.class) {
-			AcscFaultData data = (AcscFaultData)fromObj;
-			AcscBusFault fault = (AcscBusFault)toObj;
-			RunForm2AlgorithmMapperImpl.acscFaultData2AcscBusFaultMapping(data, fault);
-		}
-		else if (klass == AcscBranchFault.class) {
-			AcscFaultData data = (AcscFaultData)fromObj;
-			AcscBranchFault fault = (AcscBranchFault)toObj;
-			RunForm2AlgorithmMapperImpl.acscFaultData2AcscBranchFaultMapping(data, fault);
-		}
-		*/
 		else if (klass == DynamicSimuAlgorithm.class) {
 			DStabRunForm runForm = (DStabRunForm)fromObj;
 			DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)toObj;
 			dStabRunForm2DynamicSimuAlgorithmMapping(runForm, algo);
 		}
-		/*
-		else if (klass == BranchOutageEvent.class) {
-			AcscFaultData data = (AcscFaultData)fromObj;
-			BranchOutageEvent event = (BranchOutageEvent)toObj;
-			if (data.getCategory().equals(AcscFaultData.FaultCaty_Outage_3P))
-				event.setOutageType(BranchOutageType.THREE_PHASE);
-			else if (data.getCategory().equals(AcscFaultData.FaultCaty_Outage_1P))
-				event.setOutageType(BranchOutageType.SINGLE_PHASE);
-			else if (data.getCategory().equals(AcscFaultData.FaultCaty_Outage_2P))
-				event.setOutageType(BranchOutageType.DOUBLE_PHASE);
+		if (klass == RunAclfStudyCaseXmlType.class) {
+			// map an AclfStudyCase xml record to an LoadflowAlgorithm object
+		  	Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(
+		  			(RunAclfStudyCaseXmlType)fromObj, (LoadflowAlgorithm)toObj);
 		}
-		*/
 		return true;
 	}
 	
