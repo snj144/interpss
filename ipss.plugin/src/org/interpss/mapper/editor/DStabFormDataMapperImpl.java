@@ -116,8 +116,8 @@ public class DStabFormDataMapperImpl {
 		DStabBus dstabBus = dstabNet.getDStabBus(busId);
 		dstabBus.setDeviceAdjElement(busDevice);   // bind bus and machine together
 		busDevice.setDeviceType(DynamicBusDeviceType.SCRIPT_DYNAMIC_BUS_DEVICE);
-		busDevice.setId(Constants.DBusDeviceIdToken+busId);
-		busDevice.setName(Constants.DBusDeviceIdToken+busId);
+		busDevice.setId(Constants.Token_DBusDeviceId+busId);
+		busDevice.setName(Constants.Token_DBusDeviceId+busId);
 		busDevice.setScriptLang(busData.getScriptLanguage() == DStabBusData.ScriptLanguage_Java?
 				ScriptLangType.JAVA : ScriptLangType.PLUGIN);
 		if (busData.getScriptLanguage() == DStabBusData.ScriptLanguage_Java)
@@ -150,10 +150,10 @@ public class DStabFormDataMapperImpl {
 			Complex z0 = new Complex(0.0, 0.0);
 			if (machData.getScMva1P() > 0 && machData.getX_R_1P() > 0.0 )
 				z0 = CoreUtilFunc.calUitilityZ0PU(machData.getScMva1P()*1000, machData.getX_R_1P(), dstabNet.getBaseKva(), z1);
-			mach = DStabObjectFactory.createInfiniteMachine(Constants.MachIdToken+busId, machData.getName(), z1, z0, dstabNet, busId);
+			mach = DStabObjectFactory.createInfiniteMachine(Constants.Token_MachId+busId, machData.getName(), z1, z0, dstabNet, busId);
 		}
 		else {
-			mach = DStabObjectFactory.createMachine(Constants.MachIdToken+busId, machData.getName(), getMachType(machData.getType()), dstabNet, busId);
+			mach = DStabObjectFactory.createMachine(Constants.Token_MachId+busId, machData.getName(), getMachType(machData.getType()), dstabNet, busId);
 			mach.setRating(machData.getRating(), "Mva", dstabNet.getBaseKva());
 			mach.setRatedVoltage(machData.getRatedVolt());
 			mach.setMultiFactors(dstabBus);

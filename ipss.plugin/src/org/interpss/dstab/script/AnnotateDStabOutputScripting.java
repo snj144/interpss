@@ -174,7 +174,7 @@ public class AnnotateDStabOutputScripting {
 			Rec rec = new Rec();
 			rec.name = StringUtil.getDisplyName(name);   // get name part of "str.name"
 			if (var.startsWith("mach.") || var.startsWith("exc.") || var.startsWith("gov.") || var.startsWith("pss.")) {
-				rec.id = Constants.MachIdToken + id;
+				rec.id = Constants.Token_MachId + id;
 			}
 			else if (var.startsWith("bus.")) {
 				rec.id = id;

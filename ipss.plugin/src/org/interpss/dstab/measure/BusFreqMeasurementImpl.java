@@ -99,7 +99,7 @@ public class BusFreqMeasurementImpl extends ControlBlock1stOrderAdapter {
 	 * @param value parameter value
 	 */
 	public void setParameter(String name, double value) {
-		if (name.equals(Constants.NetBaseFreqToken))
+		if (name.equals(Constants.Token_NetBaseFreq))
 			this.baseFreq = value;
 	}
 	

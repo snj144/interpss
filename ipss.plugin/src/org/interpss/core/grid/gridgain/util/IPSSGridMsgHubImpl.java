@@ -31,6 +31,7 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridNode;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
@@ -45,21 +46,11 @@ import com.interpss.dstab.datatype.DStabSimuAction;
  * 
  */
 public class IPSSGridMsgHubImpl implements IPSSMsgHub {
-	public static final String Token_RemoteMsg = "[RemoteMessage]";
-	public static final String Token_DStabSimuMsg = Token_RemoteMsg+"DStabSimuAction:";
-	public static final String Token_ProgressStatusMsg = Token_RemoteMsg+"ProgressStatus:";
-
-	public static final String Token_ErrorMsg = Token_RemoteMsg+"ErrorMessage:";
-	public static final String Token_WarnMsg = Token_RemoteMsg+"WarnMessage:";
-	public static final String Token_StatusMsg = Token_RemoteMsg+"StatusMessage:";
-	public static final String Token_InfoMsg = Token_RemoteMsg+"InfoMessage:";
-	public static final String Token_DebugMsg = Token_RemoteMsg+"DebugMessage:";
-	
 	private Grid grid = null;
 	private GridNode masterNode = null;
 	
 	private byte level = TextMessage.TYPE_INFO;
-	private long msgCnt = 0;  // for debug purpose
+	//private long msgCnt = 0;  // for debug purpose
 	
 	/**
 	 * Constructor
@@ -85,14 +76,14 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 		if (msg instanceof DStabSimuAction) {
 			DStabSimuAction simuMsg = (DStabSimuAction)msg;
 //    		System.out.println(Token_DStabSimuMsg  + " "+(++msgCnt)+"_");
-			sendMessage(Token_DStabSimuMsg  + 
+			sendMessage(Constants.GridToken_DStabSimuMsg  + 
 					/* " "+(msgCnt)+"_" + */   // for debug purpose 
 					simuMsg.getType() + "|" + simuMsg.getHashtableData().toString());
 		}
 		else if (msg instanceof SimuMessage) {
 			SimuMessage simuMsg = (SimuMessage)msg;
 			if (simuMsg.getType() == SimuMessage.TYPE_PROGRESS_STATUS)
-				sendMessage(Token_ProgressStatusMsg + simuMsg.getIntData());
+				sendMessage(Constants.GridToken_ProgressStatusMsg + simuMsg.getIntData());
 			else
 				IpssLogger.getLogger().info(msg.toString());
 		}
@@ -105,7 +96,7 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	@Override
 	public void sendDebugMsg(String msg) {
 		if (this.level <= TextMessage.TYPE_DEBUG) {
-			sendMessage(Token_DebugMsg,  msg);
+			sendMessage(Constants.GridToken_DebugMsg,  msg);
 			System.out.println(msg);
 		}
 	}
@@ -113,7 +104,7 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	@Override
 	public void sendErrorMsg(String msg) {
 		if (this.level <= TextMessage.TYPE_ERROR) {
-			sendMessage(Token_ErrorMsg,  msg);
+			sendMessage(Constants.GridToken_ErrorMsg,  msg);
 			System.out.println(msg);
 		}
 	}
@@ -121,7 +112,7 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	@Override
 	public void sendInfoMsg(String msg) {
 		if (this.level <= TextMessage.TYPE_INFO) {
-			sendMessage(Token_InfoMsg,  msg);
+			sendMessage(Constants.GridToken_InfoMsg,  msg);
 			System.out.println(msg);
 		}
 	}
@@ -130,7 +121,7 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	@Override
 	public void sendStatusMsg(String msg) {
 		if (this.level <= TextMessage.TYPE_STATUS) {
-			sendMessage(Token_StatusMsg,  msg);
+			sendMessage(Constants.GridToken_StatusMsg,  msg);
 			System.out.println(msg);
 		}
 	}
@@ -138,7 +129,7 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	@Override
 	public void sendWarnMsg(String msg) {
 		if (this.level <= TextMessage.TYPE_WARN) {
-			sendMessage(Token_WarnMsg,  msg);
+			sendMessage(Constants.GridToken_WarnMsg,  msg);
 			System.out.println(msg);
 		}
 	}

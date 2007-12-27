@@ -51,7 +51,6 @@ import com.interpss.dstab.util.IDStabSimuOutputHandler;
 
 public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 	private static final long serialVersionUID = 1;
-
 	
 	@Override
 	protected GridJob createGridJob(String modelStr) {
@@ -60,16 +59,17 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 
 			protected Serializable performGridJob(String modelStr) {
 				DStabilityNetwork net = (DStabilityNetwork)SerializeEMFObjectUtil.loadModel(modelStr);
+				String caseId = net.getId();
 				
 				// get serialized algo string from the task session
-				String algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_DStabAlgo+net.getId());
+				String algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_DStabAlgo+caseId);
 				System.out.println(algoStr);
 				DynamicSimuAlgorithm dstabAlgo;
 				if (algoStr != null) {
 					// set algo attributes. These attributes are not serialized
 					dstabAlgo = (DynamicSimuAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
 					
-					algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_AclfAlgo+net.getId());
+					algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_AclfAlgo+caseId);
 					LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
 					dstabAlgo.setAclfAlgorithm(lfAlgo);
 
@@ -84,7 +84,7 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 				}
 				
 				// set simulation result handler
-				IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(getMsgHub());
+				IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(getMsgHub(), caseId);
 				if (dstabAlgo.getSimuOutputHandler() != null) {
 					// transfer info to the GridOutputHandler
 				}
