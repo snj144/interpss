@@ -169,6 +169,15 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 			return false;
     	msgRouter.setIDStabSimuDatabaseOutputHandler(dstabDbHandler);
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(dstabDbHandler);
+		
+		simuCtx.getDynSimuAlgorithm().setOutputFilted(dStabCaseData.isOutputFilter());
+		if (simuCtx.getDynSimuAlgorithm().isOutputFilted()) { 
+			String[] slist = new String[dStabCaseData.getOutVarList().size()];
+			int cnt = 0;
+			for (String str : dStabCaseData.getOutVarList())
+				slist[cnt++] = str;
+			simuCtx.getDynSimuAlgorithm().setOutputVarIdList(slist);
+		}
 
 		try {
 			long timeout = 0;
