@@ -173,6 +173,10 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		try {
 			long timeout = 0;
 			DStabilityNetwork net = simuCtx.getDStabilityNet();
+			// make sure net.id defined here. It has to be unique if run multiple grid runs
+			String caseId = "DStabNetId"; 
+			net.setId(caseId);
+			dstabDbHandler.addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
 			Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid,
 									"InterPSS Transient Stability Simulation", 
 									simuCtx.getDynSimuAlgorithm(), 
@@ -246,7 +250,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
 					e.toString() + "\nPlease contact InterPSS support");
 		}
-		setDbSimuCaseId(handler.getCaseId());
+		setDbSimuCaseId(handler.getDBCaseId());
 		return handler;
 	}
 }

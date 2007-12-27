@@ -723,7 +723,7 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
     	setAllStatusOff();
     	stateItemList.clear();
     	this.refreashStateItemList();
-    	if (elemId.startsWith(Constants.MachIdToken)) {
+    	if (elemId.startsWith(Constants.Token_MachId)) {
     	   IpssLogger.getLogger().info("setStateComboList for machId: " + elemId);
            setExcStateStatus(true);
            setGovStateStatus(true);
@@ -741,16 +741,16 @@ public class DStabPlotSelectionDialog extends javax.swing.JDialog {
 					ChartManager.getStatesNameList(this.caseId, elemId+DStabSimuDBRecord.STABILIZER_ID_EXT, 
 							ISimuRecManager.REC_TYPE_DStabPssStates)));
     	}
-    	else if (elemId.startsWith(Constants.DBusDeviceIdToken)) {
+    	else if (elemId.startsWith(Constants.Token_DBusDeviceId)) {
       	   IpssLogger.getLogger().info("setStateComboList for busDeviceId: " + elemId);
       	   setBusDeviceStatus(true);
 		   this.busDeviceComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     				ChartManager.getStatesNameList(this.caseId, elemId, ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates)));
     	}
-    	else if (elemId.startsWith(Constants.BusIdToken)) {
+    	else if (elemId.startsWith(Constants.Token_BusId)) {
      	   IpssLogger.getLogger().info("setStateComboList for busId: " + elemId);
      	   setBusVariableStatus(true);
-     	   String busId = elemId.replaceAll(Constants.BusIdToken, "");
+     	   String busId = elemId.replaceAll(Constants.Token_BusId, "");
 		   this.busVariableComboBox.setModel(new javax.swing.DefaultComboBoxModel(
     				ChartManager.getStatesNameList(this.caseId, busId, ISimuRecManager.REC_TYPE_DStabBusStates)));
     	}

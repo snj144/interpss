@@ -66,7 +66,7 @@ public class DStabPlotDialogRecord {
 		rec.elemId = str.substring(str.indexOf("(")+1, str.indexOf(")"));
 		rec.stateName = str.substring(0, str.indexOf("("));
 		String type;
-		if (rec.elemId.startsWith(Constants.MachIdToken)) {
+		if (rec.elemId.startsWith(Constants.Token_MachId)) {
 			if (rec.elemId.endsWith(DStabSimuDBRecord.EXCITER_ID_EXT)) {
 				type = ISimuRecManager.REC_TYPE_DStabExcStates;
 				rec.machId = rec.elemId.replaceAll(DStabSimuDBRecord.EXCITER_ID_EXT, "");
@@ -84,12 +84,12 @@ public class DStabPlotDialogRecord {
 				rec.machId = rec.elemId;
 			}
 		}
-		else if (rec.elemId.startsWith(Constants.DBusDeviceIdToken)) {
+		else if (rec.elemId.startsWith(Constants.Token_DBusDeviceId)) {
 			type = 	ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates;
 		}
 		else {
 			type = 	ISimuRecManager.REC_TYPE_DStabBusStates;
-			rec.busId = rec.elemId.replaceAll(Constants.BusIdToken, "");
+			rec.busId = rec.elemId.replaceAll(Constants.Token_BusId, "");
 		}
 		rec.recType = type;
     	return rec;

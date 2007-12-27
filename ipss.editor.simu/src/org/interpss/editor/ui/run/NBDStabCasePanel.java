@@ -337,7 +337,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         else {
         	if (setPointCheckBox.isSelected()) {
         		String str = (String)setPointControllerComboBox.getSelectedItem();
-        		if (!str.equals(Constants.NoControllerToken)) {
+        		if (!str.equals(Constants.Token_NoController)) {
         			dstabCaseData.setSetPointChange(setPointCheckBox.isSelected());
         			if (setPointCheckBox.isSelected()) {
             			dstabCaseData.setSetPointChangeMachId((String)setPointMachineComboBox.getSelectedItem());
