@@ -51,17 +51,16 @@ public abstract class AbstractAssignJob2NodeTask extends AbstractIpssGridGainTas
 	
 	@Override
 	public Map<? extends GridJob, GridNode> map(List<GridNode> subgrid, Object model) throws GridException {
-        // Send master node id to all nodes.
+        // Send master node id to all remote nodes.
         getSession().setAttribute(Token_MasterNodeId, MasterNodeId);
         
-        // serialize the model object
-		String modelStr = "";
-		modelStr = serializeModel(model);
+        // serialize the model object, only the DStabNet part
+		String modelStr = serializeModel(model);
 
 		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
-		// get the remote grid node
+		// get the remote grid node from the grid node list
 		GridNode node = getRemoteNode(subgrid);
-		// set the DStab object with the Algorithm info to the remote node
+		// send the serialized DStab object info to the remote node
 		jobMap.put(createGridJob(modelStr), node);	
 		return jobMap;
      }
