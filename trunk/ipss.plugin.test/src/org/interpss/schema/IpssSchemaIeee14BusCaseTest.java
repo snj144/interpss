@@ -5,11 +5,14 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.core.adapter.IpssXmlAdapter;
-import org.interpss.core.adapter.XmlNetParamModifier;
+import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.XmlNetParamModifier;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.mapper.IpssMapper;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
@@ -28,14 +31,15 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 		File xmlFile = new File("testData/xml/RunAclfCase.xml");
-  		IpssXmlAdapter parser = new IpssXmlAdapter(xmlFile);
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
   		RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF);
   		
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	parser.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
+	  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 	  	
 	  	assertTrue(algo.getMaxIterations() == 20);
 	  	assertTrue(algo.getTolerance() == 1.0E-4);
@@ -52,14 +56,15 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 		File xmlFile = new File("testData/xml/RunAclfCaseModification.xml");
-  		IpssXmlAdapter parser = new IpssXmlAdapter(xmlFile);
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
   		RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
   		
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	// modification of the study case also applied
-	  	parser.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
+	  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	
@@ -81,7 +86,7 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 		File xmlFile = new File("testData/xml/ModificationOnly.xml");
-  		IpssXmlAdapter parser = new IpssXmlAdapter(xmlFile);
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
   		ModificationXmlType mod = parser.getModification();
