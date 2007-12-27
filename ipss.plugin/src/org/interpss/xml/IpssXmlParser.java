@@ -32,7 +32,6 @@ package org.interpss.xml;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
-import org.interpss.mapper.runCase.Xml2AlgorithmMapperImpl;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
@@ -41,10 +40,8 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.mapper.AbstractMapper;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
 
-public class IpssXmlAdapter  extends AbstractMapper {
+public class IpssXmlParser {
 	private InterPSSXmlType ipss = null;
 	
 	/**
@@ -53,7 +50,7 @@ public class IpssXmlAdapter  extends AbstractMapper {
 	 * @param xmlFile
 	 * @throws Exception
 	 */
-	public IpssXmlAdapter(File xmlFile) throws Exception {
+	public IpssXmlParser(File xmlFile) throws Exception {
 		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlFile);	
 		this.ipss = ipssDoc.getInterPSS();		
 	}
@@ -64,7 +61,7 @@ public class IpssXmlAdapter  extends AbstractMapper {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	public IpssXmlAdapter(String xmlString) throws XmlException {
+	public IpssXmlParser(String xmlString) throws XmlException {
 		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlString);	
 		this.ipss = ipssDoc.getInterPSS();		
 	}
@@ -96,22 +93,6 @@ public class IpssXmlAdapter  extends AbstractMapper {
 		return ipss.getModification();		
 	}
 
-	/**
-	 * map schema StudyCase element to an algorithm object
-	 * 
-	 * @param fromObj
-	 * @param toObj
-	 * @param klass
-	 */
-	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
-		if (klass == RunAclfStudyCaseXmlType.class) {
-			// map an AclfStudyCase xml record to an LoadflowAlgorithm object
-		  	return Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(
-		  			(RunAclfStudyCaseXmlType)fromObj, (LoadflowAlgorithm)toObj);
-		}
-		return false;
-	}
-	
 	/**
 	 * map Xml unit type to InterPSS UnitType
 	 * 

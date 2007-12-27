@@ -24,12 +24,12 @@
 
 package org.interpss.mapper.runCase;
 
-import org.interpss.core.adapter.IpssXmlAdapter;
-import org.interpss.core.adapter.XmlNetParamModifier;
 import org.interpss.schema.AclfMethodXmlData;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.algorithm.AclfMethod;
@@ -43,14 +43,14 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param caseData
 	 * @param algo
 	 */
-	public static boolean aclfCaseData2AlgoMapping(RunAclfStudyCaseXmlType caseData, LoadflowAlgorithm algo) {
+	public static void aclfCaseData2AlgoMapping(RunAclfStudyCaseXmlType caseData, LoadflowAlgorithm algo) {
 	  	algo.setLfMethod(caseData.getLfMethod()==AclfMethodXmlData.NR? AclfMethod.NR :
 	  				       (caseData.getLfMethod()==AclfMethodXmlData.PQ? AclfMethod.PQ : 
 	  				    	   AclfMethod.GS));
 	  	algo.setMaxIterations(caseData.getMaxIterations());
   		double e = caseData.getTolerance();
 	  	if (caseData.getToleranceUnit() != UnitXmlData.PU) {
-	  		byte unit = IpssXmlAdapter.mapXmlUnitType2IpssUnitType(caseData.getToleranceUnit());
+	  		byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(caseData.getToleranceUnit());
 	  		e = UnitType.pConversion(e, algo.getAclfNetwork().getBaseKva(), unit, UnitType.PU);
 	  	}
   		algo.setTolerance(e);
@@ -64,6 +64,5 @@ public class Xml2AlgorithmMapperImpl {
 	  		ModificationXmlType mod = caseData.getModification();
 	  		XmlNetParamModifier.applyModification2Net(algo.getAclfNetwork(), mod);
 	  	}
-	  	return true;
 	}
 }
