@@ -96,7 +96,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	 * @param msg
 	 */
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		if (!preprocessing(simuCtx, msg))
+		if (!prepareSimuRunDataCheckError(simuCtx, msg))
 			return false;
 		
 		LoadflowAlgorithm aclfAlgo = simuCtx.getDynSimuAlgorithm().getAclfAlgorithm();
@@ -151,7 +151,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	 * @param msg
 	 */
 	public boolean runGridCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		if (!preprocessing(simuCtx, msg))
+		if (!prepareSimuRunDataCheckError(simuCtx, msg))
 			return false;
 		
 		// get the selected remote node
@@ -160,6 +160,11 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
 		AbstractIpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
 		
+		/*
+		 * The simuMsg sending from remote node to the master node will be routed
+		 * by the router to the msg object. The simuMsg will be then routed to the 
+		 * DBSimuDataHandler
+		 */
     	GridMessageRouter msgRouter = new GridMessageRouter();
     	grid.addMessageListener(msgRouter);
     	msgRouter.setIPSSMsgHub(msg);
@@ -170,6 +175,8 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
     	msgRouter.setIDStabSimuDatabaseOutputHandler(dstabDbHandler);
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(dstabDbHandler);
 		
+		// transfer output vairable filter info to the DStabAlgo object, which then 
+		// will be carried by the object to the remote grid node
 		simuCtx.getDynSimuAlgorithm().setOutputFilted(dStabCaseData.isOutputFilter());
 		if (simuCtx.getDynSimuAlgorithm().isOutputFilted()) { 
 			String[] slist = new String[dStabCaseData.getOutVarList().size()];
@@ -180,7 +187,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		}
 
 		try {
-			long timeout = 0;
+			long timeout = 0;  // no timeout
 			DStabilityNetwork net = simuCtx.getDStabilityNet();
 			// make sure net.id defined here. It has to be unique if run multiple grid runs
 			String caseId = "DStabNetId"; 
@@ -190,8 +197,9 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 									"InterPSS Transient Stability Simulation", 
 									simuCtx.getDynSimuAlgorithm(), 
 									timeout);
+			// init the Net object for plotting purpose. it is inited at the remote grid node
+			// before DStab simulation.
 			simuCtx.setDStabilityNet(net);
-			// for plotting purpose
 			net.initialization(msg);
 			return rtn.booleanValue();
 		} catch (GridException e) {
@@ -227,7 +235,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		this.aclfCaseData = aclfCaseData;
 	}
 
-	private boolean preprocessing(SimuContext simuCtx, IPSSMsgHub msg) {
+	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx, IPSSMsgHub msg) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 		
   		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
