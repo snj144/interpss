@@ -25,14 +25,15 @@
 package org.interpss.editor.runAct;
 
 import org.apache.xmlbeans.XmlException;
-import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.AnalysisRunTaskXmlData;
+import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -60,7 +61,7 @@ public class XmlScriptRunWorker {
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfAdjNet());
 		  	if (parser.getRunAclfStudyCaseList().length > 0) {
 			  	RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
-			  	RunForm2AlgorithmMapper mapper = new RunForm2AlgorithmMapper();
+			  	IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
 			  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 						  	
 				algo.loadflow(simuCtx.getMsgHub());
