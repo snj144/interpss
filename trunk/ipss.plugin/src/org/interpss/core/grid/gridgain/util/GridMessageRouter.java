@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import org.gridgain.grid.GridMessageListener;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.SimuMessage;
@@ -83,14 +84,14 @@ public class GridMessageRouter implements GridMessageListener {
 	@Override
 	public void onMessage(UUID arg0, Serializable arg1) {
 		String msgStr = (String)arg1;
-		if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_DStabSimuMsg)) {
+		if (msgStr.startsWith(Constants.GridToken_DStabSimuMsg)) {
 			// format:	Token_DStabSimuMsg  + simuMsg.getType() + "|" + simuMsg.getHashtableData().toString());
 
 			// debug:	Token_DStabSimuMsg  + " 1_" + simuMsg.getType() + "|" + simuMsg.getHashtableData().toString());
 //			System.out.println("DStab Msg Cnt: " + msgStr.substring(IPSSGridMsgHubImpl.Token_DStabSimuMsg.length(), msgStr.indexOf('_')));
 //			String type = msgStr.substring(msgStr.indexOf('_')+1, msgStr.indexOf('|'));
 
-			String type = msgStr.substring(IPSSGridMsgHubImpl.Token_DStabSimuMsg.length(), msgStr.indexOf('|'));
+			String type = msgStr.substring(Constants.GridToken_DStabSimuMsg.length(), msgStr.indexOf('|'));
 			String msg = msgStr.substring(msgStr.indexOf('|')+1);
 			Hashtable<String,String> states = StringUtil.parseStr2Hashtable(msg);
 			/*
@@ -105,31 +106,31 @@ public class GridMessageRouter implements GridMessageListener {
 			else
 				System.out.println(states);
 		}
-		else if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_ProgressStatusMsg)) {
-			String str = msgStr.substring(IPSSGridMsgHubImpl.Token_ProgressStatusMsg.length());
+		else if (msgStr.startsWith(Constants.GridToken_ProgressStatusMsg)) {
+			String str = msgStr.substring(Constants.GridToken_ProgressStatusMsg.length());
 			int percent = new Integer(str).intValue();
 			if (this.msgHub != null)
 				msgHub.sendMsg(new SimuMessage(SimuMessage.TYPE_PROGRESS_STATUS, new Integer(percent)));
 			else
 				System.out.println("percent = " + percent + "%");
 		}
-		else if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_ErrorMsg)) {
+		else if (msgStr.startsWith(Constants.GridToken_ErrorMsg)) {
 			if (this.msgHub != null)
 				msgHub.sendErrorMsg(msgStr);
 		}
-		else if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_WarnMsg)) {
+		else if (msgStr.startsWith(Constants.GridToken_WarnMsg)) {
 			if (this.msgHub != null)
 				msgHub.sendWarnMsg(msgStr);
 		}
-		else if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_StatusMsg)) {
+		else if (msgStr.startsWith(Constants.GridToken_StatusMsg)) {
 			if (this.msgHub != null)
 				msgHub.sendStatusMsg(msgStr);
 		}
-		else if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_InfoMsg)) {
+		else if (msgStr.startsWith(Constants.GridToken_InfoMsg)) {
 			if (this.msgHub != null)
 				msgHub.sendInfoMsg(msgStr);
 		}
-		else if (msgStr.startsWith(IPSSGridMsgHubImpl.Token_DebugMsg)) {
+		else if (msgStr.startsWith(Constants.GridToken_DebugMsg)) {
 			if (this.msgHub != null)
 				msgHub.sendDebugMsg(msgStr);
 		}

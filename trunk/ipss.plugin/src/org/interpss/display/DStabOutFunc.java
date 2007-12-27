@@ -63,8 +63,8 @@ public class DStabOutFunc {
 		else 
 			str += "     -       ";
 
-		if (table.get(Constants.ExciterStateToken) != null) {
-			Hashtable<String, Object> excStatess = 	(Hashtable<String, Object>)table.get(Constants.ExciterStateToken);
+		if (table.get(Constants.Token_ExciterState) != null) {
+			Hashtable<String, Object> excStatess = 	(Hashtable<String, Object>)table.get(Constants.Token_ExciterState);
 			double efd = strFmt? new Double((String)excStatess.get(DStabOutSymbol.OUT_SYMBOL_EXC_EFD)).doubleValue() : 
 				                 ((Double)excStatess.get(DStabOutSymbol.OUT_SYMBOL_EXC_EFD)).doubleValue();
 			str += Number2String.toStr(10, Number2String.toStr("0.0000", efd)) + "   ";
@@ -72,8 +72,8 @@ public class DStabOutFunc {
 		else 
 			str += "     -       ";
 
-		if (table.get(Constants.StabilizerStateToken) != null) {
-			Hashtable<String, Object> pssStatess = 	(Hashtable<String, Object>)table.get(Constants.StabilizerStateToken);
+		if (table.get(Constants.Token_StabilizerState) != null) {
+			Hashtable<String, Object> pssStatess = 	(Hashtable<String, Object>)table.get(Constants.Token_StabilizerState);
 			double pssVs = strFmt? new Double((String)pssStatess.get(DStabOutSymbol.OUT_SYMBOL_PSS_VS)).doubleValue() : 
 				                  ((Double)pssStatess.get(DStabOutSymbol.OUT_SYMBOL_PSS_VS)).doubleValue();
 			str += Number2String.toStr(10, Number2String.toStr("0.0000", pssVs)) + "   ";

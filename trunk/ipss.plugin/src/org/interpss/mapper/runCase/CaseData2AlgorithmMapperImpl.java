@@ -134,8 +134,8 @@ public class CaseData2AlgorithmMapperImpl {
 				event.setDurationSec(dstabData.getTotalSimuTime());
 				SetPointChangeEvent eSetPoint = DStabObjectFactory.createSetPointChangeEvent(machId, dstabNet);
 				eSetPoint.setControllerType(
-						dstabData.getSelectedController().equals(Constants.ExciterToken)? ControllerType.EXCITER :
-							dstabData.getSelectedController().equals(Constants.GovernorToken)? 
+						dstabData.getSelectedController().equals(Constants.Token_Exciter)? ControllerType.EXCITER :
+							dstabData.getSelectedController().equals(Constants.Token_Governor)? 
 									ControllerType.GOVERNOR : ControllerType.STABILIZER);
 				eSetPoint.setChangeValue(dstabData.getSetPointValueChange());
 				eSetPoint.setAbusoluteChange(dstabData.isSetPointChangeAbsolute());

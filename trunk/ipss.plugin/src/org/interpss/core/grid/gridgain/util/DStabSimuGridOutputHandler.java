@@ -27,6 +27,7 @@ package org.interpss.core.grid.gridgain.util;
 import java.util.Hashtable;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.util.IpssLogger;
@@ -43,9 +44,11 @@ public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 	 * IPSSGridMsgHubImpl, a message router which routes message to the master node
 	 */
 	private IPSSMsgHub msgHub = null;
+	private String gridRunCaseId = "";
 	
-	public DStabSimuGridOutputHandler(IPSSMsgHub msgHub) {
+	public DStabSimuGridOutputHandler(IPSSMsgHub msgHub, String caseId) {
 		this.msgHub = msgHub;
+		this.gridRunCaseId = caseId;
 	}
 	
 	/**
@@ -59,6 +62,7 @@ public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 			   	Hashtable<String, Object> machStates = e.getHashtableData();
 				String machId = (String)machStates.get(DStabOutSymbol.OUT_SYMBOL_MACH_ID);
 				if (!this.isOutputFilter() || this.getOutputVarIdList().contains("Machine - " + machId)) {
+					e.getHashtableData().put(Constants.GridToken_CaseId, gridRunCaseId);
 					msgHub.sendMsg(event);
 				}
 		   }
@@ -66,6 +70,7 @@ public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 			   	Hashtable<String, Object> busStates = e.getHashtableData();
 				String busId = (String)busStates.get(DStabOutSymbol.OUT_SYMBOL_BUS_ID);
 				if (!this.isOutputFilter()  || this.getOutputVarIdList().contains("Bus - " + busId)) {
+					e.getHashtableData().put(Constants.GridToken_CaseId, gridRunCaseId);
 					msgHub.sendMsg(event);
 				}				
 		   }
@@ -73,6 +78,7 @@ public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 			   	Hashtable<String, Object> deviceStates = e.getHashtableData();
 				String deviceId = (String)deviceStates.get(DStabOutSymbol.OUT_SYMBOL_BUS_DEVICE_ID);
 				if (!this.isOutputFilter()  || this.getOutputVarIdList().contains(deviceId)) {
+					e.getHashtableData().put(Constants.GridToken_CaseId, gridRunCaseId);
 					msgHub.sendMsg(event);
 				}
 		   }
