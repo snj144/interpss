@@ -118,8 +118,8 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo.getAclfAlgorithm());
 	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
 			
-	        // TODO - this part should be implemented in the future
-	        dstabAlgo.setSimuOutputHandler(null);
+	        // done - this part should be implemented in the future
+	        //dstabAlgo.setSimuOutputHandler(null);
 	        String dstabAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo);
 	        getSession().setAttribute(Token_DStabAlgo+net.getId(), dstabAlgoStr);
 		}
