@@ -1,5 +1,5 @@
  /*
-  * @(#)IpssGridGainTask.java   
+  * @(#)AssignJob2NodeAclfTask.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
