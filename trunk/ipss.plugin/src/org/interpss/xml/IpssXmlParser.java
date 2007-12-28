@@ -1,5 +1,5 @@
 /*
-  * @(#)IpssXmlAdapter.java   
+  * @(#)IpssXmlParser.java   
   *
   * Copyright (C) 2006-2007 www.interpss.org
   *
@@ -25,8 +25,7 @@
 package org.interpss.xml;
 
 /**
- * A Xml parser for the InterPSS.xsd schema. It also serves as a mapper to map the StudyCase
- * element to InterPSS algorithm objects 
+ * A Xml parser for the InterPSS.xsd schema. 
  */
 
 import java.io.File;
@@ -67,7 +66,7 @@ public class IpssXmlParser {
 	}
 
 	/**
-	 * Get the root element InterPSS
+	 * Get the RunStudyCaseXmlType element
 	 * 
 	 * @return
 	 */
