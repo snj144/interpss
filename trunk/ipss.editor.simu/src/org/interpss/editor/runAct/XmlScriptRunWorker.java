@@ -75,6 +75,12 @@ public class XmlScriptRunWorker {
 				return false;
 		  	}
 		}
+		else if (parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC ) {
+			
+		}
+		else if (parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_D_STAB ) {
+			
+		}
 		return true;
 	}
 }
