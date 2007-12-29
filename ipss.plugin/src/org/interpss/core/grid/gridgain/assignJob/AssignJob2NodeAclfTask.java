@@ -38,7 +38,6 @@ import java.io.Serializable;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
-import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
