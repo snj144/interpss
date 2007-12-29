@@ -43,6 +43,8 @@ import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridNode;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
 
+import com.interpss.common.datatype.Constants;
+
 public abstract class AbstractAssignJob2NodeTask extends AbstractIpssGridGainTask<Object> {
 	private static final long serialVersionUID = 1;
 	
@@ -52,7 +54,7 @@ public abstract class AbstractAssignJob2NodeTask extends AbstractIpssGridGainTas
 	@Override
 	public Map<? extends GridJob, GridNode> map(List<GridNode> subgrid, Object model) throws GridException {
         // Send master node id to all remote nodes.
-        getSession().setAttribute(Token_MasterNodeId, MasterNodeId);
+        getSession().setAttribute(Constants.GridToken_MasterNodeId, MasterNodeId);
         
         // serialize the model object, only the DStabNet part
 		String modelStr = serializeModel(model);

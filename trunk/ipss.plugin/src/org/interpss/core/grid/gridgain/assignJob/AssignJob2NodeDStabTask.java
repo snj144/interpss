@@ -41,6 +41,7 @@ import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
 import org.interpss.core.grid.gridgain.util.DStabSimuGridOutputHandler;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -70,13 +71,13 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 				String caseId = net.getId();
 				
 				// get serialized algo string from the task session
-				String algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_DStabAlgo+caseId);
+				String algoStr = (String)getSession().getAttribute(Constants.GridToken_DStabAlgo+caseId);
 				//System.out.println(algoStr);
 				DynamicSimuAlgorithm dstabAlgo;
 				if (algoStr != null) {
 					dstabAlgo = (DynamicSimuAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
 					
-					algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_AclfAlgo+caseId);
+					algoStr = (String)getSession().getAttribute(Constants.GridToken_AclfAlgo+caseId);
 					LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
 					dstabAlgo.setAclfAlgorithm(lfAlgo);
 
@@ -135,12 +136,12 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 
 			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo.getAclfAlgorithm());
-	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
+	        getSession().setAttribute(Constants.GridToken_AclfAlgo+net.getId(), lfAlgoStr);
 			
 	        // done - this part should be implemented in the future
 	        //dstabAlgo.setSimuOutputHandler(null);
 	        String dstabAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo);
-	        getSession().setAttribute(Token_DStabAlgo+net.getId(), dstabAlgoStr);
+	        getSession().setAttribute(Constants.GridToken_DStabAlgo+net.getId(), dstabAlgoStr);
 		}
 		else if (model instanceof DStabilityNetwork) {
 			DStabilityNetwork net = (DStabilityNetwork)model; 

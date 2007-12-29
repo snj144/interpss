@@ -40,14 +40,6 @@ import org.gridgain.grid.resources.GridTaskSessionResource;
 public abstract class AbstractIpssGridGainTask<T> extends GridTaskAdapter<T> {
 	private static final long serialVersionUID = 1;
 	
-//	public static final String Token_TaskType              = "Gridgain_TaskType";
-//	public static final String TaskType_Aclf_Job2Node      = "Aclf_Job2Node";
-//	public static final String TaskType_DStab_Job2Node     = "DStab_Job2Node";
-
-	public static final String Token_MasterNodeId = "MasterNodeId";
-	public static final String Token_DStabAlgo    = "DStabAlgorithm";
-	public static final String Token_AclfAlgo     = "LoadflowAlgorithm";
-	
     /** Grid task session will be injected. */
     @GridTaskSessionResource
     private GridTaskSession session = null;

@@ -41,6 +41,7 @@ import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
 import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -64,7 +65,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 					net = (AclfAdjNetwork)model;
 				 
 				// get serialized algo string from the task session
-				String algoStr = (String)getSession().getAttribute(AbstractIpssGridGainTask.Token_AclfAlgo+net.getId());
+				String algoStr = (String)getSession().getAttribute(Constants.GridToken_AclfAlgo+net.getId());
 				//System.out.println(algoStr);
 				LoadflowAlgorithm algo;
 				if (algoStr != null) {
@@ -100,7 +101,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 			AclfNetwork net = algo.getAclfNetwork();
 
 			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(algo);
-	        getSession().setAttribute(Token_AclfAlgo+net.getId(), lfAlgoStr);
+	        getSession().setAttribute(Constants.GridToken_AclfAlgo+net.getId(), lfAlgoStr);
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
 		else if (model instanceof AclfAdjNetwork) {
