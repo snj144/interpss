@@ -38,6 +38,7 @@ import org.gridgain.grid.resources.GridInstanceResource;
 import org.gridgain.grid.resources.GridTaskSessionResource;
 import org.interpss.core.grid.gridgain.util.IPSSGridMsgHubImpl;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.TextMessage;
 import com.interpss.core.CorePackage;
@@ -65,7 +66,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
  
 	protected IPSSMsgHub getMsgHub() {
 		if (msgHub == null) {
-			String masterNodeId = (String)session.getAttribute(AbstractIpssGridGainTask.Token_MasterNodeId);
+			String masterNodeId = (String)session.getAttribute(Constants.GridToken_MasterNodeId);
 			msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId, TextMessage.TYPE_INFO);
 		}
 		return msgHub;

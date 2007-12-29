@@ -39,6 +39,7 @@ import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
@@ -59,9 +60,6 @@ import com.interpss.dstab.DynamicSimuAlgorithm;
  */
 
 public class IpssGridGainUtil {
-	private static final String Token_MasterNode = "Master Grid Node";
-	private static final String Token_RemoteNode = "Logical Node";
-
 	// hold node name to node id lookup info
 	private static Hashtable<String,String> nodeNameLookupTable = new Hashtable<String,String>();
 
@@ -192,7 +190,7 @@ public class IpssGridGainUtil {
     	String name = nodeNameLookupTable.get(uid); 
     	if (name == null) {
     		int cnt = nodeNameLookupTable.size();
-    		name = Token_RemoteNode + " - " + (cnt+1);
+    		name = Constants.GridToken_RemoteNode + " - " + (cnt+1);
     		nodeNameLookupTable.put(uid, name);
     	}
     	return name;
@@ -219,7 +217,7 @@ public class IpssGridGainUtil {
         String localId = grid.getLocalNode().getId().toString();
         Vector<String> vct = new Vector<String>();
         if (!remote)
-        	vct.add(Token_MasterNode);
+        	vct.add(Constants.GridToken_MasterNode);
       	for (GridNode node : grid.getAllNodes()) {
       		if (!localId.equals(node.getId().toString())) {
       			String name = nodeNameLookup(node.getId().toString());
