@@ -33,17 +33,19 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-  		RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF);
   		
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+
+	  	for ( RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
+	  		mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 	  	
-	  	assertTrue(algo.getMaxIterations() == 20);
-	  	assertTrue(algo.getTolerance() == 1.0E-4);
+	  		assertTrue(algo.getMaxIterations() == 20);
+	  		assertTrue(algo.getTolerance() == 1.0E-4);
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  	}
 	}			
 
 	@Test
