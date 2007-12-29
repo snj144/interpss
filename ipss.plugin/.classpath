@@ -20,5 +20,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/xml/xbean.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
