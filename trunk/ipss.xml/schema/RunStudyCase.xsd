@@ -14,6 +14,7 @@
         </ns:annotation>
         <ns:sequence>
 			<ns:element name="analysisRunTask" type="ipss:AnalysisRunTaskXmlData"></ns:element>
+			<ns:element name="enableGridRun" type="ns:boolean"></ns:element>
 			<ns:element name="runAclfStudyCase"
 				type="ipss:RunAclfStudyCaseXmlType" maxOccurs="unbounded"
 				minOccurs="0">
@@ -58,7 +59,22 @@
 
 	<ns:complexType name="RunAcscStudyCaseXmlType">
 		<ns:complexContent>
-			<ns:extension base="ipss:RunStudyCaseBaseXmlType"></ns:extension>
+			<ns:extension base="ipss:RunStudyCaseBaseXmlType">
+				<ns:sequence>
+					<ns:element name="faultData"
+						type="ipss:AcscFaultXmlType">
+					</ns:element>
+					<ns:element name="busInitVolt"
+						type="ipss:FaultVoltInitialization">
+					</ns:element>
+					<ns:element name="multiFactor" type="ns:double">
+						<ns:annotation>
+							<ns:documentation>
+								bus voltage multi-factor in percent
+							</ns:documentation>
+						</ns:annotation></ns:element>
+				</ns:sequence>
+			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
 
@@ -66,20 +82,54 @@
 		<ns:complexContent>
 			<ns:extension base="ipss:RunStudyCaseBaseXmlType">
 				<ns:sequence>
-					<ns:element name="totalSimuTimeSec"
-						type="ns:double" maxOccurs="1" minOccurs="1">
+					<ns:element name="totalSimuTimeSec" type="ns:double"
+						maxOccurs="1" minOccurs="1">
 					</ns:element>
-					<ns:element name="simuStepSec" type="ns:double" maxOccurs="1" minOccurs="1"></ns:element>
+					<ns:element name="simuStepSec" type="ns:double"
+						maxOccurs="1" minOccurs="1">
+					</ns:element>
 					<ns:element name="simuMethod"
-						type="ipss:DynamicSimuMethodXmlData" maxOccurs="1" minOccurs="1">
+						type="ipss:DynamicSimuMethodXmlData" maxOccurs="1"
+						minOccurs="1">
 					</ns:element>
-					<ns:element name="refMachineBusId" type="ns:string" maxOccurs="1" minOccurs="0"></ns:element>
-					<ns:element name="disableDEvent"
-						type="ns:boolean" maxOccurs="1" minOccurs="0">
+					<ns:element name="absoluteMachAngValue"
+						type="ns:boolean" minOccurs="1" maxOccurs="1">
+					</ns:element>
+					<ns:element name="refMachineBusId" type="ns:string"
+						maxOccurs="1" minOccurs="0">
 					</ns:element>
 					<ns:element name="aclfAlgorithm"
 						type="ipss:RunAclfStudyCaseXmlType" maxOccurs="1" minOccurs="1">
 					</ns:element>
+					<ns:element name="disableDEvent" type="ns:boolean"
+						maxOccurs="1" minOccurs="0">
+					</ns:element>
+
+					<ns:element name="setpointChange" type="ns:boolean"
+						minOccurs="0" maxOccurs="1">
+					</ns:element>
+					<ns:element name="setpointChangeData"
+						type="ipss:DStabSetpointChangeXmlType" minOccurs="0"
+						maxOccurs="1">
+					</ns:element>
+
+					<ns:element name="netEqnItrNoEvent" type="ns:int"
+						minOccurs="0" maxOccurs="1">
+					</ns:element>
+					<ns:element name="netEqnItrWithEvent" type="ns:int"
+						minOccurs="0" maxOccurs="1">
+					</ns:element>
+					<ns:element name="staticLoadSwitchVolt"
+						type="ns:double" minOccurs="0" maxOccurs="1">
+					</ns:element>
+					<ns:element name="staticLoadSwitchDeadZone"
+						type="ns:double" minOccurs="0" maxOccurs="1">
+					</ns:element>
+					<ns:element name="outputFilter" type="ns:boolean" minOccurs="1" maxOccurs="1"></ns:element>
+					<ns:element name="outputVarList" type="ns:string"
+						minOccurs="0" maxOccurs="unbounded">
+					</ns:element>
+					<ns:element name="dEvenList" type="ipss:DStabDEventXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
