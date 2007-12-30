@@ -135,7 +135,7 @@
 			<ns:element name="category"
 				type="ipss:FaultCategoryXmlData">
 			</ns:element>
-			<ns:element name="busBranchid" type="ns:string"></ns:element>
+			<ns:element name="busBranchId" type="ns:string"></ns:element>
 			<ns:element name="zLG" type="ipss:ComplexXmlType"
 				maxOccurs="1" minOccurs="0">
 			</ns:element>
@@ -148,7 +148,7 @@
 			<ns:element name="branchReclosure" type="ns:boolean"
 				maxOccurs="1" minOccurs="0">
 			</ns:element>
-			<ns:element name="reclosureTime" type="ns:double"></ns:element>
+			<ns:element name="reclosureTime" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 

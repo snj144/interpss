@@ -43,10 +43,10 @@
 						type="ipss:UnitXmlData">
 					</ns:element>
 					<ns:element name="initBusVoltage"
-						type="ns:boolean">
+						type="ns:boolean" minOccurs="0" maxOccurs="1">
 					</ns:element>
 					<ns:element name="diaplaySummary"
-						type="ns:boolean">
+						type="ns:boolean" minOccurs="0" maxOccurs="1">
 					</ns:element>
 					<ns:element name="accFactor" type="ns:double"
 						maxOccurs="1" minOccurs="0">
@@ -65,9 +65,9 @@
 						type="ipss:AcscFaultXmlType">
 					</ns:element>
 					<ns:element name="busInitVolt"
-						type="ipss:FaultVoltInitialization">
+						type="ipss:FaultVoltInitialization" minOccurs="0" maxOccurs="1">
 					</ns:element>
-					<ns:element name="multiFactor" type="ns:double">
+					<ns:element name="multiFactor" type="ns:double" minOccurs="0" maxOccurs="1">
 						<ns:annotation>
 							<ns:documentation>
 								bus voltage multi-factor in percent
@@ -101,7 +101,8 @@
 					<ns:element name="aclfAlgorithm"
 						type="ipss:RunAclfStudyCaseXmlType" maxOccurs="1" minOccurs="1">
 					</ns:element>
-					<ns:element name="disableDEvent" type="ns:boolean"
+                    <ns:element name="dEvenList" type="ipss:DStabDEventXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+                    <ns:element name="disableDEvent" type="ns:boolean"
 						maxOccurs="1" minOccurs="0">
 					</ns:element>
 
@@ -125,11 +126,10 @@
 					<ns:element name="staticLoadSwitchDeadZone"
 						type="ns:double" minOccurs="0" maxOccurs="1">
 					</ns:element>
-					<ns:element name="outputFilter" type="ns:boolean" minOccurs="1" maxOccurs="1"></ns:element>
+					<ns:element name="outputFilter" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
 					<ns:element name="outputVarList" type="ns:string"
 						minOccurs="0" maxOccurs="unbounded">
-					</ns:element>
-					<ns:element name="dEvenList" type="ipss:DStabDEventXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
