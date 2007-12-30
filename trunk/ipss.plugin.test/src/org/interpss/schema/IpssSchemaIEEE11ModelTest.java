@@ -26,11 +26,20 @@ package org.interpss.schema;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
+
 import org.apache.commons.math.complex.Complex;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
+import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
+import com.interpss.common.SpringAppContext;
+import com.interpss.common.mapper.IpssMapper;
+import com.interpss.common.util.TestUtilFunc;
+import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.test.StateVariableTestRecorder;
@@ -49,14 +58,22 @@ public class IpssSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	                yClear = new Complex(1.2595,-12.97521);
 	
 	@Test
-	public void test_Case1() {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
+	public void test_Case1() throws Exception {
+		File xmlFile = new File("testData/xml/RunDStabCase.xml");
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
+  		//System.out.println("----->" + parser.getRootElem().toString());
+
+  		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
 		loadCaseData("testData/dstab_test/ieee1-1Model.ipss", simuCtx);
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
 		//System.out.println(net.net2String());
 		
-		DynamicSimuAlgorithm algo = createDStabAlgo(net);
+		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
+	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
+	  	for ( RunDStabStudyCaseXmlType dstabCase : parser.getRunDStabStudyCaseList()) {
+	  		mapper.mapping(dstabCase, algo, RunDStabStudyCaseXmlType.class);
+	  	}
 		
 		addDynamicEventData(net);
 		
