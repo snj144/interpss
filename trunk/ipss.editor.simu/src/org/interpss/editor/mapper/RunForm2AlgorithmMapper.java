@@ -24,7 +24,6 @@
 
 package org.interpss.editor.mapper;
 
-import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.runAct.AclfRunForm;
 import org.interpss.editor.runAct.AcscRunForm;
 import org.interpss.editor.runAct.DStabRunForm;
@@ -34,9 +33,7 @@ import org.interpss.schema.RunAclfStudyCaseXmlType;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.algorithm.ScBusVoltage;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class RunForm2AlgorithmMapper extends AbstractMapper {
@@ -55,17 +52,18 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		if (klass == LoadflowAlgorithm.class) {
 			AclfRunForm runForm = (AclfRunForm)fromObj;
 	  		LoadflowAlgorithm algo = (LoadflowAlgorithm)toObj;
-	  		aclfRunForm2LFAlgorithmMapping(runForm, algo);
+			CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(runForm.getAclfCaseData(), algo);
 		}
 		else if (klass == SimpleFaultAlgorithm.class) {
 			AcscRunForm runForm = (AcscRunForm)fromObj;
 			SimpleFaultAlgorithm algo = (SimpleFaultAlgorithm)toObj;
-			acscRunForm2SimpleFaultAlgorithmMapping(runForm, algo);
+			CaseData2AlgorithmMapperImpl.acscCaseData2AlgoMapping(runForm.getAcscCaseData(), algo);
 		}
 		else if (klass == DynamicSimuAlgorithm.class) {
 			DStabRunForm runForm = (DStabRunForm)fromObj;
 			DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)toObj;
-			dStabRunForm2DynamicSimuAlgorithmMapping(runForm, algo);
+			CaseData2AlgorithmMapperImpl.dstabCaseData2AlgoMapping(runForm.getDStabCaseData(), runForm.getAclfCaseData(), algo);
+			CaseData2AlgorithmMapperImpl.dstabCaseData2NetMapping(runForm.getDStabCaseData(), algo.getDStabNet(), msg);
 		}
 		else if (klass == RunAclfStudyCaseXmlType.class) {
 			// map an AclfStudyCase xml record to an LoadflowAlgorithm object
@@ -73,23 +71,5 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		  			(RunAclfStudyCaseXmlType)fromObj, (LoadflowAlgorithm)toObj);
 		}
 		return true;
-	}
-	
-	private void aclfRunForm2LFAlgorithmMapping(AclfRunForm runForm, LoadflowAlgorithm algo) {
-		CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(runForm.getAclfCaseData(), algo);
-	}
-
-	private void acscRunForm2SimpleFaultAlgorithmMapping(AcscRunForm runForm, SimpleFaultAlgorithm algo) {
-		algo.setMultiFactor(runForm.getAcscCaseData().getMFactor()*0.01);
-		// algo.multiFactor in PU and acscData.getMFactor in %
-		algo.setScBusVoltage(runForm.getAcscCaseData().getBusInitVolt().equals(AcscCaseData.ScBusVolt_UnitVolt)?
-				ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt	
-	}
-
-	private void dStabRunForm2DynamicSimuAlgorithmMapping(DStabRunForm runForm, DynamicSimuAlgorithm algo) {
-		CaseData2AlgorithmMapperImpl.dstabCaseData2AlgoMapping(runForm.getDStabCaseData(), runForm.getAclfCaseData(), algo);
-		
-		DStabilityNetwork dstabNet = algo.getDStabNet();
-		CaseData2AlgorithmMapperImpl.dstabCaseData2NetMapping(runForm.getDStabCaseData(), dstabNet, msg);
 	}
 }
