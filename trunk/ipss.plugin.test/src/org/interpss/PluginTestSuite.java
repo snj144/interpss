@@ -10,6 +10,10 @@ import org.interpss.dstab.control.cml.block.FilterControlBlockTests;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlockTests;
 import org.interpss.dstab.control.cml.block.PIControlBlockTests;
 import org.interpss.dstab.control.cml.block.WashoutControlBlockTests;
+import org.interpss.dstab.ieeeModel.IEEE11ModelTest;
+import org.interpss.dstab.ieeeModel.IEEE12ModelTest;
+import org.interpss.dstab.ieeeModel.IEEE21ModelTest;
+import org.interpss.dstab.ieeeModel.IEEE22ModelTest;
 import org.interpss.dstab.mach.EConstMachineTest;
 import org.interpss.dstab.mach.Eq1Ed1MachineTest;
 import org.interpss.dstab.mach.Eq1MachineCaseTest;
@@ -41,6 +45,12 @@ import org.junit.runners.Suite.SuiteClasses;
 	MachineSaturationTest.class,
 	RoundRotorMachineTest.class,
 	SalientPoleMachineTest.class,
+	
+	// IEEE Models
+	IEEE11ModelTest.class,
+	IEEE12ModelTest.class,
+	IEEE21ModelTest.class,
+	IEEE22ModelTest.class,
 	
 	// multi-case study
 	MultiCaseStudyTest.class,
