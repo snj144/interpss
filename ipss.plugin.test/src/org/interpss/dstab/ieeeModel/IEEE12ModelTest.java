@@ -42,8 +42,8 @@ import com.interpss.simu.SimuObjectFactory;
 public class IEEE12ModelTest extends DStabTestSetupBase {
 	private double[] 
      	      timePoints    = {0.0,    1.0,    2.0,    3.0,    4.0,    5.0,    6.0,    7.0,    8.0,    9.0,    10.0},
-     	      machAngPoints = {49.460, 49.460, 53.382, 56.019, 53.771, 50.334, 49.196, 50.266, 51.317, 51.125, 50.283},
-     	      machPePoints  = {0.426,  0.426,  0.469,  0.515,  0.470,  0.405,  0.388,  0.416,  0.441,  0.439,  0.425};
+     	      machAngPoints = {49.460, 49.460, 53.404, 55.818, 53.010, 49.312, 48.498, 50.022, 51.168, 50.770, 49.789},
+     	      machPePoints  = {0.426,  0.426,  0.480,  0.522,  0.466,  0.395,  0.385,  0.421,  0.447,  0.440,  0.421};
 	private Complex yFault = new Complex(1.2595,-100000012.97521),
 	                yClear = new Complex(1.2595,-12.97521);
 	
