@@ -29,6 +29,7 @@ import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.data.dstab.DStabLoadChangeData;
 import org.interpss.editor.data.proj.AclfCaseData;
+import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
 
 import com.interpss.common.SpringAppContext;
@@ -43,6 +44,8 @@ import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algorithm.ScBusVoltage;
+import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.dstab.DStabBranch;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
@@ -82,6 +85,20 @@ public class CaseData2AlgorithmMapperImpl {
 	  	algo.setGsAccFactor(caseData.getAccFactor());			
 	}
 	
+	/**
+	 * Map AclfCaseData to a LoadflowAlgorithm object
+	 * 
+	 * @param caseData
+	 * @param algo
+	 */
+	public static void acscCaseData2AlgoMapping(AcscCaseData caseData, SimpleFaultAlgorithm algo) {
+		//algo.s
+		algo.setMultiFactor(caseData.getMFactor()*0.01);
+		// algo.multiFactor in PU and acscData.getMFactor in %
+		algo.setScBusVoltage(caseData.getBusInitVolt().equals(AcscCaseData.ScBusVolt_UnitVolt)?
+				ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt	
+	}
+
 	/**
 	 * Map DstabCaseData to a stability algorithm object
 	 * 
