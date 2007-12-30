@@ -169,13 +169,12 @@
 			<ns:element name="durationSec" type="ns:double"
 				maxOccurs="1" minOccurs="0">
 			</ns:element>
-			<ns:element name="permanent" type="ns:boolean" maxOccurs="1"
+            <ns:element name="fault" type="ipss:AcscFaultXmlType" maxOccurs="1" minOccurs="0">
+			</ns:element>
+            <ns:element name="permanent" type="ns:boolean" maxOccurs="1"
 				minOccurs="0">
-			</ns:element>
-			<ns:element name="fault" type="ipss:AcscFaultXmlType"
-				maxOccurs="1" minOccurs="0">
-			</ns:element>
-			<ns:element name="loadChange" type="ipss:DStabLoadChangeXmlType"></ns:element>
+			</ns:element>
+			<ns:element name="loadChange" type="ipss:DStabLoadChangeXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 	
