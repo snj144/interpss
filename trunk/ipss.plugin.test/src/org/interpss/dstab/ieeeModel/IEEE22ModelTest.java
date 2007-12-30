@@ -27,6 +27,7 @@ package org.interpss.dstab.ieeeModel;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
+import org.junit.Test;
 
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
@@ -38,14 +39,15 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class TestIEEE22ModelCase extends DStabTestSetupBase {
+public class IEEE22ModelTest extends DStabTestSetupBase {
 	private double[] 
      	      timePoints    = {0.0,    1.0,    2.0,    3.0,    4.0,    5.0,    6.0,    7.0,    8.0,    9.0,    10.0},
-     	      machAngPoints = {49.560, 49.560, 50.576, 53.737, 54.821, 53.925, 52.063, 50.440, 49.732, 49.877, 50.369},
-     	      machPePoints  = {0.427, 0.427, 0.413, 0.473, 0.494, 0.477, 0.441, 0.412, 0.403, 0.411, 0.425};
+     	      machAngPoints = {49.560, 49.560, 50.493, 53.695, 54.580, 53.317, 51.161, 49.499, 49.000, 49.440, 50.141},
+     	      machPePoints  = {0.427,  0.427,  0.424,  0.486,  0.502,  0.477,  0.434,  0.404,  0.398,  0.411,  0.429};
 	private Complex yFault = new Complex(1.2595,-100000012.97521),
 	                yClear = new Complex(1.2595,-12.97521);
 		
+	@Test
 	public void test_Case1() {
 		System.out.println("\nBegin TestIEEE22ModelCase Case1");
 

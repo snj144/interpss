@@ -39,10 +39,10 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class TestIEEE21ModelCase extends DStabTestSetupBase {
+public class IEEE21ModelTest extends DStabTestSetupBase {
 	private double[] 
      	      timePoints    = {0.0,    1.0,    2.0,    3.0,    4.0,    5.0,    6.0,    7.0,    8.0,    9.0,    10.0},
-     	      machAngPoints = {49.460, 49.460, 48.043, 49.554, 50.366, 50.746, 50.871, 50.853, 50.759, 50.631, 50.493},
+     	      machAngPoints = {49.460, 49.460, 47.475, 48.802, 49.553, 49.943, 50.114, 50.160, 50.136, 50.078, 50.006},
      	      machPePoints  = {0.426,  0.426,  0.343,  0.372,  0.392,  0.404,  0.412,  0.417,  0.421,  0.423,  0.424};
 	private Complex yFault = new Complex(1.2595,-100000012.97521),
 	                yClear = new Complex(1.2595,-12.97521);
