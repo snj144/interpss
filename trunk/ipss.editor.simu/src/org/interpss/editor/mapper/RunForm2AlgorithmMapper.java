@@ -57,7 +57,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		else if (klass == SimpleFaultAlgorithm.class) {
 			AcscRunForm runForm = (AcscRunForm)fromObj;
 			SimpleFaultAlgorithm algo = (SimpleFaultAlgorithm)toObj;
-			CaseData2AlgorithmMapperImpl.acscCaseData2AlgoMapping(runForm.getAcscCaseData(), algo);
+			return CaseData2AlgorithmMapperImpl.acscCaseData2AlgoMapping(runForm.getAcscCaseData(), algo);
 		}
 		else if (klass == DynamicSimuAlgorithm.class) {
 			DStabRunForm runForm = (DStabRunForm)fromObj;
