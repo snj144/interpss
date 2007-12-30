@@ -24,20 +24,36 @@
 
 package org.interpss.mapper.runCase;
 
+import org.apache.commons.math.complex.Complex;
 import org.interpss.schema.AclfMethodXmlData;
+import org.interpss.schema.AcscFaultXmlType;
+import org.interpss.schema.FaultCategoryXmlData;
+import org.interpss.schema.FaultTypeXmlData;
+import org.interpss.schema.FaultVoltInitXmlData;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
+import org.interpss.schema.RunAcscStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.acsc.AcscBranch;
+import com.interpss.core.acsc.AcscBranchFault;
+import com.interpss.core.acsc.AcscBus;
+import com.interpss.core.acsc.AcscBusFault;
+import com.interpss.core.acsc.SimpleFaultCode;
+import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algorithm.ScBusVoltage;
+import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 
 public class Xml2AlgorithmMapperImpl {
 	/**
-	 * Map AclfCaseData to a LoadflowAlgorithm object. Modifications defined inside the study case
+	 * Map RunAclfStudyCaseXmlType obejct to a LoadflowAlgorithm object. Modifications defined inside the study case
 	 * also applied to the AclfNetwork object
 	 * 
 	 * @param caseData
@@ -65,4 +81,63 @@ public class Xml2AlgorithmMapperImpl {
 	  		XmlNetParamModifier.applyModification2Net(algo.getAclfNetwork(), mod);
 	  	}
 	}
+
+	/**
+	 * Map RunAcscStudyCaseXmlType object to a SimpleFaultAlgorithm object. Modifications defined inside the study case
+	 * also applied to the SimpleFaultNetwork object
+	 * 
+	 * @param caseData
+	 * @param algo
+	 */
+	public static boolean acscCaseData2AlgoMapping(RunAcscStudyCaseXmlType caseData, SimpleFaultAlgorithm algo) {
+		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
+		String faultIdStr = caseData.getRecId();
+		if (caseData.getFaultData().getType().equals(FaultTypeXmlData.BUS_FAULT)) {
+	  		AcscBus faultBus = (AcscBus)faultNet.getBus(caseData.getFaultData().getBusBranchId());
+			if (faultBus == null) {
+				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found");
+	  			return false;
+	  		}
+			
+			AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at " +	faultBus.getId());
+  	  		acscFaultData2AcscBusFaultMapping(caseData.getFaultData(), fault);
+			faultNet.addBusFault(faultBus.getId(), faultIdStr, fault);
+		}
+		else {
+	  		AcscBranch faultBranch = (AcscBranch)faultNet.getBranch(caseData.getFaultData().getBusBranchId()+"(1)");
+			if (faultBranch == null) {
+				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found, this maybe a parallel branch issue");
+	  			return false;
+	  		}
+			
+			AcscBranchFault fault = CoreObjectFactory.createAcscBranchFault("Branch Fault at " + faultBranch.getId());
+  	  		acscFaultData2AcscBranchFaultMapping(caseData.getFaultData(), fault);
+			faultNet.addBranchFault(faultBranch.getId(), faultIdStr, fault);
+		}
+		
+  	  	if (caseData.getMultiFactor() != 0.0)
+  	  		algo.setMultiFactor(caseData.getMultiFactor()*0.01);
+		// algo.multiFactor in PU and acscData.getMFactor in %
+		if (caseData.getBusInitVolt() != null)
+			algo.setScBusVoltage(caseData.getBusInitVolt().equals(FaultVoltInitXmlData.UNIT_VOLT)?
+						ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt
+		return true;
+	}
+	
+	private static void acscFaultData2AcscBusFaultMapping(AcscFaultXmlType data, AcscBusFault fault) {
+		fault.setFaultCode(data.getCategory().equals(FaultCategoryXmlData.FAULT_LLG)? SimpleFaultCode.GROUND_LLG :
+							(data.getCategory().equals(FaultCategoryXmlData.FAULT_LG)? SimpleFaultCode.GROUND_LG :
+								(data.getCategory().equals(FaultCategoryXmlData.FAULT_LL)? SimpleFaultCode.GROUND_LL :
+									SimpleFaultCode.GROUND_3P)));
+		if (data.getZLG() != null)
+			fault.setZLGFault(new Complex(data.getZLG().getRe(), data.getZLG().getIm()));
+		if (data.getZLL() != null)
+			fault.setZLLFault(new Complex(data.getZLL().getRe(), data.getZLL().getIm())); 
+	}
+	
+	private static void acscFaultData2AcscBranchFaultMapping(AcscFaultXmlType data, AcscBranchFault fault) {
+		acscFaultData2AcscBusFaultMapping(data, fault);
+		fault.setDistance(data.getDistance(), UnitType.Percent);
+	}
+	
 }
