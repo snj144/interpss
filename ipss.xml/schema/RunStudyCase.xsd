@@ -35,12 +35,12 @@
 			<ns:extension base="ipss:RunStudyCaseBaseXmlType">
 				<ns:sequence>
 					<ns:element name="lfMethod"
-						type="ipss:AclfMethodXmlData">
+						type="ipss:AclfMethodXmlData" minOccurs="1" maxOccurs="1">
 					</ns:element>
-					<ns:element name="maxIterations" type="ns:int"></ns:element>
-					<ns:element name="tolerance" type="ns:double"></ns:element>
+					<ns:element name="maxIterations" type="ns:int" minOccurs="1" maxOccurs="1"></ns:element>
+					<ns:element name="tolerance" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
 					<ns:element name="toleranceUnit"
-						type="ipss:UnitXmlData">
+						type="ipss:UnitXmlData" minOccurs="0" maxOccurs="1">
 					</ns:element>
 					<ns:element name="initBusVoltage"
 						type="ns:boolean" minOccurs="0" maxOccurs="1">
@@ -101,7 +101,7 @@
 					<ns:element name="aclfAlgorithm"
 						type="ipss:RunAclfStudyCaseXmlType" maxOccurs="1" minOccurs="1">
 					</ns:element>
-                    <ns:element name="dEvenList" type="ipss:DStabDEventXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+                    <ns:element name="dynamicEvents" type="ipss:DStabDEventXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
                     <ns:element name="disableDEvent" type="ns:boolean"
 						maxOccurs="1" minOccurs="0">
 					</ns:element>
@@ -127,7 +127,7 @@
 						type="ns:double" minOccurs="0" maxOccurs="1">
 					</ns:element>
 					<ns:element name="outputFilter" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
-					<ns:element name="outputVarList" type="ns:string"
+					<ns:element name="outputVariables" type="ns:string"
 						minOccurs="0" maxOccurs="unbounded">
 					</ns:element>
 				</ns:sequence>

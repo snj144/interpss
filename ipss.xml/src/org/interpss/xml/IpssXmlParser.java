@@ -36,6 +36,7 @@ import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.RunAcscStudyCaseXmlType;
+import org.interpss.schema.RunDStabStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
@@ -93,6 +94,15 @@ public class IpssXmlParser {
 		return ipss.getRunStudyCase().getRunAcscStudyCaseArray();		
 	}
 
+	/**
+	 * Get the AcscStudyCase element list
+	 * 
+	 * @return
+	 */
+	public RunDStabStudyCaseXmlType[] getRunDStabStudyCaseList() {
+		return ipss.getRunStudyCase().getRunDStabStudyCaseArray();		
+	}
+	
 	/**
 	 * Get the schema top-level modification element
 	 * 
