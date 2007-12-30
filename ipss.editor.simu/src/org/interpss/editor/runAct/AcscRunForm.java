@@ -26,18 +26,13 @@ package org.interpss.editor.runAct;
 
 import org.interpss.display.AcscOutFunc;
 import org.interpss.editor.SimuAppSpringAppContext;
-import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBranchFault;
-import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
@@ -96,9 +91,18 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
   	 * @param msg the SessionMsg object
   	 */
   	public void runShortCircuit(SimpleFaultNetwork faultNet, String faultIdStr, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
+  		algo.setSimpleFaultNetwork(faultNet);
+  		algo.setDesc(faultIdStr);
   		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
   		mapper.mapping(this, algo, SimpleFaultAlgorithm.class);
 		
+  		for (Object fault : faultNet.getFaultList()) {
+  			if (fault instanceof AcscBusFault) 
+  		  		algo.calculateBusFault((AcscBusFault)fault, msg);
+  			else
+  		  		algo.calculateBranchFault((AcscBranchFault)fault, msg);
+  		}
+/*  		
   	  	if (getAcscCaseData().getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_All)) {
   	  		for (int i = 0; i < 4; i++) {
   	  			String fCaty = i == 0? AcscFaultData.FaultCaty_Fault_3P :
@@ -112,8 +116,9 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
   	  	else {
   	  		calFault(getAcscCaseData().getFaultData().getType(), faultIdStr, faultNet, algo, msg);
   	  	}
+*/  	  	
   	}
-  	
+/*  	
   	private void calFault(String ftype, String idStr, SimpleFaultNetwork faultNet, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
   		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
   		if (getAcscCaseData().getFaultData().getType().equals(AcscFaultData.FaultType_BusFault)) {
@@ -141,4 +146,5 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 			algo.calculateBranchFault(fault, msg);	 		
 		}
   	}
+*/
 }
