@@ -31,6 +31,7 @@ import org.interpss.mapper.runCase.CaseData2AlgorithmMapperImpl;
 import org.interpss.mapper.runCase.Xml2AlgorithmMapperImpl;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.RunAcscStudyCaseXmlType;
+import org.interpss.schema.RunDStabStudyCaseXmlType;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -75,6 +76,11 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			// map an AcscStudyCase xml record to an LoadflowAlgorithm object
 		  	return Xml2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
 		  			(RunAcscStudyCaseXmlType)fromObj, (SimpleFaultAlgorithm)toObj);
+		}
+		else if (klass == RunDStabStudyCaseXmlType.class) {
+			// map a DStabStudyCase xml record to an LoadflowAlgorithm object
+		  	return Xml2AlgorithmMapperImpl.dstabCaseData2AlgoMapping(
+		  			(RunDStabStudyCaseXmlType)fromObj, (DynamicSimuAlgorithm)toObj);
 		}
 		return true;
 	}
