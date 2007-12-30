@@ -39,9 +39,12 @@ import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBranchFault;
+import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
+import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.ScBusVoltage;
@@ -86,17 +89,51 @@ public class CaseData2AlgorithmMapperImpl {
 	}
 	
 	/**
-	 * Map AclfCaseData to a LoadflowAlgorithm object
+	 * Map AcscCaseData to a SimpleFaultAlgorithm object, Fault data will be mapped into the 
+	 * SimpleFaultNetwork object
 	 * 
 	 * @param caseData
 	 * @param algo
 	 */
-	public static void acscCaseData2AlgoMapping(AcscCaseData caseData, SimpleFaultAlgorithm algo) {
-		//algo.s
-		algo.setMultiFactor(caseData.getMFactor()*0.01);
+	public static boolean acscCaseData2AlgoMapping(AcscCaseData caseData, SimpleFaultAlgorithm algo) {
+		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
+		String faultIdStr = algo.getDesc();
+		if (caseData.getFaultData().getType().equals(AcscFaultData.FaultType_BusFault)) {
+	  		AcscBus faultBus = (AcscBus)faultNet.getBus(caseData.getFaultData().getBusId());
+			if (faultBus == null) {
+				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found");
+	  			return false;
+	  		}
+			
+			AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at " +	faultBus.getId());
+  	  		acscFaultData2AcscBusFaultMapping(caseData.getFaultData(), fault);
+  	  		if (caseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_All)) {
+  	  			addAllFaultCategory(faultBus.getId(), faultIdStr, fault, faultNet);
+  	  		}
+  	  		else
+  				faultNet.addBusFault(faultBus.getId(), faultIdStr, fault);
+		}
+		else {
+	  		AcscBranch faultBranch = (AcscBranch)faultNet.getBranch(caseData.getFaultData().getBusId()+"(1)");
+			if (faultBranch == null) {
+				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found, this maybe a parallel branch issue");
+	  			return false;
+	  		}
+			
+			AcscBranchFault fault = CoreObjectFactory.createAcscBranchFault("Branch Fault at " + faultBranch.getId());
+  	  		acscFaultData2AcscBranchFaultMapping(caseData.getFaultData(), fault);
+  	  		if (caseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_All)) {
+  	  			addAllFaultCategory(faultBranch.getId(), faultIdStr, fault, faultNet);
+  	  		}
+  	  		else
+  				faultNet.addBranchFault(faultBranch.getId(), faultIdStr, fault);
+		}
+		
+  	  	algo.setMultiFactor(caseData.getMFactor()*0.01);
 		// algo.multiFactor in PU and acscData.getMFactor in %
 		algo.setScBusVoltage(caseData.getBusInitVolt().equals(AcscCaseData.ScBusVolt_UnitVolt)?
-				ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt	
+				ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt
+		return true;
 	}
 
 	/**
@@ -186,6 +223,26 @@ public class CaseData2AlgorithmMapperImpl {
 				}
 			}
 		}
+	}
+	
+	private static void addAllFaultCategory(String busId, String faultIdStr, AcscBusFault fault, SimpleFaultNetwork faultNet) {
+		String id = fault.getId();
+
+		fault.setId(id + "_3P");
+		fault.setFaultCode(SimpleFaultCode.GROUND_3P);
+		faultNet.addBusFault(busId, faultIdStr, fault);
+	  	
+	  	fault.setId(id + "_LG");
+	  	fault.setFaultCode(SimpleFaultCode.GROUND_LG);
+		faultNet.addBusFault(busId, faultIdStr, fault);
+	  	
+	  	fault.setId(id + "_LLG");
+	  	fault.setFaultCode(SimpleFaultCode.GROUND_LLG);
+		faultNet.addBusFault(busId, faultIdStr, fault);
+	  	
+	  	fault.setId(id + "_LL");
+	  	fault.setFaultCode(SimpleFaultCode.GROUND_LL);
+		faultNet.addBusFault(busId, faultIdStr, fault);
 	}
 	
 	private static void acscFaultData2AcscBusFaultMapping(AcscFaultData data, AcscBusFault fault) {
