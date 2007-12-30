@@ -248,7 +248,7 @@
     	</ns:sequence>
     </ns:complexType>
 
-    <ns:simpleType name="FaultVoltInitialization">
+    <ns:simpleType name="FaultVoltInitXmlData">
     	<ns:restriction base="ns:string">
     		<ns:enumeration value="UnitVolt"></ns:enumeration>
     		<ns:enumeration value="LoadflowVolt"></ns:enumeration>

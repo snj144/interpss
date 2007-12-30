@@ -65,7 +65,7 @@
 						type="ipss:AcscFaultXmlType">
 					</ns:element>
 					<ns:element name="busInitVolt"
-						type="ipss:FaultVoltInitialization" minOccurs="0" maxOccurs="1">
+						type="ipss:FaultVoltInitXmlData" minOccurs="0" maxOccurs="1">
 					</ns:element>
 					<ns:element name="multiFactor" type="ns:double" minOccurs="0" maxOccurs="1">
 						<ns:annotation>
