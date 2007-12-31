@@ -143,7 +143,7 @@ public class CaseData2AlgorithmMapperImpl {
 	 * @param aclfData
 	 * @param algo
 	 */
-	public static void dstabCaseData2AlgoMapping(DStabCaseData dstabData, AclfCaseData aclfData, DynamicSimuAlgorithm algo) {
+	public static boolean dstabCaseData2AlgoMapping(DStabCaseData dstabData, AclfCaseData aclfData, DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
 		CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(aclfData, algo.getAclfAlgorithm());
 
 		algo.setSimuMethod(dstabData.getSimuMethod().equals(DStabCaseData.Method_RungeKutta)?
@@ -160,6 +160,8 @@ public class CaseData2AlgorithmMapperImpl {
 			IpssLogger.getLogger().info("Ref mach set to : " + mach.getId());
 			algo.setRefMachine(mach);
 		}
+		
+		return dstabCaseData2NetMapping(dstabData, algo.getDStabNet(), msg);
 	}
 
 	/**
@@ -169,7 +171,7 @@ public class CaseData2AlgorithmMapperImpl {
 	 * @param dstabNet
 	 * @param msg
 	 */
-	public static void dstabCaseData2NetMapping(DStabCaseData dstabData, DStabilityNetwork dstabNet, IPSSMsgHub msg) {
+	private static boolean dstabCaseData2NetMapping(DStabCaseData dstabData, DStabilityNetwork dstabNet, IPSSMsgHub msg) {
 		dstabNet.setNetEqnIterationNoEvent(dstabData.getNetEqnItrNoEvent());
 		dstabNet.setNetEqnIterationWithEvent(dstabData.getNetEqnItrWithEvent());
 
@@ -210,7 +212,7 @@ public class CaseData2AlgorithmMapperImpl {
 					DynamicEvent event = DStabObjectFactory.createDEvent(eventData.getEventName(), name, deType, dstabNet, msg);
 					if (event == null) {
 						SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to create DynamicEvent", "Please see the log file for details");
-						return;
+						return false;
 					}
 
 					try {
@@ -218,11 +220,12 @@ public class CaseData2AlgorithmMapperImpl {
 					} catch (Exception e) {
 						IpssLogger.logErr(e);
 						SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to process DynamicEvent", "See log file for details, " + e.toString());
-						return;				
+						return false;				
 					}
 				}
 			}
 		}
+		return true;
 	}
 	
 	private static void addAllFaultCategory(String busId, String faultIdStr, AcscBusFault fault, SimpleFaultNetwork faultNet) {
