@@ -120,12 +120,9 @@
 					<ns:element name="netEqnItrWithEvent" type="ns:int"
 						minOccurs="0" maxOccurs="1">
 					</ns:element>
-					<ns:element name="staticLoadSwitchVolt"
-						type="ns:double" minOccurs="0" maxOccurs="1">
-					</ns:element>
-					<ns:element name="staticLoadSwitchDeadZone"
-						type="ns:double" minOccurs="0" maxOccurs="1">
-					</ns:element>
+					<ns:element name="staticLoadModel"
+						type="ipss:DStabSimuStaticLoadXmlType" minOccurs="0" maxOccurs="1">
+					</ns:element>
 					<ns:element name="outputFilter" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
 					<ns:element name="outputVariables" type="ns:string"
 						minOccurs="0" maxOccurs="unbounded">
