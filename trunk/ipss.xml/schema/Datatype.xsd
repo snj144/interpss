@@ -123,9 +123,9 @@
 			<ns:enumeration value="Fault_LG"></ns:enumeration>
 			<ns:enumeration value="Fault_LL"></ns:enumeration>
 			<ns:enumeration value="Fault_LLG"></ns:enumeration>
-			<ns:enumeration value="Outage_3P"></ns:enumeration>
-			<ns:enumeration value="Outage_1P"></ns:enumeration>
-			<ns:enumeration value="Outage_2P"></ns:enumeration>
+			<ns:enumeration value="Outage_3Phase"></ns:enumeration>
+			<ns:enumeration value="Outage_1Phase"></ns:enumeration>
+			<ns:enumeration value="Outage_2Phase"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
 
@@ -164,17 +164,22 @@
 
 	<ns:complexType name="DStabDEventXmlType">
 		<ns:sequence>
-			<ns:element name="type" type="ipss:DEventTypeXmlData"></ns:element>
+            <ns:element name="name" type="ns:string"></ns:element>
+            <ns:element name="type" type="ipss:DEventTypeXmlData"></ns:element>
 			<ns:element name="startTimeSec" type="ns:double"></ns:element>
 			<ns:element name="durationSec" type="ns:double"
 				maxOccurs="1" minOccurs="0">
 			</ns:element>
-            <ns:element name="fault" type="ipss:AcscFaultXmlType" maxOccurs="1" minOccurs="0">
+			<ns:element name="fault" type="ipss:AcscFaultXmlType"
+				maxOccurs="1" minOccurs="0">
 			</ns:element>
-            <ns:element name="permanent" type="ns:boolean" maxOccurs="1"
+			<ns:element name="permanent" type="ns:boolean" maxOccurs="1"
 				minOccurs="0">
+			</ns:element>
+
+			<ns:element name="loadChange"
+				type="ipss:DStabLoadChangeXmlType" minOccurs="0" maxOccurs="1">
 			</ns:element>
-			<ns:element name="loadChange" type="ipss:DStabLoadChangeXmlType" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 	
@@ -193,19 +198,19 @@
 
 	<ns:complexType name="DStabLoadChangeXmlType">
 		<ns:sequence>
-			<ns:element name="busId" type="ns:string"></ns:element>
+			<ns:element name="busId" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="type"
-				type="ipss:DStabLoadChangeTypeXmlData">
+				type="ipss:DStabLoadChangeTypeXmlData" minOccurs="1" maxOccurs="1">
 			</ns:element>
-			<ns:element name="changeFactor" type="ns:double"></ns:element>
+			<ns:element name="changeFactor" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="changeFactorUnit"
-				type="ipss:UnitXmlData">
+				type="ipss:UnitXmlData" minOccurs="0" maxOccurs="1">
 				<ns:annotation>
 					<ns:documentation>PU or Percent</ns:documentation>
 				</ns:annotation>
 			</ns:element>
-			<ns:element name="threshhold" type="ns:double"></ns:element>
-			<ns:element name="delayTime" type="ns:double"></ns:element>
+			<ns:element name="threshhold" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="delayTime" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 	
@@ -256,12 +261,12 @@
 
     <ns:complexType name="DStabSetpointChangeXmlType">
     	<ns:sequence>
-    		<ns:element name="machId" type="ns:string"></ns:element>
+    		<ns:element name="machId" type="ns:string" minOccurs="1" maxOccurs="1"></ns:element>
     		<ns:element name="controllerType"
-    			type="ipss:DStabControllerTypeXmlData">
+    			type="ipss:DStabControllerTypeXmlData" minOccurs="1" maxOccurs="1">
     		</ns:element>
-    		<ns:element name="changeValue" type="ns:double"></ns:element>
-    		<ns:element name="absoluteChange" type="ns:boolean"></ns:element>
+    		<ns:element name="changeValue" type="ns:double" minOccurs="1" maxOccurs="1"></ns:element>
+    		<ns:element name="absoluteChange" type="ns:boolean" minOccurs="1" maxOccurs="1"></ns:element>
     	</ns:sequence>
     </ns:complexType>
 
@@ -272,4 +277,19 @@
     		<ns:enumeration value="Stabilizer"></ns:enumeration>
     	</ns:restriction>
     </ns:simpleType>
+
+    <ns:simpleType name="DStabSimuStaticLoadTypeXmlData">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="ConstantZ"></ns:enumeration>
+    		<ns:enumeration value="ConstantP"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+    <ns:complexType name="DStabSimuStaticLoadXmlType">
+    	<ns:sequence>
+    		<ns:element name="type" type="ipss:DStabSimuStaticLoadTypeXmlData" minOccurs="1" maxOccurs="1"></ns:element>
+    		<ns:element name="switchVolt" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+    		<ns:element name="switchDeadZone" type="ns:double" minOccurs="0" maxOccurs="1"></ns:element>
+    	</ns:sequence>
+    </ns:complexType>
 </ns:schema>
