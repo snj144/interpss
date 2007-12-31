@@ -53,7 +53,7 @@ import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 
 public class Xml2AlgorithmMapperImpl {
 	/**
-	 * Map RunAclfStudyCaseXmlType obejct to a LoadflowAlgorithm object. Modifications defined inside the study case
+	 * Map RunAclfStudyCaseXmlType object to a LoadflowAlgorithm object. Modifications defined inside the study case
 	 * also applied to the AclfNetwork object
 	 * 
 	 * @param caseData
@@ -92,7 +92,7 @@ public class Xml2AlgorithmMapperImpl {
 	public static boolean acscCaseData2AlgoMapping(RunAcscStudyCaseXmlType caseData, SimpleFaultAlgorithm algo) {
 		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
 		String faultIdStr = caseData.getRecId();
-		if (caseData.getFaultData().getType().equals(FaultTypeXmlData.BUS_FAULT)) {
+		if (caseData.getFaultData().getType() == FaultTypeXmlData.BUS_FAULT) {
 	  		AcscBus faultBus = (AcscBus)faultNet.getBus(caseData.getFaultData().getBusBranchId());
 			if (faultBus == null) {
 				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found");
@@ -119,15 +119,15 @@ public class Xml2AlgorithmMapperImpl {
   	  		algo.setMultiFactor(caseData.getMultiFactor()*0.01);
 		// algo.multiFactor in PU and acscData.getMFactor in %
 		if (caseData.getBusInitVolt() != null)
-			algo.setScBusVoltage(caseData.getBusInitVolt().equals(FaultVoltInitXmlData.UNIT_VOLT)?
+			algo.setScBusVoltage(caseData.getBusInitVolt() == FaultVoltInitXmlData.UNIT_VOLT?
 						ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt
 		return true;
 	}
 	
-	private static void acscFaultData2AcscBusFaultMapping(AcscFaultXmlType data, AcscBusFault fault) {
-		fault.setFaultCode(data.getCategory().equals(FaultCategoryXmlData.FAULT_LLG)? SimpleFaultCode.GROUND_LLG :
-							(data.getCategory().equals(FaultCategoryXmlData.FAULT_LG)? SimpleFaultCode.GROUND_LG :
-								(data.getCategory().equals(FaultCategoryXmlData.FAULT_LL)? SimpleFaultCode.GROUND_LL :
+	public static void acscFaultData2AcscBusFaultMapping(AcscFaultXmlType data, AcscBusFault fault) {
+		fault.setFaultCode(data.getCategory() == FaultCategoryXmlData.FAULT_LLG? SimpleFaultCode.GROUND_LLG :
+							(data.getCategory() == FaultCategoryXmlData.FAULT_LG? SimpleFaultCode.GROUND_LG :
+								(data.getCategory() == FaultCategoryXmlData.FAULT_LL? SimpleFaultCode.GROUND_LL :
 									SimpleFaultCode.GROUND_3P)));
 		if (data.getZLG() != null)
 			fault.setZLGFault(new Complex(data.getZLG().getRe(), data.getZLG().getIm()));
@@ -135,9 +135,8 @@ public class Xml2AlgorithmMapperImpl {
 			fault.setZLLFault(new Complex(data.getZLL().getRe(), data.getZLL().getIm())); 
 	}
 	
-	private static void acscFaultData2AcscBranchFaultMapping(AcscFaultXmlType data, AcscBranchFault fault) {
+	public static void acscFaultData2AcscBranchFaultMapping(AcscFaultXmlType data, AcscBranchFault fault) {
 		acscFaultData2AcscBusFaultMapping(data, fault);
 		fault.setDistance(data.getDistance(), UnitType.Percent);
 	}
-	
 }
