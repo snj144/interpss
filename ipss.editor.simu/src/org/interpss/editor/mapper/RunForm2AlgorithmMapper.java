@@ -64,8 +64,8 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 		else if (klass == DynamicSimuAlgorithm.class) {
 			DStabRunForm runForm = (DStabRunForm)fromObj;
 			DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm)toObj;
-			CaseData2AlgorithmMapperImpl.dstabCaseData2AlgoMapping(runForm.getDStabCaseData(), runForm.getAclfCaseData(), algo);
-			CaseData2AlgorithmMapperImpl.dstabCaseData2NetMapping(runForm.getDStabCaseData(), algo.getDStabNet(), msg);
+			return CaseData2AlgorithmMapperImpl.dstabCaseData2AlgoMapping(
+					runForm.getDStabCaseData(), runForm.getAclfCaseData(), algo, msg);
 		}
 		else if (klass == RunAclfStudyCaseXmlType.class) {
 			// map an AclfStudyCase xml record to an LoadflowAlgorithm object
