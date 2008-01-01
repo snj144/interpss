@@ -124,6 +124,12 @@ public class Xml2AlgorithmMapperImpl {
 		return true;
 	}
 	
+	/**
+	 * Acsc bus fault xml data to AcscBusFault object mapping
+	 * 
+	 * @param data
+	 * @param fault
+	 */
 	public static void acscFaultData2AcscBusFaultMapping(AcscFaultXmlType data, AcscBusFault fault) {
 		fault.setFaultCode(data.getCategory() == FaultCategoryXmlData.FAULT_LLG? SimpleFaultCode.GROUND_LLG :
 							(data.getCategory() == FaultCategoryXmlData.FAULT_LG? SimpleFaultCode.GROUND_LG :
@@ -135,6 +141,12 @@ public class Xml2AlgorithmMapperImpl {
 			fault.setZLLFault(new Complex(data.getZLL().getRe(), data.getZLL().getIm())); 
 	}
 	
+	/**
+	 * Acsc branch fault xml data to AcscBranchFault object mapping
+	 * 
+	 * @param data
+	 * @param fault
+	 */
 	public static void acscFaultData2AcscBranchFaultMapping(AcscFaultXmlType data, AcscBranchFault fault) {
 		acscFaultData2AcscBusFaultMapping(data, fault);
 		fault.setDistance(data.getDistance(), UnitType.Percent);

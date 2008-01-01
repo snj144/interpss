@@ -82,17 +82,25 @@ public class Xml2DStabAlgorithmMapperImpl {
 			algo.setRefMachine(null);
 		}
 		else {
-			Machine mach = algo.getDStabNet().getMachine(caseData.getRefMachineBusId());
-			if (mach == null ) {
-				IpssLogger.getLogger().severe("Ref mach cannot be found, mach id : " + caseData.getRefMachineBusId());
+			Machine mach = getMachine(algo.getDStabNet(), caseData.getRefMachineBusId());
+			if (mach == null ) 
 				return false;
-			}
 			IpssLogger.getLogger().info("Ref mach set to : " + mach.getId());
 			algo.setRefMachine(mach);
 		}
 		return dstabCaseData2NetMapping(caseData, algo.getDStabNet(), msg);
 	}
 
+	private static Machine getMachine(DStabilityNetwork net, String machId) {
+		Machine mach = net.getMachine(machId);
+		if (mach == null ) {
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Machine Id Error", 
+					"Machine cannot be found, mach id : "+machId);
+			IpssLogger.getLogger().severe("Machine cannot be found, mach id : " + machId);
+		}
+		return mach;
+	}
+	
 	private static boolean dstabCaseData2NetMapping(RunDStabStudyCaseXmlType dstabData, DStabilityNetwork dstabNet, IPSSMsgHub msg) {
 		if (dstabData.getNetEqnItrNoEvent() != 0);
 			dstabNet.setNetEqnIterationNoEvent(dstabData.getNetEqnItrNoEvent());
@@ -112,6 +120,11 @@ public class Xml2DStabAlgorithmMapperImpl {
 			if (dstabData.getSetpointChange()) {
 				IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
 				String machId = dstabData.getSetpointChangeData().getMachId();
+				Machine mach = getMachine(dstabNet, machId);
+				if (mach == null ) 
+					return false;
+				IpssLogger.getLogger().info("SetPointChange mach id : " + mach.getId());
+
 				DynamicEvent event = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
 										DynamicEventType.SET_POINT_CHANGE, dstabNet, msg);
 				event.setStartTimeSec(0.0);
@@ -164,8 +177,11 @@ public class Xml2DStabAlgorithmMapperImpl {
 			return DynamicEventType.SET_POINT_CHANGE;		
 		else if (eventDataType == DEventTypeXmlData.BRANCH_OUTAGE)
 			return DynamicEventType.BRANCH_OUTAGE;		
-		else 
+		else {
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Dynamic Event Type Error",
+						"EventDataType: " + eventDataType);
 			throw new InvalidParameterException("Programming error, eventDataType: " + eventDataType);
+		}
 	}
 	
 	private static void setEventData(DynamicEvent event, DStabDEventXmlType eventData, 
@@ -235,6 +251,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 				if (bus != null)
 					fault.setFaultBus(bus);
 				else {
+					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Bus Data Error",
+							"Bus cannot be found, id:" + fdata.getBusBranchId());
 					throw new InvalidParameterException("Programming erroe, Bus cannot be found, id:" + fdata.getBusBranchId());
 				}
 			}
@@ -263,6 +281,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 		if (branch != null)
 			fault.setFaultBranch(branch);
 		else {
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Branch Data Error",
+								"Branch cannot be found, id:" + fdata.getBusBranchId());
 			throw new InvalidParameterException("Programming error, Branch cannot be found, id:" + fdata.getBusBranchId());
 		}
 		return fault;
