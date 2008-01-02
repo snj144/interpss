@@ -154,9 +154,7 @@
 
 	<ns:simpleType name="DEventTypeXmlData">
 		<ns:restriction base="ns:string">
-			<ns:enumeration value="BusFault"></ns:enumeration>
-			<ns:enumeration value="BranchFault"></ns:enumeration>
-			<ns:enumeration value="BranchOutage"></ns:enumeration>
+			<ns:enumeration value="Fault"></ns:enumeration>
 			<ns:enumeration value="LoadChange"></ns:enumeration>
 			<ns:enumeration value="SetPointChange"></ns:enumeration>
 		</ns:restriction>
