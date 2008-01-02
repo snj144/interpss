@@ -65,7 +65,7 @@ public class Xml2AlgorithmMapperImpl {
 	  				    	   AclfMethod.GS));
 	  	algo.setMaxIterations(caseData.getMaxIterations());
   		double e = caseData.getTolerance();
-	  	if (caseData.getToleranceUnit() != UnitXmlData.PU) {
+	  	if (caseData.getToleranceUnit() != null && caseData.getToleranceUnit() != UnitXmlData.PU) {
 	  		byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(caseData.getToleranceUnit());
 	  		e = UnitType.pConversion(e, algo.getAclfNetwork().getBaseKva(), unit, UnitType.PU);
 	  	}
