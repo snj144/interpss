@@ -24,8 +24,6 @@
 
 package org.interpss.mapper.runCase;
 
-import org.interpss.editor.data.acsc.AcscFaultData;
-import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.DEventTypeXmlData;
 import org.interpss.schema.DStabControllerTypeXmlData;
@@ -35,6 +33,7 @@ import org.interpss.schema.DStabLoadChangeXmlType;
 import org.interpss.schema.DStabSimuStaticLoadTypeXmlData;
 import org.interpss.schema.DynamicSimuMethodXmlData;
 import org.interpss.schema.FaultCategoryXmlData;
+import org.interpss.schema.FaultTypeXmlData;
 import org.interpss.schema.RunDStabStudyCaseXmlType;
 
 import com.interpss.common.SpringAppContext;
@@ -91,16 +90,6 @@ public class Xml2DStabAlgorithmMapperImpl {
 		return dstabCaseData2NetMapping(caseData, algo.getDStabNet(), msg);
 	}
 
-	private static Machine getMachine(DStabilityNetwork net, String machId) {
-		Machine mach = net.getMachine(machId);
-		if (mach == null ) {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Machine Id Error", 
-					"Machine cannot be found, mach id : "+machId);
-			IpssLogger.getLogger().severe("Machine cannot be found, mach id : " + machId);
-		}
-		return mach;
-	}
-	
 	private static boolean dstabCaseData2NetMapping(RunDStabStudyCaseXmlType dstabData, DStabilityNetwork dstabNet, IPSSMsgHub msg) {
 		if (dstabData.getNetEqnItrNoEvent() != 0);
 			dstabNet.setNetEqnIterationNoEvent(dstabData.getNetEqnItrNoEvent());
@@ -146,7 +135,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 				// create event name
 				String name = "EventAt_" + eventData.getStartTimeSec() + eventData.getType();
 				// map event type 
-				DynamicEventType deType = getDEventType(eventData.getType());
+				DynamicEventType deType = getDEventType(eventData.getType(), eventData.getFault().getType());
 				// create the DStabEvent
 				DynamicEvent event = DStabObjectFactory.createDEvent(eventData.getName(), name, deType, dstabNet, msg);
 					if (event == null) {
@@ -166,22 +155,35 @@ public class Xml2DStabAlgorithmMapperImpl {
 		return true;
 	}
 	
-	private static DynamicEventType getDEventType(DEventTypeXmlData.Enum eventDataType) {
-		if (eventDataType == DEventTypeXmlData.BUS_FAULT)
-			return DynamicEventType.BUS_FAULT;
-		else if (eventDataType == DEventTypeXmlData.BRANCH_FAULT)
-			return DynamicEventType.BRANCH_FAULT;
-		else if (eventDataType == DEventTypeXmlData.LOAD_CHANGE)
-			return DynamicEventType.LOAD_CHANGE;		
-		else if (eventDataType == DEventTypeXmlData.SET_POINT_CHANGE)
-			return DynamicEventType.SET_POINT_CHANGE;		
-		else if (eventDataType == DEventTypeXmlData.BRANCH_OUTAGE)
-			return DynamicEventType.BRANCH_OUTAGE;		
-		else {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Dynamic Event Type Error",
-						"EventDataType: " + eventDataType);
-			throw new InvalidParameterException("Programming error, eventDataType: " + eventDataType);
+	private static Machine getMachine(DStabilityNetwork net, String machId) {
+		Machine mach = net.getMachine(machId);
+		if (mach == null ) {
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Machine Id Error", 
+					"Machine cannot be found, mach id : "+machId);
+			IpssLogger.getLogger().severe("Machine cannot be found, mach id : " + machId);
 		}
+		return mach;
+	}
+	
+	private static DynamicEventType getDEventType(DEventTypeXmlData.Enum eventType, FaultTypeXmlData.Enum faultType) {
+		if (eventType == DEventTypeXmlData.FAULT) {
+			if (faultType == FaultTypeXmlData.BUS_FAULT) 
+				return DynamicEventType.BUS_FAULT;
+			else if (faultType == FaultTypeXmlData.BRANCH_FAULT)
+				return DynamicEventType.BRANCH_FAULT;
+			else if (faultType == FaultTypeXmlData.BRANCH_OUTAGE)
+				return DynamicEventType.BRANCH_OUTAGE;		
+			
+		}
+		else {
+			if (eventType == DEventTypeXmlData.LOAD_CHANGE)
+				return DynamicEventType.LOAD_CHANGE;		
+			else if (eventType == DEventTypeXmlData.SET_POINT_CHANGE)
+				return DynamicEventType.SET_POINT_CHANGE;		
+		}
+		SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Dynamic Event Type Error",
+				"EventDataType: " + eventType);
+		throw new InvalidParameterException("Programming error, eventDataType: " + eventType);
 	}
 	
 	private static void setEventData(DynamicEvent event, DStabDEventXmlType eventData, 
@@ -190,6 +192,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 		//       LowFreq and LowVolt startTime will set by system
 		//       FixedTime startTime = threshhold
 		//   always permanent
+		IpssLogger.getLogger().info("Dynamic Event Type: " + eventData.getType().toString());
+
 		if (eventData.getType() == DEventTypeXmlData.LOAD_CHANGE) {
 			event.setPermanent(true);
 			eventData.setDurationSec(0.0);
@@ -209,7 +213,6 @@ public class Xml2DStabAlgorithmMapperImpl {
 		}
 		
 		if (eventData.getType() == DEventTypeXmlData.LOAD_CHANGE) {
-			IpssLogger.getLogger().info("Dynamic Event Type: LoadChange");
 			event.setType(DynamicEventType.LOAD_CHANGE);
 			DStabLoadChangeXmlType ldata = eventData.getLoadChange();
 			LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(ldata.getBusId(), dstabNet);
@@ -224,26 +227,21 @@ public class Xml2DStabAlgorithmMapperImpl {
 					eLoad.setDelaySec(ldata.getDelayTime());
 			event.setBusDynamicEvent(eLoad);
 		}
-		else if (eventData.getType()  == DEventTypeXmlData.BRANCH_OUTAGE) {
-			IpssLogger.getLogger().info("Dynamic Event Type: BranchOutage");
-			event.setType(DynamicEventType.BRANCH_OUTAGE);
+		else if (eventData.getType() == DEventTypeXmlData.FAULT) {
 			AcscFaultXmlType fdata = eventData.getFault();
-			BranchOutageEvent bOutageEvent = DStabObjectFactory.createBranchOutageEvent(fdata.getBusBranchId(), dstabNet);
-			if (fdata.getCategory() == FaultCategoryXmlData.OUTAGE_3_PHASE)
-				bOutageEvent.setOutageType(BranchOutageType.THREE_PHASE);
-			else if (fdata.getCategory() == FaultCategoryXmlData.OUTAGE_1_PHASE)
-				bOutageEvent.setOutageType(BranchOutageType.SINGLE_PHASE);
-			else if (fdata.getCategory() == FaultCategoryXmlData.OUTAGE_2_PHASE)
-				bOutageEvent.setOutageType(BranchOutageType.DOUBLE_PHASE);
-			event.setBranchDynamicEvent(bOutageEvent);
-		}
-		else {
-			IpssLogger.getLogger().info("Dynamic Event Type: Fualt");
-			event.setType(eventData.getType().equals(DStabDEventData.DEventType_BusFault) ? 
-					DynamicEventType.BUS_FAULT : DynamicEventType.BRANCH_FAULT );
-			
-			AcscFaultXmlType fdata = eventData.getFault();
-			if (fdata.getType().equals(AcscFaultData.FaultType_BusFault)) {
+			if (eventData.getFault().getType() == FaultTypeXmlData.BRANCH_OUTAGE) {
+				event.setType(DynamicEventType.BRANCH_OUTAGE);
+				BranchOutageEvent bOutageEvent = DStabObjectFactory.createBranchOutageEvent(fdata.getBusBranchId(), dstabNet);
+				if (fdata.getCategory() == FaultCategoryXmlData.OUTAGE_3_PHASE)
+					bOutageEvent.setOutageType(BranchOutageType.THREE_PHASE);
+				else if (fdata.getCategory() == FaultCategoryXmlData.OUTAGE_1_PHASE)
+					bOutageEvent.setOutageType(BranchOutageType.SINGLE_PHASE);
+				else if (fdata.getCategory() == FaultCategoryXmlData.OUTAGE_2_PHASE)
+					bOutageEvent.setOutageType(BranchOutageType.DOUBLE_PHASE);
+				event.setBranchDynamicEvent(bOutageEvent);
+			}
+			else if (eventData.getFault().getType() == FaultTypeXmlData.BUS_FAULT) {
+				event.setType(DynamicEventType.BUS_FAULT);
 				AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at " +	fdata.getBusBranchId());
 				Xml2AlgorithmMapperImpl.acscFaultData2AcscBusFaultMapping(fdata, fault);
 				event.setBusFault(fault);
@@ -256,7 +254,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 					throw new InvalidParameterException("Programming erroe, Bus cannot be found, id:" + fdata.getBusBranchId());
 				}
 			}
-			else {
+			else if (eventData.getFault().getType() == FaultTypeXmlData.BRANCH_FAULT) {
+				event.setType(DynamicEventType.BRANCH_FAULT );
 				DStabBranchFault fault = createDStabBranchFault(fdata, dstabNet);
 				event.setBranchFault(fault);
 				if (fault.isReclosure()) {
