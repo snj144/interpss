@@ -41,9 +41,7 @@ import org.interpss.core.grid.gridgain.util.IPSSGridMsgHubImpl;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.TextMessage;
-import com.interpss.core.CorePackage;
-import com.interpss.core.ms_case.MStudyCasePackage;
-import com.interpss.dstab.DstabPackage;
+import com.interpss.simu.SimuObjectFactory;
 
 public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	private static final long serialVersionUID = 1;
@@ -56,9 +54,6 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
     private Grid grid = null;
     
     private static IPSSMsgHub msgHub = null;
-    private static CorePackage corePackage = null;
-    private static MStudyCasePackage msCasePackage = null;
-    private static DstabPackage dstabPackage = null;
     
 	public AbstractIpssGridGainJob(String arg) {
 		super(arg);
@@ -81,12 +76,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
     }
     
     protected void initEMFPackage() {
-    	if (corePackage == null)
-    		corePackage = CorePackage.eINSTANCE;
-    	if (msCasePackage == null)
-    		msCasePackage = MStudyCasePackage.eINSTANCE;
-    	if (dstabPackage == null)
-    		dstabPackage = DstabPackage.eINSTANCE;
+    	SimuObjectFactory.initEMFPackage();
 	}
     
 	@Override
