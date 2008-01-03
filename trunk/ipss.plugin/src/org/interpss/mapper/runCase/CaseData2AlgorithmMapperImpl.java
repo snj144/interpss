@@ -105,7 +105,7 @@ public class CaseData2AlgorithmMapperImpl {
 	  			return false;
 	  		}
 			
-			AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at " +	faultBus.getId());
+			AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId + faultBus.getId());
   	  		acscFaultData2AcscBusFaultMapping(caseData.getFaultData(), fault);
   	  		if (caseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_All)) {
   	  			addAllFaultCategory(faultBus.getId(), faultIdStr, fault, faultNet);
@@ -114,13 +114,13 @@ public class CaseData2AlgorithmMapperImpl {
   				faultNet.addBusFault(faultBus.getId(), faultIdStr, fault);
 		}
 		else {
-	  		AcscBranch faultBranch = (AcscBranch)faultNet.getBranch(caseData.getFaultData().getBusId()+"(1)");
+	  		AcscBranch faultBranch = (AcscBranch)faultNet.getBranch(caseData.getFaultData().getBusId()+Constants.Token_DefaultBranchCirNo);
 			if (faultBranch == null) {
 				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found, this maybe a parallel branch issue");
 	  			return false;
 	  		}
 			
-			AcscBranchFault fault = CoreObjectFactory.createAcscBranchFault("Branch Fault at " + faultBranch.getId());
+			AcscBranchFault fault = CoreObjectFactory.createAcscBranchFault(Constants.Token_BranchFaultId + faultBranch.getId());
   	  		acscFaultData2AcscBranchFaultMapping(caseData.getFaultData(), fault);
   	  		if (caseData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_All)) {
   	  			addAllFaultCategory(faultBranch.getId(), faultIdStr, fault, faultNet);
@@ -184,7 +184,7 @@ public class CaseData2AlgorithmMapperImpl {
 			if (dstabData.isSetPointChange()) {
 				IpssLogger.getLogger().info("Dynamic Event Type: SetPointChange");
 				String machId = dstabData.getSetPointChangeMachId();
-				DynamicEvent event = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
+				DynamicEvent event = DStabObjectFactory.createDEvent(Constants.Token_SetPointChangeId+machId, "SetPointChange", 
 						DynamicEventType.SET_POINT_CHANGE, dstabNet, msg);
 				event.setStartTimeSec(0.0);
 				event.setDurationSec(dstabData.getTotalSimuTime());
@@ -339,7 +339,7 @@ public class CaseData2AlgorithmMapperImpl {
 			
 			AcscFaultData fdata = eventData.getFaultData();
 			if (fdata.getType().equals(AcscFaultData.FaultType_BusFault)) {
-				AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at " +	fdata.getBusId());
+				AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId +	fdata.getBusId());
 				CaseData2AlgorithmMapperImpl.acscFaultData2AcscBusFaultMapping(fdata, fault);
 				event.setBusFault(fault);
 				DStabBus bus = dstabNet.getDStabBus(fdata.getBusId());
@@ -366,7 +366,7 @@ public class CaseData2AlgorithmMapperImpl {
 	}
 
 	private static DStabBranchFault createDStabBranchFault(AcscFaultData fdata, DStabilityNetwork dstabNet) {
-		DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault("Branch Fault at " + fdata.getBranchId());
+		DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault(Constants.Token_BranchFaultId + fdata.getBranchId());
 		acscFaultData2AcscBranchFaultMapping(fdata, fault);
 		fault.setReclosure(fdata.isBranchReclosure());
 		fault.setReclosureTime(fdata.getReclosureTime());
