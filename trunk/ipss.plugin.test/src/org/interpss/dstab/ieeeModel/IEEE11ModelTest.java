@@ -58,6 +58,7 @@ public class IEEE11ModelTest extends DStabTestSetupBase {
 		DynamicSimuAlgorithm algo = createDStabAlgo(net);
 		
 		addDynamicEventData(net);
+  		System.out.println(net.net2String());
 		
 		LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
