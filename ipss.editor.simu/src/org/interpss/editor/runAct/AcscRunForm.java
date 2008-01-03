@@ -134,7 +134,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 	  		algo.calculateBusFault(fault, msg);	  		
 		}
 		else {
-	  		AcscBranch faultBranch = (AcscBranch)faultNet.getBranch(getAcscCaseData().getFaultData().getBusId()+"(1)");
+	  		AcscBranch faultBranch = (AcscBranch)faultNet.getBranch(getAcscCaseData().getFaultData().getBusId()+Constants.Token_DefaultBranchNo);
 			if (faultBranch == null) {
 				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found");
 	  			return;
