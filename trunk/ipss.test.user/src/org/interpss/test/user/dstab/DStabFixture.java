@@ -33,6 +33,7 @@ import java.util.StringTokenizer;
 
 import org.interpss.test.user.core.AcscFixture;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBusFault;
@@ -192,7 +193,7 @@ public class DStabFixture extends AcscFixture {
 		double cValue = new Double(st.nextToken()).doubleValue();
 		boolean absChange = new Boolean(st.nextToken()).booleanValue();
 		dSimuAlgorithm.setDisableDynamicEvent(true);
-		this.currentDEvent = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
+		this.currentDEvent = DStabObjectFactory.createDEvent(Constants.Token_SetPointChangeId, "SetPointChange", 
 							DynamicEventType.SET_POINT_CHANGE, getNet(), msg);
 		this.currentDEvent.setStartTimeSec(0.0);
 		this.currentDEvent.setDurationSec(dSimuAlgorithm.getTotalSimuTimeSec());
@@ -257,7 +258,7 @@ public class DStabFixture extends AcscFixture {
 		double rLL = new Double(st.nextToken()).doubleValue();
 		double xLL = new Double(st.nextToken()).doubleValue();
 		DStabBus faultBus = getNet().getDStabBus(id);
-		AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault@"+id );
+		AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusId+id );
   		fault.setAcscBus(faultBus);
   		CoreUtilFunc.setBusFaultData(fault, toFaultCode(type), rLG, xLG, rLL, xLL);
   		this.currentDEvent.setBusFault(fault);
