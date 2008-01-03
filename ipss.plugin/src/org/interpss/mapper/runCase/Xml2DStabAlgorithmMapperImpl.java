@@ -37,6 +37,7 @@ import org.interpss.schema.FaultTypeXmlData;
 import org.interpss.schema.RunDStabStudyCaseXmlType;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InvalidParameterException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -114,7 +115,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 					return false;
 				IpssLogger.getLogger().info("SetPointChange mach id : " + mach.getId());
 
-				DynamicEvent event = DStabObjectFactory.createDEvent("SetPointChange@"+machId, "SetPointChange", 
+				DynamicEvent event = DStabObjectFactory.createDEvent(Constants.Token_SetPointChangeId+machId, "SetPointChange", 
 										DynamicEventType.SET_POINT_CHANGE, dstabNet, msg);
 				event.setStartTimeSec(0.0);
 				event.setDurationSec(dstabData.getTotalSimuTimeSec());
@@ -242,7 +243,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 			}
 			else if (eventData.getFault().getType() == FaultTypeXmlData.BUS_FAULT) {
 				event.setType(DynamicEventType.BUS_FAULT);
-				AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at " +	fdata.getBusBranchId());
+				AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId+fdata.getBusBranchId());
 				Xml2AlgorithmMapperImpl.acscFaultData2AcscBusFaultMapping(fdata, fault);
 				event.setBusFault(fault);
 				DStabBus bus = dstabNet.getDStabBus(fdata.getBusBranchId());
@@ -272,7 +273,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 	}
 	
 	private static DStabBranchFault createDStabBranchFault(AcscFaultXmlType fdata, DStabilityNetwork dstabNet) {
-		DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault("Branch Fault at " + fdata.getBusBranchId());
+		DStabBranchFault fault = DStabObjectFactory.createDStabBranchFault(Constants.Token_BranchFaultId + fdata.getBusBranchId());
 		Xml2AlgorithmMapperImpl.acscFaultData2AcscBranchFaultMapping(fdata, fault);
 		fault.setReclosure(fdata.getBranchReclosure());
 		fault.setReclosureTime(fdata.getReclosureTime());

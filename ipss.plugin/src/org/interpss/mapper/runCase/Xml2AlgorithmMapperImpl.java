@@ -37,6 +37,7 @@ import org.interpss.schema.UnitXmlData;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.XmlNetParamModifier;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
@@ -99,18 +100,18 @@ public class Xml2AlgorithmMapperImpl {
 	  			return false;
 	  		}
 			
-			AcscBusFault fault = CoreObjectFactory.createAcscBusFault("Bus Fault at " +	faultBus.getId());
+			AcscBusFault fault = CoreObjectFactory.createAcscBusFault(Constants.Token_BusFaultId +	faultBus.getId());
   	  		acscFaultData2AcscBusFaultMapping(caseData.getFaultData(), fault);
 			faultNet.addBusFault(faultBus.getId(), faultIdStr, fault);
 		}
 		else {
-	  		AcscBranch faultBranch = (AcscBranch)faultNet.getBranch(caseData.getFaultData().getBusBranchId()+"(1)");
+	  		AcscBranch faultBranch = (AcscBranch)faultNet.getBranch(caseData.getFaultData().getBusBranchId()+Constants.Token_DefaultBranchCirNo);
 			if (faultBranch == null) {
 				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found, this maybe a parallel branch issue");
 	  			return false;
 	  		}
 			
-			AcscBranchFault fault = CoreObjectFactory.createAcscBranchFault("Branch Fault at " + faultBranch.getId());
+			AcscBranchFault fault = CoreObjectFactory.createAcscBranchFault(Constants.Token_BranchFaultId + faultBranch.getId());
   	  		acscFaultData2AcscBranchFaultMapping(caseData.getFaultData(), fault);
 			faultNet.addBranchFault(faultBranch.getId(), faultIdStr, fault);
 		}
