@@ -69,6 +69,9 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	// track the last run type
 	private SimuRunType lastRunType = null;   
 	
+	// the current case db id
+	private int dbSimuCaseId = 0;
+	
 	public AppSimuContextImpl() {
 		this.simuCtxDataDirty = true;
 	}
@@ -78,7 +81,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
   		this.lfConverged = false;
   		this.scCalculated = false;
   		this.simuCtxDataDirty = true;
-  		getDStabRunForm().setDbSimuCaseId(0);
+  		setDbSimuCaseId(0);
 	}
 	
 	public Object getSimuCtx() { 
@@ -306,5 +309,18 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 */
 	public void setLastRunType(SimuRunType lastRunType) {
 		this.lastRunType = lastRunType;
-	}    
+	}
+
+	/**
+	 * @return Returns the dbSimuCaseId.
+	 */
+	public int getDbSimuCaseId() {
+		return dbSimuCaseId;
+	}
+	/**
+	 * @param dbSimuCaseId The dbSimuCaseId to set.
+	 */
+	public void setDbSimuCaseId(int dbSimuCaseId) {
+		this.dbSimuCaseId = dbSimuCaseId;
+	}	
 }
