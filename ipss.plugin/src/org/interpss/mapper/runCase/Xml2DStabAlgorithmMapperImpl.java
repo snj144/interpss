@@ -88,6 +88,14 @@ public class Xml2DStabAlgorithmMapperImpl {
 			IpssLogger.getLogger().info("Ref mach set to : " + mach.getId());
 			algo.setRefMachine(mach);
 		}
+		
+		// transfer output variable filter info to the DStabAlgo object, which then 
+		// will be carried by the object to the remote grid node
+		algo.setOutputFilted(caseData.getOutputFilter());
+		if (algo.isOutputFilted()) { 
+			algo.setOutputVarIdList(caseData.getOutputVariablesArray());
+		}
+		
 		return dstabCaseData2NetMapping(caseData, algo.getDStabNet(), msg);
 	}
 
