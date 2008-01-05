@@ -67,7 +67,7 @@ public class IpssSchenaAcscSampleCaseTest extends BaseTestSetup {
 	  			 fault amps(2): (  0.0000 + j  0.0000) pu
 	  			 fault amps(0): (  0.0000 + j  0.0000) pu
 	  			 */
-	  		assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_012(), 0.0, 0.0, 0.0, 32.57142857157701, 0.0, 0.0) );
+	  		assertTrue(TestUtilFunc.compare(fault.getFaultResult().getSCCurrent_012(), 0.0, 0.0, 0.0, 32.57141796260087, 0.0, 0.0) );
 	  	}
 	}
 }
