@@ -123,9 +123,9 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         languageButtonGroup = new javax.swing.ButtonGroup();
         textAreaScrollPane = new javax.swing.JScrollPane();
         scriptsTextArea = new javax.swing.JTextArea();
-        javaRadioButton = new javax.swing.JRadioButton();
         xmlRadioButton = new javax.swing.JRadioButton();
-        driverLabel = new javax.swing.JLabel();
+        javaRadioButton = new javax.swing.JRadioButton();
+        customRadioButton = new javax.swing.JRadioButton();
         driverComboBox = new javax.swing.JComboBox();
 
         scriptsTextArea.setColumns(80);
@@ -134,18 +134,18 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         scriptsTextArea.setTabSize(3);
         textAreaScrollPane.setViewportView(scriptsTextArea);
 
-        languageButtonGroup.add(javaRadioButton);
-        javaRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
-        javaRadioButton.setText("Java");
-
         languageButtonGroup.add(xmlRadioButton);
         xmlRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         xmlRadioButton.setSelected(true);
         xmlRadioButton.setText("Xml");
 
-        driverLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        driverLabel.setText("Driver");
-        driverLabel.setEnabled(false);
+        languageButtonGroup.add(javaRadioButton);
+        javaRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        javaRadioButton.setText("Java");
+
+        languageButtonGroup.add(customRadioButton);
+        customRadioButton.setText("Custom");
+        customRadioButton.setEnabled(false);
 
         driverComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         driverComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "org.interpss.scripting.runcase.JavaCaseRunner", "org.interpss.scripting.runcase.XmlCaseRunner" }));
@@ -161,13 +161,13 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
                         .addContainerGap()
                         .add(textAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(layout.createSequentialGroup()
-                        .add(25, 25, 25)
+                        .add(27, 27, 27)
+                        .add(xmlRadioButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(javaRadioButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(xmlRadioButton)
-                        .add(42, 42, 42)
-                        .add(driverLabel)
-                        .add(18, 18, 18)
+                        .add(customRadioButton)
+                        .add(32, 32, 32)
                         .add(driverComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 317, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -176,10 +176,10 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(javaRadioButton)
-                    .add(driverLabel)
+                    .add(driverComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(xmlRadioButton)
-                    .add(driverComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(javaRadioButton)
+                    .add(customRadioButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(textAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 441, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -188,8 +188,8 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton customRadioButton;
     private javax.swing.JComboBox driverComboBox;
-    private javax.swing.JLabel driverLabel;
     private javax.swing.JRadioButton javaRadioButton;
     private javax.swing.ButtonGroup languageButtonGroup;
     private javax.swing.JTextArea scriptsTextArea;
