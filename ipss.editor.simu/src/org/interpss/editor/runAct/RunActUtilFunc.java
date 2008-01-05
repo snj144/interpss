@@ -28,7 +28,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.interpss.editor.data.proj.ProjData;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.UISpringAppContext;
+
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PQBusLimit;
@@ -39,6 +47,9 @@ import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.IRegulationDevice;
+import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
+import com.interpss.simu.SimuContext;
 
 public class RunActUtilFunc {
 	public static String AllControlDevices = "All Control Devices";
@@ -132,5 +143,45 @@ public class RunActUtilFunc {
 			}
 		}		
 		return list.toArray();	
+	}
+	
+	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(SimuContext simuCtx) {
+		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler)simuCtx.getDynSimuAlgorithm().getSimuOutputHandler();
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		ProjData projData = (ProjData)appSimuCtx.getProjData();
+		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
+		try {
+			if (!handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord"))
+				return null;
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
+					e.toString() + "\nPlease contact InterPSS support");
+		}
+		return handler;
+	}
+	
+	/**
+	 * Display Aclf summary if selected by the user
+	 * 
+	 * @param simuCtx
+	 */
+	public static void displayAclfSummaryResult(SimuContext simuCtx) {
+  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+  		dialog.display(simuCtx.getDynSimuAlgorithm());
+	}	
+	
+	public static boolean checkDStabSimuData(DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
+		if (!algo.checkData(msg)) {
+			IpssLogger.getLogger().warning("DStab simulation data checking failed");
+			return false;
+		}
+
+		// dstab net data changed in the mapping process
+		if (!algo.getDStabNet().checkData(msg)) {
+			IpssLogger.getLogger().warning("DStab network data checking failed");
+			return false;
+		}		
+		return true;
 	}
 }

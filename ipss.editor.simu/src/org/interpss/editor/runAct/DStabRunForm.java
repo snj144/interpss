@@ -33,11 +33,6 @@ import org.interpss.core.grid.gridgain.util.GridMessageRouter;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
-import org.interpss.editor.data.proj.ProjData;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
-import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
@@ -84,8 +79,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	 */
 	public void displayAclfSummaryResult(SimuContext simuCtx) {
 	  	if (getAclfCaseData().getShowSummary()) {
-	  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-	  		dialog.display(simuCtx.getDynSimuAlgorithm());
+	  		RunActUtilFunc.displayAclfSummaryResult(simuCtx);
 	  	}
 	}
 	
@@ -107,9 +101,10 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	  	}
 
 	  	// set up output and run the simulation
-		IDStabSimuDatabaseOutputHandler handler = initDBOutputHandler(simuCtx);
+		IDStabSimuDatabaseOutputHandler handler = RunActUtilFunc.createDBOutputHandler(simuCtx);
 		if (handler == null)
 			return false;
+		setDbSimuCaseId(handler.getDBCaseId());
 		
 		// setup if there is output filtering
 		handler.setOutputFilter(dStabCaseData.isOutputFilter());
@@ -169,13 +164,14 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
     	grid.addMessageListener(msgRouter);
     	msgRouter.setIPSSMsgHub(msg);
     	
-		IDStabSimuDatabaseOutputHandler dstabDbHandler = initDBOutputHandler(simuCtx);
+		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(simuCtx);
 		if (dstabDbHandler == null)
 			return false;
+		setDbSimuCaseId(dstabDbHandler.getDBCaseId());
     	msgRouter.setIDStabSimuDatabaseOutputHandler(dstabDbHandler);
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(dstabDbHandler);
 		
-		// transfer output vairable filter info to the DStabAlgo object, which then 
+		// transfer output variable filter info to the DStabAlgo object, which then 
 		// will be carried by the object to the remote grid node
 		simuCtx.getDynSimuAlgorithm().setOutputFilted(dStabCaseData.isOutputFilter());
 		if (simuCtx.getDynSimuAlgorithm().isOutputFilted()) { 
@@ -241,33 +237,6 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
   		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
   		mapper.mapping(this, simuCtx.getDynSimuAlgorithm(), DynamicSimuAlgorithm.class);
 
-		if (!simuCtx.getDynSimuAlgorithm().checkData(msg)) {
-			IpssLogger.getLogger().warning("DStab simulation data checking failed");
-			return false;
-		}
-
-		// dstab net data changed in the mapping process
-		if (!simuCtx.getDStabilityNet().checkData(msg)) {
-			IpssLogger.getLogger().warning("DStab network data checking failed");
-			return false;
-		}
-		return true;
-	}
-	
-	private IDStabSimuDatabaseOutputHandler initDBOutputHandler(SimuContext simuCtx) {
-		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler)simuCtx.getDynSimuAlgorithm().getSimuOutputHandler();
-		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		ProjData projData = (ProjData)appSimuCtx.getProjData();
-		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
-		try {
-			if (!handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord"))
-				return null;
-		} catch (Exception e) {
-			IpssLogger.logErr(e);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
-					e.toString() + "\nPlease contact InterPSS support");
-		}
-		setDbSimuCaseId(handler.getDBCaseId());
-		return handler;
+  		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm(), msg);
 	}
 }
