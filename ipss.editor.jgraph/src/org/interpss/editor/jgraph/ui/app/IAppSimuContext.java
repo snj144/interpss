@@ -56,6 +56,10 @@ public interface IAppSimuContext {
 	boolean hasLastRun();	
 	Object getDStabRunForm();
 	
+	int getDbSimuCaseId();
+	
+	void setDbSimuCaseId(int n);
+	
 	/**
 	 * Check if the current AcscRunForm has a non-symmetric fault
 	 * 
