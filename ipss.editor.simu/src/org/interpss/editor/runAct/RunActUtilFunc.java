@@ -45,6 +45,7 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.IRegulationDevice;
 import com.interpss.dstab.DynamicSimuAlgorithm;
@@ -145,8 +146,8 @@ public class RunActUtilFunc {
 		return list.toArray();	
 	}
 	
-	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(SimuContext simuCtx) {
-		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler)simuCtx.getDynSimuAlgorithm().getSimuOutputHandler();
+	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(DynamicSimuAlgorithm algo) {
+		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler)algo.getSimuOutputHandler();
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
 		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
@@ -166,9 +167,9 @@ public class RunActUtilFunc {
 	 * 
 	 * @param simuCtx
 	 */
-	public static void displayAclfSummaryResult(SimuContext simuCtx) {
+	public static void displayAclfSummaryResult(DynamicSimuAlgorithm algo) {
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-  		dialog.display(simuCtx.getDynSimuAlgorithm());
+  		dialog.display(algo);
 	}	
 	
 	public static boolean checkDStabSimuData(DynamicSimuAlgorithm algo, IPSSMsgHub msg) {

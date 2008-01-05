@@ -79,7 +79,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	 */
 	public void displayAclfSummaryResult(SimuContext simuCtx) {
 	  	if (getAclfCaseData().getShowSummary()) {
-	  		RunActUtilFunc.displayAclfSummaryResult(simuCtx);
+	  		RunActUtilFunc.displayAclfSummaryResult(simuCtx.getDynSimuAlgorithm());
 	  	}
 	}
 	
@@ -101,7 +101,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	  	}
 
 	  	// set up output and run the simulation
-		IDStabSimuDatabaseOutputHandler handler = RunActUtilFunc.createDBOutputHandler(simuCtx);
+		IDStabSimuDatabaseOutputHandler handler = RunActUtilFunc.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
 		if (handler == null)
 			return false;
 		setDbSimuCaseId(handler.getDBCaseId());
@@ -164,7 +164,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
     	grid.addMessageListener(msgRouter);
     	msgRouter.setIPSSMsgHub(msg);
     	
-		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(simuCtx);
+		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
 		if (dstabDbHandler == null)
 			return false;
 		setDbSimuCaseId(dstabDbHandler.getDBCaseId());
