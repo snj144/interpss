@@ -59,7 +59,7 @@ public class DStabTestSetupBase extends BaseTestSetup {
 	public DynamicSimuAlgorithm createDStabAlgo(DStabilityNetwork net) {
 		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
 		algo.setSimuStepSec(0.002);
-		algo.setTotalSimuTimeSec(1.0);
+		algo.setTotalSimuTimeSec(10.0);
 		
 		Machine mach = net.getMachine("Mach@0003");
 		algo.setRefMachine(mach);	
@@ -70,7 +70,7 @@ public class DStabTestSetupBase extends BaseTestSetup {
 		// define a bus fault event
 		DynamicEvent event1 = DStabObjectFactory.createDEvent("BusFault3P@0003", "Bus Fault 3P@0003", 
 				DynamicEventType.BUS_FAULT, net, msg);
-		event1.setStartTimeSec(0.0);
+		event1.setStartTimeSec(1.0);
 		event1.setDurationSec(0.1);
 		
 		DStabBus faultBus = net.getDStabBus("0003");
