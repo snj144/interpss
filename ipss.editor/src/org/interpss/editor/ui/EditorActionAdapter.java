@@ -43,7 +43,6 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.report.ReportUtil;
-import org.interpss.editor.runAct.DStabRunForm;
 import org.interpss.editor.runAct.SimuRunWorker;
 import org.interpss.editor.util.Utilities;
 import org.interpss.report.IpssReportFactory;
@@ -237,9 +236,8 @@ public class EditorActionAdapter {
 	
 	public static void menu_output_dstabcurve(IpssEditorDocument doc) {
 		DStabPlotSelectionDialog dialog = new DStabPlotSelectionDialog(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), true);
-		DStabRunForm dsatbRunForm = (DStabRunForm)doc.getSimuAppContext().getDStabRunForm();
     	IpssTextFile file = ProjectScriptFileUtil.getProjectScriptFile(doc, ProjectScriptFileUtil.DStabPlotScriptFilename);
-    	dialog.init((SimuContext)doc.getSimuAppContext().getSimuCtx(), dsatbRunForm.getDbSimuCaseId(), 
+    	dialog.init((SimuContext)doc.getSimuAppContext().getSimuCtx(), doc.getSimuAppContext().getDbSimuCaseId(), 
 				    	file==null?null:file.getFilePathName());
 	}
 	public static void menu_report_save(IpssEditorDocument doc) {
