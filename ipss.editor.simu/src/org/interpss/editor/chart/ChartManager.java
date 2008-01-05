@@ -39,7 +39,6 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.cells.BusCell;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGBusForm;
-import org.interpss.editor.runAct.DStabRunForm;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
@@ -80,7 +79,7 @@ public class ChartManager {
 				});
 			}
 			else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
-				int caseId = ((DStabRunForm)appSimuCtx.getDStabRunForm()).getDbSimuCaseId();
+				int caseId = appSimuCtx.getDbSimuCaseId();
 				if (caseId > 0 ) {
 					DStabBus dstabBus = simuCtx.getDStabilityNet().getDStabBus(bus.getId());
 					if (dstabBus.getMachine() != null) {

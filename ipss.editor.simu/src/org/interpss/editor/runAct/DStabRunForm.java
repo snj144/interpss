@@ -48,7 +48,6 @@ import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
 public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
-	private int dbSimuCaseId = 0;
 	private AclfCaseData aclfCaseData = null;
 	private DStabCaseData dStabCaseData = null;
 	
@@ -104,7 +103,6 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		IDStabSimuDatabaseOutputHandler handler = RunActUtilFunc.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
 		if (handler == null)
 			return false;
-		setDbSimuCaseId(handler.getDBCaseId());
 		
 		// setup if there is output filtering
 		handler.setOutputFilter(dStabCaseData.isOutputFilter());
@@ -167,7 +165,6 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
 		if (dstabDbHandler == null)
 			return false;
-		setDbSimuCaseId(dstabDbHandler.getDBCaseId());
     	msgRouter.setIDStabSimuDatabaseOutputHandler(dstabDbHandler);
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(dstabDbHandler);
 		
@@ -204,18 +201,6 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		}
 	}
 
-	/**
-	 * @return Returns the dbSimuCaseId.
-	 */
-	public int getDbSimuCaseId() {
-		return dbSimuCaseId;
-	}
-	/**
-	 * @param dbSimuCaseId The dbSimuCaseId to set.
-	 */
-	public void setDbSimuCaseId(int dbSimuCaseId) {
-		this.dbSimuCaseId = dbSimuCaseId;
-	}
 	/**
 	 * @return the aclfCaseData
 	 */

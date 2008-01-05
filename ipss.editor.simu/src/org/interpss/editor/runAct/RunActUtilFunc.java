@@ -45,12 +45,10 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.IRegulationDevice;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
-import com.interpss.simu.SimuContext;
 
 public class RunActUtilFunc {
 	public static String AllControlDevices = "All Control Devices";
@@ -159,6 +157,7 @@ public class RunActUtilFunc {
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
 					e.toString() + "\nPlease contact InterPSS support");
 		}
+		appSimuCtx.setDbSimuCaseId(handler.getDBCaseId());
 		return handler;
 	}
 	
