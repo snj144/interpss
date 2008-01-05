@@ -92,10 +92,10 @@ public class Xml2DStabAlgorithmMapperImpl {
 	}
 
 	private static boolean dstabCaseData2NetMapping(RunDStabStudyCaseXmlType dstabData, DStabilityNetwork dstabNet, IPSSMsgHub msg) {
-		if (dstabData.getNetEqnItrNoEvent() != 0);
-			dstabNet.setNetEqnIterationNoEvent(dstabData.getNetEqnItrNoEvent());
-		if (dstabData.getNetEqnItrWithEvent() != 0)
-			dstabNet.setNetEqnIterationWithEvent(dstabData.getNetEqnItrWithEvent());
+		dstabNet.setNetEqnIterationNoEvent(dstabData.getNetEqnItrNoEvent() != 0 ?
+						dstabData.getNetEqnItrNoEvent() : Constants.DStabNetItrNoEvent);
+		dstabNet.setNetEqnIterationWithEvent(dstabData.getNetEqnItrWithEvent() != 0?
+						dstabData.getNetEqnItrWithEvent() : Constants.DStabNetItrWithEvent);
 
 		if (dstabData.getStaticLoadModel() != null) {
 			dstabNet.setStaticLoadModel(dstabData.getStaticLoadModel().getType() == DStabSimuStaticLoadTypeXmlData.CONSTANT_Z?
