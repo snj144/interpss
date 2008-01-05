@@ -51,9 +51,8 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
 public class IpssSchemaIEEE11ModelTest extends DStabTestSetupBase {
-
 	@Test
-	public void test_Case1() throws Exception {
+	public void test_Case2() throws Exception {
 		File xmlFile = new File("testData/xml/RunDStabCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
@@ -83,7 +82,7 @@ public class IpssSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 	  		mapper.mapping(dstabCase, algo, RunDStabStudyCaseXmlType.class);
-	  		System.out.println(net.net2String());
+	  		//System.out.println(net.net2String());
 	  		
 	  		if (caseCnt == 1) {
 			  	assertTrue(algo.getTotalSimuTimeSec() == 1.0);
@@ -118,6 +117,9 @@ public class IpssSchemaIEEE11ModelTest extends DStabTestSetupBase {
 			  	assertTrue(algo.getSimuMethod() == DynamicSimuMethods.MODIFIED_EULER);
 			  	assertTrue(algo.getRefMachine() != null);
 			  	assertTrue(algo.getRefMachine().getId().equals("Mach@0003"));
+
+			  	assertTrue(algo.getDStabNet().getNetEqnIterationNoEvent() == 3);
+			  	assertTrue(algo.getDStabNet().getNetEqnIterationWithEvent() == 5);
 			  	
 			  	assertTrue(algo.getDStabNet().getDEventList().size() == 1);
 			  	DynamicEvent event = algo.getDStabNet().getDEventList().get(0);
@@ -151,13 +153,16 @@ public class IpssSchemaIEEE11ModelTest extends DStabTestSetupBase {
 				yTestRecorder.initBusNumber(net);
 				net.setNetChangeListener(yTestRecorder);	
 
+				//TextSimuOutputHandler handler = new TextSimuOutputHandler();
+				//algo.setSimuOutputHandler(handler);
 				if (algo.initialization(msg)) {
 					System.out.println("Running DStab simulation ...");
 					algo.performSimulation(msg);
 				}
-
+/*
 				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG) < 0.01);
+*/						
 				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
 						DStabOutSymbol.OUT_SYMBOL_MACH_PE) < 0.01);
 
