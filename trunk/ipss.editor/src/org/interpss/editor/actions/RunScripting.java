@@ -21,7 +21,8 @@ public class RunScripting extends IpssAbstractActionDefault {
 
 	public void update() {
 		IpssEditorDocument doc = getCurrentDocument();
-		setEnabled(DocumentUtilFunc.isAclfDocument(doc) || DocumentUtilFunc.isAcscDocument(doc));
+		setEnabled(DocumentUtilFunc.isAclfDocument(doc) || DocumentUtilFunc.isAcscDocument(doc)
+				|| DocumentUtilFunc.isDStabDocument(doc));
 	}
 	
 }
