@@ -58,7 +58,7 @@ public class IEEE11ModelTest extends DStabTestSetupBase {
 		DynamicSimuAlgorithm algo = createDStabAlgo(net);
 		
 		addDynamicEventData(net);
-  		System.out.println(net.net2String());
+  		//System.out.println(net.net2String());
 		
 		LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
@@ -80,6 +80,8 @@ public class IEEE11ModelTest extends DStabTestSetupBase {
 		yTestRecorder.initBusNumber(net);
 		net.setNetChangeListener(yTestRecorder);	
 
+		//TextSimuOutputHandler handler = new TextSimuOutputHandler();
+		//algo.setSimuOutputHandler(handler);
 		if (algo.initialization(msg)) {
 			System.out.println("Running DStab simulation ...");
 			algo.performSimulation(msg);
