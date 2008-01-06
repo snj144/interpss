@@ -24,11 +24,8 @@
 
 package org.interpss.editor.runAct;
 
-import org.interpss.display.AcscOutFunc;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AcscCaseData;
-import org.interpss.editor.ui.IOutputTextDialog;
-import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -62,9 +59,8 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 	  	return true;
 	}	
 	
-	public void displayAclfSummaryResult(SimuContext simuCtx) {
-  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Short Circuit Analysis Result Summary");
-  		dialog.display(AcscOutFunc.faultResult2String(simuCtx.getAcscFaultNet()));
+	public void displaySummaryResult(SimuContext simuCtx) {
+		RunActUtilFunc.displayAcscSummaryResult(simuCtx.getAcscFaultNet());
 	}
 	
   	private void runShortCircuit(DistNetwork distNet, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {

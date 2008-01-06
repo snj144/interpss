@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.interpss.display.AcscOutFunc;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
@@ -45,6 +46,7 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
+import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.IRegulationDevice;
 import com.interpss.dstab.DynamicSimuAlgorithm;
@@ -142,6 +144,11 @@ public class RunActUtilFunc {
 			}
 		}		
 		return list.toArray();	
+	}
+	
+	public static void displayAcscSummaryResult(SimpleFaultNetwork faultNet) {
+  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Short Circuit Analysis Result Summary");
+  		dialog.display(AcscOutFunc.faultResult2String(faultNet));
 	}
 	
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(DynamicSimuAlgorithm algo) {

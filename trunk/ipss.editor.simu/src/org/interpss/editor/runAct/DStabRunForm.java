@@ -76,7 +76,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 	 * 
 	 * @param simuCtx
 	 */
-	public void displayAclfSummaryResult(SimuContext simuCtx) {
+	public void displaySummaryResult(SimuContext simuCtx) {
 	  	if (getAclfCaseData().getShowSummary()) {
 	  		RunActUtilFunc.displayAclfSummaryResult(simuCtx.getDynSimuAlgorithm());
 	  	}
@@ -126,7 +126,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		simuCtx.getDStabilityNet().setNetChangeListener(CoreSpringAppContext.getNetChangeHandler());
 		
 	  	if (simuCtx.getDynSimuAlgorithm().initialization(msg)) {
-	  		displayAclfSummaryResult(simuCtx);
+	  		displaySummaryResult(simuCtx);
 		  	simuCtx.getDynSimuAlgorithm().performSimulation(msg);
 		}
 

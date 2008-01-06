@@ -24,8 +24,11 @@
 
 package org.interpss.editor.runAct;
 
+import static org.junit.Assert.assertTrue;
+
 import org.apache.xmlbeans.XmlException;
 import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.AnalysisRunTaskXmlData;
@@ -39,9 +42,15 @@ import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
+import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.CoreSpringAppContext;
+import com.interpss.core.acsc.AcscBranchFault;
+import com.interpss.core.acsc.AcscBusFault;
+import com.interpss.core.acsc.SimpleFaultNetwork;
+import com.interpss.core.acsc.SimpleFaultType;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
@@ -91,8 +100,17 @@ public class XmlScriptRunWorker {
 		}
 		else if (parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC ) {
 		  	if (parser.getRunAcscStudyCaseList().length > 0) {
+		  		SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
 			  	if (parser.getRunAcscStudyCaseList().length == 1) {
 				  	RunAcscStudyCaseXmlType acscCase = parser.getRunAcscStudyCaseList()[0];
+			  		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
+			  		mapper.mapping(acscCase, algo, RunAcscStudyCaseXmlType.class);
+			  		Object fault = faultNet.getFaultList().get(0);
+			  		if (fault instanceof AcscBusFault) 
+			  			algo.calculateBusFault((AcscBusFault)fault, msg);
+			  		else
+			  			algo.calculateBranchFault((AcscBranchFault)fault, msg);
+					RunActUtilFunc.displayAcscSummaryResult(faultNet);
 			  	}
 			  	else
 			  		for (RunDStabStudyCaseXmlType dstabCase : parser.getRunDStabStudyCaseList()) {
