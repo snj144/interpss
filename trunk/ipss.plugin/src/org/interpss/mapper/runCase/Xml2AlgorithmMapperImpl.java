@@ -61,6 +61,9 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static void aclfCaseData2AlgoMapping(RunAclfStudyCaseXmlType caseData, LoadflowAlgorithm algo) {
+		if (caseData.getModification() != null) 
+  			XmlNetParamModifier.applyModification2Net(algo.getNetwork(), caseData.getModification());
+	
 	  	algo.setLfMethod(caseData.getLfMethod()==AclfMethodXmlData.NR? AclfMethod.NR :
 	  				       (caseData.getLfMethod()==AclfMethodXmlData.PQ? AclfMethod.PQ : 
 	  				    	   AclfMethod.GS));
@@ -75,12 +78,6 @@ public class Xml2AlgorithmMapperImpl {
 	  	algo.setAdjustChangeStep(caseData.getAdjustChangeStep());
 	  	if (caseData.getAccFactor() != 0.0 && algo.getLfMethod() == AclfMethod.GS)	
 	  		algo.setGsAccFactor(caseData.getAccFactor());
-	  	
-	  	if (caseData.getModification() != null) {
-	  		// apply the enclosed modification record to the AclfNet object
-	  		ModificationXmlType mod = caseData.getModification();
-	  		XmlNetParamModifier.applyModification2Net(algo.getAclfNetwork(), mod);
-	  	}
 	}
 
 	/**
@@ -91,6 +88,9 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean acscCaseData2AlgoMapping(RunAcscStudyCaseXmlType caseData, SimpleFaultAlgorithm algo) {
+		if (caseData.getModification() != null) 
+  			XmlNetParamModifier.applyModification2Net(algo.getNetwork(), caseData.getModification());
+
 		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
 		String faultIdStr = caseData.getRecId();
 		if (caseData.getFaultData().getType() == FaultTypeXmlData.BUS_FAULT) {

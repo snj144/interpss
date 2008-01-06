@@ -35,6 +35,7 @@ import org.interpss.schema.DynamicSimuMethodXmlData;
 import org.interpss.schema.FaultCategoryXmlData;
 import org.interpss.schema.FaultTypeXmlData;
 import org.interpss.schema.RunDStabStudyCaseXmlType;
+import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -70,6 +71,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean dstabCaseData2AlgoMapping(RunDStabStudyCaseXmlType caseData, DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
+		if (caseData.getModification() != null) 
+  			XmlNetParamModifier.applyModification2Net(algo.getNetwork(), caseData.getModification());
+
 		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseData.getAclfAlgorithm(), algo.getAclfAlgorithm());
 
 		algo.setSimuMethod(caseData.getSimuMethod() == DynamicSimuMethodXmlData.MODIFIED_EULER?
