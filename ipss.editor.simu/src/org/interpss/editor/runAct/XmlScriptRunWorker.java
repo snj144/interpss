@@ -24,11 +24,8 @@
 
 package org.interpss.editor.runAct;
 
-import static org.junit.Assert.assertTrue;
-
 import org.apache.xmlbeans.XmlException;
 import org.interpss.editor.SimuAppSpringAppContext;
-import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.AnalysisRunTaskXmlData;
@@ -36,19 +33,18 @@ import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.RunAcscStudyCaseXmlType;
 import org.interpss.schema.RunDStabStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.common.util.TestUtilFunc;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.acsc.AcscBranchFault;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
-import com.interpss.core.acsc.SimpleFaultType;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
@@ -73,6 +69,9 @@ public class XmlScriptRunWorker {
   			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", e.toString());
 			return false;
 		}
+		
+  		if (parser.getModification() != null)
+  			XmlNetParamModifier.applyModification2Net(simuCtx.getNetwork(), parser.getModification());
  
 	  	IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
 	  	IPSSMsgHub msg = simuCtx.getMsgHub();
