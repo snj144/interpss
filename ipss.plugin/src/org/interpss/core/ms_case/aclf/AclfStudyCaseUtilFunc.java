@@ -122,10 +122,9 @@ public class AclfStudyCaseUtilFunc {
 	}
 
 	private static AclfNetworkResult createAclfNetResult(AclfNetwork net, StudyCase studyCase) {
-		AclfNetworkResult rnet = CoreObjectFactory.createAclfNetworkResult(net.getId());
+		AclfNetworkResult rnet = CoreObjectFactory.createAclfNetworkResult(net.getSortNumber(), net.getId());
 		if (studyCase != null)
 			studyCase.setNetResult(rnet);
-		rnet.setCaseNumber(net.getSortNumber());
 		rnet.setLfConverged(net.isLfConverged());
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus)b;
