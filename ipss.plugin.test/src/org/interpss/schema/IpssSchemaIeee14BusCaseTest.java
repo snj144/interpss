@@ -16,6 +16,9 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.ms_case.result.AclfNetworkResult;
+import com.interpss.core.ms_case.result.NetResultContainer;
+import com.interpss.core.ms_case.result.SimuResultUtilFunc;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -38,6 +41,8 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 
+	  	NetResultContainer rcNet = CoreObjectFactory.createNetResultContainer();
+	  	int cnt = 0;
 	  	for ( RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
 	  		mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 	  	
@@ -45,7 +50,13 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
 	  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		
+	  		AclfNetworkResult rnet = SimuResultUtilFunc.createAclfNetResult(net, ++cnt, aclfCase.getRecId(), true);
+	  		rcNet.getNetResultList().add(rnet);
 	  	}
+  		assertTrue(rcNet.getNetworkResult(1) != null);
+  		assertTrue(rcNet.getNetworkResult(2) != null);
+  		assertTrue(rcNet.getNetworkResult(3) != null);
 	}			
 
 	@Test
