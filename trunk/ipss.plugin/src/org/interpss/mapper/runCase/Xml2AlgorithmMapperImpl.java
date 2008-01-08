@@ -30,7 +30,6 @@ import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.FaultCategoryXmlData;
 import org.interpss.schema.FaultTypeXmlData;
 import org.interpss.schema.FaultVoltInitXmlData;
-import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.RunAcscStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
