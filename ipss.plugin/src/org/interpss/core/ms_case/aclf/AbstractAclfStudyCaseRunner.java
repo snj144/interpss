@@ -31,9 +31,6 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.ms_case.impl.StudyCaseRunnerImpl;
-import com.interpss.core.ms_case.result.AclfBusResult;
-import com.interpss.core.ms_case.result.AclfNetworkResult;
-import com.interpss.core.ms_case.result.BusResult;
 
 public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 	/**
@@ -58,6 +55,7 @@ public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 	 * @return true if there is no problem
 	 */
 	public boolean saveCase(StudyCase studyCase) {
+		/*
 		AclfNetworkResult rNet = AclfStudyCaseUtilFunc.createAclfNetResult(studyCase);
 		String str = "StudyCase: " + studyCase.getCaseNumber() + ", " + studyCase.getName() + 
 					(rNet.isLfConverged()? "  LF converged":"  LF diverged") + 
@@ -67,7 +65,7 @@ public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 			str += result.toString() + "\n";
 		}
 		//IpssLogger.getLogger().info(str);
-		
+		*/
 		return true;
 	}		
 	

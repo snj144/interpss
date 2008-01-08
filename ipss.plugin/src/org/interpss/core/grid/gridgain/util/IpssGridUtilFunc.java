@@ -24,11 +24,7 @@
 
 package org.interpss.core.grid.gridgain.util;
 
-import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
-
-import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.ms_case.result.AclfNetworkResult;
 
 public class IpssGridUtilFunc {
     /**
@@ -39,7 +35,10 @@ public class IpssGridUtilFunc {
      * @return serialized AclfNetworkResult string
      */
     public static String serializeGridAclfResult(String uid, AclfNetwork net) {
+    	/*
 		AclfNetworkResult rnet = AclfStudyCaseUtilFunc.createAclfNetResult(uid, net);
 		return SerializeEMFObjectUtil.saveModel(rnet);
+		*/
+    	return null;
 	} 
 }
