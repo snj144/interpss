@@ -39,14 +39,18 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.CoreSpringAppContext;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.acsc.AcscBranchFault;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.core.ms_case.result.NetResultContainer;
+import com.interpss.core.ms_case.result.NetworkResult;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
@@ -77,20 +81,35 @@ public class XmlScriptRunWorker {
 	  	IPSSMsgHub msg = simuCtx.getMsgHub();
 		if (parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF ) {
 		  	if (parser.getRunAclfStudyCaseList().length > 0) {
-				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfAdjNet());
 			  	if (parser.getRunAclfStudyCaseList().length == 1) {
+			  		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+			  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 				  	RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
 				  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 								  	
 					algo.loadflow(msg);
 				  	if (aclfCase.getDiaplaySummary()) {
 				  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-					  	dialog.display(simuCtx.getAclfAdjNet());
+					  	dialog.display(net);
 				  	}
 			  	}
-			  	else
+			  	else {
+			  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+				  	NetResultContainer rNetContainer = CoreObjectFactory.createNetResultContainer();
+				  	int cnt = 0;
 			  		for (RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
+						AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+						LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+					  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+									  	
+						algo.loadflow(msg);
+				  		NetworkResult rnet = CoreObjectFactory.createNetworkResult(aclfCase.getRecId(), ++cnt);
+				  		rnet.setSerializedString(SerializeEMFObjectUtil.saveModel(net));
+				  		rNetContainer.getNetResultList().add(rnet);
 			  		}
+			  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+				  	dialog.display(rNetContainer);
+			  	}
 		  	}
 		  	else {
 	  			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
