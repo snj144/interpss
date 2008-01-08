@@ -11,14 +11,16 @@ import org.interpss.xml.XmlNetParamModifier;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.mapper.IpssMapper;
+import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.ms_case.result.AclfNetworkResult;
 import com.interpss.core.ms_case.result.NetResultContainer;
-import com.interpss.core.ms_case.result.SimuResultUtilFunc;
+import com.interpss.core.ms_case.result.NetworkResult;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -29,8 +31,11 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
-		AclfNetwork net = simuCtx.getAclfNet();
+		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
+  		
+  		// save net to a String
+  		String netStr = SerializeEMFObjectUtil.saveModel(net);
 
 		File xmlFile = new File("testData/xml/RunAclfCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -51,12 +56,24 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  		
-	  		AclfNetworkResult rnet = SimuResultUtilFunc.createAclfNetResult(net, ++cnt, aclfCase.getRecId(), true);
+	  		NetworkResult rnet = CoreObjectFactory.createNetworkResult(++cnt);
+	  		rnet.setSerializedString(SerializeEMFObjectUtil.saveModel(net));
 	  		rcNet.getNetResultList().add(rnet);
 	  	}
   		assertTrue(rcNet.getNetworkResult(1) != null);
   		assertTrue(rcNet.getNetworkResult(2) != null);
   		assertTrue(rcNet.getNetworkResult(3) != null);
+  		
+//  		System.out.println(net.net2String());
+  		double i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva());
+  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(rcNet.getNetworkResult(1).getSerializedString());
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
+
+  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(rcNet.getNetworkResult(2).getSerializedString());
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
+
+  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(rcNet.getNetworkResult(3).getSerializedString());
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
 	}			
 
 	@Test

@@ -1,14 +1,12 @@
 package org.interpss.core.gridgain.aclf;
 
 import org.interpss.core.ms_case.aclf.AbstractAclfStudyCaseRunner;
-import org.interpss.core.ms_case.aclf.AclfStudyCaseUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.exp.InterpssException;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.ms_case.StudyCase;
-import com.interpss.core.ms_case.result.AclfBusResult;
 
 public class Aclf5BusSampleAclfStudyCaseRunner extends AbstractAclfStudyCaseRunner {
 	private double[] pFactorList = {
@@ -30,17 +28,10 @@ public class Aclf5BusSampleAclfStudyCaseRunner extends AbstractAclfStudyCaseRunn
 			baseCase = studyCase.getParent().getStudyCase(Constants.BaseStudyCaseName);
 			IpssLogger.getLogger().info("Base Study Case created - " + baseCase.getId());
 		}
-		try {
 			int index = studyCase.getCaseNumber()-1;
 			
-			String busId = "1";
-			AclfBusResult r = (AclfBusResult)baseCase.getBusResult(busId);
-			AclfStudyCaseUtilFunc.increaseBusLoad(r, pFactorList[index], qFactorList[index]);
-			IpssLogger.getLogger().info("Study Case generted - " + baseCase.getId() + ", # " + studyCase.getCaseNumber());
-		} catch (InterpssException e) {
-			SpringAppContext.getIpssMsgHub().sendErrorMsg(e.toString());
-			return false;
-		}
+		String busId = "1";
+		IpssLogger.getLogger().info("Study Case generted - " + baseCase.getId() + ", # " + studyCase.getCaseNumber());
 		return true;
 	}			
 }
