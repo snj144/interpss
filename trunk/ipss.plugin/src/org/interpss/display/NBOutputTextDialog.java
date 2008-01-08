@@ -43,8 +43,11 @@ import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.ms_case.result.NetResultContainer;
+import com.interpss.core.ms_case.result.NetworkResult;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DStabSimuDBRecord;
@@ -93,6 +96,16 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
             busStyleRadioButton.setEnabled(true);
             summaryRadioButton.setEnabled(true);
             summaryRadioButton.setSelected(true);
+        }
+        else if (data instanceof NetResultContainer) {
+        	NetResultContainer rNetContainer = (NetResultContainer)data;
+        	textArea.setText("");
+        	for (NetworkResult rnet : rNetContainer.getNetResultList()) {
+        		aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(rnet.getSerializedString());
+        		textArea.append(AclfOutFunc.loadFlowSummary(aclfAdjNet));
+        	}
+            busStyleRadioButton.setEnabled(false);
+            summaryRadioButton.setEnabled(false);
         }
         // for DStab machine state output
         else if (data instanceof List) {
