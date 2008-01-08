@@ -30,12 +30,8 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 	public void runSingleAclfCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
-		
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
-  		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
-  		
   		// save net to a String
-  		String netStr = SerializeEMFObjectUtil.saveModel(net);
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
 
 		File xmlFile = new File("testData/xml/RunAclfCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -43,20 +39,21 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF);
   		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-
 	  	NetResultContainer rcNet = CoreObjectFactory.createNetResultContainer();
 	  	int cnt = 0;
+  		double i = 0.0;
 	  	for ( RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
+			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 	  		mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
-	  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva());
 	  		
-	  		NetworkResult rnet = CoreObjectFactory.createNetworkResult(++cnt);
+	  		NetworkResult rnet = CoreObjectFactory.createNetworkResult(aclfCase.getRecId(), ++cnt);
 	  		rnet.setSerializedString(SerializeEMFObjectUtil.saveModel(net));
 	  		rcNet.getNetResultList().add(rnet);
 	  	}
@@ -65,8 +62,7 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
   		assertTrue(rcNet.getNetworkResult(3) != null);
   		
 //  		System.out.println(net.net2String());
-  		double i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva());
-  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(rcNet.getNetworkResult(1).getSerializedString());
+  		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(rcNet.getNetworkResult(1).getSerializedString());
 	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
 
   		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(rcNet.getNetworkResult(2).getSerializedString());
