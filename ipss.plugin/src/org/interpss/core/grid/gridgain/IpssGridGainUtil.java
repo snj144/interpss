@@ -36,7 +36,8 @@ import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskTimeoutException;
 import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeAclfTask;
 import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeDStabTask;
-import org.interpss.core.ms_case.IpssMultiStudyCaseGridGainTask;
+import org.interpss.core.grid.gridgain.multicase.MultiCaseAclfTask;
+import org.interpss.core.grid.gridgain.multicase.MultiCaseDStabTask;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -44,9 +45,10 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.ms_case.GridMultiStudyCase;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.multicase.MultiStudyCase;
 
 /**
  *   For IpssMultiStudyCaseGridGainTask implementation
@@ -79,16 +81,25 @@ public class IpssGridGainUtil {
        	IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
        	IpssLogger.getLogger().info("Number of Grid Nodes: " + grid.getAllNodes().size());
        	try {
+       		/*
        		if (model instanceof GridMultiStudyCase)
            		// IpssMultiStudyCaseGridGainTask is designed to process the GridMultiStudyCase model
            		// return a list of results object, for example AclfNetworkResult objects in serialized 
            		// fromat (String) in no particular order
            		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model, timeout).get();
-           	else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork || 
+           	*/	
+           	if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork || 
            			 model instanceof LoadflowAlgorithm)
            		result = grid.execute(AssignJob2NodeAclfTask.class.getName(), model, timeout).get();
            	else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm)
           		result = grid.execute(AssignJob2NodeDStabTask.class.getName(), model, timeout).get();
+           	else if (model instanceof MultiStudyCase) {
+           		if (((MultiStudyCase)model).getNetType() == SimuCtxType.ACLF_ADJ_NETWORK ||
+           			((MultiStudyCase)model).getNetType() == SimuCtxType.ACLF_NETWORK)
+           			result = grid.execute(MultiCaseAclfTask.class.getName(), model, timeout).get();
+           		else if (((MultiStudyCase)model).getNetType() == SimuCtxType.DSTABILITY_NET)
+             		result = grid.execute(MultiCaseDStabTask.class.getName(), model, timeout).get();
+           	}
            	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
        	} catch (GridTaskTimeoutException e) {
        		IpssLogger.logErr(e);
