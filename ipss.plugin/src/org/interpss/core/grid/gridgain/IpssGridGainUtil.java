@@ -124,7 +124,7 @@ public class IpssGridGainUtil {
    	/**
    	 * Stop the Grid 
    	 */
-   	public static void stopDaultGrid() {
+   	public static void stopDefaultGrid() {
    		if (GridFactory.getState() == GridFactoryState.STARTED) {
    			GridFactory.stop(true);
    		}
@@ -179,6 +179,17 @@ public class IpssGridGainUtil {
     	return null;
     }
 
+    /**
+     * get a remote grid node UDDI string
+     * 
+     * @return grid node UUDI string, or null if not found
+     */
+    public static String getAnyRemoteNodeId() {
+    	for (String id : nodeNameLookupTable.keySet())
+    		return id;
+    	return null;
+    }
+    
     /**
      * From Grid node UDDI string to remote Logical node name lookup. If no name existing
      * a new name Logical Node-<Node Cnt> will be assigned to the grid node
