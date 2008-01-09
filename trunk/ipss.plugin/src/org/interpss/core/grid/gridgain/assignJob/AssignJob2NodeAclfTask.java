@@ -33,16 +33,12 @@ package org.interpss.core.grid.gridgain.assignJob;
  *  the node identified by the nodeId attribute.  
  */
 
-import java.io.Serializable;
-
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
-import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
+import org.interpss.core.grid.gridgain.impl.IpssGridGainAclfJob;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -52,44 +48,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 	
 	@Override
 	protected GridJob createGridJob(String modelStr) {
-		return new AbstractIpssGridGainJob(modelStr) {
-			private static final long serialVersionUID = 1;
-			
-		    protected Serializable performGridJob(String modelStr) {
-				AclfNetwork net = null;
-				Object model = SerializeEMFObjectUtil.loadModel(modelStr);
-				if (model instanceof AclfNetwork)
-					net = (AclfNetwork)model;
-				else if (model instanceof AclfAdjNetwork)
-					net = (AclfAdjNetwork)model;
-				 
-				// get serialized algo string from the task session
-				String algoStr = (String)getSession().getAttribute(Constants.GridToken_AclfAlgo+net.getId());
-				//System.out.println(algoStr);
-				LoadflowAlgorithm algo;
-				if (algoStr != null) {
-					// set algo attributes. These attributes are not serialized
-					algo = (LoadflowAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
-			  		if (net instanceof AclfAdjNetwork) {
-			  			//algo.setAdjAlgorithm(AlgorithmFactory.eINSTANCE.createAclfAdjustAlgorithm());
-			  			algo.setAclfAdjNetwork((AclfAdjNetwork)net);
-			  		}
-			  		else {
-			  			algo.setAclfNetwork(net);
-			  		}
-		    	}
-				else {
-					// this is more for testing purpose
-					algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-				}
-
-				// perform loadflow calculation
-				algo.loadflow(SpringAppContext.getIpssMsgHub());
-				
-				// send the calculated Aclf object back to the master node
-				return SerializeEMFObjectUtil.saveModel(net);    	
-		    }
-		};
+		return new IpssGridGainAclfJob(modelStr);
 	}
 	
 	@Override
