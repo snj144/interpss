@@ -28,6 +28,18 @@
 
 package org.interpss.core.grid.gridgain.multicase;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.gridgain.grid.GridException;
+import org.gridgain.grid.GridJob;
+import org.interpss.core.grid.gridgain.impl.IpssGridGainAclfJob;
+
+import com.interpss.common.datatype.Constants;
+import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.StudyCase;
+
 /**
  *  An abstract GridTask for implement one node per task. The job will be assigned to
  *  the node identified by the nodeId attribute.  
@@ -36,4 +48,22 @@ package org.interpss.core.grid.gridgain.multicase;
 
 public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
+	
+	@Override
+	protected Collection<? extends GridJob> split(int gridSize, MultiStudyCase model) throws GridException {
+        // Send master node id to all remote nodes.
+        getSession().setAttribute(Constants.GridToken_MasterNodeId, MasterNodeId);
+      
+        List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
+        for (StudyCase studyCase : model.getStudyCaseList()) {
+        	IpssGridGainAclfJob job = new IpssGridGainAclfJob(studyCase.getNetModelString());
+        	
+        	// net.getId is used as the id for retrieving StudyCase info
+	        //getSession().setAttribute(Constants.GridToken_AclfAlgo+studyCase.getId(), studyCase.getAclfAlgoModelString());
+
+	        jobList.add(job);
+        }
+        
+        return jobList;
+     }		
 }
