@@ -26,8 +26,6 @@ package org.interpss.core.ms_case.aclf;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.ms_case.StudyCase;
 import com.interpss.core.ms_case.impl.StudyCaseRunnerImpl;
@@ -40,11 +38,10 @@ public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 	 * @return if Loadflow converged
 	 */
 	public boolean runCase(StudyCase studyCase) {
-		AclfNetwork aclfNet = (AclfNetwork)studyCase.getParent().getNetwork();
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(null);
 		algo.loadflow(SpringAppContext.getIpssMsgHub());
 		
-		return aclfNet.isLfConverged();
+		return false;
 	}			
 
 	/**
@@ -76,15 +73,6 @@ public abstract class AbstractAclfStudyCaseRunner extends StudyCaseRunnerImpl {
 	 * @return true if there is no problem
 	 */
 	public boolean resetCaseData(StudyCase studyCase) {
-		if (studyCase.getParent().getNetwork() instanceof AclfAdjNetwork ) {
-			AclfAdjNetwork aclfNet = (AclfAdjNetwork)studyCase.getParent().getNetwork();
-			aclfNet.activateAllAdjust(SpringAppContext.getIpssMsgHub());
-			aclfNet.initializeBusVoltage();
-		}
-		else {
-			AclfNetwork aclfNet = (AclfNetwork)studyCase.getParent().getNetwork();
-			aclfNet.initializeBusVoltage();
-		}
 		return true;
 	}	
 }

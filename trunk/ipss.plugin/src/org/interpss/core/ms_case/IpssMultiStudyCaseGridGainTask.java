@@ -57,7 +57,7 @@ public class IpssMultiStudyCaseGridGainTask extends GridTaskSplitAdapter<GridMul
 		if (model.getCaseCreationType() == StudyCaseCreationType.DISTRIBUTED_CREATION) {
 			session.setAttribute(Token_CreationType, "D");
 			// for distributed study case creation, the ref network is sent to remote node for case creation
-			session.setAttribute(Token_RefNetwork, SerializeEMFObjectUtil.saveModel(model.getNetwork()));
+			session.setAttribute(Token_RefNetwork, SerializeEMFObjectUtil.saveModel(model));
 		}
 		else {
 			session.setAttribute(Token_CreationType, "M");
