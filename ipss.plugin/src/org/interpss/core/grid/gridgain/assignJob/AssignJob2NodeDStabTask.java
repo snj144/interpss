@@ -33,89 +33,21 @@ package org.interpss.core.grid.gridgain.assignJob;
  *  the node identified by the nodeId attribute.  
  */
 
-import java.io.Serializable;
-
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
-import org.interpss.core.grid.gridgain.AbstractIpssGridGainJob;
-import org.interpss.core.grid.gridgain.util.DStabSimuGridOutputHandler;
+import org.interpss.core.grid.gridgain.impl.IpssGridGainDStabJob;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.util.DynamicEventProcessor;
-import com.interpss.dstab.util.IDStabSimuOutputHandler;
 
 public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 	private static final long serialVersionUID = 1;
 	
 	@Override
 	protected GridJob createGridJob(String modelStr) {
-		return new AbstractIpssGridGainJob(modelStr) {
-			private static final long serialVersionUID = 1;
-
-			/**
-			 * perform the actual grid job computation
-			 * 
-			 * @param modelStr serialized DStabNet object
-			 */
-			protected Serializable performGridJob(String modelStr) {
-				// deserialized the model into DStabNet object 
-				DStabilityNetwork net = (DStabilityNetwork)SerializeEMFObjectUtil.loadModel(modelStr);
-				// we always assume that the case id is carried to the remote grid node by the id field
-				String caseId = net.getId();
-				
-				// get serialized algo string from the task session
-				String algoStr = (String)getSession().getAttribute(Constants.GridToken_DStabAlgo+caseId);
-				//System.out.println(algoStr);
-				DynamicSimuAlgorithm dstabAlgo;
-				if (algoStr != null) {
-					dstabAlgo = (DynamicSimuAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
-					
-					algoStr = (String)getSession().getAttribute(Constants.GridToken_AclfAlgo+caseId);
-					LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm)SerializeEMFObjectUtil.loadModel(algoStr);
-					dstabAlgo.setAclfAlgorithm(lfAlgo);
-
-					dstabAlgo.setDynamicEventHandler(new DynamicEventProcessor(getMsgHub()));
-					dstabAlgo.setDStabNet(net);
-		    	}
-				else {
-					// this approach is more for testing purpose
-					dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(net, getMsgHub());
-					dstabAlgo.setSimuStepSec(0.01);
-					dstabAlgo.setTotalSimuTimeSec(10.0);
-				}
-				
-				// set simulation result handler
-				IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(getMsgHub(), caseId);
-				dstabAlgo.setSimuOutputHandler(handler);
-
-				// set output var filter info, which is carried to the remote node by
-				// the DStabAlgo object
-				handler.setOutputFilter(dstabAlgo.isOutputFilted());
-				if (dstabAlgo.isOutputFilted()) {
-					for (String str : dstabAlgo.getOutputVarIdList())
-						handler.getOutputVarIdList().add(str);
-					IpssLogger.getLogger().info("Output Var List: " + handler.getOutputVarIdList());
-				}
-				
-				// perform load flow calculation
-				LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-				aclfAlgo.loadflow(getMsgHub());
-				
-				if (dstabAlgo.initialization(getMsgHub())) {
-					getMsgHub().sendStatusMsg("Running DStab simulation at remote node " + getGrid().getLocalNode());
-					if (dstabAlgo.performSimulation(getMsgHub()))
-						return Boolean.TRUE;
-				}
-				
-				return Boolean.FALSE;
-		    }
-		};
+		return new IpssGridGainDStabJob(modelStr);	
 	}
 
 	/**
