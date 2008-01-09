@@ -38,6 +38,6 @@ public class GridGainFuncTest extends BaseTestSetup {
 		if (IpssGridGainUtil.getDefaultGrid().getAllNodes().size() <= 1)
 			System.out.println("Please start a least one Gridgain agent for the test");
 		assertTrue(IpssGridGainUtil.getDefaultGrid().getAllNodes().size() > 1);
-		IpssGridGainUtil.stopDaultGrid();
+		IpssGridGainUtil.stopDefaultGrid();
 	}	
 }

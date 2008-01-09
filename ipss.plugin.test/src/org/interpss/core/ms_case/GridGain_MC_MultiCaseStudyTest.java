@@ -65,9 +65,9 @@ public class GridGain_MC_MultiCaseStudyTest extends BaseTestSetup {
 			// create study case i
 			int caseNumber = i;
 			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+i, "Case" + i, caseNumber, gridMCase);
-			gridMCase.getNetwork().setSortNumber(caseNumber);
+//			gridMCase.getNetwork().setSortNumber(caseNumber);
 			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
-			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase.getNetwork());
+			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase);
 			gridMCase.getGridJobs().add(new SampleGridGainJob(modelStr));
 		}
 

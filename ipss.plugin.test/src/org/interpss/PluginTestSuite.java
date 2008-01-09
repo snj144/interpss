@@ -4,7 +4,6 @@ import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
-import org.interpss.core.ms_case.MultiCaseStudyTest;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
 import org.interpss.dstab.control.cml.block.FilterControlBlockTests;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlockTests;
@@ -52,9 +51,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	IEEE12ModelTest.class,
 	IEEE21ModelTest.class,
 	IEEE22ModelTest.class,
-	
-	// multi-case study
-	MultiCaseStudyTest.class,
 	
 	// Spring 
 	CustomFileAdapterTest.class,

@@ -146,10 +146,10 @@ public class GridGain_MC_InLineCalssTest extends BaseTestSetup {
 			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
 			
 			// set case number to the network for grid node result correlation. SortNumber is used to hold the number
-			gridMCase.getNetwork().setSortNumber(caseNumber);
+//			gridMCase.getNetwork().setSortNumber(caseNumber);
 
 			// serialize the network model to a string 
-			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase.getNetwork());
+			String modelStr = SerializeEMFObjectUtil.saveModel(gridMCase);
 			
 			// add a Grid job to perform computation the model
 			gridMCase.getGridJobs().add(new AbstractIpssGridGainJob(modelStr) {
