@@ -46,9 +46,9 @@ public class SampleGridGainJob extends AbstractIpssGridGainJob {
 			// crate current study case, case number is sent from the GridTask
 			int caseNumber = new Integer(getArgument()).intValue();
 			StudyCase studyCase = CoreObjectFactory.createStudyCase("StudyCase"+caseNumber, "Case"+caseNumber, caseNumber, gridMCase);
-			gridMCase.getNetwork().setSortNumber(caseNumber);
+//			gridMCase.getNetwork().setSortNumber(caseNumber);
 			gridMCase.getGridStudyCaseRunner().generateCaseData(studyCase);
-			net = (AclfNetwork)gridMCase.getNetwork();
+//			net = (AclfNetwork)gridMCase.getNetwork();
 		}
 		else {
 			// de-serialized the model to a AclfNetwork object 
@@ -57,10 +57,11 @@ public class SampleGridGainJob extends AbstractIpssGridGainJob {
 		}
 		 
 		// perform loadflow calculation
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-		algo.loadflow(SpringAppContext.getIpssMsgHub());
+//		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+//		algo.loadflow(SpringAppContext.getIpssMsgHub());
 		
-		return IpssGridUtilFunc.serializeGridAclfResult(nodeId.toString(), net);
+//		return IpssGridUtilFunc.serializeGridAclfResult(nodeId.toString(), net);
+		return true;
     }
 
 	@Override
