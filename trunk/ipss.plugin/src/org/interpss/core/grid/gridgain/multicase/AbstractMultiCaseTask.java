@@ -44,7 +44,7 @@ import org.gridgain.grid.GridTaskSplitAdapter;
 import org.gridgain.grid.resources.GridTaskSessionResource;
 
 import com.interpss.common.datatype.Constants;
-import com.interpss.core.ms_case.MultiStudyCase;
+import com.interpss.simu.multicase.MultiStudyCase;
 
 public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiStudyCase> {
 	private static final long serialVersionUID = 1;

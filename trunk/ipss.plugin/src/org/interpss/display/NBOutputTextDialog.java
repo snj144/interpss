@@ -46,11 +46,11 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.ms_case.MultiStudyCase;
-import com.interpss.core.ms_case.StudyCase;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DStabSimuDBRecord;
+import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.StudyCase;
 
 public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTextDialog {
 	private static final long serialVersionUID = 1;
