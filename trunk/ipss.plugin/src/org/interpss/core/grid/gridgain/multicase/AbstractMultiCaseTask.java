@@ -33,17 +33,14 @@ package org.interpss.core.grid.gridgain.multicase;
  *  the node identified by the nodeId attribute.  
  */
 
-import java.util.Collection;
 import java.util.List;
 
 import org.gridgain.grid.GridException;
-import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.GridTaskSplitAdapter;
 import org.gridgain.grid.resources.GridTaskSessionResource;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiStudyCase> {
@@ -59,14 +56,6 @@ public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiSt
 	protected GridTaskSession getSession() {
 		return this.session;
 	}
-	
-	@Override
-	protected Collection<? extends GridJob> split(int gridSize, MultiStudyCase model) throws GridException {
-        // Send master node id to all remote nodes.
-        getSession().setAttribute(Constants.GridToken_MasterNodeId, MasterNodeId);
-        
-        return null;
-     }
 	
 	@Override
 	public Object reduce(List<GridJobResult> results) throws GridException {
