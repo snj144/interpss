@@ -55,12 +55,14 @@ import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.ms_case.MultiStudyCase;
-import com.interpss.core.ms_case.StudyCase;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.StudyCase;
 
 public class XmlScriptRunWorker {
 	/**
@@ -117,14 +119,14 @@ public class XmlScriptRunWorker {
 			  	}
 			  	else {
 			  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
-				  	MultiStudyCase mscase = CoreObjectFactory.createMultiStudyCase();
+				  	MultiStudyCase mscase = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 				  	int cnt = 0;
 			  		for (RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
 						AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 						LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 					  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 									  	
-				  		StudyCase scase = CoreObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+				  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 						if (IpssGridGainUtil.isGridEnabled() && studyCase.getEnableGridRun()) {
 							scase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 						}
