@@ -558,7 +558,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			System.exit(0);
 		} else {
 			// stop the grid if started
-			IpssGridGainUtil.stopDaultGrid();
+			IpssGridGainUtil.stopDefaultGrid();
 			getFrame().dispose();
 			String viewPath = sessionParameters.getParam(
 					GPSessionParameters.VIEWPATH, false);
