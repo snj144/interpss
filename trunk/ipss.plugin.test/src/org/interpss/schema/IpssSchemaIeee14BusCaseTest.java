@@ -19,11 +19,11 @@ import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.ms_case.MultiStudyCase;
-import com.interpss.core.ms_case.StudyCase;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.StudyCase;
 
 public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 	@Test
@@ -39,7 +39,7 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF);
   		
-	  	MultiStudyCase mscase = CoreObjectFactory.createMultiStudyCase();
+	  	MultiStudyCase mscase = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 	  	int cnt = 0;
   		double i = 0.0;
 	  	for ( RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
@@ -53,7 +53,7 @@ public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  		i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva());
 	  		
-	  		StudyCase scase = CoreObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 	  	}
   		assertTrue(mscase.getStudyCase(1) != null);
