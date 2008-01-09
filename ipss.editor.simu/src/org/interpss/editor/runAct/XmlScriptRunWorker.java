@@ -124,10 +124,19 @@ public class XmlScriptRunWorker {
 						LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 					  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 									  	
-						algo.loadflow(msg);
 				  		StudyCase scase = CoreObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+						if (IpssGridGainUtil.isGridEnabled() && studyCase.getEnableGridRun()) {
+							scase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
+						}
+						else {
+							algo.loadflow(msg);
+						}
 				  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 			  		}
+					if (IpssGridGainUtil.isGridEnabled() && studyCase.getEnableGridRun()) {
+						
+					}
+			  		
 			  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 				  	dialog.display(mscase);
 			  	}
