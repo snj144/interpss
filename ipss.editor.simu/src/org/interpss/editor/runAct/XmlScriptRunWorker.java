@@ -85,10 +85,10 @@ public class XmlScriptRunWorker {
   		if (parser.getModification() != null)
   			XmlNetParamModifier.applyModification2Net(simuCtx.getNetwork(), parser.getModification());
  
-  		RunStudyCaseXmlType studyCase = parser.getRunStudyCase(); 
+  		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase(); 
 	  	IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
 	  	IPSSMsgHub msg = simuCtx.getMsgHub();
-		if (studyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF ) {
+		if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF ) {
 		  	if (parser.getRunAclfStudyCaseList().length > 0) {
 			  	if (parser.getRunAclfStudyCaseList().length == 1) {
 			  		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
@@ -96,13 +96,13 @@ public class XmlScriptRunWorker {
 				  	RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
 				  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 								  	
-					if (IpssGridGainUtil.isGridEnabled() && studyCase.getEnableGridRun()) {
+					if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
 		  				Grid grid = IpssGridGainUtil.getDefaultGrid();
 		  				AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil.getAnyRemoteNodeId();
 		  	    		AbstractIpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
 		  				try {
 		  					String str = (String)IpssGridGainUtil.performGridTask(grid,
-		  									"InterPSS Grid Aclf Calculation", algo,	studyCase.getGridTimeout());
+		  									"InterPSS Grid Aclf Calculation", algo,	xmlStudyCase.getGridTimeout());
 		  	  				net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(str);
 		  				} catch (GridException e) {
 		  					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
@@ -125,9 +125,12 @@ public class XmlScriptRunWorker {
 						AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 						LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 					  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
-									  	
+
+					  	// net.id is used to retrieve study case info at remote node. so we need to
+					  	// sure net.id and studyCase.id are the same for Grid computing. 
+						net.setId(aclfCase.getRecId());
 				  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
-						if (IpssGridGainUtil.isGridEnabled() && studyCase.getEnableGridRun()) {
+						if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
 							scase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 						}
 						else {
@@ -135,8 +138,22 @@ public class XmlScriptRunWorker {
 						}
 				  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 			  		}
-					if (IpssGridGainUtil.isGridEnabled() && studyCase.getEnableGridRun()) {
-						
+			  		
+					if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
+		  				Grid grid = IpssGridGainUtil.getDefaultGrid();
+		  				try {
+		  					Object[] strAry = (Object[])IpssGridGainUtil.performGridTask(grid,
+		  										"InterPSS Grid Aclf Calculation", mscase, xmlStudyCase.getGridTimeout());
+		  					for (Object obj : strAry) {
+		  						String str = (String)obj;
+		  						AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(str);
+		  						StudyCase studyCase = mscase.getStudyCase(net.getId());
+		  						studyCase.setNetModelString(str);
+		  					}
+		  				} catch (GridException e) {
+		  					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
+		  					return false;
+		  				}
 					}
 			  		
 			  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
@@ -148,7 +165,7 @@ public class XmlScriptRunWorker {
 				return false;
 		  	}
 		}
-		else if (studyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC ) {
+		else if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC ) {
 		  	if (parser.getRunAcscStudyCaseList().length > 0) {
 		  		SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
 			  	if (parser.getRunAcscStudyCaseList().length == 1) {
@@ -171,7 +188,7 @@ public class XmlScriptRunWorker {
 				return false;
 		  	}
 		}
-		else if (studyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_D_STAB ) {
+		else if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_D_STAB ) {
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(simuCtx.getDStabilityNet(), msg);
 		  	if (parser.getRunDStabStudyCaseList().length > 0) {
 			  	if (parser.getRunDStabStudyCaseList().length == 1) {
