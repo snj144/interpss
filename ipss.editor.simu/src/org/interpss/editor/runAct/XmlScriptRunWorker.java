@@ -25,6 +25,11 @@
 package org.interpss.editor.runAct;
 
 import org.apache.xmlbeans.XmlException;
+import org.gridgain.grid.Grid;
+import org.gridgain.grid.GridException;
+import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
+import org.interpss.core.grid.gridgain.IpssGridGainUtil;
+import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -32,6 +37,7 @@ import org.interpss.schema.AnalysisRunTaskXmlData;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.RunAcscStudyCaseXmlType;
 import org.interpss.schema.RunDStabStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.XmlNetParamModifier;
 
@@ -49,8 +55,8 @@ import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.ms_case.result.NetResultContainer;
-import com.interpss.core.ms_case.result.NetworkResult;
+import com.interpss.core.ms_case.MultiStudyCase;
+import com.interpss.core.ms_case.StudyCase;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
@@ -77,9 +83,10 @@ public class XmlScriptRunWorker {
   		if (parser.getModification() != null)
   			XmlNetParamModifier.applyModification2Net(simuCtx.getNetwork(), parser.getModification());
  
+  		RunStudyCaseXmlType studyCase = parser.getRunStudyCase(); 
 	  	IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
 	  	IPSSMsgHub msg = simuCtx.getMsgHub();
-		if (parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF ) {
+		if (studyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF ) {
 		  	if (parser.getRunAclfStudyCaseList().length > 0) {
 			  	if (parser.getRunAclfStudyCaseList().length == 1) {
 			  		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
@@ -87,7 +94,22 @@ public class XmlScriptRunWorker {
 				  	RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
 				  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 								  	
-					algo.loadflow(msg);
+					if (IpssGridGainUtil.isGridEnabled() && studyCase.getEnableGridRun()) {
+		  				Grid grid = IpssGridGainUtil.getDefaultGrid();
+		  				AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil.getAnyRemoteNodeId();
+		  	    		AbstractIpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
+		  				try {
+		  					String str = (String)IpssGridGainUtil.performGridTask(grid,
+		  									"InterPSS Grid Aclf Calculation", algo,	studyCase.getGridTimeout());
+		  	  				net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(str);
+		  				} catch (GridException e) {
+		  					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
+		  					return false;
+		  				}
+					}
+					else {
+						algo.loadflow(msg);
+					}
 				  	if (aclfCase.getDiaplaySummary()) {
 				  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 					  	dialog.display(net);
@@ -95,7 +117,7 @@ public class XmlScriptRunWorker {
 			  	}
 			  	else {
 			  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
-				  	NetResultContainer rNetContainer = CoreObjectFactory.createNetResultContainer();
+				  	MultiStudyCase mscase = CoreObjectFactory.createMultiStudyCase();
 				  	int cnt = 0;
 			  		for (RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
 						AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
@@ -103,12 +125,11 @@ public class XmlScriptRunWorker {
 					  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 									  	
 						algo.loadflow(msg);
-				  		NetworkResult rnet = CoreObjectFactory.createNetworkResult(aclfCase.getRecId(), ++cnt);
-				  		rnet.setSerializedString(SerializeEMFObjectUtil.saveModel(net));
-				  		rNetContainer.getNetResultList().add(rnet);
+				  		StudyCase scase = CoreObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+				  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 			  		}
 			  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-				  	dialog.display(rNetContainer);
+				  	dialog.display(mscase);
 			  	}
 		  	}
 		  	else {
@@ -116,7 +137,7 @@ public class XmlScriptRunWorker {
 				return false;
 		  	}
 		}
-		else if (parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC ) {
+		else if (studyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC ) {
 		  	if (parser.getRunAcscStudyCaseList().length > 0) {
 		  		SimpleFaultNetwork faultNet = simuCtx.getAcscFaultNet();
 			  	if (parser.getRunAcscStudyCaseList().length == 1) {
@@ -139,7 +160,7 @@ public class XmlScriptRunWorker {
 				return false;
 		  	}
 		}
-		else if (parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_D_STAB ) {
+		else if (studyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_D_STAB ) {
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(simuCtx.getDStabilityNet(), msg);
 		  	if (parser.getRunDStabStudyCaseList().length > 0) {
 			  	if (parser.getRunDStabStudyCaseList().length == 1) {
