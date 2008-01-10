@@ -77,35 +77,30 @@ public class IpssGridGainUtil {
 	 * @throws GridException
 	 */
     public static Object performGridTask(Grid grid, String desc, EObject model, long timeout) throws GridException {
-        Object result = null;
        	IpssLogger.getLogger().info("Begin to excute IpssGridTask " + desc + " ...");
        	IpssLogger.getLogger().info("Number of Grid Nodes: " + grid.getAllNodes().size());
        	try {
-       		/*
-       		if (model instanceof GridMultiStudyCase)
-           		// IpssMultiStudyCaseGridGainTask is designed to process the GridMultiStudyCase model
-           		// return a list of results object, for example AclfNetworkResult objects in serialized 
-           		// fromat (String) in no particular order
-           		result = grid.execute(IpssMultiStudyCaseGridGainTask.class.getName(), model, timeout).get();
-           	*/	
-           	if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork || 
-           			 model instanceof LoadflowAlgorithm)
-           		result = grid.execute(AssignJob2NodeAclfTask.class.getName(), model, timeout).get();
-           	else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm)
-          		result = grid.execute(AssignJob2NodeDStabTask.class.getName(), model, timeout).get();
+       		// Single Aclf Case
+       		if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork || 
+           		model instanceof LoadflowAlgorithm)
+           		return grid.execute(AssignJob2NodeAclfTask.class.getName(), model, timeout).get();
+           	// Single DStab case
+       		else if (model instanceof DStabilityNetwork || model instanceof DynamicSimuAlgorithm)
+          		return grid.execute(AssignJob2NodeDStabTask.class.getName(), model, timeout).get();
            	else if (model instanceof MultiStudyCase) {
+           		// Multiple Aclf Cases
            		if (((MultiStudyCase)model).getNetType() == SimuCtxType.ACLF_ADJ_NETWORK ||
            			((MultiStudyCase)model).getNetType() == SimuCtxType.ACLF_NETWORK)
-           			result = grid.execute(MultiCaseAclfTask.class.getName(), model, timeout).get();
+           			return grid.execute(MultiCaseAclfTask.class.getName(), model, timeout).get();
+           		// Multiple DStab cases
            		else if (((MultiStudyCase)model).getNetType() == SimuCtxType.DSTABILITY_NET)
-             		result = grid.execute(MultiCaseDStabTask.class.getName(), model, timeout).get();
+             		return grid.execute(MultiCaseDStabTask.class.getName(), model, timeout).get();
            	}
-           	IpssLogger.getLogger().info("End to excute IpssGridTask " + desc );
        	} catch (GridTaskTimeoutException e) {
        		IpssLogger.logErr(e);
        		throw new GridException("Grid computing timeout, please check the state of remote grid node(s)");
        	}
-        return result;
+        return null;
     }
 
     /**

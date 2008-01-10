@@ -61,8 +61,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			net = (AclfAdjNetwork) model;
 
 		// get serialized algo string from the task session
-		String algoStr = (String) getSession().getAttribute(
-				Constants.GridToken_AclfAlgo + net.getId());
+		String algoStr = (String) getSession().getAttribute(Constants.GridToken_AclfAlgo + net.getId());
 		//System.out.println(algoStr);
 		LoadflowAlgorithm algo;
 		if (algoStr != null) {
@@ -84,6 +83,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		algo.loadflow(SpringAppContext.getIpssMsgHub());
 
 		// send the calculated Aclf object back to the master node
+		net.setDesc(getGrid().getLocalNode().getId().toString());
 		return SerializeEMFObjectUtil.saveModel(net);
 	}
 }
