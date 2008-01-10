@@ -26,13 +26,13 @@ package org.interpss.editor.runAct;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.core.grid.gridgain.AbstractIpssGridGainTask;
-import org.interpss.core.grid.gridgain.IpssGridGainUtil;
-import org.interpss.core.grid.gridgain.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.gridgain.task.AbstractIpssGridGainTask;
+import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;

@@ -26,8 +26,8 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
-import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.ui.SwingInputVerifyUtil;
