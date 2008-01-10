@@ -30,7 +30,7 @@ import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
-import org.interpss.gridgain.task.AbstractIpssGridGainTask;
+import org.interpss.gridgain.task.assignJob.AbstractAssignJob2NodeTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -100,7 +100,7 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
     			assertTrue(nodeId != null);
     		
     		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
-    		AbstractIpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
+    		AbstractAssignJob2NodeTask.MasterNodeId = grid.getLocalNode().getId().toString();
     		
         	Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid, "Grid DStab 5-Bus Sample system", algo, 0);
         	assertTrue(rtn.booleanValue());
