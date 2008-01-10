@@ -73,6 +73,7 @@ public class XmlScriptRunWorker {
 	 * @return
 	 */
 	public static boolean runCase(String scripts, SimuContext simuCtx) {
+		// create the XML parser and parse the run scripts
 		IpssXmlParser parser;
 		try {
   			parser = new IpssXmlParser(scripts);
@@ -82,18 +83,21 @@ public class XmlScriptRunWorker {
 			return false;
 		}
 		
+		// Apply the modification to the base Network object
   		if (parser.getModification() != null)
   			XmlNetParamModifier.applyModification2Net(simuCtx.getNetwork(), parser.getModification());
  
-  		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase(); 
 	  	IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
 	  	IPSSMsgHub msg = simuCtx.getMsgHub();
+	  	
+  		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase(); 
 		if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF ) {
 		  	if (parser.getRunAclfStudyCaseList().length > 0) {
 			  	if (parser.getRunAclfStudyCaseList().length == 1) {
-			  		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
-			  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 				  	RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
+
+				  	AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+			  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 				  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 								  	
 					if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
@@ -112,43 +116,62 @@ public class XmlScriptRunWorker {
 					else {
 						algo.loadflow(msg);
 					}
+					
 				  	if (aclfCase.getDiaplaySummary()) {
 				  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 					  	dialog.display(net);
 				  	}
 			  	}
 			  	else {
+			  		// save the base case Network model to the netStr
 			  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
-				  	MultiStudyCase mscase = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
-				  	int cnt = 0;
+			  		// create a multi-case container
+			  		MultiStudyCase mCaseContainer = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+			  		int cnt = 0;
 			  		for (RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
+			  			// deserialize the base case
 						AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 						LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-					  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+					  	// map to the Algo object including network modification at case level
+						mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 
 					  	// net.id is used to retrieve study case info at remote node. so we need to
 					  	// sure net.id and studyCase.id are the same for Grid computing. 
 						net.setId(aclfCase.getRecId());
-				  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
-						if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
-							scase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
-						}
-						else {
-							algo.loadflow(msg);
-						}
-				  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
+				  		try {
+				  			StudyCase studyCase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mCaseContainer);
+							if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
+								// if Grid computing, save the Algo object to the study case object
+								studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
+							}
+							else {
+								// if not grid computing, perform Loadflow
+								algo.loadflow(msg);
+						  		studyCase.setDesc("Loadflow by Local Node");
+							}
+							// persist the AclfNet object to study case. It contains case level modification
+							// in the case of non grid computing, it contains Loadflow results
+					  		studyCase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
+				  		} catch (Exception e) {
+		  					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
+				  			return false;
+				  		}
 			  		}
 			  		
+			  		// if Grid computing, send the MultiCase container to perform remote grid computing
 					if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
 		  				Grid grid = IpssGridGainUtil.getDefaultGrid();
 		  				try {
-		  					Object[] strAry = (Object[])IpssGridGainUtil.performGridTask(grid,
-		  										"InterPSS Grid Aclf Calculation", mscase, xmlStudyCase.getGridTimeout());
-		  					for (Object obj : strAry) {
+		  					Object[] objAry = (Object[])IpssGridGainUtil.performGridTask(grid,
+		  										"InterPSS Grid Aclf Calculation", mCaseContainer, xmlStudyCase.getGridTimeout());
+		  					for (Object obj : objAry) {
 		  						String str = (String)obj;
+		  						// deserialize the AclfNet model string for Net.id
 		  						AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(str);
-		  						StudyCase studyCase = mscase.getStudyCase(net.getId());
+		  						// update StudyCase AclfNet model string from the result coming back from remote node.
+		  						StudyCase studyCase = mCaseContainer.getStudyCase(net.getId());
 		  						studyCase.setNetModelString(str);
+						  		studyCase.setDesc("Loadflow by Remote Node: " + IpssGridGainUtil.nodeNameLookup(net.getDesc()));
 		  					}
 		  				} catch (GridException e) {
 		  					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
@@ -157,7 +180,7 @@ public class XmlScriptRunWorker {
 					}
 			  		
 			  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-				  	dialog.display(mscase);
+				  	dialog.display(mCaseContainer);
 			  	}
 		  	}
 		  	else {
@@ -180,7 +203,7 @@ public class XmlScriptRunWorker {
 					RunActUtilFunc.displayAcscSummaryResult(faultNet);
 			  	}
 			  	else
-			  		for (RunDStabStudyCaseXmlType dstabCase : parser.getRunDStabStudyCaseList()) {
+			  		for (RunAcscStudyCaseXmlType acscCase : parser.getRunAcscStudyCaseList()) {
 			  		}
 		  	}
 		  	else {
