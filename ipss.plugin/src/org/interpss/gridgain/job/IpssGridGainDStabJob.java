@@ -1,7 +1,7 @@
  /*
-  * @(#)AssignJob2NodeDStabTask.java   
+  * @(#)IpssGridGainDStabJob.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  * Copyright (C) 2008 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2007
+  * @Date 01/15/2008
   * 
   *   Revision History
   *   ================
@@ -23,15 +23,10 @@
   */
 
 /*
- *  This Class is for performing grid computing on the GridMultiStudyCase model 
+ *  This Class is for performing grid computing for DStab network model 
  */
 
 package org.interpss.gridgain.job;
-
-/**
- *  An abstract GridTask for implement one node per task. The job will be assigned to
- *  the node identified by the nodeId attribute.  
- */
 
 import java.io.Serializable;
 
@@ -50,8 +45,13 @@ import com.interpss.dstab.util.IDStabSimuOutputHandler;
 public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 	private static final long serialVersionUID = 1;
 
-	public IpssGridGainDStabJob(String arg) {
-		super(arg);
+    /**
+     * Constructor
+     * 
+     * @param modelStr the string object sent to this job node 
+     */
+	public IpssGridGainDStabJob(String modelStr) {
+		super(modelStr);
 	}
 	
 	/**

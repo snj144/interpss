@@ -55,10 +55,20 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
     
     private static IPSSMsgHub msgHub = null;
     
-	public AbstractIpssGridGainJob(String arg) {
-		super(arg);
+    /**
+     * Constructor
+     * 
+     * @param modelStr the string object sent to this job node 
+     */
+	public AbstractIpssGridGainJob(String modelStr) {
+		super(modelStr);
 	}
  
+	/**
+	 * get the message object for sending msg to the msater node
+	 * 
+	 * @return
+	 */
 	protected IPSSMsgHub getMsgHub() {
 		if (msgHub == null) {
 			String masterNodeId = (String)session.getAttribute(Constants.GridToken_MasterNodeId);
@@ -81,10 +91,17 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
     
 	@Override
 	public Serializable execute() throws GridException {
-    	initEMFPackage();
-		String modelStr = getArgument();
-	    return performGridJob(modelStr);
+		// init EMF env for EMF object serialization/deserialization
+		initEMFPackage();
+		// call the method to perform the actual computation
+	    return performGridJob(getArgument());
     }
 
+	/**
+	 * The implemented by the concrete class to perform the actual computation at the remote node
+	 * 
+	 * @param modelStr model object string
+	 * @return string object returning back to the master node
+	 */
 	protected abstract Serializable performGridJob(String modelStr);
 }

@@ -200,8 +200,8 @@ public class IpssGridGainUtil {
      * From Grid node UDDI string to remote Logical node name lookup. If no name existing
      * a new name Logical Node-<Node Cnt> will be assigned to the grid node
      * 
-     * @param uid
-     * @return node name
+     * @param uid grid node UUID string
+     * @return node name 
      */
     public static String nodeNameLookup(String uid) {
     	String name = nodeNameLookupTable.get(uid); 
