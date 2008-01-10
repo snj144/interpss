@@ -29,7 +29,7 @@ import org.gridgain.grid.GridException;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
-import org.interpss.gridgain.task.AbstractIpssGridGainTask;
+import org.interpss.gridgain.task.assignJob.AbstractAssignJob2NodeTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -151,7 +151,7 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		Grid grid = IpssGridGainUtil.getDefaultGrid();
 		String nodeId = IpssGridGainUtil.nodeIdLookup(dStabCaseData.getGridNodeName());
 		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
-		AbstractIpssGridGainTask.MasterNodeId = grid.getLocalNode().getId().toString();
+		AbstractAssignJob2NodeTask.MasterNodeId = grid.getLocalNode().getId().toString();
 		
 		/*
 		 * The simuMsg sending from remote node to the master node will be routed
