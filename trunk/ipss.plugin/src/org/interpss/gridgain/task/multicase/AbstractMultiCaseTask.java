@@ -22,10 +22,6 @@
   *
   */
 
-/*
- *  This Class is for performing grid computing on the GridMultiStudyCase model 
- */
-
 package org.interpss.gridgain.task.multicase;
 
 /**

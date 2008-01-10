@@ -41,15 +41,27 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridNode;
-import org.interpss.gridgain.task.AbstractIpssGridGainTask;
+import org.gridgain.grid.GridTaskAdapter;
+import org.gridgain.grid.GridTaskSession;
+import org.gridgain.grid.resources.GridTaskSessionResource;
 
 import com.interpss.common.datatype.Constants;
 
-public abstract class AbstractAssignJob2NodeTask extends AbstractIpssGridGainTask<Object> {
+public abstract class AbstractAssignJob2NodeTask extends GridTaskAdapter<Object> {
 	private static final long serialVersionUID = 1;
 	
+    /** Grid task session will be injected. */
+    @GridTaskSessionResource
+    private GridTaskSession session = null;
+    
+	// Master node id
+	public static String MasterNodeId = "";
 	// Remote node id, the node will be assigned to perform the Task - One job task
 	public static String RemoteNodeId = "";
+
+	protected GridTaskSession getSession() {
+		return this.session;
+	}
 	
 	@Override
 	public Map<? extends GridJob, GridNode> map(List<GridNode> subgrid, Object model) throws GridException {

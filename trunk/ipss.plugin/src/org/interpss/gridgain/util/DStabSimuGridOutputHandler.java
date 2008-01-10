@@ -47,6 +47,12 @@ public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 	private IPSSMsgHub msgHub = null;
 	private String gridRunCaseId = "";
 	
+	/**
+	 * Constructor
+	 * 
+	 * @param msgHub a message router object, which routes the message to the master node
+	 * @param caseId remote grid node run case.id = net.id
+	 */
 	public DStabSimuGridOutputHandler(IPSSMsgHub msgHub, String caseId) {
 		this.msgHub = msgHub;
 		this.gridRunCaseId = caseId;

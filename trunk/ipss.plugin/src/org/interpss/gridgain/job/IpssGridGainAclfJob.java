@@ -1,7 +1,7 @@
  /*
-  * @(#)IpssGridGainAllfJob.java   
+  * @(#)IpssGridGainAclfJob.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  * Copyright (C) 2008 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2007
+  * @Date 01/15/2008
   * 
   *   Revision History
   *   ================
@@ -23,7 +23,7 @@
   */
 
 /*
- *  This Class is for performing grid computing on the GridMultiStudyCase model 
+ *  This Class is for performing grid computing for DStab network model 
  */
 
 package org.interpss.gridgain.job;
@@ -42,8 +42,13 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 	private static final long serialVersionUID = 1;
 
-	public IpssGridGainAclfJob(String arg) {
-		super(arg);
+    /**
+     * Constructor
+     * 
+     * @param modelStr the string object sent to this job node 
+     */	
+	public IpssGridGainAclfJob(String modelStr) {
+		super(modelStr);
 	}
 	
 	/**
