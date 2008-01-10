@@ -102,6 +102,8 @@
    	  <jar destfile="${lib_base}/custom/tsinghua.jar" 
    	  		basedir="${dev_base}/tsinghua/bin" 
    	  		excludes="CVS/**,model/**" />	
+	  <copy file="${dev_base}/ipss.lib/lib/ipss/ipss_schemas.jar" 
+		    todir="${lib_base}/ipss"/>
    	</target>	
 
     <target depends="init" description="copy sqlMap files to GEditor" name="copy_properties">
