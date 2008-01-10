@@ -50,7 +50,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.editor.EditorSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.doc.IpssDocument;
@@ -71,6 +70,7 @@ import org.interpss.editor.swing.tabbedpane.DoubleClickListener;
 import org.interpss.editor.util.ICommandRegistery;
 import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.jgraph.JGraph;
 
 import com.interpss.common.SpringAppContext;
