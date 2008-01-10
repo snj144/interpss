@@ -2,8 +2,8 @@ package org.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
-import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;

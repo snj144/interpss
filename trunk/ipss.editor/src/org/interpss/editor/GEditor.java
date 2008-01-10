@@ -24,13 +24,13 @@ import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import org.interpss.core.grid.gridgain.IpssGridGainUtil;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
 import org.interpss.editor.resources.BasicProperLoader;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.ui.Workspace;
