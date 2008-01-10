@@ -69,7 +69,14 @@
    	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${ipss_base}/ipss_plugin.jar" 
    	  		basedir="${dev_base}/ipss.plugin/runtime" 
+   	  		excludes="CVS/**,model/**" />
+   	  		
+   	  <jar destfile="${svn_lib}/ipss_xml.jar" 
+   	  		basedir="${dev_base}/ipss.xml/runtime" 
    	  		excludes="CVS/**,model/**" />	
+   	  <jar destfile="${ipss_base}/ipss_xml.jar" 
+   	  		basedir="${dev_base}/ipss.xml/runtime" 
+   	  		excludes="CVS/**,model/**" />   	  			
 
    	  <jar destfile="${svn_lib}/ipss_editor_simu.jar" 
    	  		basedir="${dev_base}/ipss.editor.simu/runtime" 
