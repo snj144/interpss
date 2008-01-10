@@ -102,6 +102,9 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         	textArea.setText("");
         	for (StudyCase scase : mcase.getStudyCaseList()) {
         		aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+        		textArea.append("\n");
+        		textArea.append(scase.getDesc() + "\n");
+        		textArea.append("\n");
         		textArea.append(AclfOutFunc.loadFlowSummary(aclfAdjNet));
         	}
             busStyleRadioButton.setEnabled(false);

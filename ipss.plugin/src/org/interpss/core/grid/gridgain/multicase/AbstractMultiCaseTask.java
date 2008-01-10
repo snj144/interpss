@@ -1,7 +1,7 @@
  /*
-  * @(#)AbstractAssignJob2NodeTask.java   
+  * @(#)AbstractMultiCaseTask.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  * Copyright (C) 2008 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2007
+  * @Date 01/15/2008
   * 
   *   Revision History
   *   ================
@@ -29,8 +29,7 @@
 package org.interpss.core.grid.gridgain.multicase;
 
 /**
- *  An abstract GridTask for implement one node per task. The job will be assigned to
- *  the node identified by the nodeId attribute.  
+ *  An abstract GridTask for implement multiple study cases. 
  */
 
 import java.util.List;
@@ -57,6 +56,9 @@ public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiSt
 		return this.session;
 	}
 	
+	/**
+	 * Multiple study case, return a String array
+	 */
 	@Override
 	public Object reduce(List<GridJobResult> results) throws GridException {
 		Object[] objList = new Object[results.size()];

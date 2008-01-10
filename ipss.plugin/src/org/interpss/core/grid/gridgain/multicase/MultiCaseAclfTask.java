@@ -1,7 +1,7 @@
  /*
-  * @(#)AssignJob2NodeAclfTask.java   
+  * @(#)MultiCaseAclfTask.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  * Copyright (C) 2008 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2007
+  * @Date 01/15/2008
   * 
   *   Revision History
   *   ================
@@ -40,15 +40,12 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 
-/**
- *  An abstract GridTask for implement one node per task. The job will be assigned to
- *  the node identified by the nodeId attribute.  
- */
-
-
 public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 	
+	/**
+	 * create a list jobs for remote node. The job will be assigned to the remote node randomly.
+	 */
 	@Override
 	protected Collection<? extends GridJob> split(int gridSize, MultiStudyCase model) throws GridException {
         // Send master node id to all remote nodes.
@@ -56,14 +53,15 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
       
         List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
         for (StudyCase studyCase : model.getStudyCaseList()) {
+        	// send the Aclf Net model (String) the remote node directly
         	IpssGridGainAclfJob job = new IpssGridGainAclfJob(studyCase.getNetModelString());
         	
+        	// send the AclfAlgo string to the remote node through the task session
         	// net.getId is used as the id for retrieving StudyCase info
 	        getSession().setAttribute(Constants.GridToken_AclfAlgo+studyCase.getId(), studyCase.getAclfAlgoModelString());
 
 	        jobList.add(job);
         }
-        
         return jobList;
      }	
 }
