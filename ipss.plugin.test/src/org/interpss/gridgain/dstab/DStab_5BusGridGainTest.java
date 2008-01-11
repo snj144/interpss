@@ -66,10 +66,8 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
         try {
         	Grid grid = GridFactory.getGrid();
         	
-        	GridMessageRouter msgRouter = new GridMessageRouter();
+        	GridMessageRouter msgRouter = new GridMessageRouter(msg);
         	grid.addMessageListener(msgRouter);
-
-        	msgRouter.setIPSSMsgHub(msg);
         	
     		Workspace.setCurrentType(Workspace.Type.Sample);
     		
