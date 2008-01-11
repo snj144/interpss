@@ -25,7 +25,6 @@
 package org.interpss.editor.runAct;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.interpss.display.AcscOutFunc;
@@ -34,6 +33,7 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.schema.RunDStabStudyCaseXmlType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -134,9 +134,8 @@ public class RunActUtilFunc {
 	public static Object[] getInterareaPControlList(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
 		List<String> list = new ArrayList<String>();
 		list.add(AllControlDevices);
-		Iterator e = adjNet.getAreaList().iterator();
-		while (e.hasNext()) {
-			Area a = (Area)e.next();
+		for (Object obj : adjNet.getAreaList()) {
+			Area a = (Area)obj;
 			if (a.getRegDeviceList().size() > 0) {
 				IRegulationDevice regDevice = (IRegulationDevice)a.getRegDeviceList().get(0);
 				if (regDevice.needAdjustment(a, adjNet, msg))
@@ -146,18 +145,55 @@ public class RunActUtilFunc {
 		return list.toArray();	
 	}
 	
+	/**
+	 * display fault analysis summary
+	 * 
+	 * @parem faultNet
+	 */
 	public static void displayAcscSummaryResult(SimpleFaultNetwork faultNet) {
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Short Circuit Analysis Result Summary");
   		dialog.display(AcscOutFunc.faultResult2String(faultNet));
 	}
 	
+	/**
+	 * Display Aclf summary if selected by the user
+	 * 
+	 * @param algo
+	 */
+	public static void displayAclfSummaryResult(DynamicSimuAlgorithm algo) {
+  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+  		dialog.display(algo);
+	}	
+	
+	/**
+	 * Create a DB output handler object for UI based DStab run. 
+	 * 
+	 * @param algo
+	 * @return
+	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(DynamicSimuAlgorithm algo) {
+		return createDBOutputHandler(algo, null);
+	}
+	
+	/**
+	 * Create a DB output handler object. If dstabXmlCase != null, it RecId will be appended to the db case name. 
+	 * 
+	 * @param algo
+	 * @param dstabXmlCase
+	 * @return
+	 */
+	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(DynamicSimuAlgorithm algo, RunDStabStudyCaseXmlType dstabXmlCase) {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler)algo.getSimuOutputHandler();
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		ProjData projData = (ProjData)appSimuCtx.getProjData();
-		// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
 		try {
-			if (!handler.init(projData.getProjectDbId(), projData.getDStabCaseName()+" SimuRecord"))
+			// to avoid conflict with StudyCase name, we add " SimuRecord" to the SimuRecord case.
+			String casename = "SimuRecord_";
+			if (dstabXmlCase != null)
+				casename += dstabXmlCase.getRecId();
+			else
+				casename += projData.getDStabCaseName();
+			if (!handler.init(projData.getProjectDbId(), casename))
 				return null;
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -167,17 +203,14 @@ public class RunActUtilFunc {
 		appSimuCtx.setDbSimuCaseId(handler.getDBCaseId());
 		return handler;
 	}
-	
+
 	/**
-	 * Display Aclf summary if selected by the user
+	 * Check DStab algo and DStab net data
 	 * 
-	 * @param simuCtx
+	 * @param algo
+	 * @param msg
+	 * @return
 	 */
-	public static void displayAclfSummaryResult(DynamicSimuAlgorithm algo) {
-  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-  		dialog.display(algo);
-	}	
-	
 	public static boolean checkDStabSimuData(DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
 		if (!algo.checkData(msg)) {
 			IpssLogger.getLogger().warning("DStab simulation data checking failed");

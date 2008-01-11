@@ -158,14 +158,13 @@ public class DStabRunForm extends BaseRunForm  implements ISimuCaseRunner {
 		 * by the router to the msg object. The simuMsg will be then routed to the 
 		 * DBSimuDataHandler
 		 */
-    	GridMessageRouter msgRouter = new GridMessageRouter();
+    	GridMessageRouter msgRouter = new GridMessageRouter(msg);
     	grid.addMessageListener(msgRouter);
-    	msgRouter.setIPSSMsgHub(msg);
     	
 		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
 		if (dstabDbHandler == null)
 			return false;
-    	msgRouter.setIDStabSimuDatabaseOutputHandler(dstabDbHandler);
+    	msgRouter.setDStabSimuDbOutputHandler(dstabDbHandler);
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(dstabDbHandler);
 		
 		// transfer output variable filter info to the DStabAlgo object, which then 
