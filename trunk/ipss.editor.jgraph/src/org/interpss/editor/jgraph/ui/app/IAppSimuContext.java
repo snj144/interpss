@@ -57,6 +57,7 @@ public interface IAppSimuContext {
 	Object getDStabRunForm();
 	
 	int getDbSimuCaseId();
+	int getDbSimuCaseId(String caseId);
 	
 	void setDbSimuCaseId(int n);
 	
