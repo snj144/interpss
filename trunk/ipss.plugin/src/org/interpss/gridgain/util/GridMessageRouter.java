@@ -59,25 +59,16 @@ public class GridMessageRouter implements GridMessageListener {
 	/**
 	 * Default constructor
 	 */
-	public GridMessageRouter() {
-	}
-
-	/**
-	 * Set the regular message handler for Info, Status, Warn, Error msg from remote
-	 * nodes
-	 * 
-	 * @param msg
-	 */
-	public void setIPSSMsgHub(IPSSMsgHub msg) {
+	public GridMessageRouter(IPSSMsgHub msg) {
 		this.msgHub = msg;
 	}
-	
+
 	/**
 	 * Set DStab message handler
 	 * 
 	 * @param msg
 	 */
-	public void setIDStabSimuDatabaseOutputHandler(IpssMsgListener msg) {
+	public void setDStabSimuDbOutputHandler(IpssMsgListener msg) {
 		this.dstabOutputHandler = msg;
 	}
 
