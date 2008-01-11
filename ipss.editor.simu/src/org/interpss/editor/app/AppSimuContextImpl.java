@@ -50,6 +50,8 @@ import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
+import com.interpss.dstab.util.DatabaseSimuOutputHandler;
+import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
 
@@ -317,6 +319,16 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	public int getDbSimuCaseId() {
 		return dbSimuCaseId;
 	}
+	
+	/**
+	 * @param run case id
+	 * @return Returns the dbSimuCaseId.
+	 */
+	public int getDbSimuCaseId(String caseId) {
+		IDStabSimuDatabaseOutputHandler handler = new DatabaseSimuOutputHandler();
+		return handler.getDBCaseId(caseId);
+	}	
+	
 	/**
 	 * @param dbSimuCaseId The dbSimuCaseId to set.
 	 */

@@ -306,9 +306,54 @@ public class XmlScriptRunWorker {
 					}
 				}
 		  	}
-		  	else
+		  	else {
+		  		// save the base case Network model to the netStr
+		  		String netStr = SerializeEMFObjectUtil.saveModel(dstabNet);
+		  		// create a multi-case container
+		  		MultiStudyCase mCaseContainer = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+		  		int cnt = 0;
 		  		for (RunDStabStudyCaseXmlType dstabCase : parser.getRunDStabStudyCaseList()) {
+		  			// deserialize the base case
+		  			DStabilityNetwork net = (DStabilityNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+			  		DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
+			  		// map the Xml study case to dstabAlgo, including modification to the network
+			  		mapper.mapping(dstabCase, dstabAlgo, RunDStabStudyCaseXmlType.class);
+			  		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
+			  			return false;
+					
+			  		// create a DB handler to store simulation result, a Db simu case will be created if not existed.
+			  		// db case id: dstabDbHandler.getDBCaseId()
+					IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(dstabAlgo, dstabCase);
+					if (dstabDbHandler == null)
+							return false;
+
+					// transfer output variable filter info to the DStabAlgo
+					// object, which then
+					// will be carried by the object to the remote grid node,
+					// setup if there is output filtering
+					dstabDbHandler.setOutputFilter(dstabAlgo.isOutputFilted());
+					if (dstabDbHandler.isOutputFilter())
+						dstabDbHandler.setOutputVarIdList(StringUtil
+								.convertStrAry2StrList(dstabAlgo
+										.getOutputVarIdList()));
+					dstabAlgo.setSimuOutputHandler(dstabDbHandler);
+
+					dstabAlgo.getDStabNet().setNetChangeListener(CoreSpringAppContext.getNetChangeHandler());
+
+					LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
+					aclfAlgo.loadflow(msg);
+					if (dstabCase.getAclfAlgorithm().getDiaplaySummary())
+						RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
+					if (!dstabAlgo.getDStabNet().isLfConverged()) {
+						msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
+						return false;
+					}
+
+					if (dstabAlgo.initialization(msg)) {
+						dstabAlgo.performSimulation(msg);
+					}
 		  		}
+		  	}
 	  	}
 	  	else {
   			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runDStabStudyCase element not defined");
