@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><umlet_diagram><help_text>//Uncomment the following line to change the fontsize:
+//fontsize=14
+
+//Welcome to UMLet!
+
+// *Double-click on UML elements to add them to the diagram.
+// *Edit element properties by modifying the text in this panel.
+// *Edit the files in the 'palettes' directory to store your own element palettes.
+// *Press Del or Backspace to remove elements from the diagram.
+// *Hold down Ctrl key to select multiple elements.
+// *Press c to copy the UML diagram to the system clipboard.
+// * This text will be stored with each diagram. Feel free to use the area for notes.
+</help_text><element><type>com.umlet.element.base.Relation</type><coordinates><x>87</x><y>300</y><w>143</w><h>80</h></coordinates><panel_attributes>lt=&gt;&gt;
+save to DB</panel_attributes><additional_attributes>123;20;53;20;53;60;123;60</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>52</x><y>410</y><w>178</w><h>110</h></coordinates><panel_attributes>lt=&gt;&gt;
+reduce to 
+MultiStudyCase
+if multi-case</panel_attributes><additional_attributes>158;20;68;20;68;90;158;90</additional_attributes></element><element><type>com.umlet.element.base.Note</type><coordinates><x>20</x><y>550</y><w>270</w><h>60</h></coordinates><panel_attributes>DStabNet and StudyCase correlation
+using the net.id = case.id</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>140</x><y>480</y><w>40</w><h>90</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;70</additional_attributes></element><element><type>com.umlet.element.custom.SeqObjectActive</type><coordinates><x>210</x><y>300</y><w>20</w><h>80</h></coordinates><panel_attributes/><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>360</y><w>40</w><h>70</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;50</additional_attributes></element><element><type>com.umlet.element.custom.SeqObjectActive</type><coordinates><x>210</x><y>410</y><w>20</w><h>110</h></coordinates><panel_attributes/><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>210</x><y>426</y><w>360</w><h>54</h></coordinates><panel_attributes>lt=&lt;
+status (Boolean)
+
+</panel_attributes><additional_attributes>20;34;340;34</additional_attributes></element><element><type>com.umlet.element.custom.SeqObjectActive</type><coordinates><x>550</x><y>310</y><w>20</w><h>60</h></coordinates><panel_attributes/><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>210</x><y>286</y><w>360</w><h>71</h></coordinates><panel_attributes>lt=&lt;
+simuResult(Msg String)
+Token | Msg (case.id)</panel_attributes><additional_attributes>20;34;340;34</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>210</x><y>96</y><w>360</w><h>71</h></coordinates><panel_attributes>lt=&lt;
+DStabNet(String)
+
+net.id = case.id
+</panel_attributes><additional_attributes>340;34;20;34</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>290</x><y>170</y><w>210</w><h>80</h></coordinates><panel_attributes>SessionAttrib
+--
+lfAlgo(case.id): String
+dstabAlgo(case.id): String
+
+masterNodeId: String
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.custom.SeqObjectActive</type><coordinates><x>210</x><y>110</y><w>20</w><h>170</h></coordinates><panel_attributes/><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>540</x><y>350</y><w>40</w><h>100</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;80</additional_attributes></element><element><type>com.umlet.element.custom.SeqObjectActive</type><coordinates><x>550</x><y>430</y><w>20</w><h>60</h></coordinates><panel_attributes/><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>260</y><w>40</w><h>60</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;40</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>540</x><y>260</y><w>40</w><h>70</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>210</x><y>250</y><w>360</w><h>40</h></coordinates><panel_attributes>lt=&lt;</panel_attributes><additional_attributes>340;20;20;20</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>510</x><y>30</y><w>100</w><h>50</h></coordinates><panel_attributes>DStab
+Remote Node
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>170</x><y>30</y><w>100</w><h>50</h></coordinates><panel_attributes>DStab
+
+Master Node
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>60</y><w>40</w><h>70</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;50</additional_attributes></element><element><type>com.umlet.element.custom.SeqObjectActive</type><coordinates><x>550</x><y>110</y><w>20</w><h>170</h></coordinates><panel_attributes/><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>540</x><y>60</y><w>40</w><h>70</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>20;20;20;50</additional_attributes></element></umlet_diagram>
