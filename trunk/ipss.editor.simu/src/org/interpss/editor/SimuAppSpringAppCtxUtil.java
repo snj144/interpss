@@ -1,26 +1,26 @@
- /*
-  * @(#)SimuAppSpringAppCtxUtil.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)SimuAppSpringAppCtxUtil.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2006
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.editor;
 
@@ -45,104 +45,112 @@ import com.interpss.simu.io.IpssFileAdapter;
 public class SimuAppSpringAppCtxUtil {
 	/**
 	 * Get the CaseInfoDialog(singleton) from the SpringAppContext.
-	 *  
+	 * 
 	 * @return the CaseInfoDialog object
-	 */	
+	 */
 	public static ICaseInfoDialog getCaseInfoDialog(String caseType) {
-		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog)SpringAppContext.SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
+		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog) SpringAppContext.SpringAppCtx
+				.getBean(Constants.SID_CaseInfoDialog);
 		caseInfoDialog.setCaseType(caseType);
 		return caseInfoDialog;
-	}	
+	}
 
 	/**
 	 * Get the CaseInfoDialog(singleton) from the SpringAppContext.
-	 *  
+	 * 
 	 * @return the CaseInfoDialog object
-	 */	
-	public static ICaseInfoDialog getCaseInfoDialog(String caseType, IGFormContainer netContainer, AppSimuContextImpl appCtx, boolean model) {
-		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog)SpringAppContext.SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
-		((JDialog)caseInfoDialog).setModal(model);
+	 */
+	public static ICaseInfoDialog getCaseInfoDialog(String caseType,
+			IGFormContainer netContainer, AppSimuContextImpl appCtx,
+			boolean model) {
+		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog) SpringAppContext.SpringAppCtx
+				.getBean(Constants.SID_CaseInfoDialog);
+		((JDialog) caseInfoDialog).setModal(model);
 		caseInfoDialog.setCaseType(caseType);
 		caseInfoDialog.init(netContainer, appCtx);
 		return caseInfoDialog;
 	}
-	
+
 	/**
 	 * This method will be retired. Use getCustomFileAdapterByName instead
-	 *  
+	 * 
 	 * @return the CustomFileAdapter object
-	 */	
+	 */
 	public static IpssFileAdapter getCustomFileAdapter(String ext) {
-		List adapterList = 	SimuAppSpringAppContext.getCustomFileAdapterList();
+		List adapterList = SimuAppSpringAppContext.getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			IpssFileAdapter adapter = (IpssFileAdapter)adapterList.get(i);
+			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			if (ext.equals(adapter.getExtension()))
 				return adapter;
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get a CustomFileAdapter(prototype) name list.
-	 *  
+	 * 
 	 * @return the CustomFileAdapter name list
-	 */	
+	 */
 	public static Object[] getCustomFileAdapterNameList() {
 		List nameList = new ArrayList();
-		List adapterList = 	SimuAppSpringAppContext.getCustomFileAdapterList();
+		List adapterList = SimuAppSpringAppContext.getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			IpssFileAdapter adapter = (IpssFileAdapter)adapterList.get(i);
+			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			nameList.add(adapter.getName());
 		}
 		return nameList.toArray();
 	}
-	
+
 	/**
 	 * Get a CustomFileAdapter(prototype) name list.
-	 *  
+	 * 
 	 * @return the CustomFileAdapter name list
-	 */	
+	 */
 	public static IpssFileAdapter getCustomFileAdapterByName(String name) {
-		List adapterList = 	SimuAppSpringAppContext.getCustomFileAdapterList();
+		List adapterList = SimuAppSpringAppContext.getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			IpssFileAdapter adapter = (IpssFileAdapter)adapterList.get(i);
+			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			if (name.equals(adapter.getName()))
 				return adapter;
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Get the Project Date editor
-	 *  
+	 * 
 	 * @return the editor object
 	 */
-	public static IFormDataDialog getProjectDataEditor(IGFormContainer netContainer, IProjectData projData, boolean modal) {
+	public static IFormDataDialog getProjectDataEditor(
+			IGFormContainer netContainer, IProjectData projData, boolean modal) {
 		IFormDataDialog editor = GraphSpringAppContext.getProjectDataEditor();
-		((JDialog)editor).setModal(false);
-        editor.init(netContainer, projData);
+		((JDialog) editor).setModal(false);
+		editor.init(netContainer, projData);
 		return editor;
-	}	
-	
+	}
+
 	/**
 	 * Get the Bus Date editor
-	 *  
+	 * 
 	 * @return the editor object
 	 */
-	public static IFormDataDialog getBusDataEditor(IGFormContainer netContainer, IGBusForm form, boolean modal) {
+	public static IFormDataDialog getBusDataEditor(
+			IGFormContainer netContainer, IGBusForm form, boolean modal) {
 		IFormDataDialog editor = GraphSpringAppContext.getBusDataEditor();
-		((JDialog)editor).setModal(false);
+		((JDialog) editor).setModal(false);
 		editor.init(netContainer, form);
 		return editor;
-	}		
+	}
+
 	/**
 	 * Get the Branch Date editor
-	 *  
+	 * 
 	 * @return the editor object
 	 */
-	public static IFormDataDialog getBranchDataEditor(IGFormContainer netContainer, IGBranchForm form, boolean modal) {
+	public static IFormDataDialog getBranchDataEditor(
+			IGFormContainer netContainer, IGBranchForm form, boolean modal) {
 		IFormDataDialog editor = GraphSpringAppContext.getBranchDataEditor();
-		((JDialog)editor).setModal(false);
+		((JDialog) editor).setModal(false);
 		editor.init(netContainer, form);
 		return editor;
 	}
