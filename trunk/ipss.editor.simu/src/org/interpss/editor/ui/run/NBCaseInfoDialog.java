@@ -32,7 +32,7 @@ import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
-import org.interpss.editor.runAct.DStabRunForm;
+import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.editor.ui.ICaseInfoDialog;
 
 import com.interpss.common.SpringAppContext;

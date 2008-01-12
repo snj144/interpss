@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.editor.runAct;
+package org.interpss.editor.runAct.ui;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
