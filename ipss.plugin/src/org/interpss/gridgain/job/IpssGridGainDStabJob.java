@@ -45,15 +45,15 @@ import com.interpss.dstab.util.IDStabSimuOutputHandler;
 public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 	private static final long serialVersionUID = 1;
 
-    /**
-     * Constructor
-     * 
-     * @param modelStr the string object sent to this job node 
-     */
+	/**
+	 * Constructor
+	 * 
+	 * @param modelStr the string object sent to this job node 
+	 */
 	public IpssGridGainDStabJob(String modelStr) {
 		super(modelStr);
 	}
-	
+
 	/**
 	 * perform the actual grid job computation
 	 * 
