@@ -28,6 +28,8 @@ import org.apache.xmlbeans.XmlException;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.task.assignJob.AbstractAssignJob2NodeTask;
@@ -43,6 +45,7 @@ import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -232,30 +235,14 @@ public class XmlScriptRunWorker {
 
 	private static boolean runDStab(IpssXmlParser parser, SimuContext simuCtx, IPSSMsgHub msg) {
 		DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
-		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
   		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase(); 
 
 	  	if (parser.getRunDStabStudyCaseList().length > 0) {
 		  	if (parser.getRunDStabStudyCaseList().length == 1) {
 			  	RunDStabStudyCaseXmlType dstabCase = parser.getRunDStabStudyCaseList()[0];
 		  		DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(dstabNet, msg);
-		  		// map the Xml study case to dstabAlgo, including modification to the network
-		  		mapper.mapping(dstabCase, dstabAlgo, RunDStabStudyCaseXmlType.class);
-		  		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
+		  		if (!configDStaAlgo(dstabAlgo, dstabCase, msg))
 		  			return false;
-				
-		  		// create a DB handler to store simulation result, a Db simu case will be created if not existed.
-		  		// db case id: dstabDbHandler.getDBCaseId()
-				IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(dstabAlgo, dstabCase);
-				if (dstabDbHandler == null)
-					return false;
-
-				// transfer output variable filter info to the DStabAlgo object, which then 
-				// will be carried by the object to the remote grid node, setup if there is output filtering
-				dstabDbHandler.setOutputFilter(dstabAlgo.isOutputFilted());
-				if (dstabDbHandler.isOutputFilter()) 
-					dstabDbHandler.setOutputVarIdList(StringUtil.convertStrAry2StrList(dstabAlgo.getOutputVarIdList()));
-				dstabAlgo.setSimuOutputHandler(dstabDbHandler);
 
 				if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
 					// get any remote node
@@ -270,12 +257,9 @@ public class XmlScriptRunWorker {
 					 */
 			    	GridMessageRouter msgRouter = new GridMessageRouter(msg);
 			    	grid.addMessageListener(msgRouter);
-			    	msgRouter.setDStabSimuDbOutputHandler(dstabDbHandler);
+			    	msgRouter.setDStabSimuDbOutputHandler(dstabAlgo.getSimuOutputHandler());
 
 					try {
-						// make sure net.id defined here. It has to be unique if run multiple grid runs
-						dstabNet.setId(dstabCase.getRecId());
-						dstabDbHandler.addDBCaseId(dstabCase.getRecId(), dstabDbHandler.getDBCaseId());
 						Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid,
 												"InterPSS Transient Stability Simulation", dstabAlgo, xmlStudyCase.getGridTimeout());
 						// init the Net object for plotting purpose. it is inited at the remote grid node
@@ -290,68 +274,35 @@ public class XmlScriptRunWorker {
 					}
 				}
 				else {
-					dstabAlgo.getDStabNet().setNetChangeListener(CoreSpringAppContext.getNetChangeHandler());
-					
-					LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-					aclfAlgo.loadflow(msg);
-			  		if (dstabCase.getAclfAlgorithm().getDiaplaySummary())
-			  			RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
-				  	if (!dstabAlgo.getDStabNet().isLfConverged()) {
-				  		msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
-				  		return false;
-				  	}
-
-				  	if (dstabAlgo.initialization(msg)) {
-					  	dstabAlgo.performSimulation(msg);
-					}
+					runLocalDStabRun(dstabAlgo, dstabCase, msg);
 				}
 		  	}
+		  	/*
+		  	 * Multi-DStab run case
+		  	 * ====================
+		  	 */
 		  	else {
+				IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+				appSimuCtx.setLastRunType(SimuRunType.ScriptsMultiCase);
+
 		  		// save the base case Network model to the netStr
 		  		String netStr = SerializeEMFObjectUtil.saveModel(dstabNet);
 		  		// create a multi-case container
-		  		MultiStudyCase mCaseContainer = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+		  		MultiStudyCase mCaseContainer = SimuObjectFactory.createMultiStudyCase(SimuCtxType.DSTABILITY_NET);
 		  		int cnt = 0;
 		  		for (RunDStabStudyCaseXmlType dstabCase : parser.getRunDStabStudyCaseList()) {
 		  			// deserialize the base case
 		  			DStabilityNetwork net = (DStabilityNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			  		DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
-			  		// map the Xml study case to dstabAlgo, including modification to the network
-			  		mapper.mapping(dstabCase, dstabAlgo, RunDStabStudyCaseXmlType.class);
-			  		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
+			  		if (!configDStaAlgo(dstabAlgo, dstabCase, msg))
 			  			return false;
-					
-			  		// create a DB handler to store simulation result, a Db simu case will be created if not existed.
-			  		// db case id: dstabDbHandler.getDBCaseId()
-					IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(dstabAlgo, dstabCase);
-					if (dstabDbHandler == null)
-							return false;
 
-					// transfer output variable filter info to the DStabAlgo
-					// object, which then
-					// will be carried by the object to the remote grid node,
-					// setup if there is output filtering
-					dstabDbHandler.setOutputFilter(dstabAlgo.isOutputFilted());
-					if (dstabDbHandler.isOutputFilter())
-						dstabDbHandler.setOutputVarIdList(StringUtil
-								.convertStrAry2StrList(dstabAlgo
-										.getOutputVarIdList()));
-					dstabAlgo.setSimuOutputHandler(dstabDbHandler);
-
-					dstabAlgo.getDStabNet().setNetChangeListener(CoreSpringAppContext.getNetChangeHandler());
-
-					LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-					aclfAlgo.loadflow(msg);
-					if (dstabCase.getAclfAlgorithm().getDiaplaySummary())
-						RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
-					if (!dstabAlgo.getDStabNet().isLfConverged()) {
-						msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
-						return false;
+					if (IpssGridGainUtil.isGridEnabled() && xmlStudyCase.getEnableGridRun()) {
 					}
-
-					if (dstabAlgo.initialization(msg)) {
-						dstabAlgo.performSimulation(msg);
+					else {
+						runLocalDStabRun(dstabAlgo, dstabCase, msg);
 					}
+					simuCtx.setDStabilityNet(dstabNet);
 		  		}
 		  	}
 	  	}
@@ -359,6 +310,53 @@ public class XmlScriptRunWorker {
   			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runDStabStudyCase element not defined");
 			return false;
 	  	}
+		return true;
+	}
+	
+	private static boolean configDStaAlgo(DynamicSimuAlgorithm dstabAlgo, RunDStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
+  		// map the Xml study case data to dstabAlgo, including modification to the network model data
+		IpssMapper mapper = SimuAppSpringAppContext.getRunForm2AlgorithmMapper();
+  		mapper.mapping(dstabCase, dstabAlgo, RunDStabStudyCaseXmlType.class);
+  		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
+  			return false;  // if something is wrong, we stop running here
+
+  		// create a DB handler to store simulation result, a Db simu case will be created if not existed.
+  		// to get db case id: dstabDbHandler.getDBCaseId()
+		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc.createDBOutputHandler(dstabAlgo, dstabCase);
+		if (dstabDbHandler == null)
+				return false;
+
+		// correlate net.id, case.id and dbCaseId
+		dstabAlgo.getDStabNet().setId(dstabCase.getRecId());
+		dstabDbHandler.addDBCaseId(dstabCase.getRecId(), dstabDbHandler.getDBCaseId());
+		
+		// transfer output variable filter info to the DStabAlgo object, which then
+		// will be carried by the object to the remote grid node, in case of grid computing 
+		dstabDbHandler.setOutputFilter(dstabAlgo.isOutputFilted());
+		if (dstabDbHandler.isOutputFilter())
+			dstabDbHandler.setOutputVarIdList(StringUtil
+					.convertStrAry2StrList(dstabAlgo.getOutputVarIdList()));
+		
+		// set the DB handler to the algo object
+		dstabAlgo.setSimuOutputHandler(dstabDbHandler);
+		return true;
+	}
+
+	private static boolean runLocalDStabRun(DynamicSimuAlgorithm dstabAlgo, RunDStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
+		dstabAlgo.getDStabNet().setNetChangeListener(CoreSpringAppContext.getNetChangeHandler());
+
+		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
+		aclfAlgo.loadflow(msg);
+		if (dstabCase.getAclfAlgorithm().getDiaplaySummary())
+			RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
+		if (!dstabAlgo.getDStabNet().isLfConverged()) {
+			msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
+			return false;
+		}
+
+		if (dstabAlgo.initialization(msg)) {
+			dstabAlgo.performSimulation(msg);
+		}
 		return true;
 	}
 }
