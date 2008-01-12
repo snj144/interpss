@@ -42,15 +42,15 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 	private static final long serialVersionUID = 1;
 
-    /**
-     * Constructor
-     * 
-     * @param modelStr the string object sent to this job node 
-     */	
+	/**
+	 * Constructor
+	 * 
+	 * @param modelStr the string object sent to this job node 
+	 */
 	public IpssGridGainAclfJob(String modelStr) {
 		super(modelStr);
 	}
-	
+
 	/**
 	 * perform the actual grid job computation
 	 * 
@@ -65,7 +65,8 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			net = (AclfAdjNetwork) model;
 
 		// get serialized algo string from the task session
-		String algoStr = (String) getSession().getAttribute(Constants.GridToken_AclfAlgo + net.getId());
+		String algoStr = (String) getSession().getAttribute(
+				Constants.GridToken_AclfAlgo + net.getId());
 		//System.out.println(algoStr);
 		LoadflowAlgorithm algo;
 		if (algoStr != null) {

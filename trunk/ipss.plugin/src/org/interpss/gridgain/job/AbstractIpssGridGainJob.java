@@ -45,25 +45,25 @@ import com.interpss.simu.SimuObjectFactory;
 
 public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	private static final long serialVersionUID = 1;
-	
-    /** Grid task session will be injected. */
-    @GridTaskSessionResource
-    private GridTaskSession session = null;
-    
-    @GridInstanceResource
-    private Grid grid = null;
-    
-    private static IPSSMsgHub msgHub = null;
-    
-    /**
-     * Constructor
-     * 
-     * @param modelStr the string object sent to this job node 
-     */
+
+	/** Grid task session will be injected. */
+	@GridTaskSessionResource
+	private GridTaskSession session = null;
+
+	@GridInstanceResource
+	private Grid grid = null;
+
+	private static IPSSMsgHub msgHub = null;
+
+	/**
+	 * Constructor
+	 * 
+	 * @param modelStr the string object sent to this job node 
+	 */
 	public AbstractIpssGridGainJob(String modelStr) {
 		super(modelStr);
 	}
- 
+
 	/**
 	 * get the message object for sending msg to the msater node
 	 * 
@@ -71,31 +71,33 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	 */
 	protected IPSSMsgHub getMsgHub() {
 		if (msgHub == null) {
-			String masterNodeId = (String)session.getAttribute(Constants.GridToken_MasterNodeId);
-			msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId, TextMessage.TYPE_INFO);
+			String masterNodeId = (String) session
+					.getAttribute(Constants.GridToken_MasterNodeId);
+			msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId,
+					TextMessage.TYPE_INFO);
 		}
 		return msgHub;
 	}
-	
-    protected GridTaskSession getSession() {
-    	return session;
-    }
 
-    protected Grid getGrid() {
-    	return grid;
-    }
-    
-    protected void initEMFPackage() {
-    	SimuObjectFactory.initEMFPackage();
+	protected GridTaskSession getSession() {
+		return session;
 	}
-    
+
+	protected Grid getGrid() {
+		return grid;
+	}
+
+	protected void initEMFPackage() {
+		SimuObjectFactory.initEMFPackage();
+	}
+
 	@Override
 	public Serializable execute() throws GridException {
 		// init EMF env for EMF object serialization/deserialization
 		initEMFPackage();
 		// call the method to perform the actual computation
-	    return performGridJob(getArgument());
-    }
+		return performGridJob(getArgument());
+	}
 
 	/**
 	 * The implemented by the concrete class to perform the actual computation at the remote node
