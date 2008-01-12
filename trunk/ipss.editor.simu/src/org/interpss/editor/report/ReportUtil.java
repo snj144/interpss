@@ -1,26 +1,26 @@
- /*
-  * @(#)ReportUtil.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)ReportUtil.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2006
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.editor.report;
 
@@ -38,11 +38,14 @@ public class ReportUtil {
 		/*
 		 * start the busy indicator
 		 */
-		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
-		appStatus.busyStart(Constants.StatusBusyIndicatorPeriod, "Editor is displaying report ...", "");
+		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor()
+				.getAppStatus();
+		appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+				"Editor is displaying report ...", "");
 
-		IpssRptViewer.getDefault().loadReport(IpssReportFactory.createReport(rptType, 
-				GraphSpringAppContext.getIpssGraphicEditor().getVersion()));
+		IpssRptViewer.getDefault().loadReport(
+				IpssReportFactory.createReport(rptType, GraphSpringAppContext
+						.getIpssGraphicEditor().getVersion()));
 
 		/*
 		 * stop the busy indicator
@@ -50,7 +53,8 @@ public class ReportUtil {
 		appStatus.busyStop("Report displayed");
 	}
 
-	public static String getDefaultReportType(IGNetForm form, SimuRunType lastRunType, boolean nsFault) {
+	public static String getDefaultReportType(IGNetForm form,
+			SimuRunType lastRunType, boolean nsFault) {
 		if (form.getAppType().equals(IGNetForm.AppType_Distribution)) {
 			if (lastRunType == SimuRunType.Acsc)
 				return IpssReportFactory.RPT_TYPE_ACSC3PFAULT;
@@ -75,16 +79,14 @@ public class ReportUtil {
 		String name = "unknown";
 		if (type.equals(IpssReportFactory.RPT_TYPE_ACLFSUMMARY)) {
 			name = Translator.getString("Report.Name.AclfSummary");
-		} 
-		else if (type.equals(IpssReportFactory.RPT_TYPE_ACLFBUSSTYLE)) {
+		} else if (type.equals(IpssReportFactory.RPT_TYPE_ACLFBUSSTYLE)) {
 			name = Translator.getString("Report.Name.AclfIeeeBusStyle");
-		} 
-		else if (type.equals(IpssReportFactory.RPT_TYPE_ACSC3PFAULT)) {
+		} else if (type.equals(IpssReportFactory.RPT_TYPE_ACSC3PFAULT)) {
 			name = Translator.getString("Report.Name.Acsc3PFault");
-		} 
-		else if (type.equals(IpssReportFactory.RPT_TYPE_ACSCNSFAULT)) {
+		} else if (type.equals(IpssReportFactory.RPT_TYPE_ACSCNSFAULT)) {
 			name = Translator.getString("Report.Name.AcscNSFault");
-		} 
-		return name+"_"+projectName+"."+Translator.getString("ReportFileExtension");
+		}
+		return name + "_" + projectName + "."
+				+ Translator.getString("ReportFileExtension");
 	}
 }
