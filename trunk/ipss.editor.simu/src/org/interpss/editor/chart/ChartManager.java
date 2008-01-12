@@ -43,6 +43,7 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.rec.BaseSimuDBRecord;
@@ -63,16 +64,34 @@ import com.interpss.simu.SimuCtxType;
  
 public class ChartManager {
 	public static void addPopupMenuAction(JPopupMenu menu, final Object cell) {
-		menu.addSeparator();
+		final IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 
-		if (cell instanceof BusCell) { 
+		if (cell == null && appSimuCtx.getLastRunType() == SimuRunType.ScriptsMultiCase) {
+			menu.addSeparator();
+			IpssLogger.getLogger().info("No element selected for addPopupMenuAction()");
+			JMenu simuCaseMenu = new JMenu("Select SimuCase");
+			menu.add(simuCaseMenu);
+			String[] caseIdList = appSimuCtx.getSimuCaseIdList();
+			for (final String str : caseIdList) {
+				if (appSimuCtx.getDbSimuCaseId(str) != appSimuCtx.getDbSimuCaseId()) {
+					simuCaseMenu.add(new AbstractAction(str) {
+						private static final long serialVersionUID = 1L;
+						public void actionPerformed(ActionEvent e) {
+							appSimuCtx.setDbSimuCaseId(appSimuCtx.getDbSimuCaseId(str));
+						}
+					});
+				}
+			}
+		}
+		else if (cell instanceof BusCell) { 
+			menu.addSeparator();
 			final IGBusForm bus = ((BusCell)cell).getBusForm();
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-			SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET &&
 					simuCtx.getDistNet().getLoadNetData().getSchedulePoints() > 0 &&
 					appSimuCtx.isLfConverged()) {
 				menu.add(new AbstractAction("Plot Load Curve") {
+					private static final long serialVersionUID = 1L;
 					public void actionPerformed(ActionEvent e) {
 						ChartManager.chartBusLoadCurve(bus.getId());
 					}
@@ -123,12 +142,14 @@ public class ChartManager {
 			final String yLabel = (String)stateList[i];
 			final String yDataLabel = getMachDataLabel(mach, yLabel, baseFreq, baseKva);
 			machStateMenu.add(new AbstractAction("Plot Machine State - " + yLabel) {
+				private static final long serialVersionUID = 1L;
 				public void actionPerformed(ActionEvent e) {
 				    plotStateCurve(caseId, mach.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabMachineStates);
 				}
 			});
 		}
 		machStateMenu.add(new AbstractAction("Machine State Table Output") {
+			private static final long serialVersionUID = 1L;
 			ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
 			public void actionPerformed(ActionEvent e) {
 				List<BaseSimuDBRecord> machRecList = null;
@@ -168,6 +189,7 @@ public class ChartManager {
 				str = getPssDataLabel(mach, yLabel);
 			final String yDataLabel = str;
 			excStateMenu.add(new AbstractAction("Plot " + name + " State - " + yLabel) {
+				private static final long serialVersionUID = 1L;
 				public void actionPerformed(ActionEvent e) {
 				    plotStateCurve(caseId, mach.getId()+idExt, yLabel, yDataLabel, recType);
 				}
@@ -305,6 +327,7 @@ public class ChartManager {
 			final String yLabel = (String)stateList[i];
 			final String yDataLabel = getBusDataLabel(bus, yLabel, baseKva);
 			busStateMenu.add(new AbstractAction("Plot Bus Variable - " + yLabel) {
+				private static final long serialVersionUID = 1L;
 				public void actionPerformed(ActionEvent e) {
 				    plotStateCurve(caseId, bus.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabBusStates);
 				}
@@ -320,6 +343,7 @@ public class ChartManager {
 			final String yLabel = (String)stateList[i];
 			final String yDataLabel = yLabel;
 			deviceStateMenu.add(new AbstractAction("Plot Dynamic Bus Device Variable - " + yLabel) {
+				private static final long serialVersionUID = 1L;
 				public void actionPerformed(ActionEvent e) {
 				    plotStateCurve(caseId, device.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
 				}

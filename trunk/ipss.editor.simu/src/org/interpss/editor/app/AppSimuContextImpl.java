@@ -329,6 +329,10 @@ public class AppSimuContextImpl implements IAppSimuContext {
 		return handler.getDBCaseId(caseId);
 	}	
 	
+	public String[] getSimuCaseIdList() {
+		IDStabSimuDatabaseOutputHandler handler = new DatabaseSimuOutputHandler();
+		return handler.getCaseIdList();
+	}
 	/**
 	 * @param dbSimuCaseId The dbSimuCaseId to set.
 	 */
