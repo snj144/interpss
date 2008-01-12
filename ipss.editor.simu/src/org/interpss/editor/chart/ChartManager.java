@@ -62,124 +62,162 @@ import com.interpss.dstab.util.DStabSimuDBRecord;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
  
+
 public class ChartManager {
 	public static void addPopupMenuAction(JPopupMenu menu, final Object cell) {
-		final IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
+		final IAppSimuContext appSimuCtx = GraphSpringAppContext
+				.getIpssGraphicEditor().getCurrentAppSimuContext();
+		SimuContext simuCtx = (SimuContext) appSimuCtx.getSimuCtx();
 
-		if (cell == null && appSimuCtx.getLastRunType() == SimuRunType.ScriptsMultiCase) {
+		if (cell == null
+				&& appSimuCtx.getLastRunType() == SimuRunType.ScriptsMultiCase) {
 			menu.addSeparator();
-			IpssLogger.getLogger().info("No element selected for addPopupMenuAction()");
+			IpssLogger.getLogger().info(
+					"No element selected for addPopupMenuAction()");
 			JMenu simuCaseMenu = new JMenu("Select SimuCase");
 			menu.add(simuCaseMenu);
 			String[] caseIdList = appSimuCtx.getSimuCaseIdList();
 			for (final String str : caseIdList) {
-				if (appSimuCtx.getDbSimuCaseId(str) != appSimuCtx.getDbSimuCaseId()) {
+				if (appSimuCtx.getDbSimuCaseId(str) != appSimuCtx
+						.getDbSimuCaseId()) {
 					simuCaseMenu.add(new AbstractAction(str) {
 						private static final long serialVersionUID = 1L;
+
 						public void actionPerformed(ActionEvent e) {
-							appSimuCtx.setDbSimuCaseId(appSimuCtx.getDbSimuCaseId(str));
+							appSimuCtx.setDbSimuCaseId(appSimuCtx
+									.getDbSimuCaseId(str));
 						}
 					});
 				}
 			}
-		}
-		else if (cell instanceof BusCell) { 
+		} else if (cell instanceof BusCell) {
 			menu.addSeparator();
-			final IGBusForm bus = ((BusCell)cell).getBusForm();
-			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET &&
-					simuCtx.getDistNet().getLoadNetData().getSchedulePoints() > 0 &&
-					appSimuCtx.isLfConverged()) {
+			final IGBusForm bus = ((BusCell) cell).getBusForm();
+			if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET
+					&& simuCtx.getDistNet().getLoadNetData()
+							.getSchedulePoints() > 0
+					&& appSimuCtx.isLfConverged()) {
 				menu.add(new AbstractAction("Plot Load Curve") {
 					private static final long serialVersionUID = 1L;
+
 					public void actionPerformed(ActionEvent e) {
 						ChartManager.chartBusLoadCurve(bus.getId());
 					}
 				});
-			}
-			else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
+			} else if (simuCtx.getNetType() == SimuCtxType.DSTABILITY_NET) {
 				int caseId = appSimuCtx.getDbSimuCaseId();
-				if (caseId > 0 ) {
-					DStabBus dstabBus = simuCtx.getDStabilityNet().getDStabBus(bus.getId());
+				if (caseId > 0) {
+					DStabBus dstabBus = simuCtx.getDStabilityNet().getDStabBus(
+							bus.getId());
 					if (dstabBus.getMachine() != null) {
-					    addMachItem2ActionList(menu, dstabBus.getMachine(), caseId, 
-					    		simuCtx.getDStabilityNet().getFrequency(), simuCtx.getDStabilityNet().getBaseKva());
-					    addControllerItem2ActionList(menu, dstabBus.getMachine(), caseId, "Exciter", 
-					    		ISimuRecManager.REC_TYPE_DStabExcStates, DStabSimuDBRecord.EXCITER_ID_EXT, 
-					    		simuCtx.getDStabilityNet().getBaseKva());
-					    addControllerItem2ActionList(menu, dstabBus.getMachine(), caseId, "Governor", 
-					    		ISimuRecManager.REC_TYPE_DStabGovStates, DStabSimuDBRecord.GOVERNER_ID_EXT, 
-					    		simuCtx.getDStabilityNet().getBaseKva());
-					    addControllerItem2ActionList(menu, dstabBus.getMachine(), caseId, "Stabilizer", 
-					    		ISimuRecManager.REC_TYPE_DStabPssStates, DStabSimuDBRecord.STABILIZER_ID_EXT, 
-					    		simuCtx.getDStabilityNet().getBaseKva());
-					}
-					else if (dstabBus.getScriptDynamicBusDevice() != null) {
-					    addDynamicBusDeviceItem2ActionList(menu, dstabBus.getScriptDynamicBusDevice(), caseId, simuCtx.getDStabilityNet());
+						addMachItem2ActionList(menu, dstabBus.getMachine(),
+								caseId, simuCtx.getDStabilityNet()
+										.getFrequency(), simuCtx
+										.getDStabilityNet().getBaseKva());
+						addControllerItem2ActionList(menu, dstabBus
+								.getMachine(), caseId, "Exciter",
+								ISimuRecManager.REC_TYPE_DStabExcStates,
+								DStabSimuDBRecord.EXCITER_ID_EXT, simuCtx
+										.getDStabilityNet().getBaseKva());
+						addControllerItem2ActionList(menu, dstabBus
+								.getMachine(), caseId, "Governor",
+								ISimuRecManager.REC_TYPE_DStabGovStates,
+								DStabSimuDBRecord.GOVERNER_ID_EXT, simuCtx
+										.getDStabilityNet().getBaseKva());
+						addControllerItem2ActionList(menu, dstabBus
+								.getMachine(), caseId, "Stabilizer",
+								ISimuRecManager.REC_TYPE_DStabPssStates,
+								DStabSimuDBRecord.STABILIZER_ID_EXT, simuCtx
+										.getDStabilityNet().getBaseKva());
+					} else if (dstabBus.getScriptDynamicBusDevice() != null) {
+						addDynamicBusDeviceItem2ActionList(menu, dstabBus
+								.getScriptDynamicBusDevice(), caseId, simuCtx
+								.getDStabilityNet());
 					}
 					/*
 					else if (dstabBus.getScriptDBusDevice() != null) {
 					    addScriptDBusDeviceItem2ActionList(menu, dstabBus.getScriptDBusDevice(), caseId, simuCtx.getDStabilityNet());
 					}
-					*/
+					 */
 					else {
-					    addBusItem2ActionList(menu, dstabBus, caseId, simuCtx.getDStabilityNet().getBaseKva());
+						addBusItem2ActionList(menu, dstabBus, caseId, simuCtx
+								.getDStabilityNet().getBaseKva());
 					}
 				}
 			}
-		}	
+		}
 	}
-	
+
 	//===========================================
 	//  DStab Plot Functions
 	//===========================================
 
-    private static void addMachItem2ActionList(JPopupMenu menu, final Machine mach, final int caseId, double baseFreq, double baseKva) {
+	private static void addMachItem2ActionList(JPopupMenu menu,
+			final Machine mach, final int caseId, double baseFreq,
+			double baseKva) {
 		JMenu machStateMenu = new JMenu("Machine State");
 		menu.add(machStateMenu);
-		Object[] stateList = getStatesNameList(caseId, mach.getId(), ISimuRecManager.REC_TYPE_DStabMachineStates);
+		Object[] stateList = getStatesNameList(caseId, mach.getId(),
+				ISimuRecManager.REC_TYPE_DStabMachineStates);
 		for (int i = 0; i < stateList.length; i++) {
-			final String yLabel = (String)stateList[i];
-			final String yDataLabel = getMachDataLabel(mach, yLabel, baseFreq, baseKva);
-			machStateMenu.add(new AbstractAction("Plot Machine State - " + yLabel) {
+			final String yLabel = (String) stateList[i];
+			final String yDataLabel = getMachDataLabel(mach, yLabel, baseFreq,
+					baseKva);
+			machStateMenu.add(new AbstractAction("Plot Machine State - "
+					+ yLabel) {
 				private static final long serialVersionUID = 1L;
+
 				public void actionPerformed(ActionEvent e) {
-				    plotStateCurve(caseId, mach.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabMachineStates);
+					plotStateCurve(caseId, mach.getId(), yLabel, yDataLabel,
+							ISimuRecManager.REC_TYPE_DStabMachineStates);
 				}
 			});
 		}
 		machStateMenu.add(new AbstractAction("Machine State Table Output") {
 			private static final long serialVersionUID = 1L;
-			ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
+			ISimuRecManager simuRecManager = SpringAppContext
+					.getSimuRecManager();
+
 			public void actionPerformed(ActionEvent e) {
 				List<BaseSimuDBRecord> machRecList = null;
-	    		try {
-	    			simuRecManager.getSimuRecList(caseId, 
-		    				ISimuRecManager.REC_TYPE_DStabMachineStates, mach.getId(), IProjectDataManager.CaseType_DStabSimuRec);
-	    		} catch (Exception ex) {
-	    			IpssLogger.logErr(ex);
-	    			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList", 
-	    					ex.toString() + "\n Please contact InterPSS support");
-	    		}
+				try {
+					simuRecManager.getSimuRecList(caseId,
+							ISimuRecManager.REC_TYPE_DStabMachineStates, mach
+									.getId(),
+							IProjectDataManager.CaseType_DStabSimuRec);
+				} catch (Exception ex) {
+					IpssLogger.logErr(ex);
+					SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+							"Error to GetSimuRecList",
+							ex.toString()
+									+ "\n Please contact InterPSS support");
+				}
 				if (machRecList != null && machRecList.size() > 0) {
-					IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+					IAppSimuContext appSimuCtx = GraphSpringAppContext
+							.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.isSimuNetDataDirty()) {
-						SpringAppContext.getIpssMsgHub().sendWarnMsg("The SimuNetwork object is dirty. You may want to re-run the analysis");
+						SpringAppContext
+								.getIpssMsgHub()
+								.sendWarnMsg(
+										"The SimuNetwork object is dirty. You may want to re-run the analysis");
 					}
-			  		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Machine State Output");
-			  		dialog.display(machRecList);
+					IOutputTextDialog dialog = UISpringAppContext
+							.getOutputTextDialog("Machine State Output");
+					dialog.display(machRecList);
 				}
 			}
-		});    	
-    }
-    
-    private static void addControllerItem2ActionList(JPopupMenu menu, final Machine mach, 
-    		final int caseId, String name, final String recType, final String idExt, double baseKva) {
+		});
+	}
+
+	private static void addControllerItem2ActionList(JPopupMenu menu,
+			final Machine mach, final int caseId, String name,
+			final String recType, final String idExt, double baseKva) {
 		JMenu excStateMenu = new JMenu(name + " State");
 		menu.add(excStateMenu);
-		Object[] stateList = getStatesNameList(caseId, mach.getId()+idExt, recType);
+		Object[] stateList = getStatesNameList(caseId, mach.getId() + idExt,
+				recType);
 		for (int i = 0; i < stateList.length; i++) {
-			final String yLabel = (String)stateList[i];
+			final String yLabel = (String) stateList[i];
 			String str = "";
 			if (recType.equals(ISimuRecManager.REC_TYPE_DStabExcStates))
 				str = getExcDataLabel(mach, yLabel);
@@ -188,171 +226,192 @@ public class ChartManager {
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabPssStates))
 				str = getPssDataLabel(mach, yLabel);
 			final String yDataLabel = str;
-			excStateMenu.add(new AbstractAction("Plot " + name + " State - " + yLabel) {
+			excStateMenu.add(new AbstractAction("Plot " + name + " State - "
+					+ yLabel) {
 				private static final long serialVersionUID = 1L;
+
 				public void actionPerformed(ActionEvent e) {
-				    plotStateCurve(caseId, mach.getId()+idExt, yLabel, yDataLabel, recType);
+					plotStateCurve(caseId, mach.getId() + idExt, yLabel,
+							yDataLabel, recType);
 				}
 			});
-		}		
-    }
-    
-/*
-	public static final String OUT_SYMBOL_MACH_ID 		= "MachId";
-	public static final String OUT_SYMBOL_MACH_ANG 		= "Mach Ang";
-	public static final String OUT_SYMBOL_MACH_SPEED 	= "Mach Speed";
-	public static final String OUT_SYMBOL_MACH_PE 		= "Mach Pe";
-	public static final String OUT_SYMBOL_MACH_PM 		= "Mach Pm";
-	public static final String OUT_SYMBOL_MACH_Q 		= "Mach Q";
-	public static final String OUT_SYMBOL_MACH_E 		= "Mach E";
-	public static final String OUT_SYMBOL_MACH_EQ1 		= "Mach Eq1";
-	public static final String OUT_SYMBOL_MACH_EQ11 	= "Mach Eq11";
-	public static final String OUT_SYMBOL_MACH_ED1 		= "Mach Ed1";
-	public static final String OUT_SYMBOL_MACH_ED11 	= "Mach Ed11";
-*/     
-    public static String getMachDataLabel(Machine mach, String state, double baseFreq, double baseKva) {
-    	String id = "Machine Id:" + mach.getId() + ", ";
-    	String ratedV = Number2String.toStr("0.0",mach.getRatedVoltage());
-    	String rating = Number2String.toStr("0.0",mach.getRating()*baseKva/1000.0);
-    	String rpm = Number2String.toStr((int)(2.0*baseFreq*60.0/mach.getPoles()));
-    	String baseV = Number2String.toStr("0.0",mach.getDStabBus().getBaseVoltage());
-    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ANG)) 
-    		return id + "(Unit:Deg)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_SPEED))
-    		return id + "(Unit:PU, RPM:" + rpm + ")";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PE))
-    		return id + "(Unit:PU, Rating:" + rating + " mva)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PM))
-    		return id + "(Unit:PU, Rating:" + rating + " mva)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_Q ))
-    		return id + "(Unit:PU, Rating:" + rating + " mva)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_E))
-    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_EQ1))
-    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_EQ11))
-    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ED1))
-    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ED11))
-    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VMAG))
-    		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
-    		return id + "(Unit:Deg)";
-    	else
-    		return "unknown";
-    }
+		}
+	}
 
-    /*
+	/*
+	 public static final String OUT_SYMBOL_MACH_ID 		= "MachId";
+	 public static final String OUT_SYMBOL_MACH_ANG 		= "Mach Ang";
+	 public static final String OUT_SYMBOL_MACH_SPEED 	= "Mach Speed";
+	 public static final String OUT_SYMBOL_MACH_PE 		= "Mach Pe";
+	 public static final String OUT_SYMBOL_MACH_PM 		= "Mach Pm";
+	 public static final String OUT_SYMBOL_MACH_Q 		= "Mach Q";
+	 public static final String OUT_SYMBOL_MACH_E 		= "Mach E";
+	 public static final String OUT_SYMBOL_MACH_EQ1 		= "Mach Eq1";
+	 public static final String OUT_SYMBOL_MACH_EQ11 	= "Mach Eq11";
+	 public static final String OUT_SYMBOL_MACH_ED1 		= "Mach Ed1";
+	 public static final String OUT_SYMBOL_MACH_ED11 	= "Mach Ed11";
+	 */
+	public static String getMachDataLabel(Machine mach, String state,
+			double baseFreq, double baseKva) {
+		String id = "Machine Id:" + mach.getId() + ", ";
+		String ratedV = Number2String.toStr("0.0", mach.getRatedVoltage());
+		String rating = Number2String.toStr("0.0", mach.getRating() * baseKva
+				/ 1000.0);
+		String rpm = Number2String.toStr((int) (2.0 * baseFreq * 60.0 / mach
+				.getPoles()));
+		String baseV = Number2String.toStr("0.0", mach.getDStabBus()
+				.getBaseVoltage());
+		if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ANG))
+			return id + "(Unit:Deg)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_SPEED))
+			return id + "(Unit:PU, RPM:" + rpm + ")";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PE))
+			return id + "(Unit:PU, Rating:" + rating + " mva)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PM))
+			return id + "(Unit:PU, Rating:" + rating + " mva)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_Q))
+			return id + "(Unit:PU, Rating:" + rating + " mva)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_E))
+			return id + "(Unit:PU, Rated Voltage:" + ratedV + " Volts)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_EQ1))
+			return id + "(Unit:PU, Rated Voltage:" + ratedV + " Volts)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_EQ11))
+			return id + "(Unit:PU, Rated Voltage:" + ratedV + " Volts)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ED1))
+			return id + "(Unit:PU, Rated Voltage:" + ratedV + " Volts)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ED11))
+			return id + "(Unit:PU, Rated Voltage:" + ratedV + " Volts)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VMAG))
+			return id + "(Unit:PU, Voltage Base:" + baseV + " Volts)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
+			return id + "(Unit:Deg)";
+		else
+			return "unknown";
+	}
+
+	/*
 	public static final String OUT_SYMBOL_EXC_EFD 		= "Exciter Efd";
-*/    
-    public static String getExcDataLabel(Machine mach, String state) {
-    	String id = "Machine Id:" + mach.getId() + ", ";
-    	String ratedV = Number2String.toStr("0.0",mach.getRatedVoltage());
-    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_EXC_EFD))
-    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else
-    		return "unknown";
-    }
+	 */
+	public static String getExcDataLabel(Machine mach, String state) {
+		String id = "Machine Id:" + mach.getId() + ", ";
+		String ratedV = Number2String.toStr("0.0", mach.getRatedVoltage());
+		if (state.equals(DStabOutSymbol.OUT_SYMBOL_EXC_EFD))
+			return id + "(Unit:PU, Rated Voltage:" + ratedV + " Volts)";
+		else
+			return "unknown";
+	}
 
-    /*
+	/*
 	public static final String OUT_SYMBOL_GOV_PM 		= "Governor Pm";
-*/    
-    public static String getGovDataLabel(Machine mach, String state, double baseKva) {
-    	String id = "Machine Id:" + mach.getId() + ", ";
-    	String rating = Number2String.toStr("0.0",mach.getRating()*baseKva/1000.0);
-    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_GOV_PM))
-    		return id + "(Unit:PU, Rating:" + rating + " mva)";
-    	else
-    		return "unknown";
-    }
+	 */
+	public static String getGovDataLabel(Machine mach, String state,
+			double baseKva) {
+		String id = "Machine Id:" + mach.getId() + ", ";
+		String rating = Number2String.toStr("0.0", mach.getRating() * baseKva
+				/ 1000.0);
+		if (state.equals(DStabOutSymbol.OUT_SYMBOL_GOV_PM))
+			return id + "(Unit:PU, Rating:" + rating + " mva)";
+		else
+			return "unknown";
+	}
 
-    /*
+	/*
 	public static final String OUT_SYMBOL_PSS_VS 		= "PSS Vs";
-*/    
-    public static String getPssDataLabel(Machine mach, String state) {
-    	String id = "Machine Id:" + mach.getId() + ", ";
-    	String ratedV = Number2String.toStr("0.0",mach.getRatedVoltage());
-    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_PSS_VS))
-    		return id + "(Unit:PU, Rated Voltage:" + ratedV +" Volts)";
-    	else
-    		return "unknown";
-    }
+	 */
+	public static String getPssDataLabel(Machine mach, String state) {
+		String id = "Machine Id:" + mach.getId() + ", ";
+		String ratedV = Number2String.toStr("0.0", mach.getRatedVoltage());
+		if (state.equals(DStabOutSymbol.OUT_SYMBOL_PSS_VS))
+			return id + "(Unit:PU, Rated Voltage:" + ratedV + " Volts)";
+		else
+			return "unknown";
+	}
 
-    /*
+	/*
 	public static final String OUT_SYMBOL_BUS_VMAG 		= "Bus Volt Mag";
 	public static final String OUT_SYMBOL_BUS_VANG 		= "Bus Volt Ang";
 	public static final String OUT_SYMBOL_BUS_PLOAD 	= "Bus Load P";
 	public static final String OUT_SYMBOL_BUS_QLOAD 	= "Bus Load Q";
-*/    
-    public static String getBusDataLabel(Bus bus, String state, double baseKva) {
-    	String id = "Bus Id:" + bus.getId() + ", ";
-    	String baseV = Number2String.toStr("0.0", bus.getBaseVoltage());
-    	String baseMva = Number2String.toStr("0.0", baseKva/1000.0);
-    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VMAG))
-    		return id + "(Unit:PU, Voltage Base:" + baseV +" Volts)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
-    		return id + "(Unit:Deg)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_PLOAD))
-    		return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_QLOAD))
-    		return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
-    	else
-    		return "unknown";
-    }
+	 */
+	public static String getBusDataLabel(Bus bus, String state, double baseKva) {
+		String id = "Bus Id:" + bus.getId() + ", ";
+		String baseV = Number2String.toStr("0.0", bus.getBaseVoltage());
+		String baseMva = Number2String.toStr("0.0", baseKva / 1000.0);
+		if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VMAG))
+			return id + "(Unit:PU, Voltage Base:" + baseV + " Volts)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
+			return id + "(Unit:Deg)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_PLOAD))
+			return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_QLOAD))
+			return id + "(Unit:PU, Base Kva:" + baseMva + " mva)";
+		else
+			return "unknown";
+	}
 
-    private static double getAutoRangeMinimumSize(String state) {
-    	if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ANG) || 
-    	    state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
-    		return 10.0;
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_SPEED) ||
-    			 state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_FREQ))
-        	return 0.2;
-    	else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PE) ||
-                state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PM) ||
-                state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_Q ) ||
-        	    state.equals(DStabOutSymbol.OUT_SYMBOL_GOV_PM) ||
-        	    state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_PLOAD) ||
-        	    state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_QLOAD))
-       		return 0.2;
-    	return 1.0;
-    }
-    
-    private static void addBusItem2ActionList(JPopupMenu menu, final Bus bus, final int caseId, double baseKva) {
+	private static double getAutoRangeMinimumSize(String state) {
+		if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_ANG)
+				|| state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_VANG))
+			return 10.0;
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_SPEED)
+				|| state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_FREQ))
+			return 0.2;
+		else if (state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PE)
+				|| state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_PM)
+				|| state.equals(DStabOutSymbol.OUT_SYMBOL_MACH_Q)
+				|| state.equals(DStabOutSymbol.OUT_SYMBOL_GOV_PM)
+				|| state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_PLOAD)
+				|| state.equals(DStabOutSymbol.OUT_SYMBOL_BUS_QLOAD))
+			return 0.2;
+		return 1.0;
+	}
+
+	private static void addBusItem2ActionList(JPopupMenu menu, final Bus bus,
+			final int caseId, double baseKva) {
 		JMenu busStateMenu = new JMenu("Bus Variable");
 		menu.add(busStateMenu);
-		Object[] stateList = getStatesNameList(caseId, bus.getId(), ISimuRecManager.REC_TYPE_DStabBusStates);
+		Object[] stateList = getStatesNameList(caseId, bus.getId(),
+				ISimuRecManager.REC_TYPE_DStabBusStates);
 		for (int i = 0; i < stateList.length; i++) {
-			final String yLabel = (String)stateList[i];
+			final String yLabel = (String) stateList[i];
 			final String yDataLabel = getBusDataLabel(bus, yLabel, baseKva);
-			busStateMenu.add(new AbstractAction("Plot Bus Variable - " + yLabel) {
-				private static final long serialVersionUID = 1L;
-				public void actionPerformed(ActionEvent e) {
-				    plotStateCurve(caseId, bus.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabBusStates);
-				}
-			});
+			busStateMenu
+					.add(new AbstractAction("Plot Bus Variable - " + yLabel) {
+						private static final long serialVersionUID = 1L;
+
+						public void actionPerformed(ActionEvent e) {
+							plotStateCurve(caseId, bus.getId(), yLabel,
+									yDataLabel,
+									ISimuRecManager.REC_TYPE_DStabBusStates);
+						}
+					});
 		}
 	}
-    
-    private static void addDynamicBusDeviceItem2ActionList(JPopupMenu menu, final ScriptDynamicBusDevice device, final int caseId, DStabilityNetwork net) {
+
+	private static void addDynamicBusDeviceItem2ActionList(JPopupMenu menu,
+			final ScriptDynamicBusDevice device, final int caseId,
+			DStabilityNetwork net) {
 		JMenu deviceStateMenu = new JMenu("Dynamic Bus Device Variable");
 		menu.add(deviceStateMenu);
-		Object[] stateList = getStatesNameList(caseId, device.getId(), ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
+		Object[] stateList = getStatesNameList(caseId, device.getId(),
+				ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
 		for (int i = 0; i < stateList.length; i++) {
-			final String yLabel = (String)stateList[i];
+			final String yLabel = (String) stateList[i];
 			final String yDataLabel = yLabel;
-			deviceStateMenu.add(new AbstractAction("Plot Dynamic Bus Device Variable - " + yLabel) {
+			deviceStateMenu.add(new AbstractAction(
+					"Plot Dynamic Bus Device Variable - " + yLabel) {
 				private static final long serialVersionUID = 1L;
+
 				public void actionPerformed(ActionEvent e) {
-				    plotStateCurve(caseId, device.getId(), yLabel, yDataLabel, ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
+					plotStateCurve(caseId, device.getId(), yLabel, yDataLabel,
+							ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates);
 				}
 			});
 		}
 	}
 
-    /*
-    private static void addScriptDBusDeviceItem2ActionList(JPopupMenu menu, final ScriptingDBusDevice device, final int caseId, DStabilityNetwork net) {
+	/*
+	private static void addScriptDBusDeviceItem2ActionList(JPopupMenu menu, final ScriptingDBusDevice device, final int caseId, DStabilityNetwork net) {
 		JMenu deviceStateMenu = new JMenu("Script DBus Device Variable");
 		menu.add(deviceStateMenu);
 		Object[] stateList = getStatesNameList(caseId, device.getId(), ISimuRecManager.REC_TYPE_DStabScripDBusDeviceStates);
@@ -366,158 +425,187 @@ public class ChartManager {
 			});
 		}
 	}
-    */
-    /**
-     * Get plot element (Machine, Bus) state name list
-     * 
-     * @param caseId simulation case id
-     * @param elemId element id
-     * @param recType element record type
-     * @return a list of names
-     */
-    public static Object[] getStatesNameList(int caseId, String elemId, String recType) {
+	 */
+	/**
+	 * Get plot element (Machine, Bus) state name list
+	 * 
+	 * @param caseId simulation case id
+	 * @param elemId element id
+	 * @param recType element record type
+	 * @return a list of names
+	 */
+	public static Object[] getStatesNameList(int caseId, String elemId,
+			String recType) {
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
-    	try {
-    		elemRecList = simuRecManager.getSimuRecList(caseId, recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
+		try {
+			elemRecList = simuRecManager.getSimuRecList(caseId, recType,
+					elemId, IProjectDataManager.CaseType_DStabSimuRec);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList form DB", 
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+					"Error to GetSimuRecList form DB",
 					ex.toString() + "\n Please contact InterPSS support");
 			return null;
 		}
-		
+
 		if (elemRecList != null && elemRecList.size() > 0) {
-			DStabSimuDBRecord elemRec = (DStabSimuDBRecord)elemRecList.get(0);
-			Hashtable<String,String> elemStates = StringUtil.parseStr2Hashtable(elemRec.getSimuRec());
+			DStabSimuDBRecord elemRec = (DStabSimuDBRecord) elemRecList.get(0);
+			Hashtable<String, String> elemStates = StringUtil
+					.parseStr2Hashtable(elemRec.getSimuRec());
 			elemStates.remove(DStabOutSymbol.OUT_SYMBOL_TIME);
 			if (recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates))
 				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_MACH_ID);
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
 				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_BUS_ID);
-			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates)) {
+			else if (recType
+					.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates)) {
 				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_BUS_DEVICE_ID);
 				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_BUS_ID);
 			}
 			return elemStates.keySet().toArray();
 		}
 		return new Object[0];
-    }	
+	}
 
-    /**
-     * Plot state curve
-     * 
-     * @param caseId simulation case id
-     * @param elemId element id
-     * @param recType element record type
-     * @param yLabel state name
-     */
-    public static void plotStateCurve(int caseId, String elemId, String yLabel, String yDataLabel, String recType) {
-		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+	/**
+	 * Plot state curve
+	 * 
+	 * @param caseId simulation case id
+	 * @param elemId element id
+	 * @param recType element record type
+	 * @param yLabel state name
+	 */
+	public static void plotStateCurve(int caseId, String elemId, String yLabel,
+			String yDataLabel, String recType) {
+		IAppSimuContext appSimuCtx = GraphSpringAppContext
+				.getIpssGraphicEditor().getCurrentAppSimuContext();
 		if (appSimuCtx.isSimuNetDataDirty()) {
-			SpringAppContext.getIpssMsgHub().sendWarnMsg(
-					"The SimuNetwork object is dirty. Network data may have been modified. You may want to re-run the analysis.");
+			SpringAppContext
+					.getIpssMsgHub()
+					.sendWarnMsg(
+							"The SimuNetwork object is dirty. Network data may have been modified. You may want to re-run the analysis.");
 		}
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
-			elemRecList = simuRecManager.getSimuRecList(caseId,	recType, elemId, IProjectDataManager.CaseType_DStabSimuRec);
+			elemRecList = simuRecManager.getSimuRecList(caseId, recType,
+					elemId, IProjectDataManager.CaseType_DStabSimuRec);
 			/*
 			for (BaseSimuDBRecord rec : elemRecList) {
 				System.out.println(((DStabSimuDBRecord)rec).getSimuTime());
 			}
-			*/
+			 */
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to GetSimuRecList from DB", 
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+					"Error to GetSimuRecList from DB",
 					ex.toString() + "\n Please contact InterPSS support");
 			return;
 		}
-		
-		IpssLogger.getLogger().info("CaseId, elemId, state, recType: " + caseId + ", " + elemId + ", " + yLabel + ", " + recType);
-		IpssLogger.getLogger().info("Plot state: " + yLabel + ", # of records " + elemRecList.size());
-		
+
+		IpssLogger.getLogger().info(
+				"CaseId, elemId, state, recType: " + caseId + ", " + elemId
+						+ ", " + yLabel + ", " + recType);
+		IpssLogger.getLogger().info(
+				"Plot state: " + yLabel + ", # of records "
+						+ elemRecList.size());
+
 		SimpleOneStateChart plot = null;
 		if (recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
-					            true, "Machine State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext
+					.getIpssGraphicEditor().getFrame(), true,
+					"Machine State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabExcStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
-					            true, "Exciter State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext
+					.getIpssGraphicEditor().getFrame(), true,
+					"Exciter State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabGovStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
-					            true, "Governor State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext
+					.getIpssGraphicEditor().getFrame(), true,
+					"Governor State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabPssStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
-					            true, "Stabilizer State Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext
+					.getIpssGraphicEditor().getFrame(), true,
+					"Stabilizer State Curve Plot");
 		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), true, 
-					            "Bus Voltage State Curve Plot");
-		else if (recType.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates))
-			plot = new SimpleOneStateChart(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), 
-					            true, "Scripting Dynamic Bus Device Curve Plot");
+			plot = new SimpleOneStateChart(GraphSpringAppContext
+					.getIpssGraphicEditor().getFrame(), true,
+					"Bus Voltage State Curve Plot");
+		else if (recType
+				.equals(ISimuRecManager.REC_TYPE_DStabScriptBusDeviceStates))
+			plot = new SimpleOneStateChart(GraphSpringAppContext
+					.getIpssGraphicEditor().getFrame(), true,
+					"Scripting Dynamic Bus Device Curve Plot");
 
-    	double[] xdata = new double[elemRecList.size()];
-    	double[] ydata = new double[elemRecList.size()];
-    	for (int i = 0; i < elemRecList.size(); i++) {
-			DStabSimuDBRecord machRec = (DStabSimuDBRecord)elemRecList.get(i);
+		double[] xdata = new double[elemRecList.size()];
+		double[] ydata = new double[elemRecList.size()];
+		for (int i = 0; i < elemRecList.size(); i++) {
+			DStabSimuDBRecord machRec = (DStabSimuDBRecord) elemRecList.get(i);
 			xdata[i] = machRec.getSimuTime();
-			Hashtable<String, String> machStates = StringUtil.parseStr2Hashtable(machRec.getSimuRec());
-    		ydata[i] = new Double((String)machStates.get(yLabel)).doubleValue();
-    	}
+			Hashtable<String, String> machStates = StringUtil
+					.parseStr2Hashtable(machRec.getSimuRec());
+			ydata[i] = new Double((String) machStates.get(yLabel))
+					.doubleValue();
+		}
 
-    	// sort data points. They may be out of order in the case of Grid computing
-    	boolean done = false;
-   		while (!done) {
-   			done = true;
-   	    	for (int i = 0; i < elemRecList.size()-1; i++) {
-   	    		if (xdata[i] > xdata[i+1]) {
-   	    			double x = xdata[i+1], y = ydata[i+1];
-   	    			xdata[i+1] = xdata[i];
-   	    			ydata[i+1] = ydata[i];
-   	    			xdata[i] = x;
-   	    			ydata[i] = y;
-   	    			done = false;
-   	    		}
-   	    	}
-   		}
-   		/*
-    	for (int i = 0; i < elemRecList.size(); i++) {
-    		System.out.println("time, y: " + xdata[i] + "," + ydata[i]);
-	    }
-	    */
-	    plot.setPlotData(yLabel, yDataLabel, xdata, ydata, getAutoRangeMinimumSize(yLabel));
-		
-    	plot.createChart();
-    	plot.showChart();	    		
-    }
+		// sort data points. They may be out of order in the case of Grid computing
+		boolean done = false;
+		while (!done) {
+			done = true;
+			for (int i = 0; i < elemRecList.size() - 1; i++) {
+				if (xdata[i] > xdata[i + 1]) {
+					double x = xdata[i + 1], y = ydata[i + 1];
+					xdata[i + 1] = xdata[i];
+					ydata[i + 1] = ydata[i];
+					xdata[i] = x;
+					ydata[i] = y;
+					done = false;
+				}
+			}
+		}
+		/*
+		for (int i = 0; i < elemRecList.size(); i++) {
+		System.out.println("time, y: " + xdata[i] + "," + ydata[i]);
+		}
+		 */
+		plot.setPlotData(yLabel, yDataLabel, xdata, ydata,
+				getAutoRangeMinimumSize(yLabel));
 
-    //===========================================
+		plot.createChart();
+		plot.showChart();
+	}
+
+	//===========================================
 	//  Dist Plot Functions
 	//===========================================
 
 	private static void chartBusLoadCurve(String busid) {
-    	LoadScheduleChart plot = new LoadScheduleChart("Bus Load Schedule");
-    	
-    	SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
-    	DistNetwork distNet = simuCtx.getDistNet();
-    	DistBus distBus = (DistBus)distNet.getBus(busid);
-    	int size = distNet.getLoadNetData().getSchedulePoints();
-    	double[] vdata = new double[size];
-    	for (int i = 0; i < size; i++) {
-    		vdata[i] = ((Complex)distBus.getLoadBusData().getPointVoltageList().get(i)).abs();
-    	}
-    	plot.setVoltageData("voltage", vdata);
-    	
-    	double[] pdata = new double[size];
-    	double[] qdata = new double[size];
-    	for (int i = 0; i < size; i++) {
-    		pdata[i] = ((Complex)distBus.getLoadBusData().getLoadScheduleList().get(i)).getReal();
-    		qdata[i] = ((Complex)distBus.getLoadBusData().getLoadScheduleList().get(i)).getImaginary();
-    	}
-    	plot.setPQData("Load P%", "Load Q%", pdata, qdata);
+		LoadScheduleChart plot = new LoadScheduleChart("Bus Load Schedule");
 
-    	plot.createChart();
-    	plot.showChart();		
-	}    
+		SimuContext simuCtx = (SimuContext) GraphSpringAppContext
+				.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
+		DistNetwork distNet = simuCtx.getDistNet();
+		DistBus distBus = (DistBus) distNet.getBus(busid);
+		int size = distNet.getLoadNetData().getSchedulePoints();
+		double[] vdata = new double[size];
+		for (int i = 0; i < size; i++) {
+			vdata[i] = ((Complex) distBus.getLoadBusData()
+					.getPointVoltageList().get(i)).abs();
+		}
+		plot.setVoltageData("voltage", vdata);
+
+		double[] pdata = new double[size];
+		double[] qdata = new double[size];
+		for (int i = 0; i < size; i++) {
+			pdata[i] = ((Complex) distBus.getLoadBusData()
+					.getLoadScheduleList().get(i)).getReal();
+			qdata[i] = ((Complex) distBus.getLoadBusData()
+					.getLoadScheduleList().get(i)).getImaginary();
+		}
+		plot.setPQData("Load P%", "Load Q%", pdata, qdata);
+
+		plot.createChart();
+		plot.showChart();
+	}
 }
