@@ -55,11 +55,36 @@ public interface IAppSimuContext {
 	void setLastRunType(SimuRunType lastRunType);	
 	boolean hasLastRun();	
 	Object getDStabRunForm();
-	
+
+	/**
+	 * Get the current DStab simu case DB id 
+	 *  
+	 * @return
+	 */
 	int getDbSimuCaseId();
+	
+	/**
+	 * Set the current DStab simu case DB id
+	 * 
+	 * @param n db id
+	 */
+	void setDbSimuCaseId(int n);
+	
+	/**
+	 * Get Dstab simu DB id for the simu case id in multiple simu case 
+	 * 
+	 * @param caseId
+	 * @return
+	 */
 	int getDbSimuCaseId(String caseId);
 	
-	void setDbSimuCaseId(int n);
+	/**
+	 * Get simu case id list 
+	 * 
+	 * @return
+	 */
+	String[] getSimuCaseIdList();
+	
 	
 	/**
 	 * Check if the current AcscRunForm has a non-symmetric fault
