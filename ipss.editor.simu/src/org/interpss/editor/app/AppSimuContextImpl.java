@@ -43,8 +43,8 @@ import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
-import org.interpss.editor.runAct.AcscRunForm;
-import org.interpss.editor.runAct.DStabRunForm;
+import org.interpss.editor.runAct.ui.AcscRunForm;
+import org.interpss.editor.runAct.ui.DStabRunForm;
 
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.io.DBManager;

@@ -24,9 +24,9 @@
 
 package org.interpss.editor.mapper;
 
-import org.interpss.editor.runAct.AclfRunForm;
-import org.interpss.editor.runAct.AcscRunForm;
-import org.interpss.editor.runAct.DStabRunForm;
+import org.interpss.editor.runAct.ui.AclfRunForm;
+import org.interpss.editor.runAct.ui.AcscRunForm;
+import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.mapper.runCase.CaseData2AlgorithmMapperImpl;
 import org.interpss.mapper.runCase.Xml2AlgorithmMapperImpl;
 import org.interpss.mapper.runCase.Xml2DStabAlgorithmMapperImpl;

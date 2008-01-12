@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.editor.runAct;
+package org.interpss.editor.runAct.ui;
 
 import com.interpss.common.util.XmlUtil;
 

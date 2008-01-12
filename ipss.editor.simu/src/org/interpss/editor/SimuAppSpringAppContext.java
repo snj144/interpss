@@ -30,9 +30,9 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
-import org.interpss.editor.runAct.AclfRunForm;
-import org.interpss.editor.runAct.AcscRunForm;
-import org.interpss.editor.runAct.DStabRunForm;
+import org.interpss.editor.runAct.ui.AclfRunForm;
+import org.interpss.editor.runAct.ui.AcscRunForm;
+import org.interpss.editor.runAct.ui.DStabRunForm;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
