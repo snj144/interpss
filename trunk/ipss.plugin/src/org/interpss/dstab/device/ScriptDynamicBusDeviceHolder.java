@@ -1,26 +1,26 @@
- /*
-  * @(#)BaseCMLDynamicBusDevice.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 05/01/2007
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)BaseCMLDynamicBusDevice.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 05/01/2007
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.dstab.device;
 
@@ -42,18 +42,18 @@ import com.interpss.dstab.device.ScriptLangType;
 import com.interpss.dstab.device.impl.ScriptDynamicBusDeviceImpl;
 
 /**
- * This is place holder for a ScriptDynamicBusDevice implementation. The work will be delegated 
- * to the device object to perform. The original java code is stored in the object. the code
- * will be compiled to create the device object.
+ * This is place holder for a ScriptDynamicBusDevice implementation. The work
+ * will be delegated to the device object to perform. The original java code is
+ * stored in the object. the code will be compiled to create the device object.
  * 
  * @author mzhou
- *
+ * 
  */
 public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	private ScriptDynamicBusDevice device = null;
 	private String pluginName = "";
 	private String pluginDataXmlStr = "";
-	
+
 	public void setPluginName(String pluginName) {
 		this.pluginName = pluginName;
 	}
@@ -63,53 +63,66 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	}
 
 	/**
-	 * Generate Java code, compile code, load compile class and then delegate init to the 
-	 * created device object
+	 * Generate Java code, compile code, load compile class and then delegate
+	 * init to the created device object
 	 * 
-	 * @param abus the bus object
-	 * @param net the network object
-	 * @param msg the MessageHub object
-	 * @return false if there is anything wrong 
+	 * @param abus
+	 *            the bus object
+	 * @param net
+	 *            the network object
+	 * @param msg
+	 *            the MessageHub object
+	 * @return false if there is anything wrong
 	 */
 	public boolean initStates(DStabBus abus, Network net, IPSSMsgHub msg) {
 		super.initStates(abus, msg);
-		
-   		createDeviceObject();
-   		if (device != null)
-   			return device.initStates(abus, net, msg);
-   		else {
-   			msg.sendErrorMsg("ScriptDynamicBusDevice create error, device == null");
-   			return false;
-   		}
+
+		createDeviceObject();
+		if (device != null)
+			return device.initStates(abus, net, msg);
+		else {
+			msg
+					.sendErrorMsg("ScriptDynamicBusDevice create error, device == null");
+			return false;
+		}
 	}
 
 	/**
 	 * Solve a step of ODE of the device object
 	 * 
-	 * @param dt time step
-	 * @param method ODE solution method
-	 * @param abus the bus object
-	 * @param net the network object
-	 * @param msg the MessageHub object
-	 * @return false if there is anything wrong 
+	 * @param dt
+	 *            time step
+	 * @param method
+	 *            ODE solution method
+	 * @param abus
+	 *            the bus object
+	 * @param net
+	 *            the network object
+	 * @param msg
+	 *            the MessageHub object
+	 * @return false if there is anything wrong
 	 */
-	public boolean nextStep(double dt, DynamicSimuMethods method, Network net, IPSSMsgHub msg) {
+	public boolean nextStep(double dt, DynamicSimuMethods method, Network net,
+			IPSSMsgHub msg) {
 		return device.nextStep(dt, method, net, msg);
 	}
 
 	/**
-	 * Get the device output object, normally the inject cuerrent into the network 
+	 * Get the device output object, normally the inject cuerrent into the
+	 * network
 	 * 
-	 * @param abus the bus object
+	 * @param abus
+	 *            the bus object
 	 */
 	public Object getOutputObject() {
 		return device.getOutputObject();
 	}
 
 	/**
-	 * Get the device states 
+	 * Get the device states
 	 * 
-	 * @param abus the bus object
+	 * @param abus
+	 *            the bus object
 	 * @refMach the ref machine object
 	 */
 	public Hashtable<String, Object> getStates(Object refMach) {
@@ -119,29 +132,37 @@ public class ScriptDynamicBusDeviceHolder extends ScriptDynamicBusDeviceImpl {
 	/**
 	 * update device attributes
 	 * 
-	 * @param abus the bus object
-	 * @param netChange if there is any network change event
+	 * @param abus
+	 *            the bus object
+	 * @param netChange
+	 *            if there is any network change event
 	 * @return false if there is any problem
 	 */
-	public boolean updateAttributes(boolean netChange)  {
+	public boolean updateAttributes(boolean netChange) {
 		return device.updateAttributes(netChange);
 	}
-	
+
 	private void createDeviceObject() {
 		if (getScriptLang() == ScriptLangType.JAVA) {
-			String classname = ScriptJavacUtilFunc.createScriptingClassname(getId());
-			String javacode = getScripts().replaceFirst(ScriptJavacUtilFunc.Tag_Classname, classname);
+			String classname = ScriptJavacUtilFunc
+					.createScriptingClassname(getId());
+			String javacode = getScripts().replaceFirst(
+					ScriptJavacUtilFunc.Tag_Classname, classname);
 			try {
-				device = (ScriptDynamicBusDevice)MemoryJavaCompiler.javac( 
-						CoreScriptUtilFunc.ScriptDynamicBusControllerPackageName+classname, javacode);
+				device = (ScriptDynamicBusDevice) MemoryJavaCompiler
+						.javac(
+								CoreScriptUtilFunc.ScriptDynamicBusControllerPackageName
+										+ classname, javacode);
 			} catch (Exception e) {
 				IpssLogger.logErr(e);
 			}
-		}
-		else {
-			IpssLogger.getLogger().info("Create custom plugin: " + this.pluginName + " with data: " + this.pluginDataXmlStr);
-			device = (ScriptDynamicBusDevice)UISpringAppContext.getCustomDynamicBusDeviceScriptPlugin(this.pluginName);
-			((IScriptPluginEditing)device).setData(this.pluginDataXmlStr);
+		} else {
+			IpssLogger.getLogger().info(
+					"Create custom plugin: " + this.pluginName + " with data: "
+							+ this.pluginDataXmlStr);
+			device = (ScriptDynamicBusDevice) UISpringAppContext
+					.getCustomDynamicBusDeviceScriptPlugin(this.pluginName);
+			((IScriptPluginEditing) device).setData(this.pluginDataXmlStr);
 		}
 	}
 }

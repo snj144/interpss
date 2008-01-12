@@ -1,26 +1,26 @@
- /*
-  * @(#)AcscFormDataMapperImpl.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)AcscFormDataMapperImpl.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2006
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.mapper.editor;
 
@@ -38,7 +38,6 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
-import org.interpss.mapper.editor.AclfFormDataMapperImpl;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScGroundType;
@@ -50,8 +49,6 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
-import com.interpss.core.aclf.BaseAclfBranch;
-import com.interpss.core.aclf.BaseAclfBus;
 import com.interpss.core.acsc.AcscBranch;
 import com.interpss.core.acsc.AcscBus;
 import com.interpss.core.acsc.AcscLineAdapter;
@@ -67,72 +64,80 @@ import com.interpss.core.acsc.XfrConnectCode;
 import com.interpss.core.util.CoreUtilFunc;
 
 /**
- * Map functions for BaseNetForm, BaseBusForm, BaseBranchForm to/from Network, Bus, Branch simu objects
+ * Map functions for BaseNetForm, BaseBusForm, BaseBranchForm to/from Network,
+ * Bus, Branch simu objects
  */
 
-
 public class AcscFormDataMapperImpl {
-    /**
-     * Map the GNetContainer object to a SimpleFaultNetwork object
-     * 
-     * @param editNet the GFormContainer object
-     * @param msg the SessionMsg object
-     * @return a SimpleFaultNetwork object
-     */
-	public static SimpleFaultNetwork mapEditNet2AcscNet(GFormContainer editNet, IPSSMsgHub msg) {
-		SimpleFaultNetwork acscNet = CoreObjectFactory.createSimpleFaultNetwork();
+	/**
+	 * Map the GNetContainer object to a SimpleFaultNetwork object
+	 * 
+	 * @param editNet
+	 *            the GFormContainer object
+	 * @param msg
+	 *            the SessionMsg object
+	 * @return a SimpleFaultNetwork object
+	 */
+	public static SimpleFaultNetwork mapEditNet2AcscNet(GFormContainer editNet,
+			IPSSMsgHub msg) {
+		SimpleFaultNetwork acscNet = CoreObjectFactory
+				.createSimpleFaultNetwork();
 
-		BaseFormDataMapperImpl.setBaseNetInfo((GNetForm)editNet.getGNetForm(), acscNet);
-		
-		AcscNetData data = ((GNetForm)editNet.getGNetForm()).getAcscNetData();
+		BaseFormDataMapperImpl.setBaseNetInfo((GNetForm) editNet.getGNetForm(),
+				acscNet);
+
+		AcscNetData data = ((GNetForm) editNet.getGNetForm()).getAcscNetData();
 		if (data.isHasAclfData()) {
 			// all buese/branches are added in the following setup process
 			acscNet.setLfDataLoaded(true);
 			AclfFormDataMapperImpl.setAclfNetInfo(editNet, acscNet, msg);
-		}
-		else {
+		} else {
 			acscNet.setLfDataLoaded(false);
 		}
 
-		for ( Object obj : editNet.getBusFormList() ) {
+		for (Object obj : editNet.getBusFormList()) {
 			// For each AcscBus xml object, parse for an AcscBus form object
-			GBusForm busForm = (GBusForm)obj;
-			if (!acscNet.isLfDataLoaded()) 
+			GBusForm busForm = (GBusForm) obj;
+			if (!acscNet.isLfDataLoaded())
 				setAddBusForm2Net(busForm, acscNet);
 			else {
-				AcscBus bus = (AcscBus)acscNet.getBus(busForm.getId());
+				AcscBus bus = (AcscBus) acscNet.getBus(busForm.getId());
 				setBusInfo(busForm, bus, acscNet);
-			}	
-			//System.out.println("\nBus info, #:" + (i+1));
-			//System.out.println(busForm.toString());
+			}
+			// System.out.println("\nBus info, #:" + (i+1));
+			// System.out.println(busForm.toString());
 		}
 
-		for ( Object obj : editNet.getBranchFormList() ) {
-			// For each AcscBranch xml object, parse for an AcscBranch form object
-			GBranchForm branchForm = (GBranchForm)obj;
-			if (!acscNet.isLfDataLoaded()) 
+		for (Object obj : editNet.getBranchFormList()) {
+			// For each AcscBranch xml object, parse for an AcscBranch form
+			// object
+			GBranchForm branchForm = (GBranchForm) obj;
+			if (!acscNet.isLfDataLoaded())
 				setAddBranchForm2Net(branchForm, acscNet, msg);
 			else {
 				// TODO: multiple branch situation
-				AcscBranch branch = (AcscBranch)acscNet.getBranch(branchForm.getFromId(), branchForm.getToId());
+				AcscBranch branch = (AcscBranch) acscNet.getBranch(branchForm
+						.getFromId(), branchForm.getToId());
 				setBranchInfo(branchForm, branch, acscNet, msg);
-			}	
-			//System.out.println("\nBranch info, #:" + (i+1));
-			//System.out.println(branchForm.toString());
+			}
+			// System.out.println("\nBranch info, #:" + (i+1));
+			// System.out.println(branchForm.toString());
 		}
 
 		acscNet.setScDataLoaded(true);
-		// if load flow info loaded, the ckeckData will also perform checking for LF.
-		/* the checkData() need to be called at high level
-		if (!acscNet.checkData(msg)) {
-			msg.sendErrorMsg("AcscNetwork data ckeck error, \n" + acscNet.toString());
-			throw new InterpssRuntimeException("AcscAdjNetwork data ckeck error, \n" + acscNet.toString());
-		}
-		*/
-		//System.out.println(acscNet.net2String());
+		// if load flow info loaded, the ckeckData will also perform checking
+		// for LF.
+		/*
+		 * the checkData() need to be called at high level if
+		 * (!acscNet.checkData(msg)) { msg.sendErrorMsg("AcscNetwork data ckeck
+		 * error, \n" + acscNet.toString()); throw new
+		 * InterpssRuntimeException("AcscAdjNetwork data ckeck error, \n" +
+		 * acscNet.toString()); }
+		 */
+		// System.out.println(acscNet.net2String());
 		return acscNet;
 	}
-	
+
 	private static boolean setAddBusForm2Net(GBusForm form, AcscNetwork acscNet) {
 		AcscBus bus = CoreObjectFactory.createAcscBus(form.getId());
 		acscNet.addBus(bus);
@@ -141,71 +146,77 @@ public class AcscFormDataMapperImpl {
 		return setBusInfo(form, bus, acscNet);
 	}
 
-	private static boolean setAddBranchForm2Net(GBranchForm form, AcscNetwork acscNet, IPSSMsgHub msg) {
+	private static boolean setAddBranchForm2Net(GBranchForm form,
+			AcscNetwork acscNet, IPSSMsgHub msg) {
 		AcscBranch branch = CoreObjectFactory.createAcscBranch();
-	  	acscNet.addBranch(branch, form.getFromId(), form.getToId());
-		
+		acscNet.addBranch(branch, form.getFromId(), form.getToId());
+
 		BaseFormDataMapperImpl.setBaseBranchInfo(form, branch, acscNet);
 		return setBranchInfo(form, branch, acscNet, msg);
 	}
 
-	public static boolean setBusInfo(GBusForm formBus, AcscBus bus, AcscNetwork net) {
+	public static boolean setBusInfo(GBusForm formBus, AcscBus bus,
+			AcscNetwork net) {
 		AclfFormDataMapperImpl.setAclfBusFormInfo(formBus, bus, net);
 
 		AcscBusData busData = formBus.getAcscBusData();
 		if (busData.getScCode().equals(AcscBusData.ScCode_Contribute)) {
 			return setContributeBusFormInfo(busData, bus, net);
-		}
-		else if (busData.getScCode().equals(AcscBusData.ScCode_NonContribute)) {
+		} else if (busData.getScCode().equals(AcscBusData.ScCode_NonContribute)) {
 			return setNonContributeBusFormInfo(busData, bus, net);
-		}
-		else if (busData.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
+		} else if (busData.getScCode().equals(AcscBusData.ScCode_BusScripting)) {
 			bus.setScCode(BusScCode.SC_BUS_SCRIPTING);
 
 			if (busData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
-				String classname = ScriptJavacUtilFunc.createScriptingClassname(bus.getId());
-				String javacode = CoreScriptUtilFunc.parseAcscJavaCode(busData.getScripts(), classname, 
-						CoreScriptUtilFunc.Tag_AcscScriptBus_Baseclass, 
+				String classname = ScriptJavacUtilFunc
+						.createScriptingClassname(bus.getId());
+				String javacode = CoreScriptUtilFunc.parseAcscJavaCode(busData
+						.getScripts(), classname,
+						CoreScriptUtilFunc.Tag_AcscScriptBus_Baseclass,
 						CoreScriptUtilFunc.Tag_AcscScriptBus_Begin);
 				try {
-					bus.setExternalAcscBus((BaseAcscBus)MemoryJavaCompiler.javac( 
-							CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+					bus.setExternalAcscBus((BaseAcscBus) MemoryJavaCompiler
+							.javac(CoreScriptUtilFunc.AcscScriptingPackageName
+									+ "/" + classname, javacode));
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
 					return false;
 				}
+			} else {
+				Object plugin = UISpringAppContext
+						.getCustomAcscBusScriptPlugin(busData
+								.getScriptPluginName());
+				bus.setExternalAcscBus((BaseAcscBus) plugin);
 			}
-			else {
-				Object plugin = UISpringAppContext.getCustomAcscBusScriptPlugin(busData.getScriptPluginName());
-				bus.setExternalAcscBus((BaseAcscBus)plugin); 
-			}
-		}
-		else {
-			throw new InvalidParameterException("Wrong bus Branch type for mapping AcscBusInfo, type: " + busData.getScCode()); 
+		} else {
+			throw new InvalidParameterException(
+					"Wrong bus Branch type for mapping AcscBusInfo, type: "
+							+ busData.getScCode());
 		}
 		return true;
 	}
 
-	private static boolean setContributeBusFormInfo(AcscBusData busData, AcscBus bus, AcscNetwork net) {
+	private static boolean setContributeBusFormInfo(AcscBusData busData,
+			AcscBus bus, AcscNetwork net) {
 		bus.setScCode(BusScCode.CONTRIBUTE);
 		try {
-			setBusScZ(bus, net.getBaseKva(), 
-					busData.getZ1R(), busData.getZ1X(), 
-					busData.getZ2R(), busData.getZ2X(), 
-					busData.getZ0R(), busData.getZ0X(), 
-					UnitType.toUnit(busData.getZUnit()));
-			setBusScZg(bus, bus.getBaseVoltage(), net.getBaseKva(), 
-					busData.getGround().getCode(), 
-					busData.getGround().getR(), busData.getGround().getX(), 
-					UnitType.toUnit(busData.getGround().getUnit()));
+			setBusScZ(bus, net.getBaseKva(), busData.getZ1R(),
+					busData.getZ1X(), busData.getZ2R(), busData.getZ2X(),
+					busData.getZ0R(), busData.getZ0X(), UnitType.toUnit(busData
+							.getZUnit()));
+			setBusScZg(bus, bus.getBaseVoltage(), net.getBaseKva(), busData
+					.getGround().getCode(), busData.getGround().getR(), busData
+					.getGround().getX(), UnitType.toUnit(busData.getGround()
+					.getUnit()));
 			return true;
 		} catch (Exception e) {
-      		IpssLogger.logErr(e);
-      		throw new InterpssRuntimeException(e.toString());
+			IpssLogger.logErr(e);
+			throw new InterpssRuntimeException(e.toString());
 		}
 	}
 
-	private static boolean setNonContributeBusFormInfo(AcscBusData busData, AcscBus bus, AcscNetwork net) {
+	private static boolean setNonContributeBusFormInfo(AcscBusData busData,
+			AcscBus bus, AcscNetwork net) {
 		bus.setScCode(BusScCode.NON_CONTRI);
 		bus.setZ(Constants.LargeBusZ, SequenceCode.POSITIVE);
 		bus.setZ(Constants.LargeBusZ, SequenceCode.NEGATIVE);
@@ -215,113 +226,131 @@ public class AcscFormDataMapperImpl {
 		return true;
 	}
 
-	private static void setBusScZ(AcscBus bus, double baseKVA,
-						double r1,    double x1,
-						double r2,    double x2,
-						double r0,    double x0, 
-						byte zUnit	) {
+	private static void setBusScZ(AcscBus bus, double baseKVA, double r1,
+			double x1, double r2, double x2, double r0, double x0, byte zUnit) {
 		bus.setZ(new Complex(r1, x1), SequenceCode.POSITIVE, zUnit, baseKVA);
 		bus.setZ(new Complex(r2, x2), SequenceCode.NEGATIVE, zUnit, baseKVA);
 		bus.setZ(new Complex(r0, x0), SequenceCode.ZERO, zUnit, baseKVA);
 	}
 
 	private static void setBusScZg(AcscBus bus, double baseV, double baseKVA,
-						String   gType, double rg,    
-						double xg, byte zgUnit) {
-		bus.getGrounding().setCode(CoreUtilFunc.scGroundType2BusGroundCode(gType));
-		bus.getGrounding().setZ(new Complex(rg,xg), zgUnit, baseV, baseKVA);
+			String gType, double rg, double xg, byte zgUnit) {
+		bus.getGrounding().setCode(
+				CoreUtilFunc.scGroundType2BusGroundCode(gType));
+		bus.getGrounding().setZ(new Complex(rg, xg), zgUnit, baseV, baseKVA);
 	}
-	
-	public static boolean setBranchInfo(GBranchForm formBranch, AcscBranch branch, 
-							AcscNetwork net, IPSSMsgHub msg) {
-	  	AclfFormDataMapperImpl.setAclfBranchFormInfo(formBranch, branch, net, false, msg);
-	  	
-	  	AcscBranchData braData = formBranch.getAcscBranchData();
-		if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {   // line branch
+
+	public static boolean setBranchInfo(GBranchForm formBranch,
+			AcscBranch branch, AcscNetwork net, IPSSMsgHub msg) {
+		AclfFormDataMapperImpl.setAclfBranchFormInfo(formBranch, branch, net,
+				false, msg);
+
+		AcscBranchData braData = formBranch.getAcscBranchData();
+		if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) { // line
+																				// branch
 			return setAcscLineFormInfo(braData, branch, net, msg);
-		}
-		else if (braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_Xfr) || 
-				 braData.getLfCode().equals(IGBranchForm.TransBranchLfCode_PsXfr)) {   // psxfr branch
+		} else if (braData.getLfCode().equals(
+				IGBranchForm.TransBranchLfCode_Xfr)
+				|| braData.getLfCode().equals(
+						IGBranchForm.TransBranchLfCode_PsXfr)) { // psxfr
+																	// branch
 			return setAcscXfrFormInfo(braData, branch, net, msg);
-		}
-		else if (braData.getLfCode().equals(IGBranchForm.TransBranchCode_Scripting) &&
-				 branch instanceof AcscBranch) {
+		} else if (braData.getLfCode().equals(
+				IGBranchForm.TransBranchCode_Scripting)
+				&& branch instanceof AcscBranch) {
 			branch.setBranchCode(AclfBranchCode.BRANCH_SCRIPTING);
-			//branch.setScripts(data.getScripts());
+			// branch.setScripts(data.getScripts());
 
 			if (braData.getScriptLanguage() == AclfBusData.ScriptLanguage_Java) {
-				//branch.setScripts(data.getScripts());
-				String classname = ScriptJavacUtilFunc.createScriptingClassname(branch.getId());
-				String javacode = CoreScriptUtilFunc.parseAcscJavaCode(braData.getScripts(), classname, 
-						CoreScriptUtilFunc.Tag_AcscScriptBranch_Baseclass, 
+				// branch.setScripts(data.getScripts());
+				String classname = ScriptJavacUtilFunc
+						.createScriptingClassname(branch.getId());
+				String javacode = CoreScriptUtilFunc.parseAcscJavaCode(braData
+						.getScripts(), classname,
+						CoreScriptUtilFunc.Tag_AcscScriptBranch_Baseclass,
 						CoreScriptUtilFunc.Tag_AcscScriptBranch_Begin);
 				try {
-					branch.setExternalAcscBranch((BaseAcscBranch)MemoryJavaCompiler.javac( 
-						CoreScriptUtilFunc.AcscScriptingPackageName+"/"+classname, javacode));
+					branch
+							.setExternalAcscBranch((BaseAcscBranch) MemoryJavaCompiler
+									.javac(
+											CoreScriptUtilFunc.AcscScriptingPackageName
+													+ "/" + classname, javacode));
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
 					return false;
 				}
+			} else {
+				Object plugin = UISpringAppContext
+						.getCustomAcscBranchScriptPlugin(braData
+								.getScriptPluginName());
+				branch.setExternalAcscBranch((BaseAcscBranch) plugin);
 			}
-			else {
-				Object plugin = UISpringAppContext.getCustomAcscBranchScriptPlugin(braData.getScriptPluginName());
-				branch.setExternalAcscBranch((BaseAcscBranch)plugin); 
-			}
-		}
-		else {
-			throw new InvalidParameterException("Wrong Aclf Branch type for mapping AcscBranchInfo, type: " + braData.getLfCode()); 
+		} else {
+			throw new InvalidParameterException(
+					"Wrong Aclf Branch type for mapping AcscBranchInfo, type: "
+							+ braData.getLfCode());
 		}
 		return true;
 	}
 
-	private static boolean setAcscLineFormInfo(AcscBranchData branchData, AcscBranch branch, 
-						AcscNetwork net, IPSSMsgHub msg) {
+	private static boolean setAcscLineFormInfo(AcscBranchData branchData,
+			AcscBranch branch, AcscNetwork net, IPSSMsgHub msg) {
 		double baseV = branch.getFromAclfBus().getBaseVoltage();
-		AcscLineAdapter line = (AcscLineAdapter)branch.adapt(AcscLineAdapter.class);
-		line.setZ0( new Complex(branchData.getZ0R(), branchData.getZ0X()), 
-						UnitType.toUnit(branchData.getZ0Unit()), 
-						baseV, net.getBaseKva(), msg );
-		line.setHB0(branchData.getHalfShuntB0(), UnitType.toUnit(branchData.getHalfShuntB0Unit()), 
-						baseV, net.getBaseKva());
+		AcscLineAdapter line = (AcscLineAdapter) branch
+				.adapt(AcscLineAdapter.class);
+		line.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
+				UnitType.toUnit(branchData.getZ0Unit()), baseV, net
+						.getBaseKva(), msg);
+		line.setHB0(branchData.getHalfShuntB0(), UnitType.toUnit(branchData
+				.getHalfShuntB0Unit()), baseV, net.getBaseKva());
 		return true;
 	}
 
-	private static boolean setAcscXfrFormInfo(AcscBranchData branchData, AcscBranch branch, 
-							AcscNetwork net, IPSSMsgHub msg) {
-		double baseV = branch.getFromAclfBus().getBaseVoltage() > branch.getToAclfBus().getBaseVoltage()?
-				branch.getFromAclfBus().getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
-		AcscXfrAdapter xfr = (AcscXfrAdapter)branch.adapt(AcscXfrAdapter.class);
-		xfr.setZ0( new Complex(branchData.getZ0R(), branchData.getZ0X()), 
-						UnitType.toUnit(branchData.getZ0Unit()), 
-						baseV, net.getBaseKva(), msg );
-		
-		XfrConnectData connect = branchData.getFromXfrConnectData();
-		xfr.setFromConnectGroundZ(calXfrConnectCode(connect),
-				new Complex(connect.getGrounding().getR(), connect.getGrounding().getX()),  
-				UnitType.toUnit(connect.getGrounding().getUnit()), net.getBaseKva());
-		
-		connect = branchData.getToXfrConnectData();
-		xfr.setToConnectGroundZ(calXfrConnectCode(connect),
-				new Complex(connect.getGrounding().getR(), connect.getGrounding().getX()),  
-				UnitType.toUnit(connect.getGrounding().getUnit()), net.getBaseKva());
+	private static boolean setAcscXfrFormInfo(AcscBranchData branchData,
+			AcscBranch branch, AcscNetwork net, IPSSMsgHub msg) {
+		double baseV = branch.getFromAclfBus().getBaseVoltage() > branch
+				.getToAclfBus().getBaseVoltage() ? branch.getFromAclfBus()
+				.getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
+		AcscXfrAdapter xfr = (AcscXfrAdapter) branch
+				.adapt(AcscXfrAdapter.class);
+		xfr.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
+				UnitType.toUnit(branchData.getZ0Unit()), baseV, net
+						.getBaseKva(), msg);
 
- 		return true;
+		XfrConnectData connect = branchData.getFromXfrConnectData();
+		xfr.setFromConnectGroundZ(calXfrConnectCode(connect), new Complex(
+				connect.getGrounding().getR(), connect.getGrounding().getX()),
+				UnitType.toUnit(connect.getGrounding().getUnit()), net
+						.getBaseKva());
+
+		connect = branchData.getToXfrConnectData();
+		xfr.setToConnectGroundZ(calXfrConnectCode(connect), new Complex(connect
+				.getGrounding().getR(), connect.getGrounding().getX()),
+				UnitType.toUnit(connect.getGrounding().getUnit()), net
+						.getBaseKva());
+
+		return true;
 	}
-	
+
 	private static XfrConnectCode calXfrConnectCode(XfrConnectData connect) {
 		// connectCode : [Delta | Wye]
 		// groundCode : [SolidGrounded | ZGrounded | Ungrounded ]
-		if (connect.getCode().equals(XfrConnectData.Code_Delta)) 
-			// str set [ DeltaConnected | SolidGrounded | ZGrounded | Ungrounded ]
+		if (connect.getCode().equals(XfrConnectData.Code_Delta))
+			// str set [ DeltaConnected | SolidGrounded | ZGrounded | Ungrounded
+			// ]
 			return XfrConnectCode.DELTA;
 		else {
-			if (connect.getGrounding().getCode().equals(ScGroundType.GType_Ungrounded))
+			if (connect.getGrounding().getCode().equals(
+					ScGroundType.GType_Ungrounded))
 				return XfrConnectCode.WYE_UNGROUNDED;
-			else if (connect.getGrounding().getCode().equals(ScGroundType.GType_ZGrounded))
+			else if (connect.getGrounding().getCode().equals(
+					ScGroundType.GType_ZGrounded))
 				return XfrConnectCode.WYE_ZGROUNDED;
-			if (connect.getGrounding().getCode().equals(ScGroundType.GType_SolidGrounded))
+			if (connect.getGrounding().getCode().equals(
+					ScGroundType.GType_SolidGrounded))
 				return XfrConnectCode.WYE_SOLID_GROUNDED;
-		}	
-		throw new InvalidParameterException("Wrong input in AcscFormDataMapperImpl.calXfrConnectCode()"); 
+		}
+		throw new InvalidParameterException(
+				"Wrong input in AcscFormDataMapperImpl.calXfrConnectCode()");
 	}
 }
