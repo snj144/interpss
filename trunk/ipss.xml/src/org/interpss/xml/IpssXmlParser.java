@@ -1,26 +1,26 @@
 /*
-  * @(#)IpssXmlParser.java   
-  *
-  * Copyright (C) 2006-2007 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2007
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+ * @(#)IpssXmlParser.java   
+ *
+ * Copyright (C) 2006-2007 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2007
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.xml;
 
@@ -44,7 +44,7 @@ import com.interpss.common.datatype.UnitType;
 
 public class IpssXmlParser {
 	private InterPSSXmlType ipss = null;
-	
+
 	/**
 	 * Constructor using an Xml file
 	 * 
@@ -52,10 +52,10 @@ public class IpssXmlParser {
 	 * @throws Exception
 	 */
 	public IpssXmlParser(File xmlFile) throws Exception {
-		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlFile);	
-		this.ipss = ipssDoc.getInterPSS();		
+		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlFile);
+		this.ipss = ipssDoc.getInterPSS();
 	}
-	
+
 	/**
 	 * Constructor using an Xml string
 	 * 
@@ -63,8 +63,8 @@ public class IpssXmlParser {
 	 * @throws XmlException
 	 */
 	public IpssXmlParser(String xmlString) throws XmlException {
-		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlString);	
-		this.ipss = ipssDoc.getInterPSS();		
+		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlString);
+		this.ipss = ipssDoc.getInterPSS();
 	}
 
 	/**
@@ -73,7 +73,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunStudyCaseXmlType getRunStudyCase() {
-		return ipss.getRunStudyCase();		
+		return ipss.getRunStudyCase();
 	}
 
 	/**
@@ -82,16 +82,16 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunAclfStudyCaseXmlType[] getRunAclfStudyCaseList() {
-		return ipss.getRunStudyCase().getRunAclfStudyCaseArray();		
+		return ipss.getRunStudyCase().getRunAclfStudyCaseArray();
 	}
-	
+
 	/**
 	 * Get the AcscStudyCase element list
 	 * 
 	 * @return
 	 */
 	public RunAcscStudyCaseXmlType[] getRunAcscStudyCaseList() {
-		return ipss.getRunStudyCase().getRunAcscStudyCaseArray();		
+		return ipss.getRunStudyCase().getRunAcscStudyCaseArray();
 	}
 
 	/**
@@ -100,16 +100,16 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunDStabStudyCaseXmlType[] getRunDStabStudyCaseList() {
-		return ipss.getRunStudyCase().getRunDStabStudyCaseArray();		
+		return ipss.getRunStudyCase().getRunDStabStudyCaseArray();
 	}
-	
+
 	/**
 	 * Get the schema top-level modification element
 	 * 
 	 * @return
 	 */
 	public ModificationXmlType getModification() {
-		return ipss.getModification();		
+		return ipss.getModification();
 	}
 
 	/**
@@ -123,7 +123,7 @@ public class IpssXmlParser {
 			return UnitType.PU;
 		else if (type == UnitXmlData.PERCENT)
 			return UnitType.Percent;
-		
+
 		else if (type == UnitXmlData.DEG)
 			return UnitType.Deg;
 		else if (type == UnitXmlData.RAD)
@@ -154,14 +154,14 @@ public class IpssXmlParser {
 			return UnitType.kVar;
 		else if (type == UnitXmlData.M_VAR)
 			return UnitType.mVar;
-		
+
 		else if (type == UnitXmlData.VA)
 			return UnitType.VA;
 		else if (type == UnitXmlData.KVA)
 			return UnitType.kVA;
 		else if (type == UnitXmlData.M_VA)
 			return UnitType.mVA;
-		
+
 		return UnitType.NotDefined;
 	}
 }
