@@ -1,26 +1,26 @@
- /*
-  * @(#)SimuRunWorker.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)SimuRunWorker.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2006
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.editor.runAct;
 
@@ -55,10 +55,10 @@ public class SimuRunWorker extends Thread {
 	private JGraph graph = null;
 	private String scripts = null;
 	private ScriptLanguageType scriptLanguage = ScriptLanguageType.Java;
-	
-	public SimuRunWorker(String str) { 
-		super(str); 
-	} 
+
+	public SimuRunWorker(String str) {
+		super(str);
+	}
 
 	public void configRun(SimuRunType aRunType, SimuContext aCtx) {
 		this.runType = aRunType;
@@ -70,118 +70,137 @@ public class SimuRunWorker extends Thread {
 		this.simuCtx = aCtx;
 		this.graph = aGraph;
 	}
-	
-	public void configRun(SimuRunType aRunType, SimuContext aCtx, String scripts, ScriptLanguageType lanType) {
+
+	public void configRun(SimuRunType aRunType, SimuContext aCtx,
+			String scripts, ScriptLanguageType lanType) {
 		this.runType = aRunType;
 		this.simuCtx = aCtx;
 		this.scripts = scripts;
 		this.scriptLanguage = lanType;
 	}
 
-	public void run() { 
-		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
-		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		if (this.runType == SimuRunType.Aclf ) {
-			appStatus.busyStart(
-					Constants.StatusBusyIndicatorPeriod, "Run AC Loadflow Analysis ...", "Run Aclf");
+	public void run() {
+		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor()
+				.getAppStatus();
+		IAppSimuContext appSimuCtx = GraphSpringAppContext
+				.getIpssGraphicEditor().getCurrentAppSimuContext();
+		if (this.runType == SimuRunType.Aclf) {
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run AC Loadflow Analysis ...", "Run Aclf");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run AC Loadflow");
-			
-			boolean converge = SimuAppSpringAppContext.getAclfRunForm().runCase(simuCtx, simuCtx.getMsgHub());
-			appSimuCtx.setLfConverged(converge);
-			
-		  	appStatus.busyStop("Run AC Loadflow Analysis finished");
-			
-		  	if (graph != null) {
-				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACLF);
-			}
-		}
-		else if (this.runType == SimuRunType.Acsc ) {
-			appStatus.busyStart(	
-					Constants.StatusBusyIndicatorPeriod, "Run AC Short Circuit Analysis ...", "Run Acsc");
-			IpssLogger.getLogger().info("SimuRunWorker starts Run AC Short Circuit");
 
-			SimuAppSpringAppContext.getAcscRunForm().runCase(simuCtx, simuCtx.getMsgHub());
-			
-			appStatus.busyStop("Run AC Short Circuit Analysis finished");
-			
-			SimuAppSpringAppContext.getAcscRunForm().displaySummaryResult(simuCtx);
+			boolean converge = SimuAppSpringAppContext.getAclfRunForm()
+					.runCase(simuCtx, simuCtx.getMsgHub());
+			appSimuCtx.setLfConverged(converge);
+
+			appStatus.busyStop("Run AC Loadflow Analysis finished");
+
 			if (graph != null) {
-				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
+				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph,
+						GraphSimuUtilFunc.LABEL_ACT_ACLF);
 			}
-		}
-		else if (this.runType == SimuRunType.DStab ) {
-			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod, "Run Transient Stability Simulation ...", "Run DStab");
-			IpssLogger.getLogger().info("SimuRunWorker starts Run Transient Stability");
-			
-		  	DStabRunForm runForm = (DStabRunForm)appSimuCtx.getDStabRunForm();
-		  	if (runForm.getDStabCaseData().isGridComputing())
+		} else if (this.runType == SimuRunType.Acsc) {
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run AC Short Circuit Analysis ...", "Run Acsc");
+			IpssLogger.getLogger().info(
+					"SimuRunWorker starts Run AC Short Circuit");
+
+			SimuAppSpringAppContext.getAcscRunForm().runCase(simuCtx,
+					simuCtx.getMsgHub());
+
+			appStatus.busyStop("Run AC Short Circuit Analysis finished");
+
+			SimuAppSpringAppContext.getAcscRunForm().displaySummaryResult(
+					simuCtx);
+			if (graph != null) {
+				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph,
+						GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
+			}
+		} else if (this.runType == SimuRunType.DStab) {
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run Transient Stability Simulation ...", "Run DStab");
+			IpssLogger.getLogger().info(
+					"SimuRunWorker starts Run Transient Stability");
+
+			DStabRunForm runForm = (DStabRunForm) appSimuCtx.getDStabRunForm();
+			if (runForm.getDStabCaseData().isGridComputing())
 				runForm.runGridCase(simuCtx, simuCtx.getMsgHub());
-		  	else
-		  		runForm.runCase(simuCtx, simuCtx.getMsgHub());
+			else
+				runForm.runCase(simuCtx, simuCtx.getMsgHub());
 
 			appStatus.busyStop("Run Transient Stability Simulation finished");
-		}
-		else if (this.runType == SimuRunType.Scripts ) {
-			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod, "Run Scripts ...", "Run Scripts");
+		} else if (this.runType == SimuRunType.Scripts) {
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run Scripts ...", "Run Scripts");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run Scripts");
-			
-			//System.out.println("Run Scripts: " + this.scripts);
+
+			// System.out.println("Run Scripts: " + this.scripts);
 			// compile the source code
 			if (this.scriptLanguage == ScriptLanguageType.Java) {
-				String classname = ScriptJavacUtilFunc.createScriptingClassname(CoreScriptUtilFunc.RunScriptsClass);
-				String javacode = CoreScriptUtilFunc.parseRunCaseJavaCode(this.scripts, classname);
+				String classname = ScriptJavacUtilFunc
+						.createScriptingClassname(CoreScriptUtilFunc.RunScriptsClass);
+				String javacode = CoreScriptUtilFunc.parseRunCaseJavaCode(
+						this.scripts, classname);
 				try {
-					ISimuCaseRunner runner = (ISimuCaseRunner)MemoryJavaCompiler.javac( 
-							CoreScriptUtilFunc.RunCaseScriptingPackageName+"/"+classname, javacode);
+					ISimuCaseRunner runner = (ISimuCaseRunner) MemoryJavaCompiler
+							.javac(
+									CoreScriptUtilFunc.RunCaseScriptingPackageName
+											+ "/" + classname, javacode);
 					// run the custom scripts
 					if (runner.runCase(simuCtx, simuCtx.getMsgHub()))
 						runner.displaySummaryResult(simuCtx);
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
-				}			
-			}
-			else if (this.scriptLanguage == ScriptLanguageType.Xml) {
+				}
+			} else if (this.scriptLanguage == ScriptLanguageType.Xml) {
 				XmlScriptRunWorker.runCase(this.scripts, simuCtx);
 			}
 			appStatus.busyStop("Run Scripts finished");
 		}
-		
-		else if (this.runType == SimuRunType.Dclf ) {
-			appStatus.busyStart(
-					Constants.StatusBusyIndicatorPeriod, "Run DC Loadflow Analysis ...", "Run Dclf");
+
+		else if (this.runType == SimuRunType.Dclf) {
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run DC Loadflow Analysis ...", "Run Dclf");
 			IpssLogger.getLogger().info("SimuRunWorker starts Run DC Loadflow");
 
 			AclfNetwork net = simuCtx.getAclfNet();
-			// create DCLoadflow Algorithm object 
+			// create DCLoadflow Algorithm object
 			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(net);
 			// run DCLoadflow to calculate bus voltage angle
-	        if (!algo.checkCondition(simuCtx.getMsgHub()))
-	        	return;
-	        algo.calculateAngle(simuCtx.getMsgHub());
+			if (!algo.checkCondition(simuCtx.getMsgHub()))
+				return;
+			algo.calculateAngle(simuCtx.getMsgHub());
 
-			String	str = "BudId          VoltAng(deg)\n"; 
-			str +=        "=================================\n"; 
-		    for (Bus bus : net.getBusList()) {
+			String str = "BudId          VoltAng(deg)\n";
+			str += "=================================\n";
+			for (Bus bus : net.getBusList()) {
 				int n = bus.getSortNumber();
 				double angle = algo.getBMatrix().getBi(n);
-				str += Number2String.toFixLengthStr(8, bus.getId()) + "        " + Number2String.toStr(angle*Constants.RtoD) + "\n";
+				str += Number2String.toFixLengthStr(8, bus.getId())
+						+ "        "
+						+ Number2String.toStr(angle * Constants.RtoD) + "\n";
 			}
-		    IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("DC Loadflow Analysis Info");
+			IOutputTextDialog dialog = UISpringAppContext
+					.getOutputTextDialog("DC Loadflow Analysis Info");
 			dialog.display(str);
-			
-		  	appStatus.busyStop("Run DC Loadflow Analysis finished");
-		}
-		else if (this.runType == SimuRunType.GenShiftFactor ) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog("Status Message", 
-					"Generation Shift Factor calculation will be implemented in the future");
-		}
-		else if (this.runType == SimuRunType.LineOutageDistFactor ) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog("Status Message", 
-				"Line Outage Distribution Factor calculation will be implemented in the future");
-		}
-		else if (this.runType == SimuRunType.PowerTransferDistFactor ) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog("Status Message", 
-				"Power Transer Distribution Factor calculation will be implemented in the future");
+
+			appStatus.busyStop("Run DC Loadflow Analysis finished");
+		} else if (this.runType == SimuRunType.GenShiftFactor) {
+			SpringAppContext
+					.getEditorDialogUtil()
+					.showMsgDialog("Status Message",
+							"Generation Shift Factor calculation will be implemented in the future");
+		} else if (this.runType == SimuRunType.LineOutageDistFactor) {
+			SpringAppContext
+					.getEditorDialogUtil()
+					.showMsgDialog("Status Message",
+							"Line Outage Distribution Factor calculation will be implemented in the future");
+		} else if (this.runType == SimuRunType.PowerTransferDistFactor) {
+			SpringAppContext
+					.getEditorDialogUtil()
+					.showMsgDialog(
+							"Status Message",
+							"Power Transer Distribution Factor calculation will be implemented in the future");
 		}
 	}
 }
