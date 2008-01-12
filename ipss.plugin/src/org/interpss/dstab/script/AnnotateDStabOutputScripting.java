@@ -17,37 +17,33 @@ import com.interpss.dstab.datatype.MachineStateRec;
 
 public class AnnotateDStabOutputScripting {
 	enum OutType {
-		Mach_Angle, Mach_Speed,   Mach_Pe,     Mach_Pm,    Mach_Q,
-		Mach_E,     Mach_Eq1,     Mach_Eq11,   Mach_Ed1,   Mach_Ed11,
-		Mach_Ifd,    Mach_Efd,
-		Exc_Efd,	Gov_Pm,		  Pss_Vs,
-		Bus_VMag,   Bus_VAng,     Bus_PLoad,   Bus_QLoad,
+		Mach_Angle, Mach_Speed, Mach_Pe, Mach_Pm, Mach_Q, Mach_E, Mach_Eq1, Mach_Eq11, Mach_Ed1, Mach_Ed11, Mach_Ifd, Mach_Efd, Exc_Efd, Gov_Pm, Pss_Vs, Bus_VMag, Bus_VAng, Bus_PLoad, Bus_QLoad,
 	};
 
 	private IDStabOutputScripting anOutput = null;
 
-	private List<Rec> displayRecList = new ArrayList<Rec>(); 
+	private List<Rec> displayRecList = new ArrayList<Rec>();
 	private FileWriter fileWriter = null;
-	
-	private String timeStr = ""; 
-	private String machStr = ""; 
-	private String busStr = ""; 
-	private String busDeviceStr = ""; 
-	
+
+	private String timeStr = "";
+	private String machStr = "";
+	private String busStr = "";
+	private String busDeviceStr = "";
+
 	public AnnotateDStabOutputScripting(IDStabOutputScripting output) {
 		this.anOutput = output;
 	}
-	
+
 	// This method is called at the initialization stage
 	public void init(DStabilityNetwork net) throws Exception {
-        String filename = "";
-        String[] varList = null;
+		String filename = "";
+		String[] varList = null;
 		AnDStabOutputScripting an = anOutput.getAnOutputScripting();
-        if (an != null) {
-       		filename = an.filename();
-       		varList = an.varList();
-       		parseVariableList(varList);
-        }
+		if (an != null) {
+			filename = an.filename();
+			varList = an.varList();
+			parseVariableList(varList);
+		}
 
 		fileWriter = new FileWriter(new File(filename));
 		String header = "Time";
@@ -57,39 +53,42 @@ public class AnnotateDStabOutputScripting {
 		header += "\n";
 		this.fileWriter.write(header);
 		this.machStr = "";
-		this.busStr = ""; 
-		this.busDeviceStr = ""; 
-	}	
-	
+		this.busStr = "";
+		this.busDeviceStr = "";
+	}
+
 	// This method is called when a machine is processed
-	public boolean machStates(DStabilityNetwork net, Hashtable<String, Object> stateTable) {
+	public boolean machStates(DStabilityNetwork net,
+			Hashtable<String, Object> stateTable) {
 		MachineStateRec machRec = new MachineStateRec(stateTable);
 		String machId = machRec.machId;
 		this.timeStr = Number2String.toStr(machRec.time, "0.000");
 		for (Rec rec : displayRecList) {
 			if (machId.equals(rec.id)) {
-				double value = 	getMachValue(rec, machRec);
-				this.machStr += ',' + Number2String.toStr(value,  "0.0000"); 
+				double value = getMachValue(rec, machRec);
+				this.machStr += ',' + Number2String.toStr(value, "0.0000");
 			}
 		}
 		return true;
 	}
 
 	// This method is called when a bus object is processed
-	public boolean busVariables(DStabilityNetwork net, Hashtable<String, Object> varTable) {
+	public boolean busVariables(DStabilityNetwork net,
+			Hashtable<String, Object> varTable) {
 		BusVariableRec busRec = new BusVariableRec(varTable);
 		String busId = busRec.busId;
 		for (Rec rec : displayRecList) {
 			if (busId.equals(rec.id)) {
-				double value = 	getBusValue(rec, busRec);
-				this.busStr += ',' + Number2String.toStr(value,  "0.0000"); 
+				double value = getBusValue(rec, busRec);
+				this.busStr += ',' + Number2String.toStr(value, "0.0000");
 			}
 		}
 		return true;
 	}
 
 	// This method is called when a dynamic bus device is processed
-	public boolean busDeviceStates(DStabilityNetwork net, Hashtable<String, Object> stateTable) {
+	public boolean busDeviceStates(DStabilityNetwork net,
+			Hashtable<String, Object> stateTable) {
 		// output dynamic bus device here
 		return true;
 	}
@@ -104,12 +103,12 @@ public class AnnotateDStabOutputScripting {
 			str += this.busStr;
 		if (!this.busDeviceStr.equals(""))
 			str += this.busDeviceStr;
-		fileWriter.write( str + '\n');
+		fileWriter.write(str + '\n');
 		this.machStr = "";
-		this.busStr = ""; 
-		this.busDeviceStr = ""; 
+		this.busStr = "";
+		this.busDeviceStr = "";
 	}
-	  
+
 	public void close() throws Exception {
 		fileWriter.flush();
 		fileWriter.close();
@@ -150,7 +149,7 @@ public class AnnotateDStabOutputScripting {
 		IpssLogger.getLogger().warning("No value found for rec: " + rec);
 		return 0.0;
 	}
-	
+
 	private double getBusValue(Rec rec, BusVariableRec busRec) {
 		if (rec.type == OutType.Bus_VMag)
 			return busRec.vMag;
@@ -160,7 +159,7 @@ public class AnnotateDStabOutputScripting {
 			return busRec.pLoad;
 		else if (rec.type == OutType.Bus_QLoad)
 			return busRec.qLoad;
-		
+
 		IpssLogger.getLogger().warning("No value found for rec: " + rec);
 		return 0.0;
 	}
@@ -172,11 +171,12 @@ public class AnnotateDStabOutputScripting {
 			String id = st.nextToken().trim();
 			String var = st.nextToken().trim();
 			Rec rec = new Rec();
-			rec.name = StringUtil.getDisplyName(name);   // get name part of "str.name"
-			if (var.startsWith("mach.") || var.startsWith("exc.") || var.startsWith("gov.") || var.startsWith("pss.")) {
+			rec.name = StringUtil.getDisplyName(name); // get name part of
+			// "str.name"
+			if (var.startsWith("mach.") || var.startsWith("exc.")
+					|| var.startsWith("gov.") || var.startsWith("pss.")) {
 				rec.id = Constants.Token_MachId + id;
-			}
-			else if (var.startsWith("bus.")) {
+			} else if (var.startsWith("bus.")) {
 				rec.id = id;
 			}
 			if (var.equals("mach.angle"))
@@ -184,19 +184,19 @@ public class AnnotateDStabOutputScripting {
 			else if (var.equals("mach.speed"))
 				rec.type = OutType.Mach_Speed;
 			else if (var.equals("mach.pe"))
-				rec.type = OutType.Mach_Pe;     
+				rec.type = OutType.Mach_Pe;
 			else if (var.equals("mach.pm"))
-				rec.type = OutType.Mach_Pm;    
+				rec.type = OutType.Mach_Pm;
 			else if (var.equals("mach.q"))
 				rec.type = OutType.Mach_Q;
 			else if (var.equals("mach.e"))
-				rec.type = OutType.Mach_E;     
+				rec.type = OutType.Mach_E;
 			else if (var.equals("mach.eq1"))
 				rec.type = OutType.Mach_Eq1;
 			else if (var.equals("mach.eq11"))
-				rec.type = OutType.Mach_Eq11;   
+				rec.type = OutType.Mach_Eq11;
 			else if (var.equals("mach.ed1"))
-				rec.type = OutType.Mach_Ed1;   
+				rec.type = OutType.Mach_Ed1;
 			else if (var.equals("mach.ed11"))
 				rec.type = OutType.Mach_Ed11;
 			else if (var.equals("mach.ifd"))
@@ -220,7 +220,7 @@ public class AnnotateDStabOutputScripting {
 			displayRecList.add(rec);
 		}
 	}
-	
+
 	public String toString() {
 		String str = "Output Display Record: [\n";
 		for (Rec rec : displayRecList)
@@ -231,8 +231,8 @@ public class AnnotateDStabOutputScripting {
 	class Rec {
 		public String name;
 		public String id;
-		public OutType type; 
-		
+		public OutType type;
+
 		public String toString() {
 			return "name, id, type: " + name + ", " + id + ", " + type;
 		}

@@ -1,26 +1,26 @@
- /*
-  * @(#)AcscRptBeanFactory.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)AcscRptBeanFactory.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2006
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.report.bean.acsc;
 
@@ -48,7 +48,7 @@ public class AcscRptBeanFactory {
 		bean.setFaultDistance("50%");
 		return bean;
 	}
-	
+
 	public static RptFaultSummaryBean[] createFaultSummarySampleBeanList() {
 		RptFaultSummaryBean[] list = new RptFaultSummaryBean[1];
 		list[0] = createBusFaultSummarySampleBean();
@@ -58,18 +58,21 @@ public class AcscRptBeanFactory {
 	public static JRBeanArrayDataSource getFaultSummarySampleDataSource() {
 		return new JRBeanArrayDataSource(createFaultSummarySampleBeanList());
 	}
-	
-	public static JRBeanArrayDataSource getFaultSummaryDataSource(IAppSimuContext appSimuCtx, SimuCtxReportMapper mapper) {
-		RptFaultSummaryBean bean = new RptFaultSummaryBean();	
+
+	public static JRBeanArrayDataSource getFaultSummaryDataSource(
+			IAppSimuContext appSimuCtx, SimuCtxReportMapper mapper) {
+		RptFaultSummaryBean bean = new RptFaultSummaryBean();
 		mapper.mapping(appSimuCtx, bean, RptFaultSummaryBean.class);
-		return new JRBeanArrayDataSource(new Object[] {bean});
+		return new JRBeanArrayDataSource(new Object[] { bean });
 	}
-	
-	public static JRBeanArrayDataSource getFaultSummaryDataSource(SimuContext simuCtx) {
-		RptFaultSummaryBean bean = new RptFaultSummaryBean();	
-		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx.getMsgHub());
+
+	public static JRBeanArrayDataSource getFaultSummaryDataSource(
+			SimuContext simuCtx) {
+		RptFaultSummaryBean bean = new RptFaultSummaryBean();
+		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx
+				.getMsgHub());
 		mapper.mapping(simuCtx, bean, RptFaultSummaryBean.class);
-		return new JRBeanArrayDataSource(new Object[] {bean});
+		return new JRBeanArrayDataSource(new Object[] { bean });
 	}
 
 	/*
@@ -87,17 +90,17 @@ public class AcscRptBeanFactory {
 		bean.setBusContribAmps("0.001");
 		return bean;
 	}
-	
+
 	public static RptAcscVoltAmpsBean createAcscBranchSampleBean() {
 		RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
 		bean.setRecType(2);
 		bean.setBranchId("0001->0002");
 		bean.setBranchName("Bus-1->Bus-2");
 		bean.setBranchFaultAmpspu("0.001");
-		bean.setBranchFaultAmps("0.001");		
+		bean.setBranchFaultAmps("0.001");
 		return bean;
 	}
-	
+
 	public static RptAcscVoltAmpsBean createAcscBus012SampleBean() {
 		RptAcscVoltAmpsBean bean = new RptAcscVoltAmpsBean();
 		bean.setRecType(RptAcscVoltAmpsBean.RecType_Bus012);
@@ -136,11 +139,11 @@ public class AcscRptBeanFactory {
 		bean.setBranchId("0001->0002");
 		bean.setBranchName("Bus-1->Bus-2");
 		bean.setBranchFaultAmpspu("0.001");
-		bean.setBranchFaultAmps("0.001");		
+		bean.setBranchFaultAmps("0.001");
 		bean.setBranchFaultAmps0pu("0.001");
-		bean.setBranchFaultAmps0("0.001");		
+		bean.setBranchFaultAmps0("0.001");
 		bean.setBranchFaultAmps2pu("0.001");
-		bean.setBranchFaultAmps2("0.001");		
+		bean.setBranchFaultAmps2("0.001");
 		return bean;
 	}
 
@@ -150,21 +153,20 @@ public class AcscRptBeanFactory {
 		bean.setBranchId("0001->0002");
 		bean.setBranchName("Bus-1->Bus-2");
 		bean.setBranchFaultAmpsApu("0.001");
-		bean.setBranchFaultAmpsA("0.001");		
+		bean.setBranchFaultAmpsA("0.001");
 		bean.setBranchFaultAmpsBpu("0.001");
-		bean.setBranchFaultAmpsB("0.001");		
+		bean.setBranchFaultAmpsB("0.001");
 		bean.setBranchFaultAmpsCpu("0.001");
-		bean.setBranchFaultAmpsC("0.001");		
+		bean.setBranchFaultAmpsC("0.001");
 		return bean;
 	}
-
 
 	public static RptAcscVoltAmpsBean[] createAcscVoltAmps3PSampleBeanList() {
 		RptAcscVoltAmpsBean[] list = new RptAcscVoltAmpsBean[6];
 		list[0] = createAcscBusSampleBean();
 		list[1] = createAcscBusSampleBean();
 		list[2] = createAcscBusSampleBean();
-		list[3]  = createAcscBranchSampleBean();
+		list[3] = createAcscBranchSampleBean();
 		list[4] = createAcscBranchSampleBean();
 		list[5] = createAcscBranchSampleBean();
 		return list;
@@ -194,17 +196,20 @@ public class AcscRptBeanFactory {
 	public static JRBeanArrayDataSource getAcscVoltAmps3PSampleDataSource() {
 		return new JRBeanArrayDataSource(createAcscVoltAmps3PSampleBeanList());
 	}
-	
+
 	public static JRBeanArrayDataSource getAcscVoltAmpsNSSampleDataSource() {
 		return new JRBeanArrayDataSource(createAcscVoltAmpsNSSampleBeanList());
 	}
 
-	public static JRBeanArrayDataSource getAcscVoltAmpsDataSource(SimuContext simuCtx) {
-		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx.getMsgHub());
-		Object[] beans = mapper.mappingMultiObject(simuCtx, RptAcscVoltAmpsBean.class, null);
+	public static JRBeanArrayDataSource getAcscVoltAmpsDataSource(
+			SimuContext simuCtx) {
+		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx
+				.getMsgHub());
+		Object[] beans = mapper.mappingMultiObject(simuCtx,
+				RptAcscVoltAmpsBean.class, null);
 		if (beans.length > 0)
 			return new JRBeanArrayDataSource(beans);
-		else 
+		else
 			return null;
 	}
 }

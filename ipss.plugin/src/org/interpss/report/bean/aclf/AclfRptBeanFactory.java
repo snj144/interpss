@@ -1,26 +1,26 @@
- /*
-  * @(#)AclfRptBeanFactory.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)AclfRptBeanFactory.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2006
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.report.bean.aclf;
 
@@ -37,7 +37,6 @@ import com.interpss.simu.SimuContext;
 
 import net.sf.jasperreports.engine.data.JRBeanArrayDataSource;
 
-
 public class AclfRptBeanFactory {
 	public static RptPVLimitBean[] createPVLimitSampleBeanList() {
 		RptPVLimitBean[] list = new RptPVLimitBean[2];
@@ -49,18 +48,19 @@ public class AclfRptBeanFactory {
 	public static JRBeanArrayDataSource getPVLimitSampleDataSource() {
 		return new JRBeanArrayDataSource(createPVLimitSampleBeanList());
 	}
-	
-	public static JRBeanArrayDataSource getPVLimitDataSource(SimuContext simuCtx, SimuCtxReportMapper mapper) {
-		Object[] beans = mapper.mappingMultiObject(simuCtx, PVBusLimit.class, null);
+
+	public static JRBeanArrayDataSource getPVLimitDataSource(
+			SimuContext simuCtx, SimuCtxReportMapper mapper) {
+		Object[] beans = mapper.mappingMultiObject(simuCtx, PVBusLimit.class,
+				null);
 		if (beans.length > 0)
 			return new JRBeanArrayDataSource(beans);
-		else 
+		else
 			return null;
 	}
 
 	/*
-	 * PQLimit Subreport
-	 * =================
+	 * PQLimit Subreport =================
 	 */
 	public static RptPQLimitBean createPQLimitSampleBean() {
 		RptPQLimitBean bean = new RptPQLimitBean();
@@ -73,7 +73,7 @@ public class AclfRptBeanFactory {
 		bean.setStatus("on");
 		return bean;
 	}
-	
+
 	public static RptPQLimitBean[] createPQLimitSampleBeanList() {
 		RptPQLimitBean[] list = new RptPQLimitBean[2];
 		list[0] = createPQLimitSampleBean();
@@ -84,18 +84,19 @@ public class AclfRptBeanFactory {
 	public static JRBeanArrayDataSource getPQLimitSampleDataSource() {
 		return new JRBeanArrayDataSource(createPQLimitSampleBeanList());
 	}
-	
-	public static JRBeanArrayDataSource getPQLimitDataSource(SimuContext simuCtx, SimuCtxReportMapper mapper) {
-		Object[] beans = mapper.mappingMultiObject(simuCtx, PQBusLimit.class, null);
+
+	public static JRBeanArrayDataSource getPQLimitDataSource(
+			SimuContext simuCtx, SimuCtxReportMapper mapper) {
+		Object[] beans = mapper.mappingMultiObject(simuCtx, PQBusLimit.class,
+				null);
 		if (beans.length > 0)
 			return new JRBeanArrayDataSource(beans);
-		else 
+		else
 			return null;
 	}
-	
+
 	/*
-	 * RemoteQBus Subreport
-	 * ====================
+	 * RemoteQBus Subreport ====================
 	 */
 	public static RptRemoteQBusBean createRemoteQBusSampleBean() {
 		RptRemoteQBusBean bean = new RptRemoteQBusBean();
@@ -110,10 +111,9 @@ public class AclfRptBeanFactory {
 		bean.setStatus("on");
 		return bean;
 	}
-	
+
 	/*
-	 * PVLimit Subreport
-	 * =================
+	 * PVLimit Subreport =================
 	 */
 	public static RptPVLimitBean createPVLimitSampleBean() {
 		RptPVLimitBean bean = new RptPVLimitBean();
@@ -137,18 +137,19 @@ public class AclfRptBeanFactory {
 	public static JRBeanArrayDataSource getRemoteQBusSampleDataSource() {
 		return new JRBeanArrayDataSource(createRemoteQBusSampleBeanList());
 	}
-	
-	public static JRBeanArrayDataSource getRemoteQBusDataSource(SimuContext simuCtx, SimuCtxReportMapper mapper) {
-		Object[] beans = mapper.mappingMultiObject(simuCtx, RemoteQBus.class, null);
+
+	public static JRBeanArrayDataSource getRemoteQBusDataSource(
+			SimuContext simuCtx, SimuCtxReportMapper mapper) {
+		Object[] beans = mapper.mappingMultiObject(simuCtx, RemoteQBus.class,
+				null);
 		if (beans.length > 0)
 			return new JRBeanArrayDataSource(beans);
-		else 
+		else
 			return null;
 	}
 
 	/*
-	 * TapControl Subreport
-	 * =================
+	 * TapControl Subreport =================
 	 */
 	public static RptTapVControlBean createTapControlSampleBean() {
 		RptTapVControlBean bean = new RptTapVControlBean();
@@ -163,7 +164,7 @@ public class AclfRptBeanFactory {
 		bean.setStatus("on");
 		return bean;
 	}
-	
+
 	public static RptTapVControlBean[] createTapVControlSampleBeanList() {
 		RptTapVControlBean[] list = new RptTapVControlBean[2];
 		list[0] = createTapControlSampleBean();
@@ -174,18 +175,19 @@ public class AclfRptBeanFactory {
 	public static JRBeanArrayDataSource getTapVControlSampleDataSource() {
 		return new JRBeanArrayDataSource(createTapVControlSampleBeanList());
 	}
-	
-	public static JRBeanArrayDataSource getTapVControlDataSource(SimuContext simuCtx, SimuCtxReportMapper mapper) {
-		Object[] beans = mapper.mappingMultiObject(simuCtx, TapControl.class, null);
+
+	public static JRBeanArrayDataSource getTapVControlDataSource(
+			SimuContext simuCtx, SimuCtxReportMapper mapper) {
+		Object[] beans = mapper.mappingMultiObject(simuCtx, TapControl.class,
+				null);
 		if (beans.length > 0)
 			return new JRBeanArrayDataSource(beans);
-		else 
+		else
 			return null;
 	}
 
 	/*
-	 * PSXfrPControl Subreport
-	 * =======================
+	 * PSXfrPControl Subreport =======================
 	 */
 	public static RptPSXfrPControlBean createPSXfrPControlSampleBean() {
 		RptPSXfrPControlBean bean = new RptPSXfrPControlBean();
@@ -198,7 +200,7 @@ public class AclfRptBeanFactory {
 		bean.setStatus("on");
 		return bean;
 	}
-	
+
 	public static RptPSXfrPControlBean[] createPSXfrPControlSampleBeanList() {
 		RptPSXfrPControlBean[] list = new RptPSXfrPControlBean[2];
 		list[0] = createPSXfrPControlSampleBean();
@@ -209,18 +211,19 @@ public class AclfRptBeanFactory {
 	public static JRBeanArrayDataSource getPSXfrPControlSampleDataSource() {
 		return new JRBeanArrayDataSource(createPSXfrPControlSampleBeanList());
 	}
-	
-	public static JRBeanArrayDataSource getPsXfrPControlDataSource(SimuContext simuCtx, SimuCtxReportMapper mapper) {
-		Object[] beans = mapper.mappingMultiObject(simuCtx, PSXfrPControl.class, null);
+
+	public static JRBeanArrayDataSource getPsXfrPControlDataSource(
+			SimuContext simuCtx, SimuCtxReportMapper mapper) {
+		Object[] beans = mapper.mappingMultiObject(simuCtx,
+				PSXfrPControl.class, null);
 		if (beans.length > 0)
 			return new JRBeanArrayDataSource(beans);
-		else 
+		else
 			return null;
 	}
 
 	/*
-	 * FuncLoad Subreport
-	 * =================
+	 * FuncLoad Subreport =================
 	 */
 	public static RptFuncLoadBean createFuncLoadSampleBean() {
 		RptFuncLoadBean bean = new RptFuncLoadBean();
@@ -233,7 +236,7 @@ public class AclfRptBeanFactory {
 		bean.setStatus("on");
 		return bean;
 	}
-	
+
 	public static RptFuncLoadBean[] createFuncLoadSampleBeanList() {
 		RptFuncLoadBean[] list = new RptFuncLoadBean[2];
 		list[0] = createFuncLoadSampleBean();
@@ -244,20 +247,21 @@ public class AclfRptBeanFactory {
 	public static JRBeanArrayDataSource getFuncLoadSampleDataSource() {
 		return new JRBeanArrayDataSource(createFuncLoadSampleBeanList());
 	}
-	
-	public static JRBeanArrayDataSource getFuncLoadDataSource(SimuContext simuCtx, SimuCtxReportMapper mapper) {
-		Object[] beans = mapper.mappingMultiObject(simuCtx, FunctionLoad.class, null);
+
+	public static JRBeanArrayDataSource getFuncLoadDataSource(
+			SimuContext simuCtx, SimuCtxReportMapper mapper) {
+		Object[] beans = mapper.mappingMultiObject(simuCtx, FunctionLoad.class,
+				null);
 		if (beans.length > 0)
 			return new JRBeanArrayDataSource(beans);
-		else 
+		else
 			return null;
 	}
 
 	/*
-	 * MaxMismatch Subreport
-	 * =====================
+	 * MaxMismatch Subreport =====================
 	 */
-	
+
 	public static RptAclfMaxMismatchBean createMaxMismatchSampleBean() {
 		RptAclfMaxMismatchBean bean = new RptAclfMaxMismatchBean();
 		bean.setPMaxBusId("0006");
@@ -268,7 +272,7 @@ public class AclfRptBeanFactory {
 		bean.setQMaxKva("3.284569");
 		return bean;
 	}
-	
+
 	public static RptAclfMaxMismatchBean[] createMaxMismatchSampleBeanList() {
 		RptAclfMaxMismatchBean[] list = new RptAclfMaxMismatchBean[1];
 		list[0] = createMaxMismatchSampleBean();
@@ -278,16 +282,16 @@ public class AclfRptBeanFactory {
 	public static JRBeanArrayDataSource getMaxMismatchSampleDataSource() {
 		return new JRBeanArrayDataSource(createMaxMismatchSampleBeanList());
 	}
-	
-	public static JRBeanArrayDataSource getMaxMismatchDataSource(IAppSimuContext appSimuCtx, SimuCtxReportMapper mapper) {
-		RptAclfMaxMismatchBean misBean = new RptAclfMaxMismatchBean();	
+
+	public static JRBeanArrayDataSource getMaxMismatchDataSource(
+			IAppSimuContext appSimuCtx, SimuCtxReportMapper mapper) {
+		RptAclfMaxMismatchBean misBean = new RptAclfMaxMismatchBean();
 		mapper.mapping(appSimuCtx, misBean, RptAclfMaxMismatchBean.class);
-		return new JRBeanArrayDataSource(new Object[] {misBean});
+		return new JRBeanArrayDataSource(new Object[] { misBean });
 	}
 
 	/*
-	 * Summary Bus Master Report
-	 * =========================
+	 * Summary Bus Master Report =========================
 	 */
 	public static RptAclfSummaryBusBean createSummarySampleBean() {
 		RptAclfSummaryBusBean bean = new RptAclfSummaryBusBean();
@@ -299,7 +303,7 @@ public class AclfRptBeanFactory {
 		bean.setBusQ("0.00");
 		return bean;
 	}
-	
+
 	public static RptAclfSummaryBusBean[] createSummarySampleBeanList() {
 		RptAclfSummaryBusBean[] list = new RptAclfSummaryBusBean[3];
 		list[0] = createSummarySampleBean();
@@ -307,20 +311,22 @@ public class AclfRptBeanFactory {
 		list[2] = createSummarySampleBean();
 		return list;
 	}
-	
+
 	public static JRBeanArrayDataSource getSummaryBusSampleDataSource() {
 		return new JRBeanArrayDataSource(createSummarySampleBeanList());
-	}	
+	}
 
-	public static JRBeanArrayDataSource getSummaryBusDataSource(SimuContext simuCtx) {
-		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx.getMsgHub());
-		Object[] beans = mapper.mappingMultiObject(simuCtx, RptAclfSummaryBusBean.class, null);
+	public static JRBeanArrayDataSource getSummaryBusDataSource(
+			SimuContext simuCtx) {
+		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx
+				.getMsgHub());
+		Object[] beans = mapper.mappingMultiObject(simuCtx,
+				RptAclfSummaryBusBean.class, null);
 		return new JRBeanArrayDataSource(beans);
-	}	
+	}
 
 	/*
-	 * Bus Style Master Report
-	 * =======================
+	 * Bus Style Master Report =======================
 	 */
 	public static RptAclfBusStyleBean createAclfBusStyleSampleBean() {
 		RptAclfBusStyleBean bean = new RptAclfBusStyleBean();
@@ -341,7 +347,7 @@ public class AclfRptBeanFactory {
 		bean.setPsXfrAngle("0.00");
 		return bean;
 	}
-	
+
 	public static RptAclfBusStyleBean createAclfBusStyleSampleBean1() {
 		RptAclfBusStyleBean bean = new RptAclfBusStyleBean();
 		bean.setBusId("");
@@ -360,7 +366,8 @@ public class AclfRptBeanFactory {
 		bean.setXfrRatioTo("0.00");
 		bean.setPsXfrAngle("0.00");
 		return bean;
-	}	
+	}
+
 	public static RptAclfBusStyleBean[] createAclfBusStyleSampleBeanList() {
 		RptAclfBusStyleBean[] list = new RptAclfBusStyleBean[6];
 		list[0] = createAclfBusStyleSampleBean();
@@ -371,14 +378,17 @@ public class AclfRptBeanFactory {
 		list[5] = createAclfBusStyleSampleBean1();
 		return list;
 	}
-	
+
 	public static JRBeanArrayDataSource getAclfBusStyleSampleDataSource() {
 		return new JRBeanArrayDataSource(createAclfBusStyleSampleBeanList());
-	}	
+	}
 
-	public static JRBeanArrayDataSource getBusStyleDataSource(SimuContext simuCtx) {
-		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx.getMsgHub());
-		Object[] beans = mapper.mappingMultiObject(simuCtx, RptAclfBusStyleBean.class, null);
+	public static JRBeanArrayDataSource getBusStyleDataSource(
+			SimuContext simuCtx) {
+		SimuCtxReportMapper mapper = new SimuCtxReportMapper(simuCtx
+				.getMsgHub());
+		Object[] beans = mapper.mappingMultiObject(simuCtx,
+				RptAclfBusStyleBean.class, null);
 		return new JRBeanArrayDataSource(beans);
-	}	
+	}
 }

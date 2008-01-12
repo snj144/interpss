@@ -1,26 +1,26 @@
- /*
-  * @(#)RptFaultSummaryBean.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)RptFaultSummaryBean.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2006
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.report.bean.acsc;
 
@@ -29,8 +29,8 @@ import org.interpss.report.bean.RptBaseBean;
 public class RptFaultSummaryBean extends RptBaseBean {
 	public static int Type_BusFault = 1;
 	public static int Type_BranchFault = 2;
-	
-	private int    type = 1;    // 1: busFault, 2: branchFault
+
+	private int type = 1; // 1: busFault, 2: branchFault
 	private String busId = null;
 	private String busName = null;
 	private String faultType = null;
@@ -38,7 +38,7 @@ public class RptFaultSummaryBean extends RptBaseBean {
 	private String faultAmpspu = null;
 	private String faultAmps = null;
 	private String faultDistance = "";
-	
+
 	/**
 	 * @return the busId
 	 */
