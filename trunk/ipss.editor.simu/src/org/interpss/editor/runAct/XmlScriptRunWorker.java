@@ -398,14 +398,8 @@ public class XmlScriptRunWorker {
 									.performGridTask(
 											grid,
 											"InterPSS Transient Stability Simulation",
-											dstabAlgo, xmlStudyCase
+											mCaseContainer, xmlStudyCase
 													.getGridTimeout());
-							// init the Net object for plotting purpose. it is
-							// inited at the remote grid node
-							// before DStab simulation.
-							dstabNet.initialization(msg);
-							// set the DStabNet object back to the SimuCtx
-							simuCtx.setDStabilityNet(dstabNet);
 							return rtn.booleanValue();
 						} catch (GridException e) {
 							SpringAppContext.getEditorDialogUtil()
@@ -414,7 +408,12 @@ public class XmlScriptRunWorker {
 							return false;
 						}
 					}
+					// init the Net object for plotting purpose. it is
+					// inited at the remote grid node
+					// before DStab simulation.
+					dstabNet.initialization(msg);
 				}
+				// set the DStabNet object back to the SimuCtx
 				simuCtx.setDStabilityNet(dstabNet);
 			}
 		} else {
