@@ -51,9 +51,6 @@ public abstract class AbstractMultiCaseTask extends
 	@GridTaskSessionResource
 	private GridTaskSession session = null;
 
-	// Master node id
-	public static String MasterNodeId = "";
-
 	protected GridTaskSession getSession() {
 		return this.session;
 	}
@@ -66,9 +63,9 @@ public abstract class AbstractMultiCaseTask extends
 			MultiStudyCase model) throws GridException {
 		// Send master node id to all remote nodes.
 		getSession().setAttribute(Constants.GridToken_MasterNodeId,
-				MasterNodeId);
+				IpssGridGainUtil.MasterNodeId);
 		getSession().setAttribute(Constants.GridToken_RemoteNodeDebug,
-				new Boolean(IpssGridGainUtil.remoteNodeDebug));
+				new Boolean(IpssGridGainUtil.RemoteNodeDebug));
 
 		return createRemoteJobList(model);
 	}

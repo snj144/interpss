@@ -1,26 +1,26 @@
- /*
-  * @(#)IpssGridGainAclfJob.java   
-  *
-  * Copyright (C) 2008 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 01/15/2008
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)IpssGridGainAclfJob.java   
+ *
+ * Copyright (C) 2008 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 01/15/2008
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 /*
  *  This Class is for performing grid computing for DStab network model 
@@ -30,9 +30,9 @@ package org.interpss.gridgain.job;
 
 import java.io.Serializable;
 
-
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -84,11 +84,22 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		}
 
+		if (((Boolean) getSession().getAttribute(
+				Constants.GridToken_RemoteNodeDebug)).booleanValue()) {
+			debugOut(net, algo);
+		}
+		
 		// perform loadflow calculation
 		algo.loadflow(SpringAppContext.getIpssMsgHub());
 
 		// send the calculated Aclf object back to the master node
 		net.setDesc(getGrid().getLocalNode().getId().toString());
 		return SerializeEMFObjectUtil.saveModel(net);
+	}
+	
+	private synchronized void debugOut(AclfNetwork net, LoadflowAlgorithm algo) {
+		IpssLogger.getLogger().info("CaseId: " + net.getId());
+		IpssLogger.getLogger().info("AclfNet -->" + net.net2String());
+		IpssLogger.getLogger().info("AclfAlgo -->" + algo.toString());
 	}
 }

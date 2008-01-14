@@ -34,8 +34,10 @@ import java.util.List;
 import org.gridgain.grid.GridException;
 import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.job.IpssGridGainDStabJob;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 
@@ -47,6 +49,9 @@ import com.interpss.simu.multicase.StudyCase;
 public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
+	/**
+	 * create remote job list for DStab run
+	 */
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
 		List<IpssGridGainDStabJob> jobList = new ArrayList<IpssGridGainDStabJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
@@ -63,10 +68,15 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 					Constants.GridToken_DStabAlgo + studyCase.getId(),
 					studyCase.getDstabAlgoModelString());
 
+			if (IpssGridGainUtil.RemoteNodeDebug) {
+				IpssLogger.getLogger().info("CaseId: " + studyCase.getId());
+				IpssLogger.getLogger().info("Model String: " + studyCase.getNetModelString());
+				IpssLogger.getLogger().info("AclfAlgo String: " + studyCase.getAclfAlgoModelString());
+				IpssLogger.getLogger().info("DStabAlgo String: " + studyCase.getDstabAlgoModelString());
+			}
+			
 			jobList.add(job);
 		}
-
 		return jobList;
 	}
-	
 }

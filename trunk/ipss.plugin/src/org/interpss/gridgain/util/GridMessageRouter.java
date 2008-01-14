@@ -25,17 +25,22 @@
 package org.interpss.gridgain.util;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.UUID;
 
 import org.gridgain.grid.GridMessageListener;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.msg.IpssMsgListener;
 import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.datatype.DStabSimuAction;
+import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
+import com.interpss.dstab.util.IDStabSimuOutputHandler;
 
 /*
  * During the simulation process, messages are sent from remote node to the
@@ -51,14 +56,15 @@ public class GridMessageRouter implements GridMessageListener {
 	private IPSSMsgHub msgHub = null;
 
 	/*
-	 * DStab simulation msg handler
+	 * DStab simulation msg handler list
 	 */
-	private IpssMsgListener dstabOutputHandler = null;
+	private List<IDStabSimuOutputHandler> dstabOutputHandlerList = null;
 
 	/**
 	 * Default constructor
 	 */
 	public GridMessageRouter(IPSSMsgHub msg) {
+		this.dstabOutputHandlerList = new ArrayList<IDStabSimuOutputHandler>();
 		this.msgHub = msg;
 	}
 
@@ -67,8 +73,8 @@ public class GridMessageRouter implements GridMessageListener {
 	 * 
 	 * @param msg
 	 */
-	public void setDStabSimuDbOutputHandler(IpssMsgListener msg) {
-		this.dstabOutputHandler = msg;
+	public void addDStabSimuDbOutputHandler(IDStabSimuOutputHandler handler) {
+		this.dstabOutputHandlerList.add(handler);
 	}
 
 	@Override
@@ -96,12 +102,21 @@ public class GridMessageRouter implements GridMessageListener {
 			 * states.get("BusId").equals("0001")) { System.out.println("DStab
 			 * Msg : " + states.get("Time")); }
 			 */
-			if (this.dstabOutputHandler != null) {
-				DStabSimuAction event = new DStabSimuAction(new Byte(type)
-						.byteValue(), states);
-				this.dstabOutputHandler.onMsgEventStatus(event);
-			} else
-				System.out.println(states);
+			DStabSimuAction event = new DStabSimuAction(new Byte(type)
+					.byteValue(), states);
+			// find dbCaseId
+			String caseId = states.get(Constants.GridToken_CaseId);
+			IAppSimuContext appSimuCtx = GraphSpringAppContext
+					.getIpssGraphicEditor().getCurrentAppSimuContext();
+			int dbCaseId = appSimuCtx.getDbSimuCaseId(caseId);
+			// System.out.println("*******caseId, dbCaseId: " + caseId + ", " +
+			// dbCaseId);
+
+			for (IDStabSimuOutputHandler handler : dstabOutputHandlerList) {
+				if (((IDStabSimuDatabaseOutputHandler) handler).getDBCaseId() == dbCaseId) {
+					handler.onMsgEventStatus(event);
+				}
+			}
 		} else if (msgStr.startsWith(Constants.GridToken_ProgressStatusMsg)) {
 			String str = msgStr.substring(Constants.GridToken_ProgressStatusMsg
 					.length());
