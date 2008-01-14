@@ -27,6 +27,8 @@ package org.interpss.sample.dstab;
 import java.util.Hashtable;
 import java.util.Iterator;
 
+import org.interpss.display.DStabOutFunc;
+
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -34,7 +36,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.datatype.DStabSimuTimeEvent;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.dstab.util.DStabOutFunc;
+import com.interpss.dstab.util.DStabOutSymbol;
 import com.interpss.dstab.util.DynamicEventProcessor;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -82,8 +84,8 @@ public class TestIssueSystem extends TestSetupBase {
 				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER, net, msg);  
 
 				Hashtable states = mach.getStates(null);
-				states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());
-				states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
+				states.put(DStabOutSymbol.OUT_SYMBOL_MACH_ID, mach.getId());
+				states.put(DStabOutSymbol.OUT_SYMBOL_TIME, new Double(t+dt));
 				try {
 					System.out.print(DStabOutFunc.getStateStr(states));
 				} catch (Exception e) {

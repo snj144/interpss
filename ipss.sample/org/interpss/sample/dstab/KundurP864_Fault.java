@@ -30,6 +30,8 @@ package org.interpss.sample.dstab;
 
 import java.util.Iterator;
 
+import org.interpss.display.DStabOutFunc;
+
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.common.msg.TextMessage;
@@ -41,7 +43,6 @@ import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.datatype.DStabSimuTimeEvent;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.test.YMatrixChangeTestRecorder;
-import com.interpss.dstab.util.DStabOutFunc;
 import com.interpss.dstab.util.DynamicEventProcessor;
 
 public class KundurP864_Fault {
