@@ -30,7 +30,6 @@ import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.gridgain.task.assignJob.AbstractAssignJob2NodeTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -162,7 +161,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		String nodeId = IpssGridGainUtil.nodeIdLookup(dStabCaseData
 				.getGridNodeName());
 		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
-		AbstractAssignJob2NodeTask.MasterNodeId = grid.getLocalNode().getId()
+		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 				.toString();
 
 		/*
