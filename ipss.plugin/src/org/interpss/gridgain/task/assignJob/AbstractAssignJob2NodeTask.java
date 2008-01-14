@@ -70,7 +70,7 @@ public abstract class AbstractAssignJob2NodeTask extends
 		getSession().setAttribute(Constants.GridToken_MasterNodeId,
 				IpssGridGainUtil.MasterNodeId);
 		getSession().setAttribute(Constants.GridToken_RemoteNodeDebug,
-				new Boolean(IpssGridGainUtil.remoteNodeDebug));
+				new Boolean(IpssGridGainUtil.RemoteNodeDebug));
 
 		// serialize the model object, only the DStabNet part
 		String modelStr = serializeModel(model);

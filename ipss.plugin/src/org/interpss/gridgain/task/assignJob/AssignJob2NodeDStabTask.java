@@ -29,15 +29,17 @@
 package org.interpss.gridgain.task.assignJob;
 
 /**
- *  An abstract GridTask for implement one node per task. The job will be assigned to
- *  the node identified by the nodeId attribute.  
+ * An abstract GridTask for implement one node per task. The job will be
+ * assigned to the node identified by the nodeId attribute.
  */
 
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.interpss.gridgain.job.IpssGridGainDStabJob;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
@@ -53,12 +55,13 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 	/**
 	 * Serialize the model object to a string
 	 * 
-	 * @param model, Model object, could be DStabAlgo or DStabNet object
+	 * @param model,
+	 *            Model object, could be DStabAlgo or DStabNet object
 	 * @return the serialized object (String)
 	 */
 	@Override
 	protected String serializeModel(Object model) throws GridException {
-		String modelStr = "";
+		String modelStr = "", lfAlgoStr = "", dstabAlgoStr = "";
 		if (model instanceof DynamicSimuAlgorithm) {
 			DynamicSimuAlgorithm dstabAlgo = (DynamicSimuAlgorithm) model;
 
@@ -66,16 +69,23 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 			DStabilityNetwork net = dstabAlgo.getDStabNet();
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 
-			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo
+			lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo
 					.getAclfAlgorithm());
 			getSession().setAttribute(
 					Constants.GridToken_AclfAlgo + net.getId(), lfAlgoStr);
 
 			// done - this part should be implemented in the future
-			//dstabAlgo.setSimuOutputHandler(null);
-			String dstabAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo);
+			// dstabAlgo.setSimuOutputHandler(null);
+			dstabAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo);
 			getSession().setAttribute(
 					Constants.GridToken_DStabAlgo + net.getId(), dstabAlgoStr);
+
+			if (IpssGridGainUtil.RemoteNodeDebug) {
+				IpssLogger.getLogger().info("CaseId: " + net.getId());
+				IpssLogger.getLogger().info("Model String: " + modelStr);
+				IpssLogger.getLogger().info("AclfAlgo String: " + lfAlgoStr);
+				IpssLogger.getLogger().info("DStabAlgo String: " + dstabAlgoStr);
+			}
 		} else if (model instanceof DStabilityNetwork) {
 			DStabilityNetwork net = (DStabilityNetwork) model;
 			modelStr = SerializeEMFObjectUtil.saveModel(net);

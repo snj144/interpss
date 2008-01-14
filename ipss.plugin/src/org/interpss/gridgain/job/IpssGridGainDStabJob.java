@@ -35,6 +35,7 @@ import org.interpss.gridgain.util.DStabSimuGridOutputHandler;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
@@ -106,6 +107,11 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 			IpssLogger.getLogger().info(
 					"Output Var List: " + handler.getOutputVarIdList());
 		}
+		
+		if (((Boolean) getSession().getAttribute(
+				Constants.GridToken_RemoteNodeDebug)).booleanValue()) {
+			debugOut(net, dstabAlgo);
+		}		
 
 		// perform load flow calculation
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
@@ -120,5 +126,11 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 		}
 
 		return Boolean.FALSE;
+	}
+	
+	private synchronized void debugOut(AclfNetwork net, DynamicSimuAlgorithm dstabAlgo) {
+		IpssLogger.getLogger().info("CaseId: " + net.getId());
+		IpssLogger.getLogger().info("DStabNet -->" + net.net2String());
+		IpssLogger.getLogger().info("DStabAlgo -->" + dstabAlgo.toString());
 	}
 }

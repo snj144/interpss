@@ -36,8 +36,10 @@ package org.interpss.gridgain.task.assignJob;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
@@ -62,6 +64,12 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 			getSession().setAttribute(
 					Constants.GridToken_AclfAlgo + net.getId(), lfAlgoStr);
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
+
+			if (IpssGridGainUtil.RemoteNodeDebug) {
+				IpssLogger.getLogger().info("CaseId: " + net.getId());
+				IpssLogger.getLogger().info("Model String: " + modelStr);
+				IpssLogger.getLogger().info("AclfAlgo String: " + lfAlgoStr);
+			}
 		} else if (model instanceof AclfAdjNetwork) {
 			AclfAdjNetwork net = (AclfAdjNetwork) model;
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
@@ -69,6 +77,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 			AclfNetwork net = (AclfNetwork) model;
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
+		
 		return modelStr;
 	}
 }
