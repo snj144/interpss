@@ -49,17 +49,17 @@
 	    =========================	
 	-->
 	<bean id="aclfRunForm" 
-	      class="org.interpss.editor.runAct.AclfRunForm"
+	      class="org.interpss.editor.runAct.ui.AclfRunForm"
 	      scope="singleton">	
 	</bean>
 
 	<bean id="acscRunForm" 
-	      class="org.interpss.editor.runAct.AcscRunForm"
+	      class="org.interpss.editor.runAct.ui.AcscRunForm"
 	      scope="singleton">	
 	</bean>
 
 	<bean id="dstabRunForm" 
-	      class="org.interpss.editor.runAct.DStabRunForm"
+	      class="org.interpss.editor.runAct.ui.DStabRunForm"
 	      scope="prototype">	
 	</bean>
 	
