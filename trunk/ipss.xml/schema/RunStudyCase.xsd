@@ -14,11 +14,13 @@
         </ns:annotation>
         <ns:sequence>
         	<ns:element name="analysisRunTask"
-        		type="ipss:AnalysisRunTaskXmlData" minOccurs="1" maxOccurs="1">
+        		type="ipss:AnalysisRunTaskXmlData" minOccurs="1"
+        		maxOccurs="1">
         	</ns:element>
-        	<ns:element name="enableGridRun" type="ns:boolean" minOccurs="1" maxOccurs="1"></ns:element>
-            <ns:element name="gridTimeout" type="ns:long" minOccurs="0" maxOccurs="1"></ns:element>
-            <ns:element name="runAclfStudyCase"
+        	<ns:element name="gridRun" type="ipss:GridRunStudyCaseXmlType"
+        		minOccurs="0" maxOccurs="1">
+        	</ns:element>
+        	<ns:element name="runAclfStudyCase"
         		type="ipss:RunAclfStudyCaseXmlType" maxOccurs="unbounded"
         		minOccurs="0">
         	</ns:element>
@@ -29,7 +31,8 @@
         	<ns:element name="runDStabStudyCase"
         		type="ipss:RunDStabStudyCaseXmlType" maxOccurs="unbounded"
         		minOccurs="0">
-        	</ns:element>
+        	</ns:element>
+
         </ns:sequence>
 	</ns:complexType>
 
