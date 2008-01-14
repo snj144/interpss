@@ -34,7 +34,7 @@ import java.util.List;
 
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
-import org.interpss.gridgain.job.IpssGridGainAclfJob;
+import org.interpss.gridgain.job.IpssGridGainDStabJob;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;
@@ -48,6 +48,9 @@ import com.interpss.simu.multicase.StudyCase;
 public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
+	/**
+	 * create a list jobs for remote node. The job will be assigned to the remote node randomly.
+	 */
 	@Override
 	protected Collection<? extends GridJob> split(int gridSize,
 			MultiStudyCase model) throws GridException {
@@ -55,13 +58,20 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 		getSession().setAttribute(Constants.GridToken_MasterNodeId,
 				MasterNodeId);
 
-		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
+		List<IpssGridGainDStabJob> jobList = new ArrayList<IpssGridGainDStabJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
-			IpssGridGainAclfJob job = new IpssGridGainAclfJob(studyCase
+			// send the Net model (String) the remote node directly
+			IpssGridGainDStabJob job = new IpssGridGainDStabJob(studyCase
 					.getNetModelString());
 
-			// net.getId is used as the id for retrieving StudyCase info
-			//getSession().setAttribute(Constants.GridToken_AclfAlgo+studyCase.getId(), studyCase.getAclfAlgoModelString());
+			// send the AclfAlgo and DStabAlgo (string) to the remote node through the task session
+			// studyCase.id=net.id is used as the id for retrieving StudyCase info
+			getSession().setAttribute(
+					Constants.GridToken_AclfAlgo + studyCase.getId(),
+					studyCase.getAclfAlgoModelString());
+			getSession().setAttribute(
+					Constants.GridToken_DStabAlgo + studyCase.getId(),
+					studyCase.getDstabAlgoModelString());
 
 			jobList.add(job);
 		}

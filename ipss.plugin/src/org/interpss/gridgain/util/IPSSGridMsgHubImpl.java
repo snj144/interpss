@@ -62,11 +62,15 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 	 */
 	public IPSSGridMsgHubImpl(Grid grid, String masterNodeId, byte level) {
 		this.grid = grid;
-		for (GridNode node : grid.getAllNodes()) {
-			if (node.getId().toString().equals(masterNodeId))
-				this.masterNode = node;
-		}
 		this.level = level;
+		for (GridNode node : grid.getAllNodes()) {
+			if (node.getId().toString().equals(masterNodeId)) {
+				IpssLogger.getLogger().info("Master node set for IPSSGridMsgHub, id: " + masterNodeId);
+				this.masterNode = node;
+				return;
+			}
+		}
+		IpssLogger.getLogger().severe("Master node not set properly for IPSSGridMsgHub, id: " + masterNodeId);
 	}
 
 	/**
