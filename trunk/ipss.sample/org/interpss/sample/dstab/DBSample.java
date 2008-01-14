@@ -33,7 +33,7 @@ import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.dstab.util.DStabOutFunc;
+import com.interpss.dstab.util.DStabOutSymbol;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 
 public class DBSample {
@@ -57,11 +57,11 @@ public class DBSample {
 		if (elemRecList.size() > 0) {
 			DStabSimuDBRecord elemRec = (DStabSimuDBRecord)elemRecList.get(0);
 			Hashtable elemStates = StringUtil.parseStr2Hashtable(elemRec.getSimuRec());
-			elemStates.remove(DStabOutFunc.OUT_SYMBOL_TIME);
+			elemStates.remove(DStabOutSymbol.OUT_SYMBOL_TIME);
 			if (recType.equals(ISimuRecManager.REC_TYPE_DStabMachineStates))
-				elemStates.remove(DStabOutFunc.OUT_SYMBOL_MACH_ID);
+				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_MACH_ID);
 			else if (recType.equals(ISimuRecManager.REC_TYPE_DStabBusStates))
-				elemStates.remove(DStabOutFunc.OUT_SYMBOL_BUS_ID);
+				elemStates.remove(DStabOutSymbol.OUT_SYMBOL_BUS_ID);
 			System.out.println(elemStates.toString());
 		}
 	}

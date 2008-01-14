@@ -1,5 +1,4 @@
  /*
-  * @(#)TestSample2BusSystem.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -24,11 +23,14 @@
 
 package org.interpss.sample.dstab;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.display.DStabOutFunc;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -46,7 +48,7 @@ import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
-import com.interpss.dstab.util.DStabOutFunc;
+import com.interpss.dstab.util.DStabOutSymbol;
 import com.interpss.dstab.util.DynamicEventProcessor;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -121,8 +123,8 @@ public class TestSample2BusSystem extends TestSetupBase {
 				mach.nextStep(dt, DynamicSimuMethods.MODIFIED_EULER, net, msg);  
 
 				Hashtable states = mach.getStates(null);
-				states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, mach.getId());
-				states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
+				states.put(DStabOutSymbol.OUT_SYMBOL_MACH_ID, mach.getId());
+				states.put(DStabOutSymbol.OUT_SYMBOL_TIME, new Double(t+dt));
 				try{
 					System.out.print(DStabOutFunc.getStateStr(states));
 				} catch (Exception ex) {}

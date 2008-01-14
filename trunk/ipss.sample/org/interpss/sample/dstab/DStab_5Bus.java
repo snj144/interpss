@@ -24,6 +24,8 @@
 
 package org.interpss.sample.dstab;
 
+import static org.junit.Assert.assertTrue;
+
 import java.util.logging.Level;
 
 import com.interpss.common.util.IpssLogger;
@@ -33,7 +35,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.test.StateVariableTestRecorder;
-import com.interpss.dstab.util.DStabOutFunc;
+import com.interpss.dstab.util.DStabOutSymbol;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -67,18 +69,18 @@ public class DStab_5Bus extends TestSetupBase {
 		StateVariableTestRecorder recorder = new StateVariableTestRecorder(0.0001);
 
 		recorder.addTestRecord(new StateVariableTestRecorder.TestRecord(
-				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.0, DStabOutFunc.OUT_SYMBOL_MACH_ANG));
+				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.0, DStabOutSymbol.OUT_SYMBOL_MACH_ANG));
 		recorder.addTestRecord(new StateVariableTestRecorder.TestRecord(
-				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.1, DStabOutFunc.OUT_SYMBOL_MACH_ANG));
+				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.1, DStabOutSymbol.OUT_SYMBOL_MACH_ANG));
 		recorder.addTestRecord(new StateVariableTestRecorder.TestRecord(
-				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.2, DStabOutFunc.OUT_SYMBOL_MACH_ANG));
+				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.2, DStabOutSymbol.OUT_SYMBOL_MACH_ANG));
 		
 		recorder.addTestRecord(new StateVariableTestRecorder.TestRecord(
-				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.0, DStabOutFunc.OUT_SYMBOL_MACH_PE));
+				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.0, DStabOutSymbol.OUT_SYMBOL_MACH_PE));
 		recorder.addTestRecord(new StateVariableTestRecorder.TestRecord(
-				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.1, DStabOutFunc.OUT_SYMBOL_MACH_PE));
+				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.1, DStabOutSymbol.OUT_SYMBOL_MACH_PE));
 		recorder.addTestRecord(new StateVariableTestRecorder.TestRecord(
-				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.2, DStabOutFunc.OUT_SYMBOL_MACH_PE));
+				"Mach@0004", StateVariableTestRecorder.RecType_Machine, 0.2, DStabOutSymbol.OUT_SYMBOL_MACH_PE));
 
 		algo.setSimuOutputHandler(recorder);
 		
@@ -89,7 +91,7 @@ public class DStab_5Bus extends TestSetupBase {
 
 		System.out.println(recorder);
 		System.out.println("Total Differece: " + recorder.diffTotal( 
-				"Mach@0004", StateVariableTestRecorder.RecType_Machine, DStabOutFunc.OUT_SYMBOL_MACH_ANG));
+				"Mach@0004", StateVariableTestRecorder.RecType_Machine, DStabOutSymbol.OUT_SYMBOL_MACH_ANG));
 		
 		System.out.println("End DStab_5Bus.testCase()");
 	}

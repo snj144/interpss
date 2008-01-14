@@ -32,9 +32,9 @@ import java.util.Hashtable;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.display.DStabOutFunc;
 import org.interpss.dstab.control.exc.simple.SimpleExciter;
 import org.interpss.editor.EditorSpringAppContext;
-import org.interpss.test.simu.dstab.controller.annotate.CustomAnnotateExciter;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -67,7 +67,7 @@ import com.interpss.dstab.mach.EConstMachine;
 import com.interpss.dstab.mach.Eq1Machine;
 import com.interpss.dstab.mach.Machine;
 import com.interpss.dstab.mach.MachineType;
-import com.interpss.dstab.util.DStabOutFunc;
+import com.interpss.dstab.util.DStabOutSymbol;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -257,7 +257,7 @@ public class KundurP864_Common {
 		exc1.getData().setVrmin(0.0);
 		System.out.println("ExcData: " + exc1.getDataXmlString());
 */		
-		CustomAnnotateExciter exc1 = new CustomAnnotateExciter();
+		SimpleExciter exc1 = new SimpleExciter();
 		exc1.k = 50.0;
 		exc1.t = 0.05;
 		exc1.vmax = 10.0;
@@ -303,8 +303,8 @@ public class KundurP864_Common {
 	
 	public static void outputSimuResults(DStabBus abus, Machine refMach, double t, double dt) {
 		Hashtable states = abus.getMachine().getStates(refMach);
-		states.put(DStabOutFunc.OUT_SYMBOL_MACH_ID, abus.getMachine().getId());
-		states.put(DStabOutFunc.OUT_SYMBOL_TIME, new Double(t+dt));
+		states.put(DStabOutSymbol.OUT_SYMBOL_MACH_ID, abus.getMachine().getId());
+		states.put(DStabOutSymbol.OUT_SYMBOL_TIME, new Double(t+dt));
 		try{
 			System.out.print(DStabOutFunc.getStateStr(states));
 		} catch (Exception e) {

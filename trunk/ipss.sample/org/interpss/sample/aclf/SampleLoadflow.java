@@ -27,6 +27,7 @@ package org.interpss.sample.aclf;
 import java.util.logging.Level;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.display.AclfOutFunc;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -47,7 +48,7 @@ import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.util.outfunc.AclfOut;
+
 
 public class SampleLoadflow {
 
@@ -114,7 +115,7 @@ public class SampleLoadflow {
 	  	algo.loadflow(msg);
 	  	
 	  	// output loadflow calculation results
-	  	System.out.println(AclfOut.loadFlowSummary(net));
+	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
     }	
 
 	public static void loadflowWithAdjustment(IPSSMsgHub msg) {
@@ -140,7 +141,7 @@ public class SampleLoadflow {
 	  	algo.loadflow(msg);
 	  	
 	  	// output loadflow calculation results
-	  	System.out.println(AclfOut.loadFlowSummary(net));
+	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
 
 	  	// output net object info for debug purpose 
 	  	System.out.println(net.net2String());

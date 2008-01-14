@@ -25,12 +25,8 @@
 package org.interpss.sample.dstab;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.test.simu.TestBaseAppCtx;
+import org.interpss.BaseTestSetup;
 
-import com.interpss.dstab.DStabBranch;
-import com.interpss.dstab.DStabBus;
-import com.interpss.dstab.DStabObjectFactory;
-import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -41,8 +37,12 @@ import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.dstab.DStabBranch;
+import com.interpss.dstab.DStabBus;
+import com.interpss.dstab.DStabObjectFactory;
+import com.interpss.dstab.DStabilityNetwork;
 
-public class TestSetupBase extends TestBaseAppCtx {
+public class TestSetupBase extends BaseTestSetup {
 	protected IPSSMsgHub msg;
 
 	public TestSetupBase() { 
