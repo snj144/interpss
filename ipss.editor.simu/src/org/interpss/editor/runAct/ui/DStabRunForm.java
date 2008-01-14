@@ -176,7 +176,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 				.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
 		if (dstabDbHandler == null)
 			return false;
-		msgRouter.setDStabSimuDbOutputHandler(dstabDbHandler);
+		msgRouter.addDStabSimuDbOutputHandler(dstabDbHandler);
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(dstabDbHandler);
 
 		// transfer output variable filter info to the DStabAlgo object, which then 
