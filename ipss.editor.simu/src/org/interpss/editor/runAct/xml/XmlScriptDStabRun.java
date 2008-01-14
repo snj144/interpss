@@ -80,14 +80,13 @@ public class XmlScriptDStabRun {
 				if (!configDStaAlgo(dstabAlgo, dstabCase, msg))
 					return false;
 
-				if (IpssGridGainUtil.isGridEnabled()
-						&& xmlStudyCase.getEnableGridRun()) {
+				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 					// get any remote node
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
 							.getAnyRemoteNodeId();
-					IpssGridGainUtil.MasterNodeId = grid
-							.getLocalNode().getId().toString();
+					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
+							.toString();
 
 					/*
 					 * The simuMsg sending from remote node to the master node
@@ -104,8 +103,8 @@ public class XmlScriptDStabRun {
 								.performGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
-										dstabAlgo, xmlStudyCase
-												.getGridTimeout());
+										dstabAlgo, xmlStudyCase.getGridRun()
+												.getTimeout());
 						// init the Net object for plotting purpose. it is
 						// inited at the remote grid node
 						// before DStab simulation.
@@ -131,11 +130,10 @@ public class XmlScriptDStabRun {
 						.getIpssGraphicEditor().getCurrentAppSimuContext();
 				appSimuCtx.setLastRunType(SimuRunType.ScriptsMultiCase);
 
-				if (IpssGridGainUtil.isGridEnabled()
-						&& xmlStudyCase.getEnableGridRun()) {
+				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
-					IpssGridGainUtil.MasterNodeId = grid
-							.getLocalNode().getId().toString();
+					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
+							.toString();
 
 					/*
 					 * The simuMsg sending from remote node to the master node
@@ -144,7 +142,8 @@ public class XmlScriptDStabRun {
 					 */
 					GridMessageRouter msgRouter = new GridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
-					msgRouter.setDStabSimuDbOutputHandler(new DatabaseSimuOutputHandler());
+					msgRouter
+							.setDStabSimuDbOutputHandler(new DatabaseSimuOutputHandler());
 				}
 
 				// save the base case Network model to the netStr
@@ -173,16 +172,19 @@ public class XmlScriptDStabRun {
 								.createStudyCase(dstabCase.getRecId(),
 										dstabCase.getRecName(), ++cnt,
 										mCaseContainer);
-						if (IpssGridGainUtil.isGridEnabled()
-								&& xmlStudyCase.getEnableGridRun()) {
-							// if Grid computing, save the net and algo objects to the
+						if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
+							// if Grid computing, save the net and algo objects
+							// to the
 							// study case object
 							studyCase.setNetModelString(SerializeEMFObjectUtil
 									.saveModel(net));
-							studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil
-											.saveModel(dstabAlgo.getAclfAlgorithm()));
-							studyCase.setDstabAlgoModelString(SerializeEMFObjectUtil
-									.saveModel(dstabAlgo));
+							studyCase
+									.setAclfAlgoModelString(SerializeEMFObjectUtil
+											.saveModel(dstabAlgo
+													.getAclfAlgorithm()));
+							studyCase
+									.setDstabAlgoModelString(SerializeEMFObjectUtil
+											.saveModel(dstabAlgo));
 						} else {
 							// if not grid computing, perform DStab run
 							runLocalDStabRun(dstabAlgo, dstabCase, msg);
@@ -196,8 +198,7 @@ public class XmlScriptDStabRun {
 					}
 				}
 
-				if (IpssGridGainUtil.isGridEnabled()
-						&& xmlStudyCase.getEnableGridRun()) {
+				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					try {
 						Object[] objAry = (Object[]) IpssGridGainUtil
@@ -205,7 +206,7 @@ public class XmlScriptDStabRun {
 										grid,
 										"InterPSS Transient Stability Simulation",
 										mCaseContainer, xmlStudyCase
-												.getGridTimeout());
+												.getGridRun().getTimeout());
 						for (Object obj : objAry) {
 							if (!((Boolean) obj).booleanValue()) {
 								SpringAppContext
