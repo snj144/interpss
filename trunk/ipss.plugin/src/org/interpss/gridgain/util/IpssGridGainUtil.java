@@ -62,6 +62,9 @@ import com.interpss.simu.multicase.MultiStudyCase;
  */
 
 public class IpssGridGainUtil {
+	// Master node id
+	public static String MasterNodeId = "";	
+	
 	// hold node name to node id lookup info
 	private static Hashtable<String, String> nodeNameLookupTable = new Hashtable<String, String>();
 

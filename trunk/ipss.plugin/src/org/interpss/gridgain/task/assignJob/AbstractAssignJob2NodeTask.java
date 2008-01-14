@@ -44,6 +44,7 @@ import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskAdapter;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridTaskSessionResource;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
 
@@ -55,8 +56,6 @@ public abstract class AbstractAssignJob2NodeTask extends
 	@GridTaskSessionResource
 	private GridTaskSession session = null;
 
-	// Master node id
-	public static String MasterNodeId = "";
 	// Remote node id, the node will be assigned to perform the Task - One job task
 	public static String RemoteNodeId = "";
 
@@ -69,7 +68,7 @@ public abstract class AbstractAssignJob2NodeTask extends
 			Object model) throws GridException {
 		// Send master node id to all remote nodes.
 		getSession().setAttribute(Constants.GridToken_MasterNodeId,
-				MasterNodeId);
+				IpssGridGainUtil.MasterNodeId);
 
 		// serialize the model object, only the DStabNet part
 		String modelStr = serializeModel(model);

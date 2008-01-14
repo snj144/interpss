@@ -60,7 +60,7 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 					.getNetModelString());
 
 			// send the AclfAlgo string to the remote node through the task session
-			// net.getId is used as the id for retrieving StudyCase info
+			// studyCase.id=net.id is used as the id for retrieving StudyCase info
 			getSession().setAttribute(
 					Constants.GridToken_AclfAlgo + studyCase.getId(),
 					studyCase.getAclfAlgoModelString());
