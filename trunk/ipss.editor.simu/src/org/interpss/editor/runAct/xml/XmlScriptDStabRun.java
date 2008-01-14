@@ -1,26 +1,26 @@
- /*
-  * @(#)XmlScriptDStabRun.java   
-  *
-  * Copyright (C) 2008 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 01/15/2008
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)XmlScriptDStabRun.java   
+ *
+ * Copyright (C) 2008 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 01/15/2008
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.editor.runAct.xml;
 
@@ -30,7 +30,6 @@ import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.gridgain.task.assignJob.AbstractAssignJob2NodeTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -49,17 +48,20 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.dstab.util.DatabaseSimuOutputHandler;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.StudyCase;
 
 public class XmlScriptDStabRun {
 	/**
 	 * Run DStab run or run(s) defined in the Xml scripts
 	 * 
-	 * @param parser The InterPSS xml parser object
+	 * @param parser
+	 *            The InterPSS xml parser object
 	 * @param aclfNet
 	 * @param msg
 	 * @return
@@ -84,7 +86,7 @@ public class XmlScriptDStabRun {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
 							.getAnyRemoteNodeId();
-					AbstractAssignJob2NodeTask.MasterNodeId = grid
+					IpssGridGainUtil.MasterNodeId = grid
 							.getLocalNode().getId().toString();
 
 					/*
@@ -132,7 +134,7 @@ public class XmlScriptDStabRun {
 				if (IpssGridGainUtil.isGridEnabled()
 						&& xmlStudyCase.getEnableGridRun()) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
-					AbstractAssignJob2NodeTask.MasterNodeId = grid
+					IpssGridGainUtil.MasterNodeId = grid
 							.getLocalNode().getId().toString();
 
 					/*
@@ -142,8 +144,7 @@ public class XmlScriptDStabRun {
 					 */
 					GridMessageRouter msgRouter = new GridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
-					msgRouter.setDStabSimuDbOutputHandler(simuCtx
-							.getDynSimuAlgorithm().getSimuOutputHandler());
+					msgRouter.setDStabSimuDbOutputHandler(new DatabaseSimuOutputHandler());
 				}
 
 				// save the base case Network model to the netStr
@@ -162,39 +163,68 @@ public class XmlScriptDStabRun {
 					if (!configDStaAlgo(dstabAlgo, dstabCase, msg))
 						return false;
 
-					if (IpssGridGainUtil.isGridEnabled()
-							&& xmlStudyCase.getEnableGridRun()) {
-					}
-					else {
-						runLocalDStabRun(dstabAlgo, dstabCase, msg);
+					// net.id is used to retrieve study case info at remote
+					// node. so we need to
+					// sure net.id and studyCase.id are the same for Grid
+					// computing.
+					net.setId(dstabCase.getRecId());
+					try {
+						StudyCase studyCase = SimuObjectFactory
+								.createStudyCase(dstabCase.getRecId(),
+										dstabCase.getRecName(), ++cnt,
+										mCaseContainer);
+						if (IpssGridGainUtil.isGridEnabled()
+								&& xmlStudyCase.getEnableGridRun()) {
+							// if Grid computing, save the net and algo objects to the
+							// study case object
+							studyCase.setNetModelString(SerializeEMFObjectUtil
+									.saveModel(net));
+							studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil
+											.saveModel(dstabAlgo.getAclfAlgorithm()));
+							studyCase.setDstabAlgoModelString(SerializeEMFObjectUtil
+									.saveModel(dstabAlgo));
+						} else {
+							// if not grid computing, perform DStab run
+							runLocalDStabRun(dstabAlgo, dstabCase, msg);
+							studyCase.setDesc("DStab by Local Node");
+						}
+					} catch (Exception e) {
+						SpringAppContext.getEditorDialogUtil()
+								.showErrMsgDialog("Study Case Creation Error",
+										e.toString());
+						return false;
 					}
 				}
 
 				if (IpssGridGainUtil.isGridEnabled()
 						&& xmlStudyCase.getEnableGridRun()) {
-					for (RunDStabStudyCaseXmlType dstabCase : parser
-							.getRunDStabStudyCaseList()) {
-						Grid grid = IpssGridGainUtil.getDefaultGrid();
-						try {
-							Boolean rtn = (Boolean) IpssGridGainUtil
-									.performGridTask(
-											grid,
-											"InterPSS Transient Stability Simulation",
-											mCaseContainer, xmlStudyCase
-													.getGridTimeout());
-							return rtn.booleanValue();
-						} catch (GridException e) {
-							SpringAppContext.getEditorDialogUtil()
-									.showErrMsgDialog("Grid DStab Error",
-											e.toString());
-							return false;
+					Grid grid = IpssGridGainUtil.getDefaultGrid();
+					try {
+						Object[] objAry = (Object[]) IpssGridGainUtil
+								.performGridTask(
+										grid,
+										"InterPSS Transient Stability Simulation",
+										mCaseContainer, xmlStudyCase
+												.getGridTimeout());
+						for (Object obj : objAry) {
+							if (!((Boolean) obj).booleanValue()) {
+								SpringAppContext
+										.getEditorDialogUtil()
+										.showWarnMsgDialog("Grid DStab Error",
+												"Please check InterPSS log file for details");
+								return false;
+							}
 						}
+					} catch (GridException e) {
+						SpringAppContext.getEditorDialogUtil()
+								.showErrMsgDialog("Grid DStab Error",
+										e.toString());
+						return false;
 					}
-					// init the Net object for plotting purpose. it is
-					// inited at the remote grid node
-					// before DStab simulation.
-					dstabNet.initialization(msg);
 				}
+				// init the Net object for plotting purpose. it is
+				// inited at the remote grid node before DStab simulation.
+				dstabNet.initialization(msg);
 				// set the DStabNet object back to the SimuCtx
 				simuCtx.setDStabilityNet(dstabNet);
 			}

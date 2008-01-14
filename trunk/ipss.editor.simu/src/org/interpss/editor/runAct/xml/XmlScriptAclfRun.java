@@ -29,7 +29,6 @@ import org.gridgain.grid.GridException;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.gridgain.task.assignJob.AbstractAssignJob2NodeTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
@@ -77,7 +76,7 @@ public class XmlScriptAclfRun {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
 							.getAnyRemoteNodeId();
-					AbstractAssignJob2NodeTask.MasterNodeId = grid
+					IpssGridGainUtil.MasterNodeId = grid
 							.getLocalNode().getId().toString();
 					try {
 						String str = (String) IpssGridGainUtil.performGridTask(
@@ -159,7 +158,7 @@ public class XmlScriptAclfRun {
 				if (IpssGridGainUtil.isGridEnabled()
 						&& xmlStudyCase.getEnableGridRun()) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
-					AbstractAssignJob2NodeTask.MasterNodeId = grid
+					IpssGridGainUtil.MasterNodeId = grid
 							.getLocalNode().getId().toString();
 					try {
 						Object[] objAry = (Object[]) IpssGridGainUtil
