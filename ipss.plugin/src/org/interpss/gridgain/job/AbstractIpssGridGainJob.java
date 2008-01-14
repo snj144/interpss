@@ -73,8 +73,15 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 		if (msgHub == null) {
 			String masterNodeId = (String) session
 					.getAttribute(Constants.GridToken_MasterNodeId);
-			msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId,
-					TextMessage.TYPE_INFO);
+			boolean debug = ((Boolean) session
+					.getAttribute(Constants.GridToken_RemoteNodeDebug))
+					.booleanValue();
+			if (debug)
+				msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId,
+						TextMessage.TYPE_DEBUG);
+			else
+				msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId,
+						TextMessage.TYPE_INFO);
 		}
 		return msgHub;
 	}

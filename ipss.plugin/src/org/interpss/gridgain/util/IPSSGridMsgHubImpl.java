@@ -163,8 +163,9 @@ public class IPSSGridMsgHubImpl implements IPSSMsgHub {
 
 	private void sendMessage(String msg) {
 		try {
+			if (this.level == TextMessage.TYPE_DEBUG)
+				System.out.println("RemtoeMsg(debug) ----> " + msg);
 			this.grid.sendMessage(masterNode, msg);
-			//System.out.println(msg);
 		} catch (GridException e) {
 			e.printStackTrace();
 		}

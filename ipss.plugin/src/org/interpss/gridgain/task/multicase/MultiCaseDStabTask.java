@@ -29,11 +29,10 @@
 package org.interpss.gridgain.task.multicase;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.gridgain.grid.GridException;
-import org.gridgain.grid.GridJob;
+import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.job.IpssGridGainDStabJob;
 
 import com.interpss.common.datatype.Constants;
@@ -48,16 +47,7 @@ import com.interpss.simu.multicase.StudyCase;
 public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
-	/**
-	 * create a list jobs for remote node. The job will be assigned to the remote node randomly.
-	 */
-	@Override
-	protected Collection<? extends GridJob> split(int gridSize,
-			MultiStudyCase model) throws GridException {
-		// Send master node id to all remote nodes.
-		getSession().setAttribute(Constants.GridToken_MasterNodeId,
-				MasterNodeId);
-
+	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
 		List<IpssGridGainDStabJob> jobList = new ArrayList<IpssGridGainDStabJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
 			// send the Net model (String) the remote node directly
@@ -78,4 +68,5 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 
 		return jobList;
 	}
+	
 }
