@@ -69,6 +69,8 @@ public abstract class AbstractAssignJob2NodeTask extends
 		// Send master node id to all remote nodes.
 		getSession().setAttribute(Constants.GridToken_MasterNodeId,
 				IpssGridGainUtil.MasterNodeId);
+		getSession().setAttribute(Constants.GridToken_RemoteNodeDebug,
+				new Boolean(IpssGridGainUtil.remoteNodeDebug));
 
 		// serialize the model object, only the DStabNet part
 		String modelStr = serializeModel(model);

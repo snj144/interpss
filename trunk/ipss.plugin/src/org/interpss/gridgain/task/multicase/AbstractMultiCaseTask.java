@@ -28,14 +28,19 @@ package org.interpss.gridgain.task.multicase;
  *  An abstract GridTask for implement multiple study cases. 
  */
 
+import java.util.Collection;
 import java.util.List;
 
 import org.gridgain.grid.GridException;
+import org.gridgain.grid.GridJob;
 import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.GridTaskSplitAdapter;
 import org.gridgain.grid.resources.GridTaskSessionResource;
+import org.interpss.gridgain.job.AbstractIpssGridGainJob;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public abstract class AbstractMultiCaseTask extends
@@ -53,6 +58,30 @@ public abstract class AbstractMultiCaseTask extends
 		return this.session;
 	}
 
+	/**
+	 * create a list jobs for remote node. The job will be assigned to the remote node randomly.
+	 */
+	@Override
+	protected Collection<? extends GridJob> split(int gridSize,
+			MultiStudyCase model) throws GridException {
+		// Send master node id to all remote nodes.
+		getSession().setAttribute(Constants.GridToken_MasterNodeId,
+				MasterNodeId);
+		getSession().setAttribute(Constants.GridToken_RemoteNodeDebug,
+				new Boolean(IpssGridGainUtil.remoteNodeDebug));
+
+		return createRemoteJobList(model);
+	}
+
+	/**
+	 * create remote job list. The method needs to be implemented by the subclass
+	 * 
+	 * @param model
+	 * @return
+	 * @throws GridException
+	 */
+	abstract protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException;
+	
 	/**
 	 * Multiple study case, return a String array
 	 */
