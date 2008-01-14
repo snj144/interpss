@@ -1,26 +1,26 @@
- /*
-  * @(#)XmlScriptRunWorker.java   
-  *
-  * Copyright (C) 2008 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 01/15/2008
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)XmlScriptRunWorker.java   
+ *
+ * Copyright (C) 2008 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 01/15/2008
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.editor.runAct;
 
@@ -28,6 +28,7 @@ import org.apache.xmlbeans.XmlException;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AnalysisRunTaskXmlData;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
@@ -68,14 +69,14 @@ public class XmlScriptRunWorker {
 		IPSSMsgHub msg = simuCtx.getMsgHub();
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 		if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF) {
-			return XmlScriptAclfRun.runAclf(parser, simuCtx.getAclfAdjNet(), msg);
+			return XmlScriptAclfRun.runAclf(parser, simuCtx.getAclfAdjNet(),
+					msg);
 		} else if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC) {
-			return XmlScriptAcscRun.runAcsc(parser, simuCtx.getAcscFaultNet(), msg);
+			return XmlScriptAcscRun.runAcsc(parser, simuCtx.getAcscFaultNet(),
+					msg);
 		} else if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_D_STAB) {
 			return XmlScriptDStabRun.runDStab(parser, simuCtx, msg);
 		}
 		return true;
 	}
-
-
 }

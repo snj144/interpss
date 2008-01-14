@@ -1,32 +1,33 @@
- /*
-  * @(#)XmlScriptAclfRun.java   
-  *
-  * Copyright (C) 2008 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 01/15/2008
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
+/*
+ * @(#)XmlScriptAclfRun.java   
+ *
+ * Copyright (C) 2008 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 01/15/2008
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 
 package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
@@ -56,8 +57,8 @@ public class XmlScriptAclfRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runAclf(IpssXmlParser parser,
-			AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+	public static boolean runAclf(IpssXmlParser parser, AclfAdjNetwork aclfNet,
+			IPSSMsgHub msg) {
 		IpssMapper mapper = SimuAppSpringAppContext
 				.getRunForm2AlgorithmMapper();
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
@@ -71,17 +72,16 @@ public class XmlScriptAclfRun {
 						.createLoadflowAlgorithm(aclfNet);
 				mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 
-				if (IpssGridGainUtil.isGridEnabled()
-						&& xmlStudyCase.getEnableGridRun()) {
+				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
 							.getAnyRemoteNodeId();
-					IpssGridGainUtil.MasterNodeId = grid
-							.getLocalNode().getId().toString();
+					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
+							.toString();
 					try {
 						String str = (String) IpssGridGainUtil.performGridTask(
 								grid, "InterPSS Grid Aclf Calculation", algo,
-								xmlStudyCase.getGridTimeout());
+								xmlStudyCase.getGridRun().getTimeout());
 						aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil
 								.loadModel(str);
 					} catch (GridException e) {
@@ -127,8 +127,7 @@ public class XmlScriptAclfRun {
 						StudyCase studyCase = SimuObjectFactory
 								.createStudyCase(aclfCase.getRecId(), aclfCase
 										.getRecName(), ++cnt, mCaseContainer);
-						if (IpssGridGainUtil.isGridEnabled()
-								&& xmlStudyCase.getEnableGridRun()) {
+						if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 							// if Grid computing, save the Algo object to the
 							// study case object
 							studyCase
@@ -155,17 +154,16 @@ public class XmlScriptAclfRun {
 
 				// if Grid computing, send the MultiCase container to perform
 				// remote grid computing
-				if (IpssGridGainUtil.isGridEnabled()
-						&& xmlStudyCase.getEnableGridRun()) {
+				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
-					IpssGridGainUtil.MasterNodeId = grid
-							.getLocalNode().getId().toString();
+					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
+							.toString();
 					try {
 						Object[] objAry = (Object[]) IpssGridGainUtil
 								.performGridTask(grid,
 										"InterPSS Grid Aclf Calculation",
 										mCaseContainer, xmlStudyCase
-												.getGridTimeout());
+												.getGridRun().getTimeout());
 						for (Object obj : objAry) {
 							String str = (String) obj;
 							// deserialize the AclfNet model string for Net.id

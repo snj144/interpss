@@ -33,7 +33,9 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.RunDStabStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -247,4 +249,16 @@ public class RunActUtilFunc {
 		}
 		return true;
 	}
+
+	/**
+	 * check if grid computing is enabled for the study case
+	 * 
+	 * @param xmlStudyCase study case object
+	 * @return
+	 */
+	public static boolean isGridEnabled(RunStudyCaseXmlType xmlStudyCase) {
+		return 	IpssGridGainUtil.isGridEnabled()
+				&& xmlStudyCase.getGridRun() != null
+				&& xmlStudyCase.getGridRun().getEnableGridRun();
+	}	
 }
