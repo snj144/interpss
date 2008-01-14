@@ -68,6 +68,8 @@ public class XmlScriptRunWorker {
 
 		IPSSMsgHub msg = simuCtx.getMsgHub();
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
+		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
+				&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
 		if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF) {
 			return XmlScriptAclfRun.runAclf(parser, simuCtx.getAclfAdjNet(),
 					msg);

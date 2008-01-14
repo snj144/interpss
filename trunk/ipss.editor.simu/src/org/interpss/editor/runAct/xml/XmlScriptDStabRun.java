@@ -48,7 +48,6 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.util.DatabaseSimuOutputHandler;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -95,7 +94,7 @@ public class XmlScriptDStabRun {
 					 */
 					GridMessageRouter msgRouter = new GridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
-					msgRouter.setDStabSimuDbOutputHandler(dstabAlgo
+					msgRouter.addDStabSimuDbOutputHandler(dstabAlgo
 							.getSimuOutputHandler());
 
 					try {
@@ -130,20 +129,14 @@ public class XmlScriptDStabRun {
 						.getIpssGraphicEditor().getCurrentAppSimuContext();
 				appSimuCtx.setLastRunType(SimuRunType.ScriptsMultiCase);
 
+				GridMessageRouter msgRouter = null;
 				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 
-					/*
-					 * The simuMsg sending from remote node to the master node
-					 * will be routed by the router to the msg object. The
-					 * simuMsg will be then routed to the DBSimuDataHandler
-					 */
-					GridMessageRouter msgRouter = new GridMessageRouter(msg);
+					msgRouter = new GridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
-					msgRouter
-							.setDStabSimuDbOutputHandler(new DatabaseSimuOutputHandler());
 				}
 
 				// save the base case Network model to the netStr
@@ -185,6 +178,8 @@ public class XmlScriptDStabRun {
 							studyCase
 									.setDstabAlgoModelString(SerializeEMFObjectUtil
 											.saveModel(dstabAlgo));
+							msgRouter.addDStabSimuDbOutputHandler(dstabAlgo
+									.getSimuOutputHandler());
 						} else {
 							// if not grid computing, perform DStab run
 							runLocalDStabRun(dstabAlgo, dstabCase, msg);
