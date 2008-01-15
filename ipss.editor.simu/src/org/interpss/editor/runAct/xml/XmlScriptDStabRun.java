@@ -60,37 +60,54 @@ public class XmlScriptDStabRun {
 	 * Run DStab run or run(s) defined in the Xml scripts
 	 * 
 	 * @param parser
-	 *            The InterPSS xml parser object
-	 * @param aclfNet
+	 *            The InterPSS xml parser object, which contents the Xml Run
+	 *            scripts
+	 * @param simuCtx
+	 *            the SimuContext object
 	 * @param msg
 	 * @return
 	 */
 	public static boolean runDStab(IpssXmlParser parser, SimuContext simuCtx,
 			IPSSMsgHub msg) {
-		DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
+		// get the RunStudyCase object, root level modification has already
+		// applied
+		// to the DStabNet object
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 
+		IAppSimuContext appSimuCtx = GraphSpringAppContext
+				.getIpssGraphicEditor().getCurrentAppSimuContext();
+
+		DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
 		if (parser.getRunDStabStudyCaseList().length > 0) {
+			// single run case
 			if (parser.getRunDStabStudyCaseList().length == 1) {
+				appSimuCtx.setLastRunType(SimuRunType.DStab);
+
+				// get the run case info defined in the Xml scripts
 				RunDStabStudyCaseXmlType dstabCase = parser
 						.getRunDStabStudyCaseList()[0];
+				// config the DStabAlgo object, including apply case-level
+				// modification to the DStabNet object
 				DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
 						.createDynamicSimuAlgorithm(dstabNet, msg);
 				if (!configDStaAlgo(dstabAlgo, dstabCase, msg))
 					return false;
 
 				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
-					// get any remote node
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
+					// get any remote node to distribute the simulation job
 					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
 							.getAnyRemoteNodeId();
+					// set the master node id, so that remote msg could be sent
+					// to the master node
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 
 					/*
 					 * The simuMsg sending from remote node to the master node
-					 * will be routed by the router to the msg object. The
-					 * simuMsg will be then routed to the DBSimuDataHandler
+					 * will be routed by the router to msg object, excepting
+					 * DStab simu msg, which will be handled by the
+					 * dbSimuDataHandler object
 					 */
 					GridMessageRouter msgRouter = new GridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
@@ -98,15 +115,14 @@ public class XmlScriptDStabRun {
 							.getSimuOutputHandler());
 
 					try {
+						// run DStab simu at a remote node
 						Boolean rtn = (Boolean) IpssGridGainUtil
 								.performGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
 										dstabAlgo, xmlStudyCase.getGridRun()
 												.getTimeout());
-						// init the Net object for plotting purpose. it is
-						// inited at the remote grid node
-						// before DStab simulation.
+						// init the Net object for plotting purpose.
 						dstabNet.initialization(msg);
 						// set the DStabNet object back to the SimuCtx
 						simuCtx.setDStabilityNet(dstabNet);
@@ -120,13 +136,8 @@ public class XmlScriptDStabRun {
 				} else {
 					runLocalDStabRun(dstabAlgo, dstabCase, msg);
 				}
-			}
-			/*
-			 * Multi-DStab run case ====================
-			 */
-			else {
-				IAppSimuContext appSimuCtx = GraphSpringAppContext
-						.getIpssGraphicEditor().getCurrentAppSimuContext();
+			} else {
+				// Multi-DStab run case
 				appSimuCtx.setLastRunType(SimuRunType.ScriptsMultiCase);
 
 				GridMessageRouter msgRouter = null;
@@ -134,7 +145,6 @@ public class XmlScriptDStabRun {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
-
 					msgRouter = new GridMessageRouter(msg);
 					grid.addMessageListener(msgRouter);
 				}
@@ -156,9 +166,8 @@ public class XmlScriptDStabRun {
 						return false;
 
 					// net.id is used to retrieve study case info at remote
-					// node. so we need to
-					// sure net.id and studyCase.id are the same for Grid
-					// computing.
+					// node. so we need to sure net.id and studyCase.id are
+					// the same for Grid computing.
 					net.setId(dstabCase.getRecId());
 					try {
 						StudyCase studyCase = SimuObjectFactory
@@ -167,8 +176,7 @@ public class XmlScriptDStabRun {
 										mCaseContainer);
 						if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 							// if Grid computing, save the net and algo objects
-							// to the
-							// study case object
+							// to the study case object
 							studyCase.setNetModelString(SerializeEMFObjectUtil
 									.saveModel(net));
 							studyCase
@@ -218,8 +226,7 @@ public class XmlScriptDStabRun {
 						return false;
 					}
 				}
-				// init the Net object for plotting purpose. it is
-				// inited at the remote grid node before DStab simulation.
+				// init the Net object for plotting purpose.
 				dstabNet.initialization(msg);
 				// set the DStabNet object back to the SimuCtx
 				simuCtx.setDStabilityNet(dstabNet);
