@@ -1006,17 +1006,17 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
     private void addOutVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOutVarButtonActionPerformed
     	for (Object obj : this.machOutVarList.getSelectedValues()) {
-    		String id = "Machine - " + (String)obj;
+    		String id = Constants.Token_FilterMachVar + (String)obj;
     		if (!this.dstabCaseData.getOutVarList().contains(id))
     			this.dstabCaseData.getOutVarList().add(id);
     	}
     	for (Object obj : this.busOutVarList.getSelectedValues()) {
-    		String id = "Bus - " + (String)obj;
+    		String id = Constants.Token_FilterBusVar + (String)obj;
     		if (!this.dstabCaseData.getOutVarList().contains(id))
     			this.dstabCaseData.getOutVarList().add(id);
     	}
     	for (Object obj : this.branchOutVarList.getSelectedValues()) {
-    		String id = "Branch - " + (String)obj;
+    		String id = Constants.Token_FilterBranchVar + (String)obj;
     		if (!this.dstabCaseData.getOutVarList().contains(id))
     			this.dstabCaseData.getOutVarList().add(id);
     	}
