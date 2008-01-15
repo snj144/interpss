@@ -41,26 +41,24 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 
-/**
- *  An abstract GridTask for implement one node per task. The job will be assigned to
- *  the node identified by the nodeId attribute.  
- */
-
 public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
 	/**
 	 * create remote job list for DStab run
 	 */
-	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
+	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(
+			MultiStudyCase model) throws GridException {
 		List<IpssGridGainDStabJob> jobList = new ArrayList<IpssGridGainDStabJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
 			// send the Net model (String) the remote node directly
 			IpssGridGainDStabJob job = new IpssGridGainDStabJob(studyCase
 					.getNetModelString());
 
-			// send the AclfAlgo and DStabAlgo (string) to the remote node through the task session
-			// studyCase.id=net.id is used as the id for retrieving StudyCase info
+			// send the AclfAlgo and DStabAlgo (string) to the remote node
+			// through the task session
+			// studyCase.id=net.id is used as the id for retrieving StudyCase
+			// info
 			getSession().setAttribute(
 					Constants.GridToken_AclfAlgo + studyCase.getId(),
 					studyCase.getAclfAlgoModelString());
@@ -70,11 +68,16 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 
 			if (IpssGridGainUtil.RemoteNodeDebug) {
 				IpssLogger.getLogger().info("CaseId: " + studyCase.getId());
-				IpssLogger.getLogger().info("Model String: " + studyCase.getNetModelString());
-				IpssLogger.getLogger().info("AclfAlgo String: " + studyCase.getAclfAlgoModelString());
-				IpssLogger.getLogger().info("DStabAlgo String: " + studyCase.getDstabAlgoModelString());
+				IpssLogger.getLogger().info(
+						"Model String: " + studyCase.getNetModelString());
+				IpssLogger.getLogger().info(
+						"AclfAlgo String: "
+								+ studyCase.getAclfAlgoModelString());
+				IpssLogger.getLogger().info(
+						"DStabAlgo String: "
+								+ studyCase.getDstabAlgoModelString());
 			}
-			
+
 			jobList.add(job);
 		}
 		return jobList;
