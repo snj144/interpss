@@ -75,7 +75,7 @@ public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 						.get(DStabOutSymbol.OUT_SYMBOL_MACH_ID);
 				if (!this.isOutputFilter()
 						|| this.getOutputVarIdList().contains(
-								"Machine - " + machId)) {
+								Constants.Token_FilterMachVar+machId)) {
 					e.getHashtableData().put(Constants.GridToken_CaseId,
 							gridRunCaseId);
 					msgHub.sendMsg(event);
@@ -85,7 +85,7 @@ public class DStabSimuGridOutputHandler extends AbstractSimuOutputHandler {
 				String busId = (String) busStates
 						.get(DStabOutSymbol.OUT_SYMBOL_BUS_ID);
 				if (!this.isOutputFilter()
-						|| this.getOutputVarIdList().contains("Bus - " + busId)) {
+						|| this.getOutputVarIdList().contains(Constants.Token_FilterBusVar+busId)) {
 					e.getHashtableData().put(Constants.GridToken_CaseId,
 							gridRunCaseId);
 					msgHub.sendMsg(event);
