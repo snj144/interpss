@@ -29,11 +29,13 @@ import java.util.Vector;
 
 import org.eclipse.emf.ecore.EObject;
 import org.gridgain.grid.Grid;
+import org.gridgain.grid.GridConfigurationAdapter;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.GridFactoryState;
 import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskTimeoutException;
+import org.gridgain.grid.spi.topology.basic.GridBasicTopologySpi;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeAclfTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.task.multicase.MultiCaseAclfTask;
@@ -122,7 +124,15 @@ public class IpssGridGainUtil {
 	public static void startDefaultGrid() {
 		IpssLogger.getLogger().info("Start GridGain env ...");
 		try {
-			GridFactory.start();
+			GridBasicTopologySpi topSpi = new GridBasicTopologySpi();
+			// Exclude local node from topology.
+			topSpi.setLocalNode(false);
+			GridConfigurationAdapter cfg = new GridConfigurationAdapter();
+			// Override default topology SPI.
+			cfg.setTopologySpi(topSpi);
+			// Start grid.
+			GridFactory.start(cfg);			
+
 			defaultGrid = GridFactory.getGrid();
 			String[] list = gridNodeNameList(defaultGrid, true);
 			if (list.length > 0) {
