@@ -1,5 +1,5 @@
  /*
-  * @(#)AcscSampleTest.java   
+  * @(#)IpssSchemaAcscSampleCaseTest.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -42,7 +42,7 @@ import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.core.util.sample.SampleCases;
 
-public class IpssSchenaAcscSampleCaseTest extends BaseTestSetup {
+public class IpssSchemaAcscSampleCaseTest extends BaseTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
 		File xmlFile = new File("testData/xml/RunAcscCase.xml");

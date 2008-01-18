@@ -24,5 +24,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/xml/xbean.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/xml/xerces.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ScalaTest"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
