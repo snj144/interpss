@@ -4,12 +4,18 @@
            xmlns:ns="http://www.w3.org/2001/XMLSchema" 
            xmlns:ipss="http://www.interpss.org/schema">
 
-	<ns:include schemaLocation="Datatype.xsd"></ns:include>
+    <ns:include schemaLocation=""></ns:include>
+    <ns:include schemaLocation="Datatype.xsd"></ns:include>
 	<ns:complexType name="ModificationXmlType">
 		<ns:sequence>
+			<ns:element name="netChangeRec" type="ipss:NetworkChangeXmlRecType" maxOccurs="1" minOccurs="0">
+			</ns:element>
 			<ns:element name="aclfNetChangeRec" type="ipss:AclfNetChangeRecXmlType" maxOccurs="1" minOccurs="0">
 			</ns:element>
-			<ns:element name="netChangeRec" type="ipss:NetworkChangeXmlRecType" maxOccurs="1" minOccurs="0"></ns:element>
+			<ns:element name="acscNetChangeRec" type="ipss:AcscNetChangeRecXmlType" maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="dstabNetChangeRec" type="ipss:DStabNetChangeRecXmlType" maxOccurs="1" minOccurs="0">
+			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
@@ -41,6 +47,31 @@
 		</ns:complexContent>
 	</ns:complexType>
 
+	<ns:complexType name="AcscNetChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RecordXmlType">
+				<ns:sequence>
+					<ns:element name="acscBusChangeRec" type="ipss:AcscBusChangeRecXmlType" maxOccurs="unbounded" minOccurs="0">
+					</ns:element>
+					<ns:element name="acscBranchChangeRec" type="ipss:AcscBranchChangeRecXmlType" maxOccurs="unbounded" minOccurs="0">
+					</ns:element>
+				</ns:sequence>
+
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+	
+	<ns:complexType name="DStabNetChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RecordXmlType">
+				<ns:sequence>
+					<ns:element name="machineChangeRec" type="ipss:DStabMachineChangeRecXmlType" maxOccurs="unbounded" minOccurs="0">
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+	
 	<ns:complexType name="BusChangeRecXmlType">
 		<ns:complexContent>
 			<ns:extension base="ipss:BusRecXmlType">
@@ -78,6 +109,33 @@
 			<ns:extension base="ipss:BusRecXmlType">
 				<ns:sequence>
 					<ns:element name="loadChange" type="ipss:AclfLoadChangeXmlType" maxOccurs="1" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="AcscBranchChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BranchRecXmlType">
+				<ns:sequence>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="AcscBusChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BusRecXmlType">
+				<ns:sequence>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="DStabMachineChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BusRecXmlType">
+				<ns:sequence>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
