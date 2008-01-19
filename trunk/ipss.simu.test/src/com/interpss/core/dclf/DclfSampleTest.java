@@ -1,5 +1,5 @@
 /*
- * @(#)AclfSampleTest.java   
+ * @(#)DclfSampleTest.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *
