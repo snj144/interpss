@@ -71,22 +71,6 @@ public interface IAppSimuContext {
 	void setDbSimuCaseId(int n);
 	
 	/**
-	 * Get Dstab simu DB id for the simu case id in multiple simu case 
-	 * 
-	 * @param caseId
-	 * @return
-	 */
-	int getDbSimuCaseId(String caseId);
-	
-	/**
-	 * Get simu case id list 
-	 * 
-	 * @return
-	 */
-	String[] getSimuCaseIdList();
-	
-	
-	/**
 	 * Check if the current AcscRunForm has a non-symmetric fault
 	 * 
 	 * @return
