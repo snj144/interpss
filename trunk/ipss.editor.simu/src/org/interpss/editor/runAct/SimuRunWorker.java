@@ -176,7 +176,7 @@ public class SimuRunWorker extends Thread {
 			str += "=================================\n";
 			for (Bus bus : net.getBusList()) {
 				int n = bus.getSortNumber();
-				double angle = algo.getBMatrix().getBi(n);
+				double angle = algo.getB1PAngleMatrix().getBi(n);
 				str += Number2String.toFixLengthStr(8, bus.getId())
 						+ "        "
 						+ Number2String.toStr(angle * Constants.RtoD) + "\n";
