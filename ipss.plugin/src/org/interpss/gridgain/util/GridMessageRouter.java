@@ -31,9 +31,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.gridgain.grid.GridMessageListener;
-import org.interpss.editor.jgraph.GraphSpringAppContext;
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.SimuMessage;
@@ -106,9 +105,7 @@ public class GridMessageRouter implements GridMessageListener {
 					.byteValue(), states);
 			// find dbCaseId
 			String caseId = states.get(Constants.GridToken_CaseId);
-			IAppSimuContext appSimuCtx = GraphSpringAppContext
-					.getIpssGraphicEditor().getCurrentAppSimuContext();
-			int dbCaseId = appSimuCtx.getDbSimuCaseId(caseId);
+			int dbCaseId = SpringAppContext.getSimuRecManager().getDBCaseId(caseId);
 			// System.out.println("*******caseId, dbCaseId: " + caseId + ", " +
 			// dbCaseId);
 
