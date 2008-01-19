@@ -25,7 +25,7 @@
 package org.interpss.editor.app;
 
 /**
- A Facede for for all application related info
+ * A Facede for for all application related info
  */
 
 import java.util.List;
@@ -50,8 +50,6 @@ import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
-import com.interpss.dstab.util.DatabaseSimuOutputHandler;
-import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
 
@@ -162,7 +160,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	/**
 	 * Get an array of case data object for the case type
 	 * 
-	 * @param caseType case type
+	 * @param caseType
+	 *            case type
 	 * @return case data array of type Object[]
 	 */
 	public Object[] getCasenameArray(String caseType) {
@@ -192,8 +191,10 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	/**
 	 * Delete the case data by casename and case type
 	 * 
-	 * @param casename case name
-	 * @param caseType case type
+	 * @param casename
+	 *            case name
+	 * @param caseType
+	 *            case type
 	 * @return if the case data delete, return true, else false
 	 */
 	public boolean deleteCaseData(String casename, String caseType) {
@@ -207,9 +208,11 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 	/**
 	 * Get the CaseData object by casename and case type
-	 *  
-	 * @param casename  case name
-	 * @param caseType  case type
+	 * 
+	 * @param casename
+	 *            case name
+	 * @param caseType
+	 *            case type
 	 * @return the case data object
 	 */
 	public CaseData getCaseData(String casename, String caseType) {
@@ -228,11 +231,14 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	}
 
 	/**
-	 * Create a CaseData object with the casename and put into <*>RunForm. Since casename has to be unique in a project, if
-	 * a caseInfo object with the same casename found, return null.
+	 * Create a CaseData object with the casename and put into <*>RunForm. Since
+	 * casename has to be unique in a project, if a caseInfo object with the
+	 * same casename found, return null.
 	 * 
-	 * @param casename the case name
-	 * @param caseType the case type
+	 * @param casename
+	 *            the case name
+	 * @param caseType
+	 *            the case type
 	 * @return the created case, null the casename already exists
 	 */
 	public CaseData createCaseData(String casename, String caseType) {
@@ -276,8 +282,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	}
 
 	/**
-	 *	Convert the net to a string for display purpose, including bus and branch
-	 *
+	 * Convert the net to a string for display purpose, including bus and branch
+	 * 
 	 * @return the string representation
 	 */
 	public String toString() {
@@ -295,7 +301,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	}
 
 	/**
-	 * @param scCalculated The scCalculated to set.
+	 * @param scCalculated
+	 *            The scCalculated to set.
 	 */
 	public void setScCalculated(boolean scCalculated) {
 		this.scCalculated = scCalculated;
@@ -319,7 +326,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	}
 
 	/**
-	 * @param lastRunType the lastRunType to set
+	 * @param lastRunType
+	 *            the lastRunType to set
 	 */
 	public void setLastRunType(SimuRunType lastRunType) {
 		this.lastRunType = lastRunType;
@@ -333,21 +341,8 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	}
 
 	/**
-	 * @param run case id
-	 * @return Returns the dbSimuCaseId.
-	 */
-	public int getDbSimuCaseId(String caseId) {
-		IDStabSimuDatabaseOutputHandler handler = new DatabaseSimuOutputHandler();
-		return handler.getDBCaseId(caseId);
-	}
-
-	public String[] getSimuCaseIdList() {
-		IDStabSimuDatabaseOutputHandler handler = new DatabaseSimuOutputHandler();
-		return handler.getCaseIdList();
-	}
-
-	/**
-	 * @param dbSimuCaseId The dbSimuCaseId to set.
+	 * @param dbSimuCaseId
+	 *            The dbSimuCaseId to set.
 	 */
 	public void setDbSimuCaseId(int dbSimuCaseId) {
 		this.dbSimuCaseId = dbSimuCaseId;

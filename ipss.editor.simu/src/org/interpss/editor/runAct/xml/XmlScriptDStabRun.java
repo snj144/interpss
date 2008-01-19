@@ -139,7 +139,8 @@ public class XmlScriptDStabRun {
 			} else {
 				// Multi-DStab run case
 				appSimuCtx.setLastRunType(SimuRunType.ScriptsMultiCase);
-
+				SpringAppContext.getSimuRecManager().clearDbCaseIdLookup();
+				
 				GridMessageRouter msgRouter = null;
 				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
@@ -259,7 +260,7 @@ public class XmlScriptDStabRun {
 
 		// correlate net.id, case.id and dbCaseId
 		dstabAlgo.getDStabNet().setId(dstabCase.getRecId());
-		dstabDbHandler.addDBCaseId(dstabCase.getRecId(), dstabDbHandler
+		SpringAppContext.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
 				.getDBCaseId());
 
 		// transfer output variable filter info to the DStabAlgo object, which

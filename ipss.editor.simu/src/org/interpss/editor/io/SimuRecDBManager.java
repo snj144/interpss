@@ -26,18 +26,24 @@ package org.interpss.editor.io;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.exp.InterpssException;
+import com.interpss.common.exp.InterpssRuntimeException;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.ISimuRecManager;
 import com.interpss.common.rec.IpssDBCase;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
 import com.interpss.dstab.util.DStabSimuDBRecord;
 
 public class SimuRecDBManager implements ISimuRecManager {
+	
+	private Hashtable<String, Integer> dbCaseIdLookup = new Hashtable<String, Integer>();
+	
 	/**
 	 * Get SimuRecord list for the case, record type and element id
 	 * 
@@ -243,5 +249,37 @@ public class SimuRecDBManager implements ISimuRecManager {
 		}
 		throw new InterpssException(
 				"Cannot getRecTypeId, see log file for details");
+	}
+	
+	@Override
+	public void addDBCaseId(String caseId, int dbCaseId) {
+		IpssLogger.getLogger()
+				.info(
+						"DbCaseIdRelation: caseId=" + caseId + ", dbCaseId="
+								+ dbCaseId);
+		dbCaseIdLookup.put(caseId, new Integer(dbCaseId));
+	}
+
+	@Override
+	public int getDBCaseId(String caseId) {
+		Integer i = dbCaseIdLookup.get(caseId);
+		if (i == null) {
+			IpssLogger.getLogger().severe(
+					"Porgramming Error, caseId = " + caseId + ", "
+							+ dbCaseIdLookup.toString());
+			throw new InterpssRuntimeException("Programming error");
+		}
+		return i.intValue();
+	}
+
+	@Override
+	public String[] getCaseIdList() {
+		return StringUtil.convertObjectAry2StrAry(dbCaseIdLookup.keySet()
+				.toArray());
+	}
+
+	@Override
+	public void clearDbCaseIdLookup() {
+		dbCaseIdLookup.clear();
 	}
 }

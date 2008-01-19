@@ -197,7 +197,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			// make sure net.id defined here. It has to be unique if run multiple grid runs
 			String caseId = "DStabNetId";
 			net.setId(caseId);
-			dstabDbHandler.addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
+			SpringAppContext.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
 			Boolean rtn = (Boolean) IpssGridGainUtil.performGridTask(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
 							.getDynSimuAlgorithm(), timeout);
