@@ -307,7 +307,7 @@
     		<ns:element name="injectBusId" type="ns:string"
     			minOccurs="1" maxOccurs="1">
     		</ns:element>
-    		<ns:element name="withdrewBusId" type="ns:string"
+    		<ns:element name="withdrawBusId" type="ns:string"
     			minOccurs="0" maxOccurs="1">
     		</ns:element>
     	</ns:sequence>
