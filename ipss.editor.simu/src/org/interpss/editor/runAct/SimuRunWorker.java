@@ -186,22 +186,6 @@ public class SimuRunWorker extends Thread {
 			dialog.display(str);
 
 			appStatus.busyStop("Run DC Loadflow Analysis finished");
-		} else if (this.runType == SimuRunType.GenShiftFactor) {
-			SpringAppContext
-					.getEditorDialogUtil()
-					.showMsgDialog("Status Message",
-							"Generation Shift Factor calculation will be implemented in the future");
-		} else if (this.runType == SimuRunType.LineOutageDistFactor) {
-			SpringAppContext
-					.getEditorDialogUtil()
-					.showMsgDialog("Status Message",
-							"Line Outage Distribution Factor calculation will be implemented in the future");
-		} else if (this.runType == SimuRunType.PowerTransferDistFactor) {
-			SpringAppContext
-					.getEditorDialogUtil()
-					.showMsgDialog(
-							"Status Message",
-							"Power Transer Distribution Factor calculation will be implemented in the future");
 		}
 	}
 }
