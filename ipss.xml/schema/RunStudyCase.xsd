@@ -20,6 +20,10 @@
         	<ns:element name="gridRun" type="ipss:GridRunStudyCaseXmlType"
         		minOccurs="0" maxOccurs="1">
         	</ns:element>
+        	<ns:element name="runDclfStudyCase"
+        		type="ipss:RunDclfStudyCaseXmlType" maxOccurs="unbounded"
+        		minOccurs="0">
+        	</ns:element>
         	<ns:element name="runAclfStudyCase"
         		type="ipss:RunAclfStudyCaseXmlType" maxOccurs="unbounded"
         		minOccurs="0">
@@ -34,6 +38,29 @@
         	</ns:element>
 
         </ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="RunDclfStudyCaseXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:RunStudyCaseBaseXmlType">
+				<ns:sequence>
+
+
+
+					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
+					<ns:element name="pAngleSensitivity"
+						type="ipss:DclfSensitivityXmlType" minOccurs="0" maxOccurs="unbounded">
+					</ns:element>
+					<ns:element name="qVoltageSensitivity"
+						type="ipss:DclfSensitivityXmlType" minOccurs="0" maxOccurs="unbounded">
+					</ns:element>
+					<ns:element name="genShiftFactor"
+						type="ipss:DclfSensitivityXmlType" minOccurs="0" maxOccurs="unbounded">
+					</ns:element>
+					<ns:element name="tranDistFactor" type="ipss:DclfSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 
 	<ns:complexType name="RunAclfStudyCaseXmlType">

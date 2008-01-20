@@ -104,8 +104,10 @@
 
 	<ns:simpleType name="AnalysisRunTaskXmlData">
 		<ns:restriction base="ns:string">
-			<ns:enumeration value="RunAclf"></ns:enumeration>			<ns:enumeration value="RunAcsc"></ns:enumeration>
+			<ns:enumeration value="RunAclf"></ns:enumeration>
+			<ns:enumeration value="RunAcsc"></ns:enumeration>
 			<ns:enumeration value="RunDStab"></ns:enumeration>
+			<ns:enumeration value="RunDclf"></ns:enumeration>
 		</ns:restriction>
 	</ns:simpleType>
 
@@ -298,4 +300,25 @@
     		<ns:element name="remoteNodeDebug" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
     	</ns:sequence>
     </ns:complexType>
+
+    <ns:complexType name="DclfSensitivityXmlType">
+    	<ns:sequence>
+    		<ns:element name="type" type="ipss:DclfSensitivityTypeXmlData" minOccurs="1" maxOccurs="1"></ns:element>
+    		<ns:element name="injectBusId" type="ns:string"
+    			minOccurs="1" maxOccurs="1">
+    		</ns:element>
+    		<ns:element name="withdrewBusId" type="ns:string"
+    			minOccurs="0" maxOccurs="1">
+    		</ns:element>
+    	</ns:sequence>
+    </ns:complexType>
+
+    <ns:simpleType name="DclfSensitivityTypeXmlData">
+    	<ns:restriction base="ns:string">
+    		<ns:enumeration value="PAngle"></ns:enumeration>
+    		<ns:enumeration value="QVoltage"></ns:enumeration>
+    		<ns:enumeration value="GenShiftFactor"></ns:enumeration>
+    		<ns:enumeration value="PTransferDistFactor"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
 </ns:schema>
