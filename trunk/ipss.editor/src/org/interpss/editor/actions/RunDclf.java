@@ -9,7 +9,7 @@ import org.interpss.editor.util.RunUtilFunc;
 
 import com.interpss.common.datatype.SimuRunType;
 
-public class RunTranCapacityAnalysisRunDclf extends IpssAbstractActionDefault {
+public class RunDclf extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
 
 	/**

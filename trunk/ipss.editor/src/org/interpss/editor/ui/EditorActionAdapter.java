@@ -60,8 +60,7 @@ import com.interpss.simu.SimuContext;
 public class EditorActionAdapter {
 	
 	public static void menu_run(SimuRunType type, boolean graphView, JGraph graph, IpssEditorDocument doc) {
-		if (type == SimuRunType.Dclf || type == SimuRunType.GenShiftFactor ||
-				type == SimuRunType.LineOutageDistFactor || type == SimuRunType.PowerTransferDistFactor)
+		if (type == SimuRunType.Dclf )
 			menu_run_dclf(type, graphView, graph, doc);
 		else if (type == SimuRunType.Aclf)
 			menu_run_aclf(graphView, graph, doc);
