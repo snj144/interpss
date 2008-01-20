@@ -120,7 +120,7 @@ public class Xml2AlgorithmMapperImpl {
 		} else {
 			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(caseData
 					.getFaultData().getBusBranchId()
-					+ Constants.Token_DefaultBranchCirNo);
+					+ Constants.Token_DefaultBranchCirNoStr);
 			if (faultBranch == null) {
 				IpssLogger
 						.getLogger()
