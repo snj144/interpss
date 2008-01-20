@@ -48,16 +48,9 @@
 
 
 					<ns:element name="caculatelDclf" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
-					<ns:element name="pAngleSensitivity"
+					<ns:element name="sensitivity"
 						type="ipss:DclfSensitivityXmlType" minOccurs="0" maxOccurs="unbounded">
-					</ns:element>
-					<ns:element name="qVoltageSensitivity"
-						type="ipss:DclfSensitivityXmlType" minOccurs="0" maxOccurs="unbounded">
-					</ns:element>
-					<ns:element name="genShiftFactor"
-						type="ipss:DclfSensitivityXmlType" minOccurs="0" maxOccurs="unbounded">
-					</ns:element>
-					<ns:element name="tranDistFactor" type="ipss:DclfSensitivityXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
+					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
