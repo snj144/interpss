@@ -24,6 +24,7 @@
 
 package org.interpss.editor.runAct;
 
+import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.graph.GraphSimuUtilFunc;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
@@ -36,17 +37,14 @@ import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 import org.jgraph.JGraph;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.ScriptLanguageType;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.MemoryJavaCompiler;
-import com.interpss.common.util.Number2String;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
-import com.interpss.core.net.Bus;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
@@ -172,18 +170,9 @@ public class SimuRunWorker extends Thread {
 				return;
 			algo.calculateAngle(simuCtx.getMsgHub());
 
-			String str = "BudId          VoltAng(deg)\n";
-			str += "=================================\n";
-			for (Bus bus : net.getBusList()) {
-				int n = bus.getSortNumber();
-				double angle = algo.getB1PAngleMatrix().getBi(n);
-				str += Number2String.toFixLengthStr(8, bus.getId())
-						+ "        "
-						+ Number2String.toStr(angle * Constants.RtoD) + "\n";
-			}
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("DC Loadflow Analysis Info");
-			dialog.display(str);
+			dialog.display(DclfOutFunc.dclfResults(net, algo));
 
 			appStatus.busyStop("Run DC Loadflow Analysis finished");
 		}
