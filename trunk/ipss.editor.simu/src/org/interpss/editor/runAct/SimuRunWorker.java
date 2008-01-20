@@ -168,7 +168,7 @@ public class SimuRunWorker extends Thread {
 			// run DCLoadflow to calculate bus voltage angle
 			if (!algo.checkCondition(simuCtx.getMsgHub()))
 				return;
-			algo.calculateAngle(simuCtx.getMsgHub());
+			algo.calculateDclf(simuCtx.getMsgHub());
 
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("DC Loadflow Analysis Info");
