@@ -32,6 +32,7 @@ import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.form.IUserData;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.XmlUtil;
 
 public class DummyBranchForm implements IGBranchForm, java.io.Serializable {
@@ -96,7 +97,7 @@ public class DummyBranchForm implements IGBranchForm, java.io.Serializable {
     public void setToBusName(String value) { this.toBusName = value;    }
 	
     public String getDefaultName() {
-	    return getFromBusName() + "->" + getToBusName();
+	    return getFromBusName() + Constants.Token_BranchIdConnectStr + getToBusName();
 	}	
     
     public String getId() { return this.id;}
