@@ -102,11 +102,16 @@ b(5): -0.02934145973738819
 		assertTrue(Math.abs(algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE,5) + 0.029342) < 0.0001);
 
 		algo.calculateSensitivity(DclfSensitivityType.PANGLE, "4", SpringAppContext.getIpssMsgHub());
-		//System.out.println(algo.getGenShiftFactor("1", "2", SpringAppContext.getIpssMsgHub()));
+		double x = algo.getGenShiftFactor("2", "3", SpringAppContext.getIpssMsgHub()) -
+					algo.getGenShiftFactor("1", "2", SpringAppContext.getIpssMsgHub());
+		assertTrue(Math.abs(x - 1.0) < 0.0001);
 		assertTrue(Math.abs(algo.getGenShiftFactor("1", "2", SpringAppContext.getIpssMsgHub()) + 0.333333) < 0.0001);
 
 		algo.calculateSensitivity(DclfSensitivityType.PANGLE, "4", "1", SpringAppContext.getIpssMsgHub());
-		//System.out.println(algo.getPTransferDistFactor("1", "2", SpringAppContext.getIpssMsgHub()));
+		//System.out.println(algo.getPTransferDistFactor("2", "3", SpringAppContext.getIpssMsgHub()));
 		assertTrue(Math.abs(algo.getPTransferDistFactor("1", "2", SpringAppContext.getIpssMsgHub()) + 0.72222) < 0.0001);
+		x = algo.getPTransferDistFactor("2", "3", SpringAppContext.getIpssMsgHub()) -
+			algo.getPTransferDistFactor("1", "2", SpringAppContext.getIpssMsgHub());
+		assertTrue(Math.abs(x - 1.0) < 0.0001);
 	}
 }
