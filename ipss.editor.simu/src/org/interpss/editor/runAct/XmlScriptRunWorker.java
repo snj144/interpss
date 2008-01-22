@@ -28,6 +28,7 @@ import org.apache.xmlbeans.XmlException;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
+import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AnalysisRunTaskXmlData;
 import org.interpss.schema.RunStudyCaseXmlType;
@@ -72,6 +73,9 @@ public class XmlScriptRunWorker {
 				&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
 		if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACLF) {
 			return XmlScriptAclfRun.runAclf(parser, simuCtx.getAclfAdjNet(),
+					msg);
+		} else if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_DCLF) {
+			return XmlScriptDclfRun.runDclf(parser, simuCtx.getAclfNet(),
 					msg);
 		} else if (xmlStudyCase.getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC) {
 			return XmlScriptAcscRun.runAcsc(parser, simuCtx.getAcscFaultNet(),
