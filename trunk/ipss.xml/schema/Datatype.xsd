@@ -316,9 +316,26 @@
     <ns:simpleType name="DclfSensitivityTypeXmlData">
     	<ns:restriction base="ns:string">
     		<ns:enumeration value="PAngle"></ns:enumeration>
-    		<ns:enumeration value="QVoltage"></ns:enumeration>
-    		<ns:enumeration value="GenShiftFactor"></ns:enumeration>
-    		<ns:enumeration value="PTransferDistFactor"></ns:enumeration>
-    	</ns:restriction>
+    		<ns:enumeration value="QVoltage"></ns:enumeration>    	</ns:restriction>
     </ns:simpleType>
+
+    <ns:complexType name="DclfBranchSensitivityXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="ipss:DclfSensitivityXmlType">
+    			<ns:sequence>
+    				<ns:element name="branch" type="ipss:BranchRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+    <ns:complexType name="DclfBusSensitivityXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="ipss:DclfSensitivityXmlType">
+    			<ns:sequence>
+    				<ns:element name="bus" type="ipss:BusRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
 </ns:schema>

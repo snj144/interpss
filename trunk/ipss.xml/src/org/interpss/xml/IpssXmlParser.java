@@ -37,6 +37,7 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.RunAcscStudyCaseXmlType;
 import org.interpss.schema.RunDStabStudyCaseXmlType;
+import org.interpss.schema.RunDclfStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
@@ -74,6 +75,15 @@ public class IpssXmlParser {
 	 */
 	public RunStudyCaseXmlType getRunStudyCase() {
 		return ipss.getRunStudyCase();
+	}
+
+	/**
+	 * Get the DclfStudyCase element list
+	 * 
+	 * @return
+	 */
+	public RunDclfStudyCaseXmlType[] getRunDclfStudyCaseList() {
+		return ipss.getRunStudyCase().getRunDclfStudyCaseArray();
 	}
 
 	/**
