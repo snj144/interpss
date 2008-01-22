@@ -25,7 +25,7 @@ import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 
-public class IpssSchemaIeee14BusCaseTest extends BaseTestSetup {
+public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);

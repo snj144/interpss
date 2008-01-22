@@ -42,7 +42,7 @@ import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.core.util.sample.SampleCases;
 
-public class IpssSchemaAcscSampleCaseTest extends BaseTestSetup {
+public class AcscSchemaSampleCaseTest extends BaseTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
 		File xmlFile = new File("testData/xml/RunAcscCase.xml");

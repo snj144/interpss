@@ -50,7 +50,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class IpssSchemaIEEE11ModelTest extends DStabTestSetupBase {
+public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	@Test
 	public void test_Case2() throws Exception {
 		File xmlFile = new File("testData/xml/RunDStabCase.xml");
