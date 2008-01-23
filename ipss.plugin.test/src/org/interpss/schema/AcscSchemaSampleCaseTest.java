@@ -49,7 +49,7 @@ public class AcscSchemaSampleCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_ACSC);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunTypeXmlData.RUN_ACSC);
 
 	  	SimpleFaultNetwork faultNet = CoreObjectFactory.createSimpleFaultNetwork();
 		SampleCases.load_SC_5BusSystem(faultNet, SpringAppContext.getIpssMsgHub());
