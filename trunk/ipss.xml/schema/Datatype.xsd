@@ -102,7 +102,7 @@
 		</ns:sequence>
 	</ns:complexType>
 
-	<ns:simpleType name="AnalysisRunTaskXmlData">
+	<ns:simpleType name="AnalysisRunTypeXmlData">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="RunAclf"></ns:enumeration>
 			<ns:enumeration value="RunAcsc"></ns:enumeration>
