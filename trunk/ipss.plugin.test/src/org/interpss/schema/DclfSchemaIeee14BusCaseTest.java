@@ -28,7 +28,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunTask() == AnalysisRunTaskXmlData.RUN_DCLF);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunTypeXmlData.RUN_DCLF);
 		
 	  	IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
 	  	
