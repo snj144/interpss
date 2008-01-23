@@ -13,8 +13,8 @@
         	</ns:documentation>
         </ns:annotation>
         <ns:sequence>
-        	<ns:element name="analysisRunTask"
-        		type="ipss:AnalysisRunTaskXmlData" minOccurs="1"
+        	<ns:element name="analysisRunType"
+        		type="ipss:AnalysisRunTypeXmlData" minOccurs="1"
         		maxOccurs="1">
         	</ns:element>
         	<ns:element name="gridRun" type="ipss:GridRunStudyCaseXmlType"
