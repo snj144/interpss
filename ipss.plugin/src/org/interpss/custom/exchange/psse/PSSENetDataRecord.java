@@ -40,6 +40,8 @@ package org.interpss.custom.exchange.psse;
 
 import java.util.StringTokenizer;
 
+import org.interpss.custom.exchange.FileAdapter_PTIFormat;
+
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -59,10 +61,11 @@ public class PSSENetDataRecord {
 	 * @param lineNo the line number
 	 * @param msgHub the message hub object
 	 */
-	public static void processHeader(
+	public static boolean processHeader(
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
+				FileAdapter_PTIFormat.VersionNo version,
 				IPSSMsgHub msg) throws Exception {
 		IpssLogger.getLogger().fine("Header data Line:" + lineNo + " " + lineStr);
 		if (lineNo == 1) {
@@ -100,6 +103,7 @@ public class PSSENetDataRecord {
 			adjNet.setId(lineStr);
 			adjNet.setName(lineStr);
 		}
+		return true;
 	}			
 	/** 
 	 * Process area interchange record lines
