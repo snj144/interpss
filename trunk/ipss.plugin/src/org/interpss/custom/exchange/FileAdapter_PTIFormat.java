@@ -84,7 +84,10 @@ import com.interpss.simu.io.IpssFileAdapterBase;
 
 
 public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
+	public enum VersionNo {NotDefined, PSS_E_29, PSS_E_30}
 
+	private VersionNo version = VersionNo.NotDefined;
+	
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
@@ -95,12 +98,22 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
+		if (this.getVersionSelected() != null && !this.getVersionSelected().equals("")) {
+			IpssLogger.getLogger().info("PSS/E version: " + this.getVersionSelected());
+			if (this.getVersionSelected().contains("30"))
+				this.version = VersionNo.PSS_E_30;
+			else if (this.getVersionSelected().contains("29"))
+				this.version = VersionNo.PSS_E_29;
+		}
+			
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		
 		// load the loadflow data into the AclfAdjNetwork object
 		final AclfAdjNetwork adjNet = loadFile(din, msg);
+		if (adjNet == null)
+			return;
   		// System.out.println(adjNet.net2String());
 
 		processPSSEDataAfterLoad(adjNet, msg);
@@ -172,9 +185,20 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
       			if (lineStr != null) {
       				lineNo++;
       				if (!headerProcessed) {
+      					if (lineNo == 1 && version == VersionNo.NotDefined) {
+      						// check version number
+      						if (lineStr.contains("PSS/E-30"))
+      							version = VersionNo.PSS_E_30;
+      						else if (lineStr.contains("PSS/E-29"))
+      							version = VersionNo.PSS_E_29;
+      						else {
+      							msgHub.sendErrorMsg("Unsupported PSS/E verion, " + lineStr);
+      							return null;
+      						}
+      					}
 						if (lineNo == 3) 
       						headerProcessed = true;
-						PSSENetDataRecord.processHeader(adjNet, lineStr, lineNo, msgHub);
+						PSSENetDataRecord.processHeader(adjNet, lineStr, lineNo, version, msgHub);
       				}
       				else if (!busProcessed) {
 						if (PSSEUtilFunc.isEndRecLine(lineStr))
