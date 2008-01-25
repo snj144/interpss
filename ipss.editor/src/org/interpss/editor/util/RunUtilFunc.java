@@ -58,7 +58,8 @@ public class RunUtilFunc  {
 				String filepath = graphpad.getCurrentProject().getProjectPath() + "/" + 
 				((IpssCustomDocument)doc).getFileName();
 				SimuContext simuCtx = (SimuContext)doc.getSimuAppContext().getSimuCtx();
-				if (CustomFileUtility.loadCustomFile(filepath, simuCtx)) {
+				// at this stage, we open a file, such as PSS/E, the version is inside the file
+				if (CustomFileUtility.loadCustomFile(filepath, "", simuCtx)) {
 					EditorActionAdapter.menu_run(type, false, null, doc);
 					doc.getSimuAppContext().setSimuNetDataDirty(false);
 				}	

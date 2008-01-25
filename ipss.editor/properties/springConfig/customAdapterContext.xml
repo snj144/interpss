@@ -65,6 +65,7 @@
 	    <property name="versionList">
 	    	<list>
 	    		<value>PSS/E-30</value>
+	    		<value>PSS/E-29</value>
 	    	</list></property>
 	</bean>
 	
