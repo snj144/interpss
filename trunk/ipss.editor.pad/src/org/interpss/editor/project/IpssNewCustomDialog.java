@@ -423,4 +423,8 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 			ex.printStackTrace();
 		}
 	}
+
+	public String getVersion() {
+		return 	(String)versionComboBox.getSelectedItem();
+	}
 }
