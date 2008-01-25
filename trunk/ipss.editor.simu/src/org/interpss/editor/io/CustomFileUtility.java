@@ -32,7 +32,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
 
 public class CustomFileUtility {
-	public static boolean loadCustomFile(String filepath, SimuContext simuCtx) {
+	public static boolean loadCustomFile(String filepath, String version, SimuContext simuCtx) {
 		IpssLogger.getLogger().info("Custom file path: " + filepath);
 
 		String ext = filepath.substring(filepath.lastIndexOf('.') + 1);
@@ -45,6 +45,7 @@ public class CustomFileUtility {
 		}
 
 		try {
+			adapter.setVersionSelected(version);
 			adapter.load(simuCtx, filepath, simuCtx.getMsgHub());
 		} catch (Exception e) {
 			SpringAppContext.getEditorDialogUtil().showMsgDialog(
