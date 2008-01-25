@@ -71,10 +71,10 @@ public class IpssCustomDataCodec {
 	}
 	
 // Mike	public static IAppSimuContext read(String abpath) { since this a singleton, no need to static
-	public IAppSimuContext read(String abpath) {
+	public IAppSimuContext read(String abpath, String version) {
 		IAppSimuContext appSimuContext = SimuAppSpringAppContext.getAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuContext.getSimuCtx();
-		boolean ok = CustomFileUtility.loadCustomFile(abpath, simuCtx);
+		boolean ok = CustomFileUtility.loadCustomFile(abpath, version, simuCtx);
 		if (ok) {
 			appSimuContext.setSimuNetDataDirty(false);
 		}

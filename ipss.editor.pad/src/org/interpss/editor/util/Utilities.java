@@ -360,14 +360,14 @@ public final class Utilities {
 	}
 	
 
-	public static IpssCustomFile OpenCustomFile(GPGraphpad graphpad, String abpath) throws Exception {
+	public static IpssCustomFile OpenCustomFile(GPGraphpad graphpad, String abpath, String version) throws Exception {
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
 				IAppStatus.BusyIndicatorPeriod, "Load Custom data file ...", "");
 		IpssLogger.getLogger().info("Load custom file: " + abpath);
 		
 		IpssCustomFile file = new IpssCustomFile();
 
-		IAppSimuContext appSimuContext = IpssCustomDataCodec.getInstance(graphpad).read(abpath);
+		IAppSimuContext appSimuContext = IpssCustomDataCodec.getInstance(graphpad).read(abpath, version);
 		if (appSimuContext == null) {
 			SpringAppContext.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
 			return null;
