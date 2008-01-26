@@ -34,7 +34,7 @@
     </target>	
 
     <target depends="init" description="jar ipss lib files" name="jar_lib">
-	  <jar destfile="${lib_base}/ipss_editor.jar" 
+	  <jar destfile="${lib_base}/ipss.jar" 
 	  		basedir="${dev_base}/ipss.editor/runtime" 
 	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.xml,**/*.log" />	
 

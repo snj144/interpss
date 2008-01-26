@@ -22,13 +22,14 @@
   *
   */
 
-package org.interpss.editor;
+package org.interpss;
 
 /**
 *	Application configuration info
 *
 */
 
+import org.interpss.editor.GEditor;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
@@ -74,11 +75,6 @@ public class AppConfig {
 	}
 	
 	public static boolean loadAppProperties() {
-		IpssLogger.initLogger("log/log.properties");
-		IpssLogger.getLogger().info("\n============================================\n" +
-				                    "*           Ipss GEditor Started           *\n" +
-				                    "============================================");	
-		
 		boolean ok = true;
 		try {
 			String baseDir = StringUtil.getInstallLocation();

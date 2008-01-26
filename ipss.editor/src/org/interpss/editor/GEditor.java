@@ -24,13 +24,13 @@ import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import org.interpss.AppConfig;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
 import org.interpss.editor.resources.BasicProperLoader;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
-import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.ui.Workspace;
@@ -81,20 +81,10 @@ public class GEditor extends Applet {
 	 * Main method for creating a JGraphpad in an application deployed either
 	 * offline, either via webstart
 	 */
-	public static void main(String[] args) {
+	public static void init(String[] args) {
 		// parse cmd line parameters
 		parseCmdLineParameters(args);
 
-		// load properties from property files
-		if (!AppConfig.loadAppProperties()) {
-			// we need to do something to inform the user
-			System.err.println("System configuration has problems, please see the log file for details");
-			JOptionPane.showMessageDialog(new JFrame(),
-					"Your configuration has problems which prevent the GraphicEditor to start. Please see the log file in the log dir for details", 
-					"Configuration Error", JOptionPane.ERROR_MESSAGE);
-			return;
-		}
-		
 	 	// start splash ...
 		JWindow frame = new JWindow();
 		JLabel info = new JLabel(Translator.getString("Splash.Init"), SwingConstants.CENTER);
@@ -140,12 +130,6 @@ public class GEditor extends Applet {
 				Workspace.setCurrentType(Workspace.Type.User);
 			else
 				Workspace.setCurrentType(Workspace.Type.Sample);
-			
-			// try to start the grid engine
-			if (sessionParameters.getParam("-g", false) != null && sessionParameters.getParam("-g", false).equals(Parm_GridGain)) {
-				showSplashInfo(info,Translator.getString("Splash.StartGrid"));
-				IpssGridGainUtil.startDefaultGrid();
-			}
 			
 			GEditor.pad.createEditorPanel(sessionParameters);
 		} catch (Exception e) {
