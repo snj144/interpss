@@ -20,7 +20,7 @@ public class FileSelectWorkspaceUser extends IpssAbstractActionDefault {
 		GEditor.getGraphPad().getSmartFrame().dispose();
 
 		BasicProperLoader.setUserPty(GEditor.Pty_CurrentWorkspace, GEditor.Pty_UserWorkspace);
-		GEditor.main(new String[] {});
+		GEditor.init(new String[] {});
 	}
 	
 	public void update() {
