@@ -1,21 +1,32 @@
+ /*
+  * @(#)AppParameters.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 01/30/2007
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss;
 
 import java.util.HashMap;
 import java.util.Map;
 
-
-/**
- * While JGraphpad gets most of its parameters from the properties file, some
- * other parameters can be given at the session time. Those parameters can only
- * be strings and they should be passed as argument for the main class, either
- * when invoking JGraphpad as a standalone application, as an applet or via
- * webstart.
- * 
- * You can even gain full control of JGraphpad during the session by providing a
- * new properties file as an argument!
- * 
- * @author rvalyi
- */
 public class AppParameters {
 
 	/**
@@ -27,18 +38,13 @@ public class AppParameters {
 		sessionParameters = new HashMap<String, String>();
 	}
 
-
 	public void setParam(String key, String value) {
 		sessionParameters.put(key, value);
 	}
 
 	/**
-	 * Try to get the parameter from the applet if any. If not, then it looks if
-	 * there is one in the session parameters map. Finally, if it's not defined
-	 * and if we allow it, then we ask the user to enter the parameter.
 	 * 
 	 * @param key
-	 * @param askIfNone
 	 * @return
 	 */
 	public String getParam(String key) {
@@ -47,6 +53,10 @@ public class AppParameters {
 			return (String) object;
 		}
 		return null;
+	}
+
+	public String getParamLowerCase(String key) {
+		return getParam(key).toLowerCase();
 	}
 
 	public Map<String, String> getSessionParameters() {

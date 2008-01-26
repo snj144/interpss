@@ -1,3 +1,27 @@
+ /*
+  * @(#)InterPSS.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 01/30/2007
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss;
 
 import javax.swing.JFrame;
@@ -11,10 +35,10 @@ import com.interpss.common.util.IpssLogger;
 public class InterPSS {
 	private final static String OptStr = "-opt";
 	private final static String GOptStr = "-g";
-	private final static String OptHelpStr = "Help";
-	private final static String OptCmdLineStr = "CmdLine";
-	private final static String OptEditorStr = "Editor";
-	private final static String Parm_GridGain = "GridGain";
+	private final static String OptHelpStr = "help";
+	private final static String OptCmdLineStr = "cmdline";
+	private final static String OptEditorStr = "editor";
+	private final static String Parm_GridGain = "gridgain";
 
 	private static AppParameters appParameters;
 
@@ -26,7 +50,7 @@ public class InterPSS {
 		// parse cmd line parameters
 		parseCmdLineParameters(args);
 
-		if (OptHelpStr.equals(appParameters.getParam(OptStr))) {
+		if (OptHelpStr.equals(appParameters.getParamLowerCase(OptStr))) {
 			System.out.println(getHelpInfo());
 			return;
 		}
@@ -39,7 +63,7 @@ public class InterPSS {
 
 		// try to start the grid engine
 		if (appParameters.getParam(GOptStr) != null
-				&& appParameters.getParam(GOptStr).equals(Parm_GridGain)) {
+				&& Parm_GridGain.equals(appParameters.getParamLowerCase(GOptStr))) {
 			IpssGridGainUtil.startDefaultGrid();
 		}
 
@@ -48,7 +72,7 @@ public class InterPSS {
 			// we need to do something to inform the user
 			System.err
 					.println("System configuration has problems, please see the log file for details");
-			if (OptEditorStr.equals(appParameters.getParam(OptStr)))
+			if (OptEditorStr.equals(appParameters.getParamLowerCase(OptStr)))
 				JOptionPane
 						.showMessageDialog(
 								new JFrame(),
@@ -58,7 +82,7 @@ public class InterPSS {
 			return;
 		}
 
-		if (OptEditorStr.equals(appParameters.getParam(OptStr))) {
+		if (OptEditorStr.equals(appParameters.getParamLowerCase(OptStr))) {
 			IpssLogger.getLogger()
 					.info("Start InterPSS in graphic editor mode");
 			GEditor.init(args);
@@ -66,7 +90,7 @@ public class InterPSS {
 					"\n============================================\n"
 					+ "*              InterPSS Stared             *\n"
 					+ "============================================");
-		} else if (OptCmdLineStr.equals(appParameters.getParam(OptStr))) {
+		} else if (OptCmdLineStr.equals(appParameters.getParamLowerCase(OptStr))) {
 			IpssLogger.getLogger().info("run InterPSS in cmd line mode");
 		}
 	}
