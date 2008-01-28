@@ -98,9 +98,17 @@
 	</bean>
 	
 	<!--
+		Simulation Result output Custom Plugin List
+		===========================================
+	-->	
+	<bean id="simuResultOutput"  
+	  	class="org.interpss.output.OutputSimuResultImpl"
+	    scope="prototype"	
+	/>
+	    
+	<!--
 		AclfBus Scripting Custom Plugin List
 		====================================
-		
 	-->	
 	<bean id="inductionGenerator"  
 	  	class="org.interpss.custom.script.aclf.indgen.InductionGenerator"
@@ -127,7 +135,6 @@
 	<!--
 		AclfBranch Scripting Custom Plugin List
 		=======================================
-		
 	-->	
 	<bean id="sampleAclfLinePlugin"  
 	  	class="org.interpss.sample.plugin.aclf.line.SampleLine"
@@ -147,7 +154,6 @@
 	<!--
 		AcscBus Scripting Custom Plugin List
 		====================================
-		
 	-->	
 	<bean id="customAcscBusScriptPluginList" 
 	      class="java.util.ArrayList"
@@ -161,7 +167,6 @@
 	<!--
 		AcscBranch Scripting Custom Plugin List
 		=======================================
-		
 	-->	
 	<bean id="customAcscBranchScriptPluginList" 
 	      class="java.util.ArrayList"
@@ -175,7 +180,6 @@
 	<!--
 		Dynamic Bus Device Scripting Custom Plugin List
 		===============================================
-		
 	-->	
 
 	<bean id="sampleStaticZLoadPlugin"  

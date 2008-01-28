@@ -34,15 +34,25 @@ public class AppParameters {
 	 */
 	private Map<String, String> sessionParameters;
 
+	/**
+	 * default constructor
+	 */
 	public AppParameters() {
 		sessionParameters = new HashMap<String, String>();
 	}
 
+	/**
+	 * set a kay-value pair
+	 * 
+	 * @param key
+	 * @param value
+	 */
 	public void setParam(String key, String value) {
 		sessionParameters.put(key, value);
 	}
 
 	/**
+	 * get value by key
 	 * 
 	 * @param key
 	 * @return
@@ -55,10 +65,21 @@ public class AppParameters {
 		return null;
 	}
 
+	/**
+	 * get value by key and turn the value string to lower case
+	 * 
+	 * @param key
+	 * @return
+	 */
 	public String getParamLowerCase(String key) {
 		return getParam(key).toLowerCase();
 	}
 
+	/**
+	 * get the Map, where key-value pairs are stored
+	 * 
+	 * @return
+	 */
 	public Map<String, String> getSessionParameters() {
 		return sessionParameters;
 	}
