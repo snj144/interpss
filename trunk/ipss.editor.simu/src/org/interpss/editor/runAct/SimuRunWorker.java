@@ -172,7 +172,7 @@ public class SimuRunWorker extends Thread {
 
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("DC Loadflow Analysis Info");
-			dialog.display(DclfOutFunc.dclfResults(net, algo));
+			dialog.display(DclfOutFunc.dclfResults(algo));
 
 			appStatus.busyStop("Run DC Loadflow Analysis finished");
 		}
