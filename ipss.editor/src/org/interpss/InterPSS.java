@@ -27,17 +27,29 @@ package org.interpss;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.interpss.cmd.CmdLineRunner;
 import org.interpss.editor.GEditor;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.util.IpssLogger;
 
 public class InterPSS {
-	private final static String OptStr = "-opt";
+	private final static String OptStr = "-o";
 	private final static String GOptStr = "-g";
+	private final static String InOptStr = "-in";
+	private final static String RunOptStr = "-run";
+	private final static String OutOptStr = "-out";
+	private final static String POptStr = "-p";
+	
 	private final static String OptHelpStr = "help";
-	private final static String OptCmdLineStr = "cmdline";
+	private final static String OptCmdLineStr = "cmd";
 	private final static String OptEditorStr = "editor";
+
+	public final static String RunDclfStr = "dclf";
+	public final static String RunAclfStr = "aclf";
+	public final static String RunAcscStr = "acsc";
+	public final static String RunDStabStr = "dstab";
+
 	private final static String Parm_GridGain = "gridgain";
 
 	private static AppParameters appParameters;
@@ -92,6 +104,7 @@ public class InterPSS {
 					+ "============================================");
 		} else if (OptCmdLineStr.equals(appParameters.getParamLowerCase(OptStr))) {
 			IpssLogger.getLogger().info("run InterPSS in cmd line mode");
+			CmdLineRunner.cmdLineRun("", "", "");
 		}
 	}
 
@@ -99,8 +112,8 @@ public class InterPSS {
 		// we set up the app parameters
 		appParameters = new AppParameters();
 		for (int i = 0; i < args.length; i = i + 2) {
-			if (args[i].indexOf("-") < 0) {// simple precaution in case
-											// arguments aren't well formed
+			// simple precaution in case arguments aren't well formed
+			if (args[i].indexOf("-") < 0) {
 				i = i - 1;
 				continue;
 			}
@@ -109,13 +122,18 @@ public class InterPSS {
 
 		// put default value if not specified by the user
 		if (appParameters.getParam(OptStr) == null)
-			appParameters.setParam(OptStr, OptEditorStr);
+			appParameters.setParam(OptStr, OptCmdLineStr);
 	}
 
 	private static String getHelpInfo() {
-		return "java org.interpss.InterPSS [-opt Help|CmdLine|Editor] [-g GridGain]\n"
+		return "java org.interpss.InterPSS [-o editor|help|cmd] [-in <input file>] [-run dclf|aclf|scsc|dstab] [-out <output file>] [-p <properties file>] [-g gridgain] \n"
 				+ "  "	+ OptStr + " "	+ OptHelpStr + " for help info\n"
-				+ "  "	+ OptStr + " "	+ OptCmdLineStr	+ " running InterPSS in cmd line mode\n"
-				+ "  "	+ OptStr + " "	+ OptEditorStr	+ " default, running InterPSS in graphic editor mode\n";
+				+ "  "	+ OptStr + " "	+ OptCmdLineStr	+ " defaul, running InterPSS in cmd line mode\n"
+				+ "  "	+ OptStr + " "	+ OptEditorStr	+ " running InterPSS in graphic editor mode\n"
+				+ "  "	+ GOptStr + " "	+ Parm_GridGain	+ " running InterPSS in grid computing mode\n"
+				+ "  "	+ InOptStr + " "	+ " simulation result input file, its extension will used to determine file loading adapter\n"
+				+ "  "	+ RunOptStr + " "	+ " to override InterPSS default run type, which is determined by the network object type. \n"
+				+ "  "	+ OutOptStr + " "	+ " simulation result output file\n"
+				+ "  "	+ POptStr + " "	+ " properties file for configuting the run\n";
 	}
 }
