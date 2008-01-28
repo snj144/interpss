@@ -33,6 +33,7 @@ import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
+import org.interpss.output.IOutputSimuResult;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -116,5 +117,14 @@ public class SimuAppSpringAppContext extends SpringAppContext {
 	 */
 	public static List getCustomFileAdapterList() {
 		return (List) SpringAppCtx.getBean(Constants.SID_CustomFileAdapterList);
+	}
+
+	/**
+	 * Get the SimuResultOutput(singleton) from the SpringAppContext.
+	 *  
+	 * @return the CustomFileAdapterList object
+	 */
+	public static IOutputSimuResult getSimuResultOutput() {
+		return (IOutputSimuResult) SpringAppCtx.getBean(Constants.SID_SimuResultOutput);
 	}
 }

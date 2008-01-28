@@ -66,7 +66,7 @@ public class XmlScriptDclfRun {
 
 				if (dclfCase.getCaculatelDclf()) {
 					algo.calculateDclf(msg);
-					dialog.appendText(DclfOutFunc.dclfResults(aclfNet, algo));
+					dialog.appendText(DclfOutFunc.dclfResults(algo));
 				}
 
 				for (DclfBusSensitivityXmlType sen : dclfCase
