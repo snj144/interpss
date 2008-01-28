@@ -1,0 +1,55 @@
+ /*
+  * @(#)SampleLoadflow.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 09/15/2006
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
+package org.interpss.sample.cmd;
+
+import java.util.logging.Level;
+
+import com.interpss.common.SpringAppContext;
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.msg.IPSSMsgHubImpl;
+import com.interpss.common.msg.StdoutMsgListener;
+import com.interpss.common.msg.TextMessage;
+import com.interpss.common.util.IpssLogger;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.util.sample.SampleCases;
+
+
+public class SampleLoadflow {
+
+	
+	public static void main(String args[]) {
+		// set session message to Warning level
+		IPSSMsgHub msg = new IPSSMsgHubImpl();
+		msg.addMsgListener(new StdoutMsgListener(TextMessage.TYPE_WARN));
+		IpssLogger.getLogger().setLevel(Level.WARNING);
+		
+  		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
+		SampleCases.load_LF_5BusSystem(net, SpringAppContext.getIpssMsgHub());
+		//System.out.println(net.net2String());		
+		
+		
+	}	
+}
