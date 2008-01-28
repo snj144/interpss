@@ -35,7 +35,6 @@ import com.interpss.common.util.Number2String;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.DclfSensitivityType;
 import com.interpss.core.net.Bus;
-import com.interpss.core.net.Network;
 
 public class DclfOutFunc {
 	/**
@@ -45,12 +44,12 @@ public class DclfOutFunc {
 	 * @param algo
 	 * @return
 	 */
-	public static String dclfResults(Network net, DclfAlgorithm algo) {
+	public static String dclfResults(DclfAlgorithm algo) {
 		String str = "\n\n";
 		str += "      DC Loadflow Results\n\n";
 		str += "   Bud Id       VoltAng(deg)\n";
 		str += "=================================\n";
-		for (Bus bus : net.getBusList()) {
+		for (Bus bus : algo.getAclfNetwork().getBusList()) {
 			int n = bus.getSortNumber();
 			double angle = algo.getBusAngle(n) * Constants.RtoD;
 			str += Number2String.toFixLengthStr(8, bus.getId()) + "        "
