@@ -78,9 +78,9 @@ public class InterPSS {
 				+ "============================================");
 
 		SpringAppContext.SpringAppCtxConfigXmlFile = IpssPropertiesLoader.getIpssString("springframework.config.xmlfile");
-		AppParameters.APP_BASE_DIR = StringUtil.getInstallLocation();
-		IpssLogger.getLogger().info("Base Dir: " + AppParameters.APP_BASE_DIR);
-		AppParameters.OUTPUT_DEFAULT_DIR = IpssPropertiesLoader.getIpssString("Output.Default.Location");
+		AppConstants.APP_BASE_DIR = StringUtil.getInstallLocation();
+		IpssLogger.getLogger().info("Base Dir: " + AppConstants.APP_BASE_DIR);
+		AppConstants.OUTPUT_DEFAULT_DIR = IpssPropertiesLoader.getIpssString("Output.Default.Location");
 		
 		// try to start the grid engine
 		if (appParameters.getParam(GOptStr) != null

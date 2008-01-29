@@ -28,10 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AppParameters {
-	public static String APP_BASE_DIR = ".";
-	public static String OUTPUT_FILE_EXT = ".ipssout";
-	public static String OUTPUT_DEFAULT_DIR = ".";
-	
 	/**
 	 * This is where we store every sort of session parameters
 	 */

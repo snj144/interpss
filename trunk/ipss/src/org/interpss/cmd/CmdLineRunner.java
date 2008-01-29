@@ -24,7 +24,7 @@
 
 package org.interpss.cmd;
 
-import org.interpss.AppParameters;
+import org.interpss.AppConstants;
 import org.interpss.InterPSS;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
@@ -58,9 +58,9 @@ public class CmdLineRunner {
 				String f = outFilename;
 				if (f == null || f.trim().equals("")) {
 					String str = StringUtil.getFileNameNoExt(inputFilename);
-					f = AppParameters.APP_BASE_DIR
+					f = AppConstants.APP_BASE_DIR
 							+ System.getProperty("file.separator") + str
-							+ AppParameters.OUTPUT_FILE_EXT;
+							+ AppConstants.OUTPUT_FILE_EXT;
 				}
 				outputResult(simuCtx, runType, f);
 			}
