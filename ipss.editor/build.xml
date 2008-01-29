@@ -156,7 +156,7 @@
         </copy>
 	<copy file="${ipss_base}/ipss.test.user.jar" 
 		todir="${fit_base}/FitNesseRoot/files/usertest/lib/ipss"/>
-	<copy file="${dist_base}/lib/ipss_editor.jar" 
+	<copy file="${dist_base}/lib/ipss.jar" 
 		todir="${fit_base}/lib"/>
     </target>	
 
