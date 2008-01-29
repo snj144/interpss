@@ -27,6 +27,7 @@ package org.interpss.output;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.display.DclfOutFunc;
 
+import com.interpss.common.util.FileUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
@@ -35,19 +36,19 @@ public class OutputSimuResultImpl implements IOutputSimuResult {
 
 	@Override
 	public boolean outAclfResult(AclfNetwork net, String outFilename) {
-	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
+		FileUtil.writeText2File(outFilename, AclfOutFunc.loadFlowSummary(net));
 		return false;
 	}
 
 	@Override
 	public boolean outAclfResult(AclfAdjNetwork net, String outFilename) {
-	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
+		FileUtil.writeText2File(outFilename, AclfOutFunc.loadFlowSummary(net));
 		return true;
 	}
 
 	@Override
 	public boolean outDclfResult(DclfAlgorithm algo, String outFilename) {
-	  	System.out.println(DclfOutFunc.dclfResults(algo));
+		FileUtil.writeText2File(outFilename, DclfOutFunc.dclfResults(algo));
 		return true;
 	}
 }
