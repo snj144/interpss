@@ -29,17 +29,16 @@ package org.interpss.editor;
 *
 */
 
+import org.interpss.AppParameters;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.IpssFileFilter;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.util.IpssJavaCompiler;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.StringUtil;
 import com.interpss.common.util.XmlUtil;
 
 public class EditorConfig {
@@ -73,15 +72,9 @@ public class EditorConfig {
 		ProjData.NewProjName = "UnSaved";
 	}
 	
-	public static boolean loadAppProperties() {
+	public static boolean loadEditorProperties() {
 		boolean ok = true;
 		try {
-			String baseDir = StringUtil.getInstallLocation();
-			if (baseDir == null) {
-				return false;
-			}
-			IpssLogger.getLogger().info("Base Dir: " + baseDir);
-			
 //			FileChooserConfig.CurrentProjDir = baseDir + Translator.getString("Project.File.Location");
 //			FileChooserConfig.setCustomFileExts(appProps);
 			
@@ -99,15 +92,14 @@ public class EditorConfig {
 				ok = false;
 			}
 */			
-			SpringAppContext.SpringAppCtxConfigXmlFile = Translator.getString("springframework.config.xmlfile");
 			GEditor.Pty_UserWorkspace = Translator.getString("WorkSpace.Location");
 			GEditor.Pty_SampleWorkspace = Translator.getString("WorkSpace.Location.Sample");
 			
-			IpssRptViewer.REPORT_DEFAULT_DIR = baseDir + Translator.getString("Report.File.Location");
+			IpssRptViewer.REPORT_DEFAULT_DIR = AppParameters.APP_BASE_DIR + Translator.getString("Report.File.Location");
 			IpssRptViewer.REPORT_EXT 	= Translator.getString("ReportFileExtension");
 			IpssRptViewer.REPORT_DESC	= Translator.getString("Report.File.Desc");
 			
-			IpssFileFilter.OUTPUT_DEFAULT_DIR = baseDir + Translator.getString("Output.Default.Location");
+			IpssFileFilter.OUTPUT_DEFAULT_DIR = AppParameters.APP_BASE_DIR + AppParameters.OUTPUT_DEFAULT_DIR;
 			
 			IpssJavaCompiler.JavaSrcDir = Translator.getString("Java.Compile.JavaSrcDir");
 			IpssJavaCompiler.JavaClassDir = Translator.getString("Java.Compile.JavaClassDir");
