@@ -49,6 +49,8 @@ import javax.swing.KeyStroke;
 
 import org.interpss.editor.resources.Translator;
 
+import com.interpss.common.resource.IpssPropertiesLoader;
+
 
 
 //TODO makes it works with parameters!
@@ -71,7 +73,7 @@ public class GPAboutDialog extends JDialog {
 
 		// Construct About Panel
 		JLabel lab1 = new JLabel(logo);
-		JLabel lab2 = new JLabel(Translator.getString("Prog.name") + " " + Translator.getString("Prog.version"));
+		JLabel lab2 = new JLabel(IpssPropertiesLoader.getIpssString("Prog.name.editor") + " " + IpssPropertiesLoader.getIpssString("Prog.version"));
 		lab2.setFont(lab1.getFont().deriveFont(Font.PLAIN, 18));
 		JLabel lab3 = new JLabel("Based on "+org.jgraph.JGraph.VERSION);
 		lab3.setFont(lab3.getFont().deriveFont(Font.PLAIN, 12));
