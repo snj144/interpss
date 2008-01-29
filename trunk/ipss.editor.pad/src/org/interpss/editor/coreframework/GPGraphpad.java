@@ -75,6 +75,7 @@ import org.jgraph.JGraph;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.IRefDataManager;
+import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 
@@ -1221,7 +1222,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * @see com.interpss.editor.jgraph.ui.IGraphicEditor#setAppTitle()
 	 */
 	public String getVersion() {
-		return Translator.getString("Prog.version");
+		return IpssPropertiesLoader.getIpssString("Prog.version");
 	}
 
 	public void refreshDocumentEditorPanel(IpssEditorDocument doc) {
