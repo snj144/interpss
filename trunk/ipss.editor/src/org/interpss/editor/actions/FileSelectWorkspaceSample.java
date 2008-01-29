@@ -4,9 +4,9 @@ import java.awt.event.ActionEvent;
 
 import org.interpss.editor.GEditor;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
-import org.interpss.editor.resources.BasicProperLoader;
 
 import com.interpss.common.ui.Workspace;
+import com.interpss.common.resource.IpssPropertiesLoader;
 
 public class FileSelectWorkspaceSample extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
@@ -19,7 +19,7 @@ public class FileSelectWorkspaceSample extends IpssAbstractActionDefault {
 		GEditor.getGraphPad().getSmartFrame().setVisible(false);
 		GEditor.getGraphPad().getSmartFrame().dispose();
 
-		BasicProperLoader.setUserPty(GEditor.Pty_CurrentWorkspace, GEditor.Pty_SampleWorkspace);
+		IpssPropertiesLoader.setUserPty(GEditor.Pty_CurrentWorkspace, GEditor.Pty_SampleWorkspace);
 		GEditor.init(new String[] {});
 	}
 	
