@@ -29,6 +29,7 @@ import org.junit.*;
 import com.interpss.common.func.ExpCalculator;
 import com.interpss.common.func.ILookupTable;
 import com.interpss.common.util.LookupTableImpl;
+import com.interpss.common.util.StringUtil;
 
 
 public class CommonFuncTest {
@@ -80,4 +81,11 @@ public class CommonFuncTest {
 		assertTrue(Math.abs(ltable.getY(4.0)-3.5) < 0.0001);
 		assertTrue(Math.abs(ltable.getY(8.0)-2.5) < 0.0001);
   	}	
+	
+	@Test
+	public void stringUtilTest() {
+		assertTrue((StringUtil.getFileName("C:/tmp/readme.txt")).equals("readme.txt"));
+		assertTrue(StringUtil.getFileNameNoExt("C:/tmp/readme.txt").equals("readme"));
+		assertTrue(StringUtil.getFileExt("C:/tmp/readme.txt").equals("txt"));
+	}
 }
