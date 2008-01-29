@@ -24,18 +24,16 @@
 
 package org.interpss.editor.ui.util;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStream;
 
 import javax.swing.JTextArea;
 
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.util.FileUtil;
 import com.interpss.common.util.IpssLogger;
 
 public class GUIFileUtil {
@@ -103,7 +101,7 @@ public class GUIFileUtil {
 	 * @return
 	 */
 	public static boolean writeTextarea2FileAbsolutePath(String filename, JTextArea textArea) {
-		return 	writeText2FileAbsolutePath(filename, textArea.getText());
+		return 	FileUtil.writeText2File(filename, textArea.getText());
 	}
 	
 	/**
@@ -117,28 +115,6 @@ public class GUIFileUtil {
 		IpssLogger.getLogger().info("GUIFileUtil.writeTextarea2File() info to file: " + filename);
 		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
 		filename = wdir+System.getProperty("file.separator")+filename;		
-		return writeText2FileAbsolutePath(filename, text);
+		return FileUtil.writeText2File(filename, text);
 	}
-	
-	/**
-	 * Write the text to the file
-	 * 
-	 * @param filename abusolute path filename
-	 * @param textArea
-	 * @return
-	 */
-	public static boolean writeText2FileAbsolutePath(String filename, String text) {
-		IpssLogger.getLogger().info("GUIFileUtil.writeTextarea2File() info to file: " + filename);
-		try {
-			OutputStream out = new BufferedOutputStream(new FileOutputStream(filename));
-			out.write(text.getBytes());
-			out.flush();
-			out.close();
-			return true;
-		} catch (Exception e) {
-			SpringAppContext.getIpssMsgHub().sendErrorMsg("Cannot save to file: " + filename);
-		}
-		return false;
-	}
-	
 }
