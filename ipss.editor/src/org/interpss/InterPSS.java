@@ -32,8 +32,10 @@ import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
 
 public class InterPSS {
 	private final static String OptStr = "-o";
@@ -70,12 +72,16 @@ public class InterPSS {
 		}
 		
 		IpssPropertiesLoader.loadProperties(OptCmdLineStr.equals(appParameters.getParamLowerCase(OptStr)));
-
 		IpssLogger.getLogger().info(
 				"\n============================================\n"
 				+ "*           Starting InterPSS              *\n"
 				+ "============================================");
 
+		SpringAppContext.SpringAppCtxConfigXmlFile = IpssPropertiesLoader.getIpssString("springframework.config.xmlfile");
+		AppParameters.APP_BASE_DIR = StringUtil.getInstallLocation();
+		IpssLogger.getLogger().info("Base Dir: " + AppParameters.APP_BASE_DIR);
+		AppParameters.OUTPUT_DEFAULT_DIR = IpssPropertiesLoader.getIpssString("Output.Default.Location");
+		
 		// try to start the grid engine
 		if (appParameters.getParam(GOptStr) != null
 				&& Parm_GridGain.equals(appParameters.getParamLowerCase(GOptStr))) {
@@ -83,7 +89,7 @@ public class InterPSS {
 		}
 
 		// load properties from property files
-		if (!EditorConfig.loadAppProperties()) {
+		if (!EditorConfig.loadEditorProperties()) {
 			// we need to do something to inform the user
 			System.err
 					.println("System configuration has problems, please see the log file for details");
