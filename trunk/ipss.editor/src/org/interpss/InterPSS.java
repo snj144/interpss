@@ -71,7 +71,6 @@ public class InterPSS {
 		
 		IpssPropertiesLoader.loadProperties(OptCmdLineStr.equals(appParameters.getParamLowerCase(OptStr)));
 
-		IpssLogger.initLogger("log/log.properties");
 		IpssLogger.getLogger().info(
 				"\n============================================\n"
 				+ "*           Starting InterPSS              *\n"
