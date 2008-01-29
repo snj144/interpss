@@ -28,9 +28,11 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.interpss.cmd.CmdLineRunner;
+import org.interpss.editor.EditorConfig;
 import org.interpss.editor.GEditor;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
+import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
 
 public class InterPSS {
@@ -66,6 +68,8 @@ public class InterPSS {
 			System.out.println(getHelpInfo());
 			return;
 		}
+		
+		IpssPropertiesLoader.loadProperties(OptCmdLineStr.equals(appParameters.getParamLowerCase(OptStr)));
 
 		IpssLogger.initLogger("log/log.properties");
 		IpssLogger.getLogger().info(
@@ -80,7 +84,7 @@ public class InterPSS {
 		}
 
 		// load properties from property files
-		if (!AppConfig.loadAppProperties()) {
+		if (!EditorConfig.loadAppProperties()) {
 			// we need to do something to inform the user
 			System.err
 					.println("System configuration has problems, please see the log file for details");

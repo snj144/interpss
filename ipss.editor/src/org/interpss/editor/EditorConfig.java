@@ -22,14 +22,13 @@
   *
   */
 
-package org.interpss;
+package org.interpss.editor;
 
 /**
 *	Application configuration info
 *
 */
 
-import org.interpss.editor.GEditor;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.resources.Translator;
@@ -43,7 +42,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.common.util.XmlUtil;
 
-public class AppConfig {
+public class EditorConfig {
 	/**
 	*	Set app configuration parameters
 	*/

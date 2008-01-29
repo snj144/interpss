@@ -24,16 +24,15 @@ import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
-import org.interpss.AppConfig;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
-import org.interpss.editor.resources.BasicProperLoader;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
 
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.ui.Workspace;
+import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 
@@ -69,10 +68,10 @@ public class GEditor extends Applet {
 	}
 
 	private static void setWorkspaceDirectory() {
-		String str = BasicProperLoader.getUserPty(Pty_CurrentWorkspace);
+		String str = IpssPropertiesLoader.getUserPty(Pty_CurrentWorkspace);
 		if (str == null) {
 			str = Translator.getString(Pty_UserWorkspace);
-			BasicProperLoader.setUserPty(Pty_CurrentWorkspace, str);
+			IpssPropertiesLoader.setUserPty(Pty_CurrentWorkspace, str);
 		}
 		EditorSpringAppContext.getAppContext().setWorkspaceDir(StringUtil.getInstallLocation() + str);
 	}
@@ -101,7 +100,7 @@ public class GEditor extends Applet {
 		showSplashInfo(info,Translator.getString("Splash.SpringConfig"));
 
 		// set application contants
-	 	AppConfig.setConfigConstants();
+	 	EditorConfig.setConfigConstants();
 		showSplashInfo(info,Translator.getString("Splash.Config"));
 
 		// load ref data from DB
@@ -125,7 +124,7 @@ public class GEditor extends Applet {
 
 		try {
 			GEditor.pad = EditorSpringAppContext.getGraphicEditor();
-			String str = BasicProperLoader.getUserPty(Pty_CurrentWorkspace);
+			String str = IpssPropertiesLoader.getUserPty(Pty_CurrentWorkspace);
 			if (str.equals(Translator.getString("WorkSpace.Location")))
 				Workspace.setCurrentType(Workspace.Type.User);
 			else
