@@ -38,6 +38,8 @@ import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.Vector;
 
+import com.interpss.common.resource.IpssPropertiesLoader;
+
 /**
  * Contains ResourceBundle objects. The first (deepest) bundle is the Graphpad
  * bundle. If a user wants to use Graphpad as a framework he can push his own
@@ -119,7 +121,7 @@ public final class Translator {
 	 */
 	public static String getString(final int bundleIndex, final String sKey) {
 		
-		String bstr = BasicProperLoader.getString(sKey);
+		String bstr = IpssPropertiesLoader.getEditorString(sKey);
 		if (bstr!=null)
 			return bstr;
 		
