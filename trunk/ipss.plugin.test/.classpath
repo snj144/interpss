@@ -15,7 +15,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/tsinghua"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu.test"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
@@ -25,5 +25,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/xml/xerces.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ScalaTest"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
