@@ -71,7 +71,10 @@ public class AppParameters {
 	 * @return
 	 */
 	public String getParamLowerCase(String key) {
-		return getParam(key).toLowerCase();
+		if (getParam(key) != null)
+			return getParam(key).toLowerCase();
+		else 
+			return null;
 	}
 
 	/**
