@@ -130,8 +130,7 @@ public class KundurP864_Common {
     
 	public static void setUp(IPSSMsgHub msg) {
 		String SpringConfigXmlFile = "c:/eclipse/InterpssDev/ipss.editor/properties/springConfig/editorAppContext.xml";
-		SpringAppContext.SpringAppCtxConfigXmlFile = SpringConfigXmlFile;
-		EditorSpringAppContext.springAppContextSetup();
+		EditorSpringAppContext.springAppContextSetup(SpringConfigXmlFile);
 
 		// Define a session message object to handle simulation session message
 		try {
