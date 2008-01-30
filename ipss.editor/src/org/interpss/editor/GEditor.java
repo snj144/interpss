@@ -91,9 +91,6 @@ public class GEditor extends Applet {
 		showSplash(frame, info);
 		showSplashInfo(info,Translator.getString("Splash.Construct"));
 		
-		// load Spring configuration
-		EditorSpringAppContext.springAppContextSetup();
-		
 		// set workspace
 		setWorkspaceDirectory();
 		
