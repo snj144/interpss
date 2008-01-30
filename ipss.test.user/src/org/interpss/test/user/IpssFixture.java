@@ -64,8 +64,7 @@ public class IpssFixture extends ColumnFixture {
 	
 	public IpssFixture() {
 		if (SpringAppContext.SpringAppCtx == null) {
-			SpringAppContext.SpringAppCtxConfigXmlFile = "properties/springConfig/editorAppContext.xml";
-			EditorSpringAppContext.springAppContextSetup();
+			EditorSpringAppContext.springAppContextSetup("properties/springConfig/editorAppContext.xml");
 		}
 			
  		IpssLogger.getLogger().setLevel(Level.WARNING);	
