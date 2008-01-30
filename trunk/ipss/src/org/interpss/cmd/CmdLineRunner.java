@@ -58,7 +58,7 @@ public class CmdLineRunner {
 				String f = outFilename;
 				if (f == null || f.trim().equals("")) {
 					String str = StringUtil.getFileNameNoExt(inputFilename);
-					f = AppConstants.APP_BASE_DIR
+					f = AppConstants.APP_BASE_DIR + AppConstants.OUTPUT_DEFAULT_DIR 
 							+ System.getProperty("file.separator") + str
 							+ AppConstants.OUTPUT_FILE_EXT;
 				}
@@ -80,9 +80,18 @@ public class CmdLineRunner {
 
 	private static SimuContext inputData(String filename) {
 		try {
+			if (filename == null || filename.trim().equals("")) {
+				IpssLogger.getLogger().severe("Error, You need a input file -in filename");
+				return null;
+			}
+			
 			String ext = StringUtil.getFileExt(filename);
 			IpssFileAdapter adapter = SimuAppSpringAppCtxUtil
 					.getCustomFileAdapter(ext);
+			if (adapter == null) {
+				IpssLogger.getLogger().severe("Wrong file type, no adapter is available, ext: " + ext);
+				return null;
+			}
 			SimuContext simuCtx = adapter.load(filename, SpringAppContext
 					.getIpssMsgHub());
 			return simuCtx;
