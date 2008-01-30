@@ -27,7 +27,6 @@ package org.interpss.editor;
 import org.interpss.editor.app.AppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -77,12 +76,4 @@ public class EditorSpringAppContext extends SpringAppContext {
 	public static ISimuRecManager getSimuRecManager() {
 		return (ISimuRecManager)SpringAppCtx.getBean(Constants.SID_SimuRecManager);
 	}
-
-	/**
-	 * Init the SpringFramework application context
-	 */
-	public static void springAppContextSetup() {
-		// Set the SpringAppContext to all ApplicationContextAware objects.
-		SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(SpringAppCtxConfigXmlFile);
-	}	
 }
