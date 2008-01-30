@@ -35,6 +35,10 @@
 
     <target depends="init" description="jar ipss lib files" name="jar_lib">
 	  <jar destfile="${lib_base}/ipss.jar" 
+	  		basedir="${dev_base}/ipss/runtime" 
+	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.xml,**/*.log" />	
+
+	  <jar destfile="${lib_base}/ipss_editor.jar" 
 	  		basedir="${dev_base}/ipss.editor/runtime" 
 	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.xml,**/*.log" />	
 
@@ -114,23 +118,23 @@
    	</target>	
 
     <target depends="init" description="copy sqlMap files to GEditor" name="copy_properties">
-    	<copydir src="${dev_base}/ipss.editor/runtime/sqlMapConfig"
+    	<copydir src="${dev_base}/ipss/runtime/sqlMapConfig"
     	         dest="${dist_base}/properties/sqlMapConfig"
     	         includes="**/*.xml"
     	         excludes="**/SqlMapConfig.xml"
     	/>
-    	<copydir src="${dev_base}/ipss.editor/properties"
+    	<copydir src="${dev_base}/ipss/properties"
     	         dest="${dist_base}/properties"
     	         includes="**/*.xml"
     	/>
-    	<copydir src="${dev_base}/ipss.editor/properties"
+    	<copydir src="${dev_base}/ipss/properties"
     	         dest="${fit_base}/properties"
     	         includes="**/*.xml"
     	/>
     </target>	
 			
     <target depends="init" description="copy report templates to GEditor" name="copy_report_template">
-    	<copydir src="${dev_base}/ipss.editor/reportTemplate"
+    	<copydir src="${dev_base}/ipss/reportTemplate"
     	         dest="${dist_base}/reportTemplate"
     	         includes="**/*.jasper"
     	/>
@@ -205,6 +209,12 @@
 
 		<copy todir="H:/backup/ipss/ipss.plugin.test">
 	    	<fileset dir="${dev_base}/ipss.plugin.test">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="H:/backup/ipss/ipss">
+	    	<fileset dir="${dev_base}/ipss">
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
