@@ -17,7 +17,7 @@
 	<classpathentry kind="var" path="IPSS_LIB/fit/fitlibrary.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/fit/fitnesse.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.jgraph"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
@@ -25,5 +25,6 @@
 	<classpathentry kind="var" path="IPSS_LIB/grid/gridgain-1.5.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
