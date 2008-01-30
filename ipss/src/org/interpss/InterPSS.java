@@ -131,8 +131,8 @@ public class InterPSS {
 	private final static String GOptStr = "-g";
 	private final static String InOptStr = "-in";
 	private final static String RunOptStr = "-run";
+	private final static String XmlOptStr = "-xml";
 	private final static String OutOptStr = "-out";
-	private final static String POptStr = "-p";
 
 	private final static String OptHelpStr = "help";
 	private final static String OptCmdLineStr = "cmd";
@@ -146,14 +146,14 @@ public class InterPSS {
 	private final static String Parm_GridGain = "gridgain";
 
 	private static String getHelpInfo() {
-		return "java org.interpss.InterPSS [-o editor|help|cmd] [-in <input file>] [-run dclf|aclf|scsc|dstab] [-out <output file>] [-p <properties file>] [-g gridgain] \n"
+		return "java org.interpss.InterPSS [-o editor|help|cmd] [-g gridgain] -in inputFile [-run dclf|aclf|scsc|dstab] [-xml controlFile] [-out outputFile] \n"
 				+ "  "	+ OptStr + " " + OptHelpStr + " for help info\n"
 				+ "  " 	+ OptStr + " " + OptCmdLineStr + " defaul, running InterPSS in cmd line mode\n"
 				+ "  " 	+ OptStr + " " + OptEditorStr + " running InterPSS in graphic editor mode\n"
 				+ "  " 	+ GOptStr + " " + Parm_GridGain + " running InterPSS in grid computing mode\n"
 				+ "  " 	+ InOptStr + " " + " simulation result input file, its extension will used to determine file loading adapter\n"
 				+ "  " 	+ RunOptStr + " " + " to override InterPSS default run type, which is determined by the network object type. \n"
-				+ "  " 	+ OutOptStr + " " + " simulation result output file\n"
-				+ "  " 	+ POptStr + " "	+ " properties file for configuting the run\n";
+				+ "  " 	+ XmlOptStr + " " + " Xml file to control the run. \n"
+				+ "  " 	+ OutOptStr + " " + " simulation result output file\n";
 	}
 }
