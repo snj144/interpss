@@ -38,9 +38,12 @@
 	  		basedir="${dev_base}/ipss/runtime" 
 	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.xml,**/*.log" />	
 
-	  <jar destfile="${lib_base}/ipss_editor.jar" 
+	  <jar destfile="${svn_lib}/ipss_editor.jar" 
 	  		basedir="${dev_base}/ipss.editor/runtime" 
-	  		excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/*.properties,**/.project,**/.classpath,**/.nbattrs,**/*.xml,**/*.log" />	
+	  		excludes="CVS/**,model/**" />	
+	  <jar destfile="${ipss_base}/ipss_editor.jar" 
+	  		basedir="${dev_base}/ipss.editor/runtime" 
+	  		excludes="CVS/**,model/**" />	
 
 	  <jar destfile="${svn_lib}/ipss_pad.jar" 
 	  		basedir="${dev_base}/ipss.editor.pad/runtime" 
