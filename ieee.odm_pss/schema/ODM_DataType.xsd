@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+        targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema" 
+        xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema" 
+        elementFormDefault="qualified">
+
+    <complexType name="BaseRecordXmlType">
+    	<sequence>
+    		<element name="name" type="string" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="desc" type="string" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="offLine" type="boolean" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="number" type="int" minOccurs="0" maxOccurs="1"></element>
+    		<element name="area" type="int" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="zone" type="int" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="owner" type="string" minOccurs="0"
+    			maxOccurs="1">
+    		</element>
+    		<element name="nvPairList" type="pss:NameValuePairListXmlType"
+    			minOccurs="0" maxOccurs="1">
+    		</element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="IDRecordXmlType">
+    	<complexContent>
+    		<extension base="pss:BaseRecordXmlType">
+    			<sequence>
+    				<element name="id" type="ID" minOccurs="1" maxOccurs="1"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="IDRefRecordXmlType">
+    	<complexContent>
+    		<extension base="pss:BaseRecordXmlType">
+    			<sequence>
+    				<element name="idRef" type="IDREF" minOccurs="1" maxOccurs="1"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="NameValuePairXmlType">
+    	<sequence>
+    		<element name="name" type="string" minOccurs="1" maxOccurs="1"></element>
+    		<element name="value" type="string" minOccurs="1" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="NameValuePairListXmlType">
+    	<sequence>
+    		<element name="nvPair" type="pss:NameValuePairXmlType" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="BusRecordXmlType">
+    	<complexContent>
+    		<extension base="pss:IDRecordXmlType">
+    			<sequence>
+    				<element name="baseVoltage" type="double"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="BranchRecordXmlType">
+    	<complexContent>
+    		<extension base="pss:IDRecordXmlType">
+    			<sequence>
+    				<element name="ftomBus"
+    					type="pss:IDRefRecordXmlType">
+    				</element>
+    				<element name="toBus"
+    					type="pss:IDRefRecordXmlType">
+    				</element>
+    				<element name="circuitNumber" type="int"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>
+
+    <complexType name="BusRecordListXmlType">
+    	<sequence>
+    		<element name="bus" type="pss:BusRecordXmlType" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="BranchRecordListXmlType">
+    	<sequence>
+    		<element name="branch" type="pss:BranchRecordXmlType" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+</schema>

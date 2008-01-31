@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema"
+	xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema"
+	elementFormDefault="qualified">
+
+	<include schemaLocation="ODM_DataType.xsd"></include>
+	<complexType name="StudyCaseXmlType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
+				<sequence>
+					<element name="baseCase"
+						type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
+					</element>
+					<element name="modificationList"
+						type="pss:ModifyRecordListXmlType" minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="scenarioList"
+						type="pss:ScenarioListXmlType" minOccurs="0" maxOccurs="1">
+					</element>
+				</sequence>
+
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<element name="PSSStudyCase" type="pss:StudyCaseXmlType"></element>
+
+	<complexType name="PSSNetworkXmlType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
+				<sequence>
+					<element name="busList" type="pss:BusRecordListXmlType"></element>
+					<element name="branchList" type="pss:BranchRecordListXmlType"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="ModifyRecordListXmlType">
+		<sequence>
+			<element name="modifyRec" type="pss:ModifyRecordXmlType" minOccurs="0" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="ModifyRecordXmlType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType"></extension>
+		</complexContent>
+	</complexType>
+	
+    <complexType name="ScenarioListXmlType">
+    	<sequence>
+    		<element name="scenario" type="pss:ScenarioXmlType" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="ScenarioXmlType">
+    	<complexContent>
+    		<extension base="pss:IDRecordXmlType">
+    			<sequence>
+    				<element name="modifcationList"
+    					type="pss:ModifyRecordListXmlType" minOccurs="0"
+    					maxOccurs="1">
+    				</element>
+    			</sequence>
+
+    		</extension>
+    	</complexContent>
+    </complexType>
+</schema>
