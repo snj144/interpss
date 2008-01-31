@@ -44,26 +44,29 @@ public class InterPSS {
 	 */
 	public static void main(String[] args) {
 		// parse cmd line parameters
-		parseCmdLineParameters(args);
+		if (!parseCmdLineParameters(args))
+			System.exit(0);
 
+		// if -o help, print help info and exit
 		if (OptHelpStr.equals(appParameters.getParamLowerCase(OptStr))) {
 			System.out.println(getHelpInfo());
-			return;
+			System.exit(0);
 		}
 
+		// load all properties files
 		IpssPropertiesLoader.loadProperties(OptCmdLineStr.equals(appParameters
 				.getParamLowerCase(OptStr)));
 		printInfo("Starting");
 
+		// load String framework configuration
 		IpssLogger.getLogger()
 			.info("Config Spring context ...");
 		SpringAppContext.springAppContextSetup(IpssPropertiesLoader
-				.getIpssString("springframework.config.xmlfile"));
+				.getIpssString(OptEditorStr.equals(appParameters.getParamLowerCase(OptStr))?
+						"springframework.config.editor" : "springframework.config.cmdline"));
 		
-		AppConstants.APP_BASE_DIR = StringUtil.getInstallLocation();
-		IpssLogger.getLogger().info("Base Dir: " + AppConstants.APP_BASE_DIR);
-		AppConstants.OUTPUT_DEFAULT_DIR = IpssPropertiesLoader
-				.getIpssString("Output.Default.Location");
+		// load app constants stored in the properties files
+		loadAppConstants();
 
 		// try to start the grid engine
 		if (appParameters.getParam(GOptStr) != null
@@ -73,9 +76,13 @@ public class InterPSS {
 		}
 
 		if (OptEditorStr.equals(appParameters.getParamLowerCase(OptStr))) {
+			// 
+			// run InterPSS in Editor mode
+			//
 			IpssLogger.getLogger()
 					.info("Start InterPSS in graphic editor mode");
 
+		 	EditorConfig.setConfigConstants();
 			if (!EditorConfig.loadEditorProperties()) {
 				System.err
 						.println("System configuration has problems, please see the log file for details");
@@ -85,23 +92,33 @@ public class InterPSS {
 								"Your configuration has problems which prevent the GraphicEditor to start. Please see the log file in the log dir for details",
 								"Configuration Error",
 								JOptionPane.ERROR_MESSAGE);
-				return;
+				System.exit(0);
 			}
 
 			GEditor.init(args);
 			printInfo("Started ");
-		} else if (OptCmdLineStr
-				.equals(appParameters.getParamLowerCase(OptStr))) {
+		} else if (OptCmdLineStr.equals(appParameters.getParamLowerCase(OptStr))) {
+			//
+			// run InterPSS in CmdLine mode
+			//
 			IpssLogger.getLogger().info("run InterPSS in cmd line mode");
 			CmdLineRunner.cmdLineRun(
 					appParameters.getParamLowerCase(InOptStr),
 					appParameters.getParamLowerCase(RunOptStr),
+					appParameters.getParamLowerCase(XmlOptStr),
 					appParameters.getParamLowerCase(OutOptStr));
 			printInfo("Shutdown");
 			System.exit(0);
 		}
 	}
 
+	private static void loadAppConstants() {
+		AppConstants.APP_BASE_DIR = StringUtil.getInstallLocation();
+		IpssLogger.getLogger().info("Base Dir: " + AppConstants.APP_BASE_DIR);
+		AppConstants.OUTPUT_DEFAULT_DIR = IpssPropertiesLoader
+				.getIpssString("Output.Default.Location");
+	}
+	
 	private static void printInfo(String str) {  // str has to have 8 chars
 		IpssLogger.getLogger().info(
 				"\n============================================\n"
@@ -110,7 +127,7 @@ public class InterPSS {
 	}
 	private static AppParameters appParameters;
 
-	private static void parseCmdLineParameters(String[] args) {
+	private static boolean parseCmdLineParameters(String[] args) {
 		// we set up the app parameters
 		appParameters = new AppParameters();
 		for (int i = 0; i < args.length; i = i + 2) {
@@ -125,6 +142,21 @@ public class InterPSS {
 		// put default value if not specified by the user
 		if (appParameters.getParam(OptStr) == null)
 			appParameters.setParam(OptStr, OptCmdLineStr);
+		else if (!appParameters.getParamLowerCase(OptStr).equals(OptHelpStr) &&
+				 !appParameters.getParamLowerCase(OptStr).equals(OptCmdLineStr) &&
+				 !appParameters.getParamLowerCase(OptStr).equals(OptEditorStr)) {
+			System.err.println("Wrong -o argument, " + appParameters.getParam(OptStr));
+			return false;
+		}
+		
+		if (appParameters.getParam(RunOptStr) != null) {
+			if (!appParameters.getParamLowerCase(OptStr).equals(RunDclfStr) &&
+				!appParameters.getParamLowerCase(OptStr).equals(RunAclfStr) ) {
+				System.err.println("Wrong -run argument, " + appParameters.getParam(RunOptStr));
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private final static String OptStr = "-o";
@@ -146,7 +178,7 @@ public class InterPSS {
 	private final static String Parm_GridGain = "gridgain";
 
 	private static String getHelpInfo() {
-		return "java org.interpss.InterPSS [-o editor|help|cmd] [-g gridgain] -in inputFile [-run dclf|aclf|scsc|dstab] [-xml controlFile] [-out outputFile] \n"
+		return "java org.interpss.InterPSS [-o editor|help|cmd] [-g gridgain] -in inputFile [-run dclf|aclf] [-xml controlFile] [-out outputFile|Console] \n"
 				+ "  "	+ OptStr + " " + OptHelpStr + " for help info\n"
 				+ "  " 	+ OptStr + " " + OptCmdLineStr + " defaul, running InterPSS in cmd line mode\n"
 				+ "  " 	+ OptStr + " " + OptEditorStr + " running InterPSS in graphic editor mode\n"

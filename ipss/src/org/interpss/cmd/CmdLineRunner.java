@@ -46,10 +46,15 @@ public class CmdLineRunner {
 	 * Run InterPSS simulation in cmd line mode
 	 * 
 	 * @param inputFilename input file name. Its extension will be used to determine input file load adapter
+	 * @param runType Dclf|Aclf|Acsc|DStab to overide the default run type, which is decided by the input data network type
+	 * @param xmlContrlFile an xml file to control interpss run
 	 * @param outFilename output file name
 	 * @return returning a object (Net, SimuCtx) for testing purpose
 	 */
-	public static Object cmdLineRun(String inputFilename, String runType,
+	public static Object cmdLineRun(
+			String inputFilename, 
+			String runType, 
+			String xmlControlFile,
 			String outFilename) {
 
 		SimuContext simuCtx = inputData(inputFilename);
@@ -75,7 +80,7 @@ public class CmdLineRunner {
 	 * @return returning a object (Net, SimuCtx) for testing purpose
 	 */
 	public static Object cmdLineRun(String inputFilename) {
-		return cmdLineRun(inputFilename, null, null);
+		return cmdLineRun(inputFilename, null, null, null);
 	}
 
 	private static SimuContext inputData(String filename) {
@@ -125,6 +130,10 @@ public class CmdLineRunner {
 						.createLoadflowAlgorithm(simuCtx.getAclfAdjNet());
 				// use the loadflow algorithm to perform loadflow calculation
 				algo.loadflow(msg);
+			}
+			else {
+				IpssLogger.getLogger().warning("InterPSS CmdLine mode currently only supput Dclf and Aclf run type");
+				return false;
 			}
 		}
 		return true;
