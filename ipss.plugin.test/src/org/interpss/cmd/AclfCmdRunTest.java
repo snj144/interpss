@@ -21,6 +21,7 @@ public class AclfCmdRunTest  extends BaseTestSetup {
 		CmdLineRunner.cmdLineRun(
 				"testData/ipssdata/Ieee14.ipssdat", 
 				InterPSS.RunDclfStr,
+				null,
 				null);
 	}			
 }
