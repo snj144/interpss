@@ -94,12 +94,6 @@ public class GEditor extends Applet {
 		// set workspace
 		setWorkspaceDirectory();
 		
-		showSplashInfo(info,Translator.getString("Splash.SpringConfig"));
-
-		// set application contants
-	 	EditorConfig.setConfigConstants();
-		showSplashInfo(info,Translator.getString("Splash.Config"));
-
 		// load ref data from DB
 		EditorSpringAppContext.getRefDataManager().loadAllRefData();
 		showSplashInfo(info,Translator.getString("Splash.Database"));
