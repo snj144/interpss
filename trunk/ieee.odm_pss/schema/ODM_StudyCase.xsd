@@ -30,8 +30,8 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="busList" type="pss:BusRecordListXmlType"></element>
-					<element name="branchList" type="pss:BranchRecordListXmlType"></element>
+					<element name="busList" type="pss:BusRecordListXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="branchList" type="pss:BranchRecordListXmlType" minOccurs="1" maxOccurs="1"></element>
 				</sequence>
 			</extension>
 		</complexContent>
