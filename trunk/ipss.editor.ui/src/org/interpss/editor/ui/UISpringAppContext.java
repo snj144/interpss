@@ -31,6 +31,7 @@ import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.common.util.IpssLogger;
 
 public class UISpringAppContext extends SpringAppContext {
