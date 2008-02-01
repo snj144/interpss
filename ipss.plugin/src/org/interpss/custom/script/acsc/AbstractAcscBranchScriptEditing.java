@@ -27,9 +27,9 @@ package org.interpss.custom.script.acsc;
 import javax.swing.JPanel;
 
 import org.interpss.custom.script.ScriptPluginEditingAdapter;
-import org.interpss.editor.ui.IScriptPluginEditing;
 
 import com.interpss.common.ui.ICustomPluginEditor;
+import com.interpss.common.ui.IScriptPluginEditing;
 import com.interpss.core.acsc.impl.BaseAcscBranchImpl;
 
 
