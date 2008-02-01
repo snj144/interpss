@@ -79,12 +79,15 @@
     		<extension base="pss:IDRecordXmlType">
     			<sequence>
     				<element name="ftomBus"
-    					type="pss:IDRefRecordXmlType">
+    					type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1">
     				</element>
-    				<element name="toBus"
-    					type="pss:IDRefRecordXmlType">
+    				<element name="toBus" type="pss:IDRefRecordXmlType"
+    					minOccurs="1" maxOccurs="1">
     				</element>
-    				<element name="circuitNumber" type="int"></element>
+                    <element name="tertiaryBus" type="pss:IDRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
+                    <element name="circuitNumber" type="int"
+    					minOccurs="0" maxOccurs="1">
+    				</element>
     			</sequence>
     		</extension>
     	</complexContent>
