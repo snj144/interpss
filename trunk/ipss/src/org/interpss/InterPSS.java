@@ -44,9 +44,11 @@ public class InterPSS {
 	 */
 	public static void main(String[] args) {
 		// parse cmd line parameters
-		if (!parseCmdLineParameters(args))
+		if (!parseCmdLineParameters(args)) {
+			System.out.println(getHelpInfo());
 			System.exit(0);
-
+		}
+		
 		// if -o help, print help info and exit
 		if (OptHelpStr.equals(appParameters.getParamLowerCase(OptStr))) {
 			System.out.println(getHelpInfo());
