@@ -29,11 +29,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -41,11 +41,18 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.LineAdapter;
+import com.interpss.core.aclf.PQBusAdapter;
+import com.interpss.core.aclf.PSXfrAdapter;
+import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -116,9 +123,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	}
 
     private static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
-    	final AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
-    	adjNet.setAllowParallelBranch(true);
-    	adjNet.setBaseKva(100000.0);   // no base kva definition in UCTE, use 100 MVA
+    	final AclfAdjNetwork  aclfNet = CoreObjectFactory.createAclfAdjNetwork();
+    	aclfNet.setAllowParallelBranch(true);
+    	aclfNet.setBaseKva(100000.0);   // no base kva definition in UCTE, use 100 MVA
 
     	boolean noError = true;
       	String str;   
@@ -141,7 +148,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     				else if (str.startsWith(Token_2WXfrRegBlock))
     					recType = RecType.Xfr2WReg;
     				else {
-    					if (!processRecord(str, recType, countryId, adjNet, msg))
+    					if (!processRecord(str, recType, countryId, aclfNet, msg))
     						noError = false;
     				}
     			} catch (final Exception e) {
@@ -151,44 +158,45 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
         	}
        	} while (str != null);
 
-    	return noError? adjNet : null;
+    	return noError? aclfNet : null;
     }
 
-    private static boolean processRecord(String str, RecType recType, String countryId, AclfAdjNetwork  adjNet, final IPSSMsgHub msg) {
+    private static boolean processRecord(String str, RecType recType, String countryId, AclfAdjNetwork  aclfNet, final IPSSMsgHub msg) {
     	boolean noError = true;
     	if (recType == RecType.Comment) {
-    	    if (!processCommentRecord(str, adjNet))
+    	    if (!processCommentRecord(str, aclfNet))
     	    	noError = false;
     	}
     	else if (recType == RecType.Node) {
-    	    if (!processNodeRecord(str, countryId, adjNet, msg))
+    	    if (!processNodeRecord(str, countryId, aclfNet, msg))
     	    	noError = false;
     	}
     	else if (recType == RecType.Line) {
-    	    if (!processLineRecord(str, adjNet, msg))
+    	    if (!processLineRecord(str, aclfNet, msg))
     	    	noError = false;
     	}
     	else if (recType == RecType.Xfr2W) {
-    	    if (!processXfr2WindingRecord(str, adjNet, msg))
+    	    if (!processXfr2WindingRecord(str, aclfNet, msg))
     	    	noError = false;
     	}
     	else if (recType == RecType.Xfr2WReg) {
-    	    if (!processXfr2WRegulationRecord(str, adjNet, msg))
+    	    if (!processXfr2WRegulationRecord(str, aclfNet, msg))
     	    	noError = false;
     	}
     	else if (recType == RecType.Xfr2WDesc) {
-    	    if (!processXfr2SpecialDescRecord(str, adjNet))
+    	    if (!processXfr2SpecialDescRecord(str, aclfNet))
     	    	noError = false;
     	}
     	return noError;
     }
 
-    private static boolean processCommentRecord(String str, AclfAdjNetwork  adjNet) {
+    private static boolean processCommentRecord(String str, AclfAdjNetwork  aclfNet) {
 		IpssLogger.getLogger().info("Comment: " + str);
+		aclfNet.setDesc(aclfNet.getDesc() + str + "\n");
     	return true;
     }
 
-    private static boolean processNodeRecord(String str, String countryId, AclfAdjNetwork  adjNet, IPSSMsgHub msg) {
+    private static boolean processNodeRecord(String str, String countryId, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Node Record: " + str);
 		String id = StringUtil.getString(str, 1, 8).trim();
 		String name = StringUtil.getString(str, 10, 21).trim();
@@ -231,31 +239,51 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
       	final AclfBus bus = CoreObjectFactory.createAclfBus(id);
       	bus.setName(name);
     	bus.setBaseVoltage(baseKv, UnitType.kV);
-    	adjNet.addBus(bus);
+    	aclfNet.addBus(bus);
 		
     	switch (nodeType) {
     	case 0:   // PQ bus
-			break;
+    		bus.setGenCode(AclfGenCode.GEN_PQ);
+    		bus.setLoadCode(AclfLoadCode.CONST_P);
+   			final PQBusAdapter pqGen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
+    		pqGen.setGen(new Complex(pGenMW, qGenMvar), UnitType.mVA, aclfNet.getBaseKva());
+    		pqGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA, aclfNet.getBaseKva());
+    		break;
 		case 1:  // Q angle bus
 			break;
 		case 2:  // PV bus
-			break;
+   		 	bus.setGenCode(AclfGenCode.GEN_PV);
+   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
+  			final PVBusAdapter pvGen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
+  			pvGen.setGenP(pGenMW, UnitType.mW, aclfNet.getBaseKva());
+  			pvGen.setVoltMag(voltage, UnitType.kV);
+  			pvGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA, aclfNet.getBaseKva());
+  			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0)) && 
+  					maxGenMVar > minGenMVar) {
+  				// PV Bus limit control
+				IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + id);
+				final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(
+						aclfNet, id);
+				pvLimit.setQLimit(new LimitType(maxGenMVar, minGenMVar), UnitType.mVar, aclfNet.getBaseKva());
+  			}
+  			break;
 		case 3:  // swing bus
    		 	bus.setGenCode(AclfGenCode.SWING);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
-  			gen.setVoltMag(voltage, UnitType.kV);
-  			gen.setVoltAng(0.0, UnitType.Deg);
-  			gen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA, adjNet.getBaseKva());
+  			final SwingBusAdapter swingGen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+  			swingGen.setVoltMag(voltage, UnitType.kV);
+  			swingGen.setVoltAng(0.0, UnitType.Deg);
+  			swingGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA, aclfNet.getBaseKva());
 			break;
 		default: 
-			// error
+			// error bus nodeType code
+			msg.sendErrorMsg("Wrong node type code, " + nodeType);
 			return false;
     	}
     	return true;
     }
     
-    private static boolean processLineRecord(String str, AclfAdjNetwork  adjNet, IPSSMsgHub msg) {
+    private static boolean processLineRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Line Record: " + str);
 		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
 		String toNodeId = StringUtil.getString(str, 10, 17).trim();
@@ -281,12 +309,20 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
       	final AclfBranch branch = CoreObjectFactory.createAclfBranch();
       	branch.setName(elemName);
       	// add the object into the network container
-      	adjNet.addBranch(branch, fromNodeId, toNodeId);    
+      	aclfNet.addBranch(branch, fromNodeId, toNodeId);    
 		
+    	branch.setBranchCode(AclfBranchCode.LINE);
+		final LineAdapter line = (LineAdapter)branch.adapt(LineAdapter.class);
+    	line.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva(), msg);
+    	line.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
+      	
+    	// by default the branch is active
+    	if (status == 7 || status == 8 || status == 9) 
+    		branch.setStatus(false);
 		return true;
     }
     
-    private static boolean processXfr2WindingRecord(String str, AclfAdjNetwork  adjNet, IPSSMsgHub msg) {
+    private static boolean processXfr2WindingRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Record: " + str);
 		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
 		String toNodeId = StringUtil.getString(str, 10, 17).trim();
@@ -317,12 +353,22 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
       	final AclfBranch branch = CoreObjectFactory.createAclfBranch();
       	branch.setName(elemName);
       	// add the object into the network container
-      	adjNet.addBranch(branch, fromNodeId, toNodeId);    
+      	aclfNet.addBranch(branch, fromNodeId, toNodeId);    
       	
+	 	branch.setBranchCode(AclfBranchCode.XFORMER);
+		final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
+		// it is assumed that the r and x is measured at high voltage side
+		double baseV = branch.getFromAclfBus().getBaseVoltage() > branch.getToAclfBus().getBaseVoltage()?
+				branch.getFromAclfBus().getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
+    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, baseV, aclfNet.getBaseKva(), msg);
+		//if ( branch.getFromAclfBus().getBaseVoltage() > branch.getToAclfBus().getBaseVoltage())
+    	//xfr.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
+    	xfr.setFromTurnRatio(1.0, UnitType.PU);
+    	xfr.setToTurnRatio(1.0, UnitType.PU); 
     	return true;
     }
     
-    private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork adjNet, IPSSMsgHub msg) {
+    private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Reg Record: " + str);
 		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
 		String toNodeId = StringUtil.getString(str, 10, 17).trim();
@@ -352,7 +398,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
-    private static boolean processXfr2SpecialDescRecord(String str, AclfAdjNetwork  adjNet) {
+    private static boolean processXfr2SpecialDescRecord(String str, AclfAdjNetwork  aclfNet) {
 		IpssLogger.getLogger().info("Xfr 2W Desc Record: " + str);
     	return true;
     }
