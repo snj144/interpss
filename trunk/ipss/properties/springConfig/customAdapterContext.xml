@@ -55,6 +55,14 @@
 	      p:extension="psat"
 	      p:description="PSAT Data Format" />
 	
+	<bean id="fileAdapterUCTEFormat" 
+	      class="org.interpss.custom.exchange.FileAdapter_UCTEFormat"
+	      scope="singleton"	
+	      p:name="UCTE Format"
+	      p:fileFilterString="uct"
+	      p:extension="uct"
+	      p:description="UCTE Data Exchange Format for LF and SC" />
+
 	<bean id="fileAdapterPSSEFormat" 
 	      class="org.interpss.custom.exchange.FileAdapter_PTIFormat"
 	      scope="singleton"	
@@ -88,6 +96,7 @@
 		<constructor-arg>
 			<list>
 				<ref bean="fileAdapterPSSEFormat"/>
+				<ref bean="fileAdapterUCTEFormat"/>
 				<ref bean="fileAdapterIeeeCommonFormat"/>
 				<ref bean="fileAdapterPSTMatlabFormat"/>
 				<ref bean="fileAdapterPSATFormat"/>
