@@ -31,11 +31,20 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+import org.apache.commons.math.complex.Complex;
+
+import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfGenCode;
+import com.interpss.core.aclf.AclfLoadCode;
+import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -49,7 +58,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	private static final String Token_LineBlock			= "##L";
 	private static final String Token_2WXfrBlock		= "##T";
 	private static final String Token_2WXfrRegBlock 	= "##R";
-	private static final String Token_EOF 				= "##TT";
+	private static final String Token_2WXfrSpeDesc		= "##TT";
 	
 	private enum RecType {Comment, Node, Line, Xfr2W, Xfr2WReg, Xfr2WDesc, ExPower, NotDefined};
 
@@ -70,10 +79,16 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		final AclfAdjNetwork adjNet = loadFile(din, msg);
   		// System.out.println(adjNet.net2String());
 	  		
-  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
-  		simuCtx.setAclfAdjNet(adjNet);
-  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
-  		simuCtx.setDesc("This project is created by input file " + filepath);
+  		if (adjNet != null) {
+  			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+  	  		simuCtx.setAclfAdjNet(adjNet);
+  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+  	  		simuCtx.setDesc("This project is created by input file " + filepath);
+  		}
+  		else { 
+  			msg.sendErrorMsg("Error to load file: " + filepath);
+  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
+  		}
 	}
 	
 	/**
@@ -103,12 +118,14 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     private static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
     	final AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
     	adjNet.setAllowParallelBranch(true);
+    	adjNet.setBaseKva(100000.0);   // no base kva definition in UCTE, use 100 MVA
 
+    	boolean noError = true;
       	String str;   
       	RecType recType = RecType.NotDefined;
     	do {
           	str = din.readLine();   
-        	if (!str.trim().equals(Token_EOF)) {
+        	if (str != null && !str.trim().equals("")) {
         		String countryId = "";
     			try {
     				if (str.startsWith(Token_CommentBlock))
@@ -124,16 +141,17 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     				else if (str.startsWith(Token_2WXfrRegBlock))
     					recType = RecType.Xfr2WReg;
     				else {
-    					processRecord(str, recType, countryId, adjNet, msg);
+    					if (!processRecord(str, recType, countryId, adjNet, msg))
+    						noError = false;
     				}
     			} catch (final Exception e) {
     				IpssLogger.logErr(e);
     				msg.sendErrorMsg("Error Line: " + str + ", " + e.toString());
     			}
         	}
-       	} while (!str.trim().equals(Token_EOF));
+       	} while (str != null);
 
-    	return adjNet;
+    	return noError? adjNet : null;
     }
 
     private static boolean processRecord(String str, RecType recType, String countryId, AclfAdjNetwork  adjNet, final IPSSMsgHub msg) {
@@ -151,11 +169,11 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	    	noError = false;
     	}
     	else if (recType == RecType.Xfr2W) {
-    	    if (!processXfr2WindingRecord(str, adjNet))
+    	    if (!processXfr2WindingRecord(str, adjNet, msg))
     	    	noError = false;
     	}
     	else if (recType == RecType.Xfr2WReg) {
-    	    if (!processXfr2WRegulationRecord(str, adjNet))
+    	    if (!processXfr2WRegulationRecord(str, adjNet, msg))
     	    	noError = false;
     	}
     	else if (recType == RecType.Xfr2WDesc) {
@@ -172,70 +190,195 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 
     private static boolean processNodeRecord(String str, String countryId, AclfAdjNetwork  adjNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Node Record: " + str);
-		StringTokenizer st = new StringTokenizer(str);
-		String id = st.nextToken();
-		String name = st.nextToken();
+		String id = StringUtil.getString(str, 1, 8).trim();
+		String name = StringUtil.getString(str, 10, 21).trim();
+
+		double baseKv = 0.0;
+		int status, nodeType;
+		double voltage, pLoadMW, qLoadMvar, pGenMW, qGenMvar;
+		
+		double 	minGenMW, maxGenMW, minGenMVar, maxGenMVar, 
+				staticPrimaryControl, normalPoewrPrimaryControl,
+				scMVA3P, x_rRatio;
+		
 		try {
-			int status = new Integer(st.nextToken()).intValue();  // 0 real, 1 equivalent
-			int nodeType = new Integer(st.nextToken()).intValue();  // 0 PQ, 1 QAng, 2 PV, 3 Swing
-			double baseKv = new Double(st.nextToken()).doubleValue();  
-			double pLoadMW = new Double(st.nextToken()).doubleValue();  
-			double qLoadMvar = new Double(st.nextToken()).doubleValue();  
-			double pGenMW = new Double(st.nextToken()).doubleValue();  
-			double qGenMvar = new Double(st.nextToken()).doubleValue();
+			baseKv = getBaseVoltageKv(id);
+
+			status = StringUtil.getInt(str, 23, 23);  // 0 real, 1 equivalent
+			nodeType = StringUtil.getInt(str, 25, 25);  // 0 PQ, 1 QAng, 2 PV, 3 Swing
+			voltage = StringUtil.getDouble(str, 27, 32);  
+			pLoadMW = StringUtil.getDouble(str, 34, 40);  
+			qLoadMvar = StringUtil.getDouble(str, 42, 48);  
+			pGenMW = StringUtil.getDouble(str, 50, 56);  
+			qGenMvar = StringUtil.getDouble(str, 58, 64);
 			
 			// optional fields
-			double 	minGenMW = StringUtil.getDouble(str, 66, 72), 
-					maxGenMW = StringUtil.getDouble(str, 74, 80),
-					minGenMVar = StringUtil.getDouble(str, 82, 88), 
-					maxGenMVar = StringUtil.getDouble(str, 90, 96), 
-					staticPrimaryControl = StringUtil.getDouble(str, 98, 102), 
-					normalPoewrPrimaryControl = StringUtil.getDouble(str, 104, 110),
-					scMVA3P = StringUtil.getDouble(str, 112, 118),
-					x_rRatio = StringUtil.getDouble(str, 120, 126);
+			minGenMW = StringUtil.getDouble(str, 66, 72); 
+			maxGenMW = StringUtil.getDouble(str, 74, 80);
+			minGenMVar = StringUtil.getDouble(str, 82, 88); 
+			maxGenMVar = StringUtil.getDouble(str, 90, 96); 
+			staticPrimaryControl = StringUtil.getDouble(str, 98, 102); 
+			normalPoewrPrimaryControl = StringUtil.getDouble(str, 104, 110);
+			scMVA3P = StringUtil.getDouble(str, 112, 118);
+			x_rRatio = StringUtil.getDouble(str, 120, 126);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
 			return false;
 		}
-		String powerPlanType = str.substring(127,128);
+		String powerPlanType = StringUtil.getString(str, 128, 128);
 		
+      	final AclfBus bus = CoreObjectFactory.createAclfBus(id);
+      	bus.setName(name);
+    	bus.setBaseVoltage(baseKv, UnitType.kV);
+    	adjNet.addBus(bus);
+		
+    	switch (nodeType) {
+    	case 0:   // PQ bus
+			break;
+		case 1:  // Q angle bus
+			break;
+		case 2:  // PV bus
+			break;
+		case 3:  // swing bus
+   		 	bus.setGenCode(AclfGenCode.SWING);
+   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
+  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+  			gen.setVoltMag(voltage, UnitType.kV);
+  			gen.setVoltAng(0.0, UnitType.Deg);
+  			gen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA, adjNet.getBaseKva());
+			break;
+		default: 
+			// error
+			return false;
+    	}
     	return true;
     }
     
     private static boolean processLineRecord(String str, AclfAdjNetwork  adjNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Line Record: " + str);
-		StringTokenizer st = new StringTokenizer(str);
-		String fromNodeId = st.nextToken();
-		String toNodeId = st.nextToken();
-		String orderCode = st.nextToken();
+		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
+		String toNodeId = StringUtil.getString(str, 10, 17).trim();
+		String orderCode = StringUtil.getString(str, 19, 19);
+		
+		int status, currentLimit;
+		double rOhm, xOhm, bMuS;  
+
 		try {
-			int status = new Integer(st.nextToken()).intValue();  // 0 real, i equivalent
-			double rOhm = new Double(st.nextToken()).doubleValue();  
-			double xOhm = new Double(st.nextToken()).doubleValue();  
-			double bMuS = new Double(st.nextToken()).doubleValue();  
-			int currentLimit = new Integer(st.nextToken()).intValue();  
+			status = StringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
+			rOhm = StringUtil.getDouble(str, 23, 28);  
+			xOhm = StringUtil.getDouble(str, 30, 35);  
+			bMuS = StringUtil.getDouble(str, 37, 44);  
+			currentLimit = StringUtil.getInt(str, 46, 51);  
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
 			return false;
 		}
-		String elemName = str.substring(53,64);
-    	return true;
+		String elemName = StringUtil.getString(str, 53, 64);
+    	
+    	// create an AclfBranch object
+      	final AclfBranch branch = CoreObjectFactory.createAclfBranch();
+      	branch.setName(elemName);
+      	// add the object into the network container
+      	adjNet.addBranch(branch, fromNodeId, toNodeId);    
+		
+		return true;
     }
     
-    private static boolean processXfr2WindingRecord(String str, AclfAdjNetwork  adjNet) {
+    private static boolean processXfr2WindingRecord(String str, AclfAdjNetwork  adjNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Record: " + str);
+		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
+		String toNodeId = StringUtil.getString(str, 10, 17).trim();
+		String orderCode = StringUtil.getString(str, 19, 19);
+
+		int status, currentLimit;
+		double fromRatedKV, toRatedKV, normialMva,
+		       rOhm, xOhm, bMuS, gMuS;  
+
+		try {
+			status = StringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
+			fromRatedKV = StringUtil.getDouble(str, 23, 27);  
+			toRatedKV = StringUtil.getDouble(str, 29, 33);  
+			normialMva = StringUtil.getDouble(str, 35, 39);  
+			rOhm = StringUtil.getDouble(str, 41, 46);  
+			xOhm = StringUtil.getDouble(str, 48, 53);  
+			bMuS = StringUtil.getDouble(str, 55, 62);  
+			gMuS = StringUtil.getDouble(str, 64, 69);  
+			currentLimit = StringUtil.getInt(str, 71, 76);  
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
+			return false;
+		}
+		String elemName = StringUtil.getString(str, 78, 89);
+		
+    	// create an AclfBranch object
+      	final AclfBranch branch = CoreObjectFactory.createAclfBranch();
+      	branch.setName(elemName);
+      	// add the object into the network container
+      	adjNet.addBranch(branch, fromNodeId, toNodeId);    
+      	
     	return true;
     }
     
-    private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork  adjNet) {
+    private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork adjNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Reg Record: " + str);
+		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
+		String toNodeId = StringUtil.getString(str, 10, 17).trim();
+		String orderCode = StringUtil.getString(str, 19, 19);
+
+		double dUPercentPhaes, uKvPhase, dUPercentAngle, thetaDegAngle, pMwAngle;  
+		int nPhase, n1Phase, nAngle, n1Angle;  
+
+		try {
+			dUPercentPhaes = StringUtil.getDouble(str, 21, 25);  
+			nPhase = StringUtil.getInt(str, 27, 28);  
+			n1Phase = StringUtil.getInt(str, 30, 32);  
+			uKvPhase = StringUtil.getDouble(str, 34, 38);  
+
+			dUPercentAngle = StringUtil.getDouble(str, 40, 44);  
+			thetaDegAngle = StringUtil.getDouble(str, 46, 50);  
+			nAngle = StringUtil.getInt(str, 52, 53);  
+			n1Angle = StringUtil.getInt(str, 55, 57);  
+			pMwAngle = StringUtil.getDouble(str, 59, 63);  
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
+			return false;
+		}
+
+		String type = StringUtil.getString(str, 65, 68);
     	return true;
     }
     
     private static boolean processXfr2SpecialDescRecord(String str, AclfAdjNetwork  adjNet) {
 		IpssLogger.getLogger().info("Xfr 2W Desc Record: " + str);
     	return true;
+    }
+    
+    private static double getBaseVoltageKv(String nodeId) throws Exception {
+    	int code = StringUtil.getInt(nodeId, 7, 7);
+    	return getBaseVoltageKv(code);
+    }
+    
+    private static double getBaseVoltageKv(int code) {
+    	switch(code) {
+    	case 0 : return 750.0;
+    	case 1 : return 380.0;
+    	case 2 : return 220.0;
+    	case 3 : return 150.0;
+    	case 4 : return 120.0;
+    	case 5 : return 110.0;
+    	case 6 : return 70.0;
+//    	case 7 : return 27.0;
+//    	case 8 : return 330.0;
+    	case 7 : return 14.0;
+    	case 8 : return 18.0;
+    	case 9 : return 500.0;
+    	default: 
+    		IpssLogger.getLogger().severe("Wrong base voltage code, " + code);
+    		return 0.0;
+    	}
     }
 }
