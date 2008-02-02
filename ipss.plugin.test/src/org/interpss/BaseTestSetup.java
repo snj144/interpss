@@ -59,7 +59,7 @@ public class BaseTestSetup {
 			// Set the SpringAppContext to all ApplicationContextAware objects.
 			SpringAppContext.SpringAppCtx = new FileSystemXmlApplicationContext(xmlFile);
 			msg = SpringAppContext.getIpssMsgHub();
-			IpssLogger.getLogger().setLevel(Level.WARNING);
+			IpssLogger.getLogger().setLevel(Level.INFO);
 		}
 	}
 }
