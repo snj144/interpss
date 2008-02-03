@@ -185,7 +185,7 @@ public class InterPSS {
 				+ "  " 	+ OptStr + " " + OptCmdLineStr + " defaul, running InterPSS in cmd line mode\n"
 				+ "  " 	+ OptStr + " " + OptEditorStr + " running InterPSS in graphic editor mode\n"
 				+ "  " 	+ GOptStr + " " + Parm_GridGain + " running InterPSS in grid computing mode\n"
-				+ "  " 	+ InOptStr + " " + " simulation result input file, its extension will used to determine file loading adapter\n"
+				+ "  " 	+ InOptStr + " " + " simulation input file, its extension will be used to determine file loading adapter\n"
 				+ "  " 	+ RunOptStr + " " + " to override InterPSS default run type, which is determined by the network object type. \n"
 				+ "  " 	+ XmlOptStr + " " + " Xml file to control the run. \n"
 				+ "  " 	+ OutOptStr + " " + " simulation result output file\n";
