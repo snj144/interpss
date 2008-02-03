@@ -361,8 +361,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		double baseV = branch.getFromAclfBus().getBaseVoltage() > branch.getToAclfBus().getBaseVoltage()?
 				branch.getFromAclfBus().getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
     	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, baseV, aclfNet.getBaseKva(), msg);
-		//if ( branch.getFromAclfBus().getBaseVoltage() > branch.getToAclfBus().getBaseVoltage())
-    	//xfr.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
+    	xfr.setShuntY(new Complex(gMuS,bMuS), UnitType.MicroMho, aclfNet.getBaseKva()); 
     	xfr.setFromTurnRatio(1.0, UnitType.PU);
     	xfr.setToTurnRatio(1.0, UnitType.PU); 
     	return true;
