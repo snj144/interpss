@@ -70,7 +70,7 @@ public class SimulationModelImpl extends NamingImpl implements SimulationModel {
 	 * @generated
 	 * @ordered
 	 */
-	protected BasePower basePower = null;
+	protected BasePower basePower;
 
 	/**
 	 * The cached value of the '{@link #getCompanies() <em>Companies</em>}' containment reference list.
@@ -80,7 +80,7 @@ public class SimulationModelImpl extends NamingImpl implements SimulationModel {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList companies = null;
+	protected EList companies;
 
 	/**
 	 * The cached value of the '{@link #getTopologicalIslands() <em>Topological Islands</em>}' containment reference list.
@@ -90,7 +90,7 @@ public class SimulationModelImpl extends NamingImpl implements SimulationModel {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList topologicalIslands = null;
+	protected EList topologicalIslands;
 
 	/**
 	 * The cached value of the '{@link #getPsResources() <em>Ps Resources</em>}' containment reference list.
@@ -100,7 +100,7 @@ public class SimulationModelImpl extends NamingImpl implements SimulationModel {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList psResources = null;
+	protected EList psResources;
 
 	/**
 	 * <!-- begin-user-doc -->
