@@ -50,8 +50,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.EditorSpringAppContext;
-import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
@@ -959,7 +959,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			// Mike else if (item.getName().endsWith("ipssdat")) { we do not put
 			// any restriction here
 			// else if (item.getName().endsWith("ipssdat")) {
-			else if (Utilities.haveExt(SimuAppSpringAppContext
+			else if (Utilities.haveExt(PluginSpringAppContext
 					.getCustomFileAdapterList(), item.getFileExt())) {
 				try {
 					// at this point, we open a file, for exmple PSS/E raw. version should be 
