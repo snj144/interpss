@@ -109,13 +109,13 @@ public class cimSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Combined Version</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Combined Version</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Combined Version</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Combined Version</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -124,13 +124,13 @@ public class cimSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Simulation Model</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Simulation Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Simulation Model</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Simulation Model</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -139,13 +139,13 @@ public class cimSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -154,13 +154,13 @@ public class cimSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
