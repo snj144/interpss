@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
@@ -244,7 +244,7 @@ public class XmlScriptDStabRun {
 			RunDStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
-		IpssMapper mapper = SimuAppSpringAppContext
+		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
 		mapper.mapping(dstabCase, dstabAlgo, RunDStabStudyCaseXmlType.class);
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))

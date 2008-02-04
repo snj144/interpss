@@ -24,7 +24,7 @@
 
 package org.interpss.editor.runAct.xml;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.RunAcscStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
@@ -49,7 +49,7 @@ public class XmlScriptAcscRun {
 	 */
 	public static boolean runAcsc(IpssXmlParser parser,
 			SimpleFaultNetwork faultNet, IPSSMsgHub msg) {
-		IpssMapper mapper = SimuAppSpringAppContext
+		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
 		if (parser.getRunAcscStudyCaseList().length > 0) {
 			if (parser.getRunAcscStudyCaseList().length == 1) {

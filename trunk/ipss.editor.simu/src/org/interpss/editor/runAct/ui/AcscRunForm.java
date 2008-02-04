@@ -24,7 +24,7 @@
 
 package org.interpss.editor.runAct.ui;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.runAct.RunActUtilFunc;
 
@@ -102,7 +102,7 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 			SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
 		algo.setSimpleFaultNetwork(faultNet);
 		algo.setDesc(faultIdStr);
-		IpssMapper mapper = SimuAppSpringAppContext
+		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
 		mapper.mapping(this, algo, SimpleFaultAlgorithm.class);
 

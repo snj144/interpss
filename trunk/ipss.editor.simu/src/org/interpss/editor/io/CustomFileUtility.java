@@ -24,7 +24,7 @@
 
 package org.interpss.editor.io;
 
-import org.interpss.editor.SimuAppSpringAppCtxUtil;
+import org.interpss.PluginSpringAppContext;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
@@ -36,7 +36,7 @@ public class CustomFileUtility {
 		IpssLogger.getLogger().info("Custom file path: " + filepath);
 
 		String ext = filepath.substring(filepath.lastIndexOf('.') + 1);
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil
+		IpssFileAdapter adapter = PluginSpringAppContext
 				.getCustomFileAdapter(ext);
 		if (adapter == null) {
 			IpssLogger.getLogger().severe(

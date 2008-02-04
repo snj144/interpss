@@ -24,8 +24,6 @@
 
 package org.interpss.editor;
 
-import java.util.List;
-
 import javax.swing.JDialog;
 
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
@@ -33,7 +31,6 @@ import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
-import org.interpss.output.IOutputSimuResult;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -69,16 +66,6 @@ public class SimuAppSpringAppContext extends SpringAppContext {
 				.getBean(Constants.SID_EditorJGraphDataMapper);
 	}
 
-	/**
-	 * Get the RunForm2AlgorithmMapper(singleton) from the SpringAppContext.
-	 *  
-	 * @return the RunForm2AlgorithmMapper object
-	 */
-	public static IpssMapper getRunForm2AlgorithmMapper() {
-		return (IpssMapper) SpringAppCtx
-				.getBean(Constants.SID_RunForm2AlgorithmMapper);
-	}
-
 	public static JDialog getCaseInfoDialog() {
 		return (JDialog) SpringAppCtx.getBean(Constants.SID_CaseInfoDialog);
 	}
@@ -108,23 +95,5 @@ public class SimuAppSpringAppContext extends SpringAppContext {
 	 */
 	public static DStabRunForm getDStabRunForm() {
 		return (DStabRunForm) SpringAppCtx.getBean(Constants.SID_DStabRunForm);
-	}
-
-	/**
-	 * Get the CustomFileAdapterList(singleton) from the SpringAppContext.
-	 *  
-	 * @return the CustomFileAdapterList object
-	 */
-	public static List getCustomFileAdapterList() {
-		return (List) SpringAppCtx.getBean(Constants.SID_CustomFileAdapterList);
-	}
-
-	/**
-	 * Get the SimuResultOutput(singleton) from the SpringAppContext.
-	 *  
-	 * @return the CustomFileAdapterList object
-	 */
-	public static IOutputSimuResult getSimuResultOutput() {
-		return (IOutputSimuResult) SpringAppCtx.getBean(Constants.SID_SimuResultOutput);
 	}
 }
