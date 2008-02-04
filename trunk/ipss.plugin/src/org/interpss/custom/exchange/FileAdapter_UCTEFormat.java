@@ -1,5 +1,5 @@
  /*
-  * @(#)FileAdapter_GE_PSLFFormat.java   
+  * @(#)FileAdapter_UCTEFormat.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2006
+  * @Date 02/01/2008
   * 
   *   Revision History
   *   ================
@@ -31,8 +31,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.custom.exchange.ucte.UCTEBranch;
+import org.interpss.custom.exchange.ucte.UCTEBus;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidOperationException;
@@ -40,14 +41,11 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.LineAdapter;
 import com.interpss.core.aclf.PQBusAdapter;
-import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
@@ -59,13 +57,6 @@ import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
-	private static final String Token_CommentBlock 		= "##C";
-	private static final String Token_NodeBlock 		= "##N";
-	private static final String Token_ISOCountryId 		= "##Z";
-	private static final String Token_LineBlock			= "##L";
-	private static final String Token_2WXfrBlock		= "##T";
-	private static final String Token_2WXfrRegBlock 	= "##R";
-	private static final String Token_2WXfrSpeDesc		= "##TT";
 	
 	private enum RecType {Comment, Node, Line, Xfr2W, Xfr2WReg, Xfr2WDesc, ExPower, NotDefined};
 
@@ -124,8 +115,12 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 
     private static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
     	final AclfAdjNetwork  aclfNet = CoreObjectFactory.createAclfAdjNetwork();
-    	aclfNet.setAllowParallelBranch(true);
-    	aclfNet.setBaseKva(100000.0);   // no base kva definition in UCTE, use 100 MVA
+    	
+    	// no circuit number or identifier defined, so no parallel branch allowed
+    	aclfNet.setAllowParallelBranch(false);
+    	
+    	// no base kva definition in UCTE format, so use 100 MVA
+    	aclfNet.setBaseKva(100000.0);   
 
     	boolean noError = true;
       	String str;   
@@ -135,21 +130,46 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
         	if (str != null && !str.trim().equals("")) {
         		String countryId = "";
     			try {
-    				if (str.startsWith(Token_CommentBlock))
+    				if (str.startsWith("##C"))
     					recType = RecType.Comment;
-    				else if (str.startsWith(Token_NodeBlock))
+    				else if (str.startsWith("##N"))
     					recType = RecType.Node;
-    				else if (str.startsWith(Token_ISOCountryId) && recType == RecType.Node)
+    				else if (str.startsWith("##Z") && recType == RecType.Node)
     					countryId = "";
-    				else if (str.startsWith(Token_LineBlock))
+    				else if (str.startsWith("##L"))
     					recType = RecType.Line;
-    				else if (str.startsWith(Token_2WXfrBlock))
+    				else if (str.startsWith("##T"))
     					recType = RecType.Xfr2W;
-    				else if (str.startsWith(Token_2WXfrRegBlock))
+    				else if (str.startsWith("##R"))
     					recType = RecType.Xfr2WReg;
+    				else if (str.startsWith("##TT"))
+    					recType = RecType.Xfr2WDesc;
     				else {
-    					if (!processRecord(str, recType, countryId, aclfNet, msg))
-    						noError = false;
+    					// process data lines
+    					if (recType == RecType.Comment) {
+    			    	    if (!processCommentRecord(str, aclfNet))
+    			    	    	noError = false;
+    			    	}
+    			    	else if (recType == RecType.Node) {
+    			    	    if (!processNodeRecord(str, countryId, aclfNet, msg))
+    			    	    	noError = false;
+    			    	}
+    			    	else if (recType == RecType.Line) {
+    			    	    if (!processLineRecord(str, aclfNet, msg))
+    			    	    	noError = false;
+    			    	}
+    			    	else if (recType == RecType.Xfr2W) {
+    			    	    if (!processXfr2WindingRecord(str, aclfNet, msg))
+    			    	    	noError = false;
+    			    	}
+    			    	else if (recType == RecType.Xfr2WReg) {
+    			    	    if (!processXfr2WRegulationRecord(str, aclfNet, msg))
+    			    	    	noError = false;
+    			    	}
+    			    	else if (recType == RecType.Xfr2WDesc) {
+    			    	    if (!processXfr2SpecialDescRecord(str, aclfNet))
+    			    	    	noError = false;
+    			    	}
     				}
     			} catch (final Exception e) {
     				IpssLogger.logErr(e);
@@ -158,58 +178,34 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
         	}
        	} while (str != null);
 
+    	// if data input error, a null object returned
     	return noError? aclfNet : null;
-    }
-
-    private static boolean processRecord(String str, RecType recType, String countryId, AclfAdjNetwork  aclfNet, final IPSSMsgHub msg) {
-    	boolean noError = true;
-    	if (recType == RecType.Comment) {
-    	    if (!processCommentRecord(str, aclfNet))
-    	    	noError = false;
-    	}
-    	else if (recType == RecType.Node) {
-    	    if (!processNodeRecord(str, countryId, aclfNet, msg))
-    	    	noError = false;
-    	}
-    	else if (recType == RecType.Line) {
-    	    if (!processLineRecord(str, aclfNet, msg))
-    	    	noError = false;
-    	}
-    	else if (recType == RecType.Xfr2W) {
-    	    if (!processXfr2WindingRecord(str, aclfNet, msg))
-    	    	noError = false;
-    	}
-    	else if (recType == RecType.Xfr2WReg) {
-    	    if (!processXfr2WRegulationRecord(str, aclfNet, msg))
-    	    	noError = false;
-    	}
-    	else if (recType == RecType.Xfr2WDesc) {
-    	    if (!processXfr2SpecialDescRecord(str, aclfNet))
-    	    	noError = false;
-    	}
-    	return noError;
     }
 
     private static boolean processCommentRecord(String str, AclfAdjNetwork  aclfNet) {
 		IpssLogger.getLogger().info("Comment: " + str);
+		// comment lines are added into the desc field
 		aclfNet.setDesc(aclfNet.getDesc() + str + "\n");
     	return true;
     }
 
     private static boolean processNodeRecord(String str, String countryId, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Node Record: " + str);
-		String id = StringUtil.getString(str, 1, 8).trim();
-		String name = StringUtil.getString(str, 10, 21).trim();
 
+		String id, name;
 		double baseKv = 0.0;
 		int status, nodeType;
 		double voltage, pLoadMW, qLoadMvar, pGenMW, qGenMvar;
-		
 		double 	minGenMW, maxGenMW, minGenMVar, maxGenMVar, 
 				staticPrimaryControl, normalPoewrPrimaryControl,
 				scMVA3P, x_rRatio;
+		String powerPlanType;
 		
+		// parse the input line for node information
 		try {
+			id = StringUtil.getString(str, 1, 8).trim();
+			name = StringUtil.getString(str, 10, 21).trim();
+
 			baseKv = getBaseVoltageKv(id);
 
 			status = StringUtil.getInt(str, 23, 23);  // 0 real, 1 equivalent
@@ -229,88 +225,112 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			normalPoewrPrimaryControl = StringUtil.getDouble(str, 104, 110);
 			scMVA3P = StringUtil.getDouble(str, 112, 118);
 			x_rRatio = StringUtil.getDouble(str, 120, 126);
+
+			powerPlanType = StringUtil.getString(str, 128, 128);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
 			return false;
 		}
-		String powerPlanType = StringUtil.getString(str, 128, 128);
 		
-      	final AclfBus bus = CoreObjectFactory.createAclfBus(id);
-      	bus.setName(name);
+		// create an UCTE bus object and add to the network
+      	final UCTEBus bus = new UCTEBus(id, name);
     	bus.setBaseVoltage(baseKv, UnitType.kV);
     	aclfNet.addBus(bus);
 		
+    	// set node info into InterPSS simulation engine 
     	switch (nodeType) {
-    	case 0:   // PQ bus
-    		bus.setGenCode(AclfGenCode.GEN_PQ);
-    		bus.setLoadCode(AclfLoadCode.CONST_P);
-   			final PQBusAdapter pqGen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
-    		pqGen.setGen(new Complex(pGenMW, qGenMvar), UnitType.mVA, aclfNet.getBaseKva());
-    		pqGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA, aclfNet.getBaseKva());
-    		break;
-		case 1:  // Q angle bus
+		case 0: // PQ bus
+			bus.setGenCode(AclfGenCode.GEN_PQ);
+			bus.setLoadCode(AclfLoadCode.CONST_P);
+			final PQBusAdapter pqGen = (PQBusAdapter) bus
+					.adapt(PQBusAdapter.class);
+			pqGen.setGen(new Complex(pGenMW, qGenMvar), UnitType.mVA, aclfNet
+					.getBaseKva());
+			pqGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
+					aclfNet.getBaseKva());
 			break;
-		case 2:  // PV bus
-   		 	bus.setGenCode(AclfGenCode.GEN_PV);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final PVBusAdapter pvGen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
-  			pvGen.setGenP(pGenMW, UnitType.mW, aclfNet.getBaseKva());
-  			pvGen.setVoltMag(voltage, UnitType.kV);
-  			pvGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA, aclfNet.getBaseKva());
-  			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0)) && 
-  					maxGenMVar > minGenMVar) {
-  				// PV Bus limit control
+		case 1: // Q angle bus
+			break;
+		case 2: // PV bus
+			bus.setGenCode(AclfGenCode.GEN_PV);
+			bus.setLoadCode(AclfLoadCode.CONST_P);
+			final PVBusAdapter pvGen = (PVBusAdapter) bus
+					.adapt(PVBusAdapter.class);
+			pvGen.setGenP(pGenMW, UnitType.mW, aclfNet.getBaseKva());
+			pvGen.setVoltMag(voltage, UnitType.kV);
+			pvGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
+					aclfNet.getBaseKva());
+			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
+					&& maxGenMVar > minGenMVar) {
+				// PV Bus limit control
 				IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + id);
 				final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(
 						aclfNet, id);
-				pvLimit.setQLimit(new LimitType(maxGenMVar, minGenMVar), UnitType.mVar, aclfNet.getBaseKva());
-  			}
-  			break;
-		case 3:  // swing bus
-   		 	bus.setGenCode(AclfGenCode.SWING);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final SwingBusAdapter swingGen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
-  			swingGen.setVoltMag(voltage, UnitType.kV);
-  			swingGen.setVoltAng(0.0, UnitType.Deg);
-  			swingGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA, aclfNet.getBaseKva());
+				pvLimit.setQLimit(new LimitType(maxGenMVar, minGenMVar),
+						UnitType.mVar, aclfNet.getBaseKva());
+			}
 			break;
-		default: 
+		case 3: // swing bus
+			bus.setGenCode(AclfGenCode.SWING);
+			bus.setLoadCode(AclfLoadCode.CONST_P);
+			final SwingBusAdapter swingGen = (SwingBusAdapter) bus
+					.adapt(SwingBusAdapter.class);
+			swingGen.setVoltMag(voltage, UnitType.kV);
+			swingGen.setVoltAng(0.0, UnitType.Deg);
+			swingGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
+					aclfNet.getBaseKva());
+			break;
+		default:
 			// error bus nodeType code
 			msg.sendErrorMsg("Wrong node type code, " + nodeType);
 			return false;
-    	}
+		}
+
+    	// set extra info which is not used in InterPSS simulation engine
+    	bus.setUcteStatus(status);
+    	bus.setMinGenMW(minGenMW);
+    	bus.setMaxGenMW(maxGenMW);
+    	bus.setStaticPrimaryControl(staticPrimaryControl);
+    	bus.setNormalPoewrPrimaryControl(normalPoewrPrimaryControl);
+    	bus.setScMVA3P(scMVA3P);
+    	bus.setX_rRatio(x_rRatio);
+    	bus.setPowerPlanType(powerPlanType);
     	return true;
     }
     
     private static boolean processLineRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Line Record: " + str);
-		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
-		String toNodeId = StringUtil.getString(str, 10, 17).trim();
-		String orderCode = StringUtil.getString(str, 19, 19);
-		
+
+		String fromNodeId, toNodeId, orderCode, elemName;
 		int status, currentLimit;
 		double rOhm, xOhm, bMuS;  
 
+		// parse the input line for line information
 		try {
+			fromNodeId = StringUtil.getString(str, 1, 8).trim();
+			toNodeId = StringUtil.getString(str, 10, 17).trim();
+			orderCode = StringUtil.getString(str, 19, 19);
+
 			status = StringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
 			rOhm = StringUtil.getDouble(str, 23, 28);  
 			xOhm = StringUtil.getDouble(str, 30, 35);  
 			bMuS = StringUtil.getDouble(str, 37, 44);  
 			currentLimit = StringUtil.getInt(str, 46, 51);  
+
+			elemName = StringUtil.getString(str, 53, 64);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
 			return false;
 		}
-		String elemName = StringUtil.getString(str, 53, 64);
     	
-    	// create an AclfBranch object
-      	final AclfBranch branch = CoreObjectFactory.createAclfBranch();
-      	branch.setName(elemName);
+    	// create an UCTEBranch object
+      	final UCTEBranch branch = new UCTEBranch(elemName);
       	// add the object into the network container
       	aclfNet.addBranch(branch, fromNodeId, toNodeId);    
 		
+    	// set line info into InterPSS simulation engine 
     	branch.setBranchCode(AclfBranchCode.LINE);
 		final LineAdapter line = (LineAdapter)branch.adapt(LineAdapter.class);
     	line.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva(), msg);
@@ -319,20 +339,28 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	// by default the branch is active
     	if (status == 7 || status == 8 || status == 9) 
     		branch.setStatus(false);
-		return true;
+
+    	// set extra info which is not used in InterPSS simulation engine
+    	branch.setOrderCode(orderCode);
+    	branch.setCurrentLimit(currentLimit);
+    	
+    	return true;
     }
     
     private static boolean processXfr2WindingRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Record: " + str);
-		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
-		String toNodeId = StringUtil.getString(str, 10, 17).trim();
-		String orderCode = StringUtil.getString(str, 19, 19);
 
+		String fromNodeId, toNodeId, orderCode, elemName;
 		int status, currentLimit;
 		double fromRatedKV, toRatedKV, normialMva,
 		       rOhm, xOhm, bMuS, gMuS;  
 
+		// parse the input line for xformer information
 		try {
+			fromNodeId = StringUtil.getString(str, 1, 8).trim();
+			toNodeId = StringUtil.getString(str, 10, 17).trim();
+			orderCode = StringUtil.getString(str, 19, 19);
+
 			status = StringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
 			fromRatedKV = StringUtil.getDouble(str, 23, 27);  
 			toRatedKV = StringUtil.getDouble(str, 29, 33);  
@@ -342,19 +370,20 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			bMuS = StringUtil.getDouble(str, 55, 62);  
 			gMuS = StringUtil.getDouble(str, 64, 69);  
 			currentLimit = StringUtil.getInt(str, 71, 76);  
+
+			elemName = StringUtil.getString(str, 78, 89);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
 			return false;
 		}
-		String elemName = StringUtil.getString(str, 78, 89);
 		
-    	// create an AclfBranch object
-      	final AclfBranch branch = CoreObjectFactory.createAclfBranch();
-      	branch.setName(elemName);
+    	// create an UCTEBranch object
+      	final UCTEBranch branch = new UCTEBranch(elemName);
       	// add the object into the network container
       	aclfNet.addBranch(branch, fromNodeId, toNodeId);    
       	
+    	// set xfr info into InterPSS simulation engine 
 	 	branch.setBranchCode(AclfBranchCode.XFORMER);
 		final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
 		// it is assumed that the r and x is measured at high voltage side
@@ -364,19 +393,33 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	xfr.setShuntY(new Complex(gMuS,bMuS), UnitType.MicroMho, aclfNet.getBaseKva()); 
     	xfr.setFromTurnRatio(1.0, UnitType.PU);
     	xfr.setToTurnRatio(1.0, UnitType.PU); 
+
+    	// by default the branch is active
+    	if (status == 7 || status == 8 || status == 9) 
+    		branch.setStatus(false);
+    	
+    	// set extra info which is not used in InterPSS simulation engine
+    	branch.setOrderCode(orderCode);
+    	branch.setCurrentLimit(currentLimit);
+    	branch.setFromRatedKV(fromRatedKV);
+   		branch.setToRatedKV(toRatedKV);
+		branch.setNormialMva(normialMva);
+
     	return true;
     }
     
     private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Reg Record: " + str);
-		String fromNodeId = StringUtil.getString(str, 1, 8).trim();
-		String toNodeId = StringUtil.getString(str, 10, 17).trim();
-		String orderCode = StringUtil.getString(str, 19, 19);
 
+		String fromNodeId, toNodeId, orderCode, type;
 		double dUPercentPhaes, uKvPhase, dUPercentAngle, thetaDegAngle, pMwAngle;  
 		int nPhase, n1Phase, nAngle, n1Angle;  
 
 		try {
+			fromNodeId = StringUtil.getString(str, 1, 8).trim();
+			toNodeId = StringUtil.getString(str, 10, 17).trim();
+			orderCode = StringUtil.getString(str, 19, 19);
+
 			dUPercentPhaes = StringUtil.getDouble(str, 21, 25);  
 			nPhase = StringUtil.getInt(str, 27, 28);  
 			n1Phase = StringUtil.getInt(str, 30, 32);  
@@ -387,13 +430,14 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			nAngle = StringUtil.getInt(str, 52, 53);  
 			n1Angle = StringUtil.getInt(str, 55, 57);  
 			pMwAngle = StringUtil.getDouble(str, 59, 63);  
+
+			type = StringUtil.getString(str, 65, 68);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
 			return false;
 		}
-
-		String type = StringUtil.getString(str, 65, 68);
+		
     	return true;
     }
     
