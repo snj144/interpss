@@ -192,6 +192,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     private static boolean processNodeRecord(String str, String countryId, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Node Record: " + str);
 
+		// parse the input line for node information
 		String id, name;
 		double baseKv = 0.0;
 		int status, nodeType;
@@ -200,8 +201,6 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 				staticPrimaryControl, normalPoewrPrimaryControl,
 				scMVA3P, x_rRatio;
 		String powerPlanType;
-		
-		// parse the input line for node information
 		try {
 			id = StringUtil.getString(str, 1, 8).trim();
 			name = StringUtil.getString(str, 10, 21).trim();
@@ -302,11 +301,10 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     private static boolean processLineRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Line Record: " + str);
 
+		// parse the input line for line information
 		String fromNodeId, toNodeId, orderCode, elemName;
 		int status, currentLimit;
 		double rOhm, xOhm, bMuS;  
-
-		// parse the input line for line information
 		try {
 			fromNodeId = StringUtil.getString(str, 1, 8).trim();
 			toNodeId = StringUtil.getString(str, 10, 17).trim();
@@ -350,12 +348,11 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     private static boolean processXfr2WindingRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Record: " + str);
 
+		// parse the input line for xformer information
 		String fromNodeId, toNodeId, orderCode, elemName;
 		int status, currentLimit;
 		double fromRatedKV, toRatedKV, normialMva,
 		       rOhm, xOhm, bMuS, gMuS;  
-
-		// parse the input line for xformer information
 		try {
 			fromNodeId = StringUtil.getString(str, 1, 8).trim();
 			toNodeId = StringUtil.getString(str, 10, 17).trim();
@@ -378,9 +375,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			return false;
 		}
 		
-    	// create an UCTEBranch object
+    	// create an UCTEBranch object and add to the network object
       	final UCTEBranch branch = new UCTEBranch(elemName);
-      	// add the object into the network container
       	aclfNet.addBranch(branch, fromNodeId, toNodeId);    
       	
     	// set xfr info into InterPSS simulation engine 
@@ -447,6 +443,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     }
     
     private static double getBaseVoltageKv(String nodeId) throws Exception {
+        // According to the spec the node base voltage code is stored at the 7th char
     	int code = StringUtil.getInt(nodeId, 7, 7);
     	return getBaseVoltageKv(code);
     }
@@ -462,8 +459,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	case 6 : return 70.0;
 //    	case 7 : return 27.0;
 //    	case 8 : return 330.0;
-    	case 7 : return 14.0;
-    	case 8 : return 18.0;
+    	case 7 : return 14.0;     // for testing purpose
+    	case 8 : return 18.0;     // for testing purposes
     	case 9 : return 500.0;
     	default: 
     		IpssLogger.getLogger().severe("Wrong base voltage code, " + code);
