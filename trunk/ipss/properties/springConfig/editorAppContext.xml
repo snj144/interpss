@@ -79,6 +79,7 @@
 	-->
 
 	<import resource="coreLibContext.xml"/>
+	<import resource="pluginContext.xml"/>
 	<import resource="customAdapterContext.xml"/>
 
 	<import resource="dstabControllerExciterContext.xml"/>
