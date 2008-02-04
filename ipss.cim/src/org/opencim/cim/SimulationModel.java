@@ -133,6 +133,7 @@ public interface SimulationModel extends Naming {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Get BaseVoltage object by MRID
+	 * @param mRID MRID per CIM specification
 	 * <!-- end-model-doc -->
 	 * @generated
 	 */
@@ -143,6 +144,7 @@ public interface SimulationModel extends Naming {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Get Company object by MRID
+	 * @param mRID MRID for CIM specificaiton
 	 * <!-- end-model-doc -->
 	 * @generated
 	 */
@@ -153,6 +155,8 @@ public interface SimulationModel extends Naming {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Get Topological object (Island, Node, ConnectivityNode or Terminal) by MRID and Class type.
+	 * @param mRID MRID per CIM specification
+	 * @param klass Class type: TopologicalIsland, TopologicalNode, ConnectivityNode or Terminal
 	 * <!-- end-model-doc -->
 	 * @generated
 	 */
@@ -163,6 +167,9 @@ public interface SimulationModel extends Naming {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Get a Topological object by MRID and its parent container for performance purpose. 
+	 * @param mRID MRID per CIM specification
+	 * @param klass Class type of the object to get
+	 * @param parent Object parent container. For example, a ConnectivityNode is always contained by a TopologicalNode object.
 	 * <!-- end-model-doc -->
 	 * @generated
 	 */
@@ -173,6 +180,8 @@ public interface SimulationModel extends Naming {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Get a PowerSystemResource object by MRID
+	 * @param mRID MRID per CIM specification
+	 * @param klass Class type of the object to get
 	 * <!-- end-model-doc -->
 	 * @generated
 	 */
@@ -183,6 +192,9 @@ public interface SimulationModel extends Naming {
 	 * <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * Get a PowerSystemResource object by MRID and its parement container for performance prupose.
+	 * @param mRID MRID per CIM specification.
+	 * @param klass Class type of the object to get
+	 * @param parent Parent container containing the object to get
 	 * <!-- end-model-doc -->
 	 * @generated
 	 */
