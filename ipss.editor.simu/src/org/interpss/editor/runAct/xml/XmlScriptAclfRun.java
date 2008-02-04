@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.xml;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -59,7 +59,7 @@ public class XmlScriptAclfRun {
 	 */
 	public static boolean runAclf(IpssXmlParser parser, AclfAdjNetwork aclfNet,
 			IPSSMsgHub msg) {
-		IpssMapper mapper = SimuAppSpringAppContext
+		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 

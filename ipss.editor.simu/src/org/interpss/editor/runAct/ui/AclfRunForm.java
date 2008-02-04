@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.ui;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -157,7 +157,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	private boolean runLoadflow_internal(AclfAdjNetwork aclfAdjNet,
 			LoadflowAlgorithm algo, IPSSMsgHub msg) {
-		IpssMapper mapper = SimuAppSpringAppContext
+		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
 		mapper.mapping(this, algo, LoadflowAlgorithm.class);
 

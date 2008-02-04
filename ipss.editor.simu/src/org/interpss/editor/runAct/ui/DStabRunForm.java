@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.ui;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.runAct.RunActUtilFunc;
@@ -233,7 +233,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			IPSSMsgHub msg) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 
-		IpssMapper mapper = SimuAppSpringAppContext
+		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
 		mapper.mapping(this, simuCtx.getDynSimuAlgorithm(),
 				DynamicSimuAlgorithm.class);
