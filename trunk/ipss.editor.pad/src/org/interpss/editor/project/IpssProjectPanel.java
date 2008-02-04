@@ -27,8 +27,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.EditorSpringAppContext;
-import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.coreframework.GPBarFactory;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssEditorDocument;
@@ -93,7 +93,7 @@ public class IpssProjectPanel extends JPanel {
 		icons.put("txt", IpssIconFactory.ICON_TEXT);
 		icons.put("ipssrpt", IpssIconFactory.ICON_REPORT);
 
-		List adapterList = SimuAppSpringAppContext.getCustomFileAdapterList();
+		List adapterList = PluginSpringAppContext.getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			icons.put(adapter.getExtension(), IpssIconFactory.ICON_CUS);
@@ -488,7 +488,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(SimuAppSpringAppContext
+					|| (Utilities.haveExt(PluginSpringAppContext
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;
@@ -511,7 +511,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(SimuAppSpringAppContext
+					|| (Utilities.haveExt(PluginSpringAppContext
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;

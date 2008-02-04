@@ -21,7 +21,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import org.interpss.editor.SimuAppSpringAppCtxUtil;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.resources.Translator;
@@ -247,7 +247,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		cancelButton.setText("Cancel");
 
 		adapterComboBox.setModel(new DefaultComboBoxModel(
-				SimuAppSpringAppCtxUtil.getCustomFileAdapterNameList()));
+				PluginSpringAppContext.getCustomFileAdapterNameList()));
 		setVersionComboBoxData();
 
 	}
@@ -259,7 +259,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 			return null;
 		}
 
-		return SimuAppSpringAppCtxUtil.getCustomFileAdapterByName(adapterName
+		return PluginSpringAppContext.getCustomFileAdapterByName(adapterName
 				.toString());
 	}
 

@@ -2,7 +2,7 @@ package org.interpss.editor.project;
 
 import javax.swing.ImageIcon;
 
-import org.interpss.editor.SimuAppSpringAppContext;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssReportDocument;
@@ -31,7 +31,7 @@ public class IpssIconFactory {
 		if (filename.endsWith("ipss"))
 			return ICON_GRAPH;
 		// if (filename.endsWith("ipssdat"))
-		if (Utilities.haveExt(SimuAppSpringAppContext
+		if (Utilities.haveExt(PluginSpringAppContext
 				.getCustomFileAdapterList(), org.interpss.editor.util.Utilities
 				.getFileExt(filename)))
 			return ICON_CUS;
