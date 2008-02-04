@@ -290,10 +290,10 @@ public class CurveSchedFormulaImpl extends NamingImpl implements CurveSchedFormu
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case CorePackage.CURVE_SCHED_FORMULA__XLOWER_BOUND:
-				setXLowerBound((Object)newValue);
+				setXLowerBound(newValue);
 				return;
 			case CorePackage.CURVE_SCHED_FORMULA__XUPPER_BOUND:
-				setXUpperBound((Object)newValue);
+				setXUpperBound(newValue);
 				return;
 			case CorePackage.CURVE_SCHED_FORMULA__YFUNCTION:
 				setYFunction((String)newValue);

@@ -132,7 +132,7 @@ public final class CompensatorType extends AbstractEnumerator {
 			case SHUNT: return SHUNT_LITERAL;
 			case SERIES: return SERIES_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

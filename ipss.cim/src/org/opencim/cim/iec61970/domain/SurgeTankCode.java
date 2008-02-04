@@ -447,7 +447,7 @@ public final class SurgeTankCode extends AbstractEnumerator {
 			case POWER: return POWER_LITERAL;
 			case PLANT: return PLANT_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

@@ -54,7 +54,7 @@ public class LoadAreaImpl extends PowerSystemResourceImpl implements LoadArea {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList energyConsumers = null;
+	protected EList energyConsumers;
 
 	/**
 	 * The cached value of the '{@link #getAreaLossCurves() <em>Area Loss Curves</em>}' containment reference list.
@@ -64,7 +64,7 @@ public class LoadAreaImpl extends PowerSystemResourceImpl implements LoadArea {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList areaLossCurves = null;
+	protected EList areaLossCurves;
 
 	/**
 	 * The cached value of the '{@link #getAreaLoadCurves() <em>Area Load Curves</em>}' containment reference list.
@@ -74,7 +74,7 @@ public class LoadAreaImpl extends PowerSystemResourceImpl implements LoadArea {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList areaLoadCurves = null;
+	protected EList areaLoadCurves;
 
 	/**
 	 * The cached value of the '{@link #getSubstations() <em>Substations</em>}' reference list.
@@ -84,7 +84,7 @@ public class LoadAreaImpl extends PowerSystemResourceImpl implements LoadArea {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList substations = null;
+	protected EList substations;
 
 	/**
 	 * <!-- begin-user-doc -->

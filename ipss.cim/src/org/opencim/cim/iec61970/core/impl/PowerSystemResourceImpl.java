@@ -57,7 +57,7 @@ public class PowerSystemResourceImpl extends NamingImpl implements PowerSystemRe
 	 * @generated
 	 * @ordered
 	 */
-	protected EList companies = null;
+	protected EList companies;
 
 	/**
 	 * The cached value of the '{@link #getPSRType() <em>PSR Type</em>}' reference.
@@ -67,7 +67,7 @@ public class PowerSystemResourceImpl extends NamingImpl implements PowerSystemRe
 	 * @generated
 	 * @ordered
 	 */
-	protected PSRType psrType = null;
+	protected PSRType psrType;
 
 	/**
 	 * <!-- begin-user-doc -->

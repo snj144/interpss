@@ -158,7 +158,7 @@ public final class Source extends AbstractEnumerator {
 			case DEFAULTED: return DEFAULTED_LITERAL;
 			case SUBSTITUTED: return SUBSTITUTED_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

@@ -182,7 +182,7 @@ public class WireTypeImpl extends NamingImpl implements WireType {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList wireArrangements = null;
+	protected EList wireArrangements;
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -213,13 +213,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Area Load Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Area Load Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Area Load Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Area Load Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -228,13 +228,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Area Loss Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Area Loss Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Area Loss Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Area Loss Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -243,13 +243,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Customer Meter</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Customer Meter</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Customer Meter</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Customer Meter</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -258,13 +258,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Day Type</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Day Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Day Type</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Day Type</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -273,13 +273,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Equivalent Load</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equivalent Load</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Equivalent Load</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equivalent Load</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -288,13 +288,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Induction Motor Load</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Induction Motor Load</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Induction Motor Load</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Induction Motor Load</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -303,13 +303,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Area</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Area</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Area</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Area</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -318,13 +318,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Demand Model</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Demand Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Demand Model</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Demand Model</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -333,13 +333,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Non Conform Load Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Non Conform Load Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Non Conform Load Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Non Conform Load Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -348,13 +348,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Season</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Season</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Season</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Season</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -363,13 +363,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Station Supply</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Station Supply</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Station Supply</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Station Supply</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -378,13 +378,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Power Cut Zone</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Power Cut Zone</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Power Cut Zone</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Power Cut Zone</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -393,13 +393,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Model Version</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Model Version</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Model Version</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Model Version</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -408,13 +408,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -423,13 +423,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -438,13 +438,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -453,13 +453,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Equipment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Equipment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equipment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -468,13 +468,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Conducting Equipment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Conducting Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Conducting Equipment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Conducting Equipment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -483,13 +483,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Energy Consumer</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Energy Consumer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Energy Consumer</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Energy Consumer</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -498,13 +498,13 @@ public class LoadSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

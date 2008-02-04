@@ -59,7 +59,7 @@ public class ConnectivityNodeImpl extends NamingImpl implements ConnectivityNode
 	 * @generated
 	 * @ordered
 	 */
-	protected EList terminals = null;
+	protected EList terminals;
 
 	/**
 	 * The cached value of the '{@link #getEquipmentContainer() <em>Equipment Container</em>}' reference.
@@ -69,7 +69,7 @@ public class ConnectivityNodeImpl extends NamingImpl implements ConnectivityNode
 	 * @generated
 	 * @ordered
 	 */
-	protected EquipmentContainer equipmentContainer = null;
+	protected EquipmentContainer equipmentContainer;
 
 	/**
 	 * <!-- begin-user-doc -->

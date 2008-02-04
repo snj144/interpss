@@ -52,7 +52,7 @@ public class LineImpl extends PowerSystemResourceImpl implements Line {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList acLineSegments = null;
+	protected EList acLineSegments;
 
 	/**
 	 * The cached value of the '{@link #getDCLineSegments() <em>DC Line Segments</em>}' containment reference list.
@@ -62,7 +62,7 @@ public class LineImpl extends PowerSystemResourceImpl implements Line {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList dcLineSegments = null;
+	protected EList dcLineSegments;
 
 	/**
 	 * <!-- begin-user-doc -->

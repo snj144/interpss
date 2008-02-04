@@ -135,7 +135,7 @@ public final class RampUnits extends AbstractEnumerator {
 			case MW_PER_MINUTE: return MW_PER_MINUTE_LITERAL;
 			case RAMP_COMPLETION_IN_MIN: return RAMP_COMPLETION_IN_MIN_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

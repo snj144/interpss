@@ -213,7 +213,7 @@ public final class TransformerControlMode extends AbstractEnumerator {
 			case MW: return MW_LITERAL;
 			case MV_AR: return MV_AR_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

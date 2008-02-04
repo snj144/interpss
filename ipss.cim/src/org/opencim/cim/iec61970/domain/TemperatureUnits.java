@@ -135,7 +135,7 @@ public final class TemperatureUnits extends AbstractEnumerator {
 			case CELSIUS: return CELSIUS_LITERAL;
 			case FAHRENHEIT: return FAHRENHEIT_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

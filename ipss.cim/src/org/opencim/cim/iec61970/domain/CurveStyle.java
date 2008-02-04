@@ -187,7 +187,7 @@ public final class CurveStyle extends AbstractEnumerator {
 			case RAMP_YVALUE: return RAMP_YVALUE_LITERAL;
 			case FORMULA: return FORMULA_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

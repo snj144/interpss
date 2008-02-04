@@ -86,7 +86,7 @@ public class EnergyConsumerImpl extends ConductingEquipmentImpl implements Energ
 	 * @generated
 	 * @ordered
 	 */
-	protected EList loadDemandModels = null;
+	protected EList loadDemandModels;
 
 	/**
 	 * The cached value of the '{@link #getNonConformLoadSchedules() <em>Non Conform Load Schedules</em>}' containment reference list.
@@ -96,7 +96,7 @@ public class EnergyConsumerImpl extends ConductingEquipmentImpl implements Energ
 	 * @generated
 	 * @ordered
 	 */
-	protected EList nonConformLoadSchedules = null;
+	protected EList nonConformLoadSchedules;
 
 	/**
 	 * The cached value of the '{@link #getLoadArea() <em>Load Area</em>}' reference.
@@ -106,7 +106,7 @@ public class EnergyConsumerImpl extends ConductingEquipmentImpl implements Energ
 	 * @generated
 	 * @ordered
 	 */
-	protected LoadArea loadArea = null;
+	protected LoadArea loadArea;
 
 	/**
 	 * The default value of the '{@link #getConformingLoadFlag() <em>Conforming Load Flag</em>}' attribute.

@@ -213,7 +213,7 @@ public final class ControlHouseEquipmentType extends AbstractEnumerator {
 			case HOUSE: return HOUSE_LITERAL;
 			case EQUIPMENT: return EQUIPMENT_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

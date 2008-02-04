@@ -369,7 +369,7 @@ public final class NumericType extends AbstractEnumerator {
 			case LONG_DOUBLE_TYPE: return LONG_DOUBLE_TYPE_LITERAL;
 			case BOOLEAN_TYPE: return BOOLEAN_TYPE_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

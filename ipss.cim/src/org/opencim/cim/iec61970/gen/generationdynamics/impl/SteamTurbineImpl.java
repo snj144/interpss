@@ -303,7 +303,7 @@ public class SteamTurbineImpl extends PrimeMoverImpl implements SteamTurbine {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList steamSupplys = null;
+	protected EList steamSupplys;
 
 	/**
 	 * <!-- begin-user-doc -->

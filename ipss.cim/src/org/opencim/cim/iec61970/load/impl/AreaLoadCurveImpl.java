@@ -48,7 +48,7 @@ public class AreaLoadCurveImpl extends CurveScheduleImpl implements AreaLoadCurv
 	 * @generated
 	 * @ordered
 	 */
-	protected DayType dayType = null;
+	protected DayType dayType;
 
 	/**
 	 * The cached value of the '{@link #getSeason() <em>Season</em>}' reference.
@@ -58,7 +58,7 @@ public class AreaLoadCurveImpl extends CurveScheduleImpl implements AreaLoadCurv
 	 * @generated
 	 * @ordered
 	 */
-	protected Season season = null;
+	protected Season season;
 
 	/**
 	 * <!-- begin-user-doc -->

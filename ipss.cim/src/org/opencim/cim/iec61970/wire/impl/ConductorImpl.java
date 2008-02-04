@@ -237,7 +237,7 @@ public class ConductorImpl extends ConductingEquipmentImpl implements Conductor 
 	 * @generated
 	 * @ordered
 	 */
-	protected ConductorType conductorType = null;
+	protected ConductorType conductorType;
 
 	/**
 	 * <!-- begin-user-doc -->

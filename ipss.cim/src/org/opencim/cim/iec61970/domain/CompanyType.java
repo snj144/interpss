@@ -161,7 +161,7 @@ public final class CompanyType extends AbstractEnumerator {
 			case MUNICIPAL: return MUNICIPAL_LITERAL;
 			case IS_PRIVATE: return IS_PRIVATE_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

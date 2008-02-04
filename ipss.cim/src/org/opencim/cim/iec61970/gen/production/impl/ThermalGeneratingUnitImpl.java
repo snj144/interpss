@@ -94,7 +94,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected EList emmissionAccounts = null;
+	protected EList emmissionAccounts;
 
 	/**
 	 * The cached value of the '{@link #getEmissionCurves() <em>Emission Curves</em>}' containment reference list.
@@ -104,7 +104,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected EList emissionCurves = null;
+	protected EList emissionCurves;
 
 	/**
 	 * The cached value of the '{@link #getFossilFuels() <em>Fossil Fuels</em>}' reference list.
@@ -114,7 +114,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fossilFuels = null;
+	protected EList fossilFuels;
 
 	/**
 	 * The cached value of the '{@link #getFuelAllocationSchedules() <em>Fuel Allocation Schedules</em>}' containment reference list.
@@ -124,7 +124,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fuelAllocationSchedules = null;
+	protected EList fuelAllocationSchedules;
 
 	/**
 	 * The cached value of the '{@link #getHeatInputCurve() <em>Heat Input Curve</em>}' containment reference.
@@ -134,7 +134,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected HeatInputCurve heatInputCurve = null;
+	protected HeatInputCurve heatInputCurve;
 
 	/**
 	 * The cached value of the '{@link #getHeatRateCurve() <em>Heat Rate Curve</em>}' containment reference.
@@ -144,7 +144,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected HeatRateCurve heatRateCurve = null;
+	protected HeatRateCurve heatRateCurve;
 
 	/**
 	 * The cached value of the '{@link #getIncrementalHeatRateCurve() <em>Incremental Heat Rate Curve</em>}' containment reference.
@@ -154,7 +154,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected IncrementalHeatRateCurve incrementalHeatRateCurve = null;
+	protected IncrementalHeatRateCurve incrementalHeatRateCurve;
 
 	/**
 	 * The cached value of the '{@link #getShutdownCurve() <em>Shutdown Curve</em>}' containment reference.
@@ -164,7 +164,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected ShutdownCurve shutdownCurve = null;
+	protected ShutdownCurve shutdownCurve;
 
 	/**
 	 * The cached value of the '{@link #getStartupModel() <em>Startup Model</em>}' containment reference.
@@ -174,7 +174,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected StartupModel startupModel = null;
+	protected StartupModel startupModel;
 
 	/**
 	 * The cached value of the '{@link #getMemberOf_CAESPlant() <em>Member Of CAES Plant</em>}' reference.
@@ -184,7 +184,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected CAESPlant memberOf_CAESPlant = null;
+	protected CAESPlant memberOf_CAESPlant;
 
 	/**
 	 * The cached value of the '{@link #getMembmerOf_CogenerationPlant() <em>Membmer Of Cogeneration Plant</em>}' reference.
@@ -194,7 +194,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected CogenerationPlant membmerOf_CogenerationPlant = null;
+	protected CogenerationPlant membmerOf_CogenerationPlant;
 
 	/**
 	 * The cached value of the '{@link #getMemberOf_CombinedCyclePlant() <em>Member Of Combined Cycle Plant</em>}' reference.
@@ -204,7 +204,7 @@ public class ThermalGeneratingUnitImpl extends GeneratingUnitImpl implements The
 	 * @generated
 	 * @ordered
 	 */
-	protected CombinedCyclePlant memberOf_CombinedCyclePlant = null;
+	protected CombinedCyclePlant memberOf_CombinedCyclePlant;
 
 	/**
 	 * <!-- begin-user-doc -->

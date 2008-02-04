@@ -53,7 +53,7 @@ public class SubControlAreaImpl extends PowerSystemResourceImpl implements SubCo
 	 * @generated
 	 * @ordered
 	 */
-	protected EList substations = null;
+	protected EList substations;
 
 	/**
 	 * The cached value of the '{@link #getGeneratingUnits() <em>Generating Units</em>}' reference list.
@@ -63,7 +63,7 @@ public class SubControlAreaImpl extends PowerSystemResourceImpl implements SubCo
 	 * @generated
 	 * @ordered
 	 */
-	protected EList generatingUnits = null;
+	protected EList generatingUnits;
 
 	/**
 	 * <!-- begin-user-doc -->

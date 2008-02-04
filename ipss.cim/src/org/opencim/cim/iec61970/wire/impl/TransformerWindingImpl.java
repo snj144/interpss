@@ -402,7 +402,7 @@ public class TransformerWindingImpl extends ConductingEquipmentImpl implements T
 	 * @generated
 	 * @ordered
 	 */
-	protected PowerTransformer powerTransformer = null;
+	protected PowerTransformer powerTransformer;
 
 	/**
 	 * The cached value of the '{@link #getTapChangers() <em>Tap Changers</em>}' containment reference list.
@@ -412,7 +412,7 @@ public class TransformerWindingImpl extends ConductingEquipmentImpl implements T
 	 * @generated
 	 * @ordered
 	 */
-	protected EList tapChangers = null;
+	protected EList tapChangers;
 
 	/**
 	 * The cached value of the '{@link #getFrom_WindingTests() <em>From Winding Tests</em>}' reference list.
@@ -422,7 +422,7 @@ public class TransformerWindingImpl extends ConductingEquipmentImpl implements T
 	 * @generated
 	 * @ordered
 	 */
-	protected EList from_WindingTests = null;
+	protected EList from_WindingTests;
 
 	/**
 	 * The cached value of the '{@link #getTo_WindingTest() <em>To Winding Test</em>}' reference.
@@ -432,7 +432,7 @@ public class TransformerWindingImpl extends ConductingEquipmentImpl implements T
 	 * @generated
 	 * @ordered
 	 */
-	protected WindingTest to_WindingTest = null;
+	protected WindingTest to_WindingTest;
 
 	/**
 	 * <!-- begin-user-doc -->

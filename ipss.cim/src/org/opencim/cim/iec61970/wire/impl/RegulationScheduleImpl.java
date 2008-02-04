@@ -120,7 +120,7 @@ public class RegulationScheduleImpl extends CurveScheduleImpl implements Regulat
 	 * @generated
 	 * @ordered
 	 */
-	protected EList voltageControlZones = null;
+	protected EList voltageControlZones;
 
 	/**
 	 * The cached value of the '{@link #getRegulatingCondEqs() <em>Regulating Cond Eqs</em>}' reference list.
@@ -130,7 +130,7 @@ public class RegulationScheduleImpl extends CurveScheduleImpl implements Regulat
 	 * @generated
 	 * @ordered
 	 */
-	protected EList regulatingCondEqs = null;
+	protected EList regulatingCondEqs;
 
 	/**
 	 * The cached value of the '{@link #getTapChangers() <em>Tap Changers</em>}' reference list.
@@ -140,7 +140,7 @@ public class RegulationScheduleImpl extends CurveScheduleImpl implements Regulat
 	 * @generated
 	 * @ordered
 	 */
-	protected EList tapChangers = null;
+	protected EList tapChangers;
 
 	/**
 	 * <!-- begin-user-doc -->

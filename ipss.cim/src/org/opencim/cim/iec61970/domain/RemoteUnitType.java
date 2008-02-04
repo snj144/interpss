@@ -184,7 +184,7 @@ public final class RemoteUnitType extends AbstractEnumerator {
 			case CONTROL_CENTER: return CONTROL_CENTER_LITERAL;
 			case IED: return IED_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

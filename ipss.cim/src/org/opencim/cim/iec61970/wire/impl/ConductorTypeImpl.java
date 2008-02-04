@@ -97,7 +97,7 @@ public class ConductorTypeImpl extends NamingImpl implements ConductorType {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList conductors = null;
+	protected EList conductors;
 
 	/**
 	 * The cached value of the '{@link #getWireArrangements() <em>Wire Arrangements</em>}' reference list.
@@ -107,7 +107,7 @@ public class ConductorTypeImpl extends NamingImpl implements ConductorType {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList wireArrangements = null;
+	protected EList wireArrangements;
 
 	/**
 	 * <!-- begin-user-doc -->

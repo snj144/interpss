@@ -252,7 +252,7 @@ public class HydroPowerPlantImpl extends PowerSystemResourceImpl implements Hydr
 	 * @generated
 	 * @ordered
 	 */
-	protected EList contain_HydroGeneratingUnits = null;
+	protected EList contain_HydroGeneratingUnits;
 
 	/**
 	 * The cached value of the '{@link #getContain_HydroPumps() <em>Contain Hydro Pumps</em>}' containment reference list.
@@ -262,7 +262,7 @@ public class HydroPowerPlantImpl extends PowerSystemResourceImpl implements Hydr
 	 * @generated
 	 * @ordered
 	 */
-	protected EList contain_HydroPumps = null;
+	protected EList contain_HydroPumps;
 
 	/**
 	 * The cached value of the '{@link #getReservoir() <em>Reservoir</em>}' reference.
@@ -272,7 +272,7 @@ public class HydroPowerPlantImpl extends PowerSystemResourceImpl implements Hydr
 	 * @generated
 	 * @ordered
 	 */
-	protected Reservoir reservoir = null;
+	protected Reservoir reservoir;
 
 	/**
 	 * The cached value of the '{@link #getGenSourcePumpDischarge() <em>Gen Source Pump Discharge</em>}' reference.
@@ -282,7 +282,7 @@ public class HydroPowerPlantImpl extends PowerSystemResourceImpl implements Hydr
 	 * @generated
 	 * @ordered
 	 */
-	protected Reservoir genSourcePumpDischarge = null;
+	protected Reservoir genSourcePumpDischarge;
 
 	/**
 	 * <!-- begin-user-doc -->

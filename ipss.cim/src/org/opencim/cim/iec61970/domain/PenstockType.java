@@ -213,7 +213,7 @@ public final class PenstockType extends AbstractEnumerator {
 			case PLANT: return PLANT_LITERAL;
 			case PENSTOCK: return PENSTOCK_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

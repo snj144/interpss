@@ -77,7 +77,7 @@ public class BaseVoltageImpl extends NamingImpl implements BaseVoltage {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList conductingEquipment = null;
+	protected EList conductingEquipment;
 
 	/**
 	 * The cached value of the '{@link #getVoltageLevel() <em>Voltage Level</em>}' reference list.
@@ -87,7 +87,7 @@ public class BaseVoltageImpl extends NamingImpl implements BaseVoltage {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList voltageLevel = null;
+	protected EList voltageLevel;
 
 	/**
 	 * <!-- begin-user-doc -->

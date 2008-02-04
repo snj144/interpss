@@ -243,7 +243,7 @@ public class RectifierInverterImpl extends ConductingEquipmentImpl implements Re
 	 * @generated
 	 * @ordered
 	 */
-	protected VoltageControlZone maximumKV = null;
+	protected VoltageControlZone maximumKV;
 
 	/**
 	 * The default value of the '{@link #getMinimumKV() <em>Minimum KV</em>}' attribute.

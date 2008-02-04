@@ -74,7 +74,7 @@ public class ConductingEquipmentImpl extends EquipmentImpl implements Conducting
 	 * @generated
 	 * @ordered
 	 */
-	protected EList terminals = null;
+	protected EList terminals;
 
 	/**
 	 * The cached value of the '{@link #getBaseVoltage() <em>Base Voltage</em>}' reference.
@@ -84,7 +84,7 @@ public class ConductingEquipmentImpl extends EquipmentImpl implements Conducting
 	 * @generated
 	 * @ordered
 	 */
-	protected BaseVoltage baseVoltage = null;
+	protected BaseVoltage baseVoltage;
 
 	/**
 	 * <!-- begin-user-doc -->

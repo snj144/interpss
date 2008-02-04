@@ -187,7 +187,7 @@ public final class HydroPlantType extends AbstractEnumerator {
 			case MAJOR_STORAGE: return MAJOR_STORAGE_LITERAL;
 			case MINOR_STORAGE: return MINOR_STORAGE_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

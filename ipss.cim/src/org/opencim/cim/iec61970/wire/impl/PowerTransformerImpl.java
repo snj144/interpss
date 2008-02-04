@@ -189,7 +189,7 @@ public class PowerTransformerImpl extends EquipmentImpl implements PowerTransfor
 	 * @generated
 	 * @ordered
 	 */
-	protected HeatExchanger heatExchanger = null;
+	protected HeatExchanger heatExchanger;
 
 	/**
 	 * The cached value of the '{@link #getTransformerWindings() <em>Transformer Windings</em>}' reference list.
@@ -199,7 +199,7 @@ public class PowerTransformerImpl extends EquipmentImpl implements PowerTransfor
 	 * @generated
 	 * @ordered
 	 */
-	protected EList transformerWindings = null;
+	protected EList transformerWindings;
 
 	/**
 	 * <!-- begin-user-doc -->

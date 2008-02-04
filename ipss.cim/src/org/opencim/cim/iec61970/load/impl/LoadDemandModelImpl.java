@@ -52,7 +52,7 @@ public class LoadDemandModelImpl extends CurveScheduleImpl implements LoadDemand
 	 * @generated
 	 * @ordered
 	 */
-	protected Season basisFor = null;
+	protected Season basisFor;
 
 	/**
 	 * The cached value of the '{@link #getDayType() <em>Day Type</em>}' reference.
@@ -62,7 +62,7 @@ public class LoadDemandModelImpl extends CurveScheduleImpl implements LoadDemand
 	 * @generated
 	 * @ordered
 	 */
-	protected DayType dayType = null;
+	protected DayType dayType;
 
 	/**
 	 * <!-- begin-user-doc -->

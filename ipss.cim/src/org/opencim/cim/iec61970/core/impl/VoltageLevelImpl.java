@@ -98,7 +98,7 @@ public class VoltageLevelImpl extends EquipmentContainerImpl implements VoltageL
 	 * @generated
 	 * @ordered
 	 */
-	protected EList bays = null;
+	protected EList bays;
 
 	/**
 	 * The cached value of the '{@link #getBaseVoltage() <em>Base Voltage</em>}' reference.
@@ -108,7 +108,7 @@ public class VoltageLevelImpl extends EquipmentContainerImpl implements VoltageL
 	 * @generated
 	 * @ordered
 	 */
-	protected BaseVoltage baseVoltage = null;
+	protected BaseVoltage baseVoltage;
 
 	/**
 	 * <!-- begin-user-doc -->

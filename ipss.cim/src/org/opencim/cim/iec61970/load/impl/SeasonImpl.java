@@ -117,7 +117,7 @@ public class SeasonImpl extends EObjectImpl implements Season {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList areaLoadCurves = null;
+	protected EList areaLoadCurves;
 
 	/**
 	 * The cached value of the '{@link #getLoadDemandModels() <em>Load Demand Models</em>}' reference list.
@@ -127,7 +127,7 @@ public class SeasonImpl extends EObjectImpl implements Season {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList loadDemandModels = null;
+	protected EList loadDemandModels;
 
 	/**
 	 * <!-- begin-user-doc -->

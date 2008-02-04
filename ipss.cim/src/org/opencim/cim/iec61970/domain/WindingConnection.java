@@ -158,7 +158,7 @@ public final class WindingConnection extends AbstractEnumerator {
 			case Y: return Y_LITERAL;
 			case Z: return Z_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

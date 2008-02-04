@@ -155,7 +155,7 @@ public final class Validity extends AbstractEnumerator {
 			case QUESTIONABLE: return QUESTIONABLE_LITERAL;
 			case INVALID: return INVALID_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

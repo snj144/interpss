@@ -151,7 +151,7 @@ public class FuelAllocationScheduleImpl extends CurveScheduleImpl implements Fue
 	 * @generated
 	 * @ordered
 	 */
-	protected FossilFuel fossilFuel = null;
+	protected FossilFuel fossilFuel;
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -95,7 +95,7 @@ public class MVArCapabilityCurveImpl extends CurveScheduleImpl implements MVArCa
 	 * @generated
 	 * @ordered
 	 */
-	protected EList synchronousMachines = null;
+	protected EList synchronousMachines;
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -78,7 +78,7 @@ public class CompanyImpl extends NamingImpl implements Company {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList psRs = null;
+	protected EList psRs;
 
 	/**
 	 * <!-- begin-user-doc -->

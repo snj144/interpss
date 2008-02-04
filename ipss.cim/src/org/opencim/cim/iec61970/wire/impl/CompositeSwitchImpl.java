@@ -73,7 +73,7 @@ public class CompositeSwitchImpl extends EquipmentContainerImpl implements Compo
 	 * @generated
 	 * @ordered
 	 */
-	protected EList switches = null;
+	protected EList switches;
 
 	/**
 	 * <!-- begin-user-doc -->

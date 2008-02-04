@@ -378,19 +378,19 @@ public class CurveSchedDataImpl extends NamingImpl implements CurveSchedData {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case CorePackage.CURVE_SCHED_DATA__RAMP_DATA:
-				setRampData((Object)newValue);
+				setRampData(newValue);
 				return;
 			case CorePackage.CURVE_SCHED_DATA__RAMP_DATA_VALUE:
-				setRampDataValue((Object)newValue);
+				setRampDataValue(newValue);
 				return;
 			case CorePackage.CURVE_SCHED_DATA__XAXIS_DATA:
-				setXAxisData((Object)newValue);
+				setXAxisData(newValue);
 				return;
 			case CorePackage.CURVE_SCHED_DATA__Y1_AXIS_DATA:
-				setY1AxisData((Object)newValue);
+				setY1AxisData(newValue);
 				return;
 			case CorePackage.CURVE_SCHED_DATA__Y2_AXIS_DATA:
-				setY2AxisData((Object)newValue);
+				setY2AxisData(newValue);
 				return;
 			case CorePackage.CURVE_SCHED_DATA__CURVE_SCHEDULE:
 				setCurveSchedule((CurveSchedule)newValue);

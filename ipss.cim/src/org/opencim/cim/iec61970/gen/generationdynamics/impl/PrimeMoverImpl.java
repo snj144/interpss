@@ -74,7 +74,7 @@ public class PrimeMoverImpl extends PowerSystemResourceImpl implements PrimeMove
 	 * @generated
 	 * @ordered
 	 */
-	protected SynchronousMachine synchronousMachines = null;
+	protected SynchronousMachine synchronousMachines;
 
 	/**
 	 * <!-- begin-user-doc -->

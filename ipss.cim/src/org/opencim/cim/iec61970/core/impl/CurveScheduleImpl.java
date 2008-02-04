@@ -247,7 +247,7 @@ public class CurveScheduleImpl extends NamingImpl implements CurveSchedule {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList curveScheduleDatas = null;
+	protected EList curveScheduleDatas;
 
 	/**
 	 * The cached value of the '{@link #getCurveScheduleFormula() <em>Curve Schedule Formula</em>}' containment reference list.
@@ -257,7 +257,7 @@ public class CurveScheduleImpl extends NamingImpl implements CurveSchedule {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList curveScheduleFormula = null;
+	protected EList curveScheduleFormula;
 
 	/**
 	 * <!-- begin-user-doc -->

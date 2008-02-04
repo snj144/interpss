@@ -187,7 +187,7 @@ public final class GeneratorControlSource extends AbstractEnumerator {
 			case ON_AGC: return ON_AGC_LITERAL;
 			case PLANT_CONTROL: return PLANT_CONTROL_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

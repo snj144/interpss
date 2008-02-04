@@ -161,7 +161,7 @@ public final class FuelType extends AbstractEnumerator {
 			case OIL: return OIL_LITERAL;
 			case GAS: return GAS_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

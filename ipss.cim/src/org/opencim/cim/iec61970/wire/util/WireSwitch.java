@@ -446,13 +446,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>AC Line Segment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>AC Line Segment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>AC Line Segment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>AC Line Segment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -461,13 +461,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Breaker</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Breaker</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Breaker</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Breaker</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -476,13 +476,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Busbar Section</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Busbar Section</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Busbar Section</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Busbar Section</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -491,13 +491,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Compensator</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Compensator</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Compensator</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Compensator</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -506,13 +506,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Conductor</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Conductor</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Conductor</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Conductor</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -521,13 +521,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Conductor Type</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Conductor Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Conductor Type</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Conductor Type</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -536,13 +536,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>DC Line Segment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>DC Line Segment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>DC Line Segment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>DC Line Segment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -551,13 +551,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Disconnector</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Disconnector</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Disconnector</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Disconnector</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -566,13 +566,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Fuse</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Fuse</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Fuse</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Fuse</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -581,13 +581,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Ground</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Ground</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Ground</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Ground</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -596,13 +596,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Heat Exchanger</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Heat Exchanger</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Heat Exchanger</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Heat Exchanger</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -611,13 +611,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Jumper</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Jumper</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Jumper</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Jumper</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -626,13 +626,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Rectifier Inverter</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Rectifier Inverter</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Rectifier Inverter</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Rectifier Inverter</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -641,13 +641,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Regulation Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Regulation Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Regulation Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Regulation Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -656,13 +656,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Static Var Compensator</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Static Var Compensator</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Static Var Compensator</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Static Var Compensator</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -671,13 +671,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Switch</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Switch</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Switch</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Switch</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -686,13 +686,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Tap Changer</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Tap Changer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Tap Changer</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Tap Changer</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -701,13 +701,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Power Transformer</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Power Transformer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Power Transformer</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Power Transformer</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -716,13 +716,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Transformer Winding</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Transformer Winding</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Transformer Winding</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Transformer Winding</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -731,13 +731,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Line</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Line</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Line</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Line</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -746,13 +746,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Voltage Control Zone</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Voltage Control Zone</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Voltage Control Zone</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Voltage Control Zone</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -761,13 +761,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Winding Test</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Winding Test</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Winding Test</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Winding Test</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -776,13 +776,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Synchronous Machine</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Synchronous Machine</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Synchronous Machine</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Synchronous Machine</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -791,13 +791,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>MV Ar Capability Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>MV Ar Capability Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>MV Ar Capability Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>MV Ar Capability Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -806,13 +806,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Equivalent Source</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equivalent Source</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Equivalent Source</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equivalent Source</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -821,13 +821,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Type</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Type</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Type</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -836,13 +836,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Arrangement</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Arrangement</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Arrangement</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Arrangement</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -851,13 +851,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Load Break Switch</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Load Break Switch</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Load Break Switch</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Load Break Switch</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -866,13 +866,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Junction</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Junction</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Junction</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Junction</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -881,13 +881,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Energy Consumer</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Energy Consumer</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Energy Consumer</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Energy Consumer</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -896,13 +896,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Connector</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Connector</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Connector</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Connector</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -911,13 +911,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Regulating Cond Eq</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Regulating Cond Eq</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Regulating Cond Eq</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Regulating Cond Eq</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -926,13 +926,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Ground Disconnector</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Ground Disconnector</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Ground Disconnector</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Ground Disconnector</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -941,13 +941,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Composite Switch</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Composite Switch</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Composite Switch</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Composite Switch</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -956,13 +956,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Wires Version</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Wires Version</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Wires Version</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Wires Version</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -971,13 +971,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Frequency Converter</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Frequency Converter</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Frequency Converter</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Frequency Converter</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -986,13 +986,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1001,13 +1001,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1016,13 +1016,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Equipment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Equipment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equipment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1031,13 +1031,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Conducting Equipment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Conducting Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Conducting Equipment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Conducting Equipment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1046,13 +1046,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1061,13 +1061,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Equipment Container</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equipment Container</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Equipment Container</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equipment Container</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -1076,13 +1076,13 @@ public class WireSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

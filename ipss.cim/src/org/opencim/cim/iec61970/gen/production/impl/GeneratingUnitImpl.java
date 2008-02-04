@@ -924,7 +924,7 @@ public class GeneratingUnitImpl extends EquipmentImpl implements GeneratingUnit 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList genUnitOpCostCurves = null;
+	protected EList genUnitOpCostCurves;
 
 	/**
 	 * The cached value of the '{@link #getGenUnitOpSchedule() <em>Gen Unit Op Schedule</em>}' containment reference.
@@ -934,7 +934,7 @@ public class GeneratingUnitImpl extends EquipmentImpl implements GeneratingUnit 
 	 * @generated
 	 * @ordered
 	 */
-	protected GenUnitOpSchedule genUnitOpSchedule = null;
+	protected GenUnitOpSchedule genUnitOpSchedule;
 
 	/**
 	 * The cached value of the '{@link #getGrossToNetMWCurves() <em>Gross To Net MW Curves</em>}' containment reference list.
@@ -944,7 +944,7 @@ public class GeneratingUnitImpl extends EquipmentImpl implements GeneratingUnit 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList grossToNetMWCurves = null;
+	protected EList grossToNetMWCurves;
 
 	/**
 	 * The cached value of the '{@link #getSubControlArea() <em>Sub Control Area</em>}' reference.
@@ -954,7 +954,7 @@ public class GeneratingUnitImpl extends EquipmentImpl implements GeneratingUnit 
 	 * @generated
 	 * @ordered
 	 */
-	protected SubControlArea subControlArea = null;
+	protected SubControlArea subControlArea;
 
 	/**
 	 * The cached value of the '{@link #getSynchronousMachines() <em>Synchronous Machines</em>}' reference list.
@@ -964,7 +964,7 @@ public class GeneratingUnitImpl extends EquipmentImpl implements GeneratingUnit 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList synchronousMachines = null;
+	protected EList synchronousMachines;
 
 	/**
 	 * <!-- begin-user-doc -->

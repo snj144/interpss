@@ -135,7 +135,7 @@ public final class BoilerControlMode extends AbstractEnumerator {
 			case FOLLOWING: return FOLLOWING_LITERAL;
 			case COORDINATED: return COORDINATED_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

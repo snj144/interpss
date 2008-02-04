@@ -187,7 +187,7 @@ public final class BusbarConfiguration extends AbstractEnumerator {
 			case MAIN_WITH_TRANSFER: return MAIN_WITH_TRANSFER_LITERAL;
 			case RING_BUS: return RING_BUS_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

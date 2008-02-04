@@ -297,7 +297,7 @@ public class ReservoirImpl extends PowerSystemResourceImpl implements Reservoir 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList hydroPowerPlants = null;
+	protected EList hydroPowerPlants;
 
 	/**
 	 * The cached value of the '{@link #getUpstreamFrom() <em>Upstream From</em>}' reference list.
@@ -307,7 +307,7 @@ public class ReservoirImpl extends PowerSystemResourceImpl implements Reservoir 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList upstreamFrom = null;
+	protected EList upstreamFrom;
 
 	/**
 	 * The cached value of the '{@link #getLevelVsVolumeCurve() <em>Level Vs Volume Curve</em>}' containment reference list.
@@ -317,7 +317,7 @@ public class ReservoirImpl extends PowerSystemResourceImpl implements Reservoir 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList levelVsVolumeCurve = null;
+	protected EList levelVsVolumeCurve;
 
 	/**
 	 * The cached value of the '{@link #getTargetLevelSchedule() <em>Target Level Schedule</em>}' containment reference.
@@ -327,7 +327,7 @@ public class ReservoirImpl extends PowerSystemResourceImpl implements Reservoir 
 	 * @generated
 	 * @ordered
 	 */
-	protected TargetLevelSchedule targetLevelSchedule = null;
+	protected TargetLevelSchedule targetLevelSchedule;
 
 	/**
 	 * The cached value of the '{@link #getInflowForecast() <em>Inflow Forecast</em>}' containment reference list.
@@ -337,7 +337,7 @@ public class ReservoirImpl extends PowerSystemResourceImpl implements Reservoir 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList inflowForecast = null;
+	protected EList inflowForecast;
 
 	/**
 	 * The cached value of the '{@link #getSpillsInto() <em>Spills Into</em>}' reference list.
@@ -347,7 +347,7 @@ public class ReservoirImpl extends PowerSystemResourceImpl implements Reservoir 
 	 * @generated
 	 * @ordered
 	 */
-	protected EList spillsInto = null;
+	protected EList spillsInto;
 
 	/**
 	 * The cached value of the '{@link #getSpillsFrom() <em>Spills From</em>}' reference.
@@ -357,7 +357,7 @@ public class ReservoirImpl extends PowerSystemResourceImpl implements Reservoir 
 	 * @generated
 	 * @ordered
 	 */
-	protected Reservoir spillsFrom = null;
+	protected Reservoir spillsFrom;
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -213,7 +213,7 @@ public final class AxisQuantity extends AbstractEnumerator {
 			case REACTIVE_POWER: return REACTIVE_POWER_LITERAL;
 			case CURRENCY: return CURRENCY_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

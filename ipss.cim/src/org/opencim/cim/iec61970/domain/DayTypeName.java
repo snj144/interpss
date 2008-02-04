@@ -161,7 +161,7 @@ public final class DayTypeName extends AbstractEnumerator {
 			case WEEKEND: return WEEKEND_LITERAL;
 			case HOLIDAY: return HOLIDAY_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

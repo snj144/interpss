@@ -261,7 +261,7 @@ public class TapChangerImpl extends PowerSystemResourceImpl implements TapChange
 	 * @generated
 	 * @ordered
 	 */
-	protected RegulationSchedule regulationSchedule = null;
+	protected RegulationSchedule regulationSchedule;
 
 	/**
 	 * <!-- begin-user-doc -->
