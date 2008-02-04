@@ -100,7 +100,7 @@ public class PowerCutZoneImpl extends PowerSystemResourceImpl implements PowerCu
 	 * @generated
 	 * @ordered
 	 */
-	protected EList energyConsumers = null;
+	protected EList energyConsumers;
 
 	/**
 	 * <!-- begin-user-doc -->

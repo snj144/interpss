@@ -2643,7 +2643,7 @@ public class DomainFactoryImpl extends EFactoryImpl implements DomainFactory {
 	 * @generated
 	 */
 	public Object createNumericFromString(EDataType eDataType, String initialValue) {
-		return (Object)super.createFromString(eDataType, initialValue);
+		return super.createFromString(eDataType, initialValue);
 	}
 
 	/**
@@ -2679,7 +2679,7 @@ public class DomainFactoryImpl extends EFactoryImpl implements DomainFactory {
 	 * @generated
 	 */
 	public Object createJavaObjectFromString(EDataType eDataType, String initialValue) {
-		return (Object)super.createFromString(eDataType, initialValue);
+		return super.createFromString(eDataType, initialValue);
 	}
 
 	/**

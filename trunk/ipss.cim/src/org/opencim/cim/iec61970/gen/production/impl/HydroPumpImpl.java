@@ -128,7 +128,7 @@ public class HydroPumpImpl extends PowerSystemResourceImpl implements HydroPump 
 	 * @generated
 	 * @ordered
 	 */
-	protected HydroPumpOpSchedule hydroPumpOpSchedule = null;
+	protected HydroPumpOpSchedule hydroPumpOpSchedule;
 
 	/**
 	 * <!-- begin-user-doc -->

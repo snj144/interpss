@@ -161,7 +161,7 @@ public final class TurbineType extends AbstractEnumerator {
 			case PELTON: return PELTON_LITERAL;
 			case KAPLAN: return KAPLAN_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

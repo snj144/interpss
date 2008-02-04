@@ -45,7 +45,7 @@ public class PSRTypeImpl extends NamingImpl implements PSRType {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList powerSystemResource = null;
+	protected EList powerSystemResource;
 
 	/**
 	 * <!-- begin-user-doc -->

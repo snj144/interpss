@@ -135,7 +135,7 @@ public final class EmissionValueSource extends AbstractEnumerator {
 			case MEASURED: return MEASURED_LITERAL;
 			case CALCULATED: return CALCULATED_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

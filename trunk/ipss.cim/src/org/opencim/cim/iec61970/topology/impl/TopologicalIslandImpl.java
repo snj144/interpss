@@ -58,7 +58,7 @@ public class TopologicalIslandImpl extends NamingImpl implements TopologicalIsla
 	 * @generated
 	 * @ordered
 	 */
-	protected EList topologicalNodes = null;
+	protected EList topologicalNodes;
 
 	/**
 	 * <!-- begin-user-doc -->

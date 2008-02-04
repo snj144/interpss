@@ -244,13 +244,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Bay</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Bay</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Bay</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Bay</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -259,13 +259,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Company</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Company</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Company</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Company</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -274,13 +274,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Conducting Equipment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Conducting Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Conducting Equipment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Conducting Equipment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -289,13 +289,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Control House Equipment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Control House Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Control House Equipment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Control House Equipment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -304,13 +304,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -319,13 +319,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Substation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Substation</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Substation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Substation</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -334,13 +334,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Terminal</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Terminal</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Terminal</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Terminal</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -349,13 +349,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Sub Control Area</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Sub Control Area</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Sub Control Area</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Sub Control Area</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -364,13 +364,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -379,13 +379,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Curve Sched Data</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Curve Sched Data</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Curve Sched Data</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Curve Sched Data</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -394,13 +394,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Curve Sched Formula</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Curve Sched Formula</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Curve Sched Formula</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Curve Sched Formula</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -409,13 +409,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Base Voltage</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Base Voltage</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Base Voltage</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Base Voltage</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -424,13 +424,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Base Power</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Base Power</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Base Power</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Base Power</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -439,13 +439,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Voltage Level</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Voltage Level</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Voltage Level</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Voltage Level</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -454,13 +454,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -469,13 +469,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Equipment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Equipment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equipment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -484,13 +484,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Unit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Unit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Unit</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -499,13 +499,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Equipment Container</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equipment Container</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Equipment Container</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equipment Container</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -514,13 +514,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>PSR Type</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>PSR Type</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>PSR Type</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>PSR Type</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -529,13 +529,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Version</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Version</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Version</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Version</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -544,13 +544,13 @@ public class CoreSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

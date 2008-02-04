@@ -158,7 +158,7 @@ public final class SynchronousMachineType extends AbstractEnumerator {
 			case CONDENSER: return CONDENSER_LITERAL;
 			case GENERATOR_OR_CONDENSER: return GENERATOR_OR_CONDENSER_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

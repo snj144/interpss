@@ -123,13 +123,13 @@ public class TopologySwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Connectivity Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Connectivity Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Connectivity Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Connectivity Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -138,13 +138,13 @@ public class TopologySwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Topological Island</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Topological Island</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Topological Island</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Topological Island</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -153,13 +153,13 @@ public class TopologySwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Topological Node</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Topological Node</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Topological Node</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Topological Node</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -168,13 +168,13 @@ public class TopologySwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Version</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Version</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Version</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Version</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -183,13 +183,13 @@ public class TopologySwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -198,13 +198,13 @@ public class TopologySwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

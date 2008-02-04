@@ -267,7 +267,7 @@ public class StartupModelImpl extends NamingImpl implements StartupModel {
 	 * @generated
 	 * @ordered
 	 */
-	protected StartIgnFuelCurve startIgnFuelCurve = null;
+	protected StartIgnFuelCurve startIgnFuelCurve;
 
 	/**
 	 * The cached value of the '{@link #getStartMainFuelCurve() <em>Start Main Fuel Curve</em>}' containment reference.
@@ -277,7 +277,7 @@ public class StartupModelImpl extends NamingImpl implements StartupModel {
 	 * @generated
 	 * @ordered
 	 */
-	protected StartMainFuelCurve startMainFuelCurve = null;
+	protected StartMainFuelCurve startMainFuelCurve;
 
 	/**
 	 * The cached value of the '{@link #getStartRampCurve() <em>Start Ramp Curve</em>}' containment reference.
@@ -287,7 +287,7 @@ public class StartupModelImpl extends NamingImpl implements StartupModel {
 	 * @generated
 	 * @ordered
 	 */
-	protected StartRampCurve startRampCurve = null;
+	protected StartRampCurve startRampCurve;
 
 	/**
 	 * <!-- begin-user-doc -->

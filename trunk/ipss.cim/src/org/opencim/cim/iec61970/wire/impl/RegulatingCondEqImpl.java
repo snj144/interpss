@@ -42,7 +42,7 @@ public abstract class RegulatingCondEqImpl extends ConductingEquipmentImpl imple
 	 * @generated
 	 * @ordered
 	 */
-	protected RegulationSchedule regulationSchedule = null;
+	protected RegulationSchedule regulationSchedule;
 
 	/**
 	 * <!-- begin-user-doc -->

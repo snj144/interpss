@@ -44,7 +44,7 @@ public class VoltageControlZoneImpl extends PowerSystemResourceImpl implements V
 	 * @generated
 	 * @ordered
 	 */
-	protected BusbarSection busbarSection = null;
+	protected BusbarSection busbarSection;
 
 	/**
 	 * The cached value of the '{@link #getRegulationSchedule() <em>Regulation Schedule</em>}' reference.
@@ -54,7 +54,7 @@ public class VoltageControlZoneImpl extends PowerSystemResourceImpl implements V
 	 * @generated
 	 * @ordered
 	 */
-	protected RegulationSchedule regulationSchedule = null;
+	protected RegulationSchedule regulationSchedule;
 
 	/**
 	 * <!-- begin-user-doc -->

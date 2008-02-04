@@ -135,7 +135,7 @@ public final class SwitchState extends AbstractEnumerator {
 			case OPEN: return OPEN_LITERAL;
 			case CLOSE: return CLOSE_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

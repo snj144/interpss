@@ -40,7 +40,7 @@ public class BusbarSectionImpl extends ConnectorImpl implements BusbarSection {
 	 * @generated
 	 * @ordered
 	 */
-	protected VoltageControlZone voltageControlZone = null;
+	protected VoltageControlZone voltageControlZone;
 
 	/**
 	 * <!-- begin-user-doc -->

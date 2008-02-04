@@ -159,7 +159,7 @@ public class CogenerationPlantImpl extends PowerSystemResourceImpl implements Co
 	 * @generated
 	 * @ordered
 	 */
-	protected EList contain_ThermalGeneratingUnits = null;
+	protected EList contain_ThermalGeneratingUnits;
 
 	/**
 	 * The cached value of the '{@link #getSteamSendoutSchedule() <em>Steam Sendout Schedule</em>}' containment reference.
@@ -169,7 +169,7 @@ public class CogenerationPlantImpl extends PowerSystemResourceImpl implements Co
 	 * @generated
 	 * @ordered
 	 */
-	protected SteamSendoutSchedule steamSendoutSchedule = null;
+	protected SteamSendoutSchedule steamSendoutSchedule;
 
 	/**
 	 * <!-- begin-user-doc -->

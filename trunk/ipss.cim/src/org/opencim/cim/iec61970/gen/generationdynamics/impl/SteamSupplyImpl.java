@@ -71,7 +71,7 @@ public class SteamSupplyImpl extends PowerSystemResourceImpl implements SteamSup
 	 * @generated
 	 * @ordered
 	 */
-	protected EList steamTurbines = null;
+	protected EList steamTurbines;
 
 	/**
 	 * <!-- begin-user-doc -->

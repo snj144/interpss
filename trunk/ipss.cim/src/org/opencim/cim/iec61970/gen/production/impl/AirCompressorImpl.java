@@ -67,7 +67,7 @@ public class AirCompressorImpl extends PowerSystemResourceImpl implements AirCom
 	 * @generated
 	 * @ordered
 	 */
-	protected CombustionTurbine combustionTurbine = null;
+	protected CombustionTurbine combustionTurbine;
 
 	/**
 	 * <!-- begin-user-doc -->

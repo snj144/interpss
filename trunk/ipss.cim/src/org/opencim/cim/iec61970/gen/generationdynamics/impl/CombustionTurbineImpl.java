@@ -222,7 +222,7 @@ public class CombustionTurbineImpl extends PrimeMoverImpl implements CombustionT
 	 * @generated
 	 * @ordered
 	 */
-	protected HeatRecoveryBoiler heatRecoveryBoiler = null;
+	protected HeatRecoveryBoiler heatRecoveryBoiler;
 
 	/**
 	 * The cached value of the '{@link #getCTTempMWCurve() <em>CT Temp MW Curve</em>}' containment reference.
@@ -232,7 +232,7 @@ public class CombustionTurbineImpl extends PrimeMoverImpl implements CombustionT
 	 * @generated
 	 * @ordered
 	 */
-	protected CTTempMWCurve ctTempMWCurve = null;
+	protected CTTempMWCurve ctTempMWCurve;
 
 	/**
 	 * The cached value of the '{@link #getAirCompressor() <em>Air Compressor</em>}' reference.
@@ -242,7 +242,7 @@ public class CombustionTurbineImpl extends PrimeMoverImpl implements CombustionT
 	 * @generated
 	 * @ordered
 	 */
-	protected AirCompressor airCompressor = null;
+	protected AirCompressor airCompressor;
 
 	/**
 	 * <!-- begin-user-doc -->

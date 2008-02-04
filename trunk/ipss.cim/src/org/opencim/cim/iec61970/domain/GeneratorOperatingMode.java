@@ -291,7 +291,7 @@ public final class GeneratorOperatingMode extends AbstractEnumerator {
 			case MRN: return MRN_LITERAL;
 			case REG: return REG_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

@@ -187,7 +187,7 @@ public final class SeasonName extends AbstractEnumerator {
 			case SUMMER: return SUMMER_LITERAL;
 			case FALL: return FALL_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

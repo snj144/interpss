@@ -623,7 +623,7 @@ public class SynchronousMachineImpl extends RegulatingCondEqImpl implements Sync
 	 * @generated
 	 * @ordered
 	 */
-	protected EList mvArCapabilityCurves = null;
+	protected EList mvArCapabilityCurves;
 
 	/**
 	 * The cached value of the '{@link #getDrives_HydroPump() <em>Drives Hydro Pump</em>}' reference.
@@ -633,7 +633,7 @@ public class SynchronousMachineImpl extends RegulatingCondEqImpl implements Sync
 	 * @generated
 	 * @ordered
 	 */
-	protected HydroPump drives_HydroPump = null;
+	protected HydroPump drives_HydroPump;
 
 	/**
 	 * The cached value of the '{@link #getGeneratingUnit() <em>Generating Unit</em>}' reference.
@@ -643,7 +643,7 @@ public class SynchronousMachineImpl extends RegulatingCondEqImpl implements Sync
 	 * @generated
 	 * @ordered
 	 */
-	protected GeneratingUnit generatingUnit = null;
+	protected GeneratingUnit generatingUnit;
 
 	/**
 	 * The cached value of the '{@link #getPrimeMover() <em>Prime Mover</em>}' reference list.
@@ -653,7 +653,7 @@ public class SynchronousMachineImpl extends RegulatingCondEqImpl implements Sync
 	 * @generated
 	 * @ordered
 	 */
-	protected EList primeMover = null;
+	protected EList primeMover;
 
 	/**
 	 * <!-- begin-user-doc -->

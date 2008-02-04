@@ -109,7 +109,7 @@ public class SwitchImpl extends ConductingEquipmentImpl implements Switch {
 	 * @generated
 	 * @ordered
 	 */
-	protected CompositeSwitch compositeSwitch = null;
+	protected CompositeSwitch compositeSwitch;
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -135,7 +135,7 @@ public final class YAxisType extends AbstractEnumerator {
 			case SINGLE_YVALUE: return SINGLE_YVALUE_LITERAL;
 			case TWO_YVALUES: return TWO_YVALUES_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

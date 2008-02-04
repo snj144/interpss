@@ -48,7 +48,7 @@ public class TerminalImpl extends NamingImpl implements Terminal {
 	 * @generated
 	 * @ordered
 	 */
-	protected ConductingEquipment conductingEquipment = null;
+	protected ConductingEquipment conductingEquipment;
 
 	/**
 	 * <!-- begin-user-doc -->

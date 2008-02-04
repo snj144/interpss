@@ -53,7 +53,7 @@ public class EquipmentContainerImpl extends PowerSystemResourceImpl implements E
 	 * @generated
 	 * @ordered
 	 */
-	protected EList connectivityNodes = null;
+	protected EList connectivityNodes;
 
 	/**
 	 * The cached value of the '{@link #getEquipments() <em>Equipments</em>}' containment reference list.
@@ -63,7 +63,7 @@ public class EquipmentContainerImpl extends PowerSystemResourceImpl implements E
 	 * @generated
 	 * @ordered
 	 */
-	protected EList equipments = null;
+	protected EList equipments;
 
 	/**
 	 * <!-- begin-user-doc -->

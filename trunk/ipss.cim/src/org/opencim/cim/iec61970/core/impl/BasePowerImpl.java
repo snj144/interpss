@@ -72,7 +72,7 @@ public class BasePowerImpl extends NamingImpl implements BasePower {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList baseVoltages = null;
+	protected EList baseVoltages;
 
 	/**
 	 * <!-- begin-user-doc -->

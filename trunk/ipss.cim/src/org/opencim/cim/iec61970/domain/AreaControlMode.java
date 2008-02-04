@@ -180,7 +180,7 @@ public final class AreaControlMode extends AbstractEnumerator {
 			case TLB: return TLB_LITERAL;
 			case OFF: return OFF_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

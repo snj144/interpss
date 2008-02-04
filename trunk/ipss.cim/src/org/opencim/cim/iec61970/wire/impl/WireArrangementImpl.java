@@ -86,7 +86,7 @@ public class WireArrangementImpl extends NamingImpl implements WireArrangement {
 	 * @generated
 	 * @ordered
 	 */
-	protected ConductorType conductorType = null;
+	protected ConductorType conductorType;
 
 	/**
 	 * The cached value of the '{@link #getWireType() <em>Wire Type</em>}' reference.
@@ -96,7 +96,7 @@ public class WireArrangementImpl extends NamingImpl implements WireArrangement {
 	 * @generated
 	 * @ordered
 	 */
-	protected WireType wireType = null;
+	protected WireType wireType;
 
 	/**
 	 * <!-- begin-user-doc -->

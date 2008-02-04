@@ -187,7 +187,7 @@ public final class SpillwayGateType extends AbstractEnumerator {
 			case SPILLWAY: return SPILLWAY_LITERAL;
 			case GATE: return GATE_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

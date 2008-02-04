@@ -206,7 +206,7 @@ public class TopologicalNodeImpl extends NamingImpl implements TopologicalNode {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList connectivityNodes = null;
+	protected EList connectivityNodes;
 
 	/**
 	 * <!-- begin-user-doc -->

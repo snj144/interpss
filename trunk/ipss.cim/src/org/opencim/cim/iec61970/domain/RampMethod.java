@@ -135,7 +135,7 @@ public final class RampMethod extends AbstractEnumerator {
 			case YUNITS_PER_MINUTE: return YUNITS_PER_MINUTE_LITERAL;
 			case RAMP_COMPLETION_IN_MINUTES: return RAMP_COMPLETION_IN_MINUTES_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

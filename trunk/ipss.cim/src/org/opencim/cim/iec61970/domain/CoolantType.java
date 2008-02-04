@@ -161,7 +161,7 @@ public final class CoolantType extends AbstractEnumerator {
 			case HYDROGEN_GAS: return HYDROGEN_GAS_LITERAL;
 			case WATER: return WATER_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

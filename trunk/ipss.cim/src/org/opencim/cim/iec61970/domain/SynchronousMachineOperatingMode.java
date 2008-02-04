@@ -132,7 +132,7 @@ public final class SynchronousMachineOperatingMode extends AbstractEnumerator {
 			case GENERATOR: return GENERATOR_LITERAL;
 			case CONDENSER: return CONDENSER_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

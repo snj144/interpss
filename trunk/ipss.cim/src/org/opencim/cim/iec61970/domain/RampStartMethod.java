@@ -161,7 +161,7 @@ public final class RampStartMethod extends AbstractEnumerator {
 			case FIFTY_PER_CENT: return FIFTY_PER_CENT_LITERAL;
 			case ONE_HUNDRED_PER_CENT: return ONE_HUNDRED_PER_CENT_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

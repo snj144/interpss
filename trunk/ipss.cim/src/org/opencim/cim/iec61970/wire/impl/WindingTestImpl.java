@@ -228,7 +228,7 @@ public class WindingTestImpl extends NamingImpl implements WindingTest {
 	 * @generated
 	 * @ordered
 	 */
-	protected TransformerWinding from_TransformerWinding = null;
+	protected TransformerWinding from_TransformerWinding;
 
 	/**
 	 * The cached value of the '{@link #getTo_TransformeWindings() <em>To Transforme Windings</em>}' reference list.
@@ -238,7 +238,7 @@ public class WindingTestImpl extends NamingImpl implements WindingTest {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList to_TransformeWindings = null;
+	protected EList to_TransformeWindings;
 
 	/**
 	 * <!-- begin-user-doc -->

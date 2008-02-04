@@ -135,7 +135,7 @@ public final class GeneratorControlMode extends AbstractEnumerator {
 			case SETPOINT: return SETPOINT_LITERAL;
 			case PULSE: return PULSE_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

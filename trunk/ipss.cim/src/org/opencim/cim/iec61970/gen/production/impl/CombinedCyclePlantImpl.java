@@ -73,7 +73,7 @@ public class CombinedCyclePlantImpl extends PowerSystemResourceImpl implements C
 	 * @generated
 	 * @ordered
 	 */
-	protected EList contain_ThermalGeneratingUnits = null;
+	protected EList contain_ThermalGeneratingUnits;
 
 	/**
 	 * <!-- begin-user-doc -->

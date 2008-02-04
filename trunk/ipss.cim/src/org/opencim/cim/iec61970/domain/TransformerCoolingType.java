@@ -187,7 +187,7 @@ public final class TransformerCoolingType extends AbstractEnumerator {
 			case TRANSFORMER: return TRANSFORMER_LITERAL;
 			case COOLING: return COOLING_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

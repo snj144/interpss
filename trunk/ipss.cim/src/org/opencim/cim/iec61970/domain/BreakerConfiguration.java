@@ -187,7 +187,7 @@ public final class BreakerConfiguration extends AbstractEnumerator {
 			case DOUBLE_BREAKER: return DOUBLE_BREAKER_LITERAL;
 			case NO_BREAKER: return NO_BREAKER_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

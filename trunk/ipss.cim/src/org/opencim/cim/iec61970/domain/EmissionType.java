@@ -239,7 +239,7 @@ public final class EmissionType extends AbstractEnumerator {
 			case CHLORINE: return CHLORINE_LITERAL;
 			case CARBON_DISULFIDE: return CARBON_DISULFIDE_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

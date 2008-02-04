@@ -89,7 +89,7 @@ public class CAESPlantImpl extends PowerSystemResourceImpl implements CAESPlant 
 	 * @generated
 	 * @ordered
 	 */
-	protected AirCompressor contain_AirCompressor = null;
+	protected AirCompressor contain_AirCompressor;
 
 	/**
 	 * The cached value of the '{@link #getContain_ThermalGeneratingUnit() <em>Contain Thermal Generating Unit</em>}' reference.
@@ -99,7 +99,7 @@ public class CAESPlantImpl extends PowerSystemResourceImpl implements CAESPlant 
 	 * @generated
 	 * @ordered
 	 */
-	protected ThermalGeneratingUnit contain_ThermalGeneratingUnit = null;
+	protected ThermalGeneratingUnit contain_ThermalGeneratingUnit;
 
 	/**
 	 * <!-- begin-user-doc -->

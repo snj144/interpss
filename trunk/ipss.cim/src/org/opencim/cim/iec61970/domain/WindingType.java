@@ -187,7 +187,7 @@ public final class WindingType extends AbstractEnumerator {
 			case TERTIARY: return TERTIARY_LITERAL;
 			case QUATERNARY: return QUATERNARY_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

@@ -63,7 +63,7 @@ public class SubstationImpl extends EquipmentContainerImpl implements Substation
 	 * @generated
 	 * @ordered
 	 */
-	protected LoadArea loadArea = null;
+	protected LoadArea loadArea;
 
 	/**
 	 * The cached value of the '{@link #getVoltageLevels() <em>Voltage Levels</em>}' containment reference list.
@@ -73,7 +73,7 @@ public class SubstationImpl extends EquipmentContainerImpl implements Substation
 	 * @generated
 	 * @ordered
 	 */
-	protected EList voltageLevels = null;
+	protected EList voltageLevels;
 
 	/**
 	 * The cached value of the '{@link #getBays() <em>Bays</em>}' containment reference list.
@@ -83,7 +83,7 @@ public class SubstationImpl extends EquipmentContainerImpl implements Substation
 	 * @generated
 	 * @ordered
 	 */
-	protected EList bays = null;
+	protected EList bays;
 
 	/**
 	 * The cached value of the '{@link #getContains_CompositeSwitches() <em>Contains Composite Switches</em>}' containment reference list.
@@ -93,7 +93,7 @@ public class SubstationImpl extends EquipmentContainerImpl implements Substation
 	 * @generated
 	 * @ordered
 	 */
-	protected EList contains_CompositeSwitches = null;
+	protected EList contains_CompositeSwitches;
 
 	/**
 	 * <!-- begin-user-doc -->

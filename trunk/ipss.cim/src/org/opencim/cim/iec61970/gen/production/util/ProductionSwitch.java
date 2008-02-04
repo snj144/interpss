@@ -375,13 +375,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Thermal Generating Unit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Thermal Generating Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Thermal Generating Unit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Thermal Generating Unit</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -390,13 +390,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Target Level Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Target Level Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Target Level Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Target Level Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -405,13 +405,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Tailbay Loss Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Tailbay Loss Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Tailbay Loss Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Tailbay Loss Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -420,13 +420,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Steam Sendout Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Steam Sendout Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Steam Sendout Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Steam Sendout Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -435,13 +435,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Startup Model</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Startup Model</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Startup Model</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Startup Model</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -450,13 +450,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Start Ramp Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Start Ramp Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Start Ramp Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Start Ramp Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -465,13 +465,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Start Main Fuel Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Start Main Fuel Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Start Main Fuel Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Start Main Fuel Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -480,13 +480,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Start Ign Fuel Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Start Ign Fuel Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Start Ign Fuel Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Start Ign Fuel Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -495,13 +495,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Shutdown Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Shutdown Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Shutdown Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Shutdown Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -510,13 +510,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Reservoir</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Reservoir</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Reservoir</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Reservoir</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -525,13 +525,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Penstock Loss Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Penstock Loss Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Penstock Loss Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Penstock Loss Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -540,13 +540,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Level Vs Volume Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Level Vs Volume Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Level Vs Volume Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Level Vs Volume Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -555,13 +555,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Inflow Forecast</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Inflow Forecast</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Inflow Forecast</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Inflow Forecast</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -570,13 +570,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Incremental Heat Rate Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Incremental Heat Rate Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Incremental Heat Rate Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Incremental Heat Rate Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -585,13 +585,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Hydro Pump Op Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Hydro Pump Op Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Hydro Pump Op Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Hydro Pump Op Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -600,13 +600,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Hydro Pump</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Hydro Pump</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Hydro Pump</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Hydro Pump</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -615,13 +615,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Hydro Power Plant</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Hydro Power Plant</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Hydro Power Plant</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Hydro Power Plant</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -630,13 +630,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Hydro Generating Unit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Hydro Generating Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Hydro Generating Unit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Hydro Generating Unit</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -645,13 +645,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Hydro Generating Efficiency Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Hydro Generating Efficiency Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Hydro Generating Efficiency Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Hydro Generating Efficiency Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -660,13 +660,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Heat Rate Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Heat Rate Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Heat Rate Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Heat Rate Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -675,13 +675,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Heat Input Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Heat Input Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Heat Input Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Heat Input Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -690,13 +690,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Gross To Net MW Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Gross To Net MW Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Gross To Net MW Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Gross To Net MW Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -705,13 +705,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Gen Unit Op Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Gen Unit Op Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Gen Unit Op Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Gen Unit Op Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -720,13 +720,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Gen Unit Op Cost Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Gen Unit Op Cost Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Gen Unit Op Cost Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Gen Unit Op Cost Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -735,13 +735,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Generating Unit</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Generating Unit</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Generating Unit</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Generating Unit</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -750,13 +750,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Fuel Allocation Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Fuel Allocation Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Fuel Allocation Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Fuel Allocation Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -765,13 +765,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Fossil Fuel</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Fossil Fuel</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Fossil Fuel</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Fossil Fuel</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -780,13 +780,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Emission Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Emission Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Emission Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Emission Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -795,13 +795,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Combined Cycle Plant</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Combined Cycle Plant</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Combined Cycle Plant</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Combined Cycle Plant</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -810,13 +810,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Cogeneration Plant</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Cogeneration Plant</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Cogeneration Plant</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Cogeneration Plant</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -825,13 +825,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>CAES Plant</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>CAES Plant</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>CAES Plant</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>CAES Plant</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -840,13 +840,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Air Compressor</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Air Compressor</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Air Compressor</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Air Compressor</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -855,13 +855,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Emission Account</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Emission Account</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Emission Account</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Emission Account</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -870,13 +870,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Account Balance</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Account Balance</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Account Balance</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Account Balance</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -885,13 +885,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -900,13 +900,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -915,13 +915,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Equipment</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Equipment</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Equipment</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Equipment</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -930,13 +930,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -945,13 +945,13 @@ public class ProductionSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

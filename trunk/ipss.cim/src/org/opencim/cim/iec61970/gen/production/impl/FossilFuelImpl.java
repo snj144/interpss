@@ -269,7 +269,7 @@ public class FossilFuelImpl extends NamingImpl implements FossilFuel {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList fuelAllocationSchedule = null;
+	protected EList fuelAllocationSchedule;
 
 	/**
 	 * The cached value of the '{@link #getThermalGeneratingUnit() <em>Thermal Generating Unit</em>}' reference.
@@ -279,7 +279,7 @@ public class FossilFuelImpl extends NamingImpl implements FossilFuel {
 	 * @generated
 	 * @ordered
 	 */
-	protected ThermalGeneratingUnit thermalGeneratingUnit = null;
+	protected ThermalGeneratingUnit thermalGeneratingUnit;
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -184,7 +184,7 @@ public final class TransformerType extends AbstractEnumerator {
 			case PHASE_CONTROL: return PHASE_CONTROL_LITERAL;
 			case VOLTAGE_AND_PHASE_CONTROL: return VOLTAGE_AND_PHASE_CONTROL_LITERAL;
 		}
-		return null;	
+		return null;
 	}
 
 	/**

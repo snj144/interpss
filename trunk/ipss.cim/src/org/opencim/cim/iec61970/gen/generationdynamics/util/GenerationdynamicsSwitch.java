@@ -216,13 +216,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Supercritical</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Supercritical</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Supercritical</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Supercritical</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -231,13 +231,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Subcritical</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Subcritical</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Subcritical</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Subcritical</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -246,13 +246,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Steam Turbine</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Steam Turbine</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Steam Turbine</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Steam Turbine</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -261,13 +261,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Steam Supply</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Steam Supply</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Steam Supply</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Steam Supply</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -276,13 +276,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>PWR Steam Supply</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>PWR Steam Supply</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>PWR Steam Supply</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>PWR Steam Supply</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -291,13 +291,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Prime Mover</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Prime Mover</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Prime Mover</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Prime Mover</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -306,13 +306,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Heat Recovery Boiler</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Heat Recovery Boiler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Heat Recovery Boiler</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Heat Recovery Boiler</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -321,13 +321,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Hydro Turbine</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Hydro Turbine</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Hydro Turbine</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Hydro Turbine</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -336,13 +336,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Fossil Steam Supply</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Fossil Steam Supply</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Fossil Steam Supply</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Fossil Steam Supply</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -351,13 +351,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Drum Boiler</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Drum Boiler</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Drum Boiler</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Drum Boiler</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -366,13 +366,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Combustion Turbine</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Combustion Turbine</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Combustion Turbine</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Combustion Turbine</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -381,13 +381,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>BWR Steam Supply</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>BWR Steam Supply</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>BWR Steam Supply</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>BWR Steam Supply</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -396,13 +396,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>CT Temp MW Curve</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>CT Temp MW Curve</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>CT Temp MW Curve</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>CT Temp MW Curve</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -411,13 +411,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Naming</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Naming</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -426,13 +426,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Power System Resource</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Power System Resource</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -441,13 +441,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Curve Schedule</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Curve Schedule</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -456,13 +456,13 @@ public class GenerationdynamicsSwitch {
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch, but this is the last case anyway.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */

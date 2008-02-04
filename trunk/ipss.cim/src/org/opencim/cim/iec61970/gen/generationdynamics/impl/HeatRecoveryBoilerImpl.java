@@ -69,7 +69,7 @@ public class HeatRecoveryBoilerImpl extends FossilSteamSupplyImpl implements Hea
 	 * @generated
 	 * @ordered
 	 */
-	protected EList combustionTurbines = null;
+	protected EList combustionTurbines;
 
 	/**
 	 * <!-- begin-user-doc -->

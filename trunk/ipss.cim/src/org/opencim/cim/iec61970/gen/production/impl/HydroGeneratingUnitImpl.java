@@ -73,7 +73,7 @@ public class HydroGeneratingUnitImpl extends GeneratingUnitImpl implements Hydro
 	 * @generated
 	 * @ordered
 	 */
-	protected EList hydroGeneratingEfficiencyCurves = null;
+	protected EList hydroGeneratingEfficiencyCurves;
 
 	/**
 	 * The cached value of the '{@link #getPenstockLossCurve() <em>Penstock Loss Curve</em>}' containment reference.
@@ -83,7 +83,7 @@ public class HydroGeneratingUnitImpl extends GeneratingUnitImpl implements Hydro
 	 * @generated
 	 * @ordered
 	 */
-	protected PenstockLossCurve penstockLossCurve = null;
+	protected PenstockLossCurve penstockLossCurve;
 
 	/**
 	 * The cached value of the '{@link #getTailbayLossCurve() <em>Tailbay Loss Curve</em>}' containment reference list.
@@ -93,7 +93,7 @@ public class HydroGeneratingUnitImpl extends GeneratingUnitImpl implements Hydro
 	 * @generated
 	 * @ordered
 	 */
-	protected EList tailbayLossCurve = null;
+	protected EList tailbayLossCurve;
 
 	/**
 	 * <!-- begin-user-doc -->
