@@ -68,7 +68,7 @@
     	<complexContent>
     		<extension base="pss:IDRecordXmlType">
     			<sequence>
-    				<element name="baseVoltage" type="double"></element>
+    				<element name="baseVoltage" type="double" minOccurs="1" maxOccurs="1"></element>
     			</sequence>
     		</extension>
     	</complexContent>
