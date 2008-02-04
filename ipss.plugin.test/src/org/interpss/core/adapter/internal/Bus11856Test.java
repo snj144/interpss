@@ -27,7 +27,7 @@ package org.interpss.core.adapter.internal;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.editor.SimuAppSpringAppCtxUtil;
+import org.interpss.PluginSpringAppContext;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -42,7 +42,7 @@ public class Bus11856Test extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
   		System.out.println("Start loading data ...");
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil.getCustomFileAdapter("ipssdat");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat", SpringAppContext.getIpssMsgHub());
   		System.out.println("End loading data ...");
 

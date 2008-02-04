@@ -24,21 +24,20 @@
 
 package org.interpss.spring;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.editor.SimuAppSpringAppContext;
-import org.interpss.editor.SimuAppSpringAppCtxUtil;
+import org.interpss.PluginSpringAppContext;
 import org.junit.Test;
 
 public class CustomFileAdapterTest extends BaseTestSetup {
 	@Test
 	public void testcustomFileAdapterList() {
-		List list = SimuAppSpringAppContext.getCustomFileAdapterList();
+		List list = PluginSpringAppContext.getCustomFileAdapterList();
 		assertTrue(list.size() >= 5);
-		assertTrue(SimuAppSpringAppCtxUtil.getCustomFileAdapter("m") != null);
-		assertTrue(SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee") != null);
+		assertTrue(PluginSpringAppContext.getCustomFileAdapter("m") != null);
+		assertTrue(PluginSpringAppContext.getCustomFileAdapter("ieee") != null);
 	}
 }
