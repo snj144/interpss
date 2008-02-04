@@ -39,8 +39,7 @@ import com.interpss.common.util.StringUtil;
 
 public class InterPSS {
 	/*
-	 * Main method for creating a JGraphpad in an application deployed either
-	 * offline, either via webstart
+	 * Main method for running InterPSS
 	 */
 	public static void main(String[] args) {
 		// parse cmd line parameters
