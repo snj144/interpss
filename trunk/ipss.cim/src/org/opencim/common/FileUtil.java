@@ -77,6 +77,13 @@ public class FileUtil {
 	  	re.getContents().add(model);
 	  	try {
 	  		re.save(null);
+/*
+	  		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+	  		re.save(outStream, Collections.EMPTY_MAP);
+	  		
+	  		ByteArrayInputStream inStream = new ByteArrayInputStream(outStream.toByteArray());
+	  		re.load(inStream, Collections.EMPTY_MAP);
+*/	  		
 	  		CIMLogger.getLogger().info("SimuModel save to " + path);
 	  		return true;
 	  	} catch (Exception e) {
