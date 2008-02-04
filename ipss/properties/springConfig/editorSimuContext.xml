@@ -19,13 +19,6 @@
 	  		<ref bean="ipssMsgHub"/></property>
 	</bean>
 
-	<bean id="runForm2AlgorithmMapper" 
-	      class="org.interpss.editor.mapper.RunForm2AlgorithmMapper"
-	      scope="singleton">	
-	  	<property name="msg">
-	  		<ref bean="ipssMsgHub"/></property>
-	</bean>
-	
 	<!--
 		Defined the AppSimuContext object
 		=================================
