@@ -24,26 +24,18 @@
 
 package org.interpss.core.adapter.ucte;
 
-import static org.junit.Assert.assertTrue;
-
 import org.interpss.BaseTestSetup;
-import org.interpss.editor.SimuAppSpringAppCtxUtil;
+import org.interpss.PluginSpringAppContext;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.datatype.UnitType;
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclf.SwingBusAdapter;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
 
 public class UCTEFormatTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil.getCustomFileAdapter("uct");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/ieee14.uct", SpringAppContext.getIpssMsgHub());
 	}
 }

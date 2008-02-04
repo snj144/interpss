@@ -27,7 +27,7 @@ package org.interpss.core.adapter.ieee;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.editor.SimuAppSpringAppCtxUtil;
+import org.interpss.PluginSpringAppContext;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -43,7 +43,7 @@ import com.interpss.simu.io.IpssFileAdapter;
 public class IEEECommonFormatTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee", SpringAppContext.getIpssMsgHub());
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -64,7 +64,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 
 	@Test
 	public void testCase2() throws Exception{
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee30.ieee", SpringAppContext.getIpssMsgHub());
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -85,7 +85,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 
 	@Test
 	public void testCase3() throws Exception{
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee57.ieee", SpringAppContext.getIpssMsgHub());
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -108,7 +108,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 
 	@Test
 	public void testCase4() throws Exception{
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee118.ieee", SpringAppContext.getIpssMsgHub());
 
 		AclfNetwork net = simuCtx.getAclfNet();
@@ -128,7 +128,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 	}
 
 	public void xtestCase5() throws Exception{
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee300.ieee", SpringAppContext.getIpssMsgHub());
 
 		AclfNetwork net = simuCtx.getAclfNet();

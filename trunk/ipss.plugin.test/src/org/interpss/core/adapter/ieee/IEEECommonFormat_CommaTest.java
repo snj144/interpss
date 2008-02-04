@@ -27,7 +27,7 @@ package org.interpss.core.adapter.ieee;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.editor.SimuAppSpringAppCtxUtil;
+import org.interpss.PluginSpringAppContext;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -43,7 +43,7 @@ import com.interpss.simu.io.IpssFileAdapter;
 public class IEEECommonFormat_CommaTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = SimuAppSpringAppCtxUtil.getCustomFileAdapter("ieee");
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14_comma.ieee", SpringAppContext.getIpssMsgHub());
 
 		AclfNetwork net = simuCtx.getAclfNet();

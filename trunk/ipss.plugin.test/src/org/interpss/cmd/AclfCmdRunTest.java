@@ -17,11 +17,20 @@ public class AclfCmdRunTest  extends BaseTestSetup {
 	}			
 
 	@Test
-	public void runIEEE14Dclfr() throws Exception {
+	public void runIEEE14Dclf() throws Exception {
 		CmdLineRunner.cmdLineRun(
 				"testData/ipssdata/Ieee14.ipssdat", 
 				InterPSS.RunDclfStr,
 				null,
+				null);
+	}			
+
+	@Test
+	public void runIEEE14XmlControlFile() throws Exception {
+		CmdLineRunner.cmdLineRun(
+				"testData/ipssdata/Ieee14.ipssdat", 
+				InterPSS.RunDclfStr,
+				"testData/xml/RunSingleAclfCase.xml",
 				null);
 	}			
 }
