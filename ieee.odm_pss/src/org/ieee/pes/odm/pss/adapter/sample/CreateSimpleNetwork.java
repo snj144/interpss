@@ -7,8 +7,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.BusRecordListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.PSSStudyCaseDocument;
-import org.ieee.cmte.psace.oss.odm.pss.schema.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public class CreateSimpleNetwork {
