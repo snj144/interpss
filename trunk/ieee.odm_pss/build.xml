@@ -1,0 +1,18 @@
+<project name="ieee.odm_pss" default="" basedir=".">
+	
+  <!-- Initializing the environment -->
+  <target name="init" depends="">
+  	<property name="lib_dir" value="lib"/>
+  	<property name="xmlbeans.classpath" value="${lib_dir}/xbean.jar"/>
+
+  	<taskdef name="xmlbean"
+  	     classname="org.apache.xmlbeans.impl.tool.XMLBean"
+  	     classpath="${xmlbeans.classpath}" />	
+  </target>
+
+   <!-- Create xml schema jar -->
+   <target name="createIEEEODMPSSSchemas" depends="init"> 
+    	<xmlbean schema="schema/ODM_StudyCase.xsd" destfile="${lib_dir}/ieee.odm_pss.schemas.jar"
+	    classpath="${xmlbeans.classpath}" />	
+   	</target>	
+</project>
