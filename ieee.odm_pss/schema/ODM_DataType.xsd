@@ -78,7 +78,7 @@
     	<complexContent>
     		<extension base="pss:IDRecordXmlType">
     			<sequence>
-    				<element name="ftomBus"
+    				<element name="fromBus"
     					type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1">
     				</element>
     				<element name="toBus" type="pss:IDRefRecordXmlType"

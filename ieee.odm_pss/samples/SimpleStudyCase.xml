@@ -18,9 +18,9 @@
   	<pss:branchList>
   		<pss:branch>
   			<pss:id>Bus-1_Bus-2</pss:id>
-  			<pss:ftomBus>
+  			<pss:fromBus>
   				<pss:idRef>Bus-1</pss:idRef>
-  			</pss:ftomBus>
+  			</pss:fromBus>
   			<pss:toBus>
   				<pss:idRef>Bus-2</pss:idRef>
   			</pss:toBus>

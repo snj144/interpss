@@ -31,11 +31,12 @@ package org.ieee.pes.odm.pss.model;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
+import org.ieee.cmte.psace.oss.odm.pss.schema.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.PSSStudyCaseDocument;
 import org.ieee.cmte.psace.oss.odm.pss.schema.StudyCaseXmlType;
 
 public class IEEEODMPSSModelParser {
-	private StudyCaseXmlType pssStudyCase = null;
+	private PSSStudyCaseDocument doc = null;
 	
 	/**
 	 * Constructor using an Xml file
@@ -44,8 +45,7 @@ public class IEEEODMPSSModelParser {
 	 * @throws Exception
 	 */
 	public IEEEODMPSSModelParser(File xmlFile) throws Exception {
-		PSSStudyCaseDocument doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
-		this.pssStudyCase = doc.getPSSStudyCase();
+		this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
 	}
 
 	/**
@@ -55,16 +55,45 @@ public class IEEEODMPSSModelParser {
 	 * @throws XmlException
 	 */
 	public IEEEODMPSSModelParser(String xmlString) throws XmlException {
-		PSSStudyCaseDocument doc = PSSStudyCaseDocument.Factory.parse(xmlString);
-		this.pssStudyCase = doc.getPSSStudyCase();
+		this.doc = PSSStudyCaseDocument.Factory.parse(xmlString);
 	}
 	
 	/**
-	 * Get the root schema element
+	 * Constructor using an Xml string
+	 * 
+	 * @param xmlString
+	 * @throws XmlException
+	 */
+	public IEEEODMPSSModelParser() {
+		this.doc = PSSStudyCaseDocument.Factory.newInstance();
+	}
+	
+	/**
+	 * Get the root schema element StudyCase
 	 * 
 	 * @return
 	 */
 	public StudyCaseXmlType getStucyCase() {
-		return this.pssStudyCase;
+		if (this.doc.getPSSStudyCase() == null)
+			this.doc.addNewPSSStudyCase();
+		return this.doc.getPSSStudyCase();
+	}
+	
+	/**
+	 * Get the baseCase element
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType getBaseCase() {
+		if (getStucyCase().getBaseCase() == null)
+			getStucyCase().addNewBaseCase();
+		return getStucyCase().getBaseCase();
+	}
+	
+	/**
+	 * convert the document object to an XML string
+	 */
+	public String toString() {
+		return this.doc.toString();
 	}
 }
