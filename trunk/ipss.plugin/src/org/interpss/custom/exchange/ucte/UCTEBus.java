@@ -31,12 +31,13 @@ public class UCTEBus extends AclfBusImpl {
 	private double 	minGenMW, maxGenMW, 
 			staticPrimaryControl, normalPoewrPrimaryControl,
 			scMVA3P, x_rRatio;
-	private String powerPlanType;
+	private String isoId, powerPlanType;
 	
-	public UCTEBus(String id, String name) {
+	public UCTEBus(String id, String name, String isoId) {
 		super();
 		setId(id);
       	setName(name);
+      	setIsoId(isoId);
 	}
 	
 	public int getUcteStatus() {
@@ -88,5 +89,13 @@ public class UCTEBus extends AclfBusImpl {
 
 	public void setPowerPlanType(String powerPlanType) {
 		this.powerPlanType = powerPlanType;
+	}
+
+	public String getIsoId() {
+		return this.isoId;
+	}
+
+	public void setIsoId(String isoId) {
+		this.isoId = isoId;
 	}	
 }

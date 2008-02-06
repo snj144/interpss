@@ -29,6 +29,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.exchange.ucte.UCTEBranch;
@@ -58,7 +60,9 @@ import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	
-	private enum RecType {Comment, Node, Line, Xfr2W, Xfr2WReg, Xfr2WDesc, ExPower, NotDefined};
+	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WFixed, ExPower, NotDefined};
+	
+	private static List<Double> baseVoltageList = new ArrayList<Double>();
 
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
@@ -128,14 +132,19 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	do {
           	str = din.readLine();   
         	if (str != null && !str.trim().equals("")) {
-        		String countryId = "";
+        		String isoId = "";
     			try {
     				if (str.startsWith("##C"))
     					recType = RecType.Comment;
+    				else if (str.startsWith("##BaseVoltage")) {
+    					// this is an extension, not defined in the UCTE spec
+    					recType = RecType.BaseVoltage;
+    					baseVoltageList.clear();
+    				}
     				else if (str.startsWith("##N"))
     					recType = RecType.Node;
-    				else if (str.startsWith("##Z") && recType == RecType.Node)
-    					countryId = "";
+    				else if (str.startsWith("##Z") && recType == RecType.Node) 
+    					isoId = str.substring(3);
     				else if (str.startsWith("##L"))
     					recType = RecType.Line;
     				else if (str.startsWith("##T"))
@@ -143,15 +152,19 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     				else if (str.startsWith("##R"))
     					recType = RecType.Xfr2WReg;
     				else if (str.startsWith("##TT"))
-    					recType = RecType.Xfr2WDesc;
+    					recType = RecType.Xfr2WFixed;
     				else {
     					// process data lines
     					if (recType == RecType.Comment) {
     			    	    if (!processCommentRecord(str, aclfNet))
     			    	    	noError = false;
     			    	}
+    					else if (recType == RecType.BaseVoltage) {
+    			    	    if (!processBaseVoltageRecord(str))
+    			    	    	noError = false;
+    			    	}
     			    	else if (recType == RecType.Node) {
-    			    	    if (!processNodeRecord(str, countryId, aclfNet, msg))
+    			    	    if (!processNodeRecord(str, isoId, aclfNet, msg))
     			    	    	noError = false;
     			    	}
     			    	else if (recType == RecType.Line) {
@@ -166,8 +179,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     			    	    if (!processXfr2WRegulationRecord(str, aclfNet, msg))
     			    	    	noError = false;
     			    	}
-    			    	else if (recType == RecType.Xfr2WDesc) {
-    			    	    if (!processXfr2SpecialDescRecord(str, aclfNet))
+    			    	else if (recType == RecType.Xfr2WFixed) {
+    			    	    if (!processXfr2FixedParamRecord(str, aclfNet))
     			    	    	noError = false;
     			    	}
     				}
@@ -189,7 +202,11 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
 
-    private static boolean processNodeRecord(String str, String countryId, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
+    private static boolean processBaseVoltageRecord(String str) {
+    	return true;
+    }
+
+    private static boolean processNodeRecord(String str, String isoId, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Node Record: " + str);
 
 		// parse the input line for node information
@@ -202,7 +219,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 				scMVA3P, x_rRatio;
 		String powerPlanType;
 		try {
-			id = StringUtil.getString(str, 1, 8).trim();
+			id = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
 			name = StringUtil.getString(str, 10, 21).trim();
 
 			baseKv = getBaseVoltageKv(id);
@@ -210,16 +227,18 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			status = StringUtil.getInt(str, 23, 23);  // 0 real, 1 equivalent
 			nodeType = StringUtil.getInt(str, 25, 25);  // 0 PQ, 1 QAng, 2 PV, 3 Swing
 			voltage = StringUtil.getDouble(str, 27, 32);  
+			if (voltage == 0.0)
+				voltage = baseKv;
 			pLoadMW = StringUtil.getDouble(str, 34, 40);  
 			qLoadMvar = StringUtil.getDouble(str, 42, 48);  
-			pGenMW = StringUtil.getDouble(str, 50, 56);  
-			qGenMvar = StringUtil.getDouble(str, 58, 64);
+			pGenMW = -StringUtil.getDouble(str, 50, 56);    // UCTE assumes out next as the positive direction
+			qGenMvar = -StringUtil.getDouble(str, 58, 64);
 			
 			// optional fields
-			minGenMW = StringUtil.getDouble(str, 66, 72); 
-			maxGenMW = StringUtil.getDouble(str, 74, 80);
-			minGenMVar = StringUtil.getDouble(str, 82, 88); 
-			maxGenMVar = StringUtil.getDouble(str, 90, 96); 
+			minGenMW = -StringUtil.getDouble(str, 66, 72); 
+			maxGenMW = -StringUtil.getDouble(str, 74, 80);
+			minGenMVar = -StringUtil.getDouble(str, 82, 88); 
+			maxGenMVar = -StringUtil.getDouble(str, 90, 96); 
 			staticPrimaryControl = StringUtil.getDouble(str, 98, 102); 
 			normalPoewrPrimaryControl = StringUtil.getDouble(str, 104, 110);
 			scMVA3P = StringUtil.getDouble(str, 112, 118);
@@ -233,7 +252,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		}
 		
 		// create an UCTE bus object and add to the network
-      	final UCTEBus bus = new UCTEBus(id, name);
+      	final UCTEBus bus = new UCTEBus(id, name, isoId);
     	bus.setBaseVoltage(baseKv, UnitType.kV);
     	aclfNet.addBus(bus);
 		
@@ -306,8 +325,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		int status, currentLimit;
 		double rOhm, xOhm, bMuS;  
 		try {
-			fromNodeId = StringUtil.getString(str, 1, 8).trim();
-			toNodeId = StringUtil.getString(str, 10, 17).trim();
+			fromNodeId = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
+			toNodeId = StringUtil.getString(str, 10, 17).trim().replace(' ', '_');
 			orderCode = StringUtil.getString(str, 19, 19);
 
 			status = StringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
@@ -335,7 +354,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	line.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
       	
     	// by default the branch is active
-    	if (status == 7 || status == 8 || status == 9) 
+    	if (status == 8 || status == 9) 
     		branch.setStatus(false);
 
     	// set extra info which is not used in InterPSS simulation engine
@@ -354,8 +373,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		double fromRatedKV, toRatedKV, normialMva,
 		       rOhm, xOhm, bMuS, gMuS;  
 		try {
-			fromNodeId = StringUtil.getString(str, 1, 8).trim();
-			toNodeId = StringUtil.getString(str, 10, 17).trim();
+			fromNodeId = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
+			toNodeId = StringUtil.getString(str, 10, 17).trim().replace(' ', '_');
 			orderCode = StringUtil.getString(str, 19, 19);
 
 			status = StringUtil.getInt(str, 21, 21);  // 0 real, i equivalent
@@ -412,8 +431,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		int nPhase, n1Phase, nAngle, n1Angle;  
 
 		try {
-			fromNodeId = StringUtil.getString(str, 1, 8).trim();
-			toNodeId = StringUtil.getString(str, 10, 17).trim();
+			fromNodeId = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
+			toNodeId = StringUtil.getString(str, 10, 17).trim().replace(' ', '_');
 			orderCode = StringUtil.getString(str, 19, 19);
 
 			dUPercentPhaes = StringUtil.getDouble(str, 21, 25);  
@@ -437,7 +456,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
-    private static boolean processXfr2SpecialDescRecord(String str, AclfAdjNetwork  aclfNet) {
+    private static boolean processXfr2FixedParamRecord(String str, AclfAdjNetwork  aclfNet) {
 		IpssLogger.getLogger().info("Xfr 2W Desc Record: " + str);
     	return true;
     }
@@ -457,10 +476,10 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	case 4 : return 120.0;
     	case 5 : return 110.0;
     	case 6 : return 70.0;
-//    	case 7 : return 27.0;
-//    	case 8 : return 330.0;
-    	case 7 : return 14.0;     // for testing purpose
-    	case 8 : return 18.0;     // for testing purposes
+    	case 7 : return 27.0;
+    	case 8 : return 330.0;
+//    	case 7 : return 14.0;     // for testing purpose
+//    	case 8 : return 18.0;     // for testing purposes
     	case 9 : return 500.0;
     	default: 
     		IpssLogger.getLogger().severe("Wrong base voltage code, " + code);
