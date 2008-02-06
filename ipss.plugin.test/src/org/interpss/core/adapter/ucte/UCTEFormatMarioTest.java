@@ -24,19 +24,37 @@
 
 package org.interpss.core.adapter.ucte;
 
+import static org.junit.Assert.assertTrue;
+
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.UnitType;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
 
-public class UCTEFormatTest extends BaseTestSetup {
+public class UCTEFormatMarioTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
-		SimuContext simuCtx = adapter.load("testData/ucte/ieee14.uct", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ucte/sample_network.uct", SpringAppContext.getIpssMsgHub());
+
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+  		//System.out.println(simuCtx.getAclfNet().net2String());
+  		
+  		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
+	  	
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("B4____1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva()).getReal()-6.33)<0.01);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.mVar, simuCtx.getAclfNet().getBaseKva()).getImaginary()+1289.43)<0.1);
 	}
 }
 
