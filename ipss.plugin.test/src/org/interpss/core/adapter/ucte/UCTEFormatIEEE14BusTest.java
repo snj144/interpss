@@ -37,6 +37,8 @@ public class UCTEFormatIEEE14BusTest extends BaseTestSetup {
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/ieee14.uct", SpringAppContext.getIpssMsgHub());
+  		System.out.println(simuCtx.getAclfNet().net2String());
+		
 	}
 }
 

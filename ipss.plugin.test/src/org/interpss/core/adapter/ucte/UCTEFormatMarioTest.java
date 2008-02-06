@@ -43,7 +43,7 @@ public class UCTEFormatMarioTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
-		SimuContext simuCtx = adapter.load("testData/ucte/sample_network.uct", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1.uct", SpringAppContext.getIpssMsgHub());
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
