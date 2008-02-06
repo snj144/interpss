@@ -36,6 +36,7 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.exchange.ucte.UCTEBranch;
 import org.interpss.custom.exchange.ucte.UCTEBus;
 
+import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidOperationException;
@@ -62,7 +63,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WFixed, ExPower, NotDefined};
 	
-	private static List<Double> baseVoltageList = new ArrayList<Double>();
+	private static List<Double> customBaseVoltageList = new ArrayList<Double>();
+	private static boolean customBaseVoltage = false;
 
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
@@ -121,11 +123,12 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	final AclfAdjNetwork  aclfNet = CoreObjectFactory.createAclfAdjNetwork();
     	
     	// no circuit number or identifier defined, so no parallel branch allowed
-    	aclfNet.setAllowParallelBranch(false);
+    	aclfNet.setAllowParallelBranch(true);
     	
     	// no base kva definition in UCTE format, so use 100 MVA
     	aclfNet.setBaseKva(100000.0);   
 
+    	customBaseVoltage = false;
     	boolean noError = true;
       	String str;   
       	RecType recType = RecType.NotDefined;
@@ -139,7 +142,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     				else if (str.startsWith("##BaseVoltage")) {
     					// this is an extension, not defined in the UCTE spec
     					recType = RecType.BaseVoltage;
-    					baseVoltageList.clear();
+    			    	customBaseVoltage = true;
+    					customBaseVoltageList.clear();
     				}
     				else if (str.startsWith("##N"))
     					recType = RecType.Node;
@@ -203,6 +207,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     }
 
     private static boolean processBaseVoltageRecord(String str) {
+    	customBaseVoltageList.add(new Double(str));
     	return true;
     }
 
@@ -222,13 +227,25 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			id = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
 			name = StringUtil.getString(str, 10, 21).trim();
 
-			baseKv = getBaseVoltageKv(id);
+			if (!customBaseVoltage)
+				baseKv = getBaseVoltageKv(id);
 
 			status = StringUtil.getInt(str, 23, 23);  // 0 real, 1 equivalent
 			nodeType = StringUtil.getInt(str, 25, 25);  // 0 PQ, 1 QAng, 2 PV, 3 Swing
 			voltage = StringUtil.getDouble(str, 27, 32);  
-			if (voltage == 0.0)
-				voltage = baseKv;
+			if (customBaseVoltage) {
+				baseKv = findCustomBaseVoltage(voltage);
+				if (baseKv == 0.0) {
+					IpssLogger.getLogger().severe("Custom base voltage lookup, cannot find proper value");
+					msg.sendErrorMsg("Custom base voltage lookup, cannot find proper value");
+					return false;
+				}
+			}
+			else { 
+				if (voltage == 0.0)
+					voltage = baseKv;
+			}
+			
 			pLoadMW = StringUtil.getDouble(str, 34, 40);  
 			qLoadMvar = StringUtil.getDouble(str, 42, 48);  
 			pGenMW = -StringUtil.getDouble(str, 50, 56);    // UCTE assumes out next as the positive direction
@@ -343,7 +360,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		}
     	
     	// create an UCTEBranch object
-      	final UCTEBranch branch = new UCTEBranch(elemName);
+      	final UCTEBranch branch = new UCTEBranch(elemName, orderCode);
       	// add the object into the network container
       	aclfNet.addBranch(branch, fromNodeId, toNodeId);    
 		
@@ -358,7 +375,6 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     		branch.setStatus(false);
 
     	// set extra info which is not used in InterPSS simulation engine
-    	branch.setOrderCode(orderCode);
     	branch.setCurrentLimit(currentLimit);
     	
     	return true;
@@ -395,7 +411,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		}
 		
     	// create an UCTEBranch object and add to the network object
-      	final UCTEBranch branch = new UCTEBranch(elemName);
+      	final UCTEBranch branch = new UCTEBranch(elemName, orderCode);
       	aclfNet.addBranch(branch, fromNodeId, toNodeId);    
       	
     	// set xfr info into InterPSS simulation engine 
@@ -414,7 +430,6 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     		branch.setStatus(false);
     	
     	// set extra info which is not used in InterPSS simulation engine
-    	branch.setOrderCode(orderCode);
     	branch.setCurrentLimit(currentLimit);
     	branch.setFromRatedKV(fromRatedKV);
    		branch.setToRatedKV(toRatedKV);
@@ -478,12 +493,23 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	case 6 : return 70.0;
     	case 7 : return 27.0;
     	case 8 : return 330.0;
-//    	case 7 : return 14.0;     // for testing purpose
-//    	case 8 : return 18.0;     // for testing purposes
     	case 9 : return 500.0;
     	default: 
     		IpssLogger.getLogger().severe("Wrong base voltage code, " + code);
     		return 0.0;
     	}
     }
+    
+	private static double findCustomBaseVoltage(double voltage) {
+		double baseKv = 0.0;
+		double e = Constants.LargeDouble;
+		for (Double bv : customBaseVoltageList) {
+			if (Math.abs(voltage - bv.doubleValue()) < e) {
+				baseKv = bv.doubleValue();
+				e = Math.abs(voltage - bv.doubleValue());
+			}
+		}
+		return baseKv;
+	}
+    
 }

@@ -26,21 +26,13 @@ package org.interpss.custom.exchange.ucte;
 import com.interpss.core.aclf.impl.AclfBranchImpl;
 
 public class UCTEBranch extends AclfBranchImpl {
-	private String orderCode;
 	private int currentLimit;
 	private double fromRatedKV, toRatedKV, normialMva;
 
-	public UCTEBranch(String name) {
+	public UCTEBranch(String name, String orderCode) {
 		super();
       	setName(name);
-	}
-
-	public String getOrderCode() {
-		return this.orderCode;
-	}
-
-	public void setOrderCode(String orderCode) {
-		this.orderCode = orderCode;
+      	this.setCircuitNumber(orderCode);
 	}
 
 	public int getCurrentLimit() {
