@@ -25,7 +25,11 @@
 package org.interpss.display;
 
 import java.awt.Frame;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -87,7 +91,18 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	
     public void showDialog() {
         if (data instanceof File) {
-        	textArea.setText("display file contents");
+    		try {
+    			final InputStream stream = new FileInputStream((File)data);
+        		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+          		String str;
+              	do {
+              		str = din.readLine();
+              		if (str != null)
+              			this.textArea.append(str);
+              	} while (str != null);
+    		} catch (Exception e) {
+            	textArea.setText("Error: " + e.toString());
+    		}
         }
         else if (data instanceof DistNetwork) {
         	DistNetwork distNet = (DistNetwork)data;
