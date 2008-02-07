@@ -25,12 +25,17 @@
 package org.interpss.custom.exchange;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 import org.interpss.custom.exchange.impl.IpssInternalFormat_in;
+import org.interpss.custom.exchange.impl.IpssInternalFormat_out;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -87,7 +92,15 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
-		throw new InvalidOperationException("FileAdapter_IpssInternalFormat.save not implemented");
-	}
+	public boolean save(final String filepath, final SimuContext simuCtx, final IPSSMsgHub msg) throws Exception{
+        final File file = new File(filepath);
+        final OutputStream stream = new FileOutputStream(file);
+        final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(stream));
+
+        boolean r = IpssInternalFormat_out.save(out, simuCtx, msg);
+        
+        out.flush();
+        out.close();
+        return r;
+   }
 }
