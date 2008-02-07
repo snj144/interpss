@@ -77,5 +77,16 @@ public class IEEE14Test extends BaseTestSetup {
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32386)<0.0001);
   		assertTrue( Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.16889)<0.0001);
 	}
+	
+	@Test
+	public void testCase2() throws Exception {
+  		/*
+  		 * Load the loadflow datafile into the application
+  		 */
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
+		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat", SpringAppContext.getIpssMsgHub());
+		
+		assertTrue(adapter.save("ieee14.ipssout", simuCtx, SpringAppContext.getIpssMsgHub()));
+	}
 }
 
