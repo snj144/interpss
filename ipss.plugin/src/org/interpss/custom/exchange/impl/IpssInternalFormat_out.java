@@ -30,6 +30,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.CapacitorBusAdapter;
 import com.interpss.core.aclf.GenBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.PVBusLimit;
@@ -52,14 +53,14 @@ public class IpssInternalFormat_out {
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus) b;
 			out.write(String.format("%8s %10.0f %6.3f %5.1f %7.2f %7.2f %7.2f %7.2f %n", 
-					bus.getId(), 
-					bus.getBaseVoltage(), 
-					bus.getVoltageMag(), 
-					bus.getVoltageAng(UnitType.Deg), 
-					bus.getGenP()*baseMva,
-					bus.getGenQ()*baseMva,
-					bus.getLoadP()*baseMva,
-					bus.getLoadQ()*baseMva));
+					bus.getId(),               // bus id
+					bus.getBaseVoltage(),      // bus base voltage
+					bus.getVoltageMag(),       // bus voltage in pu
+					bus.getVoltageAng(UnitType.Deg), // bus voltage angle in deg
+					bus.getGenP()*baseMva,         // bus gen P in MW
+					bus.getGenQ()*baseMva,         // bus gen Q in MVar
+					bus.getLoadP()*baseMva,        // bus load P in MW
+					bus.getLoadQ()*baseMva));      // bus load Q in Mvar
 		}
         out.write(String.format("%s%n", "end"));
 
@@ -67,31 +68,39 @@ public class IpssInternalFormat_out {
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus) b;
 			if (bus.isSwing())
-				out.write(String.format("%s%n", bus.getId()));
+				out.write(String.format("%s%n", bus.getId()));  // Swing bus id
 		}
         out.write(String.format("%s%n", "end"));
-/*
+
         out.write(String.format("%s%n", "PVBusInfo"));
 		for (PVBusLimit pv : net.getPvBusLimitList()) {
-			GenBusAdapter genBus = (GenBusAdapter) pv.getAclfBus().adapt(
-					GenBusAdapter.class);
-			out.write(String.format("%s%n", "2       1.045     -40      50"));
+			out.write(String.format("%8s %7.4f %7.2f %7.2f %n", 
+					pv.getAclfBus().getId(),
+					pv.getVSpecified(),
+					pv.getQLimit().getMin()*baseMva,
+					pv.getQLimit().getMax()*baseMva));
 		}
         out.write(String.format("%s%n", "end"));
 
         out.write(String.format("%s%n", "CapacitorBusInfo"));
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus) b;
-			if (bus.isCapacitor())
-				out.write(String.format("%8s %s %n", bus.getId(), ".19"));
+			if (bus.isCapacitor()) {
+				CapacitorBusAdapter cap = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
+				out.write(String.format("%8s %7.2f %n", bus.getId(), cap.getQ())); // capacitor Q in pu
+			}
 		}
         out.write(String.format("%s%n", "end"));
 
         out.write(String.format("%s%n", "BranchInfo"));
 		for (Branch b : net.getBranchList()) {
 			AclfBranch branch = (AclfBranch) b;
-			out.write(String.format("%8s %8s %s%n", branch.getFromBus().getId(), branch.getToBus().getId(),
-					" .01938       .05917      .0264"));
+			out.write(String.format("%8s %8s %10.5f %10.5f %10.5f%n", 
+					branch.getFromBus().getId(), 
+					branch.getToBus().getId(),
+					branch.getZ().getReal(),
+					branch.getZ().getImaginary(),
+					branch.getHShuntY().getImaginary()));
 		}
         out.write(String.format("%s%n", "end"));
 
@@ -99,13 +108,16 @@ public class IpssInternalFormat_out {
 		for (Branch b : net.getBranchList()) {
 			AclfBranch branch = (AclfBranch) b;
 			if (branch.isXfr())
-				out.write(String.format("%8s %8s %s% n", branch.getFromBus().getId(), branch.getToBus().getId(),
-						"1       .978"));
+				out.write(String.format("%8s %8s %3s   %7.4f %n", 
+						branch.getFromBus().getId(), 
+						branch.getToBus().getId(),
+						branch.getCircuitNumber(),
+						branch.getFromTurnRatio()));
 		}
         out.write(String.format("%s%n", "end"));
 
         out.write(String.format("%s%n", "EndOfFile"));
-*/         
+         
         return true;
     }
 }
