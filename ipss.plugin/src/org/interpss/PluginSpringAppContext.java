@@ -56,8 +56,8 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 *  
 	 * @return the CustomFileAdapterList object
 	 */
-	public static List getCustomFileAdapterList() {
-		return (List) SpringAppCtx.getBean(Constants.SID_CustomFileAdapterList);
+	public static List<IpssFileAdapter> getCustomFileAdapterList() {
+		return (List<IpssFileAdapter>) SpringAppCtx.getBean(Constants.SID_CustomFileAdapterList);
 	}
 
 	/**
@@ -75,7 +75,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 * @return the CustomFileAdapter object
 	 */
 	public static IpssFileAdapter getCustomFileAdapter(String ext) {
-		List adapterList = getCustomFileAdapterList();
+		List<IpssFileAdapter> adapterList = getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			if (ext.equals(adapter.getExtension()))
@@ -90,8 +90,8 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 * @return the CustomFileAdapter name list
 	 */
 	public static Object[] getCustomFileAdapterNameList() {
-		List nameList = new ArrayList();
-		List adapterList = getCustomFileAdapterList();
+		List<String> nameList = new ArrayList<String>();
+		List<IpssFileAdapter> adapterList = getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			nameList.add(adapter.getName());
@@ -105,7 +105,7 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 * @return the CustomFileAdapter name list
 	 */
 	public static IpssFileAdapter getCustomFileAdapterByName(String name) {
-		List adapterList = getCustomFileAdapterList();
+		List<IpssFileAdapter> adapterList = getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			if (name.equals(adapter.getName()))
