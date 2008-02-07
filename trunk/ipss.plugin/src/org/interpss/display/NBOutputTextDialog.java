@@ -74,13 +74,22 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         this(parent.getFrame(), aMsg);
     }
     
-    public void display(Object aData) {
+    @Override
+	public void display(String filepath) {
+    	this.data = new File(filepath);
+        showDialog();
+	}
+
+	public void display(Object aData) {
     	this.data = aData;
         showDialog();
     }
 	
     public void showDialog() {
-        if (data instanceof DistNetwork) {
+        if (data instanceof File) {
+        	textArea.setText("display file contents");
+        }
+        else if (data instanceof DistNetwork) {
         	DistNetwork distNet = (DistNetwork)data;
         	textArea.setText(DistOutFunc.lfSummary(distNet, msg));
         }
