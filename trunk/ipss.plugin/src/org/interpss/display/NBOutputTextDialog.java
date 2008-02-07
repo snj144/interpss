@@ -98,7 +98,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
               	do {
               		str = din.readLine();
               		if (str != null)
-              			this.textArea.append(str);
+              			this.textArea.append(str + "\n");
               	} while (str != null);
     		} catch (Exception e) {
             	textArea.setText("Error: " + e.toString());
