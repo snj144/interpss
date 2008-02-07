@@ -27,14 +27,41 @@ package org.interpss.editor.ui;
 import com.interpss.common.msg.IpssMsgListener;
 
 public interface IOutputTextDialog extends IpssMsgListener {
-    
+    /**
+     * Set the display dialog window title
+     * 
+     * @param title
+     */
 	void setTitle(String title);
 	
+	/**
+	 * display the data object
+	 * 
+	 * @param data
+	 */
     void display(Object data);
 	
+    /**
+     * Load the file and display to the textarea
+     * 
+     * @param filepath
+     */
+    void display(String filepath);
+    
+    /**
+     * Append a string text to the dispaly area
+     * 
+     * @param text
+     */
 	void appendText(String text);
     
+	/**
+	 * Show the display dialog box
+	 */
     void showDialog();
 
+    /**
+     * clear the display area
+     */
     void clearTextArea();
 }
