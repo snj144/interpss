@@ -1,5 +1,5 @@
  /*
-  * @(#)IpssInternalFormat_in.java   
+  * @(#)IpssInternalFormat_out.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -31,7 +31,6 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.CapacitorBusAdapter;
-import com.interpss.core.aclf.GenBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.net.Branch;
@@ -39,6 +38,16 @@ import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 
 public class IpssInternalFormat_out {
+	/**
+	 * Output InterPSS simulation object model info to a text file in InterPSS internal data format. 
+	 * Please note: this data format is a sample for testing purpose. It is not used for in InterPSS simulation engine 
+	 * 
+	 * @param out
+	 * @param simuCtx
+	 * @param msg
+	 * @return
+	 * @throws Exception
+	 */
     public static boolean save(final BufferedWriter out, final SimuContext simuCtx, final IPSSMsgHub msg) throws Exception {
     	AclfAdjNetwork net = simuCtx.getAclfAdjNet();
     	
@@ -47,7 +56,7 @@ public class IpssInternalFormat_out {
         out.write(String.format("%3.2f%n", net.getBaseKva()));
         out.write("end\n");
         
-        // out put bus info
+        // output bus info
         double baseMva = net.getBaseKva() * 0.001;
         out.write(String.format("%s%n", "BusInfo"));
 		for (Bus b : net.getBusList()) {
@@ -64,6 +73,7 @@ public class IpssInternalFormat_out {
 		}
         out.write(String.format("%s%n", "end"));
 
+        // out put swing bus info
         out.write(String.format("%s%n", "SwingBusInfo"));
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus) b;
@@ -72,6 +82,7 @@ public class IpssInternalFormat_out {
 		}
         out.write(String.format("%s%n", "end"));
 
+        // output PV Limit control bus info
         out.write(String.format("%s%n", "PVBusInfo"));
 		for (PVBusLimit pv : net.getPvBusLimitList()) {
 			out.write(String.format("%8s %7.4f %7.2f %7.2f %n", 
@@ -82,6 +93,7 @@ public class IpssInternalFormat_out {
 		}
         out.write(String.format("%s%n", "end"));
 
+        // output capacitor bus info 
         out.write(String.format("%s%n", "CapacitorBusInfo"));
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus) b;
@@ -92,6 +104,7 @@ public class IpssInternalFormat_out {
 		}
         out.write(String.format("%s%n", "end"));
 
+        // output branch info
         out.write(String.format("%s%n", "BranchInfo"));
 		for (Branch b : net.getBranchList()) {
 			AclfBranch branch = (AclfBranch) b;
@@ -104,6 +117,7 @@ public class IpssInternalFormat_out {
 		}
         out.write(String.format("%s%n", "end"));
 
+        // output Xfr branch info
         out.write(String.format("%s%n", "XformerInfo"));
 		for (Branch b : net.getBranchList()) {
 			AclfBranch branch = (AclfBranch) b;
