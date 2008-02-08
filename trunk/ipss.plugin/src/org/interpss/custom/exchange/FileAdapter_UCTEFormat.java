@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.exchange.ucte.UCTEAclfNetwork;
+import org.interpss.custom.exchange.ucte.UCTENetwork;
 import org.interpss.custom.exchange.ucte.UCTEBranch;
 import org.interpss.custom.exchange.ucte.UCTEBus;
 
@@ -121,7 +121,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	}
 
     private static AclfAdjNetwork loadFile(final java.io.BufferedReader din, String filename, final IPSSMsgHub msg) throws Exception {
-    	final UCTEAclfNetwork  aclfNet = new UCTEAclfNetwork(filename, "UCTE Network createb by InterPSS");
+    	final UCTENetwork  aclfNet = new UCTENetwork(filename, "UCTE Network createb by InterPSS");
     	
     	// no circuit number or identifier defined, so no parallel branch allowed
     	aclfNet.setAllowParallelBranch(true);
@@ -485,7 +485,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
-    private static boolean processExchangePowerRecord(String str, UCTEAclfNetwork aclfNet, IPSSMsgHub msg) {
+    private static boolean processExchangePowerRecord(String str, UCTENetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Exchange Power Record: " + str);
 
 		String fromIsoId, toIsoId, comment;
@@ -502,7 +502,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			return false;
 		}
 
-		aclfNet.addExchangePower(new UCTEAclfNetwork.ExchangePower(
+		aclfNet.addExchangePower(new UCTENetwork.ExchangePower(
 						fromIsoId, toIsoId, exPower, comment));
 		return true;
     }
