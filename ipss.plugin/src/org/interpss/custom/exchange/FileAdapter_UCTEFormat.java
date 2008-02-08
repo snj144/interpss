@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.custom.exchange.ucte.UCTEAclfNetwork;
 import org.interpss.custom.exchange.ucte.UCTEBranch;
 import org.interpss.custom.exchange.ucte.UCTEBus;
 
@@ -80,7 +81,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		
-		final AclfAdjNetwork adjNet = loadFile(din, msg);
+		final AclfAdjNetwork adjNet = loadFile(din, StringUtil.getFileName(filepath), msg);
   		// System.out.println(adjNet.net2String());
 	  		
   		if (adjNet != null) {
@@ -119,8 +120,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		throw new InvalidOperationException("FileAdapter_IeeeCommonFormat.save not implemented");
 	}
 
-    private static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
-    	final AclfAdjNetwork  aclfNet = CoreObjectFactory.createAclfAdjNetwork();
+    private static AclfAdjNetwork loadFile(final java.io.BufferedReader din, String filename, final IPSSMsgHub msg) throws Exception {
+    	final UCTEAclfNetwork  aclfNet = new UCTEAclfNetwork(filename, "UCTE Network createb by InterPSS");
     	
     	// no circuit number or identifier defined, so no parallel branch allowed
     	aclfNet.setAllowParallelBranch(true);
@@ -157,6 +158,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     					recType = RecType.Xfr2WReg;
     				else if (str.startsWith("##TT"))
     					recType = RecType.Xfr2WFixed;
+    				else if (str.startsWith("##E"))
+    					recType = RecType.ExPower;
     				else {
     					// process data lines
     					if (recType == RecType.Comment) {
@@ -185,6 +188,10 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     			    	}
     			    	else if (recType == RecType.Xfr2WFixed) {
     			    	    if (!processXfr2FixedParamRecord(str, aclfNet))
+    			    	    	noError = false;
+    			    	}
+    			    	else if (recType == RecType.ExPower) {
+    			    	    if (!processExchangePowerRecord(str, aclfNet, msg))
     			    	    	noError = false;
     			    	}
     				}
@@ -286,7 +293,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 					aclfNet.getBaseKva());
 			break;
 		case 1: // Q angle bus
-			break;
+			IpssLogger.getLogger().severe("Node type = 1, not support currently. Please contact support@inteross.org");
+			msg.sendErrorMsg("Node type = 1, not support currently. Please contact support@inteross.org");
+			return false;
 		case 2: // PV bus
 			bus.setGenCode(AclfGenCode.GEN_PV);
 			bus.setLoadCode(AclfLoadCode.CONST_P);
@@ -476,6 +485,28 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
+    private static boolean processExchangePowerRecord(String str, UCTEAclfNetwork aclfNet, IPSSMsgHub msg) {
+		IpssLogger.getLogger().info("Exchange Power Record: " + str);
+
+		String fromIsoId, toIsoId, comment;
+		double exPower;  
+
+		try {
+			fromIsoId = StringUtil.getString(str, 1, 2);
+			toIsoId = StringUtil.getString(str, 4, 5);
+			exPower = StringUtil.getDouble(str, 7, 13);  
+			comment = StringUtil.getString(str, 15, 26);
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
+			return false;
+		}
+
+		aclfNet.addExchangePower(new UCTEAclfNetwork.ExchangePower(
+						fromIsoId, toIsoId, exPower, comment));
+		return true;
+    }
+
     private static double getBaseVoltageKv(String nodeId) throws Exception {
         // According to the spec the node base voltage code is stored at the 7th char
     	int code = StringUtil.getInt(nodeId, 7, 7);
