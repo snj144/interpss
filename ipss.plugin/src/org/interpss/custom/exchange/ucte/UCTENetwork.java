@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.interpss.core.aclfadj.impl.AclfAdjNetworkImpl;
 
-public class UCTEAclfNetwork extends AclfAdjNetworkImpl {
+public class UCTENetwork extends AclfAdjNetworkImpl {
 	public static class ExchangePower {
 		String fromIsoId, toIsoId;
 		double exPower;
@@ -21,7 +21,7 @@ public class UCTEAclfNetwork extends AclfAdjNetworkImpl {
 	
 	private List<ExchangePower> exPowerList = new ArrayList<ExchangePower>(); 
 
-	public UCTEAclfNetwork(String id, String name) {
+	public UCTENetwork(String id, String name) {
 		super.setId(id);
 		super.setName(name);
 	}
