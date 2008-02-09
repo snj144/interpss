@@ -85,8 +85,9 @@ public class IEEE14Test extends BaseTestSetup {
   		 */
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat", SpringAppContext.getIpssMsgHub());
-		
 		assertTrue(adapter.save("ieee14.ipssout", simuCtx, SpringAppContext.getIpssMsgHub()));
+
+		simuCtx = adapter.load("ieee14.ipssout", SpringAppContext.getIpssMsgHub());
 	}
 }
 
