@@ -1,5 +1,7 @@
 package org.interpss;
 
+import org.interpss.cmd.AclfCmdRunTest;
+import org.interpss.cmd.RunExecTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
@@ -72,6 +74,10 @@ import org.junit.runners.Suite.SuiteClasses;
 	AclfSchemaIeee14BusCaseTest.class,
 	AcscSchemaSampleCaseTest.class,
 	DStabSchemaIEEE11ModelTest.class,
+	
+	// cmd line 
+	AclfCmdRunTest.class,
+	RunExecTest.class,
 })
 public class PluginTestSuite {
 }
