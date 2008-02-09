@@ -30,6 +30,7 @@ import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
@@ -54,89 +55,90 @@ public class IpssInternalFormat_in {
     	
     	// process loadflow data line-by-line
       	String str = din.readLine();
-      	if (!str.equals("AclfNetInfo")) {
+      	if (!str.startsWith("AclfNetInfo")) {
 			throw new Exception("The file line in input file is not AclfNetInfo, <" + str + ">");
 		}  
 
       	do {
           	str = din.readLine();   //kvaBase
-          	if (str.compareTo("EndOfFile") != 0) {
+          	if (!str.startsWith("EndOfFile")) {
             	str = din.readLine();
-            	if (str.compareTo("BusInfo") == 0) {
+            	if (str ==  null || str.equals(""))
+            		; // do nothing
+            	else if (str.startsWith("BusInfo")) {
               		do {
                 		str = din.readLine();
-                		if (str.compareTo("end") != 0) {
+                		if (!str.startsWith("end")) {
 							loadBusInfo(str, adjNet);
                 		//msgHub.sendInfoMsg("Bus Loaded: " + String.valueOf(++cnt));
 						}
-              		} while (str.compareTo("end") != 0);
+              		} while (!str.startsWith("end"));
             	}
-
-            	if (str.compareTo("BusInfoNoBaseV") == 0) {
+            	else if (str.startsWith("BusInfoNoBaseV")) {
               		do {
                 		str = din.readLine();
-                		if (str.compareTo("end") != 0) {
+                		if (!str.startsWith("end")) {
 							loadBusInfoNoBaseV(str, adjNet);
                 		//msgHub.sendInfoMsg("Bus Loaded: " + String.valueOf(++cnt));
 						}
-              		} while (str.compareTo("end") != 0);
+              		} while (!str.startsWith("end"));
             	}
-            	else if (str.compareTo("SwingBusInfo") == 0) {
+            	else if (str.startsWith("SwingBusInfo")) {
               		do {
                 		str = din.readLine();
-                		if (str.compareTo("end") != 0) {
+                		if (!str.startsWith("end")) {
 							loadSwingBusInfo(str, adjNet);
                 		//msgHub.sendInfoMsg("SwingBus Loaded: " + String.valueOf(++cnt));
 						}
-              		} while (str.compareTo("end") != 0);
+              		} while (!str.startsWith("end"));
             	}
-            	else if (str.compareTo("PVBusInfo") == 0) {
+            	else if (str.startsWith("PVBusInfo")) {
               		do {
                 		str = din.readLine();
-                		if (str.compareTo("end") != 0) {
+                		if (!str.startsWith("end")) {
 							loadPVBusInfo(str, adjNet);
                 		//msgHub.sendInfoMsg("PVBus Loaded: " + String.valueOf(++cnt));
 						}
-              		} while (str.compareTo("end") != 0);
+              		} while (!str.startsWith("end"));
             	}
-            	else if (str.compareTo("PQBusInfo") == 0) {
+            	else if (str.startsWith("PQBusInfo")) {
               		do {
                 		str = din.readLine();
-                		if (str.compareTo("end") != 0) {
+                		if (!str.startsWith("end")) {
 							loadPQBusInfo(str, adjNet);
                 		//msgHub.sendInfoMsg("PQBus Loaded: " + String.valueOf(++cnt));
 						}
-              		} while (str.compareTo("end") != 0);
+              		} while (!str.startsWith("end"));
             	}
-            	else if (str.compareTo("CapacitorBusInfo") == 0) {
+            	else if (str.startsWith("CapacitorBusInfo")) {
               		do {
                 		str = din.readLine();
-                		if (str.compareTo("end") != 0) {
+                		if (!str.startsWith("end")) {
 							loadCapacitorBusInfo(str, adjNet);
                 		//msgHub.sendInfoMsg("Capacitor Loaded: " + String.valueOf(++cnt));
 						}
-              		} while (str.compareTo("end") != 0);
+              		} while (!str.startsWith("end"));
             	}
-            	else if (str.compareTo("BranchInfo")  == 0){
+            	else if (str.startsWith("BranchInfo")){
               		do {
                 		str = din.readLine();
-                		if (str.compareTo("end") != 0) {
+                		if (!str.startsWith("end")) {
 							loadBranchInfo(str, adjNet, msg);
                 		//msgHub.sendInfoMsg("Branch Loaded: " + String.valueOf(++cnt));
 						}
-              		} while (str.compareTo("end") != 0);
+              		} while (!str.startsWith("end"));
             	}
-            	else if (str.compareTo("XformerInfo")  == 0){
+            	else if (str.startsWith("XformerInfo")){
               		do {
                 		str = din.readLine();
-                		if (str.compareTo("end") != 0) {
+                		if (!str.startsWith("end")) {
 							loadXformerInfo(str, adjNet);
                 		//msgHub.sendInfoMsg("Xfr Loaded: " + String.valueOf(++cnt));
 						}
-              		} while (str.compareTo("end") != 0);
+              		} while (!str.startsWith("end"));
             	}
            	  }
-        	} while (str.compareTo("EndOfFile") != 0);
+        	} while (str != null && !str.startsWith("EndOfFile"));
       	return adjNet;
     }
 
@@ -148,7 +150,7 @@ public class IpssInternalFormat_in {
       	double vBase=0.0, vAct=0.0, ang=0.0, pg=0.0,
              qg=0.0, pl=0.0, ql=0.0;
       	while (st.hasMoreTokens()) {
-        	id    = st.nextToken();
+        	id    = st.nextToken().trim();
         	vBase = new Double(st.nextToken()).doubleValue();
         	vAct  = new Double(st.nextToken()).doubleValue();
         	ang   = new Double(st.nextToken()).doubleValue();
@@ -195,7 +197,7 @@ public class IpssInternalFormat_in {
       	double vBase=0.0, vAct=0.0, ang=0.0, pg=0.0,
              qg=0.0, pl=0.0, ql=0.0;
       	while (st.hasMoreTokens()) {
-        	id    = st.nextToken();
+        	id    = st.nextToken().trim();
         	vBase = 10000; //new Double(st.nextToken()).doubleValue();
         	vAct  = new Double(st.nextToken()).doubleValue();
         	ang   = new Double(st.nextToken()).doubleValue();
@@ -241,13 +243,13 @@ public class IpssInternalFormat_in {
          		new java.util.StringTokenizer(str);
       	String id = null;
       	while (st.hasMoreTokens()) {
-        	id    = st.nextToken();
+        	id    = st.nextToken().trim();
         	if (st.hasMoreTokens()) {
 				throw new InvalidInputException("AclfDataFile.loadSwingBusInfo_1, SwingBusInfo str wrong");
 			}
       	}
 
-      	final AclfBus bus = (AclfBus)net.getBus(id);
+      	AclfBus bus = (AclfBus)net.getBus(id);
       	if (bus != null ) {
         	bus.setGenCode(AclfGenCode.SWING);
 			final SwingBusAdapter swing = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
@@ -264,7 +266,7 @@ public class IpssInternalFormat_in {
       	String id = null;
     	double v=0.0, qmax=0.0, qmin=0.0;
       	while (st.hasMoreTokens()) {
-        	id   = st.nextToken();
+        	id   = st.nextToken().trim();
         	v    = new Double(st.nextToken()).doubleValue();
         	qmin = new Double(st.nextToken()).doubleValue();
         	qmax = new Double(st.nextToken()).doubleValue();
@@ -273,7 +275,7 @@ public class IpssInternalFormat_in {
 			}
       	}
 
-      	final AclfBus bus = adjNet.getAclfBus(id);
+      	AclfBus bus = adjNet.getAclfBus(id);
     	if (bus != null ) {
         	bus.setGenCode(AclfGenCode.GEN_PV);
       		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, id);
@@ -283,6 +285,7 @@ public class IpssInternalFormat_in {
 			final PVBusAdapter pv = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
         	pv.setVoltMag(pvLimit.getVSpecified(UnitType.PU), UnitType.PU);
       	} else {
+      		IpssLogger.getLogger().info(str);
 			throw new InvalidInputException("AclfDataFile.loadPVBusInfo_2, PV bus:" + id + " is not in the system" );
 		}
     }
@@ -297,14 +300,14 @@ public class IpssInternalFormat_in {
       	String id = null;
 		double b=0.0;
       	while (st.hasMoreTokens()) {
-        	id   = st.nextToken();
+        	id   = st.nextToken().trim();
         	b    = new Double(st.nextToken()).doubleValue();
         	if (st.hasMoreTokens()) {
 				throw new InvalidInputException("AclfDataFile.loadCapacitorBusInfo_1, CapacitorBusInfo str wrong");
 			}
       	}
 
-      	final AclfBus bus = adjNet.getAclfBus(id);
+      	AclfBus bus = adjNet.getAclfBus(id);
     	if (bus != null) {
        	    bus.setGenCode(AclfGenCode.CAPACITOR);
 			final CapacitorBusAdapter cap = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
@@ -322,8 +325,8 @@ public class IpssInternalFormat_in {
       	String fid=null, tid=null;
     	 		double r=0.0, x=0.0, b=0.0;
       	while (st.hasMoreTokens()) {
-        	fid = st.nextToken();
-        	tid = st.nextToken();
+        	fid = st.nextToken().trim();
+        	tid = st.nextToken().trim();
         	r   = new Double(st.nextToken()).doubleValue();
         	x   = new Double(st.nextToken()).doubleValue();
         	b   = new Double(st.nextToken()).doubleValue();
@@ -332,9 +335,9 @@ public class IpssInternalFormat_in {
 			}
       	}
 
-      	final AclfBranch bra = CoreObjectFactory.createAclfBranch();
+      	AclfBranch bra = CoreObjectFactory.createAclfBranch();
     	bra.setBranchCode(AclfBranchCode.LINE);
-		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
+		LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
     	
     	line.getAclfBranch().setZ(new Complex(r,x), msgHub);
     	line.setHShuntY(new Complex(0.0,Math.abs(b)), UnitType.PU, 1.0, net.getBaseKva()); // Unit is PU, no need to enter baseV
@@ -349,8 +352,8 @@ public class IpssInternalFormat_in {
     	String cirNo="1";
       	double t=0.0;
       	while (st.hasMoreTokens()) {
-        	fid = st.nextToken();
-        	tid = st.nextToken();
+        	fid = st.nextToken().trim();
+        	tid = st.nextToken().trim();
         	cirNo = st.nextToken();
         	t     = new Double(st.nextToken()).doubleValue();
         	if (st.hasMoreTokens()) {

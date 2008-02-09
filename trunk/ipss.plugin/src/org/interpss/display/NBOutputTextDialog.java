@@ -91,6 +91,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
 	
     public void showDialog() {
         if (data instanceof File) {
+  			this.textArea.setText("");
     		try {
     			final InputStream stream = new FileInputStream((File)data);
         		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));

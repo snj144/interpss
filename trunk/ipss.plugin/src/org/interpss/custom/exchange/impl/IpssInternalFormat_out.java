@@ -54,7 +54,7 @@ public class IpssInternalFormat_out {
     	// out put network info
     	out.write("AclfNetInfo\n");
         out.write(String.format("%3.2f%n", net.getBaseKva()));
-        out.write("end\n");
+        out.write(String.format("%s%n%n", "end"));
         
         // output bus info
         double baseMva = net.getBaseKva() * 0.001;
@@ -71,16 +71,16 @@ public class IpssInternalFormat_out {
 					bus.getLoadP()*baseMva,        // bus load P in MW
 					bus.getLoadQ()*baseMva));      // bus load Q in Mvar
 		}
-        out.write(String.format("%s%n", "end"));
+        out.write(String.format("%s%n%n", "end"));
 
         // out put swing bus info
         out.write(String.format("%s%n", "SwingBusInfo"));
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus) b;
 			if (bus.isSwing())
-				out.write(String.format("%s%n", bus.getId()));  // Swing bus id
+				out.write(String.format("%8s%n", bus.getId()));  // Swing bus id
 		}
-        out.write(String.format("%s%n", "end"));
+        out.write(String.format("%s%n%n", "end"));
 
         // output PV Limit control bus info
         out.write(String.format("%s%n", "PVBusInfo"));
@@ -91,7 +91,7 @@ public class IpssInternalFormat_out {
 					pv.getQLimit().getMin()*baseMva,
 					pv.getQLimit().getMax()*baseMva));
 		}
-        out.write(String.format("%s%n", "end"));
+        out.write(String.format("%s%n%n", "end"));
 
         // output capacitor bus info 
         out.write(String.format("%s%n", "CapacitorBusInfo"));
@@ -102,7 +102,7 @@ public class IpssInternalFormat_out {
 				out.write(String.format("%8s %7.2f %n", bus.getId(), cap.getQ())); // capacitor Q in pu
 			}
 		}
-        out.write(String.format("%s%n", "end"));
+        out.write(String.format("%s%n%n", "end"));
 
         // output branch info
         out.write(String.format("%s%n", "BranchInfo"));
@@ -115,7 +115,7 @@ public class IpssInternalFormat_out {
 					branch.getZ().getImaginary(),
 					branch.getHShuntY().getImaginary()));
 		}
-        out.write(String.format("%s%n", "end"));
+        out.write(String.format("%s%n%n", "end"));
 
         // output Xfr branch info
         out.write(String.format("%s%n", "XformerInfo"));
@@ -128,7 +128,7 @@ public class IpssInternalFormat_out {
 						branch.getCircuitNumber(),
 						branch.getFromTurnRatio()));
 		}
-        out.write(String.format("%s%n", "end"));
+        out.write(String.format("%s%n%n", "end"));
 
         out.write(String.format("%s%n", "EndOfFile"));
          
