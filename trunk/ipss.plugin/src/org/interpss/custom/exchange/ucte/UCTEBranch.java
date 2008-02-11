@@ -30,10 +30,10 @@ public class UCTEBranch extends AclfBranchImpl {
 	private double fromRatedKV, toRatedKV, normialMva;
 
 	private String regulationType;
-	private double dUPercentPhaes, uKvPhase; 
-	private int nPahse, n1Pahse; 
+	private double dUPhase, uKvPhase; 
+	private int nPhase, n1Phase; 
 	
-	private double dUPercentAngle, thetaDegAngle, pMwAngle;  
+	private double dUAngle, thetaDegAngle, pMwAngle;  
 	private int nAngle, n1Angle; 
 	
 	public UCTEBranch(String name, String orderCode) {
@@ -72,5 +72,85 @@ public class UCTEBranch extends AclfBranchImpl {
 
 	public void setNormialMva(double normialMva) {
 		this.normialMva = normialMva;
+	}
+
+	public String getRegulationType() {
+		return this.regulationType;
+	}
+
+	public void setRegulationType(String regulationType) {
+		this.regulationType = regulationType;
+	}
+
+	public double getDUPhase() {
+		return this.dUPhase;
+	}
+
+	public void setDUPhase(double phase) {
+		this.dUPhase = phase;
+	}
+
+	public double getUKvPhase() {
+		return this.uKvPhase;
+	}
+
+	public void setUKvPhase(double kvPhase) {
+		this.uKvPhase = kvPhase;
+	}
+
+	public int getNPhase() {
+		return this.nPhase;
+	}
+
+	public void setNPhase(int phase) {
+		this.nPhase = phase;
+	}
+
+	public int getN1Phase() {
+		return this.n1Phase;
+	}
+
+	public void setN1Phase(int phase) {
+		this.n1Phase = phase;
+	}
+
+	public double getDUAngle() {
+		return this.dUAngle;
+	}
+
+	public void setDUAngle(double angle) {
+		this.dUAngle = angle;
+	}
+
+	public double getThetaDegAngle() {
+		return this.thetaDegAngle;
+	}
+
+	public void setThetaDegAngle(double thetaDegAngle) {
+		this.thetaDegAngle = thetaDegAngle;
+	}
+
+	public double getPMwAngle() {
+		return this.pMwAngle;
+	}
+
+	public void setPMwAngle(double mwAngle) {
+		this.pMwAngle = mwAngle;
+	}
+
+	public int getNAngle() {
+		return this.nAngle;
+	}
+
+	public void setNAngle(int angle) {
+		this.nAngle = angle;
+	}
+
+	public int getN1Angle() {
+		return this.n1Angle;
+	}
+
+	public void setN1Angle(int angle) {
+		this.n1Angle = angle;
 	}
 }

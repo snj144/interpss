@@ -50,17 +50,22 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.LineAdapter;
 import com.interpss.core.aclf.PQBusAdapter;
+import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.core.aclfadj.FlowControlType;
+import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
+import com.interpss.core.aclfadj.TapControl;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
+	private final static String PsXfrType_ASYM = "ASYM"; 
 	
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
 	
@@ -187,7 +192,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     			    	    	noError = false;
     			    	}
     			    	else if (recType == RecType.Xfr2WLookup) {
-    			    	    if (!processXfr2LookupRecord(str, aclfNet))
+    			    	    if (!processXfr2LookupRecord(str, aclfNet, msg))
     			    	    	noError = false;
     			    	}
     			    	else if (recType == RecType.ExPower) {
@@ -459,20 +464,24 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		IpssLogger.getLogger().info("Xfr 2W Reg Record: " + str);
 
 		String fromNodeId, toNodeId, orderCode, type;
-		double dUPercentPhaes, uKvPhase, dUPercentAngle, thetaDegAngle, pMwAngle;  
-		int nPhase, n1Phase, nAngle, n1Angle;  
+
+		double dUPhase, uKvPhase; 
+		int nPhase, n1Phase;  
+
+		double dUAngle, thetaDegAngle, pMwAngle;  
+		int nAngle, n1Angle;  
 
 		try {
 			fromNodeId = StringUtil.getString(str, 1, 8).trim().replace(' ', '_');
 			toNodeId = StringUtil.getString(str, 10, 17).trim().replace(' ', '_');
 			orderCode = StringUtil.getString(str, 19, 19);
 
-			dUPercentPhaes = StringUtil.getDouble(str, 21, 25);  
+			dUPhase = StringUtil.getDouble(str, 21, 25);  
 			nPhase = StringUtil.getInt(str, 27, 28);  
 			n1Phase = StringUtil.getInt(str, 30, 32);  
 			uKvPhase = StringUtil.getDouble(str, 34, 38);  
 
-			dUPercentAngle = StringUtil.getDouble(str, 40, 44);  
+			dUAngle = StringUtil.getDouble(str, 40, 44);  
 			thetaDegAngle = StringUtil.getDouble(str, 46, 50);  
 			nAngle = StringUtil.getInt(str, 52, 53);  
 			n1Angle = StringUtil.getInt(str, 55, 57);  
@@ -485,12 +494,105 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			return false;
 		}
 		
+		if (dUPhase > 0.0 && dUAngle > 0.0) {
+			IpssLogger.getLogger().severe("Error: both pahse regulation and angle regulation data are presented");
+			msg.sendErrorMsg("Error: both pahse regulation and angle regulation data are presented");
+			return false;
+		}
+		
+      	final UCTEBranch branch = (UCTEBranch)aclfNet.getBranch(fromNodeId, toNodeId, orderCode); 
+      	if (branch == null) {
+			IpssLogger.getLogger().severe("Error: branch cannot be found, line: " + str);
+			msg.sendErrorMsg("Error: branch cannot be found, line: " + str);
+      		return false;
+      	}
+      	
+      	if (dUPhase > 0.0) {
+			IpssLogger.getLogger().info("Phase regulation data persented");
+			branch.setDUPhase(dUPhase);
+			branch.setNPhase(nPhase);
+			branch.setN1Phase(n1Phase);
+			branch.setUKvPhase(uKvPhase);
+			
+			final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
+			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
+			// UCTE model at toside x : 1.0, InterPSS model 1.0:turnRatio
+			xfr.setToTurnRatio(1.0/x, UnitType.PU);
+			
+			if (uKvPhase > 0.0) {
+				// tap control of voltage at to node side
+//              2 - Variable tap for voltage control (TCUL, LTC)
+          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(aclfNet, branch.getId(), 
+          									toNodeId, FlowControlType.POINT_CONTROL);
+          		double maxTap = (1.0 + nPhase*dUPhase*0.01), 
+          		       minTap = (1.0 - nPhase*dUPhase*0.01);
+         		tapv.setTapLimit(new LimitType(maxTap, minTap));
+          		tapv.setVSpecified(uKvPhase, UnitType.kV);
+          		tapv.setTapStepSize(2*nPhase+1);
+          		tapv.setControlOnFromSide(false);
+          		aclfNet.addTapControl(tapv, toNodeId);          		
+			}
+		}
+		else if (dUAngle > 0.0) {
+			IpssLogger.getLogger().info("angle regulation data persented");
+			branch.setDUAngle(dUAngle);
+			branch.setThetaDegAngle(thetaDegAngle);
+			branch.setNAngle(nAngle);
+			branch.setN1Angle(n1Angle);
+			branch.setPMwAngle(pMwAngle);
+	
+		 	branch.setBranchCode(AclfBranchCode.PS_XFORMER);
+			final PSXfrAdapter psXfr = (PSXfrAdapter)branch.adapt(PSXfrAdapter.class);
+			double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;
+			double a    = n1Angle*dUAngle*0.01,
+				   aMax = nAngle*dUAngle*0.01,
+			       aMin = -nAngle*dUAngle*0.01;
+			if (type.equals(PsXfrType_ASYM)) {
+				if (thetaDegAngle == 90.0) {
+					ang = Math.atan(a);
+					angMax = Math.atan(aMax);
+					angMin = Math.atan(aMin);
+					x = 1.0 / Math.sqrt(1.0 + a*a);
+				}
+				else {
+					double theta = thetaDegAngle * Constants.DtoR,
+					       asin = a*Math.sin(theta),
+					       acos = 1.0 + a*Math.cos(theta),
+					       asinMax = aMax*Math.sin(theta),
+					       acosMax = 1.0 + aMax*Math.cos(theta),
+					       asinMin = aMin*Math.sin(theta),
+					       acosMin = 1.0 + aMin*Math.cos(theta);
+					ang = Math.atan(asin/acos);
+					angMax = Math.atan(asinMax/acosMax);
+					angMin = Math.atan(asinMin/acosMin);
+					x = 1.0 / Math.sqrt(asin*asin + acos*acos);
+				}
+			}
+			else {  // default type is SYMM
+				ang = 2.0 * Math.atan(a/2.0);
+				angMax = 2.0 * Math.atan(aMax/2.0);
+				angMin = 2.0 * Math.atan(aMin/2.0);
+			}
+			psXfr.setToAngle(-ang, UnitType.Rad);
+			psXfr.setToTurnRatio(1/x, UnitType.PU);
+			
+			if (pMwAngle != 0.0) {
+          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(aclfNet, branch.getId(), FlowControlType.POINT_CONTROL);
+          		ps.setPSpecified(pMwAngle, UnitType.mW, aclfNet.getBaseKva());
+          		ps.setAngLimit(new LimitType(angMax, angMin));
+          		ps.setControlOnFromSide(false);
+          		aclfNet.addPSXfrPControl(ps, branch.getId());          		
+			}
+		}
+		
     	return true;
     }
     
-    private static boolean processXfr2LookupRecord(String str, AclfAdjNetwork  aclfNet) {
+    private static boolean processXfr2LookupRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Desc Record: " + str);
-    	return true;
+		IpssLogger.getLogger().severe("##TT not implememted yet. Contact support@interpss.org for more info");
+		msg.sendErrorMsg("##TT not implememted yet. Contact support@interpss.org for more info");
+		return false;
     }
     
     private static boolean processExchangePowerRecord(String str, UCTENetwork aclfNet, IPSSMsgHub msg) {
