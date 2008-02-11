@@ -29,6 +29,13 @@ public class UCTEBranch extends AclfBranchImpl {
 	private int currentLimit;
 	private double fromRatedKV, toRatedKV, normialMva;
 
+	private String regulationType;
+	private double dUPercentPhaes, uKvPhase; 
+	private int nPahse, n1Pahse; 
+	
+	private double dUPercentAngle, thetaDegAngle, pMwAngle;  
+	private int nAngle, n1Angle; 
+	
 	public UCTEBranch(String name, String orderCode) {
 		super();
       	setName(name);

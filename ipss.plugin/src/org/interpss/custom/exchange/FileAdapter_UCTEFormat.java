@@ -62,7 +62,7 @@ import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	
-	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WFixed, ExPower, NotDefined};
+	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
 	
 	private static List<Double> customBaseVoltageList = new ArrayList<Double>();
 	private static boolean customBaseVoltage = false;
@@ -157,7 +157,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     				else if (str.startsWith("##R"))
     					recType = RecType.Xfr2WReg;
     				else if (str.startsWith("##TT"))
-    					recType = RecType.Xfr2WFixed;
+    					recType = RecType.Xfr2WLookup;
     				else if (str.startsWith("##E"))
     					recType = RecType.ExPower;
     				else {
@@ -186,8 +186,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     			    	    if (!processXfr2WRegulationRecord(str, aclfNet, msg))
     			    	    	noError = false;
     			    	}
-    			    	else if (recType == RecType.Xfr2WFixed) {
-    			    	    if (!processXfr2FixedParamRecord(str, aclfNet))
+    			    	else if (recType == RecType.Xfr2WLookup) {
+    			    	    if (!processXfr2LookupRecord(str, aclfNet))
     			    	    	noError = false;
     			    	}
     			    	else if (recType == RecType.ExPower) {
@@ -418,7 +418,15 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			msg.sendErrorMsg("Error: " + str + ", " + e.toString());
 			return false;
 		}
-		
+
+    	if (status == 0 || status == 8) {
+    		if (rOhm < 0.0 || xOhm < 0.0) {
+    			IpssLogger.getLogger().severe("Error: transform r < 0 or x < 0, data line: " + str);
+    			msg.sendErrorMsg("Error: transform r < 0 or x < 0, data line: " + str);
+    			return false;
+    		}
+    	}
+
     	// create an UCTEBranch object and add to the network object
       	final UCTEBranch branch = new UCTEBranch(elemName, orderCode);
       	aclfNet.addBranch(branch, fromNodeId, toNodeId);    
@@ -426,16 +434,16 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	// set xfr info into InterPSS simulation engine 
 	 	branch.setBranchCode(AclfBranchCode.XFORMER);
 		final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
-		// it is assumed that the r and x is measured at high voltage side
-		double baseV = branch.getFromAclfBus().getBaseVoltage() > branch.getToAclfBus().getBaseVoltage()?
-				branch.getFromAclfBus().getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
-    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, baseV, aclfNet.getBaseKva(), msg);
-    	xfr.setShuntY(new Complex(gMuS,bMuS), UnitType.MicroMho, aclfNet.getBaseKva()); 
+		// r, x, g, b are measured at from side
+    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, fromRatedKV, aclfNet.getBaseKva(), msg);
+    	Complex yPU = UnitType.yConversion(new Complex(gMuS,bMuS), fromRatedKV, 
+    			aclfNet.getBaseKva(), UnitType.MicroMho, UnitType.PU);
+    	xfr.setToShuntY(yPU, UnitType.PU, aclfNet.getBaseKva()); 
     	xfr.setFromTurnRatio(1.0, UnitType.PU);
     	xfr.setToTurnRatio(1.0, UnitType.PU); 
 
     	// by default the branch is active
-    	if (status == 7 || status == 8 || status == 9) 
+    	if (status == 8 || status == 9) 
     		branch.setStatus(false);
     	
     	// set extra info which is not used in InterPSS simulation engine
@@ -480,7 +488,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
-    private static boolean processXfr2FixedParamRecord(String str, AclfAdjNetwork  aclfNet) {
+    private static boolean processXfr2LookupRecord(String str, AclfAdjNetwork  aclfNet) {
 		IpssLogger.getLogger().info("Xfr 2W Desc Record: " + str);
     	return true;
     }
