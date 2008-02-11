@@ -65,20 +65,20 @@ public class IpssInternalFormat_in {
             	str = din.readLine();
             	if (str ==  null || str.equals(""))
             		; // do nothing
-            	else if (str.startsWith("BusInfo")) {
-              		do {
-                		str = din.readLine();
-                		if (!str.startsWith("end")) {
-							loadBusInfo(str, adjNet);
-                		//msgHub.sendInfoMsg("Bus Loaded: " + String.valueOf(++cnt));
-						}
-              		} while (!str.startsWith("end"));
-            	}
             	else if (str.startsWith("BusInfoNoBaseV")) {
               		do {
                 		str = din.readLine();
                 		if (!str.startsWith("end")) {
 							loadBusInfoNoBaseV(str, adjNet);
+                		//msgHub.sendInfoMsg("Bus Loaded: " + String.valueOf(++cnt));
+						}
+              		} while (!str.startsWith("end"));
+            	}
+            	else if (str.startsWith("BusInfo")) {
+              		do {
+                		str = din.readLine();
+                		if (!str.startsWith("end")) {
+							loadBusInfo(str, adjNet);
                 		//msgHub.sendInfoMsg("Bus Loaded: " + String.valueOf(++cnt));
 						}
               		} while (!str.startsWith("end"));
@@ -157,6 +157,9 @@ public class IpssInternalFormat_in {
         	pg    = new Double(st.nextToken()).doubleValue();
         	qg    = new Double(st.nextToken()).doubleValue();
         	pl    = new Double(st.nextToken()).doubleValue();
+        	if (!st.hasMoreTokens()) {
+        		System.out.println("--->" + str);
+        	}
         	ql    = new Double(st.nextToken()).doubleValue();
         	if (st.hasMoreTokens()) {
 				throw new InvalidInputException("AclfDataFile.loadBusInfo, BusInfo str wrong");
