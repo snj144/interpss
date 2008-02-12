@@ -68,7 +68,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	private final static String PsXfrType_ASYM = "ASYM"; 
 	
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
-	
+
+	// custom base voltage is an extension to the UCTE std
 	private static List<Double> customBaseVoltageList = new ArrayList<Double>();
 	private static boolean customBaseVoltage = false;
 
@@ -128,12 +129,13 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     private static AclfAdjNetwork loadFile(final java.io.BufferedReader din, String filename, final IPSSMsgHub msg) throws Exception {
     	final UCTENetwork  aclfNet = new UCTENetwork(filename, "UCTE Network createb by InterPSS");
     	
-    	// no circuit number or identifier defined, so no parallel branch allowed
     	aclfNet.setAllowParallelBranch(true);
     	
     	// no base kva definition in UCTE format, so use 100 MVA
+    	// UCTE data are in actual units, mw, mva ...
     	aclfNet.setBaseKva(100000.0);   
 
+    	// scan all lines and process the data
     	customBaseVoltage = false;
     	boolean noError = true;
       	String str;   
