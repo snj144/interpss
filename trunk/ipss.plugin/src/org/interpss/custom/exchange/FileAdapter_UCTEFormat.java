@@ -69,10 +69,6 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
 
-	// custom base voltage is an extension to the UCTE std
-	private static List<Double> customBaseVoltageList = new ArrayList<Double>();
-	private static boolean customBaseVoltage = false;
-
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
@@ -213,6 +209,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return noError? aclfNet : null;
     }
 
+    /*
+     * ##C section
+     */
     private static boolean processCommentRecord(String str, AclfAdjNetwork  aclfNet) {
 		IpssLogger.getLogger().info("Comment: " + str);
 		// comment lines are added into the desc field
@@ -220,11 +219,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
 
-    private static boolean processBaseVoltageRecord(String str) {
-    	customBaseVoltageList.add(new Double(str));
-    	return true;
-    }
-
+    /*
+     * ##N and ##Z sections
+     */
     private static boolean processNodeRecord(String str, String isoId, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Node Record: " + str);
 
@@ -350,6 +347,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
+    /*
+     * ##L section
+     */
     private static boolean processLineRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Line Record: " + str);
 
@@ -396,6 +396,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
+    /*
+     * ##T section
+     */
     private static boolean processXfr2WindingRecord(String str, AclfAdjNetwork  aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Record: " + str);
 
@@ -462,6 +465,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
+    /*
+     * ##R section
+     */
     private static boolean processXfr2WRegulationRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Reg Record: " + str);
 
@@ -590,6 +596,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	return true;
     }
     
+    /*
+     * ##TT section
+     */
     private static boolean processXfr2LookupRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Desc Record: " + str);
 		IpssLogger.getLogger().severe("##TT not implememted yet. Contact support@interpss.org for more info");
@@ -597,6 +606,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		return false;
     }
     
+    /*
+     * ##E section
+     */
     private static boolean processExchangePowerRecord(String str, UCTENetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Exchange Power Record: " + str);
 
@@ -617,6 +629,20 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		aclfNet.addExchangePower(new UCTENetwork.ExchangePower(
 						fromIsoId, toIsoId, exPower, comment));
 		return true;
+    }
+
+    /*
+     * util functions and extenstions 
+     */
+
+    // custom base voltage is an extension to the UCTE std
+	private static List<Double> customBaseVoltageList = new ArrayList<Double>();
+	private static boolean customBaseVoltage = false;
+
+    
+    private static boolean processBaseVoltageRecord(String str) {
+    	customBaseVoltageList.add(new Double(str));
+    	return true;
     }
 
     private static double getBaseVoltageKv(String nodeId) throws Exception {
