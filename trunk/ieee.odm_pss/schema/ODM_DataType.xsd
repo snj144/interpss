@@ -103,7 +103,7 @@
     					minOccurs="1" maxOccurs="1">
     				</element>
                     <element name="tertiaryBus" type="pss:IDRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
-                    <element name="circuitNumber" type="int"
+                    <element name="circuitId" type="string"
     					minOccurs="0" maxOccurs="1">
     				</element>
     			</sequence>

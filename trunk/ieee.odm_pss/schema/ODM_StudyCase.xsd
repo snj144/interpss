@@ -9,34 +9,54 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-    				<element name="schemaVersion" minOccurs="1" maxOccurs="1">
-    					<simpleType>
-    						<restriction base="string">
-    							<enumeration value="10.00.DEV"></enumeration>
-    						</restriction>
-    					</simpleType></element>
-    				<element name="dataProviderName" type="string" minOccurs="0" maxOccurs="1"></element>
-    				<element name="dataProviderVersion" type="string" minOccurs="0" maxOccurs="1"></element>
+					<element name="schemaVersion" minOccurs="1"
+						maxOccurs="1">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="V1.00.DEV"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
+                    <element name="originalFormat" minOccurs="1" maxOccurs="1">
+                    	<simpleType>
+                    		<restriction base="string">
+                    			<enumeration value="IEEE-CDF"></enumeration>
+                    			<enumeration value="PSS-E-29"></enumeration>
+                    			<enumeration value="PSS-E-30"></enumeration>
+                    			<enumeration value="UCTE-DEF"></enumeration>
+                    			<enumeration value="CUSTOM"></enumeration>
+                    		</restriction>
+                    	</simpleType></element>
+                    <element name="adapterProviderName" type="string"
+						minOccurs="0" maxOccurs="1">
+					</element>
+					<element name="adapterProviderVersion" type="string"
+						minOccurs="0" maxOccurs="1">
+					</element>
 
-    				<element name="analysisCategory" minOccurs="1" maxOccurs="1">
-    					<simpleType>
-    						<restriction base="string">
-    							<enumeration value="Loadflow"></enumeration>
-    							<enumeration value="ShortCircuit"></enumeration>
-    							<enumeration value="TransientStability"></enumeration>
-    						</restriction>
-    					</simpleType>
-    				</element>
+					<element name="analysisCategory" minOccurs="1"
+						maxOccurs="1">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Loadflow"></enumeration>
+								<enumeration value="ShortCircuit"></enumeration>
+								<enumeration
+									value="TransientStability">
+								</enumeration>
+							</restriction>
+						</simpleType>
+					</element>
 
-    				<element name="networkCategory" minOccurs="1" maxOccurs="1">
-    					<simpleType>
-    						<restriction base="string">
-    							<enumeration value="Transmission"></enumeration>
-    							<enumeration value="Distribution"></enumeration>
-    						</restriction>
-    					</simpleType>
-    				</element>
-    				
+					<element name="networkCategory" minOccurs="1"
+						maxOccurs="1">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Transmission"></enumeration>
+								<enumeration value="Distribution"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
+
 					<element name="baseCase"
 						type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
 					</element>
@@ -45,7 +65,7 @@
 					</element>
 					<element name="scenarioList"
 						type="pss:ScenarioListXmlType" minOccurs="0" maxOccurs="1">
-					</element>
+					</element>
 				</sequence>
 
 			</extension>
