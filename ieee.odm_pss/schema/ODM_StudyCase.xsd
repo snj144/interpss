@@ -9,6 +9,34 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
+    				<element name="schemaVersion" minOccurs="1" maxOccurs="1">
+    					<simpleType>
+    						<restriction base="string">
+    							<enumeration value="10.00.DEV"></enumeration>
+    						</restriction>
+    					</simpleType></element>
+    				<element name="dataProviderName" type="string" minOccurs="0" maxOccurs="1"></element>
+    				<element name="dataProviderVersion" type="string" minOccurs="0" maxOccurs="1"></element>
+
+    				<element name="analysisCategory" minOccurs="1" maxOccurs="1">
+    					<simpleType>
+    						<restriction base="string">
+    							<enumeration value="Loadflow"></enumeration>
+    							<enumeration value="ShortCircuit"></enumeration>
+    							<enumeration value="TransientStability"></enumeration>
+    						</restriction>
+    					</simpleType>
+    				</element>
+
+    				<element name="networkCategory" minOccurs="1" maxOccurs="1">
+    					<simpleType>
+    						<restriction base="string">
+    							<enumeration value="Transmission"></enumeration>
+    							<enumeration value="Distribution"></enumeration>
+    						</restriction>
+    					</simpleType>
+    				</element>
+    				
 					<element name="baseCase"
 						type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
 					</element>
@@ -30,8 +58,20 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="busList" type="pss:BusRecordListXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="branchList" type="pss:BranchRecordListXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="baseKva" type="double"></element>
+                    <element name="baseKvaUnit">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="KVA"></enumeration>
+								<enumeration value="MVA"></enumeration>
+							</restriction>
+						</simpleType></element>
+                    <element name="busList"
+						type="pss:BusRecordListXmlType" minOccurs="1" maxOccurs="1">
+					</element>
+					<element name="branchList"
+						type="pss:BranchRecordListXmlType" minOccurs="1" maxOccurs="1">
+					</element>
 				</sequence>
 			</extension>
 		</complexContent>
