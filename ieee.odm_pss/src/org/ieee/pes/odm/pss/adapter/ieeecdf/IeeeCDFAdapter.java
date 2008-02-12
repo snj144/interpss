@@ -26,8 +26,16 @@ package org.ieee.pes.odm.pss.adapter.ieeecdf;
 
 
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.BranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.NameValuePairXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
+import org.ieee.pes.odm.pss.model.ODMXmlUtil;
 
 public class IeeeCDFAdapter {
 	private static final int BusData = 1;
@@ -35,12 +43,27 @@ public class IeeeCDFAdapter {
 	private static final int LossZone = 3;
 	private static final int InterchangeData = 4;
 	private static final int TielineData = 5;
+	
+	private static Logger logger;
 
-    public static IEEEODMPSSModelParser loadFile(final java.io.BufferedReader din) throws Exception {
+    public static IEEEODMPSSModelParser parseInputFile(final java.io.BufferedReader din, final Logger lgr) throws Exception {
+    	logger = lgr;
+    	
     	IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
+    	parser.getStudyCase().setSchemaVersion(StudyCaseXmlType.SchemaVersion.V_1_00_DEV);
+    	parser.getStudyCase().setOriginalFormat(StudyCaseXmlType.OriginalFormat.IEEE_CDF);
+    	parser.getStudyCase().setAdapterProviderName("www.interpss.org");
+    	parser.getStudyCase().setAdapterProviderVersion("1.00");
+    	
+    	parser.getStudyCase().setAnalysisCategory(StudyCaseXmlType.AnalysisCategory.LOADFLOW);
+    	parser.getStudyCase().setNetworkCategory(StudyCaseXmlType.NetworkCategory.TRANSMISSION);
+
+    	PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
+    	baseCaseNet.setId("Base Case from IEEE CDF format");
+    	
 		String str = din.readLine();
-        processNetData(str);
+        processNetData(str, baseCaseNet);
     	
     	int dataType = 0;
     	do {
@@ -52,39 +75,39 @@ public class IeeeCDFAdapter {
             			dataType = 0;
             		}
             		else if (dataType == BusData) {
-            			processBusData(str);
+            			processBusData(str, parser.addNewBaseCaseBus());
             		}
             		else if (dataType == BranchData) {
-            		    processBranchData(str);
+            		    processBranchData(str, parser.addNewBaseCaseBranch());
             		}
             		else if (dataType == LossZone) {
-            		    processLossZoneData(str);
+            		    processLossZoneData(str, baseCaseNet);
             		}
             		else if (dataType == InterchangeData) {
-            		    processInterchangeData(str);
+            		    processInterchangeData(str, baseCaseNet);
             		}
             		else if (dataType == TielineData) {
-            		    processTielineData(str);
+            		    processTielineData(str, baseCaseNet);
             		}
             		else if ((str.length() > 3) && str.substring(0,3).equals("BUS")) {
             			dataType = BusData;
-//                    	IpssLogger.getLogger().info("load bus data");
+                    	logger.info("load bus data");
             		}
             		else if ((str.length() > 6) && str.substring(0,6).equals("BRANCH")) {
             			dataType = BranchData;
-//                    	IpssLogger.getLogger().info("load branch data");
+            			logger.info("load branch data");
             		}
             		else if ((str.length() > 4) && str.substring(0,4).equals("LOSS")) {
             			dataType = LossZone;
-//                    	IpssLogger.getLogger().info("load loss zone data");
+            			logger.info("load loss zone data");
             		}
             		else if ((str.length() > 11) && str.substring(0,11).equals("INTERCHANGE")) {
             			dataType = InterchangeData;
-//                    	IpssLogger.getLogger().info("load interchange data");
+            			logger.info("load interchange data");
             		}
             		else if ((str.length() > 3) && str.substring(0,3).equals("TIE")) {
             			dataType = TielineData;
-//                    	IpssLogger.getLogger().info("load tieline data");
+            			logger.info("load tieline data");
             		}
     			} catch (final Exception e) {
     				e.printStackTrace();
@@ -100,31 +123,40 @@ public class IeeeCDFAdapter {
      *   ============ 
      */
 
-    private static void processNetData(final String str) {
+    private static void processNetData(final String str, final PSSNetworkXmlType baseCaseNet) {
     	// parse the input data line
     	final String[] strAry = getNetDataFields(str);
     	
-        //[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
+    	NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
+
+    	//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
     	final String date = strAry[0];
+    	ODMXmlUtil.addNVPair(nvList, "Date", date);
     	
         //[1] Columns 11-30   Originator's name [A]
     	final String orgName = strAry[1];
+    	ODMXmlUtil.addNVPair(nvList, "Originator Name", orgName);
     	
         //[3] Columns 39-42   Year [I]
     	final String year = strAry[3];
+    	ODMXmlUtil.addNVPair(nvList, "Year", year);
     	
         //[4] Column  44      Season (S - Summer, W - Winter)
     	final String season = strAry[4];
-    	
-        //[5] Column  46-73   Case identification [A]
+    	ODMXmlUtil.addNVPair(nvList, "Season", season);
+
+    	//[5] Column  46-73   Case identification [A]
     	final String caseId = strAry[5];
-//    	IpssLogger.getLogger().fine("date, orgName, year, season, caseId: " + date + ", " 
-//    			+ orgName + ", " + year + ", " + season + ", " + caseId);
+    	ODMXmlUtil.addNVPair(nvList, "Case Identification", caseId);
 
-        //[2] Columns 32-37   MVA Base [F] *
+    	logger.info("date, orgName, year, season, caseId: " + date + ", " 
+    			+ orgName + ", " + year + ", " + season + ", " + caseId);
+
+    	//[2] Columns 32-37   MVA Base [F] *
     	final double baseMva = new Double(strAry[2]).doubleValue();  // in MVA
-  //  	IpssLogger.getLogger().fine("BaseKva: " + baseMva ); 
-
+    	logger.info("BaseKva: " + baseMva ); 
+    	baseCaseNet.setBaseKva(baseMva);
+    	baseCaseNet.setBaseKvaUnit(PSSNetworkXmlType.BaseKvaUnit.MVA);
     }
     
     private static String[] getNetDataFields(final String str) {
@@ -159,27 +191,33 @@ public class IeeeCDFAdapter {
      *   ======== 
      */
 
-    private static void processBusData(final String str) {
+    private static void processBusData(final String str, final BusRecordXmlType busRec) {
     	// parse the input data line
     	final String[] strAry = getBusDataFields(str);
     	
     	//Columns  1- 4   Bus number [I] *
     	final String busId = strAry[0];
-//    	IpssLogger.getLogger().fine("Bus data loaded, id: " + busId);
+    	logger.info("Bus data loaded, id: " + busId);
+    	busRec.setId(busId);
     	
     	//Columns  6-17   Name [A] (left justify) *
     	final String busName = strAry[1];
+    	busRec.setName(busName);
     	
     	//Columns 19-20   Load flow area number [I].  Don't use zero! *
     	//Columns 21-23   Loss zone number [I]
     	final int areaNo = new Integer(strAry[2]).intValue();
     	final int zoneNo = new Integer(strAry[3]).intValue();
+    	busRec.setArea(areaNo);
+    	busRec.setZone(zoneNo);
     	
     	//Columns 77-83   Base kV [F]
     	double baseKv = new Double(strAry[11]).doubleValue();
     	if (baseKv == 0.0) {
 			baseKv = 1.0;
 		}
+    	busRec.setBaseVoltage(baseKv);
+    	busRec.setBaseVoltageUnit(BusRecordXmlType.BaseVoltageUnit.KV);
     	
     	//Columns 25-26   Type [I] *
         //		0 - Unregulated (load, PQ)
@@ -294,7 +332,7 @@ public class IeeeCDFAdapter {
      *   =========== 
      */
 
-    private static void processBranchData(final String str) {
+    private static void processBranchData(final String str, final BranchRecordXmlType branchRec) {
     	// parse the input data line
     	final String[] strAry = getBranchDataFields(str);
 
@@ -304,14 +342,21 @@ public class IeeeCDFAdapter {
 //      	For transformers and phase shifters, the side of the model the device impedance is on.
     	final String fid = strAry[0];
     	final String tid = strAry[1];
-//    	IpssLogger.getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
+    	logger.info("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
+    	branchRec.addNewFromBus().setIdRef(fid);
+    	branchRec.addNewToBus().setIdRef(tid);
 
 //    	Columns 11-12   Load flow area [I]
 //    	Columns 13-15   Loss zone [I]
 //    	Column  17      Circuit [I] * (Use 1 for single lines)
     	final int areaNo = new Integer(strAry[2]).intValue();
     	final int zoneNo = new Integer(strAry[3]).intValue();
-    	final int cirNo  = new Integer(strAry[4]).intValue();
+    	final String cirId  = strAry[4];
+    	branchRec.setArea(areaNo);
+    	branchRec.setZone(zoneNo);
+    	branchRec.setCircuitId(cirId);
+    	
+    	branchRec.setId(ODMXmlUtil.formBranchId(fid, tid, cirId));
     	
 //    	Column  19      Type [I] *
 //      0 - Transmission line
@@ -449,7 +494,7 @@ public class IeeeCDFAdapter {
      *   ============== 
      */
 
-    private static void processLossZoneData(final String str) {
+    private static void processLossZoneData(final String str, final PSSNetworkXmlType baseCaseNet) {
     	final String[] strAry = getLossZoneDataFields(str);
 
 //    	Columns  1- 3   Loss zone number [I] *
@@ -482,7 +527,7 @@ public class IeeeCDFAdapter {
      *   ================ 
      */
     
-    private static void processInterchangeData(final String str) {
+    private static void processInterchangeData(final String str, final PSSNetworkXmlType baseCaseNet) {
     	final String[] strAry = getInterchangeDataFields(str);
     	
 //    	Columns  1- 2   Area number [I], no zeros! *
@@ -541,7 +586,7 @@ public class IeeeCDFAdapter {
      *   ============ 
      */
 
-    private static void processTielineData(final String str) {
+    private static void processTielineData(final String str, final PSSNetworkXmlType baseCaseNet) {
     	final String[] strAry = getTielineDataFields(str);
     	
 //    	Columns  1- 4   Metered bus number [I] *

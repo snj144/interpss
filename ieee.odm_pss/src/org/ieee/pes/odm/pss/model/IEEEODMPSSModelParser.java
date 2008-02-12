@@ -31,6 +31,8 @@ package org.ieee.pes.odm.pss.model;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
+import org.ieee.cmte.psace.oss.odm.pss.schema.BranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.PSSStudyCaseDocument;
 import org.ieee.cmte.psace.oss.odm.pss.schema.StudyCaseXmlType;
@@ -73,7 +75,7 @@ public class IEEEODMPSSModelParser {
 	 * 
 	 * @return
 	 */
-	public StudyCaseXmlType getStucyCase() {
+	public StudyCaseXmlType getStudyCase() {
 		if (this.doc.getPSSStudyCase() == null)
 			this.doc.addNewPSSStudyCase();
 		return this.doc.getPSSStudyCase();
@@ -85,9 +87,30 @@ public class IEEEODMPSSModelParser {
 	 * @return
 	 */
 	public PSSNetworkXmlType getBaseCase() {
-		if (getStucyCase().getBaseCase() == null)
-			getStucyCase().addNewBaseCase();
-		return getStucyCase().getBaseCase();
+		if (getStudyCase().getBaseCase() == null) {
+			PSSNetworkXmlType baseCase = getStudyCase().addNewBaseCase();
+			baseCase.addNewBusList();
+			baseCase.addNewBranchList();
+		}
+		return getStudyCase().getBaseCase();
+	}
+	
+	/**
+	 * add a new Bus record to the base case
+	 * 
+	 * @return
+	 */
+	public BusRecordXmlType addNewBaseCaseBus() {
+		return getStudyCase().getBaseCase().getBusList().addNewBus();
+	}
+
+	/**
+	 * add a new Branch record to the base case
+	 * 
+	 * @return
+	 */
+	public BranchRecordXmlType addNewBaseCaseBranch() {
+		return getStudyCase().getBaseCase().getBranchList().addNewBranch();
 	}
 	
 	/**
