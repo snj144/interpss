@@ -1,4 +1,4 @@
-package org.ieee.pes.odm.pss.adapter.sample;
+package org.ieee.pes.odm.pss.sample;
 
 import java.io.File;
 
