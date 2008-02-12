@@ -119,7 +119,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
-		throw new InvalidOperationException("FileAdapter_IeeeCommonFormat.save not implemented");
+		throw new InvalidOperationException("FileAdapter_UCTEFormat.save not implemented");
 	}
 
     private static AclfAdjNetwork loadFile(final java.io.BufferedReader din, String filename, final IPSSMsgHub msg) throws Exception {
@@ -297,8 +297,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 					aclfNet.getBaseKva());
 			break;
 		case 1: // Q angle bus
-			IpssLogger.getLogger().severe("Node type = 1, not support currently. Please contact support@inteross.org");
-			msg.sendErrorMsg("Node type = 1, not support currently. Please contact support@inteross.org");
+			IpssLogger.getLogger().severe("Node type = 1, not support currently. Please contact support@interpss.org");
+			msg.sendErrorMsg("Node type = 1, not support currently. Please contact support@interpss.org");
 			return false;
 		case 2: // PV bus
 			bus.setGenCode(AclfGenCode.GEN_PV);
@@ -601,8 +601,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
      */
     private static boolean processXfr2LookupRecord(String str, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Xfr 2W Desc Record: " + str);
-		IpssLogger.getLogger().severe("##TT not implememted yet. Contact support@interpss.org for more info");
-		msg.sendErrorMsg("##TT not implememted yet. Contact support@interpss.org for more info");
+		IpssLogger.getLogger().severe("##TT not implemented yet. Contact support@interpss.org for more info");
+		msg.sendErrorMsg("##TT not implemented yet. Contact support@interpss.org for more info");
 		return false;
     }
     
