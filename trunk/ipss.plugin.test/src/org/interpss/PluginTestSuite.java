@@ -6,6 +6,7 @@ import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
+import org.interpss.core.adapter.ucte.UCTEFormatMarioTest;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
 import org.interpss.dstab.control.cml.block.FilterControlBlockTests;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlockTests;
@@ -78,6 +79,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	// cmd line 
 	AclfCmdRunTest.class,
 	RunExecTest.class,
+	
+	// UCTE format
+	UCTEFormatMarioTest.class,
 })
 public class PluginTestSuite {
 }
