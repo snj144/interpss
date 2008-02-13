@@ -28,12 +28,18 @@ package org.ieee.pes.odm.pss.adapter.ieeecdf;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.LoadflowBranchDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.VoltageXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.YXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.ZXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMXmlUtil;
 
@@ -219,6 +225,7 @@ public class IeeeCDFAdapter {
     	busRec.setBaseVoltage(baseKv);
     	busRec.setBaseVoltageUnit(BusRecordXmlType.BaseVoltageUnit.KV);
     	
+    	LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
     	//Columns 25-26   Type [I] *
         //		0 - Unregulated (load, PQ)
         //		1 - Hold MVAR generation within voltage limits, (gen, PQ)
@@ -230,12 +237,24 @@ public class IeeeCDFAdapter {
     	//Columns 34-40   Final angle, degrees [F] *
     	final double vpu = new Double(strAry[5]).doubleValue();
     	final double angDeg = new Double(strAry[6]).doubleValue();
+    	busData.addNewVoltage();
+    	busData.getVoltage().setVoltage(vpu);
+    	busData.getVoltage().setUnit(VoltageXmlType.Unit.PU);
+    	
+    	busData.addNewAngle();
+    	busData.getAngle().setAngle(angDeg);
+    	busData.getAngle().setUnit(AngleXmlType.Unit.DEG);
 
     	//Columns 41-49   Load MW [F] *
     	//Columns 50-59   Load MVAR [F] *
     	final double loadMw = new Double(strAry[7]).doubleValue();
     	final double loadMvar = new Double(strAry[8]).doubleValue();
-
+    	if (loadMw != 0.0 || loadMvar != 0.0) {
+    		busData.addNewLoadData();
+        	busData.getLoadData().setCode(LoadflowBusDataXmlType.LoadData.Code.CONST_P);
+        	ODMXmlUtil.setPower(busData.getLoadData().addNewLoad(), loadMw, loadMvar, PowerXmlType.Unit.MVA);
+    	}
+    	
     	//Columns 60-67   Generation MW [F] *
     	//Columns 68-75   Generation MVAR [F] *
     	final double genMw = new Double(strAry[9]).doubleValue();
@@ -245,8 +264,10 @@ public class IeeeCDFAdapter {
     	//Columns 115-122 Shunt susceptance B (per unit) [F] *
     	final double gPU = new Double(strAry[15]).doubleValue();
     	final double bPU = new Double(strAry[16]).doubleValue();
+    	if (gPU != 0.0 || bPU != 0.0) {
+    		ODMXmlUtil.setY(busData.addNewShuntY(), gPU, bPU, YXmlType.Unit.PU);
+    	}
     	
-
     	//Columns 85-90   Desired volts (pu) [F] (This is desired remote voltage if this bus is controlling another bus.)
     	final double vSpecPu = new Double(strAry[12]).doubleValue();
 
@@ -357,6 +378,7 @@ public class IeeeCDFAdapter {
     	branchRec.setCircuitId(cirId);
     	
     	branchRec.setId(ODMXmlUtil.formBranchId(fid, tid, cirId));
+    	branchRec.addNewLoadflowBranchData();
     	
 //    	Column  19      Type [I] *
 //      0 - Transmission line
@@ -372,22 +394,59 @@ public class IeeeCDFAdapter {
     	final double rpu = new Double(strAry[6]).doubleValue();
     	final double xpu = new Double(strAry[7]).doubleValue();
     	final double bpu = new Double(strAry[8]).doubleValue();
-
+    	if (type == 0) {
+    		branchRec.getLoadflowBranchData().addNewLineData();
+    		ODMXmlUtil.setZ(branchRec.getLoadflowBranchData().getLineData().addNewZ(),
+    							rpu, xpu, ZXmlType.Unit.PU);
+    		if (bpu != 0.0) {
+    			ODMXmlUtil.setY(branchRec.getLoadflowBranchData().getLineData().addNewTotalShuntY(),
+    							0.0, bpu, YXmlType.Unit.PU);
+    		}
+    	}
+    	
+    	// assume ratio and angle are defined at to side
 //    	Columns 77-82   Transformer final turns ratio [F]
 //    	Columns 84-90   Transformer (phase shifter) final angle [F]
     	final double ratio = new Double(strAry[14]).doubleValue();
     	final double angle = new Double(strAry[15]).doubleValue();
+    	if (type > 0) {
+    		if (angle == 0.0) {
+        		branchRec.getLoadflowBranchData().addNewXformerData();
+        		ODMXmlUtil.setZ(branchRec.getLoadflowBranchData().getXformerData().addNewZ(),
+        						rpu, xpu, ZXmlType.Unit.PU);
+        		if (bpu != 0.0) 
+        			ODMXmlUtil.setY(branchRec.getLoadflowBranchData().getXformerData().addNewToShuntY(),
+        							0.0, bpu, YXmlType.Unit.PU);
+        		branchRec.getLoadflowBranchData().getXformerData().setToTurnRatio(ratio);
+    		}
+    		else {
+        		branchRec.getLoadflowBranchData().addNewPhaseShiftXfrData();
+        		ODMXmlUtil.setZ(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewZ(),
+        						rpu, xpu, ZXmlType.Unit.PU);
+        		if (bpu != 0.0) {
+        			ODMXmlUtil.setY(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewToShuntY(),
+        							0.0, bpu, YXmlType.Unit.PU);
+        		}
+        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().setToTurnRatio(ratio);
+        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewToAngle();
+        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().getToAngle().setAngle(angle);
+        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().getToAngle().setUnit(AngleXmlType.Unit.DEG);
+    		}
+    	}
     	
 //    	Columns 51-55   Line MVA rating No 1 [I] Left justify!
 //    	Columns 57-61   Line MVA rating No 2 [I] Left justify!
 //    	Columns 63-67   Line MVA rating No 3 [I] Left justify!
-    	// InterPSS currently is not using these three fields
-    	
-    	/*
     	final double rating1Mvar = new Integer(strAry[9]).intValue();
     	final double rating2Mvar = new Integer(strAry[10]).intValue();
     	final double rating3Mvar = new Integer(strAry[11]).intValue();
-        */
+    	if (rating1Mvar != 0.0 || rating2Mvar != 0.0 || rating3Mvar != 0.0) {
+    		branchRec.getLoadflowBranchData().addNewRatingData();
+        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating1(rating1Mvar);
+        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating2(rating2Mvar);
+        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating3(rating3Mvar);
+        	branchRec.getLoadflowBranchData().getRatingData().setMvaRatingUnit(LoadflowBranchDataXmlType.RatingData.MvaRatingUnit.MVA);
+    	}
     	
     	String controlBusId = "";
     	int controlSide = 0;

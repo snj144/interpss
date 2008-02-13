@@ -1,7 +1,7 @@
  /*
-  * @(#)Test_IEEECommonFormat.java   
+  * @(#)IEEECommonFormatTest.java   
   *
-  * Copyright (C) 2006 www.interpss.org
+  * Copyright (C) 2008 www.interpss.org
   *
   * This program is free software; you can redistribute it and/or
   * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2006
+  * @Date 02/01/2008
   * 
   *   Revision History
   *   ================

@@ -75,7 +75,7 @@
     				<element name="baseVoltage" type="double"
     					minOccurs="1" maxOccurs="1">
     				</element>
-                    <element name="baseVoltageUnit">
+                    <element name="baseVoltageUnit" minOccurs="0" maxOccurs="1">
     					<simpleType>
     						<restriction base="string">
     							<enumeration value="VOLT"></enumeration>
@@ -102,10 +102,14 @@
     				<element name="toBus" type="pss:IDRefRecordXmlType"
     					minOccurs="1" maxOccurs="1">
     				</element>
-                    <element name="tertiaryBus" type="pss:IDRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
-                    <element name="circuitId" type="string"
+    				<element name="tertiaryBus"
+    					type="pss:IDRefRecordXmlType" minOccurs="0" maxOccurs="1">
+    				</element>
+    				<element name="circuitId" type="string"
     					minOccurs="0" maxOccurs="1">
-    				</element>
+    				</element>
+
+    				<element name="loadflowBranchData" type="pss:LoadflowBranchDataXmlType" minOccurs="0" maxOccurs="1"></element>
     			</sequence>
     		</extension>
     	</complexContent>
@@ -134,7 +138,7 @@
     			maxOccurs="1">
     		</element>
 
-    		<element name="gen" minOccurs="0" maxOccurs="1">
+    		<element name="genData" minOccurs="0" maxOccurs="1">
     			<complexType>
     				<sequence>
     					<element name="code" minOccurs="1"
@@ -214,7 +218,7 @@
     				</sequence>
     			</complexType>
     		</element>
-    		<element name="load" minOccurs="0" maxOccurs="1">
+    		<element name="loadData" minOccurs="0" maxOccurs="1">
     			<complexType>
     				<sequence>
     					<element name="code" minOccurs="1"
@@ -272,14 +276,35 @@
 
     		</element>
 
-    		<element name="phaseShiftXfr"
+    		<element name="phaseShiftXfrData"
     			type="pss:PhaseShiftXfrDataXmlType" minOccurs="0"
     			maxOccurs="1">
     		</element>
-    		<element name="mvaRating1" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
-    		<element name="mvaRating2" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
-    		<element name="mvaRating3" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
-    		<element name="currentRating" type="pss:CurrentXmlType" minOccurs="0" maxOccurs="1"></element>
+    		<element name="ratingData" minOccurs="0" maxOccurs="1">
+    			<complexType>
+    				<sequence>
+    					<element name="mvaRating1" type="double"></element>
+    					<element name="mvaRating2" type="double"></element>
+    					<element name="mvaRating3" type="double"></element>
+    					<element name="currentRating" type="double"></element>
+    					<element name="mvaRatingUnit">
+    						<simpleType>
+    							<restriction base="string">
+    								<enumeration value="PU"></enumeration>
+    								<enumeration value="KVA"></enumeration>
+    								<enumeration value="MVA"></enumeration>
+    							</restriction>
+    						</simpleType></element>
+    					<element name="currentRatingUnit">
+    						<simpleType>
+    							<restriction base="string">
+    								<enumeration value="PU"></enumeration>
+    								<enumeration value="AMP"></enumeration>
+    								<enumeration value="KAMP"></enumeration>
+    							</restriction>
+    						</simpleType></element>
+    				</sequence>
+    			</complexType></element>
     	</sequence>
     </complexType>
     
