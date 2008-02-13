@@ -503,8 +503,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		}
 		
 		if (dUPhase > 0.0 && dUAngle > 0.0) {
-			IpssLogger.getLogger().severe("Error: both pahse regulation and angle regulation data are presented");
-			msg.sendErrorMsg("Error: both pahse regulation and angle regulation data are presented");
+			IpssLogger.getLogger().severe("Error: both phase regulation and angle regulation data are presented");
+			msg.sendErrorMsg("Error: both phase regulation and angle regulation data are presented");
 			return false;
 		}
 		
