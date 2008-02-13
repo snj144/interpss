@@ -43,7 +43,7 @@ public class UCTEFormatMarioTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
-		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1.uct", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct", SpringAppContext.getIpssMsgHub());
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
@@ -55,6 +55,24 @@ public class UCTEFormatMarioTest extends BaseTestSetup {
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva()).getReal()-6.33)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.mVar, simuCtx.getAclfNet().getBaseKva()).getImaginary()+1289.43)<0.1);
+	}
+
+	@Test
+	public void testCase2() throws Exception {
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest2_Xfr.uct", SpringAppContext.getIpssMsgHub());
+/*
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+  		//System.out.println(simuCtx.getAclfNet().net2String());
+  		
+  		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
+	  	
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("B4____1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva()).getReal()-6.33)<0.01);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.mVar, simuCtx.getAclfNet().getBaseKva()).getImaginary()+1289.43)<0.1);
+*/  		
 	}
 }
 
