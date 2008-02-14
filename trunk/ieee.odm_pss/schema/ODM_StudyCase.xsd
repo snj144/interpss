@@ -21,10 +21,11 @@
                     	<simpleType>
                     		<restriction base="string">
                     			<enumeration value="IEEE-CDF"></enumeration>
-                    			<enumeration value="PSS-E-29"></enumeration>
-                    			<enumeration value="PSS-E-30"></enumeration>
+                    			<enumeration value="PSS-E"></enumeration>
                     			<enumeration value="UCTE-DEF"></enumeration>
-                    			<enumeration value="CUSTOM"></enumeration>
+                    			<enumeration value="InterPSS"></enumeration>
+                    			<enumeration value="PSAT"></enumeration>
+                    			<enumeration value="Custom"></enumeration>
                     		</restriction>
                     	</simpleType></element>
                     <element name="adapterProviderName" type="string"

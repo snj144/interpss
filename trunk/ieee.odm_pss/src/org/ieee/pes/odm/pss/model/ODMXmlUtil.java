@@ -24,19 +24,24 @@
 
 package org.ieee.pes.odm.pss.model;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.LimitXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.LoadflowBranchDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.PowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.ZXmlType;
 
 public class ODMXmlUtil {
 	/**
+	 * add a name/value pair to the name/value pair List
 	 * 
-	 * 
-	 * @param nvList
-	 * @param name
-	 * @param value
+	 * @param nvList name/value pair list
+	 * @param name name string
+	 * @param value value string
 	 */
 	public static void addNVPair(NameValuePairListXmlType nvList, String name, String value) {
     	NameValuePairXmlType nvPair = nvList.addNewNvPair();
@@ -45,7 +50,7 @@ public class ODMXmlUtil {
 	}
 
 	/**
-	 * 
+	 * form branch id based on from node id, to node id and branch circuit id 
 	 * 
 	 * @param fromId
 	 * @param toId
@@ -57,36 +62,82 @@ public class ODMXmlUtil {
 	}
 	
 	/**
-	 * 
+	 * Set value (r, x, unit) to the z object
 	 * 
 	 * @param z
 	 * @param r
 	 * @param x
 	 * @param unit
 	 */
-	public static void setZ(ZXmlType z, double r, double x, ZXmlType.Unit.Enum unit) {
+	public static void setZValue(ZXmlType z, double r, double x, ZXmlType.Unit.Enum unit) {
 		z.setR(r);
 		z.setX(x);
 		z.setUnit(unit);
 	}
  
 	/**
-	 * 
+	 * Set value (g, b, unit) to the y object
 	 * 
 	 * @param y
 	 * @param g
 	 * @param b
 	 * @param unit
 	 */
-	public static void setY(YXmlType y, double g, double b, YXmlType.Unit.Enum unit) {
+	public static void setYData(YXmlType y, double g, double b, YXmlType.Unit.Enum unit) {
 		y.setG(g);
 		y.setB(b);
 		y.setUnit(unit);
 	}
 	
-	public static void setPower(PowerXmlType power, double p, double q, PowerXmlType.Unit.Enum unit) {
+	/**
+	 * Set value (p, q, unit) to the power object
+	 * 
+	 * @param power
+	 * @param p
+	 * @param q
+	 * @param unit
+	 */
+	public static void setPowerData(PowerXmlType power, double p, double q, PowerXmlType.Unit.Enum unit) {
     	power.setP(p);
     	power.setQ(q);
     	power.setUnit(unit);		
+	}
+	
+	public static void setVoltageData(VoltageXmlType voltage, double v, VoltageXmlType.Unit.Enum unit) {
+    	voltage.setVoltage(v);
+    	voltage.setUnit(unit);		
+	}
+
+	public static void setAngleData(AngleXmlType angle, double a, AngleXmlType.Unit.Enum unit) {
+    	angle.setAngle(a);
+    	angle.setUnit(unit);		
+	}
+
+	public static void setLimitData(LimitXmlType limit, double max, double min) {
+		limit.setMax(max);
+		limit.setMin(min);
+	}
+	
+	public static void setLoadData(LoadflowBusDataXmlType busData, LoadflowBusDataXmlType.LoadData.Code.Enum code, 
+			double p, double q, PowerXmlType.Unit.Enum unit) {
+		busData.addNewLoadData();
+    	busData.getLoadData().setCode(code);
+    	ODMXmlUtil.setPowerData(busData.getLoadData().addNewLoad(), p, q, unit);
+	}
+	
+	public static void setGenData(LoadflowBusDataXmlType busData, LoadflowBusDataXmlType.GenData.Code.Enum code, 
+			double p, double q, PowerXmlType.Unit.Enum unit) {
+   		busData.addNewGenData();
+   		busData.getGenData().setCode(code);
+   		ODMXmlUtil.setPowerData(busData.getGenData().addNewGen(), p, q, unit);
+	}
+	
+	public static void setLineData(LoadflowBranchDataXmlType branchData, 
+			             double r, double x, ZXmlType.Unit.Enum zUnit, 
+			             double g, double b, YXmlType.Unit.Enum bUnit) {
+		branchData.addNewLineData();
+		ODMXmlUtil.setZValue(branchData.getLineData().addNewZ(), r, x, zUnit);
+		if (b != 0.0) 
+			ODMXmlUtil.setYData(branchData.getLineData().addNewTotalShuntY(), g, b, bUnit);
 	}
 }
