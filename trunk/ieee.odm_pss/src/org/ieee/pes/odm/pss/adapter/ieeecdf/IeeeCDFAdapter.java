@@ -87,13 +87,13 @@ public class IeeeCDFAdapter {
             		    processBranchData(str, parser.addNewBaseCaseBranch());
             		}
             		else if (dataType == LossZone) {
-            		    processLossZoneData(str, baseCaseNet);
+            		    processLossZoneData(str, baseCaseNet.getLoseZoneList().addNewLoseZone());
             		}
             		else if (dataType == InterchangeData) {
-            		    processInterchangeData(str, baseCaseNet);
+            		    processInterchangeData(str, baseCaseNet.getInterchangeList().addNewInterchange());
             		}
             		else if (dataType == TielineData) {
-            		    processTielineData(str, baseCaseNet);
+            		    processTielineData(str, baseCaseNet.getTieLineList().addNewTieline());
             		}
             		else if ((str.length() > 3) && str.substring(0,3).equals("BUS")) {
             			dataType = BusData;
@@ -105,14 +105,17 @@ public class IeeeCDFAdapter {
             		}
             		else if ((str.length() > 4) && str.substring(0,4).equals("LOSS")) {
             			dataType = LossZone;
+            		    baseCaseNet.addNewLoseZoneList();
             			logger.info("load loss zone data");
             		}
             		else if ((str.length() > 11) && str.substring(0,11).equals("INTERCHANGE")) {
             			dataType = InterchangeData;
+            		    baseCaseNet.addNewInterchangeList();
             			logger.info("load interchange data");
             		}
             		else if ((str.length() > 3) && str.substring(0,3).equals("TIE")) {
             			dataType = TielineData;
+            		    baseCaseNet.addNewTieLineList();
             			logger.info("load tieline data");
             		}
     			} catch (final Exception e) {
@@ -361,11 +364,11 @@ public class IeeeCDFAdapter {
     	final double rating2Mvar = new Integer(strAry[10]).intValue();
     	final double rating3Mvar = new Integer(strAry[11]).intValue();
     	if (rating1Mvar != 0.0 || rating2Mvar != 0.0 || rating3Mvar != 0.0) {
-    		branchRec.getLoadflowBranchData().addNewRatingData();
-        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating1(rating1Mvar);
-        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating2(rating2Mvar);
-        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating3(rating3Mvar);
-        	branchRec.getLoadflowBranchData().getRatingData().setMvaRatingUnit(LoadflowBranchDataXmlType.RatingData.MvaRatingUnit.MVA);
+    		branchRec.getLoadflowBranchData().addNewRatingLimit();
+        	branchRec.getLoadflowBranchData().getRatingLimit().setMvaRating1(rating1Mvar);
+        	branchRec.getLoadflowBranchData().getRatingLimit().setMvaRating2(rating2Mvar);
+        	branchRec.getLoadflowBranchData().getRatingLimit().setMvaRating3(rating3Mvar);
+        	branchRec.getLoadflowBranchData().getRatingLimit().setMvaRatingUnit(LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.MVA);
     	}
     	
     	String controlBusId = "";
@@ -437,15 +440,15 @@ public class IeeeCDFAdapter {
      *   ============== 
      */
 
-    private static void processLossZoneData(final String str, final PSSNetworkXmlType baseCaseNet) {
+    private static void processLossZoneData(final String str, final PSSNetworkXmlType.LoseZoneList.LoseZone loseZone) {
     	final String[] strAry = getLossZoneDataFields(str);
 
 //    	Columns  1- 3   Loss zone number [I] *
 //    	Columns  5-16   Loss zone name [A] 
     	final int no = new Integer(strAry[0]).intValue();
     	final String name = strAry[1];
-//    	final Zone zone = CoreObjectFactory.createZone(no, net);
-//    	zone.setName(name);
+    	loseZone.setZoneNumber(no);
+    	loseZone.setZoneName(name);
     }
 
     /*
@@ -453,7 +456,7 @@ public class IeeeCDFAdapter {
      *   ================ 
      */
     
-    private static void processInterchangeData(final String str, final PSSNetworkXmlType baseCaseNet) {
+    private static void processInterchangeData(final String str, final PSSNetworkXmlType.InterchangeList.Interchange interchange) {
     	final String[] strAry = getInterchangeDataFields(str);
     	
 //    	Columns  1- 2   Area number [I], no zeros! *
@@ -480,7 +483,7 @@ public class IeeeCDFAdapter {
      *   ============ 
      */
 
-    private static void processTielineData(final String str, final PSSNetworkXmlType baseCaseNet) {
+    private static void processTielineData(final String str, final PSSNetworkXmlType.TieLineList.Tieline tieLine) {
     	final String[] strAry = getTielineDataFields(str);
     	
 //    	Columns  1- 4   Metered bus number [I] *
@@ -495,6 +498,12 @@ public class IeeeCDFAdapter {
       	
 //      Column   21     Circuit number
       	final int cirNo = new Integer(strAry[4]).intValue();
+      	
+      	tieLine.addNewMeteredBus().setIdRef(meteredBusId);
+      	tieLine.setMeteredAreaNumber(meteredAreaNo);
+      	tieLine.addNewNonMeteredBus().setIdRef(nonMeteredBusId);
+      	tieLine.setNonMeteredAreaNumber(nonMeteredAreaNo);
+      	tieLine.setCirId(new Integer(cirNo).toString());
     }
         
     /*
