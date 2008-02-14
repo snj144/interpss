@@ -164,34 +164,6 @@ public class IeeeCDFAdapter {
     	baseCaseNet.setBaseKva(baseMva);
     	baseCaseNet.setBaseKvaUnit(PSSNetworkXmlType.BaseKvaUnit.MVA);
     }
-    
-    private static String[] getNetDataFields(final String str) {
-    	final String[] strAry = new String[6];
-    	
-    	if (str.indexOf(',') >= 0) {
-    		final StringTokenizer st = new StringTokenizer(str, ",");
-    		int cnt = 0;
-    		while(st.hasMoreTokens()) {
-				strAry[cnt++] = st.nextToken().trim();
-			}
-    	}
-    	else {
-            //Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
-        	strAry[0] = str.substring(1,9);
-            //Columns 11-30   Originator's name [A]
-        	strAry[1] = str.substring(10,30);
-            //Columns 32-37   MVA Base [F] *
-        	strAry[2] = str.substring(31,37);  // in MVA
-        	//Columns 39-42   Year [I]
-        	strAry[3] = str.substring(38,42);
-            //Column  44      Season (S - Summer, W - Winter)
-        	strAry[4] = str.substring(43,44);
-            //Column  46-73   Case identification [A]
-        	strAry[5] = str.substring(45);
-    	}
-    	return strAry;
-    }
-
     /*
      *   Bus data
      *   ======== 
@@ -237,22 +209,16 @@ public class IeeeCDFAdapter {
     	//Columns 34-40   Final angle, degrees [F] *
     	final double vpu = new Double(strAry[5]).doubleValue();
     	final double angDeg = new Double(strAry[6]).doubleValue();
-    	busData.addNewVoltage();
-    	busData.getVoltage().setVoltage(vpu);
-    	busData.getVoltage().setUnit(VoltageXmlType.Unit.PU);
+    	ODMXmlUtil.setVoltageData(busData.addNewVoltage(), vpu, VoltageXmlType.Unit.PU);
     	
-    	busData.addNewAngle();
-    	busData.getAngle().setAngle(angDeg);
-    	busData.getAngle().setUnit(AngleXmlType.Unit.DEG);
+    	ODMXmlUtil.setAngleData(busData.addNewAngle(), angDeg, AngleXmlType.Unit.DEG);
 
     	//Columns 41-49   Load MW [F] *
     	//Columns 50-59   Load MVAR [F] *
     	final double loadMw = new Double(strAry[7]).doubleValue();
     	final double loadMvar = new Double(strAry[8]).doubleValue();
     	if (loadMw != 0.0 || loadMvar != 0.0) {
-    		busData.addNewLoadData();
-        	busData.getLoadData().setCode(LoadflowBusDataXmlType.LoadData.Code.CONST_P);
-        	ODMXmlUtil.setPower(busData.getLoadData().addNewLoad(), loadMw, loadMvar, PowerXmlType.Unit.MVA);
+    		ODMXmlUtil.setLoadData(busData, LoadflowBusDataXmlType.LoadData.Code.CONST_P, loadMw, loadMvar, PowerXmlType.Unit.MVA);
     	}
     	
     	//Columns 60-67   Generation MW [F] *
@@ -260,12 +226,22 @@ public class IeeeCDFAdapter {
     	final double genMw = new Double(strAry[9]).doubleValue();
     	final double genMvar = new Double(strAry[10]).doubleValue();
 
+    	if (type == 1) {
+    		ODMXmlUtil.setGenData(busData, LoadflowBusDataXmlType.GenData.Code.PQ, genMw, genMvar, PowerXmlType.Unit.MVA);
+    	}
+    	else if (type == 2) {
+    		ODMXmlUtil.setGenData(busData, LoadflowBusDataXmlType.GenData.Code.PV, genMw, genMvar, PowerXmlType.Unit.MVA);
+    	}
+    	else if (type == 3) {
+    		ODMXmlUtil.setGenData(busData, LoadflowBusDataXmlType.GenData.Code.SWING, genMw, genMvar, PowerXmlType.Unit.MVA);
+    	}
+
     	//Columns 107-114 Shunt conductance G (per unit) [F] *
     	//Columns 115-122 Shunt susceptance B (per unit) [F] *
     	final double gPU = new Double(strAry[15]).doubleValue();
     	final double bPU = new Double(strAry[16]).doubleValue();
     	if (gPU != 0.0 || bPU != 0.0) {
-    		ODMXmlUtil.setY(busData.addNewShuntY(), gPU, bPU, YXmlType.Unit.PU);
+    		ODMXmlUtil.setYData(busData.addNewShuntY(), gPU, bPU, YXmlType.Unit.PU);
     	}
     	
     	//Columns 85-90   Desired volts (pu) [F] (This is desired remote voltage if this bus is controlling another bus.)
@@ -279,6 +255,276 @@ public class IeeeCDFAdapter {
     	//Columns 124-127 Remote controlled bus number
     	final String reBusId = strAry[17];
     	
+    	if (max != 0.0 || min != 0.0) {
+    		if (type == 1) {
+    			busData.getGenData().addNewVGenLimit();
+    			ODMXmlUtil.setLimitData(busData.getGenData().getVGenLimit().addNewVLimit(), max, min);
+    			busData.getGenData().getVGenLimit().setVLimitUnit(LoadflowBusDataXmlType.GenData.VGenLimit.VLimitUnit.PU);
+    		}
+    		else if (type ==2) {
+    			busData.getGenData().addNewQGenLimit();
+    			ODMXmlUtil.setLimitData(busData.getGenData().getQGenLimit().addNewQLimit(), max, min);
+    			busData.getGenData().getQGenLimit().setQLimitUnit(LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.MVAR);
+    			if (reBusId != null && !reBusId.equals("0") && !reBusId.equals(busId)) {
+    				busData.getGenData().addNewDesiredRemoteVoltage();
+    				ODMXmlUtil.setVoltageData(busData.getGenData().getDesiredRemoteVoltage().addNewDesiredVoltage(), vSpecPu, VoltageXmlType.Unit.PU);
+    				busData.getGenData().getDesiredRemoteVoltage().addNewRemoteBus();
+    				busData.getGenData().getDesiredRemoteVoltage().getRemoteBus().setIdRef(reBusId);
+    			}
+    		}
+    	}
+    }
+    
+    /*
+     *   Branch data
+     *   =========== 
+     */
+
+    private static void processBranchData(final String str, final BranchRecordXmlType branchRec) {
+    	// parse the input data line
+    	final String[] strAry = getBranchDataFields(str);
+
+//    	Columns  1- 4   Tap bus number [I] *
+//      	For transformers or phase shifters, the side of the model the non-unity tap is on.
+//		Columns  6- 9   Z bus number [I] *
+//      	For transformers and phase shifters, the side of the model the device impedance is on.
+    	final String fid = strAry[0];
+    	final String tid = strAry[1];
+    	logger.info("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
+    	branchRec.addNewFromBus().setIdRef(fid);
+    	branchRec.addNewToBus().setIdRef(tid);
+
+//    	Columns 11-12   Load flow area [I]
+//    	Columns 13-15   Loss zone [I]
+//    	Column  17      Circuit [I] * (Use 1 for single lines)
+    	final int areaNo = new Integer(strAry[2]).intValue();
+    	final int zoneNo = new Integer(strAry[3]).intValue();
+    	final String cirId  = strAry[4];
+    	branchRec.setArea(areaNo);
+    	branchRec.setZone(zoneNo);
+    	branchRec.setCircuitId(cirId);
+    	
+    	branchRec.setId(ODMXmlUtil.formBranchId(fid, tid, cirId));
+    	branchRec.addNewLoadflowBranchData();
+    	
+//    	Column  19      Type [I] *
+//      0 - Transmission line
+//      1 - Fixed tap
+//      2 - Variable tap for voltage control (TCUL, LTC)
+//      3 - Variable tap (turns ratio) for MVAR control
+//      4 - Variable phase angle for MW control (phase shifter)
+    	final int type = new Integer(strAry[5]).intValue();
+    	
+//    	Columns 20-29   Branch resistance R, per unit [F] *
+//    	Columns 30-40   Branch reactance X, per unit [F] * No zero impedance lines
+//    	Columns 41-50   Line charging B, per unit [F] * (total line charging, +B), Xfr B is negative
+    	final double rpu = new Double(strAry[6]).doubleValue();
+    	final double xpu = new Double(strAry[7]).doubleValue();
+    	final double bpu = new Double(strAry[8]).doubleValue();
+    	if (type == 0) {
+    		ODMXmlUtil.setLineData(branchRec.getLoadflowBranchData(), rpu, xpu, ZXmlType.Unit.PU, 0.0, bpu, YXmlType.Unit.PU);
+    	}
+    	
+    	// assume ratio and angle are defined at to side
+//    	Columns 77-82   Transformer final turns ratio [F]
+//    	Columns 84-90   Transformer (phase shifter) final angle [F]
+    	final double ratio = new Double(strAry[14]).doubleValue();
+    	final double angle = new Double(strAry[15]).doubleValue();
+    	if (type > 0) {
+    		if (angle == 0.0) {
+        		branchRec.getLoadflowBranchData().addNewXformerData();
+        		ODMXmlUtil.setZValue(branchRec.getLoadflowBranchData().getXformerData().addNewZ(),
+        						rpu, xpu, ZXmlType.Unit.PU);
+        		// assume b and ratio are defined at the from bus side
+        		if (bpu != 0.0) 
+        			ODMXmlUtil.setYData(branchRec.getLoadflowBranchData().getXformerData().addNewFromShuntY(),
+        							0.0, bpu, YXmlType.Unit.PU);
+        		branchRec.getLoadflowBranchData().getXformerData().setFromTurnRatio(ratio);
+    		}
+    		else {
+        		branchRec.getLoadflowBranchData().addNewPhaseShiftXfrData();
+        		ODMXmlUtil.setZValue(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewZ(),
+        						rpu, xpu, ZXmlType.Unit.PU);
+        		if (bpu != 0.0) {
+        			ODMXmlUtil.setYData(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewFromShuntY(),
+        							0.0, bpu, YXmlType.Unit.PU);
+        		}
+        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().setFromTurnRatio(ratio);
+        		ODMXmlUtil.setAngleData(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewFromAngle(), angle, AngleXmlType.Unit.DEG);
+    		}
+    	}
+    	
+//    	Columns 51-55   Line MVA rating No 1 [I] Left justify!
+//    	Columns 57-61   Line MVA rating No 2 [I] Left justify!
+//    	Columns 63-67   Line MVA rating No 3 [I] Left justify!
+    	final double rating1Mvar = new Integer(strAry[9]).intValue();
+    	final double rating2Mvar = new Integer(strAry[10]).intValue();
+    	final double rating3Mvar = new Integer(strAry[11]).intValue();
+    	if (rating1Mvar != 0.0 || rating2Mvar != 0.0 || rating3Mvar != 0.0) {
+    		branchRec.getLoadflowBranchData().addNewRatingData();
+        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating1(rating1Mvar);
+        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating2(rating2Mvar);
+        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating3(rating3Mvar);
+        	branchRec.getLoadflowBranchData().getRatingData().setMvaRatingUnit(LoadflowBranchDataXmlType.RatingData.MvaRatingUnit.MVA);
+    	}
+    	
+    	String controlBusId = "";
+    	int controlSide = 0;
+    	double stepSize = 0.0, maxTapAng = 0.0, minTapAng = 0.0, maxVoltPQ = 0.0, minVoltPQ = 0.0;
+    	if (type > 1) {
+//    		Columns 69-72   Control bus number
+        	controlBusId = strAry[12];
+
+//        	Column  74      Side [I]
+//          	0 - Controlled bus is one of the terminals
+//          	1 - Controlled bus is near the tap side
+//          	2 - Controlled bus is near the impedance side (Z bus)
+        	controlSide = new Integer(strAry[13]).intValue();
+
+//        	Columns 106-111 Step size [F]
+        	stepSize = new Double(strAry[18]).doubleValue();
+        	
+//        	Columns 91-97   Minimum tap or phase shift [F]
+//        	Columns 98-104  Maximum tap or phase shift [F]
+        	minTapAng = new Double(strAry[16]).doubleValue();
+        	maxTapAng = new Double(strAry[17]).doubleValue();
+
+//        	Columns 113-119 Minimum voltage, MVAR or MW limit [F]
+//        	Columns 120-126 Maximum voltage, MVAR or MW limit [F]
+        	maxVoltPQ = new Double(strAry[19]).doubleValue();
+        	minVoltPQ = new Double(strAry[20]).doubleValue();
+    	}
+    	
+        if (type == 2) {
+        	// type 2 - Variable tap for voltage control (TCUL, LTC)
+        	/*
+          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, FlowControlType.RANGE_CONTROL);
+          		tapv.setTapLimit(new LimitType(maxTapAng, minTapAng));
+          		// TODO: volt spec is not defined
+          		tapv.setVSpecified(1.0);
+          		tapv.setTapStepSize(stepSize);
+          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		net.addTapControl(tapv, controlBusId);
+          		*/          		
+       	}
+        else if (type == 3) {
+          		// type 3 - Variable tap (turns ratio) for MVAR control
+          		/*
+          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), FlowControlType.RANGE_CONTROL);
+          		tapv.setTapLimit(new LimitType(maxVoltPQ, minVoltPQ));
+          		// TODO: volt spec is not defined
+          		tapv.setVSpecified(1.0);
+          		tapv.setTapStepSize(stepSize);
+          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		net.addTapControl(tapv, controlBusId);
+          		*/          		
+        }
+        else if (type == 4) {
+          		// type 4 - Variable phase angle for MW control (phase shifter)
+          		/*
+          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL);
+          		// TODO pSpec not defined
+          		ps.setPSpecified(0.2);
+          		ps.setAngLimit(new LimitType(maxTapAng*Constants.DtoR, minTapAng*Constants.DtoR));
+          		ps.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		net.addPSXfrPControl(ps, controlBusId);
+          		*/          		
+        }
+    }
+    	
+    /*
+     *   Loss Zone data
+     *   ============== 
+     */
+
+    private static void processLossZoneData(final String str, final PSSNetworkXmlType baseCaseNet) {
+    	final String[] strAry = getLossZoneDataFields(str);
+
+//    	Columns  1- 3   Loss zone number [I] *
+//    	Columns  5-16   Loss zone name [A] 
+    	final int no = new Integer(strAry[0]).intValue();
+    	final String name = strAry[1];
+//    	final Zone zone = CoreObjectFactory.createZone(no, net);
+//    	zone.setName(name);
+    }
+
+    /*
+     *   Interchange data
+     *   ================ 
+     */
+    
+    private static void processInterchangeData(final String str, final PSSNetworkXmlType baseCaseNet) {
+    	final String[] strAry = getInterchangeDataFields(str);
+    	
+//    	Columns  1- 2   Area number [I], no zeros! *
+      	final int no = new Integer(strAry[0]).intValue();
+      	
+//    	Columns  4- 7   Interchange slack bus number [I] *
+//      Columns  9-20   Alternate swing bus name [A]
+      	final String slackBusId = strAry[1];
+      	final String alSwingBusName = strAry[2];
+      	
+//      Columns 21-28   Area interchange export, MW [F] (+ = out) *
+//      Columns 30-35   Area interchange tolerance, MW [F] *
+      	final double mw = new Double(strAry[3]).doubleValue();
+      	final double err = new Double(strAry[4]).doubleValue();
+      	
+//      Columns 38-43   Area code (abbreviated name) [A] *
+//      Columns 46-75   Area name [A]
+      	final String code = strAry[5];
+      	final String name = strAry[6];
+    }        
+    
+    /*
+     *   Tieline data
+     *   ============ 
+     */
+
+    private static void processTielineData(final String str, final PSSNetworkXmlType baseCaseNet) {
+    	final String[] strAry = getTielineDataFields(str);
+    	
+//    	Columns  1- 4   Metered bus number [I] *
+//    	Columns  7-8    Metered area number [I] *
+      	final String meteredBusId = strAry[0];
+      	final int meteredAreaNo = new Integer(strAry[1]).intValue();
+      	
+//      Columns  11-14  Non-metered bus number [I] *
+//      Columns  17-18  Non-metered area number [I] *
+      	final String nonMeteredBusId = strAry[2];
+      	final int nonMeteredAreaNo = new Integer(strAry[3]).intValue();
+      	
+//      Column   21     Circuit number
+      	final int cirNo = new Integer(strAry[4]).intValue();
+    }
+        
+    /*
+     * util functions
+     */
+    private static String[] getNetDataFields(final String str) {
+    	final String[] strAry = new String[6];
+    	
+    	if (str.indexOf(',') >= 0) {
+    		final StringTokenizer st = new StringTokenizer(str, ",");
+    		int cnt = 0;
+    		while(st.hasMoreTokens()) {
+				strAry[cnt++] = st.nextToken().trim();
+			}
+    	}
+    	else {
+            //Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
+        	strAry[0] = str.substring(1,9);
+            //Columns 11-30   Originator's name [A]
+        	strAry[1] = str.substring(10,30);
+            //Columns 32-37   MVA Base [F] *
+        	strAry[2] = str.substring(31,37);  // in MVA
+        	//Columns 39-42   Year [I]
+        	strAry[3] = str.substring(38,42);
+            //Column  44      Season (S - Summer, W - Winter)
+        	strAry[4] = str.substring(43,44);
+            //Column  46-73   Case identification [A]
+        	strAry[5] = str.substring(45);
+    	}
+    	return strAry;
     }
 
     private static String[] getBusDataFields(final String str) {
@@ -346,134 +592,6 @@ public class IeeeCDFAdapter {
         	strAry[17] = str.substring(123,127).trim();
     	}
     	return strAry;
-    }
-    
-    /*
-     *   Branch data
-     *   =========== 
-     */
-
-    private static void processBranchData(final String str, final BranchRecordXmlType branchRec) {
-    	// parse the input data line
-    	final String[] strAry = getBranchDataFields(str);
-
-//    	Columns  1- 4   Tap bus number [I] *
-//      	For transformers or phase shifters, the side of the model the non-unity tap is on.
-//		Columns  6- 9   Z bus number [I] *
-//      	For transformers and phase shifters, the side of the model the device impedance is on.
-    	final String fid = strAry[0];
-    	final String tid = strAry[1];
-    	logger.info("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
-    	branchRec.addNewFromBus().setIdRef(fid);
-    	branchRec.addNewToBus().setIdRef(tid);
-
-//    	Columns 11-12   Load flow area [I]
-//    	Columns 13-15   Loss zone [I]
-//    	Column  17      Circuit [I] * (Use 1 for single lines)
-    	final int areaNo = new Integer(strAry[2]).intValue();
-    	final int zoneNo = new Integer(strAry[3]).intValue();
-    	final String cirId  = strAry[4];
-    	branchRec.setArea(areaNo);
-    	branchRec.setZone(zoneNo);
-    	branchRec.setCircuitId(cirId);
-    	
-    	branchRec.setId(ODMXmlUtil.formBranchId(fid, tid, cirId));
-    	branchRec.addNewLoadflowBranchData();
-    	
-//    	Column  19      Type [I] *
-//      0 - Transmission line
-//      1 - Fixed tap
-//      2 - Variable tap for voltage control (TCUL, LTC)
-//      3 - Variable tap (turns ratio) for MVAR control
-//      4 - Variable phase angle for MW control (phase shifter)
-    	final int type = new Integer(strAry[5]).intValue();
-    	
-//    	Columns 20-29   Branch resistance R, per unit [F] *
-//    	Columns 30-40   Branch reactance X, per unit [F] * No zero impedance lines
-//    	Columns 41-50   Line charging B, per unit [F] * (total line charging, +B), Xfr B is negative
-    	final double rpu = new Double(strAry[6]).doubleValue();
-    	final double xpu = new Double(strAry[7]).doubleValue();
-    	final double bpu = new Double(strAry[8]).doubleValue();
-    	if (type == 0) {
-    		branchRec.getLoadflowBranchData().addNewLineData();
-    		ODMXmlUtil.setZ(branchRec.getLoadflowBranchData().getLineData().addNewZ(),
-    							rpu, xpu, ZXmlType.Unit.PU);
-    		if (bpu != 0.0) {
-    			ODMXmlUtil.setY(branchRec.getLoadflowBranchData().getLineData().addNewTotalShuntY(),
-    							0.0, bpu, YXmlType.Unit.PU);
-    		}
-    	}
-    	
-    	// assume ratio and angle are defined at to side
-//    	Columns 77-82   Transformer final turns ratio [F]
-//    	Columns 84-90   Transformer (phase shifter) final angle [F]
-    	final double ratio = new Double(strAry[14]).doubleValue();
-    	final double angle = new Double(strAry[15]).doubleValue();
-    	if (type > 0) {
-    		if (angle == 0.0) {
-        		branchRec.getLoadflowBranchData().addNewXformerData();
-        		ODMXmlUtil.setZ(branchRec.getLoadflowBranchData().getXformerData().addNewZ(),
-        						rpu, xpu, ZXmlType.Unit.PU);
-        		if (bpu != 0.0) 
-        			ODMXmlUtil.setY(branchRec.getLoadflowBranchData().getXformerData().addNewToShuntY(),
-        							0.0, bpu, YXmlType.Unit.PU);
-        		branchRec.getLoadflowBranchData().getXformerData().setToTurnRatio(ratio);
-    		}
-    		else {
-        		branchRec.getLoadflowBranchData().addNewPhaseShiftXfrData();
-        		ODMXmlUtil.setZ(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewZ(),
-        						rpu, xpu, ZXmlType.Unit.PU);
-        		if (bpu != 0.0) {
-        			ODMXmlUtil.setY(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewToShuntY(),
-        							0.0, bpu, YXmlType.Unit.PU);
-        		}
-        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().setToTurnRatio(ratio);
-        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewToAngle();
-        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().getToAngle().setAngle(angle);
-        		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().getToAngle().setUnit(AngleXmlType.Unit.DEG);
-    		}
-    	}
-    	
-//    	Columns 51-55   Line MVA rating No 1 [I] Left justify!
-//    	Columns 57-61   Line MVA rating No 2 [I] Left justify!
-//    	Columns 63-67   Line MVA rating No 3 [I] Left justify!
-    	final double rating1Mvar = new Integer(strAry[9]).intValue();
-    	final double rating2Mvar = new Integer(strAry[10]).intValue();
-    	final double rating3Mvar = new Integer(strAry[11]).intValue();
-    	if (rating1Mvar != 0.0 || rating2Mvar != 0.0 || rating3Mvar != 0.0) {
-    		branchRec.getLoadflowBranchData().addNewRatingData();
-        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating1(rating1Mvar);
-        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating2(rating2Mvar);
-        	branchRec.getLoadflowBranchData().getRatingData().setMvaRating3(rating3Mvar);
-        	branchRec.getLoadflowBranchData().getRatingData().setMvaRatingUnit(LoadflowBranchDataXmlType.RatingData.MvaRatingUnit.MVA);
-    	}
-    	
-    	String controlBusId = "";
-    	int controlSide = 0;
-    	double stepSize = 0.0, maxTapAng = 0.0, minTapAng = 0.0, maxVoltPQ = 0.0, minVoltPQ = 0.0;
-    	if (type > 1) {
-//    		Columns 69-72   Control bus number
-        	controlBusId = strAry[12];
-
-//        	Column  74      Side [I]
-//          	0 - Controlled bus is one of the terminals
-//          	1 - Controlled bus is near the tap side
-//          	2 - Controlled bus is near the impedance side (Z bus)
-        	controlSide = new Integer(strAry[13]).intValue();
-
-//        	Columns 106-111 Step size [F]
-        	stepSize = new Double(strAry[18]).doubleValue();
-        	
-//        	Columns 91-97   Minimum tap or phase shift [F]
-//        	Columns 98-104  Maximum tap or phase shift [F]
-        	minTapAng = new Double(strAry[16]).doubleValue();
-        	maxTapAng = new Double(strAry[17]).doubleValue();
-
-//        	Columns 113-119 Minimum voltage, MVAR or MW limit [F]
-//        	Columns 120-126 Maximum voltage, MVAR or MW limit [F]
-        	maxVoltPQ = new Double(strAry[19]).doubleValue();
-        	minVoltPQ = new Double(strAry[20]).doubleValue();
-    	}
     }
     
     private static String[] getBranchDataFields(final String str) {
@@ -548,22 +666,6 @@ public class IeeeCDFAdapter {
     	return strAry;
     }	
     	
-    /*
-     *   Loss Zone data
-     *   ============== 
-     */
-
-    private static void processLossZoneData(final String str, final PSSNetworkXmlType baseCaseNet) {
-    	final String[] strAry = getLossZoneDataFields(str);
-
-//    	Columns  1- 3   Loss zone number [I] *
-//    	Columns  5-16   Loss zone name [A] 
-    	final int no = new Integer(strAry[0]).intValue();
-    	final String name = strAry[1];
-//    	final Zone zone = CoreObjectFactory.createZone(no, net);
-//    	zone.setName(name);
-    }
-
     private static String[] getLossZoneDataFields(final String str) {
     	final String[] strAry = new String[2];
     	
@@ -581,33 +683,6 @@ public class IeeeCDFAdapter {
     	return strAry;
     }	
 
-    /*
-     *   Interchange data
-     *   ================ 
-     */
-    
-    private static void processInterchangeData(final String str, final PSSNetworkXmlType baseCaseNet) {
-    	final String[] strAry = getInterchangeDataFields(str);
-    	
-//    	Columns  1- 2   Area number [I], no zeros! *
-      	final int no = new Integer(strAry[0]).intValue();
-      	
-//    	Columns  4- 7   Interchange slack bus number [I] *
-//      Columns  9-20   Alternate swing bus name [A]
-      	final String slackBusId = strAry[1];
-      	final String alSwingBusName = strAry[2];
-      	
-//      Columns 21-28   Area interchange export, MW [F] (+ = out) *
-//      Columns 30-35   Area interchange tolerance, MW [F] *
-      	final double mw = new Double(strAry[3]).doubleValue();
-      	final double err = new Double(strAry[4]).doubleValue();
-      	
-//      Columns 38-43   Area code (abbreviated name) [A] *
-//      Columns 46-75   Area name [A]
-      	final String code = strAry[5];
-      	final String name = strAry[6];
-    }        
-    
     private static String[] getInterchangeDataFields(final String str) {
     	final String[] strAry = new String[7];
     	
@@ -639,29 +714,7 @@ public class IeeeCDFAdapter {
         }
     	return strAry;
     }	
-    
-    /*
-     *   Tieline data
-     *   ============ 
-     */
 
-    private static void processTielineData(final String str, final PSSNetworkXmlType baseCaseNet) {
-    	final String[] strAry = getTielineDataFields(str);
-    	
-//    	Columns  1- 4   Metered bus number [I] *
-//    	Columns  7-8    Metered area number [I] *
-      	final String meteredBusId = strAry[0];
-      	final int meteredAreaNo = new Integer(strAry[1]).intValue();
-      	
-//      Columns  11-14  Non-metered bus number [I] *
-//      Columns  17-18  Non-metered area number [I] *
-      	final String nonMeteredBusId = strAry[2];
-      	final int nonMeteredAreaNo = new Integer(strAry[3]).intValue();
-      	
-//      Column   21     Circuit number
-      	final int cirNo = new Integer(strAry[4]).intValue();
-    }
-        
     private static String[] getTielineDataFields(final String str) {
     	final String[] strAry = new String[5];
     	

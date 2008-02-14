@@ -160,9 +160,9 @@
     						<complexType>
     							<sequence>
     								<element name="qLimit"
-    									type="pss:LimitXmlType">
+    									type="pss:LimitXmlType" minOccurs="1" maxOccurs="1">
     								</element>
-    								<element name="qUnit">
+    								<element name="qLimitUnit" minOccurs="0" maxOccurs="1">
     									<simpleType>
     										<restriction
     											base="string">
@@ -187,9 +187,9 @@
     						<complexType>
     							<sequence>
     								<element name="vLimit"
-    									type="pss:LimitXmlType">
+    									type="pss:LimitXmlType" minOccurs="1" maxOccurs="1">
     								</element>
-    								<element name="vUnit">
+    								<element name="vLimitUnit" minOccurs="0" maxOccurs="1">
     									<simpleType>
     										<restriction
     											base="string">
@@ -211,8 +211,18 @@
 
 
 
-    					<element name="desiredVoltage" minOccurs="0"
-    						maxOccurs="1" type="pss:VoltageXmlType">
+    					<element name="desiredRemoteVoltage" minOccurs="0"
+    						maxOccurs="1">
+                            <complexType>
+                            	<sequence>
+                            		<element name="desiredVoltage"
+                            			type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1">
+                            		</element>
+                            		<element name="remoteBus"
+                            			type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1">
+                            		</element>
+                            	</sequence>
+                            </complexType>
     					</element>
 
     				</sequence>
@@ -374,8 +384,8 @@
 
     <complexType name="VoltageXmlType">
     	<sequence>
-    		<element name="voltage" type="double"></element>
-    		<element name="unit">
+    		<element name="voltage" type="double" minOccurs="1" maxOccurs="1"></element>
+    		<element name="unit" minOccurs="0" maxOccurs="1">
     			<simpleType>
     				<restriction base="string">
     					<enumeration value="PU"></enumeration>
