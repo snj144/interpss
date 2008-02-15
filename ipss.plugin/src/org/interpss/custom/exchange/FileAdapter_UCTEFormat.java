@@ -214,8 +214,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
      */
     private static boolean processCommentRecord(String str, AclfAdjNetwork  aclfNet) {
 		IpssLogger.getLogger().info("Comment: " + str);
-		// comment lines are added into the desc field
-		aclfNet.setDesc(aclfNet.getDesc() + str + "\n");
+		// there is no need to do anything to the comment lines
+		//aclfNet.setDesc(aclfNet.getDesc() + str + "\n");
     	return true;
     }
 
@@ -450,7 +450,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     			aclfNet.getBaseKva(), UnitType.MicroMho, UnitType.PU);
     	xfr.setToShuntY(yPU, UnitType.PU, aclfNet.getBaseKva()); 
     	xfr.setFromTurnRatio(1.0, UnitType.PU);
-    	xfr.setToTurnRatio(1.0, UnitType.PU); 
+    	double ratio = (toRatedKV/branch.getToBus().getBaseVoltage()) / (fromRatedKV/branch.getFromBus().getBaseVoltage());
+    	xfr.setToTurnRatio(ratio, UnitType.PU); 
 
     	// by default the branch is active
     	if (status == 8 || status == 9) 
@@ -522,18 +523,20 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 			branch.setN1Phase(n1Phase);
 			branch.setUKvPhase(uKvPhase);
 			
-			final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
+	    	final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
+	    	double ratioFactor = xfr.getToTurnRatio();
+
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at toside x : 1.0, InterPSS model 1.0:turnRatio
-			xfr.setToTurnRatio(1.0/x, UnitType.PU);
+			xfr.setToTurnRatio(ratioFactor/x, UnitType.PU);
 			
 			if (uKvPhase > 0.0) {
 				// tap control of voltage at to node side
 //              2 - Variable tap for voltage control (TCUL, LTC)
           		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(aclfNet, branch.getId(), 
           									toNodeId, FlowControlType.POINT_CONTROL);
-          		double maxTap = (1.0 + nPhase*dUPhase*0.01), 
-          		       minTap = (1.0 - nPhase*dUPhase*0.01);
+          		double maxTap = ratioFactor*(1.0 + nPhase*dUPhase*0.01), 
+          		       minTap = ratioFactor*(1.0 - nPhase*dUPhase*0.01);
          		tapv.setTapLimit(new LimitType(maxTap, minTap));
           		tapv.setVSpecified(uKvPhase, UnitType.kV);
           		tapv.setTapStepSize(2*nPhase+1);
@@ -551,7 +554,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	
 		 	branch.setBranchCode(AclfBranchCode.PS_XFORMER);
 			final PSXfrAdapter psXfr = (PSXfrAdapter)branch.adapt(PSXfrAdapter.class);
-			double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;
+	    	double ratioFactor = psXfr.getToTurnRatio();
+
+	    	double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;
 			double a    = n1Angle*dUAngle*0.01,
 				   aMax = nAngle*dUAngle*0.01,
 			       aMin = -nAngle*dUAngle*0.01;
@@ -582,7 +587,7 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 				angMin = 2.0 * Math.atan(aMin/2.0);
 			}
 			psXfr.setToAngle(-ang, UnitType.Rad);
-			psXfr.setToTurnRatio(1/x, UnitType.PU);
+			psXfr.setToTurnRatio(ratioFactor/x, UnitType.PU);
 			
 			if (pMwAngle != 0.0) {
           		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(aclfNet, branch.getId(), FlowControlType.POINT_CONTROL);
