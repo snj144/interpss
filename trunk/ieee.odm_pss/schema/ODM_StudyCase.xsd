@@ -5,6 +5,7 @@
 	elementFormDefault="qualified">
 
 	<include schemaLocation="ODM_DataType.xsd"></include>
+
 	<complexType name="StudyCaseXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
@@ -34,7 +35,6 @@
 					<element name="adapterProviderVersion" type="string"
 						minOccurs="0" maxOccurs="1">
 					</element>
-
 					<element name="analysisCategory" minOccurs="1"
 						maxOccurs="1">
 						<simpleType>
@@ -47,7 +47,6 @@
 							</restriction>
 						</simpleType>
 					</element>
-
 					<element name="networkCategory" minOccurs="1"
 						maxOccurs="1">
 						<simpleType>
@@ -57,7 +56,6 @@
 							</restriction>
 						</simpleType>
 					</element>
-
 					<element name="baseCase"
 						type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
 					</element>
@@ -66,15 +64,11 @@
 					</element>
 					<element name="scenarioList"
 						type="pss:ScenarioListXmlType" minOccurs="0" maxOccurs="1">
-					</element>
-				</sequence>
-
+					</element>				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
-
 	<element name="PSSStudyCase" type="pss:StudyCaseXmlType"></element>
-
 	<complexType name="PSSNetworkXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
@@ -97,7 +91,6 @@
 					<element name="branchList"
 						type="pss:BranchRecordListXmlType" minOccurs="1" maxOccurs="1">
 					</element>
-
 					<element name="loseZoneList" minOccurs="0">
 						<complexType>
 							<sequence>
@@ -201,7 +194,6 @@
 			</extension>
 		</complexContent>
 	</complexType>
-
 	<complexType name="ModifyRecordListXmlType">
 		<sequence>
 			<element name="modifyRec" type="pss:ModifyRecordXmlType" minOccurs="0" maxOccurs="unbounded"></element>
@@ -219,7 +211,6 @@
     		<element name="scenario" type="pss:ScenarioXmlType" minOccurs="0" maxOccurs="unbounded"></element>
     	</sequence>
     </complexType>
-    
     <complexType name="ScenarioXmlType">
     	<complexContent>
     		<extension base="pss:IDRecordXmlType">
@@ -229,7 +220,6 @@
     					maxOccurs="1">
     				</element>
     			</sequence>
-
     		</extension>
     	</complexContent>
     </complexType>
