@@ -86,7 +86,6 @@
     					type="pss:LoadflowBusDataXmlType" minOccurs="0"
     					maxOccurs="1">
     				</element>
-
     			</sequence>
     		</extension>
     	</complexContent>
@@ -108,7 +107,6 @@
     				<element name="circuitId" type="string"
     					minOccurs="0" maxOccurs="1">
     				</element>
-
     				<element name="loadflowBranchData" type="pss:LoadflowBranchDataXmlType" minOccurs="0" maxOccurs="1"></element>
     			</sequence>
     		</extension>
@@ -129,15 +127,12 @@
 
     <complexType name="LoadflowBusDataXmlType">
     	<sequence>
-
     		<element name="voltage" type="pss:VoltageXmlType"
     			minOccurs="1" maxOccurs="1">
     		</element>
-
     		<element name="angle" type="pss:AngleXmlType" minOccurs="0"
     			maxOccurs="1">
     		</element>
-
     		<element name="genData" minOccurs="0" maxOccurs="1">
     			<complexType>
     				<sequence>
@@ -154,7 +149,6 @@
     					<element name="gen" type="pss:PowerXmlType"
     						minOccurs="0" maxOccurs="1">
     					</element>
-
     					<element name="qGenLimit" minOccurs="0"
     						maxOccurs="1">
     						<complexType>
@@ -181,7 +175,6 @@
     							</sequence>
     						</complexType>
     					</element>
-
     					<element name="vGenLimit" minOccurs="0"
     						maxOccurs="1">
     						<complexType>
@@ -208,9 +201,6 @@
     							</sequence>
     						</complexType>
     					</element>
-
-
-
     					<element name="desiredRemoteVoltage" minOccurs="0"
     						maxOccurs="1">
                             <complexType>
@@ -224,7 +214,6 @@
                             	</sequence>
                             </complexType>
     					</element>
-
     				</sequence>
     			</complexType>
     		</element>
@@ -244,18 +233,15 @@
     					<element name="load" type="pss:PowerXmlType"
     						minOccurs="1" maxOccurs="1">
     					</element>
-
     				</sequence>
     			</complexType>
     		</element>
     		<element name="shuntY" minOccurs="0" maxOccurs="1"
     			type="pss:YXmlType">
     		</element>
-
     		<element name="powerInjection" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
     	</sequence>
     </complexType>
-
     <complexType name="LoadflowBranchDataXmlType">
     	<sequence>
     		<element name="code" minOccurs="1" maxOccurs="1">
@@ -277,15 +263,12 @@
     					<element name="totalShuntY" type="pss:YXmlType"
     						minOccurs="0" maxOccurs="1">
     					</element>
-
     				</sequence>
     			</complexType>
     		</element>
     		<element name="xformerData"
     			type="pss:TransformerDataXmlType" minOccurs="0" maxOccurs="1">
-
     		</element>
-
     		<element name="phaseShiftXfrData"
     			type="pss:PhaseShiftXfrDataXmlType" minOccurs="0"
     			maxOccurs="1">
@@ -314,25 +297,20 @@
     							</restriction>
     						</simpleType></element>
     				</sequence>
-    			</complexType></element>
-    	</sequence>
+    			</complexType></element>    	</sequence>
     </complexType>
-    
-
     <complexType name="LimitXmlType">
     	<sequence>
     		<element name="max" type="double" minOccurs="1"></element>
     		<element name="min" type="double" minOccurs="1"></element>
     	</sequence>
     </complexType>
-
     <complexType name="ComplexXmlType">
     	<sequence>
     		<element name="re" type="double" minOccurs="1" maxOccurs="1"></element>
     		<element name="im" type="double" minOccurs="1" maxOccurs="1"></element>
     	</sequence>
     </complexType>
-
     <complexType name="ZXmlType">
     	<sequence>
     		<element name="r" type="double" minOccurs="0" maxOccurs="1"></element>
@@ -344,10 +322,8 @@
     					<enumeration value="OHM"></enumeration>
     				</restriction>
     			</simpleType>
-    		</element>
-    	</sequence>
+    		</element>    	</sequence>
     </complexType>
-    
     <complexType name="YXmlType">
     	<sequence>
     		<element name="g" type="double" minOccurs="0" maxOccurs="1"></element>
@@ -360,12 +336,8 @@
     					<enumeration value="MICROMHO"></enumeration>
     				</restriction>
     			</simpleType>
-    		</element>
-    	</sequence>
+    		</element>    	</sequence>
     </complexType>
-    
-
-
     <complexType name="PowerXmlType">
     	<sequence>
     		<element name="p" type="double" minOccurs="1"
@@ -383,10 +355,8 @@
     					<enumeration value="MVA"></enumeration>
     				</restriction>
     			</simpleType>
-    		</element>
-    	</sequence>
+    		</element>    	</sequence>
     </complexType>    
-
     <complexType name="VoltageXmlType">
     	<sequence>
     		<element name="voltage" type="double" minOccurs="1" maxOccurs="1"></element>
@@ -400,7 +370,6 @@
     			</simpleType></element>
     	</sequence>
     </complexType>
-
     <complexType name="AngleXmlType">
     	<sequence>
     		<element name="angle" type="double" minOccurs="1"></element>
@@ -413,8 +382,6 @@
     			</simpleType></element>
     	</sequence>
     </complexType>
-
-
     <complexType name="TransformerDataXmlType">
     				<sequence>
     					<element name="z" type="pss:ZXmlType"
@@ -426,17 +393,6 @@
     					<element name="toTurnRatio" type="double"
     						minOccurs="0" maxOccurs="1">
     					</element>
-
-
-
-
-
-
-
-
-
-
-
     					<element name="fromShuntY" type="pss:YXmlType"
     						minOccurs="0">
     					</element>
@@ -481,10 +437,9 @@
     								<element name="tapAdjStepSize"
     									type="double" minOccurs="0">
     								</element>
-                        <element name="tapAdjOnFromSide" type="boolean" minOccurs="1">
+                        			<element name="tapAdjOnFromSide" type="boolean" minOccurs="1">
     								</element>
-                        <element name="voltageAdjustment"
-    									minOccurs="0">
+                        			<element name="voltageAdjustment" minOccurs="0">
     									<complexType>
     										<complexContent>
     											<extension
@@ -520,9 +475,7 @@
     																</enumeration>
     															</restriction>
     														</simpleType>
-    													</element>
-    												</sequence>
-
+    													</element>    												</sequence>
     											</extension>
     										</complexContent>
     									</complexType>
@@ -534,7 +487,6 @@
     											<extension
     												base="pss:AdjustmentDataXmlType">
     												<sequence>
-
     													<element
     														name="desiredMvarFlowUnit" minOccurs="1">
     														<simpleType>
@@ -567,7 +519,6 @@
     						</complexType></element>
     				</sequence>
     </complexType>
-
     <complexType name="PhaseShiftXfrDataXmlType">
     	<complexContent>
     		<extension base="pss:TransformerDataXmlType">
@@ -618,7 +569,6 @@
     		</extension>
     	</complexContent>
     </complexType>
-
     <complexType name="CurrentXmlType">
     	<sequence>
     		<element name="current" type="double" minOccurs="1" maxOccurs="1"></element>
@@ -632,7 +582,6 @@
     			</simpleType></element>
     	</sequence>
     </complexType>
-
     <complexType name="AdjustmentDataXmlType">
     	<sequence>
     		<element name="mode" minOccurs="1">
