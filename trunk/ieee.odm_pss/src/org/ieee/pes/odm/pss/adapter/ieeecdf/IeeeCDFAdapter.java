@@ -28,6 +28,7 @@ package org.ieee.pes.odm.pss.adapter.ieeecdf;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.BusRecordXmlType;
@@ -35,8 +36,10 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.ZXmlType;
@@ -335,23 +338,15 @@ public class IeeeCDFAdapter {
     	final double angle = new Double(strAry[15]).doubleValue();
     	if (type > 0) {
     		if (angle == 0.0) {
-        		branchRec.getLoadflowBranchData().addNewXformerData();
-        		ODMXmlUtil.setZValue(branchRec.getLoadflowBranchData().getXformerData().addNewZ(),
-        						rpu, xpu, ZXmlType.Unit.PU);
-        		// assume b and ratio are defined at the from bus side
-        		if (bpu != 0.0) 
-        			ODMXmlUtil.setYData(branchRec.getLoadflowBranchData().getXformerData().addNewFromShuntY(),
-        							0.0, bpu, YXmlType.Unit.PU);
+    			ODMXmlUtil.setXformerData(branchRec.getLoadflowBranchData(),
+        							rpu, xpu, ZXmlType.Unit.PU,
+        							0.0, bpu, 0.0, 0.0, YXmlType.Unit.PU);
         		branchRec.getLoadflowBranchData().getXformerData().setFromTurnRatio(ratio);
     		}
     		else {
-        		branchRec.getLoadflowBranchData().addNewPhaseShiftXfrData();
-        		ODMXmlUtil.setZValue(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewZ(),
-        						rpu, xpu, ZXmlType.Unit.PU);
-        		if (bpu != 0.0) {
-        			ODMXmlUtil.setYData(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewFromShuntY(),
-        							0.0, bpu, YXmlType.Unit.PU);
-        		}
+    			ODMXmlUtil.setPhaseShiftXfrData(branchRec.getLoadflowBranchData(),
+						rpu, xpu, ZXmlType.Unit.PU,
+						0.0, bpu, 0.0, 0.0, YXmlType.Unit.PU);
         		branchRec.getLoadflowBranchData().getPhaseShiftXfrData().setFromTurnRatio(ratio);
         		ODMXmlUtil.setAngleData(branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewFromAngle(), angle, AngleXmlType.Unit.DEG);
     		}
@@ -363,13 +358,9 @@ public class IeeeCDFAdapter {
     	final double rating1Mvar = new Integer(strAry[9]).intValue();
     	final double rating2Mvar = new Integer(strAry[10]).intValue();
     	final double rating3Mvar = new Integer(strAry[11]).intValue();
-    	if (rating1Mvar != 0.0 || rating2Mvar != 0.0 || rating3Mvar != 0.0) {
-    		branchRec.getLoadflowBranchData().addNewRatingLimit();
-        	branchRec.getLoadflowBranchData().getRatingLimit().setMvaRating1(rating1Mvar);
-        	branchRec.getLoadflowBranchData().getRatingLimit().setMvaRating2(rating2Mvar);
-        	branchRec.getLoadflowBranchData().getRatingLimit().setMvaRating3(rating3Mvar);
-        	branchRec.getLoadflowBranchData().getRatingLimit().setMvaRatingUnit(LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.MVA);
-    	}
+    	ODMXmlUtil.setBranchRatingLimitData(branchRec.getLoadflowBranchData(),
+    				rating1Mvar, rating2Mvar, rating3Mvar, LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.MVA,
+    				0.0, null);
     	
     	String controlBusId = "";
     	int controlSide = 0;
@@ -398,40 +389,35 @@ public class IeeeCDFAdapter {
         	minVoltPQ = new Double(strAry[20]).doubleValue();
     	}
     	
-        if (type == 2) {
-        	// type 2 - Variable tap for voltage control (TCUL, LTC)
-        	/*
-          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, FlowControlType.RANGE_CONTROL);
-          		tapv.setTapLimit(new LimitType(maxTapAng, minTapAng));
-          		// TODO: volt spec is not defined
-          		tapv.setVSpecified(1.0);
-          		tapv.setTapStepSize(stepSize);
-          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-          		net.addTapControl(tapv, controlBusId);
-          		*/          		
+        if (type == 2 || type == 3) {
+    		TransformerDataXmlType.TapAdjustment tapAdj = branchRec.getLoadflowBranchData().getXformerData().addNewTapAdjustment();
+    		ODMXmlUtil.setLimitData(tapAdj.addNewTapLimit(), maxTapAng, minTapAng);
+    		tapAdj.setTapAdjStepSize(stepSize);
+    		tapAdj.setTapAdjOnFromSide(true);
+            if (type == 2) {
+            	TransformerDataXmlType.TapAdjustment.VoltageAdjustment voltTapAdj = tapAdj.addNewVoltageAdjustment();
+            	voltTapAdj.addNewAdjVoltageBus().setIdRef(controlBusId);
+            	voltTapAdj.setAdjBusLocation(controlSide == 0?
+            			TransformerDataXmlType.TapAdjustment.VoltageAdjustment.AdjBusLocation.TERMINAL_BUS :
+            				(controlSide == 1?
+            						TransformerDataXmlType.TapAdjustment.VoltageAdjustment.AdjBusLocation.NEAR_FROM_BUS:
+            							TransformerDataXmlType.TapAdjustment.VoltageAdjustment.AdjBusLocation.NEAR_TO_BUS));
+            	voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+            	ODMXmlUtil.setLimitData(voltTapAdj.addNewDesiredLimit(), maxVoltPQ, minVoltPQ);
+            }
+            else if (type == 3) {
+            	TransformerDataXmlType.TapAdjustment.MvarFlowAdjustment mvarTapAdj = tapAdj.addNewMvarFlowAdjustment();
+            	ODMXmlUtil.setLimitData(mvarTapAdj.addNewDesiredLimit(), maxVoltPQ, minVoltPQ);
+            	mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+            	mvarTapAdj.setMvarMeasuredOnFormSide(true);
+            }
        	}
-        else if (type == 3) {
-          		// type 3 - Variable tap (turns ratio) for MVAR control
-          		/*
-          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), FlowControlType.RANGE_CONTROL);
-          		tapv.setTapLimit(new LimitType(maxVoltPQ, minVoltPQ));
-          		// TODO: volt spec is not defined
-          		tapv.setVSpecified(1.0);
-          		tapv.setTapStepSize(stepSize);
-          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-          		net.addTapControl(tapv, controlBusId);
-          		*/          		
-        }
         else if (type == 4) {
-          		// type 4 - Variable phase angle for MW control (phase shifter)
-          		/*
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL);
-          		// TODO pSpec not defined
-          		ps.setPSpecified(0.2);
-          		ps.setAngLimit(new LimitType(maxTapAng*Constants.DtoR, minTapAng*Constants.DtoR));
-          		ps.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
-          		net.addPSXfrPControl(ps, controlBusId);
-          		*/          		
+    		PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewAngleAdjustment();
+    		ODMXmlUtil.setLimitData(angAdj.addNewAngleDegLimit(), maxTapAng, minTapAng);
+        	ODMXmlUtil.setLimitData(angAdj.addNewDesiredLimit(), maxVoltPQ, minVoltPQ);
+        	angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+        	angAdj.setDesiredMeasuredAtFromSide(true);
         }
     }
     	
@@ -476,6 +462,16 @@ public class IeeeCDFAdapter {
 //      Columns 46-75   Area name [A]
       	final String code = strAry[5];
       	final String name = strAry[6];
+      	
+      	interchange.setAreaNumber(no);
+      	interchange.addNewSwingBus().setIdRef(slackBusId);
+      	interchange.setAlternateSwingBusName(alSwingBusName);
+      	interchange.setInterchangePower(mw);
+      	interchange.setInterchangePowerUnit(PSSNetworkXmlType.InterchangeList.Interchange.InterchangePowerUnit.MW);
+      	interchange.setInterchangeErrTolerance(err);
+      	
+      	interchange.setAreaCode(code);
+      	interchange.setAreaName(name);
     }        
     
     /*

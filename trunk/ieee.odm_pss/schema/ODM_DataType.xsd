@@ -282,7 +282,7 @@
     			</complexType>
     		</element>
     		<element name="xformerData"
-    			type="pss:TransformetDataXmlType" minOccurs="0" maxOccurs="1">
+    			type="pss:TransformerDataXmlType" minOccurs="0" maxOccurs="1">
 
     		</element>
 
@@ -415,7 +415,7 @@
     </complexType>
 
 
-    <complexType name="TransformetDataXmlType">
+    <complexType name="TransformerDataXmlType">
     				<sequence>
     					<element name="z" type="pss:ZXmlType"
     						minOccurs="1" maxOccurs="1">
@@ -486,47 +486,80 @@
                         <element name="voltageAdjustment"
     									minOccurs="0">
     									<complexType>
-    										<sequence>
-    											<element
-    												name="desiredVoltage" type="pss:VoltageXmlType" minOccurs="1">
-    											</element>
-    											<element
-    												name="adjVoltageBus" type="pss:IDRefRecordXmlType" minOccurs="1">
-    											</element>
-    											<element
-    												name="adjBusOnFromSide" type="boolean" minOccurs="1">
-    											</element>
-    										</sequence>
+    										<complexContent>
+    											<extension
+    												base="pss:AdjustmentDataXmlType">
+    												<sequence>
+
+                                            <element name="desiredVoltageUnit" minOccurs="1">
+                                                <simpleType><restriction base="string"></restriction></simpleType>
+                                            </element>
+                                            <element
+    														name="adjVoltageBus" type="pss:IDRefRecordXmlType"
+    														minOccurs="1">
+    													</element>
+    													<element
+    														name="adjBusLocation" minOccurs="1">
+    														<simpleType>
+    															<restriction
+    																base="string">
+    																<enumeration
+    																	value="TerminalBus">
+    																</enumeration>
+    																<enumeration
+    																	value="NearFromBus">
+    																</enumeration>
+    																<enumeration
+    																	value="NearToBus">
+    																</enumeration>
+    																<enumeration
+    																	value="FromBus">
+    																</enumeration>
+    																<enumeration
+    																	value="ToBus">
+    																</enumeration>
+    															</restriction>
+    														</simpleType>
+    													</element>
+    												</sequence>
+
+    											</extension>
+    										</complexContent>
     									</complexType>
-    								</element>
+                        </element>
     								<element name="mvarFlowAdjustment"
     									minOccurs="0">
     									<complexType>
-    										<sequence>
-    											<element
-    												name="desiredMvarFlow" type="double" minOccurs="1">
-    											</element>
-    											<element
-    												name="desiredMvarFlowUnit" minOccurs="1">
-                                        <simpleType>
-                                        	<restriction
-                                        		base="string">
-                                        		<enumeration
-                                        			value="PU">
-                                        		</enumeration>
-                                        		<enumeration
-                                        			value="KVAR">
-                                        		</enumeration>
-                                        		<enumeration
-                                        			value="MVAR">
-                                        		</enumeration>
-                                        	</restriction>
-                                        </simpleType>
-    											</element>
-    											<element
-    												name="mvarMeasuredOnFormSide" type="boolean" minOccurs="1">
-    											</element>
-    										</sequence>
+    										<complexContent>
+    											<extension
+    												base="pss:AdjustmentDataXmlType">
+    												<sequence>
+
+    													<element
+    														name="desiredMvarFlowUnit" minOccurs="1">
+    														<simpleType>
+    															<restriction
+    																base="string">
+    																<enumeration
+    																	value="PU">
+    																</enumeration>
+    																<enumeration
+    																	value="KVAR">
+    																</enumeration>
+    																<enumeration
+    																	value="MVAR">
+    																</enumeration>
+    															</restriction>
+    														</simpleType>
+    													</element>
+    													<element
+    														name="mvarMeasuredOnFormSide" type="boolean"
+    														minOccurs="1">
+    													</element>
+    												</sequence>
+
+    											</extension>
+    										</complexContent>
     									</complexType>
     								</element>
 
@@ -537,7 +570,7 @@
 
     <complexType name="PhaseShiftXfrDataXmlType">
     	<complexContent>
-    		<extension base="pss:TransformetDataXmlType">
+    		<extension base="pss:TransformerDataXmlType">
     			<sequence>
     				<element name="fromAngle" type="pss:AngleXmlType"
     					minOccurs="0">
@@ -547,28 +580,39 @@
     				</element>
     				<element name="angleAdjustment" minOccurs="0">
     					<complexType>
-    						<sequence>
-    							<element name="angleDegLimit"
-    								type="pss:LimitXmlType" minOccurs="1">
-    							</element>
+    						<complexContent>
+    							<extension
+    								base="pss:AdjustmentDataXmlType">
+    								<sequence>
+    									<element name="angleDegLimit"
+    										type="pss:LimitXmlType" minOccurs="1">
+    									</element>
 
-    							<element name="desiredPower"
-    								type="double" minOccurs="1">
-    							</element>
-    							<element name="desiredPowerUnit"
-    								minOccurs="1">
-    								<simpleType>
-    									<restriction base="string">
-    										<enumeration value="PU"></enumeration>
-    										<enumeration value="KW"></enumeration>
-    										<enumeration value="MW"></enumeration>
-    									</restriction>
-    								</simpleType>
-    							</element>
-    							<element name="desiredMeasuredAtFromSide"
-    								type="boolean" minOccurs="1">
-    							</element>
-    						</sequence>
+    									<element name="desiredPowerUnit"
+    										minOccurs="1">
+    										<simpleType>
+    											<restriction
+    												base="string">
+    												<enumeration
+    													value="PU">
+    												</enumeration>
+    												<enumeration
+    													value="KW">
+    												</enumeration>
+    												<enumeration
+    													value="MW">
+    												</enumeration>
+    											</restriction>
+    										</simpleType>
+    									</element>
+    									<element
+    										name="desiredMeasuredAtFromSide" type="boolean"
+    										minOccurs="1">
+    									</element>
+    								</sequence>
+
+    							</extension>
+    						</complexContent>
     					</complexType></element>
     			</sequence>
     		</extension>
@@ -586,6 +630,21 @@
     					<enumeration value="KA"></enumeration>
     				</restriction>
     			</simpleType></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="AdjustmentDataXmlType">
+    	<sequence>
+    		<element name="mode" minOccurs="1">
+    			<simpleType>
+    				<restriction base="string">
+    					<enumeration value="ValueAdjustment"></enumeration>
+    					<enumeration value="RangeAdjustment"></enumeration>
+    				</restriction>
+    			</simpleType>
+    		</element>
+    		<element name="desiredValue" type="double" minOccurs="0"></element>
+    		<element name="desiredLimit" type="pss:LimitXmlType" minOccurs="0"></element>
     	</sequence>
     </complexType>
 </schema>
