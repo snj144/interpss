@@ -31,11 +31,11 @@ package org.ieee.pes.odm.pss.model;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
-import org.ieee.cmte.psace.oss.odm.pss.schema.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.PSSStudyCaseDocument;
-import org.ieee.cmte.psace.oss.odm.pss.schema.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.BranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.PSSStudyCaseDocument;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.StudyCaseXmlType;
 
 public class IEEEODMPSSModelParser {
 	private PSSStudyCaseDocument doc = null;

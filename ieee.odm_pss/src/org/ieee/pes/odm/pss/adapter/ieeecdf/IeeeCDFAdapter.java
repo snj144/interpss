@@ -28,21 +28,21 @@ package org.ieee.pes.odm.pss.adapter.ieeecdf;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.AdjustmentDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.AngleXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.LoadflowBusDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.PhaseShiftXfrDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.StudyCaseXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.TransformerDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.YXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.ZXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.AdjustmentDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.BranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.LoadflowBranchDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.PhaseShiftXfrDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.PowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.TransformerDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.VoltageXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.YXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v10.ZXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMXmlUtil;
 
@@ -403,11 +403,11 @@ public class IeeeCDFAdapter {
             						TransformerDataXmlType.TapAdjustment.VoltageAdjustment.AdjBusLocation.NEAR_FROM_BUS:
             							TransformerDataXmlType.TapAdjustment.VoltageAdjustment.AdjBusLocation.NEAR_TO_BUS));
             	voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
-            	ODMXmlUtil.setLimitData(voltTapAdj.addNewDesiredLimit(), maxVoltPQ, minVoltPQ);
+            	ODMXmlUtil.setLimitData(voltTapAdj.addNewDesiredRange(), maxVoltPQ, minVoltPQ);
             }
             else if (type == 3) {
             	TransformerDataXmlType.TapAdjustment.MvarFlowAdjustment mvarTapAdj = tapAdj.addNewMvarFlowAdjustment();
-            	ODMXmlUtil.setLimitData(mvarTapAdj.addNewDesiredLimit(), maxVoltPQ, minVoltPQ);
+            	ODMXmlUtil.setLimitData(mvarTapAdj.addNewDesiredRange(), maxVoltPQ, minVoltPQ);
             	mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
             	mvarTapAdj.setMvarMeasuredOnFormSide(true);
             }
@@ -415,7 +415,7 @@ public class IeeeCDFAdapter {
         else if (type == 4) {
     		PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec.getLoadflowBranchData().getPhaseShiftXfrData().addNewAngleAdjustment();
     		ODMXmlUtil.setLimitData(angAdj.addNewAngleDegLimit(), maxTapAng, minTapAng);
-        	ODMXmlUtil.setLimitData(angAdj.addNewDesiredLimit(), maxVoltPQ, minVoltPQ);
+        	ODMXmlUtil.setLimitData(angAdj.addNewDesiredRange(), maxVoltPQ, minVoltPQ);
         	angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
         	angAdj.setDesiredMeasuredAtFromSide(true);
         }

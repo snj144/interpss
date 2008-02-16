@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema" 
-        targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema" 
-        xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema" 
+        targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1.0" 
+        xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1.0" 
         elementFormDefault="qualified">
 
     <annotation>
@@ -78,7 +78,7 @@
     				<element name="baseVoltage" type="double"
     					minOccurs="1" maxOccurs="1">
     				</element>
-                    <element name="baseVoltageUnit" minOccurs="0" maxOccurs="1">
+                    <element name="baseVoltageUnit" minOccurs="1" maxOccurs="1">
     					<simpleType>
     						<restriction base="string">
     							<enumeration value="VOLT"></enumeration>
@@ -596,7 +596,7 @@
     			</simpleType>
     		</element>
     		<element name="desiredValue" type="double" minOccurs="0"></element>
-    		<element name="desiredLimit" type="pss:LimitXmlType" minOccurs="0"></element>
+    		<element name="desiredRange" type="pss:LimitXmlType" minOccurs="0"></element>
     	</sequence>
     </complexType>
 </schema>
