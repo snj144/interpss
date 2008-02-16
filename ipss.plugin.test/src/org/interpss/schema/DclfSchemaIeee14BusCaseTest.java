@@ -28,14 +28,14 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunTypeXmlData.RUN_DCLF);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF);
 		
 	  	IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
 	  	
 		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfAdjNet());
 		assertTrue(algo.checkCondition(msg));
 			
-		RunDclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCaseList()[0];
+		RunStudyCaseXmlType.RunDclfStudyCase dclfCase = parser.getRunDclfStudyCaseList()[0];
 
 		if (dclfCase.getCaculatelDclf()) {
 			algo.calculateDclf(SpringAppContext.getIpssMsgHub());

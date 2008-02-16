@@ -49,7 +49,7 @@ public class AcscSchemaSampleCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == AnalysisRunTypeXmlData.RUN_ACSC);
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC);
 
 	  	SimpleFaultNetwork faultNet = CoreObjectFactory.createSimpleFaultNetwork();
 		SampleCases.load_SC_5BusSystem(faultNet, SpringAppContext.getIpssMsgHub());
@@ -58,8 +58,8 @@ public class AcscSchemaSampleCaseTest extends BaseTestSetup {
 
   		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  	for ( RunAcscStudyCaseXmlType acscCase : parser.getRunAcscStudyCaseList()) {
-	  		mapper.mapping(acscCase, algo, RunAcscStudyCaseXmlType.class);
+	  	for ( RunStudyCaseXmlType.RunAcscStudyCase acscCase : parser.getRunAcscStudyCaseList()) {
+	  		mapper.mapping(acscCase, algo, RunStudyCaseXmlType.RunAcscStudyCase.class);
 	  		AcscBusFault fault = faultNet.getFaultList().get(0);
 	  		algo.calculateBusFault((AcscBusFault)fault, SpringAppContext.getIpssMsgHub());
 	  			/*
