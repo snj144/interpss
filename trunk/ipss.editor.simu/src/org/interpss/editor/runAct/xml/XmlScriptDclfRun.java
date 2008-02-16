@@ -30,7 +30,7 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.DclfSensitivityTypeXmlData;
-import org.interpss.schema.RunDclfStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -53,7 +53,7 @@ public class XmlScriptDclfRun {
 			IPSSMsgHub msg) {
 		if (parser.getRunDclfStudyCaseList().length > 0) {
 			if (parser.getRunDclfStudyCaseList().length == 1) {
-				RunDclfStudyCaseXmlType dclfCase = parser
+				RunStudyCaseXmlType.RunDclfStudyCase dclfCase = parser
 						.getRunDclfStudyCaseList()[0];
 
 				DclfAlgorithm algo = CoreObjectFactory
@@ -137,7 +137,7 @@ public class XmlScriptDclfRun {
 
 				dialog.showDialog();
 			} else {
-				for (RunDclfStudyCaseXmlType dclfCase : parser
+				for (RunStudyCaseXmlType.RunDclfStudyCase dclfCase : parser
 						.getRunDclfStudyCaseList()) {
 				}
 			}

@@ -30,7 +30,6 @@ import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.schema.AnalysisRunTypeXmlData;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.XmlNetParamModifier;
@@ -71,16 +70,16 @@ public class XmlScriptRunWorker {
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
 				&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
-		if (xmlStudyCase.getAnalysisRunType() == AnalysisRunTypeXmlData.RUN_ACLF) {
+		if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 			return XmlScriptAclfRun.runAclf(parser, simuCtx.getAclfAdjNet(),
 					msg);
-		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunTypeXmlData.RUN_DCLF) {
+		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
 			return XmlScriptDclfRun.runDclf(parser, simuCtx.getAclfNet(),
 					msg);
-		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunTypeXmlData.RUN_ACSC) {
+		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
 			return XmlScriptAcscRun.runAcsc(parser, simuCtx.getAcscFaultNet(),
 					msg);
-		} else if (xmlStudyCase.getAnalysisRunType() == AnalysisRunTypeXmlData.RUN_D_STAB) {
+		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
 			return XmlScriptDStabRun.runDStab(parser, simuCtx, msg);
 		}
 		return true;

@@ -26,7 +26,7 @@ package org.interpss.editor.runAct.xml;
 
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.schema.RunAcscStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.SpringAppContext;
@@ -53,11 +53,11 @@ public class XmlScriptAcscRun {
 				.getRunForm2AlgorithmMapper();
 		if (parser.getRunAcscStudyCaseList().length > 0) {
 			if (parser.getRunAcscStudyCaseList().length == 1) {
-				RunAcscStudyCaseXmlType acscCase = parser
+				RunStudyCaseXmlType.RunAcscStudyCase acscCase = parser
 						.getRunAcscStudyCaseList()[0];
 				SimpleFaultAlgorithm algo = CoreObjectFactory
 						.createSimpleFaultAlgorithm(faultNet);
-				mapper.mapping(acscCase, algo, RunAcscStudyCaseXmlType.class);
+				mapper.mapping(acscCase, algo, RunStudyCaseXmlType.RunAcscStudyCase.class);
 				Object fault = faultNet.getFaultList().get(0);
 				if (fault instanceof AcscBusFault)
 					algo.calculateBusFault((AcscBusFault) fault, msg);
@@ -65,7 +65,7 @@ public class XmlScriptAcscRun {
 					algo.calculateBranchFault((AcscBranchFault) fault, msg);
 				RunActUtilFunc.displayAcscSummaryResult(faultNet);
 			} else
-				for (RunAcscStudyCaseXmlType acscCase : parser
+				for (RunStudyCaseXmlType.RunAcscStudyCase acscCase : parser
 						.getRunAcscStudyCaseList()) {
 				}
 		} else {
