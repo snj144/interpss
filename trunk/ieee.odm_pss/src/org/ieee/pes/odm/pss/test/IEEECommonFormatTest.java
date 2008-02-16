@@ -46,7 +46,7 @@ public class IEEECommonFormatTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		final File file = new File("testdata/ieeecdf/ieee14.ieee");
+		final File file = new File("testdata/ieeecdf/Ieee14Bus.ieee");
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		IEEEODMPSSModelParser parser = IeeeCDFAdapter.parseInputFile(din, logger);
