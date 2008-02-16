@@ -445,9 +445,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	 	branch.setBranchCode(AclfBranchCode.XFORMER);
 		final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
 		// r, x, g, b are measured at from side
-    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, fromRatedKV, aclfNet.getBaseKva(), msg);
-    	Complex yPU = UnitType.yConversion(new Complex(gMuS,bMuS), fromRatedKV, 
-    			aclfNet.getBaseKva(), UnitType.MicroMho, UnitType.PU);
+    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, fromRatedKV*1000.0, aclfNet.getBaseKva(), msg);
+    	Complex yPU = UnitType.yConversion(new Complex(gMuS,bMuS), fromRatedKV*1000.0, 
+    						aclfNet.getBaseKva(), UnitType.MicroMho, UnitType.PU);
     	xfr.setToShuntY(yPU, UnitType.PU, aclfNet.getBaseKva()); 
     	xfr.setFromTurnRatio(1.0, UnitType.PU);
     	double ratio = (toRatedKV/branch.getToBus().getBaseVoltage()) / (fromRatedKV/branch.getFromBus().getBaseVoltage());
