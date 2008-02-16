@@ -34,7 +34,7 @@ import org.interpss.schema.DStabSimuStaticLoadTypeXmlData;
 import org.interpss.schema.DynamicSimuMethodXmlData;
 import org.interpss.schema.FaultCategoryXmlData;
 import org.interpss.schema.FaultTypeXmlData;
-import org.interpss.schema.RunDStabStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.SpringAppContext;
@@ -72,14 +72,13 @@ public class Xml2DStabAlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean dstabCaseData2AlgoMapping(
-			RunDStabStudyCaseXmlType caseData, DynamicSimuAlgorithm algo,
-			IPSSMsgHub msg) {
+			RunStudyCaseXmlType.RunDStabStudyCase caseData, DynamicSimuAlgorithm algo,
+			IPSSMsgHub msg) { 
 		if (caseData.getModification() != null)
 			XmlNetParamModifier.applyModification2Net(algo.getNetwork(),
 					caseData.getModification());
 
-		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseData
-				.getAclfAlgorithm(), algo.getAclfAlgorithm());
+		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseData, algo.getAclfAlgorithm());
 
 		algo
 				.setSimuMethod(caseData.getSimuMethod() == DynamicSimuMethodXmlData.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
@@ -111,7 +110,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 	}
 
 	private static boolean dstabCaseData2NetMapping(
-			RunDStabStudyCaseXmlType dstabData, DStabilityNetwork dstabNet,
+			RunStudyCaseXmlType.RunDStabStudyCase dstabData, DStabilityNetwork dstabNet,
 			IPSSMsgHub msg) {
 		dstabNet
 				.setNetEqnIterationNoEvent(dstabData.getNetEqnItrNoEvent() != 0 ? dstabData
