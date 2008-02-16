@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PSSStudyCase xmlns="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema">
+<PSSStudyCase xmlns="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1.0">
   <schemaVersion>V1.00.DEV</schemaVersion>
   <originalFormat>IEEE-CDF</originalFormat>
   <adapterProviderName>www.interpss.org</adapterProviderName>
