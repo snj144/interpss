@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1.0"
-	xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1.0"
+	targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
+	xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
 	elementFormDefault="qualified">
 
     <annotation>
@@ -17,6 +17,7 @@
 						maxOccurs="1">
 						<simpleType>
 							<restriction base="string">
+								<enumeration value="V1.00"></enumeration>
 								<enumeration value="V1.00.DEV"></enumeration>
 							</restriction>
 						</simpleType>
