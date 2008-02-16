@@ -4,7 +4,10 @@
 	xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema"
 	elementFormDefault="qualified">
 
-	<include schemaLocation="ODM_DataType.xsd"></include>
+    <annotation>
+    	<documentation>Copyright www.interpss.org 2008</documentation>
+    </annotation>
+    <include schemaLocation="ODM_DataType.xsd"></include>
 
 	<complexType name="StudyCaseXmlType">
 		<complexContent>
