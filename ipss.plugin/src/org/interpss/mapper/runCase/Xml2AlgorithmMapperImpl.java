@@ -31,7 +31,7 @@ import org.interpss.schema.FaultCategoryXmlData;
 import org.interpss.schema.FaultTypeXmlData;
 import org.interpss.schema.FaultVoltInitXmlData;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
-import org.interpss.schema.RunAcscStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.XmlNetParamModifier;
@@ -96,7 +96,7 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean acscCaseData2AlgoMapping(
-			RunAcscStudyCaseXmlType caseData, SimpleFaultAlgorithm algo) {
+			RunStudyCaseXmlType.RunAcscStudyCase caseData, SimpleFaultAlgorithm algo) {
 		if (caseData.getModification() != null)
 			XmlNetParamModifier.applyModification2Net(algo.getNetwork(),
 					caseData.getModification());
