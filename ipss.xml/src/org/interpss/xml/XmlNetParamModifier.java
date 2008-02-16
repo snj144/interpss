@@ -25,18 +25,15 @@
 package org.interpss.xml;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.schema.AclfBranchChangeRecXmlType;
-import org.interpss.schema.AclfBusChangeRecXmlType;
 import org.interpss.schema.AclfLoadCodeChangeXmlType;
 import org.interpss.schema.AclfLoadCodeXmlData;
-import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.BranchRecXmlType;
-import org.interpss.schema.BusChangeRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.ChangeActionXmlData;
-import org.interpss.schema.ComplexParamChangeXmlType;
+import org.interpss.schema.ComplexValueChangeXmlType;
 import org.interpss.schema.ComplexXmlType;
 import org.interpss.schema.ModificationXmlType;
+import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
 import com.interpss.common.SpringAppContext;
@@ -66,60 +63,57 @@ public class XmlNetParamModifier {
 	public static boolean applyModification2Net(Network net,
 			ModificationXmlType mod) {
 		// apply the Network-level changes
-		if (mod.getNetChangeRec() != null) {
-			if (mod.getNetChangeRec().getBusChangeRecArray().length > 0) {
-				for (BusChangeRecXmlType busRec : mod.getNetChangeRec()
-						.getBusChangeRecArray()) {
-					Bus bus = getBus(busRec, net);
-					bus.setStatus(busRec.getSetSatus());
-					IpssLogger.getLogger().info(
-							"Bus " + bus.getId() + " status has been set to "
-									+ bus.isActive());
-				}
+		if (mod.getBusChangeRecList() != null) {
+			for (ModificationXmlType.BusChangeRecList.BusChangeRec busRec : mod
+					.getBusChangeRecList().getBusChangeRecArray()) {
+				Bus bus = getBus(busRec, net);
+				bus.setStatus(busRec.getSetSatus());
+				IpssLogger.getLogger().info(
+						"Bus " + bus.getId() + " status has been set to "
+								+ bus.isActive());
 			}
+		}
 
-			if (mod.getNetChangeRec().getBranchChangeRecArray().length > 0) {
-				for (BranchChangeRecXmlType braRec : mod.getNetChangeRec()
-						.getBranchChangeRecArray()) {
-					Branch branch = getBranch(braRec, net);
-					if (branch != null) {
-						branch.setStatus(braRec.getSetInService());
-						IpssLogger.getLogger().info(
-								"Branch " + branch.getId()
-										+ " service status has been set to "
-										+ branch.isActive());
-					} else {
-						return false;
-					}
+		if (mod.getBranchChangeRecList() != null) {
+			for (ModificationXmlType.BranchChangeRecList.BranchChangeRec braRec : mod
+					.getBranchChangeRecList().getBranchChangeRecArray()) {
+				Branch branch = getBranch(braRec, net);
+				if (branch != null) {
+					branch.setStatus(braRec.getSetInService());
+					IpssLogger.getLogger().info(
+							"Branch " + branch.getId()
+									+ " service status has been set to "
+									+ branch.isActive());
+				} else {
+					return false;
 				}
 			}
 		}
 
 		// apply the AclfNetwork-level changes
-		if (mod.getAclfNetChangeRec() != null && net instanceof AclfNetwork) {
+		if (net instanceof AclfNetwork) {
 			AclfNetwork aclfNet = (AclfNetwork) net;
-			if (mod.getAclfNetChangeRec().getAclfBusChangeRecArray().length > 0) {
-				for (AclfBusChangeRecXmlType busRec : mod.getAclfNetChangeRec()
-						.getAclfBusChangeRecArray()) {
+			if (mod.getBusChangeRecList() != null) {
+				for (ModificationXmlType.BusChangeRecList.BusChangeRec busRec : mod
+						.getBusChangeRecList().getBusChangeRecArray()) {
 					AclfBus bus = (AclfBus) getBus(busRec, aclfNet);
 					if (bus != null) {
-						if (busRec.getLoadChange() != null) {
+						if (busRec.getAclfBusChangeData().getLoadChangeData() != null) {
 							// modify load value
-							if (busRec.getLoadChange().getValueChange() != null) {
+							if (busRec.getAclfBusChangeData().getLoadChangeData().getValueChange() != null) {
 								Complex x = applyPowerChangeRec(
 										bus.getLoad(),
-										busRec.getLoadChange().getValueChange(),
+										busRec.getAclfBusChangeData().getLoadChangeData().getValueChange(),
 										aclfNet.getBaseKva());
 								bus.setLoadP(x.getReal());
 								bus.setLoadQ(x.getImaginary());
 							}
 
 							// modify load code
-							if (busRec.getLoadChange().getCodeChange() != null) {
-								AclfLoadCodeChangeXmlType codeChange = busRec
-										.getLoadChange().getCodeChange();
-								bus
-										.setLoadCode(codeChange.getCode() == AclfLoadCodeXmlData.CONST_P ? AclfLoadCode.CONST_P
+							if (busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange() != null) {
+								ModificationXmlType.BusChangeRecList.BusChangeRec.AclfBusChangeData.LoadChangeData.CodeChange 
+										codeChange = busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange();
+								bus.setLoadCode(codeChange.getCode() == AclfLoadCodeXmlData.CONST_P ? AclfLoadCode.CONST_P
 												: (codeChange.getCode() == AclfLoadCodeXmlData.CONST_I ? AclfLoadCode.CONST_I
 														: (codeChange.getCode() == AclfLoadCodeXmlData.CONST_Z ? AclfLoadCode.CONST_Z
 																: (codeChange
@@ -137,14 +131,14 @@ public class XmlNetParamModifier {
 				}
 			}
 
-			if (mod.getAclfNetChangeRec().getAclfBranchChangeRecArray().length > 0) {
-				for (AclfBranchChangeRecXmlType braRec : mod
-						.getAclfNetChangeRec().getAclfBranchChangeRecArray()) {
+			if (mod.getBranchChangeRecList() != null) {
+				for (ModificationXmlType.BranchChangeRecList.BranchChangeRec braRec : mod
+						.getBranchChangeRecList().getBranchChangeRecArray()) {
 					AclfBranch branch = (AclfBranch) getBranch(braRec, aclfNet);
 					if (branch != null) {
-						if (braRec.getZChange() != null) {
+						if (braRec.getAclfBranchChangeData().getBranchZChange() != null) {
 							Complex z = applyComplexParamChangeRec(branch
-									.getZ(), braRec.getZChange(), ParamType.Z,
+									.getZ(), braRec.getAclfBranchChangeData().getBranchZChange(), ParamType.Z,
 									aclfNet.getBaseKva(), branch
 											.getHigherBaseVoltage());
 							branch.setZ(z);
@@ -191,13 +185,13 @@ public class XmlNetParamModifier {
 	}
 
 	private static Complex applyPowerChangeRec(Complex original,
-			ComplexParamChangeXmlType changeRec, double baseKva) {
+			ComplexValueChangeXmlType changeRec, double baseKva) {
 		return applyComplexParamChangeRec(original, changeRec, ParamType.Power,
 				baseKva, 1.0);
 	}
 
 	private static Complex applyComplexParamChangeRec(Complex original,
-			ComplexParamChangeXmlType changeRec, ParamType ptype,
+			ComplexValueChangeXmlType changeRec, ParamType ptype,
 			double baseKva, double busBaseVolt) {
 		if (changeRec.getAction() == ChangeActionXmlData.ADD
 				|| changeRec.getAction() == ChangeActionXmlData.SET) {

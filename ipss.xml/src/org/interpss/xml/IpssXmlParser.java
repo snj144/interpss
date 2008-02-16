@@ -35,9 +35,6 @@ import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
-import org.interpss.schema.RunAcscStudyCaseXmlType;
-import org.interpss.schema.RunDStabStudyCaseXmlType;
-import org.interpss.schema.RunDclfStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
@@ -82,7 +79,7 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunDclfStudyCaseXmlType[] getRunDclfStudyCaseList() {
+	public RunStudyCaseXmlType.RunDclfStudyCase[] getRunDclfStudyCaseList() {
 		return ipss.getRunStudyCase().getRunDclfStudyCaseArray();
 	}
 
@@ -100,7 +97,7 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunAcscStudyCaseXmlType[] getRunAcscStudyCaseList() {
+	public RunStudyCaseXmlType.RunAcscStudyCase[] getRunAcscStudyCaseList() {
 		return ipss.getRunStudyCase().getRunAcscStudyCaseArray();
 	}
 
@@ -109,7 +106,7 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunDStabStudyCaseXmlType[] getRunDStabStudyCaseList() {
+	public RunStudyCaseXmlType.RunDStabStudyCase[] getRunDStabStudyCaseList() {
 		return ipss.getRunStudyCase().getRunDStabStudyCaseArray();
 	}
 
