@@ -33,7 +33,6 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.schema.RunDStabStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
@@ -84,7 +83,7 @@ public class XmlScriptDStabRun {
 				appSimuCtx.setLastRunType(SimuRunType.DStab);
 
 				// get the run case info defined in the Xml scripts
-				RunDStabStudyCaseXmlType dstabCase = parser
+				RunStudyCaseXmlType.RunDStabStudyCase dstabCase = parser
 						.getRunDStabStudyCaseList()[0];
 				// config the DStabAlgo object, including apply case-level
 				// modification to the DStabNet object
@@ -156,7 +155,7 @@ public class XmlScriptDStabRun {
 				MultiStudyCase mCaseContainer = SimuObjectFactory
 						.createMultiStudyCase(SimuCtxType.DSTABILITY_NET);
 				int cnt = 0;
-				for (RunDStabStudyCaseXmlType dstabCase : parser
+				for (RunStudyCaseXmlType.RunDStabStudyCase dstabCase : parser
 						.getRunDStabStudyCaseList()) {
 					// deserialize the base case
 					DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil
@@ -241,12 +240,12 @@ public class XmlScriptDStabRun {
 	}
 
 	private static boolean configDStaAlgo(DynamicSimuAlgorithm dstabAlgo,
-			RunDStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
+			RunStudyCaseXmlType.RunDStabStudyCase dstabCase, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
 		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
-		mapper.mapping(dstabCase, dstabAlgo, RunDStabStudyCaseXmlType.class);
+		mapper.mapping(dstabCase, dstabAlgo, RunStudyCaseXmlType.RunDStabStudyCase.class);
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
 			return false; // if something is wrong, we stop running here
 
@@ -278,13 +277,13 @@ public class XmlScriptDStabRun {
 	}
 
 	private static boolean runLocalDStabRun(DynamicSimuAlgorithm dstabAlgo,
-			RunDStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
+			RunStudyCaseXmlType.RunDStabStudyCase dstabCase, IPSSMsgHub msg) {
 		dstabAlgo.getDStabNet().setNetChangeListener(
 				CoreSpringAppContext.getNetChangeHandler());
 
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
-		if (dstabCase.getAclfAlgorithm().getDiaplaySummary())
+		if (dstabCase.getDiaplaySummary())
 			RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
 		if (!dstabAlgo.getDStabNet().isLfConverged()) {
 			msg

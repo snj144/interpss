@@ -34,7 +34,6 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.schema.RunDStabStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.SpringAppContext;
@@ -200,7 +199,7 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(
-			DynamicSimuAlgorithm algo, RunDStabStudyCaseXmlType dstabXmlCase) {
+			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.RunDStabStudyCase dstabXmlCase) {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler) algo
 				.getSimuOutputHandler();
 		IAppSimuContext appSimuCtx = GraphSpringAppContext
