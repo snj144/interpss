@@ -66,7 +66,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  	String dstabNetStr = "";
 	  	SimuObjectFactory.initEMFPackage();
 	  	
-	  	for ( RunDStabStudyCaseXmlType dstabCase : parser.getRunDStabStudyCaseList()) {
+	  	for ( RunStudyCaseXmlType.RunDStabStudyCase dstabCase : parser.getRunDStabStudyCaseList()) {
 			System.out.println("Running DStab case: " + dstabCase.getRecId());
 
 			caseCnt++;
@@ -81,7 +81,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  		mapper.mapping(dstabCase, algo, RunDStabStudyCaseXmlType.class);
+	  		mapper.mapping(dstabCase, algo, RunStudyCaseXmlType.RunDStabStudyCase.class);
 	  		//System.out.println(net.net2String());
 	  		
 	  		if (caseCnt == 1) {
