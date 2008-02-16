@@ -26,11 +26,11 @@ package org.ieee.pes.odm.pss.sample;
 
 import java.io.File;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.BranchRecordListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.BusRecordListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public class CreateSimpleNetwork {

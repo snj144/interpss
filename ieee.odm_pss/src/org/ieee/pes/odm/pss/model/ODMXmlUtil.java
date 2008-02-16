@@ -24,17 +24,17 @@
 
 package org.ieee.pes.odm.pss.model;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.AngleXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.LimitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.LoadflowBusDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.NameValuePairXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.TransformerDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.YXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v10.ZXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 
 public class ODMXmlUtil {
 	/**
