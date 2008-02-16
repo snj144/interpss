@@ -4,6 +4,9 @@
         xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema" 
         elementFormDefault="qualified">
 
+    <annotation>
+    	<documentation>Copyright www.interpss.org 2008</documentation>
+    </annotation>
     <complexType name="BaseRecordXmlType">
     	<sequence>
     		<element name="name" type="string" minOccurs="0"
