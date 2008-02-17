@@ -148,6 +148,12 @@
 								</ns:element>
 								<ns:element name="aclfAlgorithm"
 									type="ns:string" maxOccurs="1" minOccurs="1">
+                                    <ns:annotation>
+                                    	<ns:documentation>
+                                    		for persist AclfAlgorithm to
+                                    		remote node
+                                    	</ns:documentation>
+                                    </ns:annotation>
 								</ns:element>
 								<ns:element name="dynamicEventData"
 									minOccurs="0" maxOccurs="1">
