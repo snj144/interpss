@@ -34,7 +34,24 @@
 																		<ns:complexType>
 																			<ns:sequence>
 																				<ns:element
-																					name="code" type="ipss:AclfLoadCodeXmlData">
+																					name="loadCode">
+                                                                                    <ns:simpleType>
+                                                                                    	<ns:restriction
+                                                                                    		base="ns:string">
+                                                                                    		<ns:enumeration
+                                                                                    			value="CONST_P">
+                                                                                    		</ns:enumeration>
+                                                                                    		<ns:enumeration
+                                                                                    			value="CONST_I">
+                                                                                    		</ns:enumeration>
+                                                                                    		<ns:enumeration
+                                                                                    			value="CONST_Z">
+                                                                                    		</ns:enumeration>
+                                                                                    		<ns:enumeration
+                                                                                    			value="EXPONENTIAL">
+                                                                                    		</ns:enumeration>
+                                                                                    	</ns:restriction>
+                                                                                    </ns:simpleType>
 																				</ns:element>
 																				<ns:element
 																					name="expLoadP" type="ns:double">
