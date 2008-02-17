@@ -46,7 +46,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		}
 		
 		for (DclfBusSensitivityXmlType sen : dclfCase.getSensitivityArray()) {
-			if (sen.getType() == DclfSensitivityTypeXmlData.P_ANGLE) {
+			if (sen.getSenType() == DclfSensitivityXmlType.SenType.P_ANGLE) {
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, sen.getInjectBusId(), msg);
 				//System.out.println("P-0013->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0013", msg));
 				//System.out.println("p-0012->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0012", msg));
@@ -60,7 +60,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 								Math.abs(pang+0.06132) < 0.0001);
 				}
 			}
-			else if (sen.getType() == DclfSensitivityTypeXmlData.Q_VOLTAGE) {
+			else if (sen.getSenType() == DclfSensitivityXmlType.SenType.Q_VOLTAGE) {
 				algo.calculateSensitivity(DclfSensitivityType.QVOLTAGE, sen.getInjectBusId(), msg);
 				//System.out.println("Q-0013->" + algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, "0013", msg));
 				//System.out.println("Q-0012->" + algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, "0012", msg));
