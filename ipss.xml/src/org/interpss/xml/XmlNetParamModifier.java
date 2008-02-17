@@ -25,15 +25,11 @@
 package org.interpss.xml;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.schema.AclfLoadCodeChangeXmlType;
-import org.interpss.schema.AclfLoadCodeXmlData;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
-import org.interpss.schema.ChangeActionXmlData;
 import org.interpss.schema.ComplexValueChangeXmlType;
 import org.interpss.schema.ComplexXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
 import com.interpss.common.SpringAppContext;
@@ -113,11 +109,13 @@ public class XmlNetParamModifier {
 							if (busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange() != null) {
 								ModificationXmlType.BusChangeRecList.BusChangeRec.AclfBusChangeData.LoadChangeData.CodeChange 
 										codeChange = busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange();
-								bus.setLoadCode(codeChange.getCode() == AclfLoadCodeXmlData.CONST_P ? AclfLoadCode.CONST_P
-												: (codeChange.getCode() == AclfLoadCodeXmlData.CONST_I ? AclfLoadCode.CONST_I
-														: (codeChange.getCode() == AclfLoadCodeXmlData.CONST_Z ? AclfLoadCode.CONST_Z
-																: (codeChange
-																		.getCode() == AclfLoadCodeXmlData.EXPONENTIAL ? AclfLoadCode.EXPONENTIAL
+								bus.setLoadCode(codeChange.getLoadCode() == 
+										ModificationXmlType.BusChangeRecList.BusChangeRec.AclfBusChangeData.LoadChangeData.CodeChange.LoadCode.CONST_P ? AclfLoadCode.CONST_P
+												: (codeChange.getLoadCode() == ModificationXmlType.BusChangeRecList.BusChangeRec.AclfBusChangeData.LoadChangeData.CodeChange.LoadCode.CONST_I ? 
+														AclfLoadCode.CONST_I : (codeChange.getLoadCode() == 
+															ModificationXmlType.BusChangeRecList.BusChangeRec.AclfBusChangeData.LoadChangeData.CodeChange.LoadCode.CONST_Z ? AclfLoadCode.CONST_Z
+																: (codeChange.getLoadCode() == 
+																	ModificationXmlType.BusChangeRecList.BusChangeRec.AclfBusChangeData.LoadChangeData.CodeChange.LoadCode.EXPONENTIAL ? AclfLoadCode.EXPONENTIAL
 																		: AclfLoadCode.NON_LOAD))));
 								if (bus.getLoadCode() == AclfLoadCode.EXPONENTIAL) {
 									bus.setExpLoadP(codeChange.getExpLoadP());
@@ -193,8 +191,8 @@ public class XmlNetParamModifier {
 	private static Complex applyComplexParamChangeRec(Complex original,
 			ComplexValueChangeXmlType changeRec, ParamType ptype,
 			double baseKva, double busBaseVolt) {
-		if (changeRec.getAction() == ChangeActionXmlData.ADD
-				|| changeRec.getAction() == ChangeActionXmlData.SET) {
+		if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.ADD
+				|| changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.SET) {
 			// for add/set, use value and unit (PU or power unit)
 			ComplexXmlType c = changeRec.getValue();
 			double re = c.getRe(), im = c.getIm();
@@ -212,18 +210,18 @@ public class XmlNetParamModifier {
 					im = z.getImaginary();
 				}
 			}
-			if (changeRec.getAction() == ChangeActionXmlData.ADD) {
+			if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.ADD) {
 				re += original.getReal();
 				im += original.getImaginary();
 			}
 			return new Complex(re, im);
-		} else if (changeRec.getAction() == ChangeActionXmlData.INCREASE
-				|| changeRec.getAction() == ChangeActionXmlData.DECREASE) {
+		} else if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.INCREASE
+				|| changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.DECREASE) {
 			// for increase/decrease, use percent and unit (PU or percent)
 			double factor = changeRec.getPercent();
 			if (changeRec.getUnit() == UnitXmlData.PERCENT)
 				factor *= 0.01;
-			if (changeRec.getAction() == ChangeActionXmlData.DECREASE)
+			if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.DECREASE)
 				factor = -factor;
 			return new Complex(original.getReal() * (1.0 + factor), original
 					.getImaginary()
