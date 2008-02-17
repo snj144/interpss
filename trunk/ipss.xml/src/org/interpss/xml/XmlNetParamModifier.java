@@ -94,7 +94,8 @@ public class XmlNetParamModifier {
 						.getBusChangeRecList().getBusChangeRecArray()) {
 					AclfBus bus = (AclfBus) getBus(busRec, aclfNet);
 					if (bus != null) {
-						if (busRec.getAclfBusChangeData().getLoadChangeData() != null) {
+						if (busRec.getAclfBusChangeData() != null &&
+								busRec.getAclfBusChangeData().getLoadChangeData() != null) {
 							// modify load value
 							if (busRec.getAclfBusChangeData().getLoadChangeData().getValueChange() != null) {
 								Complex x = applyPowerChangeRec(
@@ -134,7 +135,8 @@ public class XmlNetParamModifier {
 						.getBranchChangeRecList().getBranchChangeRecArray()) {
 					AclfBranch branch = (AclfBranch) getBranch(braRec, aclfNet);
 					if (branch != null) {
-						if (braRec.getAclfBranchChangeData().getBranchZChange() != null) {
+						if (braRec.getAclfBranchChangeData() != null &&
+								braRec.getAclfBranchChangeData().getBranchZChange() != null) {
 							Complex z = applyComplexParamChangeRec(branch
 									.getZ(), braRec.getAclfBranchChangeData().getBranchZChange(), ParamType.Z,
 									aclfNet.getBaseKva(), branch
