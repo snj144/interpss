@@ -25,13 +25,6 @@
 package org.interpss.mapper.runCase;
 
 import org.interpss.schema.AcscFaultXmlType;
-import org.interpss.schema.DEventTypeXmlData;
-import org.interpss.schema.DStabControllerTypeXmlData;
-import org.interpss.schema.DStabDEventXmlType;
-import org.interpss.schema.DStabLoadChangeTypeXmlData;
-import org.interpss.schema.DStabLoadChangeXmlType;
-import org.interpss.schema.DStabSimuStaticLoadTypeXmlData;
-import org.interpss.schema.DynamicSimuMethodXmlData;
 import org.interpss.schema.FaultCategoryXmlData;
 import org.interpss.schema.FaultTypeXmlData;
 import org.interpss.schema.RunStudyCaseXmlType;
@@ -80,12 +73,12 @@ public class Xml2DStabAlgorithmMapperImpl {
 
 		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseData, algo.getAclfAlgorithm());
 
-		algo
-				.setSimuMethod(caseData.getSimuMethod() == DynamicSimuMethodXmlData.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
+		algo.setSimuMethod(caseData.getSimuMethod() == 
+				RunStudyCaseXmlType.RunDStabStudyCase.SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
 						: DynamicSimuMethods.RUNGE_KUTTA);
 		algo.setTotalSimuTimeSec(caseData.getTotalSimuTimeSec());
 		algo.setSimuStepSec(caseData.getSimuStepSec());
-		algo.setDisableDynamicEvent(caseData.getDisableDEvent());
+		algo.setDisableDynamicEvent(caseData.getDynamicEventData().getDisableEvent());
 
 		if (caseData.getAbsoluteMachAngValue()) {
 			algo.setRefMachine(null);
@@ -123,8 +116,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 
 		if (dstabData.getStaticLoadModel() != null) {
 			dstabNet
-					.setStaticLoadModel(dstabData.getStaticLoadModel()
-							.getType() == DStabSimuStaticLoadTypeXmlData.CONSTANT_Z ? StaticLoadModel.CONST_Z
+					.setStaticLoadModel(dstabData.getStaticLoadModel().getStaticLoadType() == 
+						RunStudyCaseXmlType.RunDStabStudyCase.StaticLoadModel.StaticLoadType.CONST_Z ? StaticLoadModel.CONST_Z
 							: StaticLoadModel.CONST_P);
 			if (dstabData.getStaticLoadModel().getSwitchVolt() != 0.0)
 				dstabNet.setStaticLoadSwitchVolt(dstabData.getStaticLoadModel()
@@ -134,7 +127,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 						.getStaticLoadModel().getSwitchDeadZone());
 		}
 
-		if (dstabData.getDisableDEvent()) {
+		if (dstabData.getDynamicEventData().getDisableEvent()) {
 			if (dstabData.getSetpointChange()) {
 				IpssLogger.getLogger().info(
 						"Dynamic Event Type: SetPointChange");
@@ -155,9 +148,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 						.createSetPointChangeEvent(machId, dstabNet);
 				eSetPoint
 						.setControllerType(dstabData.getSetpointChangeData()
-								.getControllerType() == DStabControllerTypeXmlData.EXCITER ? ControllerType.EXCITER
+								.getControllerType() == RunStudyCaseXmlType.RunDStabStudyCase.SetpointChangeData.ControllerType.EXCITER ? ControllerType.EXCITER
 								: dstabData.getSetpointChangeData()
-										.getControllerType() == DStabControllerTypeXmlData.GOVERNOR ? ControllerType.GOVERNOR
+										.getControllerType() == RunStudyCaseXmlType.RunDStabStudyCase.SetpointChangeData.ControllerType.GOVERNOR ? ControllerType.GOVERNOR
 										: ControllerType.STABILIZER);
 				eSetPoint.setChangeValue(dstabData.getSetpointChangeData()
 						.getChangeValue());
@@ -166,15 +159,15 @@ public class Xml2DStabAlgorithmMapperImpl {
 				event.setBusDynamicEvent(eSetPoint);
 			}
 		} else {
-			for (DStabDEventXmlType eventData : dstabData
-					.getDynamicEventsArray()) {
+			for (RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event eventData : 
+							dstabData.getDynamicEventData().getEventList().getEventArray()) {
 				// make sure that event name is not "" or NewEventName
 				IpssLogger.getLogger().info("Event Data: " + eventData);
 				// create event name
 				String name = "EventAt_" + eventData.getStartTimeSec()
-						+ eventData.getType();
+						+ eventData.getEventType();
 				// map event type
-				DynamicEventType deType = getDEventType(eventData.getType(),
+				DynamicEventType deType = getDEventType(eventData.getEventType(),
 						eventData.getFault().getType());
 				// create the DStabEvent
 				DynamicEvent event = DStabObjectFactory.createDEvent(eventData
@@ -214,8 +207,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 	}
 
 	private static DynamicEventType getDEventType(
-			DEventTypeXmlData.Enum eventType, FaultTypeXmlData.Enum faultType) {
-		if (eventType == DEventTypeXmlData.FAULT) {
+			RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType.Enum eventType, 
+			FaultTypeXmlData.Enum faultType) {
+		if (eventType == RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType.FAULT) {
 			if (faultType == FaultTypeXmlData.BUS_FAULT)
 				return DynamicEventType.BUS_FAULT;
 			else if (faultType == FaultTypeXmlData.BRANCH_FAULT)
@@ -224,9 +218,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 				return DynamicEventType.BRANCH_OUTAGE;
 
 		} else {
-			if (eventType == DEventTypeXmlData.LOAD_CHANGE)
+			if (eventType == RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType.LOAD_CHANGE)
 				return DynamicEventType.LOAD_CHANGE;
-			else if (eventType == DEventTypeXmlData.SET_POINT_CHANGE)
+			else if (eventType == RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType.SET_POINT_CHANGE)
 				return DynamicEventType.SET_POINT_CHANGE;
 		}
 		SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
@@ -236,21 +230,21 @@ public class Xml2DStabAlgorithmMapperImpl {
 	}
 
 	private static void setEventData(DynamicEvent event,
-			DStabDEventXmlType eventData, double toltalSimuTime,
+			RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event eventData, double toltalSimuTime,
 			DStabilityNetwork dstabNet, IPSSMsgHub msg) throws Exception {
 		// for LoadChange
 		// LowFreq and LowVolt startTime will set by system
 		// FixedTime startTime = threshhold
 		// always permanent
 		IpssLogger.getLogger().info(
-				"Dynamic Event Type: " + eventData.getType().toString());
+				"Dynamic Event Type: " + eventData.getEventType().toString());
 
-		if (eventData.getType() == DEventTypeXmlData.LOAD_CHANGE) {
+		if (eventData.getEventType() == RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType.LOAD_CHANGE) {
 			event.setPermanent(true);
 			eventData.setDurationSec(0.0);
-			if (eventData.getLoadChange().getType() == DStabLoadChangeTypeXmlData.FIXED_TIME)
-				eventData.setStartTimeSec(eventData.getLoadChange()
-						.getThreshhold());
+			if (eventData.getLoadChangeData().getLoadChangeType() == 
+				RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.LoadChangeData.LoadChangeType.FIXED_TIME)
+				eventData.setStartTimeSec(eventData.getLoadChangeData().getThreshhold());
 			else
 				eventData.setStartTimeSec(toltalSimuTime);
 		}
@@ -263,14 +257,14 @@ public class Xml2DStabAlgorithmMapperImpl {
 			event.setDurationSec(eventData.getDurationSec());
 		}
 
-		if (eventData.getType() == DEventTypeXmlData.LOAD_CHANGE) {
+		if (eventData.getEventType() == RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType.LOAD_CHANGE) {
 			event.setType(DynamicEventType.LOAD_CHANGE);
-			DStabLoadChangeXmlType ldata = eventData.getLoadChange();
+			RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.LoadChangeData ldata = eventData.getLoadChangeData();
 			LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(
 					ldata.getBusId(), dstabNet);
 			eLoad
-					.setType(ldata.getType() == DStabLoadChangeTypeXmlData.LOW_FREQUENCY ? LoadChangeEventType.LOW_FREQUENCY
-							: (ldata.getType() == DStabLoadChangeTypeXmlData.LOW_VOLTAGE) ? LoadChangeEventType.LOW_VOLTAGE
+					.setType(ldata.getLoadChangeType() == RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.LoadChangeData.LoadChangeType.LOW_FREQUENCY ? LoadChangeEventType.LOW_FREQUENCY
+							: (ldata.getLoadChangeType() == RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.LoadChangeData.LoadChangeType.LOW_VOLTAGE) ? LoadChangeEventType.LOW_VOLTAGE
 									: LoadChangeEventType.FIXED_TIME);
 			if (ldata.getChangeFactor() != 0.0)
 				eLoad.setChangeFactor(ldata.getChangeFactor());
@@ -279,7 +273,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 			if (ldata.getDelayTime() != 0.0)
 				eLoad.setDelaySec(ldata.getDelayTime());
 			event.setBusDynamicEvent(eLoad);
-		} else if (eventData.getType() == DEventTypeXmlData.FAULT) {
+		} else if (eventData.getEventType() == RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType.FAULT) {
 			AcscFaultXmlType fdata = eventData.getFault();
 			if (eventData.getFault().getType() == FaultTypeXmlData.BRANCH_OUTAGE) {
 				event.setType(DynamicEventType.BRANCH_OUTAGE);
@@ -320,7 +314,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 				event.setBranchFault(fault);
 				if (fault.isReclosure()) {
 					String name = "EventAt_" + eventData.getStartTimeSec()
-							+ eventData.getType();
+							+ eventData.getEventType();
 					DynamicEvent event2 = DStabObjectFactory.createDEvent(event
 							.getId()
 							+ "-Reclosure", name,

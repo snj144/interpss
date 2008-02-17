@@ -25,11 +25,9 @@
 package org.interpss.mapper.runCase;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.schema.AclfMethodXmlData;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.FaultCategoryXmlData;
 import org.interpss.schema.FaultTypeXmlData;
-import org.interpss.schema.FaultVoltInitXmlData;
 import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
@@ -67,8 +65,8 @@ public class Xml2AlgorithmMapperImpl {
 					caseData.getModification());
 
 		algo
-				.setLfMethod(caseData.getLfMethod() == AclfMethodXmlData.NR ? AclfMethod.NR
-						: (caseData.getLfMethod() == AclfMethodXmlData.PQ ? AclfMethod.PQ
+				.setLfMethod(caseData.getLfMethod() == RunAclfStudyCaseXmlType.LfMethod.NR ? AclfMethod.NR
+						: (caseData.getLfMethod() == RunAclfStudyCaseXmlType.LfMethod.PQ ? AclfMethod.PQ
 								: AclfMethod.GS));
 		algo.setMaxIterations(caseData.getMaxIterations());
 		double e = caseData.getTolerance();
@@ -139,10 +137,11 @@ public class Xml2AlgorithmMapperImpl {
 		if (caseData.getMultiFactor() != 0.0)
 			algo.setMultiFactor(caseData.getMultiFactor() * 0.01);
 		// algo.multiFactor in PU and acscData.getMFactor in %
-		if (caseData.getBusInitVolt() != null)
+		if (caseData.getBusAcscInitVolt() != null)
 			algo
-					.setScBusVoltage(caseData.getBusInitVolt() == FaultVoltInitXmlData.UNIT_VOLT ? ScBusVoltage.UNIT_VOLT
-							: ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt
+					.setScBusVoltage(caseData.getBusAcscInitVolt() == 
+						RunStudyCaseXmlType.RunAcscStudyCase.BusAcscInitVolt.UNIT_VOLT ? 
+								ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt
 		return true;
 	}
 
