@@ -29,7 +29,7 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
-import org.interpss.schema.DclfSensitivityTypeXmlData;
+import org.interpss.schema.DclfSensitivityXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
@@ -71,7 +71,7 @@ public class XmlScriptDclfRun {
 
 				for (DclfBusSensitivityXmlType sen : dclfCase
 						.getSensitivityArray()) {
-					if (sen.getType() == DclfSensitivityTypeXmlData.P_ANGLE) {
+					if (sen.getSenType() == DclfSensitivityXmlType.SenType.P_ANGLE) {
 						algo.calculateSensitivity(DclfSensitivityType.PANGLE,
 								sen.getInjectBusId(), msg);
 						dialog.appendText(DclfOutFunc.pAngleSensitivityResults(
@@ -84,7 +84,7 @@ public class XmlScriptDclfRun {
 						 * bus.getBusId() + "," + sen.getInjectBusId() + ") : " +
 						 * pang); }
 						 */
-					} else if (sen.getType() == DclfSensitivityTypeXmlData.Q_VOLTAGE) {
+					} else if (sen.getSenType() == DclfSensitivityXmlType.SenType.Q_VOLTAGE) {
 						algo.calculateSensitivity(DclfSensitivityType.QVOLTAGE,
 								sen.getInjectBusId(), msg);
 						dialog.appendText(DclfOutFunc
