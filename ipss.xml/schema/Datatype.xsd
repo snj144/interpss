@@ -17,7 +17,7 @@
 
 	<ns:complexType name="BusRecXmlType">
 		<ns:complexContent>
-			<ns:extension base="ipss:RecordXmlType">
+			<ns:extension base="ipss:BaseRecordXmlType">
 				<ns:sequence>
 					<ns:element name="busId" type="ns:string"
 						maxOccurs="1" minOccurs="1">
@@ -33,7 +33,7 @@
 
 	<ns:complexType name="BranchRecXmlType">
 		<ns:complexContent>
-			<ns:extension base="ipss:RecordXmlType">
+			<ns:extension base="ipss:BaseRecordXmlType">
 				<ns:sequence>
 					<ns:element name="fromBusId" type="ns:string"
 						maxOccurs="1" minOccurs="1">
@@ -83,7 +83,7 @@
 
 
 
-	<ns:complexType name="RecordXmlType">
+	<ns:complexType name="BaseRecordXmlType">
 		<ns:annotation>
 			<ns:documentation>
 				Base record structure for describing a record, with an
@@ -104,16 +104,19 @@
 	</ns:complexType>
 
 
-	<ns:simpleType name="FaultTypeXmlData">
-		<ns:restriction base="ns:string">
+
+
+	<ns:complexType name="AcscFaultXmlType">
+		<ns:sequence>
+			<ns:element name="faultType" minOccurs="1"><ns:simpleType>
+			<ns:restriction base="ns:string">
 			<ns:enumeration value="BusFault"></ns:enumeration>
 			<ns:enumeration value="BranchFault"></ns:enumeration>
 			<ns:enumeration value="BranchOutage"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
-
-	<ns:simpleType name="FaultCategoryXmlData">
-		<ns:restriction base="ns:string">
+						</ns:restriction></ns:simpleType></ns:element>
+			<ns:element name="faultCategory"
+				minOccurs="1">
+                <ns:simpleType><ns:restriction base="ns:string">
 			<ns:enumeration value="Fault_3P"></ns:enumeration>
 			<ns:enumeration value="Fault_LG"></ns:enumeration>
 			<ns:enumeration value="Fault_LL"></ns:enumeration>
@@ -121,16 +124,9 @@
 			<ns:enumeration value="Outage_3Phase"></ns:enumeration>
 			<ns:enumeration value="Outage_1Phase"></ns:enumeration>
 			<ns:enumeration value="Outage_2Phase"></ns:enumeration>
-		</ns:restriction>
-	</ns:simpleType>
-
-	<ns:complexType name="AcscFaultXmlType">
-		<ns:sequence>
-			<ns:element name="type" type="ipss:FaultTypeXmlData"></ns:element>
-			<ns:element name="category"
-				type="ipss:FaultCategoryXmlData">
-			</ns:element>
-			<ns:element name="busBranchId" type="ns:string"></ns:element>
+                </ns:restriction></ns:simpleType>
+            </ns:element>
+			<ns:element name="busBranchId" type="ns:string" minOccurs="1"></ns:element>
 			<ns:element name="zLG" type="ipss:ComplexXmlType"
 				maxOccurs="1" minOccurs="0">
 			</ns:element>
@@ -154,29 +150,7 @@
 
 
 
-	<ns:complexType name="AclfLoadChangeXmlType">
-		<ns:sequence>
-			<ns:element name="codeChange"
-				type="ipss:AclfLoadCodeChangeXmlType" maxOccurs="1" minOccurs="0">
-			</ns:element>
-			<ns:element name="valueChange"
-				type="ipss:ComplexValueChangeXmlType" maxOccurs="1" minOccurs="0">
-			</ns:element>
-		</ns:sequence>
-	</ns:complexType>
 
-	<ns:complexType name="AclfLoadCodeChangeXmlType">
-		<ns:sequence>
-			<ns:element name="code"><ns:simpleType><ns:restriction base="ns:string">
-			<ns:enumeration value="ConstP"></ns:enumeration>
-			<ns:enumeration value="ConstI"></ns:enumeration>
-			<ns:enumeration value="ConstZ"></ns:enumeration>
-			<ns:enumeration value="Exponential"></ns:enumeration>
-						</ns:restriction></ns:simpleType></ns:element>
-			<ns:element name="expLoadP" type="ns:double"></ns:element>
-			<ns:element name="expLoadQ" type="ns:double"></ns:element>
-		</ns:sequence>
-	</ns:complexType>
 
 
 

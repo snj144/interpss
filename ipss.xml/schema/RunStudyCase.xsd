@@ -367,7 +367,7 @@
 			</ns:documentation>
 		</ns:annotation>
 		<ns:complexContent>
-			<ns:extension base="ipss:RecordXmlType">
+			<ns:extension base="ipss:BaseRecordXmlType">
 				<ns:sequence>
 					<ns:element name="modification"
 						type="ipss:ModificationXmlType" maxOccurs="1" minOccurs="0">
