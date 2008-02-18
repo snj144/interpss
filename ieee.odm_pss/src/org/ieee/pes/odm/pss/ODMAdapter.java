@@ -127,6 +127,11 @@ public class ODMAdapter {
 		if (appParameters.getParam(LogOptStr) == null)
 			appParameters.setParam(LogOptStr, Token_LogInfo);
 		
+		if (appParameters.getParam(InOptStr) == null ||
+			appParameters.getParam(FmtOptStr) == null ||
+			appParameters.getParam(OutOptStr) == null) {
+			return false;
+		}
 		return true;
 	}
 
