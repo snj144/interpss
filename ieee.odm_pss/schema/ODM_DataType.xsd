@@ -422,7 +422,15 @@
     					<element name="tapAdjustment" minOccurs="0">
     						<complexType>
     							<sequence>
-    								<element name="tapLimit"
+                        <element name="adjustmentType" minOccurs="1">
+                            <simpleType>
+                            	<restriction base="string">
+                            		<enumeration value="Voltage"></enumeration>
+                            		<enumeration value="MVarFlow"></enumeration>
+                            	</restriction>
+                            </simpleType>
+                        </element>
+                        <element name="tapLimit"
     									type="pss:LimitXmlType" minOccurs="1">
     								</element>
     								<element name="tapLimitUnit"
@@ -442,19 +450,26 @@
     								<element name="tapAdjStepSize"
     									type="double" minOccurs="0">
     								</element>
-                        			<element name="tapAdjOnFromSide" type="boolean" minOccurs="1">
+    								<element name="tapAdjOnFromSide"
+    									type="boolean" minOccurs="1">
     								</element>
-                        			<element name="voltageAdjustment" minOccurs="0">
+    								<element name="voltageAdjData"
+    									minOccurs="0">
     									<complexType>
     										<complexContent>
     											<extension
     												base="pss:AdjustmentDataXmlType">
     												<sequence>
 
-                                            <element name="desiredVoltageUnit" minOccurs="1">
-                                                <simpleType><restriction base="string"></restriction></simpleType>
-                                            </element>
-                                            <element
+    													<element
+    														name="desiredVoltageUnit" minOccurs="1">
+    														<simpleType>
+    															<restriction
+    																base="string">
+    															</restriction>
+    														</simpleType>
+    													</element>
+    													<element
     														name="adjVoltageBus" type="pss:IDRefRecordXmlType"
     														minOccurs="1">
     													</element>
@@ -480,12 +495,13 @@
     																</enumeration>
     															</restriction>
     														</simpleType>
-    													</element>    												</sequence>
+    													</element>
+    												</sequence>
     											</extension>
     										</complexContent>
     									</complexType>
-                        </element>
-    								<element name="mvarFlowAdjustment"
+    								</element>
+    								<element name="mvarFlowAdjData"
     									minOccurs="0">
     									<complexType>
     										<complexContent>
