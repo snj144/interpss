@@ -578,7 +578,7 @@
     										</simpleType>
     									</element>
     									<element
-    										name="desiredMeasuredAtFromSide" type="boolean"
+    										name="desiredMeasuredOnFromSide" type="boolean"
     										minOccurs="1">
     									</element>
     								</sequence>
