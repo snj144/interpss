@@ -100,26 +100,26 @@ public class IeeeCDFAdapter {
             		}
             		else if ((str.length() > 3) && str.substring(0,3).equals("BUS")) {
             			dataType = BusData;
-                    	logger.info("load bus data");
+                    	logger.fine("load bus data");
             		}
             		else if ((str.length() > 6) && str.substring(0,6).equals("BRANCH")) {
             			dataType = BranchData;
-            			logger.info("load branch data");
+            			logger.fine("load branch data");
             		}
             		else if ((str.length() > 4) && str.substring(0,4).equals("LOSS")) {
             			dataType = LossZone;
             		    baseCaseNet.addNewLoseZoneList();
-            			logger.info("load loss zone data");
+            			logger.fine("load loss zone data");
             		}
             		else if ((str.length() > 11) && str.substring(0,11).equals("INTERCHANGE")) {
             			dataType = InterchangeData;
             		    baseCaseNet.addNewInterchangeList();
-            			logger.info("load interchange data");
+            			logger.fine("load interchange data");
             		}
             		else if ((str.length() > 3) && str.substring(0,3).equals("TIE")) {
             			dataType = TielineData;
             		    baseCaseNet.addNewTieLineList();
-            			logger.info("load tieline data");
+            			logger.fine("load tieline data");
             		}
     			} catch (final Exception e) {
     				e.printStackTrace();
@@ -161,12 +161,12 @@ public class IeeeCDFAdapter {
     	final String caseId = strAry[5];
     	ODMXmlUtil.addNVPair(nvList, "Case Identification", caseId);
 
-    	logger.info("date, orgName, year, season, caseId: " + date + ", " 
+    	logger.fine("date, orgName, year, season, caseId: " + date + ", " 
     			+ orgName + ", " + year + ", " + season + ", " + caseId);
 
     	//[2] Columns 32-37   MVA Base [F] *
     	final double baseMva = new Double(strAry[2]).doubleValue();  // in MVA
-    	logger.info("BaseKva: " + baseMva ); 
+    	logger.fine("BaseKva: " + baseMva ); 
     	baseCaseNet.setBaseKva(baseMva);
     	baseCaseNet.setBaseKvaUnit(PSSNetworkXmlType.BaseKvaUnit.MVA);
     }
@@ -181,7 +181,7 @@ public class IeeeCDFAdapter {
     	
     	//Columns  1- 4   Bus number [I] *
     	final String busId = strAry[0];
-    	logger.info("Bus data loaded, id: " + busId);
+    	logger.fine("Bus data loaded, id: " + busId);
     	busRec.setId(busId);
     	
     	//Columns  6-17   Name [A] (left justify) *
@@ -296,7 +296,7 @@ public class IeeeCDFAdapter {
 //      	For transformers and phase shifters, the side of the model the device impedance is on.
     	final String fid = strAry[0];
     	final String tid = strAry[1];
-    	logger.info("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
+    	logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
     	branchRec.addNewFromBus().setIdRef(fid);
     	branchRec.addNewToBus().setIdRef(tid);
 
