@@ -74,5 +74,24 @@ public class UCTEFormatMarioTest extends BaseTestSetup {
   		assertTrue(Math.abs(swing.getGenResults(UnitType.mVar, simuCtx.getAclfNet().getBaseKva()).getImaginary()+1289.43)<0.1);
 */  		
 	}
+
+	@Test
+	public void testCase3() throws Exception {
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest3_XfrReg.uct", SpringAppContext.getIpssMsgHub());
+  		System.out.println(simuCtx.getAclfNet().net2String());
+/*
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+  		//System.out.println(simuCtx.getAclfNet().net2String());
+  		
+  		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
+	  	
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("B4____1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva()).getReal()-6.33)<0.01);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.mVar, simuCtx.getAclfNet().getBaseKva()).getImaginary()+1289.43)<0.1);
+*/  		
+	}
 }
 
