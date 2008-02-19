@@ -71,12 +71,12 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			// map an AclfStudyCase xml record to an LoadflowAlgorithm object
 			Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(
 					(RunAclfStudyCaseXmlType) fromObj,
-					(LoadflowAlgorithm) toObj);
+					(LoadflowAlgorithm) toObj, msg);
 		} else if (klass == RunStudyCaseXmlType.RunAcscStudyCase.class) {
 			// map an AcscStudyCase xml record to an LoadflowAlgorithm object
 			return Xml2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
 					(RunStudyCaseXmlType.RunAcscStudyCase) fromObj,
-					(SimpleFaultAlgorithm) toObj);
+					(SimpleFaultAlgorithm) toObj, msg);
 		} else if (klass == RunStudyCaseXmlType.RunDStabStudyCase.class) {
 			// map a DStabStudyCase xml record to an LoadflowAlgorithm object
 			return Xml2DStabAlgorithmMapperImpl.dstabCaseData2AlgoMapping(
