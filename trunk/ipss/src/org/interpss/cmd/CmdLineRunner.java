@@ -134,8 +134,8 @@ public class CmdLineRunner {
 			
 			// Apply the modification to the base Network object
 			if (parser.getModification() != null)
-				XmlNetParamModifier.applyModification2Net(simuCtx.getNetwork(),
-						parser.getModification());
+				XmlNetParamModifier.applyModification(simuCtx.getNetwork(),
+						parser.getModification(), msg);
 
 			RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 			IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
