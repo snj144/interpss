@@ -57,12 +57,17 @@
 					</ipss:loadChangeData>
 				</ipss:aclfBusChangeData>
 			</ipss:busChangeRec>
+			
 			<ipss:busChangeRec>
-				<ipss:recId>AclfBusChangeRec-3</ipss:recId>
+				<ipss:recId>AclfBusChangeRec-4</ipss:recId>
 				<ipss:busId>0001</ipss:busId>
 				<ipss:aclfBusChangeData>
 					<ipss:genChangeData>
-						<ipss:swingVoltagePU>true</ipss:swingVoltagePU></ipss:genChangeData></ipss:aclfBusChangeData>
+						<ipss:swingVoltageChange>
+							<ipss:changeAction>increase</ipss:changeAction>
+							<ipss:percent>1.0</ipss:percent>
+							<ipss:unit>Percent</ipss:unit>
+						</ipss:swingVoltageChange></ipss:genChangeData></ipss:aclfBusChangeData>
 			</ipss:busChangeRec></ipss:busChangeRecList>
 			
 		<ipss:branchChangeRecList>
