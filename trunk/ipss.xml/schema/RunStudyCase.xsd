@@ -123,29 +123,47 @@
 						<ns:extension
 							base="ipss:RunAclfStudyCaseXmlType">
 							<ns:sequence>
-								<ns:element name="totalSimuTimeSec"
-									type="ns:double" maxOccurs="1" minOccurs="1">
+
+
+
+
+
+
+								<ns:element name="simuConfig" minOccurs="1">
+									<ns:complexType>
+										<ns:sequence>
+
+											<ns:element
+												name="totalSimuTimeSec" type="ns:double" maxOccurs="1"
+												minOccurs="1">
+											</ns:element>
+											<ns:element
+												name="simuStepSec" type="ns:double" maxOccurs="1"
+												minOccurs="1">
+											</ns:element>
+											<ns:element
+												name="simuMethod" maxOccurs="1" minOccurs="1">
+												<ns:simpleType>
+													<ns:restriction
+														base="ns:string">
+														<ns:enumeration
+															value="ModifiedEuler">
+														</ns:enumeration>
+													</ns:restriction>
+												</ns:simpleType>
+											</ns:element>
+											<ns:element
+												name="absoluteMachAngValue" type="ns:boolean" minOccurs="1"
+												maxOccurs="1">
+											</ns:element>
+											<ns:element
+												name="refMachineBusId" type="ns:string" maxOccurs="1"
+												minOccurs="0">
+											</ns:element>
+										</ns:sequence>
+
+									</ns:complexType>
 								</ns:element>
-								<ns:element name="simuStepSec"
-									type="ns:double" maxOccurs="1" minOccurs="1">
-								</ns:element>
-								<ns:element name="simuMethod"
-									maxOccurs="1" minOccurs="1">
-									<ns:simpleType>
-										<ns:restriction
-											base="ns:string">
-											<ns:enumeration
-												value="ModifiedEuler">
-											</ns:enumeration>
-										</ns:restriction>
-									</ns:simpleType>
-								</ns:element>
-								<ns:element name="absoluteMachAngValue"
-									type="ns:boolean" minOccurs="1" maxOccurs="1">
-								</ns:element>
-								<ns:element name="refMachineBusId"
-									type="ns:string" maxOccurs="1" minOccurs="0">
-								</ns:element>
 								<ns:element name="dynamicEventData"
 									minOccurs="0" maxOccurs="1">
 									<ns:complexType>
@@ -260,14 +278,13 @@
 								</ns:element>
 
 
-								<ns:element name="setpointChange"
-									type="ns:boolean" minOccurs="0" maxOccurs="1">
-								</ns:element>
 								<ns:element name="setpointChangeData"
 									minOccurs="0" maxOccurs="1">
 									<ns:complexType>
 										<ns:sequence>
-											<ns:element name="machId"
+                                            <ns:element name="setpointChange" type="ns:boolean" minOccurs="1">
+											</ns:element>
+                                            <ns:element name="machId"
 												type="ns:string" minOccurs="1" maxOccurs="1">
 											</ns:element>
 											<ns:element
@@ -294,17 +311,26 @@
 											<ns:element
 												name="absoluteChange" type="ns:boolean" minOccurs="1"
 												maxOccurs="1">
-											</ns:element>
+											</ns:element>
 										</ns:sequence>
 									</ns:complexType>
 								</ns:element>
 
-								<ns:element name="netEqnItrNoEvent"
-									type="ns:int" minOccurs="0" maxOccurs="1">
-								</ns:element>
-								<ns:element name="netEqnItrWithEvent"
-									type="ns:int" minOccurs="0" maxOccurs="1">
-								</ns:element>
+								<ns:element name="netEqnSolveConfig"
+									minOccurs="0">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element
+												name="netEqnItrNoEvent" type="ns:int" minOccurs="0"
+												maxOccurs="1">
+											</ns:element>
+											<ns:element
+												name="netEqnItrWithEvent" type="ns:int" minOccurs="0"
+												maxOccurs="1">
+											</ns:element>
+										</ns:sequence>
+									</ns:complexType>
+								</ns:element>
 								<ns:element name="staticLoadModel"
 									minOccurs="0" maxOccurs="1">
 									<ns:complexType>
@@ -335,11 +361,27 @@
 									</ns:complexType>
 								</ns:element>
 
-								<ns:element name="outputFilter"
-									type="ns:boolean" minOccurs="0" maxOccurs="1">
-								</ns:element>
-								<ns:element name="outputVariables"
-									type="ns:string" minOccurs="0" maxOccurs="unbounded">
+
+								<ns:element name="outputConfig"
+									minOccurs="0">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element
+												name="outputFilter" type="ns:boolean" minOccurs="1">
+											</ns:element>
+											<ns:element
+												name="outputVarList" minOccurs="0">
+												<ns:complexType>
+													<ns:sequence>
+														<ns:element
+															name="variableName" type="ns:string" minOccurs="0"
+															maxOccurs="unbounded">
+														</ns:element>
+													</ns:sequence>
+												</ns:complexType>
+											</ns:element>
+										</ns:sequence>
+									</ns:complexType>
 								</ns:element>
 
 							</ns:sequence>
