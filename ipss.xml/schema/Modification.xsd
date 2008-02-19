@@ -35,23 +35,23 @@
 																			<ns:sequence>
 																				<ns:element
 																					name="loadCode">
-                                                                                    <ns:simpleType>
-                                                                                    	<ns:restriction
-                                                                                    		base="ns:string">
-                                                                                    		<ns:enumeration
-                                                                                    			value="CONST_P">
-                                                                                    		</ns:enumeration>
-                                                                                    		<ns:enumeration
-                                                                                    			value="CONST_I">
-                                                                                    		</ns:enumeration>
-                                                                                    		<ns:enumeration
-                                                                                    			value="CONST_Z">
-                                                                                    		</ns:enumeration>
-                                                                                    		<ns:enumeration
-                                                                                    			value="EXPONENTIAL">
-                                                                                    		</ns:enumeration>
-                                                                                    	</ns:restriction>
-                                                                                    </ns:simpleType>
+																					<ns:simpleType>
+																						<ns:restriction
+																							base="ns:string">
+																							<ns:enumeration
+																								value="CONST_P">
+																							</ns:enumeration>
+																							<ns:enumeration
+																								value="CONST_I">
+																							</ns:enumeration>
+																							<ns:enumeration
+																								value="CONST_Z">
+																							</ns:enumeration>
+																							<ns:enumeration
+																								value="EXPONENTIAL">
+																							</ns:enumeration>
+																						</ns:restriction>
+																					</ns:simpleType>
 																				</ns:element>
 																				<ns:element
 																					name="expLoadP" type="ns:double">
@@ -63,10 +63,23 @@
 																		</ns:complexType>
 																	</ns:element>
 																	<ns:element
-																		name="valueChange" minOccurs="0" type="ipss:ComplexValueChangeXmlType">
+																		name="valueChange" minOccurs="0"
+																		type="ipss:ComplexValueChangeXmlType">
+
 																	</ns:element>
 																</ns:sequence>
 															</ns:complexType>
+														</ns:element>
+														<ns:element
+															name="genChangeData" minOccurs="0">
+                                                            <ns:complexType>
+                                                            	<ns:sequence>
+                                                            		<ns:element
+                                                            			name="swingVoltageChange"
+                                                            			type="ipss:ValueChangeXmlType" minOccurs="0">
+                                                            		</ns:element>
+                                                            	</ns:sequence>
+                                                            </ns:complexType>
 														</ns:element>
 													</ns:sequence>
 												</ns:complexType>
