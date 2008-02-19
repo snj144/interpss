@@ -62,11 +62,11 @@ public class XmlScriptRunWorker {
 		}
 
 		// Apply the modification to the base Network object
-		if (parser.getModification() != null)
-			XmlNetParamModifier.applyModification2Net(simuCtx.getNetwork(),
-					parser.getModification());
-
 		IPSSMsgHub msg = simuCtx.getMsgHub();
+		if (parser.getModification() != null)
+			XmlNetParamModifier.applyModification(simuCtx.getNetwork(),
+					parser.getModification(), msg);
+
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
 				&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
