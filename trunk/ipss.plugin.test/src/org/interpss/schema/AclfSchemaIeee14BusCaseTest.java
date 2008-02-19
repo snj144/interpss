@@ -17,6 +17,7 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -114,7 +115,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   		//System.out.println("----->" + parser.getRootElem().toString());
 
   		ModificationXmlType mod = parser.getModification();
-  		XmlNetParamModifier.applyModification2Net(net, mod);
+  		XmlNetParamModifier.applyModification(net, mod, msg);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	assertTrue(!net.getBus("0006").isActive());
@@ -130,6 +131,9 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	// load added 1.0+j1.0 MVA
 	  	assertTrue(net.getAclfBus("0012").getLoadP() == 0.071);
 	  	assertTrue(Math.abs(net.getAclfBus("0012").getLoadQ()-0.026) < 1.0E-5);
+
+		final SwingBusAdapter gen = (SwingBusAdapter)net.getAclfBus("0001").adapt(SwingBusAdapter.class);
+	  	assertTrue(gen.getVoltMag(UnitType.PU) == (1.06*1.01));
 
 	  	// branch Z increase by 10%
 	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").getZ().getImaginary()-0.20912*1.1) < 1.0E-5);
