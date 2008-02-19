@@ -42,20 +42,21 @@ import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public class ODMAdapter {
-	private final static String InOptStr = "-in";
-	private final static String FmtOptStr = "-format";
-	private final static String OutOptStr = "-out";
-	private final static String LogOptStr = "-log";
+	private final static String InOptStr 	= "-in";
+	private final static String FmtOptStr 	= "-format";
+	private final static String OutOptStr 	= "-out";
+	private final static String LogOptStr 	= "-log";
 
-	private final static String Token_IEEECDF = "ieeecdf";
-	private final static String Token_LogInfo = "info";
-	private final static String Token_LogWarn = "waining";
-	private final static String Token_LogDebug = "debug";
+	private final static String Token_IEEECDF 	= "ieeecdf";
+	private final static String Token_LogInfo 	= "info";
+	private final static String Token_LogWarn 	= "waining";
+	private final static String Token_LogDebug 	= "debug";
 	
 	private final static String Parm_LoggerName = "IEEE ODM Logger";
 	
-	
 	/**
+     * Main entry point to run the adapter
+     * 
 	 * @param args
 	 */
 	public static void main(String[] args) {
