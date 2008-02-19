@@ -34,6 +34,7 @@ import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBranch;
@@ -57,10 +58,10 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static void aclfCaseData2AlgoMapping(
-			RunAclfStudyCaseXmlType caseData, LoadflowAlgorithm algo) {
+			RunAclfStudyCaseXmlType caseData, LoadflowAlgorithm algo, IPSSMsgHub msg) {
 		if (caseData.getModification() != null)
-			XmlNetParamModifier.applyModification2Net(algo.getNetwork(),
-					caseData.getModification());
+			XmlNetParamModifier.applyModification(algo.getNetwork(),
+					caseData.getModification(), msg);
 
 		algo
 				.setLfMethod(caseData.getLfMethod() == RunAclfStudyCaseXmlType.LfMethod.NR ? AclfMethod.NR
@@ -92,10 +93,10 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean acscCaseData2AlgoMapping(
-			RunStudyCaseXmlType.RunAcscStudyCase caseData, SimpleFaultAlgorithm algo) {
+			RunStudyCaseXmlType.RunAcscStudyCase caseData, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
 		if (caseData.getModification() != null)
-			XmlNetParamModifier.applyModification2Net(algo.getNetwork(),
-					caseData.getModification());
+			XmlNetParamModifier.applyModification(algo.getNetwork(),
+					caseData.getModification(), msg);
 
 		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
 		String faultIdStr = caseData.getRecId();

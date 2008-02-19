@@ -26,9 +26,9 @@ package org.interpss.mapper.runCase;
 
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.SimuConfig.SimuMethod;
 import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData;
 import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.SetpointChangeData;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.SimuMethod;
 import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType;
 import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.LoadChangeData;
 import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.StaticLoadModel.StaticLoadType;
@@ -69,26 +69,30 @@ public class Xml2DStabAlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean dstabCaseData2AlgoMapping(
-			RunStudyCaseXmlType.RunDStabStudyCase caseData, DynamicSimuAlgorithm algo,
-			IPSSMsgHub msg) { 
+			RunStudyCaseXmlType.RunDStabStudyCase caseData,
+			DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
 		if (caseData.getModification() != null)
-			XmlNetParamModifier.applyModification2Net(algo.getNetwork(),
-					caseData.getModification());
+			XmlNetParamModifier.applyModification(algo.getNetwork(),
+					caseData.getModification(), msg);
 
-		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseData, algo.getAclfAlgorithm());
+		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseData, algo
+				.getAclfAlgorithm(), msg);
 
-		algo.setSimuMethod(caseData.getSimuMethod() == 
-				SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
+		algo
+				.setSimuMethod(caseData.getSimuConfig().getSimuMethod() == SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
 						: DynamicSimuMethods.RUNGE_KUTTA);
-		algo.setTotalSimuTimeSec(caseData.getTotalSimuTimeSec());
-		algo.setSimuStepSec(caseData.getSimuStepSec());
-		algo.setDisableDynamicEvent(caseData.getDynamicEventData().getDisableEvent());
+		algo
+				.setTotalSimuTimeSec(caseData.getSimuConfig()
+						.getTotalSimuTimeSec());
+		algo.setSimuStepSec(caseData.getSimuConfig().getSimuStepSec());
+		algo.setDisableDynamicEvent(caseData.getDynamicEventData()
+				.getDisableEvent());
 
-		if (caseData.getAbsoluteMachAngValue()) {
+		if (caseData.getSimuConfig().getAbsoluteMachAngValue()) {
 			algo.setRefMachine(null);
 		} else {
 			Machine mach = getMachine(algo.getDStabNet(), caseData
-					.getRefMachineBusId());
+					.getSimuConfig().getRefMachineBusId());
 			if (mach == null)
 				return false;
 			IpssLogger.getLogger().info("Ref mach set to : " + mach.getId());
@@ -98,30 +102,32 @@ public class Xml2DStabAlgorithmMapperImpl {
 		// transfer output variable filter info to the DStabAlgo object, which
 		// then
 		// will be carried by the object to the remote grid node
-		algo.setOutputFilted(caseData.getOutputFilter());
+		algo.setOutputFilted(caseData.getOutputConfig() != null && 
+				caseData.getOutputConfig().getOutputFilter());
 		if (algo.isOutputFilted()) {
-			algo.setOutputVarIdList(caseData.getOutputVariablesArray());
+			algo.setOutputVarIdList(caseData.getOutputConfig()
+					.getOutputVarList().getVariableNameArray());
 		}
 
 		return dstabCaseData2NetMapping(caseData, algo.getDStabNet(), msg);
 	}
 
 	private static boolean dstabCaseData2NetMapping(
-			RunStudyCaseXmlType.RunDStabStudyCase dstabData, DStabilityNetwork dstabNet,
-			IPSSMsgHub msg) {
-		dstabNet
-				.setNetEqnIterationNoEvent(dstabData.getNetEqnItrNoEvent() != 0 ? dstabData
-						.getNetEqnItrNoEvent()
-						: Constants.DStabNetItrNoEvent);
-		dstabNet
-				.setNetEqnIterationWithEvent(dstabData.getNetEqnItrWithEvent() != 0 ? dstabData
-						.getNetEqnItrWithEvent()
-						: Constants.DStabNetItrWithEvent);
+			RunStudyCaseXmlType.RunDStabStudyCase dstabData,
+			DStabilityNetwork dstabNet, IPSSMsgHub msg) {
+		dstabNet.setNetEqnIterationNoEvent(dstabData.getNetEqnSolveConfig() != null &&
+				dstabData.getNetEqnSolveConfig().getNetEqnItrNoEvent() != 0 ? 
+						dstabData.getNetEqnSolveConfig().getNetEqnItrNoEvent() : 
+							Constants.DStabNetItrNoEvent);
+		dstabNet.setNetEqnIterationWithEvent(dstabData.getNetEqnSolveConfig() != null &&
+				dstabData.getNetEqnSolveConfig().getNetEqnItrWithEvent() != 0 ? 
+						dstabData.getNetEqnSolveConfig().getNetEqnItrWithEvent()
+							: Constants.DStabNetItrWithEvent);
 
 		if (dstabData.getStaticLoadModel() != null) {
 			dstabNet
-					.setStaticLoadModel(dstabData.getStaticLoadModel().getStaticLoadType() == 
-						StaticLoadType.CONST_Z ? StaticLoadModel.CONST_Z
+					.setStaticLoadModel(dstabData.getStaticLoadModel()
+							.getStaticLoadType() == StaticLoadType.CONST_Z ? StaticLoadModel.CONST_Z
 							: StaticLoadModel.CONST_P);
 			if (dstabData.getStaticLoadModel().getSwitchVolt() != 0.0)
 				dstabNet.setStaticLoadSwitchVolt(dstabData.getStaticLoadModel()
@@ -132,7 +138,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 		}
 
 		if (dstabData.getDynamicEventData().getDisableEvent()) {
-			if (dstabData.getSetpointChange()) {
+			if (dstabData.getSetpointChangeData() != null && 
+					dstabData.getSetpointChangeData().getSetpointChange()) {
 				IpssLogger.getLogger().info(
 						"Dynamic Event Type: SetPointChange");
 				String machId = dstabData.getSetpointChangeData().getMachId();
@@ -147,7 +154,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 						"SetPointChange", DynamicEventType.SET_POINT_CHANGE,
 						dstabNet, msg);
 				event.setStartTimeSec(0.0);
-				event.setDurationSec(dstabData.getTotalSimuTimeSec());
+				event.setDurationSec(dstabData.getSimuConfig()
+						.getTotalSimuTimeSec());
 				SetPointChangeEvent eSetPoint = DStabObjectFactory
 						.createSetPointChangeEvent(machId, dstabNet);
 				eSetPoint
@@ -163,16 +171,16 @@ public class Xml2DStabAlgorithmMapperImpl {
 				event.setBusDynamicEvent(eSetPoint);
 			}
 		} else {
-			for (DynamicEventData.EventList.Event eventData : 
-							dstabData.getDynamicEventData().getEventList().getEventArray()) {
+			for (DynamicEventData.EventList.Event eventData : dstabData
+					.getDynamicEventData().getEventList().getEventArray()) {
 				// make sure that event name is not "" or NewEventName
 				IpssLogger.getLogger().info("Event Data: " + eventData);
 				// create event name
 				String name = "EventAt_" + eventData.getStartTimeSec()
 						+ eventData.getEventType();
 				// map event type
-				DynamicEventType deType = getDEventType(eventData.getEventType(),
-						eventData.getFault().getFaultType());
+				DynamicEventType deType = getDEventType(eventData
+						.getEventType(), eventData.getFault().getFaultType());
 				// create the DStabEvent
 				DynamicEvent event = DStabObjectFactory.createDEvent(eventData
 						.getName(), name, deType, dstabNet, msg);
@@ -184,7 +192,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 				}
 
 				try {
-					setEventData(event, eventData, dstabData
+					setEventData(event, eventData, dstabData.getSimuConfig()
 							.getTotalSimuTimeSec(), dstabNet, msg);
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
@@ -210,8 +218,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 		return mach;
 	}
 
-	private static DynamicEventType getDEventType(
-			EventType.Enum eventType, 
+	private static DynamicEventType getDEventType(EventType.Enum eventType,
 			AcscFaultXmlType.FaultType.Enum faultType) {
 		if (eventType == EventType.FAULT) {
 			if (faultType == AcscFaultXmlType.FaultType.BUS_FAULT)
@@ -246,9 +253,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 		if (eventData.getEventType() == EventType.LOAD_CHANGE) {
 			event.setPermanent(true);
 			eventData.setDurationSec(0.0);
-			if (eventData.getLoadChangeData().getLoadChangeType() == 
-				LoadChangeData.LoadChangeType.FIXED_TIME)
-				eventData.setStartTimeSec(eventData.getLoadChangeData().getThreshhold());
+			if (eventData.getLoadChangeData().getLoadChangeType() == LoadChangeData.LoadChangeType.FIXED_TIME)
+				eventData.setStartTimeSec(eventData.getLoadChangeData()
+						.getThreshhold());
 			else
 				eventData.setStartTimeSec(toltalSimuTime);
 		}
