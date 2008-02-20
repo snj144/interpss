@@ -83,7 +83,7 @@ public class XmlScriptDStabRun {
 				appSimuCtx.setLastRunType(SimuRunType.DStab);
 
 				// get the run case info defined in the Xml scripts
-				RunStudyCaseXmlType.RunDStabStudyCase dstabCase = parser
+				RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabCase = parser
 						.getRunDStabStudyCaseList()[0];
 				// config the DStabAlgo object, including apply case-level
 				// modification to the DStabNet object
@@ -155,7 +155,7 @@ public class XmlScriptDStabRun {
 				MultiStudyCase mCaseContainer = SimuObjectFactory
 						.createMultiStudyCase(SimuCtxType.DSTABILITY_NET);
 				int cnt = 0;
-				for (RunStudyCaseXmlType.RunDStabStudyCase dstabCase : parser
+				for (RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabCase : parser
 						.getRunDStabStudyCaseList()) {
 					// deserialize the base case
 					DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil
@@ -240,12 +240,12 @@ public class XmlScriptDStabRun {
 	}
 
 	private static boolean configDStaAlgo(DynamicSimuAlgorithm dstabAlgo,
-			RunStudyCaseXmlType.RunDStabStudyCase dstabCase, IPSSMsgHub msg) {
+			RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabCase, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
 		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
-		mapper.mapping(dstabCase, dstabAlgo, RunStudyCaseXmlType.RunDStabStudyCase.class);
+		mapper.mapping(dstabCase, dstabAlgo, RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.class);
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
 			return false; // if something is wrong, we stop running here
 
@@ -277,7 +277,7 @@ public class XmlScriptDStabRun {
 	}
 
 	private static boolean runLocalDStabRun(DynamicSimuAlgorithm dstabAlgo,
-			RunStudyCaseXmlType.RunDStabStudyCase dstabCase, IPSSMsgHub msg) {
+			RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabCase, IPSSMsgHub msg) {
 		dstabAlgo.getDStabNet().setNetChangeListener(
 				CoreSpringAppContext.getNetChangeHandler());
 

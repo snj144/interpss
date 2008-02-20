@@ -53,11 +53,11 @@ public class XmlScriptAcscRun {
 				.getRunForm2AlgorithmMapper();
 		if (parser.getRunAcscStudyCaseList().length > 0) {
 			if (parser.getRunAcscStudyCaseList().length == 1) {
-				RunStudyCaseXmlType.RunAcscStudyCase acscCase = parser
+				RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase acscCase = parser
 						.getRunAcscStudyCaseList()[0];
 				SimpleFaultAlgorithm algo = CoreObjectFactory
 						.createSimpleFaultAlgorithm(faultNet);
-				mapper.mapping(acscCase, algo, RunStudyCaseXmlType.RunAcscStudyCase.class);
+				mapper.mapping(acscCase, algo, RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase.class);
 				Object fault = faultNet.getFaultList().get(0);
 				if (fault instanceof AcscBusFault)
 					algo.calculateBusFault((AcscBusFault) fault, msg);
@@ -65,7 +65,7 @@ public class XmlScriptAcscRun {
 					algo.calculateBranchFault((AcscBranchFault) fault, msg);
 				RunActUtilFunc.displayAcscSummaryResult(faultNet);
 			} else
-				for (RunStudyCaseXmlType.RunAcscStudyCase acscCase : parser
+				for (RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase acscCase : parser
 						.getRunAcscStudyCaseList()) {
 				}
 		} else {

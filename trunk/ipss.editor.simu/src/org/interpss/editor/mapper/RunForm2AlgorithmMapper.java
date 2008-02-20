@@ -72,15 +72,15 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(
 					(RunAclfStudyCaseXmlType) fromObj,
 					(LoadflowAlgorithm) toObj, msg);
-		} else if (klass == RunStudyCaseXmlType.RunAcscStudyCase.class) {
+		} else if (klass == RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase.class) {
 			// map an AcscStudyCase xml record to an LoadflowAlgorithm object
 			return Xml2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
-					(RunStudyCaseXmlType.RunAcscStudyCase) fromObj,
+					(RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase) fromObj,
 					(SimpleFaultAlgorithm) toObj, msg);
-		} else if (klass == RunStudyCaseXmlType.RunDStabStudyCase.class) {
+		} else if (klass == RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.class) {
 			// map a DStabStudyCase xml record to an LoadflowAlgorithm object
 			return Xml2DStabAlgorithmMapperImpl.dstabCaseData2AlgoMapping(
-					(RunStudyCaseXmlType.RunDStabStudyCase) fromObj,
+					(RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase) fromObj,
 					(DynamicSimuAlgorithm) toObj, msg);
 		}
 		return true;
