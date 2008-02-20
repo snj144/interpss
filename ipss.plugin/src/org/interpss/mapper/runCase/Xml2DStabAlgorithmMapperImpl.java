@@ -26,12 +26,12 @@ package org.interpss.mapper.runCase;
 
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.SimuConfig.SimuMethod;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.SetpointChangeData;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.EventType;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DynamicEventData.EventList.Event.LoadChangeData;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.StaticLoadModel.StaticLoadType;
+import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.SimuConfig.SimuMethod;
+import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.DynamicEventData;
+import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.SetpointChangeData;
+import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.DynamicEventData.EventList.Event.EventType;
+import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.DynamicEventData.EventList.Event.LoadChangeData;
+import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.StaticLoadModel.StaticLoadType;
 import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.SpringAppContext;
@@ -69,7 +69,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean dstabCaseData2AlgoMapping(
-			RunStudyCaseXmlType.RunDStabStudyCase caseData,
+			RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase caseData,
 			DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
 		if (caseData.getModification() != null)
 			XmlNetParamModifier.applyModification(algo.getNetwork(),
@@ -113,7 +113,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 	}
 
 	private static boolean dstabCaseData2NetMapping(
-			RunStudyCaseXmlType.RunDStabStudyCase dstabData,
+			RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabData,
 			DStabilityNetwork dstabNet, IPSSMsgHub msg) {
 		dstabNet.setNetEqnIterationNoEvent(dstabData.getNetEqnSolveConfig() != null &&
 				dstabData.getNetEqnSolveConfig().getNetEqnItrNoEvent() != 0 ? 

@@ -93,7 +93,7 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean acscCaseData2AlgoMapping(
-			RunStudyCaseXmlType.RunAcscStudyCase caseData, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
+			RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase caseData, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
 		if (caseData.getModification() != null)
 			XmlNetParamModifier.applyModification(algo.getNetwork(),
 					caseData.getModification(), msg);
@@ -139,7 +139,7 @@ public class Xml2AlgorithmMapperImpl {
 		if (caseData.getBusAcscInitVolt() != null)
 			algo
 					.setScBusVoltage(caseData.getBusAcscInitVolt() == 
-						RunStudyCaseXmlType.RunAcscStudyCase.BusAcscInitVolt.UNIT_VOLT ? 
+						RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase.BusAcscInitVolt.UNIT_VOLT ? 
 								ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt
 		return true;
 	}
