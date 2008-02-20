@@ -102,13 +102,13 @@ public class AclfOutFunc {
 			str
 					.append("\n\n                                              Load Flow Results\n\n");
 			str
-					.append("-------------------------------------------------------------------------------------------------------------------------------------\n");
+					.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
 			str
-					.append(" Bus ID             Bus Voltage         Generation           Load             To             Branch P+jQ          Xfr Ratio   PS-Xfr\n");
+					.append(" Bus ID             Bus Voltage         Generation           Load             To             Branch P+jQ          Xfr Ratio   PS-Xfr Ang\n");
 			str
-					.append("               base     Mag   Ang     (mW)    (mVar)    (mW)    (mVar)      Bus ID      (mW)    (mVar)   (kA)   (From)  (To)   Angle\n");
+					.append("               base     Mag   Ang     (mW)    (mVar)    (mW)    (mVar)      Bus ID      (mW)    (mVar)   (kA)   (From)  (To) (from)   (to)\n");
 			str
-					.append("-------------------------------------------------------------------------------------------------------------------------------------\n");
+					.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
 
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
@@ -161,7 +161,7 @@ public class AclfOutFunc {
 								busj = bra.getFromAclfBus();
 
 							Complex pq = new Complex(0.0, 0.0);
-							double amp = 0.0, fromRatio = 1.0, toRatio = 1.0;
+							double amp = 0.0, fromRatio = 1.0, toRatio = 1.0, fromAng = 0.0, toAng = 0.0;
 							if (bra.isActive()) {
 								if (bus.equals(bra.getFromAclfBus())) {
 									pq = bra
@@ -173,6 +173,11 @@ public class AclfOutFunc {
 									if (bra.isXfr() || bra.isPSXfr()) {
 										fromRatio = bra.getFromTurnRatio();
 										toRatio = bra.getToTurnRatio();
+										if (bra.isPSXfr()) {
+											PSXfrAdapter psXfr = (PSXfrAdapter) bra.adapt(PSXfrAdapter.class);
+											fromAng = psXfr.getFromAngle(UnitType.Deg);
+											toAng = psXfr.getToAngle(UnitType.Deg);
+										}
 									}
 								} else {
 									pq = bra
@@ -184,6 +189,11 @@ public class AclfOutFunc {
 									if (bra.isXfr() || bra.isPSXfr()) {
 										toRatio = bra.getFromTurnRatio();
 										fromRatio = bra.getToTurnRatio();
+										if (bra.isPSXfr()) {
+											PSXfrAdapter psXfr = (PSXfrAdapter) bra.adapt(PSXfrAdapter.class);
+											toAng = psXfr.getFromAngle(UnitType.Deg);
+											fromAng = psXfr.getToAngle(UnitType.Deg);
+										}
 									}
 								}
 							}
@@ -217,15 +227,21 @@ public class AclfOutFunc {
 									str.append("      ");
 
 								if (bra.isPSXfr()) {
-									PSXfrAdapter psXfr = (PSXfrAdapter) bra
-											.adapt(PSXfrAdapter.class);
-									str
+									if (fromAng != 0.0)
+										str
 											.append("   "
 													+ Number2String
-															.toStr(
-																	"##0.0",
-																	psXfr
-																			.getFromAngle(UnitType.Deg)));
+															.toStr("##0.0", fromAng));
+									else
+										str.append("        ");
+
+									if (toAng != 0.0)
+										str
+											.append(" "
+													+ Number2String
+														.toStr("##0.0", toAng));
+									else
+										str.append("      ");
 								}
 								str.append("\n");
 							} else {
@@ -236,7 +252,7 @@ public class AclfOutFunc {
 				}
 			}
 			str
-					.append("-------------------------------------------------------------------------------------------------------------------------------------\n");
+					.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
