@@ -79,8 +79,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.RunDclfStudyCase[] getRunDclfStudyCaseList() {
-		return ipss.getRunStudyCase().getRunDclfStudyCaseArray();
+	public RunStudyCaseXmlType.DclfStudyCaseList.DclfStudyCase[] getRunDclfStudyCaseList() {
+		return ipss.getRunStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray();
 	}
 
 	/**
@@ -89,7 +89,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunAclfStudyCaseXmlType[] getRunAclfStudyCaseList() {
-		return ipss.getRunStudyCase().getRunAclfStudyCaseArray();
+		return ipss.getRunStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray();
 	}
 
 	/**
@@ -97,8 +97,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.RunAcscStudyCase[] getRunAcscStudyCaseList() {
-		return ipss.getRunStudyCase().getRunAcscStudyCaseArray();
+	public RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase[] getRunAcscStudyCaseList() {
+		return ipss.getRunStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray();
 	}
 
 	/**
@@ -106,8 +106,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.RunDStabStudyCase[] getRunDStabStudyCaseList() {
-		return ipss.getRunStudyCase().getRunDStabStudyCaseArray();
+	public RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase[] getRunDStabStudyCaseList() {
+		return ipss.getRunStudyCase().getDstabStudyCaseList().getDstabStudyCaseArray();
 	}
 
 	/**
