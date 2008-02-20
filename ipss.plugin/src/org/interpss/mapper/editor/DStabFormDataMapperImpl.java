@@ -245,7 +245,7 @@ public class DStabFormDataMapperImpl {
 		}
 		dstabBus.setDeviceAdjElement(mach); // bind bus and machine together
 
-		IpssLogger.getLogger().info(
+		IpssLogger.getLogger().fine(
 				"Machine info set to: " + machData.toString());
 	}
 
