@@ -36,7 +36,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfAdjNet());
 		assertTrue(algo.checkCondition(msg));
 			
-		RunStudyCaseXmlType.RunDclfStudyCase dclfCase = parser.getRunDclfStudyCaseList()[0];
+		RunStudyCaseXmlType.DclfStudyCaseList.DclfStudyCase dclfCase = parser.getRunDclfStudyCaseList()[0];
 
 		if (dclfCase.getCaculatelDclf()) {
 			algo.calculateDclf(SpringAppContext.getIpssMsgHub());

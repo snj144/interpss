@@ -9,7 +9,8 @@
 			<ipss:timeout>0</ipss:timeout>
 			<ipss:remoteNodeDebug>false</ipss:remoteNodeDebug>
 		</ipss:gridRun>
-		<ipss:runDStabStudyCase>
+		<ipss:dstabStudyCaseList>
+			<ipss:dstabStudyCase>
 			<ipss:recId>DStabRun_1</ipss:recId>
 			<ipss:lfMethod>NR</ipss:lfMethod>
 			<ipss:maxIterations>20</ipss:maxIterations>
@@ -26,8 +27,8 @@
 			<ipss:dynamicEventData>
 				<ipss:disableEvent>true</ipss:disableEvent>
 			</ipss:dynamicEventData>
-		</ipss:runDStabStudyCase>
-		<ipss:runDStabStudyCase>
+			</ipss:dstabStudyCase>
+			<ipss:dstabStudyCase>
 			<ipss:recId>DStabRun_2</ipss:recId>
 			<ipss:lfMethod>NR</ipss:lfMethod>
 			<ipss:maxIterations>20</ipss:maxIterations>
@@ -66,6 +67,7 @@
 					<ipss:variableName>Bus - 0005</ipss:variableName>
 				</ipss:outputVarList>
 			</ipss:outputConfig>
-		</ipss:runDStabStudyCase>
+			</ipss:dstabStudyCase>
+		</ipss:dstabStudyCaseList>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

@@ -4,7 +4,8 @@
           xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
-		<ipss:runAclfStudyCase>
+		<ipss:aclfStudyCaseList>
+			<ipss:aclfStudyCase>
 			<ipss:recId>RunAclfCaseTest</ipss:recId>
 			<ipss:lfMethod>NR</ipss:lfMethod>
 			<ipss:maxIterations>20</ipss:maxIterations>
@@ -12,6 +13,6 @@
 			<ipss:toleranceUnit>KVA</ipss:toleranceUnit>
 			<ipss:initBusVoltage>true</ipss:initBusVoltage>
 			<ipss:accFactor>0.0</ipss:accFactor>
-		</ipss:runAclfStudyCase>
+			</ipss:aclfStudyCase></ipss:aclfStudyCaseList>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

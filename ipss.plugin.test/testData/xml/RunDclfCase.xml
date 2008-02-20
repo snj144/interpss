@@ -4,10 +4,10 @@
           xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunDclf</ipss:analysisRunType>
-		<ipss:runDclfStudyCase>
+		<ipss:dclfStudyCaseList>
+			<ipss:dclfStudyCase>
 			<ipss:recId>DclfRun-1</ipss:recId>
 			<ipss:caculatelDclf>true</ipss:caculatelDclf>
-
 			<ipss:sensitivity>
 				<ipss:senType>PAngle</ipss:senType>
 				<ipss:injectBusId>0003</ipss:injectBusId>
@@ -71,6 +71,7 @@
 					<ipss:toBusId>0006</ipss:toBusId>
 				</ipss:branch>
 			</ipss:pTransferDistFactor>
-		</ipss:runDclfStudyCase>
+			</ipss:dclfStudyCase>
+		</ipss:dclfStudyCaseList>
 	</ipss:runStudyCase>
 </ipss:InterPSS>
