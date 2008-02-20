@@ -199,7 +199,7 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(
-			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.RunDStabStudyCase dstabXmlCase) {
+			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabXmlCase) {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler) algo
 				.getSimuOutputHandler();
 		IAppSimuContext appSimuCtx = GraphSpringAppContext

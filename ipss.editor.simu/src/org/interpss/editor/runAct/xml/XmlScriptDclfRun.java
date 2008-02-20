@@ -53,7 +53,7 @@ public class XmlScriptDclfRun {
 			IPSSMsgHub msg) {
 		if (parser.getRunDclfStudyCaseList().length > 0) {
 			if (parser.getRunDclfStudyCaseList().length == 1) {
-				RunStudyCaseXmlType.RunDclfStudyCase dclfCase = parser
+				RunStudyCaseXmlType.DclfStudyCaseList.DclfStudyCase dclfCase = parser
 						.getRunDclfStudyCaseList()[0];
 
 				DclfAlgorithm algo = CoreObjectFactory
@@ -137,7 +137,7 @@ public class XmlScriptDclfRun {
 
 				dialog.showDialog();
 			} else {
-				for (RunStudyCaseXmlType.RunDclfStudyCase dclfCase : parser
+				for (RunStudyCaseXmlType.DclfStudyCaseList.DclfStudyCase dclfCase : parser
 						.getRunDclfStudyCaseList()) {
 				}
 			}
