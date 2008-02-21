@@ -18,13 +18,9 @@
     		<pss:baseVoltageUnit>KV</pss:baseVoltageUnit>
     		<pss:loadflowBusData>
     			<pss:voltage>
-    				<pss:voltage>0.862</pss:voltage>
+    				<pss:voltage>1.0</pss:voltage>
     				<pss:unit>PU</pss:unit>
     			</pss:voltage>
-    			<pss:angle>
-    				<pss:angle>-4.778</pss:angle>
-    				<pss:unit>DEG</pss:unit>
-    			</pss:angle>
     			<pss:loadData>
     				<pss:code>CONST_P</pss:code>
     				<pss:load>
@@ -42,13 +38,9 @@
     		<pss:baseVoltageUnit>KV</pss:baseVoltageUnit>
     		<pss:loadflowBusData>
     			<pss:voltage>
-    				<pss:voltage>1.077</pss:voltage>
+    				<pss:voltage>1.0</pss:voltage>
     				<pss:unit>PU</pss:unit>
     			</pss:voltage>
-    			<pss:angle>
-    				<pss:angle>17.853</pss:angle>
-    				<pss:unit>DEG</pss:unit>
-    			</pss:angle>
     			<pss:loadData>
     				<pss:code>CONST_P</pss:code>
     				<pss:load>
@@ -66,13 +58,9 @@
     		<pss:baseVoltageUnit>KV</pss:baseVoltageUnit>
     		<pss:loadflowBusData>
     			<pss:voltage>
-    				<pss:voltage>1.036</pss:voltage>
+    				<pss:voltage>1.0</pss:voltage>
     				<pss:unit>PU</pss:unit>
     			</pss:voltage>
-    			<pss:angle>
-    				<pss:angle>-4.281</pss:angle>
-    				<pss:unit>DEG</pss:unit>
-    			</pss:angle>
     			<pss:loadData>
     				<pss:code>CONST_P</pss:code>
     				<pss:load>
@@ -93,15 +81,11 @@
     				<pss:voltage>1.05</pss:voltage>
     				<pss:unit>PU</pss:unit>
     			</pss:voltage>
-    			<pss:angle>
-    				<pss:angle>21.843</pss:angle>
-    				<pss:unit>DEG</pss:unit>
-    			</pss:angle>
     			<pss:genData>
     				<pss:code>PV</pss:code>
     				<pss:gen>
     					<pss:p>500.0</pss:p>
-    					<pss:q>181.3084</pss:q>
+    					<pss:q>0.0</pss:q>
     					<pss:unit>MVA</pss:unit>
     				</pss:gen>
     			</pss:genData>
@@ -123,11 +107,6 @@
     			</pss:angle>
     			<pss:genData>
     				<pss:code>SWING</pss:code>
-    				<pss:gen>
-    					<pss:p>257.9427</pss:p>
-    					<pss:q>229.9402</pss:q>
-    					<pss:unit>MVA</pss:unit>
-    				</pss:gen>
     			</pss:genData>
     		</pss:loadflowBusData>
     	</pss:bus></pss:busList>
