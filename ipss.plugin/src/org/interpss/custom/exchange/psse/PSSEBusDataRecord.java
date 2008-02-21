@@ -93,7 +93,7 @@ public class PSSEBusDataRecord {
 		IpssLogger.getLogger().fine("Pl, Ql, OWNER:" + GL + ", " + BL + ", " + OWNER);
 
 		String iStr = new Integer(I).toString();
-		final AclfBus bus = CoreObjectFactory.createAclfBus(iStr, AREA, ZONE, OWNER, adjNet);
+		final AclfBus bus = CoreObjectFactory.createAclfBus(iStr, AREA, ZONE, new Integer(OWNER).toString(), adjNet);
       	bus.setName(NAME);
     	bus.setBaseVoltage(BASKV, UnitType.kV);
     	double factor = 1000.0/adjNet.getBaseKva();  // for transfer G+jB to PU on system base 

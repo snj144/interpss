@@ -29,46 +29,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.exchange.ucte.UCTENetwork;
-import org.interpss.custom.exchange.ucte.UCTEBranch;
-import org.interpss.custom.exchange.ucte.UCTEBus;
-
-import com.interpss.common.datatype.Constants;
-import com.interpss.common.datatype.LimitType;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.StringUtil;
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranchCode;
-import com.interpss.core.aclf.AclfGenCode;
-import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.LineAdapter;
-import com.interpss.core.aclf.PQBusAdapter;
-import com.interpss.core.aclf.PSXfrAdapter;
-import com.interpss.core.aclf.PVBusAdapter;
-import com.interpss.core.aclf.SwingBusAdapter;
-import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.aclfadj.FlowControlType;
-import com.interpss.core.aclfadj.PSXfrPControl;
-import com.interpss.core.aclfadj.PVBusLimit;
-import com.interpss.core.aclfadj.TapControl;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
-	private final static String PsXfrType_ASYM = "ASYM"; 
-	
-	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
-
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
