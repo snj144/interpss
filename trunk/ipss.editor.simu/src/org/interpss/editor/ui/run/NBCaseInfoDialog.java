@@ -285,7 +285,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
