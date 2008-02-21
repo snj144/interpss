@@ -339,7 +339,6 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         saveButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
-        setAlwaysOnTop(true);
         setModal(true);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
