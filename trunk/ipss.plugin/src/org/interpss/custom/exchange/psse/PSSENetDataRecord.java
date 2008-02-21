@@ -200,7 +200,7 @@ public class PSSENetDataRecord {
 		IpssLogger.getLogger().fine("Owner data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("Owner number, name:" + I + ", " + NAME);
 		
-      	Owner owner = CoreObjectFactory.createOwner(I, adjNet);
+      	Owner owner = CoreObjectFactory.createOwner(new Integer(I).toString(), adjNet);
 		owner.setName(NAME);
 	}
 	

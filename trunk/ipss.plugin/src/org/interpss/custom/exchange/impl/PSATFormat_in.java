@@ -94,7 +94,7 @@ public class PSATFormat_in {
       				busNumber + "," + baseKv + "," + vpu + "," + ang + "," + zoneNo + "," + areaNo);
       	}
       	AclfBus bus = CoreObjectFactory.createAclfBus(new Integer(busNumber).toString(), 
-      			areaNo, zoneNo, 1, adjNet);
+      			areaNo, zoneNo, "1", adjNet);
     	bus.setBaseVoltage(baseKv, UnitType.kV);
     	
     	// add the bus object into the network container
