@@ -36,7 +36,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 
-public class ODMXmlUtil {
+public class ODMData2XmlHelper {
 	/**
 	 * add a name/value pair to the name/value pair List
 	 * 
@@ -154,7 +154,7 @@ public class ODMXmlUtil {
 			double p, double q, PowerXmlType.Unit.Enum unit) {
 		busData.addNewLoadData();
     	busData.getLoadData().setCode(code);
-    	ODMXmlUtil.setPowerData(busData.getLoadData().addNewLoad(), p, q, unit);
+    	ODMData2XmlHelper.setPowerData(busData.getLoadData().addNewLoad(), p, q, unit);
 	}
 	
 	/**
@@ -170,7 +170,7 @@ public class ODMXmlUtil {
 			double p, double q, PowerXmlType.Unit.Enum unit) {
    		busData.addNewGenData();
    		busData.getGenData().setCode(code);
-   		ODMXmlUtil.setPowerData(busData.getGenData().addNewGen(), p, q, unit);
+   		ODMData2XmlHelper.setPowerData(busData.getGenData().addNewGen(), p, q, unit);
 	}
 	
 	/**
@@ -189,9 +189,9 @@ public class ODMXmlUtil {
 			             double r, double x, ZXmlType.Unit.Enum zUnit, 
 			             double g, double b, YXmlType.Unit.Enum yUnit) {
 		branchData.addNewLineData();
-		ODMXmlUtil.setZValue(branchData.getLineData().addNewZ(), r, x, zUnit);
+		ODMData2XmlHelper.setZValue(branchData.getLineData().addNewZ(), r, x, zUnit);
 		if (g != 0.0 || b != 0.0) 
-			ODMXmlUtil.setYData(branchData.getLineData().addNewTotalShuntY(), g, b, yUnit);
+			ODMData2XmlHelper.setYData(branchData.getLineData().addNewTotalShuntY(), g, b, yUnit);
 	}
 
 	/**
@@ -240,13 +240,13 @@ public class ODMXmlUtil {
 	private static void setXformerData(TransformerDataXmlType xfrData,
 			double r, double x, ZXmlType.Unit.Enum zUnit, double gFrom,
 			double bFrom, double gTo, double bTo, YXmlType.Unit.Enum yUnit) {
-		ODMXmlUtil
+		ODMData2XmlHelper
 				.setZValue(xfrData.addNewZ(), r, x, zUnit);
 		if (gFrom != 0.0 || bFrom != 0.0)
-			ODMXmlUtil.setYData(xfrData.addNewFromShuntY(),
+			ODMData2XmlHelper.setYData(xfrData.addNewFromShuntY(),
 					gFrom, bFrom, yUnit);
 		if (gTo != 0.0 || bTo != 0.0)
-			ODMXmlUtil.setYData(xfrData.addNewToShuntY(),
+			ODMData2XmlHelper.setYData(xfrData.addNewToShuntY(),
 					gTo, bTo, yUnit);
 	}
 	
