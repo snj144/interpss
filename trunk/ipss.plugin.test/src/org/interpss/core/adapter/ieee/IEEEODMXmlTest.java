@@ -33,6 +33,7 @@ import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuSpringAppContext;
 
 public class IEEEODMXmlTest extends BaseTestSetup {
 	@Test
@@ -41,9 +42,13 @@ public class IEEEODMXmlTest extends BaseTestSetup {
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 		
-		SimuContext simuCtx = null;
+		SimuContext simuCtx = SimuSpringAppContext.getSimuContext();
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		assertTrue(mapper.mapping(parser, simuCtx, SimuContext.class));
-  	}
+		//System.out.println(simuCtx.getAclfAdjNet().net2String());
+
+		assertTrue(simuCtx.getAclfAdjNet().getNoBus() == 14);
+		assertTrue(simuCtx.getAclfAdjNet().getNoBranch() == 20);
+	}
 }
 
