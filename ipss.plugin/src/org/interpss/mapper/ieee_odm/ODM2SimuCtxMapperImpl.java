@@ -26,8 +26,6 @@ package org.interpss.mapper.ieee_odm;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
@@ -40,80 +38,107 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
 import com.interpss.core.net.Network;
 import com.interpss.core.net.Zone;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.SimuSpringAppContext;
-
+import com.interpss.simu.SimuCtxType;
 
 public class ODM2SimuCtxMapperImpl {
-	public static boolean odm2SimuCtxMapping(IEEEODMPSSModelParser parser, SimuContext simuCtx) {
+	public static boolean odm2SimuCtxMapping(IEEEODMPSSModelParser parser,
+			SimuContext simuCtx) {
 		boolean noError = true;
-		if (parser.getStudyCase().getNetworkCategory() == StudyCaseXmlType.NetworkCategory.TRANSMISSION &&
-			parser.getStudyCase().getAnalysisCategory() == StudyCaseXmlType.AnalysisCategory.LOADFLOW ) {
-			
-			simuCtx = SimuSpringAppContext.getSimuContextTypeAclfAdj();
-			simuCtx.getAclfAdjNet().setAllowParallelBranch(true);
-			
+		if (parser.getStudyCase().getNetworkCategory() == StudyCaseXmlType.NetworkCategory.TRANSMISSION
+				&& parser.getStudyCase().getAnalysisCategory() == StudyCaseXmlType.AnalysisCategory.LOADFLOW) {
+
+			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+			AclfAdjNetwork aclfNet = CoreObjectFactory.createAclfAdjNetwork();
+			simuCtx.setAclfAdjNet(aclfNet);
+			aclfNet.setAllowParallelBranch(true);
+
 			PSSNetworkXmlType xmlNet = parser.getBaseCase();
-			
-			if (!setNetworkData(xmlNet, simuCtx.getNetwork(), simuCtx.getMsgHub())) 
+
+			if (!setNetworkData(xmlNet, simuCtx.getNetwork(), simuCtx
+					.getMsgHub()))
 				noError = false;
-			
-			for ( BusRecordXmlType busRec : xmlNet.getBusList().getBusArray()) {
-				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId());
-				aclfBus.setBaseVoltage(busRec.getBaseVoltageUnit() == BusRecordXmlType.BaseVoltageUnit.KV?
-						busRec.getBaseVoltage()*1000.0 : busRec.getBaseVoltage());
-				aclfBus.setStatus(!busRec.getOffLine());
-				if (busRec.getName() != null)
-					aclfBus.setName(busRec.getName());
-				if (busRec.getDesc() != null)
-					aclfBus.setDesc(busRec.getDesc());
-				Area area = CoreObjectFactory.createArea(busRec.getArea(), simuCtx.getNetwork());
-				Zone zone = CoreObjectFactory.createZone(busRec.getZone(), simuCtx.getNetwork());
-				aclfBus.setArea(area);
-				aclfBus.setZone(zone);
+
+			for (BusRecordXmlType busRec : xmlNet.getBusList().getBusArray()) {
+				AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec
+						.getId());
+				setBusRecord(busRec, aclfBus, simuCtx.getNetwork(), simuCtx
+						.getMsgHub());
 				simuCtx.getNetwork().addBus(aclfBus);
-
-				setBusLoadflowData(busRec.getLoadflowBusData(), aclfBus, simuCtx.getMsgHub());
+				if (busRec.getLoadflowBusData() != null)
+					if (!ODMLoadflowDataMapperImpl
+							.setBusLoadflowData(busRec.getLoadflowBusData(),
+									aclfBus, simuCtx.getMsgHub()))
+						noError = false;
 			}
 
-			for ( BranchRecordXmlType branchRec : xmlNet.getBranchList().getBranchArray()) {
+			for (BranchRecordXmlType branchRec : xmlNet.getBranchList()
+					.getBranchArray()) {
 				AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
-				aclfBranch.setName(branchRec.getName());
-				aclfBranch.setStatus(!branchRec.getOffLine());
-				Area area = CoreObjectFactory.createArea(branchRec.getArea(), simuCtx.getNetwork());
-				Zone zone = CoreObjectFactory.createZone(branchRec.getZone(), simuCtx.getNetwork());
-				aclfBranch.setArea(area);
-				aclfBranch.setZone(zone);
-//				simuCtx.getNetwork().addBranch((Branch)aclfBranch, branchRec.getFromBus().getIdRef(), 
-//						branchRec.getToBus().getIdRef(), branchRec.getCircuitId());
-				
-				setBranchLoadflowData(branchRec.getLoadflowBranchData(), aclfBranch, simuCtx.getMsgHub());
+				setBranchRecord(branchRec, aclfBranch, simuCtx.getNetwork(),
+						simuCtx.getMsgHub());
+				simuCtx.getNetwork().addBranch((Branch) aclfBranch,
+						branchRec.getFromBus().getIdRef(),
+						branchRec.getToBus().getIdRef(),
+						branchRec.getCircuitId());
+				if (branchRec.getLoadflowBranchData() != null)
+					if (ODMLoadflowDataMapperImpl.setBranchLoadflowData(
+							branchRec.getLoadflowBranchData(), aclfBranch,
+							simuCtx.getMsgHub()))
+						noError = false;
 			}
-		}
-		else {
-			IpssLogger.getLogger().severe("Error: currently only Transmission NetworkType and Loadflow ApplicationType has been implemented");
+		} else {
+			IpssLogger
+					.getLogger()
+					.severe(
+							"Error: currently only Transmission NetworkType and Loadflow ApplicationType has been implemented");
 			return false;
 		}
 		return noError;
 	}
-	
-	private static boolean setNetworkData(PSSNetworkXmlType xmlNet, Network ipssNet, IPSSMsgHub msg) {
+
+	private static boolean setNetworkData(PSSNetworkXmlType xmlNet,
+			Network ipssNet, IPSSMsgHub msg) {
 		double baseKva = xmlNet.getBaseKva();
 		if (xmlNet.getBaseKvaUnit() == PSSNetworkXmlType.BaseKvaUnit.MVA)
-			ipssNet.setBaseKva(baseKva*1000.0);
+			ipssNet.setBaseKva(baseKva * 1000.0);
 		else
-			ipssNet.setBaseKva(xmlNet.getBaseKvaUnit() == PSSNetworkXmlType.BaseKvaUnit.MVA?
-					xmlNet.getBaseKva()*1000.0 : xmlNet.getBaseKva());
-		return true;
-	}
-	
-	private static boolean setBusLoadflowData(LoadflowBusDataXmlType busLfData, AclfBus aclfBus, IPSSMsgHub msg) {
+			ipssNet
+					.setBaseKva(xmlNet.getBaseKvaUnit() == PSSNetworkXmlType.BaseKvaUnit.MVA ? xmlNet
+							.getBaseKva() * 1000.0
+							: xmlNet.getBaseKva());
 		return true;
 	}
 
-	private static boolean setBranchLoadflowData(LoadflowBranchDataXmlType braLfData, AclfBranch aclfBranch, IPSSMsgHub msg) {
+	private static boolean setBusRecord(BusRecordXmlType busRec, Bus bus,
+			Network net, IPSSMsgHub msg) {
+		bus
+				.setBaseVoltage(busRec.getBaseVoltageUnit() == BusRecordXmlType.BaseVoltageUnit.KV ? busRec
+						.getBaseVoltage() * 1000.0
+						: busRec.getBaseVoltage());
+		bus.setStatus(!busRec.getOffLine());
+		if (busRec.getName() != null)
+			bus.setName(busRec.getName());
+		if (busRec.getDesc() != null)
+			bus.setDesc(busRec.getDesc());
+		Area area = CoreObjectFactory.createArea(busRec.getArea(), net);
+		Zone zone = CoreObjectFactory.createZone(busRec.getZone(), net);
+		bus.setArea(area);
+		bus.setZone(zone);
+		return true;
+	}
+
+	private static boolean setBranchRecord(BranchRecordXmlType branchRec,
+			Branch branch, Network net, IPSSMsgHub msg) {
+		branch.setName(branchRec.getName());
+		branch.setStatus(!branchRec.getOffLine());
+		Area area = CoreObjectFactory.createArea(branchRec.getArea(), net);
+		Zone zone = CoreObjectFactory.createZone(branchRec.getZone(), net);
+		branch.setArea(area);
+		branch.setZone(zone);
 		return true;
 	}
 }

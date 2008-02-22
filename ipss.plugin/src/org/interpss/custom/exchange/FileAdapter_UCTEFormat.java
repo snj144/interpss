@@ -444,11 +444,14 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	// set xfr info into InterPSS simulation engine 
 	 	branch.setBranchCode(AclfBranchCode.XFORMER);
 		final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
-		// r, x, g, b are measured at from side
-    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, fromRatedKV*1000.0, aclfNet.getBaseKva(), msg);
-    	Complex yPU = UnitType.yConversion(new Complex(gMuS,bMuS), fromRatedKV*1000.0, 
+		// r, x, g, b are measured at from side in Ohms
+		// they are converted to PU using from bus base voltage
+    	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromBus().getBaseVoltage(), aclfNet.getBaseKva(), msg);
+    	Complex yPU = UnitType.yConversion(new Complex(gMuS,bMuS), branch.getFromBus().getBaseVoltage(), 
     						aclfNet.getBaseKva(), UnitType.MicroMho, UnitType.PU);
     	xfr.setToShuntY(yPU, UnitType.PU, aclfNet.getBaseKva()); 
+    	// turn ratio is 1.0 for un-regulated xfr, but defined in term of 
+    	// rated voltage. It needs to be converted to base base voltage
     	xfr.setFromTurnRatio(1.0, UnitType.PU);
     	double ratio = (toRatedKV/branch.getToBus().getBaseVoltage()) / (fromRatedKV/branch.getFromBus().getBaseVoltage());
     	xfr.setToTurnRatio(ratio, UnitType.PU); 
