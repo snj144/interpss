@@ -32,6 +32,13 @@ import org.interpss.BaseTestSetup;
 import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
 
+import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.UnitType;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
 
@@ -49,6 +56,17 @@ public class IEEEODMXmlTest extends BaseTestSetup {
 
 		assertTrue(simuCtx.getAclfAdjNet().getNoBus() == 14);
 		assertTrue(simuCtx.getAclfAdjNet().getNoBranch() == 20);
-	}
+
+		AclfNetwork net = simuCtx.getAclfNet();
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+  		//System.out.println(net.net2String());
+	  	
+  		assertTrue(net.isLfConverged());		
+  		AclfBus swingBus = (AclfBus)net.getBus("1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32393)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.16549)<0.0001);
+}
 }
 
