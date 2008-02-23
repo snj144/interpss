@@ -39,6 +39,14 @@
 	      p:extension="ieee"
 	      p:description="IEEE Common Format"	/>
 
+	<bean id="fileAdapterIeeeODMXml" 
+	      class="org.interpss.custom.ieee_odm.FileAdapter_IEEEODM_Xml"
+	      scope="singleton"	
+	      p:name="IEEE ODM Xml Model"
+	      p:fileFilterString="xml"
+	      p:extension="odm"
+	      p:description="IEEE ODM Xml Model"	/>
+
 	<bean id="fileAdapterPSTMatlabFormat" 
 	      class="cn.edu.tsinghua.dps.adapter.aclf.FileAdpater_PSTMatlabFormat"
 	      scope="singleton"	
@@ -97,6 +105,7 @@
 			<list>
 				<ref bean="fileAdapterPSSEFormat"/>
 				<ref bean="fileAdapterUCTEFormat"/>
+				<ref bean="fileAdapterIeeeODMXml"/>
 				<ref bean="fileAdapterIeeeCommonFormat"/>
 				<ref bean="fileAdapterPSTMatlabFormat"/>
 				<ref bean="fileAdapterPSATFormat"/>
