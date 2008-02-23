@@ -13,6 +13,7 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.custom.exchange.IpssFileAdapterBase;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
@@ -36,7 +37,6 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.io.IpssFileAdapterBase;
   
 /**
  * @author chenying class FileAdpater_PSTMatlabFormat
