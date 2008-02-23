@@ -24,172 +24,198 @@
 
 package org.interpss.mapper.ieee_odm;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.apache.commons.math.complex.Complex;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 
-import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-
+import com.interpss.core.aclf.LineAdapter;
+import com.interpss.core.aclf.LoadBusAdapter;
+import com.interpss.core.aclf.PQBusAdapter;
+import com.interpss.core.aclf.PSXfrAdapter;
+import com.interpss.core.aclf.PVBusAdapter;
+import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.aclf.XfrAdapter;
 
 public class ODMLoadflowDataMapperImpl {
-	public static boolean setBusLoadflowData(LoadflowBusDataXmlType busXmlData, AclfBus aclfBus, IPSSMsgHub msg) {
-		double vpu = busXmlData.getVoltage().getUnit() == VoltageXmlType.Unit.PU ? 
-						busXmlData.getVoltage().getVoltage() : ( busXmlData.getVoltage().getUnit() == VoltageXmlType.Unit.VOLT? 
-							busXmlData.getVoltage().getVoltage()/aclfBus.getBaseVoltage() :
-								busXmlData.getVoltage().getVoltage()*1000.0/aclfBus.getBaseVoltage());   // KV unit
+	public static boolean setBusLoadflowData(LoadflowBusDataXmlType busXmlData,
+			AclfBus aclfBus, double baseKva, IPSSMsgHub msg) {
+		double vpu = UnitType.vConversion(busXmlData.getVoltage().getVoltage(),
+				aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(busXmlData
+						.getVoltage().getUnit()), UnitType.PU);
 		aclfBus.setVoltageMag(vpu);
-		
-		double ang = 0.0;
-		if (busXmlData.getAngle() != null) 
-			ang = busXmlData.getAngle().getUnit() == AngleXmlType.Unit.DEG? 
-					busXmlData.getAngle().getAngle()*Constants.DtoR : busXmlData.getAngle().getAngle();
-		aclfBus.setVoltageAng(ang);
-		
+
+		double angRad = 0.0;
+		if (busXmlData.getAngle() != null)
+			angRad = UnitType.angleConversion(busXmlData.getAngle().getAngle(),
+					ODMXmlHelper.toUnit(busXmlData.getAngle().getUnit()),
+					UnitType.Rad);
+		aclfBus.setVoltageAng(angRad);
+
 		if (busXmlData.getGenData() != null) {
 			if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PQ) {
-				/*
-				bus.setGenCode(AclfGenCode.GEN_PQ);
-				PQBusAdapter pqBus = (PQBusAdapter) bus.adapt(PQBusAdapter.class);
-				pqBus
-						.setGen(new Complex(busData.getGenP(), busData.getGenQ()),
-								UnitType.toUnit(busData.getGenUnit()), aclfNet
-										.getBaseKva());
-				*/						
+				aclfBus.setGenCode(AclfGenCode.GEN_PQ);
+				PQBusAdapter pqBus = (PQBusAdapter) aclfBus
+						.adapt(PQBusAdapter.class);
+				pqBus.setGen(new Complex(busXmlData.getGenData().getGen()
+						.getP(), busXmlData.getGenData().getGen().getQ()),
+						ODMXmlHelper.toUnit(busXmlData.getGenData().getGen()
+								.getUnit()), baseKva);
 			} else if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
-				/*
-				bus.setGenCode(AclfGenCode.GEN_PV);
-				PVBusAdapter pvBus = (PVBusAdapter) bus.adapt(PVBusAdapter.class);
-				pvBus.setGenP(busData.getGenP(), UnitType.toUnit(busData
-						.getGenUnit()), aclfNet.getBaseKva());
-				// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
-				// ReQMvarFlow-MvarSpec
-				pvBus.setVoltMag(busData.getVoltageMag(), UnitType.toUnit(busData
-						.getVoltageMagUnit()));
-				*/		
+				aclfBus.setGenCode(AclfGenCode.GEN_PV);
+				PVBusAdapter pvBus = (PVBusAdapter) aclfBus
+						.adapt(PVBusAdapter.class);
+				pvBus.setGenP(busXmlData.getGenData().getGen().getP(),
+						ODMXmlHelper.toUnit(busXmlData.getGenData().getGen()
+								.getUnit()), baseKva);
+				pvBus.setVoltMag(vpu, UnitType.PU);
 			} else if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.SWING) {
-				/*
-				 * bus.setGenCode(AclfGenCode.SWING);
-				SwingBusAdapter swing = (SwingBusAdapter) bus
+				aclfBus.setGenCode(AclfGenCode.SWING);
+				SwingBusAdapter swing = (SwingBusAdapter) aclfBus
 						.adapt(SwingBusAdapter.class);
-				swing.setVoltMag(busData.getVoltageMag(), UnitType.toUnit(busData
-						.getVoltageMagUnit()));
-				swing.setVoltAng(busData.getVoltageAng(), UnitType.toUnit(busData
-						.getVoltageAngUnit()));
-				*/		
-			} 
-			else {
+				swing.setVoltMag(vpu, UnitType.PU);
+				swing.setVoltAng(angRad, UnitType.Rad);
+			} else {
+				msg.sendErrorMsg("Error: wrong LoadflowData.GenData.Code: "
+						+ busXmlData.getGenData().getCode());
 				return false;
 			}
-		}
-		else {
+		} else {
 			aclfBus.setGenCode(AclfGenCode.NON_GEN);
 		}
-		
+
 		if (busXmlData.getLoadData() != null) {
-/*
-			
-				LoadBusAdapter loadBus = (LoadBusAdapter) bus
-						.adapt(LoadBusAdapter.class);
-				if (!busData.getLoadCode().equals(AclfBusData.LoadCode_NonLoad))
-					loadBus.setLoad(new Complex(busData.getLoadP(), busData
-							.getLoadQ()), UnitType.toUnit(busData.getLoadUnit()),
-							aclfNet.getBaseKva());
- */
-			if (busXmlData.getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_P) {
-				
-			}
-			else if (busXmlData.getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_I) {
-				
-			}
-			else if (busXmlData.getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_I) {
-				
-			}
-			else if (busXmlData.getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_Z) {
-				
-			}
-			else {
-				return false;
-			}
-		}
-		else {
+			aclfBus
+					.setLoadCode(busXmlData.getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_I ? AclfLoadCode.CONST_I
+							: (busXmlData.getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_Z ? AclfLoadCode.CONST_Z
+									: AclfLoadCode.CONST_P));
+			LoadBusAdapter loadBus = (LoadBusAdapter) aclfBus
+					.adapt(LoadBusAdapter.class);
+			loadBus.setLoad(new Complex(busXmlData.getLoadData().getLoad()
+					.getP(), busXmlData.getLoadData().getLoad().getQ()),
+					ODMXmlHelper.toUnit(busXmlData.getLoadData().getLoad()
+							.getUnit()), baseKva);
+		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
 		}
-		
+
 		if (busXmlData.getShuntY() != null) {
-/*
-			Complex ypu = UnitType.yConversion(new Complex(busData.getShuntG(),
-					busData.getShuntB()), bus.getBaseVoltage(), aclfNet
-					.getBaseKva(), UnitType.toUnit(busData.getShuntYUnit()),
+			Complex ypu = UnitType.yConversion(new Complex(busXmlData
+					.getShuntY().getG(), busXmlData.getShuntY().getB()),
+					aclfBus.getBaseVoltage(), baseKva, ODMXmlHelper
+							.toUnit(busXmlData.getShuntY().getUnit()),
 					UnitType.PU);
-			bus.setShuntY(ypu);
-*/		
+			aclfBus.setShuntY(ypu);
 		}
-		
+
 		return true;
 	}
 
-	public static boolean setBranchLoadflowData(LoadflowBranchDataXmlType braXmlData, AclfBranch aclfBranch, IPSSMsgHub msg) {
+	public static boolean setBranchLoadflowData(
+			LoadflowBranchDataXmlType braXmlData, AclfBranch aclfBra,
+			double baseKva, IPSSMsgHub msg) {
 		if (braXmlData.getCode() == LoadflowBranchDataXmlType.Code.LINE) {
-			/*
-			AclfBranchData data = branchForm.getAcscBranchData();
-			branch.setBranchCode(AclfBranchCode.LINE);
-			LineAdapter line = (LineAdapter) branch.adapt(LineAdapter.class);
-			line.setZ(new Complex(data.getZR(), data.getZX()), UnitType
-					.toUnit(data.getZUnit()), branch.getFromAclfBus()
-					.getBaseVoltage(), net.getBaseKva(), msg);
-			line.setHShuntY(new Complex(0.0, data.getHalfShuntB()), UnitType
-					.toUnit(data.getHalfShuntBUnit()), branch.getFromAclfBus()
-					.getBaseVoltage(), net.getBaseKva());
-						 */
-			
-		}
-		else if (braXmlData.getCode() == LoadflowBranchDataXmlType.Code.TRANSFORMER) {
-			/*
-			AclfBranchData data = branchForm.getAcscBranchData();
-			branch.setBranchCode(AclfBranchCode.XFORMER);
-			double fromBaseV = branch.getFromAclfBus().getBaseVoltage(), toBaseV = branch
-					.getToAclfBus().getBaseVoltage();
-			// the follow only applies if zUnit is in Ohms, which is very
-			// unlikely
-			double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-			XfrAdapter xfr = (XfrAdapter) branch.adapt(XfrAdapter.class);
-			xfr.setZ(new Complex(data.getZR(), data.getZX()), UnitType
-					.toUnit(data.getZUnit()), baseV, net.getBaseKva(), msg);
-
-			xfr.setFromTurnRatio(data.getXfrTapFromSideTap(), UnitType
-					.toUnit(data.getXfrTapUnit()));
-			xfr.setToTurnRatio(data.getXfrTapToSideTap(), UnitType.toUnit(data
-					.getXfrTapUnit()));
-			 */
-			
-		}
-		else if (braXmlData.getCode() == LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER) {
-			/*
-		branch.setBranchCode(AclfBranchCode.PS_XFORMER);
-		PSXfrAdapter psXfr = (PSXfrAdapter) branch.adapt(PSXfrAdapter.class);
-		psXfr.setFromAngle(data.getPhaseShiftAngle(), UnitType.toUnit(data
-				.getPhaseShiftAngleUnit()));
-			 */
-			
-		}
-		else {
+			if (braXmlData.getLineData() != null) {
+				aclfBra.setBranchCode(AclfBranchCode.LINE);
+				LineAdapter line = (LineAdapter) aclfBra
+						.adapt(LineAdapter.class);
+				line
+						.setZ(
+								new Complex(braXmlData.getLineData().getZ()
+										.getR(), braXmlData.getLineData()
+										.getZ().getX()), ODMXmlHelper
+										.toUnit(braXmlData.getLineData().getZ()
+												.getUnit()), aclfBra
+										.getFromAclfBus().getBaseVoltage(),
+								baseKva, msg);
+				if (braXmlData.getLineData().getTotalShuntY() != null)
+					line
+							.setHShuntY(new Complex(0.5 * braXmlData
+									.getLineData().getTotalShuntY().getG(),
+									0.5 * braXmlData.getLineData()
+											.getTotalShuntY().getB()),
+									ODMXmlHelper.toUnit(braXmlData
+											.getLineData().getTotalShuntY()
+											.getUnit()), aclfBra
+											.getFromAclfBus().getBaseVoltage(),
+									baseKva);
+			} else {
+				msg
+						.sendErrorMsg("Error: LoadflowBranchData.LineData not defined for branch code Line");
+				return false;
+			}
+		} else if (braXmlData.getCode() == LoadflowBranchDataXmlType.Code.TRANSFORMER) {
+			if (braXmlData.getXformerData() != null) {
+				aclfBra.setBranchCode(AclfBranchCode.XFORMER);
+				setXformerLoadflowData(aclfBra, braXmlData.getXformerData(),
+						baseKva, msg);
+			} else {
+				msg
+						.sendErrorMsg("Error: LoadflowBranchData.XformerData not defined for branch Transformer");
+				return false;
+			}
+		} else if (braXmlData.getCode() == LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER) {
+			if (braXmlData.getPhaseShiftXfrData() != null) {
+				aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
+				PSXfrAdapter psXfr = (PSXfrAdapter) aclfBra
+						.adapt(PSXfrAdapter.class);
+				setXformerLoadflowData(aclfBra, braXmlData
+						.getPhaseShiftXfrData(), baseKva, msg);
+				psXfr.setFromAngle(braXmlData.getPhaseShiftXfrData()
+						.getFromAngle().getAngle(), ODMXmlHelper
+						.toUnit(braXmlData.getPhaseShiftXfrData()
+								.getFromAngle().getUnit()));
+				psXfr.setToAngle(braXmlData.getPhaseShiftXfrData().getToAngle()
+						.getAngle(), ODMXmlHelper.toUnit(braXmlData
+						.getPhaseShiftXfrData().getToAngle().getUnit()));
+			} else {
+				msg
+						.sendErrorMsg("Error: LoadflowBranchData.PhaseShiftXfrData not defined for branch Phase-shifting Transformer");
+				return false;
+			}
+		} else {
+			msg.sendErrorMsg("Error: LoadflowBranchData.code type, "
+					+ braXmlData.toString());
 			return false;
 		}
-		
+
 		if (braXmlData.getRatingLimit() != null) {
-/*
-			line.setMvaRating1(data.getRating1());
-			line.setMvaRating2(data.getRating2());
-			line.setMvaRating3(data.getRating3());
- */			
+			double factor = 1.0;
+			if (braXmlData.getRatingLimit().getMvaRatingUnit() == LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.PU)
+				factor = baseKva * 0.001;
+			else if (braXmlData.getRatingLimit().getMvaRatingUnit() == LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.KVA)
+				factor = 0.001;
+			aclfBra.setRatingMva1(braXmlData.getRatingLimit().getMvaRating1()
+					* factor);
+			aclfBra.setRatingMva2(braXmlData.getRatingLimit().getMvaRating2()
+					* factor);
+			aclfBra.setRatingMva3(braXmlData.getRatingLimit().getMvaRating3()
+					* factor);
 		}
-		
+
 		return true;
+	}
+
+	private static void setXformerLoadflowData(AclfBranch aclfBra,
+			TransformerDataXmlType xfrData, double baseKva, IPSSMsgHub msg) {
+		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), toBaseV = aclfBra
+				.getToAclfBus().getBaseVoltage();
+		// it is assumed that Z, Y are measure at High V side
+		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
+		XfrAdapter xfr = (XfrAdapter) aclfBra.adapt(XfrAdapter.class);
+		xfr.setZ(new Complex(xfrData.getZ().getR(), xfrData.getZ().getX()),
+				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, baseKva,
+				msg);
+		xfr.setFromTurnRatio(xfrData.getFromTurnRatio() == 0.0 ? 1.0 : xfrData
+				.getFromTurnRatio(), UnitType.PU);
+		xfr.setToTurnRatio(xfrData.getToTurnRatio() == 0.0 ? 1.0 : xfrData
+				.getToTurnRatio(), UnitType.PU);
 	}
 }

@@ -28,6 +28,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -71,7 +72,9 @@ public class ODM2SimuCtxMapperImpl {
 				if (busRec.getLoadflowBusData() != null)
 					if (!ODMLoadflowDataMapperImpl
 							.setBusLoadflowData(busRec.getLoadflowBusData(),
-									aclfBus, simuCtx.getMsgHub()))
+									aclfBus, 
+									simuCtx.getNetwork().getBaseKva(),
+									simuCtx.getMsgHub()))
 						noError = false;
 			}
 
@@ -85,8 +88,10 @@ public class ODM2SimuCtxMapperImpl {
 						branchRec.getToBus().getIdRef(),
 						branchRec.getCircuitId());
 				if (branchRec.getLoadflowBranchData() != null)
-					if (ODMLoadflowDataMapperImpl.setBranchLoadflowData(
-							branchRec.getLoadflowBranchData(), aclfBranch,
+					if (!ODMLoadflowDataMapperImpl.setBranchLoadflowData(
+							branchRec.getLoadflowBranchData(), 
+							aclfBranch,
+							simuCtx.getNetwork().getBaseKva(),
 							simuCtx.getMsgHub()))
 						noError = false;
 			}
@@ -116,9 +121,9 @@ public class ODM2SimuCtxMapperImpl {
 	private static boolean setBusRecord(BusRecordXmlType busRec, Bus bus,
 			Network net, IPSSMsgHub msg) {
 		bus
-				.setBaseVoltage(busRec.getBaseVoltageUnit() == BusRecordXmlType.BaseVoltageUnit.KV ? busRec
-						.getBaseVoltage() * 1000.0
-						: busRec.getBaseVoltage());
+				.setBaseVoltage(busRec.getBaseVoltage().getUnit() == VoltageXmlType.Unit.KV ? busRec
+						.getBaseVoltage().getVoltage() * 1000.0
+						: busRec.getBaseVoltage().getVoltage());
 		bus.setStatus(!busRec.getOffLine());
 		if (busRec.getName() != null)
 			bus.setName(busRec.getName());
