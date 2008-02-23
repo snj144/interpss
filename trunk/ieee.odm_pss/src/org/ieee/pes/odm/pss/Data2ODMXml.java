@@ -35,6 +35,7 @@ import java.util.logging.Logger;
 
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.pes.odm.pss.adapter.ucte.UCTE_DEFAdapter;
 
 public class Data2ODMXml {
 	private final static String InOptStr 	= "-in";
@@ -43,6 +44,8 @@ public class Data2ODMXml {
 	private final static String LogOptStr 	= "-log";
 
 	private final static String Token_IEEECDF 	= "ieeecdf";
+	private final static String Token_UCTE 	= "ucte";
+
 	private final static String Token_LogInfo 	= "info";
 	private final static String Token_LogWarn 	= "waining";
 	private final static String Token_LogDebug 	= "debug";
@@ -74,20 +77,27 @@ public class Data2ODMXml {
 		try {
 			// load the input file into the reader buffer
 			String xmlStr = "";
+			IODMPSSAdapter adapter = null;
 			if (Token_IEEECDF.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format IEEE Common Data Format");
-				IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
-				if (!adapter.parseXmlFile(inputFile)) {
-					logger.severe("Error: model parsing error, " + adapter.errMessages().toString());
-					System.err.println("Error: model parsing error, " + adapter.errMessages().toString());
-				}
-				// convert the model to a XML document string
-				xmlStr = adapter.getModel().toString();			
-			}	
+				adapter = new IeeeCDFAdapter(logger);
+			}
+			else if (Token_UCTE.equals(appParameters.getParamLowerCase(FmtOptStr))) {
+				logger.info("Input file is of format IEEE Common Data Format");
+				adapter = new UCTE_DEFAdapter(logger);
+			}
 			else {
 				logger.severe("Error: Unsupported input file data, " + appParameters.getParam(FmtOptStr));
 				System.err.println("Error: Unsupported input file data, " + appParameters.getParam(FmtOptStr));
+				System.exit(0);		
 			}
+
+			if (!adapter.parseXmlFile(inputFile)) {
+				logger.severe("Error: model parsing error, " + adapter.errMessages().toString());
+				System.err.println("Error: model parsing error, " + adapter.errMessages().toString());
+			}
+			// convert the model to a XML document string
+			xmlStr = adapter.getModel().toString();			
 			
 			// output the XML document to the output file 
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));
