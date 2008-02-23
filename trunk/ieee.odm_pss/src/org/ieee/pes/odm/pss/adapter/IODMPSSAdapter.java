@@ -34,16 +34,8 @@ public interface IODMPSSAdapter {
 	 * 
 	 * @param filename file name
 	 * @return
-	 * @throws Exception
 	 */
-	IEEEODMPSSModelParser parseXmlFile(String filename) throws Exception;
-	
-	/**
-	 * get parsing status
-	 * 
-	 * @return
-	 */
-	boolean getParseStatus();
+	boolean parseXmlFile(String filename);
 	
 	/**
 	 * If parsing staus = false, get error massages
@@ -51,4 +43,11 @@ public interface IODMPSSAdapter {
 	 * @return
 	 */
 	List<String> errMessages();
+	
+	/**
+	 * get the parsed ODM model
+	 * 
+	 * @return
+	 */
+	IEEEODMPSSModelParser getModel();
 }

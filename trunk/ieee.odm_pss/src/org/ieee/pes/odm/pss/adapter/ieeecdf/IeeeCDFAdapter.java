@@ -24,6 +24,7 @@
 
 package org.ieee.pes.odm.pss.adapter.ieeecdf;
 
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -42,22 +43,25 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
+import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 
-public class IeeeCDFAdapter {
+public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	private static final int BusData = 1;
 	private static final int BranchData = 2;
 	private static final int LossZone = 3;
 	private static final int InterchangeData = 4;
 	private static final int TielineData = 5;
 
-	private static Logger logger;
-
-	public static IEEEODMPSSModelParser parseInputFile(
-			final java.io.BufferedReader din, final Logger lgr)
-			throws Exception {
-		logger = lgr;
+	public IeeeCDFAdapter(Logger logger) {
+		this.logger = logger;
+		this.status = true;
+		this.errMsgList = new ArrayList<String>();
+	}
+	
+	protected IEEEODMPSSModelParser parseInputFile(
+			final java.io.BufferedReader din) throws Exception {
 
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
@@ -137,7 +141,7 @@ public class IeeeCDFAdapter {
 	 *   ============ 
 	 */
 
-	private static void processNetData(final String str,
+	private void processNetData(final String str,
 			final PSSNetworkXmlType baseCaseNet) {
 		// parse the input data line
 		final String[] strAry = getNetDataFields(str);
@@ -179,7 +183,7 @@ public class IeeeCDFAdapter {
 	 *   ======== 
 	 */
 
-	private static void processBusData(final String str,
+	private  void processBusData(final String str,
 			final BusRecordXmlType busRec) {
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);
@@ -304,7 +308,7 @@ public class IeeeCDFAdapter {
 	 *   =========== 
 	 */
 
-	private static void processBranchData(final String str,
+	private void processBranchData(final String str,
 			final BranchRecordXmlType branchRec, PSSNetworkXmlType baseCaseNet) {
 		// parse the input data line
 		final String[] strAry = getBranchDataFields(str);
@@ -479,7 +483,7 @@ public class IeeeCDFAdapter {
 	 *   ============== 
 	 */
 
-	private static void processLossZoneData(final String str,
+	private void processLossZoneData(final String str,
 			final PSSNetworkXmlType.LoseZoneList.LoseZone loseZone) {
 		final String[] strAry = getLossZoneDataFields(str);
 
@@ -496,7 +500,7 @@ public class IeeeCDFAdapter {
 	 *   ================ 
 	 */
 
-	private static void processInterchangeData(final String str,
+	private void processInterchangeData(final String str,
 			final PSSNetworkXmlType.InterchangeList.Interchange interchange) {
 		final String[] strAry = getInterchangeDataFields(str);
 
@@ -535,7 +539,7 @@ public class IeeeCDFAdapter {
 	 *   ============ 
 	 */
 
-	private static void processTielineData(final String str,
+	private void processTielineData(final String str,
 			final PSSNetworkXmlType.TieLineList.Tieline tieLine) {
 		final String[] strAry = getTielineDataFields(str);
 
@@ -562,7 +566,7 @@ public class IeeeCDFAdapter {
 	/*
 	 * util functions
 	 */
-	private static String[] getNetDataFields(final String str) {
+	private String[] getNetDataFields(final String str) {
 		final String[] strAry = new String[6];
 
 		if (str.indexOf(',') >= 0) {
@@ -588,7 +592,7 @@ public class IeeeCDFAdapter {
 		return strAry;
 	}
 
-	private static String[] getBusDataFields(final String str) {
+	private String[] getBusDataFields(final String str) {
 		final String[] strAry = new String[18];
 
 		if (str.indexOf(',') >= 0) {
@@ -653,7 +657,7 @@ public class IeeeCDFAdapter {
 		return strAry;
 	}
 
-	private static String[] getBranchDataFields(final String str) {
+	private String[] getBranchDataFields(final String str) {
 		final String[] strAry = new String[21];
 
 		if (str.indexOf(',') >= 0) {
@@ -724,7 +728,7 @@ public class IeeeCDFAdapter {
 		return strAry;
 	}
 
-	private static String[] getLossZoneDataFields(final String str) {
+	private String[] getLossZoneDataFields(final String str) {
 		final String[] strAry = new String[2];
 
 		if (str.indexOf(',') >= 0) {
@@ -740,7 +744,7 @@ public class IeeeCDFAdapter {
 		return strAry;
 	}
 
-	private static String[] getInterchangeDataFields(final String str) {
+	private String[] getInterchangeDataFields(final String str) {
 		final String[] strAry = new String[7];
 
 		if (str.indexOf(',') >= 0) {
@@ -771,7 +775,7 @@ public class IeeeCDFAdapter {
 		return strAry;
 	}
 
-	private static String[] getTielineDataFields(final String str) {
+	private String[] getTielineDataFields(final String str) {
 		final String[] strAry = new String[5];
 
 		if (str.indexOf(',') >= 0) {
