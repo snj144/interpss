@@ -157,6 +157,9 @@
 	<copy todir="${fit_base}/lib/ipss">
 	    	<fileset dir="${ipss_base}/" />
         </copy>
+	<copy todir="${fit_base}/lib/ieee">
+	    	<fileset dir="${lib_base}/ieee" />
+        </copy>
 <!--        
 	<copy todir="${fit_base}/lib/ipss">
 	    	<fileset dir="${dist_base}/plugin/custController/dist/" />
