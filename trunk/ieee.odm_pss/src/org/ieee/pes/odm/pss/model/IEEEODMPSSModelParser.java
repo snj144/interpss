@@ -38,6 +38,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 
 public class IEEEODMPSSModelParser {
+	private static final StudyCaseXmlType.SchemaVersion.Enum CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_1_00_DEV;
+
 	private PSSStudyCaseDocument doc = null;
 	
 	/**
@@ -68,6 +70,7 @@ public class IEEEODMPSSModelParser {
 	 */
 	public IEEEODMPSSModelParser() {
 		this.doc = PSSStudyCaseDocument.Factory.newInstance();
+		this.getStudyCase().setSchemaVersion(CurrentSchemaVerion);
 	}
 	
 	/**

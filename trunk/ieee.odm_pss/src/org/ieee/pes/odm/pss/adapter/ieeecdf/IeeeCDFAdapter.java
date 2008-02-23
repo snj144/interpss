@@ -61,8 +61,6 @@ public class IeeeCDFAdapter {
 
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
-		parser.getStudyCase().setSchemaVersion(
-				StudyCaseXmlType.SchemaVersion.V_1_00_DEV);
 		parser.getStudyCase().setOriginalFormat(
 				StudyCaseXmlType.OriginalFormat.IEEE_CDF);
 		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
@@ -91,7 +89,7 @@ public class IeeeCDFAdapter {
 					} else if (dataType == BusData) {
 						processBusData(str, parser.addNewBaseCaseBus());
 					} else if (dataType == BranchData) {
-						processBranchData(str, parser.addNewBaseCaseBranch());
+						processBranchData(str, parser.addNewBaseCaseBranch(), baseCaseNet);
 					} else if (dataType == LossZone) {
 						processLossZoneData(str, baseCaseNet.getLoseZoneList()
 								.addNewLoseZone());
@@ -207,8 +205,7 @@ public class IeeeCDFAdapter {
 		if (baseKv == 0.0) {
 			baseKv = 1.0;
 		}
-		busRec.setBaseVoltage(baseKv);
-		busRec.setBaseVoltageUnit(BusRecordXmlType.BaseVoltageUnit.KV);
+		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageXmlType.Unit.KV);
 
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
 		//Columns 25-26   Type [I] *
@@ -285,14 +282,8 @@ public class IeeeCDFAdapter {
 				busData.getGenData().getVGenLimit().setVLimitUnit(
 						LoadflowBusDataXmlType.GenData.VGenLimit.VLimitUnit.PU);
 			} else if (type == 2) {
-				busData.getGenData().addNewQGenLimit();
-				ODMData2XmlHelper.setLimitData(busData.getGenData().getQGenLimit()
-						.addNewQLimit(), max, min);
-				busData
-						.getGenData()
-						.getQGenLimit()
-						.setQLimitUnit(
-								LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.MVAR);
+				ODMData2XmlHelper.setGenQLimitData(busData.getGenData(),  
+						max, min, LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
 					busData.getGenData().addNewDesiredRemoteVoltage();
@@ -314,7 +305,7 @@ public class IeeeCDFAdapter {
 	 */
 
 	private static void processBranchData(final String str,
-			final BranchRecordXmlType branchRec) {
+			final BranchRecordXmlType branchRec, PSSNetworkXmlType baseCaseNet) {
 		// parse the input data line
 		final String[] strAry = getBranchDataFields(str);
 
@@ -372,6 +363,17 @@ public class IeeeCDFAdapter {
 						YXmlType.Unit.PU);
 				branchRec.getLoadflowBranchData().getXformerData()
 						.setFromTurnRatio(ratio);
+				BusRecordXmlType fromBusRec = ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
+				BusRecordXmlType toBusRec = ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
+				if (fromBusRec != null && toBusRec != null) {
+					ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowBranchData().getXformerData(),
+							fromBusRec.getBaseVoltage().getVoltage(), 
+							toBusRec.getBaseVoltage().getVoltage(), 
+							fromBusRec.getBaseVoltage().getUnit());				
+				}
+				else {
+					logger.severe("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fid + ", " + tid);
+				}
 			} else {
 				ODMData2XmlHelper.setPhaseShiftXfrData(branchRec
 						.getLoadflowBranchData(), rpu, xpu, ZXmlType.Unit.PU,
@@ -381,6 +383,17 @@ public class IeeeCDFAdapter {
 				ODMData2XmlHelper.setAngleData(branchRec.getLoadflowBranchData()
 						.getPhaseShiftXfrData().addNewFromAngle(), angle,
 						AngleXmlType.Unit.DEG);
+				BusRecordXmlType fromBusRec = ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
+				BusRecordXmlType toBusRec = ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
+				if (fromBusRec != null && toBusRec != null) {
+					ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowBranchData().getXformerData(),
+							fromBusRec.getBaseVoltage().getVoltage(), 
+							toBusRec.getBaseVoltage().getVoltage(), 
+							fromBusRec.getBaseVoltage().getUnit());				
+				}
+				else {
+					logger.severe("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fid + ", " + tid);
+				}
 			}
 		}
 
@@ -392,8 +405,7 @@ public class IeeeCDFAdapter {
 		final double rating3Mvar = new Integer(strAry[11]).intValue();
 		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowBranchData(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
-				LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.MVA, 0.0,
-				null);
+				LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.MVA);
 
 		String controlBusId = "";
 		int controlSide = 0;

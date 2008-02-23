@@ -75,16 +75,9 @@
     	<complexContent>
     		<extension base="pss:IDRecordXmlType">
     			<sequence>
-    				<element name="baseVoltage" type="double"
+    				<element name="baseVoltage" type="pss:VoltageXmlType"
     					minOccurs="1" maxOccurs="1">
     				</element>
-                    <element name="baseVoltageUnit" minOccurs="1" maxOccurs="1">
-    					<simpleType>
-    						<restriction base="string">
-    							<enumeration value="VOLT"></enumeration>
-    							<enumeration value="KV"></enumeration>
-    						</restriction>
-    					</simpleType></element>
                     <element name="loadflowBusData"
     					type="pss:LoadflowBusDataXmlType" minOccurs="0"
     					maxOccurs="1">
@@ -392,7 +385,19 @@
     					<element name="z" type="pss:ZXmlType"
     						minOccurs="1" maxOccurs="1">
     					</element>
-    					<element name="fromTurnRatio" type="double"
+            <element name="ratingData" minOccurs="1">
+    						<complexType>
+    							<sequence>
+                        <element name="fromRatedVoltage" type="pss:VoltageXmlType" minOccurs="1">
+    								</element>
+                        <element name="toRatedVoltage" type="pss:VoltageXmlType" minOccurs="1">
+    								</element>
+                        <element name="ratedPower" type="pss:PowerXmlType" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+            <element name="fromTurnRatio" type="double"
     						minOccurs="0" maxOccurs="1">
     					</element>
     					<element name="toTurnRatio" type="double"
@@ -403,22 +408,7 @@
     					</element>
     					<element name="toShuntY" type="pss:YXmlType"
     						minOccurs="0">
-    					</element>
-    					<element name="ratingData" minOccurs="0">
-    						<complexType>
-    							<sequence>
-    								<element name="ratedPower"
-    									type="pss:PowerXmlType">
-    								</element>
-    								<element name="fromRatedVoltage"
-    									type="pss:VoltageXmlType">
-    								</element>
-    								<element name="toRatedVoltage"
-    									type="pss:VoltageXmlType">
-    								</element>
-    							</sequence>
-    						</complexType>
-    					</element>
+    					</element>
     					<element name="tapAdjustment" minOccurs="0">
     						<complexType>
     							<sequence>
