@@ -25,12 +25,7 @@
 package org.ieee.pes.odm.pss;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +33,8 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public class Data2ODMXml {
 	private final static String InOptStr 	= "-in";
@@ -78,18 +73,16 @@ public class Data2ODMXml {
 
 		try {
 			// load the input file into the reader buffer
-			final File file = new File(inputFile);
-			final InputStream stream = new FileInputStream(file);
-			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-			logger.info("Process input file: " + inputFile);
-			
 			String xmlStr = "";
 			if (Token_IEEECDF.equals(appParameters.getParamLowerCase(FmtOptStr))) {
 				logger.info("Input file is of format IEEE Common Data Format");
-				// parse the data file in IEEE CDF format into the ODM model
-				IEEEODMPSSModelParser parser = IeeeCDFAdapter.parseInputFile(din, logger);
+				IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
+				if (!adapter.parseXmlFile(inputFile)) {
+					logger.severe("Error: model parsing error, " + adapter.errMessages().toString());
+					System.err.println("Error: model parsing error, " + adapter.errMessages().toString());
+				}
 				// convert the model to a XML document string
-				xmlStr = parser.toString();			
+				xmlStr = adapter.getModel().toString();			
 			}	
 			else {
 				logger.severe("Error: Unsupported input file data, " + appParameters.getParam(FmtOptStr));

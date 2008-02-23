@@ -26,10 +26,8 @@ package org.ieee.pes.odm.pss.adapter.ucte;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
@@ -37,28 +35,27 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
+import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
-public class UCTE_DEFAdapter {
+public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	private final static String PsXfrType_ASYM = "ASYM"; 
-	
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
 
-	private static Logger logger;
+	public UCTE_DEFAdapter(Logger logger) {
+		this.status = true;
+		this.errMsgList = new ArrayList<String>();
+	}
 
-	public static IEEEODMPSSModelParser parseInputFile(
-			final java.io.BufferedReader din, final Logger lgr)
-			throws Exception {
-		logger = lgr;
+	protected IEEEODMPSSModelParser parseInputFile(
+			final java.io.BufferedReader din) throws Exception {
 
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
@@ -151,8 +148,8 @@ public class UCTE_DEFAdapter {
     /*
      * ##C section
      */
-    private static boolean processCommentRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.info("Comment: " + str);
+    private boolean processCommentRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
+		logger.fine("Comment: " + str);
 		// there is no need to do anything to the comment lines
     	return true;
     }
@@ -160,8 +157,8 @@ public class UCTE_DEFAdapter {
     /*
      * ##N and ##Z sections
      */
-    private static boolean processNodeRecord(String str, String isoId, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.info("Node Record: " + str);
+    private boolean processNodeRecord(String str, String isoId, PSSNetworkXmlType xmlBaseNet, Logger logger) {
+		logger.fine("Node Record: " + str);
 
 		// parse the input line for node information
 		String id, name;
@@ -295,8 +292,8 @@ public class UCTE_DEFAdapter {
     /*
      * ##L section
      */
-    private static boolean processLineRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.info("Line Record: " + str);
+    private boolean processLineRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
+		logger.fine("Line Record: " + str);
 
 		// parse the input line for line information
 		String fromNodeId, toNodeId, orderCode, elemName;
@@ -327,6 +324,9 @@ public class UCTE_DEFAdapter {
       	branchRec.addNewFromBus().setIdRef(fromNodeId);
       	branchRec.addNewToBus().setIdRef(toNodeId);    
 		
+		branchRec.addNewLoadflowBranchData();
+		
+		// LineData object created in the following call
 		ODMData2XmlHelper.setLineData(branchRec.getLoadflowBranchData(), rOhm, xOhm,
 				ZXmlType.Unit.OHM, 0.0, bMuS, YXmlType.Unit.MICROMHO);
       	
@@ -342,8 +342,8 @@ public class UCTE_DEFAdapter {
     /*
      * ##T section
      */
-    private static boolean processXfr2WindingRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.info("Xfr 2W Record: " + str);
+    private boolean processXfr2WindingRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
+		logger.fine("Xfr 2W Record: " + str);
 
 		// parse the input line for xformer information
 		String fromNodeId, toNodeId, orderCode, elemName;
@@ -386,19 +386,22 @@ public class UCTE_DEFAdapter {
       	branchRec.addNewFromBus().setIdRef(fromNodeId);
       	branchRec.addNewToBus().setIdRef(toNodeId);    
 
-		ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowBranchData().getXformerData(),
-				fromRatedKV, toRatedKV, VoltageXmlType.Unit.KV,
-				normialMva, PowerXmlType.Unit.MVA);
+		branchRec.addNewLoadflowBranchData();
+
+		// r, x, g, b are measured at from side in Ohms
+		// they are converted to PU using from bus base voltage
 		if (fromRatedKV < toRatedKV) {
 			// TODO: need to transfer R,X to high voltage side
 			logger.severe("Need more implementation");
 		}
-		
-		// r, x, g, b are measured at from side in Ohms
-		// they are converted to PU using from bus base voltage
+		// XformerData object created in the followoing call
 		ODMData2XmlHelper.setXformerData(branchRec.getLoadflowBranchData(),
 				rOhm, xOhm, ZXmlType.Unit.OHM, 0.0, 0.0, gMuS, bMuS,
 				YXmlType.Unit.MICROMHO);
+
+		ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowBranchData().getXformerData(),
+				fromRatedKV, toRatedKV, VoltageXmlType.Unit.KV,
+				normialMva, PowerXmlType.Unit.MVA);
 
 		// turn ratio is 1.0 for un-regulated xfr, 
 		branchRec.getLoadflowBranchData().getXformerData().setFromTurnRatio(1.0);
@@ -417,8 +420,8 @@ public class UCTE_DEFAdapter {
     /*
      * ##R section
      */
-    private static boolean processXfr2WRegulationRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.info("Xfr 2W Reg Record: " + str);
+    private boolean processXfr2WRegulationRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
+		logger.fine("Xfr 2W Reg Record: " + str);
 
 		String fromNodeId, toNodeId, orderCode, type;
 
@@ -550,8 +553,8 @@ public class UCTE_DEFAdapter {
     /*
      * ##TT section
      */
-    private static boolean processXfr2LookupRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.info("Xfr 2W Desc Record: " + str);
+    private boolean processXfr2LookupRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
+		logger.fine("Xfr 2W Desc Record: " + str);
 		logger.severe("##TT not implemented yet. Contact support@interpss.org for more info");
 		return false;
     }
@@ -559,7 +562,7 @@ public class UCTE_DEFAdapter {
     /*
      * ##E section
      */
-    private static boolean processExchangePowerRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
+    private boolean processExchangePowerRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
 		logger.info("Exchange Power Record: " + str);
 
 		String fromIsoId, toIsoId, comment;
@@ -586,22 +589,22 @@ public class UCTE_DEFAdapter {
      */
 
     // custom base voltage is an extension to the UCTE std
-	private static List<Double> customBaseVoltageList = new ArrayList<Double>();
-	private static boolean customBaseVoltage = false;
+	private List<Double> customBaseVoltageList = new ArrayList<Double>();
+	private boolean customBaseVoltage = false;
 
     
-    private static boolean processBaseVoltageRecord(String str) {
+    private boolean processBaseVoltageRecord(String str) {
     	customBaseVoltageList.add(new Double(str));
     	return true;
     }
 
-    private static double getBaseVoltageKv(String nodeId) throws Exception {
+    private double getBaseVoltageKv(String nodeId) throws Exception {
         // According to the spec the node base voltage code is stored at the 7th char
     	int code = StringUtil.getInt(nodeId, 7, 7);
     	return getBaseVoltageKv(code);
     }
     
-    private static double getBaseVoltageKv(int code) {
+    private double getBaseVoltageKv(int code) {
     	switch(code) {
     	case 0 : return 750.0;
     	case 1 : return 380.0;
@@ -619,7 +622,7 @@ public class UCTE_DEFAdapter {
     	}
     }
     
-	private static double findCustomBaseVoltage(double voltage) {
+	private double findCustomBaseVoltage(double voltage) {
 		double baseKv = 0.0;
 		double e = 1.0e10;
 		for (Double bv : customBaseVoltageList) {

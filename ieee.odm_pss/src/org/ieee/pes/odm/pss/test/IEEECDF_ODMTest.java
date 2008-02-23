@@ -24,21 +24,18 @@
 
 package org.ieee.pes.odm.pss.test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import static org.junit.Assert.assertTrue;
+
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.junit.Test;
 
 
-public class IEEECommonFormatTest {
+public class IEEECDF_ODMTest { 
 	@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
@@ -46,12 +43,10 @@ public class IEEECommonFormatTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		final File file = new File("testdata/ieeecdf/Ieee14Bus.ieee");
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-		IEEEODMPSSModelParser parser = IeeeCDFAdapter.parseInputFile(din, logger);
+		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
+		assertTrue(adapter.parseXmlFile("testdata/ieeecdf/Ieee14Bus.ieee"));
 		
-		System.out.println(parser.toString());
+		//System.out.println(parser.toString());
 	}
 }
 

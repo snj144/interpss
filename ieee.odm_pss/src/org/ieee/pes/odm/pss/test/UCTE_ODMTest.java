@@ -24,20 +24,17 @@
 
 package org.ieee.pes.odm.pss.test;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import static org.junit.Assert.assertTrue;
+
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ucte.UCTE_DEFAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.junit.Test;
 
-public class UCTEFormatTest {
+public class UCTE_ODMTest {
 	@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
@@ -45,12 +42,10 @@ public class UCTEFormatTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		final File file = new File("testdata/ucte/AusPower_TestCase_Xfr.uct");
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-		IEEEODMPSSModelParser parser = UCTE_DEFAdapter.parseInputFile(din, logger);
+		IODMPSSAdapter adapter = new UCTE_DEFAdapter(logger);
+		assertTrue(adapter.parseXmlFile("testdata/ucte/AusPower_TestCase_Xfr.uct"));
 		
-		System.out.println(parser.toString());
+		//System.out.println(parser.toString());
 	}
 }
 
