@@ -25,11 +25,13 @@
 package org.ieee.pes.odm.pss.model;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -50,6 +52,21 @@ public class ODMData2XmlHelper {
     	nvPair.setValue(value);
 	}
 
+	/**
+	 * Get bus record with the id
+	 * 
+	 * @param id
+	 * @param baseCaseNet
+	 * @return
+	 */
+	public static BusRecordXmlType getBusRecord(String id, PSSNetworkXmlType baseCaseNet) {
+		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBusArray()) {
+			if (id.equals(busRec.getId()))
+				return busRec;
+		}
+		return null;
+	}
+	
 	/**
 	 * form branch id based on from node id, to node id and branch circuit id 
 	 * 
@@ -174,6 +191,22 @@ public class ODMData2XmlHelper {
 	}
 	
 	/**
+	 * add a GenData.QGenLimit object and set max, min and unit
+	 * 
+	 * @param busData
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
+	public static void setGenQLimitData(LoadflowBusDataXmlType.GenData genData,  
+			double max, double min, LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.Enum unit) {
+		genData.addNewQGenLimit();
+		ODMData2XmlHelper.setLimitData(genData.getQGenLimit()
+				.addNewQLimit(), max, min);
+		genData.getQGenLimit().setQLimitUnit(unit);	
+	}
+
+	/**
 	 * add a LineData object to the branchData object, then set value(r, x, zUnit, g, b, yUnit) 
 	 * to the created LineData object
 	 * 
@@ -188,6 +221,7 @@ public class ODMData2XmlHelper {
 	public static void setLineData(LoadflowBranchDataXmlType branchData, 
 			             double r, double x, ZXmlType.Unit.Enum zUnit, 
 			             double g, double b, YXmlType.Unit.Enum yUnit) {
+		branchData.setCode(LoadflowBranchDataXmlType.Code.LINE);
 		branchData.addNewLineData();
 		ODMData2XmlHelper.setZValue(branchData.getLineData().addNewZ(), r, x, zUnit);
 		if (g != 0.0 || b != 0.0) 
@@ -210,6 +244,7 @@ public class ODMData2XmlHelper {
 	public static void setXformerData(LoadflowBranchDataXmlType branchData, 
 			             double r, double x, ZXmlType.Unit.Enum zUnit, 
 			             double gFrom, double bFrom, double gTo, double bTo, YXmlType.Unit.Enum yUnit) {
+		branchData.setCode(LoadflowBranchDataXmlType.Code.TRANSFORMER);
 		branchData.addNewXformerData();
 		setXformerData(branchData.getXformerData(),
 				r, x, zUnit, gFrom, bFrom, gTo, bTo, yUnit);
@@ -232,6 +267,7 @@ public class ODMData2XmlHelper {
 	public static void setPhaseShiftXfrData(LoadflowBranchDataXmlType branchData,
 			double r, double x, ZXmlType.Unit.Enum zUnit, double gFrom,
 			double bFrom, double gTo, double bTo, YXmlType.Unit.Enum yUnit) {
+		branchData.setCode(LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER);
 		branchData.addNewPhaseShiftXfrData();
 		setXformerData(branchData.getPhaseShiftXfrData(),
 				r, x, zUnit, gFrom, bFrom, gTo, bTo, yUnit);
@@ -282,5 +318,73 @@ public class ODMData2XmlHelper {
         	}
     	}
 		
+	}
+
+	/**
+	 * add a RatingLimitData object to the branchData object, then set value(mvarLimit1, mvarLimit2, mvarLimit3, mvarUnit) 
+	 * to the created RatingLimitData object
+	 * 
+	 * @param branchData
+	 * @param mvar1
+	 * @param mvar2
+	 * @param mvar3
+	 * @param mvarUnit
+	 */
+	public static void setBranchRatingLimitData(LoadflowBranchDataXmlType branchData, 
+				double mvar1, double mvar2, double mvar3, LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.Enum mvarUnit) {
+		setBranchRatingLimitData(branchData, mvar1, mvar2, mvar3, mvarUnit, 0.0, null);
+	}
+
+	/**
+	 * add a RatingLimitData object to the branchData object, then set value(curLimit, curUnit) 
+	 * to the created RatingLimitData object
+	 * 
+	 * @param branchData
+	 * @param current
+	 * @param curUnit
+	 */
+	public static void setBranchRatingLimitData(LoadflowBranchDataXmlType branchData, 
+				double current, LoadflowBranchDataXmlType.RatingLimit.CurrentRatingUnit.Enum curUnit) {
+		setBranchRatingLimitData(branchData, 0.0, 0.0, 0.0, null, current, curUnit);
+	}
+	
+	/**
+	 * set transformer rating data
+	 *  
+	 * @param xfrData
+	 * @param fromRatedV
+	 * @param toRatedV
+	 * @param vUnit
+	 * @param normialMva
+	 * @param pUnit
+	 */
+	public static void setXfrRatingData(TransformerDataXmlType xfrData, 
+			double fromRatedV, double toRatedV, VoltageXmlType.Unit.Enum vUnit,
+			double normialMva, PowerXmlType.Unit.Enum pUnit) {
+		TransformerDataXmlType.RatingData ratingData = xfrData.addNewRatingData();
+		VoltageXmlType fromRatedVolt = ratingData.addNewFromRatedVoltage();
+		fromRatedVolt.setVoltage(fromRatedV);
+		fromRatedVolt.setUnit(vUnit);
+		VoltageXmlType toRatedVolt = ratingData.addNewToRatedVoltage();
+		toRatedVolt.setVoltage(toRatedV);
+		toRatedVolt.setUnit(vUnit);
+   		if (normialMva != 0.0) {
+   			PowerXmlType ratedMva = ratingData.addNewRatedPower();
+   			ratedMva.setP(normialMva);
+   			ratedMva.setUnit(pUnit);		
+   		}
+	}
+
+	/**
+	 * set transformer rating data
+	 * 
+	 * @param xfrData
+	 * @param fromRatedV
+	 * @param toRatedV
+	 * @param vUnit
+	 */
+	public static void setXfrRatingData(TransformerDataXmlType xfrData, 
+			double fromRatedV, double toRatedV, VoltageXmlType.Unit.Enum vUnit) {
+		setXfrRatingData(xfrData, fromRatedV, toRatedV, vUnit, 0.0, null);
 	}
 }
