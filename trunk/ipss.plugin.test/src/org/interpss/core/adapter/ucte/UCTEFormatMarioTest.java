@@ -72,8 +72,8 @@ public class UCTEFormatMarioTest extends BaseTestSetup {
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("B4____1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		assertTrue(Math.abs(p.getReal()-25.227)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()+2541.891)<0.1);
+  		assertTrue(Math.abs(p.getReal()-25.175)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()+2541.872)<0.1);
 	}
 
 	@Test
@@ -84,14 +84,14 @@ public class UCTEFormatMarioTest extends BaseTestSetup {
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
-  		//System.out.println(simuCtx.getAclfNet().net2String());
+  		System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("OB4___1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		assertTrue(Math.abs(p.getReal()+6137.246)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-1764.588)<0.1);
+  		assertTrue(Math.abs(p.getReal()+6137.451)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-1764.727)<0.1);
 	}
 }
 
