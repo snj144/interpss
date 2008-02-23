@@ -28,6 +28,7 @@ import org.apache.commons.math.complex.Complex;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -121,6 +122,8 @@ public class ODMLoadflowDataMapperImpl {
 	public static boolean setBranchLoadflowData(
 			LoadflowBranchDataXmlType braXmlData, AclfBranch aclfBra,
 			double baseKva, IPSSMsgHub msg) {
+		YXmlType fromShuntY = null, toShuntY = null;
+		
 		if (braXmlData.getCode() == LoadflowBranchDataXmlType.Code.LINE) {
 			if (braXmlData.getLineData() != null) {
 				aclfBra.setBranchCode(AclfBranchCode.LINE);
@@ -146,6 +149,8 @@ public class ODMLoadflowDataMapperImpl {
 											.getUnit()), aclfBra
 											.getFromAclfBus().getBaseVoltage(),
 									baseKva);
+				fromShuntY = braXmlData.getLineData().getFromShuntY();
+				toShuntY = braXmlData.getLineData().getToShuntY();
 			} else {
 				msg
 						.sendErrorMsg("Error: LoadflowBranchData.LineData not defined for branch code Line");
@@ -161,6 +166,8 @@ public class ODMLoadflowDataMapperImpl {
 						.sendErrorMsg("Error: LoadflowBranchData.XformerData not defined for branch Transformer");
 				return false;
 			}
+			fromShuntY = braXmlData.getXformerData().getFromShuntY();
+			toShuntY = braXmlData.getXformerData().getToShuntY();
 		} else if (braXmlData.getCode() == LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER) {
 			if (braXmlData.getPhaseShiftXfrData() != null) {
 				aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
@@ -168,11 +175,13 @@ public class ODMLoadflowDataMapperImpl {
 						.adapt(PSXfrAdapter.class);
 				setXformerLoadflowData(aclfBra, braXmlData
 						.getPhaseShiftXfrData(), baseKva, msg);
-				psXfr.setFromAngle(braXmlData.getPhaseShiftXfrData()
+				if(braXmlData.getPhaseShiftXfrData().getFromAngle() != null)
+					psXfr.setFromAngle(braXmlData.getPhaseShiftXfrData()
 						.getFromAngle().getAngle(), ODMXmlHelper
 						.toUnit(braXmlData.getPhaseShiftXfrData()
 								.getFromAngle().getUnit()));
-				psXfr.setToAngle(braXmlData.getPhaseShiftXfrData().getToAngle()
+				if(braXmlData.getPhaseShiftXfrData().getToAngle() != null)
+					psXfr.setToAngle(braXmlData.getPhaseShiftXfrData().getToAngle()
 						.getAngle(), ODMXmlHelper.toUnit(braXmlData
 						.getPhaseShiftXfrData().getToAngle().getUnit()));
 			} else {
@@ -180,10 +189,25 @@ public class ODMLoadflowDataMapperImpl {
 						.sendErrorMsg("Error: LoadflowBranchData.PhaseShiftXfrData not defined for branch Phase-shifting Transformer");
 				return false;
 			}
+			fromShuntY = braXmlData.getPhaseShiftXfrData().getFromShuntY();
+			toShuntY = braXmlData.getPhaseShiftXfrData().getToShuntY();
 		} else {
 			msg.sendErrorMsg("Error: LoadflowBranchData.code type, "
 					+ braXmlData.toString());
 			return false;
+		}
+
+		if (fromShuntY != null) {
+			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getG(),	fromShuntY.getB()),
+					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
+					ODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
+			aclfBra.setFromShuntY(ypu);
+		}
+		if (toShuntY != null) {
+			Complex ypu = UnitType.yConversion(new Complex(toShuntY.getG(),	toShuntY.getB()),
+					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
+					ODMXmlHelper.toUnit(toShuntY.getUnit()), UnitType.PU);
+			aclfBra.setToShuntY(ypu);
 		}
 
 		if (braXmlData.getRatingLimit() != null) {
@@ -205,17 +229,23 @@ public class ODMLoadflowDataMapperImpl {
 
 	private static void setXformerLoadflowData(AclfBranch aclfBra,
 			TransformerDataXmlType xfrData, double baseKva, IPSSMsgHub msg) {
-		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), toBaseV = aclfBra
-				.getToAclfBus().getBaseVoltage();
+		double fromBaseV = aclfBra.getFromAclfBus().getBaseVoltage(), 
+		       toBaseV = aclfBra.getToAclfBus().getBaseVoltage();
 		// it is assumed that Z, Y are measure at High V side
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.adapt(XfrAdapter.class);
 		xfr.setZ(new Complex(xfrData.getZ().getR(), xfrData.getZ().getX()),
 				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, baseKva,
 				msg);
+		// turn ratio is based on xfr rated voltage
+		// voltage units should be same for both side 
+		double fromRatedV = xfrData.getRatingData().getFromRatedVoltage().getVoltage();
+		double toRatedV = xfrData.getRatingData().getToRatedVoltage().getVoltage();
+    	double ratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+		
 		xfr.setFromTurnRatio(xfrData.getFromTurnRatio() == 0.0 ? 1.0 : xfrData
-				.getFromTurnRatio(), UnitType.PU);
+				.getFromTurnRatio()*ratio, UnitType.PU);
 		xfr.setToTurnRatio(xfrData.getToTurnRatio() == 0.0 ? 1.0 : xfrData
-				.getToTurnRatio(), UnitType.PU);
+				.getToTurnRatio()/ratio, UnitType.PU);
 	}
 }
