@@ -41,7 +41,7 @@ import java.util.logging.Logger;
 import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
-public class ODMAdapter {
+public class Data2ODMXml {
 	private final static String InOptStr 	= "-in";
 	private final static String FmtOptStr 	= "-format";
 	private final static String OutOptStr 	= "-out";

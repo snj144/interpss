@@ -390,7 +390,8 @@ public class UCTE_DEFAdapter {
 				fromRatedKV, toRatedKV, VoltageXmlType.Unit.KV,
 				normialMva, PowerXmlType.Unit.MVA);
 		if (fromRatedKV < toRatedKV) {
-			// ...
+			// TODO: need to transfer R,X to high voltage side
+			logger.severe("Need more implementation");
 		}
 		
 		// r, x, g, b are measured at from side in Ohms
