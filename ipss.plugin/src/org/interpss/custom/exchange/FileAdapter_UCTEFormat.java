@@ -384,7 +384,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
     	branch.setBranchCode(AclfBranchCode.LINE);
 		final LineAdapter line = (LineAdapter)branch.adapt(LineAdapter.class);
     	line.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva(), msg);
-    	line.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
+    	// UCTE line B is treated as half branch B
+    	//line.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
+    	line.setHShuntY(new Complex(0.0,bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
       	
     	// by default the branch is active
     	if (status == 8 || status == 9) 

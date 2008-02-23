@@ -24,16 +24,14 @@
 
 package org.interpss.custom.ieee_odm;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+
+import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
+import org.interpss.mapper.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -50,23 +48,17 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 	 */
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
-		final File file = new File(filepath);
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-		
-		final AclfAdjNetwork adjNet = null;
-  		// System.out.println(adjNet.net2String());
-	  		
-  		if (adjNet != null) {
-  			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
-  	  		simuCtx.setAclfAdjNet(adjNet);
+		final File xmlFile = new File(filepath);
+		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser(xmlFile);
+		IEEEODMMapper mapper = new IEEEODMMapper();
+		if (mapper.mapping(parser, simuCtx, SimuContext.class)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
-  		}
-  		else { 
+		}
+		else {
   			msg.sendErrorMsg("Error to load file: " + filepath);
   			IpssLogger.getLogger().severe("Error to load file: " + filepath);
-  		}
+		}
 	}
 	
 	/**
