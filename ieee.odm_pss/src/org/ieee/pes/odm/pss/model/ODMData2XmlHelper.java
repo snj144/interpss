@@ -25,6 +25,7 @@
 package org.ieee.pes.odm.pss.model;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
@@ -32,6 +33,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -39,6 +41,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 
 public class ODMData2XmlHelper {
+	public static final double Deg2Rad = Math.PI / 180.0;
+	
 	/**
 	 * add a name/value pair to the name/value pair List
 	 * 
@@ -67,6 +71,23 @@ public class ODMData2XmlHelper {
 		return null;
 	}
 	
+	/**
+	 * Get bus record with the id
+	 * 
+	 * @param id
+	 * @param baseCaseNet
+	 * @return
+	 */
+	public static BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId, PSSNetworkXmlType baseCaseNet) {
+		for (BranchRecordXmlType braRec : baseCaseNet.getBranchList().getBranchArray()) {
+			if (fromId.equals(braRec.getFromBus().getIdRef()) &&
+					toId.equals(braRec.getToBus().getIdRef()) &&
+							cirId.equals(braRec.getCircuitId()))
+				return braRec;
+		}
+		return null;
+	}
+
 	/**
 	 * form branch id based on from node id, to node id and branch circuit id 
 	 * 
@@ -386,5 +407,20 @@ public class ODMData2XmlHelper {
 	public static void setXfrRatingData(TransformerDataXmlType xfrData, 
 			double fromRatedV, double toRatedV, VoltageXmlType.Unit.Enum vUnit) {
 		setXfrRatingData(xfrData, fromRatedV, toRatedV, vUnit, 0.0, null);
+	}
+	
+	/**
+	 * Transfer branch Xfr data to Phase shifting transformer
+	 * 
+	 * @param xfr
+	 * @param psXfr
+	 */
+	public static void branchXfrData2PsXfr(TransformerDataXmlType xfr, PhaseShiftXfrDataXmlType psXfr) {
+		psXfr.setZ(xfr.getZ());
+		psXfr.setRatingData(xfr.getRatingData());
+		psXfr.setFromTurnRatio(xfr.getFromTurnRatio());
+		psXfr.setToTurnRatio(xfr.getToTurnRatio());
+		psXfr.setFromShuntY(xfr.getFromShuntY());
+		psXfr.setToShuntY(xfr.getToShuntY());
 	}
 }
