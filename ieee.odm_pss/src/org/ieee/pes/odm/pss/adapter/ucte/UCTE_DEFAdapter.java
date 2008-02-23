@@ -327,7 +327,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		
 		// LineData object created in the following call
 		ODMData2XmlHelper.setLineData(branchRec.getLoadflowBranchData(), rOhm, xOhm,
-				ZXmlType.Unit.OHM, 0.0, bMuS, YXmlType.Unit.MICROMHO);
+				ZXmlType.Unit.OHM, 0.0, 2.0*bMuS, YXmlType.Unit.MICROMHO);
       	
     	// by default the branch is active
     	if (status == 8 || status == 9) 
@@ -393,7 +393,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			// TODO: need to transfer R,X to high voltage side
 			logger.severe("Need more implementation");
 		}
-		// XformerData object created in the followoing call
+		// XformerData object created in the following call
 		ODMData2XmlHelper.setXformerData(branchRec.getLoadflowBranchData(),
 				rOhm, xOhm, ZXmlType.Unit.OHM, 0.0, 0.0, gMuS, bMuS,
 				YXmlType.Unit.MICROMHO);
@@ -402,8 +402,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				fromRatedKV, toRatedKV, VoltageXmlType.Unit.KV,
 				normialMva, PowerXmlType.Unit.MVA);
 
-		// turn ratio is 1.0 for un-regulated xfr, 
-		branchRec.getLoadflowBranchData().getXformerData().setFromTurnRatio(1.0);
+		// turn ratio is defied at to side, 1.0 for un-regulated xfr, 
 		branchRec.getLoadflowBranchData().getXformerData().setToTurnRatio(1.0);
 		
     	// by default the branch is active
