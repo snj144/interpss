@@ -110,12 +110,22 @@
    	  		basedir="${dev_base}/ipss.editor.jgraph/runtime" 
    	  		excludes="CVS/**,model/**" />	
 
+   	  <jar destfile="${dev_base}/ipss.lib/lib/ieee/ieee.odm_pss.jar" 
+   	  		basedir="${dev_base}/ieee.odm_pss/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+   	  <jar destfile="${lib_base}/ieee/ieee.odm_pss.jar" 
+   	  		basedir="${dev_base}/ieee.odm_pss/runtime" 
+   	  		excludes="CVS/**,model/**" />	
+	  <copy file="${dev_base}/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar" 
+		    todir="${lib_base}/ieee"/>
+
    	  <jar destfile="${svn_lib}/tsinghua.jar" 
    	  		basedir="${dev_base}/tsinghua/bin" 
    	  		excludes="CVS/**,model/**" />	
    	  <jar destfile="${lib_base}/custom/tsinghua.jar" 
    	  		basedir="${dev_base}/tsinghua/bin" 
    	  		excludes="CVS/**,model/**" />	
+
 	  <copy file="${dev_base}/ipss.lib/lib/ipss/ipss_schemas.jar" 
 		    todir="${lib_base}/ipss"/>
    	</target>	
