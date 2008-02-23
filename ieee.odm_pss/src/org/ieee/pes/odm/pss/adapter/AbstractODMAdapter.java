@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -41,6 +42,12 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 	private IEEEODMPSSModelParser parser;
 	
 	public AbstractODMAdapter() {
+	}
+	
+	public AbstractODMAdapter(Logger logger) {
+		this.logger = logger;
+		this.status = true;
+		this.errMsgList = new ArrayList<String>();
 	}
 	
 	@Override

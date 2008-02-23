@@ -50,8 +50,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
 
 	public UCTE_DEFAdapter(Logger logger) {
-		this.status = true;
-		this.errMsgList = new ArrayList<String>();
+		super(logger);
 	}
 
 	protected IEEEODMPSSModelParser parseInputFile(

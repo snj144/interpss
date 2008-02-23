@@ -24,7 +24,6 @@
 
 package org.ieee.pes.odm.pss.adapter.ieeecdf;
 
-import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
@@ -55,9 +54,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	private static final int TielineData = 5;
 
 	public IeeeCDFAdapter(Logger logger) {
-		this.logger = logger;
-		this.status = true;
-		this.errMsgList = new ArrayList<String>();
+		super(logger);
 	}
 	
 	protected IEEEODMPSSModelParser parseInputFile(
