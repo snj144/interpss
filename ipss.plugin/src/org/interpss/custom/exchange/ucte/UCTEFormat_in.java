@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.custom.exchange.IpssFileAdapterBase;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
@@ -50,7 +51,6 @@ import com.interpss.core.aclfadj.FlowControlType;
 import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.TapControl;
-import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class UCTEFormat_in extends IpssFileAdapterBase {
 	private final static String PsXfrType_ASYM = "ASYM"; 

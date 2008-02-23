@@ -18,7 +18,6 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class FileAdpater_PSATFormat  extends IpssFileAdapterBase {
 	/**

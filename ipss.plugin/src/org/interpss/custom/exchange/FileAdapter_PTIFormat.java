@@ -80,7 +80,6 @@ import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.io.IpssFileAdapterBase;
 
 
 public class FileAdapter_PTIFormat extends IpssFileAdapterBase {

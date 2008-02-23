@@ -24,11 +24,8 @@
 
 package org.interpss.custom.exchange;
 
-import java.io.File;
-
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ucte.UCTE_DEFAdapter;
-import org.interpss.mapper.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -36,7 +33,6 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	/**
@@ -49,7 +45,8 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
-		loadByODMTransformation(simuCtx, filepath, msg);
+		IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
+		loadByODMTransformation(adapter, simuCtx, filepath, msg);
 
 		//loadByAdpter(simuCtx, filepath, msg);
  	}
@@ -78,21 +75,6 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 		throw new InvalidOperationException("FileAdapter_UCTEFormat.save not implemented");
 	}
 	
-	private void loadByODMTransformation(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{
-		IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
-		adapter.parseXmlFile(filepath);
-		//System.out.println(adapter.getModel().toString());
-		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
-  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
-  	  		simuCtx.setDesc("This project is created by input file " + filepath);
-		}
-		else {
-  			msg.sendErrorMsg("Error to load file: " + filepath);
-  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
-		}
-	}
 /*	
 	private void loadByAdpter(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{
 		final File file = new File(filepath);

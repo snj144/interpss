@@ -27,6 +27,7 @@ package org.interpss.custom.ieee_odm;
 import java.io.File;
 
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
+import org.interpss.custom.exchange.IpssFileAdapterBase;
 import org.interpss.mapper.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
@@ -35,7 +36,6 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.io.IpssFileAdapterBase;
 
 public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 	/**
