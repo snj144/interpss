@@ -35,8 +35,10 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
@@ -455,28 +457,32 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			logger.severe("Error: both phase regulation and angle regulation data are presented");
 			return false;
 		}
-/*		
-      	final UCTEBranch branch = (UCTEBranch)aclfNet.getBranch(fromNodeId, toNodeId, orderCode); 
-      	if (branch == null) {
-			IpssLogger.getLogger().severe("Error: branch cannot be found, line: " + str);
-			msg.sendErrorMsg("Error: branch cannot be found, line: " + str);
+
+		BranchRecordXmlType branchRec = ODMData2XmlHelper.getBranchRecord(fromNodeId, toNodeId, orderCode, xmlBaseNet); 
+      	if (branchRec == null) {
+			logger.severe("Error: branch cannot be found, line: " + str);
       		return false;
       	}
       	
+		NameValuePairListXmlType nvList = branchRec.addNewNvPairList();
+		
       	if (dUPhase > 0.0) {
-			IpssLogger.getLogger().info("Phase regulation data persented");
-			branch.setDUPhase(dUPhase);
-			branch.setNPhase(nPhase);
-			branch.setN1Phase(n1Phase);
-			branch.setUKvPhase(uKvPhase);
-			
-	    	final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
-	    	double ratioFactor = xfr.getToTurnRatio();
+			logger.fine("Phase regulation data persented");
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "dUPhase", new Double(dUPhase).toString());
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "nPhase", new Double(nPhase).toString());
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "n1Phase", new Double(n1Phase).toString());
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "uKvPhase", new Double(uKvPhase).toString());
+
+			double ratioFactor = branchRec.getLoadflowBranchData().getXformerData().getToTurnRatio();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
-			// UCTE model at toside x : 1.0, InterPSS model 1.0:turnRatio
-			xfr.setToTurnRatio(ratioFactor/x, UnitType.PU);
-			
+			// UCTE model at to side x : 1.0, InterPSS model 1.0:turnRatio
+			branchRec.getLoadflowBranchData().getXformerData().setToTurnRatio(ratioFactor/x);
+/*			
 			if (uKvPhase > 0.0) {
 				// tap control of voltage at to node side
 //              2 - Variable tap for voltage control (TCUL, LTC)
@@ -490,18 +496,22 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		tapv.setControlOnFromSide(false);
           		aclfNet.addTapControl(tapv, toNodeId);          		
 			}
+*/			
 		}
 		else if (dUAngle > 0.0) {
-			IpssLogger.getLogger().info("angle regulation data persented");
-			branch.setDUAngle(dUAngle);
-			branch.setThetaDegAngle(thetaDegAngle);
-			branch.setNAngle(nAngle);
-			branch.setN1Angle(n1Angle);
-			branch.setPMwAngle(pMwAngle);
-	
-		 	branch.setBranchCode(AclfBranchCode.PS_XFORMER);
-			final PSXfrAdapter psXfr = (PSXfrAdapter)branch.adapt(PSXfrAdapter.class);
-	    	double ratioFactor = psXfr.getToTurnRatio();
+			logger.fine("angle regulation data persented");
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "dUAngle", new Double(dUAngle).toString());
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "thetaDegAngle", new Double(thetaDegAngle).toString());
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "nAngle", new Double(nAngle).toString());
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "n1Angle", new Double(n1Angle).toString());
+			if (dUPhase != 0.0)
+				ODMData2XmlHelper.addNVPair(nvList, "pMwAngle", new Double(pMwAngle).toString());
+
+			double ratioFactor = branchRec.getLoadflowBranchData().getXformerData().getToTurnRatio();
 
 	    	double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;
 			double a    = n1Angle*dUAngle*0.01,
@@ -515,7 +525,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 					x = 1.0 / Math.sqrt(1.0 + a*a);
 				}
 				else {
-					double theta = thetaDegAngle * Constants.DtoR,
+					double theta = thetaDegAngle * ODMData2XmlHelper.Deg2Rad,
 					       asin = a*Math.sin(theta),
 					       acos = 1.0 + a*Math.cos(theta),
 					       asinMax = aMax*Math.sin(theta),
@@ -533,9 +543,16 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				angMax = 2.0 * Math.atan(aMax/2.0);
 				angMin = 2.0 * Math.atan(aMin/2.0);
 			}
-			psXfr.setToAngle(-ang, UnitType.Rad);
-			psXfr.setToTurnRatio(ratioFactor/x, UnitType.PU);
 			
+			branchRec.getLoadflowBranchData().setCode(LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER);
+			PhaseShiftXfrDataXmlType psXfr = branchRec.getLoadflowBranchData().addNewPhaseShiftXfrData();
+			ODMData2XmlHelper.branchXfrData2PsXfr(branchRec.getLoadflowBranchData().getXformerData(), psXfr);
+			branchRec.getLoadflowBranchData().setXformerData(null);
+			
+			ODMData2XmlHelper.setAngleData(psXfr.addNewToAngle(), -ang, AngleXmlType.Unit.RAD);
+			psXfr.setToTurnRatio(ratioFactor/x);
+			
+			/*
 			if (pMwAngle != 0.0) {
           		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(aclfNet, branch.getId(), FlowControlType.POINT_CONTROL);
           		ps.setPSpecified(pMwAngle, UnitType.mW, aclfNet.getBaseKva());
@@ -543,8 +560,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		ps.setControlOnFromSide(false);
           		aclfNet.addPSXfrPControl(ps, branch.getId());          		
 			}
+*/			
 		}
-*/		
     	return true;
     }
     
