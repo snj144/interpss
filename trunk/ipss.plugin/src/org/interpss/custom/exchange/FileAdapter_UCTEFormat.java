@@ -24,22 +24,15 @@
 
 package org.interpss.custom.exchange;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ucte.UCTE_DEFAdapter;
-import org.interpss.custom.exchange.ucte.UCTEFormat_in;
 import org.interpss.mapper.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.StringUtil;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -56,39 +49,9 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
+		loadByODMTransformation(simuCtx, filepath, msg);
 
-		IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
-		adapter.parseXmlFile(filepath);
-		//System.out.println(adapter.getModel().toString());
-		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
-  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
-  	  		simuCtx.setDesc("This project is created by input file " + filepath);
-		}
-		else {
-  			msg.sendErrorMsg("Error to load file: " + filepath);
-  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
-		}
-/*/		
-		final File file = new File(filepath);
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-		
-		final AclfAdjNetwork adjNet = UCTEFormat_in.loadFile(din, StringUtil.getFileName(filepath), msg);
-  		// System.out.println(adjNet.net2String());
-	  		
-  		if (adjNet != null) {
-  			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
-  	  		simuCtx.setAclfAdjNet(adjNet);
-  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
-  	  		simuCtx.setDesc("This project is created by input file " + filepath);
-  		}
-  		else { 
-  			msg.sendErrorMsg("Error to load file: " + filepath);
-  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
-  		}
- */ 		
+		//loadByAdpter(simuCtx, filepath, msg);
  	}
 	
 	/**
@@ -114,4 +77,41 @@ public class FileAdapter_UCTEFormat extends IpssFileAdapterBase {
 	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
 		throw new InvalidOperationException("FileAdapter_UCTEFormat.save not implemented");
 	}
+	
+	private void loadByODMTransformation(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{
+		IODMPSSAdapter adapter = new UCTE_DEFAdapter(IpssLogger.getLogger());
+		adapter.parseXmlFile(filepath);
+		//System.out.println(adapter.getModel().toString());
+		
+		IEEEODMMapper mapper = new IEEEODMMapper();
+		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+  	  		simuCtx.setDesc("This project is created by input file " + filepath);
+		}
+		else {
+  			msg.sendErrorMsg("Error to load file: " + filepath);
+  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
+		}
+	}
+/*	
+	private void loadByAdpter(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{
+		final File file = new File(filepath);
+		final InputStream stream = new FileInputStream(file);
+		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+		
+		final AclfAdjNetwork adjNet = UCTEFormat_in.loadFile(din, StringUtil.getFileName(filepath), msg);
+  		// System.out.println(adjNet.net2String());
+	  		
+  		if (adjNet != null) {
+  			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+  	  		simuCtx.setAclfAdjNet(adjNet);
+  	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+  	  		simuCtx.setDesc("This project is created by input file " + filepath);
+  		}
+  		else { 
+  			msg.sendErrorMsg("Error to load file: " + filepath);
+  			IpssLogger.getLogger().severe("Error to load file: " + filepath);
+  		}		
+	}
+*/	
 }
