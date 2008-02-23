@@ -40,7 +40,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.io.IpssFileAdapter;
 
-public class UCTEFormatMarioTest extends BaseTestSetup {
+public class UCTEFormatAusPowerTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
