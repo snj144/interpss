@@ -96,7 +96,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 								.addNewLoseZone());
 					} else if (dataType == InterchangeData) {
 						processInterchangeData(str, baseCaseNet
-								.getInterchangeList().addNewInterchange());
+								.getInterchangeList().addNewInterchange().addNewIeeeCDFInterchange());
 					} else if (dataType == TielineData) {
 						processTielineData(str, baseCaseNet.getTieLineList()
 								.addNewTieline());
@@ -498,7 +498,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processInterchangeData(final String str,
-			final PSSNetworkXmlType.InterchangeList.Interchange interchange) {
+			final PSSNetworkXmlType.InterchangeList.Interchange.IeeeCDFInterchange interchange) {
 		final String[] strAry = getInterchangeDataFields(str);
 
 		//    	Columns  1- 2   Area number [I], no zeros! *
@@ -522,9 +522,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		interchange.setAreaNumber(no);
 		interchange.addNewSwingBus().setIdRef(slackBusId);
 		interchange.setAlternateSwingBusName(alSwingBusName);
-		interchange.setInterchangePower(mw);
-		interchange
-				.setInterchangePowerUnit(PSSNetworkXmlType.InterchangeList.Interchange.InterchangePowerUnit.MW);
+		ODMData2XmlHelper.setPowerData(interchange.addNewInterchangePower(), mw, 0.0, PowerXmlType.Unit.MVA);
 		interchange.setInterchangeErrTolerance(err);
 
 		interchange.setAreaCode(code);

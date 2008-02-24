@@ -415,12 +415,18 @@ public class ODMData2XmlHelper {
 	 * @param xfr
 	 * @param psXfr
 	 */
-	public static void branchXfrData2PsXfr(TransformerDataXmlType xfr, PhaseShiftXfrDataXmlType psXfr) {
+	public static void branchXfrData2PsXfr(LoadflowBranchDataXmlType branchData) {
+		branchData.setCode(LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER);
+		PhaseShiftXfrDataXmlType psXfr = branchData.addNewPhaseShiftXfrData();
+		TransformerDataXmlType xfr = branchData.getXformerData();
+
 		psXfr.setZ(xfr.getZ());
 		psXfr.setRatingData(xfr.getRatingData());
 		psXfr.setFromTurnRatio(xfr.getFromTurnRatio());
 		psXfr.setToTurnRatio(xfr.getToTurnRatio());
 		psXfr.setFromShuntY(xfr.getFromShuntY());
 		psXfr.setToShuntY(xfr.getToShuntY());
+		
+		branchData.setXformerData(null);		
 	}
 }
