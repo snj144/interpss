@@ -456,6 +456,15 @@
     														<simpleType>
     															<restriction
     																base="string">
+    																<enumeration
+    																	value="PU">
+    																</enumeration>
+    																<enumeration
+    																	value="VOLT">
+    																</enumeration>
+    																<enumeration
+    																	value="KV">
+    																</enumeration>
     															</restriction>
     														</simpleType>
     													</element>
@@ -550,7 +559,9 @@
     										type="pss:LimitXmlType" minOccurs="1">
     									</element>
 
-    									<element name="desiredPowerUnit"
+                                        <element name="angleAdjOnFromSide" type="boolean" minOccurs="1">
+    									</element>
+                                        <element name="desiredPowerUnit"
     										minOccurs="1">
     										<simpleType>
     											<restriction
@@ -570,7 +581,7 @@
     									<element
     										name="desiredMeasuredOnFromSide" type="boolean"
     										minOccurs="1">
-    									</element>
+    									</element>
     								</sequence>
 
     							</extension>

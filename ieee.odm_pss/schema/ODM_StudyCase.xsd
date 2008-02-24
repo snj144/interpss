@@ -120,12 +120,18 @@
 								<element name="interchange"
 									minOccurs="0" maxOccurs="unbounded">
                                     <complexType>
+                                    	<sequence>
+
+                                    		<element
+                                    			name="ieeeCDFInterchange">
+                                    			<complexType>
                                     	<sequence>
                                     		<element name="areaNumber"
                                     			type="int" minOccurs="1">
                                     		</element>
                                     		<element name="swingBus"
-                                    			type="pss:IDRefRecordXmlType" minOccurs="1">
+                                    			type="pss:IDRefRecordXmlType"
+                                    			minOccurs="1">
                                     		</element>
                                     		<element
                                     			name="alternateSwingBusName"
@@ -133,32 +139,43 @@
                                     		</element>
                                     		<element
                                     			name="interchangePower"
+                                    			type="pss:PowerXmlType" minOccurs="1">
+                                    		</element>
+                                    		<element
+                                    			name="interchangeErrTolerance"
                                     			type="double" minOccurs="1">
-                                    		</element>
-                                            <element name="interchangeErrTolerance" type="double" minOccurs="1">
-                                    		</element>
-                                            <element
-                                    			name="interchangePowerUnit" minOccurs="1">
-                                    			<simpleType>
-                                    				<restriction
-                                    					base="string">
-                                    					<enumeration
-                                    						value="PU">
-                                    					</enumeration>
-                                    					<enumeration
-                                    						value="KW">
-                                    					</enumeration>
-                                    					<enumeration
-                                    						value="MW">
-                                    					</enumeration>
-                                    				</restriction>
-                                    			</simpleType>
                                     		</element>
+
                                     		<element name="areaCode"
                                     			type="string" minOccurs="0">
                                     		</element>
                                     		<element name="areaName"
                                     			type="string" minOccurs="0">
+                                    		</element>
+                                    	</sequence>
+                                    			</complexType>
+                                    		</element>
+                                    		<element name="ucteExchange">
+                                                <complexType>
+                                                	<sequence>
+                                                		<element
+                                                			name="fromIsoId"
+                                                			type="string" minOccurs="1">
+                                                		</element>
+                                                		<element
+                                                			name="toIsoId"
+                                                			type="string" minOccurs="1">
+                                                		</element>
+                                                		<element
+                                                			name="exchangePower"
+                                                			type="pss:PowerXmlType" minOccurs="1">
+                                                		</element>
+                                                		<element
+                                                			name="comment"
+                                                			type="string" minOccurs="0">
+                                                		</element>
+                                                	</sequence>
+                                                </complexType>
                                     		</element>
                                     	</sequence>
                                     </complexType>

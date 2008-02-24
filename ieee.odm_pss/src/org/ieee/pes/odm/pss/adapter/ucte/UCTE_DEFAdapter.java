@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
@@ -47,10 +48,20 @@ import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
+/*
+	UCTE data exchange format for load flow and three phase short circuit studies (UCTE-DEF)
+	Version 02 (coming into force: 2007.05.01)
+*/
+
 public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	private final static String PsXfrType_ASYM = "ASYM"; 
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
 
+	/**
+	 * default constructor
+	 * 
+	 * @param logger Logger object
+	 */
 	public UCTE_DEFAdapter(Logger logger) {
 		super(logger);
 	}
@@ -70,6 +81,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		parser.getStudyCase().setNetworkCategory(
 				StudyCaseXmlType.NetworkCategory.TRANSMISSION);
 
+		// BaseCase object, plus busRecList and BranchRecList are created 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base Case from UCTE format");
 
@@ -107,8 +119,10 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     					recType = RecType.Xfr2WReg;
     				else if (str.startsWith("##TT"))
     					recType = RecType.Xfr2WLookup;
-    				else if (str.startsWith("##E"))
+    				else if (str.startsWith("##E")) {
     					recType = RecType.ExPower;
+    					baseCaseNet.addNewInterchangeList();
+    				}
     				else {
     					// process data lines
     					if (recType == RecType.Comment) {
@@ -477,26 +491,35 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			if (dUPhase != 0.0)
 				ODMData2XmlHelper.addNVPair(nvList, "uKvPhase", new Double(uKvPhase).toString());
 
-			double ratioFactor = branchRec.getLoadflowBranchData().getXformerData().getToTurnRatio();
+			TransformerDataXmlType xfr = branchRec.getLoadflowBranchData().getXformerData();
+			double ratioFactor = xfr.getToTurnRatio();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at to side x : 1.0, InterPSS model 1.0:turnRatio
-			branchRec.getLoadflowBranchData().getXformerData().setToTurnRatio(ratioFactor/x);
-/*			
+			xfr.setToTurnRatio(ratioFactor/x);
+			
 			if (uKvPhase > 0.0) {
+				TransformerDataXmlType.TapAdjustment tapAdj = xfr.addNewTapAdjustment();
+				tapAdj.setAdjustmentType(TransformerDataXmlType.TapAdjustment.AdjustmentType.VOLTAGE);
+				
 				// tap control of voltage at to node side
-//              2 - Variable tap for voltage control (TCUL, LTC)
-          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(aclfNet, branch.getId(), 
-          									toNodeId, FlowControlType.POINT_CONTROL);
-          		double maxTap = ratioFactor*(1.0 + nPhase*dUPhase*0.01), 
-          		       minTap = ratioFactor*(1.0 - nPhase*dUPhase*0.01);
-         		tapv.setTapLimit(new LimitType(maxTap, minTap));
-          		tapv.setVSpecified(uKvPhase, UnitType.kV);
-          		tapv.setTapStepSize(2*nPhase+1);
-          		tapv.setControlOnFromSide(false);
-          		aclfNet.addTapControl(tapv, toNodeId);          		
+				//     2 - Variable tap for voltage control (TCUL, LTC)
+          		double maxTap = ratioFactor*(nPhase*dUPhase), 
+          		       minTap = ratioFactor*(-nPhase*dUPhase);
+
+				ODMData2XmlHelper.setLimitData(tapAdj.addNewTapLimit(), maxTap, minTap);
+				tapAdj.setTapLimitUnit(TransformerDataXmlType.TapAdjustment.TapLimitUnit.PERCENT);
+          		tapAdj.setTapAdjStepSize(dUPhase);
+          		tapAdj.setTapAdjOnFromSide(false);
+          		
+          		TransformerDataXmlType.TapAdjustment.VoltageAdjData vAdjData = tapAdj.addNewVoltageAdjData();
+          		
+          		vAdjData.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
+          		vAdjData.setDesiredValue(uKvPhase);				
+          		vAdjData.setDesiredVoltageUnit(TransformerDataXmlType.TapAdjustment.VoltageAdjData.DesiredVoltageUnit.KV);
+          		vAdjData.addNewAdjVoltageBus().setIdRef(toNodeId);
+          		vAdjData.setAdjBusLocation(TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.TO_BUS);
 			}
-*/			
 		}
 		else if (dUAngle > 0.0) {
 			logger.fine("angle regulation data persented");
@@ -544,23 +567,22 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				angMin = 2.0 * Math.atan(aMin/2.0);
 			}
 			
-			branchRec.getLoadflowBranchData().setCode(LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER);
-			PhaseShiftXfrDataXmlType psXfr = branchRec.getLoadflowBranchData().addNewPhaseShiftXfrData();
-			ODMData2XmlHelper.branchXfrData2PsXfr(branchRec.getLoadflowBranchData().getXformerData(), psXfr);
-			branchRec.getLoadflowBranchData().setXformerData(null);
+			ODMData2XmlHelper.branchXfrData2PsXfr(branchRec.getLoadflowBranchData());
 			
+			PhaseShiftXfrDataXmlType psXfr = branchRec.getLoadflowBranchData().getPhaseShiftXfrData();
 			ODMData2XmlHelper.setAngleData(psXfr.addNewToAngle(), -ang, AngleXmlType.Unit.RAD);
 			psXfr.setToTurnRatio(ratioFactor/x);
 			
-			/*
 			if (pMwAngle != 0.0) {
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(aclfNet, branch.getId(), FlowControlType.POINT_CONTROL);
-          		ps.setPSpecified(pMwAngle, UnitType.mW, aclfNet.getBaseKva());
-          		ps.setAngLimit(new LimitType(angMax, angMin));
-          		ps.setControlOnFromSide(false);
-          		aclfNet.addPSXfrPControl(ps, branch.getId());          		
+				PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = psXfr.addNewAngleAdjustment();
+          		angAdj.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
+          		angAdj.setDesiredValue(pMwAngle);				
+				angAdj.setDesiredPowerUnit(PhaseShiftXfrDataXmlType.AngleAdjustment.DesiredPowerUnit.MW);
+				ODMData2XmlHelper.setLimitData(angAdj.addNewAngleDegLimit(), angMax, angMin);
+				angAdj.setAngleAdjOnFromSide(false);
+				// this part if not specified in the UCTE spec. We assume it is measured on to side
+				angAdj.setDesiredMeasuredOnFromSide(false);
 			}
-*/			
 		}
     	return true;
     }
@@ -592,15 +614,19 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			logger.severe(e.toString());
 			return false;
 		}
-/*
-		aclfNet.addExchangePower(new UCTENetwork.ExchangePower(
-						fromIsoId, toIsoId, exPower, comment));
-*/
+
+		PSSNetworkXmlType.InterchangeList.Interchange.UcteExchange ucteExRec = xmlBaseNet.getInterchangeList().addNewInterchange().addNewUcteExchange();
+		ucteExRec.setFromIsoId(fromIsoId);
+		ucteExRec.setToIsoId(toIsoId);
+		ODMData2XmlHelper.setPowerData(ucteExRec.addNewExchangePower(), exPower, 0.0, PowerXmlType.Unit.MVA); 
+		if (comment != null)
+			ucteExRec.setComment(comment);
+
 		return true;
     }
 
     /*
-     * util functions and extenstions 
+     * util functions and extensions 
      */
 
     // custom base voltage is an extension to the UCTE std
