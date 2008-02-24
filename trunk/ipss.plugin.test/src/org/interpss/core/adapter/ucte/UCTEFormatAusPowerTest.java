@@ -84,7 +84,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
-  		System.out.println(simuCtx.getAclfNet().net2String());
+  		//System.out.println(simuCtx.getAclfNet().net2String());
   		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("OB4___1");
