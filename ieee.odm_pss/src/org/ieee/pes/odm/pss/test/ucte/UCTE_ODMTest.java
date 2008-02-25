@@ -1,5 +1,5 @@
  /*
-  * @(#)IEEECommonFormatTest.java   
+  * @(#)UCTEFormatTest.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *
@@ -22,7 +22,7 @@
   *
   */
 
-package org.ieee.pes.odm.pss.test;
+package org.ieee.pes.odm.pss.test.ucte;
 
 import static org.junit.Assert.assertTrue;
 
@@ -31,11 +31,10 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
-import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.pes.odm.pss.adapter.ucte.UCTE_DEFAdapter;
 import org.junit.Test;
 
-
-public class IEEECDF_ODMTest { 
+public class UCTE_ODMTest {
 	@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
@@ -43,8 +42,8 @@ public class IEEECDF_ODMTest {
 		logger.setLevel(Level.INFO);
 		logMgr.addLogger(logger);
 		
-		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
-		assertTrue(adapter.parseXmlFile("testdata/ieeecdf/Ieee14Bus.ieee"));
+		IODMPSSAdapter adapter = new UCTE_DEFAdapter(logger);
+		assertTrue(adapter.parseXmlFile("testdata/ucte/AusPower_TestCase_Xfr.uct"));
 		
 		//System.out.println(parser.toString());
 	}

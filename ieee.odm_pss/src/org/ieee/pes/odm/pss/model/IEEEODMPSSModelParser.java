@@ -50,6 +50,8 @@ public class IEEEODMPSSModelParser {
 	 */
 	public IEEEODMPSSModelParser(File xmlFile) throws Exception {
 		this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
+		if (!doc.validate()) 
+			throw new Exception("Error: input XML document is invalid, file: " + xmlFile.getName());
 	}
 
 	/**
