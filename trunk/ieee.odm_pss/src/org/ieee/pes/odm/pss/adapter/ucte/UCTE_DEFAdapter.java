@@ -339,7 +339,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		
 		// LineData object created in the following call
 		ODMData2XmlHelper.setLineData(branchRec.getLoadflowBranchData(), rOhm, xOhm,
-				ZXmlType.Unit.OHM, 0.0, 2.0*bMuS, YXmlType.Unit.MICROMHO);
+				ZXmlType.Unit.OHM, 0.0, bMuS, YXmlType.Unit.MICROMHO);
       	
     	// by default the branch is active
     	if (status == 8 || status == 9) 
