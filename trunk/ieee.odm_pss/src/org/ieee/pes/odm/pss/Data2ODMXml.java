@@ -93,8 +93,8 @@ public class Data2ODMXml {
 			}
 
 			if (!adapter.parseXmlFile(inputFile)) {
-				logger.severe("Error: model parsing error, " + adapter.errMessages().toString());
-				System.err.println("Error: model parsing error, " + adapter.errMessages().toString());
+				logger.severe("Error: model parsing error, " + adapter.errMessage());
+				System.err.println("Error: model parsing error, " + adapter.errMessage());
 			}
 			// convert the model to a XML document string
 			xmlStr = adapter.getModel().toString();			

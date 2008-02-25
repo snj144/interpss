@@ -36,9 +36,9 @@ import java.util.logging.Logger;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public abstract class AbstractODMAdapter implements IODMPSSAdapter {
-	protected boolean status;
-	protected Logger logger;
-	protected List<String> errMsgList;
+	private boolean status;
+	private Logger logger;
+	private List<String> errMsgList;
 	private IEEEODMPSSModelParser parser;
 	
 	public AbstractODMAdapter() {
@@ -51,8 +51,8 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 	}
 	
 	@Override
-	public List<String> errMessages() {
-		return errMsgList;
+	public String errMessage() {
+		return errMsgList.toString();
 	}
 
 	@Override
@@ -79,4 +79,14 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 	abstract protected IEEEODMPSSModelParser parseInputFile(
 				final java.io.BufferedReader din)
 				throws Exception;
+	
+	protected void logErr(String msg) {
+		this.status = false;
+		logger.severe(msg);
+		this.errMsgList.add(msg);
+	}
+	
+	protected Logger getLogger() {
+		return this.logger;
+	}
 }

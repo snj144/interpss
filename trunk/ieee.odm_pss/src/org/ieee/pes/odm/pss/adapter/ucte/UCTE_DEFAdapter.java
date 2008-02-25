@@ -68,7 +68,6 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 	protected IEEEODMPSSModelParser parseInputFile(
 			final java.io.BufferedReader din) throws Exception {
-
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
 		parser.getStudyCase().setOriginalFormat(
@@ -126,45 +125,44 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     				else {
     					// process data lines
     					if (recType == RecType.Comment) {
-    			    	    processCommentRecord(str, baseCaseNet, logger);
+    			    	    processCommentRecord(str, baseCaseNet);
     			    	}
     					else if (recType == RecType.BaseVoltage) {
     			    	    processBaseVoltageRecord(str);
     			    	}
     			    	else if (recType == RecType.Node) {
-    			    	    processNodeRecord(str, isoId, baseCaseNet, logger);
+    			    	    processNodeRecord(str, isoId, baseCaseNet);
     			    	}
     			    	else if (recType == RecType.Line) {
-    			    	    processLineRecord(str, baseCaseNet, logger);
+    			    	    processLineRecord(str, baseCaseNet);
     			    	}
     			    	else if (recType == RecType.Xfr2W) {
-    			    	    processXfr2WindingRecord(str, baseCaseNet, logger);
+    			    	    processXfr2WindingRecord(str, baseCaseNet);
     			    	}
     			    	else if (recType == RecType.Xfr2WReg) {
-    			    	    processXfr2WRegulationRecord(str, baseCaseNet, logger);
+    			    	    processXfr2WRegulationRecord(str, baseCaseNet);
     			    	}
     			    	else if (recType == RecType.Xfr2WLookup) {
-    			    	    processXfr2LookupRecord(str, baseCaseNet, logger);
+    			    	    processXfr2LookupRecord(str, baseCaseNet);
     			    	}
     			    	else if (recType == RecType.ExPower) {
-    			    	    processExchangePowerRecord(str, baseCaseNet, logger);
+    			    	    processExchangePowerRecord(str, baseCaseNet);
     			    	}
     				}
     			} catch (final Exception e) {
-    				logger.severe(e.toString());
+    				logErr(e.toString());
     			}
         	}
        	} while (str != null);
 
-    	// if data input error, a null object returned
     	return parser;
     }
 
     /*
      * ##C section
      */
-    private boolean processCommentRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.fine("Comment: " + str);
+    private boolean processCommentRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    	getLogger().fine("Comment: " + str);
 		// there is no need to do anything to the comment lines
     	return true;
     }
@@ -172,8 +170,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     /*
      * ##N and ##Z sections
      */
-    private boolean processNodeRecord(String str, String isoId, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.fine("Node Record: " + str);
+    private void processNodeRecord(String str, String isoId, PSSNetworkXmlType xmlBaseNet) {
+    	getLogger().fine("Node Record: " + str);
 
 		// parse the input line for node information
 		String id, name;
@@ -197,8 +195,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			if (customBaseVoltage) {
 				baseKv = findCustomBaseVoltage(voltage);
 				if (baseKv == 0.0) {
-					logger.severe("Custom base voltage lookup, cannot find proper value");
-					return false;
+					logErr("Custom base voltage lookup, cannot find proper value");
+					return;
 				}
 			}
 			else { 
@@ -223,8 +221,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 			powerPlanType = StringUtil.getString(str, 128, 128);
 		} catch (Exception e) {
-			logger.severe(e.toString());
-			return false;
+			logErr(e.toString());
+			return;
 		}
 
 		// create a bus record
@@ -258,8 +256,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			}
 			break;
 		case 1: // Q angle bus
-			logger.severe("Node type = 1, not support currently. Please contact support@interpss.org");
-			return false;
+			logErr("Node type = 1, not support currently. Please contact support@interpss.org");
+			return;
 		case 2: // PV bus
 			ODMData2XmlHelper.setGenData(busData,
 					LoadflowBusDataXmlType.GenData.Code.PV, pGenMW, qGenMvar,
@@ -267,7 +265,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
-				logger.fine("Bus is a PVLimitBus, id: " + id);
+				getLogger().fine("Bus is a PVLimitBus, id: " + id);
 				ODMData2XmlHelper.setGenQLimitData(busData.getGenData(),  
 						maxGenMVar, minGenMVar, LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.MVAR);
 			}
@@ -279,8 +277,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			break;
 		default:
 			// error bus nodeType code
-			logger.severe("Wrong node type code, " + nodeType);
-			return false;
+			logErr("Wrong node type code, " + nodeType);
+			return;
 		}
 
 		NameValuePairListXmlType nvList = busRec.addNewNvPairList();
@@ -300,15 +298,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			ODMData2XmlHelper.addNVPair(nvList, "X/R Ratio", new Double(x_rRatio).toString());
 		if (powerPlanType != null)
 			ODMData2XmlHelper.addNVPair(nvList, "PowerPlanType", powerPlanType);
-  
-    	return true;
     }
     
     /*
      * ##L section
      */
-    private boolean processLineRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.fine("Line Record: " + str);
+    private void processLineRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    	getLogger().fine("Line Record: " + str);
 
 		// parse the input line for line information
 		String fromNodeId, toNodeId, orderCode, elemName;
@@ -327,8 +323,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 			elemName = StringUtil.getString(str, 53, 64);
 		} catch (Exception e) {
-			logger.severe(e.toString());
-			return false;
+			logErr(e.toString());
+			return;
 		}
 
     	// create a branch record
@@ -351,14 +347,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowBranchData(),
 				currentLimit, LoadflowBranchDataXmlType.RatingLimit.CurrentRatingUnit.AMP);
-    	return true;
     }
     
     /*
      * ##T section
      */
-    private boolean processXfr2WindingRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.fine("Xfr 2W Record: " + str);
+    private void processXfr2WindingRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    	getLogger().fine("Xfr 2W Record: " + str);
 
 		// parse the input line for xformer information
 		String fromNodeId, toNodeId, orderCode, elemName;
@@ -382,14 +377,14 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 			elemName = StringUtil.getString(str, 78, 89);
 		} catch (Exception e) {
-			logger.severe(e.toString());
-			return false;
+			logErr(e.toString());
+			return;
 		}
 
     	if (status == 0 || status == 8) {
     		if (rOhm < 0.0 || xOhm < 0.0) {
-    			logger.severe("Error: transform r < 0 or x < 0, data line: " + str);
-    			return false;
+    			logErr("Error: transform r < 0 or x < 0, data line: " + str);
+    			return;
     		}
     	}
 
@@ -407,7 +402,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		// they are converted to PU using from bus base voltage
 		if (fromRatedKV < toRatedKV) {
 			// TODO: need to transfer R,X to high voltage side
-			logger.severe("Need more implementation");
+			getLogger().severe("Need more implementation");
 		}
 		// XformerData object created in the following call
 		ODMData2XmlHelper.setXformerData(branchRec.getLoadflowBranchData(),
@@ -427,15 +422,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	
 		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowBranchData(),
 				currentLimit, LoadflowBranchDataXmlType.RatingLimit.CurrentRatingUnit.AMP);
-
-		return true;
     }
     
     /*
      * ##R section
      */
-    private boolean processXfr2WRegulationRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.fine("Xfr 2W Reg Record: " + str);
+    private void processXfr2WRegulationRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    	getLogger().fine("Xfr 2W Reg Record: " + str);
 
 		String fromNodeId, toNodeId, orderCode, type;
 
@@ -463,25 +456,25 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 			type = StringUtil.getString(str, 65, 68);
 		} catch (Exception e) {
-			logger.severe(e.toString());
-			return false;
+			logErr(e.toString());
+			return;
 		}
 		
 		if (dUPhase > 0.0 && dUAngle > 0.0) {
-			logger.severe("Error: both phase regulation and angle regulation data are presented");
-			return false;
+			logErr("Error: both phase regulation and angle regulation data are presented");
+			return;
 		}
 
 		BranchRecordXmlType branchRec = ODMData2XmlHelper.getBranchRecord(fromNodeId, toNodeId, orderCode, xmlBaseNet); 
       	if (branchRec == null) {
-			logger.severe("Error: branch cannot be found, line: " + str);
-      		return false;
+      		logErr("Error: branch cannot be found, line: " + str);
+      		return;
       	}
       	
 		NameValuePairListXmlType nvList = branchRec.addNewNvPairList();
 		
       	if (dUPhase > 0.0) {
-			logger.fine("Phase regulation data persented");
+      		getLogger().fine("Phase regulation data persented");
 			if (dUPhase != 0.0)
 				ODMData2XmlHelper.addNVPair(nvList, "dUPhase", new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
@@ -522,7 +515,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			}
 		}
 		else if (dUAngle > 0.0) {
-			logger.fine("angle regulation data persented");
+			getLogger().fine("angle regulation data persented");
 			if (dUPhase != 0.0)
 				ODMData2XmlHelper.addNVPair(nvList, "dUAngle", new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
@@ -584,23 +577,22 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				angAdj.setDesiredMeasuredOnFromSide(false);
 			}
 		}
-    	return true;
     }
     
     /*
      * ##TT section
      */
-    private boolean processXfr2LookupRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.fine("Xfr 2W Desc Record: " + str);
-		logger.severe("##TT not implemented yet. Contact support@interpss.org for more info");
-		return false;
+    private void processXfr2LookupRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    	getLogger().fine("Xfr 2W Desc Record: " + str);
+    	getLogger().severe("##TT not implemented yet. Contact support@interpss.org for more info");
+		return;
     }
     
     /*
      * ##E section
      */
-    private boolean processExchangePowerRecord(String str, PSSNetworkXmlType xmlBaseNet, Logger logger) {
-		logger.info("Exchange Power Record: " + str);
+    private void processExchangePowerRecord(String str, PSSNetworkXmlType xmlBaseNet) {
+    	getLogger().info("Exchange Power Record: " + str);
 
 		String fromIsoId, toIsoId, comment;
 		double exPower;  
@@ -611,8 +603,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			exPower = StringUtil.getDouble(str, 7, 13);  
 			comment = StringUtil.getString(str, 15, 26);
 		} catch (Exception e) {
-			logger.severe(e.toString());
-			return false;
+			logErr(e.toString());
+			return;
 		}
 
 		PSSNetworkXmlType.InterchangeList.Interchange.UcteExchange ucteExRec = xmlBaseNet.getInterchangeList().addNewInterchange().addNewUcteExchange();
@@ -621,8 +613,6 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		ODMData2XmlHelper.setPowerData(ucteExRec.addNewExchangePower(), exPower, 0.0, PowerXmlType.Unit.MVA); 
 		if (comment != null)
 			ucteExRec.setComment(comment);
-
-		return true;
     }
 
     /*
@@ -658,7 +648,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	case 8 : return 330.0;
     	case 9 : return 500.0;
     	default: 
-    		logger.severe("Wrong base voltage code, " + code);
+    		logErr("Wrong base voltage code, " + code);
     		return 0.0;
     	}
     }
