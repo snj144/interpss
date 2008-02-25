@@ -24,8 +24,6 @@
 
 package org.ieee.pes.odm.pss.adapter;
 
-import java.util.List;
-
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public interface IODMPSSAdapter {
@@ -42,7 +40,7 @@ public interface IODMPSSAdapter {
 	 * 
 	 * @return
 	 */
-	List<String> errMessages();
+	String errMessage();
 	
 	/**
 	 * get the parsed ODM model
