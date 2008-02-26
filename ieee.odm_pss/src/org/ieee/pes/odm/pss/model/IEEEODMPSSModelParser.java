@@ -76,6 +76,7 @@ public class IEEEODMPSSModelParser {
 	 */
 	public IEEEODMPSSModelParser() {
 		this.doc = PSSStudyCaseDocument.Factory.newInstance();
+		this.getStudyCase().setId("ODM_StudyCase");
 		this.getStudyCase().setSchemaVersion(CurrentSchemaVerion);
 	}
 	
@@ -130,9 +131,9 @@ public class IEEEODMPSSModelParser {
 		 java.util.Map<String, String> prefixMap = new java.util.HashMap<String, String>();
 		 prefixMap.put(Token_nsPrefix, Token_nsUrl);
 		 opts.setSaveImplicitNamespaces(prefixMap);
-//		 opts.setUseDefaultNamespace();
 //		 return this.doc.xmlText().replaceAll("<v1:", "<pss:").replaceAll("xmlns:v1=", "xmlns:pss=");
 		 return this.doc.xmlText(opts).replaceFirst("<pss:PSSStudyCase", 
-				 "<pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\"");
+				 "<pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\" " +
+				 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
 	}
 }

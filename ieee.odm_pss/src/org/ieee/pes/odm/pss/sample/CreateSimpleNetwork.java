@@ -24,8 +24,6 @@
 
 package org.ieee.pes.odm.pss.sample;
 
-import java.io.File;
-
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordListXmlType;
@@ -35,28 +33,8 @@ import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public class CreateSimpleNetwork {
 	public static void main(String[] args) {
-		IEEEODMPSSModelParser parser = null;
-		try {
-			parser = new IEEEODMPSSModelParser(new File("samples/SimpleStudyCase.xml"));
-		} catch (Exception e) {
-			System.err.println("Error to load control Xml file, "
-					+ e.toString());
-			System.exit(0);
-		}
-
+		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
-		for (BusRecordXmlType bus : baseCaseNet.getBusList().getBusArray()) {
-			System.out.println("Bus Id: " + bus.getId());
-		}
-
-		for (BranchRecordXmlType branch : baseCaseNet.getBranchList().getBranchArray()) {
-			System.out.println("Branch Id: " + branch.getId()
-					+ " connected from: " + branch.getFromBus().getIdRef()
-					+ " to: " + branch.getToBus().getIdRef());
-		}
-		
-		parser = new IEEEODMPSSModelParser();
-		baseCaseNet = parser.getBaseCase();
 
 		BusRecordListXmlType busList = baseCaseNet.addNewBusList();
 		BusRecordXmlType bus1 = busList.addNewBus();

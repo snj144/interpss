@@ -72,7 +72,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				StudyCaseXmlType.NetworkCategory.TRANSMISSION);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
-		baseCaseNet.setId("Base Case from IEEE CDF format");
+		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
 
 		String str = din.readLine();
 		processNetData(str, baseCaseNet);

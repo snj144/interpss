@@ -123,7 +123,7 @@
                                     	<sequence>
 
                                     		<element
-                                    			name="ieeeCDFInterchange">
+                                    			name="ieeeCDFInterchange" minOccurs="0">
                                     			<complexType>
                                     	<sequence>
                                     		<element name="areaNumber"
@@ -155,7 +155,7 @@
                                     	</sequence>
                                     			</complexType>
                                     		</element>
-                                    		<element name="ucteExchange">
+                                    		<element name="ucteExchange" minOccurs="0">
                                                 <complexType>
                                                 	<sequence>
                                                 		<element

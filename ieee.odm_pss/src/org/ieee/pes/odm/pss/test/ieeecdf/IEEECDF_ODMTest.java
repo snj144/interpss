@@ -43,9 +43,10 @@ public class IEEECDF_ODMTest extends ODMXmlTestCaseBase {
 		logMgr.addLogger(logger);
 		
 		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
-		assertTrue(adapter.parseXmlFile("testdata/ieeecdf/Ieee14Bus.ieee"));
+		assertTrue(adapter.parseXmlFile("testdata/ieeecdf/test.ieee"));
 		
-		//String xmlStr = adapter.getModel().toString();
+		String xmlStr = adapter.getModel().toString();
+		System.out.println(xmlStr);
 		
         //assertXpathEvaluatesTo("100.0", XPath_BaseCase+"pss:baseKva", xmlStr);
 
