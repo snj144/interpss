@@ -24,6 +24,8 @@
 
 package org.interpss.editor.ui;
 
+import java.io.File;
+
 import com.interpss.common.msg.IpssMsgListener;
 
 public interface IOutputTextDialog extends IpssMsgListener {
@@ -46,7 +48,7 @@ public interface IOutputTextDialog extends IpssMsgListener {
      * 
      * @param filepath
      */
-    void display(String filepath);
+    void display(File file);
     
     /**
      * Append a string text to the dispaly area
