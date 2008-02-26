@@ -79,8 +79,8 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
     }
     
     @Override
-	public void display(String filepath) {
-    	this.data = new File(filepath);
+	public void display(File file) {
+    	this.data = file;
         showDialog();
 	}
 
