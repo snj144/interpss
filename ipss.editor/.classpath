@@ -13,5 +13,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
