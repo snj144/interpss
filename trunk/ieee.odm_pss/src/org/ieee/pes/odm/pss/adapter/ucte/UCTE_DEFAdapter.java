@@ -563,7 +563,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			ODMData2XmlHelper.branchXfrData2PsXfr(branchRec.getLoadflowBranchData());
 			
 			PhaseShiftXfrDataXmlType psXfr = branchRec.getLoadflowBranchData().getPhaseShiftXfrData();
-			ODMData2XmlHelper.setAngleData(psXfr.addNewToAngle(), -ang, AngleXmlType.Unit.RAD);
+			ODMData2XmlHelper.setAngleData(psXfr.addNewToAngle(), -ang*ODMData2XmlHelper.Rad2Deg, AngleXmlType.Unit.DEG);
 			psXfr.setToTurnRatio(ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {
