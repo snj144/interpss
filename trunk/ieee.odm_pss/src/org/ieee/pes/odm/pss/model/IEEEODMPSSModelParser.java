@@ -31,6 +31,7 @@ package org.ieee.pes.odm.pss.model;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlOptions;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
@@ -38,6 +39,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 
 public class IEEEODMPSSModelParser {
+	public static final String Token_nsPrefix = "pss";
+	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
+
 	private static final StudyCaseXmlType.SchemaVersion.Enum CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_1_00_DEV;
 
 	private PSSStudyCaseDocument doc = null;
@@ -122,6 +126,13 @@ public class IEEEODMPSSModelParser {
 	 * convert the document object to an XML string
 	 */
 	public String toString() {
-		return this.doc.toString();
+		 XmlOptions opts = new XmlOptions();
+		 java.util.Map<String, String> prefixMap = new java.util.HashMap<String, String>();
+		 prefixMap.put(Token_nsPrefix, Token_nsUrl);
+		 opts.setSaveImplicitNamespaces(prefixMap);
+//		 opts.setUseDefaultNamespace();
+//		 return this.doc.xmlText().replaceAll("<v1:", "<pss:").replaceAll("xmlns:v1=", "xmlns:pss=");
+		 return this.doc.xmlText(opts).replaceFirst("<pss:PSSStudyCase", 
+				 "<pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\"");
 	}
 }

@@ -25,10 +25,11 @@ public class SompleNetTest extends ODMXmlTestCaseBase {
     public void testXPathValues() throws Exception {
     	IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser(new File("testdata/sample/SimpleNet.xml"));
         String xmlStr = parser.toString();
+        //System.out.println(xmlStr);
         
         XMLUnit.setXpathNamespaceContext(getNamespaceCtx());
         assertXpathEvaluatesTo("V1.00", "/pss:PSSStudyCase/pss:schemaVersion", xmlStr);
-        assertXpathEvaluatesTo("100.0", "/pss:PSSStudyCase/pss:baseCase/pss:baseKva", xmlStr);
+        assertXpathEvaluatesTo("100.0", XPath_BaseCase+"pss:baseKva", xmlStr);
 
         assertXpathEvaluatesTo("Bus1", XPath_BusList+"pss:bus[1]/pss:id", xmlStr);
         assertXpathEvaluatesTo("Bus2", XPath_BusList+"pss:bus[2]/pss:id", xmlStr);
