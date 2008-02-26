@@ -90,8 +90,25 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("OB4___1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		assertTrue(Math.abs(p.getReal()+5621.435)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-2711.046)<0.1);
+  		assertTrue(Math.abs(p.getReal()-18.425)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()+977.175)<0.1);
 	}
-}
+
+	@Test
+	public void testCase4() throws Exception {
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest4_PSXfr1.uct", SpringAppContext.getIpssMsgHub());
+  		//System.out.println(simuCtx.getAclfNet().net2String());
+
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+  		//System.out.println(simuCtx.getAclfNet().net2String());
+  		//System.out.println(AclfOutFunc.lfResultsBusStyle(simuCtx.getAclfNet()));
+	  	
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("OB4___1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+  		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
+  		assertTrue(Math.abs(p.getReal()-8.149)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()+1068.523)<0.1);
+	}}
 
