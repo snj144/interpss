@@ -126,7 +126,7 @@ public class IEEEODMPSSModelParser {
 	/**
 	 * convert the document object to an XML string
 	 */
-	public String toString() {
+	public String toXmlDoc() {
 		 XmlOptions opts = new XmlOptions();
 		 java.util.Map<String, String> prefixMap = new java.util.HashMap<String, String>();
 		 prefixMap.put(Token_nsPrefix, Token_nsUrl);
@@ -135,5 +135,12 @@ public class IEEEODMPSSModelParser {
 		 return this.doc.xmlText(opts).replaceFirst("<pss:PSSStudyCase", 
 				 "<pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\" " +
 				 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
+	}
+
+	/**
+	 * convert the document object to an XML string
+	 */
+	public String toString() {
+		 return this.doc.toString(); 
 	}
 }

@@ -42,6 +42,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 
 public class ODMData2XmlHelper {
 	public static final double Deg2Rad = Math.PI / 180.0;
+	public static final double Rad2Deg = 180.8/ Math.PI;
 	
 	/**
 	 * add a name/value pair to the name/value pair List
@@ -422,10 +423,14 @@ public class ODMData2XmlHelper {
 
 		psXfr.setZ(xfr.getZ());
 		psXfr.setRatingData(xfr.getRatingData());
-		psXfr.setFromTurnRatio(xfr.getFromTurnRatio());
-		psXfr.setToTurnRatio(xfr.getToTurnRatio());
-		psXfr.setFromShuntY(xfr.getFromShuntY());
-		psXfr.setToShuntY(xfr.getToShuntY());
+		if (xfr.getFromTurnRatio() != 0.0)
+			psXfr.setFromTurnRatio(xfr.getFromTurnRatio());
+		if (xfr.getToTurnRatio() != 0.0)
+			psXfr.setToTurnRatio(xfr.getToTurnRatio());
+		if (xfr.getFromShuntY() != null)
+			psXfr.setFromShuntY(xfr.getFromShuntY());
+		if (xfr.getToShuntY() != null)
+			psXfr.setToShuntY(xfr.getToShuntY());
 		
 		branchData.setXformerData(null);		
 	}
