@@ -24,18 +24,17 @@
 
 package org.ieee.pes.odm.pss.test.ieeecdf;
 
-import static org.junit.Assert.assertTrue;
-
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.pes.odm.pss.test.ODMXmlTestCaseBase;
 import org.junit.Test;
 
 
-public class IEEECDF_ODMTest { 
+public class IEEECDF_ODMTest extends ODMXmlTestCaseBase { 
 	@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
@@ -46,7 +45,11 @@ public class IEEECDF_ODMTest {
 		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
 		assertTrue(adapter.parseXmlFile("testdata/ieeecdf/Ieee14Bus.ieee"));
 		
-		//System.out.println(parser.toString());
+		//String xmlStr = adapter.getModel().toString();
+		
+        //assertXpathEvaluatesTo("100.0", XPath_BaseCase+"pss:baseKva", xmlStr);
+
+        //assertXpathEvaluatesTo("1", XPath_BusList+"pss:bus[1]/pss:id", xmlStr);
 	}
 }
 
