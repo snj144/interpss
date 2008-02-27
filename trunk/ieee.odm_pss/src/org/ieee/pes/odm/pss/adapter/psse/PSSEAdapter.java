@@ -1,3 +1,26 @@
+/*
+ * @(#)PSSEAdapter.java   
+ *
+ * Copyright (C) 2006 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Stephen Hau
+ * @Version 1.0
+ * @Date 02/11/2008
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
 package org.ieee.pes.odm.pss.adapter.psse;
 
 import java.util.StringTokenizer;
@@ -43,66 +66,66 @@ public class PSSEAdapter extends AbstractODMAdapter{
 				StudyCaseXmlType.NetworkCategory.TRANSMISSION);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
-		baseCaseNet.setId("Base Case from PSS_E format");
+		// no space is allowed for ID field
+		baseCaseNet.setId("Base_Case_from_PSS_E_format");
 
 		//read header info
 		int i=0; 
 		String sAry[]= new String[5];
 		do {			
-		String str = din.readLine();
-		sAry[++i]= str;				
+			String str = din.readLine();
+			sAry[++i]= str;				
 		} while (i<3);
 		processHeaderData(sAry[1],sAry[2],sAry[3],baseCaseNet);	
 
-         String str ;         
-         int j=1, type=1,  n=0;
-         do{
-        	 str = din.readLine();
-         if (str != null){
-         try {	         	 
-        	 if (str.startsWith("0")){
-        		 type =++j;
-        	 }else {
-        		 if (type==1){
-        			 processBusData(str, parser.addNewBaseCaseBus());
-        		 }
-        		 else if(type==2){
-        			 processLoadData(str,baseCaseNet);
-        		 }
-        		 else if(type==3){
-        			processGenData(str, baseCaseNet);        			 
-        		 }
-        		 else if(type==4){
-        			 processLineData(str, parser.addNewBaseCaseBranch()); 
-        		 }
-        		 else if(type==5){        			   
-        			     do{         			    	 
-        			    	 sAry[++n]=str;
-        			    	 if (n<4)
-        			    	 str=din.readLine();
-        			     }while (n<4);
-        			     n=0;
-        			     processXformerData(sAry[1],sAry[2],sAry[3],sAry[4],
+        String str ;         
+        int j=1, type=1,  n=0;
+        do{
+        	str = din.readLine();
+        	if (str != null){
+        		try {	         	 
+        			if (str.startsWith("0")){
+        				type =++j;
+        			}else {
+        				if (type==1){
+        					processBusData(str, parser.addNewBaseCaseBus());
+        				}
+        				else if(type==2){
+        					processLoadData(str,baseCaseNet);
+        				}
+        				else if(type==3){
+        					processGenData(str, baseCaseNet);        			 
+        				}
+        				else if(type==4){
+        					processLineData(str, parser.addNewBaseCaseBranch()); 
+        				}
+        				else if(type==5){        			   
+        					do{         			    	 
+        						sAry[++n]=str;
+        						if (n<4)
+        							str=din.readLine();
+        					}while (n<4);
+        					n=0;
+        					processXformerData(sAry[1],sAry[2],sAry[3],sAry[4],
         			    		 parser.addNewBaseCaseBranch(),baseCaseNet);
         			   
-        		 } else if(type==6){
-        			 processAreaInterchangeData(str,baseCaseNet); 
-        		 }else if(type==13){
-        			 processZoneData(str,baseCaseNet); 
-        		 }else if(type==14){
-        			 processInterAreaTransferData(str,baseCaseNet); 
-        		 }else if(type==15){
-        			 processOwnerData(str,baseCaseNet); 
-        		 }
-        	 }
-        	  }catch (final Exception e){
-					e.printStackTrace();
-        	  }
+        				} else if(type==6){
+        					processAreaInterchangeData(str,baseCaseNet); 
+        				}else if(type==13){
+        					processZoneData(str,baseCaseNet); 
+        				}else if(type==14){
+        					processInterAreaTransferData(str,baseCaseNet); 
+        				}else if(type==15){
+        					processOwnerData(str,baseCaseNet); 
+        				}
+        			}
+        		}catch (final Exception e){
+					this.logErr(e.toString());
+        		}
              }
-         }while (str != null);
+        }	while (str != null);
                  
-   
-		   return parser;
+   	   return parser;
 	}
 	
 	
@@ -126,7 +149,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		ODMData2XmlHelper.addNVPair(nvList, "Case ID", caseId);				
 		getLogger().fine("Case Description, caseId: " + desc + ", "+ caseId);		
         return true;
-	   }
+	}
         
 	
 	private void processBusData(final String str,final BusRecordXmlType busRec)throws Exception {
@@ -149,7 +172,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
 	
-       // bus type identifier IDE
+		// bus type identifier IDE
 		final int IDE = new Integer(strAry[3]).intValue();
 		if (IDE ==3){//Swing bus
 			busData.addNewGenData().setCode(LoadflowBusDataXmlType.GenData.Code.SWING);
@@ -170,7 +193,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		if (gPU != 0.0 || bPU != 0.0) {
 			ODMData2XmlHelper.setYData(busData.addNewShuntY(), gPU, bPU,
 					YXmlType.Unit.PU);
-		   }
+		}
 		//area zone	
 		final int areaNo = new Integer(strAry[6]).intValue();
 		final int zoneNo = new Integer(strAry[7]).intValue();
@@ -186,11 +209,11 @@ public class PSSEAdapter extends AbstractODMAdapter{
 
 		ODMData2XmlHelper.setAngleData(busData.addNewAngle(), angDeg,
 				AngleXmlType.Unit.DEG);				
-		}
+	}
 			
 		
-   private  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet)throws Exception {
-	   final String[] strAry = getLoadDataFields(str);
+	private  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet)throws Exception {
+		final String[] strAry = getLoadDataFields(str);
 
 	    final String busId = strAry[0];
 	    //to test if there is a responding bus in the bus data record
@@ -231,15 +254,16 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	    			CYloadMw, CYloadMvar, PowerXmlType.Unit.MVA);
 		   }
 	   
-   }
-   private  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet) throws Exception{
-	// parse the input data line
+	}
+	private  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet) throws Exception{
+		// parse the input data line
 	    final String[] strAry = getGenDataFields(str);
 		final String busId = strAry[0];
 		// get the responding-bus data with busId
 		LoadflowBusDataXmlType busData = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet).getLoadflowBusData();
 		if (busData==null){
-        	throw new Exception("Bus not found in the network, bus number: " + busId);
+        	this.logErr("Bus not found in the network, bus number: " + busId);
+        	return;
         }
 				
 		// genId is used to distinguish multiple generations at one bus		
@@ -390,7 +414,8 @@ public class PSSEAdapter extends AbstractODMAdapter{
 			rpu = rpu1_2*factor;
 			xpu = xpu1_2*factor;
 		}else {
-			throw new Exception ("CZ=3 needs to be implemented");			
+			this.logErr("CZ=3 needs to be implemented");
+			return;
 		}
 		
 	 	final int CM =new Integer(strAry[6]).intValue();
@@ -402,7 +427,8 @@ public class PSSEAdapter extends AbstractODMAdapter{
     	   gpu = MAG1;
     	   bpu = MAG2;
        }else {
-    	   throw new Exception("MAG1 AND MAG2 NEEDS TO BE IMPLEMENTED WHEN CM!=1");
+    	   this.logErr("MAG1 AND MAG2 NEEDS TO BE IMPLEMENTED WHEN CM!=1");
+    	   return;
        }	
 		//SET XFORMER R X G B 
        ODMData2XmlHelper.setXformerData(branchRec.getLoadflowBranchData(),
@@ -535,78 +561,73 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		
 
   		if (Math.abs(COD) ==1 || Math.abs(COD)==2 ) {	
-			TransformerDataXmlType.TapAdjustment tapAdj = branchRec
-			.getLoadflowBranchData().getXformerData()
-			.addNewTapAdjustment();
+			TransformerDataXmlType.TapAdjustment tapAdj = branchRec.getLoadflowBranchData().getXformerData()
+						.addNewTapAdjustment();
 	        ODMData2XmlHelper.setLimitData(tapAdj.addNewTapLimit(), maxTapAng,
 			minTapAng);
 	        tapAdj.setTapAdjStepSize(stepSize);
 	        tapAdj.setTapAdjOnFromSide(onFromSide);
   			//voltage control
 	        if (Math.abs(COD) ==1){
-	    		TransformerDataXmlType.TapAdjustment.VoltageAdjData voltTapAdj = tapAdj
-				.addNewVoltageAdjData();
-		voltTapAdj.addNewAdjVoltageBus().setIdRef(controlBusId);
-		voltTapAdj
-		.setAdjBusLocation(controlSide == false ? TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS
-				:  TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS );
+	    		TransformerDataXmlType.TapAdjustment.VoltageAdjData voltTapAdj = tapAdj.addNewVoltageAdjData();
+	    		voltTapAdj.addNewAdjVoltageBus().setIdRef(controlBusId);
+	    		voltTapAdj.setAdjBusLocation(controlSide == false ? 
+	    				TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS
+	    					:  TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS );
 		
-		voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
-		ODMData2XmlHelper.setLimitData(voltTapAdj.addNewDesiredRange(),
-				maxVoltPQ, minVoltPQ);
+	    		voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+	    		ODMData2XmlHelper.setLimitData(voltTapAdj.addNewDesiredRange(),
+	    										maxVoltPQ, minVoltPQ);
 	        	
 	        }
 	        //MVAR control
   		    if (Math.abs(COD)  == 2){
-				TransformerDataXmlType.TapAdjustment.MvarFlowAdjData mvarTapAdj = tapAdj
-				.addNewMvarFlowAdjData();
-		ODMData2XmlHelper.setLimitData(mvarTapAdj.addNewDesiredRange(),
-				maxVoltPQ, minVoltPQ);
-		mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
-		mvarTapAdj.setMvarMeasuredOnFormSide(onFromSide);
+				TransformerDataXmlType.TapAdjustment.MvarFlowAdjData mvarTapAdj = tapAdj.addNewMvarFlowAdjData();
+				ODMData2XmlHelper.setLimitData(mvarTapAdj.addNewDesiredRange(),
+									maxVoltPQ, minVoltPQ);
+				mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+				mvarTapAdj.setMvarMeasuredOnFormSide(onFromSide);
   		    }
   		}
   		    // MW control      phase shifter
-  		    else if (Math.abs(COD)  == 3){
-  				PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec
+  		else if (Math.abs(COD)  == 3){
+  			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec
 				.getLoadflowBranchData().getPhaseShiftXfrData()
 				.addNewAngleAdjustment();
-		ODMData2XmlHelper.setLimitData(angAdj.addNewAngleDegLimit(), maxTapAng,
+  			ODMData2XmlHelper.setLimitData(angAdj.addNewAngleDegLimit(), maxTapAng,
 				minTapAng);
-		ODMData2XmlHelper.setLimitData(angAdj.addNewDesiredRange(), maxVoltPQ,
+  			ODMData2XmlHelper.setLimitData(angAdj.addNewDesiredRange(), maxVoltPQ,
 				minVoltPQ);
-		angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
-		angAdj.setDesiredMeasuredOnFromSide(onFromSide);
-  		    }
+  			angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+  			angAdj.setDesiredMeasuredOnFromSide(onFromSide);
   		}
+	}
   		
-  		
-  		
-		
-	
+  			
 	private  void processAreaInterchangeData(final String str,
 			final PSSNetworkXmlType baseCaseNet) {
-	final String[] strAry = getInterAreaTransferDataFields(str);
-	//     Area number , no zeros! *
-	final int no = new Integer(strAry[0]).intValue();
-	//       Alternate swing bus name [A]
-	final String alSwingBusName = strAry[1];
+		final String[] strAry = getInterAreaTransferDataFields(str);
+		//     Area number , no zeros! *
+		final int no = new Integer(strAry[0]).intValue();
+		//       Alternate swing bus name [A]
+		final String alSwingBusName = strAry[1];
 
-	//        Area interchange export, MW [F] (+ = out) *
-	//        Area interchange tolerance, MW [F] *
-	final double mw = new Double(strAry[2]).doubleValue();
-	final double err = new Double(strAry[3]).doubleValue();
+		//        Area interchange export, MW [F] (+ = out) *
+		//        Area interchange tolerance, MW [F] *
+		final double mw = new Double(strAry[2]).doubleValue();
+		final double err = new Double(strAry[3]).doubleValue();
     
-	PSSNetworkXmlType.InterchangeList.Interchange.IeeeCDFInterchange interchange =
+		PSSNetworkXmlType.InterchangeList.Interchange.IeeeCDFInterchange interchange =
 		baseCaseNet.addNewInterchangeList().addNewInterchange().addNewIeeeCDFInterchange();
 	
-	interchange.setAreaNumber(no);
+		interchange.setAreaNumber(no);
 
-	interchange.setAlternateSwingBusName(alSwingBusName);
-	ODMData2XmlHelper.setPowerData(interchange.addNewInterchangePower(), mw, 0.0, PowerXmlType.Unit.MVA);
-	interchange.setInterchangeErrTolerance(err);
+		interchange.setAlternateSwingBusName(alSwingBusName);
+		ODMData2XmlHelper.setPowerData(interchange.addNewInterchangePower(), mw, 0.0, PowerXmlType.Unit.MVA);
+		interchange.setInterchangeErrTolerance(err);
 	
 	}
+	
 	private  void processZoneData(final String str,
 			final PSSNetworkXmlType baseCaseNet){
 		final String[] strAry =getZoneDataFields(str);
@@ -623,6 +644,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		final String[] strAry = getInterAreaTransferDataFields(str);
 		
 	}
+	
 	private  void processOwnerData(final String str,
 			final PSSNetworkXmlType baseCaseNet) {
 		final String[] strAry = getOwnerDataFields(str);
@@ -634,21 +656,22 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	}
 		
 	private  String[] getHeaderDataFields(final String lineStr,final String lineStr2,
-			final String lineStr3)	throws Exception{
-	    	final String[] strAry = new String[4];	
-  			StringTokenizer st = new StringTokenizer(lineStr, ",");
-    		int indicator = new Integer(st.nextToken()).intValue();
-  			  if (indicator !=0){
-  				  throw new  Exception ("Only base case has been implemented");
-  			    }
-  			  else {strAry[1]=st.nextToken().trim();  			   
-  			      }	
-  			if (lineStr2!= null){
-  				strAry[2] = lineStr2;
-  			}else {strAry[2] =""; }
-  			if (lineStr3!= null){
-  				strAry[3] = lineStr3;
-  			}else {strAry[3] =""; }
+		final String lineStr3)	throws Exception{
+		final String[] strAry = new String[4];	
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		int indicator = new Integer(st.nextToken()).intValue();
+		if (indicator !=0){
+			this.logErr("Only base case has been implemented");
+			return null;
+		}
+		else {strAry[1]=st.nextToken().trim();  			   
+		}	
+		if (lineStr2!= null){
+			strAry[2] = lineStr2;
+		}else {strAry[2] =""; }
+		if (lineStr3!= null){
+			strAry[3] = lineStr3;
+		}else {strAry[3] =""; }
   				
 		return strAry;
 	}
@@ -679,36 +702,33 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		strAry[4]=st.nextToken().trim();
 		//BL
 		strAry[5]=st.nextToken().trim();
-     //AREA
+		//AREA
 		if (st.hasMoreTokens())				
 		
 			strAry[6]=st.nextToken().trim();
-     //ZONE
+		//ZONE
 		if (st.hasMoreTokens())				
 			
 			strAry[7]=st.nextToken().trim();
-     //VM
-     if (st.hasMoreTokens())				
-			
+		//VM
+		if (st.hasMoreTokens())				
 			strAry[8]=st.nextToken().trim();
-     //VA
-     if (st.hasMoreTokens())				
-			
+		//VA
+		if (st.hasMoreTokens())				
 			strAry[9]=st.nextToken().trim();
-     //OWNER
-     if (st.hasMoreTokens())				
-			
+		//OWNER
+		if (st.hasMoreTokens())				
 			strAry[10]=st.nextToken().trim();  			
 
 		return strAry;
-}
+	}
 	
 	private  String[] getLoadDataFields(final String lineStr) {
 		final String[] strAry = new String[12];
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		/*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
-*/		
+		 */		
   		strAry[0]=st.nextToken().trim();
   		strAry[1]=st.nextToken().trim();
   		strAry[2]=st.nextToken().trim();
@@ -787,7 +807,8 @@ public class PSSEAdapter extends AbstractODMAdapter{
 			
 
 		return strAry;
-}
+	}
+	
 	private  String[] getLineDataFields(final String lineStr) {
 		final String[] strAry = new String[23];
 
@@ -849,7 +870,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 			final String lineStr3,final String lineStr4 ) throws Exception {
 		/*
 		For 2W and 3W Xfr: I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,Name STAT,O1,F1,...,O4,F4
-	*/
+		 */
 		
 		final String[] strAry = new String[40];
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
@@ -1007,20 +1028,9 @@ public class PSSEAdapter extends AbstractODMAdapter{
   		strAry[0]=st.nextToken().trim();
   		strAry[1]=st.nextToken().trim();
   		return strAry;
-
-       }
+	}
 	//private  String[] getFactsDeviceDATAFields(final String lineStr) {
 		//final String[] strAry = new String[5];	
 		//It will be implemented in the future
-      // }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+      // 	}
 }
