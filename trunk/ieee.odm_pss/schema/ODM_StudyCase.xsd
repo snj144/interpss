@@ -96,10 +96,10 @@
 					<element name="branchList"
 						type="pss:BranchRecordListXmlType" minOccurs="1" maxOccurs="1">
 					</element>
-					<element name="loseZoneList" minOccurs="0">
+					<element name="lossZoneList" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="loseZone"
+								<element name="lossZone"
 									maxOccurs="unbounded" minOccurs="0">
                                     <complexType>
                                     	<sequence>
