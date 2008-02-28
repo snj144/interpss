@@ -24,8 +24,8 @@ public class SimpleNetTest extends ODMXmlTestCaseBase {
 	@Test
     public void testXPathValues() throws Exception {
     	IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser(new File("testdata/sample/SimpleNet.xml"));
-        String xmlStr = parser.toXmlDoc();
-        System.out.println(xmlStr);
+        String xmlStr = parser.toXmlDoc(false);
+        //System.out.println(xmlStr);
         
         XMLUnit.setXpathNamespaceContext(getNamespaceCtx());
         assertXpathEvaluatesTo("V1.00", "/pss:PSSStudyCase/pss:schemaVersion", xmlStr);

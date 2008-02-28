@@ -97,7 +97,7 @@ public class Data2ODMXml {
 				System.err.println("Error: model parsing error, " + adapter.errMessage());
 			}
 			// convert the model to a XML document string
-			xmlStr = adapter.getModel().toXmlDoc();			
+			xmlStr = adapter.getModel().toXmlDoc(true);			
 			
 			// output the XML document to the output file 
 			OutputStream out = new BufferedOutputStream(new FileOutputStream(outFile));
