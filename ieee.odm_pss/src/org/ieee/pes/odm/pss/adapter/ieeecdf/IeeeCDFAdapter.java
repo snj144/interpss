@@ -91,8 +91,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if (dataType == BranchData) {
 						processBranchData(str, parser.addNewBaseCaseBranch(), baseCaseNet);
 					} else if (dataType == LossZone) {
-						processLossZoneData(str, baseCaseNet.getLoseZoneList()
-								.addNewLoseZone());
+						processLossZoneData(str, baseCaseNet.getLossZoneList()
+								.addNewLossZone());
 					} else if (dataType == InterchangeData) {
 						processInterchangeData(str, baseCaseNet
 								.getInterchangeList().addNewInterchange().addNewIeeeCDFInterchange());
@@ -110,7 +110,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if ((str.length() > 4)
 							&& str.substring(0, 4).equals("LOSS")) {
 						dataType = LossZone;
-						baseCaseNet.addNewLoseZoneList();
+						baseCaseNet.addNewLossZoneList();
 						getLogger().fine("load loss zone data");
 					} else if ((str.length() > 11)
 							&& str.substring(0, 11).equals("INTERCHANGE")) {
@@ -480,15 +480,15 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processLossZoneData(final String str,
-			final PSSNetworkXmlType.LoseZoneList.LoseZone loseZone) {
+			final PSSNetworkXmlType.LossZoneList.LossZone lossZone) {
 		final String[] strAry = getLossZoneDataFields(str);
 
 		//    	Columns  1- 3   Loss zone number [I] *
 		//    	Columns  5-16   Loss zone name [A] 
 		final int no = new Integer(strAry[0]).intValue();
 		final String name = strAry[1];
-		loseZone.setZoneNumber(no);
-		loseZone.setZoneName(name);
+		lossZone.setZoneNumber(no);
+		lossZone.setZoneName(name);
 	}
 
 	/*
