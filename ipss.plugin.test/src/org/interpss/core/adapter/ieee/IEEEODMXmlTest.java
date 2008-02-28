@@ -63,7 +63,7 @@ public class IEEEODMXmlTest extends BaseTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
-  		AclfBus swingBus = (AclfBus)net.getBus("1");
+  		AclfBus swingBus = (AclfBus)net.getBus("No1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32393)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.16549)<0.0001);
