@@ -82,7 +82,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
-		baseCaseNet.setId("Base Case from UCTE format");
+		baseCaseNet.setId("Base_Case_from_UCTE_format");
 
     	// no base kva definition in UCTE format, so use 100 MVA
     	// UCTE data are in actual units, mw, mva ...

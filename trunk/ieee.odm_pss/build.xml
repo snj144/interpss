@@ -1,18 +1,45 @@
 <project name="ieee.odm_pss" default="" basedir=".">
-	
-  <!-- Initializing the environment -->
-  <target name="init" depends="">
-  	<property name="lib_dir" value="lib"/>
-  	<property name="xmlbeans.classpath" value="${lib_dir}/xbean.jar"/>
 
-  	<taskdef name="xmlbean"
-  	     classname="org.apache.xmlbeans.impl.tool.XMLBean"
-  	     classpath="${xmlbeans.classpath}" />	
-  </target>
+	<!-- Initializing the environment -->
+	<target name="init" depends="">
+		<property name="dist_base" value="C:/eclipse/ieee_odm" />
 
-   <!-- Create xml schema jar -->
-   <target name="createIEEEODMPSSSchemas" depends="init"> 
-    	<xmlbean schema="schema/ODM_StudyCase.xsd" destfile="${lib_dir}/ieee.odm_pss.schemas.jar"
-	    classpath="${xmlbeans.classpath}" />	
-   	</target>	
+		<property name="dev_base" value="C:/eclipse//InterpssDev/ieee.odm_pss" />
+
+		<property name="lib_dir" value="lib" />
+		<property name="xmlbeans.classpath"
+			value="${lib_dir}/xbean.jar" />
+
+		<taskdef name="xmlbean"
+			classname="org.apache.xmlbeans.impl.tool.XMLBean"
+			classpath="${xmlbeans.classpath}" />
+	</target>
+
+	<!-- Create xml schema jar -->
+	<target name="createIEEEODMPSSSchemas" depends="init">
+		<xmlbean schema="schema/ODM_StudyCase.xsd"
+			destfile="${lib_dir}/ieee.odm_pss.schemas.jar"
+			classpath="${xmlbeans.classpath}" />
+	</target>
+
+	<target depends="createIEEEODMPSSSchemas"
+		description="jar odm lib files" name="jar_lib">
+		<jar destfile="${dist_base}/lib/ieee.odm_pss.jar"
+			basedir="${dev_base}/runtime" excludes="CVS/**" />
+	</target>
+
+	<target depends="jar_lib"
+		description="copy odm schema and jar files" name="copy_schema">
+		<copy file="${dev_base}/lib/ieee.odm_pss.schemas.jar"
+			todir="${dist_base}/lib/" />
+		<copy file="${dev_base}/lib/xbean.jar"
+			todir="${dist_base}/lib/" />
+		<copydir src="${dev_base}/schema" dest="${dist_base}/schema"
+			includes="**/*.xsd" excludes="**/SqlMapConfig.xml" />
+
+	</target>
+
+	<target depends="copy_schema" description="build distribution"
+		name="buid_dist">
+	</target>
 </project>
