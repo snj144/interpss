@@ -6,7 +6,7 @@ import org.custommonkey.xmlunit.XMLUnit;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.junit.Test;
 
-public class SompleNetTest extends ODMXmlTestCaseBase {
+public class SimpleNetTest extends ODMXmlTestCaseBase {
 	@Test
 	public void testValidXml() throws Exception {
 		new IEEEODMPSSModelParser(new File("testdata/sample/SimpleNet.xml"));
@@ -25,7 +25,7 @@ public class SompleNetTest extends ODMXmlTestCaseBase {
     public void testXPathValues() throws Exception {
     	IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser(new File("testdata/sample/SimpleNet.xml"));
         String xmlStr = parser.toXmlDoc();
-        //System.out.println(xmlStr);
+        System.out.println(xmlStr);
         
         XMLUnit.setXpathNamespaceContext(getNamespaceCtx());
         assertXpathEvaluatesTo("V1.00", "/pss:PSSStudyCase/pss:schemaVersion", xmlStr);

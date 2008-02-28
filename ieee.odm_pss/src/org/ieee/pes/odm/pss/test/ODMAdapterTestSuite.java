@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-	SompleNetTest.class,
+	SimpleNetTest.class,
 	
 	IEEECDF_ODMTest.class,
 	

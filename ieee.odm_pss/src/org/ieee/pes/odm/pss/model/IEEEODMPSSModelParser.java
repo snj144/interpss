@@ -133,8 +133,7 @@ public class IEEEODMPSSModelParser {
 		 opts.setSaveImplicitNamespaces(prefixMap);
 //		 return this.doc.xmlText().replaceAll("<v1:", "<pss:").replaceAll("xmlns:v1=", "xmlns:pss=");
 		 return this.doc.xmlText(opts).replaceFirst("<pss:PSSStudyCase", 
-				 "<pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\" " +
-				 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
+				 "<pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\" ");
 	}
 
 	/**
