@@ -47,6 +47,8 @@ import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 
 public class IeeeCDFAdapter  extends AbstractODMAdapter {
+	private static final String Token_Id = "No";
+	
 	private static final int BusData = 1;
 	private static final int BranchData = 2;
 	private static final int LossZone = 3;
@@ -185,7 +187,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final String[] strAry = getBusDataFields(str);
 
 		//Columns  1- 4   Bus number [I] *
-		final String busId = strAry[0];
+		final String busId = Token_Id + strAry[0];
 		getLogger().fine("Bus data loaded, id: " + busId);
 		busRec.setId(busId);
 
@@ -313,8 +315,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//      	For transformers or phase shifters, the side of the model the non-unity tap is on.
 		//		Columns  6- 9   Z bus number [I] *
 		//      	For transformers and phase shifters, the side of the model the device impedance is on.
-		final String fid = strAry[0];
-		final String tid = strAry[1];
+		final String fid = Token_Id + strAry[0];
+		final String tid = Token_Id + strAry[1];
 		getLogger().fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		branchRec.addNewFromBus().setIdRef(fid);
 		branchRec.addNewToBus().setIdRef(tid);
@@ -412,7 +414,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		double stepSize = 0.0, maxTapAng = 0.0, minTapAng = 0.0, maxVoltPQ = 0.0, minVoltPQ = 0.0;
 		if (type > 1) {
 			//    		Columns 69-72   Control bus number
-			controlBusId = strAry[12];
+			controlBusId = Token_Id + strAry[12];
 
 			//        	Column  74      Side [I]
 			//          	0 - Controlled bus is one of the terminals
@@ -505,7 +507,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//    	Columns  4- 7   Interchange slack bus number [I] *
 		//      Columns  9-20   Alternate swing bus name [A]
-		final String slackBusId = strAry[1];
+		final String slackBusId = Token_Id + strAry[1];
 		final String alSwingBusName = strAry[2];
 
 		//      Columns 21-28   Area interchange export, MW [F] (+ = out) *
@@ -539,12 +541,12 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//    	Columns  1- 4   Metered bus number [I] *
 		//    	Columns  7-8    Metered area number [I] *
-		final String meteredBusId = strAry[0];
+		final String meteredBusId = Token_Id + strAry[0];
 		final int meteredAreaNo = new Integer(strAry[1]).intValue();
 
 		//      Columns  11-14  Non-metered bus number [I] *
 		//      Columns  17-18  Non-metered area number [I] *
-		final String nonMeteredBusId = strAry[2];
+		final String nonMeteredBusId = Token_Id + strAry[2];
 		final int nonMeteredAreaNo = new Integer(strAry[3]).intValue();
 
 		//      Column   21     Circuit number

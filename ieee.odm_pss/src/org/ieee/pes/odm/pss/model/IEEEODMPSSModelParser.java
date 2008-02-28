@@ -126,14 +126,19 @@ public class IEEEODMPSSModelParser {
 	/**
 	 * convert the document object to an XML string
 	 */
-	public String toXmlDoc() {
+	public String toXmlDoc(boolean addXsi) {
 		 XmlOptions opts = new XmlOptions();
 		 java.util.Map<String, String> prefixMap = new java.util.HashMap<String, String>();
 		 prefixMap.put(Token_nsPrefix, Token_nsUrl);
 		 opts.setSaveImplicitNamespaces(prefixMap);
 //		 return this.doc.xmlText().replaceAll("<v1:", "<pss:").replaceAll("xmlns:v1=", "xmlns:pss=");
-		 return this.doc.xmlText(opts).replaceFirst("<pss:PSSStudyCase", 
-				 "<pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\" ");
+		 if (addXsi)
+			 return this.doc.xmlText(opts).replaceFirst("<pss:PSSStudyCase", 
+				 "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\" " +
+				 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
+		 else
+			 return this.doc.xmlText(opts).replaceFirst("<pss:PSSStudyCase", 
+				 "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pss:PSSStudyCase xmlns:pss=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\"");
 	}
 
 	/**

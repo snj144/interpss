@@ -49,6 +49,6 @@ public class CreateSimpleNetwork {
 		branch.addNewFromBus().setIdRef("Bus-1");
 		branch.addNewFromBus().setIdRef("Bus-2");;
 		
-		System.out.println(parser.toXmlDoc());
+		System.out.println(parser.toXmlDoc(true));
 	}
 }
