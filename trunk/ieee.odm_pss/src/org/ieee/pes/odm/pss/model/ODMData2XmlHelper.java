@@ -43,7 +43,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 
 public class ODMData2XmlHelper {
 	public static final double Deg2Rad = Math.PI / 180.0;
-	public static final double Rad2Deg = 180.8/ Math.PI;
+	public static final double Rad2Deg = 180.0/ Math.PI;
 	
 	/**
 	 * add a name/value pair to the name/value pair List
