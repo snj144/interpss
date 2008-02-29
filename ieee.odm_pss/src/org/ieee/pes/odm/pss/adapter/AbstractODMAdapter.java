@@ -50,12 +50,10 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 		this.errMsgList = new ArrayList<String>();
 	}
 	
-	@Override
 	public String errMessage() {
 		return errMsgList.toString();
 	}
 
-	@Override
 	public boolean parseXmlFile(String filename) {
 		try {
 			final File file = new File(filename);
@@ -71,7 +69,6 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 		return status;
 	}
 
-	@Override
 	public IEEEODMPSSModelParser getModel() {
 		return this.parser;
 	}
