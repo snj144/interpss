@@ -5,6 +5,5 @@
 	<classpathentry kind="lib" path="lib/ieee.odm_pss.schemas.jar"/>
 	<classpathentry kind="lib" path="lib/xbean.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="lib/xmlunit-1.1.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
