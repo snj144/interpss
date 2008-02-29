@@ -24,6 +24,7 @@
 
 package org.ieee.pes.odm.pss.model;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
@@ -433,5 +434,13 @@ public class ODMData2XmlHelper {
 			psXfr.setToShuntY(xfr.getToShuntY());
 		
 		branchData.setXformerData(null);		
+	}
+	
+	public static XmlOptions getXmlOpts() {
+		 XmlOptions opts = new XmlOptions();
+		 java.util.Map<String, String> prefixMap = new java.util.HashMap<String, String>();
+		 prefixMap.put(IEEEODMPSSModelParser.Token_nsPrefix, IEEEODMPSSModelParser.Token_nsUrl);
+		 opts.setSaveImplicitNamespaces(prefixMap);
+		 return opts;
 	}
 }
