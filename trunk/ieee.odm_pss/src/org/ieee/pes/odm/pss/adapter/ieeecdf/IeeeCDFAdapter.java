@@ -31,6 +31,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
@@ -48,6 +49,12 @@ import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class IeeeCDFAdapter  extends AbstractODMAdapter {
+	public final static String Token_Date = "Date";
+	public final static String Token_OrgName = "Originator Name";
+	public final static String Token_Year = "Year";
+	public final static String Token_Season = "Season";
+	public final static String Token_CaseId = "Case Identification";
+
 	private static final String Token_Id = "No";
 	
 	private static final int BusData = 1;
@@ -149,23 +156,23 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
-		ODMData2XmlHelper.addNVPair(nvList, "Date", date);
+		ODMData2XmlHelper.addNVPair(nvList, Token_Date, date);
 
 		//[1] Columns 11-30   Originator's name [A]
 		final String orgName = strAry[1];
-		ODMData2XmlHelper.addNVPair(nvList, "Originator Name", orgName);
+		ODMData2XmlHelper.addNVPair(nvList, Token_OrgName, orgName);
 
 		//[3] Columns 39-42   Year [I]
 		final String year = strAry[3];
-		ODMData2XmlHelper.addNVPair(nvList, "Year", year);
+		ODMData2XmlHelper.addNVPair(nvList, Token_Year, year);
 
 		//[4] Column  44      Season (S - Summer, W - Winter)
 		final String season = strAry[4];
-		ODMData2XmlHelper.addNVPair(nvList, "Season", season);
+		ODMData2XmlHelper.addNVPair(nvList, Token_Season, season);
 
 		//[5] Column  46-73   Case identification [A]
 		final String caseId = strAry[5];
-		ODMData2XmlHelper.addNVPair(nvList, "Case Identification", caseId);
+		ODMData2XmlHelper.addNVPair(nvList, Token_CaseId, caseId);
 
 		getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
@@ -279,23 +286,23 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		if (max != 0.0 || min != 0.0) {
 			if (type == 1) {
-				busData.getGenData().addNewVGenLimit();
-				ODMData2XmlHelper.setLimitData(busData.getGenData().getVGenLimit()
+				busData.getGenData().getGen().addNewVGenLimit();
+				ODMData2XmlHelper.setLimitData(busData.getGenData().getGen().getVGenLimit()
 						.addNewVLimit(), max, min);
-				busData.getGenData().getVGenLimit().setVLimitUnit(
-						LoadflowBusDataXmlType.GenData.VGenLimit.VLimitUnit.PU);
+				busData.getGenData().getGen().getVGenLimit().setVLimitUnit(
+						GenDataXmlType.VGenLimit.VLimitUnit.PU);
 			} else if (type == 2) {
 				ODMData2XmlHelper.setGenQLimitData(busData.getGenData(),  
-						max, min, LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.MVAR);
+						max, min, GenDataXmlType.QGenLimit.QLimitUnit.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
-					busData.getGenData().addNewDesiredRemoteVoltage();
-					ODMData2XmlHelper.setVoltageData(busData.getGenData()
+					busData.getGenData().getGen().addNewDesiredRemoteVoltage();
+					ODMData2XmlHelper.setVoltageData(busData.getGenData().getGen()
 							.getDesiredRemoteVoltage().addNewDesiredVoltage(),
 							vSpecPu, VoltageXmlType.Unit.PU);
-					busData.getGenData().getDesiredRemoteVoltage()
+					busData.getGenData().getGen().getDesiredRemoteVoltage()
 							.addNewRemoteBus();
-					busData.getGenData().getDesiredRemoteVoltage()
+					busData.getGenData().getGen().getDesiredRemoteVoltage()
 							.getRemoteBus().setIdRef(reBusId);
 				}
 			}

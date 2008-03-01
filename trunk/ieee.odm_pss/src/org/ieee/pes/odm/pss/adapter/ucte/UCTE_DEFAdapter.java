@@ -32,6 +32,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
@@ -54,6 +55,25 @@ import org.ieee.pes.odm.pss.model.StringUtil;
 */
 
 public class UCTE_DEFAdapter extends AbstractODMAdapter {
+	public final static String Token_Status = "Status";
+	public final static String Token_MinGenMW = "Min Gen MW";
+	public final static String Token_MaxGenMW = "Max Gen MW";
+	public final static String Token_SPControl = "Sstatic Primary Control";
+	public final static String Token_NPPControl = "Normal Power Primary Control";
+	public final static String Token_SCMva3P = "SC MVA 3P";
+	public final static String Token_XRRatio = "X/R Ratio";
+	public final static String Token_PPlanType = "PowerPlanType";
+	
+	public final static String Token_dUPhase = "dUPhase";
+	public final static String Token_nPhase = "nPhase";
+	public final static String Token_n1Phase = "n1Phase";
+	public final static String Token_uKvPhase = "uKvPhase";
+	public final static String Token_dUAngle = "dUAngle";
+	public final static String Token_thetaDegAngle = "thetaDegAngle";
+	public final static String Token_nAngle = "nAngle";
+	public final static String Token_n1Angle = "n1Angle";
+	public final static String Token_pMwAngle = "pMwAngle";
+	
 	private final static String PsXfrType_ASYM = "ASYM"; 
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
 
@@ -267,7 +287,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				// PV Bus limit control
 				getLogger().fine("Bus is a PVLimitBus, id: " + id);
 				ODMData2XmlHelper.setGenQLimitData(busData.getGenData(),  
-						maxGenMVar, minGenMVar, LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.MVAR);
+						maxGenMVar, minGenMVar, GenDataXmlType.QGenLimit.QLimitUnit.MVAR);
 			}
 			break;
 		case 3: // swing bus
@@ -283,21 +303,21 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 		NameValuePairListXmlType nvList = busRec.addNewNvPairList();
 		if (status != 0)
-			ODMData2XmlHelper.addNVPair(nvList, "Status", new Integer(status).toString());
+			ODMData2XmlHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, "Min Gen MW", new Double(minGenMW).toString());
+			ODMData2XmlHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, "Max Gen MW", new Double(maxGenMW).toString());
+			ODMData2XmlHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, "Sstatic Primary Control", new Double(staticPrimaryControl).toString());
+			ODMData2XmlHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, "Normal Power Primary Control", new Double(normalPowerPrimaryControl).toString());
+			ODMData2XmlHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, "SC MVA 3P", new Double(scMVA3P).toString());
+			ODMData2XmlHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, "X/R Ratio", new Double(x_rRatio).toString());
+			ODMData2XmlHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			ODMData2XmlHelper.addNVPair(nvList, "PowerPlanType", powerPlanType);
+			ODMData2XmlHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
     }
     
     /*
@@ -472,17 +492,17 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       	}
       	
 		NameValuePairListXmlType nvList = branchRec.addNewNvPairList();
-		
+
       	if (dUPhase > 0.0) {
       		getLogger().fine("Phase regulation data persented");
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "dUPhase", new Double(dUPhase).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "nPhase", new Double(nPhase).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "n1Phase", new Double(n1Phase).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "uKvPhase", new Double(uKvPhase).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			TransformerDataXmlType xfr = branchRec.getLoadflowBranchData().getXformerData();
 			double ratioFactor = xfr.getToTurnRatio();
@@ -517,15 +537,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		else if (dUAngle > 0.0) {
 			getLogger().fine("angle regulation data persented");
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "dUAngle", new Double(dUAngle).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "thetaDegAngle", new Double(thetaDegAngle).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "nAngle", new Double(nAngle).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "n1Angle", new Double(n1Angle).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, "pMwAngle", new Double(pMwAngle).toString());
+				ODMData2XmlHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = branchRec.getLoadflowBranchData().getXformerData().getToTurnRatio();
 

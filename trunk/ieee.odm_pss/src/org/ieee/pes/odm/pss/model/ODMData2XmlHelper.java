@@ -26,8 +26,10 @@ package org.ieee.pes.odm.pss.model;
 
 import org.apache.xmlbeans.XmlOptions;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
@@ -58,6 +60,22 @@ public class ODMData2XmlHelper {
     	nvPair.setValue(value);
 	}
 
+	/**
+	 * add an owner record to the BaseRecord
+	 * 
+	 * @param rec
+	 * @param id
+	 * @param ownership
+	 */
+	public static void addOwner(BaseRecordXmlType rec, String id, double ownership) {
+		if (rec.getOwnerList() == null) {
+			rec.addNewOwnerList();
+		}
+		BaseRecordXmlType.OwnerList.Owner owner = rec.getOwnerList().addNewOwner();
+		owner.setId(id);
+		owner.setOwnership(ownership);
+	}
+	
 	/**
 	 * Get bus record with the id
 	 * 
@@ -210,7 +228,7 @@ public class ODMData2XmlHelper {
 			double p, double q, PowerXmlType.Unit.Enum unit) {
    		busData.addNewGenData();
    		busData.getGenData().setCode(code);
-   		ODMData2XmlHelper.setPowerData(busData.getGenData().addNewGen(), p, q, unit);
+   		ODMData2XmlHelper.setPowerData(busData.getGenData().addNewGen().addNewPower(), p, q, unit);
 	}
 	
 	/**
@@ -222,11 +240,11 @@ public class ODMData2XmlHelper {
 	 * @param unit
 	 */
 	public static void setGenQLimitData(LoadflowBusDataXmlType.GenData genData,  
-			double max, double min, LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.Enum unit) {
-		genData.addNewQGenLimit();
-		ODMData2XmlHelper.setLimitData(genData.getQGenLimit()
+			double max, double min, GenDataXmlType.QGenLimit.QLimitUnit.Enum unit) {
+		genData.getGen().addNewQGenLimit();
+		ODMData2XmlHelper.setLimitData(genData.getGen().getQGenLimit()
 				.addNewQLimit(), max, min);
-		genData.getQGenLimit().setQLimitUnit(unit);	
+		genData.getGen().getQGenLimit().setQLimitUnit(unit);	
 	}
 
 	/**
