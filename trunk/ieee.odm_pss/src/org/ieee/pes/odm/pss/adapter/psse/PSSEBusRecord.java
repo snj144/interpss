@@ -353,8 +353,6 @@ public class PSSEBusRecord {
 	  		strAry[25]=st.nextToken().trim();
 		}
 				
-			
-
 		return strAry;
 	}
 }
