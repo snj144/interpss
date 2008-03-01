@@ -45,6 +45,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	private static final String Token_Id = "No";
@@ -550,7 +551,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final int nonMeteredAreaNo = new Integer(strAry[3]).intValue();
 
 		//      Column   21     Circuit number
-		final int cirNo = new Integer(strAry[4]).intValue();
+		int cirNo = 0;
+		if (!strAry[4].trim().equals(""))
+			cirNo = new Integer(strAry[4]).intValue();
 
 		tieLine.addNewMeteredBus().setIdRef(meteredBusId);
 		tieLine.setMeteredAreaNumber(meteredAreaNo);
@@ -572,18 +575,23 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				strAry[cnt++] = st.nextToken().trim();
 			}
 		} else {
-			//Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
-			strAry[0] = str.substring(1, 9);
-			//Columns 11-30   Originator's name [A]
-			strAry[1] = str.substring(10, 30);
-			//Columns 32-37   MVA Base [F] *
-			strAry[2] = str.substring(31, 37); // in MVA
-			//Columns 39-42   Year [I]
-			strAry[3] = str.substring(38, 42);
-			//Column  44      Season (S - Summer, W - Winter)
-			strAry[4] = str.substring(43, 44);
-			//Column  46-73   Case identification [A]
-			strAry[5] = str.substring(45);
+			try {
+				//Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
+				strAry[0] = str.substring(1, 9);
+				//Columns 11-30   Originator's name [A]
+				strAry[1] = str.substring(10, 30);
+				//Columns 32-37   MVA Base [F] *
+				strAry[2] = str.substring(31, 37); // in MVA
+				//Columns 39-42   Year [I]
+				strAry[3] = StringUtil.getString(str, 38, 42);
+				//Column  44      Season (S - Summer, W - Winter)
+				strAry[4] = StringUtil.getString(str, 43, 44);
+				//Column  46-73   Case identification [A]
+				strAry[5] = StringUtil.getString(str, 46, 73);
+			} catch (Exception e) {
+				this.logErr("Error: Network data line has problem, " + str);
+				this.logErr(e.toString());
+			}
 		}
 		return strAry;
 	}
