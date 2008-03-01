@@ -302,21 +302,29 @@
 			</element>
 			<element name="lineData" minOccurs="0" maxOccurs="1">
 				<complexType>
-					<sequence>
-						<element name="z" type="pss:ZXmlType"
-							minOccurs="1" maxOccurs="1">
-						</element>
+					<complexContent>
+						<extension base="pss:BaseRecordXmlType">
+							<sequence>
+								<element name="z" type="pss:ZXmlType"
+									minOccurs="1" maxOccurs="1">
+								</element>
 
-						<element name="totalShuntY" type="pss:YXmlType"
-							minOccurs="0" maxOccurs="1">
-						</element>
-						<element name="fromShuntY" type="pss:YXmlType"
-							minOccurs="0">
-						</element>
-						<element name="toShuntY" type="pss:YXmlType"
-							minOccurs="0">
-						</element>
-					</sequence>
+								<element name="totalShuntY"
+									type="pss:YXmlType" minOccurs="0" maxOccurs="1">
+								</element>
+								<element name="fromShuntY"
+									type="pss:YXmlType" minOccurs="0">
+								</element>
+								<element name="toShuntY"
+									type="pss:YXmlType" minOccurs="0">
+								</element>
+								<element name="length"
+									type="double" minOccurs="0">
+								</element>
+							</sequence>
+
+						</extension>
+					</complexContent>
 				</complexType>
 			</element>
 			<element name="xformerData"
