@@ -173,8 +173,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[2] Columns 32-37   MVA Base [F] *
 		final double baseMva = new Double(strAry[2]).doubleValue(); // in MVA
 		getLogger().fine("BaseKva: " + baseMva);
-		baseCaseNet.setBaseKva(baseMva);
-		baseCaseNet.setBaseKvaUnit(PSSNetworkXmlType.BaseKvaUnit.MVA);
+		baseCaseNet.setBasePower(baseMva);
+		baseCaseNet.setBasePowerUnit(PSSNetworkXmlType.BasePowerUnit.MVA);
 	}
 
 	/*

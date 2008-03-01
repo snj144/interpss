@@ -78,10 +78,10 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="baseKva" type="double" minOccurs="1"
+					<element name="basePower" type="double" minOccurs="1"
 						maxOccurs="1">
 					</element>
-					<element name="baseKvaUnit" minOccurs="1"
+					<element name="basePowerUnit" minOccurs="1"
 						maxOccurs="1">
 						<simpleType>
 							<restriction base="string">
