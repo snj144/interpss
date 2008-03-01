@@ -56,7 +56,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
   		assertTrue(Math.abs(p.getReal()-6.326)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()+1289.429)<0.1);
+  		assertTrue(Math.abs(p.getImaginary()+1289.429)<0.01);
 	}
 
 	@Test
@@ -73,7 +73,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
   		assertTrue(Math.abs(p.getReal()-10.881)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()+1192.742)<0.1);
+  		assertTrue(Math.abs(p.getImaginary()+1192.742)<0.01);
 	}
 
 	@Test
@@ -90,8 +90,8 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("OB4___1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		assertTrue(Math.abs(p.getReal()-18.425)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()+977.175)<0.1);
+  		assertTrue(Math.abs(p.getReal()-18.364)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()+979.024)<0.01);
 	}
 
 	@Test
@@ -108,7 +108,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("OB4___1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		assertTrue(Math.abs(p.getReal()-8.149)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()+1068.523)<0.1);
+  		assertTrue(Math.abs(p.getReal()-8.126)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()+1069.608)<0.01);
 	}}
 
