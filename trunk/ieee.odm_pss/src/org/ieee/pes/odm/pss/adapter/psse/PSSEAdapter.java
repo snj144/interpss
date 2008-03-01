@@ -136,8 +136,8 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		final String[] strAry = getHeaderDataFields(str,str2,str3);
 		final double baseMva = new Double(strAry[1]).doubleValue();
 	    getLogger().fine("BaseKva: "  + baseMva);
-	    baseCaseNet.setBaseKva(baseMva);
-		baseCaseNet.setBaseKvaUnit(PSSNetworkXmlType.BaseKvaUnit.MVA);	
+	    baseCaseNet.setBasePower(baseMva);
+		baseCaseNet.setBasePowerUnit(PSSNetworkXmlType.BasePowerUnit.MVA);	
 		
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
@@ -404,7 +404,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		in pu on a specified base MVA and winding bus base	voltage.	
             */	
 		//CM=1  for complex admittance in pu on system base quantities
-		double factor = baseCaseNet.getBaseKva() / SBASE1_2 / 1000.0;
+		double factor = baseCaseNet.getBasePower() / SBASE1_2 / 1000.0;
 		double rpu = 0.0;
 		double xpu = 0.0;
 		if(CZ==1){

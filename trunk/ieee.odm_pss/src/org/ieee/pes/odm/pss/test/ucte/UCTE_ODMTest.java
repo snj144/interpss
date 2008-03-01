@@ -1,5 +1,5 @@
  /*
-  * @(#)UCTEFormatTest.java   
+  * @(#)UCTE_ODMTest.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *
@@ -131,9 +131,6 @@ public class UCTE_ODMTest {
 		assertTrue(braRec.getLoadflowBranchData().getXformerData().getRatingData().getRatedPower().getUnit() == PowerXmlType.Unit.MVA); 		
 		
 		assertTrue(braRec.getLoadflowBranchData().getRatingLimit().getCurrentRating() == 1000.0); 
-		
-
-		//System.out.println(parser.toString());
 	}
 }
 

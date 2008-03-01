@@ -57,8 +57,8 @@ public class IEEECDF_ODMTest {
 		assertTrue(baseCaseNet.getBusList().getBusArray().length == 14);
 		assertTrue(baseCaseNet.getBranchList().getBranchArray().length == 20);
 
-		assertTrue(baseCaseNet.getBaseKva() == 100.0);
-		assertTrue(baseCaseNet.getBaseKvaUnit() == PSSNetworkXmlType.BaseKvaUnit.MVA);
+		assertTrue(baseCaseNet.getBasePower() == 100.0);
+		assertTrue(baseCaseNet.getBasePowerUnit() == PSSNetworkXmlType.BasePowerUnit.MVA);
 
 		// Check Bus Data
 		// ==============
