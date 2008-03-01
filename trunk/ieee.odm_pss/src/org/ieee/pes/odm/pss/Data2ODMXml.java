@@ -27,6 +27,7 @@ package org.ieee.pes.odm.pss;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -92,10 +93,12 @@ public class Data2ODMXml {
 				System.exit(0);		
 			}
 
+			Date date = new Date();
 			if (!adapter.parseXmlFile(inputFile)) {
 				logger.severe("Error: model parsing error, " + adapter.errMessage());
 				System.err.println("Error: model parsing error, " + adapter.errMessage());
 			}
+			logger.info("File parsing time(ms): " + (new Date().getTime() - date.getTime()));
 			// convert the model to a XML document string
 			xmlStr = adapter.getModel().toXmlDoc(true);			
 			
