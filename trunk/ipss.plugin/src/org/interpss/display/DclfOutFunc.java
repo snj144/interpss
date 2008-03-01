@@ -32,8 +32,10 @@ import org.interpss.schema.DclfBusSensitivityXmlType;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Number2String;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.DclfSensitivityType;
+import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
 public class DclfOutFunc {
@@ -54,6 +56,17 @@ public class DclfOutFunc {
 			double angle = algo.getBusAngle(n) * Constants.RtoD;
 			str += Number2String.toFixLengthStr(8, bus.getId()) + "        "
 					+ Number2String.toStr(angle) + "\n";
+		}
+
+		str += "\n\n";
+		str += "       FromId->ToId       Power Flow(pu)\n";
+		str += "==========================================\n";
+		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
+			double fAng = algo.getBusAngle(bra.getFromBus().getSortNumber()) * Constants.RtoD;
+			double tAng = algo.getBusAngle(bra.getToBus().getSortNumber()) * Constants.RtoD;
+			AclfBranch aclfBra = (AclfBranch)bra;
+			str += Number2String.toFixLengthStr(20, bra.getId()) + "     "  
+					+ Number2String.toStr((fAng-tAng)*aclfBra.getZ().getImaginary()) + "\n";
 		}
 		return str;
 	}

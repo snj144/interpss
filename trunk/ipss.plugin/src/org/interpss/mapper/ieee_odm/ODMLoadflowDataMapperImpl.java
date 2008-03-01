@@ -65,16 +65,16 @@ public class ODMLoadflowDataMapperImpl {
 				aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus
 						.adapt(PQBusAdapter.class);
-				pqBus.setGen(new Complex(busXmlData.getGenData().getGen()
-						.getP(), busXmlData.getGenData().getGen().getQ()),
-						ODMXmlHelper.toUnit(busXmlData.getGenData().getGen()
+				pqBus.setGen(new Complex(busXmlData.getGenData().getGen().getPower()
+						.getP(), busXmlData.getGenData().getGen().getPower().getQ()),
+						ODMXmlHelper.toUnit(busXmlData.getGenData().getGen().getPower()
 								.getUnit()), baseKva);
 			} else if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PV);
 				PVBusAdapter pvBus = (PVBusAdapter) aclfBus
 						.adapt(PVBusAdapter.class);
-				pvBus.setGenP(busXmlData.getGenData().getGen().getP(),
-						ODMXmlHelper.toUnit(busXmlData.getGenData().getGen()
+				pvBus.setGenP(busXmlData.getGenData().getGen().getPower().getP(),
+						ODMXmlHelper.toUnit(busXmlData.getGenData().getGen().getPower()
 								.getUnit()), baseKva);
 				pvBus.setVoltMag(vpu, UnitType.PU);
 			} else if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.SWING) {
