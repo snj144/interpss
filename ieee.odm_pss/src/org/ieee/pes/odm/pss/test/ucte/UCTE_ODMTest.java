@@ -77,9 +77,9 @@ public class UCTE_ODMTest {
 		// A2    1                 0        .000000 .000000 -150.00 .000000                
 		busRec = ODMData2XmlHelper.getBusRecord("A2____1", baseCaseNet);
 		assertTrue(busRec.getLoadflowBusData().getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PQ);
-		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getP() == 150.0);
-		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getQ() == 0.0);
-		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getUnit() == PowerXmlType.Unit.MVA);
+		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getPower().getP() == 150.0);
+		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getPower().getQ() == 0.0);
+		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getPower().getUnit() == PowerXmlType.Unit.MVA);
 		assertTrue(busRec.getLoadflowBusData().getLoadData() == null);
 		
 		// B4____1 is a swing bus

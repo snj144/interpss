@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
@@ -77,11 +78,11 @@ public class IEEECDF_ODMTest {
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
 		busRec = ODMData2XmlHelper.getBusRecord("No2", baseCaseNet);
 		assertTrue(busRec.getLoadflowBusData().getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PV);
-		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getP() == 40.0);
-		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getUnit() == PowerXmlType.Unit.MVA);
-		assertTrue(busRec.getLoadflowBusData().getGenData().getQGenLimit().getQLimit().getMax() == 50.0);
-		assertTrue(busRec.getLoadflowBusData().getGenData().getQGenLimit().getQLimit().getMin() == -40.0);
-		assertTrue(busRec.getLoadflowBusData().getGenData().getQGenLimit().getQLimitUnit() == LoadflowBusDataXmlType.GenData.QGenLimit.QLimitUnit.MVAR);
+		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getPower().getP() == 40.0);
+		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getPower().getUnit() == PowerXmlType.Unit.MVA);
+		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getQGenLimit().getQLimit().getMax() == 50.0);
+		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getQGenLimit().getQLimit().getMin() == -40.0);
+		assertTrue(busRec.getLoadflowBusData().getGenData().getGen().getQGenLimit().getQLimitUnit() == GenDataXmlType.QGenLimit.QLimitUnit.MVAR);
 		
 		assertTrue(busRec.getLoadflowBusData().getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_P);
 		assertTrue(busRec.getLoadflowBusData().getLoadData().getLoad().getP() == 21.7);

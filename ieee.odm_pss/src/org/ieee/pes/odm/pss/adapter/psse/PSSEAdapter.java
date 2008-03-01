@@ -1,7 +1,7 @@
 /*
  * @(#)PSSEAdapter.java   
  *
- * Copyright (C) 2006 www.interpss.org
+ * Copyright (C) 2006-2008 www.interpss.org
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -13,7 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * @Author Stephen Hau
+ * @Author Stephen Hau, Mike Zhou
  * @Version 1.0
  * @Date 02/11/2008
  * 
@@ -46,6 +46,10 @@ import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 
 public class PSSEAdapter extends AbstractODMAdapter{
+	public final static String Token_CaseDesc = "Case Description";     
+	public final static String Token_CaseId = "Case ID";				
+
+	private static final String Token_Id = "No";
 	
 	public PSSEAdapter(Logger logger) {
 		super(logger);
@@ -133,7 +137,16 @@ public class PSSEAdapter extends AbstractODMAdapter{
 			final PSSNetworkXmlType baseCaseNet) throws Exception {
 		// parse the input data line
 		//line 1 at here we have "0, 100.00 "		
+		/*
+		 * String[0] indicator
+		 * String[1] baseKav
+		 * String[2] comments
+		 * String[3] comments
+		 */
 		final String[] strAry = getHeaderDataFields(str,str2,str3);
+		if (strAry == null)
+			return false;
+		
 		final double baseMva = new Double(strAry[1]).doubleValue();
 	    getLogger().fine("BaseKva: "  + baseMva);
 	    baseCaseNet.setBasePower(baseMva);
@@ -142,12 +155,13 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		ODMData2XmlHelper.addNVPair(nvList, "Case Description", desc);     
+		ODMData2XmlHelper.addNVPair(nvList, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		ODMData2XmlHelper.addNVPair(nvList, "Case ID", caseId);				
+		ODMData2XmlHelper.addNVPair(nvList, Token_CaseId, caseId);				
 		getLogger().fine("Case Description, caseId: " + desc + ", "+ caseId);		
+		
         return true;
 	}
         
@@ -156,17 +170,21 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);	    
 		//Format: I, NAME BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
-		final String busId = strAry[0];
+		final String busId = Token_Id+strAry[0];
+			// XML requires id start with a char
 		getLogger().fine("Bus data loaded, id: " + busId);
 		busRec.setId(busId);	
+		
 		final String busName = strAry[1];
 		busRec.setName(busName);
 		double baseKv = new Double(strAry[2]).doubleValue();
 		if (baseKv == 0.0) {
+			this.logErr("Error: base kv = 0.0");
 			baseKv = 1.0;
 		}
+		
 		final String owner=strAry[10];
-		busRec.setOwner(owner);
+		ODMData2XmlHelper.addOwner(busRec, owner, 1.0);
 		
 		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageXmlType.Unit.KV);
 
@@ -179,8 +197,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		}
 		else if (IDE==2){// PV bus
 			busData.addNewGenData().setCode(LoadflowBusDataXmlType.GenData.Code.PV);
-
-		}else if (IDE==1){//NOn-Gen Load Bus
+		}else if (IDE==1){//Non-Gen Load Bus
 			busData.addNewLoadData().setCode(LoadflowBusDataXmlType.LoadData.Code.CONST_P);
 
 		}else // Isolated bus
@@ -212,22 +229,33 @@ public class PSSEAdapter extends AbstractODMAdapter{
 	}
 			
 		
-	private  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet)throws Exception {
+	private  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet) {
+		// I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 		final String[] strAry = getLoadDataFields(str);
 
-	    final String busId = strAry[0];
+	    final String busId = Token_Id+strAry[0];
 	    //to test if there is a responding bus in the bus data record
-		LoadflowBusDataXmlType busData = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet).getLoadflowBusData();
-	    if (busData == null){
-	    	throw new Exception("Bus"+ busId+ "is not found in the network");
+		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet);
+	    if (busRec == null){
+	    	this.logErr("Bus"+ busId+ "is not found in the network");
+	    	return;
 	    }
+
+	    LoadflowBusDataXmlType lfData = busRec.getLoadflowBusData();
+	    if (lfData.getLoadData() == null) {  // there may be multiple load records on a bus
+	    	lfData.addNewLoadData();
+	    	lfData.getLoadData().setCode(LoadflowBusDataXmlType.LoadData.Code.FUNCTION_LOAD);
+	    	lfData.getLoadData().addNewFuncLoadList();
+	    }
+	    
+	    LoadflowBusDataXmlType.LoadData.FuncLoadList.FuncLoad funcLoad = lfData.getLoadData().getFuncLoadList().addNewFuncLoad(); 
 	    //loadId is used to distinguish multiple loads at one bus
 	    final String loadId =strAry[1];
-		// TODO :schema need to add loadId
+		funcLoad.setId(loadId);
 		
 		//set owner and it's factor
-		final String Owner =strAry[11];
-		//// TODO :schema need to add owner
+		final String owner =strAry[11];
+		ODMData2XmlHelper.addOwner(funcLoad, owner, 1.0);
 		    
 	    //Constant-P load
 		final double CPloadMw = new Double(strAry[5]).doubleValue();
@@ -239,65 +267,71 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		final double CYloadMw = new Double(strAry[9]).doubleValue();
 		final double CYloadMvar = new Double(strAry[10]).doubleValue();
 
-		
-	   if (CPloadMw!=0.0 || CQloadMvar!=0){
-	    	ODMData2XmlHelper.setPowerData(busData.getLoadData().addNewLoad(),
+		if (CPloadMw!=0.0 || CQloadMvar!=0.0 )
+	    	ODMData2XmlHelper.setPowerData(funcLoad.addNewConstPLoad(),
 	    			CPloadMw, CQloadMvar, PowerXmlType.Unit.MVA);
 
-	   }
-	   if (CIloadMw!=0.0 || CIloadMvar!=0){
-	    	ODMData2XmlHelper.setPowerData(busData.getLoadData().addNewLoad(),
+	    if (CIloadMw!=0.0 || CIloadMvar!=0.0)
+	    	ODMData2XmlHelper.setPowerData(funcLoad.addNewConstILoad(),
 	    			CIloadMw, CIloadMvar, PowerXmlType.Unit.MVA);
-		   }
-	   if (CYloadMw!=0.0 || CYloadMvar!=0){
-	    	ODMData2XmlHelper.setPowerData(busData.getLoadData().addNewLoad(),
-	    			CYloadMw, CYloadMvar, PowerXmlType.Unit.MVA);
-		   }
 	   
+	    if (CYloadMw!=0.0 || CYloadMvar!=0.0)
+	    	ODMData2XmlHelper.setPowerData(funcLoad.addNewConstZLoad(),
+	    			CYloadMw, CYloadMvar, PowerXmlType.Unit.MVA);
 	}
-	private  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet) throws Exception{
+	
+	private  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet) {
+		
+		//I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
+		
 		// parse the input data line
 	    final String[] strAry = getGenDataFields(str);
-		final String busId = strAry[0];
+		final String busId = Token_Id+strAry[0];
 		// get the responding-bus data with busId
-		LoadflowBusDataXmlType busData = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet).getLoadflowBusData();
-		if (busData==null){
-        	this.logErr("Bus not found in the network, bus number: " + busId);
+		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet);
+		if (busRec==null){
+        	this.logErr("Error: Bus not found in the network, bus number: " + busId);
         	return;
         }
 				
+	    if (busRec.getLoadflowBusData().getGenData().getContributeGenList() == null) {  // there may be multiple constribute gen records on a bus
+	    	busRec.getLoadflowBusData().getGenData().addNewContributeGenList();
+	    }
+	    
+	    LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowBusData().getGenData(); 
+	    LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen contriGen = 
+	    		genData.getContributeGenList().addNewContributeGen();
+		
 		// genId is used to distinguish multiple generations at one bus		
 		final String genId = strAry[1];
-		//Todo...
-		
+		contriGen.setId(genId);
 		
 		final double genMw = new Double(strAry[2]).doubleValue();
 		final double genMvar = new Double(strAry[3]).doubleValue();
-	
-		final LoadflowBusDataXmlType.GenData.Code.Enum type = busData.getGenData().getCode();
-        //SET P Q
-      	ODMData2XmlHelper.setPowerData(busData.getGenData().addNewGen(),  
-      			genMw, genMvar, PowerXmlType.Unit.MVA);
-      		
+		ODMData2XmlHelper.setPowerData(contriGen.getGen().getPower(), genMw, genMvar, PowerXmlType.Unit.MVA);
 		
 		// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
 		// Maximum MVAR  
-		//Minimum MVAR  
+		// Minimum MVAR  
       	final double vSpecPu = new Double(strAry[6]).doubleValue();
 		final double max = new Double(strAry[4]).doubleValue();
 		final double min = new Double(strAry[5]).doubleValue();
 		
 		//Remote controlled bus number
-		final String reBusId = strAry[7];
+		final String reBusId = Token_Id+strAry[7];
 		
 		if (max != 0.0 || min != 0.0) {
-			if (type == LoadflowBusDataXmlType.GenData.Code.PQ) {
-				busData.getGenData().addNewVGenLimit();
-				ODMData2XmlHelper.setLimitData(busData.getGenData().getVGenLimit()
+			if ( genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PQ) {
+				/*
+				contriGen.addNewVGenLimit();
+				ODMData2XmlHelper.setLimitData(contriGen.getVGenLimit()
 						.addNewVLimit(), max, min);
-				busData.getGenData().getVGenLimit().setVLimitUnit(
-						LoadflowBusDataXmlType.GenData.VGenLimit.VLimitUnit.PU);
-			} else if (type == LoadflowBusDataXmlType.GenData.Code.PV) {
+				contriGen.getVGenLimit().setVLimitUnit(
+						LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen..VGenLimit.VLimitUnit.PU);
+						*/
+			} 
+			else if (genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
+				/*
 				busData.getGenData().addNewQGenLimit();
 				ODMData2XmlHelper.setLimitData(busData.getGenData().getQGenLimit()
 						.addNewQLimit(), max, min);
@@ -317,9 +351,10 @@ public class PSSEAdapter extends AbstractODMAdapter{
 					busData.getGenData().getDesiredRemoteVoltage()
 							.getRemoteBus().setIdRef(reBusId);
 				}
+				*/
 			}
-		}	
-       }
+		}
+    }
 	
 	private  void processLineData(final String str,
 			final BranchRecordXmlType branchRec) {
@@ -655,17 +690,26 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		ODMData2XmlHelper.addNVPair(nvList, "ownerId", ownerId);
 	}
 		
-	private  String[] getHeaderDataFields(final String lineStr,final String lineStr2,
-		final String lineStr3)	throws Exception{
+	/*
+	 * String[0] indicator
+	 * String[1] baseKav
+	 * String[2] comments
+	 * String[3] comments
+	 */
+	private  String[] getHeaderDataFields(final String lineStr, final String lineStr2,
+							final String lineStr3)	throws Exception{
 		final String[] strAry = new String[4];	
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
-		int indicator = new Integer(st.nextToken()).intValue();
+		
+		strAry[0] = st.nextToken();  			   
+		int indicator = new Integer(strAry[0]).intValue();
 		if (indicator !=0){
-			this.logErr("Only base case has been implemented");
+			this.logErr("Error: Only base case can be process");
 			return null;
 		}
-		else {strAry[1]=st.nextToken().trim();  			   
-		}	
+
+		strAry[1]=st.nextToken().trim();  			   
+		
 		if (lineStr2!= null){
 			strAry[2] = lineStr2;
 		}else {strAry[2] =""; }
