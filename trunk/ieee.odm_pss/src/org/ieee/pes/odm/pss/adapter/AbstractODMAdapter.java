@@ -77,13 +77,13 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 				final java.io.BufferedReader din)
 				throws Exception;
 	
-	protected void logErr(String msg) {
+	public void logErr(String msg) {
 		this.status = false;
 		logger.severe(msg);
 		this.errMsgList.add(msg);
 	}
 	
-	protected Logger getLogger() {
+	public Logger getLogger() {
 		return this.logger;
 	}
 }
