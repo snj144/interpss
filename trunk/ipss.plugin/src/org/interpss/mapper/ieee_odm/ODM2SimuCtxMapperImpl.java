@@ -107,14 +107,14 @@ public class ODM2SimuCtxMapperImpl {
 
 	private static boolean setNetworkData(PSSNetworkXmlType xmlNet,
 			Network ipssNet, IPSSMsgHub msg) {
-		double baseKva = xmlNet.getBaseKva();
-		if (xmlNet.getBaseKvaUnit() == PSSNetworkXmlType.BaseKvaUnit.MVA)
+		double baseKva = xmlNet.getBasePower();
+		if (xmlNet.getBasePowerUnit() == PSSNetworkXmlType.BasePowerUnit.MVA)
 			ipssNet.setBaseKva(baseKva * 1000.0);
 		else
 			ipssNet
-					.setBaseKva(xmlNet.getBaseKvaUnit() == PSSNetworkXmlType.BaseKvaUnit.MVA ? xmlNet
-							.getBaseKva() * 1000.0
-							: xmlNet.getBaseKva());
+					.setBaseKva(xmlNet.getBasePowerUnit() == PSSNetworkXmlType.BasePowerUnit.MVA ? xmlNet
+							.getBasePower() * 1000.0
+							: xmlNet.getBasePower());
 		return true;
 	}
 
