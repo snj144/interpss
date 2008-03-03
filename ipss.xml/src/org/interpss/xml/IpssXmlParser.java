@@ -39,6 +39,7 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.util.IpssLogger;
 
 public class IpssXmlParser {
 	private InterPSSXmlType ipss = null;
@@ -62,6 +63,10 @@ public class IpssXmlParser {
 	 */
 	public IpssXmlParser(String xmlString) throws XmlException {
 		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlString);
+		if (!ipssDoc.validate()) {
+			IpssLogger.getLogger().severe("Error: invalid Xml scripts, " + xmlString);
+			throw new XmlException("Invalid Xml scripts");
+		}
 		this.ipss = ipssDoc.getInterPSS();
 	}
 
