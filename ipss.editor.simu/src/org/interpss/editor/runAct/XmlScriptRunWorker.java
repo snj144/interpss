@@ -82,6 +82,7 @@ public class XmlScriptRunWorker {
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
 			return XmlScriptDStabRun.runDStab(parser, simuCtx, msg);
 		}
-		return true;
+		msg.sendErrorMsg("Error: wrong analysus type, " + xmlStudyCase.getAnalysisRunType());
+		return false;
 	}
 }
