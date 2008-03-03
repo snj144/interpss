@@ -66,7 +66,8 @@ public class XmlScriptDclfRun {
 
 				if (dclfCase.getCaculatelDclf()) {
 					algo.calculateDclf(msg);
-					dialog.appendText(DclfOutFunc.dclfResults(algo));
+					String str = DclfOutFunc.dclfResults(algo);
+					dialog.appendText(str);
 				}
 
 				for (DclfBusSensitivityXmlType sen : dclfCase
@@ -74,29 +75,14 @@ public class XmlScriptDclfRun {
 					if (sen.getSenType() == DclfSensitivityXmlType.SenType.P_ANGLE) {
 						algo.calculateSensitivity(DclfSensitivityType.PANGLE,
 								sen.getInjectBusId(), msg);
-						dialog.appendText(DclfOutFunc.pAngleSensitivityResults(
-								sen, algo, msg));
-						/*
-						 * for (BusRecXmlType bus : sen.getBusArray()) { double
-						 * pang = algo.getBusSensitivity(
-						 * DclfSensitivityType.PANGLE, bus.getBusId(), msg);
-						 * IpssLogger.getLogger().info( "P-Angle Sensitivity (" +
-						 * bus.getBusId() + "," + sen.getInjectBusId() + ") : " +
-						 * pang); }
-						 */
+						String str = DclfOutFunc.pAngleSensitivityResults(
+								sen, algo, msg);
+						dialog.appendText(str);
 					} else if (sen.getSenType() == DclfSensitivityXmlType.SenType.Q_VOLTAGE) {
 						algo.calculateSensitivity(DclfSensitivityType.QVOLTAGE,
 								sen.getInjectBusId(), msg);
-						dialog.appendText(DclfOutFunc
-								.qVoltageSensitivityResults(sen, algo, msg));
-						/*
-						 * for (BusRecXmlType bus : sen.getBusArray()) { double
-						 * qvolt = algo.getBusSensitivity(
-						 * DclfSensitivityType.QVOLTAGE, bus .getBusId(), msg);
-						 * IpssLogger.getLogger().info( "Q-Voltage Sensitivity (" +
-						 * bus.getBusId() + "," + sen.getInjectBusId() + ") : " +
-						 * qvolt); }
-						 */
+						String str = DclfOutFunc.qVoltageSensitivityResults(sen, algo, msg);
+						dialog.appendText(str);
 					}
 				}
 
@@ -104,16 +90,9 @@ public class XmlScriptDclfRun {
 						.getGenShiftFactorArray()) {
 					algo.calculateSensitivity(DclfSensitivityType.PANGLE,
 							gsFactor.getInjectBusId(), msg);
-					dialog.appendText(DclfOutFunc.genShiftFactorResults(
-							gsFactor, algo, msg));
-					/*
-					 * for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
-					 * double gsf = algo.getGenShiftFactor(branch
-					 * .getFromBusId(), branch.getToBusId(), msg);
-					 * IpssLogger.getLogger() .info( "GenShiftFactor (" +
-					 * branch.getFromBusId() + "->" + branch.getToBusId() + "," +
-					 * gsFactor.getInjectBusId() + ") : " + gsf); }
-					 */
+					String str = DclfOutFunc.genShiftFactorResults(
+							gsFactor, algo, msg);
+					dialog.appendText(str);
 				}
 
 				for (DclfBranchSensitivityXmlType tdFactor : dclfCase
@@ -121,18 +100,9 @@ public class XmlScriptDclfRun {
 					algo.calculateSensitivity(DclfSensitivityType.PANGLE,
 							tdFactor.getInjectBusId(), tdFactor
 									.getWithdrawBusId(), msg);
-					dialog.appendText(DclfOutFunc.pTransferDistFactorResults(
-							tdFactor, algo, msg));
-					/*
-					 * for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-					 * double ptdf = algo.getPTransferDistFactor(branch
-					 * .getFromBusId(), branch.getToBusId(), msg);
-					 * IpssLogger.getLogger().info(
-					 * "PowerTransferDistributionFactor (" +
-					 * branch.getFromBusId() + "->" + branch.getToBusId() + "," +
-					 * tdFactor.getInjectBusId() + "[in]," +
-					 * tdFactor.getWithdrawBusId() + "[out]) : " + ptdf); }
-					 */
+					String str = DclfOutFunc.pTransferDistFactorResults(
+							tdFactor, algo, msg);
+					dialog.appendText(str);
 				}
 
 				dialog.showDialog();
