@@ -36,7 +36,8 @@
 			todir="${dist_base}/lib/" />
 		<copydir src="${dev_base}/schema" dest="${dist_base}/schema"
 			includes="**/*.xsd" excludes="**/SqlMapConfig.xml" />
-
+		<copydir src="${dev_base}/perl" dest="${dist_base}/perl"
+			includes="**/*.perl" excludes="CVS/**" />
 	</target>
 
 	<target depends="copy_schema" description="build distribution"
