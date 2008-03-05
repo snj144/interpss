@@ -77,6 +77,28 @@ public class ODMData2XmlHelper {
 	}
 	
 	/**
+	 * add an owner records to the BaseRecord
+	 * 
+	 * @param rec
+	 * @param id
+	 * @param ownership
+	 */
+	public static void addOwner(BaseRecordXmlType rec, 
+			String id1, double ownership1,
+			String id2, double ownership2,
+			String id3, double ownership3,
+			String id4, double ownership4) {
+		if (id1 != null)
+			addOwner(rec, id1, ownership1);
+		if (id2 != null)
+			addOwner(rec, id2, ownership2);
+		if (id1 != null)
+			addOwner(rec, id3, ownership3);
+		if (id1 != null)
+			addOwner(rec, id4, ownership4);
+	}
+
+	/**
 	 * Get bus record with the id
 	 * 
 	 * @param id
