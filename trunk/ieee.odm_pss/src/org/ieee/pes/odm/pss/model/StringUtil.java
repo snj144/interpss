@@ -44,6 +44,34 @@ public class StringUtil {
 	}
 
 	/**
+	 * convert str to a double. Return defaultValue number if empty. 
+	 * 
+	 * @param str input string
+	 * @return the number
+	 */
+	public static double getDouble(String str, double defaultValue) {
+		try {
+			return new Double(str.trim()).doubleValue();
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
+	/**
+	 * convert str to an int. Return defaultValue number if empty. 
+	 * 
+	 * @param str input string
+	 * @return the number
+	 */
+	public static int getInt(String str, int defaultValue) {
+		try {
+			return new Integer(str.trim()).intValue();
+		} catch (Exception e) {
+			return defaultValue;
+		}
+	}
+
+	/**
 	 * convert charters [beginCol, endCol] of the input string to an int. Return 0 if empty. 
 	 * 
 	 * @param str input string

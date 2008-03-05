@@ -33,7 +33,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEBusRecord {
 	public static void processBusData(final String str,final BusRecordXmlType busRec, PSSEAdapter adapter) {
@@ -48,7 +50,7 @@ public class PSSEBusRecord {
 		
 		final String busName = strAry[1];
 		busRec.setName(busName);
-		double baseKv = new Double(strAry[2]).doubleValue();
+		double baseKv = StringUtil.getDouble(strAry[2], 0.0);
 		if (baseKv == 0.0) {
 			adapter.logErr("Error: base kv = 0.0");
 			baseKv = 1.0;
@@ -61,19 +63,26 @@ public class PSSEBusRecord {
 
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
 	
-		// bus type identifier IDE
+		/* bus type identifier IDE
+			1 - load bus (no generator boundary condition)
+			2 - generator or plant bus (either voltage regulating or fixed Mvar)
+			3 - swing bus
+			4 - disconnected (isolated) bus
+			IDE = 1 by default.
+		*/			
 		final int IDE = new Integer(strAry[3]).intValue();
 		if (IDE ==3){//Swing bus
 			busData.addNewGenData().setCode(LoadflowBusDataXmlType.GenData.Code.SWING);
+			busData.addNewLoadData();
 		}
-		else if (IDE==2){// PV bus
-			busData.addNewGenData().setCode(LoadflowBusDataXmlType.GenData.Code.PV);
-		}else if (IDE==1){//Non-Gen Load Bus
+		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
+			busData.addNewGenData();
+			busData.addNewLoadData();
+		} else if (IDE==4){// Isolated bus
+			// should be no gen and load defined
+		}
+		else { //Non-Gen Load Bus
 			busData.addNewLoadData().setCode(LoadflowBusDataXmlType.LoadData.Code.CONST_P);
-
-		}else // Isolated bus
-		     {
-			adapter.logErr("bus"+busId+"is an isolated bus ");
 		}
 		
 		//GL BL
@@ -114,22 +123,23 @@ public class PSSEBusRecord {
 	    }
 
 	    LoadflowBusDataXmlType lfData = busRec.getLoadflowBusData();
-	    if (lfData.getLoadData() == null) {  // there may be multiple load records on a bus
-	    	lfData.addNewLoadData();
-	    	lfData.getLoadData().setCode(LoadflowBusDataXmlType.LoadData.Code.FUNCTION_LOAD);
-	    	lfData.getLoadData().addNewFuncLoadList();
+	    if (lfData.getLoadData().getContributeLoadList() == null) {  // there may be multiple load records on a bus
+	    	lfData.getLoadData().addNewContributeLoadList();
 	    }
 	    
-	    LoadflowBusDataXmlType.LoadData.FuncLoadList.FuncLoad funcLoad = lfData.getLoadData().getFuncLoadList().addNewFuncLoad(); 
+	    LoadflowBusDataXmlType.LoadData.ContributeLoadList.ContributeLoad contribLoad = 
+	    		lfData.getLoadData().getContributeLoadList().addNewContributeLoad(); 
 	    //loadId is used to distinguish multiple loads at one bus
 	    final String loadId =strAry[1];
-		funcLoad.setId(loadId);
+		contribLoad.setId(loadId);
 		
-		// TODO: STATUS is missing
-		
+		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
+		int status = StringUtil.getInt(strAry[1], 1);
+		contribLoad.setOffLine(status != 1);
+			
 		//set owner and it's factor
 		final String owner =strAry[11];
-		ODMData2XmlHelper.addOwner(funcLoad, owner, 1.0);
+		ODMData2XmlHelper.addOwner(contribLoad, owner, 1.0);
 		    
 	    //Constant-P load
 		final double CPloadMw = new Double(strAry[5]).doubleValue();
@@ -142,15 +152,15 @@ public class PSSEBusRecord {
 		final double CYloadMvar = new Double(strAry[10]).doubleValue();
 
 		if (CPloadMw!=0.0 || CQloadMvar!=0.0 )
-	    	ODMData2XmlHelper.setPowerData(funcLoad.addNewConstPLoad(),
+	    	ODMData2XmlHelper.setPowerData(contribLoad.addNewConstPLoad(),
 	    			CPloadMw, CQloadMvar, PowerXmlType.Unit.MVA);
 
 	    if (CIloadMw!=0.0 || CIloadMvar!=0.0)
-	    	ODMData2XmlHelper.setPowerData(funcLoad.addNewConstILoad(),
+	    	ODMData2XmlHelper.setPowerData(contribLoad.addNewConstILoad(),
 	    			CIloadMw, CIloadMvar, PowerXmlType.Unit.MVA);
 	   
 	    if (CYloadMw!=0.0 || CYloadMvar!=0.0)
-	    	ODMData2XmlHelper.setPowerData(funcLoad.addNewConstZLoad(),
+	    	ODMData2XmlHelper.setPowerData(contribLoad.addNewConstZLoad(),
 	    			CYloadMw, CYloadMvar, PowerXmlType.Unit.MVA);
 	}
 	
@@ -168,7 +178,7 @@ public class PSSEBusRecord {
         	return;
         }
 				
-	    if (busRec.getLoadflowBusData().getGenData().getContributeGenList() == null) {  // there may be multiple constribute gen records on a bus
+	    if (busRec.getLoadflowBusData().getGenData().getContributeGenList() == null) {  // there may be multiple contribute gen records on a bus
 	    	busRec.getLoadflowBusData().getGenData().addNewContributeGenList();
 	    }
 	    
@@ -180,8 +190,33 @@ public class PSSEBusRecord {
 		final String genId = strAry[1];
 		contriGen.setId(genId);
 		
-		// TODO: MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
-
+		double mbase = StringUtil.getDouble(strAry[8], 0.0),
+		       zr = StringUtil.getDouble(strAry[9], 0.0),
+		       zx = StringUtil.getDouble(strAry[10], 0.0),
+		       rt = StringUtil.getDouble(strAry[11], 0.0),
+		       xt = StringUtil.getDouble(strAry[12], 0.0),
+		       gtap = StringUtil.getDouble(strAry[13], 0.0); 
+		contriGen.setRatedMva(mbase);       
+		contriGen.setRatedMvaUnit(LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen.RatedMvaUnit.MVA);
+		ODMData2XmlHelper.setZValue(contriGen.addNewSourceZ(), zr, zx, ZXmlType.Unit.PU);
+		ODMData2XmlHelper.setZValue(contriGen.addNewXfrZ(), rt, xt, ZXmlType.Unit.PU);
+		contriGen.setXfrTurnRatio(gtap);
+		
+		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
+		int status = StringUtil.getInt(strAry[1], 1);
+		contriGen.setOffLine(status != 1);
+		
+      	final double vSpecPu = StringUtil.getDouble(strAry[6], 1.0);
+      	final int iReg = StringUtil.getInt(strAry[7], 0);
+		/*  IREG
+			Bus number, or extended bus name enclosed in single quotes (see Section 4.1.2),
+			of a remote type one or self-regulating type two bus whose voltage is to be regulated
+			by this plant to the value specified by VS. If bus IREG is other than a type
+			one or self-regulating type two bus, bus I regulates its own voltage to the value
+			specified by VS. IREG is entered as zero if the plant is to regulate its own voltage
+			and must be zero for a type three (swing) bus. IREG = 0 by default.
+		 */
+		
 		final double genMw = new Double(strAry[2]).doubleValue();
 		final double genMvar = new Double(strAry[3]).doubleValue();
 		ODMData2XmlHelper.setPowerData(contriGen.getGen().getPower(), genMw, genMvar, PowerXmlType.Unit.MVA);
@@ -189,7 +224,6 @@ public class PSSEBusRecord {
 		// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
 		// Maximum MVAR  
 		// Minimum MVAR  
-      	final double vSpecPu = new Double(strAry[6]).doubleValue();
 		final double max = new Double(strAry[4]).doubleValue();
 		final double min = new Double(strAry[5]).doubleValue();
 		
@@ -223,6 +257,12 @@ public class PSSEBusRecord {
 				}
 			}
 		}
+		
+		ODMData2XmlHelper.addOwner(contriGen, 
+				strAry[18], StringUtil.getDouble(strAry[19], 0.0), 
+				strAry[20], StringUtil.getDouble(strAry[21], 0.0), 
+				strAry[22], StringUtil.getDouble(strAry[23], 0.0), 
+				strAry[24], StringUtil.getDouble(strAry[25], 0.0));
     }
 	
 	private static String[] getBusDataFields(final String lineStr) {

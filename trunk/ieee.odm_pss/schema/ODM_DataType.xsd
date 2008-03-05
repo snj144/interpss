@@ -248,10 +248,10 @@
 						<element name="load" type="pss:PowerXmlType"
 							minOccurs="0" maxOccurs="1">
 						</element>
-						<element name="funcLoadList" minOccurs="0">
+						<element name="contributeLoadList" minOccurs="0">
 							<complexType>
 								<sequence>
-									<element name="funcLoad"
+									<element name="contributeLoad"
 										minOccurs="0" maxOccurs="unbounded">
 										<complexType>
 											<complexContent>
