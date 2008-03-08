@@ -1,2 +1,2 @@
 cd $INSTALL_PATH
-java -jar ipss_editor.jar
+java -jar ipss.jar  -o Editor

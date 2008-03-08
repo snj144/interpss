@@ -9,7 +9,7 @@
 		<taskdef name="izpack" classpath="${izPack_home}/lib/standalone-compiler.jar" classname="com.izforge.izpack.ant.IzPackTask" />
 		<property name="dev_ws_base" value="${dev_base}/workspace" />
 		<property name="install_temp" value="${install_dest}/temp" />
-		<property name="project_editor" value="${dev_ws_base}/ipss.editor" />
+		<property name="project_editor" value="${dev_ws_base}/ipss" />
 		<property name="project_lib" value="${dev_ws_base}/ipss.lib" />
 		<property name="project_install" value="${dev_ws_base}/ipss.install" />
 		<mkdir dir="${install_dest}" />
@@ -44,7 +44,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${install_temp}/lib">
-			<fileset dir="${project_lib}/lib" excludes="ipss_jgraph.jar,ipss_pad.jar,ipss_editor_simu.jar,ipss_editor_ui.jar,tsinghua.jar,ipss_plugin.jar">
+			<fileset dir="${project_lib}/lib" excludes="ipss.jar,ipss_jgraph.jar,ipss_pad.jar,ipss_editor_simu.jar,ipss_editor_ui.jar,tsinghua.jar,ipss_plugin.jar">
 			</fileset>
 		</copy>
 		<copy todir="${install_temp}">
@@ -54,9 +54,11 @@
 	</target>
 
 	<target depends="copyfiles" description="jar ipss editor project" name="jar_lib">
-		<jar destfile="${install_temp}/ipss_editor.jar" basedir="${project_editor}/runtime" 
+		<jar destfile="${install_temp}/ipss.jar" basedir="${project_editor}/runtime" 
 			manifest="MANIFEST.MF"
 			excludes="lib/**,log/**/,projects/**,reportdesign/**.repdesign,**/.project,**/.classpath,**/.nbattrs,**/*.log" />
+
+		<jar destfile="${install_temp}/lib/ipss/ipss_editor.jar" basedir="${dev_ws_base}/ipss.editor/runtime" excludes="CVS/**,model/**" />
 
 		<jar destfile="${install_temp}/lib/ipss/ipss_jgraph.jar" basedir="${dev_ws_base}/ipss.editor.jgraph/runtime" excludes="CVS/**,model/**" />
 

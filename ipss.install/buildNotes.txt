@@ -4,7 +4,7 @@
         
 2. Modify the install-mike.bat in GEditorInstall
 
-3. Modify the editor.properties (in GEditor)
+3. Modify the ipss.properties (in GEditor)
 
          Prog.version = v1.1.00-Beta        
          
