@@ -16,7 +16,7 @@
 	-->
 	<info>
 		<appname>InterPSS_Editor</appname>
-		<appversion>1.3.00</appversion>
+		<appversion>1.4.00</appversion>
 		<authors>
 			<author name="The Interpss Team" email="info@interpss.org" />
 		</authors>
@@ -101,13 +101,16 @@
 				Interpss runtime jar and configuration files.
 			</description>
 
+			<file src="bin" targetdir="$INSTALL_PATH" />
 			<file src="lib" targetdir="$INSTALL_PATH" />
 			<file src="log" targetdir="$INSTALL_PATH" />
 			<file src="java" targetdir="$INSTALL_PATH" />
 			<file src="output" targetdir="$INSTALL_PATH" />
+			<file src="plugin" targetdir="$INSTALL_PATH" />
 			<file src="properties" targetdir="$INSTALL_PATH" />
 			<file src="reportTemplate" targetdir="$INSTALL_PATH" />
-			<file src="ipss_editor.jar" targetdir="$INSTALL_PATH" />
+			<file src="ipss.jar" targetdir="$INSTALL_PATH" />
+			<file src="gridLib/gridgain-1.6.1.jar" targetdir="$INSTALL_PATH/gridLib" />
 			<file src="run.bat" targetdir="$INSTALL_PATH" />
 			<file src="Uninstaller.bat" targetdir="$INSTALL_PATH" />
 			<file src="run.sh" targetdir="$INSTALL_PATH" />
@@ -158,7 +161,6 @@
 				InterPSS Grid Computing solution library.
 			</description>
 			<file src="gridLib" targetdir="$INSTALL_PATH" />
-			<file src="runGrid.bat" targetdir="$INSTALL_PATH" />
 		</pack>
 	</packs>
 
