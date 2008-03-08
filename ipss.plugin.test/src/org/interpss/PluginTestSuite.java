@@ -4,7 +4,6 @@ import org.interpss.cmd.AclfCmdRunTest;
 import org.interpss.cmd.RunExecTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
-import org.interpss.core.adapter.ieee.IEEEODMXmlTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.adapter.psse.CR_UserTestCases;
@@ -87,9 +86,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	
 	//PSS/E format
 	CR_UserTestCases.class,
-	
-	// IEEE ODM Model
-	IEEEODMXmlTest.class,
 })
 public class PluginTestSuite {
 }
