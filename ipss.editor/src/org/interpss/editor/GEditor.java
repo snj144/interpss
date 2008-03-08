@@ -59,6 +59,8 @@ public class GEditor extends Applet {
 	private static GPSessionParameters sessionParameters;
 	private static GPGraphpad pad = null;
 
+	private static JWindow frame = null;
+
 	public static GPGraphpad getGraphPad() {
 		return GEditor.pad;
 	}
@@ -85,9 +87,9 @@ public class GEditor extends Applet {
 		parseCmdLineParameters(args);
 
 	 	// start splash ...
-		JWindow frame = new JWindow();
 		JLabel info = new JLabel(Translator.getString("Splash.Init"), SwingConstants.CENTER);
 
+		frame = new JWindow();
 		showSplash(frame, info);
 		showSplashInfo(info,Translator.getString("Splash.Construct"));
 		
@@ -282,5 +284,11 @@ public class GEditor extends Applet {
 			}
 			sessionParameters.setParam(args[i], args[i + 1]);
 		}		
+	}
+	
+	public static void exitEditor() {
+		pad.closeWorkspace(null);
+		frame.dispose();
+		System.exit(0);
 	}
 }
