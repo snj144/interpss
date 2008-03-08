@@ -39,6 +39,7 @@ import org.interpss.editor.doc.IpssProjectItemCollector;
 import org.interpss.editor.util.Utilities;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.io.IpssFileAdapter;
 
 public class IpssProjectPanel extends JPanel {
@@ -291,6 +292,7 @@ public class IpssProjectPanel extends JPanel {
 
 	public void showExistTree() {
 		String wsDir = EditorSpringAppContext.getAppContext().getWorkspaceDir();
+		IpssLogger.getLogger().info("WS dir for building project tree, " + wsDir);
 
 		File dir = new File(wsDir);
 
