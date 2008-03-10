@@ -49,6 +49,7 @@
 
 	<locale>
 		<langpack iso3="eng" />
+		<langpack iso3="chn" />
 		<langpack iso3="spa" />
 	</locale>
 
@@ -112,16 +113,18 @@
 			<file src="ipss.jar" targetdir="$INSTALL_PATH" />
 			<file src="gridLib/gridgain-1.6.1.jar" targetdir="$INSTALL_PATH/gridLib" />
 			<file src="run.bat" targetdir="$INSTALL_PATH" />
+			<file src="runGrid.bat" targetdir="$INSTALL_PATH" />
 			<file src="Uninstaller.bat" targetdir="$INSTALL_PATH" />
 			<file src="run.sh" targetdir="$INSTALL_PATH" />
 			<file src="Uninstaller.sh" targetdir="$INSTALL_PATH" />
 			<file src="ipss_licence.txt" targetdir="$INSTALL_PATH" />
 			<file src="notice.txt" targetdir="$INSTALL_PATH" />
 			<parsable targetfile="$INSTALL_PATH/run.bat"/>
+			<parsable targetfile="$INSTALL_PATH/runGrid.bat"/>
 			<parsable targetfile="$INSTALL_PATH/Uninstaller.bat"/>
 			<parsable targetfile="$INSTALL_PATH/run.sh"/>
 			<parsable targetfile="$INSTALL_PATH/Uninstaller.sh"/>
-			 <executable targetfile="$INSTALL_PATH/run.sh" stage="never"/>
+			<executable targetfile="$INSTALL_PATH/run.sh" stage="never"/>
 		</pack>
 
 		<pack name="Ipss Workspace" required="no">
