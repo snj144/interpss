@@ -23,6 +23,7 @@
   */
 package org.interpss.editor.data.aclf;
 
+import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
 
 import com.interpss.common.rec.BaseDataBean;
@@ -45,6 +46,11 @@ public class AclfBranchData extends BaseDataBean  {
     private double  zX = 0.01d;                
     private double  zR = 0d;
     private String  zUnit = "PU";
+    private double  fromShuntG = 0.0;                
+    private double  fromShuntB = 0.0;                
+    private double  toShuntG = 0.0;                
+    private double  toShuntB = 0.0;                
+    private String  shuntYUnit = "PU";
     private double  rating1 = 0.0d;
     private double  rating2 = 0.0d;
     private double  rating3 = 0.0d;
@@ -98,4 +104,34 @@ public class AclfBranchData extends BaseDataBean  {
     public boolean isR_LT_X() {
     	return this.zR > this.zX;
     }
+	public String getShuntYUnit() {
+		return this.shuntYUnit;
+	}
+	public void setShuntYUnit(String unit) {
+		this.shuntYUnit = unit;
+	}
+	public double getFromShuntG() {
+		return this.fromShuntG;
+	}
+	public void setFromShuntG(double fromShuntG) {
+		this.fromShuntG = fromShuntG;
+	}
+	public double getFromShuntB() {
+		return this.fromShuntB;
+	}
+	public void setFromShuntB(double fromShuntB) {
+		this.fromShuntB = fromShuntB;
+	}
+	public double getToShuntG() {
+		return this.toShuntG;
+	}
+	public void setToShuntG(double toShuntG) {
+		this.toShuntG = toShuntG;
+	}
+	public double getToShuntB() {
+		return this.toShuntB;
+	}
+	public void setToShuntB(double toShuntB) {
+		this.toShuntB = toShuntB;
+	}
 }

@@ -29,6 +29,7 @@ import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 
+import org.apache.commons.math.complex.Complex;
 import org.interpss.editor.data.aclf.AclfAdjBranchData;
 import org.interpss.editor.data.acsc.AcscBranchData;
 import org.interpss.editor.form.GBranchForm;
@@ -130,9 +131,15 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 	    	rTextField.setText(Number2String.toStr(_data.getZR(), "#0.0####"));
 		    xTextField.setText(Number2String.toStr(_data.getZX(), "#0.0####"));
 		    
+			fromShuntGTextField.setText(Number2String.toStr(_data.getFromShuntG(), "#0.0#"));
+			fromShuntBTextField.setText(Number2String.toStr(_data.getFromShuntB(), "#0.0#"));
+			toShuntGTextField.setText(Number2String.toStr(_data.getToShuntG(), "#0.0#"));
+			toShuntBTextField.setText(Number2String.toStr(_data.getToShuntB(), "#0.0#"));
+
 			mvaRating1TextField.setText(Number2String.toStr(_data.getRating1(), "#0.0#"));
 			mvaRating2TextField.setText(Number2String.toStr(_data.getRating2(), "#0.0#"));
 			mvaRating3TextField.setText(Number2String.toStr(_data.getRating3(), "#0.0#"));
+			
 			if (_data.getLfCode().equals(IGBranchForm.TransBranchLfCode_Line)) {
 				lineRadioButton.setSelected(true);
 				IpssLogger.getLogger().info("NBBranchPositivePanel lineRadioButton.setSelected(true)");
@@ -210,6 +217,12 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
 			}
 		    _data.setZR(SwingInputVerifyUtil.getDouble(rTextField));
 			_data.setZX(SwingInputVerifyUtil.getDouble(xTextField));
+
+		    _data.setFromShuntG(SwingInputVerifyUtil.getDouble(fromShuntGTextField));
+		    _data.setFromShuntB(SwingInputVerifyUtil.getDouble(fromShuntBTextField));
+		    _data.setToShuntG(SwingInputVerifyUtil.getDouble(toShuntGTextField));
+		    _data.setToShuntB(SwingInputVerifyUtil.getDouble(toShuntBTextField));
+		    _data.setShuntYUnit("PU");
 
 		    _data.setRating1(SwingInputVerifyUtil.getDouble(mvaRating1TextField));
 			_data.setRating2(SwingInputVerifyUtil.getDouble(mvaRating2TextField));
@@ -441,6 +454,13 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         mvaRating2TextField = new javax.swing.JTextField();
         mvaRating3Label = new javax.swing.JLabel();
         mvaRating3TextField = new javax.swing.JTextField();
+        branchShuntYPanel = new javax.swing.JPanel();
+        branchShuntYLabel = new javax.swing.JLabel();
+        fromShuntGTextField = new javax.swing.JTextField();
+        fromShuntBTextField = new javax.swing.JTextField();
+        toShuntYLabel = new javax.swing.JLabel();
+        toShuntGTextField = new javax.swing.JTextField();
+        toShuntBTextField = new javax.swing.JTextField();
         psXfrPControlPanel = new javax.swing.JPanel();
         psXfrPowerCheckBox = new javax.swing.JCheckBox();
         psXfrPControlEditPanel = new javax.swing.JPanel();
@@ -688,6 +708,41 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
         gridBagConstraints.gridy = 3;
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 10, 0);
         branchDataPanel.add(mvaRating3TextField, gridBagConstraints);
+
+        branchShuntYPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
+
+        branchShuntYLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        branchShuntYLabel.setText("Branch Shunt G+jB(pu)   (from)");
+        branchShuntYPanel.add(branchShuntYLabel);
+
+        fromShuntGTextField.setColumns(4);
+        fromShuntGTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        fromShuntGTextField.setText("0.0");
+        branchShuntYPanel.add(fromShuntGTextField);
+
+        fromShuntBTextField.setColumns(4);
+        fromShuntBTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        fromShuntBTextField.setText("0.0");
+        branchShuntYPanel.add(fromShuntBTextField);
+
+        toShuntYLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        toShuntYLabel.setText("          (to)");
+        branchShuntYPanel.add(toShuntYLabel);
+
+        toShuntGTextField.setColumns(4);
+        toShuntGTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        toShuntGTextField.setText("0.0");
+        branchShuntYPanel.add(toShuntGTextField);
+
+        toShuntBTextField.setColumns(4);
+        toShuntBTextField.setFont(new java.awt.Font("Dialog", 0, 12));
+        toShuntBTextField.setText("0.0");
+        branchShuntYPanel.add(toShuntBTextField);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 6;
+        branchDataPanel.add(branchShuntYPanel, gridBagConstraints);
 
         dataPanel.add(branchDataPanel, java.awt.BorderLayout.NORTH);
 
@@ -1072,6 +1127,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JTextField angleMinTextField;
     private javax.swing.JPanel branchDataPanel;
     private javax.swing.JRadioButton branchScriptRadioButton;
+    private javax.swing.JLabel branchShuntYLabel;
+    private javax.swing.JPanel branchShuntYPanel;
     private javax.swing.JTabbedPane branchTabbedPane;
     private javax.swing.ButtonGroup branchTypeButtonGroup;
     private javax.swing.JPanel branchTypePanel;
@@ -1090,6 +1147,8 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.ButtonGroup flowDirectionButtonGroup;
     private javax.swing.JPanel flowDirectionPanel;
     private javax.swing.JRadioButton from2ToRadioButton;
+    private javax.swing.JTextField fromShuntBTextField;
+    private javax.swing.JTextField fromShuntGTextField;
     private javax.swing.JLabel fromTapLabel;
     private javax.swing.JTextField fromTapTextField;
     private javax.swing.JLabel hBLabel;
@@ -1123,6 +1182,9 @@ public class NBBranchPositivePanel extends javax.swing.JPanel implements IFormDa
     private javax.swing.JPanel tapVControlEditPanel;
     private javax.swing.JPanel tapVControlPanel;
     private javax.swing.JRadioButton to2FromRadioButton;
+    private javax.swing.JTextField toShuntBTextField;
+    private javax.swing.JTextField toShuntGTextField;
+    private javax.swing.JLabel toShuntYLabel;
     private javax.swing.JLabel toTapLabel;
     private javax.swing.JTextField toTapTextField;
     private javax.swing.JLabel vSpecLabel;
