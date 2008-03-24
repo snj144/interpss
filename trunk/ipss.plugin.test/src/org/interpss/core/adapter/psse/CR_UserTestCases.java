@@ -47,7 +47,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/PSSE_5Bus_Test.raw", SpringAppContext.getIpssMsgHub());
-  		System.out.println(simuCtx.getAclfNet().net2String());
+//  		System.out.println(simuCtx.getAclfNet().net2String());
 
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 
@@ -67,7 +67,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw", SpringAppContext.getIpssMsgHub());
-  		System.out.println(simuCtx.getAclfNet().net2String());
+//  		System.out.println(simuCtx.getAclfNet().net2String());
 
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 
