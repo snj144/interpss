@@ -38,10 +38,6 @@ package org.interpss.custom.exchange.psse;
 		Area Interchange Data
  */
 
-import java.util.StringTokenizer;
-
-import org.interpss.custom.exchange.FileAdapter_PTIFormat;
-
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -65,21 +61,14 @@ public class PSSENetDataRecord {
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
-				FileAdapter_PTIFormat.VersionNo version,
+				PSSEDataRec.VersionNo version,
 				IPSSMsgHub msg) throws Exception {
 		IpssLogger.getLogger().fine("Header data Line:" + lineNo + " " + lineStr);
 		if (lineNo == 1) {
-  			StringTokenizer st = new StringTokenizer(lineStr, ",");
-    		int indicator = new Integer(st.nextToken()).intValue();
-    		if (indicator != 0) {
-    			// we will implement this in the future.
-    			throw new Exception("Only base case has been implmented");
-    		}
-    		
-    		// at here we have "100.00 / PSS/E-29.0 THU, JUN 20 2002 14:19"
-  			st = new StringTokenizer(st.nextToken(), "/");
-    		double baseMVA = new Double(st.nextToken().trim()).doubleValue();
-			adjNet.setBaseKva(baseMVA*1000.0);
+			PSSEDataRec.HeaderRec hrec = new PSSEDataRec.HeaderRec(lineStr, version);
+			
+			double baseMva = new Double(hrec.baseMva).doubleValue();
+    		adjNet.setBaseKva(baseMva*1000.0);
 			
 			// PSS/E do not have ground branch concept
 			adjNet.setAllowGroundBranch(false);
@@ -117,17 +106,18 @@ public class PSSENetDataRecord {
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
+				PSSEDataRec.VersionNo version,
 				IPSSMsgHub msgHub) throws Exception {
 /*
 		I,ISW,PDES,PTOL,'ARNAM'
 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		PSSEDataRec.AreaInterchangeRec rec = new PSSEDataRec.AreaInterchangeRec(lineStr, version);
 
-		int I = new Integer(st.nextToken().trim()).intValue();
-		int ISW = new Integer(st.nextToken().trim()).intValue();
-		double PDES = new Double(st.nextToken().trim()).doubleValue();
-		double PTOL = new Double(st.nextToken().trim()).doubleValue();
-		String ARNAM = PSSEUtilFunc.trimQuote(st.nextToken());
+		int I = new Integer(rec.i).intValue();
+		int ISW = new Integer(rec.isw).intValue();
+		double PDES = new Double(rec.pdes).doubleValue();
+		double PTOL = new Double(rec.ptol).doubleValue();
+		String ARNAM = PSSEUtilFunc.trimQuote(rec.arnam);
 
 		IpssLogger.getLogger().fine("Area interchange data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("Area number, Swing Bus Number:" + I + ", " + ISW);
@@ -147,14 +137,15 @@ public class PSSENetDataRecord {
 			AclfAdjNetwork adjNet, 
 			String lineStr,
 			int lineNo, 
+			PSSEDataRec.VersionNo version,
 			IPSSMsgHub msg) throws Exception {
 		/*
 		 * Format: I, ’ZONAME’
 		 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		PSSEDataRec.ZoneRec rec = new PSSEDataRec.ZoneRec(lineStr, version);
 
-		int I = new Integer(st.nextToken().trim()).intValue();
-		String NAME = PSSEUtilFunc.trimQuote(st.nextToken());
+		int I = new Integer(rec.i).intValue();
+		String NAME = PSSEUtilFunc.trimQuote(rec.name);
 		
 		IpssLogger.getLogger().fine("Zone data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("Zone number, name:" + I + ", " + NAME);
@@ -167,16 +158,17 @@ public class PSSENetDataRecord {
 			AclfAdjNetwork adjNet, 
 			String lineStr,
 			int lineNo, 
+			PSSEDataRec.VersionNo version,
 			IPSSMsgHub msg) throws Exception {
 		/*
 		 * format: ARFROM, ARTO, TRID, PTRAN
 		 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		PSSEDataRec.InterareaTransferRec rec = new PSSEDataRec.InterareaTransferRec(lineStr, version);
 
-		int ARFROM = new Integer(st.nextToken().trim()).intValue();
-		int ARTO = new Integer(st.nextToken().trim()).intValue();
-		String TRID = PSSEUtilFunc.trimQuote(st.nextToken());
-		double PTRAN = new Double(st.nextToken().trim()).doubleValue();
+		int ARFROM = new Integer(rec.arfrom).intValue();
+		int ARTO = new Integer(rec.arto).intValue();
+		String TRID = PSSEUtilFunc.trimQuote(rec.trid);
+		double PTRAN = new Double(rec.ptran).doubleValue();
 		
 		IpssLogger.getLogger().fine("Interarea transfer data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("From area number, From area number, id, value:" 
@@ -188,14 +180,15 @@ public class PSSENetDataRecord {
 			AclfAdjNetwork adjNet, 
 			String lineStr,
 			int lineNo, 
+			PSSEDataRec.VersionNo version,
 			IPSSMsgHub msg) throws Exception {
 		/*
 		 * format : I, ’OWNAME’
 		 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		PSSEDataRec.OwnerRec rec = new PSSEDataRec.OwnerRec(lineStr, version);
 
-		int I = new Integer(st.nextToken().trim()).intValue();
-		String NAME = PSSEUtilFunc.trimQuote(st.nextToken());
+		int I = new Integer(rec.i).intValue();
+		String NAME = PSSEUtilFunc.trimQuote(rec.name);
 		
 		IpssLogger.getLogger().fine("Owner data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("Owner number, name:" + I + ", " + NAME);
@@ -209,6 +202,7 @@ public class PSSENetDataRecord {
 			AclfAdjNetwork adjNet, 
 			String lineStr,
 			int lineNo, 
+			PSSEDataRec.VersionNo version,
 			IPSSMsgHub msg) throws Exception {
 		/*
 		 * format: I, J, ID, DUM1, DUM2, ... DUM9
@@ -217,11 +211,11 @@ public class PSSENetDataRecord {
 		 * first character of the extended bus name to designate it as the metered end; otherwise,
 		 * bus I is assumed to be the metered end.
 		 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		PSSEDataRec.MultiSectionLineGroupRec rec = new PSSEDataRec.MultiSectionLineGroupRec(lineStr, version);
 
-		int I = new Integer(st.nextToken().trim()).intValue();
-		int J = new Integer(st.nextToken().trim()).intValue();
-		String ID = PSSEUtilFunc.trimQuote(st.nextToken());
+		int I = new Integer(rec.i).intValue();
+		int J = new Integer(rec.j).intValue();
+		String ID = PSSEUtilFunc.trimQuote(rec.i);
 		
 		IpssLogger.getLogger().fine("Multi-Section Line Group data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("From area number, From area number, id:" + I + ", " + J  + ", " + ID);		

@@ -24,12 +24,9 @@
 
 package org.interpss.custom.exchange.psse;
 
+import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.exchange.psse.aclf.PSSELine;
 import org.interpss.custom.exchange.psse.aclf.PSSEXformer;
-
-import java.util.StringTokenizer;
-
-import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
@@ -55,46 +52,37 @@ public class PSSEBranchDataRecord {
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
+				PSSEDataRec.VersionNo version,
 				IPSSMsgHub msg) throws Exception {
 /*
 		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-		int I  = new Integer(st.nextToken().trim()).intValue();
-		int J  = new Integer(st.nextToken().trim()).intValue();
-		String CKT  = PSSEUtilFunc.trimQuote(st.nextToken());
-		double R = new Double(st.nextToken().trim()).doubleValue();
-		double X = new Double(st.nextToken().trim()).doubleValue();
-		double B = new Double(st.nextToken().trim()).doubleValue();
-		double RATEA = new Double(st.nextToken().trim()).doubleValue();
-		double RATEB = new Double(st.nextToken().trim()).doubleValue();
-		double RATEC = new Double(st.nextToken().trim()).doubleValue();
-		double GI = new Double(st.nextToken().trim()).doubleValue();
-		double BI = new Double(st.nextToken().trim()).doubleValue();
-		double GJ = new Double(st.nextToken().trim()).doubleValue();
-		double BJ = new Double(st.nextToken().trim()).doubleValue();
-		int ST  = new Integer(st.nextToken().trim()).intValue();
-		double LEN = new Double(st.nextToken().trim()).doubleValue();
+		PSSEDataRec.BranchRec rec = new PSSEDataRec.BranchRec(lineStr, version);
+		
+		int I  = new Integer(rec.i).intValue();
+		int J  = new Integer(rec.j).intValue();
+		String CKT  = PSSEUtilFunc.trimQuote(rec.ckt);
+		double R = new Double(rec.r).doubleValue();
+		double X = new Double(rec.x).doubleValue();
+		double B = new Double(rec.b).doubleValue();
+		double RATEA = new Double(rec.rateA).doubleValue();
+		double RATEB = new Double(rec.rateB).doubleValue();
+		double RATEC = new Double(rec.rateC).doubleValue();
+		double GI = new Double(rec.gi).doubleValue();
+		double BI = new Double(rec.bi).doubleValue();
+		double GJ = new Double(rec.gj).doubleValue();
+		double BJ = new Double(rec.bj).doubleValue();
+		int ST  = new Integer(rec.status).intValue();
+		double LEN = new Double(rec.len).doubleValue();
 
-		int    O1 = 0, O2 = 0, O3 = 0, O4 = 0;
-		double F1 = 0.0, F2 = 0.0, F3 = 0.0, F4 = 0.0;
-
-		if (st.hasMoreTokens()) {
-			O1 = new Integer(st.nextToken().trim()).intValue();
-			F1 = new Double(st.nextToken().trim()).doubleValue();
-		}
-		if (st.hasMoreTokens()) {
-			O2 = new Integer(st.nextToken().trim()).intValue();
-			F2 = new Double(st.nextToken().trim()).doubleValue();
-		}
-		if (st.hasMoreTokens()) {
-			O3 = new Integer(st.nextToken().trim()).intValue();
-			F3 = new Double(st.nextToken().trim()).doubleValue();
-		}
-		if (st.hasMoreTokens()) {
-			O4 = new Integer(st.nextToken().trim()).intValue();
-			F4 = new Double(st.nextToken().trim()).doubleValue();
-		}
+		int O1 = new Integer(rec.o1).intValue();
+		double F1 = new Double(rec.f1).doubleValue();
+		int O2 = new Integer(rec.o2).intValue();
+		double F2 = new Double(rec.f2).doubleValue();
+		int O3 = new Integer(rec.o3).intValue();
+		double F3 = new Double(rec.f3).doubleValue();
+		int O4 = new Integer(rec.o4).intValue();
+		double F4 = new Double(rec.f4).doubleValue();
 
 		IpssLogger.getLogger().fine("Branch data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("From Bus number, To Bus Number, Circuit id:" + I + ", " + J + ", " + CKT);
@@ -154,44 +142,34 @@ public class PSSEBranchDataRecord {
 				String lineStr4,
 				String lineStr5,
 				int lineNo, 
+				PSSEDataRec.VersionNo version,
 				IPSSMsgHub msg) throws Exception {
 /*
 	For 2W and 3W Xfr: I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		PSSEDataRec.Xfr2WRec rec = new PSSEDataRec.Xfr2WRec(lineStr, lineStr2, lineStr3, lineStr4, version);
+		
+		int I = new Integer(rec.i).intValue();
+		int J = new Integer(rec.j).intValue();
+		int K = new Integer(rec.k).intValue();
+		String CKT  = PSSEUtilFunc.trimQuote(rec.ckt);
+		int CW = new Integer(rec.cw).intValue();
+		int CZ = new Integer(rec.cz).intValue();
+		int CM = new Integer(rec.cm).intValue();
+		double MAG1 = new Double(rec.mag1).doubleValue();
+		double MAG2 = new Double(rec.mag2).doubleValue();
+		int NMETR = new Integer(rec.nmetr).intValue();
+		String NAME = PSSEUtilFunc.trimQuote(rec.name);
+		int STAT = new Integer(rec.stat).intValue();
 
-		int I = new Integer(st.nextToken().trim()).intValue();
-		int J = new Integer(st.nextToken().trim()).intValue();
-		int K = new Integer(st.nextToken().trim()).intValue();
-		String CKT  = PSSEUtilFunc.trimQuote(st.nextToken());
-		int CW = new Integer(st.nextToken().trim()).intValue();
-		int CZ = new Integer(st.nextToken().trim()).intValue();
-		int CM = new Integer(st.nextToken().trim()).intValue();
-		double MAG1 = new Double(st.nextToken()).doubleValue();
-		double MAG2 = new Double(st.nextToken()).doubleValue();
-		int NMETR = new Integer(st.nextToken().trim()).intValue();
-		String NAME = PSSEUtilFunc.trimQuote(st.nextToken());
-		int STAT = new Integer(st.nextToken().trim()).intValue();
-
-		int    O1 = 0, O2 = 0, O3 = 0, O4 = 0;
-		double F1 = 0.0, F2 = 0.0, F3 = 0.0, F4 = 0.0;
-
-		if (st.hasMoreTokens()) {
-			O1 = new Integer(st.nextToken().trim()).intValue();
-			F1 = new Double(st.nextToken().trim()).doubleValue();
-		}
-		if (st.hasMoreTokens()) {
-			O2 = new Integer(st.nextToken().trim()).intValue();
-			F2 = new Double(st.nextToken().trim()).doubleValue();
-		}
-		if (st.hasMoreTokens()) {
-			O3 = new Integer(st.nextToken().trim()).intValue();
-			F3 = new Double(st.nextToken().trim()).doubleValue();
-		}
-		if (st.hasMoreTokens()) {
-			O4 = new Integer(st.nextToken().trim()).intValue();
-			F4 = new Double(st.nextToken().trim()).doubleValue();
-		}
+		int O1 = new Integer(rec.o1).intValue();
+		double F1 = new Double(rec.f1).doubleValue();
+		int O2 = new Integer(rec.o2).intValue();
+		double F2 = new Double(rec.f2).doubleValue();
+		int O3 = new Integer(rec.o3).intValue();
+		double F3 = new Double(rec.f3).doubleValue();
+		int O4 = new Integer(rec.o4).intValue();
+		double F4 = new Double(rec.f4).doubleValue();
 		
 		IpssLogger.getLogger().fine("Xfr data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("I, J, K, Circuit id:" + I + ", " + J + ", "  + K + ", " + CKT);
@@ -229,10 +207,9 @@ public class PSSEBranchDataRecord {
 	    	/*
 	       		format : R1-2,X1-2,SBASE1-2
 	    	*/
-	  		StringTokenizer st2 = new StringTokenizer(lineStr2, ",");
-	       	double R1_2 = new Double(st2.nextToken()).doubleValue();
-	       	double X1_2 = new Double(st2.nextToken()).doubleValue();
-	       	double SBASE1_2 = new Double(st2.nextToken()).doubleValue();
+	       	double R1_2 = new Double(rec.r1_2).doubleValue();
+	       	double X1_2 = new Double(rec.x1_2).doubleValue();
+	       	double SBASE1_2 = new Double(rec.sbase1_2).doubleValue();
 	       	
 	       	bra.setMvaRating(SBASE1_2);
 	       	if (bra.getFlagZ() == 1) {
@@ -256,30 +233,28 @@ public class PSSEBranchDataRecord {
 	    	/*
     		format : WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
 	    	 */
-	  		StringTokenizer st3 = new StringTokenizer(lineStr3, ",");
-	  		double WINDV1 = new Double(st3.nextToken()).doubleValue();
-	  		double NOMV1 = new Double(st3.nextToken()).doubleValue();
-	  		double ANG1 = new Double(st3.nextToken()).doubleValue();
-	  		double RATA1 = new Double(st3.nextToken()).doubleValue();
-	  		double RATB1 = new Double(st3.nextToken()).doubleValue();
-	  		double RATC1 = new Double(st3.nextToken()).doubleValue();
-	  		int COD = new Integer(st3.nextToken().trim()).intValue();
-	  		int CONT = new Integer(st3.nextToken().trim()).intValue();
-	  		double RMA = new Double(st3.nextToken()).doubleValue();
-	  		double RMI = new Double(st3.nextToken()).doubleValue();
-	  		double VMA = new Double(st3.nextToken()).doubleValue();
-	  		double VMI = new Double(st3.nextToken()).doubleValue();
-	  		int NTP = new Integer(st3.nextToken().trim()).intValue();
-	  		int TAB = new Integer(st3.nextToken().trim()).intValue();
-	  		double CR = new Double(st3.nextToken()).doubleValue();
-	  		double CX = new Double(st3.nextToken()).doubleValue();
+	  		double WINDV1 = new Double(rec.windv1).doubleValue();
+	  		double NOMV1 = new Double(rec.nomv1).doubleValue();
+	  		double ANG1 = new Double(rec.ang1).doubleValue();
+	  		double RATA1 = new Double(rec.rata1).doubleValue();
+	  		double RATB1 = new Double(rec.ratb1).doubleValue();
+	  		double RATC1 = new Double(rec.ratc1).doubleValue();
+	  		int COD = new Integer(rec.cod).intValue();
+	  		int CONT = new Integer(rec.cont).intValue();
+	  		double RMA = new Double(rec.rma).doubleValue();
+	  		double RMI = new Double(rec.rmi).doubleValue();
+	  		double VMA = new Double(rec.vma).doubleValue();
+	  		double VMI = new Double(rec.vmi).doubleValue();
+	  		int NTP = new Integer(rec.ntp).intValue();
+	  		int TAB = new Integer(rec.tab).intValue();
+	  		double CR = new Double(rec.cr).doubleValue();
+	  		double CX = new Double(rec.cx).doubleValue();
 	  		
 	  		/*
 			format : WINDV2,NOMV2
 	  		 */
-	  		StringTokenizer st4 = new StringTokenizer(lineStr4, ",");
-	  		double WINDV2 = new Double(st4.nextToken()).doubleValue();
-	  		double NOMV2 = new Double(st4.nextToken()).doubleValue();
+	  		double WINDV2 = new Double(rec.windv2).doubleValue();
+	  		double NOMV2 = new Double(rec.nomv2).doubleValue();
 	  		
 	       	double f_ratio = 1.0, t_ratio = 1.0;
 	  		if (bra.getFlagWinding() == 1) {
