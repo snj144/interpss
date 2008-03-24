@@ -18,7 +18,7 @@
 									<ns:extension
 										base="ipss:BusRecXmlType">
 										<ns:sequence>
-											<ns:element name="setSatus"
+											<ns:element name="offLine"
 												type="ns:boolean" maxOccurs="1" minOccurs="0">
 											</ns:element>
 											<ns:element
@@ -113,7 +113,7 @@
 										base="ipss:BranchRecXmlType">
 										<ns:sequence>
 											<ns:element
-												name="setInService" type="ns:boolean" maxOccurs="1"
+												name="offLine" type="ns:boolean" maxOccurs="1"
 												minOccurs="0">
 											</ns:element>
 											<ns:element
