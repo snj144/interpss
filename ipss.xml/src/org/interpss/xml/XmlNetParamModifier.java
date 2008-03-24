@@ -35,6 +35,7 @@ import org.interpss.schema.ModificationXmlType.BusChangeRecList.BusChangeRec.Acl
 import org.interpss.schema.UnitXmlData;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -80,7 +81,7 @@ public class XmlNetParamModifier {
 			for (ModificationXmlType.BusChangeRecList.BusChangeRec busRec : mod
 					.getBusChangeRecList().getBusChangeRecArray()) {
 				Bus bus = getBus(busRec, net);
-				bus.setStatus(busRec.getSetSatus());
+				bus.setStatus(!busRec.getOffLine());
 				IpssLogger.getLogger().info(
 						"Bus " + bus.getId() + " status has been set to "
 								+ bus.isActive());
@@ -92,7 +93,7 @@ public class XmlNetParamModifier {
 					.getBranchChangeRecList().getBranchChangeRecArray()) {
 				Branch branch = getBranch(braRec, net);
 				if (branch != null) {
-					branch.setStatus(braRec.getSetInService());
+					branch.setStatus(!braRec.getOffLine());
 					IpssLogger.getLogger().info(
 							"Branch " + branch.getId()
 									+ " service status has been set to "
@@ -265,7 +266,9 @@ public class XmlNetParamModifier {
 				re += original.getReal();
 				im += original.getImaginary();
 			}
-			return new Complex(re, im);
+			Complex cReturn = new Complex(re, im);
+			IpssLogger.getLogger().info( "Gen/Load add/set to: " + ComplexFunc.toString(cReturn));
+			return cReturn;
 		} else if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.INCREASE
 				|| changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.DECREASE) {
 			// for increase/decrease, use percent and unit (PU or percent)
@@ -274,9 +277,11 @@ public class XmlNetParamModifier {
 				factor *= 0.01;
 			if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.DECREASE)
 				factor = -factor;
-			return new Complex(original.getReal() * (1.0 + factor), original
+			Complex cReturn = new Complex(original.getReal() * (1.0 + factor), original
 					.getImaginary()
 					* (1.0 + factor));
+			IpssLogger.getLogger().info( "Gen/Load add/set to: " + ComplexFunc.toString(cReturn));
+			return cReturn;
 		}
 
 		IpssLogger.getLogger().warning(
