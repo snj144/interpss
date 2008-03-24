@@ -39,6 +39,7 @@ package org.interpss.custom.exchange.psse;
  */
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
 
@@ -47,42 +48,50 @@ public class PSSESwitchedShuntDataRecord  {
 				AclfAdjNetwork adjNet, 
 				String lineStr,
 				int lineNo, 
+				PSSEDataRec.VersionNo version,
 				IPSSMsgHub msg) throws Exception {
 		msg.sendWarnMsg("Swithced Shunt data record has not been implemented");
 
 		/*
-		I,MODSW,VSWHI,VSWLO,SWREM,BINIT,N1,B1,N2,B2...N8,B8
-*/				
+			I,MODSW,VSWHI,VSWLO,SWREM,BINIT,N1,B1,N2,B2...N8,B8
+				I - Bus number
+				MODSW - Mode 0 - fixed 1 - discrete 2 - continuous
+				VSWHI - Desired voltage upper limit, per unit
+				VSWLO - Desired voltage lower limit, per unit
+				SWREM - Number of remote bus to control. 0 to control own bus.
+				VDES - Desired voltage setpoint, per unit
+				BINIT - Initial switched shunt admittance, MVAR at 1.0 per unit volts
+				N1 - Number of steps for block 1, first 0 is end of blocks
+				B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts.
+				N2, B2, etc, as N1, B1
+		 */				
+		PSSEDataRec.ShuntRec rec = new PSSEDataRec.ShuntRec(lineStr, version);
 		
-/*		
-  		StringTokenizer st = new StringTokenizer(lineStr);
 
-		int I = new Integer(st.nextToken()).intValue();
-		int MODSW = new Integer(st.nextToken()).intValue();
-		double VSWHI = new Double(st.nextToken()).doubleValue();
-		double VSWLO = new Double(st.nextToken()).doubleValue();
-		int SWREM  = new Integer(st.nextToken()).intValue();
-		double VDES = new Double(st.nextToken()).doubleValue();
-		double BINIT = new Double(st.nextToken()).doubleValue();
-		int N1     = new Integer(st.nextToken()).intValue();
-		double B1  = new Double(st.nextToken()).doubleValue();
-		int N2     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B2  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N3     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B3  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N4     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B4  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N5     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B5  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N6     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B6  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N7     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B7  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
-		int N8     = st.hasMoreTokens()? new Integer(st.nextToken()).intValue() : 0;
-		double B8  = st.hasMoreTokens()? new Double(st.nextToken()).doubleValue() : 0.0;
+		int I = new Integer(rec.i).intValue();
+		int MODSW = new Integer(rec.modsw).intValue();
+		double VSWHI = new Double(rec.vswhi).doubleValue();
+		double VSWLO = new Double(rec.vswlo).doubleValue();
+		int SWREM  = new Integer(rec.swrem).intValue();
+		double BINIT = new Double(rec.binit).doubleValue();
+		int N1     = new Integer(rec.n[0]).intValue();
+		double B1  = new Double(rec.b[0]).doubleValue();
+		int N2     = new Integer(rec.n[1]).intValue();
+		double B2  = new Double(rec.b[1]).doubleValue();
+		int N3     = new Integer(rec.n[2]).intValue();
+		double B3  = new Double(rec.b[2]).doubleValue();
+		int N4     = new Integer(rec.n[3]).intValue();
+		double B4  = new Double(rec.b[3]).doubleValue();
+		int N5     = new Integer(rec.n[4]).intValue();
+		double B5  = new Double(rec.b[4]).doubleValue();
+		int N6     = new Integer(rec.n[5]).intValue();
+		double B6  = new Double(rec.b[5]).doubleValue();
+		int N7     = new Integer(rec.n[6]).intValue();
+		double B7  = new Double(rec.b[6]).doubleValue();
+		int N8     = new Integer(rec.n[7]).intValue();
+		double B8  = new Double(rec.b[7]).doubleValue();
 
-		IpssLogger.getLogger().info("Switched shunt data Line:" + lineNo + " " + lineStr);
-*/		
+		IpssLogger.getLogger().info("Switched shunt data Line:" + lineNo + " " + lineStr);	
 	}	
 	
 	
