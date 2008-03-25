@@ -11,7 +11,6 @@ import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -47,6 +46,8 @@ public class UserStephenCaseTest extends BaseTestSetup {
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 	  		mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
 	  	
+	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+
 	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 	  	}
@@ -87,9 +88,20 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 	  		mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+	  		
+	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  	
 	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 	  	}
+
+  		assertTrue(mscase.getStudyCase(1) != null);
+  		assertTrue(mscase.getStudyCase(2) != null);
+
+  		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
+  		assertTrue(net.getBranch("No1", "No2").isActive() == false);
+  		
+  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
+  		assertTrue(net.getBranch("No1", "No5").isActive() == false);
 	}			
 }
