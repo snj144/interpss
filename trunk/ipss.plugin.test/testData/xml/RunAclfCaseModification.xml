@@ -33,7 +33,7 @@
 							<ipss:recId>BranchChangeRec-1</ipss:recId>
 							<ipss:fromBusId>0010</ipss:fromBusId>
 							<ipss:toBusId>0009</ipss:toBusId>
-							<ipss:setInService>false</ipss:setInService>
+							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec>
 
 						<ipss:branchChangeRec>
