@@ -143,16 +143,13 @@ public class IpssRptViewer extends JRViewer {
 		int retValue = fileChooser.showSaveDialog(this);
 		if (retValue == JFileChooser.APPROVE_OPTION) {
 			File file = fileChooser.getSelectedFile();
-			save(file);
+			save(file.getAbsolutePath());
 		}
 	}
 
-	public void save(File file) {
+	public void save(String filename) {
 		try {
-			if (!file.getName().endsWith(REPORT_EXT)) {
-				file = new File(file.getAbsolutePath() + "." + REPORT_EXT);
-			}
-			JRSaver.saveObject(jasperPrint, file);
+			JRSaver.saveObject(jasperPrint, new File(filename));
 		} catch (JRException e) {
 			IpssLogger.logErr(e);
 			SpringAppContext.getEditorDialogUtil().showMsgDialog(
