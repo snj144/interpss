@@ -273,7 +273,6 @@ public class EditorActionAdapter {
 
 		Utilities.delFile(filename);
 
-		((IpssReportDocument) rptItem.getDocument()).getMainViewer().save(
-				new File(filename));
+		((IpssReportDocument) rptItem.getDocument()).getMainViewer().save(filename);
 	}
 }
