@@ -72,7 +72,7 @@
 
 		<jar destfile="${install_temp}/lib/custom/tsinghua.jar" basedir="${dev_ws_base}/tsinghua/bin" excludes="CVS/**,model/**" />
 	</target>
-
+ 
 	<target name="copy_izpack_files" depends="jar_lib">
 		<copy todir="${install_temp}">
 			<fileset dir="izpack">
