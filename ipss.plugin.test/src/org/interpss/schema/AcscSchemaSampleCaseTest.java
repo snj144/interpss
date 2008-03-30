@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.schema.RunStudyCaseXmlType.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
@@ -58,8 +59,8 @@ public class AcscSchemaSampleCaseTest extends BaseTestSetup {
 
   		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  	for ( RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase acscCase : parser.getRunAcscStudyCaseList()) {
-	  		mapper.mapping(acscCase, algo, RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase.class);
+	  	for ( AcscStudyCaseRec acscRec : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseRecArray()) {
+	  		mapper.mapping(acscRec, algo, AcscStudyCaseXmlType.class);
 	  		AcscBusFault fault = faultNet.getFaultList().get(0);
 	  		algo.calculateBusFault((AcscBusFault)fault, SpringAppContext.getIpssMsgHub());
 	  			/*
