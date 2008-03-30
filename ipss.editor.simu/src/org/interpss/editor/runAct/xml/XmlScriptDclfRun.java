@@ -30,7 +30,9 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.DclfSensitivityXmlType;
+import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.RunDclfStudyCase.DclfStudyCaseList.DclfStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -51,67 +53,76 @@ public class XmlScriptDclfRun {
 	 */
 	public static boolean runDclf(IpssXmlParser parser, AclfNetwork aclfNet,
 			IPSSMsgHub msg) {
-		if (parser.getRunDclfStudyCaseList().length > 0) {
-			if (parser.getRunDclfStudyCaseList().length == 1) {
-				RunStudyCaseXmlType.DclfStudyCaseList.DclfStudyCase dclfCase = parser
-						.getRunDclfStudyCaseList()[0];
+		if (parser.getRunDclfStudyCase() != null) {
+			RunStudyCaseXmlType.RunDclfStudyCase xmlRunDclfCase = parser
+					.getRunDclfStudyCase();
 
-				DclfAlgorithm algo = CoreObjectFactory
-						.createDclfAlgorithm(aclfNet);
-				if (!algo.checkCondition(msg))
-					return false;
+			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(aclfNet);
+			if (!algo.checkCondition(msg))
+				return false;
 
-				IOutputTextDialog dialog = UISpringAppContext
-						.getOutputTextDialog("DC Loadflow Analysis Info");
+			IOutputTextDialog dialog = UISpringAppContext
+					.getOutputTextDialog("DC Loadflow Analysis Info");
 
-				if (dclfCase.getCaculatelDclf()) {
+			DclfStudyCaseXmlType xmlDefaultCase = xmlRunDclfCase.getDafaultDclfStudyCase(); 
+			
+			for ( DclfStudyCaseRec rec : xmlRunDclfCase.getDclfStudyCaseList().getDclfStudyCaseRecArray()) {
+				if (rec.getModification() != null) {
+					// TODO: apply the modification
+				}
+
+				DclfStudyCaseXmlType xmlCase = rec.getDclfStudyCase();
+				if (xmlCase == null) {
+					if (xmlDefaultCase == null) {
+						msg.sendErrorMsg("No Dclf study case defined");
+						return false;
+					}
+					xmlCase = xmlDefaultCase;
+				} 
+
+				if (xmlCase.getCaculatelDclf()) {
 					algo.calculateDclf(msg);
 					String str = DclfOutFunc.dclfResults(algo);
 					dialog.appendText(str);
 				}
 
-				for (DclfBusSensitivityXmlType sen : dclfCase
-						.getSensitivityArray()) {
+				for (DclfBusSensitivityXmlType sen : xmlCase.getSensitivityArray()) {
 					if (sen.getSenType() == DclfSensitivityXmlType.SenType.P_ANGLE) {
-						algo.calculateSensitivity(DclfSensitivityType.PANGLE,
-								sen.getInjectBusId(), msg);
-						String str = DclfOutFunc.pAngleSensitivityResults(
-								sen, algo, msg);
+						algo.calculateSensitivity(DclfSensitivityType.PANGLE, sen
+								.getInjectBusId(), msg);
+						String str = DclfOutFunc.pAngleSensitivityResults(sen,
+								algo, msg);
 						dialog.appendText(str);
 					} else if (sen.getSenType() == DclfSensitivityXmlType.SenType.Q_VOLTAGE) {
-						algo.calculateSensitivity(DclfSensitivityType.QVOLTAGE,
-								sen.getInjectBusId(), msg);
-						String str = DclfOutFunc.qVoltageSensitivityResults(sen, algo, msg);
+						algo.calculateSensitivity(DclfSensitivityType.QVOLTAGE, sen
+								.getInjectBusId(), msg);
+						String str = DclfOutFunc.qVoltageSensitivityResults(sen,
+								algo, msg);
 						dialog.appendText(str);
 					}
 				}
 
-				for (DclfBranchSensitivityXmlType gsFactor : dclfCase
+				for (DclfBranchSensitivityXmlType gsFactor : xmlCase
 						.getGenShiftFactorArray()) {
-					algo.calculateSensitivity(DclfSensitivityType.PANGLE,
-							gsFactor.getInjectBusId(), msg);
-					String str = DclfOutFunc.genShiftFactorResults(
-							gsFactor, algo, msg);
+					algo.calculateSensitivity(DclfSensitivityType.PANGLE, gsFactor
+							.getInjectBusId(), msg);
+					String str = DclfOutFunc.genShiftFactorResults(gsFactor, algo,
+							msg);
 					dialog.appendText(str);
 				}
 
-				for (DclfBranchSensitivityXmlType tdFactor : dclfCase
+				for (DclfBranchSensitivityXmlType tdFactor : xmlCase
 						.getPTransferDistFactorArray()) {
-					algo.calculateSensitivity(DclfSensitivityType.PANGLE,
-							tdFactor.getInjectBusId(), tdFactor
-									.getWithdrawBusId(), msg);
-					String str = DclfOutFunc.pTransferDistFactorResults(
-							tdFactor, algo, msg);
+					algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor
+							.getInjectBusId(), tdFactor.getWithdrawBusId(), msg);
+					String str = DclfOutFunc.pTransferDistFactorResults(tdFactor,
+							algo, msg);
 					dialog.appendText(str);
-				}
-
-				dialog.showDialog();
-			} else {
-				for (RunStudyCaseXmlType.DclfStudyCaseList.DclfStudyCase dclfCase : parser
-						.getRunDclfStudyCaseList()) {
 				}
 			}
-		}
+			
+			dialog.showDialog();
+		} 
 		return true;
 	}
 }

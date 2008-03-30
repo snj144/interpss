@@ -33,7 +33,9 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.SpringAppContext;
@@ -71,28 +73,37 @@ public class XmlScriptDStabRun {
 		// get the RunStudyCase object, root level modification has already
 		// applied
 		// to the DStabNet object
-		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
+		RunStudyCaseXmlType.RunDStabStudyCase xmlRunCase = parser.getRunDStabStudyCase();
 
-		IAppSimuContext appSimuCtx = GraphSpringAppContext
-				.getIpssGraphicEditor().getCurrentAppSimuContext();
+		if (xmlRunCase != null) {
+			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
+			DStabStudyCaseXmlType xmlDefaultCase = xmlRunCase.getDefaultDStabStudyCase(); 
 
-		DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
-		if (parser.getRunDStabStudyCaseList().length > 0) {
 			// single run case
-			if (parser.getRunDStabStudyCaseList().length == 1) {
+			if (xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray().length == 1) {
 				appSimuCtx.setLastRunType(SimuRunType.DStab);
 
 				// get the run case info defined in the Xml scripts
-				RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabCase = parser
-						.getRunDStabStudyCaseList()[0];
+				DStabStudyCaseRec dstabRec = xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray()[0];
 				// config the DStabAlgo object, including apply case-level
 				// modification to the DStabNet object
 				DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
 						.createDynamicSimuAlgorithm(dstabNet, msg);
-				if (!configDStaAlgo(dstabAlgo, dstabCase, msg))
+
+				DStabStudyCaseXmlType xmlCase = dstabRec.getDStabStudyCase(); 
+				if (xmlCase == null) {
+					if (xmlDefaultCase == null) {
+						msg.sendErrorMsg("No DStab case defined");
+						return false;
+					}
+					xmlCase = xmlDefaultCase;
+					dstabRec.setDStabStudyCase(xmlDefaultCase);				
+				}
+				if (!configDStaAlgo(dstabAlgo, dstabRec, msg))
 					return false;
 
-				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
+				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					// get any remote node to distribute the simulation job
 					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
@@ -119,7 +130,7 @@ public class XmlScriptDStabRun {
 								.performGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
-										dstabAlgo, xmlStudyCase.getGridRun()
+										dstabAlgo, parser.getRunStudyCase().getGridRun()
 												.getTimeout());
 						// init the Net object for plotting purpose.
 						dstabNet.initialization(msg);
@@ -133,7 +144,7 @@ public class XmlScriptDStabRun {
 						return false;
 					}
 				} else {
-					runLocalDStabRun(dstabAlgo, dstabCase, msg);
+					runLocalDStabRun(dstabAlgo, xmlCase, msg);
 				}
 			} else {
 				// Multi-DStab run case
@@ -141,7 +152,7 @@ public class XmlScriptDStabRun {
 				SpringAppContext.getSimuRecManager().clearDbCaseIdLookup();
 				
 				GridMessageRouter msgRouter = null;
-				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
+				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
@@ -155,26 +166,34 @@ public class XmlScriptDStabRun {
 				MultiStudyCase mCaseContainer = SimuObjectFactory
 						.createMultiStudyCase(SimuCtxType.DSTABILITY_NET);
 				int cnt = 0;
-				for (RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabCase : parser
-						.getRunDStabStudyCaseList()) {
+				for (DStabStudyCaseRec dstabRec : xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray()) {
 					// deserialize the base case
 					DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil
 							.loadModel(netStr);
 					DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
 							.createDynamicSimuAlgorithm(net, msg);
-					if (!configDStaAlgo(dstabAlgo, dstabCase, msg))
+					
+					DStabStudyCaseXmlType xmlCase = dstabRec.getDStabStudyCase(); 
+					if (xmlCase == null) {
+						if (xmlDefaultCase == null) {
+							msg.sendErrorMsg("No DStab case defined");
+							return false;
+						}
+						xmlCase = xmlDefaultCase;
+					}
+					if (!configDStaAlgo(dstabAlgo, dstabRec, msg))
 						return false;
 
 					// net.id is used to retrieve study case info at remote
 					// node. so we need to sure net.id and studyCase.id are
 					// the same for Grid computing.
-					net.setId(dstabCase.getRecId());
+					net.setId(dstabRec.getRecId());
 					try {
 						StudyCase studyCase = SimuObjectFactory
-								.createStudyCase(dstabCase.getRecId(),
-										dstabCase.getRecName(), ++cnt,
+								.createStudyCase(dstabRec.getRecId(),
+										dstabRec.getRecName(), ++cnt,
 										mCaseContainer);
-						if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
+						if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 							// if Grid computing, save the net and algo objects
 							// to the study case object
 							studyCase.setNetModelString(SerializeEMFObjectUtil
@@ -190,7 +209,7 @@ public class XmlScriptDStabRun {
 									.getSimuOutputHandler());
 						} else {
 							// if not grid computing, perform DStab run
-							runLocalDStabRun(dstabAlgo, dstabCase, msg);
+							runLocalDStabRun(dstabAlgo, xmlCase, msg);
 							studyCase.setDesc("DStab by Local Node");
 						}
 					} catch (Exception e) {
@@ -201,14 +220,14 @@ public class XmlScriptDStabRun {
 					}
 				}
 
-				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
+				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					try {
 						Object[] objAry = (Object[]) IpssGridGainUtil
 								.performGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
-										mCaseContainer, xmlStudyCase
+										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
 						for (Object obj : objAry) {
 							if (!((Boolean) obj).booleanValue()) {
@@ -240,12 +259,12 @@ public class XmlScriptDStabRun {
 	}
 
 	private static boolean configDStaAlgo(DynamicSimuAlgorithm dstabAlgo,
-			RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabCase, IPSSMsgHub msg) {
+			DStabStudyCaseRec dstabRec, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
 		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
-		mapper.mapping(dstabCase, dstabAlgo, RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.class);
+		mapper.mapping(dstabRec, dstabAlgo, DStabStudyCaseXmlType.class);
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
 			return false; // if something is wrong, we stop running here
 
@@ -253,13 +272,13 @@ public class XmlScriptDStabRun {
 		// be created if not existed.
 		// to get db case id: dstabDbHandler.getDBCaseId()
 		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc
-				.createDBOutputHandler(dstabAlgo, dstabCase);
+				.createDBOutputHandler(dstabAlgo, dstabRec);
 		if (dstabDbHandler == null)
 			return false;
 
 		// correlate net.id, case.id and dbCaseId
-		dstabAlgo.getDStabNet().setId(dstabCase.getRecId());
-		SpringAppContext.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
+		dstabAlgo.getDStabNet().setId(dstabRec.getRecId());
+		SpringAppContext.getSimuRecManager().addDBCaseId(dstabRec.getRecId(), dstabDbHandler
 				.getDBCaseId());
 
 		// transfer output variable filter info to the DStabAlgo object, which
@@ -277,7 +296,7 @@ public class XmlScriptDStabRun {
 	}
 
 	private static boolean runLocalDStabRun(DynamicSimuAlgorithm dstabAlgo,
-			RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabCase, IPSSMsgHub msg) {
+			DStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
 		dstabAlgo.getDStabNet().setNetChangeListener(
 				CoreSpringAppContext.getNetChangeHandler());
 

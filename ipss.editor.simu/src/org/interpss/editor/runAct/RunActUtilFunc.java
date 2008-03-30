@@ -199,7 +199,7 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(
-			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabXmlCase) {
+			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec dstabRec) {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler) algo
 				.getSimuOutputHandler();
 		IAppSimuContext appSimuCtx = GraphSpringAppContext
@@ -209,8 +209,8 @@ public class RunActUtilFunc {
 			// to avoid conflict with StudyCase name, we add " SimuRecord" to
 			// the SimuRecord case.
 			String casename = "SimuRecord_";
-			if (dstabXmlCase != null)
-				casename += dstabXmlCase.getRecId();
+			if (dstabRec != null)
+				casename += dstabRec.getRecId();
 			else
 				casename += projData.getDStabCaseName();
 			if (!handler.init(projData.getProjectDbId(), casename))
