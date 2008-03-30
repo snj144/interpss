@@ -7,7 +7,7 @@ import java.io.File;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
+import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
@@ -41,15 +41,18 @@ public class UserStephenCaseTest extends BaseTestSetup {
   		
 	  	MultiStudyCase mscase = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 	  	int cnt = 0;
-	  	for ( DStabStudyCaseRec dstabRec : parser.getRunDStabStudyCase().getDStabStudyCaseList().getDStabStudyCaseRecArray()) {
+	  	for ( AclfStudyCase aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  		mapper.mapping(dstabRec, algo, DStabStudyCaseXmlType.class);
+	  		
+		  	if (aclfCase.getAclfAlgorithm() == null) 
+		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
+		  	mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
 	  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 
-	  		StudyCase scase = SimuObjectFactory.createStudyCase(dstabRec.getRecId(), dstabRec.getRecName(), ++cnt, mscase);
+	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 	  	}
 	  	
@@ -84,15 +87,18 @@ public class UserStephenCaseTest extends BaseTestSetup {
   		
 	  	MultiStudyCase mscase = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 	  	int cnt = 0;
-	  	for ( DStabStudyCaseRec dstabRec : parser.getRunDStabStudyCase().getDStabStudyCaseList().getDStabStudyCaseRecArray()) {
+	  	for ( AclfStudyCase aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  		mapper.mapping(dstabRec, algo, DStabStudyCaseXmlType.class);
+
+		  	if (aclfCase.getAclfAlgorithm() == null) 
+		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
+		  	mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
 	  		
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  	
-	  		StudyCase scase = SimuObjectFactory.createStudyCase(dstabRec.getRecId(), dstabRec.getRecName(), ++cnt, mscase);
+	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 	  	}
 

@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
-		<ipss:aclfStudyCaseList>
+		<ipss:runAclfStudyCase>
+			<ipss:aclfStudyCaseList>
 			<ipss:aclfStudyCase>
 				<ipss:recId>RunAclfCaseRec-1</ipss:recId>
 				<ipss:modification>
@@ -16,12 +17,8 @@
 								<ipss:loadChangeData>
 									<ipss:codeChange>
 										<ipss:loadCode>EXPONENTIAL</ipss:loadCode>
-										<ipss:expLoadP>
-											0.9
-										</ipss:expLoadP>
-										<ipss:expLoadQ>
-											3.0
-										</ipss:expLoadQ>
+										<ipss:expLoadP>0.9</ipss:expLoadP>
+										<ipss:expLoadQ>3.0</ipss:expLoadQ>
 									</ipss:codeChange>
 								</ipss:loadChangeData>
 							</ipss:aclfBusChangeData>
@@ -37,9 +34,7 @@
 						</ipss:branchChangeRec>
 
 						<ipss:branchChangeRec>
-							<ipss:recId>
-								AclfBranchChangeRec-1
-							</ipss:recId>
+							<ipss:recId>AclfBranchChangeRec-1</ipss:recId>
 							<ipss:fromBusId>0004</ipss:fromBusId>
 							<ipss:toBusId>0007</ipss:toBusId>
 							<ipss:aclfBranchChangeData>
@@ -52,6 +47,7 @@
 						</ipss:branchChangeRec>
 					</ipss:branchChangeRecList>
 				</ipss:modification>
+			<ipss:aclfAlgorithm>
 				<ipss:lfMethod>NR</ipss:lfMethod>
 				<ipss:maxIterations>20</ipss:maxIterations>
 				<ipss:tolerance>10.0</ipss:tolerance>
@@ -59,7 +55,9 @@
 				<ipss:initBusVoltage>true</ipss:initBusVoltage>
 				<ipss:diaplaySummary>true</ipss:diaplaySummary>
 				<ipss:accFactor>0.0</ipss:accFactor>
+			</ipss:aclfAlgorithm>
 			</ipss:aclfStudyCase>
-		</ipss:aclfStudyCaseList>
+			</ipss:aclfStudyCaseList>
+		</ipss:runAclfStudyCase>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

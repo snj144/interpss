@@ -9,9 +9,11 @@
 			<ipss:timeout>0</ipss:timeout>
 			<ipss:remoteNodeDebug>false</ipss:remoteNodeDebug>
 		</ipss:gridRun>
-		<ipss:dstabStudyCaseList>
-			<ipss:dstabStudyCase>
+		<ipss:runDStabStudyCase>
+		<ipss:dStabStudyCaseList>
+			<ipss:dStabStudyCaseRec>
 			<ipss:recId>DStabRun_1</ipss:recId>
+		<ipss:dStabStudyCase>
 			<ipss:lfMethod>NR</ipss:lfMethod>
 			<ipss:maxIterations>20</ipss:maxIterations>
 			<ipss:tolerance>0.0001</ipss:tolerance>
@@ -27,9 +29,11 @@
 			<ipss:dynamicEventData>
 				<ipss:disableEvent>true</ipss:disableEvent>
 			</ipss:dynamicEventData>
-			</ipss:dstabStudyCase>
-			<ipss:dstabStudyCase>
+		</ipss:dStabStudyCase>
+			</ipss:dStabStudyCaseRec>
+			<ipss:dStabStudyCaseRec>
 			<ipss:recId>DStabRun_2</ipss:recId>
+		<ipss:dStabStudyCase>
 			<ipss:lfMethod>NR</ipss:lfMethod>
 			<ipss:maxIterations>20</ipss:maxIterations>
 			<ipss:tolerance>0.0001</ipss:tolerance>
@@ -67,7 +71,9 @@
 					<ipss:variableName>Bus - 0005</ipss:variableName>
 				</ipss:outputVarList>
 			</ipss:outputConfig>
-			</ipss:dstabStudyCase>
-		</ipss:dstabStudyCaseList>
+		</ipss:dStabStudyCase>
+			</ipss:dStabStudyCaseRec>
+		</ipss:dStabStudyCaseList>
+		</ipss:runDStabStudyCase>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

@@ -74,6 +74,55 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	}			
 
 	@Test
+	public void runDefaultAclfCaseTest() throws Exception {
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+  		// save net to a String
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+
+		File xmlFile = new File("testData/xml/RunAclfDefaultCase.xml");
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
+  		//System.out.println("----->" + parser.getRootElem().toString());
+
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
+  		
+	  	MultiStudyCase mscase = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+	  	int cnt = 0;
+  		double i = 0.0;
+	  	for ( AclfStudyCase aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
+
+		  	if (aclfCase.getAclfAlgorithm() == null) 
+		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
+		  	
+		  	mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
+	  	
+	  		assertTrue(algo.getMaxIterations() == 20);
+	  		assertTrue(algo.getTolerance() == 1.0E-4);
+	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva());
+	  		
+	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
+	  	}
+  		assertTrue(mscase.getStudyCase(1) != null);
+  		assertTrue(mscase.getStudyCase(2) != null);
+  		assertTrue(mscase.getStudyCase(3) != null);
+  		
+//  		System.out.println(net.net2String());
+  		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
+
+  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
+
+  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(3).getNetModelString());
+	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
+	}			
+
+	@Test
 	public void runSingleAclfCaseModificationTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
