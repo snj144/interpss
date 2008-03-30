@@ -32,8 +32,9 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.schema.RunAclfStudyCaseXmlType;
+import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.SpringAppContext;
@@ -61,18 +62,29 @@ public class XmlScriptAclfRun {
 			IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext
 				.getRunForm2AlgorithmMapper();
-		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
+		RunStudyCaseXmlType.RunAclfStudyCase xmlRunCase = parser.getRunAclfStudyCase();
 
-		if (parser.getRunAclfStudyCaseList().length > 0) {
-			if (parser.getRunAclfStudyCaseList().length == 1) {
-				RunAclfStudyCaseXmlType aclfCase = parser
-						.getRunAclfStudyCaseList()[0];
+		if (xmlRunCase != null) {
+			AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunCase.getDefaultAclfAlgorithm(); 
+			
+			if (xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
+				AclfStudyCase xmlCase = xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()[0];
 
-				LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(aclfNet);
-				mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
+				
+				AclfAlgorithmXmlType xmlAlgo = xmlCase.getAclfAlgorithm(); 
+				if (xmlCase == null) {
+					if (xmlDefaultAlgo == null) {
+						msg.sendErrorMsg("No Aclf Algorithm defined");
+						return false;
+					}
+					xmlAlgo = xmlDefaultAlgo;
+					xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
+				}
+				
+				mapper.mapping(xmlAlgo, algo, AclfAlgorithmXmlType.class);
 
-				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
+				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
 							.getAnyRemoteNodeId();
@@ -81,7 +93,7 @@ public class XmlScriptAclfRun {
 					try {
 						String str = (String) IpssGridGainUtil.performGridTask(
 								grid, "InterPSS Grid Aclf Calculation", algo,
-								xmlStudyCase.getGridRun().getTimeout());
+								parser.getRunStudyCase().getGridRun().getTimeout());
 						aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil
 								.loadModel(str);
 					} catch (GridException e) {
@@ -94,7 +106,7 @@ public class XmlScriptAclfRun {
 					algo.loadflow(msg);
 				}
 
-				if (aclfCase.getDiaplaySummary()) {
+				if (xmlAlgo.getDiaplaySummary()) {
 					IOutputTextDialog dialog = UISpringAppContext
 							.getOutputTextDialog("Loadflow Analysis Info");
 					dialog.display(aclfNet);
@@ -106,8 +118,7 @@ public class XmlScriptAclfRun {
 				MultiStudyCase mCaseContainer = SimuObjectFactory
 						.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 				int cnt = 0;
-				for (RunAclfStudyCaseXmlType aclfCase : parser
-						.getRunAclfStudyCaseList()) {
+				for (AclfStudyCase xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
 					// deserialize the base case
 					AclfAdjNetwork net = (AclfAdjNetwork) SerializeEMFObjectUtil
 							.loadModel(netStr);
@@ -115,19 +126,28 @@ public class XmlScriptAclfRun {
 							.createLoadflowAlgorithm(net);
 					// map to the Algo object including network modification at
 					// case level
-					mapper.mapping(aclfCase, algo,
-							RunAclfStudyCaseXmlType.class);
+
+					AclfAlgorithmXmlType xmlAlgo = xmlCase.getAclfAlgorithm(); 
+					if (xmlCase == null) {
+						if (xmlDefaultAlgo == null) {
+							msg.sendErrorMsg("No Aclf Algorithm defined");
+							return false;
+						}
+						xmlAlgo = xmlDefaultAlgo;
+						xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
+					}
+					mapper.mapping(xmlAlgo, algo, AclfAlgorithmXmlType.class);
 
 					// net.id is used to retrieve study case info at remote
 					// node. so we need to
 					// sure net.id and studyCase.id are the same for Grid
 					// computing.
-					net.setId(aclfCase.getRecId());
+					net.setId(xmlCase.getRecId());
 					try {
 						StudyCase studyCase = SimuObjectFactory
-								.createStudyCase(aclfCase.getRecId(), aclfCase
+								.createStudyCase(xmlCase.getRecId(), xmlCase
 										.getRecName(), ++cnt, mCaseContainer);
-						if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
+						if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 							// if Grid computing, save the Algo object to the
 							// study case object
 							studyCase
@@ -154,7 +174,7 @@ public class XmlScriptAclfRun {
 
 				// if Grid computing, send the MultiCase container to perform
 				// remote grid computing
-				if (RunActUtilFunc.isGridEnabled(xmlStudyCase)) {
+				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
@@ -162,7 +182,7 @@ public class XmlScriptAclfRun {
 						Object[] objAry = (Object[]) IpssGridGainUtil
 								.performGridTask(grid,
 										"InterPSS Grid Aclf Calculation",
-										mCaseContainer, xmlStudyCase
+										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
 						for (Object obj : objAry) {
 							String str = (String) obj;
