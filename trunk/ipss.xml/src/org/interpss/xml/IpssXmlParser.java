@@ -34,7 +34,6 @@ import org.apache.xmlbeans.XmlException;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.RunAclfStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
@@ -80,30 +79,21 @@ public class IpssXmlParser {
 	}
 
 	/**
-	 * Get the DclfStudyCase element list
+	 * Get the RunDclfStudyCase element
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.DclfStudyCaseList.DclfStudyCase[] getRunDclfStudyCaseList() {
-		return ipss.getRunStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray();
+	public RunStudyCaseXmlType.RunDclfStudyCase getRunDclfStudyCase() {
+		return ipss.getRunStudyCase().getRunDclfStudyCase();
 	}
 
 	/**
-	 * Get the AclfStudyCase element list
+	 * Get the RunAclfStudyCase element
 	 * 
 	 * @return
 	 */
-	public RunAclfStudyCaseXmlType[] getRunAclfStudyCaseList() {
-		return ipss.getRunStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray();
-	}
-
-	/**
-	 * Get the AcscStudyCase element list
-	 * 
-	 * @return
-	 */
-	public RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase[] getRunAcscStudyCaseList() {
-		return ipss.getRunStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray();
+	public RunStudyCaseXmlType.RunAclfStudyCase getRunAclfStudyCase() {
+		return ipss.getRunStudyCase().getRunAclfStudyCase();
 	}
 
 	/**
@@ -111,8 +101,17 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase[] getRunDStabStudyCaseList() {
-		return ipss.getRunStudyCase().getDstabStudyCaseList().getDstabStudyCaseArray();
+	public RunStudyCaseXmlType.RunAcscStudyCase getRunAcscStudyCase() {
+		return ipss.getRunStudyCase().getRunAcscStudyCase();
+	}
+
+	/**
+	 * Get the AcscStudyCase element list
+	 * 
+	 * @return
+	 */
+	public RunStudyCaseXmlType.RunDStabStudyCase getRunDStabStudyCase() {
+		return ipss.getRunStudyCase().getRunDStabStudyCase();
 	}
 
 	/**
