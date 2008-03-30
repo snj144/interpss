@@ -6,6 +6,7 @@ import java.io.File;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.XmlNetParamModifier;
 import org.junit.Test;
@@ -43,11 +44,11 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	MultiStudyCase mscase = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 	  	int cnt = 0;
   		double i = 0.0;
-	  	for ( RunAclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCaseList()) {
+	  	for ( AclfStudyCase aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  		mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+	  		mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
@@ -84,12 +85,12 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-  		RunAclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCaseList()[0];
-  		
+  		AclfStudyCase aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+  			
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	// modification of the study case also applied
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  	mapper.mapping(aclfCase, algo, RunAclfStudyCaseXmlType.class);
+	  	mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	
