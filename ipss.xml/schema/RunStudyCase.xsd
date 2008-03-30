@@ -39,359 +39,359 @@
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
-			<ns:element name="dclfStudyCaseList" minOccurs="0">
-				<ns:complexType>
-							<ns:sequence>
-								<ns:element name="dclfStudyCase"
-									minOccurs="0" maxOccurs="unbounded">
-									<ns:complexType>
-										<ns:complexContent>
-											<ns:extension
-												base="ipss:RunStudyCaseBaseXmlType">
-												<ns:sequence>
-													<ns:element
-														name="caculatelDclf" type="ns:boolean" minOccurs="0"
-														maxOccurs="1">
-													</ns:element>
-													<ns:element
-														name="sensitivity" type="ipss:DclfBusSensitivityXmlType"
-														minOccurs="0" maxOccurs="unbounded">
-													</ns:element>
-													<ns:element
-														name="genShiftFactor"
-														type="ipss:DclfBranchSensitivityXmlType" minOccurs="0"
-														maxOccurs="unbounded">
-													</ns:element>
-													<ns:element
-														name="pTransferDistFactor"
-														type="ipss:DclfBranchSensitivityXmlType" minOccurs="0"
-														maxOccurs="unbounded">
-													</ns:element>
-												</ns:sequence>
-											</ns:extension>
-										</ns:complexContent>
-									</ns:complexType>
-								</ns:element>
-							</ns:sequence>
-				</ns:complexType>
-			</ns:element>
-			<ns:element name="aclfStudyCaseList" minOccurs="0">
+			<ns:element name="runDclfStudyCase" minOccurs="0">
 				<ns:complexType>
 					<ns:sequence>
-						<ns:element name="aclfStudyCase"
-							type="ipss:RunAclfStudyCaseXmlType" minOccurs="0"
-							maxOccurs="unbounded">
+						<ns:element name="dafaultDclfStudyCase"
+							minOccurs="0" maxOccurs="1" type="ipss:DclfStudyCaseXmlType">
+
 						</ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
-			<ns:element name="acscStudyCaseList" minOccurs="0">
-				<ns:complexType>
-							<ns:sequence>
-								<ns:element name="acscStudyCase"
-									minOccurs="0" maxOccurs="unbounded">
-									<ns:complexType>
-										<ns:complexContent>
-											<ns:extension
-												base="ipss:RunStudyCaseBaseXmlType">
-												<ns:sequence>
-													<ns:element
-														name="faultData" type="ipss:AcscFaultXmlType"
-														minOccurs="1">
-													</ns:element>
-													<ns:element
-														name="busAcscInitVolt" minOccurs="0" maxOccurs="1">
-														<ns:simpleType>
-															<ns:restriction
-																base="ns:string">
-																<ns:enumeration
-																	value="UnitVolt">
-																</ns:enumeration>
-																<ns:enumeration
-																	value="LoadflowVolt">
-																</ns:enumeration>
-															</ns:restriction>
-														</ns:simpleType>
-													</ns:element>
-													<ns:element
-														name="multiFactor" type="ns:double" minOccurs="0"
-														maxOccurs="1">
-														<ns:annotation>
-															<ns:documentation>
-																bus
-																voltage
-																multi-factor
-																in
-																percent
-															</ns:documentation>
-														</ns:annotation>
-													</ns:element>
-												</ns:sequence>
-											</ns:extension>
-										</ns:complexContent>
-									</ns:complexType>
-								</ns:element>
-							</ns:sequence>
-				</ns:complexType>
-			</ns:element>
-			<ns:element name="dstabStudyCaseList" minOccurs="0">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="dstabStudyCase" minOccurs="0"
-							maxOccurs="unbounded">
+						<ns:element name="dclfStudyCaseList"
+							minOccurs="1">
 							<ns:complexType>
-
-								<ns:complexContent>
-									<ns:extension
-										base="ipss:RunAclfStudyCaseXmlType">
-										<ns:sequence>
-											<ns:element
-												name="simuConfig" minOccurs="1">
-												<ns:complexType>
-													<ns:sequence>
-
+								<ns:sequence>
+									<ns:element name="dclfStudyCaseRec"
+										minOccurs="1" maxOccurs="unbounded">
+										<ns:complexType>
+											<ns:complexContent>
+												<ns:extension
+													base="ipss:BaseStudyCaseXmlType">
+													<ns:sequence>
 														<ns:element
-															name="totalSimuTimeSec" type="ns:double" maxOccurs="1"
-															minOccurs="1">
-														</ns:element>
-														<ns:element
-															name="simuStepSec" type="ns:double" maxOccurs="1"
-															minOccurs="1">
-														</ns:element>
-														<ns:element
-															name="simuMethod" maxOccurs="1" minOccurs="1">
-															<ns:simpleType>
-																<ns:restriction
-																	base="ns:string">
-																	<ns:enumeration
-																		value="ModifiedEuler">
-																	</ns:enumeration>
-																</ns:restriction>
-															</ns:simpleType>
-														</ns:element>
-														<ns:element
-															name="absoluteMachAngValue" type="ns:boolean"
-															minOccurs="1" maxOccurs="1">
-														</ns:element>
-														<ns:element
-															name="refMachineBusId" type="ns:string" maxOccurs="1"
+															name="dclfStudyCase" type="ipss:DclfStudyCaseXmlType"
 															minOccurs="0">
 														</ns:element>
 													</ns:sequence>
 
-												</ns:complexType>
-											</ns:element>
-											<ns:element
-												name="dynamicEventData" minOccurs="0" maxOccurs="1">
-												<ns:complexType>
-													<ns:sequence>
-														<ns:element
-															name="disableEvent" type="ns:boolean" minOccurs="1">
-														</ns:element>
-														<ns:element
-															name="eventList" minOccurs="0">
-															<ns:complexType>
-																<ns:sequence>
-																	<ns:element
-																		name="event" minOccurs="0" maxOccurs="unbounded">
-																		<ns:complexType>
-																			<ns:sequence>
-																				<ns:element
-																					name="name" type="ns:string" minOccurs="1">
-																				</ns:element>
-																				<ns:element
-																					name="eventType" minOccurs="1">
-																					<ns:simpleType>
-																						<ns:restriction
-																							base="ns:string">
-																							<ns:enumeration
-																								value="Fault">
-																							</ns:enumeration>
-																							<ns:enumeration
-																								value="LoadChange">
-																							</ns:enumeration>
-																							<ns:enumeration
-																								value="SetPointChange">
-																							</ns:enumeration>
-																						</ns:restriction>
-																					</ns:simpleType>
-																				</ns:element>
-																				<ns:element
-																					name="startTimeSec" type="ns:double"
-																					minOccurs="1">
-																				</ns:element>
-																				<ns:element
-																					name="durationSec" type="ns:double" maxOccurs="1"
-																					minOccurs="0">
-																				</ns:element>
-																				<ns:element
-																					name="fault" type="ipss:AcscFaultXmlType"
-																					maxOccurs="1" minOccurs="0">
-																				</ns:element>
-																				<ns:element
-																					name="permanent" type="ns:boolean" maxOccurs="1"
-																					minOccurs="0">
-																				</ns:element>
+												</ns:extension>
+											</ns:complexContent>
+										</ns:complexType>
+									</ns:element>
 
-																				<ns:element
-																					name="loadChangeData" minOccurs="0"
-																					maxOccurs="1">
-																					<ns:complexType>
-																						<ns:sequence>
-																							<ns:element
-																								name="busId" type="ns:string" minOccurs="1"
-																								maxOccurs="1">
-																							</ns:element>
-																							<ns:element
-																								name="loadChangeType" minOccurs="1"
-																								maxOccurs="1">
-																								<ns:simpleType>
-																									<ns:restriction
-																										base="ns:string">
-																										<ns:enumeration
-																											value="LowFrequency">
-																										</ns:enumeration>
-																										<ns:enumeration
-																											value="LowVoltage">
-																										</ns:enumeration>
-																										<ns:enumeration
-																											value="FixedTime">
-																										</ns:enumeration>
-																									</ns:restriction>
-																								</ns:simpleType>
-																							</ns:element>
-																							<ns:element
-																								name="changeFactor" type="ns:double"
-																								minOccurs="1" maxOccurs="1">
-																							</ns:element>
-																							<ns:element
-																								name="changeFactorUnit" type="ipss:UnitXmlData"
-																								minOccurs="0" maxOccurs="1">
-																								<ns:annotation>
-																									<ns:documentation>
-																										PU
-																										or
-																										Percent
-																									</ns:documentation>
-																								</ns:annotation>
-																							</ns:element>
-																							<ns:element
-																								name="threshhold" type="ns:double" minOccurs="0"
-																								maxOccurs="1">
-																							</ns:element>
-																							<ns:element
-																								name="delayTime" type="ns:double" minOccurs="0"
-																								maxOccurs="1">
-																							</ns:element>
-																						</ns:sequence>
-																					</ns:complexType>
-																				</ns:element>
-																			</ns:sequence>
-																		</ns:complexType>
-																	</ns:element>
-																</ns:sequence>
-															</ns:complexType>
+								</ns:sequence>
+							</ns:complexType>
+						</ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+			<ns:element name="runAclfStudyCase" minOccurs="0">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="defaultAclfAlgorithm"
+							type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
+						</ns:element>
+						<ns:element name="aclfStudyCaseList"
+							minOccurs="1" maxOccurs="1">
+							<ns:complexType>
+								<ns:sequence>
+									<ns:element name="aclfStudyCase"
+										minOccurs="1" maxOccurs="unbounded">
+										<ns:complexType>
+											<ns:complexContent>
+												<ns:extension
+													base="ipss:BaseStudyCaseXmlType">
+													<ns:sequence>
+														<ns:element
+															name="aclfAlgorithm" type="ipss:AclfAlgorithmXmlType"
+															minOccurs="0">
 														</ns:element>
 													</ns:sequence>
-												</ns:complexType>
-											</ns:element>
-											<ns:element
-												name="setpointChangeData" minOccurs="0" maxOccurs="1">
+
+												</ns:extension>
+											</ns:complexContent>
+										</ns:complexType>
+									</ns:element>
+
+								</ns:sequence>
+							</ns:complexType>
+						</ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+			<ns:element name="runAcscStudyCase" minOccurs="0">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="defaultAcscStudyCase"
+							minOccurs="0" maxOccurs="1" type="ipss:AcscStudyCaseXmlType">
+
+						</ns:element>
+						<ns:element name="acscStudyCaseList"
+							minOccurs="1">
+							<ns:complexType>
+								<ns:sequence>
+									<ns:element name="acscStudyCaseRec"
+										minOccurs="1" maxOccurs="unbounded">
+										<ns:complexType>
+											<ns:complexContent>
+												<ns:extension
+													base="ipss:BaseStudyCaseXmlType">
+													<ns:sequence>
+														<ns:element
+															name="acscStudyCase" type="ipss:AcscStudyCaseXmlType"
+															minOccurs="0">
+														</ns:element>
+													</ns:sequence>
+
+												</ns:extension>
+											</ns:complexContent>
+										</ns:complexType>
+									</ns:element>
+
+								</ns:sequence>
+							</ns:complexType>
+						</ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+			<ns:element name="runDStabStudyCase" minOccurs="0">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="defaultDStabStudyCase"
+							minOccurs="0" maxOccurs="1" type="ipss:DStabStudyCaseXmlType">
+
+						</ns:element>
+						<ns:element name="dStabStudyCaseList"
+							minOccurs="1" maxOccurs="1">
+							<ns:complexType>
+								<ns:sequence>
+									<ns:element name="dStabStudyCaseRec"
+										minOccurs="1" maxOccurs="unbounded">
+										<ns:complexType>
+											<ns:complexContent>
+												<ns:extension
+													base="ipss:BaseStudyCaseXmlType">
+													<ns:sequence>
+														<ns:element
+															name="dStabStudyCase" type="ipss:DStabStudyCaseXmlType"
+															minOccurs="0">
+														</ns:element>
+													</ns:sequence>
+
+												</ns:extension>
+											</ns:complexContent>
+										</ns:complexType>
+									</ns:element>
+								</ns:sequence>
+							</ns:complexType>
+						</ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="DclfStudyCaseXmlType">
+		<ns:sequence>
+			<ns:element name="caculatelDclf" type="ns:boolean"
+				minOccurs="0" maxOccurs="1">
+			</ns:element>
+			<ns:element name="sensitivity"
+				type="ipss:DclfBusSensitivityXmlType" minOccurs="0"
+				maxOccurs="unbounded">
+			</ns:element>
+			<ns:element name="genShiftFactor"
+				type="ipss:DclfBranchSensitivityXmlType" minOccurs="0"
+				maxOccurs="unbounded">
+			</ns:element>
+			<ns:element name="pTransferDistFactor"
+				type="ipss:DclfBranchSensitivityXmlType" minOccurs="0"
+				maxOccurs="unbounded">
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	<ns:complexType name="AclfAlgorithmXmlType">
+		<ns:sequence>
+			<ns:element name="lfMethod" minOccurs="1" maxOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="NR"></ns:enumeration>
+						<ns:enumeration value="PQ"></ns:enumeration>
+						<ns:enumeration value="GS"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
+			</ns:element>
+			<ns:element name="maxIterations" type="ns:int" minOccurs="1"
+				maxOccurs="1">
+			</ns:element>
+			<ns:element name="tolerance" type="ns:double" minOccurs="1"
+				maxOccurs="1">
+			</ns:element>
+			<ns:element name="toleranceUnit" type="ipss:UnitXmlData"
+				minOccurs="0" maxOccurs="1">
+			</ns:element>
+			<ns:element name="initBusVoltage" type="ns:boolean"
+				minOccurs="0" maxOccurs="1">
+			</ns:element>
+			<ns:element name="diaplaySummary" type="ns:boolean"
+				minOccurs="0" maxOccurs="1">
+			</ns:element>
+			<ns:element name="accFactor" type="ns:double" maxOccurs="1"
+				minOccurs="0">
+			</ns:element>
+			<ns:element name="adjustChangeStep" type="ns:boolean"
+				maxOccurs="1" minOccurs="0">
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	<ns:complexType name="AcscStudyCaseXmlType">
+		<ns:sequence>
+			<ns:element name="faultData" type="ipss:AcscFaultXmlType"
+				minOccurs="1">
+			</ns:element>
+			<ns:element name="busAcscInitVolt" minOccurs="0"
+				maxOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="UnitVolt">
+						</ns:enumeration>
+						<ns:enumeration value="LoadflowVolt">
+						</ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
+			</ns:element>
+			<ns:element name="multiFactor" type="ns:double"
+				minOccurs="0" maxOccurs="1">
+				<ns:annotation>
+					<ns:documentation>
+						bus voltage multi-factor in percent
+					</ns:documentation>
+				</ns:annotation>
+			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+	<ns:complexType name="DStabStudyCaseXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:AclfAlgorithmXmlType">
+				<ns:sequence>
+					<ns:element name="simuConfig" minOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+
+								<ns:element name="totalSimuTimeSec"
+									type="ns:double" maxOccurs="1" minOccurs="1">
+								</ns:element>
+								<ns:element name="simuStepSec"
+									type="ns:double" maxOccurs="1" minOccurs="1">
+								</ns:element>
+								<ns:element name="simuMethod"
+									maxOccurs="1" minOccurs="1">
+									<ns:simpleType>
+										<ns:restriction
+											base="ns:string">
+											<ns:enumeration
+												value="ModifiedEuler">
+											</ns:enumeration>
+										</ns:restriction>
+									</ns:simpleType>
+								</ns:element>
+								<ns:element name="absoluteMachAngValue"
+									type="ns:boolean" minOccurs="1" maxOccurs="1">
+								</ns:element>
+								<ns:element name="refMachineBusId"
+									type="ns:string" maxOccurs="1" minOccurs="0">
+								</ns:element>
+							</ns:sequence>
+
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="dynamicEventData" minOccurs="0"
+						maxOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="disableEvent"
+									type="ns:boolean" minOccurs="1">
+								</ns:element>
+								<ns:element name="eventList"
+									minOccurs="0">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element name="event"
+												minOccurs="0" maxOccurs="unbounded">
 												<ns:complexType>
 													<ns:sequence>
 														<ns:element
-															name="setpointChange" type="ns:boolean" minOccurs="1">
+															name="name" type="ns:string" minOccurs="1">
 														</ns:element>
 														<ns:element
-															name="machId" type="ns:string" minOccurs="1"
-															maxOccurs="1">
-														</ns:element>
-														<ns:element
-															name="controllerType" minOccurs="1" maxOccurs="1">
+															name="eventType" minOccurs="1">
 															<ns:simpleType>
 																<ns:restriction
 																	base="ns:string">
 																	<ns:enumeration
-																		value="Exciter">
+																		value="Fault">
 																	</ns:enumeration>
 																	<ns:enumeration
-																		value="Governor">
+																		value="LoadChange">
 																	</ns:enumeration>
 																	<ns:enumeration
-																		value="Stabilizer">
+																		value="SetPointChange">
 																	</ns:enumeration>
 																</ns:restriction>
 															</ns:simpleType>
 														</ns:element>
 														<ns:element
-															name="changeValue" type="ns:double" minOccurs="1"
-															maxOccurs="1">
+															name="startTimeSec" type="ns:double" minOccurs="1">
 														</ns:element>
 														<ns:element
-															name="absoluteChange" type="ns:boolean" minOccurs="1"
-															maxOccurs="1">
-														</ns:element>
-													</ns:sequence>
-												</ns:complexType>
-											</ns:element>
-											<ns:element
-												name="netEqnSolveConfig" minOccurs="0">
-												<ns:complexType>
-													<ns:sequence>
-														<ns:element
-															name="netEqnItrNoEvent" type="ns:int" minOccurs="0"
-															maxOccurs="1">
+															name="durationSec" type="ns:double" maxOccurs="1"
+															minOccurs="0">
 														</ns:element>
 														<ns:element
-															name="netEqnItrWithEvent" type="ns:int" minOccurs="0"
-															maxOccurs="1">
-														</ns:element>
-													</ns:sequence>
-												</ns:complexType>
-											</ns:element>
-											<ns:element
-												name="staticLoadModel" minOccurs="0" maxOccurs="1">
-												<ns:complexType>
-													<ns:sequence>
-														<ns:element
-															name="staticLoadType" minOccurs="1" maxOccurs="1">
-															<ns:simpleType>
-																<ns:restriction
-																	base="ns:string">
-																	<ns:enumeration
-																		value="CONST_Z">
-																	</ns:enumeration>
-																	<ns:enumeration
-																		value="CONST_P">
-																	</ns:enumeration>
-																</ns:restriction>
-															</ns:simpleType>
+															name="fault" type="ipss:AcscFaultXmlType" maxOccurs="1"
+															minOccurs="0">
 														</ns:element>
 														<ns:element
-															name="switchVolt" type="ns:double" minOccurs="0"
-															maxOccurs="1">
+															name="permanent" type="ns:boolean" maxOccurs="1"
+															minOccurs="0">
 														</ns:element>
+
 														<ns:element
-															name="switchDeadZone" type="ns:double" minOccurs="0"
-															maxOccurs="1">
-														</ns:element>
-													</ns:sequence>
-												</ns:complexType>
-											</ns:element>
-											<ns:element
-												name="outputConfig" minOccurs="0">
-												<ns:complexType>
-													<ns:sequence>
-														<ns:element
-															name="outputFilter" type="ns:boolean" minOccurs="1">
-														</ns:element>
-														<ns:element
-															name="outputVarList" minOccurs="0">
+															name="loadChangeData" minOccurs="0" maxOccurs="1">
 															<ns:complexType>
 																<ns:sequence>
 																	<ns:element
-																		name="variableName" type="ns:string" minOccurs="0"
-																		maxOccurs="unbounded">
+																		name="busId" type="ns:string" minOccurs="1"
+																		maxOccurs="1">
+																	</ns:element>
+																	<ns:element
+																		name="loadChangeType" minOccurs="1" maxOccurs="1">
+																		<ns:simpleType>
+																			<ns:restriction
+																				base="ns:string">
+																				<ns:enumeration
+																					value="LowFrequency">
+																				</ns:enumeration>
+																				<ns:enumeration
+																					value="LowVoltage">
+																				</ns:enumeration>
+																				<ns:enumeration
+																					value="FixedTime">
+																				</ns:enumeration>
+																			</ns:restriction>
+																		</ns:simpleType>
+																	</ns:element>
+																	<ns:element
+																		name="changeFactor" type="ns:double" minOccurs="1"
+																		maxOccurs="1">
+																	</ns:element>
+																	<ns:element
+																		name="changeFactorUnit" type="ipss:UnitXmlData"
+																		minOccurs="0" maxOccurs="1">
+																		<ns:annotation>
+																			<ns:documentation>
+																				PU
+																				or
+																				Percent
+																			</ns:documentation>
+																		</ns:annotation>
+																	</ns:element>
+																	<ns:element
+																		name="threshhold" type="ns:double" minOccurs="0"
+																		maxOccurs="1">
+																	</ns:element>
+																	<ns:element
+																		name="delayTime" type="ns:double" minOccurs="0"
+																		maxOccurs="1">
 																	</ns:element>
 																</ns:sequence>
 															</ns:complexType>
@@ -400,67 +400,117 @@
 												</ns:complexType>
 											</ns:element>
 										</ns:sequence>
-									</ns:extension>
-								</ns:complexContent>
-							</ns:complexType>
-						</ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
-		</ns:sequence>
-	</ns:complexType>
-	<ns:complexType name="RunStudyCaseBaseXmlType">
-		<ns:annotation>
-			<ns:documentation>
-				Base study case. It has a modification record, which
-				only applies to this study case.
-			</ns:documentation>
-		</ns:annotation>
-		<ns:complexContent>
-			<ns:extension base="ipss:BaseRecordXmlType">
-				<ns:sequence>
-					<ns:element name="modification"
-						type="ipss:ModificationXmlType" maxOccurs="1" minOccurs="0">
+									</ns:complexType>
+								</ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="setpointChangeData" minOccurs="0"
+						maxOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="setpointChange"
+									type="ns:boolean" minOccurs="1">
+								</ns:element>
+								<ns:element name="machId"
+									type="ns:string" minOccurs="1" maxOccurs="1">
+								</ns:element>
+								<ns:element name="controllerType"
+									minOccurs="1" maxOccurs="1">
+									<ns:simpleType>
+										<ns:restriction
+											base="ns:string">
+											<ns:enumeration
+												value="Exciter">
+											</ns:enumeration>
+											<ns:enumeration
+												value="Governor">
+											</ns:enumeration>
+											<ns:enumeration
+												value="Stabilizer">
+											</ns:enumeration>
+										</ns:restriction>
+									</ns:simpleType>
+								</ns:element>
+								<ns:element name="changeValue"
+									type="ns:double" minOccurs="1" maxOccurs="1">
+								</ns:element>
+								<ns:element name="absoluteChange"
+									type="ns:boolean" minOccurs="1" maxOccurs="1">
+								</ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="netEqnSolveConfig"
+						minOccurs="0">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="netEqnItrNoEvent"
+									type="ns:int" minOccurs="0" maxOccurs="1">
+								</ns:element>
+								<ns:element name="netEqnItrWithEvent"
+									type="ns:int" minOccurs="0" maxOccurs="1">
+								</ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="staticLoadModel" minOccurs="0"
+						maxOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="staticLoadType"
+									minOccurs="1" maxOccurs="1">
+									<ns:simpleType>
+										<ns:restriction
+											base="ns:string">
+											<ns:enumeration
+												value="CONST_Z">
+											</ns:enumeration>
+											<ns:enumeration
+												value="CONST_P">
+											</ns:enumeration>
+										</ns:restriction>
+									</ns:simpleType>
+								</ns:element>
+								<ns:element name="switchVolt"
+									type="ns:double" minOccurs="0" maxOccurs="1">
+								</ns:element>
+								<ns:element name="switchDeadZone"
+									type="ns:double" minOccurs="0" maxOccurs="1">
+								</ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="outputConfig" minOccurs="0">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="outputFilter"
+									type="ns:boolean" minOccurs="1">
+								</ns:element>
+								<ns:element name="outputVarList"
+									minOccurs="0">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element
+												name="variableName" type="ns:string" minOccurs="0"
+												maxOccurs="unbounded">
+											</ns:element>
+										</ns:sequence>
+									</ns:complexType>
+								</ns:element>
+							</ns:sequence>
+						</ns:complexType>
 					</ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
 	</ns:complexType>
-	<ns:complexType name="RunAclfStudyCaseXmlType">
+
+	<ns:complexType name="BaseStudyCaseXmlType">
 		<ns:complexContent>
-			<ns:extension base="ipss:RunStudyCaseBaseXmlType">
+			<ns:extension base="ipss:BaseRecordXmlType">
 				<ns:sequence>
-					<ns:element name="lfMethod" minOccurs="1"
-						maxOccurs="1">
-						<ns:simpleType>
-							<ns:restriction base="ns:string">
-								<ns:enumeration value="NR"></ns:enumeration>
-								<ns:enumeration value="PQ"></ns:enumeration>
-								<ns:enumeration value="GS"></ns:enumeration>
-							</ns:restriction>
-						</ns:simpleType>
-					</ns:element>
-					<ns:element name="maxIterations" type="ns:int"
-						minOccurs="1" maxOccurs="1">
-					</ns:element>
-					<ns:element name="tolerance" type="ns:double"
-						minOccurs="1" maxOccurs="1">
-					</ns:element>
-					<ns:element name="toleranceUnit"
-						type="ipss:UnitXmlData" minOccurs="0" maxOccurs="1">
-					</ns:element>
-					<ns:element name="initBusVoltage" type="ns:boolean"
-						minOccurs="0" maxOccurs="1">
-					</ns:element>
-					<ns:element name="diaplaySummary" type="ns:boolean"
-						minOccurs="0" maxOccurs="1">
-					</ns:element>
-					<ns:element name="accFactor" type="ns:double"
-						maxOccurs="1" minOccurs="0">
-					</ns:element>
-					<ns:element name="adjustChangeStep"
-						type="ns:boolean" maxOccurs="1" minOccurs="0">
-					</ns:element>
+					<ns:element name="modification" type="ipss:ModificationXmlType" minOccurs="0"></ns:element>
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
