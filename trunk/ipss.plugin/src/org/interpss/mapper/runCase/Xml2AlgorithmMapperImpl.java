@@ -25,8 +25,9 @@
 package org.interpss.mapper.runCase;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscFaultXmlType;
-import org.interpss.schema.RunAclfStudyCaseXmlType;
+import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 import org.interpss.xml.IpssXmlParser;
@@ -58,30 +59,33 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static void aclfCaseData2AlgoMapping(
-			RunAclfStudyCaseXmlType caseData, LoadflowAlgorithm algo, IPSSMsgHub msg) {
+			RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase caseData, LoadflowAlgorithm algo, IPSSMsgHub msg) {
 		if (caseData.getModification() != null)
 			XmlNetParamModifier.applyModification(algo.getNetwork(),
 					caseData.getModification(), msg);
+		aclfCaseData2AlgoMapping(caseData.getAclfAlgorithm(), algo, msg);
+	}
 
+	public static void aclfCaseData2AlgoMapping(
+			AclfAlgorithmXmlType xmlAlgo, LoadflowAlgorithm algo, IPSSMsgHub msg) {
 		algo
-				.setLfMethod(caseData.getLfMethod() == RunAclfStudyCaseXmlType.LfMethod.NR ? AclfMethod.NR
-						: (caseData.getLfMethod() == RunAclfStudyCaseXmlType.LfMethod.PQ ? AclfMethod.PQ
+				.setLfMethod(xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR ? AclfMethod.NR
+						: (xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ ? AclfMethod.PQ
 								: AclfMethod.GS));
-		algo.setMaxIterations(caseData.getMaxIterations());
-		double e = caseData.getTolerance();
-		if (caseData.getToleranceUnit() != null
-				&& caseData.getToleranceUnit() != UnitXmlData.PU) {
-			byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(caseData
-					.getToleranceUnit());
+		algo.setMaxIterations(xmlAlgo.getMaxIterations());
+		double e = xmlAlgo.getTolerance();
+		if (xmlAlgo.getToleranceUnit() != null
+				&& xmlAlgo.getToleranceUnit() != UnitXmlData.PU) {
+			byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(xmlAlgo.getToleranceUnit());
 			e = UnitType.pConversion(e, algo.getAclfNetwork().getBaseKva(),
 					unit, UnitType.PU);
 		}
 		algo.setTolerance(e);
-		algo.setInitBusVoltage(caseData.getInitBusVoltage());
-		algo.setAdjustChangeStep(caseData.getAdjustChangeStep());
-		if (caseData.getAccFactor() != 0.0
+		algo.setInitBusVoltage(xmlAlgo.getInitBusVoltage());
+		algo.setAdjustChangeStep(xmlAlgo.getAdjustChangeStep());
+		if (xmlAlgo.getAccFactor() != 0.0
 				&& algo.getLfMethod() == AclfMethod.GS)
-			algo.setGsAccFactor(caseData.getAccFactor());
+			algo.setGsAccFactor(xmlAlgo.getAccFactor());
 	}
 
 	/**
@@ -89,19 +93,19 @@ public class Xml2AlgorithmMapperImpl {
 	 * Modifications defined inside the study case also applied to the
 	 * SimpleFaultNetwork object
 	 * 
-	 * @param caseData
+	 * @param caseRec
 	 * @param algo
 	 */
 	public static boolean acscCaseData2AlgoMapping(
-			RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase caseData, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
-		if (caseData.getModification() != null)
+			RunStudyCaseXmlType.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec caseRec, SimpleFaultAlgorithm algo, IPSSMsgHub msg) {
+		if (caseRec.getModification() != null)
 			XmlNetParamModifier.applyModification(algo.getNetwork(),
-					caseData.getModification(), msg);
+					caseRec.getModification(), msg);
 
 		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
-		String faultIdStr = caseData.getRecId();
-		if (caseData.getFaultData().getFaultType() == AcscFaultXmlType.FaultType.BUS_FAULT) {
-			AcscBus faultBus = (AcscBus) faultNet.getBus(caseData
+		String faultIdStr = caseRec.getRecId();
+		if (caseRec.getAcscStudyCase().getFaultData().getFaultType() == AcscFaultXmlType.FaultType.BUS_FAULT) {
+			AcscBus faultBus = (AcscBus) faultNet.getBus(caseRec.getAcscStudyCase()
 					.getFaultData().getBusBranchId());
 			if (faultBus == null) {
 				IpssLogger.getLogger().severe(
@@ -112,10 +116,10 @@ public class Xml2AlgorithmMapperImpl {
 			AcscBusFault fault = CoreObjectFactory
 					.createAcscBusFault(Constants.Token_BusFaultId
 							+ faultBus.getId());
-			acscFaultData2AcscBusFaultMapping(caseData.getFaultData(), fault);
+			acscFaultData2AcscBusFaultMapping(caseRec.getAcscStudyCase().getFaultData(), fault);
 			faultNet.addBusFault(faultBus.getId(), faultIdStr, fault);
 		} else {
-			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(caseData
+			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(caseRec.getAcscStudyCase()
 					.getFaultData().getBusBranchId()
 					+ Constants.Token_DefaultBranchCirNoStr);
 			if (faultBranch == null) {
@@ -129,17 +133,17 @@ public class Xml2AlgorithmMapperImpl {
 			AcscBranchFault fault = CoreObjectFactory
 					.createAcscBranchFault(Constants.Token_BranchFaultId
 							+ faultBranch.getId());
-			acscFaultData2AcscBranchFaultMapping(caseData.getFaultData(), fault);
+			acscFaultData2AcscBranchFaultMapping(caseRec.getAcscStudyCase().getFaultData(), fault);
 			faultNet.addBranchFault(faultBranch.getId(), faultIdStr, fault);
 		}
 
-		if (caseData.getMultiFactor() != 0.0)
-			algo.setMultiFactor(caseData.getMultiFactor() * 0.01);
+		if (caseRec.getAcscStudyCase().getMultiFactor() != 0.0)
+			algo.setMultiFactor(caseRec.getAcscStudyCase().getMultiFactor() * 0.01);
 		// algo.multiFactor in PU and acscData.getMFactor in %
-		if (caseData.getBusAcscInitVolt() != null)
+		if (caseRec.getAcscStudyCase().getBusAcscInitVolt() != null)
 			algo
-					.setScBusVoltage(caseData.getBusAcscInitVolt() == 
-						RunStudyCaseXmlType.AcscStudyCaseList.AcscStudyCase.BusAcscInitVolt.UNIT_VOLT ? 
+					.setScBusVoltage(caseRec.getAcscStudyCase().getBusAcscInitVolt() == 
+						AcscStudyCaseXmlType.BusAcscInitVolt.UNIT_VOLT ? 
 								ScBusVoltage.UNIT_VOLT : ScBusVoltage.LOADFLOW_VOLT); // UnitV | LFVolt
 		return true;
 	}
