@@ -25,13 +25,12 @@
 package org.interpss.mapper.runCase;
 
 import org.interpss.schema.AcscFaultXmlType;
+import org.interpss.schema.DStabStudyCaseXmlType;
+import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.*;
+import org.interpss.schema.DStabStudyCaseXmlType.*;
+import org.interpss.schema.DStabStudyCaseXmlType.StaticLoadModel.*;
+import org.interpss.schema.DStabStudyCaseXmlType.SimuConfig.*;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.SimuConfig.SimuMethod;
-import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.DynamicEventData;
-import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.SetpointChangeData;
-import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.DynamicEventData.EventList.Event.EventType;
-import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.DynamicEventData.EventList.Event.LoadChangeData;
-import org.interpss.schema.RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase.StaticLoadModel.StaticLoadType;
 import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.SpringAppContext;
@@ -65,33 +64,34 @@ public class Xml2DStabAlgorithmMapperImpl {
 	 * Modifications defined inside the study case also applied to the
 	 * DStabilityNetwork object
 	 * 
-	 * @param caseData
+	 * @param caseRec
 	 * @param algo
 	 */
 	public static boolean dstabCaseData2AlgoMapping(
-			RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase caseData,
+			RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec caseRec,
 			DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
-		if (caseData.getModification() != null)
+		if (caseRec.getModification() != null)
 			XmlNetParamModifier.applyModification(algo.getNetwork(),
-					caseData.getModification(), msg);
+					caseRec.getModification(), msg);
 
-		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseData, algo
+		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseRec.getDStabStudyCase(), algo
 				.getAclfAlgorithm(), msg);
 
+		DStabStudyCaseXmlType dstabCase = caseRec.getDStabStudyCase();
 		algo
-				.setSimuMethod(caseData.getSimuConfig().getSimuMethod() == SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
+				.setSimuMethod(dstabCase.getSimuConfig().getSimuMethod() == SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
 						: DynamicSimuMethods.RUNGE_KUTTA);
 		algo
-				.setTotalSimuTimeSec(caseData.getSimuConfig()
+				.setTotalSimuTimeSec(dstabCase.getSimuConfig()
 						.getTotalSimuTimeSec());
-		algo.setSimuStepSec(caseData.getSimuConfig().getSimuStepSec());
-		algo.setDisableDynamicEvent(caseData.getDynamicEventData()
+		algo.setSimuStepSec(dstabCase.getSimuConfig().getSimuStepSec());
+		algo.setDisableDynamicEvent(dstabCase.getDynamicEventData()
 				.getDisableEvent());
 
-		if (caseData.getSimuConfig().getAbsoluteMachAngValue()) {
+		if (dstabCase.getSimuConfig().getAbsoluteMachAngValue()) {
 			algo.setRefMachine(null);
 		} else {
-			Machine mach = getMachine(algo.getDStabNet(), caseData
+			Machine mach = getMachine(algo.getDStabNet(), dstabCase
 					.getSimuConfig().getRefMachineBusId());
 			if (mach == null)
 				return false;
@@ -102,18 +102,18 @@ public class Xml2DStabAlgorithmMapperImpl {
 		// transfer output variable filter info to the DStabAlgo object, which
 		// then
 		// will be carried by the object to the remote grid node
-		algo.setOutputFilted(caseData.getOutputConfig() != null && 
-				caseData.getOutputConfig().getOutputFilter());
+		algo.setOutputFilted(dstabCase.getOutputConfig() != null && 
+				dstabCase.getOutputConfig().getOutputFilter());
 		if (algo.isOutputFilted()) {
-			algo.setOutputVarIdList(caseData.getOutputConfig()
+			algo.setOutputVarIdList(dstabCase.getOutputConfig()
 					.getOutputVarList().getVariableNameArray());
 		}
 
-		return dstabCaseData2NetMapping(caseData, algo.getDStabNet(), msg);
+		return dstabCaseData2NetMapping(dstabCase, algo.getDStabNet(), msg);
 	}
 
 	private static boolean dstabCaseData2NetMapping(
-			RunStudyCaseXmlType.DstabStudyCaseList.DstabStudyCase dstabData,
+			DStabStudyCaseXmlType dstabData,
 			DStabilityNetwork dstabNet, IPSSMsgHub msg) {
 		dstabNet.setNetEqnIterationNoEvent(dstabData.getNetEqnSolveConfig() != null &&
 				dstabData.getNetEqnSolveConfig().getNetEqnItrNoEvent() != 0 ? 
