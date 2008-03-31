@@ -72,17 +72,15 @@ public class XmlScriptAclfRun {
 
 				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
 				
-				AclfAlgorithmXmlType xmlAlgo = xmlCase.getAclfAlgorithm(); 
-				if (xmlCase == null) {
+				if (xmlCase.getAclfAlgorithm() == null) {
 					if (xmlDefaultAlgo == null) {
 						msg.sendErrorMsg("No Aclf Algorithm defined");
 						return false;
 					}
-					xmlAlgo = xmlDefaultAlgo;
 					xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
 				}
 				
-				mapper.mapping(xmlAlgo, algo, AclfAlgorithmXmlType.class);
+				mapper.mapping(xmlCase, algo, AclfAlgorithmXmlType.class);
 
 				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
@@ -106,7 +104,7 @@ public class XmlScriptAclfRun {
 					algo.loadflow(msg);
 				}
 
-				if (xmlAlgo.getDiaplaySummary()) {
+				if (xmlCase.getAclfAlgorithm().getDiaplaySummary()) {
 					IOutputTextDialog dialog = UISpringAppContext
 							.getOutputTextDialog("Loadflow Analysis Info");
 					dialog.display(aclfNet);
@@ -127,16 +125,14 @@ public class XmlScriptAclfRun {
 					// map to the Algo object including network modification at
 					// case level
 
-					AclfAlgorithmXmlType xmlAlgo = xmlCase.getAclfAlgorithm(); 
-					if (xmlCase == null) {
+					if (xmlCase.getAclfAlgorithm() == null) {
 						if (xmlDefaultAlgo == null) {
 							msg.sendErrorMsg("No Aclf Algorithm defined");
 							return false;
 						}
-						xmlAlgo = xmlDefaultAlgo;
 						xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
 					}
-					mapper.mapping(xmlAlgo, algo, AclfAlgorithmXmlType.class);
+					mapper.mapping(xmlCase, algo, AclfAlgorithmXmlType.class);
 
 					// net.id is used to retrieve study case info at remote
 					// node. so we need to
