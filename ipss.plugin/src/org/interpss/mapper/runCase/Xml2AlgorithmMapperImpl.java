@@ -29,6 +29,7 @@ import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.schema.UnitXmlData;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.XmlNetParamModifier;
@@ -59,7 +60,7 @@ public class Xml2AlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static void aclfCaseData2AlgoMapping(
-			RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase caseData, LoadflowAlgorithm algo, IPSSMsgHub msg) {
+			AclfStudyCase caseData, LoadflowAlgorithm algo, IPSSMsgHub msg) {
 		if (caseData.getModification() != null)
 			XmlNetParamModifier.applyModification(algo.getNetwork(),
 					caseData.getModification(), msg);
