@@ -24,6 +24,9 @@
 
 package org.interpss.editor.runAct.xml;
 
+import java.io.Serializable;
+import java.util.Hashtable;
+
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
@@ -126,8 +129,7 @@ public class XmlScriptDStabRun {
 
 					try {
 						// run DStab simu at a remote node
-						Boolean rtn = (Boolean) IpssGridGainUtil
-								.performGridTask(
+						Hashtable<String, Serializable> resultTable = IpssGridGainUtil.performGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
 										dstabAlgo, parser.getRunStudyCase().getGridRun()
@@ -136,6 +138,7 @@ public class XmlScriptDStabRun {
 						dstabNet.initialization(msg);
 						// set the DStabNet object back to the SimuCtx
 						simuCtx.setDStabilityNet(dstabNet);
+						Boolean rtn = (Boolean)resultTable.get(IpssGridGainUtil.KEY_BooleanStatus);
 						return rtn.booleanValue();
 					} catch (GridException e) {
 						SpringAppContext.getEditorDialogUtil()
@@ -223,14 +226,14 @@ public class XmlScriptDStabRun {
 				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					try {
-						Object[] objAry = (Object[]) IpssGridGainUtil
-								.performGridTask(
+						Hashtable<String, Serializable>[] objAry = IpssGridGainUtil.performMultiGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
 										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
-						for (Object obj : objAry) {
-							if (!((Boolean) obj).booleanValue()) {
+						for (Hashtable<String, Serializable> resultTable : objAry) {
+							Boolean b = (Boolean)resultTable.get(IpssGridGainUtil.KEY_BooleanStatus);
+							if (!b.booleanValue()) {
 								SpringAppContext
 										.getEditorDialogUtil()
 										.showWarnMsgDialog("Grid DStab Error",

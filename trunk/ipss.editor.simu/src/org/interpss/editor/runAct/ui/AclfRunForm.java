@@ -24,6 +24,9 @@
 
 package org.interpss.editor.runAct.ui;
 
+import java.io.Serializable;
+import java.util.Hashtable;
+
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
@@ -74,10 +77,11 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				IpssGridGainUtil.MasterNodeId = grid.getLocalNode()
 						.getId().toString();
 				try {
-					String str = (String) IpssGridGainUtil.performGridTask(
+					Hashtable<String, Serializable> resultTable = IpssGridGainUtil.performGridTask(
 							grid, "InterPSS Grid Aclf Calculation", simuCtx
 									.getLoadflowAlgorithm(), aclfCaseData
 									.getGridTimeout());
+					String str = (String)resultTable.get(IpssGridGainUtil.KEY_SerializedAclfNet);
 					AclfAdjNetwork adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil
 							.loadModel(str);
 					simuCtx.setAclfAdjNet(adjNet);

@@ -24,6 +24,9 @@
 
 package org.interpss.editor.runAct.xml;
 
+import java.io.Serializable;
+import java.util.Hashtable;
+
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
@@ -89,9 +92,10 @@ public class XmlScriptAclfRun {
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 					try {
-						String str = (String) IpssGridGainUtil.performGridTask(
+						Hashtable<String, Serializable> resultTable = IpssGridGainUtil.performGridTask(
 								grid, "InterPSS Grid Aclf Calculation", algo,
 								parser.getRunStudyCase().getGridRun().getTimeout());
+						String str = (String)resultTable.get(IpssGridGainUtil.KEY_SerializedAclfNet);
 						aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil
 								.loadModel(str);
 					} catch (GridException e) {
@@ -175,13 +179,12 @@ public class XmlScriptAclfRun {
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 					try {
-						Object[] objAry = (Object[]) IpssGridGainUtil
-								.performGridTask(grid,
+						Hashtable<String, Serializable>[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
 										"InterPSS Grid Aclf Calculation",
 										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
-						for (Object obj : objAry) {
-							String str = (String) obj;
+						for (Hashtable<String, Serializable> resultTable : objAry) {
+							String str = (String)resultTable.get(IpssGridGainUtil.KEY_SerializedAclfNet);;
 							// deserialize the AclfNet model string for Net.id
 							AclfAdjNetwork net = (AclfAdjNetwork) SerializeEMFObjectUtil
 									.loadModel(str);
@@ -199,7 +202,7 @@ public class XmlScriptAclfRun {
 								.showErrMsgDialog("Grid Aclf Error",
 										e.toString());
 						return false;
-					}
+					} 
 				}
 
 				IOutputTextDialog dialog = UISpringAppContext
