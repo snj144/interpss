@@ -4,13 +4,11 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunDStab</ipss:analysisRunType>
-		<ipss:gridRun>
-			<ipss:enableGridRun>true</ipss:enableGridRun>
-			<ipss:timeout>0</ipss:timeout>
-		</ipss:gridRun>
-		<ipss:dstabStudyCaseList>
-			<ipss:dstabStudyCase>
+		<ipss:runDStabStudyCase>
+		<ipss:dStabStudyCaseList>
+			<ipss:dStabStudyCaseRec>
 				<ipss:recId>DStabRunCase1</ipss:recId>
+			    <ipss:dStabStudyCase>
 				<ipss:lfMethod>NR</ipss:lfMethod>
 				<ipss:maxIterations>20</ipss:maxIterations>
 				<ipss:tolerance>0.0001</ipss:tolerance>
@@ -44,9 +42,12 @@
 						<ipss:variableName>Bus - 0001</ipss:variableName>
 					</ipss:outputVarList>
 				</ipss:outputConfig>
-			</ipss:dstabStudyCase>
-			<ipss:dstabStudyCase>
+			    </ipss:dStabStudyCase>
+			</ipss:dStabStudyCaseRec>
+
+			<ipss:dStabStudyCaseRec>
 				<ipss:recId>DStabRunCase2</ipss:recId>
+			    <ipss:dStabStudyCase>
 				<ipss:lfMethod>NR</ipss:lfMethod>
 				<ipss:maxIterations>20</ipss:maxIterations>
 				<ipss:tolerance>0.0001</ipss:tolerance>
@@ -80,9 +81,12 @@
 						<ipss:variableName>Bus - 0001</ipss:variableName>
 					</ipss:outputVarList>
 				</ipss:outputConfig>
-			</ipss:dstabStudyCase>
-			<ipss:dstabStudyCase>
+			    </ipss:dStabStudyCase>
+			</ipss:dStabStudyCaseRec>
+
+			<ipss:dStabStudyCaseRec>
 				<ipss:recId>DStabRunCase3</ipss:recId>
+			    <ipss:dStabStudyCase>
 				<ipss:lfMethod>NR</ipss:lfMethod>
 				<ipss:maxIterations>20</ipss:maxIterations>
 				<ipss:tolerance>0.0001</ipss:tolerance>
@@ -116,7 +120,9 @@
 						<ipss:variableName>Bus - 0001</ipss:variableName>
 					</ipss:outputVarList>
 				</ipss:outputConfig>
-			</ipss:dstabStudyCase>
-		</ipss:dstabStudyCaseList>
-	</ipss:runStudyCase>
+			    </ipss:dStabStudyCase>
+			</ipss:dStabStudyCaseRec>
+		</ipss:dStabStudyCaseList>
+		</ipss:runDStabStudyCase>
+	</ipss:runStudyCase>	
 </ipss:InterPSS>
