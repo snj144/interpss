@@ -29,6 +29,7 @@ package org.interpss.gridgain.job;
  */
 
 import java.io.Serializable;
+import java.util.Hashtable;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
@@ -55,6 +56,8 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 
 	private static IPSSMsgHub msgHub = null;
 
+	private Hashtable<String, Serializable> resultTable = null;
+	
 	/**
 	 * Constructor
 	 * 
@@ -62,6 +65,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	 */
 	public AbstractIpssGridGainJob(String modelStr) {
 		super(modelStr);
+		this.resultTable = new Hashtable<String, Serializable>();
 	}
 
 	/**
@@ -113,4 +117,8 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	 * @return string object returning back to the master node
 	 */
 	protected abstract Serializable performGridJob(String modelStr);
+	
+	protected Hashtable<String, Serializable> getResultTable() {
+		return resultTable;
+	}
 }

@@ -30,6 +30,8 @@ package org.interpss.gridgain.job;
 
 import java.io.Serializable;
 
+import org.interpss.gridgain.util.IpssGridGainUtil;
+
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -94,7 +96,9 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 
 		// send the calculated Aclf object back to the master node
 		net.setDesc(getGrid().getLocalNode().getId().toString());
-		return SerializeEMFObjectUtil.saveModel(net);
+
+		getResultTable().put(IpssGridGainUtil.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+		return getResultTable();
 	}
 	
 	private synchronized void debugOut(AclfNetwork net, LoadflowAlgorithm algo) {

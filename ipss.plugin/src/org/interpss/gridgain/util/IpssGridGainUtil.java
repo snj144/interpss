@@ -24,6 +24,7 @@
 
 package org.interpss.gridgain.util;
 
+import java.io.Serializable;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -64,6 +65,9 @@ import com.interpss.simu.multicase.MultiStudyCase;
  */
 
 public class IpssGridGainUtil {
+	public static String KEY_SerializedAclfNet = "SerializedAclfNet";	
+	public static String KEY_BooleanStatus = "BooleanStatus";	
+	
 	// Master node id
 	public static String MasterNodeId = "";	
 	public static boolean RemoteNodeDebug = false;	
@@ -82,7 +86,7 @@ public class IpssGridGainUtil {
 	 * @return result object or a list of result objects, 
 	 * @throws GridException
 	 */
-	public static Object performGridTask(Grid grid, String desc, EObject model,
+	public static Hashtable<String, Serializable> performGridTask(Grid grid, String desc, EObject model,
 			long timeout) throws GridException {
 		IpssLogger.getLogger().info(
 				"Begin to excute IpssGridTask " + desc + " ...");
@@ -91,24 +95,17 @@ public class IpssGridGainUtil {
 		try {
 			// Single Aclf Case
 			if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork
-					|| model instanceof LoadflowAlgorithm)
-				return grid.execute(AssignJob2NodeAclfTask.class.getName(),
+					|| model instanceof LoadflowAlgorithm) {
+				Object obj = grid.execute(AssignJob2NodeAclfTask.class.getName(),
 						model, timeout).get();
+				return (Hashtable<String, Serializable>)obj;
+			}
 			// Single DStab case
 			else if (model instanceof DStabilityNetwork
-					|| model instanceof DynamicSimuAlgorithm)
-				return grid.execute(AssignJob2NodeDStabTask.class.getName(),
+					|| model instanceof DynamicSimuAlgorithm) {
+				Object obj = grid.execute(AssignJob2NodeDStabTask.class.getName(),
 						model, timeout).get();
-			else if (model instanceof MultiStudyCase) {
-				// Multiple Aclf Cases
-				if (((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_ADJ_NETWORK
-						|| ((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_NETWORK)
-					return grid.execute(MultiCaseAclfTask.class.getName(),
-							model, timeout).get();
-				// Multiple DStab cases
-				else if (((MultiStudyCase) model).getNetType() == SimuCtxType.DSTABILITY_NET)
-					return grid.execute(MultiCaseDStabTask.class.getName(),
-							model, timeout).get();
+				return (Hashtable<String, Serializable>)obj;
 			}
 		} catch (GridTaskTimeoutException e) {
 			IpssLogger.logErr(e);
@@ -118,6 +115,44 @@ public class IpssGridGainUtil {
 		return null;
 	}
 
+	/**
+	 * Perform multi-task grid computing on the model object.
+	 * 
+	 * @param desc a description string
+	 * @param model an EMF model object
+	 * @return result object or a list of result objects, 
+	 * @throws GridException
+	 */
+	public static Hashtable<String, Serializable>[] performMultiGridTask(Grid grid, String desc, EObject model,
+			long timeout) throws GridException {
+		IpssLogger.getLogger().info(
+				"Begin to excute IpssGridTask " + desc + " ...");
+		IpssLogger.getLogger().info(
+				"Number of Grid Nodes: " + grid.getAllNodes().size());
+		try {
+			// Single Aclf Case
+			if (model instanceof MultiStudyCase) {
+				// Multiple Aclf Cases
+				if (((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_ADJ_NETWORK
+						|| ((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_NETWORK) {
+					Object obj = grid.execute(MultiCaseAclfTask.class.getName(), model, timeout).get();
+					return (Hashtable<String, Serializable>[])obj;
+				}
+				// Multiple DStab cases
+				else if (((MultiStudyCase) model).getNetType() == SimuCtxType.DSTABILITY_NET) {
+					Object obj = grid.execute(MultiCaseDStabTask.class.getName(),
+							model, timeout).get();
+					return (Hashtable<String, Serializable>[])obj;
+				}
+			}
+		} catch (GridTaskTimeoutException e) {
+			IpssLogger.logErr(e);
+			throw new GridException(
+					"Grid computing timeout, please check the state of remote grid node(s)");
+		}
+		return null;
+	}
+	
 	/**
 	 * Start the Grid and create the default grid object
 	 */
