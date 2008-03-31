@@ -27,6 +27,7 @@ package org.interpss.gridgain.dstab;
 import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
+import java.util.Hashtable;
 import java.util.UUID;
 
 import org.gridgain.grid.Grid;
@@ -73,7 +74,8 @@ public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
     		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
     		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 
-        	Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
+			Hashtable<String, Serializable> resultTable = IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
+			Boolean rtn = (Boolean)resultTable.get(IpssGridGainUtil.KEY_BooleanStatus);
         	assertTrue(rtn.booleanValue());
         }
         finally {

@@ -25,7 +25,7 @@ public class AclfCmdRunTest  extends BaseTestSetup {
 				null);
 	}			
 
-	@Test
+//	@Test
 	public void runIEEE14XmlControlFile() throws Exception {
 		CmdLineRunner.cmdLineRun(
 				"testData/ipssdata/Ieee14.ipssdat", 
