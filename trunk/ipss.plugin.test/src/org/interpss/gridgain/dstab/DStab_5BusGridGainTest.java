@@ -26,6 +26,9 @@ package org.interpss.gridgain.dstab;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.Serializable;
+import java.util.Hashtable;
+
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
@@ -99,7 +102,8 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
     		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
     		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
     		
-        	Boolean rtn = (Boolean)IpssGridGainUtil.performGridTask(grid, "Grid DStab 5-Bus Sample system", algo, 0);
+			Hashtable<String, Serializable> resultTable = IpssGridGainUtil.performGridTask(grid, "Grid DStab 5-Bus Sample system", algo, 0);
+			Boolean rtn = (Boolean)resultTable.get(IpssGridGainUtil.KEY_BooleanStatus);
         	assertTrue(rtn.booleanValue());
         }
         finally {
