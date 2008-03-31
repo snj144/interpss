@@ -31,6 +31,7 @@ package org.interpss.gridgain.job;
 import java.io.Serializable;
 
 import org.interpss.gridgain.util.DStabSimuGridOutputHandler;
+import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -121,11 +122,14 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 			getMsgHub().sendStatusMsg(
 					"Running DStab simulation at remote node "
 							+ getGrid().getLocalNode());
-			if (dstabAlgo.performSimulation(getMsgHub()))
-				return Boolean.TRUE;
+			if (dstabAlgo.performSimulation(getMsgHub())) {
+				getResultTable().put(IpssGridGainUtil.KEY_BooleanStatus, Boolean.TRUE);
+				return getResultTable();
+			}
 		}
 
-		return Boolean.FALSE;
+		getResultTable().put(IpssGridGainUtil.KEY_BooleanStatus, Boolean.FALSE);
+		return getResultTable();
 	}
 	
 	private synchronized void debugOut(AclfNetwork net, DynamicSimuAlgorithm dstabAlgo) {
