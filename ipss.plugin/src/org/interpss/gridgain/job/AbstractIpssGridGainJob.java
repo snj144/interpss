@@ -29,7 +29,6 @@ package org.interpss.gridgain.job;
  */
 
 import java.io.Serializable;
-import java.util.Hashtable;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
@@ -37,7 +36,7 @@ import org.gridgain.grid.GridJobAdapter;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridInstanceResource;
 import org.gridgain.grid.resources.GridTaskSessionResource;
-import org.interpss.gridgain.RmoteGridNodeResult;
+import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.util.IPSSGridMsgHubImpl;
 
 import com.interpss.common.datatype.Constants;
@@ -57,7 +56,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 
 	private static IPSSMsgHub msgHub = null;
 
-	private RmoteGridNodeResult remoteResult = null;
+	private RmoteResultTable remoteResult = null;
 	
 	/**
 	 * Constructor
@@ -66,7 +65,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	 */
 	public AbstractIpssGridGainJob(String modelStr) {
 		super(modelStr);
-		this.remoteResult = new RmoteGridNodeResult();
+		this.remoteResult = new RmoteResultTable();
 	}
 
 	/**
@@ -119,7 +118,7 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	 */
 	protected abstract Serializable performGridJob(String modelStr);
 	
-	protected Hashtable<String, Serializable> getRemoteResult() {
+	protected RmoteResultTable getRemoteResult() {
 		return remoteResult;
 	}
 }

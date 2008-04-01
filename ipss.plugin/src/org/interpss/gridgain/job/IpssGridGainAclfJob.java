@@ -30,7 +30,8 @@ package org.interpss.gridgain.job;
 
 import java.io.Serializable;
 
-import org.interpss.gridgain.RmoteGridNodeResult;
+import org.interpss.gridgain.result.IRemoteResult;
+import org.interpss.gridgain.result.RemoteResultFactory;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -101,9 +102,8 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		// send the calculated Aclf object back to the master node
 		net.setDesc(getGrid().getLocalNode().getId().toString());
 
-		getRemoteResult().put(RmoteGridNodeResult.KEY_StudyCaseId, getGrid().getLocalNode().getId().toString());
-		getRemoteResult().put(RmoteGridNodeResult.KEY_StudyCaseId, caseId);
-		getRemoteResult().put(RmoteGridNodeResult.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+		IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
+		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), net);
 		return getRemoteResult();
 	}
 	

@@ -36,7 +36,7 @@ import org.gridgain.grid.GridFactoryState;
 import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskTimeoutException;
 import org.gridgain.grid.spi.topology.basic.GridBasicTopologySpi;
-import org.interpss.gridgain.RmoteGridNodeResult;
+import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeAclfTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.task.multicase.MultiCaseAclfTask;
@@ -83,7 +83,7 @@ public class IpssGridGainUtil {
 	 * @return result object or a list of result objects, 
 	 * @throws GridException
 	 */
-	public static RmoteGridNodeResult performGridTask(Grid grid, String desc, EObject model,
+	public static RmoteResultTable performGridTask(Grid grid, String desc, EObject model,
 			long timeout) throws GridException {
 		IpssLogger.getLogger().info(
 				"Begin to excute IpssGridTask " + desc + " ...");
@@ -95,14 +95,14 @@ public class IpssGridGainUtil {
 					|| model instanceof LoadflowAlgorithm) {
 				Object obj = grid.execute(AssignJob2NodeAclfTask.class.getName(),
 						model, timeout).get();
-				return (RmoteGridNodeResult)obj;
+				return (RmoteResultTable)obj;
 			}
 			// Single DStab case
 			else if (model instanceof DStabilityNetwork
 					|| model instanceof DynamicSimuAlgorithm) {
 				Object obj = grid.execute(AssignJob2NodeDStabTask.class.getName(),
 						model, timeout).get();
-				return (RmoteGridNodeResult)obj;
+				return (RmoteResultTable)obj;
 			}
 		} catch (GridTaskTimeoutException e) {
 			IpssLogger.logErr(e);
@@ -120,7 +120,7 @@ public class IpssGridGainUtil {
 	 * @return result object or a list of result objects, 
 	 * @throws GridException
 	 */
-	public static RmoteGridNodeResult[] performMultiGridTask(Grid grid, String desc, EObject model,
+	public static RmoteResultTable[] performMultiGridTask(Grid grid, String desc, EObject model,
 			long timeout) throws GridException {
 		IpssLogger.getLogger().info(
 				"Begin to excute IpssGridTask " + desc + " ...");
@@ -133,13 +133,13 @@ public class IpssGridGainUtil {
 				if (((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_ADJ_NETWORK
 						|| ((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_NETWORK) {
 					Object obj = grid.execute(MultiCaseAclfTask.class.getName(), model, timeout).get();
-					return (RmoteGridNodeResult[])obj;
+					return (RmoteResultTable[])obj;
 				}
 				// Multiple DStab cases
 				else if (((MultiStudyCase) model).getNetType() == SimuCtxType.DSTABILITY_NET) {
 					Object obj = grid.execute(MultiCaseDStabTask.class.getName(),
 							model, timeout).get();
-					return (RmoteGridNodeResult[])obj;
+					return (RmoteResultTable[])obj;
 				}
 			}
 		} catch (GridTaskTimeoutException e) {
