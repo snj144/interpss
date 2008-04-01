@@ -24,15 +24,13 @@
 
 package org.interpss.editor.runAct.xml;
 
-import java.io.Serializable;
-import java.util.Hashtable;
-
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
+import org.interpss.gridgain.RmoteGridNodeResult;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -129,7 +127,7 @@ public class XmlScriptDStabRun {
 
 					try {
 						// run DStab simu at a remote node
-						Hashtable<String, Serializable> resultTable = IpssGridGainUtil.performGridTask(
+						RmoteGridNodeResult result = IpssGridGainUtil.performGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
 										dstabAlgo, parser.getRunStudyCase().getGridRun()
@@ -138,8 +136,7 @@ public class XmlScriptDStabRun {
 						dstabNet.initialization(msg);
 						// set the DStabNet object back to the SimuCtx
 						simuCtx.setDStabilityNet(dstabNet);
-						Boolean rtn = (Boolean)resultTable.get(IpssGridGainUtil.KEY_BooleanStatus);
-						return rtn.booleanValue();
+						return result.getBooleanStatus().booleanValue();
 					} catch (GridException e) {
 						SpringAppContext.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
@@ -226,13 +223,13 @@ public class XmlScriptDStabRun {
 				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					try {
-						Hashtable<String, Serializable>[] objAry = IpssGridGainUtil.performMultiGridTask(
+						RmoteGridNodeResult[] objAry = IpssGridGainUtil.performMultiGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
 										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
-						for (Hashtable<String, Serializable> resultTable : objAry) {
-							Boolean b = (Boolean)resultTable.get(IpssGridGainUtil.KEY_BooleanStatus);
+						for (RmoteGridNodeResult result : objAry) {
+							Boolean b = result.getBooleanStatus();
 							if (!b.booleanValue()) {
 								SpringAppContext
 										.getEditorDialogUtil()

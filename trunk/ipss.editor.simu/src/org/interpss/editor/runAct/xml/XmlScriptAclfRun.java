@@ -24,15 +24,13 @@
 
 package org.interpss.editor.runAct.xml;
 
-import java.io.Serializable;
-import java.util.Hashtable;
-
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.gridgain.RmoteGridNodeResult;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AclfAlgorithmXmlType;
@@ -92,10 +90,10 @@ public class XmlScriptAclfRun {
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 					try {
-						Hashtable<String, Serializable> resultTable = IpssGridGainUtil.performGridTask(
+						RmoteGridNodeResult result = IpssGridGainUtil.performGridTask(
 								grid, "InterPSS Grid Aclf Calculation", algo,
 								parser.getRunStudyCase().getGridRun().getTimeout());
-						String str = (String)resultTable.get(IpssGridGainUtil.KEY_SerializedAclfNet);
+						String str = result.getSerializedAclfNet();
 						aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil
 								.loadModel(str);
 					} catch (GridException e) {
@@ -179,12 +177,12 @@ public class XmlScriptAclfRun {
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 					try {
-						Hashtable<String, Serializable>[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
+						RmoteGridNodeResult[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
 										"InterPSS Grid Aclf Calculation",
 										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
-						for (Hashtable<String, Serializable> resultTable : objAry) {
-							String str = (String)resultTable.get(IpssGridGainUtil.KEY_SerializedAclfNet);;
+						for (RmoteGridNodeResult result : objAry) {
+							String str = result.getSerializedAclfNet();;
 							// deserialize the AclfNet model string for Net.id
 							AclfAdjNetwork net = (AclfAdjNetwork) SerializeEMFObjectUtil
 									.loadModel(str);

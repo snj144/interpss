@@ -24,15 +24,13 @@
 
 package org.interpss.editor.runAct.ui;
 
-import java.io.Serializable;
-import java.util.Hashtable;
-
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.runAct.RunActUtilFunc;
+import org.interpss.gridgain.RmoteGridNodeResult;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -201,15 +199,14 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			String caseId = "DStabNetId";
 			net.setId(caseId);
 			SpringAppContext.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
-			Hashtable<String, Serializable> resultTable = IpssGridGainUtil.performGridTask(grid,
+			RmoteGridNodeResult result = IpssGridGainUtil.performGridTask(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
 							.getDynSimuAlgorithm(), timeout);
 			// init the Net object for plotting purpose. it is inited at the remote grid node
 			// before DStab simulation.
 			simuCtx.setDStabilityNet(net);
 			net.initialization(msg);
-			Boolean rtn = (Boolean)resultTable.get(IpssGridGainUtil.KEY_BooleanStatus);
-			return rtn.booleanValue();
+			return result.getBooleanStatus().booleanValue();
 		} catch (GridException e) {
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
 					"Grid DStab Error", e.toString());
