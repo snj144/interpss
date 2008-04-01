@@ -30,8 +30,8 @@ package org.interpss.gridgain.job;
 
 import java.io.Serializable;
 
+import org.interpss.gridgain.RmoteGridNodeResult;
 import org.interpss.gridgain.util.DStabSimuGridOutputHandler;
-import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -118,18 +118,20 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow(getMsgHub());
 
+		getRemoteResult().put(RmoteGridNodeResult.KEY_StudyCaseId, getGrid().getLocalNode().getId().toString());
+		getRemoteResult().put(RmoteGridNodeResult.KEY_StudyCaseId, caseId);
 		if (dstabAlgo.initialization(getMsgHub())) {
 			getMsgHub().sendStatusMsg(
 					"Running DStab simulation at remote node "
 							+ getGrid().getLocalNode());
 			if (dstabAlgo.performSimulation(getMsgHub())) {
-				getResultTable().put(IpssGridGainUtil.KEY_BooleanStatus, Boolean.TRUE);
-				return getResultTable();
+				getRemoteResult().put(RmoteGridNodeResult.KEY_BooleanStatus, Boolean.TRUE);
+				return getRemoteResult();
 			}
 		}
 
-		getResultTable().put(IpssGridGainUtil.KEY_BooleanStatus, Boolean.FALSE);
-		return getResultTable();
+		getRemoteResult().put(RmoteGridNodeResult.KEY_BooleanStatus, Boolean.FALSE);
+		return getRemoteResult();
 	}
 	
 	private synchronized void debugOut(AclfNetwork net, DynamicSimuAlgorithm dstabAlgo) {

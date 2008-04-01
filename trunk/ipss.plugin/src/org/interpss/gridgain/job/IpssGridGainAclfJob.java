@@ -30,7 +30,7 @@ package org.interpss.gridgain.job;
 
 import java.io.Serializable;
 
-import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.RmoteGridNodeResult;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -60,15 +60,19 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 	 */
 	protected Serializable performGridJob(String modelStr) {
 		AclfNetwork net = null;
+		
 		Object model = SerializeEMFObjectUtil.loadModel(modelStr);
 		if (model instanceof AclfNetwork)
 			net = (AclfNetwork) model;
 		else if (model instanceof AclfAdjNetwork)
 			net = (AclfAdjNetwork) model;
 
+		// we always assume that the case id is carried to the remote grid node by the id field
+		String caseId = net.getId();
+
 		// get serialized algo string from the task session
 		String algoStr = (String) getSession().getAttribute(
-				Constants.GridToken_AclfAlgo + net.getId());
+				Constants.GridToken_AclfAlgo + caseId);
 		//System.out.println(algoStr);
 		LoadflowAlgorithm algo;
 		if (algoStr != null) {
@@ -97,8 +101,10 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		// send the calculated Aclf object back to the master node
 		net.setDesc(getGrid().getLocalNode().getId().toString());
 
-		getResultTable().put(IpssGridGainUtil.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
-		return getResultTable();
+		getRemoteResult().put(RmoteGridNodeResult.KEY_StudyCaseId, getGrid().getLocalNode().getId().toString());
+		getRemoteResult().put(RmoteGridNodeResult.KEY_StudyCaseId, caseId);
+		getRemoteResult().put(RmoteGridNodeResult.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+		return getRemoteResult();
 	}
 	
 	private synchronized void debugOut(AclfNetwork net, LoadflowAlgorithm algo) {
