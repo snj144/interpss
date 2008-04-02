@@ -30,7 +30,9 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.gridgain.RmoteGridNodeResult;
+import org.interpss.gridgain.result.IRemoteResult;
+import org.interpss.gridgain.result.RemoteResultFactory;
+import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AclfAlgorithmXmlType;
@@ -90,7 +92,7 @@ public class XmlScriptAclfRun {
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 					try {
-						RmoteGridNodeResult result = IpssGridGainUtil.performGridTask(
+						RmoteResultTable result = IpssGridGainUtil.performGridTask(
 								grid, "InterPSS Grid Aclf Calculation", algo,
 								parser.getRunStudyCase().getGridRun().getTimeout());
 						String str = result.getSerializedAclfNet();
@@ -177,23 +179,13 @@ public class XmlScriptAclfRun {
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 							.toString();
 					try {
-						RmoteGridNodeResult[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
+						RmoteResultTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
 										"InterPSS Grid Aclf Calculation",
 										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
-						for (RmoteGridNodeResult result : objAry) {
-							String str = result.getSerializedAclfNet();;
-							// deserialize the AclfNet model string for Net.id
-							AclfAdjNetwork net = (AclfAdjNetwork) SerializeEMFObjectUtil
-									.loadModel(str);
-							// update StudyCase AclfNet model string from the
-							// result coming back from remote node.
-							StudyCase studyCase = mCaseContainer
-									.getStudyCase(net.getId());
-							studyCase.setNetModelString(str);
-							studyCase.setDesc("Loadflow by Remote Node: "
-									+ IpssGridGainUtil.nodeNameLookup(net
-											.getDesc()));
+						for (RmoteResultTable result : objAry) {
+							IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
+							resultHandler.transferAclfResult(mCaseContainer, result);
 						}
 					} catch (GridException e) {
 						SpringAppContext.getEditorDialogUtil()

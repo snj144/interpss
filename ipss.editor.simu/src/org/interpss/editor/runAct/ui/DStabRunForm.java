@@ -30,7 +30,7 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.gridgain.RmoteGridNodeResult;
+import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -199,7 +199,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			String caseId = "DStabNetId";
 			net.setId(caseId);
 			SpringAppContext.getSimuRecManager().addDBCaseId(caseId, dstabDbHandler.getDBCaseId());
-			RmoteGridNodeResult result = IpssGridGainUtil.performGridTask(grid,
+			RmoteResultTable result = IpssGridGainUtil.performGridTask(grid,
 					"InterPSS Transient Stability Simulation", simuCtx
 							.getDynSimuAlgorithm(), timeout);
 			// init the Net object for plotting purpose. it is inited at the remote grid node

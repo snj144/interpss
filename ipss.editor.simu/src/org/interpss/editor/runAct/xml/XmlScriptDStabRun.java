@@ -30,7 +30,7 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
-import org.interpss.gridgain.RmoteGridNodeResult;
+import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -127,7 +127,7 @@ public class XmlScriptDStabRun {
 
 					try {
 						// run DStab simu at a remote node
-						RmoteGridNodeResult result = IpssGridGainUtil.performGridTask(
+						RmoteResultTable result = IpssGridGainUtil.performGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
 										dstabAlgo, parser.getRunStudyCase().getGridRun()
@@ -223,12 +223,12 @@ public class XmlScriptDStabRun {
 				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					try {
-						RmoteGridNodeResult[] objAry = IpssGridGainUtil.performMultiGridTask(
+						RmoteResultTable[] objAry = IpssGridGainUtil.performMultiGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
 										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
-						for (RmoteGridNodeResult result : objAry) {
+						for (RmoteResultTable result : objAry) {
 							Boolean b = result.getBooleanStatus();
 							if (!b.booleanValue()) {
 								SpringAppContext
