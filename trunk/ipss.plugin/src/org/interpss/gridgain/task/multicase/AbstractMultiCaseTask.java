@@ -38,6 +38,7 @@ import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.GridTaskSplitAdapter;
 import org.gridgain.grid.resources.GridTaskSessionResource;
 import org.interpss.gridgain.job.AbstractIpssGridGainJob;
+import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
@@ -84,10 +85,10 @@ public abstract class AbstractMultiCaseTask extends
 	 */
 	@Override
 	public Object reduce(List<GridJobResult> results) throws GridException {
-		Object[] objList = new Object[results.size()];
+		RmoteResultTable[] objList = new RmoteResultTable[results.size()];
 		int cnt = 0;
 		for (GridJobResult result : results) {
-			objList[cnt++] = result.getData();
+			objList[cnt++] = (RmoteResultTable)result.getData();
 		}
 		return objList;
 	}

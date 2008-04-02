@@ -43,4 +43,12 @@ public interface IRemoteResult {
 	 * @param resultTable
 	 */
 	public void transferAclfResult(MultiStudyCase mCaseContainer, RmoteResultTable resultTable);
+	
+	/**
+	 * Convert the contect of the multicase container to a String for display purpose. 
+	 * 
+	 * @param mCaseContainer
+	 * @return
+	 */
+	public StringBuffer toString(MultiStudyCase mCaseContainer);	
 }

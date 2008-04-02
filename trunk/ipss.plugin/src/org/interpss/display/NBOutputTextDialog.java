@@ -40,6 +40,8 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
+import org.interpss.gridgain.result.IRemoteResult;
+import org.interpss.gridgain.result.RemoteResultFactory;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -125,13 +127,8 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         else if (data instanceof MultiStudyCase) {
         	MultiStudyCase mcase = (MultiStudyCase)data;
         	textArea.setText("");
-        	for (StudyCase scase : mcase.getStudyCaseList()) {
-        		aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
-        		textArea.append("\n");
-        		textArea.append(scase.getDesc() + "\n");
-        		textArea.append("\n");
-        		textArea.append(AclfOutFunc.loadFlowSummary(aclfAdjNet));
-        	}
+    		IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
+    		textArea.append(resultHandler.toString(mcase).toString());
             busStyleRadioButton.setEnabled(false);
             summaryRadioButton.setEnabled(false);
         }
