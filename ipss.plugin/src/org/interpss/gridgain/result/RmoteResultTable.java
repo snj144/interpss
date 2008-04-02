@@ -42,4 +42,12 @@ public class RmoteResultTable extends Hashtable<String, Serializable> {
 	public String getSerializedAclfNet() {
 		return (String)get(RmoteResultTable.KEY_SerializedAclfNet);
 	}
+
+	public String getStudyCaseId() {
+		return (String)get(RmoteResultTable.KEY_StudyCaseId);
+	}
+
+	public String getRemoteNodeId() {
+		return (String)get(RmoteResultTable.KEY_RemoteNodeId);
+	}
 }

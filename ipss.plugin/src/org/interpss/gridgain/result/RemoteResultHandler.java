@@ -24,9 +24,14 @@
 
 package org.interpss.gridgain.result;
 
+import org.interpss.display.AclfOutFunc;
+import org.interpss.gridgain.util.IpssGridGainUtil;
+
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.StudyCase;
 
 public class RemoteResultHandler implements IRemoteResult {
 	/**
@@ -38,7 +43,8 @@ public class RemoteResultHandler implements IRemoteResult {
 	public void saveAclfResult(RmoteResultTable resultTable, String caseId, String remoteId, AclfNetwork net) {
 		resultTable.put(RmoteResultTable.KEY_RemoteNodeId, remoteId);
 		resultTable.put(RmoteResultTable.KEY_StudyCaseId, caseId);
-		resultTable.put(RmoteResultTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));	}
+		resultTable.put(RmoteResultTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+	}
 	
 	/**
 	 * Transfer the results save to the resultTable to the multi study case container
@@ -47,6 +53,31 @@ public class RemoteResultHandler implements IRemoteResult {
 	 * @param resultTable
 	 */
 	public void transferAclfResult(MultiStudyCase mCaseContainer, RmoteResultTable resultTable) {
-		
+		String str = resultTable.getSerializedAclfNet();
+		// deserialize the AclfNet model string for Net.id
+		if (str != null) {
+			StudyCase studyCase = mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
+			studyCase.setNetModelString(str);
+			studyCase.setDesc("Loadflow by Remote Node: "
+						+ IpssGridGainUtil.nodeNameLookup(resultTable.getRemoteNodeId()));
+		}
+	}
+	
+	/**
+	 * Convert the contect of the multicase container to a String for display purpose. 
+	 * 
+	 * @param mCaseContainer
+	 * @return
+	 */
+	public StringBuffer toString(MultiStudyCase mCaseContainer) {
+		StringBuffer buf = new StringBuffer();
+    	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
+    		AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    		buf.append("\n");
+    		buf.append(scase.getDesc() + "\n");
+    		buf.append("\n");
+    		buf.append(AclfOutFunc.loadFlowSummary(aclfAdjNet));
+    	}	
+    	return buf;
 	}
 }

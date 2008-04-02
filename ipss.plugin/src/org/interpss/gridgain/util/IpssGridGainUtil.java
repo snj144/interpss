@@ -132,14 +132,11 @@ public class IpssGridGainUtil {
 				// Multiple Aclf Cases
 				if (((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_ADJ_NETWORK
 						|| ((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_NETWORK) {
-					Object obj = grid.execute(MultiCaseAclfTask.class.getName(), model, timeout).get();
-					return (RmoteResultTable[])obj;
+					return (RmoteResultTable[])grid.execute(MultiCaseAclfTask.class.getName(), model, timeout).get();
 				}
 				// Multiple DStab cases
 				else if (((MultiStudyCase) model).getNetType() == SimuCtxType.DSTABILITY_NET) {
-					Object obj = grid.execute(MultiCaseDStabTask.class.getName(),
-							model, timeout).get();
-					return (RmoteResultTable[])obj;
+					return (RmoteResultTable[])grid.execute(MultiCaseDStabTask.class.getName(),	model, timeout).get();
 				}
 			}
 		} catch (GridTaskTimeoutException e) {
