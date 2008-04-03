@@ -4,6 +4,14 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunDStab</ipss:analysisRunType>
+		<ipss:gridRun>
+			<ipss:enableGridRun>true</ipss:enableGridRun>
+			<ipss:aclfOption>
+				<ipss:returnOnlyErrorCase>true</ipss:returnOnlyErrorCase>
+				<ipss:calBranchLimitViolation>true</ipss:calBranchLimitViolation>
+				<ipss:calBusVoltageViolation>true</ipss:calBusVoltageViolation>
+			</ipss:aclfOption>
+		</ipss:gridRun>
 		<ipss:runDStabStudyCase>
 		<ipss:dStabStudyCaseList>
 			<ipss:dStabStudyCaseRec>
