@@ -136,7 +136,7 @@ public class XmlScriptDStabRun {
 						dstabNet.initialization(msg);
 						// set the DStabNet object back to the SimuCtx
 						simuCtx.setDStabilityNet(dstabNet);
-						return result.getBooleanStatus().booleanValue();
+						return result.getBooleanStatus();
 					} catch (GridException e) {
 						SpringAppContext.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",

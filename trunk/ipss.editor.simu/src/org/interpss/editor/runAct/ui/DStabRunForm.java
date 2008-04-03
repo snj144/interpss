@@ -206,7 +206,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			// before DStab simulation.
 			simuCtx.setDStabilityNet(net);
 			net.initialization(msg);
-			return result.getBooleanStatus().booleanValue();
+			return result.getBooleanStatus();
 		} catch (GridException e) {
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
 					"Grid DStab Error", e.toString());
