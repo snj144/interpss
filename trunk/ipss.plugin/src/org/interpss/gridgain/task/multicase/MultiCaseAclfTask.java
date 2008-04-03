@@ -45,6 +45,13 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
+		getSession().setAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase, 
+							model.isAclfReturnOnlyViolationCase()?Boolean.TRUE : Boolean.FALSE);
+		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBranchLimitViolation, 
+							model.isAclfCalBranchLimitViolation()? Boolean.TRUE : Boolean.FALSE);
+		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBusVoltViolation, 
+							model.isAclfCalBusVoltageViolation()? Boolean.TRUE : Boolean.FALSE);
+
 		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
 			// send the Aclf Net model (String) the remote node directly

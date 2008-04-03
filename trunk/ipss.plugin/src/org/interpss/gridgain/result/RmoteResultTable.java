@@ -32,17 +32,7 @@ public class RmoteResultTable extends Hashtable<String, Serializable> {
 
 	public static String KEY_RemoteNodeId = "RemoteNodeId";	
 	public static String KEY_StudyCaseId = "StudyCaseId";	
-	public static String KEY_SerializedAclfNet = "SerializedAclfNet";	
-	public static String KEY_BooleanStatus = "BooleanStatus";
 	
-	public Boolean getBooleanStatus() {
-		return (Boolean)get(RmoteResultTable.KEY_BooleanStatus);
-	}
-
-	public String getSerializedAclfNet() {
-		return (String)get(RmoteResultTable.KEY_SerializedAclfNet);
-	}
-
 	public String getStudyCaseId() {
 		return (String)get(RmoteResultTable.KEY_StudyCaseId);
 	}
@@ -50,4 +40,54 @@ public class RmoteResultTable extends Hashtable<String, Serializable> {
 	public String getRemoteNodeId() {
 		return (String)get(RmoteResultTable.KEY_RemoteNodeId);
 	}
+
+	//
+	// Aclf related fields
+	// ===================
+
+	public static String KEY_SerializedAclfNet = "SerializedAclfNet";	
+	public static String KEY_AclfConverged = "AclfConvergeStatus";	
+	public static String KEY_BranchMvar1LimintViolationIndex = "BranchMvar1LimintViolationIndex";	
+	public static String KEY_BranchMvar2LimintViolationIndex = "BranchMvar2LimintViolationIndex";	
+	public static String KEY_BranchMvar3LimintViolationIndex = "BranchMvar3LimintViolationIndex";	
+	public static String KEY_BranchAmpsLimintViolationIndex = "BranchAmpsLimintViolationIndex";	
+	public static String KEY_BusVoltageLimintViolationIndex = "BusVoltageLimintViolationIndex";	
+
+	public String getSerializedAclfNet() {
+		return (String)get(RmoteResultTable.KEY_SerializedAclfNet);
+	}
+
+	public boolean getAclfConvergeStatus() {
+		return ((Boolean)get(RmoteResultTable.KEY_AclfConverged)).booleanValue();
+	}
+
+	public double getBranchMvar1LimintViolationIndex() {
+		return ((Double)get(RmoteResultTable.KEY_BranchMvar1LimintViolationIndex)).doubleValue();
+	}
+
+	public double getBranchMvar2LimintViolationIndex() {
+		return ((Double)get(RmoteResultTable.KEY_BranchMvar2LimintViolationIndex)).doubleValue();
+	}
+
+	public double getBranchMvar3LimintViolationIndex() {
+		return ((Double)get(RmoteResultTable.KEY_BranchMvar3LimintViolationIndex)).doubleValue();
+	}
+	
+	public double getBranchAmpsLimintViolationIndex() {
+		return ((Double)get(RmoteResultTable.KEY_BranchAmpsLimintViolationIndex)).doubleValue();
+	}
+	
+	public double getBusVoltageLimintViolationIndex() {
+		return ((Double)get(RmoteResultTable.KEY_BusVoltageLimintViolationIndex)).doubleValue();
+	}
+	
+	//
+	// DStab related fields
+	// ====================
+	public static String KEY_BooleanStatus = "BooleanStatus";
+
+	public boolean getBooleanStatus() {
+		return ((Boolean)get(RmoteResultTable.KEY_BooleanStatus)).booleanValue();
+	}
+
 }

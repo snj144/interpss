@@ -24,6 +24,8 @@
 
 package org.interpss.gridgain.result;
 
+import org.gridgain.grid.GridTaskSession;
+
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.multicase.MultiStudyCase;
 
@@ -34,7 +36,7 @@ public interface IRemoteResult {
 	 * @param resultTable
 	 * @param net
 	 */
-	public void saveAclfResult(RmoteResultTable resultTable, String caseId, String remoteId, AclfNetwork net);
+	public void saveAclfResult(RmoteResultTable resultTable, String caseId, String remoteId, AclfNetwork net, GridTaskSession session);
 	
 	/**
 	 * Transfer the results save to the resultTable to the multi study case container
