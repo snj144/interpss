@@ -75,7 +75,7 @@ public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
     		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 
     		RmoteResultTable result = IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
-        	assertTrue(result.getBooleanStatus().booleanValue());
+        	assertTrue(result.getBooleanStatus());
         }
         finally {
         	GridFactory.stop(true);
