@@ -36,6 +36,23 @@
 						<ns:element name="remoteNodeDebug"
 							type="ns:boolean" minOccurs="0" maxOccurs="1">
 						</ns:element>
+						<ns:element name="aclfOption" minOccurs="0">
+                            <ns:complexType>
+                            	<ns:sequence>
+                            		<ns:element
+                            			name="returnOnlyViolationCase"
+                            			type="ns:boolean" minOccurs="1">
+                            		</ns:element>
+                            		<ns:element
+                            			name="calBranchLimitViolation"
+                            			type="ns:boolean" minOccurs="1">
+                            		</ns:element>
+                            		<ns:element name="calBusVoltageViolation"
+                            			type="ns:boolean" minOccurs="1">
+                            		</ns:element>
+                            	</ns:sequence>
+                            </ns:complexType>
+						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
