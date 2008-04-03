@@ -7,9 +7,13 @@
 		<ipss:gridRun>
 			<ipss:enableGridRun>true</ipss:enableGridRun>
 			<ipss:aclfOption>
-				<ipss:returnOnlyErrorCase>true</ipss:returnOnlyErrorCase>
+				<ipss:returnOnlyViolationCase>true</ipss:returnOnlyViolationCase>
 				<ipss:calBranchLimitViolation>true</ipss:calBranchLimitViolation>
 				<ipss:calBusVoltageViolation>true</ipss:calBusVoltageViolation>
+				<ipss:busVoltagePULimit>
+					<ipss:max>1.2</ipss:max>
+					<ipss:min>0.8</ipss:min>
+				</ipss:busVoltagePULimit>
 			</ipss:aclfOption>
 		</ipss:gridRun>
 		<ipss:runDStabStudyCase>
