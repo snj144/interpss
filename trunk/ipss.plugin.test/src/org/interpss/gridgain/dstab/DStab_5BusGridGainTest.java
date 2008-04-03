@@ -101,7 +101,7 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
     		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
     		
     		RmoteResultTable result = IpssGridGainUtil.performGridTask(grid, "Grid DStab 5-Bus Sample system", algo, 0);
-        	assertTrue(result.getBooleanStatus());
+        	assertTrue(result.getDStabRunStatus());
         }
         finally {
         	GridFactory.stop(true);
