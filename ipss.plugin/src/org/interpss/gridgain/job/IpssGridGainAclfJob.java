@@ -103,7 +103,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		net.setDesc(getGrid().getLocalNode().getId().toString());
 
 		IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
-		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), net);
+		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), net, getSession());
 		return getRemoteResult();
 	}
 	
