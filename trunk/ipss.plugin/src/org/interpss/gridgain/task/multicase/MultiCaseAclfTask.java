@@ -51,6 +51,10 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 							model.isAclfCalBranchLimitViolation()? Boolean.TRUE : Boolean.FALSE);
 		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBusVoltViolation, 
 							model.isAclfCalBusVoltageViolation()? Boolean.TRUE : Boolean.FALSE);
+		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU, 
+							new Double(model.getBusVoltageUpperLimitPU()));
+		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU, 
+							new Double(model.getBusVoltageLowerLimitPU()));
 
 		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
