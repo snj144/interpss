@@ -119,6 +119,7 @@ public class XmlScriptAclfRun {
 				// create a multi-case container
 				MultiStudyCase mCaseContainer = SimuObjectFactory
 						.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+				
 				int cnt = 0;
 				for (AclfStudyCase xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
 					// deserialize the base case
@@ -176,8 +177,15 @@ public class XmlScriptAclfRun {
 				// remote grid computing
 				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
-					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
-							.toString();
+					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
+					
+					if (parser.getRunStudyCase().getGridRun().getAclfOption() != null) {
+						RunStudyCaseXmlType.GridRun.AclfOption opt = parser.getRunStudyCase().getGridRun().getAclfOption();
+						mCaseContainer.setAclfReturnOnlyViolationCase(opt.getReturnOnlyViolationCase());
+						mCaseContainer.setAclfCalBranchLimitViolation(opt.getCalBranchLimitViolation());
+						mCaseContainer.setAclfCalBusVoltageViolation(opt.getCalBusVoltageViolation());
+					}
+					
 					try {
 						RmoteResultTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
 										"InterPSS Grid Aclf Calculation",
