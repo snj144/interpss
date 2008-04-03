@@ -184,6 +184,8 @@ public class XmlScriptAclfRun {
 						mCaseContainer.setAclfReturnOnlyViolationCase(opt.getReturnOnlyViolationCase());
 						mCaseContainer.setAclfCalBranchLimitViolation(opt.getCalBranchLimitViolation());
 						mCaseContainer.setAclfCalBusVoltageViolation(opt.getCalBusVoltageViolation());
+						mCaseContainer.setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
+						mCaseContainer.setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());
 					}
 					
 					try {

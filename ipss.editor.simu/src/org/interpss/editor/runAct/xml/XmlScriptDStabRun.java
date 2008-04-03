@@ -136,7 +136,7 @@ public class XmlScriptDStabRun {
 						dstabNet.initialization(msg);
 						// set the DStabNet object back to the SimuCtx
 						simuCtx.setDStabilityNet(dstabNet);
-						return result.getBooleanStatus();
+						return result.getDStabRunStatus();
 					} catch (GridException e) {
 						SpringAppContext.getEditorDialogUtil()
 								.showErrMsgDialog("Grid DStab Error",
@@ -229,7 +229,7 @@ public class XmlScriptDStabRun {
 										mCaseContainer, parser.getRunStudyCase()
 												.getGridRun().getTimeout());
 						for (RmoteResultTable result : objAry) {
-							Boolean b = result.getBooleanStatus();
+							Boolean b = result.getDStabRunStatus();
 							if (!b.booleanValue()) {
 								SpringAppContext
 										.getEditorDialogUtil()
