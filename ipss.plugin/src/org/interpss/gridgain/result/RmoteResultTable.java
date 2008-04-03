@@ -84,10 +84,10 @@ public class RmoteResultTable extends Hashtable<String, Serializable> {
 	//
 	// DStab related fields
 	// ====================
-	public static String KEY_BooleanStatus = "BooleanStatus";
+	public static String KEY_DStabRunStatus = "DStabRunStatus";
 
-	public boolean getBooleanStatus() {
-		return ((Boolean)get(RmoteResultTable.KEY_BooleanStatus)).booleanValue();
+	public boolean getDStabRunStatus() {
+		return ((Boolean)get(RmoteResultTable.KEY_DStabRunStatus)).booleanValue();
 	}
 
 }
