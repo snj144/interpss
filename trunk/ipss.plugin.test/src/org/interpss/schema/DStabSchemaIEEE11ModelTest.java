@@ -82,7 +82,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  		mapper.mapping(dstabRec, algo, DStabStudyCaseXmlType.class);
+	  		mapper.mapping(dstabRec.getDStabStudyCase(), algo, DStabStudyCaseXmlType.class);
 	  		//System.out.println(net.net2String());
 	  		
 	  		if (caseCnt == 1) {
