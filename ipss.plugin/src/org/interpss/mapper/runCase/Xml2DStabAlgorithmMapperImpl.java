@@ -26,12 +26,12 @@ package org.interpss.mapper.runCase;
 
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.*;
-import org.interpss.schema.DStabStudyCaseXmlType.*;
-import org.interpss.schema.DStabStudyCaseXmlType.StaticLoadModel.*;
-import org.interpss.schema.DStabStudyCaseXmlType.SimuConfig.*;
-import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.xml.XmlNetParamModifier;
+import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData;
+import org.interpss.schema.DStabStudyCaseXmlType.SetpointChangeData;
+import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.EventType;
+import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData;
+import org.interpss.schema.DStabStudyCaseXmlType.SimuConfig.SimuMethod;
+import org.interpss.schema.DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -68,16 +68,11 @@ public class Xml2DStabAlgorithmMapperImpl {
 	 * @param algo
 	 */
 	public static boolean dstabCaseData2AlgoMapping(
-			RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec caseRec,
+			DStabStudyCaseXmlType dstabCase,
 			DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
-		if (caseRec.getModification() != null)
-			XmlNetParamModifier.applyModification(algo.getNetwork(),
-					caseRec.getModification(), msg);
-
-		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(caseRec.getDStabStudyCase(), algo
+		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(dstabCase, algo
 				.getAclfAlgorithm(), msg);
 
-		DStabStudyCaseXmlType dstabCase = caseRec.getDStabStudyCase();
 		algo
 				.setSimuMethod(dstabCase.getSimuConfig().getSimuMethod() == SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
 						: DynamicSimuMethods.RUNGE_KUTTA);

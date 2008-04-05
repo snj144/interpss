@@ -44,8 +44,7 @@ import org.interpss.gridgain.util.IpssGridGainUtil;
 import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;
 
-public abstract class AbstractMultiCaseTask extends
-		GridTaskSplitAdapter<MultiStudyCase> {
+public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiStudyCase> {
 	private static final long serialVersionUID = 1;
 
 	/** Grid task session will be injected. */

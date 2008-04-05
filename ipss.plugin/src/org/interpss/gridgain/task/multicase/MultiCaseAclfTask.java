@@ -45,16 +45,19 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
+		getSession().setAttribute(Constants.GridToken_RemoteJobCreation,  
+							model.isRemoteJobCreation()?Boolean.TRUE : Boolean.FALSE);
+		
 		getSession().setAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase, 
-							model.isAclfReturnOnlyViolationCase()?Boolean.TRUE : Boolean.FALSE);
+							model.getAclfGridOption().isReturnOnlyViolationCase()?Boolean.TRUE : Boolean.FALSE);
 		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBranchLimitViolation, 
-							model.isAclfCalBranchLimitViolation()? Boolean.TRUE : Boolean.FALSE);
+							model.getAclfGridOption().isCalBranchLimitViolation()? Boolean.TRUE : Boolean.FALSE);
 		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBusVoltViolation, 
-							model.isAclfCalBusVoltageViolation()? Boolean.TRUE : Boolean.FALSE);
+							model.getAclfGridOption().isCalBusVoltageViolation()? Boolean.TRUE : Boolean.FALSE);
 		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU, 
-							new Double(model.getBusVoltageUpperLimitPU()));
+							new Double(model.getAclfGridOption().getBusVoltageUpperLimitPU()));
 		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU, 
-							new Double(model.getBusVoltageLowerLimitPU()));
+							new Double(model.getAclfGridOption().getBusVoltageLowerLimitPU()));
 
 		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {

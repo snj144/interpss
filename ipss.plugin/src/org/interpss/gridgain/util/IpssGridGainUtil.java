@@ -121,7 +121,7 @@ public class IpssGridGainUtil {
 	 * @throws GridException
 	 */
 	public static RmoteResultTable[] performMultiGridTask(Grid grid, String desc, EObject model,
-			long timeout) throws GridException {
+							long timeout, boolean remoteJobCreation) throws GridException {
 		IpssLogger.getLogger().info(
 				"Begin to excute IpssGridTask " + desc + " ...");
 		IpssLogger.getLogger().info(
