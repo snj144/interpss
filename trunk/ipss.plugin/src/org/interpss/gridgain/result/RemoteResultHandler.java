@@ -30,6 +30,7 @@ import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
@@ -57,18 +58,15 @@ public class RemoteResultHandler implements IRemoteResult {
 		
 		resultTable.put(RmoteResultTable.KEY_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
 		
-		if (!((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase)).booleanValue()
-				|| !net.isLfConverged()) {
-			resultTable.put(RmoteResultTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
-		}
+		double 	mvar1Index = 0.0, 
+	       		mvar2Index = 0.0, 
+	       		mvar3Index = 0.0, 
+	       		ampsIndex = 0.0,
+				vIndex = 0.0;
 
 		// calculate branch mvar violation index = sqrt[ sum(e*e) ], where e = ( mvar - mvarLimit ) in case of violation
 		// calculate branch current violation index = sqrt[ sum(e*e) ], where e = ( amps - ampsLimit ) in case of violation
 		if (((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_CalBranchLimitViolation)).booleanValue()) {
-			double mvar1Index = 0.0, 
-			       mvar2Index = 0.0, 
-			       mvar3Index = 0.0, 
-			       ampsIndex = 0.0;
 			for (Branch bra : net.getBranchList()) {
 				AclfBranch aclfBra = (AclfBranch) bra;
 				double mvarf_t = aclfBra.powerFrom2To(UnitType.mVar, net.getBaseKva()).abs();
@@ -79,21 +77,29 @@ public class RemoteResultHandler implements IRemoteResult {
 					if (mvar > aclfBra.getRatingMva1()) {
 						double e = (mvar - aclfBra.getRatingMva1()) / aclfBra.getRatingMva1();
 						mvar1Index += e*e;
+						IpssLogger.getLogger().info("Branch Mvar1 limit violated, " + mvar + " mvar1Limit " + 
+								aclfBra.getRatingMva1() + " at branch " + aclfBra.getId());
 					}
 				if (aclfBra.getRatingMva2() > 0.0) 
 					if (mvar > aclfBra.getRatingMva2()) {
 						double e = (mvar - aclfBra.getRatingMva2()) / aclfBra.getRatingMva2();
 						mvar2Index += e*e;
+						IpssLogger.getLogger().info("Branch Mvar2 limit violated, " + mvar + " mvar2Limit " + 
+								aclfBra.getRatingMva2() + " at branch " + aclfBra.getId());
 					}
 				if (aclfBra.getRatingMva3() > 0.0) 
 					if (mvar > aclfBra.getRatingMva3()) {
 						double e = (mvar - aclfBra.getRatingMva3()) / aclfBra.getRatingMva3();
 						mvar3Index += e*e;
+						IpssLogger.getLogger().info("Branch Mvar3 limit violated, " + mvar + " mvar3Limit " + 
+								aclfBra.getRatingMva3() + " at branch " + aclfBra.getId());
 					}
 				if (aclfBra.getRatingAmps() > 0.0) 
 					if (amps > aclfBra.getRatingAmps()) {
 						double e = (amps - aclfBra.getRatingAmps()) / aclfBra.getRatingAmps();
 						ampsIndex += e*e;
+						IpssLogger.getLogger().info("Branch Amps limit violated, " + mvar + " ampsLimit " + 
+								aclfBra.getRatingAmps() + " at branch " + aclfBra.getId());
 					}
 			}
 			resultTable.put(RmoteResultTable.KEY_BranchMvar1LimintViolationIndex, new Double(mvar1Index));
@@ -106,16 +112,25 @@ public class RemoteResultHandler implements IRemoteResult {
 		if (((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_CalBusVoltViolation)).booleanValue()) {
 			double max = ((Double)session.getAttribute(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU)).doubleValue();
 			double min = ((Double)session.getAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU)).doubleValue();
-			double vIndex = 0.0;
+			IpssLogger.getLogger().info("Calculate voltage violation index, max, min = " + max + "," + min);
 			for (Bus bus : net.getBusList()) {
 				AclfBus aclfBus = (AclfBus) bus;
 				double v = aclfBus.getVoltageMag();
-				if (v > max) 
+				if (v > max) {
 					vIndex += (v-max)*(v-max);
-				else if (v < min) 
+					IpssLogger.getLogger().info("Voltage upper limit violated, " + v + " at bus " + aclfBus.getId());
+				}
+				else if (v < min) { 
 					vIndex += (min-v)*(min-v);
+					IpssLogger.getLogger().info("Voltage lower limit violated, " + v + " at bus " + aclfBus.getId());
+				}
 			}
 			resultTable.put(RmoteResultTable.KEY_BusVoltageLimintViolationIndex, new Double(Math.sqrt(vIndex)));
+		}
+
+		if (!((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase)).booleanValue() ||
+			(!net.isLfConverged() || mvar1Index > 0.0 || mvar2Index > 0.0 || mvar3Index > 0.0 || vIndex > 0.0)) {
+			resultTable.put(RmoteResultTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
 		}
 	}
 	
@@ -133,14 +148,14 @@ public class RemoteResultHandler implements IRemoteResult {
 		studyCase.setAclfConverged(resultTable.getAclfConvergeStatus());
 		studyCase.setNetModelString(resultTable.getSerializedAclfNet());
 		
-		if (mCaseContainer.isAclfCalBranchLimitViolation()) {
+		if (mCaseContainer.getAclfGridOption().isCalBranchLimitViolation()) {
 			studyCase.setBranchMvar1LimitViolationIndex(resultTable.getBranchMvar1LimintViolationIndex());
 			studyCase.setBranchMvar2LimitViolationIndex(resultTable.getBranchMvar2LimintViolationIndex());
 			studyCase.setBranchMvar3LimitViolationIndex(resultTable.getBranchMvar3LimintViolationIndex());
 			studyCase.setBranchAmpsLimitViolationIndex(resultTable.getBranchAmpsLimintViolationIndex());
 		}
 
-		if (mCaseContainer.isAclfCalBusVoltageViolation()) {
+		if (mCaseContainer.getAclfGridOption().isCalBusVoltageViolation()) {
 			studyCase.setBusVoltageViolationIndex(resultTable.getBusVoltageLimintViolationIndex());
 		}
 	}
@@ -152,35 +167,107 @@ public class RemoteResultHandler implements IRemoteResult {
 	 * @return
 	 */
 	public StringBuffer toString(MultiStudyCase mCaseContainer) {
+		double upperVLimit = mCaseContainer.getAclfGridOption().getBusVoltageUpperLimitPU();
+		double lowerVLimit = mCaseContainer.getAclfGridOption().getBusVoltageLowerLimitPU();
+		
 		StringBuffer buf = new StringBuffer();
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
     		buf.append("\n");
     		buf.append(scase.getDesc() + "\n");
+			AclfAdjNetwork aclfAdjNet = null;
     		if (scase.getNetModelString() != null) {
-    			AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    		}
+
+			buf.append("Loadflow converged: " + scase.isAclfConverged());
+        	buf.append("\n");
+        	if (!scase.isAclfConverged()) {
+        		assert (aclfAdjNet != null);
         		buf.append("\n");
     			buf.append(AclfOutFunc.loadFlowSummary(aclfAdjNet));
-    		}
-    		else {
-        		buf.append("Loadflow converged " + scase.isAclfConverged());
-    		}
+        		buf.append("\n");
+        	}
     		
-    		if (mCaseContainer.isAclfCalBranchLimitViolation()) {
-        		if (scase.getBranchMvar1LimitViolationIndex() > 0.0)
-        			buf.append("Branch Mvar1 limit violation index " + scase.getBranchMvar1LimitViolationIndex());
-        		if (scase.getBranchMvar2LimitViolationIndex() > 0.0)
-        			buf.append("Branch Mvar2 limit violation index " + scase.getBranchMvar2LimitViolationIndex());
-        		if (scase.getBranchMvar3LimitViolationIndex() > 0.0)
-        			buf.append("Branch Mvar3 limit violation index " + scase.getBranchMvar3LimitViolationIndex());
-        		if (scase.getBranchAmpsLimitViolationIndex() > 0.0)
-        			buf.append("Branch Amps limit violation index " + scase.getBranchAmpsLimitViolationIndex());
+    		if (mCaseContainer.getAclfGridOption().isCalBranchLimitViolation()) {
+        		if (scase.getBranchMvar1LimitViolationIndex() > 0.0) {
+        			buf.append("Branch Mvar1 limit violation index: " + scase.getBranchMvar1LimitViolationIndex());
+        			buf.append("\n");
+        		}
+        		if (scase.getBranchMvar2LimitViolationIndex() > 0.0) {
+        			buf.append("Branch Mvar2 limit violation index: " + scase.getBranchMvar2LimitViolationIndex());
+        			buf.append("\n");
+        		}
+        		if (scase.getBranchMvar3LimitViolationIndex() > 0.0) {
+        			buf.append("Branch Mvar3 limit violation index: " + scase.getBranchMvar3LimitViolationIndex());
+        			buf.append("\n");
+        		}
+        		if (scase.getBranchAmpsLimitViolationIndex() > 0.0) {
+        			buf.append("Branch Amps limit violation index: " + scase.getBranchAmpsLimitViolationIndex());
+        			buf.append("\n");
+        		}
     		}
 
-    		if (mCaseContainer.isAclfCalBusVoltageViolation()) {
-        		if (scase.getBusVoltageViolationIndex() > 0.0)
-        			buf.append("Bus voltage limit violation index " + scase.getBusVoltageViolationIndex());
+    		if (mCaseContainer.getAclfGridOption().isCalBusVoltageViolation()) {
+        		if (scase.getBusVoltageViolationIndex() > 0.0) {
+        			buf.append("Bus voltage limit violation index: " + scase.getBusVoltageViolationIndex());
+        			buf.append("\n");
+        		}
     		}
 
+    		if (mCaseContainer.getAclfGridOption().isCalBranchLimitViolation() &&
+    				( scase.getBranchMvar1LimitViolationIndex() > 0.0 ||
+        		      scase.getBranchMvar2LimitViolationIndex() > 0.0 ||
+        		      scase.getBranchMvar3LimitViolationIndex() > 0.0 ||
+        		      scase.getBranchAmpsLimitViolationIndex() > 0.0       ) ||
+    		    mCaseContainer.getAclfGridOption().isCalBusVoltageViolation() &&
+        			  scase.getBusVoltageViolationIndex() > 0.0) {
+    			assert (aclfAdjNet != null);
+    			for (Branch bra : aclfAdjNet.getBranchList()) {
+    				AclfBranch aclfBra = (AclfBranch) bra;
+    				double mvarf_t = aclfBra.powerFrom2To(UnitType.mVar, aclfAdjNet.getBaseKva()).abs();
+    				double mvart_f = aclfBra.powerTo2From(UnitType.mVar, aclfAdjNet.getBaseKva()).abs();
+    				double amps = aclfBra.current(UnitType.Amp, aclfAdjNet.getBaseKva());
+    				double mvar = mvarf_t > mvart_f? mvarf_t : mvart_f;
+    				if (aclfBra.getRatingMva1() > 0.0) 
+    					if (mvar > aclfBra.getRatingMva1()) {
+    						buf.append("Branch Mvar1 limit violated, " + String.format("%5.3f", mvar) + " mvar1Limit " + 
+    								String.format("%5.3f", aclfBra.getRatingMva1()) + " at branch " + aclfBra.getId());
+    	        			buf.append("\n");
+    					}
+    				if (aclfBra.getRatingMva2() > 0.0) 
+    					if (mvar > aclfBra.getRatingMva2()) {
+    						buf.append("Branch Mvar2 limit violated, " + String.format("%5.3f", mvar) + " mvar2Limit " + 
+    								String.format("%5.3f", aclfBra.getRatingMva2()) + " at branch " + aclfBra.getId());
+    	        			buf.append("\n");
+    					}
+    				if (aclfBra.getRatingMva3() > 0.0) 
+    					if (mvar > aclfBra.getRatingMva3()) {
+    						buf.append("Branch Mvar3 limit violated, " + String.format("%5.3f", mvar) + " mvar3Limit " + 
+    								String.format("%5.3f", aclfBra.getRatingMva3()) + " at branch " + aclfBra.getId());
+    	        			buf.append("\n");
+    					}
+    				if (aclfBra.getRatingAmps() > 0.0) 
+    					if (amps > aclfBra.getRatingAmps()) {
+    						buf.append("Branch Amps limit violated, " + String.format("%5.3f", amps) + " ampsLimit " + 
+    								String.format("%5.3f", aclfBra.getRatingAmps()) + " at branch " + aclfBra.getId());
+    	        			buf.append("\n");
+    					}
+    			}
+
+    			for (Bus bus : aclfAdjNet.getBusList()) {
+    				AclfBus aclfBus = (AclfBus) bus;
+    				double v = aclfBus.getVoltageMag();
+    				if (v > upperVLimit) {
+    					buf.append("Voltage upper limit violated, " + String.format("%6.4f", v) + " at bus " + aclfBus.getId());
+            			buf.append("\n");
+    				}
+    				else if (v < lowerVLimit) { 
+    					buf.append("Voltage lower limit violated, " + String.format("%6.4f", v) + " at bus " + aclfBus.getId());
+            			buf.append("\n");
+    				}
+    			}
+    			
+    		}
     		buf.append("\n");
     	}	
     	return buf;
