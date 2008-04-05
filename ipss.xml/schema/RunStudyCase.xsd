@@ -30,43 +30,45 @@
 						<ns:element name="enableGridRun"
 							type="ns:boolean" minOccurs="1" maxOccurs="1">
 						</ns:element>
-						<ns:element name="timeout" type="ns:long"
+                        <ns:element name="remoteJobCreation" type="ns:boolean" minOccurs="1">
+						</ns:element>
+                        <ns:element name="timeout" type="ns:long"
 							minOccurs="0" maxOccurs="1">
 						</ns:element>
 						<ns:element name="remoteNodeDebug"
 							type="ns:boolean" minOccurs="0" maxOccurs="1">
 						</ns:element>
 						<ns:element name="aclfOption" minOccurs="0">
-                            <ns:complexType>
-                            	<ns:sequence>
-                            		<ns:element
-                            			name="returnOnlyViolationCase"
-                            			type="ns:boolean" minOccurs="1">
-                            			<ns:annotation>
-                            				<ns:documentation>
-                            					If true, only return the
-                            					Aclf network object from
-                            					the remote grid node to
-                            					the master node when LF
-                            					diverger, or there is
-                            					limit violation.
-                            				</ns:documentation>
-                            			</ns:annotation>
-                            		</ns:element>
-                            		<ns:element
-                            			name="calBranchLimitViolation"
-                            			type="ns:boolean" minOccurs="1">
-                            		</ns:element>
-                            		<ns:element
-                            			name="calBusVoltageViolation"
-                            			type="ns:boolean" minOccurs="1">
-                            		</ns:element>
-                            		<ns:element name="busVoltagePULimit"
-                            			type="ipss:LimitXmlType" minOccurs="1">
-                            		</ns:element>
-                            	</ns:sequence>
-                            </ns:complexType>
-						</ns:element>
+							<ns:complexType>
+								<ns:sequence>
+									<ns:element
+										name="returnOnlyViolationCase" type="ns:boolean"
+										minOccurs="1">
+										<ns:annotation>
+											<ns:documentation>
+												If true, only return the
+												Aclf network object from
+												the remote grid node to
+												the master node when LF
+												diverger, or there is
+												limit violation.
+											</ns:documentation>
+										</ns:annotation>
+									</ns:element>
+									<ns:element
+										name="calBranchLimitViolation" type="ns:boolean"
+										minOccurs="1">
+									</ns:element>
+									<ns:element
+										name="calBusVoltageViolation" type="ns:boolean"
+										minOccurs="1">
+									</ns:element>
+									<ns:element name="busVoltagePULimit"
+										type="ipss:LimitXmlType" minOccurs="1">
+									</ns:element>
+								</ns:sequence>
+							</ns:complexType>
+						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
