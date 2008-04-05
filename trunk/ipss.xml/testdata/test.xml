@@ -6,6 +6,7 @@
 		<ipss:analysisRunType>RunDStab</ipss:analysisRunType>
 		<ipss:gridRun>
 			<ipss:enableGridRun>true</ipss:enableGridRun>
+			<ipss:remoteJobCreation>true</ipss:remoteJobCreation>
 			<ipss:aclfOption>
 				<ipss:returnOnlyViolationCase>true</ipss:returnOnlyViolationCase>
 				<ipss:calBranchLimitViolation>true</ipss:calBranchLimitViolation>
