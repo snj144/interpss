@@ -5,10 +5,10 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.XmlNetParamModifier;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -48,7 +48,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  		mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
+	  		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
@@ -97,7 +97,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	
-		  	mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
+		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
@@ -139,7 +139,8 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	// modification of the study case also applied
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  	mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
+	  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+	  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	
@@ -165,7 +166,9 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   		//System.out.println("----->" + parser.getRootElem().toString());
 
   		ModificationXmlType mod = parser.getModification();
-  		XmlNetParamModifier.applyModification(net, mod, msg);
+  		
+		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+		mapper.mapping(mod, net, ModificationXmlType.class);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());
 	  	assertTrue(!net.getBus("0006").isActive());
