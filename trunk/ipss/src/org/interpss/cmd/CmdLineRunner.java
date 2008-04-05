@@ -35,12 +35,13 @@ import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.output.IOutputSimuResult;
+import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
@@ -133,9 +134,10 @@ public class CmdLineRunner {
 			}
 			
 			// Apply the modification to the base Network object
-			if (parser.getModification() != null)
-				XmlNetParamModifier.applyModification(simuCtx.getNetwork(),
-						parser.getModification(), msg);
+			if (parser.getModification() != null) {
+				IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+				mapper.mapping(parser.getModification(), simuCtx.getNetwork(), ModificationXmlType.class);
+			}
 
 			RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 			IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
