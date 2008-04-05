@@ -35,6 +35,7 @@ import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
+import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
@@ -100,6 +101,10 @@ public class XmlScriptDStabRun {
 					}
 					xmlCase = xmlDefaultCase;
 					dstabRec.setDStabStudyCase(xmlDefaultCase);				
+				}
+				if (dstabRec.getModification() != null) {
+					IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+					mapper.mapping(dstabRec.getModification(), dstabNet, ModificationXmlType.class);
 				}
 				if (!configDStaAlgo(dstabAlgo, dstabRec, msg))
 					return false;
@@ -181,6 +186,10 @@ public class XmlScriptDStabRun {
 						}
 						xmlCase = xmlDefaultCase;
 					}
+					if (dstabRec.getModification() != null) {
+						IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+						mapper.mapping(dstabRec.getModification(), dstabNet, ModificationXmlType.class);
+					}
 					if (!configDStaAlgo(dstabAlgo, dstabRec, msg))
 						return false;
 
@@ -224,10 +233,10 @@ public class XmlScriptDStabRun {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					try {
 						RmoteResultTable[] objAry = IpssGridGainUtil.performMultiGridTask(
-										grid,
-										"InterPSS Transient Stability Simulation",
-										mCaseContainer, parser.getRunStudyCase()
-												.getGridRun().getTimeout());
+										grid, "InterPSS Transient Stability Simulation",
+										mCaseContainer, 
+										parser.getRunStudyCase().getGridRun().getTimeout(),
+										parser.getRunStudyCase().getGridRun().getRemoteJobCreation());
 						for (RmoteResultTable result : objAry) {
 							Boolean b = result.getDStabRunStatus();
 							if (!b.booleanValue()) {
@@ -262,9 +271,8 @@ public class XmlScriptDStabRun {
 			DStabStudyCaseRec dstabRec, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
-		IpssMapper mapper = PluginSpringAppContext
-				.getRunForm2AlgorithmMapper();
-		mapper.mapping(dstabRec, dstabAlgo, DStabStudyCaseXmlType.class);
+		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+		mapper.mapping(dstabRec.getDStabStudyCase(), dstabAlgo, DStabStudyCaseXmlType.class);
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
 			return false; // if something is wrong, we stop running here
 

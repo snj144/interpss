@@ -27,6 +27,7 @@ package org.interpss.editor.runAct.xml;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
@@ -73,7 +74,8 @@ public class XmlScriptAcscRun {
 					xmlCase = xmlDefaultCase;
 					rec.setAcscStudyCase(xmlDefaultCase);
 				} 
-
+				if (rec.getModification() != null)
+					mapper.mapping(rec.getModification(), faultNet, ModificationXmlType.class);
 				mapper.mapping(rec, algo, AcscStudyCaseXmlType.class);
 				Object fault = faultNet.getFaultList().get(0);
 				if (fault instanceof AcscBusFault)

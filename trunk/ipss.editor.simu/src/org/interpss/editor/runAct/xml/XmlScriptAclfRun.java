@@ -36,6 +36,7 @@ import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AclfAlgorithmXmlType;
+import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
@@ -82,8 +83,9 @@ public class XmlScriptAclfRun {
 					}
 					xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
 				}
-				
-				mapper.mapping(xmlCase, algo, AclfAlgorithmXmlType.class);
+				if (xmlCase.getModification() != null)
+					mapper.mapping(xmlCase.getModification(), aclfNet, ModificationXmlType.class);
+				mapper.mapping(xmlCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 
 				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
@@ -114,17 +116,16 @@ public class XmlScriptAclfRun {
 					dialog.display(aclfNet);
 				}
 			} else {
-				// save the base case Network model to the netStr
-				String netStr = SerializeEMFObjectUtil.saveModel(aclfNet);
-				// create a multi-case container
 				MultiStudyCase mCaseContainer = SimuObjectFactory
 						.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+				// save the base case Network model to the netStr
+				mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 				
 				int cnt = 0;
 				for (AclfStudyCase xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
 					// deserialize the base case
 					AclfAdjNetwork net = (AclfAdjNetwork) SerializeEMFObjectUtil
-							.loadModel(netStr);
+							.loadModel(mCaseContainer.getBaseNetModelString());
 					LoadflowAlgorithm algo = CoreObjectFactory
 							.createLoadflowAlgorithm(net);
 					// map to the Algo object including network modification at
@@ -137,7 +138,9 @@ public class XmlScriptAclfRun {
 						}
 						xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
 					}
-					mapper.mapping(xmlCase, algo, AclfAlgorithmXmlType.class);
+					if (xmlCase.getModification() != null)
+						mapper.mapping(xmlCase.getModification(), aclfNet, ModificationXmlType.class);
+					mapper.mapping(xmlCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 
 					// net.id is used to retrieve study case info at remote
 					// node. so we need to
@@ -179,20 +182,21 @@ public class XmlScriptAclfRun {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 					
+					mCaseContainer.setRemoteJobCreation(parser.getRunStudyCase().getGridRun().getRemoteJobCreation());
 					if (parser.getRunStudyCase().getGridRun().getAclfOption() != null) {
 						RunStudyCaseXmlType.GridRun.AclfOption opt = parser.getRunStudyCase().getGridRun().getAclfOption();
-						mCaseContainer.setAclfReturnOnlyViolationCase(opt.getReturnOnlyViolationCase());
-						mCaseContainer.setAclfCalBranchLimitViolation(opt.getCalBranchLimitViolation());
-						mCaseContainer.setAclfCalBusVoltageViolation(opt.getCalBusVoltageViolation());
-						mCaseContainer.setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
-						mCaseContainer.setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());
+						mCaseContainer.getAclfGridOption().setReturnOnlyViolationCase(opt.getReturnOnlyViolationCase());
+						mCaseContainer.getAclfGridOption().setCalBranchLimitViolation(opt.getCalBranchLimitViolation());
+						mCaseContainer.getAclfGridOption().setCalBusVoltageViolation(opt.getCalBusVoltageViolation());
+						mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
+						mCaseContainer.getAclfGridOption().setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());
 					}
 					
 					try {
 						RmoteResultTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
-										"InterPSS Grid Aclf Calculation",
-										mCaseContainer, parser.getRunStudyCase()
-												.getGridRun().getTimeout());
+										"InterPSS Grid Aclf Calculation", mCaseContainer, 
+										parser.getRunStudyCase().getGridRun().getTimeout(),
+										parser.getRunStudyCase().getGridRun().getRemoteJobCreation());
 						for (RmoteResultTable result : objAry) {
 							IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
 							resultHandler.transferAclfResult(mCaseContainer, result);

@@ -33,13 +33,14 @@ import org.interpss.mapper.runCase.Xml2DStabAlgorithmMapperImpl;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
+import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
+import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
+import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class RunForm2AlgorithmMapper extends AbstractMapper {
@@ -48,44 +49,68 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 	}
 
 	/**
-	 * map(load) a <*>RunForm object into an Algorithm object
+	 * map info store in the fromObj to the toObj
 	 * 
-	 * @param fromObj a <*>RunForm object
-	 * @param toObj an Algorithm object
-	 * @param kclass class type of the toObj 
+	 * @param fromObj the fromObj object
+	 * @param toObj the to object
+	 * @param kclass class type, used to determine mapping details 
 	 */
 	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
 		if (klass == LoadflowAlgorithm.class) {
+			/*
+			 * map AclfRunForm object to an AclfAlgo object
+			 */
 			AclfRunForm runForm = (AclfRunForm) fromObj;
 			LoadflowAlgorithm algo = (LoadflowAlgorithm) toObj;
-			CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(runForm
-					.getAclfCaseData(), algo);
+			CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(runForm.getAclfCaseData(), algo);
 		} else if (klass == SimpleFaultAlgorithm.class) {
+			/*
+			 * map AcscRunForm object to a SimpleFaultAlgorithm object
+			 */
 			AcscRunForm runForm = (AcscRunForm) fromObj;
 			SimpleFaultAlgorithm algo = (SimpleFaultAlgorithm) toObj;
 			return CaseData2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
 					runForm.getAcscCaseData(), algo);
 		} else if (klass == DynamicSimuAlgorithm.class) {
+			/*
+			 * map DStabRunForm object to a DynamicSimuAlgorithm object
+			 */
 			DStabRunForm runForm = (DStabRunForm) fromObj;
 			DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm) toObj;
 			return CaseData2AlgorithmMapperImpl.dstabCaseData2AlgoMapping(
 					runForm.getDStabCaseData(), runForm.getAclfCaseData(),
 					algo, msg);
+			
 		} else if (klass == AclfAlgorithmXmlType.class) {
-			// map an AclfStudyCase xml record to an LoadflowAlgorithm object
+			// map an AclfAlgorithmXmlType xml record to an LoadflowAlgorithm object
 			Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(
-					(AclfStudyCase) fromObj,
+					(AclfAlgorithmXmlType) fromObj,
 					(LoadflowAlgorithm) toObj, msg);
 		} else if (klass == AcscStudyCaseXmlType.class) {
-			// map an AcscStudyCase xml record to an LoadflowAlgorithm object
+			/*
+			 * map an AcscStudyCase xml record to an LoadflowAlgorithm object
+			 */
+			AcscStudyCaseRec caseRec = (AcscStudyCaseRec)fromObj;
+			String faultIdStr = caseRec.getRecId();
 			return Xml2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
-					(AcscStudyCaseRec) fromObj,
-					(SimpleFaultAlgorithm) toObj, msg);
+					caseRec.getAcscStudyCase(),
+					(SimpleFaultAlgorithm) toObj, 
+					faultIdStr, msg);
 		} else if (klass == DStabStudyCaseXmlType.class) {
-			// map a DStabStudyCase xml record to an LoadflowAlgorithm object
+			/*
+			 * map a DStabStudyCase xml record (fromObj) to an LoadflowAlgorithm object (toObj)
+			 */
 			return Xml2DStabAlgorithmMapperImpl.dstabCaseData2AlgoMapping(
-					(DStabStudyCaseRec) fromObj,
+					(DStabStudyCaseXmlType) fromObj,
 					(DynamicSimuAlgorithm) toObj, msg);
+
+		} else if (klass == ModificationXmlType.class) {
+			/*
+			 * Apply the modification (fromObj) info to the Network object (toObj) 
+			 */ 
+			XmlNetParamModifier.applyModification(
+				(Network) toObj, 
+				(ModificationXmlType) fromObj, msg);
 		}
 		return true;
 	}

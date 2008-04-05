@@ -24,6 +24,7 @@
 
 package org.interpss.editor.runAct.xml;
 
+import org.interpss.PluginSpringAppContext;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
@@ -31,10 +32,12 @@ import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.DclfSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
+import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunDclfStudyCase.DclfStudyCaseList.DclfStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
 
+import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
@@ -68,7 +71,8 @@ public class XmlScriptDclfRun {
 			
 			for ( DclfStudyCaseRec rec : xmlRunDclfCase.getDclfStudyCaseList().getDclfStudyCaseRecArray()) {
 				if (rec.getModification() != null) {
-					// TODO: apply the modification
+					IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+					mapper.mapping(rec.getModification(), aclfNet, ModificationXmlType.class);
 				}
 
 				DclfStudyCaseXmlType xmlCase = rec.getDclfStudyCase();

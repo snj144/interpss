@@ -25,16 +25,18 @@
 package org.interpss.editor.runAct;
 
 import org.apache.xmlbeans.XmlException;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
@@ -63,10 +65,11 @@ public class XmlScriptRunWorker {
 
 		// Apply the modification to the base Network object
 		IPSSMsgHub msg = simuCtx.getMsgHub();
-		if (parser.getModification() != null)
-			XmlNetParamModifier.applyModification(simuCtx.getNetwork(),
-					parser.getModification(), msg);
-
+		if (parser.getModification() != null) {
+			IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+			mapper.mapping(parser.getModification(), simuCtx.getNetwork(), ModificationXmlType.class);
+		}
+		
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
 		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
 				&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
