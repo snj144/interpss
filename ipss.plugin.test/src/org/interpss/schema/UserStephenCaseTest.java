@@ -48,7 +48,9 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  		
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
-		  	mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
+		  	if (aclfCase.getModification() != null)
+			  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 
@@ -92,9 +94,11 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 
+		  	if (aclfCase.getModification() != null)
+			  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
-		  	mapper.mapping(aclfCase, algo, AclfAlgorithmXmlType.class);
+		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  		
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  	
