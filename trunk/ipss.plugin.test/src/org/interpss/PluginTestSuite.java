@@ -27,6 +27,7 @@ import org.interpss.schema.AclfSchemaIeee14BusCaseTest;
 import org.interpss.schema.AcscSchemaSampleCaseTest;
 import org.interpss.schema.DStabSchemaIEEE11ModelTest;
 import org.interpss.schema.DclfSchemaIeee14BusCaseTest;
+import org.interpss.schema.UserStephenCaseTest;
 import org.interpss.spring.CustomFileAdapterTest;
 import org.interpss.spring.DStabControllerTest;
 import org.interpss.spring.SimuAppCtxTest;
@@ -76,6 +77,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	AclfSchemaIeee14BusCaseTest.class,
 	AcscSchemaSampleCaseTest.class,
 	DStabSchemaIEEE11ModelTest.class,
+	UserStephenCaseTest.class,
 	
 	// cmd line 
 	AclfCmdRunTest.class,

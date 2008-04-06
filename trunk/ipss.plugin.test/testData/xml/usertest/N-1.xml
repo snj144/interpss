@@ -6,6 +6,7 @@
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
 		<ipss:gridRun>
 			<ipss:enableGridRun>false</ipss:enableGridRun>
+			<ipss:remoteJobCreation>false</ipss:remoteJobCreation>
 			<ipss:timeout>0</ipss:timeout>
 		</ipss:gridRun>
 		<ipss:runAclfStudyCase>
