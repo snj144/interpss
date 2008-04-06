@@ -182,6 +182,7 @@ public class RemoteResultHandler implements IRemoteResult {
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
     		buf.append("\n");
     		buf.append(scase.getDesc() + "\n");
+    		buf.append("Case Description: " + scase.getName() + "\n");
 			AclfAdjNetwork aclfAdjNet = null;
     		if (scase.getNetModelString() != null) {
     			aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
