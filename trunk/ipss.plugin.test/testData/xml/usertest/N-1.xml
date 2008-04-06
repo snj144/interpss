@@ -22,6 +22,7 @@
 		<ipss:aclfStudyCaseList>
 			<ipss:aclfStudyCase>
 				<ipss:recId>breakline_1</ipss:recId>
+				<ipss:recDesc>Open branch No1->No2</ipss:recDesc>
 				<ipss:modification>
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
