@@ -75,17 +75,8 @@ public class XmlScriptAclfRun {
 				AclfStudyCase xmlCase = xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()[0];
 
 				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
-				
-				if (xmlCase.getAclfAlgorithm() == null) {
-					if (xmlDefaultAlgo == null) {
-						msg.sendErrorMsg("No Aclf Algorithm defined");
-						return false;
-					}
-					xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
-				}
-				if (xmlCase.getModification() != null)
-					mapper.mapping(xmlCase.getModification(), aclfNet, ModificationXmlType.class);
-				mapper.mapping(xmlCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+				if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, msg))
+					return false;
 
 				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
@@ -130,17 +121,8 @@ public class XmlScriptAclfRun {
 							.createLoadflowAlgorithm(net);
 					// map to the Algo object including network modification at
 					// case level
-
-					if (xmlCase.getAclfAlgorithm() == null) {
-						if (xmlDefaultAlgo == null) {
-							msg.sendErrorMsg("No Aclf Algorithm defined");
-							return false;
-						}
-						xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
-					}
-					if (xmlCase.getModification() != null)
-						mapper.mapping(xmlCase.getModification(), aclfNet, ModificationXmlType.class);
-					mapper.mapping(xmlCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+					if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, msg))
+						return false;
 
 					// net.id is used to retrieve study case info at remote
 					// node. so we need to
@@ -166,6 +148,7 @@ public class XmlScriptAclfRun {
 						// case level modification
 						// in the case of non grid computing, it contains
 						// Loadflow results
+						studyCase.setName(xmlCase.getRecDesc());
 						studyCase.setNetModelString(SerializeEMFObjectUtil
 								.saveModel(net));
 					} catch (Exception e) {
@@ -182,15 +165,7 @@ public class XmlScriptAclfRun {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 					
-					mCaseContainer.setRemoteJobCreation(parser.getRunStudyCase().getGridRun().getRemoteJobCreation());
-					if (parser.getRunStudyCase().getGridRun().getAclfOption() != null) {
-						RunStudyCaseXmlType.GridRun.AclfOption opt = parser.getRunStudyCase().getGridRun().getAclfOption();
-						mCaseContainer.getAclfGridOption().setReturnOnlyViolationCase(opt.getReturnOnlyViolationCase());
-						mCaseContainer.getAclfGridOption().setCalBranchLimitViolation(opt.getCalBranchLimitViolation());
-						mCaseContainer.getAclfGridOption().setCalBusVoltageViolation(opt.getCalBusVoltageViolation());
-						mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
-						mCaseContainer.getAclfGridOption().setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());
-					}
+					setAclfRunOpt(mCaseContainer, parser.getRunStudyCase());
 					
 					try {
 						RmoteResultTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
@@ -219,5 +194,33 @@ public class XmlScriptAclfRun {
 			return false;
 		}
 		return true;
+	}
+
+	private static boolean mapAclfStudy(IpssMapper mapper, AclfStudyCase xmlCase, 
+						LoadflowAlgorithm algo, AclfAlgorithmXmlType xmlDefaultAlgo, IPSSMsgHub msg) {
+		if (xmlCase.getAclfAlgorithm() == null) {
+			if (xmlDefaultAlgo == null) {
+				msg.sendErrorMsg("No Aclf Algorithm defined");
+				return false;
+			}
+			xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
+		}
+		if (xmlCase.getModification() != null)
+			mapper.mapping(xmlCase.getModification(), algo.getAclfAdjNetwork(), ModificationXmlType.class);
+		mapper.mapping(xmlCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		
+		return true;
+	}
+	
+	private static void setAclfRunOpt(MultiStudyCase mCaseContainer, RunStudyCaseXmlType runCase) {
+		mCaseContainer.setRemoteJobCreation(runCase.getGridRun().getRemoteJobCreation());
+		if (runCase.getGridRun().getAclfOption() != null) {
+			RunStudyCaseXmlType.GridRun.AclfOption opt = runCase.getGridRun().getAclfOption();
+			mCaseContainer.getAclfGridOption().setReturnOnlyViolationCase(opt.getReturnOnlyViolationCase());
+			mCaseContainer.getAclfGridOption().setCalBranchLimitViolation(opt.getCalBranchLimitViolation());
+			mCaseContainer.getAclfGridOption().setCalBusVoltageViolation(opt.getCalBusVoltageViolation());
+			mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
+			mCaseContainer.getAclfGridOption().setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());
+		}		
 	}
 }
