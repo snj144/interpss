@@ -52,6 +52,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 	@Override
 	protected GridJob createGridJob(String modelStr) {
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
+		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
 		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, modelStr);
 		return new IpssGridGainAclfJob(remoteMsg);
 	}
@@ -62,6 +63,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 		if (model instanceof LoadflowAlgorithm) {
 			LoadflowAlgorithm algo = (LoadflowAlgorithm) model;
 			AclfNetwork net = algo.getAclfNetwork();
+			this.studyCaseId = net.getId();
 
 			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(algo);
 			getSession().setAttribute(

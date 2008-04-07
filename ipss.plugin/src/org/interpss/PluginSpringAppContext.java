@@ -44,10 +44,9 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 * @return the RunForm2AlgorithmMapper object
 	 */
 	public static IpssMapper getIpssXmlMapper() {
-		IpssMapper mapper = (IpssMapper) SpringAppCtx.getBean(Constants.SID_IpssXmlMapper);
-		if (mapper == null) // for grid computing
-			mapper = new IpssXmlMapper();
-		return mapper;
+		if (SpringAppCtx == null) // for grid computing
+			return new IpssXmlMapper(SpringAppContext.getIpssMsgHub());
+		return (IpssMapper) SpringAppCtx.getBean(Constants.SID_IpssXmlMapper);
 	}
 	
 	/**

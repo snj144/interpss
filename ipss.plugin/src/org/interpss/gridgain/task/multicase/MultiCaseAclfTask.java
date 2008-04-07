@@ -69,8 +69,10 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 			RemoteMessageTable remoteMsg = new RemoteMessageTable();
 			remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCase.getId());
 			if (model.isRemoteJobCreation()) {
-				if (studyCase.getModifyModelString() != null)
+				if (studyCase.getModifyModelString() != null) {
 					remoteMsg.put(RemoteMessageTable.KEY_StudyCaseModification, studyCase.getModifyModelString());
+					//IpssLogger.getLogger().info("Study Case Modification: " + studyCase.getModifyModelString());
+				}
 			}
 			else {
 				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, studyCase.getNetModelString());
