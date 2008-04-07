@@ -67,8 +67,10 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 		for (StudyCase studyCase : model.getStudyCaseList()) {
 			// send the Aclf Net model (String) the remote node directly
 			RemoteMessageTable remoteMsg = new RemoteMessageTable();
+			remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCase.getId());
 			if (model.isRemoteJobCreation()) {
-				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCase.getId());
+				if (studyCase.getModifyModelString() != null)
+					remoteMsg.put(RemoteMessageTable.KEY_StudyCaseModification, studyCase.getModifyModelString());
 			}
 			else {
 				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, studyCase.getNetModelString());
