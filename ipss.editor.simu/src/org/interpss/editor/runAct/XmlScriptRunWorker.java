@@ -66,7 +66,7 @@ public class XmlScriptRunWorker {
 		// Apply the modification to the base Network object
 		IPSSMsgHub msg = simuCtx.getMsgHub();
 		if (parser.getModification() != null) {
-			IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+			IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 			mapper.mapping(parser.getModification(), simuCtx.getNetwork(), ModificationXmlType.class);
 		}
 		
