@@ -44,7 +44,6 @@ import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Network;
-import com.interpss.simu.modify.Modification;
 
 public class XmlNetParamModifier {
 	private static enum ComplexValueType {
