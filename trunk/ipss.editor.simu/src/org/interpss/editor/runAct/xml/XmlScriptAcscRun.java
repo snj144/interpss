@@ -51,7 +51,7 @@ public class XmlScriptAcscRun {
 	 */
 	public static boolean runAcsc(IpssXmlParser parser,
 			SimpleFaultNetwork faultNet, IPSSMsgHub msg) {
-		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		if (parser.getRunAcscStudyCase() != null) {
 			RunStudyCaseXmlType.RunAcscStudyCase xmlRunCase = parser
 					.getRunAcscStudyCase();

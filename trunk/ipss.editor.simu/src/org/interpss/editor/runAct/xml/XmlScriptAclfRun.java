@@ -64,8 +64,7 @@ public class XmlScriptAclfRun {
 	 */
 	public static boolean runAclf(IpssXmlParser parser, AclfAdjNetwork aclfNet,
 			IPSSMsgHub msg) {
-		IpssMapper mapper = PluginSpringAppContext
-				.getRunForm2AlgorithmMapper();
+		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		RunStudyCaseXmlType.RunAclfStudyCase xmlRunCase = parser.getRunAclfStudyCase();
 
 		if (xmlRunCase != null) {
@@ -124,10 +123,6 @@ public class XmlScriptAclfRun {
 										parser.getRunStudyCase().getGridRun().getRemoteJobCreation(), msg))
 						return false;
 
-					// net.id is used to retrieve study case info at remote
-					// node. so we need to
-					// sure net.id and studyCase.id are the same for Grid
-					// computing.
 					net.setId(xmlCase.getRecId());
 					try {
 						StudyCase studyCase = SimuObjectFactory.createStudyCase(xmlCase.getRecId(), xmlCase
@@ -136,15 +131,17 @@ public class XmlScriptAclfRun {
 							// if Grid computing, save the Algo object to the
 							// study case object
 							studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
+							if (parser.getRunStudyCase().getGridRun().getRemoteJobCreation())
+								if (xmlCase.getModification() != null)
+									studyCase.setModifyModelString(xmlCase.getModification().xmlText());
 						} else {
 							// if not grid computing, perform Loadflow for the study case
 							algo.loadflow(msg);
 							studyCase.setDesc("Loadflow by Local Node");
 						}
-						// persist the AclfNet object to study case. It contains
-						// case level modification
-						// in the case of non grid computing, it contains
-						// Loadflow results
+						// persist the AclfNet object to study case. It contains case level modification
+						// in the case of non grid computing, it contains Loadflow results
+						studyCase.setId(xmlCase.getRecId());
 						studyCase.setName(xmlCase.getRecDesc());
 						studyCase.setNetModelString(SerializeEMFObjectUtil
 								.saveModel(net));

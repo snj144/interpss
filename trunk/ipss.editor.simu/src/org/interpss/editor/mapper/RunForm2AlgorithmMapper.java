@@ -28,19 +28,10 @@ import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.mapper.runCase.CaseData2AlgorithmMapperImpl;
-import org.interpss.mapper.runCase.Xml2AlgorithmMapperImpl;
-import org.interpss.mapper.runCase.Xml2DStabAlgorithmMapperImpl;
-import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.AcscStudyCaseXmlType;
-import org.interpss.schema.DStabStudyCaseXmlType;
-import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
-import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.net.Network;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class RunForm2AlgorithmMapper extends AbstractMapper {
@@ -81,37 +72,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 					runForm.getDStabCaseData(), runForm.getAclfCaseData(),
 					algo, msg);
 			
-		} else if (klass == AclfAlgorithmXmlType.class) {
-			// map an AclfAlgorithmXmlType xml record to an LoadflowAlgorithm object
-			Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(
-					(AclfAlgorithmXmlType) fromObj,
-					(LoadflowAlgorithm) toObj, msg);
-		} else if (klass == AcscStudyCaseXmlType.class) {
-			/*
-			 * map an AcscStudyCase xml record to an LoadflowAlgorithm object
-			 */
-			AcscStudyCaseRec caseRec = (AcscStudyCaseRec)fromObj;
-			String faultIdStr = caseRec.getRecId();
-			return Xml2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
-					caseRec.getAcscStudyCase(),
-					(SimpleFaultAlgorithm) toObj, 
-					faultIdStr, msg);
-		} else if (klass == DStabStudyCaseXmlType.class) {
-			/*
-			 * map a DStabStudyCase xml record (fromObj) to an LoadflowAlgorithm object (toObj)
-			 */
-			return Xml2DStabAlgorithmMapperImpl.dstabCaseData2AlgoMapping(
-					(DStabStudyCaseXmlType) fromObj,
-					(DynamicSimuAlgorithm) toObj, msg);
-
-		} else if (klass == ModificationXmlType.class) {
-			/*
-			 * Apply the modification (fromObj) info to the Network object (toObj) 
-			 */ 
-			XmlNetParamModifier.applyModification(
-				(Network) toObj, 
-				(ModificationXmlType) fromObj, msg);
-		}
+		} 
 		return true;
 	}
 }
