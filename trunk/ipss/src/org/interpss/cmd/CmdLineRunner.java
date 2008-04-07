@@ -135,7 +135,7 @@ public class CmdLineRunner {
 			
 			// Apply the modification to the base Network object
 			if (parser.getModification() != null) {
-				IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 				mapper.mapping(parser.getModification(), simuCtx.getNetwork(), ModificationXmlType.class);
 			}
 

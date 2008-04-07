@@ -10,4 +10,11 @@
 	  	<property name="msg">
 	  		<ref bean="ipssMsgHub"/></property>
 	</bean>
+
+	<bean id="ipssXmlMapper" 
+	      class="org.interpss.mapper.IpssXmlMapper"
+	      scope="singleton">	
+	  	<property name="msg">
+	  		<ref bean="ipssMsgHub"/></property>
+	</bean>
 </beans>
