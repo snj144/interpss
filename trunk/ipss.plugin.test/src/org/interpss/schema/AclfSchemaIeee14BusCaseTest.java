@@ -7,6 +7,7 @@ import java.io.File;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
@@ -138,7 +139,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   			
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	// modification of the study case also applied
-	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
+	  	IpssMapper mapper = new IpssXmlMapper();
 	  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 	  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
@@ -167,7 +168,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 
   		ModificationXmlType mod = parser.getModification();
   		
-		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(mod, net, ModificationXmlType.class);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());

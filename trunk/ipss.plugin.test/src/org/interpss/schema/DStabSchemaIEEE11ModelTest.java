@@ -30,7 +30,7 @@ import java.io.File;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
-import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
@@ -81,7 +81,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  		}
 
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
-		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
+		  	IpssMapper mapper = new IpssXmlMapper();
 	  		mapper.mapping(dstabRec.getDStabStudyCase(), algo, DStabStudyCaseXmlType.class);
 	  		//System.out.println(net.net2String());
 	  		
