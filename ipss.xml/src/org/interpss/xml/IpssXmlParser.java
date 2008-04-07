@@ -31,14 +31,20 @@ package org.interpss.xml;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
+import org.interpss.schema.BranchRecXmlType;
+import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
+import com.interpss.core.net.Network;
 
 public class IpssXmlParser {
 	private InterPSSXmlType ipss = null;
@@ -68,7 +74,7 @@ public class IpssXmlParser {
 		}
 		this.ipss = ipssDoc.getInterPSS();
 	}
-
+	
 	/**
 	 * Get the RunStudyCaseXmlType element
 	 * 
@@ -123,6 +129,51 @@ public class IpssXmlParser {
 		return ipss.getModification();
 	}
 
+	/**
+	 * Get the busRec in the net object
+	 * 
+	 * @param busRec
+	 * @param net
+	 * @return
+	 */
+	public static Bus getBus(BusRecXmlType busRec, Network net) {
+		String busId = busRec.getBusId();
+		Bus bus = net.getBus(busId);
+		if (bus == null) {
+			IpssLogger.getLogger().warning("Bus not found, busId: " + busId);
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+					"Error in Xml", "Bus not found, busId: " + busId);
+		}
+		return bus;
+	}
+
+	/**
+	 * Get the braRec from the net object
+	 * 
+	 * @param braRec
+	 * @param net
+	 * @return
+	 */
+	public static Branch getBranch(BranchRecXmlType braRec, Network net) {
+		String fromId = braRec.getFromBusId();
+		String toId = braRec.getToBusId();
+		Branch branch = null;
+		String cirNo = braRec.getCircuitNumber();
+		if (cirNo != null)
+			branch = net.getBranch(fromId, toId, cirNo);
+		else
+			branch = net.getBranch(fromId, toId);
+		if (branch == null) {
+			IpssLogger.getLogger().warning(
+					"Branch not found, fromId, toId, cirNo: " + fromId + ", "
+							+ toId + ", " + cirNo);
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
+					"Error in Xml",
+					"Branch not found, fromId, toId, cirNo: " + fromId + ", "
+							+ toId + ", " + cirNo);
+		}
+		return branch;
+	}	
 	/**
 	 * map Xml unit type to InterPSS UnitType
 	 * 

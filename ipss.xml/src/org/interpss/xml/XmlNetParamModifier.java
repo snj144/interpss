@@ -25,16 +25,13 @@
 package org.interpss.xml;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.schema.BranchRecXmlType;
-import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.ComplexValueChangeXmlType;
 import org.interpss.schema.ComplexXmlType;
 import org.interpss.schema.ModificationXmlType;
+import org.interpss.schema.UnitXmlData;
 import org.interpss.schema.ValueChangeXmlType;
 import org.interpss.schema.ModificationXmlType.BusChangeRecList.BusChangeRec.AclfBusChangeData.LoadChangeData;
-import org.interpss.schema.UnitXmlData;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -47,6 +44,7 @@ import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Network;
+import com.interpss.simu.modify.Modification;
 
 public class XmlNetParamModifier {
 	private static enum ComplexValueType {
@@ -74,13 +72,13 @@ public class XmlNetParamModifier {
 		
 		return true;
 	}
-
+	
 	private static boolean applyModification2Net(Network net, ModificationXmlType mod, IPSSMsgHub msg) {
 		// apply the Network-level changes
 		if (mod.getBusChangeRecList() != null) {
 			for (ModificationXmlType.BusChangeRecList.BusChangeRec busRec : mod
 					.getBusChangeRecList().getBusChangeRecArray()) {
-				Bus bus = getBus(busRec, net);
+				Bus bus = IpssXmlParser.getBus(busRec, net);
 				bus.setStatus(!busRec.getOffLine());
 				IpssLogger.getLogger().info(
 						"Bus " + bus.getId() + " status has been set to "
@@ -91,7 +89,7 @@ public class XmlNetParamModifier {
 		if (mod.getBranchChangeRecList() != null) {
 			for (ModificationXmlType.BranchChangeRecList.BranchChangeRec braRec : mod
 					.getBranchChangeRecList().getBranchChangeRecArray()) {
-				Branch branch = getBranch(braRec, net);
+				Branch branch = IpssXmlParser.getBranch(braRec, net);
 				if (branch != null) {
 					branch.setStatus(!braRec.getOffLine());
 					IpssLogger.getLogger().info(
@@ -113,7 +111,7 @@ public class XmlNetParamModifier {
 			if (mod.getBusChangeRecList() != null) {
 				for (ModificationXmlType.BusChangeRecList.BusChangeRec busRec : mod
 						.getBusChangeRecList().getBusChangeRecArray()) {
-					AclfBus bus = (AclfBus) getBus(busRec, aclfNet);
+					AclfBus bus = (AclfBus) IpssXmlParser.getBus(busRec, aclfNet);
 					if (bus != null) {
 						if (busRec.getAclfBusChangeData() != null &&
 								busRec.getAclfBusChangeData().getLoadChangeData() != null) {
@@ -172,7 +170,7 @@ public class XmlNetParamModifier {
 			if (mod.getBranchChangeRecList() != null) {
 				for (ModificationXmlType.BranchChangeRecList.BranchChangeRec braRec : mod
 						.getBranchChangeRecList().getBranchChangeRecArray()) {
-					AclfBranch branch = (AclfBranch) getBranch(braRec, aclfNet);
+					AclfBranch branch = (AclfBranch) IpssXmlParser.getBranch(braRec, aclfNet);
 					if (branch != null) {
 						if (braRec.getAclfBranchChangeData() != null &&
 								braRec.getAclfBranchChangeData().getBranchZChange() != null) {
@@ -189,38 +187,6 @@ public class XmlNetParamModifier {
 			}
 		}
 		return true;
-	}
-
-	private static Bus getBus(BusRecXmlType busRec, Network net) {
-		String busId = busRec.getBusId();
-		Bus bus = net.getBus(busId);
-		if (bus == null) {
-			IpssLogger.getLogger().warning("Bus not found, busId: " + busId);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
-					"Error in Xml", "Bus not found, busId: " + busId);
-		}
-		return bus;
-	}
-
-	private static Branch getBranch(BranchRecXmlType braRec, Network net) {
-		String fromId = braRec.getFromBusId();
-		String toId = braRec.getToBusId();
-		Branch branch = null;
-		String cirNo = braRec.getCircuitNumber();
-		if (cirNo != null)
-			branch = net.getBranch(fromId, toId, cirNo);
-		else
-			branch = net.getBranch(fromId, toId);
-		if (branch == null) {
-			IpssLogger.getLogger().warning(
-					"Branch not found, fromId, toId, cirNo: " + fromId + ", "
-							+ toId + ", " + cirNo);
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
-					"Error in Xml",
-					"Branch not found, fromId, toId, cirNo: " + fromId + ", "
-							+ toId + ", " + cirNo);
-		}
-		return branch;
 	}
 
 	private static Complex applyPowerChangeRec(Complex original,
