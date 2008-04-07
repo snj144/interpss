@@ -35,6 +35,7 @@ import org.gridgain.grid.GridException;
 import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -45,8 +46,6 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
-		getSession().setAttribute(Constants.GridToken_RemoteJobCreation,  
-							model.isRemoteJobCreation()?Boolean.TRUE : Boolean.FALSE);
 		
 		getSession().setAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase, 
 							model.getAclfGridOption().isReturnOnlyViolationCase()?Boolean.TRUE : Boolean.FALSE);
@@ -59,11 +58,22 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU, 
 							new Double(model.getAclfGridOption().getBusVoltageLowerLimitPU()));
 
+		getSession().setAttribute(Constants.GridToken_RemoteJobCreation,  
+							model.isRemoteJobCreation()?Boolean.TRUE : Boolean.FALSE);
+		if (model.isRemoteJobCreation())
+			getSession().setAttribute(Constants.GridToken_BaseStudyCaseNetworkModel, model.getBaseNetModelString());
+			
 		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
 			// send the Aclf Net model (String) the remote node directly
-			IpssGridGainAclfJob job = new IpssGridGainAclfJob(studyCase
-					.getNetModelString());
+			RemoteMessageTable remoteMsg = new RemoteMessageTable();
+			if (model.isRemoteJobCreation()) {
+				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCase.getId());
+			}
+			else {
+				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, studyCase.getNetModelString());
+			}
+			IpssGridGainAclfJob job = new IpssGridGainAclfJob(remoteMsg);
 
 			// send the AclfAlgo string to the remote node through the task session
 			// studyCase.id=net.id is used as the id for retrieving StudyCase info

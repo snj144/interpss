@@ -30,8 +30,8 @@ package org.interpss.gridgain.job;
 
 import java.io.Serializable;
 
-import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.util.DStabSimuGridOutputHandler;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -52,8 +52,8 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 	 * 
 	 * @param modelStr the string object sent to this job node 
 	 */
-	public IpssGridGainDStabJob(String modelStr) {
-		super(modelStr);
+	public IpssGridGainDStabJob(RemoteMessageTable remoteMsg) {
+		super(remoteMsg);
 	}
 
 	/**
@@ -61,16 +61,15 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 	 * 
 	 * @param modelStr serialized DStabNet object
 	 */
-	protected Serializable performGridJob(String modelStr) {
+	protected Serializable performGridJob(RemoteMessageTable remoteMsg) {
 		// deserialized the model into DStabNet object 
 		DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil
-				.loadModel(modelStr);
+				.loadModel(remoteMsg.getStudyCaseNetworkModel());
 		// we always assume that the case id is carried to the remote grid node by the id field
 		String caseId = net.getId();
 
 		// get serialized algo string from the task session
-		String algoStr = (String) getSession().getAttribute(
-				Constants.GridToken_DStabAlgo + caseId);
+		String algoStr = getSesStringAttrib(Constants.GridToken_DStabAlgo + caseId);
 		//System.out.println(algoStr);
 		DynamicSimuAlgorithm dstabAlgo;
 		if (algoStr != null) {
@@ -118,19 +117,19 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow(getMsgHub());
 
-		getRemoteResult().put(RmoteResultTable.KEY_StudyCaseId, getGrid().getLocalNode().getId().toString());
-		getRemoteResult().put(RmoteResultTable.KEY_StudyCaseId, caseId);
+		getRemoteResult().put(RemoteMessageTable.KEY_StudyCaseId, getGrid().getLocalNode().getId().toString());
+		getRemoteResult().put(RemoteMessageTable.KEY_StudyCaseId, caseId);
 		if (dstabAlgo.initialization(getMsgHub())) {
 			getMsgHub().sendStatusMsg(
 					"Running DStab simulation at remote node "
 							+ getGrid().getLocalNode());
 			if (dstabAlgo.performSimulation(getMsgHub())) {
-				getRemoteResult().put(RmoteResultTable.KEY_DStabRunStatus, Boolean.TRUE);
+				getRemoteResult().put(RemoteMessageTable.KEY_DStabRunStatus, Boolean.TRUE);
 				return getRemoteResult();
 			}
 		}
 
-		getRemoteResult().put(RmoteResultTable.KEY_DStabRunStatus, Boolean.FALSE);
+		getRemoteResult().put(RemoteMessageTable.KEY_DStabRunStatus, Boolean.FALSE);
 		return getRemoteResult();
 	}
 	

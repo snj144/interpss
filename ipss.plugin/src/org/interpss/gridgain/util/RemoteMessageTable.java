@@ -1,5 +1,5 @@
  /*
-  * @(#)RmoteResultTable.java   
+  * @(#)RemoteMessageTable.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *
@@ -22,28 +22,38 @@
   *
   */
 
-package org.interpss.gridgain.result;
+package org.interpss.gridgain.util;
 
 import java.io.Serializable;
 import java.util.Hashtable;
 
-public class RmoteResultTable extends Hashtable<String, Serializable> {
+public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	private static final long serialVersionUID = 1;
 
 	public static String KEY_RemoteNodeId = "RemoteNodeId";	
 	public static String KEY_StudyCaseId = "StudyCaseId";	
+	public static String KEY_StudyCaseNetworkModel = "StudyCaseNetworModel";	
+	public static String KEY_StudyCaseModification = "StudyCaseModification";	
 	
 	public String getStudyCaseId() {
-		return (String)get(RmoteResultTable.KEY_StudyCaseId);
+		return (String)get(RemoteMessageTable.KEY_StudyCaseId);
 	}
 
 	public String getRemoteNodeId() {
-		return (String)get(RmoteResultTable.KEY_RemoteNodeId);
+		return (String)get(RemoteMessageTable.KEY_RemoteNodeId);
+	}
+
+	public String getStudyCaseNetworkModel() {
+		return (String)get(RemoteMessageTable.KEY_StudyCaseNetworkModel);
+	}
+
+	public String getStudyCaseModification() {
+		return (String)get(RemoteMessageTable.KEY_StudyCaseModification);
 	}
 
 	//
-	// Aclf related fields
-	// ===================
+	// Aclf result related fields
+	// ==========================
 
 	public static String KEY_SerializedAclfNet = "SerializedAclfNet";	
 	public static String KEY_AclfConverged = "AclfConvergeStatus";	
@@ -54,40 +64,52 @@ public class RmoteResultTable extends Hashtable<String, Serializable> {
 	public static String KEY_BusVoltageLimintViolationIndex = "BusVoltageLimintViolationIndex";	
 
 	public String getSerializedAclfNet() {
-		return (String)get(RmoteResultTable.KEY_SerializedAclfNet);
+		return (String)get(RemoteMessageTable.KEY_SerializedAclfNet);
 	}
 
 	public boolean getAclfConvergeStatus() {
-		return ((Boolean)get(RmoteResultTable.KEY_AclfConverged)).booleanValue();
+		return getBoolean(RemoteMessageTable.KEY_AclfConverged);
 	}
 
 	public double getBranchMvar1LimintViolationIndex() {
-		return ((Double)get(RmoteResultTable.KEY_BranchMvar1LimintViolationIndex)).doubleValue();
+		return getDouble(RemoteMessageTable.KEY_BranchMvar1LimintViolationIndex);
 	}
 
 	public double getBranchMvar2LimintViolationIndex() {
-		return ((Double)get(RmoteResultTable.KEY_BranchMvar2LimintViolationIndex)).doubleValue();
+		return getDouble(RemoteMessageTable.KEY_BranchMvar2LimintViolationIndex);
 	}
 
 	public double getBranchMvar3LimintViolationIndex() {
-		return ((Double)get(RmoteResultTable.KEY_BranchMvar3LimintViolationIndex)).doubleValue();
+		return getDouble(RemoteMessageTable.KEY_BranchMvar3LimintViolationIndex);
 	}
 	
 	public double getBranchAmpsLimintViolationIndex() {
-		return ((Double)get(RmoteResultTable.KEY_BranchAmpsLimintViolationIndex)).doubleValue();
+		return getDouble(RemoteMessageTable.KEY_BusVoltageLimintViolationIndex);
 	}
 	
 	public double getBusVoltageLimintViolationIndex() {
-		return ((Double)get(RmoteResultTable.KEY_BusVoltageLimintViolationIndex)).doubleValue();
+		return getDouble(RemoteMessageTable.KEY_BusVoltageLimintViolationIndex);
 	}
 	
 	//
-	// DStab related fields
-	// ====================
+	// DStab result related fields
+	// ===========================
+	
 	public static String KEY_DStabRunStatus = "DStabRunStatus";
 
 	public boolean getDStabRunStatus() {
-		return ((Boolean)get(RmoteResultTable.KEY_DStabRunStatus)).booleanValue();
+		return getBoolean(RemoteMessageTable.KEY_DStabRunStatus);
 	}
 
+	private boolean getBoolean(String key) {
+		if (get(key) == null)
+			return false;
+		return ((Boolean)get(key)).booleanValue();
+	}
+
+	private double getDouble(String key) {
+		if (get(key) == null)
+			return 0.0;
+		return ((Double)get(key)).doubleValue();
+	}
 }

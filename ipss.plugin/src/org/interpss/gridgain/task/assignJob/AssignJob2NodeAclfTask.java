@@ -37,6 +37,7 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridJob;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -50,7 +51,9 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 
 	@Override
 	protected GridJob createGridJob(String modelStr) {
-		return new IpssGridGainAclfJob(modelStr);
+		RemoteMessageTable remoteMsg = new RemoteMessageTable();
+		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, modelStr);
+		return new IpssGridGainAclfJob(remoteMsg);
 	}
 
 	@Override

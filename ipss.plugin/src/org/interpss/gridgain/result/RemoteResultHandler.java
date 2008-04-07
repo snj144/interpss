@@ -27,6 +27,7 @@ package org.interpss.gridgain.result;
 import org.gridgain.grid.GridTaskSession;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
@@ -52,11 +53,11 @@ public class RemoteResultHandler implements IRemoteResult {
 	 * @param net AclfNetwork object after completing a Loadflow run 
 	 * @param session
 	 */
-	public void saveAclfResult(RmoteResultTable resultTable, String caseId, String remoteId, AclfNetwork net, GridTaskSession session) {
-		resultTable.put(RmoteResultTable.KEY_RemoteNodeId, remoteId);
-		resultTable.put(RmoteResultTable.KEY_StudyCaseId, caseId);
+	public void saveAclfResult(RemoteMessageTable resultTable, String caseId, String remoteId, AclfNetwork net, GridTaskSession session) {
+		resultTable.put(RemoteMessageTable.KEY_RemoteNodeId, remoteId);
+		resultTable.put(RemoteMessageTable.KEY_StudyCaseId, caseId);
 		
-		resultTable.put(RmoteResultTable.KEY_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
+		resultTable.put(RemoteMessageTable.KEY_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
 		
 		double 	mvar1Index = 0.0, 
 	       		mvar2Index = 0.0, 
@@ -103,10 +104,10 @@ public class RemoteResultHandler implements IRemoteResult {
 								aclfBra.getRatingAmps() + " at branch " + aclfBra.getId());
 					}
 			}
-			resultTable.put(RmoteResultTable.KEY_BranchMvar1LimintViolationIndex, new Double(mvar1Index));
-			resultTable.put(RmoteResultTable.KEY_BranchMvar2LimintViolationIndex, new Double(mvar2Index));
-			resultTable.put(RmoteResultTable.KEY_BranchMvar3LimintViolationIndex, new Double(mvar3Index));
-			resultTable.put(RmoteResultTable.KEY_BranchAmpsLimintViolationIndex, new Double(ampsIndex));
+			resultTable.put(RemoteMessageTable.KEY_BranchMvar1LimintViolationIndex, new Double(mvar1Index));
+			resultTable.put(RemoteMessageTable.KEY_BranchMvar2LimintViolationIndex, new Double(mvar2Index));
+			resultTable.put(RemoteMessageTable.KEY_BranchMvar3LimintViolationIndex, new Double(mvar3Index));
+			resultTable.put(RemoteMessageTable.KEY_BranchAmpsLimintViolationIndex, new Double(ampsIndex));
 		}
 
 		// calculate voltage violation index = sqrt[ sum(e*e) ], where e = ( v - max ) or ( mix - v ) in case of violation
@@ -127,17 +128,17 @@ public class RemoteResultHandler implements IRemoteResult {
 					IpssLogger.getLogger().info("Voltage lower limit violated, " + v + " at bus " + aclfBus.getId());
 				}
 			}
-			resultTable.put(RmoteResultTable.KEY_BusVoltageLimintViolationIndex, new Double(Math.sqrt(vIndex)));
+			resultTable.put(RemoteMessageTable.KEY_BusVoltageLimintViolationIndex, new Double(Math.sqrt(vIndex)));
 		}
 
 		if (session.getAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase) != null) { 
 			if (!((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase)).booleanValue() ||
 					(!net.isLfConverged() || mvar1Index > 0.0 || mvar2Index > 0.0 || mvar3Index > 0.0 || vIndex > 0.0)) {
-				resultTable.put(RmoteResultTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+				resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
 			}
 		}
 		else {
-			resultTable.put(RmoteResultTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+			resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
 		}
 				
 	}
@@ -148,7 +149,7 @@ public class RemoteResultHandler implements IRemoteResult {
 	 * @param mCaseContainer
 	 * @param resultTable
 	 */
-	public void transferAclfResult(MultiStudyCase mCaseContainer, RmoteResultTable resultTable) {
+	public void transferAclfResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable) {
 		// deserialize the AclfNet model string for Net.id
 		StudyCase studyCase = mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
 		studyCase.setDesc("Loadflow by Remote Node: " + IpssGridGainUtil.nodeNameLookup(resultTable.getRemoteNodeId()));
@@ -182,7 +183,8 @@ public class RemoteResultHandler implements IRemoteResult {
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
     		buf.append("\n");
     		buf.append(scase.getDesc() + "\n");
-    		buf.append("Case Description: " + scase.getName() + "\n");
+    		if (scase.getName() != null)
+    			buf.append("Case Description: " + scase.getName() + "\n");
 			AclfAdjNetwork aclfAdjNet = null;
     		if (scase.getNetModelString() != null) {
     			aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());

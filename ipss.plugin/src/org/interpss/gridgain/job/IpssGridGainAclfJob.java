@@ -32,6 +32,7 @@ import java.io.Serializable;
 
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -50,8 +51,8 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 	 * 
 	 * @param modelStr the string object sent to this job node 
 	 */
-	public IpssGridGainAclfJob(String modelStr) {
-		super(modelStr);
+	public IpssGridGainAclfJob(RemoteMessageTable remoteMsg) {
+		super(remoteMsg);
 	}
 
 	/**
@@ -59,10 +60,20 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 	 * 
 	 * @param modelStr serialized AclfNet object
 	 */
-	protected Serializable performGridJob(String modelStr) {
+	protected Serializable performGridJob(RemoteMessageTable remoteMsg) {
 		AclfNetwork net = null;
 		
-		Object model = SerializeEMFObjectUtil.loadModel(modelStr);
+		Object model = null;
+		if (getSesBooleanAttrib(Constants.GridToken_RemoteJobCreation)) {
+			model = SerializeEMFObjectUtil.loadModel(getSesStringAttrib(Constants.GridToken_BaseStudyCaseNetworkModel));
+			IpssLogger.getLogger().info("Remote job contructed using the base study case");
+		}
+		else {
+			String modelStr = remoteMsg.getStudyCaseNetworkModel();
+			model = SerializeEMFObjectUtil.loadModel(modelStr);
+			IpssLogger.getLogger().info("Remote job contructed using the current study case");
+		}
+		
 		if (model instanceof AclfNetwork)
 			net = (AclfNetwork) model;
 		else if (model instanceof AclfAdjNetwork)
@@ -70,10 +81,13 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 
 		// we always assume that the case id is carried to the remote grid node by the id field
 		String caseId = net.getId();
+		if (getSesBooleanAttrib(Constants.GridToken_RemoteJobCreation))
+			caseId = remoteMsg.getStudyCaseId();
+		else
+			caseId = net.getId();
 
 		// get serialized algo string from the task session
-		String algoStr = (String) getSession().getAttribute(
-				Constants.GridToken_AclfAlgo + caseId);
+		String algoStr = getSesStringAttrib(Constants.GridToken_AclfAlgo + caseId);
 		//System.out.println(algoStr);
 		LoadflowAlgorithm algo;
 		if (algoStr != null) {
