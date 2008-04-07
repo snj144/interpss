@@ -29,6 +29,7 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
+import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.output.IOutputSimuResult;
 
 import com.interpss.common.SpringAppContext;
@@ -38,13 +39,25 @@ import com.interpss.simu.io.IpssFileAdapter;
 
 public class PluginSpringAppContext extends SpringAppContext {
 	/**
+	 * Get the IpssXmlMapper(singleton) from the SpringAppContext.
+	 *  
+	 * @return the RunForm2AlgorithmMapper object
+	 */
+	public static IpssMapper getIpssXmlMapper() {
+		IpssMapper mapper = (IpssMapper) SpringAppCtx.getBean(Constants.SID_IpssXmlMapper);
+		if (mapper == null) // for grid computing
+			mapper = new IpssXmlMapper();
+		return mapper;
+	}
+	
+	/**
 	 * Get the RunForm2AlgorithmMapper(singleton) from the SpringAppContext.
 	 *  
 	 * @return the RunForm2AlgorithmMapper object
 	 */
 	public static IpssMapper getRunForm2AlgorithmMapper() {
-		return (IpssMapper) SpringAppCtx
-				.getBean(Constants.SID_RunForm2AlgorithmMapper);
+		IpssMapper mapper = (IpssMapper) SpringAppCtx.getBean(Constants.SID_RunForm2AlgorithmMapper);
+		return mapper;
 	}
 
 	public static JDialog getCaseInfoDialog() {

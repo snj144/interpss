@@ -30,12 +30,15 @@ package org.interpss.gridgain.job;
 
 import java.io.Serializable;
 
+import org.interpss.PluginSpringAppContext;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.RemoteMessageTable;
+import org.interpss.schema.ModificationXmlType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
@@ -79,12 +82,18 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		else if (model instanceof AclfAdjNetwork)
 			net = (AclfAdjNetwork) model;
 
-		// we always assume that the case id is carried to the remote grid node by the id field
-		String caseId = net.getId();
-		if (getSesBooleanAttrib(Constants.GridToken_RemoteJobCreation))
-			caseId = remoteMsg.getStudyCaseId();
-		else
-			caseId = net.getId();
+		String caseId = remoteMsg.getStudyCaseId();
+		if (getSesBooleanAttrib(Constants.GridToken_RemoteJobCreation)) {
+			if (remoteMsg.getStudyCaseModification() != null) {
+				try {
+					ModificationXmlType mod = ModificationXmlType.Factory.parse(remoteMsg.getStudyCaseModification());
+					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+					mapper.mapping(mod, net, ModificationXmlType.class);
+				} catch (Exception e) {
+					IpssLogger.getLogger().severe(e.toString());
+				}
+			}
+		}
 
 		// get serialized algo string from the task session
 		String algoStr = getSesStringAttrib(Constants.GridToken_AclfAlgo + caseId);
@@ -105,10 +114,8 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		}
 
-		if (((Boolean) getSession().getAttribute(
-				Constants.GridToken_RemoteNodeDebug)).booleanValue()) {
+		if (getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug))
 			debugOut(net, algo);
-		}
 		
 		// perform loadflow calculation
 		algo.loadflow(SpringAppContext.getIpssMsgHub());

@@ -108,10 +108,8 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 					"Output Var List: " + handler.getOutputVarIdList());
 		}
 		
-		if (((Boolean) getSession().getAttribute(
-				Constants.GridToken_RemoteNodeDebug)).booleanValue()) {
+		if (getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug))
 			debugOut(net, dstabAlgo);
-		}		
 
 		// perform load flow calculation
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
