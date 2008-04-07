@@ -51,6 +51,7 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 	@Override
 	protected GridJob createGridJob(String modelStr) {
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
+		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
 		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, modelStr);
 		return new IpssGridGainDStabJob(remoteMsg);
 	}
@@ -71,7 +72,8 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 			// serialize the network object
 			DStabilityNetwork net = dstabAlgo.getDStabNet();
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
-
+			this.studyCaseId = net.getId();
+				
 			lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo
 					.getAclfAlgorithm());
 			getSession().setAttribute(

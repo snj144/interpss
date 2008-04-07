@@ -34,6 +34,7 @@ import org.interpss.schema.RunStudyCaseXmlType.RunAcscStudyCase.AcscStudyCaseLis
 import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.mapper.AbstractMapper;
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
 import com.interpss.core.net.Network;
@@ -42,6 +43,10 @@ import com.interpss.dstab.DynamicSimuAlgorithm;
 public class IpssXmlMapper extends AbstractMapper {
 
 	public IpssXmlMapper() {
+	}
+
+	public IpssXmlMapper(IPSSMsgHub newMsg) {
+		this.msg = newMsg;
 	}
 
 	/**

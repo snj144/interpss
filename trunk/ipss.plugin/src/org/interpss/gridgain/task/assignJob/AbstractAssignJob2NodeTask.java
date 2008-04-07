@@ -59,6 +59,8 @@ public abstract class AbstractAssignJob2NodeTask extends
 	// Remote node id, the node will be assigned to perform the Task - One job task
 	public static String RemoteNodeId = "";
 
+	protected String studyCaseId = null;
+	
 	protected GridTaskSession getSession() {
 		return this.session;
 	}

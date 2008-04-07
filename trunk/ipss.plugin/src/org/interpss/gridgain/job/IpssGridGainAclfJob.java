@@ -86,11 +86,13 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		if (getSesBooleanAttrib(Constants.GridToken_RemoteJobCreation)) {
 			if (remoteMsg.getStudyCaseModification() != null) {
 				try {
+					//IpssLogger.getLogger().info("Study Case Modification: " + remoteMsg.getStudyCaseModification());
 					ModificationXmlType mod = ModificationXmlType.Factory.parse(remoteMsg.getStudyCaseModification());
 					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 					mapper.mapping(mod, net, ModificationXmlType.class);
 				} catch (Exception e) {
 					IpssLogger.getLogger().severe(e.toString());
+					//e.printStackTrace();
 				}
 			}
 		}
