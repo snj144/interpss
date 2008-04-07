@@ -30,9 +30,9 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
@@ -75,7 +75,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				IpssGridGainUtil.MasterNodeId = grid.getLocalNode()
 						.getId().toString();
 				try {
-					RmoteResultTable result = IpssGridGainUtil.performGridTask(
+					RemoteMessageTable result = IpssGridGainUtil.performGridTask(
 							grid, "InterPSS Grid Aclf Calculation", simuCtx
 									.getLoadflowAlgorithm(), aclfCaseData
 									.getGridTimeout());
