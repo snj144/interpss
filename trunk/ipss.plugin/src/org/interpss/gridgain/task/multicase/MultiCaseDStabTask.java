@@ -35,6 +35,7 @@ import org.gridgain.grid.GridException;
 import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.job.IpssGridGainDStabJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -52,9 +53,15 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 		List<IpssGridGainDStabJob> jobList = new ArrayList<IpssGridGainDStabJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
 			// send the Net model (String) the remote node directly
-			IpssGridGainDStabJob job = new IpssGridGainDStabJob(studyCase
-					.getNetModelString());
-
+			RemoteMessageTable remoteMsg = new RemoteMessageTable();
+			if (model.isRemoteJobCreation()) {
+				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCase.getId());
+			}
+			else {
+				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, studyCase.getNetModelString());
+			}
+			IpssGridGainDStabJob job = new IpssGridGainDStabJob(remoteMsg);
+			
 			// send the AclfAlgo and DStabAlgo (string) to the remote node
 			// through the task session
 			// studyCase.id=net.id is used as the id for retrieving StudyCase

@@ -36,15 +36,15 @@ import org.gridgain.grid.GridJobAdapter;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridInstanceResource;
 import org.gridgain.grid.resources.GridTaskSessionResource;
-import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.util.IPSSGridMsgHubImpl;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.TextMessage;
 import com.interpss.simu.SimuObjectFactory;
 
-public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
+public abstract class AbstractIpssGridGainJob extends GridJobAdapter<RemoteMessageTable> {
 	private static final long serialVersionUID = 1;
 
 	/** Grid task session will be injected. */
@@ -56,16 +56,16 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 
 	private static IPSSMsgHub msgHub = null;
 
-	private RmoteResultTable remoteResult = null;
+	private RemoteMessageTable remoteResult = null;
 	
 	/**
 	 * Constructor
 	 * 
-	 * @param modelStr the string object sent to this job node 
+	 * @param remoteMsg the remote message object sent to this job node 
 	 */
-	public AbstractIpssGridGainJob(String modelStr) {
-		super(modelStr);
-		this.remoteResult = new RmoteResultTable();
+	public AbstractIpssGridGainJob(RemoteMessageTable remoteMsg) {
+		super(remoteMsg);
+		this.remoteResult = new RemoteMessageTable();
 	}
 
 	/**
@@ -75,11 +75,8 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	 */
 	protected IPSSMsgHub getMsgHub() {
 		if (msgHub == null) {
-			String masterNodeId = (String) session
-					.getAttribute(Constants.GridToken_MasterNodeId);
-			boolean debug = ((Boolean) session
-					.getAttribute(Constants.GridToken_RemoteNodeDebug))
-					.booleanValue();
+			String masterNodeId = getSesStringAttrib(Constants.GridToken_MasterNodeId);
+			boolean debug = getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug);
 			if (debug)
 				msgHub = new IPSSGridMsgHubImpl(grid, masterNodeId,
 						TextMessage.TYPE_DEBUG);
@@ -92,6 +89,16 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 
 	protected GridTaskSession getSession() {
 		return session;
+	}
+
+	protected String getSesStringAttrib(String key) {
+		return (String)session.getAttribute(key);
+	}
+
+	protected boolean getSesBooleanAttrib(String key) {
+		if (session.getAttribute(key) == null)
+			return false;
+		return ((Boolean)session.getAttribute(key)).booleanValue();
 	}
 
 	protected Grid getGrid() {
@@ -116,9 +123,9 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<String> {
 	 * @param modelStr model object string
 	 * @return string object returning back to the master node
 	 */
-	protected abstract Serializable performGridJob(String modelStr);
+	protected abstract Serializable performGridJob(RemoteMessageTable modelStr);
 	
-	protected RmoteResultTable getRemoteResult() {
+	protected RemoteMessageTable getRemoteResult() {
 		return remoteResult;
 	}
 }

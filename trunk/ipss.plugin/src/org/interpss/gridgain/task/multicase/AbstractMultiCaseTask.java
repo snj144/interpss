@@ -38,8 +38,8 @@ import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.GridTaskSplitAdapter;
 import org.gridgain.grid.resources.GridTaskSessionResource;
 import org.interpss.gridgain.job.AbstractIpssGridGainJob;
-import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;
@@ -84,10 +84,10 @@ public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiSt
 	 */
 	@Override
 	public Object reduce(List<GridJobResult> results) throws GridException {
-		RmoteResultTable[] objList = new RmoteResultTable[results.size()];
+		RemoteMessageTable[] objList = new RemoteMessageTable[results.size()];
 		int cnt = 0;
 		for (GridJobResult result : results) {
-			objList[cnt++] = (RmoteResultTable)result.getData();
+			objList[cnt++] = (RemoteMessageTable)result.getData();
 		}
 		return objList;
 	}
