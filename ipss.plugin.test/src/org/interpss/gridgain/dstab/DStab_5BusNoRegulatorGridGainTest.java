@@ -34,9 +34,9 @@ import org.gridgain.grid.GridException;
 import org.gridgain.grid.GridFactory;
 import org.gridgain.grid.GridMessageListener;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
-import org.interpss.gridgain.result.RmoteResultTable;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.RemoteMessageTable;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
@@ -74,7 +74,7 @@ public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
     		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
     		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 
-    		RmoteResultTable result = IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
+    		RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
         	assertTrue(result.getDStabRunStatus());
         }
         finally {
