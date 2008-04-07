@@ -35,7 +35,7 @@ public class ModificationPersistTest extends BaseTestSetup {
 
   		mod = ModificationXmlType.Factory.parse(xmlString);
   		
-		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(mod, net, ModificationXmlType.class);
 	  	
 	  	assertTrue(!net.getBranch("0010->0009(1)").isActive());

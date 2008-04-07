@@ -6,7 +6,7 @@ import java.io.File;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
-import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
@@ -44,7 +44,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCase aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
+		  	IpssMapper mapper = new IpssXmlMapper();
 	  		
 		  	if (aclfCase.getAclfAlgorithm() == null) 
 		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
@@ -92,7 +92,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCase aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
+		  	IpssMapper mapper = new IpssXmlMapper();
 
 		  	if (aclfCase.getModification() != null)
 			  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
