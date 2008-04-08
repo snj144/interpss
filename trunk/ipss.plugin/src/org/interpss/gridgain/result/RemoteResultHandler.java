@@ -54,6 +54,8 @@ public class RemoteResultHandler implements IRemoteResult {
 	 * @param session
 	 */
 	public void saveAclfResult(RemoteMessageTable resultTable, String caseId, String remoteId, AclfNetwork net, GridTaskSession session) {
+		net.setDesc(remoteId);
+
 		resultTable.put(RemoteMessageTable.KEY_RemoteNodeId, remoteId);
 		resultTable.put(RemoteMessageTable.KEY_StudyCaseId, caseId);
 		
