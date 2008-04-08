@@ -30,8 +30,14 @@ import java.util.Hashtable;
 public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	private static final long serialVersionUID = 1;
 
+	public RemoteMessageTable() {
+		put(RemoteMessageTable.KEY_ReturnStatus, Boolean.TRUE);
+	}
+	
 	public static String KEY_RemoteNodeId = "RemoteNodeId";	
 	public static String KEY_StudyCaseId = "StudyCaseId";	
+	public static String KEY_ReturnStatus = "ReturnStatus";
+	public static String KEY_ReturnMessage = "ReturnMessage";
 	public static String KEY_StudyCaseNetworkModel = "StudyCaseNetworModel";	
 	public static String KEY_StudyCaseModification = "StudyCaseModification";	
 	
@@ -41,6 +47,14 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 
 	public String getRemoteNodeId() {
 		return (String)get(RemoteMessageTable.KEY_RemoteNodeId);
+	}
+
+	public boolean getReturnStatus() {
+		return getBoolean(RemoteMessageTable.KEY_ReturnStatus);
+	}
+	
+	public String getReturnMessage() {
+		return (String)get(RemoteMessageTable.KEY_ReturnMessage);
 	}
 
 	public String getStudyCaseNetworkModel() {
@@ -84,7 +98,7 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	}
 	
 	public double getBranchAmpsLimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BusVoltageLimintViolationIndex);
+		return getDouble(RemoteMessageTable.KEY_BranchAmpsLimintViolationIndex);
 	}
 	
 	public double getBusVoltageLimintViolationIndex() {
@@ -95,11 +109,8 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	// DStab result related fields
 	// ===========================
 	
-	public static String KEY_DStabRunStatus = "DStabRunStatus";
 
-	public boolean getDStabRunStatus() {
-		return getBoolean(RemoteMessageTable.KEY_DStabRunStatus);
-	}
+
 
 	private boolean getBoolean(String key) {
 		if (get(key) == null)

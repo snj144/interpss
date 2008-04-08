@@ -133,6 +133,7 @@ public class RemoteResultHandler implements IRemoteResult {
 
 		if (session.getAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase) != null) { 
 			if (!((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase)).booleanValue() ||
+					!resultTable.getReturnStatus() ||
 					(!net.isLfConverged() || mvar1Index > 0.0 || mvar2Index > 0.0 || mvar3Index > 0.0 || vIndex > 0.0)) {
 				resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
 			}
@@ -154,6 +155,9 @@ public class RemoteResultHandler implements IRemoteResult {
 		StudyCase studyCase = mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
 		studyCase.setDesc("Loadflow by Remote Node: " + IpssGridGainUtil.nodeNameLookup(resultTable.getRemoteNodeId()));
 
+		studyCase.setRemoteReturnStatus(resultTable.getReturnStatus());
+		studyCase.setRemoteReturnMessage(resultTable.getReturnMessage());
+		
 		studyCase.setAclfConverged(resultTable.getAclfConvergeStatus());
 		studyCase.setNetModelString(resultTable.getSerializedAclfNet());
 		
@@ -185,6 +189,8 @@ public class RemoteResultHandler implements IRemoteResult {
     		buf.append(scase.getDesc() + "\n");
     		if (scase.getName() != null)
     			buf.append("Case Description: " + scase.getName() + "\n");
+    		if (!scase.isRemoteReturnStatus())
+    			buf.append("Remote error message: " + scase.getRemoteReturnMessage() + "\n");
 			AclfAdjNetwork aclfAdjNet = null;
     		if (scase.getNetModelString() != null) {
     			aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
