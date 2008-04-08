@@ -106,45 +106,50 @@ public class XmlScriptAclfRun {
 					dialog.display(aclfNet);
 				}
 			} else {
-				MultiStudyCase mCaseContainer = SimuObjectFactory
-						.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+				MultiStudyCase mCaseContainer = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 				// save the base case Network model to the netStr
 				mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 				
 				int cnt = 0;
 				for (AclfStudyCase xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
-					// deserialize the base case
-					AclfAdjNetwork net = (AclfAdjNetwork) SerializeEMFObjectUtil
-							.loadModel(mCaseContainer.getBaseNetModelString());
-					LoadflowAlgorithm algo = CoreObjectFactory
-							.createLoadflowAlgorithm(net);
+					// deserialize the base case, if necessary
+					AclfAdjNetwork net = aclfNet;
+					if (!RunActUtilFunc.isGridEnabled(parser.getRunStudyCase()) ||
+							!parser.getRunStudyCase().getGridRun().getRemoteJobCreation()) 
+						// only deserialized the network if not the case of remote job creation
+						net = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(mCaseContainer.getBaseNetModelString());
+
+					LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 					// map to the Algo object including network modification at the study case level
 					if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, 
 										parser.getRunStudyCase().getGridRun().getRemoteJobCreation(), msg))
 						return false;
 
-					net.setId(xmlCase.getRecId());
 					try {
-						StudyCase studyCase = SimuObjectFactory.createStudyCase(xmlCase.getRecId(), xmlCase
-										.getRecName(), ++cnt, mCaseContainer);
+						StudyCase studyCase = SimuObjectFactory.createStudyCase(xmlCase.getRecId(), 
+										xmlCase.getRecName(), ++cnt, mCaseContainer);
 						if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
-							// if Grid computing, save the Algo object to the
-							// study case object
+							// if Grid computing, save the Algo object to the study case object
 							studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 							if (parser.getRunStudyCase().getGridRun().getRemoteJobCreation())
 								if (xmlCase.getModification() != null)
+									// persist modification to be sent to the remote grid node
 									studyCase.setModifyModelString(xmlCase.getModification().xmlText());
 						} else {
 							// if not grid computing, perform Loadflow for the study case
 							algo.loadflow(msg);
 							studyCase.setDesc("Loadflow by Local Node");
 						}
-						// persist the AclfNet object to study case. It contains case level modification
-						// in the case of non grid computing, it contains Loadflow results
 						studyCase.setId(xmlCase.getRecId());
 						studyCase.setName(xmlCase.getRecDesc());
-						studyCase.setNetModelString(SerializeEMFObjectUtil
-								.saveModel(net));
+						if (!RunActUtilFunc.isGridEnabled(parser.getRunStudyCase()) ||
+								!parser.getRunStudyCase().getGridRun().getRemoteJobCreation()) {
+							net.setId(xmlCase.getRecId());
+							// persist the AclfNet object to study case. It contains case level modification for
+							// grid computing when remoteJobCreation = false.
+							// in the case of non grid computing, it contains Loadflow results
+							studyCase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
+						}
 					} catch (Exception e) {
 						SpringAppContext.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
@@ -177,8 +182,7 @@ public class XmlScriptAclfRun {
 				}
 
 				// display the simulation results
-				IOutputTextDialog dialog = UISpringAppContext
-						.getOutputTextDialog("Loadflow Analysis Info");
+				IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 				dialog.display(mCaseContainer);
 			}
 		} else {
