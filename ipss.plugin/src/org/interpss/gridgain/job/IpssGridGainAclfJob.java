@@ -127,9 +127,6 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			getRemoteResult().put(RemoteMessageTable.KEY_ReturnMessage, e.toString());
 		}
  
-		// send the calculated Aclf object back to the master node
-		net.setDesc(getGrid().getLocalNode().getId().toString());
-
 		IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
 		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), net, getSession());
 		return getRemoteResult();
