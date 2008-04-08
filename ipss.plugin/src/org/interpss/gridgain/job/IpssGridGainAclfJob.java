@@ -120,8 +120,13 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			debugOut(net, algo);
 		
 		// perform loadflow calculation
-		algo.loadflow(SpringAppContext.getIpssMsgHub());
-
+		try {
+			algo.loadflow(SpringAppContext.getIpssMsgHub());
+		} catch (Exception e) {
+			getRemoteResult().put(RemoteMessageTable.KEY_ReturnStatus, Boolean.FALSE);
+			getRemoteResult().put(RemoteMessageTable.KEY_ReturnMessage, e.toString());
+		}
+ 
 		// send the calculated Aclf object back to the master node
 		net.setDesc(getGrid().getLocalNode().getId().toString());
 

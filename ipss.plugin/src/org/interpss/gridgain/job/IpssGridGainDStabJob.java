@@ -122,12 +122,12 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 					"Running DStab simulation at remote node "
 							+ getGrid().getLocalNode());
 			if (dstabAlgo.performSimulation(getMsgHub())) {
-				getRemoteResult().put(RemoteMessageTable.KEY_DStabRunStatus, Boolean.TRUE);
+				getRemoteResult().put(RemoteMessageTable.KEY_ReturnStatus, Boolean.TRUE);
 				return getRemoteResult();
 			}
 		}
 
-		getRemoteResult().put(RemoteMessageTable.KEY_DStabRunStatus, Boolean.FALSE);
+		getRemoteResult().put(RemoteMessageTable.KEY_ReturnStatus, Boolean.FALSE);
 		return getRemoteResult();
 	}
 	
