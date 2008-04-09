@@ -12,91 +12,7 @@
 				<ns:complexType>
 					<ns:sequence>
 						<ns:element name="busChangeRec" minOccurs="0"
-							maxOccurs="unbounded">
-							<ns:complexType>
-								<ns:complexContent>
-									<ns:extension
-										base="ipss:BusRecXmlType">
-										<ns:sequence>
-											<ns:element name="offLine"
-												type="ns:boolean" maxOccurs="1" minOccurs="0">
-											</ns:element>
-											<ns:element
-												name="aclfBusChangeData" minOccurs="0">
-												<ns:complexType>
-													<ns:sequence>
-														<ns:element
-															name="loadChangeData" minOccurs="0">
-															<ns:complexType>
-																<ns:sequence>
-																	<ns:element
-																		name="codeChange" minOccurs="0">
-																		<ns:complexType>
-																			<ns:sequence>
-																				<ns:element
-																					name="loadCode">
-																					<ns:simpleType>
-																						<ns:restriction
-																							base="ns:string">
-																							<ns:enumeration
-																								value="CONST_P">
-																							</ns:enumeration>
-																							<ns:enumeration
-																								value="CONST_I">
-																							</ns:enumeration>
-																							<ns:enumeration
-																								value="CONST_Z">
-																							</ns:enumeration>
-																							<ns:enumeration
-																								value="EXPONENTIAL">
-																							</ns:enumeration>
-																						</ns:restriction>
-																					</ns:simpleType>
-																				</ns:element>
-																				<ns:element
-																					name="expLoadP" type="ns:double">
-																				</ns:element>
-																				<ns:element
-																					name="expLoadQ" type="ns:double">
-																				</ns:element>
-																			</ns:sequence>
-																		</ns:complexType>
-																	</ns:element>
-																	<ns:element
-																		name="valueChange" minOccurs="0"
-																		type="ipss:ComplexValueChangeXmlType">
-
-																	</ns:element>
-																</ns:sequence>
-															</ns:complexType>
-														</ns:element>
-														<ns:element
-															name="genChangeData" minOccurs="0">
-                                                            <ns:complexType>
-                                                            	<ns:sequence>
-                                                            		<ns:element
-                                                            			name="swingVoltageChange"
-                                                            			type="ipss:ValueChangeXmlType" minOccurs="0">
-                                                            		</ns:element>
-                                                            	</ns:sequence>
-                                                            </ns:complexType>
-														</ns:element>
-													</ns:sequence>
-												</ns:complexType>
-											</ns:element>
-											<ns:element
-												name="acscBusChangeData" minOccurs="0">
-												<ns:complexType></ns:complexType>
-											</ns:element>
-											<ns:element
-												name="dstabBusChangeData" minOccurs="0">
-												<ns:complexType></ns:complexType>
-											</ns:element>
-										</ns:sequence>
-
-									</ns:extension>
-								</ns:complexContent>
-							</ns:complexType>
+							maxOccurs="unbounded" type="ipss:BusChangeRecXmlType">
 						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
@@ -106,43 +22,135 @@
 				<ns:complexType>
 					<ns:sequence>
 						<ns:element name="branchChangeRec" minOccurs="0"
-							maxOccurs="unbounded">
-							<ns:complexType>
-								<ns:complexContent>
-									<ns:extension
-										base="ipss:BranchRecXmlType">
-										<ns:sequence>
-											<ns:element
-												name="offLine" type="ns:boolean" maxOccurs="1"
-												minOccurs="0">
-											</ns:element>
-											<ns:element
-												name="aclfBranchChangeData" minOccurs="0">
-												<ns:complexType>
-													<ns:sequence>
-														<ns:element
-															name="branchZChange" minOccurs="0" type="ipss:ComplexValueChangeXmlType">
-														</ns:element>
-													</ns:sequence>
-												</ns:complexType>
-											</ns:element>
-											<ns:element
-												name="acscBranchChangeData" minOccurs="0">
-												<ns:complexType></ns:complexType>
-											</ns:element>
-											<ns:element
-												name="dstabBranchChangeData" minOccurs="0">
-												<ns:complexType></ns:complexType>
-											</ns:element>
-										</ns:sequence>
-									</ns:extension>
-								</ns:complexContent>
-							</ns:complexType>
+							maxOccurs="unbounded" type="ipss:BranchChangeRecXmlType">
 						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
 
 		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="BusChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BusRecXmlType">
+				<ns:sequence>
+					<ns:element name="offLine" type="ns:boolean"
+						maxOccurs="1" minOccurs="0">
+						<ns:annotation>
+							<ns:documentation>
+								turn this bus to a non-contributing bus.
+							</ns:documentation>
+						</ns:annotation>
+					</ns:element>
+					<ns:element name="genOutage" type="ns:boolean"
+						minOccurs="0">
+					</ns:element>
+					<ns:element name="loadShedding" type="ns:boolean"
+						minOccurs="0">
+					</ns:element>
+					<ns:element name="aclfBusChangeData"
+						minOccurs="0">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="loadChangeData"
+									minOccurs="0">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element
+												name="codeChange" minOccurs="0">
+												<ns:complexType>
+													<ns:sequence>
+														<ns:element
+															name="loadCode">
+															<ns:simpleType>
+																<ns:restriction
+																	base="ns:string">
+																	<ns:enumeration
+																		value="CONST_P">
+																	</ns:enumeration>
+																	<ns:enumeration
+																		value="CONST_I">
+																	</ns:enumeration>
+																	<ns:enumeration
+																		value="CONST_Z">
+																	</ns:enumeration>
+																	<ns:enumeration
+																		value="EXPONENTIAL">
+																	</ns:enumeration>
+																</ns:restriction>
+															</ns:simpleType>
+														</ns:element>
+														<ns:element
+															name="expLoadP" type="ns:double">
+														</ns:element>
+														<ns:element
+															name="expLoadQ" type="ns:double">
+														</ns:element>
+													</ns:sequence>
+												</ns:complexType>
+											</ns:element>
+											<ns:element
+												name="valueChange" minOccurs="0"
+												type="ipss:ComplexValueChangeXmlType">
+											</ns:element>
+										</ns:sequence>
+									</ns:complexType>
+								</ns:element>
+								<ns:element name="genChangeData"
+									minOccurs="0">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element
+												name="swingVoltageChange" type="ipss:ValueChangeXmlType"
+												minOccurs="0">
+											</ns:element>
+										</ns:sequence>
+									</ns:complexType>
+								</ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="acscBusChangeData"
+						minOccurs="0">
+						<ns:complexType></ns:complexType>
+					</ns:element>
+					<ns:element name="dstabBusChangeData"
+						minOccurs="0">
+						<ns:complexType></ns:complexType>
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="BranchChangeRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BranchRecXmlType">
+				<ns:sequence>
+					<ns:element name="offLine" type="ns:boolean"
+						maxOccurs="1" minOccurs="0">
+					</ns:element>
+					<ns:element name="aclfBranchChangeData"
+						minOccurs="0">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="branchZChange"
+									minOccurs="0" type="ipss:ComplexValueChangeXmlType">
+								</ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="acscBranchChangeData"
+						minOccurs="0">
+						<ns:complexType></ns:complexType>
+					</ns:element>
+					<ns:element name="dstabBranchChangeData"
+						minOccurs="0">
+						<ns:complexType></ns:complexType>
+					</ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 </ns:schema>

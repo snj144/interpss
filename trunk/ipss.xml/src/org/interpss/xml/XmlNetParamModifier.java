@@ -25,12 +25,14 @@
 package org.interpss.xml;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.schema.BranchChangeRecXmlType;
+import org.interpss.schema.BusChangeRecXmlType;
+import org.interpss.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
 import org.interpss.schema.ComplexValueChangeXmlType;
 import org.interpss.schema.ComplexXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.UnitXmlData;
 import org.interpss.schema.ValueChangeXmlType;
-import org.interpss.schema.ModificationXmlType.BusChangeRecList.BusChangeRec.AclfBusChangeData.LoadChangeData;
 
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
@@ -38,6 +40,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.SwingBusAdapter;
@@ -75,26 +78,23 @@ public class XmlNetParamModifier {
 	private static boolean applyModification2Net(Network net, ModificationXmlType mod, IPSSMsgHub msg) {
 		// apply the Network-level changes
 		if (mod.getBusChangeRecList() != null) {
-			for (ModificationXmlType.BusChangeRecList.BusChangeRec busRec : mod
+			for (BusChangeRecXmlType busRec : mod
 					.getBusChangeRecList().getBusChangeRecArray()) {
 				Bus bus = IpssXmlParser.getBus(busRec, net);
 				bus.setStatus(!busRec.getOffLine());
 				IpssLogger.getLogger().info(
-						"Bus " + bus.getId() + " status has been set to "
-								+ bus.isActive());
+						"Bus " + bus.getId() + " status has been set to " + bus.isActive());
 			}
 		}
 
 		if (mod.getBranchChangeRecList() != null) {
-			for (ModificationXmlType.BranchChangeRecList.BranchChangeRec braRec : mod
+			for (BranchChangeRecXmlType braRec : mod
 					.getBranchChangeRecList().getBranchChangeRecArray()) {
 				Branch branch = IpssXmlParser.getBranch(braRec, net);
 				if (branch != null) {
 					branch.setStatus(!braRec.getOffLine());
 					IpssLogger.getLogger().info(
-							"Branch " + branch.getId()
-									+ " service status has been set to "
-									+ branch.isActive());
+							"Branch " + branch.getId() + " service status has been set to "	+ branch.isActive());
 				} else {
 					return false;
 				}
@@ -108,78 +108,54 @@ public class XmlNetParamModifier {
 		if (net instanceof AclfNetwork) {
 			AclfNetwork aclfNet = (AclfNetwork) net;
 			if (mod.getBusChangeRecList() != null) {
-				for (ModificationXmlType.BusChangeRecList.BusChangeRec busRec : mod
-						.getBusChangeRecList().getBusChangeRecArray()) {
+				for (BusChangeRecXmlType busRec : mod.getBusChangeRecList().getBusChangeRecArray()) {
 					AclfBus bus = (AclfBus) IpssXmlParser.getBus(busRec, aclfNet);
 					if (bus != null) {
+						if (busRec.getGenOutage()) {
+							bus.setGenCode(AclfGenCode.NON_GEN);
+							IpssLogger.getLogger().info("Generator outage at bus " + bus.getId());
+						}
+						
+						if (busRec.getLoadShedding()) {
+							bus.setLoadCode(AclfLoadCode.NON_LOAD);
+							IpssLogger.getLogger().info("Load shedding at bus " + bus.getId());
+						}
+						
 						if (busRec.getAclfBusChangeData() != null &&
 								busRec.getAclfBusChangeData().getLoadChangeData() != null) {
-							// modify load value
-							if (busRec.getAclfBusChangeData().getLoadChangeData().getValueChange() != null) {
-								Complex x = applyPowerChangeRec(
-										bus.getLoad(),
-										busRec.getAclfBusChangeData().getLoadChangeData().getValueChange(),
-										aclfNet.getBaseKva());
-								bus.setLoadP(x.getReal());
-								bus.setLoadQ(x.getImaginary());
-							}
-
-							// modify load code
-							if (busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange() != null) {
-								LoadChangeData.CodeChange codeChange = busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange();
-								bus.setLoadCode(codeChange.getLoadCode() == 
-									LoadChangeData.CodeChange.LoadCode.CONST_P ? AclfLoadCode.CONST_P
-											: (codeChange.getLoadCode() == LoadChangeData.CodeChange.LoadCode.CONST_I ? 
-												AclfLoadCode.CONST_I : (codeChange.getLoadCode() == 
-													LoadChangeData.CodeChange.LoadCode.CONST_Z ? AclfLoadCode.CONST_Z
-														: (codeChange.getLoadCode() == 
-															LoadChangeData.CodeChange.LoadCode.EXPONENTIAL ? AclfLoadCode.EXPONENTIAL
-																: AclfLoadCode.NON_LOAD))));
-								if (bus.getLoadCode() == AclfLoadCode.EXPONENTIAL) {
-									bus.setExpLoadP(codeChange.getExpLoadP());
-									bus.setExpLoadQ(codeChange.getExpLoadQ());
-								}
-							}
+							if (bus.isLoad())
+								modifyBusLoad(bus, busRec, aclfNet.getBaseKva());
 						}
 
 						if (busRec.getAclfBusChangeData() != null &&
 								busRec.getAclfBusChangeData().getGenChangeData() != null) {
-							// swing bus voltage modification
-							if (busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange() != null) {
-								if (bus.isSwing()) {
-						  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
-									double x = applyValueChangeRec(gen.getVoltMag(UnitType.PU),
-											busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange(),
-											ValueType.Voltage, bus.getBaseVoltage());
-									gen.setVoltMag(x, UnitType.PU);
-								}
-								else {
-									msg.sendErrorMsg("Error: try to set swing bus voltage of a non-swing bus, id: " + bus.getId());
+							if (bus.isGen())
+								if (!modifyBusGen(bus, busRec, aclfNet.getBaseKva(), msg))
 									return false;
-								}
-							}
 						}
-					
 					} else {
+						msg.sendErrorMsg("Error: cannot fin bus, id: " + busRec.getRecId());
 						return false;
 					}
 				}
 			}
 
 			if (mod.getBranchChangeRecList() != null) {
-				for (ModificationXmlType.BranchChangeRecList.BranchChangeRec braRec : mod
+				for (BranchChangeRecXmlType braRec : mod
 						.getBranchChangeRecList().getBranchChangeRecArray()) {
 					AclfBranch branch = (AclfBranch) IpssXmlParser.getBranch(braRec, aclfNet);
 					if (branch != null) {
 						if (braRec.getAclfBranchChangeData() != null &&
 								braRec.getAclfBranchChangeData().getBranchZChange() != null) {
-							Complex z = applyComplexValueChangeRec(branch
-									.getZ(), braRec.getAclfBranchChangeData().getBranchZChange(), ComplexValueType.Z,
-									aclfNet.getBaseKva(), branch
-											.getHigherBaseVoltage());
-							branch.setZ(z);
+							if (branch.isActive()) {
+								Complex z = applyComplexValueChangeRec(branch.getZ(), 
+										braRec.getAclfBranchChangeData().getBranchZChange(), ComplexValueType.Z,
+										aclfNet.getBaseKva(), branch.getHigherBaseVoltage());
+								branch.setZ(z);
+							}
 						}
 					} else {
+						msg.sendErrorMsg("Error: cannot fin bus, id: " + braRec.getRecId());
 						return false;
 					}
 				}
@@ -193,17 +169,54 @@ public class XmlNetParamModifier {
 		return applyComplexValueChangeRec(original, changeRec, ComplexValueType.Power,
 				baseKva, 1.0);
 	}
+	
+	private static boolean modifyBusGen(AclfBus bus, BusChangeRecXmlType busRec, double baseKva, IPSSMsgHub msg) {
+		// swing bus voltage modification
+		if (busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange() != null) {
+			if (bus.isSwing()) {
+	  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+				double x = applyValueChangeRec(gen.getVoltMag(UnitType.PU),
+						busRec.getAclfBusChangeData().getGenChangeData().getSwingVoltageChange(),
+						ValueType.Voltage, bus.getBaseVoltage());
+				gen.setVoltMag(x, UnitType.PU);
+			}
+			else {
+				msg.sendErrorMsg("Error: try to set swing bus voltage of a non-swing bus, id: " + bus.getId());
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	private static void modifyBusLoad(AclfBus bus, BusChangeRecXmlType busRec, double baseKva) {
+		// modify load value
+		if (busRec.getAclfBusChangeData().getLoadChangeData().getValueChange() != null) {
+			Complex x = applyPowerChangeRec(
+					bus.getLoad(),
+					busRec.getAclfBusChangeData().getLoadChangeData().getValueChange(),
+					baseKva);
+			bus.setLoadP(x.getReal());
+			bus.setLoadQ(x.getImaginary());
+		}
 
-	/**
-	 * 
-	 * 
-	 * @param original the origianl value in pu
-	 * @param changeRec
-	 * @param ptype
-	 * @param baseKva
-	 * @param busBaseVolt
-	 * @return
-	 */
+		// modify load code
+		if (busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange() != null) {
+			LoadChangeData.CodeChange codeChange = busRec.getAclfBusChangeData().getLoadChangeData().getCodeChange();
+			bus.setLoadCode(codeChange.getLoadCode() == 
+				LoadChangeData.CodeChange.LoadCode.CONST_P ? AclfLoadCode.CONST_P
+						: (codeChange.getLoadCode() == LoadChangeData.CodeChange.LoadCode.CONST_I ? 
+							AclfLoadCode.CONST_I : (codeChange.getLoadCode() == 
+								LoadChangeData.CodeChange.LoadCode.CONST_Z ? AclfLoadCode.CONST_Z
+									: (codeChange.getLoadCode() == 
+										LoadChangeData.CodeChange.LoadCode.EXPONENTIAL ? AclfLoadCode.EXPONENTIAL
+											: AclfLoadCode.NON_LOAD))));
+			if (bus.getLoadCode() == AclfLoadCode.EXPONENTIAL) {
+				bus.setExpLoadP(codeChange.getExpLoadP());
+				bus.setExpLoadQ(codeChange.getExpLoadQ());
+			}
+		}		
+	}
+
 	private static Complex applyComplexValueChangeRec(Complex original,
 			ComplexValueChangeXmlType changeRec, ComplexValueType ptype,
 			double baseKva, double busBaseVolt) {

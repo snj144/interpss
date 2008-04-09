@@ -5,6 +5,7 @@
 	xmlns:ipss="http://www.interpss.org/schema">
 
 	<ns:include schemaLocation="Datatype.xsd"></ns:include>
+	<ns:include schemaLocation="Modification.xsd"></ns:include>
 	<ns:complexType name="ProtectionXmlType">
 		<ns:sequence>
 			<ns:element name="busProtectRuleSet" minOccurs="0"><ns:complexType></ns:complexType></ns:element>
