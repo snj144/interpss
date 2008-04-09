@@ -26,7 +26,6 @@
 				<ipss:modification>
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
-							<ipss:recId>line_1</ipss:recId>
 							<ipss:fromBusId>No1</ipss:fromBusId>
 							<ipss:toBusId>No2</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
