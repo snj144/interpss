@@ -9,11 +9,15 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.util.DocumentUtilFunc;
+import org.interpss.schema.BranchChangeRecXmlType;
+import org.interpss.schema.BusChangeRecXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
 import com.interpss.core.net.Network;
 import com.interpss.simu.SimuContext;
 
@@ -36,12 +40,24 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
   			studyCase.setRecId("StudyCase_OpenBranch_"+id);
   			studyCase.setRecDesc("Open branch " + bra.getId());
   			ModificationXmlType mod = studyCase.addNewModification();
-  			ModificationXmlType.BranchChangeRecList.BranchChangeRec changeRec= 
-  								mod.addNewBranchChangeRecList().addNewBranchChangeRec();
+  			BranchChangeRecXmlType changeRec = mod.addNewBranchChangeRecList().addNewBranchChangeRec();
   			changeRec.setRecId("OpenBranch_"+id);
   			changeRec.setFromBusId(bra.getFromBus().getId());
   			changeRec.setToBusId(bra.getToBus().getId());
   			changeRec.setOffLine(true);
+		}
+  		
+  		for (Bus bus : net.getBusList()) {
+  			if (bus.isActive() && ((AclfBus)bus).isGen() && !((AclfBus)bus).isSwing()) {
+  				AclfStudyCase studyCase = list.addNewAclfStudyCase();
+  	  			studyCase.setRecId("StudyCase_GenOutage_"+bus.getId());
+  	  			studyCase.setRecDesc("Generator outage at bus " + bus.getId());
+  	  			ModificationXmlType mod = studyCase.addNewModification();
+  	  			BusChangeRecXmlType changeRec = mod.addNewBusChangeRecList().addNewBusChangeRec();
+  	  			changeRec.setRecId("GenOutage_"+bus.getId());
+  	  			changeRec.setBusId(bus.getId());
+  	  			changeRec.setGenOutage(true);
+  			}
 		}
   		
 		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("N-1 Modification Xml Document");
