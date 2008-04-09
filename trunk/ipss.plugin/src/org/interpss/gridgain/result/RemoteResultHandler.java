@@ -200,8 +200,7 @@ public class RemoteResultHandler implements IRemoteResult {
 
 			buf.append("Loadflow converged: " + scase.isAclfConverged());
         	buf.append("\n");
-        	if (!scase.isAclfConverged()) {
-        		assert (aclfAdjNet != null);
+        	if (aclfAdjNet != null) {
         		buf.append("\n");
     			buf.append(AclfOutFunc.loadFlowSummary(aclfAdjNet));
         		buf.append("\n");
