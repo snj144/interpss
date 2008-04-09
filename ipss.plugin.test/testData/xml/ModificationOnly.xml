@@ -67,6 +67,16 @@
 							<ipss:percent>1.0</ipss:percent>
 							<ipss:unit>Percent</ipss:unit>
 						</ipss:swingVoltageChange></ipss:genChangeData></ipss:aclfBusChangeData>
+			</ipss:busChangeRec>
+			<ipss:busChangeRec>
+				<ipss:recId>AclfBusChangeRec-5</ipss:recId>
+				<ipss:busId>0003</ipss:busId>
+				<ipss:genOutage>true</ipss:genOutage>
+			</ipss:busChangeRec>
+			<ipss:busChangeRec>
+				<ipss:recId>AclfBusChangeRec-6</ipss:recId>
+				<ipss:busId>0009</ipss:busId>
+				<ipss:loadShedding>true</ipss:loadShedding>
 			</ipss:busChangeRec></ipss:busChangeRecList>
 			
 		<ipss:branchChangeRecList>
