@@ -280,6 +280,6 @@ public class AclfAdjFixture extends AclfBuildFixture {
 	
 	public boolean psXfrPControlStatus() {
 		PSXfrPControl psCon = simuCtx.getAclfAdjNet().getPSXfrPControl(getBranchId());
-		return psCon.isStatus();
+		return psCon.isActive();
 	}	
 }
