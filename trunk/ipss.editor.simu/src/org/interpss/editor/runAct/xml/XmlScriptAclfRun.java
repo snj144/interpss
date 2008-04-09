@@ -139,6 +139,8 @@ public class XmlScriptAclfRun {
 							// if not grid computing, perform Loadflow for the study case
 							algo.loadflow(msg);
 							studyCase.setDesc("Loadflow by Local Node");
+							studyCase.setRemoteReturnStatus(true);
+							studyCase.setAclfConverged(algo.getAclfAdjNetwork().isLfConverged());
 						}
 						studyCase.setId(xmlCase.getRecId());
 						studyCase.setName(xmlCase.getRecDesc());
