@@ -28,14 +28,6 @@ package org.interpss.custom.exchange.psse;
  * PTI PSS/E File input adapter. The implementation is Based on 
  * PSS/E 29, published Oct 2002.
  * 
- * The following records are implemented
- * 
- * 		Case Identification
-		Bus Data
-		Gnerator Data
-		Nontransformer Branch Data
-		Transformer Data
-		Area Interchange Data
  */
 
 import com.interpss.common.msg.IPSSMsgHub;
@@ -53,7 +45,7 @@ public class PSSESwitchedShuntDataRecord  {
 		msg.sendWarnMsg("Swithced Shunt data record has not been implemented");
 
 		/*
-			I,MODSW,VSWHI,VSWLO,SWREM,BINIT,N1,B1,N2,B2...N8,B8
+			I,MODSW,VSWHI,VSWLO,SWREM,RMINIT,NAME(PSS/E30),BINIT,N1,B1,N2,B2...N8,B8
 				I - Bus number
 				MODSW - Mode 0 - fixed 1 - discrete 2 - continuous
 				VSWHI - Desired voltage upper limit, per unit
@@ -66,13 +58,14 @@ public class PSSESwitchedShuntDataRecord  {
 				N2, B2, etc, as N1, B1
 		 */				
 		PSSEDataRec.ShuntRec rec = new PSSEDataRec.ShuntRec(lineStr, version);
-		
 
 		int I = new Integer(rec.i).intValue();
 		int MODSW = new Integer(rec.modsw).intValue();
 		double VSWHI = new Double(rec.vswhi).doubleValue();
 		double VSWLO = new Double(rec.vswlo).doubleValue();
 		int SWREM  = new Integer(rec.swrem).intValue();
+		double RMINIT = new Double(rec.rminit).doubleValue();
+		String name = rec.name;
 		double BINIT = new Double(rec.binit).doubleValue();
 		int N1     = new Integer(rec.n[0]).intValue();
 		double B1  = new Double(rec.b[0]).doubleValue();

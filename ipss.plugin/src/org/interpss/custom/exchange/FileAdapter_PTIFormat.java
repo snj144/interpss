@@ -193,7 +193,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
       							version = PSSEDataRec.VersionNo.PSS_E_29;
       						else {
       							msgHub.sendWarnMsg("Unsupported PSS/E verion, " + lineStr);
-      							version = PSSEDataRec.VersionNo.Unkown;
+      							version = PSSEDataRec.VersionNo.Old;
       						}
       					}
 						if (lineNo == 3) 

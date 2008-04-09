@@ -4,14 +4,14 @@ import java.util.StringTokenizer;
 
 public class PSSEDataRec {
 	public enum VersionNo {
-		NotDefined, Unkown, PSS_E_29, PSS_E_30
+		NotDefined, Old, PSS_E_29, PSS_E_30
 	}
 
 	static public class HeaderRec {
 		public String indicator = "0", baseMva;
 
 		public HeaderRec(String lineStr, VersionNo version) {
-			if (version == PSSEDataRec.VersionNo.Unkown) {
+			if (version == PSSEDataRec.VersionNo.Old) {
 				// "0 100.0"
 				StringTokenizer st = new StringTokenizer(lineStr);
 				st.nextToken();
@@ -129,7 +129,7 @@ public class PSSEDataRec {
 
 		public BusRec(String lineStr, VersionNo version) {
 			StringTokenizer st;
-			if (version == VersionNo.Unkown) {
+			if (version == VersionNo.Old) {
 				// old verdion: 80001 'TOMKE ' 220.00 1 0.00 0.00 703 1 1.0784
 				// -38.614 1 /* [TOMKENJC A014] */
 				st = new StringTokenizer(removeTailComment(lineStr), "'");
@@ -171,7 +171,7 @@ public class PSSEDataRec {
 
 		public LoadRec(String lineStr, VersionNo version) {
 			StringTokenizer st;
-			if (version == VersionNo.Unkown) {
+			if (version == VersionNo.Old) {
 				// 74611 '99' 1 702 181 1.106 0.258 0.000 0.000 0.000 0.000 1 /*
 				// [STA_204 999 ] */
 				st = new StringTokenizer(removeTailComment(lineStr), "'");
@@ -211,7 +211,7 @@ public class PSSEDataRec {
 
 		public GenRec(String lineStr, VersionNo version) {
 			StringTokenizer st;
-			if (version == VersionNo.Unkown) {
+			if (version == VersionNo.Old) {
 				// 80041 '1 ' 56.78 -8.79 28.000 -14.000 1.0000 0 61.2 0.0 1.0
 				// 0.0 0.0 1.0 1 100.0 61.20 -5.60 1 1.00 /* [SMOKY AG1234 ] */
 				st = new StringTokenizer(removeTailComment(lineStr), "'");
@@ -259,17 +259,21 @@ public class PSSEDataRec {
 		}
 	}
 
-	/*
-	 * ShuntData I,MODSW,VSWHI,VSWLO,SWREM,BINIT,N1,B1,N2,B2...N8,B8
+	/* 
+	 * PSS/E 29
+	 *    ShuntData I,MODSW,VSWHI,VSWLO,SWREM,RMINIT, BINIT,N1,B1,N2,B2...N8,B8
+
+	 * PSS/E 30
+	 *    ShuntData I,MODSW,VSWHI,VSWLO,SWREM,RMINIT,NAME,BINIT,N1,B1,N2,B2...N8,B8
 	 */
 	static public class ShuntRec {
-		public String i, modsw, vswhi, vswlo, swrem, binit;
+		public String i, modsw, vswhi, vswlo, swrem, rminit, name, binit;
 		public String[] b = { "0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "0.0",
 				"0.0" }, n = { "0", "0", "0", "0", "0", "0", "0", "0" };
 
 		public ShuntRec(String lineStr, VersionNo version) {
 			StringTokenizer st;
-			if (version == VersionNo.Unkown) {
+			if (version == VersionNo.Old) {
 				// 99214 0 1.000 1.000 0 0.00 1 4.20 1 6.00 1 8.40
 				st = new StringTokenizer(removeTailComment(lineStr));
 			} else {
@@ -281,6 +285,10 @@ public class PSSEDataRec {
 			vswhi = st.nextToken().trim();
 			vswlo = st.nextToken().trim();
 			swrem = st.nextToken().trim();
+			if (version != VersionNo.Old)
+				rminit = st.nextToken().trim();
+			if (version == VersionNo.PSS_E_30)
+				name = st.nextToken().trim();
 			binit = st.nextToken().trim();
 			if (st.hasMoreTokens())
 				n[0] = st.nextToken().trim();
@@ -328,7 +336,7 @@ public class PSSEDataRec {
 
 		public BranchRec(String lineStr, VersionNo version) {
 			StringTokenizer st;
-			if (version == VersionNo.Unkown) {
+			if (version == VersionNo.Old) {
 				// 79831 82157 1 0.000200 0.000500 0.00000 0 0 0 0.0000 0.000
 				// 0.0 0.0 0.0 0.0 0 0.000 86 1.00 /* [KENORASP_PS2_1 A ] */
 				st = new StringTokenizer(removeTailComment(lineStr));
@@ -394,7 +402,7 @@ public class PSSEDataRec {
 
 		public Xfr2WRec(String lineStr1, String lineStr2, String lineStr3,
 				String lineStr4, VersionNo version) {
-			if (version == VersionNo.Unkown) {
+			if (version == VersionNo.Old) {
 				/*
 				 * 	I,J,CKT,ICONT,RMA,RMI,VMA,VMI,STEP,TABLE 
 				 * 		I - From bus number 
@@ -483,6 +491,9 @@ public class PSSEDataRec {
 	}
 
 	private static String removeTailComment(String s) {
-		return s.substring(0, s.indexOf("/*"));
+		if (s.indexOf("/*") > 0)
+			return s.substring(0, s.indexOf("/*"));
+		else
+			return s;
 	}
 }
