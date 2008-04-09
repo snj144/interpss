@@ -5,6 +5,7 @@
 	xmlns:ipss="http://www.interpss.org/schema">
 
 	<ns:include schemaLocation="Modification.xsd"></ns:include>
+	<ns:include schemaLocation="ProtectionRule.xsd"></ns:include>
 	<ns:complexType name="RunStudyCaseXmlType">
 		<ns:annotation>
 			<ns:documentation>
@@ -24,15 +25,17 @@
 					</ns:restriction>
 				</ns:simpleType>
 			</ns:element>
-			<ns:element name="gridRun" minOccurs="0" maxOccurs="1">
+            <ns:element name="applyProtection" type="ns:boolean" minOccurs="0"></ns:element>
+            <ns:element name="gridRun" minOccurs="0" maxOccurs="1">
 				<ns:complexType>
 					<ns:sequence>
 						<ns:element name="enableGridRun"
 							type="ns:boolean" minOccurs="1" maxOccurs="1">
 						</ns:element>
-                        <ns:element name="remoteJobCreation" type="ns:boolean" minOccurs="1">
+						<ns:element name="remoteJobCreation"
+							type="ns:boolean" minOccurs="1">
 						</ns:element>
-                        <ns:element name="timeout" type="ns:long"
+						<ns:element name="timeout" type="ns:long"
 							minOccurs="0" maxOccurs="1">
 						</ns:element>
 						<ns:element name="remoteNodeDebug"
@@ -68,7 +71,8 @@
 									</ns:element>
 								</ns:sequence>
 							</ns:complexType>
-						</ns:element>
+						</ns:element>
+
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
@@ -89,7 +93,8 @@
 											<ns:complexContent>
 												<ns:extension
 													base="ipss:BaseStudyCaseXmlType">
-													<ns:sequence>
+													<ns:sequence>
+
 														<ns:element
 															name="dclfStudyCase" type="ipss:DclfStudyCaseXmlType"
 															minOccurs="0">
@@ -113,6 +118,9 @@
 						<ns:element name="defaultAclfAlgorithm"
 							type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
 						</ns:element>
+						<ns:element name="protectionRuleSet"
+							type="ipss:ProtectionXmlType" minOccurs="0">
+						</ns:element>
 						<ns:element name="aclfStudyCaseList"
 							minOccurs="1" maxOccurs="1">
 							<ns:complexType>
@@ -123,7 +131,8 @@
 											<ns:complexContent>
 												<ns:extension
 													base="ipss:BaseStudyCaseXmlType">
-													<ns:sequence>
+													<ns:sequence>
+
 														<ns:element
 															name="aclfAlgorithm" type="ipss:AclfAlgorithmXmlType"
 															minOccurs="0">
@@ -138,6 +147,7 @@
 								</ns:sequence>
 							</ns:complexType>
 						</ns:element>
+
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
@@ -158,7 +168,8 @@
 											<ns:complexContent>
 												<ns:extension
 													base="ipss:BaseStudyCaseXmlType">
-													<ns:sequence>
+													<ns:sequence>
+
 														<ns:element
 															name="acscStudyCase" type="ipss:AcscStudyCaseXmlType"
 															minOccurs="0">
@@ -193,7 +204,8 @@
 											<ns:complexContent>
 												<ns:extension
 													base="ipss:BaseStudyCaseXmlType">
-													<ns:sequence>
+													<ns:sequence>
+
 														<ns:element
 															name="dStabStudyCase" type="ipss:DStabStudyCaseXmlType"
 															minOccurs="0">
@@ -209,7 +221,7 @@
 						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
-			</ns:element>
+			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
