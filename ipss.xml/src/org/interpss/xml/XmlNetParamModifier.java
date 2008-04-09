@@ -76,14 +76,15 @@ public class XmlNetParamModifier {
 	}
 	
 	private static boolean applyModification2Net(Network net, ModificationXmlType mod, IPSSMsgHub msg) {
+		IpssLogger.getLogger().info("Apply Network modification");
+		
 		// apply the Network-level changes
 		if (mod.getBusChangeRecList() != null) {
 			for (BusChangeRecXmlType busRec : mod
 					.getBusChangeRecList().getBusChangeRecArray()) {
 				Bus bus = IpssXmlParser.getBus(busRec, net);
 				bus.setStatus(!busRec.getOffLine());
-				IpssLogger.getLogger().info(
-						"Bus " + bus.getId() + " status has been set to " + bus.isActive());
+				IpssLogger.getLogger().info("Bus " + bus.getId() + " status has been set to " + bus.isActive());
 			}
 		}
 
@@ -93,8 +94,7 @@ public class XmlNetParamModifier {
 				Branch branch = IpssXmlParser.getBranch(braRec, net);
 				if (branch != null) {
 					branch.setStatus(!braRec.getOffLine());
-					IpssLogger.getLogger().info(
-							"Branch " + branch.getId() + " service status has been set to "	+ branch.isActive());
+					IpssLogger.getLogger().info("Branch " + branch.getId() + " service status has been set to "	+ branch.isActive());
 				} else {
 					return false;
 				}
@@ -106,6 +106,8 @@ public class XmlNetParamModifier {
 	private static boolean applyModification2AclfNet(Network net, ModificationXmlType mod, IPSSMsgHub msg) {
 		// apply the AclfNetwork-level changes
 		if (net instanceof AclfNetwork) {
+			IpssLogger.getLogger().info("Apply AclfNetwork modification");
+
 			AclfNetwork aclfNet = (AclfNetwork) net;
 			if (mod.getBusChangeRecList() != null) {
 				for (BusChangeRecXmlType busRec : mod.getBusChangeRecList().getBusChangeRecArray()) {
