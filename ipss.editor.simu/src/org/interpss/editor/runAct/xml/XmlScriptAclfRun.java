@@ -110,28 +110,29 @@ public class XmlScriptAclfRun {
 				// save the base case Network model to the netStr
 				mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 				
+				boolean gridRun = RunActUtilFunc.isGridEnabled(parser.getRunStudyCase());
+				boolean reJobCreation = parser.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
+				
 				int cnt = 0;
 				for (AclfStudyCase xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
 					// deserialize the base case, if necessary
 					AclfAdjNetwork net = aclfNet;
-					if (!RunActUtilFunc.isGridEnabled(parser.getRunStudyCase()) ||
-							!parser.getRunStudyCase().getGridRun().getRemoteJobCreation()) 
+					if (!gridRun || !reJobCreation) 
 						// only deserialized the network if not the case of remote job creation
 						net = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(mCaseContainer.getBaseNetModelString());
 
 					LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 					// map to the Algo object including network modification at the study case level
-					if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, 
-										parser.getRunStudyCase().getGridRun().getRemoteJobCreation(), msg))
+					if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
 						return false;
 
 					try {
 						StudyCase studyCase = SimuObjectFactory.createStudyCase(xmlCase.getRecId(), 
 										xmlCase.getRecName(), ++cnt, mCaseContainer);
-						if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
+						if (gridRun) {
 							// if Grid computing, save the Algo object to the study case object
 							studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
-							if (parser.getRunStudyCase().getGridRun().getRemoteJobCreation())
+							if (reJobCreation)
 								if (xmlCase.getModification() != null)
 									// persist modification to be sent to the remote grid node
 									studyCase.setModifyModelString(xmlCase.getModification().xmlText());
@@ -144,8 +145,7 @@ public class XmlScriptAclfRun {
 						}
 						studyCase.setId(xmlCase.getRecId());
 						studyCase.setName(xmlCase.getRecDesc());
-						if (!RunActUtilFunc.isGridEnabled(parser.getRunStudyCase()) ||
-								!parser.getRunStudyCase().getGridRun().getRemoteJobCreation()) {
+						if (!gridRun || !reJobCreation) {
 							net.setId(xmlCase.getRecId());
 							// persist the AclfNet object to study case. It contains case level modification for
 							// grid computing when remoteJobCreation = false.
@@ -162,7 +162,7 @@ public class XmlScriptAclfRun {
 
 				// if Grid computing, send the MultiCase container to perform
 				// remote grid computing
-				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
+				if (gridRun) {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 					
@@ -171,8 +171,7 @@ public class XmlScriptAclfRun {
 					try {
 						RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
 										"InterPSS Grid Aclf Calculation", mCaseContainer, 
-										parser.getRunStudyCase().getGridRun().getTimeout(),
-										parser.getRunStudyCase().getGridRun().getRemoteJobCreation());
+										parser.getRunStudyCase().getGridRun().getTimeout(),	reJobCreation);
 						for (RemoteMessageTable result : objAry) {
 							IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
 							resultHandler.transferAclfResult(mCaseContainer, result);
