@@ -38,6 +38,7 @@ import org.interpss.gridgain.util.RemoteMessageTable;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.GridRun.AclfOption.ReturnStudyCase;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
 
@@ -51,6 +52,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
 
 public class XmlScriptAclfRun {
@@ -215,7 +217,11 @@ public class XmlScriptAclfRun {
 		mCaseContainer.setRemoteJobCreation(runCase.getGridRun().getRemoteJobCreation());
 		if (runCase.getGridRun().getAclfOption() != null) {
 			RunStudyCaseXmlType.GridRun.AclfOption opt = runCase.getGridRun().getAclfOption();
-			mCaseContainer.getAclfGridOption().setReturnOnlyViolationCase(opt.getReturnOnlyViolationCase());
+			mCaseContainer.getAclfGridOption().setReturnCase(
+					opt.getReturnStudyCase()==ReturnStudyCase.ALL_STUDY_CASE? ReturnRemoteCaseOpt.ALL_STUDY_CASE :
+						(opt.getReturnStudyCase()==ReturnStudyCase.DIVERGED_CASE? ReturnRemoteCaseOpt.DIVERGED_CASE :
+							(opt.getReturnStudyCase()==ReturnStudyCase.DIVERGED_AND_VIOLATION? ReturnRemoteCaseOpt.DIVERGED_AND_VIOLATION :
+								ReturnRemoteCaseOpt.NO_STUDY_CASE)));
 			mCaseContainer.getAclfGridOption().setCalBranchLimitViolation(opt.getCalBranchLimitViolation());
 			mCaseContainer.getAclfGridOption().setCalBusVoltageViolation(opt.getCalBusVoltageViolation());
 			mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
