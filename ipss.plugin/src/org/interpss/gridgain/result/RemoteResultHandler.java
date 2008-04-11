@@ -133,11 +133,22 @@ public class RemoteResultHandler implements IRemoteResult {
 			resultTable.put(RemoteMessageTable.KEY_BusVoltageLimintViolationIndex, new Double(Math.sqrt(vIndex)));
 		}
 
-		if (session.getAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase) != null) { 
-			if (!((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase)).booleanValue() ||
-					!resultTable.getReturnStatus() ||
-					(!net.isLfConverged() || mvar1Index > 0.0 || mvar2Index > 0.0 || mvar3Index > 0.0 || vIndex > 0.0)) {
+		if (session.getAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase) != null) { 
+			int returnOpt = ((Integer)session.getAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase)).intValue();
+			if (returnOpt == RemoteMessageTable.Const_ReturnAllStudyCase) {
 				resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+			}
+			else if (returnOpt == RemoteMessageTable.Const_ReturnDivergedCase) {
+				if (!resultTable.getReturnStatus() || !net.isLfConverged()) 
+					resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+			}
+			else if (returnOpt == RemoteMessageTable.Const_ReturnDivergedViolation) {
+				if ( !resultTable.getReturnStatus() || !net.isLfConverged() ||
+						mvar1Index > 0.0 || mvar2Index > 0.0 || mvar3Index > 0.0 || vIndex > 0.0)
+					resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+			}
+			else {
+				;// do nothing
 			}
 		}
 		else {
@@ -232,60 +243,59 @@ public class RemoteResultHandler implements IRemoteResult {
         		}
     		}
 
-    		if (mCaseContainer.getAclfGridOption().isCalBranchLimitViolation() &&
+    		if (aclfAdjNet != null)
+    			if (mCaseContainer.getAclfGridOption().isCalBranchLimitViolation() &&
     				( scase.getBranchMvar1LimitViolationIndex() > 0.0 ||
         		      scase.getBranchMvar2LimitViolationIndex() > 0.0 ||
         		      scase.getBranchMvar3LimitViolationIndex() > 0.0 ||
         		      scase.getBranchAmpsLimitViolationIndex() > 0.0       ) ||
-    		    mCaseContainer.getAclfGridOption().isCalBusVoltageViolation() &&
+        		      mCaseContainer.getAclfGridOption().isCalBusVoltageViolation() &&
         			  scase.getBusVoltageViolationIndex() > 0.0) {
-    			assert (aclfAdjNet != null);
-    			for (Branch bra : aclfAdjNet.getBranchList()) {
-    				AclfBranch aclfBra = (AclfBranch) bra;
-    				double mvarf_t = aclfBra.powerFrom2To(UnitType.mVar, aclfAdjNet.getBaseKva()).abs();
-    				double mvart_f = aclfBra.powerTo2From(UnitType.mVar, aclfAdjNet.getBaseKva()).abs();
-    				double amps = aclfBra.current(UnitType.Amp, aclfAdjNet.getBaseKva());
-    				double mvar = mvarf_t > mvart_f? mvarf_t : mvart_f;
-    				if (aclfBra.getRatingMva1() > 0.0) 
-    					if (mvar > aclfBra.getRatingMva1()) {
-    						buf.append("Branch Mvar1 limit violated, " + String.format("%5.3f", mvar) + " mvar1Limit " + 
-    								String.format("%5.3f", aclfBra.getRatingMva1()) + " at branch " + aclfBra.getId());
-    	        			buf.append("\n");
-    					}
-    				if (aclfBra.getRatingMva2() > 0.0) 
-    					if (mvar > aclfBra.getRatingMva2()) {
-    						buf.append("Branch Mvar2 limit violated, " + String.format("%5.3f", mvar) + " mvar2Limit " + 
-    								String.format("%5.3f", aclfBra.getRatingMva2()) + " at branch " + aclfBra.getId());
-    	        			buf.append("\n");
-    					}
-    				if (aclfBra.getRatingMva3() > 0.0) 
-    					if (mvar > aclfBra.getRatingMva3()) {
-    						buf.append("Branch Mvar3 limit violated, " + String.format("%5.3f", mvar) + " mvar3Limit " + 
-    								String.format("%5.3f", aclfBra.getRatingMva3()) + " at branch " + aclfBra.getId());
-    	        			buf.append("\n");
-    					}
-    				if (aclfBra.getRatingAmps() > 0.0) 
-    					if (amps > aclfBra.getRatingAmps()) {
-    						buf.append("Branch Amps limit violated, " + String.format("%5.3f", amps) + " ampsLimit " + 
-    								String.format("%5.3f", aclfBra.getRatingAmps()) + " at branch " + aclfBra.getId());
-    	        			buf.append("\n");
-    					}
-    			}
+        			for (Branch bra : aclfAdjNet.getBranchList()) {
+        				AclfBranch aclfBra = (AclfBranch) bra;
+        				double mvarf_t = aclfBra.powerFrom2To(UnitType.mVar, aclfAdjNet.getBaseKva()).abs();
+        				double mvart_f = aclfBra.powerTo2From(UnitType.mVar, aclfAdjNet.getBaseKva()).abs();
+        				double amps = aclfBra.current(UnitType.Amp, aclfAdjNet.getBaseKva());
+        				double mvar = mvarf_t > mvart_f? mvarf_t : mvart_f;
+        				if (aclfBra.getRatingMva1() > 0.0) 
+        					if (mvar > aclfBra.getRatingMva1()) {
+        						buf.append("Branch Mvar1 limit violated, " + String.format("%5.3f", mvar) + " mvar1Limit " + 
+        								String.format("%5.3f", aclfBra.getRatingMva1()) + " at branch " + aclfBra.getId());
+        	        			buf.append("\n");
+        					}
+        				if (aclfBra.getRatingMva2() > 0.0) 
+        					if (mvar > aclfBra.getRatingMva2()) {
+        						buf.append("Branch Mvar2 limit violated, " + String.format("%5.3f", mvar) + " mvar2Limit " + 
+        								String.format("%5.3f", aclfBra.getRatingMva2()) + " at branch " + aclfBra.getId());
+        	        			buf.append("\n");
+        					}
+        				if (aclfBra.getRatingMva3() > 0.0) 
+        					if (mvar > aclfBra.getRatingMva3()) {
+        						buf.append("Branch Mvar3 limit violated, " + String.format("%5.3f", mvar) + " mvar3Limit " + 
+        								String.format("%5.3f", aclfBra.getRatingMva3()) + " at branch " + aclfBra.getId());
+        	        			buf.append("\n");
+        					}
+        				if (aclfBra.getRatingAmps() > 0.0) 
+        					if (amps > aclfBra.getRatingAmps()) {
+        						buf.append("Branch Amps limit violated, " + String.format("%5.3f", amps) + " ampsLimit " + 
+        								String.format("%5.3f", aclfBra.getRatingAmps()) + " at branch " + aclfBra.getId());
+        	        			buf.append("\n");
+        					}
+        			}
 
-    			for (Bus bus : aclfAdjNet.getBusList()) {
-    				AclfBus aclfBus = (AclfBus) bus;
-    				double v = aclfBus.getVoltageMag();
-    				if (v > upperVLimit) {
-    					buf.append("Voltage upper limit violated, " + String.format("%6.4f", v) + " at bus " + aclfBus.getId());
-            			buf.append("\n");
-    				}
-    				else if (v < lowerVLimit) { 
-    					buf.append("Voltage lower limit violated, " + String.format("%6.4f", v) + " at bus " + aclfBus.getId());
-            			buf.append("\n");
-    				}
+        			for (Bus bus : aclfAdjNet.getBusList()) {
+        				AclfBus aclfBus = (AclfBus) bus;
+        				double v = aclfBus.getVoltageMag();
+        				if (v > upperVLimit) {
+        					buf.append("Voltage upper limit violated, " + String.format("%6.4f", v) + " at bus " + aclfBus.getId());
+                			buf.append("\n");
+        				}
+        				else if (v < lowerVLimit) { 
+        					buf.append("Voltage lower limit violated, " + String.format("%6.4f", v) + " at bus " + aclfBus.getId());
+                			buf.append("\n");
+        				}
+        			}
     			}
-    			
-    		}
     		buf.append("\n");
     	}	
     	return buf;
