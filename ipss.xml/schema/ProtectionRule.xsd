@@ -8,8 +8,85 @@
 	<ns:include schemaLocation="Modification.xsd"></ns:include>
 	<ns:complexType name="ProtectionXmlType">
 		<ns:sequence>
-			<ns:element name="busProtectRuleSet" minOccurs="0"><ns:complexType></ns:complexType></ns:element>
-			<ns:element name="branchProtectRuleSet" minOccurs="0"><ns:complexType></ns:complexType></ns:element>
+			<ns:element name="protectionRuleSet" minOccurs="1" type="ipss:ProtectionRuleXmlType" maxOccurs="unbounded"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
+
+	<ns:complexType name="ProtectionCoditionXmlType">
+		<ns:sequence>
+			<ns:element name="conditionType" minOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+
+						<ns:enumeration value="AND"></ns:enumeration>
+						<ns:enumeration value="OR"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
+			</ns:element>
+			<ns:element name="busConditionSet" minOccurs="0" maxOccurs="unbounded">				<ns:complexType>					<ns:complexContent>						<ns:extension base="ipss:BusRecXmlType">							<ns:sequence>								<ns:element name="busCondition"
+									minOccurs="1">
+                                    <ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration	value="UpperVoltageLimitViloation"></ns:enumeration>
+						<ns:enumeration value="LowerVoltageLimitViolation"></ns:enumeration>
+					</ns:restriction>
+                                    </ns:simpleType>
+								</ns:element>
+							</ns:sequence>
+						</ns:extension>
+					</ns:complexContent>
+				</ns:complexType></ns:element>
+			<ns:element name="branchConditionSet" maxOccurs="unbounded" minOccurs="0">				<ns:complexType>					<ns:complexContent>						<ns:extension base="ipss:BaseRecordXmlType">							<ns:sequence>								<ns:element name="branchCondition" minOccurs="1">
+                                    <ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="RatingMvar1Violation"></ns:enumeration>
+						<ns:enumeration value="RatingMvar2Violation"></ns:enumeration>
+						<ns:enumeration value="RatingMvar3Violation"></ns:enumeration>
+						<ns:enumeration value="RatingAmpsViolation"></ns:enumeration>
+					</ns:restriction>
+                                    </ns:simpleType>
+								</ns:element>
+							</ns:sequence>
+						</ns:extension>
+					</ns:complexContent>
+				</ns:complexType></ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+    <ns:complexType name="ProtectionRuleXmlType">
+					<ns:complexContent>
+						<ns:extension base="ipss:BaseRecordXmlType">
+							<ns:sequence>
+                    <ns:element name="priority" minOccurs="1" type="ns:int">
+								</ns:element>
+                    <ns:element name="busProtectionRule"
+									minOccurs="0" maxOccurs="unbounded">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element name="condition"
+												type="ipss:ProtectionCoditionXmlType" minOccurs="1">
+											</ns:element>
+											<ns:element name="action"
+												type="ipss:BusChangeRecXmlType" minOccurs="1">
+											</ns:element>
+										</ns:sequence>
+									</ns:complexType>
+								</ns:element>
+								<ns:element name="branchProtectionRule"
+									minOccurs="0" maxOccurs="unbounded">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element name="condition"
+												type="ipss:ProtectionCoditionXmlType" minOccurs="1">
+											</ns:element>
+											<ns:element name="action"
+												type="ipss:BranchChangeRecXmlType" minOccurs="1">
+											</ns:element>
+										</ns:sequence>
+									</ns:complexType>
+								</ns:element>
+							</ns:sequence>
+						</ns:extension>
+					</ns:complexContent>
+    </ns:complexType>
 </ns:schema>
