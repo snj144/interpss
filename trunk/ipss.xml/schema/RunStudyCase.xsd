@@ -45,8 +45,7 @@
 							<ns:complexType>
 								<ns:sequence>
 									<ns:element
-										name="returnOnlyViolationCase" type="ns:boolean"
-										minOccurs="1">
+										name="returnStudyCase" minOccurs="1">
 										<ns:annotation>
 											<ns:documentation>
 												If true, only return the
@@ -57,6 +56,23 @@
 												limit violation.
 											</ns:documentation>
 										</ns:annotation>
+										<ns:simpleType>
+											<ns:restriction
+												base="ns:string">
+												<ns:enumeration
+													value="AllStudyCase">
+												</ns:enumeration>
+												<ns:enumeration
+													value="DivergedCase">
+												</ns:enumeration>
+												<ns:enumeration
+													value="DivergedAndViolation">
+												</ns:enumeration>
+												<ns:enumeration
+													value="NoReturn">
+												</ns:enumeration>
+											</ns:restriction>
+										</ns:simpleType>
 									</ns:element>
 									<ns:element
 										name="calBranchLimitViolation" type="ns:boolean"
@@ -118,7 +134,7 @@
 						<ns:element name="defaultAclfAlgorithm"
 							type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
 						</ns:element>
-						<ns:element name="protectionRuleSet"
+						<ns:element name="protection"
 							type="ipss:ProtectionXmlType" minOccurs="0">
 						</ns:element>
 						<ns:element name="aclfStudyCaseList"

@@ -9,7 +9,7 @@
 			<ipss:enableGridRun>true</ipss:enableGridRun>
 			<ipss:remoteJobCreation>true</ipss:remoteJobCreation>
 			<ipss:aclfOption>
-				<ipss:returnOnlyViolationCase>true</ipss:returnOnlyViolationCase>
+				<ipss:returnStudyCase>AllStudyCase</ipss:returnStudyCase>
 				<ipss:calBranchLimitViolation>true</ipss:calBranchLimitViolation>
 				<ipss:calBusVoltageViolation>true</ipss:calBusVoltageViolation>
 				<ipss:busVoltagePULimit>
