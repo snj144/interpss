@@ -69,6 +69,11 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	// Aclf result related fields
 	// ==========================
 
+	public static int Const_ReturnAllStudyCase = 1;	
+	public static int Const_ReturnDivergedCase = 2;	
+	public static int Const_ReturnDivergedViolation = 3;	
+	public static int Const_ReturnNoStudyCase = 4;	
+
 	public static String KEY_SerializedAclfNet = "SerializedAclfNet";	
 	public static String KEY_AclfConverged = "AclfConvergeStatus";	
 	public static String KEY_BranchMvar1LimintViolationIndex = "BranchMvar1LimintViolationIndex";	

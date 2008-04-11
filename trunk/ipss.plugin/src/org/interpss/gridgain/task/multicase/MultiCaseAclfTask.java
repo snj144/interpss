@@ -40,15 +40,18 @@ import org.interpss.gridgain.util.RemoteMessageTable;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
 
 public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
-		
-		getSession().setAttribute(Constants.GridToken_AclfOpt_ReturnOnlyViolationCase, 
-							model.getAclfGridOption().isReturnOnlyViolationCase()?Boolean.TRUE : Boolean.FALSE);
+		int reOpt = model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.ALL_STUDY_CASE? RemoteMessageTable.Const_ReturnAllStudyCase :
+							(model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.DIVERGED_CASE? RemoteMessageTable.Const_ReturnDivergedCase :
+								(model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.DIVERGED_AND_VIOLATION? 
+										RemoteMessageTable.Const_ReturnDivergedViolation : RemoteMessageTable.Const_ReturnNoStudyCase));
+		getSession().setAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase, new Integer(reOpt));
 		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBranchLimitViolation, 
 							model.getAclfGridOption().isCalBranchLimitViolation()? Boolean.TRUE : Boolean.FALSE);
 		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBusVoltViolation, 
