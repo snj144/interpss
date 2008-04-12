@@ -76,9 +76,9 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 
 	public static String KEY_SerializedAclfNet = "SerializedAclfNet";	
 	public static String KEY_AclfConverged = "AclfConvergeStatus";	
-	public static String KEY_BranchMvar1LimintViolationIndex = "BranchMvar1LimintViolationIndex";	
-	public static String KEY_BranchMvar2LimintViolationIndex = "BranchMvar2LimintViolationIndex";	
-	public static String KEY_BranchMvar3LimintViolationIndex = "BranchMvar3LimintViolationIndex";	
+	public static String KEY_BranchMva1LimintViolationIndex = "BranchMva1LimintViolationIndex";	
+	public static String KEY_BranchMva2LimintViolationIndex = "BranchMva2LimintViolationIndex";	
+	public static String KEY_BranchMva3LimintViolationIndex = "BranchMva3LimintViolationIndex";	
 	public static String KEY_BranchAmpsLimintViolationIndex = "BranchAmpsLimintViolationIndex";	
 	public static String KEY_BusVoltageLimintViolationIndex = "BusVoltageLimintViolationIndex";	
 
@@ -90,16 +90,16 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 		return getBoolean(RemoteMessageTable.KEY_AclfConverged);
 	}
 
-	public double getBranchMvar1LimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BranchMvar1LimintViolationIndex);
+	public double getBranchMva1LimintViolationIndex() {
+		return getDouble(RemoteMessageTable.KEY_BranchMva1LimintViolationIndex);
 	}
 
-	public double getBranchMvar2LimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BranchMvar2LimintViolationIndex);
+	public double getBranchMva2LimintViolationIndex() {
+		return getDouble(RemoteMessageTable.KEY_BranchMva2LimintViolationIndex);
 	}
 
-	public double getBranchMvar3LimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BranchMvar3LimintViolationIndex);
+	public double getBranchMva3LimintViolationIndex() {
+		return getDouble(RemoteMessageTable.KEY_BranchMva3LimintViolationIndex);
 	}
 	
 	public double getBranchAmpsLimintViolationIndex() {
