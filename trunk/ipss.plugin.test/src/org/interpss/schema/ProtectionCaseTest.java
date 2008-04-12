@@ -32,7 +32,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.ProtectionRuleSetHanlder;
+import org.interpss.xml.ProtectionRuleHanlder;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -68,9 +68,30 @@ public class ProtectionCaseTest extends BaseTestSetup {
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		//System.out.println(net.net2String());
 	  		
-	  	assertTrue(parser.getRunAclfStudyCase().getProtection() != null);
+  		ProtectionRuleBaseXmlType ruleBase = parser.getRunAclfStudyCase().getProtectionRuleBase();
+	  	assertTrue(ruleBase != null);
 	  	
-	  	ProtectionRuleSetHanlder.applyAclfRuleSet(net, parser.getRunAclfStudyCase().getProtection(), 1, 1.2, 0.8, msg);
+	  	ProtectionRuleSetXmlType ruleSet1 = ruleBase.getProtectionRuleSetList().getProtectionRuleSetArray()[0];
+	  	assertTrue(ruleSet1.getBranchProtectionRuleArray().length == 1);
+	  	ProtectionRuleSetXmlType.BranchProtectionRule rule1 = ruleSet1.getBranchProtectionRuleArray()[0];
+	  	ProtectionConditionXmlType cond = rule1.getCondition();
+	  	// branch 0010->0009 Mva limit is zero. Therefore, always violation
+	  	assertTrue(ProtectionRuleHanlder.evlBranchCondition(cond, net, msg));
+
+	  	
+	  	ProtectionRuleSetXmlType ruleSet2 = ruleBase.getProtectionRuleSetList().getProtectionRuleSetArray()[1];
+	  	assertTrue(ruleSet2.getBusProtectionRuleArray().length == 1);
+	  	
+	  	ProtectionRuleSetXmlType.BusProtectionRule rule2 = ruleSet2.getBusProtectionRuleArray()[0];
+	  	cond = rule2.getCondition();
+	  	assertTrue(!ProtectionRuleHanlder.evlBusCondition(cond, net, 1.2, 0.8, msg));
+	  	// volatge at 0003 1.01
+	  	assertTrue(ProtectionRuleHanlder.evlBusCondition(cond, net, 1.0, 0.8, msg));
+	  	assertTrue(ProtectionRuleHanlder.evlBusCondition(cond, net, 1.2, 1.05, msg));
+	  	
+	  	ProtectionRuleHanlder.applyAclfRuleSet(net, parser.getRunAclfStudyCase().getProtectionRuleBase(), 1, 1.2, 0.8, msg);
+	  	assertTrue(!net.getAclfBranch("0010->0009(1)").isActive());
 	}		
 }
