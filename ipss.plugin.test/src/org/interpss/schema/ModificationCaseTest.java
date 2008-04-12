@@ -1,3 +1,27 @@
+/*
+ * @(#)ModificationCaseTest.java   
+ *
+ * Copyright (C) 2006-2007 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 09/15/2007
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
+
 package org.interpss.schema;
 
 import static org.junit.Assert.assertTrue;
@@ -6,80 +30,20 @@ import java.io.File;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
-import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.ProtectionRuleSetHanlder;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.mapper.IpssMapper;
-import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.SwingBusAdapter;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.MultiStudyCase;
-import com.interpss.simu.multicase.StudyCase;
 
-public class ModifyProtectCaseTest extends BaseTestSetup {
-	@Test
-	public void runAclfProtectCaseTest() throws Exception {
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
-		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
-  		// save net to a String
-  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
-
-		File xmlFile = new File("testData/xml/RunAclfCaseProtection.xml");
-  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
-  		//System.out.println("----->" + parser.getRootElem().toString());
-
-	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
-  		
-	  	MultiStudyCase mscase = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
-	  	int cnt = 0;
-  		double i = 0.0;
-	  	for ( AclfStudyCase aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
-			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
-	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
-	  		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
-	  	
-	  		assertTrue(algo.getMaxIterations() == 20);
-	  		assertTrue(algo.getTolerance() == 1.0E-4);
-	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
-	  		i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva());
-	  		
-	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
-	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
-	  	}
-  		assertTrue(mscase.getStudyCase(1) != null);
-  		assertTrue(mscase.getStudyCase(2) != null);
-  		assertTrue(mscase.getStudyCase(3) != null);
-  		
-//  		System.out.println(net.net2String());
-  		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
-
-  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
-
-  		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(3).getNetModelString());
-	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva())-i) < 1.0E-5);
-	  	
-	  	assertTrue(parser.getRunAclfStudyCase().getProtection() != null);
-	  	
-	  	ProtectionRuleSetHanlder.applyAclfRuleSet(net, parser.getRunAclfStudyCase().getProtection(), 1, msg);
-	  	
-	}		
-	
+public class ModificationCaseTest extends BaseTestSetup {
 	@Test
 	public void modificationOnlyTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
