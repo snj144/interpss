@@ -1,5 +1,5 @@
 /*
- * @(#)ProtectionRuleSetHanlder.java   
+ * @(#)ProtectionRuleHanlder.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -36,7 +36,7 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.net.Network;
 
-public class ProtectionRuleSetHanlder {
+public class ProtectionRuleHanlder {
 
 	/**
 	 * Apply the protection rule set the network object
@@ -47,7 +47,7 @@ public class ProtectionRuleSetHanlder {
 	public static boolean applyAclfRuleSet(Network net, ProtectionRuleBaseXmlType protect, 
 					int priority, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean rtn = true;
-		for (ProtectionRuleSetXmlType rule : protect.getProtectionRuleSetListArray()) {
+		for (ProtectionRuleSetXmlType rule : protect.getProtectionRuleSetList().getProtectionRuleSetArray()) {
 			if (rule.getPriority() == priority) {
 				for (ProtectionRuleSetXmlType.BusProtectionRule busRule : rule.getBusProtectionRuleArray()) {
 					if (evlBusCondition(busRule.getCondition(), net, vMaxPU, vMinPU, msg))
