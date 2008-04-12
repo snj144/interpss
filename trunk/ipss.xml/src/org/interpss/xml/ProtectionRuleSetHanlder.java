@@ -1,7 +1,7 @@
 /*
- * @(#)XmlNetParamModifier.java   
+ * @(#)ProtectionRuleSetHanlder.java   
  *
- * Copyright (C) 2006-2007 www.interpss.org
+ * Copyright (C) 2006-2008 www.interpss.org
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -15,7 +15,7 @@
  *
  * @Author Mike Zhou
  * @Version 1.0
- * @Date 09/15/2007
+ * @Date 04/15/2008
  * 
  *   Revision History
  *   ================
@@ -25,90 +25,128 @@
 package org.interpss.xml;
 
 import org.interpss.schema.ProtectionConditionXmlType;
+import org.interpss.schema.ProtectionRuleBaseXmlType;
+import org.interpss.schema.ProtectionRuleSetXmlType;
 import org.interpss.schema.ProtectionConditionXmlType.BranchConditionSet.BranchCondition;
 import org.interpss.schema.ProtectionConditionXmlType.BusConditionSet.BusCondition;
-import org.interpss.schema.ProtectionRuleXmlType;
-import org.interpss.schema.ProtectionXmlType;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.net.Network;
 
 public class ProtectionRuleSetHanlder {
 
 	/**
-	 * Apply the modification record to the network object
+	 * Apply the protection rule set the network object
 	 * 
-	 * @param net
-	 *            a Network/AclfNetwork/AclfAdjNetwork/... object to be modified
-	 * @param mod
-	 *            the modification record
+	 * @param net a Network/AclfNetwork/AclfAdjNetwork/... object to be modified
+	 * @param mod the modification record
 	 */
-	public static boolean applyAclfRuleSet(Network net, ProtectionXmlType protect, int priority, IPSSMsgHub msg) {
+	public static boolean applyAclfRuleSet(Network net, ProtectionRuleBaseXmlType protect, 
+					int priority, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean rtn = true;
-		for (ProtectionRuleXmlType rule : protect.getProtectionRuleSetArray()) {
+		for (ProtectionRuleSetXmlType rule : protect.getProtectionRuleSetListArray()) {
 			if (rule.getPriority() == priority) {
-				for (ProtectionRuleXmlType.BusProtectionRule busRule : rule.getBusProtectionRuleArray()) {
-					if (applyBusRuleSet(busRule, net, msg))
-						rtn = false;
+				for (ProtectionRuleSetXmlType.BusProtectionRule busRule : rule.getBusProtectionRuleArray()) {
+					if (evlBusCondition(busRule.getCondition(), net, vMaxPU, vMinPU, msg))
+						if(!XmlNetParamModifier.applyBusChange(busRule.getAction(), net, msg))
+							rtn = false;
 				}
 				
-				for (ProtectionRuleXmlType.BranchProtectionRule braRule : rule.getBranchProtectionRuleArray()) {
-					if (applyBranchRuleSet(braRule, net, msg))
-						rtn = false;
+				for (ProtectionRuleSetXmlType.BranchProtectionRule braRule : rule.getBranchProtectionRuleArray()) {
+					if (evlBranchCondition(braRule.getCondition(), net, msg)) 
+						if (!XmlNetParamModifier.applyBranchChange(braRule.getAction(), net, msg))
+							rtn = false;
 				}
 			}
 		}
 		return rtn;
 	}
 	
-	private static boolean applyBusRuleSet(ProtectionRuleXmlType.BusProtectionRule busRule, Network net, IPSSMsgHub msg) {
-		if (evlCondition(busRule.getCondition(), net, msg)) {
-			
-		}
-		return true;
-	}
-
-	private static boolean applyBranchRuleSet(ProtectionRuleXmlType.BranchProtectionRule braRule, Network net, IPSSMsgHub msg) {
-		if (evlCondition(braRule.getCondition(), net, msg)) {
-			
-		}
-		return true;
-	}
-	
-	private static boolean evlCondition(ProtectionConditionXmlType cond, Network net, IPSSMsgHub ms) {
-		boolean condUpperVolt = false;
-		boolean condLoewrVolt = false;
-		boolean condMvar1 = false;
-		boolean condMvar2 = false;
-		boolean condMvar3 = false;
-		boolean condAmps = false;
+	/**
+	 * Evaluate bus condition for protection
+	 * 
+	 * @param cond
+	 * @param net
+	 * @param vMaxPU
+	 * @param vMinPU
+	 * @param msg
+	 * @return
+	 */
+	public static boolean evlBusCondition(ProtectionConditionXmlType cond, Network net, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
+		boolean evalCond = false;
 		for (ProtectionConditionXmlType.BusConditionSet busCond : cond.getBusConditionSetArray()) {
+			AclfBus bus = (AclfBus)IpssXmlParser.getBus(busCond, net);
+			if (bus == null) {
+				msg.sendErrorMsg("Error: cannot fin bus, id: " + busCond.getRecId());
+				return false;
+			}
+			
 			if (busCond.getBusCondition() == BusCondition.LOWER_VOLTAGE_LIMIT_VIOLATION) {
-				
+				evalCond = bus.getVoltageMag() < vMinPU;
+				if (evalCond)
+					msg.sendInfoMsg("Protection condition, Lower voltage limit violation at bus " + busCond.getRecId());
 			}
 			else if (busCond.getBusCondition() == BusCondition.UPPER_VOLTAGE_LIMIT_VIOLATION) {
-				
+				evalCond = bus.getVoltageMag() > vMaxPU;
+				if (evalCond)
+					msg.sendInfoMsg("Protection condition, upper voltage limit violation at bus " + busCond.getRecId());
 			}
+			if (cond.getConditionType() == ProtectionConditionXmlType.ConditionType.AND && evalCond == false)
+				return false;
+			else if (evalCond)
+				return true;
 		}
+		return false;
+	}
+
+	/**
+	 * Evaluate branch condition for protection
+	 * 
+	 * @param cond
+	 * @param net
+	 * @param msg
+	 * @return
+	 */
+	public static boolean evlBranchCondition(ProtectionConditionXmlType cond, Network net, IPSSMsgHub msg) {
+		boolean evalCond = false;
 		for (ProtectionConditionXmlType.BranchConditionSet braCond : cond.getBranchConditionSetArray()) {
-			if (braCond.getBranchCondition() == BranchCondition.RATING_MVAR_1_VIOLATION) {
-				
+			AclfBranch branch = (AclfBranch)IpssXmlParser.getBranch(braCond, net);
+			if (branch == null) {
+				msg.sendErrorMsg("Error: cannot fin branch, " + braCond.getFromBusId() + "->" + braCond.getToBusId());
+				return false;
 			}
-			else if (braCond.getBranchCondition() == BranchCondition.RATING_MVAR_2_VIOLATION) {
-				
+
+			double amps = branch.current(UnitType.Amp, net.getBaseKva());
+			double mva = branch.mvaFlow(UnitType.mVA, net.getBaseKva());
+			if (braCond.getBranchCondition() == BranchCondition.RATING_MVA_1_VIOLATION) {
+				evalCond = mva > branch.getRatingMva1();
+				if (evalCond)
+					msg.sendInfoMsg("Protection condition, RatingMva1 violation at branch, " + braCond.getFromBusId() + "->" + braCond.getToBusId());
 			}
-			else if (braCond.getBranchCondition() == BranchCondition.RATING_MVAR_3_VIOLATION) {
-				
+			else if (braCond.getBranchCondition() == BranchCondition.RATING_MVA_2_VIOLATION) {
+				evalCond = mva > branch.getRatingMva2();
+				if (evalCond)
+					msg.sendInfoMsg("Protection condition, RatingMva2 violation at branch, " + braCond.getFromBusId() + "->" + braCond.getToBusId());
+			}
+			else if (braCond.getBranchCondition() == BranchCondition.RATING_MVA_3_VIOLATION) {
+				evalCond = mva > branch.getRatingMva3();
+				if (evalCond)
+					msg.sendInfoMsg("Protection condition, RatingMva3 violation at branch, " + braCond.getFromBusId() + "->" + braCond.getToBusId());
 			}
 			else if (braCond.getBranchCondition() == BranchCondition.RATING_AMPS_VIOLATION) {
-				
+				evalCond = amps > branch.getRatingAmps();
+				if (evalCond)
+					msg.sendInfoMsg("Protection condition, RatingAmps violation at branch, " + braCond.getFromBusId() + "->" + braCond.getToBusId());
 			}
+			
+			if (cond.getConditionType() == ProtectionConditionXmlType.ConditionType.AND && evalCond == false)
+				return false;
+			else if (evalCond)
+				return true;
 		}
-		if (cond.getConditionType() == ProtectionConditionXmlType.ConditionType.AND)
-			return condUpperVolt && condLoewrVolt && condMvar1 && condMvar2 && condMvar3 && condAmps;
-		else if (cond.getConditionType() == ProtectionConditionXmlType.ConditionType.OR)
-			return condUpperVolt || condLoewrVolt || condMvar1 || condMvar2 || condMvar3 || condAmps;
-		else
-			return false;
+		return false;
 	}
 }
