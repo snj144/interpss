@@ -8,7 +8,11 @@
 	<ns:include schemaLocation="Modification.xsd"></ns:include>
 	<ns:complexType name="ProtectionRuleBaseXmlType">
 		<ns:sequence>
-			<ns:element name="protectionRuleSetList" minOccurs="1" type="ipss:ProtectionRuleSetXmlType" maxOccurs="unbounded"></ns:element>
+			<ns:element name="protectionRuleSetList" minOccurs="1" maxOccurs="1">				<ns:complexType>					<ns:sequence>						<ns:element name="protectionRuleSet"
+							type="ipss:ProtectionRuleSetXmlType" minOccurs="1" maxOccurs="unbounded">
+						</ns:element>
+					</ns:sequence>
+				</ns:complexType></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
