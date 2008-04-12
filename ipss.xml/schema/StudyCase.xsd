@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ns:schema targetNamespace="http://www.interpss.org/schema" 
-           elementFormDefault="qualified" 
-           xmlns:ns="http://www.w3.org/2001/XMLSchema" 
-           xmlns:ipss="http://www.interpss.org/schema">
-
-    <ns:include schemaLocation="Datatype.xsd"></ns:include></ns:schema>

@@ -135,7 +135,7 @@
 							type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
 						</ns:element>
 						<ns:element name="protection"
-							type="ipss:ProtectionXmlType" minOccurs="0">
+							type="ipss:ProtectionRuleBaseXmlType" minOccurs="0">
 						</ns:element>
 						<ns:element name="aclfStudyCaseList"
 							minOccurs="1" maxOccurs="1">

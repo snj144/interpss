@@ -27,12 +27,12 @@ package org.interpss.xml;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.BusChangeRecXmlType;
-import org.interpss.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
 import org.interpss.schema.ComplexValueChangeXmlType;
 import org.interpss.schema.ComplexXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.UnitXmlData;
 import org.interpss.schema.ValueChangeXmlType;
+import org.interpss.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
 
 import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
@@ -42,7 +42,6 @@ import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -60,106 +59,85 @@ public class XmlNetParamModifier {
 	/**
 	 * Apply the modification record to the network object
 	 * 
-	 * @param net
-	 *            a Network/AclfNetwork/AclfAdjNetwork/... object to be modified
-	 * @param mod
-	 *            the modification record
+	 * @param net a Network/AclfNetwork/AclfAdjNetwork/... object to be modified
+	 * @param mod the modification record
 	 */
 	public static boolean applyModification(Network net, ModificationXmlType mod, IPSSMsgHub msg) {
-		if (!applyModification2Net(net, mod, msg))
-			return false;
-
-		if (applyModification2AclfNet(net, mod, msg))
-			return false;
-		
-		return true;
-	}
-	
-	private static boolean applyModification2Net(Network net, ModificationXmlType mod, IPSSMsgHub msg) {
 		IpssLogger.getLogger().info("Apply Network modification");
 		
-		// apply the Network-level changes
 		if (mod.getBusChangeRecList() != null) {
-			for (BusChangeRecXmlType busRec : mod
-					.getBusChangeRecList().getBusChangeRecArray()) {
-				Bus bus = IpssXmlParser.getBus(busRec, net);
-				bus.setStatus(!busRec.getOffLine());
-				IpssLogger.getLogger().info("Bus " + bus.getId() + " status has been set to " + bus.isActive());
+			for (BusChangeRecXmlType busRec : mod.getBusChangeRecList().getBusChangeRecArray()) {
+				if (!applyBusChange(busRec, net, msg))
+					return false;
 			}
 		}
 
 		if (mod.getBranchChangeRecList() != null) {
-			for (BranchChangeRecXmlType braRec : mod
-					.getBranchChangeRecList().getBranchChangeRecArray()) {
-				Branch branch = IpssXmlParser.getBranch(braRec, net);
-				if (branch != null) {
-					branch.setStatus(!braRec.getOffLine());
-					IpssLogger.getLogger().info("Branch " + branch.getId() + " service status has been set to "	+ branch.isActive());
-				} else {
+			for (BranchChangeRecXmlType braRec : mod.getBranchChangeRecList().getBranchChangeRecArray()) {
+				if (!applyBranchChange(braRec, net, msg))
 					return false;
-				}
 			}
 		}
 		return true;
 	}
 	
-	private static boolean applyModification2AclfNet(Network net, ModificationXmlType mod, IPSSMsgHub msg) {
-		// apply the AclfNetwork-level changes
-		if (net instanceof AclfNetwork) {
-			IpssLogger.getLogger().info("Apply AclfNetwork modification");
+	public static boolean applyBusChange(BusChangeRecXmlType busRec, Network net, IPSSMsgHub msg) {
+		Bus bus = IpssXmlParser.getBus(busRec, net);
+		if (bus == null) {
+			msg.sendErrorMsg("Error: cannot fin bus, id: " + busRec.getRecId());
+			return false;
+		}
 
-			AclfNetwork aclfNet = (AclfNetwork) net;
-			if (mod.getBusChangeRecList() != null) {
-				for (BusChangeRecXmlType busRec : mod.getBusChangeRecList().getBusChangeRecArray()) {
-					AclfBus bus = (AclfBus) IpssXmlParser.getBus(busRec, aclfNet);
-					if (bus != null) {
-						if (busRec.getGenOutage()) {
-							bus.setGenCode(AclfGenCode.NON_GEN);
-							IpssLogger.getLogger().info("Generator outage at bus " + bus.getId());
-						}
-						
-						if (busRec.getLoadShedding()) {
-							bus.setLoadCode(AclfLoadCode.NON_LOAD);
-							IpssLogger.getLogger().info("Load shedding at bus " + bus.getId());
-						}
-						
-						if (busRec.getAclfBusChangeData() != null &&
-								busRec.getAclfBusChangeData().getLoadChangeData() != null) {
-							if (bus.isLoad())
-								modifyBusLoad(bus, busRec, aclfNet.getBaseKva());
-						}
-
-						if (busRec.getAclfBusChangeData() != null &&
-								busRec.getAclfBusChangeData().getGenChangeData() != null) {
-							if (bus.isGen())
-								if (!modifyBusGen(bus, busRec, aclfNet.getBaseKva(), msg))
-									return false;
-						}
-					} else {
-						msg.sendErrorMsg("Error: cannot fin bus, id: " + busRec.getRecId());
-						return false;
-					}
-				}
+		bus.setStatus(!busRec.getOffLine());
+		IpssLogger.getLogger().info("Bus " + bus.getId() + " status has been set to " + bus.isActive());
+		
+		if (bus instanceof AclfBus) {
+			AclfBus aclfBus = (AclfBus)bus;
+			if (busRec.getGenOutage()) {
+				aclfBus.setGenCode(AclfGenCode.NON_GEN);
+				IpssLogger.getLogger().info("Generator outage at bus " + bus.getId());
+			}
+			
+			if (busRec.getLoadShedding()) {
+				aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
+				IpssLogger.getLogger().info("Load shedding at bus " + bus.getId());
+			}
+			
+			if (busRec.getAclfBusChangeData() != null &&
+					busRec.getAclfBusChangeData().getLoadChangeData() != null) {
+				if (aclfBus.isLoad())
+					modifyBusLoad(aclfBus, busRec, net.getBaseKva());
 			}
 
-			if (mod.getBranchChangeRecList() != null) {
-				for (BranchChangeRecXmlType braRec : mod
-						.getBranchChangeRecList().getBranchChangeRecArray()) {
-					AclfBranch branch = (AclfBranch) IpssXmlParser.getBranch(braRec, aclfNet);
-					if (branch != null) {
-						if (braRec.getAclfBranchChangeData() != null &&
-								braRec.getAclfBranchChangeData().getBranchZChange() != null) {
-							if (branch.isActive()) {
-								Complex z = applyComplexValueChangeRec(branch.getZ(), 
-										braRec.getAclfBranchChangeData().getBranchZChange(), ComplexValueType.Z,
-										aclfNet.getBaseKva(), branch.getHigherBaseVoltage());
-								branch.setZ(z);
-							}
-						}
-					} else {
-						msg.sendErrorMsg("Error: cannot fin bus, id: " + braRec.getRecId());
+			if (busRec.getAclfBusChangeData() != null &&
+					busRec.getAclfBusChangeData().getGenChangeData() != null) {
+				if (aclfBus.isGen())
+					if (!modifyBusGen(aclfBus, busRec, net.getBaseKva(), msg))
 						return false;
-					}
+			}
+		}
+		return true;
+	}
+	
+	public static boolean applyBranchChange(BranchChangeRecXmlType braRec, Network net, IPSSMsgHub msg) {
+		Branch branch = IpssXmlParser.getBranch(braRec, net);
+		if (branch == null) {
+			msg.sendErrorMsg("Error: cannot fin branch, " + braRec.getFromBusId() + "->" + braRec.getToBusId());
+			return false;
+		}
+
+		branch.setStatus(!braRec.getOffLine());
+		IpssLogger.getLogger().info("Branch " + branch.getId() + " service status has been set to "	+ branch.isActive());
+
+		if (branch instanceof AclfBranch) {
+			AclfBranch aclfBra = (AclfBranch)branch;
+			if (braRec.getAclfBranchChangeData() != null &&
+					braRec.getAclfBranchChangeData().getBranchZChange() != null) {
+				if (branch.isActive()) {
+					Complex z = applyComplexValueChangeRec(aclfBra.getZ(), 
+							braRec.getAclfBranchChangeData().getBranchZChange(), ComplexValueType.Z,
+							net.getBaseKva(), aclfBra.getHigherBaseVoltage());
+					aclfBra.setZ(z);
 				}
 			}
 		}
