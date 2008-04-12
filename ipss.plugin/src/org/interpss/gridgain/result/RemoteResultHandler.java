@@ -61,9 +61,9 @@ public class RemoteResultHandler implements IRemoteResult {
 		
 		resultTable.put(RemoteMessageTable.KEY_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
 		
-		double 	mvar1Index = 0.0, 
-	       		mvar2Index = 0.0, 
-	       		mvar3Index = 0.0, 
+		double 	mva1Index = 0.0, 
+	       		mva2Index = 0.0, 
+	       		mva3Index = 0.0, 
 	       		ampsIndex = 0.0,
 				vIndex = 0.0;
 
@@ -73,42 +73,40 @@ public class RemoteResultHandler implements IRemoteResult {
 				((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_CalBranchLimitViolation)).booleanValue()) {
 			for (Branch bra : net.getBranchList()) {
 				AclfBranch aclfBra = (AclfBranch) bra;
-				double mvarf_t = aclfBra.powerFrom2To(UnitType.mVar, net.getBaseKva()).abs();
-				double mvart_f = aclfBra.powerTo2From(UnitType.mVar, net.getBaseKva()).abs();
 				double amps = aclfBra.current(UnitType.Amp, net.getBaseKva());
-				double mvar = mvarf_t > mvart_f? mvarf_t : mvart_f;
+				double mva = aclfBra.mvaFlow(UnitType.mVA, net.getBaseKva());
 				if (aclfBra.getRatingMva1() > 0.0) 
-					if (mvar > aclfBra.getRatingMva1()) {
-						double e = (mvar - aclfBra.getRatingMva1()) / aclfBra.getRatingMva1();
-						mvar1Index += e*e;
-						IpssLogger.getLogger().info("Branch Mvar1 limit violated, " + mvar + " mvar1Limit " + 
+					if (mva > aclfBra.getRatingMva1()) {
+						double e = (mva - aclfBra.getRatingMva1()) / aclfBra.getRatingMva1();
+						mva1Index += e*e;
+						IpssLogger.getLogger().info("Branch Mva1 limit violated, " + mva + " mva1Limit " + 
 								aclfBra.getRatingMva1() + " at branch " + aclfBra.getId());
 					}
 				if (aclfBra.getRatingMva2() > 0.0) 
-					if (mvar > aclfBra.getRatingMva2()) {
-						double e = (mvar - aclfBra.getRatingMva2()) / aclfBra.getRatingMva2();
-						mvar2Index += e*e;
-						IpssLogger.getLogger().info("Branch Mvar2 limit violated, " + mvar + " mvar2Limit " + 
+					if (mva > aclfBra.getRatingMva2()) {
+						double e = (mva - aclfBra.getRatingMva2()) / aclfBra.getRatingMva2();
+						mva2Index += e*e;
+						IpssLogger.getLogger().info("Branch Mva2 limit violated, " + mva + " mva2Limit " + 
 								aclfBra.getRatingMva2() + " at branch " + aclfBra.getId());
 					}
 				if (aclfBra.getRatingMva3() > 0.0) 
-					if (mvar > aclfBra.getRatingMva3()) {
-						double e = (mvar - aclfBra.getRatingMva3()) / aclfBra.getRatingMva3();
-						mvar3Index += e*e;
-						IpssLogger.getLogger().info("Branch Mvar3 limit violated, " + mvar + " mvar3Limit " + 
+					if (mva > aclfBra.getRatingMva3()) {
+						double e = (mva - aclfBra.getRatingMva3()) / aclfBra.getRatingMva3();
+						mva3Index += e*e;
+						IpssLogger.getLogger().info("Branch Mva3 limit violated, " + mva + " mva3Limit " + 
 								aclfBra.getRatingMva3() + " at branch " + aclfBra.getId());
 					}
 				if (aclfBra.getRatingAmps() > 0.0) 
 					if (amps > aclfBra.getRatingAmps()) {
 						double e = (amps - aclfBra.getRatingAmps()) / aclfBra.getRatingAmps();
 						ampsIndex += e*e;
-						IpssLogger.getLogger().info("Branch Amps limit violated, " + mvar + " ampsLimit " + 
+						IpssLogger.getLogger().info("Branch Amps limit violated, " + mva + " ampsLimit " + 
 								aclfBra.getRatingAmps() + " at branch " + aclfBra.getId());
 					}
 			}
-			resultTable.put(RemoteMessageTable.KEY_BranchMvar1LimintViolationIndex, new Double(mvar1Index));
-			resultTable.put(RemoteMessageTable.KEY_BranchMvar2LimintViolationIndex, new Double(mvar2Index));
-			resultTable.put(RemoteMessageTable.KEY_BranchMvar3LimintViolationIndex, new Double(mvar3Index));
+			resultTable.put(RemoteMessageTable.KEY_BranchMva1LimintViolationIndex, new Double(mva1Index));
+			resultTable.put(RemoteMessageTable.KEY_BranchMva2LimintViolationIndex, new Double(mva2Index));
+			resultTable.put(RemoteMessageTable.KEY_BranchMva3LimintViolationIndex, new Double(mva3Index));
 			resultTable.put(RemoteMessageTable.KEY_BranchAmpsLimintViolationIndex, new Double(ampsIndex));
 		}
 
@@ -144,7 +142,7 @@ public class RemoteResultHandler implements IRemoteResult {
 			}
 			else if (returnOpt == RemoteMessageTable.Const_ReturnDivergedViolation) {
 				if ( !resultTable.getReturnStatus() || !net.isLfConverged() ||
-						mvar1Index > 0.0 || mvar2Index > 0.0 || mvar3Index > 0.0 || vIndex > 0.0)
+						mva1Index > 0.0 || mva2Index > 0.0 || mva3Index > 0.0 || vIndex > 0.0)
 					resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
 			}
 			else {
@@ -175,9 +173,9 @@ public class RemoteResultHandler implements IRemoteResult {
 		studyCase.setNetModelString(resultTable.getSerializedAclfNet());
 		
 		if (mCaseContainer.getAclfGridOption().isCalBranchLimitViolation()) {
-			studyCase.setBranchMvar1LimitViolationIndex(resultTable.getBranchMvar1LimintViolationIndex());
-			studyCase.setBranchMvar2LimitViolationIndex(resultTable.getBranchMvar2LimintViolationIndex());
-			studyCase.setBranchMvar3LimitViolationIndex(resultTable.getBranchMvar3LimintViolationIndex());
+			studyCase.setBranchMva1LimitViolationIndex(resultTable.getBranchMva1LimintViolationIndex());
+			studyCase.setBranchMva2LimitViolationIndex(resultTable.getBranchMva2LimintViolationIndex());
+			studyCase.setBranchMva3LimitViolationIndex(resultTable.getBranchMva3LimintViolationIndex());
 			studyCase.setBranchAmpsLimitViolationIndex(resultTable.getBranchAmpsLimintViolationIndex());
 		}
 
@@ -218,16 +216,16 @@ public class RemoteResultHandler implements IRemoteResult {
         	}
     		
     		if (mCaseContainer.getAclfGridOption().isCalBranchLimitViolation()) {
-        		if (scase.getBranchMvar1LimitViolationIndex() > 0.0) {
-        			buf.append("Branch Mvar1 limit violation index: " + String.format("%5.3f", scase.getBranchMvar1LimitViolationIndex()));
+        		if (scase.getBranchMva1LimitViolationIndex() > 0.0) {
+        			buf.append("Branch Mvar1 limit violation index: " + String.format("%5.3f", scase.getBranchMva1LimitViolationIndex()));
         			buf.append("\n");
         		}
-        		if (scase.getBranchMvar2LimitViolationIndex() > 0.0) {
-        			buf.append("Branch Mvar2 limit violation index: " + String.format("%5.3f", scase.getBranchMvar2LimitViolationIndex()));
+        		if (scase.getBranchMva2LimitViolationIndex() > 0.0) {
+        			buf.append("Branch Mvar2 limit violation index: " + String.format("%5.3f", scase.getBranchMva2LimitViolationIndex()));
         			buf.append("\n");
         		}
-        		if (scase.getBranchMvar3LimitViolationIndex() > 0.0) {
-        			buf.append("Branch Mvar3 limit violation index: " + String.format("%5.3f", scase.getBranchMvar3LimitViolationIndex()));
+        		if (scase.getBranchMva3LimitViolationIndex() > 0.0) {
+        			buf.append("Branch Mvar3 limit violation index: " + String.format("%5.3f", scase.getBranchMva3LimitViolationIndex()));
         			buf.append("\n");
         		}
         		if (scase.getBranchAmpsLimitViolationIndex() > 0.0) {
@@ -245,9 +243,9 @@ public class RemoteResultHandler implements IRemoteResult {
 
     		if (aclfAdjNet != null)
     			if (mCaseContainer.getAclfGridOption().isCalBranchLimitViolation() &&
-    				( scase.getBranchMvar1LimitViolationIndex() > 0.0 ||
-        		      scase.getBranchMvar2LimitViolationIndex() > 0.0 ||
-        		      scase.getBranchMvar3LimitViolationIndex() > 0.0 ||
+    				( scase.getBranchMva1LimitViolationIndex() > 0.0 ||
+        		      scase.getBranchMva2LimitViolationIndex() > 0.0 ||
+        		      scase.getBranchMva3LimitViolationIndex() > 0.0 ||
         		      scase.getBranchAmpsLimitViolationIndex() > 0.0       ) ||
         		      mCaseContainer.getAclfGridOption().isCalBusVoltageViolation() &&
         			  scase.getBusVoltageViolationIndex() > 0.0) {
