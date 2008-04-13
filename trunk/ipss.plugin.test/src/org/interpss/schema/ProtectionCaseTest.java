@@ -29,6 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
@@ -46,6 +47,35 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
 public class ProtectionCaseTest extends BaseTestSetup {
+	@Test
+	public void run3WXfrOffCaseTest() throws Exception {
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+  		// save net to a String
+  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+
+		File xmlFile = new File("testData/xml/IEEE14Bus_W3XfrOff.xml");
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
+  		//System.out.println("----->" + parser.getRootElem().toString());
+
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
+  		
+	  	AclfStudyCase aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+  		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+
+
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		mapper = new RunForm2AlgorithmMapper();
+		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+  		
+  		assertTrue(algo.getMaxIterations() == 20);
+  		assertTrue(algo.getTolerance() == 1.0E-4);
+  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		System.out.println(net.net2String());  		
+	}
+	
 	@Test
 	public void runAclfProtectCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);

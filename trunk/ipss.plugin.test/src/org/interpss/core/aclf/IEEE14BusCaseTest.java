@@ -19,7 +19,24 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class AclfAdjustChangeStepTest  extends BaseTestSetup {
+public class IEEE14BusCaseTest  extends BaseTestSetup {
+	@Test
+	public void run3WXfrOffCase() throws Exception {
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE14Bus_3WXfrOff.ipss", simuCtx);
+		
+		AclfNetwork net = simuCtx.getAclfNet();
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	
+  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+
+  		AclfBus swingBus = (AclfBus)net.getBus("0001");
+  		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32428)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.26235)<0.0001);
+	}			
+
 	@Test
 	public void runIEEE14BusAdjustChangeStep() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
