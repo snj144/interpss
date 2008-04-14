@@ -6,6 +6,7 @@ import org.interpss.BaseTestSetup;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
@@ -32,9 +33,9 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
   		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
-		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32428)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.26235)<0.0001);
+		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.35978)<0.0001);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.22723)<0.0001);
 	}			
 
 	@Test
