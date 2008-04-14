@@ -134,8 +134,23 @@
 						<ns:element name="defaultAclfAlgorithm"
 							type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
 						</ns:element>
-						<ns:element name="protectionRuleBase"
-							type="ipss:ProtectionRuleBaseXmlType" minOccurs="0">
+						<ns:element name="aclfRuleBase"
+							minOccurs="0">
+                            <ns:complexType>
+                            	<ns:sequence>
+                            		<ns:element name="protectionRuleSetList"
+                            			minOccurs="1">
+                                        <ns:complexType>
+                                        	<ns:sequence>
+                                        		<ns:element
+                                        			name="protectionRuleSet"
+                                        			type="ipss:ProtectionRuleSetXmlType" minOccurs="1" maxOccurs="unbounded">
+                                        		</ns:element>
+                                        	</ns:sequence>
+                                        </ns:complexType>
+                            		</ns:element>
+                            	</ns:sequence>
+                            </ns:complexType>
 						</ns:element>
 						<ns:element name="aclfStudyCaseList"
 							minOccurs="1" maxOccurs="1">

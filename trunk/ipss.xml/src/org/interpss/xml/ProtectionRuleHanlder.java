@@ -25,10 +25,12 @@
 package org.interpss.xml;
 
 import org.interpss.schema.ProtectionConditionXmlType;
-import org.interpss.schema.ProtectionRuleBaseXmlType;
 import org.interpss.schema.ProtectionRuleSetXmlType;
+import org.interpss.schema.ProtectionConditionXmlType.ConditionType;
 import org.interpss.schema.ProtectionConditionXmlType.BranchConditionSet.BranchCondition;
 import org.interpss.schema.ProtectionConditionXmlType.BusConditionSet.BusCondition;
+import org.interpss.schema.ProtectionRuleSetXmlType.ProtectionRuleList.ProtectionRule;
+import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -44,21 +46,39 @@ public class ProtectionRuleHanlder {
 	 * @param net a Network/AclfNetwork/AclfAdjNetwork/... object to be modified
 	 * @param mod the modification record
 	 */
-	public static boolean applyAclfRuleSet(Network net, ProtectionRuleBaseXmlType protect, 
+	public static boolean applyAclfRuleSet(Network net, AclfRuleBase aclfRuleBase, 
 					int priority, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean rtn = true;
-		for (ProtectionRuleSetXmlType rule : protect.getProtectionRuleSetList().getProtectionRuleSetArray()) {
-			if (rule.getPriority() == priority) {
-				for (ProtectionRuleSetXmlType.BusProtectionRule busRule : rule.getBusProtectionRuleArray()) {
-					if (evlBusCondition(busRule.getCondition(), net, vMaxPU, vMinPU, msg))
-						if(!XmlNetParamModifier.applyBusChange(busRule.getAction(), net, msg))
-							rtn = false;
-				}
-				
-				for (ProtectionRuleSetXmlType.BranchProtectionRule braRule : rule.getBranchProtectionRuleArray()) {
-					if (evlBranchCondition(braRule.getCondition(), net, msg)) 
-						if (!XmlNetParamModifier.applyBranchChange(braRule.getAction(), net, msg))
-							rtn = false;
+		for (ProtectionRuleSetXmlType ruleSet : aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()) {
+			if (ruleSet.getPriority() == priority) {
+				for (ProtectionRule rule : ruleSet.getProtectionRuleList().getProtectionRuleArray()) {
+					if (rule.getCondition().getBusConditionSetArray().length == 0 &&
+						rule.getCondition().getBranchConditionSetArray().length == 0)
+						return false;
+
+					boolean busCond = false;
+					boolean braCond = false;
+					if (rule.getCondition().getConditionType() == ConditionType.AND) {
+						busCond = true;
+						braCond = true;
+					}
+							
+					if (rule.getCondition().getBusConditionSetArray().length > 0)
+						busCond = evlBusCondition(rule.getCondition(), net, vMaxPU, vMinPU, msg);
+					if (rule.getCondition().getBranchConditionSetArray().length > 0)
+						braCond = evlBranchCondition(rule.getCondition(), net, msg);
+
+					if (rule.getCondition().getConditionType() == ConditionType.AND &&
+							(busCond && braCond) ||
+						rule.getCondition().getConditionType() == ConditionType.OR &&
+							(busCond || braCond)) {
+						if (rule.getBusAction() != null)
+							if(!XmlNetParamModifier.applyBusChange(rule.getBusAction(), net, msg))
+								rtn = false;
+						if (rule.getBranchAction() != null)
+							if(!XmlNetParamModifier.applyBranchChange(rule.getBranchAction(), net, msg))
+								rtn = false;
+					}
 				}
 			}
 		}
