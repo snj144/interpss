@@ -44,11 +44,16 @@ public class ProtectionRuleHanlder {
 	 * Apply the protection rule set the network object
 	 * 
 	 * @param net a Network/AclfNetwork/AclfAdjNetwork/... object to be modified
-	 * @param mod the modification record
+	 * @param aclfRuleBase aclf rule base
+	 * @param priority protection rule priority to be applied. Only rule.priority = priority will be applied
+	 * @param vMaxPU upper voltage limit for voltage violation check
+	 * @param vMinPU lower voltage limit for voltage violation check
+	 * @param msg the IPSS Msg object
+	 * @return true if rules applied and changes are made
 	 */
 	public static boolean applyAclfRuleSet(Network net, AclfRuleBase aclfRuleBase, 
 					int priority, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
-		boolean rtn = true;
+		boolean rtn = false;
 		for (ProtectionRuleSetXmlType ruleSet : aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()) {
 			if (ruleSet.getPriority() == priority) {
 				for (ProtectionRule rule : ruleSet.getProtectionRuleList().getProtectionRuleArray()) {
@@ -73,11 +78,11 @@ public class ProtectionRuleHanlder {
 						rule.getCondition().getConditionType() == ConditionType.OR &&
 							(busCond || braCond)) {
 						if (rule.getBusAction() != null)
-							if(!XmlNetParamModifier.applyBusChange(rule.getBusAction(), net, msg))
-								rtn = false;
+							if(XmlNetParamModifier.applyBusChange(rule.getBusAction(), net, msg))
+								rtn = true;
 						if (rule.getBranchAction() != null)
-							if(!XmlNetParamModifier.applyBranchChange(rule.getBranchAction(), net, msg))
-								rtn = false;
+							if(XmlNetParamModifier.applyBranchChange(rule.getBranchAction(), net, msg))
+								rtn = true;
 					}
 				}
 			}
