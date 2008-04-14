@@ -143,4 +143,38 @@ public class ProtectionCaseTest extends BaseTestSetup {
   		assertTrue(net.getAclfBus("0014").getLoadCode() == AclfLoadCode.NON_LOAD);
 	  	assertTrue(net.getAclfBus("0013").getLoadCode() == AclfLoadCode.NON_LOAD);
 	}
+
+	@Test
+	public void run3WXfrOffAnotherApproachCaseTest() throws Exception {
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+
+		File xmlFile = new File("testData/xml/IEEE14Bus_W3XfrOff.xml");
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
+  		//System.out.println("----->" + parser.getRootElem().toString());
+
+	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
+  		
+		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
+
+		AclfStudyCase aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+  		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		mapper = new RunForm2AlgorithmMapper();
+		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+  		
+  		assertTrue(algo.getMaxIterations() == 20);
+  		assertTrue(algo.getTolerance() == 1.0E-4);
+  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		//System.out.println(net.net2String());  	
+	
+	  	assertTrue(ProtectionRuleHanlder.applyAclfRuleSet(algo, 
+	  				parser.getRunAclfStudyCase().getAclfRuleBase(), 1.2, 0.8, msg));
+
+  		assertTrue(net.getAclfBus("0014").getLoadCode() == AclfLoadCode.NON_LOAD);
+	  	assertTrue(net.getAclfBus("0013").getLoadCode() == AclfLoadCode.NON_LOAD);
+	}
 }
