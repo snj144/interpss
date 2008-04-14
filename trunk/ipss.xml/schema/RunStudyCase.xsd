@@ -25,7 +25,7 @@
 					</ns:restriction>
 				</ns:simpleType>
 			</ns:element>
-            <ns:element name="applyProtection" type="ns:boolean" minOccurs="0"></ns:element>
+            <ns:element name="applyRuleBase" type="ns:boolean" minOccurs="0"></ns:element>
             <ns:element name="gridRun" minOccurs="0" maxOccurs="1">
 				<ns:complexType>
 					<ns:sequence>

@@ -24,6 +24,9 @@
 
 package org.interpss.xml;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.interpss.schema.ProtectionConditionXmlType;
 import org.interpss.schema.ProtectionRuleSetXmlType;
 import org.interpss.schema.ProtectionConditionXmlType.ConditionType;
@@ -34,12 +37,38 @@ import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.algorithm.ViolationType;
 import com.interpss.core.net.Network;
 
 public class ProtectionRuleHanlder {
-
+	/**
+	 * Apply all protection rules until there is no violation
+	 * 
+	 * @param aclfNet
+	 * @param aclfRuleBase
+	 * @param vMaxPU
+	 * @param vMinPU
+	 * @param msg
+	 * @return
+	 */
+	public static boolean applyAclfRuleSet(LoadflowAlgorithm algo, AclfRuleBase aclfRuleBase, 
+					double vMaxPU, double vMinPU, IPSSMsgHub msg) {
+		int max = IpssXmlParser.getUpperPriority(aclfRuleBase);
+		List<Object> msgList = new ArrayList<Object>();
+		for (int i = 1; i <= max; i++) {
+			if (algo.violation(ViolationType.ALL, vMaxPU, vMinPU, msgList))
+				if (applyAclfRuleSet(algo.getAclfAdjNetwork(), aclfRuleBase, i, vMaxPU, vMinPU, msg)) {
+					IpssLogger.getLogger().info("Applied protection rules at priority = " + i);
+					algo.loadflow(msg);
+				}
+		}
+		return true;
+	}
+	
 	/**
 	 * Apply the protection rule set the network object
 	 * 

@@ -36,8 +36,10 @@ import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
+import org.interpss.schema.ProtectionRuleSetXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
+import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
@@ -174,6 +176,22 @@ public class IpssXmlParser {
 		}
 		return branch;
 	}	
+	
+	/**
+	 * Find the largest priority number. 
+	 * 
+	 * @param aclfRuleBase
+	 * @return
+	 */
+	public static int getUpperPriority(AclfRuleBase aclfRuleBase) {
+		int p = 1;   // priority starts from 1, max 10
+		for (ProtectionRuleSetXmlType ruleSet : aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()) {
+			if (ruleSet.getPriority() > p)
+				p = ruleSet.getPriority();
+		}
+		return p;
+	}
+	
 	/**
 	 * map Xml unit type to InterPSS UnitType
 	 * 
