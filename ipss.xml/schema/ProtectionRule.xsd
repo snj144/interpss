@@ -5,16 +5,7 @@
 	xmlns:ipss="http://www.interpss.org/schema">
 
 	<ns:include schemaLocation="Datatype.xsd"></ns:include>
-	<ns:include schemaLocation="Modification.xsd"></ns:include>
-	<ns:complexType name="ProtectionRuleBaseXmlType">
-		<ns:sequence>
-			<ns:element name="protectionRuleSetList" minOccurs="1" maxOccurs="1">				<ns:complexType>					<ns:sequence>						<ns:element name="protectionRuleSet"
-							type="ipss:ProtectionRuleSetXmlType" minOccurs="1" maxOccurs="unbounded">
-						</ns:element>
-					</ns:sequence>
-				</ns:complexType></ns:element>
-		</ns:sequence>
-	</ns:complexType>
+	<ns:include schemaLocation="Modification.xsd"></ns:include>
 
 	<ns:complexType name="ProtectionConditionXmlType">
 		<ns:sequence>
@@ -62,32 +53,32 @@
 							<ns:sequence>
                     <ns:element name="priority" minOccurs="1" type="ns:int">
 								</ns:element>
-                    <ns:element name="busProtectionRule"
-									minOccurs="0" maxOccurs="unbounded">
+                    <ns:element name="protectionRuleList"
+									minOccurs="1" maxOccurs="1">
 									<ns:complexType>
 										<ns:sequence>
-											<ns:element name="condition"
-												type="ipss:ProtectionConditionXmlType" minOccurs="1">
-											</ns:element>
-											<ns:element name="action"
-												type="ipss:BusChangeRecXmlType" minOccurs="1">
-											</ns:element>
+											<ns:element name="protectionRule"
+												minOccurs="1" maxOccurs="unbounded">
+                                    <ns:complexType>
+                                    	<ns:sequence>
+                                    		<ns:element
+                                    			name="condition"
+                                    			type="ipss:ProtectionConditionXmlType" minOccurs="1">
+                                    		</ns:element>
+                                    		<ns:element
+                                    			name="busAction"
+                                    			type="ipss:BusChangeRecXmlType" minOccurs="0" maxOccurs="1">
+                                    		</ns:element>
+                                    		<ns:element
+                                    			name="branchAction"
+                                    			type="ipss:BranchChangeRecXmlType" minOccurs="0">
+                                    		</ns:element>
+                                    	</ns:sequence>
+                                    </ns:complexType>
+											</ns:element>
 										</ns:sequence>
 									</ns:complexType>
-								</ns:element>
-								<ns:element name="branchProtectionRule"
-									minOccurs="0" maxOccurs="unbounded">
-									<ns:complexType>
-										<ns:sequence>
-											<ns:element name="condition"
-												type="ipss:ProtectionConditionXmlType" minOccurs="1">
-											</ns:element>
-											<ns:element name="action"
-												type="ipss:BranchChangeRecXmlType" minOccurs="1">
-											</ns:element>
-										</ns:sequence>
-									</ns:complexType>
-								</ns:element>
+								</ns:element>
 							</ns:sequence>
 						</ns:extension>
 					</ns:complexContent>
