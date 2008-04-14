@@ -41,6 +41,7 @@ import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.GridRun.AclfOption.ReturnStudyCase;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.ProtectionRuleHanlder;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
@@ -66,53 +67,27 @@ public class XmlScriptAclfRun {
 	 */
 	public static boolean runAclf(IpssXmlParser parser, AclfAdjNetwork aclfNet,
 			IPSSMsgHub msg) {
-		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		RunStudyCaseXmlType.RunAclfStudyCase xmlRunCase = parser.getRunAclfStudyCase();
 
 		if (xmlRunCase != null) {
 			AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunCase.getDefaultAclfAlgorithm(); 
+			boolean applyRuleBase = parser.getRunStudyCase().getApplyRuleBase();
+			RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase ruleBase = xmlRunCase.getAclfRuleBase();
+			boolean gridRun = RunActUtilFunc.isGridEnabled(parser.getRunStudyCase());
+			long  timeout = parser.getRunStudyCase().getGridRun().getTimeout();
 			
 			if (xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
 				AclfStudyCase xmlCase = xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()[0];
-
-				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
-				if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
+				if (!aclfSingleRun(aclfNet, xmlCase, xmlDefaultAlgo, ruleBase, 
+						applyRuleBase, gridRun, timeout, msg));
 					return false;
-
-				if (RunActUtilFunc.isGridEnabled(parser.getRunStudyCase())) {
-					Grid grid = IpssGridGainUtil.getDefaultGrid();
-					AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil
-							.getAnyRemoteNodeId();
-					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
-							.toString();
-					try {
-						RemoteMessageTable result = IpssGridGainUtil.performGridTask(
-								grid, "InterPSS Grid Aclf Calculation", algo,
-								parser.getRunStudyCase().getGridRun().getTimeout());
-						String str = result.getSerializedAclfNet();
-						aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil
-								.loadModel(str);
-					} catch (GridException e) {
-						SpringAppContext.getEditorDialogUtil()
-								.showErrMsgDialog("Grid Aclf Error",
-										e.toString());
-						return false;
-					}
-				} else {
-					algo.loadflow(msg);
-				}
-
-				if (xmlCase.getAclfAlgorithm().getDiaplaySummary()) {
-					IOutputTextDialog dialog = UISpringAppContext
-							.getOutputTextDialog("Loadflow Analysis Info");
-					dialog.display(aclfNet);
-				}
-			} else {
+			} 
+			else {
+				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 				MultiStudyCase mCaseContainer = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 				// save the base case Network model to the netStr
 				mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 				
-				boolean gridRun = RunActUtilFunc.isGridEnabled(parser.getRunStudyCase());
 				boolean reJobCreation = parser.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
 				
 				int cnt = 0;
@@ -173,7 +148,7 @@ public class XmlScriptAclfRun {
 					try {
 						RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
 										"InterPSS Grid Aclf Calculation", mCaseContainer, 
-										parser.getRunStudyCase().getGridRun().getTimeout(),	reJobCreation);
+										timeout,	reJobCreation);
 						for (RemoteMessageTable result : objAry) {
 							IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
 							resultHandler.transferAclfResult(mCaseContainer, result);
@@ -196,6 +171,41 @@ public class XmlScriptAclfRun {
 		return true;
 	}
 
+	private static boolean aclfSingleRun(AclfAdjNetwork aclfNet, AclfStudyCase xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
+						RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase ruleBase,
+						boolean applyRuleCase, boolean gridRun, long timeout, IPSSMsgHub msg) {
+		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
+		if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
+			return false;
+
+		if (gridRun) {
+			Grid grid = IpssGridGainUtil.getDefaultGrid();
+			AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil.getAnyRemoteNodeId();
+			IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
+			try {
+				RemoteMessageTable result = IpssGridGainUtil.performGridTask(
+						grid, "InterPSS Grid Aclf Calculation", algo, timeout);
+				String str = result.getSerializedAclfNet();
+				aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
+			} catch (GridException e) {
+				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
+				return false;
+			}
+		} else {
+			algo.loadflow(msg);
+			if (applyRuleCase) {
+				ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, 1.2, 0.8, msg);
+			}
+		}
+
+		if (xmlCase.getAclfAlgorithm().getDiaplaySummary()) {
+			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+			dialog.display(aclfNet);
+		}
+		return true;
+	}
+	
 	private static boolean mapAclfStudy(IpssMapper mapper, AclfStudyCase xmlCase, 
 						LoadflowAlgorithm algo, AclfAlgorithmXmlType xmlDefaultAlgo, 
 						boolean remoteJobCreation, IPSSMsgHub msg) {
