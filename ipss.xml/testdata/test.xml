@@ -26,7 +26,22 @@
 			   <ipss:initBusVoltage>true</ipss:initBusVoltage>
 			   <ipss:diaplaySummary>true</ipss:diaplaySummary>
 			   <ipss:accFactor>0.0</ipss:accFactor>
-		   </ipss:defaultAclfAlgorithm>		
+		   </ipss:defaultAclfAlgorithm>
+		   <ipss:aclfRuleBase>
+		   	<ipss:protectionRuleSetList>
+		   		<ipss:protectionRuleSet>
+		   			<ipss:recId>idvalue0</ipss:recId>
+		   			<ipss:priority>1</ipss:priority>
+		   			<ipss:protectionRuleList>
+		   				<ipss:protectionRule>
+		   					<ipss:condition>
+		   						<ipss:conditionType>AND</ipss:conditionType>
+		   					</ipss:condition>
+		   				</ipss:protectionRule>
+		   			</ipss:protectionRuleList>
+		   		</ipss:protectionRuleSet>
+		   	</ipss:protectionRuleSetList>
+		   </ipss:aclfRuleBase>
 		   <ipss:aclfStudyCaseList>
 			 <ipss:aclfStudyCase>
 				<ipss:recId>breakline_2</ipss:recId>

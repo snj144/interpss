@@ -81,6 +81,14 @@ public class XmlNetParamModifier {
 		return true;
 	}
 	
+	/**
+	 * Apply the bus change record to the net object 
+	 * 
+	 * @param busRec
+	 * @param net
+	 * @param msg
+	 * @return
+	 */
 	public static boolean applyBusChange(BusChangeRecXmlType busRec, Network net, IPSSMsgHub msg) {
 		Bus bus = IpssXmlParser.getBus(busRec, net);
 		if (bus == null) {
@@ -119,6 +127,14 @@ public class XmlNetParamModifier {
 		return true;
 	}
 	
+	/**
+	 * Apply the branch change record to the net object 
+	 * 
+	 * @param braRec
+	 * @param net
+	 * @param msg
+	 * @return
+	 */
 	public static boolean applyBranchChange(BranchChangeRecXmlType braRec, Network net, IPSSMsgHub msg) {
 		Branch branch = IpssXmlParser.getBranch(braRec, net);
 		if (branch == null) {
@@ -242,8 +258,7 @@ public class XmlNetParamModifier {
 			return cReturn;
 		}
 
-		IpssLogger.getLogger().warning(
-				"Wrong ChangeAction, changeRec: " + changeRec.toString());
+		IpssLogger.getLogger().warning("Wrong ChangeAction, changeRec: " + changeRec.toString());
 		return original;
 	}
 
@@ -275,8 +290,7 @@ public class XmlNetParamModifier {
 				factor = -factor;
 			return original * (1.0 + factor);
 		}
-		IpssLogger.getLogger().warning(
-				"Wrong ChangeAction, changeRec: " + changeRec.toString());
+		IpssLogger.getLogger().warning("Wrong ChangeAction, changeRec: " + changeRec.toString());
 		return original;
 	}
 }
