@@ -32,6 +32,7 @@ import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
+import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.ProtectionRuleHanlder;
 import org.junit.Test;
@@ -60,8 +61,10 @@ public class ProtectionCaseTest extends BaseTestSetup {
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
   		
-	  	AclfStudyCase aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
+
+		AclfStudyCase aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
@@ -73,7 +76,15 @@ public class ProtectionCaseTest extends BaseTestSetup {
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
-  		System.out.println(net.net2String());  		
+  		//System.out.println(net.net2String());  	
+  		
+	  	assertTrue(!net.getAclfBus("0007").isActive());
+	  	assertTrue(!net.getAclfBus("0008").isActive());
+
+	  	assertTrue(!net.getAclfBranch("0004->0007(1)").isActive());
+	  	assertTrue(!net.getAclfBranch("0004->0009(1)").isActive());
+	  	assertTrue(!net.getAclfBranch("0007->0009(1)").isActive());
+	  	assertTrue(!net.getAclfBranch("0007->0008(1)").isActive());
 	}
 	
 	@Test
@@ -100,28 +111,24 @@ public class ProtectionCaseTest extends BaseTestSetup {
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
   		//System.out.println(net.net2String());
 	  		
-  		ProtectionRuleBaseXmlType ruleBase = parser.getRunAclfStudyCase().getProtectionRuleBase();
-	  	assertTrue(ruleBase != null);
+  		AclfRuleBase aclfRuleBase = parser.getRunAclfStudyCase().getAclfRuleBase();
+	  	assertTrue(aclfRuleBase != null);
 	  	
-	  	ProtectionRuleSetXmlType ruleSet1 = ruleBase.getProtectionRuleSetList().getProtectionRuleSetArray()[0];
-	  	assertTrue(ruleSet1.getBranchProtectionRuleArray().length == 1);
-	  	ProtectionRuleSetXmlType.BranchProtectionRule rule1 = ruleSet1.getBranchProtectionRuleArray()[0];
+	  	ProtectionRuleSetXmlType ruleSet = aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()[0];
+	  	assertTrue(ruleSet.getProtectionRuleList().getProtectionRuleArray().length == 2);
+	  	ProtectionRuleSetXmlType.ProtectionRuleList.ProtectionRule rule1 = ruleSet.getProtectionRuleList().getProtectionRuleArray()[0];
 	  	ProtectionConditionXmlType cond = rule1.getCondition();
 	  	// branch 0010->0009 Mva limit is zero. Therefore, always violation
 	  	assertTrue(ProtectionRuleHanlder.evlBranchCondition(cond, net, msg));
 
-	  	
-	  	ProtectionRuleSetXmlType ruleSet2 = ruleBase.getProtectionRuleSetList().getProtectionRuleSetArray()[1];
-	  	assertTrue(ruleSet2.getBusProtectionRuleArray().length == 1);
-	  	
-	  	ProtectionRuleSetXmlType.BusProtectionRule rule2 = ruleSet2.getBusProtectionRuleArray()[0];
+	  	ProtectionRuleSetXmlType.ProtectionRuleList.ProtectionRule rule2 = ruleSet.getProtectionRuleList().getProtectionRuleArray()[1];
 	  	cond = rule2.getCondition();
 	  	assertTrue(!ProtectionRuleHanlder.evlBusCondition(cond, net, 1.2, 0.8, msg));
 	  	// volatge at 0003 1.01
 	  	assertTrue(ProtectionRuleHanlder.evlBusCondition(cond, net, 1.0, 0.8, msg));
 	  	assertTrue(ProtectionRuleHanlder.evlBusCondition(cond, net, 1.2, 1.05, msg));
 	  	
-	  	ProtectionRuleHanlder.applyAclfRuleSet(net, parser.getRunAclfStudyCase().getProtectionRuleBase(), 1, 1.2, 0.8, msg);
+	  	ProtectionRuleHanlder.applyAclfRuleSet(net, parser.getRunAclfStudyCase().getAclfRuleBase(), 1, 1.2, 0.8, msg);
 	  	assertTrue(!net.getAclfBranch("0010->0009(1)").isActive());
 	}		
 }
