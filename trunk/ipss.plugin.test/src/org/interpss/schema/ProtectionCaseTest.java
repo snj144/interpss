@@ -170,8 +170,7 @@ public class ProtectionCaseTest extends BaseTestSetup {
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
   		//System.out.println(net.net2String());  	
 	
-	  	assertTrue(ProtectionRuleHanlder.applyAclfRuleSet(algo, 
-	  				parser.getRunAclfStudyCase().getAclfRuleBase(), 1.2, 0.8, msg));
+	  	ProtectionRuleHanlder.applyAclfRuleSet(algo, parser.getRunAclfStudyCase().getAclfRuleBase(), 1.2, 0.8, msg);
 
   		assertTrue(net.getAclfBus("0014").getLoadCode() == AclfLoadCode.NON_LOAD);
 	  	assertTrue(net.getAclfBus("0013").getLoadCode() == AclfLoadCode.NON_LOAD);
