@@ -57,6 +57,8 @@ import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
 
 public class XmlScriptAclfRun {
+	public static double DefaultUpperVoltageLimit = 1.2, DefaultLowerVoltageLimit = 0.8; 
+	
 	/**
 	 * Run Aclf run or run(s) defined in the Xml scripts
 	 * 
@@ -68,10 +70,10 @@ public class XmlScriptAclfRun {
 	public static boolean runAclf(IpssXmlParser parser, AclfAdjNetwork aclfNet,
 			IPSSMsgHub msg) {
 		RunStudyCaseXmlType.RunAclfStudyCase xmlRunCase = parser.getRunAclfStudyCase();
+		boolean applyRuleBase = parser.getRunStudyCase().getApplyRuleBase();
 
 		if (xmlRunCase != null) {
 			AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunCase.getDefaultAclfAlgorithm(); 
-			boolean applyRuleBase = parser.getRunStudyCase().getApplyRuleBase();
 			RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase ruleBase = xmlRunCase.getAclfRuleBase();
 			boolean gridRun = RunActUtilFunc.isGridEnabled(parser.getRunStudyCase());
 			long  timeout = parser.getRunStudyCase().getGridRun().getTimeout();
@@ -116,6 +118,9 @@ public class XmlScriptAclfRun {
 						} else {
 							// if not grid computing, perform Loadflow for the study case
 							algo.loadflow(msg);
+							if (applyRuleBase) {
+								ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
+							}
 							studyCase.setDesc("Loadflow by Local Node");
 							studyCase.setRemoteReturnStatus(true);
 							studyCase.setAclfConverged(algo.getAclfAdjNetwork().isLfConverged());
@@ -173,7 +178,7 @@ public class XmlScriptAclfRun {
 
 	private static boolean aclfSingleRun(AclfAdjNetwork aclfNet, AclfStudyCase xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
 						RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase ruleBase,
-						boolean applyRuleCase, boolean gridRun, long timeout, IPSSMsgHub msg) {
+						boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
 		if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
@@ -194,8 +199,8 @@ public class XmlScriptAclfRun {
 			}
 		} else {
 			algo.loadflow(msg);
-			if (applyRuleCase) {
-				ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, 1.2, 0.8, msg);
+			if (applyRuleBase) {
+				ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
 			}
 		}
 
