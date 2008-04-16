@@ -50,13 +50,10 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 		// set AclfOptions 
 		int reOpt = model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.ALL_STUDY_CASE? RemoteMessageTable.Const_ReturnAllStudyCase :
 							(model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.DIVERGED_CASE? RemoteMessageTable.Const_ReturnDivergedCase :
-								(model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.DIVERGED_AND_VIOLATION? 
-										RemoteMessageTable.Const_ReturnDivergedViolation : RemoteMessageTable.Const_ReturnNoStudyCase));
+								RemoteMessageTable.Const_ReturnNoStudyCase);
 		getSession().setAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase, new Integer(reOpt));
-		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBranchLimitViolation, 
-							model.getAclfGridOption().isCalBranchLimitViolation()? Boolean.TRUE : Boolean.FALSE);
-		getSession().setAttribute(Constants.GridToken_AclfOpt_CalBusVoltViolation, 
-							model.getAclfGridOption().isCalBusVoltageViolation()? Boolean.TRUE : Boolean.FALSE);
+		getSession().setAttribute(Constants.GridToken_AclfOpt_CalculateViolation, 
+							model.getAclfGridOption().isCalculateViolation()? Boolean.TRUE : Boolean.FALSE);
 		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU, 
 							new Double(model.getAclfGridOption().getBusVoltageUpperLimitPU()));
 		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU, 

@@ -134,11 +134,11 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			}
 		} catch (Exception e) {
 			getRemoteResult().put(RemoteMessageTable.KEY_ReturnStatus, Boolean.FALSE);
-			getRemoteResult().put(RemoteMessageTable.KEY_ReturnMessage, e.toString());
+			getRemoteResult().addReturnMessage(e.toString());
 		}
  
 		IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
-		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), net, getSession());
+		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), algo, getSession());
 		return getRemoteResult();
 	}
 	
