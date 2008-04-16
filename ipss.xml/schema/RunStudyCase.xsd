@@ -64,10 +64,7 @@
 												</ns:enumeration>
 												<ns:enumeration
 													value="DivergedCase">
-												</ns:enumeration>
-												<ns:enumeration
-													value="DivergedAndViolation">
-												</ns:enumeration>
+												</ns:enumeration>
 												<ns:enumeration
 													value="NoReturn">
 												</ns:enumeration>
@@ -75,13 +72,9 @@
 										</ns:simpleType>
 									</ns:element>
 									<ns:element
-										name="calBranchLimitViolation" type="ns:boolean"
+										name="calculateViolation" type="ns:boolean"
 										minOccurs="1">
-									</ns:element>
-									<ns:element
-										name="calBusVoltageViolation" type="ns:boolean"
-										minOccurs="1">
-									</ns:element>
+									</ns:element>
 									<ns:element name="busVoltagePULimit"
 										type="ipss:LimitXmlType" minOccurs="1">
 									</ns:element>
