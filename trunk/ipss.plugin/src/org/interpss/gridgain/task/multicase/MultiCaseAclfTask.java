@@ -47,6 +47,7 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
+		// set AclfOptions 
 		int reOpt = model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.ALL_STUDY_CASE? RemoteMessageTable.Const_ReturnAllStudyCase :
 							(model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.DIVERGED_CASE? RemoteMessageTable.Const_ReturnDivergedCase :
 								(model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.DIVERGED_AND_VIOLATION? 
@@ -61,11 +62,18 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU, 
 							new Double(model.getAclfGridOption().getBusVoltageLowerLimitPU()));
 
+		// use grid session to sent network model to the remote node
 		getSession().setAttribute(Constants.GridToken_RemoteJobCreation,  
 							model.isRemoteJobCreation()?Boolean.TRUE : Boolean.FALSE);
 		if (model.isRemoteJobCreation())
 			getSession().setAttribute(Constants.GridToken_BaseStudyCaseNetworkModel, model.getBaseNetModelString());
 			
+		// send protective rule set
+		getSession().setAttribute(Constants.GridToken_ApplyAclfRuleBase, 
+							model.isApplyAclfRuleBase()?Boolean.TRUE : Boolean.FALSE);
+		if (model.isApplyAclfRuleBase())
+			getSession().setAttribute(Constants.GridToken_AclfRuleBaseXml, model.getAclfRuleBaseXmlString());
+		
 		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
 			// send the Aclf Net model (String) the remote node directly

@@ -101,6 +101,12 @@ public abstract class AbstractIpssGridGainJob extends GridJobAdapter<RemoteMessa
 		return ((Boolean)session.getAttribute(key)).booleanValue();
 	}
 
+	protected double getSesDoubleAttrib(String key) {
+		if (session.getAttribute(key) == null)
+			return 0.0;
+		return ((Double)session.getAttribute(key)).doubleValue();
+	}
+
 	protected Grid getGrid() {
 		return grid;
 	}

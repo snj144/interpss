@@ -34,7 +34,9 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.RemoteMessageTable;
+import org.interpss.schema.AclfRuleBaseXmlType;
 import org.interpss.schema.ModificationXmlType;
+import org.interpss.xml.ProtectionRuleHanlder;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -103,8 +105,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		LoadflowAlgorithm algo;
 		if (algoStr != null) {
 			// set algo attributes. These attributes are not serialized
-			algo = (LoadflowAlgorithm) SerializeEMFObjectUtil
-					.loadModel(algoStr);
+			algo = (LoadflowAlgorithm) SerializeEMFObjectUtil.loadModel(algoStr);
 			if (net instanceof AclfAdjNetwork) {
 				//algo.setAdjAlgorithm(AlgorithmFactory.eINSTANCE.createAclfAdjustAlgorithm());
 				algo.setAclfAdjNetwork((AclfAdjNetwork) net);
@@ -122,6 +123,15 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		// perform loadflow calculation
 		try {
 			algo.loadflow(SpringAppContext.getIpssMsgHub());
+			if (getSesBooleanAttrib(Constants.GridToken_ApplyAclfRuleBase)) {
+				String str = getSesStringAttrib(Constants.GridToken_AclfRuleBaseXml);
+				if (str != null) {
+					AclfRuleBaseXmlType ruleBase = AclfRuleBaseXmlType.Factory.parse(str);
+					double max = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU);
+					double min = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU);
+					ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, max, min, this.getMsgHub());
+				}
+			}
 		} catch (Exception e) {
 			getRemoteResult().put(RemoteMessageTable.KEY_ReturnStatus, Boolean.FALSE);
 			getRemoteResult().put(RemoteMessageTable.KEY_ReturnMessage, e.toString());
