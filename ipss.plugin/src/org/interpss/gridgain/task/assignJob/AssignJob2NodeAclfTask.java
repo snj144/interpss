@@ -31,6 +31,9 @@ package org.interpss.gridgain.task.assignJob;
 /**
  *  An abstract GridTask for implement one node per task. The job will be assigned to
  *  the node identified by the nodeId attribute.  
+ *  
+ *  Please note: this is only for testing purpose. Many remote options are not implemented
+ *               here.
  */
 
 import org.gridgain.grid.GridException;
