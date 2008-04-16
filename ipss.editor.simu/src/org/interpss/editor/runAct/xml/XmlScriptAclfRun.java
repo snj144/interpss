@@ -241,10 +241,8 @@ public class XmlScriptAclfRun {
 			mCaseContainer.getAclfGridOption().setReturnCase(
 					opt.getReturnStudyCase()==ReturnStudyCase.ALL_STUDY_CASE? ReturnRemoteCaseOpt.ALL_STUDY_CASE :
 						(opt.getReturnStudyCase()==ReturnStudyCase.DIVERGED_CASE? ReturnRemoteCaseOpt.DIVERGED_CASE :
-							(opt.getReturnStudyCase()==ReturnStudyCase.DIVERGED_AND_VIOLATION? ReturnRemoteCaseOpt.DIVERGED_AND_VIOLATION :
-								ReturnRemoteCaseOpt.NO_STUDY_CASE)));
-			mCaseContainer.getAclfGridOption().setCalBranchLimitViolation(opt.getCalBranchLimitViolation());
-			mCaseContainer.getAclfGridOption().setCalBusVoltageViolation(opt.getCalBusVoltageViolation());
+							ReturnRemoteCaseOpt.NO_STUDY_CASE));
+			mCaseContainer.getAclfGridOption().setCalculateViolation(opt.getCalculateViolation());
 			mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
 			mCaseContainer.getAclfGridOption().setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());
 		}		
