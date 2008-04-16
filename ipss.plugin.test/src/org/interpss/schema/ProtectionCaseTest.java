@@ -32,7 +32,6 @@ import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.ProtectionRuleHanlder;
 import org.junit.Test;
@@ -73,7 +72,7 @@ public class ProtectionCaseTest extends BaseTestSetup {
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
   		//System.out.println(net.net2String());
 	  		
-  		AclfRuleBase aclfRuleBase = parser.getRunAclfStudyCase().getAclfRuleBase();
+  		AclfRuleBaseXmlType aclfRuleBase = parser.getRunAclfStudyCase().getAclfRuleBase();
 	  	assertTrue(aclfRuleBase != null);
 	  	
 	  	ProtectionRuleSetXmlType ruleSet = aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()[0];
