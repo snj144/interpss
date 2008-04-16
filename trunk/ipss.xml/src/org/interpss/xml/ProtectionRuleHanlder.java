@@ -27,13 +27,13 @@ package org.interpss.xml;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.schema.AclfRuleBaseXmlType;
 import org.interpss.schema.ProtectionConditionXmlType;
 import org.interpss.schema.ProtectionRuleSetXmlType;
 import org.interpss.schema.ProtectionConditionXmlType.ConditionType;
 import org.interpss.schema.ProtectionConditionXmlType.BranchConditionSet.BranchCondition;
 import org.interpss.schema.ProtectionConditionXmlType.BusConditionSet.BusCondition;
 import org.interpss.schema.ProtectionRuleSetXmlType.ProtectionRuleList.ProtectionRule;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -55,7 +55,7 @@ public class ProtectionRuleHanlder {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean applyAclfRuleSet(LoadflowAlgorithm algo, AclfRuleBase aclfRuleBase, 
+	public static boolean applyAclfRuleSet(LoadflowAlgorithm algo, AclfRuleBaseXmlType aclfRuleBase, 
 					double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		int max = IpssXmlParser.getUpperPriority(aclfRuleBase);
 		List<Object> msgList = new ArrayList<Object>();
@@ -80,7 +80,7 @@ public class ProtectionRuleHanlder {
 	 * @param msg the IPSS Msg object
 	 * @return true if rules applied and changes are made
 	 */
-	public static boolean applyAclfRuleSet(Network net, AclfRuleBase aclfRuleBase, 
+	public static boolean applyAclfRuleSet(Network net, AclfRuleBaseXmlType aclfRuleBase, 
 					int priority, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean rtn = false;
 		for (ProtectionRuleSetXmlType ruleSet : aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()) {

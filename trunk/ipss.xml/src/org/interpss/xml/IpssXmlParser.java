@@ -31,6 +31,7 @@ package org.interpss.xml;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
+import org.interpss.schema.AclfRuleBaseXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.InterPSSDocument;
@@ -39,7 +40,6 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.ProtectionRuleSetXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
@@ -183,7 +183,7 @@ public class IpssXmlParser {
 	 * @param aclfRuleBase
 	 * @return
 	 */
-	public static int getUpperPriority(AclfRuleBase aclfRuleBase) {
+	public static int getUpperPriority(AclfRuleBaseXmlType aclfRuleBase) {
 		int p = 1;   // priority starts from 1, max 10
 		for (ProtectionRuleSetXmlType ruleSet : aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()) {
 			if (ruleSet.getPriority() > p)
