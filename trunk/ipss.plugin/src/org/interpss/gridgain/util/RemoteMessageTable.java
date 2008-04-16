@@ -26,6 +26,7 @@ package org.interpss.gridgain.util;
 
 import java.io.Serializable;
 import java.util.Hashtable;
+import java.util.List;
 
 public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	private static final long serialVersionUID = 1;
@@ -57,6 +58,21 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 		return (String)get(RemoteMessageTable.KEY_ReturnMessage);
 	}
 
+	public void addReturnMessage(String msg) {
+		String s = (String)get(RemoteMessageTable.KEY_ReturnMessage);
+		s = s!=null? s+"/n" : "";
+		put(RemoteMessageTable.KEY_ReturnMessage, s+msg);
+	}
+
+	public void addReturnMessage(List<Object> msgList) {
+		if (msgList.size() > 0) {
+			String s = "";
+			for (Object msg : msgList)
+				s += msg + "\n"; 
+			addReturnMessage(s);
+		}
+	}
+
 	public String getStudyCaseNetworkModel() {
 		return (String)get(RemoteMessageTable.KEY_StudyCaseNetworkModel);
 	}
@@ -71,16 +87,10 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 
 	public static int Const_ReturnAllStudyCase = 1;	
 	public static int Const_ReturnDivergedCase = 2;	
-	public static int Const_ReturnDivergedViolation = 3;	
-	public static int Const_ReturnNoStudyCase = 4;	
+	public static int Const_ReturnNoStudyCase = 3;	
 
 	public static String KEY_SerializedAclfNet = "SerializedAclfNet";	
 	public static String KEY_AclfConverged = "AclfConvergeStatus";	
-	public static String KEY_BranchMva1LimintViolationIndex = "BranchMva1LimintViolationIndex";	
-	public static String KEY_BranchMva2LimintViolationIndex = "BranchMva2LimintViolationIndex";	
-	public static String KEY_BranchMva3LimintViolationIndex = "BranchMva3LimintViolationIndex";	
-	public static String KEY_BranchAmpsLimintViolationIndex = "BranchAmpsLimintViolationIndex";	
-	public static String KEY_BusVoltageLimintViolationIndex = "BusVoltageLimintViolationIndex";	
 
 	public String getSerializedAclfNet() {
 		return (String)get(RemoteMessageTable.KEY_SerializedAclfNet);
@@ -89,43 +99,14 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	public boolean getAclfConvergeStatus() {
 		return getBoolean(RemoteMessageTable.KEY_AclfConverged);
 	}
-
-	public double getBranchMva1LimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BranchMva1LimintViolationIndex);
-	}
-
-	public double getBranchMva2LimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BranchMva2LimintViolationIndex);
-	}
-
-	public double getBranchMva3LimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BranchMva3LimintViolationIndex);
-	}
-	
-	public double getBranchAmpsLimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BranchAmpsLimintViolationIndex);
-	}
-	
-	public double getBusVoltageLimintViolationIndex() {
-		return getDouble(RemoteMessageTable.KEY_BusVoltageLimintViolationIndex);
-	}
 	
 	//
 	// DStab result related fields
 	// ===========================
 	
-
-
-
 	private boolean getBoolean(String key) {
 		if (get(key) == null)
 			return false;
 		return ((Boolean)get(key)).booleanValue();
-	}
-
-	private double getDouble(String key) {
-		if (get(key) == null)
-			return 0.0;
-		return ((Double)get(key)).doubleValue();
 	}
 }
