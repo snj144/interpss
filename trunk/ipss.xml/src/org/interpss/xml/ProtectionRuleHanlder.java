@@ -53,9 +53,9 @@ public class ProtectionRuleHanlder {
 	 * @param vMaxPU
 	 * @param vMinPU
 	 * @param msg
-	 * @return
+	 * @return a list of msg for violation checking and protection rule application
 	 */
-	public static boolean applyAclfRuleSet(LoadflowAlgorithm algo, AclfRuleBaseXmlType aclfRuleBase, 
+	public static List<Object> applyAclfRuleSet(LoadflowAlgorithm algo, AclfRuleBaseXmlType aclfRuleBase, 
 					double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		int max = IpssXmlParser.getUpperPriority(aclfRuleBase);
 		List<Object> msgList = new ArrayList<Object>();
@@ -63,10 +63,11 @@ public class ProtectionRuleHanlder {
 			if (algo.violation(ViolationType.ALL, vMaxPU, vMinPU, msgList))
 				if (applyAclfRuleSet(algo.getAclfAdjNetwork(), aclfRuleBase, i, vMaxPU, vMinPU, msg)) {
 					IpssLogger.getLogger().info("Applied protection rules at priority = " + i);
+					msgList.add("Applied protection rules at priority = " + i);
 					algo.loadflow(msg);
 				}
 		}
-		return true;
+		return msgList;
 	}
 	
 	/**
