@@ -36,6 +36,7 @@ import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.gridgain.util.RemoteMessageTable;
 import org.interpss.schema.AclfAlgorithmXmlType;
+import org.interpss.schema.AclfRuleBaseXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.GridRun.AclfOption.ReturnStudyCase;
@@ -74,7 +75,7 @@ public class XmlScriptAclfRun {
 
 		if (xmlRunCase != null) {
 			AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunCase.getDefaultAclfAlgorithm(); 
-			RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase ruleBase = xmlRunCase.getAclfRuleBase();
+			AclfRuleBaseXmlType ruleBase = xmlRunCase.getAclfRuleBase();
 			boolean gridRun = RunActUtilFunc.isGridEnabled(parser.getRunStudyCase());
 			long  timeout = parser.getRunStudyCase().getGridRun().getTimeout();
 			
@@ -89,6 +90,12 @@ public class XmlScriptAclfRun {
 				MultiStudyCase mCaseContainer = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 				// save the base case Network model to the netStr
 				mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
+
+				if (applyRuleBase) {
+					mCaseContainer.setApplyAclfRuleBase(applyRuleBase);
+					if (xmlRunCase.getAclfRuleBase() != null)
+						mCaseContainer.setAclfRuleBaseXmlString(xmlRunCase.getAclfRuleBase().xmlText());
+				}
 				
 				boolean reJobCreation = parser.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
 				
@@ -177,8 +184,7 @@ public class XmlScriptAclfRun {
 	}
 
 	private static boolean aclfSingleRun(AclfAdjNetwork aclfNet, AclfStudyCase xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
-						RunStudyCaseXmlType.RunAclfStudyCase.AclfRuleBase ruleBase,
-						boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
+				AclfRuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
 		if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
