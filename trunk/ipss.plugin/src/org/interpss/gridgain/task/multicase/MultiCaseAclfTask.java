@@ -85,13 +85,8 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 			else {
 				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, studyCase.getNetModelString());
 			}
+			remoteMsg.put(RemoteMessageTable.KEY_AclfAlgorithm, studyCase.getAclfAlgoModelString());
 			IpssGridGainAclfJob job = new IpssGridGainAclfJob(remoteMsg);
-
-			// send the AclfAlgo string to the remote node through the task session
-			// studyCase.id=net.id is used as the id for retrieving StudyCase info
-			getSession().setAttribute(
-					Constants.GridToken_AclfAlgo + studyCase.getId(),
-					studyCase.getAclfAlgoModelString());
 
 			if (IpssGridGainUtil.RemoteNodeDebug) {
 				IpssLogger.getLogger().info("CaseId: " + studyCase.getId());

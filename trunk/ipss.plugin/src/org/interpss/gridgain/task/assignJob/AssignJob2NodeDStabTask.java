@@ -34,12 +34,11 @@ package org.interpss.gridgain.task.assignJob;
  */
 
 import org.gridgain.grid.GridException;
-import org.gridgain.grid.GridJob;
+import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.job.IpssGridGainDStabJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.gridgain.util.RemoteMessageTable;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.dstab.DStabilityNetwork;
@@ -47,14 +46,6 @@ import com.interpss.dstab.DynamicSimuAlgorithm;
 
 public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 	private static final long serialVersionUID = 1;
-
-	@Override
-	protected GridJob createGridJob(String modelStr) {
-		RemoteMessageTable remoteMsg = new RemoteMessageTable();
-		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
-		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, modelStr);
-		return new IpssGridGainDStabJob(remoteMsg);
-	}
 
 	/**
 	 * Serialize the model object to a string
@@ -64,7 +55,9 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 	 * @return the serialized object (String)
 	 */
 	@Override
-	protected String serializeModel(Object model) throws GridException {
+	protected RemoteMessageTable serializeModel(Object model) throws GridException {
+		RemoteMessageTable remoteMsg = new RemoteMessageTable();
+
 		String modelStr = "", lfAlgoStr = "", dstabAlgoStr = "";
 		if (model instanceof DynamicSimuAlgorithm) {
 			DynamicSimuAlgorithm dstabAlgo = (DynamicSimuAlgorithm) model;
@@ -74,16 +67,13 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 			this.studyCaseId = net.getId();
 				
-			lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo
-					.getAclfAlgorithm());
-			getSession().setAttribute(
-					Constants.GridToken_AclfAlgo + net.getId(), lfAlgoStr);
+			lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo.getAclfAlgorithm());
+			remoteMsg.put(RemoteMessageTable.KEY_AclfAlgorithm, lfAlgoStr);
 
 			// done - this part should be implemented in the future
 			// dstabAlgo.setSimuOutputHandler(null);
 			dstabAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo);
-			getSession().setAttribute(
-					Constants.GridToken_DStabAlgo + net.getId(), dstabAlgoStr);
+			remoteMsg.put(RemoteMessageTable.KEY_DStabAlgorithm, dstabAlgoStr);
 
 			if (IpssGridGainUtil.RemoteNodeDebug) {
 				IpssLogger.getLogger().info("CaseId: " + net.getId());
@@ -95,7 +85,15 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 			DStabilityNetwork net = (DStabilityNetwork) model;
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
-		return modelStr;
+		
+		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, modelStr);
+		return remoteMsg;
 	}
 
+
+	@Override
+	protected AbstractIpssGridGainJob createJob(RemoteMessageTable remoteMsg) {
+		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
+		return new IpssGridGainDStabJob(remoteMsg);
+	}
 }

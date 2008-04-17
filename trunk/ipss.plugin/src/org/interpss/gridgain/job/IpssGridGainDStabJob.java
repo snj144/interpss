@@ -69,15 +69,14 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 		String caseId = net.getId();
 
 		// get serialized algo string from the task session
-		String algoStr = getSesStringAttrib(Constants.GridToken_DStabAlgo + caseId);
+		String algoStr = remoteMsg.getDStabAlgorithm();
 		//System.out.println(algoStr);
 		DynamicSimuAlgorithm dstabAlgo;
 		if (algoStr != null) {
 			dstabAlgo = (DynamicSimuAlgorithm) SerializeEMFObjectUtil
 					.loadModel(algoStr);
 
-			algoStr = (String) getSession().getAttribute(
-					Constants.GridToken_AclfAlgo + caseId);
+			algoStr = remoteMsg.getAclfAlgorithm();
 			LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm) SerializeEMFObjectUtil
 					.loadModel(algoStr);
 			dstabAlgo.setAclfAlgorithm(lfAlgo);

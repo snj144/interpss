@@ -41,6 +41,8 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	public static String KEY_ReturnMessage = "ReturnMessage";
 	public static String KEY_StudyCaseNetworkModel = "StudyCaseNetworModel";	
 	public static String KEY_StudyCaseModification = "StudyCaseModification";	
+	public static String KEY_AclfAlgorithm = "AclfAlgorithm";	
+	public static String KEY_DStabAlgorithm = "DStabAlgorithm";	
 	
 	public String getStudyCaseId() {
 		return (String)get(RemoteMessageTable.KEY_StudyCaseId);
@@ -81,6 +83,14 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 		return (String)get(RemoteMessageTable.KEY_StudyCaseModification);
 	}
 
+	public String getAclfAlgorithm() {
+		return (String)get(RemoteMessageTable.KEY_AclfAlgorithm);
+	}
+
+	public String getDStabAlgorithm() {
+		return (String)get(RemoteMessageTable.KEY_DStabAlgorithm);
+	}
+	
 	//
 	// Aclf result related fields
 	// ==========================

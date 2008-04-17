@@ -122,10 +122,11 @@ public class RemoteResultHandler implements IRemoteResult {
     		if (scase.getName() != null)
     			buf.append("Case Description: " + scase.getName() + "\n");
 
-    		if (scase.isRemoteReturnStatus())
-    			buf.append(scase.getRemoteReturnMessage() + "\n");
-    		else 
-    			buf.append("Remote error message: " + scase.getRemoteReturnMessage() + "\n");
+    		if (scase.getRemoteReturnMessage() != null) 
+    			if (scase.isRemoteReturnStatus())
+    				buf.append(scase.getRemoteReturnMessage() + "\n");
+    			else 
+    				buf.append("Remote error message: " + scase.getRemoteReturnMessage() + "\n");
 
     		AclfAdjNetwork aclfAdjNet = null;
     		if (scase.getNetModelString() != null) {

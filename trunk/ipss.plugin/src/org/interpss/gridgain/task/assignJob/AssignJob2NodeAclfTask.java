@@ -37,12 +37,11 @@ package org.interpss.gridgain.task.assignJob;
  */
 
 import org.gridgain.grid.GridException;
-import org.gridgain.grid.GridJob;
+import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.gridgain.util.RemoteMessageTable;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
@@ -53,15 +52,9 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 	private static final long serialVersionUID = 1;
 
 	@Override
-	protected GridJob createGridJob(String modelStr) {
+	protected RemoteMessageTable serializeModel(Object model) throws GridException {
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
-		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
-		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, modelStr);
-		return new IpssGridGainAclfJob(remoteMsg);
-	}
 
-	@Override
-	protected String serializeModel(Object model) throws GridException {
 		String modelStr = "";
 		if (model instanceof LoadflowAlgorithm) {
 			LoadflowAlgorithm algo = (LoadflowAlgorithm) model;
@@ -69,8 +62,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 			this.studyCaseId = net.getId();
 
 			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(algo);
-			getSession().setAttribute(
-					Constants.GridToken_AclfAlgo + net.getId(), lfAlgoStr);
+			remoteMsg.put(RemoteMessageTable.KEY_AclfAlgorithm, lfAlgoStr);
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 
 			if (IpssGridGainUtil.RemoteNodeDebug) {
@@ -86,6 +78,13 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
 		
-		return modelStr;
+		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, modelStr);
+		return remoteMsg;
+	}
+
+	@Override
+	protected AbstractIpssGridGainJob createJob(RemoteMessageTable remoteMsg) {
+		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
+		return new IpssGridGainAclfJob(remoteMsg);
 	}
 }
