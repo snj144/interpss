@@ -129,7 +129,8 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 					AclfRuleBaseXmlType ruleBase = AclfRuleBaseXmlType.Factory.parse(str);
 					double max = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU);
 					double min = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU);
-					ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, max, min, this.getMsgHub());
+					getRemoteResult().addReturnMessage(
+							ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, max, min, this.getMsgHub()));
 				}
 			}
 		} catch (Exception e) {
