@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ipss:InterPSS xmlns:ipss="http://www.interpss.org/schema" 
-    xsi:schemaLocation="http://www.interpss.org/schema ../schema/InterPSS.xsd "
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ipss:InterPSS xmlns:ipss="http://www.interpss.org/schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
+		<ipss:applyRuleBase>true</ipss:applyRuleBase>
 		<ipss:gridRun>
 			<ipss:enableGridRun>true</ipss:enableGridRun>
 			<ipss:remoteJobCreation>true</ipss:remoteJobCreation>
 			<ipss:aclfOption>
 				<ipss:returnStudyCase>DivergedAndViolation</ipss:returnStudyCase>
-				<ipss:calBranchLimitViolation>true</ipss:calBranchLimitViolation>
-				<ipss:calBusVoltageViolation>true</ipss:calBusVoltageViolation>
+				<ipss:calculateViolation>true</ipss:calculateViolation>
 				<ipss:busVoltagePULimit>
 					<ipss:max>1.2</ipss:max>
 					<ipss:min>0.8</ipss:min>
@@ -26,23 +26,66 @@
 			   <ipss:initBusVoltage>true</ipss:initBusVoltage>
 			   <ipss:diaplaySummary>true</ipss:diaplaySummary>
 			   <ipss:accFactor>0.0</ipss:accFactor>
-		   </ipss:defaultAclfAlgorithm>
-		   <ipss:aclfRuleBase>
-		   	<ipss:protectionRuleSetList>
-		   		<ipss:protectionRuleSet>
-		   			<ipss:recId>idvalue0</ipss:recId>
-		   			<ipss:priority>1</ipss:priority>
-		   			<ipss:protectionRuleList>
-		   				<ipss:protectionRule>
-		   					<ipss:condition>
-		   						<ipss:conditionType>AND</ipss:conditionType>
-		   					</ipss:condition>
-		   				</ipss:protectionRule>
-		   			</ipss:protectionRuleList>
-		   		</ipss:protectionRuleSet>
-		   	</ipss:protectionRuleSetList>
-		   </ipss:aclfRuleBase>
+		   </ipss:defaultAclfAlgorithm>		
+		   
+			<ipss:aclfRuleBase>
+				<ipss:protectionRuleSetList>
+				  <ipss:protectionRuleSet>
+					<ipss:recId>protectRuleSet1</ipss:recId>
+					<ipss:priority>1</ipss:priority>
+					<ipss:protectionRuleList>
+					<ipss:protectionRule>
+						<ipss:condition>
+							<ipss:conditionType>AND</ipss:conditionType>
+							<ipss:branchConditionSet>
+								<ipss:recId>BranchCond-1</ipss:recId>
+								<ipss:fromBusId>0005</ipss:fromBusId>
+								<ipss:toBusId>0006</ipss:toBusId>
+								<ipss:branchCondition>RatingMva1Violation</ipss:branchCondition>
+							</ipss:branchConditionSet>
+						</ipss:condition>
+						<ipss:busAction>
+							<ipss:recId>ProctectAction-1</ipss:recId>
+							<ipss:busId>0014</ipss:busId>
+							<ipss:loadShedding>true</ipss:loadShedding>
+						</ipss:busAction>
+					</ipss:protectionRule>
+					</ipss:protectionRuleList>
+				  </ipss:protectionRuleSet>
+
+				  <ipss:protectionRuleSet>
+					<ipss:recId>protectRuleSet2</ipss:recId>
+					<ipss:priority>2</ipss:priority>
+					<ipss:protectionRuleList>
+					<ipss:protectionRule>
+						<ipss:condition>
+							<ipss:conditionType>AND</ipss:conditionType>
+							<ipss:branchConditionSet>
+								<ipss:recId>BranchCond-2</ipss:recId>
+								<ipss:fromBusId>0005</ipss:fromBusId>
+								<ipss:toBusId>0006</ipss:toBusId>
+								<ipss:branchCondition>RatingMva1Violation</ipss:branchCondition>
+							</ipss:branchConditionSet>
+						</ipss:condition>
+						<ipss:busAction>
+							<ipss:recId>ProctectAction-2</ipss:recId>
+							<ipss:busId>0013</ipss:busId>
+							<ipss:loadShedding>true</ipss:loadShedding>
+						</ipss:busAction>
+					</ipss:protectionRule>
+					</ipss:protectionRuleList>
+				  </ipss:protectionRuleSet>
+
+				</ipss:protectionRuleSetList>
+			</ipss:aclfRuleBase>
+		   
 		   <ipss:aclfStudyCaseList>
+			 <ipss:aclfStudyCase>
+				<ipss:recId>breakline_1</ipss:recId>
+				<ipss:recDesc>Base Case</ipss:recDesc>
+			</ipss:aclfStudyCase>
+
+
 			 <ipss:aclfStudyCase>
 				<ipss:recId>breakline_2</ipss:recId>
 				<ipss:recDesc>Open branch 3W Xfr</ipss:recDesc>
@@ -73,9 +116,9 @@
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec>
 						<ipss:branchChangeRec>
-							<ipss:recId>OffLine_0009_0007</ipss:recId>
-							<ipss:fromBusId>0009</ipss:fromBusId>
-							<ipss:toBusId>0007</ipss:toBusId>
+							<ipss:recId>OffLine_0007_0009</ipss:recId>
+							<ipss:fromBusId>0007</ipss:fromBusId>
+							<ipss:toBusId>0009</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec>
 						<ipss:branchChangeRec>
@@ -87,6 +130,7 @@
 					</ipss:branchChangeRecList>
 				</ipss:modification>
 			</ipss:aclfStudyCase>
+			
 		   </ipss:aclfStudyCaseList>
 		</ipss:runAclfStudyCase>
 	</ipss:runStudyCase>
