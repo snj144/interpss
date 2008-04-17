@@ -37,7 +37,6 @@ import org.interpss.gridgain.job.IpssGridGainDStabJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.gridgain.util.RemoteMessageTable;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
@@ -60,19 +59,10 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 			else {
 				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, studyCase.getNetModelString());
 			}
+			remoteMsg.put(RemoteMessageTable.KEY_AclfAlgorithm, studyCase.getAclfAlgoModelString());
+			remoteMsg.put(RemoteMessageTable.KEY_DStabAlgorithm, studyCase.getDstabAlgoModelString());
 			IpssGridGainDStabJob job = new IpssGridGainDStabJob(remoteMsg);
 			
-			// send the AclfAlgo and DStabAlgo (string) to the remote node
-			// through the task session
-			// studyCase.id=net.id is used as the id for retrieving StudyCase
-			// info
-			getSession().setAttribute(
-					Constants.GridToken_AclfAlgo + studyCase.getId(),
-					studyCase.getAclfAlgoModelString());
-			getSession().setAttribute(
-					Constants.GridToken_DStabAlgo + studyCase.getId(),
-					studyCase.getDstabAlgoModelString());
-
 			if (IpssGridGainUtil.RemoteNodeDebug) {
 				IpssLogger.getLogger().info("CaseId: " + studyCase.getId());
 				IpssLogger.getLogger().info(

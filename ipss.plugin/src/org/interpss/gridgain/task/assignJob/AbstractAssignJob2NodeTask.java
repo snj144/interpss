@@ -44,7 +44,9 @@ import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskAdapter;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridTaskSessionResource;
+import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 
@@ -75,20 +77,21 @@ public abstract class AbstractAssignJob2NodeTask extends
 				new Boolean(IpssGridGainUtil.RemoteNodeDebug));
 
 		// serialize the model object, only the DStabNet part
-		String modelStr = serializeModel(model);
+		RemoteMessageTable remoteMsg = serializeModel(model);
 
 		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
 		// get the remote grid node from the grid node list
 		GridNode node = getRemoteNode(subgrid);
 		// send the serialized DStab object info to the remote node
-		jobMap.put(createGridJob(modelStr), node);
+		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
+		jobMap.put(createJob(remoteMsg), node);
 		return jobMap;
 	}
 
-	protected abstract String serializeModel(Object model) throws GridException;
+	protected abstract RemoteMessageTable serializeModel(Object model) throws GridException;
 
-	protected abstract GridJob createGridJob(String modelStr);
-
+	protected abstract AbstractIpssGridGainJob createJob(RemoteMessageTable remoteMsg);
+	
 	@Override
 	public Object reduce(List<GridJobResult> results) throws GridException {
 		// There should be only one return

@@ -100,7 +100,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		}
 
 		// get serialized algo string from the task session
-		String algoStr = getSesStringAttrib(Constants.GridToken_AclfAlgo + caseId);
+		String algoStr = remoteMsg.getAclfAlgorithm();
 		//System.out.println(algoStr);
 		LoadflowAlgorithm algo;
 		if (algoStr != null) {
