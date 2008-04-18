@@ -50,8 +50,7 @@ import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 
-public abstract class AbstractAssignJob2NodeTask extends
-		GridTaskAdapter<Object> {
+public abstract class AbstractAssignJob2NodeTask extends GridTaskAdapter<Object, Object> {
 	private static final long serialVersionUID = 1;
 
 	/** Grid task session will be injected. */
