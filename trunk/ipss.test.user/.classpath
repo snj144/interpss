@@ -22,9 +22,9 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.simu"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.pad"/>
-	<classpathentry kind="var" path="IPSS_LIB/grid/gridgain-1.5.1.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
