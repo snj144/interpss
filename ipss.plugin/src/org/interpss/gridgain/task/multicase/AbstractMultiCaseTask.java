@@ -44,7 +44,7 @@ import org.interpss.gridgain.util.RemoteMessageTable;
 import com.interpss.common.datatype.Constants;
 import com.interpss.simu.multicase.MultiStudyCase;
 
-public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiStudyCase> {
+public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiStudyCase, RemoteMessageTable[]> {
 	private static final long serialVersionUID = 1;
 
 	/** Grid task session will be injected. */
@@ -80,10 +80,10 @@ public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiSt
 	abstract protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException;
 	
 	/**
-	 * Multiple study case, return a String array
+	 * Multiple study case, return a list of RemoteMessageTable object
 	 */
 	@Override
-	public Object reduce(List<GridJobResult> results) throws GridException {
+	public RemoteMessageTable[] reduce(List<GridJobResult> results) throws GridException {
 		RemoteMessageTable[] objList = new RemoteMessageTable[results.size()];
 		int cnt = 0;
 		for (GridJobResult result : results) {
