@@ -27,7 +27,7 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.custom.exchange.psse.PSSEDataRec;
+import org.interpss.custom.exchange.psse.datarec.PSSEDataRec;
 import org.junit.Test;
 
 public class RecLevelTestCases extends BaseTestSetup {
