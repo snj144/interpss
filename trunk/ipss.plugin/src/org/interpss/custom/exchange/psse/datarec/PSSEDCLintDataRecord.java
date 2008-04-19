@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.custom.exchange.psse;
+package org.interpss.custom.exchange.psse.datarec;
 
 /*
  * PTI PSS/E File input adapter. The implementation is Based on 

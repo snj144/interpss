@@ -22,9 +22,10 @@
   *
   */
 
-package org.interpss.custom.exchange.psse;
+package org.interpss.custom.exchange.psse.datarec;
 
 import org.apache.commons.math.complex.Complex;
+import org.interpss.custom.exchange.psse.PSSEUtilFunc;
 import org.interpss.custom.exchange.psse.aclf.PSSELine;
 import org.interpss.custom.exchange.psse.aclf.PSSEXformer;
 
@@ -61,7 +62,7 @@ public class PSSEBranchDataRecord {
 		
 		int I  = new Integer(rec.i).intValue();
 		int J  = new Integer(rec.j).intValue();
-		String CKT  = PSSEUtilFunc.trimQuote(rec.ckt);
+		String CKT  = PSSEUtilFunc.trimQuote(rec.ckt).trim();
 		double R = new Double(rec.r).doubleValue();
 		double X = new Double(rec.x).doubleValue();
 		double B = new Double(rec.b).doubleValue();
@@ -126,6 +127,46 @@ public class PSSEBranchDataRecord {
        	line.setHShuntY(new Complex(0.0,0.5*B), UnitType.PU, 1.0, adjNet.getBaseKva()); 
 	}			
 
+	public static void processMultiSecLineGroup(
+			AclfAdjNetwork adjNet, 
+			String lineStr,
+			int lineNo, 
+			PSSEDataRec.VersionNo version,
+			IPSSMsgHub msg) throws Exception {
+		/*
+		 * format: I, J, ID, DUM1, DUM2, ... DUM9
+		 * 
+		 * J is entered as a negative number or with a minus sign before the
+		 * first character of the extended bus name to designate it as the metered end; otherwise,
+		 * bus I is assumed to be the metered end.
+		 */
+		PSSEDataRec.MultiSecLineGroupRec rec = new PSSEDataRec.MultiSecLineGroupRec(lineStr, version);
+
+		int I = new Integer(rec.i).intValue();
+		int J = new Integer(rec.j).intValue();
+		String ID = PSSEUtilFunc.trimQuote(rec.id);
+		if (ID.startsWith("&"))
+			ID = ID.substring(1);
+		
+		IpssLogger.getLogger().fine("Multi-Section Line Group data Line:" + lineNo + "-->" + lineStr);
+		IpssLogger.getLogger().fine("From area number, From area number, id:" + I + ", " + J  + ", " + ID);		
+		
+		String iStr = new Integer(I).toString();
+		if (J < 0) 
+			J = -J;
+		String jStr = new Integer(J).toString();
+/*		
+		PSSELine branch = (PSSELine)adjNet.getBranch(iStr, jStr, ID);
+		if (branch == null) {
+			throw new Exception ("Branch not found in the network, I, J, ID: " + I + ", " + J + ", " + ID);
+		}
+		
+		for (String str : rec.dum) {
+			branch.addDummyBus(str, "");
+		}
+*/		
+	}	
+
 	/** 
 	 * Process xformer adjustment record lines
 	 *
@@ -152,7 +193,7 @@ public class PSSEBranchDataRecord {
 		int I = new Integer(rec.i).intValue();
 		int J = new Integer(rec.j).intValue();
 		int K = new Integer(rec.k).intValue();
-		String CKT  = PSSEUtilFunc.trimQuote(rec.ckt);
+		String CKT  = PSSEUtilFunc.trimQuote(rec.ckt).trim();
 		int CW = new Integer(rec.cw).intValue();
 		int CZ = new Integer(rec.cz).intValue();
 		int CM = new Integer(rec.cm).intValue();

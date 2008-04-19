@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.custom.exchange.psse;
+package org.interpss.custom.exchange.psse.datarec;
 
 public class OwnerRec {
 	private int ownerNumber = 0;

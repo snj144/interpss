@@ -50,4 +50,11 @@ public class PSSEUtilFunc {
 		int K = new Integer(st.nextToken().trim()).intValue();
 		return K != 0;
 	}
+	
+	public static String removeTailComment(String s) {
+		if (s.indexOf("/*") > 0)
+			return s.substring(0, s.indexOf("/*"));
+		else
+			return s;
+	}	
 }
