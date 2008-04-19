@@ -22,13 +22,14 @@
   *
   */
 
-package org.interpss.custom.exchange.psse;
+package org.interpss.custom.exchange.psse.datarec;
 
 /*
  * PTI PSS/E File input adapter. The implementation is Based on 
  * PSS/E 29, published Oct 2002.
  * 
  */
+
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;

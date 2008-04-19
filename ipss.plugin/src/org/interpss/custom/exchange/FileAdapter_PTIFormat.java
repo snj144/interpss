@@ -45,16 +45,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.exchange.psse.PSSEBranchDataRecord;
-import org.interpss.custom.exchange.psse.PSSEBusDataRecord;
-import org.interpss.custom.exchange.psse.PSSEDCLintDataRecord;
-import org.interpss.custom.exchange.psse.PSSEDataRec;
-import org.interpss.custom.exchange.psse.PSSENetDataRecord;
-import org.interpss.custom.exchange.psse.PSSESwitchedShuntDataRecord;
 import org.interpss.custom.exchange.psse.PSSEUtilFunc;
 import org.interpss.custom.exchange.psse.aclf.PSSEGen;
 import org.interpss.custom.exchange.psse.aclf.PSSELoad;
 import org.interpss.custom.exchange.psse.aclf.PSSEXformer;
+import org.interpss.custom.exchange.psse.datarec.PSSEBranchDataRecord;
+import org.interpss.custom.exchange.psse.datarec.PSSEBusDataRecord;
+import org.interpss.custom.exchange.psse.datarec.PSSEDCLintDataRecord;
+import org.interpss.custom.exchange.psse.datarec.PSSEDataRec;
+import org.interpss.custom.exchange.psse.datarec.PSSENetDataRecord;
+import org.interpss.custom.exchange.psse.datarec.PSSESwitchedShuntDataRecord;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
@@ -318,7 +318,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E multi section Line Group record processed");
 						}
 						else {
-							PSSENetDataRecord.processMultiSectionLineGroup(adjNet, lineStr, lineNo, version, msgHub);
+							PSSEBranchDataRecord.processMultiSecLineGroup(adjNet, lineStr, lineNo, version, msgHub);
 						}	 
       				}
       				else if (!zoneProcessed) {

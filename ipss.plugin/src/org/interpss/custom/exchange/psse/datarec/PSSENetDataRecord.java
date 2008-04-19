@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.custom.exchange.psse;
+package org.interpss.custom.exchange.psse.datarec;
 
 /*
  * PTI PSS/E File input adapter. The implementation is Based on 
@@ -37,6 +37,8 @@ package org.interpss.custom.exchange.psse;
 		Transformer Data
 		Area Interchange Data
  */
+
+import org.interpss.custom.exchange.psse.PSSEUtilFunc;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -196,30 +198,4 @@ public class PSSENetDataRecord {
       	Owner owner = CoreObjectFactory.createOwner(new Integer(I).toString(), adjNet);
 		owner.setName(NAME);
 	}
-	
-
-	public static void processMultiSectionLineGroup(
-			AclfAdjNetwork adjNet, 
-			String lineStr,
-			int lineNo, 
-			PSSEDataRec.VersionNo version,
-			IPSSMsgHub msg) throws Exception {
-		/*
-		 * format: I, J, ID, DUM1, DUM2, ... DUM9
-		 * 
-		 * J is entered as a negative number or with a minus sign before the
-		 * first character of the extended bus name to designate it as the metered end; otherwise,
-		 * bus I is assumed to be the metered end.
-		 */
-		PSSEDataRec.MultiSectionLineGroupRec rec = new PSSEDataRec.MultiSectionLineGroupRec(lineStr, version);
-
-		int I = new Integer(rec.i).intValue();
-		int J = new Integer(rec.j).intValue();
-		String ID = PSSEUtilFunc.trimQuote(rec.i);
-		
-		IpssLogger.getLogger().fine("Multi-Section Line Group data Line:" + lineNo + "-->" + lineStr);
-		IpssLogger.getLogger().fine("From area number, From area number, id:" + I + ", " + J  + ", " + ID);		
-		
-		// TODO: needs implemented
-	}	
 }

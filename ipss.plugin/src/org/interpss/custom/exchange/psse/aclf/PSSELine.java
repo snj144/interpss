@@ -24,13 +24,37 @@
 
 package org.interpss.custom.exchange.psse.aclf;
 
-import org.interpss.custom.exchange.psse.OwnerRec;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.interpss.custom.exchange.psse.datarec.OwnerRec;
 
 import com.interpss.core.aclf.impl.AclfBranchExtImpl;
 
 public class PSSELine extends AclfBranchExtImpl {
+	private static class BusRec {
+		public String budId;
+		public String busName;
+		public BusRec(String id, String name) {
+			this.budId = id; this.busName = name;
+		}
+	}
+
+	public class MultiSecLineGroup {
+		
+		private List<BusRec> busList = new ArrayList<BusRec>();
+		
+		public MultiSecLineGroup() {
+		}
+		
+		public void addBusRec(BusRec rec) {
+			this.busList.add(rec);
+		}
+	}	
+	
 	private double length = 0.0;
 	private OwnerRec[]  ownerList = new OwnerRec[4];
+	private MultiSecLineGroup mSecLineGroup = new MultiSecLineGroup();
 	
 	public PSSELine(String cirId) {
       	setCircuitNumber(cirId);
@@ -56,8 +80,18 @@ public class PSSELine extends AclfBranchExtImpl {
 		this.length = length;
 	}
 	
+	public MultiSecLineGroup getMSecLineGroup() {
+		return this.mSecLineGroup;
+	}
+	
+	public void addDummyBus(String id, String name) {
+		BusRec rec = new BusRec(id, name);
+		this.mSecLineGroup.addBusRec(rec);
+	}
+
 	public String toString() {
 		StringBuffer result = new StringBuffer(super.toString());
+		result.append("MultiSecLineGroup: " + mSecLineGroup);
 		return result.toString();
-	}		
+	}
 }

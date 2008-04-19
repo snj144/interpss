@@ -25,7 +25,7 @@ package org.interpss.custom.exchange.psse.aclf;
 
 import org.apache.commons.math.complex.Complex;
 
-import org.interpss.custom.exchange.psse.OwnerRec;
+import org.interpss.custom.exchange.psse.datarec.OwnerRec;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.core.aclf.impl.AclfBranchExtImpl;
