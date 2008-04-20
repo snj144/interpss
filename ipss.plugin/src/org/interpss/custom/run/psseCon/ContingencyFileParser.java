@@ -1,0 +1,99 @@
+package org.interpss.custom.run.psseCon;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.interpss.schema.BranchChangeRecXmlType;
+import org.interpss.schema.InterPSSXmlType;
+import org.interpss.schema.ModificationXmlType;
+import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
+import org.interpss.xml.IpssXmlParser;
+
+import com.interpss.common.util.StringUtil;
+
+
+public class ContingencyFileParser {
+	public static final String Token_ConBegin = "CONTINGENCY";
+	public static final String Token_ConEnd = "END";
+	public static final String Token_FileEnd = "END";
+	public static final String Token_OpenLine = "OPEN LINE";
+	
+	public static final int Position_OpenLline_FromBus = 4;
+	public static final int Position_OpenLline_ToBus = 7;
+	public static final int Position_OpenLline_CirNo = 9;
+
+	public static enum FileStatus {ConBegin, ConEnd, FileEnd, UnKnown}; 
+	
+	public static InterPSSXmlType parseControlFile(String filepath) throws Exception {
+		
+		final File file = new File(filepath);
+		final InputStream stream = new FileInputStream(file);
+		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));	
+		
+		IpssXmlParser parser = new IpssXmlParser(RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
+
+		String lineStr = null;
+		ContingencyFileParser.FileStatus status = ContingencyFileParser.FileStatus.UnKnown;
+		int conCnt = 0, changeCnt = 0;
+		ModificationXmlType mod = null;
+		
+		do {
+			lineStr = din.readLine();
+			if (lineStr != null) {
+				//System.out.println(lineStr);
+				if (lineStr.startsWith(ContingencyFileParser.Token_ConBegin)) {
+					status = ContingencyFileParser.FileStatus.ConBegin;
+					conCnt++;
+
+					String[] sAry = StringUtil.strToken2Array(lineStr, " ");
+					String conName = sAry[1];
+//					System.out.println("[" + conCnt + "], " + conName);
+					
+					AclfStudyCase scase = parser.getRunAclfStudyCase().getAclfStudyCaseList().addNewAclfStudyCase();
+					scase.setRecId(conName+"_"+conCnt);
+					scase.setRecName(conName);
+					scase.setRecDesc(lineStr);
+
+					mod = scase.addNewModification();
+					mod.addNewBranchChangeRecList();
+					changeCnt = 0;
+				}
+				else if (lineStr.startsWith(ContingencyFileParser.Token_ConEnd) && status != ContingencyFileParser.FileStatus.ConEnd) {
+					status = ContingencyFileParser.FileStatus.ConEnd;
+				}
+				else if (lineStr.startsWith(ContingencyFileParser.Token_FileEnd)) {
+					status = ContingencyFileParser.FileStatus.FileEnd;
+				}
+				else {
+					//System.out.println(lineStr);
+					changeCnt++;
+					if (lineStr.startsWith(ContingencyFileParser.Token_OpenLine)) {
+						
+						BranchChangeRecXmlType braChange = mod.getBranchChangeRecList().addNewBranchChangeRec();
+						braChange.setRecId("OpenLine_" + conCnt + "_" + changeCnt);
+						braChange.setRecName("Open line, contingency " + conCnt + " event " + changeCnt);
+						braChange.setRecDesc(lineStr);
+						
+						String[] sAry = StringUtil.strToken2Array(lineStr, " ");
+						String fromBus = sAry[ContingencyFileParser.Position_OpenLline_FromBus];
+						String toBus = sAry[ContingencyFileParser.Position_OpenLline_ToBus];
+						String cirId = sAry[ContingencyFileParser.Position_OpenLline_CirNo];
+//						System.out.println(fromBus + ", " + toBus + ", " + cirId);
+						braChange.setFromBusId(fromBus);
+						braChange.setToBusId(toBus);
+						braChange.setCircuitNumber(cirId);
+						braChange.setOffLine(true);
+					}
+				}
+			}
+		} while (status != ContingencyFileParser.FileStatus.FileEnd);
+		
+		//System.out.println(parser.toString());
+		return parser.getRootDoc();
+	}
+	
+}
