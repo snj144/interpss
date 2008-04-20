@@ -29,10 +29,10 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.report.IpssRptViewer;
 import org.interpss.editor.ui.util.IpssFileFilter;
 
-import com.interpss.simu.io.IpssFileAdapter;
 
 public class FileChooserConfig {
 	public static String CurrentProjDir = "C:/eclipse/Interpss/ipss.test/testData/editor.jgraph/";
