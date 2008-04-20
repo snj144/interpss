@@ -52,6 +52,22 @@ public class IpssXmlParser {
 	private InterPSSXmlType ipss = null;
 
 	/**
+	 * default Constructor
+	 * 
+	 * @param type Analysis run type
+	 */
+	public IpssXmlParser(RunStudyCaseXmlType.AnalysisRunType.Enum type) {
+		InterPSSDocument ipssDoc = InterPSSDocument.Factory.newInstance();
+		this.ipss = ipssDoc.addNewInterPSS();
+		this.ipss.addNewModification();
+		this.ipss.addNewRunStudyCase();
+		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
+			getRunStudyCase().addNewRunAclfStudyCase();
+			getRunAclfStudyCase().addNewAclfStudyCaseList();
+		}
+	}
+
+	/**
 	 * Constructor using an Xml file
 	 * 
 	 * @param xmlFile
@@ -75,6 +91,15 @@ public class IpssXmlParser {
 			throw new XmlException("Invalid Xml scripts");
 		}
 		this.ipss = ipssDoc.getInterPSS();
+	}
+	
+	/**
+	 * Get the root document
+	 * 
+	 * @return
+	 */
+	public InterPSSXmlType getRootDoc() {
+		return this.ipss;
 	}
 	
 	/**
@@ -244,4 +269,11 @@ public class IpssXmlParser {
 
 		return UnitType.NotDefined;
 	}
+	
+	/**
+	 * convert the document object to an XML string
+	 */
+	public String toString() {
+		 return this.ipss.toString(); 
+	}	
 }
