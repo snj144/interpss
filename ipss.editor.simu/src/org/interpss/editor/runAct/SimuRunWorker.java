@@ -54,6 +54,7 @@ public class SimuRunWorker extends Thread {
 	private JGraph graph = null;
 	private String scripts = null;
 	private ScriptLanguageType scriptLanguage = ScriptLanguageType.Java;
+	private String pluginName = "";
 
 	public SimuRunWorker(String str) {
 		super(str);
@@ -71,11 +72,12 @@ public class SimuRunWorker extends Thread {
 	}
 
 	public void configRun(SimuRunType aRunType, SimuContext aCtx,
-			String scripts, ScriptLanguageType lanType) {
+			String scripts, ScriptLanguageType lanType, String pluginName) {
 		this.runType = aRunType;
 		this.simuCtx = aCtx;
 		this.scripts = scripts;
 		this.scriptLanguage = lanType;
+		this.pluginName = pluginName;
 	}
 
 	public void run() {
@@ -151,8 +153,12 @@ public class SimuRunWorker extends Thread {
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
 				}
-			} else if (this.scriptLanguage == ScriptLanguageType.Xml) {
+			} 
+			else if (this.scriptLanguage == ScriptLanguageType.Xml) {
 				XmlScriptRunWorker.runCase(this.scripts, simuCtx);
+			}
+			else if (this.scriptLanguage == ScriptLanguageType.Custom) {
+				CustomScriptRunWorker.runCase(this.scripts, this.pluginName, simuCtx);
 			}
 			appStatus.busyStop("Run Scripts finished");
 		}
