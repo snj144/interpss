@@ -1,12 +1,13 @@
 package dev;
 
+import org.interpss.custom.IpssFileAdapter;
+
 import cn.edu.tsinghua.dps.adapter.aclf.FileAdpater_PSTMatlabFormat;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.common.msg.StdoutMsgListener;
 import com.interpss.common.msg.TextMessage;
-import com.interpss.simu.io.IpssFileAdapter;
  
 public class TestAdapter {
 
