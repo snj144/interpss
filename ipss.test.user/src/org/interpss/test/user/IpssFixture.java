@@ -26,6 +26,7 @@ package org.interpss.test.user;
 
 import java.util.logging.Level;
 
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.form.GFormContainer;
 import org.jgraph.JGraph;
@@ -44,7 +45,6 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.util.IOUtilFunc;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
-import com.interpss.simu.io.IpssFileAdapter;
 
 import fit.ColumnFixture;
 
