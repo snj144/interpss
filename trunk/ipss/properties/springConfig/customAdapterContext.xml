@@ -120,7 +120,7 @@
 		====================================
 	-->	
 	<bean id="psseContingencyAnalysis"  
-	  	class="org.interpss.custom.run.PSSEContingencyAnalysis"
+	  	class="org.interpss.custom.run.psseCon.PSSEContingencyAnalysis"
 	    scope="singleton"	
 	    p:name="PSS/E Cintingency Analysis"
 	    p:description="PSS/E Contingency analysis control file script run plugin" />
