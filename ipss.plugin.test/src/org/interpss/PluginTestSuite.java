@@ -23,6 +23,7 @@ import org.interpss.dstab.mach.Eq1MachineCaseTest;
 import org.interpss.dstab.mach.MachineSaturationTest;
 import org.interpss.dstab.mach.RoundRotorMachineTest;
 import org.interpss.dstab.mach.SalientPoleMachineTest;
+import org.interpss.edispatch.ContingencyControlFileCaseTest;
 import org.interpss.schema.AclfSchemaIeee14BusCaseTest;
 import org.interpss.schema.AcscSchemaSampleCaseTest;
 import org.interpss.schema.DStabSchemaIEEE11ModelTest;
@@ -82,6 +83,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	UserStephenCaseTest.class,
 	ModificationCaseTest.class,
 	ProtectionCaseTest.class,
+	
+	// contingency analysis
+	ContingencyControlFileCaseTest.class,
 	
 	// cmd line 
 	AclfCmdRunTest.class,
