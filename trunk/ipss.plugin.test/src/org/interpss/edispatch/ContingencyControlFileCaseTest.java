@@ -44,5 +44,7 @@ END
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getFromBusId().equals("3006"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getToBusId().equals("153"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getCircuitNumber().equals("1"));
+		
+		//System.out.println(ipssDoc.toString());
 	}
 }
