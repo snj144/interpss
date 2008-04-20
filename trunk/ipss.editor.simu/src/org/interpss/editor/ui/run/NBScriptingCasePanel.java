@@ -26,8 +26,10 @@ package org.interpss.editor.ui.run;
 
 import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 
+import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
@@ -49,6 +51,8 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     
     public void init(Object netContainer, Object appCtx) {
 		IpssLogger.getLogger().info("NBScriptingCasePanel init() called");
+		customPluginComboBox.setModel(new DefaultComboBoxModel(
+				PluginSpringAppContext.getCustomScriptRunPluginNameList()));
     }
 
     public void setCaseData(CaseData data) {
@@ -67,6 +71,9 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     		scriptsTextArea.setText(_caseData.getScripts());
     		if (_caseData.getScriptLanguage() == CaseData.ScriptLanguage_Java)
         		javaRadioButton.setSelected(true);
+    		else if (_caseData.getScriptLanguage() == CaseData.ScriptLanguage_Plugin) {
+    			customRadioButton.setSelected(true);
+    		}
     		else
         		xmlRadioButton.setSelected(true);
     	}
@@ -96,9 +103,14 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
 			}		
 			_caseData.setScriptLanguage(CaseData.ScriptLanguage_Java);
 		}
+		else if (customRadioButton.isSelected()) {
+			_caseData.setScriptLanguage(CaseData.ScriptLanguage_Plugin);
+			_caseData.setScriptPluginName((String)customPluginComboBox.getSelectedItem());
+		}
 		else {
 			try {
-				IpssXmlParser parser = new IpssXmlParser(scriptsTextArea.getText());
+				// check xml error
+				new IpssXmlParser(scriptsTextArea.getText());
 			} catch (Exception e) {
 	        	errMsg.add(new String("Invalid Xml, ") + e.toString());
 			}
@@ -126,7 +138,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         xmlRadioButton = new javax.swing.JRadioButton();
         javaRadioButton = new javax.swing.JRadioButton();
         customRadioButton = new javax.swing.JRadioButton();
-        driverComboBox = new javax.swing.JComboBox();
+        customPluginComboBox = new javax.swing.JComboBox();
 
         scriptsTextArea.setColumns(80);
         scriptsTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
@@ -144,12 +156,17 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         javaRadioButton.setText("Java");
 
         languageButtonGroup.add(customRadioButton);
+        customRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         customRadioButton.setText("Custom");
-        customRadioButton.setEnabled(false);
+        customRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                customRadioButtonActionPerformed(evt);
+            }
+        });
 
-        driverComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        driverComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "org.interpss.scripting.runcase.JavaCaseRunner", "org.interpss.scripting.runcase.XmlCaseRunner" }));
-        driverComboBox.setEnabled(false);
+        customPluginComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PSS/E Contingency Analysis" }));
+        customPluginComboBox.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -168,7 +185,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(customRadioButton)
                         .add(32, 32, 32)
-                        .add(driverComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 317, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(customPluginComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 248, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -176,20 +193,27 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(driverComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(xmlRadioButton)
                     .add(javaRadioButton)
-                    .add(customRadioButton))
+                    .add(customRadioButton)
+                    .add(customPluginComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(textAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 441, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void customRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customRadioButtonActionPerformed
+        if (customRadioButton.isSelected())
+        	customPluginComboBox.setEnabled(true);
+        else
+        	customPluginComboBox.setEnabled(false);
+    }//GEN-LAST:event_customRadioButtonActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox customPluginComboBox;
     private javax.swing.JRadioButton customRadioButton;
-    private javax.swing.JComboBox driverComboBox;
     private javax.swing.JRadioButton javaRadioButton;
     private javax.swing.ButtonGroup languageButtonGroup;
     private javax.swing.JTextArea scriptsTextArea;

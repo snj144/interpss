@@ -25,11 +25,11 @@
 package org.interpss.editor.io;
 
 import org.interpss.PluginSpringAppContext;
+import org.interpss.custom.IpssFileAdapter;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.io.IpssFileAdapter;
 
 public class CustomFileUtility {
 	public static boolean loadCustomFile(String filepath, String version, SimuContext simuCtx) {
