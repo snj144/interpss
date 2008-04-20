@@ -3,7 +3,7 @@ package org.interpss.custom.run;
 import com.interpss.common.custom.IpssCustomAdapter;
 import com.interpss.simu.SimuContext;
 
-public interface IpssCustomRunScriptAdapter extends IpssCustomAdapter {
+public interface ICustomRunScriptPlugin extends IpssCustomAdapter {
 	/**
 	 * Run the scripts using custom plugin
 	 * 

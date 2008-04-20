@@ -30,7 +30,7 @@ import java.util.List;
 import javax.swing.JDialog;
 
 import org.interpss.custom.IpssFileAdapter;
-import org.interpss.custom.run.IpssCustomRunScriptAdapter;
+import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.output.IOutputSimuResult;
 
@@ -125,8 +125,8 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 *  
 	 * @return the CustomFileAdapterList object
 	 */
-	public static List<IpssCustomRunScriptAdapter> getCustomScriptRunPluginList() {
-		return (List<IpssCustomRunScriptAdapter>) SpringAppCtx.getBean(Constants.SID_CustomScriptRunPluginList);
+	public static List<ICustomRunScriptPlugin> getCustomScriptRunPluginList() {
+		return (List<ICustomRunScriptPlugin>) SpringAppCtx.getBean(Constants.SID_CustomScriptRunPluginList);
 	}
 	
 	/**
@@ -136,9 +136,9 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 */
 	public static Object[] getCustomScriptRunPluginNameList() {
 		List<String> nameList = new ArrayList<String>();
-		List<IpssCustomRunScriptAdapter> adapterList = getCustomScriptRunPluginList();
+		List<ICustomRunScriptPlugin> adapterList = getCustomScriptRunPluginList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			IpssCustomRunScriptAdapter adapter = (IpssCustomRunScriptAdapter) adapterList.get(i);
+			ICustomRunScriptPlugin adapter = (ICustomRunScriptPlugin) adapterList.get(i);
 			nameList.add(adapter.getName());
 		}
 		return nameList.toArray();
@@ -149,10 +149,10 @@ public class PluginSpringAppContext extends SpringAppContext {
 	 * 
 	 * @return the CustomScriptRunPlugin name list
 	 */
-	public static IpssCustomRunScriptAdapter getCustomScriptRunPlugin(String name) {
-		List<IpssCustomRunScriptAdapter> adapterList = getCustomScriptRunPluginList();
+	public static ICustomRunScriptPlugin getCustomScriptRunPlugin(String name) {
+		List<ICustomRunScriptPlugin> adapterList = getCustomScriptRunPluginList();
 		for (int i = 0; i < adapterList.size(); i++) {
-			IpssCustomRunScriptAdapter adapter = (IpssCustomRunScriptAdapter) adapterList.get(i);
+			ICustomRunScriptPlugin adapter = (ICustomRunScriptPlugin) adapterList.get(i);
 			if (name.equals(adapter.getName()))
 				return adapter;
 		}
