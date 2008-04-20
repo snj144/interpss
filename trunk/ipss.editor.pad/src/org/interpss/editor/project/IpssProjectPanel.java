@@ -28,6 +28,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.interpss.PluginSpringAppContext;
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.EditorSpringAppContext;
 import org.interpss.editor.coreframework.GPBarFactory;
 import org.interpss.editor.coreframework.GPGraphpad;
@@ -40,7 +41,6 @@ import org.interpss.editor.util.Utilities;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.simu.io.IpssFileAdapter;
 
 public class IpssProjectPanel extends JPanel {
 

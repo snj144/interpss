@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.coreframework.GPPluginInvoker;
 import org.interpss.editor.io.FileChooserConfig;
@@ -20,7 +21,6 @@ import org.interpss.editor.resources.Translator;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.editor.util.ExtensionFilter;
 
-import com.interpss.simu.io.IpssFileAdapter;
 
 /*
  * This class produces common file open and file save dialogs for normal operation and for Java Web Start.
