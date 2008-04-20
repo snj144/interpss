@@ -6,6 +6,7 @@ import java.io.File;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
@@ -21,7 +22,6 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.io.IpssFileAdapter;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 

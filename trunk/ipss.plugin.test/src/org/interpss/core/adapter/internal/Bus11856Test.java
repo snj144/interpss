@@ -28,6 +28,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
+import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -36,7 +37,6 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.io.IpssFileAdapter;
 
 public class Bus11856Test extends BaseTestSetup {
 	@Test

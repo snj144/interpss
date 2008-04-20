@@ -26,11 +26,11 @@ package org.interpss.core.adapter.ucte;
 
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
+import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.io.IpssFileAdapter;
 
 public class UCTEFormatIEEE14BusTest extends BaseTestSetup {
 	@Test
