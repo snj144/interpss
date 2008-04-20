@@ -30,8 +30,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
-import org.ieee.pes.odm.pss.adapter.ucte.UCTE_DEFAdapter;
 import org.interpss.custom.exchange.impl.BPAFormat_in;
 
 import com.interpss.common.exp.InvalidOperationException;

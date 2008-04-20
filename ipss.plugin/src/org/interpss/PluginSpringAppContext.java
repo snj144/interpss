@@ -29,13 +29,15 @@ import java.util.List;
 
 import javax.swing.JDialog;
 
+import org.interpss.custom.IpssFileAdapter;
+import org.interpss.custom.run.IpssCustomRunScriptAdapter;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.output.IOutputSimuResult;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.custom.IpssCustomAdapter;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.IpssMapper;
-import com.interpss.simu.io.IpssFileAdapter;
 
 public class PluginSpringAppContext extends SpringAppContext {
 	/**
@@ -72,15 +74,6 @@ public class PluginSpringAppContext extends SpringAppContext {
 		return (List<IpssFileAdapter>) SpringAppCtx.getBean(Constants.SID_CustomFileAdapterList);
 	}
 
-	/**
-	 * Get the SimuResultOutput(singleton) from the SpringAppContext.
-	 *  
-	 * @return the CustomFileAdapterList object
-	 */
-	public static IOutputSimuResult getSimuResultOutput() {
-		return (IOutputSimuResult) SpringAppCtx.getBean(Constants.SID_SimuResultOutput);
-	}
-	
 	/**
 	 * This method will be retired. Use getCustomFileAdapterByName instead
 	 * 
@@ -125,4 +118,54 @@ public class PluginSpringAppContext extends SpringAppContext {
 		}
 		return null;
 	}
+
+	
+	/**
+	 * Get the CustomScriptRunPluginList(singleton) from the SpringAppContext.
+	 *  
+	 * @return the CustomFileAdapterList object
+	 */
+	public static List<IpssCustomRunScriptAdapter> getCustomScriptRunPluginList() {
+		return (List<IpssCustomRunScriptAdapter>) SpringAppCtx.getBean(Constants.SID_CustomScriptRunPluginList);
+	}
+	
+	/**
+	 * Get a CustomScriptRunPlugin(prototype) name list.
+	 * 
+	 * @return the CustomScriptRunPlugin name list
+	 */
+	public static Object[] getCustomScriptRunPluginNameList() {
+		List<String> nameList = new ArrayList<String>();
+		List<IpssCustomRunScriptAdapter> adapterList = getCustomScriptRunPluginList();
+		for (int i = 0; i < adapterList.size(); i++) {
+			IpssCustomRunScriptAdapter adapter = (IpssCustomRunScriptAdapter) adapterList.get(i);
+			nameList.add(adapter.getName());
+		}
+		return nameList.toArray();
+	}
+	
+	/**
+	 * Get a CustomScriptRunPlugin(prototype) name list.
+	 * 
+	 * @return the CustomScriptRunPlugin name list
+	 */
+	public static IpssCustomRunScriptAdapter getCustomScriptRunPlugin(String name) {
+		List<IpssCustomRunScriptAdapter> adapterList = getCustomScriptRunPluginList();
+		for (int i = 0; i < adapterList.size(); i++) {
+			IpssCustomRunScriptAdapter adapter = (IpssCustomRunScriptAdapter) adapterList.get(i);
+			if (name.equals(adapter.getName()))
+				return adapter;
+		}
+		return null;
+	}	
+	
+	/**
+	 * Get the SimuResultOutput(singleton) from the SpringAppContext.
+	 *  
+	 * @return the CustomFileAdapterList object
+	 */
+	public static IOutputSimuResult getSimuResultOutput() {
+		return (IOutputSimuResult) SpringAppCtx.getBean(Constants.SID_SimuResultOutput);
+	}
+	
 }

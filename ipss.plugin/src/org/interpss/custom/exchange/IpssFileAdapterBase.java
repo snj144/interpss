@@ -27,13 +27,13 @@ package org.interpss.custom.exchange;
 import java.io.File;
 
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.mapper.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.io.IpssFileAdapter;
 
 public class IpssFileAdapterBase implements IpssFileAdapter{
 	private String name;
