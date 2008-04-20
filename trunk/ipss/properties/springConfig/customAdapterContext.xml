@@ -116,6 +116,26 @@
 	</bean>
 	
 	<!--
+		Custom Script Run Plugin List
+		====================================
+	-->	
+	<bean id="psseContingencyAnalysis"  
+	  	class="org.interpss.custom.run.PSSEContingencyAnalysis"
+	    scope="singleton"	
+	    p:name="PSS/E Cintingency Analysis"
+	    p:description="PSS/E Contingency analysis control file script run plugin" />
+
+	<bean id="customScriptRunPluginList" 
+	      class="java.util.ArrayList"
+	      scope="singleton">	
+		<constructor-arg>
+			<list>
+				<ref bean="psseContingencyAnalysis"/>
+			</list>
+		</constructor-arg>
+	</bean>
+	
+	<!--
 		Simulation Result output Custom Plugin List
 		===========================================
 	-->	

@@ -29,6 +29,7 @@ import java.io.File;
 import org.interpss.AppConstants;
 import org.interpss.InterPSS;
 import org.interpss.PluginSpringAppContext;
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
@@ -50,7 +51,6 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.io.IpssFileAdapter;
 
 public class CmdLineRunner {
 	private static SimuRunType runType = SimuRunType.NotDefined;
