@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.zip.GZIPOutputStream;
 
+import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.coreframework.GPPluginInvoker;
@@ -69,7 +70,6 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
-import com.interpss.simu.io.IpssFileAdapter;
 
 /**
  * Utility methods. A utility method is characterized as a method which is of
