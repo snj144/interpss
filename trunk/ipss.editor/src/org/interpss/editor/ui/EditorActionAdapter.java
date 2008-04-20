@@ -24,8 +24,6 @@
 
 package org.interpss.editor.ui;
 
-import java.io.File;
-
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.app.ProjectScriptFileUtil;
@@ -194,9 +192,9 @@ public class EditorActionAdapter {
     	if (dialog.isReturnOk()) {
 			SimuRunWorker worker = new SimuRunWorker("Scripting SimuRunWorker");
 			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), CaseData.CaseType_Scripts);
-			worker.configRun(SimuRunType.Scripts, simuCtx, caseData.getScripts(), caseData.getScriptLanguageType());
+			worker.configRun(SimuRunType.Scripts, simuCtx, caseData.getScripts(), caseData.getScriptLanguageType(), caseData.getScriptPluginName());
 			worker.start();
-			appSimuCtx.setLastRunType(SimuRunType.DStab);
+			appSimuCtx.setLastRunType(SimuRunType.Scripts);
 		}	
 	}
 
