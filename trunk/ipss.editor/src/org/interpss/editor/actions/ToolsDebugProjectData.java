@@ -9,6 +9,8 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.SimuActionAdapter;
 import org.interpss.editor.util.DocumentUtilFunc;
 
+import com.interpss.common.util.IpssLogger;
+
 public class ToolsDebugProjectData extends IpssAbstractActionDefault {
 	private static final long serialVersionUID = 1;
     
@@ -16,8 +18,12 @@ public class ToolsDebugProjectData extends IpssAbstractActionDefault {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		SimuActionAdapter.menu_tools_debug_projDataInfo(appSimuContext);
+		try {
+			IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			SimuActionAdapter.menu_tools_debug_projDataInfo(appSimuContext);
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}
 	}
 
 	public void update() {

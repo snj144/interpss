@@ -33,6 +33,7 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -75,11 +76,14 @@ public class DocumentUtilFunc  {
 	 * @return
 	 */
 	public static boolean enableAclfReport(IpssEditorDocument doc) {
-		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		if (appSimuCtx != null)
-			return (isAclfDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
-		else
-			return false;
+		try {
+			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			if (appSimuCtx != null)
+				return (isAclfDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}		
+		return false;
 	}
 
 	/**
@@ -89,11 +93,14 @@ public class DocumentUtilFunc  {
 	 * @return
 	 */
 	public static boolean enableAcscReport(IpssEditorDocument doc) {
-		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		if (appSimuCtx != null)
-			return (isAcscDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
-		else
-			return false;
+		try {
+			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			if (appSimuCtx != null)
+				return (isAcscDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}		
+		return false;
 	}
 
 	/**
@@ -103,11 +110,14 @@ public class DocumentUtilFunc  {
 	 * @return
 	 */
 	public static boolean enableDStabReport(IpssEditorDocument doc) {
-		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		if (appSimuCtx != null)
-			return (isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
-		else
-			return false;
+		try {
+			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			if (appSimuCtx != null)
+				return (isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}		
+		return false;
 	}
 
 	/**
