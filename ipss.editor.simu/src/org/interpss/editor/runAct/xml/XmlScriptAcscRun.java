@@ -27,10 +27,10 @@ package org.interpss.editor.runAct.xml;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
-import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -49,11 +49,11 @@ public class XmlScriptAcscRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runAcsc(IpssXmlParser parser,
+	public static boolean runAcsc(InterPSSXmlType ipssXmlDoc,
 			SimpleFaultNetwork faultNet, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-		if (parser.getRunAcscStudyCase() != null) {
-			RunStudyCaseXmlType.RunAcscStudyCase xmlRunCase = parser
+		if (ipssXmlDoc.getRunStudyCase().getRunAcscStudyCase() != null) {
+			RunStudyCaseXmlType.RunAcscStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase()
 					.getRunAcscStudyCase();
 			SimpleFaultAlgorithm algo = CoreObjectFactory
 					.createSimpleFaultAlgorithm(faultNet);

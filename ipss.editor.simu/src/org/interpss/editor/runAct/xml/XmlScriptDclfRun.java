@@ -32,6 +32,7 @@ import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.DclfSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
+import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunDclfStudyCase.DclfStudyCaseList.DclfStudyCaseRec;
@@ -54,11 +55,10 @@ public class XmlScriptDclfRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runDclf(IpssXmlParser parser, AclfNetwork aclfNet,
+	public static boolean runDclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet,
 			IPSSMsgHub msg) {
-		if (parser.getRunDclfStudyCase() != null) {
-			RunStudyCaseXmlType.RunDclfStudyCase xmlRunDclfCase = parser
-					.getRunDclfStudyCase();
+		if (ipssXmlDoc.getRunStudyCase().getRunDclfStudyCase() != null) {
+			RunStudyCaseXmlType.RunDclfStudyCase xmlRunDclfCase = ipssXmlDoc.getRunStudyCase().getRunDclfStudyCase();
 
 			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(aclfNet);
 			if (!algo.checkCondition(msg))

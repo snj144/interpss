@@ -74,16 +74,16 @@ public class XmlScriptRunWorker {
 		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
 				&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
 		if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
-			return XmlScriptAclfRun.runAclf(parser, simuCtx.getAclfAdjNet(),
+			return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(),
 					msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
-			return XmlScriptDclfRun.runDclf(parser, simuCtx.getAclfNet(),
+			return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet(),
 					msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
-			return XmlScriptAcscRun.runAcsc(parser, simuCtx.getAcscFaultNet(),
+			return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscFaultNet(),
 					msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
-			return XmlScriptDStabRun.runDStab(parser, simuCtx, msg);
+			return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
 		}
 		msg.sendErrorMsg("Error: wrong analysus type, " + xmlStudyCase.getAnalysisRunType());
 		return false;
