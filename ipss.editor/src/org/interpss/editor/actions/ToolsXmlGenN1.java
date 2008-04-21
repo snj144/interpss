@@ -15,6 +15,7 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -29,7 +30,14 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		IAppSimuContext project = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		IAppSimuContext project;
+		try {
+			project = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+			return;
+		}		
+		
 		SimuContext simuCtx = (SimuContext)project.getSimuCtx();
 		Network net = simuCtx.getNetwork();
 		RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList list = 
