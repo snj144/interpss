@@ -73,10 +73,10 @@
 									</ns:element>
 									<ns:element
 										name="calculateViolation" type="ns:boolean"
-										minOccurs="1">
+										minOccurs="0">
 									</ns:element>
 									<ns:element name="busVoltagePULimit"
-										type="ipss:LimitXmlType" minOccurs="1">
+										type="ipss:LimitXmlType" minOccurs="0">
 									</ns:element>
 								</ns:sequence>
 							</ns:complexType>

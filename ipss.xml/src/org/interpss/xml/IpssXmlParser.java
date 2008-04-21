@@ -59,9 +59,9 @@ public class IpssXmlParser {
 	public IpssXmlParser(RunStudyCaseXmlType.AnalysisRunType.Enum type) {
 		InterPSSDocument ipssDoc = InterPSSDocument.Factory.newInstance();
 		this.ipss = ipssDoc.addNewInterPSS();
-		this.ipss.addNewModification();
 		this.ipss.addNewRunStudyCase();
 		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
+			getRunStudyCase().setAnalysisRunType(RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
 			getRunStudyCase().addNewRunAclfStudyCase();
 			getRunAclfStudyCase().addNewAclfStudyCaseList();
 		}
