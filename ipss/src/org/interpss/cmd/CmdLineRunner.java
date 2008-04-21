@@ -144,19 +144,19 @@ public class CmdLineRunner {
 					&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
 			if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 				runType = SimuRunType.Aclf;
-				return XmlScriptAclfRun.runAclf(parser, simuCtx.getAclfAdjNet(),
+				return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
 				runType = SimuRunType.Dclf;
-				return XmlScriptDclfRun.runDclf(parser, simuCtx.getAclfNet(),
+				return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
 				runType = SimuRunType.Acsc;
-				return XmlScriptAcscRun.runAcsc(parser, simuCtx.getAcscFaultNet(),
+				return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscFaultNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
 				runType = SimuRunType.DStab;
-				return XmlScriptDStabRun.runDStab(parser, simuCtx, msg);
+				return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
 			}
 			return true;			
 		}
