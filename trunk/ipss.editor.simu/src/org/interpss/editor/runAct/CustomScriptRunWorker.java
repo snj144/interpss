@@ -26,6 +26,8 @@ package org.interpss.editor.runAct;
 
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
+import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
+import org.interpss.schema.InterPSSXmlType;
 
 import com.interpss.simu.SimuContext;
 
@@ -38,8 +40,8 @@ public class CustomScriptRunWorker {
 	 * @return
 	 */
 	public static boolean runCase(String scripts, String pluginName, SimuContext simuCtx) {
-		ICustomRunScriptPlugin adpter = PluginSpringAppContext.getCustomScriptRunPlugin(pluginName);
-		adpter.runCase(scripts, simuCtx);
-		return true;
+		ICustomRunScriptPlugin adapter = PluginSpringAppContext.getCustomScriptRunPlugin(pluginName);
+		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(scripts, simuCtx.getMsgHub());
+		return XmlScriptAclfRun.runAclf(ipssXmlDoc, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());		
 	}
 }

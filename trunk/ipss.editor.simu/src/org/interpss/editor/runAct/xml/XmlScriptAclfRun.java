@@ -37,11 +37,11 @@ import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.gridgain.util.RemoteMessageTable;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfRuleBaseXmlType;
+import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.GridRun.AclfOption.ReturnStudyCase;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
-import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.ProtectionRuleHanlder;
 
 import com.interpss.common.SpringAppContext;
@@ -68,16 +68,16 @@ public class XmlScriptAclfRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runAclf(IpssXmlParser parser, AclfAdjNetwork aclfNet,
+	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet,
 			IPSSMsgHub msg) {
-		RunStudyCaseXmlType.RunAclfStudyCase xmlRunCase = parser.getRunAclfStudyCase();
-		boolean applyRuleBase = parser.getRunStudyCase().getApplyRuleBase();
+		RunStudyCaseXmlType.RunAclfStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getRunAclfStudyCase();
+		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
 
 		if (xmlRunCase != null) {
 			AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunCase.getDefaultAclfAlgorithm(); 
 			AclfRuleBaseXmlType ruleBase = xmlRunCase.getAclfRuleBase();
-			boolean gridRun = RunActUtilFunc.isGridEnabled(parser.getRunStudyCase());
-			long  timeout = parser.getRunStudyCase().getGridRun().getTimeout();
+			boolean gridRun = RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase());
+			long  timeout = ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout();
 			
 			if (xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
 				AclfStudyCase xmlCase = xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()[0];
@@ -97,7 +97,7 @@ public class XmlScriptAclfRun {
 						mCaseContainer.setAclfRuleBaseXmlString(xmlRunCase.getAclfRuleBase().xmlText());
 				}
 				
-				boolean reJobCreation = parser.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
+				boolean reJobCreation = ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
 				
 				int cnt = 0;
 				for (AclfStudyCase xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
@@ -155,7 +155,7 @@ public class XmlScriptAclfRun {
 					Grid grid = IpssGridGainUtil.getDefaultGrid();
 					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 					
-					setAclfRunOpt(mCaseContainer, parser.getRunStudyCase());
+					setAclfRunOpt(mCaseContainer, ipssXmlDoc.getRunStudyCase());
 					
 					try {
 						RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
@@ -243,8 +243,10 @@ public class XmlScriptAclfRun {
 						(opt.getReturnStudyCase()==ReturnStudyCase.DIVERGED_CASE? ReturnRemoteCaseOpt.DIVERGED_CASE :
 							ReturnRemoteCaseOpt.NO_STUDY_CASE));
 			mCaseContainer.getAclfGridOption().setCalculateViolation(opt.getCalculateViolation());
-			mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
-			mCaseContainer.getAclfGridOption().setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());
+			if (opt.getBusVoltagePULimit() != null) {
+				mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(opt.getBusVoltagePULimit().getMax());
+				mCaseContainer.getAclfGridOption().setBusVoltageLowerLimitPU(opt.getBusVoltagePULimit().getMin());
+			}
 		}		
 	}
 }
