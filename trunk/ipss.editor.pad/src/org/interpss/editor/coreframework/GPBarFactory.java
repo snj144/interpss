@@ -57,6 +57,8 @@ import org.interpss.editor.util.Utilities;
 import org.jgraph.JGraph;
 import org.jgraph.graph.DefaultGraphCell;
 
+import com.interpss.common.util.IpssLogger;
+
 
 
 /**
@@ -136,9 +138,13 @@ public class GPBarFactory implements TranslatorConstants {
 
 		final Object selectionCell = graph.getSelectionCell();
 
-		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		// add simulation related popup menuitems here based on the selectionCell
-		appSimuCtx.addPopupMenuAction(pop, selectionCell);
+		try {
+			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			// add simulation related popup menuitems here based on the selectionCell
+			appSimuCtx.addPopupMenuAction(pop, selectionCell);
+		} catch (Exception e) {
+			IpssLogger.getLogger().severe(e.toString());
+		}
 		return pop;
 	}
 

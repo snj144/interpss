@@ -26,6 +26,7 @@ package org.interpss.editor;
 
 import org.interpss.editor.app.AppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
 
 import com.interpss.common.SpringAppContext;
@@ -76,4 +77,14 @@ public class EditorSpringAppContext extends SpringAppContext {
 	public static ISimuRecManager getSimuRecManager() {
 		return (ISimuRecManager)SpringAppCtx.getBean(Constants.SID_SimuRecManager);
 	}
+	
+	/**
+	 * Get the AppSimuContext from the SpringAppContext.
+	 *  
+	 * @return the AppSimuContext object
+	 */
+	public static IAppSimuContext getAppSimuContext() {
+		return (IAppSimuContext) SpringAppCtx
+				.getBean(Constants.SID_AppSimuContext);
+	}	
 }

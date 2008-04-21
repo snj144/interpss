@@ -14,6 +14,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.interpss.editor.doc.IpssProject;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.resources.Translator;
 
 
@@ -26,9 +27,21 @@ public class IpssCustomDocument extends IpssEditorDocument{
 	
 	private static JTextArea mainTextArea;
 	
+	/*
+	 * IpssCustomFile holds a ref to AppSimuCtx, which is created while loading
+	 * the file. 
+	 */
 	protected IpssCustomFile docFile;
 	
-	public IpssCustomDocument(GPGraphpad gp, IpssProject p, String name,IpssCustomFile file) {
+	public void setSimuAppContext(IAppSimuContext aContext) {
+		this.docFile.setSimuAppContext(aContext);
+	}
+
+    public IAppSimuContext getSimuAppContext() {
+		return this.docFile.getSimuAppContext();
+	}
+    
+	public IpssCustomDocument(GPGraphpad gp, IpssProject p, String name, IpssCustomFile file) {
 		super();
 		
 		setDoubleBuffered(true);
@@ -39,10 +52,8 @@ public class IpssCustomDocument extends IpssEditorDocument{
 		setProject(p);
 		
 		if (file != null) {
-			setSimuAppContext(file.getSimuAppContext());
+			//setSimuAppContext(file.getSimuAppContext());
 			this.docFile = file;
-		} else {
-//			this.docFile = new IpssCustomFile();
 		}
 		
 		setBorder(BorderFactory.createEtchedBorder());

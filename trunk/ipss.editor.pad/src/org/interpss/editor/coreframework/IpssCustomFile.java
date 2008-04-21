@@ -5,7 +5,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 public class IpssCustomFile {
 	private IAppSimuContext appSimuContext;
 	private String filePathName;
-// Mike
+
 	/** 
 	 * True if this documents graph model was modified since last save.
 	 */

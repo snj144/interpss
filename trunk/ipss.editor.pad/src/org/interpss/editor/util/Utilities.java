@@ -405,7 +405,7 @@ public final class Utilities {
 
 	
 	// load project data from DB
-	public static IAppSimuContext loadProjectData(IpssProjectItem item) {
+	public static IAppSimuContext loadProjectData(IpssProjectItem item) throws Exception  {
 		IpssLogger.getLogger().info("Load project data from DB ...");
 		IAppSimuContext appSimuContext = GraphSpringAppContext
 				.getIpssGraphicEditor().getCurrentAppSimuContext();
