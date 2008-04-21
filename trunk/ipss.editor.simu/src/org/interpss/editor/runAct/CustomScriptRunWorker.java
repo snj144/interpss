@@ -42,6 +42,7 @@ public class CustomScriptRunWorker {
 	public static boolean runCase(String scripts, String pluginName, SimuContext simuCtx) {
 		ICustomRunScriptPlugin adapter = PluginSpringAppContext.getCustomScriptRunPlugin(pluginName);
 		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(scripts, simuCtx.getMsgHub());
+		
 		return XmlScriptAclfRun.runAclf(ipssXmlDoc, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());		
 	}
 }

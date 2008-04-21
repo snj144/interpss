@@ -31,42 +31,63 @@ import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.jgraph.JGraph;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.XmlUtil;
 import com.interpss.simu.SimuContext;
 
 public class SimuActionAdapter {
 	public static void menu_annotate_loadflow(JGraph graph) {
 		if (graph != null) {
-			SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
-			GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACLF);
+			try {
+				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
+				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACLF);
+			} catch (Exception e) {
+				IpssLogger.getLogger().severe(e.toString());
+			}
 		}		
 	}
 
 	public static void menu_annotate_acscPositive(JGraph graph) {
 		if (graph != null) {
-			SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
-			GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
+			try {
+				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
+				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
+			} catch (Exception e) {
+				IpssLogger.getLogger().severe(e.toString());
+			}
 		}		
 	}
 
 	public static void menu_annotate_acscNegative(JGraph graph) {
 		if (graph != null) {
-			SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
-			GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_NEGATIVE);
+			try {
+				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
+				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_NEGATIVE);
+			} catch (Exception e) {
+				IpssLogger.getLogger().severe(e.toString());
+			}
 		}		
 	}
 
 	public static void menu_annotate_acscZero(JGraph graph) {
 		if (graph != null) {
-			SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
-			GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_ZERO);
+			try {
+				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
+				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_ZERO);
+			} catch (Exception e) {
+				IpssLogger.getLogger().severe(e.toString());
+			}
 		}		
 	}
 
 	public static void menu_annotate_clear(JGraph graph) {
 		if (graph != null) {
-			SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
-			GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_CLEAR);
+			try {
+				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
+				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_CLEAR);
+			} catch (Exception e) {
+				IpssLogger.getLogger().severe(e.toString());
+			}
 		}		
 	}
 
@@ -93,9 +114,15 @@ public class SimuActionAdapter {
 	}
 
 	public static void menu_tools_debug_simuCtxInfo() {
-		IAppSimuContext project = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-		SimuContext simuCtx = (SimuContext)project.getSimuCtx();
-		String str = simuCtx.toString();
+		String str = "";
+		try {
+			IAppSimuContext project = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			SimuContext simuCtx = (SimuContext)project.getSimuCtx();
+			str = simuCtx.toString();
+		} catch (Exception e) {
+			IpssLogger.getLogger().severe(e.toString());
+			str = e.toString();
+		}
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("SimuNetwork object info");
   		dialog.display(str);		
 	}

@@ -83,8 +83,14 @@ public class SimuRunWorker extends Thread {
 	public void run() {
 		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor()
 				.getAppStatus();
-		IAppSimuContext appSimuCtx = GraphSpringAppContext
-				.getIpssGraphicEditor().getCurrentAppSimuContext();
+		IAppSimuContext appSimuCtx = null;
+		try {
+			appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+			return;
+		}
+		
 		if (this.runType == SimuRunType.Aclf) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run AC Loadflow Analysis ...", "Run Aclf");
@@ -144,8 +150,7 @@ public class SimuRunWorker extends Thread {
 						this.scripts, classname);
 				try {
 					ISimuCaseRunner runner = (ISimuCaseRunner) MemoryJavaCompiler
-							.javac(
-									CoreScriptUtilFunc.RunCaseScriptingPackageName
+							.javac(CoreScriptUtilFunc.RunCaseScriptingPackageName
 											+ "/" + classname, javacode);
 					// run the custom scripts
 					if (runner.runCase(simuCtx, simuCtx.getMsgHub()))
@@ -162,7 +167,6 @@ public class SimuRunWorker extends Thread {
 			}
 			appStatus.busyStop("Run Scripts finished");
 		}
-
 		else if (this.runType == SimuRunType.Dclf) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run DC Loadflow Analysis ...", "Run Dclf");

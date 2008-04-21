@@ -99,17 +99,21 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 				.getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
 		if (!simuCtx.getDStabilityNet().isLfConverged()) {
-			msg
-					.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
+			msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
 			return false;
 		}
 
 		// set up output and run the simulation
-		IDStabSimuDatabaseOutputHandler handler = RunActUtilFunc
+		IDStabSimuDatabaseOutputHandler handler = null;
+		try {
+			handler = RunActUtilFunc
 				.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}	
 		if (handler == null)
 			return false;
-
+		
 		// setup if there is output filtering
 		handler.setOutputFilter(dStabCaseData.isOutputFilter());
 		if (handler.isOutputFilter())
@@ -173,10 +177,16 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		GridMessageRouter msgRouter = new GridMessageRouter(msg);
 		grid.addMessageListener(msgRouter);
 
-		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc
+		IDStabSimuDatabaseOutputHandler dstabDbHandler = null;
+		try {
+			dstabDbHandler = RunActUtilFunc
 				.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}
 		if (dstabDbHandler == null)
 			return false;
+		
 		msgRouter.addDStabSimuDbOutputHandler(dstabDbHandler);
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(dstabDbHandler);
 

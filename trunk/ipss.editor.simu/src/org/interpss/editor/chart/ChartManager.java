@@ -63,7 +63,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 public class ChartManager {
-	public static void addPopupMenuAction(JPopupMenu menu, final Object cell) {
+	public static void addPopupMenuAction(JPopupMenu menu, final Object cell) throws Exception {
 		final IAppSimuContext appSimuCtx = GraphSpringAppContext
 				.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext) appSimuCtx.getSimuCtx();
@@ -193,14 +193,16 @@ public class ChartManager {
 									+ "\n Please contact InterPSS support");
 				}
 				if (machRecList != null && machRecList.size() > 0) {
-					IAppSimuContext appSimuCtx = GraphSpringAppContext
-							.getIpssGraphicEditor().getCurrentAppSimuContext();
-					if (appSimuCtx.isSimuNetDataDirty()) {
-						SpringAppContext
-								.getIpssMsgHub()
-								.sendWarnMsg(
-										"The SimuNetwork object is dirty. You may want to re-run the analysis");
-					}
+					try {
+						IAppSimuContext appSimuCtx = GraphSpringAppContext
+									.getIpssGraphicEditor().getCurrentAppSimuContext();
+						if (appSimuCtx.isSimuNetDataDirty()) {
+							SpringAppContext.getIpssMsgHub().sendWarnMsg(
+									"The SimuNetwork object is dirty. You may want to re-run the analysis");
+						}
+					} catch (Exception ex) {
+						IpssLogger.getLogger().severe(ex.toString());
+					}						
 					IOutputTextDialog dialog = UISpringAppContext
 							.getOutputTextDialog("Machine State Output");
 					dialog.display(machRecList);
@@ -477,15 +479,20 @@ public class ChartManager {
 	 * @param yLabel state name
 	 */
 	public static void plotStateCurve(int caseId, String elemId, String yLabel,
-			String yDataLabel, String recType) {
-		IAppSimuContext appSimuCtx = GraphSpringAppContext
-				.getIpssGraphicEditor().getCurrentAppSimuContext();
-		if (appSimuCtx.isSimuNetDataDirty()) {
-			SpringAppContext
-					.getIpssMsgHub()
-					.sendWarnMsg(
-							"The SimuNetwork object is dirty. Network data may have been modified. You may want to re-run the analysis.");
-		}
+							String yDataLabel, String recType) {
+		try {
+			IAppSimuContext appSimuCtx = GraphSpringAppContext
+			.getIpssGraphicEditor().getCurrentAppSimuContext();
+			if (appSimuCtx.isSimuNetDataDirty()) {
+				SpringAppContext
+						.getIpssMsgHub()
+						.sendWarnMsg(
+								"The SimuNetwork object is dirty. Network data may have been modified. You may want to re-run the analysis.");
+			}
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}	
+		
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
 		List<BaseSimuDBRecord> elemRecList = null;
 		try {
@@ -583,6 +590,7 @@ public class ChartManager {
 	private static void chartBusLoadCurve(String busid) {
 		LoadScheduleChart plot = new LoadScheduleChart("Bus Load Schedule");
 
+		try {
 		SimuContext simuCtx = (SimuContext) GraphSpringAppContext
 				.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
 		DistNetwork distNet = simuCtx.getDistNet();
@@ -607,5 +615,8 @@ public class ChartManager {
 
 		plot.createChart();
 		plot.showChart();
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}		
 	}
 }

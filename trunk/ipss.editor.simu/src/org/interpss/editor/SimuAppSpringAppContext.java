@@ -26,7 +26,6 @@ package org.interpss.editor;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
@@ -37,16 +36,6 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.IpssMapper;
 
 public class SimuAppSpringAppContext extends SpringAppContext {
-	/**
-	 * Get the AppSimuContext from the SpringAppContext.
-	 *  
-	 * @return the AppSimuContext object
-	 */
-	public static IAppSimuContext getAppSimuContext() {
-		return (IAppSimuContext) SpringAppCtx
-				.getBean(Constants.SID_AppSimuContext);
-	}
-
 	/**
 	 * Get the ProjectData from the SpringAppContext.
 	 *  
