@@ -1,15 +1,17 @@
 package org.interpss.custom.run;
 
+import org.interpss.schema.InterPSSXmlType;
+
 import com.interpss.common.custom.IpssCustomAdapter;
-import com.interpss.simu.SimuContext;
+import com.interpss.common.msg.IPSSMsgHub;
 
 public interface ICustomRunScriptPlugin extends IpssCustomAdapter {
 	/**
-	 * Run the scripts using custom plugin
+	 * create an InterPSS Xml document for the script running
 	 * 
 	 * @param scripts run scripts, a string representing an XML document
-	 * @param simuCtx the SimuContext object
-	 * @return
+	 * @param msg Ipss msg object
+	 * @return null if there is any error
 	 */
-	boolean runCase(String scripts, SimuContext simuCtx);
+	InterPSSXmlType createIpssXmlDocument(String scripts, IPSSMsgHub msg);
 }
