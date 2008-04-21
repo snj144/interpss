@@ -354,12 +354,10 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public IpssEditorDocument getCurrentDocument() {
-		if (desktop == null) // added by Mike, desktop may be null during
-								// unit testing
+		if (desktop == null) // added by Mike, desktop may be null during unit testing
 			return null;
 
-		IpssDocInternalFrame internalFrame = (IpssDocInternalFrame) desktop
-				.getSelectedComponent();
+		IpssDocInternalFrame internalFrame = (IpssDocInternalFrame)desktop.getSelectedComponent();
 		if (internalFrame == null)
 			return null;
 		return internalFrame.getDocument();
@@ -1028,13 +1026,12 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		doc = item.getDocument();
 		if (doc instanceof GPDocument || doc instanceof IpssCustomDocument) {
 			// Richard: the following logic also need to be applied when we
-			// import
-			// an exiting graphic or custom project.
-			// Begin
-			IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities
+			// import an exiting graphic or custom project. Begin
+			try {
+				IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities
 					.loadProjectData(item);
 			// end
-			if (doc instanceof GPDocument) {
+				if (doc instanceof GPDocument) {
 				// we need synch some data in the graph with the project data,
 				// since project data may be
 				// created later.
@@ -1042,11 +1039,15 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 				// .getGNetForm().getLabel(IUserData.NET_LABEL);
 				// IpssLogger.getLogger().info(
 				// "ProjectData.name updated to " + str);
-				appSimuContext.getProjData().setProjectName(
+					appSimuContext.getProjData().setProjectName(
 						appSimuContext.getProjData().getFilename());
-				((GPDocument) doc).getGFormContainer().getGNetForm()
+					((GPDocument) doc).getGFormContainer().getGNetForm()
 						.setNewState(false);
-			}
+				}
+			} catch (Exception e) {
+				IpssLogger.getLogger().severe(e.toString());
+				return;
+			}				
 		}
 	}
 
@@ -1209,11 +1210,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * 
 	 * @see com.interpss.editor.jgraph.ui.IGraphicEditor#getProject()
 	 */
-	public IAppSimuContext getCurrentAppSimuContext() {
+	public IAppSimuContext getCurrentAppSimuContext() throws Exception {
 		if (getCurrentDocument() != null)
 			return getCurrentDocument().getSimuAppContext();
 		else
-			return null;
+			throw new Exception("Current documentation cannot be found");
 	}
 
 	/*
