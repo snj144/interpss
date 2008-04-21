@@ -95,9 +95,13 @@ public class GraphSpringAppContext extends SpringAppContext {
 			return (JDialog)branchEditor;
 		}
 		else if (obj == null) {  // this is the case of NetEditor
-			IFormDataDialog netEditor = getProjectDataEditor();
-			netEditor.init(model.getGFormContainer(), getIpssGraphicEditor().getCurrentAppSimuContext().getProjData());
-			return (JDialog)netEditor;	
+			try {
+				IFormDataDialog netEditor = getProjectDataEditor();
+				netEditor.init(model.getGFormContainer(), getIpssGraphicEditor().getCurrentAppSimuContext().getProjData());
+				return (JDialog)netEditor;
+			} catch (Exception e) {
+				IpssLogger.getLogger().severe(e.toString());
+			}				
 		}	
 		else {
 			IpssLogger.getLogger().severe("Programming error");

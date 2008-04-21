@@ -36,7 +36,7 @@ public interface IGraphicEditor {
 	 * 
 	 * @return the ProjData object
 	 */
-	IAppSimuContext getCurrentAppSimuContext();
+	IAppSimuContext getCurrentAppSimuContext() throws Exception;
 
 	/**
 	 * 
