@@ -68,8 +68,7 @@ public class XmlScriptAclfRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet,
-			IPSSMsgHub msg) {
+	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
 		RunStudyCaseXmlType.RunAclfStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getRunAclfStudyCase();
 		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
 

@@ -85,8 +85,10 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	}
 
 	public Object getSimuCtx() {
-		if (this.simuCtx == null)
+		if (this.simuCtx == null) {
+			IpssLogger.getLogger().info("SimuSpringAppContext.getSimuContext() called to create a new SimuContext object");
 			this.simuCtx = SimuSpringAppContext.getSimuContext();
+		}
 		return this.simuCtx;
 	}
 
@@ -278,7 +280,11 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	public void addPopupMenuAction(JPopupMenu menu, final Object cell) {
 		IpssLogger.getLogger().info(
 				"AppSimuContextImpl.addPopupMenuAction called");
-		ChartManager.addPopupMenuAction(menu, cell);
+		try {
+			ChartManager.addPopupMenuAction(menu, cell);
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}
 	}
 
 	/**

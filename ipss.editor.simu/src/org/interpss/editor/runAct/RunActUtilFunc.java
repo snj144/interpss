@@ -186,7 +186,7 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(
-			DynamicSimuAlgorithm algo) {
+			DynamicSimuAlgorithm algo) throws Exception {
 		return createDBOutputHandler(algo, null);
 	}
 
@@ -199,7 +199,8 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(
-			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec dstabRec) {
+			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec dstabRec) 
+				throws Exception {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler) algo
 				.getSimuOutputHandler();
 		IAppSimuContext appSimuCtx = GraphSpringAppContext

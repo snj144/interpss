@@ -44,6 +44,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.CoreSpringAppContext;
@@ -70,15 +71,21 @@ public class XmlScriptDStabRun {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runDStab(InterPSSXmlType ipssXmlDoc, SimuContext simuCtx,
-			IPSSMsgHub msg) {
+	public static boolean runDStab(InterPSSXmlType ipssXmlDoc, SimuContext simuCtx, IPSSMsgHub msg) {
 		// get the RunStudyCase object, root level modification has already
 		// applied
 		// to the DStabNet object
 		RunStudyCaseXmlType.RunDStabStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getRunDStabStudyCase();
 
 		if (xmlRunCase != null) {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			IAppSimuContext appSimuCtx = null;
+			try {
+				appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+			} catch (Exception ex) {
+				IpssLogger.getLogger().severe(ex.toString());
+				return false;
+			}
+			
 			DStabilityNetwork dstabNet = simuCtx.getDStabilityNet();
 			DStabStudyCaseXmlType xmlDefaultCase = xmlRunCase.getDefaultDStabStudyCase(); 
 
@@ -279,11 +286,15 @@ public class XmlScriptDStabRun {
 		// create a DB handler to store simulation result, a Db simu case will
 		// be created if not existed.
 		// to get db case id: dstabDbHandler.getDBCaseId()
-		IDStabSimuDatabaseOutputHandler dstabDbHandler = RunActUtilFunc
-				.createDBOutputHandler(dstabAlgo, dstabRec);
+		IDStabSimuDatabaseOutputHandler dstabDbHandler = null;
+		try {
+			dstabDbHandler = RunActUtilFunc.createDBOutputHandler(dstabAlgo, dstabRec);
+		} catch (Exception ex) {
+			IpssLogger.getLogger().severe(ex.toString());
+		}
 		if (dstabDbHandler == null)
 			return false;
-
+		
 		// correlate net.id, case.id and dbCaseId
 		dstabAlgo.getDStabNet().setId(dstabRec.getRecId());
 		SpringAppContext.getSimuRecManager().addDBCaseId(dstabRec.getRecId(), dstabDbHandler

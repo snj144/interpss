@@ -73,6 +73,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         		javaRadioButton.setSelected(true);
     		else if (_caseData.getScriptLanguage() == CaseData.ScriptLanguage_Plugin) {
     			customRadioButton.setSelected(true);
+    			customPluginComboBox.setEnabled(true);
     		}
     		else
         		xmlRadioButton.setSelected(true);
