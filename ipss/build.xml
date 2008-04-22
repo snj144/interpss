@@ -217,36 +217,6 @@
     		</fileset>	    	
         </copy>
         
-		<copy todir="H:/backup/ipss/ipss.plugin">
-	    	<fileset dir="${dev_base}/ipss.plugin">
-      			<exclude name="**/*.class"/>
-    		</fileset>	    	
-        </copy>
-
-		<copy todir="H:/backup/ipss/ipss.plugin.test">
-	    	<fileset dir="${dev_base}/ipss.plugin.test">
-      			<exclude name="**/*.class"/>
-    		</fileset>	    	
-        </copy>
-
-		<copy todir="H:/backup/ipss/ipss">
-	    	<fileset dir="${dev_base}/ipss">
-      			<exclude name="**/*.class"/>
-    		</fileset>	    	
-        </copy>
-
-		<copy todir="H:/backup/ipss/ipss.editor">
-	    	<fileset dir="${dev_base}/ipss.editor">
-      			<exclude name="**/*.class"/>
-    		</fileset>	    	
-        </copy>
-
-		<copy todir="H:/backup/ipss/ipss.editor.simu">
-	    	<fileset dir="${dev_base}/ipss.editor.simu">
-      			<exclude name="**/*.class"/>
-    		</fileset>	    	
-        </copy>
-
 		<copy todir="H:/backup/ipss/RoseModel">
 	    	<fileset dir="${dev_base}/RoseModel">
       			<exclude name="**/*.java,**/*.class"/>
