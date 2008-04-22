@@ -33,7 +33,6 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
@@ -81,7 +80,7 @@ public class DocumentUtilFunc  {
 			if (appSimuCtx != null)
 				return (isAclfDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			// do nothing
 		}		
 		return false;
 	}
@@ -98,7 +97,7 @@ public class DocumentUtilFunc  {
 			if (appSimuCtx != null)
 				return (isAcscDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			//IpssLogger.getLogger().severe(ex.toString());
 		}		
 		return false;
 	}
@@ -115,7 +114,7 @@ public class DocumentUtilFunc  {
 			if (appSimuCtx != null)
 				return (isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			//IpssLogger.getLogger().severe(ex.toString());
 		}		
 		return false;
 	}
