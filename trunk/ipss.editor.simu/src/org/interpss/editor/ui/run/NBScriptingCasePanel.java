@@ -30,13 +30,18 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 
 import org.interpss.PluginSpringAppContext;
+import org.interpss.custom.run.ICustomRunScriptPlugin;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
+import org.interpss.schema.InterPSSXmlType;
 import org.interpss.xml.IpssXmlParser;
 
+import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
 
 public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDataPanel {
@@ -73,7 +78,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         		javaRadioButton.setSelected(true);
     		else if (_caseData.getScriptLanguage() == CaseData.ScriptLanguage_Plugin) {
     			customRadioButton.setSelected(true);
-    			customPluginComboBox.setEnabled(true);
+    	        setCustomPluginStatus(true);
     		}
     		else
         		xmlRadioButton.setSelected(true);
@@ -140,6 +145,7 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         javaRadioButton = new javax.swing.JRadioButton();
         customRadioButton = new javax.swing.JRadioButton();
         customPluginComboBox = new javax.swing.JComboBox();
+        displayXmlButton = new javax.swing.JButton();
 
         scriptsTextArea.setColumns(80);
         scriptsTextArea.setFont(new java.awt.Font("Courier New", 0, 12));
@@ -151,10 +157,20 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         xmlRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         xmlRadioButton.setSelected(true);
         xmlRadioButton.setText("Xml");
+        xmlRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                xmlRadioButtonActionPerformed(evt);
+            }
+        });
 
         languageButtonGroup.add(javaRadioButton);
         javaRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         javaRadioButton.setText("Java");
+        javaRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                javaRadioButtonActionPerformed(evt);
+            }
+        });
 
         languageButtonGroup.add(customRadioButton);
         customRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -168,6 +184,15 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
         customPluginComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         customPluginComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PSS/E Contingency Analysis" }));
         customPluginComboBox.setEnabled(false);
+
+        displayXmlButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        displayXmlButton.setText("XML");
+        displayXmlButton.setEnabled(false);
+        displayXmlButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                displayXmlButtonActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -186,18 +211,21 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                         .add(customRadioButton)
                         .add(32, 32, 32)
-                        .add(customPluginComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 248, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(customPluginComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 248, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(displayXmlButton)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .addContainerGap(15, Short.MAX_VALUE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(xmlRadioButton)
                     .add(javaRadioButton)
                     .add(customRadioButton)
-                    .add(customPluginComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(customPluginComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(displayXmlButton))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(textAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 441, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -205,16 +233,35 @@ public class NBScriptingCasePanel extends javax.swing.JPanel implements IFormDat
     }// </editor-fold>//GEN-END:initComponents
 
     private void customRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_customRadioButtonActionPerformed
-        if (customRadioButton.isSelected())
-        	customPluginComboBox.setEnabled(true);
-        else
-        	customPluginComboBox.setEnabled(false);
+        setCustomPluginStatus(customRadioButton.isSelected());
     }//GEN-LAST:event_customRadioButtonActionPerformed
+
+    private void displayXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_displayXmlButtonActionPerformed
+    	String pluginName = (String)customPluginComboBox.getSelectedItem();
+    	String scripts = scriptsTextArea.getText();
+		ICustomRunScriptPlugin adapter = PluginSpringAppContext.getCustomScriptRunPlugin(pluginName);
+		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(scripts, SpringAppContext.getIpssMsgHub());
+		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("InterPSS Xml Docuement");
+		dialog.display(ipssXmlDoc.toString());		
+    }//GEN-LAST:event_displayXmlButtonActionPerformed
+
+    private void javaRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_javaRadioButtonActionPerformed
+        setCustomPluginStatus(false);
+    }//GEN-LAST:event_javaRadioButtonActionPerformed
+
+    private void xmlRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_xmlRadioButtonActionPerformed
+        setCustomPluginStatus(false);
+    }//GEN-LAST:event_xmlRadioButtonActionPerformed
     
+    private void setCustomPluginStatus(boolean b) {
+		customPluginComboBox.setEnabled(b);
+		displayXmlButton.setEnabled(b);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox customPluginComboBox;
     private javax.swing.JRadioButton customRadioButton;
+    private javax.swing.JButton displayXmlButton;
     private javax.swing.JRadioButton javaRadioButton;
     private javax.swing.ButtonGroup languageButtonGroup;
     private javax.swing.JTextArea scriptsTextArea;
