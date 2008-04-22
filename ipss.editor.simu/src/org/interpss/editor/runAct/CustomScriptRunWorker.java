@@ -1,5 +1,5 @@
 /*
- * @(#)XmlScriptRunWorker.java   
+ * @(#)CustomScriptRunWorker.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -15,7 +15,7 @@
  *
  * @Author Mike Zhou
  * @Version 1.0
- * @Date 01/15/2008
+ * @Date 04/15/2008
  * 
  *   Revision History
  *   ================
@@ -36,13 +36,16 @@ public class CustomScriptRunWorker {
 	 * Run the scripts using custom plugin
 	 * 
 	 * @param scripts run scripts, a string representing an XML document
+	 * @param pluginName custom script run plugin name
 	 * @param simuCtx the SimuContext object
 	 * @return
 	 */
 	public static boolean runCase(String scripts, String pluginName, SimuContext simuCtx) {
+		// create a custom script run adapter based on the plugin name
 		ICustomRunScriptPlugin adapter = PluginSpringAppContext.getCustomScriptRunPlugin(pluginName);
 		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(scripts, simuCtx.getMsgHub());
 		
+		// run Aclf using the xml document
 		return XmlScriptAclfRun.runAclf(ipssXmlDoc, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());		
 	}
 }
