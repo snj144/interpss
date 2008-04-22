@@ -29,12 +29,15 @@ import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.app.ProjectScriptFileUtil;
 import org.interpss.editor.chart.DStabPlotSelectionDialog;
 import org.interpss.editor.coreframework.GPDocument;
+import org.interpss.editor.coreframework.IpssCustomDocument;
+import org.interpss.editor.coreframework.IpssCustomFile;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssReportDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.form.GFormContainer;
+import org.interpss.editor.io.CustomFileUtility;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IIpssGraphModel;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
@@ -188,6 +191,10 @@ public class EditorActionAdapter {
 			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
 				return;
 			appSimuCtx.setSimuNetDataDirty(false);
+		}
+		else {
+			IpssCustomFile file = ((IpssCustomDocument)doc).getDocFile(); 
+			CustomFileUtility.loadCustomFile(file.getFilePathName(), "", simuCtx);			
 		}
 		
 		IpssLogger.getLogger().info("Run Scripts");
