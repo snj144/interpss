@@ -1,3 +1,27 @@
+/*
+ * @(#)ContingencyFileParser.java   
+ *
+ * Copyright (C) 2008 www.interpss.org
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+ * as published by the Free Software Foundation; either version 2.1
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * @Author Mike Zhou
+ * @Version 1.0
+ * @Date 04/15/2008
+ * 
+ *   Revision History
+ *   ================
+ *
+ */
+
 package org.interpss.custom.run.psseCon;
 
 import java.io.BufferedReader;
@@ -19,17 +43,24 @@ import com.interpss.common.util.StringUtil;
 
 
 public class ContingencyFileParser {
-	public static final String Token_ConBegin = "CONTINGENCY";
-	public static final String Token_ConEnd = "END";
-	public static final String Token_FileEnd = "END";
-	public static final String Token_OpenLine = "OPEN LINE";
+	public static final String Token_ConBegin 	= "CONTINGENCY";
+	public static final String Token_ConEnd 	= "END";
+	public static final String Token_FileEnd 	= "END";
+	public static final String Token_OpenLine 	= "OPEN LINE";
 	
-	public static final int Position_OpenLline_FromBus = 4;
-	public static final int Position_OpenLline_ToBus = 7;
-	public static final int Position_OpenLline_CirNo = 9;
+	public static final int Position_OpenLline_FromBus 	= 4;
+	public static final int Position_OpenLline_ToBus 	= 7;
+	public static final int Position_OpenLline_CirNo 	= 9;
 
 	public static enum FileStatus {ConBegin, ConEnd, FileEnd, UnKnown}; 
 	
+	/**
+	 * parse the contingency control file for modifications to the network for contingency analysis
+	 * 
+	 * @param filepath contingency control file path
+	 * @return
+	 * @throws Exception
+	 */
 	public static InterPSSXmlType parseControlFile(String filepath) throws Exception {
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
@@ -51,6 +82,13 @@ public class ContingencyFileParser {
 		return parseControlFile(strAry);
 	}
 	
+	/**
+	 * parse the string array for modifications to the network for contingency analysis
+	 * 
+	 * @param strAry
+	 * @return
+	 * @throws Exception
+	 */
 	public static InterPSSXmlType parseControlFile(String[] strAry) throws Exception {
 		IpssXmlParser parser = new IpssXmlParser(RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
 
