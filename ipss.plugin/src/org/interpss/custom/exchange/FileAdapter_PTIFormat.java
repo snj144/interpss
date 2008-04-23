@@ -46,9 +46,6 @@ import java.io.InputStreamReader;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.exchange.psse.PSSEUtilFunc;
-import org.interpss.custom.exchange.psse.aclf.PSSEGen;
-import org.interpss.custom.exchange.psse.aclf.PSSELoad;
-import org.interpss.custom.exchange.psse.aclf.PSSEXformer;
 import org.interpss.custom.exchange.psse.datarec.PSSEBranchDataRecord;
 import org.interpss.custom.exchange.psse.datarec.PSSEBusDataRecord;
 import org.interpss.custom.exchange.psse.datarec.PSSEDCLintDataRecord;
@@ -78,6 +75,9 @@ import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.net.Bus;
+import com.interpss.ext.psse.aclf.PSSEAclfGen;
+import com.interpss.ext.psse.aclf.PSSEAclfLoad;
+import com.interpss.ext.psse.aclf.PSSEAclfXformer;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -381,8 +381,8 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			
 			if (bus.getRegDeviceList().size() > 0) {
 				for( Object obj : bus.getRegDeviceList()) {
-					if (obj instanceof PSSELoad) {
-						PSSELoad load = (PSSELoad)obj;
+					if (obj instanceof PSSEAclfLoad) {
+						PSSEAclfLoad load = (PSSEAclfLoad)obj;
 						loadPSum += load.getConstPLoad().getReal() + load.getConstILoad().getReal() +load.getConstZLoad().getReal(); 
 						loadQSum += load.getConstPLoad().getImaginary() + load.getConstILoad().getImaginary() +load.getConstZLoad().getImaginary(); 
 						constP_P += load.getConstPLoad().getReal(); 
@@ -395,8 +395,8 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 							load.getConstILoad().getImaginary() != 0.0)
 							isFuncLoad = true;
 					}
-					else if (obj instanceof PSSEGen) {
-						PSSEGen gen = (PSSEGen)obj;
+					else if (obj instanceof PSSEAclfGen) {
+						PSSEAclfGen gen = (PSSEAclfGen)obj;
 						genPSum += gen.getPGen();
 						genQSum += gen.getQGen();
 						if (vSpec == 0.0)
@@ -482,8 +482,8 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			• Not used when |COD| is 0 or 4; VMA = 1.1 and VMI = 0.9 by default.
 */
 		for( Object obj : adjNet.getBranchList()) {
-			if (obj instanceof PSSEXformer) {
-				PSSEXformer xfr = (PSSEXformer)obj;
+			if (obj instanceof PSSEAclfXformer) {
+				PSSEAclfXformer xfr = (PSSEAclfXformer)obj;
 	          	if (xfr.getControlMode() == 1) {
 	          		// ±1 for voltage control; a negative control mode suppresses the automatic adjustment of this
 	          		// transformer.
@@ -500,7 +500,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
 	          		// we use from side tap to control
 	          		tapv.setControlOnFromSide(true);
-	          		tapv.setMeteredOnFromSide(xfr.getControlOnFromSide());
+	          		tapv.setMeteredOnFromSide(xfr.isControlOnFromSide());
 	          		tapv.setCompensateZ(xfr.getLoadDropCZ());
 	          		adjNet.addTapControl(tapv, xfr.getContBusId());   
 	          	}
@@ -517,7 +517,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
 	          		// we use from side tap to control
 	          		tapv.setControlOnFromSide(true);
-	          		tapv.setMeteredOnFromSide(xfr.getControlOnFromSide());
+	          		tapv.setMeteredOnFromSide(xfr.isControlOnFromSide());
 	          		tapv.setFlowFrom2To(true);
 	          		tapv.setCompensateZ(xfr.getLoadDropCZ());
 	          		adjNet.addTapControl(tapv, xfr.getContBusId());   
@@ -536,7 +536,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	          		ps.setControlRange(new LimitType(xfr.getVmLimit().getMax()/baseMva, xfr.getVmLimit().getMin()/baseMva));
 	          		// we use from side angle to control
 	          		ps.setControlOnFromSide(true);
-	          		ps.setMeteredOnFromSide(xfr.getControlOnFromSide());
+	          		ps.setMeteredOnFromSide(xfr.isControlOnFromSide());
 	          		ps.setFlowFrom2To(true);
 	          		if (xfr.getControlMode() == -3)
 	          			ps.setStatus(false);
