@@ -35,6 +35,64 @@
           </branchChangeRecList>
         </modification>
       </aclfStudyCase>
+      
+      <aclfStudyCase>
+        <recId>LOSE60-70_1_1</recId>
+        <recName>LOSE60-70</recName>
+        <recDesc>CONTINGENCY LOSE60-70 by dummy bus 60701</recDesc>
+        <modification>
+          <branchChangeRecList>
+            <branchChangeRec>
+              <recId>OpenLine_1_1_1</recId>
+              <recName>Open line, contingency 1 event 1</recName>
+              <recDesc>OPEN LINE FROM BUS 60 TO BUS 60701 CIRCUIT 1</recDesc>
+              <fromBusId>60</fromBusId>
+              <toBusId>60701</toBusId>
+              <circuitNumber>1</circuitNumber>
+              <offLine>true</offLine>
+            </branchChangeRec>
+          </branchChangeRecList>
+        </modification>
+      </aclfStudyCase>
+      
+      <aclfStudyCase>
+        <recId>LOSE60-70_1_2</recId>
+        <recName>LOSE60-70</recName>
+        <recDesc>CONTINGENCY LOSE60-70 by dummy bus 60702</recDesc>
+        <modification>
+          <branchChangeRecList>
+            <branchChangeRec>
+              <recId>OpenLine_1_1_2</recId>
+              <recName>Open line, contingency 1 event 1</recName>
+              <recDesc>OPEN LINE FROM BUS 60702 TO BUS 70 CIRCUIT 1</recDesc>
+              <fromBusId>60702</fromBusId>
+              <toBusId>70</toBusId>
+              <circuitNumber>1</circuitNumber>
+              <offLine>true</offLine>
+            </branchChangeRec>
+          </branchChangeRecList>
+        </modification>
+      </aclfStudyCase>
+      
+      <aclfStudyCase>
+        <recId>LOSE60-70_1_3</recId>
+        <recName>LOSE60-70</recName>
+        <recDesc>CONTINGENCY LOSE60-70 by dummy bus 60701</recDesc>
+        <modification>
+          <branchChangeRecList>
+            <branchChangeRec>
+              <recId>OpenLine_1_1_3</recId>
+              <recName>Open line, contingency 1 event 1</recName>
+              <recDesc>OPEN LINE FROM BUS 60701 TO BUS 60702 CIRCUIT 1</recDesc>
+              <fromBusId>60701</fromBusId>
+              <toBusId>60702</toBusId>
+              <circuitNumber>1</circuitNumber>
+              <offLine>true</offLine>
+            </branchChangeRec>
+          </branchChangeRecList>
+        </modification>
+      </aclfStudyCase>
+      
       <aclfStudyCase>
         <recId>LOSE70-90_2</recId>
         <recName>LOSE70-90</recName>
