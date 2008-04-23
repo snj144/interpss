@@ -1,5 +1,5 @@
  /*
-  * @(#)DCLintDataRecord.java   
+  * @(#)DCLintDataProcessor.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -22,27 +22,18 @@
   *
   */
 
-package org.interpss.custom.exchange.psse.datarec;
+package org.interpss.custom.exchange.psse;
 
 /*
  * PTI PSS/E File input adapter. The implementation is Based on 
  * PSS/E 29, published Oct 2002.
- * 
- * The following records are implemented
- * 
- * 		Case Identification
-		Bus Data
-		Generator Data
-		Nontransformer Branch Data
-		Transformer Data
-		Area Interchange Data
  */
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
 
-public class PSSEDCLintDataRecord  {
+public class PSSEDCLintDataProcessor  {
 	/** 
 	 * Process DC line record lines
 	 *

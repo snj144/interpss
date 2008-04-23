@@ -1,5 +1,5 @@
  /*
-  * @(#)BranchDataRecord.java   
+  * @(#)BranchDataProcessor.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -22,10 +22,9 @@
   *
   */
 
-package org.interpss.custom.exchange.psse.datarec;
+package org.interpss.custom.exchange.psse;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.exchange.psse.PSSEUtilFunc;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
@@ -41,7 +40,7 @@ import com.interpss.ext.psse.PSSEObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfLine;
 import com.interpss.ext.psse.aclf.PSSEAclfXformer;
 
-public class PSSEBranchDataRecord {
+public class PSSEBranchDataProcessor {
 	/** 
 	 * Process branch record lines
 	 *
@@ -152,16 +151,16 @@ public class PSSEBranchDataRecord {
 		if (J < 0) 
 			J = -J;
 		String jStr = new Integer(J).toString();
-/*		
-		PSSELine branch = (PSSELine)adjNet.getBranch(iStr, jStr, ID);
+		
+		PSSEAclfLine branch = (PSSEAclfLine)adjNet.getBranch(iStr, jStr, ID);
 		if (branch == null) {
 			throw new Exception ("Branch not found in the network, I, J, ID: " + I + ", " + J + ", " + ID);
 		}
 		
-		for (String str : rec.dum) {
-			branch.addDummyBus(str, "");
+		for (String str : rec.dumBusId) {
+			if (str != null)
+				branch.addDummyBus(str, "");
 		}
-*/		
 	}	
 
 	/** 

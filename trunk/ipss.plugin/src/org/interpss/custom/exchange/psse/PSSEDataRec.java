@@ -1,8 +1,7 @@
-package org.interpss.custom.exchange.psse.datarec;
+package org.interpss.custom.exchange.psse;
 
 import java.util.StringTokenizer;
 
-import org.interpss.custom.exchange.psse.PSSEUtilFunc;
 
 public class PSSEDataRec {
 	public enum VersionNo {
@@ -98,7 +97,8 @@ public class PSSEDataRec {
 	 */
 	static public class MultiSecLineGroupRec {
 		public String i, j, id;
-		public String[] dum = new String[9];
+		public String[] dumBusId = new String[9];
+		public String[] dumBusName = new String[9];
 
 		public MultiSecLineGroupRec(String lineStr, VersionNo version) {
 			StringTokenizer st = new StringTokenizer(lineStr, ",");
@@ -106,23 +106,23 @@ public class PSSEDataRec {
 			j = st.nextToken().trim();
 			id = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[0] = st.nextToken().trim();
+				dumBusId[0] = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[1] = st.nextToken().trim();
+				dumBusId[1] = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[2] = st.nextToken().trim();
+				dumBusId[2] = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[3] = st.nextToken().trim();
+				dumBusId[3] = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[4] = st.nextToken().trim();
+				dumBusId[4] = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[5] = st.nextToken().trim();
+				dumBusId[5] = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[6] = st.nextToken().trim();
+				dumBusId[6] = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[7] = st.nextToken().trim();
+				dumBusId[7] = st.nextToken().trim();
 			if (st.hasMoreTokens())
-				dum[8] = st.nextToken().trim();
+				dumBusId[8] = st.nextToken().trim();
 		}
 	}
 
