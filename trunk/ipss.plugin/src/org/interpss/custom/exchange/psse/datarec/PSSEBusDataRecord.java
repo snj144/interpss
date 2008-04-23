@@ -26,8 +26,6 @@ package org.interpss.custom.exchange.psse.datarec;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.exchange.psse.PSSEUtilFunc;
-import org.interpss.custom.exchange.psse.aclf.PSSEGen;
-import org.interpss.custom.exchange.psse.aclf.PSSELoad;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
@@ -40,6 +38,9 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.ext.psse.PSSEObjectFactory;
+import com.interpss.ext.psse.aclf.PSSEAclfGen;
+import com.interpss.ext.psse.aclf.PSSEAclfLoad;
 
 public class PSSEBusDataRecord {
 	/** 
@@ -160,7 +161,7 @@ public class PSSEBusDataRecord {
 			throw new Exception ("Bus not found in the network, bus number: " + I);
 		}
 		
-		PSSELoad load = new PSSELoad();
+		PSSEAclfLoad load = PSSEObjectFactory.createPSSEAclfLoad();
 		load.setId(ID);
 		load.setName("Load:" + ID + "(" + I + ")");
 		load.setDesc("PSSE Load " + ID + " at Bus " + I);
@@ -241,7 +242,8 @@ public class PSSEBusDataRecord {
 		if (bus == null) {
 			throw new Exception ("Bus not found in the network, bus number: " + I);
 		}
-		PSSEGen gen = new PSSEGen();
+		
+		PSSEAclfGen gen = PSSEObjectFactory.createPSSEAclfGen();
 		gen.setId(ID);
 		gen.setName("Gen:" + ID + "(" + I + ")");
 		gen.setDesc("PSSE Generator " + ID + " at Bus " + I);
@@ -264,14 +266,10 @@ public class PSSEBusDataRecord {
 		gen.setXfrTap(GTAP);
 		gen.setContribFactor(RMPCT*0.01);
 
-		gen.getOwnerRec(0).setOwnerNumber(O1);
-		gen.getOwnerRec(0).setOwnershipFactor(F1);
-		gen.getOwnerRec(1).setOwnerNumber(O2);
-		gen.getOwnerRec(1).setOwnershipFactor(F2);
-		gen.getOwnerRec(2).setOwnerNumber(O3);
-		gen.getOwnerRec(2).setOwnershipFactor(F3);
-		gen.getOwnerRec(3).setOwnerNumber(O4);
-		gen.getOwnerRec(3).setOwnershipFactor(F4);
+		gen.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O1, F1));
+		gen.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O2, F2));
+		gen.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O3, F3));
+		gen.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O4, F4));
 		
 		bus.getRegDeviceList().add(gen);
 		
