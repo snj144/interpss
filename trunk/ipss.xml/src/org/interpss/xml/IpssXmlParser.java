@@ -184,12 +184,30 @@ public class IpssXmlParser {
 	public static Branch getBranch(BranchRecXmlType braRec, Network net) {
 		String fromId = braRec.getFromBusId();
 		String toId = braRec.getToBusId();
-		Branch branch = null;
 		String cirNo = braRec.getCircuitNumber();
+		Branch branch = null;
 		if (cirNo != null)
 			branch = net.getBranch(fromId, toId, cirNo);
 		else
 			branch = net.getBranch(fromId, toId);
+
+		if (branch == null && net.isSwitchBreakModel()) {
+			// if switch/branch model, the bus id might be dummy bus id
+			branch = net.getSwitchBreakBranch(fromId, null);
+			if (branch == null)
+				branch = net.getSwitchBreakBranch(toId, null);
+			
+			// check if branch cir no is correct
+			if (branch != null && cirNo != null) {
+				if (!cirNo.equals(branch.getCircuitNumber())) {
+					branch = null;
+					IpssLogger.getLogger().warning(
+							"Branch with dummy bus found, but cir no mismatch, fromId, toId, cirNo: " 
+							+ fromId + ", "	+ toId + ", " + cirNo);
+				}
+			}
+		}
+		
 		if (branch == null) {
 			IpssLogger.getLogger().warning(
 					"Branch not found, fromId, toId, cirNo: " + fromId + ", "
