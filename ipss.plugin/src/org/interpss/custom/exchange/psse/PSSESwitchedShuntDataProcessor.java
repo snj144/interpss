@@ -1,5 +1,5 @@
  /*
-  * @(#)SwitchedShuntDataRecord.java   
+  * @(#)SwitchedShuntDataProcessor.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.custom.exchange.psse.datarec;
+package org.interpss.custom.exchange.psse;
 
 /*
  * PTI PSS/E File input adapter. The implementation is Based on 
@@ -36,7 +36,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
 
-public class PSSESwitchedShuntDataRecord  {
+public class PSSESwitchedShuntDataProcessor  {
 	public static void processSwitchedShunt(
 				AclfAdjNetwork adjNet, 
 				String lineStr,

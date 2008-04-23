@@ -1,5 +1,5 @@
  /*
-  * @(#)BusDataRecord.java   
+  * @(#)BusDataProcessor.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -22,10 +22,9 @@
   *
   */
 
-package org.interpss.custom.exchange.psse.datarec;
+package org.interpss.custom.exchange.psse;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.custom.exchange.psse.PSSEUtilFunc;
 
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
@@ -42,7 +41,7 @@ import com.interpss.ext.psse.PSSEObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfGen;
 import com.interpss.ext.psse.aclf.PSSEAclfLoad;
 
-public class PSSEBusDataRecord {
+public class PSSEBusDataProcessor {
 	/** 
 	 * Process bus record lines
 	 *

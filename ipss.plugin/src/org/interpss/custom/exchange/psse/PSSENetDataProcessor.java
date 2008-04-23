@@ -1,5 +1,5 @@
  /*
-  * @(#)NetDataRecord.java   
+  * @(#)PSSENetDataProcessor.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -22,7 +22,7 @@
   *
   */
 
-package org.interpss.custom.exchange.psse.datarec;
+package org.interpss.custom.exchange.psse;
 
 /*
  * PTI PSS/E File input adapter. The implementation is Based on 
@@ -38,7 +38,6 @@ package org.interpss.custom.exchange.psse.datarec;
 		Area Interchange Data
  */
 
-import org.interpss.custom.exchange.psse.PSSEUtilFunc;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -50,7 +49,7 @@ import com.interpss.core.aclfadj.AreaInterchangeController;
 import com.interpss.core.net.Owner;
 import com.interpss.core.net.Zone;
 
-public class PSSENetDataRecord {
+public class PSSENetDataProcessor {
 	/** 
 	 * Process the first three header line records
 	 *

@@ -24,13 +24,7 @@
 
 package org.interpss.custom.exchange.psse;
 
-import java.util.List;
 import java.util.StringTokenizer;
-
-import org.eclipse.emf.common.util.EList;
-
-import com.interpss.ext.psse.PSSEObjectFactory;
-import com.interpss.ext.psse.aclf.PSSEOwner;
 
 public class PSSEUtilFunc {
 
@@ -63,15 +57,4 @@ public class PSSEUtilFunc {
 		else
 			return s;
 	}	
-	
-/*	
-	public static PSSEOwner getOwner(int ownerNo, List<PSSEOwner> ownerList) {
-		for (PSSEOwner owner : ownerList)
-			if (owner.getOwnerNumber() == ownerNo) 
-				return owner;
-		PSSEOwner owner = PSSEObjectFactory.createPSSEOwner();
-		ownerList.add(owner);
-		return owner;
-	}	
-*/	
 }
