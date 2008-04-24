@@ -62,6 +62,24 @@ public interface IpssDocFactory extends EFactory {
 	IpssReportDocument createIpssReportDocument();
 
 	/**
+	 * Returns a new object of class '<em>Ipss Text Document</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Ipss Text Document</em>'.
+	 * @generated
+	 */
+	IpssTextDocument createIpssTextDocument();
+
+	/**
+	 * Returns a new object of class '<em>Ipss Xml Document</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Ipss Xml Document</em>'.
+	 * @generated
+	 */
+	IpssXmlDocument createIpssXmlDocument();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

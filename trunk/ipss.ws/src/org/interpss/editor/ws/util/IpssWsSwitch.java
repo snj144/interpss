@@ -123,11 +123,11 @@ public class IpssWsSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case IpssWsPackage.IPSS_PROJECT_FORLDER: {
-				IpssProjectForlder ipssProjectForlder = (IpssProjectForlder)theEObject;
-				T result = caseIpssProjectForlder(ipssProjectForlder);
-				if (result == null) result = caseIpssWsItemContainer(ipssProjectForlder);
-				if (result == null) result = caseIpssWsItem(ipssProjectForlder);
+			case IpssWsPackage.IPSS_PROJECT_FOLDER: {
+				IpssProjectFolder ipssProjectFolder = (IpssProjectFolder)theEObject;
+				T result = caseIpssProjectFolder(ipssProjectFolder);
+				if (result == null) result = caseIpssWsItemContainer(ipssProjectFolder);
+				if (result == null) result = caseIpssWsItem(ipssProjectFolder);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -211,17 +211,17 @@ public class IpssWsSwitch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Ipss Project Forlder</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Ipss Project Folder</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Ipss Project Forlder</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Ipss Project Folder</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseIpssProjectForlder(IpssProjectForlder object) {
+	public T caseIpssProjectFolder(IpssProjectFolder object) {
 		return null;
 	}
 

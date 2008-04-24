@@ -8,6 +8,7 @@ package org.interpss.editor.doc;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 
 /**
  * <!-- begin-user-doc -->
@@ -68,13 +69,22 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_DOCUMENT = 0;
 
 	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_DOCUMENT__WS_ITEM = 0;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_DOCUMENT_FEATURE_COUNT = 0;
+	int IPSS_DOCUMENT_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.doc.impl.IpssDocumentItemImpl <em>Ipss Document Item</em>}' class.
@@ -85,6 +95,15 @@ public interface IpssDocPackage extends EPackage {
 	 * @generated
 	 */
 	int IPSS_DOCUMENT_ITEM = 1;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_DOCUMENT_ITEM__WS_ITEM = IPSS_DOCUMENT__WS_ITEM;
 
 	/**
 	 * The number of structural features of the '<em>Ipss Document Item</em>' class.
@@ -106,6 +125,15 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_EDITOR_DOCUMENT = 2;
 
 	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_EDITOR_DOCUMENT__WS_ITEM = IPSS_DOCUMENT_ITEM__WS_ITEM;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Editor Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -123,6 +151,15 @@ public interface IpssDocPackage extends EPackage {
 	 * @generated
 	 */
 	int IPSS_EDITABLE_DOCUMENT = 3;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_EDITABLE_DOCUMENT__WS_ITEM = IPSS_EDITOR_DOCUMENT__WS_ITEM;
 
 	/**
 	 * The number of structural features of the '<em>Ipss Editable Document</em>' class.
@@ -144,6 +181,15 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_SIMU_DOCUMENT = 4;
 
 	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_SIMU_DOCUMENT__WS_ITEM = IPSS_EDITABLE_DOCUMENT__WS_ITEM;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Simu Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -161,6 +207,15 @@ public interface IpssDocPackage extends EPackage {
 	 * @generated
 	 */
 	int IPSS_CUSTOM_DOCUMENT = 5;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_CUSTOM_DOCUMENT__WS_ITEM = IPSS_SIMU_DOCUMENT__WS_ITEM;
 
 	/**
 	 * The number of structural features of the '<em>Ipss Custom Document</em>' class.
@@ -182,6 +237,15 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_GRAPHIC_DOCUMENT = 6;
 
 	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_GRAPHIC_DOCUMENT__WS_ITEM = IPSS_SIMU_DOCUMENT__WS_ITEM;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Graphic Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -201,6 +265,15 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_REPORT_DOCUMENT = 7;
 
 	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_REPORT_DOCUMENT__WS_ITEM = IPSS_EDITOR_DOCUMENT__WS_ITEM;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Report Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -208,6 +281,63 @@ public interface IpssDocPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_REPORT_DOCUMENT_FEATURE_COUNT = IPSS_EDITOR_DOCUMENT_FEATURE_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '{@link org.interpss.editor.doc.impl.IpssTextDocumentImpl <em>Ipss Text Document</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.interpss.editor.doc.impl.IpssTextDocumentImpl
+	 * @see org.interpss.editor.doc.impl.IpssDocPackageImpl#getIpssTextDocument()
+	 * @generated
+	 */
+	int IPSS_TEXT_DOCUMENT = 8;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_TEXT_DOCUMENT__WS_ITEM = IPSS_EDITABLE_DOCUMENT__WS_ITEM;
+
+	/**
+	 * The number of structural features of the '<em>Ipss Text Document</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_TEXT_DOCUMENT_FEATURE_COUNT = IPSS_EDITABLE_DOCUMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link org.interpss.editor.doc.impl.IpssXmlDocumentImpl <em>Ipss Xml Document</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.interpss.editor.doc.impl.IpssXmlDocumentImpl
+	 * @see org.interpss.editor.doc.impl.IpssDocPackageImpl#getIpssXmlDocument()
+	 * @generated
+	 */
+	int IPSS_XML_DOCUMENT = 9;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_XML_DOCUMENT__WS_ITEM = IPSS_EDITABLE_DOCUMENT__WS_ITEM;
+
+	/**
+	 * The number of structural features of the '<em>Ipss Xml Document</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_XML_DOCUMENT_FEATURE_COUNT = IPSS_EDITABLE_DOCUMENT_FEATURE_COUNT + 0;
 
 
 	/**
@@ -219,6 +349,17 @@ public interface IpssDocPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIpssDocument();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.interpss.editor.doc.IpssDocument#getWsItem <em>Ws Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ws Item</em>'.
+	 * @see org.interpss.editor.doc.IpssDocument#getWsItem()
+	 * @see #getIpssDocument()
+	 * @generated
+	 */
+	EReference getIpssDocument_WsItem();
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.doc.IpssDocumentItem <em>Ipss Document Item</em>}'.
@@ -291,6 +432,26 @@ public interface IpssDocPackage extends EPackage {
 	EClass getIpssReportDocument();
 
 	/**
+	 * Returns the meta object for class '{@link org.interpss.editor.doc.IpssTextDocument <em>Ipss Text Document</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Ipss Text Document</em>'.
+	 * @see org.interpss.editor.doc.IpssTextDocument
+	 * @generated
+	 */
+	EClass getIpssTextDocument();
+
+	/**
+	 * Returns the meta object for class '{@link org.interpss.editor.doc.IpssXmlDocument <em>Ipss Xml Document</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Ipss Xml Document</em>'.
+	 * @see org.interpss.editor.doc.IpssXmlDocument
+	 * @generated
+	 */
+	EClass getIpssXmlDocument();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -321,6 +482,14 @@ public interface IpssDocPackage extends EPackage {
 		 * @generated
 		 */
 		EClass IPSS_DOCUMENT = eINSTANCE.getIpssDocument();
+
+		/**
+		 * The meta object literal for the '<em><b>Ws Item</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IPSS_DOCUMENT__WS_ITEM = eINSTANCE.getIpssDocument_WsItem();
 
 		/**
 		 * The meta object literal for the '{@link org.interpss.editor.doc.impl.IpssDocumentItemImpl <em>Ipss Document Item</em>}' class.
@@ -391,6 +560,26 @@ public interface IpssDocPackage extends EPackage {
 		 * @generated
 		 */
 		EClass IPSS_REPORT_DOCUMENT = eINSTANCE.getIpssReportDocument();
+
+		/**
+		 * The meta object literal for the '{@link org.interpss.editor.doc.impl.IpssTextDocumentImpl <em>Ipss Text Document</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.interpss.editor.doc.impl.IpssTextDocumentImpl
+		 * @see org.interpss.editor.doc.impl.IpssDocPackageImpl#getIpssTextDocument()
+		 * @generated
+		 */
+		EClass IPSS_TEXT_DOCUMENT = eINSTANCE.getIpssTextDocument();
+
+		/**
+		 * The meta object literal for the '{@link org.interpss.editor.doc.impl.IpssXmlDocumentImpl <em>Ipss Xml Document</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.interpss.editor.doc.impl.IpssXmlDocumentImpl
+		 * @see org.interpss.editor.doc.impl.IpssDocPackageImpl#getIpssXmlDocument()
+		 * @generated
+		 */
+		EClass IPSS_XML_DOCUMENT = eINSTANCE.getIpssXmlDocument();
 
 	}
 

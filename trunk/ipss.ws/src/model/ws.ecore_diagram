@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_2DCNAQ_pEd299uCrtzkcHg" type="Ecore" name="pees.ecore_diagram" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_2DCNAQ_pEd299uCrtzkcHg" type="Ecore" name="pees.ecore_diagram" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_V3vG0RIxEd23xO3yf2r_SA" type="Note">
+    <children xmi:type="notation:Node" xmi:id="_V4LywBIxEd23xO3yf2r_SA" type="DiagramName">
+      <element xsi:nil="true"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_V4LywRIxEd23xO3yf2r_SA" type="Description">
+      <element xsi:nil="true"/>
+    </children>
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_V3vG0hIxEd23xO3yf2r_SA" description="1) A doc is always associated with a WsItem. However, a Wsitem may associated with a doc" fillColor="13369343" lineColor="6737151"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_V3vG0xIxEd23xO3yf2r_SA" x="24" y="24" width="253" height="64"/>
+  </children>
   <styles xmi:type="notation:DiagramStyle" xmi:id="_2DCNAg_pEd299uCrtzkcHg"/>
   <element xmi:type="ecore:EPackage" href="psse.ecore#/"/>
 </notation:Diagram>

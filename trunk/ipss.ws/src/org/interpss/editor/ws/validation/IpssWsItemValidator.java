@@ -6,6 +6,8 @@
  */
 package org.interpss.editor.ws.validation;
 
+import org.interpss.editor.doc.IpssDocument;
+
 
 /**
  * A sample validator interface for {@link org.interpss.editor.ws.IpssWsItem}.
@@ -15,5 +17,7 @@ package org.interpss.editor.ws.validation;
  */
 public interface IpssWsItemValidator {
 	boolean validate();
+
+	boolean validateIpssDoc(IpssDocument value);
 
 }

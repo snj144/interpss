@@ -9,6 +9,7 @@ package org.interpss.editor.doc.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.interpss.editor.doc.IpssCustomDocument;
@@ -22,6 +23,8 @@ import org.interpss.editor.doc.IpssGraphicDocument;
 import org.interpss.editor.doc.IpssReportDocument;
 import org.interpss.editor.doc.IpssSimuDocument;
 
+import org.interpss.editor.doc.IpssTextDocument;
+import org.interpss.editor.doc.IpssXmlDocument;
 import org.interpss.editor.ws.IpssWsPackage;
 
 import org.interpss.editor.ws.impl.IpssWsPackageImpl;
@@ -88,6 +91,20 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 	 * @generated
 	 */
 	private EClass ipssReportDocumentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass ipssTextDocumentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass ipssXmlDocumentEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -176,6 +193,15 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getIpssDocument_WsItem() {
+		return (EReference)ipssDocumentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIpssDocumentItem() {
 		return ipssDocumentItemEClass;
 	}
@@ -239,6 +265,24 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIpssTextDocument() {
+		return ipssTextDocumentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getIpssXmlDocument() {
+		return ipssXmlDocumentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IpssDocFactory getIpssDocFactory() {
 		return (IpssDocFactory)getEFactoryInstance();
 	}
@@ -263,6 +307,7 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 
 		// Create classes and their features
 		ipssDocumentEClass = createEClass(IPSS_DOCUMENT);
+		createEReference(ipssDocumentEClass, IPSS_DOCUMENT__WS_ITEM);
 
 		ipssDocumentItemEClass = createEClass(IPSS_DOCUMENT_ITEM);
 
@@ -277,6 +322,10 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 		ipssGraphicDocumentEClass = createEClass(IPSS_GRAPHIC_DOCUMENT);
 
 		ipssReportDocumentEClass = createEClass(IPSS_REPORT_DOCUMENT);
+
+		ipssTextDocumentEClass = createEClass(IPSS_TEXT_DOCUMENT);
+
+		ipssXmlDocumentEClass = createEClass(IPSS_XML_DOCUMENT);
 	}
 
 	/**
@@ -302,6 +351,9 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		IpssWsPackage theIpssWsPackage = (IpssWsPackage)EPackage.Registry.INSTANCE.getEPackage(IpssWsPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -314,9 +366,12 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 		ipssCustomDocumentEClass.getESuperTypes().add(this.getIpssSimuDocument());
 		ipssGraphicDocumentEClass.getESuperTypes().add(this.getIpssSimuDocument());
 		ipssReportDocumentEClass.getESuperTypes().add(this.getIpssEditorDocument());
+		ipssTextDocumentEClass.getESuperTypes().add(this.getIpssEditableDocument());
+		ipssXmlDocumentEClass.getESuperTypes().add(this.getIpssEditableDocument());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(ipssDocumentEClass, IpssDocument.class, "IpssDocument", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIpssDocument_WsItem(), theIpssWsPackage.getIpssWsItem(), theIpssWsPackage.getIpssWsItem_IpssDoc(), "wsItem", null, 1, 1, IpssDocument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ipssDocumentItemEClass, IpssDocumentItem.class, "IpssDocumentItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -331,6 +386,10 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 		initEClass(ipssGraphicDocumentEClass, IpssGraphicDocument.class, "IpssGraphicDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(ipssReportDocumentEClass, IpssReportDocument.class, "IpssReportDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(ipssTextDocumentEClass, IpssTextDocument.class, "IpssTextDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(ipssXmlDocumentEClass, IpssXmlDocument.class, "IpssXmlDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

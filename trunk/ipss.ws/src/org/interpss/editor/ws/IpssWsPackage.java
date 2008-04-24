@@ -69,13 +69,22 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_WS_ITEM = 0;
 
 	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM__IPSS_DOC = 0;
+
+	/**
 	 * The number of structural features of the '<em>Item</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_WS_ITEM_FEATURE_COUNT = 0;
+	int IPSS_WS_ITEM_FEATURE_COUNT = 1;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssWsItemContainerImpl <em>Item Container</em>}' class.
@@ -86,6 +95,15 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 */
 	int IPSS_WS_ITEM_CONTAINER = 1;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM_CONTAINER__IPSS_DOC = IPSS_WS_ITEM__IPSS_DOC;
 
 	/**
 	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
@@ -116,6 +134,15 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_PROJECT_ITEM = 2;
 
 	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM__IPSS_DOC = IPSS_WS_ITEM__IPSS_DOC;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Project Item</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -133,6 +160,15 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 */
 	int IPSS_WORK_SPACE = 3;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
 
 	/**
 	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
@@ -163,6 +199,15 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_PROJECT = 4;
 
 	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
+
+	/**
 	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -181,14 +226,23 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_PROJECT_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssProjectForlderImpl <em>Ipss Project Forlder</em>}' class.
+	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssProjectFolderImpl <em>Ipss Project Folder</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see org.interpss.editor.ws.impl.IpssProjectForlderImpl
-	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectForlder()
+	 * @see org.interpss.editor.ws.impl.IpssProjectFolderImpl
+	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectFolder()
 	 * @generated
 	 */
-	int IPSS_PROJECT_FORLDER = 5;
+	int IPSS_PROJECT_FOLDER = 5;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FOLDER__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
 
 	/**
 	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
@@ -197,17 +251,16 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_PROJECT_FORLDER__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
+	int IPSS_PROJECT_FOLDER__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
 
 	/**
-	 * The number of structural features of the '<em>Ipss Project Forlder</em>' class.
+	 * The number of structural features of the '<em>Ipss Project Folder</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_PROJECT_FORLDER_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
-
+	int IPSS_PROJECT_FOLDER_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWsItem <em>Item</em>}'.
@@ -218,6 +271,17 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIpssWsItem();
+
+	/**
+	 * Returns the meta object for the reference '{@link org.interpss.editor.ws.IpssWsItem#getIpssDoc <em>Ipss Doc</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Ipss Doc</em>'.
+	 * @see org.interpss.editor.ws.IpssWsItem#getIpssDoc()
+	 * @see #getIpssWsItem()
+	 * @generated
+	 */
+	EReference getIpssWsItem_IpssDoc();
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWsItemContainer <em>Item Container</em>}'.
@@ -271,14 +335,14 @@ public interface IpssWsPackage extends EPackage {
 	EClass getIpssProject();
 
 	/**
-	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssProjectForlder <em>Ipss Project Forlder</em>}'.
+	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssProjectFolder <em>Ipss Project Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Ipss Project Forlder</em>'.
-	 * @see org.interpss.editor.ws.IpssProjectForlder
+	 * @return the meta object for class '<em>Ipss Project Folder</em>'.
+	 * @see org.interpss.editor.ws.IpssProjectFolder
 	 * @generated
 	 */
-	EClass getIpssProjectForlder();
+	EClass getIpssProjectFolder();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -311,6 +375,14 @@ public interface IpssWsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass IPSS_WS_ITEM = eINSTANCE.getIpssWsItem();
+
+		/**
+		 * The meta object literal for the '<em><b>Ipss Doc</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference IPSS_WS_ITEM__IPSS_DOC = eINSTANCE.getIpssWsItem_IpssDoc();
 
 		/**
 		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssWsItemContainerImpl <em>Item Container</em>}' class.
@@ -361,14 +433,14 @@ public interface IpssWsPackage extends EPackage {
 		EClass IPSS_PROJECT = eINSTANCE.getIpssProject();
 
 		/**
-		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssProjectForlderImpl <em>Ipss Project Forlder</em>}' class.
+		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssProjectFolderImpl <em>Ipss Project Folder</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see org.interpss.editor.ws.impl.IpssProjectForlderImpl
-		 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectForlder()
+		 * @see org.interpss.editor.ws.impl.IpssProjectFolderImpl
+		 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectFolder()
 		 * @generated
 		 */
-		EClass IPSS_PROJECT_FORLDER = eINSTANCE.getIpssProjectForlder();
+		EClass IPSS_PROJECT_FOLDER = eINSTANCE.getIpssProjectFolder();
 
 	}
 

@@ -92,8 +92,8 @@ public class IpssWsAdapterFactory extends AdapterFactoryImpl {
 				return createIpssProjectAdapter();
 			}
 			@Override
-			public Adapter caseIpssProjectForlder(IpssProjectForlder object) {
-				return createIpssProjectForlderAdapter();
+			public Adapter caseIpssProjectFolder(IpssProjectFolder object) {
+				return createIpssProjectFolderAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -186,16 +186,16 @@ public class IpssWsAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link org.interpss.editor.ws.IpssProjectForlder <em>Ipss Project Forlder</em>}'.
+	 * Creates a new adapter for an object of class '{@link org.interpss.editor.ws.IpssProjectFolder <em>Ipss Project Folder</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see org.interpss.editor.ws.IpssProjectForlder
+	 * @see org.interpss.editor.ws.IpssProjectFolder
 	 * @generated
 	 */
-	public Adapter createIpssProjectForlderAdapter() {
+	public Adapter createIpssProjectFolderAdapter() {
 		return null;
 	}
 
