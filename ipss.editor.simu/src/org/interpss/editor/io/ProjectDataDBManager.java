@@ -171,6 +171,7 @@ public class ProjectDataDBManager implements IProjectDataManager {
 						newProjData = (ProjData) DBManager.getSqlMap()
 								.queryForObject("selectProjectName", projData);
 					}
+					
 					if (newProjData == null) {
 						IpssLogger.getLogger().warning(
 								"ProjectData object is not in DB, "
@@ -191,6 +192,11 @@ public class ProjectDataDBManager implements IProjectDataManager {
 						// add CaseData object to the ProjectData object
 						newProjData.getCaseList().add(aCase);
 					}
+					IpssLogger.getLogger().info(
+								"Project found in DB, name, filepath, workspacepath: "
+										+ newProjData.getProjectName() + ", " 
+										+ newProjData.getFilepath() + ", " 
+										+ newProjData.getWorkspacePath());
 					return newProjData;
 				} catch (Exception e) {
 					IpssLogger.logErr(e);
