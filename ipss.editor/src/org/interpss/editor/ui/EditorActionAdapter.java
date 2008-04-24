@@ -73,7 +73,7 @@ public class EditorActionAdapter {
 			else if (type == SimuRunType.Scripts)
 				menu_run_scripting(graphView, graph, doc);
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			IpssLogger.logErr(ex);
 		}		
 	}
 

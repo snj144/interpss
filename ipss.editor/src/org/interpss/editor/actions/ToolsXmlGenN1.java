@@ -34,7 +34,7 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
 		try {
 			project = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			IpssLogger.logErr(ex);
 			return;
 		}		
 		
