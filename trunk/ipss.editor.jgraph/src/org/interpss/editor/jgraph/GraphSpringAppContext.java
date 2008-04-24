@@ -100,7 +100,7 @@ public class GraphSpringAppContext extends SpringAppContext {
 				netEditor.init(model.getGFormContainer(), getIpssGraphicEditor().getCurrentAppSimuContext().getProjData());
 				return (JDialog)netEditor;
 			} catch (Exception e) {
-				IpssLogger.getLogger().severe(e.toString());
+				IpssLogger.logErr(e);
 			}				
 		}	
 		else {
