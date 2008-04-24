@@ -60,7 +60,7 @@ public class FileAddGraph extends IpssAbstractProjectAction {
 			try {
 				org.interpss.editor.util.Utilities.loadProjectData(item);
 			} catch (Exception ex) {
-				IpssLogger.getLogger().severe(ex.toString());
+				IpssLogger.logErr(ex);
 			}			
 		}
 		graphpad.saveProject(project);

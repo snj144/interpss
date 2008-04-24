@@ -143,7 +143,7 @@ public class GPBarFactory implements TranslatorConstants {
 			// add simulation related popup menuitems here based on the selectionCell
 			appSimuCtx.addPopupMenuAction(pop, selectionCell);
 		} catch (Exception e) {
-			IpssLogger.getLogger().severe(e.toString());
+			IpssLogger.logErr(e);
 		}
 		return pop;
 	}
