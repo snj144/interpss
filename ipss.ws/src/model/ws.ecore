@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="editor"
+    nsURI="http:///org/interpss/editor" nsPrefix="ipss">
+  <eSubpackages name="ws" nsURI="http:///org/interpss/editor/ws" nsPrefix="ipss">
+    <eClassifiers xsi:type="ecore:EClass" name="IpssWsItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssWsItemContainer" eSuperTypes="#//ws/IpssWsItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="wsItemList" upperBound="-1"
+          eType="#//ws/IpssWsItem" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItem" eSuperTypes="#//ws/IpssWsItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssWorkSpace" eSuperTypes="#//ws/IpssWsItemContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssProject" eSuperTypes="#//ws/IpssWsItemContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssProjectForlder" eSuperTypes="#//ws/IpssWsItemContainer"/>
+  </eSubpackages>
+  <eSubpackages name="doc" nsURI="http:///org/interpss/editor/doc" nsPrefix="ipss">
+    <eClassifiers xsi:type="ecore:EClass" name="IpssDocument"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssDocumentItem" eSuperTypes="#//doc/IpssDocument"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssEditorDocument" eSuperTypes="#//doc/IpssDocumentItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssEditableDocument" eSuperTypes="#//doc/IpssEditorDocument"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssSimuDocument" eSuperTypes="#//doc/IpssEditableDocument"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssCustomDocument" eSuperTypes="#//doc/IpssSimuDocument"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssGraphicDocument" eSuperTypes="#//doc/IpssSimuDocument"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssReportDocument" eSuperTypes="#//doc/IpssEditorDocument"/>
+  </eSubpackages>
+</ecore:EPackage>
