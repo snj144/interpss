@@ -21,6 +21,7 @@ import org.interpss.editor.project.IpssTextCodec;
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
+import com.interpss.common.util.IpssLogger;
 
 /**
  * Action opens a dialog to select the file. After that the action saves the
@@ -69,10 +70,13 @@ public class FileSave extends IpssAbstractActionDefault {
 					IAppSimuContext appSimuCtx = GraphSpringAppContext
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.getProjData().isDirty()) {
-						IProjectDataManager projManager = SpringAppContext
-							.getProjectDataDBManager();
+						IProjectDataManager projManager = SpringAppContext.getProjectDataDBManager();
+						/* modified by Mike. doc.projData and appSimuCtx.projData are out of synch
 						projManager.saveProjectDataToDB(getCurrentDocument().getProjData());
 						getCurrentDocument().getProjData().setDirty(false);
+						*/
+						projManager.saveProjectDataToDB(appSimuCtx.getProjData());
+						appSimuCtx.getProjData().setDirty(false);
 					}
 				}
 				else if (graphpad.getCurrentDocument() instanceof IpssXmlDocument)
@@ -92,7 +96,7 @@ public class FileSave extends IpssAbstractActionDefault {
 				graphpad.saveProject(getCurrentDocument().getProject());
 
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				IpssLogger.logErr(ex);
 			}
 		}
 	}

@@ -1028,8 +1028,8 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			// Richard: the following logic also need to be applied when we
 			// import an exiting graphic or custom project. Begin
 			try {
-				IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities
-					.loadProjectData(item);
+				IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities.loadProjectData(item);
+				appSimuContext.getProjData().setProjectName(appSimuContext.getProjData().getFilename());
 			// end
 				if (doc instanceof GPDocument) {
 				// we need synch some data in the graph with the project data,
@@ -1039,10 +1039,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 				// .getGNetForm().getLabel(IUserData.NET_LABEL);
 				// IpssLogger.getLogger().info(
 				// "ProjectData.name updated to " + str);
-					appSimuContext.getProjData().setProjectName(
-						appSimuContext.getProjData().getFilename());
 					((GPDocument) doc).getGFormContainer().getGNetForm()
 						.setNewState(false);
+				}
+				else {
+					((IpssCustomDocument)doc).setSimuAppContext(appSimuContext);
 				}
 			} catch (Exception e) {
 				IpssLogger.logErr(e);
