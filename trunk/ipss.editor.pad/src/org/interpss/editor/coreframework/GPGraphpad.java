@@ -1045,7 +1045,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 						.setNewState(false);
 				}
 			} catch (Exception e) {
-				IpssLogger.getLogger().severe(e.toString());
+				IpssLogger.logErr(e);
 				return;
 			}				
 		}
