@@ -93,7 +93,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 					mapper.mapping(mod, net, ModificationXmlType.class);
 				} catch (Exception e) {
-					IpssLogger.getLogger().severe(e.toString());
+					IpssLogger.logErr(e);
 					//e.printStackTrace();
 				}
 			}
