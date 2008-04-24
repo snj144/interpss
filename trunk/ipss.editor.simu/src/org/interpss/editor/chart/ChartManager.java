@@ -201,7 +201,7 @@ public class ChartManager {
 									"The SimuNetwork object is dirty. You may want to re-run the analysis");
 						}
 					} catch (Exception ex) {
-						IpssLogger.getLogger().severe(ex.toString());
+						IpssLogger.logErr(ex);
 					}						
 					IOutputTextDialog dialog = UISpringAppContext
 							.getOutputTextDialog("Machine State Output");
@@ -490,7 +490,7 @@ public class ChartManager {
 								"The SimuNetwork object is dirty. Network data may have been modified. You may want to re-run the analysis.");
 			}
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			IpssLogger.logErr(ex);
 		}	
 		
 		ISimuRecManager simuRecManager = SpringAppContext.getSimuRecManager();
@@ -616,7 +616,7 @@ public class ChartManager {
 		plot.createChart();
 		plot.showChart();
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			IpssLogger.logErr(ex);
 		}		
 	}
 }

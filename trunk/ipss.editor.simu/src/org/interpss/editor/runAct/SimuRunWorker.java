@@ -87,7 +87,7 @@ public class SimuRunWorker extends Thread {
 		try {
 			appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			IpssLogger.logErr(ex);
 			return;
 		}
 		

@@ -82,7 +82,7 @@ public class XmlScriptDStabRun {
 			try {
 				appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 			} catch (Exception ex) {
-				IpssLogger.getLogger().severe(ex.toString());
+				IpssLogger.logErr(ex);
 				return false;
 			}
 			
@@ -290,7 +290,7 @@ public class XmlScriptDStabRun {
 		try {
 			dstabDbHandler = RunActUtilFunc.createDBOutputHandler(dstabAlgo, dstabRec);
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			IpssLogger.logErr(ex);
 		}
 		if (dstabDbHandler == null)
 			return false;
