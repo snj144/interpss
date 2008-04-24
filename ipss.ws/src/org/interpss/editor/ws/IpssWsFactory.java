@@ -53,13 +53,13 @@ public interface IpssWsFactory extends EFactory {
 	IpssProject createIpssProject();
 
 	/**
-	 * Returns a new object of class '<em>Ipss Project Forlder</em>'.
+	 * Returns a new object of class '<em>Ipss Project Folder</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Ipss Project Forlder</em>'.
+	 * @return a new object of class '<em>Ipss Project Folder</em>'.
 	 * @generated
 	 */
-	IpssProjectForlder createIpssProjectForlder();
+	IpssProjectFolder createIpssProjectFolder();
 
 	/**
 	 * Returns the package supported by this factory.

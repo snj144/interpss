@@ -9,15 +9,11 @@ package org.interpss.editor.ws.impl;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.interpss.editor.doc.IpssDocPackage;
-
 import org.interpss.editor.doc.impl.IpssDocPackageImpl;
-
 import org.interpss.editor.ws.IpssProject;
-import org.interpss.editor.ws.IpssProjectForlder;
+import org.interpss.editor.ws.IpssProjectFolder;
 import org.interpss.editor.ws.IpssProjectItem;
 import org.interpss.editor.ws.IpssWorkSpace;
 import org.interpss.editor.ws.IpssWsFactory;
@@ -72,7 +68,7 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass ipssProjectForlderEClass = null;
+	private EClass ipssProjectFolderEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -161,6 +157,15 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getIpssWsItem_IpssDoc() {
+		return (EReference)ipssWsItemEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIpssWsItemContainer() {
 		return ipssWsItemContainerEClass;
 	}
@@ -206,8 +211,8 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EClass getIpssProjectForlder() {
-		return ipssProjectForlderEClass;
+	public EClass getIpssProjectFolder() {
+		return ipssProjectFolderEClass;
 	}
 
 	/**
@@ -239,6 +244,7 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 
 		// Create classes and their features
 		ipssWsItemEClass = createEClass(IPSS_WS_ITEM);
+		createEReference(ipssWsItemEClass, IPSS_WS_ITEM__IPSS_DOC);
 
 		ipssWsItemContainerEClass = createEClass(IPSS_WS_ITEM_CONTAINER);
 		createEReference(ipssWsItemContainerEClass, IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST);
@@ -249,7 +255,7 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 
 		ipssProjectEClass = createEClass(IPSS_PROJECT);
 
-		ipssProjectForlderEClass = createEClass(IPSS_PROJECT_FORLDER);
+		ipssProjectFolderEClass = createEClass(IPSS_PROJECT_FOLDER);
 	}
 
 	/**
@@ -275,6 +281,9 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		setNsPrefix(eNS_PREFIX);
 		setNsURI(eNS_URI);
 
+		// Obtain other dependent packages
+		IpssDocPackage theIpssDocPackage = (IpssDocPackage)EPackage.Registry.INSTANCE.getEPackage(IpssDocPackage.eNS_URI);
+
 		// Create type parameters
 
 		// Set bounds for type parameters
@@ -284,10 +293,11 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		ipssProjectItemEClass.getESuperTypes().add(this.getIpssWsItem());
 		ipssWorkSpaceEClass.getESuperTypes().add(this.getIpssWsItemContainer());
 		ipssProjectEClass.getESuperTypes().add(this.getIpssWsItemContainer());
-		ipssProjectForlderEClass.getESuperTypes().add(this.getIpssWsItemContainer());
+		ipssProjectFolderEClass.getESuperTypes().add(this.getIpssWsItemContainer());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(ipssWsItemEClass, IpssWsItem.class, "IpssWsItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getIpssWsItem_IpssDoc(), theIpssDocPackage.getIpssDocument(), theIpssDocPackage.getIpssDocument_WsItem(), "ipssDoc", null, 0, 1, IpssWsItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ipssWsItemContainerEClass, IpssWsItemContainer.class, "IpssWsItemContainer", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIpssWsItemContainer_WsItemList(), this.getIpssWsItem(), null, "wsItemList", null, 0, -1, IpssWsItemContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -298,7 +308,7 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 
 		initEClass(ipssProjectEClass, IpssProject.class, "IpssProject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(ipssProjectForlderEClass, IpssProjectForlder.class, "IpssProjectForlder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(ipssProjectFolderEClass, IpssProjectFolder.class, "IpssProjectFolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

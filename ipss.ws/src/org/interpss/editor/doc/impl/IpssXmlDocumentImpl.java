@@ -4,29 +4,29 @@
  *
  * $Id$
  */
-package org.interpss.editor.ws.impl;
+package org.interpss.editor.doc.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import org.interpss.editor.ws.IpssProjectForlder;
-import org.interpss.editor.ws.IpssWsPackage;
+import org.interpss.editor.doc.IpssDocPackage;
+import org.interpss.editor.doc.IpssXmlDocument;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Ipss Project Forlder</b></em>'.
+ * An implementation of the model object '<em><b>Ipss Xml Document</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * </p>
  *
  * @generated
  */
-public class IpssProjectForlderImpl extends IpssWsItemContainerImpl implements IpssProjectForlder {
+public class IpssXmlDocumentImpl extends IpssEditableDocumentImpl implements IpssXmlDocument {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IpssProjectForlderImpl() {
+	protected IpssXmlDocumentImpl() {
 		super();
 	}
 
@@ -37,7 +37,7 @@ public class IpssProjectForlderImpl extends IpssWsItemContainerImpl implements I
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IpssWsPackage.Literals.IPSS_PROJECT_FORLDER;
+		return IpssDocPackage.Literals.IPSS_XML_DOCUMENT;
 	}
 
-} //IpssProjectForlderImpl
+} //IpssXmlDocumentImpl

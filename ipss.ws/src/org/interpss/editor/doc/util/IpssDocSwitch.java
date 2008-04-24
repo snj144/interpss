@@ -158,6 +158,26 @@ public class IpssDocSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case IpssDocPackage.IPSS_TEXT_DOCUMENT: {
+				IpssTextDocument ipssTextDocument = (IpssTextDocument)theEObject;
+				T result = caseIpssTextDocument(ipssTextDocument);
+				if (result == null) result = caseIpssEditableDocument(ipssTextDocument);
+				if (result == null) result = caseIpssEditorDocument(ipssTextDocument);
+				if (result == null) result = caseIpssDocumentItem(ipssTextDocument);
+				if (result == null) result = caseIpssDocument(ipssTextDocument);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case IpssDocPackage.IPSS_XML_DOCUMENT: {
+				IpssXmlDocument ipssXmlDocument = (IpssXmlDocument)theEObject;
+				T result = caseIpssXmlDocument(ipssXmlDocument);
+				if (result == null) result = caseIpssEditableDocument(ipssXmlDocument);
+				if (result == null) result = caseIpssEditorDocument(ipssXmlDocument);
+				if (result == null) result = caseIpssDocumentItem(ipssXmlDocument);
+				if (result == null) result = caseIpssDocument(ipssXmlDocument);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -279,6 +299,36 @@ public class IpssDocSwitch<T> {
 	 * @generated
 	 */
 	public T caseIpssReportDocument(IpssReportDocument object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Ipss Text Document</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Ipss Text Document</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIpssTextDocument(IpssTextDocument object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Ipss Xml Document</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Ipss Xml Document</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIpssXmlDocument(IpssXmlDocument object) {
 		return null;
 	}
 
