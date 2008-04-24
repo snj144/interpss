@@ -22,7 +22,7 @@ public class ToolsDebugProjectData extends IpssAbstractActionDefault {
 			IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 			SimuActionAdapter.menu_tools_debug_projDataInfo(appSimuContext);
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			IpssLogger.logErr(ex);
 		}
 	}
 
