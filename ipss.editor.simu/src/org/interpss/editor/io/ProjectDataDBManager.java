@@ -121,109 +121,120 @@ public class ProjectDataDBManager implements IProjectDataManager {
 			throws InterpssException {
 		IpssLogger.getLogger().info(
 				"Current DB : " + DBManager.getCurrentDBName());
-		try {
 			ProjData projData = (ProjData) projectData;
-			switch (action) {
+		switch (action) {
 			case DBManager.SQL_ACTION_INSERT: {
 				try {
-					IpssLogger.getLogger().info(
-							"Insert project into DB, filename = "
-									+ projData.getFilepath());
-					DBManager.getSqlMap().insert("insertProject", projData);
+					try {
+						IpssLogger.getLogger().info(
+								"Insert project into DB, filename = "
+										+ projData.getFilepath());
+						DBManager.getSqlMap().insert("insertProject", projData);
+					} catch (Exception e) {
+						// a project with same name/filepath combo exist.
+						// First we delete the project and then insert a new project
+						IpssLogger.getLogger().info(
+								"Project with the same filename found in DB, filename = "
+										+ projData.getFilepath());
+						ProjData p = (ProjData) dbActionProject(
+								DBManager.SQL_ACTION_SELECT, projData);
+						if (p != null)
+							dbActionProject(DBManager.SQL_ACTION_DELETE, p);
+						// Then we create a new project
+						IpssLogger.getLogger().info(
+								"Insert project into DB again, filename = "
+										+ projData.getFilepath());
+						DBManager.getSqlMap().insert("insertProject", projData);
+					}
+					// return the create project data object
+					return DBManager.getSqlMap().queryForObject(
+							"selectProjectName", projData);
 				} catch (Exception e) {
-					// a project with same name/filepath combo exist.
-					// First we delete the project and then insert a new project
-					IpssLogger.getLogger().info(
-							"Project with the same filename found in DB, filename = "
-									+ projData.getFilepath());
-					ProjData p = (ProjData) dbActionProject(
-							DBManager.SQL_ACTION_SELECT, projData);
-					if (p != null)
-						dbActionProject(DBManager.SQL_ACTION_DELETE, p);
-					// Then we create a new project
-					IpssLogger.getLogger().info(
-							"Insert project into DB again, filename = "
-									+ projData.getFilepath());
-					DBManager.getSqlMap().insert("insertProject", projData);
+					IpssLogger.logErr(e);
 				}
-				// return the create project data object
-				return DBManager.getSqlMap().queryForObject(
-						"selectProjectName", projData);
 			}
 			case DBManager.SQL_ACTION_SELECT: {
-				ProjData newProjData = null;
-				// There are two ways to select: 1) by project db id and 2) by
-				// project name and filepath
-				if (projData.getProjectDbId() > 0) {
-					IpssLogger.getLogger().info(
-							"Get Project info, projDbId: "
-									+ projData.getProjectDbId());
-					newProjData = (ProjData) DBManager.getSqlMap()
-							.queryForObject("selectProjectId", projData);
-				} else {
-					IpssLogger.getLogger().info(
-							"Get project into DB, filename = "
-									+ projData.getFilepath());
-					newProjData = (ProjData) DBManager.getSqlMap()
-							.queryForObject("selectProjectName", projData);
-				}
-				if (newProjData == null) {
-					IpssLogger.getLogger().warning(
-							"ProjectData object is not in DB, "
-									+ XmlUtil.toXmlString(projData));
-					return null;
-				}
+				try {
+					ProjData newProjData = null;
+					// There are two ways to select: 1) by project db id and 2) by
+					// project name and filepath
+					if (projData.getProjectDbId() > 0) {
+						IpssLogger.getLogger().info(
+								"Get Project info, projDbId: "
+										+ projData.getProjectDbId());
+						newProjData = (ProjData) DBManager.getSqlMap()
+								.queryForObject("selectProjectId", projData);
+					} else {
+						IpssLogger.getLogger().info(
+								"Get project into DB, filename = "
+										+ projData.getFilepath());
+						newProjData = (ProjData) DBManager.getSqlMap()
+								.queryForObject("selectProjectName", projData);
+					}
+					if (newProjData == null) {
+						IpssLogger.getLogger().warning(
+								"ProjectData object is not in DB, "
+										+ XmlUtil.toXmlString(projData));
+						return null;
+					}
 
-				// select studyCase data list from DB
-				List caseList = (List) DBManager.getSqlMap().queryForList(
-						"selectStudyCaseForProject",
-						newProjData.getProjectDbId());
-				for (int i = 0; i < caseList.size(); i++) {
-					DBStudyCase dbCase = (DBStudyCase) caseList.get(i);
-					IpssLogger.getLogger().fine(XmlUtil.toXmlString(dbCase));
-					// rebuild the CaseData object from the DBStudyCase object
-					// (xmlDataString)
-					CaseData aCase = dbCase.getCaseData();
-					// add CaseData object to the ProjectData object
-					newProjData.getCaseList().add(aCase);
+					// select studyCase data list from DB
+					List caseList = (List) DBManager.getSqlMap().queryForList(
+							"selectStudyCaseForProject",
+							newProjData.getProjectDbId());
+					for (int i = 0; i < caseList.size(); i++) {
+						DBStudyCase dbCase = (DBStudyCase) caseList.get(i);
+						IpssLogger.getLogger().fine(XmlUtil.toXmlString(dbCase));
+						// rebuild the CaseData object from the DBStudyCase object
+						// (xmlDataString)
+						CaseData aCase = dbCase.getCaseData();
+						// add CaseData object to the ProjectData object
+						newProjData.getCaseList().add(aCase);
+					}
+					return newProjData;
+				} catch (Exception e) {
+					IpssLogger.logErr(e);
 				}
-				return newProjData;
 			}
 			case DBManager.SQL_ACTION_UPDATE: {
-				// Update the project table first
-				DBManager.getSqlMap().update("updateProject", projData);
+				try {
+					// Update the project table first
+					DBManager.getSqlMap().update("updateProject", projData);
 
-				// then update the IpssCase and StudyCase tables
-				List caseList = projData.getCaseList();
-				for (int i = 0; i < caseList.size(); i++) {
-					CaseData caseData = (CaseData) caseList.get(i);
-					if (caseData != null) {
-						// map the CaseData object to a DBStudyCase object
-						DBStudyCase dbCase = DBStudyCase
-								.createDBStudyCase(caseData);
-						dbCase.setProjDbId(projData.getProjectDbId());
-						if (dbCase.getCaseId() > 0) {
-							// update the IpssCase table
-							dbActionIpssCase(DBManager.SQL_ACTION_UPDATE,
-									dbCase.getProjDbId(), dbCase.getCaseName());
-							// update the StudyCase table
-							DBManager.getSqlMap().update("updateStudyCase",
-									dbCase);
-						} else {
-							// insert a row to the IpssCase table
-							IpssDBCase aCase = (IpssDBCase) dbActionIpssCase(
-									DBManager.SQL_ACTION_INSERT, dbCase
-											.getProjDbId(), dbCase
-											.getCaseName());
-							// set CaseDbId to the DBStudyCase object and the
-							// CaseData object in the ProjectData CaseData list
-							dbCase.setCaseId(aCase.getCaseDbId());
-							caseData.setCaseDbId(aCase.getCaseDbId());
-							// insert a row to the StudyCase table
-							DBManager.getSqlMap().insert("insertStudyCase",
-									dbCase);
+					// then update the IpssCase and StudyCase tables
+					List caseList = projData.getCaseList();
+					for (int i = 0; i < caseList.size(); i++) {
+						CaseData caseData = (CaseData) caseList.get(i);
+						if (caseData != null) {
+							// map the CaseData object to a DBStudyCase object
+							DBStudyCase dbCase = DBStudyCase
+									.createDBStudyCase(caseData);
+							dbCase.setProjDbId(projData.getProjectDbId());
+							if (dbCase.getCaseId() > 0) {
+								// update the IpssCase table
+								dbActionIpssCase(DBManager.SQL_ACTION_UPDATE,
+										dbCase.getProjDbId(), dbCase.getCaseName());
+								// update the StudyCase table
+								DBManager.getSqlMap().update("updateStudyCase",
+										dbCase);
+							} else {
+								// insert a row to the IpssCase table
+								IpssDBCase aCase = (IpssDBCase) dbActionIpssCase(
+										DBManager.SQL_ACTION_INSERT, dbCase
+												.getProjDbId(), dbCase
+												.getCaseName());
+								// set CaseDbId to the DBStudyCase object and the
+								// CaseData object in the ProjectData CaseData list
+								dbCase.setCaseId(aCase.getCaseDbId());
+								caseData.setCaseDbId(aCase.getCaseDbId());
+								// insert a row to the StudyCase table
+								DBManager.getSqlMap().insert("insertStudyCase",
+										dbCase);
+							}
 						}
 					}
+				} catch (Exception e) {
+					IpssLogger.logErr(e);
 				}
 				// Select the updated ProjectData object and return
 				return dbActionProject(DBManager.SQL_ACTION_SELECT, projData);
@@ -233,23 +244,23 @@ public class ProjectDataDBManager implements IProjectDataManager {
 				deleteDbProject(projData.getProjectDbId());
 				return null;
 			}
-			}
+		}
+		throw new InterpssRuntimeException("Cannot dbActionProject, see log file for details");
+	}
+
+	public static void deleteDbProject(int projDbId) {
+		try {
+			IpssLogger.getLogger().info("Delete project: " + projDbId);
+			ISimuRecManager simuRecMgr = SpringAppContext.getSimuRecManager();
+			simuRecMgr.deleteAllSimuRecForProject(projDbId,
+				IProjectDataManager.CaseType_DStabSimuRec);
+			DBManager.getSqlMap().delete("deleteAllStudyCaseForProject", projDbId);
+			DBManager.getSqlMap().delete("deleteIpssCaseForProject", projDbId);
+			DBManager.getSqlMap().delete("deleteProject", projDbId);
+			IpssLogger.getLogger().info("Project deleted, id: " + projDbId);
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}
-		throw new InterpssException(
-				"Cannot dbActionProject, see log file for details");
-	}
-
-	public static void deleteDbProject(int projDbId) throws Exception {
-		IpssLogger.getLogger().info("Delete project: " + projDbId);
-		ISimuRecManager simuRecMgr = SpringAppContext.getSimuRecManager();
-		simuRecMgr.deleteAllSimuRecForProject(projDbId,
-				IProjectDataManager.CaseType_DStabSimuRec);
-		DBManager.getSqlMap().delete("deleteAllStudyCaseForProject", projDbId);
-		DBManager.getSqlMap().delete("deleteIpssCaseForProject", projDbId);
-		DBManager.getSqlMap().delete("deleteProject", projDbId);
-		IpssLogger.getLogger().info("Project deleted, id: " + projDbId);
 	}
 
 	/**

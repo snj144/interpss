@@ -42,7 +42,7 @@ public class SimuActionAdapter {
 				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACLF);
 			} catch (Exception e) {
-				IpssLogger.getLogger().severe(e.toString());
+				IpssLogger.logErr(e);
 			}
 		}		
 	}
@@ -53,7 +53,7 @@ public class SimuActionAdapter {
 				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_POSITIVE);
 			} catch (Exception e) {
-				IpssLogger.getLogger().severe(e.toString());
+				IpssLogger.logErr(e);
 			}
 		}		
 	}
@@ -64,7 +64,7 @@ public class SimuActionAdapter {
 				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_NEGATIVE);
 			} catch (Exception e) {
-				IpssLogger.getLogger().severe(e.toString());
+				IpssLogger.logErr(e);
 			}
 		}		
 	}
@@ -75,7 +75,7 @@ public class SimuActionAdapter {
 				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_ACSC_ZERO);
 			} catch (Exception e) {
-				IpssLogger.getLogger().severe(e.toString());
+				IpssLogger.logErr(e);
 			}
 		}		
 	}
@@ -86,7 +86,7 @@ public class SimuActionAdapter {
 				SimuContext simuCtx = (SimuContext)GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext().getSimuCtx();
 				GraphSimuUtilFunc.refreshCellLabel(simuCtx, graph, GraphSimuUtilFunc.LABEL_ACT_CLEAR);
 			} catch (Exception e) {
-				IpssLogger.getLogger().severe(e.toString());
+				IpssLogger.logErr(e);
 			}
 		}		
 	}
@@ -120,7 +120,7 @@ public class SimuActionAdapter {
 			SimuContext simuCtx = (SimuContext)project.getSimuCtx();
 			str = simuCtx.toString();
 		} catch (Exception e) {
-			IpssLogger.getLogger().severe(e.toString());
+			IpssLogger.logErr(e);
 			str = e.toString();
 		}
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("SimuNetwork object info");

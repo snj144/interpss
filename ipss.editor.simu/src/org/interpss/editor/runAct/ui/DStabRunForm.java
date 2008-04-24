@@ -109,7 +109,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			handler = RunActUtilFunc
 				.createDBOutputHandler(simuCtx.getDynSimuAlgorithm());
 		} catch (Exception ex) {
-			IpssLogger.getLogger().severe(ex.toString());
+			IpssLogger.logErr(ex);
 		}	
 		if (handler == null)
 			return false;
