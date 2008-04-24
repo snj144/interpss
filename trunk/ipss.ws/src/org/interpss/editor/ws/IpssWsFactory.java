@@ -26,24 +26,6 @@ public interface IpssWsFactory extends EFactory {
 	IpssWsFactory eINSTANCE = org.interpss.editor.ws.impl.IpssWsFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Item</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Item</em>'.
-	 * @generated
-	 */
-	IpssWsItem createIpssWsItem();
-
-	/**
-	 * Returns a new object of class '<em>Item Container</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Item Container</em>'.
-	 * @generated
-	 */
-	IpssWsItemContainer createIpssWsItemContainer();
-
-	/**
 	 * Returns a new object of class '<em>Ipss Project Item</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

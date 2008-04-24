@@ -26,42 +26,6 @@ public interface IpssDocFactory extends EFactory {
 	IpssDocFactory eINSTANCE = org.interpss.editor.doc.impl.IpssDocFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Ipss Document</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Ipss Document</em>'.
-	 * @generated
-	 */
-	IpssDocument createIpssDocument();
-
-	/**
-	 * Returns a new object of class '<em>Ipss Document Item</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Ipss Document Item</em>'.
-	 * @generated
-	 */
-	IpssDocumentItem createIpssDocumentItem();
-
-	/**
-	 * Returns a new object of class '<em>Ipss Editor Document</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Ipss Editor Document</em>'.
-	 * @generated
-	 */
-	IpssEditorDocument createIpssEditorDocument();
-
-	/**
-	 * Returns a new object of class '<em>Ipss Editable Document</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Ipss Editable Document</em>'.
-	 * @generated
-	 */
-	IpssEditableDocument createIpssEditableDocument();
-
-	/**
 	 * Returns a new object of class '<em>Ipss Simu Document</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

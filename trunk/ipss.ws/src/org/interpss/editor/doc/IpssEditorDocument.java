@@ -14,7 +14,7 @@ package org.interpss.editor.doc;
  *
  *
  * @see org.interpss.editor.doc.IpssDocPackage#getIpssEditorDocument()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface IpssEditorDocument extends IpssDocumentItem {

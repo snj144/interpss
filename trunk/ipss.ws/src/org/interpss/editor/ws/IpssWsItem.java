@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  *
  * @see org.interpss.editor.ws.IpssWsPackage#getIpssWsItem()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface IpssWsItem extends EObject {

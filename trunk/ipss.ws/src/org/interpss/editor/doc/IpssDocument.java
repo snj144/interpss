@@ -15,7 +15,7 @@ import org.eclipse.emf.ecore.EObject;
  *
  *
  * @see org.interpss.editor.doc.IpssDocPackage#getIpssDocument()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface IpssDocument extends EObject {

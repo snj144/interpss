@@ -21,7 +21,7 @@ import org.eclipse.emf.common.util.EList;
  * </p>
  *
  * @see org.interpss.editor.ws.IpssWsPackage#getIpssWsItemContainer()
- * @model
+ * @model abstract="true"
  * @generated
  */
 public interface IpssWsItemContainer extends IpssWsItem {

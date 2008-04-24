@@ -4,8 +4,9 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="editor"
     nsURI="http:///org/interpss/editor" nsPrefix="ipss">
   <eSubpackages name="ws" nsURI="http:///org/interpss/editor/ws" nsPrefix="ipss">
-    <eClassifiers xsi:type="ecore:EClass" name="IpssWsItem"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssWsItemContainer" eSuperTypes="#//ws/IpssWsItem">
+    <eClassifiers xsi:type="ecore:EClass" name="IpssWsItem" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssWsItemContainer" abstract="true"
+        eSuperTypes="#//ws/IpssWsItem">
       <eStructuralFeatures xsi:type="ecore:EReference" name="wsItemList" upperBound="-1"
           eType="#//ws/IpssWsItem" containment="true"/>
     </eClassifiers>
@@ -15,10 +16,13 @@
     <eClassifiers xsi:type="ecore:EClass" name="IpssProjectForlder" eSuperTypes="#//ws/IpssWsItemContainer"/>
   </eSubpackages>
   <eSubpackages name="doc" nsURI="http:///org/interpss/editor/doc" nsPrefix="ipss">
-    <eClassifiers xsi:type="ecore:EClass" name="IpssDocument"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssDocumentItem" eSuperTypes="#//doc/IpssDocument"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssEditorDocument" eSuperTypes="#//doc/IpssDocumentItem"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssEditableDocument" eSuperTypes="#//doc/IpssEditorDocument"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssDocument" abstract="true"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssDocumentItem" abstract="true"
+        eSuperTypes="#//doc/IpssDocument"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssEditorDocument" abstract="true"
+        eSuperTypes="#//doc/IpssDocumentItem"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssEditableDocument" abstract="true"
+        eSuperTypes="#//doc/IpssEditorDocument"/>
     <eClassifiers xsi:type="ecore:EClass" name="IpssSimuDocument" eSuperTypes="#//doc/IpssEditableDocument"/>
     <eClassifiers xsi:type="ecore:EClass" name="IpssCustomDocument" eSuperTypes="#//doc/IpssSimuDocument"/>
     <eClassifiers xsi:type="ecore:EClass" name="IpssGraphicDocument" eSuperTypes="#//doc/IpssSimuDocument"/>
