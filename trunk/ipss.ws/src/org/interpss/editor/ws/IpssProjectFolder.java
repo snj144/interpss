@@ -18,4 +18,12 @@ package org.interpss.editor.ws;
  * @generated
  */
 public interface IpssProjectFolder extends IpssWsItemContainer {
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	IpssWorkSpace getWorkSpace();
 } // IpssProjectFolder

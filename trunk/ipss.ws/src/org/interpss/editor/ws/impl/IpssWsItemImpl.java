@@ -14,9 +14,11 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.interpss.editor.doc.IpssDocPackage;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.ws.IpssWsItem;
+import org.interpss.editor.ws.IpssWsItemContainer;
 import org.interpss.editor.ws.IpssWsPackage;
 
 /**
@@ -27,6 +29,8 @@ import org.interpss.editor.ws.IpssWsPackage;
  * The following features are implemented:
  * <ul>
  *   <li>{@link org.interpss.editor.ws.impl.IpssWsItemImpl#getIpssDoc <em>Ipss Doc</em>}</li>
+ *   <li>{@link org.interpss.editor.ws.impl.IpssWsItemImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.interpss.editor.ws.impl.IpssWsItemImpl#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
  *
@@ -42,6 +46,25 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 * @ordered
 	 */
 	protected IpssDocument ipssDoc;
+
+	/**
+	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String NAME_EDEFAULT = "NewItem";
+	/**
+	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getName()
+	 * @generated
+	 * @ordered
+	 */
+	protected String name = NAME_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -127,6 +150,145 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setName(String newName) {
+		String oldName = name;
+		name = newName;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, IpssWsPackage.IPSS_WS_ITEM__NAME, oldName, name));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IpssWsItemContainer getParent() {
+		if (eContainerFeatureID != IpssWsPackage.IPSS_WS_ITEM__PARENT) return null;
+		return (IpssWsItemContainer)eContainer();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain basicSetParent(IpssWsItemContainer newParent, NotificationChain msgs) {
+		msgs = eBasicSetContainer((InternalEObject)newParent, IpssWsPackage.IPSS_WS_ITEM__PARENT, msgs);
+		return msgs;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setParent(IpssWsItemContainer newParent) {
+		if (newParent != eInternalContainer() || (eContainerFeatureID != IpssWsPackage.IPSS_WS_ITEM__PARENT && newParent != null)) {
+			if (EcoreUtil.isAncestor(this, newParent))
+				throw new IllegalArgumentException("Recursive containment not allowed for " + toString());
+			NotificationChain msgs = null;
+			if (eInternalContainer() != null)
+				msgs = eBasicRemoveFromContainer(msgs);
+			if (newParent != null)
+				msgs = ((InternalEObject)newParent).eInverseAdd(this, IpssWsPackage.IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST, IpssWsItemContainer.class, msgs);
+			msgs = basicSetParent(newParent, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, IpssWsPackage.IPSS_WS_ITEM__PARENT, newParent, newParent));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFilename() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFileExt() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getFilenameNoExt() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isOpen() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isActive() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isLoaded() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void clearDocument() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -134,6 +296,10 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 				if (ipssDoc != null)
 					msgs = ((InternalEObject)ipssDoc).eInverseRemove(this, IpssDocPackage.IPSS_DOCUMENT__WS_ITEM, IpssDocument.class, msgs);
 				return basicSetIpssDoc((IpssDocument)otherEnd, msgs);
+			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
+				if (eInternalContainer() != null)
+					msgs = eBasicRemoveFromContainer(msgs);
+				return basicSetParent((IpssWsItemContainer)otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -148,8 +314,24 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 		switch (featureID) {
 			case IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC:
 				return basicSetIpssDoc(null, msgs);
+			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
+				return basicSetParent(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
+		switch (eContainerFeatureID) {
+			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
+				return eInternalContainer().eInverseRemove(this, IpssWsPackage.IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST, IpssWsItemContainer.class, msgs);
+		}
+		return super.eBasicRemoveFromContainerFeature(msgs);
 	}
 
 	/**
@@ -163,6 +345,10 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 			case IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC:
 				if (resolve) return getIpssDoc();
 				return basicGetIpssDoc();
+			case IpssWsPackage.IPSS_WS_ITEM__NAME:
+				return getName();
+			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
+				return getParent();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -177,6 +363,12 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 		switch (featureID) {
 			case IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC:
 				setIpssDoc((IpssDocument)newValue);
+				return;
+			case IpssWsPackage.IPSS_WS_ITEM__NAME:
+				setName((String)newValue);
+				return;
+			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
+				setParent((IpssWsItemContainer)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -193,6 +385,12 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 			case IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC:
 				setIpssDoc((IpssDocument)null);
 				return;
+			case IpssWsPackage.IPSS_WS_ITEM__NAME:
+				setName(NAME_EDEFAULT);
+				return;
+			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
+				setParent((IpssWsItemContainer)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -207,8 +405,28 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 		switch (featureID) {
 			case IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC:
 				return ipssDoc != null;
+			case IpssWsPackage.IPSS_WS_ITEM__NAME:
+				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
+			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
+				return getParent() != null;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (name: ");
+		result.append(name);
+		result.append(')');
+		return result.toString();
 	}
 
 } //IpssWsItemImpl

@@ -28,6 +28,7 @@ public interface IpssWsItemContainer extends IpssWsItem {
 	/**
 	 * Returns the value of the '<em><b>Ws Item List</b></em>' containment reference list.
 	 * The list contents are of type {@link org.interpss.editor.ws.IpssWsItem}.
+	 * It is bidirectional and its opposite is '{@link org.interpss.editor.ws.IpssWsItem#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ws Item List</em>' containment reference list isn't clear,
@@ -36,7 +37,8 @@ public interface IpssWsItemContainer extends IpssWsItem {
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ws Item List</em>' containment reference list.
 	 * @see org.interpss.editor.ws.IpssWsPackage#getIpssWsItemContainer_WsItemList()
-	 * @model containment="true"
+	 * @see org.interpss.editor.ws.IpssWsItem#getParent
+	 * @model opposite="parent" containment="true"
 	 * @generated
 	 */
 	EList<IpssWsItem> getWsItemList();

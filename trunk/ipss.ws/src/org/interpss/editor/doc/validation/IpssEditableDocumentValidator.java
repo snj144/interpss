@@ -16,4 +16,6 @@ package org.interpss.editor.doc.validation;
 public interface IpssEditableDocumentValidator {
 	boolean validate();
 
+	boolean validateModified(boolean value);
+
 }

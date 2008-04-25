@@ -6,7 +6,9 @@
  */
 package org.interpss.editor.ws.impl;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -20,6 +22,7 @@ import org.interpss.editor.ws.IpssWsFactory;
 import org.interpss.editor.ws.IpssWsItem;
 import org.interpss.editor.ws.IpssWsItemContainer;
 import org.interpss.editor.ws.IpssWsPackage;
+import org.interpss.editor.ws.WsItemInitStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -69,6 +72,13 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * @generated
 	 */
 	private EClass ipssProjectFolderEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum wsItemInitStatusEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -166,6 +176,24 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIpssWsItem_Name() {
+		return (EAttribute)ipssWsItemEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getIpssWsItem_Parent() {
+		return (EReference)ipssWsItemEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIpssWsItemContainer() {
 		return ipssWsItemContainerEClass;
 	}
@@ -193,8 +221,26 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIpssProjectItem_IntStatus() {
+		return (EAttribute)ipssProjectItemEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIpssWorkSpace() {
 		return ipssWorkSpaceEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIpssWorkSpace_RootDir() {
+		return (EAttribute)ipssWorkSpaceEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -211,8 +257,26 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIpssProject_ProjDbId() {
+		return (EAttribute)ipssProjectEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIpssProjectFolder() {
 		return ipssProjectFolderEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EEnum getWsItemInitStatus() {
+		return wsItemInitStatusEEnum;
 	}
 
 	/**
@@ -245,17 +309,25 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		// Create classes and their features
 		ipssWsItemEClass = createEClass(IPSS_WS_ITEM);
 		createEReference(ipssWsItemEClass, IPSS_WS_ITEM__IPSS_DOC);
+		createEAttribute(ipssWsItemEClass, IPSS_WS_ITEM__NAME);
+		createEReference(ipssWsItemEClass, IPSS_WS_ITEM__PARENT);
 
 		ipssWsItemContainerEClass = createEClass(IPSS_WS_ITEM_CONTAINER);
 		createEReference(ipssWsItemContainerEClass, IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST);
 
 		ipssProjectItemEClass = createEClass(IPSS_PROJECT_ITEM);
+		createEAttribute(ipssProjectItemEClass, IPSS_PROJECT_ITEM__INT_STATUS);
 
 		ipssWorkSpaceEClass = createEClass(IPSS_WORK_SPACE);
+		createEAttribute(ipssWorkSpaceEClass, IPSS_WORK_SPACE__ROOT_DIR);
 
 		ipssProjectEClass = createEClass(IPSS_PROJECT);
+		createEAttribute(ipssProjectEClass, IPSS_PROJECT__PROJ_DB_ID);
 
 		ipssProjectFolderEClass = createEClass(IPSS_PROJECT_FOLDER);
+
+		// Create enums
+		wsItemInitStatusEEnum = createEEnum(WS_ITEM_INIT_STATUS);
 	}
 
 	/**
@@ -298,17 +370,48 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(ipssWsItemEClass, IpssWsItem.class, "IpssWsItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIpssWsItem_IpssDoc(), theIpssDocPackage.getIpssDocument(), theIpssDocPackage.getIpssDocument_WsItem(), "ipssDoc", null, 0, 1, IpssWsItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIpssWsItem_Name(), ecorePackage.getEString(), "name", "NewItem", 0, 1, IpssWsItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIpssWsItem_Parent(), this.getIpssWsItemContainer(), this.getIpssWsItemContainer_WsItemList(), "parent", null, 0, 1, IpssWsItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(ipssWsItemEClass, ecorePackage.getEString(), "getFilename", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(ipssWsItemEClass, ecorePackage.getEString(), "getFileExt", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(ipssWsItemEClass, ecorePackage.getEString(), "getFilenameNoExt", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(ipssWsItemEClass, ecorePackage.getEBoolean(), "isOpen", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(ipssWsItemEClass, ecorePackage.getEBoolean(), "isActive", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(ipssWsItemEClass, ecorePackage.getEBoolean(), "isLoaded", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		addEOperation(ipssWsItemEClass, null, "clearDocument", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(ipssWsItemContainerEClass, IpssWsItemContainer.class, "IpssWsItemContainer", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getIpssWsItemContainer_WsItemList(), this.getIpssWsItem(), null, "wsItemList", null, 0, -1, IpssWsItemContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getIpssWsItemContainer_WsItemList(), this.getIpssWsItem(), this.getIpssWsItem_Parent(), "wsItemList", null, 0, -1, IpssWsItemContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ipssProjectItemEClass, IpssProjectItem.class, "IpssProjectItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIpssProjectItem_IntStatus(), this.getWsItemInitStatus(), "intStatus", "Close", 0, 1, IpssProjectItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(ipssProjectItemEClass, this.getIpssProject(), "getParentProject", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(ipssWorkSpaceEClass, IpssWorkSpace.class, "IpssWorkSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIpssWorkSpace_RootDir(), ecorePackage.getEString(), "rootDir", null, 0, 1, IpssWorkSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ipssProjectEClass, IpssProject.class, "IpssProject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIpssProject_ProjDbId(), ecorePackage.getEInt(), "projDbId", null, 0, 1, IpssProject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(ipssProjectEClass, this.getIpssProjectFolder(), "getParanetFolder", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		initEClass(ipssProjectFolderEClass, IpssProjectFolder.class, "IpssProjectFolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		addEOperation(ipssProjectFolderEClass, this.getIpssWorkSpace(), "getWorkSpace", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(wsItemInitStatusEEnum, WsItemInitStatus.class, "WsItemInitStatus");
+		addEEnumLiteral(wsItemInitStatusEEnum, WsItemInitStatus.OPEN);
+		addEEnumLiteral(wsItemInitStatusEEnum, WsItemInitStatus.ACTIVE);
+		addEEnumLiteral(wsItemInitStatusEEnum, WsItemInitStatus.CLOSE);
 
 		// Create resource
 		createResource(eNS_URI);

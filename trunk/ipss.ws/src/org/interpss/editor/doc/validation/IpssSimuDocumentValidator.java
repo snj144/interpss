@@ -6,6 +6,8 @@
  */
 package org.interpss.editor.doc.validation;
 
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+
 
 /**
  * A sample validator interface for {@link org.interpss.editor.doc.IpssSimuDocument}.
@@ -15,5 +17,7 @@ package org.interpss.editor.doc.validation;
  */
 public interface IpssSimuDocumentValidator {
 	boolean validate();
+
+	boolean validateAppSimuCtx(IAppSimuContext value);
 
 }

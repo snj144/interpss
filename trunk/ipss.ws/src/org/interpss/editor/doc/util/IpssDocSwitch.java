@@ -8,6 +8,7 @@ package org.interpss.editor.doc.util;
 
 import java.util.List;
 
+import javax.swing.JComponent;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 

@@ -6,12 +6,13 @@
  */
 package org.interpss.editor.doc.impl;
 
+import javax.swing.JComponent;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.interpss.editor.doc.IpssCustomDocument;
 import org.interpss.editor.doc.IpssDocFactory;
 import org.interpss.editor.doc.IpssDocPackage;
@@ -22,11 +23,10 @@ import org.interpss.editor.doc.IpssEditorDocument;
 import org.interpss.editor.doc.IpssGraphicDocument;
 import org.interpss.editor.doc.IpssReportDocument;
 import org.interpss.editor.doc.IpssSimuDocument;
-
 import org.interpss.editor.doc.IpssTextDocument;
 import org.interpss.editor.doc.IpssXmlDocument;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ws.IpssWsPackage;
-
 import org.interpss.editor.ws.impl.IpssWsPackageImpl;
 
 /**
@@ -105,6 +105,13 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 	 * @generated
 	 */
 	private EClass ipssXmlDocumentEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EDataType appSimuContextEDataType = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -220,6 +227,15 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIpssEditorDocument_FilePath() {
+		return (EAttribute)ipssEditorDocumentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIpssEditableDocument() {
 		return ipssEditableDocumentEClass;
 	}
@@ -229,8 +245,26 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIpssEditableDocument_Modified() {
+		return (EAttribute)ipssEditableDocumentEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getIpssSimuDocument() {
 		return ipssSimuDocumentEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIpssSimuDocument_AppSimuCtx() {
+		return (EAttribute)ipssSimuDocumentEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -283,6 +317,15 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EDataType getAppSimuContext() {
+		return appSimuContextEDataType;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IpssDocFactory getIpssDocFactory() {
 		return (IpssDocFactory)getEFactoryInstance();
 	}
@@ -312,10 +355,13 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 		ipssDocumentItemEClass = createEClass(IPSS_DOCUMENT_ITEM);
 
 		ipssEditorDocumentEClass = createEClass(IPSS_EDITOR_DOCUMENT);
+		createEAttribute(ipssEditorDocumentEClass, IPSS_EDITOR_DOCUMENT__FILE_PATH);
 
 		ipssEditableDocumentEClass = createEClass(IPSS_EDITABLE_DOCUMENT);
+		createEAttribute(ipssEditableDocumentEClass, IPSS_EDITABLE_DOCUMENT__MODIFIED);
 
 		ipssSimuDocumentEClass = createEClass(IPSS_SIMU_DOCUMENT);
+		createEAttribute(ipssSimuDocumentEClass, IPSS_SIMU_DOCUMENT__APP_SIMU_CTX);
 
 		ipssCustomDocumentEClass = createEClass(IPSS_CUSTOM_DOCUMENT);
 
@@ -326,6 +372,9 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 		ipssTextDocumentEClass = createEClass(IPSS_TEXT_DOCUMENT);
 
 		ipssXmlDocumentEClass = createEClass(IPSS_XML_DOCUMENT);
+
+		// Create data types
+		appSimuContextEDataType = createEDataType(APP_SIMU_CONTEXT);
 	}
 
 	/**
@@ -376,10 +425,13 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 		initEClass(ipssDocumentItemEClass, IpssDocumentItem.class, "IpssDocumentItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(ipssEditorDocumentEClass, IpssEditorDocument.class, "IpssEditorDocument", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIpssEditorDocument_FilePath(), ecorePackage.getEString(), "filePath", null, 0, 1, IpssEditorDocument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ipssEditableDocumentEClass, IpssEditableDocument.class, "IpssEditableDocument", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIpssEditableDocument_Modified(), ecorePackage.getEBoolean(), "modified", null, 0, 1, IpssEditableDocument.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ipssSimuDocumentEClass, IpssSimuDocument.class, "IpssSimuDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIpssSimuDocument_AppSimuCtx(), this.getAppSimuContext(), "appSimuCtx", null, 0, 1, IpssSimuDocument.class, IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ipssCustomDocumentEClass, IpssCustomDocument.class, "IpssCustomDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -390,6 +442,9 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 		initEClass(ipssTextDocumentEClass, IpssTextDocument.class, "IpssTextDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(ipssXmlDocumentEClass, IpssXmlDocument.class, "IpssXmlDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		// Initialize data types
+		initEDataType(appSimuContextEDataType, IAppSimuContext.class, "AppSimuContext", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -9,6 +9,7 @@ package org.interpss.editor.ws.impl;
 import org.eclipse.emf.ecore.EClass;
 
 import org.interpss.editor.ws.IpssProjectFolder;
+import org.interpss.editor.ws.IpssWorkSpace;
 import org.interpss.editor.ws.IpssWsPackage;
 
 /**
@@ -38,6 +39,15 @@ public class IpssProjectFolderImpl extends IpssWsItemContainerImpl implements Ip
 	@Override
 	protected EClass eStaticClass() {
 		return IpssWsPackage.Literals.IPSS_PROJECT_FOLDER;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public IpssWorkSpace getWorkSpace() {
+		return (IpssWorkSpace)getParent();
 	}
 
 } //IpssProjectFolderImpl

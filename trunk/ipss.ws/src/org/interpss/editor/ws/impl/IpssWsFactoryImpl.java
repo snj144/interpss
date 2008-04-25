@@ -7,6 +7,7 @@
 package org.interpss.editor.ws.impl;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -74,6 +75,36 @@ public class IpssWsFactoryImpl extends EFactoryImpl implements IpssWsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case IpssWsPackage.WS_ITEM_INIT_STATUS:
+				return createWsItemInitStatusFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case IpssWsPackage.WS_ITEM_INIT_STATUS:
+				return convertWsItemInitStatusToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IpssProjectItem createIpssProjectItem() {
 		IpssProjectItemImpl ipssProjectItem = new IpssProjectItemImpl();
 		return ipssProjectItem;
@@ -107,6 +138,26 @@ public class IpssWsFactoryImpl extends EFactoryImpl implements IpssWsFactory {
 	public IpssProjectFolder createIpssProjectFolder() {
 		IpssProjectFolderImpl ipssProjectFolder = new IpssProjectFolderImpl();
 		return ipssProjectFolder;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public WsItemInitStatus createWsItemInitStatusFromString(EDataType eDataType, String initialValue) {
+		WsItemInitStatus result = WsItemInitStatus.get(initialValue);
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
+		return result;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertWsItemInitStatusToString(EDataType eDataType, Object instanceValue) {
+		return instanceValue == null ? null : instanceValue.toString();
 	}
 
 	/**

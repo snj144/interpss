@@ -16,4 +16,6 @@ package org.interpss.editor.doc.validation;
 public interface IpssEditorDocumentValidator {
 	boolean validate();
 
+	boolean validateFilePath(String value);
+
 }

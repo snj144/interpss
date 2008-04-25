@@ -16,4 +16,6 @@ package org.interpss.editor.ws.validation;
 public interface IpssWorkSpaceValidator {
 	boolean validate();
 
+	boolean validateRootDir(String value);
+
 }
