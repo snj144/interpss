@@ -6,7 +6,6 @@
  */
 package org.interpss.editor.doc.impl;
 
-import javax.swing.JComponent;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;

@@ -6,7 +6,6 @@
  */
 package org.interpss.editor.doc;
 
-import javax.swing.JComponent;
 import org.eclipse.emf.ecore.EObject;
 import org.interpss.editor.ws.IpssWsItem;
 
