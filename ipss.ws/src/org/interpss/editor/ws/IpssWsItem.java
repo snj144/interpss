@@ -19,6 +19,7 @@ import org.interpss.editor.doc.IpssDocument;
  * <ul>
  *   <li>{@link org.interpss.editor.ws.IpssWsItem#getIpssDoc <em>Ipss Doc</em>}</li>
  *   <li>{@link org.interpss.editor.ws.IpssWsItem#getName <em>Name</em>}</li>
+ *   <li>{@link org.interpss.editor.ws.IpssWsItem#getInitStatus <em>Init Status</em>}</li>
  *   <li>{@link org.interpss.editor.ws.IpssWsItem#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
@@ -83,6 +84,36 @@ public interface IpssWsItem extends EObject {
 	 * @generated
 	 */
 	void setName(String value);
+
+	/**
+	 * Returns the value of the '<em><b>Init Status</b></em>' attribute.
+	 * The default value is <code>"Close"</code>.
+	 * The literals are from the enumeration {@link org.interpss.editor.ws.WsItemInitStatus}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Init Status</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Init Status</em>' attribute.
+	 * @see org.interpss.editor.ws.WsItemInitStatus
+	 * @see #setInitStatus(WsItemInitStatus)
+	 * @see org.interpss.editor.ws.IpssWsPackage#getIpssWsItem_InitStatus()
+	 * @model default="Close"
+	 * @generated
+	 */
+	WsItemInitStatus getInitStatus();
+
+	/**
+	 * Sets the value of the '{@link org.interpss.editor.ws.IpssWsItem#getInitStatus <em>Init Status</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Init Status</em>' attribute.
+	 * @see org.interpss.editor.ws.WsItemInitStatus
+	 * @see #getInitStatus()
+	 * @generated
+	 */
+	void setInitStatus(WsItemInitStatus value);
 
 	/**
 	 * Returns the value of the '<em><b>Parent</b></em>' container reference.

@@ -16,6 +16,8 @@
           eOpposite="#//doc/IpssDocument/wsItem"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
           defaultValueLiteral="NewItem"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="initStatus" eType="#//ws/WsItemInitStatus"
+          defaultValueLiteral="Close"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//ws/IpssWsItemContainer"
           eOpposite="#//ws/IpssWsItemContainer/wsItemList"/>
     </eClassifiers>
@@ -26,8 +28,6 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItem" eSuperTypes="#//ws/IpssWsItem">
       <eOperations name="getParentProject" eType="#//ws/IpssProject"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intStatus" eType="#//ws/WsItemInitStatus"
-          defaultValueLiteral="Close"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IpssWorkSpace" eSuperTypes="#//ws/IpssWsItemContainer">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="rootDir" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

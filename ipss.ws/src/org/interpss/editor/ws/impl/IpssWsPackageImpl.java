@@ -185,8 +185,17 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getIpssWsItem_InitStatus() {
+		return (EAttribute)ipssWsItemEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getIpssWsItem_Parent() {
-		return (EReference)ipssWsItemEClass.getEStructuralFeatures().get(2);
+		return (EReference)ipssWsItemEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -214,15 +223,6 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 */
 	public EClass getIpssProjectItem() {
 		return ipssProjectItemEClass;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EAttribute getIpssProjectItem_IntStatus() {
-		return (EAttribute)ipssProjectItemEClass.getEStructuralFeatures().get(0);
 	}
 
 	/**
@@ -310,13 +310,13 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		ipssWsItemEClass = createEClass(IPSS_WS_ITEM);
 		createEReference(ipssWsItemEClass, IPSS_WS_ITEM__IPSS_DOC);
 		createEAttribute(ipssWsItemEClass, IPSS_WS_ITEM__NAME);
+		createEAttribute(ipssWsItemEClass, IPSS_WS_ITEM__INIT_STATUS);
 		createEReference(ipssWsItemEClass, IPSS_WS_ITEM__PARENT);
 
 		ipssWsItemContainerEClass = createEClass(IPSS_WS_ITEM_CONTAINER);
 		createEReference(ipssWsItemContainerEClass, IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST);
 
 		ipssProjectItemEClass = createEClass(IPSS_PROJECT_ITEM);
-		createEAttribute(ipssProjectItemEClass, IPSS_PROJECT_ITEM__INT_STATUS);
 
 		ipssWorkSpaceEClass = createEClass(IPSS_WORK_SPACE);
 		createEAttribute(ipssWorkSpaceEClass, IPSS_WORK_SPACE__ROOT_DIR);
@@ -371,6 +371,7 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		initEClass(ipssWsItemEClass, IpssWsItem.class, "IpssWsItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getIpssWsItem_IpssDoc(), theIpssDocPackage.getIpssDocument(), theIpssDocPackage.getIpssDocument_WsItem(), "ipssDoc", null, 0, 1, IpssWsItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getIpssWsItem_Name(), ecorePackage.getEString(), "name", "NewItem", 0, 1, IpssWsItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getIpssWsItem_InitStatus(), this.getWsItemInitStatus(), "initStatus", "Close", 0, 1, IpssWsItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getIpssWsItem_Parent(), this.getIpssWsItemContainer(), this.getIpssWsItemContainer_WsItemList(), "parent", null, 0, 1, IpssWsItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(ipssWsItemEClass, ecorePackage.getEString(), "getFilename", 0, 1, IS_UNIQUE, IS_ORDERED);
@@ -391,7 +392,6 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		initEReference(getIpssWsItemContainer_WsItemList(), this.getIpssWsItem(), this.getIpssWsItem_Parent(), "wsItemList", null, 0, -1, IpssWsItemContainer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ipssProjectItemEClass, IpssProjectItem.class, "IpssProjectItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEAttribute(getIpssProjectItem_IntStatus(), this.getWsItemInitStatus(), "intStatus", "Close", 0, 1, IpssProjectItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		addEOperation(ipssProjectItemEClass, this.getIpssProject(), "getParentProject", 0, 1, IS_UNIQUE, IS_ORDERED);
 

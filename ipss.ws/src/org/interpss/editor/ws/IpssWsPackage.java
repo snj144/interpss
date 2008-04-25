@@ -89,13 +89,22 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_WS_ITEM__NAME = 1;
 
 	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM__INIT_STATUS = 2;
+
+	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_WS_ITEM__PARENT = 2;
+	int IPSS_WS_ITEM__PARENT = 3;
 
 	/**
 	 * The number of structural features of the '<em>Item</em>' class.
@@ -104,7 +113,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_WS_ITEM_FEATURE_COUNT = 3;
+	int IPSS_WS_ITEM_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssWsItemContainerImpl <em>Item Container</em>}' class.
@@ -133,6 +142,15 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_WS_ITEM_CONTAINER__NAME = IPSS_WS_ITEM__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM_CONTAINER__INIT_STATUS = IPSS_WS_ITEM__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -190,6 +208,15 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_PROJECT_ITEM__NAME = IPSS_WS_ITEM__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM__INIT_STATUS = IPSS_WS_ITEM__INIT_STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -199,22 +226,13 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_PROJECT_ITEM__PARENT = IPSS_WS_ITEM__PARENT;
 
 	/**
-	 * The feature id for the '<em><b>Int Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM__INT_STATUS = IPSS_WS_ITEM_FEATURE_COUNT + 0;
-
-	/**
 	 * The number of structural features of the '<em>Ipss Project Item</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_PROJECT_ITEM_FEATURE_COUNT = IPSS_WS_ITEM_FEATURE_COUNT + 1;
+	int IPSS_PROJECT_ITEM_FEATURE_COUNT = IPSS_WS_ITEM_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssWorkSpaceImpl <em>Ipss Work Space</em>}' class.
@@ -243,6 +261,15 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_WORK_SPACE__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -309,6 +336,15 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_PROJECT__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
+
+	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -371,6 +407,15 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_PROJECT_FOLDER__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FOLDER__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -442,6 +487,17 @@ public interface IpssWsPackage extends EPackage {
 	EAttribute getIpssWsItem_Name();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.interpss.editor.ws.IpssWsItem#getInitStatus <em>Init Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Init Status</em>'.
+	 * @see org.interpss.editor.ws.IpssWsItem#getInitStatus()
+	 * @see #getIpssWsItem()
+	 * @generated
+	 */
+	EAttribute getIpssWsItem_InitStatus();
+
+	/**
 	 * Returns the meta object for the container reference '{@link org.interpss.editor.ws.IpssWsItem#getParent <em>Parent</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -482,17 +538,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIpssProjectItem();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.interpss.editor.ws.IpssProjectItem#getIntStatus <em>Int Status</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Int Status</em>'.
-	 * @see org.interpss.editor.ws.IpssProjectItem#getIntStatus()
-	 * @see #getIpssProjectItem()
-	 * @generated
-	 */
-	EAttribute getIpssProjectItem_IntStatus();
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWorkSpace <em>Ipss Work Space</em>}'.
@@ -605,6 +650,14 @@ public interface IpssWsPackage extends EPackage {
 		EAttribute IPSS_WS_ITEM__NAME = eINSTANCE.getIpssWsItem_Name();
 
 		/**
+		 * The meta object literal for the '<em><b>Init Status</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IPSS_WS_ITEM__INIT_STATUS = eINSTANCE.getIpssWsItem_InitStatus();
+
+		/**
 		 * The meta object literal for the '<em><b>Parent</b></em>' container reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -639,14 +692,6 @@ public interface IpssWsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass IPSS_PROJECT_ITEM = eINSTANCE.getIpssProjectItem();
-
-		/**
-		 * The meta object literal for the '<em><b>Int Status</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IPSS_PROJECT_ITEM__INT_STATUS = eINSTANCE.getIpssProjectItem_IntStatus();
 
 		/**
 		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssWorkSpaceImpl <em>Ipss Work Space</em>}' class.
