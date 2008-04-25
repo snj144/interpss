@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.interpss.editor.doc.*;
 import org.interpss.editor.doc.IpssCustomDocument;
 import org.interpss.editor.doc.IpssDocFactory;
 import org.interpss.editor.doc.IpssDocPackage;
