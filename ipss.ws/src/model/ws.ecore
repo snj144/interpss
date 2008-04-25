@@ -5,18 +5,45 @@
     nsURI="http:///org/interpss/editor" nsPrefix="ipss">
   <eSubpackages name="ws" nsURI="http:///org/interpss/editor/ws" nsPrefix="ipss">
     <eClassifiers xsi:type="ecore:EClass" name="IpssWsItem" abstract="true">
+      <eOperations name="getFilename" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getFileExt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="getFilenameNoExt" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eOperations name="isOpen" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="isActive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="isLoaded" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+      <eOperations name="clearDocument"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ipssDoc" eType="#//doc/IpssDocument"
           eOpposite="#//doc/IpssDocument/wsItem"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
+          defaultValueLiteral="NewItem"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="parent" eType="#//ws/IpssWsItemContainer"
+          eOpposite="#//ws/IpssWsItemContainer/wsItemList"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IpssWsItemContainer" abstract="true"
         eSuperTypes="#//ws/IpssWsItem">
       <eStructuralFeatures xsi:type="ecore:EReference" name="wsItemList" upperBound="-1"
-          eType="#//ws/IpssWsItem" containment="true"/>
+          eType="#//ws/IpssWsItem" containment="true" eOpposite="#//ws/IpssWsItem/parent"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItem" eSuperTypes="#//ws/IpssWsItem"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssWorkSpace" eSuperTypes="#//ws/IpssWsItemContainer"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssProject" eSuperTypes="#//ws/IpssWsItemContainer"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssProjectFolder" eSuperTypes="#//ws/IpssWsItemContainer"/>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItem" eSuperTypes="#//ws/IpssWsItem">
+      <eOperations name="getParentProject" eType="#//ws/IpssProject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="intStatus" eType="#//ws/WsItemInitStatus"
+          defaultValueLiteral="Close"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssWorkSpace" eSuperTypes="#//ws/IpssWsItemContainer">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="rootDir" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssProject" eSuperTypes="#//ws/IpssWsItemContainer">
+      <eOperations name="getParanetFolder" eType="#//ws/IpssProjectFolder"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projDbId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssProjectFolder" eSuperTypes="#//ws/IpssWsItemContainer">
+      <eOperations name="getWorkSpace" eType="#//ws/IpssWorkSpace"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="WsItemInitStatus">
+      <eLiterals name="Open"/>
+      <eLiterals name="Active" value="1"/>
+      <eLiterals name="Close" value="2"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="doc" nsURI="http:///org/interpss/editor/doc" nsPrefix="ipss">
     <eClassifiers xsi:type="ecore:EClass" name="IpssDocument" abstract="true">
@@ -26,14 +53,22 @@
     <eClassifiers xsi:type="ecore:EClass" name="IpssDocumentItem" abstract="true"
         eSuperTypes="#//doc/IpssDocument"/>
     <eClassifiers xsi:type="ecore:EClass" name="IpssEditorDocument" abstract="true"
-        eSuperTypes="#//doc/IpssDocumentItem"/>
+        eSuperTypes="#//doc/IpssDocumentItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="filePath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IpssEditableDocument" abstract="true"
-        eSuperTypes="#//doc/IpssEditorDocument"/>
-    <eClassifiers xsi:type="ecore:EClass" name="IpssSimuDocument" eSuperTypes="#//doc/IpssEditableDocument"/>
+        eSuperTypes="#//doc/IpssEditorDocument">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modified" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssSimuDocument" eSuperTypes="#//doc/IpssEditableDocument">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="appSimuCtx" eType="#//doc/AppSimuContext"
+          transient="true"/>
+    </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IpssCustomDocument" eSuperTypes="#//doc/IpssSimuDocument"/>
     <eClassifiers xsi:type="ecore:EClass" name="IpssGraphicDocument" eSuperTypes="#//doc/IpssSimuDocument"/>
     <eClassifiers xsi:type="ecore:EClass" name="IpssReportDocument" eSuperTypes="#//doc/IpssEditorDocument"/>
     <eClassifiers xsi:type="ecore:EClass" name="IpssTextDocument" eSuperTypes="#//doc/IpssEditableDocument"/>
     <eClassifiers xsi:type="ecore:EClass" name="IpssXmlDocument" eSuperTypes="#//doc/IpssEditableDocument"/>
+    <eClassifiers xsi:type="ecore:EDataType" name="AppSimuContext" instanceClassName="org.interpss.editor.jgraph.ui.app.IAppSimuContext"/>
   </eSubpackages>
 </ecore:EPackage>

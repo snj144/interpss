@@ -6,6 +6,7 @@
  */
 package org.interpss.editor.doc.util;
 
+import javax.swing.JComponent;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 

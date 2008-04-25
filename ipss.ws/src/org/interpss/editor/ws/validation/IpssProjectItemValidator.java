@@ -6,6 +6,8 @@
  */
 package org.interpss.editor.ws.validation;
 
+import org.interpss.editor.ws.WsItemInitStatus;
+
 
 /**
  * A sample validator interface for {@link org.interpss.editor.ws.IpssProjectItem}.
@@ -15,5 +17,7 @@ package org.interpss.editor.ws.validation;
  */
 public interface IpssProjectItemValidator {
 	boolean validate();
+
+	boolean validateIntStatus(WsItemInitStatus value);
 
 }

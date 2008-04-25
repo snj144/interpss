@@ -16,4 +16,6 @@ package org.interpss.editor.ws.validation;
 public interface IpssProjectValidator {
 	boolean validate();
 
+	boolean validateProjDbId(int value);
+
 }

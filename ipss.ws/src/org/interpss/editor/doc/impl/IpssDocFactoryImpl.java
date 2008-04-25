@@ -6,7 +6,9 @@
  */
 package org.interpss.editor.doc.impl;
 
+import javax.swing.JComponent;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
@@ -15,6 +17,7 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import org.interpss.editor.doc.*;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
 /**
  * <!-- begin-user-doc -->
@@ -76,6 +79,36 @@ public class IpssDocFactoryImpl extends EFactoryImpl implements IpssDocFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	@Override
+	public Object createFromString(EDataType eDataType, String initialValue) {
+		switch (eDataType.getClassifierID()) {
+			case IpssDocPackage.APP_SIMU_CONTEXT:
+				return createAppSimuContextFromString(eDataType, initialValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String convertToString(EDataType eDataType, Object instanceValue) {
+		switch (eDataType.getClassifierID()) {
+			case IpssDocPackage.APP_SIMU_CONTEXT:
+				return convertAppSimuContextToString(eDataType, instanceValue);
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public IpssSimuDocument createIpssSimuDocument() {
 		IpssSimuDocumentImpl ipssSimuDocument = new IpssSimuDocumentImpl();
 		return ipssSimuDocument;
@@ -129,6 +162,24 @@ public class IpssDocFactoryImpl extends EFactoryImpl implements IpssDocFactory {
 	public IpssXmlDocument createIpssXmlDocument() {
 		IpssXmlDocumentImpl ipssXmlDocument = new IpssXmlDocumentImpl();
 		return ipssXmlDocument;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IAppSimuContext createAppSimuContextFromString(EDataType eDataType, String initialValue) {
+		return (IAppSimuContext)super.createFromString(eDataType, initialValue);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String convertAppSimuContextToString(EDataType eDataType, Object instanceValue) {
+		return super.convertToString(eDataType, instanceValue);
 	}
 
 	/**

@@ -9,15 +9,11 @@ package org.interpss.editor.ws.impl;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
-
 import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 import org.interpss.editor.ws.IpssWsItem;
 import org.interpss.editor.ws.IpssWsItemContainer;
 import org.interpss.editor.ws.IpssWsPackage;
@@ -72,9 +68,24 @@ public abstract class IpssWsItemContainerImpl extends IpssWsItemImpl implements 
 	 */
 	public EList<IpssWsItem> getWsItemList() {
 		if (wsItemList == null) {
-			wsItemList = new EObjectContainmentEList<IpssWsItem>(IpssWsItem.class, this, IpssWsPackage.IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST);
+			wsItemList = new EObjectContainmentWithInverseEList<IpssWsItem>(IpssWsItem.class, this, IpssWsPackage.IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST, IpssWsPackage.IPSS_WS_ITEM__PARENT);
 		}
 		return wsItemList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case IpssWsPackage.IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getWsItemList()).basicAdd(otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
 
 	/**

@@ -6,7 +6,9 @@
  */
 package org.interpss.editor.doc;
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -134,13 +136,22 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_EDITOR_DOCUMENT__WS_ITEM = IPSS_DOCUMENT_ITEM__WS_ITEM;
 
 	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_EDITOR_DOCUMENT__FILE_PATH = IPSS_DOCUMENT_ITEM_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Editor Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_EDITOR_DOCUMENT_FEATURE_COUNT = IPSS_DOCUMENT_ITEM_FEATURE_COUNT + 0;
+	int IPSS_EDITOR_DOCUMENT_FEATURE_COUNT = IPSS_DOCUMENT_ITEM_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.doc.impl.IpssEditableDocumentImpl <em>Ipss Editable Document</em>}' class.
@@ -162,13 +173,31 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_EDITABLE_DOCUMENT__WS_ITEM = IPSS_EDITOR_DOCUMENT__WS_ITEM;
 
 	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_EDITABLE_DOCUMENT__FILE_PATH = IPSS_EDITOR_DOCUMENT__FILE_PATH;
+
+	/**
+	 * The feature id for the '<em><b>Modified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_EDITABLE_DOCUMENT__MODIFIED = IPSS_EDITOR_DOCUMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Editable Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_EDITABLE_DOCUMENT_FEATURE_COUNT = IPSS_EDITOR_DOCUMENT_FEATURE_COUNT + 0;
+	int IPSS_EDITABLE_DOCUMENT_FEATURE_COUNT = IPSS_EDITOR_DOCUMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.doc.impl.IpssSimuDocumentImpl <em>Ipss Simu Document</em>}' class.
@@ -190,13 +219,40 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_SIMU_DOCUMENT__WS_ITEM = IPSS_EDITABLE_DOCUMENT__WS_ITEM;
 
 	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_SIMU_DOCUMENT__FILE_PATH = IPSS_EDITABLE_DOCUMENT__FILE_PATH;
+
+	/**
+	 * The feature id for the '<em><b>Modified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_SIMU_DOCUMENT__MODIFIED = IPSS_EDITABLE_DOCUMENT__MODIFIED;
+
+	/**
+	 * The feature id for the '<em><b>App Simu Ctx</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_SIMU_DOCUMENT__APP_SIMU_CTX = IPSS_EDITABLE_DOCUMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Simu Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_SIMU_DOCUMENT_FEATURE_COUNT = IPSS_EDITABLE_DOCUMENT_FEATURE_COUNT + 0;
+	int IPSS_SIMU_DOCUMENT_FEATURE_COUNT = IPSS_EDITABLE_DOCUMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.doc.impl.IpssCustomDocumentImpl <em>Ipss Custom Document</em>}' class.
@@ -216,6 +272,33 @@ public interface IpssDocPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_CUSTOM_DOCUMENT__WS_ITEM = IPSS_SIMU_DOCUMENT__WS_ITEM;
+
+	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_CUSTOM_DOCUMENT__FILE_PATH = IPSS_SIMU_DOCUMENT__FILE_PATH;
+
+	/**
+	 * The feature id for the '<em><b>Modified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_CUSTOM_DOCUMENT__MODIFIED = IPSS_SIMU_DOCUMENT__MODIFIED;
+
+	/**
+	 * The feature id for the '<em><b>App Simu Ctx</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_CUSTOM_DOCUMENT__APP_SIMU_CTX = IPSS_SIMU_DOCUMENT__APP_SIMU_CTX;
 
 	/**
 	 * The number of structural features of the '<em>Ipss Custom Document</em>' class.
@@ -246,6 +329,33 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_GRAPHIC_DOCUMENT__WS_ITEM = IPSS_SIMU_DOCUMENT__WS_ITEM;
 
 	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_GRAPHIC_DOCUMENT__FILE_PATH = IPSS_SIMU_DOCUMENT__FILE_PATH;
+
+	/**
+	 * The feature id for the '<em><b>Modified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_GRAPHIC_DOCUMENT__MODIFIED = IPSS_SIMU_DOCUMENT__MODIFIED;
+
+	/**
+	 * The feature id for the '<em><b>App Simu Ctx</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_GRAPHIC_DOCUMENT__APP_SIMU_CTX = IPSS_SIMU_DOCUMENT__APP_SIMU_CTX;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Graphic Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -272,6 +382,15 @@ public interface IpssDocPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_REPORT_DOCUMENT__WS_ITEM = IPSS_EDITOR_DOCUMENT__WS_ITEM;
+
+	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_REPORT_DOCUMENT__FILE_PATH = IPSS_EDITOR_DOCUMENT__FILE_PATH;
 
 	/**
 	 * The number of structural features of the '<em>Ipss Report Document</em>' class.
@@ -303,6 +422,24 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_TEXT_DOCUMENT__WS_ITEM = IPSS_EDITABLE_DOCUMENT__WS_ITEM;
 
 	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_TEXT_DOCUMENT__FILE_PATH = IPSS_EDITABLE_DOCUMENT__FILE_PATH;
+
+	/**
+	 * The feature id for the '<em><b>Modified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_TEXT_DOCUMENT__MODIFIED = IPSS_EDITABLE_DOCUMENT__MODIFIED;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Text Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -331,6 +468,24 @@ public interface IpssDocPackage extends EPackage {
 	int IPSS_XML_DOCUMENT__WS_ITEM = IPSS_EDITABLE_DOCUMENT__WS_ITEM;
 
 	/**
+	 * The feature id for the '<em><b>File Path</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_XML_DOCUMENT__FILE_PATH = IPSS_EDITABLE_DOCUMENT__FILE_PATH;
+
+	/**
+	 * The feature id for the '<em><b>Modified</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_XML_DOCUMENT__MODIFIED = IPSS_EDITABLE_DOCUMENT__MODIFIED;
+
+	/**
 	 * The number of structural features of the '<em>Ipss Xml Document</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -338,6 +493,17 @@ public interface IpssDocPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_XML_DOCUMENT_FEATURE_COUNT = IPSS_EDITABLE_DOCUMENT_FEATURE_COUNT + 0;
+
+
+	/**
+	 * The meta object id for the '<em>App Simu Context</em>' data type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.interpss.editor.jgraph.ui.app.IAppSimuContext
+	 * @see org.interpss.editor.doc.impl.IpssDocPackageImpl#getAppSimuContext()
+	 * @generated
+	 */
+	int APP_SIMU_CONTEXT = 10;
 
 
 	/**
@@ -382,6 +548,17 @@ public interface IpssDocPackage extends EPackage {
 	EClass getIpssEditorDocument();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.interpss.editor.doc.IpssEditorDocument#getFilePath <em>File Path</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>File Path</em>'.
+	 * @see org.interpss.editor.doc.IpssEditorDocument#getFilePath()
+	 * @see #getIpssEditorDocument()
+	 * @generated
+	 */
+	EAttribute getIpssEditorDocument_FilePath();
+
+	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.doc.IpssEditableDocument <em>Ipss Editable Document</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -392,6 +569,17 @@ public interface IpssDocPackage extends EPackage {
 	EClass getIpssEditableDocument();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.interpss.editor.doc.IpssEditableDocument#isModified <em>Modified</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Modified</em>'.
+	 * @see org.interpss.editor.doc.IpssEditableDocument#isModified()
+	 * @see #getIpssEditableDocument()
+	 * @generated
+	 */
+	EAttribute getIpssEditableDocument_Modified();
+
+	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.doc.IpssSimuDocument <em>Ipss Simu Document</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -400,6 +588,17 @@ public interface IpssDocPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIpssSimuDocument();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.interpss.editor.doc.IpssSimuDocument#getAppSimuCtx <em>App Simu Ctx</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>App Simu Ctx</em>'.
+	 * @see org.interpss.editor.doc.IpssSimuDocument#getAppSimuCtx()
+	 * @see #getIpssSimuDocument()
+	 * @generated
+	 */
+	EAttribute getIpssSimuDocument_AppSimuCtx();
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.doc.IpssCustomDocument <em>Ipss Custom Document</em>}'.
@@ -450,6 +649,17 @@ public interface IpssDocPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIpssXmlDocument();
+
+	/**
+	 * Returns the meta object for data type '{@link org.interpss.editor.jgraph.ui.app.IAppSimuContext <em>App Simu Context</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for data type '<em>App Simu Context</em>'.
+	 * @see org.interpss.editor.jgraph.ui.app.IAppSimuContext
+	 * @model instanceClass="org.interpss.editor.jgraph.ui.app.IAppSimuContext"
+	 * @generated
+	 */
+	EDataType getAppSimuContext();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -512,6 +722,14 @@ public interface IpssDocPackage extends EPackage {
 		EClass IPSS_EDITOR_DOCUMENT = eINSTANCE.getIpssEditorDocument();
 
 		/**
+		 * The meta object literal for the '<em><b>File Path</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IPSS_EDITOR_DOCUMENT__FILE_PATH = eINSTANCE.getIpssEditorDocument_FilePath();
+
+		/**
 		 * The meta object literal for the '{@link org.interpss.editor.doc.impl.IpssEditableDocumentImpl <em>Ipss Editable Document</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -522,6 +740,14 @@ public interface IpssDocPackage extends EPackage {
 		EClass IPSS_EDITABLE_DOCUMENT = eINSTANCE.getIpssEditableDocument();
 
 		/**
+		 * The meta object literal for the '<em><b>Modified</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IPSS_EDITABLE_DOCUMENT__MODIFIED = eINSTANCE.getIpssEditableDocument_Modified();
+
+		/**
 		 * The meta object literal for the '{@link org.interpss.editor.doc.impl.IpssSimuDocumentImpl <em>Ipss Simu Document</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -530,6 +756,14 @@ public interface IpssDocPackage extends EPackage {
 		 * @generated
 		 */
 		EClass IPSS_SIMU_DOCUMENT = eINSTANCE.getIpssSimuDocument();
+
+		/**
+		 * The meta object literal for the '<em><b>App Simu Ctx</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IPSS_SIMU_DOCUMENT__APP_SIMU_CTX = eINSTANCE.getIpssSimuDocument_AppSimuCtx();
 
 		/**
 		 * The meta object literal for the '{@link org.interpss.editor.doc.impl.IpssCustomDocumentImpl <em>Ipss Custom Document</em>}' class.
@@ -580,6 +814,16 @@ public interface IpssDocPackage extends EPackage {
 		 * @generated
 		 */
 		EClass IPSS_XML_DOCUMENT = eINSTANCE.getIpssXmlDocument();
+
+		/**
+		 * The meta object literal for the '<em>App Simu Context</em>' data type.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.interpss.editor.jgraph.ui.app.IAppSimuContext
+		 * @see org.interpss.editor.doc.impl.IpssDocPackageImpl#getAppSimuContext()
+		 * @generated
+		 */
+		EDataType APP_SIMU_CONTEXT = eINSTANCE.getAppSimuContext();
 
 	}
 
