@@ -282,7 +282,7 @@
 			<ns:element name="accFactor" type="ns:double" maxOccurs="1"
 				minOccurs="0">
 			</ns:element>
-			<ns:element name="adjustChangeStep" type="ns:boolean"
+			<ns:element name="nonDivergent" type="ns:boolean"
 				maxOccurs="1" minOccurs="0">
 			</ns:element>
 		</ns:sequence>
