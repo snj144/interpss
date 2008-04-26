@@ -59,9 +59,9 @@ public class AclfCaseData extends BaseDataBean {
 	public void setAccFactor(double d) {this.accFactor = d;}
 
 	/* if true, show aclf summary results */	
-	private boolean adjustChangeStep = false;    
-	public boolean getAdjustChangeStep() {return this.adjustChangeStep;}
-	public void setAdjustChangeStep(boolean b) {this.adjustChangeStep = b;}
+	private boolean nonDivergent = false;    
+	public boolean getNonDivergent() {return this.nonDivergent;}
+	public void setNonDivergent(boolean b) {this.nonDivergent = b;}
 
 	/* if true, show aclf summary results */	
 	private boolean showSummary = true;    
