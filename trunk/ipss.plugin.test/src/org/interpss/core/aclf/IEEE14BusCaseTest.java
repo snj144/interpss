@@ -46,7 +46,7 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
-	  	algo.setAdjustChangeStep(true);
+	  	algo.setNonDivergent(true);
 	  	
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -69,7 +69,7 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
-	  	algo.setAdjustChangeStep(true);
+	  	algo.setNonDivergent(true);
 
 	  	assertTrue(!algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  	
