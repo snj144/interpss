@@ -133,7 +133,10 @@ public class ContingencyFileParser {
 					String[] sAry = StringUtil.strToken2Array(lineStr, " ");
 					String fromBus = sAry[ContingencyFileParser.Position_OpenLline_FromBus];
 					String toBus = sAry[ContingencyFileParser.Position_OpenLline_ToBus];
-					String cirId = sAry[ContingencyFileParser.Position_OpenLline_CirNo];
+					// per spec, default cirId = 1;
+					String cirId = "1";
+					if (sAry.length >= ContingencyFileParser.Position_OpenLline_CirNo+1)
+						cirId = sAry[ContingencyFileParser.Position_OpenLline_CirNo];
 //					System.out.println(fromBus + ", " + toBus + ", " + cirId);
 					braChange.setFromBusId(fromBus);
 					braChange.setToBusId(toBus);

@@ -72,7 +72,7 @@ public class Xml2AlgorithmMapperImpl {
 		}
 		algo.setTolerance(e);
 		algo.setInitBusVoltage(xmlAlgo.getInitBusVoltage());
-		algo.setAdjustChangeStep(xmlAlgo.getAdjustChangeStep());
+		algo.setNonDivergent(xmlAlgo.getNonDivergent());
 		if (xmlAlgo.getAccFactor() != 0.0
 				&& algo.getLfMethod() == AclfMethod.GS)
 			algo.setGsAccFactor(xmlAlgo.getAccFactor());
