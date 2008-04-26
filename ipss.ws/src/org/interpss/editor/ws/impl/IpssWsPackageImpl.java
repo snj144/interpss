@@ -17,6 +17,7 @@ import org.interpss.editor.doc.impl.IpssDocPackageImpl;
 import org.interpss.editor.ws.IpssProject;
 import org.interpss.editor.ws.IpssProjectFolder;
 import org.interpss.editor.ws.IpssProjectItem;
+import org.interpss.editor.ws.IpssProjectItemGroup;
 import org.interpss.editor.ws.IpssWorkSpace;
 import org.interpss.editor.ws.IpssWsFactory;
 import org.interpss.editor.ws.IpssWsItem;
@@ -72,6 +73,13 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * @generated
 	 */
 	private EClass ipssProjectFolderEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass ipssProjectItemGroupEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -275,6 +283,24 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getIpssProjectItemGroup() {
+		return ipssProjectItemGroupEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getIpssProjectItemGroup_ProjDbId() {
+		return (EAttribute)ipssProjectItemGroupEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EEnum getWsItemInitStatus() {
 		return wsItemInitStatusEEnum;
 	}
@@ -326,6 +352,9 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 
 		ipssProjectFolderEClass = createEClass(IPSS_PROJECT_FOLDER);
 
+		ipssProjectItemGroupEClass = createEClass(IPSS_PROJECT_ITEM_GROUP);
+		createEAttribute(ipssProjectItemGroupEClass, IPSS_PROJECT_ITEM_GROUP__PROJ_DB_ID);
+
 		// Create enums
 		wsItemInitStatusEEnum = createEEnum(WS_ITEM_INIT_STATUS);
 	}
@@ -366,6 +395,7 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		ipssWorkSpaceEClass.getESuperTypes().add(this.getIpssWsItemContainer());
 		ipssProjectEClass.getESuperTypes().add(this.getIpssWsItemContainer());
 		ipssProjectFolderEClass.getESuperTypes().add(this.getIpssWsItemContainer());
+		ipssProjectItemGroupEClass.getESuperTypes().add(this.getIpssWsItemContainer());
 
 		// Initialize classes and features; add operations and parameters
 		initEClass(ipssWsItemEClass, IpssWsItem.class, "IpssWsItem", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -395,6 +425,8 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 
 		addEOperation(ipssProjectItemEClass, this.getIpssProject(), "getParentProject", 0, 1, IS_UNIQUE, IS_ORDERED);
 
+		addEOperation(ipssProjectItemEClass, this.getIpssProjectItemGroup(), "getParentProjectItemGroup", 0, 1, IS_UNIQUE, IS_ORDERED);
+
 		initEClass(ipssWorkSpaceEClass, IpssWorkSpace.class, "IpssWorkSpace", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getIpssWorkSpace_RootDir(), ecorePackage.getEString(), "rootDir", null, 0, 1, IpssWorkSpace.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -406,6 +438,11 @@ public class IpssWsPackageImpl extends EPackageImpl implements IpssWsPackage {
 		initEClass(ipssProjectFolderEClass, IpssProjectFolder.class, "IpssProjectFolder", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		addEOperation(ipssProjectFolderEClass, this.getIpssWorkSpace(), "getWorkSpace", 0, 1, IS_UNIQUE, IS_ORDERED);
+
+		initEClass(ipssProjectItemGroupEClass, IpssProjectItemGroup.class, "IpssProjectItemGroup", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIpssProjectItemGroup_ProjDbId(), ecorePackage.getEInt(), "projDbId", null, 0, 1, IpssProjectItemGroup.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		addEOperation(ipssProjectItemGroupEClass, this.getIpssProject(), "getParanetProject", 0, 1, IS_UNIQUE, IS_ORDERED);
 
 		// Initialize enums and add enum literals
 		initEEnum(wsItemInitStatusEEnum, WsItemInitStatus.class, "WsItemInitStatus");

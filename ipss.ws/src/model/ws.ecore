@@ -28,6 +28,7 @@
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItem" eSuperTypes="#//ws/IpssWsItem">
       <eOperations name="getParentProject" eType="#//ws/IpssProject"/>
+      <eOperations name="getParentProjectItemGroup" eType="#//ws/IpssProjectItemGroup"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="IpssWorkSpace" eSuperTypes="#//ws/IpssWsItemContainer">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="rootDir" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -43,6 +44,10 @@
       <eLiterals name="Open"/>
       <eLiterals name="Active" value="1"/>
       <eLiterals name="Close" value="2"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="IpssProjectItemGroup" eSuperTypes="#//ws/IpssWsItemContainer">
+      <eOperations name="getParanetProject" eType="#//ws/IpssProject"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="projDbId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </eClassifiers>
   </eSubpackages>
   <eSubpackages name="doc" nsURI="http:///org/interpss/editor/doc" nsPrefix="ipss">

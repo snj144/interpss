@@ -62,6 +62,15 @@ public interface IpssWsFactory extends EFactory {
 	IpssProjectFolder createIpssProjectFolder();
 
 	/**
+	 * Returns a new object of class '<em>Ipss Project Item Group</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Ipss Project Item Group</em>'.
+	 * @generated
+	 */
+	IpssProjectItemGroup createIpssProjectItemGroup();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

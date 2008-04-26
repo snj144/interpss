@@ -26,4 +26,12 @@ public interface IpssProjectItem extends IpssWsItem {
 	 * @generated
 	 */
 	IpssProject getParentProject();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	IpssProjectItemGroup getParentProjectItemGroup();
 } // IpssProjectItem

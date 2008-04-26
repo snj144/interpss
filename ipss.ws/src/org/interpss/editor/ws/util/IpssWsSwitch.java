@@ -131,6 +131,14 @@ public class IpssWsSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case IpssWsPackage.IPSS_PROJECT_ITEM_GROUP: {
+				IpssProjectItemGroup ipssProjectItemGroup = (IpssProjectItemGroup)theEObject;
+				T result = caseIpssProjectItemGroup(ipssProjectItemGroup);
+				if (result == null) result = caseIpssWsItemContainer(ipssProjectItemGroup);
+				if (result == null) result = caseIpssWsItem(ipssProjectItemGroup);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -222,6 +230,21 @@ public class IpssWsSwitch<T> {
 	 * @generated
 	 */
 	public T caseIpssProjectFolder(IpssProjectFolder object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Ipss Project Item Group</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Ipss Project Item Group</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIpssProjectItemGroup(IpssProjectItemGroup object) {
 		return null;
 	}
 

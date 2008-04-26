@@ -14,6 +14,7 @@ import org.interpss.editor.doc.IpssXmlDocument;
 import org.interpss.editor.ws.IpssProject;
 import org.interpss.editor.ws.IpssProjectFolder;
 import org.interpss.editor.ws.IpssProjectItem;
+import org.interpss.editor.ws.IpssProjectItemGroup;
 import org.interpss.editor.ws.IpssWorkSpace;
 import org.interpss.editor.ws.IpssWsFactory;
 
@@ -23,7 +24,7 @@ import org.interpss.editor.ws.IpssWsFactory;
  */
 public class WsDocObjectFactory {
 	/**
-	 * Create a Project Item. It always has a parent Project and an associated ipss document
+	 * Create a Project Item. It always has a parent Project or ProjectItemGroup and an associated ipss document
 	 * 
 	 * @param proj the parent project object
 	 * @param doc the associated document
@@ -36,6 +37,32 @@ public class WsDocObjectFactory {
 		return item;
 	}
 
+	/**
+	 * Create a Project Item. It always has a parent Project or ProjectItemGroup and an associated ipss document
+	 * 
+	 * @param itemGroup the parent project item group object
+	 * @param doc the associated document
+	 * @return
+	 */
+	public static IpssProjectItem createIpssProjectItem(IpssProjectItemGroup itemGroup, IpssDocument doc) {
+		IpssProjectItem item = IpssWsFactory.eINSTANCE.createIpssProjectItem();
+		itemGroup.getWsItemList().add(item);
+		item.setIpssDoc(doc);
+		return item;
+	}
+	
+	/**
+	 * Create a Project Item Group. It always has a parent Project
+	 * 
+	 * @param proj the parent project object
+	 * @param doc the associated document
+	 * @return
+	 */
+	public static IpssProjectItemGroup createIpssProjectItemGroup(IpssProject proj) {
+		IpssProjectItemGroup itemGroup = IpssWsFactory.eINSTANCE.createIpssProjectItemGroup();
+		proj.getWsItemList().add(itemGroup);
+		return itemGroup;
+	}	
 	/**
 	 * Create a Project. It always has a parent Folder and an associated ipss document
 	 * 
