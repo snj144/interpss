@@ -66,7 +66,7 @@ public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 		algo.setLfMethod(AclfAlgorithmXmlType.LfMethod.NR);
 		algo.setMaxIterations(20);
 		algo.setTolerance(0.0001);
-		algo.setAdjustChangeStep(true);
+		algo.setNonDivergent(true);
 		return true;
 	}
 }
