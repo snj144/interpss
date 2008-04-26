@@ -6,14 +6,11 @@
  */
 package org.interpss.editor.ws.impl;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.interpss.editor.ws.IpssProject;
 import org.interpss.editor.ws.IpssProjectItem;
+import org.interpss.editor.ws.IpssProjectItemGroup;
 import org.interpss.editor.ws.IpssWsPackage;
-import org.interpss.editor.ws.WsItemInitStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -47,12 +44,19 @@ public class IpssProjectItemImpl extends IpssWsItemImpl implements IpssProjectIt
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
+	 * @generated NOT
 	 */
 	public IpssProject getParentProject() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+		return (IpssProject)getParent();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated NOT
+	 */
+	public IpssProjectItemGroup getParentProjectItemGroup() {
+		return (IpssProjectItemGroup)getParent();
 	}
 
 } //IpssProjectItemImpl

@@ -445,6 +445,79 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_PROJECT_FOLDER_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssProjectItemGroupImpl <em>Ipss Project Item Group</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.interpss.editor.ws.impl.IpssProjectItemGroupImpl
+	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectItemGroup()
+	 * @generated
+	 */
+	int IPSS_PROJECT_ITEM_GROUP = 6;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
+
+	/**
+	 * The feature id for the '<em><b>Proj Db Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__PROJ_DB_ID = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Ipss Project Item Group</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.WsItemInitStatus <em>Ws Item Init Status</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -452,7 +525,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getWsItemInitStatus()
 	 * @generated
 	 */
-	int WS_ITEM_INIT_STATUS = 6;
+	int WS_ITEM_INIT_STATUS = 7;
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWsItem <em>Item</em>}'.
@@ -590,6 +663,27 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getIpssProjectFolder();
+
+	/**
+	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssProjectItemGroup <em>Ipss Project Item Group</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Ipss Project Item Group</em>'.
+	 * @see org.interpss.editor.ws.IpssProjectItemGroup
+	 * @generated
+	 */
+	EClass getIpssProjectItemGroup();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.interpss.editor.ws.IpssProjectItemGroup#getProjDbId <em>Proj Db Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Proj Db Id</em>'.
+	 * @see org.interpss.editor.ws.IpssProjectItemGroup#getProjDbId()
+	 * @see #getIpssProjectItemGroup()
+	 * @generated
+	 */
+	EAttribute getIpssProjectItemGroup_ProjDbId();
 
 	/**
 	 * Returns the meta object for enum '{@link org.interpss.editor.ws.WsItemInitStatus <em>Ws Item Init Status</em>}'.
@@ -738,6 +832,24 @@ public interface IpssWsPackage extends EPackage {
 		 * @generated
 		 */
 		EClass IPSS_PROJECT_FOLDER = eINSTANCE.getIpssProjectFolder();
+
+		/**
+		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssProjectItemGroupImpl <em>Ipss Project Item Group</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.interpss.editor.ws.impl.IpssProjectItemGroupImpl
+		 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectItemGroup()
+		 * @generated
+		 */
+		EClass IPSS_PROJECT_ITEM_GROUP = eINSTANCE.getIpssProjectItemGroup();
+
+		/**
+		 * The meta object literal for the '<em><b>Proj Db Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IPSS_PROJECT_ITEM_GROUP__PROJ_DB_ID = eINSTANCE.getIpssProjectItemGroup_ProjDbId();
 
 		/**
 		 * The meta object literal for the '{@link org.interpss.editor.ws.WsItemInitStatus <em>Ws Item Init Status</em>}' enum.

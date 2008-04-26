@@ -1,0 +1,22 @@
+Notes for InterPSS Workspace model
+
+1) A doc is always associated with a WsItem (ProjectItem or Project). However, 
+   a WsItem may or may not be associated with a doc. For example, ProjectItemGroup
+   ProjectFolder, Workspace are WsItem, but have not an associated document
+   
+2) Workspace structure in Projet Explorer
+
+    Workspace
+       |
+       |- ProjectFolder
+               |
+               |- Project (IpssSimuDocument)
+                     |
+                     |- ProjectItemGroup
+                     |      |
+                     |      |- ProjectItem (IpssReportDocument)
+                     |- ProjectItem(IpssTextDocument)
+                     |           
+                     
+3) By default we create (Reports, Scripts, Notes, DBRecords) ProjectItemGroup under
+   any new project. User should be able to add a new ItemGroup under a project                     
