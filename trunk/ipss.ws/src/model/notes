@@ -4,7 +4,7 @@ Notes for InterPSS Workspace model
    a WsItem may or may not be associated with a doc. For example, ProjectItemGroup
    ProjectFolder, Workspace are WsItem, but have not an associated document
    
-2) Workspace structure in Projet Explorer
+2) Workspace structure in Project Explorer
 
     Workspace
        |
