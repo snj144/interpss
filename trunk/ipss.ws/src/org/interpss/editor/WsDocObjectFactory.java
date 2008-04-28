@@ -6,7 +6,7 @@ package org.interpss.editor;
 
 import org.interpss.editor.doc.IpssCustomDocument;
 import org.interpss.editor.doc.IpssDocFactory;
-import org.interpss.editor.doc.IpssDocument;
+import org.interpss.editor.doc.IpssDocumentItem;
 import org.interpss.editor.doc.IpssGraphicDocument;
 import org.interpss.editor.doc.IpssReportDocument;
 import org.interpss.editor.doc.IpssTextDocument;
@@ -30,7 +30,7 @@ public class WsDocObjectFactory {
 	 * @param doc the associated document
 	 * @return
 	 */
-	public static IpssProjectItem createIpssProjectItem(IpssProject proj, IpssDocument doc) {
+	public static IpssProjectItem createIpssProjectItem(IpssProject proj, IpssDocumentItem doc) {
 		IpssProjectItem item = IpssWsFactory.eINSTANCE.createIpssProjectItem();
 		proj.getWsItemList().add(item);
 		item.setIpssDoc(doc);
@@ -44,7 +44,7 @@ public class WsDocObjectFactory {
 	 * @param doc the associated document
 	 * @return
 	 */
-	public static IpssProjectItem createIpssProjectItem(IpssProjectItemGroup itemGroup, IpssDocument doc) {
+	public static IpssProjectItem createIpssProjectItem(IpssProjectItemGroup itemGroup, IpssDocumentItem doc) {
 		IpssProjectItem item = IpssWsFactory.eINSTANCE.createIpssProjectItem();
 		itemGroup.getWsItemList().add(item);
 		item.setIpssDoc(doc);
@@ -70,7 +70,7 @@ public class WsDocObjectFactory {
 	 * @param doc the associated document
 	 * @return
 	 */	
-	public static IpssProject createIpssProject(IpssProjectFolder folder, IpssDocument doc) {
+	public static IpssProject createIpssProject(IpssProjectFolder folder, IpssDocumentItem doc) {
 		IpssProject proj = IpssWsFactory.eINSTANCE.createIpssProject();
 		folder.getWsItemList().add(proj);
 		proj.setIpssDoc(doc);

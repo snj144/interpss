@@ -4,6 +4,20 @@ Notes for InterPSS Workspace model
    a WsItem may or may not be associated with a doc. For example, ProjectItemGroup
    ProjectFolder, Workspace are WsItem, but have not an associated document
    
+               WsItem <-(1)--(0-1)-> Doc
+   
+   WsItem and Document are two aspects or views of an InterPSS object
+   
+   WsItem - used to store "physical" attributes, such as filename, open/close status,
+            parent folder
+            
+            WsFileItem - For describing a file item
+            
+            WsDbItem - For describing a Db Record
+            
+   IpssDocument - used to store "logical" attributes, such as file type, dirty indicator           
+   
+   
 2) Workspace structure in Project Explorer
 
     Workspace
@@ -19,4 +33,41 @@ Notes for InterPSS Workspace model
                      |           
                      
 3) By default we create (Reports, Scripts, Notes, DBRecords) ProjectItemGroup under
-   any new project. User should be able to add a new ItemGroup under a project                     
+   any new project. User should be able to add a new ItemGroup under a project   
+   
+4) IpssDocument concept discussion 
+
+   IpssDocument
+      a generic document concept
+      
+   IpssDocumentItem->IpssDocument (abstract)
+      a document with a WsItem association
+     
+   IpssEditorDocument->IpssDocumentItem (abstract)
+   	  an editor document which could be hosted or processed by the Editor
+   
+   IpssDbDocument->IpssEditorDocument
+      a Db document representing a Bb record
+      
+   IpssReortDocument->IpssEditorDocument
+      a InterPSS report document
+   
+   IpssEditableDocument->IpssEditorDocument (abstract)
+      a document which could be edited by the user. abstract class, holding common attributes
+      for editing
+      
+   IpssSimuDocument->IpssEditableDocument (abstract)
+      a document hold InterPSS simulation information
+   
+   IpssTextDocument->IpssEditableDocument
+      an editable text document
+   
+   IpssXmlDocument->IpssEditableDocument
+      an editable xml document
+   
+   IpssCustomDocument->IpssSimuDocument
+      an custom simulation document
+      
+   IpssGraphDocument->IpssSimuDocument    
+      Ipss graphic document                  
+                        

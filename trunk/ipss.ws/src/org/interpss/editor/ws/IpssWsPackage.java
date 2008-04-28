@@ -68,7 +68,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWsItem()
 	 * @generated
 	 */
-	int IPSS_WS_ITEM = 0;
+	int IPSS_WS_ITEM = 1;
 
 	/**
 	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
@@ -89,22 +89,13 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_WS_ITEM__NAME = 1;
 
 	/**
-	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WS_ITEM__INIT_STATUS = 2;
-
-	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_WS_ITEM__PARENT = 3;
+	int IPSS_WS_ITEM__PARENT = 2;
 
 	/**
 	 * The number of structural features of the '<em>Item</em>' class.
@@ -113,7 +104,62 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int IPSS_WS_ITEM_FEATURE_COUNT = 4;
+	int IPSS_WS_ITEM_FEATURE_COUNT = 3;
+
+	/**
+	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssWsDbItemImpl <em>Db Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.interpss.editor.ws.impl.IpssWsDbItemImpl
+	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWsDbItem()
+	 * @generated
+	 */
+	int IPSS_WS_DB_ITEM = 0;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_DB_ITEM__IPSS_DOC = IPSS_WS_ITEM__IPSS_DOC;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_DB_ITEM__NAME = IPSS_WS_ITEM__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_DB_ITEM__PARENT = IPSS_WS_ITEM__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Db Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_DB_ITEM__DB_ID = IPSS_WS_ITEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Db Item</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_DB_ITEM_FEATURE_COUNT = IPSS_WS_ITEM_FEATURE_COUNT + 1;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssWsItemContainerImpl <em>Item Container</em>}' class.
@@ -123,7 +169,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWsItemContainer()
 	 * @generated
 	 */
-	int IPSS_WS_ITEM_CONTAINER = 1;
+	int IPSS_WS_ITEM_CONTAINER = 2;
 
 	/**
 	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
@@ -142,15 +188,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_WS_ITEM_CONTAINER__NAME = IPSS_WS_ITEM__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WS_ITEM_CONTAINER__INIT_STATUS = IPSS_WS_ITEM__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -187,7 +224,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectItem()
 	 * @generated
 	 */
-	int IPSS_PROJECT_ITEM = 2;
+	int IPSS_PROJECT_ITEM = 3;
 
 	/**
 	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
@@ -206,15 +243,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_PROJECT_ITEM__NAME = IPSS_WS_ITEM__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM__INIT_STATUS = IPSS_WS_ITEM__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -242,7 +270,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWorkSpace()
 	 * @generated
 	 */
-	int IPSS_WORK_SPACE = 3;
+	int IPSS_WORK_SPACE = 4;
 
 	/**
 	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
@@ -261,15 +289,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_WORK_SPACE__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WORK_SPACE__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -315,7 +334,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProject()
 	 * @generated
 	 */
-	int IPSS_PROJECT = 4;
+	int IPSS_PROJECT = 5;
 
 	/**
 	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
@@ -334,15 +353,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_PROJECT__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -388,7 +398,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectFolder()
 	 * @generated
 	 */
-	int IPSS_PROJECT_FOLDER = 5;
+	int IPSS_PROJECT_FOLDER = 6;
 
 	/**
 	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
@@ -407,15 +417,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_PROJECT_FOLDER__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_FOLDER__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -452,7 +453,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectItemGroup()
 	 * @generated
 	 */
-	int IPSS_PROJECT_ITEM_GROUP = 6;
+	int IPSS_PROJECT_ITEM_GROUP = 7;
 
 	/**
 	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
@@ -471,15 +472,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @ordered
 	 */
 	int IPSS_PROJECT_ITEM_GROUP__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM_GROUP__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
 
 	/**
 	 * The feature id for the '<em><b>Parent</b></em>' container reference.
@@ -518,6 +510,61 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_PROJECT_ITEM_GROUP_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 1;
 
 	/**
+	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssWsFileItemImpl <em>File Item</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.interpss.editor.ws.impl.IpssWsFileItemImpl
+	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWsFileItem()
+	 * @generated
+	 */
+	int IPSS_WS_FILE_ITEM = 8;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_FILE_ITEM__IPSS_DOC = IPSS_WS_ITEM__IPSS_DOC;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_FILE_ITEM__NAME = IPSS_WS_ITEM__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_FILE_ITEM__PARENT = IPSS_WS_ITEM__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_FILE_ITEM__INIT_STATUS = IPSS_WS_ITEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>File Item</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_FILE_ITEM_FEATURE_COUNT = IPSS_WS_ITEM_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.WsItemInitStatus <em>Ws Item Init Status</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -525,7 +572,28 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getWsItemInitStatus()
 	 * @generated
 	 */
-	int WS_ITEM_INIT_STATUS = 7;
+	int WS_ITEM_INIT_STATUS = 9;
+
+	/**
+	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWsDbItem <em>Db Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Db Item</em>'.
+	 * @see org.interpss.editor.ws.IpssWsDbItem
+	 * @generated
+	 */
+	EClass getIpssWsDbItem();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.interpss.editor.ws.IpssWsDbItem#getDbId <em>Db Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Db Id</em>'.
+	 * @see org.interpss.editor.ws.IpssWsDbItem#getDbId()
+	 * @see #getIpssWsDbItem()
+	 * @generated
+	 */
+	EAttribute getIpssWsDbItem_DbId();
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWsItem <em>Item</em>}'.
@@ -558,17 +626,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getIpssWsItem_Name();
-
-	/**
-	 * Returns the meta object for the attribute '{@link org.interpss.editor.ws.IpssWsItem#getInitStatus <em>Init Status</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Init Status</em>'.
-	 * @see org.interpss.editor.ws.IpssWsItem#getInitStatus()
-	 * @see #getIpssWsItem()
-	 * @generated
-	 */
-	EAttribute getIpssWsItem_InitStatus();
 
 	/**
 	 * Returns the meta object for the container reference '{@link org.interpss.editor.ws.IpssWsItem#getParent <em>Parent</em>}'.
@@ -686,6 +743,27 @@ public interface IpssWsPackage extends EPackage {
 	EAttribute getIpssProjectItemGroup_ProjDbId();
 
 	/**
+	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWsFileItem <em>File Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>File Item</em>'.
+	 * @see org.interpss.editor.ws.IpssWsFileItem
+	 * @generated
+	 */
+	EClass getIpssWsFileItem();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.interpss.editor.ws.IpssWsFileItem#getInitStatus <em>Init Status</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Init Status</em>'.
+	 * @see org.interpss.editor.ws.IpssWsFileItem#getInitStatus()
+	 * @see #getIpssWsFileItem()
+	 * @generated
+	 */
+	EAttribute getIpssWsFileItem_InitStatus();
+
+	/**
 	 * Returns the meta object for enum '{@link org.interpss.editor.ws.WsItemInitStatus <em>Ws Item Init Status</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -718,6 +796,24 @@ public interface IpssWsPackage extends EPackage {
 	 */
 	interface Literals {
 		/**
+		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssWsDbItemImpl <em>Db Item</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.interpss.editor.ws.impl.IpssWsDbItemImpl
+		 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWsDbItem()
+		 * @generated
+		 */
+		EClass IPSS_WS_DB_ITEM = eINSTANCE.getIpssWsDbItem();
+
+		/**
+		 * The meta object literal for the '<em><b>Db Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IPSS_WS_DB_ITEM__DB_ID = eINSTANCE.getIpssWsDbItem_DbId();
+
+		/**
 		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssWsItemImpl <em>Item</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -742,14 +838,6 @@ public interface IpssWsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IPSS_WS_ITEM__NAME = eINSTANCE.getIpssWsItem_Name();
-
-		/**
-		 * The meta object literal for the '<em><b>Init Status</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute IPSS_WS_ITEM__INIT_STATUS = eINSTANCE.getIpssWsItem_InitStatus();
 
 		/**
 		 * The meta object literal for the '<em><b>Parent</b></em>' container reference feature.
@@ -850,6 +938,24 @@ public interface IpssWsPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute IPSS_PROJECT_ITEM_GROUP__PROJ_DB_ID = eINSTANCE.getIpssProjectItemGroup_ProjDbId();
+
+		/**
+		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssWsFileItemImpl <em>File Item</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.interpss.editor.ws.impl.IpssWsFileItemImpl
+		 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWsFileItem()
+		 * @generated
+		 */
+		EClass IPSS_WS_FILE_ITEM = eINSTANCE.getIpssWsFileItem();
+
+		/**
+		 * The meta object literal for the '<em><b>Init Status</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute IPSS_WS_FILE_ITEM__INIT_STATUS = eINSTANCE.getIpssWsFileItem_InitStatus();
 
 		/**
 		 * The meta object literal for the '{@link org.interpss.editor.ws.WsItemInitStatus <em>Ws Item Init Status</em>}' enum.

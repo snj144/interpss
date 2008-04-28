@@ -4,55 +4,57 @@
  *
  * $Id$
  */
-package org.interpss.editor.doc.impl;
+package org.interpss.editor.ws.impl;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.interpss.editor.doc.IpssDocPackage;
-import org.interpss.editor.doc.IpssEditableDocument;
-import org.interpss.editor.ws.IpssWsFileItem;
+
+import org.interpss.editor.ws.IpssWsDbItem;
+import org.interpss.editor.ws.IpssWsPackage;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Ipss Editable Document</b></em>'.
+ * An implementation of the model object '<em><b>Db Item</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.interpss.editor.doc.impl.IpssEditableDocumentImpl#isModified <em>Modified</em>}</li>
+ *   <li>{@link org.interpss.editor.ws.impl.IpssWsDbItemImpl#getDbId <em>Db Id</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl implements IpssEditableDocument {
+public abstract class IpssWsDbItemImpl extends IpssWsItemImpl implements IpssWsDbItem {
 	/**
-	 * The default value of the '{@link #isModified() <em>Modified</em>}' attribute.
+	 * The default value of the '{@link #getDbId() <em>Db Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isModified()
+	 * @see #getDbId()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final boolean MODIFIED_EDEFAULT = false;
+	protected static final int DB_ID_EDEFAULT = 0;
+
 	/**
-	 * The cached value of the '{@link #isModified() <em>Modified</em>}' attribute.
+	 * The cached value of the '{@link #getDbId() <em>Db Id</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #isModified()
+	 * @see #getDbId()
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean modified = MODIFIED_EDEFAULT;
+	protected int dbId = DB_ID_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected IpssEditableDocumentImpl() {
+	protected IpssWsDbItemImpl() {
 		super();
 	}
 
@@ -63,7 +65,7 @@ public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl im
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return IpssDocPackage.Literals.IPSS_EDITABLE_DOCUMENT;
+		return IpssWsPackage.Literals.IPSS_WS_DB_ITEM;
 	}
 
 	/**
@@ -71,8 +73,8 @@ public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public boolean isModified() {
-		return modified;
+	public int getDbId() {
+		return dbId;
 	}
 
 	/**
@@ -80,22 +82,11 @@ public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl im
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setModified(boolean newModified) {
-		boolean oldModified = modified;
-		modified = newModified;
+	public void setDbId(int newDbId) {
+		int oldDbId = dbId;
+		dbId = newDbId;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IpssDocPackage.IPSS_EDITABLE_DOCUMENT__MODIFIED, oldModified, modified));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public IpssWsFileItem getWsFileItem() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
+			eNotify(new ENotificationImpl(this, Notification.SET, IpssWsPackage.IPSS_WS_DB_ITEM__DB_ID, oldDbId, dbId));
 	}
 
 	/**
@@ -106,8 +97,8 @@ public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl im
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case IpssDocPackage.IPSS_EDITABLE_DOCUMENT__MODIFIED:
-				return isModified() ? Boolean.TRUE : Boolean.FALSE;
+			case IpssWsPackage.IPSS_WS_DB_ITEM__DB_ID:
+				return new Integer(getDbId());
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -120,8 +111,8 @@ public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl im
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case IpssDocPackage.IPSS_EDITABLE_DOCUMENT__MODIFIED:
-				setModified(((Boolean)newValue).booleanValue());
+			case IpssWsPackage.IPSS_WS_DB_ITEM__DB_ID:
+				setDbId(((Integer)newValue).intValue());
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -135,8 +126,8 @@ public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl im
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case IpssDocPackage.IPSS_EDITABLE_DOCUMENT__MODIFIED:
-				setModified(MODIFIED_EDEFAULT);
+			case IpssWsPackage.IPSS_WS_DB_ITEM__DB_ID:
+				setDbId(DB_ID_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -150,8 +141,8 @@ public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl im
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case IpssDocPackage.IPSS_EDITABLE_DOCUMENT__MODIFIED:
-				return modified != MODIFIED_EDEFAULT;
+			case IpssWsPackage.IPSS_WS_DB_ITEM__DB_ID:
+				return dbId != DB_ID_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -166,10 +157,10 @@ public abstract class IpssEditableDocumentImpl extends IpssEditorDocumentImpl im
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (modified: ");
-		result.append(modified);
+		result.append(" (dbId: ");
+		result.append(dbId);
 		result.append(')');
 		return result.toString();
 	}
 
-} //IpssEditableDocumentImpl
+} //IpssWsDbItemImpl

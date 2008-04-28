@@ -6,6 +6,8 @@
  */
 package org.interpss.editor.doc;
 
+import org.interpss.editor.ws.IpssWsFileItem;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -50,4 +52,12 @@ public interface IpssEditableDocument extends IpssEditorDocument {
 	 * @generated
 	 */
 	void setModified(boolean value);
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	IpssWsFileItem getWsFileItem();
 } // IpssEditableDocument

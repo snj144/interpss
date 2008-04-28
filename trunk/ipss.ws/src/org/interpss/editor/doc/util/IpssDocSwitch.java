@@ -179,6 +179,15 @@ public class IpssDocSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case IpssDocPackage.IPSS_DB_DOCUMENT: {
+				IpssDbDocument ipssDbDocument = (IpssDbDocument)theEObject;
+				T result = caseIpssDbDocument(ipssDbDocument);
+				if (result == null) result = caseIpssEditorDocument(ipssDbDocument);
+				if (result == null) result = caseIpssDocumentItem(ipssDbDocument);
+				if (result == null) result = caseIpssDocument(ipssDbDocument);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
 	}
@@ -330,6 +339,21 @@ public class IpssDocSwitch<T> {
 	 * @generated
 	 */
 	public T caseIpssXmlDocument(IpssXmlDocument object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Ipss Db Document</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Ipss Db Document</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIpssDbDocument(IpssDbDocument object) {
 		return null;
 	}
 

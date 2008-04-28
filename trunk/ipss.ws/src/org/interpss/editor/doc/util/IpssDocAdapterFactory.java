@@ -113,6 +113,10 @@ public class IpssDocAdapterFactory extends AdapterFactoryImpl {
 				return createIpssXmlDocumentAdapter();
 			}
 			@Override
+			public Adapter caseIpssDbDocument(IpssDbDocument object) {
+				return createIpssDbDocumentAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -269,6 +273,20 @@ public class IpssDocAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIpssXmlDocumentAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.interpss.editor.doc.IpssDbDocument <em>Ipss Db Document</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.interpss.editor.doc.IpssDbDocument
+	 * @generated
+	 */
+	public Adapter createIpssDbDocumentAdapter() {
 		return null;
 	}
 
