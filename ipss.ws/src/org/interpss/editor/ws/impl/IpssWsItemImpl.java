@@ -9,18 +9,15 @@ package org.interpss.editor.ws.impl;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.interpss.editor.doc.IpssDocPackage;
-import org.interpss.editor.doc.IpssDocument;
+import org.interpss.editor.doc.IpssDocumentItem;
 import org.interpss.editor.ws.IpssWsItem;
 import org.interpss.editor.ws.IpssWsItemContainer;
 import org.interpss.editor.ws.IpssWsPackage;
-import org.interpss.editor.ws.WsItemInitStatus;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,7 +28,6 @@ import org.interpss.editor.ws.WsItemInitStatus;
  * <ul>
  *   <li>{@link org.interpss.editor.ws.impl.IpssWsItemImpl#getIpssDoc <em>Ipss Doc</em>}</li>
  *   <li>{@link org.interpss.editor.ws.impl.IpssWsItemImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.interpss.editor.ws.impl.IpssWsItemImpl#getInitStatus <em>Init Status</em>}</li>
  *   <li>{@link org.interpss.editor.ws.impl.IpssWsItemImpl#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
@@ -47,7 +43,7 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 * @generated
 	 * @ordered
 	 */
-	protected IpssDocument ipssDoc;
+	protected IpssDocumentItem ipssDoc;
 
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -67,26 +63,6 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 * @ordered
 	 */
 	protected String name = NAME_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getInitStatus() <em>Init Status</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getInitStatus()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final WsItemInitStatus INIT_STATUS_EDEFAULT = WsItemInitStatus.CLOSE;
-
-	/**
-	 * The cached value of the '{@link #getInitStatus() <em>Init Status</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getInitStatus()
-	 * @generated
-	 * @ordered
-	 */
-	protected WsItemInitStatus initStatus = INIT_STATUS_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -112,10 +88,10 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IpssDocument getIpssDoc() {
+	public IpssDocumentItem getIpssDoc() {
 		if (ipssDoc != null && ipssDoc.eIsProxy()) {
 			InternalEObject oldIpssDoc = (InternalEObject)ipssDoc;
-			ipssDoc = (IpssDocument)eResolveProxy(oldIpssDoc);
+			ipssDoc = (IpssDocumentItem)eResolveProxy(oldIpssDoc);
 			if (ipssDoc != oldIpssDoc) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE, IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC, oldIpssDoc, ipssDoc));
@@ -129,7 +105,7 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IpssDocument basicGetIpssDoc() {
+	public IpssDocumentItem basicGetIpssDoc() {
 		return ipssDoc;
 	}
 
@@ -138,8 +114,8 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetIpssDoc(IpssDocument newIpssDoc, NotificationChain msgs) {
-		IpssDocument oldIpssDoc = ipssDoc;
+	public NotificationChain basicSetIpssDoc(IpssDocumentItem newIpssDoc, NotificationChain msgs) {
+		IpssDocumentItem oldIpssDoc = ipssDoc;
 		ipssDoc = newIpssDoc;
 		if (eNotificationRequired()) {
 			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC, oldIpssDoc, newIpssDoc);
@@ -153,13 +129,13 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setIpssDoc(IpssDocument newIpssDoc) {
+	public void setIpssDoc(IpssDocumentItem newIpssDoc) {
 		if (newIpssDoc != ipssDoc) {
 			NotificationChain msgs = null;
 			if (ipssDoc != null)
-				msgs = ((InternalEObject)ipssDoc).eInverseRemove(this, IpssDocPackage.IPSS_DOCUMENT__WS_ITEM, IpssDocument.class, msgs);
+				msgs = ((InternalEObject)ipssDoc).eInverseRemove(this, IpssDocPackage.IPSS_DOCUMENT_ITEM__WS_ITEM, IpssDocumentItem.class, msgs);
 			if (newIpssDoc != null)
-				msgs = ((InternalEObject)newIpssDoc).eInverseAdd(this, IpssDocPackage.IPSS_DOCUMENT__WS_ITEM, IpssDocument.class, msgs);
+				msgs = ((InternalEObject)newIpssDoc).eInverseAdd(this, IpssDocPackage.IPSS_DOCUMENT_ITEM__WS_ITEM, IpssDocumentItem.class, msgs);
 			msgs = basicSetIpssDoc(newIpssDoc, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -186,27 +162,6 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 		name = newName;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, IpssWsPackage.IPSS_WS_ITEM__NAME, oldName, name));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public WsItemInitStatus getInitStatus() {
-		return initStatus;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setInitStatus(WsItemInitStatus newInitStatus) {
-		WsItemInitStatus oldInitStatus = initStatus;
-		initStatus = newInitStatus == null ? INIT_STATUS_EDEFAULT : newInitStatus;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, IpssWsPackage.IPSS_WS_ITEM__INIT_STATUS, oldInitStatus, initStatus));
 	}
 
 	/**
@@ -253,57 +208,6 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getFilename() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getFileExt() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public String getFilenameNoExt() {
-		// TODO: implement this method
-		// Ensure that you remove @generated or mark it @generated NOT
-		throw new UnsupportedOperationException();
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean isOpen() {
-		return getInitStatus() == WsItemInitStatus.OPEN;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated NOT
-	 */
-	public boolean isActive() {
-		return getInitStatus() == WsItemInitStatus.ACTIVE;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
 	 * @generated NOT
 	 */
 	public boolean isLoaded() {
@@ -329,8 +233,8 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 		switch (featureID) {
 			case IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC:
 				if (ipssDoc != null)
-					msgs = ((InternalEObject)ipssDoc).eInverseRemove(this, IpssDocPackage.IPSS_DOCUMENT__WS_ITEM, IpssDocument.class, msgs);
-				return basicSetIpssDoc((IpssDocument)otherEnd, msgs);
+					msgs = ((InternalEObject)ipssDoc).eInverseRemove(this, IpssDocPackage.IPSS_DOCUMENT_ITEM__WS_ITEM, IpssDocumentItem.class, msgs);
+				return basicSetIpssDoc((IpssDocumentItem)otherEnd, msgs);
 			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
 				if (eInternalContainer() != null)
 					msgs = eBasicRemoveFromContainer(msgs);
@@ -382,8 +286,6 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 				return basicGetIpssDoc();
 			case IpssWsPackage.IPSS_WS_ITEM__NAME:
 				return getName();
-			case IpssWsPackage.IPSS_WS_ITEM__INIT_STATUS:
-				return getInitStatus();
 			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
 				return getParent();
 		}
@@ -399,13 +301,10 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
 			case IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC:
-				setIpssDoc((IpssDocument)newValue);
+				setIpssDoc((IpssDocumentItem)newValue);
 				return;
 			case IpssWsPackage.IPSS_WS_ITEM__NAME:
 				setName((String)newValue);
-				return;
-			case IpssWsPackage.IPSS_WS_ITEM__INIT_STATUS:
-				setInitStatus((WsItemInitStatus)newValue);
 				return;
 			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
 				setParent((IpssWsItemContainer)newValue);
@@ -423,13 +322,10 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	public void eUnset(int featureID) {
 		switch (featureID) {
 			case IpssWsPackage.IPSS_WS_ITEM__IPSS_DOC:
-				setIpssDoc((IpssDocument)null);
+				setIpssDoc((IpssDocumentItem)null);
 				return;
 			case IpssWsPackage.IPSS_WS_ITEM__NAME:
 				setName(NAME_EDEFAULT);
-				return;
-			case IpssWsPackage.IPSS_WS_ITEM__INIT_STATUS:
-				setInitStatus(INIT_STATUS_EDEFAULT);
 				return;
 			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
 				setParent((IpssWsItemContainer)null);
@@ -450,8 +346,6 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 				return ipssDoc != null;
 			case IpssWsPackage.IPSS_WS_ITEM__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case IpssWsPackage.IPSS_WS_ITEM__INIT_STATUS:
-				return initStatus != INIT_STATUS_EDEFAULT;
 			case IpssWsPackage.IPSS_WS_ITEM__PARENT:
 				return getParent() != null;
 		}
@@ -470,8 +364,6 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (name: ");
 		result.append(name);
-		result.append(", initStatus: ");
-		result.append(initStatus);
 		result.append(')');
 		return result.toString();
 	}

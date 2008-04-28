@@ -6,6 +6,7 @@
  */
 package org.interpss.editor.ws.validation;
 
+import org.interpss.editor.doc.IpssDocumentItem;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.ws.IpssWsItemContainer;
 import org.interpss.editor.ws.WsItemInitStatus;
@@ -19,6 +20,8 @@ import org.interpss.editor.ws.WsItemInitStatus;
  */
 public interface IpssWsItemValidator {
 	boolean validate();
+
+	boolean validateIpssDoc(IpssDocumentItem value);
 
 	boolean validateIpssDoc(IpssDocument value);
 

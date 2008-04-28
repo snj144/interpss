@@ -87,6 +87,13 @@ public class IpssWsSwitch<T> {
 	 */
 	protected T doSwitch(int classifierID, EObject theEObject) {
 		switch (classifierID) {
+			case IpssWsPackage.IPSS_WS_DB_ITEM: {
+				IpssWsDbItem ipssWsDbItem = (IpssWsDbItem)theEObject;
+				T result = caseIpssWsDbItem(ipssWsDbItem);
+				if (result == null) result = caseIpssWsItem(ipssWsDbItem);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			case IpssWsPackage.IPSS_WS_ITEM: {
 				IpssWsItem ipssWsItem = (IpssWsItem)theEObject;
 				T result = caseIpssWsItem(ipssWsItem);
@@ -139,8 +146,30 @@ public class IpssWsSwitch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
+			case IpssWsPackage.IPSS_WS_FILE_ITEM: {
+				IpssWsFileItem ipssWsFileItem = (IpssWsFileItem)theEObject;
+				T result = caseIpssWsFileItem(ipssWsFileItem);
+				if (result == null) result = caseIpssWsItem(ipssWsFileItem);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
 			default: return defaultCase(theEObject);
 		}
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>Db Item</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Db Item</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIpssWsDbItem(IpssWsDbItem object) {
+		return null;
 	}
 
 	/**
@@ -245,6 +274,21 @@ public class IpssWsSwitch<T> {
 	 * @generated
 	 */
 	public T caseIpssProjectItemGroup(IpssProjectItemGroup object) {
+		return null;
+	}
+
+	/**
+	 * Returns the result of interpreting the object as an instance of '<em>File Item</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>File Item</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseIpssWsFileItem(IpssWsFileItem object) {
 		return null;
 	}
 

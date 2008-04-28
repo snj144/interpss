@@ -7,6 +7,7 @@
 package org.interpss.editor.ws;
 
 import org.eclipse.emf.ecore.EObject;
+import org.interpss.editor.doc.IpssDocumentItem;
 import org.interpss.editor.doc.IpssDocument;
 
 /**
@@ -19,7 +20,6 @@ import org.interpss.editor.doc.IpssDocument;
  * <ul>
  *   <li>{@link org.interpss.editor.ws.IpssWsItem#getIpssDoc <em>Ipss Doc</em>}</li>
  *   <li>{@link org.interpss.editor.ws.IpssWsItem#getName <em>Name</em>}</li>
- *   <li>{@link org.interpss.editor.ws.IpssWsItem#getInitStatus <em>Init Status</em>}</li>
  *   <li>{@link org.interpss.editor.ws.IpssWsItem#getParent <em>Parent</em>}</li>
  * </ul>
  * </p>
@@ -32,7 +32,7 @@ public interface IpssWsItem extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Ipss Doc</b></em>' reference.
-	 * It is bidirectional and its opposite is '{@link org.interpss.editor.doc.IpssDocument#getWsItem <em>Ws Item</em>}'.
+	 * It is bidirectional and its opposite is '{@link org.interpss.editor.doc.IpssDocumentItem#getWsItem <em>Ws Item</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ipss Doc</em>' reference isn't clear,
@@ -40,13 +40,13 @@ public interface IpssWsItem extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ipss Doc</em>' reference.
-	 * @see #setIpssDoc(IpssDocument)
+	 * @see #setIpssDoc(IpssDocumentItem)
 	 * @see org.interpss.editor.ws.IpssWsPackage#getIpssWsItem_IpssDoc()
-	 * @see org.interpss.editor.doc.IpssDocument#getWsItem
+	 * @see org.interpss.editor.doc.IpssDocumentItem#getWsItem
 	 * @model opposite="wsItem"
 	 * @generated
 	 */
-	IpssDocument getIpssDoc();
+	IpssDocumentItem getIpssDoc();
 
 	/**
 	 * Sets the value of the '{@link org.interpss.editor.ws.IpssWsItem#getIpssDoc <em>Ipss Doc</em>}' reference.
@@ -56,7 +56,7 @@ public interface IpssWsItem extends EObject {
 	 * @see #getIpssDoc()
 	 * @generated
 	 */
-	void setIpssDoc(IpssDocument value);
+	void setIpssDoc(IpssDocumentItem value);
 
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
@@ -86,36 +86,6 @@ public interface IpssWsItem extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Init Status</b></em>' attribute.
-	 * The default value is <code>"Close"</code>.
-	 * The literals are from the enumeration {@link org.interpss.editor.ws.WsItemInitStatus}.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Init Status</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Init Status</em>' attribute.
-	 * @see org.interpss.editor.ws.WsItemInitStatus
-	 * @see #setInitStatus(WsItemInitStatus)
-	 * @see org.interpss.editor.ws.IpssWsPackage#getIpssWsItem_InitStatus()
-	 * @model default="Close"
-	 * @generated
-	 */
-	WsItemInitStatus getInitStatus();
-
-	/**
-	 * Sets the value of the '{@link org.interpss.editor.ws.IpssWsItem#getInitStatus <em>Init Status</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Init Status</em>' attribute.
-	 * @see org.interpss.editor.ws.WsItemInitStatus
-	 * @see #getInitStatus()
-	 * @generated
-	 */
-	void setInitStatus(WsItemInitStatus value);
-
-	/**
 	 * Returns the value of the '<em><b>Parent</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link org.interpss.editor.ws.IpssWsItemContainer#getWsItemList <em>Ws Item List</em>}'.
 	 * <!-- begin-user-doc -->
@@ -142,46 +112,6 @@ public interface IpssWsItem extends EObject {
 	 * @generated
 	 */
 	void setParent(IpssWsItemContainer value);
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	String getFilename();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	String getFileExt();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	String getFilenameNoExt();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	boolean isOpen();
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @model kind="operation"
-	 * @generated
-	 */
-	boolean isActive();
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -72,6 +72,10 @@ public class IpssWsAdapterFactory extends AdapterFactoryImpl {
 	protected IpssWsSwitch<Adapter> modelSwitch =
 		new IpssWsSwitch<Adapter>() {
 			@Override
+			public Adapter caseIpssWsDbItem(IpssWsDbItem object) {
+				return createIpssWsDbItemAdapter();
+			}
+			@Override
 			public Adapter caseIpssWsItem(IpssWsItem object) {
 				return createIpssWsItemAdapter();
 			}
@@ -100,6 +104,10 @@ public class IpssWsAdapterFactory extends AdapterFactoryImpl {
 				return createIpssProjectItemGroupAdapter();
 			}
 			@Override
+			public Adapter caseIpssWsFileItem(IpssWsFileItem object) {
+				return createIpssWsFileItemAdapter();
+			}
+			@Override
 			public Adapter defaultCase(EObject object) {
 				return createEObjectAdapter();
 			}
@@ -118,6 +126,20 @@ public class IpssWsAdapterFactory extends AdapterFactoryImpl {
 		return modelSwitch.doSwitch((EObject)target);
 	}
 
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.interpss.editor.ws.IpssWsDbItem <em>Db Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.interpss.editor.ws.IpssWsDbItem
+	 * @generated
+	 */
+	public Adapter createIpssWsDbItemAdapter() {
+		return null;
+	}
 
 	/**
 	 * Creates a new adapter for an object of class '{@link org.interpss.editor.ws.IpssWsItem <em>Item</em>}'.
@@ -214,6 +236,20 @@ public class IpssWsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIpssProjectItemGroupAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link org.interpss.editor.ws.IpssWsFileItem <em>File Item</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see org.interpss.editor.ws.IpssWsFileItem
+	 * @generated
+	 */
+	public Adapter createIpssWsFileItemAdapter() {
 		return null;
 	}
 
