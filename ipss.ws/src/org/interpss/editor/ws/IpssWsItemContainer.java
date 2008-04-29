@@ -24,7 +24,7 @@ import org.eclipse.emf.common.util.EList;
  * @model abstract="true"
  * @generated
  */
-public interface IpssWsItemContainer extends IpssWsItem {
+public interface IpssWsItemContainer extends IpssWsFileItem {
 	/**
 	 * Returns the value of the '<em><b>Ws Item List</b></em>' containment reference list.
 	 * The list contents are of type {@link org.interpss.editor.ws.IpssWsItem}.
@@ -42,5 +42,13 @@ public interface IpssWsItemContainer extends IpssWsItem {
 	 * @generated
 	 */
 	EList<IpssWsItem> getWsItemList();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @model kind="operation"
+	 * @generated
+	 */
+	String getPath();
 
 } // IpssWsItemContainer

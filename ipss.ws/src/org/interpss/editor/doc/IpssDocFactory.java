@@ -80,6 +80,15 @@ public interface IpssDocFactory extends EFactory {
 	IpssXmlDocument createIpssXmlDocument();
 
 	/**
+	 * Returns a new object of class '<em>Ipss Db Document</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Ipss Db Document</em>'.
+	 * @generated
+	 */
+	IpssDbDocument createIpssDbDocument();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

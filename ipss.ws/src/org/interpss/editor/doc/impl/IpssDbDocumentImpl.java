@@ -22,7 +22,7 @@ import org.interpss.editor.ws.IpssWsDbItem;
  *
  * @generated
  */
-public abstract class IpssDbDocumentImpl extends IpssEditorDocumentImpl implements IpssDbDocument {
+public class IpssDbDocumentImpl extends IpssEditorDocumentImpl implements IpssDbDocument {
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

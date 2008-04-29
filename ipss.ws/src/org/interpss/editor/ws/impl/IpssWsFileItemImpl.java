@@ -29,7 +29,7 @@ import org.interpss.editor.ws.WsItemInitStatus;
  *
  * @generated
  */
-public abstract class IpssWsFileItemImpl extends IpssWsItemImpl implements IpssWsFileItem {
+public class IpssWsFileItemImpl extends IpssWsItemImpl implements IpssWsFileItem {
 	/**
 	 * The default value of the '{@link #getInitStatus() <em>Init Status</em>}' attribute.
 	 * <!-- begin-user-doc -->

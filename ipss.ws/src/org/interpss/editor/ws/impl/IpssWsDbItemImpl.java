@@ -28,7 +28,7 @@ import org.interpss.editor.ws.IpssWsPackage;
  *
  * @generated
  */
-public abstract class IpssWsDbItemImpl extends IpssWsItemImpl implements IpssWsDbItem {
+public class IpssWsDbItemImpl extends IpssWsItemImpl implements IpssWsDbItem {
 	/**
 	 * The default value of the '{@link #getDbId() <em>Db Id</em>}' attribute.
 	 * <!-- begin-user-doc -->

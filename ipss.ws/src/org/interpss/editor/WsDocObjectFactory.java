@@ -5,18 +5,22 @@
 package org.interpss.editor;
 
 import org.interpss.editor.doc.IpssCustomDocument;
+import org.interpss.editor.doc.IpssDbDocument;
 import org.interpss.editor.doc.IpssDocFactory;
 import org.interpss.editor.doc.IpssDocumentItem;
+import org.interpss.editor.doc.IpssEditableDocument;
+import org.interpss.editor.doc.IpssEditorDocument;
 import org.interpss.editor.doc.IpssGraphicDocument;
 import org.interpss.editor.doc.IpssReportDocument;
 import org.interpss.editor.doc.IpssTextDocument;
 import org.interpss.editor.doc.IpssXmlDocument;
 import org.interpss.editor.ws.IpssProject;
 import org.interpss.editor.ws.IpssProjectFolder;
-import org.interpss.editor.ws.IpssProjectItem;
 import org.interpss.editor.ws.IpssProjectItemGroup;
 import org.interpss.editor.ws.IpssWorkSpace;
+import org.interpss.editor.ws.IpssWsDbItem;
 import org.interpss.editor.ws.IpssWsFactory;
+import org.interpss.editor.ws.IpssWsFileItem;
 
 /**
  * @author mzhou
@@ -24,33 +28,47 @@ import org.interpss.editor.ws.IpssWsFactory;
  */
 public class WsDocObjectFactory {
 	/**
-	 * Create a Project Item. It always has a parent Project or ProjectItemGroup and an associated ipss document
+	 * Create a WS File Item. It always has a parent Project or ProjectItemGroup and an associated ipss editable document
 	 * 
 	 * @param proj the parent project object
 	 * @param doc the associated document
 	 * @return
 	 */
-	public static IpssProjectItem createIpssProjectItem(IpssProject proj, IpssDocumentItem doc) {
-		IpssProjectItem item = IpssWsFactory.eINSTANCE.createIpssProjectItem();
+	public static IpssWsFileItem createIpssWsFileItem(IpssProject proj, IpssEditableDocument doc) {
+		IpssWsFileItem item = IpssWsFactory.eINSTANCE.createIpssWsFileItem();
 		proj.getWsItemList().add(item);
 		item.setIpssDoc(doc);
 		return item;
 	}
 
 	/**
-	 * Create a Project Item. It always has a parent Project or ProjectItemGroup and an associated ipss document
-	 * 
+	 * Create a WS File Item. It always has a parent Project or ProjectItemGroup and an associated ipss editor document
+	 *  
 	 * @param itemGroup the parent project item group object
 	 * @param doc the associated document
 	 * @return
 	 */
-	public static IpssProjectItem createIpssProjectItem(IpssProjectItemGroup itemGroup, IpssDocumentItem doc) {
-		IpssProjectItem item = IpssWsFactory.eINSTANCE.createIpssProjectItem();
+	public static IpssWsFileItem createIpssWsFileItem(IpssProjectItemGroup itemGroup, IpssEditorDocument doc) {
+		IpssWsFileItem item = IpssWsFactory.eINSTANCE.createIpssWsFileItem();
 		itemGroup.getWsItemList().add(item);
 		item.setIpssDoc(doc);
 		return item;
 	}
 	
+	/**
+	 * Create a WS Db Item. It always has a parent ProjectItemGroup and an associated ipss Db document
+	 * 
+	 * @param itemGroup the parent project item group object
+	 * @param doc the associated document
+	 * @return
+	 */
+	public static IpssWsDbItem createIpssWsDbItem(IpssProjectItemGroup itemGroup, IpssDbDocument doc) {
+		IpssWsDbItem item = IpssWsFactory.eINSTANCE.createIpssWsDbItem();
+		itemGroup.getWsItemList().add(item);
+		item.setIpssDoc(doc);
+		return item;
+	}
+
 	/**
 	 * Create a Project Item Group. It always has a parent Project
 	 * 
@@ -125,10 +143,10 @@ public class WsDocObjectFactory {
 	/**
 	 * create a Report document. It is always associated with a Project item object
 	 * 
-	 * @param proj the associated Project item object
+	 * @param item the associated WS item object
 	 * @return
 	 */
-	public static IpssReportDocument createIpssCustomDocument(IpssProjectItem item) {
+	public static IpssReportDocument createIpssCustomDocument(IpssWsFileItem item) {
 		IpssReportDocument doc = IpssDocFactory.eINSTANCE.createIpssReportDocument();
 		doc.setWsItem(item);
 		return doc;
@@ -137,10 +155,10 @@ public class WsDocObjectFactory {
 	/**
 	 * create a Text document. It is always associated with a Project item object
 	 * 
-	 * @param proj the associated Project item object
+	 * @param item the associated WS item object
 	 * @return
 	 */
-	public static IpssTextDocument createIpssTextDocument(IpssProjectItem item) {
+	public static IpssTextDocument createIpssTextDocument(IpssWsFileItem item) {
 		IpssTextDocument doc = IpssDocFactory.eINSTANCE.createIpssTextDocument();
 		doc.setWsItem(item);
 		return doc;
@@ -149,12 +167,36 @@ public class WsDocObjectFactory {
 	/**
 	 * create a Xml document. It is always associated with a Project item object
 	 * 
-	 * @param proj the associated Project item object
+	 * @param item the associated WS item object
 	 * @return
 	 */
-	public static IpssXmlDocument createIpssXmlDocument(IpssProjectItem item) {
+	public static IpssXmlDocument createIpssXmlDocument(IpssWsFileItem item) {
 		IpssXmlDocument doc = IpssDocFactory.eINSTANCE.createIpssXmlDocument();
 		doc.setWsItem(item);
 		return doc;
 	}	
+
+	/**
+	 * create a report document. It is always associated with a Project item object
+	 * 
+	 * @param item the associated WS item object
+	 * @return
+	 */
+	public static IpssReportDocument createIpssReportDocument(IpssWsFileItem item) {
+		IpssReportDocument doc = IpssDocFactory.eINSTANCE.createIpssReportDocument();
+		doc.setWsItem(item);
+		return doc;
+	}
+
+	/**
+	 * create a db document. It is always associated with a Project item object
+	 * 
+	 * @param item the associated WS item object
+	 * @return
+	 */
+	public static IpssDbDocument createIpssDbDocument(IpssWsDbItem item) {
+		IpssDbDocument doc = IpssDocFactory.eINSTANCE.createIpssDbDocument();
+		doc.setWsItem(item);
+		return doc;
+	}
 }

@@ -84,10 +84,6 @@ public class IpssWsAdapterFactory extends AdapterFactoryImpl {
 				return createIpssWsItemContainerAdapter();
 			}
 			@Override
-			public Adapter caseIpssProjectItem(IpssProjectItem object) {
-				return createIpssProjectItemAdapter();
-			}
-			@Override
 			public Adapter caseIpssWorkSpace(IpssWorkSpace object) {
 				return createIpssWorkSpaceAdapter();
 			}
@@ -166,20 +162,6 @@ public class IpssWsAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createIpssWsItemContainerAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link org.interpss.editor.ws.IpssProjectItem <em>Ipss Project Item</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see org.interpss.editor.ws.IpssProjectItem
-	 * @generated
-	 */
-	public Adapter createIpssProjectItemAdapter() {
 		return null;
 	}
 

@@ -453,7 +453,7 @@ public class IpssDocPackageImpl extends EPackageImpl implements IpssDocPackage {
 
 		initEClass(ipssXmlDocumentEClass, IpssXmlDocument.class, "IpssXmlDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(ipssDbDocumentEClass, IpssDbDocument.class, "IpssDbDocument", IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(ipssDbDocumentEClass, IpssDbDocument.class, "IpssDbDocument", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		addEOperation(ipssDbDocumentEClass, theIpssWsPackage.getIpssWsDbItem(), "getWsDbItem", 0, 1, IS_UNIQUE, IS_ORDERED);
 

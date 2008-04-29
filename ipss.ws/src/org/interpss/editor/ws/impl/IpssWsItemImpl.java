@@ -15,6 +15,8 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.interpss.editor.doc.IpssDocPackage;
 import org.interpss.editor.doc.IpssDocumentItem;
+import org.interpss.editor.ws.IpssProject;
+import org.interpss.editor.ws.IpssProjectItemGroup;
 import org.interpss.editor.ws.IpssWsItem;
 import org.interpss.editor.ws.IpssWsItemContainer;
 import org.interpss.editor.ws.IpssWsPackage;
@@ -212,6 +214,28 @@ public abstract class IpssWsItemImpl extends EObjectImpl implements IpssWsItem {
 	 */
 	public boolean isLoaded() {
 		return this.getIpssDoc() != null;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IpssProject getParentProject() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IpssProjectItemGroup getParentProjectItemGroup() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
