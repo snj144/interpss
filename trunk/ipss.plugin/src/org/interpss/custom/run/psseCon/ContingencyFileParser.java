@@ -47,6 +47,8 @@ public class ContingencyFileParser {
 	public static final String Token_ConEnd 	= "END";
 	public static final String Token_FileEnd 	= "END";
 	public static final String Token_OpenLine 	= "OPEN LINE";
+	public static final String Token_Comment 	= "COM";
+	public static final String Token_Comment1 	= "/";
 	
 	public static final int Position_OpenLline_FromBus 	= 4;
 	public static final int Position_OpenLline_ToBus 	= 7;
@@ -97,7 +99,10 @@ public class ContingencyFileParser {
 		ModificationXmlType mod = null;
 		
 		for (String lineStr : strAry) {
-			if (lineStr.startsWith(ContingencyFileParser.Token_ConBegin)) {
+			if (lineStr.trim().equals("") || lineStr.startsWith("COM") || lineStr.startsWith("/")) {
+				// empty line, do noting
+			}
+			else if (lineStr.startsWith(ContingencyFileParser.Token_ConBegin)) {
 				status = ContingencyFileParser.FileStatus.ConBegin;
 				conCnt++;
 
