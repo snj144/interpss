@@ -56,10 +56,10 @@ public class RemoteResultHandler implements IRemoteResult {
 		AclfNetwork net = algo.getAclfNetwork();
 		net.setDesc(remoteId);
 
-		resultTable.put(RemoteMessageTable.KEY_RemoteNodeId, remoteId);
-		resultTable.put(RemoteMessageTable.KEY_StudyCaseId, caseId);
+		resultTable.put(RemoteMessageTable.KEY_sInOut_RemoteNodeId, remoteId);
+		resultTable.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, caseId);
 		
-		resultTable.put(RemoteMessageTable.KEY_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
+		resultTable.put(RemoteMessageTable.KEY_bOut_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
 		
 		// calculate branch mvar violation index = sqrt[ sum(e*e) ], where e = ( mvar - mvarLimit ) in case of violation
 		// calculate branch current violation index = sqrt[ sum(e*e) ], where e = ( amps - ampsLimit ) in case of violation
@@ -75,18 +75,18 @@ public class RemoteResultHandler implements IRemoteResult {
 		if (session.getAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase) != null) { 
 			int returnOpt = ((Integer)session.getAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase)).intValue();
 			if (returnOpt == RemoteMessageTable.Const_ReturnAllStudyCase) {
-				resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+				resultTable.put(RemoteMessageTable.KEY_sOut_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
 			}
 			else if (returnOpt == RemoteMessageTable.Const_ReturnDivergedCase) {
 				if (!resultTable.getReturnStatus() || !net.isLfConverged()) 
-					resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+					resultTable.put(RemoteMessageTable.KEY_sOut_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
 			}
 			else {
 				;// do nothing
 			}
 		}
 		else {
-			resultTable.put(RemoteMessageTable.KEY_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
+			resultTable.put(RemoteMessageTable.KEY_sOut_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
 		}
 	}
 	

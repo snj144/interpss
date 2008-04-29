@@ -134,7 +134,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 				}
 			}
 		} catch (Exception e) {
-			getRemoteResult().put(RemoteMessageTable.KEY_ReturnStatus, Boolean.FALSE);
+			getRemoteResult().put(RemoteMessageTable.KEY_bOut_ReturnStatus, Boolean.FALSE);
 			getRemoteResult().addReturnMessage(e.toString());
 		}
  
