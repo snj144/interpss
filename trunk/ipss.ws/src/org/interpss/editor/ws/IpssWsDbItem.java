@@ -20,7 +20,7 @@ package org.interpss.editor.ws;
  * </p>
  *
  * @see org.interpss.editor.ws.IpssWsPackage#getIpssWsDbItem()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface IpssWsDbItem extends IpssWsItem {

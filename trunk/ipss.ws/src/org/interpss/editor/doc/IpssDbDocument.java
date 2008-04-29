@@ -15,7 +15,7 @@ import org.interpss.editor.ws.IpssWsDbItem;
  *
  *
  * @see org.interpss.editor.doc.IpssDocPackage#getIpssDbDocument()
- * @model abstract="true"
+ * @model
  * @generated
  */
 public interface IpssDbDocument extends IpssEditorDocument {

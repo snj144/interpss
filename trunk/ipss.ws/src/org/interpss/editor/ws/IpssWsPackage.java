@@ -172,97 +172,6 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_WS_ITEM_CONTAINER = 2;
 
 	/**
-	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WS_ITEM_CONTAINER__IPSS_DOC = IPSS_WS_ITEM__IPSS_DOC;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WS_ITEM_CONTAINER__NAME = IPSS_WS_ITEM__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WS_ITEM_CONTAINER__PARENT = IPSS_WS_ITEM__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST = IPSS_WS_ITEM_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Item Container</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT = IPSS_WS_ITEM_FEATURE_COUNT + 1;
-
-	/**
-	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssProjectItemImpl <em>Ipss Project Item</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see org.interpss.editor.ws.impl.IpssProjectItemImpl
-	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectItem()
-	 * @generated
-	 */
-	int IPSS_PROJECT_ITEM = 3;
-
-	/**
-	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM__IPSS_DOC = IPSS_WS_ITEM__IPSS_DOC;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM__NAME = IPSS_WS_ITEM__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM__PARENT = IPSS_WS_ITEM__PARENT;
-
-	/**
-	 * The number of structural features of the '<em>Ipss Project Item</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM_FEATURE_COUNT = IPSS_WS_ITEM_FEATURE_COUNT + 0;
-
-	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssWorkSpaceImpl <em>Ipss Work Space</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -270,61 +179,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWorkSpace()
 	 * @generated
 	 */
-	int IPSS_WORK_SPACE = 4;
-
-	/**
-	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WORK_SPACE__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WORK_SPACE__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WORK_SPACE__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WORK_SPACE__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
-
-	/**
-	 * The feature id for the '<em><b>Root Dir</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WORK_SPACE__ROOT_DIR = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Ipss Work Space</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_WORK_SPACE_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 1;
+	int IPSS_WORK_SPACE = 3;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssProjectImpl <em>Ipss Project</em>}' class.
@@ -334,61 +189,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProject()
 	 * @generated
 	 */
-	int IPSS_PROJECT = 5;
-
-	/**
-	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
-
-	/**
-	 * The feature id for the '<em><b>Proj Db Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT__PROJ_DB_ID = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Ipss Project</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 1;
+	int IPSS_PROJECT = 4;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssProjectFolderImpl <em>Ipss Project Folder</em>}' class.
@@ -398,52 +199,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectFolder()
 	 * @generated
 	 */
-	int IPSS_PROJECT_FOLDER = 6;
-
-	/**
-	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_FOLDER__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_FOLDER__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_FOLDER__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_FOLDER__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
-
-	/**
-	 * The number of structural features of the '<em>Ipss Project Folder</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_FOLDER_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
+	int IPSS_PROJECT_FOLDER = 5;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssProjectItemGroupImpl <em>Ipss Project Item Group</em>}' class.
@@ -453,61 +209,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectItemGroup()
 	 * @generated
 	 */
-	int IPSS_PROJECT_ITEM_GROUP = 7;
-
-	/**
-	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM_GROUP__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
-
-	/**
-	 * The feature id for the '<em><b>Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM_GROUP__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
-
-	/**
-	 * The feature id for the '<em><b>Parent</b></em>' container reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM_GROUP__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
-
-	/**
-	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM_GROUP__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
-
-	/**
-	 * The feature id for the '<em><b>Proj Db Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM_GROUP__PROJ_DB_ID = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
-
-	/**
-	 * The number of structural features of the '<em>Ipss Project Item Group</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int IPSS_PROJECT_ITEM_GROUP_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 1;
+	int IPSS_PROJECT_ITEM_GROUP = 6;
 
 	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.impl.IpssWsFileItemImpl <em>File Item</em>}' class.
@@ -517,7 +219,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssWsFileItem()
 	 * @generated
 	 */
-	int IPSS_WS_FILE_ITEM = 8;
+	int IPSS_WS_FILE_ITEM = 7;
 
 	/**
 	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
@@ -565,6 +267,303 @@ public interface IpssWsPackage extends EPackage {
 	int IPSS_WS_FILE_ITEM_FEATURE_COUNT = IPSS_WS_ITEM_FEATURE_COUNT + 1;
 
 	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM_CONTAINER__IPSS_DOC = IPSS_WS_FILE_ITEM__IPSS_DOC;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM_CONTAINER__NAME = IPSS_WS_FILE_ITEM__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM_CONTAINER__PARENT = IPSS_WS_FILE_ITEM__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM_CONTAINER__INIT_STATUS = IPSS_WS_FILE_ITEM__INIT_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST = IPSS_WS_FILE_ITEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Item Container</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT = IPSS_WS_FILE_ITEM_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
+
+	/**
+	 * The feature id for the '<em><b>Root Dir</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE__ROOT_DIR = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Ipss Work Space</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_WORK_SPACE_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
+
+	/**
+	 * The feature id for the '<em><b>Proj Db Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT__PROJ_DB_ID = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Ipss Project</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FOLDER__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FOLDER__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FOLDER__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FOLDER__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FOLDER__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
+
+	/**
+	 * The number of structural features of the '<em>Ipss Project Folder</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_FOLDER_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Ipss Doc</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__IPSS_DOC = IPSS_WS_ITEM_CONTAINER__IPSS_DOC;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__NAME = IPSS_WS_ITEM_CONTAINER__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Parent</b></em>' container reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__PARENT = IPSS_WS_ITEM_CONTAINER__PARENT;
+
+	/**
+	 * The feature id for the '<em><b>Init Status</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__INIT_STATUS = IPSS_WS_ITEM_CONTAINER__INIT_STATUS;
+
+	/**
+	 * The feature id for the '<em><b>Ws Item List</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__WS_ITEM_LIST = IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST;
+
+	/**
+	 * The feature id for the '<em><b>Proj Db Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP__PROJ_DB_ID = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Ipss Project Item Group</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int IPSS_PROJECT_ITEM_GROUP_FEATURE_COUNT = IPSS_WS_ITEM_CONTAINER_FEATURE_COUNT + 1;
+
+	/**
 	 * The meta object id for the '{@link org.interpss.editor.ws.WsItemInitStatus <em>Ws Item Init Status</em>}' enum.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -572,7 +571,7 @@ public interface IpssWsPackage extends EPackage {
 	 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getWsItemInitStatus()
 	 * @generated
 	 */
-	int WS_ITEM_INIT_STATUS = 9;
+	int WS_ITEM_INIT_STATUS = 8;
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWsDbItem <em>Db Item</em>}'.
@@ -658,16 +657,6 @@ public interface IpssWsPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getIpssWsItemContainer_WsItemList();
-
-	/**
-	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssProjectItem <em>Ipss Project Item</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Ipss Project Item</em>'.
-	 * @see org.interpss.editor.ws.IpssProjectItem
-	 * @generated
-	 */
-	EClass getIpssProjectItem();
 
 	/**
 	 * Returns the meta object for class '{@link org.interpss.editor.ws.IpssWorkSpace <em>Ipss Work Space</em>}'.
@@ -864,16 +853,6 @@ public interface IpssWsPackage extends EPackage {
 		 * @generated
 		 */
 		EReference IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST = eINSTANCE.getIpssWsItemContainer_WsItemList();
-
-		/**
-		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssProjectItemImpl <em>Ipss Project Item</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see org.interpss.editor.ws.impl.IpssProjectItemImpl
-		 * @see org.interpss.editor.ws.impl.IpssWsPackageImpl#getIpssProjectItem()
-		 * @generated
-		 */
-		EClass IPSS_PROJECT_ITEM = eINSTANCE.getIpssProjectItem();
 
 		/**
 		 * The meta object literal for the '{@link org.interpss.editor.ws.impl.IpssWorkSpaceImpl <em>Ipss Work Space</em>}' class.

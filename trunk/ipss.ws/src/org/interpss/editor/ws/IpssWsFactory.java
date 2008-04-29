@@ -26,13 +26,13 @@ public interface IpssWsFactory extends EFactory {
 	IpssWsFactory eINSTANCE = org.interpss.editor.ws.impl.IpssWsFactoryImpl.init();
 
 	/**
-	 * Returns a new object of class '<em>Ipss Project Item</em>'.
+	 * Returns a new object of class '<em>Db Item</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Ipss Project Item</em>'.
+	 * @return a new object of class '<em>Db Item</em>'.
 	 * @generated
 	 */
-	IpssProjectItem createIpssProjectItem();
+	IpssWsDbItem createIpssWsDbItem();
 
 	/**
 	 * Returns a new object of class '<em>Ipss Work Space</em>'.
@@ -69,6 +69,15 @@ public interface IpssWsFactory extends EFactory {
 	 * @generated
 	 */
 	IpssProjectItemGroup createIpssProjectItemGroup();
+
+	/**
+	 * Returns a new object of class '<em>File Item</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>File Item</em>'.
+	 * @generated
+	 */
+	IpssWsFileItem createIpssWsFileItem();
 
 	/**
 	 * Returns the package supported by this factory.

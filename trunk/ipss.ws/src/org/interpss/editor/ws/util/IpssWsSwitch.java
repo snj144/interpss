@@ -103,14 +103,8 @@ public class IpssWsSwitch<T> {
 			case IpssWsPackage.IPSS_WS_ITEM_CONTAINER: {
 				IpssWsItemContainer ipssWsItemContainer = (IpssWsItemContainer)theEObject;
 				T result = caseIpssWsItemContainer(ipssWsItemContainer);
+				if (result == null) result = caseIpssWsFileItem(ipssWsItemContainer);
 				if (result == null) result = caseIpssWsItem(ipssWsItemContainer);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case IpssWsPackage.IPSS_PROJECT_ITEM: {
-				IpssProjectItem ipssProjectItem = (IpssProjectItem)theEObject;
-				T result = caseIpssProjectItem(ipssProjectItem);
-				if (result == null) result = caseIpssWsItem(ipssProjectItem);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -118,6 +112,7 @@ public class IpssWsSwitch<T> {
 				IpssWorkSpace ipssWorkSpace = (IpssWorkSpace)theEObject;
 				T result = caseIpssWorkSpace(ipssWorkSpace);
 				if (result == null) result = caseIpssWsItemContainer(ipssWorkSpace);
+				if (result == null) result = caseIpssWsFileItem(ipssWorkSpace);
 				if (result == null) result = caseIpssWsItem(ipssWorkSpace);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -126,6 +121,7 @@ public class IpssWsSwitch<T> {
 				IpssProject ipssProject = (IpssProject)theEObject;
 				T result = caseIpssProject(ipssProject);
 				if (result == null) result = caseIpssWsItemContainer(ipssProject);
+				if (result == null) result = caseIpssWsFileItem(ipssProject);
 				if (result == null) result = caseIpssWsItem(ipssProject);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -134,6 +130,7 @@ public class IpssWsSwitch<T> {
 				IpssProjectFolder ipssProjectFolder = (IpssProjectFolder)theEObject;
 				T result = caseIpssProjectFolder(ipssProjectFolder);
 				if (result == null) result = caseIpssWsItemContainer(ipssProjectFolder);
+				if (result == null) result = caseIpssWsFileItem(ipssProjectFolder);
 				if (result == null) result = caseIpssWsItem(ipssProjectFolder);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -142,6 +139,7 @@ public class IpssWsSwitch<T> {
 				IpssProjectItemGroup ipssProjectItemGroup = (IpssProjectItemGroup)theEObject;
 				T result = caseIpssProjectItemGroup(ipssProjectItemGroup);
 				if (result == null) result = caseIpssWsItemContainer(ipssProjectItemGroup);
+				if (result == null) result = caseIpssWsFileItem(ipssProjectItemGroup);
 				if (result == null) result = caseIpssWsItem(ipssProjectItemGroup);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
@@ -199,21 +197,6 @@ public class IpssWsSwitch<T> {
 	 * @generated
 	 */
 	public T caseIpssWsItemContainer(IpssWsItemContainer object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Ipss Project Item</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Ipss Project Item</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseIpssProjectItem(IpssProjectItem object) {
 		return null;
 	}
 

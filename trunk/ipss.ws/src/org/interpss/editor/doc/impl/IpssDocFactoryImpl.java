@@ -73,6 +73,7 @@ public class IpssDocFactoryImpl extends EFactoryImpl implements IpssDocFactory {
 			case IpssDocPackage.IPSS_REPORT_DOCUMENT: return createIpssReportDocument();
 			case IpssDocPackage.IPSS_TEXT_DOCUMENT: return createIpssTextDocument();
 			case IpssDocPackage.IPSS_XML_DOCUMENT: return createIpssXmlDocument();
+			case IpssDocPackage.IPSS_DB_DOCUMENT: return createIpssDbDocument();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -166,6 +167,16 @@ public class IpssDocFactoryImpl extends EFactoryImpl implements IpssDocFactory {
 	public IpssXmlDocument createIpssXmlDocument() {
 		IpssXmlDocumentImpl ipssXmlDocument = new IpssXmlDocumentImpl();
 		return ipssXmlDocument;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IpssDbDocument createIpssDbDocument() {
+		IpssDbDocumentImpl ipssDbDocument = new IpssDbDocumentImpl();
+		return ipssDbDocument;
 	}
 
 	/**

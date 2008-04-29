@@ -61,11 +61,12 @@ public class IpssWsFactoryImpl extends EFactoryImpl implements IpssWsFactory {
 	@Override
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
-			case IpssWsPackage.IPSS_PROJECT_ITEM: return createIpssProjectItem();
+			case IpssWsPackage.IPSS_WS_DB_ITEM: return createIpssWsDbItem();
 			case IpssWsPackage.IPSS_WORK_SPACE: return createIpssWorkSpace();
 			case IpssWsPackage.IPSS_PROJECT: return createIpssProject();
 			case IpssWsPackage.IPSS_PROJECT_FOLDER: return createIpssProjectFolder();
 			case IpssWsPackage.IPSS_PROJECT_ITEM_GROUP: return createIpssProjectItemGroup();
+			case IpssWsPackage.IPSS_WS_FILE_ITEM: return createIpssWsFileItem();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -106,9 +107,9 @@ public class IpssWsFactoryImpl extends EFactoryImpl implements IpssWsFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public IpssProjectItem createIpssProjectItem() {
-		IpssProjectItemImpl ipssProjectItem = new IpssProjectItemImpl();
-		return ipssProjectItem;
+	public IpssWsDbItem createIpssWsDbItem() {
+		IpssWsDbItemImpl ipssWsDbItem = new IpssWsDbItemImpl();
+		return ipssWsDbItem;
 	}
 
 	/**
@@ -149,6 +150,16 @@ public class IpssWsFactoryImpl extends EFactoryImpl implements IpssWsFactory {
 	public IpssProjectItemGroup createIpssProjectItemGroup() {
 		IpssProjectItemGroupImpl ipssProjectItemGroup = new IpssProjectItemGroupImpl();
 		return ipssProjectItemGroup;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public IpssWsFileItem createIpssWsFileItem() {
+		IpssWsFileItemImpl ipssWsFileItem = new IpssWsFileItemImpl();
+		return ipssWsFileItem;
 	}
 
 	/**

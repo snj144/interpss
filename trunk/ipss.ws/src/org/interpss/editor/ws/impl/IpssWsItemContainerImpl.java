@@ -31,7 +31,7 @@ import org.interpss.editor.ws.IpssWsPackage;
  *
  * @generated
  */
-public abstract class IpssWsItemContainerImpl extends IpssWsItemImpl implements IpssWsItemContainer {
+public abstract class IpssWsItemContainerImpl extends IpssWsFileItemImpl implements IpssWsItemContainer {
 	/**
 	 * The cached value of the '{@link #getWsItemList() <em>Ws Item List</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -71,6 +71,17 @@ public abstract class IpssWsItemContainerImpl extends IpssWsItemImpl implements 
 			wsItemList = new EObjectContainmentWithInverseEList<IpssWsItem>(IpssWsItem.class, this, IpssWsPackage.IPSS_WS_ITEM_CONTAINER__WS_ITEM_LIST, IpssWsPackage.IPSS_WS_ITEM__PARENT);
 		}
 		return wsItemList;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getPath() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
 	}
 
 	/**
