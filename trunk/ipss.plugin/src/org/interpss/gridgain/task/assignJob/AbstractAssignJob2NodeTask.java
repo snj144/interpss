@@ -82,7 +82,7 @@ public abstract class AbstractAssignJob2NodeTask extends GridTaskAdapter<Object,
 		// get the remote grid node from the grid node list
 		GridNode node = getRemoteNode(subgrid);
 		// send the serialized DStab object info to the remote node
-		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
+		remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCaseId);
 		jobMap.put(createJob(remoteMsg), node);
 		return jobMap;
 	}

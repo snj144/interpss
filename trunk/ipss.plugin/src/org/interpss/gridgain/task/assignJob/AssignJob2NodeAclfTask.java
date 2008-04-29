@@ -62,7 +62,7 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 			this.studyCaseId = net.getId();
 
 			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(algo);
-			remoteMsg.put(RemoteMessageTable.KEY_AclfAlgorithm, lfAlgoStr);
+			remoteMsg.put(RemoteMessageTable.KEY_sIn_AclfAlgorithm, lfAlgoStr);
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 
 			if (IpssGridGainUtil.RemoteNodeDebug) {
@@ -78,13 +78,13 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
 		
-		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, modelStr);
+		remoteMsg.put(RemoteMessageTable.KEY_sIn_StudyCaseNetworkModel, modelStr);
 		return remoteMsg;
 	}
 
 	@Override
 	protected AbstractIpssGridGainJob createJob(RemoteMessageTable remoteMsg) {
-		remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCaseId);
+		remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCaseId);
 		return new IpssGridGainAclfJob(remoteMsg);
 	}
 }

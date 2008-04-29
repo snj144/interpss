@@ -54,13 +54,13 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 			// send the Net model (String) the remote node directly
 			RemoteMessageTable remoteMsg = new RemoteMessageTable();
 			if (model.isRemoteJobCreation()) {
-				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseId, studyCase.getId());
+				remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCase.getId());
 			}
 			else {
-				remoteMsg.put(RemoteMessageTable.KEY_StudyCaseNetworkModel, studyCase.getNetModelString());
+				remoteMsg.put(RemoteMessageTable.KEY_sIn_StudyCaseNetworkModel, studyCase.getNetModelString());
 			}
-			remoteMsg.put(RemoteMessageTable.KEY_AclfAlgorithm, studyCase.getAclfAlgoModelString());
-			remoteMsg.put(RemoteMessageTable.KEY_DStabAlgorithm, studyCase.getDstabAlgoModelString());
+			remoteMsg.put(RemoteMessageTable.KEY_sIn_AclfAlgorithm, studyCase.getAclfAlgoModelString());
+			remoteMsg.put(RemoteMessageTable.KEY_sIn_DStabAlgorithm, studyCase.getDstabAlgoModelString());
 			IpssGridGainDStabJob job = new IpssGridGainDStabJob(remoteMsg);
 			
 			if (IpssGridGainUtil.RemoteNodeDebug) {

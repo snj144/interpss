@@ -32,38 +32,38 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	private static final long serialVersionUID = 1;
 
 	public RemoteMessageTable() {
-		put(RemoteMessageTable.KEY_ReturnStatus, Boolean.TRUE);
+		put(RemoteMessageTable.KEY_bOut_ReturnStatus, Boolean.TRUE);
 	}
 	
-	public static String KEY_RemoteNodeId = "RemoteNodeId";	
-	public static String KEY_StudyCaseId = "StudyCaseId";	
-	public static String KEY_ReturnStatus = "ReturnStatus";
-	public static String KEY_ReturnMessage = "ReturnMessage";
-	public static String KEY_StudyCaseNetworkModel = "StudyCaseNetworModel";	
-	public static String KEY_StudyCaseModification = "StudyCaseModification";	
-	public static String KEY_AclfAlgorithm = "AclfAlgorithm";	
-	public static String KEY_DStabAlgorithm = "DStabAlgorithm";	
+	public static String KEY_sInOut_RemoteNodeId = "RemoteNodeId";	
+	public static String KEY_sInOut_StudyCaseId = "StudyCaseId";	
+	public static String KEY_bOut_ReturnStatus = "ReturnStatus";
+	public static String KEY_sOut_ReturnMessage = "ReturnMessage";
+	public static String KEY_sIn_StudyCaseNetworkModel = "StudyCaseNetworModel";	
+	public static String KEY_sIn_StudyCaseModification = "StudyCaseModification";	
+	public static String KEY_sIn_AclfAlgorithm = "AclfAlgorithm";	
+	public static String KEY_sIn_DStabAlgorithm = "DStabAlgorithm";	
 	
 	public String getStudyCaseId() {
-		return (String)get(RemoteMessageTable.KEY_StudyCaseId);
+		return (String)get(RemoteMessageTable.KEY_sInOut_StudyCaseId);
 	}
 
 	public String getRemoteNodeId() {
-		return (String)get(RemoteMessageTable.KEY_RemoteNodeId);
+		return (String)get(RemoteMessageTable.KEY_sInOut_RemoteNodeId);
 	}
 
 	public boolean getReturnStatus() {
-		return getBoolean(RemoteMessageTable.KEY_ReturnStatus);
+		return getBoolean(RemoteMessageTable.KEY_bOut_ReturnStatus);
 	}
 	
 	public String getReturnMessage() {
-		return (String)get(RemoteMessageTable.KEY_ReturnMessage);
+		return (String)get(RemoteMessageTable.KEY_sOut_ReturnMessage);
 	}
 
 	public void addReturnMessage(String msg) {
-		String s = (String)get(RemoteMessageTable.KEY_ReturnMessage);
+		String s = (String)get(RemoteMessageTable.KEY_sOut_ReturnMessage);
 		s = s!=null? s+"/n" : "";
-		put(RemoteMessageTable.KEY_ReturnMessage, s+msg);
+		put(RemoteMessageTable.KEY_sOut_ReturnMessage, s+msg);
 	}
 
 	public void addReturnMessage(List<Object> msgList) {
@@ -76,19 +76,19 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	}
 
 	public String getStudyCaseNetworkModel() {
-		return (String)get(RemoteMessageTable.KEY_StudyCaseNetworkModel);
+		return (String)get(RemoteMessageTable.KEY_sIn_StudyCaseNetworkModel);
 	}
 
 	public String getStudyCaseModification() {
-		return (String)get(RemoteMessageTable.KEY_StudyCaseModification);
+		return (String)get(RemoteMessageTable.KEY_sIn_StudyCaseModification);
 	}
 
 	public String getAclfAlgorithm() {
-		return (String)get(RemoteMessageTable.KEY_AclfAlgorithm);
+		return (String)get(RemoteMessageTable.KEY_sIn_AclfAlgorithm);
 	}
 
 	public String getDStabAlgorithm() {
-		return (String)get(RemoteMessageTable.KEY_DStabAlgorithm);
+		return (String)get(RemoteMessageTable.KEY_sIn_DStabAlgorithm);
 	}
 	
 	//
@@ -99,15 +99,15 @@ public class RemoteMessageTable extends Hashtable<String, Serializable> {
 	public static int Const_ReturnDivergedCase = 2;	
 	public static int Const_ReturnNoStudyCase = 3;	
 
-	public static String KEY_SerializedAclfNet = "SerializedAclfNet";	
-	public static String KEY_AclfConverged = "AclfConvergeStatus";	
+	public static String KEY_sOut_SerializedAclfNet = "SerializedAclfNet";	
+	public static String KEY_bOut_AclfConverged = "AclfConvergeStatus";	
 
 	public String getSerializedAclfNet() {
-		return (String)get(RemoteMessageTable.KEY_SerializedAclfNet);
+		return (String)get(RemoteMessageTable.KEY_sOut_SerializedAclfNet);
 	}
 
 	public boolean getAclfConvergeStatus() {
-		return getBoolean(RemoteMessageTable.KEY_AclfConverged);
+		return getBoolean(RemoteMessageTable.KEY_bOut_AclfConverged);
 	}
 	
 	//
