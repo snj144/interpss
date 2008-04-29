@@ -87,7 +87,8 @@
 		<ns:annotation>
 			<ns:documentation>
 				Base record structure for describing a record, with an
-				Id, name(?) and desc(?)
+				Id, name(?) and desc(?). Record is used to define a ref
+				to network object, for example, Bus, Branch
 			</ns:documentation>
 		</ns:annotation>
 		<ns:sequence>
@@ -245,5 +246,37 @@
     		<ns:element name="max" type="ns:double" minOccurs="1"></ns:element>
     		<ns:element name="min" type="ns:double" minOccurs="1"></ns:element>
     	</ns:sequence>
+    </ns:complexType>
+
+    <ns:complexType name="BusGroupXmlType"></ns:complexType>
+
+    <ns:complexType name="AreaRecXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="ipss:BaseRecordXmlType">
+    			<ns:sequence>
+    				<ns:element name="areaNo" type="ns:int" minOccurs="1"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+    <ns:complexType name="ZoneRecXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="ipss:BaseRecordXmlType">
+    			<ns:sequence>
+    				<ns:element name="zoneNo" type="ns:int" minOccurs="1"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
+    </ns:complexType>
+
+    <ns:complexType name="VoltageLevelRecXmlType">
+    	<ns:complexContent>
+    		<ns:extension base="ipss:BaseRecordXmlType">
+    			<ns:sequence>
+    				<ns:element name="kVolt" type="ns:double" minOccurs="1"></ns:element>
+    			</ns:sequence>
+    		</ns:extension>
+    	</ns:complexContent>
     </ns:complexType>
 </ns:schema>
