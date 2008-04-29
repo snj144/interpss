@@ -243,7 +243,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         double baseKva = _netContainer != null? ((GNetForm)_netContainer.getGNetForm()).getBaseKVA() : 100000.0;
         this.errKVATextField.setText(Number2String.toStr(_caseData.getTolerance()*baseKva, "#0.####"));
         this.maxItrTextField.setText(new Integer(_caseData.getMaxIteration()).toString());
-        this.nonDivergeCheckBox.setSelected(_caseData.getAdjustChangeStep());
+        this.nonDivergeCheckBox.setSelected(_caseData.getNonDivergent());
         this.initVoltCheckBox.setSelected(_caseData.getInitBusVolt());
 		this.lfSummaryCheckBox.setSelected(_caseData.getShowSummary());
 		
@@ -278,7 +278,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         if (SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d, errMsg, "GS acceleration factor <= 0.0"))
         	_caseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
 
-        _caseData.setAdjustChangeStep(this.nonDivergeCheckBox.isSelected());
+        _caseData.setNonDivergent(this.nonDivergeCheckBox.isSelected());
         _caseData.setInitBusVolt(this.initVoltCheckBox.isSelected());
         _caseData.setShowSummary(this.lfSummaryCheckBox.isSelected());
         
@@ -500,8 +500,13 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         nonDivergeCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         nonDivergeCheckBox.setSelected(true);
-        nonDivergeCheckBox.setText("Adjust Change Step for Non-divergence");
+        nonDivergeCheckBox.setText("Non-divergent");
         nonDivergeCheckBox.setName("initVoltCheckBox"); // NOI18N
+        nonDivergeCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nonDivergeCheckBoxActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -1122,6 +1127,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqPStepButtonActionPerformed
+
+    private void nonDivergeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonDivergeCheckBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nonDivergeCheckBoxActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
