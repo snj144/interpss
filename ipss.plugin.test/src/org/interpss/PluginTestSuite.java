@@ -30,7 +30,7 @@ import org.interpss.schema.AcscSchemaSampleCaseTest;
 import org.interpss.schema.DStabSchemaIEEE11ModelTest;
 import org.interpss.schema.DclfSchemaIeee14BusCaseTest;
 import org.interpss.schema.ModificationCaseTest;
-import org.interpss.schema.ProtectionCaseTest;
+import org.interpss.schema.PreventiveCaseTest;
 import org.interpss.schema.UserStephenCaseTest;
 import org.interpss.spring.CustomFileAdapterTest;
 import org.interpss.spring.DStabControllerTest;
@@ -83,7 +83,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	DStabSchemaIEEE11ModelTest.class,
 	UserStephenCaseTest.class,
 	ModificationCaseTest.class,
-	ProtectionCaseTest.class,
+	PreventiveCaseTest.class,
 	
 	// contingency analysis
 	ContingencyControlFileCaseTest.class,
