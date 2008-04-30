@@ -85,6 +85,14 @@
 	    	</list></property>
 	</bean>
 	
+	<bean id="fileAdapterGEFormat" 
+	      class="org.interpss.custom.exchange.FileAdapter_GEFormat"
+	      scope="singleton"	
+	      p:name="GE Format"
+	      p:fileFilterString="epc"
+	      p:extension="ge"
+	      p:description="GE Data Exchange Format" />
+
 	<bean id="fileAdapterJavaScripts" 
 	      class="org.interpss.custom.script.proj.FileAdapter_JavaScripts"
 	      scope="singleton"	
@@ -104,6 +112,7 @@
 		<constructor-arg>
 			<list>
 				<ref bean="fileAdapterPSSEFormat"/>
+				<ref bean="fileAdapterGEFormat"/>
 				<ref bean="fileAdapterUCTEFormat"/>
 				<ref bean="fileAdapterIeeeODMXml"/>
 				<ref bean="fileAdapterIeeeCommonFormat"/>
