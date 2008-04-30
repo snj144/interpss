@@ -4,7 +4,7 @@
            xmlns:ns="http://www.w3.org/2001/XMLSchema" 
            xmlns:ipss="http://www.interpss.org/schema">
 
-	<ns:include schemaLocation="ProtectionRule.xsd"></ns:include>
+	<ns:include schemaLocation="PreventiveRule.xsd"></ns:include>
 	<ns:include schemaLocation="RunStudyCase.xsd"></ns:include>
 	
 	<ns:element name="InterPSS" type="ipss:InterPSSXmlType">

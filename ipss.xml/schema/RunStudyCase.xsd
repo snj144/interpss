@@ -5,7 +5,7 @@
 	xmlns:ipss="http://www.interpss.org/schema">
 
 	<ns:include schemaLocation="Modification.xsd"></ns:include>
-	<ns:include schemaLocation="ProtectionRule.xsd"></ns:include>
+	<ns:include schemaLocation="PreventiveRule.xsd"></ns:include>
 	<ns:complexType name="RunStudyCaseXmlType">
 		<ns:annotation>
 			<ns:documentation>
@@ -572,11 +572,11 @@
 
 	<ns:complexType name="AclfRuleBaseXmlType">
 		<ns:sequence>
-			<ns:element name="protectionRuleSetList" minOccurs="1">
+			<ns:element name="preventiveRuleSetList" minOccurs="1">
 				<ns:complexType>
 					<ns:sequence>
-						<ns:element name="protectionRuleSet"
-							type="ipss:ProtectionRuleSetXmlType" minOccurs="1"
+						<ns:element name="preventiveRuleSet"
+							type="ipss:PreventiveRuleSetXmlType" minOccurs="1"
 							maxOccurs="unbounded">
 						</ns:element>
 					</ns:sequence>

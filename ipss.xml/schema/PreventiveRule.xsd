@@ -7,7 +7,7 @@
 	<ns:include schemaLocation="Datatype.xsd"></ns:include>
 	<ns:include schemaLocation="Modification.xsd"></ns:include>
 
-	<ns:complexType name="ProtectionConditionXmlType">
+	<ns:complexType name="ViolationConditionXmlType">
 		<ns:sequence>
 			<ns:element name="conditionType" minOccurs="1">
 				<ns:simpleType>
@@ -46,7 +46,7 @@
 		</ns:sequence>
 	</ns:complexType>
 
-	<ns:complexType name="ProtectionRuleSetXmlType">
+	<ns:complexType name="PreventiveRuleSetXmlType">
 		<ns:complexContent>
 			<ns:extension base="ipss:BaseRecordXmlType">
 				<ns:sequence>
@@ -58,16 +58,16 @@
 							</ns:restriction>
 						</ns:simpleType>
 					</ns:element>
-					<ns:element name="protectionRuleList" minOccurs="1"
+					<ns:element name="preventiveRuleList" minOccurs="1"
 						maxOccurs="1">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="protectionRule"
+								<ns:element name="preventiveRule"
 									minOccurs="1" maxOccurs="unbounded">
 									<ns:complexType>
 										<ns:sequence>
 											<ns:element name="condition"
-												type="ipss:ProtectionConditionXmlType" minOccurs="1">
+												type="ipss:ViolationConditionXmlType" minOccurs="1">
 											</ns:element>
 											<ns:element name="busAction"
 												type="ipss:BusChangeRecXmlType" minOccurs="0"
