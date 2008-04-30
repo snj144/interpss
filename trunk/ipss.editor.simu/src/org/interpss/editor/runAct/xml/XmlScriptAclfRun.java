@@ -42,7 +42,7 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType.GridRun.AclfOption.ReturnStudyCase;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
-import org.interpss.xml.ProtectionRuleHanlder;
+import org.interpss.xml.PreventiveRuleHanlder;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
@@ -125,7 +125,7 @@ public class XmlScriptAclfRun {
 							// if not grid computing, perform Loadflow for the study case
 							algo.loadflow(msg);
 							if (applyRuleBase) {
-								ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
+								PreventiveRuleHanlder.applyAclfRuleSet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
 							}
 							studyCase.setDesc("Loadflow by Local Node");
 							studyCase.setRemoteReturnStatus(true);
@@ -205,7 +205,7 @@ public class XmlScriptAclfRun {
 		} else {
 			algo.loadflow(msg);
 			if (applyRuleBase) {
-				ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
+				PreventiveRuleHanlder.applyAclfRuleSet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
 			}
 		}
 
