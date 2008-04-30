@@ -36,7 +36,7 @@ import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.RemoteMessageTable;
 import org.interpss.schema.AclfRuleBaseXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.xml.ProtectionRuleHanlder;
+import org.interpss.xml.PreventiveRuleHanlder;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -130,7 +130,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 					double max = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU);
 					double min = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU);
 					getRemoteResult().addReturnMessage(
-							ProtectionRuleHanlder.applyAclfRuleSet(algo, ruleBase, max, min, this.getMsgHub()));
+							PreventiveRuleHanlder.applyAclfRuleSet(algo, ruleBase, max, min, this.getMsgHub()));
 				}
 			}
 		} catch (Exception e) {
