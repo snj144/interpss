@@ -1,5 +1,5 @@
 /*
- * @(#)ProtectionCaseTest.java   
+ * @(#)PreventiveCaseTest.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -33,7 +33,7 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.IpssXmlParser;
-import org.interpss.xml.ProtectionRuleHanlder;
+import org.interpss.xml.PreventiveRuleHanlder;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -47,7 +47,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class ProtectionCaseTest extends BaseTestSetup {
+public class PreventiveCaseTest extends BaseTestSetup {
 	@Test
 	public void runAclfProtectCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
@@ -75,21 +75,21 @@ public class ProtectionCaseTest extends BaseTestSetup {
   		AclfRuleBaseXmlType aclfRuleBase = parser.getRunAclfStudyCase().getAclfRuleBase();
 	  	assertTrue(aclfRuleBase != null);
 	  	
-	  	ProtectionRuleSetXmlType ruleSet = aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()[0];
-	  	assertTrue(ruleSet.getProtectionRuleList().getProtectionRuleArray().length == 2);
-	  	ProtectionRuleSetXmlType.ProtectionRuleList.ProtectionRule rule1 = ruleSet.getProtectionRuleList().getProtectionRuleArray()[0];
-	  	ProtectionConditionXmlType cond = rule1.getCondition();
+	  	PreventiveRuleSetXmlType ruleSet = aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()[0];
+	  	assertTrue(ruleSet.getPreventiveRuleList().getPreventiveRuleArray().length == 2);
+	  	PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule rule1 = ruleSet.getPreventiveRuleList().getPreventiveRuleArray()[0];
+	  	ViolationConditionXmlType cond = rule1.getCondition();
 	  	// branch 0010->0009 Mva limit is zero. Therefore, always violation
-	  	assertTrue(ProtectionRuleHanlder.evlBranchCondition(cond, net, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlBranchCondition(cond, net, msg));
 
-	  	ProtectionRuleSetXmlType.ProtectionRuleList.ProtectionRule rule2 = ruleSet.getProtectionRuleList().getProtectionRuleArray()[1];
+	  	PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule rule2 = ruleSet.getPreventiveRuleList().getPreventiveRuleArray()[1];
 	  	cond = rule2.getCondition();
-	  	assertTrue(!ProtectionRuleHanlder.evlBusCondition(cond, net, 1.2, 0.8, msg));
+	  	assertTrue(!PreventiveRuleHanlder.evlBusCondition(cond, net, 1.2, 0.8, msg));
 	  	// volatge at 0003 1.01
-	  	assertTrue(ProtectionRuleHanlder.evlBusCondition(cond, net, 1.0, 0.8, msg));
-	  	assertTrue(ProtectionRuleHanlder.evlBusCondition(cond, net, 1.2, 1.05, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlBusCondition(cond, net, 1.0, 0.8, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlBusCondition(cond, net, 1.2, 1.05, msg));
 	  	
-	  	assertTrue(ProtectionRuleHanlder.applyAclfRuleSet(net, parser.getRunAclfStudyCase().getAclfRuleBase(), 1, 1.2, 0.8, msg));
+	  	assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, parser.getRunAclfStudyCase().getAclfRuleBase(), 1, 1.2, 0.8, msg));
 	  	assertTrue(!net.getAclfBranch("0010->0009(1)").isActive());
 	}		
 
@@ -131,11 +131,11 @@ public class ProtectionCaseTest extends BaseTestSetup {
 	  	assertTrue(!net.getAclfBranch("0007->0009(1)").isActive());
 	  	assertTrue(!net.getAclfBranch("0007->0008(1)").isActive());
 	  	
-	  	assertTrue(ProtectionRuleHanlder.applyAclfRuleSet(net, 
+	  	assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, 
 	  				parser.getRunAclfStudyCase().getAclfRuleBase(), 1, 1.2, 0.8, msg));
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  	
-  		assertTrue(ProtectionRuleHanlder.applyAclfRuleSet(net, 
+  		assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, 
   					parser.getRunAclfStudyCase().getAclfRuleBase(), 2, 1.2, 0.8, msg));
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 
@@ -170,7 +170,7 @@ public class ProtectionCaseTest extends BaseTestSetup {
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
   		//System.out.println(net.net2String());  	
 	
-	  	ProtectionRuleHanlder.applyAclfRuleSet(algo, parser.getRunAclfStudyCase().getAclfRuleBase(), 1.2, 0.8, msg);
+	  	PreventiveRuleHanlder.applyAclfRuleSet(algo, parser.getRunAclfStudyCase().getAclfRuleBase(), 1.2, 0.8, msg);
 
   		assertTrue(net.getAclfBus("0014").getLoadCode() == AclfLoadCode.NON_LOAD);
 	  	assertTrue(net.getAclfBus("0013").getLoadCode() == AclfLoadCode.NON_LOAD);
