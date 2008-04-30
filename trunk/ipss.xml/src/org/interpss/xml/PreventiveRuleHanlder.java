@@ -1,5 +1,5 @@
 /*
- * @(#)ProtectionRuleHanlder.java   
+ * @(#)PreventiveRuleHanlder.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -28,12 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.interpss.schema.AclfRuleBaseXmlType;
-import org.interpss.schema.ProtectionConditionXmlType;
-import org.interpss.schema.ProtectionRuleSetXmlType;
-import org.interpss.schema.ProtectionConditionXmlType.ConditionType;
-import org.interpss.schema.ProtectionConditionXmlType.BranchConditionSet.BranchCondition;
-import org.interpss.schema.ProtectionConditionXmlType.BusConditionSet.BusCondition;
-import org.interpss.schema.ProtectionRuleSetXmlType.ProtectionRuleList.ProtectionRule;
+import org.interpss.schema.ViolationConditionXmlType;
+import org.interpss.schema.PreventiveRuleSetXmlType;
+import org.interpss.schema.ViolationConditionXmlType.ConditionType;
+import org.interpss.schema.ViolationConditionXmlType.BranchConditionSet.BranchCondition;
+import org.interpss.schema.ViolationConditionXmlType.BusConditionSet.BusCondition;
+import org.interpss.schema.PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -44,7 +44,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.ViolationType;
 import com.interpss.core.net.Network;
 
-public class ProtectionRuleHanlder {
+public class PreventiveRuleHanlder {
 	/**
 	 * Apply all protection rules until there is no violation
 	 * 
@@ -84,9 +84,9 @@ public class ProtectionRuleHanlder {
 	public static boolean applyAclfRuleSet(Network net, AclfRuleBaseXmlType aclfRuleBase, 
 					int priority, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean rtn = false;
-		for (ProtectionRuleSetXmlType ruleSet : aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()) {
+		for (PreventiveRuleSetXmlType ruleSet : aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()) {
 			if (ruleSet.getPriority() == priority) {
-				for (ProtectionRule rule : ruleSet.getProtectionRuleList().getProtectionRuleArray()) {
+				for (PreventiveRule rule : ruleSet.getPreventiveRuleList().getPreventiveRuleArray()) {
 					if (rule.getCondition().getBusConditionSetArray().length == 0 &&
 						rule.getCondition().getBranchConditionSetArray().length == 0)
 						return false;
@@ -130,9 +130,9 @@ public class ProtectionRuleHanlder {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean evlBusCondition(ProtectionConditionXmlType cond, Network net, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
+	public static boolean evlBusCondition(ViolationConditionXmlType cond, Network net, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean evalCond = false;
-		for (ProtectionConditionXmlType.BusConditionSet busCond : cond.getBusConditionSetArray()) {
+		for (ViolationConditionXmlType.BusConditionSet busCond : cond.getBusConditionSetArray()) {
 			AclfBus bus = (AclfBus)IpssXmlParser.getBus(busCond, net);
 			if (bus == null) {
 				msg.sendErrorMsg("Error: cannot fin bus, id: " + busCond.getRecId());
@@ -149,7 +149,7 @@ public class ProtectionRuleHanlder {
 				if (evalCond)
 					msg.sendInfoMsg("Protection condition, upper voltage limit violation at bus " + busCond.getRecId());
 			}
-			if (cond.getConditionType() == ProtectionConditionXmlType.ConditionType.AND && evalCond == false)
+			if (cond.getConditionType() == ViolationConditionXmlType.ConditionType.AND && evalCond == false)
 				return false;
 			else if (evalCond)
 				return true;
@@ -165,9 +165,9 @@ public class ProtectionRuleHanlder {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean evlBranchCondition(ProtectionConditionXmlType cond, Network net, IPSSMsgHub msg) {
+	public static boolean evlBranchCondition(ViolationConditionXmlType cond, Network net, IPSSMsgHub msg) {
 		boolean evalCond = false;
-		for (ProtectionConditionXmlType.BranchConditionSet braCond : cond.getBranchConditionSetArray()) {
+		for (ViolationConditionXmlType.BranchConditionSet braCond : cond.getBranchConditionSetArray()) {
 			AclfBranch branch = (AclfBranch)IpssXmlParser.getBranch(braCond, net);
 			if (branch == null) {
 				msg.sendErrorMsg("Error: cannot fin branch, " + braCond.getFromBusId() + "->" + braCond.getToBusId());
@@ -197,7 +197,7 @@ public class ProtectionRuleHanlder {
 					msg.sendInfoMsg("Protection condition, RatingAmps violation at branch, " + braCond.getFromBusId() + "->" + braCond.getToBusId());
 			}
 			
-			if (cond.getConditionType() == ProtectionConditionXmlType.ConditionType.AND && evalCond == false)
+			if (cond.getConditionType() == ViolationConditionXmlType.ConditionType.AND && evalCond == false)
 				return false;
 			else if (evalCond)
 				return true;

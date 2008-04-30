@@ -37,7 +37,7 @@ import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.ProtectionRuleSetXmlType;
+import org.interpss.schema.PreventiveRuleSetXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitXmlData;
 
@@ -228,7 +228,7 @@ public class IpssXmlParser {
 	 */
 	public static int getUpperPriority(AclfRuleBaseXmlType aclfRuleBase) {
 		int p = 1;   // priority starts from 1, max 10
-		for (ProtectionRuleSetXmlType ruleSet : aclfRuleBase.getProtectionRuleSetList().getProtectionRuleSetArray()) {
+		for (PreventiveRuleSetXmlType ruleSet : aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()) {
 			if (ruleSet.getPriority() > p)
 				p = ruleSet.getPriority();
 		}
