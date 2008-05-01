@@ -70,10 +70,9 @@ interface branch data  [   28]                       ck      -i_no-  part_fac
 dc bus data  [ 0]             ty ar  zone   vsched     dc_volt  date_in date_out pid own
 dc converter data  [ 0]                               id   long_id_    st ty md nb fg  --no---           reg   ar zone  date_in date_out
 z table data  [ 0]
-ped data  [   0]
 transaction data  [    0]              st    sch_mw   sch_mvar  flag stn pid         transaction name
 owner data  [    1]    owner name           s name       net_mw   net_mvar     sch_mw   sch_mvar  ar
        1 "1                               " "    "       0.00       0.00       0.00       0.00   0
 motor data  [    0]
-line   data  [    0]                                 ck  se  long_id_    st  pole name  length w1  ---cond name---   w2  ---cond name---
+line data  [    0]                                 ck  se  long_id_    st  pole name  length w1  ---cond name---   w2  ---cond name---
 end
