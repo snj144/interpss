@@ -88,7 +88,7 @@ public class PSSEBusDataProcessor {
     	bus.setShuntY(new Complex(GL*factor,BL*factor));
       	
     	// add the bus object into the network container
-    	adjNet.addBus(bus);
+    	//adjNet.addBus(bus);
 
     	// set input data to the bus object
       	if ( IDE == 3 ) {

@@ -272,7 +272,7 @@ public class IeeeCommonFormat_in {
     	bus.setShuntY(new Complex(gPU,bPU));
       	
     	// add the bus object into the network container
-    	net.addBus(bus);
+    	//net.addBus(bus);
 
     	// set input data to the bus object
       	if ( type == 3 ) {

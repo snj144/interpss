@@ -98,7 +98,7 @@ public class PSATFormat_in {
     	bus.setBaseVoltage(baseKv, UnitType.kV);
     	
     	// add the bus object into the network container
-    	adjNet.addBus(bus);    	
+    	//adjNet.addBus(bus);    	
   	}
 
     private static void processSwingBusDataLine(String lineStr, AclfAdjNetwork  adjNet) throws Exception {
