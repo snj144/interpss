@@ -41,6 +41,7 @@ import com.interpss.core.net.AreaImplTest;
 import com.interpss.core.net.BranchImplTest;
 import com.interpss.core.net.BusImplTest;
 import com.interpss.core.net.NetRuleTest;
+import com.interpss.core.net.SwitchBreakModelTest;
 import com.interpss.core.sample.BuildinSampleTest;
 import com.interpss.core.sparse.SparseEqnComplexTest;
 import com.interpss.core.sparse.SparseEqnDoubleTest;
@@ -52,6 +53,7 @@ import com.interpss.core.sparse.SparseEqnMatrix2x2Test;
 	BranchImplTest.class,
 	BusImplTest.class,
 	NetRuleTest.class,
+	SwitchBreakModelTest.class,
 
 	SparseEqnComplexTest.class,
 	SparseEqnDoubleTest.class,
