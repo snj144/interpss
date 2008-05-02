@@ -10,7 +10,15 @@
 // *Hold down Ctrl key to select multiple elements.
 // *Press c to copy the UML diagram to the system clipboard.
 // * This text will be stored with each diagram. Feel free to use the area for notes.
-</help_text><element><type>com.umlet.element.base.Relation</type><coordinates><x>110</x><y>150</y><w>130</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
+</help_text><element><type>com.umlet.element.base.Relation</type><coordinates><x>280</x><y>550</y><w>110</w><h>80</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>20;60;90;20</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>389</x><y>560</y><w>92</w><h>90</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>51;70;41;20</additional_attributes></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>200</x><y>610</y><w>120</w><h>40</h></coordinates><panel_attributes>Distribution
+Bus Style
+
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>380</x><y>630</y><w>120</w><h>40</h></coordinates><panel_attributes>Annotate
+Graph
+
+</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>110</x><y>150</y><w>130</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>110;20;20;210</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>140</x><y>450</y><w>220</w><h>120</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>200;100;20;20</additional_attributes></element><element><type>com.umlet.element.base.UseCase</type><coordinates><x>570</x><y>650</y><w>150</w><h>60</h></coordinates><panel_attributes>Config 
 Layout Manager
