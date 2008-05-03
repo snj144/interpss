@@ -48,13 +48,32 @@ public class AclfSampleTest extends BaseTestSetup {
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
-  		System.out.println(net.net2String());
+  		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());
   		
   		//System.out.println("Area1 output power: " + net.areaOutputPower(1, UnitType.PU));
   		assertEquals(true, Math.abs(net.areaOutputPower(1, UnitType.PU)-1.28164)<0.0001);
 
+  		AclfBus swingBus = (AclfBus)net.getBus("5");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+  		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()));
+		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.57943)<0.0001);
+		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-2.2994)<0.0001);
+	}
+
+	@Test
+	public void swModelTest() {
+  		AclfNetwork net = CoreObjectFactory.createAclfNetwork();
+		SampleCases.load_LF_5BusSystem_SBModel(net, SpringAppContext.getIpssMsgHub());
+		//System.out.println(net.net2String());
+
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+//  		System.out.println(net.net2String());
+	  	
+  		assertTrue(net.isLfConverged());
+  		
   		AclfBus swingBus = (AclfBus)net.getBus("5");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
   		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()));
