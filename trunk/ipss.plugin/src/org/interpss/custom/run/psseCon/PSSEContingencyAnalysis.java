@@ -26,8 +26,8 @@ package org.interpss.custom.run.psseCon;
 
 import org.interpss.custom.run.CustomRunScriptPluginBase;
 import org.interpss.schema.AclfAlgorithmXmlType;
+import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -55,11 +55,11 @@ public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 
 	private boolean createAclfRunXmlScripts(InterPSSXmlType ipssXmlDoc) {
 		// grid computing settings
-		RunStudyCaseXmlType.GridRun gridRun = ipssXmlDoc.getRunStudyCase().addNewGridRun();
+		GridComputingXmlType gridRun = ipssXmlDoc.getRunStudyCase().addNewGridRun();
 		gridRun.setEnableGridRun(true);
 		gridRun.setRemoteJobCreation(true);
-		RunStudyCaseXmlType.GridRun.AclfOption opt = gridRun.addNewAclfOption();
-		opt.setReturnStudyCase(RunStudyCaseXmlType.GridRun.AclfOption.ReturnStudyCase.DIVERGED_CASE);
+		GridComputingXmlType.AclfOption opt = gridRun.addNewAclfOption();
+		opt.setReturnStudyCase(GridComputingXmlType.AclfOption.ReturnStudyCase.DIVERGED_CASE);
 		
 		// default Aclf Algorithm settings
 		AclfAlgorithmXmlType algo = ipssXmlDoc.getRunStudyCase().getRunAclfStudyCase().addNewDefaultAclfAlgorithm();
