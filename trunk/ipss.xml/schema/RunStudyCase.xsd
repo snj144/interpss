@@ -26,64 +26,7 @@
 				</ns:simpleType>
 			</ns:element>
             <ns:element name="applyRuleBase" type="ns:boolean" minOccurs="0"></ns:element>
-            <ns:element name="gridRun" minOccurs="0" maxOccurs="1">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="enableGridRun"
-							type="ns:boolean" minOccurs="1" maxOccurs="1">
-						</ns:element>
-						<ns:element name="remoteJobCreation"
-							type="ns:boolean" minOccurs="1">
-						</ns:element>
-						<ns:element name="timeout" type="ns:long"
-							minOccurs="0" maxOccurs="1">
-						</ns:element>
-						<ns:element name="remoteNodeDebug"
-							type="ns:boolean" minOccurs="0" maxOccurs="1">
-						</ns:element>
-						<ns:element name="aclfOption" minOccurs="0">
-							<ns:complexType>
-								<ns:sequence>
-									<ns:element
-										name="returnStudyCase" minOccurs="1">
-										<ns:annotation>
-											<ns:documentation>
-												If true, only return the
-												Aclf network object from
-												the remote grid node to
-												the master node when LF
-												diverger, or there is
-												limit violation.
-											</ns:documentation>
-										</ns:annotation>
-										<ns:simpleType>
-											<ns:restriction
-												base="ns:string">
-												<ns:enumeration
-													value="AllStudyCase">
-												</ns:enumeration>
-												<ns:enumeration
-													value="DivergedCase">
-												</ns:enumeration>
-												<ns:enumeration
-													value="NoReturn">
-												</ns:enumeration>
-											</ns:restriction>
-										</ns:simpleType>
-									</ns:element>
-									<ns:element
-										name="calculateViolation" type="ns:boolean"
-										minOccurs="0">
-									</ns:element>
-									<ns:element name="busVoltagePULimit"
-										type="ipss:LimitXmlType" minOccurs="0">
-									</ns:element>
-								</ns:sequence>
-							</ns:complexType>
-						</ns:element>
-
-					</ns:sequence>
-				</ns:complexType>
+            <ns:element name="gridRun" minOccurs="0" maxOccurs="1" type="ipss:GridComputingXmlType">
 			</ns:element>
 			<ns:element name="runDclfStudyCase" minOccurs="0">
 				<ns:complexType>
@@ -582,6 +525,62 @@
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
+		</ns:sequence>
+	</ns:complexType>
+
+	<ns:complexType name="GridComputingXmlType">
+		<ns:sequence>
+			<ns:element name="enableGridRun" type="ns:boolean"
+				minOccurs="1" maxOccurs="1">
+			</ns:element>
+			<ns:element name="remoteJobCreation" type="ns:boolean"
+				minOccurs="1">
+			</ns:element>
+			<ns:element name="timeout" type="ns:long" minOccurs="0"
+				maxOccurs="1">
+			</ns:element>
+			<ns:element name="remoteNodeDebug" type="ns:boolean"
+				minOccurs="0" maxOccurs="1">
+			</ns:element>
+			<ns:element name="aclfOption" minOccurs="0">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="returnStudyCase"
+							minOccurs="1">
+							<ns:annotation>
+								<ns:documentation>
+									If true, only return the Aclf
+									network object from the remote grid
+									node to the master node when LF
+									diverger, or there is limit
+									violation.
+								</ns:documentation>
+							</ns:annotation>
+							<ns:simpleType>
+								<ns:restriction base="ns:string">
+									<ns:enumeration
+										value="AllStudyCase">
+									</ns:enumeration>
+									<ns:enumeration
+										value="DivergedCase">
+									</ns:enumeration>
+
+									<ns:enumeration value="NoReturn">
+									</ns:enumeration>
+								</ns:restriction>
+							</ns:simpleType>
+						</ns:element>
+						<ns:element name="calculateViolation"
+							type="ns:boolean" minOccurs="0">
+						</ns:element>
+
+						<ns:element name="busVoltagePULimit"
+							type="ipss:LimitXmlType" minOccurs="0">
+						</ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
+			<ns:element name="cAnalysisOpt" minOccurs="0"><ns:complexType></ns:complexType></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 </ns:schema>
