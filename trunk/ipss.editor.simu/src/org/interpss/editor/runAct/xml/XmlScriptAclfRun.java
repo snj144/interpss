@@ -37,10 +37,11 @@ import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.gridgain.util.RemoteMessageTable;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfRuleBaseXmlType;
+import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.GridRun.AclfOption.ReturnStudyCase;
+import org.interpss.schema.GridComputingXmlType.AclfOption.ReturnStudyCase;
 import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
 import org.interpss.xml.PreventiveRuleHanlder;
 
@@ -236,7 +237,7 @@ public class XmlScriptAclfRun {
 	private static void setAclfRunOpt(MultiStudyCase mCaseContainer, RunStudyCaseXmlType runCase) {
 		mCaseContainer.setRemoteJobCreation(runCase.getGridRun().getRemoteJobCreation());
 		if (runCase.getGridRun().getAclfOption() != null) {
-			RunStudyCaseXmlType.GridRun.AclfOption opt = runCase.getGridRun().getAclfOption();
+			GridComputingXmlType.AclfOption opt = runCase.getGridRun().getAclfOption();
 			mCaseContainer.getAclfGridOption().setReturnCase(
 					opt.getReturnStudyCase()==ReturnStudyCase.ALL_STUDY_CASE? ReturnRemoteCaseOpt.ALL_STUDY_CASE :
 						(opt.getReturnStudyCase()==ReturnStudyCase.DIVERGED_CASE? ReturnRemoteCaseOpt.DIVERGED_CASE :
