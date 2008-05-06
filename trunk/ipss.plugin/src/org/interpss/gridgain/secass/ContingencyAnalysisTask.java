@@ -26,13 +26,14 @@
  *  This Class is for performing grid computing on the GridMultiStudyCase model 
  */
 
-package org.interpss.gridgain.task.multicase;
+package org.interpss.gridgain.secass;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.gridgain.grid.GridException;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
+import org.interpss.gridgain.task.multicase.AbstractMultiCaseTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.datatype.Constants;
@@ -43,7 +44,7 @@ import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
 
-public class MultiCaseAclfTask extends AbstractMultiCaseTask {
+public class ContingencyAnalysisTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
