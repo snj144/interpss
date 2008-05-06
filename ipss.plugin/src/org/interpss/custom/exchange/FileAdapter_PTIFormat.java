@@ -75,7 +75,7 @@ import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.net.Bus;
-import com.interpss.ext.psse.PSSEObjectFactory;
+import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfGen;
 import com.interpss.ext.psse.aclf.PSSEAclfLoad;
 import com.interpss.ext.psse.aclf.PSSEAclfNetwork;
@@ -160,7 +160,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	private PSSEAclfNetwork loadFile(
 				java.io.BufferedReader din, 
 				IPSSMsgHub msgHub) throws Exception {
-		PSSEAclfNetwork adjNet = PSSEObjectFactory.createPSSEAclfNetwork();
+		PSSEAclfNetwork adjNet = ExtensionObjectFactory.createPSSEAclfNetwork();
   		adjNet.setAllowParallelBranch(true);
   		String lineStr = null;
   		int lineNo = 0;

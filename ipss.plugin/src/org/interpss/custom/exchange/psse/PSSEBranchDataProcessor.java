@@ -36,7 +36,7 @@ import com.interpss.core.aclf.LineAdapter;
 import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.ext.psse.PSSEObjectFactory;
+import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfLine;
 import com.interpss.ext.psse.aclf.PSSEAclfXformer;
 
@@ -98,7 +98,7 @@ public class PSSEBranchDataProcessor {
 			J = -J;
 		}
     	// create an AclfBranch object
-      	final PSSEAclfLine bra = PSSEObjectFactory.createPSSEAclfLine(CKT);
+      	final PSSEAclfLine bra = ExtensionObjectFactory.createPSSEAclfLine(CKT);
 		String iStr = new Integer(I).toString();
 		String jStr = new Integer(J).toString();
       	adjNet.addBranch(bra, iStr, jStr);
@@ -111,10 +111,10 @@ public class PSSEBranchDataProcessor {
       	bra.setFromShuntY(new Complex(GI,BI));
       	bra.setToShuntY(new Complex(GJ,BJ));
   
-		bra.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O1, F1));
-		bra.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O2, F2));
-		bra.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O3, F3));
-		bra.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O4, F4));
+		bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O1, F1));
+		bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O2, F2));
+		bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O3, F3));
+		bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O4, F4));
       	
        	bra.setBranchCode(AclfBranchCode.LINE);
    		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
@@ -215,7 +215,7 @@ public class PSSEBranchDataProcessor {
 		IpssLogger.getLogger().fine("O1, F1, O2, F2, O3, F3, O4, F4:" + O1 + ", " + F1 + ", " + O2 + ", " + F2  + ", " + O3 + ", " + F3 + ", " + O4 + ", " + F4);
 		
 		if (K == 0) {
-	      	final PSSEAclfXformer bra = PSSEObjectFactory.createPSSEAclfXformer(CKT);
+	      	final PSSEAclfXformer bra = ExtensionObjectFactory.createPSSEAclfXformer(CKT);
 	      	bra.setName(NAME);
 	      	bra.setStatus(STAT ==1);
 	      	bra.setFromMetered(NMETR==1);
@@ -232,10 +232,10 @@ public class PSSEBranchDataProcessor {
 	    	bra.setMagG(MAG1);
 	    	bra.setMagB(MAG2);
 	      	
-			bra.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O1, F1));
-			bra.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O2, F2));
-			bra.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O3, F3));
-			bra.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O4, F4));
+			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O1, F1));
+			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O2, F2));
+			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O3, F3));
+			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O4, F4));
 	       	
 	    	/*
 	       		format : R1-2,X1-2,SBASE1-2

@@ -37,7 +37,7 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.ext.psse.PSSEObjectFactory;
+import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfGen;
 import com.interpss.ext.psse.aclf.PSSEAclfLoad;
 
@@ -160,7 +160,7 @@ public class PSSEBusDataProcessor {
 			throw new Exception ("Bus not found in the network, bus number: " + I);
 		}
 		
-		PSSEAclfLoad load = PSSEObjectFactory.createPSSEAclfLoad();
+		PSSEAclfLoad load = ExtensionObjectFactory.createPSSEAclfLoad();
 		load.setId(ID);
 		load.setName("Load:" + ID + "(" + I + ")");
 		load.setDesc("PSSE Load " + ID + " at Bus " + I);
@@ -242,7 +242,7 @@ public class PSSEBusDataProcessor {
 			throw new Exception ("Bus not found in the network, bus number: " + I);
 		}
 		
-		PSSEAclfGen gen = PSSEObjectFactory.createPSSEAclfGen();
+		PSSEAclfGen gen = ExtensionObjectFactory.createPSSEAclfGen();
 		gen.setId(ID);
 		gen.setName("Gen:" + ID + "(" + I + ")");
 		gen.setDesc("PSSE Generator " + ID + " at Bus " + I);
@@ -265,10 +265,10 @@ public class PSSEBusDataProcessor {
 		gen.setXfrTap(GTAP);
 		gen.setContribFactor(RMPCT*0.01);
 
-		gen.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O1, F1));
-		gen.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O2, F2));
-		gen.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O3, F3));
-		gen.getOwnerList().add(PSSEObjectFactory.createPSSEOwner(O4, F4));
+		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O1, F1));
+		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O2, F2));
+		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O3, F3));
+		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(O4, F4));
 		
 		bus.getRegDeviceList().add(gen);
 		
