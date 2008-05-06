@@ -65,7 +65,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 		
 	  	int caseCnt = 0;
 	  	String dstabNetStr = "";
-	  	SimuObjectFactory.initEMFPackage();
+//	  	SimuObjectFactory.initEMFPackage();
 	  	
 	  	for ( DStabStudyCaseRec dstabRec : parser.getRunDStabStudyCase().getDStabStudyCaseList().getDStabStudyCaseRecArray()) {
 			System.out.println("Running DStab case: " + dstabRec.getRecId());
