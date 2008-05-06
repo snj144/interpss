@@ -24,6 +24,8 @@
 
 package org.interpss.gridgain.result;
 
+import org.interpss.gridgain.secass.ContingencyAnalysisResultHandler;
+
 public class RemoteResultFactory {
 	/**
 	 * create the remote result handler
@@ -32,5 +34,14 @@ public class RemoteResultFactory {
 	 */
 	public static IRemoteResult createRemoteResultHandler() {
 		return new RemoteResultHandler();
+	}
+	
+	/**
+	 * create the remote result handler
+	 * 
+	 * @return
+	 */
+	public static IRemoteResult createContingencyResultHandler() {
+		return new ContingencyAnalysisResultHandler();
 	}
 }

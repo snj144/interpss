@@ -47,36 +47,35 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 	/**
 	 * create remote job list for DStab run
 	 */
-	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(
-			MultiStudyCase model) throws GridException {
+	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
 		List<IpssGridGainDStabJob> jobList = new ArrayList<IpssGridGainDStabJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
-			// send the Net model (String) the remote node directly
-			RemoteMessageTable remoteMsg = new RemoteMessageTable();
-			if (model.isRemoteJobCreation()) {
-				remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCase.getId());
-			}
-			else {
-				remoteMsg.put(RemoteMessageTable.KEY_sIn_StudyCaseNetworkModel, studyCase.getNetModelString());
-			}
-			remoteMsg.put(RemoteMessageTable.KEY_sIn_AclfAlgorithm, studyCase.getAclfAlgoModelString());
-			remoteMsg.put(RemoteMessageTable.KEY_sIn_DStabAlgorithm, studyCase.getDstabAlgoModelString());
-			IpssGridGainDStabJob job = new IpssGridGainDStabJob(remoteMsg);
-			
-			if (IpssGridGainUtil.RemoteNodeDebug) {
-				IpssLogger.getLogger().info("CaseId: " + studyCase.getId());
-				IpssLogger.getLogger().info(
-						"Model String: " + studyCase.getNetModelString());
-				IpssLogger.getLogger().info(
-						"AclfAlgo String: "
-								+ studyCase.getAclfAlgoModelString());
-				IpssLogger.getLogger().info(
-						"DStabAlgo String: "
-								+ studyCase.getDstabAlgoModelString());
-			}
-
+			IpssGridGainDStabJob job = createJob(studyCase, model);
 			jobList.add(job);
 		}
 		return jobList;
 	}
+	
+	private IpssGridGainDStabJob createJob(StudyCase studyCase, MultiStudyCase model) throws GridException {
+		// send the Net model (String) the remote node directly
+		RemoteMessageTable remoteMsg = new RemoteMessageTable();
+		if (model.isRemoteJobCreation()) {
+			remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCase.getId());
+		}
+		else {
+			remoteMsg.put(RemoteMessageTable.KEY_sIn_StudyCaseNetworkModel, studyCase.getNetModelString());
+		}
+		remoteMsg.put(RemoteMessageTable.KEY_sIn_AclfAlgorithm, studyCase.getAclfAlgoModelString());
+		remoteMsg.put(RemoteMessageTable.KEY_sIn_DStabAlgorithm, studyCase.getDstabAlgoModelString());
+		IpssGridGainDStabJob job = new IpssGridGainDStabJob(remoteMsg);
+		
+		if (IpssGridGainUtil.RemoteNodeDebug) {
+			IpssLogger.getLogger().info("CaseId: " + studyCase.getId());
+			IpssLogger.getLogger().info("Model String: " + studyCase.getNetModelString());
+			IpssLogger.getLogger().info("AclfAlgo String: "	+ studyCase.getAclfAlgoModelString());
+			IpssLogger.getLogger().info("DStabAlgo String: " + studyCase.getDstabAlgoModelString());
+		}	
+		return job;
+	}
+	
 }

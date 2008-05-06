@@ -36,6 +36,7 @@ import org.gridgain.grid.GridFactoryState;
 import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskTimeoutException;
 import org.gridgain.grid.spi.topology.basic.GridBasicTopologySpi;
+import org.interpss.gridgain.secass.ContingencyAnalysisTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeAclfTask;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.task.multicase.MultiCaseAclfTask;
@@ -51,6 +52,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 /**
@@ -128,7 +130,10 @@ public class IpssGridGainUtil {
 				"Number of Grid Nodes: " + grid.getAllNodes().size());
 		try {
 			// Single Aclf Case
-			if (model instanceof MultiStudyCase) {
+			if (model instanceof ContingencyAnalysis) {
+				return (RemoteMessageTable[])grid.execute(ContingencyAnalysisTask.class.getName(), model, timeout).get();
+			}
+			else if (model instanceof MultiStudyCase) {
 				// Multiple Aclf Cases
 				if (((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_ADJ_NETWORK
 						|| ((MultiStudyCase) model).getNetType() == SimuCtxType.ACLF_NETWORK) {
