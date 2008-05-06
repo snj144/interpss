@@ -32,7 +32,6 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
@@ -44,6 +43,7 @@ import com.interpss.core.net.Bus;
 import com.interpss.dist.DistBus;
 import com.interpss.dist.DistBusAdapter;
 import com.interpss.dist.DistNetwork;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;

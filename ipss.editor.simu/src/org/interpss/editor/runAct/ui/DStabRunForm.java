@@ -33,7 +33,6 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
@@ -45,6 +44,7 @@ import com.interpss.dstab.DStabSpringAppContext;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
