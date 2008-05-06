@@ -31,7 +31,6 @@ package org.interpss.gridgain.job;
 import java.io.Serializable;
 
 import org.interpss.gridgain.util.DStabSimuGridOutputHandler;
-import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
@@ -43,6 +42,8 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DynamicEventProcessor;
 import com.interpss.dstab.util.IDStabSimuOutputHandler;
+import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 
 public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 	private static final long serialVersionUID = 1;

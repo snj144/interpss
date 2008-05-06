@@ -30,7 +30,6 @@ import java.util.List;
 import org.gridgain.grid.GridTaskSession;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -38,6 +37,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.ViolationType;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 

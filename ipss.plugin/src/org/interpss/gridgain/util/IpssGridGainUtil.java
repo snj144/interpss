@@ -49,6 +49,7 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.multicase.MultiStudyCase;
 

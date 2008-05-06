@@ -25,9 +25,9 @@
 package org.interpss.gridgain.result;
 
 import org.gridgain.grid.GridTaskSession;
-import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public interface IRemoteResult {

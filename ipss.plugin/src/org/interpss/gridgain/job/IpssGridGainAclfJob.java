@@ -33,7 +33,6 @@ import java.io.Serializable;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.gridgain.util.RemoteMessageTable;
 import org.interpss.schema.AclfRuleBaseXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.xml.PreventiveRuleHanlder;
@@ -47,6 +46,8 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 
 public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 	private static final long serialVersionUID = 1;
