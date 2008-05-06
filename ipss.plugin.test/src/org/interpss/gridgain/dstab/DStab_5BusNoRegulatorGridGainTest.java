@@ -36,11 +36,11 @@ import org.gridgain.grid.GridMessageListener;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.gridgain.util.RemoteMessageTable;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;

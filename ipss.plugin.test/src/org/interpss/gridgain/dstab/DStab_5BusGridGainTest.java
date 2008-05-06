@@ -33,7 +33,6 @@ import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.gridgain.util.RemoteMessageTable;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -44,6 +43,7 @@ import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DatabaseSimuOutputHandler;
 import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
