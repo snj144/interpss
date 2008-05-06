@@ -37,16 +37,16 @@ package org.interpss.gridgain.task.assignJob;
  */
 
 import org.gridgain.grid.GridException;
-import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 
 public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 	private static final long serialVersionUID = 1;

@@ -44,11 +44,11 @@ import org.gridgain.grid.GridNode;
 import org.gridgain.grid.GridTaskAdapter;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.resources.GridTaskSessionResource;
-import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 
 public abstract class AbstractAssignJob2NodeTask extends GridTaskAdapter<Object, Object> {
 	private static final long serialVersionUID = 1;

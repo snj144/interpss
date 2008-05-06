@@ -37,11 +37,11 @@ import org.gridgain.grid.GridJobResult;
 import org.gridgain.grid.GridTaskSession;
 import org.gridgain.grid.GridTaskSplitAdapter;
 import org.gridgain.grid.resources.GridTaskSessionResource;
-import org.interpss.gridgain.job.AbstractIpssGridGainJob;
 import org.interpss.gridgain.util.IpssGridGainUtil;
-import org.interpss.gridgain.util.RemoteMessageTable;
 
 import com.interpss.common.datatype.Constants;
+import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
+import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public abstract class AbstractMultiCaseTask extends GridTaskSplitAdapter<MultiStudyCase, RemoteMessageTable[]> {
