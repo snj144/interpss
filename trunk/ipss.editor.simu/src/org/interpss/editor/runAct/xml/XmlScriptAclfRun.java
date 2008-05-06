@@ -92,9 +92,9 @@ public class XmlScriptAclfRun {
 				mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 
 				if (applyRuleBase) {
-					mCaseContainer.setApplyAclfRuleBase(applyRuleBase);
+					mCaseContainer.getRuleBase().setApplyAclfRuleBase(applyRuleBase);
 					if (xmlRunCase.getAclfRuleBase() != null)
-						mCaseContainer.setAclfRuleBaseXmlString(xmlRunCase.getAclfRuleBase().xmlText());
+						mCaseContainer.getRuleBase().setAclfRuleBaseXmlString(xmlRunCase.getAclfRuleBase().xmlText());
 				}
 				
 				boolean reJobCreation = ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
