@@ -67,9 +67,9 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 			
 		// send protective rule set
 		getSession().setAttribute(Constants.GridToken_ApplyAclfRuleBase, 
-							model.isApplyAclfRuleBase()?Boolean.TRUE : Boolean.FALSE);
-		if (model.isApplyAclfRuleBase())
-			getSession().setAttribute(Constants.GridToken_AclfRuleBaseXml, model.getAclfRuleBaseXmlString());
+							model.getRuleBase().isApplyAclfRuleBase()?Boolean.TRUE : Boolean.FALSE);
+		if (model.getRuleBase().isApplyAclfRuleBase())
+			getSession().setAttribute(Constants.GridToken_AclfRuleBaseXml, model.getRuleBase().getAclfRuleBaseXmlString());
 		
 		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
