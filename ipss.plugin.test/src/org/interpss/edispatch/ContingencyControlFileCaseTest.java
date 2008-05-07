@@ -13,7 +13,7 @@ import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
+import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
@@ -48,7 +48,7 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	for ( AclfStudyCase aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
@@ -84,7 +84,7 @@ END
  */
 		assertTrue(ipssDoc.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray().length == 4);
 		
-		AclfStudyCase scase = ipssDoc.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getFromBusId().equals("3004"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getToBusId().equals("152"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getCircuitNumber().equals("1"));

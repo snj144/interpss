@@ -31,7 +31,7 @@ import java.io.File;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
+import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.junit.Test;
@@ -61,7 +61,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
   		
-	  	AclfStudyCase aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+	  	AclfStudyCaseXmlType aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
   		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
@@ -109,7 +109,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
-		AclfStudyCase aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+		AclfStudyCaseXmlType aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
@@ -157,7 +157,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
-		AclfStudyCase aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+		AclfStudyCaseXmlType aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
