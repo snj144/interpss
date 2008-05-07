@@ -37,12 +37,12 @@ import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfRuleBaseXmlType;
+import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType.AclfOption.ReturnStudyCase;
-import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.PreventiveRuleHanlder;
 
 import com.interpss.common.SpringAppContext;
@@ -55,7 +55,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.AclfMultiStudyCase;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
 
@@ -88,7 +88,7 @@ public class XmlScriptAclfRun {
 			} 
 			else {
 				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-				MultiStudyCase mCaseContainer = SimuObjectFactory.createMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+				AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 				// save the base case Network model to the netStr
 				mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 
@@ -235,7 +235,7 @@ public class XmlScriptAclfRun {
 		return true;
 	}
 	
-	private static void setAclfRunOpt(MultiStudyCase mCaseContainer, RunStudyCaseXmlType runCase) {
+	private static void setAclfRunOpt(AclfMultiStudyCase mCaseContainer, RunStudyCaseXmlType runCase) {
 		mCaseContainer.setRemoteJobCreation(runCase.getGridRun().getRemoteJobCreation());
 		if (runCase.getGridRun().getAclfOption() != null) {
 			GridComputingXmlType.AclfOption opt = runCase.getGridRun().getAclfOption();
