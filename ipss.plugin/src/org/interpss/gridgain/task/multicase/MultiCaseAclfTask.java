@@ -39,6 +39,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
 import com.interpss.ext.gridgain.RemoteMessageTable;
+import com.interpss.simu.multicase.AclfMultiStudyCase;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
@@ -47,17 +48,17 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
 
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
-		setTaskSessionAttributes(model);
+		setTaskSessionAttributes((AclfMultiStudyCase)model);
 		
 		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
-			IpssGridGainAclfJob job = createJob(studyCase, model);
+			IpssGridGainAclfJob job = createJob(studyCase, (AclfMultiStudyCase)model);
 			jobList.add(job);
 		}
 		return jobList;
 	}
 	
-	private void setTaskSessionAttributes(MultiStudyCase model) throws GridException {
+	private void setTaskSessionAttributes(AclfMultiStudyCase model) throws GridException {
 		// set AclfOptions 
 		int reOpt = model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.ALL_STUDY_CASE? RemoteMessageTable.Const_ReturnAllStudyCase :
 							(model.getAclfGridOption().getReturnCase() == ReturnRemoteCaseOpt.DIVERGED_CASE? RemoteMessageTable.Const_ReturnDivergedCase :
@@ -83,7 +84,7 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 			getSession().setAttribute(Constants.GridToken_AclfRuleBaseXml, model.getRuleBase().getAclfRuleBaseXmlString());
 	}
 
-	private IpssGridGainAclfJob createJob(StudyCase studyCase, MultiStudyCase model) throws GridException {
+	private IpssGridGainAclfJob createJob(StudyCase studyCase, AclfMultiStudyCase model) throws GridException {
 		// send the Aclf Net model (String) the remote node directly
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
 		remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCase.getId());

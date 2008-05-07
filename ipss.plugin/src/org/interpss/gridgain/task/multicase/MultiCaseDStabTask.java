@@ -38,6 +38,7 @@ import org.interpss.gridgain.util.IpssGridGainUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
 import com.interpss.ext.gridgain.RemoteMessageTable;
+import com.interpss.simu.multicase.DStabMultiStudyCase;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 
@@ -50,13 +51,13 @@ public class MultiCaseDStabTask extends AbstractMultiCaseTask {
 	protected List<? extends AbstractIpssGridGainJob> createRemoteJobList(MultiStudyCase model) throws GridException {
 		List<IpssGridGainDStabJob> jobList = new ArrayList<IpssGridGainDStabJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
-			IpssGridGainDStabJob job = createJob(studyCase, model);
+			IpssGridGainDStabJob job = createJob(studyCase, (DStabMultiStudyCase)model);
 			jobList.add(job);
 		}
 		return jobList;
 	}
 	
-	private IpssGridGainDStabJob createJob(StudyCase studyCase, MultiStudyCase model) throws GridException {
+	private IpssGridGainDStabJob createJob(StudyCase studyCase, DStabMultiStudyCase model) throws GridException {
 		// send the Net model (String) the remote node directly
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
 		if (model.isRemoteJobCreation()) {
