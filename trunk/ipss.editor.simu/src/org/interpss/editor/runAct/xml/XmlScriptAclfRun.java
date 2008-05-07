@@ -110,7 +110,7 @@ public class XmlScriptAclfRun {
 
 					LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 					// map to the Algo object including network modification at the study case level
-					if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
+					if (!mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
 						return false;
 
 					try {
@@ -188,7 +188,7 @@ public class XmlScriptAclfRun {
 				AclfRuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
-		if (!mapAclfStudy(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
+		if (!mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
 			return false;
 
 		if (gridRun) {
@@ -218,7 +218,7 @@ public class XmlScriptAclfRun {
 		return true;
 	}
 	
-	private static boolean mapAclfStudy(IpssMapper mapper, AclfStudyCaseXmlType xmlCase, 
+	public static boolean mapAclfStudyCase(IpssMapper mapper, AclfStudyCaseXmlType xmlCase, 
 						LoadflowAlgorithm algo, AclfAlgorithmXmlType xmlDefaultAlgo, 
 						boolean remoteJobCreation, IPSSMsgHub msg) {
 		if (xmlCase.getAclfAlgorithm() == null) {
