@@ -58,8 +58,7 @@ public class Xml2AlgorithmMapperImpl {
 	 */
 	public static void aclfCaseData2AlgoMapping(
 			AclfAlgorithmXmlType xmlAlgo, LoadflowAlgorithm algo, IPSSMsgHub msg) {
-		algo
-				.setLfMethod(xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR ? AclfMethod.NR
+		algo.setLfMethod(xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR ? AclfMethod.NR
 						: (xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ ? AclfMethod.PQ
 								: AclfMethod.GS));
 		algo.setMaxIterations(xmlAlgo.getMaxIterations());
