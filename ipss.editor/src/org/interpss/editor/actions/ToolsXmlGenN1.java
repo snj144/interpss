@@ -13,7 +13,7 @@ import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.BusChangeRecXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
+import org.interpss.schema.AclfStudyCaseXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
@@ -43,7 +43,7 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
 		RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList list = 
 			RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.Factory.newInstance();
   		for (Branch bra : net.getBranchList()) {
-  			AclfStudyCase studyCase = list.addNewAclfStudyCase();
+  			AclfStudyCaseXmlType studyCase = list.addNewAclfStudyCase();
   			String id = bra.getFromBus().getId()+"-"+bra.getToBus().getId()+"_"+bra.getCircuitNumber();
   			studyCase.setRecId("StudyCase_OpenBranch_"+id);
   			studyCase.setRecDesc("Open branch " + bra.getId());
@@ -57,7 +57,7 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
   		
   		for (Bus bus : net.getBusList()) {
   			if (bus.isActive() && ((AclfBus)bus).isGen() && !((AclfBus)bus).isSwing()) {
-  				AclfStudyCase studyCase = list.addNewAclfStudyCase();
+  				AclfStudyCaseXmlType studyCase = list.addNewAclfStudyCase();
   	  			studyCase.setRecId("StudyCase_GenOutage_"+bus.getId());
   	  			studyCase.setRecDesc("Generator outage at bus " + bus.getId());
   	  			ModificationXmlType mod = studyCase.addNewModification();
