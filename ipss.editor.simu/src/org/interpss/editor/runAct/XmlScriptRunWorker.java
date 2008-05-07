@@ -28,6 +28,7 @@ import org.apache.xmlbeans.XmlException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
 import org.interpss.editor.runAct.xml.XmlScriptAcscRun;
+import org.interpss.editor.runAct.xml.XmlScriptContingency;
 import org.interpss.editor.runAct.xml.XmlScriptDStabRun;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.gridgain.util.IpssGridGainUtil;
@@ -74,8 +75,7 @@ public class XmlScriptRunWorker {
 		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
 				&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
 		if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
-			return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(),
-					msg);
+			return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(), msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
 			return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet(),
 					msg);
@@ -84,6 +84,9 @@ public class XmlScriptRunWorker {
 					msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
 			return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
+		}
+		else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS) {
+			return XmlScriptContingency.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(), msg);
 		}
 		msg.sendErrorMsg("Error: wrong analysus type, " + xmlStudyCase.getAnalysisRunType());
 		return false;
