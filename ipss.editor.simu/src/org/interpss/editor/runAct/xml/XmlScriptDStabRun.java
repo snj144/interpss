@@ -176,7 +176,7 @@ public class XmlScriptDStabRun {
 				String netStr = SerializeEMFObjectUtil.saveModel(dstabNet);
 				// create a multi-case container
 				MultiStudyCase mCaseContainer = SimuObjectFactory
-						.createMultiStudyCase(SimuCtxType.DSTABILITY_NET);
+						.createDStabMultiStudyCase(SimuCtxType.DSTABILITY_NET);
 				int cnt = 0;
 				for (DStabStudyCaseRec dstabRec : xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray()) {
 					// deserialize the base case
