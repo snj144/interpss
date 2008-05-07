@@ -24,20 +24,12 @@
 
 package org.interpss.gridgain.secass;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.gridgain.grid.GridTaskSession;
-import org.interpss.display.AclfOutFunc;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
-import com.interpss.common.datatype.Constants;
-import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.algorithm.ViolationType;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
@@ -61,34 +53,6 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 		resultTable.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, caseId);
 		
 		resultTable.put(RemoteMessageTable.KEY_bOut_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
-		
-		// calculate branch mvar violation index = sqrt[ sum(e*e) ], where e = ( mvar - mvarLimit ) in case of violation
-		// calculate branch current violation index = sqrt[ sum(e*e) ], where e = ( amps - ampsLimit ) in case of violation
-		if (session.getAttribute(Constants.GridToken_AclfOpt_CalculateViolation) != null &&
-				((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_CalculateViolation)).booleanValue()) {
-			List<Object> msgList = new ArrayList<Object>();
-			double max = ((Double)session.getAttribute(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU)).doubleValue();
-			double min = ((Double)session.getAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU)).doubleValue();
-			algo.violation(ViolationType.ALL, max, min, msgList);
-			resultTable.addReturnMessage(msgList);
-		}
-
-		if (session.getAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase) != null) { 
-			int returnOpt = ((Integer)session.getAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase)).intValue();
-			if (returnOpt == RemoteMessageTable.Const_ReturnAllStudyCase) {
-				resultTable.put(RemoteMessageTable.KEY_sOut_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
-			}
-			else if (returnOpt == RemoteMessageTable.Const_ReturnDivergedCase) {
-				if (!resultTable.getReturnStatus() || !net.isLfConverged()) 
-					resultTable.put(RemoteMessageTable.KEY_sOut_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
-			}
-			else {
-				;// do nothing
-			}
-		}
-		else {
-			resultTable.put(RemoteMessageTable.KEY_sOut_SerializedAclfNet, SerializeEMFObjectUtil.saveModel(net));
-		}
 	}
 	
 	/**
@@ -106,7 +70,6 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 		studyCase.setRemoteReturnMessage(resultTable.getReturnMessage());
 		
 		studyCase.setAclfConverged(resultTable.getAclfConvergeStatus());
-		studyCase.setNetModelString(resultTable.getSerializedAclfNet());
 	}
 	
 	/**
@@ -129,18 +92,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
     			else 
     				buf.append("Remote error message: " + scase.getRemoteReturnMessage() + "\n");
 
-    		AclfAdjNetwork aclfAdjNet = null;
-    		if (scase.getNetModelString() != null) {
-    			aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
-    		}
-
 			buf.append("Loadflow converged: " + scase.isAclfConverged());
-        	buf.append("\n");
-        	if (aclfAdjNet != null) {
-        		buf.append("\n");
-    			buf.append(AclfOutFunc.loadFlowSummary(aclfAdjNet));
-        		buf.append("\n");
-        	}
     		
     		buf.append("\n");
     	}	

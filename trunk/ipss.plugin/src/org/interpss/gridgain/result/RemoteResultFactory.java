@@ -25,23 +25,13 @@
 package org.interpss.gridgain.result;
 
 import org.interpss.gridgain.secass.ContingencyAnalysisResultHandler;
+import org.interpss.gridgain.secass.ContingencyAnaysisJob;
 
 public class RemoteResultFactory {
-	/**
-	 * create the remote result handler
-	 * 
-	 * @return
-	 */
-	public static IRemoteResult createRemoteResultHandler() {
-		return new RemoteResultHandler();
-	}
-	
-	/**
-	 * create the remote result handler
-	 * 
-	 * @return
-	 */
-	public static IRemoteResult createContingencyResultHandler() {
-		return new ContingencyAnalysisResultHandler();
+	public static IRemoteResult createHandler(Class<?> klass) {
+		if (ContingencyAnaysisJob.class == klass)
+			return new ContingencyAnalysisResultHandler();
+		else
+			return new RemoteResultHandler();
 	}
 }
