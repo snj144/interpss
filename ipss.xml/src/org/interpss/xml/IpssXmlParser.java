@@ -34,6 +34,7 @@ import org.apache.xmlbeans.XmlException;
 import org.interpss.schema.AclfRuleBaseXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
+import org.interpss.schema.ContingencyAnalysisXmlType;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
@@ -145,6 +146,15 @@ public class IpssXmlParser {
 	 */
 	public RunStudyCaseXmlType.RunDStabStudyCase getRunDStabStudyCase() {
 		return ipss.getRunStudyCase().getRunDStabStudyCase();
+	}
+
+	/**
+	 * Get the ContingencyAnalysis element list
+	 * 
+	 * @return
+	 */
+	public ContingencyAnalysisXmlType getContingencyAnalysis() {
+		return ipss.getRunStudyCase().getContingencyAnalysis();
 	}
 
 	/**
