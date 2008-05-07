@@ -40,6 +40,7 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
+import org.interpss.gridgain.job.IpssGridGainAclfJob;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 
@@ -127,7 +128,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         else if (data instanceof MultiStudyCase) {
         	MultiStudyCase mcase = (MultiStudyCase)data;
         	textArea.setText("");
-    		IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
+    		IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
     		textArea.append(resultHandler.toString(mcase).toString());
             busStyleRadioButton.setEnabled(false);
             summaryRadioButton.setEnabled(false);

@@ -36,7 +36,7 @@ import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.AclfStudyCase;
+import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.util.StringUtil;
@@ -110,7 +110,7 @@ public class ContingencyFileParser {
 				String conName = sAry[1];
 //				System.out.println("[" + conCnt + "], " + conName);
 				
-				AclfStudyCase scase = parser.getRunAclfStudyCase().getAclfStudyCaseList().addNewAclfStudyCase();
+				AclfStudyCaseXmlType scase = parser.getRunAclfStudyCase().getAclfStudyCaseList().addNewAclfStudyCase();
 				scase.setRecId(conName+"_"+conCnt);
 				scase.setRecName(conName);
 				scase.setRecDesc(lineStr);

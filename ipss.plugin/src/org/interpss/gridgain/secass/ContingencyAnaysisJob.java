@@ -33,9 +33,7 @@ import java.io.Serializable;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.schema.AclfRuleBaseXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.xml.PreventiveRuleHanlder;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -67,36 +65,24 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 	 * @param modelStr serialized AclfNet object
 	 */
 	protected Serializable performGridJob(RemoteMessageTable remoteMsg) {
+		Object model = SerializeEMFObjectUtil.loadModel(getSesStringAttrib(Constants.GridToken_BaseStudyCaseNetworkModel));
+		
 		AclfNetwork net = null;
-		
-		Object model = null;
-		if (getSesBooleanAttrib(Constants.GridToken_RemoteJobCreation)) {
-			model = SerializeEMFObjectUtil.loadModel(getSesStringAttrib(Constants.GridToken_BaseStudyCaseNetworkModel));
-			IpssLogger.getLogger().info("Remote job contructed using the base study case");
-		}
-		else {
-			String modelStr = remoteMsg.getStudyCaseNetworkModel();
-			model = SerializeEMFObjectUtil.loadModel(modelStr);
-			IpssLogger.getLogger().info("Remote job contructed using the current study case");
-		}
-		
 		if (model instanceof AclfNetwork)
 			net = (AclfNetwork) model;
 		else if (model instanceof AclfAdjNetwork)
 			net = (AclfAdjNetwork) model;
 
 		String caseId = remoteMsg.getStudyCaseId();
-		if (getSesBooleanAttrib(Constants.GridToken_RemoteJobCreation)) {
-			if (remoteMsg.getStudyCaseModification() != null) {
-				try {
-					//IpssLogger.getLogger().info("Study Case Modification: " + remoteMsg.getStudyCaseModification());
-					ModificationXmlType mod = ModificationXmlType.Factory.parse(remoteMsg.getStudyCaseModification());
-					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-					mapper.mapping(mod, net, ModificationXmlType.class);
-				} catch (Exception e) {
-					IpssLogger.logErr(e);
-					//e.printStackTrace();
-				}
+		if (remoteMsg.getStudyCaseModification() != null) {
+			try {
+				//IpssLogger.getLogger().info("Study Case Modification: " + remoteMsg.getStudyCaseModification());
+				ModificationXmlType mod = ModificationXmlType.Factory.parse(remoteMsg.getStudyCaseModification());
+				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
+				mapper.mapping(mod, net, ModificationXmlType.class);
+			} catch (Exception e) {
+				IpssLogger.logErr(e);
+				//e.printStackTrace();
 			}
 		}
 
@@ -124,22 +110,12 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 		// perform loadflow calculation
 		try {
 			algo.loadflow(SpringAppContext.getIpssMsgHub());
-			if (getSesBooleanAttrib(Constants.GridToken_ApplyAclfRuleBase)) {
-				String str = getSesStringAttrib(Constants.GridToken_AclfRuleBaseXml);
-				if (str != null) {
-					AclfRuleBaseXmlType ruleBase = AclfRuleBaseXmlType.Factory.parse(str);
-					double max = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU);
-					double min = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU);
-					getRemoteResult().addReturnMessage(
-							PreventiveRuleHanlder.applyAclfRuleSet(algo, ruleBase, max, min, this.getMsgHub()));
-				}
-			}
 		} catch (Exception e) {
 			getRemoteResult().put(RemoteMessageTable.KEY_bOut_ReturnStatus, Boolean.FALSE);
 			getRemoteResult().addReturnMessage(e.toString());
 		}
  
-		IRemoteResult resultHandler = RemoteResultFactory.createRemoteResultHandler();
+		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
 		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), algo, getSession());
 		return getRemoteResult();
 	}
