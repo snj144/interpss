@@ -40,6 +40,7 @@ import com.interpss.core.algorithm.ViolationType;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class RemoteResultHandler implements IRemoteResult {
 	/**
@@ -98,7 +99,7 @@ public class RemoteResultHandler implements IRemoteResult {
 	 */
 	public void transferAclfResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable) {
 		// deserialize the AclfNet model string for Net.id
-		StudyCase studyCase = mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
+		AclfStudyCase studyCase = (AclfStudyCase)mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
 		studyCase.setDesc("Loadflow by Remote Node: " + IpssGridGainUtil.nodeNameLookup(resultTable.getRemoteNodeId()));
 
 		studyCase.setRemoteReturnStatus(resultTable.getReturnStatus());
@@ -117,6 +118,7 @@ public class RemoteResultHandler implements IRemoteResult {
 	public StringBuffer toString(MultiStudyCase mCaseContainer) {
 		StringBuffer buf = new StringBuffer();
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
+    		AclfStudyCase aclfCase = (AclfStudyCase)scase;
     		buf.append("\n");
     		buf.append(scase.getDesc() + "\n");
     		if (scase.getName() != null)
@@ -133,7 +135,7 @@ public class RemoteResultHandler implements IRemoteResult {
     			aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
     		}
 
-			buf.append("Loadflow converged: " + scase.isAclfConverged());
+			buf.append("Loadflow converged: " + aclfCase.isAclfConverged());
         	buf.append("\n");
         	if (aclfAdjNet != null) {
         		buf.append("\n");

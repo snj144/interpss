@@ -39,6 +39,7 @@ import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.result.AclfBranchResultRec;
 import com.interpss.simu.multicase.result.AclfBusResultRec;
 
@@ -71,7 +72,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	 */
 	public void transferAclfResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable) {
 		// deserialize the AclfNet model string for Net.id
-		StudyCase studyCase = mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
+		AclfStudyCase studyCase = (AclfStudyCase)mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
 		studyCase.setDesc("Loadflow by Remote Node: " + IpssGridGainUtil.nodeNameLookup(resultTable.getRemoteNodeId()));
 
 		studyCase.setRemoteReturnStatus(resultTable.getReturnStatus());
@@ -89,6 +90,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	public StringBuffer toString(MultiStudyCase mCaseContainer) {
 		StringBuffer buf = new StringBuffer();
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
+    		AclfStudyCase aclfCase = (AclfStudyCase)scase;
     		buf.append("\n");
     		buf.append(scase.getDesc() + "\n");
     		if (scase.getName() != null)
@@ -100,7 +102,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
     			else 
     				buf.append("Remote error message: " + scase.getRemoteReturnMessage() + "\n");
 
-			buf.append("Loadflow converged: " + scase.isAclfConverged());
+			buf.append("Loadflow converged: " + aclfCase.isAclfConverged());
     		
     		buf.append("\n");
     	}	
