@@ -28,11 +28,19 @@ import org.gridgain.grid.GridTaskSession;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
+import com.interpss.common.datatype.UnitType;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
 import com.interpss.ext.gridgain.RemoteMessageTable;
+import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.result.AclfBranchResultRec;
+import com.interpss.simu.multicase.result.AclfBusResultRec;
 
 public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	/**
@@ -97,5 +105,25 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
     		buf.append("\n");
     	}	
     	return buf;
+	}
+	
+	public static void updateResult(AclfNetwork net, ContingencyAnalysis caCase) {
+		for (Bus bus : net.getBusList()) {
+			AclfBus aclfBus = (AclfBus) bus;
+			AclfBusResultRec rec = caCase.getBusResult().get(bus.getId());
+			if (aclfBus.getVoltageMag() > rec.getHighVoltMagPU())
+				rec.setHighVoltMagPU(aclfBus.getVoltageMag());
+			else if (aclfBus.getVoltageMag() < rec.getLowVoltMagPU())
+				rec.setLowVoltMagPU(aclfBus.getVoltageMag());
+		}
+		
+		for (Branch bra : net.getBranchList()) {
+			AclfBranch aclfBra = (AclfBranch) bra;
+			AclfBranchResultRec rec = caCase.getBranchResult().get(bra.getId());
+			double mva = aclfBra.mvaFlow(UnitType.mVA, net.getBaseKva());
+			if (mva > rec.getMvaFlow()) {
+				rec.setMvaFlow(mva);
+			}
+		}
 	}
 }
