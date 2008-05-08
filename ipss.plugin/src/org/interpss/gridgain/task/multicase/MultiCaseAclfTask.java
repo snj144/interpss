@@ -39,10 +39,11 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
 import com.interpss.ext.gridgain.RemoteMessageTable;
-import com.interpss.simu.multicase.AclfMultiStudyCase;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
@@ -52,7 +53,7 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 		
 		List<IpssGridGainAclfJob> jobList = new ArrayList<IpssGridGainAclfJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
-			IpssGridGainAclfJob job = createJob(studyCase, (AclfMultiStudyCase)model);
+			IpssGridGainAclfJob job = createJob((AclfStudyCase)studyCase, (AclfMultiStudyCase)model);
 			jobList.add(job);
 		}
 		return jobList;
@@ -84,7 +85,7 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 			getSession().setAttribute(Constants.GridToken_AclfRuleBaseXml, model.getRuleBase().getAclfRuleBaseXmlString());
 	}
 
-	private IpssGridGainAclfJob createJob(StudyCase studyCase, AclfMultiStudyCase model) throws GridException {
+	private IpssGridGainAclfJob createJob(AclfStudyCase studyCase, AclfMultiStudyCase model) throws GridException {
 		// send the Aclf Net model (String) the remote node directly
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
 		remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCase.getId());

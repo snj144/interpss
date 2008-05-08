@@ -42,6 +42,7 @@ import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class ContingencyAnalysisTask extends AbstractMultiCaseTask {
 	private static final long serialVersionUID = 1;
@@ -51,7 +52,7 @@ public class ContingencyAnalysisTask extends AbstractMultiCaseTask {
 		
 		List<ContingencyAnaysisJob> jobList = new ArrayList<ContingencyAnaysisJob>();
 		for (StudyCase studyCase : model.getStudyCaseList()) {
-			ContingencyAnaysisJob job = createJob(studyCase, (ContingencyAnalysis)model);
+			ContingencyAnaysisJob job = createJob((AclfStudyCase)studyCase, (ContingencyAnalysis)model);
 			jobList.add(job);
 		}
 		return jobList;
@@ -61,7 +62,7 @@ public class ContingencyAnalysisTask extends AbstractMultiCaseTask {
 		getSession().setAttribute(Constants.GridToken_BaseStudyCaseNetworkModel, model.getBaseNetModelString());
 	}
 
-	private ContingencyAnaysisJob createJob(StudyCase studyCase, ContingencyAnalysis model) throws GridException {
+	private ContingencyAnaysisJob createJob(AclfStudyCase studyCase, ContingencyAnalysis model) throws GridException {
 		// send the Aclf Net model (String) the remote node directly
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
 		remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCase.getId());
