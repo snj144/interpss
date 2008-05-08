@@ -69,7 +69,7 @@ public class XmlScriptContingency {
 			return false;
 		}
 		
-		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK);
+		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, aclfNet);
 		// save the base case Network model to the netStr
 		mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 
