@@ -23,7 +23,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
-import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class ContingencyXmlCaseTest extends BaseTestSetup {
 	@Test
@@ -49,8 +49,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 		  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  		
-	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
-	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
+	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  	}
 	}
 }

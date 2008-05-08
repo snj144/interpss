@@ -8,7 +8,6 @@ import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
 import org.interpss.mapper.IpssXmlMapper;
-import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.MultiStudyCase;
-import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class UserStephenCaseTest extends BaseTestSetup {
 	@Test
@@ -54,7 +53,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 
-	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 	  	}
 	  	
@@ -102,7 +101,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  		
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  	
-	  		StudyCase scase = SimuObjectFactory.createStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
 	  	}
 
