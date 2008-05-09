@@ -43,6 +43,7 @@ import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
+import org.interpss.gridgain.secass.ContingencyAnaysisJob;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -50,14 +51,13 @@ import com.interpss.common.msg.IpssMessage;
 import com.interpss.common.msg.SimuMessage;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DStabSimuDBRecord;
+import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
-import com.interpss.simu.multicase.StudyCase;
 
 public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTextDialog {
 	private static final long serialVersionUID = 1;
@@ -126,10 +126,10 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
             summaryRadioButton.setSelected(true);
         }
         else if (data instanceof MultiStudyCase) {
-        	MultiStudyCase mcase = (MultiStudyCase)data;
         	textArea.setText("");
-    		IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
-    		textArea.append(resultHandler.toString(mcase).toString());
+    		IRemoteResult resultHandler = RemoteResultFactory.createHandler(
+    				data instanceof ContingencyAnalysis? ContingencyAnaysisJob.class : IpssGridGainAclfJob.class);
+    		textArea.append(resultHandler.toString((MultiStudyCase)data).toString());
             busStyleRadioButton.setEnabled(false);
             summaryRadioButton.setEnabled(false);
         }
