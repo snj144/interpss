@@ -36,9 +36,17 @@ import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.simu.multicase.result.MCaseResultPackage;
 import com.interpss.simu.multicase.result.StudyCaseResult;
 
 public class ContingencyAnalysisResultHandler implements IRemoteResult {
+    private static MCaseResultPackage mCaseResultPackage = null;
+
+    public ContingencyAnalysisResultHandler() {
+    	if (mCaseResultPackage == null)
+    		mCaseResultPackage = MCaseResultPackage.eINSTANCE;
+    }
+    
 	/**
 	 * Save remote simulation results into the result table, which will be sent from
 	 * a remote node to the master node
@@ -60,6 +68,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 		
   		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase();
   		scase.getResult().transferAclfResult(net);		
+		//System.out.println(scase.getResult().toString());
 		resultTable.put(RemoteMessageTable.KEY_sOut_AclfResult, SerializeEMFObjectUtil.saveModel(scase.getResult()));
 	}
 	
@@ -79,8 +88,9 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 		
 		studyCase.setAclfConverged(resultTable.getAclfConvergeStatus());
 		
+		//System.out.println(resultTable.getAclfResult());
 		StudyCaseResult result = (StudyCaseResult)SerializeEMFObjectUtil.loadModel(resultTable.getAclfResult()); 
-		((ContingencyAnalysis)studyCase).updateResult(result);
+		((ContingencyAnalysis)mCaseContainer).updateResult(result);
 	}
 	
 	/**
@@ -91,6 +101,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	 */
 	public StringBuffer toString(MultiStudyCase mCaseContainer) {
 		StringBuffer buf = new StringBuffer();
+		buf.append(((ContingencyAnalysis)mCaseContainer).toString());
     	return buf;
 	}
 }
