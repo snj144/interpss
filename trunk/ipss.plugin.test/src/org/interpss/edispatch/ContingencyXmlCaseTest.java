@@ -30,7 +30,9 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	public void simpleCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
-  		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, simuCtx.getAclfAdjNet());
+
+	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
 
 		File xmlFile = new File("testData/xml/contingency/simpleTest.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
@@ -38,7 +40,6 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
   		
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS);
   		
-	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, simuCtx.getAclfAdjNet());
 	  	int cnt = 0;
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
@@ -50,6 +51,11 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+	  		scase.getResult().transferAclfResult(net);
+	  		
+	  		mscase.updateResult(scase.getResult());
 	  	}
+
+	  	System.out.println(mscase.toString());
 	}
 }
