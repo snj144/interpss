@@ -72,6 +72,6 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
   		assertTrue(rbra != null);
 	  	assertTrue(Math.abs(rbra.getMvaFlow()-75.91) < 0.01);
 	  	
-		//System.out.println(mscase.toString());
+		System.out.println(mscase.toString());
 	}
 }
