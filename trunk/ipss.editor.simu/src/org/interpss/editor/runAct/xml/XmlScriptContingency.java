@@ -1,5 +1,5 @@
 /*
- * @(#)XmlScriptAclfRun.java   
+ * @(#)XmlScriptContingency.java   
  *
  * Copyright (C) 2008 www.interpss.org
  *
@@ -48,7 +48,7 @@ import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
-import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class XmlScriptContingency {
 	public static long GridgainTimeout = 0; 
@@ -56,7 +56,7 @@ public class XmlScriptContingency {
 	/**
 	 * Run Aclf run or run(s) defined in the Xml scripts
 	 * 
-	 * @param parser The InterPSS xml parser object
+	 * @param ipssXmlDoc The InterPSS xml doc object
 	 * @param aclfNet
 	 * @param msg
 	 * @return
@@ -83,7 +83,7 @@ public class XmlScriptContingency {
 				return false;
 
 			try {
-				StudyCase studyCase = SimuObjectFactory.createStudyCase(xmlCase.getRecId(), 
+				AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase(xmlCase.getRecId(), 
 										xmlCase.getRecName(), ++cnt, mCaseContainer);
 				studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 				if (xmlCase.getModification() != null)
@@ -91,15 +91,10 @@ public class XmlScriptContingency {
 					studyCase.setModifyModelString(xmlCase.getModification().xmlText());
 				studyCase.setId(xmlCase.getRecId());
 				studyCase.setName(xmlCase.getRecDesc());
-			} catch (Exception e) {
-				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
-				return false;
-			}
 
-			Grid grid = IpssGridGainUtil.getDefaultGrid();
-			IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
+				Grid grid = IpssGridGainUtil.getDefaultGrid();
+				IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 					
-			try {
 				RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
 										"InterPSS Grid Aclf Calculation", mCaseContainer, 
 										GridgainTimeout, true);
@@ -109,6 +104,9 @@ public class XmlScriptContingency {
 				}
 			} catch (GridException e) {
 				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
+				return false;
+			} catch (Exception e) {
+				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Study Case Creation Error", e.toString());
 				return false;
 			}
 		}

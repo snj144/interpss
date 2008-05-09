@@ -55,9 +55,9 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.AclfMultiStudyCase;
 import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
-import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class XmlScriptAclfRun {
 	public static double DefaultUpperVoltageLimit = 1.2, DefaultLowerVoltageLimit = 0.8; 
@@ -114,7 +114,7 @@ public class XmlScriptAclfRun {
 						return false;
 
 					try {
-						StudyCase studyCase = SimuObjectFactory.createStudyCase(xmlCase.getRecId(), 
+						AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase(xmlCase.getRecId(), 
 										xmlCase.getRecName(), ++cnt, mCaseContainer);
 						if (gridRun) {
 							// if Grid computing, save the Algo object to the study case object

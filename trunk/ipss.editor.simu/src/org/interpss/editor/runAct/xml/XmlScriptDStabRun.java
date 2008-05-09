@@ -57,7 +57,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.MultiStudyCase;
-import com.interpss.simu.multicase.StudyCase;
+import com.interpss.simu.multicase.dstab.DStabStudyCase;
 
 public class XmlScriptDStabRun {
 	/**
@@ -205,8 +205,7 @@ public class XmlScriptDStabRun {
 					// the same for Grid computing.
 					net.setId(dstabRec.getRecId());
 					try {
-						StudyCase studyCase = SimuObjectFactory
-								.createStudyCase(dstabRec.getRecId(),
+						DStabStudyCase studyCase = SimuObjectFactory.createDStabStudyCase(dstabRec.getRecId(),
 										dstabRec.getRecName(), ++cnt,
 										mCaseContainer);
 						if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
