@@ -41,8 +41,16 @@ import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.simu.multicase.result.MCaseResultPackage;
 
 public class RemoteResultHandler implements IRemoteResult {
+    private static MCaseResultPackage mCaseResultPackage = null;
+
+    public RemoteResultHandler() {
+    	if (mCaseResultPackage == null)
+    		mCaseResultPackage = MCaseResultPackage.eINSTANCE;
+    }
+    
 	/**
 	 * Save remote simulation results into the result table, which will be sent from
 	 * a remote node to the master node

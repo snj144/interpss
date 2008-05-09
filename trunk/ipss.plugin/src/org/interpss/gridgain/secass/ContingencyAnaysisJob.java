@@ -96,8 +96,8 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 
 		// persist loadflow results and send back to the master node
 		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
-		String caseId = remoteMsg.getStudyCaseId();
-		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), algo, getSession());
+		resultHandler.saveAclfResult(getRemoteResult(), remoteMsg.getStudyCaseId(), 
+							getGrid().getLocalNode().getId().toString(), algo, getSession());
 		return getRemoteResult();
 	}
 	
