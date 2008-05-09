@@ -24,6 +24,8 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.simu.multicase.result.AclfBranchResultRec;
+import com.interpss.simu.multicase.result.AclfBusResultRec;
 
 public class ContingencyXmlCaseTest extends BaseTestSetup {
 	@Test
@@ -56,6 +58,20 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  		mscase.updateResult(scase.getResult());
 	  	}
 
-	  	System.out.println(mscase.toString());
+		AclfBusResultRec rbus = mscase.getBusResult().get("0001");
+  		assertTrue(rbus != null);
+	  	assertTrue(Math.abs(rbus.getHighVoltMagPU()-1.0600) < 0.001);
+	  	assertTrue(Math.abs(rbus.getLowVoltMagPU()-1.0600) < 0.001);
+		
+		rbus = mscase.getBusResult().get("0014");
+  		assertTrue(rbus != null);
+	  	assertTrue(Math.abs(rbus.getHighVoltMagPU()-1.0426) < 0.001);
+	  	assertTrue(Math.abs(rbus.getLowVoltMagPU()-1.0340) < 0.001);
+
+	  	AclfBranchResultRec rbra = mscase.getBranchResult().get("0002->0003(1)");
+  		assertTrue(rbra != null);
+	  	assertTrue(Math.abs(rbra.getMvaFlow()-75.91) < 0.01);
+	  	
+		//System.out.println(mscase.toString());
 	}
 }
