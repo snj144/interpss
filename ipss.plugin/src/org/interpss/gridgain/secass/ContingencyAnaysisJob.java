@@ -40,7 +40,6 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -65,15 +64,13 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 	 * @param modelStr serialized AclfNet object
 	 */
 	protected Serializable performGridJob(RemoteMessageTable remoteMsg) {
-		Object model = SerializeEMFObjectUtil.loadModel(getSesStringAttrib(Constants.GridToken_BaseStudyCaseNetworkModel));
-		
-		AclfNetwork net = null;
-		if (model instanceof AclfNetwork)
-			net = (AclfNetwork) model;
-		else if (model instanceof AclfAdjNetwork)
-			net = (AclfAdjNetwork) model;
+		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(
+				getSesStringAttrib(Constants.GridToken_BaseStudyCaseNetworkModel));;
+		// get serialized algo string from the task session
+		LoadflowAlgorithm algo = (LoadflowAlgorithm) SerializeEMFObjectUtil.loadModel(
+								remoteMsg.getAclfAlgorithm());
+		algo.setAclfAdjNetwork(net);
 
-		String caseId = remoteMsg.getStudyCaseId();
 		if (remoteMsg.getStudyCaseModification() != null) {
 			try {
 				//IpssLogger.getLogger().info("Study Case Modification: " + remoteMsg.getStudyCaseModification());
@@ -81,27 +78,9 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 				mapper.mapping(mod, net, ModificationXmlType.class);
 			} catch (Exception e) {
-				IpssLogger.logErr(e);
-				//e.printStackTrace();
+				getRemoteResult().put(RemoteMessageTable.KEY_bOut_ReturnStatus, Boolean.FALSE);
+				getRemoteResult().addReturnMessage(e.toString());
 			}
-		}
-
-		// get serialized algo string from the task session
-		String algoStr = remoteMsg.getAclfAlgorithm();
-		//System.out.println(algoStr);
-		LoadflowAlgorithm algo;
-		if (algoStr != null) {
-			// set algo attributes. These attributes are not serialized
-			algo = (LoadflowAlgorithm) SerializeEMFObjectUtil.loadModel(algoStr);
-			if (net instanceof AclfAdjNetwork) {
-				//algo.setAdjAlgorithm(AlgorithmFactory.eINSTANCE.createAclfAdjustAlgorithm());
-				algo.setAclfAdjNetwork((AclfAdjNetwork) net);
-			} else {
-				algo.setAclfNetwork(net);
-			}
-		} else {
-			// this is more for testing purpose
-			algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		}
 
 		if (getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug))
@@ -114,8 +93,10 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 			getRemoteResult().put(RemoteMessageTable.KEY_bOut_ReturnStatus, Boolean.FALSE);
 			getRemoteResult().addReturnMessage(e.toString());
 		}
- 
+
+		// persist loadflow results and send back to the master node
 		IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
+		String caseId = remoteMsg.getStudyCaseId();
 		resultHandler.saveAclfResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), algo, getSession());
 		return getRemoteResult();
 	}

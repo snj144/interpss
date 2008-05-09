@@ -28,20 +28,15 @@ import org.gridgain.grid.GridTaskSession;
 import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
-import com.interpss.common.datatype.UnitType;
-import com.interpss.core.aclf.AclfBranch;
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.common.util.SerializeEMFObjectUtil;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.net.Branch;
-import com.interpss.core.net.Bus;
 import com.interpss.ext.gridgain.RemoteMessageTable;
+import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
-import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
-import com.interpss.simu.multicase.result.AclfBranchResultRec;
-import com.interpss.simu.multicase.result.AclfBusResultRec;
+import com.interpss.simu.multicase.result.StudyCaseResult;
 
 public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	/**
@@ -55,13 +50,17 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	 * @param session
 	 */
 	public void saveAclfResult(RemoteMessageTable resultTable, String caseId, String remoteId, LoadflowAlgorithm algo, GridTaskSession session) {
-		AclfNetwork net = algo.getAclfNetwork();
+		AclfAdjNetwork net = algo.getAclfAdjNetwork();
 		net.setDesc(remoteId);
 
 		resultTable.put(RemoteMessageTable.KEY_sInOut_RemoteNodeId, remoteId);
 		resultTable.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, caseId);
 		
 		resultTable.put(RemoteMessageTable.KEY_bOut_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
+		
+  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase();
+  		scase.getResult().transferAclfResult(net);		
+		resultTable.put(RemoteMessageTable.KEY_sOut_AclfResult, SerializeEMFObjectUtil.saveModel(scase.getResult()));
 	}
 	
 	/**
@@ -79,6 +78,9 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 		studyCase.setRemoteReturnMessage(resultTable.getReturnMessage());
 		
 		studyCase.setAclfConverged(resultTable.getAclfConvergeStatus());
+		
+		StudyCaseResult result = (StudyCaseResult)SerializeEMFObjectUtil.loadModel(resultTable.getAclfResult()); 
+		((ContingencyAnalysis)studyCase).updateResult(result);
 	}
 	
 	/**
@@ -89,43 +91,6 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	 */
 	public StringBuffer toString(MultiStudyCase mCaseContainer) {
 		StringBuffer buf = new StringBuffer();
-    	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
-    		AclfStudyCase aclfCase = (AclfStudyCase)scase;
-    		buf.append("\n");
-    		buf.append(scase.getDesc() + "\n");
-    		if (scase.getName() != null)
-    			buf.append("Case Description: " + scase.getName() + "\n");
-
-    		if (scase.getRemoteReturnMessage() != null) 
-    			if (scase.isRemoteReturnStatus())
-    				buf.append(scase.getRemoteReturnMessage() + "\n");
-    			else 
-    				buf.append("Remote error message: " + scase.getRemoteReturnMessage() + "\n");
-
-			buf.append("Loadflow converged: " + aclfCase.isAclfConverged());
-    		
-    		buf.append("\n");
-    	}	
     	return buf;
-	}
-	
-	public static void updateResult(AclfNetwork net, ContingencyAnalysis caCase) {
-		for (Bus bus : net.getBusList()) {
-			AclfBus aclfBus = (AclfBus) bus;
-			AclfBusResultRec rec = caCase.getBusResult().get(bus.getId());
-			if (aclfBus.getVoltageMag() > rec.getHighVoltMagPU())
-				rec.setHighVoltMagPU(aclfBus.getVoltageMag());
-			else if (aclfBus.getVoltageMag() < rec.getLowVoltMagPU())
-				rec.setLowVoltMagPU(aclfBus.getVoltageMag());
-		}
-		
-		for (Branch bra : net.getBranchList()) {
-			AclfBranch aclfBra = (AclfBranch) bra;
-			AclfBranchResultRec rec = caCase.getBranchResult().get(bra.getId());
-			double mva = aclfBra.mvaFlow(UnitType.mVA, net.getBaseKva());
-			if (mva > rec.getMvaFlow()) {
-				rec.setMvaFlow(mva);
-			}
-		}
 	}
 }
