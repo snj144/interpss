@@ -112,7 +112,7 @@ public class XmlScriptContingency {
 		}
 			
 		// display the simulation results
-		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Contingency Analysis");
 		dialog.display(mCaseContainer);
 		return true;
 	}
