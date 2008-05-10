@@ -55,7 +55,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.getResult().transferAclfResult(net);
 	  		
-	  		mscase.updateResult(scase.getResult());
+	  		mscase.updateResult("Description", scase.getResult());
 	  	}
 
 		AclfBusResultRec rbus = mscase.getBusResult().get("0001");
