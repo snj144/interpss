@@ -90,7 +90,10 @@ public class XmlScriptContingency {
 					// persist modification to be sent to the remote grid node
 					studyCase.setModifyModelString(xmlCase.getModification().xmlText());
 				studyCase.setId(xmlCase.getRecId());
-				studyCase.setName(xmlCase.getRecDesc());
+				if (xmlCase.getRecName() != null)
+					studyCase.setName(xmlCase.getRecName());
+				else if (xmlCase.getRecDesc() != null)
+					studyCase.setName(xmlCase.getRecDesc());
 
 				Grid grid = IpssGridGainUtil.getDefaultGrid();
 				IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
@@ -100,7 +103,7 @@ public class XmlScriptContingency {
 										GridgainTimeout, true);
 				for (RemoteMessageTable result : objAry) {
 					IRemoteResult resultHandler = RemoteResultFactory.createHandler(ContingencyAnaysisJob.class);
-					resultHandler.transferAclfResult(mCaseContainer, result);
+					resultHandler.transferRemoteResult(mCaseContainer, result);
 				}
 			} catch (GridException e) {
 				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());

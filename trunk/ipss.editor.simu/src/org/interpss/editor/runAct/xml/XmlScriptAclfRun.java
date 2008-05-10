@@ -164,7 +164,7 @@ public class XmlScriptAclfRun {
 										timeout,	reJobCreation);
 						for (RemoteMessageTable result : objAry) {
 							IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
-							resultHandler.transferAclfResult(mCaseContainer, result);
+							resultHandler.transferRemoteResult(mCaseContainer, result);
 						}
 					} catch (GridException e) {
 						SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
