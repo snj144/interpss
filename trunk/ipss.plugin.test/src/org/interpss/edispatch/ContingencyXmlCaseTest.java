@@ -5,6 +5,9 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.gridgain.result.IRemoteResult;
+import org.interpss.gridgain.result.RemoteResultFactory;
+import org.interpss.gridgain.secass.ContingencyAnaysisJob;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
@@ -52,7 +55,8 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 		  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  		
-	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+	  		AclfStudyCase scase = SimuObjectFactory
+	  				.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
 	  		scase.getResult().transferAclfResult(net);
 	  		
 	  		mscase.updateResult("Description", scase.getResult());
@@ -72,6 +76,10 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
   		assertTrue(rbra != null);
 	  	assertTrue(Math.abs(rbra.getMvaFlow()-75.91) < 0.01);
 	  	
-		System.out.println(mscase.toString());
+		IRemoteResult resultHandler = RemoteResultFactory
+				.createHandler(ContingencyAnaysisJob.class);
+		System.out.println(resultHandler
+				.toString(IRemoteResult.DisplayType_SecAssessment, mscase)
+				.toString());
 	}
 }
