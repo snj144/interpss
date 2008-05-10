@@ -61,7 +61,7 @@ public class RemoteResultHandler implements IRemoteResult {
 	 * @param net AclfNetwork object after completing a Loadflow run 
 	 * @param session
 	 */
-	public void saveAclfResult(RemoteMessageTable resultTable, String caseId, String remoteId, LoadflowAlgorithm algo, GridTaskSession session) {
+	public void saveRemoteResult(RemoteMessageTable resultTable, String caseId, String remoteId, LoadflowAlgorithm algo, GridTaskSession session) {
 		AclfNetwork net = algo.getAclfNetwork();
 		net.setDesc(remoteId);
 
@@ -105,7 +105,7 @@ public class RemoteResultHandler implements IRemoteResult {
 	 * @param mCaseContainer
 	 * @param resultTable
 	 */
-	public void transferAclfResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable) {
+	public void transferRemoteResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable) {
 		// deserialize the AclfNet model string for Net.id
 		AclfStudyCase studyCase = (AclfStudyCase)mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
 		studyCase.setDesc("Loadflow by Remote Node: " + IpssGridGainUtil.nodeNameLookup(resultTable.getRemoteNodeId()));

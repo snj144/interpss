@@ -37,7 +37,7 @@ public interface IRemoteResult {
 	 * @param resultTable
 	 * @param net
 	 */
-	public void saveAclfResult(RemoteMessageTable resultTable, String caseId, String remoteId, LoadflowAlgorithm algo, GridTaskSession session);
+	public void saveRemoteResult(RemoteMessageTable resultTable, String caseId, String remoteId, LoadflowAlgorithm algo, GridTaskSession session);
 	
 	/**
 	 * Transfer the results save to the resultTable to the multi study case container
@@ -45,7 +45,7 @@ public interface IRemoteResult {
 	 * @param mCaseContainer
 	 * @param resultTable
 	 */
-	public void transferAclfResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable);
+	public void transferRemoteResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable);
 	
 	/**
 	 * Convert the contect of the multicase container to a String for display purpose. 
