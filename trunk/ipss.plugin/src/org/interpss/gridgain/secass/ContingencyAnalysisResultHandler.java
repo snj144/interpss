@@ -57,7 +57,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	 * @param net AclfNetwork object after completing a Loadflow run 
 	 * @param session
 	 */
-	public void saveAclfResult(RemoteMessageTable resultTable, String caseId, String remoteId, LoadflowAlgorithm algo, GridTaskSession session) {
+	public void saveRemoteResult(RemoteMessageTable resultTable, String caseId, String remoteId, LoadflowAlgorithm algo, GridTaskSession session) {
 		AclfAdjNetwork net = algo.getAclfAdjNetwork();
 		net.setDesc(remoteId);
 
@@ -78,7 +78,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	 * @param mCaseContainer
 	 * @param resultTable
 	 */
-	public void transferAclfResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable) {
+	public void transferRemoteResult(MultiStudyCase mCaseContainer, RemoteMessageTable resultTable) {
 		// deserialize the AclfNet model string for Net.id
 		AclfStudyCase studyCase = (AclfStudyCase)mCaseContainer.getStudyCase(resultTable.getStudyCaseId());
 		studyCase.setDesc("Loadflow by Remote Node: " + IpssGridGainUtil.nodeNameLookup(resultTable.getRemoteNodeId()));
@@ -90,7 +90,7 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 		
 		//System.out.println(resultTable.getAclfResult());
 		StudyCaseResult result = (StudyCaseResult)SerializeEMFObjectUtil.loadModel(resultTable.getAclfResult()); 
-		((ContingencyAnalysis)mCaseContainer).updateResult(result);
+		((ContingencyAnalysis)mCaseContainer).updateResult(studyCase.getName(), result);
 	}
 	
 	/**
