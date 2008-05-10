@@ -45,7 +45,7 @@ import com.interpss.simu.multicase.result.MCaseResultPackage;
 
 public class RemoteResultHandler implements IRemoteResult {
     private static MCaseResultPackage mCaseResultPackage = null;
-
+ 
     public RemoteResultHandler() {
     	if (mCaseResultPackage == null)
     		mCaseResultPackage = MCaseResultPackage.eINSTANCE;
@@ -123,7 +123,7 @@ public class RemoteResultHandler implements IRemoteResult {
 	 * @param mCaseContainer
 	 * @return
 	 */
-	public StringBuffer toString(MultiStudyCase mCaseContainer) {
+	public StringBuffer toString(byte type, MultiStudyCase mCaseContainer) {
 		StringBuffer buf = new StringBuffer();
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
     		AclfStudyCase aclfCase = (AclfStudyCase)scase;
