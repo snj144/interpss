@@ -129,7 +129,7 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         	textArea.setText("");
     		IRemoteResult resultHandler = RemoteResultFactory.createHandler(
     				data instanceof ContingencyAnalysis? ContingencyAnaysisJob.class : IpssGridGainAclfJob.class);
-    		textArea.append(resultHandler.toString((MultiStudyCase)data).toString());
+    		textArea.append(resultHandler.toString(IRemoteResult.DisplayType_NoUsed, (MultiStudyCase)data).toString());
             busStyleRadioButton.setEnabled(false);
             summaryRadioButton.setEnabled(false);
         }

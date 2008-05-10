@@ -31,6 +31,11 @@ import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 public interface IRemoteResult {
+	public static final byte DisplayType_NoUsed = 0;
+	
+	public static final byte DisplayType_SecAssessment = 1;
+	public static final byte DisplayType_SecViolation = 2;
+	
 	/**
 	 * Save remote simulation results into the result table
 	 * 
@@ -53,5 +58,5 @@ public interface IRemoteResult {
 	 * @param mCaseContainer
 	 * @return
 	 */
-	public StringBuffer toString(MultiStudyCase mCaseContainer);	
+	public StringBuffer toString(byte type, MultiStudyCase mCaseContainer);	
 }
