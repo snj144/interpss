@@ -5,6 +5,12 @@
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>ContingencyAnalysis</ipss:analysisRunType>
 		<ipss:contingencyAnalysis>
+		<ipss:option>
+			<ipss:busVLimitPU>
+				<ipss:max>1.07</ipss:max>
+				<ipss:min>0.9</ipss:min>
+			</ipss:busVLimitPU>
+		</ipss:option>
 		<ipss:defaultAclfAlgorithm>
 				<ipss:lfMethod>NR</ipss:lfMethod>
 				<ipss:maxIterations>20</ipss:maxIterations>

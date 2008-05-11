@@ -75,11 +75,16 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	AclfBranchResultRec rbra = mscase.getBranchResult().get("0002->0003(1)");
   		assertTrue(rbra != null);
 	  	assertTrue(Math.abs(rbra.getMvaFlow()-75.91) < 0.01);
-	  	
+/*	  	
 		IRemoteResult resultHandler = RemoteResultFactory
 				.createHandler(ContingencyAnaysisJob.class);
 		System.out.println(resultHandler
 				.toString(IRemoteResult.DisplayType_SecAssessment, mscase)
 				.toString());
+
+		System.out.println(resultHandler
+				.toString(IRemoteResult.DisplayType_SecViolation, mscase)
+				.toString());
+*/				
 	}
 }
