@@ -51,7 +51,7 @@ public class XmlNetParamModifier {
 	private static enum ComplexValueType {
 		Power, Z
 	};
-
+ 
 	private static enum ValueType {
 		Voltage
 	};
