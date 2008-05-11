@@ -24,7 +24,9 @@
 
 package org.interpss.gridgain.secass;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import org.gridgain.grid.GridTaskSession;
 import org.interpss.gridgain.result.IRemoteResult;
@@ -103,40 +105,102 @@ public class ContingencyAnalysisResultHandler implements IRemoteResult {
 	 * @param mCaseContainer
 	 * @return
 	 */
+
+
+	
 	public StringBuffer toString(byte type, MultiStudyCase mCaseContainer) {
 		StringBuffer buf = new StringBuffer();
 		
 		ContingencyAnalysis mcase = (ContingencyAnalysis)mCaseContainer;
 		if (type == IRemoteResult.DisplayType_SecViolation) {
+			List<Record> elemList = new ArrayList<Record>();
+			Enumeration<String> keys = mcase.getBranchResult().keys();
+			while (keys.hasMoreElements()) {
+				String key = keys.nextElement();
+				AclfBranchResultRec r = mcase.getBranchResult().get(key);
+				if (r.getRating().getThermalMvaRating() > 0.0 && r.getMvaFlow()>r.getRating().getThermalMvaRating()) {
+					double percent = (r.getMvaFlow()-r.getRating().getThermalMvaRating()) / r.getRating().getThermalMvaRating();
+					elemList.add(new Record(key, percent*100, r));
+				}	
+			}
 			
+			boolean done = false;
+			while (!done) {
+				done = true;
+				for (int i = 0; i < elemList.size()-1; i++) {
+					if (elemList.get(i).violatePer < elemList.get(i+1).violatePer) {
+						Record temp = elemList.get(i);
+						elemList.set(i, elemList.get(i+1));
+						elemList.set(i+1, temp);
+						done = false;
+					}
+				}
+			}
+
+			buf.append("\n");
+			buf.append("                    Branch MVA Rating Violation Report\n");
+			buf.append("\n");
+
+			buf.append("       Branch Id     MvaFlow   MvaRating   Violation    Description\n");
+			buf.append("  ===========================================================================\n");
+			for (Record rec : elemList) {
+				String str = String.format("%3.0f%s", rec.violatePer, "%");
+				buf.append(String.format("  %16s  %8.1f  %8.1f       %s      %s%n", 
+							rec.key, rec.value.getMvaFlow(), rec.value.getRating().getThermalMvaRating(), 
+							str, rec.value.getDesc()));
+			}
 		}
 		else {
-			buf.append("    Bus Id       HighVolt   LowVolt\n");
-			buf.append("======================================\n");
+			buf.append("\n");
+			buf.append("                     Security Margin Report\n");
+			buf.append("\n");
+
+			double max = mcase.getBusVoltageUpperLimitPU(), 
+			       min = mcase.getBusVoltageLowerLimitPU();
+			buf.append("\n");
+			buf.append(String.format("   Bus Voltage Limit: [%4.2f, %4.2f]\n", max, min));
+			buf.append("\n");
+
+			buf.append("    Bus Id       HighVolt UpperMargin   LowVolt LowMargin    Description\n");
+			buf.append("===========================================================================\n");
 			Enumeration<String> keys = mcase.getBusResult().keys();
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement();
 				AclfBusResultRec r = mcase.getBusResult().get(key);
-				buf.append(String.format("  %10s    %8.4f   %8.4f%n", key, r.getHighVoltMagPU(), r.getLowVoltMagPU()));
+				buf.append(String.format("  %10s    %8.4f    %4.1f%s     %8.4f    %4.1f%s     %s%n", key, 
+						r.getHighVoltMagPU(), (max-r.getHighVoltMagPU())*100.0, "%",
+						r.getLowVoltMagPU(), (r.getLowVoltMagPU()-min)*100.0, "%", r.getDesc()));
 			}
 			buf.append("\n");
 			
-			buf.append("       Branch Id     MvaFlow   MvaRating       P + jQ      Violation    Description\n");
-			buf.append("=======================================================================================\n");
+			buf.append("       Branch Id     MvaFlow   MvaRating       P + jQ       Margin      Description\n");
+			buf.append("  ===========================================================================================\n");
 			keys = mcase.getBranchResult().keys();
 			while (keys.hasMoreElements()) {
 				String key = keys.nextElement();
 				AclfBranchResultRec r = mcase.getBranchResult().get(key);
 				String str = "    ";
-				if (r.getRating().getThermalMvaRating() > 0.0 && r.getMvaFlow()>r.getRating().getThermalMvaRating()) {
-					double percent = (r.getMvaFlow()-r.getRating().getThermalMvaRating()) / r.getRating().getThermalMvaRating();
-					str = String.format("%3.0f%s", percent*100.0, "%");
+				if (r.getRating().getThermalMvaRating() > 0.0) {
+					double margin = (r.getRating().getThermalMvaRating()-r.getMvaFlow()) / r.getRating().getThermalMvaRating();
+					str = String.format("%3.0f%s", margin*100.0, "%");
 				}	
-				buf.append(String.format("  %16s  %8.1f  %8.1f   %7.1f%s%7.1f     %s      %s%n", 
+				buf.append(String.format("  %16s  %8.1f  %8.1f    (%6.1f%s%6.1f)   %s      %s%n", 
 						key, r.getMvaFlow(), r.getRating().getThermalMvaRating(), r.getPFlow(), "+j", r.getQFlow(), str, r.getDesc()));
 			}
 		}
 		
 		return buf;
 	}
+	
+	private static class Record {
+		public String key = "";
+		public double violatePer = 0.0;
+		public AclfBranchResultRec value = null;
+		
+		public Record(String key, double per, AclfBranchResultRec value) {
+			this.key = key;
+			this.violatePer = per;
+			this.value = value;
+		}
+	}	
 }
