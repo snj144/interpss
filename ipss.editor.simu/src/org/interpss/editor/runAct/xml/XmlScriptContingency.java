@@ -70,6 +70,12 @@ public class XmlScriptContingency {
 		}
 		
 		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, aclfNet);
+		if (xmlRunCase.getOption() != null) {
+			if (xmlRunCase.getOption().getBusVLimitPU() != null) {
+				mCaseContainer.setBusVoltageUpperLimitPU(xmlRunCase.getOption().getBusVLimitPU().getMax());
+				mCaseContainer.setBusVoltageLowerLimitPU(xmlRunCase.getOption().getBusVLimitPU().getMin());
+			}
+		}
 		// save the base case Network model to the netStr
 		mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
 
