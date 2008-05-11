@@ -575,8 +575,7 @@
 						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
-			</ns:element>
-			<ns:element name="cAnalysisOpt" minOccurs="0"><ns:complexType></ns:complexType></ns:element>
+			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
@@ -596,7 +595,15 @@
 
 	<ns:complexType name="ContingencyAnalysisXmlType">
 		<ns:sequence>
-			<ns:element name="defaultAclfAlgorithm"
+            <ns:element name="option" minOccurs="0">
+            	<ns:complexType>
+            		<ns:sequence>
+            			<ns:element name="busVLimitPU"
+            				type="ipss:LimitXmlType" minOccurs="0">
+            			</ns:element>
+            		</ns:sequence>
+            	</ns:complexType></ns:element>
+            <ns:element name="defaultAclfAlgorithm"
 				type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
 			</ns:element>
 			<ns:element name="aclfStudyCaseList" minOccurs="1"
@@ -608,7 +615,7 @@
 						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
-			</ns:element>
+			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 </ns:schema>
