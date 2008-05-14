@@ -9,6 +9,7 @@
 			<ipss:remoteJobCreation>false</ipss:remoteJobCreation>
 			<ipss:timeout>0</ipss:timeout>
 		</ipss:gridRun>
+ 		<ipss:customRun>
 		<ipss:runAclfStudyCase>
 			<ipss:defaultAclfAlgorithm>
 				<ipss:lfMethod>NR</ipss:lfMethod>
@@ -255,5 +256,6 @@
 			</ipss:aclfStudyCase>
 		</ipss:aclfStudyCaseList>
 		</ipss:runAclfStudyCase>
+ 		</ipss:customRun>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

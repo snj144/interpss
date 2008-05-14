@@ -4,6 +4,7 @@
           xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAcsc</ipss:analysisRunType>
+		<ipss:customRun>
 		<ipss:runAcscStudyCase>
 		<ipss:acscStudyCaseList>
 			<ipss:acscStudyCaseRec>
@@ -29,5 +30,6 @@
 			</ipss:acscStudyCaseRec>
 		</ipss:acscStudyCaseList>
 		</ipss:runAcscStudyCase>
+		</ipss:customRun>
 	</ipss:runStudyCase>
 </ipss:InterPSS>
