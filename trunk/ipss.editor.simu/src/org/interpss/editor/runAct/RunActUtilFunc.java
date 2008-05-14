@@ -199,7 +199,7 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(
-			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec dstabRec) 
+			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.CustomRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec dstabRec) 
 				throws Exception {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler) algo
 				.getSimuOutputHandler();
