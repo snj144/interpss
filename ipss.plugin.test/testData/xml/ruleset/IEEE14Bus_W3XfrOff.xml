@@ -17,6 +17,7 @@
 				</ipss:busVoltagePULimit>
 			</ipss:aclfOption>
 		</ipss:gridRun>
+ 		<ipss:customRun>
 		<ipss:runAclfStudyCase>
 		   <ipss:defaultAclfAlgorithm>
 			   <ipss:lfMethod>NR</ipss:lfMethod>
@@ -28,7 +29,55 @@
 			   <ipss:accFactor>0.0</ipss:accFactor>
 		   </ipss:defaultAclfAlgorithm>		
 		   
-			<ipss:aclfRuleBase>
+		   <ipss:aclfStudyCaseList>
+			 <ipss:aclfStudyCase>
+				<ipss:recId>breakline_2</ipss:recId>
+				<ipss:recDesc>Open branch 3W Xfr</ipss:recDesc>
+				<ipss:modification>
+              		<ipss:busChangeRecList>
+                		<ipss:busChangeRec>
+		                  <ipss:recId>Turnoff_0007</ipss:recId>
+        		          <ipss:busId>0007</ipss:busId>
+                		  <ipss:offLine>true</ipss:offLine>
+		                </ipss:busChangeRec>
+                		<ipss:busChangeRec>
+		                  <ipss:recId>Turnoff_0008</ipss:recId>
+        		          <ipss:busId>0008</ipss:busId>
+                		  <ipss:offLine>true</ipss:offLine>
+		                </ipss:busChangeRec>
+              		</ipss:busChangeRecList>					
+					<ipss:branchChangeRecList>
+						<ipss:branchChangeRec>
+							<ipss:recId>OffLine_0004_0007</ipss:recId>
+							<ipss:fromBusId>0004</ipss:fromBusId>
+							<ipss:toBusId>0007</ipss:toBusId>
+							<ipss:offLine>true</ipss:offLine>
+						</ipss:branchChangeRec>
+						<ipss:branchChangeRec>
+							<ipss:recId>OffLine_0004_0009</ipss:recId>
+							<ipss:fromBusId>0004</ipss:fromBusId>
+							<ipss:toBusId>0009</ipss:toBusId>
+							<ipss:offLine>true</ipss:offLine>
+						</ipss:branchChangeRec>
+						<ipss:branchChangeRec>
+							<ipss:recId>OffLine_0007_0009</ipss:recId>
+							<ipss:fromBusId>0007</ipss:fromBusId>
+							<ipss:toBusId>0009</ipss:toBusId>
+							<ipss:offLine>true</ipss:offLine>
+						</ipss:branchChangeRec>
+						<ipss:branchChangeRec>
+							<ipss:recId>OffLine_0007_0008</ipss:recId>
+							<ipss:fromBusId>0007</ipss:fromBusId>
+							<ipss:toBusId>0008</ipss:toBusId>
+							<ipss:offLine>true</ipss:offLine>
+						</ipss:branchChangeRec>
+					</ipss:branchChangeRecList>
+				</ipss:modification>
+			</ipss:aclfStudyCase>
+		   </ipss:aclfStudyCaseList>
+		</ipss:runAclfStudyCase>
+ 		</ipss:customRun>
+			<ipss:ruleBase>
 				<ipss:preventiveRuleSetList>
 				  <ipss:preventiveRuleSet>
 					<ipss:recId>protectRuleSet1</ipss:recId>
@@ -77,55 +126,7 @@
 				  </ipss:preventiveRuleSet>
 
 				</ipss:preventiveRuleSetList>
-			</ipss:aclfRuleBase>
+			</ipss:ruleBase>
 		   
-		   <ipss:aclfStudyCaseList>
-			 <ipss:aclfStudyCase>
-				<ipss:recId>breakline_2</ipss:recId>
-				<ipss:recDesc>Open branch 3W Xfr</ipss:recDesc>
-				<ipss:modification>
-              		<ipss:busChangeRecList>
-                		<ipss:busChangeRec>
-		                  <ipss:recId>Turnoff_0007</ipss:recId>
-        		          <ipss:busId>0007</ipss:busId>
-                		  <ipss:offLine>true</ipss:offLine>
-		                </ipss:busChangeRec>
-                		<ipss:busChangeRec>
-		                  <ipss:recId>Turnoff_0008</ipss:recId>
-        		          <ipss:busId>0008</ipss:busId>
-                		  <ipss:offLine>true</ipss:offLine>
-		                </ipss:busChangeRec>
-              		</ipss:busChangeRecList>					
-					<ipss:branchChangeRecList>
-						<ipss:branchChangeRec>
-							<ipss:recId>OffLine_0004_0007</ipss:recId>
-							<ipss:fromBusId>0004</ipss:fromBusId>
-							<ipss:toBusId>0007</ipss:toBusId>
-							<ipss:offLine>true</ipss:offLine>
-						</ipss:branchChangeRec>
-						<ipss:branchChangeRec>
-							<ipss:recId>OffLine_0004_0009</ipss:recId>
-							<ipss:fromBusId>0004</ipss:fromBusId>
-							<ipss:toBusId>0009</ipss:toBusId>
-							<ipss:offLine>true</ipss:offLine>
-						</ipss:branchChangeRec>
-						<ipss:branchChangeRec>
-							<ipss:recId>OffLine_0007_0009</ipss:recId>
-							<ipss:fromBusId>0007</ipss:fromBusId>
-							<ipss:toBusId>0009</ipss:toBusId>
-							<ipss:offLine>true</ipss:offLine>
-						</ipss:branchChangeRec>
-						<ipss:branchChangeRec>
-							<ipss:recId>OffLine_0007_0008</ipss:recId>
-							<ipss:fromBusId>0007</ipss:fromBusId>
-							<ipss:toBusId>0008</ipss:toBusId>
-							<ipss:offLine>true</ipss:offLine>
-						</ipss:branchChangeRec>
-					</ipss:branchChangeRecList>
-				</ipss:modification>
-			</ipss:aclfStudyCase>
-			
-		   </ipss:aclfStudyCaseList>
-		</ipss:runAclfStudyCase>
 	</ipss:runStudyCase>
 </ipss:InterPSS>
