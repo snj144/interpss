@@ -48,14 +48,14 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 		  	
 		  	mapper = new RunForm2AlgorithmMapper();
-		  	mapper.mapping( parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm(), 
+		  	mapper.mapping( parser.getRunAclfStudyCase().getDefaultAclfAlgorithm(), 
 	  							algo, AclfAlgorithmXmlType.class);
 	  	
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
@@ -82,14 +82,14 @@ OPEN LINE FROM BUS 152 TO BUS 202 CIRCUIT 1
 END
 END
  */
-		assertTrue(ipssDoc.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray().length == 4);
+		assertTrue(ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray().length == 4);
 		
-		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getFromBusId().equals("3004"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getToBusId().equals("152"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getCircuitNumber().equals("1"));
 
-		scase = ipssDoc.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[2];
+		scase = ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[2];
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getFromBusId().equals("3004"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getToBusId().equals("152"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getCircuitNumber().equals("1"));

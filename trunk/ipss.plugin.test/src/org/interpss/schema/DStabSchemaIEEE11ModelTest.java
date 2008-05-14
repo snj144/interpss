@@ -31,7 +31,7 @@ import java.io.File;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
 import org.interpss.mapper.IpssXmlMapper;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
+import org.interpss.schema.RunStudyCaseXmlType.CustomRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
