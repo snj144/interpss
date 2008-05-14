@@ -33,7 +33,10 @@
 				type="ipss:GridComputingXmlType">
 
 			</ns:element>
-			<ns:element name="runDclfStudyCase" minOccurs="0">
+            <ns:element name="customRun" minOccurs="0">
+            <ns:complexType>
+            	<ns:sequence>
+            <ns:element name="runDclfStudyCase" minOccurs="0">
 				<ns:complexType>
 					<ns:sequence>
 						<ns:element name="dafaultDclfStudyCase"
@@ -74,11 +77,7 @@
 					<ns:sequence>
 						<ns:element name="defaultAclfAlgorithm"
 							type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
-						</ns:element>
-						<ns:element name="aclfRuleBase" minOccurs="0"
-							type="ipss:AclfRuleBaseXmlType">
-
-						</ns:element>
+						</ns:element>
 						<ns:element name="aclfStudyCaseList"
 							minOccurs="1" maxOccurs="1">
 							<ns:complexType>
@@ -167,9 +166,18 @@
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
+            	</ns:sequence>
+            </ns:complexType>
+            </ns:element>
+            
 
-			<ns:element name="contingencyAnalysis" minOccurs="0" type="ipss:ContingencyAnalysisXmlType">
+			<ns:element name="contingencyAnalysis" minOccurs="0"
+				type="ipss:ContingencyAnalysisXmlType">
+
 			</ns:element>
+			<ns:element name="ruleBase" type="ipss:RuleBaseXmlType"
+				minOccurs="0">
+			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
@@ -509,7 +517,7 @@
 		</ns:complexContent>
 	</ns:complexType>
 
-	<ns:complexType name="AclfRuleBaseXmlType">
+	<ns:complexType name="RuleBaseXmlType">
 		<ns:sequence>
 			<ns:element name="preventiveRuleSetList" minOccurs="1">
 				<ns:complexType>

@@ -27,7 +27,7 @@ package org.interpss.xml;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.interpss.schema.AclfRuleBaseXmlType;
+import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.ViolationConditionXmlType;
 import org.interpss.schema.PreventiveRuleSetXmlType;
 import org.interpss.schema.ViolationConditionXmlType.ConditionType;
@@ -55,7 +55,7 @@ public class PreventiveRuleHanlder {
 	 * @param msg
 	 * @return a list of msg for violation checking and protection rule application
 	 */
-	public static List<Object> applyAclfRuleSet(LoadflowAlgorithm algo, AclfRuleBaseXmlType aclfRuleBase, 
+	public static List<Object> applyAclfRuleSet(LoadflowAlgorithm algo, RuleBaseXmlType aclfRuleBase, 
 					double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		int max = IpssXmlParser.getUpperPriority(aclfRuleBase);
 		List<Object> msgList = new ArrayList<Object>();
@@ -81,7 +81,7 @@ public class PreventiveRuleHanlder {
 	 * @param msg the IPSS Msg object
 	 * @return true if rules applied and changes are made
 	 */
-	public static boolean applyAclfRuleSet(Network net, AclfRuleBaseXmlType aclfRuleBase, 
+	public static boolean applyAclfRuleSet(Network net, RuleBaseXmlType aclfRuleBase, 
 					int priority, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean rtn = false;
 		for (PreventiveRuleSetXmlType ruleSet : aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()) {

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ipss:InterPSS xmlns:ipss="http://www.interpss.org/schema"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
-	<ipss:runStudyCase>
+	xsi:schemaLocation="http://www.interpss.org/schema ../../ipss.xml/schema/InterPSS.xsd ">
+<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
-		<ipss:applyRuleBase>true</ipss:applyRuleBase>
+		<ipss:applyRuleBase>false</ipss:applyRuleBase>
 		<ipss:gridRun>
 			<ipss:enableGridRun>true</ipss:enableGridRun>
 			<ipss:remoteJobCreation>true</ipss:remoteJobCreation>
 			<ipss:aclfOption>
-				<ipss:returnStudyCase>DivergedAndViolation</ipss:returnStudyCase>
+				<ipss:returnStudyCase>DivergedCase</ipss:returnStudyCase>
 				<ipss:calculateViolation>true</ipss:calculateViolation>
 				<ipss:busVoltagePULimit>
 					<ipss:max>1.2</ipss:max>
@@ -29,12 +29,12 @@
 		   </ipss:defaultAclfAlgorithm>		
 		   
 			<ipss:aclfRuleBase>
-				<ipss:protectionRuleSetList>
-				  <ipss:protectionRuleSet>
+				<ipss:preventiveRuleSetList>
+				  <ipss:preventiveRuleSet>
 					<ipss:recId>protectRuleSet1</ipss:recId>
 					<ipss:priority>1</ipss:priority>
-					<ipss:protectionRuleList>
-					<ipss:protectionRule>
+					<ipss:preventiveRuleList>
+					<ipss:preventiveRule>
 						<ipss:condition>
 							<ipss:conditionType>AND</ipss:conditionType>
 							<ipss:branchConditionSet>
@@ -49,15 +49,15 @@
 							<ipss:busId>0014</ipss:busId>
 							<ipss:loadShedding>true</ipss:loadShedding>
 						</ipss:busAction>
-					</ipss:protectionRule>
-					</ipss:protectionRuleList>
-				  </ipss:protectionRuleSet>
+					</ipss:preventiveRule>
+					</ipss:preventiveRuleList>
+				  </ipss:preventiveRuleSet>
 
-				  <ipss:protectionRuleSet>
+				  <ipss:preventiveRuleSet>
 					<ipss:recId>protectRuleSet2</ipss:recId>
 					<ipss:priority>2</ipss:priority>
-					<ipss:protectionRuleList>
-					<ipss:protectionRule>
+					<ipss:preventiveRuleList>
+					<ipss:preventiveRule>
 						<ipss:condition>
 							<ipss:conditionType>AND</ipss:conditionType>
 							<ipss:branchConditionSet>
@@ -72,11 +72,11 @@
 							<ipss:busId>0013</ipss:busId>
 							<ipss:loadShedding>true</ipss:loadShedding>
 						</ipss:busAction>
-					</ipss:protectionRule>
-					</ipss:protectionRuleList>
-				  </ipss:protectionRuleSet>
+					</ipss:preventiveRule>
+					</ipss:preventiveRuleList>
+				  </ipss:preventiveRuleSet>
 
-				</ipss:protectionRuleSetList>
+				</ipss:preventiveRuleSetList>
 			</ipss:aclfRuleBase>
 		   
 		   <ipss:aclfStudyCaseList>

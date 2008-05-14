@@ -31,7 +31,7 @@ package org.interpss.xml;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
-import org.interpss.schema.AclfRuleBaseXmlType;
+import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.ContingencyAnalysisXmlType;
@@ -63,7 +63,7 @@ public class IpssXmlParser {
 		this.ipss.addNewRunStudyCase();
 		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 			getRunStudyCase().setAnalysisRunType(RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
-			getRunStudyCase().addNewRunAclfStudyCase();
+			getRunStudyCase().addNewCustomRun().addNewRunAclfStudyCase();
 			getRunAclfStudyCase().addNewAclfStudyCaseList();
 		}
 	}
@@ -117,8 +117,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.RunDclfStudyCase getRunDclfStudyCase() {
-		return ipss.getRunStudyCase().getRunDclfStudyCase();
+	public RunStudyCaseXmlType.CustomRun.RunDclfStudyCase getRunDclfStudyCase() {
+		return ipss.getRunStudyCase().getCustomRun().getRunDclfStudyCase();
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.RunAclfStudyCase getRunAclfStudyCase() {
-		return ipss.getRunStudyCase().getRunAclfStudyCase();
+	public RunStudyCaseXmlType.CustomRun.RunAclfStudyCase getRunAclfStudyCase() {
+		return ipss.getRunStudyCase().getCustomRun().getRunAclfStudyCase();
 	}
 
 	/**
@@ -135,8 +135,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.RunAcscStudyCase getRunAcscStudyCase() {
-		return ipss.getRunStudyCase().getRunAcscStudyCase();
+	public RunStudyCaseXmlType.CustomRun.RunAcscStudyCase getRunAcscStudyCase() {
+		return ipss.getRunStudyCase().getCustomRun().getRunAcscStudyCase();
 	}
 
 	/**
@@ -144,8 +144,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.RunDStabStudyCase getRunDStabStudyCase() {
-		return ipss.getRunStudyCase().getRunDStabStudyCase();
+	public RunStudyCaseXmlType.CustomRun.RunDStabStudyCase getRunDStabStudyCase() {
+		return ipss.getRunStudyCase().getCustomRun().getRunDStabStudyCase();
 	}
 
 	/**
@@ -236,7 +236,7 @@ public class IpssXmlParser {
 	 * @param aclfRuleBase
 	 * @return
 	 */
-	public static int getUpperPriority(AclfRuleBaseXmlType aclfRuleBase) {
+	public static int getUpperPriority(RuleBaseXmlType aclfRuleBase) {
 		int p = 1;   // priority starts from 1, max 10
 		for (PreventiveRuleSetXmlType ruleSet : aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()) {
 			if (ruleSet.getPriority() > p)
