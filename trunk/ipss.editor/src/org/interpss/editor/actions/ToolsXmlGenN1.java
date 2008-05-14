@@ -40,8 +40,8 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
 		
 		SimuContext simuCtx = (SimuContext)project.getSimuCtx();
 		Network net = simuCtx.getNetwork();
-		RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList list = 
-			RunStudyCaseXmlType.RunAclfStudyCase.AclfStudyCaseList.Factory.newInstance();
+		RunStudyCaseXmlType.CustomRun.RunAclfStudyCase.AclfStudyCaseList list = 
+			RunStudyCaseXmlType.CustomRun.RunAclfStudyCase.AclfStudyCaseList.Factory.newInstance();
   		for (Branch bra : net.getBranchList()) {
   			AclfStudyCaseXmlType studyCase = list.addNewAclfStudyCase();
   			String id = bra.getFromBus().getId()+"-"+bra.getToBus().getId()+"_"+bra.getCircuitNumber();
