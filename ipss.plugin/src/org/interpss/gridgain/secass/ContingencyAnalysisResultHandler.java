@@ -29,28 +29,25 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.gridgain.grid.GridTaskSession;
-import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.ext.gridgain.RemoteMessageTable;
+import com.interpss.ext.gridgain.RemoteResultAdapter;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 import com.interpss.simu.multicase.result.AclfBranchResultRec;
 import com.interpss.simu.multicase.result.AclfBusResultRec;
-import com.interpss.simu.multicase.result.MCaseResultPackage;
 import com.interpss.simu.multicase.result.StudyCaseResult;
 
-public class ContingencyAnalysisResultHandler implements IRemoteResult {
-    private static MCaseResultPackage mCaseResultPackage = null;
-
+public class ContingencyAnalysisResultHandler extends RemoteResultAdapter {
     public ContingencyAnalysisResultHandler() {
-    	if (mCaseResultPackage == null)
-    		mCaseResultPackage = MCaseResultPackage.eINSTANCE;
+    	super();
     }
     
 	/**

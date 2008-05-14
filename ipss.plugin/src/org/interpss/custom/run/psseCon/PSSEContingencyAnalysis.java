@@ -62,7 +62,7 @@ public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 		opt.setReturnStudyCase(GridComputingXmlType.AclfOption.ReturnStudyCase.DIVERGED_CASE);
 		
 		// default Aclf Algorithm settings
-		AclfAlgorithmXmlType algo = ipssXmlDoc.getRunStudyCase().getRunAclfStudyCase().addNewDefaultAclfAlgorithm();
+		AclfAlgorithmXmlType algo = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().addNewDefaultAclfAlgorithm();
 		algo.setLfMethod(AclfAlgorithmXmlType.LfMethod.NR);
 		algo.setMaxIterations(20);
 		algo.setTolerance(0.0001);

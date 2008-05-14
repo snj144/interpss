@@ -31,7 +31,6 @@ package org.interpss.gridgain.secass;
 import java.io.Serializable;
 
 import org.interpss.PluginSpringAppContext;
-import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.schema.ModificationXmlType;
 
@@ -44,6 +43,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
+import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 
 public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
