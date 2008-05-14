@@ -37,7 +37,7 @@ import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
+import org.interpss.schema.RunStudyCaseXmlType.CustomRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.SimuRunType;
@@ -75,7 +75,7 @@ public class XmlScriptDStabRun {
 		// get the RunStudyCase object, root level modification has already
 		// applied
 		// to the DStabNet object
-		RunStudyCaseXmlType.RunDStabStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getRunDStabStudyCase();
+		RunStudyCaseXmlType.CustomRun.RunDStabStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunDStabStudyCase();
 
 		if (xmlRunCase != null) {
 			IAppSimuContext appSimuCtx = null;

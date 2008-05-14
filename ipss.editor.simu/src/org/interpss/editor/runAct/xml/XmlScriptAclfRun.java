@@ -31,12 +31,11 @@ import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
-import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.AclfRuleBaseXmlType;
+import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSXmlType;
@@ -52,6 +51,7 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -71,12 +71,12 @@ public class XmlScriptAclfRun {
 	 * @return
 	 */
 	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
-		RunStudyCaseXmlType.RunAclfStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getRunAclfStudyCase();
+		RunStudyCaseXmlType.CustomRun.RunAclfStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase();
 		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
 
 		if (xmlRunCase != null) {
 			AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunCase.getDefaultAclfAlgorithm(); 
-			AclfRuleBaseXmlType ruleBase = xmlRunCase.getAclfRuleBase();
+			RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
 			boolean gridRun = RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase());
 			long  timeout = ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout();
 			
@@ -94,8 +94,8 @@ public class XmlScriptAclfRun {
 
 				if (applyRuleBase) {
 					mCaseContainer.getRuleBase().setApplyAclfRuleBase(applyRuleBase);
-					if (xmlRunCase.getAclfRuleBase() != null)
-						mCaseContainer.getRuleBase().setAclfRuleBaseXmlString(xmlRunCase.getAclfRuleBase().xmlText());
+					if (ipssXmlDoc.getRunStudyCase().getRuleBase() != null)
+						mCaseContainer.getRuleBase().setAclfRuleBaseXmlString(ipssXmlDoc.getRunStudyCase().getRuleBase().xmlText());
 				}
 				
 				boolean reJobCreation = ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
@@ -185,7 +185,7 @@ public class XmlScriptAclfRun {
 	}
 
 	private static boolean aclfSingleRun(AclfAdjNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
-				AclfRuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
+				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
 		if (!mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
