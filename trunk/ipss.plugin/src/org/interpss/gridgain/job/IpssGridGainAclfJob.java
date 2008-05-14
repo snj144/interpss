@@ -31,9 +31,8 @@ package org.interpss.gridgain.job;
 import java.io.Serializable;
 
 import org.interpss.PluginSpringAppContext;
-import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.schema.AclfRuleBaseXmlType;
+import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.xml.PreventiveRuleHanlder;
 
@@ -47,6 +46,7 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.ext.gridgain.AbstractIpssGridGainJob;
+import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 
 public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
@@ -125,9 +125,11 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		try {
 			algo.loadflow(SpringAppContext.getIpssMsgHub());
 			if (getSesBooleanAttrib(Constants.GridToken_ApplyAclfRuleBase)) {
+				IpssLogger.getLogger().info("Apply Aclf Rule Base");
 				String str = getSesStringAttrib(Constants.GridToken_AclfRuleBaseXml);
 				if (str != null) {
-					AclfRuleBaseXmlType ruleBase = AclfRuleBaseXmlType.Factory.parse(str);
+					IpssLogger.getLogger().info("Rule Base " + str);
+					RuleBaseXmlType ruleBase = RuleBaseXmlType.Factory.parse(str);
 					double max = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU);
 					double min = getSesDoubleAttrib(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU);
 					getRemoteResult().addReturnMessage(

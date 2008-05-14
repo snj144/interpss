@@ -41,7 +41,6 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.gridgain.job.IpssGridGainAclfJob;
-import org.interpss.gridgain.result.IRemoteResult;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.secass.ContingencyAnaysisJob;
 
@@ -56,6 +55,7 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.dist.DistNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.util.DStabSimuDBRecord;
+import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
 

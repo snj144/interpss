@@ -38,17 +38,14 @@ import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.ViolationType;
 import com.interpss.ext.gridgain.RemoteMessageTable;
+import com.interpss.ext.gridgain.RemoteResultAdapter;
 import com.interpss.simu.multicase.MultiStudyCase;
 import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
-import com.interpss.simu.multicase.result.MCaseResultPackage;
 
-public class RemoteResultHandler implements IRemoteResult {
-    private static MCaseResultPackage mCaseResultPackage = null;
- 
-    public RemoteResultHandler() {
-    	if (mCaseResultPackage == null)
-    		mCaseResultPackage = MCaseResultPackage.eINSTANCE;
+public class DefaultRemoteResultHandler extends RemoteResultAdapter {
+    public DefaultRemoteResultHandler() {
+    	super();
     }
     
 	/**
