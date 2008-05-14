@@ -22,7 +22,7 @@
  *
  */
 
-package org.interpss.schema;
+package org.interpss.ruleset;
 
 import static org.junit.Assert.assertTrue;
 
@@ -31,7 +31,13 @@ import java.io.File;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.mapper.RunForm2AlgorithmMapper;
+import org.interpss.schema.AclfAlgorithmXmlType;
+import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.ModificationXmlType;
+import org.interpss.schema.PreventiveRuleSetXmlType;
+import org.interpss.schema.RunStudyCaseXmlType;
+import org.interpss.schema.ViolationConditionXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.junit.Test;
@@ -51,17 +57,17 @@ public class PreventiveCaseTest extends BaseTestSetup {
 	@Test
 	public void runAclfProtectCaseTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
-		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+		loadCaseData("testData/aclf/IEEE-14BusProtect.ipss", simuCtx);
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
 
-		File xmlFile = new File("testData/xml/RunAclfCaseProtection.xml");
+		File xmlFile = new File("testData/xml/ruleset/RunAclfCaseProtection.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
   		
-	  	AclfStudyCaseXmlType aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+	  	AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
   		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
@@ -72,16 +78,14 @@ public class PreventiveCaseTest extends BaseTestSetup {
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
   		//System.out.println(net.net2String());
 	  		
-  		AclfRuleBaseXmlType aclfRuleBase = parser.getRunAclfStudyCase().getAclfRuleBase();
+  		RuleBaseXmlType aclfRuleBase = parser.getRunStudyCase().getRuleBase();
 	  	assertTrue(aclfRuleBase != null);
 	  	
 	  	PreventiveRuleSetXmlType ruleSet = aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()[0];
 	  	assertTrue(ruleSet.getPreventiveRuleList().getPreventiveRuleArray().length == 2);
 	  	PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule rule1 = ruleSet.getPreventiveRuleList().getPreventiveRuleArray()[0];
 	  	ViolationConditionXmlType cond = rule1.getCondition();
-	  	// branch 0010->0009 Mva limit is zero. Therefore, always violation
-	  	// this has been changed
-	  	assertTrue(!PreventiveRuleHanlder.evlBranchCondition(cond, net, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlBranchCondition(cond, net, msg));
 
 	  	PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule rule2 = ruleSet.getPreventiveRuleList().getPreventiveRuleArray()[1];
 	  	cond = rule2.getCondition();
@@ -89,10 +93,9 @@ public class PreventiveCaseTest extends BaseTestSetup {
 	  	// volatge at 0003 1.01
 	  	assertTrue(PreventiveRuleHanlder.evlBusCondition(cond, net, 1.0, 0.8, msg));
 	  	assertTrue(PreventiveRuleHanlder.evlBusCondition(cond, net, 1.2, 1.05, msg));
-	  	/* IEEE 14 Bus branch rating limit has been changed
-	  	assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, parser.getRunAclfStudyCase().getAclfRuleBase(), 1, 1.2, 0.8, msg));
+
+	  	assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, parser.getRunStudyCase().getRuleBase(), 1, 1.2, 0.8, msg));
 	  	assertTrue(!net.getAclfBranch("0010->0009(1)").isActive());
-	  	*/
 	}		
 
 	@Test
@@ -102,7 +105,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
 
-		File xmlFile = new File("testData/xml/IEEE14Bus_W3XfrOff.xml");
+		File xmlFile = new File("testData/xml/ruleset/IEEE14Bus_W3XfrOff.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
@@ -111,7 +114,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
-		AclfStudyCaseXmlType aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
@@ -134,11 +137,11 @@ public class PreventiveCaseTest extends BaseTestSetup {
 	  	assertTrue(!net.getAclfBranch("0007->0008(1)").isActive());
 	  	
 	  	assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, 
-	  				parser.getRunAclfStudyCase().getAclfRuleBase(), 1, 1.2, 0.8, msg));
+	  				parser.getRunStudyCase().getRuleBase(), 1, 1.2, 0.8, msg));
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  	
   		assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, 
-  					parser.getRunAclfStudyCase().getAclfRuleBase(), 2, 1.2, 0.8, msg));
+  					parser.getRunStudyCase().getRuleBase(), 2, 1.2, 0.8, msg));
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 
   		assertTrue(net.getAclfBus("0014").getLoadCode() == AclfLoadCode.NON_LOAD);
@@ -150,7 +153,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
-		File xmlFile = new File("testData/xml/IEEE14Bus_W3XfrOff.xml");
+		File xmlFile = new File("testData/xml/ruleset/IEEE14Bus_W3XfrOff.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
@@ -159,7 +162,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
-		AclfStudyCaseXmlType aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
@@ -172,7 +175,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
   		//System.out.println(net.net2String());  	
 	
-	  	PreventiveRuleHanlder.applyAclfRuleSet(algo, parser.getRunAclfStudyCase().getAclfRuleBase(), 1.2, 0.8, msg);
+	  	PreventiveRuleHanlder.applyAclfRuleSet(algo, parser.getRunStudyCase().getRuleBase(), 1.2, 0.8, msg);
 
   		assertTrue(net.getAclfBus("0014").getLoadCode() == AclfLoadCode.NON_LOAD);
 	  	assertTrue(net.getAclfBus("0013").getLoadCode() == AclfLoadCode.NON_LOAD);

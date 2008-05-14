@@ -40,13 +40,13 @@ public class UserStephenCaseTest extends BaseTestSetup {
   		
 	  	MultiStudyCase mscase = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 	  	int cnt = 0;
-	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
 	  		
 		  	if (aclfCase.getAclfAlgorithm() == null) 
-		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
+		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	if (aclfCase.getModification() != null)
 			  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
@@ -88,7 +88,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
   		
 	  	MultiStudyCase mscase = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 	  	int cnt = 0;
-	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
@@ -96,7 +96,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 		  	if (aclfCase.getModification() != null)
 			  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 		  	if (aclfCase.getAclfAlgorithm() == null) 
-		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
+		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  		
 	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));

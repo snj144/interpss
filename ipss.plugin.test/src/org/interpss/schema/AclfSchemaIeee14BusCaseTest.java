@@ -42,7 +42,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	MultiStudyCase mscase = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 	  	int cnt = 0;
   		double i = 0.0;
-	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
@@ -87,13 +87,13 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	MultiStudyCase mscase = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 	  	int cnt = 0;
   		double i = 0.0;
-	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 
 		  	if (aclfCase.getAclfAlgorithm() == null) 
-		  		aclfCase.setAclfAlgorithm(parser.getRunStudyCase().getRunAclfStudyCase().getDefaultAclfAlgorithm());
+		  		aclfCase.setAclfAlgorithm(parser.getRunAclfStudyCase().getDefaultAclfAlgorithm());
 		  	
 		  	mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
@@ -132,7 +132,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-  		AclfStudyCaseXmlType aclfCase = parser.getRunStudyCase().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+  		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
   			
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	// modification of the study case also applied
