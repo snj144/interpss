@@ -70,6 +70,10 @@ public class XmlScriptContingency {
 		}
 		
 		ContingencyAnalysis mCaseContainer = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, aclfNet);
+		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
+		if (applyRuleBase) 
+			XmlScriptUtilFunc.mapRuleBase(applyRuleBase, mCaseContainer, ipssXmlDoc.getRunStudyCase().getRuleBase());
+
 		if (xmlRunCase.getOption() != null) {
 			if (xmlRunCase.getOption().getBusVLimitPU() != null) {
 				mCaseContainer.setBusVoltageUpperLimitPU(xmlRunCase.getOption().getBusVLimitPU().getMax());
@@ -84,7 +88,7 @@ public class XmlScriptContingency {
 			LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
 			// map to the Algo object including network modification at the study case level
 			IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-			if (!XmlScriptAclfRun.mapAclfStudyCase(mapper, xmlCase, algo, 
+			if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, 
 					xmlRunCase.getDefaultAclfAlgorithm(), true, msg))
 				return false;
 

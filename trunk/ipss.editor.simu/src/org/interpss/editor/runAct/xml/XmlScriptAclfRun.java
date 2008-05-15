@@ -35,11 +35,10 @@ import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSXmlType;
-import org.interpss.schema.ModificationXmlType;
+import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType.AclfOption.ReturnStudyCase;
 import org.interpss.xml.PreventiveRuleHanlder;
@@ -71,115 +70,107 @@ public class XmlScriptAclfRun {
 	 * @return
 	 */
 	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
-		RunStudyCaseXmlType.CustomRun.RunAclfStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase();
+		RunStudyCaseXmlType.CustomRun.RunAclfStudyCase xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase();
+		if (xmlRunAclfCase == null) {
+			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
+			return false;
+		}
+
 		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
-
-		if (xmlRunCase != null) {
-			AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunCase.getDefaultAclfAlgorithm(); 
-			RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
-			boolean gridRun = RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase());
-			long  timeout = ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout();
+		AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunAclfCase.getDefaultAclfAlgorithm(); 
+		boolean gridRun = RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase());
+		long  timeout = ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout();
 			
-			if (xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
-				AclfStudyCaseXmlType xmlCase = xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()[0];
-				if (!aclfSingleRun(aclfNet, xmlCase, xmlDefaultAlgo, ruleBase, 
-						applyRuleBase, gridRun, timeout, msg));
-					return false;
-			} 
-			else {
+		if (xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
+			AclfStudyCaseXmlType xmlCase = xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+			RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
+			if (!aclfSingleRun(aclfNet, xmlCase, xmlDefaultAlgo, ruleBase,	applyRuleBase, gridRun, timeout, msg));
+				return false;
+		} 
+		else {
+			AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
+			// save the base case Network model to the netStr
+			mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
+
+			if (applyRuleBase) 
+				XmlScriptUtilFunc.mapRuleBase(applyRuleBase, mCaseContainer, ipssXmlDoc.getRunStudyCase().getRuleBase());
+				
+			boolean reJobCreation = ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
+				
+			int cnt = 0;
+			for (AclfStudyCaseXmlType xmlCase : xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
+				// deserialize the base case, if necessary
+				AclfAdjNetwork net = aclfNet;
+				if (!gridRun || !reJobCreation) 
+					// only deserialized the network if not the case of remote job creation
+					net = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(mCaseContainer.getBaseNetModelString());
+
+				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+				// map to the Algo object including network modification at the study case level
 				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-				AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
-				// save the base case Network model to the netStr
-				mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(aclfNet));
+				if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
+					return false;
 
-				if (applyRuleBase) {
-					mCaseContainer.getRuleBase().setApplyAclfRuleBase(applyRuleBase);
-					if (ipssXmlDoc.getRunStudyCase().getRuleBase() != null)
-						mCaseContainer.getRuleBase().setAclfRuleBaseXmlString(ipssXmlDoc.getRunStudyCase().getRuleBase().xmlText());
-				}
-				
-				boolean reJobCreation = ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
-				
-				int cnt = 0;
-				for (AclfStudyCaseXmlType xmlCase : xmlRunCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
-					// deserialize the base case, if necessary
-					AclfAdjNetwork net = aclfNet;
-					if (!gridRun || !reJobCreation) 
-						// only deserialized the network if not the case of remote job creation
-						net = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(mCaseContainer.getBaseNetModelString());
-
-					LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-					// map to the Algo object including network modification at the study case level
-					if (!mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
-						return false;
-
-					try {
-						AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase(xmlCase.getRecId(), 
+				try {
+					AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase(xmlCase.getRecId(), 
 										xmlCase.getRecName(), ++cnt, mCaseContainer);
-						if (gridRun) {
-							// if Grid computing, save the Algo object to the study case object
-							studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
-							if (reJobCreation)
-								if (xmlCase.getModification() != null)
-									// persist modification to be sent to the remote grid node
-									studyCase.setModifyModelString(xmlCase.getModification().xmlText());
-						} else {
-							// if not grid computing, perform Loadflow for the study case
-							algo.loadflow(msg);
-							if (applyRuleBase) {
-								PreventiveRuleHanlder.applyAclfRuleSet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
-							}
-							studyCase.setDesc("Loadflow by Local Node");
-							studyCase.setRemoteReturnStatus(true);
-							studyCase.setAclfConverged(algo.getAclfAdjNetwork().isLfConverged());
+					if (gridRun) {
+						// if Grid computing, save the Algo object to the study case object
+						studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
+						if (reJobCreation && xmlCase.getModification() != null)
+							// persist modification to be sent to the remote grid node
+							studyCase.setModifyModelString(xmlCase.getModification().xmlText());
+					} else {
+						// if not grid computing, perform Loadflow for the study case
+						algo.loadflow(msg);
+						if (applyRuleBase) {
+							RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
+							PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
 						}
-						studyCase.setId(xmlCase.getRecId());
-						studyCase.setName(xmlCase.getRecDesc());
-						if (!gridRun || !reJobCreation) {
-							net.setId(xmlCase.getRecId());
-							// persist the AclfNet object to study case. It contains case level modification for
-							// grid computing when remoteJobCreation = false.
-							// in the case of non grid computing, it contains Loadflow results
-							studyCase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
-						}
-					} catch (Exception e) {
-						SpringAppContext.getEditorDialogUtil()
+						studyCase.setDesc("Loadflow by Local Node");
+						studyCase.setRemoteReturnStatus(true);
+						studyCase.setAclfConverged(algo.getAclfAdjNetwork().isLfConverged());
+					}
+					studyCase.setId(xmlCase.getRecId());
+					studyCase.setName(xmlCase.getRecDesc());
+					if (!gridRun || !reJobCreation) {
+						net.setId(xmlCase.getRecId());
+						// persist the AclfNet object to study case. It contains case level modification for
+						// grid computing when remoteJobCreation = false. In the case of non grid computing, it contains Loadflow results
+						studyCase.setNetModelString(SerializeEMFObjectUtil.saveModel(net));
+					}
+				} catch (Exception e) {
+					SpringAppContext.getEditorDialogUtil()
 								.showErrMsgDialog("Study Case Creation Error",
 										e.toString());
-						return false;
-					}
+					return false;
 				}
+			}
 
-				// if Grid computing, send the MultiCase container to perform
-				// remote grid computing
-				if (gridRun) {
-					Grid grid = IpssGridGainUtil.getDefaultGrid();
-					IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
+			// if Grid computing, send the MultiCase container to perform
+			// remote grid computing
+			if (gridRun) {
+				Grid grid = IpssGridGainUtil.getDefaultGrid();
+				IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
 					
-					setAclfRunOpt(mCaseContainer, ipssXmlDoc.getRunStudyCase());
-					
-					try {
-						RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
+				setAclfRunOpt(mCaseContainer, ipssXmlDoc.getRunStudyCase());
+				try {
+					RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
 										"InterPSS Grid Aclf Calculation", mCaseContainer, 
 										timeout,	reJobCreation);
-						for (RemoteMessageTable result : objAry) {
-							IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
+					for (RemoteMessageTable result : objAry) {
+						IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
 							resultHandler.transferRemoteResult(mCaseContainer, result);
-						}
-					} catch (GridException e) {
-						SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
-						return false;
-					} 
-				}
-
-				// display the simulation results
-				IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
-				dialog.display(mCaseContainer);
+					}
+				} catch (GridException e) {
+					SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error",	e.toString());
+					return false;
+				} 
 			}
-		} else {
-			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
-					"Invalid Xml", "runAclfStudyCase element not defined");
-			return false;
+
+			// display the simulation results
+			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
+			dialog.display(mCaseContainer);
 		}
 		return true;
 	}
@@ -188,7 +179,7 @@ public class XmlScriptAclfRun {
 				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
-		if (!mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
+		if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
 			return false;
 
 		if (gridRun) {
@@ -207,7 +198,7 @@ public class XmlScriptAclfRun {
 		} else {
 			algo.loadflow(msg);
 			if (applyRuleBase) {
-				PreventiveRuleHanlder.applyAclfRuleSet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
+				PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
 			}
 		}
 
@@ -215,23 +206,6 @@ public class XmlScriptAclfRun {
 			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 			dialog.display(aclfNet);
 		}
-		return true;
-	}
-	
-	public static boolean mapAclfStudyCase(IpssMapper mapper, AclfStudyCaseXmlType xmlCase, 
-						LoadflowAlgorithm algo, AclfAlgorithmXmlType xmlDefaultAlgo, 
-						boolean remoteJobCreation, IPSSMsgHub msg) {
-		if (xmlCase.getAclfAlgorithm() == null) {
-			if (xmlDefaultAlgo == null) {
-				msg.sendErrorMsg("No Aclf Algorithm defined");
-				return false;
-			}
-			xmlCase.setAclfAlgorithm(xmlDefaultAlgo);
-		}
-		if (xmlCase.getModification() != null && !remoteJobCreation)
-			mapper.mapping(xmlCase.getModification(), algo.getAclfAdjNetwork(), ModificationXmlType.class);
-		mapper.mapping(xmlCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
-		
 		return true;
 	}
 	
