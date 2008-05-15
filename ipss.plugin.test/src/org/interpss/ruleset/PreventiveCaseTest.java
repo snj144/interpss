@@ -85,16 +85,16 @@ public class PreventiveCaseTest extends BaseTestSetup {
 	  	assertTrue(ruleSet.getPreventiveRuleList().getPreventiveRuleArray().length == 2);
 	  	PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule rule1 = ruleSet.getPreventiveRuleList().getPreventiveRuleArray()[0];
 	  	ViolationConditionXmlType cond = rule1.getCondition();
-	  	assertTrue(PreventiveRuleHanlder.evlBranchCondition(cond, net, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBranchCondition(cond, net, msg));
 
 	  	PreventiveRuleSetXmlType.PreventiveRuleList.PreventiveRule rule2 = ruleSet.getPreventiveRuleList().getPreventiveRuleArray()[1];
 	  	cond = rule2.getCondition();
-	  	assertTrue(!PreventiveRuleHanlder.evlBusCondition(cond, net, 1.2, 0.8, msg));
+	  	assertTrue(!PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.2, 0.8, msg));
 	  	// volatge at 0003 1.01
-	  	assertTrue(PreventiveRuleHanlder.evlBusCondition(cond, net, 1.0, 0.8, msg));
-	  	assertTrue(PreventiveRuleHanlder.evlBusCondition(cond, net, 1.2, 1.05, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.0, 0.8, msg));
+	  	assertTrue(PreventiveRuleHanlder.evlAclfNetBusCondition(cond, net, 1.2, 1.05, msg));
 
-	  	assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, parser.getRunStudyCase().getRuleBase(), 1, 1.2, 0.8, msg));
+	  	assertTrue(PreventiveRuleHanlder.applyRuleSet(net, parser.getRunStudyCase().getRuleBase(), 1, 1.2, 0.8, msg));
 	  	assertTrue(!net.getAclfBranch("0010->0009(1)").isActive());
 	}		
 
@@ -136,11 +136,11 @@ public class PreventiveCaseTest extends BaseTestSetup {
 	  	assertTrue(!net.getAclfBranch("0007->0009(1)").isActive());
 	  	assertTrue(!net.getAclfBranch("0007->0008(1)").isActive());
 	  	
-	  	assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, 
+	  	assertTrue(PreventiveRuleHanlder.applyRuleSet(net, 
 	  				parser.getRunStudyCase().getRuleBase(), 1, 1.2, 0.8, msg));
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 	  	
-  		assertTrue(PreventiveRuleHanlder.applyAclfRuleSet(net, 
+  		assertTrue(PreventiveRuleHanlder.applyRuleSet(net, 
   					parser.getRunStudyCase().getRuleBase(), 2, 1.2, 0.8, msg));
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
 
@@ -175,7 +175,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
   		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
   		//System.out.println(net.net2String());  	
 	
-	  	PreventiveRuleHanlder.applyAclfRuleSet(algo, parser.getRunStudyCase().getRuleBase(), 1.2, 0.8, msg);
+	  	PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRunStudyCase().getRuleBase(), 1.2, 0.8, msg);
 
   		assertTrue(net.getAclfBus("0014").getLoadCode() == AclfLoadCode.NON_LOAD);
 	  	assertTrue(net.getAclfBus("0013").getLoadCode() == AclfLoadCode.NON_LOAD);
