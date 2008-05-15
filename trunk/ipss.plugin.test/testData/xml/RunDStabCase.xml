@@ -4,11 +4,7 @@
 	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunDStab</ipss:analysisRunType>
-		<ipss:gridRun>
-			<ipss:enableGridRun>false</ipss:enableGridRun>
-			<ipss:timeout>0</ipss:timeout>
-			<ipss:remoteNodeDebug>false</ipss:remoteNodeDebug>
-		</ipss:gridRun>
+		<ipss:customRun>
 		<ipss:runDStabStudyCase>
 		<ipss:dStabStudyCaseList>
 			<ipss:dStabStudyCaseRec>
@@ -75,5 +71,6 @@
 			</ipss:dStabStudyCaseRec>
 		</ipss:dStabStudyCaseList>
 		</ipss:runDStabStudyCase>
+		</ipss:customRun>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

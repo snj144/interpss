@@ -78,6 +78,6 @@
 				</ipss:dclfStudyCaseRec>
 			</ipss:dclfStudyCaseList>
 		</ipss:runDclfStudyCase>
-		<ipss:customRun>
+		</ipss:customRun>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

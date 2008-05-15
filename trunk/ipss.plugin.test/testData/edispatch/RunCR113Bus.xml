@@ -9,12 +9,13 @@
     <enableGridRun>true</enableGridRun>
     <remoteJobCreation>true</remoteJobCreation>
   </gridRun>
+  <customRun>
   <runAclfStudyCase>
     <defaultAclfAlgorithm>
       <lfMethod>NR</lfMethod>
       <maxIterations>20</maxIterations>
       <tolerance>1.0E-4</tolerance>
-      <adjustChangeStep>true</adjustChangeStep>
+      <nonDivergent>true</nonDivergent>
     </defaultAclfAlgorithm>
     <aclfStudyCaseList>
       <aclfStudyCase>
@@ -149,5 +150,6 @@
       </aclfStudyCase>
     </aclfStudyCaseList>
   </runAclfStudyCase>
+  </customRun>
   </runStudyCase>
 </InterPSS>
