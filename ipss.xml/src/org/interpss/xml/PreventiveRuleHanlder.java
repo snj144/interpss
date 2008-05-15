@@ -40,30 +40,32 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.ViolationType;
 import com.interpss.core.net.Network;
 
 public class PreventiveRuleHanlder {
 	/**
-	 * Apply all protection rules until there is no violation
+	 * Apply the rule set to AclfNetwork. If there is any rule set action, AC Loadflow will be re-run
 	 * 
-	 * @param aclfNet
-	 * @param aclfRuleBase
+	 * @param algo
+	 * @param ruleBase
 	 * @param vMaxPU
 	 * @param vMinPU
 	 * @param msg
 	 * @return a list of msg for violation checking and protection rule application
 	 */
-	public static List<Object> applyAclfRuleSet(LoadflowAlgorithm algo, RuleBaseXmlType aclfRuleBase, 
+	public static List<Object> applyRuleSet2AclfNet(LoadflowAlgorithm algo, RuleBaseXmlType ruleBase, 
 					double vMaxPU, double vMinPU, IPSSMsgHub msg) {
-		int max = IpssXmlParser.getUpperPriority(aclfRuleBase);
+		int max = IpssXmlParser.getUpperPriority(ruleBase);
 		List<Object> msgList = new ArrayList<Object>();
 		for (int i = 1; i <= max; i++) {
 			if (algo.violation(ViolationType.ALL, vMaxPU, vMinPU, msgList))
-				if (applyAclfRuleSet(algo.getAclfAdjNetwork(), aclfRuleBase, i, vMaxPU, vMinPU, msg)) {
-					IpssLogger.getLogger().info("Applied protection rules at priority = " + i);
-					msgList.add("Applied protection rules at priority = " + i);
+				if (applyRuleSet(algo.getAclfAdjNetwork(), ruleBase, i, vMaxPU, vMinPU, msg)) {
+					IpssLogger.getLogger().info("Applied rule set with priority = " + i);
+					msgList.add("Applied rule set with priority = " + i);
+					// re-run Loadflow after applying the rule set action
 					algo.loadflow(msg);
 				}
 		}
@@ -71,7 +73,7 @@ public class PreventiveRuleHanlder {
 	}
 	
 	/**
-	 * Apply the protection rule set the network object
+	 * Apply the protection rule set with the priority to the network object. 
 	 * 
 	 * @param net a Network/AclfNetwork/AclfAdjNetwork/... object to be modified
 	 * @param aclfRuleBase aclf rule base
@@ -81,7 +83,7 @@ public class PreventiveRuleHanlder {
 	 * @param msg the IPSS Msg object
 	 * @return true if rules applied and changes are made
 	 */
-	public static boolean applyAclfRuleSet(Network net, RuleBaseXmlType aclfRuleBase, 
+	public static boolean applyRuleSet(Network net, RuleBaseXmlType aclfRuleBase, 
 					int priority, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean rtn = false;
 		for (PreventiveRuleSetXmlType ruleSet : aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()) {
@@ -90,29 +92,45 @@ public class PreventiveRuleHanlder {
 					if (rule.getCondition().getBusConditionSetArray().length == 0 &&
 						rule.getCondition().getBranchConditionSetArray().length == 0)
 						return false;
-
-					boolean busCond = false;
-					boolean braCond = false;
+					
+					// evaluate Aclf net conditions
+					boolean busAclfCond = false;
+					boolean braAclfCond = false;
 					if (rule.getCondition().getConditionType() == ConditionType.AND) {
-						busCond = true;
-						braCond = true;
+						// for AND type, all condition has to be true. There should be at least
+						// one condition to evaluate, so initially set the following
+						busAclfCond = true;
+						braAclfCond = true;
 					}
-							
+						
+					AclfNetwork aclfNet = (AclfNetwork)net;
 					if (rule.getCondition().getBusConditionSetArray().length > 0)
-						busCond = evlBusCondition(rule.getCondition(), net, vMaxPU, vMinPU, msg);
+						busAclfCond = evlAclfNetBusCondition(rule.getCondition(), aclfNet, vMaxPU, vMinPU, msg);
 					if (rule.getCondition().getBranchConditionSetArray().length > 0)
-						braCond = evlBranchCondition(rule.getCondition(), net, msg);
+						braAclfCond = evlAclfNetBranchCondition(rule.getCondition(), aclfNet, msg);
+
+					// evaluate Other net conditions for future use
+					boolean busOtherCond = false;
+					boolean braOtherCond = false;
+					if (rule.getCondition().getConditionType() == ConditionType.AND) {
+						busOtherCond = true;
+						braOtherCond = true;
+					}
 
 					if (rule.getCondition().getConditionType() == ConditionType.AND &&
-							(busCond && braCond) ||
+							(busAclfCond && braAclfCond && busOtherCond && braOtherCond ) ||
 						rule.getCondition().getConditionType() == ConditionType.OR &&
-							(busCond || braCond)) {
-						if (rule.getBusAction() != null)
+							(busAclfCond || braAclfCond || busOtherCond || braOtherCond)) {
+						if (rule.getBusAction() != null) {
+							msg.sendInfoMsg("Protective/Preventive action condition, Apply bus change action to net " + net.getId());
 							if(XmlNetParamModifier.applyBusChange(rule.getBusAction(), net, msg))
 								rtn = true;
-						if (rule.getBranchAction() != null)
+						}
+						if (rule.getBranchAction() != null) {
+							msg.sendInfoMsg("Protective/Preventive action condition, Apply branch change action to net " + net.getId());
 							if(XmlNetParamModifier.applyBranchChange(rule.getBranchAction(), net, msg))
 								rtn = true;
+						}
 					}
 				}
 			}
@@ -121,7 +139,7 @@ public class PreventiveRuleHanlder {
 	}
 	
 	/**
-	 * Evaluate bus condition for protection
+	 * Evaluate Aclf Net bus condition for protection/preventive actions, including bus voltage violation
 	 * 
 	 * @param cond
 	 * @param net
@@ -130,7 +148,7 @@ public class PreventiveRuleHanlder {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean evlBusCondition(ViolationConditionXmlType cond, Network net, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
+	public static boolean evlAclfNetBusCondition(ViolationConditionXmlType cond, AclfNetwork net, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean evalCond = false;
 		for (ViolationConditionXmlType.BusConditionSet busCond : cond.getBusConditionSetArray()) {
 			AclfBus bus = (AclfBus)IpssXmlParser.getBus(busCond, net);
@@ -158,14 +176,15 @@ public class PreventiveRuleHanlder {
 	}
 
 	/**
-	 * Evaluate branch condition for protection
+	 * Evaluate Aclf Network branch condition for protective/preventive action. Condition include MVA rating and
+	 * AMPS violation
 	 * 
 	 * @param cond
 	 * @param net
 	 * @param msg
 	 * @return
 	 */
-	public static boolean evlBranchCondition(ViolationConditionXmlType cond, Network net, IPSSMsgHub msg) {
+	public static boolean evlAclfNetBranchCondition(ViolationConditionXmlType cond, AclfNetwork net, IPSSMsgHub msg) {
 		boolean evalCond = false;
 		for (ViolationConditionXmlType.BranchConditionSet braCond : cond.getBranchConditionSetArray()) {
 			AclfBranch branch = (AclfBranch)IpssXmlParser.getBranch(braCond, net);
