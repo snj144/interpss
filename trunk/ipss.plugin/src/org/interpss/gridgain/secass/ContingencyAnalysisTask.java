@@ -60,6 +60,15 @@ public class ContingencyAnalysisTask extends AbstractMultiCaseTask {
 	
 	private void setTaskSessionAttributes(ContingencyAnalysis model) throws GridException {
 		getSession().setAttribute(Constants.GridToken_BaseStudyCaseNetworkModel, model.getBaseNetModelString());
+
+		getSession().setAttribute(Constants.GridToken_BusVoltageUpperLimitPU, new Double(model.getBusVoltageUpperLimitPU()));
+		getSession().setAttribute(Constants.GridToken_BusVoltageLowerLimitPU, new Double(model.getBusVoltageLowerLimitPU()));
+		
+		// send protective rule set
+		getSession().setAttribute(Constants.GridToken_ApplyRuleBase, 
+							model.getRuleBase().isApplyRuleBase()?Boolean.TRUE : Boolean.FALSE);
+		if (model.getRuleBase().isApplyRuleBase())
+			getSession().setAttribute(Constants.GridToken_RuleBaseXml, model.getRuleBase().getRuleBaseXmlString());
 	}
 
 	private ContingencyAnaysisJob createJob(AclfStudyCase studyCase, ContingencyAnalysis model) throws GridException {

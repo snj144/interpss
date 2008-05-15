@@ -67,9 +67,9 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 		getSession().setAttribute(Constants.GridToken_AclfOpt_ReturnStudyCase, new Integer(reOpt));
 		getSession().setAttribute(Constants.GridToken_AclfOpt_CalculateViolation, 
 							model.getAclfGridOption().isCalculateViolation()? Boolean.TRUE : Boolean.FALSE);
-		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU, 
+		getSession().setAttribute(Constants.GridToken_BusVoltageUpperLimitPU, 
 							new Double(model.getAclfGridOption().getBusVoltageUpperLimitPU()));
-		getSession().setAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU, 
+		getSession().setAttribute(Constants.GridToken_BusVoltageLowerLimitPU, 
 							new Double(model.getAclfGridOption().getBusVoltageLowerLimitPU()));
 
 		// use grid session to sent network model to the remote node
@@ -79,10 +79,10 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 			getSession().setAttribute(Constants.GridToken_BaseStudyCaseNetworkModel, model.getBaseNetModelString());
 			
 		// send protective rule set
-		getSession().setAttribute(Constants.GridToken_ApplyAclfRuleBase, 
-							model.getRuleBase().isApplyAclfRuleBase()?Boolean.TRUE : Boolean.FALSE);
-		if (model.getRuleBase().isApplyAclfRuleBase())
-			getSession().setAttribute(Constants.GridToken_AclfRuleBaseXml, model.getRuleBase().getAclfRuleBaseXmlString());
+		getSession().setAttribute(Constants.GridToken_ApplyRuleBase, 
+							model.getRuleBase().isApplyRuleBase()?Boolean.TRUE : Boolean.FALSE);
+		if (model.getRuleBase().isApplyRuleBase())
+			getSession().setAttribute(Constants.GridToken_RuleBaseXml, model.getRuleBase().getRuleBaseXmlString());
 	}
 
 	private IpssGridGainAclfJob createJob(AclfStudyCase studyCase, AclfMultiStudyCase model) throws GridException {

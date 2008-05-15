@@ -33,6 +33,8 @@ import java.io.Serializable;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.schema.ModificationXmlType;
+import org.interpss.schema.RuleBaseXmlType;
+import org.interpss.xml.PreventiveRuleHanlder;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -89,6 +91,18 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 		// perform loadflow calculation
 		try {
 			algo.loadflow(SpringAppContext.getIpssMsgHub());
+			if (getSesBooleanAttrib(Constants.GridToken_ApplyRuleBase)) {
+				IpssLogger.getLogger().info("Apply Aclf Rule Base");
+				String str = getSesStringAttrib(Constants.GridToken_RuleBaseXml);
+				if (str != null) {
+					// IpssLogger.getLogger().info("Rule Base " + str);
+					RuleBaseXmlType ruleBase = RuleBaseXmlType.Factory.parse(str);
+					double max = getSesDoubleAttrib(Constants.GridToken_BusVoltageUpperLimitPU);
+					double min = getSesDoubleAttrib(Constants.GridToken_BusVoltageLowerLimitPU);
+					getRemoteResult().addReturnMessage(
+							PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, max, min, this.getMsgHub()));
+				}
+			}
 		} catch (Exception e) {
 			getRemoteResult().put(RemoteMessageTable.KEY_bOut_ReturnStatus, Boolean.FALSE);
 			getRemoteResult().addReturnMessage(e.toString());
