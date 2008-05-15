@@ -72,8 +72,8 @@ public class DefaultRemoteResultHandler extends RemoteResultAdapter {
 		if (session.getAttribute(Constants.GridToken_AclfOpt_CalculateViolation) != null &&
 				((Boolean)session.getAttribute(Constants.GridToken_AclfOpt_CalculateViolation)).booleanValue()) {
 			List<Object> msgList = new ArrayList<Object>();
-			double max = ((Double)session.getAttribute(Constants.GridToken_AclfOpt_BusVoltageUpperLimitPU)).doubleValue();
-			double min = ((Double)session.getAttribute(Constants.GridToken_AclfOpt_BusVoltageLowerLimitPU)).doubleValue();
+			double max = ((Double)session.getAttribute(Constants.GridToken_BusVoltageUpperLimitPU)).doubleValue();
+			double min = ((Double)session.getAttribute(Constants.GridToken_BusVoltageLowerLimitPU)).doubleValue();
 			algo.violation(ViolationType.ALL, max, min, msgList);
 			resultTable.addReturnMessage(msgList);
 		}
