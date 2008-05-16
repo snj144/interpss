@@ -79,7 +79,7 @@ public class XmlScriptAclfRun {
 		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
 		AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunAclfCase.getDefaultAclfAlgorithm(); 
 		boolean gridRun = RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase());
-		long  timeout = ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout();
+		long  timeout = gridRun? ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout() : 0;
 			
 		if (xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
 			AclfStudyCaseXmlType xmlCase = xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()[0];
@@ -95,7 +95,7 @@ public class XmlScriptAclfRun {
 			if (applyRuleBase) 
 				XmlScriptUtilFunc.mapRuleBase(applyRuleBase, mCaseContainer, ipssXmlDoc.getRunStudyCase().getRuleBase());
 				
-			boolean reJobCreation = ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation() && gridRun;
+			boolean reJobCreation = gridRun? ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation() : false;
 				
 			int cnt = 0;
 			for (AclfStudyCaseXmlType xmlCase : xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {

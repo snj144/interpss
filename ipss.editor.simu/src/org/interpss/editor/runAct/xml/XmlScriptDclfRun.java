@@ -65,6 +65,7 @@ public class XmlScriptDclfRun {
 
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("DC Loadflow Analysis Info");
+			dialog.clearTextArea();
 
 			DclfStudyCaseXmlType xmlDefaultCase = xmlRunDclfCase.getDafaultDclfStudyCase(); 
 			
