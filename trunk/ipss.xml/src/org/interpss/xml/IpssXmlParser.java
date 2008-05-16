@@ -158,6 +158,15 @@ public class IpssXmlParser {
 	}
 
 	/**
+	 * Get the RuleBase object
+	 * 
+	 * @return
+	 */
+	public RuleBaseXmlType getRuleBase() {
+		return ipss.getRunStudyCase().getRuleBase();
+	}
+
+	/**
 	 * Get the schema top-level modification element
 	 * 
 	 * @return
