@@ -5,14 +5,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.gridgain.result.RemoteResultFactory;
-import org.interpss.gridgain.secass.ContingencyAnaysisJob;
 import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.PreventiveRuleHanlder;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -21,7 +20,6 @@ import com.interpss.common.util.SerializeEMFObjectUtil;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -86,5 +84,83 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 				.toString(IRemoteResult.DisplayType_SecViolation, mscase)
 				.toString());
 */				
+	}
+	
+	@Test
+	public void ieee14BusCaseTest() throws Exception {
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		loadCaseData("testData/xml/contingency/IEEE-14Bus.ipss", simuCtx);
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, simuCtx.getAclfAdjNet());
+
+	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+
+		File xmlFile = new File("testData/xml/contingency/IEEE-14Bus_ContingencyAnalysis.xml");
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
+  		//System.out.println("----->" + parser.getRootElem().toString());
+  		
+	  	int cnt = 0;
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		  	IpssMapper mapper = new IpssXmlMapper();
+		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		  	
+	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		
+	  		AclfStudyCase scase = SimuObjectFactory
+	  				.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+	  		scase.getResult().transferAclfResult(net);
+	  		
+	  		mscase.updateResult("Description", scase.getResult());
+	  	}
+/*	  	
+		IRemoteResult resultHandler = RemoteResultFactory
+				.createHandler(ContingencyAnaysisJob.class);
+		System.out.println(resultHandler
+				.toString(IRemoteResult.DisplayType_SecViolation, mscase)
+				.toString());
+*/
+	  	AclfBranchResultRec r = mscase.getBranchResult().get("0001->0002(1)");
+	  	assertTrue(Math.abs(r.getMvaFlow() - 241.1) < 0.1);
+	}
+	@Test
+	public void ieee14BusRuleSetCaseTest() throws Exception {
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		loadCaseData("testData/xml/contingency/IEEE-14Bus.ipss", simuCtx);
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, simuCtx.getAclfAdjNet());
+
+	  	String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
+
+		File xmlFile = new File("testData/xml/contingency/IEEE-14Bus_RuleSet.xml");
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
+  		//System.out.println("----->" + parser.getRootElem().toString());
+  		
+	  	int cnt = 0;
+	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
+			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		  	IpssMapper mapper = new IpssXmlMapper();
+		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
+		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
+		  	
+	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+			PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRuleBase(), 1.1, 0.9, msg);
+	  		
+	  		AclfStudyCase scase = SimuObjectFactory
+	  				.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
+	  		scase.getResult().transferAclfResult(net);
+	  		
+	  		mscase.updateResult("Description", scase.getResult());
+	  	}
+/*
+		IRemoteResult resultHandler = RemoteResultFactory
+				.createHandler(ContingencyAnaysisJob.class);
+		System.out.println(resultHandler
+				.toString(IRemoteResult.DisplayType_SecViolation, mscase)
+				.toString());
+*/
+		AclfBranchResultRec r = mscase.getBranchResult().get("0001->0002(1)");
+	  	assertTrue(Math.abs(r.getMvaFlow() - 207.8) < 0.1);
 	}
 }
