@@ -32,11 +32,13 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.schema.AclfStudyCaseListXmlType;
 import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.util.StringUtil;
@@ -63,7 +65,7 @@ public class ContingencyFileParser {
 	 * @return
 	 * @throws Exception
 	 */
-	public static InterPSSXmlType parseControlFile(String filepath) throws Exception {
+	public static InterPSSXmlType parseControlFile(AnalysisRunType.Enum type, String filepath) throws Exception {
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));	
@@ -81,7 +83,7 @@ public class ContingencyFileParser {
 		for (String s : strList)
 			strAry[cnt++] = s;
 		
-		return parseControlFile(strAry);
+		return parseControlScripts(type, strAry);
 	}
 	
 	/**
@@ -91,9 +93,18 @@ public class ContingencyFileParser {
 	 * @return
 	 * @throws Exception
 	 */
-	public static InterPSSXmlType parseControlFile(String[] strAry) throws Exception {
-		IpssXmlParser parser = new IpssXmlParser(RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
+	public static InterPSSXmlType parseControlScripts(AnalysisRunType.Enum type, String[] strAry) throws Exception {
+		IpssXmlParser parser = new IpssXmlParser(type);
+		if (type == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS)
+			createAclfStudyCaseList(parser.getContingencyAnalysis().getAclfStudyCaseList(), strAry);
+		else
+			createAclfStudyCaseList(parser.getRunAclfStudyCase().getAclfStudyCaseList(), strAry);
+		
+		//System.out.println(parser.toString());
+		return parser.getRootDoc();
+	}
 
+	public static void createAclfStudyCaseList(AclfStudyCaseListXmlType caseList, String[] strAry) throws Exception {
 		ContingencyFileParser.FileStatus status = ContingencyFileParser.FileStatus.UnKnown;
 		int conCnt = 0, changeCnt = 0;
 		ModificationXmlType mod = null;
@@ -110,7 +121,7 @@ public class ContingencyFileParser {
 				String conName = sAry[1];
 //				System.out.println("[" + conCnt + "], " + conName);
 				
-				AclfStudyCaseXmlType scase = parser.getRunAclfStudyCase().getAclfStudyCaseList().addNewAclfStudyCase();
+				AclfStudyCaseXmlType scase = caseList.addNewAclfStudyCase();
 				scase.setRecId(conName+"_"+conCnt);
 				scase.setRecName(conName);
 				scase.setRecDesc(lineStr);
@@ -150,8 +161,5 @@ public class ContingencyFileParser {
 				}
 			}
 		}
-		
-		//System.out.println(parser.toString());
-		return parser.getRootDoc();
 	}
 }

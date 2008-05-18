@@ -64,15 +64,16 @@ public class ContingencyAnalysisResultHandler extends RemoteResultAdapter {
 		AclfAdjNetwork net = algo.getAclfAdjNetwork();
 		net.setDesc(remoteId);
 
-		resultTable.put(RemoteMessageTable.KEY_sInOut_RemoteNodeId, remoteId);
-		resultTable.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, caseId);
+		resultTable.put(RemoteMessageTable.KEY_sRqtRsp_RemoteNodeId, remoteId);
+		resultTable.put(RemoteMessageTable.KEY_sRqtRsp_StudyCaseId, caseId);
 		
-		resultTable.put(RemoteMessageTable.KEY_bOut_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
+		resultTable.put(RemoteMessageTable.KEY_bRsp_AclfConverged, net.isLfConverged()? Boolean.TRUE : Boolean.FALSE);
 		
   		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase();
   		scase.getResult().transferAclfResult(net);		
-		//System.out.println(scase.getResult().toString());
-		resultTable.put(RemoteMessageTable.KEY_sOut_AclfResult, SerializeEMFObjectUtil.saveModel(scase.getResult()));
+		resultTable.put(RemoteMessageTable.KEY_bAryRsp_AclfResult, 
+				SerializeEMFObjectUtil.saveModel(scase.getResult()).getBytes());
+		//System.out.println(resultTable);
 	}
 	
 	/**
@@ -92,8 +93,10 @@ public class ContingencyAnalysisResultHandler extends RemoteResultAdapter {
 		studyCase.setAclfConverged(resultTable.getAclfConvergeStatus());
 		
 		//System.out.println(resultTable.getAclfResult());
-		StudyCaseResult result = (StudyCaseResult)SerializeEMFObjectUtil.loadModel(resultTable.getAclfResult()); 
-		((ContingencyAnalysis)mCaseContainer).updateResult(studyCase.getName(), result);
+		if (resultTable.getAclfResult() != null) {
+			StudyCaseResult result = (StudyCaseResult)SerializeEMFObjectUtil.loadModel(resultTable.getAclfResult()); 
+			((ContingencyAnalysis)mCaseContainer).updateResult(studyCase.getName(), result);
+		}
 	}
 	
 	/**

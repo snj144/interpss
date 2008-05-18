@@ -80,7 +80,7 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 				mapper.mapping(mod, net, ModificationXmlType.class);
 			} catch (Exception e) {
-				getRemoteResult().put(RemoteMessageTable.KEY_bOut_ReturnStatus, Boolean.FALSE);
+				getRemoteResult().put(RemoteMessageTable.KEY_bRsp_ReturnStatus, Boolean.FALSE);
 				getRemoteResult().addReturnMessage(e.toString());
 			}
 		}
@@ -104,7 +104,7 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 				}
 			}
 		} catch (Exception e) {
-			getRemoteResult().put(RemoteMessageTable.KEY_bOut_ReturnStatus, Boolean.FALSE);
+			getRemoteResult().put(RemoteMessageTable.KEY_bRsp_ReturnStatus, Boolean.FALSE);
 			getRemoteResult().addReturnMessage(e.toString());
 		}
 
