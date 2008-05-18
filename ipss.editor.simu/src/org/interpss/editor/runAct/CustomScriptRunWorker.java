@@ -26,8 +26,9 @@ package org.interpss.editor.runAct;
 
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.run.ICustomRunScriptPlugin;
-import org.interpss.editor.runAct.xml.XmlScriptAclfRun;
+import org.interpss.editor.runAct.xml.XmlScriptContingency;
 import org.interpss.schema.InterPSSXmlType;
+import org.interpss.schema.RunStudyCaseXmlType.AnalysisRunType;
 
 import com.interpss.simu.SimuContext;
 
@@ -43,9 +44,12 @@ public class CustomScriptRunWorker {
 	public static boolean runCase(String scripts, String pluginName, SimuContext simuCtx) {
 		// create a custom script run adapter based on the plugin name
 		ICustomRunScriptPlugin adapter = PluginSpringAppContext.getCustomScriptRunPlugin(pluginName);
-		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(scripts, simuCtx.getMsgHub());
 		
 		// run Aclf using the xml document
-		return XmlScriptAclfRun.runAclf(ipssXmlDoc, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());		
+		//InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunType.RUN_ACLF, scripts, simuCtx.getMsgHub());
+		//return XmlScriptAclfRun.runAclf(ipssXmlDoc, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());		
+
+		InterPSSXmlType ipssXmlDoc = adapter.createIpssXmlDocument(AnalysisRunType.CONTINGENCY_ANALYSIS, scripts, simuCtx.getMsgHub());
+		return XmlScriptContingency.runContingencyAnalysis(ipssXmlDoc, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());		
 	}
 }
