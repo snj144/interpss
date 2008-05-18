@@ -9,11 +9,11 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.util.DocumentUtilFunc;
+import org.interpss.schema.AclfStudyCaseListXmlType;
+import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.BusChangeRecXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.AclfStudyCaseXmlType;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
@@ -40,8 +40,7 @@ public class ToolsXmlGenN1 extends IpssAbstractActionDefault {
 		
 		SimuContext simuCtx = (SimuContext)project.getSimuCtx();
 		Network net = simuCtx.getNetwork();
-		RunStudyCaseXmlType.CustomRun.RunAclfStudyCase.AclfStudyCaseList list = 
-			RunStudyCaseXmlType.CustomRun.RunAclfStudyCase.AclfStudyCaseList.Factory.newInstance();
+		AclfStudyCaseListXmlType list =	AclfStudyCaseListXmlType.Factory.newInstance();
   		for (Branch bra : net.getBranchList()) {
   			AclfStudyCaseXmlType studyCase = list.addNewAclfStudyCase();
   			String id = bra.getFromBus().getId()+"-"+bra.getToBus().getId()+"_"+bra.getCircuitNumber();
