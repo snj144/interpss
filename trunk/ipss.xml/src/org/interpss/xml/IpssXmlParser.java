@@ -61,10 +61,14 @@ public class IpssXmlParser {
 		InterPSSDocument ipssDoc = InterPSSDocument.Factory.newInstance();
 		this.ipss = ipssDoc.addNewInterPSS();
 		this.ipss.addNewRunStudyCase();
+		getRunStudyCase().setAnalysisRunType(type);
 		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
-			getRunStudyCase().setAnalysisRunType(RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
 			getRunStudyCase().addNewCustomRun().addNewRunAclfStudyCase();
 			getRunAclfStudyCase().addNewAclfStudyCaseList();
+		}
+		else if (type == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS) {
+			getRunStudyCase().addNewContingencyAnalysis();
+			getContingencyAnalysis().addNewAclfStudyCaseList();
 		}
 	}
 

@@ -79,17 +79,7 @@
 							type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
 						</ns:element>
 						<ns:element name="aclfStudyCaseList"
-							minOccurs="1" maxOccurs="1">
-							<ns:complexType>
-								<ns:sequence>
-									<ns:element name="aclfStudyCase"
-										minOccurs="1" maxOccurs="unbounded"
-										type="ipss:AclfStudyCaseXmlType">
-
-									</ns:element>
-
-								</ns:sequence>
-							</ns:complexType>
+							minOccurs="1" maxOccurs="1" type="ipss:AclfStudyCaseListXmlType">
 						</ns:element>
 
 					</ns:sequence>
@@ -614,16 +604,16 @@
             <ns:element name="defaultAclfAlgorithm"
 				type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
 			</ns:element>
-			<ns:element name="aclfStudyCaseList" minOccurs="1"
-				maxOccurs="1">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="aclfStudyCase" minOccurs="1"
-							maxOccurs="unbounded" type="ipss:AclfStudyCaseXmlType">
-						</ns:element>
-					</ns:sequence>
-				</ns:complexType>
+			<ns:element name="aclfStudyCaseList" minOccurs="1"	maxOccurs="1" type="ipss:AclfStudyCaseListXmlType">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
+
+    <ns:complexType name="AclfStudyCaseListXmlType">
+		<ns:sequence>
+			<ns:element name="aclfStudyCase" minOccurs="1"
+							maxOccurs="unbounded" type="ipss:AclfStudyCaseXmlType">
+			</ns:element>
+		</ns:sequence>
+    </ns:complexType>
 </ns:schema>
