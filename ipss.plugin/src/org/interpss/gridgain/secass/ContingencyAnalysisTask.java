@@ -74,11 +74,11 @@ public class ContingencyAnalysisTask extends AbstractMultiCaseTask {
 	private ContingencyAnaysisJob createJob(AclfStudyCase studyCase, ContingencyAnalysis model) throws GridException {
 		// send the Aclf Net model (String) the remote node directly
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
-		remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCase.getId());
+		remoteMsg.put(RemoteMessageTable.KEY_sRqtRsp_StudyCaseId, studyCase.getId());
 		if (studyCase.getModifyModelString() != null) {
-			remoteMsg.put(RemoteMessageTable.KEY_sIn_StudyCaseModification, studyCase.getModifyModelString());
+			remoteMsg.put(RemoteMessageTable.KEY_sRqt_StudyCaseModification, studyCase.getModifyModelString());
 		}
-		remoteMsg.put(RemoteMessageTable.KEY_sIn_AclfAlgorithm, studyCase.getAclfAlgoModelString());
+		remoteMsg.put(RemoteMessageTable.KEY_sRqt_AclfAlgorithm, studyCase.getAclfAlgoModelString());
 
 		if (IpssGridGainUtil.RemoteNodeDebug) {
 			IpssLogger.getLogger().info("CaseId: " + studyCase.getId());

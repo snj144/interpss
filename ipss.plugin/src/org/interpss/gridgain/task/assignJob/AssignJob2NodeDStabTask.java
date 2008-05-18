@@ -68,12 +68,12 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 			this.studyCaseId = net.getId();
 				
 			lfAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo.getAclfAlgorithm());
-			remoteMsg.put(RemoteMessageTable.KEY_sIn_AclfAlgorithm, lfAlgoStr);
+			remoteMsg.put(RemoteMessageTable.KEY_sRqt_AclfAlgorithm, lfAlgoStr);
 
 			// done - this part should be implemented in the future
 			// dstabAlgo.setSimuOutputHandler(null);
 			dstabAlgoStr = SerializeEMFObjectUtil.saveModel(dstabAlgo);
-			remoteMsg.put(RemoteMessageTable.KEY_sIn_DStabAlgorithm, dstabAlgoStr);
+			remoteMsg.put(RemoteMessageTable.KEY_sRqt_DStabAlgorithm, dstabAlgoStr);
 
 			if (IpssGridGainUtil.RemoteNodeDebug) {
 				IpssLogger.getLogger().info("CaseId: " + net.getId());
@@ -86,14 +86,14 @@ public class AssignJob2NodeDStabTask extends AbstractAssignJob2NodeTask {
 			modelStr = SerializeEMFObjectUtil.saveModel(net);
 		}
 		
-		remoteMsg.put(RemoteMessageTable.KEY_sIn_StudyCaseNetworkModel, modelStr);
+		remoteMsg.put(RemoteMessageTable.KEY_sRqt_StudyCaseNetworkModel, modelStr);
 		return remoteMsg;
 	}
 
 
 	@Override
 	protected AbstractIpssGridGainJob createJob(RemoteMessageTable remoteMsg) {
-		remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCaseId);
+		remoteMsg.put(RemoteMessageTable.KEY_sRqtRsp_StudyCaseId, studyCaseId);
 		return new IpssGridGainDStabJob(remoteMsg);
 	}
 }

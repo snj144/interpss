@@ -88,17 +88,17 @@ public class MultiCaseAclfTask extends AbstractMultiCaseTask {
 	private IpssGridGainAclfJob createJob(AclfStudyCase studyCase, AclfMultiStudyCase model) throws GridException {
 		// send the Aclf Net model (String) the remote node directly
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
-		remoteMsg.put(RemoteMessageTable.KEY_sInOut_StudyCaseId, studyCase.getId());
+		remoteMsg.put(RemoteMessageTable.KEY_sRqtRsp_StudyCaseId, studyCase.getId());
 		if (model.isRemoteJobCreation()) {
 			if (studyCase.getModifyModelString() != null) {
-				remoteMsg.put(RemoteMessageTable.KEY_sIn_StudyCaseModification, studyCase.getModifyModelString());
+				remoteMsg.put(RemoteMessageTable.KEY_sRqt_StudyCaseModification, studyCase.getModifyModelString());
 				//IpssLogger.getLogger().info("Study Case Modification: " + studyCase.getModifyModelString());
 			}
 		}
 		else {
-			remoteMsg.put(RemoteMessageTable.KEY_sIn_StudyCaseNetworkModel, studyCase.getNetModelString());
+			remoteMsg.put(RemoteMessageTable.KEY_sRqt_StudyCaseNetworkModel, studyCase.getNetModelString());
 		}
-		remoteMsg.put(RemoteMessageTable.KEY_sIn_AclfAlgorithm, studyCase.getAclfAlgoModelString());
+		remoteMsg.put(RemoteMessageTable.KEY_sRqt_AclfAlgorithm, studyCase.getAclfAlgoModelString());
 		IpssGridGainAclfJob job = new IpssGridGainAclfJob(remoteMsg);
 
 		if (IpssGridGainUtil.RemoteNodeDebug) {
