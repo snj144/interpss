@@ -61,7 +61,13 @@ public class XmlScriptContingency {
 	 * @param msg
 	 * @return
 	 */
-	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+	public static boolean runContingencyAnalysis(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
+		if (!IpssGridGainUtil.isGridEnabled()) {
+			SpringAppContext.getEditorDialogUtil().showWarnMsgDialog(
+					"Contingency Analysis Warnning", "Contingency analysis requires Grid Computing env setup properly");
+			return false;
+		}
+
 		ContingencyAnalysisXmlType xmlRunCase = ipssXmlDoc.getRunStudyCase().getContingencyAnalysis();
 		if (xmlRunCase == null) {
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog(

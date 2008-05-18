@@ -86,7 +86,7 @@ public class XmlScriptRunWorker {
 			return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
 		}
 		else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS) {
-			return XmlScriptContingency.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(), msg);
+			return XmlScriptContingency.runContingencyAnalysis(parser.getRootDoc(), simuCtx.getAclfAdjNet(), msg);
 		}
 		msg.sendErrorMsg("Error: wrong analysus type, " + xmlStudyCase.getAnalysisRunType());
 		return false;
