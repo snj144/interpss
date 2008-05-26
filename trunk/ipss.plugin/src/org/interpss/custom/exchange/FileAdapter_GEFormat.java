@@ -30,6 +30,7 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.interpss.custom.exchange.ge.GEDataRec;
 import org.interpss.custom.exchange.impl.GEFormat_in;
 
 import com.interpss.common.exp.InvalidOperationException;
@@ -85,7 +86,7 @@ public class FileAdapter_GEFormat extends IpssFileAdapterBase {
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		
-		final AclfAdjNetwork adjNet = GEFormat_in.loadFile(din, StringUtil.getFileName(filepath), msg);
+		final AclfAdjNetwork adjNet = GEFormat_in.loadFile(din, StringUtil.getFileName(filepath), GEDataRec.VersionNo.PSLF15, msg);
   		// System.out.println(adjNet.net2String());
 	  		
   		if (adjNet != null) {

@@ -24,11 +24,20 @@
 
 package org.interpss.custom.exchange.impl;
 
+import org.interpss.custom.exchange.ge.BranchSecDataRec;
+import org.interpss.custom.exchange.ge.BusDataRec;
+import org.interpss.custom.exchange.ge.GEDataRec;
+import org.interpss.custom.exchange.ge.GenDataRec;
+import org.interpss.custom.exchange.ge.LoadDataRec;
+import org.interpss.custom.exchange.ge.ShuntDataRec;
+import org.interpss.custom.exchange.ge.XformerDataRec;
+
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
 public class GEFormat_in {
+	public static final String Token_CommentLine = "!";
 	public static final String Token_Title = "title";
 	public static final String Token_Comments = "comments";
 	public static final String Token_SolutionParameters = "solution parameters";
@@ -55,7 +64,7 @@ public class GEFormat_in {
 	public static final String Token_GeneratorReactiveCapabilityCurves = "qtable data";
 	public static final String Token_End = "end";
 		
-	public static enum RecType {Title, Comments, Parameters,
+	public static enum RecType {Title, Comments, SolutionParameters,
 				BusData, BranchSecData, XfrData, GenData,
 				LoadData, ShuntData, ConShuntData,
 				AreaData, ZoneData, InterfaceData, InterfaceBranchData,
@@ -64,7 +73,8 @@ public class GEFormat_in {
 				OwnerData, InductMotorData, LineData, GenQCurves,
 				End, NotDefined};
 
-	public static AclfAdjNetwork loadFile(java.io.BufferedReader din, String filename, IPSSMsgHub msg) throws Exception {
+	public static AclfAdjNetwork loadFile(java.io.BufferedReader din, String filename, 
+						GEDataRec.VersionNo version, IPSSMsgHub msg) throws Exception {
     	AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
     	adjNet.setAllowParallelBranch(false);
 
@@ -74,7 +84,7 @@ public class GEFormat_in {
   		try {
       		do {
       			lineStr = din.readLine();
-      			if (lineStr != null) {
+      			if (lineStr != null && !lineStr.startsWith(Token_CommentLine)) {
       				lineNo++;
       				while (lineStr.endsWith("/")) {
       					lineStr = lineStr.substring(0, lineStr.indexOf("/")) + din.readLine();
@@ -88,7 +98,7 @@ public class GEFormat_in {
       					recType = RecType.Comments;
       				}
       				else if (lineStr.startsWith(Token_SolutionParameters)) {
-      					recType = RecType.Parameters;
+      					recType = RecType.SolutionParameters;
       				}
       				else if (lineStr.startsWith(Token_BusData)) {
       					recType = RecType.BusData;
@@ -158,37 +168,37 @@ public class GEFormat_in {
       				}
       				else {
       					if (recType == RecType.Title) {
-      						// process Title record
+      						GEDataRec.TitleRec rec = new GEDataRec.TitleRec(lineStr, version);
       					}
       					else if (recType == RecType.Comments) {
-      						// process Comments record
+      						GEDataRec.CommentsRec rec = new GEDataRec.CommentsRec(lineStr, version);
       					}
-      					else if (recType == RecType.Parameters) {
-      						// process Parameters record
+      					else if (recType == RecType.SolutionParameters) {
+      						GEDataRec.SolutionParamRec rec = new GEDataRec.SolutionParamRec(lineStr, version);
       					}
       					else if (recType == RecType.BusData) {
       						// process BusData
-      						System.out.println("BusData:" + lineStr);
+      						BusDataRec rec = new BusDataRec(lineStr, version);
       					}
       					else if (recType == RecType.BranchSecData) {
       						// process Branch section Data
-      						System.out.println("BraSecData:" + lineStr);
+      						BranchSecDataRec rec = new BranchSecDataRec(lineStr, version);
       					}
       					else if (recType == RecType.XfrData) {
       						// process Xfr Data
-      						System.out.println("XfrData:" + lineStr);
+      						XformerDataRec rec = new XformerDataRec(lineStr, version);
       					}
       					else if (recType == RecType.GenData) {
       						// process Gen Data
-      						System.out.println("GenData:" + lineStr);
+      						GenDataRec rec = new GenDataRec(lineStr, version);
       					}
       					else if (recType == RecType.LoadData) {
       						// process Line Data
-      						System.out.println("LoadData:" + lineStr);
+      						LoadDataRec rec = new LoadDataRec(lineStr, version);
       					}
       					else if (recType == RecType.ShuntData) {
       						// process Shunt Data
-      						System.out.println("ShuntData:" + lineStr);
+      						ShuntDataRec rec = new ShuntDataRec(lineStr, version);
       					}
       					else if (recType == RecType.ConShuntData) {
       						// process Controlled Data
@@ -196,19 +206,19 @@ public class GEFormat_in {
       					}
       					else if (recType == RecType.AreaData) {
       						// process Area Data
-      						System.out.println("AreaData:" + lineStr);
+      						GEDataRec.AreaRec rec = new GEDataRec.AreaRec(lineStr, version);
       					}
       					else if (recType == RecType.ZoneData) {
       						// process Zone Data
-      						System.out.println("ZoneData:" + lineStr);
+      						GEDataRec.ZoneRec rec = new GEDataRec.ZoneRec(lineStr, version);
       					}
       					else if (recType == RecType.InterfaceData) {
       						// process Interface Data
-      						System.out.println("InterfaceData:" + lineStr);
+      						GEDataRec.InterfaceRec rec = new GEDataRec.InterfaceRec(lineStr, version);
       					}
       					else if (recType == RecType.InterfaceBranchData) {
       						// process Interface Branch Data
-      						System.out.println("InterBranchData:" + lineStr);
+      						GEDataRec.InterfaceBranchRec rec = new GEDataRec.InterfaceBranchRec(lineStr, version);
       					}
       					else if (recType == RecType.DCBusData) {
       						// process DCBus Data
@@ -236,7 +246,7 @@ public class GEFormat_in {
       					}
       					else if (recType == RecType.OwnerData) {
       						// process Owner Data
-      						System.out.println("OwnerData:" + lineStr);
+      						GEDataRec.OwnerRec rec = new GEDataRec.OwnerRec(lineStr, version);
       					}
       					else if (recType == RecType.InductMotorData) {
       						// process InductMotor Data
