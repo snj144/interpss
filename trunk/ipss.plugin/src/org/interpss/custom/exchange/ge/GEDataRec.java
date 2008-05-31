@@ -1,26 +1,35 @@
 package org.interpss.custom.exchange.ge;
 
+import java.util.StringTokenizer;
+
+import com.interpss.ext.ge.aclf.GeAclfNetwork;
+
 public class GEDataRec {
 	public static enum VersionNo {PSLF15};
 	
-	static private class BaseRec {
-		public String d_in, d_out;   // yymmdd
-		public String projid_info;
-	}
-
 	static public class TitleRec {
-		public String title;
+		public String title = "";
 
-		public TitleRec(String lineStr, VersionNo version) {
-			System.out.println("title->" + lineStr);
+		public void processLineStr(String lineStr, VersionNo version) {
+			//System.out.println("title->" + lineStr);
+			title += lineStr + "\n";
+		}
+
+		public String toString() {
+			return "Title: " + title;
 		}
 	}
 	
 	static public class CommentsRec {
-		public String title;
+		public String comments = "";
 
-		public CommentsRec(String lineStr, VersionNo version) {
-			System.out.println("comment->" + lineStr);
+		public void processLineStr(String lineStr, VersionNo version) {
+			//System.out.println("comment->" + lineStr);
+			comments += lineStr + "\n";
+		}
+
+		public String toString() {
+			return "Comments: " + comments;
 		}
 	}
 
@@ -34,13 +43,64 @@ public class GEDataRec {
 	jump <value> Jumper threshold impedance, pu
 	toler <value> Newton solution tolerance, MVA
 	sbase <value> System base, MVA
+	
+	sample data
+		tap    1    tcul  enabled/disabled
+		phas   1    ps    enabled/disabled
+		area   1    area  enabled/disabled
+		svd    1    svd   enabled/disabled
+		dctap  1    dc    enabled/disabled
+		ped    1    ped   enabled/disabled  // not defined in V15
+		jump  0.000100    jumper threshold
+		toler   0.1000    newton tolerance
+		sbase    100.0    system mva base	
 	 */	
 	static public class SolutionParamRec {
 		public int tap, phas, area, svd, dctap, gcd;
 		public double jump, toler, sbase;
 
-		public SolutionParamRec(String lineStr, VersionNo version) {
-			System.out.println("solutionParam->" + lineStr);
+		public void processLineStr(String lineStr, VersionNo version) {
+			//System.out.println("solutionParam->" + lineStr);
+			StringTokenizer st = new StringTokenizer(lineStr);
+			st.nextElement();
+			String str = st.nextToken();
+			if (lineStr.startsWith("tap"))
+				tap = new Integer(str).intValue();
+			else if (lineStr.startsWith("phas"))
+				phas = new Integer(str).intValue();
+			else if (lineStr.startsWith("area"))
+				area = new Integer(str).intValue();
+			else if (lineStr.startsWith("svd"))
+				svd = new Integer(str).intValue();
+			else if (lineStr.startsWith("dctap"))
+				dctap = new Integer(str).intValue();
+			else if (lineStr.startsWith("gcd"))
+				gcd = new Integer(str).intValue();
+			else if (lineStr.startsWith("jump"))
+				jump = new Double(str).doubleValue();
+			else if (lineStr.startsWith("toler"))
+				toler = new Double(str).doubleValue();
+			else if (lineStr.startsWith("sbase"))
+				sbase = new Double(str).doubleValue();
+		}
+	
+		public void setAclfNet(GeAclfNetwork net) {
+	  		net.setBaseKva(this.sbase*1000.0);
+	  		net.setTapAdjFlag(tap);
+	  		net.setPsXfrAdjFlag(phas);
+	  		net.setAreaInterExControlFlag(area);
+	  		net.setShuntAdjFlag(svd);
+	  		net.setDcLineControlFlag(dctap);
+	  		net.setGcdControlFlag(gcd);
+	  		net.setJumperThreshZ(jump);
+	  		net.setTolerance(toler);
+		}
+		
+		public String toString() {
+			String str = "Solution Paramters: \n";
+			str += "tap, phas, area, svd, dctap, gcd: " + tap + ", " + phas + ", " + area + ", " + svd + ", " + dctap + ", " + gcd + "\n";
+			str += "jump, toler, sbase: " + jump + ", " + toler + ", " + sbase + "\n";
+			return str;
 		}
 	}
 
