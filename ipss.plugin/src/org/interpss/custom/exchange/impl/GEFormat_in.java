@@ -33,8 +33,9 @@ import org.interpss.custom.exchange.ge.ShuntDataRec;
 import org.interpss.custom.exchange.ge.XformerDataRec;
 
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.ext.ExtensionObjectFactory;
+import com.interpss.ext.ge.aclf.GeAclfBus;
+import com.interpss.ext.ge.aclf.GeAclfNetwork;
 
 public class GEFormat_in {
 	public static final String Token_CommentLine = "!";
@@ -73,12 +74,16 @@ public class GEFormat_in {
 				OwnerData, InductMotorData, LineData, GenQCurves,
 				End, NotDefined};
 
-	public static AclfAdjNetwork loadFile(java.io.BufferedReader din, String filename, 
+	public static GeAclfNetwork loadFile(java.io.BufferedReader din, String filename, 
 						GEDataRec.VersionNo version, IPSSMsgHub msg) throws Exception {
-    	AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
-    	adjNet.setAllowParallelBranch(false);
+		GeAclfNetwork  adjNet = ExtensionObjectFactory.createGeAclfNetwork();
+    	adjNet.setAllowParallelBranch(true);
 
-    	RecType recType = RecType.NotDefined; 
+		GEDataRec.TitleRec titleRec = new GEDataRec.TitleRec();
+		GEDataRec.CommentsRec commentRec = new GEDataRec.CommentsRec();
+		GEDataRec.SolutionParamRec solParamRec = new GEDataRec.SolutionParamRec();
+
+		RecType recType = RecType.NotDefined; 
   		String lineStr = null;
   		int lineNo = 0;
   		try {
@@ -168,21 +173,27 @@ public class GEFormat_in {
       				}
       				else {
       					if (recType == RecType.Title) {
-      						GEDataRec.TitleRec rec = new GEDataRec.TitleRec(lineStr, version);
+      						titleRec.processLineStr(lineStr, version);
       					}
       					else if (recType == RecType.Comments) {
-      						GEDataRec.CommentsRec rec = new GEDataRec.CommentsRec(lineStr, version);
+      						commentRec.processLineStr(lineStr, version);
       					}
       					else if (recType == RecType.SolutionParameters) {
-      						GEDataRec.SolutionParamRec rec = new GEDataRec.SolutionParamRec(lineStr, version);
+      						solParamRec.processLineStr(lineStr, version);
       					}
       					else if (recType == RecType.BusData) {
       						// process BusData
       						BusDataRec rec = new BusDataRec(lineStr, version);
+      						//System.out.println(rec);
+      						GeAclfBus  bus = ExtensionObjectFactory.createGeAclfBus();
+      						rec.setAclfBus(bus);
+      						adjNet.addBus(bus, bus.getGeAreaNo(), bus.getGeZoneNo(), new Integer(bus.getGeOwnerNo()).toString());
       					}
       					else if (recType == RecType.BranchSecData) {
       						// process Branch section Data
       						BranchSecDataRec rec = new BranchSecDataRec(lineStr, version);
+      						//System.out.println(rec);
+      						rec.setBranchSection(adjNet, msg);
       					}
       					else if (recType == RecType.XfrData) {
       						// process Xfr Data
@@ -270,6 +281,16 @@ public class GEFormat_in {
     		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString());
   		}
 
+  		//System.out.println(titleRec);
+  		//System.out.println(commentRec);
+  		
+  		adjNet.setId("GELoadFlowData"+version);
+  		adjNet.setName(titleRec.title);
+  		adjNet.setDesc(commentRec.comments);
+  		
+  		//System.out.println(solParamRec);
+  		solParamRec.setAclfNet(adjNet);
+  		
   		return adjNet;
     }
 }
