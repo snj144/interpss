@@ -156,23 +156,28 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
-		ODMData2XmlHelper.addNVPair(nvList, Token_Date, date);
+		if (date != null) 
+			ODMData2XmlHelper.addNVPair(nvList, Token_Date, date);
 
 		//[1] Columns 11-30   Originator's name [A]
 		final String orgName = strAry[1];
-		ODMData2XmlHelper.addNVPair(nvList, Token_OrgName, orgName);
+		if (orgName != null)
+			ODMData2XmlHelper.addNVPair(nvList, Token_OrgName, orgName);
 
 		//[3] Columns 39-42   Year [I]
 		final String year = strAry[3];
-		ODMData2XmlHelper.addNVPair(nvList, Token_Year, year);
+		if (year != null)
+			ODMData2XmlHelper.addNVPair(nvList, Token_Year, year);
 
 		//[4] Column  44      Season (S - Summer, W - Winter)
 		final String season = strAry[4];
-		ODMData2XmlHelper.addNVPair(nvList, Token_Season, season);
+		if (season != null)
+			ODMData2XmlHelper.addNVPair(nvList, Token_Season, season);
 
 		//[5] Column  46-73   Case identification [A]
 		final String caseId = strAry[5];
-		ODMData2XmlHelper.addNVPair(nvList, Token_CaseId, caseId);
+		if (caseId != null)
+			ODMData2XmlHelper.addNVPair(nvList, Token_CaseId, caseId);
 
 		getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
