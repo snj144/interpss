@@ -2,7 +2,11 @@ package org.interpss.custom.exchange.ge;
 
 import java.util.StringTokenizer;
 
+import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
+import com.interpss.ext.ge.aclf.GeArea;
+import com.interpss.ext.ge.aclf.GeInterface;
+import com.interpss.ext.ge.aclf.GeZone;
 
 public class GEDataRec {
 	public static enum VersionNo {PSLF15};
@@ -112,14 +116,46 @@ public class GEDataRec {
 	<pnettol> Real power net interchange tolerance (MW)
 	<pnet> Actual real power net interchange (MW)
 	<qnet> Actual reactive power net interchange (MVAR)
+	
+        1 "P                               "       0      0.0   1000.0    -88.2    -84.1	
 	 */
 	static public class AreaRec {
-		public int arnum;
-		public String arnam, swing;
+		public int arnum, swing;
+		public String arnam;
 		public double pnetdes, pnettol, pnet, qnet;
 
 		public AreaRec(String lineStr, VersionNo version) {
-			System.out.println("area->" + lineStr);
+			//System.out.println("area->" + lineStr);
+			StringTokenizer st = new StringTokenizer(lineStr, "\"");
+			
+			this.arnum = new Integer(st.nextToken().trim()).intValue();
+			this.arnam = st.nextToken();
+			
+			String str = st.nextToken();
+			//        0      0.0   1000.0    -88.2    -84.1
+			st = new StringTokenizer(str);
+			this.swing = new Integer(st.nextToken()).intValue();
+			this.pnetdes = new Double(st.nextToken()).doubleValue();
+			this.pnettol = new Double(st.nextToken()).doubleValue();
+			this.pnet = new Double(st.nextToken()).doubleValue();
+			this.qnet = new Double(st.nextToken()).doubleValue();	
+		}
+		
+		public void setAreaData(GeAclfNetwork net) {
+			GeArea area = ExtensionObjectFactory.createGeArea(this.arnum, this.arnam);
+			area.setSwingNumber(this.swing);
+			area.setNetMw(this.pnet);
+			area.setNetMvar(this.qnet);
+			area.setScheduledMw(this.pnetdes);
+			area.setExTolerance(this.pnettol);
+			net.getGeAreaList().add(area);
+		}
+		
+		public String toString() {
+			String str = "";
+			str += "arnum, swing, arnam: " + arnum + ", " + swing + ", " + arnam + "\n";
+			str += "pnetdes, pnettol, pnet, qnet: " + pnetdes + ", " + pnettol + ", " + pnet + ", " + qnet + "\n";
+			return str;
 		}
 	}
 
@@ -128,6 +164,8 @@ public class GEDataRec {
 	<"zonam"> Zone name up to 32 characters enclosed in quotation marks
 	<pznet> Actual real power interchange (MW)
 	<qznet> Actual reactive power interchange (MVAR)
+	
+    	2 "Italyz2                         "    9.448  112.738
 	 */
 	static public class ZoneRec {
 		public int zonum;
@@ -135,7 +173,28 @@ public class GEDataRec {
 		public double pznet, qznet;
 
 		public ZoneRec(String lineStr, VersionNo version) {
-			System.out.println("zone->" + lineStr);
+			//System.out.println("zone->" + lineStr);
+			StringTokenizer st = new StringTokenizer(lineStr, "\"");
+			
+			this.zonum = new Integer(st.nextToken().trim()).intValue();
+			this.zonam = st.nextToken();
+			
+			String str = st.nextToken();
+			st = new StringTokenizer(str);
+			this.pznet = new Double(st.nextToken()).doubleValue();
+			this.qznet = new Double(st.nextToken()).doubleValue();
+		}
+
+		public void setZoneData(GeAclfNetwork net) {
+			GeZone zone = ExtensionObjectFactory.createGeZone(this.zonum, this.zonam);
+			zone.setNetMw(this.pznet);
+			zone.setNetMvar(this.qznet);
+			net.getGeZoneList().add(zone);
+		}
+
+		public String toString() {
+			String str = "zonum, zonam, pznet, qznet: " + zonum + ", " + zonam + ", " + pznet + ", " + qznet + "\n";
+			return str;
 		}
 	}
 
@@ -172,14 +231,57 @@ public class GEDataRec {
 	<r6> Sixth Interface Rating (MVA)
 	<r7> Seventh Interface Rating (MVA)
 	<r8> Eighth Interface Rating (MVA)
+	
+    1 "E-P                             "   88.209   84.065  2275.0     0.0     0.0    0.0     0.0     0.0     0.0     0.0 
+	
  */	
 	static public class InterfaceRec {
 		public int ifno;
 		public String name;
-		public double pnet, qnet, r1, r2, r3, r4, r5, r6, r7, r8;
+		public double pnet, qnet; 
+		double[] rAry = new double[8];
 		
 		public InterfaceRec(String lineStr, VersionNo version) {
-			System.out.println("interface->" + lineStr);
+			// System.out.println("interface->" + lineStr);
+			StringTokenizer st = new StringTokenizer(lineStr, "\"");
+			
+			this.ifno = new Integer(st.nextToken().trim()).intValue();
+			this.name = st.nextToken();
+			
+			String str = st.nextToken();
+			st = new StringTokenizer(str);
+			this.pnet = new Double(st.nextToken()).doubleValue();
+			this.qnet = new Double(st.nextToken()).doubleValue();
+			if (st.hasMoreElements())
+				this.rAry[0] = new Double(st.nextToken()).doubleValue();
+			if (st.hasMoreElements())
+				this.rAry[1] = new Double(st.nextToken()).doubleValue();
+			if (st.hasMoreElements())
+				this.rAry[2] = new Double(st.nextToken()).doubleValue();
+			if (st.hasMoreElements())
+				this.rAry[3] = new Double(st.nextToken()).doubleValue();
+			if (st.hasMoreElements())
+				this.rAry[4] = new Double(st.nextToken()).doubleValue();
+			if (st.hasMoreElements())
+				this.rAry[5] = new Double(st.nextToken()).doubleValue();
+			if (st.hasMoreElements())
+				this.rAry[6] = new Double(st.nextToken()).doubleValue();
+			if (st.hasMoreElements())
+				this.rAry[7] = new Double(st.nextToken()).doubleValue();
+		}
+
+		public void setInterfaceData(GeAclfNetwork net) {
+			GeInterface inf = ExtensionObjectFactory.createGeInterface(this.ifno, this.name);
+			inf.setNetMw(this.pnet);
+			inf.setNetMvar(this.qnet);
+			for (int i = 0; i < 8; i++)
+				inf.getMvaRatingAry().add(i, this.rAry[i]);
+			net.getGeInterfaceList().add(inf);
+		}
+
+		public String toString() {
+			String str = "ifno, name, pnet, qnet: " + ifno + ", " + name + ", " + pnet + ", " + qnet + "\n";
+			return str;
 		}
 	}
 	
@@ -201,6 +303,19 @@ public class GEDataRec {
 
 		public InterfaceBranchRec(String lineStr, VersionNo version) {
 			System.out.println("inter branch->" + lineStr);
+		}
+
+		public void setInterfaceBranchData(GeAclfNetwork net) {
+/*
+ 			GeZone zone = ExtensionObjectFactory.createGeZone(this.zonum, this.zonam);
+			zone.setNetMw(this.pznet);
+			zone.setNetMvar(this.qznet);
+			net.getGeZoneList().add(zone); */
+		}
+
+		public String toString() {
+			String str = "";
+			return str;
 		}
 	}
 }

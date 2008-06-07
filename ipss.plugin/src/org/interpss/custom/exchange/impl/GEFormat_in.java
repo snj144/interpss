@@ -89,8 +89,8 @@ public class GEFormat_in {
   		try {
       		do {
       			lineStr = din.readLine();
+  				lineNo++;
       			if (lineStr != null && !lineStr.startsWith(Token_CommentLine)) {
-      				lineNo++;
       				while (lineStr.endsWith("/")) {
       					lineStr = lineStr.substring(0, lineStr.indexOf("/")) + din.readLine();
       				}
@@ -202,10 +202,12 @@ public class GEFormat_in {
       					else if (recType == RecType.GenData) {
       						// process Gen Data
       						GenDataRec rec = new GenDataRec(lineStr, version);
+      						rec.setGen(adjNet, msg);
       					}
       					else if (recType == RecType.LoadData) {
       						// process Line Data
       						LoadDataRec rec = new LoadDataRec(lineStr, version);
+      						rec.setLoad(adjNet, msg);
       					}
       					else if (recType == RecType.ShuntData) {
       						// process Shunt Data
@@ -218,14 +220,17 @@ public class GEFormat_in {
       					else if (recType == RecType.AreaData) {
       						// process Area Data
       						GEDataRec.AreaRec rec = new GEDataRec.AreaRec(lineStr, version);
+      						rec.setAreaData(adjNet);
       					}
       					else if (recType == RecType.ZoneData) {
       						// process Zone Data
       						GEDataRec.ZoneRec rec = new GEDataRec.ZoneRec(lineStr, version);
+      						rec.setZoneData(adjNet);
       					}
       					else if (recType == RecType.InterfaceData) {
       						// process Interface Data
       						GEDataRec.InterfaceRec rec = new GEDataRec.InterfaceRec(lineStr, version);
+      						rec.setInterfaceData(adjNet);
       					}
       					else if (recType == RecType.InterfaceBranchData) {
       						// process Interface Branch Data

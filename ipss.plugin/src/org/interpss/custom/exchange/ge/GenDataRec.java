@@ -2,8 +2,15 @@ package org.interpss.custom.exchange.ge;
 
 import java.util.StringTokenizer;
 
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.ext.ExtensionObjectFactory;
+import com.interpss.ext.ge.aclf.GeAclfBus;
+import com.interpss.ext.ge.aclf.GeAclfNetwork;
+import com.interpss.ext.ge.aclf.GeGenerator;
+import com.interpss.ext.ge.aclf.GeLoad;
+
 public class GenDataRec extends BaseBusDataRec {
-	public int st, igregBus, snt; 
+	public int st, igregBus, nst; 
 	public String igregName, hName, tName;
 	public double igregBkv, prf, qrf, pgen, pmax, pmin, qgen, qmax, qmin;
 	public double mbase, rcomp, xcomp, zgenr, zgenx, hBus, hBkv, tBus;
@@ -67,6 +74,25 @@ public class GenDataRec extends BaseBusDataRec {
 		}
 	}
 
+	public void setGen(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
+		String id = new Integer(this.number).toString();
+		GeAclfBus  bus = (GeAclfBus)net.getBus(id);
+		if (bus == null) {
+			msg.sendErrorMsg("Bus cannot be found, bus number: " + id);
+			throw new Exception("Bus cannot be found");
+		}
+		
+		GeGenerator gen = ExtensionObjectFactory.createGeGenerator(id, longId);
+		bus.getGenList().add(gen);
+		gen.setGeAreaNo(this.ar);
+		gen.setGeZoneNo(this.z);
+		// <st> Load status 1 =	in service; 0 =	out of service
+		gen.setInSevice(this.st == 1);
+		// <nst> Normal load status 1=in service; 0=out of service
+		gen.setNormalInService(this.nst == 1);		
+		/*
+*/		
+	}	
 	public String toString() {
 		String str = super.toString();
 		return str;
