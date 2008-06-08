@@ -358,6 +358,7 @@ public class GEDataRec {
 			}
 			GeInterfaceBranch infBra = ExtensionObjectFactory.createGeInterfaceBranch();
 			infBra.setParticipateFactor(pf);
+			inf.getInfBranchList().add(infBra);
 		}
 
 		public String toString() {

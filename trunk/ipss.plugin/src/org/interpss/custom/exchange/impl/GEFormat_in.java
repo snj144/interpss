@@ -265,6 +265,7 @@ public class GEFormat_in {
       					else if (recType == RecType.OwnerData) {
       						// process Owner Data
       						GEDataRec.OwnerRec rec = new GEDataRec.OwnerRec(lineStr, version);
+      						rec.setOwnerData(adjNet);
       					}
       					else if (recType == RecType.InductMotorData) {
       						// process InductMotor Data
