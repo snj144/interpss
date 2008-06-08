@@ -24,24 +24,12 @@
 
 package org.interpss.core.adapter.ge;
 
-import static org.junit.Assert.assertTrue;
-
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
-import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
-
-import com.interpss.common.SpringAppContext;
-import com.interpss.simu.SimuContext;
 
 public class GE_UCTE_TestCases extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
-		SimuContext simuCtx = adapter.load("testData/ge/Test.epc", SpringAppContext.getIpssMsgHub());
-//  		System.out.println(simuCtx.getAclfNet().net2String());
-		
-		assertTrue(true);
 	}
 }
 
