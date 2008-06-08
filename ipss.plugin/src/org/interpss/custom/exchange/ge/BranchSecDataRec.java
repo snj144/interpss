@@ -153,6 +153,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 			braSec.getOwnerNumberAry().add(i, oAry[i]);
 			braSec.getPartiFactorAry().add(i, pAry[i]);
 		}
+		branch.getBranchSecList().add(braSec);
 	}
 	
 	public String toString() {
