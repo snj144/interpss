@@ -2,10 +2,13 @@ package org.interpss.custom.exchange.ge;
 
 import java.util.StringTokenizer;
 
+import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.ext.ge.aclf.GeArea;
 import com.interpss.ext.ge.aclf.GeInterface;
+import com.interpss.ext.ge.aclf.GeInterfaceBranch;
+import com.interpss.ext.ge.aclf.GeOwner;
 import com.interpss.ext.ge.aclf.GeZone;
 
 public class GEDataRec {
@@ -207,14 +210,46 @@ public class GEDataRec {
 	<sch_mw> Schedule real power net interchange (MW)
 	<sch_mvar> Schedule reactive power net interchange (MVAr)
 	<ar> Area number
+	
+       1 "1                               " "    "       0.00       0.00       0.00       0.00   0
 	 */
 	static public class OwnerRec {
 		public int ownerNo, ar;
-		public String oname, sName;
+		public String oname, sname;
 		public double net_mw, net_mvar, sch_mw, sch_mvar;
 
 		public OwnerRec(String lineStr, VersionNo version) {
-			System.out.println("owner->" + lineStr);
+			//System.out.println("owner->" + lineStr);
+			StringTokenizer st = new StringTokenizer(lineStr, "\"");
+			this.ownerNo = new Integer(st.nextToken().trim()).intValue();
+			this.oname = st.nextToken();
+			st.nextToken();
+			this.sname = st.nextToken();
+			
+			//        0.00       0.00       0.00       0.00   0
+			String str = st.nextToken();
+			st = new StringTokenizer(str);
+			this.net_mw = new Double(st.nextToken()).doubleValue();
+			this.net_mvar = new Double(st.nextToken()).doubleValue();
+			this.sch_mw = new Double(st.nextToken()).doubleValue();
+			this.sch_mvar = new Double(st.nextToken()).doubleValue();
+			this.ar = new Integer(st.nextToken().trim()).intValue();
+		}
+		
+		public void setOwnerData(GeAclfNetwork net) {
+			GeOwner o = ExtensionObjectFactory.createGeOwner(this.ownerNo, this.oname, this.sname);
+			o.setNetMw(this.net_mw);
+			o.setNetMvar(this.net_mvar);
+			o.setScheduledMw(sch_mw);
+			o.setScheduledMvar(sch_mvar);
+			o.setAreaNumber(this.ar);
+			net.getGeOwnerList().add(o);
+		}		
+	
+		public String toString() {
+			String str = "ownerNo, ar, oname, sname: " + ownerNo + ", " + ar + ", " + oname + ", " + sname + "\n";
+			str += "net_mw, net_mvar, sch_mw, sch_mvar: " + net_mw + ", " + net_mvar + ", " + sch_mw + ", " + sch_mvar + "\n";
+			return str;
 		}
 	}
 	
@@ -293,24 +328,36 @@ public class GEDataRec {
 	<"t name"> To bus name enclosed in quotation marks
 	<t bkv> To bus base voltage (kV)
 	<"ck"> Two character circuit identifier enclosed in quotation marks
-	<ifn> Number of interface of which this branch is a member <pf> Fraction of the flow 
-	             on this branch that is to be counted as part of the interface flow
+	<ifn> Number of interface of which this branch is a member 
+	<pf> Fraction of the flow on this branch that is to be counted as part of the interface flow
+	             
+     79 "E-55    " 380.00       1 "P-1     " 380.00 "1 "   :      1     1.000
 */	
-	static public class InterfaceBranchRec {
-		public int fBus, tBus, ifn;
-		public String fName, tName, ck;
-		public double fBkv, tBkv;
+	static public class InterfaceBranchRec extends BaseBranchDataRec{
+		public int ifn;
+		public double pf;
 
 		public InterfaceBranchRec(String lineStr, VersionNo version) {
-			System.out.println("inter branch->" + lineStr);
+			//System.out.println("inter branch->" + lineStr);
+			String str1 = lineStr.substring(0, lineStr.indexOf(':')),
+	               str2 = lineStr.substring(lineStr.indexOf(':')+1);
+		
+			this.setHeaderData(str1);
+			StringTokenizer st = new StringTokenizer(str2);
+			if (st.hasMoreElements())
+				this.ifn = new Integer(st.nextToken()).intValue();
+			if (st.hasMoreElements())
+				this.pf = new Double(st.nextToken()).doubleValue();			
 		}
 
-		public void setInterfaceBranchData(GeAclfNetwork net) {
-/*
- 			GeZone zone = ExtensionObjectFactory.createGeZone(this.zonum, this.zonam);
-			zone.setNetMw(this.pznet);
-			zone.setNetMvar(this.qznet);
-			net.getGeZoneList().add(zone); */
+		public void setInterfaceBranchData(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
+			GeInterface inf = net.getInterface(this.ifn);
+			if (inf == null) {
+				msg.sendErrorMsg("Interface can not be found, interface number: " + this.ifn);
+				throw new Exception("Interface can not be found");				
+			}
+			GeInterfaceBranch infBra = ExtensionObjectFactory.createGeInterfaceBranch();
+			infBra.setParticipateFactor(pf);
 		}
 
 		public String toString() {

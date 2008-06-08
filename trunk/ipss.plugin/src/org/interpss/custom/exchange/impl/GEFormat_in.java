@@ -93,6 +93,7 @@ public class GEFormat_in {
       			if (lineStr != null && !lineStr.startsWith(Token_CommentLine)) {
       				while (lineStr.endsWith("/")) {
       					lineStr = lineStr.substring(0, lineStr.indexOf("/")) + din.readLine();
+      	  				lineNo++;
       				}
       				//System.out.println(lineStr);
       				
@@ -235,6 +236,7 @@ public class GEFormat_in {
       					else if (recType == RecType.InterfaceBranchData) {
       						// process Interface Branch Data
       						GEDataRec.InterfaceBranchRec rec = new GEDataRec.InterfaceBranchRec(lineStr, version);
+      						rec.setInterfaceBranchData(adjNet, msg);
       					}
       					else if (recType == RecType.DCBusData) {
       						// process DCBus Data

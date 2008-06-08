@@ -9,10 +9,9 @@ import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.ext.ge.aclf.GeBranchSection;
 
 
-public class BranchSecDataRec {
-	public int f_bus, t_bus, sec, st;
-	public String f_name, t_name, ck, long_id;
-	public double f_bkv, t_bkv, r, x, b;
+public class BranchSecDataRec extends BaseBranchDataRec {
+	public int st;
+	public double r, x, b;
 	public double[] r_mvaAry = new double[8];
 	public double al, l_info, gi, tf, tt;
 	public int ar, z, nst, type, ohms;   //Type of line 0=normal line
@@ -31,25 +30,11 @@ public class BranchSecDataRec {
 		//System.out.println("branch sec->" + lineStr);
 
 		String str1 = lineStr.substring(0, lineStr.indexOf(':')),
-	       str2 = lineStr.substring(lineStr.indexOf(':')+1);
+	           str2 = lineStr.substring(lineStr.indexOf(':')+1);
 		
-		StringTokenizer st = new StringTokenizer(str1, "\"");
-		// 1 "P-1     " 380.00       2 "P-2     " 380.00 "1 "  1 "        "
-		this.f_bus = new Integer(st.nextToken().trim()).intValue();
-		this.f_name = st.nextToken();
-		
-		String s = st.nextToken();
-		StringTokenizer st1 = new StringTokenizer(s);
-		this.f_bkv = new Double(st1.nextToken()).doubleValue();
-		this.t_bus = new Integer(st1.nextToken().trim()).intValue();
-		
-		this.t_name = st.nextToken();
-		this.t_bkv = new Double(st.nextToken()).doubleValue();
-		this.ck = st.nextToken();
-		this.sec = new Integer(st.nextToken().trim()).intValue();
-		this.long_id = st.nextToken();
+		this.setHeaderData(str1);
 			
-		st = new StringTokenizer(str2);
+		StringTokenizer st = new StringTokenizer(str2);
 		if (st.hasMoreElements())
 			this.st = new Integer(st.nextToken()).intValue();
 		if (st.hasMoreElements())
@@ -171,10 +156,8 @@ public class BranchSecDataRec {
 	}
 	
 	public String toString() {
-		String str = "";
-		str += "f_bus, t_bus, sec, st: " + f_bus + ", " + t_bus + ", " + sec + ", " + st + "\n";
-		str += "f_name, t_name, ck, long_id: " + f_name + ", " + t_name + ", " + ck + ", " + long_id + "\n";
-		str += "f_bkv, t_bkv, r, x, b: " + f_bkv + ", " + t_bkv + ", " + r + ", " + x + ", " + b + "\n";
+		String str = super.toString();
+		str += "st, r, x, b: " + st + ", " + r + ", " + x + ", " + b + "\n";
 		str += "r1_mva, r2_mva, r3_mva, r4_mva, r5_mva, r6_mva, r7_mva, r8_mva: " + r_mvaAry[0] + ", " + r_mvaAry[1] + ", " + 
 		                r_mvaAry[2] + ", " + r_mvaAry[3] + ", " + r_mvaAry[4] + ", " + r_mvaAry[5] + ", " + r_mvaAry[6] + ", " + r_mvaAry[7] + "\n";
 		str += "al, l_info, gi, tf, tt: " + al + ", " + l_info + ", " + gi + ", " + tf + ", " + tt + "\n";
