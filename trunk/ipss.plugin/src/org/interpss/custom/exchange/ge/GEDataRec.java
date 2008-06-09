@@ -333,7 +333,7 @@ public class GEDataRec {
 	             
      79 "E-55    " 380.00       1 "P-1     " 380.00 "1 "   :      1     1.000
 */	
-	static public class InterfaceBranchRec extends BaseBranchDataRec{
+	static public class InterfaceBranchRec extends BranchHeaderRec{
 		public int ifn;
 		public double pf;
 

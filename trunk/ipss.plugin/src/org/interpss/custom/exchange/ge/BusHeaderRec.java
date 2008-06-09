@@ -2,7 +2,7 @@ package org.interpss.custom.exchange.ge;
 
 import java.util.StringTokenizer;
 
-public class BaseBusDataRec {
+public class BusHeaderRec {
 	public int number, ar, z;
 	public String name, id = "", longId = ""; 
 	public double bkv;

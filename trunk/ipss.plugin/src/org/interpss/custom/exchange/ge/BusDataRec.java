@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 import com.interpss.common.datatype.Constants;
 import com.interpss.ext.ge.aclf.GeAclfBus;
 
-public class BusDataRec extends BaseBusDataRec {
+public class BusDataRec extends BusHeaderRec {
 			public int ty, owner;
 			public String name;
 			public double vs_pu, vt_pu, an_deg, vma, vmi;
