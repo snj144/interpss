@@ -71,6 +71,9 @@ public class SimpleSampleTestCases extends BaseTestSetup {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
 		SimuContext simuCtx = adapter.load("testData/ge/Sample18Bus.epc", SpringAppContext.getIpssMsgHub());
 		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
+
+		assertTrue(net.getNoBus() == 18);
+		assertTrue(net.getNoBranch() == 24);
 	}	
 }
 
