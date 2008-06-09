@@ -38,7 +38,8 @@ import com.interpss.ext.ge.aclf.GeAclfBus;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 
 public class GEFormat_in {
-	public static final String Token_CommentLine = "!";
+	public static final String Token_CommentLine1 = "!";
+	public static final String Token_CommentLine2 = "!";
 	public static final String Token_Title = "title";
 	public static final String Token_Comments = "comments";
 	public static final String Token_SolutionParameters = "solution parameters";
@@ -90,7 +91,7 @@ public class GEFormat_in {
       		do {
       			lineStr = din.readLine();
   				lineNo++;
-      			if (lineStr != null && !lineStr.startsWith(Token_CommentLine)) {
+      			if (lineStr != null && !lineStr.startsWith(Token_CommentLine1) && !lineStr.startsWith(Token_CommentLine2)) {
       				while (lineStr.endsWith("/")) {
       					lineStr = lineStr.substring(0, lineStr.indexOf("/")) + din.readLine();
       	  				lineNo++;

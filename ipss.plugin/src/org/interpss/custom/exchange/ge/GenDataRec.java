@@ -8,7 +8,7 @@ import com.interpss.ext.ge.aclf.GeAclfBus;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.ext.ge.aclf.GeGenerator;
 
-public class GenDataRec extends BaseBusDataRec {
+public class GenDataRec extends BusHeaderRec {
 	public int st, igregBus, nst; 
 	public String igregName, hName, tName;
 	public double igregBkv, prf, qrf, pgen, pmax, pmin, qgen, qmax, qmin;
