@@ -65,5 +65,12 @@ public class SimpleSampleTestCases extends BaseTestSetup {
 		assertTrue(((GeAclfBranch)net.getBranch("1", "2", "1 ")).getBranchSecList().size() == 1);
 		assertTrue(((GeAclfBranch)net.getBranch("1", "2", "2 ")).getBranchSecList().size() == 1);
 	}
+	
+	@Test
+	public void testCase2() throws Exception {
+		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
+		SimuContext simuCtx = adapter.load("testData/ge/Sample18Bus.epc", SpringAppContext.getIpssMsgHub());
+		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
+	}	
 }
 
