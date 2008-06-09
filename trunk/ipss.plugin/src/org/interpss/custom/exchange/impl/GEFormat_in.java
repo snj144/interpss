@@ -200,6 +200,7 @@ public class GEFormat_in {
       					else if (recType == RecType.XfrData) {
       						// process Xfr Data
       						XformerDataRec rec = new XformerDataRec(lineStr, version);
+      						rec.setXfrData(adjNet, msg);
       					}
       					else if (recType == RecType.GenData) {
       						// process Gen Data
