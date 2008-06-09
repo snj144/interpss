@@ -2,6 +2,11 @@ package org.interpss.custom.exchange.ge;
 
 import java.util.StringTokenizer;
 
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.ext.ExtensionObjectFactory;
+import com.interpss.ext.ge.aclf.GeAclfBranch;
+import com.interpss.ext.ge.aclf.GeAclfNetwork;
+
 public class XformerDataRec extends BaseBranchDataRec {
 	public int type, kregBus, zt, iintBus, tertBus;
 	public double kregBkv, iintBkv, tertBkv, tbase, zpsr;
@@ -156,4 +161,27 @@ public class XformerDataRec extends BaseBranchDataRec {
 		if (st.hasMoreElements())
 			this.xcomp = new Double(st.nextToken()).doubleValue();       	
 	}
+	
+	public void setXfrData(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
+		GeAclfBranch  branch = ExtensionObjectFactory.createGeAclfBranch();
+		net.addBranch(branch, new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
+	}
+	
+	public String toString() {
+		String str = super.toString();
+		str += "type, kregBus, zt, iintBus, tertBus: " + type + ", " + kregBus + ", " + zt + ", " + iintBus + ", " + tertBus + "\n";
+		str += "kregBkv, iintBkv, tertBkv, tbase, zpsr: " + kregBkv + ", " + iintBkv + ", " + tertBkv + ", " + tbase + ", " + zpsr + "\n";
+		str += "kregName, iintName, tertName: " + kregName + ", " + iintName + ", " + tertName + "\n";
+		str += "zpsx, zptr, zptx, ztsr, ztsx, vnomp, vnoms, vnomt, anglp, gmag, bmag: " + 
+		          zpsx + ", " + zptr + ", " + zptx + ", " + ztsr + ", " + ztsx + ", " + vnomp + ", " + vnoms + ", " + vnomt + ", " + 
+		          anglp + ", " + gmag + ", " + bmag + "\n";
+		str += "aloss, tmax, tmin, vtmax, vtmin, stepp, tapp, tapfp, tapfs, tapft: " + 
+		          aloss + ", " + tmax + ", " + tmin + ", " + vtmax + ", " + vtmin + ", " + stepp + ", " + 
+		          tapp + ", " + tapfp + ", " + tapfs + ", " + tapft + "\n";
+		str += "tbasept, tbasets, angls, anglt: " + tbasept + ", " + tbasets + ", " + angls + ", " + anglt + "\n";
+		str += "rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst, rxunits, gbunits, tunits, rcomp, xcomp: " + 
+		          rs1 + ", " + rs2 + ", " + rs3 + ", " + rt1 + ", " + rt2 + ", " + rt3 + ", " + alosss + ", " + 
+		          alosst + ", " + rxunits + ", " + gbunits + ", " + tunits + ", " + rcomp + ", " + xcomp + "\n";
+		return str;
+	}	
 }
