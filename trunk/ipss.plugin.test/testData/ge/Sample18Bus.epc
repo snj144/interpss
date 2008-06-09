@@ -129,7 +129,7 @@ gcd data  [   0]
 transaction data  [    0]                     to area    name                              schedule
 owner data  [    0]    owner name               s name       net_mw   net_mvar     sch_mw   sch_mvar  ar
 motor data  [    0]          
-line   data  [    0]                                 ck  se  long_id_    st resist   react   charge   rate1  rate2  rate3  rate4 aloss  lngth 
+line data  [    0]                                 ck  se  long_id_    st resist   react   charge   rate1  rate2  rate3  rate4 aloss  lngth 
 end
 #
 #
