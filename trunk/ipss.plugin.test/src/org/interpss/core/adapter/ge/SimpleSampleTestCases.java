@@ -32,7 +32,7 @@ import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.ext.ge.aclf.GeAclfBranch;
+import com.interpss.ext.ge.aclf.GeAclfLine;
 import com.interpss.ext.ge.aclf.GeAclfBus;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.simu.SimuContext;
@@ -62,8 +62,8 @@ public class SimpleSampleTestCases extends BaseTestSetup {
 		assertTrue(((GeAclfBus)net.getBus("3")).getGenList().size() == 0);
 		assertTrue(((GeAclfBus)net.getBus("3")).getLoadList().size() == 1);
 		
-		assertTrue(((GeAclfBranch)net.getBranch("1", "2", "1 ")).getBranchSecList().size() == 1);
-		assertTrue(((GeAclfBranch)net.getBranch("1", "2", "2 ")).getBranchSecList().size() == 1);
+		assertTrue(((GeAclfLine)net.getBranch("1", "2", "1 ")).getBranchSecList().size() == 1);
+		assertTrue(((GeAclfLine)net.getBranch("1", "2", "2 ")).getBranchSecList().size() == 1);
 	}
 	
 	@Test
@@ -74,6 +74,8 @@ public class SimpleSampleTestCases extends BaseTestSetup {
 
 		assertTrue(net.getNoBus() == 18);
 		assertTrue(net.getNoBranch() == 24);
+		
+		System.out.println(net.net2String());
 	}	
 }
 
