@@ -27,6 +27,7 @@ package org.interpss.custom.exchange.impl;
 import org.interpss.custom.exchange.ge.BranchSecDataRec;
 import org.interpss.custom.exchange.ge.BusDataRec;
 import org.interpss.custom.exchange.ge.GEDataRec;
+import org.interpss.custom.exchange.ge.GeUtilFunc;
 import org.interpss.custom.exchange.ge.GenDataRec;
 import org.interpss.custom.exchange.ge.LoadDataRec;
 import org.interpss.custom.exchange.ge.ShuntDataRec;
@@ -300,6 +301,8 @@ public class GEFormat_in {
   		
   		//System.out.println(solParamRec);
   		solParamRec.setAclfNet(adjNet);
+  		
+  		GeUtilFunc.transferData(adjNet, msg);
   		
   		return adjNet;
     }
