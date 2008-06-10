@@ -1,10 +1,34 @@
+ /*
+  * @(#)BranchSecDataRec.java   
+  *
+  * Copyright (C) 2006-2008 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 06/01/2008
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss.custom.exchange.ge;
 
 import java.util.StringTokenizer;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.ext.ExtensionObjectFactory;
-import com.interpss.ext.ge.aclf.GeAclfBranch;
+import com.interpss.ext.ge.aclf.GeAclfLine;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.ext.ge.aclf.GeBranchSection;
 
@@ -79,14 +103,14 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 	}
 	
 	public void setBranchSection(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
-		GeAclfBranch  branch = null;
+		GeAclfLine  branch = null;
 		if (this.sec == 1) {
 			// first section
-			branch = ExtensionObjectFactory.createGeAclfBranch();
+			branch = ExtensionObjectFactory.createGeAclfLine();
 			net.addBranch(branch, new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
 		}
 		else {
-			branch = (GeAclfBranch)net.getBranch(new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
+			branch = (GeAclfLine)net.getBranch(new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
 			if (branch == null) {
 				msg.sendErrorMsg("Branch section data error, branch cannot be found, fromBus, toBus: " + f_bus + ", " + t_bus);
 				throw new Exception("Branch cannot be found");

@@ -1,11 +1,35 @@
+ /*
+  * @(#)XformerDataRec.java   
+  *
+  * Copyright (C) 2006-2008 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 06/01/2008
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss.custom.exchange.ge;
 
 import java.util.StringTokenizer;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.ext.ExtensionObjectFactory;
-import com.interpss.ext.ge.aclf.GeAclfBranch;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
+import com.interpss.ext.ge.aclf.GeAclfXformer;
 
 public class XformerDataRec extends BaseBranchDataRec {
 	public int type, kregBus, zt, iintBus, tertBus;
@@ -14,7 +38,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 	public double zpsx, zptr, zptx, ztsr, ztsx, vnomp, vnoms, vnomt, anglp, gmag, bmag;
 	public double aloss, tmax, tmin, vtmax, vtmin, stepp, tapp, tapfp, tapfs, tapft;
 	public double tbasept, tbasets, angls, anglt;
-	public double rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst, rxunits, gbunits, tunits, rcomp, xcomp;
+	public double rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst;
 
 	public XformerDataRec(String lineStr, GEDataRec.VersionNo version) {
 		/*
@@ -150,21 +174,97 @@ public class XformerDataRec extends BaseBranchDataRec {
 			this.alosss = new Double(st.nextToken()).doubleValue();
 		if (st.hasMoreElements())
 			this.alosst = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.rxunits = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.gbunits = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.tunits = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.rcomp = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.xcomp = new Double(st.nextToken()).doubleValue();       	
 	}
 	
 	public void setXfrData(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
-		GeAclfBranch  branch = ExtensionObjectFactory.createGeAclfBranch();
-		net.addBranch(branch, new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
+		GeAclfXformer  xfr = ExtensionObjectFactory.createGeAclfXformer();
+		net.addBranch(xfr, new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
+		
+		setBaseBranchData(xfr.getBranchData());
+/*
+		<type> Control type {1,11,2,12,4,14} 
+       		1 or 11= None 
+       		2 or 12= Controls a voltage by adjusting TCUL ratio 
+       		4 or 14= Controls real power flow by adjusting ps angle
+		<tbase> Transformer Base (primary to secondary) (MVA)
+		<vnomp> Primary winding nominal voltage (kV)
+		<vnoms> Secondary winding nominal voltage (kV)
+		<zpsr> Resistance primary to secondary (pu on tbase)
+		<zpsx> Reactance primary to secondary (pu on tbase)
+		<tapfp> Primary winding fixed tap position (pu)
+		<tapfs> Secondary winding fixed tap position (pu)
+		<anglp> Primary winding phase angle (degrees)
+		<angls> Secondary winding phase angle (degrees)
+		<gmag> Magnetizing conductance (pu on tbase)
+		<bmag> Magnetizing susceptance (pu on tbase)
+		<aloss> Loss factor (0.0 - 1.0) used to assign losses.1.0 = 100% loss assigned to "from" side of transformer
+		<alosss> Secondary Loss factor (0.0 - 1.0)
+*/
+		xfr.setType(this.type);
+		xfr.setBaseMvaPrim2Secd(this.tbase);
+		xfr.setNominalKvPrim(this.vnomp);
+		xfr.setNominalKvSecd(this.vnoms);
+		xfr.setRPrim2Secd(this.zpsr);
+		xfr.setXPrim2Secd(this.zpsx);
+		xfr.setFixedTapPrim(this.tapfp);
+		xfr.setFixedTapSecd(this.tapfs);
+		xfr.setPhaseAngleDegPrim(this.anglp);
+		xfr.setPhaseAngleDegSecd(this.angls);
+
+		xfr.setGmagPU(this.gmag);
+		xfr.setBmagPU(this.bmag);
+		xfr.setLossFactorPrim(this.aloss);
+		xfr.setLossFactorSecd(this.alosss);
+/*		
+		<kreg bus> Number of bus whose voltage is controlled by this transformer if type is not a 1.
+		<"kreg name"> Regulating bus name enclosed in quotation marks  // no need
+		<kreg bkv> Regulating bus base voltage           // no need
+		<tmax> Maximum TCUL ratio if type 2 (pu) (degrees) Maximum phase angle if type 4
+		<tmin> Minimum TCUL ratio if type 2 (pu) (degrees) Minimum phase angle if type 4
+		<vtmax> Upper limit of controlled voltage band if type 2 (pu) Upper limit of controlled MW flow band if type 4 (pu)
+		<vtmin> Lower limit of controlled voltage band if type 2 (pu) Lower limit of controlled MW flow band if type 4 (pu)
+		<stepp> Ratio step of TCUL unit if type is 2 Angle step of TCUL unit if type is 4 (pu) (degrees)
+		<tapp> TCUL tap position (primary winding) (pu)
+*/
+/*
+		<rs1> Secondary rating 1 (MVA)
+		<rs2> Secondary rating 2 (MVA)
+		<rs3> Secondary rating 3 (MVA)
+		<iztabl> Transformer impedance table number
+*/
+		xfr.setMvaRating1Secd(this.rs1);
+		xfr.setMvaRating2Secd(this.rs2);
+		xfr.setMvaRating3Secd(this.rs3);
+		xfr.setZTableNumber(this.zt);
+/*
+// Teriary data
+  
+		<iint bus> 3-winding point bus number
+		<"iint name"> 3-winding point bus name enclosed in quotation marks
+		<iint bkv> 3-winding point bus base voltage
+
+		<tert bus> Tertiary winding bus number
+		<"tert name"> Tertiary winding bus name enclosed in quotation marks
+		<tert bkv> Tertiary winding bus base voltage
+
+		<zptr> Resistance primary to tertiary (pu on tbasept)
+		<zptx> Reactance primary to tertiary (pu on tbasept)
+		<ztsr> Resistance tertiary to secondary (pu on tbasets)
+		<ztsx> Reactance tertiary to secondary (pu on tbasets)
+ 
+		<vnomt> Tertiary winding nominal voltage (kV) 
+		<tapft> Tertiary winding fixed tap position (pu)
+
+		<tbasept> Transformer Base (primary to tertiary) (MVA)
+		<tbasets> Transformer Base (tertiary to secondary) (MVA)
+		<anglt> Tertiary winding phase angle (degrees)
+
+		<rt1> Tertiary rating 1 (MVA)
+		<rt2> Tertiary rating 1 (MVA)
+		<rt3> Tertiary rating 1 (MVA)
+
+		<alosst> Tertiary Loss factor (0.0 - 1.0)
+ */	
 	}
 	
 	public String toString() {
@@ -179,9 +279,9 @@ public class XformerDataRec extends BaseBranchDataRec {
 		          aloss + ", " + tmax + ", " + tmin + ", " + vtmax + ", " + vtmin + ", " + stepp + ", " + 
 		          tapp + ", " + tapfp + ", " + tapfs + ", " + tapft + "\n";
 		str += "tbasept, tbasets, angls, anglt: " + tbasept + ", " + tbasets + ", " + angls + ", " + anglt + "\n";
-		str += "rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst, rxunits, gbunits, tunits, rcomp, xcomp: " + 
+		str += "rs1, rs2, rs3, rt1, rt2, rt3, alosss, alosst: " + 
 		          rs1 + ", " + rs2 + ", " + rs3 + ", " + rt1 + ", " + rt2 + ", " + rt3 + ", " + alosss + ", " + 
-		          alosst + ", " + rxunits + ", " + gbunits + ", " + tunits + ", " + rcomp + ", " + xcomp + "\n";
+		          alosst + "\n";
 		return str;
 	}	
 }
