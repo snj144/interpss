@@ -98,13 +98,19 @@ bus data  [    5]             ty  vsched   volt     angle   ar zone  vmax   vmin
 		1 = load bus (unconstrained voltage angle and magnitude)
 		2 = generator bus (voltage control [terminal or remote] within generator limits)
 		-2 = generator bus with unlimited reactive power limits
+		
+	<vs> Scheduled voltage (pu)
+	<vt> Bus voltage magnitude (pu)
+	<an> Bus voltage phase angle (degrees)
+	<vma> Voltage checking limit (pu)
+	<vmi> Voltage checking limit (pu)		
  */		
 		bus.setGeBusType(ty);
 		bus.setGeAreaNo(ar);
 		bus.setGeZoneNo(z);
 		bus.setGeOwnerNo(owner);
-		bus.setVoltage(vs_pu, an_deg*Constants.DtoR);
-		bus.setVSpecPU(vt_pu);
+		bus.setVoltage(vt_pu, an_deg*Constants.DtoR);
+		bus.setVSpecPU(vs_pu);
 		bus.setVUpperLimitPU(vma);
 		bus.setVLowerLimitPU(vmi);
 	}

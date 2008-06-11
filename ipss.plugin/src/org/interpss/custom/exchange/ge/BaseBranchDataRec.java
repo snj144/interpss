@@ -47,12 +47,7 @@ public class BaseBranchDataRec extends BranchHeaderRec {
 	}
 
 	public void setDates(StringTokenizer st) {
-		if (st.hasMoreElements())
-			this.d_in = st.nextToken();
-		if (st.hasMoreElements())
-			this.d_out = st.nextToken();
-		if (st.hasMoreElements())
-			this.projid = st.nextToken();
+		GeUtilFunc.setDates(st, this.d_in, this.d_out, this.projid);
 	}
 
 	public void setRMvaAry5_8(StringTokenizer st) {
@@ -67,38 +62,7 @@ public class BaseBranchDataRec extends BranchHeaderRec {
 	}
 		
 	public void setOwnerAry(StringTokenizer st) {
-		if (st.hasMoreElements())
-			this.oAry[0] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			this.pAry[0] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.oAry[1] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			this.pAry[1] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.oAry[2] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			this.pAry[2] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.oAry[3] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			this.pAry[3] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.oAry[4] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			this.pAry[4] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.oAry[5] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			this.pAry[5] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.oAry[6] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			this.pAry[6] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			this.oAry[7] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			this.pAry[7] = new Double(st.nextToken()).doubleValue();
+		GeUtilFunc.setOwnerAry(st, this.oAry, this.pAry);
 	}
 	
 	public void setBaseBranchData(GeBaseBranch bra) {
