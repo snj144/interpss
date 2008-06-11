@@ -97,32 +97,20 @@ public class LoadDataRec extends BusHeaderRec {
 		load.setInSevice(this.st == 1);
 		// <nst> Normal load status 1=in service; 0=out of service
 		load.setNormalInService(this.nst == 1);
+/*
+		<p> Constant real power (MW)
+		<q> Constant reactive power (MVAR)
+		<ip> Constant current real power (MW)
+		<iq> Constant current reactive power (MVAR)
+		<g> Constant admittance real power (MW)
+		<b> Constant admittance reactive power (MVAR)
+ */		
 		load.setIp(this.ip);
 		load.setIq(this.iq);
 		load.setP(this.p);
 		load.setQ(this.q);
 		load.setB(this.b);
 		load.setG(this.g);
-		/*
-		braSec.setInSevice(this.st == 1);
-		braSec.setNormalInService(this.nst == 1);
-		braSec.setGeAreaNo(this.ar);
-		braSec.setGeZoneNo(this.z);
-		braSec.setOhmicUnit(this.ohms == 1);
-		braSec.setType(this.type);
-		braSec.setR(this.r);
-		braSec.setX(this.x);
-		braSec.setB(this.b);
-		braSec.setLossFactor(this.al);
-		braSec.setGi(this.gi);
-		braSec.setFromTap(this.tf);
-		braSec.setToTap(this.tt);
-		for (int i = 0; i < 8; i++) {
-			braSec.getMvaRatingAry().add(i, r_mvaAry[i]);
-			braSec.getOwnerNumberAry().add(i, oAry[i]);
-			braSec.getPartiFactorAry().add(i, pAry[i]);
-		}
-*/		
 	}
 		
 	public String toString() {
