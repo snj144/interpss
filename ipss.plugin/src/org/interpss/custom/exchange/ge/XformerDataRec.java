@@ -225,16 +225,15 @@ public class XformerDataRec extends BaseBranchDataRec {
 		<vtmin> Lower limit of controlled voltage band if type 2 (pu) Lower limit of controlled MW flow band if type 4 (pu)
 		<stepp> Ratio step of TCUL unit if type is 2 Angle step of TCUL unit if type is 4 (pu) (degrees)
 		<tapp> TCUL tap position (primary winding) (pu)
-*/
-/*
-		<rs1> Secondary rating 1 (MVA)
-		<rs2> Secondary rating 2 (MVA)
-		<rs3> Secondary rating 3 (MVA)
 		<iztabl> Transformer impedance table number
 */
-		xfr.setMvaRating1Secd(this.rs1);
-		xfr.setMvaRating2Secd(this.rs2);
-		xfr.setMvaRating3Secd(this.rs3);
+		xfr.setAdjBusNumber(this.kregBus);
+		xfr.setTapAngMax(this.tmax);
+		xfr.setTapAngMin(this.tmin);
+		xfr.setVmax(this.vtmax);
+		xfr.setVmin(this.vtmin);
+		xfr.setAdjTapAngStep(this.stepp);
+		xfr.setAdjTapPrim(this.tapp);
 		xfr.setZTableNumber(this.zt);
 /*
 // Teriary data
@@ -262,6 +261,10 @@ public class XformerDataRec extends BaseBranchDataRec {
 		<rt1> Tertiary rating 1 (MVA)
 		<rt2> Tertiary rating 1 (MVA)
 		<rt3> Tertiary rating 1 (MVA)
+
+		<rs1> Secondary rating 1 (MVA)
+		<rs2> Secondary rating 2 (MVA)
+		<rs3> Secondary rating 3 (MVA)
 
 		<alosst> Tertiary Loss factor (0.0 - 1.0)
  */	
