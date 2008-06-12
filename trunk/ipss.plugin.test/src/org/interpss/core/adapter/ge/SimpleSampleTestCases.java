@@ -38,7 +38,7 @@ import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.simu.SimuContext;
 
 public class SimpleSampleTestCases extends BaseTestSetup {
-	@Test
+	//@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
 		SimuContext simuCtx = adapter.load("testData/ge/SimpleTest.epc", SpringAppContext.getIpssMsgHub());
