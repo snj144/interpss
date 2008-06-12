@@ -29,7 +29,7 @@ import java.util.StringTokenizer;
 import com.interpss.ext.ge.aclf.GeBaseBranch;
 
 public class BaseBranchDataRec extends BranchHeaderRec {
-	public int st, ar, z, nst, ohms;
+	public int st, ar, z, nst, ohms = 0;
 	public String d_in, d_out, /* yymmdd */ projid;
 	public double[] r_mvaAry = new double[8];
 	public int[] oAry = new int[8];

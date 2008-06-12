@@ -35,7 +35,7 @@ import com.interpss.ext.ge.aclf.GeBranchSection;
 public class BranchSecDataRec extends BaseBranchDataRec {
 	public double r, x, b;
 	public double al, l_info, gi, tf, tt;
-	public int type;   //Type of line 0=normal line
+	public int type = 0;   //Type of line 0=normal line
 
 	/*
 		<f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <sec> <"long id">: 
@@ -55,7 +55,17 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 	           str2 = lineStr.substring(lineStr.indexOf(':')+1);
 		
 		this.setHeaderData(str1);
-			
+/*
+		<r> Branch section resistance (pu)
+		<x> Branch section reactance (pu)
+		<b> Branch section susceptance (pu)
+		<r1> First Branch Rating (MVA)
+		<r2> Second Branch Rating (MVA)
+		<r3> Third Branch Rating (MVA)
+ 		<ohms> Ohmic data flag
+			1 if impedances in ohms
+			0 if in per unit
+*/		
 		StringTokenizer st = new StringTokenizer(str2);
 		if (st.hasMoreElements())
 			this.st = new Integer(st.nextToken()).intValue();

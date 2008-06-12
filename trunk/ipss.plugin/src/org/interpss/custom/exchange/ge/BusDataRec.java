@@ -31,7 +31,6 @@ import com.interpss.ext.ge.aclf.GeAclfBus;
 
 public class BusDataRec extends BusHeaderRec {
 			public int ty, owner;
-			public String name;
 			public double vs_pu, vt_pu, an_deg, vma, vmi;
 			public int level, stisol, islnum;
 			public double latitude, longitude;
@@ -90,20 +89,20 @@ bus data  [    5]             ty  vsched   volt     angle   ar zone  vmax   vmin
 	
 	public void setAclfBus(GeAclfBus bus) {
 		bus.setId(new Integer(this.number).toString());
-		bus.setName(name);
+		bus.setName(this.name);
 		bus.setBaseVoltage(bkv*1000.0);
 /*
-	<ty> Bus type {0,1,2,-2}
-		0 = swing bus (voltage magnitude and phase fixed)
-		1 = load bus (unconstrained voltage angle and magnitude)
-		2 = generator bus (voltage control [terminal or remote] within generator limits)
-		-2 = generator bus with unlimited reactive power limits
+		<ty> Bus type {0,1,2,-2}
+			0 = swing bus (voltage magnitude and phase fixed)
+			1 = load bus (unconstrained voltage angle and magnitude)
+			2 = generator bus (voltage control [terminal or remote] within generator limits)
+			-2 = generator bus with unlimited reactive power limits
 		
-	<vs> Scheduled voltage (pu)
-	<vt> Bus voltage magnitude (pu)
-	<an> Bus voltage phase angle (degrees)
-	<vma> Voltage checking limit (pu)
-	<vmi> Voltage checking limit (pu)		
+		<vs> Scheduled voltage (pu)
+		<vt> Bus voltage magnitude (pu)
+		<an> Bus voltage phase angle (degrees)
+		<vma> Voltage checking limit (pu)
+		<vmi> Voltage checking limit (pu)		
  */		
 		bus.setGeBusType(ty);
 		bus.setGeAreaNo(ar);
