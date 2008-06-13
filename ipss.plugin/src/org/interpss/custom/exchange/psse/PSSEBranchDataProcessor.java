@@ -58,7 +58,7 @@ public class PSSEBranchDataProcessor {
 /*
 		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
 */
-		PSSEDataRec.BranchRec rec = new PSSEDataRec.BranchRec(lineStr, version);
+		PSSEBranchDataRec rec = new PSSEBranchDataRec(lineStr, version);
 		
 		int I  = new Integer(rec.i).intValue();
 		int J  = new Integer(rec.j).intValue();
@@ -184,7 +184,7 @@ public class PSSEBranchDataProcessor {
 /*
 	For 2W and 3W Xfr: I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
 */
-		PSSEDataRec.Xfr2WRec rec = new PSSEDataRec.Xfr2WRec(lineStr, lineStr2, lineStr3, lineStr4, version);
+		PSSEXfr2WDataRec rec = new PSSEXfr2WDataRec(lineStr, lineStr2, lineStr3, lineStr4, version);
 		
 		int I = new Integer(rec.i).intValue();
 		int J = new Integer(rec.j).intValue();
