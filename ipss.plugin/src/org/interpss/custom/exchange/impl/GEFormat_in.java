@@ -302,8 +302,9 @@ public class GEFormat_in {
   		//System.out.println(solParamRec);
   		solParamRec.setAclfNet(adjNet);
   		
-  		GeUtilFunc.transferData(adjNet, msg);
-  		
-  		return adjNet;
+  		if (GeUtilFunc.transferData(adjNet, msg))
+  			return adjNet;
+  		else 
+  			return null;
     }
 }

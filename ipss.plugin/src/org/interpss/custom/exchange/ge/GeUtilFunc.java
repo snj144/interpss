@@ -253,7 +253,7 @@ public class GeUtilFunc {
 					msg.sendErrorMsg("adjust xfr parameters, Function not implmented yet");
 				}
 				
-				double factor = geXfr.getBaseMvaPrim2Secd() / net.getBaseKva();
+				double factor = net.getBaseKva() / (geXfr.getBaseMvaPrim2Secd()*1000.0);
 	    	 	geXfr.setBranchCode(AclfBranchCode.XFORMER);
 	    		final XfrAdapter xfr = (XfrAdapter)geXfr.adapt(XfrAdapter.class);
 	        	xfr.getAclfBranch().setZ(new Complex(geXfr.getRPrim2Secd()*factor,geXfr.getXPrim2Secd()*factor), msg);
