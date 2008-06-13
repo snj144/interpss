@@ -32,40 +32,15 @@ import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.ext.ge.aclf.GeAclfLine;
-import com.interpss.ext.ge.aclf.GeAclfBus;
+import com.interpss.common.datatype.UnitType;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.simu.SimuContext;
 
 public class SimpleSampleTestCases extends BaseTestSetup {
-	//@Test
-	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
-		SimuContext simuCtx = adapter.load("testData/ge/SimpleTest.epc", SpringAppContext.getIpssMsgHub());
-		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
-		//System.out.println(simuCtx.getAclfNet().net2String());
-		assertTrue(net.getGeAreaList().size() == 4);
-		assertTrue(net.getGeZoneList().size() == 5);
-		assertTrue(net.getGeOwnerList().size() == 1);
-
-		assertTrue(net.getGeInterfaceList().size() == 4);
-		assertTrue(net.getInterface(1).getInfBranchList().size() == 4);
-		assertTrue(net.getInterface(2).getInfBranchList().size() == 1);
-		
-		assertTrue(net.getNoBus() == 5);
-		assertTrue(net.getNoBranch() == 2);
-		
-		assertTrue(((GeAclfBus)net.getBus("1")).getGenList().size() == 2);
-		assertTrue(((GeAclfBus)net.getBus("1")).getLoadList().size() == 0);
-		assertTrue(((GeAclfBus)net.getBus("2")).getGenList().size() == 1);
-		assertTrue(((GeAclfBus)net.getBus("2")).getLoadList().size() == 1);
-		assertTrue(((GeAclfBus)net.getBus("3")).getGenList().size() == 0);
-		assertTrue(((GeAclfBus)net.getBus("3")).getLoadList().size() == 1);
-		
-		assertTrue(((GeAclfLine)net.getBranch("1", "2", "1 ")).getBranchSecList().size() == 1);
-		assertTrue(((GeAclfLine)net.getBranch("1", "2", "2 ")).getBranchSecList().size() == 1);
-	}
-	
 	@Test
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
@@ -75,7 +50,15 @@ public class SimpleSampleTestCases extends BaseTestSetup {
 		assertTrue(net.getNoBus() == 18);
 		assertTrue(net.getNoBranch() == 24);
 		
-		System.out.println(net.net2String());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+		//System.out.println(net.net2String());
+	  	
+  		assertTrue(net.isLfConverged());		
+  		AclfBus swingBus = (AclfBus)net.getBus("101");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-5.234)<0.01);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-1.108)<0.01);
 	}	
 }
 
