@@ -138,7 +138,7 @@ public class PSSEDataRec {
 			if (version == VersionNo.Old) {
 				// old verdion: 80001 'TOMKE ' 220.00 1 0.00 0.00 703 1 1.0784
 				// -38.614 1 /* [TOMKENJC A014] */
-				st = new StringTokenizer(PSSEUtilFunc.removeTailComment(lineStr), "'");
+				st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr), "'");
 				i = st.nextToken().trim();
 				name = st.nextToken().trim();
 				st = new StringTokenizer(st.nextToken());
@@ -180,7 +180,7 @@ public class PSSEDataRec {
 			if (version == VersionNo.Old) {
 				// 74611 '99' 1 702 181 1.106 0.258 0.000 0.000 0.000 0.000 1 /*
 				// [STA_204 999 ] */
-				st = new StringTokenizer(PSSEUtilFunc.removeTailComment(lineStr), "'");
+				st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr), "'");
 				i = st.nextToken().trim();
 				id = st.nextToken().trim();
 				st = new StringTokenizer(st.nextToken());
@@ -220,7 +220,7 @@ public class PSSEDataRec {
 			if (version == VersionNo.Old) {
 				// 80041 '1 ' 56.78 -8.79 28.000 -14.000 1.0000 0 61.2 0.0 1.0
 				// 0.0 0.0 1.0 1 100.0 61.20 -5.60 1 1.00 /* [SMOKY AG1234 ] */
-				st = new StringTokenizer(PSSEUtilFunc.removeTailComment(lineStr), "'");
+				st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr), "'");
 				i = st.nextToken().trim();
 				id = st.nextToken().trim();
 				st = new StringTokenizer(st.nextToken());
@@ -281,9 +281,9 @@ public class PSSEDataRec {
 			StringTokenizer st;
 			if (version == VersionNo.Old) {
 				// 99214 0 1.000 1.000 0 0.00 1 4.20 1 6.00 1 8.40
-				st = new StringTokenizer(PSSEUtilFunc.removeTailComment(lineStr));
+				st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr));
 			} else {
-				st = new StringTokenizer(PSSEUtilFunc.removeTailComment(lineStr), ",");
+				st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr), ",");
 			}
 
 			i = st.nextToken().trim();
@@ -345,7 +345,7 @@ public class PSSEDataRec {
 			if (version == VersionNo.Old) {
 				// 79831 82157 1 0.000200 0.000500 0.00000 0 0 0 0.0000 0.000
 				// 0.0 0.0 0.0 0.0 0 0.000 86 1.00 /* [KENORASP_PS2_1 A ] */
-				st = new StringTokenizer(PSSEUtilFunc.removeTailComment(lineStr));
+				st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr));
 			} else {
 				st = new StringTokenizer(lineStr, ",");
 			}
@@ -424,7 +424,7 @@ public class PSSEDataRec {
 				 * 		STEP - Turns ratio step increment 
 				 * 		TABLE - Zero, or number of a transformer impedance correction table 1-5
 				 */
-				StringTokenizer st = new StringTokenizer(PSSEUtilFunc.removeTailComment(lineStr1));
+				StringTokenizer st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr1));
 				i = st.nextToken().trim();
 				j = st.nextToken().trim();
 				ckt = st.nextToken().trim();

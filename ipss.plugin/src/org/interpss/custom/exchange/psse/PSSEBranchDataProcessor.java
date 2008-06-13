@@ -62,7 +62,7 @@ public class PSSEBranchDataProcessor {
 		
 		int I  = new Integer(rec.i).intValue();
 		int J  = new Integer(rec.j).intValue();
-		String CKT  = PSSEUtilFunc.trimQuote(rec.ckt).trim();
+		String CKT  = PSSE2IpssUtilFunc.trimQuote(rec.ckt).trim();
 		double R = new Double(rec.r).doubleValue();
 		double X = new Double(rec.x).doubleValue();
 		double B = new Double(rec.b).doubleValue();
@@ -140,7 +140,7 @@ public class PSSEBranchDataProcessor {
 
 		int I = new Integer(rec.i).intValue();
 		int J = new Integer(rec.j).intValue();
-		String ID = PSSEUtilFunc.trimQuote(rec.id);
+		String ID = PSSE2IpssUtilFunc.trimQuote(rec.id);
 		if (ID.startsWith("&"))
 			ID = ID.substring(1);
 		
@@ -189,14 +189,14 @@ public class PSSEBranchDataProcessor {
 		int I = new Integer(rec.i).intValue();
 		int J = new Integer(rec.j).intValue();
 		int K = new Integer(rec.k).intValue();
-		String CKT  = PSSEUtilFunc.trimQuote(rec.ckt).trim();
+		String CKT  = PSSE2IpssUtilFunc.trimQuote(rec.ckt).trim();
 		int CW = new Integer(rec.cw).intValue();
 		int CZ = new Integer(rec.cz).intValue();
 		int CM = new Integer(rec.cm).intValue();
 		double MAG1 = new Double(rec.mag1).doubleValue();
 		double MAG2 = new Double(rec.mag2).doubleValue();
 		int NMETR = new Integer(rec.nmetr).intValue();
-		String NAME = PSSEUtilFunc.trimQuote(rec.name);
+		String NAME = PSSE2IpssUtilFunc.trimQuote(rec.name);
 		int STAT = new Integer(rec.stat).intValue();
 
 		int O1 = new Integer(rec.o1).intValue();

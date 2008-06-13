@@ -62,7 +62,7 @@ public class PSSEBusDataProcessor {
 		PSSEDataRec.BusRec rec = new PSSEDataRec.BusRec(lineStr, version);
 		
     	int I = new Integer(rec.i).intValue();
-    	String NAME = PSSEUtilFunc.trimQuote(rec.name);
+    	String NAME = PSSE2IpssUtilFunc.trimQuote(rec.name);
 		double BASKV = new Double(rec.baseKv).doubleValue();
 		int IDE = new Integer(rec.ide).intValue();
 		
@@ -138,7 +138,7 @@ public class PSSEBusDataProcessor {
 		PSSEDataRec.LoadRec rec = new PSSEDataRec.LoadRec(lineStr, version);
 
 		int I = new Integer(rec.i).intValue();
-		String ID = PSSEUtilFunc.trimQuote(rec.id);
+		String ID = PSSE2IpssUtilFunc.trimQuote(rec.id);
 		int STATUS = new Integer(rec.status).intValue();
 		int AREA = new Integer(rec.area).intValue();
 		int ZONE = new Integer(rec.zone).intValue();
@@ -202,7 +202,7 @@ public class PSSEBusDataProcessor {
 		PSSEDataRec.GenRec rec = new PSSEDataRec.GenRec(lineStr, version);
   			
 		int I = new Integer(rec.i).intValue();
-		String ID = PSSEUtilFunc.trimQuote(rec.id);
+		String ID = PSSE2IpssUtilFunc.trimQuote(rec.id);
 		double PG = new Double(rec.pg).doubleValue();
 		double QG = new Double(rec.qg).doubleValue();
 		double QT = new Double(rec.qt).doubleValue();
