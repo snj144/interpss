@@ -47,7 +47,7 @@ public class BaseBranchDataRec extends BranchHeaderRec {
 	}
 
 	public void setDates(StringTokenizer st) {
-		GeUtilFunc.setDates(st, this.d_in, this.d_out, this.projid);
+		GEDataRec.setDates(st, this.d_in, this.d_out, this.projid);
 	}
 
 	public void setRMvaAry5_8(StringTokenizer st) {
@@ -62,7 +62,7 @@ public class BaseBranchDataRec extends BranchHeaderRec {
 	}
 		
 	public void setOwnerAry(StringTokenizer st) {
-		GeUtilFunc.setOwnerAry(st, this.oAry, this.pAry);
+		GEDataRec.setOwnerAry(st, this.oAry, this.pAry);
 	}
 	
 	public void setBaseBranchData(GeBaseBranch bra) {

@@ -1,5 +1,5 @@
  /*
-  * @(#)GeUtilFunc.java   
+  * @(#)Ge2IpssUtilFunc.java   
   *
   * Copyright (C) 2006-2008 www.interpss.org
   *
@@ -23,8 +23,6 @@
   */
 
 package org.interpss.custom.exchange.ge;
-
-import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
 
@@ -60,7 +58,7 @@ import com.interpss.ext.ge.aclf.GeLoad;
 import com.interpss.ext.ge.aclf.GeOwner;
 import com.interpss.ext.ge.aclf.GeZone;
 
-public class GeUtilFunc {
+public class Ge2IpssUtilFunc {
 
 	/**
 	 * Transfer data from GE data model to InterPSS data model
@@ -279,48 +277,4 @@ public class GeUtilFunc {
 		
 		return !dataError;
 	}
-	
-	public static void setOwnerAry(StringTokenizer st, int[] oAry, double[] pAry) {
-		if (st.hasMoreElements())
-			oAry[0] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			pAry[0] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			oAry[1] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			pAry[1] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			oAry[2] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			pAry[2] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			oAry[3] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			pAry[3] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			oAry[4] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			pAry[4] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			oAry[5] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			pAry[5] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			oAry[6] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			pAry[6] = new Double(st.nextToken()).doubleValue();
-		if (st.hasMoreElements())
-			oAry[7] = new Integer(st.nextToken()).intValue();
-		if (st.hasMoreElements())
-			pAry[7] = new Double(st.nextToken()).doubleValue();
-	}	
-	
-	public static void setDates(StringTokenizer st, String d_in, String d_out, String projId) {
-		if (st.hasMoreElements())
-			d_in = st.nextToken();
-		if (st.hasMoreElements())
-			d_out = st.nextToken();
-		if (st.hasMoreElements())
-			projId = st.nextToken();
-	}	
 }

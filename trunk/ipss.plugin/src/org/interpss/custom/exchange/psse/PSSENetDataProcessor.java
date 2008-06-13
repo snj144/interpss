@@ -118,7 +118,7 @@ public class PSSENetDataProcessor {
 		int ISW = new Integer(rec.isw).intValue();
 		double PDES = new Double(rec.pdes).doubleValue();
 		double PTOL = new Double(rec.ptol).doubleValue();
-		String ARNAM = PSSEUtilFunc.trimQuote(rec.arnam);
+		String ARNAM = PSSE2IpssUtilFunc.trimQuote(rec.arnam);
 
 		IpssLogger.getLogger().fine("Area interchange data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("Area number, Swing Bus Number:" + I + ", " + ISW);
@@ -146,7 +146,7 @@ public class PSSENetDataProcessor {
 		PSSEDataRec.ZoneRec rec = new PSSEDataRec.ZoneRec(lineStr, version);
 
 		int I = new Integer(rec.i).intValue();
-		String NAME = PSSEUtilFunc.trimQuote(rec.name);
+		String NAME = PSSE2IpssUtilFunc.trimQuote(rec.name);
 		
 		IpssLogger.getLogger().fine("Zone data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("Zone number, name:" + I + ", " + NAME);
@@ -168,7 +168,7 @@ public class PSSENetDataProcessor {
 
 		int ARFROM = new Integer(rec.arfrom).intValue();
 		int ARTO = new Integer(rec.arto).intValue();
-		String TRID = PSSEUtilFunc.trimQuote(rec.trid);
+		String TRID = PSSE2IpssUtilFunc.trimQuote(rec.trid);
 		double PTRAN = new Double(rec.ptran).doubleValue();
 		
 		IpssLogger.getLogger().fine("Interarea transfer data Line:" + lineNo + "-->" + lineStr);
@@ -189,7 +189,7 @@ public class PSSENetDataProcessor {
 		PSSEDataRec.OwnerRec rec = new PSSEDataRec.OwnerRec(lineStr, version);
 
 		int I = new Integer(rec.i).intValue();
-		String NAME = PSSEUtilFunc.trimQuote(rec.name);
+		String NAME = PSSE2IpssUtilFunc.trimQuote(rec.name);
 		
 		IpssLogger.getLogger().fine("Owner data Line:" + lineNo + "-->" + lineStr);
 		IpssLogger.getLogger().fine("Owner number, name:" + I + ", " + NAME);
