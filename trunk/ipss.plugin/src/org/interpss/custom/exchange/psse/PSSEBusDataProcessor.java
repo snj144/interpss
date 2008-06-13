@@ -59,7 +59,7 @@ public class PSSEBusDataProcessor {
 /*
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
 */
-		PSSEDataRec.BusRec rec = new PSSEDataRec.BusRec(lineStr, version);
+		PSSEBusDataRec rec = new PSSEBusDataRec(lineStr, version);
 		
     	int I = new Integer(rec.i).intValue();
     	String NAME = PSSE2IpssUtilFunc.trimQuote(rec.name);
@@ -135,7 +135,7 @@ public class PSSEBusDataProcessor {
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
-		PSSEDataRec.LoadRec rec = new PSSEDataRec.LoadRec(lineStr, version);
+		PSSELoadDataRec rec = new PSSELoadDataRec(lineStr, version);
 
 		int I = new Integer(rec.i).intValue();
 		String ID = PSSE2IpssUtilFunc.trimQuote(rec.id);
@@ -199,7 +199,7 @@ public class PSSEBusDataProcessor {
 		The standard generator boundary condition is a specification of real power output at the
 		high-voltage bus, bus k, and of voltage magnitude at some designated bus, not necessarily bus k.
 */		
-		PSSEDataRec.GenRec rec = new PSSEDataRec.GenRec(lineStr, version);
+		PSSEGenDataRec rec = new PSSEGenDataRec(lineStr, version);
   			
 		int I = new Integer(rec.i).intValue();
 		String ID = PSSE2IpssUtilFunc.trimQuote(rec.id);

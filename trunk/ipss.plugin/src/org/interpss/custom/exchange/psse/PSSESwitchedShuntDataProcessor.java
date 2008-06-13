@@ -58,7 +58,7 @@ public class PSSESwitchedShuntDataProcessor  {
 				B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts.
 				N2, B2, etc, as N1, B1
 		 */				
-		PSSEDataRec.ShuntRec rec = new PSSEDataRec.ShuntRec(lineStr, version);
+		PSSEShuntDataRec rec = new PSSEShuntDataRec(lineStr, version);
 
 		int I = new Integer(rec.i).intValue();
 		int MODSW = new Integer(rec.modsw).intValue();
