@@ -88,7 +88,7 @@
 	<bean id="fileAdapterGEFormat" 
 	      class="org.interpss.custom.exchange.FileAdapter_GEFormat"
 	      scope="singleton"	
-	      p:name="GE Format"
+	      p:name="GE-PSLF Format"
 	      p:fileFilterString="epc"
 	      p:extension="ge"
 	      p:description="GE Data Exchange Format" />
