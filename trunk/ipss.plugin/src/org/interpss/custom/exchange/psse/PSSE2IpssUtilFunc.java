@@ -64,6 +64,19 @@ public class PSSE2IpssUtilFunc {
 	public static boolean transferData(AclfAdjNetwork adjNet, IPSSMsgHub msg) {
 		boolean hasError = false;
 		
+		// PSS/E do not have ground branch concept
+		adjNet.setAllowGroundBranch(false);
+		
+		// PSS/E allow parallel branches
+		adjNet.setAllowParallelBranch(true);
+		
+		// We check if there is any Bus number or branch duplication. Branch dupblication defined as
+		// branches with same circuit id connected between the same from bus and to bus.
+		adjNet.setCheckElementDuplication(true);
+
+		// Base Frequency is not used in loadflow calculation, dedined as 60.0 Hz
+		adjNet.setFrequency(60.0);
+		
 		for( Bus b : adjNet.getBusList()) {
 			AclfBus bus = (AclfBus)b;
 
