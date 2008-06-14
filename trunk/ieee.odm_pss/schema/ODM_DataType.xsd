@@ -21,7 +21,8 @@
 			<element name="offLine" type="boolean" minOccurs="0"
 				maxOccurs="1">
 			</element>
-			<element name="number" type="int" minOccurs="0"
+            <element name="normalOffLineStatus" type="boolean" minOccurs="0"></element>
+            <element name="number" type="int" minOccurs="0"
 				maxOccurs="1">
 			</element>
 			<element name="area" type="int" minOccurs="0"
@@ -30,26 +31,31 @@
 			<element name="zone" type="int" minOccurs="0"
 				maxOccurs="1">
 			</element>
-			<element name="ownerList" minOccurs="0"
-				maxOccurs="1">
-                <complexType>
-                	<sequence>
-                		<element name="owner">
-                			<complexType>
-                				<sequence>
-                					<element name="id" type="string" minOccurs="1">
-                					</element>
-                					<element name="ownership"
-                						type="double" minOccurs="1">
-                					</element>
-                				</sequence>
-                			</complexType></element>
-                	</sequence>
-                </complexType>
+			<element name="ownerList" minOccurs="0" maxOccurs="1">
+				<complexType>
+					<sequence>
+						<element name="owner">
+							<complexType>
+								<sequence>
+									<element name="id" type="string"
+										minOccurs="1">
+									</element>
+									<element name="ownership"
+										type="double" minOccurs="1">
+									</element>
+								</sequence>
+							</complexType>
+						</element>
+
+					</sequence>
+				</complexType>
 			</element>
 			<element name="nvPairList"
 				type="pss:NameValuePairListXmlType" minOccurs="0" maxOccurs="1">
 			</element>
+			<element name="extension" type="anySimpleType"
+				minOccurs="0">
+			</element>
 		</sequence>
 	</complexType>
 
