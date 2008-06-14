@@ -28,7 +28,7 @@ public class PSSEMultiSecLineDataRec {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		i = new Integer(st.nextToken().trim()).intValue();
 		j = new Integer(st.nextToken().trim()).intValue();
-		id = st.nextToken().trim();
+		id = PSSE2IpssUtilFunc.trimQuote(st.nextToken()).trim();
 		if (st.hasMoreTokens())
 			dumBusIdAry[0] = st.nextToken().trim();
 		if (st.hasMoreTokens())
@@ -60,14 +60,14 @@ public class PSSEMultiSecLineDataRec {
 		if (this.id.startsWith("&"))
 			this.id = this.id.substring(1);
 		
-		String iStr = new Integer(this.j).toString();
+		String iStr = new Integer(this.i).toString();
 		if (this.j < 0) 
 			this.j = -this.j;
 		String jStr = new Integer(this.j).toString();
 		
 		PSSEAclfLine branch = (PSSEAclfLine)adjNet.getBranch(iStr, jStr, this.id);
 		if (branch == null) {
-			throw new Exception ("Branch not found in the network, I, J, ID: " + this.i + ", " + this.j + ", " + this.id);
+			throw new Exception ("Branch not found in the network, I, J, ID: " + iStr + ", " + jStr + ", '" + this.id + "'");
 		}
 		
 		for (String str : this.dumBusIdAry) {
