@@ -8,6 +8,7 @@
   	<pss:id>MyNetwork</pss:id>
   	<pss:busList>
   		<pss:bus>
+  			<extension>extension</extension>
   			<pss:id>Bus-1</pss:id>
   			<pss:baseVoltage>35000.0</pss:baseVoltage>
   		</pss:bus>
