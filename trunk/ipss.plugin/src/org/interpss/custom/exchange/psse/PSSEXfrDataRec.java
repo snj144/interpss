@@ -84,7 +84,7 @@ public class PSSEXfrDataRec {
 			StringTokenizer st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr1));
 			i = new Integer(st.nextToken().trim()).intValue();
 			j = new Integer(st.nextToken().trim()).intValue();
-			ckt = st.nextToken().trim();
+			ckt = PSSE2IpssUtilFunc.trimQuote(st.nextToken()).trim();
 			cont = new Integer(st.nextToken().trim()).intValue();
 			rma = new Double(st.nextToken().trim()).doubleValue();
 			rmi = new Double(st.nextToken().trim()).doubleValue();
@@ -96,7 +96,7 @@ public class PSSEXfrDataRec {
 			i = new Integer(st.nextToken().trim()).intValue();
 			j = new Integer(st.nextToken().trim()).intValue();
 			k = new Integer(st.nextToken().trim()).intValue();
-			ckt = st.nextToken().trim();
+			ckt = PSSE2IpssUtilFunc.trimQuote(st.nextToken()).trim();
 			cw = new Integer(st.nextToken().trim()).intValue();
 			cz = new Integer(st.nextToken().trim()).intValue();
 			cm = new Integer(st.nextToken().trim()).intValue();

@@ -35,7 +35,7 @@ public class PSSELineDataRec {
 		}
 		i = new Integer(st.nextToken().trim()).intValue();
 		j = new Integer(st.nextToken().trim()).intValue();
-		ckt = st.nextToken().trim();
+		ckt = PSSE2IpssUtilFunc.trimQuote(st.nextToken()).trim();
 		r = new Double(st.nextToken().trim()).doubleValue();
 		x = new Double(st.nextToken().trim()).doubleValue();
 		b = new Double(st.nextToken().trim()).doubleValue();
@@ -91,6 +91,7 @@ public class PSSELineDataRec {
 		String iStr = new Integer(this.i).toString();
 		String jStr = new Integer(this.j).toString();
       	adjNet.addBranch(bra, iStr, jStr);
+      	
 
       	bra.setFromMetered(fromMetered);
       	bra.setStatus(this.status==1);
