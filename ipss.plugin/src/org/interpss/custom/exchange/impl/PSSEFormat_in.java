@@ -39,13 +39,19 @@ package org.interpss.custom.exchange.impl;
  */
 
 import org.interpss.custom.exchange.IpssFileAdapterBase;
-import org.interpss.custom.exchange.psse.PSSEBranchDataProcessor;
-import org.interpss.custom.exchange.psse.PSSEBusDataProcessor;
-import org.interpss.custom.exchange.psse.PSSEDCLintDataProcessor;
-import org.interpss.custom.exchange.psse.PSSEDataRec;
-import org.interpss.custom.exchange.psse.PSSENetDataProcessor;
-import org.interpss.custom.exchange.psse.PSSESwitchedShuntDataProcessor;
 import org.interpss.custom.exchange.psse.PSSE2IpssUtilFunc;
+import org.interpss.custom.exchange.psse.PSSEBusDataRec;
+import org.interpss.custom.exchange.psse.PSSEDCLineDataRec;
+import org.interpss.custom.exchange.psse.PSSEDataRec;
+import org.interpss.custom.exchange.psse.PSSEFACTSDataRec;
+import org.interpss.custom.exchange.psse.PSSEGenDataRec;
+import org.interpss.custom.exchange.psse.PSSELineDataRec;
+import org.interpss.custom.exchange.psse.PSSELoadDataRec;
+import org.interpss.custom.exchange.psse.PSSEMultiSecLineDataRec;
+import org.interpss.custom.exchange.psse.PSSEMultiTermDCLineDataRec;
+import org.interpss.custom.exchange.psse.PSSESwitchedShuntDataRec;
+import org.interpss.custom.exchange.psse.PSSEVscDCLineDataRec;
+import org.interpss.custom.exchange.psse.PSSEXfrDataRec;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -104,7 +110,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
       					}
 						if (lineNo == 3) 
       						headerProcessed = true;
-						PSSENetDataProcessor.processHeader(adjNet, lineStr, lineNo, version, msg);
+						PSSEDataRec.HeaderRec rec = new PSSEDataRec.HeaderRec(lineStr, lineNo, version);
+						rec.processHeader(adjNet, lineStr, lineNo, msg);
       				}
       				else if (!busProcessed) {
 						if (PSSE2IpssUtilFunc.isEndRecLine(lineStr)) {
@@ -112,7 +119,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E Bus record processed");
 						}	 
 						else {
-							PSSEBusDataProcessor.processBus(adjNet, lineStr, lineNo, version, msg);
+							PSSEBusDataRec rec = new PSSEBusDataRec(lineStr, version);
+							rec.processBus(adjNet, msg);
 						}	 
       				}
       				else if (!loadProcessed) {
@@ -121,7 +129,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E Load record processed");
 						}
 						else {
-							PSSEBusDataProcessor.processLoad(adjNet, lineStr, lineNo, version, msg);
+							PSSELoadDataRec rec = new PSSELoadDataRec(lineStr, version);
+							rec.processLoad(adjNet, msg);
 						}	 
       				}
       				else if (!genProcessed) {
@@ -130,7 +139,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E Gen record processed");
 						}
 						else {
-							PSSEBusDataProcessor.processGen(adjNet, lineStr, lineNo, version, msg);
+							PSSEGenDataRec rec = new PSSEGenDataRec(lineStr, version);
+							rec.processGen(adjNet, msg);
 						}	 
       				}
       				else if (!lineProcessed) {
@@ -139,7 +149,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E Line record processed");
 						}
 						else {
-							PSSEBranchDataProcessor.processLine(adjNet, lineStr, lineNo, version, msg);
+							PSSELineDataRec rec = new PSSELineDataRec(lineStr, version);
+							rec.processLine(adjNet, msg);
 						}	 
       				}
       				else if (!xfrProcessed) {
@@ -158,7 +169,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
           						lineStr4 = din.readLine();
           						lineNo++;
       						}
-							PSSEBranchDataProcessor.processXfr(adjNet, lineStr, lineStr2, lineStr3, lineStr4, lineStr5, n, version, msg);
+							PSSEXfrDataRec rec = new PSSEXfrDataRec(lineStr, lineStr2, lineStr3, lineStr4, version);
+							rec.processXfr(adjNet, msg);
 						}	 
       				}
       				else if (!areaInterProcessed) {
@@ -167,7 +179,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E AreaInterchange record processed");
 						}
 						else {
-							PSSENetDataProcessor.processAreaInterchange(adjNet, lineStr, lineNo, version, msg);
+							PSSEDataRec.AreaInterchangeRec rec = new PSSEDataRec.AreaInterchangeRec(lineStr, version);
+							rec.processAreaInterchange(adjNet, msg);
 						}	 
       				}
       				else if (!dcLine2TProcessed) {
@@ -179,7 +192,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
       						String lineStr2 = din.readLine();
       						String lineStr3 = din.readLine();
       						lineNo++; lineNo++;
-      						PSSEDCLintDataProcessor.processDCLine(adjNet, lineStr, lineStr2, lineStr3, lineNo, msg);
+							PSSEDCLineDataRec rec = new PSSEDCLineDataRec(lineStr, lineStr2, lineStr3, version);
+							rec.processDCLine(adjNet, msg);
 						}	 
       				}
       				else if (!vscDcLineProcessed) {
@@ -188,7 +202,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E vscDcLine record processed");
 						}
 						else {
-      						PSSEDCLintDataProcessor.processVscDCLine(adjNet, lineStr, lineNo, msg);
+							PSSEVscDCLineDataRec rec = new PSSEVscDCLineDataRec(lineStr, version);
+							rec.processVscDCLine(adjNet, msg);
 						}	 
       				}
       				else if (!switchedShuntProcessed) {
@@ -197,7 +212,9 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E switched shunt record processed");
 						}
 						else {
-							PSSESwitchedShuntDataProcessor.processSwitchedShunt(adjNet, lineStr, lineNo, version, msg);
+							PSSESwitchedShuntDataRec rec = new PSSESwitchedShuntDataRec(lineStr, version);
+							rec.processSwitchedShunt(adjNet, msg);
+
 						}	 
       				}
       				else if (!xfrZCorrectionProcessed) {
@@ -206,7 +223,7 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							IpssLogger.getLogger().info("PSS/E Xfr table record processed");
 						}
 						else {
-							PSSEBranchDataProcessor.processXfrZCorrectionTable(adjNet, lineStr, lineNo, msg);
+							PSSEDataRec.processXfrZCorrectionTable(adjNet, lineStr, lineNo, msg);
 						}	 
       				}
       				else if (!dcLineMTProcessed) {
@@ -215,7 +232,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E multi terminal DC Line record processed");
 						}
 						else {
-							PSSEDCLintDataProcessor.processMultiTerminalDCLine(adjNet, lineStr, lineNo, msg);
+							PSSEMultiTermDCLineDataRec rec = new PSSEMultiTermDCLineDataRec(lineStr, version);
+							rec.processMultiTerminalDCLine(adjNet, msg);
 						}	 
       				}
       				else if (!multiSectionLineGroupProcessed) {
@@ -224,7 +242,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E multi section Line Group record processed");
 						}
 						else {
-							PSSEBranchDataProcessor.processMultiSecLineGroup(adjNet, lineStr, lineNo, version, msg);
+							PSSEMultiSecLineDataRec rec = new PSSEMultiSecLineDataRec(lineStr, version);
+							rec.processMultiSecLine(adjNet, msg);
 						}	 
       				}
       				else if (!zoneProcessed) {
@@ -233,7 +252,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E Zone record processed");
 						}
 						else {
-							PSSENetDataProcessor.processZone(adjNet, lineStr, lineNo, version, msg);
+							PSSEDataRec.ZoneRec rec = new PSSEDataRec.ZoneRec(lineStr, version);
+							rec.processZone(adjNet, msg);
 						}	 
       				}
       				else if (!interareaTransferProcessed) {
@@ -242,7 +262,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E Interarea Transfer record processed");
 						}
 						else {
-							PSSENetDataProcessor.processInterareaTransfer(adjNet, lineStr, lineNo, version, msg);
+							PSSEDataRec.InterareaTransferRec rec = new PSSEDataRec.InterareaTransferRec(lineStr, version);
+							rec.processInterareaTransfer(adjNet, msg);
 						}	 
       				}
       				else if (!ownerProcessed) {
@@ -251,7 +272,8 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							 IpssLogger.getLogger().info("PSS/E Owner record processed");
 						}
 						else {
-							PSSENetDataProcessor.processOwner(adjNet, lineStr, lineNo, version, msg);
+							PSSEDataRec.OwnerRec rec = new PSSEDataRec.OwnerRec(lineStr, version);
+							rec.processOwner(adjNet, msg);
 						}	 
       				}
       				else if (!factsProcessed) {
@@ -259,8 +281,9 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 							factsProcessed = true;
 							 IpssLogger.getLogger().info("PSS/E FACTS record processed");
 						}
-						else {
-							PSSESwitchedShuntDataProcessor.processFACTS(adjNet, lineStr, lineNo, msg);
+						else { 
+							PSSEFACTSDataRec rec = new PSSEFACTSDataRec(lineStr, version);
+							rec.processFACTS(adjNet, msg);
 						}	 
       				}
       				

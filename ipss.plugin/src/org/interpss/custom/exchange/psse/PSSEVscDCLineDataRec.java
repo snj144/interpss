@@ -1,55 +1,12 @@
- /*
-  * @(#)DCLintDataProcessor.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
-
 package org.interpss.custom.exchange.psse;
 
-/*
- * PTI PSS/E File input adapter. The implementation is Based on 
- * PSS/E 29, published Oct 2002.
- */
+import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 
-
-public class PSSEDCLintDataProcessor  {
-	/** 
-	 * Process DC line record lines
-	 *
-	 * @param adjNet the AclfAdjNetwork object
-	 * @param lineStr a input line string
-	 * @param lineNo the line number
-	 * @param msgHub the message hub object
-	 */
-	public static void processDCLine(
-				AclfAdjNetwork adjNet, 
-				String lineStr1,
-				String lineStr2,
-				String lineStr3,
-				int lineNo, 
-				IPSSMsgHub msg) throws Exception {
-		msg.sendWarnMsg("DC Line record has not been implemented");
+public class PSSEVscDCLineDataRec {
+	public PSSEVscDCLineDataRec(String lineStr, VersionNo version ) {
 		
 		/*  		
   		StringTokenizer st = new StringTokenizer(lineStr1);
@@ -98,21 +55,12 @@ public class PSSEDCLintDataProcessor  {
 
 		IpssLogger.getLogger().info("DC Line data Line3:" + lineNo + "-->" + lineStr3);
 */		
-	}			
+		
+	}
 	
-	public static void processVscDCLine(
+	public void processVscDCLine(
 			AclfAdjNetwork adjNet, 
-			String lineStr1,
-			int lineNo, 
 			IPSSMsgHub msg) throws Exception {
 		msg.sendWarnMsg("Voltage Source Converter DC Line record has not been implemented");	
-	}
-
-	public static void processMultiTerminalDCLine(
-			AclfAdjNetwork adjNet, 
-			String lineStr1,
-			int lineNo, 
-			IPSSMsgHub msg) throws Exception {
-		msg.sendWarnMsg("Voltage Source Converter DC Line record has not been implemented");	
-	}
+	}	
 }
