@@ -31,7 +31,7 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 	public void cr113BusSwitchingModelCaseTest() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
 		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw", SpringAppContext.getIpssMsgHub());
- 		//System.out.println(simuCtx.getAclfNet().net2String());
+ 		System.out.println(simuCtx.getAclfNet().net2String());
 
  		assertTrue(simuCtx.getAclfNet().getSwitchBreakBranch("60701", null) != null);
  		assertTrue(simuCtx.getAclfNet().getSwitchBreakBranch("60702", null) != null);
