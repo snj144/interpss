@@ -41,7 +41,10 @@ import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
+import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PVBusLimit;
+import com.interpss.core.aclfadj.RemoteQBus;
+import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -119,8 +122,19 @@ public class Ge2IpssUtilFunc {
 	  			load.setLoad(new Complex(cz_p, cz_q), UnitType.mVA, net.getBaseKva());
 	  		}
 			else if ((cp_p != 0.0 || cp_q != 0.0 || ci_p!= 0.0 || ci_q != 0.0 || cz_p != 0.0 || cz_q !=0.0)) {
-				dataError = true;
-				msg.sendErrorMsg("Functional load, Function not implmented yet");
+				FunctionLoad fload = CoreObjectFactory.createFunctionLoad(net, geBus.getId());
+				double loadP0 = cp_p + ci_p + cz_p;
+				double loadQ0 = cp_q + ci_q + cz_q;
+				fload.getP().setLoad0(loadP0, UnitType.mVA, net.getBaseKva());
+				fload.getQ().setLoad0(loadQ0, UnitType.mVA, net.getBaseKva());
+				if (loadP0 != 0.0) {
+					fload.getP().setA(cp_p/loadP0, UnitType.PU);
+					fload.getP().setB(ci_p/loadP0, UnitType.PU);
+				}
+				if (loadQ0 != 0.0) {
+					fload.getQ().setA(cp_q/loadQ0, UnitType.PU);
+					fload.getQ().setB(ci_q/loadQ0, UnitType.PU);
+				}
 			}
 			else {
 				geBus.setLoadCode(AclfLoadCode.NON_LOAD);
@@ -181,8 +195,12 @@ public class Ge2IpssUtilFunc {
 	  			  		pvLimit.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());		  				
 		  			}
 		  			else {
-		  				dataError = true;
-						msg.sendErrorMsg("geBus.getGeBusType() == 2, Function not implmented yet");
+	  					// Remote Q  Bus control
+						String reBusId = new Integer(regBusNumber).toString();
+	  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(net, geBus.getId(), 
+	  			  				RemoteQControlType.BUS_VOLTAGE, reBusId);
+	  			  		reQ1.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());
+	  			  		reQ1.setVSpecified(geBus.getVSpecPU());						
 		  			}
 		  		} break;
 				case -2 : {
@@ -244,21 +262,30 @@ public class Ge2IpssUtilFunc {
 */
 			else if (bra instanceof GeAclfXformer) {
 				GeAclfXformer geXfr = (GeAclfXformer) bra;
-				if (geXfr.getFromAclfBus().getBaseVoltage() != geXfr.getNominalKvPrim()*1000.0 || 
-					geXfr.getToAclfBus().getBaseVoltage() != geXfr.getNominalKvSecd()*1000.0	) {
-					// adjust xfr parameters
-					dataError = true;
-					msg.sendErrorMsg("adjust xfr parameters, Function not implmented yet");
-				}
 				
+				// adjust xfr parameters for base MVA
 				double factor = net.getBaseKva() / (geXfr.getBaseMvaPrim2Secd()*1000.0);
-	    	 	geXfr.setBranchCode(AclfBranchCode.XFORMER);
+	        	double r = geXfr.getRPrim2Secd()*factor,
+	        		   x = geXfr.getXPrim2Secd()*factor,
+	        		   g = geXfr.getGmagPU()/factor,
+	        		   b = geXfr.getBmagPU()/factor,
+	        		   fromRatio = geXfr.getFixedTapPrim(),
+	        		   toRatio = geXfr.getFixedTapSecd();
+
+	        	if (geXfr.getFromAclfBus().getBaseVoltage() != geXfr.getNominalKvPrim()*1000.0 || 
+						geXfr.getToAclfBus().getBaseVoltage() != geXfr.getNominalKvSecd()*1000.0	) {
+						// all xfr data are on nominal voltage. They have to be adjusted 
+						dataError = true;
+						msg.sendErrorMsg("adjust xfr parameters, Function not implmented yet");
+					}
+
+	        	geXfr.setBranchCode(AclfBranchCode.XFORMER);
 	    		final XfrAdapter xfr = (XfrAdapter)geXfr.adapt(XfrAdapter.class);
-	        	xfr.getAclfBranch().setZ(new Complex(geXfr.getRPrim2Secd()*factor,geXfr.getXPrim2Secd()*factor), msg);
-	        	xfr.setFromTurnRatio(geXfr.getFixedTapPrim(), UnitType.PU);
-	        	xfr.setToTurnRatio(geXfr.getFixedTapSecd(), UnitType.PU); 
-	        	geXfr.getFromAclfBus().setShuntY(new Complex(0.5*geXfr.getGmagPU()/factor, 0.5*geXfr.getBmagPU()/factor));
-	        	geXfr.getToAclfBus().setShuntY(new Complex(0.5*geXfr.getGmagPU()/factor, 0.5*geXfr.getBmagPU()/factor));
+	        	xfr.getAclfBranch().setZ(new Complex(r, x), msg);
+	        	xfr.setFromTurnRatio(fromRatio, UnitType.PU);
+	        	xfr.setToTurnRatio(toRatio, UnitType.PU); 
+	        	geXfr.getFromAclfBus().setShuntY(new Complex(0.5*g, 0.5*b));
+	        	geXfr.getToAclfBus().setShuntY(new Complex(0.5*g, 0.5*b));
 	        	if (geXfr.getPhaseAngleDegPrim() != 0.0 || geXfr.getPhaseAngleDegSecd() != 0.0) {
 	        		// PhaseShifting transformer branch
 	        	 	geXfr.setBranchCode(AclfBranchCode.PS_XFORMER);
@@ -267,9 +294,19 @@ public class Ge2IpssUtilFunc {
 	        		psXfr.setToAngle(geXfr.getPhaseAngleDegSecd()*Constants.DtoR);
 				}
 				
-				if (geXfr.getType() != 1) {
+				if (geXfr.getType() == 2) {
+					// tap voltage control
 					dataError = true;
 					msg.sendErrorMsg("geXfr.getType() != 1, Function not implmented yet");
+				}
+				else if (geXfr.getType() == 4) {
+					// ps-xfr angle power control
+					dataError = true;
+					msg.sendErrorMsg("geXfr.getType() != 1, Function not implmented yet");
+				}
+				else if (geXfr.getType() != 1) {
+					dataError = true;
+					msg.sendErrorMsg("geXfr.getType() == " + geXfr.getType() + ", Function not implmented yet");
 				}
 			}
 
