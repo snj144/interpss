@@ -87,6 +87,11 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 			this.ar = new Integer(st.nextToken()).intValue();
 		if (st.hasMoreElements())
 			this.z = new Integer(st.nextToken()).intValue();
+/*
+		<gi> Transformer magnetizing (line terminated transformers)
+		<tf> Transformer "from" bus tap (line terminated transformers)
+		<tt> Transformer "to" bus tap (line terminated transformers)
+ */		
 		if (st.hasMoreElements())
 			this.gi = new Double(st.nextToken()).doubleValue();
 		if (st.hasMoreElements())
