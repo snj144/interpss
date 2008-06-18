@@ -22,16 +22,23 @@
   *
   */
 
-package org.interpss.ed.unit;
+package org.interpss.ed.costf;
 
-/*
- * 
+/*	  Stands for polynomial curve representation of the heat rate
+      function. That is, the curve represents the function:
+
+           H(P) = A + B*P + C*P**2 + D*P**3 + ...
+
+      The input file must contain the order for this polynomial. If the order
+      is set to 2 the file must specify coefficients A,B, and C. If order is 
+      set to 3 the file must specify A,B,C and D. Etc.
  */
 
-public class CostFuncPolynomial extends CostFuncAdapter {
+public class CostFuncPolynomial extends AbstractCostFunc {
+	public static double 	IhrTolerance = 0.01;
+	public static int 		MaxIteration = 20;
+
 	private double[] coeffAry; 
-	private double ihrTolerance = 0.01;
-	private int maxIteration = 20;
 
 	public CostFuncPolynomial(int order) {
 		this.curveOrder = order;
@@ -47,13 +54,13 @@ public class CostFuncPolynomial extends CostFuncAdapter {
 	
 	public double incHeatRate(double unitMw) {
 		double unitihr = 0.0;
-	    for (int j = curveOrder; j <= 2; j++)
+	    for (int j = curveOrder; j <= 2; j--)
 	    	unitihr = ( unitihr + j * coeffAry[j]) * unitMw;
 	    unitihr = unitihr + coeffAry[1];
 		return unitihr;
 	}
 	
-	public double inverserIhr (double unitIhr) throws Exception {
+	public double inverserIhr (double unitIhr, double pmax, double pmin) throws Exception {
 		if ( unitIhr >= maxIhr)
 			return pmax;
 		if ( unitIhr <= minIhr)
@@ -81,7 +88,7 @@ public class CostFuncPolynomial extends CostFuncAdapter {
 	    		unitihr1 = ( unitihr1 + j * coeffAry[j]) * unitmw;
 	    	unitihr1 = unitihr1 + coeffAry[1];
 	    	double delihr = unitIhr - unitihr1;
-	    	if ( Math.abs(delihr) < ihrTolerance)
+	    	if ( Math.abs(delihr) < IhrTolerance)
 	    		return unitmw;
 
 	    	double dihrdp = 0.0;    // Calc curve second derivative}
@@ -89,7 +96,7 @@ public class CostFuncPolynomial extends CostFuncAdapter {
 	    		dihrdp = ( dihrdp + j*(j-1) * coeffAry[j] ) * unitmw;
 	    	dihrdp = dihrdp + 2.0 * coeffAry[2];
 	    	unitmw = unitmw + delihr/dihrdp;
-	    } while ( step <= maxIteration);
+	    } while ( step <= MaxIteration);
 
 	    throw new Exception("NR iteration for inversionIhr routine does not converge");
 	}
@@ -110,7 +117,7 @@ public class CostFuncPolynomial extends CostFuncAdapter {
 		for (double x : coeffAry)
 			str += x + ", "; 
 		str += "\n"; 
-		str += "ihrTolerance, maxIteration: " + ihrTolerance + ", " + maxIteration + "\n";
+		str += "ihrTolerance, maxIteration: " + IhrTolerance + ", " + MaxIteration + "\n";
 		return str;
 	}	
 }
