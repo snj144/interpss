@@ -1,18 +1,37 @@
+ /*
+  * @(#)CostFuncPiecewizeIncremental.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 06/16/2008
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss.ed.unit;
 
-public class CostFuncPiecewizeIncremental implements IGenCostFunc {
-	private int curveOrder = 0;
-	private double fuelCost = 0.0, minPut = 0.0;
+public class CostFuncPiecewizeIncremental extends CostFuncAdapter {
+	private double minPut = 0.0;
 	private double[] ihrMwPointAry, ihrCostAry;
 
 	public CostFuncPiecewizeIncremental(int order) {
 		this.curveOrder = order;
 		this.ihrMwPointAry = new double[order+1];
 		this.ihrCostAry = new double[order+1];
-	}
-	
-	public void setFuelCost(double c) {
-		this.fuelCost = c;
 	}
 	
 	public void setMinPut(double c) {
@@ -46,7 +65,12 @@ public class CostFuncPiecewizeIncremental implements IGenCostFunc {
 		return unitihr;
 	}
 	
-	public double inverserIHR(double unitIhr) {
+	public double inverserIhr(double unitIhr) throws Exception  {
+		if ( unitIhr >= maxIhr)
+			return pmax;
+		if ( unitIhr <= minIhr)
+			return pmin;
+		
 		double unitmw = 0.0;
 		int j = 0 ;
 	    do {
@@ -80,4 +104,14 @@ public class CostFuncPiecewizeIncremental implements IGenCostFunc {
 	    }
 	    return unitcost;
 	}
+	
+	public String toString() {
+		String str = super.toString();
+		str += "ihrMwPointAry, ihrCostAry : "; 
+		for (int i = 0; i <= curveOrder; i++)
+			str += ihrMwPointAry[i] + ", " + ihrCostAry[i] + ", "; 
+		str += "\n"; 
+		str += "minPut: " + minPut + "\n";
+		return str;
+	}	
 }

@@ -1,31 +1,43 @@
+ /*
+  * @(#)CostFuncPolynomial.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 06/16/2008
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss.ed.unit;
 
-public class CostFuncPolynomial implements IGenCostFunc {
-	private int curveOrder = 0;
+/*
+ * 
+ */
+
+public class CostFuncPolynomial extends CostFuncAdapter {
 	private double[] coeffAry; 
-	private double fuelCost = 0.0;
-	private double pmax, pmin;
-	private double maxIhr, minIhr;
+	private double ihrTolerance = 0.01;
+	private int maxIteration = 20;
 
 	public CostFuncPolynomial(int order) {
 		this.curveOrder = order;
 		this.coeffAry = new double[order+1];
 	}
 	
-	public void setFuelCost(double c) {
-		this.fuelCost = c;
-	}
-	
-	public void setPLimit(double max, double min) {
-		this.pmax = max;
-		this.pmin = min;
-	}
-	
-	public void setIhrLimit(double max, double min) {
-		this.maxIhr = max;
-		this.minIhr = min;
-	}
-
 	public void setCoeff(int order, double c) throws Exception {
 		if (order <= this.curveOrder)
 			this.coeffAry[order] = c;
@@ -41,7 +53,7 @@ public class CostFuncPolynomial implements IGenCostFunc {
 		return unitihr;
 	}
 	
-	public double inverserIHR(double unitIhr) {
+	public double inverserIhr (double unitIhr) throws Exception {
 		if ( unitIhr >= maxIhr)
 			return pmax;
 		if ( unitIhr <= minIhr)
@@ -58,30 +70,28 @@ public class CostFuncPolynomial implements IGenCostFunc {
 	       return ( unitIhr - coeffAry[1] ) / ( 2.0 * coeffAry[2] );
 	    }
 
-	    /*
-	    { for curves of order >= 3 search for unitmw using Newtons method }
+	    // for curves of order >= 3 search for unitmw using Newtons method }
 
-	      unitmw := ( pmin[ i ] + pmax[ i ] )/ 2.0;
-	      step := 0;
-	      repeat
-	      step := step + 1;
+	    double unitmw = ( pmin + pmax )/ 2.0;
+	    int step = 0;
+	    do {
+	    	step++;
+	    	double unitihr1 = 0.0;    // Calc unitihr at unitmw as unitihr1}
+	    	for (int j = curveOrder; j >= 2; j--)
+	    		unitihr1 = ( unitihr1 + j * coeffAry[j]) * unitmw;
+	    	unitihr1 = unitihr1 + coeffAry[1];
+	    	double delihr = unitIhr - unitihr1;
+	    	if ( Math.abs(delihr) < ihrTolerance)
+	    		return unitmw;
 
-	      unitihr1 := 0;                  {Calc unitihr at unitmw as unitihr1}
-	      for j := curveorder downto 2 do
-	         unitihr1 := ( unitihr1 + j * coeff[i,j] ) * unitmw;
-	      unitihr1 := unitihr1 + coeff[i,1];
-	      delihr := unitihr - unitihr1;
-	      if abs( delihr ) < ihr_tolerance then goto return;
+	    	double dihrdp = 0.0;    // Calc curve second derivative}
+	    	for ( int j = curveOrder; j >= 3; j++ ) 
+	    		dihrdp = ( dihrdp + j*(j-1) * coeffAry[j] ) * unitmw;
+	    	dihrdp = dihrdp + 2.0 * coeffAry[2];
+	    	unitmw = unitmw + delihr/dihrdp;
+	    } while ( step <= maxIteration);
 
-	      dihrdp := 0;                     {Calc curve second derivative}
-	      for j := curveorder downto 3 do
-	         dihrdp := ( dihrdp + j*(j-1) * coeff[i,j] ) * unitmw;
-	      dihrdp := dihrdp + 2.0 * coeff[ i,2 ];
-	      unitmw := unitmw + delihr/dihrdp;
-
-	      until step > 20;
-	    */  
-		return 0.0;
+	    throw new Exception("NR iteration for inversionIhr routine does not converge");
 	}
 
 	public double productionCost(double unitMw) {
@@ -92,5 +102,15 @@ public class CostFuncPolynomial implements IGenCostFunc {
 		unitcost = unitcost + coeffAry[0];
 		unitcost = unitcost * fuelCost;		
 		return unitcost;
-	}
+	}	
+	
+	public String toString() {
+		String str = super.toString();
+		str += "coeff: "; 
+		for (double x : coeffAry)
+			str += x + ", "; 
+		str += "\n"; 
+		str += "ihrTolerance, maxIteration: " + ihrTolerance + ", " + maxIteration + "\n";
+		return str;
+	}	
 }

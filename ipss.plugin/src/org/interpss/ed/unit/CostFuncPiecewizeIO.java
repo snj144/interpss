@@ -1,18 +1,36 @@
+ /*
+  * @(#)CostFuncPiecewizeIO.java   
+  *
+  * Copyright (C) 2006 www.interpss.org
+  *
+  * This program is free software; you can redistribute it and/or
+  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
+  * as published by the Free Software Foundation; either version 2.1
+  * of the License, or (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * @Author Mike Zhou
+  * @Version 1.0
+  * @Date 06/16/2008
+  * 
+  *   Revision History
+  *   ================
+  *
+  */
+
 package org.interpss.ed.unit;
 
-public class CostFuncPiecewizeIO implements IGenCostFunc {
-	private int curveOrder = 0;
-	private double fuelCost = 0.0;
+public class CostFuncPiecewizeIO  extends CostFuncAdapter {
 	private double[] ioMwPointAry, ioCostAry;
 
 	public CostFuncPiecewizeIO(int order) {
 		this.curveOrder = order;
 		this.ioMwPointAry = new double[order+1];
 		this.ioCostAry = new double[order+1];
-	}
-	
-	public void setFuelCost(double c) {
-		this.fuelCost = c;
 	}
 	
 	public void setIoMwPoint(int order, double c) throws Exception {
@@ -41,7 +59,17 @@ public class CostFuncPiecewizeIO implements IGenCostFunc {
 	    return unitihr;
 	}
 	
-	public double inverserIHR(double unitIhr) {
+	public double inverserIhr(double unitIhr) throws Exception {
+		if ( unitIhr >= maxIhr)
+			return pmax;
+		if ( unitIhr <= minIhr)
+			return pmin;
+		
+		if ( unitIhr >= maxIhr)
+			return pmax;
+		if ( unitIhr <= minIhr)
+			return pmin;
+		
 		int j = 0;
 		double segmentihr = 0.0;
 		do {
@@ -71,4 +99,13 @@ public class CostFuncPiecewizeIO implements IGenCostFunc {
 		}		
 		return unitcost;
 	}
+	
+	public String toString() {
+		String str = super.toString();
+		str += "ioMwPointAry, ioCostAry : "; 
+		for (int i = 0; i <= curveOrder; i++)
+			str += ioMwPointAry[i] + ", " + ioCostAry[i] + ", "; 
+		str += "\n"; 
+		return str;
+	}	
 }
