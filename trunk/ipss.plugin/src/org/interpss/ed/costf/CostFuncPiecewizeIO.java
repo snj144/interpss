@@ -22,9 +22,34 @@
   *
   */
 
-package org.interpss.ed.unit;
+package org.interpss.ed.costf;
 
-public class CostFuncPiecewizeIO  extends CostFuncAdapter {
+/*
+	Stands for piecewize Input/Output curve. Here the unit's heat rate curve
+      is represented as a series of points connected by straight line segments.
+      The number of segments in the curve is determined by the order parameter.
+      Each point requires a MW value and a heat rate value.
+      The input file then must contain points such as the table below:
+
+          MW | Inc. Heat Rate
+       -----------------------
+         P1  |  HR1
+         P2  |  HR2
+         P3  |  HR3
+         P4  |  HR4
+           This example has an order of 3 since the four points specify
+           three segments.
+
+      The user is cautioned that the first point's MW value ought to be equal 
+      to the unit low limit and the last MW point equal to the unit high limit.
+      In addition:
+
+        P(I) < P(I+1)        
+        HR(I) < HR(I+1)   
+      
+      for all points in the curve.
+ */
+public class CostFuncPiecewizeIO  extends AbstractCostFunc {
 	private double[] ioMwPointAry, ioCostAry;
 
 	public CostFuncPiecewizeIO(int order) {
@@ -59,7 +84,7 @@ public class CostFuncPiecewizeIO  extends CostFuncAdapter {
 	    return unitihr;
 	}
 	
-	public double inverserIhr(double unitIhr) throws Exception {
+	public double inverserIhr(double unitIhr, double pmax, double pmin) throws Exception {
 		if ( unitIhr >= maxIhr)
 			return pmax;
 		if ( unitIhr <= minIhr)

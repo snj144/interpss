@@ -22,9 +22,32 @@
   *
   */
 
-package org.interpss.ed.unit;
+package org.interpss.ed.costf;
+/*
+	Stands for piecewize incremental heat rate curve. The curve is 
+      represented by a series of points connected by straight line segments.
+      The number of segments in the curve is determined by the order parameter.
+      Each point requires a MW value and an incremental heat rate value.
+      The input file then must contain points such as the table below:
 
-public class CostFuncPiecewizeIncremental extends CostFuncAdapter {
+          MW | Inc. Heat Rate
+       -----------------------
+         P1  |  IHR1
+         P2  |  IHR2
+         P3  |  IHR3
+           This example has an order of 2 since the three points specify
+           two segments.
+
+      The user is cautioned that the first point's MW value ought to be equal 
+      to the unit low limit and the last MW point equal to the unit high limit.
+      In addition:
+
+        P(I) < P(I+1)        
+        IHR(I) < IHR(I+1)   
+      
+      for all points in the curve.
+ */
+public class CostFuncPiecewizeIncremental extends AbstractCostFunc {
 	private double minPut = 0.0;
 	private double[] ihrMwPointAry, ihrCostAry;
 
@@ -65,7 +88,7 @@ public class CostFuncPiecewizeIncremental extends CostFuncAdapter {
 		return unitihr;
 	}
 	
-	public double inverserIhr(double unitIhr) throws Exception  {
+	public double inverserIhr(double unitIhr, double pmax, double pmin) throws Exception  {
 		if ( unitIhr >= maxIhr)
 			return pmax;
 		if ( unitIhr <= minIhr)

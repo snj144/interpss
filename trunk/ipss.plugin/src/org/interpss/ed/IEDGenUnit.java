@@ -12,12 +12,12 @@ public interface IEDGenUnit {
 	public double getPmax();
 	public double getPmin();
 
+	public CostFuncType getCostFuncType();
+	
 	public double getIhrmax();
 	public double getIhrmin();
 
 	public double getFuelCost();
-	
-	public CostFuncType getCostFuncType();
 	
 	public double getIOCost(int i);
 	public double getIOMwPoint(int i);
