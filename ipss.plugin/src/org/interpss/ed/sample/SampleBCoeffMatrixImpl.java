@@ -3,23 +3,27 @@ package org.interpss.ed.sample;
 import org.interpss.ed.IBCoeffMatrix;
 
 public class SampleBCoeffMatrixImpl implements IBCoeffMatrix {
+	public double b00;
+	public double [] b0;
+	public double [][] b;
 
+	public SampleBCoeffMatrixImpl(int ngen) {
+		this.b0 = new double[ngen]; 
+		this.b = new double[ngen][ngen]; 
+	}
+	
 	@Override
 	public double getB(int i, int j) {
-		// TODO Auto-generated method stub
-		return 0;
+		return b[i][j];
 	}
 
 	@Override
 	public double getB0(int i) {
-		// TODO Auto-generated method stub
-		return 0;
+		return b0[i];
 	}
 
 	@Override
 	public double getB00() {
-		// TODO Auto-generated method stub
-		return 0;
+		return b00;
 	}
-
 }
