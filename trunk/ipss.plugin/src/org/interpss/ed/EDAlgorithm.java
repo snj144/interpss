@@ -14,6 +14,9 @@ public class EDAlgorithm {
 	
 	private IBCoeffMatrix bCoef;
 
+	public EDAlgorithm(LossType losstype) {
+		this.losstype = losstype;
+	}
 	
 	public void LambdaSearchDispatch(int ngen, IEDGenUnit[] genAry, double schedmw)  throws Exception  {
 		for ( int i = 0; i < ngen; i++ ) {                 // Set unit output to midrange}

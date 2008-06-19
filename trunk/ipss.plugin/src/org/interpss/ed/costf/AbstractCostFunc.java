@@ -9,6 +9,10 @@ public abstract class AbstractCostFunc {
 	public abstract double inverserIhr(double unitIhr, double pmax, double pmin) throws Exception;
 	public abstract double productionCost(double unitMw);
 	
+	public double getFuelCost() {
+		return this.fuelCost;
+	}
+
 	public void setFuelCost(double c) {
 		this.fuelCost = c;
 	}

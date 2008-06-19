@@ -52,6 +52,16 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 			throw new Exception("Coeff order out of range, order: " + order);
 	}
 	
+	public void setCoeff2ndOrder(double c0, double c1, double c2 ) throws Exception {
+		if (this.curveOrder == 2) {
+			this.coeffAry[0] = c0;
+			this.coeffAry[1] = c1;
+			this.coeffAry[2] = c2;
+		}
+		else
+			throw new Exception("Coeff order is not 2 ");
+	}
+
 	public double incHeatRate(double unitMw) {
 		double unitihr = 0.0;
 	    for (int j = curveOrder; j <= 2; j--)
@@ -80,9 +90,7 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 	    // for curves of order >= 3 search for unitmw using Newtons method }
 
 	    double unitmw = ( pmin + pmax )/ 2.0;
-	    int step = 0;
-	    do {
-	    	step++;
+	    for (int i = 0; i <MaxIteration; i++ ) {
 	    	double unitihr1 = 0.0;    // Calc unitihr at unitmw as unitihr1}
 	    	for (int j = curveOrder; j >= 2; j--)
 	    		unitihr1 = ( unitihr1 + j * coeffAry[j]) * unitmw;
@@ -92,11 +100,11 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 	    		return unitmw;
 
 	    	double dihrdp = 0.0;    // Calc curve second derivative}
-	    	for ( int j = curveOrder; j >= 3; j++ ) 
+	    	for ( int j = curveOrder; j >= 3; j-- ) 
 	    		dihrdp = ( dihrdp + j*(j-1) * coeffAry[j] ) * unitmw;
 	    	dihrdp = dihrdp + 2.0 * coeffAry[2];
 	    	unitmw = unitmw + delihr/dihrdp;
-	    } while ( step <= MaxIteration);
+	    } 
 
 	    throw new Exception("NR iteration for inversionIhr routine does not converge");
 	}
@@ -117,7 +125,6 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 		for (double x : coeffAry)
 			str += x + ", "; 
 		str += "\n"; 
-		str += "ihrTolerance, maxIteration: " + IhrTolerance + ", " + MaxIteration + "\n";
 		return str;
 	}	
 }
