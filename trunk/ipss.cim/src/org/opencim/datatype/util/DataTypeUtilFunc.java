@@ -47,8 +47,8 @@ public class DataTypeUtilFunc {
 	 * @param str init string, for example (10.0, MVA) for ApparentPower
 	 * @return
 	 */
-	public static Object createDataObject(Class klass, String str) {
-		for (Constructor c : klass.getConstructors() ) {
+	public static Object createDataObject(Class<?> klass, String str) {
+		for (Constructor<?> c : klass.getConstructors() ) {
 			if (c.getAnnotation(AnInitConstructor.class) != null)
 				try {
 					return c.newInstance(str);
