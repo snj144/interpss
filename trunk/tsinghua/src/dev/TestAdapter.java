@@ -11,6 +11,7 @@ import com.interpss.common.msg.TextMessage;
  
 public class TestAdapter {
 
+	
 	/**
 	 * @param args
 	 */
