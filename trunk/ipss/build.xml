@@ -230,6 +230,24 @@
     		</fileset>	    	
         </copy>
         
+		<copy todir="H:/backup/ipss/ipss.cim.adapter">
+	    	<fileset dir="${dev_base}/ipss.cim.adapter">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="H:/backup/ipss/ipss.cim.model">
+	    	<fileset dir="${dev_base}/ipss.cim.model">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="H:/backup/ipss/ipss.cim.test">
+	    	<fileset dir="${dev_base}/ipss.cim.test">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
 		<copy todir="H:/backup/ipss/RoseModel">
 	    	<fileset dir="${dev_base}/RoseModel">
       			<exclude name="**/*.java,**/*.class"/>
