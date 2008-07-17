@@ -74,10 +74,6 @@
    	  		<fileset dir="${dev_base}/ipss.ext_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
 
-   	  <jar destfile="${svn_lib}/opencim.jar" 
-   	  		basedir="${dev_base}/ipss.cim/bin" 
-   	  		excludes="CVS/**,model/**" />	
-
    	  <jar destfile="${svn_lib}/ipss_plugin.jar" 
    	  		basedir="${dev_base}/ipss.plugin/runtime" 
    	  		excludes="CVS/**,model/**" />	
