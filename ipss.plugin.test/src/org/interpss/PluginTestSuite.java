@@ -2,6 +2,8 @@ package org.interpss;
 
 import org.interpss.cmd.AclfCmdRunTest;
 import org.interpss.cmd.RunExecTest;
+import org.interpss.contigency.ContingencyControlFileCaseTest;
+import org.interpss.contigency.ContingencyXmlCaseTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
@@ -24,8 +26,6 @@ import org.interpss.dstab.mach.Eq1MachineCaseTest;
 import org.interpss.dstab.mach.MachineSaturationTest;
 import org.interpss.dstab.mach.RoundRotorMachineTest;
 import org.interpss.dstab.mach.SalientPoleMachineTest;
-import org.interpss.edispatch.ContingencyControlFileCaseTest;
-import org.interpss.edispatch.ContingencyXmlCaseTest;
 import org.interpss.ruleset.PreventiveCaseTest;
 import org.interpss.schema.AclfSchemaIeee14BusCaseTest;
 import org.interpss.schema.AcscSchemaSampleCaseTest;
