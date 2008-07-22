@@ -14,8 +14,9 @@ public class EDAlgorithm {
 	
 	private IBCoeffMatrix bCoef;
 
-	public EDAlgorithm(LossType losstype) {
+	public EDAlgorithm(LossType losstype, ScheduleType schedtype) {
 		this.losstype = losstype;
+		this.schedtype = schedtype;
 	}
 	
 	public void LambdaSearchDispatch(int ngen, IEDGenUnit[] genAry, double schedmw)  throws Exception  {
@@ -60,6 +61,7 @@ public class EDAlgorithm {
 		    int n = 0;
 		    do {         //         {Top of lambda search loop}
 		    	n++;
+		    	totalgen = 0.0;
 		    	for ( int i = 0; i < ngen; i++ ) {
 					IEDGenUnit gen = genAry[i];
 		    		double unitihr = lambda / ( gen.getPenaltyFactor() * gen.getFuelCost() );

@@ -132,8 +132,14 @@ public class PSSEGenDataRec {
 		gen.setQGen(UnitType.pConversion(this.qg, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU));
 		gen.setVSpec(this.vs);
 		
+		if (this.pt == 0.0 & this.pb == 0.0) {
+			this.pt = 9999.0; this.pb = -9999.0;
+		}
 		gen.setPLimit(new LimitType(UnitType.pConversion(this.pt, adjNet.getBaseKva(), UnitType.mW, UnitType.PU),
 				                    UnitType.pConversion(this.pb, adjNet.getBaseKva(), UnitType.mW, UnitType.PU)));
+		if (this.qt == 0.0 & this.qb == 0.0) {
+			this.qt = 9999.0; this.qb = -9999.0;
+		}
 		gen.setQLimit(new LimitType(UnitType.pConversion(this.qt, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU),
                                     UnitType.pConversion(this.qb, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU)));
 		

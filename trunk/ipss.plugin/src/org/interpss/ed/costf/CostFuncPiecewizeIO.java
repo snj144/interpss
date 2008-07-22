@@ -58,6 +58,16 @@ public class CostFuncPiecewizeIO  extends AbstractCostFunc {
 		this.ioCostAry = new double[order+1];
 	}
 	
+	public double getIhrmax(double pmax) {
+		double max = 0.0;
+	    return max;
+	}
+
+	public double getIhrmin(double pmin) {
+		double min = 0.0;
+	    return min;
+	}	
+
 	public void setIoMwPoint(int order, double c) throws Exception {
 		if (order <= this.curveOrder)
 			this.ioMwPointAry[order] = c;

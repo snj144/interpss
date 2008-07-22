@@ -2,13 +2,9 @@ package org.interpss.ed.costf;
 
 public abstract class AbstractCostFunc {
 	protected int curveOrder = 0;
-	protected double fuelCost = 0.0;
+	protected double fuelCost = 1.0;
 	protected double maxIhr, minIhr;
 
-	public abstract double incHeatRate(double unitMw);
-	public abstract double inverserIhr(double unitIhr, double pmax, double pmin) throws Exception;
-	public abstract double productionCost(double unitMw);
-	
 	public double getFuelCost() {
 		return this.fuelCost;
 	}
@@ -17,14 +13,13 @@ public abstract class AbstractCostFunc {
 		this.fuelCost = c;
 	}
 	
-	public double getIhrmax() {
-		return this.maxIhr;
-	}
+	public abstract double getIhrmax(double pmax);
+	public abstract double getIhrmin(double pmin);
 
-	public double getIhrmin() {
-		return this.minIhr;
-	}
-
+	public abstract double incHeatRate(double unitMw);
+	public abstract double inverserIhr(double unitIhr, double pmax, double pmin) throws Exception;
+	public abstract double productionCost(double unitMw);
+	
 	public void setIhrLimit(double max, double min) {
 		this.maxIhr = max;
 		this.minIhr = min;

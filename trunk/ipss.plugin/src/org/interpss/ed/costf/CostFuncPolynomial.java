@@ -61,6 +61,20 @@ public class CostFuncPolynomial extends AbstractCostFunc {
 		else
 			throw new Exception("Coeff order is not 2 ");
 	}
+	
+	public double getIhrmax(double pmax) {
+		double max = 0.0;
+	    for (int j = curveOrder; j <= 1; j--)
+	    	max += coeffAry[j] * pmax;
+	    return max + coeffAry[0];
+	}
+
+	public double getIhrmin(double pmin) {
+		double min = 0.0;
+	    for (int j = curveOrder; j <= 1; j--)
+	    	min += coeffAry[j] * pmin;
+	    return min + coeffAry[0];
+	}	
 
 	public double incHeatRate(double unitMw) {
 		double unitihr = 0.0;
