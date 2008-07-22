@@ -7,8 +7,8 @@ public class SampleGenUnitImpl implements IEDGenUnit {
 	public CostFuncType costFuncType;
 	public AbstractCostFunc costFunc = null;
 	public String name;
-	public double p = 0.0, penFactor = 0.0;
-	public double pmax, pmin, ihrmax, ihrmin;
+	public double p = 0.0, penFactor = 1.0;
+	public double pmax, pmin;
 
 	public SampleGenUnitImpl(CostFuncType costFuncType) {
 		this.costFuncType = costFuncType;
@@ -26,12 +26,12 @@ public class SampleGenUnitImpl implements IEDGenUnit {
 
 	@Override
 	public double getIhrmax() {
-		return this.ihrmax;
+		return this.costFunc.getIhrmax(this.pmax);
 	}
 
 	@Override
 	public double getIhrmin() {
-		return this.ihrmin;
+		return this.costFunc.getIhrmin(this.pmin);
 	}
 
 	@Override
@@ -97,8 +97,8 @@ public class SampleGenUnitImpl implements IEDGenUnit {
 		str += "costFuncType: " + costFuncType + "\n";
 		str += "costFunc: " + costFunc.toString();
 		str += "name, p, penFactor: " + name + ", " + p + ", " + penFactor + "\n";
-		str += "pmax, pmin, ihrmax, ihrmin: " + 
-				pmax + ", " + pmin + ", " + ihrmax + ", " + ihrmin + "\n";
+		str += "pmax, pmin: " + 
+				pmax + ", " + pmin + "\n";
 		return str;
 	}
 }
