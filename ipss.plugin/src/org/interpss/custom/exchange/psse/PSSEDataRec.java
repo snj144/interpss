@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
@@ -96,14 +97,16 @@ public class PSSEDataRec {
 	/*
 			I,ISW,PDES,PTOL,'ARNAM'
 	*/
-			AreaInterchangeController controller = CoreObjectFactory.createAreaInterchangeController(this.i, this.arnam, adjNet);
 			AclfBus bus = adjNet.getAclfBus(new Integer(this.isw).toString());
 			if (bus == null) {
-				throw new Exception("Area interchange poewr controller, Swing bus not found, ISW: " + this.isw);
+				IpssLogger.getLogger().warning("Area interchange poewr controller, Swing bus not found, ISW: " + this.isw + 
+						", this data line is ignored");
+			} else {
+				AreaInterchangeController controller = CoreObjectFactory.createAreaInterchangeController(this.i, this.arnam, adjNet);
+				controller.setAclfBus(bus);
+				controller.setPSpecOut(this.pdes, UnitType.mW, adjNet.getBaseKva());
+				controller.setTolerance(this.ptol, UnitType.mW, adjNet.getBaseKva());
 			}
-			controller.setAclfBus(bus);
-			controller.setPSpecOut(this.pdes, UnitType.mW, adjNet.getBaseKva());
-			controller.setTolerance(this.ptol, UnitType.mW, adjNet.getBaseKva());
 		}
 		
 		public String toString() {
