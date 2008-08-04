@@ -2,6 +2,7 @@
 <project basedir="." default="build_dist" name="com.interpss.editor.jgraph">
     <target description="init setup" name="init">
       	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
+      	<property name="dev_lib" value="${dev_base}/ipss.lib/lib"/>
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="fit_base" value="C:/eclipse/InterpssDev/ipss.fit/fitnesse"/>
       	<property name="svn_lib" value="${dev_base}/ipss.lib/lib/ipss"/>
@@ -21,7 +22,7 @@
     					     ${emf_base}/org.eclipse.emf_2.2.0.jar;
     					     ${emf_base}/org.eclipse.emf.ecore.xmi_2.2.0.jar;"/>
     </target>
-
+  
     <target depends="init" description="run the GEditor" name="run">
         <java classname="com.interpss.editor.GEditor" fork="yes"> 
         	<classpath>
@@ -256,5 +257,4 @@
 	    	<fileset dir="C:/SVN" />
         </copy>
     </target>	
-        
 </project>
