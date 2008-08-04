@@ -14,8 +14,21 @@ import com.interpss.core.net.Zone;
 
 
 public class PSSEDataRec {
+	public static double ZeroImpedenc = 0.00001;
+	
 	public enum VersionNo {
 		NotDefined, Old, PSS_E_29, PSS_E_30
+	}
+
+	public static VersionNo getVersion(String lineStr, IPSSMsgHub msg) {
+		if (lineStr.contains("PSS/E-30") || lineStr.contains("30,"))
+			return PSSEDataRec.VersionNo.PSS_E_30;
+		else if (lineStr.contains("PSS/E-29") || lineStr.contains("29,"))
+			return PSSEDataRec.VersionNo.PSS_E_29;
+		else {
+			msg.sendWarnMsg("Unsupported PSS/E verion, " + lineStr);
+		}
+		return PSSEDataRec.VersionNo.Old;
 	}
 
 	static public class HeaderRec {
@@ -31,7 +44,7 @@ public class PSSEDataRec {
 					baseMva = new Double(st.nextToken().trim()).doubleValue();
 				} else {
 					StringTokenizer st = new StringTokenizer(lineStr, ",");
-					indicator = new Integer(st.nextToken()).intValue();
+					indicator = new Integer(st.nextToken().trim()).intValue();
 					// at here we have "100.00 / PSS/E-29.0 THU, JUN 20 2002 14:19"
 					st = new StringTokenizer(st.nextToken(), "/");
 					baseMva = new Double(st.nextToken().trim()).doubleValue();
@@ -214,6 +227,6 @@ public class PSSEDataRec {
 			String lineStr1,
 			int lineNo, 
 			IPSSMsgHub msg) throws Exception {
-		msg.sendWarnMsg("Transformer Z correction table record has not been implemented");	
+		//msg.sendWarnMsg("Transformer Z correction table record has not been implemented");	
 	}
 }

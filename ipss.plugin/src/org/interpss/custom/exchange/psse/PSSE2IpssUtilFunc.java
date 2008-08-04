@@ -34,6 +34,8 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -48,12 +50,32 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
+import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.ext.psse.aclf.PSSEAclfGen;
 import com.interpss.ext.psse.aclf.PSSEAclfLoad;
 import com.interpss.ext.psse.aclf.PSSEAclfXformer;
+import com.interpss.ext.psse.aclf.PSSESwitchedShunt;
 
 public class PSSE2IpssUtilFunc {
+	private static class BusData {
+		// Load data
+		public double loadPSum = 0.0, loadQSum = 0.0;
+		public boolean isFuncLoad = false;
+		public double constP_P = 0.0, constP_Q = 0.0;
+		public double constI_P = 0.0, constI_Q = 0.0;
+
+		// generator data
+		public String remoteBusId = null;
+		public double genPSum = 0.0, genQSum = 0.0, vSpec = 0.0;
+		public double genQmax = 0.0, genQmin = 0.0;
+		
+		// SwitchedShunt data
+		public int controlMode = 0;
+		public double vMax = 0.0, vMmin = 0.0, binit = 0.0;
+		public String remoteBusId_shunt = null;
+	}
+	
 	/**
 	 * Transfer PSSE data model into InterPSS object model
 	 * 
@@ -77,103 +99,83 @@ public class PSSE2IpssUtilFunc {
 		// Base Frequency is not used in loadflow calculation, dedined as 60.0 Hz
 		adjNet.setFrequency(60.0);
 		
+		for( Branch bra : adjNet.getBranchList()) {
+			if (bra.isZeroImpedenceBranch()) {
+				bra.processZeroImpedenceBranch();
+			}
+		}
+		IpssLogger.getLogger().info("Total bus, active bus: " + adjNet.getNoBus() + ", " + adjNet.getNoActiveBus());
+		IpssLogger.getLogger().info("Total branch, active branch: " + adjNet.getNoBranch() + ", " + adjNet.getNoActiveBranch());
+		String str ="";
+		for( Bus b : adjNet.getBusList()) {
+			if (b.isParent()) {
+				str +="[" + b.getId() + " ->( ";
+				for (Bus child : b.getBusSecList())
+					str += child.getId() + " ";
+				str += ")]\n";
+			}
+		}
+		IpssLogger.getLogger().info(str);
+		
 		for( Bus b : adjNet.getBusList()) {
 			AclfBus bus = (AclfBus)b;
-
-			double loadPSum = 0.0, loadQSum = 0.0;
-			boolean isFuncLoad = false;
-			double constP_P = 0.0, constP_Q = 0.0;
-			double constI_P = 0.0, constI_Q = 0.0;
-
-			String remoteBusId = null;
-			double genPSum = 0.0, genQSum = 0.0, vSpec = 0.0;
-			double genQmax = 0.0, genQmin = 0.0;
-			
-			if (bus.getRegDeviceList().size() > 0) {
-				for( Object obj : bus.getRegDeviceList()) {
-					if (obj instanceof PSSEAclfLoad) {
-						PSSEAclfLoad load = (PSSEAclfLoad)obj;
-						loadPSum += load.getConstPLoad().getReal() + load.getConstILoad().getReal() +load.getConstZLoad().getReal(); 
-						loadQSum += load.getConstPLoad().getImaginary() + load.getConstILoad().getImaginary() +load.getConstZLoad().getImaginary(); 
-						constP_P += load.getConstPLoad().getReal(); 
-						constI_P += load.getConstILoad().getReal(); 
-						constP_Q += load.getConstPLoad().getImaginary(); 
-						constI_Q += load.getConstILoad().getImaginary();
-						if (load.getConstILoad().getReal() != 0.0 ||
-							load.getConstZLoad().getReal() != 0.0 ||
-							load.getConstILoad().getImaginary() != 0.0 ||
-							load.getConstILoad().getImaginary() != 0.0)
-							isFuncLoad = true;
+			if (bus.isActive()) {
+				BusData data = getBusData(bus, msg);
+				if (data.genPSum != 0.0 || data.vSpec != 0.0) {
+					IpssLogger.getLogger().fine("genPSum, genQSum, vSpec, genQmax, genQmin: " + 
+							data.genPSum + ", " + data.genQSum + ", " + data.vSpec + ", " + data.genQmax + ", " + data.genQmin);
+					if (bus.isSwing()) {
+			  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+			  			gen.setVoltMag(data.vSpec, UnitType.PU);
 					}
-					else if (obj instanceof PSSEAclfGen) {
-						PSSEAclfGen gen = (PSSEAclfGen)obj;
-						genPSum += gen.getPGen();
-						genQSum += gen.getQGen();
-						if (vSpec == 0.0)
-							vSpec = gen.getVSpec();
-						else if (vSpec != gen.getVSpec()) {
-							msg.sendErrorMsg("Inconsistance Gen VSpec at Bus " + bus.getId());
+					else if (bus.isGenPV()) {
+						if (data.remoteBusId == null || data.remoteBusId.equals("0")) {
+							// PVLimit
+				  			final PVBusAdapter gen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
+				  			gen.setGenP(data.genPSum, UnitType.PU, adjNet.getBaseKva());
+				  			gen.setVoltMag(data.vSpec, UnitType.PU);
+		  					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + bus.getId());
+		  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, bus.getId());
+		  			  		pvLimit.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU, adjNet.getBaseKva());
 						}
-						if (remoteBusId == null)
-							remoteBusId = gen.getVControlBusId();
-						else if (!remoteBusId.equals(gen.getVControlBusId())) {
-							msg.sendErrorMsg("Inconsistance Gen IREG at Bus " + bus.getId());
-						}
-						genQmax += gen.getQLimit().getMax();
-						genQmin += gen.getQLimit().getMin();
+						else {
+							// remote bus voltage
+		  					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + bus.getId());
+		  					bus.setGenCode(AclfGenCode.GEN_PQ);
+		  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(adjNet, bus.getId(), 
+		  			  				RemoteQControlType.BUS_VOLTAGE, data.remoteBusId);
+				  			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
+				  			gen.setGen(new Complex(data.genPSum,data.genQSum), UnitType.PU, adjNet.getBaseKva());
+		  			  		reQ1.setQLimit(new LimitType(data.genQmax, data.genQmin), UnitType.PU, adjNet.getBaseKva());
+		  			  		reQ1.setVSpecified(data.vSpec);
+		  			  	}
+					}
+				}
+				
+				if (data.loadPSum != 0.0 || data.loadQSum != 0.0 || data.isFuncLoad ) {
+					bus.setLoadCode(AclfLoadCode.CONST_P);
+					bus.setLoadP(data.loadPSum);
+					bus.setLoadQ(data.loadQSum);
+					if (data.isFuncLoad) {
+				  		FunctionLoad fload = CoreObjectFactory.createFunctionLoad(adjNet, bus.getId());
+				  		fload.getP().setA(data.constP_P/data.loadPSum);
+				  		fload.getP().setB(data.constI_P/data.loadPSum);
+				  		fload.getQ().setA(data.constP_Q/data.loadQSum);
+				  		fload.getQ().setB(data.constI_Q/data.loadQSum);					
+					}
+				}
+				
+				if (data.binit > 0.0) {
+					if (data.controlMode == 0) {
+						bus.setShuntY(new Complex(0.0, data.binit));
+					}
+					else if (data.controlMode == 1) {
+						bus.setShuntY(new Complex(0.0, data.binit));
 					}
 				}
 			}
-			
-			if (genPSum != 0.0 || vSpec != 0.0) {
-				IpssLogger.getLogger().fine("genPSum, genQSum, vSpec, genQmax, genQmin: " + 
-						genPSum + ", " + genQSum + ", " + vSpec + ", " + genQmax + ", " + genQmin);
-				if (bus.isSwing()) {
-		  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
-		  			gen.setVoltMag(vSpec, UnitType.PU);
-				}
-				else if (bus.isGenPV()) {
-					if (remoteBusId.equals("0")) {
-						// PVLimit
-			  			final PVBusAdapter gen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
-			  			gen.setGenP(genPSum, UnitType.PU, adjNet.getBaseKva());
-			  			gen.setVoltMag(vSpec, UnitType.PU);
-	  					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + bus.getId());
-	  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(adjNet, bus.getId());
-	  			  		pvLimit.setQLimit(new LimitType(genQmax, genQmin), UnitType.PU, adjNet.getBaseKva());
-					}
-					else {
-						// remote bus voltage
-	  					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + bus.getId());
-	  					bus.setGenCode(AclfGenCode.GEN_PQ);
-	  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(adjNet, bus.getId(), 
-	  			  				RemoteQControlType.BUS_VOLTAGE, remoteBusId);
-			  			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
-			  			gen.setGen(new Complex(genPSum,genQSum), UnitType.PU, adjNet.getBaseKva());
-	  			  		reQ1.setQLimit(new LimitType(genQmax, genQmin), UnitType.PU, adjNet.getBaseKva());
-	  			  		reQ1.setVSpecified(vSpec);
-	  			  	}
-				}
-				else {
-					msg.sendErrorMsg("Generator data error, Bus IDE != 2 at Bus " + bus.getId());
-				}
-			}
-			
-			if (loadPSum != 0.0 || loadQSum != 0.0 || isFuncLoad ) {
-				bus.setLoadCode(AclfLoadCode.CONST_P);
-				bus.setLoadP(loadPSum);
-				bus.setLoadQ(loadQSum);
-				if (isFuncLoad) {
-			  		FunctionLoad fload = CoreObjectFactory.createFunctionLoad(adjNet, bus.getId());
-			  		fload.getP().setA(constP_P/loadPSum);
-			  		fload.getP().setB(constI_P/loadPSum);
-			  		fload.getQ().setA(constP_Q/loadQSum);
-			  		fload.getQ().setB(constI_Q/loadQSum);					
-				}
-			}
-			
 		}
- /*
+/*
 		RMA, RMI The upper and lower limits, respectively, of either:
 			• Off-nominal turns ratio in pu of winding one bus base voltage when |COD|
 				is 1 or 2 and CW is 1; RMA = 1.1 and RMI = 0.9 by default.
@@ -262,6 +264,70 @@ public class PSSE2IpssUtilFunc {
 		return !hasError;
 	}	
 
+	private static BusData getBusData(AclfBus bus, IPSSMsgHub msg) {
+		BusData data = new BusData();
+		getBusData(data, bus, msg);
+		if (bus.isParent())
+			for (Bus child : bus.getBusSecList()) {
+				AclfBus childBus = (AclfBus)child;
+				//IpssLogger.getLogger().info("Bus " + childBus.getId() + " info merged to Bus " + bus.getId());
+				getBusData(data, childBus, msg);
+			}
+		return data;
+	}
+	
+	private static void getBusData(BusData data, AclfBus bus, IPSSMsgHub msg) {
+		if (bus.getRegDeviceList().size() > 0) {
+			for( Object obj : bus.getRegDeviceList()) {
+				if (obj instanceof PSSEAclfLoad) {
+					PSSEAclfLoad load = (PSSEAclfLoad)obj;
+					data.loadPSum += load.getConstPLoad().getReal() + load.getConstILoad().getReal() +load.getConstZLoad().getReal(); 
+					data.loadQSum += load.getConstPLoad().getImaginary() + load.getConstILoad().getImaginary() +load.getConstZLoad().getImaginary(); 
+					data.constP_P += load.getConstPLoad().getReal(); 
+					data.constI_P += load.getConstILoad().getReal(); 
+					data.constP_Q += load.getConstPLoad().getImaginary(); 
+					data.constI_Q += load.getConstILoad().getImaginary();
+					if (load.getConstILoad().getReal() != 0.0 ||
+						load.getConstZLoad().getReal() != 0.0 ||
+						load.getConstILoad().getImaginary() != 0.0 ||
+						load.getConstILoad().getImaginary() != 0.0)
+						data.isFuncLoad = true;
+				}
+				else if (obj instanceof PSSEAclfGen) {
+					PSSEAclfGen gen = (PSSEAclfGen)obj;
+					data.genPSum += gen.getPGen();
+					data.genQSum += gen.getQGen();
+					if (data.vSpec == 0.0)
+						data.vSpec = gen.getVSpec();
+					else if (data.vSpec != gen.getVSpec()) {
+						msg.sendErrorMsg("Inconsistance Gen VSpec at Bus " + bus.getId() + " VSpec, genVSpec " + data.vSpec + ", " + gen.getVSpec());
+					}
+					
+					if (data.remoteBusId == null && !gen.getVControlBusId().equals("0"))
+						data.remoteBusId = gen.getVControlBusId();
+					else if (!gen.getVControlBusId().equals("0") && !data.remoteBusId.equals(gen.getVControlBusId())) {
+						msg.sendErrorMsg("Inconsistance Gen IREG at Bus " + bus.getId() + ", remoteBusId, vControlBusId " + data.remoteBusId + ", " + gen.getVControlBusId());
+					}
+					data.genQmax += gen.getQLimit().getMax();
+					data.genQmin += gen.getQLimit().getMin();
+				}
+				else if (obj instanceof PSSESwitchedShunt) {
+					PSSESwitchedShunt shunt = (PSSESwitchedShunt)obj;
+					// capacitor(shunt) bus cannot be a Swing or PV bus
+					if (shunt.getMode() == 0) {
+						data.controlMode = 0;
+						data.binit += shunt.getBinit();
+					}
+					else {
+						if (bus.isSwing() || bus.isGenPV()) {
+							msg.sendErrorMsg("Inconsistance SwitchedShunt Bus should not be a Swing/PV bus " + bus.getId());
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	/**
 	 * PTI use 0 to indicate end of a data set, Bus Data for example. This function checks
 	 * if the input line is the end of record line
