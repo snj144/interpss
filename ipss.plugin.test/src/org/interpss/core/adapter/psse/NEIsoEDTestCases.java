@@ -40,16 +40,15 @@ public class NEIsoEDTestCases extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
-		SimuContext simuCtx = adapter.load("testData/edispatch/savnw.raw", SpringAppContext.getIpssMsgHub());
-  		System.out.println(simuCtx.getAclfNet().net2String());
-/*  		
+		//SimuContext simuCtx = adapter.load("testData/psse/test_model_V29.raw", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/psse/test_model_V30.raw", SpringAppContext.getIpssMsgHub());
+  		//System.out.println(simuCtx.getAclfNet().net2String());
+
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
   		//System.out.println(net.net2String());
-  		 * 
-  		 */  		
 	}
 }
 
