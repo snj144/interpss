@@ -11,4 +11,5 @@ import org.junit.runners.Suite.SuiteClasses;
 	SimuAppCtxTest.class,
 })
 public class SpringTestSuite {
+	//
 }
