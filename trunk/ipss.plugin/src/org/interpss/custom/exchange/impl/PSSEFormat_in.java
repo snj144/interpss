@@ -98,15 +98,7 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
       				lineNo++;
       				if (!headerProcessed) {
       					if (lineNo == 1 && version == PSSEDataRec.VersionNo.NotDefined) {
-      						// check version number
-      						if (lineStr.contains("PSS/E-30"))
-      							version = PSSEDataRec.VersionNo.PSS_E_30;
-      						else if (lineStr.contains("PSS/E-29"))
-      							version = PSSEDataRec.VersionNo.PSS_E_29;
-      						else {
-      							msg.sendWarnMsg("Unsupported PSS/E verion, " + lineStr);
-      							version = PSSEDataRec.VersionNo.Old;
-      						}
+      						version = PSSEDataRec.getVersion(lineStr, msg);
       					}
 						if (lineNo == 3) 
       						headerProcessed = true;
@@ -290,11 +282,15 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
       			}
     		} while (lineStr != null);
   		} catch (Exception e) {
+  			e.printStackTrace();
     		throw new Exception("PSSE data input error, line no " + lineNo + ", " + e.toString());
   		}
+  		IpssLogger.getLogger().info("PSS/E data file loaded");
   		
-  		if (PSSE2IpssUtilFunc.transferData(adjNet, msg))
+  		if (PSSE2IpssUtilFunc.transferData(adjNet, msg)) {
+  	  		IpssLogger.getLogger().info("PSS/E data has been converted to InterPSS model");
   			return adjNet;
+  		}	
   		else
   			return null;
 	}

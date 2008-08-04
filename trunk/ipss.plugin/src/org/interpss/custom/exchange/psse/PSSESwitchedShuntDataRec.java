@@ -5,7 +5,10 @@ import java.util.StringTokenizer;
 import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.ext.ExtensionObjectFactory;
+import com.interpss.ext.psse.aclf.PSSESwitchedShunt;
 
 public class PSSESwitchedShuntDataRec {
 	/* 
@@ -13,11 +16,13 @@ public class PSSESwitchedShuntDataRec {
 	 *    ShuntData I,MODSW,VSWHI,VSWLO,SWREM,RMINIT, BINIT,N1,B1,N2,B2...N8,B8
 
 	 * PSS/E 30
-	 *    ShuntData I,MODSW,VSWHI,VSWLO,SWREM,RMINIT,NAME,BINIT,N1,B1,N2,B2...N8,B8
+	 *    ShuntData I,MODSW,VSWHI,VSWLO,SWREM,RMPCT,'RMINIT',BINIT,N1,B1,N2,B2...N8,B8
 	 */
-	public String i, modsw, vswhi, vswlo, swrem, rminit, name, binit;
-	public String[] b = { "0.0", "0.0", "0.0", "0.0", "0.0", "0.0", "0.0",
-				"0.0" }, n = { "0", "0", "0", "0", "0", "0", "0", "0" };
+	public int i, modsw, swrem;
+	public double vswhi, vswlo, rmpct, binit; 
+	public String name, rminit;
+	public int[] nAry = new int[8];
+	public double[] bAry = new double[8];
 
 	public PSSESwitchedShuntDataRec(String lineStr, VersionNo version) {
 		StringTokenizer st;
@@ -28,55 +33,57 @@ public class PSSESwitchedShuntDataRec {
 			st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr), ",");
 		}
 
-		i = st.nextToken().trim();
-		modsw = st.nextToken().trim();
-		vswhi = st.nextToken().trim();
-		vswlo = st.nextToken().trim();
-		swrem = st.nextToken().trim();
-		if (version != VersionNo.Old)
-			rminit = st.nextToken().trim();
-		if (version == VersionNo.PSS_E_30)
-			name = st.nextToken().trim();
-		binit = st.nextToken().trim();
+		this.i = new Integer(st.nextToken().trim()).intValue();
+		this.modsw = new Integer(st.nextToken().trim()).intValue();
+		this.vswhi = new Double(st.nextToken().trim()).doubleValue();
+		this.vswlo = new Double(st.nextToken().trim()).doubleValue();
+		this.swrem = new Integer(st.nextToken().trim()).intValue();
+		if (version != VersionNo.Old) {
+			String str = st.nextToken().trim();
+			if (!str.startsWith("'")) {
+				this.rmpct = new Double(str).doubleValue();
+				str = st.nextToken().trim();
+			}
+			this.rminit = str;
+		}
+		this.binit = new Double(st.nextToken().trim()).doubleValue();
 		if (st.hasMoreTokens())
-			n[0] = st.nextToken().trim();
+			this.nAry[0] = new Integer(st.nextToken().trim()).intValue();;
 		if (st.hasMoreTokens())
-			b[0] = st.nextToken().trim();
+			this.bAry[0] = new Double(st.nextToken().trim()).doubleValue();
 		if (st.hasMoreTokens())
-			n[1] = st.nextToken().trim();
+			this.nAry[1] = new Integer(st.nextToken().trim()).intValue();;
 		if (st.hasMoreTokens())
-			b[1] = st.nextToken().trim();
+			this.bAry[1] = new Double(st.nextToken().trim()).doubleValue();
 		if (st.hasMoreTokens())
-			n[2] = st.nextToken().trim();
+			this.nAry[2] = new Integer(st.nextToken().trim()).intValue();;
 		if (st.hasMoreTokens())
-			b[2] = st.nextToken().trim();
+			this.bAry[2] = new Double(st.nextToken().trim()).doubleValue();
 		if (st.hasMoreTokens())
-			n[3] = st.nextToken().trim();
+			this.nAry[3] = new Integer(st.nextToken().trim()).intValue();;
 		if (st.hasMoreTokens())
-			b[3] = st.nextToken().trim();
+			this.bAry[3] = new Double(st.nextToken().trim()).doubleValue();
 		if (st.hasMoreTokens())
-			n[4] = st.nextToken().trim();
+			this.nAry[4] = new Integer(st.nextToken().trim()).intValue();;
 		if (st.hasMoreTokens())
-			b[4] = st.nextToken().trim();
+			this.bAry[4] = new Double(st.nextToken().trim()).doubleValue();
 		if (st.hasMoreTokens())
-			n[5] = st.nextToken().trim();
+			this.nAry[5] = new Integer(st.nextToken().trim()).intValue();;
 		if (st.hasMoreTokens())
-			b[5] = st.nextToken().trim();
+			this.bAry[5] = new Double(st.nextToken().trim()).doubleValue();
 		if (st.hasMoreTokens())
-			n[6] = st.nextToken().trim();
+			this.nAry[6] = new Integer(st.nextToken().trim()).intValue();;
 		if (st.hasMoreTokens())
-			b[6] = st.nextToken().trim();
+			this.bAry[6] = new Double(st.nextToken().trim()).doubleValue();
 		if (st.hasMoreTokens())
-			n[7] = st.nextToken().trim();
+			this.nAry[7] = new Integer(st.nextToken().trim()).intValue();;
 		if (st.hasMoreTokens())
-			b[7] = st.nextToken().trim();
+			this.bAry[7] = new Double(st.nextToken().trim()).doubleValue();
 	}
 	
 	public void processSwitchedShunt(
 			AclfAdjNetwork adjNet, 
 			IPSSMsgHub msg) throws Exception {
-		msg.sendWarnMsg("Swithced Shunt data record has not been implemented");
-
 		/*
 			I,MODSW,VSWHI,VSWLO,SWREM,RMINIT,NAME(PSS/E30),BINIT,N1,B1,N2,B2...N8,B8
 				I - Bus number
@@ -84,38 +91,51 @@ public class PSSESwitchedShuntDataRec {
 				VSWHI - Desired voltage upper limit, per unit
 				VSWLO - Desired voltage lower limit, per unit
 				SWREM - Number of remote bus to control. 0 to control own bus.
-				VDES - Desired voltage setpoint, per unit
+				RMPCT - Percent of the total Mvar required to hold the voltage at the bus controlled by bus
+                            I that are to be contributed by this switched shunt; RMPCT must be positive.
+                NAME -             
 				BINIT - Initial switched shunt admittance, MVAR at 1.0 per unit volts
 				N1 - Number of steps for block 1, first 0 is end of blocks
 				B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts.
 				N2, B2, etc, as N1, B1
-		 */	
-/*		
-		int I = new Integer(rec.i).intValue();
-		int MODSW = new Integer(rec.modsw).intValue();
-		double VSWHI = new Double(rec.vswhi).doubleValue();
-		double VSWLO = new Double(rec.vswlo).doubleValue();
-		int SWREM  = new Integer(rec.swrem).intValue();
-		double RMINIT = new Double(rec.rminit).doubleValue();
-		String name = rec.name;
-		double BINIT = new Double(rec.binit).doubleValue();
-		int N1     = new Integer(rec.n[0]).intValue();
-		double B1  = new Double(rec.b[0]).doubleValue();
-		int N2     = new Integer(rec.n[1]).intValue();
-		double B2  = new Double(rec.b[1]).doubleValue();
-		int N3     = new Integer(rec.n[2]).intValue();
-		double B3  = new Double(rec.b[2]).doubleValue();
-		int N4     = new Integer(rec.n[3]).intValue();
-		double B4  = new Double(rec.b[3]).doubleValue();
-		int N5     = new Integer(rec.n[4]).intValue();
-		double B5  = new Double(rec.b[4]).doubleValue();
-		int N6     = new Integer(rec.n[5]).intValue();
-		double B6  = new Double(rec.b[5]).doubleValue();
-		int N7     = new Integer(rec.n[6]).intValue();
-		double B7  = new Double(rec.b[6]).doubleValue();
-		int N8     = new Integer(rec.n[7]).intValue();
-		double B8  = new Double(rec.b[7]).doubleValue();
-*/
+		 */
+		String iStr = new Integer(this.i).toString();
+		AclfBus bus = adjNet.getAclfBus(iStr);
+		if (bus == null) {
+			throw new Exception ("Bus not found in the network, bus number: " + this.i);
+		}		
+		
+		PSSESwitchedShunt shunt = ExtensionObjectFactory.createPSSESwitchedShunt();
+		shunt.setId(iStr);
+		shunt.setName("SwitchedShunt@Bus:" + iStr);
+		shunt.setDesc("PSSE SwitchedShunt at Bus " + iStr);
+		shunt.setStatus(true);		
+		shunt.setMode(this.modsw);
+		shunt.setVmax(this.vswhi);
+		shunt.setVmax(this.vswlo);
+		shunt.setRemoteBusNo(this.swrem);
+		shunt.setBinit(this.binit);
+		shunt.setRmpct(this.rmpct);
+		shunt.setRminit(this.rminit);
+		
+		for (int i = 0; i < 8; i++) {
+			if (this.nAry[i] != 0) {
+				shunt.getNAry().add(i, this.nAry[i]);
+				shunt.getBAry().add(i, this.bAry[i]);
+			}
+		}
+		bus.getRegDeviceList().add(shunt);
 	}	
 	
+	public String toString() {
+		String str = "";
+		str += "i, modsw, swrem, vswhi, vswlo, rmpct, binit :" + 
+				i + ", " + modsw + ", " + swrem + ", " + vswhi + ", " + vswlo + ", " + rmpct + ", " + binit + "\n";
+		str += "name, rminit:" 
+				+ name + ", " + rminit + "\n";
+		for (int i = 0; i < 8; i++) {
+			str += this.nAry[i] + ", " + this.bAry[i];
+		}
+		return str + "\n";
+	}
 }
