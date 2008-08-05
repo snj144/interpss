@@ -35,6 +35,7 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
+import org.ieee.pes.odm.pss.adapter.bpa.BPAAdapter;
 import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
 import org.ieee.pes.odm.pss.adapter.ucte.UCTE_DEFAdapter;
 
@@ -46,6 +47,7 @@ public class Data2ODMXml {
 
 	private final static String Token_IEEECDF 	= "ieeecdf";
 	private final static String Token_UCTE 	= "ucte";
+	private final static String Token_BPA 	= "bpa";
 
 	private final static String Token_LogInfo 	= "info";
 	private final static String Token_LogWarn 	= "waining";
@@ -84,8 +86,12 @@ public class Data2ODMXml {
 				adapter = new IeeeCDFAdapter(logger);
 			}
 			else if (Token_UCTE.equals(appParameters.getParamLowerCase(FmtOptStr))) {
-				logger.info("Input file is of format IEEE Common Data Format");
+				logger.info("Input file is of format UCTE Data Format");
 				adapter = new UCTE_DEFAdapter(logger);
+			}
+			else if (Token_BPA.equals(appParameters.getParamLowerCase(FmtOptStr))) {
+				logger.info("Input file is of format BPA Format");
+				adapter = new BPAAdapter(logger);
 			}
 			else {
 				logger.severe("Error: Unsupported input file data, " + appParameters.getParam(FmtOptStr));
