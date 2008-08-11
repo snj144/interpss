@@ -8,6 +8,7 @@
     	<documentation>Copyright www.interpss.org 2008</documentation>
     </annotation>
     <include schemaLocation="ODM_DataType.xsd"></include>
+    <include schemaLocation="ODM_DynamicDataType.xsd"></include>
 
 	<element name="PSSStudyCase" type="pss:StudyCaseXmlType"></element>
 	<complexType name="StudyCaseXmlType">
@@ -23,19 +24,21 @@
 							</restriction>
 						</simpleType>
 					</element>
-                    <element name="originalFormat" minOccurs="1" maxOccurs="1">
-                    	<simpleType>
-                    		<restriction base="string">
-                    			<enumeration value="IEEE-CDF"></enumeration>
-                    			<enumeration value="PSS-E"></enumeration>
-                    			<enumeration value="UCTE-DEF"></enumeration>
-                    			<enumeration value="InterPSS"></enumeration>
-                    			<enumeration value="PSAT"></enumeration>
-                    			<enumeration value="IEEE-ODM-PSS"></enumeration>
-                    			<enumeration value="Custom"></enumeration>
-                    		</restriction>
-                    	</simpleType></element>
-                    <element name="adapterProviderName" type="string"
+					<element name="originalFormat" minOccurs="1"
+						maxOccurs="1">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="IEEE-CDF"></enumeration>
+								<enumeration value="PSS-E"></enumeration>
+								<enumeration value="UCTE-DEF"></enumeration>
+								<enumeration value="InterPSS"></enumeration>
+								<enumeration value="PSAT"></enumeration>
+								<enumeration value="IEEE-ODM-PSS"></enumeration>
+								<enumeration value="Custom"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
+					<element name="adapterProviderName" type="string"
 						minOccurs="0" maxOccurs="1">
 					</element>
 					<element name="adapterProviderVersion" type="string"
@@ -70,7 +73,9 @@
 					</element>
 					<element name="scenarioList"
 						type="pss:ScenarioListXmlType" minOccurs="0" maxOccurs="1">
-					</element>				</sequence>
+					</element>
+					<element name="dynamicDataList" type="string" maxOccurs="1" minOccurs="0"></element>
+				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -244,5 +249,15 @@
     			</sequence>
     		</extension>
     	</complexContent>
+    </complexType>
+
+
+    <complexType name="DynamicDataListXmlType">
+    	<sequence>
+    		<element name="busDynDataList"
+    			type="pss:BusDynDataListXmlType" maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="branchDynDataList" type="pss:BranchDynDataListXmlType" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
     </complexType>
 </schema>
