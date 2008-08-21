@@ -354,73 +354,335 @@
     	<sequence>
     		<element name="AC1A" maxOccurs="1" minOccurs="0">
     			<complexType>
-    			<sequence>
-                		<element name="exciterName" type="string" maxOccurs="1"
-				minOccurs="1">
-			</element>
-            <element name="desc" type="string" maxOccurs="1" minOccurs="1"></element>
-			<element name="numberofMachine" type="int" maxOccurs="1"
-				minOccurs="1">
-			</element>
+    				<sequence>
+    					<element name="exciterName" type="string"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="numberofMachine" type="int"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
 
-			<element name="TR" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="TB" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="TC" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="KA" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="TA" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="VAMAX" type="pss:PerUnitXmlType" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="VAMIN" type="pss:PerUnitXmlType" maxOccurs="1"
-				minOccurs="1">
-			</element>
-            <element name="TE" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="KF" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="TF" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="KC" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="KD" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="E1" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="SE1" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="E2" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="SE2" type="double" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="VRMAX" type="pss:PerUnitXmlType" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="VRMIN" type="pss:PerUnitXmlType" maxOccurs="1"
-				minOccurs="1">
-			</element>
-                	</sequence>
+    					<element name="TR" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TB" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TC" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KA" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TA" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VAMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VAMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TE" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KF" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TF" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KC" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="KD" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="E1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="E2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="VRMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VRMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    				</sequence>
     			</complexType>
     		</element>
-    		<element name="AC2A" maxOccurs="1" minOccurs="0"><complexType></complexType></element>
+    		<element name="AC2A" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="exciterName" type="string"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="numberofMachine" type="int"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
+    					<element name="TR" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TB" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TC" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KA" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TA" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VAMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VAMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KB" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="VRMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VRMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TE" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VFEMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KH" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="KF" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TF" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KC" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="KD" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="KE" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="E1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="E2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+
+
+
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="IEEE1981ST1" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="exciterName" type="string"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="numberofMachine" type="int"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
+    					<element name="TR" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="VIMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VIMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TB" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TC" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KA" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TA" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
+
+
+    					<element name="KF" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TF" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KC" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+
+
+
+
+
+    					<element name="VRMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VRMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="IEEE1981ST2" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="exciterName" type="string"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="numberofMachine" type="int"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
+    					<element name="TR" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="VIMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VIMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TB" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TC" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KA" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TA" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
+
+
+    					<element name="KF" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TF" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KC" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+
+
+
+
+
+    					<element name="VRMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VRMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="IEEE1968T1A" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="exciterName" type="string"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="numberofMachine" type="int"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KA" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TA" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VRMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VRMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KE" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TE" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KF" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="TF" type="pss:SecXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="EFDMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="E1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="EFDMAX" type="double"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="SEEFDMAX" type="double"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    			</sequence>		
+    	</complexType></element>
+
+    	
+    
     	</sequence>
     </complexType>
 
@@ -640,8 +902,9 @@
     </complexType>
     <complexType name="stabilizerModelListXmlType">
     	<sequence>
-    		<element name="IEEE1981Type" maxOccurs="1" minOccurs="0"><complexType>
-    		<sequence>
+    		<element name="IEEE1981Type" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
     					<element name="stabilizerName" type="string"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -726,14 +989,19 @@
     					<element name="LSMIN" type="double"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="VCU" type="string"
-    						maxOccurs="1" minOccurs="1">
+    					<element name="VCU" type="string" maxOccurs="1"
+    						minOccurs="1">
     					</element>
-    					<element name="VCL" type="string" maxOccurs="1" minOccurs="1"></element>
+    					<element name="VCL" type="string" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
     				</sequence>
-    		</complexType></element>
-    		<element name="IEEE1982Type2A" maxOccurs="1" minOccurs="0"><complexType>
-    		<sequence>
+    			</complexType>
+    		</element>
+    		<element name="IEEE1982Type2A" maxOccurs="1"
+    			minOccurs="0">
+    			<complexType>
+    				<sequence>
     					<element name="stabilizerName" type="string"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -855,10 +1123,132 @@
     					<element name="VSTMAX" type="string"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="VSTMIN" type="string" maxOccurs="1" minOccurs="1"></element>
+    					<element name="VSTMIN" type="string"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
     				</sequence>
-    		</complexType></element>
+    			</complexType>
+    		</element>
 
+    		<element name="IEE2ST" maxOccurs="1" minOccurs="0">
+    		<complexType>
+    		<sequence>
+    			<element name="stabilizerName" type="string"
+    				maxOccurs="1" minOccurs="1">
+    			</element>
+    			<element name="desc" type="string" maxOccurs="1"
+    				minOccurs="0">
+    			</element>
+    			<element name="numberofMachine" type="int" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="firstInputSignal" maxOccurs="1"
+    				minOccurs="1">
+    				<simpleType>
+    					<restriction base="string">
+    						<enumeration
+    							value="rotro speed deviation(pu)">
+    						</enumeration>
+    						<enumeration
+    							value="bus frequency deviation(pu)">
+    						</enumeration>
+    						<enumeration
+    							value="generator electrical power(pu)">
+    						</enumeration>
+    						<enumeration
+    							value="generator accelerating power(pu)">
+    						</enumeration>
+    						<enumeration value="bus voltage(pu)">
+    						</enumeration>
+    						<enumeration
+    							value="deriavative of bus voltage(pu)">
+    						</enumeration>
+    					</restriction>
+    				</simpleType>
+    			</element>
+    			<element name="firstRemoteBusId" type="ID" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="secondInputSignal" maxOccurs="1"
+    				minOccurs="1">
+    				<simpleType>
+    					<restriction base="string">
+    						<enumeration
+    							value="rotro speed deviation(pu)">
+    						</enumeration>
+    						<enumeration
+    							value="bus frequency deviation(pu)">
+    						</enumeration>
+    						<enumeration
+    							value="generator electrical power(pu)">
+    						</enumeration>
+    						<enumeration
+    							value="generator accelerating power(pu)">
+    						</enumeration>
+    						<enumeration value="bus voltage(pu)">
+    						</enumeration>
+    						<enumeration
+    							value="deriavative of bus voltage(pu)">
+    						</enumeration>
+    					</restriction>
+    				</simpleType>
+    			</element>
+    			<element name="secondRemoteBusId" type="ID"
+    				maxOccurs="1" minOccurs="1">
+    			</element>
+    			<element name="K1" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="K2" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T1" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T2" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T3" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T4" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T5" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T6" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T7" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T8" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T9" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="T10" type="pss:SecXmlType" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+
+
+    			<element name="VSMAX" type="pss:PerUnitXmlType"
+    				maxOccurs="1" minOccurs="1">
+    			</element>
+    			<element name="VSMIN" type="pss:PerUnitXmlType"
+    				maxOccurs="1" minOccurs="1">
+    			</element>
+    			<element name="VCU" type="pss:PercentXmlType"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="VCL" type="pss:PercentXmlType"
+    				maxOccurs="1" minOccurs="0">
+    			</element>
+    			<element name="VCUTOFF" type="pss:PercentXmlType" maxOccurs="1" minOccurs="0"></element>
+    		</sequence>
+    		</complexType></element>
     	</sequence>
     </complexType>
     <complexType name="dynLoadModelListXmlType">
