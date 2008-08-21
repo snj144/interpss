@@ -69,7 +69,7 @@
 					<restriction base="string">
 						<enumeration value="classicalModel"></enumeration>
 						<enumeration value="transientModel"></enumeration>
-						<enumeration value="subtansModel"></enumeration>
+						<enumeration value="subtransModel"></enumeration>
 
 					</restriction>
 				</simpleType>
@@ -88,7 +88,7 @@
 					<restriction base="string">
 					<enumeration value="AC1A"></enumeration>
 					<enumeration value="AC2A"></enumeration>
-					<enumeration value=""></enumeration>
+					
 					
 					</restriction>
 				</simpleType>
@@ -125,7 +125,7 @@
 					<restriction base="string">						
 					<enumeration value="IEEE1981Type"></enumeration>
 					<enumeration value="IEEE1982Type2A"></enumeration>
-					<enumeration value=""></enumeration>
+					
 					</restriction>
 				</simpleType>
 			</element>
@@ -919,23 +919,22 @@
     						<simpleType>
     							<restriction base="string">
     								<enumeration
-    									value="rotro speed deviation(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="bus frequency deviation(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="generator electrical power(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="generator accelerating power(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="bus voltage(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="deriavative of bus voltage(pu)">
-    								</enumeration>
+    							value="rotorspeeddeviation">
+    						</enumeration>
+    						<enumeration
+    							value="busfrequencydeviation">
+    						</enumeration>
+    						<enumeration
+    							value="generatorelectricalpower">
+    						</enumeration>
+    						<enumeration
+    							value="generatoracceleratingpower">
+    						</enumeration>
+    						<enumeration value="busvoltage">
+    						</enumeration>
+    						<enumeration
+    							value="deriavativeofbusvoltage">
+    						</enumeration>
     							</restriction>
     						</simpleType>
     					</element>
@@ -1016,23 +1015,22 @@
     						<simpleType>
     							<restriction base="string">
     								<enumeration
-    									value="rotro speed deviation(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="bus frequency deviation(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="generator electrical power(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="generator accelerating power(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="bus voltage(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="deriavative of bus voltage(pu)">
-    								</enumeration>
+    							value="rotorspeeddeviation">
+    						</enumeration>
+    						<enumeration
+    							value="busfrequencydeviation">
+    						</enumeration>
+    						<enumeration
+    							value="generatorelectricalpower">
+    						</enumeration>
+    						<enumeration
+    							value="generatoracceleratingpower">
+    						</enumeration>
+    						<enumeration value="busvoltage">
+    						</enumeration>
+    						<enumeration
+    							value="deriavativeofbusvoltage">
+    						</enumeration>
     							</restriction>
     						</simpleType>
     					</element>
@@ -1044,23 +1042,22 @@
     						<simpleType>
     							<restriction base="string">
     								<enumeration
-    									value="rotro speed deviation(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="bus frequency deviation(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="generator electrical power(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="generator accelerating power(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="bus voltage(pu)">
-    								</enumeration>
-    								<enumeration
-    									value="deriavative of bus voltage(pu)">
-    								</enumeration>
+    							value="rotorspeeddeviation">
+    						</enumeration>
+    						<enumeration
+    							value="busfrequencydeviation">
+    						</enumeration>
+    						<enumeration
+    							value="generatorelectricalpower">
+    						</enumeration>
+    						<enumeration
+    							value="generatoracceleratingpower">
+    						</enumeration>
+    						<enumeration value="busvoltage">
+    						</enumeration>
+    						<enumeration
+    							value="deriavativeofbusvoltage">
+    						</enumeration>
     							</restriction>
     						</simpleType>
     					</element>
@@ -1147,21 +1144,21 @@
     				<simpleType>
     					<restriction base="string">
     						<enumeration
-    							value="rotro speed deviation(pu)">
+    							value="rotorspeeddeviation">
     						</enumeration>
     						<enumeration
-    							value="bus frequency deviation(pu)">
+    							value="busfrequencydeviation">
     						</enumeration>
     						<enumeration
-    							value="generator electrical power(pu)">
+    							value="generatorelectricalpower">
     						</enumeration>
     						<enumeration
-    							value="generator accelerating power(pu)">
+    							value="generatoracceleratingpower">
     						</enumeration>
-    						<enumeration value="bus voltage(pu)">
+    						<enumeration value="busvoltage">
     						</enumeration>
     						<enumeration
-    							value="deriavative of bus voltage(pu)">
+    							value="deriavativeofbusvoltage">
     						</enumeration>
     					</restriction>
     				</simpleType>
@@ -1174,21 +1171,21 @@
     				<simpleType>
     					<restriction base="string">
     						<enumeration
-    							value="rotro speed deviation(pu)">
+    							value="rotorspeeddeviation">
     						</enumeration>
     						<enumeration
-    							value="bus frequency deviation(pu)">
+    							value="busfrequencydeviation">
     						</enumeration>
     						<enumeration
-    							value="generator electrical power(pu)">
+    							value="generatorelectricalpower">
     						</enumeration>
     						<enumeration
-    							value="generator accelerating power(pu)">
+    							value="generatoracceleratingpower">
     						</enumeration>
-    						<enumeration value="bus voltage(pu)">
+    						<enumeration value="busvoltage">
     						</enumeration>
     						<enumeration
-    							value="deriavative of bus voltage(pu)">
+    							value="deriavativeofbusvoltage">
     						</enumeration>
     					</restriction>
     				</simpleType>
@@ -1256,7 +1253,7 @@
     		<element name="IEEELoad" maxOccurs="1" minOccurs="0"><complexType>
     		<sequence>
                         <element name="modelDesc" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    					<enumeration value="P=Pload(a1*v^n1+a2*v^n2+a3*v^n3)*(1+a7*delta*f, q=Qload(a4*v^n4+a5*v^n5+a6*v^n6)*(1+a8*delta*f)"></enumeration>
+    					<enumeration value="compoundLoad"></enumeration>
   					
     					</restriction></simpleType></element>
                         <element name="LoadId" type="string"
@@ -1330,8 +1327,7 @@
     						<simpleType>
     							<restriction base="string">
     								<enumeration
-    									value="load=largemotor+smallmotor+dischargelighting+
-    					transformersaturation+constant+remainingload">
+    									value="complexLoad">
     								</enumeration>
     							</restriction>
     						</simpleType>
@@ -1386,7 +1382,7 @@
     						<simpleType>
     							<restriction base="string">
     								<enumeration
-    									value="a induction motor">
+    									value="ainductionmotor">
     								</enumeration>
     							</restriction>
     						</simpleType>
@@ -1577,7 +1573,7 @@
     			minOccurs="1">
     		</element>
     		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    		<enumeration value="%"></enumeration>
+    		<enumeration value="percent"></enumeration>
     		</restriction></simpleType></element>
     	</sequence>
     </complexType>
