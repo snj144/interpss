@@ -3,7 +3,8 @@
 	targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
 	xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
 	elementFormDefault="qualified">
-	<include schemaLocation="ODM_DataType.xsd"></include>
+	<include schemaLocation="ODM_DataType.xsd"></include>
+
 
 
 	<complexType name="BusDynDataListXmlType">
@@ -23,7 +24,8 @@
 			</element>
 			<element name="dynLoadDataList"
 				type="pss:DynLoadDataListXmlType" maxOccurs="1" minOccurs="0">
-			</element>
+			</element>
+
 		</sequence>
 	</complexType>
 
@@ -61,7 +63,7 @@
 
 	<complexType name="generatorXmlType">
 		<sequence>
-			<element name="locatedBus" type="ID" maxOccurs="1"
+			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1"
 				minOccurs="1">
 			</element>
 			<element name="generatorType" maxOccurs="1" minOccurs="1">
@@ -80,7 +82,7 @@
 
 	<complexType name="exciterXmlType">
 		<sequence>
-			<element name="locatedBus" type="ID" maxOccurs="1"
+			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1"
 				minOccurs="1">
 			</element>
 			<element name="exciterType" maxOccurs="1" minOccurs="1">
@@ -99,7 +101,7 @@
 
 	<complexType name="governorXmlType">
 		<sequence>
-			<element name="locatedBus" type="ID" maxOccurs="1"
+			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1"
 				minOccurs="1">
 			</element>
 			<element name="governorType" maxOccurs="1" minOccurs="1">
@@ -117,7 +119,7 @@
 
 	<complexType name="stabilizerXmlType">
 		<sequence>
-			<element name="locatedBus" type="ID" maxOccurs="1"
+			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1"
 				minOccurs="1">
 			</element>
 			<element name="stabilizerType" maxOccurs="1" minOccurs="1">
@@ -136,7 +138,7 @@
 
 	<complexType name="dynLoadXmlType">
 		<sequence>
-			<element name="locatedBus" type="ID" maxOccurs="1"
+			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1"
 				minOccurs="1">
 			</element>
 			<element name="dynLoadXmlType" maxOccurs="1" minOccurs="1">
@@ -705,7 +707,7 @@
     					<element name="numberofMachine" type="int"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="remoteLocatedBus" type="ID"
+    					<element name="remoteLocatedBus" type="pss:IDRefRecordXmlType"
     						maxOccurs="1" minOccurs="0">
     					</element>
     					<element name="numberofMachineAtRemoteBus"
@@ -938,7 +940,7 @@
     							</restriction>
     						</simpleType>
     					</element>
-    					<element name="remoteBusId" type="ID"
+    					<element name="remoteBusId" type="pss:IDRefRecordXmlType"
     						maxOccurs="1" minOccurs="0">
     					</element>
     					<element name="A1" type="double" maxOccurs="1"
@@ -1034,7 +1036,7 @@
     							</restriction>
     						</simpleType>
     					</element>
-    					<element name="firstRemoteBusId" type="ID"
+    					<element name="firstRemoteBusId" type="pss:IDRefRecordXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="secondInputSignal" maxOccurs="1"
@@ -1061,7 +1063,7 @@
     							</restriction>
     						</simpleType>
     					</element>
-    					<element name="secondRemoteBusId" type="ID"
+    					<element name="secondRemoteBusId" type="pss:IDRefRecordXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="M" type="double" maxOccurs="1"
@@ -1163,7 +1165,7 @@
     					</restriction>
     				</simpleType>
     			</element>
-    			<element name="firstRemoteBusId" type="ID" maxOccurs="1"
+    			<element name="firstRemoteBusId" type="pss:IDRefRecordXmlType" maxOccurs="1"
     				minOccurs="1">
     			</element>
     			<element name="secondInputSignal" maxOccurs="1"
@@ -1190,7 +1192,7 @@
     					</restriction>
     				</simpleType>
     			</element>
-    			<element name="secondRemoteBusId" type="ID"
+    			<element name="secondRemoteBusId" type="pss:IDRefRecordXmlType"
     				maxOccurs="1" minOccurs="1">
     			</element>
     			<element name="K1" type="double" maxOccurs="1"
@@ -1267,11 +1269,11 @@
     								<enumeration value="atOwner"></enumeration>
     								<enumeration value="atZone"></enumeration>
     								<enumeration value="atArea"></enumeration>
-    								<enumeration value="0"></enumeration>
+    								<enumeration value="other"></enumeration>
     							</restriction>
     						</simpleType>
     					</element>
-    					<element name="locationId" type="ID"
+    					<element name="locationId" type="pss:IDRefRecordXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
 
@@ -1343,11 +1345,11 @@
     								<enumeration value="atOwner"></enumeration>
     								<enumeration value="atZone"></enumeration>
     								<enumeration value="atArea"></enumeration>
-    								<enumeration value="0"></enumeration>
+    								<enumeration value="other"></enumeration>
     							</restriction>
     						</simpleType>
     					</element>
-    					<element name="locationId" type="ID"
+    					<element name="locationId" type="pss:IDRefRecordXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
 
@@ -1382,7 +1384,7 @@
     						<simpleType>
     							<restriction base="string">
     								<enumeration
-    									value="ainductionmotor">
+    									value="inductionmotor">
     								</enumeration>
     							</restriction>
     						</simpleType>
@@ -1398,11 +1400,11 @@
     								<enumeration value="atOwner"></enumeration>
     								<enumeration value="atZone"></enumeration>
     								<enumeration value="atArea"></enumeration>
-    								<enumeration value="0"></enumeration>
+    								<enumeration value="other"></enumeration>
     							</restriction>
     						</simpleType>
     					</element>
-    					<element name="locationId" type="ID"
+    					<element name="locationId" type="pss:IDRefRecordXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
 

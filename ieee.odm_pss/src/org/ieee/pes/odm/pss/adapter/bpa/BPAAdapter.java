@@ -56,6 +56,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 
 	private static final String Token_Id = "No";
 	
+	private static final int NetData = 8;	
 	private static final int BusData = 1;
 	private static final int BranchData = 2;
 	private static final int LossZone = 3;
@@ -86,53 +87,50 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_BPAloadflow_format");
 
-		// read header
-		String str = din.readLine();
-		processNetData(str, baseCaseNet);
 		
-		do{
-			str=din.readLine();
-			processNetData(str, baseCaseNet);
-		}while(str.startsWith("(")||str.startsWith("/")
-				||str.startsWith(".")||str.startsWith(">"));
-		
-		
+		String str="";
 
 		int dataType = 0;
-		do {
-			str = din.readLine(); //kvaBase
-			if (!str.equals("END")||!str.equals("STOP")) {
+		do {			
+			str = din.readLine(); 
+			if (!str.trim().equals("(END)")||!str.trim().equals("(STOP)")) {
 				try {
 					// process the data
-					if (str.startsWith(".")) {
+					if (str.startsWith(".")||str.startsWith("-9")) {
 						dataType = 0;
 					} else if (dataType == BusData) {
 						processBusData(str, parser.addNewBaseCaseBus());
 					} else if (dataType == BranchData) {
 						processBranchData(str, parser.addNewBaseCaseBranch(), baseCaseNet);
-					} else if (dataType == LossZone) {
-						processLossZoneData(str, baseCaseNet.getLossZoneList()
-								.addNewLossZone());
-					} else if (dataType == InterchangeData) {
-						processInterchangeData(str, baseCaseNet
-								.getInterchangeList().addNewInterchange().addNewIeeeCDFInterchange());
-					} else if (dataType == TielineData) {
-						processTielineData(str, baseCaseNet.getTieLineList()
-								.addNewTieline());
-					}
-					
-					else if(str.substring(0, 1).equals("B ")){
+					} else if (dataType==NetData){
+						processNetData(str,baseCaseNet);
+					} 
+					//else if (dataType == LossZone) {
+						//processLossZoneData(str, baseCaseNet.getLossZoneList()
+						//		.addNewLossZone());
+					//}// else if (dataType == InterchangeData) {
+					//	processInterchangeData(str, baseCaseNet
+					//			.getInterchangeList().addNewInterchange().addNewIeeeCDFInterchange());
+					//} else if (dataType == TielineData) {
+					//	processTielineData(str, baseCaseNet.getTieLineList()
+					//			.addNewTieline());
+					//}
+				     else if(str.startsWith("(POWERFLOW")||str.startsWith("/")
+							||str.startsWith(">")){
+						dataType=NetData;
+						getLogger().fine("load header data");
+					}else if(str.substring(0, 2).equals("B ")){
 						dataType=BusData;
 						getLogger().fine("load bus data");
-					}else if (str.substring(0, 1).equals("BD")){
+					}else if (str.substring(0, 2).equals("BD")){
 						dataType=TwoTerminalDCLine;
-					}else if (str.substring(0, 1).equals("BM")){
+					}else if (str.substring(0, 2).equals("BM")){
 						dataType=MultiTerminalDCLine;
-					}else if (str.substring(0,1).equals("L ")||str.subSequence(0, 1).equals("E ")
-							||str.subSequence(0, 1).equals("T ")){
+					}else if (str.substring(0,2).equals("L ")||str.subSequence(0, 2).equals("E ")
+							||str.subSequence(0, 2).equals("T ")||str.subSequence(0, 2).equals("R ")){
 						dataType=BranchData;
 						getLogger().fine("load branch data");
-					}else if(str.subSequence(0, 1).equals("A ")){
+					}else if(str.subSequence(0, 2).equals("A ")){
 						dataType=InterchangeData;
 						getLogger().fine("load interchange data");
 					}else{
@@ -142,7 +140,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 					e.printStackTrace();
 				}
 			}
-		} while (!str.equals("END")||!str.equals("STOP"));
+			
+		} while (!str.trim().equals("(END)")||!str.trim().equals("(STOP)"));
 
 		return parser;
 	}
@@ -158,22 +157,21 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		final String[] strAry = getNetDataFields(str);
 
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
-
         //0~4: powerflow, caseID,projectName, baseMVA
 		final String caseId = strAry[1];
 		if (caseId != null)
 			ODMData2XmlHelper.addNVPair(nvList, Token_CaseId, caseId);
-
 		final String projectName = strAry[2];
 		if (caseId != null)
 			ODMData2XmlHelper.addNVPair(nvList, Token_ProjectName, projectName);
-
 		// more name-vale could be added in future 
 		getLogger().fine("caseID, ProjectName: " + caseId + ", "
 				+ projectName );
-
 		//[2] Columns 32-37   MVA Base [F] *
-		final double baseMva = new Double(strAry[4]).doubleValue(); // in MVA
+		final double baseMva; 
+		if(strAry[3]!= null){
+			baseMva = new Double(strAry[3]).doubleValue(); // in MVA
+		}else {baseMva = 100;}
 		getLogger().fine("BaseKva: " + baseMva);
 		baseCaseNet.setBasePower(baseMva);
 		baseCaseNet.setBasePowerUnit(PSSNetworkXmlType.BasePowerUnit.MVA);
@@ -230,7 +228,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		}		
 		// set pGenMax
 		final double pGenMax= new Double(strAry[10]).doubleValue();
-		busData.getGenData().getGen().addNewPGenLimit();
+		busData.addNewGenData().addNewGen().addNewPGenLimit();
 		ODMData2XmlHelper.setLimitData(busData.getGenData().getGen()
 				.getPGenLimit().addNewPLimit(), pGenMax, 0);
 		
@@ -266,9 +264,13 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		}		
 		//for BG and BX, controlled bus name and voltage
 		final String remoteBus= strAry[16];
-		final double vSpecPu= new Double(strAry[17]).doubleValue();
+		double vSpecPu=0.0;
+		if(!strAry[17].endsWith("")){
+			vSpecPu= new Double(strAry[17]).doubleValue();
+			//******************needed
+		}
 		
-		//******************needed
+		
 		final double varSupplied= new Double(strAry[18]).doubleValue();
 		//for PQ bus, set V limit
 		if (busType == "B "||busType=="BC"||busType=="BT"||busType=="BV") {
@@ -312,7 +314,6 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			final String[] strAry = getBranchDataFields(str);
 			// symetry  branch
 			final String branchType=strAry[0];
-			branchRec.getLoadflowBranchData().setCode(LoadflowBranchDataXmlType.Code.LINE);
 
 			final String modCode =strAry[1];
 			final String owner=strAry[2];
@@ -330,12 +331,17 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			
 			
 			// measure location for power interchange, 1--from side, 2- to side
-			final int measureLocation= new Integer(strAry[5]).intValue();
+			if(!strAry[5].equals("")){
+				final int measureLocation= new Integer(strAry[5]).intValue();
+
+			}
 			final String cirId = strAry[8];
 			branchRec.setCircuitId(cirId);
 			
 			branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));
 			branchRec.addNewLoadflowBranchData();
+			
+			branchRec.getLoadflowBranchData().setCode(LoadflowBranchDataXmlType.Code.LINE);
 			
 			final String multiSectionId = strAry[9];
 			//set rated current
@@ -416,6 +422,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			final String[] strAry = getXformerDataFields(str);
 			
 			final String branchType=strAry[0];
+			branchRec.addNewLoadflowBranchData();
+			
 			if(branchType=="T "){
 				branchRec.getLoadflowBranchData().setCode(LoadflowBranchDataXmlType.Code.TRANSFORMER);
 			}else{
@@ -561,9 +569,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 						minVoltPQ);
 				angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				angAdj.setDesiredMeasuredOnFromSide(true);
-			}
-			
-			
+			}			
 		}else if (str.startsWith("LD")){
 			
 		}
@@ -574,7 +580,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 *   Loss Zone data
 	 *   ============== 
 	 */
-
+/*
 	private void processLossZoneData(final String str,
 			final PSSNetworkXmlType.LossZoneList.LossZone lossZone) {
 		final String[] strAry = getLossZoneDataFields(str);
@@ -592,7 +598,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 *   ================ 
 	 */
 
-	private void processInterchangeData(final String str,
+/*	private void processInterchangeData(final String str,
 			final PSSNetworkXmlType.InterchangeList.Interchange.IeeeCDFInterchange interchange) {
 		final String[] strAry = getInterchangeDataFields(str);
 
@@ -629,7 +635,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 *   ============ 
 	 */
 
-	private void processTielineData(final String str,
+/*	private void processTielineData(final String str,
 			final PSSNetworkXmlType.TieLineList.Tieline tieLine) {
 		final String[] strAry = getTielineDataFields(str);
 
@@ -677,7 +683,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		//strAry[4]= baseMVA
 		if(str.startsWith("/MVA_BASE")){
 			final StringTokenizer st = new StringTokenizer(str, "=");
-			strAry[4]=st.nextToken().trim();
+			strAry[3]=st.nextToken().trim();
 		}
 		
 	   return strAry;
@@ -695,38 +701,62 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			//Columns 6-13 busName  14-17 rated voltage
 			strAry[2] = str.substring(3, 6).trim();
 			strAry[3] = str.substring(6, 14).trim();
-			strAry[4] = str.substring(14, 18);
+			strAry[4] = str.substring(14, 18).trim();
 			//Columns 18-19   zone name
 			strAry[5] = str.substring(18, 20).trim();
 
 			//Columns 20-24   Load MW [F] *
 			//Columns 25-29   Load MVAR [F] *
-			strAry[6] = str.substring(20, 25);
-			strAry[7] = str.substring(25, 30);
+			strAry[6] = str.substring(20, 25).trim();;
+			strAry[7] = str.substring(25, 30).trim();;
+			if(strAry[6].equals("")){
+				strAry[6]="0";
+			}if(strAry[7].equals("")){
+				strAry[7]="0";
+			}
 			
 			//Columns 30-33   shunt MW [F] *
 			//Columns 34-39   shunt MVAR [F] *
-			strAry[8] = str.substring(30, 34);
-			strAry[9] = str.substring(34, 38);
-			
+			strAry[8] = str.substring(30, 34).trim();;
+			strAry[9] = str.substring(34, 38).trim();;
+			if(strAry[8].equals("")){
+				strAry[8]="0";
+			}if(strAry[9].equals("")){
+				strAry[9]="0";
+			}
 			// Columns 38-41 pmax
 			// Columns 42-46 pmax
-			strAry[10] = str.substring(38, 42);
-			strAry[11] = str.substring(42, 47);
-			
+			strAry[10] = str.substring(38, 42).trim();;
+			strAry[11] = str.substring(42, 47).trim();
+			if(strAry[10].equals("")){
+				strAry[10]="0";
+			}if(strAry[11].equals("")){
+				strAry[11]="0";
+			}
 			//Qmax Qmin
-			strAry[12]= str.substring(47, 52);
-			strAry[13]= str.substring(52, 57);
-			
+			strAry[12]= str.substring(47, 52).trim();
+			strAry[13]= str.substring(52, 57).trim();
+			if(strAry[12].equals("")){
+				strAry[12]="0";
+			}if(strAry[13].equals("")){
+				strAry[13]="0";
+			}
 			//scheduled V or Vmax, Vmin
-			strAry[14]= str.substring(57, 61);
-			strAry[15]= str.substring(61, 65);
-			
+			strAry[14]= str.substring(57, 61).trim();
+			strAry[15]= str.substring(61, 65).trim();
+			if(strAry[14].equals("")){
+				strAry[14]="0";
+			}if(strAry[15].equals("")){
+				strAry[15]="0";
+			}
+
 			//remoted busName, rated voltage
 			strAry[16]= str.substring(65, 73).trim();
-			strAry[17]= str.substring(73, 77);
+			strAry[17]= str.substring(73, 77).trim();
 			// used in remoted bus control, var fraction
-			strAry[18]= str.substring(77, 80);
+			strAry[18]= str.substring(77, 80).trim();
+			
+			
 
 		
 		return strAry;
@@ -751,11 +781,11 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		strAry[14] = str.substring(50, 56).trim();
 		strAry[15] = str.substring(56, 62).trim();
 		if(strAry[0]=="L"){
-			strAry[16] = str.substring(62, 66);
-			strAry[17] = str.substring(66, 74);
+			strAry[16] = str.substring(62, 66).trim();
+			strAry[17] = str.substring(66, 74).trim();
 		}else{
-			strAry[16] = str.substring(62, 67);
-			strAry[17] = str.substring(68, 74);
+			strAry[16] = str.substring(62, 67).trim();
+			strAry[17] = str.substring(68, 74).trim();
 		}		
 		strAry[18] = str.substring(74, 77).trim();		
 		strAry[19] = str.substring(77, 80).trim();		
@@ -805,25 +835,25 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			strAry[3] = str.substring(6, 14).trim();
 			// rated v
 			strAry[4] = str.substring(14, 18).trim();
-			strAry[5] = str.substring(18, 19);
+			strAry[5] = str.substring(18, 19).trim();
 			//to bus name
-			strAry[6] = str.substring(19, 27);
+			strAry[6] = str.substring(19, 27).trim();
 			// to rated v
 			strAry[7] = str.substring(27, 31).trim();
 			// controlled bus name and rated v
-			strAry[8] = str.substring(33, 41);
-			strAry[9] = str.substring(41, 45);
+			strAry[8] = str.substring(33, 41).trim();
+			strAry[9] = str.substring(41, 45).trim();
 			
 			//for R RV RQ RN
 			//max tap
-			strAry[10] = str.substring(45, 50);
+			strAry[10] = str.substring(45, 50).trim();
 			// min tap
-			strAry[11] = str.substring(50, 55);
+			strAry[11] = str.substring(50, 55).trim();
 			// total tap
-			strAry[12] = str.substring(55, 57);
+			strAry[12] = str.substring(55, 57).trim();
 			
-			strAry[13] = str.substring(57, 62);
-			strAry[14] = str.substring(62, 67);			
+			strAry[13] = str.substring(57, 62).trim();
+			strAry[14] = str.substring(62, 67).trim();			
 						
 
 		return strAry;
