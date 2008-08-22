@@ -25,10 +25,10 @@
             <element name="number" type="int" minOccurs="0"
 				maxOccurs="1">
 			</element>
-			<element name="area" type="int" minOccurs="0"
+			<element name="area" type="string" minOccurs="0"
 				maxOccurs="1">
 			</element>
-			<element name="zone" type="int" minOccurs="0"
+			<element name="zone" type="string" minOccurs="0"
 				maxOccurs="1">
 			</element>
 			<element name="ownerList" minOccurs="0" maxOccurs="1">
