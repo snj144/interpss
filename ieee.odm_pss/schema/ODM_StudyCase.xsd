@@ -80,8 +80,8 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="basePower" type="double" minOccurs="1"
-						maxOccurs="1">
+					<element name="basePower" type="double"
+						minOccurs="1" maxOccurs="1">
 					</element>
 					<element name="basePowerUnit" minOccurs="1"
 						maxOccurs="1">
@@ -103,26 +103,27 @@
 							<sequence>
 								<element name="lossZone"
 									maxOccurs="unbounded" minOccurs="0">
-                                    <complexType>
-                                    	<sequence>
-                                    		<element name="zoneNumber"
-                                    			type="int" minOccurs="1">
-                                    		</element>
-                                    		<element name="zoneName"
-                                    			type="string" minOccurs="0">
-                                    		</element>
-                                    	</sequence>
-                                    </complexType>
+									<complexType>
+										<sequence>
+											<element name="zoneNumber"
+												type="int" minOccurs="1">
+											</element>
+											<element name="zoneName"
+												type="string" minOccurs="0">
+											</element>
+										</sequence>
+									</complexType>
 								</element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
 					<element name="interchangeList" minOccurs="0">
 						<complexType>
 							<sequence>
 								<element name="interchange"
 									minOccurs="0" maxOccurs="unbounded">
-                                    <complexType>
-                                    	<sequence>
+									<complexType>
+										<sequence>
 
 
 
@@ -131,162 +132,176 @@
 
 
 
-                                    		<element
-                                    			name="ieeeCDFInterchange"
-                                    			minOccurs="0">
-                                    			<complexType>
-                                    				<sequence>
-                                    					<element
-                                    						name="areaNumber" type="int"
-                                    						minOccurs="1">
-                                    					</element>
-                                    					<element
-                                    						name="swingBus"
-                                    						type="pss:IDRefRecordXmlType"
-                                    						minOccurs="1">
-                                    					</element>
-                                    					<element
-                                    						name="alternateSwingBusName"
-                                    						type="string" minOccurs="1">
-                                    					</element>
-                                    					<element
-                                    						name="interchangePower"
-                                    						type="pss:PowerXmlType"
-                                    						minOccurs="1">
-                                    					</element>
-                                    					<element
-                                    						name="interchangeErrTolerance"
-                                    						type="double" minOccurs="1">
-                                    					</element>
+											<element
+												name="ieeeCDFInterchange" minOccurs="0">
+												<complexType>
+													<sequence>
+														<element
+															name="areaNumber" type="int" minOccurs="1">
+														</element>
+														<element
+															name="swingBus" type="pss:IDRefRecordXmlType"
+															minOccurs="1">
+														</element>
+														<element
+															name="alternateSwingBusName" type="string"
+															minOccurs="1">
+														</element>
+														<element
+															name="interchangePower" type="pss:PowerXmlType"
+															minOccurs="1">
+														</element>
+														<element
+															name="interchangeErrTolerance" type="double"
+															minOccurs="1">
+														</element>
 
 
-                                    					<element
-                                    						name="areaCode" type="string"
-                                    						minOccurs="0">
-                                    					</element>
-                                    					<element
-                                    						name="areaName" type="string"
-                                    						minOccurs="0">
-                                    					</element>
+														<element
+															name="areaCode" type="string" minOccurs="0">
+														</element>
+														<element
+															name="areaName" type="string" minOccurs="0">
+														</element>
 
 
-                                    				</sequence>
-                                    			</complexType>
-                                    		</element>
-                                    		<element name="ucteExchange"
-                                    			minOccurs="0">
-                                    			<complexType>
-                                    				<sequence>
-                                    					<element
-                                    						name="fromIsoId" type="string"
-                                    						minOccurs="1">
-                                    					</element>
-                                    					<element
-                                    						name="toIsoId" type="string"
-                                    						minOccurs="1">
-                                    					</element>
-                                    					<element
-                                    						name="exchangePower"
-                                    						type="pss:PowerXmlType"
-                                    						minOccurs="1">
-                                    					</element>
-                                    					<element
-                                    						name="comment" type="string"
-                                    						minOccurs="0">
-                                    					</element>
-                                    				</sequence>
-                                    			</complexType>
-                                    		</element>
-                                    		<element name="bpaInterchange"
-                                    			maxOccurs="1" minOccurs="0">
-                                                <complexType>
-
-                                                	<sequence>
-                                                		<element
-                                                			name="areaName"
-                                                			type="string"
-                                                			maxOccurs="1"
-                                                			minOccurs="1">
-                                                		</element>
-
-                                                		<element
-                                                			name="swingBus"
-                                                			type="pss:IDRefRecordXmlType"
-                                                			maxOccurs="1"
-                                                			minOccurs="1">
-                                                		</element>
-                                                		<element
-                                                			name="ratedVoltage"
-                                                			type="pss:VoltageXmlType"
-                                                			maxOccurs="1"
-                                                			minOccurs="0">
-                                                		</element>
-                                                		<element
-                                                			name="interchangePower"
-                                                			type="pss:PowerXmlType"
-                                                			maxOccurs="1"
-                                                			minOccurs="1">
-                                                		</element>
-                                                        <element name="measuredOnFromSide" type="boolean" maxOccurs="1" minOccurs="0">
-                                                		</element>
-                                                        <element
-                                                			name="zoneList"
-                                                			maxOccurs="1"
-                                                			minOccurs="0">
-                                                			<complexType>
-                                                				<sequence>
-                                                					<element
-                                                						name="zone"
-                                                						maxOccurs="1" minOccurs="1">
-                                                                        <complexType>
-                                                                        	<sequence>
-                                                                        		<element
-                                                                        			name="zoneName"
-                                                                        			type="string" maxOccurs="1" minOccurs="0">
-                                                                        		</element>
-                                                                        	</sequence>
-                                                                        </complexType>
-                                                					</element>
-                                                				</sequence>
-                                                			</complexType>
-                                                        </element>
-
-                                                	</sequence>
-                                                </complexType>
-                                    		</element>
-                                    	</sequence>
-                                    </complexType>
+													</sequence>
+												</complexType>
+											</element>
+											<element name="ucteExchange"
+												minOccurs="0">
+												<complexType>
+													<sequence>
+														<element
+															name="fromIsoId" type="string" minOccurs="1">
+														</element>
+														<element
+															name="toIsoId" type="string" minOccurs="1">
+														</element>
+														<element
+															name="exchangePower" type="pss:PowerXmlType"
+															minOccurs="1">
+														</element>
+														<element
+															name="comment" type="string" minOccurs="0">
+														</element>
+													</sequence>
+												</complexType>
+											</element>
+										</sequence>
+									</complexType>
 								</element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
 					<element name="tieLineList" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="tieline"
-									minOccurs="0" maxOccurs="unbounded">
-                                    <complexType>
-                                    	<sequence>
-                                    		<element name="meteredBus"
-                                    			type="pss:IDRefRecordXmlType" minOccurs="1">
-                                    		</element>
-                                    		<element
-                                    			name="meteredAreaNumber"
-                                    			type="int" minOccurs="1">
-                                    		</element>
-                                    		<element
-                                    			name="nonMeteredBus"
-                                    			type="pss:IDRefRecordXmlType" minOccurs="1">
-                                    		</element>
-                                    		<element
-                                    			name="nonMeteredAreaNumber"
-                                    			type="int" minOccurs="1">
-                                    		</element>
-                                    		<element name="cirId"
-                                    			type="string" maxOccurs="1" minOccurs="1">
-                                    		</element>
-                                    	</sequence>
-                                    </complexType>
+								<element name="tieline" minOccurs="0"
+									maxOccurs="unbounded">
+									<complexType>
+										<sequence>
+											<element name="meteredBus"
+												type="pss:IDRefRecordXmlType" minOccurs="1">
+											</element>
+											<element
+												name="meteredArea" type="string" minOccurs="1">
+											</element>
+											<element
+												name="nonMeteredBus" type="pss:IDRefRecordXmlType"
+												minOccurs="1">
+											</element>
+											<element
+												name="nonMeteredArea" type="string" minOccurs="1">
+											</element>
+											<element name="cirId"
+												type="string" maxOccurs="1" minOccurs="1">
+											</element>
+										</sequence>
+									</complexType>
 								</element>
+							</sequence>
+						</complexType>
+					</element>
+					<element name="areaList" maxOccurs="1" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="area"
+									maxOccurs="unbounded" minOccurs="0">
+									<complexType>
+										<sequence>
+											<element name="areaNumber"
+												type="int" maxOccurs="1" minOccurs="0">
+											</element>
+											<element name="areaName"
+												type="string" maxOccurs="1" minOccurs="1">
+											</element>
+											<element name="zoneList"
+												maxOccurs="1" minOccurs="0">
+												<complexType>
+													<sequence>
+														<element
+															name="zone" maxOccurs="unbounded" minOccurs="0">
+
+															<complexType>
+																<sequence>
+																	<element
+																		name="zoneNumber" type="int" maxOccurs="1"
+																		minOccurs="0">
+																	</element>
+																	<element
+																		name="zoneName" type="string" maxOccurs="1"
+																		minOccurs="0">
+																	</element>
+																</sequence>
+															</complexType>
+														</element>
+
+													</sequence>
+												</complexType>
+											</element>
+
+											<element name="swingBusId"
+												type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1">
+											</element>
+											<element
+												name="alternateSwingBus" type="pss:IDRefRecordXmlType"
+												maxOccurs="1" minOccurs="0">
+											</element>
+                                            <element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0">
+											</element>
+                                            <element
+												name="exchangePower" maxOccurs="unbounded" minOccurs="0">
+												<complexType>
+													<sequence>
+														<element
+															name="toArea" type="string" maxOccurs="1"
+															minOccurs="0">
+														</element>
+														<element
+															name="exchangePower" type="pss:PowerXmlType"
+															maxOccurs="1" minOccurs="1">
+														</element>
+													</sequence>
+												</complexType>
+											</element>
+											<element
+												name="exchangeErrToler" type="double" maxOccurs="1"
+												minOccurs="0">
+											</element>
+											<element
+												name="measredOnFromSide" type="boolean" maxOccurs="1"
+												minOccurs="0">
+											</element>
+
+											<element name="ratedVoltage"
+												type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
+											</element>
+
+										</sequence>
+									</complexType>
+								</element>
+
 							</sequence>
 						</complexType></element>
 				</sequence>

@@ -100,6 +100,8 @@ public class IEEEODMPSSModelParser {
 			PSSNetworkXmlType baseCase = getStudyCase().addNewBaseCase();
 			baseCase.addNewBusList();
 			baseCase.addNewBranchList();
+			baseCase.addNewAreaList();
+			baseCase.addNewTieLineList();
 		}
 		return getStudyCase().getBaseCase();
 	}
@@ -111,6 +113,10 @@ public class IEEEODMPSSModelParser {
 	 */
 	public BusRecordXmlType addNewBaseCaseBus() {
 		return getStudyCase().getBaseCase().getBusList().addNewBus();
+	}	
+	
+	public PSSNetworkXmlType.TieLineList.Tieline addNewBaseCaseTieline() {
+		return getStudyCase().getBaseCase().getTieLineList().addNewTieline();
 	}
 
 	/**
@@ -119,7 +125,7 @@ public class IEEEODMPSSModelParser {
 	 * @return
 	 */
 	public BranchRecordXmlType addNewBaseCaseBranch() {
-		return getStudyCase().getBaseCase().getBranchList().addNewBranch();
+		return getStudyCase().getBaseCase().getBranchList().addNewBranch();		
 	}
 	
 	/**

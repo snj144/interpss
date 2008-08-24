@@ -129,7 +129,41 @@ public class ODMData2XmlHelper {
 		}
 		return null;
 	}
-
+	
+	/**
+	 * Get area record with the areaname
+	 * 
+	 * @param areaName
+	 * @param baseCaseNet
+	 * @return
+	 */
+	public static PSSNetworkXmlType.AreaList.Area getAreaRecordByAreaName(String areaName, PSSNetworkXmlType baseCaseNet) {
+		for (PSSNetworkXmlType.AreaList.Area area:baseCaseNet.getAreaList().getAreaArray()) {
+			if (areaName.equals(area.getAreaName()))
+				return area;
+		}
+		return null;
+	}
+	
+	/**
+	 * Get area record with the zone
+	 * 
+	 * @param zoneName
+	 * @param baseCaseNet
+	 * @return
+	 */
+	public static PSSNetworkXmlType.AreaList.Area getAreaRecordByZone(String zoneName, PSSNetworkXmlType baseCaseNet) {
+		for (PSSNetworkXmlType.AreaList.Area area:baseCaseNet.getAreaList().getAreaArray()) {
+			for(PSSNetworkXmlType.AreaList.Area.ZoneList.Zone zone:
+				area.getZoneList().getZoneArray()){
+				if (zoneName.equals(zone.getZoneName()))
+					return area;
+			}			
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * form branch id based on from node id, to node id and branch circuit id 
 	 * 
