@@ -112,6 +112,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if ((str.length() > 3)
 							&& str.substring(0, 3).equals("BUS")) {
 						dataType = BusData;
+						
 						getLogger().fine("load bus data");
 					} else if ((str.length() > 6)
 							&& str.substring(0, 6).equals("BRANCH")) {
@@ -210,8 +211,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		//Columns 19-20   Load flow area number [I].  Don't use zero! *
 		//Columns 21-23   Loss zone number [I]
-		final int areaNo = new Integer(strAry[2]).intValue();
-		final int zoneNo = new Integer(strAry[3]).intValue();
+		final String areaNo = strAry[2];
+		final String zoneNo = strAry[3];
 		busRec.setArea(areaNo);
 		busRec.setZone(zoneNo);
 
@@ -337,8 +338,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//    	Columns 11-12   Load flow area [I]
 		//    	Columns 13-15   Loss zone [I]
 		//    	Column  17      Circuit [I] * (Use 1 for single lines)
-		final int areaNo = new Integer(strAry[2]).intValue();
-		final int zoneNo = new Integer(strAry[3]).intValue();
+		final String areaNo = strAry[2];
+		final String zoneNo = strAry[3];
 		final String cirId = strAry[4];
 		branchRec.setArea(areaNo);
 		branchRec.setZone(zoneNo);
@@ -555,12 +556,12 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//    	Columns  1- 4   Metered bus number [I] *
 		//    	Columns  7-8    Metered area number [I] *
 		final String meteredBusId = Token_Id + strAry[0];
-		final int meteredAreaNo = new Integer(strAry[1]).intValue();
+		final String meteredAreaNo = strAry[1];
 
 		//      Columns  11-14  Non-metered bus number [I] *
 		//      Columns  17-18  Non-metered area number [I] *
 		final String nonMeteredBusId = Token_Id + strAry[2];
-		final int nonMeteredAreaNo = new Integer(strAry[3]).intValue();
+		final String nonMeteredAreaNo = strAry[3];
 
 		//      Column   21     Circuit number
 		int cirNo = 0;
@@ -568,9 +569,9 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			cirNo = new Integer(strAry[4]).intValue();
 
 		tieLine.addNewMeteredBus().setIdRef(meteredBusId);
-		tieLine.setMeteredAreaNumber(meteredAreaNo);
+		tieLine.setMeteredArea(meteredAreaNo);
 		tieLine.addNewNonMeteredBus().setIdRef(nonMeteredBusId);
-		tieLine.setNonMeteredAreaNumber(nonMeteredAreaNo);
+		tieLine.setNonMeteredArea(nonMeteredAreaNo);
 		tieLine.setCirId(new Integer(cirNo).toString());
 	}
 

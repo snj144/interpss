@@ -25,12 +25,12 @@
             <element name="number" type="int" minOccurs="0"
 				maxOccurs="1">
 			</element>
-			<element name="area" type="string" minOccurs="0"
-				maxOccurs="1">
-			</element>
-			<element name="zone" type="string" minOccurs="0"
-				maxOccurs="1">
-			</element>
+			<element name="area" minOccurs="0"
+				maxOccurs="1" type="string">
+            </element>
+			<element name="zone" minOccurs="0"
+				maxOccurs="1" type="string">
+            </element>
 			<element name="ownerList" minOccurs="0" maxOccurs="1">
 				<complexType>
 					<sequence>
@@ -330,7 +330,7 @@
 									type="pss:YXmlType" minOccurs="0">
 								</element>
 								<element name="length"
-									type="double" minOccurs="0">
+									type="pss:LengthXmlType" minOccurs="0">
 								</element>
 							</sequence>
 
@@ -1027,6 +1027,19 @@
     			minOccurs="1">
     		</element>
 
+    	</sequence>
+    </complexType>
+
+
+    <complexType name="LengthXmlType">
+    	<sequence>
+    		<element name="length" type="double" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
+    		<enumeration value="KM"></enumeration>
+    		<enumeration value="Mile"></enumeration>
+    		</restriction></simpleType></element>
     	</sequence>
     </complexType>
 </schema>

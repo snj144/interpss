@@ -93,8 +93,8 @@ public class PSSEBusRecord {
 					YXmlType.Unit.PU);
 		}
 		//area zone	
-		final int areaNo = new Integer(strAry[6]).intValue();
-		final int zoneNo = new Integer(strAry[7]).intValue();
+		final String areaNo = strAry[6];
+		final String zoneNo = strAry[7];
 		busRec.setArea(areaNo);
 		busRec.setZone(zoneNo);		
 
