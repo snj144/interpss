@@ -41,8 +41,24 @@ public class BPABusRecord {
 
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);
-        //busType
-		final String busType=strAry[0];
+		
+		int busType=0;
+		
+		final int swingBus=1;
+		final int pqBus=2;
+		final int pvBus=3;		
+        //busType		
+		if(strAry[0].equals("B ")||strAry[0].equals("BC")||strAry[0].equals("BT")||
+				strAry[0].equals("BV")){
+			busType=pqBus;
+		}else if(strAry[0].equals("BE")||strAry[0].equals("BQ")||strAry[0].equals("BG")||
+				strAry[0].equals("BF")){
+			busType=pvBus;
+		}else if(strAry[0].equals("BS")){
+			busType=swingBus;
+		}
+		
+		
 		// modification code
 		final String modCode=strAry[1];
 		//owner code
@@ -60,7 +76,7 @@ public class BPABusRecord {
 			baseKv= new Double(strAry[4]).doubleValue();
 		}
 		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageXmlType.Unit.KV);
-		LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
+		
 		
 		//zone name
 		final String zoneName= strAry[5];
@@ -72,15 +88,13 @@ public class BPABusRecord {
 		double loadMw=0.0;
 		double loadMvar=0.0;
 		if(!strAry[6].equals("")){
-			loadMw = new Double(strAry[6]).doubleValue();
+			loadMw = new Double(strAry[6]).doubleValue();			
+		}
+		if(!strAry[7].equals("")){			
 			loadMvar = new Double(strAry[7]).doubleValue();
 		}
 		
-		if (loadMw != 0.0 || loadMvar != 0.0) {
-			ODMData2XmlHelper.setLoadData(busData,
-					LoadflowBusDataXmlType.LoadData.Code.CONST_P, loadMw,
-					loadMvar, PowerXmlType.Unit.MVA);
-		}
+		
 		//Shunt mw--> G 
 		//Shunt var B -->B
 		double shuntMw=0.0;
@@ -93,10 +107,7 @@ public class BPABusRecord {
 		}		       
 		final double g = shuntMw/(baseKv*baseKv);
 		final double b = shuntVar/(baseKv*baseKv);
-		if (g != 0.0 || b != 0.0) {
-			ODMData2XmlHelper.setYData(busData.addNewShuntY(), g, b,
-					YXmlType.Unit.MHO);
-		}		
+			
 		// set pGenMax
 		double pGenMax=0.0;
 		if(!strAry[10].equals("")){
@@ -106,11 +117,11 @@ public class BPABusRecord {
 		double pGen=0.0;
 		if(!strAry[11].equals("")){
 			pGen= new Double(strAry[11]).doubleValue();
-		}
+		}		
 		// qGen for PQ bus, qGenMax for PV bus
-		double qGenOrqGenMax=0.0;
+		double qGenOrQGenMax=0.0;
 		if(!strAry[12].equals("")){
-			qGenOrqGenMax=new Double(strAry[12]).doubleValue();
+			qGenOrQGenMax=new Double(strAry[12]).doubleValue();
 		}		 				
 		double qGenMin=0.0;
 		if(!strAry[13].equals("")){
@@ -118,74 +129,123 @@ public class BPABusRecord {
 		}		
 		double vpu=0.0;
 		if(!strAry[14].equals("")){
-			vpu = new Double(strAry[14]).doubleValue();
-			ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
-					VoltageXmlType.Unit.PU);
+			vpu = new Double(strAry[14]).doubleValue();			
 		}		
 		//for swing bus, this value is angle(degrees), for others it is vmin.
 		double vMinOrAngDeg=0.0;
 		if(!strAry[15].equals("")){
-			vMinOrAngDeg= new Double(strAry[15]).doubleValue();
-			ODMData2XmlHelper.setAngleData(busData.addNewAngle(), vMinOrAngDeg,
-					AngleXmlType.Unit.DEG);
-		}		
-		if(pGen!=0){
-			busData.addNewGenData().addNewGen().addNewPGenLimit();
-			ODMData2XmlHelper.setLimitData(busData.getGenData().getGen()
-					.getPGenLimit().addNewPLimit(), pGenMax, 0);
-			if ((busType == "B "||busType=="BC"||busType=="BT"||busType=="BV")) {//PQ bus
-				ODMData2XmlHelper.setGenData(busData,
-						LoadflowBusDataXmlType.GenData.Code.PQ, pGen, qGenOrqGenMax,
-						PowerXmlType.Unit.MVA);
-			} else if (busType == "BE"||busType=="BQ"||busType=="BG"||busType=="BF") {//PV Bus
-				ODMData2XmlHelper.setGenData(busData,
-						LoadflowBusDataXmlType.GenData.Code.PV, pGen, 0,
-						PowerXmlType.Unit.MVA);
-			} else if (busType == "BS") {// swing bus
-				ODMData2XmlHelper.setGenData(busData,
-						LoadflowBusDataXmlType.GenData.Code.SWING, pGen, 0,
-						PowerXmlType.Unit.MVA);
-			}
-		}				
-		//for BG and BX, controlled bus name and voltage
-		final String remoteBus= strAry[16];
-		double vSpecPu=0.0;
-		if(!strAry[17].endsWith("")){
-			vSpecPu= new Double(strAry[17]).doubleValue();			
-		}
+			vMinOrAngDeg= new Double(strAry[15]).doubleValue();			
+		}	
 		
 		double varSupplied=0.0;
 		if(!strAry[18].equals("")){
 			varSupplied= new Double(strAry[18]).doubleValue();
-		}		
-		//for PQ bus, set V limit
-		if (busType == "B "||busType=="BC"||busType=="BT"||busType=="BV") {
+		}	
+		
+		if(loadMw != 0.0 || loadMvar != 0.0||pGen!=0.0||qGenOrQGenMax!=0.0
+				||vMinOrAngDeg!=0.0){
+			LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
+			// set G B
+			if (g != 0.0 || b != 0.0) {
+				ODMData2XmlHelper.setYData(busData.addNewShuntY(), g, b,
+						YXmlType.Unit.MHO);
+			}	
+			// set load
+			if (loadMw != 0.0 || loadMvar != 0.0) {
+				ODMData2XmlHelper.setLoadData(busData,
+						LoadflowBusDataXmlType.LoadData.Code.CONST_P, loadMw,
+						loadMvar, PowerXmlType.Unit.MVA);
+			}
+			
+			if(busType==swingBus){
+				// set bus voltage
+				if(vpu!=0.0){
+					if(vpu>10){
+						vpu=vpu/1000;
+					}
+					ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
+							VoltageXmlType.Unit.PU);
+				}
+				// set bus angle
+				ODMData2XmlHelper.setAngleData(busData.addNewAngle(), vMinOrAngDeg,
+						AngleXmlType.Unit.DEG);
+				//set gen data
+				if(pGen!=0.0||qGenOrQGenMax!=0.0){				
+					ODMData2XmlHelper.setGenData(busData,
+							LoadflowBusDataXmlType.GenData.Code.SWING, pGen, 0.0,
+							PowerXmlType.Unit.MVA);
+				}
+				// set Q limit
+				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
+					ODMData2XmlHelper.setGenQLimitData(busData.getGenData(), 
+							qGenOrQGenMax, qGenMin, GenDataXmlType.QGenLimit.QLimitUnit.MVAR);				
+				}
+				// set P limit
+				if(pGenMax!=0.0){				
+					ODMData2XmlHelper.setLimitData(busData.getGenData().getGen()
+							.getPGenLimit().addNewPLimit(), pGenMax, 0);
+				}	
+			}else if(busType==pqBus){			
+				if(pGen!=0.0||qGenOrQGenMax!=0.0){
+					ODMData2XmlHelper.setGenData(busData,
+							LoadflowBusDataXmlType.GenData.Code.PQ, pGen, qGenOrQGenMax,
+							PowerXmlType.Unit.MVA);
+				}
+				// set V limit
 				if(vpu!=0 ||vMinOrAngDeg!=0){
 					busData.getGenData().getGen().addNewVGenLimit();
 				    ODMData2XmlHelper.setLimitData(busData.getGenData().getGen().getVGenLimit()
 						.addNewVLimit(), vpu, vMinOrAngDeg);
-				    busData.getGenData().getGen().getVGenLimit().setVLimitUnit(
-						GenDataXmlType.VGenLimit.VLimitUnit.PU);
-		        }
+				    }			
+			}else if(busType==pvBus){
+				// set bus voltage
+				if(vpu!=0.0){
+					if(vpu>10){
+						vpu=vpu/1000;
+					}
+					ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
+							VoltageXmlType.Unit.PU);
+				}
+				// set gen data
+				if(pGen!=0.0||qGenOrQGenMax!=0.0){
+					ODMData2XmlHelper.setGenData(busData,
+							LoadflowBusDataXmlType.GenData.Code.PV, pGen, 0.0,
+							PowerXmlType.Unit.MVA);
+				}
+				// set Q limit
+				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
+					ODMData2XmlHelper.setGenQLimitData(busData.getGenData(), 
+							qGenOrQGenMax, qGenMin, GenDataXmlType.QGenLimit.QLimitUnit.MVAR);				
+				}
+				// set P limit
+				if(pGenMax!=0.0){				
+					ODMData2XmlHelper.setLimitData(busData.getGenData().getGen()
+							.getPGenLimit().addNewPLimit(), pGenMax, 0);
+				}	
+				
+			}
+				
+				//for BG and BX, controlled bus name and voltage
+				// desired bus voltage is specified in strAry[14], equals to vpu
+			final String controlledBus= strAry[16];
+			double controlledBusRatedVol=0.0;
+			if(!strAry[17].endsWith("")){
+				controlledBusRatedVol= new Double(strAry[17]).doubleValue();			
+			}
+			if(strAry[0].equals("BG")||strAry[0].equals("BX")){
+				if(!controlledBus.equals("")){			
+				    busData.getGenData().getGen().addNewDesiredRemoteVoltage();
+					busData.getGenData().getGen().getDesiredRemoteVoltage().
+						getRemoteBus().setIdRef(controlledBus);
+						ODMData2XmlHelper.setVoltageData(busData.getGenData().getGen()
+								.getDesiredRemoteVoltage().addNewDesiredVoltage(),
+								vpu, VoltageXmlType.Unit.PU);
+					}
+				}
 		}
-		//for PV bus, set Q limit		
-		if (busType == "BE"||busType=="BQ"||busType=="BG"||busType=="BF"
-			  &&(qGenOrqGenMax !=0||qGenMin!=0)) {			  
-			ODMData2XmlHelper.setGenQLimitData(busData.getGenData(),  
-					qGenOrqGenMax, qGenMin, GenDataXmlType.QGenLimit.QLimitUnit.MVAR);
-		 }
-		// set remote control bus
-		if (!remoteBus.equals("")) {
-				busData.getGenData().getGen().addNewDesiredRemoteVoltage();
-				ODMData2XmlHelper.setVoltageData(busData.getGenData().getGen()
-						.getDesiredRemoteVoltage().addNewDesiredVoltage(),
-						vSpecPu, VoltageXmlType.Unit.PU);
-				busData.getGenData().getGen().getDesiredRemoteVoltage()
-						.addNewRemoteBus();
-				busData.getGenData().getGen().getDesiredRemoteVoltage()
-						.getRemoteBus().setIdRef(remoteBus);
-		}		
+						
 	}
+	
 	public static void processDCLineBusData(final String str,final BusRecordXmlType busRec, 
 			BPAAdapter adapter) {
 		
@@ -194,7 +254,7 @@ public class BPABusRecord {
 	private static String[] getBusDataFields(final String str) {
 		final String[] strAry = new String[19];
 			//Columns  1- 2   Bus type
-		    strAry[0] = str.substring(0, 2).trim();			
+		    strAry[0] = str.substring(0, 2);			
 			//Columns  3 code for modification			
 			strAry[1] = str.substring(2, 3).trim();
 			//Columns 3-5   owner code

@@ -34,6 +34,7 @@
                     			<enumeration value="PSAT"></enumeration>
                     			<enumeration value="IEEE-ODM-PSS"></enumeration>
                     			<enumeration value="Custom"></enumeration>
+                    			<enumeration value="BPA"></enumeration>
                     		</restriction>
                     	</simpleType></element>
                     <element name="adapterProviderName" type="string"
