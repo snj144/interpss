@@ -131,6 +131,22 @@ public class ODMData2XmlHelper {
 	}
 	
 	/**
+	 * Get transformer branch record with the id
+	 * 
+	 * @param id
+	 * @param baseCaseNet
+	 * @return
+	 */
+	public static BranchRecordXmlType getXfrBranchRecord(String fromId, String toId,PSSNetworkXmlType baseCaseNet) {
+		for (BranchRecordXmlType braRec : baseCaseNet.getBranchList().getBranchArray()) {
+			if (fromId.equals(braRec.getFromBus().getIdRef()) &&
+					toId.equals(braRec.getToBus().getIdRef()))
+				return braRec;
+		}
+		return null;
+	}
+	
+	/**
 	 * Get area record with the areaname
 	 * 
 	 * @param areaName

@@ -53,7 +53,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
 		parser.getStudyCase().setOriginalFormat(
-				StudyCaseXmlType.OriginalFormat.IEEE_CDF);
+				StudyCaseXmlType.OriginalFormat.BPA);
 		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
 		parser.getStudyCase().setAdapterProviderVersion("1.00");
 
@@ -91,10 +91,14 @@ public class BPAAdapter  extends AbstractODMAdapter {
 					else if( str.substring(0,2).equals("L ")||str.subSequence(0, 2).equals("E ")){
 						getLogger().fine("load AC line data");
 						BPABranchRecord.processBranchData(str, parser.addNewBaseCaseBranch(), baseCaseNet, this);
-					}else if( str.subSequence(0, 2).equals("T ")||str.subSequence(0, 2).equals("R ")){
+					}else if( str.subSequence(0, 2).equals("T ")){
 						getLogger().fine("load transformer data");
 						BPABranchRecord.processXfrData(str, parser.addNewBaseCaseBranch(), baseCaseNet, this);
-					}else if( str.subSequence(0, 2).equals("LD")||str.subSequence(0, 2).equals("LM")){
+					}else if(str.subSequence(0, 2).equals("R ")){
+						getLogger().fine("load transformer adjustment data");
+						BPABranchRecord.processXfrAdjustData(str, baseCaseNet, this);
+					}
+					else if( str.subSequence(0, 2).equals("LD")||str.subSequence(0, 2).equals("LM")){
 						getLogger().fine("load DC Line data");
 						BPABranchRecord.processDCLineData(str, parser.addNewBaseCaseBranch(), baseCaseNet, this);
 					}
