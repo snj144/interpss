@@ -85,7 +85,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 						BPABusRecord.processBusData(str,parser.addNewBaseCaseBus(),this);
 					}else if(str.substring(0, 2).equals("BD")||str.substring(0, 2).equals("BM")){
 						getLogger().fine("load DCLine bus data");						
-						BPABusRecord.processDCLineBusData(str,parser.addNewBaseCaseBus(),this);
+						BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
 					}
 					
 					else if( str.substring(0,2).equals("L ")||str.subSequence(0, 2).equals("E ")){
@@ -100,7 +100,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 					}
 					else if( str.subSequence(0, 2).equals("LD")||str.subSequence(0, 2).equals("LM")){
 						getLogger().fine("load DC Line data");
-						BPABranchRecord.processDCLineData(str, parser.addNewBaseCaseBranch(), baseCaseNet, this);
+						BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
+								baseCaseNet, this);
 					}
 					//else if(str.subSequence(0, 2).equals("A ")||str.subSequence(0, 2).equals("I ")){
 					//	getLogger().fine("load interchange data");

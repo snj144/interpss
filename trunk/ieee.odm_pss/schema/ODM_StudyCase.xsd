@@ -188,7 +188,8 @@
 														</element>
 													</sequence>
 												</complexType>
-											</element>
+											</element>
+
 										</sequence>
 									</complexType>
 								</element>
@@ -205,8 +206,8 @@
 											<element name="meteredBus"
 												type="pss:IDRefRecordXmlType" minOccurs="1">
 											</element>
-											<element
-												name="meteredArea" type="string" minOccurs="1">
+											<element name="meteredArea"
+												type="string" minOccurs="1">
 											</element>
 											<element
 												name="nonMeteredBus" type="pss:IDRefRecordXmlType"
@@ -224,7 +225,8 @@
 							</sequence>
 						</complexType>
 					</element>
-					<element name="areaList" maxOccurs="1" minOccurs="0">
+					<element name="areaList" maxOccurs="1"
+						minOccurs="0">
 						<complexType>
 							<sequence>
 								<element name="area"
@@ -269,9 +271,11 @@
 												name="alternateSwingBus" type="pss:IDRefRecordXmlType"
 												maxOccurs="1" minOccurs="0">
 											</element>
-                                            <element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0">
+											<element
+												name="totalExchangePower" type="pss:PowerXmlType"
+												maxOccurs="1" minOccurs="0">
 											</element>
-                                            <element
+											<element
 												name="exchangePower" maxOccurs="unbounded" minOccurs="0">
 												<complexType>
 													<sequence>
@@ -304,7 +308,9 @@
 								</element>
 
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
+					<element name="dcLineList" type="pss:DCLineListXmlType" maxOccurs="1" minOccurs="0"></element>
 				</sequence>
 			</extension>
 		</complexContent>

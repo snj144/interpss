@@ -25,10 +25,15 @@
  */
 package org.ieee.pes.odm.pss.adapter.bpa;
 
+import java.text.NumberFormat;
+
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LengthXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
@@ -148,15 +153,27 @@ public class BPABranchRecord {
 			double rpu=0.0, xpu=0.0001, halfGpu=0.0, halfBpu=0.0;
 			if(!strAry[12].equals("")){
 				rpu = new Double(strAry[12]).doubleValue();
+				if(rpu>10.0){
+					rpu=rpu/100000;
+				}
 			}
 			if(!strAry[13].equals("")){
 				xpu = new Double(strAry[13]).doubleValue();
+				if(xpu>10.0){
+					xpu=xpu/100000;
+				}
 			}
 			if(!strAry[14].equals("")){
 				halfGpu = new Double(strAry[14]).doubleValue();
+				if(halfGpu>10.0){
+					halfGpu=halfGpu/100000;
+				}
 			}
 			if(!strAry[15].equals("")){
 				halfBpu = new Double(strAry[15]).doubleValue();
+				if(halfBpu>10.0){
+					halfBpu=halfBpu/100000;
+				}
 			}
 			if(rpu!=0.0||xpu!=0.0||halfGpu!=0.0||halfBpu!=0.0){
 				ODMData2XmlHelper.setLineData(branchRec.getLoadflowBranchData(), rpu, xpu,
@@ -330,8 +347,8 @@ public class BPABranchRecord {
 			dataType=transformer;
 		}else if(strAry[0].startsWith("TP")){
 			dataType=phaseShiftXfr;
-		}
-			
+		}		
+		
 		branchRec.addNewLoadflowBranchData();			
 			
 		if(dataType==transformer){				
@@ -424,15 +441,27 @@ public class BPABranchRecord {
 		double rpu=0.0, xpu=0.0001, Gpu=0.0, Bpu=0.0;
 		if(!strAry[12].equals("")){
 			rpu = new Double(strAry[12]).doubleValue();
+			if(rpu>10.0){
+				rpu=rpu/100000;
+			}
 		}
 		if(!strAry[13].equals("")){
 			xpu = new Double(strAry[13]).doubleValue();
+			if(xpu>10.0){
+				xpu=xpu/100000;
+			}
 		}
 		if(!strAry[14].equals("")){
 			Gpu = new Double(strAry[14]).doubleValue();
+			if(Gpu>10.0){
+				Gpu=Gpu/100000;
+			}
 		}
 		if(!strAry[15].equals("")){
 			Bpu = new Double(strAry[15]).doubleValue();
+			if(Bpu>10.0){
+				Bpu=Bpu/100000;
+			}
 		}
 		// set r x
 		if(rpu!=0.0||xpu!=0.0){
@@ -598,6 +627,13 @@ public class BPABranchRecord {
 				}
 				min=min/toTurnRatedV;
 			}
+            // save result to two digits after .
+            NumberFormat ddf1=NumberFormat.getNumberInstance() ;
+            ddf1.setMaximumFractionDigits(2);
+            max= new Double(ddf1.format(max)).doubleValue() ; 
+            min= new Double(ddf1.format(min)).doubleValue() ; 
+            
+            
 			
 			if(tapAdjSide==2){
 				tapAdj.setTapAdjOnFromSide(false);
@@ -649,13 +685,151 @@ public class BPABranchRecord {
 		}
 		
 	}
-	public static void processDCLineData(final String str, final BranchRecordXmlType branchRec, 
+	public static void processDCLineBranchData(final String str, 
+			final DCLineBranchRecordXmlType dcBranch, 
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
+		final String strAry[] = getDCLineBranchDataFields(str);	
 		
-	}
-	
-   
-	
+		final String dataType= strAry[0];
+		final String modCode= strAry[1];
+		final String owner = strAry[2];
+		final String rectifierBus = strAry[3];
+		double rectifierRatedVoltage = 0.0;
+		if(!strAry[4].equals("")){
+			rectifierRatedVoltage= new Double(strAry[4]).doubleValue();			
+		}
+		dcBranch.setRectifierBus(rectifierBus);
+		
+		
+		final String inverterBus = strAry[6];
+		double inverterRatedVoltage = 0.0;
+		if(!strAry[7].equals("")){
+			inverterRatedVoltage= new Double(strAry[7]).doubleValue();			
+		}
+		dcBranch.setInverterBus(inverterBus);
+		
+		int measureLocation=0;
+		if(!strAry[5].equals("")){
+			measureLocation = new Integer(strAry[5]).intValue();
+			// add to tieline data
+			try{
+				if(measureLocation==1){
+					// set tieline data
+					PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
+					tieLine.addNewMeteredBus().setName(rectifierBus);
+					tieLine.addNewNonMeteredBus().setName(inverterBus);	
+					
+					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(rectifierBus, baseCaseNet);					
+					PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
+					  getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+					tieLine.setMeteredArea(areaFrom.getAreaName());
+					
+					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(inverterBus, baseCaseNet);
+					busRecTo.getZone();
+					PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
+					  getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+					tieLine.setNonMeteredArea(areaTo.getAreaName());
+					// to do: set area number
+					
+				}else{
+					PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
+					tieLine.addNewMeteredBus().setName(inverterBus);
+					tieLine.addNewNonMeteredBus().setName(rectifierBus);					
+					ODMData2XmlHelper.getBusRecord(rectifierBus, baseCaseNet).getZone();
+					
+					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(inverterBus, baseCaseNet);
+					busRecFrom.getZone();
+					PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
+					  getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+					tieLine.setMeteredArea(areaFrom.getAreaName());
+					
+					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(inverterBus, baseCaseNet);
+					busRecTo.getZone();
+					PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
+					  getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+					tieLine.setNonMeteredArea(areaTo.getAreaName());						
+				}
+			}catch (final Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		
+		double lineRatingCurrent=0.0;
+		if(!strAry[8].equals("")){
+			lineRatingCurrent = new Double(strAry[8]).doubleValue();
+			ODMData2XmlHelper.setCurrentData(dcBranch.addNewMaxCurrent(),
+					lineRatingCurrent, CurrentXmlType.Unit.AMP);
+		}
+		double r=0.0, l=0.0,c=0.0;
+		double x=0;
+		final double w= 2*3.14*0.02;
+		if(!strAry[9].equals("")){
+			r = new Double(strAry[9]).doubleValue();
+		}
+		if(!strAry[10].equals("")){
+			l = new Double(strAry[10]).doubleValue();
+		}
+		if(!strAry[11].equals("")){
+			c = new Double(strAry[11]).doubleValue();
+		}
+		// line reactance  x=XL-XC=2*pi*f*l-1/(2*Pi*f*c)
+		if(x!=0.0&&c==0.0){
+			x= w*l*0.001;
+		}else if(c!=0.0){
+			x= w*l*0.001-1/(w*c*0.000001);
+		}		
+		
+		if(r!=0.0||x!=0.0){
+			ODMData2XmlHelper.setZValue(dcBranch.addNewLineZ(), r, x, ZXmlType.Unit.OHM);
+		}
+		String mwControlSide="";
+		if(!strAry[12].equals("")){
+			mwControlSide =strAry[12];
+			if(mwControlSide.equals("R")){				
+				dcBranch.setControlOnRectifierSide(true);
+			}else{				
+				dcBranch.setControlOnRectifierSide(false);
+				}
+		}		
+		// DC power control mode, and control power
+		double scheduledMw=0.0;
+		if(!strAry[13].equals("")){
+			scheduledMw =new Double(strAry[13]).doubleValue();
+			dcBranch.setControlMode(DCLineBranchRecordXmlType.ControlMode.POWER);
+			ODMData2XmlHelper.setPowerData(dcBranch.addNewPowerDemand(), 
+					scheduledMw, 0.0, PowerXmlType.Unit.MVA);
+		}
+		
+		double dcLineRatedVoltage=0.0;
+		if(!strAry[14].equals("")){
+			dcLineRatedVoltage = new Double(strAry[14]).doubleValue();
+			ODMData2XmlHelper.setVoltageData(dcBranch.addNewRatedDVol(),
+					dcLineRatedVoltage, VoltageXmlType.Unit.KV);			
+		}
+		double recOperFiringAngle=0.0, invStopFiringAngle=0.0;
+		if(!strAry[15].equals("")){
+			recOperFiringAngle= new Double(strAry[15]).doubleValue();
+			ODMData2XmlHelper.setAngleData(ODMData2XmlHelper.getConverterRecord(rectifierBus,
+					baseCaseNet).addNewRectifierOperAngle(), recOperFiringAngle, AngleXmlType.Unit.DEG);
+			ODMData2XmlHelper.getConverterRecord(rectifierBus,baseCaseNet).
+			        setType(DCLineBusRecordXmlType.Converter.Type.RECTIFIER);
+		}
+		if(!strAry[16].equals("")){
+			invStopFiringAngle= new Double(strAry[16]).doubleValue();
+			ODMData2XmlHelper.setAngleData(ODMData2XmlHelper.getConverterRecord(inverterBus,
+					baseCaseNet).addNewInverterStopAgnle(), invStopFiringAngle, AngleXmlType.Unit.DEG);
+			ODMData2XmlHelper.getConverterRecord(rectifierBus,baseCaseNet).
+	        setType(DCLineBusRecordXmlType.Converter.Type.INVERTER);
+		}
+		double length=0.0;
+		if(!strAry[17].equals("")){
+			length= new Double(strAry[17]).doubleValue();
+			dcBranch.addNewLength().setLength(length);
+			dcBranch.getLength().setUnit(LengthXmlType.Unit.MILE);
+		}
+		
+	}	
 	
 	private static String[] getBranchDataFields(final String str) {
 		final String[] strAry = new String[20];
@@ -710,7 +884,8 @@ public class BPABranchRecord {
 			strAry[15] = str.substring(56, 62).trim();
 			strAry[16] = str.substring(62, 67).trim();
 			
-			strAry[17] = str.substring(67, 72).trim();
+			strAry[17] ="";
+			//strAry[17] = str.substring(67, 72).trim();
 			//strAry[18] = str.substring(74, 77).trim();
 			
 			//strAry[19] = str.substring(77, 80).trim();
@@ -750,6 +925,34 @@ public class BPABranchRecord {
 			strAry[14] = str.substring(62, 67).trim();			
 						
 
+		return strAry;
+    }
+	
+	private static String[] getDCLineBranchDataFields(final String str) {
+		final String[] strAry = new String[20];
+		
+            strAry[0] = str.substring(0, 2);
+            strAry[1] = str.substring(2, 3).trim();
+			strAry[2] = str.substring(3, 6).trim();
+			
+			strAry[3] = str.substring(6, 14).trim();
+			strAry[4] = str.substring(14, 18).trim();
+			strAry[5] = str.substring(18, 19).trim();
+			strAry[6] = str.substring(19, 27).trim();
+
+			strAry[7] = str.substring(27, 31).trim();
+			strAry[8] = str.substring(33, 37).trim();
+			strAry[9] = str.substring(37, 43).trim();
+			strAry[10] = str.substring(43, 49).trim();
+			strAry[11] = str.substring(49, 55).trim();
+			strAry[12] = str.substring(55, 56).trim();
+			strAry[13] = str.substring(56, 61).trim();
+			strAry[14] = str.substring(61, 66).trim();
+			strAry[15] = str.substring(66, 70).trim();
+			strAry[16] = str.substring(70, 74).trim();
+			
+			strAry[17] = str.substring(74, 78).trim();
+			
 		return strAry;
     }
 	

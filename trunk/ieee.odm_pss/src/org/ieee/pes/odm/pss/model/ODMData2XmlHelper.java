@@ -29,6 +29,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
@@ -126,6 +128,23 @@ public class ODMData2XmlHelper {
 					toId.equals(braRec.getToBus().getIdRef()) &&
 							cirId.equals(braRec.getCircuitId()))
 				return braRec;
+		}
+		return null;
+	}
+	
+	/**
+	 * Get converter record with the name
+	 * 
+	 * @param name
+	 * @param baseCaseNet
+	 * @return
+	 */
+	public static DCLineBusRecordXmlType.Converter getConverterRecord(String name, PSSNetworkXmlType baseCaseNet) {
+		for (DCLineBusRecordXmlType dcLine : 
+			baseCaseNet.getDcLineList().getDcLineBusList().getDcLineBusArray()) {
+			DCLineBusRecordXmlType.Converter converter= dcLine.getConverter();
+			if (name.equals(converter.getBusId().getName()))
+				return converter;
 		}
 		return null;
 	}
@@ -245,6 +264,19 @@ public class ODMData2XmlHelper {
 	public static void setVoltageData(VoltageXmlType voltage, double v, VoltageXmlType.Unit.Enum unit) {
     	voltage.setVoltage(v);
     	voltage.setUnit(unit);		
+	}
+	
+	/**
+	 * set value (i, unit) to the current object
+	 * 
+	 * @param current
+	 * @param i
+	 * @param unit
+	 */
+	public static void setCurrentData(CurrentXmlType current, double i, CurrentXmlType.Unit.Enum unit) {
+    	current.setCurrent(i);
+    	current.setUnit(unit);
+    			
 	}
 
 	/**
