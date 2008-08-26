@@ -27,11 +27,14 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 
 public class BPABusRecord {
@@ -246,9 +249,84 @@ public class BPABusRecord {
 						
 	}
 	
-	public static void processDCLineBusData(final String str,final BusRecordXmlType busRec, 
+	public static void processDCLineBusData(final String str,final DCLineBusRecordXmlType dcBus,  
 			BPAAdapter adapter) {
+		final String[] strAry= getDCLineBusDataFields(str);
 		
+		final String dataType= strAry[0];
+		final String modCode=  strAry[1];
+		final String owner = strAry[2];
+		final String converterBus =strAry[3];
+		double converterACSideVoltage =0.0;
+		if(!strAry[4].equals("")){
+			converterACSideVoltage = new Double(strAry[4]).doubleValue();
+		}
+		String zone="";
+		if(!strAry[5].equals("")){
+			zone = strAry[5];
+		}
+		int brdgsPerBrckt=0;
+		if(!strAry[6].equals("")){
+			brdgsPerBrckt = new Integer(strAry[6]).intValue();
+		}
+		double smoothInductance=0.0;
+		if(!strAry[7].equals("")){
+			smoothInductance =new Double(strAry[7]).doubleValue();
+		}
+		// suppose the frequence is 50 Hz;
+		double smoothReactance=2*3.14*0.02*smoothInductance*0.001;
+		double converterMinFiringAngle=0.0;
+		if(!strAry[8].equals("")){
+			converterMinFiringAngle= new Double(strAry[8]).doubleValue();
+		}
+		double inverterMaxFiringAngle=0.0;
+		if(!strAry[9].equals("")){
+			inverterMaxFiringAngle= new Double(strAry[9]).doubleValue();
+		}
+		double valveDropVoltage=0.0;   // in v
+		if(!strAry[10].equals("")){
+			valveDropVoltage= new Double(strAry[10]).doubleValue();
+		}
+		double brdgesCurrentRating=0.0;   // in amps
+		if(!strAry[11].equals("")){
+			brdgesCurrentRating= new Double(strAry[11]).doubleValue();
+		}
+		String commutatingBus="";
+		double commutatingBusDCSideVol =0.0;
+		if(!strAry[12].equals("")){
+			commutatingBus =strAry[12];
+		}
+		if(!strAry[13].equals("")){
+			commutatingBusDCSideVol= new Double(strAry[13]).doubleValue();
+		}
+		
+		DCLineBusRecordXmlType.Converter converter= dcBus.addNewConverter();
+		// set converter bus id
+		converter.addNewBusId().setName(converterBus);
+		// set converter ac side voltage
+		ODMData2XmlHelper.setVoltageData(converter.addNewAcSideRatedVoltage(), 
+				converterACSideVoltage, VoltageXmlType.Unit.KV);
+		// bridges
+		converter.setNumberofBridges(brdgsPerBrckt);
+		// set smooth reactor
+		ODMData2XmlHelper.setZValue(converter.addNewSmoothingReactor(),
+				0.0, smoothReactance, ZXmlType.Unit.OHM);
+		//set min firing angle as a converter
+		ODMData2XmlHelper.setAngleData(converter.addNewRectifierMinFiringAngle(),
+				converterMinFiringAngle, AngleXmlType.Unit.DEG);
+		//set max firing angle as a inverter
+		ODMData2XmlHelper.setAngleData(converter.addNewInverterMaxFiringAngle(),
+				inverterMaxFiringAngle, AngleXmlType.Unit.DEG);
+		// set valve voltage drop
+		ODMData2XmlHelper.setVoltageData(converter.addNewValveDropVoltage(), 
+				valveDropVoltage, VoltageXmlType.Unit.VOLT);
+		// set current rating
+		ODMData2XmlHelper.setCurrentData(converter.addNewBridgeRatedCurrent(), 
+				brdgesCurrentRating, CurrentXmlType.Unit.AMP);
+		// set commutating station bus and DC side voltage
+		converter.addNewConmmutationStationBus().setName(commutatingBus);
+	    ODMData2XmlHelper.setVoltageData(converter.addNewDcSdieRatedV(),
+	    		commutatingBusDCSideVol, VoltageXmlType.Unit.KV);
 	}
 	
 	private static String[] getBusDataFields(final String str) {
@@ -290,6 +368,40 @@ public class BPABusRecord {
 			// used in remoted bus control, var fraction
 			strAry[18]= str.substring(77, 80).trim();
 
+		
+		return strAry;
+	}
+	
+	private static String[] getDCLineBusDataFields(final String str) {
+		final String[] strAry = new String[14];
+			//Columns  1- 2   Bus type
+		    strAry[0] = str.substring(0, 2);			
+			//Columns  3 code for modification			
+			strAry[1] = str.substring(2, 3).trim();
+			//Columns 3-5   owner code
+			strAry[2] = str.substring(3, 6).trim();
+			
+			//Columns 6-13 busName  14-17 rated voltage			
+			strAry[3] = str.substring(6, 14).trim();
+			strAry[4] = str.substring(14, 18).trim();
+			//Columns 18-19   zone name
+			strAry[5] = str.substring(18, 20).trim();
+
+			//bridge per brckt
+			strAry[6] = str.substring(23, 25).trim();
+			//smooth reactor
+			strAry[7] = str.substring(25, 30).trim();			
+			
+			strAry[8] = str.substring(30, 35).trim();
+			
+			strAry[9] = str.substring(35, 40).trim();			
+			// Columns 38-41 pmax
+			// Columns 42-46 pmax
+			strAry[10] = str.substring(40, 45).trim();
+			strAry[11] = str.substring(45, 50).trim();		
+			//Qmax Qmin
+			strAry[12]= str.substring(50, 58).trim();
+			strAry[13]= str.substring(58, 62).trim();	
 		
 		return strAry;
 	}

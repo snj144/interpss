@@ -33,6 +33,8 @@ import java.io.File;
 import org.apache.xmlbeans.XmlException;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
@@ -102,6 +104,9 @@ public class IEEEODMPSSModelParser {
 			baseCase.addNewBranchList();
 			baseCase.addNewAreaList();
 			baseCase.addNewTieLineList();
+			baseCase.addNewDcLineList();
+			baseCase.getDcLineList().addNewDcLineBusList();
+			baseCase.getDcLineList().addNewDcLineBranchList();
 		}
 		return getStudyCase().getBaseCase();
 	}
@@ -126,6 +131,24 @@ public class IEEEODMPSSModelParser {
 	 */
 	public BranchRecordXmlType addNewBaseCaseBranch() {
 		return getStudyCase().getBaseCase().getBranchList().addNewBranch();		
+	}
+	
+	/**
+	 * add a new DC line bus record to the base case
+	 * 
+	 * @return
+	 */
+	public DCLineBusRecordXmlType addNewBaseCaseDCLineBus() {
+		return getStudyCase().getBaseCase().getDcLineList().getDcLineBusList().addNewDcLineBus();		
+	}
+	
+	/**
+	 * add a new DC line Branch record to the base case
+	 * 
+	 * @return
+	 */
+	public DCLineBranchRecordXmlType addNewBaseCaseDCLineBranch() {
+		return getStudyCase().getBaseCase().getDcLineList().getDcLineBranchList().addNewDcLineBranch();		
 	}
 	
 	/**
