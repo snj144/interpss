@@ -1012,4 +1012,16 @@
     		<element name="dcLineBranch" type="pss:DCLineBranchRecordXmlType" maxOccurs="unbounded" minOccurs="1"></element>
     	</sequence>
     </complexType>
+
+    <complexType name="FrequencyXmlType">
+    	<sequence>
+    		<element name="frequence" type="double" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
+    		<enumeration value="Hz"></enumeration>
+    		<enumeration value="KHz"></enumeration>
+    		</restriction></simpleType></element>
+    	</sequence>
+    </complexType>
 </schema>
