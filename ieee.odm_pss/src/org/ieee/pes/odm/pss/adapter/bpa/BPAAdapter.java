@@ -50,76 +50,149 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 
 	protected IEEEODMPSSModelParser parseInputFile(
 			final java.io.BufferedReader din) throws Exception {
+		
+		String str="";
+		str=din.readLine();
+		
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
 		parser.getStudyCase().setOriginalFormat(
 				StudyCaseXmlType.OriginalFormat.BPA);
 		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
 		parser.getStudyCase().setAdapterProviderVersion("1.00");
-
-		parser.getStudyCase().setAnalysisCategory(
-				StudyCaseXmlType.AnalysisCategory.LOADFLOW);
 		parser.getStudyCase().setNetworkCategory(
 				StudyCaseXmlType.NetworkCategory.TRANSMISSION);
-
+		
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
-		baseCaseNet.setId("Base_Case_from_BPAloadflow_format");
-		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
-		String str="";		
-		do{
-			str = din.readLine();
-			if(!str.trim().equals("(END)")&&!str.trim().equals("(STOP)")){
-				try{
-					if(str.startsWith("(POWERFLOW")||str.startsWith("/")
-							||str.startsWith(">")){
-						getLogger().fine("load header data");
-						processNetData(str,nvList,baseCaseNet);
-					}else if(str.startsWith("A")||str.substring(0, 2).equals("I ")){
-						processAreaData(str,	baseCaseNet);
+		if(str.equals("loadflow")){
+			parser.getStudyCase().setAnalysisCategory(
+					StudyCaseXmlType.AnalysisCategory.LOADFLOW);
+			baseCaseNet.setId("Base_Case_from_BPA_loadflow_format");			
+		}else if(str.equals("transient")){
+			parser.getStudyCase().setAnalysisCategory(
+					StudyCaseXmlType.AnalysisCategory.TRANSIENT_STABILITY);
+			baseCaseNet.setId("Base_Case_from_BPA_transient_format");
+		}	
+		
+		
+		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();		
+		
+		
+		if(parser.getStudyCase().getAnalysisCategory().
+				equals(StudyCaseXmlType.AnalysisCategory.TRANSIENT_STABILITY)){
+			do{
+				str = din.readLine();
+				if(!str.trim().equals("99")){
+					try{
+						if(str.startsWith("(POWERFLOW")||str.startsWith("/")
+								||str.startsWith(">")){
+							getLogger().fine("load header data");
+							processNetData(str,nvList,baseCaseNet);
+						}else if(str.startsWith("A")||str.substring(0, 2).equals("I ")){
+							processAreaData(str, parser.addNewBaseCaseArea(),baseCaseNet);
+							
+						}else if((str.substring(0, 1).equals("B")||str.substring(0, 1).equals("+")
+								||str.substring(0, 2).equals("X "))
+								&&!str.trim().startsWith("BD")&&!str.trim().startsWith("BM")){
+							getLogger().fine("load AC bus data");						
+							BPABusRecord.processBusData(str,parser.addNewBaseCaseBus(),this);
+						}else if(str.substring(0, 2).equals("BD")||str.substring(0, 2).equals("BM")){
+							getLogger().fine("load DCLine bus data");						
+							BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
+						}
 						
-					}else if((str.substring(0, 1).equals("B")||str.substring(0, 1).equals("+")
-							||str.substring(0, 2).equals("X "))
-							&&!str.trim().startsWith("BD")&&!str.trim().startsWith("BM")){
-						getLogger().fine("load AC bus data");						
-						BPABusRecord.processBusData(str,parser.addNewBaseCaseBus(),this);
-					}else if(str.substring(0, 2).equals("BD")||str.substring(0, 2).equals("BM")){
-						getLogger().fine("load DCLine bus data");						
-						BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
+						else if( str.substring(0,2).equals("L ")||str.substring(0, 2).equals("E ")){
+							getLogger().fine("load AC line data");
+							BPABranchRecord.processBranchData(str, parser.addNewBaseCaseBranch(),
+									parser,baseCaseNet, this);
+						}else if( str.subSequence(0, 2).equals("T ")){
+							getLogger().fine("load transformer data");
+							BPABranchRecord.processXfrData(str, parser.addNewBaseCaseBranch(), 
+									parser, baseCaseNet, this);
+						}else if(str.substring(0, 2).equals("R ")){
+							getLogger().fine("load transformer adjustment data");
+							BPABranchRecord.processXfrAdjustData(str, baseCaseNet, this);
+						}
+						else if( str.substring(0, 2).equals("LD")||str.substring(0, 2).equals("LM")){
+							getLogger().fine("load DC Line data");
+							BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
+									parser, baseCaseNet, this);
+						}
+						//else if(str.subSequence(0, 2).equals("A ")||str.subSequence(0, 2).equals("I ")){
+						//	getLogger().fine("load interchange data");
+							//processInterchangeData(str, baseCaseNet.addNewInterchangeList().
+							//		addNewInterchange().addNewBpaInterchange());
+						//}
+						else if(str.startsWith(".")){
+							getLogger().fine("load comment");
+							processReadComment(str, baseCaseNet);
+						}else if(str.startsWith("(END)"))	{						
+							BPADynamicRecord.processDynamicData(str, baseCaseNet, this);													
+						} 
+						
+					}catch (final Exception e) {
+						e.printStackTrace();
 					}
 					
-					else if( str.substring(0,2).equals("L ")||str.subSequence(0, 2).equals("E ")){
-						getLogger().fine("load AC line data");
-						BPABranchRecord.processBranchData(str, parser.addNewBaseCaseBranch(), baseCaseNet, this);
-					}else if( str.subSequence(0, 2).equals("T ")){
-						getLogger().fine("load transformer data");
-						BPABranchRecord.processXfrData(str, parser.addNewBaseCaseBranch(), baseCaseNet, this);
-					}else if(str.subSequence(0, 2).equals("R ")){
-						getLogger().fine("load transformer adjustment data");
-						BPABranchRecord.processXfrAdjustData(str, baseCaseNet, this);
-					}
-					else if( str.subSequence(0, 2).equals("LD")||str.subSequence(0, 2).equals("LM")){
-						getLogger().fine("load DC Line data");
-						BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
-								baseCaseNet, this);
-					}
-					//else if(str.subSequence(0, 2).equals("A ")||str.subSequence(0, 2).equals("I ")){
-					//	getLogger().fine("load interchange data");
-						//processInterchangeData(str, baseCaseNet.addNewInterchangeList().
-						//		addNewInterchange().addNewBpaInterchange());
-					//}
-					else{
-						getLogger().fine("load comment");
-						processReadComment(str, baseCaseNet);
-					} 
-					
-				}catch (final Exception e) {
-					e.printStackTrace();
 				}
-				
-			}
-		}while(!str.trim().equals("(END)")&&!str.trim().equals("(STOP)"));			
-		
+			}while(!str.trim().equals("99"));
+		}else if(parser.getStudyCase().getAnalysisCategory().
+				equals(StudyCaseXmlType.AnalysisCategory.LOADFLOW)){
+			do{
+				str = din.readLine();
+				if(!str.trim().equals("(END)")&&!str.trim().equals("(STOP)")){
+					try{
+						if(str.startsWith("(POWERFLOW")||str.startsWith("/")
+								||str.startsWith(">")){
+							getLogger().fine("load header data");
+							processNetData(str,nvList,baseCaseNet);
+						}else if(str.startsWith("A")||str.substring(0, 2).equals("I ")){
+							processAreaData(str, parser.addNewBaseCaseArea(),	baseCaseNet);
+							
+						}else if((str.substring(0, 1).equals("B")||str.substring(0, 1).equals("+")
+								||str.substring(0, 2).equals("X "))
+								&&!str.trim().startsWith("BD")&&!str.trim().startsWith("BM")){
+							getLogger().fine("load AC bus data");						
+							BPABusRecord.processBusData(str,parser.addNewBaseCaseBus(),this);
+						}else if(str.substring(0, 2).equals("BD")||str.substring(0, 2).equals("BM")){
+							getLogger().fine("load DCLine bus data");						
+							BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
+						}
+						
+						else if( str.substring(0,2).equals("L ")||str.substring(0, 2).equals("E ")){
+							getLogger().fine("load AC line data");
+							BPABranchRecord.processBranchData(str, parser.addNewBaseCaseBranch(), 
+									parser,baseCaseNet, this);
+						}else if( str.subSequence(0, 2).equals("T ")){
+							getLogger().fine("load transformer data");
+							BPABranchRecord.processXfrData(str, parser.addNewBaseCaseBranch(), 
+									parser,baseCaseNet, this);
+						}else if(str.substring(0, 2).equals("R ")){
+							getLogger().fine("load transformer adjustment data");
+							BPABranchRecord.processXfrAdjustData(str, baseCaseNet, this);
+						}
+						else if( str.substring(0, 2).equals("LD")||str.substring(0, 2).equals("LM")){
+							getLogger().fine("load DC Line data");
+							BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
+									parser,baseCaseNet, this);
+						}
+						//else if(str.subSequence(0, 2).equals("A ")||str.subSequence(0, 2).equals("I ")){
+						//	getLogger().fine("load interchange data");
+							//processInterchangeData(str, baseCaseNet.addNewInterchangeList().
+							//		addNewInterchange().addNewBpaInterchange());
+						//}
+						else {
+							getLogger().fine("load comment");
+							processReadComment(str, baseCaseNet);
+						}						
+					}catch (final Exception e) {
+						e.printStackTrace();
+					}
+					
+				}
+			}while(!str.trim().equals("(END)")&&!str.trim().equals("(STOP)"));
+		}
 		
 		return parser;
 	}
@@ -187,14 +260,13 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 *   ================ 
 	 */
 
-	private void processAreaData(final String str,
+	private void processAreaData(final String str,final PSSNetworkXmlType.AreaList.Area area,
 			final PSSNetworkXmlType baseCaseNet	) {
 		
 		final String[] strAry = getAreaDataFields(str);
 	
-		if(str.trim().startsWith("A ")||str.trim().startsWith("AC")){
+		if(str.trim().startsWith("A ")||str.trim().startsWith("AC")){			
 			
-			PSSNetworkXmlType.AreaList.Area area=baseCaseNet.getAreaList().addNewArea();
 			final String areaType=strAry[0];			
 			if(!strAry[1].equals("")){
 				final String modCode=strAry[1];				

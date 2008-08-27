@@ -1,7 +1,7 @@
 
 
 /*
- * @(#)PSSEBranchRecord.java   
+ * @(#)BPABranchRecord.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -44,10 +44,12 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
+import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 
 public class BPABranchRecord {
-	public static void processBranchData(final String str, final BranchRecordXmlType branchRec, 
+	public static void processBranchData(final String str, final BranchRecordXmlType branchRec,
+			IEEEODMPSSModelParser parser,
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter) {		
 		// symmetry line data
 		if(str.startsWith("L")){
@@ -83,8 +85,8 @@ public class BPABranchRecord {
 				measureLocation= new Integer(strAry[5]).intValue();
 				try{
 					if(measureLocation==1){
+						PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
 						// set tieline data
-						PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
 						tieLine.addNewMeteredBus().setName(fid);
 						tieLine.addNewNonMeteredBus().setName(tid);	
 						
@@ -102,7 +104,8 @@ public class BPABranchRecord {
 						// to do: set area number
 						
 					}else{
-						PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
+						PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+
 						tieLine.addNewMeteredBus().setName(tid);
 						tieLine.addNewNonMeteredBus().setName(fid);					
 						ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZone();
@@ -234,8 +237,9 @@ public class BPABranchRecord {
 				measureLocation= new Integer(strAry[5]).intValue();
 				try{
 					if(measureLocation==1){
+						PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+
 						// set tieline data
-						PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
 						tieLine.addNewMeteredBus().setName(fid);
 						tieLine.addNewNonMeteredBus().setName(tid);	
 						
@@ -253,7 +257,8 @@ public class BPABranchRecord {
 						// to do: set area number
 						
 					}else{
-						PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
+						PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+
 						tieLine.addNewMeteredBus().setName(tid);
 						tieLine.addNewNonMeteredBus().setName(fid);					
 						ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZone();
@@ -333,6 +338,7 @@ public class BPABranchRecord {
 	}	
 	
 	public static void processXfrData(final String str, final BranchRecordXmlType branchRec, 
+			IEEEODMPSSModelParser parser,
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
 		
 		final int transformer=1;
@@ -376,8 +382,9 @@ public class BPABranchRecord {
 		if(!strAry[5].equals("")){				
 			measureLocation= new Integer(strAry[5]).intValue();
 			try{
-				if(measureLocation==1){					
-					PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
+				if(measureLocation==1){	
+					PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+
 					tieLine.addNewMeteredBus().setName(fid);
 					tieLine.addNewNonMeteredBus().setName(tid);	
 						
@@ -391,7 +398,8 @@ public class BPABranchRecord {
 						 getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getAreaName());					
 				}else{
-					PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
+					PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+
 					tieLine.addNewMeteredBus().setName(tid);
 					tieLine.addNewNonMeteredBus().setName(fid);					
 					ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZone();
@@ -687,6 +695,7 @@ public class BPABranchRecord {
 	}
 	public static void processDCLineBranchData(final String str, 
 			final DCLineBranchRecordXmlType dcBranch, 
+			IEEEODMPSSModelParser parser,
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
 		final String strAry[] = getDCLineBranchDataFields(str);	
 		
@@ -715,7 +724,8 @@ public class BPABranchRecord {
 			try{
 				if(measureLocation==1){
 					// set tieline data
-					PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
+					PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+
 					tieLine.addNewMeteredBus().setName(rectifierBus);
 					tieLine.addNewNonMeteredBus().setName(inverterBus);	
 					
@@ -732,7 +742,8 @@ public class BPABranchRecord {
 					// to do: set area number
 					
 				}else{
-					PSSNetworkXmlType.TieLineList.Tieline tieLine=baseCaseNet.getTieLineList().addNewTieline();
+					PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
+
 					tieLine.addNewMeteredBus().setName(inverterBus);
 					tieLine.addNewNonMeteredBus().setName(rectifierBus);					
 					ODMData2XmlHelper.getBusRecord(rectifierBus, baseCaseNet).getZone();

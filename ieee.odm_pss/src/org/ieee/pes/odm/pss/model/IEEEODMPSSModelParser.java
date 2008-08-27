@@ -33,7 +33,9 @@ import java.io.File;
 import org.apache.xmlbeans.XmlException;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
@@ -101,6 +103,15 @@ public class IEEEODMPSSModelParser {
 		if (getStudyCase().getBaseCase() == null) {
 			PSSNetworkXmlType baseCase = getStudyCase().addNewBaseCase();
 			baseCase.addNewBusList();
+			baseCase.addNewBranchList();		
+		}
+		return getStudyCase().getBaseCase();
+	}
+	
+	public PSSNetworkXmlType getBaseCaseForTransient() {
+		if (getStudyCase().getBaseCase() == null) {
+			PSSNetworkXmlType baseCase = getStudyCase().addNewBaseCase();
+			baseCase.addNewBusList();
 			baseCase.addNewBranchList();
 			baseCase.addNewAreaList();
 			baseCase.addNewTieLineList();
@@ -112,6 +123,33 @@ public class IEEEODMPSSModelParser {
 	}
 	
 	/**
+	 * add a new area record to the base case
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType.AreaList getAreaList(){
+		if(getStudyCase().getBaseCase().getAreaList()==null){
+			getStudyCase().getBaseCase().addNewAreaList();
+		}
+		return getStudyCase().getBaseCase().getAreaList();
+	}
+	public PSSNetworkXmlType.AreaList.Area addNewBaseCaseArea() {
+		return getAreaList().addNewArea();
+	}	
+	
+	
+	
+	public PSSNetworkXmlType.TieLineList getTielineList(){
+		if(getStudyCase().getBaseCase().getTieLineList()==null){
+			getStudyCase().getBaseCase().addNewTieLineList();
+		}
+		return getStudyCase().getBaseCase().getTieLineList();
+	}
+	public PSSNetworkXmlType.TieLineList.Tieline addNewBaseCaseTieline() {
+		return getTielineList().addNewTieline();
+	}
+	
+	/**
 	 * add a new Bus record to the base case
 	 * 
 	 * @return
@@ -120,9 +158,7 @@ public class IEEEODMPSSModelParser {
 		return getStudyCase().getBaseCase().getBusList().addNewBus();
 	}	
 	
-	public PSSNetworkXmlType.TieLineList.Tieline addNewBaseCaseTieline() {
-		return getStudyCase().getBaseCase().getTieLineList().addNewTieline();
-	}
+
 
 	/**
 	 * add a new Branch record to the base case
@@ -138,8 +174,18 @@ public class IEEEODMPSSModelParser {
 	 * 
 	 * @return
 	 */
+	public DCLineBusListXmlType getDCLineBusList(){
+		if(getStudyCase().getBaseCase().getDcLineList()==null){
+			getStudyCase().getBaseCase().addNewDcLineList();			
+		}
+		if(getStudyCase().getBaseCase().getDcLineList().getDcLineBusList()==null){
+			getStudyCase().getBaseCase().getDcLineList().addNewDcLineBusList();
+		}
+		return getStudyCase().getBaseCase().getDcLineList().getDcLineBusList();
+		
+	}
 	public DCLineBusRecordXmlType addNewBaseCaseDCLineBus() {
-		return getStudyCase().getBaseCase().getDcLineList().getDcLineBusList().addNewDcLineBus();		
+		return  getDCLineBusList().addNewDcLineBus();				
 	}
 	
 	/**
@@ -147,8 +193,17 @@ public class IEEEODMPSSModelParser {
 	 * 
 	 * @return
 	 */
+	public DCLineBranchListXmlType getDCLineBranchList(){
+		if(getStudyCase().getBaseCase().getDcLineList()==null){
+			getStudyCase().getBaseCase().addNewDcLineList();
+		}
+		if(getStudyCase().getBaseCase().getDcLineList().getDcLineBranchList()==null){
+			getStudyCase().getBaseCase().getDcLineList().addNewDcLineBranchList();
+		}
+		return getStudyCase().getBaseCase().getDcLineList().getDcLineBranchList();
+	}
 	public DCLineBranchRecordXmlType addNewBaseCaseDCLineBranch() {
-		return getStudyCase().getBaseCase().getDcLineList().getDcLineBranchList().addNewDcLineBranch();		
+		return getDCLineBranchList().addNewDcLineBranch();		
 	}
 	
 	/**

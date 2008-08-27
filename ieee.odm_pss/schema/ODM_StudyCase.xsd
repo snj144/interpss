@@ -24,20 +24,22 @@
 							</restriction>
 						</simpleType>
 					</element>
-                    <element name="originalFormat" minOccurs="1" maxOccurs="1">
-                    	<simpleType>
-                    		<restriction base="string">
-                    			<enumeration value="IEEE-CDF"></enumeration>
-                    			<enumeration value="PSS-E"></enumeration>
-                    			<enumeration value="UCTE-DEF"></enumeration>
-                    			<enumeration value="InterPSS"></enumeration>
-                    			<enumeration value="PSAT"></enumeration>
-                    			<enumeration value="IEEE-ODM-PSS"></enumeration>
-                    			<enumeration value="Custom"></enumeration>
-                    			<enumeration value="BPA"></enumeration>
-                    		</restriction>
-                    	</simpleType></element>
-                    <element name="adapterProviderName" type="string"
+					<element name="originalFormat" minOccurs="1"
+						maxOccurs="1">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="IEEE-CDF"></enumeration>
+								<enumeration value="PSS-E"></enumeration>
+								<enumeration value="UCTE-DEF"></enumeration>
+								<enumeration value="InterPSS"></enumeration>
+								<enumeration value="PSAT"></enumeration>
+								<enumeration value="IEEE-ODM-PSS"></enumeration>
+								<enumeration value="Custom"></enumeration>
+								<enumeration value="BPA"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
+					<element name="adapterProviderName" type="string"
 						minOccurs="0" maxOccurs="1">
 					</element>
 					<element name="adapterProviderVersion" type="string"
@@ -72,8 +74,9 @@
 					</element>
 					<element name="scenarioList"
 						type="pss:ScenarioListXmlType" minOccurs="0" maxOccurs="1">
-					</element>
-				</sequence>
+					</element>
+                    <element name="dynamicDataList" type="pss:DynamicDataListXmlType" maxOccurs="1" minOccurs="0"></element>
+                </sequence>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -350,9 +353,67 @@
     		<element name="busDynDataList"
     			type="pss:BusDynDataListXmlType" maxOccurs="1" minOccurs="0">
     		</element>
-    		<element name="branchDynDataList" type="pss:BranchDynDataListXmlType" maxOccurs="1" minOccurs="0"></element>
+    		<element name="branchDynDataList"
+    			type="pss:BranchDynDataListXmlType" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
+    		<element name="faultList" type="pss:FaultListXmlType" maxOccurs="1" minOccurs="0"></element>
     	</sequence>
     </complexType>
     
     
+
+    <complexType name="FaultListXmlType">
+    	<sequence>
+    		<element name="fault" maxOccurs="unbounded" minOccurs="1">
+    			<complexType>
+    				<sequence>
+    					<element name="faultType" maxOccurs="1"
+    						minOccurs="1">
+    						<simpleType>
+    							<restriction base="string">
+    								<enumeration value="busFault"></enumeration>
+    								<enumeration value="branchFault"></enumeration>
+    								<enumeration value="branchOutage"></enumeration>
+    								<enumeration value="loadChange"></enumeration>
+    							</restriction>
+    						</simpleType>
+    					</element>
+    					<element name="branchFault" maxOccurs="1"
+    						minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="faultCategory"
+    									type="pss:FaultCategoryXmlType" maxOccurs="1" minOccurs="1">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    					<element name="busFault" maxOccurs="1"
+    						minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="faultCategory"
+    									type="pss:FaultCategoryXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    					<element name="branchOutage" maxOccurs="1"
+    						minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name=""
+    									type="string">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    					<element name="loadChange" maxOccurs="1" minOccurs="0"><complexType></complexType></element>
+    				</sequence>
+    			</complexType></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="FaultCategoryXmlType"></complexType>
 </schema>
