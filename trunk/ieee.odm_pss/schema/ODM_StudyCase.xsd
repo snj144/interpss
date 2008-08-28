@@ -74,9 +74,10 @@
 					</element>
 					<element name="scenarioList"
 						type="pss:ScenarioListXmlType" minOccurs="0" maxOccurs="1">
-					</element>
-                    <element name="dynamicDataList" type="pss:DynamicDataListXmlType" maxOccurs="1" minOccurs="0"></element>
-                </sequence>
+					</element>
+
+					<element name="transientSimlation" type="pss:TransientSimulationXmlType" maxOccurs="1" minOccurs="0"></element>
+				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -361,59 +362,66 @@
     	</sequence>
     </complexType>
     
-    
 
-    <complexType name="FaultListXmlType">
+    
+    					
+
+    <complexType name="TransientSimulationXmlType">
     	<sequence>
-    		<element name="fault" maxOccurs="unbounded" minOccurs="1">
+            <element name="simulationSetting" maxOccurs="1" minOccurs="0">
+            	<complexType>
+            		<sequence>
+            			<element name="simulationMethod" maxOccurs="1"
+            				minOccurs="0">
+            				<simpleType>
+            					<restriction base="string">
+            						<enumeration
+            							value="ModifiedEuler">
+            						</enumeration>
+            						<enumeration value="RungerKutta"></enumeration>
+            					</restriction>
+            				</simpleType>
+            			</element>
+            			<element name="simlationTime" maxOccurs="1"
+            				minOccurs="0" type="pss:TimeXmlType">
+            			</element>
+            			<element name="simulationSteps" type="pss:TimeXmlType" maxOccurs="1" minOccurs="0"></element>
+            		</sequence>
+            	</complexType></element>
+            <element name="powerFlowInitialization" maxOccurs="1"
+    			minOccurs="0">
     			<complexType>
     				<sequence>
-    					<element name="faultType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="powerFlowCase" type="string"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="powerFlowMethod" maxOccurs="1"
+    						minOccurs="0">
     						<simpleType>
     							<restriction base="string">
-    								<enumeration value="busFault"></enumeration>
-    								<enumeration value="branchFault"></enumeration>
-    								<enumeration value="branchOutage"></enumeration>
-    								<enumeration value="loadChange"></enumeration>
+    								<enumeration value="NR"></enumeration>
+    								<enumeration value="PQ"></enumeration>
+    								<enumeration value="GS"></enumeration>
     							</restriction>
     						</simpleType>
-    					</element>
-    					<element name="branchFault" maxOccurs="1"
-    						minOccurs="0">
-    						<complexType>
-    							<sequence>
-    								<element name="faultCategory"
-    									type="pss:FaultCategoryXmlType" maxOccurs="1" minOccurs="1">
-    								</element>
-    							</sequence>
-    						</complexType>
     					</element>
-    					<element name="busFault" maxOccurs="1"
-    						minOccurs="0">
-    						<complexType>
-    							<sequence>
-    								<element name="faultCategory"
-    									type="pss:FaultCategoryXmlType" maxOccurs="1" minOccurs="0">
-    								</element>
-    							</sequence>
-    						</complexType>
+    					<element name="errTolerance" type="double"
+    						maxOccurs="1" minOccurs="0">
     					</element>
-    					<element name="branchOutage" maxOccurs="1"
-    						minOccurs="0">
-    						<complexType>
-    							<sequence>
-    								<element name=""
-    									type="string">
-    								</element>
-    							</sequence>
-    						</complexType>
+    					<element name="maxInteration" type="double"
+    						maxOccurs="1" minOccurs="0">
     					</element>
-    					<element name="loadChange" maxOccurs="1" minOccurs="0"><complexType></complexType></element>
     				</sequence>
-    			</complexType></element>
+    			</complexType>
+    		</element>
+    		<element name="dynamicDataList"
+    			type="pss:DynamicDataListXmlType" maxOccurs="1" minOccurs="1">
+    		</element>
+    		<element name="outPutSetting" maxOccurs="1" minOccurs="0">
+    			<complexType></complexType>
+    		</element>
+
+
     	</sequence>
     </complexType>
-
-    <complexType name="FaultCategoryXmlType"></complexType>
 </schema>

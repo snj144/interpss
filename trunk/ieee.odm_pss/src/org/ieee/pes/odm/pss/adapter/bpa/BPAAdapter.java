@@ -31,6 +31,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
@@ -81,6 +82,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		
 		if(parser.getStudyCase().getAnalysisCategory().
 				equals(StudyCaseXmlType.AnalysisCategory.TRANSIENT_STABILITY)){
+			TransientSimulationXmlType tranSimu= parser.getTransientSimlation();
 			do{
 				str = din.readLine();
 				if(!str.trim().equals("99")){
@@ -128,13 +130,13 @@ public class BPAAdapter  extends AbstractODMAdapter {
 							getLogger().fine("load comment");
 							processReadComment(str, baseCaseNet);
 						}else if(str.startsWith("(END)"))	{						
-							BPADynamicRecord.processDynamicData(str, baseCaseNet, this);													
-						} 
-						
+							BPADynamicRecord.processDynamicData(str, tranSimu,din,
+									parser,this);
+							break;							
+						}						
 					}catch (final Exception e) {
 						e.printStackTrace();
-					}
-					
+					}					
 				}
 			}while(!str.trim().equals("99"));
 		}else if(parser.getStudyCase().getAnalysisCategory().
@@ -188,8 +190,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 						}						
 					}catch (final Exception e) {
 						e.printStackTrace();
-					}
-					
+					}					
 				}
 			}while(!str.trim().equals("(END)")&&!str.trim().equals("(STOP)"));
 		}

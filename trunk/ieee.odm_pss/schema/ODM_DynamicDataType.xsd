@@ -1602,53 +1602,11 @@
     					</element>
 
     					<element name="branchFault" maxOccurs="1"
-    						minOccurs="0">
+    						minOccurs="0">    						
     						<complexType>
     							<sequence>
     								<element name="faultCategory"
-    									type="pss:FaunltCateGoryXmlType" maxOccurs="1"
-    									minOccurs="1">
-    								</element>
-    								<element name="faultedBus"
-    									type="pss:IDRefRecordXmlType" maxOccurs="1"
-    									minOccurs="1">
-    								</element>
-    								<element name="faultedBusRatedV"
-    									type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
-    								</element>
-    								<element name="remoteEndBus"
-    									type="pss:IDRefRecordXmlType" maxOccurs="1"
-    									minOccurs="0">
-    								</element>
-    								<element name="remoteEndBusRatedV"
-    									type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
-    								</element>
-
-    								<element name="faultStartTime"
-    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
-    								</element>
-    								<element name="faultDurationTime"
-    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
-    								</element>
-    								<element name="faultZ"
-    									type="pss:ZXmlType" maxOccurs="1" minOccurs="0">
-    								</element>
-    								<element
-    									name="faultLocationFromFromSide" type="pss:PercentXmlType"
-    									maxOccurs="1" minOccurs="0">
-    								</element>
-    								<element name="permanentFault"
-    									type="boolean" maxOccurs="1" minOccurs="0">
-    								</element>
-    							</sequence>
-    						</complexType>
-    					</element>
-    					<element name="busFault" maxOccurs="1"
-    						minOccurs="0">
-    						<complexType>
-    							<sequence>
-    								<element name="faultCategory"
-    									type="pss:FaunltCateGoryXmlType" maxOccurs="1"
+    									type="pss:FaultCategoryXmlType" maxOccurs="1"
     									minOccurs="1">
     								</element>
     								<element name="fromBus"
@@ -1669,6 +1627,64 @@
     								<element name="faultStartTime"
     									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
     								</element>
+    								<element name="firstOperationTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="secondOperationTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="faultDurationTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="faultZ"
+    									type="pss:ZXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element
+    									name="faultLocationFromFromSide" type="pss:PercentXmlType"
+    									maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="permanentFault"
+    									type="boolean" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="faultedCirId"
+    									type="string" maxOccurs="unbounded" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    					<element name="busFault" maxOccurs="1"
+    						minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="faultCategory"
+    									type="pss:FaultCategoryXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="faultedBus"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="faultedBusRatedV"
+    									type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="remoteEndBus"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="0">
+    								</element>
+    								<element name="remoteEndBusRatedV"
+    									type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+
+
+    								<element name="faultStartTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="firstOperationTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="secondOperationTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
     								<element name="faultDurationTime"
     									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
     								</element>
@@ -1678,6 +1694,8 @@
     								<element name="permanentFault"
     									type="boolean" maxOccurs="1" minOccurs="0">
     								</element>
+
+
     							</sequence>
     						</complexType>
     					</element>
@@ -1687,12 +1705,23 @@
 
     							<sequence>
     								<element name="faultCategory"
-    									type="pss:FaunltCateGoryXmlType" maxOccurs="1" minOccurs="0">
+    									type="pss:FaultCategoryXmlType" maxOccurs="1"
+    									minOccurs="0">
+    								</element>
+    								<element name="fromBusId"
+    									type="string" maxOccurs="1" minOccurs="1">
+    								</element>
+    								<element name="toBusId"
+    									type="string" maxOccurs="1" minOccurs="1">
+    								</element>
+    								<element name="startTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="1">
     								</element>
     							</sequence>
     						</complexType>
     					</element>
-    					<element name="loadChange" maxOccurs="1" minOccurs="0">
+    					<element name="loadChange" maxOccurs="1"
+    						minOccurs="0">
     						<complexType>
     							<sequence>
     								<element name="loadChangeCategory"
@@ -1719,11 +1748,9 @@
     								<element name="busRatedVoltage"
     									type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
     								</element>
-    								<element name="generatorId"
-    									type="string" maxOccurs="1" minOccurs="0">
-    								</element>
+
     								<element name="operationTime"
-    									type="string" maxOccurs="1" minOccurs="0">
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
     								</element>
     								<element name="operateAtFrequence"
     									type="pss:FrequencyXmlType" maxOccurs="1" minOccurs="0">
@@ -1743,8 +1770,108 @@
     								<element name="constantZChange"
     									type="pss:PowerXmlType" maxOccurs="1" minOccurs="0">
     								</element>
-    								<element name="GenChange"
+
+    							</sequence>
+    						</complexType>
+    					</element>
+    					<element name="genChange" maxOccurs="1"
+    						minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="busId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="0">
+    								</element>
+    								<element name="busRatedVoltage"
+    									type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="generatorId"
+    									type="string" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="operationTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+
+
+    								<element name="operationDelayTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="genChange"
     									type="pss:PowerXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="genOutage"
+    									type="boolean" maxOccurs="1" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    					<element name="dcLineFault" maxOccurs="1" minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="fromACBusId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="fromACRatedVol"
+    									type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="toACBusId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="toACRatedVol"
+    									type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="faultType"
+    									maxOccurs="1" minOccurs="1">
+    									<simpleType>
+    										<restriction
+    											base="string">
+    											<enumeration
+    												value="fromBus_Bipole_Short_Circuit">
+    											</enumeration>
+    											<enumeration
+    												value="toBus_Bipole_Short_Circuit">
+    											</enumeration>
+    											<enumeration
+    												value="fault_on_Line">
+    											</enumeration>
+    											<enumeration
+    												value="power_blocked">
+    											</enumeration>
+    											<enumeration
+    												value="power_reversed">
+    											</enumeration>
+    											<enumeration
+    												value="power_change_by_specification">
+    											</enumeration>
+    											<enumeration
+    												value="current_change_by_specification">
+    											</enumeration>
+    										</restriction>
+    									</simpleType>
+    								</element>
+    								<element name="startTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="1">
+    								</element>
+    								<element name="durationTime"
+    									type="pss:CycleXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="permanentFault"
+    									type="boolean" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element
+    									name="faultLocationFromFromSide" type="pss:PercentXmlType"
+    									maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="changedPower"
+    									type="pss:PowerXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="changedCurrent"
+    									type="pss:CurrentXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="faultZ"
+    									type="pss:ZXmlType" maxOccurs="1" minOccurs="0">
     								</element>
     							</sequence>
     						</complexType></element>
@@ -1756,7 +1883,7 @@
 
 
 
-    <simpleType name="FaunltCateGoryXmlType">
+    <simpleType name="FaultCategoryXmlType">
     	<restriction base="string">
     	<enumeration value="3Phase"></enumeration>
     	<enumeration value="lineToLine"></enumeration>
@@ -1764,4 +1891,5 @@
     	<enumeration value="lineLineToGround"></enumeration>
     	</restriction>
     </simpleType>
+
 </schema>

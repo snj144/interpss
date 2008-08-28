@@ -1,4 +1,4 @@
-loadflow
+transient
 (POWERFLOW,CASEID=EMS,PROJECT=TEST)
 /P_INPUT_LIST,FULL\
 /P_OUTPUT_LIST,FULL\
@@ -44,3 +44,12 @@ T     BUS-7    100 BUS-4    100             .20912            100. 97.8
 T     BUS-9    100 BUS-4    100             .55618            100. 96.9                                                                                                                                                                                                                                                               
 .234567890*234567890*234567890*234567890*234567890*234567890*234567890*234567890                                                                       
 (END)
+CASE nf10       5                                                                                                                                                                                                                                                    
+LS  YN01-HLZ525.  kunxibg 525. 1    1  0.0                                                                                            
+LS -YN01-HLZ525.  kunxibg 525. 1    1  2.0                                                                                        
+LS -YN01-HLZ525. -kunxibg 525. 1   -1  4.0                                          
+LS  TSQD-M  230.                    4  18.                             -50                                           
+LS  anshdc3 20.0                    4  25.                                 200                    
+LS  TSQ_POS 209.  GNG_POS 198.  4   5  13.                                         
+LS  TSQ_POS 209.  GNG_POS 198. -4   5  23.                                                                                                                                                                                                                                      
+99                                                                           

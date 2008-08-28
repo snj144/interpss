@@ -1024,4 +1024,18 @@
     		</restriction></simpleType></element>
     	</sequence>
     </complexType>
+
+    <complexType name="TimeXmlType">
+    	<sequence>
+    		<element name="time" type="double" maxOccurs="1"
+    			minOccurs="1">
+    		</element>
+    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
+    		<enumeration value="sec"></enumeration>
+    		<enumeration value="min"></enumeration>
+    		<enumeration value="hour"></enumeration>
+    		<enumeration value="cycle"></enumeration>
+    		</restriction></simpleType></element>
+    	</sequence>
+    </complexType>
 </schema>

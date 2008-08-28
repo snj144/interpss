@@ -37,9 +37,12 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 
 public class IEEEODMPSSModelParser {
 	public static final String Token_nsPrefix = "pss";
@@ -107,20 +110,33 @@ public class IEEEODMPSSModelParser {
 		}
 		return getStudyCase().getBaseCase();
 	}
-	
-	public PSSNetworkXmlType getBaseCaseForTransient() {
-		if (getStudyCase().getBaseCase() == null) {
-			PSSNetworkXmlType baseCase = getStudyCase().addNewBaseCase();
-			baseCase.addNewBusList();
-			baseCase.addNewBranchList();
-			baseCase.addNewAreaList();
-			baseCase.addNewTieLineList();
-			baseCase.addNewDcLineList();
-			baseCase.getDcLineList().addNewDcLineBusList();
-			baseCase.getDcLineList().addNewDcLineBranchList();
+	public TransientSimulationXmlType getTransientSimlation(){
+		if(getStudyCase().getTransientSimlation()==null){
+			TransientSimulationXmlType tranSimu=getStudyCase().addNewTransientSimlation();
+			tranSimu.addNewDynamicDataList();
+			tranSimu.getDynamicDataList().addNewFaultList();
+			tranSimu.getDynamicDataList().addNewBranchDynDataList();
+			tranSimu.getDynamicDataList().addNewBusDynDataList();
+			tranSimu.getDynamicDataList().getBusDynDataList().addNewGeneratorDataList();
+			tranSimu.getDynamicDataList().getBusDynDataList().addNewDynLoadDataList();
+			tranSimu.getDynamicDataList().addNewBusDynDataList();
+			tranSimu.addNewOutPutSetting();
+			tranSimu.addNewPowerFlowInitialization();
+			tranSimu.addNewSimulationSetting();
 		}
-		return getStudyCase().getBaseCase();
+		return getStudyCase().getTransientSimlation();
+	}	
+	
+	
+	public FaultListXmlType.Fault addNewFault(){		
+		return getStudyCase().getTransientSimlation().getDynamicDataList().getFaultList().addNewFault();
 	}
+	
+	public GeneratorXmlType addNewGen(){		
+		return getStudyCase().getTransientSimlation().getDynamicDataList().
+		             getBusDynDataList().getGeneratorDataList().addNewGenerator();
+	}
+
 	
 	/**
 	 * add a new area record to the base case
@@ -136,8 +152,6 @@ public class IEEEODMPSSModelParser {
 	public PSSNetworkXmlType.AreaList.Area addNewBaseCaseArea() {
 		return getAreaList().addNewArea();
 	}	
-	
-	
 	
 	public PSSNetworkXmlType.TieLineList getTielineList(){
 		if(getStudyCase().getBaseCase().getTieLineList()==null){
