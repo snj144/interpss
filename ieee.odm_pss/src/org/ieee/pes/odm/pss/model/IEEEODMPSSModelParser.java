@@ -37,12 +37,18 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterDataListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerDataListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorDataListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 
 public class IEEEODMPSSModelParser {
 	public static final String Token_nsPrefix = "pss";
@@ -151,7 +157,48 @@ public class IEEEODMPSSModelParser {
 	}
 	public PSSNetworkXmlType.AreaList.Area addNewBaseCaseArea() {
 		return getAreaList().addNewArea();
-	}	
+	}
+	
+	public ExciterDataListXmlType getExciterList(){
+		if(getStudyCase().getTransientSimlation().getDynamicDataList().
+				getBusDynDataList().getExciterDataList()==null){
+			getStudyCase().getTransientSimlation().getDynamicDataList().
+			getBusDynDataList().addNewExciterDataList();
+		}
+		return getStudyCase().getTransientSimlation().getDynamicDataList().
+		getBusDynDataList().getExciterDataList();
+	}
+	public ExciterXmlType addNewExciter(){
+		return getExciterList().addNewExciter();
+	}
+	
+	public TurbineGovernorDataListXmlType getTurbineGovernorDataList(){
+		if(getStudyCase().getTransientSimlation().getDynamicDataList().
+				getBusDynDataList().getTurbineGovernorDataList()==null){
+			getStudyCase().getTransientSimlation().getDynamicDataList().
+			getBusDynDataList().addNewTurbineGovernorDataList();
+		}
+		return getStudyCase().getTransientSimlation().getDynamicDataList().
+		getBusDynDataList().getTurbineGovernorDataList();
+	}
+	public TurbineGovernorXmlType addNewTurbineGovernor(){
+		return getTurbineGovernorDataList().addNewTurbineGovernor();
+	}
+	
+	public StabilizerDataListXmlType getPSSDataList(){
+		if(getStudyCase().getTransientSimlation().getDynamicDataList().
+				getBusDynDataList().getStabilizerDataList()==null){
+			getStudyCase().getTransientSimlation().getDynamicDataList().
+			getBusDynDataList().addNewStabilizerDataList();
+		}
+		return getStudyCase().getTransientSimlation().getDynamicDataList().
+		getBusDynDataList().getStabilizerDataList();
+	}
+	public StabilizerXmlType addNewStablilizerGovernor(){
+		return getPSSDataList().addNewStabilizer();
+	}
+	
+	
 	
 	public PSSNetworkXmlType.TieLineList getTielineList(){
 		if(getStudyCase().getBaseCase().getTieLineList()==null){

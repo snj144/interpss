@@ -1027,7 +1027,7 @@
 
     <complexType name="TimeXmlType">
     	<sequence>
-    		<element name="time" type="double" maxOccurs="1"
+    		<element name="value" type="double" maxOccurs="1"
     			minOccurs="1">
     		</element>
     		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
