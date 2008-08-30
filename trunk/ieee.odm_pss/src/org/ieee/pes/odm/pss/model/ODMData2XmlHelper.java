@@ -32,19 +32,24 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CycleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
@@ -239,12 +244,10 @@ public class ODMData2XmlHelper {
 	}
 	
 	public static FaultListXmlType.Fault.BranchFault getBranchFaultRecord(TransientSimulationXmlType tranSimu,
-			String fbus,String tbus){
-		
+			String fbus,String tbus){		
 		for(FaultListXmlType.Fault fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
 			if(fault.getBranchFault()!=null){
-				FaultListXmlType.Fault.BranchFault braFault=fault.getBranchFault();
-				
+				FaultListXmlType.Fault.BranchFault braFault=fault.getBranchFault();				
 				if(fbus.equals(braFault.getFromBus().getName())&& tbus.equals(braFault.getToBus().getName()))
 			         return braFault;
 			}else{
@@ -268,6 +271,74 @@ public class ODMData2XmlHelper {
 			}
 		}
 		return null;
+	}
+	
+	public static GeneratorXmlType getGeneratorRecord(TransientSimulationXmlType tranSimu,
+			   String busId,String genId){		
+		for(GeneratorXmlType gen: tranSimu.getDynamicDataList().getBusDynDataList()
+				.getGeneratorDataList().getGeneratorArray()){						
+			if(busId.equals(gen.getLocatedBus().getName())){
+				if(gen.getGenId()!=null){
+					if(genId.equals(gen.getGenId().getName())){
+						return gen;
+					}
+				}else{
+					return gen;
+				}			
+			}
+		}		
+		return null;		
+	}
+	
+	public static ExciterXmlType getExciterRecord(TransientSimulationXmlType tranSimu,
+			 String busId, String excId){
+		for(ExciterXmlType exc: tranSimu.getDynamicDataList().getBusDynDataList().
+				       getExciterDataList().getExciterArray()){
+			if(busId.equals(exc.getLocatedBus().getName())){
+				if(exc.getExcId()!=null){
+					if(excId.equals(exc.getExcId().getName())){
+						return exc;
+					}
+				}else{
+					return exc;
+				}
+			}			
+		}		
+		return null;		
+	}
+	
+	public static TurbineGovernorXmlType getTGRecord(TransientSimulationXmlType tranSimu,
+			 String busId, String tgId){
+		for(TurbineGovernorXmlType tg: tranSimu.getDynamicDataList().getBusDynDataList()
+                   .getTurbineGovernorDataList().getTurbineGovernorArray()){
+			if(busId.equals(tg.getLocatedBus().getName())){
+				if(tg.getTgId()!=null){
+					if(tgId.equals(tg.getTgId().getName())){
+						return tg;
+					}
+				}else{
+					return tg;
+				}
+			}			
+		}	
+		return null;		
+	}
+	
+	public static StabilizerXmlType getPSSRecord(TransientSimulationXmlType tranSimu,
+			 String busId, String macId){
+		for(StabilizerXmlType pss: tranSimu.getDynamicDataList().getBusDynDataList()
+                  .getStabilizerDataList().getStabilizerArray()){
+			if(busId.equals(pss.getLocatedBus().getName())){
+				if(pss.getMacId()!=null){
+					if(macId.equals(pss.getMacId().getName())){
+						return pss;
+					}
+				}else{
+					return pss;
+				}
+			}			
+		}	
+		return null;		
 	}
 	
 	/**
@@ -309,6 +380,12 @@ public class ODMData2XmlHelper {
 		y.setG(g);
 		y.setB(b);
 		y.setUnit(unit);
+	}
+	
+	
+	public static void setPUData(PerUnitXmlType p, double a, PerUnitXmlType.Unit.Enum unit){
+		p.setValue(a);
+		p.setUnit(unit);
 	}
 	
 	/**
@@ -364,6 +441,10 @@ public class ODMData2XmlHelper {
 	public static void setTimeData(CycleXmlType time, double t, TimeXmlType.Unit.Enum unit){
 		time.setValue(t);
 		time.setUnit(CycleXmlType.Unit.CYCLE);
+	}
+	public static void setTimeData(TimeXmlType time, double t,TimeXmlType.Unit.Enum unit){
+		time.setValue(t);
+		time.setUnit(unit);
 	}
 
 	/**
