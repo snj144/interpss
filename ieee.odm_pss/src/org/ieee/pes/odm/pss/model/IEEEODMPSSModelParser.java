@@ -41,14 +41,18 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NegativeSequenceDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PostiveSequenceDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 
 public class IEEEODMPSSModelParser {
 	public static final String Token_nsPrefix = "pss";
@@ -123,9 +127,31 @@ public class IEEEODMPSSModelParser {
 			tranSimu.getDynamicDataList().addNewFaultList();
 			tranSimu.getDynamicDataList().addNewBranchDynDataList();
 			tranSimu.getDynamicDataList().addNewBusDynDataList();
+			tranSimu.getDynamicDataList().addNewSequenceDataList();			
+			tranSimu.getDynamicDataList().getSequenceDataList().addNewNegativeSequenceDataList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getNegativeSequenceDataList().
+			                    addNewGeneratorNegativeList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getNegativeSequenceDataList()
+			                   .addNewShuntLoadNegativeList();
+			tranSimu.getDynamicDataList().getSequenceDataList().addNewPostiveSequenceDataList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getPostiveSequenceDataList()
+			                   .addNewGeneratorPostiveList();
+			tranSimu.getDynamicDataList().getSequenceDataList().addNewZeroSequenceDataList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getZeroSequenceDataList()
+			                   .addNewGeneratorZeroList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getZeroSequenceDataList()
+                               .addNewLineZeroList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getZeroSequenceDataList()
+                               .addNewMutualImpedanceZeroList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getZeroSequenceDataList()
+                              .addNewShuntLoadZeroList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getZeroSequenceDataList()
+                              .addNewSwitchShuntedZeroList();
+			tranSimu.getDynamicDataList().getSequenceDataList().getZeroSequenceDataList()
+                              .addNewXfrZeroList();
 			tranSimu.getDynamicDataList().getBusDynDataList().addNewGeneratorDataList();
-			tranSimu.getDynamicDataList().getBusDynDataList().addNewDynLoadDataList();
-			tranSimu.getDynamicDataList().addNewBusDynDataList();
+			tranSimu.getDynamicDataList().getBusDynDataList().addNewLoadCharacteristicDataList();
+			
 			tranSimu.addNewOutPutSetting();
 			tranSimu.addNewPowerFlowInitialization();
 			tranSimu.addNewSimulationSetting();
@@ -199,6 +225,12 @@ public class IEEEODMPSSModelParser {
 	}
 	
 	
+	public LoadCharacteristicXmlType addNewLoad(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList().
+		    getBusDynDataList().getLoadCharacteristicDataList().addNewLoad();
+	}
+	
+	
 	
 	public PSSNetworkXmlType.TieLineList getTielineList(){
 		if(getStudyCase().getBaseCase().getTieLineList()==null){
@@ -267,6 +299,51 @@ public class IEEEODMPSSModelParser {
 		return getDCLineBranchList().addNewDcLineBranch();		
 	}
 	
+	public ZeroSequenceDataListXmlType.GeneratorZeroList.GeneratorZero addNewGenZero(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getZeroSequenceDataList().
+		       getGeneratorZeroList().addNewGeneratorZero();
+	}
+	public ZeroSequenceDataListXmlType.LineZeroList.LineZero addNewLineZero(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getZeroSequenceDataList()
+		.getLineZeroList().addNewLineZero();
+	}
+	public ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero addNewMutualZero(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getZeroSequenceDataList()
+		.getMutualImpedanceZeroList().addNewMutualImpedanceZero();
+	}
+	public ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero addNewShuntLoadZero(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getZeroSequenceDataList()
+		.addNewShuntLoadZeroList().addNewShuntLoadZero();
+	}
+	public ZeroSequenceDataListXmlType.SwitchShuntedZeroList.SwitchShuntedZeroType addNewSwitchShuntZero(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getZeroSequenceDataList()
+		.getSwitchShuntedZeroList().addNewSwitchShuntedZeroType();
+	}
+	public ZeroSequenceDataListXmlType.XfrZeroList.XfrZero addNewXfrZero(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getZeroSequenceDataList()
+		.getXfrZeroList().addNewXfrZero();
+	}
+	public PostiveSequenceDataListXmlType.GeneratorPostiveList.GerneratorPostive addNewGenPos(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getPostiveSequenceDataList().getGeneratorPostiveList()
+		.addNewGerneratorPostive();
+	}
+	public NegativeSequenceDataListXmlType.GeneratorNegativeList.GeneratorNegative addNewGenNeg(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getNegativeSequenceDataList().getGeneratorNegativeList()
+		.addNewGeneratorNegative();
+	}
+	public NegativeSequenceDataListXmlType.ShuntLoadNegativeList.ShuntLoadNegative addNewShuntLoadNeg(){
+		return getStudyCase().getTransientSimlation().getDynamicDataList()
+		.getSequenceDataList().getNegativeSequenceDataList().getShuntLoadNegativeList()
+		.addNewShuntLoadNegative();
+	}
 	/**
 	 * convert the document object to an XML string
 	 */
