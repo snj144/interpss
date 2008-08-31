@@ -245,8 +245,7 @@ public class BPABusRecord {
 								vpu, VoltageXmlType.Unit.PU);
 					}
 				}
-		}
-						
+		}						
 	}
 	
 	public static void processDCLineBusData(final String str,final DCLineBusRecordXmlType dcBus,  

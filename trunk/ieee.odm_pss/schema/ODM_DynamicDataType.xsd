@@ -22,8 +22,8 @@
 			<element name="stabilizerDataList"
 				type="pss:StabilizerDataListXmlType" maxOccurs="1" minOccurs="0">
 			</element>
-			<element name="dynLoadDataList"
-				type="pss:DynLoadDataListXmlType" maxOccurs="1" minOccurs="0">
+			<element name="LoadCharacteristicDataList"
+				type="pss:LoadCharacteristicDataListXmlType" maxOccurs="1" minOccurs="0">
 			</element>
 
 		</sequence>
@@ -55,9 +55,9 @@
 		</sequence>
 	</complexType>
 
-	<complexType name="DynLoadDataListXmlType">
+	<complexType name="LoadCharacteristicDataListXmlType">
 		<sequence>
-			<element name="dynLoad" type="pss:DynLoadXmlType" maxOccurs="unbounded" minOccurs="1"></element>
+			<element name="Load" type="pss:LoadCharacteristicXmlType" maxOccurs="unbounded" minOccurs="1"></element>
 		</sequence>
 	</complexType>
 
@@ -185,22 +185,36 @@
 		</sequence>
 	</complexType>
 
-	<complexType name="DynLoadXmlType">
+	<complexType name="LoadCharacteristicXmlType">
 		<sequence>
-			<element name="locatedBus" type="pss:IDRefRecordXmlType" maxOccurs="1"
-				minOccurs="1">
-			</element>
-			<element name="dynLoadXmlType" maxOccurs="1" minOccurs="1">
+			<element name="location" maxOccurs="1" minOccurs="1">
 				<simpleType>
-					<restriction base="string">						
-					<enumeration value="IEEELoad"></enumeration>
-					<enumeration value="ComplexLoad"></enumeration>
-					<enumeration value="InductionMotor"></enumeration>
+					<restriction base="string">
+						<enumeration value="atBus"></enumeration>
+						<enumeration value="atOwner"></enumeration>
+						<enumeration value="atZone"></enumeration>
+						<enumeration value="atArea"></enumeration>
+						<enumeration value="other"></enumeration>
 					</restriction>
 				</simpleType>
 			</element>
-			<element name="dynLoadModel" type="pss:DynLoadModelListXmlType" maxOccurs="1" minOccurs="1"></element>
-		
+
+            <element name="locationId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+            <element name="LoadXmlType" maxOccurs="1"
+				minOccurs="1">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="IEEEStaticLoad"></enumeration>
+						<enumeration value="ComplexLoad"></enumeration>
+						<enumeration value="InductionMotor"></enumeration>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="LoadModel"
+				type="pss:LoadCharacteristicModelListXmlType" maxOccurs="1" minOccurs="1">
+			</element>
+
+
 		</sequence>
 	</complexType>
 	
@@ -1803,82 +1817,75 @@
     			</complexType></element>
     	</sequence>
     </complexType>
-    <complexType name="DynLoadModelListXmlType">
+    <complexType name="LoadCharacteristicModelListXmlType">
     	<sequence>
-    		<element name="IEEELoad" maxOccurs="1" minOccurs="0"><complexType>
+    		<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0"><complexType>
     		<sequence>
-                        <element name="modelDesc" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    					<enumeration value="compoundLoad"></enumeration>
-  					
-    					</restriction></simpleType></element>
-                        <element name="LoadId" type="string"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="location" maxOccurs="1"
-    						minOccurs="1">
-    						<simpleType>
-    							<restriction base="string">
-    								<enumeration value="atBus"></enumeration>
-    								<enumeration value="atOwner"></enumeration>
-    								<enumeration value="atZone"></enumeration>
-    								<enumeration value="atArea"></enumeration>
-    								<enumeration value="other"></enumeration>
-    							</restriction>
-    						</simpleType>
-    					</element>
-    					<element name="locationId" type="pss:IDRefRecordXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
+    			<element name="modelDesc" maxOccurs="1" minOccurs="0">
+    				<simpleType>
+    					<restriction base="string">
+    						<enumeration value="compoundLoad"></enumeration>
 
-    					<element name="a1" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a2" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a3" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-                        <element name="a4" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a5" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a6" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a7" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a8" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n1" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n2" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n3" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n4" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n5" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n6" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
+    					</restriction>
+    				</simpleType>
+    			</element>
 
-    				</sequence>
-    		</complexType></element>
+
+
+
+    			<element name="a1" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="a2" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="a3" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="a4" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="a5" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="a6" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="a7" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="a8" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="n1" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="n2" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="n3" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="n4" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="n5" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+    			<element name="n6" type="double" maxOccurs="1"
+    				minOccurs="1">
+    			</element>
+
+    			<element name="a9" type="double" maxOccurs="1"
+    				minOccurs="0">
+    			</element>
+    			<element name="a10" type="double" maxOccurs="1" minOccurs="0"></element>
+    		</sequence>
+</complexType></element>
     		<element name="ComplexLoad" maxOccurs="1" minOccurs="0"><complexType>
     		<sequence>
     					<element name="modelDesc" maxOccurs="1"
-    						minOccurs="1">
+    						minOccurs="0">
     						<simpleType>
     							<restriction base="string">
     								<enumeration
@@ -1886,25 +1893,7 @@
     								</enumeration>
     							</restriction>
     						</simpleType>
-    					</element>
-    					<element name="LoadId" type="string"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="location" maxOccurs="1"
-    						minOccurs="1">
-    						<simpleType>
-    							<restriction base="string">
-    								<enumeration value="atBus"></enumeration>
-    								<enumeration value="atOwner"></enumeration>
-    								<enumeration value="atZone"></enumeration>
-    								<enumeration value="atArea"></enumeration>
-    								<enumeration value="other"></enumeration>
-    							</restriction>
-    						</simpleType>
-    					</element>
-    					<element name="locationId" type="pss:IDRefRecordXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
+    					</element>
 
     					<element name="largeMotPercent"
     						type="pss:PercentXmlType" maxOccurs="1" minOccurs="1">
@@ -1933,7 +1922,7 @@
     		<element name="InductionMotor" maxOccurs="1" minOccurs="0"><complexType>
     		<sequence>
     					<element name="modelDesc" maxOccurs="1"
-    						minOccurs="1">
+    						minOccurs="0">
     						<simpleType>
     							<restriction base="string">
     								<enumeration
@@ -1941,25 +1930,7 @@
     								</enumeration>
     							</restriction>
     						</simpleType>
-    					</element>
-    					<element name="LoadId" type="string"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="location" maxOccurs="1"
-    						minOccurs="1">
-    						<simpleType>
-    							<restriction base="string">
-    								<enumeration value="atBus"></enumeration>
-    								<enumeration value="atOwner"></enumeration>
-    								<enumeration value="atZone"></enumeration>
-    								<enumeration value="atArea"></enumeration>
-    								<enumeration value="other"></enumeration>
-    							</restriction>
-    						</simpleType>
-    					</element>
-    					<element name="locationId" type="pss:IDRefRecordXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
+    					</element>
 
     					<element name="motorType" maxOccurs="1"
     						minOccurs="1">
@@ -2470,5 +2441,345 @@
     			<complexType></complexType>
     		</element>
         </sequence>
+    </complexType>
+
+    <complexType name="SequenceDataListXmlType">
+    	<sequence>
+    		<element name="postiveSequenceDataList"
+    			type="pss:PostiveSequenceDataListXmlType" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
+    		<element name="negativeSequenceDataList"
+    			type="pss:NegativeSequenceDataListXmlType" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
+    		<element name="zeroSequenceDataList" type="pss:ZeroSequenceDataListXmlType" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="PostiveSequenceDataListXmlType">
+    	<sequence>
+
+
+
+    		<element name="generatorPostiveList" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="gerneratorPostive" maxOccurs="unbounded" minOccurs="0"><complexType>
+    					<sequence>
+    					<element name="busId"
+    						type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="macId"
+    						type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="ZRPos" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="ZXPos" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    				</sequence>
+    					</complexType></element>
+    				</sequence>
+    			</complexType></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="NegativeSequenceDataListXmlType">
+    	<sequence>
+
+    		<element name="generatorNegativeList" maxOccurs="1"
+    			minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="generatorNegative"
+    						maxOccurs="unbounded" minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="busId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="macId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="0">
+    								</element>
+    								<element name="ZRNeg"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="ZXNeg"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="shuntLoadNegativeList" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="shuntLoadNegative" maxOccurs="unbounded" minOccurs="0"><complexType>
+    					<sequence>
+                                    <element name="loadLocation" maxOccurs="1" minOccurs="0"><simpleType><restriction base="string">
+    						<enumeration value="at_bus"></enumeration>
+    						<enumeration value="at_area"></enumeration>
+    						<enumeration value="at_zone"></enumeration>
+    						
+    						</restriction></simpleType></element>
+                                    <element name="locationId"
+    							type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1">
+    						</element>
+    						<element name="rNeg"
+    							type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    						</element>
+    						<element name="xNeg"
+    							type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    						</element>
+    					</sequence>
+</complexType></element>
+    				</sequence>
+    			</complexType></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="ZeroSequenceDataListXmlType">
+    	<sequence>
+    		<element name="generatorZeroList" maxOccurs="1"
+    			minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="generatorZero"
+    						maxOccurs="unbounded" minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="busId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="macId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="0">
+    								</element>
+    								<element name="ZRZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="ZXZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="shuntLoadZeroList" maxOccurs="1"
+    			minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="shuntLoadZero"
+    						maxOccurs="unbounded" minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="busId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="rZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="xZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    							</sequence>
+
+    						</complexType>
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="lineZeroList" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="lineZero" maxOccurs="unbounded"
+    						minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="fBusId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="tBusId"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="cirId" type="string"
+    									maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="rLineZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="xLineZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="bLineZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="gfZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="bfZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="gtZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="btZer"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+
+    		<element name="xfrZeroList" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="xfrZero" maxOccurs="unbounded"
+    						minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="busI"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="busJ"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="busK"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="0">
+    								</element>
+    								<element name="cirId" type="string"
+    									maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="conectionLocation"
+    									maxOccurs="1" minOccurs="1">
+    									<simpleType>
+    										<restriction
+    											base="string">
+    											<enumeration
+    												value="at_bus1">
+    											</enumeration>
+    											<enumeration
+    												value="at_bus2">
+    											</enumeration>
+    											<enumeration
+    												value="between_bus1_and_bus_2">
+    											</enumeration>
+    										</restriction>
+    									</simpleType>
+    								</element>
+    								<element name="RG"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="XG"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="R1"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="X1"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="R2"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="X2"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="R3"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="X3"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+            <element name="mutualImpedanceZeroList" maxOccurs="1"
+    			minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="mutualImpedanceZero"
+    						maxOccurs="unbounded" minOccurs="0">
+    						<complexType>
+    							<sequence>
+    								<element name="branch1BusI"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="branch1BuJ"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="branch1CirId"
+    									type="string" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="branch2BusK"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="branch2BusL"
+    									type="pss:IDRefRecordXmlType" maxOccurs="1"
+    									minOccurs="1">
+    								</element>
+    								<element name="branch2CirId"
+    									type="string" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="RM"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="XM"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="BIJ1"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="BIJ2"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="BKL1"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    								<element name="BKL2"
+    									type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0">
+    								</element>
+    							</sequence>
+    						</complexType>
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+            <element name="switchShuntedZeroList" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="switchShuntedZeroType" maxOccurs="unbounded" minOccurs="0"><complexType></complexType></element>
+    				</sequence>
+    			</complexType>
+            </element>
+
+
+
+
+    	</sequence>
     </complexType>
 </schema>
