@@ -31,6 +31,7 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -44,9 +45,11 @@ public class NEIsoEDTestCases extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/psse/test_model_V30.raw", SpringAppContext.getIpssMsgHub());
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+		AclfNetwork net = simuCtx.getAclfAdjNet();
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.setNonDivergent(true);
 	  	algo.setLfMethod(AclfMethod.NR);
+	  	net.setBypassDataCheck(true);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
   		//System.out.println(net.net2String());
 	}
