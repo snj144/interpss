@@ -99,24 +99,6 @@ public class PSSE2IpssUtilFunc {
 		// Base Frequency is not used in loadflow calculation, dedined as 60.0 Hz
 		adjNet.setFrequency(60.0);
 		
-		for( Branch bra : adjNet.getBranchList()) {
-			if (bra.isZeroImpedenceBranch()) {
-				bra.processZeroImpedenceBranch();
-			}
-		}
-		IpssLogger.getLogger().info("Total bus, active bus: " + adjNet.getNoBus() + ", " + adjNet.getNoActiveBus());
-		IpssLogger.getLogger().info("Total branch, active branch: " + adjNet.getNoBranch() + ", " + adjNet.getNoActiveBranch());
-		String str ="";
-		for( Bus b : adjNet.getBusList()) {
-			if (b.isParent()) {
-				str +="[" + b.getId() + " ->( ";
-				for (Bus child : b.getBusSecList())
-					str += child.getId() + " ";
-				str += ")]\n";
-			}
-		}
-		IpssLogger.getLogger().info(str);
-		
 		for( Bus b : adjNet.getBusList()) {
 			AclfBus bus = (AclfBus)b;
 			if (bus.isActive()) {
