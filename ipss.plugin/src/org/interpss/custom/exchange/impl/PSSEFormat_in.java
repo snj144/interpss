@@ -55,6 +55,8 @@ import org.interpss.custom.exchange.psse.PSSEXfrDataRec;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfNetwork;
 
@@ -289,6 +291,25 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
   		
   		if (PSSE2IpssUtilFunc.transferData(adjNet, msg)) {
   	  		IpssLogger.getLogger().info("PSS/E data has been converted to InterPSS model");
+  	  		/*
+ 			for( Branch bra : adjNet.getBranchList()) {
+  				if (bra.isActive() && bra.isZeroImpedanceBranch()) {
+  					bra.processZeroImpedanceBranch(adjNet);
+  				}
+  			}
+  			IpssLogger.getLogger().info("Total bus, active bus: " + adjNet.getNoBus() + ", " + adjNet.getNoActiveBus());
+  			IpssLogger.getLogger().info("Total branch, active branch: " + adjNet.getNoBranch() + ", " + adjNet.getNoActiveBranch());
+  			String str ="";
+  			for( Bus b : adjNet.getBusList()) {
+  				if (b.isParent()) {
+  					str +="[" + b.getId() + " ->( ";
+  					for (Bus child : b.getBusSecList())
+  						str += child.getId() + " ";
+  					str += ")]\n";
+  				}
+  			}
+  			//IpssLogger.getLogger().info(str);
+  			 */
   			return adjNet;
   		}	
   		else
