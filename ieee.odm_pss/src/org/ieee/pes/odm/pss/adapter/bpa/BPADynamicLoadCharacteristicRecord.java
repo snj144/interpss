@@ -24,39 +24,16 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import java.text.NumberFormat;
-
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPADynamicLoadCharacteristicRecord {
 	
 public static void processLoadCharacteristicData(String str,TransientSimulationXmlType tranSimu,
-	        LoadCharacteristicXmlType load){
-	final String[] strAry= getLoadDataFields(str ); 	
+	        LoadCharacteristicXmlType load,BPAAdapter adapter){
+	final String[] strAry= getLoadDataFields(str ,adapter); 	
 
 	//busId
 	String busId="";
@@ -154,47 +131,49 @@ public static void processLoadCharacteristicData(String str,TransientSimulationX
 	// to do	
 	}
 }
-private static String[] getLoadDataFields(String str){
+private static String[] getLoadDataFields(String str, BPAAdapter adapter){
 	final String[] strAry= new String[19];
-	if(str.substring(0, 2).trim().equals("LA")||str.substring(0, 2).trim().equals("LB")){
-		strAry[0]=str.substring(0, 2).trim();
-		//busId
-		strAry[1]=str.substring(3, 11).trim();
-		//bus Voltage
-		strAry[2]=str.substring(11, 15).trim();
-		//zone name
-		strAry[3]=str.substring(15, 17).trim();
-		//area name
-		strAry[4]=str.substring(17, 27).trim();
-		//pz
-		strAry[5]=str.substring(27, 32).trim();
-		//qz
-		strAry[6]=str.substring(32, 37).trim();
-		//pi
-		strAry[7]=str.substring(37, 42).trim();
-		//qi
-		strAry[8]=str.substring(42, 47).trim();
-		// pp
-		strAry[9]=str.substring(47, 52).trim();
-		//qp
-		strAry[10]=str.substring(52, 57).trim();
-		//pf
-		strAry[11]=str.substring(57, 62).trim();
-		// qf
-		strAry[12]=str.substring(62, 67).trim();
-		//Ldp
-		strAry[13]=str.substring(67, 72).trim();
-		//Ldq
-		strAry[14]=str.substring(72, 77).trim();
-		
-		
-	}else if(str.substring(0, 2).trim().equals("MI")){
-		
+	
+	try{
+		if(str.substring(0, 2).trim().equals("LA")||str.substring(0, 2).trim().equals("LB")){
+			strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+			//busId
+			strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+			//bus Voltage
+			strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+			//zone name
+			strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 17).trim();
+			//area name
+			strAry[4]=StringUtil.getStringReturnEmptyString(str,18, 27).trim();
+			//pz
+			strAry[5]=StringUtil.getStringReturnEmptyString(str,28, 32).trim();
+			//qz
+			strAry[6]=StringUtil.getStringReturnEmptyString(str,33, 37).trim();
+			//pi
+			strAry[7]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
+			//qi
+			strAry[8]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+			// pp
+			strAry[9]=StringUtil.getStringReturnEmptyString(str,48, 52).trim();
+			//qp
+			strAry[10]=StringUtil.getStringReturnEmptyString(str,53, 57).trim();
+			//pf
+			strAry[11]=StringUtil.getStringReturnEmptyString(str,58, 62).trim();
+			// qf
+			strAry[12]=StringUtil.getStringReturnEmptyString(str,63, 67).trim();
+			//Ldp
+			strAry[13]=StringUtil.getStringReturnEmptyString(str,68, 72).trim();
+			//Ldq
+			strAry[14]=StringUtil.getStringReturnEmptyString(str,73, 77).trim();
+			
+				
+	   }else if(str.substring(0, 2).trim().equals("MI")){
+			
+		 }
+	
+	}catch( Exception e){
+		adapter.logErr(e.toString());
 	}
-	
-	
-	
-	
 	return strAry;
 }
 	

@@ -24,40 +24,22 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import java.text.NumberFormat;
-
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 
 public class BPADynamicPSSRecord {
 	
 	public static void processPSSData(String str,TransientSimulationXmlType tranSimu,
-    		IEEEODMPSSModelParser parser){
-    	final String[] strAry= getPSSDataFields(str);
+    		IEEEODMPSSModelParser parser, BPAAdapter adapter){
+    	final String[] strAry= getPSSDataFields(str,adapter);
     	
     	if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
     			||str.substring(0, 3).trim().equals("SG")){
@@ -147,7 +129,10 @@ public class BPADynamicPSSRecord {
     		}		
     		
     		//VSMAX
-    		double vsmax= new Double(strAry[15]).doubleValue();
+    		double vsmax=0.0;
+    		if(!strAry[15].equals("")){
+    			vsmax= new Double(strAry[15]).doubleValue();
+    		}    		
     		ODMData2XmlHelper.setPUData(tstpss.addNewVSMAX(), vsmax, PerUnitXmlType.Unit.PU);
     			
     		//VCUTOFF
@@ -239,11 +224,17 @@ public class BPADynamicPSSRecord {
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT9(), t9, TimeXmlType.Unit.SEC);
     		
     		//T10
-    		double  t10=new Double(strAry[15]).doubleValue();
+    		double t10=0.0;
+    		if(!strAry[15].equals("")){
+    			 t10=new Double(strAry[15]).doubleValue();
+    		}    		
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT10(), t10, TimeXmlType.Unit.SEC);
     		
     		//T12
-    		double  t12=new Double(strAry[16]).doubleValue();
+    		double t12=0.0;
+    		if(!strAry[16].equals("")){
+    			 t12=new Double(strAry[16]).doubleValue();
+    		}    		
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT12(), t12, TimeXmlType.Unit.SEC);
     	
     		//INP input signal:0for w and Pg, 1 for w, 2for pg
@@ -302,7 +293,10 @@ public class BPADynamicPSSRecord {
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT3(), t3, TimeXmlType.Unit.SEC);
     		
     		//T4
-    		double  t4=new Double(strAry[10]).doubleValue();
+    		double  t4=0.0;
+    		if(!strAry[10].equals("")){
+    			t4=new Double(strAry[10]).doubleValue();
+    		}    		
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT4(), t4, TimeXmlType.Unit.SEC);
     		
     		//VSMAX
@@ -310,127 +304,136 @@ public class BPADynamicPSSRecord {
     		ODMData2XmlHelper.setPUData(dualInputPss.addNewVSMAX(), vsmax, PerUnitXmlType.Unit.PU);
     		
     		// VSMIN
-    		double vsmin= new Double(strAry[12]).doubleValue();
+    		double vsmin=0.0;
+    		if(!strAry[12].equals("")){
+    			vsmin= new Double(strAry[12]).doubleValue();
+    		}    		
     		ODMData2XmlHelper.setPUData(dualInputPss.addNewVSMIN(), vsmin, PerUnitXmlType.Unit.PU);
     		   		
     	}
     	
     }
 	
-	private static String[] getPSSDataFields(String str){
+	private static String[] getPSSDataFields(String str, BPAAdapter adapter){
     	final String[] strAry= new String[20];
     	
-    	if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
-    			||str.substring(0, 3).trim().equals("SG")){
-    		strAry[0]=str.substring(0, 2).trim();
-    		//busId
-    		strAry[1]=str.substring(3, 11).trim();
-    		//bus Voltage
-    		strAry[2]=str.substring(11, 15).trim();
-    		//excId
-    		strAry[3]=str.substring(15, 16).trim();
-    		//KQV 
-    		strAry[4]=str.substring(16, 20).trim();
-    		//TQV
-    		strAry[5]=str.substring(20, 23).trim();
-    		//KQS
-    		strAry[6]=str.substring(23, 27).trim();
-    		//TQS
-    		strAry[7]=str.substring(27, 30).trim();
-    		//TQ
-    		strAry[8]=str.substring(30, 34).trim();
-    		// TQ1
-    		strAry[9]=str.substring(34, 38).trim();
-    		//TQ11
-    		strAry[10]=str.substring(38, 42).trim();
-    		//TQ2
-    		strAry[11]=str.substring(42, 46).trim();
-    		// TQ21
-    		strAry[12]=str.substring(46, 50).trim();
-    		//TQ3
-    		strAry[13]=str.substring(50, 54).trim();
-    		//TQ31
-    		strAry[14]=str.substring(54, 58).trim();
-    		//VSMAX
-    		strAry[15]=str.substring(58, 62).trim();	
-    		//VCUTOFF
-    		strAry[16]=str.substring(62, 66).trim();
-    		//VSLOW
-    		strAry[17]=str.substring(66, 68).trim();
-    		//REMOTE BUS
-    		strAry[18]=str.substring(68, 76).trim();
-    		//REMOTE VOLTAGE,  KQS MVAbase for SP SG
-    		strAry[19]=str.substring(76, 80).trim();
-    		
-    	}else if(str.substring(0, 3).trim().equals("SI")){
-    		
-    		strAry[0]=str.substring(0, 2).trim();
-    		//busId
-    		strAry[1]=str.substring(3, 11).trim();
-    		//bus Voltage
-    		strAry[2]=str.substring(11, 15).trim();
-    		//excId
-    		strAry[3]=str.substring(15, 16).trim();
-    		//TRW
-    		strAry[4]=str.substring(16, 20).trim();
-    		//T5
-    		strAry[5]=str.substring(20, 25).trim();
-    		//T6
-    		strAry[6]=str.substring(25, 30).trim();
-    		//T7
-    		strAry[7]=str.substring(30, 35).trim();
-    		//KR
-    		strAry[8]=str.substring(35, 41).trim();
-    		// TRP
-    		strAry[9]=str.substring(41, 45).trim();
-    		//TW
-    		strAry[10]=str.substring(45, 50).trim();
-    		//TW1
-    		strAry[11]=str.substring(50, 55).trim();
-    		// TW2
-    		strAry[12]=str.substring(55, 60).trim();
-    		//KS
-    		strAry[13]=str.substring(60, 64).trim();
-    		//T9
-    		strAry[14]=str.substring(64, 69).trim();
-    		//T10
-    		strAry[15]=str.substring(69, 74).trim();	
-    		//T12
-    		strAry[16]=str.substring(74, 79).trim();
-    		//INP input signal:0for w and Pg, 1 for w, 2for pg
-    		strAry[17]=str.substring(79, 80).trim();
-    		
-    		
-    	}else if(str.substring(0, 3).trim().equals("SI+")){
-    		strAry[0]=str.substring(0, 2).trim();
-    		//busId
-    		strAry[1]=str.substring(3, 11).trim();
-    		//bus Voltage
-    		strAry[2]=str.substring(11, 15).trim();
-    		//excId
-    		strAry[3]=str.substring(15, 16).trim();
-    		//KP
-    		strAry[4]=str.substring(16, 21).trim();
-    		//T1
-    		strAry[5]=str.substring(21, 26).trim();
-    		//T2
-    		strAry[6]=str.substring(26, 31).trim();
-    		//T13
-    		strAry[7]=str.substring(31, 36).trim();
-    		//T14
-    		strAry[8]=str.substring(36, 41).trim();
-    		// T3
-    		strAry[9]=str.substring(41, 46).trim();
-    		//T4
-    		strAry[10]=str.substring(46, 51).trim();
-    		//VSMAX
-    		strAry[11]=str.substring(51, 57).trim();
-    		// VSMIN
-    		strAry[12]=str.substring(57, 63).trim();
-    		//KMVA, MVAbase for kr in SI 
-    		strAry[13]=str.substring(76, 80).trim();
-    		
-    	}    	
+    	try{
+    		if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
+        			||str.substring(0, 3).trim().equals("SG")){
+        		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+        		//busId
+        		strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+        		//bus Voltage
+        		strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+        		//excId
+        		strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+        		//KQV 
+        		strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 20).trim();
+        		//TQV
+        		strAry[5]=StringUtil.getStringReturnEmptyString(str,21, 23).trim();
+        		//KQS
+        		strAry[6]=StringUtil.getStringReturnEmptyString(str,24, 27).trim();
+        		//TQS
+        		strAry[7]=StringUtil.getStringReturnEmptyString(str,28, 30).trim();
+        		//TQ
+        		strAry[8]=StringUtil.getStringReturnEmptyString(str,31, 34).trim();
+        		// TQ1
+        		strAry[9]=StringUtil.getStringReturnEmptyString(str,35, 38).trim();
+        		//TQ11
+        		strAry[10]=StringUtil.getStringReturnEmptyString(str,39, 42).trim();
+        		//TQ2
+        		strAry[11]=StringUtil.getStringReturnEmptyString(str,43, 46).trim();
+        		// TQ21
+        		strAry[12]=StringUtil.getStringReturnEmptyString(str,47, 50).trim();
+        		//TQ3
+        		strAry[13]=StringUtil.getStringReturnEmptyString(str,51, 54).trim();
+        		//TQ31
+        		strAry[14]=StringUtil.getStringReturnEmptyString(str,55, 58).trim();
+        		//VSMAX
+        		strAry[15]=StringUtil.getStringReturnEmptyString(str,59, 62).trim();	
+        		//VCUTOFF
+        		strAry[16]=StringUtil.getStringReturnEmptyString(str,63, 66).trim();
+        		//VSLOW
+        		strAry[17]=StringUtil.getStringReturnEmptyString(str,67, 68).trim();
+        		//REMOTE BUS
+        		strAry[18]=StringUtil.getStringReturnEmptyString(str,69, 76).trim();
+        		//REMOTE VOLTAGE,  KQS MVAbase for SP SG
+        		strAry[19]=StringUtil.getStringReturnEmptyString(str,77, 80).trim();
+        		
+        	}else if(str.substring(0, 3).trim().equals("SI")){
+        		
+        		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+        		//busId
+        		strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+        		//bus Voltage
+        		strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+        		//excId
+        		strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+        		//TRW
+        		strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 20).trim();
+        		//T5
+        		strAry[5]=StringUtil.getStringReturnEmptyString(str,21, 25).trim();
+        		//T6
+        		strAry[6]=StringUtil.getStringReturnEmptyString(str,26, 30).trim();
+        		//T7
+        		strAry[7]=StringUtil.getStringReturnEmptyString(str,31, 35).trim();
+        		//KR
+        		strAry[8]=StringUtil.getStringReturnEmptyString(str,36, 41).trim();
+        		// TRP
+        		strAry[9]=StringUtil.getStringReturnEmptyString(str,42, 45).trim();
+        		//TW
+        		strAry[10]=StringUtil.getStringReturnEmptyString(str,46, 50).trim();
+        		//TW1
+        		strAry[11]=StringUtil.getStringReturnEmptyString(str,51, 55).trim();
+        		// TW2
+        		strAry[12]=StringUtil.getStringReturnEmptyString(str,56, 60).trim();
+        		//KS
+        		strAry[13]=StringUtil.getStringReturnEmptyString(str,61, 64).trim();
+        		//T9
+        		strAry[14]=StringUtil.getStringReturnEmptyString(str,65, 69).trim();
+        		//T10
+        		strAry[15]=StringUtil.getStringReturnEmptyString(str,70, 74).trim();	
+        		//T12
+        		strAry[16]=StringUtil.getStringReturnEmptyString(str,75, 79).trim();
+        		//INP input signal:0for w and Pg, 1 for w, 2for pg
+        		strAry[17]=StringUtil.getStringReturnEmptyString(str,80, 80).trim();
+        		
+        		
+        	}else if(str.substring(0, 3).trim().equals("SI+")){
+        		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 3).trim();
+        		//busId
+        		strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+        		//bus Voltage
+        		strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+        		//excId
+        		strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+        		//KP
+        		strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+        		//T1
+        		strAry[5]=StringUtil.getStringReturnEmptyString(str,22, 26).trim();
+        		//T2
+        		strAry[6]=StringUtil.getStringReturnEmptyString(str,27, 31).trim();
+        		//T13
+        		strAry[7]=StringUtil.getStringReturnEmptyString(str,32, 36).trim();
+        		//T14
+        		strAry[8]=StringUtil.getStringReturnEmptyString(str,37, 41).trim();
+        		// T3
+        		strAry[9]=StringUtil.getStringReturnEmptyString(str,42, 46).trim();
+        		//T4
+        		strAry[10]=StringUtil.getStringReturnEmptyString(str,47, 51).trim();
+        		//VSMAX
+        		strAry[11]=StringUtil.getStringReturnEmptyString(str,52, 57).trim();
+        		// VSMIN
+        		strAry[12]=StringUtil.getStringReturnEmptyString(str,58, 63).trim();
+        		//KMVA, MVAbase for kr in SI 
+        		strAry[13]=StringUtil.getStringReturnEmptyString(str,77, 80).trim();
+        		
+        	}
+    	}catch (Exception e){
+    		adapter.logErr(e.toString());
+    	}
+    	
+    	    	
     	return strAry;
     }
 

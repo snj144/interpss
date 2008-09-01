@@ -24,39 +24,21 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import java.text.NumberFormat;
-
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPADynamicExciterRecord {
 	
 	public static void processExciterData(String str, TransientSimulationXmlType tranSimu,
-    		IEEEODMPSSModelParser parser   ){
-    	final String strAry[]=getExciterDataFields(str);
+    		IEEEODMPSSModelParser parser ,BPAAdapter adapter  ){
+    	final String strAry[]=getExciterDataFields(str,adapter);
     	
     	int type=0;
     	int EA=1;
@@ -503,7 +485,10 @@ public class BPADynamicExciterRecord {
             				VLIR, PerUnitXmlType.Unit.PU);
         		}			
     			//EFDMAX
-    			double EFDMAX= new Double(strAry[18]).doubleValue();
+        		double EFDMAX=0.0;
+        		if(!strAry[18].equals("")){
+        			EFDMAX= new Double(strAry[18]).doubleValue();
+        		}    			
         		ODMData2XmlHelper.setPUData(newExc.addNewEFDmax(), 
         				EFDMAX, PerUnitXmlType.Unit.PU);
         		//SE2--EFDMAX
@@ -517,202 +502,209 @@ public class BPADynamicExciterRecord {
     	}		
 	}
 	
-	 private static String[] getExciterDataFields ( final String str) {
+	 private static String[] getExciterDataFields ( final String str
+			 ,BPAAdapter adapter  ) {
 			
 	    	
-	    	final String[] strAry = new String[19];		
+	    	final String[] strAry = new String[19];	
+	    	
+	    	try{
+	    		if(str.substring(0,1).trim().equals("E")){
+					strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//TR
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 20).trim();
+					//KA for all, KV for EE
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,21, 25).trim();
+					//TA for all, TRH for EE
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,26, 29).trim();
+					//TA1
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,30, 33).trim();
+					//VRminMult, VRmax, VRmin for ED EJ
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,34, 37).trim();
+					// KE
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,38, 41).trim();
+					//TE
+					strAry[10]=StringUtil.getStringReturnEmptyString(str,42, 45).trim();
+					//SE0.75MAX for all, KI for DD
+					strAry[11]=StringUtil.getStringReturnEmptyString(str,46, 49).trim();
+					// SEmax for all, Kp for DD
+					strAry[12]=StringUtil.getStringReturnEmptyString(str,50, 53).trim();
+					//EFDMin
+					strAry[13]=StringUtil.getStringReturnEmptyString(str,54, 58).trim();
+					//EFDMax for all, VNmax for ED
+					strAry[14]=StringUtil.getStringReturnEmptyString(str,59, 62).trim();
+					//KF
+					strAry[15]=StringUtil.getStringReturnEmptyString(str,63, 66).trim();
+					//TF
+					strAry[16]=StringUtil.getStringReturnEmptyString(str,67, 70).trim();
+					// XL for ED
+					strAry[17]=StringUtil.getStringReturnEmptyString(str,71, 75).trim();
+					//TF1 for ED
+					strAry[18]=StringUtil.getStringReturnEmptyString(str,76, 80).trim();
+					
+				}else if(str.substring(0, 2).trim().equals("FA")||
+						str.substring(0, 2).trim().equals("FB")||str.substring(0, 2).trim().equals("FC")
+						||str.substring(0, 2).trim().equals("FD")||str.substring(0, 2).trim().equals("FE")||
+						str.substring(0, 2).trim().equals("FF")||str.substring(0, 2).trim().equals("FG")
+						||str.substring(0, 2).trim().equals("FH")||str.substring(0, 2).trim().equals("FJ")
+						||str.substring(0, 2).trim().equals("FK")||str.substring(0, 2).trim().equals("FL")
+						){
+					
+					strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//Rc
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+					//Xc
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,22, 26).trim();
+					//TR
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,27, 31).trim();
+					//VIMax for G K L,VAmax for FF
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,32, 36).trim();
+					//VIMin for G K L,VAmin for FF
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,37, 41).trim();
+					// TB
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,42, 46).trim();
+					//TC
+					strAry[10]=StringUtil.getStringReturnEmptyString(str,47, 51).trim();
+					//KA, KV for FE
+					strAry[11]=StringUtil.getStringReturnEmptyString(str,52, 56).trim();
+					// TA, TRH for FE
+					strAry[12]=StringUtil.getStringReturnEmptyString(str,57, 61).trim();
+					//VRmax, Vamax for FH
+					strAry[13]=StringUtil.getStringReturnEmptyString(str,62, 66).trim();
+					//VRmin, Vamin
+					strAry[14]=StringUtil.getStringReturnEmptyString(str,67, 71).trim();
+					//KE, KJ for FL
+					strAry[15]=StringUtil.getStringReturnEmptyString(str,72, 76).trim();
+					//TE
+					strAry[16]=StringUtil.getStringReturnEmptyString(str,77, 80).trim();
+				}else if(str.substring(0, 2).trim().equals("FQ")||str.substring(0, 2).trim().equals("FV")){
+					
+					strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//Rc
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 20).trim();
+					//Xc
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,21, 24).trim();
+					//TR
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,25, 29).trim();
+					//K
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,30, 34).trim();
+					//Kv
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,35, 37).trim();
+					// T1
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
+					//T2
+					strAry[10]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+					//K3
+					strAry[11]=StringUtil.getStringReturnEmptyString(str,48, 52).trim();
+					// T4
+					strAry[12]=StringUtil.getStringReturnEmptyString(str,53, 57).trim();
+					//KA
+					strAry[13]=StringUtil.getStringReturnEmptyString(str,58, 62).trim();
+					//TA
+					strAry[14]=StringUtil.getStringReturnEmptyString(str,63, 67).trim();
+					//KF
+					strAry[15]=StringUtil.getStringReturnEmptyString(str,68, 72).trim();
+					//TF
+					strAry[16]=StringUtil.getStringReturnEmptyString(str,73, 76).trim();
+					//KH
+					strAry[17]=StringUtil.getStringReturnEmptyString(str,77, 80).trim();
+				}
+				else if(str.substring(0,2).trim().equals("FZ")){
+					strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//SE1, 
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+					//SE2, 
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,22, 26).trim();
+					//EFDmin
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,27, 31).trim();
+					//
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,32, 36).trim();
+					//KF
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,37, 41).trim();
+					// TF
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,42, 46).trim();
+					//KC
+					strAry[10]=StringUtil.getStringReturnEmptyString(str,47, 51).trim();
+					//KD
+					strAry[11]=StringUtil.getStringReturnEmptyString(str,52, 56).trim();
+					// 
+					strAry[12]=StringUtil.getStringReturnEmptyString(str,57, 61).trim();
+					//
+					strAry[13]=StringUtil.getStringReturnEmptyString(str,62, 66).trim();
+					//
+					strAry[14]=StringUtil.getStringReturnEmptyString(str,67, 71).trim();
+					//
+					strAry[15]=StringUtil.getStringReturnEmptyString(str,72, 76).trim();			
+					
+				}else if(str.substring(0,2).trim().equals("F+")){
+					strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//VAMAX 
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+					//VAMIN 
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,22, 26).trim();
+					//KB
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
+					//T5
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,31, 34).trim();
+					//KE
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,35, 38).trim();
+					// TE
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,40, 42).trim();
+					//SE1-0.75
+					strAry[10]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+					//SE2--EFDMAX
+					strAry[11]=StringUtil.getStringReturnEmptyString(str,48, 52).trim();
+					// VRMAX
+					strAry[12]=StringUtil.getStringReturnEmptyString(str,53, 56).trim();
+					//VRMIN
+					strAry[13]=StringUtil.getStringReturnEmptyString(str,57, 60).trim();
+					//KC
+					strAry[14]=StringUtil.getStringReturnEmptyString(str,61, 64).trim();
+					//KD
+					strAry[15]=StringUtil.getStringReturnEmptyString(str,65, 68).trim();	
+					//KL1
+					strAry[16]=StringUtil.getStringReturnEmptyString(str,69, 72).trim();
+					//VLIR
+					strAry[17]=StringUtil.getStringReturnEmptyString(str,73, 76).trim();
+					//EFDMAX
+					strAry[18]=StringUtil.getStringReturnEmptyString(str,77, 80).trim();
+					
+				}
+	    	}catch (Exception e){
+	    		adapter.logErr(e.toString());
+	    	}
 			
-			if(str.substring(0,1).trim().equals("E")){
-				strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//TR
-				strAry[4]=str.substring(16, 20).trim();
-				//KA for all, KV for EE
-				strAry[5]=str.substring(20, 25).trim();
-				//TA for all, TRH for EE
-				strAry[6]=str.substring(25, 29).trim();
-				//TA1
-				strAry[7]=str.substring(29, 33).trim();
-				//VRminMult, VRmax, VRmin for ED EJ
-				strAry[8]=str.substring(33, 37).trim();
-				// KE
-				strAry[9]=str.substring(37, 41).trim();
-				//TE
-				strAry[10]=str.substring(41, 45).trim();
-				//SE0.75MAX for all, KI for DD
-				strAry[11]=str.substring(45, 49).trim();
-				// SEmax for all, Kp for DD
-				strAry[12]=str.substring(49, 53).trim();
-				//EFDMin
-				strAry[13]=str.substring(53, 58).trim();
-				//EFDMax for all, VNmax for ED
-				strAry[14]=str.substring(58, 62).trim();
-				//KF
-				strAry[15]=str.substring(62, 66).trim();
-				//TF
-				strAry[16]=str.substring(66, 70).trim();
-				// XL for ED
-				strAry[17]=str.substring(70, 75).trim();
-				//TF1 for ED
-				strAry[18]=str.substring(75, 80).trim();
-				
-			}else if(str.substring(0, 2).trim().equals("FA")||
-					str.substring(0, 2).trim().equals("FB")||str.substring(0, 2).trim().equals("FC")
-					||str.substring(0, 2).trim().equals("FD")||str.substring(0, 2).trim().equals("FE")||
-					str.substring(0, 2).trim().equals("FF")||str.substring(0, 2).trim().equals("FG")
-					||str.substring(0, 2).trim().equals("FH")||str.substring(0, 2).trim().equals("FJ")
-					||str.substring(0, 2).trim().equals("FK")||str.substring(0, 2).trim().equals("FL")
-					){
-				
-				strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//Rc
-				strAry[4]=str.substring(16, 21).trim();
-				//Xc
-				strAry[5]=str.substring(21, 26).trim();
-				//TR
-				strAry[6]=str.substring(26, 31).trim();
-				//VIMax for G K L,VAmax for FF
-				strAry[7]=str.substring(31, 36).trim();
-				//VIMin for G K L,VAmin for FF
-				strAry[8]=str.substring(36, 41).trim();
-				// TB
-				strAry[9]=str.substring(41, 46).trim();
-				//TC
-				strAry[10]=str.substring(46, 51).trim();
-				//KA, KV for FE
-				strAry[11]=str.substring(51, 56).trim();
-				// TA, TRH for FE
-				strAry[12]=str.substring(56, 61).trim();
-				//VRmax, Vamax for FH
-				strAry[13]=str.substring(61, 66).trim();
-				//VRmin, Vamin
-				strAry[14]=str.substring(66, 71).trim();
-				//KE, KJ for FL
-				strAry[15]=str.substring(71, 76).trim();
-				//TE
-				strAry[16]=str.substring(76, 80).trim();
-			}else if(str.substring(0, 2).trim().equals("FQ")||str.substring(0, 2).trim().equals("FV")){
-				
-				strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//Rc
-				strAry[4]=str.substring(16, 20).trim();
-				//Xc
-				strAry[5]=str.substring(20, 24).trim();
-				//TR
-				strAry[6]=str.substring(24, 29).trim();
-				//K
-				strAry[7]=str.substring(29, 34).trim();
-				//Kv
-				strAry[8]=str.substring(34, 37).trim();
-				// T1
-				strAry[9]=str.substring(37, 42).trim();
-				//T2
-				strAry[10]=str.substring(42, 47).trim();
-				//K3
-				strAry[11]=str.substring(47, 52).trim();
-				// T4
-				strAry[12]=str.substring(52, 57).trim();
-				//KA
-				strAry[13]=str.substring(57, 62).trim();
-				//TA
-				strAry[14]=str.substring(62, 67).trim();
-				//KF
-				strAry[15]=str.substring(67, 72).trim();
-				//TF
-				strAry[16]=str.substring(72, 76).trim();
-				//KH
-				strAry[17]=str.substring(76, 80).trim();
-			}
-			else if(str.substring(0,2).trim().equals("FZ")){
-				strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//SE1, 
-				strAry[4]=str.substring(16, 21).trim();
-				//SE2, 
-				strAry[5]=str.substring(21, 26).trim();
-				//EFDmin
-				strAry[6]=str.substring(26, 31).trim();
-				//
-				strAry[7]=str.substring(31, 36).trim();
-				//KF
-				strAry[8]=str.substring(36, 41).trim();
-				// TF
-				strAry[9]=str.substring(41, 46).trim();
-				//KC
-				strAry[10]=str.substring(46, 51).trim();
-				//KD
-				strAry[11]=str.substring(51, 56).trim();
-				// 
-				strAry[12]=str.substring(56, 61).trim();
-				//
-				strAry[13]=str.substring(61, 66).trim();
-				//
-				strAry[14]=str.substring(66, 71).trim();
-				//
-				strAry[15]=str.substring(71, 76).trim();			
-				
-			}else if(str.substring(0,2).trim().equals("F+")){
-				strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//VAMAX 
-				strAry[4]=str.substring(16, 21).trim();
-				//VAMIN 
-				strAry[5]=str.substring(21, 26).trim();
-				//KB
-				strAry[6]=str.substring(26, 30).trim();
-				//T5
-				strAry[7]=str.substring(30, 34).trim();
-				//KE
-				strAry[8]=str.substring(34, 38).trim();
-				// TE
-				strAry[9]=str.substring(39, 42).trim();
-				//SE1-0.75
-				strAry[10]=str.substring(42, 47).trim();
-				//SE2--EFDMAX
-				strAry[11]=str.substring(47, 52).trim();
-				// VRMAX
-				strAry[12]=str.substring(52, 56).trim();
-				//VRMIN
-				strAry[13]=str.substring(56, 60).trim();
-				//KC
-				strAry[14]=str.substring(60, 64).trim();
-				//KD
-				strAry[15]=str.substring(64, 68).trim();	
-				//KL1
-				strAry[16]=str.substring(68, 72).trim();
-				//VLIR
-				strAry[17]=str.substring(72, 76).trim();
-				//EFDMAX
-				strAry[18]=str.substring(76, 80).trim();
-				
-			}
+			
 			
 	        return strAry;
 	        

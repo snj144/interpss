@@ -25,22 +25,22 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NegativeSequenceDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 
 public class BPADynamicSequenceRecord {
 
 	public static void processSequenceData(String str, TransientSimulationXmlType tranSimu
-			,IEEEODMPSSModelParser parser){				
+			,IEEEODMPSSModelParser parser, BPAAdapter adapter){				
 		
-		final String strAry[]=getSequenceDataFields(str);
+		final String strAry[]=getSequenceDataFields(str,adapter);
 		// positive sequence data		
 		// to do  
 		// zero sequence data
@@ -272,88 +272,94 @@ public class BPADynamicSequenceRecord {
 		}	
 	}	
 	
-	private static String[] getSequenceDataFields(String str){
+	private static String[] getSequenceDataFields(String str,BPAAdapter adapter){
 		final String[] strAry= new String[13];
-		if(str.substring(0, 2).startsWith("XO")){
-			strAry[0]=str.substring(0, 2).trim();
-    		//bus1
-    		strAry[1]=str.substring(4, 12).trim();
-    		//bus1 Voltage
-    		strAry[2]=str.substring(12, 16).trim();
-    		//bus2
-    		strAry[3]=str.substring(18, 26).trim();
-    		//bus2 Voltage
-    		strAry[4]=str.substring(26, 30).trim();
-    		//zrLocation
-    		strAry[5]=str.substring(31, 32).trim();
-    		//par
-    		strAry[6]=str.substring(33, 34).trim();
-    		//X0
-    		strAry[7]=str.substring(37, 44).trim();
-    		//R0
-    		strAry[8]=str.substring(44, 51).trim();			
-			
-		}else if(str.substring(0, 2).startsWith("XR")){			
-			strAry[0]=str.substring(0, 2).trim();
-    		//bus1
-    		strAry[1]=str.substring(4, 12).trim();
-    		//bus1 Voltage
-    		strAry[2]=str.substring(12, 16).trim();
-    		//r0
-    		strAry[3]=str.substring(22, 28).trim();
-    		//x0
-    		strAry[4]=str.substring(28, 35).trim();
-		}else if(str.substring(0, 2).startsWith("LO")){			
-			strAry[0]=str.substring(0, 2).trim();
-    		//bus1
-    		strAry[1]=str.substring(4, 12).trim();
-    		//bus1 Voltage
-    		strAry[2]=str.substring(12, 16).trim();
-    		//bus2
-    		strAry[3]=str.substring(18, 26).trim();
-    		//bus2 Voltage
-    		strAry[4]=str.substring(26, 30).trim();    		
-    		//par
-    		strAry[6]=str.substring(32, 33).trim();
-    		//R0
-    		strAry[7]=str.substring(35, 42).trim();
-    		//X0
-    		strAry[8]=str.substring(42, 49).trim();
-    		//G1
-    		strAry[9]=str.substring(49, 56).trim();
-    		//B1
-    		strAry[10]=str.substring(56, 63).trim();
-    		//G2
-    		strAry[11]=str.substring(63, 70).trim();
-    		//B2
-    		strAry[12]=str.substring(70, 77).trim();
-		}else if(str.substring(0, 2).startsWith("LM")){
-			strAry[0]=str.substring(0, 2).trim();
-    		//busI line 1
-    		strAry[1]=str.substring(4, 12).trim();
-    		//busI Voltage
-    		strAry[2]=str.substring(12, 16).trim();
-    		//busJ line 1
-    		strAry[3]=str.substring(18, 26).trim();
-    		//busJ Voltage
-    		strAry[4]=str.substring(26, 30).trim();    		
-    		//par
-    		strAry[5]=str.substring(32, 33).trim();
-    		//busK line2
-    		strAry[6]=str.substring(35, 43).trim();
-    		//busk voltage
-    		strAry[7]=str.substring(43, 47).trim();
-    		//busL line2
-    		strAry[8]=str.substring(49, 57).trim();
-    		//busL voltage
-    		strAry[9]=str.substring(57, 61).trim();
-    		//par2
-    		strAry[10]=str.substring(63, 64).trim();
-    		//r
-    		strAry[11]=str.substring(66, 73).trim();
-    		//x
-    		strAry[12]=str.substring(73, 80).trim();
-		}		
+		
+		try{
+			if(str.substring(0, 2).startsWith("XO")){
+				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//bus1
+	    		strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		//bus1 Voltage
+	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		//bus2
+	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		//bus2 Voltage
+	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
+	    		//zrLocation
+	    		strAry[5]=StringUtil.getStringReturnEmptyString(str,32, 32).trim();
+	    		//par
+	    		strAry[6]=StringUtil.getStringReturnEmptyString(str,34, 34).trim();
+	    		//X0
+	    		strAry[7]=StringUtil.getStringReturnEmptyString(str,38, 44).trim();
+	    		//R0
+	    		strAry[8]=StringUtil.getStringReturnEmptyString(str,45, 51).trim();			
+				
+			}else if(str.substring(0, 2).startsWith("XR")){			
+				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//bus1
+	    		strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		//bus1 Voltage
+	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		//r0
+	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,23, 28).trim();
+	    		//x0
+	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,29, 35).trim();
+			}else if(str.substring(0, 2).startsWith("LO")){			
+				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//bus1
+	    		strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		//bus1 Voltage
+	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		//bus2
+	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		//bus2 Voltage
+	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
+	    		//par
+	    		strAry[6]=StringUtil.getStringReturnEmptyString(str,33, 33).trim();
+	    		//R0
+	    		strAry[7]=StringUtil.getStringReturnEmptyString(str,36, 42).trim();
+	    		//X0
+	    		strAry[8]=StringUtil.getStringReturnEmptyString(str,43, 49).trim();
+	    		//G1
+	    		strAry[9]=StringUtil.getStringReturnEmptyString(str,50, 56).trim();
+	    		//B1
+	    		strAry[10]=StringUtil.getStringReturnEmptyString(str,57, 63).trim();
+	    		//G2
+	    		strAry[11]=StringUtil.getStringReturnEmptyString(str,64, 70).trim();
+	    		//B2
+	    		strAry[12]=StringUtil.getStringReturnEmptyString(str,71, 77).trim();
+			}else if(str.substring(0, 2).startsWith("LM")){
+				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+	    		//busI line 1
+	    		strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+	    		//busI Voltage
+	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+	    		//busJ line 1
+	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+	    		//busJ Voltage
+	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();    		
+	    		//par
+	    		strAry[5]=StringUtil.getStringReturnEmptyString(str,33, 33).trim();
+	    		//busK line2
+	    		strAry[6]=StringUtil.getStringReturnEmptyString(str,36, 43).trim();
+	    		//busk voltage
+	    		strAry[7]=StringUtil.getStringReturnEmptyString(str,44, 47).trim();
+	    		//busL line2
+	    		strAry[8]=StringUtil.getStringReturnEmptyString(str,50, 57).trim();
+	    		//busL voltage
+	    		strAry[9]=StringUtil.getStringReturnEmptyString(str,58, 61).trim();
+	    		//par2
+	    		strAry[10]=StringUtil.getStringReturnEmptyString(str,64, 64).trim();
+	    		//r
+	    		strAry[11]=StringUtil.getStringReturnEmptyString(str,67, 73).trim();
+	    		//x
+	    		strAry[12]=StringUtil.getStringReturnEmptyString(str,74, 80).trim();
+			}
+		}catch(Exception e){
+			adapter.logErr(e.toString());
+		}
+				
 		return strAry;
 	}	
 }

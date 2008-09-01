@@ -657,19 +657,19 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 			//Columns 107-114 Shunt conductance G (per unit) [F] *
 			//Columns 115-122 Shunt susceptance B (per unit) [F] *
-			strAry[15] = str.substring(106, 114);
-			strAry[16] = str.substring(114, 122);
+			strAry[15] = StringUtil.getString(str,107, 114);
+			strAry[16] = StringUtil.getString(str,115, 122);
 
 			//Columns 85-90   Desired volts (pu) [F] (This is desired remote voltage if this bus is controlling another bus.)
-			strAry[12] = str.substring(84, 90);
+			strAry[12] = StringUtil.getString(str,85, 90);
 
 			//Columns 91-98   Minimum MVAR or voltage limit [F]
 			//Columns 99-106  Maximum MVAR or voltage limit [F]
-			strAry[13] = str.substring(90, 98);
-			strAry[14] = str.substring(98, 106);
+			strAry[13] = StringUtil.getString(str,91, 98);
+			strAry[14] = StringUtil.getString(str,99, 106);
 
 			//Columns 124-127 Remote controlled bus number
-			strAry[17] = str.substring(123, 127).trim();
+			strAry[17] = StringUtil.getString(str,123, 127).trim();
 		}
 		return strAry;
 	}

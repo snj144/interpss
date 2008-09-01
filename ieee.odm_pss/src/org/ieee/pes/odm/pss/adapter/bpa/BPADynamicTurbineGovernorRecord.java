@@ -23,42 +23,25 @@
  */
 
 package org.ieee.pes.odm.pss.adapter.bpa;
-import java.text.NumberFormat;
-
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 
 public class BPADynamicTurbineGovernorRecord {
 	
 	public static void processTurbineGovernorData(String str,TransientSimulationXmlType tranSimu,
-    		IEEEODMPSSModelParser parser){
+    		IEEEODMPSSModelParser parser,BPAAdapter adapter){
     	
     	
-    	final String strAry[]=getTGDataFields(str);
+    	final String strAry[]=getTGDataFields(str,adapter);
     	if(strAry[0].equals("GG")){ 
     		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor();
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_STREAM_GENERAL_MODEL);
@@ -158,7 +141,10 @@ public class BPADynamicTurbineGovernorRecord {
     		ODMData2XmlHelper.setPUData(gh.addNewUo(), Uo, PerUnitXmlType.Unit.PU);
 			
 			//Dd
-    		double Dd=new Double(strAry[12]).doubleValue();
+    		double Dd=0.0;
+    		if(!strAry[12].equals("")){
+    			Dd=new Double(strAry[12]).doubleValue();
+    		}    	
     		ODMData2XmlHelper.setPUData(gh.addNewD4(), Dd, PerUnitXmlType.Unit.PU);		
 			
     		
@@ -285,125 +271,128 @@ public class BPADynamicTurbineGovernorRecord {
     	
     }
 	
-	 private static String[] getTGDataFields ( final String str) {
+	 private static String[] getTGDataFields ( final String str,BPAAdapter adapter) {
 		   	
 	    	final String[] strAry = new String[19];
-	    	if(str.substring(0, 2).trim().equals("GG")){
-	    		strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//PMAX 
-				strAry[4]=str.substring(16, 22).trim();
-				//R
-				strAry[5]=str.substring(22, 27).trim();
-				//T1
-				strAry[6]=str.substring(27, 32).trim();
-				//T2
-				strAry[7]=str.substring(32, 37).trim();
-				//T3
-				strAry[8]=str.substring(37, 42).trim();
-				// T4
-				strAry[9]=str.substring(42, 47).trim();
-				//T5
-				strAry[10]=str.substring(47, 52).trim();
-				//F
-				strAry[11]=str.substring(52, 57).trim();
-				
-	    		
-	    	}else if(str.substring(0, 2).trim().equals("GH")){
-	    		strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//PMAX 
-				strAry[4]=str.substring(16, 22).trim();
-				//R
-				strAry[5]=str.substring(22, 27).trim();
-				//TG
-				strAry[6]=str.substring(27, 32).trim();
-				//TP
-				strAry[7]=str.substring(32, 37).trim();
-				//TD
-				strAry[8]=str.substring(37, 42).trim();
-				// TW/2
-				strAry[9]=str.substring(42, 47).trim();
-				//VELCLOSE
-				strAry[10]=str.substring(47, 52).trim();
-				//FVELOPEN
-				strAry[11]=str.substring(52, 57).trim();
-				//Dd
-				strAry[12]=str.substring(57, 62).trim();
-				
-	    		
-	    	}
-	    	else if(str.substring(0, 2).trim().equals("GS")){
-	    		strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//PMAX 
-				strAry[4]=str.substring(16, 22).trim();
-				//PMIN
-				strAry[5]=str.substring(22, 28).trim();
-				//R
-				strAry[6]=str.substring(28, 33).trim();
-				//T1
-				strAry[7]=str.substring(33, 38).trim();
-				//T2
-				strAry[8]=str.substring(38, 43).trim();
-				// T3
-				strAry[9]=str.substring(43, 48).trim();
-				//VELOPEN
-				strAry[10]=str.substring(48, 54).trim();
-				//FVELCLOSE
-				strAry[11]=str.substring(54, 60).trim();			
-	    		
-	    	}else if(str.substring(0, 2).trim().equals("TA")){
-	    		strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//TCH
-				strAry[4]=str.substring(16, 21).trim();
-				//k1
-				strAry[5]=str.substring(22, 26).trim();
-	    	}else if(str.substring(0, 2).trim().equals("TB")){
-	    		strAry[0]=str.substring(0, 2).trim();
-				//busId
-				strAry[1]=str.substring(3, 11).trim();
-				//bus Voltage
-				strAry[2]=str.substring(11, 15).trim();
-				//excId
-				strAry[3]=str.substring(15, 16).trim();
-				//tch
-				strAry[4]=str.substring(16, 21).trim();
-				//FHP
-				strAry[5]=str.substring(22, 26).trim();
-				//TRH
-				strAry[6]=str.substring(31, 36).trim();
-				//FIP
-				strAry[7]=str.substring(36, 41).trim();
-				//TCO
-				strAry[8]=str.substring(46, 51).trim();
-				// FLP
-				strAry[9]=str.substring(51, 56).trim();
-				
-	    	}
 	    	
-	    	
+	    	try{
+	    		if(str.substring(0, 2).trim().equals("GG")){
+		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//PMAX 
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 22).trim();
+					//R
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 27).trim();
+					//T1
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,28, 32).trim();
+					//T2
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,33, 37).trim();
+					//T3
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
+					// T4
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+					//T5
+					strAry[10]=StringUtil.getStringReturnEmptyString(str,48, 52).trim();
+					//F
+					strAry[11]=StringUtil.getStringReturnEmptyString(str,53, 57).trim();
+					
+		    		
+		    	}else if(str.substring(0, 2).trim().equals("GH")){
+		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//PMAX 
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 22).trim();
+					//R
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 27).trim();
+					//TG
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,28, 32).trim();
+					//TP
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,33, 37).trim();
+					//TD
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
+					// TW/2
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+					//VELCLOSE
+					strAry[10]=StringUtil.getStringReturnEmptyString(str,48, 52).trim();
+					//FVELOPEN
+					strAry[11]=StringUtil.getStringReturnEmptyString(str,53, 57).trim();
+					//Dd
+					strAry[12]=StringUtil.getStringReturnEmptyString(str,58, 62).trim();
+					
+		    		
+		    	}
+		    	else if(str.substring(0, 2).trim().equals("GS")){
+		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//PMAX 
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 22).trim();
+					//PMIN
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 28).trim();
+					//R
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,29, 33).trim();
+					//T1
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,34, 38).trim();
+					//T2
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,39, 43).trim();
+					// T3
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,44, 48).trim();
+					//VELOPEN
+					strAry[10]=StringUtil.getStringReturnEmptyString(str,49, 54).trim();
+					//FVELCLOSE
+					strAry[11]=StringUtil.getStringReturnEmptyString(str,55, 60).trim();			
+		    		
+		    	}else if(str.substring(0, 2).trim().equals("TA")){
+		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+					//TCH
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+					//k1
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 26).trim();
+		    	}else if(str.substring(0, 2).trim().equals("TB")){
+		    		strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					//busId
+					strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+					//bus Voltage
+					strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+					//excId
+					strAry[3]=StringUtil.getStringReturnEmptyString(str,14, 16).trim();
+					//tch
+					strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+					//FHP
+					strAry[5]=StringUtil.getStringReturnEmptyString(str,22, 26).trim();
+					//TRH
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,32, 36).trim();
+					//FIP
+					strAry[7]=StringUtil.getStringReturnEmptyString(str,37, 41).trim();
+					//TCO
+					strAry[8]=StringUtil.getStringReturnEmptyString(str,47, 51).trim();
+					// FLP
+					strAry[9]=StringUtil.getStringReturnEmptyString(str,52, 56).trim();
+					
+		    	}
+	    	}catch(Exception e){
+	    		adapter.logErr(e.toString());
+	    	}
 	    	return strAry;
 		
 	    }

@@ -24,43 +24,28 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import java.text.NumberFormat;
-
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 
 
 
 public class BPADynamicFaultOperationRecord {
 	
-public static void processFaultOperationData(String str,TransientSimulationXmlType tranSimu){ 
+public static void processFaultOperationData(String str,TransientSimulationXmlType tranSimu
+		            ,BPAAdapter adapter){ 
     	
     	int mode =new Integer(str.substring(35, 37).trim()).intValue();
-    	final String strAry[] = getFaultOperationDataFields(str, mode);
+    	final String strAry[] = getFaultOperationDataFields(str, mode,adapter);
     	
     	if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){    		
     		
@@ -91,7 +76,10 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     		if(!strAry[7].equals("")){
     			parId=strAry[7];   			
     		}
-    		double operationTime=new Double(strAry[9]);
+    		double operationTime=0.0;
+    		if(!strAry[9].equals("")){
+    			operationTime=new Double(strAry[9]);
+    		}    		
     		double  r=0.0, x=0.0;
     		if(!strAry[10].equals("")){    			
     			r= new Double(strAry[10]).doubleValue();
@@ -421,50 +409,56 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
       }
     }
 
-private static String[] getFaultOperationDataFields ( final String str, int mode) {
+private static String[] getFaultOperationDataFields ( final String str, int mode,
+                                  BPAAdapter adapter) {
 	final String[] strAry = new String[13];		
-	
-	if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){
-		strAry[0]=str.substring(0, 2).trim();
-		strAry[1]=str.substring(3, 4).trim();
-		strAry[2]=str.substring(4, 12).trim();
-		strAry[3]=str.substring(12, 16).trim();
-		strAry[4]=str.substring(17, 18).trim();
-		strAry[5]=str.substring(18, 26).trim();
-		strAry[6]=str.substring(26, 30).trim();
-		strAry[7]=str.substring(31, 32).trim();
-		strAry[8]=str.substring(35, 37).trim();			
-		strAry[9]=str.substring(39, 45).trim();
-		strAry[10]=str.substring(45, 51).trim();
-		strAry[11]=str.substring(51, 57).trim();
-		strAry[12]=str.substring(57, 63).trim();
-	}else if(mode==4){
-		strAry[0]=str.substring(0, 2).trim();
-		strAry[1]=str.substring(4, 12).trim();
-		strAry[2]=str.substring(12, 16).trim();
-		strAry[3]=str.substring(16, 17).trim();
-		strAry[4]=str.substring(36, 37).trim();
-		strAry[5]=str.substring(39, 45).trim();
-		strAry[6]=str.substring(45, 50).trim();
-		strAry[7]=str.substring(50, 55).trim();
-		strAry[8]=str.substring(55, 60).trim();
-		strAry[9]=str.substring(60, 65).trim();
-		strAry[10]=str.substring(65, 70).trim();
-		strAry[11]=str.substring(71, 75).trim();
-		strAry[12]=str.substring(75, 80).trim();
-	}else if(mode==5){
-		strAry[0]=str.substring(0, 2).trim();
-		strAry[1]=str.substring(4, 12).trim();
-		strAry[2]=str.substring(12, 16).trim();
-		strAry[3]=str.substring(18, 26).trim();
-		strAry[4]=str.substring(26, 30).trim();
-		strAry[5]=str.substring(31, 33).trim();
-		strAry[6]=str.substring(36, 37).trim();
-		strAry[7]=str.substring(39, 45).trim();
-		strAry[8]=str.substring(45, 51).trim();
-		strAry[9]=str.substring(51, 57).trim();
-		strAry[10]=str.substring(57, 63).trim();			
+	try{
+		if(mode==1||mode==2||mode==3||mode==-1||mode==-2||mode==-3){
+			strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+			strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 4).trim();
+			strAry[2]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+			strAry[3]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+			strAry[4]=StringUtil.getStringReturnEmptyString(str,18, 18).trim();
+			strAry[5]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+			strAry[6]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
+			strAry[7]=StringUtil.getStringReturnEmptyString(str,32, 32).trim();
+			strAry[8]=StringUtil.getStringReturnEmptyString(str,36, 37).trim();			
+			strAry[9]=StringUtil.getStringReturnEmptyString(str,40, 45).trim();
+			strAry[10]=StringUtil.getStringReturnEmptyString(str,46, 51).trim();
+			strAry[11]=StringUtil.getStringReturnEmptyString(str,52, 57).trim();
+			strAry[12]=StringUtil.getStringReturnEmptyString(str,58, 63).trim();
+		}else if(mode==4){
+			strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+			strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+			strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+			strAry[3]=StringUtil.getStringReturnEmptyString(str,17, 17).trim();
+			strAry[4]=StringUtil.getStringReturnEmptyString(str,37, 37).trim();
+			strAry[5]=StringUtil.getStringReturnEmptyString(str,40, 45).trim();
+			strAry[6]=StringUtil.getStringReturnEmptyString(str,46, 50).trim();
+			strAry[7]=StringUtil.getStringReturnEmptyString(str,51, 55).trim();
+			strAry[8]=StringUtil.getStringReturnEmptyString(str,56, 60).trim();
+			strAry[9]=StringUtil.getStringReturnEmptyString(str,61, 65).trim();
+			strAry[10]=StringUtil.getStringReturnEmptyString(str,66, 70).trim();
+			strAry[11]=StringUtil.getStringReturnEmptyString(str,72, 75).trim();
+			strAry[12]=StringUtil.getStringReturnEmptyString(str,76, 80).trim();
+		}else if(mode==5){
+			strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+			strAry[1]=StringUtil.getStringReturnEmptyString(str,5, 12).trim();
+			strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
+			strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+			strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
+			strAry[5]=StringUtil.getStringReturnEmptyString(str,32, 33).trim();
+			strAry[6]=StringUtil.getStringReturnEmptyString(str,37, 37).trim();
+			strAry[7]=StringUtil.getStringReturnEmptyString(str,40, 45).trim();
+			strAry[8]=StringUtil.getStringReturnEmptyString(str,46, 51).trim();
+			strAry[9]=StringUtil.getStringReturnEmptyString(str,52, 57).trim();
+			strAry[10]=StringUtil.getStringReturnEmptyString(str,58, 63).trim();			
+		}
+	}catch(Exception e){
+		adapter.logErr(e.toString());
 	}
+	
+	
 	return strAry;
 }
 
