@@ -27,37 +27,23 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 import java.text.NumberFormat;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPADynamicGeneratorRecord {
 	
 	public static void processGeneratorData(String str,TransientSimulationXmlType tranSimu,
-    		PSSNetworkXmlType baseCaseNet){
+    		PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
     	
-    	final String strAry[]=getGeneratorDataFields(str);
+    	final String strAry[]=getGeneratorDataFields(str, adapter);
     	
     	if(str.substring(0, 2).trim().equals("M")){
     		GeneratorXmlType gen=tranSimu.getDynamicDataList().getBusDynDataList().
@@ -458,59 +444,65 @@ public class BPADynamicGeneratorRecord {
     	
     }
 	
-	private static String[] getGeneratorDataFields ( final String str) {
+	private static String[] getGeneratorDataFields ( final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[19];
 		
-		if(str.substring(0, 2).trim().equals("M")){
+		try{
+			if(str.substring(0, 2).trim().equals("M")){
+				
+				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 21).trim();
+				strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 25).trim();
+				strAry[6]=StringUtil.getStringReturnEmptyString(str,31, 32).trim();
+				strAry[7]=StringUtil.getStringReturnEmptyString(str,34, 36).trim();
+				strAry[8]=StringUtil.getStringReturnEmptyString(str,38, 42).trim();
+				strAry[9]=StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+				strAry[10]=StringUtil.getStringReturnEmptyString(str,48, 51).trim();
+				strAry[11]=StringUtil.getStringReturnEmptyString(str,52, 55).trim();			
+				
+			}else if(str.substring(0, 2).trim().equals("MC")||str.substring(0, 2).trim().equals("MF")){
+				
+				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				strAry[3]=StringUtil.getStringReturnEmptyString(str,16, 16).trim();
+				strAry[4]=StringUtil.getStringReturnEmptyString(str,17, 22).trim();
+				strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 25).trim();
+				strAry[6]=StringUtil.getStringReturnEmptyString(str,26, 28).trim();
+				strAry[7]=StringUtil.getStringReturnEmptyString(str,29, 32).trim();
+				strAry[8]=StringUtil.getStringReturnEmptyString(str,33, 36).trim();
+				strAry[9]=StringUtil.getStringReturnEmptyString(str,37, 41).trim();
+				strAry[10]=StringUtil.getStringReturnEmptyString(str,42, 46).trim();
+				strAry[11]=StringUtil.getStringReturnEmptyString(str,47, 51).trim();
+				strAry[12]=StringUtil.getStringReturnEmptyString(str,52, 56).trim();
+				strAry[13]=StringUtil.getStringReturnEmptyString(str,57, 60).trim();
+				strAry[14]=StringUtil.getStringReturnEmptyString(str,61, 63).trim();
+				strAry[15]=StringUtil.getStringReturnEmptyString(str,64, 68).trim();
+				strAry[16]=StringUtil.getStringReturnEmptyString(str,69, 73).trim();
+				strAry[17]=StringUtil.getStringReturnEmptyString(str,74, 77).trim();
+				strAry[18]=StringUtil.getStringReturnEmptyString(str,78, 80).trim();
+			}else if(str.substring(0, 2).trim().equals("LN")){
+				
+				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+				strAry[1]=StringUtil.getStringReturnEmptyString(str,4, 11).trim();
+				strAry[2]=StringUtil.getStringReturnEmptyString(str,12, 15).trim();
+				strAry[3]=StringUtil.getStringReturnEmptyString(str,19, 26).trim();
+				strAry[4]=StringUtil.getStringReturnEmptyString(str,27, 30).trim();
+				strAry[5]=StringUtil.getStringReturnEmptyString(str,34, 41).trim();
+				strAry[6]=StringUtil.getStringReturnEmptyString(str,42, 45).trim();
+				strAry[7]=StringUtil.getStringReturnEmptyString(str,50, 56).trim();
+				strAry[8]=StringUtil.getStringReturnEmptyString(str,57, 60).trim();
+				strAry[9]=StringUtil.getStringReturnEmptyString(str,64, 71).trim();
+				strAry[10]=StringUtil.getStringReturnEmptyString(str,72, 75).trim();
+			}
+		}catch(Exception e){
+			adapter.logErr(e.toString());
+		}
+		
 			
-			strAry[0]=str.substring(0, 2).trim();
-			strAry[1]=str.substring(3, 11).trim();
-			strAry[2]=str.substring(11, 15).trim();
-			strAry[3]=str.substring(15, 16).trim();
-			strAry[4]=str.substring(16, 21).trim();
-			strAry[5]=str.substring(22, 25).trim();
-			strAry[6]=str.substring(30, 32).trim();
-			strAry[7]=str.substring(33, 36).trim();
-			strAry[8]=str.substring(37, 42).trim();
-			strAry[9]=str.substring(42, 47).trim();
-			strAry[10]=str.substring(47, 51).trim();
-			strAry[11]=str.substring(51, 55).trim();			
-			
-		}else if(str.substring(0, 2).trim().equals("MC")||str.substring(0, 2).trim().equals("MF")){
-			
-			strAry[0]=str.substring(0, 2).trim();
-			strAry[1]=str.substring(3, 11).trim();
-			strAry[2]=str.substring(11, 15).trim();
-			strAry[3]=str.substring(15, 16).trim();
-			strAry[4]=str.substring(16, 22).trim();
-			strAry[5]=str.substring(22, 25).trim();
-			strAry[6]=str.substring(25, 28).trim();
-			strAry[7]=str.substring(28, 32).trim();
-			strAry[8]=str.substring(32, 36).trim();
-			strAry[9]=str.substring(36, 41).trim();
-			strAry[10]=str.substring(41, 46).trim();
-			strAry[11]=str.substring(46, 51).trim();
-			strAry[12]=str.substring(51, 56).trim();
-			strAry[13]=str.substring(56, 60).trim();
-			strAry[14]=str.substring(60, 63).trim();
-			strAry[15]=str.substring(63, 68).trim();
-			strAry[16]=str.substring(68, 73).trim();
-			strAry[17]=str.substring(73, 77).trim();
-			strAry[18]=str.substring(77, 80).trim();
-		}else if(str.substring(0, 2).trim().equals("LN")){
-			
-			strAry[0]=str.substring(0, 2).trim();
-			strAry[1]=str.substring(3, 11).trim();
-			strAry[2]=str.substring(11, 15).trim();
-			strAry[3]=str.substring(18, 26).trim();
-			strAry[4]=str.substring(26, 30).trim();
-			strAry[5]=str.substring(33, 41).trim();
-			strAry[6]=str.substring(41, 45).trim();
-			strAry[7]=str.substring(49, 56).trim();
-			strAry[8]=str.substring(56, 60).trim();
-			strAry[9]=str.substring(63, 71).trim();
-			strAry[10]=str.substring(71, 75).trim();
-		}	
 		
 		return strAry;
     }

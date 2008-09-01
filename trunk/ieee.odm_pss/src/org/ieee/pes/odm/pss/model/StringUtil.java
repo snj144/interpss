@@ -100,6 +100,22 @@ public class StringUtil {
 	public static String getString(String str, int beginCol, int endCol) {
 		if (str.length() < endCol)
 			return null;
-		return str.substring(beginCol-1, endCol);
+		return str.substring(beginCol-1, endCol).trim();
 	}
+	
+	/**
+	 * convert charters [beginCol, endCol] of the input string to an String. Return null if empty. 
+	 * 
+	 * @param str input string
+	 * @param beginCol begin column, starts from 1 ...
+	 * @param endCol end column
+	 * @return the string
+	 */
+	public static String getStringReturnEmptyString(String str, int beginCol, int endCol) {
+		if (str.length() < endCol)
+			return "";
+		return str.substring(beginCol-1, endCol).trim();
+	}
+	
+	
 }

@@ -36,6 +36,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
+
 
 public class BPAAdapter  extends AbstractODMAdapter {
 	public final static String Token_CaseType = "Type";
@@ -86,97 +88,105 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			TransientSimulationXmlType tranSimu= parser.getTransientSimlation();
 			do{
 				str = din.readLine();
-				if(!str.trim().equals("99")){
+				if(!str.trim().equals("(END)")){
 					try{
-						if(str.startsWith("(POWERFLOW")||str.startsWith("/")
+						if(str.startsWith(".")||str.startsWith("C")){
+							
+							getLogger().fine("load comment");
+							
+						}else if(str.startsWith("(POWERFLOW")||str.startsWith("/")
 								||str.startsWith(">")){
 							getLogger().fine("load header data");
 							processNetData(str,nvList,baseCaseNet);
-						}else if(str.startsWith("A")||str.substring(0, 2).equals("I ")){
-							processAreaData(str, parser,baseCaseNet);
+						}else if(str.startsWith("A")||str.trim().startsWith("I")){
+							processAreaData(str, parser,	baseCaseNet, this);
 							
-						}else if((str.substring(0, 1).equals("B")||str.substring(0, 1).equals("+")
-								||str.substring(0, 2).equals("X "))
+						}else if((str.trim().startsWith("B")||str.trim().startsWith("+")
+								||str.trim().startsWith("X"))
 								&&!str.trim().startsWith("BD")&&!str.trim().startsWith("BM")){
 							getLogger().fine("load AC bus data");						
 							BPABusRecord.processBusData(str,parser.addNewBaseCaseBus(),this);
-						}else if(str.substring(0, 2).equals("BD")||str.substring(0, 2).equals("BM")){
+						}else if(str.trim().startsWith("BD")||str.trim().startsWith("BM")){
 							getLogger().fine("load DCLine bus data");						
 							BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
 						}
 						
-						else if( str.substring(0,2).equals("L ")||str.substring(0, 2).equals("E ")){
+						else if( (str.trim().startsWith("L")||str.trim().startsWith("E"))
+								&&!str.trim().startsWith("LD")&&!str.trim().startsWith("LM")){
 							getLogger().fine("load AC line data");
-							BPABranchRecord.processBranchData(str, parser.addNewBaseCaseBranch(),
+							BPABranchRecord.processBranchData(str, parser.addNewBaseCaseBranch(), 
 									parser,baseCaseNet, this);
-						}else if( str.subSequence(0, 2).equals("T ")){
+						}else if( str.trim().startsWith("T")){
 							getLogger().fine("load transformer data");
 							BPABranchRecord.processXfrData(str, parser.addNewBaseCaseBranch(), 
-									parser, baseCaseNet, this);
-						}else if(str.substring(0, 2).equals("R ")){
+									parser,baseCaseNet, this);
+						}else if(str.trim().startsWith("R")){
 							getLogger().fine("load transformer adjustment data");
 							BPABranchRecord.processXfrAdjustData(str, baseCaseNet, this);
 						}
-						else if( str.substring(0, 2).equals("LD")||str.substring(0, 2).equals("LM")){
+						else if( str.trim().startsWith("LD")||str.trim().startsWith("LM")){
 							getLogger().fine("load DC Line data");
 							BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
-									parser, baseCaseNet, this);
-						}else if(str.startsWith(".")){
-							getLogger().fine("load comment");
-							processReadComment(str, baseCaseNet);
-						}else if(str.startsWith("(END)"))	{						
-							BPADynamicRecord.processDynamicData(str, tranSimu,din,
-									parser,this);
-							break;							
+									parser,baseCaseNet, this);
+						}else{
+							processReadComment(str, baseCaseNet,this);
 						}						
 					}catch (final Exception e) {
 						e.printStackTrace();
 					}					
-				}
-			}while(!str.trim().equals("99"));
+				}else if(str.startsWith("(END)"))	{						
+					BPADynamicRecord.processDynamicData(str, tranSimu,din,
+							parser,this);
+					break;							
+				}				
+			}while(!str.trim().equals("(END)"));
 	    // read power flow data only
 		}else if(parser.getStudyCase().getAnalysisCategory().
 				equals(StudyCaseXmlType.AnalysisCategory.LOADFLOW)){
 			do{
-				str = din.readLine();
+				str = din.readLine();					
 				if(!str.trim().equals("(END)")&&!str.trim().equals("(STOP)")){
 					try{
-						if(str.startsWith("(POWERFLOW")||str.startsWith("/")
+						if(str.startsWith(".")||str.startsWith("C")){
+							
+							getLogger().fine("load comment");
+							
+						}else if(str.startsWith("(POWERFLOW")||str.startsWith("/")
 								||str.startsWith(">")){
 							getLogger().fine("load header data");
 							processNetData(str,nvList,baseCaseNet);
-						}else if(str.startsWith("A")||str.substring(0, 2).equals("I ")){
-							processAreaData(str, parser,	baseCaseNet);
+						}else if(str.startsWith("A")||str.trim().startsWith("I")){
+							processAreaData(str, parser,	baseCaseNet, this);
 							
-						}else if((str.substring(0, 1).equals("B")||str.substring(0, 1).equals("+")
-								||str.substring(0, 2).equals("X "))
+						}else if((str.trim().startsWith("B")||str.trim().startsWith("+")
+								||str.trim().startsWith("X"))
 								&&!str.trim().startsWith("BD")&&!str.trim().startsWith("BM")){
 							getLogger().fine("load AC bus data");						
 							BPABusRecord.processBusData(str,parser.addNewBaseCaseBus(),this);
-						}else if(str.substring(0, 2).equals("BD")||str.substring(0, 2).equals("BM")){
+						}else if(str.trim().startsWith("BD")||str.trim().startsWith("BM")){
 							getLogger().fine("load DCLine bus data");						
 							BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
 						}
 						
-						else if( str.substring(0,2).equals("L ")||str.substring(0, 2).equals("E ")){
+						else if( (str.trim().startsWith("L")||str.trim().startsWith("E"))
+								&&!str.trim().startsWith("LD")&&!str.trim().startsWith("LM")){
 							getLogger().fine("load AC line data");
 							BPABranchRecord.processBranchData(str, parser.addNewBaseCaseBranch(), 
 									parser,baseCaseNet, this);
-						}else if( str.subSequence(0, 2).equals("T ")){
+						}else if( str.trim().startsWith("T")){
 							getLogger().fine("load transformer data");
 							BPABranchRecord.processXfrData(str, parser.addNewBaseCaseBranch(), 
 									parser,baseCaseNet, this);
-						}else if(str.substring(0, 2).equals("R ")){
+						}else if(str.trim().startsWith("R")){
 							getLogger().fine("load transformer adjustment data");
 							BPABranchRecord.processXfrAdjustData(str, baseCaseNet, this);
 						}
-						else if( str.substring(0, 2).equals("LD")||str.substring(0, 2).equals("LM")){
+						else if( str.trim().startsWith("LD")||str.trim().startsWith("LM")){
 							getLogger().fine("load DC Line data");
 							BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
 									parser,baseCaseNet, this);
-						}else {
-							getLogger().fine("load comment");
-							processReadComment(str, baseCaseNet);
+						}else{
+							processReadComment(str, baseCaseNet,this);
 						}						
 					}catch (final Exception e) {
 						e.printStackTrace();
@@ -192,8 +202,10 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 *   Network data
 	 *   ============ 
 	 */
-	private void processReadComment(final String str, final PSSNetworkXmlType baseCaseNet){
+	private void processReadComment(final String str, final PSSNetworkXmlType baseCaseNet
+			,BPAAdapter adapter){
 		
+		adapter.logErr("This line is not processed:  "+str);
 		// to do in future
 		
 	}
@@ -216,6 +228,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			
 			// read MVA Base 
 			final double baseMva; 
+			
 			if(strAry[5]!= null){
 				baseMva = new Double(strAry[5]).doubleValue(); // in MVA
 			}else {baseMva = 100;}
@@ -230,18 +243,18 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processAreaData(final String str,final IEEEODMPSSModelParser parser ,
-			final PSSNetworkXmlType baseCaseNet	) {
+			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter	) {
 		
-		final String[] strAry = getAreaDataFields(str);
+		final String[] strAry = getAreaDataFields(str, adapter);
 	
-		if(str.trim().startsWith("A ")||str.trim().startsWith("AC")){	
+		if(str.trim().startsWith("A")||str.trim().startsWith("AC")){	
 			PSSNetworkXmlType.AreaList.Area area=parser.addNewBaseCaseArea();
 			
 			final String areaType=strAry[0];			
 			if(!strAry[1].equals("")){
 				final String modCode=strAry[1];				
 			}
-			String areaName;
+			String areaName="";
 			if(!strAry[2].equals("")){
 				areaName=strAry[2];
 				area.setAreaName(areaName);					
@@ -261,21 +274,23 @@ public class BPAAdapter  extends AbstractODMAdapter {
             if(!strAry[5].equals("")){            	
             	ODMData2XmlHelper.setPowerData(area.addNewTotalExchangePower(),
             			           exchangeMW, 0, PowerXmlType.Unit.MVA);            	
-            }
+            }            
             if(!strAry[6].trim().equals("")){
             	area.addNewZoneList();
             	int Str6length=strAry[6].length();
             	
             	final String[] s= new String[20];
             	int cnt=0, i=0;            	
-            	while((!strAry[6].substring(i, i+2).equals(""))&& i+2<Str6length){
-            		
-            		s[cnt]=strAry[6].trim().substring(i, i+2);
+           while((!strAry[6].substring(i, i+2).equals(""))&& i+2<=Str6length){            		
+            		s[cnt]=strAry[6].trim().substring(i, i+2);            		
             		PSSNetworkXmlType.AreaList.Area.ZoneList.Zone zone= area.getZoneList().addNewZone();
             		zone.setZoneName(s[cnt]);
+            		if(i+2==Str6length){
+            			break;
+            		}
             		i=i+3;
-            		cnt=cnt+1;
-            	}
+            		cnt=cnt+1;            		
+            	}            	
             }
 		}else if(str.trim().startsWith("AO")){
 			final String dataType=strAry[0];
@@ -346,44 +361,51 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			}
 		// select certain concerned data to added
 		//strAry[4]= baseMVA
-		if(str.startsWith("/MVA_BASE")){
-			final StringTokenizer st = new StringTokenizer(str, "=");
-			strAry[5]=st.nextToken().trim();
+		if(str.startsWith("/MVA_BASE")){			
+			strAry[5]=str.substring(10, str.length()-1);			
 		}		
 	   return strAry;
 	}
-	private String[] getAreaDataFields(final String str) {
+	private String[] getAreaDataFields(final String str, BPAAdapter adapter) {
 		final String[] strAry = new String[7];
 		
-		if (str.trim().startsWith("A ")||str.trim().startsWith("AC")){			
+		try{
+			if (str.trim().startsWith("A")||str.trim().startsWith("AC")){			
 
-			strAry[0] = str.substring(0, 2).trim();
-			strAry[1] = str.substring(2, 3).trim();
-			strAry[2] = str.substring(3, 13).trim();
-			strAry[3] = str.substring(13, 21).trim();
-			strAry[4] = str.substring(21, 25).trim();
-			strAry[5] = str.substring(25, 34).trim();
-			// zones within area
-			int strlength=str.trim().length();
-			
-			strAry[6] = str.substring(35, strlength).trim();
-			
-		  }else if(str.trim().startsWith("AO")){ 
-			    strAry[0] = str.substring(0, 2).trim();
-				strAry[1] = str.substring(2, 3).trim();
-				// area name
-				strAry[2] = str.substring(3, 13).trim();
-				// zones within the area
-				int strlength=str.length();
-				strAry[3] = str.substring(14, strlength).trim();				
-			  
-		  }else if(str.trim().startsWith("I")){
-			    strAry[0] = str.substring(0, 1).trim();
-				strAry[1] = str.substring(2, 3).trim();
-				strAry[2] = str.substring(3, 13).trim();
-				strAry[3] = str.substring(14, 24).trim();
-				strAry[4] = str.substring(26, 34).trim();				
-		  }	
+				strAry[0] = StringUtil.getStringReturnEmptyString(str, 1, 2);
+				strAry[1] = StringUtil.getStringReturnEmptyString(str, 3, 3);
+				strAry[2] = StringUtil.getStringReturnEmptyString(str, 4, 13);
+				strAry[3] = StringUtil.getStringReturnEmptyString(str, 14, 21);
+				strAry[4] = StringUtil.getStringReturnEmptyString(str, 22, 25);
+				strAry[5] = StringUtil.getStringReturnEmptyString(str, 26, 34);
+				// zones within area
+				int strlength=str.trim().length();
+				
+				strAry[6] = StringUtil.getStringReturnEmptyString(str,36, strlength);;
+				
+				
+			  }else if(str.trim().startsWith("AO")){ 
+				    strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+					strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
+					// area name
+					strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 13).trim();
+					// zones within the area
+					int strlength=str.length();
+					strAry[3] = StringUtil.getStringReturnEmptyString(str,15, strlength).trim();				
+				  
+			  }else if(str.trim().startsWith("I")){
+				    strAry[0] = StringUtil.getStringReturnEmptyString(str, 1, 1);
+					strAry[1] = StringUtil.getStringReturnEmptyString(str, 3, 3);
+					strAry[2] = StringUtil.getStringReturnEmptyString(str, 4, 13);
+					strAry[3] = StringUtil.getStringReturnEmptyString(str, 15, 24);
+					strAry[4] = StringUtil.getStringReturnEmptyString(str, 27, 34);		
+			  }	
+		}catch (Exception e){
+			adapter.logErr("error there is");
+			adapter.logErr(e.toString());
+		}
+		
+		
 		return strAry;
 	}
 }

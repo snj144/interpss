@@ -24,33 +24,10 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import java.text.NumberFormat;
-
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorModelListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPADynamicRecord {	
 	
@@ -65,7 +42,7 @@ public class BPADynamicRecord {
 	final static int sequenceData=8;
 	
 	
-	public static int getDataType(String str){		 
+	public static int getDataType(String str,BPAAdapter adapter){		 
 		 if (str.startsWith("CASE")||str.startsWith("SOL")){
 				dataType=header;
 			}else if(str.startsWith("LS")){
@@ -97,12 +74,13 @@ public class BPADynamicRecord {
 					str.substring(0, 2).trim().equals("LB")||str.substring(0, 2).trim().equals("MI")){
 				dataType=loadData;				
 			}else if(str.substring(0, 2).trim().equals("LO")||str.substring(0, 2).trim().equals("XO")
-					||str.substring(0, 2).trim().equals("LM")){
+					||str.substring(0, 2).trim().equals("XR")||str.substring(0, 2).trim().equals("LM")){
 				dataType=sequenceData;
 			}else if(str.startsWith(".")){
 				dataType=0;
 			}else {
-				System.out.println("this line is not processed"+str);
+				adapter.logErr("This line data is not processed"+"   "+" ' "+str+" ' ");
+				
 			}		 
 		 return dataType;
 	}
@@ -113,25 +91,27 @@ public class BPADynamicRecord {
 		PSSNetworkXmlType baseCaseNet=parser.getBaseCase();
 		do{
 			str= din.readLine();
-			getDataType(str);
+			getDataType(str,adapter);
 			if(!str.startsWith("90")){
 				try{
 					if(dataType==header){
-						processHeaderData(str, tranSimu);
+						processHeaderData(str, tranSimu,adapter);
 					}else if(dataType==faultOperation){
-						BPADynamicFaultOperationRecord.processFaultOperationData(str, tranSimu);
+						BPADynamicFaultOperationRecord.processFaultOperationData(str, tranSimu,adapter);
 					}else if(dataType==generatorData){
-						BPADynamicGeneratorRecord.processGeneratorData(str, tranSimu, baseCaseNet);
+						BPADynamicGeneratorRecord.processGeneratorData(str, tranSimu, baseCaseNet,adapter);
 					}else if(dataType==exciterData){
-						BPADynamicExciterRecord.processExciterData(str, tranSimu, parser);
+						BPADynamicExciterRecord.processExciterData(str, tranSimu, parser,adapter);
 					}else if(dataType==turbine_governorData){
-						BPADynamicTurbineGovernorRecord.processTurbineGovernorData(str, tranSimu, parser);
+						BPADynamicTurbineGovernorRecord.processTurbineGovernorData(str, tranSimu, 
+								                        parser,adapter);
 					}else if(dataType==pssData){
-						BPADynamicPSSRecord.processPSSData(str, tranSimu, parser);
+						BPADynamicPSSRecord.processPSSData(str, tranSimu, parser,adapter);
 					}else if(dataType==loadData){
-						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, tranSimu, parser.addNewLoad());
+						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, 
+								tranSimu, parser.addNewLoad(),adapter);
 					}else if(dataType==sequenceData){
-						BPADynamicSequenceRecord.processSequenceData(str, tranSimu, parser);
+						BPADynamicSequenceRecord.processSequenceData(str, tranSimu, parser,adapter);
 					}
 					
 				}catch (final Exception e){
@@ -143,8 +123,9 @@ public class BPADynamicRecord {
 		BPADynamicSequenceRecord.processNegativeData(parser, tranSimu);		
 	}
 	
-	public static void processHeaderData(String str,TransientSimulationXmlType tranSimu){
-		final String strAry[]= getHeaderDataFields(str);
+	public static void processHeaderData(String str,TransientSimulationXmlType tranSimu
+			,BPAAdapter adapter){
+		final String strAry[]= getHeaderDataFields(str,adapter);
 		
 		TransientSimulationXmlType.PowerFlowInitialization pfInitial=
 			tranSimu.getPowerFlowInitialization();
@@ -171,34 +152,38 @@ public class BPADynamicRecord {
 			pfInitial.setPowerFlowCase(pfCase);
 		}		
 	}
-    private static String[] getHeaderDataFields ( final String str) {
+    private static String[] getHeaderDataFields ( final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[16];
-		// for SOL card
-		if(str.startsWith("SOL")){
-			strAry[0]=str.substring(0, 3);
-			strAry[1]=str.substring(5, 6);
-			strAry[2]=str.substring(8, 9);
-			strAry[3]=str.substring(11, 12);
-		}		
-		// for Case card
-		else if(str.startsWith("CASE")){
-			strAry[0]=str.substring(0, 4);
-			strAry[1]=str.substring(5, 15);
-			strAry[2]=str.substring(16, 17);
-			strAry[3]=str.substring(19, 20);
-			strAry[4]=str.substring(21, 22);
-			strAry[5]=str.substring(22, 23);
-			strAry[6]=str.substring(23, 24);
-			strAry[7]=str.substring(24, 34);
-			strAry[8]=str.substring(34, 44);
-			strAry[9]=str.substring(44, 49);
-			strAry[10]=str.substring(49, 54);
-			strAry[11]=str.substring(54, 59);
-			strAry[12]=str.substring(59, 64);
-			strAry[13]=str.substring(64, 69);
-			strAry[14]=str.substring(69, 74);
-			strAry[15]=str.substring(74, 80);
-		}
+		
+		try{// for SOL card
+			if(str.startsWith("SOL")){
+				strAry[0]=StringUtil.getStringReturnEmptyString(str, 0, 3);
+				strAry[1]=StringUtil.getStringReturnEmptyString(str, 5, 6);
+				strAry[2]=StringUtil.getStringReturnEmptyString(str,9, 9);
+				strAry[3]=StringUtil.getStringReturnEmptyString(str,12, 12);
+			}		
+			// for Case card
+			else if(str.startsWith("CASE")){
+				strAry[0]=StringUtil.getStringReturnEmptyString(str,1, 4);
+				strAry[1]=StringUtil.getStringReturnEmptyString(str,6, 15);
+				strAry[2]=StringUtil.getStringReturnEmptyString(str,16, 17);
+				strAry[3]=StringUtil.getStringReturnEmptyString(str,20, 20);
+				strAry[4]=StringUtil.getStringReturnEmptyString(str,22, 22);
+				strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 23);
+				strAry[6]=StringUtil.getStringReturnEmptyString(str,24, 24);
+				strAry[7]=StringUtil.getStringReturnEmptyString(str,24, 34);
+				strAry[8]=StringUtil.getStringReturnEmptyString(str,45, 49);
+				strAry[9]=StringUtil.getStringReturnEmptyString(str,50, 54);
+				strAry[10]=StringUtil.getStringReturnEmptyString(str,55, 59);
+				strAry[11]=StringUtil.getStringReturnEmptyString(str,60, 64);
+				strAry[12]=StringUtil.getStringReturnEmptyString(str,65, 69);
+				strAry[13]=StringUtil.getStringReturnEmptyString(str,70, 74);
+				strAry[14]=StringUtil.getStringReturnEmptyString(str,75, 80);			
+			}
+			}catch(Exception e){
+				adapter.logErr(e.toString());
+			}
+		
 		return strAry;
     }
 

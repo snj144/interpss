@@ -124,6 +124,16 @@ public class ODMData2XmlHelper {
 		return null;
 	}
 	
+	public static DCLineBusRecordXmlType getDCLineBusRecord(String id, PSSNetworkXmlType baseCaseNet) {
+		for (DCLineBusRecordXmlType busRec : baseCaseNet.getDcLineList().getDcLineBusList()
+				.getDcLineBusArray()) {
+			if (id.equals(busRec.getConverter().getBusId().getName()))
+				return busRec;
+		}
+		return null;
+	}
+	
+	
 	/**
 	 * Get bus record with the id
 	 * 

@@ -46,6 +46,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPABranchRecord {
 	public static void processBranchData(final String str, final BranchRecordXmlType branchRec,
@@ -53,7 +54,7 @@ public class BPABranchRecord {
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter) {		
 		// symmetry line data
 		if(str.startsWith("L")){
-			final String[] strAry = getBranchDataFields(str);
+			final String[] strAry = getBranchDataFields(str,adapter);
 			// symetry  branch
 			final String branchType=strAry[0];
 
@@ -205,7 +206,7 @@ public class BPABranchRecord {
 			
             
 		}else if(str.startsWith("E")){
-			final String[] strAry = getBranchDataFields(str);
+			final String[] strAry = getBranchDataFields(str,adapter);
 			// symetry  branch
 			final String branchType=strAry[0];
 
@@ -347,16 +348,16 @@ public class BPABranchRecord {
 		
 		int dataType=0;	    	
 		
-		final String[] strAry = getXformerDataFields(str);			
+		final String[] strAry = getXformerDataFields(str,adapter);			
 			
-		if(strAry[0].startsWith("T ")){
+		if(strAry[0].startsWith("T")){
 			dataType=transformer;
 		}else if(strAry[0].startsWith("TP")){
 			dataType=phaseShiftXfr;
 		}		
 		
-		branchRec.addNewLoadflowBranchData();			
-			
+		branchRec.addNewLoadflowBranchData();	
+		
 		if(dataType==transformer){				
 			branchRec.getLoadflowBranchData().setCode(LoadflowBranchDataXmlType.Code.TRANSFORMER);
 			branchRec.getLoadflowBranchData().addNewXformerData();
@@ -529,7 +530,7 @@ public class BPABranchRecord {
 	public static void processXfrAdjustData(final String str, 
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
 		
-		final String[] strAry = getXfrAdjustDataFields(str);
+		final String[] strAry = getXfrAdjustDataFields(str,adapter);
 		
 		int dataType=0;
 		int angleAdjustment=1;
@@ -564,7 +565,7 @@ public class BPABranchRecord {
 		final String toBus = strAry[6];
 		final double toTurnRatedV = new Double(strAry[7]).doubleValue();			
 		
-		BranchRecordXmlType branchRec_old= ODMData2XmlHelper.getXfrBranchRecord(fromBus, 
+		BranchRecordXmlType branchRec= ODMData2XmlHelper.getXfrBranchRecord(fromBus, 
 				toBus,  baseCaseNet);	
 		
 		String controlBusId = "";		
@@ -611,7 +612,8 @@ public class BPABranchRecord {
 		
 		if(dataType==tapAdjustment){			
 			
-			TransformerDataXmlType.TapAdjustment tapAdj = branchRec_old.getLoadflowBranchData().
+			
+			TransformerDataXmlType.TapAdjustment tapAdj = branchRec.getLoadflowBranchData().
             getXformerData().addNewTapAdjustment();
 			
             if(tapAdjSide==1){
@@ -681,7 +683,7 @@ public class BPABranchRecord {
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if(dataType==angleAdjustment){
-			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec_old.getLoadflowBranchData().
+			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec.getLoadflowBranchData().
             getPhaseShiftXfrData().addNewAngleAdjustment();
 			
 			ODMData2XmlHelper.setLimitData(angAdj.addNewAngleDegLimit(), max,
@@ -697,7 +699,7 @@ public class BPABranchRecord {
 			final DCLineBranchRecordXmlType dcBranch, 
 			IEEEODMPSSModelParser parser,
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
-		final String strAry[] = getDCLineBranchDataFields(str);	
+		final String strAry[] = getDCLineBranchDataFields(str,adapter);	
 		
 		final String dataType= strAry[0];
 		final String modCode= strAry[1];
@@ -729,16 +731,23 @@ public class BPABranchRecord {
 					tieLine.addNewMeteredBus().setName(rectifierBus);
 					tieLine.addNewNonMeteredBus().setName(inverterBus);	
 					
-					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(rectifierBus, baseCaseNet);					
-					PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-					  getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
-					tieLine.setMeteredArea(areaFrom.getAreaName());
+					DCLineBusRecordXmlType busRecFrom=ODMData2XmlHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
+					if(busRecFrom.getConverter().getZone()!=null){
+						PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecFrom.getConverter().getZone(), baseCaseNet);
+											
+						tieLine.setMeteredArea(areaFrom.getAreaName());
+					}
+					DCLineBusRecordXmlType busRecTo=ODMData2XmlHelper.getDCLineBusRecord(inverterBus, baseCaseNet);
+										
+					if(busRecTo.getConverter().getZone()!=null){
+						
+						PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecTo.getConverter().getZone(), baseCaseNet);
+						tieLine.setNonMeteredArea(areaTo.getAreaName());
+					}
 					
-					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(inverterBus, baseCaseNet);
-					busRecTo.getZone();
-					PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-					  getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
-					tieLine.setNonMeteredArea(areaTo.getAreaName());
+					
 					// to do: set area number
 					
 				}else{
@@ -842,127 +851,142 @@ public class BPABranchRecord {
 		
 	}	
 	
-	private static String[] getBranchDataFields(final String str) {
+	private static String[] getBranchDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[20];
-		strAry[0] = str.substring(0, 2).trim();
-        strAry[1] = str.substring(2, 3).trim();
-		strAry[2] = str.substring(3, 6).trim();		
-		strAry[3] = str.substring(6, 14).trim();
-		strAry[4] = str.substring(14, 18).trim();
-		strAry[5] = str.substring(18, 19).trim();
-		strAry[6] = str.substring(19, 27).trim();
-		strAry[7] = str.substring(27, 31).trim();
-		strAry[8] = str.substring(31, 32).trim();
-		strAry[9] = str.substring(32, 33).trim();
-		strAry[10] = str.substring(33, 37).trim();
-		strAry[11] = str.substring(37, 38).trim();
-		strAry[12] = str.substring(38, 44).trim();
-		strAry[13] = str.substring(44, 50).trim();
-		strAry[14] = str.substring(50, 56).trim();
-		strAry[15] = str.substring(56, 62).trim();
+		strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+        strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
+		strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();		
+		strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
+		strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
+		strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 19).trim();
+		strAry[6] = StringUtil.getStringReturnEmptyString(str,20, 27).trim();
+		strAry[7] = StringUtil.getStringReturnEmptyString(str,28, 31).trim();
+		strAry[8] = StringUtil.getStringReturnEmptyString(str,32, 32).trim();
+		strAry[9] = StringUtil.getStringReturnEmptyString(str,33, 33).trim();
+		strAry[10] = StringUtil.getStringReturnEmptyString(str,34, 37).trim();
+		strAry[11] = StringUtil.getStringReturnEmptyString(str,38, 38).trim();
+		strAry[12] = StringUtil.getStringReturnEmptyString(str,39, 44).trim();
+		strAry[13] = StringUtil.getStringReturnEmptyString(str,45, 50).trim();
+		strAry[14] = StringUtil.getStringReturnEmptyString(str,51, 56).trim();
+		strAry[15] = StringUtil.getStringReturnEmptyString(str,57, 62).trim();
 		if(strAry[0]=="L"){
-			strAry[16] = str.substring(62, 66).trim();
-			strAry[17] = str.substring(66, 74).trim();
+			strAry[16] = StringUtil.getStringReturnEmptyString(str,63, 66).trim();
+			strAry[17] = StringUtil.getStringReturnEmptyString(str,67, 74).trim();
 		}else{
-			strAry[16] = str.substring(62, 67).trim();
-			strAry[17] = str.substring(68, 74).trim();
+			strAry[16] = StringUtil.getStringReturnEmptyString(str,63, 67).trim();
+			strAry[17] = StringUtil.getStringReturnEmptyString(str,69, 74).trim();
 		}		
-		strAry[18] = str.substring(74, 77).trim();		
-		strAry[19] = str.substring(77, 80).trim();		
+		strAry[18] = StringUtil.getStringReturnEmptyString(str,75, 77).trim();		
+		strAry[19] = StringUtil.getStringReturnEmptyString(str,78, 80).trim();		
             
 		return strAry;
     }
-	private static String[] getXformerDataFields(final String str) {
+	private static String[] getXformerDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[20];
-		
-            strAry[0] = str.substring(0, 2);
-            strAry[1] = str.substring(2, 3).trim();
-			strAry[2] = str.substring(3, 6).trim();
+		try{
+			strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2);
+            strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
+			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
 			
-			strAry[3] = str.substring(6, 14).trim();
-			strAry[4] = str.substring(14, 18).trim();
-			strAry[5] = str.substring(18, 19).trim();
-			strAry[6] = str.substring(19, 27).trim();
+			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
+			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 19).trim();
+			strAry[6] = StringUtil.getStringReturnEmptyString(str,20, 27).trim();
 
-			strAry[7] = str.substring(27, 31).trim();
-			strAry[8] = str.substring(31, 32).trim();
-			strAry[9] = str.substring(32, 33).trim();
-			strAry[10] = str.substring(33, 37).trim();
-			strAry[11] = str.substring(37, 38).trim();
-			strAry[12] = str.substring(38, 44).trim();
-			strAry[13] = str.substring(44, 50).trim();
-			strAry[14] = str.substring(50, 56).trim();
-			strAry[15] = str.substring(56, 62).trim();
-			strAry[16] = str.substring(62, 67).trim();
+			strAry[7] = StringUtil.getStringReturnEmptyString(str,28, 31).trim();
+			strAry[8] = StringUtil.getStringReturnEmptyString(str,32, 32).trim();
+			strAry[9] = StringUtil.getStringReturnEmptyString(str,33, 33).trim();
+			strAry[10] = StringUtil.getStringReturnEmptyString(str,34, 37).trim();
+			strAry[11] = StringUtil.getStringReturnEmptyString(str,38, 38).trim();
+			strAry[12] = StringUtil.getStringReturnEmptyString(str,39, 44).trim();
+			strAry[13] = StringUtil.getStringReturnEmptyString(str,45, 50).trim();
+			strAry[14] = StringUtil.getStringReturnEmptyString(str,51, 56).trim();
+			strAry[15] = StringUtil.getStringReturnEmptyString(str,57, 62).trim();
+			strAry[16] = StringUtil.getStringReturnEmptyString(str,63, 67).trim();
 			
 			strAry[17] ="";
 			//strAry[17] = str.substring(67, 72).trim();
 			//strAry[18] = str.substring(74, 77).trim();
 			
 			//strAry[19] = str.substring(77, 80).trim();
+		}catch(Exception e){
+			adapter.logErr(e.toString());
+		}
+		
+            
 						
 
 		return strAry;
     }
 	
-	private static String[] getXfrAdjustDataFields(final String str) {
+	private static String[] getXfrAdjustDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[15];
-            // type 		
-            strAry[0] = str.substring(0, 2).trim();
-            strAry[1] = str.substring(2, 3).trim();
-			strAry[2] = str.substring(3, 6).trim();
+		
+		try{
+			// type 		
+            strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2).trim();
+            strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
+			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
 			//from bus name
-			strAry[3] = str.substring(6, 14).trim();
+			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
 			// rated v
-			strAry[4] = str.substring(14, 18).trim();
-			strAry[5] = str.substring(18, 19).trim();
+			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
+			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 19).trim();
 			//to bus name
-			strAry[6] = str.substring(19, 27).trim();
+			strAry[6] = StringUtil.getStringReturnEmptyString(str,20, 27).trim();
 			// to rated v
-			strAry[7] = str.substring(27, 31).trim();
+			strAry[7] = StringUtil.getStringReturnEmptyString(str,28, 31).trim();
 			// controlled bus name and rated v
-			strAry[8] = str.substring(33, 41).trim();
-			strAry[9] = str.substring(41, 45).trim();
+			strAry[8] = StringUtil.getStringReturnEmptyString(str,34, 41).trim();
+			strAry[9] = StringUtil.getStringReturnEmptyString(str,42, 45).trim();
 			
 			//for R RV RQ RN
 			//max tap
-			strAry[10] = str.substring(45, 50).trim();
+			strAry[10] = StringUtil.getStringReturnEmptyString(str,46, 50).trim();
 			// min tap
-			strAry[11] = str.substring(50, 55).trim();
+			strAry[11] = StringUtil.getStringReturnEmptyString(str,51, 55).trim();
 			// total tap
-			strAry[12] = str.substring(55, 57).trim();
+			strAry[12] = StringUtil.getStringReturnEmptyString(str,56, 57).trim();
 			
-			strAry[13] = str.substring(57, 62).trim();
-			strAry[14] = str.substring(62, 67).trim();			
+			strAry[13] = StringUtil.getStringReturnEmptyString(str,58, 62).trim();
+			strAry[14] = StringUtil.getStringReturnEmptyString(str,63, 67).trim();
+		}catch(Exception e){
+			adapter.logErr(e.toString());
+		}
+            			
 						
 
 		return strAry;
     }
 	
-	private static String[] getDCLineBranchDataFields(final String str) {
+	private static String[] getDCLineBranchDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[20];
-		
-            strAry[0] = str.substring(0, 2);
-            strAry[1] = str.substring(2, 3).trim();
-			strAry[2] = str.substring(3, 6).trim();
+		try{
+			strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2);
+            strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
+			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
 			
-			strAry[3] = str.substring(6, 14).trim();
-			strAry[4] = str.substring(14, 18).trim();
-			strAry[5] = str.substring(18, 19).trim();
-			strAry[6] = str.substring(19, 27).trim();
+			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
+			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 19).trim();
+			strAry[6] = StringUtil.getStringReturnEmptyString(str,20, 27).trim();
 
-			strAry[7] = str.substring(27, 31).trim();
-			strAry[8] = str.substring(33, 37).trim();
-			strAry[9] = str.substring(37, 43).trim();
-			strAry[10] = str.substring(43, 49).trim();
-			strAry[11] = str.substring(49, 55).trim();
-			strAry[12] = str.substring(55, 56).trim();
-			strAry[13] = str.substring(56, 61).trim();
-			strAry[14] = str.substring(61, 66).trim();
-			strAry[15] = str.substring(66, 70).trim();
-			strAry[16] = str.substring(70, 74).trim();
+			strAry[7] = StringUtil.getStringReturnEmptyString(str,28, 31).trim();
+			strAry[8] = StringUtil.getStringReturnEmptyString(str,34, 37).trim();
+			strAry[9] = StringUtil.getStringReturnEmptyString(str,38, 43).trim();
+			strAry[10] = StringUtil.getStringReturnEmptyString(str,44, 49).trim();
+			strAry[11] = StringUtil.getStringReturnEmptyString(str,50, 55).trim();
+			strAry[12] = StringUtil.getStringReturnEmptyString(str,56, 56).trim();
+			strAry[13] = StringUtil.getStringReturnEmptyString(str,57, 61).trim();
+			strAry[14] = StringUtil.getStringReturnEmptyString(str,62, 66).trim();
+			strAry[15] = StringUtil.getStringReturnEmptyString(str,67, 70).trim();
+			strAry[16] = StringUtil.getStringReturnEmptyString(str,71, 74).trim();
 			
-			strAry[17] = str.substring(74, 78).trim();
+			strAry[17] = StringUtil.getStringReturnEmptyString(str,75, 78).trim();
+		}catch(Exception e){
+			adapter.logErr(e.toString());
+		}
+            
 			
 		return strAry;
     }
