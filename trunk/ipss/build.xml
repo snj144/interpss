@@ -21,6 +21,7 @@
     					     ${emf_base}/org.eclipse.emf.ecore_2.2.0.jarr;
     					     ${emf_base}/org.eclipse.emf_2.2.0.jar;
     					     ${emf_base}/org.eclipse.emf.ecore.xmi_2.2.0.jar;"/>
+    	<property name="SrcBackup" value="E:/backup"/>
     </target>
   
     <target depends="init" description="run the GEditor" name="run">
@@ -185,67 +186,67 @@
     </target>	
 
 	<target depends="init" name="copy2H">
-		<copy todir="H:/backup/ipss/ipss.common">
+		<copy todir="${SrcBackup}/ipss/ipss.common">
 	    	<fileset dir="${dev_base}/ipss.common" >
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/ipss.core">
+		<copy todir="${SrcBackup}/ipss/ipss.core">
 	    	<fileset dir="${dev_base}/ipss.core_EMF" >
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/ipss.dist">
+		<copy todir="${SrcBackup}/ipss/ipss.dist">
 	    	<fileset dir="${dev_base}/ipss.dist_EMF" >
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/ipss.dstab">
+		<copy todir="${SrcBackup}/ipss/ipss.dstab">
 	    	<fileset dir="${dev_base}/ipss.dstab_EMF" >
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/ipss.simu">
+		<copy todir="${SrcBackup}/ipss/ipss.simu">
 	    	<fileset dir="${dev_base}/ipss.simu_EMF">
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/ipss.ext">
+		<copy todir="${SrcBackup}/ipss/ipss.ext">
 	    	<fileset dir="${dev_base}/ipss.ext_EMF">
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/ipss.simu.test">
+		<copy todir="${SrcBackup}/ipss/ipss.simu.test">
 	    	<fileset dir="${dev_base}/ipss.simu.test">
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
         
-		<copy todir="H:/backup/ipss/ipss.cim.adapter">
+		<copy todir="${SrcBackup}/ipss/ipss.cim.adapter">
 	    	<fileset dir="${dev_base}/ipss.cim.adapter">
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/ipss.cim.model">
+		<copy todir="${SrcBackup}/ipss/ipss.cim.model">
 	    	<fileset dir="${dev_base}/ipss.cim.model">
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/ipss.cim.test">
+		<copy todir="${SrcBackup}/ipss/ipss.cim.test">
 	    	<fileset dir="${dev_base}/ipss.cim.test">
       			<exclude name="**/*.class"/>
     		</fileset>	    	
         </copy>
 
-		<copy todir="H:/backup/ipss/RoseModel">
+		<copy todir="${SrcBackup}/ipss/RoseModel">
 	    	<fileset dir="${dev_base}/RoseModel">
       			<exclude name="**/*.java,**/*.class"/>
     		</fileset>	    	

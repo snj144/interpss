@@ -47,7 +47,7 @@
 			<list>
 				<ref bean="ipssStatusPanel"/>
 				<ref bean="stdoutMsgListener"/>
-				<ref bean="editorDialogUtil"/>
+				<!-- ref bean="editorDialogUtil"/ -->
 			</list>
 		</property>
 	</bean>
