@@ -164,12 +164,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 	}
 
 	public void setGen(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
-		String id = new Integer(this.number).toString();
-		GeAclfBus  bus = (GeAclfBus)net.getBus(id);
-		if (bus == null) {
-			msg.sendErrorMsg("Bus cannot be found, bus number: " + id);
-			throw new Exception("Bus cannot be found");
-		}
+		GeAclfBus  bus = Ge2IpssUtilFunc.getBus(this.number, net, msg);
 		
 		GeGenerator gen = ExtensionObjectFactory.createGeGenerator(id, longId);
 		bus.getGenList().add(gen);
