@@ -55,10 +55,12 @@ public class CustomFileUtility {
 		}
 
 		if (simuCtx != null && !simuCtx.checkData()) {
-			SpringAppContext.getEditorDialogUtil().showMsgDialog(
+			boolean b = SpringAppContext.getEditorDialogUtil().showMsgDialogWithOptions(
 					"Network Loadflow Data Error",
-					"Please see the message list for details");
-			return false;
+					"Please see the message list for details, Do you want to run the study case?");
+			if (b)
+				simuCtx.getAclfAdjNet().setBypassDataCheck(true);
+			return b;
 		}
 		return true;
 	}
