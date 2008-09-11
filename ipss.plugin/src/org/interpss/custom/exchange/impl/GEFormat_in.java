@@ -26,6 +26,7 @@ package org.interpss.custom.exchange.impl;
 
 import org.interpss.custom.exchange.ge.BranchSecDataRec;
 import org.interpss.custom.exchange.ge.BusDataRec;
+import org.interpss.custom.exchange.ge.ControlledShuntDataRec;
 import org.interpss.custom.exchange.ge.GEDataRec;
 import org.interpss.custom.exchange.ge.Ge2IpssUtilFunc;
 import org.interpss.custom.exchange.ge.GenDataRec;
@@ -219,7 +220,7 @@ public class GEFormat_in {
       					}
       					else if (recType == RecType.ConShuntData) {
       						// process Controlled Data
-      						System.out.println("ControlledShuntData:" + lineStr);
+      						ControlledShuntDataRec rec = new ControlledShuntDataRec(lineStr, version);
       					}
       					else if (recType == RecType.AreaData) {
       						// process Area Data
@@ -289,7 +290,7 @@ public class GEFormat_in {
       			}
     		} while (lineStr != null);
   		} catch (Exception e) {
-    		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString());
+    		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
   		//System.out.println(titleRec);

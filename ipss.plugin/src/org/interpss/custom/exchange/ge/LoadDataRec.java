@@ -81,12 +81,7 @@ public class LoadDataRec extends BusHeaderRec {
 	}
 	
 	public void setLoad(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
-		String id = new Integer(this.number).toString();
-		GeAclfBus  bus = (GeAclfBus)net.getBus(id);
-		if (bus == null) {
-			msg.sendErrorMsg("Bus cannot be found, bus number: " + id);
-			throw new Exception("Bus cannot be found");
-		}
+		GeAclfBus  bus = Ge2IpssUtilFunc.getBus(this.number, net, msg);
 		
 		GeLoad load = ExtensionObjectFactory.createGeLoad(id, longId);
 		bus.getLoadList().add(load);

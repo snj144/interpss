@@ -235,7 +235,7 @@ public class GEDataRec {
 	<sch_mvar> Schedule reactive power net interchange (MVAr)
 	<ar> Area number
 	
-       1 "1                               " "    "       0.00       0.00       0.00       0.00   0
+       1 "                                " "O1  " :       0.00       0.00       0.00       0.00   0
 	 */
 	static public class OwnerRec {
 		public int ownerNo, ar;
@@ -243,16 +243,18 @@ public class GEDataRec {
 		public double net_mw, net_mvar, sch_mw, sch_mvar;
 
 		public OwnerRec(String lineStr, VersionNo version) {
+			String str1 = lineStr.substring(0, lineStr.indexOf(':')),
+		           str2 = lineStr.substring(lineStr.indexOf(':')+1);
+
 			//System.out.println("owner->" + lineStr);
-			StringTokenizer st = new StringTokenizer(lineStr, "\"");
+			StringTokenizer st = new StringTokenizer(str1, "\"");
 			this.ownerNo = new Integer(st.nextToken().trim()).intValue();
 			this.oname = st.nextToken();
 			st.nextToken();
 			this.sname = st.nextToken();
 			
 			//        0.00       0.00       0.00       0.00   0
-			String str = st.nextToken();
-			st = new StringTokenizer(str);
+			st = new StringTokenizer(str2);
 			this.net_mw = new Double(st.nextToken()).doubleValue();
 			this.net_mvar = new Double(st.nextToken()).doubleValue();
 			this.sch_mw = new Double(st.nextToken()).doubleValue();

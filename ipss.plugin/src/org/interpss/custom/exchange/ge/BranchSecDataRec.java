@@ -125,11 +125,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 			net.addBranch(branch, new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
 		}
 		else {
-			branch = (GeAclfLine)net.getBranch(new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
-			if (branch == null) {
-				msg.sendErrorMsg("Branch section data error, branch cannot be found, fromBus, toBus: " + f_bus + ", " + t_bus);
-				throw new Exception("Branch cannot be found");
-			}
+			branch = Ge2IpssUtilFunc.getBranch(this.f_bus, this.t_bus, this.ck, net, msg); 
 		}
 		
 		GeBranchSection braSec = ExtensionObjectFactory.createGeBranchSection();
