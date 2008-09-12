@@ -30,6 +30,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfGenCode;
@@ -41,10 +42,13 @@ import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
+import com.interpss.core.aclfadj.FlowControlType;
 import com.interpss.core.aclfadj.FunctionLoad;
+import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
+import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
@@ -105,7 +109,7 @@ public class Ge2IpssUtilFunc {
 			}
 			else if (bra instanceof GeAclfXformer) {
 				GeAclfXformer geXfr = (GeAclfXformer) bra;
-				if (!setXfrData(geXfr, net.getBaseKva(), msg))
+				if (!setXfrData(geXfr, net.getBaseKva(), net, msg))
 					dataError = true;
 			}
 		}
@@ -185,26 +189,25 @@ public class Ge2IpssUtilFunc {
 		for (GeGenerator gen : geBus.getGenList()) {
 /*
 			st ---no--     reg_name       prf  qrf  ar zone   pgen   pmax   pmin   qgen   qmax   qmin   mbase cmp_r cmp_x gen_r gen_x
-				1     101 "NORTH-G1"  16.00  1.00 0.50  1    1  523.44  550.0   0.0  110.8  999.0 -999.0  750.00 0.000 0.872 0.000 0.200
+			1     101 "NORTH-G1"  16.00  1.00 0.50  1    1  523.44  550.0   0.0  110.8  999.0 -999.0  750.00 0.000 0.872 0.000 0.200
 				
 */
-			if (regBusNumber == -1)
-				regBusNumber = gen.getRegBusNumber();
-			else {
-				if (regBusNumber != gen.getRegBusNumber()) {
-					dataError = true;
-					msg.sendErrorMsg("Generator reg number is worng, regBus: " + gen.getRegBusNumber());
-				}
-			}
-			
 			if (gen.isInSevice()) {
+				if (regBusNumber == -1)
+					regBusNumber = gen.getRegBusNumber();
+				else {
+					if (regBusNumber != gen.getRegBusNumber()) {
+						dataError = true;
+						msg.sendErrorMsg("Generator reg number is worng, regBus: " + gen.getRegBusNumber());
+					}
+				}
+			
 				pgen += gen.getPMw();
 				qgen += gen.getQMvar();
 				qmax += gen.getQMvarMax();
 				qmin += gen.getQMvarMin();
 			}
 		}
-	
 /*			<ty> Bus type {0,1,2,-2}
 			0 = swing bus (voltage magnitude and phase fixed)
 			1 = load bus (unconstrained voltage angle and magnitude)
@@ -224,13 +227,17 @@ public class Ge2IpssUtilFunc {
 	    		gen.setGen(new Complex(pgen, qgen), UnitType.mVA, net.getBaseKva());
 	    	} break;
 			case 2 : {
-				geBus.setGenCode(AclfGenCode.GEN_PV);
-	  			final PVBusAdapter gen = (PVBusAdapter)geBus.adapt(PVBusAdapter.class);
-	  			gen.setGenP(pgen, UnitType.mW, net.getBaseKva());
-	  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
-	  			if (regBusNumber == new Integer(geBus.getId()).intValue()) {
+	  			if (regBusNumber == -1) {
+					geBus.setGenCode(AclfGenCode.NON_GEN);
+	  			}
+	  			else if (regBusNumber == new Integer(geBus.getId()).intValue()) {
   					// PV Bus limit control
-  			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(net, geBus.getId());
+					geBus.setGenCode(AclfGenCode.GEN_PV);
+		  			final PVBusAdapter gen = (PVBusAdapter)geBus.adapt(PVBusAdapter.class);
+		  			gen.setGenP(pgen, UnitType.mW, net.getBaseKva());
+		  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
+
+		  			final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(net, geBus.getId());
   			  		pvLimit.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());		  				
 	  			}
 	  			else {
@@ -325,19 +332,20 @@ public class Ge2IpssUtilFunc {
     	return !dataError;
 	}
 	
-	private static boolean setXfrData(GeAclfXformer geXfr, double baseKva, IPSSMsgHub msg) {
+	private static boolean setXfrData(GeAclfXformer geXfr, double baseKva, GeAclfNetwork net, IPSSMsgHub msg) {
 		boolean dataError = false;
 		
 		/*
 		st ty --no---    reg_name          zt         int                           tert               
-			 1  1   -1      "        " 000.00   0   -1      "        " 000.00   -1      "        " 000.00  
+		 1  1   -1      "        " 000.00   0   -1      "        " 000.00   -1      "        " 000.00  
 		ar zone  tbase   ps_r    ps_x    pt_r    pt_x    ts_r    ts_x
-			 1    1  600.0 0.00000 0.10000 0.00000 0.00000 0.00000 0.00000 /
+		 1    1  600.0 0.00000 0.10000 0.00000 0.00000 0.00000 0.00000 /
 		vnomp>  vnoms>  vnomt   anglp> gmag>   bmag>    r1>      r2     r3     r4> aloss> 
 		230.00  16.00   0.00    0.0    0.00000 0.00000  600.0    0.0    0.0    0.0 0.000  
 		tmax   tmin>  vtmax  vtmin  stepp>  tapp   tapfp> tapfs> tapft
 		1.5000 0.5100 1.5000 0.5100 0.00000 1.0000 1.0000 1.0000 1.0000
 		 */
+		
 		// adjust xfr parameters for base MVA
 		double factor = baseKva / (geXfr.getBaseMvaPrim2Secd()*1000.0);
     	double r = geXfr.getRPrim2Secd()*factor,
@@ -350,9 +358,9 @@ public class Ge2IpssUtilFunc {
     	if (geXfr.getFromAclfBus().getBaseVoltage() != geXfr.getNominalKvPrim()*1000.0 || 
 				geXfr.getToAclfBus().getBaseVoltage() != geXfr.getNominalKvSecd()*1000.0	) {
 				// all xfr data are on nominal voltage. They have to be adjusted 
-				dataError = true;
-				msg.sendErrorMsg("adjust xfr parameters, Function not implmented yet");
-			}
+			dataError = true;
+			msg.sendErrorMsg("adjust xfr parameters, Function not implmented yet");
+		}
 
     	geXfr.setBranchCode(AclfBranchCode.XFORMER);
 		final XfrAdapter xfr = (XfrAdapter)geXfr.adapt(XfrAdapter.class);
@@ -361,25 +369,50 @@ public class Ge2IpssUtilFunc {
     	xfr.setToTurnRatio(toRatio, UnitType.PU); 
     	geXfr.getFromAclfBus().setShuntY(new Complex(0.5*g, 0.5*b));
     	geXfr.getToAclfBus().setShuntY(new Complex(0.5*g, 0.5*b));
+    	
     	if (geXfr.getPhaseAngleDegPrim() != 0.0 || geXfr.getPhaseAngleDegSecd() != 0.0) {
     		// PhaseShifting transformer branch
+    		IpssLogger.getLogger().info("Branch " + geXfr.getId() + " is a PsXfr" );
     	 	geXfr.setBranchCode(AclfBranchCode.PS_XFORMER);
     		final PSXfrAdapter psXfr = (PSXfrAdapter)geXfr.adapt(PSXfrAdapter.class);
     		psXfr.setFromAngle(geXfr.getPhaseAngleDegPrim()*Constants.DtoR);
     		psXfr.setToAngle(geXfr.getPhaseAngleDegSecd()*Constants.DtoR);
 		}
 		
-		if (geXfr.getType() == 2) {
+		if (geXfr.getType() == 2 || geXfr.getType() == 12) {
 			// tap voltage control
-			dataError = true;
-			msg.sendErrorMsg("geXfr.getType() != 1, Function not implmented yet");
+			String controlBusId = new Integer(geXfr.getAdjBusNumber()).toString();
+			final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
+      				net, geXfr.getId(), controlBusId, FlowControlType.RANGE_CONTROL);
+      		tapv.setTapLimit(new LimitType(geXfr.getTapAngMax(),geXfr.getTapAngMin()));
+      		tapv.setControlRange(new LimitType(geXfr.getVmax(), geXfr.getVmin()));
+      		tapv.setVSpecified(1.0);
+      		tapv.setTapStepSize(geXfr.getAdjTapAngStep());
+      		// we use from side tap to control
+      		tapv.setControlOnFromSide(true);
+      		tapv.setMeteredOnFromSide(true);
+      		net.addTapControl(tapv, controlBusId);   
 		}
-		else if (geXfr.getType() == 4) {
+		else if (geXfr.getType() == 4 || geXfr.getType() == 14) {
 			// ps-xfr angle power control
 			dataError = true;
-			msg.sendErrorMsg("geXfr.getType() != 1, Function not implmented yet");
+			msg.sendErrorMsg("geXfr.getType() != 4, 14, Function not implmented yet");
+/*
+			final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL);
+      		ps.setAngLimit(new LimitType(xfr.getRmLimit().getMax()*Constants.DtoR, 
+      									 xfr.getRmLimit().getMin()*Constants.DtoR));
+      		double baseMva = adjNet.getBaseKva() * 0.001;
+      		ps.setControlRange(new LimitType(xfr.getVmLimit().getMax()/baseMva, xfr.getVmLimit().getMin()/baseMva));
+      		// we use from side angle to control
+      		ps.setControlOnFromSide(true);
+      		ps.setMeteredOnFromSide(xfr.isControlOnFromSide());
+      		ps.setFlowFrom2To(true);
+      		if (xfr.getControlMode() == -3)
+      			ps.setStatus(false);
+  			adjNet.addPSXfrPControl(ps, xfr.getId());
+ */ 			   
 		}
-		else if (geXfr.getType() != 1) {
+		else if (geXfr.getType() != 1 && geXfr.getType() != 11) {
 			dataError = true;
 			msg.sendErrorMsg("geXfr.getType() == " + geXfr.getType() + ", Function not implmented yet");
 		}
