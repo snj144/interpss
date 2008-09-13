@@ -32,10 +32,7 @@ import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.simu.SimuContext;
@@ -46,6 +43,12 @@ public class SCEdisonTestCases extends BaseTestSetup {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
 		SimuContext simuCtx = adapter.load("testData/ge/lftest_083008.epc", SpringAppContext.getIpssMsgHub());
 		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
+
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+		//System.out.println(net.net2String());
+	  	
+  		assertTrue(net.isLfConverged());		
 	}	
 }
 
