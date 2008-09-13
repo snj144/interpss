@@ -28,7 +28,7 @@ import java.util.StringTokenizer;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.ext.ExtensionObjectFactory;
-import com.interpss.ext.ge.aclf.GeAclfLine;
+import com.interpss.ext.ge.aclf.GeAclfBranch;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.ext.ge.aclf.GeBranchSection;
 
@@ -118,7 +118,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 	}
 	
 	public void setBranchSection(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
-		GeAclfLine  branch = null;
+		GeAclfBranch  branch = null;
 		if (this.sec == 1) {
 			// first section
 			branch = ExtensionObjectFactory.createGeAclfLine();

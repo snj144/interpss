@@ -44,7 +44,6 @@ import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.FlowControlType;
 import com.interpss.core.aclfadj.FunctionLoad;
-import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
@@ -54,8 +53,8 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.core.net.Owner;
 import com.interpss.core.net.Zone;
+import com.interpss.ext.ge.aclf.GeAclfBranch;
 import com.interpss.ext.ge.aclf.GeAclfBus;
-import com.interpss.ext.ge.aclf.GeAclfLine;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.ext.ge.aclf.GeAclfXformer;
 import com.interpss.ext.ge.aclf.GeArea;
@@ -99,12 +98,12 @@ public class Ge2IpssUtilFunc {
 
 		// transfer branch data
 		for (Branch bra : net.getBranchList()) {
-			if (bra instanceof GeAclfLine) {
-				GeAclfLine geLine = (GeAclfLine) bra;
-				if (!setLineData(geLine, net.getBaseKva(), msg))
+			if (bra instanceof GeAclfBranch) {
+				GeAclfBranch geBra = (GeAclfBranch) bra;
+				if (!setBranchData(geBra, net.getBaseKva(), msg))
 					dataError = true;
 
-				if (!setBranchSectionShuntData(geLine, net.getBaseKva(), net, msg))
+				if (!setBranchSectionShuntData(geBra, net.getBaseKva(), net, msg))
 					dataError = true;
 			}
 			else if (bra instanceof GeAclfXformer) {
@@ -112,6 +111,11 @@ public class Ge2IpssUtilFunc {
 				if (!setXfrData(geXfr, net.getBaseKva(), net, msg))
 					dataError = true;
 			}
+		}
+
+		for (Bus bus : net.getBusList()) {
+			if (bus.nActiveBranchConnected() == 0)
+				bus.setStatus(false);
 		}
 		return !dataError;
 	}
@@ -280,7 +284,7 @@ public class Ge2IpssUtilFunc {
 		return !dataError;
 	}
 
-	private static boolean setBranchSectionShuntData(GeAclfLine geLine, double baseKva, GeAclfNetwork net, IPSSMsgHub msg) {
+	private static boolean setBranchSectionShuntData(GeAclfBranch geLine, double baseKva, GeAclfNetwork net, IPSSMsgHub msg) {
 		boolean dataError = false;
 		
     	double factor = 1000.0/baseKva;  // for transfer G+jB from MVA to PU on system base 
@@ -299,18 +303,18 @@ public class Ge2IpssUtilFunc {
 		return !dataError;
 	}
 
-	private static boolean setLineData(GeAclfLine geLine, double baseKva, IPSSMsgHub msg) {
+	private static boolean setBranchData(GeAclfBranch geBra, double baseKva, IPSSMsgHub msg) {
 		boolean dataError = false;
 		/*
 			st resist   react   charge   rate1   
 	    	1 0.01000 0.05000  0.00000  600.0  
 		*/			
-		if (geLine.getBranchSecList().size() > 1) {
+		if (geBra.getBranchSecList().size() > 1) {
 			dataError = true;
 			msg.sendErrorMsg("sec.getType() != 0, Function not implmented yet");
 		}
 		
-		GeBranchSection sec = geLine.getBranchSecList().get(0);
+		GeBranchSection sec = geBra.getBranchSecList().get(0);
 		if (sec.getType() != 0) {
 			dataError = true;
 			msg.sendErrorMsg("sec.getType() != 0, Function not implmented yet");
@@ -320,14 +324,25 @@ public class Ge2IpssUtilFunc {
 			msg.sendErrorMsg("sec.isOhmicUnti == true, Function not implmented yet");
 		}
 			
-	   	geLine.setBranchCode(AclfBranchCode.LINE);
-	   	geLine.setStatus(sec.isInSevice());
-		final LineAdapter line = (LineAdapter)geLine.adapt(LineAdapter.class);
-	   	line.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
-	   	line.setHShuntY(new Complex(0.0,0.5*sec.getB()), UnitType.PU, 1.0, baseKva); // Unit is PU, no need to enter baseV
-	   	line.setMvaRating1(sec.getMvaRatingAry().get(0));
-	   	line.setMvaRating2(sec.getMvaRatingAry().get(1));
-	   	line.setMvaRating3(sec.getMvaRatingAry().get(2));
+	   	geBra.setStatus(sec.isInSevice());
+	   	if (geBra.getFromAclfBus().getBaseVoltage() == geBra.getToAclfBus().getBaseVoltage()) {
+	   		geBra.setBranchCode(AclfBranchCode.LINE);
+			final LineAdapter line = (LineAdapter)geBra.adapt(LineAdapter.class);
+		   	line.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
+		   	line.setHShuntY(new Complex(0.0,0.5*sec.getB()), UnitType.PU, 1.0, baseKva); // Unit is PU, no need to enter baseV
+		   	line.setMvaRating1(sec.getMvaRatingAry().get(0));
+		   	line.setMvaRating2(sec.getMvaRatingAry().get(1));
+		   	line.setMvaRating3(sec.getMvaRatingAry().get(2));
+	   	}
+	   	else {
+	    	geBra.setBranchCode(AclfBranchCode.XFORMER);
+			final XfrAdapter xfr = (XfrAdapter)geBra.adapt(XfrAdapter.class);
+	    	xfr.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
+	    	xfr.setFromTurnRatio(1.0+sec.getFromTap(), UnitType.PU);
+	    	xfr.setToTurnRatio(1.0+sec.getToTap(), UnitType.PU); 
+	    	geBra.getFromAclfBus().setShuntY(new Complex(0.5*sec.getGi(), 0.0));
+	    	geBra.getToAclfBus().setShuntY(new Complex(0.5*sec.getGi(), 0.0));
+	   	}
 
     	return !dataError;
 	}
@@ -433,8 +448,8 @@ public class Ge2IpssUtilFunc {
 		return bus;
 	}
 	
-	public static GeAclfLine getBranch(int fBusNo, int tBusNo, String ck, GeAclfNetwork net, IPSSMsgHub msg) throws Exception { 			
-		GeAclfLine branch = (GeAclfLine)net.getBranch(new Integer(fBusNo).toString(), new Integer(tBusNo).toString(), ck);
+	public static GeAclfBranch getBranch(int fBusNo, int tBusNo, String ck, GeAclfNetwork net, IPSSMsgHub msg) throws Exception { 			
+		GeAclfBranch branch = (GeAclfBranch)net.getBranch(new Integer(fBusNo).toString(), new Integer(tBusNo).toString(), ck);
 		if (branch == null) {
 			msg.sendErrorMsg("Branch section data error, branch cannot be found, fromBus, toBus: " + fBusNo + ", " + tBusNo);
 			throw new Exception("Branch cannot be found");
@@ -443,7 +458,7 @@ public class Ge2IpssUtilFunc {
 	}
 	
 	public static GeBranchSection getBranchSection(int fBusNo, int tBusNo, String ck, int secNo, GeAclfNetwork net, IPSSMsgHub msg) throws Exception { 			
-		GeAclfLine branch = getBranch(fBusNo, tBusNo, ck, net, msg);
+		GeAclfBranch branch = getBranch(fBusNo, tBusNo, ck, net, msg);
 		GeBranchSection sec = branch.getBranchSection(secNo);
 		if (sec == null) {
 			msg.sendErrorMsg("Branch section data error, branch section cannot be found, section: " + secNo);
