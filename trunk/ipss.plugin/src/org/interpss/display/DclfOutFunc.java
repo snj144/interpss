@@ -87,7 +87,7 @@ public class DclfOutFunc {
 		str += "   Bud Id       dAng/dP\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBusArray()) {
-			double pang = algo.getBusSensitivity(DclfSensitivityType.PANGLE,
+			double pang = algo.getBusSensitivity(DclfSensitivityType.PANGLE, sen.getInjectBusId(),
 					bus.getBusId(), msg);
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(pang) + "\n";
@@ -111,8 +111,7 @@ public class DclfOutFunc {
 		str += "   Bud Id         dV/dQ\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBusArray()) {
-			double x = algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, bus
-					.getBusId(), msg);
+			double x = algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, sen.getInjectBusId(), bus.getBusId(), msg);
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(x) + "\n";
 		}
@@ -136,7 +135,7 @@ public class DclfOutFunc {
 		str += "       Branch Id          GSF\n";
 		str += "=========================================\n";
 		for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
-			double gsf = algo.getGenShiftFactor(branch.getFromBusId(), branch
+			double gsf = algo.getGenShiftFactor(gsFactor.getInjectBusId(), branch.getFromBusId(), branch
 					.getToBusId(), msg);
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
@@ -163,8 +162,8 @@ public class DclfOutFunc {
 		str += "       Branch Id          PTDF\n";
 		str += "========================================\n";
 		for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-			double ptdf = algo.getPTransferDistFactor(branch.getFromBusId(),
-					branch.getToBusId(), msg);
+			double ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(),
+					branch.getFromBusId(),	branch.getToBusId(), msg);
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
 					+ "       " + Number2String.toStr(ptdf) + "\n";
