@@ -64,6 +64,8 @@ public class EditorActionAdapter {
 		try {
 			if (type == SimuRunType.Dclf )
 				menu_run_dclf(type, graphView, graph, doc);
+			else if (type == SimuRunType.SenAnalysis )
+				menu_run_scripting(graphView, graph, doc);
 			else if (type == SimuRunType.Aclf)
 				menu_run_aclf(graphView, graph, doc);
 			else if (type == SimuRunType.Acsc)
@@ -96,7 +98,7 @@ public class EditorActionAdapter {
 		worker.start();
 		appSimuCtx.setLastRunType(type);
 	}
-	
+
 	private static void menu_run_aclf(boolean graphView, JGraph graph, IpssEditorDocument doc)  throws Exception  {
 		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
