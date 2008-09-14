@@ -56,7 +56,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				p-0012->-0.06132364240087546
 				*/				
 				for (BusRecXmlType bus : sen.getBusArray()) {
-					double pang = algo.getBusSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+					double pang = algo.getBusSensitivity(DclfSensitivityType.PANGLE, sen.getInjectBusId(), bus.getBusId(), msg);
 					assertTrue(	Math.abs(pang+0.06163) < 0.0001 ||
 								Math.abs(pang+0.06132) < 0.0001);
 				}
@@ -70,7 +70,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				Q-0012->-0.025252754409984517
 				*/				
 				for (BusRecXmlType bus : sen.getBusArray()) {
-					double qvolt = algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, bus.getBusId(), msg);
+					double qvolt = algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, sen.getInjectBusId(), bus.getBusId(), msg);
 					assertTrue(	Math.abs(qvolt+0.060867) < 0.0001 ||
 								Math.abs(qvolt+0.025253) < 0.0001);
 				}
@@ -80,7 +80,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		for (DclfBranchSensitivityXmlType gsFactor : dclfCase.getGenShiftFactorArray()) {
 			algo.calculateSensitivity(DclfSensitivityType.PANGLE, gsFactor.getInjectBusId(), msg);
 			for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
-				double gsf = algo.getGenShiftFactor(branch.getFromBusId(), branch.getToBusId(), msg);
+				double gsf = algo.getGenShiftFactor(gsFactor.getInjectBusId(), branch.getFromBusId(), branch.getToBusId(), msg);
 				//System.out.println("GSF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + gsf);
 				/*
 				GSF 0004->0007 0.011086980682516566
@@ -93,15 +93,48 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 			}
 		}
 
-		for (DclfBranchSensitivityXmlType tdFactor : dclfCase.getPTransferDistFactorArray()) {
-			algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(), msg);
-			double sum = 0.0;
-			for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-				double ptdf = algo.getPTransferDistFactor(branch.getFromBusId(), branch.getToBusId(), msg);
-				sum += ptdf;
-				//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
+		for (DclfPowerTransferDistFactorXmlType tdFactor : dclfCase.getPTransferDistFactorArray()) {
+			if (tdFactor.getWithdrawBusId() != null) {
+				algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(), msg);
+				double sum = 0.0;
+				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
+					double ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(), 
+							branch.getFromBusId(), branch.getToBusId(), msg);
+					sum += ptdf;
+					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
+				}
+				assertTrue(Math.abs(sum-1.0) < 0.0001);
 			}
-			assertTrue(Math.abs(sum-1.0) < 0.0001);
+			else {
+				algo.getWithdrawBusList().clear();
+				algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor.getInjectBusId(), msg);
+				for (DclfPowerTransferDistFactorXmlType.WithdrawBusList.WithdrawBus bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
+					algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+					algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
+				}
+				double sum = 0.0;
+				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
+					double ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), branch.getFromBusId(), branch.getToBusId(), msg);
+					sum += ptdf;
+					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
+				}
+				assertTrue(Math.abs(sum-1.0) < 0.0001);
+			}
+		}
+
+		// repeat for testing the cached sensitivity results
+		for (DclfPowerTransferDistFactorXmlType tdFactor : dclfCase.getPTransferDistFactorArray()) {
+			if (tdFactor.getWithdrawBusId() != null) {
+				algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(), msg);
+				double sum = 0.0;
+				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
+					double ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(), 
+							branch.getFromBusId(), branch.getToBusId(), msg);
+					sum += ptdf;
+					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
+				}
+				assertTrue(Math.abs(sum-1.0) < 0.0001);
+			}
 		}
 	}
 }
