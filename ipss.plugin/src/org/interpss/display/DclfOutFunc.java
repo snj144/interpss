@@ -162,8 +162,13 @@ public class DclfOutFunc {
 		str += "       Branch Id          PTDF\n";
 		str += "========================================\n";
 		for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-			double ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(),
-					branch.getFromBusId(),	branch.getToBusId(), msg);
+			double ptdf = 0.0;
+			if (tdFactor.getWithdrawBusId() != null)
+				ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(),
+								branch.getFromBusId(),	branch.getToBusId(), msg);
+			else 
+				ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), 
+								branch.getFromBusId(),	branch.getToBusId(), msg);
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
 					+ "       " + Number2String.toStr(ptdf) + "\n";
