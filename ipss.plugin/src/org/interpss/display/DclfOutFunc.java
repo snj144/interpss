@@ -28,6 +28,7 @@ import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
+import org.interpss.schema.DclfPowerTransferDistFactorXmlType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -153,12 +154,15 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String pTransferDistFactorResults(
-			DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo,
+			DclfPowerTransferDistFactorXmlType tdFactor, DclfAlgorithm algo,
 			IPSSMsgHub msg) {
 		String str = "\n\n";
 		str += "   Power Transfer Distribution Factor\n\n";
 		str += "    Inject BusId   : " + tdFactor.getInjectBusId() + "\n";
-		str += "    Withdraw BusId : " + tdFactor.getWithdrawBusId() + "\n\n";
+		if (tdFactor.getWithdrawBusId() != null)
+			str += "    Withdraw BusId : " + tdFactor.getWithdrawBusId() + "\n\n";
+		else
+			str += "    Withdraw BusId : " + tdFactor.getWithdrawBusList().toString() + "\n\n";
 		str += "       Branch Id          PTDF\n";
 		str += "========================================\n";
 		for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
