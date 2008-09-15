@@ -108,7 +108,7 @@ bus data  [    5]             ty  vsched   volt     angle   ar zone  vmax   vmin
 		bus.setGeAreaNo(ar);
 		bus.setGeZoneNo(z);
 		bus.setGeOwnerNo(owner);
-		bus.setVoltage(vt_pu, an_deg*Constants.DtoR);
+		bus.setVoltageAng(an_deg*Constants.DtoR);
 		bus.setVSpecPU(vs_pu);
 		bus.setVUpperLimitPU(vma);
 		bus.setVLowerLimitPU(vmi);

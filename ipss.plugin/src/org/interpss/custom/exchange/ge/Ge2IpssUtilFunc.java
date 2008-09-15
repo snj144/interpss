@@ -222,8 +222,10 @@ public class Ge2IpssUtilFunc {
 			case 0 : {
 				geBus.setGenCode(AclfGenCode.SWING);
 	  			final SwingBusAdapter gen = (SwingBusAdapter)geBus.adapt(SwingBusAdapter.class);
-	  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
-	  			gen.setVoltAng(geBus.getVoltageAng(), UnitType.Rad);					
+	  			double mag = geBus.getVSpecPU(), ang = geBus.getVoltageAng(); 
+	  			// setVoltMag() also changes VoltAng, so we need first buffer the values
+	  			gen.setVoltMag(mag, UnitType.PU);
+	  			gen.setVoltAng(ang, UnitType.Rad);					
 			} break;
 			case 1 : {
 				geBus.setGenCode(AclfGenCode.GEN_PQ);
