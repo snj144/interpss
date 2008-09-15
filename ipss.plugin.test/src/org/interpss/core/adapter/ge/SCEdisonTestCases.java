@@ -45,6 +45,7 @@ public class SCEdisonTestCases extends BaseTestSetup {
 		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	algo.setTolerance(0.1);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
 		//System.out.println(net.net2String());
 	  	
