@@ -27,6 +27,7 @@ package org.interpss.custom.exchange.ge;
 import java.util.StringTokenizer;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.ge.aclf.GeAclfBus;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
@@ -188,6 +189,9 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		 */
 		gen.setPRegFactor(this.prf);
 		gen.setQRegFactor(this.qrf);
+		if (this.prf != 1.0 || this.qrf != 1.0) {
+			IpssLogger.getLogger().warning("this.prf != 1.0 || this.qrf != 1.0 at bus " + this.number);
+		}
 		/*
 		<pgen> Actual real power output (MW)
 		<pmax> Maximum real power output (MW)
