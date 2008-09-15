@@ -233,28 +233,27 @@ public class Ge2IpssUtilFunc {
 	    		gen.setGen(new Complex(pgen, qgen), UnitType.mVA, net.getBaseKva());
 	    	} break;
 			case 2 : {
-	  			if (regBusNumber == -1) {
-					geBus.setGenCode(AclfGenCode.NON_GEN);
-	  			}
-	  			else if (regBusNumber == new Integer(geBus.getId()).intValue()) {
-  					// PV Bus limit control
-					geBus.setGenCode(AclfGenCode.GEN_PV);
-		  			final PVBusAdapter gen = (PVBusAdapter)geBus.adapt(PVBusAdapter.class);
-		  			gen.setGenP(pgen, UnitType.mW, net.getBaseKva());
-		  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
+				if (regBusNumber != -1) {
+					if (regBusNumber == new Integer(geBus.getId()).intValue()) {
+	  					// PV Bus limit control
+						geBus.setGenCode(AclfGenCode.GEN_PV);
+			  			final PVBusAdapter gen = (PVBusAdapter)geBus.adapt(PVBusAdapter.class);
+			  			gen.setGenP(pgen, UnitType.mW, net.getBaseKva());
+			  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
 
-		  			final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(net, geBus.getId());
-  			  		pvLimit.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());		  				
-	  			}
-	  			else {
-  					// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
-					geBus.setGenCode(AclfGenCode.GEN_PQ);
-					String reBusId = new Integer(regBusNumber).toString();
-  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(net, geBus.getId(), 
-  			  				RemoteQControlType.BUS_VOLTAGE, reBusId);
-  			  		reQ1.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());
-  			  		reQ1.setVSpecified(geBus.getVSpecPU());						
-	  			}
+			  			final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(net, geBus.getId());
+	  			  		pvLimit.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());		  				
+		  			}
+		  			else {
+	  					// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
+						geBus.setGenCode(AclfGenCode.GEN_PQ);
+						String reBusId = new Integer(regBusNumber).toString();
+	  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(net, geBus.getId(), 
+	  			  				RemoteQControlType.BUS_VOLTAGE, reBusId);
+	  			  		reQ1.setQLimit(new LimitType(qmax, qmin), UnitType.mVar, net.getBaseKva());
+	  			  		reQ1.setVSpecified(geBus.getVSpecPU());						
+		  			}
+				}
 	  		} break;
 			case -2 : {
 				geBus.setGenCode(AclfGenCode.GEN_PV);

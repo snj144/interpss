@@ -35,7 +35,7 @@ import com.interpss.ext.ge.aclf.GeBranchSection;
 public class BranchSecDataRec extends BaseBranchDataRec {
 	public double r, x, b;
 	public double al, l_info, gi, tf, tt;
-	public int type = 0;   //Type of line 0=normal line
+	public int type = 0;   //Type of line 0=normal line, 1=Xfr
 
 	/*
 		<f bus> <"f name"> <f bkv> <t bus> <"t name"> <t bkv> <"ck"> <sec> <"long id">: 
