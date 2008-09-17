@@ -55,6 +55,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	// ref to the AppInfo where the current project data are hold
 	private AppSimuContextImpl _appSimuCtx = null;
 	 
+    private NBDclfCasePanel  _dclfCaseInfoPanel = null;
     private NBAclfCasePanel  _aclfCaseInfoPanel = null;
     private NBAcscCasePanel  _acscCaseInfoPanel = null;
     private NBDStabCasePanel _dstabCaseInfoPanel = null;
@@ -70,6 +71,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         deleteCaseButton.setEnabled(false);
         
         _aclfCaseInfoPanel = new NBAclfCasePanel(this);
+        _dclfCaseInfoPanel = new NBDclfCasePanel(this);
         _acscCaseInfoPanel = new NBAcscCasePanel(this);
         _dstabCaseInfoPanel = new NBDStabCasePanel(this);
         _scrptsCaseInfoPanel = new NBScriptingCasePanel(this);
@@ -92,6 +94,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			caseDataPanel.add(_aclfCaseInfoPanel);
 			_aclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx(), true);
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().addMsgListener(_aclfCaseInfoPanel);
+		}
+		if (_caseType == CaseData.CaseType_SenAnalysis) {
+			this.setTitle("Run Sensitivity Analysis");
+			caseDataPanel.add(_dclfCaseInfoPanel);
+			_dclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
+			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().addMsgListener(_dclfCaseInfoPanel);
 		}
 		else if (_caseType == CaseData.CaseType_Acsc) {
 			this.setTitle("Run Acsc Short Circuit Analysis");
@@ -195,6 +203,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			// set the case data to the actual data editing panel
 			_aclfCaseInfoPanel.setForm2Editor();
 		}
+		else if (_caseType == CaseData.CaseType_SenAnalysis) {
+			projData.setDclfCaseName(casename);
+			SimuAppSpringAppContext.getDclfRunForm().setDclfCaseData(_caseData.getDclfCaseData());
+			_dclfCaseInfoPanel.setCaseData(_caseData.getDclfCaseData());
+			_dclfCaseInfoPanel.setForm2Editor();
+		}
 		else if (_caseType == CaseData.CaseType_Acsc) {
 			projData.setAcscCaseName(casename);
 			SimuAppSpringAppContext.getAcscRunForm().setAcscCaseData(_caseData.getAcscCaseData());
@@ -239,6 +253,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		if (_caseType == CaseData.CaseType_Aclf) {
 			projData.setAclfCaseName(casename);
 			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
+		}
+		else if (_caseType == CaseData.CaseType_SenAnalysis) {
+			projData.setDclfCaseName(casename);
+			_dclfCaseInfoPanel.saveEditor2Form(errMsg);
 		}
 		else if (_caseType == CaseData.CaseType_Acsc) {
 			projData.setAcscCaseName(casename);
@@ -460,6 +478,8 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			if (_caseType == CaseData.CaseType_Aclf) 
 				// update current projData.casename, which controls the case being displayed and edited
 				projData.setAclfCaseName(casename);
+			else if (_caseType == CaseData.CaseType_SenAnalysis) 
+				projData.setDclfCaseName(casename);
 			else if (_caseType == CaseData.CaseType_Acsc) 
 				projData.setAcscCaseName(casename);
 			else if (_caseType == CaseData.CaseType_DStab) 

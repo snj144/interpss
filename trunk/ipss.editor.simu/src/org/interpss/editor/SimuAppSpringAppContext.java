@@ -30,6 +30,7 @@ import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
+import org.interpss.editor.runAct.ui.DclfRunForm;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -66,6 +67,15 @@ public class SimuAppSpringAppContext extends SpringAppContext {
 	 */
 	public static AclfRunForm getAclfRunForm() {
 		return (AclfRunForm) SpringAppCtx.getBean(Constants.SID_AclfRunForm);
+	}
+
+	/**
+	 * Get the AclfRunForm(singleton) from the SpringAppContext.
+	 *  
+	 * @return the AclfRunForm object
+	 */
+	public static DclfRunForm getDclfRunForm() {
+		return (DclfRunForm) SpringAppCtx.getBean(Constants.SID_DclfRunForm);
 	}
 
 	/**
