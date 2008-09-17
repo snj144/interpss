@@ -65,7 +65,7 @@ public class EditorActionAdapter {
 			if (type == SimuRunType.Dclf )
 				menu_run_dclf(type, graphView, graph, doc);
 			else if (type == SimuRunType.SenAnalysis )
-				menu_run_scripting(graphView, graph, doc);
+				menu_run_sen(graphView, graph, doc);
 			else if (type == SimuRunType.Aclf)
 				menu_run_aclf(graphView, graph, doc);
 			else if (type == SimuRunType.Acsc)
@@ -97,6 +97,36 @@ public class EditorActionAdapter {
 		worker.configRun(type, simuCtx, graph);
 		worker.start();
 		appSimuCtx.setLastRunType(type);
+	}
+
+	private static void menu_run_sen(boolean graphView, JGraph graph, IpssEditorDocument doc)  throws Exception  {
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
+		
+		IGFormContainer gFormContainer = null ;
+		if (graphView) {
+			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
+			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
+			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+				return;
+			appSimuCtx.setSimuNetDataDirty(false);
+		}
+		
+		simuCtx.setDclfAlgorithm(CoreSpringAppContext.getDclfAlgorithm());
+
+		try {
+			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_SenAnalysis);
+			dialog.init(gFormContainer, appSimuCtx);
+			if (dialog.isReturnOk()) {
+				SimuRunWorker worker = new SimuRunWorker("SenAnalysis SimuRunWorker");
+				worker.configRun(SimuRunType.SenAnalysis, simuCtx, graph);
+				worker.start();
+				appSimuCtx.setLastRunType(SimuRunType.SenAnalysis);
+			}
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			SpringAppContext.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+		}
 	}
 
 	private static void menu_run_aclf(boolean graphView, JGraph graph, IpssEditorDocument doc)  throws Exception  {

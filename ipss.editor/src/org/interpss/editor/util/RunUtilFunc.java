@@ -24,6 +24,9 @@
 
 package org.interpss.editor.util;
 
+import java.util.Set;
+import java.util.TreeSet;
+
 import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssCustomDocument;
@@ -33,9 +36,16 @@ import org.interpss.editor.ui.EditorActionAdapter;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.SimuRunType;
+import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Branch;
+import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 
 public class RunUtilFunc  {
+	public static enum NetIdTypeEnum {LoadBus, GenBus, AllBus, LineBranch, XfrBranch, AllBranch}
+	
 	/**
 	 * perform the run action 
 	 * 
