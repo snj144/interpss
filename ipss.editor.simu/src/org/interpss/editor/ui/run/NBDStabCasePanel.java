@@ -872,7 +872,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
             outScriptingjPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(outScriptingjPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 591, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
                 .addContainerGap())
         );
         outScriptingjPanelLayout.setVerticalGroup(

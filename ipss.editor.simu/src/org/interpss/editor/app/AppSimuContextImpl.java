@@ -40,6 +40,7 @@ import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
+import org.interpss.editor.data.proj.DclfCaseData;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
@@ -178,7 +179,9 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 		if (vect.size() == 0) {
 			String name = "Aclf Analysis Case";
-			if (caseType.equals(CaseData.CaseType_Acsc))
+			if (caseType.equals(CaseData.CaseType_SenAnalysis))
+				name = "Sensitivity Analysis Case";
+			else if (caseType.equals(CaseData.CaseType_Acsc))
 				name = "Acsc Analysis Case";
 			else if (caseType.equals(CaseData.CaseType_DStab))
 				name = "Transient Stability Case";
@@ -252,16 +255,25 @@ public class AppSimuContextImpl implements IAppSimuContext {
 				caseData.setAclfCaseData(new AclfCaseData());
 				SimuAppSpringAppContext.getAclfRunForm().setAclfCaseData(
 						caseData.getAclfCaseData());
-			} else if (caseType.equals(CaseData.CaseType_Acsc)) {
+			} 
+			else if (caseType.equals(CaseData.CaseType_SenAnalysis)) {
+				caseData.setDclfCaseData(new DclfCaseData());
+				SimuAppSpringAppContext.getDclfRunForm().setDclfCaseData(
+						caseData.getDclfCaseData());
+			} 
+			else if (caseType.equals(CaseData.CaseType_Acsc)) {
 				caseData.setAcscCaseData(new AcscCaseData());
 				SimuAppSpringAppContext.getAcscRunForm().setAcscCaseData(
 						caseData.getAcscCaseData());
-			} else if (caseType.equals(CaseData.CaseType_DStab)) {
+			} 
+			else if (caseType.equals(CaseData.CaseType_DStab)) {
 				caseData.setDStabCaseData(new DStabCaseData());
 				caseData.setAclfCaseData(new AclfCaseData());
 				getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
-			} else if (caseType.equals(CaseData.CaseType_Scripts)) {
-			} else {
+			} 
+			else if (caseType.equals(CaseData.CaseType_Scripts)) {
+			} 
+			else {
 				IpssLogger.getLogger().severe("Wrong caseType");
 				return null;
 			}
