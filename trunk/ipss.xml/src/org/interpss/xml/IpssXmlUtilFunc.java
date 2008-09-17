@@ -1,6 +1,7 @@
 package org.interpss.xml;
 
 import org.interpss.schema.BranchRecXmlType;
+import org.interpss.schema.DclfPowerTransferDistFactorXmlType.WithdrawBusList.WithdrawBus;
 
 import com.interpss.common.util.NetUtilFunc;
 
@@ -28,4 +29,14 @@ public class IpssXmlUtilFunc {
 		}
 		return sAry;
 	}
+	
+	public static String[] getWithdrawItemList(WithdrawBus[] list) {
+		String[] sAry = new String[list.length];
+		int cnt = 0;
+		for (WithdrawBus bus : list) {
+			sAry[cnt++] = bus.getBusId() + "(" + bus.getPercent() + "%)";
+		}
+		return sAry;
+	}
+
 }
