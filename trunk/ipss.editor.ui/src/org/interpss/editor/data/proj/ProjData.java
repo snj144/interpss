@@ -52,6 +52,7 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	private String dbSchemaVersion = "";
 
 	/* current case name */
+	private String dclfCaseName = null;
 	private String aclfCaseName = null;
 	private String acscCaseName = null;
 	private String dStabCaseName = null;
@@ -100,6 +101,20 @@ public class ProjData extends BaseDataBean implements IProjectData {
 		this.caseList = new ArrayList();
 	}
 
+	/**
+	 * @return Returns the dclfCaseName.
+	 */
+	public String getDclfCaseName() {
+		return dclfCaseName;
+	}
+
+	/**
+	 * @param aclfCaseName The aclfCaseName to set.
+	 */
+	public void setDclfCaseName(String dclfCaseName) {
+		this.dclfCaseName = dclfCaseName;
+	}
+	
 	/**
 	 * @return Returns the aclfCaseName.
 	 */

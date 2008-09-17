@@ -38,6 +38,7 @@ public class CaseData extends IpssDBCase {
 	public static final String CaseType_Acsc  = "AcscStudyCase";
 	public static final String CaseType_DStab = "DStabStudyCase";
 	public static final String CaseType_Scripts = "ScriptsStudyCase";
+	public static final String CaseType_SenAnalysis = "SenAnalysis";
 	
     public CaseData() {}
 
@@ -50,6 +51,10 @@ public class CaseData extends IpssDBCase {
 	private String caseType = "";
 	public String getCaseType() {return this.caseType;}
 	public void setCaseType(String n) {this.caseType = n;}
+
+	private DclfCaseData dclfCaseData = null;
+	public DclfCaseData getDclfCaseData() { return this.dclfCaseData; }
+	public void setDclfCaseData(DclfCaseData acase) {this.dclfCaseData = acase;}
 
 	private AclfCaseData aclfCaseData = null;
 	public AclfCaseData getAclfCaseData() { return this.aclfCaseData; }
