@@ -46,6 +46,11 @@
 	      scope="singleton">	
 	</bean>
 
+	<bean id="dclfRunForm" 
+	      class="org.interpss.editor.runAct.ui.DclfRunForm"
+	      scope="singleton">	
+	</bean>
+
 	<bean id="acscRunForm" 
 	      class="org.interpss.editor.runAct.ui.AcscRunForm"
 	      scope="singleton">	
