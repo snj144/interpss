@@ -108,6 +108,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 				injectBusComboBox.setSelectedItem(tdFactor.getInjectBusId());
 				
 				if (tdFactor.getWithdrawBusId() != null && !tdFactor.getWithdrawBusId().equals("")) {
+					withdrawBusComboBox.setSelectedItem(tdFactor.getWithdrawBusId());
 					withSingleBusRadioButton.setSelected(true);
 					withSingleBusRadioButtonActionPerformed(null);
 			    	withdarwBusList.setModel(new javax.swing.DefaultComboBoxModel( new String[] {}));

@@ -186,5 +186,14 @@ public class SimuRunWorker extends Thread {
 
 			appStatus.busyStop("Run DC Loadflow Analysis finished");
 		}
+		else if (this.runType == SimuRunType.SenAnalysis) {
+			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
+					"Run Sensitivity Analysis ...", "Run SenAnalysis");
+			IpssLogger.getLogger().info("SimuRunWorker starts Run Sensitivity Analysis");
+
+			SimuAppSpringAppContext.getDclfRunForm().runCase(simuCtx, simuCtx.getMsgHub());
+
+			appStatus.busyStop("Run AC Loadflow Analysis finished");
+		}
 	}
 }

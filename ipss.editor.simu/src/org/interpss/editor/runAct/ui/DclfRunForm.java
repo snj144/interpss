@@ -24,9 +24,16 @@
 
 package org.interpss.editor.runAct.ui;
 
+import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.data.proj.DclfCaseData;
+import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
+import org.interpss.editor.ui.IOutputTextDialog;
+import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.schema.DclfPowerTransferDistFactorXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.CoreObjectFactory;
+import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
@@ -35,6 +42,7 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 	private DclfCaseData dclfCaseData;
+	DclfPowerTransferDistFactorXmlType tdFactor = null;;
 
 	public DclfCaseData getDclfCaseData() {
 		return this.dclfCaseData;
@@ -46,11 +54,26 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 	@Override
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		return true;
-	}
-
-	public void displaySummaryResult(SimuContext simuCtx) {
-		// TODO Auto-generated method stub
+		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
+		simuCtx.setDclfAlgorithm(algo);
+		if (!algo.checkCondition(msg))
+			return false;
 		
+		try {
+			tdFactor = DclfPowerTransferDistFactorXmlType.Factory.parse(dclfCaseData.getXmlPTDFactor());
+			XmlScriptDclfRun.calPTDistFactor(tdFactor, algo, msg);
+
+			displaySummaryResult(simuCtx);
+			return true;
+		} catch (Exception e) {
+			msg.sendErrorMsg(e.toString() + ", " + dclfCaseData.getXmlPTDFactor());
+			return false;
+		}
 	}
+	
+	public void displaySummaryResult(SimuContext simuCtx) {
+		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Sensitivity Analysis Results");
+		String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, simuCtx.getDclfAlgorithm(), simuCtx.getMsgHub());
+		dialog.display(str);
+	}	
 }
