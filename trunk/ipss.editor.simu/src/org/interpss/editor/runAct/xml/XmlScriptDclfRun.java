@@ -24,13 +24,10 @@
 
 package org.interpss.editor.runAct.xml;
 
-import static org.junit.Assert.assertTrue;
-
 import org.interpss.PluginSpringAppContext;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.DclfPowerTransferDistFactorXmlType;
@@ -120,18 +117,7 @@ public class XmlScriptDclfRun {
 				}
 
 				for (DclfPowerTransferDistFactorXmlType tdFactor : xmlCase.getPTransferDistFactorArray()) {
-					if (tdFactor.getWithdrawBusId() != null) {
-						algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor
-							.getInjectBusId(), tdFactor.getWithdrawBusId(), msg);
-					}
-					else if (tdFactor.getWithdrawBusList() != null) {
-						algo.getWithdrawBusList().clear();
-						algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor.getInjectBusId(), msg);
-						for (DclfPowerTransferDistFactorXmlType.WithdrawBusList.WithdrawBus bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
-							algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
-							algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
-						}
-					}
+					calPTDistFactor(tdFactor, algo, msg);
 					String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, algo, msg);
 					dialog.appendText(str);
 				}
@@ -140,5 +126,20 @@ public class XmlScriptDclfRun {
 			dialog.showDialog();
 		} 
 		return true;
+	}
+	
+	public static void calPTDistFactor(DclfPowerTransferDistFactorXmlType tdFactor, DclfAlgorithm algo, IPSSMsgHub msg) {
+		if (tdFactor.getWithdrawBusId() != null && !tdFactor.getWithdrawBusId().equals("")) {
+			algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor
+				.getInjectBusId(), tdFactor.getWithdrawBusId(), msg);
+		}
+		else if (tdFactor.getWithdrawBusList() != null) {
+			algo.getWithdrawBusList().clear();
+			algo.calculateSensitivity(DclfSensitivityType.PANGLE, tdFactor.getInjectBusId(), msg);
+			for (DclfPowerTransferDistFactorXmlType.WithdrawBusList.WithdrawBus bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
+				algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
+			}
+		}		
 	}
 }
