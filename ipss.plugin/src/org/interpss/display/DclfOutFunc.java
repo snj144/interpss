@@ -29,6 +29,7 @@ import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.DclfPowerTransferDistFactorXmlType;
+import org.interpss.schema.DclfPowerTransferDistFactorXmlType.WithdrawBusList.WithdrawBus;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -159,15 +160,19 @@ public class DclfOutFunc {
 		String str = "\n\n";
 		str += "   Power Transfer Distribution Factor\n\n";
 		str += "    Inject BusId   : " + tdFactor.getInjectBusId() + "\n";
-		if (tdFactor.getWithdrawBusId() != null)
+		if (tdFactor.getWithdrawBusId() != null && !tdFactor.getWithdrawBusId().equals(""))
 			str += "    Withdraw BusId : " + tdFactor.getWithdrawBusId() + "\n\n";
-		else
-			str += "    Withdraw BusId : " + tdFactor.getWithdrawBusList().toString() + "\n\n";
+		else {
+			str += "    Withdraw BusId : [";
+			for (WithdrawBus bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
+				str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
+			str += " ]\n\n";
+		}
 		str += "       Branch Id          PTDF\n";
 		str += "========================================\n";
 		for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 			double ptdf = 0.0;
-			if (tdFactor.getWithdrawBusId() != null)
+			if (tdFactor.getWithdrawBusId() != null && !tdFactor.getWithdrawBusId().equals(""))
 				ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(),
 								branch.getFromBusId(),	branch.getToBusId(), msg);
 			else 
