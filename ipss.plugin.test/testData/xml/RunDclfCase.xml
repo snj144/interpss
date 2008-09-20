@@ -13,7 +13,14 @@
 						<ipss:caculatelDclf>true</ipss:caculatelDclf>
 						<ipss:sensitivity>
 							<ipss:senType>PAngle</ipss:senType>
-							<ipss:injectBusId>0003</ipss:injectBusId>
+							<ipss:injectBusType>SingleBus</ipss:injectBusType>
+							<ipss:injectBusList>
+								<ipss:injectBus>
+									<ipss:recId>Bus_0003</ipss:recId>
+									<ipss:busId>0003</ipss:busId>
+								</ipss:injectBus>
+							</ipss:injectBusList>
+							<ipss:withdrawBusType>NoBus</ipss:withdrawBusType>
 							<ipss:bus>
 								<ipss:recId>Bus0012_1</ipss:recId>
 								<ipss:busId>0012</ipss:busId>
@@ -25,7 +32,14 @@
 						</ipss:sensitivity>
 						<ipss:sensitivity>
 							<ipss:senType>QVoltage</ipss:senType>
-							<ipss:injectBusId>0014</ipss:injectBusId>
+							<ipss:injectBusType>SingleBus</ipss:injectBusType>
+							<ipss:injectBusList>
+								<ipss:injectBus>
+									<ipss:recId>Bus_0014</ipss:recId>
+									<ipss:busId>0014</ipss:busId>
+								</ipss:injectBus>
+							</ipss:injectBusList>
+							<ipss:withdrawBusType>NoBus</ipss:withdrawBusType>
 							<ipss:bus>
 								<ipss:recId>Bus0012_2</ipss:recId>
 								<ipss:busId>0012</ipss:busId>
@@ -37,7 +51,14 @@
 						</ipss:sensitivity>
 						<ipss:genShiftFactor>
 							<ipss:senType>PAngle</ipss:senType>
-							<ipss:injectBusId>0003</ipss:injectBusId>
+							<ipss:injectBusType>SingleBus</ipss:injectBusType>
+							<ipss:injectBusList>
+								<ipss:injectBus>
+									<ipss:recId>Bus_0003_1</ipss:recId>
+									<ipss:busId>0003</ipss:busId>
+								</ipss:injectBus>
+							</ipss:injectBusList>
+							<ipss:withdrawBusType>NoBus</ipss:withdrawBusType>
 							<ipss:branch>
 								<ipss:recId>Branch0004_0007_1</ipss:recId>
 								<ipss:fromBusId>0004</ipss:fromBusId>
@@ -56,8 +77,21 @@
 						</ipss:genShiftFactor>
 						<ipss:pTransferDistFactor>
 							<ipss:senType>PAngle</ipss:senType>
-							<ipss:injectBusId>0003</ipss:injectBusId>
-							<ipss:withdrawBusId>0014</ipss:withdrawBusId>
+							<ipss:injectBusType>SingleBus</ipss:injectBusType>
+							<ipss:injectBusList>
+								<ipss:injectBus>
+									<ipss:recId>Bus_0003_2</ipss:recId>
+									<ipss:busId>0003</ipss:busId>
+								</ipss:injectBus>
+							</ipss:injectBusList>
+							<ipss:withdrawBusType>SingleBus</ipss:withdrawBusType>
+							<ipss:withdrawBusList>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0014_2</ipss:recId>
+									<ipss:busId>0014</ipss:busId>
+									<ipss:percent>100.0</ipss:percent>
+								</ipss:withdrawBus>
+							</ipss:withdrawBusList>
 							<ipss:branch>
 								<ipss:recId>Branch0004_0007_2</ipss:recId>
 								<ipss:fromBusId>0004</ipss:fromBusId>
@@ -76,7 +110,31 @@
 						</ipss:pTransferDistFactor>
 						<ipss:pTransferDistFactor>
 							<ipss:senType>PAngle</ipss:senType>
-							<ipss:injectBusId>0003</ipss:injectBusId>
+							<ipss:injectBusType>SingleBus</ipss:injectBusType>
+							<ipss:injectBusList>
+								<ipss:injectBus>
+									<ipss:recId>Bus_0003_3</ipss:recId>
+									<ipss:busId>0003</ipss:busId>
+								</ipss:injectBus>
+							</ipss:injectBusList>
+							<ipss:withdrawBusType>MultipleBus</ipss:withdrawBusType>
+							<ipss:withdrawBusList>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0014_3</ipss:recId>
+									<ipss:busId>0014</ipss:busId>
+									<ipss:percent>40.0</ipss:percent>
+								</ipss:withdrawBus>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0013_2</ipss:recId>
+									<ipss:busId>0013</ipss:busId>
+									<ipss:percent>30.0</ipss:percent>
+								</ipss:withdrawBus>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0012_2</ipss:recId>
+									<ipss:busId>0012</ipss:busId>
+									<ipss:percent>30.0</ipss:percent>
+								</ipss:withdrawBus>
+							</ipss:withdrawBusList>
 							<ipss:branch>
 								<ipss:recId>Branch0004_0007_3</ipss:recId>
 								<ipss:fromBusId>0004</ipss:fromBusId>
@@ -92,20 +150,6 @@
 								<ipss:fromBusId>0005</ipss:fromBusId>
 								<ipss:toBusId>0006</ipss:toBusId>
 							</ipss:branch>
-							<ipss:withdrawBusList>
-								<ipss:withdrawBus>
-									<ipss:busId>0014</ipss:busId>
-									<ipss:percent>40.0</ipss:percent>
-								</ipss:withdrawBus>
-								<ipss:withdrawBus>
-									<ipss:busId>0013</ipss:busId>
-									<ipss:percent>30.0</ipss:percent>
-								</ipss:withdrawBus>
-								<ipss:withdrawBus>
-									<ipss:busId>0012</ipss:busId>
-									<ipss:percent>30.0</ipss:percent>
-								</ipss:withdrawBus>
-							</ipss:withdrawBusList>
 						</ipss:pTransferDistFactor>
 					</ipss:dclfStudyCase>
 				</ipss:dclfStudyCaseRec>
