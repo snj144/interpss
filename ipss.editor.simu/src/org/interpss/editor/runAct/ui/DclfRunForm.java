@@ -29,7 +29,7 @@ import org.interpss.editor.data.proj.DclfCaseData;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
-import org.interpss.schema.DclfPowerTransferDistFactorXmlType;
+import org.interpss.schema.DclfBranchSensitivityXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
@@ -42,7 +42,7 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 	private DclfCaseData dclfCaseData;
-	DclfPowerTransferDistFactorXmlType tdFactor = null;;
+	DclfBranchSensitivityXmlType tdFactor = null;;
 
 	public DclfCaseData getDclfCaseData() {
 		return this.dclfCaseData;
@@ -60,7 +60,7 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			return false;
 		
 		try {
-			tdFactor = DclfPowerTransferDistFactorXmlType.Factory.parse(dclfCaseData.getXmlPTDFactor());
+			tdFactor = DclfBranchSensitivityXmlType.Factory.parse(dclfCaseData.getXmlPTDFactor());
 			XmlScriptDclfRun.calPTDistFactor(tdFactor, algo, msg);
 
 			displaySummaryResult(simuCtx);
