@@ -28,8 +28,8 @@ import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
-import org.interpss.schema.DclfPowerTransferDistFactorXmlType;
-import org.interpss.schema.DclfPowerTransferDistFactorXmlType.WithdrawBusList.WithdrawBus;
+import org.interpss.schema.DclfSensitivityXmlType;
+import org.interpss.schema.DclfSensitivityXmlType.WithdrawBusList.WithdrawBus;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -83,13 +83,14 @@ public class DclfOutFunc {
 	 */
 	public static String pAngleSensitivityResults(
 			DclfBusSensitivityXmlType sen, DclfAlgorithm algo, IPSSMsgHub msg) {
+		String busId = sen.getInjectBusList().getInjectBusArray()[0].getBusId();
 		String str = "\n\n";
 		str += "  Power-Angle Sensitivity\n\n";
-		str += "   Inject BusId : " + sen.getInjectBusId() + "\n\n";
+		str += "   Inject BusId : " + busId + "\n\n";
 		str += "   Bud Id       dAng/dP\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBusArray()) {
-			double pang = algo.getBusSensitivity(DclfSensitivityType.PANGLE, sen.getInjectBusId(),
+			double pang = algo.getBusSensitivity(DclfSensitivityType.PANGLE, busId,
 					bus.getBusId(), msg);
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(pang) + "\n";
@@ -107,13 +108,14 @@ public class DclfOutFunc {
 	 */
 	public static String qVoltageSensitivityResults(
 			DclfBusSensitivityXmlType sen, DclfAlgorithm algo, IPSSMsgHub msg) {
+		String busId = sen.getInjectBusList().getInjectBusArray()[0].getBusId();
 		String str = "\n\n";
 		str += "   Q-Voltage Sensitivity\n\n";
-		str += "    Inject BusId : " + sen.getInjectBusId() + "\n\n";
+		str += "    Inject BusId : " + busId + "\n\n";
 		str += "   Bud Id         dV/dQ\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBusArray()) {
-			double x = algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, sen.getInjectBusId(), bus.getBusId(), msg);
+			double x = algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, busId, bus.getBusId(), msg);
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(x) + "\n";
 		}
@@ -131,13 +133,14 @@ public class DclfOutFunc {
 	public static String genShiftFactorResults(
 			DclfBranchSensitivityXmlType gsFactor, DclfAlgorithm algo,
 			IPSSMsgHub msg) {
+		String busId = gsFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
 		String str = "\n\n";
 		str += "   Generator Shift Factor\n\n";
-		str += "    Inject BusId : " + gsFactor.getInjectBusId() + "\n\n";
+		str += "    Inject BusId : " + busId + "\n\n";
 		str += "       Branch Id          GSF\n";
 		str += "=========================================\n";
 		for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
-			double gsf = algo.getGenShiftFactor(gsFactor.getInjectBusId(), branch.getFromBusId(), branch
+			double gsf = algo.getGenShiftFactor(busId, branch.getFromBusId(), branch
 					.getToBusId(), msg);
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
@@ -155,13 +158,16 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String pTransferDistFactorResults(
-			DclfPowerTransferDistFactorXmlType tdFactor, DclfAlgorithm algo,
+			DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo,
 			IPSSMsgHub msg) {
+		String inBusId = tdFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
 		String str = "\n\n";
 		str += "   Power Transfer Distribution Factor\n\n";
-		str += "    Inject BusId   : " + tdFactor.getInjectBusId() + "\n";
-		if (tdFactor.getWithdrawBusId() != null && !tdFactor.getWithdrawBusId().equals(""))
-			str += "    Withdraw BusId : " + tdFactor.getWithdrawBusId() + "\n\n";
+		str += "    Inject BusId   : " + inBusId + "\n";
+		if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
+			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray()[0].getBusId();
+			str += "    Withdraw BusId : " + wdBusId + "\n\n";
+		}
 		else {
 			str += "    Withdraw BusId : [";
 			for (WithdrawBus bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
@@ -172,11 +178,13 @@ public class DclfOutFunc {
 		str += "========================================\n";
 		for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 			double ptdf = 0.0;
-			if (tdFactor.getWithdrawBusId() != null && !tdFactor.getWithdrawBusId().equals(""))
-				ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), tdFactor.getWithdrawBusId(),
+			if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
+				String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray()[0].getBusId();
+				ptdf = algo.getPTransferDistFactor(inBusId, wdBusId,
 								branch.getFromBusId(),	branch.getToBusId(), msg);
+			}	
 			else 
-				ptdf = algo.getPTransferDistFactor(tdFactor.getInjectBusId(), 
+				ptdf = algo.getPTransferDistFactor(inBusId, 
 								branch.getFromBusId(),	branch.getToBusId(), msg);
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
