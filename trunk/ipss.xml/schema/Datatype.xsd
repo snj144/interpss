@@ -145,32 +145,56 @@
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
-
-
-
-
-
-
-
-
-
-
 	<ns:complexType name="DclfSensitivityXmlType">
 		<ns:sequence>
-			<ns:element name="senType"
-				minOccurs="1"
-				maxOccurs="1">
-                <ns:simpleType><ns:restriction base="ns:string">
-			<ns:enumeration value="PAngle"></ns:enumeration>
-			<ns:enumeration value="QVoltage"></ns:enumeration>
-                </ns:restriction></ns:simpleType>
-            </ns:element>
-			<ns:element name="injectBusId" type="ns:string"
-				minOccurs="1" maxOccurs="1">
+			<ns:element name="senType" minOccurs="1" maxOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="PAngle"></ns:enumeration>
+						<ns:enumeration value="QVoltage"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
 			</ns:element>
-			<ns:element name="withdrawBusId" type="ns:string"
-				minOccurs="0" maxOccurs="1">
+            <ns:element name="injectBusType" minOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="SingleBus"></ns:enumeration>
+						<ns:enumeration value="MultipleBus"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType></ns:element>
+            <ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="injectBus" type="ipss:BusRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+					</ns:sequence>
+				</ns:complexType>
 			</ns:element>
+            <ns:element name="withdrawBusType" minOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="SingleBus"></ns:enumeration>
+						<ns:enumeration value="MultipleBus"></ns:enumeration>
+						<ns:enumeration value="NoBus"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType></ns:element>
+            <ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded">
+							<ns:complexType>
+								<ns:complexContent>
+									<ns:extension base="ipss:BusRecXmlType">
+										<ns:sequence>
+											<ns:element name="percent" type="ns:double" minOccurs="1"></ns:element>
+										</ns:sequence>
+
+									</ns:extension>
+								</ns:complexContent>
+							</ns:complexType>
+						</ns:element>
+					</ns:sequence>
+				</ns:complexType>
+			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
 

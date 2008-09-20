@@ -1,7 +1,7 @@
 package org.interpss.xml;
 
 import org.interpss.schema.BranchRecXmlType;
-import org.interpss.schema.DclfPowerTransferDistFactorXmlType.WithdrawBusList.WithdrawBus;
+import org.interpss.schema.DclfSensitivityXmlType.WithdrawBusList.WithdrawBus;
 
 import com.interpss.common.util.NetUtilFunc;
 
