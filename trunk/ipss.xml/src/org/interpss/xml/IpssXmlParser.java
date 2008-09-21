@@ -31,7 +31,6 @@ package org.interpss.xml;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
-import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.ContingencyAnalysisXmlType;
@@ -39,8 +38,9 @@ import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.PreventiveRuleSetXmlType;
+import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.UnitXmlData;
+import org.interpss.schema.UnitDataType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
@@ -264,48 +264,48 @@ public class IpssXmlParser {
 	 * @param type
 	 * @return
 	 */
-	public static byte mapXmlUnitType2IpssUnitType(UnitXmlData.Enum type) {
-		if (type == UnitXmlData.PU)
+	public static byte mapXmlUnitType2IpssUnitType(UnitDataType.Enum type) {
+		if (type == UnitDataType.PU)
 			return UnitType.PU;
-		else if (type == UnitXmlData.PERCENT)
+		else if (type == UnitDataType.PERCENT)
 			return UnitType.Percent;
 
-		else if (type == UnitXmlData.DEG)
+		else if (type == UnitDataType.DEG)
 			return UnitType.Deg;
-		else if (type == UnitXmlData.RAD)
+		else if (type == UnitDataType.RAD)
 			return UnitType.Rad;
 
-		else if (type == UnitXmlData.VOLT)
+		else if (type == UnitDataType.VOLT)
 			return UnitType.Volt;
-		else if (type == UnitXmlData.K_V)
+		else if (type == UnitDataType.K_V)
 			return UnitType.kV;
 
-		else if (type == UnitXmlData.AMP)
+		else if (type == UnitDataType.AMP)
 			return UnitType.Amp;
-		else if (type == UnitXmlData.K_AMP)
+		else if (type == UnitDataType.K_AMP)
 			return UnitType.kAmp;
-		else if (type == UnitXmlData.MILLI_AMP)
+		else if (type == UnitDataType.MILLI_AMP)
 			return UnitType.MilliAmp;
 
-		else if (type == UnitXmlData.WATT)
+		else if (type == UnitDataType.WATT)
 			return UnitType.Watt;
-		else if (type == UnitXmlData.KW)
+		else if (type == UnitDataType.KW)
 			return UnitType.kW;
-		else if (type == UnitXmlData.M_W)
+		else if (type == UnitDataType.M_W)
 			return UnitType.mW;
 
-		else if (type == UnitXmlData.VAR)
+		else if (type == UnitDataType.VAR)
 			return UnitType.Var;
-		else if (type == UnitXmlData.K_VAR)
+		else if (type == UnitDataType.K_VAR)
 			return UnitType.kVar;
-		else if (type == UnitXmlData.M_VAR)
+		else if (type == UnitDataType.M_VAR)
 			return UnitType.mVar;
 
-		else if (type == UnitXmlData.VA)
+		else if (type == UnitDataType.VA)
 			return UnitType.VA;
-		else if (type == UnitXmlData.KVA)
+		else if (type == UnitDataType.KVA)
 			return UnitType.kVA;
-		else if (type == UnitXmlData.M_VA)
+		else if (type == UnitDataType.M_VA)
 			return UnitType.mVA;
 
 		return UnitType.NotDefined;
