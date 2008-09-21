@@ -28,7 +28,7 @@ import org.apache.commons.math.complex.Complex;
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
-import org.interpss.schema.UnitXmlData;
+import org.interpss.schema.UnitDataType;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.datatype.Constants;
@@ -64,7 +64,7 @@ public class Xml2AlgorithmMapperImpl {
 		algo.setMaxIterations(xmlAlgo.getMaxIterations());
 		double e = xmlAlgo.getTolerance();
 		if (xmlAlgo.getToleranceUnit() != null
-				&& xmlAlgo.getToleranceUnit() != UnitXmlData.PU) {
+				&& xmlAlgo.getToleranceUnit() != UnitDataType.PU) {
 			byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(xmlAlgo.getToleranceUnit());
 			e = UnitType.pConversion(e, algo.getAclfNetwork().getBaseKva(),
 					unit, UnitType.PU);

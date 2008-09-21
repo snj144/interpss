@@ -28,7 +28,7 @@ import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
-import org.interpss.schema.DclfSensitivityXmlType;
+import org.interpss.schema.SenBusAnalysisDataType;
 import org.interpss.schema.DclfSensitivityXmlType.WithdrawBusList.WithdrawBus;
 
 import com.interpss.common.datatype.Constants;
@@ -161,36 +161,62 @@ public class DclfOutFunc {
 			DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo,
 			IPSSMsgHub msg) {
 		String str = "\n\n";
-		if (tdFactor.getInjectBusType() == DclfSensitivityXmlType.InjectBusType.SINGLE_BUS) {
+		str += "   Power Transfer Distribution Factor";
+		if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
-			str += "   Power Transfer Distribution Factor\n\n";
-			str += "    Inject BusId   : " + inBusId + "\n";
-			if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
-				String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
-				str += "    Withdraw BusId : " + wdBusId + "\n\n";
-			}
-			else {
-				str += "    Withdraw BusId : [";
-				for (WithdrawBus bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
-					str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
-				str += " ]\n\n";
-			}
+			str += "\n\n    Inject BusId   : " + inBusId + "\n";
+			str += withdrawBusInfo(tdFactor);
 			str += "       Branch Id          PTDF\n";
 			str += "========================================\n";
 			for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-				double ptdf = 0.0;
-				if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
-					String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
-					ptdf = algo.getPTransferDistFactor(inBusId, wdBusId,
-									branch.getFromBusId(),	branch.getToBusId(), msg);
-				}	
-				else 
-					ptdf = algo.getPTransferDistFactor(inBusId, 
-									branch.getFromBusId(),	branch.getToBusId(), msg);
+				double ptdf = calPTDFactor(tdFactor, algo, branch, inBusId, msg);
 				str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 						+ "->" + branch.getToBusId())
 						+ "       " + Number2String.toStr(ptdf) + "\n";
 			}
+		}
+		else {
+			for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
+				str += "\n\n    Branch Id   : " + Number2String.toFixLengthStr(16, branch.getFromBusId()
+						+ "->" + branch.getToBusId()) + "\n";
+				str += withdrawBusInfo(tdFactor);
+				str += "       Inject BusId          PTDF\n";
+				str += "========================================\n";
+				for (BusRecXmlType bus :  tdFactor.getInjectBusList().getInjectBusArray()){
+					double ptdf = calPTDFactor(tdFactor, algo, branch, bus.getBusId(), msg);
+					str += Number2String.toFixLengthStr(16, bus.getBusId())						
+							+ "          " + Number2String.toStr(ptdf) + "\n";
+				}
+			}
+		}
+		return str;
+	}
+	
+	private static double calPTDFactor(DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo, 
+					BranchRecXmlType branch, String inBusId, IPSSMsgHub msg) {
+		double ptdf = 0.0;
+		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
+			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
+			ptdf = algo.getPTransferDistFactor(inBusId, wdBusId,
+							branch.getFromBusId(),	branch.getToBusId(), msg);
+		}	
+		else 
+			ptdf = algo.getPTransferDistFactor(inBusId, 
+							branch.getFromBusId(),	branch.getToBusId(), msg);
+		return ptdf;
+	}
+	
+	private static String withdrawBusInfo(DclfBranchSensitivityXmlType tdFactor) {
+		String str = "";
+		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
+			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
+			str += "    Withdraw BusId : " + wdBusId + "\n\n";
+		}
+		else {
+			str += "    Withdraw BusId : [";
+			for (WithdrawBus bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
+				str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
+			str += " ]\n\n";
 		}
 		return str;
 	}
