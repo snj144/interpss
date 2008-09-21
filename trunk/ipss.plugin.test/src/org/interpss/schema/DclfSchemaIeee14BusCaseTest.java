@@ -98,7 +98,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		for (DclfBranchSensitivityXmlType tdFactor : dclfCase.getPTransferDistFactorArray()) {
 			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
-			if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
+			if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, wdBusId, msg);
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
@@ -109,7 +109,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				}
 				assertTrue(Math.abs(sum-1.0) < 0.0001);
 			}
-			else if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.MULTIPLE_BUS) {
+			else if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.MULTIPLE_BUS) {
 				algo.getWithdrawBusList().clear();
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
 				for (DclfBranchSensitivityXmlType.WithdrawBusList.WithdrawBus bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
@@ -130,7 +130,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		for (DclfBranchSensitivityXmlType tdFactor : dclfCase.getPTransferDistFactorArray()) {
 			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
-			if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
+			if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, wdBusId, msg);
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
