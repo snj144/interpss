@@ -94,7 +94,7 @@ public class XmlScriptDStabRun {
 				appSimuCtx.setLastRunType(SimuRunType.DStab);
 
 				// get the run case info defined in the Xml scripts
-				DStabStudyCaseRec dstabRec = xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray()[0];
+				DStabStudyCaseRec dstabRec = xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray(0);
 				// config the DStabAlgo object, including apply case-level
 				// modification to the DStabNet object
 				DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory

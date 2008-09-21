@@ -82,7 +82,7 @@ public class XmlScriptAclfRun {
 		long  timeout = gridRun? ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout() : 0;
 			
 		if (xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
-			AclfStudyCaseXmlType xmlCase = xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+			AclfStudyCaseXmlType xmlCase = xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray(0);
 			RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
 			if (!aclfSingleRun(aclfNet, xmlCase, xmlDefaultAlgo, ruleBase,	applyRuleBase, gridRun, timeout, msg));
 				return false;
