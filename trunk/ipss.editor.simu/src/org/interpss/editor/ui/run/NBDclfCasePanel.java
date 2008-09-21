@@ -162,11 +162,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
 
+		if (tdFactor.getInjectBusList() == null) {  // for converting old version data
+			tdFactor.addNewInjectBusList();
+			tdFactor.getInjectBusList().addNewInjectBus();
+		}
 		if ( tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-			if (tdFactor.getInjectBusList() == null) {  // for converting old version data
-				tdFactor.addNewInjectBusList();
-				tdFactor.getInjectBusList().addNewInjectBus();
-			}
 			tdFactor.getInjectBusList().getInjectBusArray(0).setBusId((String)injectBusComboBox.getSelectedItem());
 		} 
 		else {
