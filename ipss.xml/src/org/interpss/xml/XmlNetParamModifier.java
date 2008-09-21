@@ -30,7 +30,7 @@ import org.interpss.schema.BusChangeRecXmlType;
 import org.interpss.schema.ComplexValueChangeXmlType;
 import org.interpss.schema.ComplexXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.UnitXmlData;
+import org.interpss.schema.UnitDataType;
 import org.interpss.schema.ValueChangeXmlType;
 import org.interpss.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
 
@@ -222,7 +222,7 @@ public class XmlNetParamModifier {
 			ComplexXmlType c = changeRec.getValue();
 			double re = c.getRe(), im = c.getIm();
 			// the original is in PU
-			if (changeRec.getUnit() != UnitXmlData.PU) {
+			if (changeRec.getUnit() != UnitDataType.PU) {
 				// convert set/add value to PU
 				byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
@@ -247,7 +247,7 @@ public class XmlNetParamModifier {
 				|| changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.DECREASE) {
 			// for increase/decrease, use percent and unit (PU or percent)
 			double factor = changeRec.getPercent();
-			if (changeRec.getUnit() == UnitXmlData.PERCENT)
+			if (changeRec.getUnit() == UnitDataType.PERCENT)
 				factor *= 0.01;
 			if (changeRec.getChangeAction() == ComplexValueChangeXmlType.ChangeAction.DECREASE)
 				factor = -factor;
@@ -268,7 +268,7 @@ public class XmlNetParamModifier {
 				|| changeRec.getChangeAction() ==ValueChangeXmlType.ChangeAction.SET) {
 			// for add/set, use value and unit (PU or power unit)
 			double c = changeRec.getValue();
-			if (changeRec.getUnit() != UnitXmlData.PU) {
+			if (changeRec.getUnit() != UnitDataType.PU) {
 				// convert set/add value to PU
 				byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
@@ -284,7 +284,7 @@ public class XmlNetParamModifier {
 				|| changeRec.getChangeAction() == ValueChangeXmlType.ChangeAction.DECREASE) {
 			// for increase/decrease, use percent and unit (PU or percent)
 			double factor = changeRec.getPercent();
-			if (changeRec.getUnit() == UnitXmlData.PERCENT)
+			if (changeRec.getUnit() == UnitDataType.PERCENT)
 				factor *= 0.01;
 			if (changeRec.getChangeAction() == ValueChangeXmlType.ChangeAction.DECREASE)
 				factor = -factor;

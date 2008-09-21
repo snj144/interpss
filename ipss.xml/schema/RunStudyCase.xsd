@@ -207,7 +207,7 @@
 			<ns:element name="tolerance" type="ns:double" minOccurs="1"
 				maxOccurs="1">
 			</ns:element>
-			<ns:element name="toleranceUnit" type="ipss:UnitXmlData"
+			<ns:element name="toleranceUnit" type="ipss:UnitDataType"
 				minOccurs="0" maxOccurs="1">
 			</ns:element>
 			<ns:element name="initBusVoltage" type="ns:boolean"
@@ -366,7 +366,7 @@
 																		maxOccurs="1">
 																	</ns:element>
 																	<ns:element
-																		name="changeFactorUnit" type="ipss:UnitXmlData"
+																		name="changeFactorUnit" type="ipss:UnitDataType"
 																		minOccurs="0" maxOccurs="1">
 																		<ns:annotation>
 																			<ns:documentation>
