@@ -24,6 +24,9 @@
 
 package org.interpss.display;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
@@ -182,14 +185,27 @@ public class DclfOutFunc {
 				str += withdrawBusInfo(tdFactor);
 				str += "       Inject BusId          PTDF\n";
 				str += "========================================\n";
+				
+				List<PTDFRec> list = new ArrayList<PTDFRec>();
 				for (BusRecXmlType bus :  tdFactor.getInjectBusList().getInjectBusArray()){
-					double ptdf = calPTDFactor(tdFactor, algo, branch, bus.getBusId(), msg);
-					str += Number2String.toFixLengthStr(16, bus.getBusId())						
-							+ "          " + Number2String.toStr(ptdf) + "\n";
+					PTDFRec rec = new PTDFRec();
+					rec.ptdf = calPTDFactor(tdFactor, algo, branch, bus.getBusId(), msg);
+					rec.busId = bus.getBusId();
+					list.add(rec);
+				}
+				sortPTDFRecList(list);
+				for (PTDFRec rec : list){
+					str += Number2String.toFixLengthStr(16, rec.busId)						
+							+ "          " + Number2String.toStr(rec.ptdf) + "\n";
 				}
 			}
 		}
 		return str;
+	}
+	
+	private static class PTDFRec {
+		String busId;
+		double ptdf = 0.0;
 	}
 	
 	private static double calPTDFactor(DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo, 
@@ -219,5 +235,26 @@ public class DclfOutFunc {
 			str += " ]\n\n";
 		}
 		return str;
+	}
+	
+	private static void sortPTDFRecList(List<PTDFRec> list) {
+		boolean done = false;
+		while (!done) {
+			done = true;
+			for (int i = 0; i < list.size()-1; i++) {
+				PTDFRec rec1 = list.get(i);
+				PTDFRec rec2 = list.get(i+1);
+				if (rec1.ptdf < rec2.ptdf) {
+					done = false;
+					PTDFRec buffer = new PTDFRec();
+					buffer.busId = rec1.busId;
+					buffer.ptdf = rec1.ptdf;
+					rec1.busId = rec2.busId;
+					rec1.ptdf = rec2.ptdf;
+					rec2.busId = buffer.busId;
+					rec2.ptdf = buffer.ptdf;
+				}
+			}
+		}		
 	}
 }
