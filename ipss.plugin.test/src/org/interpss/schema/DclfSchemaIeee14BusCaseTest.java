@@ -36,7 +36,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfAdjNet());
 		assertTrue(algo.checkCondition(msg));
 			
-		DclfStudyCaseXmlType dclfCase = (parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseRecArray()[0]).getDclfStudyCase();
+		DclfStudyCaseXmlType dclfCase = (parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseRecArray(0)).getDclfStudyCase();
 
 		if (dclfCase.getCaculatelDclf()) {
 			algo.calculateDclf(SpringAppContext.getIpssMsgHub());
@@ -47,7 +47,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		}
 		
 		for (DclfBusSensitivityXmlType sen : dclfCase.getSensitivityArray()) {
-			String inBusId = sen.getInjectBusList().getInjectBusArray()[0].getBusId();
+			String inBusId = sen.getInjectBusList().getInjectBusArray(0).getBusId();
 			if (sen.getSenType() == SenType.P_ANGLE) {
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
 				//System.out.println("P-0013->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0013", msg));
@@ -79,7 +79,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		}
 		
 		for (DclfBranchSensitivityXmlType gsFactor : dclfCase.getGenShiftFactorArray()) {
-			String inBusId = gsFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
+			String inBusId = gsFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 			algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
 			for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
 				double gsf = algo.getGenShiftFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), msg);
@@ -96,8 +96,8 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		}
 
 		for (DclfBranchSensitivityXmlType tdFactor : dclfCase.getPTransferDistFactorArray()) {
-			String inBusId = tdFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
-			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray()[0].getBusId();
+			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
+			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
 			if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, wdBusId, msg);
 				double sum = 0.0;
@@ -128,8 +128,8 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 
 		// repeat for testing the cached sensitivity results
 		for (DclfBranchSensitivityXmlType tdFactor : dclfCase.getPTransferDistFactorArray()) {
-			String inBusId = tdFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
-			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray()[0].getBusId();
+			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
+			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
 			if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, wdBusId, msg);
 				double sum = 0.0;

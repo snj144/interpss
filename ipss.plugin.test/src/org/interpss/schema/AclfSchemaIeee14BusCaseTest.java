@@ -132,7 +132,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
-  		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
+  		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
   			
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	// modification of the study case also applied
