@@ -86,19 +86,19 @@ END
  */
 		assertTrue(ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray().length == 4);
 		
-		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getFromBusId().equals("3004"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getToBusId().equals("152"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getCircuitNumber().equals("1"));
+		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getFromBusId().equals("3004"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getToBusId().equals("152"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getCircuitNumber().equals("1"));
 
 		scase = ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[2];
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getFromBusId().equals("3004"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getToBusId().equals("152"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getCircuitNumber().equals("1"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getFromBusId().equals("3004"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getToBusId().equals("152"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getCircuitNumber().equals("1"));
 
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getFromBusId().equals("3006"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getToBusId().equals("153"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getCircuitNumber().equals("1"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(1).getFromBusId().equals("3006"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(1).getToBusId().equals("153"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(1).getCircuitNumber().equals("1"));
 		
 		//System.out.println(ipssDoc.toString());
 	}
@@ -126,19 +126,19 @@ END
  */
 		assertTrue(ipssDoc.getRunStudyCase().getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray().length == 4);
 		
-		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()[0];
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getFromBusId().equals("3004"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getToBusId().equals("152"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getCircuitNumber().equals("1"));
+		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray(0);
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getFromBusId().equals("3004"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getToBusId().equals("152"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getCircuitNumber().equals("1"));
 
 		scase = ipssDoc.getRunStudyCase().getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()[2];
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getFromBusId().equals("3004"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getToBusId().equals("152"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[0].getCircuitNumber().equals("1"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getFromBusId().equals("3004"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getToBusId().equals("152"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getCircuitNumber().equals("1"));
 
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getFromBusId().equals("3006"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getToBusId().equals("153"));
-		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray()[1].getCircuitNumber().equals("1"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(1).getFromBusId().equals("3006"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(1).getToBusId().equals("153"));
+		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(1).getCircuitNumber().equals("1"));
 		
 		//System.out.println(ipssDoc.toString());
 	}
