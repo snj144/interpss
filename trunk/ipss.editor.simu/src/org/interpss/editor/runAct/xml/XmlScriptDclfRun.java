@@ -91,7 +91,7 @@ public class XmlScriptDclfRun {
 				}
 
 				for (DclfBusSensitivityXmlType sen : xmlCase.getSensitivityArray()) {
-					String inBusId = sen.getInjectBusList().getInjectBusArray()[0].getBusId();
+					String inBusId = sen.getInjectBusList().getInjectBusArray(0).getBusId();
 					if (sen.getSenType() == DclfSensitivityXmlType.SenType.P_ANGLE) {
 						algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
 						String str = DclfOutFunc.pAngleSensitivityResults(sen,
@@ -106,7 +106,7 @@ public class XmlScriptDclfRun {
 				}
 
 				for (DclfBranchSensitivityXmlType gsFactor : xmlCase.getGenShiftFactorArray()) {
-					String inBusId = gsFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
+					String inBusId = gsFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 					algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
 					String str = DclfOutFunc.genShiftFactorResults(gsFactor, algo,
 							msg);
@@ -126,18 +126,21 @@ public class XmlScriptDclfRun {
 	}
 	
 	public static void calPTDistFactor(DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo, IPSSMsgHub msg) {
-		String inBusId = tdFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
-		if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
-			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray()[0].getBusId();
-			algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, wdBusId, msg);
-		}
-		else if (tdFactor.getWithdrawBusList() != null) {
-			algo.getWithdrawBusList().clear();
-			algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
-			for (DclfBranchSensitivityXmlType.WithdrawBusList.WithdrawBus bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
-				algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
-				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
+		if (tdFactor.getInjectBusType() == DclfSensitivityXmlType.InjectBusType.SINGLE_BUS) {
+			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
+			if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
+				String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
+				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, wdBusId, msg);
 			}
-		}		
+			else if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.MULTIPLE_BUS && 
+					 tdFactor.getWithdrawBusList() != null) {
+				algo.getWithdrawBusList().clear();
+				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
+				for (DclfBranchSensitivityXmlType.WithdrawBusList.WithdrawBus bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
+					algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+					algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
+				}
+			}		
+		}
 	}
 }
