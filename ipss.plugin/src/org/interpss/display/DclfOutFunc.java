@@ -83,7 +83,7 @@ public class DclfOutFunc {
 	 */
 	public static String pAngleSensitivityResults(
 			DclfBusSensitivityXmlType sen, DclfAlgorithm algo, IPSSMsgHub msg) {
-		String busId = sen.getInjectBusList().getInjectBusArray()[0].getBusId();
+		String busId = sen.getInjectBusList().getInjectBusArray(0).getBusId();
 		String str = "\n\n";
 		str += "  Power-Angle Sensitivity\n\n";
 		str += "   Inject BusId : " + busId + "\n\n";
@@ -108,7 +108,7 @@ public class DclfOutFunc {
 	 */
 	public static String qVoltageSensitivityResults(
 			DclfBusSensitivityXmlType sen, DclfAlgorithm algo, IPSSMsgHub msg) {
-		String busId = sen.getInjectBusList().getInjectBusArray()[0].getBusId();
+		String busId = sen.getInjectBusList().getInjectBusArray(0).getBusId();
 		String str = "\n\n";
 		str += "   Q-Voltage Sensitivity\n\n";
 		str += "    Inject BusId : " + busId + "\n\n";
@@ -133,7 +133,7 @@ public class DclfOutFunc {
 	public static String genShiftFactorResults(
 			DclfBranchSensitivityXmlType gsFactor, DclfAlgorithm algo,
 			IPSSMsgHub msg) {
-		String busId = gsFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
+		String busId = gsFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 		String str = "\n\n";
 		str += "   Generator Shift Factor\n\n";
 		str += "    Inject BusId : " + busId + "\n\n";
@@ -160,35 +160,37 @@ public class DclfOutFunc {
 	public static String pTransferDistFactorResults(
 			DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo,
 			IPSSMsgHub msg) {
-		String inBusId = tdFactor.getInjectBusList().getInjectBusArray()[0].getBusId();
 		String str = "\n\n";
-		str += "   Power Transfer Distribution Factor\n\n";
-		str += "    Inject BusId   : " + inBusId + "\n";
-		if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
-			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray()[0].getBusId();
-			str += "    Withdraw BusId : " + wdBusId + "\n\n";
-		}
-		else {
-			str += "    Withdraw BusId : [";
-			for (WithdrawBus bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
-				str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
-			str += " ]\n\n";
-		}
-		str += "       Branch Id          PTDF\n";
-		str += "========================================\n";
-		for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-			double ptdf = 0.0;
+		if (tdFactor.getInjectBusType() == DclfSensitivityXmlType.InjectBusType.SINGLE_BUS) {
+			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
+			str += "   Power Transfer Distribution Factor\n\n";
+			str += "    Inject BusId   : " + inBusId + "\n";
 			if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
-				String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray()[0].getBusId();
-				ptdf = algo.getPTransferDistFactor(inBusId, wdBusId,
-								branch.getFromBusId(),	branch.getToBusId(), msg);
-			}	
-			else 
-				ptdf = algo.getPTransferDistFactor(inBusId, 
-								branch.getFromBusId(),	branch.getToBusId(), msg);
-			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
-					+ "->" + branch.getToBusId())
-					+ "       " + Number2String.toStr(ptdf) + "\n";
+				String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
+				str += "    Withdraw BusId : " + wdBusId + "\n\n";
+			}
+			else {
+				str += "    Withdraw BusId : [";
+				for (WithdrawBus bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
+					str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
+				str += " ]\n\n";
+			}
+			str += "       Branch Id          PTDF\n";
+			str += "========================================\n";
+			for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
+				double ptdf = 0.0;
+				if (tdFactor.getWithdrawBusType() == DclfSensitivityXmlType.WithdrawBusType.SINGLE_BUS) {
+					String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
+					ptdf = algo.getPTransferDistFactor(inBusId, wdBusId,
+									branch.getFromBusId(),	branch.getToBusId(), msg);
+				}	
+				else 
+					ptdf = algo.getPTransferDistFactor(inBusId, 
+									branch.getFromBusId(),	branch.getToBusId(), msg);
+				str += Number2String.toFixLengthStr(16, branch.getFromBusId()
+						+ "->" + branch.getToBusId())
+						+ "       " + Number2String.toStr(ptdf) + "\n";
+			}
 		}
 		return str;
 	}
