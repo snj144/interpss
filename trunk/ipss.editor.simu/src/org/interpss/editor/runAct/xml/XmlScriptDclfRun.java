@@ -37,7 +37,7 @@ import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
-import org.interpss.schema.RunStudyCaseXmlType.CustomRun.RunDclfStudyCase.DclfStudyCaseList.DclfStudyCaseRec;
+import org.interpss.schema.RunStudyCaseXmlType.StandardRun.RunDclfStudyCase.DclfStudyCaseList.DclfStudyCaseRec;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -59,8 +59,8 @@ public class XmlScriptDclfRun {
 	 */
 	public static boolean runDclf(InterPSSXmlType ipssXmlDoc, AclfNetwork aclfNet,
 			IPSSMsgHub msg) {
-		if (ipssXmlDoc.getRunStudyCase().getCustomRun().getRunDclfStudyCase() != null) {
-			RunStudyCaseXmlType.CustomRun.RunDclfStudyCase xmlRunDclfCase = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunDclfStudyCase();
+		if (ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDclfStudyCase() != null) {
+			RunStudyCaseXmlType.StandardRun.RunDclfStudyCase xmlRunDclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDclfStudyCase();
 
 			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(aclfNet);
 			if (!algo.checkCondition(msg))

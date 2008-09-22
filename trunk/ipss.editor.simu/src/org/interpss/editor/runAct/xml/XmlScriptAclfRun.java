@@ -70,7 +70,7 @@ public class XmlScriptAclfRun {
 	 * @return
 	 */
 	public static boolean runAclf(InterPSSXmlType ipssXmlDoc, AclfAdjNetwork aclfNet, IPSSMsgHub msg) {
-		RunStudyCaseXmlType.CustomRun.RunAclfStudyCase xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase();
+		RunStudyCaseXmlType.StandardRun.RunAclfStudyCase xmlRunAclfCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 		if (xmlRunAclfCase == null) {
 			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Invalid Xml", "runAclfStudyCase element not defined");
 			return false;
@@ -79,7 +79,7 @@ public class XmlScriptAclfRun {
 		boolean applyRuleBase = ipssXmlDoc.getRunStudyCase().getApplyRuleBase();
 		AclfAlgorithmXmlType xmlDefaultAlgo = xmlRunAclfCase.getDefaultAclfAlgorithm(); 
 		boolean gridRun = RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase());
-		long  timeout = gridRun? ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout() : 0;
+		long  timeout = gridRun? ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout() : 0;
 			
 		if (xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray().length == 1) {
 			AclfStudyCaseXmlType xmlCase = xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray(0);
@@ -95,7 +95,7 @@ public class XmlScriptAclfRun {
 			if (applyRuleBase) 
 				XmlScriptUtilFunc.mapRuleBase(applyRuleBase, mCaseContainer, ipssXmlDoc.getRunStudyCase().getRuleBase());
 				
-			boolean reJobCreation = gridRun? ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation() : false;
+			boolean reJobCreation = gridRun? ipssXmlDoc.getRunStudyCase().getGridRunOption().getRemoteJobCreation() : false;
 				
 			int cnt = 0;
 			for (AclfStudyCaseXmlType xmlCase : xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
@@ -210,9 +210,9 @@ public class XmlScriptAclfRun {
 	}
 	
 	private static void setAclfRunOpt(AclfMultiStudyCase mCaseContainer, RunStudyCaseXmlType runCase) {
-		mCaseContainer.setRemoteJobCreation(runCase.getGridRun().getRemoteJobCreation());
-		if (runCase.getGridRun().getAclfOption() != null) {
-			GridComputingXmlType.AclfOption opt = runCase.getGridRun().getAclfOption();
+		mCaseContainer.setRemoteJobCreation(runCase.getGridRunOption().getRemoteJobCreation());
+		if (runCase.getGridRunOption().getAclfOption() != null) {
+			GridComputingXmlType.AclfOption opt = runCase.getGridRunOption().getAclfOption();
 			mCaseContainer.getAclfGridOption().setReturnCase(
 					opt.getReturnStudyCase()==ReturnStudyCase.ALL_STUDY_CASE? ReturnRemoteCaseOpt.ALL_STUDY_CASE :
 						(opt.getReturnStudyCase()==ReturnStudyCase.DIVERGED_CASE? ReturnRemoteCaseOpt.DIVERGED_CASE :
