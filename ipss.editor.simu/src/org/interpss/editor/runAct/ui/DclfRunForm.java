@@ -60,13 +60,13 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			return false;
 		
 		try {
-			tdFactor = DclfBranchSensitivityXmlType.Factory.parse(dclfCaseData.getXmlPTDFactor());
+			tdFactor = DclfBranchSensitivityXmlType.Factory.parse(dclfCaseData.getXmlCaseData());
 			XmlScriptDclfRun.calPTDistFactor(tdFactor, algo, msg);
 
 			displaySummaryResult(simuCtx);
 			return true;
 		} catch (Exception e) {
-			msg.sendErrorMsg(e.toString() + ", " + dclfCaseData.getXmlPTDFactor());
+			msg.sendErrorMsg(e.toString() + ", " + dclfCaseData.getXmlCaseData());
 			return false;
 		}
 	}

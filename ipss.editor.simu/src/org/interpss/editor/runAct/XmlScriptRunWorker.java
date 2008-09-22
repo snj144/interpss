@@ -72,8 +72,8 @@ public class XmlScriptRunWorker {
 		}
 		
 		RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
-		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
-				&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
+		IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
+				&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
 		if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 			return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(), msg);
 		} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {

@@ -103,9 +103,9 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
 		
-		if (_caseData.getXmlPTDFactor() != null) {
+		if (!_caseData.getXmlCaseData().equals("")) {
 			try {
-				tdFactor = DclfBranchSensitivityXmlType.Factory.parse(_caseData.getXmlPTDFactor());
+				tdFactor = DclfBranchSensitivityXmlType.Factory.parse(_caseData.getXmlCaseData());
 				
 				if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 				    singleInBusRadioButtonActionPerformed(null);
@@ -133,7 +133,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		    	measBranchList.setModel(new javax.swing.DefaultComboBoxModel(
 		    			IpssXmlUtilFunc.getBranchIdAry(tdFactor.getBranchArray())));
 			} catch (Exception e) {
-				IpssLogger.getLogger().severe(e.toString() + ", " + _caseData.getXmlPTDFactor());
+				IpssLogger.getLogger().severe(e.toString() + ", " + _caseData.getXmlCaseData());
 				// in case schema
 				createNewPTDistFactorRec();
 			}
@@ -187,7 +187,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 			tdFactor.setWithdrawBusType(SenBusAnalysisDataType.MULTIPLE_BUS);
 		}
 			
-		_caseData.setXmlPTDFactor(tdFactor.toString());
+		_caseData.setXmlCaseData(tdFactor.toString());
 		
 		return errMsg.size() == 0;
 	}

@@ -79,7 +79,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 	 * @param simuCtx
 	 */
 	public void displaySummaryResult(SimuContext simuCtx) {
-		if (getAclfCaseData().getShowSummary()) {
+		if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
 			RunActUtilFunc.displayAclfSummaryResult(simuCtx
 					.getDynSimuAlgorithm());
 		}

@@ -84,7 +84,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 							.loadModel(str);
 					simuCtx.setAclfAdjNet(adjNet);
 					converge = adjNet.isLfConverged();
-					if (getAclfCaseData().getShowSummary()) {
+					if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
 						IOutputTextDialog dialog = UISpringAppContext
 								.getOutputTextDialog("Loadflow Analysis Run by Remote "
 										+ aclfCaseData.getGridNodeName());
@@ -102,7 +102,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 	public void displaySummaryResult(SimuContext simuCtx) {
-		if (getAclfCaseData().getShowSummary()) {
+		if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("Loadflow Analysis Info");
 			dialog.display(simuCtx.getAclfAdjNet());
@@ -116,7 +116,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			converge = runLoadflow_internal(distNet.getAcscNet(), simuCtx
 					.getLoadflowAlgorithm(), simuCtx.getMsgHub());
 
-			if (getAclfCaseData().getShowSummary()) {
+			if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
 				IOutputTextDialog dialog = UISpringAppContext
 						.getOutputTextDialog("Loadflow Analysis Info");
 				dialog.display(distNet.getAcscNet());
@@ -139,7 +139,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			}
 
 			distNet.getLoadNetData().setTotalLossKwHr(loss);
-			if (getAclfCaseData().getShowSummary()) {
+			if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
 				IOutputTextDialog dialog = UISpringAppContext
 						.getOutputTextDialog("Distribution Loadflow Analysis Info");
 				dialog.display(distNet);

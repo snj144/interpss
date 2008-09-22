@@ -37,7 +37,7 @@ import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.CustomRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
+import org.interpss.schema.RunStudyCaseXmlType.StandardRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.SimuRunType;
@@ -75,7 +75,7 @@ public class XmlScriptDStabRun {
 		// get the RunStudyCase object, root level modification has already
 		// applied
 		// to the DStabNet object
-		RunStudyCaseXmlType.CustomRun.RunDStabStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunDStabStudyCase();
+		RunStudyCaseXmlType.StandardRun.RunDStabStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunDStabStudyCase();
 
 		if (xmlRunCase != null) {
 			IAppSimuContext appSimuCtx = null;
@@ -142,7 +142,7 @@ public class XmlScriptDStabRun {
 						RemoteMessageTable result = IpssGridGainUtil.performGridTask(
 										grid,
 										"InterPSS Transient Stability Simulation",
-										dstabAlgo, ipssXmlDoc.getRunStudyCase().getGridRun()
+										dstabAlgo, ipssXmlDoc.getRunStudyCase().getGridRunOption()
 												.getTimeout());
 						// init the Net object for plotting purpose.
 						dstabNet.initialization(msg);
@@ -241,8 +241,8 @@ public class XmlScriptDStabRun {
 						RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(
 										grid, "InterPSS Transient Stability Simulation",
 										mCaseContainer, 
-										ipssXmlDoc.getRunStudyCase().getGridRun().getTimeout(),
-										ipssXmlDoc.getRunStudyCase().getGridRun().getRemoteJobCreation());
+										ipssXmlDoc.getRunStudyCase().getGridRunOption().getTimeout(),
+										ipssXmlDoc.getRunStudyCase().getGridRunOption().getRemoteJobCreation());
 						for (RemoteMessageTable result : objAry) {
 							Boolean b = result.getReturnStatus();
 							if (!b.booleanValue()) {

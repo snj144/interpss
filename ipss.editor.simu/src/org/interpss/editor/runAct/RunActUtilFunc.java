@@ -199,7 +199,7 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(
-			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.CustomRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec dstabRec) 
+			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.StandardRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec dstabRec) 
 				throws Exception {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler) algo
 				.getSimuOutputHandler();
@@ -258,7 +258,7 @@ public class RunActUtilFunc {
 	 */
 	public static boolean isGridEnabled(RunStudyCaseXmlType xmlStudyCase) {
 		return 	IpssGridGainUtil.isGridEnabled()
-				&& xmlStudyCase.getGridRun() != null
-				&& xmlStudyCase.getGridRun().getEnableGridRun();
+				&& xmlStudyCase.getGridRunOption() != null
+				&& xmlStudyCase.getGridRunOption().getEnableGridRun();
 	}	
 }
