@@ -31,6 +31,7 @@ import org.interpss.editor.data.dstab.DStabLoadChangeData;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
+import org.interpss.schema.AclfAlgorithmXmlType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
@@ -76,21 +77,20 @@ public class CaseData2AlgorithmMapperImpl {
 	 */
 	public static void aclfCaseData2AlgoMapping(AclfCaseData caseData,
 			LoadflowAlgorithm algo) {
-		algo
-				.setLfMethod(caseData.getMethod()
-						.equals(AclfCaseData.Method_NR) ? AclfMethod.NR
-						: (caseData.getMethod().equals(AclfCaseData.Method_PQ) ? AclfMethod.PQ
-								: AclfMethod.GS));
+		AclfAlgorithmXmlType xmlAlgo = caseData.getAclfAlgorithm();
+		algo.setLfMethod(xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR ? AclfMethod.NR
+						: (xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ) ? AclfMethod.PQ
+								: AclfMethod.GS);
 		/*
 		 * no need for this. PQ method can handle PSXfr now if
 		 * (algo.getAclfAdjNetwork().hasPSXfr() && algo.getLfMethod() ==
 		 * AclfMethod.PQ) algo.setLfMethod(AclfMethod.NR);
 		 */
-		algo.setMaxIterations(caseData.getMaxIteration());
-		algo.setTolerance(caseData.getTolerance());
-		algo.setNonDivergent(caseData.getNonDivergent());
-		algo.setInitBusVoltage(caseData.getInitBusVolt());
-		algo.setGsAccFactor(caseData.getAccFactor());
+		algo.setMaxIterations(xmlAlgo.getMaxIterations());
+		algo.setTolerance(xmlAlgo.getTolerance());
+		algo.setNonDivergent(xmlAlgo.getNonDivergent());
+		algo.setInitBusVoltage(xmlAlgo.getInitBusVoltage());
+		algo.setGsAccFactor(xmlAlgo.getAccFactor());
 	}
 
 	/**

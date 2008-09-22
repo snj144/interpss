@@ -60,7 +60,7 @@ public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 	private boolean createRunXmlScripts(AnalysisRunType.Enum type, InterPSSXmlType ipssXmlDoc) {
 		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 			// grid computing settings
-			GridComputingXmlType gridRun = ipssXmlDoc.getRunStudyCase().addNewGridRun();
+			GridComputingXmlType gridRun = ipssXmlDoc.getRunStudyCase().addNewGridRunOption();
 			gridRun.setEnableGridRun(true);
 			gridRun.setRemoteJobCreation(true);
 			GridComputingXmlType.AclfOption opt = gridRun.addNewAclfOption();
@@ -76,7 +76,7 @@ public class PSSEContingencyAnalysis extends CustomRunScriptPluginBase {
 		// default Aclf Algorithm settings
 		AclfAlgorithmXmlType algo;
 		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) 
-			algo = ipssXmlDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().addNewDefaultAclfAlgorithm();
+			algo = ipssXmlDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase().addNewDefaultAclfAlgorithm();
 		else
 			algo = ipssXmlDoc.getRunStudyCase().getContingencyAnalysis().addNewDefaultAclfAlgorithm();
 		algo.setLfMethod(AclfAlgorithmXmlType.LfMethod.NR);
