@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
- 		<ipss:customRun>
+ 		<ipss:standardRun>
 		<ipss:aclfStudyCaseList>
 			<ipss:aclfStudyCase>
 				<ipss:recId>AclfRunCase-1</ipss:recId>
@@ -47,6 +47,6 @@
 				<ipss:tolerance>0.0001</ipss:tolerance>
 			</ipss:aclfStudyCase>
 		</ipss:aclfStudyCaseList>
- 		</ipss:customRun>
+ 		</ipss:standardRun>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

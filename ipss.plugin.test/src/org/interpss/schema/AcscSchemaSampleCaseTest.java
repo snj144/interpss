@@ -29,7 +29,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.mapper.IpssXmlMapper;
-import org.interpss.schema.RunStudyCaseXmlType.CustomRun.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
+import org.interpss.schema.RunStudyCaseXmlType.StandardRun.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 

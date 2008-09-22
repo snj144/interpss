@@ -4,12 +4,12 @@
 	xsi:schemaLocation="http://www.interpss.org/schema ../../../../ipss.xml/schema/InterPSS.xsd">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
-		<ipss:gridRun>
+		<ipss:gridRunOption>
 			<ipss:enableGridRun>false</ipss:enableGridRun>
 			<ipss:remoteJobCreation>false</ipss:remoteJobCreation>
 			<ipss:timeout>0</ipss:timeout>
-		</ipss:gridRun>
- 		<ipss:customRun>
+		</ipss:gridRunOption>
+ 		<ipss:standardRun>
 		<ipss:runAclfStudyCase>
 			<ipss:defaultAclfAlgorithm>
 				<ipss:lfMethod>NR</ipss:lfMethod>
@@ -41,6 +41,6 @@
 			</ipss:aclfStudyCase>
 			</ipss:aclfStudyCaseList>
 		</ipss:runAclfStudyCase>
- 		</ipss:customRun>
+ 		</ipss:standardRun>
 	</ipss:runStudyCase>
 </ipss:InterPSS>
