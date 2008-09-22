@@ -24,11 +24,24 @@
 
 package org.interpss.editor.data.proj;
 
+import org.interpss.schema.AclfAlgorithmXmlType;
+
 import com.interpss.common.rec.BaseDataBean;
+import com.interpss.common.util.IpssLogger;
 
 public class AclfCaseData extends BaseDataBean {
 	private static final long serialVersionUID = 1;
 
+	public AclfAlgorithmXmlType getAclfAlgorithm() {
+		try {
+			return AclfAlgorithmXmlType.Factory.parse(getXmlCaseData());
+    	} catch (Exception e) {
+    		IpssLogger.getLogger().severe(e.toString() + ", " + getXmlCaseData());
+    	}
+    	return null;
+    }
+	
+	// the following fields are for old version compatibility 
 	public static final String Method_NR = "NR";
 	public static final String Method_PQ = "PQ";
 	public static final String Method_GS = "GS";
