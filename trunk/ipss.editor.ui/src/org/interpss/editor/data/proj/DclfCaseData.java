@@ -28,13 +28,4 @@ import com.interpss.common.rec.BaseDataBean;
 
 public class DclfCaseData extends BaseDataBean {
 	private static final long serialVersionUID = 1;
-	
-	private String xmlPTDFactor = null;
-	public String getXmlPTDFactor() {
-		return this.xmlPTDFactor;
-	}
-	public void setXmlPTDFactor(String xmlPTDFactor) {
-		this.xmlPTDFactor = xmlPTDFactor;
-	}
-	
 }
