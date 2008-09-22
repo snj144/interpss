@@ -136,19 +136,17 @@
    	</target>	
 
     <target depends="init" description="copy sqlMap files to GEditor" name="copy_properties">
-    	<copydir src="${dev_base}/ipss/runtime/sqlMapConfig"
-    	         dest="${dist_base}/properties/sqlMapConfig"
-    	         includes="**/*.xml"
-    	         excludes="**/SqlMapConfig.xml"
-    	/>
-    	<copydir src="${dev_base}/ipss/properties"
-    	         dest="${dist_base}/properties"
-    	         includes="**/*.xml"
-    	/>
-    	<copydir src="${dev_base}/ipss/properties"
-    	         dest="${fit_base}/properties"
-    	         includes="**/*.xml"
-    	/>
+    	<!--copy todir="${dist_base}/properties/sqlMapConfig">
+    	      <fileset dir="${dev_base}/ipss/runtime/sqlMapConfig">
+    	         <exclude name="**/SqlMapConfig.xml" />
+    	      </fileset>
+    	</copy-->
+    	<copy todir="${dist_base}/properties/springConfig" >
+    		  <fileset dir="${dev_base}/ipss/properties/springConfig" />
+    	</copy>
+    	<!--copy todir="${fit_base}/properties">
+    			<fileset dir="${dev_base}/ipss/properties" />
+    	</copy-->
     </target>	
 			
     <target depends="init" description="copy report templates to GEditor" name="copy_report_template">
