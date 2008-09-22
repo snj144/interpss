@@ -140,8 +140,8 @@ public class CmdLineRunner {
 			}
 
 			RunStudyCaseXmlType xmlStudyCase = parser.getRunStudyCase();
-			IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRun() != null
-					&& xmlStudyCase.getGridRun().getRemoteNodeDebug();
+			IpssGridGainUtil.RemoteNodeDebug = xmlStudyCase.getGridRunOption() != null
+					&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
 			if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 				runType = SimuRunType.Aclf;
 				return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(),
