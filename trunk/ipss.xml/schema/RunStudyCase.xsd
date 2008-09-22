@@ -29,11 +29,11 @@
 			<ns:element name="applyRuleBase" type="ns:boolean"
 				minOccurs="0">
 			</ns:element>
-			<ns:element name="gridRun" minOccurs="0" maxOccurs="1"
+			<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1"
 				type="ipss:GridComputingXmlType">
 
 			</ns:element>
-            <ns:element name="customRun" minOccurs="0">
+            <ns:element name="standardRun" minOccurs="0">
             <ns:complexType>
             	<ns:sequence>
             <ns:element name="runDclfStudyCase" minOccurs="0">

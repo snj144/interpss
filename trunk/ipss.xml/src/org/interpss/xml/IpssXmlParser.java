@@ -63,7 +63,7 @@ public class IpssXmlParser {
 		this.ipss.addNewRunStudyCase();
 		getRunStudyCase().setAnalysisRunType(type);
 		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
-			getRunStudyCase().addNewCustomRun().addNewRunAclfStudyCase();
+			getRunStudyCase().addNewStandardRun().addNewRunAclfStudyCase();
 			getRunAclfStudyCase().addNewAclfStudyCaseList();
 		}
 		else if (type == RunStudyCaseXmlType.AnalysisRunType.CONTINGENCY_ANALYSIS) {
@@ -121,8 +121,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.CustomRun.RunDclfStudyCase getRunDclfStudyCase() {
-		return ipss.getRunStudyCase().getCustomRun().getRunDclfStudyCase();
+	public RunStudyCaseXmlType.StandardRun.RunDclfStudyCase getRunDclfStudyCase() {
+		return ipss.getRunStudyCase().getStandardRun().getRunDclfStudyCase();
 	}
 
 	/**
@@ -130,8 +130,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.CustomRun.RunAclfStudyCase getRunAclfStudyCase() {
-		return ipss.getRunStudyCase().getCustomRun().getRunAclfStudyCase();
+	public RunStudyCaseXmlType.StandardRun.RunAclfStudyCase getRunAclfStudyCase() {
+		return ipss.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 	}
 
 	/**
@@ -139,8 +139,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.CustomRun.RunAcscStudyCase getRunAcscStudyCase() {
-		return ipss.getRunStudyCase().getCustomRun().getRunAcscStudyCase();
+	public RunStudyCaseXmlType.StandardRun.RunAcscStudyCase getRunAcscStudyCase() {
+		return ipss.getRunStudyCase().getStandardRun().getRunAcscStudyCase();
 	}
 
 	/**
@@ -148,8 +148,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public RunStudyCaseXmlType.CustomRun.RunDStabStudyCase getRunDStabStudyCase() {
-		return ipss.getRunStudyCase().getCustomRun().getRunDStabStudyCase();
+	public RunStudyCaseXmlType.StandardRun.RunDStabStudyCase getRunDStabStudyCase() {
+		return ipss.getRunStudyCase().getStandardRun().getRunDStabStudyCase();
 	}
 
 	/**
