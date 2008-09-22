@@ -5,11 +5,11 @@
 
   <runStudyCase>
   <analysisRunType>RunAclf</analysisRunType>
-  <gridRun>
+  <gridRunOption>
     <enableGridRun>true</enableGridRun>
     <remoteJobCreation>true</remoteJobCreation>
-  </gridRun>
-  <customRun>
+  </gridRunOption>
+  <standardRun>
   <runAclfStudyCase>
     <defaultAclfAlgorithm>
       <lfMethod>NR</lfMethod>
@@ -150,6 +150,6 @@
       </aclfStudyCase>
     </aclfStudyCaseList>
   </runAclfStudyCase>
-  </customRun>
+  </standardRun>
   </runStudyCase>
 </InterPSS>

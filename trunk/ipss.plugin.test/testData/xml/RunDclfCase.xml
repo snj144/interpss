@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunDclf</ipss:analysisRunType>
-		<ipss:customRun>
+		<ipss:standardRun>
 		<ipss:runDclfStudyCase>
 			<ipss:dclfStudyCaseList>
 				<ipss:dclfStudyCaseRec>
@@ -155,6 +155,6 @@
 				</ipss:dclfStudyCaseRec>
 			</ipss:dclfStudyCaseList>
 		</ipss:runDclfStudyCase>
-		</ipss:customRun>
+		</ipss:standardRun>
 	</ipss:runStudyCase>
 </ipss:InterPSS>

@@ -5,7 +5,7 @@
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
 		<ipss:applyRuleBase>true</ipss:applyRuleBase>
-		<ipss:gridRun>
+		<ipss:gridRunOption>
 			<ipss:enableGridRun>true</ipss:enableGridRun>
 			<ipss:remoteJobCreation>true</ipss:remoteJobCreation>
 			<ipss:aclfOption>
@@ -16,8 +16,8 @@
 					<ipss:min>0.8</ipss:min>
 				</ipss:busVoltagePULimit>
 			</ipss:aclfOption>
-		</ipss:gridRun>
- 		<ipss:customRun>
+		</ipss:gridRunOption>
+ 		<ipss:standardRun>
 		<ipss:runAclfStudyCase>
 		   <ipss:defaultAclfAlgorithm>
 			   <ipss:lfMethod>NR</ipss:lfMethod>
@@ -76,7 +76,7 @@
 			</ipss:aclfStudyCase>
 		   </ipss:aclfStudyCaseList>
 		</ipss:runAclfStudyCase>
- 		</ipss:customRun>
+ 		</ipss:standardRun>
 			<ipss:ruleBase>
 				<ipss:preventiveRuleSetList>
 				  <ipss:preventiveRuleSet>

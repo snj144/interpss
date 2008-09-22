@@ -84,14 +84,14 @@ OPEN LINE FROM BUS 152 TO BUS 202 CIRCUIT 1
 END
 END
  */
-		assertTrue(ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray().length == 4);
+		assertTrue(ipssDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray().length == 4);
 		
-		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
+		AclfStudyCaseXmlType scase = ipssDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getFromBusId().equals("3004"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getToBusId().equals("152"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getCircuitNumber().equals("1"));
 
-		scase = ipssDoc.getRunStudyCase().getCustomRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[2];
+		scase = ipssDoc.getRunStudyCase().getStandardRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()[2];
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getFromBusId().equals("3004"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getToBusId().equals("152"));
 		assertTrue(scase.getModification().getBranchChangeRecList().getBranchChangeRecArray(0).getCircuitNumber().equals("1"));

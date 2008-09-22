@@ -5,7 +5,7 @@
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunAclf</ipss:analysisRunType>
 		<ipss:applyRuleBase>true</ipss:applyRuleBase>
- 		<ipss:customRun>
+ 		<ipss:standardRun>
 		<ipss:runAclfStudyCase>
 			<ipss:aclfStudyCaseList>
 				<ipss:aclfStudyCase>
@@ -22,7 +22,7 @@
 				</ipss:aclfStudyCase>
 			</ipss:aclfStudyCaseList>
 		</ipss:runAclfStudyCase>
- 		</ipss:customRun>
+ 		</ipss:standardRun>
 			<ipss:ruleBase>
 				<ipss:preventiveRuleSetList>
 					<ipss:preventiveRuleSet>

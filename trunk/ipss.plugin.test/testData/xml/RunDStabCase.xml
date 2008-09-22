@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd ">
 	<ipss:runStudyCase>
 		<ipss:analysisRunType>RunDStab</ipss:analysisRunType>
-		<ipss:customRun>
+		<ipss:standardRun>
 		<ipss:runDStabStudyCase>
 		<ipss:dStabStudyCaseList>
 			<ipss:dStabStudyCaseRec>
@@ -71,6 +71,6 @@
 			</ipss:dStabStudyCaseRec>
 		</ipss:dStabStudyCaseList>
 		</ipss:runDStabStudyCase>
-		</ipss:customRun>
+		</ipss:standardRun>
 	</ipss:runStudyCase>
 </ipss:InterPSS>
