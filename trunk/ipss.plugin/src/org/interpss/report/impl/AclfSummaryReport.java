@@ -61,7 +61,7 @@ public class AclfSummaryReport extends AclfBaseReport implements IIpssReport {
 			mapper.mapping(appSimuCtx, titleBean, RptMainTitleBean.class);
 			titleBean.setReportTitle("Load Flow (Summary)");
 			titleBean.setCaseName(appSimuCtx
-					.getCurrentCaseName(CaseData.CaseType_Aclf));
+					.getCurrentCaseName(IAppSimuContext.CaseType.Aclf));
 			parameters.put("ReportMainTitleBean", titleBean);
 
 			addSubreports(parameters, appSimuCtx, mapper);

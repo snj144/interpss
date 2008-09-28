@@ -66,7 +66,7 @@ public class AcscFaultReport implements IIpssReport {
 			mapper.mapping(appSimuCtx, titleBean, RptMainTitleBean.class);
 			titleBean.setReportTitle("Short Circuit Calculation");
 			titleBean.setCaseName(appSimuCtx
-					.getCurrentCaseName(CaseData.CaseType_Acsc));
+					.getCurrentCaseName(IAppSimuContext.CaseType.Acsc));
 			parameters.put("ReportMainTitleBean", titleBean);
 
 			parameters.put("FaultSummaryJBeanDatasource", AcscRptBeanFactory
