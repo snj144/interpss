@@ -26,7 +26,7 @@ package org.interpss.editor.ui;
 
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.SimuAppSpringAppCtxUtil;
-import org.interpss.editor.app.ProjectScriptFileUtil;
+import org.interpss.editor.app.ProjectFileUtil;
 import org.interpss.editor.chart.DStabPlotSelectionDialog;
 import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssCustomDocument;
@@ -115,7 +115,8 @@ public class EditorActionAdapter {
 		simuCtx.setDclfAlgorithm(CoreSpringAppContext.getDclfAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_SenAnalysis);
+			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.SenAnalysis,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.SenAnalysis).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("SenAnalysis SimuRunWorker");
@@ -144,7 +145,8 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Aclf);
+			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.Aclf,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.Aclf).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Aclf SimuRunWorker");
@@ -173,7 +175,8 @@ public class EditorActionAdapter {
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringAppContext.getSimpleFaultAlgorithm());
  
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Acsc);
+			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.Acsc,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.Acsc).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Acsc SimuRunWorker");
@@ -201,8 +204,9 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(DStabSpringAppContext.getDynamicSimuAlgorithm());
 
-		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_DStab);
-    	IpssTextFile file = ProjectScriptFileUtil.getProjectScriptFile(doc, ProjectScriptFileUtil.DStabOutputScriptFilename);
+		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.DStab,
+				ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.DStab).getFilePathName());
+    	IpssTextFile file = ProjectFileUtil.getProjectFile(doc, ProjectFileUtil.DStabOutputScriptFilename);
     	dialog.setDStabOutputScriptFilename(file.getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
     	if (dialog.isReturnOk()) {
@@ -230,11 +234,12 @@ public class EditorActionAdapter {
 		}
 		
 		IpssLogger.getLogger().info("Run Scripts");
-		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(CaseData.CaseType_Scripts);
+		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.Scripts,
+				ProjectFileUtil.getProjectScriptRunCaseFile(doc).getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
     	if (dialog.isReturnOk()) {
 			SimuRunWorker worker = new SimuRunWorker("Scripting SimuRunWorker");
-			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), CaseData.CaseType_Scripts);
+			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), IAppSimuContext.CaseType.Scripts);
 			worker.configRun(SimuRunType.Scripts, simuCtx, caseData.getScripts(), caseData.getScriptLanguageType(), caseData.getScriptPluginName());
 			worker.start();
 			appSimuCtx.setLastRunType(SimuRunType.Scripts);
@@ -276,7 +281,7 @@ public class EditorActionAdapter {
 	
 	public static void menu_output_dstabcurve(IpssEditorDocument doc) {
 		DStabPlotSelectionDialog dialog = new DStabPlotSelectionDialog(GraphSpringAppContext.getIpssGraphicEditor().getFrame(), true);
-    	IpssTextFile file = ProjectScriptFileUtil.getProjectScriptFile(doc, ProjectScriptFileUtil.DStabPlotScriptFilename);
+    	IpssTextFile file = ProjectFileUtil.getProjectFile(doc, ProjectFileUtil.DStabPlotScriptFilename);
     	dialog.init((SimuContext)doc.getSimuAppContext().getSimuCtx(), doc.getSimuAppContext().getDbSimuCaseId(), 
 				    	file==null?null:file.getFilePathName());
 	}
