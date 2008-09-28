@@ -1,5 +1,5 @@
  /*
-  * @(#)ProjectScriptFileUtil.java   
+  * @(#)ProjectFileUtil.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -30,21 +30,40 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
 import com.interpss.common.SpringAppContext;
 
-public class ProjectScriptFileUtil {
+public class ProjectFileUtil {
+	public static String StdRunStudyCase_Aclf = "RunStudyCaseStdAclf.xml";
+	public static String StdRunStudyCase_Acsc = "RunStudyCaseStdAcsc.xml";
+	public static String StdRunStudyCase_DStab = "RunStudyCaseStdDStab.xml";
+	public static String StdRunStudyCase_SenAnalysis = "RunStudyCaseStdSenAnalysis.xml";
+	
+	public static String ScriptingRunStudyCase = "RunStudyCaseScripting.xml";
+
 	public static String DStabPlotScriptFilename = "DStabPlotScripts.txt";
 	public static String DStabOutputScriptFilename = "DStabOutputScripts.txt";
 	
+	public static IpssTextFile getProjectStdRunCaseFile(IpssEditorDocument doc, IAppSimuContext.CaseType caseType) {
+		if (caseType == IAppSimuContext.CaseType.Aclf)
+			return getProjectFile(doc, StdRunStudyCase_Aclf);
+		else 
+			return null;
+	}
+	
+	public static IpssTextFile getProjectScriptRunCaseFile(IpssEditorDocument doc) {
+		return getProjectFile(doc, ScriptingRunStudyCase);
+	}
+
 	/**
-	 * Get the script file object. If the file does not exsit, it wil be created.
+	 * Get a project file object. If the file does not exist, it will be created.
 	 * 
 	 * @param doc the project editor doc
 	 * @param scriptFilename
 	 * @return
 	 */
-	public static IpssTextFile getProjectScriptFile(IpssEditorDocument doc, String scriptFilename) {
+	public static IpssTextFile getProjectFile(IpssEditorDocument doc, String scriptFilename) {
 		IpssProjectItem item = doc.getGraphpad().getCurrentProjectItem();
 		String filename = item.getFileNameNoExt()+scriptFilename;
 		String filepath = item.getProject().getProjectPath() + System.getProperty("file.separator") + filename;
