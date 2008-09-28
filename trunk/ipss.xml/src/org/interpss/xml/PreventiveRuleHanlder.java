@@ -58,7 +58,7 @@ public class PreventiveRuleHanlder {
 	 */
 	public static List<Object> applyRuleSet2AclfNet(LoadflowAlgorithm algo, RuleBaseXmlType ruleBase, 
 					double vMaxPU, double vMinPU, IPSSMsgHub msg) {
-		int max = IpssXmlParser.getUpperPriority(ruleBase);
+		int max = getUpperPriority(ruleBase);
 		List<Object> msgList = new ArrayList<Object>();
 		for (int i = 1; i <= max; i++) {
 			if (algo.violation(ViolationType.ALL, vMaxPU, vMinPU, msgList))
@@ -223,4 +223,19 @@ public class PreventiveRuleHanlder {
 		}
 		return false;
 	}
+	
+	/**
+	 * Find the largest priority number. 
+	 * 
+	 * @param aclfRuleBase
+	 * @return
+	 */
+	public static int getUpperPriority(RuleBaseXmlType aclfRuleBase) {
+		int p = 1;   // priority starts from 1, max 10
+		for (PreventiveRuleSetXmlType ruleSet : aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()) {
+			if (ruleSet.getPriority() > p)
+				p = ruleSet.getPriority();
+		}
+		return p;
+	}	
 }
