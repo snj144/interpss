@@ -28,4 +28,13 @@ import com.interpss.common.rec.BaseDataBean;
 
 public class DclfCaseData extends BaseDataBean {
 	private static final long serialVersionUID = 1;
+	
+	private String xmlCaseData = "";
+	public String getXmlCaseData() {
+		return this.xmlCaseData;
+	}
+	public void setXmlCaseData(String xmlCaseData) {
+		this.xmlCaseData = xmlCaseData;
+	}
+	
 }

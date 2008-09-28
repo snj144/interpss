@@ -28,17 +28,21 @@ package org.interpss.editor.data.proj;
 	Study case info
 */
 
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+
 import com.interpss.common.rec.IpssDBCase;
 
 public class CaseData extends IpssDBCase {
 	private static final long serialVersionUID = 1;
 	
 	// Contants defined in the StudyCaseType table
+	/*
 	public static final String CaseType_Aclf  = "AclfStudyCase";
 	public static final String CaseType_Acsc  = "AcscStudyCase";
 	public static final String CaseType_DStab = "DStabStudyCase";
 	public static final String CaseType_Scripts = "ScriptsStudyCase";
 	public static final String CaseType_SenAnalysis = "SenAnalysis";
+	*/
 	
     public CaseData() {}
 
@@ -48,9 +52,9 @@ public class CaseData extends IpssDBCase {
 	public void setDescription(String str) {this.description = str;}
 
 	/* case type id */
-	private String caseType = "";
-	public String getCaseType() {return this.caseType;}
-	public void setCaseType(String n) {this.caseType = n;}
+	private IAppSimuContext.CaseType caseType;
+	public IAppSimuContext.CaseType getCaseType() {return this.caseType;}
+	public void setCaseType(IAppSimuContext.CaseType n) {this.caseType = n;}
 
 	private DclfCaseData dclfCaseData = null;
 	public DclfCaseData getDclfCaseData() { return this.dclfCaseData; }
