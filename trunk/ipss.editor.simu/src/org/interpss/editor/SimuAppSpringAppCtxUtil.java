@@ -28,6 +28,7 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.app.AppSimuContextImpl;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
@@ -44,10 +45,11 @@ public class SimuAppSpringAppCtxUtil {
 	 * 
 	 * @return the CaseInfoDialog object
 	 */
-	public static ICaseInfoDialog getCaseInfoDialog(String caseType) {
+	public static ICaseInfoDialog getCaseInfoDialog(IAppSimuContext.CaseType caseType, String runFilename) {
 		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog) SpringAppContext.SpringAppCtx
 				.getBean(Constants.SID_CaseInfoDialog);
 		caseInfoDialog.setCaseType(caseType);
+		caseInfoDialog.setRunStudyCaseFilename(runFilename);
 		return caseInfoDialog;
 	}
 
@@ -56,13 +58,14 @@ public class SimuAppSpringAppCtxUtil {
 	 * 
 	 * @return the CaseInfoDialog object
 	 */
-	public static ICaseInfoDialog getCaseInfoDialog(String caseType,
+	public static ICaseInfoDialog getCaseInfoDialog(IAppSimuContext.CaseType caseType, String runFilename,
 			IGFormContainer netContainer, AppSimuContextImpl appCtx,
 			boolean model) {
 		ICaseInfoDialog caseInfoDialog = (ICaseInfoDialog) SpringAppContext.SpringAppCtx
 				.getBean(Constants.SID_CaseInfoDialog);
 		((JDialog) caseInfoDialog).setModal(model);
 		caseInfoDialog.setCaseType(caseType);
+		caseInfoDialog.setRunStudyCaseFilename(runFilename);
 		caseInfoDialog.init(netContainer, appCtx);
 		return caseInfoDialog;
 	}
