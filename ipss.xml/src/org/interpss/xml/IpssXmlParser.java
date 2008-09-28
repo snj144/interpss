@@ -244,21 +244,6 @@ public class IpssXmlParser {
 	}	
 	
 	/**
-	 * Find the largest priority number. 
-	 * 
-	 * @param aclfRuleBase
-	 * @return
-	 */
-	public static int getUpperPriority(RuleBaseXmlType aclfRuleBase) {
-		int p = 1;   // priority starts from 1, max 10
-		for (PreventiveRuleSetXmlType ruleSet : aclfRuleBase.getPreventiveRuleSetList().getPreventiveRuleSetArray()) {
-			if (ruleSet.getPriority() > p)
-				p = ruleSet.getPriority();
-		}
-		return p;
-	}
-	
-	/**
 	 * map Xml unit type to InterPSS UnitType
 	 * 
 	 * @param type
