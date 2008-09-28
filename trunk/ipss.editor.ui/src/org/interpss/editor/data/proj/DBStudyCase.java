@@ -24,6 +24,8 @@
 
 package org.interpss.editor.data.proj;
 
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+
 import com.interpss.common.util.XmlUtil;
 
 /**
@@ -117,15 +119,16 @@ public class DBStudyCase {
 		c.setCaseId(data.getCaseDbId());
 		c.setProjDbId(data.getProjDbId());
 		c.setCaseName(data.getCaseName());
-		c.setCaseType(data.getCaseType());
+		c.setCaseType(data.getCaseType().toString());
 		c.setDataXmlString(data.toString());
 		return c; 
 	}
 	
 	public CaseData getCaseData() {
-		CaseData aCase = (CaseData)XmlUtil.toObject(this.dataXmlString, CaseData.class);
+		//CaseData aCase = (CaseData)XmlUtil.toObject(this.dataXmlString, CaseData.class);
+		CaseData aCase = new CaseData();
 		// case db id may be changed
-		aCase.setCaseDbId(getCaseId());
+		aCase.setCaseDbId(0);
 		return aCase;
 	}
 }

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.interpss.editor.jgraph.ui.data.IProjectData;
+import org.interpss.schema.InterPSSDocument;
 
 import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.util.IpssLogger;
@@ -41,15 +42,19 @@ public class ProjData extends BaseDataBean implements IProjectData {
 	private static final long serialVersionUID = 1;
 
 	public static String NewProjName = "UnSaved";
+	private boolean dirty = false;
 
 	private int projectDbId = 0;
 	private String projectName = NewProjName;
 	private String description = "";
 	private String workspacePath = null;
 	private String filepath = null;
-	private boolean dirty = false;
-	private List caseList = new ArrayList();
 	private String dbSchemaVersion = "";
+
+	private InterPSSDocument stdRunXmlDoc = null;
+	private InterPSSDocument scriptRunXmlDoc = null;
+	
+	private List caseList = new ArrayList();
 
 	/* current case name */
 	private String dclfCaseName = null;
