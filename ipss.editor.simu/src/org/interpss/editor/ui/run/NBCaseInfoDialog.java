@@ -32,12 +32,16 @@ import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.editor.ui.ICaseInfoDialog;
+import org.interpss.editor.ui.RunUIUtilFunc;
+import org.interpss.schema.InterPSSXmlType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.ui.WinUtilities;
+import com.interpss.common.util.FileUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 
@@ -45,10 +49,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	private static final long serialVersionUID = 1;
 
 	private boolean  _returnOK = false;
-
-	// case type of the current case being edited, defined in CaseData (CaseType_Aclf, CaseType_Acsc, CaseType_DStab)
-	private String      _caseType = "";
-
+	private IAppSimuContext.CaseType _caseType = IAppSimuContext.CaseType.NotDefined;
+	
+	private String runStudyCaseFilename;
+	private InterPSSXmlType ipssXmlDoc;
+	
 	// holding the case data being edited
 	private CaseData _caseData = null;
 	
@@ -89,29 +94,29 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		_appSimuCtx = (AppSimuContextImpl)appCtx;
         
 		caseDataPanel.removeAll();
-		if (_caseType == CaseData.CaseType_Aclf) {
+		if (_caseType == IAppSimuContext.CaseType.Aclf) {
 			this.setTitle("Run Aclf Loadflow Analysis");
 			caseDataPanel.add(_aclfCaseInfoPanel);
 			_aclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx(), true);
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().addMsgListener(_aclfCaseInfoPanel);
 		}
-		if (_caseType == CaseData.CaseType_SenAnalysis) {
+		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
 			this.setTitle("Run Sensitivity Analysis");
 			caseDataPanel.add(_dclfCaseInfoPanel);
 			_dclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().addMsgListener(_dclfCaseInfoPanel);
 		}
-		else if (_caseType == CaseData.CaseType_Acsc) {
+		else if (_caseType == IAppSimuContext.CaseType.Acsc) {
 			this.setTitle("Run Acsc Short Circuit Analysis");
 			caseDataPanel.add(_acscCaseInfoPanel);
 			_acscCaseInfoPanel.init(netContainer, _appSimuCtx);
 		}	
-		else if (_caseType == CaseData.CaseType_DStab) {
+		else if (_caseType == IAppSimuContext.CaseType.DStab) {
 			this.setTitle("Run Transient Stability Simulation");
 			caseDataPanel.add(_dstabCaseInfoPanel);
 			_dstabCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}	
-		else if (_caseType == CaseData.CaseType_Scripts) {
+		else if (_caseType == IAppSimuContext.CaseType.Scripts) {
 			this.setTitle("Custom Scripting Run Case");
 			caseDataPanel.add(_scrptsCaseInfoPanel);
 			_scrptsCaseInfoPanel.init(netContainer, _appSimuCtx);
@@ -138,8 +143,12 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
      * 
      * @param type case type
      */
-    public void setCaseType(String type) {
+    public void setCaseType(IAppSimuContext.CaseType type) {
         _caseType = type;
+    }
+    
+    public void setRunStudyCaseFilename(String filename) {
+    	this.runStudyCaseFilename = filename;
     }
     
     public void setDStabOutputScriptFilename(String filename) {
@@ -153,6 +162,14 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	*/
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBCaseInfoDialog setForm2Editor() called");
+		
+		try {
+			this.ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(runStudyCaseFilename, _caseType);
+		} catch (Exception e) {
+			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().sendErrorMsg(e.toString());
+			return false;
+		}
+		//System.out.println(this.ipssXmlDoc.toString());
 
 		// build the case info combo list
 		this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
@@ -162,19 +179,19 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		// project file
 		String casename = null; 
 		ProjData projData = (ProjData)_appSimuCtx.getProjData();
-		if (_caseType == CaseData.CaseType_Aclf && projData.getAclfCaseName() != null) {
+		if (_caseType == IAppSimuContext.CaseType.Aclf && projData.getAclfCaseName() != null) {
 			casename = projData.getAclfCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 		}
-		else if (_caseType == CaseData.CaseType_Acsc && projData.getAcscCaseName() != null) {
+		else if (_caseType == IAppSimuContext.CaseType.Acsc && projData.getAcscCaseName() != null) {
 			casename = projData.getAcscCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 		}
-		else if (_caseType == CaseData.CaseType_DStab && projData.getDStabCaseName() != null) {
+		else if (_caseType == IAppSimuContext.CaseType.DStab && projData.getDStabCaseName() != null) {
 			casename = projData.getDStabCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 		}
-		else if (_caseType == CaseData.CaseType_Scripts && projData.getScriptsCaseName() != null) {
+		else if (_caseType == IAppSimuContext.CaseType.Scripts && projData.getScriptsCaseName() != null) {
 			casename = projData.getScriptsCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 		}
@@ -193,7 +210,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		
 		this.descTextArea.setText(_caseData.getDescription());
 
-		if (_caseType == CaseData.CaseType_Aclf) {
+		if (_caseType == IAppSimuContext.CaseType.Aclf) {
 			// update projData with the current casename
 			projData.setAclfCaseName(casename);
 			// update the AclfRunForm object, which actually run the case
@@ -203,19 +220,19 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			// set the case data to the actual data editing panel
 			_aclfCaseInfoPanel.setForm2Editor();
 		}
-		else if (_caseType == CaseData.CaseType_SenAnalysis) {
+		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
 			projData.setDclfCaseName(casename);
 			SimuAppSpringAppContext.getDclfRunForm().setDclfCaseData(_caseData.getDclfCaseData());
 			_dclfCaseInfoPanel.setCaseData(_caseData.getDclfCaseData());
 			_dclfCaseInfoPanel.setForm2Editor();
 		}
-		else if (_caseType == CaseData.CaseType_Acsc) {
+		else if (_caseType == IAppSimuContext.CaseType.Acsc) {
 			projData.setAcscCaseName(casename);
 			SimuAppSpringAppContext.getAcscRunForm().setAcscCaseData(_caseData.getAcscCaseData());
 			_acscCaseInfoPanel.setCaseData(_caseData.getAcscCaseData());
 			_acscCaseInfoPanel.setForm2Editor();
 		}
-		else if (_caseType == CaseData.CaseType_DStab) {
+		else if (_caseType == IAppSimuContext.CaseType.DStab) {
 			projData.setDStabCaseName(casename);
 			DStabRunForm dsatbRunForm = (DStabRunForm)_appSimuCtx.getDStabRunForm();
 			dsatbRunForm.setDStabCaseData(_caseData.getDStabCaseData());
@@ -223,7 +240,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_dstabCaseInfoPanel.setCaseData(_caseData);
 			_dstabCaseInfoPanel.setForm2Editor();
 		}
-		else if (_caseType == CaseData.CaseType_Scripts) {
+		else if (_caseType == IAppSimuContext.CaseType.Scripts) {
 			projData.setScriptsCaseName(casename);
 			_scrptsCaseInfoPanel.setCaseData(_caseData);
 			_scrptsCaseInfoPanel.setForm2Editor();
@@ -250,27 +267,30 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		_caseData.setDescription(this.descTextArea.getText());
 
 		ProjData projData = (ProjData)_appSimuCtx.getProjData();
-		if (_caseType == CaseData.CaseType_Aclf) {
+		if (_caseType == IAppSimuContext.CaseType.Aclf) {
 			projData.setAclfCaseName(casename);
 			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
 		}
-		else if (_caseType == CaseData.CaseType_SenAnalysis) {
+		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
 			projData.setDclfCaseName(casename);
 			_dclfCaseInfoPanel.saveEditor2Form(errMsg);
 		}
-		else if (_caseType == CaseData.CaseType_Acsc) {
+		else if (_caseType == IAppSimuContext.CaseType.Acsc) {
 			projData.setAcscCaseName(casename);
 			_acscCaseInfoPanel.saveEditor2Form(errMsg);
 		}
-		else if (_caseType == CaseData.CaseType_DStab) {
+		else if (_caseType == IAppSimuContext.CaseType.DStab) {
 			projData.setDStabCaseName(casename);
 			_dstabCaseInfoPanel.saveEditor2Form(errMsg);
 		}
-		else if (_caseType == CaseData.CaseType_Scripts) {
+		else if (_caseType == IAppSimuContext.CaseType.Scripts) {
 			projData.setScriptsCaseName(casename);
 			_scrptsCaseInfoPanel.saveEditor2Form(errMsg);
 		}
 		
+		// save run case xml doc
+		FileUtil.writeText2File(runStudyCaseFilename, this.ipssXmlDoc.toString());
+
         return errMsg.size() == 0;
 	}
     
@@ -415,7 +435,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 		_returnOK = false;
-		if (_caseType == CaseData.CaseType_Aclf)
+		if (_caseType == IAppSimuContext.CaseType.Aclf)
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
         setVisible(false);
         dispose();
@@ -460,7 +480,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         }	
 		_returnOK = true;
 		_appSimuCtx.getProjData().setDirty(true);
-		if (_caseType == CaseData.CaseType_Aclf)
+		if (_caseType == IAppSimuContext.CaseType.Aclf)
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
 		GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
         setVisible(false);
@@ -475,16 +495,16 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			// make sure it is case selection event. if it is change case name event, the case won't be
 			// in the projData.caseList
 			ProjData projData = (ProjData)_appSimuCtx.getProjData();
-			if (_caseType == CaseData.CaseType_Aclf) 
+			if (_caseType == IAppSimuContext.CaseType.Aclf) 
 				// update current projData.casename, which controls the case being displayed and edited
 				projData.setAclfCaseName(casename);
-			else if (_caseType == CaseData.CaseType_SenAnalysis) 
+			else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) 
 				projData.setDclfCaseName(casename);
-			else if (_caseType == CaseData.CaseType_Acsc) 
+			else if (_caseType == IAppSimuContext.CaseType.Acsc) 
 				projData.setAcscCaseName(casename);
-			else if (_caseType == CaseData.CaseType_DStab) 
+			else if (_caseType == IAppSimuContext.CaseType.DStab) 
 				projData.setDStabCaseName(casename);
-			else if (_caseType == CaseData.CaseType_Scripts) 
+			else if (_caseType == IAppSimuContext.CaseType.Scripts) 
 				projData.setScriptsCaseName(casename);
 			// refresh the screen data
 			setForm2Editor();

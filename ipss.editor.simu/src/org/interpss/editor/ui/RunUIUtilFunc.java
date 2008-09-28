@@ -22,11 +22,19 @@
   *
   */
 
+
 package org.interpss.editor.ui;
 
+import java.io.File;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.interpss.editor.jgraph.GraphSpringAppContext;
+import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.schema.InterPSSXmlType;
+import org.interpss.xml.IpssXmlParser;
+
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -34,6 +42,11 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
 public class RunUIUtilFunc  {
+	public static String Template_RunCase_Aclf = "template/RunCaseAclfTemplate.xml";
+	public static String Template_RunCase_Acsc = "template/RunCaseAcscTemplate.xml";
+	public static String Template_RunCase_DStab = "template/RunCaseDStabTemplate.xml";
+	public static String Template_RunCase_SenAnalysis = "template/RunCaseSenAnalysisTemplate.xml";	
+	
 	public static enum NetIdTypeEnum {LoadBus, GenBus, AllBus, LineBranch, XfrBranch, AllBranch}
 	
 	public static Set<String> getIdArray(AclfNetwork net, NetIdTypeEnum type) {
@@ -67,5 +80,44 @@ public class RunUIUtilFunc  {
 					set.add(bra.getId());
 			}
 		return set;
+	}
+	
+	/**
+	 * Load IpssXmlDoc from the file. If file not existing, load the info from the template.
+	 * 
+	 * @param filename
+	 * @param caseType
+	 * @return
+	 * @throws Exception
+	 */
+	public static InterPSSXmlType loadIpssXmlDoc(String filename, IAppSimuContext.CaseType caseType) throws Exception {
+  		IpssXmlParser parser;
+  		try {
+  			File xmlFile = new File(filename);
+  			parser = new IpssXmlParser(xmlFile);
+  			return parser.getRootDoc();
+  		} catch (Exception e) {
+  			IpssLogger.getLogger().info("This might be caused by first time loading the file, " + e.toString());
+  		}
+
+  		// use template file
+		if (caseType == IAppSimuContext.CaseType.Aclf || caseType == IAppSimuContext.CaseType.Scripts) {
+			filename = Template_RunCase_Aclf;
+		}
+		else if (caseType == IAppSimuContext.CaseType.SenAnalysis) {
+			filename = Template_RunCase_SenAnalysis;
+		}
+		else if (caseType == IAppSimuContext.CaseType.Acsc) {
+			filename = Template_RunCase_Acsc;
+		}	
+		else if (caseType == IAppSimuContext.CaseType.DStab) {
+			filename = Template_RunCase_DStab;
+		}	
+  		
+  		String wdir = GraphSpringAppContext.getIpssGraphicEditor().getWorkspace();
+		filename = wdir+System.getProperty("file.separator")+filename;
+		File xmlFile = new File(filename);
+		parser = new IpssXmlParser(xmlFile);
+		return parser.getRootDoc();
 	}	
 }

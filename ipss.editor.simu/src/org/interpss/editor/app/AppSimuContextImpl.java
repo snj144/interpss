@@ -146,16 +146,16 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	// Case info functions
 	// ===================
 
-	public String getCurrentCaseName(String caseType) {
+	public String getCurrentCaseName(IAppSimuContext.CaseType caseType) {
 		return getCurrentCaseData(caseType).getCaseName();
 
 	}
 
-	public CaseData getCurrentCaseData(String caseType) {
+	public CaseData getCurrentCaseData(IAppSimuContext.CaseType caseType) {
 		ProjData aProjData = (ProjData) getProjData();
-		String casename = caseType.equals(CaseData.CaseType_Aclf) ? aProjData
+		String casename = caseType.equals(IAppSimuContext.CaseType.Aclf) ? aProjData
 				.getAclfCaseName()
-				: (caseType.equals(CaseData.CaseType_Acsc) ? aProjData
+				: (caseType.equals(IAppSimuContext.CaseType.Acsc) ? aProjData
 						.getAcscCaseName() : aProjData.getDStabCaseName());
 		return getCaseData(casename, caseType);
 	}
@@ -167,25 +167,25 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return case data array of type Object[]
 	 */
-	public Object[] getCasenameArray(String caseType) {
+	public Object[] getCasenameArray(IAppSimuContext.CaseType caseType) {
 		Vector<String> vect = new Vector<String>();
 		List<?> caseList = getProjData().getCaseList();
 		for (int i = 0; i < caseList.size(); i++) {
 			CaseData caseData = (CaseData) caseList.get(i);
 			if (caseData != null)
-				if (caseData.getCaseType().equals(caseType))
+				if (caseData.getCaseType() == caseType)
 					vect.add(0, caseData.getCaseName());
 		}
 
 		if (vect.size() == 0) {
 			String name = "Aclf Analysis Case";
-			if (caseType.equals(CaseData.CaseType_SenAnalysis))
+			if (caseType.equals(IAppSimuContext.CaseType.SenAnalysis))
 				name = "Sensitivity Analysis Case";
-			else if (caseType.equals(CaseData.CaseType_Acsc))
+			else if (caseType.equals(IAppSimuContext.CaseType.Acsc))
 				name = "Acsc Analysis Case";
-			else if (caseType.equals(CaseData.CaseType_DStab))
+			else if (caseType.equals(IAppSimuContext.CaseType.DStab))
 				name = "Transient Stability Case";
-			else if (caseType.equals(CaseData.CaseType_Scripts))
+			else if (caseType.equals(IAppSimuContext.CaseType.Scripts))
 				name = "Custom Scripting Run Case";
 			createCaseData(name, caseType);
 			vect.add(new String(name));
@@ -202,7 +202,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return if the case data delete, return true, else false
 	 */
-	public boolean deleteCaseData(String casename, String caseType) {
+	public boolean deleteCaseData(String casename, IAppSimuContext.CaseType caseType) {
 		CaseData caseData = getCaseData(casename, caseType);
 		if (caseData != null) {
 			getProjData().getCaseList().remove(caseData);
@@ -220,7 +220,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return the case data object
 	 */
-	public CaseData getCaseData(String casename, String caseType) {
+	public CaseData getCaseData(String casename, IAppSimuContext.CaseType caseType) {
 		List<?> caseList = getProjData().getCaseList();
 		for (int i = 0; i < caseList.size(); i++) {
 			CaseData caseData = (CaseData) caseList.get(i);
@@ -246,32 +246,32 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            the case type
 	 * @return the created case, null the casename already exists
 	 */
-	public CaseData createCaseData(String casename, String caseType) {
+	public CaseData createCaseData(String casename, IAppSimuContext.CaseType caseType) {
 		if (getCaseData(casename, caseType) == null) {
 			CaseData caseData = new CaseData();
 			caseData.setCaseName(casename);
 			caseData.setCaseType(caseType);
-			if (caseType.equals(CaseData.CaseType_Aclf)) {
+			if (caseType.equals(IAppSimuContext.CaseType.Aclf)) {
 				caseData.setAclfCaseData(new AclfCaseData());
 				SimuAppSpringAppContext.getAclfRunForm().setAclfCaseData(
 						caseData.getAclfCaseData());
 			} 
-			else if (caseType.equals(CaseData.CaseType_SenAnalysis)) {
+			else if (caseType.equals(IAppSimuContext.CaseType.SenAnalysis)) {
 				caseData.setDclfCaseData(new DclfCaseData());
 				SimuAppSpringAppContext.getDclfRunForm().setDclfCaseData(
 						caseData.getDclfCaseData());
 			} 
-			else if (caseType.equals(CaseData.CaseType_Acsc)) {
+			else if (caseType.equals(IAppSimuContext.CaseType.Acsc)) {
 				caseData.setAcscCaseData(new AcscCaseData());
 				SimuAppSpringAppContext.getAcscRunForm().setAcscCaseData(
 						caseData.getAcscCaseData());
 			} 
-			else if (caseType.equals(CaseData.CaseType_DStab)) {
+			else if (caseType.equals(IAppSimuContext.CaseType.DStab)) {
 				caseData.setDStabCaseData(new DStabCaseData());
 				caseData.setAclfCaseData(new AclfCaseData());
 				getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
 			} 
-			else if (caseType.equals(CaseData.CaseType_Scripts)) {
+			else if (caseType.equals(IAppSimuContext.CaseType.Scripts)) {
 			} 
 			else {
 				IpssLogger.getLogger().severe("Wrong caseType");
