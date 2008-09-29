@@ -34,7 +34,6 @@ import org.interpss.editor.coreframework.IpssCustomFile;
 import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssReportDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
-import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.doc.IpssProjectItem;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.io.CustomFileUtility;
