@@ -247,7 +247,16 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	this.nonDivergeCheckBox.setEnabled(true);
         }
         
-        this.accFactorTextField.setText(Number2String.toStr(xmlCaseData.getAclfAlgorithm().getAccFactor(), "#0.0#"));
+    	if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR)
+        	this.nrRadioButton.setSelected(true);
+    	else if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ)
+        	this.pqRadioButton.setSelected(true);
+    	if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.GS)
+        	this.gsRadioButton.setSelected(true);
+    	
+    	this.nonDivergeCheckBox.setEnabled(xmlCaseData.getAclfAlgorithm().getNonDivergent());
+
+    	this.accFactorTextField.setText(Number2String.toStr(xmlCaseData.getAclfAlgorithm().getAccFactor(), "#0.0#"));
         this.errPUTextField.setText(Number2String.toStr(xmlCaseData.getAclfAlgorithm().getTolerance(), "#0.#####"));
         double baseKva = _netContainer != null? ((GNetForm)_netContainer.getGNetForm()).getBaseKVA() : 100000.0;
         this.errKVATextField.setText(Number2String.toStr(xmlCaseData.getAclfAlgorithm().getTolerance()*baseKva, "#0.####"));
