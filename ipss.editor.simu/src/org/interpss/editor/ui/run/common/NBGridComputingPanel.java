@@ -28,8 +28,8 @@ import java.util.Vector;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.schema.GridComputingXmlType;
 
-import com.interpss.common.rec.BaseDataBean;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 
@@ -37,7 +37,8 @@ public class NBGridComputingPanel extends javax.swing.JPanel implements IFormDat
 	private static final long serialVersionUID = 1;
 
     // holds the current case data being edited
-    private BaseDataBean _caseData = null;
+    //private BaseDataBean _caseData = null;
+    private GridComputingXmlType xmlGridOpt;
 	
     /** Creates new form NBAclfCasePanel */
     public NBGridComputingPanel() {
@@ -51,10 +52,14 @@ public class NBGridComputingPanel extends javax.swing.JPanel implements IFormDat
     }
     	
 
+    public void setXmlCaseData(GridComputingXmlType xmlGridOpt) {
+    	this.xmlGridOpt = xmlGridOpt;
+    }
+/*    
     public void setCaseData(BaseDataBean data) {
     	_caseData = data;
     }
-    
+*/    
 	/**
 	*	Set form data to the editor
 	*
@@ -85,10 +90,10 @@ public class NBGridComputingPanel extends javax.swing.JPanel implements IFormDat
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
 
-        _caseData.setGridComputing(enableGridCheckBox.isEnabled()&&enableGridCheckBox.isSelected());
-        if (_caseData.isGridComputing()) {
-        	_caseData.setGridNodeName((String)selectGridNodeComboBox.getSelectedItem());
-        	_caseData.setGridTimeout(SwingInputVerifyUtil.getInt(this.gridTimeoutTextField)*1000);
+		this.xmlGridOpt.setEnableGridRun(enableGridCheckBox.isEnabled()&&enableGridCheckBox.isSelected());
+        if (this.xmlGridOpt.getEnableGridRun()) {
+        	this.xmlGridOpt.setRemoteNodeName((String)selectGridNodeComboBox.getSelectedItem());
+        	this.xmlGridOpt.setTimeout(SwingInputVerifyUtil.getInt(this.gridTimeoutTextField)*1000);
         }
 
         return errMsg.size() == 0;

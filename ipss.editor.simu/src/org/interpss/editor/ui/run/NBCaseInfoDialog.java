@@ -33,10 +33,11 @@ import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
-import org.interpss.editor.runAct.ui.DStabRunForm;
 import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
-import org.interpss.schema.InterPSSXmlType;
+import org.interpss.schema.InterPSSDocument;
+import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.StudyCaseHanlder;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.ui.SwingInputVerifyUtil;
@@ -52,7 +53,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	private IAppSimuContext.CaseType _caseType = IAppSimuContext.CaseType.NotDefined;
 	
 	private String runStudyCaseFilename;
-	private InterPSSXmlType ipssXmlDoc;
+	private StudyCaseHanlder studyCaseXmlDoc;
 	
 	// holding the case data being edited
 	private CaseData _caseData = null;
@@ -164,44 +165,64 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		IpssLogger.getLogger().info("NBCaseInfoDialog setForm2Editor() called");
 		
 		try {
-			this.ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(runStudyCaseFilename, _caseType);
+			InterPSSDocument ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(runStudyCaseFilename, _caseType);
+			this.studyCaseXmlDoc = new StudyCaseHanlder(ipssXmlDoc); 
 		} catch (Exception e) {
 			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().sendErrorMsg(e.toString());
 			return false;
 		}
 		//System.out.println(this.ipssXmlDoc.toString());
 
-		// build the case info combo list
-		this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
-		IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
-		
 		// find the last edited casename, which is hold by the projData, which will be persisted to
 		// project file
 		String casename = null; 
 		ProjData projData = (ProjData)_appSimuCtx.getProjData();
-		if (_caseType == IAppSimuContext.CaseType.Aclf && projData.getAclfCaseName() != null) {
+		if (_caseType == IAppSimuContext.CaseType.Aclf) {
+			// build the case info combo list
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getStudyCaseNameArray()));
 			casename = projData.getAclfCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
+			if (this.casenameComboBox.getSelectedIndex() == -1) {
+				this.casenameComboBox.setSelectedIndex(0);
+				casename = (String)this.casenameComboBox.getSelectedItem();
+			}
+				
+			// update projData with the current casename
+			projData.setAclfCaseName(casename);
+			// set the case data to the actual data editing panel
+			_aclfCaseInfoPanel.setXmlCaseData(
+					this.studyCaseXmlDoc.getAclfStudyCase(casename),
+					this.studyCaseXmlDoc.getGridComputing());
+			// set the case data to the actual data editing panel
+			_aclfCaseInfoPanel.setForm2Editor();
 		}
-		else if (_caseType == IAppSimuContext.CaseType.Acsc && projData.getAcscCaseName() != null) {
+		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
+		}
+		else if (_caseType == IAppSimuContext.CaseType.Acsc) {
+			// build the case info combo list
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
+			IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
+			
 			casename = projData.getAcscCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 		}
-		else if (_caseType == IAppSimuContext.CaseType.DStab && projData.getDStabCaseName() != null) {
+		else if (_caseType == IAppSimuContext.CaseType.DStab) {
+			// build the case info combo list
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
+			IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
+			
 			casename = projData.getDStabCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 		}
-		else if (_caseType == IAppSimuContext.CaseType.Scripts && projData.getScriptsCaseName() != null) {
+		else if (_caseType == IAppSimuContext.CaseType.Scripts) {
+			// build the case info combo list
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
+			IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
+			
 			casename = projData.getScriptsCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 		}
-		else {
-			// in this case, the projData.<*>Casename is null, a new case
-			IpssLogger.getLogger().info("casenameComboBox.getSelectedItem() -> " + this.casenameComboBox.getSelectedItem());
-			this.casenameComboBox.setSelectedIndex(0);
-			casename = (String)this.casenameComboBox.getSelectedItem(); 
-		}
-		
+/*		
 		// retrieve the case data from appCtx.projData.caseList
 		_caseData = _appSimuCtx.getCaseData(casename, _caseType);
 		if ( _caseData == null)
@@ -245,7 +266,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_scrptsCaseInfoPanel.setCaseData(_caseData);
 			_scrptsCaseInfoPanel.setForm2Editor();
 		}
-		
+*/		
         return true;
 	}
     
@@ -263,13 +284,16 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			return false;
 		}
 		String casename = (String)this.casenameComboBox.getSelectedItem();
-		_caseData.setCaseName(casename);
-		_caseData.setDescription(this.descTextArea.getText());
+		//_caseData.setCaseName(casename);
+		//_caseData.setDescription(this.descTextArea.getText());
 
 		ProjData projData = (ProjData)_appSimuCtx.getProjData();
 		if (_caseType == IAppSimuContext.CaseType.Aclf) {
 			projData.setAclfCaseName(casename);
 			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
+			SimuAppSpringAppContext.getAclfRunForm().setXmlCaseData(
+					this.studyCaseXmlDoc.getAclfStudyCase(casename),
+					this.studyCaseXmlDoc.getGridComputing());
 		}
 		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
 			projData.setDclfCaseName(casename);
@@ -289,7 +313,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		}
 		
 		// save run case xml doc
-		FileUtil.writeText2File(runStudyCaseFilename, this.ipssXmlDoc.toString());
+		FileUtil.writeText2File(runStudyCaseFilename, IpssXmlParser.toXmlDocString(this.studyCaseXmlDoc.getIpssXmlDoc()));
 
         return errMsg.size() == 0;
 	}
@@ -488,7 +512,9 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     }//GEN-LAST:event_runButtonActionPerformed
 
     private void casenameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_casenameComboBoxActionPerformed
-		IpssLogger.getLogger().info("NBCaseInfoPanel casenameComboBoxActionPerformed called");
+		// TODO
+    	/*
+    	IpssLogger.getLogger().info("NBCaseInfoPanel casenameComboBoxActionPerformed called");
 		// at least two ways can trig this action: 1) Case List section 2) Change Case name
 		String casename = (String)this.casenameComboBox.getSelectedItem();
 		if (_appSimuCtx.getCaseData(casename, _caseType) != null) {  
@@ -509,6 +535,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			// refresh the screen data
 			setForm2Editor();
 		}
+		*/
     }//GEN-LAST:event_casenameComboBoxActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
