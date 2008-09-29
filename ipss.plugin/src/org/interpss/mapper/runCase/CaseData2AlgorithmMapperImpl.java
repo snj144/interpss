@@ -75,12 +75,10 @@ public class CaseData2AlgorithmMapperImpl {
 	 * @param caseData
 	 * @param algo
 	 */
-	public static void aclfCaseData2AlgoMapping(AclfCaseData caseData,
-			LoadflowAlgorithm algo) {
-		AclfAlgorithmXmlType xmlAlgo = caseData.getAclfAlgorithm();
+	public static void aclfCaseData2AlgoMapping(AclfAlgorithmXmlType xmlAlgo, LoadflowAlgorithm algo) {
 		algo.setLfMethod(xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR ? AclfMethod.NR
-						: (xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ) ? AclfMethod.PQ
-								: AclfMethod.GS);
+						: (xmlAlgo.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ ? AclfMethod.PQ
+								: AclfMethod.GS));
 		/*
 		 * no need for this. PQ method can handle PSXfr now if
 		 * (algo.getAclfAdjNetwork().hasPSXfr() && algo.getLfMethod() ==
@@ -165,9 +163,11 @@ public class CaseData2AlgorithmMapperImpl {
 	 */
 	public static boolean dstabCaseData2AlgoMapping(DStabCaseData dstabData,
 			AclfCaseData aclfData, DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
+		// TODO
+		/*
 		CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(aclfData, algo
 				.getAclfAlgorithm());
-
+		*/
 		algo
 				.setSimuMethod(dstabData.getSimuMethod().equals(
 						DStabCaseData.Method_RungeKutta) ? DynamicSimuMethods.RUNGE_KUTTA
