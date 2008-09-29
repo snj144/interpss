@@ -257,6 +257,22 @@ public class IpssXmlParser {
 	}	
 	
 	/**
+	 * Get recod by name from the record list
+	 * 
+	 * @param recName
+	 * @param list
+	 * @return
+	 */
+	public static BaseRecordXmlType getRecord(String recName, BaseRecordXmlType[] list) {
+		for (BaseRecordXmlType scase : list) {
+			if (scase.getRecName().equals(recName))
+				return scase;
+		}
+		IpssLogger.getLogger().severe("Programming error, StudyCase cannot be found, recId: " + recName);
+		return null;
+	}
+	
+	/**
 	 * map Xml unit type to InterPSS UnitType
 	 * 
 	 * @param type
