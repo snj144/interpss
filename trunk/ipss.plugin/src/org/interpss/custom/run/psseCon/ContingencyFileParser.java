@@ -101,7 +101,7 @@ public class ContingencyFileParser {
 			createAclfStudyCaseList(parser.getRunAclfStudyCase().getAclfStudyCaseList(), strAry);
 		
 		//System.out.println(parser.toString());
-		return parser.getRootDoc();
+		return parser.getRootDoc().getInterPSS();
 	}
 
 	public static void createAclfStudyCaseList(AclfStudyCaseListXmlType caseList, String[] strAry) throws Exception {
