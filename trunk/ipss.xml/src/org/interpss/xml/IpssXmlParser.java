@@ -31,13 +31,13 @@ package org.interpss.xml;
 import java.io.File;
 
 import org.apache.xmlbeans.XmlException;
+import org.interpss.schema.BaseRecordXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.ContingencyAnalysisXmlType;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.PreventiveRuleSetXmlType;
 import org.interpss.schema.RuleBaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.UnitDataType;
@@ -50,7 +50,7 @@ import com.interpss.core.net.Bus;
 import com.interpss.core.net.Network;
 
 public class IpssXmlParser {
-	private InterPSSXmlType ipss = null;
+	private InterPSSDocument ipssDoc = null;
 
 	/**
 	 * default Constructor
@@ -58,9 +58,9 @@ public class IpssXmlParser {
 	 * @param type Analysis run type
 	 */
 	public IpssXmlParser(RunStudyCaseXmlType.AnalysisRunType.Enum type) {
-		InterPSSDocument ipssDoc = InterPSSDocument.Factory.newInstance();
-		this.ipss = ipssDoc.addNewInterPSS();
-		this.ipss.addNewRunStudyCase();
+		this.ipssDoc = InterPSSDocument.Factory.newInstance();
+		InterPSSXmlType ipss = ipssDoc.addNewInterPSS();
+		ipss.addNewRunStudyCase();
 		getRunStudyCase().setAnalysisRunType(type);
 		if (type == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 			getRunStudyCase().addNewStandardRun().addNewRunAclfStudyCase();
@@ -79,8 +79,7 @@ public class IpssXmlParser {
 	 * @throws Exception
 	 */
 	public IpssXmlParser(File xmlFile) throws Exception {
-		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlFile);
-		this.ipss = ipssDoc.getInterPSS();
+		this.ipssDoc = InterPSSDocument.Factory.parse(xmlFile);
 	}
 
 	/**
@@ -90,12 +89,11 @@ public class IpssXmlParser {
 	 * @throws XmlException
 	 */
 	public IpssXmlParser(String xmlString) throws XmlException {
-		InterPSSDocument ipssDoc = InterPSSDocument.Factory.parse(xmlString);
+		this.ipssDoc = InterPSSDocument.Factory.parse(xmlString);
 		if (!ipssDoc.validate()) {
 			IpssLogger.getLogger().severe("Error: invalid Xml scripts, " + xmlString);
 			throw new XmlException("Invalid Xml scripts");
 		}
-		this.ipss = ipssDoc.getInterPSS();
 	}
 	
 	/**
@@ -103,8 +101,8 @@ public class IpssXmlParser {
 	 * 
 	 * @return
 	 */
-	public InterPSSXmlType getRootDoc() {
-		return this.ipss;
+	public InterPSSDocument getRootDoc() {
+		return this.ipssDoc;
 	}
 	
 	/**
@@ -113,7 +111,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunStudyCaseXmlType getRunStudyCase() {
-		return ipss.getRunStudyCase();
+		return this.ipssDoc.getInterPSS().getRunStudyCase();
 	}
 
 	/**
@@ -122,7 +120,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunStudyCaseXmlType.StandardRun.RunDclfStudyCase getRunDclfStudyCase() {
-		return ipss.getRunStudyCase().getStandardRun().getRunDclfStudyCase();
+		return this.ipssDoc.getInterPSS().getRunStudyCase().getStandardRun().getRunDclfStudyCase();
 	}
 
 	/**
@@ -131,7 +129,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunStudyCaseXmlType.StandardRun.RunAclfStudyCase getRunAclfStudyCase() {
-		return ipss.getRunStudyCase().getStandardRun().getRunAclfStudyCase();
+		return this.ipssDoc.getInterPSS().getRunStudyCase().getStandardRun().getRunAclfStudyCase();
 	}
 
 	/**
@@ -140,7 +138,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunStudyCaseXmlType.StandardRun.RunAcscStudyCase getRunAcscStudyCase() {
-		return ipss.getRunStudyCase().getStandardRun().getRunAcscStudyCase();
+		return this.ipssDoc.getInterPSS().getRunStudyCase().getStandardRun().getRunAcscStudyCase();
 	}
 
 	/**
@@ -149,7 +147,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RunStudyCaseXmlType.StandardRun.RunDStabStudyCase getRunDStabStudyCase() {
-		return ipss.getRunStudyCase().getStandardRun().getRunDStabStudyCase();
+		return this.ipssDoc.getInterPSS().getRunStudyCase().getStandardRun().getRunDStabStudyCase();
 	}
 
 	/**
@@ -158,7 +156,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public ContingencyAnalysisXmlType getContingencyAnalysis() {
-		return ipss.getRunStudyCase().getContingencyAnalysis();
+		return this.ipssDoc.getInterPSS().getRunStudyCase().getContingencyAnalysis();
 	}
 
 	/**
@@ -167,7 +165,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public RuleBaseXmlType getRuleBase() {
-		return ipss.getRunStudyCase().getRuleBase();
+		return this.ipssDoc.getInterPSS().getRunStudyCase().getRuleBase();
 	}
 
 	/**
@@ -176,7 +174,7 @@ public class IpssXmlParser {
 	 * @return
 	 */
 	public ModificationXmlType getModification() {
-		return ipss.getModification();
+		return this.ipssDoc.getInterPSS().getModification();
 	}
 
 	/**
@@ -244,6 +242,21 @@ public class IpssXmlParser {
 	}	
 	
 	/**
+	 * Get record name list from the record list 
+	 * 
+	 * @param list
+	 * @return
+	 */
+	public static String[] getRecNameArray(BaseRecordXmlType[] list) {
+		String[] sAry = new String[list.length];
+		int cnt = 0;
+		for (BaseRecordXmlType scase : list) {
+			sAry[cnt++] = scase.getRecName();
+		}
+		return sAry;
+	}	
+	
+	/**
 	 * map Xml unit type to InterPSS UnitType
 	 * 
 	 * @param type
@@ -300,6 +313,10 @@ public class IpssXmlParser {
 	 * convert the document object to an XML string
 	 */
 	public String toString() {
-		 return this.ipss.toString(); 
+		 return this.ipssDoc.getInterPSS().toString(); 
 	}	
+	
+	public static String toXmlDocString(InterPSSDocument xmlDoc) {
+		return xmlDoc.xmlText();
+	}
 }
