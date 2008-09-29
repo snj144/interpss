@@ -27,11 +27,12 @@ package org.interpss.editor.runAct.ui;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
-import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.GridComputingXmlType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
@@ -49,9 +50,17 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 
 public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
+	private AclfStudyCaseXmlType xmlCaseData;
+	private GridComputingXmlType xmlGridOpt;
+	
 	public AclfRunForm() {
 	}
 
+	public AclfStudyCaseXmlType getAclfCaseData() {
+		return this.xmlCaseData;
+	}
+	
+	/*
 	private AclfCaseData aclfCaseData;
 
 	public AclfCaseData getAclfCaseData() {
@@ -61,33 +70,36 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	public void setAclfCaseData(AclfCaseData acase) {
 		this.aclfCaseData = acase;
 	}
+*/	
+    public void setXmlCaseData(AclfStudyCaseXmlType data, GridComputingXmlType xmlGridOpt) {
+    	this.xmlCaseData = data;
+    	this.xmlGridOpt = xmlGridOpt;
+    }
 
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
 		boolean converge = false;
 		if (simuCtx.getNetType() == SimuCtxType.DISTRIBUTE_NET) {
 			converge = runLoadflow(simuCtx.getDistNet(), simuCtx);
 		} else {
-			if (aclfCaseData.isGridComputing()) {
+			if (this.xmlGridOpt.getEnableGridRun()) {
 				Grid grid = IpssGridGainUtil.getDefaultGrid();
-				String nodeId = IpssGridGainUtil.nodeIdLookup(aclfCaseData
-						.getGridNodeName());
+				String nodeId = IpssGridGainUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
 				AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
 				IpssGridGainUtil.MasterNodeId = grid.getLocalNode()
 						.getId().toString();
 				try {
 					RemoteMessageTable result = IpssGridGainUtil.performGridTask(
 							grid, "InterPSS Grid Aclf Calculation", simuCtx
-									.getLoadflowAlgorithm(), aclfCaseData
-									.getGridTimeout());
+									.getLoadflowAlgorithm(), this.xmlGridOpt.getTimeout());
 					String str = result.getSerializedAclfNet();
 					AclfAdjNetwork adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil
 							.loadModel(str);
 					simuCtx.setAclfAdjNet(adjNet);
 					converge = adjNet.isLfConverged();
-					if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
+					if (this.xmlCaseData.getAclfAlgorithm().getDisplaySummary()) {
 						IOutputTextDialog dialog = UISpringAppContext
 								.getOutputTextDialog("Loadflow Analysis Run by Remote "
-										+ aclfCaseData.getGridNodeName());
+										+ this.xmlGridOpt.getRemoteNodeName());
 						dialog.display(adjNet);
 					}
 				} catch (GridException e) {
@@ -102,7 +114,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 	public void displaySummaryResult(SimuContext simuCtx) {
-		if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
+		if (this.xmlCaseData.getAclfAlgorithm().getDisplaySummary()) {
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("Loadflow Analysis Info");
 			dialog.display(simuCtx.getAclfAdjNet());
@@ -116,7 +128,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			converge = runLoadflow_internal(distNet.getAcscNet(), simuCtx
 					.getLoadflowAlgorithm(), simuCtx.getMsgHub());
 
-			if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
+			if (this.xmlCaseData.getAclfAlgorithm().getDisplaySummary()) {
 				IOutputTextDialog dialog = UISpringAppContext
 						.getOutputTextDialog("Loadflow Analysis Info");
 				dialog.display(distNet.getAcscNet());
@@ -139,7 +151,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 			}
 
 			distNet.getLoadNetData().setTotalLossKwHr(loss);
-			if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
+			if (this.xmlCaseData.getAclfAlgorithm().getDisplaySummary()) {
 				IOutputTextDialog dialog = UISpringAppContext
 						.getOutputTextDialog("Distribution Loadflow Analysis Info");
 				dialog.display(distNet);
