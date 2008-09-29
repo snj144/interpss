@@ -24,6 +24,43 @@
 
 package org.interpss.xml;
 
+import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.GridComputingXmlType;
+import org.interpss.schema.InterPSSDocument;
+
+import com.interpss.common.util.IpssLogger;
+
 
 public class StudyCaseHanlder {
+	private InterPSSDocument ipssXmlDoc;
+
+	public StudyCaseHanlder(InterPSSDocument ipssXmlDoc) {
+		this.ipssXmlDoc = ipssXmlDoc;
+	}
+	
+	public InterPSSDocument getIpssXmlDoc() {
+		return this.ipssXmlDoc;
+	}
+	
+	public GridComputingXmlType getGridComputing() {
+		return this.ipssXmlDoc.getInterPSS().getRunStudyCase().getGridRunOption();
+	}
+	
+	public AclfStudyCaseXmlType[] getAclfStudyCaseList() {
+		return this.ipssXmlDoc.getInterPSS().
+				getRunStudyCase().getStandardRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray();
+	}
+
+	public AclfStudyCaseXmlType getAclfStudyCase(String recName) {
+		for (AclfStudyCaseXmlType scase : getAclfStudyCaseList()) {
+			if (scase.getRecName().equals(recName))
+				return scase;
+		}
+		IpssLogger.getLogger().severe("Programming error, AclfStudyCase cannot be found, recId: " + recName);
+		return null;
+	}
+	
+	public String[] getStudyCaseNameArray() {
+		return IpssXmlParser.getRecNameArray(getAclfStudyCaseList());
+	}
 }
