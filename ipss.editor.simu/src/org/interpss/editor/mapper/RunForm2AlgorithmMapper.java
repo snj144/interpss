@@ -53,7 +53,7 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			 */
 			AclfRunForm runForm = (AclfRunForm) fromObj;
 			LoadflowAlgorithm algo = (LoadflowAlgorithm) toObj;
-			CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(runForm.getAclfCaseData(), algo);
+			CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(runForm.getAclfCaseData().getAclfAlgorithm(), algo);
 		} else if (klass == SimpleFaultAlgorithm.class) {
 			/*
 			 * map AcscRunForm object to a SimpleFaultAlgorithm object
