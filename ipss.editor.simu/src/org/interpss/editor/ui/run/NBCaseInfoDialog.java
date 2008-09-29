@@ -179,7 +179,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		ProjData projData = (ProjData)_appSimuCtx.getProjData();
 		if (_caseType == IAppSimuContext.CaseType.Aclf) {
 			// build the case info combo list
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getStudyCaseNameArray()));
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAclfStudyCaseNameArray()));
 			casename = projData.getAclfCaseName();
 			this.casenameComboBox.setSelectedItem(casename); 
 			if (this.casenameComboBox.getSelectedIndex() == -1) {
@@ -192,7 +192,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			// set the case data to the actual data editing panel
 			_aclfCaseInfoPanel.setXmlCaseData(
 					this.studyCaseXmlDoc.getAclfStudyCase(casename),
-					this.studyCaseXmlDoc.getGridComputing());
+					this.studyCaseXmlDoc.getGridOption());
 			// set the case data to the actual data editing panel
 			_aclfCaseInfoPanel.setForm2Editor();
 		}
@@ -293,7 +293,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
 			SimuAppSpringAppContext.getAclfRunForm().setXmlCaseData(
 					this.studyCaseXmlDoc.getAclfStudyCase(casename),
-					this.studyCaseXmlDoc.getGridComputing());
+					this.studyCaseXmlDoc.getGridOption());
 		}
 		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
 			projData.setDclfCaseName(casename);
