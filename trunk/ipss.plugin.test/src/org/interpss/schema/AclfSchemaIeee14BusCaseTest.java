@@ -35,7 +35,8 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 
 		File xmlFile = new File("testData/xml/RunAclfCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
-  		//System.out.println("----->" + parser.getRootElem().toString());
+  		//System.out.println(IpssXmlParser.toXmlDocString(parser.getRootDoc()));
+  		//System.out.println(parser.toString());
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
   		
