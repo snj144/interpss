@@ -31,7 +31,7 @@ import java.util.TreeSet;
 
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
-import org.interpss.schema.InterPSSXmlType;
+import org.interpss.schema.InterPSSDocument;
 import org.interpss.xml.IpssXmlParser;
 
 import com.interpss.common.util.IpssLogger;
@@ -90,7 +90,7 @@ public class RunUIUtilFunc  {
 	 * @return
 	 * @throws Exception
 	 */
-	public static InterPSSXmlType loadIpssXmlDoc(String filename, IAppSimuContext.CaseType caseType) throws Exception {
+	public static InterPSSDocument loadIpssXmlDoc(String filename, IAppSimuContext.CaseType caseType) throws Exception {
   		IpssXmlParser parser;
   		try {
   			File xmlFile = new File(filename);

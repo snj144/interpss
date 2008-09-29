@@ -189,8 +189,8 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     		caseData.setAclfCaseData(new AclfCaseData());
     	aclfCaseData = caseData.getAclfCaseData();
     	dynaEventPanel.setCaseData(dstabCaseData);
-    	aclfCasePanel.setCaseData(aclfCaseData);
-    	gridPanel.setCaseData(dstabCaseData);
+    	//aclfCasePanel.setCaseData(aclfCaseData);
+    	//gridPanel.setCaseData(dstabCaseData);
     }
     
     /**
