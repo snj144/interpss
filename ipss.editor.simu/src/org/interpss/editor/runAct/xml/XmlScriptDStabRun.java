@@ -320,7 +320,7 @@ public class XmlScriptDStabRun {
 
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
-		if (dstabCase.getDiaplaySummary())
+		if (dstabCase.getDisplaySummary())
 			RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
 		if (!dstabAlgo.getDStabNet().isLfConverged()) {
 			msg
