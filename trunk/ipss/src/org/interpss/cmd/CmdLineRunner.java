@@ -144,19 +144,19 @@ public class CmdLineRunner {
 					&& xmlStudyCase.getGridRunOption().getRemoteNodeDebug();
 			if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF) {
 				runType = SimuRunType.Aclf;
-				return XmlScriptAclfRun.runAclf(parser.getRootDoc(), simuCtx.getAclfAdjNet(),
+				return XmlScriptAclfRun.runAclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfAdjNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF) {
 				runType = SimuRunType.Dclf;
-				return XmlScriptDclfRun.runDclf(parser.getRootDoc(), simuCtx.getAclfNet(),
+				return XmlScriptDclfRun.runDclf(parser.getRootDoc().getInterPSS(), simuCtx.getAclfNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACSC) {
 				runType = SimuRunType.Acsc;
-				return XmlScriptAcscRun.runAcsc(parser.getRootDoc(), simuCtx.getAcscFaultNet(),
+				return XmlScriptAcscRun.runAcsc(parser.getRootDoc().getInterPSS(), simuCtx.getAcscFaultNet(),
 						msg);
 			} else if (xmlStudyCase.getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_D_STAB) {
 				runType = SimuRunType.DStab;
-				return XmlScriptDStabRun.runDStab(parser.getRootDoc(), simuCtx, msg);
+				return XmlScriptDStabRun.runDStab(parser.getRootDoc().getInterPSS(), simuCtx, msg);
 			}
 			return true;			
 		}
