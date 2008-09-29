@@ -202,7 +202,7 @@ public class XmlScriptAclfRun {
 			}
 		}
 
-		if (xmlCase.getAclfAlgorithm().getDiaplaySummary()) {
+		if (xmlCase.getAclfAlgorithm().getDisplaySummary()) {
 			IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
 			dialog.display(aclfNet);
 		}
