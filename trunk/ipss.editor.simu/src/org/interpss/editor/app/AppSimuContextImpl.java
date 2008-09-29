@@ -253,8 +253,10 @@ public class AppSimuContextImpl implements IAppSimuContext {
 			caseData.setCaseType(caseType);
 			if (caseType.equals(IAppSimuContext.CaseType.Aclf)) {
 				caseData.setAclfCaseData(new AclfCaseData());
+				/*
 				SimuAppSpringAppContext.getAclfRunForm().setAclfCaseData(
 						caseData.getAclfCaseData());
+				*/		
 			} 
 			else if (caseType.equals(IAppSimuContext.CaseType.SenAnalysis)) {
 				caseData.setDclfCaseData(new DclfCaseData());
