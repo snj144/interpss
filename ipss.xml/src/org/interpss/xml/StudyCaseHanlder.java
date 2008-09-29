@@ -36,24 +36,64 @@ public class StudyCaseHanlder {
 		this.ipssXmlDoc = ipssXmlDoc;
 	}
 	
+	/**
+	 * Get the Ipss Xml document
+	 * 
+	 * @return
+	 */
 	public InterPSSDocument getIpssXmlDoc() {
 		return this.ipssXmlDoc;
 	}
 	
+	/**
+	 * Get the grid computing option record from the Ipss Xml document
+	 * 
+	 * @return
+	 */
 	public GridComputingXmlType getGridOption() {
 		return this.ipssXmlDoc.getInterPSS().getRunStudyCase().getGridRunOption();
 	}
 	
+	/**
+	 * Get the AclfStudyCase record list
+	 * 
+	 * @return
+	 */
 	public AclfStudyCaseXmlType[] getAclfStudyCaseList() {
 		return this.ipssXmlDoc.getInterPSS().
 				getRunStudyCase().getStandardRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray();
 	}
 
+	/**
+	 * Get the AclfStudyCase record by the record name
+	 * 
+	 * @param recName
+	 * @return
+	 */
 	public AclfStudyCaseXmlType getAclfStudyCase(String recName) {
 		return 	(AclfStudyCaseXmlType)IpssXmlParser.getRecord(recName, getAclfStudyCaseList());
 	}
 	
+	/**
+	 * Get AclfStudyCase name array
+	 * 
+	 * @return
+	 */
 	public String[] getAclfStudyCaseNameArray() {
 		return IpssXmlParser.getRecNameArray(getAclfStudyCaseList());
 	}
+/*
+	public AcscStudyCaseXmlType[] getAcscStudyCaseList() {
+		return this.ipssXmlDoc.getInterPSS().
+				getRunStudyCase().getStandardRun().getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseRecArray();
+	}
+
+	public AcscStudyCaseXmlType getAcscStudyCase(String recName) {
+		return 	(AcscStudyCaseXmlType)IpssXmlParser.getRecord(recName, getAcscStudyCaseList());
+	}
+	
+	public String[] getAcscStudyCaseNameArray() {
+		return IpssXmlParser.getRecNameArray(getAcscStudyCaseList());
+	}
+*/	
 }
