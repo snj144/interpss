@@ -332,6 +332,12 @@ public class IpssXmlParser {
 		 return this.ipssDoc.getInterPSS().toString(); 
 	}	
 	
+	/**
+	 * Convert the xml doc to a xml document
+	 * 
+	 * @param xmlDoc
+	 * @return
+	 */
 	public static String toXmlDocString(InterPSSDocument xmlDoc) {
 		return xmlDoc.xmlText();
 	}
