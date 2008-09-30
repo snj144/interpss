@@ -48,6 +48,12 @@ public class ProjectFileUtil {
 	public static IpssTextFile getProjectStdRunCaseFile(IpssEditorDocument doc, IAppSimuContext.CaseType caseType) {
 		if (caseType == IAppSimuContext.CaseType.Aclf)
 			return getProjectFile(doc, StdRunStudyCase_Aclf);
+		else if (caseType == IAppSimuContext.CaseType.SenAnalysis)
+			return getProjectFile(doc, StdRunStudyCase_SenAnalysis);
+		else if (caseType == IAppSimuContext.CaseType.Acsc)
+			return getProjectFile(doc, StdRunStudyCase_Acsc);
+		else if (caseType == IAppSimuContext.CaseType.DStab)
+			return getProjectFile(doc, StdRunStudyCase_DStab);
 		else 
 			return null;
 	}
