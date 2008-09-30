@@ -32,7 +32,6 @@ import javax.swing.JDialog;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
-import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;

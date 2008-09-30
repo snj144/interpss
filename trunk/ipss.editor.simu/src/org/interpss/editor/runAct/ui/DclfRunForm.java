@@ -25,11 +25,11 @@
 package org.interpss.editor.runAct.ui;
 
 import org.interpss.display.DclfOutFunc;
-import org.interpss.editor.data.proj.DclfCaseData;
 import org.interpss.editor.runAct.xml.XmlScriptDclfRun;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
+import org.interpss.schema.DclfStudyCaseXmlType;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
@@ -41,9 +41,9 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	public DclfRunForm() {
 	}
 
-	private DclfCaseData dclfCaseData;
+//	private DclfCaseData dclfCaseData;
 	DclfBranchSensitivityXmlType tdFactor = null;;
-
+/*
 	public DclfCaseData getDclfCaseData() {
 		return this.dclfCaseData;
 	}
@@ -51,7 +51,11 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	public void setDclfCaseData(DclfCaseData acase) {
 		this.dclfCaseData = acase;
 	}
-
+*/
+	public void setXmlCaseData(DclfStudyCaseXmlType scase) {
+		this.tdFactor = scase.getPTransferDistFactorArray(0);
+	}
+	
 	@Override
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
 		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
@@ -59,16 +63,10 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 		if (!algo.checkCondition(msg))
 			return false;
 		
-		try {
-			tdFactor = DclfBranchSensitivityXmlType.Factory.parse(dclfCaseData.getXmlCaseData());
-			XmlScriptDclfRun.calPTDistFactor(tdFactor, algo, msg);
+		XmlScriptDclfRun.calPTDistFactor(tdFactor, algo, msg);
 
-			displaySummaryResult(simuCtx);
-			return true;
-		} catch (Exception e) {
-			msg.sendErrorMsg(e.toString() + ", " + dclfCaseData.getXmlCaseData());
-			return false;
-		}
+		displaySummaryResult(simuCtx);
+		return true;
 	}
 	
 	public void displaySummaryResult(SimuContext simuCtx) {
