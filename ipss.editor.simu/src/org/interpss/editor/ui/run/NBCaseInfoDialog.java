@@ -35,6 +35,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
@@ -178,6 +179,13 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_aclfCaseInfoPanel.setForm2Editor();
 		}
 		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
+			String casename = getCaseName(IAppSimuContext.CaseType.SenAnalysis);
+			DclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getDclfStudyCase(casename);
+			this.descTextArea.setText(scase.getRecDesc());
+			// set the case data to the actual data editing panel
+			_dclfCaseInfoPanel.setXmlCaseData(scase);
+			// set the case data to the actual data editing panel
+			_dclfCaseInfoPanel.setForm2Editor();
 		}
 		else if (_caseType == IAppSimuContext.CaseType.Acsc) {
 			// build the case info combo list
@@ -259,6 +267,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			casename = selectCase(projData.getAclfCaseName());
 			projData.setAclfCaseName(casename);
 		}
+		else if (caseType == IAppSimuContext.CaseType.SenAnalysis) {
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDclfStudyCaseNameArray()));
+			casename = selectCase(projData.getDclfCaseName());
+			projData.setDclfCaseName(casename);
+		}
 		IpssLogger.getLogger().info("Selected casename: " + casename);
 		return casename;
 	}
@@ -302,8 +315,15 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			SimuAppSpringAppContext.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 		}
 		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
+			DclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getDclfStudyCase(casename);
+			if (scase == null) {
+				errMsg.add("Dclf study case not found, " + casename);
+				return false;
+			}
+			scase.setRecDesc(this.descTextArea.getText());
 			projData.setDclfCaseName(casename);
 			_dclfCaseInfoPanel.saveEditor2Form(errMsg);
+			SimuAppSpringAppContext.getDclfRunForm().setXmlCaseData(scase);
 		}
 		else if (_caseType == IAppSimuContext.CaseType.Acsc) {
 			projData.setAcscCaseName(casename);
@@ -483,6 +503,15 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 				}
 				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAclfStudyCaseNameArray()));
 			}
+			else if (_caseType == IAppSimuContext.CaseType.SenAnalysis && this.studyCaseXmlDoc.getDclfStudyCase(casename) != null) {
+				if (this.studyCaseXmlDoc.deleteDclfStudyCase(casename))
+					IpssLogger.getLogger().info("NBCaseInfoPanel study case deleted " + casename);
+				else {	
+					IpssLogger.getLogger().info("NBCaseInfoPanel delte study case, case not found " + casename);
+					return;  // no case deleted if return false
+				}
+				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDclfStudyCaseNameArray()));
+			}
 			this.casenameComboBox.setSelectedIndex(0);
 		    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
 		}
@@ -498,6 +527,9 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			casename = "A New " + _caseType + " Study Case";
 		if (_caseType == IAppSimuContext.CaseType.Aclf && this.studyCaseXmlDoc.getAclfStudyCase(casename) == null) {
 			this.studyCaseXmlDoc.addNewAclfStudyCase(casename);
+		}
+		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis && this.studyCaseXmlDoc.getDclfStudyCase(casename) == null) {
+			this.studyCaseXmlDoc.addNewDclfStudyCase(casename);
 		}
 	    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
     }//GEN-LAST:event_addCaseButtonActionPerformed
@@ -537,7 +569,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			}
 		}
 		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) { 
-			projData.setDclfCaseName(casename);
+			if (this.studyCaseXmlDoc.getDclfStudyCase(casename) != null) {
+				projData.setDclfCaseName(casename);
+				setForm2Editor();
+			}
 		}
 		else if (_caseType == IAppSimuContext.CaseType.Acsc) { 
 			projData.setAcscCaseName(casename);
@@ -546,7 +581,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			projData.setDStabCaseName(casename);
 		}
 		else if (_caseType == IAppSimuContext.CaseType.Scripts) { 
-			projData.setScriptsCaseName(casename);
 		}
     }//GEN-LAST:event_casenameComboBoxActionPerformed
     
