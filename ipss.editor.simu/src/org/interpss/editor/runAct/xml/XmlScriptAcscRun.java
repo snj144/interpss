@@ -30,7 +30,6 @@ import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.StandardRun.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -60,23 +59,21 @@ public class XmlScriptAcscRun {
 			
 			AcscStudyCaseXmlType xmlDefaultCase = xmlRunCase.getDefaultAcscStudyCase(); 
 			
-			for ( AcscStudyCaseRec rec : xmlRunCase.getAcscStudyCaseList().getAcscStudyCaseRecArray()) {
-				if (rec.getModification() != null) {
+			for ( AcscStudyCaseXmlType xmlCase : xmlRunCase.getAcscStudyCaseList().getAcscStudyCaseArray()) {
+				if (xmlCase.getModification() != null) {
 					// TODO: apply the modification
 				}
 
-				AcscStudyCaseXmlType xmlCase = rec.getAcscStudyCase();
 				if (xmlCase == null) {
 					if (xmlDefaultCase == null) {
 						msg.sendErrorMsg("No Acsc study case defined");
 						return false;
 					}
 					xmlCase = xmlDefaultCase;
-					rec.setAcscStudyCase(xmlDefaultCase);
 				} 
-				if (rec.getModification() != null)
-					mapper.mapping(rec.getModification(), faultNet, ModificationXmlType.class);
-				mapper.mapping(rec, algo, AcscStudyCaseXmlType.class);
+				if (xmlCase.getModification() != null)
+					mapper.mapping(xmlCase.getModification(), faultNet, ModificationXmlType.class);
+				mapper.mapping(xmlCase, algo, AcscStudyCaseXmlType.class);
 				Object fault = faultNet.getFaultList().get(0);
 				if (fault instanceof AcscBusFault)
 					algo.calculateBusFault((AcscBusFault) fault, msg);

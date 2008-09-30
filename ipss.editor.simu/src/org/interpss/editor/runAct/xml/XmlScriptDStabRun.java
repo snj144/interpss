@@ -37,7 +37,6 @@ import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.StandardRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.SimuRunType;
@@ -90,30 +89,28 @@ public class XmlScriptDStabRun {
 			DStabStudyCaseXmlType xmlDefaultCase = xmlRunCase.getDefaultDStabStudyCase(); 
 
 			// single run case
-			if (xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray().length == 1) {
+			if (xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray().length == 1) {
 				appSimuCtx.setLastRunType(SimuRunType.DStab);
 
 				// get the run case info defined in the Xml scripts
-				DStabStudyCaseRec dstabRec = xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray(0);
+				DStabStudyCaseXmlType xmlCase = xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray(0);
 				// config the DStabAlgo object, including apply case-level
 				// modification to the DStabNet object
 				DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
 						.createDynamicSimuAlgorithm(dstabNet, msg);
 
-				DStabStudyCaseXmlType xmlCase = dstabRec.getDStabStudyCase(); 
 				if (xmlCase == null) {
 					if (xmlDefaultCase == null) {
 						msg.sendErrorMsg("No DStab case defined");
 						return false;
 					}
 					xmlCase = xmlDefaultCase;
-					dstabRec.setDStabStudyCase(xmlDefaultCase);				
 				}
-				if (dstabRec.getModification() != null) {
+				if (xmlCase.getModification() != null) {
 					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-					mapper.mapping(dstabRec.getModification(), dstabNet, ModificationXmlType.class);
+					mapper.mapping(xmlCase.getModification(), dstabNet, ModificationXmlType.class);
 				}
-				if (!configDStaAlgo(dstabAlgo, dstabRec, msg))
+				if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
 					return false;
 
 				if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
@@ -178,14 +175,13 @@ public class XmlScriptDStabRun {
 				MultiStudyCase mCaseContainer = SimuObjectFactory
 						.createDStabMultiStudyCase(SimuCtxType.DSTABILITY_NET);
 				int cnt = 0;
-				for (DStabStudyCaseRec dstabRec : xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseRecArray()) {
+				for (DStabStudyCaseXmlType xmlCase : xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray()) {
 					// deserialize the base case
 					DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil
 							.loadModel(netStr);
 					DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
 							.createDynamicSimuAlgorithm(net, msg);
 					
-					DStabStudyCaseXmlType xmlCase = dstabRec.getDStabStudyCase(); 
 					if (xmlCase == null) {
 						if (xmlDefaultCase == null) {
 							msg.sendErrorMsg("No DStab case defined");
@@ -193,21 +189,20 @@ public class XmlScriptDStabRun {
 						}
 						xmlCase = xmlDefaultCase;
 					}
-					if (dstabRec.getModification() != null) {
+					if (xmlCase.getModification() != null) {
 						IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-						mapper.mapping(dstabRec.getModification(), dstabNet, ModificationXmlType.class);
+						mapper.mapping(xmlCase.getModification(), dstabNet, ModificationXmlType.class);
 					}
-					if (!configDStaAlgo(dstabAlgo, dstabRec, msg))
+					if (!configDStaAlgo(dstabAlgo, xmlCase, msg))
 						return false;
 
 					// net.id is used to retrieve study case info at remote
 					// node. so we need to sure net.id and studyCase.id are
 					// the same for Grid computing.
-					net.setId(dstabRec.getRecId());
+					net.setId(xmlCase.getRecId());
 					try {
-						DStabStudyCase studyCase = SimuObjectFactory.createDStabStudyCase(dstabRec.getRecId(),
-										dstabRec.getRecName(), ++cnt,
-										mCaseContainer);
+						DStabStudyCase studyCase = SimuObjectFactory.createDStabStudyCase(xmlCase.getRecId(),
+								xmlCase.getRecName(), ++cnt, mCaseContainer);
 						if (RunActUtilFunc.isGridEnabled(ipssXmlDoc.getRunStudyCase())) {
 							// if Grid computing, save the net and algo objects
 							// to the study case object
@@ -274,11 +269,11 @@ public class XmlScriptDStabRun {
 	}
 
 	private static boolean configDStaAlgo(DynamicSimuAlgorithm dstabAlgo,
-			DStabStudyCaseRec dstabRec, IPSSMsgHub msg) {
+			DStabStudyCaseXmlType dstabCase, IPSSMsgHub msg) {
 		// map the Xml study case data to dstabAlgo, including modification to
 		// the network model data
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-		mapper.mapping(dstabRec.getDStabStudyCase(), dstabAlgo, DStabStudyCaseXmlType.class);
+		mapper.mapping(dstabCase, dstabAlgo, DStabStudyCaseXmlType.class);
 		if (!RunActUtilFunc.checkDStabSimuData(dstabAlgo, msg))
 			return false; // if something is wrong, we stop running here
 
@@ -287,7 +282,7 @@ public class XmlScriptDStabRun {
 		// to get db case id: dstabDbHandler.getDBCaseId()
 		IDStabSimuDatabaseOutputHandler dstabDbHandler = null;
 		try {
-			dstabDbHandler = RunActUtilFunc.createDBOutputHandler(dstabAlgo, dstabRec);
+			dstabDbHandler = RunActUtilFunc.createDBOutputHandler(dstabAlgo, dstabCase);
 		} catch (Exception ex) {
 			IpssLogger.logErr(ex);
 		}
@@ -295,8 +290,8 @@ public class XmlScriptDStabRun {
 			return false;
 		
 		// correlate net.id, case.id and dbCaseId
-		dstabAlgo.getDStabNet().setId(dstabRec.getRecId());
-		SpringAppContext.getSimuRecManager().addDBCaseId(dstabRec.getRecId(), dstabDbHandler
+		dstabAlgo.getDStabNet().setId(dstabCase.getRecId());
+		SpringAppContext.getSimuRecManager().addDBCaseId(dstabCase.getRecId(), dstabDbHandler
 				.getDBCaseId());
 
 		// transfer output variable filter info to the DStabAlgo object, which
@@ -320,7 +315,7 @@ public class XmlScriptDStabRun {
 
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
 		aclfAlgo.loadflow(msg);
-		if (dstabCase.getDisplaySummary())
+		if (dstabCase.getAclfAlgorithm().getDisplaySummary())
 			RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
 		if (!dstabAlgo.getDStabNet().isLfConverged()) {
 			msg
