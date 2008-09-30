@@ -30,7 +30,6 @@ import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.ModificationXmlType;
-import org.interpss.schema.RunStudyCaseXmlType.StandardRun.RunAcscStudyCase.AcscStudyCaseList.AcscStudyCaseRec;
 import org.interpss.xml.XmlNetParamModifier;
 
 import com.interpss.common.mapper.AbstractMapper;
@@ -66,11 +65,10 @@ public class IpssXmlMapper extends AbstractMapper {
 			/*
 			 * map an AcscStudyCase xml record to an LoadflowAlgorithm object
 			 */
-			AcscStudyCaseRec caseRec = (AcscStudyCaseRec)fromObj;
-			String faultIdStr = caseRec.getRecId();
+			AcscStudyCaseXmlType scase = (AcscStudyCaseXmlType)fromObj;
+			String faultIdStr = scase.getRecId();
 			return Xml2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
-					caseRec.getAcscStudyCase(),
-					(SimpleFaultAlgorithm) toObj, 
+					scase, (SimpleFaultAlgorithm) toObj, 
 					faultIdStr, msg);
 		} else if (klass == DStabStudyCaseXmlType.class) {
 			/*

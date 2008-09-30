@@ -70,15 +70,12 @@ public class Xml2DStabAlgorithmMapperImpl {
 	public static boolean dstabCaseData2AlgoMapping(
 			DStabStudyCaseXmlType dstabCase,
 			DynamicSimuAlgorithm algo, IPSSMsgHub msg) {
-		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(dstabCase, algo
+		Xml2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(dstabCase.getAclfAlgorithm(), algo
 				.getAclfAlgorithm(), msg);
 
-		algo
-				.setSimuMethod(dstabCase.getSimuConfig().getSimuMethod() == SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
+		algo.setSimuMethod(dstabCase.getSimuConfig().getSimuMethod() == SimuMethod.MODIFIED_EULER ? DynamicSimuMethods.MODIFIED_EULER
 						: DynamicSimuMethods.RUNGE_KUTTA);
-		algo
-				.setTotalSimuTimeSec(dstabCase.getSimuConfig()
-						.getTotalSimuTimeSec());
+		algo.setTotalSimuTimeSec(dstabCase.getSimuConfig().getTotalSimuTimeSec());
 		algo.setSimuStepSec(dstabCase.getSimuConfig().getSimuStepSec());
 		algo.setDisableDynamicEvent(dstabCase.getDynamicEventData()
 				.getDisableEvent());
