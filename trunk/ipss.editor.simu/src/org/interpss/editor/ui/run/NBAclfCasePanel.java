@@ -235,7 +235,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	*/
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
-
+		/*
         if (_netContainer != null && 
         		IGNetForm.AppType_Transmission.equals(_netContainer.getGNetForm().getAppType()) &&
         		!_netContainer.isBranchR_LT_X()) {
@@ -246,7 +246,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	this.nrRadioButton.setSelected(true);
         	this.nonDivergeCheckBox.setEnabled(true);
         }
-        
+		 */       
     	if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR)
         	this.nrRadioButton.setSelected(true);
     	else if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ)
@@ -1148,7 +1148,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_pqPStepButtonActionPerformed
 
     private void nonDivergeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonDivergeCheckBoxActionPerformed
-        // TODO add your handling code here:
+        // do nothing
     }//GEN-LAST:event_nonDivergeCheckBoxActionPerformed
     
     

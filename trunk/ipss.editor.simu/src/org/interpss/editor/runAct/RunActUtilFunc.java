@@ -34,6 +34,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 
 import com.interpss.common.SpringAppContext;
@@ -199,7 +200,7 @@ public class RunActUtilFunc {
 	 * @return
 	 */
 	public static IDStabSimuDatabaseOutputHandler createDBOutputHandler(
-			DynamicSimuAlgorithm algo, RunStudyCaseXmlType.StandardRun.RunDStabStudyCase.DStabStudyCaseList.DStabStudyCaseRec dstabRec) 
+			DynamicSimuAlgorithm algo, DStabStudyCaseXmlType dstabCase) 
 				throws Exception {
 		IDStabSimuDatabaseOutputHandler handler = (IDStabSimuDatabaseOutputHandler) algo
 				.getSimuOutputHandler();
@@ -210,8 +211,8 @@ public class RunActUtilFunc {
 			// to avoid conflict with StudyCase name, we add " SimuRecord" to
 			// the SimuRecord case.
 			String casename = "SimuRecord_";
-			if (dstabRec != null)
-				casename += dstabRec.getRecId();
+			if (dstabCase != null)
+				casename += dstabCase.getRecId();
 			else
 				casename += projData.getDStabCaseName();
 			if (!handler.init(projData.getProjectDbId(), casename))

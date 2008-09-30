@@ -34,6 +34,7 @@ import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
+import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSDocument;
 import org.interpss.xml.IpssXmlParser;
 import org.interpss.xml.StudyCaseHanlder;
@@ -71,10 +72,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         initComponents();
         WinUtilities.center(this);
 
-        // disable add and delete case 5/3/06 Mike
-        addCaseButton.setEnabled(false);
-        deleteCaseButton.setEnabled(false);
-        
         _aclfCaseInfoPanel = new NBAclfCasePanel(this);
         _dclfCaseInfoPanel = new NBDclfCasePanel(this);
         _acscCaseInfoPanel = new NBAcscCasePanel(this);
@@ -173,10 +170,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
 		if (_caseType == IAppSimuContext.CaseType.Aclf) {
 			String casename = getCaseName(IAppSimuContext.CaseType.Aclf);
+			AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
+			this.descTextArea.setText(scase.getRecDesc());
 			// set the case data to the actual data editing panel
-			_aclfCaseInfoPanel.setXmlCaseData(
-					this.studyCaseXmlDoc.getAclfStudyCase(casename),
-					this.studyCaseXmlDoc.getGridOption());
+			_aclfCaseInfoPanel.setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 			// set the case data to the actual data editing panel
 			_aclfCaseInfoPanel.setForm2Editor();
 		}
@@ -293,12 +290,16 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		//_caseData.setDescription(this.descTextArea.getText());
 
 		ProjData projData = (ProjData)_appSimuCtx.getProjData();
-		if (_caseType == IAppSimuContext.CaseType.Aclf && this.studyCaseXmlDoc.getAclfStudyCase(casename) != null) {
+		if (_caseType == IAppSimuContext.CaseType.Aclf) {
+			AclfStudyCaseXmlType scase = this.studyCaseXmlDoc.getAclfStudyCase(casename);
+			if (scase == null) {
+				errMsg.add("Aclf study case not found, " + casename);
+				return false;
+			}
+			scase.setRecDesc(this.descTextArea.getText());
 			projData.setAclfCaseName(casename);
 			_aclfCaseInfoPanel.saveEditor2Form(errMsg);
-			SimuAppSpringAppContext.getAclfRunForm().setXmlCaseData(
-					this.studyCaseXmlDoc.getAclfStudyCase(casename),
-					this.studyCaseXmlDoc.getGridOption());
+			SimuAppSpringAppContext.getAclfRunForm().setXmlCaseData(scase, this.studyCaseXmlDoc.getGridOption());
 		}
 		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
 			projData.setDclfCaseName(casename);
@@ -315,10 +316,6 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		else if (_caseType == IAppSimuContext.CaseType.Scripts) {
 			projData.setScriptsCaseName(casename);
 			_scrptsCaseInfoPanel.saveEditor2Form(errMsg);
-		}
-		else {
-			errMsg.add("Study case not found, " + casename);
-			return false;
 		}
 		
 		// save run case xml doc
@@ -477,9 +474,15 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     private void deleteCaseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCaseButtonActionPerformed
 		if (this.casenameComboBox.getItemCount() > 1) {
 			String casename = (String)this.casenameComboBox.getSelectedItem();
-			_appSimuCtx.deleteCaseData(casename, _caseType);
-			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
-
+			if (_caseType == IAppSimuContext.CaseType.Aclf && this.studyCaseXmlDoc.getAclfStudyCase(casename) != null) {
+				if (this.studyCaseXmlDoc.deleteAclfStudyCase(casename))
+					IpssLogger.getLogger().info("NBCaseInfoPanel study case deleted " + casename);
+				else {	
+					IpssLogger.getLogger().info("NBCaseInfoPanel delte study case, case not found " + casename);
+					return;  // no case deleted if return false
+				}
+				this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAclfStudyCaseNameArray()));
+			}
 			this.casenameComboBox.setSelectedIndex(0);
 		    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
 		}
@@ -492,10 +495,10 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		IpssLogger.getLogger().info("NBCaseInfoPanel addCaseButtonActionPerformed() called");
 		String casename = (String)this.casenameComboBox.getSelectedItem();	 
 		if (casename == null || casename.trim() == "")
-			casename = "A New Case";
-		if (_appSimuCtx.getCaseData(casename, _caseType) != null) 
-			casename = "A New Case";
-		//_caseData = _appSimuCtx.createCaseData(casename, _caseType);
+			casename = "A New " + _caseType + " Study Case";
+		if (_caseType == IAppSimuContext.CaseType.Aclf && this.studyCaseXmlDoc.getAclfStudyCase(casename) == null) {
+			this.studyCaseXmlDoc.addNewAclfStudyCase(casename);
+		}
 	    casenameComboBoxActionPerformed(null);   // to refresh the edit screen
     }//GEN-LAST:event_addCaseButtonActionPerformed
 

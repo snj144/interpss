@@ -37,7 +37,6 @@ import org.interpss.schema.InterPSSXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
-import org.interpss.schema.RunStudyCaseXmlType.StandardRun.RunDclfStudyCase.DclfStudyCaseList.DclfStudyCaseRec;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -72,13 +71,12 @@ public class XmlScriptDclfRun {
 
 			DclfStudyCaseXmlType xmlDefaultCase = xmlRunDclfCase.getDafaultDclfStudyCase(); 
 			
-			for ( DclfStudyCaseRec rec : xmlRunDclfCase.getDclfStudyCaseList().getDclfStudyCaseRecArray()) {
-				if (rec.getModification() != null) {
+			for ( DclfStudyCaseXmlType xmlCase : xmlRunDclfCase.getDclfStudyCaseList().getDclfStudyCaseArray()) {
+				if (xmlCase.getModification() != null) {
 					IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-					mapper.mapping(rec.getModification(), aclfNet, ModificationXmlType.class);
+					mapper.mapping(xmlCase.getModification(), aclfNet, ModificationXmlType.class);
 				}
 
-				DclfStudyCaseXmlType xmlCase = rec.getDclfStudyCase();
 				if (xmlCase == null) {
 					if (xmlDefaultCase == null) {
 						msg.sendErrorMsg("No Dclf study case defined");
