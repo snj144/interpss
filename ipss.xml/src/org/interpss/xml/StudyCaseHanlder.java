@@ -24,7 +24,9 @@
 
 package org.interpss.xml;
 
+import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSDocument;
 
@@ -54,12 +56,56 @@ public class StudyCaseHanlder {
 		return this.ipssXmlDoc.getInterPSS().getRunStudyCase().getGridRunOption();
 	}
 	
+	// Aclf Study Case
+	// ===============
+	
+	/**
+	 * Delete the study case
+	 * 
+	 * @param casename
+	 * @return true if deleted
+	 */
+	public boolean deleteAclfStudyCase(String casename) {
+		int cnt = 0;
+		for (AclfStudyCaseXmlType scase : getAclfStudyCaseArray()) {
+			if (scase.getRecName().equals(casename)) {
+				this.ipssXmlDoc.getInterPSS().getRunStudyCase().getStandardRun().
+					getRunAclfStudyCase().getAclfStudyCaseList().removeAclfStudyCase(cnt);
+				return true;
+			}
+			cnt++;
+		}
+		return false;
+	}
+	
+	/**
+	 * add a new Aclf Study case
+	 * 
+	 * @param casename
+	 * @return
+	 */
+	public boolean addNewAclfStudyCase(String casename) {
+		AclfStudyCaseXmlType scase = this.ipssXmlDoc.getInterPSS().getRunStudyCase().
+					getStandardRun().getRunAclfStudyCase().getAclfStudyCaseList().addNewAclfStudyCase();
+		scase.setRecId(casename.replaceAll(" ", "_"));
+		scase.setRecName(casename);
+		scase.addNewAclfAlgorithm();
+        scase.getAclfAlgorithm().setLfMethod(AclfAlgorithmXmlType.LfMethod.NR);
+       	scase.getAclfAlgorithm().setTolerance(0.0001);
+       	scase.getAclfAlgorithm().setMaxIterations(20);
+       	scase.getAclfAlgorithm().setAccFactor(1.0);
+       	scase.getAclfAlgorithm().setNonDivergent(true);
+       	scase.getAclfAlgorithm().setInitBusVoltage(true);
+       	scase.getAclfAlgorithm().setDisplaySummary(true);
+		return true;
+	}
+	
 	/**
 	 * Get the AclfStudyCase record list
 	 * 
 	 * @return
 	 */
-	public AclfStudyCaseXmlType[] getAclfStudyCaseList() {
+	public AclfStudyCaseXmlType[] getAclfStudyCaseArray() {
 		return this.ipssXmlDoc.getInterPSS().
 				getRunStudyCase().getStandardRun().getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray();
 	}
@@ -71,7 +117,7 @@ public class StudyCaseHanlder {
 	 * @return
 	 */
 	public AclfStudyCaseXmlType getAclfStudyCase(String recName) {
-		return 	(AclfStudyCaseXmlType)IpssXmlParser.getRecord(recName, getAclfStudyCaseList());
+		return 	(AclfStudyCaseXmlType)IpssXmlParser.getRecord(recName, getAclfStudyCaseArray());
 	}
 	
 	/**
@@ -80,20 +126,71 @@ public class StudyCaseHanlder {
 	 * @return
 	 */
 	public String[] getAclfStudyCaseNameArray() {
-		return IpssXmlParser.getRecNameArray(getAclfStudyCaseList());
-	}
-/*
-	public AcscStudyCaseXmlType[] getAcscStudyCaseList() {
-		return this.ipssXmlDoc.getInterPSS().
-				getRunStudyCase().getStandardRun().getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseRecArray();
+		return IpssXmlParser.getRecNameArray(getAclfStudyCaseArray());
 	}
 
-	public AcscStudyCaseXmlType getAcscStudyCase(String recName) {
-		return 	(AcscStudyCaseXmlType)IpssXmlParser.getRecord(recName, getAcscStudyCaseList());
+	// Dclf Study Case
+	// ======================
+	
+	/**
+	 * Delete the study case
+	 * 
+	 * @param casename
+	 * @return true if deleted
+	 */
+	public boolean deleteDclfStudyCase(String casename) {
+		int cnt = 0;
+		for (DclfStudyCaseXmlType scase : getDclfStudyCaseArray()) {
+			if (scase.getRecName().equals(casename)) {
+				this.ipssXmlDoc.getInterPSS().getRunStudyCase().getStandardRun().
+					getRunAclfStudyCase().getAclfStudyCaseList().removeAclfStudyCase(cnt);
+				return true;
+			}
+			cnt++;
+		}
+		return false;
 	}
 	
-	public String[] getAcscStudyCaseNameArray() {
-		return IpssXmlParser.getRecNameArray(getAcscStudyCaseList());
+	/**
+	 * add a new Dclf Study case
+	 * 
+	 * @param casename
+	 * @return
+	 */
+	public boolean addNewDclfStudyCase(String casename) {
+		DclfStudyCaseXmlType scase = this.ipssXmlDoc.getInterPSS().getRunStudyCase().
+					getStandardRun().getRunDclfStudyCase().getDclfStudyCaseList().addNewDclfStudyCase();
+		scase.setRecId(casename.replaceAll(" ", "_"));
+		scase.setRecName(casename);
+		return true;
 	}
-*/	
+	
+	/**
+	 * Get the DclfStudyCase record list
+	 * 
+	 * @return
+	 */
+	public DclfStudyCaseXmlType[] getDclfStudyCaseArray() {
+		return this.ipssXmlDoc.getInterPSS().getRunStudyCase().getStandardRun().
+					getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray();
+	}
+
+	/**
+	 * Get the DclfStudyCase record by the record name
+	 * 
+	 * @param recName
+	 * @return
+	 */
+	public DclfStudyCaseXmlType getDclfStudyCase(String recName) {
+		return 	(DclfStudyCaseXmlType)IpssXmlParser.getRecord(recName, getDclfStudyCaseArray());
+	}
+	
+	/**
+	 * Get AclfStudyCase name array
+	 * 
+	 * @return
+	 */
+	public String[] getDclfStudyCaseNameArray() {
+		return IpssXmlParser.getRecNameArray(getDclfStudyCaseArray());
+	}
 }

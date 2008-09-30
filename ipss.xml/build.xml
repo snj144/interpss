@@ -1,4 +1,4 @@
-<project name="ipss.rule" default="" basedir=".">
+<project name="ipss.rule" default="createIpssSchemas" basedir=".">
 	
   <!-- Initializing the environment -->
   <target name="init" depends="">
