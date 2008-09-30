@@ -7,11 +7,10 @@
 		<ipss:standardRun>
 		<ipss:runDclfStudyCase>
 			<ipss:dclfStudyCaseList>
-				<ipss:dclfStudyCaseRec>
+				<ipss:dclfStudyCase>
 					<ipss:recId>DclfRun-1</ipss:recId>
-					<ipss:dclfStudyCase>
-						<ipss:caculatelDclf>true</ipss:caculatelDclf>
-						<ipss:sensitivity>
+					<ipss:caculatelDclf>true</ipss:caculatelDclf>
+					<ipss:sensitivity>
 							<ipss:senType>PAngle</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -29,8 +28,8 @@
 								<ipss:recId>Bus0013_1</ipss:recId>
 								<ipss:busId>0013</ipss:busId>
 							</ipss:bus>
-						</ipss:sensitivity>
-						<ipss:sensitivity>
+					</ipss:sensitivity>
+					<ipss:sensitivity>
 							<ipss:senType>QVoltage</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -48,8 +47,8 @@
 								<ipss:recId>Bus0013_2</ipss:recId>
 								<ipss:busId>0013</ipss:busId>
 							</ipss:bus>
-						</ipss:sensitivity>
-						<ipss:genShiftFactor>
+					</ipss:sensitivity>
+					<ipss:genShiftFactor>
 							<ipss:senType>PAngle</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -74,8 +73,8 @@
 								<ipss:fromBusId>0005</ipss:fromBusId>
 								<ipss:toBusId>0006</ipss:toBusId>
 							</ipss:branch>
-						</ipss:genShiftFactor>
-						<ipss:pTransferDistFactor>
+					</ipss:genShiftFactor>
+					<ipss:pTransferDistFactor>
 							<ipss:senType>PAngle</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -107,8 +106,8 @@
 								<ipss:fromBusId>0005</ipss:fromBusId>
 								<ipss:toBusId>0006</ipss:toBusId>
 							</ipss:branch>
-						</ipss:pTransferDistFactor>
-						<ipss:pTransferDistFactor>
+					</ipss:pTransferDistFactor>
+					<ipss:pTransferDistFactor>
 							<ipss:senType>PAngle</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -150,9 +149,8 @@
 								<ipss:fromBusId>0005</ipss:fromBusId>
 								<ipss:toBusId>0006</ipss:toBusId>
 							</ipss:branch>
-						</ipss:pTransferDistFactor>
-					</ipss:dclfStudyCase>
-				</ipss:dclfStudyCaseRec>
+					</ipss:pTransferDistFactor>
+				</ipss:dclfStudyCase>
 			</ipss:dclfStudyCaseList>
 		</ipss:runDclfStudyCase>
 		</ipss:standardRun>

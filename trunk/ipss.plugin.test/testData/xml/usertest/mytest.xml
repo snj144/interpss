@@ -17,7 +17,7 @@
 				<ipss:tolerance>10.0</ipss:tolerance>
 				<ipss:toleranceUnit>KVA</ipss:toleranceUnit>
 				<ipss:initBusVoltage>true</ipss:initBusVoltage>
-				<ipss:diaplaySummary>true</ipss:diaplaySummary>
+				<ipss:displaySummary>true</ipss:displaySummary>
 			</ipss:defaultAclfAlgorithm>
 		<ipss:aclfStudyCaseList>
 			<ipss:aclfStudyCase>

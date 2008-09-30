@@ -7,27 +7,22 @@
 		<ipss:standardRun>
 		<ipss:runAcscStudyCase>
 		<ipss:acscStudyCaseList>
-			<ipss:acscStudyCaseRec>
+			<ipss:acscStudyCase>
 			<ipss:recId>AcscRun-1</ipss:recId>
-			<ipss:acscStudyCase>
 			<ipss:faultData>
 				<ipss:faultType>BusFault</ipss:faultType>
 				<ipss:faultCategory>Fault_3P</ipss:faultCategory>
 				<ipss:busBranchId>2</ipss:busBranchId>
 			</ipss:faultData>
 			</ipss:acscStudyCase>
-			</ipss:acscStudyCaseRec>
-
-			<ipss:acscStudyCaseRec>
+			<ipss:acscStudyCase>
 			<ipss:recId>AcscRun-2</ipss:recId>
-			<ipss:acscStudyCase>
 			<ipss:faultData>
 				<ipss:faultType>BusFault</ipss:faultType>
 				<ipss:faultCategory>Fault_3P</ipss:faultCategory>
 				<ipss:busBranchId>2</ipss:busBranchId>
 			</ipss:faultData>
 			</ipss:acscStudyCase>
-			</ipss:acscStudyCaseRec>
 		</ipss:acscStudyCaseList>
 		</ipss:runAcscStudyCase>
 		</ipss:standardRun>
