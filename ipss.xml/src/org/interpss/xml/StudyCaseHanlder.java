@@ -26,6 +26,8 @@ package org.interpss.xml;
 
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSDocument;
@@ -130,7 +132,7 @@ public class StudyCaseHanlder {
 	}
 
 	// Dclf Study Case
-	// ======================
+	// ===============
 	
 	/**
 	 * Delete the study case
@@ -143,7 +145,7 @@ public class StudyCaseHanlder {
 		for (DclfStudyCaseXmlType scase : getDclfStudyCaseArray()) {
 			if (scase.getRecName().equals(casename)) {
 				this.ipssXmlDoc.getInterPSS().getRunStudyCase().getStandardRun().
-					getRunAclfStudyCase().getAclfStudyCaseList().removeAclfStudyCase(cnt);
+					getRunDclfStudyCase().getDclfStudyCaseList().removeDclfStudyCase(cnt);
 				return true;
 			}
 			cnt++;
@@ -162,6 +164,12 @@ public class StudyCaseHanlder {
 					getStandardRun().getRunDclfStudyCase().getDclfStudyCaseList().addNewDclfStudyCase();
 		scase.setRecId(casename.replaceAll(" ", "_"));
 		scase.setRecName(casename);
+		
+		DclfBranchSensitivityXmlType tdFactor = scase.addNewPTransferDistFactor();
+		tdFactor.addNewInjectBusList();
+		tdFactor.getInjectBusList().addNewInjectBus();
+		tdFactor.addNewWithdrawBusList();
+		tdFactor.getWithdrawBusList().addNewWithdrawBus();		
 		return true;
 	}
 	
@@ -192,5 +200,70 @@ public class StudyCaseHanlder {
 	 */
 	public String[] getDclfStudyCaseNameArray() {
 		return IpssXmlParser.getRecNameArray(getDclfStudyCaseArray());
+	}
+
+	// Acsc Study Case
+	// ===============
+	
+	/**
+	 * Delete the study case
+	 * 
+	 * @param casename
+	 * @return true if deleted
+	 */
+	public boolean deleteAcscStudyCase(String casename) {
+		int cnt = 0;
+		for (AcscStudyCaseXmlType scase : getAcscStudyCaseArray()) {
+			if (scase.getRecName().equals(casename)) {
+				this.ipssXmlDoc.getInterPSS().getRunStudyCase().getStandardRun().
+					getRunAcscStudyCase().getAcscStudyCaseList().removeAcscStudyCase(cnt);
+				return true;
+			}
+			cnt++;
+		}
+		return false;
+	}
+	
+	/**
+	 * add a new Acsc Study case
+	 * 
+	 * @param casename
+	 * @return
+	 */
+	public boolean addNewAcscStudyCase(String casename) {
+		AcscStudyCaseXmlType scase = this.ipssXmlDoc.getInterPSS().getRunStudyCase().
+					getStandardRun().getRunAcscStudyCase().getAcscStudyCaseList().addNewAcscStudyCase();
+		scase.setRecId(casename.replaceAll(" ", "_"));
+		scase.setRecName(casename);
+		return true;
+	}
+	
+	/**
+	 * Get the AcscStudyCase record list
+	 * 
+	 * @return
+	 */
+	public AcscStudyCaseXmlType[] getAcscStudyCaseArray() {
+		return this.ipssXmlDoc.getInterPSS().getRunStudyCase().getStandardRun().
+					getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray();
+	}
+
+	/**
+	 * Get the AcscStudyCase record by the record name
+	 * 
+	 * @param recName
+	 * @return
+	 */
+	public AcscStudyCaseXmlType getAcscStudyCase(String recName) {
+		return 	(AcscStudyCaseXmlType)IpssXmlParser.getRecord(recName, getAcscStudyCaseArray());
+	}
+	
+	/**
+	 * Get AcscStudyCase name array
+	 * 
+	 * @return
+	 */
+	public String[] getAcscStudyCaseNameArray() {
+		return IpssXmlParser.getRecNameArray(getAcscStudyCaseArray());
 	}
 }
