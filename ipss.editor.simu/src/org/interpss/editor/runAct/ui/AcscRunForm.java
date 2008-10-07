@@ -25,8 +25,8 @@
 package org.interpss.editor.runAct.ui;
 
 import org.interpss.PluginSpringAppContext;
-import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.runAct.RunActUtilFunc;
+import org.interpss.schema.AcscStudyCaseXmlType;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -43,14 +43,24 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 	public AcscRunForm() {
 	}
 
-	private AcscCaseData acscCaseData;
-
+	//private AcscCaseData acscCaseData;
+	
+	private AcscStudyCaseXmlType xmCaseData;
+/*
 	public AcscCaseData getAcscCaseData() {
 		return this.acscCaseData;
 	}
 
 	public void setAcscCaseData(AcscCaseData acase) {
 		this.acscCaseData = acase;
+	}
+*/
+	public AcscStudyCaseXmlType getXmlCaseData() {
+		return this.xmCaseData;
+	}
+
+	public void setXmlCaseData(AcscStudyCaseXmlType scase) {
+		this.xmCaseData = scase;
 	}
 
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
