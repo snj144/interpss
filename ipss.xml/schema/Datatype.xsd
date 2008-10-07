@@ -104,28 +104,11 @@
 		</ns:sequence>
 	</ns:complexType>
 
-
-
-
 	<ns:complexType name="AcscFaultXmlType">
 		<ns:sequence>
-			<ns:element name="faultType" minOccurs="1"><ns:simpleType>
-			<ns:restriction base="ns:string">
-			<ns:enumeration value="BusFault"></ns:enumeration>
-			<ns:enumeration value="BranchFault"></ns:enumeration>
-			<ns:enumeration value="BranchOutage"></ns:enumeration>
-						</ns:restriction></ns:simpleType></ns:element>
-			<ns:element name="faultCategory"
-				minOccurs="1">
-                <ns:simpleType><ns:restriction base="ns:string">
-			<ns:enumeration value="Fault_3P"></ns:enumeration>
-			<ns:enumeration value="Fault_LG"></ns:enumeration>
-			<ns:enumeration value="Fault_LL"></ns:enumeration>
-			<ns:enumeration value="Fault_LLG"></ns:enumeration>
-			<ns:enumeration value="Outage_3Phase"></ns:enumeration>
-			<ns:enumeration value="Outage_1Phase"></ns:enumeration>
-			<ns:enumeration value="Outage_2Phase"></ns:enumeration>
-                </ns:restriction></ns:simpleType>
+			<ns:element name="faultType" minOccurs="1" type="ipss:AcscFaultDataType">
+				</ns:element>
+				<ns:element name="faultCategory" minOccurs="1" type="ipss:AcscFaultCategoryDataType">
             </ns:element>
 			<ns:element name="busBranchId" type="ns:string" minOccurs="1"></ns:element>
 			<ns:element name="zLG" type="ipss:ComplexXmlType"
@@ -296,6 +279,27 @@
     		<ns:enumeration value="SingleBus"></ns:enumeration>
     		<ns:enumeration value="MultipleBus"></ns:enumeration>
     		<ns:enumeration value="NoBus"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+    <ns:simpleType name="AcscFaultDataType">
+    	<ns:restriction base="ns:string">
+			<ns:enumeration value="BusFault"></ns:enumeration>
+			<ns:enumeration value="BranchFault"></ns:enumeration>
+			<ns:enumeration value="BranchOutage"></ns:enumeration>
+    	</ns:restriction>
+    </ns:simpleType>
+
+    <ns:simpleType name="AcscFaultCategoryDataType">
+    	<ns:restriction base="ns:string">
+				<ns:enumeration value="Fault_3P"></ns:enumeration>
+				<ns:enumeration value="Fault_LG"></ns:enumeration>
+				<ns:enumeration value="Fault_LL"></ns:enumeration>
+				<ns:enumeration value="Fault_LLG"></ns:enumeration>
+				<ns:enumeration value="Fault_ALL"></ns:enumeration>
+				<ns:enumeration value="Outage_3Phase"></ns:enumeration>
+				<ns:enumeration value="Outage_1Phase"></ns:enumeration>
+				<ns:enumeration value="Outage_2Phase"></ns:enumeration>
     	</ns:restriction>
     </ns:simpleType>
 </ns:schema>
