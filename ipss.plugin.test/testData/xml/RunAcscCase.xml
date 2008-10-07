@@ -8,7 +8,8 @@
 		<ipss:runAcscStudyCase>
 		<ipss:acscStudyCaseList>
 			<ipss:acscStudyCase>
-			<ipss:recId>AcscRun-1</ipss:recId>
+			<ipss:recId>RunAcscRun-1</ipss:recId>
+			<ipss:recName>Run Acsc Study Case-1</ipss:recName>
 			<ipss:faultData>
 				<ipss:faultType>BusFault</ipss:faultType>
 				<ipss:faultCategory>Fault_3P</ipss:faultCategory>
