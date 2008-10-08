@@ -24,6 +24,8 @@
 
 package org.interpss.mapper.runCase;
 
+import org.interpss.schema.AcscFaultCategoryDataType;
+import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData;
@@ -211,13 +213,13 @@ public class Xml2DStabAlgorithmMapperImpl {
 	}
 
 	private static DynamicEventType getDEventType(EventType.Enum eventType,
-			AcscFaultXmlType.FaultType.Enum faultType) {
+			AcscFaultDataType.Enum faultType) {
 		if (eventType == EventType.FAULT) {
-			if (faultType == AcscFaultXmlType.FaultType.BUS_FAULT)
+			if (faultType == AcscFaultDataType.BUS_FAULT)
 				return DynamicEventType.BUS_FAULT;
-			else if (faultType == AcscFaultXmlType.FaultType.BRANCH_FAULT)
+			else if (faultType == AcscFaultDataType.BRANCH_FAULT)
 				return DynamicEventType.BRANCH_FAULT;
-			else if (faultType == AcscFaultXmlType.FaultType.BRANCH_OUTAGE)
+			else if (faultType == AcscFaultDataType.BRANCH_OUTAGE)
 				return DynamicEventType.BRANCH_OUTAGE;
 
 		} else {
@@ -278,19 +280,19 @@ public class Xml2DStabAlgorithmMapperImpl {
 			event.setBusDynamicEvent(eLoad);
 		} else if (eventData.getEventType() == EventType.FAULT) {
 			AcscFaultXmlType fdata = eventData.getFault();
-			if (eventData.getFault().getFaultType() == AcscFaultXmlType.FaultType.BRANCH_OUTAGE) {
+			if (eventData.getFault().getFaultType() == AcscFaultDataType.BRANCH_OUTAGE) {
 				event.setType(DynamicEventType.BRANCH_OUTAGE);
 				BranchOutageEvent bOutageEvent = DStabObjectFactory
 						.createBranchOutageEvent(fdata.getBusBranchId(),
 								dstabNet);
-				if (fdata.getFaultCategory() == AcscFaultXmlType.FaultCategory.OUTAGE_3_PHASE)
+				if (fdata.getFaultCategory() == AcscFaultCategoryDataType.OUTAGE_3_PHASE)
 					bOutageEvent.setOutageType(BranchOutageType.THREE_PHASE);
-				else if (fdata.getFaultCategory() == AcscFaultXmlType.FaultCategory.OUTAGE_1_PHASE)
+				else if (fdata.getFaultCategory() == AcscFaultCategoryDataType.OUTAGE_1_PHASE)
 					bOutageEvent.setOutageType(BranchOutageType.SINGLE_PHASE);
-				else if (fdata.getFaultCategory() == AcscFaultXmlType.FaultCategory.OUTAGE_2_PHASE)
+				else if (fdata.getFaultCategory() == AcscFaultCategoryDataType.OUTAGE_2_PHASE)
 					bOutageEvent.setOutageType(BranchOutageType.DOUBLE_PHASE);
 				event.setBranchDynamicEvent(bOutageEvent);
-			} else if (eventData.getFault().getFaultType() == AcscFaultXmlType.FaultType.BUS_FAULT) {
+			} else if (eventData.getFault().getFaultType() == AcscFaultDataType.BUS_FAULT) {
 				event.setType(DynamicEventType.BUS_FAULT);
 				AcscBusFault fault = CoreObjectFactory
 						.createAcscBusFault(Constants.Token_BusFaultId
@@ -311,7 +313,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 							"Programming erroe, Bus cannot be found, id:"
 									+ fdata.getBusBranchId());
 				}
-			} else if (eventData.getFault().getFaultType() == AcscFaultXmlType.FaultType.BRANCH_FAULT) {
+			} else if (eventData.getFault().getFaultType() == AcscFaultDataType.BRANCH_FAULT) {
 				event.setType(DynamicEventType.BRANCH_FAULT);
 				DStabBranchFault fault = createDStabBranchFault(fdata, dstabNet);
 				event.setBranchFault(fault);
