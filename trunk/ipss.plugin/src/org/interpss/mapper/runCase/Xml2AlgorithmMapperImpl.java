@@ -26,6 +26,8 @@ package org.interpss.mapper.runCase;
 
 import org.apache.commons.math.complex.Complex;
 import org.interpss.schema.AclfAlgorithmXmlType;
+import org.interpss.schema.AcscFaultCategoryDataType;
+import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.UnitDataType;
@@ -88,7 +90,7 @@ public class Xml2AlgorithmMapperImpl {
 	public static boolean acscCaseData2AlgoMapping(
 			AcscStudyCaseXmlType acscCase, SimpleFaultAlgorithm algo, String faultIdStr, IPSSMsgHub msg) {
 		SimpleFaultNetwork faultNet = algo.getSimpleFaultNetwork();
-		if (acscCase.getFaultData().getFaultType() == AcscFaultXmlType.FaultType.BUS_FAULT) {
+		if (acscCase.getFaultData().getFaultType() == AcscFaultDataType.BUS_FAULT) {
 			AcscBus faultBus = (AcscBus) faultNet.getBus(acscCase.getFaultData().getBusBranchId());
 			if (faultBus == null) {
 				IpssLogger.getLogger().severe(
@@ -139,9 +141,9 @@ public class Xml2AlgorithmMapperImpl {
 	public static void acscFaultData2AcscBusFaultMapping(AcscFaultXmlType data,
 			AcscBusFault fault) {
 		fault
-				.setFaultCode(data.getFaultCategory() == AcscFaultXmlType.FaultCategory.FAULT_LLG ? SimpleFaultCode.GROUND_LLG
-						: (data.getFaultCategory() == AcscFaultXmlType.FaultCategory.FAULT_LG ? SimpleFaultCode.GROUND_LG
-								: (data.getFaultCategory() == AcscFaultXmlType.FaultCategory.FAULT_LL ? SimpleFaultCode.GROUND_LL
+				.setFaultCode(data.getFaultCategory() == AcscFaultCategoryDataType.FAULT_LLG ? SimpleFaultCode.GROUND_LLG
+						: (data.getFaultCategory() == AcscFaultCategoryDataType.FAULT_LG ? SimpleFaultCode.GROUND_LG
+								: (data.getFaultCategory() == AcscFaultCategoryDataType.FAULT_LL ? SimpleFaultCode.GROUND_LL
 										: SimpleFaultCode.GROUND_3P)));
 		if (data.getZLG() != null)
 			fault.setZLGFault(new Complex(data.getZLG().getRe(), data.getZLG()
