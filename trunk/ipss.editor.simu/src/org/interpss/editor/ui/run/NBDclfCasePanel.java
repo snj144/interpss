@@ -27,13 +27,12 @@ package org.interpss.editor.ui.run;
 import java.util.Vector;
 
 import javax.swing.JDialog;
- 
+
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
-import org.interpss.schema.DclfSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
 import org.interpss.xml.IpssXmlUtilFunc;
