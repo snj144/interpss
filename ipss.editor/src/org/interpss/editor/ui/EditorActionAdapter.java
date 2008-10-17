@@ -25,7 +25,6 @@
 package org.interpss.editor.ui;
 
 import org.interpss.editor.SimuAppSpringAppContext;
-import org.interpss.editor.SimuAppSpringAppCtxUtil;
 import org.interpss.editor.app.ProjectFileUtil;
 import org.interpss.editor.chart.DStabPlotSelectionDialog;
 import org.interpss.editor.coreframework.GPDocument;
@@ -114,7 +113,7 @@ public class EditorActionAdapter {
 		simuCtx.setDclfAlgorithm(CoreSpringAppContext.getDclfAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.SenAnalysis,
+			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.SenAnalysis,
 					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.SenAnalysis).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
@@ -144,7 +143,7 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.Aclf,
+			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.Aclf,
 					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.Aclf).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
@@ -174,7 +173,7 @@ public class EditorActionAdapter {
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringAppContext.getSimpleFaultAlgorithm());
  
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.Acsc,
+			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.Acsc,
 					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.Acsc).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
@@ -203,7 +202,7 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(DStabSpringAppContext.getDynamicSimuAlgorithm());
 
-		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.DStab,
+		ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.DStab,
 				ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.DStab).getFilePathName());
     	IpssTextFile file = ProjectFileUtil.getProjectFile(doc, ProjectFileUtil.DStabOutputScriptFilename);
     	dialog.setDStabOutputScriptFilename(file.getFilePathName());
@@ -233,7 +232,7 @@ public class EditorActionAdapter {
 		}
 		
 		IpssLogger.getLogger().info("Run Scripts");
-		ICaseInfoDialog dialog = SimuAppSpringAppCtxUtil.getCaseInfoDialog(IAppSimuContext.CaseType.Scripts,
+		ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.Scripts,
 				ProjectFileUtil.getProjectScriptRunCaseFile(doc).getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
     	if (dialog.isReturnOk()) {
