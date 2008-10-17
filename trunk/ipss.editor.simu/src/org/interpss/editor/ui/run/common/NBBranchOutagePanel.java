@@ -26,10 +26,10 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
-import org.interpss.editor.data.acsc.AcscFaultData;
-import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.schema.AcscFaultCategoryDataType;
+import org.interpss.schema.DStabStudyCaseXmlType;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
@@ -42,9 +42,11 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
 
 	private GFormContainer _netContainer = null;
     private SimuContext _simuCtx = null;	
-	private DStabDEventData _eventData = null;  // current event data
+	//private DStabDEventData _eventData = null;  // current event data
 	
-    /** Creates new form FaultLocDataPanel */
+	private DStabStudyCaseXmlType.DynamicEventData.EventList.Event xmlEventData = null;  // current event data
+
+	/** Creates new form FaultLocDataPanel */
     public NBBranchOutagePanel() {
         initComponents();
 
@@ -71,8 +73,8 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
     	}
 	}
 	
-	public void setDStabDEventData(DStabDEventData data) {
-		_eventData = data;
+	public void setDStabDEventData(DStabStudyCaseXmlType.DynamicEventData.EventList.Event data) {
+		xmlEventData = data;
 	}
 	
 	/**
@@ -83,20 +85,20 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBBranchOutagePanel setForm2Editor() called");
 
-        if (_eventData.getFaultData().getBusBranchNameId().equals("")) {
+        if (xmlEventData.getFault().getBusBranchId().equals("")) {
             IpssLogger.getLogger().info("faultBranchComboBox.getSelectedItem() -> " + this.faultBranchComboBox.getSelectedItem());
             this.faultBranchComboBox.setSelectedIndex(0);
         }    
         else
-             this.faultBranchComboBox.setSelectedItem(_eventData.getFaultData().getBusBranchNameId());
+             this.faultBranchComboBox.setSelectedItem(xmlEventData.getFault().getBusBranchId());
         
-        stratTimeTextField.setText(Number2String.toStr(_eventData.getStartTime(), "#0.000"));   
+        stratTimeTextField.setText(Number2String.toStr(xmlEventData.getStartTimeSec(), "#0.000"));   
         
-		if (_eventData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Outage_3P))
+		if (xmlEventData.getFault().getFaultCategory() == AcscFaultCategoryDataType.OUTAGE_3_PHASE)
 			branchOutage3PRadioButton.setSelected(true);
-		else if (_eventData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Outage_1P))
+		else if (xmlEventData.getFault().getFaultCategory() == AcscFaultCategoryDataType.OUTAGE_1_PHASE)
 			branchOutage1PRadioButton.setSelected(true);
-		else if (_eventData.getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Outage_2P))
+		else if (xmlEventData.getFault().getFaultCategory() == AcscFaultCategoryDataType.OUTAGE_2_PHASE)
 			branchOutage2PRadioButton.setSelected(true);
 
 		return true;
@@ -113,15 +115,15 @@ public class NBBranchOutagePanel extends javax.swing.JPanel implements IFormData
 
 		if (SwingInputVerifyUtil.largeThan(this.stratTimeTextField, 0.0d,
 						errMsg, "Branch outage start time < 0.0"))
-			_eventData.setStartTime(SwingInputVerifyUtil.getDouble(this.stratTimeTextField));
+			xmlEventData.setStartTimeSec(SwingInputVerifyUtil.getDouble(this.stratTimeTextField));
 
-		_eventData.getFaultData().setBusBranchNameId((String)this.faultBranchComboBox.getSelectedItem());
+		xmlEventData.getFault().setBusBranchId((String)this.faultBranchComboBox.getSelectedItem());
 		if (branchOutage3PRadioButton.isSelected())
-			_eventData.getFaultData().setCategory(AcscFaultData.FaultCaty_Outage_3P);
+			xmlEventData.getFault().setFaultCategory(AcscFaultCategoryDataType.OUTAGE_3_PHASE);
 		else if (branchOutage1PRadioButton.isSelected())
-			_eventData.getFaultData().setCategory(AcscFaultData.FaultCaty_Outage_1P);
+			xmlEventData.getFault().setFaultCategory(AcscFaultCategoryDataType.OUTAGE_1_PHASE);
 		else if (branchOutage2PRadioButton.isSelected())
-			_eventData.getFaultData().setCategory(AcscFaultData.FaultCaty_Outage_2P);
+			xmlEventData.getFault().setFaultCategory(AcscFaultCategoryDataType.OUTAGE_2_PHASE);
 
 		return errMsg.size() == 0;
 	}

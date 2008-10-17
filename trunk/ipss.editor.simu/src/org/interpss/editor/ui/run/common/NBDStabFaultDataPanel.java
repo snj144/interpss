@@ -26,8 +26,8 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
-import org.interpss.editor.data.dstab.DStabDEventData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.schema.DStabStudyCaseXmlType;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
@@ -38,7 +38,8 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 
 	private NBFaultLocDataPanel _faultLocDataPanel = new NBFaultLocDataPanel();
 
-	private DStabDEventData _eventData = null;  // current event data
+//	private DStabDEventData _eventData = null;  // current event data
+    private DStabStudyCaseXmlType.DynamicEventData.EventList.Event xmlEventData;
 	
     /** Creates new form FaultLocDataPanel */
     public NBDStabFaultDataPanel() {
@@ -56,12 +57,18 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 
 		_faultLocDataPanel.init(netContainer, simuCtx);
 	}
-	
+	/*
 	public void setDStabDEventData(DStabDEventData data) {
 		_eventData = data;
 		_faultLocDataPanel.setFaultData(data.getFaultData());
 	}
+	*/
 	
+	public void setDStabDEventData(DStabStudyCaseXmlType.DynamicEventData.EventList.Event xmlEventData) {
+		this.xmlEventData = xmlEventData;
+		_faultLocDataPanel.setFaultData(xmlEventData.getFault());
+	}
+
 	public void refresh() {
 	    setForm2Editor();
 		_faultLocDataPanel.setBusBranchFaultPanel();
@@ -73,14 +80,14 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 	* @return false if there is any problem
 	*/
     public boolean setForm2Editor() {
-    	stratTimeTextField.setText(Number2String.toStr(_eventData.getStartTime(), "#0.0#"));
+    	stratTimeTextField.setText(Number2String.toStr(this.xmlEventData.getStartTimeSec(), "#0.0#"));
 
-       	if (_eventData.isPermanent()) {
+       	if (this.xmlEventData.getPermanent()) {
            	permanetCheckBox.setSelected(true);
         }
         else {
            	permanetCheckBox.setSelected(false);
-            durationTextField.setText(Number2String.toStr(_eventData.getDuration(), "#0.00#"));
+            durationTextField.setText(Number2String.toStr(this.xmlEventData.getDurationSec(), "#0.00#"));
         }
         permanetCheckBoxActionPerformed(null);
         
@@ -102,14 +109,14 @@ public class NBDStabFaultDataPanel extends javax.swing.JPanel implements IFormDa
 
     	if (SwingInputVerifyUtil.largeEqualThan(stratTimeTextField, 0.0d, errMsg,
     					"Dynamic event start time < 0.0") )
-    		_eventData.setStartTime(SwingInputVerifyUtil.getDouble(stratTimeTextField));
+    		this.xmlEventData.setStartTimeSec(SwingInputVerifyUtil.getDouble(stratTimeTextField));
 
-        _eventData.setPermanent(permanetCheckBox.isSelected());
+    	this.xmlEventData.setPermanent(permanetCheckBox.isSelected());
 
         if (!permanetCheckBox.isSelected()) {
             if (SwingInputVerifyUtil.largeThan(durationTextField, 0.0d, errMsg,
     			       "Dynamic event duration  <= 0.0") )
-            	_eventData.setDuration(SwingInputVerifyUtil.getDouble(durationTextField));
+            	this.xmlEventData.setDurationSec(SwingInputVerifyUtil.getDouble(durationTextField));
         }
         
         _faultLocDataPanel.saveEditor2Form(errMsg);
