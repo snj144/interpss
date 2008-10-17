@@ -29,10 +29,13 @@ import java.util.Vector;
 import javax.swing.JDialog;
 
 import org.interpss.editor.SimuAppSpringAppContext;
-import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.dstab.DStabDEventData;
-import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.schema.AcscFaultDataType;
+import org.interpss.schema.DStabStudyCaseXmlType;
+import org.interpss.schema.DynamicEventDataType;
+import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData;
+import org.interpss.xml.IpssXmlUtilFunc;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
@@ -44,9 +47,12 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	private NBDStabLoadChangePanel _loadChangePanel = new NBDStabLoadChangePanel();
 	private NBBranchOutagePanel _branchOutagePanel = new NBBranchOutagePanel();
 
-	private DStabCaseData   _caseData = null;   // current case data
-	private DStabDEventData _eventData = null;  // current event data
+//	private DStabCaseData   _caseData = null;   // current case data
+//	private DStabDEventData _eventData = null;  // current event data
 	
+    private DynamicEventData xmlEventData;
+    private DynamicEventData.EventList.Event currentEvent;  // pointer to the current event being edited
+    
 	private JDialog parentDialog = null;
 
     /** Creates new form NBCaseInfoDialog */
@@ -64,30 +70,40 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	    _branchOutagePanel.init(netContainer, simuCtx);
     }
 
-    public void setCaseData(DStabCaseData data) {
-    	_caseData = data;
+    public void setCaseData(DStabStudyCaseXmlType.DynamicEventData data) {
+    	xmlEventData = data;
     	// This panel does not remember the event name lastly edited, it starts with
     	// the first event in the list. The getAnyEventData method creates a new event if no exiting event
-   		_eventData = _caseData.getAnyEventData();
+    	currentEvent = getCurrentEvent(data);
+   		//_eventData = _caseData.getAnyEventData();
     	// update the combox for event name list
-   		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(_caseData.getEventNameArray()));
-	    setCurrentEventData(_eventData);
+		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+					IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));
+		setCurrentEventData(this.currentEvent);
     }
     
-    private void setCurrentEventData(DStabDEventData eventData) {
+    private DStabStudyCaseXmlType.DynamicEventData.EventList.Event getCurrentEvent(DStabStudyCaseXmlType.DynamicEventData data) {
+    	if (data.getEventList().getEventArray().length == 0)
+    		data.getEventList().addNewEvent();
+    	return null;
+    }
+    
+    private void setCurrentEventData(DStabStudyCaseXmlType.DynamicEventData.EventList.Event eventData) {
 		// update the event data editing screen
-	    _loadChangePanel.setLoadChangeData(eventData.getLoadChangeData());
-	    _branchOutagePanel.setDStabDEventData(eventData);
-    	_dstabFaultDataPanel.setDStabDEventData(eventData);
         eventInputPanel.removeAll();
-        if (eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+        if (eventData.getEventType() == DynamicEventDataType.LOAD_CHANGE) {
+    	    _loadChangePanel.setLoadChangeData(eventData.getLoadChangeData());
             eventInputPanel.add(_loadChangePanel);
         }
-        else if (eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
-            eventInputPanel.add(_branchOutagePanel);
-        }
-        else {
-            eventInputPanel.add(_dstabFaultDataPanel);
+        else if (eventData.getEventType() == DynamicEventDataType.FAULT) {
+        	if (eventData.getFault().getFaultType() == AcscFaultDataType.BRANCH_OUTAGE) {
+        		_branchOutagePanel.setDStabDEventData(eventData);
+        		eventInputPanel.add(_branchOutagePanel);
+        	}
+        	else {
+        		_dstabFaultDataPanel.setDStabDEventData(eventData);
+        		eventInputPanel.add(_dstabFaultDataPanel);
+        	}
         }
     }
     
@@ -99,23 +115,23 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBDynaEventPanel setForm2Editor() called");
 
-	    setCurrentEventData(_eventData);
+	    setCurrentEventData(this.currentEvent);
 		
-        if (_eventData.getEventName() != null && !_eventData.getEventName().equals(""))
-        	eventListComboBox.setSelectedItem(_eventData.getEventName());
+        if (this.currentEvent.getRecName() != null && !this.currentEvent.getRecName().equals(""))
+        	eventListComboBox.setSelectedItem(this.currentEvent.getRecName());
         
-        if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+        if (this.currentEvent.getEventType() == DynamicEventDataType.LOAD_CHANGE) {
             loadChangeRadioButton.setSelected(true);        	
         	_loadChangePanel.setForm2Editor();
         }
-        else if (_eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
-            branchOutageRadioButton.setSelected(true);        	
-        	_branchOutagePanel.setForm2Editor();
-        }
-        else {
-        	if (_eventData.getType().equals(DStabDEventData.DEventType_BranchFault)) {
+        if (this.currentEvent.getEventType() == DynamicEventDataType.FAULT) {
+        	if (this.currentEvent.getFault().getFaultType() == AcscFaultDataType.BRANCH_FAULT) {
         		branchFaultRadioButton.setSelected(true);
         	}
+            else if (this.currentEvent.getFault().getFaultType() == AcscFaultDataType.BRANCH_OUTAGE) {
+                branchOutageRadioButton.setSelected(true);        	
+            	_branchOutagePanel.setForm2Editor();
+            }
         	else {
         		busFaultRadioButton.setSelected(true);
         	}
@@ -141,29 +157,28 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     		// no data defined
 			return ok;
     	}
-    	_eventData.setEventName(eventName);
+    	this.currentEvent.setRecName(eventName);
 
-        if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+        if (this.currentEvent.getEventType() == DynamicEventDataType.LOAD_CHANGE) {
             if (!_loadChangePanel.saveEditor2Form(errMsg))
             	ok = false;
         }
-        else if (_eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
-            if (!_branchOutagePanel.saveEditor2Form(errMsg))
-            	ok = false;
-        }
-        else {
+        else if (this.currentEvent.getEventType() == DynamicEventDataType.FAULT) {
             if (!_dstabFaultDataPanel.saveEditor2Form(errMsg))
             	ok = false;
 
-            if (_eventData.getFaultData().getType().equals(AcscFaultData.FaultType_BranchFault) 
-    				&& !_eventData.isPermanent()) {
-    			if (_eventData.getFaultData().isBranchReclosure()) {
-    				if (_eventData.getFaultData().getReclosureTime() <= (_eventData.getStartTime()+_eventData.getDuration())) {
+            if (this.currentEvent.getFault().getFaultType() == AcscFaultDataType.BRANCH_FAULT && !this.currentEvent.getPermanent()) {
+    			if (this.currentEvent.getFault().getBranchReclosure()) {
+    				if (this.currentEvent.getFault().getReclosureTime() <= (this.currentEvent.getStartTimeSec()+this.currentEvent.getDurationSec())) {
     	    			errMsg.add("Branch reclosure at time <= start+duration");
     	    			ok = false;
     				}
     			}
     		}
+            else if (this.currentEvent.getFault().getFaultType() == AcscFaultDataType.BRANCH_OUTAGE) {
+                if (!_branchOutagePanel.saveEditor2Form(errMsg))
+                	ok = false;
+            }
         }
 
 		return ok;
@@ -339,25 +354,34 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteEventButtonActionPerformed
-		_caseData.removeDEventData(_eventData);
+    	int cnt = 0, index = -1;
+    	for (DynamicEventData.EventList.Event event: this.xmlEventData.getEventList().getEventArray()) {
+    		if (event.getRecName().equals(this.currentEvent.getRecName()))
+    			index = cnt;
+    		cnt++;		
+    	}
+    	if (index != -1)
+    		this.xmlEventData.getEventList().removeEvent(index);
+    	
 		// if no event left, a new event will be created by the getAnyEventData() call
-		_eventData = _caseData.getAnyEventData();
+    	this.currentEvent = getCurrentEvent(this.xmlEventData);
 		// update the event name list combo box
-		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(_caseData.getEventNameArray()));
+		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));
 		// update the event data screen
 		setForm2Editor();
     }//GEN-LAST:event_deleteEventButtonActionPerformed
 
     private void addEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addEventButtonActionPerformed
-		_eventData = new DStabDEventData();
-		_eventData.setEventName(DStabDEventData.NewEventName);
-		_caseData.addDEventData(_eventData);
+    	this.currentEvent = this.xmlEventData.getEventList().addNewEvent();
+    	this.currentEvent.setRecName("<Not Defined>");
 		// update the event name list combo box
-		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(_caseData.getEventNameArray()));
-		this.eventListComboBox.setSelectedItem(_eventData.getEventName());
+		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));
+		this.eventListComboBox.setSelectedItem(this.currentEvent.getRecName());
 	    busFaultRadioButtonActionPerformed(null);
 	    // set fault or load change editor panel pointing to the current eventData object
-	    setCurrentEventData(_eventData);
+	    setCurrentEventData(this.currentEvent);
     }//GEN-LAST:event_addEventButtonActionPerformed
 
     private void saveEventButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveEventButtonActionPerformed
@@ -373,67 +397,71 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
        		return;
 		}
 		// event name may be modified, refresh the event list
-		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(_caseData.getEventNameArray()));
-		this.eventListComboBox.setSelectedItem(_eventData.getEventName());
+		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));
+		this.eventListComboBox.setSelectedItem(this.currentEvent.getRecName());
 		// selected event may have been changed, refresh the screen
 		eventListComboBoxActionPerformed(null);
     }//GEN-LAST:event_saveEventButtonActionPerformed
 
     private void eventListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventListComboBoxActionPerformed
 		String eventName = (String)this.eventListComboBox.getSelectedItem();
-    	DStabDEventData event = _caseData.getDEventData(eventName);
+		DynamicEventData.EventList.Event event = (DynamicEventData.EventList.Event)IpssXmlUtilFunc
+					.getRecord(eventName, this.xmlEventData.getEventList().getEventArray());
     	if (event != null)        // event list selection changed
-    		_eventData = event;       
+    		this.currentEvent = event;       
     	else {                    // event name changed
     		IpssLogger.getLogger().info("Event name changed to " + eventName);
-    		_eventData.setEventName(eventName);   
+    		this.currentEvent.setRecName(eventName);   
     	}
         setForm2Editor();
     	SimuAppSpringAppContext.getCaseInfoDialog().pack();
     }//GEN-LAST:event_eventListComboBoxActionPerformed
 
     private void branchFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchFaultRadioButtonActionPerformed
-		_eventData.setType(DStabDEventData.DEventType_BranchFault);
-    	_eventData.getFaultData().setType(AcscFaultData.FaultType_BranchFault);
-    	IpssLogger.getLogger().info("Branch fault event :" + _eventData.getEventName());
+    	this.currentEvent.setEventType(DynamicEventDataType.FAULT);
+    	this.currentEvent.getFault().setFaultType(AcscFaultDataType.BRANCH_FAULT);
+    	IpssLogger.getLogger().info("Branch fault event :" + this.currentEvent.getRecName());
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
         refreshEditorPanel();
     }//GEN-LAST:event_branchFaultRadioButtonActionPerformed
 
     private void busFaultRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_busFaultRadioButtonActionPerformed
-		_eventData.setType(DStabDEventData.DEventType_BusFault);
-		_eventData.getFaultData().setType(AcscFaultData.FaultType_BusFault);
-    	IpssLogger.getLogger().info("Bus fault event :" + _eventData.getEventName());
+    	this.currentEvent.setEventType(DynamicEventDataType.FAULT);
+    	this.currentEvent.getFault().setFaultType(AcscFaultDataType.BUS_FAULT);
+    	IpssLogger.getLogger().info("Bus fault event :" + this.currentEvent.getRecName());
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
         refreshEditorPanel();
     }//GEN-LAST:event_busFaultRadioButtonActionPerformed
     
     private void loadChangeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadChangeRadioButtonActionPerformed
-		_eventData.setType(DStabDEventData.DEventType_LoadChange);
-    	IpssLogger.getLogger().info("LoadChange event :" + _eventData.getEventName());
+    	this.currentEvent.setEventType(DynamicEventDataType.LOAD_CHANGE);
+    	IpssLogger.getLogger().info("LoadChange event :" + this.currentEvent.getRecName());
     	// refresh the fault data editing screen, which is depending on the object
         refreshEditorPanel();
     }//GEN-LAST:event_loadChangeRadioButtonActionPerformed
 
     private void branchOutageRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_branchOutageRadioButtonActionPerformed
-		_eventData.setType(DStabDEventData.DEventType_BranchOutage);
-    	_eventData.getFaultData().setType(AcscFaultData.FaultType_BranchOutage);
-    	IpssLogger.getLogger().info("Branch outage event :" + _eventData.getEventName());
+    	this.currentEvent.setEventType(DynamicEventDataType.FAULT);
+    	this.currentEvent.getFault().setFaultType(AcscFaultDataType.BRANCH_OUTAGE);
+    	IpssLogger.getLogger().info("Branch outage event :" + this.currentEvent.getRecName());
     	// refresh the fault data editing screen, which is depending on the caseData.faulData object
         refreshEditorPanel();
     }//GEN-LAST:event_branchOutageRadioButtonActionPerformed
 
     private void refreshEditorPanel() {
         eventInputPanel.removeAll();
-		if (_eventData.getType().equals(DStabDEventData.DEventType_LoadChange)) {
+		if (this.currentEvent.getEventType() == DynamicEventDataType.LOAD_CHANGE) {
 			eventInputPanel.add(_loadChangePanel);
 		}
-		else if (_eventData.getType().equals(DStabDEventData.DEventType_BranchOutage)) {
-			eventInputPanel.add(_branchOutagePanel);
-		}
-		else {
-	        eventInputPanel.add(_dstabFaultDataPanel);
-    		_dstabFaultDataPanel.refresh();
+		else if (this.currentEvent.getEventType() == DynamicEventDataType.FAULT) {
+			if (this.currentEvent.getFault().getFaultType() == AcscFaultDataType.BRANCH_OUTAGE) {
+				eventInputPanel.add(_branchOutagePanel);
+			}
+			else {
+		        eventInputPanel.add(_dstabFaultDataPanel);
+	    		_dstabFaultDataPanel.refresh();
+			}
 		}
     	SimuAppSpringAppContext.getCaseInfoDialog().pack();
     }

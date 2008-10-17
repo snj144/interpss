@@ -26,9 +26,11 @@ package org.interpss.editor.ui.run.common;
 
 import java.util.Vector;
 
-import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
+import org.interpss.schema.AcscFaultCategoryDataType;
+import org.interpss.schema.AcscFaultDataType;
+import org.interpss.schema.AcscFaultXmlType;
 
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
@@ -41,7 +43,9 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
 	private GFormContainer _netContainer = null;
     private SimuContext _simuCtx = null;	
-	private AcscFaultData _faultData = null;
+    
+	//private AcscFaultData _faultData = null;
+	private AcscFaultXmlType xmlFaultData = null;
 	
     /** Creates new form FaultLocDataPanel */
     public NBFaultLocDataPanel() {
@@ -76,12 +80,17 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     			this.faultBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(branchNameId));
     	}
 	}
-	
+/*	
 	public void setFaultData(AcscFaultData data) {
 		_faultData = data;
         setBusBranchFaultPanel();
 	}
-	
+*/	
+	public void setFaultData(AcscFaultXmlType data) {
+		this.xmlFaultData = data;
+        setBusBranchFaultPanel();
+	}
+
 	public void setBranchReclosureStatus(boolean status) {
         reclosureCheckBox.setEnabled(status);
         if (!status) {
@@ -93,26 +102,26 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     public void setBusBranchFaultPanel() {
         faultLocPanel.remove(busFaultPanel);
         faultLocPanel.remove(branchFaultPanel);
-        if (_faultData.getType().equals(AcscFaultData.FaultType_BusFault)) {
+        if (xmlFaultData.getFaultType().equals(AcscFaultDataType.BUS_FAULT)) {
             faultLocPanel.add(busFaultPanel, java.awt.BorderLayout.NORTH);
-            if (_faultData.getBusBranchNameId().equals("")) {
+            if (xmlFaultData.getBusBranchId() == null || xmlFaultData.getBusBranchId().equals("")) {
                 IpssLogger.getLogger().info("faultBusComboBox.getSelectedItem() -> " + this.faultBusComboBox.getSelectedItem());
                 if (this.faultBusComboBox.getSelectedItem() != null)
                 	this.faultBusComboBox.setSelectedIndex(0);
             }    
             else
-                this.faultBusComboBox.setSelectedItem(_faultData.getBusBranchNameId());
+                this.faultBusComboBox.setSelectedItem(xmlFaultData.getBusBranchId());
             this.distanceTextField.setEnabled(false);
             IpssLogger.getLogger().info("Bus Fault input panel added");
         }	
         else{
             faultLocPanel.add(branchFaultPanel, java.awt.BorderLayout.NORTH);
-           if (_faultData.getBusBranchNameId().equals("")) {
+           if (xmlFaultData.getBusBranchId() == null || xmlFaultData.getBusBranchId().equals("")) {
                IpssLogger.getLogger().info("faultBranchComboBox.getSelectedItem() -> " + this.faultBranchComboBox.getSelectedItem());
                this.faultBranchComboBox.setSelectedIndex(0);
            }    
            else
-                this.faultBranchComboBox.setSelectedItem(_faultData.getBusBranchNameId());
+                this.faultBranchComboBox.setSelectedItem(xmlFaultData.getBusBranchId());
            this.distanceTextField.setEnabled(true);
            IpssLogger.getLogger().info("Branch Fault input panel added");
         }
@@ -126,20 +135,20 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
     public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBFaultLocDataPanel setForm2Editor() called");
 
-	    reclosureCheckBox.setSelected(_faultData.isBranchReclosure());		
+	    reclosureCheckBox.setSelected(xmlFaultData.getBranchReclosure());		
         branchReclosureCheckboxActionPerformed(null);
-	    atReclosureTimeTextField.setText(Number2String.toStr(_faultData.getReclosureTime(), "0.00"));
+	    atReclosureTimeTextField.setText(Number2String.toStr(xmlFaultData.getReclosureTime(), "0.00"));
 
 	    if (this.distanceTextField.isEnabled())
-        	this.distanceTextField.setText(Number2String.toStr(_faultData.getDistance(), "#0.##"));
+        	this.distanceTextField.setText(Number2String.toStr(xmlFaultData.getDistance(), "#0.##"));
 
-        if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Fault_3P)) 
+        if (xmlFaultData.getFaultCategory() == AcscFaultCategoryDataType.FAULT_3_P) 
             this.type3PRadioButton.setSelected(true);
-        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Fault_LG)) 
+        else if (xmlFaultData.getFaultCategory() == AcscFaultCategoryDataType.FAULT_LG) 
             this.typeLGRadioButton.setSelected(true);
-        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Fault_LL)) 
+        else if (xmlFaultData.getFaultCategory() == AcscFaultCategoryDataType.FAULT_LL) 
             this.typeLLRadioButton.setSelected(true);
-        else if (_faultData.getCategory().equals(AcscFaultData.FaultCaty_Fault_LLG)) 
+        else if (xmlFaultData.getFaultCategory() == AcscFaultCategoryDataType.FAULT_LLG) 
             this.typeLLGRadioButton.setSelected(true);
         else 
             this.typeAllRadioButton.setSelected(true);
@@ -147,13 +156,13 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
         setLabelText();
 		
 		if (this.rLGTextField.isEnabled())
-			this.rLGTextField.setText(Number2String.toStr(_faultData.getLG_R(), "#0.0000"));
+			this.rLGTextField.setText(Number2String.toStr(xmlFaultData.getZLG().getRe(), "#0.0000"));
         if (this.xLGTextField.isEnabled())
-        	this.xLGTextField.setText(Number2String.toStr(_faultData.getLG_X(), "#0.0000"));
+        	this.xLGTextField.setText(Number2String.toStr(xmlFaultData.getZLG().getIm(), "#0.0000"));
         if (this.rLLTextField.isEnabled())
-        	this.rLLTextField.setText(Number2String.toStr(_faultData.getLL_R(), "#0.0000"));
+        	this.rLLTextField.setText(Number2String.toStr(xmlFaultData.getZLL().getRe(), "#0.0000"));
         if (this.xLLTextField.isEnabled())
-        	this.xLLTextField.setText(Number2String.toStr(_faultData.getLL_X(), "#0.0000"));
+        	this.xLLTextField.setText(Number2String.toStr(xmlFaultData.getZLL().getIm(), "#0.0000"));
 
         return true;
 	}
@@ -169,29 +178,29 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
 		boolean ok = true;
 
-		if (_faultData.getType().equals(AcscFaultData.FaultType_BusFault))
-			_faultData.setBusBranchNameId((String)this.faultBusComboBox.getSelectedItem());
+		if (xmlFaultData.getFaultType() == AcscFaultDataType.BUS_FAULT)
+			xmlFaultData.setBusBranchId((String)this.faultBusComboBox.getSelectedItem());
 		else 
-			_faultData.setBusBranchNameId((String)this.faultBranchComboBox.getSelectedItem());
+			xmlFaultData.setBusBranchId((String)this.faultBranchComboBox.getSelectedItem());
 		
 		if (this.type3PRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_3P);
+			xmlFaultData.setFaultCategory(AcscFaultCategoryDataType.FAULT_3_P);
 		else if (this.typeLGRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_LG);
+			xmlFaultData.setFaultCategory(AcscFaultCategoryDataType.FAULT_LG);
 		else if (this.typeLLRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_LL);
+			xmlFaultData.setFaultCategory(AcscFaultCategoryDataType.FAULT_LL);
 		else if (this.typeLLGRadioButton.isSelected())
-			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_LLG);
+			xmlFaultData.setFaultCategory(AcscFaultCategoryDataType.FAULT_LLG);
 		else
-			_faultData.setCategory(AcscFaultData.FaultCaty_Fault_All);
+			xmlFaultData.setFaultCategory(AcscFaultCategoryDataType.FAULT_ALL);
 
-		_faultData.setBranchReclosure(reclosureCheckBox.isSelected());		
+		xmlFaultData.setBranchReclosure(reclosureCheckBox.isSelected());		
 		if (reclosureCheckBox.isSelected()) {
 			if (!SwingInputVerifyUtil.largeThan(this.atReclosureTimeTextField, 0.0d)) {
 				errMsg.add("Branch reclosure at Time <= 0.0");
 				ok = false;
 			}
-			_faultData.setReclosureTime(SwingInputVerifyUtil.getDouble(this.atReclosureTimeTextField));
+			xmlFaultData.setReclosureTime(SwingInputVerifyUtil.getDouble(this.atReclosureTimeTextField));
 		}
 
 	    if (this.distanceTextField.isEnabled()) {
@@ -199,7 +208,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 				errMsg.add("Branch fault distance < 0.0");
 				ok = false;
 			}
-			_faultData.setDistance(SwingInputVerifyUtil.getDouble(this.distanceTextField));
+			xmlFaultData.setDistance(SwingInputVerifyUtil.getDouble(this.distanceTextField));
 		}
 
 		if (this.rLGTextField.isEnabled()) {
@@ -207,7 +216,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 				errMsg.add("Fault L-G R < 0.0");
 				ok = false;
 			}
-			_faultData.setLG_R(SwingInputVerifyUtil.getDouble(this.rLGTextField));
+			xmlFaultData.getZLG().setRe(SwingInputVerifyUtil.getDouble(this.rLGTextField));
 		}
 
 		if (this.xLGTextField.isEnabled()) {
@@ -215,7 +224,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 				errMsg.add("Fault L-G X < 0.0");
 				ok = false;
 			}
-			_faultData.setLG_X(SwingInputVerifyUtil.getDouble(this.xLGTextField));
+			xmlFaultData.getZLG().setIm(SwingInputVerifyUtil.getDouble(this.xLGTextField));
 		}
 
 		if (this.rLLTextField.isEnabled()) {
@@ -223,7 +232,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 				errMsg.add("Fault L-L R < 0.0");
 				ok = false;
 			}
-			_faultData.setLL_R(SwingInputVerifyUtil.getDouble(this.rLLTextField));
+			xmlFaultData.getZLL().setRe(SwingInputVerifyUtil.getDouble(this.rLLTextField));
 		}
 
 		if (this.xLLTextField.isEnabled()) {
@@ -231,7 +240,7 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 				errMsg.add("Fault L-L X < 0.0");
 				ok = false;
 			}
-			_faultData.setLL_X(SwingInputVerifyUtil.getDouble(this.xLLTextField));
+			xmlFaultData.getZLL().setIm(SwingInputVerifyUtil.getDouble(this.xLLTextField));
 		}
 
 		return ok;
