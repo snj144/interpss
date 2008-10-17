@@ -90,7 +90,7 @@ public class XmlNetParamModifier {
 	 * @return
 	 */
 	public static boolean applyBusChange(BusChangeRecXmlType busRec, Network net, IPSSMsgHub msg) {
-		Bus bus = IpssXmlParser.getBus(busRec, net);
+		Bus bus = IpssXmlUtilFunc.getBus(busRec, net);
 		if (bus == null) {
 			msg.sendErrorMsg("Error: cannot fin bus, id: " + busRec.getRecId());
 			return false;
@@ -136,7 +136,7 @@ public class XmlNetParamModifier {
 	 * @return
 	 */
 	public static boolean applyBranchChange(BranchChangeRecXmlType braRec, Network net, IPSSMsgHub msg) {
-		Branch branch = IpssXmlParser.getBranch(braRec, net);
+		Branch branch = IpssXmlUtilFunc.getBranch(braRec, net);
 		if (branch == null) {
 			msg.sendErrorMsg("Error: cannot fin branch, " + braRec.getFromBusId() + "->" + braRec.getToBusId());
 			return false;
@@ -224,7 +224,7 @@ public class XmlNetParamModifier {
 			// the original is in PU
 			if (changeRec.getUnit() != UnitDataType.PU) {
 				// convert set/add value to PU
-				byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(changeRec
+				byte unit = IpssXmlUtilFunc.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
 				if (ptype == ComplexValueType.Power) {
 					re = UnitType.pConversion(re, baseKva, unit, UnitType.PU);
@@ -270,7 +270,7 @@ public class XmlNetParamModifier {
 			double c = changeRec.getValue();
 			if (changeRec.getUnit() != UnitDataType.PU) {
 				// convert set/add value to PU
-				byte unit = IpssXmlParser.mapXmlUnitType2IpssUnitType(changeRec
+				byte unit = IpssXmlUtilFunc.mapXmlUnitType2IpssUnitType(changeRec
 						.getUnit());
 				if (ptype == ValueType.Voltage) {
 					c = UnitType.vConversion(c, busBaseVolt, unit, UnitType.PU);

@@ -302,4 +302,21 @@
 				<ns:enumeration value="Outage_2Phase"></ns:enumeration>
     	</ns:restriction>
     </ns:simpleType>
+
+    <ns:simpleType name="MachineControllerDataType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Exciter"></ns:enumeration>
+			<ns:enumeration value="Governor"></ns:enumeration>
+			<ns:enumeration value="Stabilizer"></ns:enumeration>
+		</ns:restriction>
+    </ns:simpleType>
+
+	<ns:simpleType name="DynamicEventDataType">
+		<ns:restriction base="ns:string">
+			<ns:enumeration value="Fault"></ns:enumeration>
+			<ns:enumeration value="LoadChange"></ns:enumeration>
+			<ns:enumeration value="SetPointChange"></ns:enumeration>
+			<ns:enumeration value="None"></ns:enumeration>
+		</ns:restriction>
+	</ns:simpleType>
 </ns:schema>

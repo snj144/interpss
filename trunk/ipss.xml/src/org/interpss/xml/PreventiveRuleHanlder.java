@@ -151,7 +151,7 @@ public class PreventiveRuleHanlder {
 	public static boolean evlAclfNetBusCondition(ViolationConditionXmlType cond, AclfNetwork net, double vMaxPU, double vMinPU, IPSSMsgHub msg) {
 		boolean evalCond = false;
 		for (ViolationConditionXmlType.BusConditionSet busCond : cond.getBusConditionSetArray()) {
-			AclfBus bus = (AclfBus)IpssXmlParser.getBus(busCond, net);
+			AclfBus bus = (AclfBus)IpssXmlUtilFunc.getBus(busCond, net);
 			if (bus == null) {
 				msg.sendErrorMsg("Error: cannot fin bus, id: " + busCond.getRecId());
 				return false;
@@ -187,7 +187,7 @@ public class PreventiveRuleHanlder {
 	public static boolean evlAclfNetBranchCondition(ViolationConditionXmlType cond, AclfNetwork net, IPSSMsgHub msg) {
 		boolean evalCond = false;
 		for (ViolationConditionXmlType.BranchConditionSet braCond : cond.getBranchConditionSetArray()) {
-			AclfBranch branch = (AclfBranch)IpssXmlParser.getBranch(braCond, net);
+			AclfBranch branch = (AclfBranch)IpssXmlUtilFunc.getBranch(braCond, net);
 			if (branch == null) {
 				msg.sendErrorMsg("Error: cannot fin branch, " + braCond.getFromBusId() + "->" + braCond.getToBusId());
 				return false;
