@@ -35,7 +35,6 @@ import javax.swing.JPopupMenu;
 
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.chart.ChartManager;
-import org.interpss.editor.data.acsc.AcscFaultData;
 import org.interpss.editor.data.proj.AclfCaseData;
 import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.data.proj.CaseData;
@@ -46,6 +45,7 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
+import org.interpss.schema.AcscFaultCategoryDataType;
 
 import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.io.DBManager;
@@ -136,11 +136,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 */
 	public boolean isNonSymmetricFault() {
 		AcscRunForm form = SimuAppSpringAppContext.getAcscRunForm();
-		if (form.getAcscCaseData() != null)
-			return !form.getAcscCaseData().getFaultData().getCategory().equals(
-					AcscFaultData.FaultCaty_Fault_3P);
-		else
-			return false;
+		return form.getXmlCaseData().getFaultData().getFaultCategory() != AcscFaultCategoryDataType.FAULT_3_P;
 	}
 
 	// Case info functions
@@ -267,13 +263,15 @@ public class AppSimuContextImpl implements IAppSimuContext {
 			} 
 			else if (caseType.equals(IAppSimuContext.CaseType.Acsc)) {
 				caseData.setAcscCaseData(new AcscCaseData());
+				/*
 				SimuAppSpringAppContext.getAcscRunForm().setAcscCaseData(
 						caseData.getAcscCaseData());
+				*/		
 			} 
 			else if (caseType.equals(IAppSimuContext.CaseType.DStab)) {
 				caseData.setDStabCaseData(new DStabCaseData());
 				caseData.setAclfCaseData(new AclfCaseData());
-				getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
+				//getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
 			} 
 			else if (caseType.equals(IAppSimuContext.CaseType.Scripts)) {
 			} 
