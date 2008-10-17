@@ -44,7 +44,6 @@ import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.SerializeEMFObjectUtil;
-import com.interpss.common.util.StringUtil;
 import com.interpss.core.CoreSpringAppContext;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.dstab.DStabObjectFactory;
@@ -300,8 +299,7 @@ public class XmlScriptDStabRun {
 		// grid computing
 		dstabDbHandler.setOutputFilter(dstabAlgo.isOutputFilted());
 		if (dstabDbHandler.isOutputFilter())
-			dstabDbHandler.setOutputVarIdList(StringUtil
-					.convertStrAry2StrList(dstabAlgo.getOutputVarIdList()));
+			dstabDbHandler.setOutputVarIdList(dstabAlgo.getOutputVarIdList());
 
 		// set the DB handler to the algo object
 		dstabAlgo.setSimuOutputHandler(dstabDbHandler);

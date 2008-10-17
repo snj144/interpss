@@ -27,12 +27,12 @@ package org.interpss.editor.runAct.ui;
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
-import org.interpss.editor.data.proj.AclfCaseData;
-import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.runAct.RunActUtilFunc;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.interpss.schema.DStabStudyCaseXmlType;
+import org.interpss.schema.GridComputingXmlType;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.mapper.IpssMapper;
@@ -49,37 +49,43 @@ import com.interpss.simu.ISimuCaseRunner;
 import com.interpss.simu.SimuContext;
 
 public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
-	private AclfCaseData aclfCaseData = null;
-	private DStabCaseData dStabCaseData = null;
+	//private AclfCaseData aclfCaseData = null;
+	//private DStabCaseData dStabCaseData = null;
+
+	private DStabStudyCaseXmlType xmCaseData;
+	private GridComputingXmlType xmlGridOpt;
 
 	public DStabRunForm() {
 	}
-
-	/**
-	 * get the DStabCaseData object
-	 * 
-	 * @return the dStabCaseData
-	 */
+/*
 	public DStabCaseData getDStabCaseData() {
 		return dStabCaseData;
 	}
 
-	/**
-	 * set the DStabCaseData object
-	 * 
-	 * @param stabCaseData the dStabCaseData to set
-	 */
 	public void setDStabCaseData(DStabCaseData stabCaseData) {
 		dStabCaseData = stabCaseData;
 	}
+*/
+	public DStabStudyCaseXmlType getXmlCaseData() {
+		return this.xmCaseData;
+	}
 
+	public GridComputingXmlType getXmlGridData() {
+		return this.xmlGridOpt;
+	}
+	
+	public void setXmlCaseData(DStabStudyCaseXmlType scase, GridComputingXmlType xmlGridOpt) {
+		this.xmCaseData = scase;
+		this.xmlGridOpt = xmlGridOpt;
+	}
+	
 	/**
 	 * Display Aclf summary if selected by the user
 	 * 
 	 * @param simuCtx
 	 */
 	public void displaySummaryResult(SimuContext simuCtx) {
-		if (getAclfCaseData().getAclfAlgorithm().getDiaplaySummary()) {
+		if (this.xmCaseData.getAclfAlgorithm().getDisplaySummary()) {
 			RunActUtilFunc.displayAclfSummaryResult(simuCtx
 					.getDynSimuAlgorithm());
 		}
@@ -115,19 +121,19 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			return false;
 		
 		// setup if there is output filtering
-		handler.setOutputFilter(dStabCaseData.isOutputFilter());
+		handler.setOutputFilter(this.xmCaseData.getOutputConfig().getOutputFilter());
 		if (handler.isOutputFilter())
-			handler.setOutputVarIdList(dStabCaseData.getOutVarList());
+			handler.setOutputVarIdList(this.xmCaseData.getOutputConfig().getOutputVarList().getVariableNameArray());
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
 
 		IDStabSimuDatabaseOutputHandler scriptHandler = null;
-		if (dStabCaseData.isOutputScripting()) {
+		if (this.xmCaseData.getOutputScripting().getScripting()) {
 			scriptHandler = (IDStabSimuDatabaseOutputHandler) DStabSpringAppContext
 					.getDStabScriptOutputHandler();
 			simuCtx.getDynSimuAlgorithm().setScriptOutputHandler(scriptHandler);
 			try {
 				if (!scriptHandler.init(
-						dStabCaseData.getOutputScriptFilename(), simuCtx
+						this.xmCaseData.getOutputScripting().getScriptingFilename(), simuCtx
 								.getDStabilityNet()))
 					return false;
 			} catch (Exception e) {
@@ -144,7 +150,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			simuCtx.getDynSimuAlgorithm().performSimulation(msg);
 		}
 
-		if (dStabCaseData.isOutputScripting()) {
+		if (this.xmCaseData.getOutputScripting().getScripting()) {
 			if (scriptHandler != null)
 				scriptHandler.close();
 		}
@@ -163,8 +169,7 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 		// get the selected remote node
 		Grid grid = IpssGridGainUtil.getDefaultGrid();
-		String nodeId = IpssGridGainUtil.nodeIdLookup(dStabCaseData
-				.getGridNodeName());
+		String nodeId = IpssGridGainUtil.nodeIdLookup(this.xmlGridOpt.getRemoteNodeName());
 		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
 		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId()
 				.toString();
@@ -192,12 +197,11 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 		// transfer output variable filter info to the DStabAlgo object, which then 
 		// will be carried by the object to the remote grid node
-		simuCtx.getDynSimuAlgorithm().setOutputFilted(
-				dStabCaseData.isOutputFilter());
+		simuCtx.getDynSimuAlgorithm().setOutputFilted(this.xmCaseData.getOutputConfig().getOutputFilter());
 		if (simuCtx.getDynSimuAlgorithm().isOutputFilted()) {
-			String[] slist = new String[dStabCaseData.getOutVarList().size()];
+			String[] slist = new String[this.xmCaseData.getOutputConfig().getOutputVarList().getVariableNameArray().length];
 			int cnt = 0;
-			for (String str : dStabCaseData.getOutVarList())
+			for (String str : this.xmCaseData.getOutputConfig().getOutputVarList().getVariableNameArray())
 				slist[cnt++] = str;
 			simuCtx.getDynSimuAlgorithm().setOutputVarIdList(slist);
 		}
@@ -223,23 +227,17 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 			return false;
 		}
 	}
-
-	/**
-	 * @return the aclfCaseData
-	 */
+/*
 	public AclfCaseData getAclfCaseData() {
 		if (aclfCaseData == null)
 			aclfCaseData = new AclfCaseData();
 		return aclfCaseData;
 	}
 
-	/**
-	 * @param aclfCaseData the aclfCaseData to set
-	 */
 	public void setAclfCaseData(AclfCaseData aclfCaseData) {
 		this.aclfCaseData = aclfCaseData;
 	}
-
+*/
 	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx,
 			IPSSMsgHub msg) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
