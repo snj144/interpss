@@ -28,19 +28,21 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.data.proj.AclfCaseData;
-import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBDynaEventPanel;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.editor.ui.util.GUIFileUtil;
+import org.interpss.schema.DStabStudyCaseXmlType;
+import org.interpss.schema.DynamicEventDataType;
+import org.interpss.schema.MachineControllerDataType;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.ui.SwingInputVerifyUtil;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.Number2String;
+import com.interpss.common.util.StringUtil;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.util.SimuCtxUtilFunc;
 
@@ -58,8 +60,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 	
 	private String dstabOutputScriptFilename;
 	
-	private AclfCaseData    aclfCaseData = null;  // current case data
-	private DStabCaseData   dstabCaseData = null;  // current case data
+    private DStabStudyCaseXmlType xmlCaseData;
+//	private AclfCaseData    aclfCaseData = null;  // current case data
+//	private DStabCaseData   dstabCaseData = null;  // current case data
 	private String machIdLargestInertia = "";
 
     /** Creates new form NBCaseInfoDialog */
@@ -158,7 +161,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     private void setOutputVarList() {
     	if (this.netContainer != null) {
     		outputVarList.setModel(new javax.swing.DefaultComboBoxModel(
-    			this.dstabCaseData.getOutVarList().toArray()));
+    			this.xmlCaseData.getOutputConfig().getOutputVarList().getVariableNameArray()));
     	}
     }
 
@@ -182,7 +185,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     			this.netContainer.getBranchIdArray()));
     	}
     }
-
+/*
     public void setCaseData(CaseData caseData) {
     	dstabCaseData = caseData.getDStabCaseData();
     	if (caseData.getAclfCaseData() == null)
@@ -191,6 +194,11 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	dynaEventPanel.setCaseData(dstabCaseData);
     	//aclfCasePanel.setCaseData(aclfCaseData);
     	//gridPanel.setCaseData(dstabCaseData);
+    }
+*/    
+    public void setXmlCaseData(DStabStudyCaseXmlType data) {
+    	this.xmlCaseData = data;
+    	dynaEventPanel.setCaseData(data.getDynamicEventData());
     }
     
     /**
@@ -204,56 +212,61 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 		// set Aclf panel 
 		aclfCasePanel.setForm2Editor();
 		
-        methodComboBox.setSelectedItem(dstabCaseData.getSimuMethod());
-        totalTimeTextField.setText(Number2String.toStr(dstabCaseData.getTotalSimuTime(), "#0.00"));
-        simuStepTextField.setText(Number2String.toStr(dstabCaseData.getSimuStep(), "#0.00#"));
-        disableEventCheckBox.setSelected(dstabCaseData.getDisableDynamicEvent());
+        methodComboBox.setSelectedItem(xmlCaseData.getSimuConfig().getSimuMethod());
+        totalTimeTextField.setText(Number2String.toStr(xmlCaseData.getSimuConfig().getTotalSimuTimeSec(), "#0.00"));
+        simuStepTextField.setText(Number2String.toStr(xmlCaseData.getSimuConfig().getSimuStepSec(), "#0.00#"));
+        disableEventCheckBox.setSelected(xmlCaseData.getDynamicEventData().getDisableEvent());
         
-        if (dstabCaseData.isAbsoluteMachValue()) {
+        if (xmlCaseData.getSimuConfig().getAbsoluteMachAngValue()) {
             absMachCheckBox.setSelected(true);
             absMachCheckBoxActionPerformed(null);
         }
         else {
-        	if (dstabCaseData.getRefMachId().equals("")) {
+        	if (xmlCaseData.getSimuConfig().getRefMachineBusId().equals("")) {
         		// select machine with the largest inertia
-        		dstabCaseData.setRefMachId(machIdLargestInertia);
+        		xmlCaseData.getSimuConfig().setRefMachineBusId(machIdLargestInertia);
         	}
-       		refMachComboBox.setSelectedItem(dstabCaseData.getRefMachId());
+       		refMachComboBox.setSelectedItem(xmlCaseData.getSimuConfig().getRefMachineBusId());
         }
         
-        if (dstabCaseData.getStaticLoadType().equals(DStabCaseData.StaticLoad_Const_Z)) {
+        if (xmlCaseData.getStaticLoadModel().getStaticLoadType() == DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType.CONST_Z) {
             staticLoadCZRadioButton.setSelected(true);
             setStaticLoadCPStatus(false);
         }
         else {
             staticLoadCPRadioButton.setSelected(true);
             setStaticLoadCPStatus(true);
-            staticLoadSwitchVoltTextField.setText(Number2String.toStr(dstabCaseData.getStaticLoadSwitchVolt(), "#0.00"));
-            staticLoadSwitchDeadZoneTextField.setText(Number2String.toStr(dstabCaseData.getStaticLoadSwitchDeadZone(), "#0.00"));
+            staticLoadSwitchVoltTextField.setText(Number2String.toStr(xmlCaseData.getStaticLoadModel().getSwitchVolt(), "#0.00"));
+            staticLoadSwitchDeadZoneTextField.setText(Number2String.toStr(xmlCaseData.getStaticLoadModel().getSwitchDeadZone(), "#0.00"));
         }
         
-        if(!dstabCaseData.getDisableDynamicEvent()) {
+        if(!xmlCaseData.getDynamicEventData().getDisableEvent()) {
         	disableEventCheckBox.setSelected(false);
         	dynaEventPanel.setForm2Editor();
             setSetpointPanel(false);
         }
         else {
+        	// disable dynamic event
         	disableEventCheckBox.setSelected(true);
         
-    		setPointCheckBox.setSelected(dstabCaseData.isSetPointChange());
-        	if (setPointCheckBox.isSelected()) {
-                setPointMachineComboBox.setSelectedItem(dstabCaseData.getSetPointChangeMachId());
-            	setPointControllerComboBox.setSelectedItem(dstabCaseData.getSelectedController());
-                setPointValueTextField.setText(Number2String.toStr(dstabCaseData.getSetPointValueChange(), "#0.00"));
-                setPointAbsoluteRadioButton.setSelected(dstabCaseData.isSetPointChangeAbsolute());
+    		if (xmlCaseData.getDynamicEventData().getEventList().getEventArray().length > 0) {
+            	DStabStudyCaseXmlType.DynamicEventData.EventList.Event event = xmlCaseData.getDynamicEventData().getEventList().getEventArray(0); 
+    			if (event.getEventType() == DynamicEventDataType.SET_POINT_CHANGE) {
+    				setPointCheckBox.setSelected(true);
+                    setPointMachineComboBox.setSelectedItem(event.getSetPointChangeData().getMachId());
+                	setPointControllerComboBox.setSelectedItem(event.getSetPointChangeData().getControllerType().toString());
+                    setPointValueTextField.setText(Number2String.toStr(event.getSetPointChangeData().getChangeValue(), "#0.00"));
+                    setPointAbsoluteRadioButton.setSelected(event.getSetPointChangeData().getValueChangeType() == 
+                    	DStabStudyCaseXmlType.DynamicEventData.EventList.Event.SetPointChangeData.ValueChangeType.ABSOLUTE);
+    			}
         	}
         }
         disableEventCheckBoxActionPerformed(null);
 
-        outputFilterCheckBox.setSelected(dstabCaseData.isOutputFilter());
+        outputFilterCheckBox.setSelected(xmlCaseData.getOutputConfig().getOutputFilter());
         setOutputFilterPanel(outputFilterCheckBox.isSelected());
 
-        outputScriptCheckBox.setSelected(dstabCaseData.isOutputScripting());
+        outputScriptCheckBox.setSelected(xmlCaseData.getOutputScripting().getScripting());
         setOutputScriptingPanel(outputScriptCheckBox.isSelected());
         if (outputScriptCheckBox.isSelected()) {
             if (dstabOutputScriptFilename != null) {
@@ -283,78 +296,81 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 		
 		String method = (String)methodComboBox.getSelectedItem();
 		if (method.equals(DStabCaseData.Method_ModifiedEuler)) {
-			dstabCaseData.setSimuMethod((String)methodComboBox.getSelectedItem());
+			xmlCaseData.getSimuConfig().setSimuMethod(DStabStudyCaseXmlType.SimuConfig.SimuMethod.Enum.forString((String)methodComboBox.getSelectedItem()));
 		}
 		else {
 			errMsg.add("Differential Eqn solution method: " + method + " has not implemented yet");
 		}
 
         if (SwingInputVerifyUtil.largeThan(totalTimeTextField, 0.0d, errMsg, "Total Simulation time < 0.0"))
-        	dstabCaseData.setTotalSimuTime(SwingInputVerifyUtil.getDouble(totalTimeTextField));
+        	xmlCaseData.getSimuConfig().setTotalSimuTimeSec(SwingInputVerifyUtil.getDouble(totalTimeTextField));
         
         if (SwingInputVerifyUtil.largeThan(simuStepTextField, 0.0d, errMsg, "Simulation step <= 0.0"))
-        	dstabCaseData.setSimuStep(SwingInputVerifyUtil.getDouble(simuStepTextField));
+        	xmlCaseData.getSimuConfig().setSimuStepSec(SwingInputVerifyUtil.getDouble(simuStepTextField));
         
-        if (dstabCaseData.getTotalSimuTime() < dstabCaseData.getSimuStep()) {
+        if (xmlCaseData.getSimuConfig().getTotalSimuTimeSec() < xmlCaseData.getSimuConfig().getSimuStepSec()) {
 			errMsg.add("Total simu time < simulation step");
         }
         
         if (absMachCheckBox.isSelected()) {
-        	dstabCaseData.setAbsoluteMachValue(true);
+        	xmlCaseData.getSimuConfig().setAbsoluteMachAngValue(true);
         }
         else {
-        	dstabCaseData.setAbsoluteMachValue(false);
-       		dstabCaseData.setRefMachId((String)refMachComboBox.getSelectedItem());
+        	xmlCaseData.getSimuConfig().setAbsoluteMachAngValue(false);
+       		xmlCaseData.getSimuConfig().setRefMachineBusId((String)refMachComboBox.getSelectedItem());
         }
 
         if (SwingInputVerifyUtil.largeThan(netEqnItrNoEventTextField, 0, errMsg,
         		"Network equation solution iteration count (no event) <= 0"))
-        	dstabCaseData.setNetEqnItrNoEvent(SwingInputVerifyUtil.getInt(netEqnItrNoEventTextField));
+        	xmlCaseData.getNetEqnSolveConfig().setNetEqnItrNoEvent(SwingInputVerifyUtil.getInt(netEqnItrNoEventTextField));
         
         if (SwingInputVerifyUtil.largeThan(netEqnItrWithEventTextField, 0, errMsg,
         		"Network equation solution iteration count (with event) <= 0"))
-        	dstabCaseData.setNetEqnItrWithEvent(SwingInputVerifyUtil.getInt(netEqnItrWithEventTextField));
+        	xmlCaseData.getNetEqnSolveConfig().setNetEqnItrWithEvent(SwingInputVerifyUtil.getInt(netEqnItrWithEventTextField));
         
 
         if (staticLoadCZRadioButton.isSelected()) {
-        	dstabCaseData.setStaticLoadType(DStabCaseData.StaticLoad_Const_Z);
+        	xmlCaseData.getStaticLoadModel().setStaticLoadType(DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType.CONST_Z);
         }
         else {
-        	dstabCaseData.setStaticLoadType(DStabCaseData.StaticLoad_Const_P);
+        	xmlCaseData.getStaticLoadModel().setStaticLoadType(DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType.CONST_P);
             if (SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchVoltTextField, 0.4d, errMsg,
             		"Static load model switching voltage < 0.4 pu"))
-            	dstabCaseData.setStaticLoadSwitchVolt(SwingInputVerifyUtil.getDouble(staticLoadSwitchVoltTextField));
+            	xmlCaseData.getStaticLoadModel().setSwitchVolt(SwingInputVerifyUtil.getDouble(staticLoadSwitchVoltTextField));
 
             if (SwingInputVerifyUtil.largeEqualThan(staticLoadSwitchDeadZoneTextField, 0.0d, errMsg,
     				"Static load model switching voltage dead zone< 0.0 pu"))
-            	dstabCaseData.setStaticLoadSwitchDeadZone(SwingInputVerifyUtil.getDouble(staticLoadSwitchDeadZoneTextField));
+            	xmlCaseData.getStaticLoadModel().setSwitchDeadZone(SwingInputVerifyUtil.getDouble(staticLoadSwitchDeadZoneTextField));
         }
 
-        dstabCaseData.setDisableDynamicEvent(disableEventCheckBox.isSelected());
-        if(!dstabCaseData.getDisableDynamicEvent()) {
+        xmlCaseData.getDynamicEventData().setDisableEvent(disableEventCheckBox.isSelected());
+        if(!xmlCaseData.getDynamicEventData().getDisableEvent()) {
         	dynaEventPanel.saveEditor2Form(errMsg);
         }
         else {
+        	if (xmlCaseData.getDynamicEventData().getEventList().getEventArray().length == 0)
+        		xmlCaseData.getDynamicEventData().getEventList().addNewEvent();
+        	DStabStudyCaseXmlType.DynamicEventData.EventList.Event event = xmlCaseData.getDynamicEventData().getEventList().getEventArray(0); 
         	if (setPointCheckBox.isSelected()) {
-        		String str = (String)setPointControllerComboBox.getSelectedItem();
-        		if (!str.equals(Constants.Token_NoController)) {
-        			dstabCaseData.setSetPointChange(setPointCheckBox.isSelected());
-        			if (setPointCheckBox.isSelected()) {
-            			dstabCaseData.setSetPointChangeMachId((String)setPointMachineComboBox.getSelectedItem());
-            			dstabCaseData.setSelectedController((String)setPointControllerComboBox.getSelectedItem());
-            			dstabCaseData.setSetPointValueChange(SwingInputVerifyUtil.getDouble(setPointValueTextField));
-            			dstabCaseData.setSetPointChangeAbsolute(setPointAbsoluteRadioButton.isSelected());
-            		}
-            	}        	
+        		event.setEventType(DynamicEventDataType.SET_POINT_CHANGE);
+        		event.getSetPointChangeData().setMachId((String)setPointMachineComboBox.getSelectedItem());
+        		event.getSetPointChangeData().setControllerType(MachineControllerDataType.Enum.forString((String)setPointControllerComboBox.getSelectedItem()));
+        		event.getSetPointChangeData().setChangeValue(SwingInputVerifyUtil.getDouble(setPointValueTextField));
+       			event.getSetPointChangeData().setValueChangeType(setPointAbsoluteRadioButton.isSelected()?
+       					DStabStudyCaseXmlType.DynamicEventData.EventList.Event.SetPointChangeData.ValueChangeType.ABSOLUTE :
+       						DStabStudyCaseXmlType.DynamicEventData.EventList.Event.SetPointChangeData.ValueChangeType.DELTA	);
+        	}
+        	else {
+        		event.setEventType(DynamicEventDataType.NONE);
         	}
         }
-        IpssLogger.getLogger().info("" + dstabCaseData);
+        IpssLogger.getLogger().info("" + xmlCaseData);
 
-        dstabCaseData.setOutputFilter(outputFilterCheckBox.isSelected());
-        dstabCaseData.setOutputScripting(outputScriptCheckBox.isSelected());
+        xmlCaseData.getOutputConfig().setOutputFilter(outputFilterCheckBox.isSelected());
+        xmlCaseData.getOutputScripting().setScripting(outputScriptCheckBox.isSelected());
         if (outputScriptCheckBox.isSelected() && dstabOutputScriptFilename != null) {
         	GUIFileUtil.writeTextarea2FileAbsolutePath(dstabOutputScriptFilename, scriptTextArea);
-        	dstabCaseData.setOutputScriptFilename(dstabOutputScriptFilename);
+        	xmlCaseData.getOutputScripting().setScriptingFilename(dstabOutputScriptFilename);
     	}        
         
 		gridPanel.saveEditor2Form(errMsg);
@@ -1005,37 +1021,43 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     }// </editor-fold>//GEN-END:initComponents
 
     private void addOutVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addOutVarButtonActionPerformed
+    	DStabStudyCaseXmlType.OutputConfig.OutputVarList outVarList = this.xmlCaseData.getOutputConfig().getOutputVarList();
     	for (Object obj : this.machOutVarList.getSelectedValues()) {
     		String id = Constants.Token_FilterMachVar + (String)obj;
-    		if (!this.dstabCaseData.getOutVarList().contains(id))
-    			this.dstabCaseData.getOutVarList().add(id);
+    		if (!StringUtil.contain(outVarList.getVariableNameArray(), id))
+    			outVarList.addVariableName(id);
     	}
+    	
     	for (Object obj : this.busOutVarList.getSelectedValues()) {
     		String id = Constants.Token_FilterBusVar + (String)obj;
-    		if (!this.dstabCaseData.getOutVarList().contains(id))
-    			this.dstabCaseData.getOutVarList().add(id);
+    		if (!StringUtil.contain(outVarList.getVariableNameArray(), id))
+    			outVarList.addVariableName(id);
     	}
+    	
     	for (Object obj : this.branchOutVarList.getSelectedValues()) {
     		String id = Constants.Token_FilterBranchVar + (String)obj;
-    		if (!this.dstabCaseData.getOutVarList().contains(id))
-    			this.dstabCaseData.getOutVarList().add(id);
+    		if (!StringUtil.contain(outVarList.getVariableNameArray(), id))
+    			outVarList.addVariableName(id);
     	}
+    	
     	setOutputVarList();
     }//GEN-LAST:event_addOutVarButtonActionPerformed
 
     private void removeOurVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeOurVarButtonActionPerformed
+    	DStabStudyCaseXmlType.OutputConfig.OutputVarList outVarList = this.xmlCaseData.getOutputConfig().getOutputVarList();
     	for (Object obj : this.outputVarList.getSelectedValues())
-   			this.dstabCaseData.getOutVarList().remove((String)obj);
+    		StringUtil.remove(outVarList.getVariableNameArray(), (String)obj);
     	setOutputVarList();
     }//GEN-LAST:event_removeOurVarButtonActionPerformed
 
     private void addAllOutVarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAllOutVarButtonActionPerformed
+    	DStabStudyCaseXmlType.OutputConfig.OutputVarList outVarList = this.xmlCaseData.getOutputConfig().getOutputVarList();
     	for (Object obj : this.netContainer.getMachIdArray())
-    		if (!this.dstabCaseData.getOutVarList().contains(obj))
-    			this.dstabCaseData.getOutVarList().add((String)obj);
+    		if (!StringUtil.contain(outVarList.getVariableNameArray(), (String)obj))
+    			this.xmlCaseData.getOutputConfig().getOutputVarList().addVariableName((String)obj);
     	for (Object obj : this.netContainer.getBusIdArray())
-    		if (!this.dstabCaseData.getOutVarList().contains(obj))
-    			this.dstabCaseData.getOutVarList().add((String)obj);
+    		if (!StringUtil.contain(outVarList.getVariableNameArray(), (String)obj))
+    			this.xmlCaseData.getOutputConfig().getOutputVarList().addVariableName((String)obj);
     	setOutputVarList();
     }//GEN-LAST:event_addAllOutVarButtonActionPerformed
 

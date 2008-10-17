@@ -35,9 +35,10 @@ import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSDocument;
-import org.interpss.xml.IpssXmlParser;
+import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
 import com.interpss.common.SpringAppContext;
@@ -188,12 +189,13 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_dclfCaseInfoPanel.setForm2Editor();
 		}
 		else if (_caseType == IAppSimuContext.CaseType.Acsc) {
-			// build the case info combo list
-			//this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
-			//IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
-			
-			//casename = projData.getAcscCaseName();
-			//this.casenameComboBox.setSelectedItem(casename); 
+			String casename = getCaseName(IAppSimuContext.CaseType.Acsc);
+			AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
+			this.descTextArea.setText(scase.getRecDesc());
+			// set the case data to the actual data editing panel
+			_acscCaseInfoPanel.setXmlCaseData(scase);
+			// set the case data to the actual data editing panel
+			_acscCaseInfoPanel.setForm2Editor();
 		}
 		else if (_caseType == IAppSimuContext.CaseType.DStab) {
 			// build the case info combo list
@@ -272,6 +274,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			casename = selectCase(projData.getDclfCaseName());
 			projData.setDclfCaseName(casename);
 		}
+		else if (caseType == IAppSimuContext.CaseType.Acsc) {
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAcscStudyCaseNameArray()));
+			casename = selectCase(projData.getAcscCaseName());
+			projData.setAcscCaseName(casename);
+		}
 		IpssLogger.getLogger().info("Selected casename: " + casename);
 		return casename;
 	}
@@ -326,8 +333,15 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			SimuAppSpringAppContext.getDclfRunForm().setXmlCaseData(scase);
 		}
 		else if (_caseType == IAppSimuContext.CaseType.Acsc) {
-			projData.setAcscCaseName(casename);
+			AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
+			if (scase == null) {
+				errMsg.add("Acsc study case not found, " + casename);
+				return false;
+			}
+			scase.setRecDesc(this.descTextArea.getText());
+			projData.setDclfCaseName(casename);
 			_acscCaseInfoPanel.saveEditor2Form(errMsg);
+			SimuAppSpringAppContext.getAcscRunForm().setXmlCaseData(scase);
 		}
 		else if (_caseType == IAppSimuContext.CaseType.DStab) {
 			projData.setDStabCaseName(casename);
@@ -339,7 +353,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		}
 		
 		// save run case xml doc
-		FileUtil.writeText2File(runStudyCaseFilename, IpssXmlParser.toXmlDocString(this.studyCaseXmlDoc.getIpssXmlDoc()));
+		FileUtil.writeText2File(runStudyCaseFilename, IpssXmlUtilFunc.toXmlDocString(this.studyCaseXmlDoc.getIpssXmlDoc()));
 
         return errMsg.size() == 0;
 	}
