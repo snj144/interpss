@@ -28,10 +28,11 @@ import org.interpss.schema.AcscFaultCategoryDataType;
 import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
+import org.interpss.schema.DynamicEventDataType;
+import org.interpss.schema.MachineControllerDataType;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData;
-import org.interpss.schema.DStabStudyCaseXmlType.SetpointChangeData;
-import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.EventType;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.LoadChangeData;
+import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData.EventList.Event.SetPointChangeData;
 import org.interpss.schema.DStabStudyCaseXmlType.SimuConfig.SimuMethod;
 import org.interpss.schema.DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType;
 
@@ -132,37 +133,36 @@ public class Xml2DStabAlgorithmMapperImpl {
 		}
 
 		if (dstabData.getDynamicEventData().getDisableEvent()) {
-			if (dstabData.getSetpointChangeData() != null && 
-					dstabData.getSetpointChangeData().getSetpointChange()) {
-				IpssLogger.getLogger().info(
-						"Dynamic Event Type: SetPointChange");
-				String machId = dstabData.getSetpointChangeData().getMachId();
-				Machine mach = getMachine(dstabNet, machId);
-				if (mach == null)
-					return false;
-				IpssLogger.getLogger().info(
-						"SetPointChange mach id : " + mach.getId());
+			if (dstabData.getDynamicEventData().getEventList().sizeOfEventArray() > 0 && 
+					dstabData.getDynamicEventData().getEventList().getEventArray(0).getEventType() == DynamicEventDataType.SET_POINT_CHANGE) {
+				SetPointChangeData scdata = dstabData.getDynamicEventData().getEventList().getEventArray(0).getSetPointChangeData();
+				if (scdata != null) {
+					IpssLogger.getLogger().info(
+							"Dynamic Event Type: SetPointChange");
+					String machId = scdata.getMachId();
+					Machine mach = getMachine(dstabNet, machId);
+					if (mach == null)
+						return false;
+					IpssLogger.getLogger().info(
+							"SetPointChange mach id : " + mach.getId());
 
-				DynamicEvent event = DStabObjectFactory.createDEvent(
-						Constants.Token_SetPointChangeId + machId,
-						"SetPointChange", DynamicEventType.SET_POINT_CHANGE,
-						dstabNet, msg);
-				event.setStartTimeSec(0.0);
-				event.setDurationSec(dstabData.getSimuConfig()
-						.getTotalSimuTimeSec());
-				SetPointChangeEvent eSetPoint = DStabObjectFactory
-						.createSetPointChangeEvent(machId, dstabNet);
-				eSetPoint
-						.setControllerType(dstabData.getSetpointChangeData()
-								.getControllerType() == SetpointChangeData.ControllerType.EXCITER ? ControllerType.EXCITER
-								: dstabData.getSetpointChangeData()
-										.getControllerType() == SetpointChangeData.ControllerType.GOVERNOR ? ControllerType.GOVERNOR
-										: ControllerType.STABILIZER);
-				eSetPoint.setChangeValue(dstabData.getSetpointChangeData()
-						.getChangeValue());
-				eSetPoint.setAbusoluteChange(dstabData.getSetpointChangeData()
-						.getAbsoluteChange());
-				event.setBusDynamicEvent(eSetPoint);
+					DynamicEvent event = DStabObjectFactory.createDEvent(
+							Constants.Token_SetPointChangeId + machId,
+							"SetPointChange", DynamicEventType.SET_POINT_CHANGE,
+							dstabNet, msg);
+					event.setStartTimeSec(0.0);
+					event.setDurationSec(dstabData.getSimuConfig()
+							.getTotalSimuTimeSec());
+					SetPointChangeEvent eSetPoint = DStabObjectFactory
+							.createSetPointChangeEvent(machId, dstabNet);
+					eSetPoint
+							.setControllerType(scdata.getControllerType() == MachineControllerDataType.EXCITER ? ControllerType.EXCITER
+									: scdata.getControllerType() == MachineControllerDataType.GOVERNOR ? ControllerType.GOVERNOR
+											: ControllerType.STABILIZER);
+					eSetPoint.setChangeValue(scdata.getChangeValue());
+					eSetPoint.setAbusoluteChange(scdata.getValueChangeType() == SetPointChangeData.ValueChangeType.ABSOLUTE);
+					event.setBusDynamicEvent(eSetPoint);
+				}
 			}
 		} else {
 			for (DynamicEventData.EventList.Event eventData : dstabData
@@ -177,7 +177,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 						.getEventType(), eventData.getFault().getFaultType());
 				// create the DStabEvent
 				DynamicEvent event = DStabObjectFactory.createDEvent(eventData
-						.getName(), name, deType, dstabNet, msg);
+						.getRecName(), name, deType, dstabNet, msg);
 				if (event == null) {
 					SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
 							"Error to create DynamicEvent",
@@ -212,9 +212,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 		return mach;
 	}
 
-	private static DynamicEventType getDEventType(EventType.Enum eventType,
+	private static DynamicEventType getDEventType(DynamicEventDataType.Enum eventType,
 			AcscFaultDataType.Enum faultType) {
-		if (eventType == EventType.FAULT) {
+		if (eventType == DynamicEventDataType.FAULT) {
 			if (faultType == AcscFaultDataType.BUS_FAULT)
 				return DynamicEventType.BUS_FAULT;
 			else if (faultType == AcscFaultDataType.BRANCH_FAULT)
@@ -223,9 +223,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 				return DynamicEventType.BRANCH_OUTAGE;
 
 		} else {
-			if (eventType == EventType.LOAD_CHANGE)
+			if (eventType == DynamicEventDataType.LOAD_CHANGE)
 				return DynamicEventType.LOAD_CHANGE;
-			else if (eventType == EventType.SET_POINT_CHANGE)
+			else if (eventType == DynamicEventDataType.SET_POINT_CHANGE)
 				return DynamicEventType.SET_POINT_CHANGE;
 		}
 		SpringAppContext.getEditorDialogUtil().showErrMsgDialog(
@@ -244,7 +244,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 		IpssLogger.getLogger().info(
 				"Dynamic Event Type: " + eventData.getEventType().toString());
 
-		if (eventData.getEventType() == EventType.LOAD_CHANGE) {
+		if (eventData.getEventType() == DynamicEventDataType.LOAD_CHANGE) {
 			event.setPermanent(true);
 			eventData.setDurationSec(0.0);
 			if (eventData.getLoadChangeData().getLoadChangeType() == LoadChangeData.LoadChangeType.FIXED_TIME)
@@ -262,7 +262,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 			event.setDurationSec(eventData.getDurationSec());
 		}
 
-		if (eventData.getEventType() == EventType.LOAD_CHANGE) {
+		if (eventData.getEventType() == DynamicEventDataType.LOAD_CHANGE) {
 			event.setType(DynamicEventType.LOAD_CHANGE);
 			LoadChangeData ldata = eventData.getLoadChangeData();
 			LoadChangeEvent eLoad = DStabObjectFactory.createLoadChangeEvent(
@@ -278,7 +278,7 @@ public class Xml2DStabAlgorithmMapperImpl {
 			if (ldata.getDelayTime() != 0.0)
 				eLoad.setDelaySec(ldata.getDelayTime());
 			event.setBusDynamicEvent(eLoad);
-		} else if (eventData.getEventType() == EventType.FAULT) {
+		} else if (eventData.getEventType() == DynamicEventDataType.FAULT) {
 			AcscFaultXmlType fdata = eventData.getFault();
 			if (eventData.getFault().getFaultType() == AcscFaultDataType.BRANCH_OUTAGE) {
 				event.setType(DynamicEventType.BRANCH_OUTAGE);
