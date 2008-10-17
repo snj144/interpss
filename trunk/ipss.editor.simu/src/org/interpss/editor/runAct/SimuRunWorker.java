@@ -130,7 +130,7 @@ public class SimuRunWorker extends Thread {
 					"SimuRunWorker starts Run Transient Stability");
 
 			DStabRunForm runForm = (DStabRunForm) appSimuCtx.getDStabRunForm();
-			if (runForm.getDStabCaseData().isGridComputing())
+			if (runForm.getXmlGridData().getEnableGridRun())
 				runForm.runGridCase(simuCtx, simuCtx.getMsgHub());
 			else
 				runForm.runCase(simuCtx, simuCtx.getMsgHub());
