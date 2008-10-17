@@ -119,7 +119,7 @@ public class StudyCaseHanlder {
 	 * @return
 	 */
 	public AclfStudyCaseXmlType getAclfStudyCase(String recName) {
-		return 	(AclfStudyCaseXmlType)IpssXmlParser.getRecord(recName, getAclfStudyCaseArray());
+		return 	(AclfStudyCaseXmlType)IpssXmlUtilFunc.getRecord(recName, getAclfStudyCaseArray());
 	}
 	
 	/**
@@ -128,7 +128,7 @@ public class StudyCaseHanlder {
 	 * @return
 	 */
 	public String[] getAclfStudyCaseNameArray() {
-		return IpssXmlParser.getRecNameArray(getAclfStudyCaseArray());
+		return IpssXmlUtilFunc.getRecNameArray(getAclfStudyCaseArray());
 	}
 
 	// Dclf Study Case
@@ -190,7 +190,7 @@ public class StudyCaseHanlder {
 	 * @return
 	 */
 	public DclfStudyCaseXmlType getDclfStudyCase(String recName) {
-		return 	(DclfStudyCaseXmlType)IpssXmlParser.getRecord(recName, getDclfStudyCaseArray());
+		return 	(DclfStudyCaseXmlType)IpssXmlUtilFunc.getRecord(recName, getDclfStudyCaseArray());
 	}
 	
 	/**
@@ -199,7 +199,7 @@ public class StudyCaseHanlder {
 	 * @return
 	 */
 	public String[] getDclfStudyCaseNameArray() {
-		return IpssXmlParser.getRecNameArray(getDclfStudyCaseArray());
+		return IpssXmlUtilFunc.getRecNameArray(getDclfStudyCaseArray());
 	}
 
 	// Acsc Study Case
@@ -255,7 +255,7 @@ public class StudyCaseHanlder {
 	 * @return
 	 */
 	public AcscStudyCaseXmlType getAcscStudyCase(String recName) {
-		return 	(AcscStudyCaseXmlType)IpssXmlParser.getRecord(recName, getAcscStudyCaseArray());
+		return 	(AcscStudyCaseXmlType)IpssXmlUtilFunc.getRecord(recName, getAcscStudyCaseArray());
 	}
 	
 	/**
@@ -264,6 +264,6 @@ public class StudyCaseHanlder {
 	 * @return
 	 */
 	public String[] getAcscStudyCaseNameArray() {
-		return IpssXmlParser.getRecNameArray(getAcscStudyCaseArray());
+		return IpssXmlUtilFunc.getRecNameArray(getAcscStudyCaseArray());
 	}
 }
