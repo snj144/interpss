@@ -133,7 +133,8 @@ public class Xml2DStabAlgorithmMapperImpl {
 		}
 
 		if (dstabData.getDynamicEventData().getDisableEvent()) {
-			if (dstabData.getDynamicEventData().getEventList().sizeOfEventArray() > 0 && 
+			if (dstabData.getDynamicEventData().getEventList() != null && 
+			    dstabData.getDynamicEventData().getEventList().sizeOfEventArray() > 0 && 
 					dstabData.getDynamicEventData().getEventList().getEventArray(0).getEventType() == DynamicEventDataType.SET_POINT_CHANGE) {
 				SetPointChangeData scdata = dstabData.getDynamicEventData().getEventList().getEventArray(0).getSetPointChangeData();
 				if (scdata != null) {
