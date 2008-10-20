@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: InterPSS Workbench
+Bundle-SymbolicName: ipss.wb;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Vendor: InterPSS
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.ui,
+ org.eclipse.core.resources,
+ org.eclipse.ui.ide,
+ ipss.wb.cim
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
