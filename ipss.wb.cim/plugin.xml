@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+ <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            id="opencim"
+            name="OpenCIM"
+            parentCategory="com.interpss.ui.wizards">
+      </category>
+      <wizard
+            category="com.interpss.ui.wizards/opencim"
+            class="com.interpss.wb.opencim.NewOpenCIMProjectWizard"
+            id="com.interpss.wb.opencim.newprojectwizard"
+            name="%opencim.newprojectwizard.name"
+            project="true">
+         <description>
+            %opencim.newprojectwizard.desc
+         </description>
+      </wizard>
+
+   </extension>
+ <extension
+       point="org.eclipse.ui.views">
+ </extension>
+ 
+</plugin>
