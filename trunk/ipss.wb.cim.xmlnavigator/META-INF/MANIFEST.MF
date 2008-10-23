@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: InterPSS OpenCIM XmlNavigator Plug-in
-Bundle-SymbolicName: ipss.wb.cim.xmlnavigator;singleton:=true
+Bundle-SymbolicName: com.interpss.wb.opencim.xmlnavigator; singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Vendor: INTERPSS
 Require-Bundle: org.eclipse.ui,
