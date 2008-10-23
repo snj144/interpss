@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Interpss OpenCIM Plug-in
-Bundle-SymbolicName: ipss.wb.cim;singleton:=true
+Bundle-SymbolicName: com.interpss.wb.opencim;singleton:=true
 Bundle-Version: 1.0.0
 Bundle-Localization: plugin
 Bundle-Vendor: InterPSS
@@ -9,5 +9,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.ui.ide,
  org.eclipse.core.runtime,
  org.eclipse.core.resources,
- ipss.wb.cim.xmlnavigator;bundle-version="1.0.0"
+ com.interpss.wb.opencim.xmlnavigator;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
