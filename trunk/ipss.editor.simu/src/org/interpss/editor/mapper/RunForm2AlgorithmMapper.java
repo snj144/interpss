@@ -27,7 +27,7 @@ package org.interpss.editor.mapper;
 import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
 import org.interpss.editor.runAct.ui.DStabRunForm;
-import org.interpss.mapper.runCase.CaseData2AlgorithmMapperImpl;
+import org.interpss.mapper.runCase.XmlCaseData2AlgorithmMapperImpl;
 
 import com.interpss.common.mapper.AbstractMapper;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -53,30 +53,22 @@ public class RunForm2AlgorithmMapper extends AbstractMapper {
 			 */
 			AclfRunForm runForm = (AclfRunForm) fromObj;
 			LoadflowAlgorithm algo = (LoadflowAlgorithm) toObj;
-			CaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(runForm.getAclfCaseData().getAclfAlgorithm(), algo);
+			XmlCaseData2AlgorithmMapperImpl.aclfCaseData2AlgoMapping(runForm.getAclfCaseData().getAclfAlgorithm(), algo);
 		} else if (klass == SimpleFaultAlgorithm.class) {
 			/*
 			 * map AcscRunForm object to a SimpleFaultAlgorithm object
 			 */
 			AcscRunForm runForm = (AcscRunForm) fromObj;
 			SimpleFaultAlgorithm algo = (SimpleFaultAlgorithm) toObj;
-			/*
-			return CaseData2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
+			return XmlCaseData2AlgorithmMapperImpl.acscCaseData2AlgoMapping(
 					runForm.getXmlCaseData(), algo);
-			*/
-			return false;
 		} else if (klass == DynamicSimuAlgorithm.class) {
 			/*
 			 * map DStabRunForm object to a DynamicSimuAlgorithm object
 			 */
 			DStabRunForm runForm = (DStabRunForm) fromObj;
 			DynamicSimuAlgorithm algo = (DynamicSimuAlgorithm) toObj;
-			/*
-			return CaseData2AlgorithmMapperImpl.dstabCaseData2AlgoMapping(
-					runForm.getDStabCaseData(), runForm.getAclfCaseData(),
-					algo, msg);
-			*/		
-			return false;
+			return XmlCaseData2AlgorithmMapperImpl.dstabCaseData2AlgoMapping(runForm.getXmlCaseData(), algo, msg);
 		} 
 		return true;
 	}

@@ -28,7 +28,6 @@ import java.util.Vector;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.data.proj.DStabCaseData;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.jgraph.ui.edit.IFormDataPanel;
 import org.interpss.editor.ui.run.common.NBDynaEventPanel;
@@ -36,6 +35,7 @@ import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.editor.ui.util.GUIFileUtil;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DynamicEventDataType;
+import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.MachineControllerDataType;
 
 import com.interpss.common.datatype.Constants;
@@ -196,9 +196,10 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
     	//gridPanel.setCaseData(dstabCaseData);
     }
 */    
-    public void setXmlCaseData(DStabStudyCaseXmlType data) {
+    public void setXmlCaseData(DStabStudyCaseXmlType data, GridComputingXmlType xmlGridOpt) {
     	this.xmlCaseData = data;
     	dynaEventPanel.setCaseData(data.getDynamicEventData());
+    	aclfCasePanel.setXmlCaseData(data.getAclfAlgorithm(), xmlGridOpt);
     }
     
     /**
@@ -212,7 +213,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 		// set Aclf panel 
 		aclfCasePanel.setForm2Editor();
 		
-        methodComboBox.setSelectedItem(xmlCaseData.getSimuConfig().getSimuMethod());
+        /* Now there is only one available method
+         * methodComboBox.setSelectedItem(xmlCaseData.getSimuConfig().getSimuMethod().toString());
+         */
         totalTimeTextField.setText(Number2String.toStr(xmlCaseData.getSimuConfig().getTotalSimuTimeSec(), "#0.00"));
         simuStepTextField.setText(Number2String.toStr(xmlCaseData.getSimuConfig().getSimuStepSec(), "#0.00#"));
         disableEventCheckBox.setSelected(xmlCaseData.getDynamicEventData().getDisableEvent());
@@ -229,15 +232,16 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
        		refMachComboBox.setSelectedItem(xmlCaseData.getSimuConfig().getRefMachineBusId());
         }
         
-        if (xmlCaseData.getStaticLoadModel().getStaticLoadType() == DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType.CONST_Z) {
-            staticLoadCZRadioButton.setSelected(true);
-            setStaticLoadCPStatus(false);
-        }
-        else {
+        if (xmlCaseData.getStaticLoadModel() !=  null && 
+        		xmlCaseData.getStaticLoadModel().getStaticLoadType() == DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType.CONST_P) {
             staticLoadCPRadioButton.setSelected(true);
             setStaticLoadCPStatus(true);
             staticLoadSwitchVoltTextField.setText(Number2String.toStr(xmlCaseData.getStaticLoadModel().getSwitchVolt(), "#0.00"));
             staticLoadSwitchDeadZoneTextField.setText(Number2String.toStr(xmlCaseData.getStaticLoadModel().getSwitchDeadZone(), "#0.00"));
+        }
+        else {
+            staticLoadCZRadioButton.setSelected(true);
+            setStaticLoadCPStatus(false);
         }
         
         if(!xmlCaseData.getDynamicEventData().getDisableEvent()) {
@@ -266,7 +270,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         outputFilterCheckBox.setSelected(xmlCaseData.getOutputConfig().getOutputFilter());
         setOutputFilterPanel(outputFilterCheckBox.isSelected());
 
-        outputScriptCheckBox.setSelected(xmlCaseData.getOutputScripting().getScripting());
+        outputScriptCheckBox.setSelected(xmlCaseData.getOutputScripting() != null && xmlCaseData.getOutputScripting().getScripting());
         setOutputScriptingPanel(outputScriptCheckBox.isSelected());
         if (outputScriptCheckBox.isSelected()) {
             if (dstabOutputScriptFilename != null) {
@@ -294,13 +298,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 		// save aclf panel data
 		aclfCasePanel.saveEditor2Form(errMsg);
 		
-		String method = (String)methodComboBox.getSelectedItem();
-		if (method.equals(DStabCaseData.Method_ModifiedEuler)) {
-			xmlCaseData.getSimuConfig().setSimuMethod(DStabStudyCaseXmlType.SimuConfig.SimuMethod.Enum.forString((String)methodComboBox.getSelectedItem()));
-		}
-		else {
-			errMsg.add("Differential Eqn solution method: " + method + " has not implemented yet");
-		}
+		xmlCaseData.getSimuConfig().setSimuMethod(DStabStudyCaseXmlType.SimuConfig.SimuMethod.MODIFIED_EULER);
 
         if (SwingInputVerifyUtil.largeThan(totalTimeTextField, 0.0d, errMsg, "Total Simulation time < 0.0"))
         	xmlCaseData.getSimuConfig().setTotalSimuTimeSec(SwingInputVerifyUtil.getDouble(totalTimeTextField));
@@ -320,6 +318,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
        		xmlCaseData.getSimuConfig().setRefMachineBusId((String)refMachComboBox.getSelectedItem());
         }
 
+        if (xmlCaseData.getNetEqnSolveConfig() == null)
+        	xmlCaseData.addNewNetEqnSolveConfig();
+        
         if (SwingInputVerifyUtil.largeThan(netEqnItrNoEventTextField, 0, errMsg,
         		"Network equation solution iteration count (no event) <= 0"))
         	xmlCaseData.getNetEqnSolveConfig().setNetEqnItrNoEvent(SwingInputVerifyUtil.getInt(netEqnItrNoEventTextField));
@@ -327,7 +328,9 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         if (SwingInputVerifyUtil.largeThan(netEqnItrWithEventTextField, 0, errMsg,
         		"Network equation solution iteration count (with event) <= 0"))
         	xmlCaseData.getNetEqnSolveConfig().setNetEqnItrWithEvent(SwingInputVerifyUtil.getInt(netEqnItrWithEventTextField));
-        
+
+        if (xmlCaseData.getStaticLoadModel() == null)
+        	xmlCaseData.addNewStaticLoadModel();
 
         if (staticLoadCZRadioButton.isSelected()) {
         	xmlCaseData.getStaticLoadModel().setStaticLoadType(DStabStudyCaseXmlType.StaticLoadModel.StaticLoadType.CONST_Z);
@@ -364,9 +367,16 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         		event.setEventType(DynamicEventDataType.NONE);
         	}
         }
-        IpssLogger.getLogger().info("" + xmlCaseData);
+        //IpssLogger.getLogger().info("" + xmlCaseData);
+
+        if (xmlCaseData.getOutputConfig() == null)
+        	xmlCaseData.addNewOutputConfig();
 
         xmlCaseData.getOutputConfig().setOutputFilter(outputFilterCheckBox.isSelected());
+
+        if (xmlCaseData.getOutputScripting() == null)
+        	xmlCaseData.addNewOutputScripting();
+
         xmlCaseData.getOutputScripting().setScripting(outputScriptCheckBox.isSelected());
         if (outputScriptCheckBox.isSelected() && dstabOutputScriptFilename != null) {
         	GUIFileUtil.writeTextarea2FileAbsolutePath(dstabOutputScriptFilename, scriptTextArea);
@@ -463,8 +473,8 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         methodLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         methodLabel.setText("Simulation Method       ");
 
-        methodComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        methodComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Modified Euler", "Runge Kutta" }));
+        methodComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        methodComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Modified Euler" }));
         methodComboBox.setName("methodComboBox"); // NOI18N
 
         disableEventCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -579,7 +589,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         netEqnItrWithEventTextField.setName("simuStepTextField"); // NOI18N
         netEqnItrPanel.add(netEqnItrWithEventTextField);
 
-        outputOptPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Output Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        outputOptPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Output Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
         outputOptPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
 
         outputFilterCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -604,7 +614,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         });
         outputOptPanel.add(outputScriptCheckBox);
 
-        staticLoadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "static Load model", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        staticLoadPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "static Load model", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
 
         staticLoadButtonGroup.add(staticLoadCZRadioButton);
         staticLoadCZRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -901,7 +911,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
         detailInfoTabbedPane.addTab("Output Scripting", outScriptingjPanel);
 
-        setPointChangePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controller SetPoint Change", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        setPointChangePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controller SetPoint Change", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
         setPointChangePanel.setEnabled(false);
 
         setPointCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));

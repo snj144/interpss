@@ -136,7 +136,10 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 */
 	public boolean isNonSymmetricFault() {
 		AcscRunForm form = SimuAppSpringAppContext.getAcscRunForm();
-		return form.getXmlCaseData().getFaultData().getFaultCategory() != AcscFaultCategoryDataType.FAULT_3_P;
+		if (form != null && form.getXmlCaseData() != null && form.getXmlCaseData().getFaultData() != null)
+			return form.getXmlCaseData().getFaultData().getFaultCategory() != AcscFaultCategoryDataType.FAULT_3_P;
+		else 
+			return false;
 	}
 
 	// Case info functions

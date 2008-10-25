@@ -81,8 +81,7 @@ public class SimuRunWorker extends Thread {
 	}
 
 	public void run() {
-		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor()
-				.getAppStatus();
+		IAppStatus appStatus = GraphSpringAppContext.getIpssGraphicEditor().getAppStatus();
 		IAppSimuContext appSimuCtx = null;
 		try {
 			appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
@@ -126,11 +125,10 @@ public class SimuRunWorker extends Thread {
 		} else if (this.runType == SimuRunType.DStab) {
 			appStatus.busyStart(Constants.StatusBusyIndicatorPeriod,
 					"Run Transient Stability Simulation ...", "Run DStab");
-			IpssLogger.getLogger().info(
-					"SimuRunWorker starts Run Transient Stability");
+			IpssLogger.getLogger().info("SimuRunWorker starts Run Transient Stability");
 
-			DStabRunForm runForm = (DStabRunForm) appSimuCtx.getDStabRunForm();
-			if (runForm.getXmlGridData().getEnableGridRun())
+			DStabRunForm runForm = SimuAppSpringAppContext.getDStabRunForm();
+			if (runForm.getXmlGridData() != null && runForm.getXmlGridData().getEnableGridRun())
 				runForm.runGridCase(simuCtx, simuCtx.getMsgHub());
 			else
 				runForm.runCase(simuCtx, simuCtx.getMsgHub());

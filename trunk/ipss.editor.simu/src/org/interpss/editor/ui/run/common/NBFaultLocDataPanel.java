@@ -88,6 +88,16 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 */	
 	public void setFaultData(AcscFaultXmlType data) {
 		this.xmlFaultData = data;
+		if (xmlFaultData.getZLG() == null) {
+			xmlFaultData.addNewZLG();
+			xmlFaultData.getZLG().setRe(0.0);
+			xmlFaultData.getZLG().setIm(0.0);
+		}
+		if (xmlFaultData.getZLL() == null) {
+			xmlFaultData.addNewZLL();
+			xmlFaultData.getZLL().setRe(0.0);
+			xmlFaultData.getZLL().setIm(0.0);
+		}
         setBusBranchFaultPanel();
 	}
 
@@ -178,10 +188,14 @@ public class NBFaultLocDataPanel extends javax.swing.JPanel implements IFormData
 
 		boolean ok = true;
 
-		if (xmlFaultData.getFaultType() == AcscFaultDataType.BUS_FAULT)
-			xmlFaultData.setBusBranchId((String)this.faultBusComboBox.getSelectedItem());
-		else 
-			xmlFaultData.setBusBranchId((String)this.faultBranchComboBox.getSelectedItem());
+		if (xmlFaultData.getFaultType() == AcscFaultDataType.BUS_FAULT) {
+			String id = (String)this.faultBusComboBox.getSelectedItem();
+			xmlFaultData.setBusBranchId(id);
+		}
+		else { 
+			String id = (String)this.faultBranchComboBox.getSelectedItem();
+			xmlFaultData.setBusBranchId(id);
+		}
 		
 		if (this.type3PRadioButton.isSelected())
 			xmlFaultData.setFaultCategory(AcscFaultCategoryDataType.FAULT_3_P);

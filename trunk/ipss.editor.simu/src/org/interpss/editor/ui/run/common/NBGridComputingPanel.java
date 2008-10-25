@@ -90,11 +90,13 @@ public class NBGridComputingPanel extends javax.swing.JPanel implements IFormDat
 	public boolean saveEditor2Form(Vector<String> errMsg) throws Exception {
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
 
-		this.xmlGridOpt.setEnableGridRun(enableGridCheckBox.isEnabled()&&enableGridCheckBox.isSelected());
-        if (this.xmlGridOpt.getEnableGridRun()) {
-        	this.xmlGridOpt.setRemoteNodeName((String)selectGridNodeComboBox.getSelectedItem());
-        	this.xmlGridOpt.setTimeout(SwingInputVerifyUtil.getInt(this.gridTimeoutTextField)*1000);
-        }
+		if (this.xmlGridOpt != null) {
+			this.xmlGridOpt.setEnableGridRun(enableGridCheckBox.isEnabled()&&enableGridCheckBox.isSelected());
+	        if (this.xmlGridOpt.getEnableGridRun()) {
+	        	this.xmlGridOpt.setRemoteNodeName((String)selectGridNodeComboBox.getSelectedItem());
+	        	this.xmlGridOpt.setTimeout(SwingInputVerifyUtil.getInt(this.gridTimeoutTextField)*1000);
+	        }
+		}
 
         return errMsg.size() == 0;
 	}
