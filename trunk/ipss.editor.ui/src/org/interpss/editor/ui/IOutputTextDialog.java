@@ -66,4 +66,9 @@ public interface IOutputTextDialog extends IpssMsgListener {
      * clear the display area
      */
     void clearTextArea();
+
+    /**
+     * disable certain feature, such SaveAs... button
+     */
+    void disableFeature(String featureName);
 }
