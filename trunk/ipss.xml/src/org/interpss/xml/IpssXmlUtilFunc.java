@@ -4,8 +4,8 @@ import org.interpss.schema.BaseRecordXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.InterPSSDocument;
+import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.UnitDataType;
-import org.interpss.schema.DclfSensitivityXmlType.WithdrawBusList.WithdrawBus;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
@@ -40,10 +40,10 @@ public class IpssXmlUtilFunc {
 		return sAry;
 	}
 	
-	public static String[] getWithdrawItemList(WithdrawBus[] list) {
+	public static String[] getWithdrawItemList(SenAnalysisBusRecXmlType[] list) {
 		String[] sAry = new String[list.length];
 		int cnt = 0;
-		for (WithdrawBus bus : list) {
+		for (SenAnalysisBusRecXmlType bus : list) {
 			sAry[cnt++] = bus.getBusId() + "(" + bus.getPercent() + "%)";
 		}
 		return sAry;

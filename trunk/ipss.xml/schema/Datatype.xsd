@@ -142,7 +142,7 @@
             <ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
 				<ns:complexType>
 					<ns:sequence>
-						<ns:element name="injectBus" type="ipss:BusRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+						<ns:element name="injectBus" type="ipss:SenAnalysisBusRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
@@ -150,26 +150,12 @@
             <ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
 				<ns:complexType>
 					<ns:sequence>
-						<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded">
-							<ns:complexType>
-								<ns:complexContent>
-									<ns:extension base="ipss:BusRecXmlType">
-										<ns:sequence>
-											<ns:element name="percent" type="ns:double" minOccurs="1"></ns:element>
-										</ns:sequence>
-
-									</ns:extension>
-								</ns:complexContent>
-							</ns:complexType>
+						<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="ipss:SenAnalysisBusRecXmlType">
 						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
-			</ns:element>
-		</ns:sequence>
+			</ns:element>		</ns:sequence>
 	</ns:complexType>
-
-
-
 
 	<ns:complexType name="ComplexValueChangeXmlType">
 		<ns:sequence>
@@ -274,6 +260,16 @@
     	</ns:complexContent>
     </ns:complexType>
 
+	<ns:complexType name="SenAnalysisBusRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BusRecXmlType">
+				<ns:sequence>
+					<ns:element name="percent" type="ns:double" minOccurs="0"></ns:element>
+				</ns:sequence>
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+    
     <ns:simpleType name="SenBusAnalysisDataType">
     	<ns:restriction base="ns:string">
     		<ns:enumeration value="SingleBus"></ns:enumeration>
