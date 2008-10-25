@@ -26,9 +26,14 @@ package org.interpss.xml;
 
 import org.interpss.schema.AclfAlgorithmXmlType;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.AcscFaultCategoryDataType;
+import org.interpss.schema.AcscFaultDataType;
+import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
+import org.interpss.schema.DynamicEventDataType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSDocument;
 
@@ -235,7 +240,19 @@ public class StudyCaseHanlder {
 					getStandardRun().getRunAcscStudyCase().getAcscStudyCaseList().addNewAcscStudyCase();
 		scase.setRecId(casename.replaceAll(" ", "_"));
 		scase.setRecName(casename);
+		
+		scase.setBusAcscInitVolt(AcscStudyCaseXmlType.BusAcscInitVolt.UNIT_VOLT);
+		scase.setMultiFactor(100.0);
+		AcscFaultXmlType faultData = scase.addNewFaultData();
+		setDefaultFaultData(faultData);
 		return true;
+	}
+	
+	private static void setDefaultFaultData(AcscFaultXmlType faultData) {
+		faultData.setFaultType(AcscFaultDataType.BUS_FAULT);
+		faultData.setFaultCategory(AcscFaultCategoryDataType.FAULT_3_P);
+		faultData.addNewZLG();
+		faultData.addNewZLL();
 	}
 	
 	/**
@@ -265,5 +282,81 @@ public class StudyCaseHanlder {
 	 */
 	public String[] getAcscStudyCaseNameArray() {
 		return IpssXmlUtilFunc.getRecNameArray(getAcscStudyCaseArray());
+	}
+
+	// DStab Study Case
+	// ================
+	
+	/**
+	 * Delete the study case
+	 * 
+	 * @param casename
+	 * @return true if deleted
+	 */
+	public boolean deleteDStabStudyCase(String casename) {
+		int cnt = 0;
+		for (DStabStudyCaseXmlType scase : getDStabStudyCaseArray()) {
+			if (scase.getRecName().equals(casename)) {
+				this.ipssXmlDoc.getInterPSS().getRunStudyCase().getStandardRun().
+					getRunDStabStudyCase().getDStabStudyCaseList().removeDStabStudyCase(cnt);
+				return true;
+			}
+			cnt++;
+		}
+		return false;
+	}
+	
+	/**
+	 * add a new DStab Study case
+	 * 
+	 * @param casename
+	 * @return
+	 */
+	public boolean addNewDStabStudyCase(String casename) {
+		DStabStudyCaseXmlType scase = this.ipssXmlDoc.getInterPSS().getRunStudyCase().
+					getStandardRun().getRunDStabStudyCase().getDStabStudyCaseList().addNewDStabStudyCase();
+		scase.setRecId(casename.replaceAll(" ", "_"));
+		scase.setRecName(casename);
+		
+		return true;
+	}
+	
+	/**
+	 * Get the DStabStudyCase record list
+	 * 
+	 * @return
+	 */
+	public DStabStudyCaseXmlType[] getDStabStudyCaseArray() {
+		return this.ipssXmlDoc.getInterPSS().getRunStudyCase().getStandardRun().
+					getRunDStabStudyCase().getDStabStudyCaseList().getDStabStudyCaseArray();
+	}
+
+	/**
+	 * Get the DStabStudyCase record by the record name
+	 * 
+	 * @param recName
+	 * @return
+	 */
+	public DStabStudyCaseXmlType getDStabStudyCase(String recName) {
+		return 	(DStabStudyCaseXmlType)IpssXmlUtilFunc.getRecord(recName, getDStabStudyCaseArray());
+	}
+	
+	/**
+	 * Get DStabStudyCase name array
+	 * 
+	 * @return
+	 */
+	public String[] getDStabStudyCaseNameArray() {
+		return IpssXmlUtilFunc.getRecNameArray(getDStabStudyCaseArray());
+	}
+	
+	public static void setDefaultEventData(DStabStudyCaseXmlType.DynamicEventData.EventList.Event eventData) {
+		eventData.setRecId("New_Dynamic_Event");
+		eventData.setRecName("New Dynamic Event");
+		eventData.setEventType(DynamicEventDataType.FAULT);
+		eventData.setDurationSec(0.1);
+		eventData.setPermanent(false);
+		eventData.setStartTimeSec(0.0);
+		setDefaultFaultData(eventData.getFault());
 	}
 }
