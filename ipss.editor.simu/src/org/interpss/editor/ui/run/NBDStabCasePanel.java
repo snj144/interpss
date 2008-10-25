@@ -464,7 +464,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
 
         setLayout(new java.awt.BorderLayout());
 
-        detailInfoTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
+        detailInfoTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         detailInfoTabbedPane.setName("detailInfoTabbedPane"); // NOI18N
 
         simulationPanel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -473,7 +473,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
         methodLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         methodLabel.setText("Simulation Method       ");
 
-        methodComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        methodComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         methodComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Modified Euler" }));
         methodComboBox.setName("methodComboBox"); // NOI18N
 
@@ -1025,7 +1025,7 @@ public class NBDStabCasePanel extends javax.swing.JPanel implements IFormDataPan
                 .addContainerGap(404, Short.MAX_VALUE))
         );
 
-        detailInfoTabbedPane.addTab("Validation", validatePanel);
+        detailInfoTabbedPane.addTab("Advanced", validatePanel);
 
         add(detailInfoTabbedPane, java.awt.BorderLayout.NORTH);
     }// </editor-fold>//GEN-END:initComponents
