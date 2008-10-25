@@ -33,7 +33,9 @@ import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.ui.ICaseInfoDialog;
+import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
+import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
@@ -94,6 +96,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		_appSimuCtx = (AppSimuContextImpl)appCtx;
         
 		caseDataPanel.removeAll();
+		setButtonStatus(true);
 		if (_caseType == IAppSimuContext.CaseType.Aclf) {
 			this.setTitle("Run Aclf Loadflow Analysis");
 			caseDataPanel.add(_aclfCaseInfoPanel);
@@ -116,6 +119,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			_dstabCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}	
 		else if (_caseType == IAppSimuContext.CaseType.Scripts) {
+			setButtonStatus(false);
 			this.setTitle("Custom Scripting Run Case");
 			caseDataPanel.add(_scrptsCaseInfoPanel);
 			_scrptsCaseInfoPanel.init(netContainer, _appSimuCtx);
@@ -137,6 +141,14 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         setVisible(true);
 	}
     
+	private void setButtonStatus(boolean b) {
+	    this.addCaseButton.setEnabled(b);
+	    this.casenameComboBox.setEnabled(b);
+	    this.deleteCaseButton.setEnabled(b);
+	    //private javax.swing.JTextArea descTextArea;
+	    this.viewXmlButton.setEnabled(b);
+	}
+	
 	/**
 	 * When the Run button clicked, return true to perform the run case
 	 * 
@@ -359,13 +371,15 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         runButton = new javax.swing.JButton();
         addCaseButton = new javax.swing.JButton();
         deleteCaseButton = new javax.swing.JButton();
+        viewXmlButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
         setModal(true);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        caseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Study Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        caseInfoPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Study Case", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
         caseInfoPanel.setLayout(new java.awt.GridBagLayout());
 
         casenameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -453,7 +467,18 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         });
         controlPanel.add(deleteCaseButton);
 
-        cancelButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        viewXmlButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        viewXmlButton.setText("ViewXml");
+        viewXmlButton.setToolTipText("Cancel and close the case dialog");
+        viewXmlButton.setName("cancelButton"); // NOI18N
+        viewXmlButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewXmlButtonActionPerformed(evt);
+            }
+        });
+        controlPanel.add(viewXmlButton);
+
+        cancelButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         cancelButton.setText("Cancel");
         cancelButton.setToolTipText("Cancel and close the case dialog");
         cancelButton.setName("cancelButton"); // NOI18N
@@ -602,6 +627,14 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		else if (_caseType == IAppSimuContext.CaseType.Scripts) { 
 		}
     }//GEN-LAST:event_casenameComboBoxActionPerformed
+
+private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewXmlButtonActionPerformed
+	this.setAlwaysOnTop(false);
+	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Run Study Case Xml");
+	dialog.disableFeature("busStyleRadioButton");
+	dialog.disableFeature("summaryRadioButton");
+	dialog.display(IpssXmlUtilFunc.toXmlDocString(this.studyCaseXmlDoc.getIpssXmlDoc()));
+}//GEN-LAST:event_viewXmlButtonActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCaseButton;
@@ -616,6 +649,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     private javax.swing.JTextArea descTextArea;
     private javax.swing.JButton runButton;
     private javax.swing.JScrollPane scrollPane;
+    private javax.swing.JButton viewXmlButton;
     // End of variables declaration//GEN-END:variables
 
     class DataVerifier extends javax.swing.InputVerifier {

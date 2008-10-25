@@ -35,11 +35,7 @@ import javax.swing.JPopupMenu;
 
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.chart.ChartManager;
-import org.interpss.editor.data.proj.AclfCaseData;
-import org.interpss.editor.data.proj.AcscCaseData;
 import org.interpss.editor.data.proj.CaseData;
-import org.interpss.editor.data.proj.DStabCaseData;
-import org.interpss.editor.data.proj.DclfCaseData;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
@@ -251,29 +247,29 @@ public class AppSimuContextImpl implements IAppSimuContext {
 			caseData.setCaseName(casename);
 			caseData.setCaseType(caseType);
 			if (caseType.equals(IAppSimuContext.CaseType.Aclf)) {
-				caseData.setAclfCaseData(new AclfCaseData());
+				//caseData.setAclfCaseData(new AclfCaseData());
 				/*
 				SimuAppSpringAppContext.getAclfRunForm().setAclfCaseData(
 						caseData.getAclfCaseData());
 				*/		
 			} 
 			else if (caseType.equals(IAppSimuContext.CaseType.SenAnalysis)) {
-				caseData.setDclfCaseData(new DclfCaseData());
+				//caseData.setDclfCaseData(new DclfCaseData());
 				/*
 				SimuAppSpringAppContext.getDclfRunForm().setDclfCaseData(
 						caseData.getDclfCaseData());
 						*/
 			} 
 			else if (caseType.equals(IAppSimuContext.CaseType.Acsc)) {
-				caseData.setAcscCaseData(new AcscCaseData());
+				//caseData.setAcscCaseData(new AcscCaseData());
 				/*
 				SimuAppSpringAppContext.getAcscRunForm().setAcscCaseData(
 						caseData.getAcscCaseData());
 				*/		
 			} 
 			else if (caseType.equals(IAppSimuContext.CaseType.DStab)) {
-				caseData.setDStabCaseData(new DStabCaseData());
-				caseData.setAclfCaseData(new AclfCaseData());
+				//caseData.setDStabCaseData(new DStabCaseData());
+				//caseData.setAclfCaseData(new AclfCaseData());
 				//getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
 			} 
 			else if (caseType.equals(IAppSimuContext.CaseType.Scripts)) {
