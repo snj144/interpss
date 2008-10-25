@@ -28,6 +28,7 @@ import java.io.File;
 
 public class IpssFileFilter extends javax.swing.filechooser.FileFilter {
 	public static String OUTPUT_DEFAULT_DIR = ".";
+	public static String RUNXML_DEFAULT_DIR = ".";
 	
 	private String fileExt = "";
 	private String extDesc = "";
