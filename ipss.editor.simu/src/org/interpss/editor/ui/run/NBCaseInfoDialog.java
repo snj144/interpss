@@ -24,7 +24,10 @@
 
 package org.interpss.editor.ui.run;
 
+import java.io.File;
 import java.util.Vector;
+
+import javax.swing.JFileChooser;
 
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.app.AppSimuContextImpl;
@@ -36,6 +39,7 @@ import org.interpss.editor.ui.ICaseInfoDialog;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.RunUIUtilFunc;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.editor.ui.util.IpssFileFilter;
 import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
@@ -60,8 +64,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	private String runStudyCaseFilename;
 	private StudyCaseHanlder studyCaseXmlDoc;
 	
-	// holding the case data being edited
-	//private CaseData _caseData = null;
+	private static JFileChooser saveTextFileChooser = null;
 	
 	// ref to the AppInfo where the current project data are hold
 	private AppSimuContextImpl _appSimuCtx = null;
@@ -126,15 +129,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		}	
 		
         _returnOK = false;
-		try {
-			InterPSSDocument ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(runStudyCaseFilename, _caseType);
-			this.studyCaseXmlDoc = new StudyCaseHanlder(ipssXmlDoc); 
-	        setForm2Editor();
-		} catch (Exception e) {
-			e.printStackTrace();
-			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().sendErrorMsg(e.toString());
-		}
-		//System.out.println(this.ipssXmlDoc.toString());
+		loadRunXmlDocument(runStudyCaseFilename);
 		
         pack();
         WinUtilities.center(this);
@@ -147,6 +142,17 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 	    this.deleteCaseButton.setEnabled(b);
 	    //private javax.swing.JTextArea descTextArea;
 	    this.viewXmlButton.setEnabled(b);
+	}
+	
+	private void loadRunXmlDocument(String filename) {
+		try {
+			InterPSSDocument ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(filename, _caseType);
+			this.studyCaseXmlDoc = new StudyCaseHanlder(ipssXmlDoc); 
+	        setForm2Editor();
+		} catch (Exception e) {
+			e.printStackTrace();
+			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().sendErrorMsg(e.toString());
+		}
 	}
 	
 	/**
@@ -372,6 +378,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         addCaseButton = new javax.swing.JButton();
         deleteCaseButton = new javax.swing.JButton();
         viewXmlButton = new javax.swing.JButton();
+        importButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -478,7 +485,18 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         });
         controlPanel.add(viewXmlButton);
 
-        cancelButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        importButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        importButton.setText("Import");
+        importButton.setToolTipText("Cancel and close the case dialog");
+        importButton.setName("cancelButton"); // NOI18N
+        importButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                importButtonActionPerformed(evt);
+            }
+        });
+        controlPanel.add(importButton);
+
+        cancelButton.setFont(new java.awt.Font("Dialog", 0, 12));
         cancelButton.setText("Cancel");
         cancelButton.setToolTipText("Cancel and close the case dialog");
         cancelButton.setName("cancelButton"); // NOI18N
@@ -635,7 +653,27 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 	dialog.disableFeature("summaryRadioButton");
 	dialog.display(IpssXmlUtilFunc.toXmlDocString(this.studyCaseXmlDoc.getIpssXmlDoc()));
 }//GEN-LAST:event_viewXmlButtonActionPerformed
+
+private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
+	this.setAlwaysOnTop(false);
+	JFileChooser fChooser = getSaveTextFileChooser();
+	int retValue = fChooser.showSaveDialog(this);
+	if (retValue == JFileChooser.APPROVE_OPTION) {
+		File file = fChooser.getSelectedFile();
+		String filename = file.getPath();
+		loadRunXmlDocument(filename);
+	}   	
+}//GEN-LAST:event_importButtonActionPerformed
     
+private JFileChooser getSaveTextFileChooser() {
+	if (saveTextFileChooser == null) {
+		saveTextFileChooser = new JFileChooser();
+		saveTextFileChooser.addChoosableFileFilter(new IpssFileFilter("xml", "InterPSS Xml Document"));
+		saveTextFileChooser.setCurrentDirectory(new File(IpssFileFilter.RUNXML_DEFAULT_DIR));
+	}
+	return saveTextFileChooser;
+}	
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCaseButton;
     private javax.swing.JButton cancelButton;
@@ -647,6 +685,7 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
     private javax.swing.JButton deleteCaseButton;
     private javax.swing.JLabel descLabel;
     private javax.swing.JTextArea descTextArea;
+    private javax.swing.JButton importButton;
     private javax.swing.JButton runButton;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JButton viewXmlButton;
