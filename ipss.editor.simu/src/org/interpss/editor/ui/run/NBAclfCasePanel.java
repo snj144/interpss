@@ -70,7 +70,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     // holds the current case data being edited
     //private AclfCaseData _caseData = null;
-    private AclfStudyCaseXmlType xmlCaseData;
+    private AclfAlgorithmXmlType xmlCaseData;
 	
     /** Creates new form NBAclfCasePanel */
     public NBAclfCasePanel(JDialog parent) {
@@ -215,7 +215,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		pvBusLimitButton.setEnabled(list.length > 1);
     }
 
-    public void setXmlCaseData(AclfStudyCaseXmlType data, GridComputingXmlType xmlGridOpt) {
+    public void setXmlCaseData(AclfAlgorithmXmlType data, GridComputingXmlType xmlGridOpt) {
     	this.xmlCaseData = data;
     	if (gridComputing)
 			gridPanel.setXmlCaseData(xmlGridOpt);
@@ -246,23 +246,23 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	this.nonDivergeCheckBox.setEnabled(true);
         }
 		 */       
-    	if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR)
+    	if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR)
         	this.nrRadioButton.setSelected(true);
-    	else if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ)
+    	else if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ)
         	this.pqRadioButton.setSelected(true);
-    	if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.GS)
+    	if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.GS)
         	this.gsRadioButton.setSelected(true);
     	
-    	this.nonDivergeCheckBox.setEnabled(xmlCaseData.getAclfAlgorithm().getNonDivergent());
+    	this.nonDivergeCheckBox.setEnabled(xmlCaseData.getNonDivergent());
 
-    	this.accFactorTextField.setText(Number2String.toStr(xmlCaseData.getAclfAlgorithm().getAccFactor(), "#0.0#"));
-        this.errPUTextField.setText(Number2String.toStr(xmlCaseData.getAclfAlgorithm().getTolerance(), "#0.#####"));
+    	this.accFactorTextField.setText(Number2String.toStr(xmlCaseData.getAccFactor(), "#0.0#"));
+        this.errPUTextField.setText(Number2String.toStr(xmlCaseData.getTolerance(), "#0.#####"));
         double baseKva = _netContainer != null? ((GNetForm)_netContainer.getGNetForm()).getBaseKVA() : 100000.0;
-        this.errKVATextField.setText(Number2String.toStr(xmlCaseData.getAclfAlgorithm().getTolerance()*baseKva, "#0.####"));
-        this.maxItrTextField.setText(new Integer(xmlCaseData.getAclfAlgorithm().getMaxIterations()).toString());
-        this.nonDivergeCheckBox.setSelected(xmlCaseData.getAclfAlgorithm().getNonDivergent());
-        this.initVoltCheckBox.setSelected(xmlCaseData.getAclfAlgorithm().getInitBusVoltage());
-		this.lfSummaryCheckBox.setSelected(xmlCaseData.getAclfAlgorithm().getDisplaySummary());
+        this.errKVATextField.setText(Number2String.toStr(xmlCaseData.getTolerance()*baseKva, "#0.####"));
+        this.maxItrTextField.setText(new Integer(xmlCaseData.getMaxIterations()).toString());
+        this.nonDivergeCheckBox.setSelected(xmlCaseData.getNonDivergent());
+        this.initVoltCheckBox.setSelected(xmlCaseData.getInitBusVoltage());
+		this.lfSummaryCheckBox.setSelected(xmlCaseData.getDisplaySummary());
 		
 		if (gridComputing)
 			gridPanel.setForm2Editor();
@@ -280,25 +280,25 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		IpssLogger.getLogger().info("NBAclfCasePanel saveEditor2Form() called");
 
         if (this.nrRadioButton.isSelected())
-        	xmlCaseData.getAclfAlgorithm().setLfMethod(AclfAlgorithmXmlType.LfMethod.NR);
+        	xmlCaseData.setLfMethod(AclfAlgorithmXmlType.LfMethod.NR);
         else if (this.pqRadioButton.isSelected())
-        	xmlCaseData.getAclfAlgorithm().setLfMethod(AclfAlgorithmXmlType.LfMethod.PQ);
+        	xmlCaseData.setLfMethod(AclfAlgorithmXmlType.LfMethod.PQ);
         else 
-        	xmlCaseData.getAclfAlgorithm().setLfMethod(AclfAlgorithmXmlType.LfMethod.GS);
+        	xmlCaseData.setLfMethod(AclfAlgorithmXmlType.LfMethod.GS);
 
         if (SwingInputVerifyUtil.largeThan(this.errPUTextField, 0.0d, errMsg, "Error tolerance <= 0.0"))
-        	xmlCaseData.getAclfAlgorithm().setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
+        	xmlCaseData.setTolerance(SwingInputVerifyUtil.getDouble(this.errPUTextField));
 
         if (SwingInputVerifyUtil.largeThan(this.maxItrTextField, 0, errMsg, "Max iterations <= 0") )
-        	xmlCaseData.getAclfAlgorithm().setMaxIterations(SwingInputVerifyUtil.getInt(this.maxItrTextField));
+        	xmlCaseData.setMaxIterations(SwingInputVerifyUtil.getInt(this.maxItrTextField));
 
-        if (xmlCaseData.getAclfAlgorithm().getLfMethod() == AclfAlgorithmXmlType.LfMethod.GS)
+        if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.GS)
         	if (SwingInputVerifyUtil.largeThan(this.accFactorTextField, 0.0d, errMsg, "GS acceleration factor <= 0.0"))
-        		xmlCaseData.getAclfAlgorithm().setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
+        		xmlCaseData.setAccFactor(SwingInputVerifyUtil.getDouble(this.accFactorTextField));
 
-        xmlCaseData.getAclfAlgorithm().setNonDivergent(this.nonDivergeCheckBox.isSelected());
-        xmlCaseData.getAclfAlgorithm().setInitBusVoltage(this.initVoltCheckBox.isSelected());
-        xmlCaseData.getAclfAlgorithm().setDisplaySummary(this.lfSummaryCheckBox.isSelected());
+        xmlCaseData.setNonDivergent(this.nonDivergeCheckBox.isSelected());
+        xmlCaseData.setInitBusVoltage(this.initVoltCheckBox.isSelected());
+        xmlCaseData.setDisplaySummary(this.lfSummaryCheckBox.isSelected());
         
 		if (gridComputing)
 			gridPanel.saveEditor2Form(errMsg);

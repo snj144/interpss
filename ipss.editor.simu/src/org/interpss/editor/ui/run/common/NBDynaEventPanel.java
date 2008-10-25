@@ -36,6 +36,7 @@ import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DynamicEventDataType;
 import org.interpss.schema.DStabStudyCaseXmlType.DynamicEventData;
 import org.interpss.xml.IpssXmlUtilFunc;
+import org.interpss.xml.StudyCaseHanlder;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
@@ -74,7 +75,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     	xmlEventData = data;
     	// This panel does not remember the event name lastly edited, it starts with
     	// the first event in the list. The getAnyEventData method creates a new event if no exiting event
-    	currentEvent = getCurrentEvent(data);
+    	this.currentEvent = getFirstEvent(data);
    		//_eventData = _caseData.getAnyEventData();
     	// update the combox for event name list
 		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
@@ -82,10 +83,12 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
 		setCurrentEventData(this.currentEvent);
     }
     
-    private DStabStudyCaseXmlType.DynamicEventData.EventList.Event getCurrentEvent(DStabStudyCaseXmlType.DynamicEventData data) {
-    	if (data.getEventList().getEventArray().length == 0)
-    		data.getEventList().addNewEvent();
-    	return null;
+    private DStabStudyCaseXmlType.DynamicEventData.EventList.Event getFirstEvent(DStabStudyCaseXmlType.DynamicEventData data) {
+    	if (data.getEventList().getEventArray().length == 0) {
+    		DStabStudyCaseXmlType.DynamicEventData.EventList.Event event = data.getEventList().addNewEvent();
+    		StudyCaseHanlder.setDefaultEventData(event);
+    	}
+    	return  data.getEventList().getEventArray(0);
     }
     
     private void setCurrentEventData(DStabStudyCaseXmlType.DynamicEventData.EventList.Event eventData) {
@@ -364,7 +367,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     		this.xmlEventData.getEventList().removeEvent(index);
     	
 		// if no event left, a new event will be created by the getAnyEventData() call
-    	this.currentEvent = getCurrentEvent(this.xmlEventData);
+    	this.currentEvent = getFirstEvent(this.xmlEventData);
 		// update the event name list combo box
 		this.eventListComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				IpssXmlUtilFunc.getRecNameArray(this.xmlEventData.getEventList().getEventArray())));

@@ -238,14 +238,11 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		this.aclfCaseData = aclfCaseData;
 	}
 */
-	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx,
-			IPSSMsgHub msg) {
+	private boolean prepareSimuRunDataCheckError(SimuContext simuCtx, IPSSMsgHub msg) {
 		simuCtx.getDStabilityNet().removeAllDEvent();
 
-		IpssMapper mapper = PluginSpringAppContext
-				.getRunForm2AlgorithmMapper();
-		mapper.mapping(this, simuCtx.getDynSimuAlgorithm(),
-				DynamicSimuAlgorithm.class);
+		IpssMapper mapper = PluginSpringAppContext.getRunForm2AlgorithmMapper();
+		mapper.mapping(this, simuCtx.getDynSimuAlgorithm(),	DynamicSimuAlgorithm.class);
 
 		return RunActUtilFunc.checkDStabSimuData(simuCtx.getDynSimuAlgorithm(),
 				msg);

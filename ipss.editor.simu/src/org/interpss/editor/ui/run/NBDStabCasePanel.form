@@ -158,9 +158,8 @@
                       <Font name="Dialog" size="12" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                      <StringArray count="2">
+                      <StringArray count="1">
                         <StringItem index="0" value="Modified Euler"/>
-                        <StringItem index="1" value="Runge Kutta"/>
                       </StringArray>
                     </Property>
                     <Property name="name" type="java.lang.String" value="methodComboBox" noResource="true"/>
