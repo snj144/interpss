@@ -37,7 +37,6 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.run.common.NBGridComputingPanel;
 import org.interpss.schema.AclfAlgorithmXmlType;
-import org.interpss.schema.AclfStudyCaseXmlType;
 import org.interpss.schema.GridComputingXmlType;
 
 import com.interpss.common.SpringAppContext;
@@ -62,6 +61,7 @@ import com.interpss.simu.SimuContext;
 public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPanel, IpssMsgListener {
 	private static final long serialVersionUID = 1;
 	
+	private JDialog parent = null;
 	private static NBGridComputingPanel gridPanel = new NBGridComputingPanel();
 	private boolean gridComputing = false;
 
@@ -69,11 +69,11 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private SimuContext _simuCtx = null;
 
     // holds the current case data being edited
-    //private AclfCaseData _caseData = null;
     private AclfAlgorithmXmlType xmlCaseData;
 	
     /** Creates new form NBAclfCasePanel */
     public NBAclfCasePanel(JDialog parent) {
+    	this.parent = parent;
     	initComponents();
 
         DataVerifier verifier = new DataVerifier();
@@ -112,7 +112,6 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         	initAdvanceControlPanel();
     	}
 		msgOutTextArea.setText("");
-		
     }
 
     public void init(Object netContainer, Object simuCtx, boolean gridComputing) {
@@ -220,13 +219,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	if (gridComputing)
 			gridPanel.setXmlCaseData(xmlGridOpt);
     }
-/*
-    public void setCaseData(AclfCaseData data) {
-    	_caseData = data;
-		if (gridComputing)
-			gridPanel.setCaseData(data);
-    }
-*/    
+   
 	/**
 	*	Set form data to the editor
 	*
@@ -234,18 +227,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 	*/
 	public boolean setForm2Editor() {
 		IpssLogger.getLogger().info("NBAclfCasePanel setForm2Editor() called");
-		/*
-        if (_netContainer != null && 
-        		IGNetForm.AppType_Transmission.equals(_netContainer.getGNetForm().getAppType()) &&
-        		!_netContainer.isBranchR_LT_X()) {
-            this.pqRadioButton.setSelected(true);
-        	this.nonDivergeCheckBox.setEnabled(false);
-        }
-        else {
-        	this.nrRadioButton.setSelected(true);
-        	this.nonDivergeCheckBox.setEnabled(true);
-        }
-		 */       
+     
     	if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.NR)
         	this.nrRadioButton.setSelected(true);
     	else if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.PQ)
@@ -253,7 +235,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     	if (xmlCaseData.getLfMethod() == AclfAlgorithmXmlType.LfMethod.GS)
         	this.gsRadioButton.setSelected(true);
     	
-    	this.nonDivergeCheckBox.setEnabled(xmlCaseData.getNonDivergent());
+    	//this.nonDivergeCheckBox.setEnabled(xmlCaseData.getNonDivergent());
 
     	this.accFactorTextField.setText(Number2String.toStr(xmlCaseData.getAccFactor(), "#0.0#"));
         this.errPUTextField.setText(Number2String.toStr(xmlCaseData.getTolerance(), "#0.#####"));
@@ -305,8 +287,6 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		
 		return errMsg.size() == 0;
 	}
-    
-
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -399,7 +379,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
         mainPanel.setLayout(new java.awt.GridBagLayout());
 
-        methodPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Loadflow Method", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10)));
+        methodPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Loadflow Method", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
         methodPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 30, 5));
 
         methodButtonGroup.add(nrRadioButton);
@@ -516,15 +496,10 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         gridBagConstraints.insets = new java.awt.Insets(5, 0, 5, 0);
         paramPanel.add(accFactorTextField, gridBagConstraints);
 
-        nonDivergeCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        nonDivergeCheckBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         nonDivergeCheckBox.setSelected(true);
         nonDivergeCheckBox.setText("Non-divergent");
         nonDivergeCheckBox.setName("initVoltCheckBox"); // NOI18N
-        nonDivergeCheckBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nonDivergeCheckBoxActionPerformed(evt);
-            }
-        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
@@ -954,13 +929,11 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void nrRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrRadioButtonActionPerformed
     	accFactorTextField.setEnabled(false);
     	accFactorLabel.setEnabled(false);
-        this.nonDivergeCheckBox.setEnabled(true);
     }//GEN-LAST:event_nrRadioButtonActionPerformed
 
     private void pqRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqRadioButtonActionPerformed
     	accFactorTextField.setEnabled(false);
     	accFactorLabel.setEnabled(false);
-    	this.nonDivergeCheckBox.setEnabled(false);
     	if (_netContainer != null && _netContainer.isBranchR_LT_X()) {
     		SpringAppContext.getEditorDialogUtil().showMsgDialog("Warning",
                 "You have branch(es) R > X in your next work, PQ method may diverge. Use NR is recommended");
@@ -970,7 +943,6 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void gsRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsRadioButtonActionPerformed
     	accFactorTextField.setEnabled(true);
     	accFactorLabel.setEnabled(true);
-		this.nonDivergeCheckBox.setEnabled(false);
 	}//GEN-LAST:event_gsRadioButtonActionPerformed
 
     private void pqQStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqQStepButtonActionPerformed
@@ -1001,6 +973,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     }//GEN-LAST:event_resetButtonActionPerformed
 
     private void detailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detailsButtonActionPerformed
+    	this.parent.setAlwaysOnTop(false);
     	IpssLogger.getLogger().info("Details ...");
   		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Loadflow Analysis Info");
   		dialog.display(_simuCtx.getAclfAdjNet());
@@ -1145,10 +1118,6 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqPStepButtonActionPerformed
-
-    private void nonDivergeCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nonDivergeCheckBoxActionPerformed
-        // do nothing
-    }//GEN-LAST:event_nonDivergeCheckBoxActionPerformed
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
