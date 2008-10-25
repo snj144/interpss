@@ -112,7 +112,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 			else if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.MULTIPLE_BUS) {
 				algo.getWithdrawBusList().clear();
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
-				for (DclfBranchSensitivityXmlType.WithdrawBusList.WithdrawBus bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
+				for (SenAnalysisBusRecXmlType bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
 					algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
 					algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
 				}
