@@ -87,6 +87,16 @@ public class NBOutputTextDialog extends javax.swing.JDialog implements IOutputTe
         showDialog();
 	}
 
+    @Override
+    public void disableFeature(String featureName) {
+    	if (featureName.equals("busStyleRadioButton"))
+    		this.busStyleRadioButton.setEnabled(false);
+    	else if (featureName.equals("summaryRadioButton"))
+    	    this.summaryRadioButton.setEnabled(false);
+//        private javax.swing.JButton saveAsButton;
+//        private javax.swing.JButton secMarginButton;
+    }
+
 	public void display(Object aData) {
     	this.data = aData;
         showDialog();
