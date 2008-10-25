@@ -31,8 +31,8 @@ import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
+import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
-import org.interpss.schema.DclfSensitivityXmlType.WithdrawBusList.WithdrawBus;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -230,7 +230,7 @@ public class DclfOutFunc {
 		}
 		else {
 			str += "    Withdraw BusId : [";
-			for (WithdrawBus bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
+			for (SenAnalysisBusRecXmlType bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
 				str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
 			str += " ]\n\n";
 		}
