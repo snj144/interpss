@@ -110,7 +110,7 @@ public class XmlCaseData2AlgorithmMapperImpl {
 			String id  = NetUtilFunc.getBusIdFromDisplayNameId(xmlCaseData.getFaultData().getBusBranchId());
 			AcscBus faultBus = (AcscBus) faultNet.getBus(id);
 			if (faultBus == null) {
-				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found, id: " + xmlCaseData.getFaultData().getBusBranchId());
+				IpssLogger.getLogger().severe("Programming Error - Fault bus/branch not found, id: " + id);
 				return false;
 			}
 
@@ -124,11 +124,10 @@ public class XmlCaseData2AlgorithmMapperImpl {
 		} 
 		else if (xmlCaseData.getFaultData().getFaultType() == AcscFaultDataType.BRANCH_FAULT) {
 			String id  = NetUtilFunc.getBranchIdFromDisplayNameId(xmlCaseData.getFaultData().getBusBranchId());
-			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(id + Constants.Token_DefaultBranchCirNoStr);
+			AcscBranch faultBranch = (AcscBranch) faultNet.getBranch(id);
 			if (faultBranch == null) {
 				IpssLogger.getLogger().severe(
-								"Programming Error - Fault bus/branch not found, this maybe a parallel branch issue, id: " 
-								+ xmlCaseData.getFaultData().getBusBranchId());
+								"Programming Error - Fault bus/branch not found, this maybe a parallel branch issue, id: " + id);
 				return false;
 			}
 
