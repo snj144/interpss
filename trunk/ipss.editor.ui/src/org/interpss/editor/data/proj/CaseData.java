@@ -55,7 +55,7 @@ public class CaseData extends IpssDBCase {
 	private IAppSimuContext.CaseType caseType;
 	public IAppSimuContext.CaseType getCaseType() {return this.caseType;}
 	public void setCaseType(IAppSimuContext.CaseType n) {this.caseType = n;}
-
+/*
 	private DclfCaseData dclfCaseData = null;
 	public DclfCaseData getDclfCaseData() { return this.dclfCaseData; }
 	public void setDclfCaseData(DclfCaseData acase) {this.dclfCaseData = acase;}
@@ -71,4 +71,5 @@ public class CaseData extends IpssDBCase {
 	private DStabCaseData dStabCaseData = null;
 	public DStabCaseData getDStabCaseData() { return this.dStabCaseData; }
 	public void setDStabCaseData(DStabCaseData acase) {this.dStabCaseData = acase;}
+*/	
 }
