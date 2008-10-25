@@ -13,6 +13,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
+import com.interpss.core.dclf.DclfSensitivityType;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -36,7 +37,22 @@ public class DclfAreaTransferIeee14BusCaseTest extends BaseTestSetup {
 			
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
 
-		for (AreaTransferAnalysis sen : dclfCase.getAreaTransferAnalysisArray()) {
+		for (AreaTransferAnalysis atFactor : dclfCase.getAreaTransferAnalysisArray()) {
+			algo.getInjectBusList().clear();
+			for (SenAnalysisBusRecXmlType bus :  atFactor.getInjectBusList().getInjectBusArray()){
+				algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+				algo.addInjectBus(bus.getBusId(), bus.getPercent());
+			}
+			algo.getWithdrawBusList().clear();
+			for (SenAnalysisBusRecXmlType bus :  atFactor.getWithdrawBusList().getWithdrawBusArray()){
+				algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
+			}
+			
+			for (BranchRecXmlType branch : atFactor.getBranchArray()) {
+				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), msg);
+				System.out.println("ATFactor: " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + f);
+			}
 		}
 	}
 }
