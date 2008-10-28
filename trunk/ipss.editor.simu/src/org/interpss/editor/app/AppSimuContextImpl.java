@@ -246,42 +246,9 @@ public class AppSimuContextImpl implements IAppSimuContext {
 			CaseData caseData = new CaseData();
 			caseData.setCaseName(casename);
 			caseData.setCaseType(caseType);
-			if (caseType.equals(IAppSimuContext.CaseType.Aclf)) {
-				//caseData.setAclfCaseData(new AclfCaseData());
-				/*
-				SimuAppSpringAppContext.getAclfRunForm().setAclfCaseData(
-						caseData.getAclfCaseData());
-				*/		
-			} 
-			else if (caseType.equals(IAppSimuContext.CaseType.SenAnalysis)) {
-				//caseData.setDclfCaseData(new DclfCaseData());
-				/*
-				SimuAppSpringAppContext.getDclfRunForm().setDclfCaseData(
-						caseData.getDclfCaseData());
-						*/
-			} 
-			else if (caseType.equals(IAppSimuContext.CaseType.Acsc)) {
-				//caseData.setAcscCaseData(new AcscCaseData());
-				/*
-				SimuAppSpringAppContext.getAcscRunForm().setAcscCaseData(
-						caseData.getAcscCaseData());
-				*/		
-			} 
-			else if (caseType.equals(IAppSimuContext.CaseType.DStab)) {
-				//caseData.setDStabCaseData(new DStabCaseData());
-				//caseData.setAclfCaseData(new AclfCaseData());
-				//getDStabRunForm().setDStabCaseData(caseData.getDStabCaseData());
-			} 
-			else if (caseType.equals(IAppSimuContext.CaseType.Scripts)) {
-			} 
-			else {
-				IpssLogger.getLogger().severe("Wrong caseType");
-				return null;
-			}
 			List list = getProjData().getCaseList();
 			list.add(caseData);
-			IpssLogger.getLogger().info(
-					"CaseInfo created, casename: " + casename);
+			IpssLogger.getLogger().info("CaseInfo created, casename: " + casename);
 			return caseData;
 		} else
 			return null;
