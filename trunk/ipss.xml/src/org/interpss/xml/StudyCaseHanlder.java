@@ -30,12 +30,14 @@ import org.interpss.schema.AcscFaultCategoryDataType;
 import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
+import org.interpss.schema.AreaRecXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.DynamicEventDataType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSDocument;
+import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
 
 
 public class StudyCaseHanlder {
@@ -170,14 +172,29 @@ public class StudyCaseHanlder {
 		scase.setRecId(casename.replaceAll(" ", "_"));
 		scase.setRecName(casename);
 		
+		addNewTDFactor(scase);
+		addNewAreaTransfer(scase);
+		return true;
+	}
+	
+	public static void addNewTDFactor(DclfStudyCaseXmlType scase) {
 		DclfBranchSensitivityXmlType tdFactor = scase.addNewPTransferDistFactor();
 		tdFactor.addNewInjectBusList();
 		tdFactor.getInjectBusList().addNewInjectBus();
 		tdFactor.addNewWithdrawBusList();
 		tdFactor.getWithdrawBusList().addNewWithdrawBus();		
-		return true;
 	}
-	
+
+	public static void addNewAreaTransfer(DclfStudyCaseXmlType scase) {
+		AreaTransferAnalysis areaTrans = scase.addNewAreaTransferAnalysis();
+		AreaRecXmlType a = areaTrans.addNewFromArea();
+		a.setAreaNo(1);
+		a = areaTrans.addNewToArea();
+		a.setAreaNo(1);
+		areaTrans.addNewInjectBusList();
+		areaTrans.addNewWithdrawBusList();
+	}
+
 	/**
 	 * Get the DclfStudyCase record list
 	 * 

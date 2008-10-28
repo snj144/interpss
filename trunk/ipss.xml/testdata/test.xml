@@ -1,144 +1,131 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ipss:InterPSS 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.interpss.org/schema ../../ipss.xml/schema/InterPSS.xsd">
-<runStudyCase>
-  <analysisRunType>ContingencyAnalysis</analysisRunType>
-  <contingencyAnalysis>
-    <defaultAclfAlgorithm>
-      <lfMethod>NR</lfMethod>
-      <maxIterations>20</maxIterations>
-      <tolerance>1.0E-4</tolerance>
-      <nonDivergent>true</nonDivergent>
-    </defaultAclfAlgorithm>
-    <aclfStudyCaseList>
-      <aclfStudyCase>
-        <recId>LOSE60-70_1</recId>
-        <recName>LOSE60-70</recName>
-        <recDesc>CONTINGENCY LOSE60-70</recDesc>
-        <modification>
-          <branchChangeRecList>
-            <branchChangeRec>
-              <recId>OpenLine_1_1</recId>
-              <recName>Open line, contingency 1 event 1</recName>
-              <recDesc>OPEN LINE FROM BUS 60 TO BUS 70 CIRCUIT 1</recDesc>
-              <fromBusId>60</fromBusId>
-              <toBusId>70</toBusId>
-              <circuitNumber>1</circuitNumber>
-              <offLine>true</offLine>
-            </branchChangeRec>
-          </branchChangeRecList>
-        </modification>
-      </aclfStudyCase>
-      <aclfStudyCase>
-        <recId>LOSE60-60701_2</recId>
-        <recName>LOSE60-60701</recName>
-        <recDesc>CONTINGENCY LOSE60-60701</recDesc>
-        <modification>
-          <branchChangeRecList>
-            <branchChangeRec>
-              <recId>OpenLine_2_1</recId>
-              <recName>Open line, contingency 2 event 1</recName>
-              <recDesc>OPEN LINE FROM BUS 60 TO BUS 60701 CIRCUIT 1</recDesc>
-              <fromBusId>60</fromBusId>
-              <toBusId>60701</toBusId>
-              <circuitNumber>1</circuitNumber>
-              <offLine>true</offLine>
-            </branchChangeRec>
-          </branchChangeRecList>
-        </modification>
-      </aclfStudyCase>
-      <aclfStudyCase>
-        <recId>LOSE60702-70_3</recId>
-        <recName>LOSE60702-70</recName>
-        <recDesc>CONTINGENCY LOSE60702-70</recDesc>
-        <modification>
-          <branchChangeRecList>
-            <branchChangeRec>
-              <recId>OpenLine_3_1</recId>
-              <recName>Open line, contingency 3 event 1</recName>
-              <recDesc>OPEN LINE FROM BUS 60702 TO BUS 70 CIRCUIT 1</recDesc>
-              <fromBusId>60702</fromBusId>
-              <toBusId>70</toBusId>
-              <circuitNumber>1</circuitNumber>
-              <offLine>true</offLine>
-            </branchChangeRec>
-          </branchChangeRecList>
-        </modification>
-      </aclfStudyCase>
-      <aclfStudyCase>
-        <recId>LOSE60701-60702_4</recId>
-        <recName>LOSE60701-60702</recName>
-        <recDesc>CONTINGENCY LOSE60701-60702</recDesc>
-        <modification>
-          <branchChangeRecList>
-            <branchChangeRec>
-              <recId>OpenLine_4_1</recId>
-              <recName>Open line, contingency 4 event 1</recName>
-              <recDesc>OPEN LINE FROM BUS 60701 TO BUS 60702 CIRCUIT 1</recDesc>
-              <fromBusId>60701</fromBusId>
-              <toBusId>60702</toBusId>
-              <circuitNumber>1</circuitNumber>
-              <offLine>true</offLine>
-            </branchChangeRec>
-          </branchChangeRecList>
-        </modification>
-      </aclfStudyCase>
-      <aclfStudyCase>
-        <recId>LOSE70-90_5</recId>
-        <recName>LOSE70-90</recName>
-        <recDesc>CONTINGENCY LOSE70-90</recDesc>
-        <modification>
-          <branchChangeRecList>
-            <branchChangeRec>
-              <recId>OpenLine_5_1</recId>
-              <recName>Open line, contingency 5 event 1</recName>
-              <recDesc>OPEN LINE FROM BUS 70 TO BUS 90 CIRCUIT 1</recDesc>
-              <fromBusId>70</fromBusId>
-              <toBusId>90</toBusId>
-              <circuitNumber>1</circuitNumber>
-              <offLine>true</offLine>
-            </branchChangeRec>
-          </branchChangeRecList>
-        </modification>
-      </aclfStudyCase>
-      <aclfStudyCase>
-        <recId>LOSE60-80_6</recId>
-        <recName>LOSE60-80</recName>
-        <recDesc>CONTINGENCY LOSE60-80</recDesc>
-        <modification>
-          <branchChangeRecList>
-            <branchChangeRec>
-              <recId>OpenLine_6_1</recId>
-              <recName>Open line, contingency 6 event 1</recName>
-              <recDesc>OPEN LINE FROM BUS 60 TO BUS 80 CIRCUIT 1</recDesc>
-              <fromBusId>60</fromBusId>
-              <toBusId>80</toBusId>
-              <circuitNumber>1</circuitNumber>
-              <offLine>true</offLine>
-            </branchChangeRec>
-          </branchChangeRecList>
-        </modification>
-      </aclfStudyCase>
-      <aclfStudyCase>
-        <recId>LOSE80-151_7</recId>
-        <recName>LOSE80-151</recName>
-        <recDesc>CONTINGENCY LOSE80-151</recDesc>
-        <modification>
-          <branchChangeRecList>
-            <branchChangeRec>
-              <recId>OpenLine_7_1</recId>
-              <recName>Open line, contingency 7 event 1</recName>
-              <recDesc>OPEN LINE FROM BUS 80 TO BUS 151 CIRCUIT 1</recDesc>
-              <fromBusId>80</fromBusId>
-              <toBusId>151</toBusId>
-              <circuitNumber>1</circuitNumber>
-              <offLine>true</offLine>
-            </branchChangeRec>
-          </branchChangeRecList>
-        </modification>
-      </aclfStudyCase>
-    </aclfStudyCaseList>
-  </contingencyAnalysis>
-</runStudyCase>
+<ipss:InterPSS xsi:schemaLocation="http://www.interpss.org/schema ../../../ipss.xml/schema/InterPSS.xsd " xmlns:ipss="http://www.interpss.org/schema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ipss:runStudyCase>
+		<ipss:analysisRunType>RunDclf</ipss:analysisRunType>
+		<ipss:standardRun>
+			<ipss:runDclfStudyCase>
+				<ipss:dclfStudyCaseList>
+					<ipss:dclfStudyCase>
+						<ipss:recId>RunDclfCase_1</ipss:recId>
+						<ipss:recName>Run Dclf Study Case-1</ipss:recName>
+						<ipss:recDesc />
+						<ipss:caculatelDclf>false</ipss:caculatelDclf>
+						<ipss:pTransferDistFactor>
+							<ipss:senType>PAngle</ipss:senType>
+							<ipss:injectBusType>SingleBus</ipss:injectBusType>
+							<ipss:injectBusList>
+
+								<ipss:injectBus>
+									<ipss:busId>0003</ipss:busId>
+								</ipss:injectBus>
+							</ipss:injectBusList>
+							<ipss:withdrawBusType>MultipleBus</ipss:withdrawBusType>
+							<ipss:withdrawBusList>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0014_3</ipss:recId>
+									<ipss:busId>0014</ipss:busId>
+									<ipss:percent>40.0</ipss:percent>
+								</ipss:withdrawBus>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0013_2</ipss:recId>
+									<ipss:busId>0013</ipss:busId>
+									<ipss:percent>30.0</ipss:percent>
+								</ipss:withdrawBus>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0012_2</ipss:recId>
+									<ipss:busId>0012</ipss:busId>
+									<ipss:percent>30.0</ipss:percent>
+								</ipss:withdrawBus>
+							</ipss:withdrawBusList>
+							<ipss:branch>
+								<ipss:recId>Branch0004_0007_3</ipss:recId>
+								<ipss:fromBusId>0004</ipss:fromBusId>
+								<ipss:toBusId>0007</ipss:toBusId>
+							</ipss:branch>
+							<ipss:branch>
+								<ipss:recId>Branch0004_0009_3</ipss:recId>
+								<ipss:fromBusId>0004</ipss:fromBusId>
+								<ipss:toBusId>0009</ipss:toBusId>
+							</ipss:branch>
+							<ipss:branch>
+								<ipss:recId>Branch0005_0006_3</ipss:recId>
+								<ipss:fromBusId>0005</ipss:fromBusId>
+								<ipss:toBusId>0006</ipss:toBusId>
+							</ipss:branch>
+						</ipss:pTransferDistFactor>
+						<ipss:areaTransferAnalysis>
+							<ipss:injectBusList />
+							<ipss:withdrawBusList />
+							<ipss:fromArea>
+								<ipss:areaNo>1</ipss:areaNo>
+							</ipss:fromArea>
+							<ipss:toArea>
+								<ipss:areaNo>2</ipss:areaNo>
+							</ipss:toArea>
+						</ipss:areaTransferAnalysis>
+					</ipss:dclfStudyCase>
+					<ipss:dclfStudyCase>
+						<ipss:recId>RunDclfCase_2</ipss:recId>
+						<ipss:recName>Run Dclf Study Case-2</ipss:recName>
+						<ipss:recDesc />
+						<ipss:caculatelDclf>false</ipss:caculatelDclf>
+						<ipss:pTransferDistFactor>
+							<ipss:senType>PAngle</ipss:senType>
+							<ipss:injectBusType>MultipleBus</ipss:injectBusType>
+							<ipss:injectBusList>
+								<ipss:injectBus>
+									<ipss:recId>Bus_0003_3_1</ipss:recId>
+									<ipss:busId>0001</ipss:busId>
+								</ipss:injectBus>
+								<ipss:injectBus>
+									<ipss:busId>0002</ipss:busId>
+								</ipss:injectBus>
+								<ipss:injectBus>
+									<ipss:busId>0003</ipss:busId>
+								</ipss:injectBus>
+								<ipss:injectBus>
+									<ipss:busId>0006</ipss:busId>
+								</ipss:injectBus>
+								<ipss:injectBus>
+									<ipss:busId>0008</ipss:busId>
+								</ipss:injectBus>
+							</ipss:injectBusList>
+							<ipss:withdrawBusType>MultipleBus</ipss:withdrawBusType>
+							<ipss:withdrawBusList>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0014_3_1</ipss:recId>
+									<ipss:busId>0014</ipss:busId>
+									<ipss:percent>40.0</ipss:percent>
+								</ipss:withdrawBus>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0013_2_1</ipss:recId>
+									<ipss:busId>0013</ipss:busId>
+									<ipss:percent>30.0</ipss:percent>
+								</ipss:withdrawBus>
+								<ipss:withdrawBus>
+									<ipss:recId>Bus_0012_2_1</ipss:recId>
+									<ipss:busId>0012</ipss:busId>
+									<ipss:percent>30.0</ipss:percent>
+								</ipss:withdrawBus>
+							</ipss:withdrawBusList>
+							<ipss:branch>
+								<ipss:recId>Branch0004_0007_3_1</ipss:recId>
+								<ipss:fromBusId>0004</ipss:fromBusId>
+								<ipss:toBusId>0007</ipss:toBusId>
+							</ipss:branch>
+							<ipss:branch>
+								<ipss:recId>Branch0004_0009_3_1</ipss:recId>
+								<ipss:fromBusId>0004</ipss:fromBusId>
+								<ipss:toBusId>0009</ipss:toBusId>
+							</ipss:branch>
+							<ipss:branch>
+								<ipss:recId>Branch0005_0006_3_1</ipss:recId>
+								<ipss:fromBusId>0005</ipss:fromBusId>
+								<ipss:toBusId>0006</ipss:toBusId>
+							</ipss:branch>
+						</ipss:pTransferDistFactor>
+					</ipss:dclfStudyCase>
+				</ipss:dclfStudyCaseList>
+			</ipss:runDclfStudyCase>
+		</ipss:standardRun>
+	</ipss:runStudyCase>
 </ipss:InterPSS>
