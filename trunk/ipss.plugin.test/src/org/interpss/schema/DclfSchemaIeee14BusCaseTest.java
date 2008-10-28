@@ -10,7 +10,6 @@ import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
@@ -41,9 +40,9 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		if (dclfCase.getCaculatelDclf()) {
 			algo.calculateDclf(SpringAppContext.getIpssMsgHub());
 			//System.out.println("0014->" + algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0014").getSortNumber())*Constants.RtoD);
-			assertTrue(Math.abs(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0012").getSortNumber())*Constants.RtoD+16.27115) < 0.0001);
-			assertTrue(Math.abs(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0013").getSortNumber())*Constants.RtoD+16.43665) < 0.0001);
-			assertTrue(Math.abs(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0014").getSortNumber())*Constants.RtoD+17.42943) < 0.0001);
+			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0012").getSortNumber()))+16.27115) < 0.0001);
+			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0013").getSortNumber()))+16.43665) < 0.0001);
+			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0014").getSortNumber()))+17.42943) < 0.0001);
 		}
 		
 		for (DclfBusSensitivityXmlType sen : dclfCase.getSensitivityArray()) {

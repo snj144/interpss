@@ -15,7 +15,6 @@ import java.util.Vector;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.exchange.IpssFileAdapterBase;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InvalidInputException;
 import com.interpss.common.exp.InvalidOperationException;
@@ -232,7 +231,7 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
         AclfBus bus = CoreObjectFactory.createAclfBus(busId, 1, 1, "1", net);
         bus.setName(busName);
         bus.setBaseVoltage(100, UnitType.kV);
-        bus.setVoltage(vpu, angDeg * Constants.DtoR);
+        bus.setVoltage(vpu, Math.toRadians(angDeg));
         bus.setShuntY(new Complex(gPU, bPU));
 
         // add the bus object into the network container

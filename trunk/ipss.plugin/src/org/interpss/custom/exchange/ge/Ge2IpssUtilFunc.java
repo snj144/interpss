@@ -26,7 +26,6 @@ package org.interpss.custom.exchange.ge;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -391,8 +390,8 @@ public class Ge2IpssUtilFunc {
     		IpssLogger.getLogger().info("Branch " + geXfr.getId() + " is a PsXfr" );
     	 	geXfr.setBranchCode(AclfBranchCode.PS_XFORMER);
     		final PSXfrAdapter psXfr = (PSXfrAdapter)geXfr.adapt(PSXfrAdapter.class);
-    		psXfr.setFromAngle(geXfr.getPhaseAngleDegPrim()*Constants.DtoR);
-    		psXfr.setToAngle(geXfr.getPhaseAngleDegSecd()*Constants.DtoR);
+    		psXfr.setFromAngle(Math.toRadians(geXfr.getPhaseAngleDegPrim()));
+    		psXfr.setToAngle(Math.toRadians(geXfr.getPhaseAngleDegSecd()));
 		}
 		
 		if (geXfr.getType() == 2 || geXfr.getType() == 12) {

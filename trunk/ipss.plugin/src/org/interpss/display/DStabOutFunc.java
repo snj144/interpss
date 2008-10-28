@@ -158,7 +158,7 @@ public class DStabOutFunc {
 			double refAng = 0.0;
 			Machine refMach = algo.getRefMachine();
 			if (refMach != null)
-				refAng = refMach.getAngle() * Constants.RtoD;
+				refAng = Math.toDegrees(refMach.getAngle());
 
 			str
 					.append("\n                          Initial Condition Summary\n");
@@ -197,8 +197,7 @@ public class DStabOutFunc {
 				if (bus.getMachine() != null) {
 					Machine mach = bus.getMachine();
 					str.append(machModelStr(mach) + "   ");
-					str.append(Number2String.toStr("####0.0", mach.getAngle()
-							* Constants.RtoD - refAng));
+					str.append(Number2String.toStr("####0.0", Math.toDegrees(mach.getAngle()) - refAng));
 				} else if (bus.getScriptDynamicBusDevice() != null) {
 					// Machine mach = bus.getMachine();
 					str.append("Dyn Bus Device   " + " ");

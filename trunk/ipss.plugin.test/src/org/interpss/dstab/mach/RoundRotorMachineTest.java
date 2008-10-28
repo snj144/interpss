@@ -28,7 +28,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
@@ -59,7 +58,7 @@ public class RoundRotorMachineTest extends TestSetupBase {
 		                 mach.getEq1() + ", " + mach.getEd1() + ", " + mach.getEd11() +  ", " + 
 		                 mach.getEq11() + ", " + mach.getEfd()+ ", " + mach.getPe());
 		*/                 
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.99590) < 0.00001);
@@ -78,7 +77,7 @@ public class RoundRotorMachineTest extends TestSetupBase {
 				mach.getEq1() + ", " + mach.getEd1() + ", " + mach.getEd11() +  ", " + 
 				mach.getEq11() + ", " + mach.getEfd()+ ", " + mach.getPe());
 		*/		
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.99590) < 0.00001);
@@ -93,7 +92,7 @@ public class RoundRotorMachineTest extends TestSetupBase {
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.99590) < 0.00001);
@@ -112,7 +111,7 @@ public class RoundRotorMachineTest extends TestSetupBase {
 				mach.getEq1() + ", " + mach.getEd1() + ", " + mach.getEd11() +  ", " + 
 				mach.getEq11() + ", " + mach.getEfd()+ ", " + mach.getPe());
 		*/		
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.60114) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.60114) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEq11()-0.9959) < 0.00001);

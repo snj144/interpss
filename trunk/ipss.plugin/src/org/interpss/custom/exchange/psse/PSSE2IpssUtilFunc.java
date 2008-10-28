@@ -28,14 +28,11 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
-import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
@@ -50,7 +47,6 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
-import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 import com.interpss.ext.psse.aclf.PSSEAclfGen;
 import com.interpss.ext.psse.aclf.PSSEAclfLoad;
@@ -224,8 +220,8 @@ public class PSSE2IpssUtilFunc {
 	          		 */
 	          		IpssLogger.getLogger().info("PSXfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has active power control");
 	          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(adjNet, xfr.getId(), FlowControlType.RANGE_CONTROL);
-	          		ps.setAngLimit(new LimitType(xfr.getRmLimit().getMax()*Constants.DtoR, 
-	          									 xfr.getRmLimit().getMin()*Constants.DtoR));
+	          		ps.setAngLimit(new LimitType(Math.toRadians(xfr.getRmLimit().getMax()), 
+	          									Math.toRadians(xfr.getRmLimit().getMin())));
 	          		double baseMva = adjNet.getBaseKva() * 0.001;
 	          		ps.setControlRange(new LimitType(xfr.getVmLimit().getMax()/baseMva, xfr.getVmLimit().getMin()/baseMva));
 	          		// we use from side angle to control
