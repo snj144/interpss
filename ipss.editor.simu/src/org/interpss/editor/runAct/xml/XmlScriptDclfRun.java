@@ -38,6 +38,7 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
+import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -158,5 +159,22 @@ public class XmlScriptDclfRun {
 				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
 			}
 		}		
+	}
+
+	public static void calAreaTransferFactor(AreaTransferAnalysis areaTransfer, DclfAlgorithm algo, IPSSMsgHub msg) {
+		algo.getInjectBusList().clear();
+		algo.getWithdrawBusList().clear();
+
+		algo.setInjectBusType(SenBusAnalysisType.MULTIPLE_BUS);
+		for (SenAnalysisBusRecXmlType bus :  areaTransfer.getInjectBusList().getInjectBusArray()){
+			algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+			algo.addInjectBus(bus.getBusId(), bus.getPercent());
+		}
+
+		algo.setWithdrawBusType(SenBusAnalysisType.MULTIPLE_BUS);
+		for (SenAnalysisBusRecXmlType bus :  areaTransfer.getWithdrawBusList().getWithdrawBusArray()){
+			algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+			algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
+		}
 	}
 }

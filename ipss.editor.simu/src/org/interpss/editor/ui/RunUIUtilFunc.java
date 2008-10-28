@@ -38,6 +38,7 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
@@ -47,41 +48,108 @@ public class RunUIUtilFunc  {
 	public static String Template_RunCase_DStab = "template/RunCaseDStabTemplate.xml";
 	public static String Template_RunCase_SenAnalysis = "template/RunCaseSenAnalysisTemplate.xml";	
 	
-	public static enum NetIdTypeEnum {LoadBus, GenBus, AllBus, LineBranch, XfrBranch, AllBranch}
-	
-	public static Set<String> getIdArray(AclfNetwork net, NetIdTypeEnum type) {
+	public static enum NetIdType {LoadBus, GenBus, AllBus, LineBranch, XfrBranch, AllBranch,
+										AreaNo, BusInArea, GenInArea, GenInAreaDFactor}
+	/**
+	 * 
+	 * 
+	 * @param net
+	 * @param type
+	 * @param number areNo for BusinArea
+	 * @return
+	 */
+	public static Set<String> getIdArray(AclfNetwork net, NetIdType type, int number) {
 		Set<String> set = new TreeSet<String>();
-		if (type == NetIdTypeEnum.AllBus || type == NetIdTypeEnum.GenBus || type == NetIdTypeEnum.LoadBus)
+		if (type == NetIdType.AllBus || type == NetIdType.GenBus || type == NetIdType.LoadBus)
 			for (Bus bus : net.getBusList()) {
 				AclfBus aclfBus = (AclfBus)bus;
-				if (type == NetIdTypeEnum.GenBus) {
+				if (type == NetIdType.GenBus) {
 					if (aclfBus.isGen()) 
 						set.add(bus.getId());
 				}	
-				else if (type == NetIdTypeEnum.LoadBus) {
+				else if (type == NetIdType.LoadBus) {
 					if (aclfBus.isLoad())
 						set.add(bus.getId());
 				}
 				else
 					set.add(bus.getId());
 			}
-		else if (type == NetIdTypeEnum.AllBranch || type == NetIdTypeEnum.LineBranch || type == NetIdTypeEnum.XfrBranch)
+		else if (type == NetIdType.AllBranch || type == NetIdType.LineBranch || type == NetIdType.XfrBranch)
 			for (Branch bra : net.getBranchList()) {
 				AclfBranch aclfBra = (AclfBranch)bra;
-				if (type == NetIdTypeEnum.LineBranch) {
+				if (type == NetIdType.LineBranch) {
 					if (aclfBra.isLine()) 
 						set.add(bra.getId());
 				}
-				else if (type == NetIdTypeEnum.XfrBranch) {
+				else if (type == NetIdType.XfrBranch) {
 					if (aclfBra.isXfr())
 						set.add(bra.getId());
 				}
 				else
 					set.add(bra.getId());
 			}
+		else if (type == NetIdType.AreaNo) {
+			for ( Area area : net.getAreaList())
+				set.add(new Integer(area.getNumber()).toString());
+		}
+		else if (type == NetIdType.BusInArea) {
+			for (Bus bus : net.getBusList()) {
+				if (bus.getArea().getNumber() == number)
+					set.add(bus.getId());
+			}
+		}
+		else if (type == NetIdType.GenInArea) {
+			for (Bus bus : net.getBusList()) {
+				AclfBus aclfBus = (AclfBus)bus;
+				if (bus.getArea().getNumber() == number && aclfBus.isGen())
+					set.add(bus.getId());
+			}
+		}
+		else if (type == NetIdType.GenInAreaDFactor) {
+			double sum = 0.0;
+			for (Bus bus : net.getBusList()) {
+				AclfBus aclfBus = (AclfBus)bus;
+				if (bus.getArea().getNumber() == number && aclfBus.isGen())
+					sum += aclfBus.getGenP();
+			}
+			if (sum == 0.0) 
+				sum = 1.0;
+			for (Bus bus : net.getBusList()) {
+				AclfBus aclfBus = (AclfBus)bus;
+				if (bus.getArea().getNumber() == number && aclfBus.isGen()) {
+					double p = aclfBus.getGenP() / sum;
+					set.add(bus.getId()+"(" + String.format("%3.1f", p*100.0) + "%)");
+				}
+			}
+		}
 		return set;
 	}
 	
+	public static Set<String> getIdArray(AclfNetwork net, NetIdType type) {
+		return getIdArray(net, type, 0);
+	}
+	
+	/**
+	 * get percent from string of id(30.0%) format
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static double getPercent_IdPercent(String s) {
+		String s1 = s.substring(s.indexOf('(')+1, s.indexOf('%'));
+		return new Double(s1).doubleValue();
+	}
+	
+	/**
+	 * get id from string of id(30.0%) format
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String getId_IdPercent(String s) {
+		String s1 = s.substring(0, s.indexOf('('));
+		return s1;
+	}
 	/**
 	 * Load IpssXmlDoc from the file. If file not existing, load the info from the template.
 	 * 

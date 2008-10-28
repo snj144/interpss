@@ -21,7 +21,7 @@
     					     ${emf_base}/org.eclipse.emf.ecore_2.2.0.jarr;
     					     ${emf_base}/org.eclipse.emf_2.2.0.jar;
     					     ${emf_base}/org.eclipse.emf.ecore.xmi_2.2.0.jar;"/>
-    	<property name="SrcBackup" value="E:/backup"/>
+    	<property name="SrcBackup" value="F:/backup"/>
     </target>
   
     <target depends="init" description="run the GEditor" name="run">

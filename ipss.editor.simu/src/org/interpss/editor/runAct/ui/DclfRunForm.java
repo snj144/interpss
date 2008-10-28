@@ -30,6 +30,7 @@ import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
+import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
@@ -42,18 +43,12 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	}
 
 //	private DclfCaseData dclfCaseData;
-	DclfBranchSensitivityXmlType tdFactor = null;;
-/*
-	public DclfCaseData getDclfCaseData() {
-		return this.dclfCaseData;
-	}
+	private DclfBranchSensitivityXmlType tdFactor = null;;
+	private AreaTransferAnalysis areaTransfer = null;;
 
-	public void setDclfCaseData(DclfCaseData acase) {
-		this.dclfCaseData = acase;
-	}
-*/
 	public void setXmlCaseData(DclfStudyCaseXmlType scase) {
 		this.tdFactor = scase.getPTransferDistFactorArray(0);
+		this.areaTransfer = scase.getAreaTransferAnalysisArray(0);
 	}
 	
 	@Override

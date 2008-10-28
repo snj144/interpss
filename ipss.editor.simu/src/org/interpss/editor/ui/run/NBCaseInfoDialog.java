@@ -31,6 +31,7 @@ import javax.swing.JFileChooser;
 
 import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.app.AppSimuContextImpl;
+import org.interpss.editor.data.proj.CaseData;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
@@ -100,6 +101,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         
 		caseDataPanel.removeAll();
 		setButtonStatus(true);
+		this.runButton.setText("Run");
 		if (_caseType == IAppSimuContext.CaseType.Aclf) {
 			this.setTitle("Run Aclf Loadflow Analysis");
 			caseDataPanel.add(_aclfCaseInfoPanel);
@@ -108,6 +110,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		}
 		else if (_caseType == IAppSimuContext.CaseType.SenAnalysis) {
 			this.setTitle("Run Sensitivity Analysis");
+			this.runButton.setText("Save");
 			caseDataPanel.add(_dclfCaseInfoPanel);
 			_dclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}
@@ -138,16 +141,19 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
     
 	private void setButtonStatus(boolean b) {
 	    this.addCaseButton.setEnabled(b);
-	    this.casenameComboBox.setEnabled(b);
+	    //this.casenameComboBox.setEnabled(b);
 	    this.deleteCaseButton.setEnabled(b);
 	    //private javax.swing.JTextArea descTextArea;
 	    this.viewXmlButton.setEnabled(b);
+	    this.importButton.setEnabled(b);
 	}
 	
 	private void loadRunXmlDocument(String filename) {
 		try {
-			InterPSSDocument ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(filename, _caseType);
-			this.studyCaseXmlDoc = new StudyCaseHanlder(ipssXmlDoc); 
+			if (_caseType != IAppSimuContext.CaseType.Scripts) {
+				InterPSSDocument ipssXmlDoc = RunUIUtilFunc.loadIpssXmlDoc(filename, _caseType);
+				this.studyCaseXmlDoc = new StudyCaseHanlder(ipssXmlDoc);
+			}
 	        setForm2Editor();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -225,14 +231,26 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		}
 		else if (_caseType == IAppSimuContext.CaseType.Scripts) {
 			// build the case info combo list
-			//this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
-			//IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(_appSimuCtx.getCasenameArray(_caseType)));
+			IpssLogger.getLogger().info("Casename Array size: " + _appSimuCtx.getCasenameArray(_caseType).length);
 			
-			//casename = projData.getScriptsCaseName();
-			//this.casenameComboBox.setSelectedItem(casename); 
-			//projData.setScriptsCaseName(casename);
-			//_scrptsCaseInfoPanel.setCaseData(_caseData);
-			//_scrptsCaseInfoPanel.setForm2Editor();
+			ProjData projData = (ProjData)_appSimuCtx.getProjData();
+			String casename = projData.getScriptsCaseName();
+			if (casename != null)
+				this.casenameComboBox.setSelectedItem(casename);
+			else
+				casename = (String)this.casenameComboBox.getSelectedItem();
+			projData.setScriptsCaseName(casename);
+			// retrieve the case data from appCtx.projData.caseList
+			CaseData caseData = _appSimuCtx.getCaseData(casename, _caseType);
+			if ( caseData == null)
+				// new case situation, create a new case
+				caseData = _appSimuCtx.createCaseData(casename, _caseType);
+			
+			this.descTextArea.setText(caseData.getDescription());
+			
+			_scrptsCaseInfoPanel.setCaseData(caseData);
+			_scrptsCaseInfoPanel.setForm2Editor();
 		}
         return true;
 	}
@@ -343,6 +361,7 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 		else if (_caseType == IAppSimuContext.CaseType.Scripts) {
 			projData.setScriptsCaseName(casename);
 			_scrptsCaseInfoPanel.saveEditor2Form(errMsg);
+			return true;
 		}
 		
 		// save run case xml doc
@@ -602,11 +621,17 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
         	SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
 			return;
         }	
-		_returnOK = true;
-		_appSimuCtx.getProjData().setDirty(true);
-		if (_caseType == IAppSimuContext.CaseType.Aclf)
-			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
-		GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
+        
+        if (this.runButton.getText().equals("Save")) {
+    		_returnOK = false;
+        }
+        else {
+    		_returnOK = true;
+    		_appSimuCtx.getProjData().setDirty(true);
+    		if (_caseType == IAppSimuContext.CaseType.Aclf)
+    			((SimuContext)_appSimuCtx.getSimuCtx()).getMsgHub().removeMsgListener(_aclfCaseInfoPanel);
+    		GraphSpringAppContext.getIpssGraphicEditor().refreshCurrentDocumentEditorPanel();        
+        }
         setVisible(false);
         dispose();
     }//GEN-LAST:event_runButtonActionPerformed
@@ -648,6 +673,17 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 
 private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewXmlButtonActionPerformed
 	this.setAlwaysOnTop(false);
+	Vector<String> errMsg = new Vector<String>();	
+	try {
+    	if (!saveEditor2Form(errMsg)) {
+    		SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", errMsg);
+			return;
+    	}
+    } catch (Exception e) {
+    	IpssLogger.logErr(e);
+    	SpringAppContext.getEditorDialogUtil().showMsgDialog(this, "Input Data Error", e.toString());
+		return;
+    }	
 	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Run Study Case Xml");
 	dialog.disableFeature("busStyleRadioButton");
 	dialog.disableFeature("summaryRadioButton");
@@ -657,7 +693,7 @@ private void viewXmlButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN
 private void importButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importButtonActionPerformed
 	this.setAlwaysOnTop(false);
 	JFileChooser fChooser = getSaveTextFileChooser();
-	int retValue = fChooser.showSaveDialog(this);
+	int retValue = fChooser.showOpenDialog(this);
 	if (retValue == JFileChooser.APPROVE_OPTION) {
 		File file = fChooser.getSelectedFile();
 		String filename = file.getPath();
