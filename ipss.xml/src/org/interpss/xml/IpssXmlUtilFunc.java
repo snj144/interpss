@@ -40,7 +40,7 @@ public class IpssXmlUtilFunc {
 		return sAry;
 	}
 	
-	public static String[] getWithdrawItemList(SenAnalysisBusRecXmlType[] list) {
+	public static String[] getSenAnalysisBusItemList(SenAnalysisBusRecXmlType[] list) {
 		String[] sAry = new String[list.length];
 		int cnt = 0;
 		for (SenAnalysisBusRecXmlType bus : list) {
