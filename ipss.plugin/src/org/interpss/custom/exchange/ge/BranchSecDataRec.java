@@ -121,7 +121,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 		GeAclfBranch  branch = null;
 		if (this.sec == 1) {
 			// first section
-			branch = ExtensionObjectFactory.createGeAclfLine();
+			branch = ExtensionObjectFactory.createGeAclfBranch();
 			net.addBranch(branch, new Integer(this.f_bus).toString(), new Integer(this.t_bus).toString(), this.ck);
 		}
 		else {

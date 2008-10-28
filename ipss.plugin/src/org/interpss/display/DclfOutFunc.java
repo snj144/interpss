@@ -33,6 +33,7 @@ import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
+import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
 
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -203,6 +204,33 @@ public class DclfOutFunc {
 		return str;
 	}
 	
+	/**
+	 * out area transfer analysis results
+	 * 
+	 * @param areaTransfer XML sensitivity calculation records
+	 * @param algo
+	 * @param msg
+	 * @return
+	 */
+	public static String areaTransferAnalysisResults(
+						AreaTransferAnalysis areaTransfer, DclfAlgorithm algo,
+						IPSSMsgHub msg) {
+		String str = "\n\n";
+		str += "   Power Transfer Distribution Factor";
+		String inBusId = areaTransfer.getInjectBusList().getInjectBusArray(0).getBusId();
+		str += "\n\n    Inject BusId   : " + inBusId + "\n";
+		str += withdrawBusInfo(areaTransfer);
+		str += "       Branch Id        AreaTransFactor\n";
+		str += "========================================\n";
+		for (BranchRecXmlType branch : areaTransfer.getBranchArray()) {
+			double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), msg);
+			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
+					+ "->" + branch.getToBusId())
+					+ "       " + Number2String.toStr(f) + "\n";
+		}
+		return str;
+	}
+
 	private static class PTDFRec {
 		String busId;
 		double ptdf = 0.0;
