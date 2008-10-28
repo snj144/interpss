@@ -215,10 +215,9 @@ public class DclfOutFunc {
 						AreaTransferAnalysis areaTransfer, DclfAlgorithm algo,
 						IPSSMsgHub msg) {
 		String str = "\n\n";
-		str += "   Power Transfer Distribution Factor";
-		String inBusId = areaTransfer.getInjectBusList().getInjectBusArray(0).getBusId();
-		str += "\n\n    Inject BusId   : " + inBusId + "\n";
-		str += withdrawBusInfo(areaTransfer);
+		str += "   Area Transfer Distribution Factor\n\n";
+		str += getSenBusList("From Area", areaTransfer.getInjectBusList().getInjectBusArray());
+		str += getSenBusList("To Area", areaTransfer.getWithdrawBusList().getWithdrawBusArray());
 		str += "       Branch Id        AreaTransFactor\n";
 		str += "========================================\n";
 		for (BranchRecXmlType branch : areaTransfer.getBranchArray()) {
@@ -256,14 +255,18 @@ public class DclfOutFunc {
 			str += "    Withdraw BusId : " + wdBusId + "\n\n";
 		}
 		else {
-			str += "    Withdraw BusId : [";
-			for (SenAnalysisBusRecXmlType bus : tdFactor.getWithdrawBusList().getWithdrawBusArray())
-				str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
-			str += " ]\n\n";
+			str += getSenBusList("Withdraw", tdFactor.getWithdrawBusList().getWithdrawBusArray());
 		}
 		return str;
 	}
-	
+
+	private static String getSenBusList(String s, SenAnalysisBusRecXmlType[] busList) {
+		String str = "    " + s + " Bus List : [";
+		for (SenAnalysisBusRecXmlType bus : busList)
+			str += " (" + bus.getBusId() + ", " + bus.getPercent() + "%)";
+		str += " ]\n\n";
+		return str;
+	}
 	private static void sortPTDFRecList(List<PTDFRec> list) {
 		boolean done = false;
 		while (!done) {
