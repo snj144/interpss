@@ -34,12 +34,10 @@ import org.interpss.editor.form.GBusForm;
 import org.interpss.editor.form.GFormContainer;
 import org.interpss.editor.form.GNetForm;
 import org.interpss.editor.jgraph.ui.form.IGBranchForm;
-import org.interpss.mapper.editor.BaseFormDataMapperImpl;
 import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.editor.ui.util.CoreScriptUtilFunc;
 import org.interpss.editor.ui.util.ScriptJavacUtilFunc;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.exp.InterpssRuntimeException;
@@ -602,8 +600,8 @@ public class AclfFormDataMapperImpl {
 			PSXfrPControl psXfrControl = CoreObjectFactory.createPSXfrPControl(
 					net, branch.getId(), FlowControlType.POINT_CONTROL);
 			psXfrControl.setPSpecified(adjData.getPcPSpec());
-			psXfrControl.setAngLimit(new LimitType(adjData.getPcAngMax()
-					* Constants.DtoR, adjData.getPcAngMin() * Constants.DtoR));
+			psXfrControl.setAngLimit(new LimitType(Math.toRadians(adjData.getPcAngMax()), 
+					Math.toRadians(adjData.getPcAngMin())));
 			psXfrControl.setControlOnFromSide(adjData.isPcOnFromSide());
 			psXfrControl.setFlowFrom2To(adjData.isFlowFrom2To());
 		}

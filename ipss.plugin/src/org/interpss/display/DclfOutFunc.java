@@ -35,7 +35,6 @@ import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
 import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
@@ -59,7 +58,7 @@ public class DclfOutFunc {
 		str += "=================================\n";
 		for (Bus bus : algo.getAclfNetwork().getBusList()) {
 			int n = bus.getSortNumber();
-			double angle = algo.getBusAngle(n) * Constants.RtoD;
+			double angle = Math.toDegrees(algo.getBusAngle(n));
 			str += Number2String.toFixLengthStr(8, bus.getId()) + "        "
 					+ Number2String.toStr(angle) + "\n";
 		}
@@ -68,8 +67,8 @@ public class DclfOutFunc {
 		str += "       FromId->ToId       Power Flow(pu)\n";
 		str += "==========================================\n";
 		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
-			double fAng = algo.getBusAngle(bra.getFromBus().getSortNumber()) * Constants.RtoD;
-			double tAng = algo.getBusAngle(bra.getToBus().getSortNumber()) * Constants.RtoD;
+			double fAng = Math.toDegrees(algo.getBusAngle(bra.getFromBus().getSortNumber()));
+			double tAng = Math.toDegrees(algo.getBusAngle(bra.getToBus().getSortNumber()));
 			AclfBranch aclfBra = (AclfBranch)bra;
 			str += Number2String.toFixLengthStr(20, bra.getId()) + "     "  
 					+ Number2String.toStr((fAng-tAng)*aclfBra.getZ().getImaginary()) + "\n";

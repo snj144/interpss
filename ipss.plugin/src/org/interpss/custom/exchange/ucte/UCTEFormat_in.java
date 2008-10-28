@@ -508,7 +508,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 					x = 1.0 / Math.sqrt(1.0 + a*a);
 				}
 				else {
-					double theta = thetaDegAngle * Constants.DtoR,
+					double theta = Math.toRadians(thetaDegAngle),
 					       asin = a*Math.sin(theta),
 					       acos = 1.0 + a*Math.cos(theta),
 					       asinMax = aMax*Math.sin(theta),

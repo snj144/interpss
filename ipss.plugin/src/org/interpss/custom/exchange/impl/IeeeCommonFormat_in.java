@@ -34,7 +34,6 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -268,7 +267,7 @@ public class IeeeCommonFormat_in {
       	final AclfBus bus = CoreObjectFactory.createAclfBus(busId, areaNo, zoneNo, "1", net);
       	bus.setName(busName);
     	bus.setBaseVoltage(baseKv, UnitType.kV);
-    	bus.setVoltage(vpu, angDeg*Constants.DtoR);
+    	bus.setVoltage(vpu, Math.toRadians(angDeg));
     	bus.setShuntY(new Complex(gPU,bPU));
       	
     	// add the bus object into the network container
@@ -513,7 +512,7 @@ public class IeeeCommonFormat_in {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
         		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
-        		psXfr.setFromAngle(angle*Constants.DtoR);
+        		psXfr.setFromAngle(Math.toRadians(angle));
         	}
         	
           	if (type == 2) {
@@ -541,7 +540,7 @@ public class IeeeCommonFormat_in {
           		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL);
           		// TODO pSpec not defined
           		ps.setPSpecified(0.2);
-          		ps.setAngLimit(new LimitType(maxTapAng*Constants.DtoR, minTapAng*Constants.DtoR));
+          		ps.setAngLimit(new LimitType(Math.toRadians(maxTapAng), Math.toRadians(minTapAng)));
           		ps.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
           		net.addPSXfrPControl(ps, controlBusId);          		
           	}

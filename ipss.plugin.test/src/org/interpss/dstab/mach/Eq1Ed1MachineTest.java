@@ -28,7 +28,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
@@ -55,7 +54,7 @@ public class Eq1Ed1MachineTest extends TestSetupBase {
 		// the following values to compare to are by long-hand calculation
 		//System.out.println("Angle, Ed1, Eq1, Efd, Pe: " + mach.getAngle()*Constants.RtoD + ", " + 
 		//		mach.getEd1() + ", " + mach.getEq1() + ", " + mach.getEfd()+ ", " + mach.getPe());
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEfd()-1.8800642271660648) < 0.00001);
@@ -68,7 +67,7 @@ public class Eq1Ed1MachineTest extends TestSetupBase {
 		// again, the following values to compare to are by long-hand calculation. There
 		// should be no change
 		//System.out.println("Angle, Ed1, Eq1, Efd, Pe: " + mach.getAngle()*Constants.RtoD + ", " + mach.getEd1() + ", " + mach.getEq1() + ", " + mach.getEfd()+ ", " + mach.getPe());
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEfd()-1.8800642271660648) < 0.00001);
@@ -82,7 +81,7 @@ public class Eq1Ed1MachineTest extends TestSetupBase {
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 		//System.out.println("Angle, Ed1, Eq1, Efd, Pe: " + mach.getAngle()*Constants.RtoD + ", " + mach.getEd1() + ", " + mach.getEq1() + ", " + mach.getEfd()+ ", " + mach.getPe());
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.58341) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.58341) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEfd()-1.8800642271660648) < 0.00001);
@@ -95,7 +94,7 @@ public class Eq1Ed1MachineTest extends TestSetupBase {
 
 		// again, the following values to compare to are by long-hand calculation
 		//System.out.println("Angle, Ed1, Eq1, Efd, Pe: " + mach.getAngle()*Constants.RtoD + ", " + mach.getEd1() + ", " + mach.getEq1() + ", " + mach.getEfd()+ ", " + mach.getPe());
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-27.60114) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-27.60114) < 0.00001);
 		assertTrue(Math.abs(mach.getEq1()-1.09514) < 0.00001);
 		assertTrue(Math.abs(mach.getEd1()+0.36656) < 0.00001);
 		assertTrue(Math.abs(mach.getEfd()-1.8800642271660648) < 0.00001);

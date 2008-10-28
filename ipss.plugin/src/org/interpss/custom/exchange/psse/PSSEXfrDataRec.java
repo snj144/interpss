@@ -29,7 +29,6 @@ import java.util.StringTokenizer;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -238,7 +237,7 @@ public class PSSEXfrDataRec {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
         		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
-        		psXfr.setFromAngle(this.ang1*Constants.DtoR);
+        		psXfr.setFromAngle(Math.toRadians(this.ang1));
         		psXfr.setToAngle(0.0);
         	}
 	      	

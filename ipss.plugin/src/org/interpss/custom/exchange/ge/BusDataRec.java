@@ -26,7 +26,6 @@ package org.interpss.custom.exchange.ge;
 
 import java.util.StringTokenizer;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.ext.ge.aclf.GeAclfBus;
 
 public class BusDataRec extends BusHeaderRec {
@@ -108,7 +107,7 @@ bus data  [    5]             ty  vsched   volt     angle   ar zone  vmax   vmin
 		bus.setGeAreaNo(ar);
 		bus.setGeZoneNo(z);
 		bus.setGeOwnerNo(owner);
-		bus.setVoltageAng(an_deg*Constants.DtoR);
+		bus.setVoltageAng(Math.toRadians(an_deg));
 		bus.setVSpecPU(vs_pu);
 		bus.setVUpperLimitPU(vma);
 		bus.setVLowerLimitPU(vmi);

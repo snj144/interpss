@@ -24,17 +24,16 @@
 
 package org.interpss.dstab.mach;
 
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
-import com.interpss.common.datatype.Constants;
 import com.interpss.dstab.DStabBus;
 import com.interpss.dstab.DStabObjectFactory;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuMethods;
 import com.interpss.dstab.mach.EConstMachine;
 import com.interpss.dstab.mach.MachineType;
-
-import static org.junit.Assert.assertTrue;
 
 public class EConstMachineTest extends TestSetupBase {
 	@Test
@@ -51,14 +50,14 @@ public class EConstMachineTest extends TestSetupBase {
 		System.out.println("Pe " + mach.getPe());
 		System.out.println("Pm " + mach.getPm());
 		*/
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-11.49656) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-11.49656) < 0.00001);
 		assertTrue(Math.abs(mach.getE()-1.20416) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.8) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.8) < 0.00001);
 		
 		// Move forward one step
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-11.49656) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-11.49656) < 0.00001);
 		assertTrue(Math.abs(mach.getE()-1.20416) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.8) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.8) < 0.00001);
@@ -69,7 +68,7 @@ public class EConstMachineTest extends TestSetupBase {
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
 		mach.nextStep(0.01, DynamicSimuMethods.MODIFIED_EULER, net, msg);
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-11.49656) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-11.49656) < 0.00001);
 		assertTrue(Math.abs(mach.getE()-1.20416) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.8) < 0.00001);
 		assertTrue(Math.abs(mach.getPm()-0.8) < 0.00001);
@@ -84,7 +83,7 @@ public class EConstMachineTest extends TestSetupBase {
 		System.out.println("Pe " + mach.getPe());
 		System.out.println("Pm " + mach.getPm());
 		*/
-		assertTrue(Math.abs(mach.getAngle()*Constants.RtoD-11.51456) < 0.00001);
+		assertTrue(Math.abs(Math.toDegrees(mach.getAngle())-11.51456) < 0.00001);
 		assertTrue(Math.abs(mach.getSpeed()-1.0002) < 0.00001);
 		assertTrue(Math.abs(mach.getE()-1.20416) < 0.00001);
 		assertTrue(Math.abs(mach.getPe()-0.8) < 0.00001);
