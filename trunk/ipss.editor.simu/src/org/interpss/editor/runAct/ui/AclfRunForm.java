@@ -144,7 +144,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				for (Bus b : distNet.getBusList()) {
 					DistBus distBus = (DistBus) b;
 					DistBusAdapter aBusApt = (DistBusAdapter) distBus
-							.adapt(DistBusAdapter.class);
+							.getAdapter(DistBusAdapter.class);
 					aBusApt.setPointVoltage(distBus.getAcscBus().getVoltage(),
 							i);
 				}

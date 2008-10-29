@@ -349,13 +349,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atFromDFPanel = new javax.swing.JPanel();
         atFromAreaScrollPane = new javax.swing.JScrollPane();
         atFromAreaBusList = new javax.swing.JList();
-        atFromAreaResetButton = new javax.swing.JButton();
         atFromAreaRemoveButton = new javax.swing.JButton();
         atFromAreaEditButton = new javax.swing.JButton();
         atToDFPanel = new javax.swing.JPanel();
         atToAreaScrollPane = new javax.swing.JScrollPane();
         atToAreaBusList = new javax.swing.JList();
-        atToAreaResetButton = new javax.swing.JButton();
         atToAreaRemoveButton = new javax.swing.JButton();
         atToAreaEditButton = new javax.swing.JButton();
         atMeasBranchPanel = new javax.swing.JPanel();
@@ -367,7 +365,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atMeasBranchList = new javax.swing.JList();
         atRemoveBranchButton = new javax.swing.JButton();
 
-        runDclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        runDclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
         runDclfTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
         runDclfTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -700,7 +698,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atFromAreaLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         atFromAreaLabel.setText("From Area   ");
 
-        atFromAreaComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atFromAreaComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         atFromAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         atFromAreaComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -732,15 +730,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atFromAreaBusList.setFont(new java.awt.Font("Dialog", 0, 12));
         atFromAreaScrollPane.setViewportView(atFromAreaBusList);
 
-        atFromAreaResetButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atFromAreaResetButton.setText("Reset");
-        atFromAreaResetButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atFromAreaResetButtonActionPerformed(evt);
-            }
-        });
-
-        atFromAreaRemoveButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        atFromAreaRemoveButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         atFromAreaRemoveButton.setText("Remove");
         atFromAreaRemoveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -763,19 +753,16 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(atFromDFPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(atFromAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(18, 18, 18)
                 .add(atFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(atFromAreaRemoveButton)
-                    .add(atFromAreaResetButton)
                     .add(atFromAreaEditButton))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         atFromDFPanelLayout.setVerticalGroup(
             atFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(atFromAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .add(atFromDFPanelLayout.createSequentialGroup()
-                .add(atFromAreaResetButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(atFromAreaRemoveButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(atFromAreaEditButton))
@@ -786,15 +773,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atToAreaBusList.setFont(new java.awt.Font("Dialog", 0, 12));
         atToAreaScrollPane.setViewportView(atToAreaBusList);
 
-        atToAreaResetButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atToAreaResetButton.setText("Reset");
-        atToAreaResetButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atToAreaResetButtonActionPerformed(evt);
-            }
-        });
-
-        atToAreaRemoveButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        atToAreaRemoveButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         atToAreaRemoveButton.setText("Remove");
         atToAreaRemoveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -802,7 +781,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        atToAreaEditButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        atToAreaEditButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         atToAreaEditButton.setText("Edit");
         atToAreaEditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -817,22 +796,19 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             .add(org.jdesktop.layout.GroupLayout.TRAILING, atToDFPanelLayout.createSequentialGroup()
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(atToAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(19, 19, 19)
+                .add(18, 18, 18)
                 .add(atToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(atToAreaRemoveButton)
-                    .add(atToAreaResetButton)
                     .add(atToAreaEditButton))
-                .addContainerGap())
+                .add(11, 11, 11))
         );
         atToDFPanelLayout.setVerticalGroup(
             atToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(atToAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .add(atToDFPanelLayout.createSequentialGroup()
-                .add(atToAreaResetButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(atToAreaRemoveButton)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(atToAreaEditButton))
-            .add(atToAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
 
         atMeasBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Measurement Branches", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
@@ -1119,12 +1095,10 @@ private void atAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt)
 }//GEN-LAST:event_atAddInterfaceButtonActionPerformed
 
 private void atRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atRemoveBranchButtonActionPerformed
-// TODO add your handling code here:
+	areaTransfer.removeBranch(atMeasBranchList.getSelectedIndex());
+	atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
+			IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
 }//GEN-LAST:event_atRemoveBranchButtonActionPerformed
-
-private void atFromAreaResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaResetButtonActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_atFromAreaResetButtonActionPerformed
 
 private void atFromAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaRemoveButtonActionPerformed
 // TODO add your handling code here:
@@ -1133,10 +1107,6 @@ private void atFromAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent ev
 private void atFromAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaEditButtonActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_atFromAreaEditButtonActionPerformed
-
-private void atToAreaResetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaResetButtonActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_atToAreaResetButtonActionPerformed
 
 private void atToAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaRemoveButtonActionPerformed
 // TODO add your handling code here:
@@ -1189,7 +1159,6 @@ private void atToAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//
     private javax.swing.JButton atFromAreaEditButton;
     private javax.swing.JLabel atFromAreaLabel;
     private javax.swing.JButton atFromAreaRemoveButton;
-    private javax.swing.JButton atFromAreaResetButton;
     private javax.swing.JScrollPane atFromAreaScrollPane;
     private javax.swing.JPanel atFromDFPanel;
     private javax.swing.JComboBox atInterfaceListComboBox;
@@ -1201,7 +1170,6 @@ private void atToAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//
     private javax.swing.JButton atToAreaEditButton;
     private javax.swing.JLabel atToAreaLabel;
     private javax.swing.JButton atToAreaRemoveButton;
-    private javax.swing.JButton atToAreaResetButton;
     private javax.swing.JScrollPane atToAreaScrollPane;
     private javax.swing.JPanel atToDFPanel;
     private javax.swing.JLabel atTransAmtLabel;
