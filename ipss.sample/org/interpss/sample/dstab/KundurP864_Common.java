@@ -160,7 +160,7 @@ public class KundurP864_Common {
 		bus1.setZone(zone);
 		bus1.setBaseVoltage(24000);
 		bus1.setGenCode(AclfGenCode.GEN_PQ);
-		PQBusAdapter pqBus = (PQBusAdapter)bus1.adapt(PQBusAdapter.class);
+		PQBusAdapter pqBus = (PQBusAdapter)bus1.getAdapter(PQBusAdapter.class);
 		pqBus.setGen(new Complex(22.2*0.9, 22.2*0.436), UnitType.PU, net.getBaseKva());
 		bus1.setLoadCode(AclfLoadCode.NON_LOAD);
 		
@@ -170,10 +170,10 @@ public class KundurP864_Common {
 		bus2.setZone(zone);
 		bus2.setBaseVoltage(500000);
 		bus2.setGenCode(AclfGenCode.CAPACITOR);
-		CapacitorBusAdapter capBus = (CapacitorBusAdapter)bus2.adapt(CapacitorBusAdapter.class);
+		CapacitorBusAdapter capBus = (CapacitorBusAdapter)bus2.getAdapter(CapacitorBusAdapter.class);
 		capBus.setQ(4.0, UnitType.PU, net.getBaseKva());
 		bus2.setLoadCode(AclfLoadCode.CONST_P);
-		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.adapt(LoadBusAdapter.class);
+		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.getAdapter(LoadBusAdapter.class);
 		loadBus.setLoad(new Complex(10.0, 8.0), UnitType.PU, net.getBaseKva());
         
 		DStabBus bus3 = DStabObjectFactory.createDStabBus("InfBus", net);
@@ -182,7 +182,7 @@ public class KundurP864_Common {
 		bus3.setZone(zone);
 		bus3.setBaseVoltage(500000);
 		bus3.setGenCode(AclfGenCode.SWING);
-		SwingBusAdapter swing = (SwingBusAdapter)bus3.adapt(SwingBusAdapter.class);
+		SwingBusAdapter swing = (SwingBusAdapter)bus3.getAdapter(SwingBusAdapter.class);
 		swing.setVoltMag(0.90081, UnitType.PU);
 		swing.setVoltAng(0.0, UnitType.Deg);
 		bus3.setLoadCode(AclfLoadCode.NON_LOAD);
@@ -192,7 +192,7 @@ public class KundurP864_Common {
 		branch1.setArea(area);
 		branch1.setZone(zone);
 		branch1.setBranchCode(AclfBranchCode.XFORMER);
-		XfrAdapter xfr = (XfrAdapter)branch1.adapt(XfrAdapter.class);	
+		XfrAdapter xfr = (XfrAdapter)branch1.getAdapter(XfrAdapter.class);	
 		xfr.setZ(new Complex(0.0, 0.15/22.2), UnitType.PU, 1.0, 1.0, msg);  
 				// when z unit = PU, base volt and base Kva are not needed
 		
@@ -201,7 +201,7 @@ public class KundurP864_Common {
 		branch2.setArea(area);
 		branch2.setZone(zone);
 		branch2.setBranchCode(AclfBranchCode.LINE);
-		LineAdapter line2 = (LineAdapter)branch2.adapt(LineAdapter.class);
+		LineAdapter line2 = (LineAdapter)branch2.getAdapter(LineAdapter.class);
 		line2.setZ(new Complex(0.0, 0.5/22.2), UnitType.PU, 1.0, 1.0, msg);
 
 		DStabBranch branch3 = DStabObjectFactory.createDStabBranch("HT", "InfBus", net);
@@ -209,7 +209,7 @@ public class KundurP864_Common {
 		branch3.setArea(area);
 		branch3.setZone(zone);
 		branch3.setBranchCode(AclfBranchCode.LINE);
-		LineAdapter line3 = (LineAdapter)branch3.adapt(LineAdapter.class);			
+		LineAdapter line3 = (LineAdapter)branch3.getAdapter(LineAdapter.class);			
 		line3.setZ(new Complex(0.0, 0.93/22.2), UnitType.PU, 1.0, 1.0, msg);
 		return net;
 	}
