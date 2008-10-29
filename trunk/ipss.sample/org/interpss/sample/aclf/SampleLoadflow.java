@@ -67,7 +67,7 @@ public class SampleLoadflow {
   		// set bus to be a swing bus
   		bus1.setGenCode(AclfGenCode.SWING);
   		// adapt the bus object to a swing bus object
-  		SwingBusAdapter swingBus = (SwingBusAdapter)bus1.adapt(SwingBusAdapter.class);
+  		SwingBusAdapter swingBus = (SwingBusAdapter)bus1.getAdapter(SwingBusAdapter.class);
   		// set swing bus attributes
   		swingBus.setVoltMag(1.0, UnitType.PU);
   		swingBus.setVoltAng(0.0, UnitType.Deg);
@@ -82,7 +82,7 @@ public class SampleLoadflow {
   		// set the bus to a constant power load bus
   		bus2.setLoadCode(AclfLoadCode.CONST_P);
   		// adapt the bus object to a Load bus object
-  		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.adapt(LoadBusAdapter.class);
+  		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.getAdapter(LoadBusAdapter.class);
   		// set load to the bus
   		loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU, baseKva);
   		net.addBus(bus2);
@@ -94,7 +94,7 @@ public class SampleLoadflow {
   		// set branch to a Line branch
   		branch.setBranchCode(AclfBranchCode.LINE);
   		// adapte the branch object to a line branch object
-		LineAdapter lineBranch = (LineAdapter)branch.adapt(LineAdapter.class);
+		LineAdapter lineBranch = (LineAdapter)branch.getAdapter(LineAdapter.class);
 		// set branch parameters
   		lineBranch.setZ(new Complex(0.05, 0.1), UnitType.PU, 4000.0, baseKva, msg);
   		// add the branch from Bus1 to Bus2
@@ -177,7 +177,7 @@ public class SampleLoadflow {
   		// set bus to be a swing bus
   		bus1.setGenCode(AclfGenCode.SWING);
   		// adapt the bus object to a swing bus object
-  		SwingBusAdapter swingBus = (SwingBusAdapter)bus1.adapt(SwingBusAdapter.class);
+  		SwingBusAdapter swingBus = (SwingBusAdapter)bus1.getAdapter(SwingBusAdapter.class);
   		// set swing bus attributes
   		swingBus.setVoltMag(1.0, UnitType.PU);
   		swingBus.setVoltAng(0.0, UnitType.Deg);
@@ -192,7 +192,7 @@ public class SampleLoadflow {
   		// set the bus to a constant power load bus
   		bus2.setLoadCode(AclfLoadCode.CONST_P);
   		// adapt the bus object to a Load bus object
-  		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.adapt(LoadBusAdapter.class);
+  		LoadBusAdapter loadBus = (LoadBusAdapter)bus2.getAdapter(LoadBusAdapter.class);
   		// set load to the bus
   		loadBus.setLoad(new Complex(1.0, 0.8), UnitType.PU, baseKva);
   		net.addBus(bus2);
@@ -204,7 +204,7 @@ public class SampleLoadflow {
   		// set branch to a Line branch
   		branch.setBranchCode(AclfBranchCode.LINE);
   		// adapte the branch object to a line branch object
-		LineAdapter lineBranch = (LineAdapter)branch.adapt(LineAdapter.class);
+		LineAdapter lineBranch = (LineAdapter)branch.getAdapter(LineAdapter.class);
 		// set branch parameters
   		lineBranch.setZ(new Complex(0.05, 0.1), UnitType.PU, 4000.0, baseKva, msg);
   		// add the branch from Bus1 to Bus2
