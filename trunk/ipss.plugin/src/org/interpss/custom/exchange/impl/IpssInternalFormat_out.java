@@ -98,7 +98,7 @@ public class IpssInternalFormat_out {
 		for (Bus b : net.getBusList()) {
 			AclfBus bus = (AclfBus) b;
 			if (bus.isCapacitor()) {
-				CapacitorBusAdapter cap = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
+				CapacitorBusAdapter cap = (CapacitorBusAdapter)bus.getAdapter(CapacitorBusAdapter.class);
 				out.write(String.format("%8s %7.2f %n", bus.getId(), cap.getQ())); // capacitor Q in pu
 			}
 		}

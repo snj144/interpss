@@ -129,7 +129,7 @@ public class PSATFormat_in {
       		throw new Exception("Swing Bus not found in the network, bus munber: " + busNumber);
       	}
 		bus.setGenCode(AclfGenCode.SWING);
-		SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+		SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
 		gen.setVoltMag(vpu, UnitType.PU);
 		gen.setVoltAng(ang, UnitType.Deg);
     }
@@ -160,7 +160,7 @@ public class PSATFormat_in {
       		throw new Exception("PQ Bus not found in the network, bus munber: " + busNumber);
       	}
 	 	bus.setLoadCode(AclfLoadCode.CONST_P);
-		LoadBusAdapter load = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
+		LoadBusAdapter load = (LoadBusAdapter)bus.getAdapter(LoadBusAdapter.class);
 		load.setLoad(new Complex(pl, ql), UnitType.PU, adjNet.getBaseKva());      	
     }
 
@@ -199,7 +199,7 @@ public class PSATFormat_in {
       	if (l == 0.0) 
       		l = 1.0;
     	bra.setBranchCode(AclfBranchCode.LINE);
-		LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
+		LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
     	line.getAclfBranch().setZ(new Complex(l*r,l*x), msg);
     	line.setHShuntY(new Complex(0.0,0.5*l*b), UnitType.PU, 1.0, adjNet.getBaseKva()); 
     				                  // Unit is PU, no need to enter branch baseV, so put 1.0 for baseV

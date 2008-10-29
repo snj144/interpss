@@ -171,13 +171,13 @@ public class DStabOutFunc {
 			for (Bus b : net.getBusList()) {
 				DStabBus bus = (DStabBus) b;
 				GenBusAdapter genBus = (GenBusAdapter) bus
-						.adapt(GenBusAdapter.class);
+						.getAdapter(GenBusAdapter.class);
 				Complex busPQ = genBus.getGenResults(UnitType.PU, baseKVA);
 				busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU,
 						baseKVA));
 				if (bus.isCapacitor()) {
 					CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-							.adapt(CapacitorBusAdapter.class);
+							.getAdapter(CapacitorBusAdapter.class);
 					busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 							.getVoltageMag(), UnitType.PU, baseKVA)));
 				}

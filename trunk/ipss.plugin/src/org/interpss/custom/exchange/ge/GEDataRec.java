@@ -27,6 +27,7 @@ package org.interpss.custom.exchange.ge;
 import java.util.StringTokenizer;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.aclf.Interface;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.ge.aclf.GeAclfNetwork;
 import com.interpss.ext.ge.aclf.GeArea;
@@ -336,8 +337,8 @@ public class GEDataRec {
 			inf.setNetMw(this.pnet);
 			inf.setNetMvar(this.qnet);
 			for (int i = 0; i < 8; i++)
-				inf.getMvaRatingAry().add(i, this.rAry[i]);
-			net.getGeInterfaceList().add(inf);
+				inf.getMvaRatings().add(i, this.rAry[i]);
+			net.getInterfaces().add(inf);
 		}
 
 		public String toString() {
@@ -377,14 +378,14 @@ public class GEDataRec {
 		}
 
 		public void setInterfaceBranchData(GeAclfNetwork net, IPSSMsgHub msg) throws Exception {
-			GeInterface inf = net.getInterface(this.ifn);
+			Interface inf = net.getInterface(this.ifn);
 			if (inf == null) {
 				msg.sendErrorMsg("Interface can not be found, interface number: " + this.ifn);
 				throw new Exception("Interface can not be found");				
 			}
 			GeInterfaceBranch infBra = ExtensionObjectFactory.createGeInterfaceBranch();
-			infBra.setParticipateFactor(pf);
-			inf.getInfBranchList().add(infBra);
+			infBra.setParticipationFactor(pf);
+			inf.getInterfaceBranches().add(infBra);
 		}
 
 		public String toString() {

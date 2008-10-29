@@ -45,7 +45,7 @@ public class DistOutFunc {
 			for (Bus b : distNet.getBusList()) {
 				DistBus distBus = (DistBus) b;
 				DistBusAdapter aBusApt = (DistBusAdapter) distBus
-						.adapt(DistBusAdapter.class);
+						.getAdapter(DistBusAdapter.class);
 				distBus.getAcscBus().setVoltage(aBusApt.getPointVoltage(i));
 			}
 

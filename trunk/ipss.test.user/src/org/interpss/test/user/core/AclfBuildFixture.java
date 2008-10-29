@@ -56,7 +56,7 @@ public class AclfBuildFixture extends AclfFixture {
 		
 		AclfBus bus = AclfInputUtilFunc.addSwingBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
 				voltMag, UnitType.PU, voltAng, UnitType.Deg);
-  		SwingBusAdapter swingBus = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+  		SwingBusAdapter swingBus = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
   		bus.setLoadCode(AclfLoadCode.CONST_P);
   		swingBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
   	}
@@ -73,7 +73,7 @@ public class AclfBuildFixture extends AclfFixture {
 
 		AclfBus bus = AclfInputUtilFunc.addPVBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
 				genP, UnitType.PU, genVolt, UnitType.PU);
-  		PVBusAdapter pvBus = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
+  		PVBusAdapter pvBus = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
   		bus.setLoadCode(AclfLoadCode.CONST_P);
   		pvBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
   	}
@@ -89,7 +89,7 @@ public class AclfBuildFixture extends AclfFixture {
 
 		AclfBus bus = AclfInputUtilFunc.addCapacitorBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
 				capQ, UnitType.PU);
-  		CapacitorBusAdapter capBus = (CapacitorBusAdapter)bus.adapt(CapacitorBusAdapter.class);
+  		CapacitorBusAdapter capBus = (CapacitorBusAdapter)bus.getAdapter(CapacitorBusAdapter.class);
   		bus.setLoadCode(AclfLoadCode.CONST_P);
   		capBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
   	}	
@@ -106,7 +106,7 @@ public class AclfBuildFixture extends AclfFixture {
 
 		AclfBus bus = AclfInputUtilFunc.addPQBusTo(simuCtx.getAclfNet(), busId, baseVolt, 1, 1, 
 				genP, genQ, UnitType.PU);
-  		PQBusAdapter pqBus = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
+  		PQBusAdapter pqBus = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
   		bus.setLoadCode(AclfLoadCode.CONST_P);
   		pqBus.setLoad(new Complex(loadP, loadQ), UnitType.PU, simuCtx.getAclfNet().getBaseKva());
   	}

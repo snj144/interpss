@@ -225,7 +225,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			bus.setGenCode(AclfGenCode.GEN_PQ);
 			bus.setLoadCode(AclfLoadCode.CONST_P);
 			final PQBusAdapter pqGen = (PQBusAdapter) bus
-					.adapt(PQBusAdapter.class);
+					.getAdapter(PQBusAdapter.class);
 			pqGen.setGen(new Complex(pGenMW, qGenMvar), UnitType.mVA, aclfNet
 					.getBaseKva());
 			pqGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
@@ -239,7 +239,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			bus.setGenCode(AclfGenCode.GEN_PV);
 			bus.setLoadCode(AclfLoadCode.CONST_P);
 			final PVBusAdapter pvGen = (PVBusAdapter) bus
-					.adapt(PVBusAdapter.class);
+					.getAdapter(PVBusAdapter.class);
 			pvGen.setGenP(pGenMW, UnitType.mW, aclfNet.getBaseKva());
 			pvGen.setVoltMag(voltage, UnitType.kV);
 			pvGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
@@ -258,7 +258,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			bus.setGenCode(AclfGenCode.SWING);
 			bus.setLoadCode(AclfLoadCode.CONST_P);
 			final SwingBusAdapter swingGen = (SwingBusAdapter) bus
-					.adapt(SwingBusAdapter.class);
+					.getAdapter(SwingBusAdapter.class);
 			swingGen.setVoltMag(voltage, UnitType.kV);
 			swingGen.setVoltAng(0.0, UnitType.Deg);
 			swingGen.setLoad(new Complex(pLoadMW, qLoadMvar), UnitType.mVA,
@@ -317,7 +317,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 		
     	// set line info into InterPSS simulation engine 
     	branch.setBranchCode(AclfBranchCode.LINE);
-		final LineAdapter line = (LineAdapter)branch.adapt(LineAdapter.class);
+		final LineAdapter line = (LineAdapter)branch.getAdapter(LineAdapter.class);
     	line.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva(), msg);
     	// UCTE line B is treated as half branch B
     	line.setHShuntY(new Complex(0.0,0.5*bMuS), UnitType.MicroMho, branch.getFromAclfBus().getBaseVoltage(), aclfNet.getBaseKva()); 
@@ -380,7 +380,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
       	
     	// set xfr info into InterPSS simulation engine 
 	 	branch.setBranchCode(AclfBranchCode.XFORMER);
-		final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
+		final XfrAdapter xfr = (XfrAdapter)branch.getAdapter(XfrAdapter.class);
 		// r, x, g, b are measured at from side in Ohms
 		// they are converted to PU using from bus base voltage
     	xfr.setZ(new Complex(rOhm,xOhm), UnitType.Ohm, branch.getFromBus().getBaseVoltage(), aclfNet.getBaseKva(), msg);
@@ -463,7 +463,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			branch.setN1Phase(n1Phase);
 			branch.setUKvPhase(uKvPhase);
 			
-	    	final XfrAdapter xfr = (XfrAdapter)branch.adapt(XfrAdapter.class);
+	    	final XfrAdapter xfr = (XfrAdapter)branch.getAdapter(XfrAdapter.class);
 	    	double ratioFactor = xfr.getToTurnRatio();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
@@ -493,7 +493,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			branch.setPMwAngle(pMwAngle);
 	
 		 	branch.setBranchCode(AclfBranchCode.PS_XFORMER);
-			final PSXfrAdapter psXfr = (PSXfrAdapter)branch.adapt(PSXfrAdapter.class);
+			final PSXfrAdapter psXfr = (PSXfrAdapter)branch.getAdapter(PSXfrAdapter.class);
 	    	double ratioFactor = psXfr.getToTurnRatio();
 
 	    	double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;

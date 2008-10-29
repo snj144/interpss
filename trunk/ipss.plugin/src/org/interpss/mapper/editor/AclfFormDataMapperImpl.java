@@ -240,14 +240,14 @@ public class AclfFormDataMapperImpl {
 		AclfBusData busData = formBus.getAcscBusData();
 		if (busData.getGenCode().equals(AclfBusData.GenCode_PQ)) {
 			bus.setGenCode(AclfGenCode.GEN_PQ);
-			PQBusAdapter pqBus = (PQBusAdapter) bus.adapt(PQBusAdapter.class);
+			PQBusAdapter pqBus = (PQBusAdapter) bus.getAdapter(PQBusAdapter.class);
 			pqBus
 					.setGen(new Complex(busData.getGenP(), busData.getGenQ()),
 							UnitType.toUnit(busData.getGenUnit()), aclfNet
 									.getBaseKva());
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_PV)) {
 			bus.setGenCode(AclfGenCode.GEN_PV);
-			PVBusAdapter pvBus = (PVBusAdapter) bus.adapt(PVBusAdapter.class);
+			PVBusAdapter pvBus = (PVBusAdapter) bus.getAdapter(PVBusAdapter.class);
 			pvBus.setGenP(busData.getGenP(), UnitType.toUnit(busData
 					.getGenUnit()), aclfNet.getBaseKva());
 			// VoltgeMsg is used to hold PV-VSpec, ReQVolt-VSpec and
@@ -257,7 +257,7 @@ public class AclfFormDataMapperImpl {
 		} else if (busData.getGenCode().equals(AclfBusData.GenCode_Swing)) {
 			bus.setGenCode(AclfGenCode.SWING);
 			SwingBusAdapter swing = (SwingBusAdapter) bus
-					.adapt(SwingBusAdapter.class);
+					.getAdapter(SwingBusAdapter.class);
 			swing.setVoltMag(busData.getVoltageMag(), UnitType.toUnit(busData
 					.getVoltageMagUnit()));
 			swing.setVoltAng(busData.getVoltageAng(), UnitType.toUnit(busData
@@ -266,7 +266,7 @@ public class AclfFormDataMapperImpl {
 																					// bus
 			bus.setGenCode(AclfGenCode.CAPACITOR);
 			CapacitorBusAdapter cBus = (CapacitorBusAdapter) bus
-					.adapt(CapacitorBusAdapter.class);
+					.getAdapter(CapacitorBusAdapter.class);
 			cBus.setQ(busData.getCapQ(),
 					UnitType.toUnit(busData.getCapQUnit()), aclfNet
 							.getBaseKva());
@@ -283,7 +283,7 @@ public class AclfFormDataMapperImpl {
 			// bus.setScripts(busData.getScripts());
 		} else {
 			LoadBusAdapter loadBus = (LoadBusAdapter) bus
-					.adapt(LoadBusAdapter.class);
+					.getAdapter(LoadBusAdapter.class);
 			if (!busData.getLoadCode().equals(AclfBusData.LoadCode_NonLoad))
 				loadBus.setLoad(new Complex(busData.getLoadP(), busData
 						.getLoadQ()), UnitType.toUnit(busData.getLoadUnit()),
@@ -497,7 +497,7 @@ public class AclfFormDataMapperImpl {
 		try {
 			AclfBranchData data = branchForm.getAcscBranchData();
 			branch.setBranchCode(AclfBranchCode.LINE);
-			LineAdapter line = (LineAdapter) branch.adapt(LineAdapter.class);
+			LineAdapter line = (LineAdapter) branch.getAdapter(LineAdapter.class);
 			line.setZ(new Complex(data.getZR(), data.getZX()), UnitType
 					.toUnit(data.getZUnit()), branch.getFromAclfBus()
 					.getBaseVoltage(), net.getBaseKva(), msg);
@@ -528,7 +528,7 @@ public class AclfFormDataMapperImpl {
 			// the follow only applies if zUnit is in Ohms, which is very
 			// unlikely
 			double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-			XfrAdapter xfr = (XfrAdapter) branch.adapt(XfrAdapter.class);
+			XfrAdapter xfr = (XfrAdapter) branch.getAdapter(XfrAdapter.class);
 			xfr.setZ(new Complex(data.getZR(), data.getZX()), UnitType
 					.toUnit(data.getZUnit()), baseV, net.getBaseKva(), msg);
 
@@ -587,7 +587,7 @@ public class AclfFormDataMapperImpl {
 		setXfrBranchFormInfo(formBranch, branch, net, msg);
 		AclfBranchData data = formBranch.getAcscBranchData();
 		branch.setBranchCode(AclfBranchCode.PS_XFORMER);
-		PSXfrAdapter psXfr = (PSXfrAdapter) branch.adapt(PSXfrAdapter.class);
+		PSXfrAdapter psXfr = (PSXfrAdapter) branch.getAdapter(PSXfrAdapter.class);
 		psXfr.setFromAngle(data.getPhaseShiftAngle(), UnitType.toUnit(data
 				.getPhaseShiftAngleUnit()));
 		return true;

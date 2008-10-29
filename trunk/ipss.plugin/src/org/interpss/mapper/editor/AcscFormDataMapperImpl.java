@@ -297,7 +297,7 @@ public class AcscFormDataMapperImpl {
 			AcscBranch branch, AcscNetwork net, IPSSMsgHub msg) {
 		double baseV = branch.getFromAclfBus().getBaseVoltage();
 		AcscLineAdapter line = (AcscLineAdapter) branch
-				.adapt(AcscLineAdapter.class);
+				.getAdapter(AcscLineAdapter.class);
 		line.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
 				UnitType.toUnit(branchData.getZ0Unit()), baseV, net
 						.getBaseKva(), msg);
@@ -312,7 +312,7 @@ public class AcscFormDataMapperImpl {
 				.getToAclfBus().getBaseVoltage() ? branch.getFromAclfBus()
 				.getBaseVoltage() : branch.getToAclfBus().getBaseVoltage();
 		AcscXfrAdapter xfr = (AcscXfrAdapter) branch
-				.adapt(AcscXfrAdapter.class);
+				.getAdapter(AcscXfrAdapter.class);
 		xfr.setZ0(new Complex(branchData.getZ0R(), branchData.getZ0X()),
 				UnitType.toUnit(branchData.getZ0Unit()), baseV, net
 						.getBaseKva(), msg);

@@ -73,7 +73,7 @@ public class TestSetupBase extends BaseTestSetup {
 		bus2.setName("Swing Bus");
 		bus2.setBaseVoltage(1000);
 		bus2.setGenCode(AclfGenCode.SWING);
-		SwingBusAdapter swing = (SwingBusAdapter)bus2.adapt(SwingBusAdapter.class);
+		SwingBusAdapter swing = (SwingBusAdapter)bus2.getAdapter(SwingBusAdapter.class);
 		swing.setVoltMag(0.9434, UnitType.PU);
 		swing.setVoltAng(-4.86444, UnitType.Deg);
 

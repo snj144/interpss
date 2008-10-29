@@ -243,7 +243,7 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
             bus.setGenCode(AclfGenCode.SWING);
             bus.setLoadCode(AclfLoadCode.CONST_P);
             SwingBusAdapter gen = (SwingBusAdapter) bus
-                    .adapt(SwingBusAdapter.class);
+                    .getAdapter(SwingBusAdapter.class);
             gen.setVoltMag(vpu, UnitType.PU);
             gen.setVoltAng(angDeg, UnitType.Deg);
             gen.setLoad(new Complex(loadP, loadQ), UnitType.PU, net
@@ -253,14 +253,14 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
             bus.setGenCode(AclfGenCode.GEN_PQ);
             bus.setLoadCode(AclfLoadCode.CONST_P);
             if (Math.abs(genP) > 1e-4 || Math.abs(genQ) > 1e-4) {
-                PQBusAdapter gen = (PQBusAdapter) bus.adapt(PQBusAdapter.class);
+                PQBusAdapter gen = (PQBusAdapter) bus.getAdapter(PQBusAdapter.class);
                 gen.setGen(new Complex(genP, genQ), UnitType.PU, net
                         .getBaseKva());
                 gen.setLoad(new Complex(loadP, loadQ), UnitType.PU, net
                         .getBaseKva());
             } else if (Math.abs(loadP) > 1e-4 || Math.abs(loadQ) > 1e-4) {
                 LoadBusAdapter load = (LoadBusAdapter) bus
-                        .adapt(LoadBusAdapter.class);
+                        .getAdapter(LoadBusAdapter.class);
                 load.setLoad(new Complex(loadP, loadQ), UnitType.PU, net
                         .getBaseKva());
             }
@@ -268,7 +268,7 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
             // PV or remote Q bus
             bus.setGenCode(AclfGenCode.GEN_PV);
             bus.setLoadCode(AclfLoadCode.CONST_P);
-            PVBusAdapter gen = (PVBusAdapter) bus.adapt(PVBusAdapter.class);
+            PVBusAdapter gen = (PVBusAdapter) bus.getAdapter(PVBusAdapter.class);
             gen.setGenP(genP, UnitType.PU, net.getBaseKva());
             gen.setVoltMag(vpu, UnitType.PU);
             gen.setLoad(new Complex(loadP, loadQ), UnitType.PU, net
@@ -352,14 +352,14 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
         if (type == 0) {
             // A line branch
             bra.setBranchCode(AclfBranchCode.LINE);
-            LineAdapter line = (LineAdapter) bra.adapt(LineAdapter.class);
+            LineAdapter line = (LineAdapter) bra.getAdapter(LineAdapter.class);
             line.getAclfBranch().setZ(new Complex(rpu, xpu), msg);
             line.setHShuntY(new Complex(0.0, 0.5 * bpu), UnitType.PU, 1.0, net
                     .getBaseKva()); // Unit is PU, no need to enter baseV
         } else if (type == 1) {
             // Transformer branch
             bra.setBranchCode(AclfBranchCode.XFORMER);
-            XfrAdapter xfr = (XfrAdapter) bra.adapt(XfrAdapter.class);
+            XfrAdapter xfr = (XfrAdapter) bra.getAdapter(XfrAdapter.class);
             xfr.getAclfBranch().setZ(new Complex(rpu, xpu), msg);
             xfr.setFromTurnRatio(ratio, UnitType.PU);
             xfr.setToTurnRatio(1.0, UnitType.PU);

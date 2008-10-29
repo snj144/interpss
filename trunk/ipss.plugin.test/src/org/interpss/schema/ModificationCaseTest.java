@@ -78,7 +78,7 @@ public class ModificationCaseTest extends BaseTestSetup {
 	  	assertTrue(net.getAclfBus("0012").getLoadP() == 0.071);
 	  	assertTrue(Math.abs(net.getAclfBus("0012").getLoadQ()-0.026) < 1.0E-5);
 
-		final SwingBusAdapter gen = (SwingBusAdapter)net.getAclfBus("0001").adapt(SwingBusAdapter.class);
+		final SwingBusAdapter gen = (SwingBusAdapter)net.getAclfBus("0001").getAdapter(SwingBusAdapter.class);
 	  	assertTrue(gen.getVoltMag(UnitType.PU) == (1.06*1.01));
 
 	  	// branch Z increase by 10%
@@ -124,7 +124,7 @@ public class ModificationCaseTest extends BaseTestSetup {
 	  	assertTrue(net.getAclfBus("0012").getLoadP() == 0.071);
 	  	assertTrue(Math.abs(net.getAclfBus("0012").getLoadQ()-0.026) < 1.0E-5);
 
-		final SwingBusAdapter gen = (SwingBusAdapter)net.getAclfBus("0001").adapt(SwingBusAdapter.class);
+		final SwingBusAdapter gen = (SwingBusAdapter)net.getAclfBus("0001").getAdapter(SwingBusAdapter.class);
 	  	assertTrue(gen.getVoltMag(UnitType.PU) == (1.06*1.01));
 
 	  	// branch Z increase by 10%

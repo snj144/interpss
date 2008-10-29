@@ -110,27 +110,27 @@ public class AclfFixture extends IpssFixture {
 	}
 	
 	public double busLoadP() throws Exception {
-  		LoadBusAdapter loadBus = (LoadBusAdapter)getBus().adapt(LoadBusAdapter.class);
+  		LoadBusAdapter loadBus = (LoadBusAdapter)getBus().getAdapter(LoadBusAdapter.class);
 		return formatDouble(loadBus.getLoadResults().getReal());
 	}
 
 	public double busLoadQ() throws Exception {
-  		LoadBusAdapter loadBus = (LoadBusAdapter)getBus().adapt(LoadBusAdapter.class);
+  		LoadBusAdapter loadBus = (LoadBusAdapter)getBus().getAdapter(LoadBusAdapter.class);
 		return formatDouble(loadBus.getLoadResults().getImaginary());
 	}
 
 	public double busGenP() throws Exception {
-  		GenBusAdapter genBus = (GenBusAdapter)getBus().adapt(GenBusAdapter.class);
+  		GenBusAdapter genBus = (GenBusAdapter)getBus().getAdapter(GenBusAdapter.class);
 		return formatDouble(genBus.getGenResults().getReal());
 	}
 
 	public double busGenQ() throws Exception {
-  		GenBusAdapter genBus = (GenBusAdapter)getBus().adapt(GenBusAdapter.class);
+  		GenBusAdapter genBus = (GenBusAdapter)getBus().getAdapter(GenBusAdapter.class);
 		return formatDouble(genBus.getGenResults().getImaginary());
 	}
 
 	public double busCapacitorQ() throws Exception {
-  		CapacitorBusAdapter capBus = (CapacitorBusAdapter)getBus().adapt(CapacitorBusAdapter.class);
+  		CapacitorBusAdapter capBus = (CapacitorBusAdapter)getBus().getAdapter(CapacitorBusAdapter.class);
 		return formatDouble(capBus.getQResults(getBus().getVoltageMag(), UnitType.PU, simuCtx.getAclfNet().getBaseKva()));
 	}
 
@@ -155,17 +155,17 @@ public class AclfFixture extends IpssFixture {
 	}
 
 	public double branchPsXfrAngDeg() throws Exception {
-		PSXfrAdapter xfr = (PSXfrAdapter)getBranch().adapt(PSXfrAdapter.class);
+		PSXfrAdapter xfr = (PSXfrAdapter)getBranch().getAdapter(PSXfrAdapter.class);
 		return formatDouble(xfr.getFromAngle(UnitType.Deg));
 	}
 
 	public double branchXfrFromTurnRatio() throws Exception {
-		XfrAdapter xfr = (XfrAdapter)getBranch().adapt(XfrAdapter.class);
+		XfrAdapter xfr = (XfrAdapter)getBranch().getAdapter(XfrAdapter.class);
 		return formatDouble(xfr.getFromTurnRatio());
 	}
 
 	public double branchXfrToTurnRatio() throws Exception {
-		XfrAdapter xfr = (XfrAdapter)getBranch().adapt(XfrAdapter.class);
+		XfrAdapter xfr = (XfrAdapter)getBranch().getAdapter(XfrAdapter.class);
 		return formatDouble(xfr.getToTurnRatio());
 	}
 }
