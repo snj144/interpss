@@ -83,14 +83,14 @@ public class GraphSimuUtilFunc {
 					AclfBus bus = (AclfBus) simuCtx.getAclfNet().getBus(
 							form.getId());
 					GenBusAdapter genBus = (GenBusAdapter) bus
-							.adapt(GenBusAdapter.class);
+							.getAdapter(GenBusAdapter.class);
 					Complex busPQ = genBus
 							.getGenResults(UnitType.PU, baseKva)
 							.subtract(
 									genBus.getLoadResults(UnitType.PU, baseKva));
 					if (bus.isCapacitor()) {
 						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-								.adapt(CapacitorBusAdapter.class);
+								.getAdapter(CapacitorBusAdapter.class);
 						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 								.getVoltageMag(), UnitType.PU, baseKva)));
 					}
