@@ -114,14 +114,14 @@ public class AclfOutFunc {
 				AclfBus bus = (AclfBus) b;
 				if (bus.isActive()) {
 					GenBusAdapter genBus = (GenBusAdapter) bus
-							.adapt(GenBusAdapter.class);
+							.getAdapter(GenBusAdapter.class);
 					Complex busGen = genBus
 							.getGenResults(UnitType.mVA, baseKVA);
 					Complex busLoad = genBus.getLoadResults(UnitType.mVA,
 							baseKVA);
 					if (bus.isCapacitor()) {
 						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-								.adapt(CapacitorBusAdapter.class);
+								.getAdapter(CapacitorBusAdapter.class);
 						busGen = busGen.add(new Complex(0.0, cap.getQResults(
 								bus.getVoltageMag(), UnitType.PU, baseKVA)));
 					}
@@ -174,7 +174,7 @@ public class AclfOutFunc {
 										fromRatio = bra.getFromTurnRatio();
 										toRatio = bra.getToTurnRatio();
 										if (bra.isPSXfr()) {
-											PSXfrAdapter psXfr = (PSXfrAdapter) bra.adapt(PSXfrAdapter.class);
+											PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
 											fromAng = psXfr.getFromAngle(UnitType.Deg);
 											toAng = psXfr.getToAngle(UnitType.Deg);
 										}
@@ -190,7 +190,7 @@ public class AclfOutFunc {
 										toRatio = bra.getFromTurnRatio();
 										fromRatio = bra.getToTurnRatio();
 										if (bra.isPSXfr()) {
-											PSXfrAdapter psXfr = (PSXfrAdapter) bra.adapt(PSXfrAdapter.class);
+											PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
 											toAng = psXfr.getFromAngle(UnitType.Deg);
 											fromAng = psXfr.getToAngle(UnitType.Deg);
 										}
@@ -275,13 +275,13 @@ public class AclfOutFunc {
 				AclfBus bus = (AclfBus) b;
 				if (bus.isActive()) {
 					GenBusAdapter genBus = (GenBusAdapter) bus
-							.adapt(GenBusAdapter.class);
+							.getAdapter(GenBusAdapter.class);
 					Complex busPQ = genBus.getGenResults(UnitType.PU, baseKVA);
 					busPQ = busPQ.subtract(genBus.getLoadResults(UnitType.PU,
 							baseKVA));
 					if (bus.isCapacitor()) {
 						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-								.adapt(CapacitorBusAdapter.class);
+								.getAdapter(CapacitorBusAdapter.class);
 						busPQ = busPQ.add(new Complex(0.0, cap.getQResults(bus
 								.getVoltageMag(), UnitType.PU, baseKVA)));
 					}
@@ -425,7 +425,7 @@ public class AclfOutFunc {
 				.append("     -------- -------- -------- -------- -------- -------- ------\n");
 
 		for (PVBusLimit pv : net.getPvBusLimitList()) {
-			GenBusAdapter genBus = (GenBusAdapter) pv.getAclfBus().adapt(
+			GenBusAdapter genBus = (GenBusAdapter) pv.getAclfBus().getAdapter(
 					GenBusAdapter.class);
 			str.append(Number2String.toStr(5, " "));
 			str.append(Number2String.toStr(-8, pv.getAclfBus().getId()));
@@ -459,7 +459,7 @@ public class AclfOutFunc {
 				.append("     -------- -------- -------- -------- -------- -------- ------\n");
 
 		for (PQBusLimit pq : net.getPqBusLimitList()) {
-			GenBusAdapter genBus = (GenBusAdapter) pq.getAclfBus().adapt(
+			GenBusAdapter genBus = (GenBusAdapter) pq.getAclfBus().getAdapter(
 					GenBusAdapter.class);
 			str.append(Number2String.toStr(5, " "));
 			str.append(Number2String.toStr(-8, pq.getAclfBus().getId()) + " ");
@@ -498,7 +498,7 @@ public class AclfOutFunc {
 				.append("     -------- -------- --------------- -------- -------- -------- -------- -------- ------\n");
 
 		for (RemoteQBus re : net.getRemoteQBusList()) {
-			GenBusAdapter genBus = (GenBusAdapter) re.getAclfBus().adapt(
+			GenBusAdapter genBus = (GenBusAdapter) re.getAclfBus().getAdapter(
 					GenBusAdapter.class);
 			str.append(Number2String.toStr(5, " "));
 			str.append(Number2String.toStr(-9, re.getAclfBus().getId()));
@@ -659,7 +659,7 @@ public class AclfOutFunc {
 			else
 				str.append(x.getControlRange() + " ");
 
-			PSXfrAdapter psXfr = (PSXfrAdapter) x.getAclfBranch().adapt(
+			PSXfrAdapter psXfr = (PSXfrAdapter) x.getAclfBranch().getAdapter(
 					PSXfrAdapter.class);
 			str.append(Number2String.toStr("#0.00", psXfr
 					.getFromAngle(UnitType.Deg))

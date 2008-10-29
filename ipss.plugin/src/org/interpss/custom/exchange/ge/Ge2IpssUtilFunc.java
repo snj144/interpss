@@ -150,17 +150,17 @@ public class Ge2IpssUtilFunc {
 		}
 		if ((cp_p != 0.0 || cp_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 			geBus.setLoadCode(AclfLoadCode.CONST_P);
-  			final LoadBusAdapter load = (LoadBusAdapter)geBus.adapt(LoadBusAdapter.class);
+  			final LoadBusAdapter load = (LoadBusAdapter)geBus.getAdapter(LoadBusAdapter.class);
   			load.setLoad(new Complex(cp_p, cp_q), UnitType.mVA, baseKva);
   		}
 		else if ((ci_p != 0.0 || ci_q != 0.0) && (cp_p==0.0 && cp_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 			geBus.setLoadCode(AclfLoadCode.CONST_I);
-  			final LoadBusAdapter load = (LoadBusAdapter)geBus.adapt(LoadBusAdapter.class);
+  			final LoadBusAdapter load = (LoadBusAdapter)geBus.getAdapter(LoadBusAdapter.class);
   			load.setLoad(new Complex(ci_p, ci_q), UnitType.mVA, baseKva);
   		}
 		else if ((cz_p != 0.0 || cz_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cp_p==0.0 && cp_q ==0.0) ) {
 			geBus.setLoadCode(AclfLoadCode.CONST_Z);
-  			final LoadBusAdapter load = (LoadBusAdapter)geBus.adapt(LoadBusAdapter.class);
+  			final LoadBusAdapter load = (LoadBusAdapter)geBus.getAdapter(LoadBusAdapter.class);
   			load.setLoad(new Complex(cz_p, cz_q), UnitType.mVA, baseKva);
   		}
 		else if ((cp_p != 0.0 || cp_q != 0.0 || ci_p!= 0.0 || ci_q != 0.0 || cz_p != 0.0 || cz_q !=0.0)) {
@@ -220,7 +220,7 @@ public class Ge2IpssUtilFunc {
 		switch (geBus.getGeBusType()) {
 			case 0 : {
 				geBus.setGenCode(AclfGenCode.SWING);
-	  			final SwingBusAdapter gen = (SwingBusAdapter)geBus.adapt(SwingBusAdapter.class);
+	  			final SwingBusAdapter gen = (SwingBusAdapter)geBus.getAdapter(SwingBusAdapter.class);
 	  			double mag = geBus.getVSpecPU(), ang = geBus.getVoltageAng(); 
 	  			// setVoltMag() also changes VoltAng, so we need first buffer the values
 	  			gen.setVoltMag(mag, UnitType.PU);
@@ -228,7 +228,7 @@ public class Ge2IpssUtilFunc {
 			} break;
 			case 1 : {
 				geBus.setGenCode(AclfGenCode.GEN_PQ);
-	   			final PQBusAdapter gen = (PQBusAdapter)geBus.adapt(PQBusAdapter.class);
+	   			final PQBusAdapter gen = (PQBusAdapter)geBus.getAdapter(PQBusAdapter.class);
 	    		gen.setGen(new Complex(pgen, qgen), UnitType.mVA, net.getBaseKva());
 	    	} break;
 			case 2 : {
@@ -236,7 +236,7 @@ public class Ge2IpssUtilFunc {
 					if (regBusNumber == new Integer(geBus.getId()).intValue()) {
 	  					// PV Bus limit control
 						geBus.setGenCode(AclfGenCode.GEN_PV);
-			  			final PVBusAdapter gen = (PVBusAdapter)geBus.adapt(PVBusAdapter.class);
+			  			final PVBusAdapter gen = (PVBusAdapter)geBus.getAdapter(PVBusAdapter.class);
 			  			gen.setGenP(pgen, UnitType.mW, net.getBaseKva());
 			  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
 
@@ -256,7 +256,7 @@ public class Ge2IpssUtilFunc {
 	  		} break;
 			case -2 : {
 				geBus.setGenCode(AclfGenCode.GEN_PV);
-	  			final PVBusAdapter gen = (PVBusAdapter)geBus.adapt(PVBusAdapter.class);
+	  			final PVBusAdapter gen = (PVBusAdapter)geBus.getAdapter(PVBusAdapter.class);
 	  			gen.setGenP(pgen, UnitType.mW, net.getBaseKva());
 	  			gen.setVoltMag(geBus.getVSpecPU(), UnitType.PU);
 	  		} break;
@@ -327,7 +327,7 @@ public class Ge2IpssUtilFunc {
 	   	geBra.setStatus(sec.isInSevice());
 	   	if (geBra.getFromAclfBus().getBaseVoltage() == geBra.getToAclfBus().getBaseVoltage()) {
 	   		geBra.setBranchCode(AclfBranchCode.LINE);
-			final LineAdapter line = (LineAdapter)geBra.adapt(LineAdapter.class);
+			final LineAdapter line = (LineAdapter)geBra.getAdapter(LineAdapter.class);
 		   	line.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
 		   	line.setHShuntY(new Complex(0.0,0.5*sec.getB()), UnitType.PU, 1.0, baseKva); // Unit is PU, no need to enter baseV
 		   	line.setMvaRating1(sec.getMvaRatingAry().get(0));
@@ -336,7 +336,7 @@ public class Ge2IpssUtilFunc {
 	   	}
 	   	else {
 	    	geBra.setBranchCode(AclfBranchCode.XFORMER);
-			final XfrAdapter xfr = (XfrAdapter)geBra.adapt(XfrAdapter.class);
+			final XfrAdapter xfr = (XfrAdapter)geBra.getAdapter(XfrAdapter.class);
 	    	xfr.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
 	    	xfr.setFromTurnRatio(1.0+sec.getFromTap(), UnitType.PU);
 	    	xfr.setToTurnRatio(1.0+sec.getToTap(), UnitType.PU); 
@@ -378,7 +378,7 @@ public class Ge2IpssUtilFunc {
 		}
 
     	geXfr.setBranchCode(AclfBranchCode.XFORMER);
-		final XfrAdapter xfr = (XfrAdapter)geXfr.adapt(XfrAdapter.class);
+		final XfrAdapter xfr = (XfrAdapter)geXfr.getAdapter(XfrAdapter.class);
     	xfr.getAclfBranch().setZ(new Complex(r, x), msg);
     	xfr.setFromTurnRatio(fromRatio, UnitType.PU);
     	xfr.setToTurnRatio(toRatio, UnitType.PU); 
@@ -389,7 +389,7 @@ public class Ge2IpssUtilFunc {
     		// PhaseShifting transformer branch
     		IpssLogger.getLogger().info("Branch " + geXfr.getId() + " is a PsXfr" );
     	 	geXfr.setBranchCode(AclfBranchCode.PS_XFORMER);
-    		final PSXfrAdapter psXfr = (PSXfrAdapter)geXfr.adapt(PSXfrAdapter.class);
+    		final PSXfrAdapter psXfr = (PSXfrAdapter)geXfr.getAdapter(PSXfrAdapter.class);
     		psXfr.setFromAngle(Math.toRadians(geXfr.getPhaseAngleDegPrim()));
     		psXfr.setToAngle(Math.toRadians(geXfr.getPhaseAngleDegSecd()));
 		}

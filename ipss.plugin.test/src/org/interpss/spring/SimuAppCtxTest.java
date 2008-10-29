@@ -61,7 +61,7 @@ public class SimuAppCtxTest extends BaseTestSetup {
   		assertTrue(simuCtx.getAclfNet().isLfConverged());
   		
   		AclfBus swingBus = (AclfBus)(simuCtx.getAclfNet()).getBus("5");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.adapt(SwingBusAdapter.class);
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()));
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, simuCtx.getAclfNet().getBaseKva()).getReal()-2.57943)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, simuCtx.getAclfNet().getBaseKva()).getImaginary()-2.2994)<0.0001);		

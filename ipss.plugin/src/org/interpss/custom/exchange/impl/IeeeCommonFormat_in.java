@@ -278,7 +278,7 @@ public class IeeeCommonFormat_in {
       		// Swing bus
    		 	bus.setGenCode(AclfGenCode.SWING);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+  			final SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
   			gen.setVoltMag(vpu, UnitType.PU);
   			gen.setVoltAng(angDeg, UnitType.Deg);
   			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
@@ -287,7 +287,7 @@ public class IeeeCommonFormat_in {
     		// PQ bus
     		bus.setGenCode(AclfGenCode.GEN_PQ);
     		bus.setLoadCode(AclfLoadCode.CONST_P);
-   			final PQBusAdapter gen = (PQBusAdapter)bus.adapt(PQBusAdapter.class);
+   			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
     		gen.setGen(new Complex(genMw, genMvar), UnitType.mVA, net.getBaseKva());
     		gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
     		if ((max != 0.0) || (min != 0.0)) {
@@ -300,7 +300,7 @@ public class IeeeCommonFormat_in {
     		// PV or remote Q bus
    		 	bus.setGenCode(AclfGenCode.GEN_PV);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final PVBusAdapter gen = (PVBusAdapter)bus.adapt(PVBusAdapter.class);
+  			final PVBusAdapter gen = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
   			gen.setGenP(genMw, UnitType.mW, net.getBaseKva());
   			gen.setVoltMag(vpu, UnitType.PU);
   			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
@@ -325,7 +325,7 @@ public class IeeeCommonFormat_in {
     		// Non-gen load bus
    		 	bus.setGenCode(AclfGenCode.NON_GEN);
    		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final LoadBusAdapter load = (LoadBusAdapter)bus.adapt(LoadBusAdapter.class);
+  			final LoadBusAdapter load = (LoadBusAdapter)bus.getAdapter(LoadBusAdapter.class);
   			load.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
     	}
     	else {
@@ -493,14 +493,14 @@ public class IeeeCommonFormat_in {
       	if (type == 0) {
       		// A line branch
         	bra.setBranchCode(AclfBranchCode.LINE);
-    		final LineAdapter line = (LineAdapter)bra.adapt(LineAdapter.class);
+    		final LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
         	line.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
         	line.setHShuntY(new Complex(0.0,0.5*bpu), UnitType.PU, 1.0, net.getBaseKva()); // Unit is PU, no need to enter baseV
       	}
       	else if (type >= 1) {
       		// Transformer branch
     	 	bra.setBranchCode(AclfBranchCode.XFORMER);
-    		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
+    		final XfrAdapter xfr = (XfrAdapter)bra.getAdapter(XfrAdapter.class);
         	xfr.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
         	if (bpu < 0.0) {
         		IpssLogger.getLogger().fine("Xfr B: " + bpu);
@@ -511,7 +511,7 @@ public class IeeeCommonFormat_in {
         	if (angle != 0.0) {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
-        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
+        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.getAdapter(PSXfrAdapter.class);
         		psXfr.setFromAngle(Math.toRadians(angle));
         	}
         	

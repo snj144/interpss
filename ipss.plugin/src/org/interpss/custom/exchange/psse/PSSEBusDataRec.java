@@ -107,7 +107,7 @@ public class PSSEBusDataRec {
       		// Swing bus
    		 	bus.setGenCode(AclfGenCode.SWING);
     		bus.setLoadCode(AclfLoadCode.NON_LOAD);
-  			final SwingBusAdapter gen = (SwingBusAdapter)bus.adapt(SwingBusAdapter.class);
+  			final SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
   			gen.setVoltMag(this.vm, UnitType.PU);
   			gen.setVoltAng(this.va, UnitType.Deg);
     	}

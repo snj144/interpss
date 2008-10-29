@@ -173,7 +173,7 @@ public class PSSEXfrDataRec {
 			String jStr = new Integer(this.j).toString();
 	      	adjNet.addBranch(bra, iStr, jStr);
     	 	bra.setBranchCode(AclfBranchCode.XFORMER);
-    		final XfrAdapter xfr = (XfrAdapter)bra.adapt(XfrAdapter.class);
+    		final XfrAdapter xfr = (XfrAdapter)bra.getAdapter(XfrAdapter.class);
     		
 	    	bra.setFlagWinding(this.cw);
 	    	bra.setFlagZ(this.cz);
@@ -236,7 +236,7 @@ public class PSSEXfrDataRec {
         	if (this.ang1 != 0.0 || this.cod == 3 || this.cod == -3) {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
-        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.adapt(PSXfrAdapter.class);
+        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.getAdapter(PSXfrAdapter.class);
         		psXfr.setFromAngle(Math.toRadians(this.ang1));
         		psXfr.setToAngle(0.0);
         	}

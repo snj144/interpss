@@ -269,7 +269,7 @@ public class DistFixture extends IpssFixture {
 		double gX = new Double(st.nextToken()).doubleValue();
 		
 		DistBus bus = (DistBus)simuCtx.getDistNet().getBus(busId);
-		UtilityAdapter ut = (UtilityAdapter)bus.adapt(UtilityAdapter.class);
+		UtilityAdapter ut = (UtilityAdapter)bus.getAdapter(UtilityAdapter.class);
 		ut.setVoltage(voltMag, "PU", voltAng, "Deg");
 		ut.setMvaRating(mvaRating3P, mvaRating1P, "MVA");
 		ut.setX_R(x_r3P, x_r1P);
@@ -297,7 +297,7 @@ public class DistFixture extends IpssFixture {
 		double gX = new Double(st.nextToken()).doubleValue();		
 		
 		DistBus bus = (DistBus)simuCtx.getDistNet().getBus(busId);
-		GeneratorAdapter gen = (GeneratorAdapter)bus.adapt(GeneratorAdapter.class);
+		GeneratorAdapter gen = (GeneratorAdapter)bus.getAdapter(GeneratorAdapter.class);
 		gen.setRatedKW(ratedKW, ratingUnit);
 		gen.setLoading(loading);
 		gen.setRatedVoltage(ratedV, "PU");
@@ -342,7 +342,7 @@ public class DistFixture extends IpssFixture {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		busId = st.nextToken();
 		DistBus bus = (DistBus)simuCtx.getDistNet().getBus(busId);
-		SynMotorAdapter mot = (SynMotorAdapter)bus.adapt(SynMotorAdapter.class);
+		SynMotorAdapter mot = (SynMotorAdapter)bus.getAdapter(SynMotorAdapter.class);
 		setMotorBusData(data, mot, bus.getBaseVoltage());
 	}
 
@@ -350,7 +350,7 @@ public class DistFixture extends IpssFixture {
 		StringTokenizer st = new StringTokenizer(data, ",");
 		busId = st.nextToken();
 		DistBus bus = (DistBus)simuCtx.getDistNet().getBus(busId);
-		IndMotorAdapter mot = (IndMotorAdapter)bus.adapt(IndMotorAdapter.class);
+		IndMotorAdapter mot = (IndMotorAdapter)bus.getAdapter(IndMotorAdapter.class);
 		setMotorBusData(data, mot, bus.getBaseVoltage());
 	}
 
@@ -372,7 +372,7 @@ public class DistFixture extends IpssFixture {
 		double gX = new Double(st.nextToken()).doubleValue();		
 		
 		DistBus bus = (DistBus)simuCtx.getDistNet().getBus(busId);
-		MixedLoadAdapter mload = (MixedLoadAdapter)bus.adapt(MixedLoadAdapter.class);
+		MixedLoadAdapter mload = (MixedLoadAdapter)bus.getAdapter(MixedLoadAdapter.class);
 		mload.setTotalKva(totalKva, ratingUnit);
 		mload.setMotorPercent(motorPercent);		
 		mload.setZ1(new Complex(r1,x1));
@@ -412,7 +412,7 @@ public class DistFixture extends IpssFixture {
 		double b0 = new Double(st.nextToken()).doubleValue();
 		
 		DistBranch branch = (DistBranch)simuCtx.getDistNet().getBranch(branchFromBusId, branchToBusId);
-		FeederAdapter feeder = (FeederAdapter)branch.adapt(FeederAdapter.class);
+		FeederAdapter feeder = (FeederAdapter)branch.getAdapter(FeederAdapter.class);
 		feeder.setLength(length, "M");
 		feeder.setZ(new Complex(r1,x1), new Complex(r0,x0), "Ohm");
 		feeder.setHShuntB(b1, b0, "MicroMhos");
@@ -426,7 +426,7 @@ public class DistFixture extends IpssFixture {
 		double r = new Double(st.nextToken()).doubleValue();
 		
 		DistBranch branch = (DistBranch)simuCtx.getDistNet().getBranch(branchFromBusId, branchToBusId);
-		BreakerAdapter breaker = (BreakerAdapter)branch.adapt(BreakerAdapter.class);
+		BreakerAdapter breaker = (BreakerAdapter)branch.getAdapter(BreakerAdapter.class);
 		breaker.setR(r, "PU");
 	}
 
@@ -447,7 +447,7 @@ public class DistFixture extends IpssFixture {
 		double secTap = new Double(st.nextToken()).doubleValue();
 		
 		DistBranch branch = (DistBranch)simuCtx.getDistNet().getBranch(branchFromBusId, branchToBusId);
-		TransformerAdapter xfr = (TransformerAdapter)branch.adapt(TransformerAdapter.class);
+		TransformerAdapter xfr = (TransformerAdapter)branch.getAdapter(TransformerAdapter.class);
 		xfr.setRating(rating, ratingUnit);
 		xfr.setRatedVoltage(priRatedV, senRatedV, "PU");
 		xfr.setZ(new Complex(r1,x1), new Complex(r0,x0), "PU");
@@ -469,7 +469,7 @@ public class DistFixture extends IpssFixture {
 		double secGX = new Double(st.nextToken()).doubleValue();
 		
 		DistBranch branch = (DistBranch)simuCtx.getDistNet().getBranch(branchFromBusId, branchToBusId);
-		TransformerAdapter xfr = (TransformerAdapter)branch.adapt(TransformerAdapter.class);
+		TransformerAdapter xfr = (TransformerAdapter)branch.getAdapter(TransformerAdapter.class);
 		xfr.setConnect(getXfrConnCode(priConnCode), getXfrConnCode(secConnCode));
 		double fromBaseV = simuCtx.getDistNet().getBus(branchFromBusId).getBaseVoltage();
 		double toBaseV = simuCtx.getDistNet().getBus(branchToBusId).getBaseVoltage();

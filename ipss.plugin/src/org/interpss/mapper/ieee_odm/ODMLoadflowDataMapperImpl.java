@@ -64,7 +64,7 @@ public class ODMLoadflowDataMapperImpl {
 			if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PQ) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus
-						.adapt(PQBusAdapter.class);
+						.getAdapter(PQBusAdapter.class);
 				pqBus.setGen(new Complex(busXmlData.getGenData().getGen().getPower()
 						.getP(), busXmlData.getGenData().getGen().getPower().getQ()),
 						ODMXmlHelper.toUnit(busXmlData.getGenData().getGen().getPower()
@@ -72,7 +72,7 @@ public class ODMLoadflowDataMapperImpl {
 			} else if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PV);
 				PVBusAdapter pvBus = (PVBusAdapter) aclfBus
-						.adapt(PVBusAdapter.class);
+						.getAdapter(PVBusAdapter.class);
 				pvBus.setGenP(busXmlData.getGenData().getGen().getPower().getP(),
 						ODMXmlHelper.toUnit(busXmlData.getGenData().getGen().getPower()
 								.getUnit()), baseKva);
@@ -80,7 +80,7 @@ public class ODMLoadflowDataMapperImpl {
 			} else if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.SWING) {
 				aclfBus.setGenCode(AclfGenCode.SWING);
 				SwingBusAdapter swing = (SwingBusAdapter) aclfBus
-						.adapt(SwingBusAdapter.class);
+						.getAdapter(SwingBusAdapter.class);
 				swing.setVoltMag(vpu, UnitType.PU);
 				swing.setVoltAng(angRad, UnitType.Rad);
 			} else {
@@ -98,7 +98,7 @@ public class ODMLoadflowDataMapperImpl {
 							: (busXmlData.getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_Z ? AclfLoadCode.CONST_Z
 									: AclfLoadCode.CONST_P));
 			LoadBusAdapter loadBus = (LoadBusAdapter) aclfBus
-					.adapt(LoadBusAdapter.class);
+					.getAdapter(LoadBusAdapter.class);
 			loadBus.setLoad(new Complex(busXmlData.getLoadData().getLoad()
 					.getP(), busXmlData.getLoadData().getLoad().getQ()),
 					ODMXmlHelper.toUnit(busXmlData.getLoadData().getLoad()
@@ -128,7 +128,7 @@ public class ODMLoadflowDataMapperImpl {
 			if (braXmlData.getLineData() != null) {
 				aclfBra.setBranchCode(AclfBranchCode.LINE);
 				LineAdapter line = (LineAdapter) aclfBra
-						.adapt(LineAdapter.class);
+						.getAdapter(LineAdapter.class);
 				line
 						.setZ(
 								new Complex(braXmlData.getLineData().getZ()
@@ -172,7 +172,7 @@ public class ODMLoadflowDataMapperImpl {
 			if (braXmlData.getPhaseShiftXfrData() != null) {
 				aclfBra.setBranchCode(AclfBranchCode.PS_XFORMER);
 				PSXfrAdapter psXfr = (PSXfrAdapter) aclfBra
-						.adapt(PSXfrAdapter.class);
+						.getAdapter(PSXfrAdapter.class);
 				setXformerLoadflowData(aclfBra, braXmlData
 						.getPhaseShiftXfrData(), baseKva, msg);
 				if(braXmlData.getPhaseShiftXfrData().getFromAngle() != null)
@@ -233,7 +233,7 @@ public class ODMLoadflowDataMapperImpl {
 		       toBaseV = aclfBra.getToAclfBus().getBaseVoltage();
 		// it is assumed that Z, Y are measure at High V side
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
-		XfrAdapter xfr = (XfrAdapter) aclfBra.adapt(XfrAdapter.class);
+		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
 		xfr.setZ(new Complex(xfrData.getZ().getR(), xfrData.getZ().getX()),
 				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, baseKva,
 				msg);
