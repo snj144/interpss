@@ -50,7 +50,7 @@ public class DclfAreaTransferIeee14BusCaseTest extends BaseTestSetup {
 			}
 			
 			for (BranchRecXmlType branch : atFactor.getBranchArray()) {
-				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), msg);
+				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1", msg);
 				System.out.println("ATFactor: " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + f);
 			}
 		}

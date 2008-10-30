@@ -81,7 +81,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 			String inBusId = gsFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 			algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
 			for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
-				double gsf = algo.getGenShiftFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), msg);
+				double gsf = algo.getGenShiftFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1", msg);
 				//System.out.println("GSF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + gsf);
 				/*
 				GSF 0004->0007 0.011086980682516566
@@ -117,7 +117,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				}
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-					double ptdf = algo.getPTransferDistFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), msg);
+					double ptdf = algo.getPTransferDistFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1", msg);
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
 				}
