@@ -35,9 +35,12 @@ import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
 import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.NetUtilFunc;
 import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.DclfSensitivityType;
 import com.interpss.core.net.Branch;
@@ -143,8 +146,7 @@ public class DclfOutFunc {
 		str += "       Branch Id          GSF\n";
 		str += "=========================================\n";
 		for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
-			double gsf = algo.getGenShiftFactor(busId, branch.getFromBusId(), branch
-					.getToBusId(), msg);
+			double gsf = algo.getGenShiftFactor(busId, branch.getFromBusId(), branch.getToBusId(), branch.getCircuitNumber(), msg);
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
 					+ "       " + Number2String.toStr(gsf) + "\n";
@@ -214,17 +216,41 @@ public class DclfOutFunc {
 	public static String areaTransferAnalysisResults(
 						AreaTransferAnalysis areaTransfer, DclfAlgorithm algo,
 						IPSSMsgHub msg) {
+		AclfNetwork net = algo.getAclfNetwork();
+		
 		String str = "\n\n";
 		str += "   Area Transfer Distribution Factor\n\n";
+		
+		str += "   Area Transfer Amount (MW) : " + String.format("%8.2f", areaTransfer.getTransderAmountMW()) + "\n\n";
+		str += "    From Area : " + areaTransfer.getFromArea().getAreaNo() + 
+				"     To Area : " + areaTransfer.getToArea().getAreaNo() + "\n\n";
+		
 		str += getSenBusList("From Area", areaTransfer.getInjectBusList().getInjectBusArray());
 		str += getSenBusList("To Area", areaTransfer.getWithdrawBusList().getWithdrawBusArray());
-		str += "       Branch Id        AreaTransFactor\n";
-		str += "========================================\n";
+		str += "       Branch Id    AreaTransFactor   BaseCaseMva   PredictedMva   MvaLimit   Violstion\n";
+		str += "==========================================================================================\n";
 		for (BranchRecXmlType branch : areaTransfer.getBranchArray()) {
-			double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), msg);
+			String fromBusId = branch.getFromBusId(), 
+			       toBusId = branch.getToBusId(),
+			       cirNumber = branch.getCircuitNumber();
+			AclfBranch bra = net.getAclfBranch(NetUtilFunc.formBranchId(fromBusId, toBusId, cirNumber));
+			if (branch == null) {
+				return "Branch cannot be found, " + fromBusId+"->"+toBusId;
+			}			
+			
+			double f = algo.getAreaTransferFactor(fromBusId, toBusId, cirNumber, msg);
+			double baseMva = bra.mvaFlow(UnitType.mVA, net.getBaseKva());
+			double newMva = baseMva + areaTransfer.getTransderAmountMW() * f;
+			double limitMva = bra.getRatingMva1();
+			boolean v = newMva > limitMva;
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
-					+ "       " + Number2String.toStr(f) + "\n";
+					+ "      " + String.format("%9.3f", f) 
+					+ "        " + String.format("%8.2f", baseMva) 
+					+ "       " + String.format("%8.2f", newMva) 
+					+ "    " + String.format("%8.2f", limitMva) 
+					+ "      " + (v? "x" : " ") 
+					+ "\n";
 		}
 		return str;
 	}
@@ -240,11 +266,11 @@ public class DclfOutFunc {
 		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
 			ptdf = algo.getPTransferDistFactor(inBusId, wdBusId,
-							branch.getFromBusId(),	branch.getToBusId(), msg);
+							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber(), msg);
 		}	
 		else 
 			ptdf = algo.getPTransferDistFactor(inBusId, 
-							branch.getFromBusId(),	branch.getToBusId(), msg);
+							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber(), msg);
 		return ptdf;
 	}
 	
