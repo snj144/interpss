@@ -129,21 +129,37 @@ public class IpssXmlUtilFunc {
 	}	
 	
 	/**
-	 * Get recod by name from the record list
+	 * Get record by name from the record list
 	 * 
 	 * @param recName
 	 * @param list
 	 * @return
 	 */
-	public static BaseRecordXmlType getRecord(String recName, BaseRecordXmlType[] list) {
+	public static BaseRecordXmlType getRecordByName(String recName, BaseRecordXmlType[] list) {
 		for (BaseRecordXmlType scase : list) {
 			if (scase.getRecName().equals(recName))
 				return scase;
 		}
-		IpssLogger.getLogger().severe("Programming error, StudyCase cannot be found, recId: " + recName);
+		IpssLogger.getLogger().severe("Programming error, StudyCase cannot be found, recName: " + recName);
 		return null;
 	}
 
+	/**
+	 * Get bus record by id from the bus record list
+	 * 
+	 * @param recId
+	 * @param list
+	 * @return
+	 */
+	public static BusRecXmlType getBusRecord(String id, BusRecXmlType[] list) {
+		for (BusRecXmlType scase : list) {
+			if (scase.getBusId().equals(id))
+				return scase;
+		}
+		IpssLogger.getLogger().severe("Programming error, StudyCase cannot be found, recId: " + id);
+		return null;
+	}
+	
 	/**
 	 * map Xml unit type to InterPSS UnitType
 	 * 
