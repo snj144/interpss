@@ -410,7 +410,7 @@ public class NBDynaEventPanel extends javax.swing.JPanel implements IFormDataPan
     private void eventListComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eventListComboBoxActionPerformed
 		String eventName = (String)this.eventListComboBox.getSelectedItem();
 		DynamicEventData.EventList.Event event = (DynamicEventData.EventList.Event)IpssXmlUtilFunc
-					.getRecord(eventName, this.xmlEventData.getEventList().getEventArray());
+					.getRecordByName(eventName, this.xmlEventData.getEventList().getEventArray());
     	if (event != null)        // event list selection changed
     		this.currentEvent = event;       
     	else {                    // event name changed

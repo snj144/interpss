@@ -102,7 +102,7 @@ public class EditorActionAdapter {
 		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
 		
 		IGFormContainer gFormContainer = null ;
-		if (graphView) {
+		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
 			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
 			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
 			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
