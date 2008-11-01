@@ -140,8 +140,9 @@
 								<ns:extension base="ipss:DclfBranchSensitivityXmlType">
 									<ns:sequence>
 										<ns:element name="transderAmountMW" type="ns:double" minOccurs="1"></ns:element>
-										<ns:element name="fromArea" type="ipss:AreaRecXmlType" minOccurs="1"></ns:element>
-										<ns:element name="toArea" type="ipss:AreaRecXmlType" minOccurs="1"></ns:element>
+                                        <ns:element name="deratingFactor" type="ns:double" minOccurs="0"></ns:element>
+                                        <ns:element name="fromArea" type="ipss:AreaRecXmlType" minOccurs="1"></ns:element>
+										<ns:element name="toArea" type="ipss:AreaRecXmlType" minOccurs="1"></ns:element>
 									</ns:sequence>
 								</ns:extension>
 							</ns:complexContent>
