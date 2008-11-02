@@ -102,7 +102,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 					double ptdf = algo.getPTransferDistFactor(inBusId, wdBusId, 
-							branch.getFromBusId(), branch.getToBusId(), msg);
+							branch.getFromBusId(), branch.getToBusId(), "1", msg);
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
 				}
@@ -134,7 +134,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 					double ptdf = algo.getPTransferDistFactor(inBusId, wdBusId, 
-							branch.getFromBusId(), branch.getToBusId(), msg);
+									branch.getFromBusId(), branch.getToBusId(), "1", msg);
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
 				}
