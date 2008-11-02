@@ -350,6 +350,19 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         netCfgNumberTextField = new javax.swing.JTextField();
         netCfgNameTextField = new javax.swing.JTextField();
         netCfgDescTextField = new javax.swing.JTextField();
+        interfaceBranchEditPanel = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList();
+        interfaceMvaRatingLabel = new javax.swing.JLabel();
+        interfaceMvaRatingTextField = new javax.swing.JTextField();
+        interfaceLabel = new javax.swing.JLabel();
+        networkBranchLabel = new javax.swing.JLabel();
+        networkBranchComboBox = new javax.swing.JComboBox();
+        participationLabel = new javax.swing.JLabel();
+        participationTextField = new javax.swing.JTextField();
+        percentLabel = new javax.swing.JLabel();
+        editInterfaceBranchButton = new javax.swing.JButton();
+        updateInterfaceBranchButton = new javax.swing.JButton();
         netCfgEditButton = new javax.swing.JButton();
         netCfgAddButton = new javax.swing.JButton();
         netCfgUpdateButton = new javax.swing.JButton();
@@ -371,7 +384,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 
         selectionPanel.setLayout(new java.awt.GridBagLayout());
 
-        projFileLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        projFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         projFileLabel.setText("Project File    ");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -399,7 +412,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         selectionPanel.add(descLabel, gridBagConstraints);
 
         descTextArea.setColumns(40);
-        descTextArea.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        descTextArea.setFont(new java.awt.Font("Dialog", 0, 12));
         descTextArea.setLineWrap(true);
         descTextArea.setRows(2);
         descTextArea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
@@ -483,7 +496,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         netTypePanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 10, 5));
 
         netTypeButtonGroup.add(aclfNetRadioButton);
-        aclfNetRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        aclfNetRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         aclfNetRadioButton.setSelected(true);
         aclfNetRadioButton.setText("ACLF");
         aclfNetRadioButton.setName("aclfNetRadioButton"); // NOI18N
@@ -495,7 +508,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         netTypePanel.add(aclfNetRadioButton);
 
         netTypeButtonGroup.add(acscNetRadioButton);
-        acscNetRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        acscNetRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         acscNetRadioButton.setText("ACSC");
         acscNetRadioButton.setName("acscNetRadioButton"); // NOI18N
         acscNetRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -527,7 +540,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
 
         inputPanel.add(selectionPanel, java.awt.BorderLayout.NORTH);
 
-        configInfoTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        configInfoTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
 
         editContainerPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         editContainerPanel.setLayout(new java.awt.BorderLayout());
@@ -535,14 +548,14 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         editPanel.setLayout(new java.awt.BorderLayout());
         editContainerPanel.add(editPanel, java.awt.BorderLayout.CENTER);
 
-        configInfoTabbedPane.addTab("Project Config", editContainerPanel);
+        configInfoTabbedPane.addTab("Configration", editContainerPanel);
 
-        leftEncloseLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        leftEncloseLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         leftEncloseLabel.setText("[");
         netCfgSelectPanel.add(leftEncloseLabel);
 
         netCfgButtonGroup.add(interfaceNetConfigRadioButton);
-        interfaceNetConfigRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        interfaceNetConfigRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         interfaceNetConfigRadioButton.setSelected(true);
         interfaceNetConfigRadioButton.setText("Interface");
         interfaceNetConfigRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -572,7 +585,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         });
         netCfgSelectPanel.add(zoneNetConfigRadioButton);
 
-        rightEncloseLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        rightEncloseLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         rightEncloseLabel.setText("]");
         netCfgSelectPanel.add(rightEncloseLabel);
 
@@ -584,58 +597,188 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         });
         jScrollPane2.setViewportView(netCfgItemList);
 
-        netCfgEditPanel.setLayout(new java.awt.GridBagLayout());
-
-        netCfgNumberLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        netCfgNumberLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         netCfgNumberLabel.setText("Number");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        netCfgEditPanel.add(netCfgNumberLabel, gridBagConstraints);
 
-        netCfgNameLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
-        netCfgNameLabel.setText("Name");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        netCfgEditPanel.add(netCfgNameLabel, gridBagConstraints);
+        netCfgNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        netCfgNameLabel.setText("   Name");
 
-        netCfgDescLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        netCfgDescLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         netCfgDescLabel.setText("Desc");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
-        netCfgEditPanel.add(netCfgDescLabel, gridBagConstraints);
 
         netCfgNumberTextField.setColumns(3);
-        netCfgNumberTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        netCfgNumberTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         netCfgNumberTextField.setText("1");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 0);
-        netCfgEditPanel.add(netCfgNumberTextField, gridBagConstraints);
 
         netCfgNameTextField.setColumns(5);
-        netCfgNameTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        netCfgNameTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         netCfgNameTextField.setText("name");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 0);
-        netCfgEditPanel.add(netCfgNameTextField, gridBagConstraints);
 
         netCfgDescTextField.setColumns(10);
-        netCfgDescTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        netCfgDescTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         netCfgDescTextField.setText("desc");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(2, 5, 2, 0);
-        netCfgEditPanel.add(netCfgDescTextField, gridBagConstraints);
+
+        org.jdesktop.layout.GroupLayout netCfgEditPanelLayout = new org.jdesktop.layout.GroupLayout(netCfgEditPanel);
+        netCfgEditPanel.setLayout(netCfgEditPanelLayout);
+        netCfgEditPanelLayout.setHorizontalGroup(
+            netCfgEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(netCfgEditPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(netCfgEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(netCfgEditPanelLayout.createSequentialGroup()
+                        .add(netCfgNumberLabel)
+                        .add(10, 10, 10)
+                        .add(netCfgNumberTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(netCfgNameLabel)
+                        .add(21, 21, 21)
+                        .add(netCfgNameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(netCfgEditPanelLayout.createSequentialGroup()
+                        .add(netCfgDescLabel)
+                        .add(26, 26, 26)
+                        .add(netCfgDescTextField)))
+                .addContainerGap(24, Short.MAX_VALUE))
+        );
+        netCfgEditPanelLayout.setVerticalGroup(
+            netCfgEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(netCfgEditPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(netCfgEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(netCfgEditPanelLayout.createSequentialGroup()
+                        .add(3, 3, 3)
+                        .add(netCfgNumberLabel))
+                    .add(netCfgNumberTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(netCfgEditPanelLayout.createSequentialGroup()
+                        .add(3, 3, 3)
+                        .add(netCfgNameLabel))
+                    .add(netCfgNameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(netCfgEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(netCfgEditPanelLayout.createSequentialGroup()
+                        .add(7, 7, 7)
+                        .add(netCfgDescLabel))
+                    .add(netCfgEditPanelLayout.createSequentialGroup()
+                        .add(4, 4, 4)
+                        .add(netCfgDescTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        interfaceBranchEditPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Edit Interface Details", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 10))); // NOI18N
+
+        jList1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        jList1.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        jScrollPane3.setViewportView(jList1);
+
+        interfaceMvaRatingLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        interfaceMvaRatingLabel.setText("InterfaceMvaRating");
+
+        interfaceMvaRatingTextField.setColumns(3);
+        interfaceMvaRatingTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        interfaceMvaRatingTextField.setText("1");
+
+        interfaceLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        interfaceLabel.setText("Interface Branch");
+
+        networkBranchLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        networkBranchLabel.setText("Network Branch");
+
+        networkBranchComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        networkBranchComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        participationLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        participationLabel.setText("Participation");
+
+        participationTextField.setColumns(3);
+        participationTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        participationTextField.setText("1");
+
+        percentLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        percentLabel.setText("%");
+
+        editInterfaceBranchButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        editInterfaceBranchButton.setText(">");
+        editInterfaceBranchButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        editInterfaceBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editInterfaceBranchButtonActionPerformed(evt);
+            }
+        });
+
+        updateInterfaceBranchButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        updateInterfaceBranchButton.setText("<");
+        updateInterfaceBranchButton.setMargin(new java.awt.Insets(2, 5, 2, 5));
+        updateInterfaceBranchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateInterfaceBranchButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout interfaceBranchEditPanelLayout = new org.jdesktop.layout.GroupLayout(interfaceBranchEditPanel);
+        interfaceBranchEditPanel.setLayout(interfaceBranchEditPanelLayout);
+        interfaceBranchEditPanelLayout.setHorizontalGroup(
+            interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                        .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(updateInterfaceBranchButton)
+                            .add(editInterfaceBranchButton))
+                        .add(18, 18, 18)
+                        .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(networkBranchLabel)
+                            .add(participationLabel))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                                .add(participationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(percentLabel))
+                            .add(networkBranchComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                        .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                                .add(interfaceLabel)
+                                .add(125, 125, 125))
+                            .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                                .add(interfaceMvaRatingLabel)
+                                .add(18, 18, 18)))
+                        .add(interfaceMvaRatingTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
+        interfaceBranchEditPanelLayout.setVerticalGroup(
+            interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                        .add(19, 19, 19)
+                        .add(interfaceLabel))
+                    .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(interfaceMvaRatingTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(interfaceMvaRatingLabel)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 54, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, interfaceBranchEditPanelLayout.createSequentialGroup()
+                        .add(editInterfaceBranchButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 8, Short.MAX_VALUE)
+                        .add(updateInterfaceBranchButton))
+                    .add(interfaceBranchEditPanelLayout.createSequentialGroup()
+                        .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(networkBranchLabel)
+                            .add(networkBranchComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(3, 3, 3)
+                        .add(interfaceBranchEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(participationLabel)
+                            .add(participationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(percentLabel))))
+                .addContainerGap())
+        );
 
         netCfgEditButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         netCfgEditButton.setText("Edit");
@@ -645,7 +788,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
             }
         });
 
-        netCfgAddButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        netCfgAddButton.setFont(new java.awt.Font("Dialog", 0, 12));
         netCfgAddButton.setText("Add");
         netCfgAddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -653,7 +796,7 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
             }
         });
 
-        netCfgUpdateButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        netCfgUpdateButton.setFont(new java.awt.Font("Dialog", 0, 12));
         netCfgUpdateButton.setText("Update");
         netCfgUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -666,64 +809,70 @@ public class NBProjectEditDialog extends javax.swing.JDialog implements IFormDat
         netCfgInfoPanelLayout.setHorizontalGroup(
             netCfgInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(netCfgInfoPanelLayout.createSequentialGroup()
-                .add(42, 42, 42)
-                .add(netCfgEditButton)
-                .add(12, 12, 12)
-                .add(netCfgAddButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(netCfgUpdateButton)
-                .addContainerGap(87, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, netCfgInfoPanelLayout.createSequentialGroup()
-                .addContainerGap(98, Short.MAX_VALUE)
-                .add(netCfgEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 206, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(22, 22, 22))
-            .add(netCfgInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(netCfgInfoPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(234, Short.MAX_VALUE)))
+                .add(netCfgInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(netCfgInfoPanelLayout.createSequentialGroup()
+                        .add(78, 78, 78)
+                        .add(netCfgEditButton)
+                        .add(12, 12, 12)
+                        .add(netCfgAddButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(netCfgUpdateButton))
+                    .add(netCfgInfoPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(interfaceBranchEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netCfgInfoPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 82, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(netCfgEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
         netCfgInfoPanelLayout.setVerticalGroup(
             netCfgInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(netCfgInfoPanelLayout.createSequentialGroup()
-                .add(6, 6, 6)
-                .add(netCfgEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(netCfgInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(netCfgEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(netCfgInfoPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(interfaceBranchEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+                .add(18, 18, 18)
                 .add(netCfgInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(netCfgEditButton)
                     .add(netCfgUpdateButton)
                     .add(netCfgAddButton))
-                .add(13, 13, 13))
-            .add(netCfgInfoPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                .add(netCfgInfoPanelLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 78, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(52, Short.MAX_VALUE)))
+                .addContainerGap())
         );
 
         org.jdesktop.layout.GroupLayout netConfigPanelLayout = new org.jdesktop.layout.GroupLayout(netConfigPanel);
         netConfigPanel.setLayout(netConfigPanelLayout);
         netConfigPanelLayout.setHorizontalGroup(
             netConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, netConfigPanelLayout.createSequentialGroup()
-                .addContainerGap(135, Short.MAX_VALUE)
+            .add(netConfigPanelLayout.createSequentialGroup()
+                .addContainerGap(81, Short.MAX_VALUE)
                 .add(netConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(netCfgSelectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 297, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(netCfgInfoPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(100, 100, 100))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netConfigPanelLayout.createSequentialGroup()
+                        .add(netCfgInfoPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(60, 60, 60))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, netConfigPanelLayout.createSequentialGroup()
+                        .add(netCfgSelectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 297, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(127, 127, 127))))
         );
         netConfigPanelLayout.setVerticalGroup(
             netConfigPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, netConfigPanelLayout.createSequentialGroup()
+            .add(netConfigPanelLayout.createSequentialGroup()
                 .add(netCfgSelectPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(netCfgInfoPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 141, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(109, 109, 109))
+                .add(2, 2, 2)
+                .add(netCfgInfoPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         configInfoTabbedPane.addTab("Network Config", netConfigPanel);
 
+        configInfoTabbedPane.setSelectedIndex(1);
+
         inputPanel.add(configInfoTabbedPane, java.awt.BorderLayout.CENTER);
+        configInfoTabbedPane.getAccessibleContext().setAccessibleName("Network Data");
 
         getContentPane().add(inputPanel, java.awt.BorderLayout.CENTER);
 
@@ -847,6 +996,14 @@ private void interfaceNetConfigRadioButtonActionPerformed(java.awt.event.ActionE
 private void areaNetConfigRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_areaNetConfigRadioButtonActionPerformed
 // TODO add your handling code here:
 }//GEN-LAST:event_areaNetConfigRadioButtonActionPerformed
+
+private void editInterfaceBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editInterfaceBranchButtonActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_editInterfaceBranchButtonActionPerformed
+
+private void updateInterfaceBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateInterfaceBranchButtonActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_updateInterfaceBranchButtonActionPerformed
     
     /**
      * @param args the command line arguments
@@ -874,13 +1031,20 @@ private void areaNetConfigRadioButtonActionPerformed(java.awt.event.ActionEvent 
     private javax.swing.JRadioButton distriAppRadioButton;
     private javax.swing.JRadioButton dstabNetRadioButton;
     private javax.swing.JPanel editContainerPanel;
+    private javax.swing.JButton editInterfaceBranchButton;
     private javax.swing.JPanel editPanel;
     private javax.swing.JLabel fUnitLabel;
     private javax.swing.JLabel filenameLabel;
     private javax.swing.JPanel inputPanel;
+    private javax.swing.JPanel interfaceBranchEditPanel;
+    private javax.swing.JLabel interfaceLabel;
+    private javax.swing.JLabel interfaceMvaRatingLabel;
+    private javax.swing.JTextField interfaceMvaRatingTextField;
     private javax.swing.JRadioButton interfaceNetConfigRadioButton;
+    private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel kvaPanel;
     private javax.swing.JLabel kvaUnitLabel;
     private javax.swing.JLabel leftEncloseLabel;
@@ -901,12 +1065,18 @@ private void areaNetConfigRadioButtonActionPerformed(java.awt.event.ActionEvent 
     private javax.swing.JPanel netConfigPanel;
     private javax.swing.ButtonGroup netTypeButtonGroup;
     private javax.swing.JPanel netTypePanel;
+    private javax.swing.JComboBox networkBranchComboBox;
+    private javax.swing.JLabel networkBranchLabel;
+    private javax.swing.JLabel participationLabel;
+    private javax.swing.JTextField participationTextField;
+    private javax.swing.JLabel percentLabel;
     private javax.swing.JLabel projFileLabel;
     private javax.swing.JLabel rightEncloseLabel;
     private javax.swing.JButton saveButton;
     private javax.swing.JPanel selectionPanel;
     private javax.swing.JRadioButton transAppRadioButton;
     private javax.swing.JPanel typeSelectPanel;
+    private javax.swing.JButton updateInterfaceBranchButton;
     private javax.swing.JRadioButton zoneNetConfigRadioButton;
     // End of variables declaration//GEN-END:variables
 
