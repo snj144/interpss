@@ -227,8 +227,8 @@ public class DclfOutFunc {
 		
 		str += getSenBusList("From Area", areaTransfer.getInjectBusList().getInjectBusArray());
 		str += getSenBusList("To Area", areaTransfer.getWithdrawBusList().getWithdrawBusArray());
-		str += "       Branch Id    AreaTransFactor   BaseCaseMva   PredictedMva   MvaLimit   Violstion\n";
-		str += "==========================================================================================\n";
+		str += "       Branch Id    AreaTransFactor   BaseCaseMva   PredictedMva   MvaLimit   Loading%  Violstion\n";
+		str += "==================================================================================================\n";
 		for (BranchRecXmlType branch : areaTransfer.getBranchArray()) {
 			String fromBusId = branch.getFromBusId(), 
 			       toBusId = branch.getToBusId(),
@@ -241,16 +241,18 @@ public class DclfOutFunc {
 			double f = algo.getAreaTransferFactor(fromBusId, toBusId, cirNumber, msg);
 			double baseMva = bra.mvaFlow(UnitType.mVA, net.getBaseKva());
 			double newMva = baseMva + areaTransfer.getTransderAmountMW() * f;
-			double limitMva = bra.getRatingMva1();
+			double limitMva = bra.getRatingMva1() * areaTransfer.getDeratingFactor();
 			boolean v = newMva > limitMva;
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
 					+ "      " + String.format("%9.3f", f) 
 					+ "        " + String.format("%8.2f", baseMva) 
 					+ "       " + String.format("%8.2f", newMva) 
-					+ "    " + String.format("%8.2f", limitMva) 
-					+ "      " + (v? "x" : " ") 
-					+ "\n";
+					+ "    " + String.format("%8.2f", limitMva); 
+			if (limitMva > 0.0)
+				str += "      " + String.format("%5.1f", 100*(newMva)/limitMva) 
+					+ "      " + (v? "x" : " "); 
+			str += "\n";
 		}
 		return str;
 	}
