@@ -281,28 +281,34 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 		this.areaTransfer.setDeratingFactor(
 				new Double(atDeratingFactorTextField.getText()).doubleValue());
 
-		if (areaTransfer.getInjectBusList() == null)
-			 areaTransfer.addNewInjectBusList();
+		saveFromAreaBusList2AreaTransfer();
+		saveToAreaBusList2AreaTransfer();
+
+		return true;
+	}
+
+	private void saveFromAreaBusList2AreaTransfer() {
+		areaTransfer.setInjectBusList(null);
+		areaTransfer.addNewInjectBusList();
 		for(int i = 0; i < atFromAreaBusList.getModel().getSize(); i++) {
-			SenAnalysisBusRecXmlType busRec = areaTransfer.getInjectBusList().sizeOfInjectBusArray() > i ?
-					areaTransfer.getInjectBusList().getInjectBusArray(i) : areaTransfer.getInjectBusList().addNewInjectBus();
+			SenAnalysisBusRecXmlType busRec = areaTransfer.getInjectBusList().addNewInjectBus();
 			String elem = (String)atFromAreaBusList.getModel().getElementAt(i);
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
 		}
-		
-		if (areaTransfer.getWithdrawBusList() == null)
-			 areaTransfer.addNewWithdrawBusList();
+	}
+	
+	private void saveToAreaBusList2AreaTransfer() {
+		areaTransfer.setWithdrawBusList(null);
+		areaTransfer.addNewWithdrawBusList();
 		for(int i = 0; i < atToAreaBusList.getModel().getSize(); i++) {
-			SenAnalysisBusRecXmlType busRec = areaTransfer.getWithdrawBusList().sizeOfWithdrawBusArray() > i ?
-						areaTransfer.getWithdrawBusList().getWithdrawBusArray(i) : areaTransfer.getWithdrawBusList().addNewWithdrawBus();
+			SenAnalysisBusRecXmlType busRec = areaTransfer.getWithdrawBusList().addNewWithdrawBus();
 			String elem = (String)atToAreaBusList.getModel().getElementAt(i);
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
 		}
-		return true;
 	}
-    
+	
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -392,7 +398,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         atAclfCalculateButton = new javax.swing.JButton();
         atSeAssessButton = new javax.swing.JButton();
 
-        runDclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12));
+        runDclfTabbedPane.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         runDclfTabbedPane.setMinimumSize(new java.awt.Dimension(80, 48));
         runDclfTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -470,7 +476,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfSingleMultiBusPanel.add(ptdfWithSingleBusRadioButton);
 
         ptdfWithdrawButtonGroup.add(ptdfWithMultiBusRadioButton);
-        ptdfWithMultiBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        ptdfWithMultiBusRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         ptdfWithMultiBusRadioButton.setText("Multi-Buses");
         ptdfWithMultiBusRadioButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -524,7 +530,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfPercentLabel.setText("%");
         ptdfPercentLabel.setEnabled(false);
 
-        ptdfAddWithBusButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfAddWithBusButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         ptdfAddWithBusButton.setText("Add");
         ptdfAddWithBusButton.setEnabled(false);
         ptdfAddWithBusButton.addActionListener(new java.awt.event.ActionListener() {
@@ -533,7 +539,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        ptdfRemoveWithBusButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfRemoveWithBusButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         ptdfRemoveWithBusButton.setText("Remove");
         ptdfRemoveWithBusButton.setEnabled(false);
         ptdfRemoveWithBusButton.addActionListener(new java.awt.event.ActionListener() {
@@ -564,7 +570,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                                 .add(ptdfDistFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(ptdfPercentLabel)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         ptdfWithMultiBusPanelLayout.setVerticalGroup(
             ptdfWithMultiBusPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -655,7 +661,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        ptdfCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        ptdfCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         ptdfCalculateButton.setText("Calculate");
         ptdfCalculateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -668,33 +674,31 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         ptdfPanelLayout.setHorizontalGroup(
             ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(ptdfPanelLayout.createSequentialGroup()
-                .add(25, 25, 25)
-                .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(26, 26, 26)
+                .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
                     .add(ptdfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(ptdfPanelLayout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(ptdfPanelLayout.createSequentialGroup()
-                        .add(65, 65, 65)
-                        .add(ptdfCalculateButton)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, ptdfPanelLayout.createSequentialGroup()
+                .addContainerGap(217, Short.MAX_VALUE)
+                .add(ptdfCalculateButton)
+                .add(200, 200, 200))
         );
         ptdfPanelLayout.setVerticalGroup(
             ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(ptdfPanelLayout.createSequentialGroup()
-                .add(20, 20, 20)
+                .addContainerGap()
                 .add(ptdfPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(ptdfPanelLayout.createSequentialGroup()
                         .add(ptdfInjectionPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(12, 12, 12)
-                        .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(ptdfPanelLayout.createSequentialGroup()
-                        .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(ptdfCalculateButton)))
-                .addContainerGap(45, Short.MAX_VALUE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(ptdfWithdrawPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE))
+                    .add(ptdfMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(ptdfCalculateButton)
+                .add(26, 26, 26))
         );
 
         runDclfTabbedPane.addTab("PTDF Calculation", ptdfPanel);
@@ -763,11 +767,11 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
             }
         });
 
-        atDeratingFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atDeratingFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         atDeratingFactorLabel.setText("Derating Factor");
 
         atDeratingFactorTextField.setColumns(3);
-        atDeratingFactorTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atDeratingFactorTextField.setFont(new java.awt.Font("Dialog", 0, 12));
         atDeratingFactorTextField.setText("1.00");
 
         atFromDFPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "From Area DistFactor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
@@ -1032,7 +1036,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
                 .add(11, 11, 11))
         );
 
-        atCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        atCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
         atCalculateButton.setText("Calculate");
         atCalculateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1307,15 +1311,15 @@ private void atFromAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt)
 
 private void atFromAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaUpdateButtonActionPerformed
 	if (!atFromAreaBusList.isSelectionEmpty()) {
+		// the Bus list might have been changed due to changing the area number
+		saveFromAreaBusList2AreaTransfer();
 		double percent = new Double(atFromDFactorEditTextField.getText()).doubleValue();
-
 		String s = (String)atFromAreaBusList.getSelectedValue();
 		String id = RunUIUtilFunc.getId_IdPercent(s);
 		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlUtilFunc.getBusRecord(id, areaTransfer.getInjectBusList().getInjectBusArray());
 		bus.setPercent(percent);
 		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
     			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
-
 		atFromDFactorEditTextField.setEnabled(false);
 		atFromAreaUpdateButton.setEnabled(false);
 	}
@@ -1332,15 +1336,16 @@ private void atToAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt) {
 
 private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaUpdateButtonActionPerformed
 	if (!atToAreaBusList.isSelectionEmpty()) {
+		// the Bus list might have been changed due to changing the area number
+		saveToAreaBusList2AreaTransfer();
 		double percent = new Double(atToDFactorEditTextField.getText()).doubleValue();
-
 		String s = (String)atToAreaBusList.getSelectedValue();
 		String id = RunUIUtilFunc.getId_IdPercent(s);
-		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlUtilFunc.getBusRecord(id, areaTransfer.getWithdrawBusList().getWithdrawBusArray());
+		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlUtilFunc.getBusRecord(id, 
+						areaTransfer.getWithdrawBusList().getWithdrawBusArray());
 		bus.setPercent(percent);
 		atToAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
 	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getWithdrawBusList().getWithdrawBusArray())));
-
 		atToDFactorEditTextField.setEnabled(false);
 		atToAreaUpdateButton.setEnabled(false);
 	}
