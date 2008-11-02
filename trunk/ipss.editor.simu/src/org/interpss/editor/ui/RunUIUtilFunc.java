@@ -109,14 +109,14 @@ public class RunUIUtilFunc  {
 			double sum = 0.0;
 			for (Bus bus : net.getBusList()) {
 				AclfBus aclfBus = (AclfBus)bus;
-				if (bus.getArea().getNumber() == number && aclfBus.isGen())
+				if (bus.getArea().getNumber() == number && aclfBus.isGen() && !aclfBus.isSwing())
 					sum += aclfBus.getGenP();
 			}
 			if (sum == 0.0) 
 				sum = 1.0;
 			for (Bus bus : net.getBusList()) {
 				AclfBus aclfBus = (AclfBus)bus;
-				if (bus.getArea().getNumber() == number && aclfBus.isGen()) {
+				if (bus.getArea().getNumber() == number && aclfBus.isGen() && !aclfBus.isSwing()) {
 					double p = aclfBus.getGenP() / sum;
 					set.add(bus.getId()+"(" + String.format("%3.1f", p*100.0) + "%)");
 				}
