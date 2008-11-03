@@ -6,20 +6,24 @@ import org.eclipse.ui.application.IActionBarConfigurer;
 import org.eclipse.ui.application.IWorkbenchWindowConfigurer;
 import org.eclipse.ui.application.WorkbenchWindowAdvisor;
 
-public class ApplicationWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
+public class IpssAppWorkbenchWindowAdvisor extends WorkbenchWindowAdvisor {
 
-    public ApplicationWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
+    public IpssAppWorkbenchWindowAdvisor(IWorkbenchWindowConfigurer configurer) {
         super(configurer);
     }
 
     public ActionBarAdvisor createActionBarAdvisor(IActionBarConfigurer configurer) {
-        return new ApplicationActionBarAdvisor(configurer);
+        return new IpssAppActionBarAdvisor(configurer);
     }
     
     public void preWindowOpen() {
         IWorkbenchWindowConfigurer configurer = getWindowConfigurer();
-        configurer.setInitialSize(new Point(400, 300));
+        configurer.setInitialSize(new Point(900, 600));
         configurer.setShowCoolBar(true);
         configurer.setShowStatusLine(true);
+    }
+    
+    public void postWindowOpen() {
+    	//getMsgConsole().println("Hellow");
     }
 }

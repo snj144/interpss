@@ -1,6 +1,5 @@
 package com.interpss.workbench;
 
-import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ICoolBarManager;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -13,7 +12,7 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
 import org.eclipse.ui.application.ActionBarAdvisor;
 import org.eclipse.ui.application.IActionBarConfigurer;
 
-public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
+public class IpssAppActionBarAdvisor extends ActionBarAdvisor {
 
 //	private IWorkbenchAction exitAction;
 //	private IWorkbenchAction newAction;
@@ -80,7 +79,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 	private IWorkbenchAction closeAction;
 	private IWorkbenchAction newWizardDropDownAction;
 	private IWorkbenchAction newAction;
-	public ApplicationActionBarAdvisor(IActionBarConfigurer configurer) {
+	public IpssAppActionBarAdvisor(IActionBarConfigurer configurer) {
 		super(configurer);
 	}
 
@@ -355,7 +354,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		toolBarManager.add(saveAction);
 
 		toolBarManager.add(saveAllAction);
-
+/*
 		toolBarManager.add(new Separator());
 
 		toolBarManager.add(copyAction);
@@ -368,6 +367,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		toolBarManager.add(printAction);
 		// TODO Auto-generated method stub
+		 */
 		super.fillCoolBar(coolBar);
 	}
 
@@ -461,6 +461,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 
 		editMenu.add(findAction);
 		
+/*		
 		MenuManager navMenu = new MenuManager("&Navigate", null);
 		menuBar.add(navMenu);
 
@@ -479,7 +480,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		navMenu.add(backwardHistoryAction);
 
 		navMenu.add(forwardHistoryAction);
-
+*/
 		MenuManager winMenu = new MenuManager("&Window", null);
 		menuBar.add(winMenu);
 
@@ -504,7 +505,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		winMenu.add(closePerspectiveAction);
 
 		winMenu.add(closeAllPerspectivesAction);
-
+/*
 		MenuManager winnavMenu = new MenuManager("Navigate", null);
 		winMenu.add(winnavMenu);
 
@@ -549,7 +550,7 @@ public class ApplicationActionBarAdvisor extends ActionBarAdvisor {
 		winMenu.add(new Separator());
 
 		winMenu.add(preferencesAction);
-
+*/
 		MenuManager helpMenu = new MenuManager("&Help", null);
 		menuBar.add(helpMenu);
 
