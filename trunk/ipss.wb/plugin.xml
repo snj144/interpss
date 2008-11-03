@@ -7,16 +7,16 @@
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="com.interpss.workbench.Application">
+               class="com.interpss.workbench.IpssApp">
          </run>
       </application>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
       <perspective
-            name="RCP Perspective"
-            class="com.interpss.workbench.Perspective"
-            id="com.interpss.workbench.perspective">
+            name="OpenCIM Perspective"
+            class="com.interpss.workbench.OpenCimPerspective"
+            id="com.interpss.workbench.OpenCimPerspective">
       </perspective>
    </extension>
    <extension
