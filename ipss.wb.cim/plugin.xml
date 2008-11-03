@@ -10,7 +10,7 @@
       </category>
       <wizard
             category="com.interpss.ui.wizards/opencim"
-            class="com.interpss.wb.opencim.NewOpenCIMProjectWizard"
+            class="com.interpss.wb.opencim.NewProjectWizard"
             id="com.interpss.wb.opencim.newprojectwizard"
             name="%opencim.newprojectwizard.name"
             project="true">

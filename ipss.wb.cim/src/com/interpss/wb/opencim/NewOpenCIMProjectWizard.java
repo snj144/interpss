@@ -1,55 +1,35 @@
 package com.interpss.wb.opencim;
 
-import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResourceStatus;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.ui.INewWizard;
-import org.eclipse.ui.IPerspectiveDescriptor;
-import org.eclipse.ui.IPerspectiveRegistry;
-import org.eclipse.ui.IPluginContribution;
 import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPreferenceConstants;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.IWorkingSet;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
-import org.eclipse.ui.activities.IActivityManager;
-import org.eclipse.ui.activities.IIdentifier;
-import org.eclipse.ui.activities.IWorkbenchActivitySupport;
-import org.eclipse.ui.activities.WorkbenchActivityHelper;
+import org.eclipse.ui.dialogs.WizardNewFileCreationPage;
 import org.eclipse.ui.dialogs.WizardNewProjectCreationPage;
-import org.eclipse.ui.ide.IDE;
+import org.eclipse.ui.ide.undo.CreateFolderOperation;
 import org.eclipse.ui.ide.undo.CreateProjectOperation;
 import org.eclipse.ui.ide.undo.WorkspaceUndoUtil;
-import org.eclipse.ui.internal.IPreferenceConstants;
-import org.eclipse.ui.internal.WorkbenchPlugin;
-import org.eclipse.ui.internal.ide.IDEInternalPreferences;
 import org.eclipse.ui.internal.ide.IDEWorkbenchPlugin;
 import org.eclipse.ui.internal.ide.StatusUtil;
-import org.eclipse.ui.internal.util.PrefUtil;
 import org.eclipse.ui.internal.wizards.newresource.ResourceMessages;
 import org.eclipse.ui.statushandlers.IStatusAdapterConstants;
 import org.eclipse.ui.statushandlers.StatusAdapter;
@@ -60,7 +40,9 @@ public class NewOpenCIMProjectWizard extends Wizard implements INewWizard {
 	private IWorkbench workbench;
 
 	private IProject newProject;
-	private WizardNewProjectCreationPage mainPage;
+	
+	private WizardNewProjectCreationPage projectPage;
+	private WizardNewFileCreationPage filePage;
 
 	public NewOpenCIMProjectWizard() {
 		// TODO Auto-generated constructor stub
@@ -123,12 +105,12 @@ public class NewOpenCIMProjectWizard extends Wizard implements INewWizard {
 		}
 
 		// get a project handle
-		final IProject newProjectHandle = mainPage.getProjectHandle();
+		final IProject newProjectHandle = projectPage.getProjectHandle();
 
 		// get a project descriptor
 		URI location = null;
-		if (!mainPage.useDefaults()) {
-			location = mainPage.getLocationURI();
+		if (!projectPage.useDefaults()) {
+			location = projectPage.getLocationURI();
 		}
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
@@ -176,6 +158,44 @@ public class NewOpenCIMProjectWizard extends Wizard implements INewWizard {
 		}
 
 		newProject = newProjectHandle;
+		
+		final IPath projPath = newProject.getFullPath();
+		
+		IPath newFolderPath = projPath.append("data");
+		final IFolder newFolderHandle = ResourcesPlugin.getWorkspace().getRoot().getFolder(newFolderPath);
+		
+		IRunnableWithProgress runnable = new IRunnableWithProgress() {
+			public void run(IProgressMonitor monitor) {
+				CreateFolderOperation op = new CreateFolderOperation(newFolderHandle, null, "???");
+				try {
+					PlatformUI.getWorkbench().getOperationSupport().getOperationHistory().execute(op, monitor, WorkspaceUndoUtil.getUIInfoAdapter(getShell()));
+				} catch (final ExecutionException e) {
+					getContainer().getShell().getDisplay().syncExec(new Runnable() {
+						public void run() {
+							if (e.getCause() instanceof CoreException) {
+								//ErrorDialog.openError(getContainer().getShell(), Messages.NewFolderWizard_folderCreationErrorDialog_title, null, ((CoreException) e.getCause()).getStatus());
+							} else {
+								//log(getClass(), "createNewFolder()", e.getCause()); //$NON-NLS-1$
+								//MessageDialog.openError(getContainer().getShell(), Messages.NewFolderWizard_folderCreationErrorDialog_title, e.getCause().getMessage());
+							}
+						}
+					});
+				}
+			}
+		};
+		try {
+			getContainer().run(true, true, runnable);
+		} catch (InterruptedException e) {
+			return null;
+		} catch (InvocationTargetException e) {
+			// Execution Exceptions are handled above but we may still get
+			// unexpected runtime errors.
+			//log(getClass(), "createNewFolder()", e.getTargetException()); //$NON-NLS-1$
+			//MessageDialog.openError(getContainer().getShell(), Messages.NewFolderWizard_folderCreationErrorDialog_title, e.getTargetException().getMessage());
+			return null;
+		}
+
+		
 
 		return newProject;
 	}
@@ -185,15 +205,53 @@ public class NewOpenCIMProjectWizard extends Wizard implements INewWizard {
 		this.workbench = workbench;
 		setNeedsProgressMonitor(true);
 		setWindowTitle(MessageUtil.getString("opencim.newprojectwizard.WindowTitle"));
-
 	}
 
 	@Override
 	public void addPages() {
-		super.addPages();
-		mainPage = new WizardNewProjectCreationPage(MessageUtil.getString("opencim.newprojectwizard.WindowTitle"));
-		mainPage.setTitle(MessageUtil.getString("opencim.newprojectwizard.PageTitle"));
-		mainPage.setDescription(MessageUtil.getString("opencim.newprojectwizard.PageDescription"));
-		this.addPage(mainPage);
+		//super.addPages();
+		projectPage = new WizardNewProjectCreationPage(MessageUtil.getString("opencim.newprojectwizard.WindowTitle")) {
+			@Override
+			protected boolean validatePage() {
+				if( !super.validatePage())
+					return false;
+				//selectFile.setProject(newProject.getProjectHandle());
+				return true;
+			}
+			@Override
+			public IWizardPage getNextPage() {
+				return filePage;
+			}
+			/*
+			@Override
+			public boolean canFlipToNextPage() {
+				return validatePage();
+			}
+			@Override
+			public boolean isPageComplete() {
+				return false;
+			}
+			*/	
+		};
+		projectPage.setTitle(MessageUtil.getString("opencim.newprojectwizard.PageTitle"));
+		projectPage.setDescription(MessageUtil.getString("opencim.newprojectwizard.PageDescription"));
+		this.addPage(projectPage);
+
+		filePage = new WizardNewFileCreationPage("newFile", null) {
+			@Override
+			protected boolean validatePage() {
+				if( !super.validatePage())
+					return false;
+				//selectFile.setProject(newProject.getProjectHandle());
+				return true;
+			}
+			@Override
+			public IWizardPage getPreviousPage() {
+				return projectPage;
+			}			
+		};
+		filePage.setTitle(MessageUtil.getString("opencim.newprojectwizard.PageTitle"));
+		filePage.setDescription(MessageUtil.getString("opencim.newprojectwizard.PageDescription"));
+		//this.addPage(filePage);
 	}
 }
