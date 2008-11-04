@@ -4,7 +4,7 @@
    
    
 2.To run the adapter for power flow and transient data conversion to ODM, 
-   Please copy the transient data, and past it to the power flow data sheet,
+   Please copy the transient data, and paste it to the end of power flow data sheet,
    right following the (END) sign of the power flow data sheet.    
    Then,please add "transient" in the first row of the file the is going 
    to be converted.
