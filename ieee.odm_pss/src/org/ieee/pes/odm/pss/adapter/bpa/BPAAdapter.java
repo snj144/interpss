@@ -205,7 +205,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	private void processReadComment(final String str, final PSSNetworkXmlType baseCaseNet
 			,BPAAdapter adapter){
 		
-		adapter.logErr("This line is not processed:  "+str);
+	//	adapter.logErr("This line is for comment only:  "+str);
 		// to do in future
 		
 	}

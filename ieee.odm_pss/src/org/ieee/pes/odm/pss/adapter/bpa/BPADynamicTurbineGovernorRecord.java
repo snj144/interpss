@@ -61,35 +61,35 @@ public class BPADynamicTurbineGovernorRecord {
     			tg.addNewTgId().setName(tgId);
     		}			
 			//PMAX 
-    		double pmax=new Double(strAry[4]).doubleValue();
+    		double pmax=StringUtil.getDouble(strAry[4], 0.0);
     		ODMData2XmlHelper.setPUData(gg.addNewPMAX(), pmax, PerUnitXmlType.Unit.PU);
 			//R
-    		double r=new Double(strAry[5]).doubleValue();
+    		double r=StringUtil.getDouble(strAry[5], 0.0);
     		ODMData2XmlHelper.setPUData(gg.addNewR(), r, PerUnitXmlType.Unit.PU);
 			
 			//T1
-    		double T1=new Double(strAry[6]).doubleValue();
+    		double T1=StringUtil.getDouble(strAry[6], 0.0);
     		ODMData2XmlHelper.setTimeData(gg.addNewT1(), 
     					T1, TimeXmlType.Unit.SEC);
 			//T2
-    	    double T2=new Double(strAry[7]).doubleValue();
+    	    double T2=StringUtil.getDouble(strAry[7], 0.0);
 		    ODMData2XmlHelper.setTimeData(gg.addNewT2(), 
 					       T2, TimeXmlType.Unit.SEC);		   
 			//T3
-		    double T3=new Double(strAry[8]).doubleValue();
+		    double T3=StringUtil.getDouble(strAry[8], 0.0);
 		    ODMData2XmlHelper.setTimeData(gg.addNewT3(), 
 					       T3, TimeXmlType.Unit.SEC);			
 			// T4
-		    double T4=new Double(strAry[9]).doubleValue();
+		    double T4=StringUtil.getDouble(strAry[9], 0.0);
 		    ODMData2XmlHelper.setTimeData(gg.addNewT4(), 
 					       T4, TimeXmlType.Unit.SEC);			
 			//T5
-		    double T5=new Double(strAry[10]).doubleValue();
+		    double T5=StringUtil.getDouble(strAry[10], 0.0);
 		    ODMData2XmlHelper.setTimeData(gg.addNewT5(), 
 					       T5, TimeXmlType.Unit.SEC);
 			
 			//F
-		    double f=new Double(strAry[11]).doubleValue();
+		    double f=StringUtil.getDouble(strAry[11], 0.0);
     		ODMData2XmlHelper.setPUData(gg.addNewF(), f, PerUnitXmlType.Unit.PU);
 			
     	}else if(strAry[0].equals("GH")){
@@ -101,7 +101,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String busId=strAry[1];
     		tg.addNewLocatedBus().setName(busId);			
 			//bus Voltage
-    		double v= new Double(strAry[2]).doubleValue();    		
+    		double v= StringUtil.getDouble(strAry[2], 0.0);   		
     		ODMData2XmlHelper.setVoltageData(tg.addNewBusRatedVoltage(), v,
     				VoltageXmlType.Unit.KV);			
 			//excId
@@ -111,40 +111,38 @@ public class BPADynamicTurbineGovernorRecord {
     			tg.addNewTgId().setName(tgId);
     		}			
 			//PMAX 
-    		double pmax=new Double(strAry[4]).doubleValue();
+    		double pmax=StringUtil.getDouble(strAry[4], 0.0);
     		ODMData2XmlHelper.setPUData(gh.addNewPMAX(), pmax, PerUnitXmlType.Unit.PU);
     		//R
-    		double r=new Double(strAry[5]).doubleValue();
+    		double r=StringUtil.getDouble(strAry[5], 0.0);
     		ODMData2XmlHelper.setPUData(gh.addNewR(), r, PerUnitXmlType.Unit.PU);
 			//TG
-    		double Tg=new Double(strAry[6]).doubleValue();
+    		double Tg=StringUtil.getDouble(strAry[6], 0.0);
 		    ODMData2XmlHelper.setTimeData(gh.addNewTG(), 
 					       Tg, TimeXmlType.Unit.SEC);			
 			//TP
-		    double Tp=new Double(strAry[7]).doubleValue();
+		    double Tp=StringUtil.getDouble(strAry[7], 0.0);
 		    ODMData2XmlHelper.setTimeData(gh.addNewTP(), 
 					       Tp, TimeXmlType.Unit.SEC);		
 			//TD
-		    double Td= new Double(strAry[8]).doubleValue();
+		    double Td= StringUtil.getDouble(strAry[8], 0.0);
 		    ODMData2XmlHelper.setTimeData(gh.addNewTD(), 
 				       Td, TimeXmlType.Unit.SEC);			
 			// TW/2
-		    double Tw= new Double(strAry[9]).doubleValue();
+		    double Tw= StringUtil.getDouble(strAry[9], 0.0);
 		    ODMData2XmlHelper.setTimeData(gh.addNewTWhalf(), 
 				       Tw, TimeXmlType.Unit.SEC);			
 			//VELCLOSE
-		    double Uc=new Double(strAry[10]).doubleValue();
+		    double Uc=StringUtil.getDouble(strAry[10], 0.0);
     		ODMData2XmlHelper.setPUData(gh.addNewUc(), Uc, PerUnitXmlType.Unit.PU);
 			
 			//FVELOPEN
-    		double Uo=new Double(strAry[11]).doubleValue();
+    		double Uo=StringUtil.getDouble(strAry[11], 0.0);
     		ODMData2XmlHelper.setPUData(gh.addNewUo(), Uo, PerUnitXmlType.Unit.PU);
 			
 			//Dd
-    		double Dd=0.0;
-    		if(!strAry[12].equals("")){
-    			Dd=new Double(strAry[12]).doubleValue();
-    		}    	
+    		double Dd=StringUtil.getDouble(strAry[12], 0.0);
+    		   	
     		ODMData2XmlHelper.setPUData(gh.addNewD4(), Dd, PerUnitXmlType.Unit.PU);		
 			
     		
@@ -157,7 +155,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String busId=strAry[1];
     		tg.addNewLocatedBus().setName(busId);
     		//bus Voltage
-    		double v= new Double(strAry[2]).doubleValue();    		
+    		double v= StringUtil.getDouble(strAry[2], 0.0);    		
     		ODMData2XmlHelper.setVoltageData(tg.addNewBusRatedVoltage(), v,
     				VoltageXmlType.Unit.KV);			
 			//excId
@@ -170,38 +168,32 @@ public class BPADynamicTurbineGovernorRecord {
     		double pmax=new Double(strAry[4]).doubleValue();
     		ODMData2XmlHelper.setPUData(gs.addNewPMAX(), pmax, PerUnitXmlType.Unit.PU);
     		//PMIN
-    		double pmin=0.0;
-    		if(!strAry[5].equals("")){
-    			pmin=new Double(strAry[5]).doubleValue();
-        		ODMData2XmlHelper.setPUData(gs.addNewPMIN(), pmin, PerUnitXmlType.Unit.PU);	
-    		}	
+    		double pmin=StringUtil.getDouble(strAry[5], 0.0);
+    		ODMData2XmlHelper.setPUData(gs.addNewPMIN(), pmin, PerUnitXmlType.Unit.PU);	
+    			
     		//R
-    		double r=new Double(strAry[6]).doubleValue();
+    		double r=StringUtil.getDouble(strAry[6], 0.0);
     		ODMData2XmlHelper.setPUData(gs.addNewR(), r, PerUnitXmlType.Unit.PU);
 			//T1
-    		double T1=0.0;
-    		if(!strAry[7].equals("")){
-    			T1= new Double(strAry[7]).doubleValue();
-    		    ODMData2XmlHelper.setTimeData(gs.addNewT1(), 
+    		double T1=StringUtil.getDouble(strAry[7], 0.0);
+    		ODMData2XmlHelper.setTimeData(gs.addNewT1(), 
     				       T1, TimeXmlType.Unit.SEC);
-    		}
+    		
     					
 			//T2
-    		double T2=0.0;
-    		if(!strAry[8].equals("")){
-    			T2= new Double(strAry[8]).doubleValue();
-    		    ODMData2XmlHelper.setTimeData(gs.addNewT2(), 
+    		double T2=StringUtil.getDouble(strAry[8], 0.0);
+    		ODMData2XmlHelper.setTimeData(gs.addNewT2(), 
     				       T2, TimeXmlType.Unit.SEC);
-    		}		    		
+    				    		
 			// T3
-		    double T3= new Double(strAry[9]).doubleValue();
+		    double T3= StringUtil.getDouble(strAry[9], 0.0);
 		    ODMData2XmlHelper.setTimeData(gs.addNewT3(), 
 				       T3, TimeXmlType.Unit.SEC);			
 			//VELOPEN
-		    double Uo=new Double(strAry[10]).doubleValue();
+		    double Uo=StringUtil.getDouble(strAry[4], 0.0);
     		ODMData2XmlHelper.setPUData(gs.addNewU0(), Uo, PerUnitXmlType.Unit.PU);			
 			//FVELCLOSE
-    		double Uc=new Double(strAry[10]).doubleValue();
+    		double Uc=StringUtil.getDouble(strAry[11], 0.0);
     		ODMData2XmlHelper.setPUData(gs.addNewUC(), Uc, PerUnitXmlType.Unit.PU);
     	}else if(strAry[0].equals("TA")){
     		//busId
@@ -239,33 +231,28 @@ public class BPADynamicTurbineGovernorRecord {
     			TurbineXmlType.SteamTurbine steamTur=tur.addNewSteamTurbine();
     			
     			//TCH
-    			double TCH= new Double(strAry[4]).doubleValue();
+    			double TCH= StringUtil.getDouble(strAry[4], 0.0);
     		    ODMData2XmlHelper.setTimeData(steamTur.addNewTCH(),
     		    		TCH, TimeXmlType.Unit.SEC);	  
     			//FHP
-    		    double FHP= new Double(strAry[5]).doubleValue();
+    		    double FHP= StringUtil.getDouble(strAry[5], 0.0);
     			steamTur.setFHP(FHP);
     			//TRH
-    		    double TRH= new Double(strAry[6]).doubleValue();
+    		    double TRH= StringUtil.getDouble(strAry[6], 0.0);
     		    ODMData2XmlHelper.setTimeData(steamTur.addNewTRH(),
     		    		TRH, TimeXmlType.Unit.SEC);	    			
     			//FIP
-    		    double FIP= new Double(strAry[7]).doubleValue();
+    		    double FIP= StringUtil.getDouble(strAry[7], 0.0);
     		    steamTur.setFIP(FIP);    			
     			//TCO
-    		    double TCO=0.0;
-    		    if(!strAry[8].equals("")){
-    		    	TCO= new Double(strAry[8]).doubleValue();
-        		    ODMData2XmlHelper.setTimeData(steamTur.addNewTCO(),
+    		    double TCO=StringUtil.getDouble(strAry[8], 0.0);
+    		    ODMData2XmlHelper.setTimeData(steamTur.addNewTCO(),
         		    		TCO, TimeXmlType.Unit.SEC);
-    		    }
-    		    	    			
+    		       		    	    			
     			// FLP
-    		    double FLP=0.0;
-    		    if(!strAry[9].equals("")){
-    		    	FLP= new Double(strAry[9]).doubleValue();
-        		    steamTur.setFLP(FLP);
-    		    }    		        			
+    		    double FLP=StringUtil.getDouble(strAry[9], 0.0);
+       		    steamTur.setFLP(FLP);
+    		        		        			
     		}    
     	}
     	

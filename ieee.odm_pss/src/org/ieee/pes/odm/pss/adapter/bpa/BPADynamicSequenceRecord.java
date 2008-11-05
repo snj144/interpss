@@ -73,18 +73,13 @@ public class BPADynamicSequenceRecord {
 				xfrZero.setCirId(cirId);
 			}			
 			//X0
-			double x0=0.0;
-			if(!strAry[7].equals("")){
-				x0=new Double(strAry[7]).doubleValue();
-				ODMData2XmlHelper.setPUData(xfrZero.addNewX1(), x0, PerUnitXmlType.Unit.PU);
-			}
-			
+			double x0=StringUtil.getDouble(strAry[7], 0.0);
+			ODMData2XmlHelper.setPUData(xfrZero.addNewX1(), x0, PerUnitXmlType.Unit.PU);
+						
 			//R0
-			double r0=0.0;
-			if(!strAry[8].equals("")){
-				r0=new Double(strAry[8]).doubleValue();
-				ODMData2XmlHelper.setPUData(xfrZero.addNewR1(), r0, PerUnitXmlType.Unit.PU);
-			}			
+			double r0=StringUtil.getDouble(strAry[8], 0.0);
+			ODMData2XmlHelper.setPUData(xfrZero.addNewR1(), r0, PerUnitXmlType.Unit.PU);
+						
 		}else if(strAry[0].equals("XR")){
 			ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero SHZero=
 				parser.addNewShuntLoadZero();		
@@ -92,17 +87,13 @@ public class BPADynamicSequenceRecord {
 			String bus1=strAry[1];
 			SHZero.addNewBusId().setName(bus1);	    	
     		//r0
-			double r0=0.0;
-			if(!strAry[3].equals("")){
-				r0=new Double(strAry[3]).doubleValue();
-				ODMData2XmlHelper.setPUData(SHZero.addNewRZer(), r0, PerUnitXmlType.Unit.PU);
-			}    		
+			double r0=StringUtil.getDouble(strAry[3], 0.0);
+			ODMData2XmlHelper.setPUData(SHZero.addNewRZer(), r0, PerUnitXmlType.Unit.PU);
+			  		
     		//x0
-			double x0=0.0;
-			if(!strAry[4].equals("")){
-				x0=new Double(strAry[4]).doubleValue();
-				ODMData2XmlHelper.setPUData(SHZero.addNewXZer(), x0, PerUnitXmlType.Unit.PU);
-			}    		
+			double x0=StringUtil.getDouble(strAry[4], 0.0);
+			ODMData2XmlHelper.setPUData(SHZero.addNewXZer(), x0, PerUnitXmlType.Unit.PU);
+			    		
 		}else if(strAry[0].equals("LO")){
 			ZeroSequenceDataListXmlType.LineZeroList.LineZero lineZero=
 				parser.addNewLineZero();
@@ -120,42 +111,29 @@ public class BPADynamicSequenceRecord {
 				lineZero.setCirId(cirId);
 			}			
     		//R0			
-			double r0=0.0;
-			if(!strAry[7].equals("")){
-				r0=new Double(strAry[7]).doubleValue();
-				ODMData2XmlHelper.setPUData(lineZero.addNewRLineZer(), r0, PerUnitXmlType.Unit.PU);
-			}  
-    		
+			double r0=StringUtil.getDouble(strAry[7], 0.0);
+			ODMData2XmlHelper.setPUData(lineZero.addNewRLineZer(), r0, PerUnitXmlType.Unit.PU);
+			    		
     		//X0
-			double x0=0.0;
-			if(!strAry[8].equals("")){
-				x0=new Double(strAry[8]).doubleValue();
-				ODMData2XmlHelper.setPUData(lineZero.addNewXLineZer(), x0, PerUnitXmlType.Unit.PU);
-			}     		
+			double x0=StringUtil.getDouble(strAry[8], 0.0);
+			ODMData2XmlHelper.setPUData(lineZero.addNewXLineZer(), x0, PerUnitXmlType.Unit.PU);
+			     		
     		//G1
-			double g1=0.0;
-			if(!strAry[9].equals("")){
-				g1=new Double(strAry[9]).doubleValue();
-				ODMData2XmlHelper.setPUData(lineZero.addNewGfZer(),g1, PerUnitXmlType.Unit.PU);
-			}    		
+			double g1=StringUtil.getDouble(strAry[9], 0.0);
+			ODMData2XmlHelper.setPUData(lineZero.addNewGfZer(),g1, PerUnitXmlType.Unit.PU);
+			   		
     		//B1
-			double b1=0.0;
-			if(!strAry[10].equals("")){
-				b1=new Double(strAry[10]).doubleValue();
-				ODMData2XmlHelper.setPUData(lineZero.addNewBfZer(),b1, PerUnitXmlType.Unit.PU);
-			}     		
+			double b1=StringUtil.getDouble(strAry[10], 0.0);
+			ODMData2XmlHelper.setPUData(lineZero.addNewBfZer(),b1, PerUnitXmlType.Unit.PU);
+			     		
     		//G2
-    		double g2=0.0;
-			if(!strAry[11].equals("")){
-				g2=new Double(strAry[11]).doubleValue();
-				ODMData2XmlHelper.setPUData(lineZero.addNewGtZer(),g2, PerUnitXmlType.Unit.PU);
-			}     		
+    		double g2=StringUtil.getDouble(strAry[11], 0.0);
+			ODMData2XmlHelper.setPUData(lineZero.addNewGtZer(),g2, PerUnitXmlType.Unit.PU);
+			     		
     		//B2
-			double b2=0.0;
-			if(!strAry[12].equals("")){
-				b2=new Double(strAry[12]).doubleValue();
-				ODMData2XmlHelper.setPUData(lineZero.addNewBtZer(),b2, PerUnitXmlType.Unit.PU);
-			}     		
+			double b2=StringUtil.getDouble(strAry[12], 0.0);
+			ODMData2XmlHelper.setPUData(lineZero.addNewBtZer(),b2, PerUnitXmlType.Unit.PU);
+			     		
 		}else if(strAry[0].equals("LM")){
 			ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero mutZero=
 				parser.addNewMutualZero();
@@ -184,17 +162,13 @@ public class BPADynamicSequenceRecord {
 				mutZero.setBranch2CirId(cir2Id);
 			}	    		
 			//R0			
-			double r0=0.0;
-			if(!strAry[11].equals("")){
-				r0=new Double(strAry[11]).doubleValue();
-				ODMData2XmlHelper.setPUData(mutZero.addNewRM(), r0, PerUnitXmlType.Unit.PU);
-			}      		
+			double r0=StringUtil.getDouble(strAry[11], 0.0);
+			ODMData2XmlHelper.setPUData(mutZero.addNewRM(), r0, PerUnitXmlType.Unit.PU);
+			      		
     		//X0
-			double x0=0.0;
-			if(!strAry[12].equals("")){
-				x0=new Double(strAry[12]).doubleValue();
-				ODMData2XmlHelper.setPUData(mutZero.addNewXM(), x0, PerUnitXmlType.Unit.PU);
-			}     	
+			double x0=StringUtil.getDouble(strAry[12], 0.0);
+			ODMData2XmlHelper.setPUData(mutZero.addNewXM(), x0, PerUnitXmlType.Unit.PU);
+			     	
 		}
 	}
 	

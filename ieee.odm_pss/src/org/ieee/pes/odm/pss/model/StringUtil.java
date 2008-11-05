@@ -113,7 +113,11 @@ public class StringUtil {
 	 */
 	public static String getStringReturnEmptyString(String str, int beginCol, int endCol) {
 		if (str.length() < endCol)
-			return "";
+			if(beginCol>str.length()){
+				return "";
+			}else if(beginCol<=str.length()){
+			    return str.substring(beginCol-1, str.length());
+		     }
 		return str.substring(beginCol-1, endCol).trim();
 	}
 	

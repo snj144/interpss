@@ -68,27 +68,19 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[7].equals("")){
     			owner= strAry[7];
     		}
-    		double xd11=0.0,  xq11=0.0  ,td011=0.0, tq011=0.0;
-    		if(!strAry[8].equals("")){
-    			xd11=new Double(strAry[8]).doubleValue();
-    			ODMData2XmlHelper.setPUData(subTranGen.addNewXd11(), 
+    		double xd11=StringUtil.getDouble(strAry[8], 0.0);  
+    	
+    		ODMData2XmlHelper.setPUData(subTranGen.addNewXd11(), 
     					xd11, PerUnitXmlType.Unit.PU);
-    		}
-    		if(!strAry[9].equals("")){
-    			xq11=new Double(strAry[9]).doubleValue();
-    			ODMData2XmlHelper.setPUData(subTranGen.addNewXq11(), 
-    					xq11, PerUnitXmlType.Unit.PU);
-    		}
-    		if(!strAry[10].equals("")){
-    			td011=new Double(strAry[10]).doubleValue();
-    			ODMData2XmlHelper.setTimeData(subTranGen.addNewTd011(), 
-    					td011, TimeXmlType.Unit.SEC);
-    		}
-    		if(!strAry[11].equals("")){
-    			tq011=new Double(strAry[11]).doubleValue();
-    			ODMData2XmlHelper.setTimeData(subTranGen.addNewTq011(), 
-    					tq011, TimeXmlType.Unit.SEC);
-    		}
+    		double xq11=StringUtil.getDouble(strAry[9], 0.0);
+    		ODMData2XmlHelper.setPUData(subTranGen.addNewXq11(), 
+					xq11, PerUnitXmlType.Unit.PU);
+    		double td011=StringUtil.getDouble(strAry[10], 0.0);
+    		ODMData2XmlHelper.setTimeData(subTranGen.addNewTd011(), 
+					td011, TimeXmlType.Unit.SEC);
+    		double tq011=StringUtil.getDouble(strAry[11], 0.0);
+    		ODMData2XmlHelper.setTimeData(subTranGen.addNewTq011(), 
+					tq011, TimeXmlType.Unit.SEC);    		
     		
 		}else if(str.substring(0, 2).trim().equals("MF")){
 			
@@ -104,35 +96,24 @@ public class BPADynamicGeneratorRecord {
 				GeneratorModelListXmlType.SubTransientModel subTranGen=gen
                 .getGeneratorModel().getSubTransientModel();
 				
-				double pContri=0.0,qContri=0.0;
-				if(!strAry[5].equals("")){
-					pContri=new Double(strAry[5]).doubleValue();
-					if(pContri<=1.0){
-						pContri=pContri*100;
-					}
+				double pContri=StringUtil.getDouble(strAry[5], 0.0);
+			
+				if(pContri<=1.0){
+				   pContri=pContri*100;				
 					gen.addNewPContribution().setValue(pContri);
 					gen.getPContribution().setUnit(PercentXmlType.Unit.PERCENT);
 				}
-				if(!strAry[6].equals("")){
-					qContri=new Double(strAry[6]).doubleValue();
-					if(qContri<=1.0){
-						qContri=pContri*100;
-					}
-					gen.addNewQContribution().setValue(qContri);
-					gen.getQContribution().setUnit(PercentXmlType.Unit.PERCENT);
+				double qContri=StringUtil.getDouble(strAry[6], 0.0);
+				if(qContri<=1.0){
+					qContri=pContri*100;
 				}
+				gen.addNewQContribution().setValue(qContri);
+				gen.getQContribution().setUnit(PercentXmlType.Unit.PERCENT);
+								
+				double Emws=StringUtil.getDouble(strAry[4], 0.0);
 				
+				double MvaBase=StringUtil.getDouble(strAry[7], baseCaseNet.getBasePower());
 				
-				double Emws=0.0;
-				if(!strAry[4].equals("")){
-					Emws=new Double(strAry[4]).doubleValue();
-				}
-				double MvaBase=0.0;
-				if(!strAry[7].equals("")){
-					MvaBase=new Double(strAry[7]).doubleValue();
-				}else {
-					MvaBase=baseCaseNet.getBasePower();
-				}
 				subTranGen.setBasePower(MvaBase);
 				subTranGen.setBasePowerUnit(GeneratorModelListXmlType
 						.SubTransientModel.BasePowerUnit.MVA);
@@ -145,48 +126,32 @@ public class BPADynamicGeneratorRecord {
 					ODMData2XmlHelper.setPUData(subTranGen.addNewH(), h, PerUnitXmlType.Unit.PU);
 				}
 				
-				double ra=0.0;
-				if(!strAry[8].equals("")){
-	    			ra=new Double(strAry[8]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(subTranGen.addNewRa(), ra, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double xd1=0.0;
-				if(!strAry[9].equals("")){
-					xd1=new Double(strAry[9]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(subTranGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double xq1=0.0;
-				if(!strAry[10].equals("")){
-					xq1=new Double(strAry[10]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(subTranGen.addNewXq1(), xq1, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double xd=0.0;
-				if(!strAry[11].equals("")){
-					xd=new Double(strAry[11]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(subTranGen.addNewXd(), xd, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double xq=0.0;
-				if(!strAry[12].equals("")){
-					xq=new Double(strAry[12]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(subTranGen.addNewXq(), xq, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double td01=0.0;
-	    		if(!strAry[13].equals("")){
-	    			td01=new Double(strAry[13]).doubleValue();
-	    			ODMData2XmlHelper.setTimeData(subTranGen.addNewTdo1(), 
+				double ra=StringUtil.getDouble(strAry[8], 0.0);
+				ODMData2XmlHelper.setPUData(subTranGen.addNewRa(), ra, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double xd1=StringUtil.getDouble(strAry[9], 0.0);
+				ODMData2XmlHelper.setPUData(subTranGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double xq1=StringUtil.getDouble(strAry[10], 0.0);
+				ODMData2XmlHelper.setPUData(subTranGen.addNewXq1(), xq1, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double xd=StringUtil.getDouble(strAry[11], 0.0);
+				ODMData2XmlHelper.setPUData(subTranGen.addNewXd(), xd, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double xq=StringUtil.getDouble(strAry[12], 0.0);
+				ODMData2XmlHelper.setPUData(subTranGen.addNewXq(), xq, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double td01=StringUtil.getDouble(strAry[13], 0.0);
+	    		ODMData2XmlHelper.setTimeData(subTranGen.addNewTdo1(), 
 	    					td01, TimeXmlType.Unit.SEC);
-	    		}
-	    		double tq01=0.0;
-	    		if(!strAry[14].equals("")){
-	    			tq01=new Double(strAry[14]).doubleValue();
-	    			ODMData2XmlHelper.setTimeData(subTranGen.addNewTq01(), 
+	    		
+	    		double tq01=StringUtil.getDouble(strAry[14], 0.0);
+	    		ODMData2XmlHelper.setTimeData(subTranGen.addNewTq01(), 
 	    					tq01, TimeXmlType.Unit.SEC);
-	    		}
-	    		double xl=0.0;
-				if(!strAry[15].equals("")){
-					xl=new Double(strAry[15]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(subTranGen.addNewXr(), xl, PerUnitXmlType.Unit.PU);	    			
-	    		}
+	    		
+	    		double xl=StringUtil.getDouble(strAry[15], 0.0);
+				ODMData2XmlHelper.setPUData(subTranGen.addNewXr(), xl, PerUnitXmlType.Unit.PU);	    			
+	    		
 				double E1=1.0, SE1=0.0;
 				if(!strAry[16].equals("")){
 					SE1=new Double(strAry[16]).doubleValue();
@@ -257,43 +222,29 @@ public class BPADynamicGeneratorRecord {
 					ODMData2XmlHelper.setPUData(tranGen.addNewH(), h, PerUnitXmlType.Unit.PU);
 				}
 				
-				double ra=0.0;
-				if(!strAry[8].equals("")){
-	    			ra=new Double(strAry[8]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(tranGen.addNewRa(), ra, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double xd1=0.0;
-				if(!strAry[9].equals("")){
-					xd1=new Double(strAry[9]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(tranGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double xq1=0.0;
-				if(!strAry[10].equals("")){
-					xq1=new Double(strAry[10]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(tranGen.addNewXq1(), xq1, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double xd=0.0;
-				if(!strAry[11].equals("")){
-					xd=new Double(strAry[11]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(tranGen.addNewXd(), xd, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double xq=0.0;
-				if(!strAry[12].equals("")){
-					xq=new Double(strAry[12]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(tranGen.addNewXq(), xq, PerUnitXmlType.Unit.PU);	    			
-	    		}
-				double td01=0.0;
-	    		if(!strAry[13].equals("")){
-	    			td01=new Double(strAry[13]).doubleValue();
-	    			ODMData2XmlHelper.setTimeData(tranGen.addNewTdo1(), 
+				double ra=StringUtil.getDouble(strAry[8], 0.0);
+				ODMData2XmlHelper.setPUData(tranGen.addNewRa(), ra, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double xd1=StringUtil.getDouble(strAry[9], 0.0);
+				ODMData2XmlHelper.setPUData(tranGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double xq1=StringUtil.getDouble(strAry[10], 0.0);
+				ODMData2XmlHelper.setPUData(tranGen.addNewXq1(), xq1, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double xd=StringUtil.getDouble(strAry[11], 0.0);
+				ODMData2XmlHelper.setPUData(tranGen.addNewXd(), xd, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double xq=StringUtil.getDouble(strAry[12], 0.0);
+				ODMData2XmlHelper.setPUData(tranGen.addNewXq(), xq, PerUnitXmlType.Unit.PU);	    			
+	    		
+				double td01=StringUtil.getDouble(strAry[13], 0.0);
+	    		ODMData2XmlHelper.setTimeData(tranGen.addNewTdo1(), 
 	    					td01, TimeXmlType.Unit.SEC);
-	    		}
-	    		double tq01=0.0;
-	    		if(!strAry[14].equals("")){
-	    			tq01=new Double(strAry[14]).doubleValue();
-	    			ODMData2XmlHelper.setTimeData(tranGen.addNewTq01(), 
+	    		
+	    		double tq01=StringUtil.getDouble(strAry[14], 0.0);
+	    		ODMData2XmlHelper.setTimeData(tranGen.addNewTq01(), 
 	    					tq01, TimeXmlType.Unit.SEC);
-	    		}	    		
+	    			    		
 				double E1=1.0, SE1=0.0;
 				if(!strAry[16].equals("")){
 					SE1=new Double(strAry[16]).doubleValue();
@@ -320,6 +271,9 @@ public class BPADynamicGeneratorRecord {
 	   			ODMData2XmlHelper.setVoltageData(gen.addNewBusRatedVoltage(), 
 	   					ratedVoltage, VoltageXmlType.Unit.KV);    		
 	   		}
+	   		
+	   			   		
+	   		
 	   		gen.setGeneratorType(GeneratorXmlType.GeneratorType.CLASSICAL_MODEL);
 	   		GeneratorModelListXmlType.ClassicalModel claGen=gen.
 	   		                    addNewGeneratorModel().addNewClassicalModel();
@@ -328,53 +282,66 @@ public class BPADynamicGeneratorRecord {
 	   			genId=strAry[3];
 	   			gen.addNewGenId().setName(genId);
 	   		}
-	   		double pContri=0.0,qContri=0.0;
-			if(!strAry[5].equals("")){
-				pContri=new Double(strAry[5]).doubleValue();
-				if(pContri<=1.0){
-					pContri=pContri*100;
-				}
-				gen.addNewPContribution().setValue(pContri);
-				gen.getPContribution().setUnit(PercentXmlType.Unit.PERCENT);
-			}
-			if(!strAry[6].equals("")){
-				qContri=new Double(strAry[6]).doubleValue();
-				if(qContri<=1.0){
-					qContri=pContri*100;
-				}
-				gen.addNewQContribution().setValue(qContri);
-				gen.getQContribution().setUnit(PercentXmlType.Unit.PERCENT);
-			}
-			double MvaBase=0.0;
-			if(!strAry[7].equals("")){
-				MvaBase=new Double(strAry[7]).doubleValue();
-			}else {
-				MvaBase=baseCaseNet.getBasePower();
-			}
-			claGen.setBasePower(MvaBase);
-			claGen.setBasePowerUnit(GeneratorModelListXmlType
-					.ClassicalModel.BasePowerUnit.MVA);
-			double Emws=0.0;
+	   		
+	   		double Emws=0.0;
 			if(!strAry[4].equals("")){
 				Emws=new Double(strAry[4]).doubleValue();
 			}
-			double h=0.0;
-			if(Emws!=0.0){
-				h=Emws/MvaBase;
-				NumberFormat ddf1= NumberFormat.getInstance();
-				ddf1.setMaximumFractionDigits(4);
-				h= new Double(ddf1.format(h)).doubleValue();
-				ODMData2XmlHelper.setPUData(claGen.addNewH(), h, PerUnitXmlType.Unit.PU);
-			}
-			double xd1=0.0;
-			if(!strAry[9].equals("")){
-				xd1=new Double(strAry[9]).doubleValue();
-    			ODMData2XmlHelper.setPUData(claGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
-    		}
-			double D=0.0;
-			if(!strAry[18].equals("")){
-				D=new Double(strAry[18]).doubleValue();
-    			ODMData2XmlHelper.setPUData(claGen.addNewD(), D, PerUnitXmlType.Unit.PU);
+			// infinit bus
+			if(Emws==999999){
+				double xd1=0.0;
+				if(!strAry[9].equals("")){
+					xd1=new Double(strAry[9]).doubleValue();
+	    			ODMData2XmlHelper.setPUData(claGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
+	    		}
+			} else{
+				double MvaBase=0.0;
+				if(!strAry[7].equals("")){
+					MvaBase=new Double(strAry[7]).doubleValue();
+				}else {
+					MvaBase=baseCaseNet.getBasePower();
+				}
+				double h=0.0;
+				if(Emws!=0.0){
+					h=Emws/MvaBase;
+					NumberFormat ddf1= NumberFormat.getInstance();
+					ddf1.setMaximumFractionDigits(4);
+					h= new Double(ddf1.format(h)).doubleValue();
+					ODMData2XmlHelper.setPUData(claGen.addNewH(), h, PerUnitXmlType.Unit.PU);
+				}	   		
+		   		double pContri=0.0,qContri=0.0;
+				if(!strAry[5].equals("")){
+					pContri=new Double(strAry[5]).doubleValue();
+					if(pContri<=1.0){
+						pContri=pContri*100;
+					}
+					gen.addNewPContribution().setValue(pContri);
+					gen.getPContribution().setUnit(PercentXmlType.Unit.PERCENT);
+				}
+				if(!strAry[6].equals("")){
+					qContri=new Double(strAry[6]).doubleValue();
+					if(qContri<=1.0){
+						qContri=pContri*100;
+					}
+					gen.addNewQContribution().setValue(qContri);
+					gen.getQContribution().setUnit(PercentXmlType.Unit.PERCENT);
+				}
+				
+				claGen.setBasePower(MvaBase);
+				claGen.setBasePowerUnit(GeneratorModelListXmlType
+						.ClassicalModel.BasePowerUnit.MVA);
+				
+				double xd1=0.0;
+				if(!strAry[9].equals("")){
+					xd1=new Double(strAry[9]).doubleValue();
+	    			ODMData2XmlHelper.setPUData(claGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
+	    		}
+				double D=0.0;
+				if(!strAry[18].equals("")){
+					D=new Double(strAry[18]).doubleValue();
+	    			ODMData2XmlHelper.setPUData(claGen.addNewD(), D, PerUnitXmlType.Unit.PU);
+			}		
+			
 			}   		
    		
 		}else if(str.substring(0, 2).trim().equals("LN")){

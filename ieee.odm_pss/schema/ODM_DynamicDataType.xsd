@@ -220,27 +220,30 @@
 	
     <complexType name="GeneratorModelListXmlType">
     	<sequence>
-            <element name="equiGenUnit" maxOccurs="1" minOccurs="0">
-            	<complexType>
-            		<sequence>
-            			<element name="equiPgen" type="double"
-            				maxOccurs="1" minOccurs="0">
-            			</element>
-            			<element name="pGenUnit" maxOccurs="1"
-            				minOccurs="0">
-            				<simpleType>
-            					<restriction base="string">
-            						<enumeration value="PU"></enumeration>
-						<enumeration value="VA"></enumeration>
-						<enumeration value="KVA"></enumeration>
-						<enumeration value="MVA"></enumeration>
-            					</restriction>
-            				</simpleType>
-            			</element>
-            			<element name="DCLineBus" type="boolean" maxOccurs="1" minOccurs="0"></element>
-            		</sequence>
-            	</complexType></element>
-            <element name="classicalModel" maxOccurs="1"
+    		<element name="equiGenUnit" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="equiPgen" type="double"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="pGenUnit" maxOccurs="1"
+    						minOccurs="0">
+    						<simpleType>
+    							<restriction base="string">
+    								<enumeration value="PU"></enumeration>
+    								<enumeration value="VA"></enumeration>
+    								<enumeration value="KVA"></enumeration>
+    								<enumeration value="MVA"></enumeration>
+    							</restriction>
+    						</simpleType>
+    					</element>
+    					<element name="DCLineBus" type="boolean"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="classicalModel" maxOccurs="1"
     			minOccurs="0">
     			<complexType>
     				<sequence>

@@ -72,82 +72,64 @@ public class BPADynamicPSSRecord {
     			pss.addNewMacId().setName(macId);
     		}    		
     		//KQV 
-    		double KQV=0.0;
-    		if(!strAry[4].equals("")){
-    			KQV= new Double(strAry[4]).doubleValue();
-        		tstpss.setK1(KQV);
-    		}    		
+    		double KQV=StringUtil.getDouble(strAry[4], 0.0);
+    		tstpss.setK1(KQV);
+    		    		
     		//TQV
-    		double TQV=0.0;
-    		if(!strAry[5].equals("")){
-    			TQV= new Double(strAry[5]).doubleValue();
-    			ODMData2XmlHelper.setTimeData(tstpss.addNewT1(), TQV, TimeXmlType.Unit.SEC);
-    		}		
+    		double TQV=StringUtil.getDouble(strAry[5], 0.0);
+    		ODMData2XmlHelper.setTimeData(tstpss.addNewT1(), TQV, TimeXmlType.Unit.SEC);
+    				
     		
     		//KQS
-    		double KQS= new Double(strAry[6]).doubleValue();
+    		double KQS= StringUtil.getDouble(strAry[6], 0.0);    			
     		tstpss.setK2(KQS);
     		
     		//TQS
-    		double TQS= new Double(strAry[7]).doubleValue();
+    		double TQS= StringUtil.getDouble(strAry[7], 0.0);
     		ODMData2XmlHelper.setTimeData(tstpss.addNewT2(), TQS, TimeXmlType.Unit.SEC);
     		
     		//TQ
-    		double TQ= new Double(strAry[8]).doubleValue();
+    		double TQ= StringUtil.getDouble(strAry[8], 0.0);
     		ODMData2XmlHelper.setTimeData(tstpss.addNewT3(), TQ, TimeXmlType.Unit.SEC);
     		ODMData2XmlHelper.setTimeData(tstpss.addNewT4(), TQ, TimeXmlType.Unit.SEC);
     		// TQ1
-    		double TQ1= new Double(strAry[9]).doubleValue();
+    		double TQ1= StringUtil.getDouble(strAry[9], 0.0);
     		ODMData2XmlHelper.setTimeData(tstpss.addNewT6(), TQS, TimeXmlType.Unit.SEC);
-    		
-    		
+    		    		
     		//TQ11
-    		double TQ11= new Double(strAry[10]).doubleValue();
+    		double TQ11= StringUtil.getDouble(strAry[10], 0.0);
     		ODMData2XmlHelper.setTimeData(tstpss.addNewT5(), TQ11, TimeXmlType.Unit.SEC);
     		
     		//TQ2
-    		double TQ2= new Double(strAry[11]).doubleValue();
+    		double TQ2= StringUtil.getDouble(strAry[11], 0.0);
     		ODMData2XmlHelper.setTimeData(tstpss.addNewT8(), TQ2, TimeXmlType.Unit.SEC);
     		
     		// TQ21
-    		double TQ21= new Double(strAry[12]).doubleValue();
+    		double TQ21= StringUtil.getDouble(strAry[12], 0.0);
     		ODMData2XmlHelper.setTimeData(tstpss.addNewT7(), TQ21, TimeXmlType.Unit.SEC);
     		   		
     		
     		//TQ31
-    		double TQ31=0.0;
-    		if(!strAry[14].equals("")){
-    			TQ31= new Double(strAry[14]).doubleValue();
-    			ODMData2XmlHelper.setTimeData(tstpss.addNewT9(), TQ31, TimeXmlType.Unit.SEC);
-    		}    		
+    		double TQ31=StringUtil.getDouble(strAry[14], 0.0);
+    		ODMData2XmlHelper.setTimeData(tstpss.addNewT9(), TQ31, TimeXmlType.Unit.SEC);
+    		    		
     		  		
     		//TQ3
-    		double TQ3=0.0;
-    		if(!strAry[13].equals("")){
-    			TQ3= new Double(strAry[13]).doubleValue();
-    			ODMData2XmlHelper.setTimeData(tstpss.addNewT10(), TQ3, TimeXmlType.Unit.SEC);
-    		}		
-    		
+    		double TQ3=StringUtil.getDouble(strAry[13], 0.0);
+    		ODMData2XmlHelper.setTimeData(tstpss.addNewT10(), TQ3, TimeXmlType.Unit.SEC);
+    		    		
     		//VSMAX
-    		double vsmax=0.0;
-    		if(!strAry[15].equals("")){
-    			vsmax= new Double(strAry[15]).doubleValue();
-    		}    		
+    		double vsmax=StringUtil.getDouble(strAry[15], 0.0);
     		ODMData2XmlHelper.setPUData(tstpss.addNewVSMAX(), vsmax, PerUnitXmlType.Unit.PU);
     			
     		//VCUTOFF
-    		double vcut=0.0;
-    		if(!strAry[16].equals("")){
-    			vcut= new Double(strAry[16]).doubleValue();
-        		ODMData2XmlHelper.setPUData(tstpss.addNewVCUTOFF(), vcut, PerUnitXmlType.Unit.PU);
-    		}    		
+    		double vcut=StringUtil.getDouble(strAry[16], 0.0);
+    		ODMData2XmlHelper.setPUData(tstpss.addNewVCUTOFF(), vcut, PerUnitXmlType.Unit.PU);
+    		    		
     		//VSLOW
     		double vsmin=0.0;
-    		double Vslow=0.0;
-    		if(!strAry[17].equals("")){
-    			Vslow= new Double(strAry[17]).doubleValue();
-    		}
-    		
+    		double Vslow=StringUtil.getDouble(strAry[17], 0.0);
+    		   		
     		if(Vslow<=0){
     			vsmin=-vsmax;
     		}else {
@@ -156,11 +138,8 @@ public class BPADynamicPSSRecord {
     		ODMData2XmlHelper.setPUData(tstpss.addNewVSMIN(), vsmin, PerUnitXmlType.Unit.PU);
 			    		
     		//KQS MVAbase for SP SG
-    		double kqsMvaBase=0.0;
-    		if(!strAry[19].equals("")){
-    			kqsMvaBase=new Double(strAry[19]).doubleValue();
-    		}    		
-    		
+    		double kqsMvaBase=StringUtil.getDouble(strAry[19], 0.0);
+    				
     		
     	}else if(str.substring(0, 3).trim().equals("SI")){
     		StabilizerXmlType pss=parser.addNewStablilizerGovernor();
@@ -183,66 +162,57 @@ public class BPADynamicPSSRecord {
     			pss.addNewMacId().setName(macId);
     		}    		
     		//TRW
-    		double  trw=new Double(strAry[4]).doubleValue();
+    		double  trw=StringUtil.getDouble(strAry[4], 0.0);;
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTrw(), trw, TimeXmlType.Unit.SEC);
     		
     		//T5
-    		double  t5=new Double(strAry[5]).doubleValue();
+    		double  t5=StringUtil.getDouble(strAry[5], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT5(), t5, TimeXmlType.Unit.SEC);
     		//T6
-    		double  t6=new Double(strAry[6]).doubleValue();
+    		double  t6=StringUtil.getDouble(strAry[6], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT6(), t6, TimeXmlType.Unit.SEC);
     		
     		//T7
-    		double  t7=new Double(strAry[7]).doubleValue();
+    		double  t7=StringUtil.getDouble(strAry[7], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT7(), t7, TimeXmlType.Unit.SEC);
     		
     		//KR
-    		double kr= new Double(strAry[8]).doubleValue();
+    		double kr= StringUtil.getDouble(strAry[8], 0.0);
     		dualInputPss.setKr(kr);    		
     		// TRP
-    		double  trp=new Double(strAry[9]).doubleValue();
+    		double  trp=StringUtil.getDouble(strAry[9], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTrp(), trp, TimeXmlType.Unit.SEC);
     		
     		//TW
-    		double  tw=new Double(strAry[10]).doubleValue();
+    		double  tw=StringUtil.getDouble(strAry[10], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTW(), tw, TimeXmlType.Unit.SEC);
     		
     		//TW1
-    		double  tw1=new Double(strAry[11]).doubleValue();
+    		double  tw1=StringUtil.getDouble(strAry[11], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTW1(), tw1, TimeXmlType.Unit.SEC);
     		
     		// TW2
-    		double  tw2=new Double(strAry[12]).doubleValue();
+    		double  tw2=StringUtil.getDouble(strAry[12], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTW2(), tw2, TimeXmlType.Unit.SEC);
     		
     		//KS
-    		double ks= new Double(strAry[13]).doubleValue();
+    		double ks= StringUtil.getDouble(strAry[13], 0.0);
     		dualInputPss.setKS(ks);    	
     		//T9
-    		double  t9=new Double(strAry[14]).doubleValue();
+    		double  t9=StringUtil.getDouble(strAry[14], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT9(), t9, TimeXmlType.Unit.SEC);
     		
     		//T10
-    		double t10=0.0;
-    		if(!strAry[15].equals("")){
-    			 t10=new Double(strAry[15]).doubleValue();
-    		}    		
+    		double t10=StringUtil.getDouble(strAry[15], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT10(), t10, TimeXmlType.Unit.SEC);
     		
     		//T12
-    		double t12=0.0;
-    		if(!strAry[16].equals("")){
-    			 t12=new Double(strAry[16]).doubleValue();
-    		}    		
+    		double t12=StringUtil.getDouble(strAry[16], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT12(), t12, TimeXmlType.Unit.SEC);
     	
     		//INP input signal:0for w and Pg, 1 for w, 2for pg
-    		int INP=0;
-    		if(!strAry[17].equals("")){
-    			INP= new Integer(strAry[17]).intValue();
-    		}
-    		
+    		int INP=StringUtil.getInt(strAry[17], 0);
+    		    		
     		if(INP==0){
     			dualInputPss.setFirstInputSignal(StabilizerModelListXmlType.IEEEDualInput
     					.FirstInputSignal.ROTOR_SPEED_DEVIATION );
@@ -272,45 +242,38 @@ public class BPADynamicPSSRecord {
     		
     		
     		//KP
-    		double kp= new Double(strAry[4]).doubleValue();    		
+    		double kp= StringUtil.getDouble(strAry[4], 0.0);    		
     		//T1
-    		double  t1=new Double(strAry[5]).doubleValue();
+    		double  t1=StringUtil.getDouble(strAry[5], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT1(), t1, TimeXmlType.Unit.SEC);    		
     		//T2
-    		double  t2=new Double(strAry[6]).doubleValue();
+    		double  t2=StringUtil.getDouble(strAry[6], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT2(), t2, TimeXmlType.Unit.SEC);
     		
     		//T13
-    		double  t13=new Double(strAry[7]).doubleValue();
+    		double  t13=StringUtil.getDouble(strAry[7], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT13(), t13, TimeXmlType.Unit.SEC);
     	
     		//T14
-    		double  t14=new Double(strAry[8]).doubleValue();
+    		double  t14=StringUtil.getDouble(strAry[8], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT14(), t14, TimeXmlType.Unit.SEC);
     		
     		// T3
-    		double  t3=new Double(strAry[9]).doubleValue();
+    		double  t3=StringUtil.getDouble(strAry[9], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT3(), t3, TimeXmlType.Unit.SEC);
     		
     		//T4
-    		double  t4=0.0;
-    		if(!strAry[10].equals("")){
-    			t4=new Double(strAry[10]).doubleValue();
-    		}    		
+    		double  t4=StringUtil.getDouble(strAry[10], 0.0);
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT4(), t4, TimeXmlType.Unit.SEC);
     		
     		//VSMAX
-    		double vsmax= new Double(strAry[11]).doubleValue();
+    		double vsmax= StringUtil.getDouble(strAry[11], 0.0);
     		ODMData2XmlHelper.setPUData(dualInputPss.addNewVSMAX(), vsmax, PerUnitXmlType.Unit.PU);
     		
     		// VSMIN
-    		double vsmin=0.0;
-    		if(!strAry[12].equals("")){
-    			vsmin= new Double(strAry[12]).doubleValue();
-    		}    		
+    		double vsmin=StringUtil.getDouble(strAry[12], 0.0);
     		ODMData2XmlHelper.setPUData(dualInputPss.addNewVSMIN(), vsmin, PerUnitXmlType.Unit.PU);
-    		   		
-    	}
+    		}
     	
     }
 	
