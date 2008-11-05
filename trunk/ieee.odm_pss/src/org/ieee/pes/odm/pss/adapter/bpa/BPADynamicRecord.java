@@ -42,8 +42,13 @@ public class BPADynamicRecord {
 	final static int sequenceData=8;
 	
 	
-	public static int getDataType(String str,BPAAdapter adapter){		 
-		 if (str.startsWith("CASE")||str.startsWith("SOL")){
+	public static int getDataType(String str,BPAAdapter adapter){	
+		
+		System.out.println(str);		
+		
+		 if (str.startsWith(".")){
+				dataType=0;
+			}else if(str.startsWith("CASE")||str.startsWith("SOL")) {
 				dataType=header;
 			}else if(str.startsWith("LS")){
 				dataType=faultOperation;
@@ -51,6 +56,7 @@ public class BPADynamicRecord {
 					str.substring(0, 2).trim().equals("MF")||
 					str.substring(0, 2).trim().equals("MC")||
 					str.substring(0, 2).trim().equals("LN")){
+				
 				dataType=generatorData;
 			}else if (str.substring(0, 2).trim().equals("FA")||
 					str.substring(0, 2).trim().equals("FB")||str.substring(0, 2).trim().equals("FC")
@@ -76,8 +82,6 @@ public class BPADynamicRecord {
 			}else if(str.substring(0, 2).trim().equals("LO")||str.substring(0, 2).trim().equals("XO")
 					||str.substring(0, 2).trim().equals("XR")||str.substring(0, 2).trim().equals("LM")){
 				dataType=sequenceData;
-			}else if(str.startsWith(".")){
-				dataType=0;
 			}else {
 				adapter.logErr("This line data is not processed"+"   "+" ' "+str+" ' ");
 				
