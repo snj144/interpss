@@ -29,11 +29,11 @@ import java.util.List;
 
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
-import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -214,7 +214,7 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String areaTransferAnalysisResults(
-						AreaTransferAnalysis areaTransfer, DclfAlgorithm algo,
+						AreaTransferAnalysisXmlType areaTransfer, DclfAlgorithm algo,
 						IPSSMsgHub msg) {
 		AclfNetwork net = algo.getAclfNetwork();
 		
@@ -227,7 +227,7 @@ public class DclfOutFunc {
 		
 		str += getSenBusList("From Area", areaTransfer.getInjectBusList().getInjectBusArray());
 		str += getSenBusList("To Area", areaTransfer.getWithdrawBusList().getWithdrawBusArray());
-		str += "       Branch Id    AreaTransFactor   BaseCaseMva   PredictedMva   MvaLimit   Loading%  Violstion\n";
+		str += "       Branch Id    AreaTransFactor   BaseCaseMva   PredictedMW    MWLimit    Loading%  Violation\n";
 		str += "==================================================================================================\n";
 		for (BranchRecXmlType branch : areaTransfer.getBranchArray()) {
 			String fromBusId = branch.getFromBusId(), 
