@@ -41,7 +41,7 @@ import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
-import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
@@ -62,7 +62,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     // holds the current case data being edited
     private DclfBranchSensitivityXmlType tdFactor = null;
-	private AreaTransferAnalysis areaTransfer = null;;
+	private AreaTransferAnalysisXmlType areaTransfer = null;;
     
     /** Creates new form NBAclfCasePanel */
     public NBDclfCasePanel(JDialog parent) {
