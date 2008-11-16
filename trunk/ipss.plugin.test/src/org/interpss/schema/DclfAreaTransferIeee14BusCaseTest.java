@@ -5,7 +5,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
@@ -37,7 +37,7 @@ public class DclfAreaTransferIeee14BusCaseTest extends BaseTestSetup {
 			
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
 
-		for (AreaTransferAnalysis atFactor : dclfCase.getAreaTransferAnalysisArray()) {
+		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysisArray()) {
 			algo.getInjectBusList().clear();
 			for (SenAnalysisBusRecXmlType bus :  atFactor.getInjectBusList().getInjectBusArray()){
 				algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
