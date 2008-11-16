@@ -81,8 +81,6 @@
 		</ns:restriction>
 	</ns:simpleType>
 
-
-
 	<ns:complexType name="BaseRecordXmlType">
 		<ns:annotation>
 			<ns:documentation>
@@ -138,19 +136,19 @@
 					</ns:restriction>
 				</ns:simpleType>
 			</ns:element>
-            <ns:element name="injectBusType" minOccurs="1" type="ipss:SenBusAnalysisDataType"></ns:element>
-            <ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
+			<ns:element name="injectBusType" minOccurs="1" type="ipss:SenBusAnalysisDataType">			</ns:element>
+			<ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
 				<ns:complexType>
 					<ns:sequence>
 						<ns:element name="injectBus" type="ipss:SenAnalysisBusRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
-            <ns:element name="withdrawBusType" minOccurs="1" type="ipss:SenBusAnalysisDataType"></ns:element>
-            <ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
+			<ns:element name="withdrawBusType" minOccurs="1" type="ipss:SenBusAnalysisDataType">			</ns:element>
+			<ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
 				<ns:complexType>
 					<ns:sequence>
-						<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="ipss:SenAnalysisBusRecXmlType">
+						<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="ipss:SenAnalysisBusRecXmlType">
 						</ns:element>
 					</ns:sequence>
 				</ns:complexType>
@@ -160,21 +158,20 @@
 	<ns:complexType name="ComplexValueChangeXmlType">
 		<ns:sequence>
 			<ns:element name="changeAction" maxOccurs="1" minOccurs="1">
-                <ns:simpleType><ns:restriction base="ns:string">
-			<ns:enumeration value="add"></ns:enumeration>
-			<ns:enumeration value="set"></ns:enumeration>
-			<ns:enumeration value="increase"></ns:enumeration>
-			<ns:enumeration value="decrease"></ns:enumeration>
-                </ns:restriction></ns:simpleType>
-            </ns:element>
-			<ns:element name="percent" type="ns:double" maxOccurs="1"
-				minOccurs="0">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="add"></ns:enumeration>
+						<ns:enumeration value="set"></ns:enumeration>
+						<ns:enumeration value="increase"></ns:enumeration>
+						<ns:enumeration value="decrease"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
 			</ns:element>
-			<ns:element name="value" type="ipss:ComplexXmlType"
-				maxOccurs="1" minOccurs="0">
+			<ns:element name="percent" type="ns:double" maxOccurs="1" minOccurs="0">
 			</ns:element>
-			<ns:element name="unit" type="ipss:UnitDataType"
-				maxOccurs="1" minOccurs="1">
+			<ns:element name="value" type="ipss:ComplexXmlType" maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="unit" type="ipss:UnitDataType" maxOccurs="1" minOccurs="1">
 			</ns:element>
 		</ns:sequence>
 	</ns:complexType>
@@ -197,29 +194,28 @@
     			</ns:sequence>
     		</ns:extension>
     	</ns:complexContent>
-    </ns:complexType>	
+    </ns:complexType>
 
-    <ns:complexType name="ValueChangeXmlType">
+	<ns:complexType name="ValueChangeXmlType">
 		<ns:sequence>
 			<ns:element name="changeAction" maxOccurs="1" minOccurs="1">
-                <ns:simpleType><ns:restriction base="ns:string">
-			<ns:enumeration value="add"></ns:enumeration>
-			<ns:enumeration value="set"></ns:enumeration>
-			<ns:enumeration value="increase"></ns:enumeration>
-			<ns:enumeration value="decrease"></ns:enumeration>
-                </ns:restriction></ns:simpleType>
-            </ns:element>
-			<ns:element name="percent" type="ns:double" maxOccurs="1"
-				minOccurs="0">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="add"></ns:enumeration>
+						<ns:enumeration value="set"></ns:enumeration>
+						<ns:enumeration value="increase"></ns:enumeration>
+						<ns:enumeration value="decrease"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
 			</ns:element>
-			<ns:element name="value" type="ns:double"
-				maxOccurs="1" minOccurs="0">
+			<ns:element name="percent" type="ns:double" maxOccurs="1" minOccurs="0">
 			</ns:element>
-			<ns:element name="unit" type="ipss:UnitDataType"
-				maxOccurs="1" minOccurs="1">
+			<ns:element name="value" type="ns:double" maxOccurs="1" minOccurs="0">
+			</ns:element>
+			<ns:element name="unit" type="ipss:UnitDataType" maxOccurs="1" minOccurs="1">
 			</ns:element>
 		</ns:sequence>
-    </ns:complexType>
+	</ns:complexType>
 
     <ns:complexType name="LimitXmlType">
     	<ns:sequence>
