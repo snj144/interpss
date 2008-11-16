@@ -38,7 +38,7 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
-import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -161,7 +161,7 @@ public class XmlScriptDclfRun {
 		}		
 	}
 
-	public static void calAreaTransferFactor(AreaTransferAnalysis areaTransfer, DclfAlgorithm algo, IPSSMsgHub msg) {
+	public static void calAreaTransferFactor(AreaTransferAnalysisXmlType areaTransfer, DclfAlgorithm algo, IPSSMsgHub msg) {
 		algo.getInjectBusList().clear();
 		algo.getWithdrawBusList().clear();
 
