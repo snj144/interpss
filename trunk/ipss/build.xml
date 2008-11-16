@@ -251,6 +251,24 @@
     		</fileset>	    	
         </copy>
 
+		<copy todir="${SrcBackup}/ipss/ipss.cim.library">
+	    	<fileset dir="${dev_base}/ipss.cim.library">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="${SrcBackup}/ipss/ipss.cim.tool">
+	    	<fileset dir="${dev_base}/ipss.cim.tool">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
+		<copy todir="${SrcBackup}/ipss/ipss.wb">
+	    	<fileset dir="${dev_base}/ipss.wb">
+      			<exclude name="**/*.class"/>
+    		</fileset>	    	
+        </copy>
+
 		<copy todir="${SrcBackup}/ipss/RoseModel">
 	    	<fileset dir="${dev_base}/RoseModel">
       			<exclude name="**/*.java,**/*.class"/>
