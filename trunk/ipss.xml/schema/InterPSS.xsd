@@ -25,8 +25,7 @@
         		only applies to the case only.
         	</ns:documentation>
         </ns:annotation>
-        <ns:sequence>
-			<ns:element name="modification" type="ipss:ModificationXmlType" maxOccurs="1" minOccurs="0">
+        <ns:sequence>			<ns:element name="modification" type="ipss:ModificationXmlType" maxOccurs="1" minOccurs="0">
 			</ns:element>
 			<ns:element name="runStudyCase" type="ipss:RunStudyCaseXmlType" maxOccurs="1" minOccurs="0">
 			</ns:element>

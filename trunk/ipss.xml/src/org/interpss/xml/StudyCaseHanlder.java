@@ -37,7 +37,7 @@ import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.DynamicEventDataType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSDocument;
-import org.interpss.schema.DclfStudyCaseXmlType.AreaTransferAnalysis;
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 
 
 public class StudyCaseHanlder {
@@ -186,7 +186,7 @@ public class StudyCaseHanlder {
 	}
 
 	public static void addNewAreaTransfer(DclfStudyCaseXmlType scase) {
-		AreaTransferAnalysis areaTrans = scase.addNewAreaTransferAnalysis();
+		AreaTransferAnalysisXmlType areaTrans = scase.addNewAreaTransferAnalysis();
 		AreaRecXmlType a = areaTrans.addNewFromArea();
 		a.setAreaNo(1);
 		a = areaTrans.addNewToArea();
