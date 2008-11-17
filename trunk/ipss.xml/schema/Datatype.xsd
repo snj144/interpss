@@ -53,6 +53,16 @@
 		</ns:complexContent>
 	</ns:complexType>
 
+	<ns:complexType name="InterfaceRecXmlType">
+		<ns:complexContent>
+			<ns:extension base="ipss:BaseRecordXmlType">
+				<ns:sequence>
+				</ns:sequence>
+
+			</ns:extension>
+		</ns:complexContent>
+	</ns:complexType>
+
 	<ns:simpleType name="UnitDataType">
 		<ns:restriction base="ns:string">
 			<ns:enumeration value="PU"></ns:enumeration>
@@ -181,6 +191,7 @@
     		<ns:extension base="ipss:DclfSensitivityXmlType">
     			<ns:sequence>
     				<ns:element name="branch" type="ipss:BranchRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+    				<ns:element name="interface" type="ipss:InterfaceRecXmlType" minOccurs="0" maxOccurs="unbounded"></ns:element>
     			</ns:sequence>
     		</ns:extension>
     	</ns:complexContent>
