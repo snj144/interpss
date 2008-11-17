@@ -14,87 +14,80 @@
 			</ns:documentation>
 		</ns:annotation>
 		<ns:sequence>
-	<ns:element name="analysisRunType" minOccurs="1" maxOccurs="1">
-		<ns:simpleType>
-			<ns:restriction base="ns:string">
-				<ns:enumeration value="RunDclf"></ns:enumeration>
-				<ns:enumeration value="RunAclf"></ns:enumeration>
-				<ns:enumeration value="RunAcsc"></ns:enumeration>
-				<ns:enumeration value="RunDStab"></ns:enumeration>
-				<ns:enumeration value="ContingencyAnalysis"></ns:enumeration>
-			</ns:restriction>
-		</ns:simpleType>
-	</ns:element>
-	<ns:element name="applyRuleBase" type="ns:boolean" minOccurs="0">
-	</ns:element>
-	<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="ipss:GridComputingXmlType">
-	</ns:element>
-	<ns:element name="standardRun" minOccurs="0">
-		<ns:complexType>
-			<ns:sequence>
-				<ns:element name="runDclfStudyCase" minOccurs="0">
-					<ns:complexType>
-						<ns:sequence>
-							<ns:element name="dafaultDclfStudyCase" minOccurs="0" maxOccurs="1" type="ipss:DclfStudyCaseXmlType">
-							</ns:element>
-							<ns:element name="dclfStudyCaseList" minOccurs="1">
-								<ns:complexType>
-									<ns:sequence>
-										<ns:element name="dclfStudyCase" minOccurs="1" maxOccurs="unbounded" type="ipss:DclfStudyCaseXmlType">
-										</ns:element>
-									</ns:sequence>
-								</ns:complexType>
-							</ns:element>
-						</ns:sequence>
-					</ns:complexType>
-				</ns:element>
-
-	<ns:element name="runAclfStudyCase" minOccurs="0">
-		<ns:complexType>
-			<ns:sequence>
-				<ns:element name="defaultAclfAlgorithm" type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1">
-				</ns:element>
-				<ns:element name="aclfStudyCaseList" minOccurs="1" maxOccurs="1" type="ipss:AclfStudyCaseListXmlType">
-				</ns:element>
-
-			</ns:sequence>
-		</ns:complexType>
-	</ns:element>
-
-			<ns:element name="runAcscStudyCase" minOccurs="0">
+			<ns:element name="analysisRunType" minOccurs="1" maxOccurs="1">
+				<ns:simpleType>
+					<ns:restriction base="ns:string">
+						<ns:enumeration value="RunDclf"></ns:enumeration>
+						<ns:enumeration value="RunAclf"></ns:enumeration>
+						<ns:enumeration value="RunAcsc"></ns:enumeration>
+						<ns:enumeration value="RunDStab"></ns:enumeration>
+						<ns:enumeration value="ContingencyAnalysis"></ns:enumeration>
+					</ns:restriction>
+				</ns:simpleType>
+			</ns:element>
+			<ns:element name="applyRuleBase" type="ns:boolean" minOccurs="0"></ns:element>
+			<ns:element name="gridRunOption" minOccurs="0" maxOccurs="1" type="ipss:GridComputingXmlType"></ns:element>
+			<ns:element name="standardRun" minOccurs="0">
 				<ns:complexType>
 					<ns:sequence>
-						<ns:element name="defaultAcscStudyCase"
-							minOccurs="0" maxOccurs="1" type="ipss:AcscStudyCaseXmlType">
-
-						</ns:element>
-						<ns:element name="acscStudyCaseList"
-							minOccurs="1">
+						<ns:element name="runDclfStudyCase" minOccurs="0">
 							<ns:complexType>
 								<ns:sequence>
-									<ns:element name="acscStudyCase"
-										minOccurs="1" maxOccurs="unbounded" type="ipss:AcscStudyCaseXmlType">
+									<ns:element name="dafaultDclfStudyCase" minOccurs="0" maxOccurs="1" type="ipss:DclfStudyCaseXmlType"></ns:element>
+									<ns:element name="dclfStudyCaseList" minOccurs="1">
+										<ns:complexType>
+											<ns:sequence>
+												<ns:element name="dclfStudyCase" minOccurs="1" maxOccurs="unbounded" type="ipss:DclfStudyCaseXmlType"></ns:element>
+											</ns:sequence>
+										</ns:complexType>
 									</ns:element>
+								</ns:sequence>
+							</ns:complexType>
+						</ns:element>
+
+						<ns:element name="runAclfStudyCase" minOccurs="0">
+							<ns:complexType>
+								<ns:sequence>
+									<ns:element name="defaultAclfAlgorithm" type="ipss:AclfAlgorithmXmlType" minOccurs="0" maxOccurs="1"></ns:element>
+									<ns:element name="aclfStudyCaseList" minOccurs="1" maxOccurs="1" type="ipss:AclfStudyCaseListXmlType"></ns:element>
 
 								</ns:sequence>
 							</ns:complexType>
 						</ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
-			<ns:element name="runDStabStudyCase" minOccurs="0">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="defaultDStabStudyCase"
-							minOccurs="0" maxOccurs="1" type="ipss:DStabStudyCaseXmlType">
 
-						</ns:element>
-						<ns:element name="dStabStudyCaseList"
-							minOccurs="1" maxOccurs="1">
+						<ns:element name="runAcscStudyCase" minOccurs="0">
 							<ns:complexType>
 								<ns:sequence>
-									<ns:element name="dStabStudyCase"
-										minOccurs="1" maxOccurs="unbounded" type="ipss:DStabStudyCaseXmlType">
+									<ns:element name="defaultAcscStudyCase" minOccurs="0" maxOccurs="1" type="ipss:AcscStudyCaseXmlType">
+
+									</ns:element>
+									<ns:element name="acscStudyCaseList" minOccurs="1">
+										<ns:complexType>
+											<ns:sequence>
+												<ns:element name="acscStudyCase" minOccurs="1" maxOccurs="unbounded" type="ipss:AcscStudyCaseXmlType">
+
+												</ns:element>
+
+											</ns:sequence>
+										</ns:complexType>
+									</ns:element>
+								</ns:sequence>
+							</ns:complexType>
+						</ns:element>
+						<ns:element name="runDStabStudyCase" minOccurs="0">
+							<ns:complexType>
+								<ns:sequence>
+									<ns:element name="defaultDStabStudyCase" minOccurs="0" maxOccurs="1" type="ipss:DStabStudyCaseXmlType">
+
+									</ns:element>
+									<ns:element name="dStabStudyCaseList" minOccurs="1" maxOccurs="1">
+										<ns:complexType>
+											<ns:sequence>
+												<ns:element name="dStabStudyCase" minOccurs="1" maxOccurs="unbounded" type="ipss:DStabStudyCaseXmlType">
+
+												</ns:element>
+											</ns:sequence>
+										</ns:complexType>
 									</ns:element>
 								</ns:sequence>
 							</ns:complexType>
@@ -102,18 +95,14 @@
 					</ns:sequence>
 				</ns:complexType>
 			</ns:element>
-            	</ns:sequence>
-            </ns:complexType>
-            </ns:element>
-            
 
-			<ns:element name="contingencyAnalysis" minOccurs="0"
-				type="ipss:ContingencyAnalysisXmlType">
+
+			<ns:element name="contingencyAnalysis" minOccurs="0" type="ipss:ContingencyAnalysisXmlType">
 
 			</ns:element>
-			<ns:element name="ruleBase" type="ipss:RuleBaseXmlType"
-				minOccurs="0">
-			</ns:element>
+			<ns:element name="ruleBase" type="ipss:RuleBaseXmlType" minOccurs="0"></ns:element>
+
+			<ns:element name="tradingAnalysis" type="ipss:TradingAnalysisTypeType" minOccurs="0"></ns:element>
 		</ns:sequence>
 	</ns:complexType>
 
@@ -444,5 +433,34 @@
 				</ns:sequence>
 			</ns:extension>
 		</ns:complexContent>
+	</ns:complexType>
+
+	<ns:complexType name="TradingAnalysisTypeType">
+		<ns:sequence>
+			<ns:element name="tradingStudyCaseList" minOccurs="0">
+				<ns:complexType>
+					<ns:sequence>
+						<ns:element name="tradingStudyCase" minOccurs="0" maxOccurs="unbounded">
+							<ns:complexType>
+								<ns:complexContent>
+									<ns:extension base="ipss:BaseRecordXmlType">
+										<ns:sequence>
+											<ns:element name="tradingType" minOccurs="1">
+												<ns:simpleType>
+													<ns:restriction base="ns:string">
+														<ns:enumeration value="Zonal"></ns:enumeration>
+														<ns:enumeration value="Nodal"></ns:enumeration>
+													</ns:restriction>
+												</ns:simpleType>
+											</ns:element>
+											<ns:element name="areaTransferAnalysis" type="ipss:AreaTransferAnalysisXmlType" minOccurs="0"></ns:element>
+										</ns:sequence>
+
+									</ns:extension>
+								</ns:complexContent>
+							</ns:complexType></ns:element>
+					</ns:sequence>
+				</ns:complexType></ns:element>
+		</ns:sequence>
 	</ns:complexType>
 </ns:schema>
