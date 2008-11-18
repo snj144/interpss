@@ -64,6 +64,8 @@ public class EditorActionAdapter {
 				menu_run_dclf(type, graphView, graph, doc);
 			else if (type == SimuRunType.SenAnalysis )
 				menu_run_sen(graphView, graph, doc);
+			else if (type == SimuRunType.TradingAnalysis)
+				menu_run_trading(graphView, graph, doc);
 			else if (type == SimuRunType.Aclf)
 				menu_run_aclf(graphView, graph, doc);
 			else if (type == SimuRunType.Acsc)
@@ -113,14 +115,45 @@ public class EditorActionAdapter {
 		simuCtx.setDclfAlgorithm(CoreSpringAppContext.getDclfAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.SenAnalysis,
-					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.SenAnalysis).getFilePathName());
+			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.SenAnalysis,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.SenAnalysis).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("SenAnalysis SimuRunWorker");
 				worker.configRun(SimuRunType.SenAnalysis, simuCtx, graph);
 				worker.start();
 				appSimuCtx.setLastRunType(SimuRunType.SenAnalysis);
+			}
+		} catch (Exception e) {
+			IpssLogger.logErr(e);
+			SpringAppContext.getEditorDialogUtil().showMsgDialog("Error", "See log file for details\n" + e.toString());
+		}
+	}
+
+	private static void menu_run_trading(boolean graphView, JGraph graph, IpssEditorDocument doc)  throws Exception  {
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		SimuContext simuCtx = (SimuContext)appSimuCtx.getSimuCtx();
+		
+		IGFormContainer gFormContainer = null ;
+		if (graphView && appSimuCtx.isSimuNetDataDirty()) {
+			gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
+			IpssMapper mapper = SimuAppSpringAppContext.getEditorJGraphDataMapper();
+			if (!mapper.mapping(gFormContainer, simuCtx, GFormContainer.class)) 
+				return;
+			appSimuCtx.setSimuNetDataDirty(false);
+		}
+		
+		simuCtx.setDclfAlgorithm(CoreSpringAppContext.getDclfAlgorithm());
+
+		try {
+			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.SenAnalysis,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.SenAnalysis).getFilePathName());
+			dialog.init(gFormContainer, appSimuCtx);
+			if (dialog.isReturnOk()) {
+				SimuRunWorker worker = new SimuRunWorker("TradingAnalysis SimuRunWorker");
+				worker.configRun(SimuRunType.TradingAnalysis, simuCtx, graph);
+				worker.start();
+				appSimuCtx.setLastRunType(SimuRunType.TradingAnalysis);
 			}
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -143,8 +176,8 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.Aclf,
-					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.Aclf).getFilePathName());
+			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.Aclf,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.Aclf).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Aclf SimuRunWorker");
@@ -173,8 +206,8 @@ public class EditorActionAdapter {
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringAppContext.getSimpleFaultAlgorithm());
  
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.Acsc,
-					ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.Acsc).getFilePathName());
+			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.Acsc,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.Acsc).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("Acsc SimuRunWorker");
@@ -202,8 +235,8 @@ public class EditorActionAdapter {
 		simuCtx.setLoadflowAlgorithm(CoreSpringAppContext.getLoadflowAlgorithm());
 		simuCtx.setDynSimuAlgorithm(DStabSpringAppContext.getDynamicSimuAlgorithm());
 
-		ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.DStab,
-				ProjectFileUtil.getProjectStdRunCaseFile(doc, IAppSimuContext.CaseType.DStab).getFilePathName());
+		ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.DStab,
+				ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.DStab).getFilePathName());
     	IpssTextFile file = ProjectFileUtil.getProjectFile(doc, ProjectFileUtil.DStabOutputScriptFilename);
     	dialog.setDStabOutputScriptFilename(file.getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
@@ -232,12 +265,12 @@ public class EditorActionAdapter {
 		}
 		
 		IpssLogger.getLogger().info("Run Scripts");
-		ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(IAppSimuContext.CaseType.Scripts,
+		ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.Scripts,
 				ProjectFileUtil.getProjectScriptRunCaseFile(doc).getFilePathName());
 		dialog.init(gFormContainer, appSimuCtx);
     	if (dialog.isReturnOk()) {
 			SimuRunWorker worker = new SimuRunWorker("Scripting SimuRunWorker");
-			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), IAppSimuContext.CaseType.Scripts);
+			IpssDBCase caseData = appSimuCtx.getCaseData(appSimuCtx.getProjData().getScriptsCaseName(), SimuRunType.Scripts);
 			worker.configRun(SimuRunType.Scripts, simuCtx, caseData.getScripts(), caseData.getScriptLanguageType(), caseData.getScriptPluginName());
 			worker.start();
 			appSimuCtx.setLastRunType(SimuRunType.Scripts);
