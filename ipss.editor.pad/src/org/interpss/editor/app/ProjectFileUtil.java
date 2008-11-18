@@ -30,9 +30,9 @@ import org.interpss.editor.coreframework.IpssEditorDocument;
 import org.interpss.editor.coreframework.IpssTextDocument;
 import org.interpss.editor.coreframework.IpssTextFile;
 import org.interpss.editor.doc.IpssProjectItem;
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.SimuRunType;
 
 public class ProjectFileUtil {
 	public static String StdRunStudyCase_Aclf = "RunStudyCaseStdAclf.xml";
@@ -45,14 +45,14 @@ public class ProjectFileUtil {
 	public static String DStabPlotScriptFilename = "DStabPlotScripts.txt";
 	public static String DStabOutputScriptFilename = "DStabOutputScripts.txt";
 	
-	public static IpssTextFile getProjectStdRunCaseFile(IpssEditorDocument doc, IAppSimuContext.CaseType caseType) {
-		if (caseType == IAppSimuContext.CaseType.Aclf)
+	public static IpssTextFile getProjectStdRunCaseFile(IpssEditorDocument doc, SimuRunType caseType) {
+		if (caseType == SimuRunType.Aclf)
 			return getProjectFile(doc, StdRunStudyCase_Aclf);
-		else if (caseType == IAppSimuContext.CaseType.SenAnalysis)
+		else if (caseType == SimuRunType.SenAnalysis)
 			return getProjectFile(doc, StdRunStudyCase_SenAnalysis);
-		else if (caseType == IAppSimuContext.CaseType.Acsc)
+		else if (caseType == SimuRunType.Acsc)
 			return getProjectFile(doc, StdRunStudyCase_Acsc);
-		else if (caseType == IAppSimuContext.CaseType.DStab)
+		else if (caseType == SimuRunType.DStab)
 			return getProjectFile(doc, StdRunStudyCase_DStab);
 		else 
 			return null;
