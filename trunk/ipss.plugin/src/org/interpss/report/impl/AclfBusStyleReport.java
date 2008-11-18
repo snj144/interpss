@@ -38,6 +38,7 @@ import org.interpss.report.bean.aclf.AclfRptBeanFactory;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 
@@ -60,7 +61,7 @@ public class AclfBusStyleReport extends AclfBaseReport implements IIpssReport {
 			mapper.mapping(appSimuCtx, titleBean, RptMainTitleBean.class);
 			titleBean.setReportTitle("Load Flow (IEEE Bus Style)");
 			titleBean.setCaseName(appSimuCtx
-					.getCurrentCaseName(IAppSimuContext.CaseType.Aclf));
+					.getCurrentCaseName(SimuRunType.Aclf));
 			parameters.put("ReportMainTitleBean", titleBean);
 
 			addSubreports(parameters, appSimuCtx, mapper);

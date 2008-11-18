@@ -31,7 +31,9 @@ package org.interpss.report.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.interpss.editor.data.proj.CaseData;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.report.IIpssReport;
@@ -39,10 +41,8 @@ import org.interpss.report.bean.RptMainTitleBean;
 import org.interpss.report.bean.acsc.AcscRptBeanFactory;
 import org.interpss.report.mapper.SimuCtxReportMapper;
 
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 
@@ -66,7 +66,7 @@ public class AcscFaultReport implements IIpssReport {
 			mapper.mapping(appSimuCtx, titleBean, RptMainTitleBean.class);
 			titleBean.setReportTitle("Short Circuit Calculation");
 			titleBean.setCaseName(appSimuCtx
-					.getCurrentCaseName(IAppSimuContext.CaseType.Acsc));
+					.getCurrentCaseName(SimuRunType.Acsc));
 			parameters.put("ReportMainTitleBean", titleBean);
 
 			parameters.put("FaultSummaryJBeanDatasource", AcscRptBeanFactory
