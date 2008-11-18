@@ -236,7 +236,6 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         tradingTypeButtonGroup = new javax.swing.ButtonGroup();
         atTradeLabel = new javax.swing.JLabel();
@@ -281,10 +280,10 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
         atAclfCalculateButton = new javax.swing.JButton();
         atSeAssessButton = new javax.swing.JButton();
 
-        atTradeLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atTradeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         atTradeLabel.setText("Trade");
 
-        atTradeComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atTradeComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         atTradeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         atTradeComboBox.setEnabled(false);
         atTradeComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -293,7 +292,7 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
             }
         });
 
-        atTradeAddButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        atTradeAddButton.setFont(new java.awt.Font("Dialog", 0, 10));
         atTradeAddButton.setText("Add");
         atTradeAddButton.setEnabled(false);
         atTradeAddButton.addActionListener(new java.awt.event.ActionListener() {
@@ -302,7 +301,7 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
             }
         });
 
-        atTradeDeleteButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        atTradeDeleteButton.setFont(new java.awt.Font("Dialog", 0, 10));
         atTradeDeleteButton.setText("Delete");
         atTradeDeleteButton.setEnabled(false);
         atTradeDeleteButton.addActionListener(new java.awt.event.ActionListener() {
@@ -312,14 +311,13 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
         });
 
         tradingTypeButtonGroup.add(zonalRadioButton);
-        zonalRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        zonalRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         zonalRadioButton.setSelected(true);
         zonalRadioButton.setText("Zonal");
 
         tradingTypeButtonGroup.add(nodalRadioButton);
         nodalRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         nodalRadioButton.setText("Nodal");
-        nodalRadioButton.setEnabled(false);
 
         atTransAmtLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         atTransAmtLabel.setText("Transfer Amount");
@@ -505,7 +503,7 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
             }
         });
 
-        atInterfaceListComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atInterfaceListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         atInterfaceListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         atAddInterfaceButton.setFont(new java.awt.Font("Dialog", 0, 10));

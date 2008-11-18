@@ -141,16 +141,16 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	// Case info functions
 	// ===================
 
-	public String getCurrentCaseName(IAppSimuContext.CaseType caseType) {
+	public String getCurrentCaseName(SimuRunType caseType) {
 		return getCurrentCaseData(caseType).getCaseName();
 
 	}
 
-	public CaseData getCurrentCaseData(IAppSimuContext.CaseType caseType) {
+	public CaseData getCurrentCaseData(SimuRunType caseType) {
 		ProjData aProjData = (ProjData) getProjData();
-		String casename = caseType.equals(IAppSimuContext.CaseType.Aclf) ? aProjData
+		String casename = caseType.equals(SimuRunType.Aclf) ? aProjData
 				.getAclfCaseName()
-				: (caseType.equals(IAppSimuContext.CaseType.Acsc) ? aProjData
+				: (caseType.equals(SimuRunType.Acsc) ? aProjData
 						.getAcscCaseName() : aProjData.getDStabCaseName());
 		return getCaseData(casename, caseType);
 	}
@@ -162,7 +162,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return case data array of type Object[]
 	 */
-	public Object[] getCasenameArray(IAppSimuContext.CaseType caseType) {
+	public Object[] getCasenameArray(SimuRunType caseType) {
 		Vector<String> vect = new Vector<String>();
 		List<?> caseList = getProjData().getCaseList();
 		for (int i = 0; i < caseList.size(); i++) {
@@ -174,13 +174,13 @@ public class AppSimuContextImpl implements IAppSimuContext {
 
 		if (vect.size() == 0) {
 			String name = "Aclf Analysis Case";
-			if (caseType.equals(IAppSimuContext.CaseType.SenAnalysis))
+			if (caseType.equals(SimuRunType.SenAnalysis))
 				name = "Sensitivity Analysis Case";
-			else if (caseType.equals(IAppSimuContext.CaseType.Acsc))
+			else if (caseType.equals(SimuRunType.Acsc))
 				name = "Acsc Analysis Case";
-			else if (caseType.equals(IAppSimuContext.CaseType.DStab))
+			else if (caseType.equals(SimuRunType.DStab))
 				name = "Transient Stability Case";
-			else if (caseType.equals(IAppSimuContext.CaseType.Scripts))
+			else if (caseType.equals(SimuRunType.Scripts))
 				name = "Custom Scripting Run Case";
 			createCaseData(name, caseType);
 			vect.add(new String(name));
@@ -197,7 +197,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return if the case data delete, return true, else false
 	 */
-	public boolean deleteCaseData(String casename, IAppSimuContext.CaseType caseType) {
+	public boolean deleteCaseData(String casename, SimuRunType caseType) {
 		CaseData caseData = getCaseData(casename, caseType);
 		if (caseData != null) {
 			getProjData().getCaseList().remove(caseData);
@@ -215,7 +215,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            case type
 	 * @return the case data object
 	 */
-	public CaseData getCaseData(String casename, IAppSimuContext.CaseType caseType) {
+	public CaseData getCaseData(String casename, SimuRunType caseType) {
 		List<?> caseList = getProjData().getCaseList();
 		for (int i = 0; i < caseList.size(); i++) {
 			CaseData caseData = (CaseData) caseList.get(i);
@@ -241,7 +241,7 @@ public class AppSimuContextImpl implements IAppSimuContext {
 	 *            the case type
 	 * @return the created case, null the casename already exists
 	 */
-	public CaseData createCaseData(String casename, IAppSimuContext.CaseType caseType) {
+	public CaseData createCaseData(String casename, SimuRunType caseType) {
 		if (getCaseData(casename, caseType) == null) {
 			CaseData caseData = new CaseData();
 			caseData.setCaseName(casename);
