@@ -24,9 +24,6 @@
 
 package org.interpss.editor.data.proj;
 
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
-
-import com.interpss.common.util.XmlUtil;
 
 /**
 	For persisting CaseData to the StudyCase table
