@@ -26,7 +26,6 @@ package org.interpss.editor;
 
 import javax.swing.JDialog;
 
-import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.data.IProjectData;
 import org.interpss.editor.runAct.ui.AclfRunForm;
 import org.interpss.editor.runAct.ui.AcscRunForm;
@@ -36,6 +35,7 @@ import org.interpss.editor.ui.ICaseInfoDialog;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
+import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.mapper.IpssMapper;
 
 public class SimuAppSpringAppContext extends SpringAppContext {
@@ -98,7 +98,7 @@ public class SimuAppSpringAppContext extends SpringAppContext {
 		return (DStabRunForm) SpringAppCtx.getBean(Constants.SID_DStabRunForm);
 	}
 	
-	public static ICaseInfoDialog getCaseInfoDialog(IAppSimuContext.CaseType type, String filename) {
+	public static ICaseInfoDialog getCaseInfoDialog(SimuRunType type, String filename) {
 		ICaseInfoDialog dialog = (ICaseInfoDialog)getCaseInfoDialog();
 		dialog.setCaseType(type);
 		dialog.setRunStudyCaseFilename(filename);
