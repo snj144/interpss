@@ -32,7 +32,7 @@ import com.interpss.common.datatype.SimuRunType;
 import com.interpss.common.rec.IpssDBCase;
 
 public interface IAppSimuContext {
-	public static enum CaseType { Aclf, Acsc, DStab, Scripts, SenAnalysis, NotDefined };
+	//public static enum CaseType { Aclf, Acsc, DStab, Scripts, SenAnalysis, NotDefined };
 
 	void reset();
 	void releaseResource();
@@ -51,7 +51,7 @@ public interface IAppSimuContext {
 	boolean isScCalculated();
 	void setScCalculated(boolean scCalculated);
    
-	String getCurrentCaseName(CaseType caseType);
+	String getCurrentCaseName(SimuRunType caseType);
 
 	SimuRunType getLastRunType();
 	void setLastRunType(SimuRunType lastRunType);	
@@ -81,5 +81,5 @@ public interface IAppSimuContext {
 	
 	void addPopupMenuAction(JPopupMenu menu, final Object cell);
 	
-	public IpssDBCase getCaseData(String casename, CaseType caseType);
+	public IpssDBCase getCaseData(String casename, SimuRunType caseType);
 }
