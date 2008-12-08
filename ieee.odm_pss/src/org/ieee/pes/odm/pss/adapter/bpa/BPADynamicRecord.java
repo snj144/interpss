@@ -24,6 +24,10 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
@@ -44,9 +48,9 @@ public class BPADynamicRecord {
 	
 	public static int getDataType(String str,BPAAdapter adapter){	
 		
-		System.out.println(str);		
-		
-		 if (str.startsWith(".")){
+				
+			
+		 if (str.startsWith(".")&& str.startsWith("")){
 				dataType=0;
 			}else if(str.startsWith("CASE")||str.startsWith("SOL")) {
 				dataType=header;
@@ -61,7 +65,7 @@ public class BPADynamicRecord {
 			}else if (str.substring(0, 2).trim().equals("FA")||
 					str.substring(0, 2).trim().equals("FB")||str.substring(0, 2).trim().equals("FC")
 					||str.substring(0, 2).trim().equals("FD")||str.substring(0, 2).trim().equals("FE")||
-					str.substring(0, 2).trim().equals("FF")||str.substring(0, 2).trim().equals("FG")
+					str.substring(0, 2).trim().equals("FG")
 					||str.substring(0, 2).trim().equals("FH")||str.substring(0, 2).trim().equals("FJ")
 					||str.substring(0, 2).trim().equals("FK")||str.substring(0, 2).trim().equals("FL")
 					||str.substring(0, 2).trim().equals("FQ")||str.substring(0, 2).trim().equals("FV")
@@ -82,8 +86,8 @@ public class BPADynamicRecord {
 			}else if(str.substring(0, 2).trim().equals("LO")||str.substring(0, 2).trim().equals("XO")
 					||str.substring(0, 2).trim().equals("XR")||str.substring(0, 2).trim().equals("LM")){
 				dataType=sequenceData;
-			}else {
-				adapter.logErr("This line data is not processed"+"   "+" ' "+str+" ' ");
+			}else {				
+				adapter.logErr("This line data is not processed"+"   "+"'"+str+"'");
 				
 			}		 
 		 return dataType;
@@ -93,10 +97,13 @@ public class BPADynamicRecord {
 			final java.io.BufferedReader din,
 			IEEEODMPSSModelParser parser ,BPAAdapter adapter) throws Exception{
 		PSSNetworkXmlType baseCaseNet=parser.getBaseCase();
+		
+		
+		
 		do{
 			str= din.readLine();
-			getDataType(str,adapter);
 			if(!str.startsWith("90")){
+				getDataType(str,adapter);
 				try{
 					if(dataType==header){
 						processHeaderData(str, tranSimu,adapter);
@@ -116,9 +123,11 @@ public class BPADynamicRecord {
 								tranSimu, parser.addNewLoad(),adapter);
 					}else if(dataType==sequenceData){
 						BPADynamicSequenceRecord.processSequenceData(str, tranSimu, parser,adapter);
+					}else if(dataType==0){
+						
 					}
 					
-				}catch (final Exception e){
+				}catch (final Exception e){				
 					e.printStackTrace();
 				}				
 			}			
@@ -153,7 +162,7 @@ public class BPADynamicRecord {
 			//TransientSimulationXmlType.SimulationSetting simuSet= tranSimu.getSimulationSetting();
 			
 			String pfCase= strAry[1];
-			pfInitial.setPowerFlowCase(pfCase);
+			//pfInitial.setPowerFlowCase(pfCase);
 		}		
 	}
     private static String[] getHeaderDataFields ( final String str,BPAAdapter adapter) {

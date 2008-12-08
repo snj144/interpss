@@ -152,9 +152,9 @@ public class IEEEODMPSSModelParser {
 			tranSimu.getDynamicDataList().getBusDynDataList().addNewGeneratorDataList();
 			tranSimu.getDynamicDataList().getBusDynDataList().addNewLoadCharacteristicDataList();
 			
-			tranSimu.addNewOutPutSetting();
-			tranSimu.addNewPowerFlowInitialization();
-			tranSimu.addNewSimulationSetting();
+			//tranSimu.addNewOutPutSetting();
+			//tranSimu.addNewPowerFlowInitialization();
+			//tranSimu.addNewSimulationSetting();
 		}
 		return getStudyCase().getTransientSimlation();
 	}	
@@ -317,7 +317,7 @@ public class IEEEODMPSSModelParser {
 	public ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero addNewShuntLoadZero(){
 		return getStudyCase().getTransientSimlation().getDynamicDataList()
 		.getSequenceDataList().getZeroSequenceDataList()
-		.addNewShuntLoadZeroList().addNewShuntLoadZero();
+		.getShuntLoadZeroList().addNewShuntLoadZero();
 	}
 	public ZeroSequenceDataListXmlType.SwitchShuntedZeroList.SwitchShuntedZeroType addNewSwitchShuntZero(){
 		return getStudyCase().getTransientSimlation().getDynamicDataList()

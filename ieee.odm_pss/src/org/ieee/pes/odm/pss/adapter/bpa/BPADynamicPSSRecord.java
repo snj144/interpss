@@ -66,11 +66,17 @@ public class BPADynamicPSSRecord {
     		ODMData2XmlHelper.setVoltageData(pss.addNewBusRatedVoltage(), v, VoltageXmlType.Unit.KV);
     		    		
     		//excId
-    		String macId="";
+    		String macId="1";
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
-    			pss.addNewMacId().setName(macId);
-    		}    		
+    			
+    		} 
+    		// for local input mode, remote input is set to 0;
+    		tstpss.setFirstRemoteBusId("0");
+    		tstpss.setSecondInputSignal(StabilizerModelListXmlType.IEE2ST.SecondInputSignal.X_0);
+    		tstpss.setSecondRemoteBusId("0");
+    		
+    		pss.addNewMacId().setName(macId);
     		//KQV 
     		double KQV=StringUtil.getDouble(strAry[4], 0.0);
     		tstpss.setK1(KQV);
@@ -94,7 +100,7 @@ public class BPADynamicPSSRecord {
     		ODMData2XmlHelper.setTimeData(tstpss.addNewT4(), TQ, TimeXmlType.Unit.SEC);
     		// TQ1
     		double TQ1= StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT6(), TQS, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimeData(tstpss.addNewT6(), TQ1, TimeXmlType.Unit.SEC);
     		    		
     		//TQ11
     		double TQ11= StringUtil.getDouble(strAry[10], 0.0);
@@ -156,11 +162,12 @@ public class BPADynamicPSSRecord {
     		ODMData2XmlHelper.setVoltageData(pss.addNewBusRatedVoltage(), v, VoltageXmlType.Unit.KV);
     		    		
     		//excId
-    		String macId="";
+    		String macId="1";
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
-    			pss.addNewMacId().setName(macId);
+    			
     		}    		
+    		pss.addNewMacId().setName(macId);
     		//TRW
     		double  trw=StringUtil.getDouble(strAry[4], 0.0);;
     		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTrw(), trw, TimeXmlType.Unit.SEC);
@@ -232,7 +239,7 @@ public class BPADynamicPSSRecord {
     		String busId=strAry[1];    		
     		//bus Voltage    		   		    		
     		//excId
-    		String macId="";
+    		String macId="1";
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
     		}    		

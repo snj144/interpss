@@ -160,12 +160,14 @@ public class BPABranchRecord {
 				if(rpu>10.0){
 					rpu=rpu/100000;
 				}
+				rpu=StringUtil.getNumberFormat(rpu);
 			}
 			if(!strAry[13].equals("")){
 				xpu = new Double(strAry[13]).doubleValue();
 				if(xpu>10.0){
 					xpu=xpu/100000;
 				}
+				xpu=StringUtil.getNumberFormat(xpu);
 			}
 			if(!strAry[14].equals("")){
 				halfGpu = new Double(strAry[14]).doubleValue();

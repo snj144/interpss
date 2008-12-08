@@ -43,7 +43,7 @@ public class BPADynamicSequenceRecord {
 		final String strAry[]=getSequenceDataFields(str,adapter);
 		// positive sequence data		
 		// to do  
-		// zero sequence data
+		// zero sequence data		
 		if(strAry[0].equals("XO")){
 			ZeroSequenceDataListXmlType.XfrZeroList.XfrZero xfrZero=
 				parser.addNewXfrZero();		
@@ -67,11 +67,11 @@ public class BPADynamicSequenceRecord {
 						 XfrZeroList.XfrZero.ConectionLocation.BETWEEN_BUS_1_AND_BUS_2);
 			}			
 			//par
-			String cirId="";
+			String cirId="1";
 			if(!strAry[6].equals("")){
-				cirId=strAry[6];
-				xfrZero.setCirId(cirId);
+				cirId=strAry[6];				
 			}			
+			xfrZero.setCirId(cirId);
 			//X0
 			double x0=StringUtil.getDouble(strAry[7], 0.0);
 			ODMData2XmlHelper.setPUData(xfrZero.addNewX1(), x0, PerUnitXmlType.Unit.PU);
@@ -224,10 +224,11 @@ public class BPADynamicSequenceRecord {
 			
 		}
 		// negative load data
-		NegativeSequenceDataListXmlType.ShuntLoadNegativeList.ShuntLoadNegative loadNeg=
-			parser.addNewShuntLoadNeg();
+		
 		for( LoadCharacteristicXmlType load: tranSimu.getDynamicDataList().
 				getBusDynDataList().getLoadCharacteristicDataList().getLoadArray() ){
+			NegativeSequenceDataListXmlType.ShuntLoadNegativeList.ShuntLoadNegative loadNeg=
+				parser.addNewShuntLoadNeg();
 			
 			if(load.getLocation().equals(LoadCharacteristicXmlType.Location.AT_AREA)){
 				loadNeg.setLoadLocation(NegativeSequenceDataListXmlType.ShuntLoadNegativeList.
@@ -276,7 +277,7 @@ public class BPADynamicSequenceRecord {
 	    		//bus1 Voltage
 	    		strAry[2]=StringUtil.getStringReturnEmptyString(str,13, 16).trim();
 	    		//r0
-	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,23, 28).trim();
+	    		strAry[3]=StringUtil.getStringReturnEmptyString(str,22, 28).trim();
 	    		//x0
 	    		strAry[4]=StringUtil.getStringReturnEmptyString(str,29, 35).trim();
 			}else if(str.substring(0, 2).startsWith("LO")){			
