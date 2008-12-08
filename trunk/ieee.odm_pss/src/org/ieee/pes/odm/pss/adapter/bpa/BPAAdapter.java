@@ -56,7 +56,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		
 		String str="";
 		// first line, as a sign to run power flow data or transient data
-		str=din.readLine();
+		str=din.readLine();	
 		
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
@@ -82,6 +82,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();		
 		
+		int areaId=1;// used to arrange a number to each area 
+		
 		// read both power flow and transient data
 		if(parser.getStudyCase().getAnalysisCategory().
 				equals(StudyCaseXmlType.AnalysisCategory.TRANSIENT_STABILITY)){
@@ -98,8 +100,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 								||str.startsWith(">")){
 							getLogger().fine("load header data");
 							processNetData(str,nvList,baseCaseNet);
-						}else if(str.startsWith("A")||str.trim().startsWith("I")){
-							processAreaData(str, parser,	baseCaseNet, this);
+						}else if(str.startsWith("A")||str.trim().startsWith("I")){							
+							processAreaData(str, parser,	baseCaseNet, this, areaId++);
 							
 						}else if((str.trim().startsWith("B")||str.trim().startsWith("+")
 								||str.trim().startsWith("X"))
@@ -134,12 +136,13 @@ public class BPAAdapter  extends AbstractODMAdapter {
 					}catch (final Exception e) {
 						e.printStackTrace();
 					}					
-				}else if(str.startsWith("(END)"))	{						
-					BPADynamicRecord.processDynamicData(str, tranSimu,din,
-							parser,this);
-					break;							
+				}else if(str.startsWith("(END)"))	{					
+					
 				}				
-			}while(!str.trim().equals("(END)"));
+			}while(!str.trim().equals("(END)"));		
+			BPADynamicRecord.processDynamicData(str, tranSimu,din,
+					parser,this);
+			
 	    // read power flow data only
 		}else if(parser.getStudyCase().getAnalysisCategory().
 				equals(StudyCaseXmlType.AnalysisCategory.LOADFLOW)){
@@ -156,7 +159,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 							getLogger().fine("load header data");
 							processNetData(str,nvList,baseCaseNet);
 						}else if(str.startsWith("A")||str.trim().startsWith("I")){
-							processAreaData(str, parser,	baseCaseNet, this);
+							processAreaData(str, parser,	baseCaseNet, this,areaId++);
 							
 						}else if((str.trim().startsWith("B")||str.trim().startsWith("+")
 								||str.trim().startsWith("X"))
@@ -243,12 +246,17 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processAreaData(final String str,final IEEEODMPSSModelParser parser ,
-			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter	) {
+			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter, int areaId	) {
 		
 		final String[] strAry = getAreaDataFields(str, adapter);
+		
+		int zoneId=0;
+		
 	
 		if(str.trim().startsWith("A")||str.trim().startsWith("AC")){	
 			PSSNetworkXmlType.AreaList.Area area=parser.addNewBaseCaseArea();
+			
+			
 			
 			final String areaType=strAry[0];			
 			if(!strAry[1].equals("")){
@@ -257,7 +265,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			String areaName="";
 			if(!strAry[2].equals("")){
 				areaName=strAry[2];
-				area.setAreaName(areaName);					
+				area.setAreaName(areaName);
+				area.setAreaNumber(areaId);
 			}
 			String slackBusId;
 			double ratedVoltage;
@@ -285,6 +294,10 @@ public class BPAAdapter  extends AbstractODMAdapter {
             		s[cnt]=strAry[6].trim().substring(i, i+2);            		
             		PSSNetworkXmlType.AreaList.Area.ZoneList.Zone zone= area.getZoneList().addNewZone();
             		zone.setZoneName(s[cnt]);
+            		
+            		String zoneRanking =new  Integer(areaId).toString()+ new Integer(zoneId++).toString();            		
+            		int out= new Integer(zoneRanking).intValue();           		
+            		zone.setZoneNumber(out);
             		if(i+2==Str6length){
             			break;
             		}
@@ -338,7 +351,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				ODMData2XmlHelper.setPowerData(exchange.addNewExchangePower(),
      			    exchangePower, 0, PowerXmlType.Unit.MVA);				
 			}			
-		}		
+		}	
+		
 	}
 	
 	private String[] getNetDataFields(final String str) {

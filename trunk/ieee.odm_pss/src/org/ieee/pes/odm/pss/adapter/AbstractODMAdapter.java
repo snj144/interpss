@@ -46,7 +46,7 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 	
 	public AbstractODMAdapter(Logger logger) {
 		this.logger = logger;
-		this.status = true;
+		this.status = true;                        
 		this.errMsgList = new ArrayList<String>();
 	}
 	

@@ -42,6 +42,7 @@ public class BPADynamicTurbineGovernorRecord {
     	
     	
     	final String strAry[]=getTGDataFields(str,adapter);
+    	
     	if(strAry[0].equals("GG")){ 
     		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor();
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_STREAM_GENERAL_MODEL);
@@ -101,7 +102,7 @@ public class BPADynamicTurbineGovernorRecord {
     		String busId=strAry[1];
     		tg.addNewLocatedBus().setName(busId);			
 			//bus Voltage
-    		double v= StringUtil.getDouble(strAry[2], 0.0);   		
+    		double v= StringUtil.getDouble(strAry[2], 0.0);
     		ODMData2XmlHelper.setVoltageData(tg.addNewBusRatedVoltage(), v,
     				VoltageXmlType.Unit.KV);			
 			//excId
@@ -117,7 +118,8 @@ public class BPADynamicTurbineGovernorRecord {
     		double r=StringUtil.getDouble(strAry[5], 0.0);
     		ODMData2XmlHelper.setPUData(gh.addNewR(), r, PerUnitXmlType.Unit.PU);
 			//TG
-    		double Tg=StringUtil.getDouble(strAry[6], 0.0);
+    		double Tg=StringUtil.getDouble(strAry[6], 0.0);    		
+    		
 		    ODMData2XmlHelper.setTimeData(gh.addNewTG(), 
 					       Tg, TimeXmlType.Unit.SEC);			
 			//TP
@@ -302,7 +304,7 @@ public class BPADynamicTurbineGovernorRecord {
 					//R
 					strAry[5]=StringUtil.getStringReturnEmptyString(str,23, 27).trim();
 					//TG
-					strAry[6]=StringUtil.getStringReturnEmptyString(str,28, 32).trim();
+					strAry[6]=StringUtil.getStringReturnEmptyString(str,28, 32).trim();					
 					//TP
 					strAry[7]=StringUtil.getStringReturnEmptyString(str,33, 37).trim();
 					//TD

@@ -109,12 +109,13 @@
 				<simpleType>
 					<restriction base="string">
 						<enumeration value="IEEE1992TypeAC1A"></enumeration>
-						<enumeration value="IEEE1992TypeAC2A"></enumeration>
+						<enumeration value="IEEE1981TypeAC2"></enumeration>
 						<enumeration value="IEEE1981ST1"></enumeration>
 						<enumeration value="BPAFJ"></enumeration>
 						<enumeration value="IEEE1968Type1"></enumeration>
 						<enumeration value="IEEEModified1968Type1"></enumeration>
 						<enumeration value="IEEE1981NewExcSystem"></enumeration>
+						<enumeration value="IEEETypeDC2"></enumeration>
 
 
 					</restriction>
@@ -470,7 +471,8 @@
     					</element>
     					<element name="desc" type="string" maxOccurs="1"
     						minOccurs="0">
-    					</element>
+    					</element>
+
 
     					<element name="TR" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
@@ -481,8 +483,8 @@
     					<element name="TC" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KA" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KA" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TA" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
@@ -496,17 +498,17 @@
     					<element name="TE" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KF" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KF" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TF" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KC" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KC" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KD" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KD" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="E1" type="double" maxOccurs="1"
     						minOccurs="1">
@@ -525,11 +527,12 @@
     					</element>
     					<element name="VRMIN" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
-    					</element>
+    					</element>
+
     				</sequence>
     			</complexType>
     		</element>
-    		<element name="IEEE1992TypeAC2A" maxOccurs="1"
+    		<element name="IEEE1981TypeAC2" maxOccurs="1"
     			minOccurs="0">
     			<complexType>
     				<sequence>
@@ -541,7 +544,7 @@
     					</element>
 
 
-                        <element name="TR" type="pss:TimeXmlType"
+    					<element name="TR" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TB" type="pss:TimeXmlType"
@@ -550,8 +553,8 @@
     					<element name="TC" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KA" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KA" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TA" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
@@ -562,8 +565,8 @@
     					<element name="VAMIN" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KB" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KB" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="VRMAX" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
@@ -574,26 +577,29 @@
     					<element name="TE" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="VFEMAX" type="pss:PerUnitXmlType"
+    					<element name="KL" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-                        <element name="KH" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KH" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KF" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KF" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TF" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KC" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KC" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KD" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KD" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KE" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KE" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VLR" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="E1" type="double" maxOccurs="1"
     						minOccurs="1">
@@ -621,10 +627,11 @@
     					</element>
     					<element name="desc" type="string" maxOccurs="1"
     						minOccurs="0">
-    					</element>
+    					</element>
 
-    					<element name="TR" type="pss:TimeXmlType" maxOccurs="1"
-    						minOccurs="1">
+
+    					<element name="TR" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="VIMAX" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
@@ -633,63 +640,6 @@
     						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TB" type="pss:TimeXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="TC" type="pss:TimeXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="KA" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="TA" type="pss:TimeXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-
-
-
-    					<element name="KF" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="TF" type="pss:TimeXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="KC" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-
-
-
-
-
-    					<element name="VRMAX" type="pss:PerUnitXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="VRMIN" type="pss:PerUnitXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    				</sequence>
-    			</complexType>
-    		</element>
-    		<element name="BPAFJ" maxOccurs="1" minOccurs="0">
-    			<complexType>
-    				<sequence>
-    					<element name="exciterName" type="string"
-    						maxOccurs="1" minOccurs="0">
-    					</element>
-    					<element name="desc" type="string" maxOccurs="1"
-    						minOccurs="0">
-    					</element>
-
-
-    					<element name="TR" type="pss:TimeXmlType"
-    						maxOccurs="1" minOccurs="0">
-    					</element>
-    					<element name="EFDMAX" type="pss:PerUnitXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-
-                        <element name="EFDMIN" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="1"></element>
-                        <element name="TB" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TC" type="pss:TimeXmlType"
@@ -723,7 +673,67 @@
     					</element>
     					<element name="VRMIN" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
-    					</element>
+    					</element>
+    				</sequence>
+    			</complexType>
+    		</element>
+    		<element name="BPAFJ" maxOccurs="1" minOccurs="0">
+    			<complexType>
+    				<sequence>
+    					<element name="exciterName" type="string"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
+
+
+    					<element name="TR" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="EFDMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
+    					<element name="EFDMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TB" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TC" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KA" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TA" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
+
+
+    					<element name="KF" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TF" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="KC" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
+
+
+
+
+    					<element name="VRMAX" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="VRMIN" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+
     				</sequence>
     			</complexType>
     		</element>
@@ -737,8 +747,10 @@
     						minOccurs="0">
     					</element>
 
-                        <element name="TR" type="pss:TimeXmlType" maxOccurs="1" minOccurs="0"></element>
-                        <element name="KA" type="pss:PerUnitXmlType"
+    					<element name="TR" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="KA" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TA" type="pss:TimeXmlType"
@@ -750,14 +762,14 @@
     					<element name="VRMIN" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KE" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KE" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TE" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-    					<element name="KF" type="pss:PerUnitXmlType" maxOccurs="1"
-    						minOccurs="1">
+    					<element name="KF" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TF" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
@@ -835,11 +847,14 @@
     						minOccurs="1">
     					</element>
 
-    					<element name="TR" type="pss:TimeXmlType" maxOccurs="1" minOccurs="0"></element>
+    					<element name="TR" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
     				</sequence>
     			</complexType>
     		</element>
-    		<element name="IEEE1981NewExcSystem" maxOccurs="1" minOccurs="0">
+    		<element name="IEEE1981NewExcSystem" maxOccurs="1"
+    			minOccurs="0">
     			<complexType>
     				<sequence>
     					<element name="exciterName" type="string"
@@ -942,10 +957,67 @@
     						maxOccurs="1" minOccurs="1">
     					</element>
 
-    					<element name="E1" type="double" maxOccurs="1" minOccurs="0"></element>
-    					<element name="E2" type="double" maxOccurs="1" minOccurs="0"></element>
+    					<element name="E1" type="double" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
+    					<element name="E2" type="double" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
     				</sequence>
-    			</complexType></element>
+    			</complexType>
+    		</element>
+    		<element name="IEEETypeDC2" maxOccurs="1" minOccurs="0">
+    		<complexType>
+    				<sequence>
+    					<element name="exciterName" type="string"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
+
+
+    					<element name="TR" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="KA" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="TA" type="pss:TimeXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="TB" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="TC" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="VRMAX" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="VRMIN" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="KE" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="TE" type="pss:TimeXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="KF" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+                        <element name="TF1" type="pss:TimeXmlType" maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="E1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="E2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+
+    				</sequence>
+    			</complexType>
+    		</element>
     	</sequence>
     </complexType>
 
@@ -1611,11 +1683,14 @@
     								<enumeration
     									value="deriavative_of_bus_voltage">
     								</enumeration>
+    								<enumeration
+    									value="0">
+    								</enumeration>
     							</restriction>
     						</simpleType>
     					</element>
     					<element name="firstRemoteBusId"
-    						type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1">
+    						type="string" maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="secondInputSignal" maxOccurs="1"
     						minOccurs="0">
@@ -1638,11 +1713,14 @@
     								<enumeration
     									value="deriavative_of_bus_voltage">
     								</enumeration>
+    								<enumeration
+    									value="0">
+    								</enumeration>
     							</restriction>
     						</simpleType>
     					</element>
     					<element name="secondRemoteBusId"
-    						type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0">
+    						type="string" maxOccurs="1" minOccurs="0">
     					</element>
     					<element name="K1" type="double" maxOccurs="1"
     						minOccurs="1">

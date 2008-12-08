@@ -52,7 +52,7 @@ public class BPABusRecord {
 		final int pqBus=2;
 		final int pvBus=3;		
         //busType		
-		if(strAry[0].equals("B ")||strAry[0].equals("BC")||strAry[0].equals("BT")||
+		if(strAry[0].equals("B")||strAry[0].equals("BC")||strAry[0].equals("BT")||
 				strAry[0].equals("BV")){
 			busType=pqBus;
 		}else if(strAry[0].equals("BE")||strAry[0].equals("BQ")||strAry[0].equals("BG")||
@@ -109,9 +109,10 @@ public class BPABusRecord {
 		if(!strAry[9].equals("")){
 			shuntVar= new Double(strAry[9]).doubleValue();
 		}		       
-		final double g = shuntMw/(baseKv*baseKv);
-		final double b = shuntVar/(baseKv*baseKv);
-		
+		double G = shuntMw/(baseKv*baseKv);
+		final double g=StringUtil.getNumberFormat(G);
+		double B = shuntVar/(baseKv*baseKv);
+		final double b=StringUtil.getNumberFormat(B);
 		// set pGenMax
 		double pGenMax=0.0;
 		if(!strAry[10].equals("")){
@@ -366,13 +367,13 @@ public class BPABusRecord {
 		
 		try{
 			//Columns  1- 2   Bus type
-		    strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2);			
+		    strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2); 
 			//Columns  3 code for modification			
 			strAry[1] = StringUtil.getStringReturnEmptyString(str,3, 3).trim();
 			//Columns 3-5   owner code
 			//Columns 6-13 busName  14-17 rated voltage
 			strAry[2] = StringUtil.getStringReturnEmptyString(str,4, 6).trim();
-			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();
+			strAry[3] = StringUtil.getStringReturnEmptyString(str,7, 14).trim();			
 			strAry[4] = StringUtil.getStringReturnEmptyString(str,15, 18).trim();
 			//Columns 18-19   zone name
 			strAry[5] = StringUtil.getStringReturnEmptyString(str,19, 20).trim();
@@ -390,8 +391,10 @@ public class BPABusRecord {
 			
 			// Columns 38-41 pmax
 			// Columns 42-46 pmax
-			strAry[10] = StringUtil.getStringReturnEmptyString(str,39, 42).trim();
-			strAry[11] = StringUtil.getStringReturnEmptyString(str,43, 47).trim();			
+			strAry[10] = StringUtil.getStringReturnEmptyString(str,39, 42).trim();			
+					
+			strAry[11] = StringUtil.getStringReturnEmptyString(str,43, 47).trim();
+			
 			//Qmax Qmin
 			strAry[12]= StringUtil.getStringReturnEmptyString(str,48, 52).trim();
 			strAry[13]= StringUtil.getStringReturnEmptyString(str,53, 57).trim();			

@@ -43,11 +43,13 @@ public class BPADynamicExciterRecord {
     	int type=0;
     	int EA=1;
     	int EC=2;
-    	int EK=3;
+    	int EK=3;    	
     	int FJ=4;
     	int FK=5;
     	int FQ=6;
     	int FV=7;
+    	int FF=8;
+    	int FA=9;
     	
     	if(strAry[0].equals("EA")){
     		type=EA;
@@ -63,6 +65,10 @@ public class BPADynamicExciterRecord {
     		type=FQ;
     	}else if(strAry[0].equals("FV")){
     		type=FV;
+    	}else if(strAry[0].equals("FF")){
+    		type=FF;
+    	}else if(strAry[0].equals("FA")){
+    		type=FA;
     	}
     	
     	if(type==EA||type==EC||type==EK){
@@ -74,15 +80,16 @@ public class BPADynamicExciterRecord {
     		String busId=strAry[1];
     		exc.addNewLocatedBus().setName(busId);  
     		//bus Voltage 
-    		double voltage=StringUtil.getDouble(strAry[12], 0.0);
+    		double voltage=StringUtil.getDouble(strAry[2], 0.0);
     		ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), 
     	    					voltage, VoltageXmlType.Unit.KV);
     		   		    		
     		//excId
-    		String excId="";
+    		String excId="1";
     		if(!strAry[3].equals("")){
-    			exc.addNewExcId().setName(excId);
-    		}    		
+    			excId=strAry[3];
+    		} 
+    		exc.addNewExcId().setName(excId);
     		//TR
     		double Tr=StringUtil.getDouble(strAry[4], 0.0);
     		ODMData2XmlHelper.setTimeData(type1968.addNewTR(), Tr, TimeXmlType.Unit.SEC);
@@ -135,7 +142,62 @@ public class BPADynamicExciterRecord {
     		ODMData2XmlHelper.setPUData(type1968.addNewVRMAX(), VRmax, PerUnitXmlType.Unit.PU);
     		ODMData2XmlHelper.setPUData(type1968.addNewVRMIN(), VRmin, PerUnitXmlType.Unit.PU);
     		
-    		// IEEE 1981 ST1
+    		//EXDC2
+    	}else if(type==FA){
+    		ExciterXmlType exc=parser.addNewExciter();
+    		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2);
+    		ExciterModelListXmlType.IEEETypeDC2 exc_dc2= exc.addNewExciterModel().addNewIEEETypeDC2();
+			//busId
+    		String busId=strAry[1];
+			exc.addNewLocatedBus().setName(busId);		
+			
+			//bus Voltage
+			double voltage= StringUtil.getDouble(strAry[2], 0.0);
+			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageXmlType.Unit.KV);
+			//excId
+			String excId="1";
+			if(!strAry[3].equals("")){
+				excId=strAry[3];				
+			}	
+			exc.addNewExcId().setName(excId);
+			//TR
+			
+			double Tr= StringUtil.getDouble(strAry[6], 0.0);
+			ODMData2XmlHelper.setTimeData(exc_dc2.addNewTR(), Tr, TimeXmlType.Unit.SEC);			
+			
+			// TB
+			double Tb= StringUtil.getDouble(strAry[9], 0.0);
+			ODMData2XmlHelper.setTimeData(exc_dc2.addNewTB(), Tb, TimeXmlType.Unit.SEC);
+			
+			//TC
+			double Tc= StringUtil.getDouble(strAry[10], 0.0);
+			ODMData2XmlHelper.setTimeData(exc_dc2.addNewTC(), Tc, TimeXmlType.Unit.SEC);
+			
+			//KA, KV for FE
+			double Ka= StringUtil.getDouble(strAry[11], 0.0);
+			ODMData2XmlHelper.setPUData(exc_dc2.addNewKA(), Ka, PerUnitXmlType.Unit.PU);			
+			// TA, TRH for FE
+			double Ta= StringUtil.getDouble(strAry[12], 0.0);
+			ODMData2XmlHelper.setTimeData(exc_dc2.addNewTA(), Ta, TimeXmlType.Unit.SEC);
+			
+			//VRmax, Vamax for FH
+			double Vrmax= StringUtil.getDouble(strAry[13], 0.0);
+			ODMData2XmlHelper.setPUData(exc_dc2.addNewVRMAX(), Vrmax, PerUnitXmlType.Unit.PU);
+			
+			//VRmin, Vamin			
+			double Vrmin= StringUtil.getDouble(strAry[14], 0.0);	
+			
+			ODMData2XmlHelper.setPUData(exc_dc2.addNewVRMIN(), Vrmin, PerUnitXmlType.Unit.PU);
+			
+			//Ke
+			double ke=StringUtil.getDouble(strAry[15], 0.0);
+			ODMData2XmlHelper.setPUData(exc_dc2.addNewKE(), ke, PerUnitXmlType.Unit.PU);
+			
+			//Te
+			double Te=StringUtil.getDouble(strAry[16], 0.0);
+			ODMData2XmlHelper.setTimeData(exc_dc2.addNewTE(), Te, TimeXmlType.Unit.SEC);
+			
+			// IEEE 1981 ST1
     	}else if(type==FK){
     		ExciterXmlType exc=parser.addNewExciter();
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_ST_1);
@@ -148,11 +210,12 @@ public class BPADynamicExciterRecord {
 			double voltage= StringUtil.getDouble(strAry[2], 0.0);
 			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageXmlType.Unit.KV);
 			//excId
-			String excId="";
+			String excId="1";
 			if(!strAry[3].equals("")){
 				excId=strAry[3];
-				exc.addNewExcId().setName(excId);
+				
 			}	
+			exc.addNewExcId().setName(excId);
 			//TR
 			
 			double Tr= StringUtil.getDouble(strAry[6], 0.0);
@@ -204,11 +267,11 @@ public class BPADynamicExciterRecord {
 			double voltage= StringUtil.getDouble(strAry[2], 0.0);
 			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageXmlType.Unit.KV);
 			//excId
-			String excId="";
+			String excId="1";
 			if(!strAry[3].equals("")){
-				excId=strAry[3];
-				exc.addNewExcId().setName(excId);
+				excId=strAry[3];				
 			}	
+			exc.addNewExcId().setName(excId);
 			// TB
 			double Tb= StringUtil.getDouble(strAry[9], 0.0);
 			ODMData2XmlHelper.setTimeData(BPAFJ.addNewTB(), Tb, TimeXmlType.Unit.SEC);
@@ -244,11 +307,11 @@ public class BPADynamicExciterRecord {
 			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), 
 					voltage, VoltageXmlType.Unit.KV);			
 			//excId
-			String excId="";
+			String excId="1";
 			if(!strAry[3].equals("")){
-				excId=strAry[3];
-				exc.addNewExcId().setName(excId);
+				excId=strAry[3];				
 			}			
+			exc.addNewExcId().setName(excId);
 			//Rc
 			double Rc=StringUtil.getDouble(strAry[4], 0.0);
 			ODMData2XmlHelper.setPUData(newExc.addNewRc(), Rc, PerUnitXmlType.Unit.PU);
@@ -306,15 +369,77 @@ public class BPADynamicExciterRecord {
 			ODMData2XmlHelper.setPUData(newExc.addNewKh(), kh, PerUnitXmlType.Unit.PU);
 			
 			
+    	}else if(type==FF){
+    		ExciterXmlType exc=parser.addNewExciter();
+    		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2);
+    		ExciterModelListXmlType.IEEE1981TypeAC2 newExc=exc.addNewExciterModel().addNewIEEE1981TypeAC2();
+    		
+			//busId
+    		String busId=strAry[1];
+			exc.addNewLocatedBus().setName(busId);
+			//bus Voltage
+			double voltage=StringUtil.getDouble(strAry[2], 0.0);
+			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), 
+					voltage, VoltageXmlType.Unit.KV);			
+			//excId
+			String excId="1";
+			if(!strAry[3].equals("")){
+				excId=strAry[3];				
+			}			
+			exc.addNewExcId().setName(excId);
+			//TR
+			double Tr=StringUtil.getDouble(strAry[6], 0.0);
+			ODMData2XmlHelper.setTimeData(newExc.addNewTR(), Tr, TimeXmlType.Unit.SEC);
+						
+			//Vamax
+			double Vamax=StringUtil.getDouble(strAry[7], 0.0);
+			ODMData2XmlHelper.setPUData(newExc.addNewVAMAX(), Vamax, PerUnitXmlType.Unit.PU);
+						
+			//Vamin
+			double Vamin=StringUtil.getDouble(strAry[8], 0.0);
+			ODMData2XmlHelper.setPUData(newExc.addNewVAMIN(), Vamin, PerUnitXmlType.Unit.PU);
+						
+			// Tb
+			double Tb=StringUtil.getDouble(strAry[9], 0.0);
+			ODMData2XmlHelper.setTimeData(newExc.addNewTB(), Tb, TimeXmlType.Unit.SEC);
+			
+			//Tc
+			double Tc=StringUtil.getDouble(strAry[10], 0.0);
+			ODMData2XmlHelper.setTimeData(newExc.addNewTC(), Tc, TimeXmlType.Unit.SEC);
+						
+			//Ka			
+			double Ka=StringUtil.getDouble(strAry[11], 0.0);
+			ODMData2XmlHelper.setPUData(newExc.addNewKA(), Ka, PerUnitXmlType.Unit.PU);
+						
+			// Ta			
+			double Ta=StringUtil.getDouble(strAry[12], 0.0);
+			ODMData2XmlHelper.setTimeData(newExc.addNewTA(), Ta, TimeXmlType.Unit.SEC);
+			
+			//Vrmax
+			double Vrmax=StringUtil.getDouble(strAry[13], 0.0);
+			ODMData2XmlHelper.setPUData(newExc.addNewVRMAX(), Vrmax, PerUnitXmlType.Unit.PU);
+						
+			//Vrmin
+			double Vrmin=StringUtil.getDouble(strAry[14], 0.0);
+			ODMData2XmlHelper.setPUData(newExc.addNewVRMIN(), Vrmin, PerUnitXmlType.Unit.PU);
+									
+			//Ke
+			double ke=StringUtil.getDouble(strAry[15], 0.0);
+			ODMData2XmlHelper.setPUData(newExc.addNewKE(), ke, PerUnitXmlType.Unit.PU);
+			
+			//Te
+			double Te=StringUtil.getDouble(strAry[16], 0.0);
+			ODMData2XmlHelper.setTimeData(newExc.addNewTE(), Te, TimeXmlType.Unit.SEC);
+		  		
+    		
     	}else if(str.substring(0, 2).trim().equals("FZ")||
     			str.substring(0, 2).trim().equals("F+")){
     		String busId=str.substring(3, 11).trim();
-        	String excId="";
+        	String excId="1";
         	if(!str.substring(15, 16).trim().equals("")){
         		excId=str.substring(15, 16).trim();
         	}    	
         	ExciterXmlType exc=ODMData2XmlHelper.getExciterRecord(tranSimu, busId, excId);
-        	
         	if(str.substring(0, 2).trim().equals("FZ")){
         		if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_ST_1)){        		
             		//KF
@@ -355,6 +480,75 @@ public class BPADynamicExciterRecord {
         			double Kc= StringUtil.getDouble(strAry[10], 0.0);
             		ODMData2XmlHelper.setPUData(exc.getExciterModel().getBPAFJ().addNewKC(), 
             				Kc, PerUnitXmlType.Unit.PU);
+            	}else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2)){
+            		           		
+            		//Se1            		
+            		double SE1=StringUtil.getDouble(strAry[4], 0.0);  
+            		exc.getExciterModel().getIEEETypeDC2().setSE1(SE1);
+            		//Se2            		
+            		double SE2=StringUtil.getDouble(strAry[5], 0.0);  
+            		exc.getExciterModel().getIEEETypeDC2().setSE1(SE2);
+            		// e1
+            		double E1=StringUtil.getDouble(strAry[7], 0.0);  
+            		exc.getExciterModel().getIEEETypeDC2().setE1(E1);
+            		// e2
+            		double E2=0.75*StringUtil.getDouble(strAry[7], 0.0);  
+            		exc.getExciterModel().getIEEETypeDC2().setE1(E2);
+            		//Kf
+        			double Kf= StringUtil.getDouble(strAry[8], 0.0);
+            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEETypeDC2().addNewKF(), 
+            				Kf, PerUnitXmlType.Unit.PU);
+            		// TF
+            		double TF= StringUtil.getDouble(strAry[9], 0.0);
+        			ODMData2XmlHelper.setTimeData(exc.getExciterModel().getIEEETypeDC2().addNewTF1(), 
+        					TF, TimeXmlType.Unit.SEC);
+        			
+            	}else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2)){
+            		           		
+            		//Se1            		
+            		double SE1=StringUtil.getDouble(strAry[4], 0.0);  
+            		exc.getExciterModel().getIEEE1981TypeAC2().setSE1(SE1);
+            		//Se2            		
+            		double SE2=StringUtil.getDouble(strAry[5], 0.0);  
+            		exc.getExciterModel().getIEEE1981TypeAC2().setSE1(SE2);
+            		// e1
+            		double E1=StringUtil.getDouble(strAry[7], 0.0);  
+            		exc.getExciterModel().getIEEE1981TypeAC2().setE1(E1);
+            		// e2
+            		double E2=0.75*StringUtil.getDouble(strAry[7], 0.0);  
+            		exc.getExciterModel().getIEEE1981TypeAC2().setE1(E2);
+            		//Kf
+        			double Kf= StringUtil.getDouble(strAry[8], 0.0);
+            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKF(), 
+            				Kf, PerUnitXmlType.Unit.PU);
+            		// TF
+            		double TF= StringUtil.getDouble(strAry[9], 0.0);
+        			ODMData2XmlHelper.setTimeData(exc.getExciterModel().getIEEE1981TypeAC2().addNewTF(), 
+        					TF, TimeXmlType.Unit.SEC);
+        			//Kc
+        			double Kc= StringUtil.getDouble(strAry[10], 0.0);
+            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKC(), 
+            				Kc, PerUnitXmlType.Unit.PU);
+            		//Kd
+        			double Kd= StringUtil.getDouble(strAry[11], 0.0);
+            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKD(), 
+            				Kd, PerUnitXmlType.Unit.PU);
+            		//Kb
+        			double Kb= StringUtil.getDouble(strAry[12], 0.0);
+            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKB(), 
+            				Kb, PerUnitXmlType.Unit.PU);
+            		//Kl
+        			double Kl= StringUtil.getDouble(strAry[13], 0.0);
+            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKL(), 
+            				Kl, PerUnitXmlType.Unit.PU);
+            		//Kh
+        			double Kh= StringUtil.getDouble(strAry[14], 0.0);
+            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKH(), 
+            				Kh, PerUnitXmlType.Unit.PU);
+            		//vlr
+        			double vlr= StringUtil.getDouble(strAry[15], 0.0);
+            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewVLR(), 
+            				vlr, PerUnitXmlType.Unit.PU);
             	}
         		
         	}else if(str.substring(0, 2).trim().equals("F+")){

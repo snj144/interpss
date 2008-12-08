@@ -24,6 +24,8 @@
 
 package org.ieee.pes.odm.pss.model;
 
+import java.text.DecimalFormat;
+
 public class StringUtil {
 	/**
 	 * convert charters [beginCol, endCol] of the input string to a double. Return 0.0 number if empty. 
@@ -52,7 +54,7 @@ public class StringUtil {
 	public static double getDouble(String str, double defaultValue) {
 		try {
 			return new Double(str.trim()).doubleValue();
-		} catch (Exception e) {
+		} catch (Exception e) {	
 			return defaultValue;
 		}
 	}
@@ -119,6 +121,16 @@ public class StringUtil {
 			    return str.substring(beginCol-1, str.length());
 		     }
 		return str.substring(beginCol-1, endCol).trim();
+	}
+	public static double getNumberFormat(double d){
+		DecimalFormat   format=new   DecimalFormat("###0.0000");
+		String str="";
+		str=format.format(d);
+		double e=Double.parseDouble(str);
+		//if(e==0.00000){
+		//	e=0.0;
+		//}
+		return e;
 	}
 	
 	
