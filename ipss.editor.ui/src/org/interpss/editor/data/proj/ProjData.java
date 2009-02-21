@@ -58,6 +58,7 @@ public class ProjData extends BaseDataBean implements IProjectData {
 
 	/* current case name */
 	private String dclfCaseName = null;
+	private String pTradingCaseName = null;
 	private String aclfCaseName = null;
 	private String acscCaseName = null;
 	private String dStabCaseName = null;
@@ -120,6 +121,13 @@ public class ProjData extends BaseDataBean implements IProjectData {
 		this.dclfCaseName = dclfCaseName;
 	}
 	
+	public String getPTradingCaseName() {
+		return pTradingCaseName;
+	}
+	public void setPTradingCaseName(String n) {
+		this.pTradingCaseName = n;
+	}
+
 	/**
 	 * @return Returns the aclfCaseName.
 	 */
