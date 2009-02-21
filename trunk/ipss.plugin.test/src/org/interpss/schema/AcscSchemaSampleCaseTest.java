@@ -40,7 +40,7 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultNetwork;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.util.sample.SampleCases;
+import com.interpss.simu.util.sample.SampleCases;
 
 public class AcscSchemaSampleCaseTest extends BaseTestSetup {
 	@Test
