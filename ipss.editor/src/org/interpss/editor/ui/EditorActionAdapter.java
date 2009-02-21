@@ -146,8 +146,8 @@ public class EditorActionAdapter {
 		simuCtx.setDclfAlgorithm(CoreSpringAppContext.getDclfAlgorithm());
 
 		try {
-			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.SenAnalysis,
-					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.SenAnalysis).getFilePathName());
+			ICaseInfoDialog dialog = SimuAppSpringAppContext.getCaseInfoDialog(SimuRunType.TradingAnalysis,
+					ProjectFileUtil.getProjectStdRunCaseFile(doc, SimuRunType.TradingAnalysis).getFilePathName());
 			dialog.init(gFormContainer, appSimuCtx);
 			if (dialog.isReturnOk()) {
 				SimuRunWorker worker = new SimuRunWorker("TradingAnalysis SimuRunWorker");
