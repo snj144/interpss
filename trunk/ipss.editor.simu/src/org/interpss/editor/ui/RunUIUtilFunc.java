@@ -47,6 +47,7 @@ public class RunUIUtilFunc  {
 	public static String Template_RunCase_Acsc = "template/RunCaseAcscTemplate.xml";
 	public static String Template_RunCase_DStab = "template/RunCaseDStabTemplate.xml";
 	public static String Template_RunCase_SenAnalysis = "template/RunCaseSenAnalysisTemplate.xml";	
+	public static String Template_RunCase_PTAnalysis = "template/RunCasePTAnalysisTemplate.xml";	
 	
 	public static enum NetIdType {LoadBus, GenBus, AllBus, LineBranch, XfrBranch, AllBranch,
 										AreaNo, BusInArea, GenInArea, GenInAreaDFactor}
@@ -174,6 +175,9 @@ public class RunUIUtilFunc  {
 		}
 		else if (caseType == SimuRunType.SenAnalysis) {
 			filename = Template_RunCase_SenAnalysis;
+		}
+		else if (caseType == SimuRunType.TradingAnalysis) {
+			filename = Template_RunCase_PTAnalysis;
 		}
 		else if (caseType == SimuRunType.Acsc) {
 			filename = Template_RunCase_Acsc;
