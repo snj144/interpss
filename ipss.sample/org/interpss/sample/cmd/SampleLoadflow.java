@@ -34,7 +34,7 @@ import com.interpss.common.msg.TextMessage;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.core.util.sample.SampleCases;
+import com.interpss.simu.util.sample.SampleCases;
 
 
 public class SampleLoadflow {
