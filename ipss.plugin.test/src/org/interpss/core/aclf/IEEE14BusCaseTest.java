@@ -15,10 +15,10 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.util.sample.SampleCases;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.util.sample.SampleCases;
 
 public class IEEE14BusCaseTest  extends BaseTestSetup {
 	@Test

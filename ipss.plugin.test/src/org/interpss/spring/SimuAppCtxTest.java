@@ -41,9 +41,9 @@ import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.algorithm.SimpleFaultAlgorithm;
-import com.interpss.core.util.sample.SampleCases;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuSpringAppContext;
+import com.interpss.simu.util.sample.SampleCases;
 
 public class SimuAppCtxTest extends BaseTestSetup {
 	
