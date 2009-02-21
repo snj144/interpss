@@ -35,8 +35,8 @@ import com.interpss.core.acsc.AcscBranchFault;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
 import com.interpss.core.acsc.XfrConnectCode;
-import com.interpss.core.util.input.AcscInputUtilFunc;
 import com.interpss.simu.SimuSpringAppContext;
+import com.interpss.simu.util.input.AcscInputUtilFunc;
 
 public class AcscFixture extends AclfBuildFixture {
 	private static AcscBusFault acscFault = null;

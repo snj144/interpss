@@ -35,8 +35,8 @@ import com.interpss.core.aclf.CapacitorBusAdapter;
 import com.interpss.core.aclf.PQBusAdapter;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
-import com.interpss.core.util.input.AclfInputUtilFunc;
 import com.interpss.simu.SimuSpringAppContext;
+import com.interpss.simu.util.input.AclfInputUtilFunc;
 
 public class AclfBuildFixture extends AclfFixture {
 	

@@ -38,7 +38,7 @@ import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
-import com.interpss.core.util.input.AclfAdjInputUtilFunc;
+import com.interpss.simu.util.input.AclfAdjInputUtilFunc;
 
 public class AclfAdjFixture extends AclfBuildFixture {
 	/*
