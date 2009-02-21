@@ -39,6 +39,7 @@ public class ProjectFileUtil {
 	public static String StdRunStudyCase_Acsc = "RunStudyCaseStdAcsc.xml";
 	public static String StdRunStudyCase_DStab = "RunStudyCaseStdDStab.xml";
 	public static String StdRunStudyCase_SenAnalysis = "RunStudyCaseStdSenAnalysis.xml";
+	public static String StdRunStudyCase_PTradingAnalysis = "RunStudyCasePTradingAnalysis.xml";
 	
 	public static String ScriptingRunStudyCase = "RunStudyCaseScripting.xml";
 
@@ -50,6 +51,8 @@ public class ProjectFileUtil {
 			return getProjectFile(doc, StdRunStudyCase_Aclf);
 		else if (caseType == SimuRunType.SenAnalysis)
 			return getProjectFile(doc, StdRunStudyCase_SenAnalysis);
+		else if (caseType == SimuRunType.TradingAnalysis)
+			return getProjectFile(doc, StdRunStudyCase_PTradingAnalysis);
 		else if (caseType == SimuRunType.Acsc)
 			return getProjectFile(doc, StdRunStudyCase_Acsc);
 		else if (caseType == SimuRunType.DStab)
