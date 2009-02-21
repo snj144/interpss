@@ -45,6 +45,7 @@ import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.InterPSSDocument;
+import org.interpss.schema.TradingStudyCaseXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
@@ -116,11 +117,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			caseDataPanel.add(_dclfCaseInfoPanel);
 			_dclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}
-		else if (_caseType == SimuRunType.SenAnalysis) {
-			this.setTitle("Run Sensitivity Analysis");
+		else if (_caseType == SimuRunType.TradingAnalysis) {
+			this.setTitle("Run Trading Analysis");
 			this.runButton.setText("Save");
-			caseDataPanel.add(_dclfCaseInfoPanel);
-			_dclfCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
+			caseDataPanel.add(this._tradingCaseInfoPanel);
+			_tradingCaseInfoPanel.init(netContainer, _appSimuCtx.getSimuCtx());
 		}
 		else if (_caseType == SimuRunType.Acsc) {
 			this.setTitle("Run Acsc Short Circuit Analysis");
@@ -221,6 +222,15 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			// set the case data to the actual data editing panel
 			_dclfCaseInfoPanel.setForm2Editor();
 		}
+		else if (_caseType == SimuRunType.TradingAnalysis) {
+			String casename = getCaseName(SimuRunType.TradingAnalysis);
+			TradingStudyCaseXmlType scase = this.studyCaseXmlDoc.getTradingStudyCase(casename);
+			this.descTextArea.setText(scase.getRecDesc());
+			// set the case data to the actual data editing panel
+			_tradingCaseInfoPanel.setXmlCaseData(scase);
+			// set the case data to the actual data editing panel
+			_tradingCaseInfoPanel.setForm2Editor();
+		}
 		else if (_caseType == SimuRunType.Acsc) {
 			String casename = getCaseName(SimuRunType.Acsc);
 			AcscStudyCaseXmlType scase = this.studyCaseXmlDoc.getAcscStudyCase(casename);
@@ -275,6 +285,11 @@ public class NBCaseInfoDialog extends javax.swing.JDialog implements ICaseInfoDi
 			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getDclfStudyCaseNameArray()));
 			casename = selectCase(projData.getDclfCaseName());
 			projData.setDclfCaseName(casename);
+		}
+		else if (caseType == SimuRunType.TradingAnalysis) {
+			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getTradingStudyCaseNameArray()));
+			casename = selectCase(projData.getPTradingCaseName());
+			projData.setPTradingCaseName(casename);
 		}
 		else if (caseType == SimuRunType.Acsc) {
 			this.casenameComboBox.setModel(new javax.swing.DefaultComboBoxModel(this.studyCaseXmlDoc.getAcscStudyCaseNameArray()));

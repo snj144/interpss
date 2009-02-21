@@ -1,5 +1,5 @@
  /*
-  * @(#)NBAclfCasePanel.java   
+  * @(#)NBTradingAnalysisCasePanel.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -37,8 +37,8 @@ import org.interpss.editor.ui.UISpringAppContext;
 import org.interpss.schema.AreaRecXmlType;
 import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.schema.BranchRecXmlType;
-import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
+import org.interpss.schema.TradingStudyCaseXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.interpss.xml.StudyCaseHanlder;
 
@@ -58,6 +58,7 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
     private SimuContext _simuCtx = null;
 
     // holds the current case data being edited
+	private TradingStudyCaseXmlType tradingCase = null;;
 	private AreaTransferAnalysisXmlType areaTransfer = null;;
     
     /** Creates new form NBAclfCasePanel */
@@ -87,7 +88,7 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 	    //_netContainer = (GFormContainer)netContainer;
 	    _simuCtx = (SimuContext)simuCtx;
 	    
-		this.atFromAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(
+		this.tradeFromAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AreaNo).toArray()));
 		this.atToAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.AreaNo).toArray()));
@@ -99,12 +100,12 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
     	_caseData = data;
     }
  */   
-    public void setXmlCaseData(DclfStudyCaseXmlType xmlCaseData) {
-    	if (xmlCaseData.getPTransferDistFactorArray().length == 0)
-    		StudyCaseHanlder.addNewTDFactor(xmlCaseData);
-    	if (xmlCaseData.getAreaTransferAnalysisArray().length == 0)
-    		StudyCaseHanlder.addNewAreaTransfer(xmlCaseData);
-    	this.areaTransfer = xmlCaseData.getAreaTransferAnalysisArray(0);
+    public void setXmlCaseData(TradingStudyCaseXmlType xmlCaseData) {
+    	if (xmlCaseData.getAreaTransferAnalysisArray()[0] != null) {
+    		AreaTransferAnalysisXmlType areaTrans = xmlCaseData.addNewAreaTransferAnalysis();
+    		StudyCaseHanlder.setNewAreaTransfer(areaTrans);
+    	}
+    	this.areaTransfer = xmlCaseData.getAreaTransferAnalysisArray()[0];
     }    
     
 	/**
@@ -122,16 +123,16 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 	}
 
 	public boolean setAreaTransfer2Editor() {
-		this.atTransAmtTextField.setText(String.format("%4.2f", this.areaTransfer.getTransderAmountMW()));
-		this.atTransAmtUnitComboBox.setSelectedItem("MW");
+		this.tradeTransAmtTextField.setText(String.format("%4.2f", this.areaTransfer.getTransderAmountMW()));
+		this.tradeTransAmtUnitComboBox.setSelectedItem("MW");
 		
 		AreaRecXmlType area = this.areaTransfer.getFromArea(); 
 		if (area == null) {
 			area = this.areaTransfer.addNewFromArea();
-			String no = (String)this.atFromAreaComboBox.getSelectedItem();
+			String no = (String)this.tradeFromAreaComboBox.getSelectedItem();
 			area.setAreaNo(new Integer(no).intValue());
 		}
-		this.atFromAreaComboBox.setSelectedItem(new Integer(area.getAreaNo()).toString());
+		this.tradeFromAreaComboBox.setSelectedItem(new Integer(area.getAreaNo()).toString());
 			
 		area = this.areaTransfer.getToArea();
 		if (area == null) {
@@ -142,16 +143,16 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 		this.atToAreaComboBox.setSelectedItem(new Integer(area.getAreaNo()).toString());
 
 		if (this.areaTransfer.getDeratingFactor() != 0.0)
-			atDeratingFactorTextField.setText(String.format("%4.2f", this.areaTransfer.getDeratingFactor()));
+			tradeDeratingFactorTextField.setText(String.format("%4.2f", this.areaTransfer.getDeratingFactor()));
 		else
-			atDeratingFactorTextField.setText("1.00");
+			tradeDeratingFactorTextField.setText("1.00");
 			
 		if (this.areaTransfer.getInjectBusList() != null && this.areaTransfer.getInjectBusList().sizeOfInjectBusArray() > 0) {
-			atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+			tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
 	    			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
 		}
 		else
-			atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+			tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
 				RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenInAreaDFactor, 
 						this.areaTransfer.getFromArea().getAreaNo()).toArray()));
 
@@ -167,8 +168,8 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
     	atMeasBranchList.setModel(new javax.swing.DefaultComboBoxModel(
 		    			IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
 
-    	atFromDFactorEditTextField.setEnabled(false);
-    	atFromAreaUpdateButton.setEnabled(false);
+    	tradeFromDFactorEditTextField.setEnabled(false);
+    	tradeFromAreaUpdateButton.setEnabled(false);
     	atToDFactorEditTextField.setEnabled(false);
     	atToAreaUpdateButton.setEnabled(false);
 
@@ -188,18 +189,18 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 	}
 
 	public boolean saveEditor2AreaTransfer() {
-		double amt = new Double(this.atTransAmtTextField.getText()).doubleValue();
-		this.areaTransfer.setTransderAmountMW(((String)this.atTransAmtUnitComboBox.getSelectedItem()).equals("MW")?
+		double amt = new Double(this.tradeTransAmtTextField.getText()).doubleValue();
+		this.areaTransfer.setTransderAmountMW(((String)this.tradeTransAmtUnitComboBox.getSelectedItem()).equals("MW")?
 							amt : amt * _simuCtx.getNetwork().getBaseKva()/1000.0);
 
-		String no = (String)this.atFromAreaComboBox.getSelectedItem();
+		String no = (String)this.tradeFromAreaComboBox.getSelectedItem();
 		this.areaTransfer.getFromArea().setAreaNo(new Integer(no).intValue());
 			
 		no = (String)this.atToAreaComboBox.getSelectedItem();
 		this.areaTransfer.getToArea().setAreaNo(new Integer(no).intValue());
 
 		this.areaTransfer.setDeratingFactor(
-				new Double(atDeratingFactorTextField.getText()).doubleValue());
+				new Double(tradeDeratingFactorTextField.getText()).doubleValue());
 
 		saveFromAreaBusList2AreaTransfer();
 		saveToAreaBusList2AreaTransfer();
@@ -210,9 +211,9 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
 	private void saveFromAreaBusList2AreaTransfer() {
 		areaTransfer.setInjectBusList(null);
 		areaTransfer.addNewInjectBusList();
-		for(int i = 0; i < atFromAreaBusList.getModel().getSize(); i++) {
+		for(int i = 0; i < tradeFromAreaBusList.getModel().getSize(); i++) {
 			SenAnalysisBusRecXmlType busRec = areaTransfer.getInjectBusList().addNewInjectBus();
-			String elem = (String)atFromAreaBusList.getModel().getElementAt(i);
+			String elem = (String)tradeFromAreaBusList.getModel().getElementAt(i);
 			busRec.setBusId(RunUIUtilFunc.getId_IdPercent(elem));
 			busRec.setPercent(RunUIUtilFunc.getPercent_IdPercent(elem));
 		}
@@ -238,194 +239,201 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
     private void initComponents() {
 
         tradingTypeButtonGroup = new javax.swing.ButtonGroup();
-        atTradeLabel = new javax.swing.JLabel();
-        atTradeComboBox = new javax.swing.JComboBox();
-        atTradeAddButton = new javax.swing.JButton();
-        atTradeDeleteButton = new javax.swing.JButton();
+        tradeLabel = new javax.swing.JLabel();
+        tradeComboBox = new javax.swing.JComboBox();
+        tradeAddButton = new javax.swing.JButton();
+        tradeDeleteButton = new javax.swing.JButton();
         zonalRadioButton = new javax.swing.JRadioButton();
         nodalRadioButton = new javax.swing.JRadioButton();
-        atInfoEditPanel = new javax.swing.JPanel();
-        atTransAmtLabel = new javax.swing.JLabel();
-        atTransAmtTextField = new javax.swing.JTextField();
-        atTransAmtUnitComboBox = new javax.swing.JComboBox();
-        atFromAreaLabel = new javax.swing.JLabel();
-        atFromAreaComboBox = new javax.swing.JComboBox();
-        atToAreaLabel = new javax.swing.JLabel();
-        atToAreaComboBox = new javax.swing.JComboBox();
-        atDeratingFactorLabel = new javax.swing.JLabel();
-        atDeratingFactorTextField = new javax.swing.JTextField();
-        atFromDFPanel = new javax.swing.JPanel();
-        atFromAreaScrollPane = new javax.swing.JScrollPane();
-        atFromAreaBusList = new javax.swing.JList();
-        atFromAreaUpdateButton = new javax.swing.JButton();
-        atFromDFactorEditTextField = new javax.swing.JTextField();
-        atFromAreaEditButton = new javax.swing.JButton();
-        atFromAreaRemoveButton = new javax.swing.JButton();
-        atToDFPanel = new javax.swing.JPanel();
+        tradeInfoEditPanel = new javax.swing.JPanel();
+        tradeTransAmtLabel = new javax.swing.JLabel();
+        tradeTransAmtTextField = new javax.swing.JTextField();
+        tradeTransAmtUnitComboBox = new javax.swing.JComboBox();
+        tradeDeratingFactorLabel = new javax.swing.JLabel();
+        tradeDeratingFactorTextField = new javax.swing.JTextField();
+        tradeFromDFPanel = new javax.swing.JPanel();
+        tradeFromAreaLabel = new javax.swing.JLabel();
+        tradeFromAreaComboBox = new javax.swing.JComboBox();
+        tradeFromAreaScrollPane = new javax.swing.JScrollPane();
+        tradeFromAreaBusList = new javax.swing.JList();
+        tradeFromAreaEditButton = new javax.swing.JButton();
+        tradeFromAreaUpdateButton = new javax.swing.JButton();
+        tradeFromDFactorEditTextField = new javax.swing.JTextField();
+        tradeFromAreaRemoveButton = new javax.swing.JButton();
+        tradeToDFPanel = new javax.swing.JPanel();
         atToAreaScrollPane = new javax.swing.JScrollPane();
         atToAreaBusList = new javax.swing.JList();
         atToAreaEditButton = new javax.swing.JButton();
         atToDFactorEditTextField = new javax.swing.JTextField();
         atToAreaUpdateButton = new javax.swing.JButton();
         atToAreaRemoveButton = new javax.swing.JButton();
-        atMeasBranchPanel = new javax.swing.JPanel();
+        atToAreaLabel = new javax.swing.JLabel();
+        atToAreaComboBox = new javax.swing.JComboBox();
+        tradeMeasBranchPanel = new javax.swing.JPanel();
         atBranchListComboBox = new javax.swing.JComboBox();
         atAddBranchButton = new javax.swing.JButton();
-        atInterfaceListComboBox = new javax.swing.JComboBox();
-        atAddInterfaceButton = new javax.swing.JButton();
         atBranchListScrollPane = new javax.swing.JScrollPane();
         atMeasBranchList = new javax.swing.JList();
         atRemoveBranchButton = new javax.swing.JButton();
-        atCalculateButton = new javax.swing.JButton();
-        atAclfCalculateButton = new javax.swing.JButton();
-        atSeAssessButton = new javax.swing.JButton();
+        tradeMeasInterfacePanel = new javax.swing.JPanel();
+        atAddBranchButton1 = new javax.swing.JButton();
+        atBranchListScrollPane1 = new javax.swing.JScrollPane();
+        atMeasBranchList1 = new javax.swing.JList();
+        atRemoveBranchButton1 = new javax.swing.JButton();
+        atInterfaceListComboBox = new javax.swing.JComboBox();
+        tradeCalculateButton = new javax.swing.JButton();
+        tradeAclfCalculateButton = new javax.swing.JButton();
+        tradeSeAssessButton = new javax.swing.JButton();
 
-        atTradeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        atTradeLabel.setText("Trade");
+        tradeLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeLabel.setText("Trade");
 
-        atTradeComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        atTradeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        atTradeComboBox.setEnabled(false);
-        atTradeComboBox.addActionListener(new java.awt.event.ActionListener() {
+        tradeComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        tradeComboBox.setEnabled(false);
+        tradeComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atTradeComboBoxActionPerformed(evt);
+                tradeComboBoxActionPerformed(evt);
             }
         });
 
-        atTradeAddButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atTradeAddButton.setText("Add");
-        atTradeAddButton.setEnabled(false);
-        atTradeAddButton.addActionListener(new java.awt.event.ActionListener() {
+        tradeAddButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeAddButton.setText("Add");
+        tradeAddButton.setEnabled(false);
+        tradeAddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atTradeAddButtonActionPerformed(evt);
+                tradeAddButtonActionPerformed(evt);
             }
         });
 
-        atTradeDeleteButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atTradeDeleteButton.setText("Delete");
-        atTradeDeleteButton.setEnabled(false);
-        atTradeDeleteButton.addActionListener(new java.awt.event.ActionListener() {
+        tradeDeleteButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeDeleteButton.setText("Delete");
+        tradeDeleteButton.setEnabled(false);
+        tradeDeleteButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atTradeDeleteButtonActionPerformed(evt);
+                tradeDeleteButtonActionPerformed(evt);
             }
         });
 
         tradingTypeButtonGroup.add(zonalRadioButton);
-        zonalRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
+        zonalRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         zonalRadioButton.setSelected(true);
         zonalRadioButton.setText("Zonal");
 
         tradingTypeButtonGroup.add(nodalRadioButton);
-        nodalRadioButton.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        nodalRadioButton.setFont(new java.awt.Font("Dialog", 0, 12));
         nodalRadioButton.setText("Nodal");
 
-        atTransAmtLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        atTransAmtLabel.setText("Transfer Amount");
+        tradeTransAmtLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeTransAmtLabel.setText("Transfer Amount");
 
-        atTransAmtTextField.setColumns(5);
-        atTransAmtTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        atTransAmtTextField.setText("100.0");
+        tradeTransAmtTextField.setColumns(5);
+        tradeTransAmtTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeTransAmtTextField.setText("100.0");
 
-        atTransAmtUnitComboBox.setFont(new java.awt.Font("Dialog", 0, 10));
-        atTransAmtUnitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MW", "PU" }));
+        tradeTransAmtUnitComboBox.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeTransAmtUnitComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "MW", "PU" }));
 
-        atFromAreaLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        atFromAreaLabel.setText("From Area   ");
+        tradeDeratingFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeDeratingFactorLabel.setText("Derating Factor");
 
-        atFromAreaComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        atFromAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
-        atFromAreaComboBox.addActionListener(new java.awt.event.ActionListener() {
+        tradeDeratingFactorTextField.setColumns(3);
+        tradeDeratingFactorTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeDeratingFactorTextField.setText("1.00");
+
+        tradeFromDFPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "From Area DistFactor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+
+        tradeFromAreaLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeFromAreaLabel.setText("From Area   ");
+
+        tradeFromAreaComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeFromAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
+        tradeFromAreaComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atFromAreaComboBoxActionPerformed(evt);
+                tradeFromAreaComboBoxActionPerformed(evt);
             }
         });
 
-        atToAreaLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        atToAreaLabel.setText("To Area   ");
+        tradeFromAreaBusList.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeFromAreaScrollPane.setViewportView(tradeFromAreaBusList);
 
-        atToAreaComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        atToAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
-        atToAreaComboBox.addActionListener(new java.awt.event.ActionListener() {
+        tradeFromAreaEditButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeFromAreaEditButton.setText("Edit");
+        tradeFromAreaEditButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atToAreaComboBoxActionPerformed(evt);
+                tradeFromAreaEditButtonActionPerformed(evt);
             }
         });
 
-        atDeratingFactorLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        atDeratingFactorLabel.setText("Derating Factor");
-
-        atDeratingFactorTextField.setColumns(3);
-        atDeratingFactorTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        atDeratingFactorTextField.setText("1.00");
-
-        atFromDFPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "From Area DistFactor", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
-
-        atFromAreaBusList.setFont(new java.awt.Font("Dialog", 0, 12));
-        atFromAreaScrollPane.setViewportView(atFromAreaBusList);
-
-        atFromAreaUpdateButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atFromAreaUpdateButton.setText("U");
-        atFromAreaUpdateButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
-        atFromAreaUpdateButton.addActionListener(new java.awt.event.ActionListener() {
+        tradeFromAreaUpdateButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeFromAreaUpdateButton.setText("U");
+        tradeFromAreaUpdateButton.setMargin(new java.awt.Insets(2, 4, 2, 4));
+        tradeFromAreaUpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atFromAreaUpdateButtonActionPerformed(evt);
+                tradeFromAreaUpdateButtonActionPerformed(evt);
             }
         });
 
-        atFromDFactorEditTextField.setColumns(5);
-        atFromDFactorEditTextField.setFont(new java.awt.Font("Dialog", 0, 12));
-        atFromDFactorEditTextField.setText("100.0");
+        tradeFromDFactorEditTextField.setColumns(5);
+        tradeFromDFactorEditTextField.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        tradeFromDFactorEditTextField.setText("100.0");
 
-        atFromAreaEditButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atFromAreaEditButton.setText("Edit");
-        atFromAreaEditButton.addActionListener(new java.awt.event.ActionListener() {
+        tradeFromAreaRemoveButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeFromAreaRemoveButton.setText("Remove");
+        tradeFromAreaRemoveButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atFromAreaEditButtonActionPerformed(evt);
+                tradeFromAreaRemoveButtonActionPerformed(evt);
             }
         });
 
-        atFromAreaRemoveButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atFromAreaRemoveButton.setText("Remove");
-        atFromAreaRemoveButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atFromAreaRemoveButtonActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout atFromDFPanelLayout = new org.jdesktop.layout.GroupLayout(atFromDFPanel);
-        atFromDFPanel.setLayout(atFromDFPanelLayout);
-        atFromDFPanelLayout.setHorizontalGroup(
-            atFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(atFromDFPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(atFromAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
-                .add(atFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(atFromDFPanelLayout.createSequentialGroup()
-                        .add(atFromDFactorEditTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(atFromAreaUpdateButton))
-                    .add(atFromAreaRemoveButton)
-                    .add(atFromAreaEditButton))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        org.jdesktop.layout.GroupLayout tradeFromDFPanelLayout = new org.jdesktop.layout.GroupLayout(tradeFromDFPanel);
+        tradeFromDFPanel.setLayout(tradeFromDFPanelLayout);
+        tradeFromDFPanelLayout.setHorizontalGroup(
+            tradeFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tradeFromDFPanelLayout.createSequentialGroup()
+                .add(tradeFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(tradeFromDFPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(tradeFromAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(6, 6, 6)
+                        .add(tradeFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(tradeFromAreaRemoveButton)
+                            .add(tradeFromDFPanelLayout.createSequentialGroup()
+                                .add(tradeFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                    .add(tradeFromDFactorEditTextField, 0, 0, Short.MAX_VALUE)
+                                    .add(tradeFromAreaEditButton))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(tradeFromAreaUpdateButton))))
+                    .add(tradeFromDFPanelLayout.createSequentialGroup()
+                        .add(11, 11, 11)
+                        .add(tradeFromAreaLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(tradeFromAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 72, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
-        atFromDFPanelLayout.setVerticalGroup(
-            atFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(atFromAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-            .add(atFromDFPanelLayout.createSequentialGroup()
-                .add(atFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(atFromDFPanelLayout.createSequentialGroup()
-                        .add(atFromAreaEditButton)
+        tradeFromDFPanelLayout.setVerticalGroup(
+            tradeFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, tradeFromDFPanelLayout.createSequentialGroup()
+                .add(tradeFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(tradeFromAreaLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .add(tradeFromAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(12, 12, 12)
+                .add(tradeFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(tradeFromAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tradeFromDFPanelLayout.createSequentialGroup()
+                        .add(tradeFromAreaEditButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(atFromDFactorEditTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(atFromAreaUpdateButton))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atFromAreaRemoveButton))
+                        .add(tradeFromDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                            .add(tradeFromDFactorEditTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(tradeFromAreaUpdateButton))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(tradeFromAreaRemoveButton)))
+                .addContainerGap())
         );
 
-        atToDFPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("To Area DistFactor"));
+        tradeToDFPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("To Area DistFactor"));
 
-        atToAreaBusList.setFont(new java.awt.Font("Dialog", 0, 12));
+        atToAreaBusList.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         atToAreaScrollPane.setViewportView(atToAreaBusList);
 
         atToAreaEditButton.setFont(new java.awt.Font("Dialog", 0, 10));
@@ -457,67 +465,80 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
             }
         });
 
-        org.jdesktop.layout.GroupLayout atToDFPanelLayout = new org.jdesktop.layout.GroupLayout(atToDFPanel);
-        atToDFPanel.setLayout(atToDFPanelLayout);
-        atToDFPanelLayout.setHorizontalGroup(
-            atToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, atToDFPanelLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(atToAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
-                .add(atToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(atToAreaEditButton)
-                    .add(atToDFPanelLayout.createSequentialGroup()
-                        .add(atToDFactorEditTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+        atToAreaLabel.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atToAreaLabel.setText("To Area   ");
+
+        atToAreaComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atToAreaComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1" }));
+        atToAreaComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                atToAreaComboBoxActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout tradeToDFPanelLayout = new org.jdesktop.layout.GroupLayout(tradeToDFPanel);
+        tradeToDFPanel.setLayout(tradeToDFPanelLayout);
+        tradeToDFPanelLayout.setHorizontalGroup(
+            tradeToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tradeToDFPanelLayout.createSequentialGroup()
+                .add(tradeToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, tradeToDFPanelLayout.createSequentialGroup()
+                        .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(atToAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(atToAreaUpdateButton))
-                    .add(atToAreaRemoveButton))
+                        .add(tradeToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(atToAreaRemoveButton)
+                            .add(tradeToDFPanelLayout.createSequentialGroup()
+                                .add(tradeToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                                    .add(atToDFactorEditTextField, 0, 0, Short.MAX_VALUE)
+                                    .add(atToAreaEditButton))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(atToAreaUpdateButton))))
+                    .add(tradeToDFPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(atToAreaLabel)
+                        .add(18, 18, 18)
+                        .add(atToAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 63, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
-        atToDFPanelLayout.setVerticalGroup(
-            atToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(atToDFPanelLayout.createSequentialGroup()
-                .add(atToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        tradeToDFPanelLayout.setVerticalGroup(
+            tradeToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, tradeToDFPanelLayout.createSequentialGroup()
+                .add(tradeToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(atToAreaLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 27, Short.MAX_VALUE)
+                    .add(atToAreaComboBox))
+                .add(13, 13, 13)
+                .add(tradeToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(atToAreaScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 96, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(atToDFPanelLayout.createSequentialGroup()
-                        .add(atToAreaEditButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(atToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(atToDFactorEditTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tradeToDFPanelLayout.createSequentialGroup()
+                        .add(tradeToDFPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(tradeToDFPanelLayout.createSequentialGroup()
+                                .add(atToAreaEditButton)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(atToDFactorEditTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(atToAreaUpdateButton))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(atToAreaRemoveButton)))
                 .addContainerGap())
         );
 
-        atMeasBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Meas Branch/Interface", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+        tradeMeasBranchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Meas Branch", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
 
         atBranchListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
         atBranchListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        atAddBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atAddBranchButton.setText("Add Branch");
+        atAddBranchButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        atAddBranchButton.setText("Add");
         atAddBranchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 atAddBranchButtonActionPerformed(evt);
             }
         });
 
-        atInterfaceListComboBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        atInterfaceListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        atAddInterfaceButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atAddInterfaceButton.setText("Add Interface");
-        atAddInterfaceButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atAddInterfaceButtonActionPerformed(evt);
-            }
-        });
-
-        atMeasBranchList.setFont(new java.awt.Font("Dialog", 0, 12));
+        atMeasBranchList.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
         atBranchListScrollPane.setViewportView(atMeasBranchList);
 
-        atRemoveBranchButton.setFont(new java.awt.Font("Dialog", 0, 10));
+        atRemoveBranchButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         atRemoveBranchButton.setText("Remove");
         atRemoveBranchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -525,122 +546,158 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
             }
         });
 
-        org.jdesktop.layout.GroupLayout atMeasBranchPanelLayout = new org.jdesktop.layout.GroupLayout(atMeasBranchPanel);
-        atMeasBranchPanel.setLayout(atMeasBranchPanelLayout);
-        atMeasBranchPanelLayout.setHorizontalGroup(
-            atMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(atMeasBranchPanelLayout.createSequentialGroup()
+        org.jdesktop.layout.GroupLayout tradeMeasBranchPanelLayout = new org.jdesktop.layout.GroupLayout(tradeMeasBranchPanel);
+        tradeMeasBranchPanel.setLayout(tradeMeasBranchPanelLayout);
+        tradeMeasBranchPanelLayout.setHorizontalGroup(
+            tradeMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tradeMeasBranchPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(atMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(atBranchListScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(atBranchListComboBox, 0, 138, Short.MAX_VALUE)
-                    .add(atAddBranchButton)
-                    .add(atInterfaceListComboBox, 0, 138, Short.MAX_VALUE)
-                    .add(atAddInterfaceButton)
-                    .add(atRemoveBranchButton))
-                .addContainerGap())
+                .add(tradeMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(tradeMeasBranchPanelLayout.createSequentialGroup()
+                        .add(atAddBranchButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(atRemoveBranchButton))
+                    .add(atBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 192, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(atBranchListScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 172, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
-        atMeasBranchPanelLayout.setVerticalGroup(
-            atMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(atMeasBranchPanelLayout.createSequentialGroup()
+        tradeMeasBranchPanelLayout.setVerticalGroup(
+            tradeMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tradeMeasBranchPanelLayout.createSequentialGroup()
                 .add(atBranchListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atAddBranchButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atInterfaceListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atAddInterfaceButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atBranchListScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 128, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atRemoveBranchButton)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(tradeMeasBranchPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(atAddBranchButton)
+                    .add(atRemoveBranchButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(atBranchListScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
-        org.jdesktop.layout.GroupLayout atInfoEditPanelLayout = new org.jdesktop.layout.GroupLayout(atInfoEditPanel);
-        atInfoEditPanel.setLayout(atInfoEditPanelLayout);
-        atInfoEditPanelLayout.setHorizontalGroup(
-            atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(atInfoEditPanelLayout.createSequentialGroup()
-                .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(atInfoEditPanelLayout.createSequentialGroup()
-                        .add(2, 2, 2)
-                        .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(atToDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(atFromDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .add(atInfoEditPanelLayout.createSequentialGroup()
-                        .add(53, 53, 53)
-                        .add(atDeratingFactorLabel)
-                        .add(29, 29, 29)
-                        .add(atDeratingFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .add(atInfoEditPanelLayout.createSequentialGroup()
+        tradeMeasInterfacePanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Meas Interface", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 0, 12))); // NOI18N
+
+        atAddBranchButton1.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        atAddBranchButton1.setText("Add");
+        atAddBranchButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                atAddBranchButton1ActionPerformed(evt);
+            }
+        });
+
+        atMeasBranchList1.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atBranchListScrollPane1.setViewportView(atMeasBranchList1);
+
+        atRemoveBranchButton1.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        atRemoveBranchButton1.setText("Remove");
+        atRemoveBranchButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                atRemoveBranchButton1ActionPerformed(evt);
+            }
+        });
+
+        atInterfaceListComboBox.setFont(new java.awt.Font("Dialog", 0, 12)); // NOI18N
+        atInterfaceListComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        org.jdesktop.layout.GroupLayout tradeMeasInterfacePanelLayout = new org.jdesktop.layout.GroupLayout(tradeMeasInterfacePanel);
+        tradeMeasInterfacePanel.setLayout(tradeMeasInterfacePanelLayout);
+        tradeMeasInterfacePanelLayout.setHorizontalGroup(
+            tradeMeasInterfacePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tradeMeasInterfacePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(atTransAmtLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atTransAmtTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atTransAmtUnitComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 36, Short.MAX_VALUE)
-                .add(atFromAreaLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atFromAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atToAreaLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atToAreaComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(17, 17, 17))
-        );
-        atInfoEditPanelLayout.setVerticalGroup(
-            atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, atInfoEditPanelLayout.createSequentialGroup()
-                .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
-                    .add(atTransAmtLabel)
-                    .add(atTransAmtTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(atTransAmtUnitComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(atFromAreaLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-                    .add(atFromAreaComboBox)
-                    .add(atToAreaLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 22, Short.MAX_VALUE)
-                    .add(atToAreaComboBox))
-                .add(6, 6, 6)
-                .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(atMeasBranchPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(atInfoEditPanelLayout.createSequentialGroup()
-                        .add(atInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                            .add(atDeratingFactorLabel)
-                            .add(atDeratingFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(atFromDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 129, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(tradeMeasInterfacePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(atInterfaceListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 191, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tradeMeasInterfacePanelLayout.createSequentialGroup()
+                        .add(atAddBranchButton1)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(atToDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                .add(11, 11, 11))
+                        .add(atRemoveBranchButton1)
+                        .add(12, 12, 12))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, tradeMeasInterfacePanelLayout.createSequentialGroup()
+                        .add(atBranchListScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 171, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+        tradeMeasInterfacePanelLayout.setVerticalGroup(
+            tradeMeasInterfacePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tradeMeasInterfacePanelLayout.createSequentialGroup()
+                .add(atInterfaceListComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(6, 6, 6)
+                .add(tradeMeasInterfacePanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(atAddBranchButton1)
+                    .add(atRemoveBranchButton1))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(atBranchListScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
 
-        atCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atCalculateButton.setText("Calculate");
-        atCalculateButton.addActionListener(new java.awt.event.ActionListener() {
+        org.jdesktop.layout.GroupLayout tradeInfoEditPanelLayout = new org.jdesktop.layout.GroupLayout(tradeInfoEditPanel);
+        tradeInfoEditPanel.setLayout(tradeInfoEditPanelLayout);
+        tradeInfoEditPanelLayout.setHorizontalGroup(
+            tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(tradeInfoEditPanelLayout.createSequentialGroup()
+                .add(tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(tradeInfoEditPanelLayout.createSequentialGroup()
+                        .add(30, 30, 30)
+                        .add(tradeTransAmtLabel)
+                        .add(18, 18, 18)
+                        .add(tradeTransAmtTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(tradeTransAmtUnitComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(31, 31, 31)
+                        .add(tradeDeratingFactorLabel)
+                        .add(29, 29, 29)
+                        .add(tradeDeratingFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(tradeInfoEditPanelLayout.createSequentialGroup()
+                        .add(tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(tradeMeasBranchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(tradeFromDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(tradeMeasInterfacePanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(tradeToDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        tradeInfoEditPanelLayout.setVerticalGroup(
+            tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, tradeInfoEditPanelLayout.createSequentialGroup()
+                .add(tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(tradeTransAmtLabel)
+                    .add(tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(tradeDeratingFactorLabel)
+                        .add(tradeDeratingFactorTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(tradeTransAmtTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tradeTransAmtUnitComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                    .add(tradeToDFPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(tradeFromDFPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(tradeInfoEditPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(tradeMeasBranchPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(tradeMeasInterfacePanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        tradeCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeCalculateButton.setText("Calculate");
+        tradeCalculateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atCalculateButtonActionPerformed(evt);
+                tradeCalculateButtonActionPerformed(evt);
             }
         });
 
-        atAclfCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atAclfCalculateButton.setText("AC Loadflow");
-        atAclfCalculateButton.setEnabled(false);
-        atAclfCalculateButton.addActionListener(new java.awt.event.ActionListener() {
+        tradeAclfCalculateButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeAclfCalculateButton.setText("AC Loadflow");
+        tradeAclfCalculateButton.setEnabled(false);
+        tradeAclfCalculateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atAclfCalculateButtonActionPerformed(evt);
+                tradeAclfCalculateButtonActionPerformed(evt);
             }
         });
 
-        atSeAssessButton.setFont(new java.awt.Font("Dialog", 0, 10));
-        atSeAssessButton.setText("Sec Assess");
-        atSeAssessButton.setEnabled(false);
-        atSeAssessButton.addActionListener(new java.awt.event.ActionListener() {
+        tradeSeAssessButton.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        tradeSeAssessButton.setText("Sec Assess");
+        tradeSeAssessButton.setEnabled(false);
+        tradeSeAssessButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                atSeAssessButtonActionPerformed(evt);
+                tradeSeAssessButtonActionPerformed(evt);
             }
         });
 
@@ -649,51 +706,52 @@ public class NBTradingAnalysisCasePanel extends javax.swing.JPanel implements IF
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(31, 31, 31)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(atInfoEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(atTradeLabel)
-                        .add(18, 18, 18)
-                        .add(atTradeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 110, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(atTradeAddButton)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(atTradeDeleteButton)
-                        .add(18, 18, 18)
+                        .add(46, 46, 46)
+                        .add(tradeLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(tradeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 110, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(tradeAddButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(tradeDeleteButton)
+                        .add(29, 29, 29)
                         .add(zonalRadioButton)
                         .add(12, 12, 12)
-                        .add(nodalRadioButton)))
-                .addContainerGap(25, Short.MAX_VALUE))
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(143, Short.MAX_VALUE)
-                .add(atCalculateButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atAclfCalculateButton)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(atSeAssessButton)
-                .add(111, 111, 111))
+                        .add(nodalRadioButton))
+                    .add(layout.createSequentialGroup()
+                        .add(21, 21, 21)
+                        .add(tradeInfoEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 513, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
+                        .add(130, 130, 130)
+                        .add(tradeCalculateButton)
+                        .add(16, 16, 16)
+                        .add(tradeAclfCalculateButton)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(tradeSeAssessButton)))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(14, 14, 14)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(tradeDeleteButton)
                         .add(nodalRadioButton)
-                        .add(atTradeDeleteButton)
                         .add(zonalRadioButton))
-                    .add(atTradeLabel)
-                    .add(atTradeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(atTradeAddButton))
-                .add(18, 18, 18)
-                .add(atInfoEditPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(tradeLabel)
+                    .add(tradeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tradeAddButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(tradeInfoEditPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(atSeAssessButton)
-                    .add(atAclfCalculateButton)
-                    .add(atCalculateButton))
-                .addContainerGap())
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                        .add(tradeAclfCalculateButton)
+                        .add(tradeSeAssessButton))
+                    .add(tradeCalculateButton))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
  
@@ -709,10 +767,6 @@ private void atAddBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {/
 			IpssXmlUtilFunc.getBranchIdAry(areaTransfer.getBranchArray())));
 }//GEN-LAST:event_atAddBranchButtonActionPerformed
 
-private void atAddInterfaceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAddInterfaceButtonActionPerformed
-// TODO add your handling code here:
-}//GEN-LAST:event_atAddInterfaceButtonActionPerformed
-
 private void atRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atRemoveBranchButtonActionPerformed
 	if (!atMeasBranchList.isSelectionEmpty()) {
 		areaTransfer.removeBranch(atMeasBranchList.getSelectedIndex());
@@ -721,13 +775,13 @@ private void atRemoveBranchButtonActionPerformed(java.awt.event.ActionEvent evt)
 	}
 }//GEN-LAST:event_atRemoveBranchButtonActionPerformed
 
-private void atFromAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaRemoveButtonActionPerformed
-	if (!atFromAreaBusList.isSelectionEmpty()) {
-		areaTransfer.getInjectBusList().removeInjectBus(atFromAreaBusList.getSelectedIndex());
-		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+private void tradeFromAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeFromAreaRemoveButtonActionPerformed
+	if (!tradeFromAreaBusList.isSelectionEmpty()) {
+		areaTransfer.getInjectBusList().removeInjectBus(tradeFromAreaBusList.getSelectedIndex());
+		tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
 				IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
 	}
-}//GEN-LAST:event_atFromAreaRemoveButtonActionPerformed
+}//GEN-LAST:event_tradeFromAreaRemoveButtonActionPerformed
 
 private void atToAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaRemoveButtonActionPerformed
 	if (!atToAreaBusList.isSelectionEmpty()) {
@@ -737,13 +791,13 @@ private void atToAreaRemoveButtonActionPerformed(java.awt.event.ActionEvent evt)
 	}
 }//GEN-LAST:event_atToAreaRemoveButtonActionPerformed
 
-private void atFromAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaComboBoxActionPerformed
-	String no = (String)this.atFromAreaComboBox.getSelectedItem();
+private void tradeFromAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeFromAreaComboBoxActionPerformed
+	String no = (String)this.tradeFromAreaComboBox.getSelectedItem();
 	this.areaTransfer.getFromArea().setAreaNo(new Integer(no).intValue());
-	atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+	tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
 			RunUIUtilFunc.getIdArray(_simuCtx.getAclfNet(), RunUIUtilFunc.NetIdType.GenInAreaDFactor, 
 					this.areaTransfer.getFromArea().getAreaNo()).toArray()));
-}//GEN-LAST:event_atFromAreaComboBoxActionPerformed
+}//GEN-LAST:event_tradeFromAreaComboBoxActionPerformed
 
 private void atToAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaComboBoxActionPerformed
 	String no = (String)this.atToAreaComboBox.getSelectedItem();
@@ -753,30 +807,30 @@ private void atToAreaComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//
 					this.areaTransfer.getToArea().getAreaNo()).toArray()));
 }//GEN-LAST:event_atToAreaComboBoxActionPerformed
 
-private void atFromAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaEditButtonActionPerformed
-	if (!atFromAreaBusList.isSelectionEmpty()) {
-		atFromDFactorEditTextField.setEnabled(true);
-		atFromAreaUpdateButton.setEnabled(true);
-		String s = (String)atFromAreaBusList.getSelectedValue();
-		atFromDFactorEditTextField.setText(new Double(RunUIUtilFunc.getPercent_IdPercent(s)).toString());
+private void tradeFromAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeFromAreaEditButtonActionPerformed
+	if (!tradeFromAreaBusList.isSelectionEmpty()) {
+		tradeFromDFactorEditTextField.setEnabled(true);
+		tradeFromAreaUpdateButton.setEnabled(true);
+		String s = (String)tradeFromAreaBusList.getSelectedValue();
+		tradeFromDFactorEditTextField.setText(new Double(RunUIUtilFunc.getPercent_IdPercent(s)).toString());
 	}
-	}//GEN-LAST:event_atFromAreaEditButtonActionPerformed
+}//GEN-LAST:event_tradeFromAreaEditButtonActionPerformed
 
-private void atFromAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atFromAreaUpdateButtonActionPerformed
-	if (!atFromAreaBusList.isSelectionEmpty()) {
+private void tradeFromAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeFromAreaUpdateButtonActionPerformed
+	if (!tradeFromAreaBusList.isSelectionEmpty()) {
 		// the Bus list might have been changed due to changing the area number
 		saveFromAreaBusList2AreaTransfer();
-		double percent = new Double(atFromDFactorEditTextField.getText()).doubleValue();
-		String s = (String)atFromAreaBusList.getSelectedValue();
+		double percent = new Double(tradeFromDFactorEditTextField.getText()).doubleValue();
+		String s = (String)tradeFromAreaBusList.getSelectedValue();
 		String id = RunUIUtilFunc.getId_IdPercent(s);
 		SenAnalysisBusRecXmlType bus = (SenAnalysisBusRecXmlType)IpssXmlUtilFunc.getBusRecord(id, areaTransfer.getInjectBusList().getInjectBusArray());
 		bus.setPercent(percent);
-		atFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
+		tradeFromAreaBusList.setModel(new javax.swing.DefaultComboBoxModel(
     			IpssXmlUtilFunc.getSenAnalysisBusItemList(areaTransfer.getInjectBusList().getInjectBusArray())));
-		atFromDFactorEditTextField.setEnabled(false);
-		atFromAreaUpdateButton.setEnabled(false);
+		tradeFromDFactorEditTextField.setEnabled(false);
+		tradeFromAreaUpdateButton.setEnabled(false);
 	}
-}//GEN-LAST:event_atFromAreaUpdateButtonActionPerformed
+}//GEN-LAST:event_tradeFromAreaUpdateButtonActionPerformed
 
 private void atToAreaEditButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atToAreaEditButtonActionPerformed
 	if (!atToAreaBusList.isSelectionEmpty()) {
@@ -804,7 +858,7 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 	}
 }//GEN-LAST:event_atToAreaUpdateButtonActionPerformed
 
-private void atCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atCalculateButtonActionPerformed
+private void tradeCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeCalculateButtonActionPerformed
 	this.parent.setAlwaysOnTop(false);
 	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
 	_simuCtx.setDclfAlgorithm(algo);
@@ -816,53 +870,48 @@ private void atCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {/
 	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Area Transfer Analysis Results");
 	String str = DclfOutFunc.areaTransferAnalysisResults(areaTransfer, _simuCtx.getDclfAlgorithm(), _simuCtx.getMsgHub());
 	dialog.display(str);
-}//GEN-LAST:event_atCalculateButtonActionPerformed
+}//GEN-LAST:event_tradeCalculateButtonActionPerformed
 
-private void atAclfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAclfCalculateButtonActionPerformed
+private void tradeAclfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeAclfCalculateButtonActionPerformed
 // TODO add your handling code here:
-}//GEN-LAST:event_atAclfCalculateButtonActionPerformed
+}//GEN-LAST:event_tradeAclfCalculateButtonActionPerformed
 
-private void atSeAssessButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atSeAssessButtonActionPerformed
+private void tradeSeAssessButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeSeAssessButtonActionPerformed
 // TODO add your handling code here:
-}//GEN-LAST:event_atSeAssessButtonActionPerformed
+}//GEN-LAST:event_tradeSeAssessButtonActionPerformed
 
-private void atTradeAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atTradeAddButtonActionPerformed
+private void tradeAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeAddButtonActionPerformed
 // TODO add your handling code here:
-}//GEN-LAST:event_atTradeAddButtonActionPerformed
+}//GEN-LAST:event_tradeAddButtonActionPerformed
 
-private void atTradeDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atTradeDeleteButtonActionPerformed
+private void tradeDeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeDeleteButtonActionPerformed
 // TODO add your handling code here:
-}//GEN-LAST:event_atTradeDeleteButtonActionPerformed
+}//GEN-LAST:event_tradeDeleteButtonActionPerformed
 
-private void atTradeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atTradeComboBoxActionPerformed
+private void tradeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeComboBoxActionPerformed
 // TODO add your handling code here:
-}//GEN-LAST:event_atTradeComboBoxActionPerformed
+}//GEN-LAST:event_tradeComboBoxActionPerformed
+
+private void atAddBranchButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atAddBranchButton1ActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_atAddBranchButton1ActionPerformed
+
+private void atRemoveBranchButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atRemoveBranchButton1ActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_atRemoveBranchButton1ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton atAclfCalculateButton;
     private javax.swing.JButton atAddBranchButton;
-    private javax.swing.JButton atAddInterfaceButton;
+    private javax.swing.JButton atAddBranchButton1;
     private javax.swing.JComboBox atBranchListComboBox;
     private javax.swing.JScrollPane atBranchListScrollPane;
-    private javax.swing.JButton atCalculateButton;
-    private javax.swing.JLabel atDeratingFactorLabel;
-    private javax.swing.JTextField atDeratingFactorTextField;
-    private javax.swing.JList atFromAreaBusList;
-    private javax.swing.JComboBox atFromAreaComboBox;
-    private javax.swing.JButton atFromAreaEditButton;
-    private javax.swing.JLabel atFromAreaLabel;
-    private javax.swing.JButton atFromAreaRemoveButton;
-    private javax.swing.JScrollPane atFromAreaScrollPane;
-    private javax.swing.JButton atFromAreaUpdateButton;
-    private javax.swing.JPanel atFromDFPanel;
-    private javax.swing.JTextField atFromDFactorEditTextField;
-    private javax.swing.JPanel atInfoEditPanel;
+    private javax.swing.JScrollPane atBranchListScrollPane1;
     private javax.swing.JComboBox atInterfaceListComboBox;
     private javax.swing.JList atMeasBranchList;
-    private javax.swing.JPanel atMeasBranchPanel;
+    private javax.swing.JList atMeasBranchList1;
     private javax.swing.JButton atRemoveBranchButton;
-    private javax.swing.JButton atSeAssessButton;
+    private javax.swing.JButton atRemoveBranchButton1;
     private javax.swing.JList atToAreaBusList;
     private javax.swing.JComboBox atToAreaComboBox;
     private javax.swing.JButton atToAreaEditButton;
@@ -870,16 +919,33 @@ private void atTradeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//G
     private javax.swing.JButton atToAreaRemoveButton;
     private javax.swing.JScrollPane atToAreaScrollPane;
     private javax.swing.JButton atToAreaUpdateButton;
-    private javax.swing.JPanel atToDFPanel;
     private javax.swing.JTextField atToDFactorEditTextField;
-    private javax.swing.JButton atTradeAddButton;
-    private javax.swing.JComboBox atTradeComboBox;
-    private javax.swing.JButton atTradeDeleteButton;
-    private javax.swing.JLabel atTradeLabel;
-    private javax.swing.JLabel atTransAmtLabel;
-    private javax.swing.JTextField atTransAmtTextField;
-    private javax.swing.JComboBox atTransAmtUnitComboBox;
     private javax.swing.JRadioButton nodalRadioButton;
+    private javax.swing.JButton tradeAclfCalculateButton;
+    private javax.swing.JButton tradeAddButton;
+    private javax.swing.JButton tradeCalculateButton;
+    private javax.swing.JComboBox tradeComboBox;
+    private javax.swing.JButton tradeDeleteButton;
+    private javax.swing.JLabel tradeDeratingFactorLabel;
+    private javax.swing.JTextField tradeDeratingFactorTextField;
+    private javax.swing.JList tradeFromAreaBusList;
+    private javax.swing.JComboBox tradeFromAreaComboBox;
+    private javax.swing.JButton tradeFromAreaEditButton;
+    private javax.swing.JLabel tradeFromAreaLabel;
+    private javax.swing.JButton tradeFromAreaRemoveButton;
+    private javax.swing.JScrollPane tradeFromAreaScrollPane;
+    private javax.swing.JButton tradeFromAreaUpdateButton;
+    private javax.swing.JPanel tradeFromDFPanel;
+    private javax.swing.JTextField tradeFromDFactorEditTextField;
+    private javax.swing.JPanel tradeInfoEditPanel;
+    private javax.swing.JLabel tradeLabel;
+    private javax.swing.JPanel tradeMeasBranchPanel;
+    private javax.swing.JPanel tradeMeasInterfacePanel;
+    private javax.swing.JButton tradeSeAssessButton;
+    private javax.swing.JPanel tradeToDFPanel;
+    private javax.swing.JLabel tradeTransAmtLabel;
+    private javax.swing.JTextField tradeTransAmtTextField;
+    private javax.swing.JComboBox tradeTransAmtUnitComboBox;
     private javax.swing.ButtonGroup tradingTypeButtonGroup;
     private javax.swing.JRadioButton zonalRadioButton;
     // End of variables declaration//GEN-END:variables

@@ -117,7 +117,7 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     		StudyCaseHanlder.addNewTDFactor(xmlCaseData);
     	this.tdFactor = xmlCaseData.getPTransferDistFactorArray(0);
     	if (xmlCaseData.getAreaTransferAnalysisArray().length == 0)
-    		StudyCaseHanlder.addNewAreaTransfer(xmlCaseData);
+    		StudyCaseHanlder.setNewAreaTransfer(xmlCaseData.addNewAreaTransferAnalysis());
     	this.areaTransfer = xmlCaseData.getAreaTransferAnalysisArray(0);
     }    
     
