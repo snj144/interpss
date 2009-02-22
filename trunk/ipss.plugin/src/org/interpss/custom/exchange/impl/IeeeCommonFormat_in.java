@@ -39,29 +39,18 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.LineAdapter;
-import com.interpss.core.aclf.LoadBusAdapter;
-import com.interpss.core.aclf.PQBusAdapter;
-import com.interpss.core.aclf.PSXfrAdapter;
-import com.interpss.core.aclf.PVBusAdapter;
-import com.interpss.core.aclf.SwingBusAdapter;
-import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.FlowControlType;
-import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
-import com.interpss.core.aclfadj.PVBusLimit;
-import com.interpss.core.aclfadj.RemoteQBus;
 import com.interpss.core.aclfadj.RemoteQControlType;
 import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Zone;
+import com.interpss.simu.dsl.IpssAclf;
 
 public class IeeeCommonFormat_in {
 	private static final int BusData = 1;
@@ -71,6 +60,8 @@ public class IeeeCommonFormat_in {
 	private static final int TielineData = 5;
 
     public static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {
+    	IpssAclf.setMsgHub(msg);
+    	
     	final AclfAdjNetwork  adjNet = CoreObjectFactory.createAclfAdjNetwork();
     	adjNet.setAllowParallelBranch(true);
 
@@ -264,11 +255,13 @@ public class IeeeCommonFormat_in {
     	final String reBusId = strAry[17];
     	
     	// create an AclfBus object
-      	final AclfBus bus = CoreObjectFactory.createAclfBus(busId, areaNo, zoneNo, "1", net);
-      	bus.setName(busName);
-    	bus.setBaseVoltage(baseKv, UnitType.kV);
-    	bus.setVoltage(vpu, Math.toRadians(angDeg));
-    	bus.setShuntY(new Complex(gPU,bPU));
+      	IpssAclf.AclfBusDSL busDSL = IpssAclf.addAclfBus(busId, busName, net)
+      				.setAreaNumber(areaNo)
+      				.setZoneNumber(zoneNo)
+      				.setOwnerId("1")
+      				.setBaseVoltage(baseKv, UnitType.kV)
+      				.setInitVoltage(vpu, Math.toRadians(angDeg))
+      				.setShuntY(new Complex(gPU,bPU), UnitType.PU);
       	
     	// add the bus object into the network container
     	//net.addBus(bus);
@@ -276,62 +269,72 @@ public class IeeeCommonFormat_in {
     	// set input data to the bus object
       	if ( type == 3 ) {
       		// Swing bus
-   		 	bus.setGenCode(AclfGenCode.SWING);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
-  			gen.setVoltMag(vpu, UnitType.PU);
-  			gen.setVoltAng(angDeg, UnitType.Deg);
-  			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
+      		busDSL.setGenCode(AclfGenCode.SWING)
+      				.setVoltage(vpu, UnitType.PU, angDeg, UnitType.Deg)
+      				.setLoadCode(AclfLoadCode.CONST_P)
+  					.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     	}
     	else if ( type == 1 ) {
     		// PQ bus
-    		bus.setGenCode(AclfGenCode.GEN_PQ);
-    		bus.setLoadCode(AclfLoadCode.CONST_P);
-   			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
-    		gen.setGen(new Complex(genMw, genMvar), UnitType.mVA, net.getBaseKva());
-    		gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
+    		busDSL.setGenCode(AclfGenCode.GEN_PQ)
+    				.setGen(new Complex(genMw, genMvar), UnitType.mVA)
+    				.setLoadCode(AclfLoadCode.CONST_P)
+    				.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
+    		
     		if ((max != 0.0) || (min != 0.0)) {
     			IpssLogger.getLogger().fine("Bus is a PQLimitBus, id: " + busId);
-    		  	final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(net, busId);
+    		  	/*
+    			final PQBusLimit pqLimit = CoreObjectFactory.createPQBusLimit(net, busId);
     		  	pqLimit.setVLimit(new LimitType(max, min));
+    		  	*/
+    		  	IpssAclf.addPQBusLimit(busId, net)
+    		  				.setQSpecified(genMvar, UnitType.mVA)
+    		  				.setVLimit(max, min, UnitType.PU);
     		}
     	}
     	else if ( type == 2 ) {
     		// PV or remote Q bus
-   		 	bus.setGenCode(AclfGenCode.GEN_PV);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final PVBusAdapter gen = (PVBusAdapter)bus.getAdapter(PVBusAdapter.class);
-  			gen.setGenP(genMw, UnitType.mW, net.getBaseKva());
-  			gen.setVoltMag(vpu, UnitType.PU);
-  			gen.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
+   		 	busDSL.setGenCode(AclfGenCode.GEN_PV)
+   		 		.setGenP_VMag(genMw, UnitType.mW, vpu, UnitType.PU)
+   		 		.setLoadCode(AclfLoadCode.CONST_P)
+   		 		.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
+   		 	
   			if ((max != 0.0) || (min != 0.0)) {
   				if (reBusId.equals("0") || reBusId.equals("") || reBusId.equals(busId)) {
   					// PV Bus limit control
   					IpssLogger.getLogger().fine("Bus is a PVLimitBus, id: " + busId);
+  					/*
   			  		final PVBusLimit pvLimit = CoreObjectFactory.createPVBusLimit(net, busId);
   			  		pvLimit.setQLimit(new LimitType(max, min), UnitType.mVar, net.getBaseKva());
+  			  		*/
+  	    		  	IpssAclf.addPVBusLimit(busId, net)
+  	    		  				.setVSpecified(vpu, UnitType.mVA)
+  	    		  				.setQLimit(max, min, UnitType.mVar);
   				}
   				else {
   					// Remote Q  Bus control
   					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + busId);
+  					/*
   			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(net, busId, 
   			  				RemoteQControlType.BUS_VOLTAGE, reBusId);
   			  		reQ1.setQLimit(new LimitType(max, min), UnitType.mVar, net.getBaseKva());
   			  		reQ1.setVSpecified(vSpecPu);
+  			  		*/
+  					IpssAclf.addRemoteQBus(busId, net)
+  								.setControlType(RemoteQControlType.BUS_VOLTAGE)
+  								.setAdjBusBranchId(reBusId)
+  								.setQLimit(max, min, UnitType.mVar)
+  								.setVSpecified(vSpecPu, UnitType.PU);
   				}
   			}
     	}
     	else if ( (loadMw != 0.0) || (loadMvar != 0.0)  ) {
     		// Non-gen load bus
-   		 	bus.setGenCode(AclfGenCode.NON_GEN);
-   		 	bus.setLoadCode(AclfLoadCode.CONST_P);
-  			final LoadBusAdapter load = (LoadBusAdapter)bus.getAdapter(LoadBusAdapter.class);
-  			load.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA, net.getBaseKva());
+   		 	busDSL.setLoadCode(AclfLoadCode.CONST_P)
+   		 			.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     	}
     	else {
     		// Non-gen and non-load bus
-    		bus.setGenCode(AclfGenCode.NON_GEN);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
     	}
     }
 
@@ -485,63 +488,59 @@ public class IeeeCommonFormat_in {
     	}
 
     	// create an AclfBranch object
-      	final AclfBranch bra = CoreObjectFactory.createAclfBranch(areaNo, zoneNo, new Integer(cirNo).toString(), net);
+      	IpssAclf.AclfBranchDSL braDSL = IpssAclf.addAclfBranch(fid, tid, new Integer(cirNo).toString(), net)
+      				.setAreaNumber(areaNo)
+      				.setZoneNumber(zoneNo);
       	
-      	// add the object into the network container
-      	net.addBranch(bra, fid, tid);    	
-
       	if (type == 0) {
       		// A line branch
-        	bra.setBranchCode(AclfBranchCode.LINE);
-    		final LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
-        	line.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
-        	line.setHShuntY(new Complex(0.0,0.5*bpu), UnitType.PU, 1.0, net.getBaseKva()); // Unit is PU, no need to enter baseV
+        	braDSL.setBranchCode(AclfBranchCode.LINE)
+        			.setZ(new Complex(rpu,xpu), UnitType.PU)
+        			.setShuntB(bpu, UnitType.PU);
       	}
       	else if (type >= 1) {
       		// Transformer branch
-    	 	bra.setBranchCode(AclfBranchCode.XFORMER);
-    		final XfrAdapter xfr = (XfrAdapter)bra.getAdapter(XfrAdapter.class);
-        	xfr.getAclfBranch().setZ(new Complex(rpu,xpu), msg);
+    	 	braDSL.setBranchCode(AclfBranchCode.XFORMER)
+    	 			.setZ(new Complex(rpu,xpu), UnitType.PU)
+    	 			.setTurnRatio(ratio, 1.0, UnitType.PU); 
         	if (bpu < 0.0) {
         		IpssLogger.getLogger().fine("Xfr B: " + bpu);
-        		bra.getFromAclfBus().setShuntY(new Complex(0.0, -bpu));
+        		braDSL.getBranch().getFromAclfBus().setShuntY(new Complex(0.0, -bpu));
         	}
-        	xfr.setFromTurnRatio(ratio, UnitType.PU);
-        	xfr.setToTurnRatio(1.0, UnitType.PU); 
         	if (angle != 0.0) {
         		// PhaseShifting transformer branch
-        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
-        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.getAdapter(PSXfrAdapter.class);
-        		psXfr.setFromAngle(Math.toRadians(angle));
+        	 	braDSL.setBranchCode(AclfBranchCode.PS_XFORMER)
+        	 			.setShiftAngle(angle, 0.0, UnitType.Deg);
         	}
         	
           	if (type == 2) {
 //                2 - Variable tap for voltage control (TCUL, LTC)
-          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, FlowControlType.RANGE_CONTROL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, braDSL.getBranch().getId(), 
+          				controlBusId, FlowControlType.RANGE_CONTROL);
           		tapv.setTapLimit(new LimitType(maxTapAng, minTapAng));
           		// TODO: volt spec is not defined
           		tapv.setVSpecified(1.0);
           		tapv.setTapStepSize(stepSize);
-          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, braDSL.getBranch()));
           		net.addTapControl(tapv, controlBusId);          		
           	}
           	else if (type == 3) {
 //              3 - Variable tap (turns ratio) for MVAR control
-          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), FlowControlType.RANGE_CONTROL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, braDSL.getBranch().getId(), FlowControlType.RANGE_CONTROL);
           		tapv.setTapLimit(new LimitType(maxVoltPQ, minVoltPQ));
           		// TODO: volt spec is not defined
           		tapv.setVSpecified(1.0);
           		tapv.setTapStepSize(stepSize);
-          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, braDSL.getBranch()));
           		net.addTapControl(tapv, controlBusId);          		
           	}
           	else if (type == 4) {
 //              4 - Variable phase angle for MW control (phase shifter)
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL);
+          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, braDSL.getBranch().getId(), FlowControlType.RANGE_CONTROL);
           		// TODO pSpec not defined
           		ps.setPSpecified(0.2);
           		ps.setAngLimit(new LimitType(Math.toRadians(maxTapAng), Math.toRadians(minTapAng)));
-          		ps.setControlOnFromSide(getSide(controlSide, controlBusId, bra));
+          		ps.setControlOnFromSide(getSide(controlSide, controlBusId, braDSL.getBranch()));
           		net.addPSXfrPControl(ps, controlBusId);          		
           	}
       	}
