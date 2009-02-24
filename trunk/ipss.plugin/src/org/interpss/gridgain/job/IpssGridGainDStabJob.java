@@ -64,8 +64,9 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 	 */
 	protected Serializable performGridJob(RemoteMessageTable remoteMsg) {
 		// deserialized the model into DStabNet object 
-		DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil
-				.loadModel(remoteMsg.getStudyCaseNetworkModel());
+		DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil.loadModel(remoteMsg.getStudyCaseNetworkModel());
+		net.rebuildLookupTable();
+		
 		// we always assume that the case id is carried to the remote grid node by the id field
 		String caseId = net.getId();
 

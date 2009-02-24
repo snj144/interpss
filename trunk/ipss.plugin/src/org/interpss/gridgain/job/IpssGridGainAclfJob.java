@@ -84,7 +84,8 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			net = (AclfNetwork) model;
 		else if (model instanceof AclfAdjNetwork)
 			net = (AclfAdjNetwork) model;
-
+		net.rebuildLookupTable();
+		
 		String caseId = remoteMsg.getStudyCaseId();
 		if (getSesBooleanAttrib(Constants.GridToken_RemoteJobCreation)) {
 			if (remoteMsg.getStudyCaseModification() != null) {
