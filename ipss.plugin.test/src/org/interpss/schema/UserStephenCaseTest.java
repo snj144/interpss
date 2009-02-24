@@ -42,6 +42,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  	int cnt = 0;
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+			net.rebuildLookupTable();
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
 	  		
@@ -62,9 +63,11 @@ public class UserStephenCaseTest extends BaseTestSetup {
   		
 //  		System.out.println(net.net2String());
   		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
+  		net.rebuildLookupTable();
   		AclfBus busIncreased = net.getAclfBus("No12");
   		
   		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
+  		net.rebuildLookupTable();
   		AclfBus busBase = net.getAclfBus("No12");
 
   		double dP = busIncreased.getLoadP() - busBase.getLoadP();
@@ -90,6 +93,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	  	int cnt = 0;
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+			net.rebuildLookupTable();
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
 
@@ -109,9 +113,11 @@ public class UserStephenCaseTest extends BaseTestSetup {
   		assertTrue(mscase.getStudyCase(2) != null);
 
   		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
+  		net.rebuildLookupTable();
   		assertTrue(net.getBranch("No1", "No2").isActive() == false);
   		
   		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
+  		net.rebuildLookupTable();
   		assertTrue(net.getBranch("No1", "No5").isActive() == false);
 	}			
 }
