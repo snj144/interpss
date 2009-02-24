@@ -270,7 +270,7 @@ public class IeeeCommonFormat_in {
       	if ( type == 3 ) {
       		// Swing bus
       		busDSL.setGenCode(AclfGenCode.SWING)
-      				.setVoltage(vpu, UnitType.PU, angDeg, UnitType.Deg)
+      				.setVoltageSpec(vpu, UnitType.PU, angDeg, UnitType.Deg)
       				.setLoadCode(AclfLoadCode.CONST_P)
   					.setLoad(new Complex(loadMw, loadMvar), UnitType.mVA);
     	}
