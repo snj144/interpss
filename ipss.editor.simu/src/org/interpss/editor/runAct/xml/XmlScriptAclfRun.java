@@ -101,9 +101,11 @@ public class XmlScriptAclfRun {
 			for (AclfStudyCaseXmlType xmlCase : xmlRunAclfCase.getAclfStudyCaseList().getAclfStudyCaseArray()) {
 				// deserialize the base case, if necessary
 				AclfAdjNetwork net = aclfNet;
-				if (!gridRun || !reJobCreation) 
+				if (!gridRun || !reJobCreation) { 
 					// only deserialized the network if not the case of remote job creation
 					net = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(mCaseContainer.getBaseNetModelString());
+				    net.rebuildLookupTable();
+				}
 
 				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 				// map to the Algo object including network modification at the study case level
@@ -191,6 +193,7 @@ public class XmlScriptAclfRun {
 						grid, "InterPSS Grid Aclf Calculation", algo, timeout);
 				String str = result.getSerializedAclfNet();
 				aclfNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
+				aclfNet.rebuildLookupTable();
 			} catch (GridException e) {
 				SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Grid Aclf Error", e.toString());
 				return false;
