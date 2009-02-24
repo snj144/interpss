@@ -69,6 +69,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
   		
 	  	AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+		net.rebuildLookupTable();
   		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
   		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
@@ -112,6 +113,7 @@ public class PreventiveCaseTest extends BaseTestSetup {
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_ACLF);
   		
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+		net.rebuildLookupTable();
 		net.getAclfBranch("0005->0006(1)").setRatingMva1(70.0);
 
 		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);

@@ -46,6 +46,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	int cnt = 0;
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+			net.rebuildLookupTable();
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
@@ -101,6 +102,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	int cnt = 0;
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+			net.rebuildLookupTable();
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
@@ -139,6 +141,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	int cnt = 0;
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
+			net.rebuildLookupTable();
 	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);

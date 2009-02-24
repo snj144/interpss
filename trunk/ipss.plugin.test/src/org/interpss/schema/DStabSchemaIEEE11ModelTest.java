@@ -77,6 +77,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 	  		}
 	  		else {
 	  			net = (DStabilityNetwork)SerializeEMFObjectUtil.loadModel(dstabNetStr);
+	  			net.rebuildLookupTable();
 	  		}
 
 	  		DynamicSimuAlgorithm algo = DStabObjectFactory.createDynamicSimuAlgorithm(net, msg);
