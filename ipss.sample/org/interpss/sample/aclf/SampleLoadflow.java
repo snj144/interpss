@@ -54,7 +54,7 @@ public class SampleLoadflow {
 		IpssAclf.addAclfBus("Bus1", "Bus 1", net)
 				.setBaseVoltage(4000.0)
 				.setGenCode(AclfGenCode.SWING)
-				.setVoltage(1.0, UnitType.PU, 0.0, UnitType.Deg)
+				.setVoltageSpec(1.0, UnitType.PU, 0.0, UnitType.Deg)
 				.setLoadCode(AclfLoadCode.NON_LOAD);
   		
 		IpssAclf.addAclfBus("Bus2", "Bus 2", net)
