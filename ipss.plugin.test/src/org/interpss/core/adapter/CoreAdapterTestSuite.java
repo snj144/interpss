@@ -18,9 +18,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	IEEECommonFormatTest.class,
 	
 	IEEE14Test.class,
-	Bus1824Test.class,
-	Bus6384Test.class,
-	Bus11856Test.class,
+//	Bus1824Test.class,
+//	Bus6384Test.class,
+//	Bus11856Test.class,
 	
 	CR_UserTestCases.class,
 	RecLevelTestCases.class,
