@@ -176,8 +176,8 @@ public class XmlScriptDStabRun {
 				int cnt = 0;
 				for (DStabStudyCaseXmlType xmlCase : xmlRunCase.getDStabStudyCaseList().getDStabStudyCaseArray()) {
 					// deserialize the base case
-					DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil
-							.loadModel(netStr);
+					DStabilityNetwork net = (DStabilityNetwork) SerializeEMFObjectUtil.loadModel(netStr);
+					net.rebuildLookupTable();
 					DynamicSimuAlgorithm dstabAlgo = DStabObjectFactory
 							.createDynamicSimuAlgorithm(net, msg);
 					

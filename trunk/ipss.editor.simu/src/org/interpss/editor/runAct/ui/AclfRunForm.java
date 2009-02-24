@@ -92,8 +92,8 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 							grid, "InterPSS Grid Aclf Calculation", simuCtx
 									.getLoadflowAlgorithm(), this.xmlGridOpt.getTimeout());
 					String str = result.getSerializedAclfNet();
-					AclfAdjNetwork adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil
-							.loadModel(str);
+					AclfAdjNetwork adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
+					adjNet.rebuildLookupTable();
 					simuCtx.setAclfAdjNet(adjNet);
 					converge = adjNet.isLfConverged();
 					if (this.xmlCaseData.getAclfAlgorithm().getDisplaySummary()) {
