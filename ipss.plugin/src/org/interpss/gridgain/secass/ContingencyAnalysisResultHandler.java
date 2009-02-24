@@ -94,7 +94,7 @@ public class ContingencyAnalysisResultHandler extends RemoteResultAdapter {
 		
 		//System.out.println(resultTable.getAclfResult());
 		if (resultTable.getAclfResult() != null) {
-			StudyCaseResult result = (StudyCaseResult)SerializeEMFObjectUtil.loadModel(resultTable.getAclfResult()); 
+			StudyCaseResult result = (StudyCaseResult)SerializeEMFObjectUtil.loadModel(resultTable.getAclfResult());
 			((ContingencyAnalysis)mCaseContainer).updateResult(studyCase.getName(), result);
 		}
 	}

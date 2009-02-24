@@ -24,6 +24,7 @@
 
 package org.interpss.custom.exchange.psse;
 
+import java.security.InvalidParameterException;
 import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
@@ -47,36 +48,45 @@ public class PSSEBusDataRec {
 	 * BusData Format: I, ’NAME’, BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
 	 */
 	public PSSEBusDataRec(String lineStr, VersionNo version) {
-		StringTokenizer st;
-		if (version == VersionNo.Old) {
-			// old verdion: 80001 'TOMKE ' 220.00 1 0.00 0.00 703 1 1.0784
-			// -38.614 1 /* [TOMKENJC A014] */
-			st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr), "'");
-			i = new Integer(st.nextToken().trim()).intValue();
-			name = st.nextToken().trim();
-			st = new StringTokenizer(st.nextToken());
-		} else {
-			st = new StringTokenizer(lineStr, ",");
-			i = new Integer(st.nextToken().trim()).intValue();
-			name = st.nextToken().trim();
-		}
+		try {
+			StringTokenizer st;
+			if (version == VersionNo.Old) {
+				// old verdion: 80001 'TOMKE ' 220.00 1 0.00 0.00 703 1 1.0784
+				// -38.614 1 /* [TOMKENJC A014] */
+				st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr), "'");
+				i = new Integer(st.nextToken().trim()).intValue();
+				name = st.nextToken().trim();
+				st = new StringTokenizer(st.nextToken());
+			} else {
+				// 101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
+				// there might be ',' in the name field
+				i = new Integer(lineStr.substring(0, lineStr.indexOf(',')).trim()).intValue();
+		        st = new StringTokenizer(lineStr, "'");
+		        st.nextToken();  
+		        name = st.nextToken().trim();    
+		        st = new StringTokenizer(st.nextToken(), ",");				
+			}
 
-		baseKv = new Double(st.nextToken().trim()).doubleValue();
-		ide = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			gl = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			bl = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			area = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			zone = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			vm = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			va = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			owner = new Integer(st.nextToken().trim()).intValue();
+			baseKv = new Double(st.nextToken().trim()).doubleValue();
+			ide = new Integer(st.nextToken().trim()).intValue();
+			if (st.hasMoreTokens())
+				gl = new Double(st.nextToken().trim()).doubleValue();
+			if (st.hasMoreTokens())
+				bl = new Double(st.nextToken().trim()).doubleValue();
+			if (st.hasMoreTokens())
+				area = new Integer(st.nextToken().trim()).intValue();
+			if (st.hasMoreTokens())
+				zone = new Integer(st.nextToken().trim()).intValue();
+			if (st.hasMoreTokens())
+				vm = new Double(st.nextToken().trim()).doubleValue();
+			if (st.hasMoreTokens())
+				va = new Double(st.nextToken().trim()).doubleValue();
+			if (st.hasMoreTokens())
+				owner = new Integer(st.nextToken().trim()).intValue();
+		} catch (Exception e) {
+			System.err.println(lineStr + ", " + version);
+			e.printStackTrace();
+		}
 	}
 	
 	/** 
@@ -95,7 +105,11 @@ public class PSSEBusDataRec {
 		final AclfBus bus = CoreObjectFactory.createAclfBus(iStr, this.area, this.zone, 
 				new Integer(this.owner).toString(), adjNet);
       	bus.setName(this.name);
-    	bus.setBaseVoltage(this.baseKv, UnitType.kV);
+    	if (this.baseKv > 0.0) {
+    		bus.setBaseVoltage(this.baseKv, UnitType.kV);
+    	} 
+    	else 
+    		msg.sendWarnMsg("Base voltage = 0.0, at Bus " + iStr);
     	double factor = 1000.0/adjNet.getBaseKva();  // for transfer G+jB to PU on system base 
     	bus.setShuntY(new Complex(this.gl*factor,this.bl*factor));
       	

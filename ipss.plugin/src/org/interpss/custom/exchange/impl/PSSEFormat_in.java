@@ -94,10 +94,15 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
       		boolean interareaTransferProcessed = false;
       		boolean ownerProcessed = false;
       		boolean factsProcessed = false;
+      		int lineCnt = 0; 
       		do {
       			lineStr = din.readLine();
       			if (lineStr != null) {
       				lineNo++;
+      				if (lineCnt++ > 1000) {
+      					lineCnt = 0;
+      					msg.sendStatusMsg("Processing PSS/E file, line processed " + lineNo);
+      				}
       				if (!headerProcessed) {
       					if (lineNo == 1 && version == PSSEDataRec.VersionNo.NotDefined) {
       						version = PSSEDataRec.getVersion(lineStr, msg);

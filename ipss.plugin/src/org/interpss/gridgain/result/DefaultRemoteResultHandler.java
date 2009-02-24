@@ -138,6 +138,7 @@ public class DefaultRemoteResultHandler extends RemoteResultAdapter {
     		AclfAdjNetwork aclfAdjNet = null;
     		if (scase.getNetModelString() != null) {
     			aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
+    			aclfAdjNet.rebuildLookupTable();
     		}
 
 			buf.append("Loadflow converged: " + aclfCase.isAclfConverged());
