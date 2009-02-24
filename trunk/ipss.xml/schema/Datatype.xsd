@@ -137,32 +137,37 @@
 		</ns:sequence>
 	</ns:complexType>
 	<ns:complexType name="DclfSensitivityXmlType">
-		<ns:sequence>
-			<ns:element name="senType" minOccurs="1" maxOccurs="1">
-				<ns:simpleType>
-					<ns:restriction base="ns:string">
-						<ns:enumeration value="PAngle"></ns:enumeration>
-						<ns:enumeration value="QVoltage"></ns:enumeration>
-					</ns:restriction>
-				</ns:simpleType>
-			</ns:element>
-			<ns:element name="injectBusType" minOccurs="1" type="ipss:SenBusAnalysisDataType">			</ns:element>
-			<ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="injectBus" type="ipss:SenAnalysisBusRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>
-			<ns:element name="withdrawBusType" minOccurs="1" type="ipss:SenBusAnalysisDataType">			</ns:element>
-			<ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
-				<ns:complexType>
-					<ns:sequence>
-						<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="ipss:SenAnalysisBusRecXmlType">
-						</ns:element>
-					</ns:sequence>
-				</ns:complexType>
-			</ns:element>		</ns:sequence>
+		<ns:complexContent>
+			<ns:extension base="ipss:BaseRecordXmlType">
+				<ns:sequence>
+					<ns:element name="senType" minOccurs="1" maxOccurs="1">
+						<ns:simpleType>
+							<ns:restriction base="ns:string">
+								<ns:enumeration value="PAngle"></ns:enumeration>
+								<ns:enumeration value="QVoltage"></ns:enumeration>
+							</ns:restriction>
+						</ns:simpleType>
+					</ns:element>
+					<ns:element name="injectBusType" minOccurs="1" type="ipss:SenBusAnalysisDataType"></ns:element>
+					<ns:element name="injectBusList" minOccurs="1" maxOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="injectBus" type="ipss:SenAnalysisBusRecXmlType" minOccurs="1" maxOccurs="unbounded"></ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+					<ns:element name="withdrawBusType" minOccurs="1" type="ipss:SenBusAnalysisDataType"></ns:element>
+					<ns:element name="withdrawBusList" minOccurs="0" maxOccurs="1">
+						<ns:complexType>
+							<ns:sequence>
+								<ns:element name="withdrawBus" minOccurs="1" maxOccurs="unbounded" type="ipss:SenAnalysisBusRecXmlType"></ns:element>
+							</ns:sequence>
+						</ns:complexType>
+					</ns:element>
+				</ns:sequence>
+
+			</ns:extension>
+		</ns:complexContent>
 	</ns:complexType>
 
 	<ns:complexType name="ComplexValueChangeXmlType">
