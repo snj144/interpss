@@ -31,13 +31,15 @@ import org.interpss.schema.AcscFaultDataType;
 import org.interpss.schema.AcscFaultXmlType;
 import org.interpss.schema.AcscStudyCaseXmlType;
 import org.interpss.schema.AreaRecXmlType;
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.schema.DStabStudyCaseXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfStudyCaseXmlType;
 import org.interpss.schema.DynamicEventDataType;
 import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.InterPSSDocument;
-import org.interpss.schema.AreaTransferAnalysisXmlType;
+import org.interpss.schema.NodeTransferAnalysisXmlType;
+import org.interpss.schema.TradingStudyCaseXmlType;
 
 
 public class StudyCaseHanlder {
@@ -138,8 +140,8 @@ public class StudyCaseHanlder {
 		return IpssXmlUtilFunc.getRecNameArray(getAclfStudyCaseArray());
 	}
 
-	// Dclf Study Case
-	// ===============
+	// Dclf/SensitivityAnalysis Study Case
+	// ===================================
 	
 	/**
 	 * Delete the study case
@@ -173,7 +175,7 @@ public class StudyCaseHanlder {
 		scase.setRecName(casename);
 		
 		addNewTDFactor(scase);
-		addNewAreaTransfer(scase);
+		setNewAreaTransfer(scase.addNewAreaTransferAnalysis());
 		return true;
 	}
 	
@@ -185,8 +187,7 @@ public class StudyCaseHanlder {
 		tdFactor.getWithdrawBusList().addNewWithdrawBus();		
 	}
 
-	public static void addNewAreaTransfer(DclfStudyCaseXmlType scase) {
-		AreaTransferAnalysisXmlType areaTrans = scase.addNewAreaTransferAnalysis();
+	public static void setNewAreaTransfer(AreaTransferAnalysisXmlType areaTrans) {
 		AreaRecXmlType a = areaTrans.addNewFromArea();
 		a.setAreaNo(1);
 		a = areaTrans.addNewToArea();
@@ -216,7 +217,7 @@ public class StudyCaseHanlder {
 	}
 	
 	/**
-	 * Get AclfStudyCase name array
+	 * Get DclfStudyCase name array
 	 * 
 	 * @return
 	 */
@@ -376,4 +377,111 @@ public class StudyCaseHanlder {
 		eventData.setStartTimeSec(0.0);
 		setDefaultFaultData(eventData.getFault());
 	}
+
+	// TradingAnalysis Study Case
+	// ==========================
+	
+	/**
+	 * Delete the TradingAnalysis study case
+	 * 
+	 * @param casename
+	 * @return true if deleted
+	 */
+	public boolean deleteTradingStudyCase(String casename) {
+		int cnt = 0;
+		for (TradingStudyCaseXmlType scase : getTradingStudyCaseArray()) {
+			if (scase.getRecName().equals(casename)) {
+				this.ipssXmlDoc.getInterPSS().getRunStudyCase().getTradingAnalysis()
+								.getTradingStudyCaseList().removeTradingStudyCase(cnt);
+				return true;
+			}
+			cnt++;
+		}
+		return false;
+	}
+	
+	public boolean deleteZonalTransfer(String tradeName) {
+		return false;
+	}
+	
+	public boolean deleteNodalTransfer(String tradeName) {
+		return false;
+	}
+
+	/**
+	 * add a new TrasingAnalysis Study case
+	 * 
+	 * @param casename
+	 * @return
+	 */
+	public boolean addNewTradingStudyCase(String casename) {
+		TradingStudyCaseXmlType scase = this.ipssXmlDoc.getInterPSS().getRunStudyCase().getTradingAnalysis()
+									.getTradingStudyCaseList().addNewTradingStudyCase();
+		scase.setRecId(casename.replaceAll(" ", "_"));
+		scase.setRecName(casename);
+		
+		setNewAreaTransfer(scase.addNewAreaTransferAnalysis());
+		return true;
+	}
+	
+	public boolean addNewZonalTransfer(String tradeName, TradingStudyCaseXmlType parent) {
+		return false;
+	}
+	
+	public boolean addNewNodalTransfer(String tradeName, TradingStudyCaseXmlType parent) {
+		return false;
+	}
+
+	/**
+	 * Get the TradingStudyCase record list
+	 * 
+	 * @return
+	 */
+	public TradingStudyCaseXmlType[] getTradingStudyCaseArray() {
+		return this.ipssXmlDoc.getInterPSS().getRunStudyCase().getTradingAnalysis()
+						.getTradingStudyCaseList().getTradingStudyCaseArray();
+	}
+
+	public AreaTransferAnalysisXmlType[] getZonalTransferArray(TradingStudyCaseXmlType parent) {
+		return parent.getAreaTransferAnalysisArray();
+	}
+
+	public NodeTransferAnalysisXmlType[] getNodalTransferArray(TradingStudyCaseXmlType parent) {
+		return parent.getNodeTransferAnalysisArray();
+	}
+
+	/**
+	 * Get the TradingStudyCase record by the record name
+	 * 
+	 * @param recName
+	 * @return
+	 */
+	public TradingStudyCaseXmlType getTradingStudyCase(String recName) {
+		return 	(TradingStudyCaseXmlType)IpssXmlUtilFunc.getRecordByName(recName, getTradingStudyCaseArray());
+	}
+	
+	public TradingStudyCaseXmlType getZonalTransfer(String tradeName, TradingStudyCaseXmlType parent) {
+		return null;
+	}
+	
+	public TradingStudyCaseXmlType getNodalTransfer(String tradeName, TradingStudyCaseXmlType parent) {
+		return null;
+	}
+
+	/**
+	 * Get TradingStudyCase name array
+	 * 
+	 * @return
+	 */
+	public String[] getTradingStudyCaseNameArray() {
+		return IpssXmlUtilFunc.getRecNameArray(getTradingStudyCaseArray());
+	}
+	
+	public String[] getZonalTransferNameArray(TradingStudyCaseXmlType parent) {
+		return IpssXmlUtilFunc.getRecNameArray(getZonalTransferArray(parent));
+	}	
+
+	public String[] getNodalTransferNameArray(TradingStudyCaseXmlType parent) {
+		return IpssXmlUtilFunc.getRecNameArray(getNodalTransferArray(parent));
+	}	
 }
