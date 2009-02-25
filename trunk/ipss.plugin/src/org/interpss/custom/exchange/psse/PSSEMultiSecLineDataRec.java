@@ -5,6 +5,7 @@ import java.util.StringTokenizer;
 import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.ext.psse.aclf.PSSEAclfLine;
 
@@ -67,12 +68,12 @@ public class PSSEMultiSecLineDataRec {
 		
 		PSSEAclfLine branch = (PSSEAclfLine)adjNet.getBranch(iStr, jStr, this.id);
 		if (branch == null) {
-			throw new Exception ("Branch not found in the network, I, J, ID: " + iStr + ", " + jStr + ", '" + this.id + "'");
+			IpssLogger.getLogger().severe("Branch not found in the network, I, J, ID: " + iStr + ", " + jStr + ", '" + this.id + "'");
 		}
-		
-		for (String str : this.dumBusIdAry) {
-			if (str != null)
-				branch.addDummyBus(str, "");
+		else
+			for (String str : this.dumBusIdAry) {
+				if (str != null)
+					branch.addDummyBus(str, "");
 		}
 	}	
 	
