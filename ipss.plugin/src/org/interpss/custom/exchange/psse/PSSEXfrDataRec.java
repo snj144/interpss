@@ -32,6 +32,7 @@ import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBranchCode;
 import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.XfrAdapter;
@@ -62,92 +63,111 @@ public class PSSEXfrDataRec {
 		private int cod, cont, ntp, tab;
 		private double windv1, nomv1, ang1, rata1, ratb1, ratc1, rma, rmi, vma, vmi, cr, cx, windv2, nomv2;
 
-	public PSSEXfrDataRec(String lineStr1, String lineStr2, String lineStr3,
-				String lineStr4, VersionNo version) {
-		if (version == VersionNo.Old) {
-			/*
-			 * 	I,J,CKT,ICONT,RMA,RMI,VMA,VMI,STEP,TABLE 
-			 * 		I - From bus number 
-			 * 		J - To bus number 
-			 * 		CKT - Circuit number 
-			 * 		ICONT - Number of bus to control. If different from I or J, sign of ICONT determines
-			 * 				control. Positive sign, close to impedance (untapped) bus of
-			 * 				transformer. Negative sign, opposite. 
-			 * 		RMA - Upper limit of turns ratio or phase shift 
-			 * 		RMI - Lower limit of turns ratio or phase shift 
-			 * 		VMA - Upper limit of controlled volts, MW or MVAR 
-			 * 		VMI - Lower limit of controlled volts, MW or MVAR 
-			 * 		STEP - Turns ratio step increment 
-			 * 		TABLE - Zero, or number of a transformer impedance correction table 1-5
-			 */
-			StringTokenizer st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr1));
-			i = new Integer(st.nextToken().trim()).intValue();
-			j = new Integer(st.nextToken().trim()).intValue();
-			ckt = PSSE2IpssUtilFunc.trimQuote(st.nextToken()).trim();
-			cont = new Integer(st.nextToken().trim()).intValue();
-			rma = new Double(st.nextToken().trim()).doubleValue();
-			rmi = new Double(st.nextToken().trim()).doubleValue();
-			vma = new Double(st.nextToken().trim()).doubleValue();
-			vmi = new Double(st.nextToken().trim()).doubleValue();
+	public PSSEXfrDataRec(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, VersionNo version) {
+		try {
+			if (version == VersionNo.Old) {
+				/*
+				 * 	I,J,CKT,ICONT,RMA,RMI,VMA,VMI,STEP,TABLE 
+				 * 		I - From bus number 
+				 * 		J - To bus number 
+				 * 		CKT - Circuit number 
+				 * 		ICONT - Number of bus to control. If different from I or J, sign of ICONT determines
+				 * 				control. Positive sign, close to impedance (untapped) bus of
+				 * 				transformer. Negative sign, opposite. 
+				 * 		RMA - Upper limit of turns ratio or phase shift 
+				 * 		RMI - Lower limit of turns ratio or phase shift 
+				 * 		VMA - Upper limit of controlled volts, MW or MVAR 
+				 * 		VMI - Lower limit of controlled volts, MW or MVAR 
+				 * 		STEP - Turns ratio step increment 
+				 * 		TABLE - Zero, or number of a transformer impedance correction table 1-5
+				 */
+				StringTokenizer st = new StringTokenizer(PSSE2IpssUtilFunc.removeTailComment(lineStr1));
+				i = new Integer(st.nextToken().trim()).intValue();
+				j = new Integer(st.nextToken().trim()).intValue();
+				ckt = PSSE2IpssUtilFunc.trimQuote(st.nextToken()).trim();
+				cont = new Integer(st.nextToken().trim()).intValue();
+				rma = new Double(st.nextToken().trim()).doubleValue();
+				rmi = new Double(st.nextToken().trim()).doubleValue();
+				vma = new Double(st.nextToken().trim()).doubleValue();
+				vmi = new Double(st.nextToken().trim()).doubleValue();
 
-		} else {
-			StringTokenizer st = new StringTokenizer(lineStr1, ",");
-			i = new Integer(st.nextToken().trim()).intValue();
-			j = new Integer(st.nextToken().trim()).intValue();
-			k = new Integer(st.nextToken().trim()).intValue();
-			ckt = PSSE2IpssUtilFunc.trimQuote(st.nextToken()).trim();
-			cw = new Integer(st.nextToken().trim()).intValue();
-			cz = new Integer(st.nextToken().trim()).intValue();
-			cm = new Integer(st.nextToken().trim()).intValue();
-			mag1 = new Double(st.nextToken().trim()).doubleValue();
-			mag2 = new Double(st.nextToken().trim()).doubleValue();
-			nmetr = new Integer(st.nextToken().trim()).intValue();
-			name = st.nextToken().trim();
-			stat = new Integer(st.nextToken().trim()).intValue();
+			} else {
+				// 324558,324023,     0,'1 ',2,2,1,   0.00036,  -0.00197,1,'HFL- 1,2    ',1,   1,1.0000
+				// The name field might have ','
+				StringTokenizer st = new StringTokenizer(lineStr1, "'");
+				String s1 = st.nextToken();  // 324558,324023,     0, 
+				String s2 = st.nextToken();  // 1 
+				String s3 = st.nextToken();  // ,2,2,1,   0.00036,  -0.00197,1, 
+				String s4 = st.nextToken();  // HFL- 1,2    
+				String s5 = st.nextToken();  // ,1,   1,1.0000 
+				
+				st = new StringTokenizer(s1, ",");
+				i = new Integer(st.nextToken().trim()).intValue();
+				j = new Integer(st.nextToken().trim()).intValue();
+				k = new Integer(st.nextToken().trim()).intValue();
 
-			if (st.hasMoreTokens())
-				o1 = new Integer(st.nextToken().trim()).intValue();
-			if (st.hasMoreTokens())
-				f1 = new Double(st.nextToken().trim()).doubleValue();
-			if (st.hasMoreTokens())
-				o2 = new Integer(st.nextToken().trim()).intValue();
-			if (st.hasMoreTokens())
-				f2 = new Double(st.nextToken().trim()).doubleValue();
-			if (st.hasMoreTokens())
-				o3 = new Integer(st.nextToken().trim()).intValue();
-			if (st.hasMoreTokens())
-				f3 = new Double(st.nextToken().trim()).doubleValue();
-			if (st.hasMoreTokens())
-				o4 = new Integer(st.nextToken().trim()).intValue();
-			if (st.hasMoreTokens())
-				f4 = new Double(st.nextToken().trim()).doubleValue();
+				ckt = s2.trim();
 
-			st = new StringTokenizer(lineStr2, ",");
-			r1_2 = new Double(st.nextToken().trim()).doubleValue();
-			x1_2 = new Double(st.nextToken().trim()).doubleValue();
-			sbase1_2 = new Double(st.nextToken().trim()).doubleValue();
+				st = new StringTokenizer(s3, ",");
+				cw = new Integer(st.nextToken().trim()).intValue();
+				cz = new Integer(st.nextToken().trim()).intValue();
+				cm = new Integer(st.nextToken().trim()).intValue();
+				mag1 = new Double(st.nextToken().trim()).doubleValue();
+				mag2 = new Double(st.nextToken().trim()).doubleValue();
+				nmetr = new Integer(st.nextToken().trim()).intValue();
 
-			st = new StringTokenizer(lineStr3, ",");
-			windv1 = new Double(st.nextToken().trim()).doubleValue();
-			nomv1 = new Double(st.nextToken().trim()).doubleValue();
-			ang1 = new Double(st.nextToken().trim()).doubleValue();
-			rata1 = new Double(st.nextToken().trim()).doubleValue();
-			ratb1 = new Double(st.nextToken().trim()).doubleValue();
-			ratc1 = new Double(st.nextToken().trim()).doubleValue();
-			cod = new Integer(st.nextToken().trim()).intValue();
-			cont = new Integer(st.nextToken().trim()).intValue();
-			rma = new Double(st.nextToken().trim()).doubleValue();
-			rmi = new Double(st.nextToken().trim()).doubleValue();
-			vma = new Double(st.nextToken().trim()).doubleValue();
-			vmi = new Double(st.nextToken().trim()).doubleValue();
-			ntp = new Integer(st.nextToken().trim()).intValue();
-			tab = new Integer(st.nextToken().trim()).intValue();
-			cr = new Double(st.nextToken().trim()).doubleValue();
-			cx = new Double(st.nextToken().trim()).doubleValue();
+				name = s4;
 
-			st = new StringTokenizer(lineStr4, ",");
-			windv2 = new Double(st.nextToken().trim()).doubleValue();
-			nomv2 = new Double(st.nextToken().trim()).doubleValue();
+				st = new StringTokenizer(s5, ",");
+				stat = new Integer(st.nextToken().trim()).intValue();
+
+				if (st.hasMoreTokens())
+					o1 = new Integer(st.nextToken().trim()).intValue();
+				if (st.hasMoreTokens())
+					f1 = new Double(st.nextToken().trim()).doubleValue();
+				if (st.hasMoreTokens())
+					o2 = new Integer(st.nextToken().trim()).intValue();
+				if (st.hasMoreTokens())
+					f2 = new Double(st.nextToken().trim()).doubleValue();
+				if (st.hasMoreTokens())
+					o3 = new Integer(st.nextToken().trim()).intValue();
+				if (st.hasMoreTokens())
+					f3 = new Double(st.nextToken().trim()).doubleValue();
+				if (st.hasMoreTokens())
+					o4 = new Integer(st.nextToken().trim()).intValue();
+				if (st.hasMoreTokens())
+					f4 = new Double(st.nextToken().trim()).doubleValue();
+
+				st = new StringTokenizer(lineStr2, ",");
+				r1_2 = new Double(st.nextToken().trim()).doubleValue();
+				x1_2 = new Double(st.nextToken().trim()).doubleValue();
+				sbase1_2 = new Double(st.nextToken().trim()).doubleValue();
+
+				st = new StringTokenizer(lineStr3, ",");
+				windv1 = new Double(st.nextToken().trim()).doubleValue();
+				nomv1 = new Double(st.nextToken().trim()).doubleValue();
+				ang1 = new Double(st.nextToken().trim()).doubleValue();
+				rata1 = new Double(st.nextToken().trim()).doubleValue();
+				ratb1 = new Double(st.nextToken().trim()).doubleValue();
+				ratc1 = new Double(st.nextToken().trim()).doubleValue();
+				cod = new Integer(st.nextToken().trim()).intValue();
+				cont = new Integer(st.nextToken().trim()).intValue();
+				rma = new Double(st.nextToken().trim()).doubleValue();
+				rmi = new Double(st.nextToken().trim()).doubleValue();
+				vma = new Double(st.nextToken().trim()).doubleValue();
+				vmi = new Double(st.nextToken().trim()).doubleValue();
+				ntp = new Integer(st.nextToken().trim()).intValue();
+				tab = new Integer(st.nextToken().trim()).intValue();
+				cr = new Double(st.nextToken().trim()).doubleValue();
+				cx = new Double(st.nextToken().trim()).doubleValue();
+
+				st = new StringTokenizer(lineStr4, ",");
+				windv2 = new Double(st.nextToken().trim()).doubleValue();
+				nomv2 = new Double(st.nextToken().trim()).doubleValue();
+			}
+		} catch (Exception e) {
+			IpssLogger.getLogger().severe(lineStr1 + "\n" + lineStr2 + "\n" + lineStr3 + "\n" + lineStr4);
+			e.printStackTrace();
 		}
 	}
 
@@ -270,6 +290,7 @@ public class PSSEXfrDataRec {
           	bra.setXfrTableIdNumber(this.tab);
 		}
 		else {
+			IpssLogger.getLogger().warning("*****3W-Xfr->" + toString());
 			/*
 			Three-winding:
 			I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4

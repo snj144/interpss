@@ -182,17 +182,24 @@ public class PSSE2IpssUtilFunc {
 					magnitude between the limits VMIN to VMAX.
 	          		 */
 	          		IpssLogger.getLogger().info("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has voltage control");
-	          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
-	          				adjNet, xfr.getId(), xfr.getContBusId(), FlowControlType.RANGE_CONTROL);
-	          		tapv.setTapLimit(xfr.getRmLimit());
-	          		tapv.setControlRange(xfr.getVmLimit());
-	          		tapv.setVSpecified(1.0);
-	          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
-	          		// we use from side tap to control
-	          		tapv.setControlOnFromSide(true);
-	          		tapv.setMeteredOnFromSide(xfr.isControlOnFromSide());
-	          		tapv.setCompensateZ(xfr.getLoadDropCZ());
-	          		adjNet.addTapControl(tapv, xfr.getContBusId());   
+	          		// we need to make sure the control bus is not a swing or pv bus
+	          		AclfBus bus = adjNet.getAclfBus(xfr.getContBusId());
+	          		if (bus == null || bus.isStatus() || bus.isGenPV()) {
+	          			IpssLogger.getLogger().warning("Xfr voltage control is null or swing bus or pv bus, bus id: " + xfr.getContBusId());
+	          		}
+	          		else {
+		          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
+		          				adjNet, xfr.getId(), xfr.getContBusId(), FlowControlType.RANGE_CONTROL);
+		          		tapv.setTapLimit(xfr.getRmLimit());
+		          		tapv.setControlRange(xfr.getVmLimit());
+		          		tapv.setVSpecified(1.0);
+		          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
+		          		// we use from side tap to control
+		          		tapv.setControlOnFromSide(true);
+		          		tapv.setMeteredOnFromSide(xfr.isControlOnFromSide());
+		          		tapv.setCompensateZ(xfr.getLoadDropCZ());
+		          		adjNet.addTapControl(tapv, xfr.getContBusId());   
+	          		}
 	          	}
 	          	else if (xfr.getControlMode() == 2) {
 	          		// ±2 for reactive power flow control; 

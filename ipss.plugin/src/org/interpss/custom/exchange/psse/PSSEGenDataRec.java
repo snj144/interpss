@@ -32,6 +32,7 @@ import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
@@ -68,8 +69,12 @@ public class PSSEGenDataRec {
 		}
 		pg = new Double(st.nextToken().trim()).doubleValue();
 		qg = new Double(st.nextToken().trim()).doubleValue();
+		
 		qt = new Double(st.nextToken().trim()).doubleValue();
 		qb = new Double(st.nextToken().trim()).doubleValue();
+		if (qt < qb) {
+			IpssLogger.getLogger().warning("Gen Data qt (qMax: " + qt + ") < qb (qMin:" + qb + "), \n" + lineStr);
+		}
 		vs = new Double(st.nextToken().trim()).doubleValue();
 		ireg = new Integer(st.nextToken().trim()).intValue();
 		mbase = new Double(st.nextToken().trim()).doubleValue();
@@ -80,8 +85,12 @@ public class PSSEGenDataRec {
 		gtap = new Double(st.nextToken().trim()).doubleValue();
 		stat = new Integer(st.nextToken().trim()).intValue();
 		rmpct = new Double(st.nextToken().trim()).doubleValue();
+		
 		pt = new Double(st.nextToken().trim()).doubleValue();
 		pb = new Double(st.nextToken().trim()).doubleValue();
+		if (pt < pb) {
+			IpssLogger.getLogger().warning("Gen Data pt (pMax:" + pt + ") < pb (pMin:" + pb + "), \n" + lineStr);
+		}
 
 		if (st.hasMoreTokens())
 			o1 = new Integer(st.nextToken().trim()).intValue();
@@ -132,12 +141,12 @@ public class PSSEGenDataRec {
 		gen.setQGen(UnitType.pConversion(this.qg, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU));
 		gen.setVSpec(this.vs);
 		
-		if (this.pt == 0.0 & this.pb == 0.0) {
+		if (this.pt == 0.0 & this.pb == 0.0 || this.pt < this.pb ) {
 			this.pt = 9999.0; this.pb = -9999.0;
 		}
 		gen.setPLimit(new LimitType(UnitType.pConversion(this.pt, adjNet.getBaseKva(), UnitType.mW, UnitType.PU),
 				                    UnitType.pConversion(this.pb, adjNet.getBaseKva(), UnitType.mW, UnitType.PU)));
-		if (this.qt == 0.0 & this.qb == 0.0) {
+		if (this.qt == 0.0 & this.qb == 0.0 || this.qt < this.qb) {
 			this.qt = 9999.0; this.qb = -9999.0;
 		}
 		gen.setQLimit(new LimitType(UnitType.pConversion(this.qt, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU),

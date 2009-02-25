@@ -55,8 +55,8 @@ import org.interpss.custom.exchange.psse.PSSEXfrDataRec;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.net.Branch;
-import com.interpss.core.net.Bus;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfNetwork;
 
@@ -94,15 +94,10 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
       		boolean interareaTransferProcessed = false;
       		boolean ownerProcessed = false;
       		boolean factsProcessed = false;
-      		int lineCnt = 0; 
       		do {
       			lineStr = din.readLine();
       			if (lineStr != null) {
       				lineNo++;
-      				if (lineCnt++ > 1000) {
-      					lineCnt = 0;
-      					msg.sendStatusMsg("Processing PSS/E file, line processed " + lineNo);
-      				}
       				if (!headerProcessed) {
       					if (lineNo == 1 && version == PSSEDataRec.VersionNo.NotDefined) {
       						version = PSSEDataRec.getVersion(lineStr, msg);
@@ -146,6 +141,21 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 						if (PSSE2IpssUtilFunc.isEndRecLine(lineStr)) {
 							 lineProcessed = true;
 							 IpssLogger.getLogger().info("PSS/E Line record processed");
+
+							 // because PSS/E allows zero bus base voltage, we need to fix the issue here
+							 for (Branch branch : adjNet.getBranchList()) {
+								 AclfBranch aclfBra = (AclfBranch)branch;
+								 if (aclfBra.getFromBus().getBaseVoltage() <= 0.0 && aclfBra.getToAclfBus().getBaseVoltage() > 0.0) {
+									 aclfBra.getFromBus().setBaseVoltage(aclfBra.getToBus().getBaseVoltage());
+									 IpssLogger.getLogger().warning("Bus base voltage set to :" + aclfBra.getToBus().getBaseVoltage() 
+											 + " @" + aclfBra.getFromBus().getId());
+								 }
+								 else if (aclfBra.getToAclfBus().getBaseVoltage() <= 0.0 && aclfBra.getFromBus().getBaseVoltage() > 0.0) {
+									 aclfBra.getToBus().setBaseVoltage(aclfBra.getFromBus().getBaseVoltage());
+									 IpssLogger.getLogger().warning("Bus base voltage set to :" + aclfBra.getFromBus().getBaseVoltage() 
+											 + " @" + aclfBra.getToBus().getId());
+								 }
+							 }
 						}
 						else {
 							PSSELineDataRec rec = new PSSELineDataRec(lineStr, version);
@@ -165,10 +175,10 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
       						lineNo++; lineNo++; lineNo++;
       						String lineStr5 = "";
       						if (PSSE2IpssUtilFunc.is3WXfr(lineStr)) {
-          						lineStr4 = din.readLine();
+          						lineStr5 = din.readLine();
           						lineNo++;
       						}
-							PSSEXfrDataRec rec = new PSSEXfrDataRec(lineStr, lineStr2, lineStr3, lineStr4, version);
+							PSSEXfrDataRec rec = new PSSEXfrDataRec(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version);
 							rec.processXfr(adjNet, msg);
 						}	 
       				}
