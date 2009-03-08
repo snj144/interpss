@@ -7,11 +7,11 @@
   <programGroup defaultName="InterPSS" location="applications"/>
 
    <shortcut
-     name="InterPSS Editor"
-     target="$INSTALL_PATH\run.bat"     
+     name="InterPSS OpenCIM Viewer"
+     target="$INSTALL_PATH\opencim.exe"     
      commandLine=""
      workingDirectory="$INSTALL_PATH"
-     description="InterPSS Editor"
+     description="InterPSS OpenCIM Viewer"
    	 iconFile="%SystemRoot%\system32\SHELL32.dll"
      iconIndex="13" 
      programGroup="yes"
@@ -23,7 +23,7 @@
    </shortcut>
 
    <shortcut
-     name="InterPSS Editor Uninstaller"
+     name="InterPSS OpenCIM Viewer Uninstaller"
      target="$INSTALL_PATH\Uninstaller\uninstaller.jar" 
      commandLine=""
      programGroup="yes"
@@ -33,7 +33,7 @@
      startup="no"
 	 iconFile="%SystemRoot%\system32\SHELL32.dll"
      iconIndex="31" 
-     description="This uninstalls InterPSS Editor">
+     description="This uninstalls InterPSS  OpenCIM Viewer">
      
    </shortcut>
    

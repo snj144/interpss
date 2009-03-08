@@ -15,12 +15,12 @@
 		The meaning of the tags should be natural ...
 	-->
 	<info>
-		<appname>InterPSS_Editor</appname>
-		<appversion>1.4.03</appversion>
+		<appname>InterPSS_OpenCIM_Viewer</appname>
+		<appversion>1.0.0BETA</appversion>
 		<authors>
 			<author name="The Interpss Team" email="info@interpss.org" />
 		</authors>
-		<url>http://www.interpss.org/</url>
+		<url>http://www.interpss.com/</url>
 	</info>
 
 	<!-- 
@@ -29,9 +29,6 @@
 	-->
 
 	<guiprefs height="480" resizable="no" width="640">
-		<laf name="metouia">
-			<os family="unix" />
-		</laf>
 		<laf name="looks">
 			<os family="windows" />
 			<param name="variant" value="extwin" />
@@ -62,7 +59,6 @@
 		<res id="LicencePanel.licence" src="Licence.txt" />
 		<res src="install-readme.html" id="HTMLInfoPanel.info" />
 		<res id="shortcutSpec.xml" src="shortcutSpec.xml" />
-		<res src="Unix_shortcutSpec.xml" id="Unix_shortcutSpec.xml" />
 		<res src="border1.png" id="Installer.image.0" />
 		<res src="border2.png" id="Installer.image.1" />
 		<res src="border3.png" id="Installer.image.2" />
@@ -102,69 +98,25 @@
 				Interpss runtime jar and configuration files.
 			</description>
 
-			<file src="bin" targetdir="$INSTALL_PATH" />
-			<file src="lib" targetdir="$INSTALL_PATH" />
+			<file src="configuration" targetdir="$INSTALL_PATH" />
+			<file src="dict" targetdir="$INSTALL_PATH" />
+			<file src="icons" targetdir="$INSTALL_PATH" />
+			<file src="license" targetdir="$INSTALL_PATH" />
 			<file src="log" targetdir="$INSTALL_PATH" />
-			<file src="java" targetdir="$INSTALL_PATH" />
-			<file src="output" targetdir="$INSTALL_PATH" />
-			<file src="plugin" targetdir="$INSTALL_PATH" />
+			<file src="plugins" targetdir="$INSTALL_PATH" />
 			<file src="properties" targetdir="$INSTALL_PATH" />
-			<file src="reportTemplate" targetdir="$INSTALL_PATH" />
-			<file src="ipss.jar" targetdir="$INSTALL_PATH" />
-			<file src="gridLib/gridgain-1.6.1.jar" targetdir="$INSTALL_PATH/gridLib" />
-			<file src="run.bat" targetdir="$INSTALL_PATH" />
-			<file src="runGrid.bat" targetdir="$INSTALL_PATH" />
-			<file src="Uninstaller.bat" targetdir="$INSTALL_PATH" />
-			<file src="run.sh" targetdir="$INSTALL_PATH" />
-			<file src="Uninstaller.sh" targetdir="$INSTALL_PATH" />
-			<file src="ipss_licence.txt" targetdir="$INSTALL_PATH" />
-			<file src="notice.txt" targetdir="$INSTALL_PATH" />
-			<parsable targetfile="$INSTALL_PATH/run.bat"/>
-			<parsable targetfile="$INSTALL_PATH/runGrid.bat"/>
-			<parsable targetfile="$INSTALL_PATH/Uninstaller.bat"/>
-			<parsable targetfile="$INSTALL_PATH/run.sh"/>
-			<parsable targetfile="$INSTALL_PATH/Uninstaller.sh"/>
-			<executable targetfile="$INSTALL_PATH/run.sh" stage="never"/>
+			<file src="opencim.exe" targetdir="$INSTALL_PATH" />
+			<file src="opencim.ini" targetdir="$INSTALL_PATH" />
+			<file src="plugin_customization.ini" targetdir="$INSTALL_PATH" />
 		</pack>
 
-		<pack name="Ipss Workspace" required="no">
+		<pack name="Sample" required="no">
 			<description>
-				Ipss/User workspace and project files. Required for a new
-				installation
+				Samples
 			</description>
-			<file src="workspace" targetdir="$INSTALL_PATH" />
+			<file src="samples" targetdir="$INSTALL_PATH" />
 		</pack>
 
-		<pack name="Ipss/User Database files" required="no">
-			<description>
-				Ipss/User workspce database schema and data files. Required for a new
-				installation
-			</description>
-			<file src="db/IpssDB" targetdir="$INSTALL_PATH/db" />
-		</pack>
-
-		<pack name="Samples Workspace" required="no">
-			<description>
-				Sample workspace and project files. Required for a new
-				installation
-			</description>
-			<file src="sample_ws" targetdir="$INSTALL_PATH" />
-		</pack>
-
-		<pack name="Sample Database files" required="no">
-			<description>
-				Sample workspce database schema and data files. Required for a new
-				installation
-			</description>
-			<file src="db/SampleDB" targetdir="$INSTALL_PATH/db" />
-		</pack>
-
-		<pack name="Grid Computing Library" required="no">
-			<description>
-				InterPSS Grid Computing solution library.
-			</description>
-			<file src="gridLib" targetdir="$INSTALL_PATH" />
-		</pack>
 	</packs>
 
 	<!-- The native libraries to add -->
