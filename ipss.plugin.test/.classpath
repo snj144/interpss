@@ -17,7 +17,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.editor.ui"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu.test"/>
 	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Gridgain"/>
 	<classpathentry kind="var" path="IPSS_LIB/jgraph.jar"/>
@@ -28,5 +27,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ieee.odm_pss"/>
 	<classpathentry kind="lib" path="/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.ext_EMF"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu.test"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
