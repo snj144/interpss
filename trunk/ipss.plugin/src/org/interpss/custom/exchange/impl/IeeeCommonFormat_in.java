@@ -34,7 +34,6 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.math.complex.Complex;
 
-import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
@@ -47,9 +46,7 @@ import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.FlowControlType;
-import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.RemoteQControlType;
-import com.interpss.core.aclfadj.TapControl;
 import com.interpss.core.aclfadj.XfrTapControlType;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
@@ -488,25 +485,30 @@ public class IeeeCommonFormat_in {
       					.setShuntB(bpu, UnitType.PU);
       	}
       	else if (type >= 1) {
-          	IpssAclf.AclfBranchBaseDSL<AclfBranch, AclfNetwork> braDSL = 
-          		IpssAclf.addAclfBranch(fid, tid, new Integer(cirNo).toString(), net)
+          	AclfBranch aclfBranch =	IpssAclf.addAclfBranch(fid, tid, new Integer(cirNo).toString(), net)
           					.setAreaNumber(areaNo)
           					.setZoneNumber(zoneNo)
           					.setBranchCode(AclfBranchCode.XFORMER)
           					.setZ(new Complex(rpu,xpu), UnitType.PU)
-          					.setTurnRatio(ratio, 1.0, UnitType.PU); 
+          					.setTurnRatio(ratio, 1.0, UnitType.PU)
+          					.getAclfBranch(); 
         	if (bpu < 0.0) {
         		IpssLogger.getLogger().fine("Xfr B: " + bpu);
-        		braDSL.getAclfBranch().getFromAclfBus().setShuntY(new Complex(0.0, -bpu));
+        		IpssAclf.objWrapper(aclfBranch, net)
+        					.getAclfBranch()
+        					.getFromAclfBus()
+        						.setShuntY(new Complex(0.0, -bpu));
         	}
         	if (angle != 0.0) {
         		// PhaseShifting transformer branch
-        	 	braDSL.setBranchCode(AclfBranchCode.PS_XFORMER)
-        	 			.setShiftAngle(angle, 0.0, UnitType.Deg);
+        		IpssAclf.objWrapper(aclfBranch, net)
+        	 				.setBranchCode(AclfBranchCode.PS_XFORMER)
+        	 				.setShiftAngle(angle, 0.0, UnitType.Deg);
         	}
         	
           	if (type == 2) {
 //                2 - Variable tap for voltage control (TCUL, LTC)
+          		// TODO: volt spec is not defined
           		IpssAclf.addTapControl(fid, tid, new Integer(cirNo).toString(), net)
 							.setControlType(XfrTapControlType.BUS_VOLTAGE)
 							.setAdjBusBranchId(controlBusId)
@@ -514,27 +516,31 @@ public class IeeeCommonFormat_in {
 							.setVSpecified(1.0, UnitType.PU)
 							.setTurnRatioLimit(maxTapAng, minTapAng)
 							.setTapStepSize(stepSize)
-							.setVcBusOnFromSide(getSide(controlSide, controlBusId, braDSL.getAclfBranch()))
+							.setVcBusOnFromSide(getSide(controlSide, controlBusId, aclfBranch))
 							.setTapOnFromSide(true);
           	}
           	else if (type == 3) {
 //              3 - Variable tap (turns ratio) for MVAR control
-          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, braDSL.getAclfBranch().getId(), FlowControlType.RANGE_CONTROL);
-          		tapv.setTapLimit(new LimitType(maxVoltPQ, minVoltPQ));
           		// TODO: volt spec is not defined
-          		tapv.setVSpecified(1.0);
-          		tapv.setTapStepSize(stepSize);
-          		tapv.setControlOnFromSide(getSide(controlSide, controlBusId, braDSL.getAclfBranch()));
-          		net.addTapControl(tapv, controlBusId);          		
+          		IpssAclf.addTapControl(fid, tid, new Integer(cirNo).toString(), net)
+							.setControlType(XfrTapControlType.MVAR_FLOW)
+							.setFlowControlType(FlowControlType.RANGE_CONTROL)
+							.setMvarSpecified(1.0, UnitType.PU)
+							.setTurnRatioLimit(maxVoltPQ, minVoltPQ)
+							.setTapStepSize(stepSize)
+							.setTapOnFromSide(getSide(controlSide, controlBusId, aclfBranch))
+							.setFlowFrom2To(true)
+							.setMeteredOnFromSide(true);
           	}
           	else if (type == 4) {
 //              4 - Variable phase angle for MW control (phase shifter)
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, braDSL.getAclfBranch().getId(), FlowControlType.RANGE_CONTROL);
-          		// TODO pSpec not defined
-          		ps.setPSpecified(0.2);
-          		ps.setAngLimit(new LimitType(Math.toRadians(maxTapAng), Math.toRadians(minTapAng)));
-          		ps.setControlOnFromSide(getSide(controlSide, controlBusId, braDSL.getAclfBranch()));
-          		net.addPSXfrPControl(ps, controlBusId);          		
+          		// TODO: volt spec is not defined
+        		IpssAclf.addPSXfrPControl(fid, tid, new Integer(cirNo).toString(), net)
+							.setFlowControlType(FlowControlType.RANGE_CONTROL)
+							.setPSpecified(0.2, UnitType.PU)
+							.setAngLimit(maxTapAng, minTapAng, UnitType.Deg)
+							.setFlowFrom2To(true)
+							.setControlOnFromSide(true);          		
           	}
       	}
     }
