@@ -38,6 +38,7 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
+import com.interpss.simu.dsl.IpssAclf;
 
 public class PSSEBusDataRec {
 	public int i, ide, area = 1, zone = 1, owner = 1;
@@ -102,45 +103,37 @@ public class PSSEBusDataRec {
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
 */
 		String iStr = new Integer(this.i).toString();
-		final AclfBus bus = CoreObjectFactory.createAclfBus(iStr, this.area, this.zone, 
-				new Integer(this.owner).toString(), adjNet);
-      	bus.setName(this.name);
-    	if (this.baseKv > 0.0) {
-    		bus.setBaseVoltage(this.baseKv, UnitType.kV);
-    	} 
-    	else 
-    		msg.sendWarnMsg("Base voltage = 0.0, at Bus " + iStr);
     	double factor = 1000.0/adjNet.getBaseKva();  // for transfer G+jB to PU on system base 
-    	bus.setShuntY(new Complex(this.gl*factor,this.bl*factor));
-      	
-    	// add the bus object into the network container
-    	//adjNet.addBus(bus);
+    	if (this.baseKv <= 0.0) 
+    		msg.sendWarnMsg("Base voltage = 0.0, at Bus " + iStr);
+
+		AclfBus bus = IpssAclf.addAclfBus(iStr, this.name, adjNet)
+				.setAreaNumber(this.area)
+				.setZoneNumber(this.zone)
+				.setBaseVoltage(this.baseKv, UnitType.kV)
+				.setShuntY(new Complex(this.gl*factor,this.bl*factor), UnitType.PU)
+				.getAclfBus();
 
     	// set input data to the bus object
       	if ( this.ide == 3 ) {
       		// Swing bus
-   		 	bus.setGenCode(AclfGenCode.SWING);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
-  			final SwingBusAdapter gen = (SwingBusAdapter)bus.getAdapter(SwingBusAdapter.class);
-  			gen.setVoltMag(this.vm, UnitType.PU);
-  			gen.setVoltAng(this.va, UnitType.Deg);
+      		IpssAclf.wrapAclfBus(bus, adjNet)
+   		 		.setGenCode(AclfGenCode.SWING)
+  				.setVoltageSpec(this.vm, UnitType.PU, this.va, UnitType.Deg);
     	}
     	else if ( this.ide == 2 ) {
     		// Gen bus, we first set it to a PQ bus. It will be adjusted in the 
     		// Generator data section.
-    		bus.setGenCode(AclfGenCode.GEN_PV);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
+      		IpssAclf.wrapAclfBus(bus, adjNet)
+      			.setGenCode(AclfGenCode.GEN_PV);
     	}
     	else if ( this.ide == 1 ) {
     		// Non-gen load bus
-   		 	bus.setGenCode(AclfGenCode.NON_GEN);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
     	}
     	else {
-    		// Isolated bus, an isolated bus will not participate in Loadflow calculaiton
-    		bus.setGenCode(AclfGenCode.NON_GEN);
-    		bus.setLoadCode(AclfLoadCode.NON_LOAD);
-    		bus.setStatus(false);
+    		// Isolated bus, an isolated bus will not participate in Loadflow calculation
+      		IpssAclf.wrapAclfBus(bus, adjNet)
+      				.setStatus(false);
     	}
 	}
 	

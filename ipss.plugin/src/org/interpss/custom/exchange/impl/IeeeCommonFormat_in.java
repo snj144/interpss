@@ -494,14 +494,14 @@ public class IeeeCommonFormat_in {
           					.getAclfBranch(); 
         	if (bpu < 0.0) {
         		IpssLogger.getLogger().fine("Xfr B: " + bpu);
-        		IpssAclf.objWrapper(aclfBranch, net)
+        		IpssAclf.wrapAclfBranch(aclfBranch, net)
         					.getAclfBranch()
         					.getFromAclfBus()
         						.setShuntY(new Complex(0.0, -bpu));
         	}
         	if (angle != 0.0) {
         		// PhaseShifting transformer branch
-        		IpssAclf.objWrapper(aclfBranch, net)
+        		IpssAclf.wrapAclfBranch(aclfBranch, net)
         	 				.setBranchCode(AclfBranchCode.PS_XFORMER)
         	 				.setShiftAngle(angle, 0.0, UnitType.Deg);
         	}
