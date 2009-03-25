@@ -27,8 +27,7 @@ package org.interpss.core.adapter.ieee;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.dsl.IpssAdapter;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -38,16 +37,15 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.simu.SimuContext;
 
 public class IEEECommonFormat_CommaTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14_comma.ieee", SpringAppContext.getIpssMsgHub());
+		AclfNetwork net = (AclfNetwork)IpssAdapter.importFile("testData/ieee_format/ieee14_comma.ieee")
+					.setFileType(IpssAdapter.FileType.IEEECommonFormat)
+					.load();
 
-		AclfNetwork net = simuCtx.getAclfNet();
-  		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
+		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
