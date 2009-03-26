@@ -49,6 +49,9 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 		this.version = version;
 	}
 
+	public FileAdapter_PTIFormat() {
+	}
+	
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
