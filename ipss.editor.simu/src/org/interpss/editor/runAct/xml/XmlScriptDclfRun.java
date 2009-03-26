@@ -28,6 +28,7 @@ import org.interpss.PluginSpringAppContext;
 import org.interpss.display.DclfOutFunc;
 import org.interpss.editor.ui.IOutputTextDialog;
 import org.interpss.editor.ui.UISpringAppContext;
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.schema.BusRecXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
@@ -38,15 +39,14 @@ import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.RunStudyCaseXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
-import org.interpss.schema.AreaTransferAnalysisXmlType;
 
 import com.interpss.common.mapper.IpssMapper;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.dclf.BusSenAnalysisType;
 import com.interpss.core.dclf.DclfAlgorithm;
-import com.interpss.core.dclf.DclfSensitivityType;
-import com.interpss.core.dclf.SenBusAnalysisType;
+import com.interpss.core.dclf.SenAnalysisType;
 
 public class XmlScriptDclfRun {
 	/**
@@ -96,12 +96,12 @@ public class XmlScriptDclfRun {
 				for (DclfBusSensitivityXmlType sen : xmlCase.getSensitivityArray()) {
 					String inBusId = sen.getInjectBusList().getInjectBusArray(0).getBusId();
 					if (sen.getSenType() == DclfSensitivityXmlType.SenType.P_ANGLE) {
-						algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
+						algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId, msg);
 						String str = DclfOutFunc.pAngleSensitivityResults(sen,
 								algo, msg);
 						dialog.appendText(str);
 					} else if (sen.getSenType() == DclfSensitivityXmlType.SenType.Q_VOLTAGE) {
-						algo.calculateSensitivity(DclfSensitivityType.QVOLTAGE, inBusId, msg);
+						algo.calculateSensitivity(SenAnalysisType.QVOLTAGE, inBusId, msg);
 						String str = DclfOutFunc.qVoltageSensitivityResults(sen,
 								algo, msg);
 						dialog.appendText(str);
@@ -110,7 +110,7 @@ public class XmlScriptDclfRun {
 
 				for (DclfBranchSensitivityXmlType gsFactor : xmlCase.getGenShiftFactorArray()) {
 					String inBusId = gsFactor.getInjectBusList().getInjectBusArray(0).getBusId();
-					algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
+					algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId, msg);
 					String str = DclfOutFunc.genShiftFactorResults(gsFactor, algo,
 							msg);
 					dialog.appendText(str);
@@ -133,29 +133,29 @@ public class XmlScriptDclfRun {
 		algo.getWithdrawBusList().clear();
 
 		if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-			algo.setInjectBusType(SenBusAnalysisType.SINGLE_BUS);
+			algo.setInjectBusType(BusSenAnalysisType.SINGLE_BUS);
 			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 			algo.addInjectBus(inBusId, 100.0);
-			algo.calculateSensitivity(DclfSensitivityType.PANGLE, inBusId, msg);
+			algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId, msg);
 		}
 		else if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.MULTIPLE_BUS) {
-			algo.setInjectBusType(SenBusAnalysisType.MULTIPLE_BUS);
+			algo.setInjectBusType(BusSenAnalysisType.MULTIPLE_BUS);
 			for (BusRecXmlType bus :  tdFactor.getInjectBusList().getInjectBusArray()){
-				algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId(), msg);
 				algo.addInjectBus(bus.getBusId(), 100.0);
 			}
 		}		
 		
 		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-			algo.setWithdrawBusType(SenBusAnalysisType.SINGLE_BUS);
+			algo.setWithdrawBusType(BusSenAnalysisType.SINGLE_BUS);
 			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
 			algo.addWithdrawBus(wdBusId, 100.0);
-			algo.calculateSensitivity(DclfSensitivityType.PANGLE, wdBusId, msg);
+			algo.calculateSensitivity(SenAnalysisType.PANGLE, wdBusId, msg);
 		}
 		else if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.MULTIPLE_BUS) {
-			algo.setWithdrawBusType(SenBusAnalysisType.MULTIPLE_BUS);
+			algo.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
 			for (SenAnalysisBusRecXmlType bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
-				algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId(), msg);
 				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
 			}
 		}		
@@ -165,15 +165,15 @@ public class XmlScriptDclfRun {
 		algo.getInjectBusList().clear();
 		algo.getWithdrawBusList().clear();
 
-		algo.setInjectBusType(SenBusAnalysisType.MULTIPLE_BUS);
+		algo.setInjectBusType(BusSenAnalysisType.MULTIPLE_BUS);
 		for (SenAnalysisBusRecXmlType bus :  areaTransfer.getInjectBusList().getInjectBusArray()){
-			algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+			algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId(), msg);
 			algo.addInjectBus(bus.getBusId(), bus.getPercent());
 		}
 
-		algo.setWithdrawBusType(SenBusAnalysisType.MULTIPLE_BUS);
+		algo.setWithdrawBusType(BusSenAnalysisType.MULTIPLE_BUS);
 		for (SenAnalysisBusRecXmlType bus :  areaTransfer.getWithdrawBusList().getWithdrawBusArray()){
-			algo.calculateSensitivity(DclfSensitivityType.PANGLE, bus.getBusId(), msg);
+			algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId(), msg);
 			algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
 		}
 	}
