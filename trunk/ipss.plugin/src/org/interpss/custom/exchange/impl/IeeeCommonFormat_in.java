@@ -51,7 +51,7 @@ import com.interpss.core.aclfadj.XfrTapControlType;
 import com.interpss.core.net.Area;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Zone;
-import com.interpss.simu.dsl.IpssAclf;
+import com.interpss.simu.pssl.IpssAclf;
 
 public class IeeeCommonFormat_in {
 	private static final int BusData = 1;

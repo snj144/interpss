@@ -45,6 +45,10 @@ import com.interpss.simu.SimuObjectFactory;
 public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	private PSSEDataRec.VersionNo version = PSSEDataRec.VersionNo.NotDefined;
 	
+	public FileAdapter_PTIFormat(PSSEDataRec.VersionNo version) {
+		this.version = version;
+	}
+
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.

@@ -13,7 +13,7 @@ import com.interpss.core.aclf.LineAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfLine;
-import com.interpss.simu.dsl.IpssAclf;
+import com.interpss.simu.pssl.IpssAclf;
 
 public class PSSELineDataRec {
 	/*
