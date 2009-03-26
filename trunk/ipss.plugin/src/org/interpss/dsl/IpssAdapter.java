@@ -25,41 +25,45 @@ package org.interpss.dsl;
 
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.custom.exchange.FileAdapter_IeeeCommonFormat;
 
+import com.interpss.common.util.IpssLogger;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.dsl.BaseDSL;
 
 public class IpssAdapter extends BaseDSL {
-	public static enum FileType { IEEECommonFormat, PSSE, GE_PSLF, UCTE };
+	public static enum Format { IEEECommonFormat, PSSE, GE_PSLF, UCTE };
 	
-	public static ImportFileDSL importFile(String filename) {
-		return new ImportFileDSL(filename);
+	public static ImportAclfNetDSL importAclfNet(String filename) {
+		return new ImportAclfNetDSL(filename);
 	}
 	
-	public static class ImportFileDSL {
+	public static class ImportAclfNetDSL {
 		private String filename;
-		private FileType fileType;
-		public ImportFileDSL(String filename) {
+		private Format format;
+		public ImportAclfNetDSL(String filename) {
 			this.filename = filename;
 		}
 		
-		public ImportFileDSL setFileType(FileType type) { this.fileType = type; return this; }
+		public ImportAclfNetDSL setFormat(Format format) { this.format = format; return this; }
 
-		public Object load() { 
+		public AclfNetwork load() { 
 			try {
 				IpssFileAdapter adapter = null;
-				if ( this.fileType == FileType.IEEECommonFormat ) {
-					adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
+				if ( this.format == Format.IEEECommonFormat ) {
+					adapter = new FileAdapter_IeeeCommonFormat();
 				}
-				else if ( this.fileType == FileType.PSSE ) {
+				else if ( this.format == Format.PSSE ) {
 					adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
 				}
-				else if ( this.fileType == FileType.GE_PSLF ) {
+				else if ( this.format == Format.GE_PSLF ) {
 					adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
 				}
-				else if ( this.fileType == FileType.UCTE ) {
+				else if ( this.format == Format.UCTE ) {
 					adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
 				}
+				IpssLogger.getLogger().info("Load file: " + this.filename + " of format " + this.format);
 				SimuContext simuCtx = adapter.load(this.filename, IpssAdapter.getMsgHub());
 				return simuCtx.getAclfNet();				
 			} catch (Exception e) {
