@@ -1,5 +1,5 @@
 /*
- * @(#)IpssAdapter.java   
+ * @(#)IpssUtil.java   
  *
  * Copyright (C) 2006 www.interpss.org
  *
@@ -25,15 +25,21 @@ package org.interpss.pssl;
 
 import org.interpss.display.AclfOutFunc;
 
+import com.interpss.common.util.FileUtil;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.pssl.BaseDSL;
 
 public class IpssUtil extends BaseDSL {
+	
+	// ================ public methods =======================
+	
 	public static enum Format { LoadfloeSummary, IEEEBusStype };
 	
 	public static OutputAclfNetDSL outputAclfNet(AclfNetwork net) {
 		return new OutputAclfNetDSL(net);
 	}
+	
+	// ================ private implementation =======================
 	
 	public static class OutputAclfNetDSL {
 		private AclfNetwork net;
@@ -43,13 +49,16 @@ public class IpssUtil extends BaseDSL {
 		}
 		
 		public OutputAclfNetDSL setFormat(Format format) { this.format = format; return this; }
+		
+		public OutputAclfNetDSL toFile(String filename) { 
+				FileUtil.writeText2File(filename, this.toString()); 
+				return this; }
 
 		public String toString() { 
-			if (this.format == Format.LoadfloeSummary) 
-				return AclfOutFunc.loadFlowSummary(net);
-			else if (this.format == Format.IEEEBusStype) 
-				return AclfOutFunc.lfResultsBusStyle(net);
-			return ""; 
+				if (this.format == Format.IEEEBusStype) 
+					return AclfOutFunc.lfResultsBusStyle(net);
+				else
+					return AclfOutFunc.loadFlowSummary(net);
 		}
 	}
 }
