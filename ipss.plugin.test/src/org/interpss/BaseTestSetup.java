@@ -40,6 +40,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.TestUtilFunc;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.dsl.IpssAclf;
 
 public class BaseTestSetup {
 	protected static IPSSMsgHub msg;
@@ -61,6 +62,7 @@ public class BaseTestSetup {
 			msg = SpringAppContext.getIpssMsgHub();
 			IpssLogger.getLogger().setLevel(Level.INFO);
 		}
+		IpssAclf.setMsgHub(msg);
 	}
 }
 
