@@ -27,9 +27,9 @@ package org.interpss.display;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.schema.BranchRecXmlType;
 import org.interpss.schema.BusRecXmlType;
-import org.interpss.schema.AreaTransferAnalysisXmlType;
 import org.interpss.schema.DclfBranchSensitivityXmlType;
 import org.interpss.schema.DclfBusSensitivityXmlType;
 import org.interpss.schema.SenAnalysisBusRecXmlType;
@@ -42,7 +42,7 @@ import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
-import com.interpss.core.dclf.DclfSensitivityType;
+import com.interpss.core.dclf.SenAnalysisType;
 import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
@@ -96,7 +96,7 @@ public class DclfOutFunc {
 		str += "   Bud Id       dAng/dP\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBusArray()) {
-			double pang = algo.getBusSensitivity(DclfSensitivityType.PANGLE, busId,
+			double pang = algo.getBusSensitivity(SenAnalysisType.PANGLE, busId,
 					bus.getBusId(), msg);
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(pang) + "\n";
@@ -121,7 +121,7 @@ public class DclfOutFunc {
 		str += "   Bud Id         dV/dQ\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBusArray()) {
-			double x = algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, busId, bus.getBusId(), msg);
+			double x = algo.getBusSensitivity(SenAnalysisType.QVOLTAGE, busId, bus.getBusId(), msg);
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(x) + "\n";
 		}
