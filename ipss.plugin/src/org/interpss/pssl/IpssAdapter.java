@@ -21,32 +21,45 @@
  *   ================
  *
  */
-package org.interpss.dsl;
+package org.interpss.pssl;
 
-import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.custom.exchange.FileAdapter_GEFormat;
 import org.interpss.custom.exchange.FileAdapter_IeeeCommonFormat;
+import org.interpss.custom.exchange.FileAdapter_PTIFormat;
+import org.interpss.custom.exchange.FileAdapter_UCTEFormat;
+import org.interpss.custom.exchange.psse.PSSEDataRec;
+import org.interpss.custom.ieee_odm.FileAdapter_IEEEODM_Xml;
 
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.simu.SimuContext;
-import com.interpss.simu.dsl.BaseDSL;
+import com.interpss.simu.pssl.BaseDSL;
 
 public class IpssAdapter extends BaseDSL {
-	public static enum Format { IEEECommonFormat, PSSE, GE_PSLF, UCTE };
+	
+	// ================ public methods =======================
+	
+	public static enum Format { IEEECommonFormat, PSSE, GE_PSLF, UCTE, IEEE_ODM, BPA };
+	public static enum PsseVersion { PSSE_30, PSSE_29 };
 	
 	public static ImportAclfNetDSL importAclfNet(String filename) {
 		return new ImportAclfNetDSL(filename);
 	}
 	
+
+	// ================ private implementation =======================
+
 	public static class ImportAclfNetDSL {
 		private String filename;
 		private Format format;
+		private PSSEDataRec.VersionNo psseVersion;
 		public ImportAclfNetDSL(String filename) {
 			this.filename = filename;
 		}
 		
 		public ImportAclfNetDSL setFormat(Format format) { this.format = format; return this; }
+		public ImportAclfNetDSL setPsseVersion(PSSEDataRec.VersionNo ver) { this.psseVersion = ver; return this; }
 
 		public AclfNetwork load() { 
 			try {
@@ -55,13 +68,16 @@ public class IpssAdapter extends BaseDSL {
 					adapter = new FileAdapter_IeeeCommonFormat();
 				}
 				else if ( this.format == Format.PSSE ) {
-					adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
+					adapter = new FileAdapter_PTIFormat(this.psseVersion);
 				}
 				else if ( this.format == Format.GE_PSLF ) {
-					adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
+					adapter = new FileAdapter_GEFormat();
 				}
 				else if ( this.format == Format.UCTE ) {
-					adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
+					adapter = new FileAdapter_UCTEFormat();
+				}
+				else if ( this.format == Format.IEEE_ODM ) {
+					adapter = new FileAdapter_IEEEODM_Xml();
 				}
 				IpssLogger.getLogger().info("Load file: " + this.filename + " of format " + this.format);
 				SimuContext simuCtx = adapter.load(this.filename, IpssAdapter.getMsgHub());

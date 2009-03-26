@@ -21,12 +21,12 @@
  *   ================
  *
  */
-package org.interpss.dsl;
+package org.interpss.pssl;
 
 import org.interpss.display.AclfOutFunc;
 
 import com.interpss.core.aclf.AclfNetwork;
-import com.interpss.simu.dsl.BaseDSL;
+import com.interpss.simu.pssl.BaseDSL;
 
 public class IpssUtil extends BaseDSL {
 	public static enum Format { LoadfloeSummary, IEEEBusStype };

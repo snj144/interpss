@@ -37,7 +37,7 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.simu.dsl.IpssAclf;
+import com.interpss.simu.pssl.IpssAclf;
 
 public class IpssInternalFormat_in {
     public static AclfAdjNetwork loadFile(final java.io.BufferedReader din, final IPSSMsgHub msg) throws Exception {

@@ -33,7 +33,7 @@ import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.dsl.IpssAclf;
+import com.interpss.simu.pssl.IpssAclf;
 
 public class ODM2SimuCtxMapperImpl {
 	/**

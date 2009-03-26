@@ -44,7 +44,7 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.simu.dsl.IpssAclf;
+import com.interpss.simu.pssl.IpssAclf;
 
 public class ODMLoadflowDataMapperImpl {
 	public static AclfAdjNetwork mapNetworkData(PSSNetworkXmlType xmlNet) throws Exception {
