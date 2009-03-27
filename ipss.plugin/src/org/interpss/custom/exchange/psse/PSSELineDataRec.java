@@ -13,7 +13,6 @@ import com.interpss.core.aclf.LineAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
 import com.interpss.ext.psse.aclf.PSSEAclfLine;
-import com.interpss.simu.pssl.IpssAclf;
 
 public class PSSELineDataRec {
 	/*
@@ -89,35 +88,37 @@ public class PSSELineDataRec {
 			this.j = -this.j;
 		}
     	// create an AclfBranch object
+      	final PSSEAclfLine bra = ExtensionObjectFactory.createPSSEAclfLine(this.ckt);
 		String iStr = new Integer(this.i).toString();
 		String jStr = new Integer(this.j).toString();
-      	final PSSEAclfLine bra = ExtensionObjectFactory.createPSSEAclfLine(this.ckt);
       	adjNet.addBranch(bra, iStr, jStr);
       	
       	Complex z = new Complex(this.r,this.x);
       	if (z.abs() > PSSEDataRec.ZeroImpedenc) {
-      		IpssAclf.wrapAclfBranch(bra, adjNet)
-      					.setStatus(this.status==1)
-      					.setBranchCode(AclfBranchCode.LINE)
-      					.setZ(z, UnitType.PU)
-      					.setShuntY(new Complex(0.0,this.b), UnitType.PU) 
-      					.setRatingMva1(this.ratea)
-          				.setRatingMva2(this.rateb)
-          				.setRatingMva3(this.ratec)
-          				.setFromShuntY(new Complex(this.gi,this.bi))
-          				.setToShuntY(new Complex(this.gj,this.bj));
-
       		bra.setFromMetered(fromMetered);
+          	bra.setStatus(this.status==1);
+          	bra.setRatingMva1(this.ratea);
+          	bra.setRatingMva2(this.rateb);
+          	bra.setRatingMva3(this.ratec);
+          	bra.setFromShuntY(new Complex(this.gi,this.bi));
+          	bra.setToShuntY(new Complex(this.gj,this.bj));
+      
     		bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o1, this.f1));
     		bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o2, this.f2));
     		bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o3, this.f3));
     		bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o4, this.f4));
+          	
+           	bra.setBranchCode(AclfBranchCode.LINE);
+       		final LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
+           	line.getAclfBranch().setZ(z, msg);
+           	// Unit is PU, no need to enter baseV
+           	line.setHShuntY(new Complex(0.0,0.5*this.b), UnitType.PU, 1.0, adjNet.getBaseKva()); 
       	}
       	else {
-      		IpssAclf.wrapAclfBranch(bra, adjNet)
-						.setStatus(this.status==1)
-						.setBranchCode(AclfBranchCode.ZERO_IMPEDENCE)
-						.setZ(z, UnitType.PU);
+           	bra.setBranchCode(AclfBranchCode.ZERO_IMPEDENCE);
+       		final LineAdapter line = (LineAdapter)bra.getAdapter(LineAdapter.class);
+           	line.getAclfBranch().setZ(z, msg);
+           	//IpssLogger.getLogger().info("ZeroImpedence line " + bra.getId());
       	}
 	}		
 	
