@@ -13,6 +13,7 @@ import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.SenAnalysisType;
+import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -48,6 +49,27 @@ public class DclfAreaTransferIeee14BusCaseTest extends BaseTestSetup {
 				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
 			}
 			
+			for (BranchRecXmlType branch : atFactor.getBranchArray()) {
+				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1", msg);
+				System.out.println("ATFactor: " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + f);
+			}
+		}
+	}
+
+	@Test
+	public void runDSL_SingleAclfCaseTest() throws Exception {
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
+		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
+		
+		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfAdjNet())
+					.runSenAnalysis("testData/xml/RunAreaTransferCase.xml");
+			
+		File xmlFile = new File("testData/xml/RunAreaTransferCase.xml");
+  		IpssXmlParser parser = new IpssXmlParser(xmlFile);
+  		//System.out.println("----->" + parser.getRootElem().toString());
+	  	IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
+		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
+		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysisArray()) {
 			for (BranchRecXmlType branch : atFactor.getBranchArray()) {
 				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1", msg);
 				System.out.println("ATFactor: " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + f);
