@@ -27,14 +27,14 @@ package org.interpss.core.adapter.ieee;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.pssl.IpssAdapter;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.SwingBusAdapter;
-import com.interpss.simu.pssl.IpssAclf;
+import com.interpss.pssl.plugin.IpssAdapter;
+import com.interpss.pssl.simu.IpssAclf;
 
 public class IEEECommonFormat_CommaTest extends BaseTestSetup {
 	@Test

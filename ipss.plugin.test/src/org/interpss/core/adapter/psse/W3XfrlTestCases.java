@@ -31,7 +31,7 @@ import org.junit.Test;
 
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.simu.pssl.IpssAclf;
+import com.interpss.pssl.simu.IpssAclf;
 
 public class W3XfrlTestCases extends BaseTestSetup {
 	@Test
