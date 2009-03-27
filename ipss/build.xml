@@ -3,7 +3,7 @@
     <target description="init setup" name="init">
       	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
       	<property name="dev_lib" value="${dev_base}/ipss.lib/lib"/>
-      	<property name="pssl_lib" value="${dev_base}/ipss.pssl/lib"/>
+      	<property name="pssl_lib" value="${dev_base}/ipss.pssl.py/lib"/>
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="fit_base" value="C:/eclipse/InterpssDev/ipss.fit/fitnesse"/>
       	<property name="svn_lib" value="${dev_base}/ipss.lib/lib/ipss"/>
@@ -75,6 +75,10 @@
 	  </jar>		
 	  <jar destfile="${ipss_base}/ipss_ext.jar">
    	  		<fileset dir="${dev_base}/ipss.ext_EMF/runtime" excludes="CVS/**,model/**" />	
+	  </jar>	
+
+	  <jar destfile="${pssl_lib}/ipss_pssl.jar">
+   	  		<fileset dir="${dev_base}/ipss.pssl/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
 
    	  <jar destfile="${svn_lib}/ipss_plugin.jar" 
