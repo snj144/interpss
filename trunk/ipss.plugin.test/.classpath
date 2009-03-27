@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="/ieee.odm_pss/lib/ieee.odm_pss.schemas.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.ext_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu.test"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
