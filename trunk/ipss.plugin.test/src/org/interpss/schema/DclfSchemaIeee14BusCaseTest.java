@@ -11,9 +11,9 @@ import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.SenAnalysisType;
+import com.interpss.pssl.simu.IpssPTrading;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -24,17 +24,16 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
+		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfAdjNet())
+				.runSenAnalysis("testData/xml/RunDclfCase.xml");		
+
 		File xmlFile = new File("testData/xml/RunDclfCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
 	  	assertTrue(parser.getRunStudyCase().getAnalysisRunType() == RunStudyCaseXmlType.AnalysisRunType.RUN_DCLF);
-		
 	  	IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
 	  	
-		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfAdjNet());
-		assertTrue(algo.checkCondition(msg));
-			
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
 
 		if (dclfCase.getCaculatelDclf()) {
@@ -79,7 +78,6 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		
 		for (DclfBranchSensitivityXmlType gsFactor : dclfCase.getGenShiftFactorArray()) {
 			String inBusId = gsFactor.getInjectBusList().getInjectBusArray(0).getBusId();
-			algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId, msg);
 			for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
 				double gsf = algo.getGenShiftFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1", msg);
 				//System.out.println("GSF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + gsf);
@@ -98,7 +96,6 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
 			if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId, wdBusId, msg);
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 					double ptdf = algo.getPTransferDistFactor(inBusId, wdBusId, 
@@ -109,12 +106,6 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				assertTrue(Math.abs(sum-1.0) < 0.0001);
 			}
 			else if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.MULTIPLE_BUS) {
-				algo.getWithdrawBusList().clear();
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId, msg);
-				for (SenAnalysisBusRecXmlType bus :  tdFactor.getWithdrawBusList().getWithdrawBusArray()){
-					algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId(), msg);
-					algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
-				}
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 					double ptdf = algo.getPTransferDistFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1", msg);
@@ -130,7 +121,6 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 			String inBusId = tdFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
 			if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId, wdBusId, msg);
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 					double ptdf = algo.getPTransferDistFactor(inBusId, wdBusId, 
