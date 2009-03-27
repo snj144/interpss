@@ -33,7 +33,6 @@ import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
-import com.interpss.simu.pssl.IpssAclf;
 
 public class ODM2SimuCtxMapperImpl {
 	/**
@@ -44,8 +43,6 @@ public class ODM2SimuCtxMapperImpl {
 	 * @return
 	 */
 	public static boolean odm2SimuCtxMapping(IEEEODMPSSModelParser parser, SimuContext simuCtx) {
-		IpssAclf.setMsgHub(simuCtx.getMsgHub());
-		
 		boolean noError = true;
 		if (parser.getStudyCase().getNetworkCategory() == StudyCaseXmlType.NetworkCategory.TRANSMISSION
 				&& parser.getStudyCase().getAnalysisCategory() == StudyCaseXmlType.AnalysisCategory.LOADFLOW) {
@@ -71,7 +68,7 @@ public class ODM2SimuCtxMapperImpl {
 
 			for (BranchRecordXmlType branchRec : xmlNet.getBranchList().getBranchArray()) {
 				try {
-					ODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet());
+					ODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
 				} catch (Exception e) {
 					IpssLogger.getLogger().severe(e.toString());
 					noError = false;
