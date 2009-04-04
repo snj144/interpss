@@ -101,10 +101,8 @@
 									minOccurs="0">
 									<ns:complexType>
 										<ns:sequence>
-											<ns:element
-												name="swingVoltageChange" type="ipss:ValueChangeXmlType"
-												minOccurs="0">
-											</ns:element>
+											<ns:element name="swingVoltageChange" type="ipss:ValueChangeXmlType" minOccurs="0"></ns:element>
+											<ns:element name="valueChange" type="ipss:ComplexValueChangeXmlType" maxOccurs="0"></ns:element>
 										</ns:sequence>
 									</ns:complexType>
 								</ns:element>
@@ -135,9 +133,14 @@
 						minOccurs="0">
 						<ns:complexType>
 							<ns:sequence>
-								<ns:element name="branchZChange"
-									minOccurs="0" type="ipss:ComplexValueChangeXmlType">
-								</ns:element>
+								<ns:element name="branchZChange" minOccurs="0" type="ipss:ComplexValueChangeXmlType"></ns:element>
+								<ns:element name="ratingChange" maxOccurs="unbounded" minOccurs="0">
+									<ns:complexType>
+										<ns:sequence>
+											<ns:element name="ratingName" type="ns:string" maxOccurs="1"></ns:element>
+											<ns:element name="change" type="ipss:DoubleValueChangeXmlType" maxOccurs="1"></ns:element>
+										</ns:sequence>
+									</ns:complexType></ns:element>
 							</ns:sequence>
 						</ns:complexType>
 					</ns:element>
