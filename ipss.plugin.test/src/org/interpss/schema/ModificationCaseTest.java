@@ -26,18 +26,12 @@ package org.interpss.schema;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
-
 import org.interpss.BaseTestSetup;
-import org.interpss.PluginSpringAppContext;
-import org.interpss.xml.IpssXmlParser;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.mapper.IpssMapper;
 import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
-import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.pssl.simu.IpssAclf;

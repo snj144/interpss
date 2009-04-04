@@ -29,6 +29,7 @@ import org.interpss.custom.exchange.psse.PSSEXfrDataRec;
 import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 import org.junit.Test;
 
+import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.pssl.simu.IpssAclf;
@@ -50,11 +51,19 @@ public class W3XfrlTestCases extends BaseTestSetup {
 		String l4 = "234.000, 240.000,   0.000,   112.00,   140.00,   112.00, 0,      0, 1.10000, 0.90000, 1.10000, 0.90000,  33, 0, 0.00000, 0.00000";
 		String l5 = "13.0000,  13.000, -30.000,    28.00,    28.00,    28.00, 0,      0, 1.10000, 0.90000, 1.10000, 0.90000,  33, 0, 0.00000, 0.00000";
 
+		l1 = " 11037, 11038, 11199,'1 ',2,2,1,   0.00128,   0.00000,1,'CALIEN_B    ',1, 125,1.0000";
+		l2 = "   0.00110,   0.05180,   100.00,   0.00066,   0.03083,   100.00,   0.00093,   0.04332,   100.00,1.03356,  25.8259";
+		l3 = "115.000, 115.000,   0.000,   200.00,   224.00,   200.00, 0,      0, 0.00000, 0.00000, 0.00000, 0.00000, 999, 0, 0.00000, 0.00000";
+		l4 = "345.000, 345.000,   0.000,   200.00,   224.00,   200.00, 0,      0, 1.10000, 0.90000, 1.10000, 0.90000,  33, 0, 0.00000, 0.00000";
+		l5 = "13.8000,  13.800,   0.000,   200.00,   224.00,   200.00, 0,      0, 1.10000, 0.90000, 1.10000, 0.90000,  33, 0, 0.00000, 0.00000";
+		
   		AclfAdjNetwork adjNet = CoreObjectFactory.createAclfAdjNetwork();
-  		IpssAclf.addAclfBus("617054", "", adjNet);
-  		IpssAclf.addAclfBus("613140", "", adjNet);
-  		IpssAclf.addAclfBus("613150", "", adjNet);
-  		
+  		IpssAclf.addAclfBus("11037", "", adjNet)
+  					.setBaseVoltage(115.0, UnitType.kV);
+  		IpssAclf.addAclfBus("11038", "", adjNet)
+  					.setBaseVoltage(345.0, UnitType.kV);
+  		IpssAclf.addAclfBus("11199", "", adjNet)
+  					.setBaseVoltage(13.8, UnitType.kV);
   		
 		PSSEXfrDataRec rec = new PSSEXfrDataRec(l1, l2, l3, l4, l5, VersionNo.PSS_E_30);
 		rec.processXfr(adjNet, msg);
