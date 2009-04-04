@@ -124,6 +124,8 @@ public class PSSEGenDataRec {
 
 		The standard generator boundary condition is a specification of real power output at the
 		high-voltage bus, bus k, and of voltage magnitude at some designated bus, not necessarily bus k.
+		
+		STAT - Initial machine status of one for in-service and zero for out-of-service; STAT = 1 by default.
 */		
 		String iStr = new Integer(this.i).toString();
 		AclfBus bus = adjNet.getAclfBus(iStr);

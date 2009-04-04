@@ -5,6 +5,8 @@ import java.util.StringTokenizer;
 import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.StringUtil;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.ext.ExtensionObjectFactory;
@@ -46,39 +48,21 @@ public class PSSESwitchedShuntDataRec {
 			}
 			this.rminit = str;
 		}
-		this.binit = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			this.nAry[0] = new Integer(st.nextToken().trim()).intValue();;
-		if (st.hasMoreTokens())
-			this.bAry[0] = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			this.nAry[1] = new Integer(st.nextToken().trim()).intValue();;
-		if (st.hasMoreTokens())
-			this.bAry[1] = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			this.nAry[2] = new Integer(st.nextToken().trim()).intValue();;
-		if (st.hasMoreTokens())
-			this.bAry[2] = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			this.nAry[3] = new Integer(st.nextToken().trim()).intValue();;
-		if (st.hasMoreTokens())
-			this.bAry[3] = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			this.nAry[4] = new Integer(st.nextToken().trim()).intValue();;
-		if (st.hasMoreTokens())
-			this.bAry[4] = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			this.nAry[5] = new Integer(st.nextToken().trim()).intValue();;
-		if (st.hasMoreTokens())
-			this.bAry[5] = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			this.nAry[6] = new Integer(st.nextToken().trim()).intValue();;
-		if (st.hasMoreTokens())
-			this.bAry[6] = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			this.nAry[7] = new Integer(st.nextToken().trim()).intValue();;
-		if (st.hasMoreTokens())
-			this.bAry[7] = new Double(st.nextToken().trim()).doubleValue();
+		try {
+			this.binit = new Double(st.nextToken().trim()).doubleValue();
+			for (int cnt = 0; cnt < 8; cnt++) {
+				if (st.hasMoreTokens())
+					this.nAry[cnt] = new Integer(st.nextToken().trim()).intValue();;
+				if (st.hasMoreTokens()) {
+					String s = st.nextToken().trim();
+					if (StringUtil.isDouble(s))	
+						this.bAry[cnt] = new Double(s).doubleValue();
+				}
+			}
+		} catch (Exception e) {
+			IpssLogger.getLogger().severe(e.toString());
+			IpssLogger.getLogger().severe(lineStr);
+		}
 	}
 	
 	public void processSwitchedShunt(

@@ -67,7 +67,7 @@ public class PSSE2IpssUtilFunc {
 		public double genQmax = 0.0, genQmin = 0.0;
 		
 		// SwitchedShunt data
-		public int controlMode = 0;
+		public int controlMode = 0;   // 0 fixed, 1 discrete, 2 continuous 
 		public double vMax = 0.0, vMmin = 0.0, binit = 0.0;
 		public String remoteBusId_shunt = null;
 	}
@@ -120,6 +120,10 @@ public class PSSE2IpssUtilFunc {
 							// remote bus voltage
 		  					IpssLogger.getLogger().fine("Bus is a RemoteQBus, id: " + bus.getId());
 		  					bus.setGenCode(AclfGenCode.GEN_PQ);
+		  					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
+		  					// be changed to PQ bus
+		  					if (adjNet.getAclfBus(data.remoteBusId).isGenPV())
+		  						adjNet.getAclfBus(data.remoteBusId).setGenCode(AclfGenCode.GEN_PQ);
 		  			  		final RemoteQBus reQ1 = CoreObjectFactory.createRemoteQBus(adjNet, bus.getId(), 
 		  			  				RemoteQControlType.BUS_VOLTAGE, data.remoteBusId);
 				  			final PQBusAdapter gen = (PQBusAdapter)bus.getAdapter(PQBusAdapter.class);
@@ -144,12 +148,7 @@ public class PSSE2IpssUtilFunc {
 				}
 				
 				if (data.binit > 0.0) {
-					if (data.controlMode == 0) {
-						bus.setShuntY(new Complex(0.0, data.binit));
-					}
-					else if (data.controlMode == 1) {
-						bus.setShuntY(new Complex(0.0, data.binit));
-					}
+					bus.setShuntY(new Complex(0.0, data.binit));
 				}
 			}
 		}
@@ -184,21 +183,30 @@ public class PSSE2IpssUtilFunc {
 	          		IpssLogger.getLogger().info("Xfr " + xfr.getFromAclfBus().getId() + "->" + xfr.getToAclfBus().getId() + " has voltage control");
 	          		// we need to make sure the control bus is not a swing or pv bus
 	          		AclfBus bus = adjNet.getAclfBus(xfr.getContBusId());
-	          		if (bus == null || bus.isStatus() || bus.isGenPV()) {
-	          			IpssLogger.getLogger().warning("Xfr voltage control is null or swing bus or pv bus, bus id: " + xfr.getContBusId());
+	          		if (bus == null || bus.isSwing()) {
+	          			IpssLogger.getLogger().warning("Xfr voltage control is null or swing bus, bus id: " + xfr.getContBusId());
 	          		}
 	          		else {
-		          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
-		          				adjNet, xfr.getId(), xfr.getContBusId(), FlowControlType.RANGE_CONTROL);
-		          		tapv.setTapLimit(xfr.getRmLimit());
-		          		tapv.setControlRange(xfr.getVmLimit());
-		          		tapv.setVSpecified(1.0);
-		          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
-		          		// we use from side tap to control
-		          		tapv.setControlOnFromSide(true);
-		          		tapv.setMeteredOnFromSide(xfr.isControlOnFromSide());
-		          		tapv.setCompensateZ(xfr.getLoadDropCZ());
-		          		adjNet.addTapControl(tapv, xfr.getContBusId());   
+	          			if (xfr.isXfr()) {
+		  					// The remote bus to be adjusted is normally defined as a PV bus. It needs to
+		  					// be changed to PQ bus
+		          			if (bus.isGenPV())
+		          				bus.setGenCode(AclfGenCode.GEN_PQ);
+		          			final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
+			          				adjNet, xfr.getId(), xfr.getContBusId(), FlowControlType.RANGE_CONTROL);
+			          		tapv.setTapLimit(xfr.getRmLimit());
+			          		tapv.setControlRange(xfr.getVmLimit());
+			          		tapv.setVSpecified(1.0);
+			          		tapv.setTapStepSize((xfr.getRmLimit().getMax()-xfr.getRmLimit().getMin())/xfr.getAdjSteps());
+			          		// we use from side tap to control
+			          		tapv.setControlOnFromSide(true);
+			          		tapv.setMeteredOnFromSide(xfr.isControlOnFromSide());
+			          		tapv.setCompensateZ(xfr.getLoadDropCZ());
+			          		adjNet.addTapControl(tapv, xfr.getContBusId());   
+	          			} 
+	          			else if (xfr.isPSXfr()) {
+	          				// TODO
+	          			}
 	          		}
 	          	}
 	          	else if (xfr.getControlMode() == 2) {
@@ -280,33 +288,30 @@ public class PSSE2IpssUtilFunc {
 				}
 				else if (obj instanceof PSSEAclfGen) {
 					PSSEAclfGen gen = (PSSEAclfGen)obj;
-					data.genPSum += gen.getPGen();
-					data.genQSum += gen.getQGen();
-					if (data.vSpec == 0.0)
-						data.vSpec = gen.getVSpec();
-					else if (data.vSpec != gen.getVSpec()) {
-						msg.sendErrorMsg("Inconsistance Gen VSpec at Bus " + bus.getId() + " VSpec, genVSpec " + data.vSpec + ", " + gen.getVSpec());
+					if (gen.isActive()) {
+						data.genPSum += gen.getPGen();
+						data.genQSum += gen.getQGen();
+						if (data.vSpec == 0.0)
+							data.vSpec = gen.getVSpec();
+						else if (data.vSpec != gen.getVSpec()) {
+							msg.sendErrorMsg("Inconsistance Gen VSpec at Bus " + bus.getId() + " VSpec, genVSpec " + data.vSpec + ", " + gen.getVSpec());
+						}
+						
+						if (data.remoteBusId == null && !gen.getVControlBusId().equals("0"))
+							data.remoteBusId = gen.getVControlBusId();
+						else if (!gen.getVControlBusId().equals("0") && !data.remoteBusId.equals(gen.getVControlBusId())) {
+							msg.sendErrorMsg("Inconsistance Gen IREG at Bus " + bus.getId() + ", remoteBusId, vControlBusId " + data.remoteBusId + ", " + gen.getVControlBusId());
+						}
+						data.genQmax += gen.getQLimit().getMax();
+						data.genQmin += gen.getQLimit().getMin();
 					}
-					
-					if (data.remoteBusId == null && !gen.getVControlBusId().equals("0"))
-						data.remoteBusId = gen.getVControlBusId();
-					else if (!gen.getVControlBusId().equals("0") && !data.remoteBusId.equals(gen.getVControlBusId())) {
-						msg.sendErrorMsg("Inconsistance Gen IREG at Bus " + bus.getId() + ", remoteBusId, vControlBusId " + data.remoteBusId + ", " + gen.getVControlBusId());
-					}
-					data.genQmax += gen.getQLimit().getMax();
-					data.genQmin += gen.getQLimit().getMin();
 				}
 				else if (obj instanceof PSSESwitchedShunt) {
 					PSSESwitchedShunt shunt = (PSSESwitchedShunt)obj;
 					// capacitor(shunt) bus cannot be a Swing or PV bus
-					if (shunt.getMode() == 0) {
-						data.controlMode = 0;
-						data.binit += shunt.getBinit();
-					}
-					else {
-						if (bus.isSwing() || bus.isGenPV()) {
-							msg.sendErrorMsg("Inconsistance SwitchedShunt Bus should not be a Swing/PV bus " + bus.getId());
-						}
+					data.binit += shunt.getBinit();
+					if (shunt.getMode() > 0) {
+						// TODO
 					}
 				}
 			}

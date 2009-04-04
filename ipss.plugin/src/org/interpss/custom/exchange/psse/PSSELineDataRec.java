@@ -81,6 +81,8 @@ public class PSSELineDataRec {
 				IPSSMsgHub msg) throws Exception {
 /*
 		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
+		
+		ST Initial branch status where 1 designates in-service and 0 designates out-of-service. ST = 1 by default.
 */
 		boolean fromMetered = true;
 		if (this.j < 0) {
@@ -91,6 +93,7 @@ public class PSSELineDataRec {
       	final PSSEAclfLine bra = ExtensionObjectFactory.createPSSEAclfLine(this.ckt);
 		String iStr = new Integer(this.i).toString();
 		String jStr = new Integer(this.j).toString();
+		bra.setStatus(this.status == 1);
       	adjNet.addBranch(bra, iStr, jStr);
       	
       	Complex z = new Complex(this.r,this.x);
