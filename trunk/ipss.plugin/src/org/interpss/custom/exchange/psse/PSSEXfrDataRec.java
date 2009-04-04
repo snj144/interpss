@@ -368,8 +368,8 @@ public class PSSEXfrDataRec {
 	       		// When CZ is 1, they are the resistance and reactance, respectively, in pu on 
 	       		// system base quantities; 
 	        	rpu1_2 = this.r1_2;   xpu1_2 = this.x1_2;
-	        	rpu2_3 = this.r2_3;   xpu1_2 = this.x2_3;
-	        	rpu3_1 = this.r3_1;   xpu1_2 = this.x3_1;
+	        	rpu2_3 = this.r2_3;   xpu2_3 = this.x2_3;
+	        	rpu3_1 = this.r3_1;   xpu3_1 = this.x3_1;
 	       	}
 	       	else if (bra.getFlagZ() == 2) {
 	       		// when CZ is 2, they are the resistance and reactance, respectively, in pu on 
@@ -378,8 +378,8 @@ public class PSSEXfrDataRec {
 	       		double factor2_3 = adjNet.getBaseKva() / this.sbase2_3 / 1000.0;
 	       		double factor3_1 = adjNet.getBaseKva() / this.sbase3_1 / 1000.0;
 	        	rpu1_2 = this.r1_2*factor1_2;   xpu1_2 = this.x1_2*factor1_2;
-	        	rpu2_3 = this.r2_3*factor3_1;   xpu1_2 = this.x2_3*factor3_1;
-	        	rpu3_1 = this.r3_1*factor2_3;   xpu1_2 = this.x3_1*factor2_3;
+	        	rpu2_3 = this.r2_3*factor3_1;   xpu2_3 = this.x2_3*factor3_1;
+	        	rpu3_1 = this.r3_1*factor2_3;   xpu3_1 = this.x3_1*factor2_3;
 	       	}
 	       	else if (bra.getFlagZ() == 3) {
 	       		// when CZ is 3, R1-2 is the load loss in watts, and X1-2 is the impedance magnitude 
@@ -411,7 +411,7 @@ public class PSSEXfrDataRec {
 	       		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
 	       		f_ratio = this.windv1*1000.0 / bra.getFromBus().getBaseVoltage();
 	       		t_ratio = this.windv2*1000.0 / bra.getToBus().getBaseVoltage();
-	       		tert_ratio = this.windv2*1000.0 / bra.getTertiaryBus().getBaseVoltage();
+	       		tert_ratio = this.windv3 == 0.0? 1.0 : this.windv3*1000.0 / bra.getTertiaryBus().getBaseVoltage();
 	       	}
 	       	bra.setFromTurnRatio(f_ratio);
 	       	bra.setToTurnRatio(t_ratio); 	       	
