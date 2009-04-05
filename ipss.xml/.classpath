@@ -8,8 +8,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
 	<classpathentry kind="var" path="IPSS_LIB/apache/commons-math.jar"/>
-	<classpathentry kind="var" path="IPSS_LIB/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="var" path="IPSS_LIB/xml/xbean.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/ipss/ipss_schemas.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>

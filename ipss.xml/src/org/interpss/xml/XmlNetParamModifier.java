@@ -31,6 +31,7 @@ import org.interpss.schema.ComplexValueChangeXmlType;
 import org.interpss.schema.ComplexXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.schema.UnitDataType;
+import org.interpss.schema.DoubleValueChangeXmlType;
 import org.interpss.schema.ValueChangeXmlType;
 import org.interpss.schema.BusChangeRecXmlType.AclfBusChangeData.LoadChangeData;
 
@@ -263,7 +264,7 @@ public class XmlNetParamModifier {
 	}
 
 	private static double applyValueChangeRec(double original,
-			ValueChangeXmlType changeRec, ValueType ptype, double busBaseVolt) {
+			DoubleValueChangeXmlType changeRec, ValueType ptype, double busBaseVolt) {
 		if (changeRec.getChangeAction() == ValueChangeXmlType.ChangeAction.ADD
 				|| changeRec.getChangeAction() ==ValueChangeXmlType.ChangeAction.SET) {
 			// for add/set, use value and unit (PU or power unit)
