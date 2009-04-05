@@ -5,10 +5,7 @@
   	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
   	<property name="dev_lib_base" value="${dev_base}/ipss.lib/lib"/>
 
-  	<property name="dist_base" value="C:/eclipse/GEditor"/>
-  	<property name="dist_lib_base" value="${dist_base}/lib"/>
-
-  	<property name="xmlbeans.classpath" value="${dist_lib_base}/xml/xbean.jar"/>
+  	<property name="xmlbeans.classpath" value="${dev_lib_base}/xml/xbean.jar"/>
 
   	<taskdef name="xmlbean"
   	     classname="org.apache.xmlbeans.impl.tool.XMLBean"
