@@ -102,7 +102,7 @@
 									<ns:complexType>
 										<ns:sequence>
 											<ns:element name="swingVoltageChange" type="ipss:ValueChangeXmlType" minOccurs="0"></ns:element>
-											<ns:element name="valueChange" type="ipss:ComplexValueChangeXmlType" maxOccurs="0"></ns:element>
+											<ns:element name="valueChange" type="ipss:ComplexValueChangeXmlType" maxOccurs="1" minOccurs="0"></ns:element>
 										</ns:sequence>
 									</ns:complexType>
 								</ns:element>
