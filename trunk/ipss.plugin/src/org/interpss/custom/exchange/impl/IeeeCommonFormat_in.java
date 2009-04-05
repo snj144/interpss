@@ -52,7 +52,7 @@ import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.aclfadj.FlowControlType;
+import com.interpss.core.aclfadj.AdjControlType;
 import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
@@ -517,7 +517,7 @@ public class IeeeCommonFormat_in {
         	
           	if (type == 2) {
 //                2 - Variable tap for voltage control (TCUL, LTC)
-          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, FlowControlType.RANGE_CONTROL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(net, bra.getId(), controlBusId, AdjControlType.RANGE_CONTROL);
           		tapv.setTapLimit(new LimitType(maxTapAng, minTapAng));
           		// TODO: volt spec is not defined
           		tapv.setVSpecified(1.0);
@@ -527,7 +527,7 @@ public class IeeeCommonFormat_in {
           	}
           	else if (type == 3) {
 //              3 - Variable tap (turns ratio) for MVAR control
-          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), FlowControlType.RANGE_CONTROL);
+          		final TapControl tapv = CoreObjectFactory.createTapVControlMvarFlow(net, bra.getId(), AdjControlType.RANGE_CONTROL);
           		tapv.setTapLimit(new LimitType(maxVoltPQ, minVoltPQ));
           		// TODO: volt spec is not defined
           		tapv.setVSpecified(1.0);
@@ -537,7 +537,7 @@ public class IeeeCommonFormat_in {
           	}
           	else if (type == 4) {
 //              4 - Variable phase angle for MW control (phase shifter)
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), FlowControlType.RANGE_CONTROL);
+          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(net, bra.getId(), AdjControlType.RANGE_CONTROL);
           		// TODO pSpec not defined
           		ps.setPSpecified(0.2);
           		ps.setAngLimit(new LimitType(Math.toRadians(maxTapAng), Math.toRadians(minTapAng)));

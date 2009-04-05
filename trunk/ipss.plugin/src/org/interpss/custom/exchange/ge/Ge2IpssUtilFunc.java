@@ -41,7 +41,7 @@ import com.interpss.core.aclf.PSXfrAdapter;
 import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
-import com.interpss.core.aclfadj.FlowControlType;
+import com.interpss.core.aclfadj.AdjControlType;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.RemoteQBus;
@@ -398,7 +398,7 @@ public class Ge2IpssUtilFunc {
 			// tap voltage control
 			String controlBusId = new Integer(geXfr.getAdjBusNumber()).toString();
 			final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(
-      				net, geXfr.getId(), controlBusId, FlowControlType.RANGE_CONTROL);
+      				net, geXfr.getId(), controlBusId, AdjControlType.RANGE_CONTROL);
       		tapv.setTapLimit(new LimitType(geXfr.getTapAngMax(),geXfr.getTapAngMin()));
       		tapv.setControlRange(new LimitType(geXfr.getVmax(), geXfr.getVmin()));
       		tapv.setVSpecified(1.0);
