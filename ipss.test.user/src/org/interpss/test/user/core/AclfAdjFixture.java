@@ -30,7 +30,7 @@ import com.interpss.common.datatype.Constants;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclfadj.FlowControlType;
+import com.interpss.core.aclfadj.AdjControlType;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.aclfadj.PQBusLimit;
 import com.interpss.core.aclfadj.PSXfrPControl;
