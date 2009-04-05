@@ -47,7 +47,7 @@ import com.interpss.core.aclf.PVBusAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclf.XfrAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.aclfadj.FlowControlType;
+import com.interpss.core.aclfadj.AdjControlType;
 import com.interpss.core.aclfadj.PSXfrPControl;
 import com.interpss.core.aclfadj.PVBusLimit;
 import com.interpss.core.aclfadj.TapControl;
@@ -474,7 +474,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 				// tap control of voltage at to node side
 //              2 - Variable tap for voltage control (TCUL, LTC)
           		final TapControl tapv = CoreObjectFactory.createTapVControlBusVoltage(aclfNet, branch.getId(), 
-          									toNodeId, FlowControlType.POINT_CONTROL);
+          									toNodeId, AdjControlType.POINT_CONTROL);
           		double maxTap = ratioFactor*(1.0 + nPhase*dUPhase*0.01), 
           		       minTap = ratioFactor*(1.0 - nPhase*dUPhase*0.01);
          		tapv.setTapLimit(new LimitType(maxTap, minTap));
@@ -530,7 +530,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			psXfr.setToTurnRatio(ratioFactor/x, UnitType.PU);
 			
 			if (pMwAngle != 0.0) {
-          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(aclfNet, branch.getId(), FlowControlType.POINT_CONTROL);
+          		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(aclfNet, branch.getId(), AdjControlType.POINT_CONTROL);
           		ps.setPSpecified(pMwAngle, UnitType.mW, aclfNet.getBaseKva());
           		ps.setAngLimit(new LimitType(angMax, angMin));
           		ps.setControlOnFromSide(false);

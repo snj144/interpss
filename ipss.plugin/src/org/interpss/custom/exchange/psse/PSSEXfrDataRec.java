@@ -29,7 +29,6 @@ import java.util.StringTokenizer;
 import org.apache.commons.math.complex.Complex;
 import org.interpss.custom.exchange.psse.PSSEDataRec.VersionNo;
 
-import com.interpss.common.datatype.ComplexFunc;
 import com.interpss.common.datatype.LimitType;
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -357,9 +356,6 @@ public class PSSEXfrDataRec {
 	       	bra.setMvaRating3_1(this.sbase3_1);
 
 	       	bra.create2WBranches();
-    		final XfrAdapter xfr1 = (XfrAdapter)bra.getFromBranch().getAdapter(XfrAdapter.class);
-    		final XfrAdapter xfr2 = (XfrAdapter)bra.getToBranch().getAdapter(XfrAdapter.class);
-    		final XfrAdapter xfr3 = (XfrAdapter)bra.getTertiaryBranch().getAdapter(XfrAdapter.class);
 
         	double rpu1_2=0.0, xpu1_2=0.0;
         	double rpu2_3=0.0, xpu2_3=0.0;
@@ -416,6 +412,72 @@ public class PSSEXfrDataRec {
 	       	bra.setFromTurnRatio(f_ratio);
 	       	bra.setToTurnRatio(t_ratio); 	       	
 	       	bra.setTertTurnRatio(tert_ratio); 	       	
+
+	       	bra.setFromRatedVoltage(this.nomv1*1000.0);
+        	bra.setToRatedVoltage(this.nomv2*1000.0);
+        	bra.setTertRatedVoltage(this.nomv3*1000.0);
+
+		
+        	if (this.ang1 != 0.0 || this.cod == 3 || this.cod == -3) {
+        		// PhaseShifting transformer branch
+        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
+        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.getFromBranch().getAdapter(PSXfrAdapter.class);
+        		psXfr.setFromAngle(Math.toRadians(this.ang1));
+        		psXfr.setToAngle(0.0);
+        	}
+	      	
+          	bra.getFromBranch().setRatingMva1(this.rata1);
+          	bra.getFromBranch().setRatingMva2(this.ratb1);
+          	bra.getFromBranch().setRatingMva3(this.ratc1);
+        	
+        	if (this.ang2 != 0.0 || this.cod == 3 || this.cod == -3) {
+        		// PhaseShifting transformer branch
+        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
+        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.getToBranch().getAdapter(PSXfrAdapter.class);
+        		psXfr.setToAngle(Math.toRadians(this.ang2));
+        		psXfr.setFromAngle(0.0);
+        	}
+	      	
+          	bra.getToBranch().setRatingMva1(this.rata2);
+          	bra.getToBranch().setRatingMva2(this.ratb2);
+          	bra.getToBranch().setRatingMva3(this.ratc2);
+          	
+        	if (this.ang3 != 0.0 || this.cod == 3 || this.cod == -3) {
+        		// PhaseShifting transformer branch
+        	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);
+        		final PSXfrAdapter psXfr = (PSXfrAdapter)bra.getTertiaryBranch().getAdapter(PSXfrAdapter.class);
+        		psXfr.setToAngle(Math.toRadians(this.ang3));
+        		psXfr.setFromAngle(0.0);
+        	}
+	      	
+          	bra.getTertiaryBranch().setRatingMva1(this.rata3);
+          	bra.getTertiaryBranch().setRatingMva2(this.ratb3);
+          	bra.getTertiaryBranch().setRatingMva3(this.ratc3);
+
+          	bra.setControlMode(this.cod);
+
+          	
+          	/*
+			If CONT is entered as a positive number, or a quoted extended bus name, the ratio is
+			adjusted as if bus CONT is on the winding two or winding three side of the
+			transformer; if CONT is entered as a negative number, or a quoted extended
+			bus name with a minus sign preceding the first character, the ratio is adjusted
+			as if bus |CONT| is on the winding one side of the transformer.
+          	 */
+          	boolean onFromSide = false;
+          	if (this.cont < 0) {
+          		this.cont = -this.cont;
+          		onFromSide = true;
+          	}
+          	bra.setContBusId(new Integer(this.cont).toString());
+          	bra.setControlOnFromSide(onFromSide);
+          	
+          	bra.setRmLimit(new LimitType(this.rma, this.rmi)); 
+          	bra.setVmLimit(new LimitType(this.vma, this.vmi)); 
+          	bra.setAdjSteps(this.ntp);
+          	bra.setLoadDropCZ(new Complex(this.cr,this.cx));
+          	
+          	bra.setXfrTableIdNumber(this.tab);
 		}
 	}	
 	

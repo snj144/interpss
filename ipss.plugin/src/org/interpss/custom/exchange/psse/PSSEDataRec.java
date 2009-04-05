@@ -181,7 +181,19 @@ public class PSSEDataRec {
 				IPSSMsgHub msg) throws Exception {
 			/*
 			 * format: ARFROM, ARTO, TRID, PTRAN
-			 */
+
+			ARFROM "From area" number (1 through the maximum number of areas at the 
+					current size level; see Table P-1).
+			ARTO "To area" number (1 through the maximum number of areas at the current 
+					size level; see Table P-1).
+			TRID Single-character (0 through 9 or A through Z) upper case interarea transfer identifier
+					used to distinguish among multiple transfers between areas ARFROM and
+					ARTO. TRID = ’1’ by default.
+			PTRAN MW comprising this transfer. A positive PTRAN indicates that area ARFROM is
+					selling to area ARTO. PTRAN = 0.0 by default.
+					
+				- FromAreaNo_ToAreaNo_TRID is unique					 
+			*/
 			// TODO: data error checking to be implemented
 		}		
 
