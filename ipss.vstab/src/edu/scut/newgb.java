@@ -4,45 +4,32 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.interpss.display.AclfOutFunc;
 import org.interpss.mapper.IEEEODMMapper;
-
 
 import Jama.Matrix;
 
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.msg.IPSSMsgHubImpl;
-import com.interpss.common.msg.StdoutMsgListener;
-import com.interpss.common.msg.TextMessage;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-
 import com.interpss.core.aclf.AclfBus;
-
 import com.interpss.core.aclf.AclfNetwork;
-
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public class newgb {
   
    public static void loadflow(AclfNetwork net,IPSSMsgHub msg){
- 
-    
-		
 		// create the default loadflow algorithm
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 		// use the loadflow algorithm to perform loadflow calculation
@@ -51,29 +38,6 @@ public class newgb {
    }
    
 	 
-	public static void main(String[] args) {
-		AclfNetwork net =CoreObjectFactory.createAclfNetwork();
-		
-		IPSSMsgHub msg= new IPSSMsgHubImpl();
-		msg.addMsgListener(new StdoutMsgListener(TextMessage.TYPE_WARN));
-		IpssLogger.getLogger().setLevel(Level.WARNING);
-		
-		AclfNetwork objnet = ConvertIEEEtoInterPSS(net ,"ieee14.ieee",msg);  //ieee30.ieee
-		// (List) index for the power-increase load buses 
-		
-		List<Integer> busL =Arrays.asList(10,11);
-		List<Integer> buslist =new ArrayList<Integer>(busL);
-		
-		// specify the load increase direction 
-		 
-		Matrix dirp = ones(2,1).times(0.8); // Dimensions should be matched with buslist
-		Matrix dirq = ones(2,1).times(0.6);
-
-		callIndexModel(objnet,buslist,dirp,dirq);
-	
-        //loadflow(msg);
-	}
-	
 	public static  AclfNetwork ConvertIEEEtoInterPSS(AclfNetwork net, String IEEEFile, IPSSMsgHub msg){
 		
 		// 1. Convert IEEE data format to intermediary XML file
@@ -357,7 +321,7 @@ public class newgb {
 	   }  
 	   
 	   
-	    private static Matrix ones(int n,int m ){
+	    public static Matrix ones(int n,int m ){
 	    	  Matrix a =new Matrix (n,m);
 			     for (int i= 0;i<n;i++){
 					 
