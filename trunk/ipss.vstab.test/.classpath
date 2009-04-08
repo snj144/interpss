@@ -14,5 +14,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.xml"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.pssl"/>
+	<classpathentry kind="lib" path="/ipss.vstab/lib/Jama-1.0.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.vstab"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
