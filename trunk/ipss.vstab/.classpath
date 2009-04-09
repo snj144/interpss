@@ -8,7 +8,10 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ipss.plugin"/>
 	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
 	<classpathentry kind="lib" path="lib/Jama-1.0.2.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.common_2.3.0.v200709252135.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore_2.3.1.v200709252135.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/eclipse/org.eclipse.emf.ecore.xmi_2.3.1.v200709252135.jar"/>
 	<classpathentry kind="output" path="runtime"/>
 </classpath>
