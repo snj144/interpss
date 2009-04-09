@@ -30,11 +30,12 @@ public class NewgbTest {
 		
 		List<Integer> busL =Arrays.asList(10,11);
 		List<Integer> buslist =new ArrayList<Integer>(busL);
+		int Numofbus=buslist.size();
 		
 		// specify the load increase direction 
 		 
-		Matrix dirp = newgb.ones(2,1).times(0.8); // Dimensions should be matched with buslist
-		Matrix dirq = newgb.ones(2,1).times(0.6);
+		Matrix dirp = newgb.ones(Numofbus,1).times(0.8); // Dimensions should be matched with buslist
+		Matrix dirq = newgb.ones(Numofbus,1).times(0.6);
 
 		newgb.callIndexModel(objnet,buslist,dirp,dirq);
 	
