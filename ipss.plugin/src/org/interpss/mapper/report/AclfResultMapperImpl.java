@@ -165,8 +165,8 @@ public class AclfResultMapperImpl {
 									.getBaseVoltage(), baseKVA, UnitType.PU,
 									UnitType.Amp);
 							if (bra.isXfr() || bra.isPSXfr()) {
-								fromRatio = bra.getFromTurnRatio();
-								toRatio = bra.getToTurnRatio();
+								fromRatio = bra.getFromTap();
+								toRatio = bra.getToTap();
 							}
 						} else {
 							pq = bra.powerTo2From(UnitType.mVA, baseKVA);
@@ -175,8 +175,8 @@ public class AclfResultMapperImpl {
 									.getBaseVoltage(), baseKVA, UnitType.PU,
 									UnitType.Amp);
 							if (bra.isXfr() || bra.isPSXfr()) {
-								toRatio = bra.getFromTurnRatio();
-								fromRatio = bra.getToTurnRatio();
+								toRatio = bra.getFromTap();
+								fromRatio = bra.getToTap();
 							}
 						}
 					}
@@ -390,8 +390,8 @@ public class AclfResultMapperImpl {
 			}
 			bean.setTap(Number2String.toStr("0.000",
 					(tap.isControlOnFromSide() ? tap.getAclfBranch()
-							.getFromTurnRatio() : tap.getAclfBranch()
-							.getToTurnRatio())));
+							.getFromTap() : tap.getAclfBranch()
+							.getToTap())));
 			bean.setTapMax(Number2String.toStr("0.000", tap.getTapLimit()
 					.getMax()));
 			bean.setTapMin(Number2String.toStr("0.000", tap.getTapLimit()

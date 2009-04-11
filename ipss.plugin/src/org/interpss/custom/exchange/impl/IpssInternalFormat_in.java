@@ -367,15 +367,15 @@ public class IpssInternalFormat_in {
     	AclfBranch bra = (AclfBranch)net.getBranch(fid, tid, cirNo);
     	if (bra != null) {
     	 	bra.setBranchCode(AclfBranchCode.XFORMER);
-        	bra.setFromTurnRatio( t );
-        	bra.setToTurnRatio( 1.0 );
+        	bra.setFromTap( t );
+        	bra.setToTap( 1.0 );
       	}
     	else {
     		bra = (AclfBranch)net.getBranch(tid, fid, cirNo);
         	if (bra != null) {
           	bra.setBranchCode(AclfBranchCode.XFORMER);
-    			bra.setFromTurnRatio(1.0);
-    			bra.setToTurnRatio(t);
+    			bra.setFromTap(1.0);
+    			bra.setToTap(t);
         	} else {
 				throw new InvalidInputException("AclfDataFile.loadXformerInfo_1, Xformar branch:" + fid + "->" + tid + " is not in the system" );
 			}

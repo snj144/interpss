@@ -277,8 +277,8 @@ public class PSSEXfrDataRec {
 	       		f_ratio = this.windv1*1000.0 / bra.getFromAclfBus().getBaseVoltage();
 	       		t_ratio = this.windv2*1000.0 / bra.getToAclfBus().getBaseVoltage();
 	       	}
-	       	xfr.setFromTurnRatio(f_ratio, UnitType.PU);
-	       	xfr.setToTurnRatio(t_ratio, UnitType.PU); 
+	       	xfr.setFromTap(f_ratio, UnitType.PU);
+	       	xfr.setToTap(t_ratio, UnitType.PU); 
 
         	bra.setFromRatedVoltage(this.nomv1*1000.0);
         	bra.setToRatedVoltage(this.nomv2*1000.0);
@@ -409,9 +409,9 @@ public class PSSEXfrDataRec {
 	       		t_ratio = this.windv2*1000.0 / bra.getToBus().getBaseVoltage();
 	       		tert_ratio = this.windv3 == 0.0? 1.0 : this.windv3*1000.0 / bra.getTertiaryBus().getBaseVoltage();
 	       	}
-	       	bra.setFromTurnRatio(f_ratio);
-	       	bra.setToTurnRatio(t_ratio); 	       	
-	       	bra.setTertTurnRatio(tert_ratio); 	       	
+	       	bra.setFromTap(f_ratio);
+	       	bra.setToTap(t_ratio); 	       	
+	       	bra.setTertTap(tert_ratio); 	       	
 
 	       	bra.setFromRatedVoltage(this.nomv1*1000.0);
         	bra.setToRatedVoltage(this.nomv2*1000.0);
