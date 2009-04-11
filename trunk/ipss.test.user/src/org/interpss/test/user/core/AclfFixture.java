@@ -161,11 +161,11 @@ public class AclfFixture extends IpssFixture {
 
 	public double branchXfrFromTurnRatio() throws Exception {
 		XfrAdapter xfr = (XfrAdapter)getBranch().getAdapter(XfrAdapter.class);
-		return formatDouble(xfr.getFromTurnRatio());
+		return formatDouble(xfr.getFromTap());
 	}
 
 	public double branchXfrToTurnRatio() throws Exception {
 		XfrAdapter xfr = (XfrAdapter)getBranch().getAdapter(XfrAdapter.class);
-		return formatDouble(xfr.getToTurnRatio());
+		return formatDouble(xfr.getToTap());
 	}
 }
