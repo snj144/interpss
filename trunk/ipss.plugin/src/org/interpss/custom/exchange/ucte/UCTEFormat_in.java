@@ -389,9 +389,9 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
     	xfr.setToShuntY(yPU, UnitType.PU, aclfNet.getBaseKva()); 
     	// turn ratio is 1.0 for un-regulated xfr, but defined in term of 
     	// rated voltage. It needs to be converted to base base voltage
-    	xfr.setFromTurnRatio(1.0, UnitType.PU);
+    	xfr.setFromTap(1.0, UnitType.PU);
     	double ratio = (toRatedKV/branch.getToBus().getBaseVoltage()) / (fromRatedKV/branch.getFromBus().getBaseVoltage());
-    	xfr.setToTurnRatio(ratio, UnitType.PU); 
+    	xfr.setToTap(ratio, UnitType.PU); 
 
     	// by default the branch is active
     	if (status == 8 || status == 9) 
@@ -464,11 +464,11 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 			branch.setUKvPhase(uKvPhase);
 			
 	    	final XfrAdapter xfr = (XfrAdapter)branch.getAdapter(XfrAdapter.class);
-	    	double ratioFactor = xfr.getToTurnRatio();
+	    	double ratioFactor = xfr.getToTap();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at toside x : 1.0, InterPSS model 1.0:turnRatio
-			xfr.setToTurnRatio(ratioFactor/x, UnitType.PU);
+			xfr.setToTap(ratioFactor/x, UnitType.PU);
 			
 			if (uKvPhase > 0.0) {
 				// tap control of voltage at to node side
@@ -494,7 +494,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 	
 		 	branch.setBranchCode(AclfBranchCode.PS_XFORMER);
 			final PSXfrAdapter psXfr = (PSXfrAdapter)branch.getAdapter(PSXfrAdapter.class);
-	    	double ratioFactor = psXfr.getToTurnRatio();
+	    	double ratioFactor = psXfr.getToTap();
 
 	    	double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;
 			double a    = n1Angle*dUAngle*0.01,
@@ -527,7 +527,7 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 				angMin = 2.0 * Math.atan(aMin/2.0);
 			}
 			psXfr.setToAngle(-ang, UnitType.Rad);
-			psXfr.setToTurnRatio(ratioFactor/x, UnitType.PU);
+			psXfr.setToTap(ratioFactor/x, UnitType.PU);
 			
 			if (pMwAngle != 0.0) {
           		final PSXfrPControl ps = CoreObjectFactory.createPSXfrPControl(aclfNet, branch.getId(), AdjControlType.POINT_CONTROL);

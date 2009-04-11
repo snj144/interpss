@@ -247,9 +247,9 @@ public class ODMLoadflowDataMapperImpl {
 		xfr.setZ(new Complex(xfrData.getZ().getR(), xfrData.getZ().getX()),
 				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, adjNet.getBaseKva(),
 				msg);
-		xfr.setFromTurnRatio(xfrData.getFromTurnRatio() == 0.0 ? 1.0 : xfrData
+		xfr.setFromTap(xfrData.getFromTurnRatio() == 0.0 ? 1.0 : xfrData
 				.getFromTurnRatio()*ratio, UnitType.PU);
-		xfr.setToTurnRatio(xfrData.getToTurnRatio() == 0.0 ? 1.0 : xfrData
+		xfr.setToTap(xfrData.getToTurnRatio() == 0.0 ? 1.0 : xfrData
 				.getToTurnRatio()/ratio, UnitType.PU);
 		
 	}

@@ -93,7 +93,8 @@ public class PSSESwitchedShuntDataRec {
 		shunt.setId(iStr);
 		shunt.setName("SwitchedShunt@Bus:" + iStr);
 		shunt.setDesc("PSSE SwitchedShunt at Bus " + iStr);
-		shunt.setStatus(true);		
+		shunt.setStatus(true);	
+		
 		shunt.setMode(this.modsw);
 		shunt.setVmax(this.vswhi);
 		shunt.setVmax(this.vswlo);

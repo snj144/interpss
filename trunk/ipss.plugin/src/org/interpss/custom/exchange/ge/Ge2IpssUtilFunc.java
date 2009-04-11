@@ -338,8 +338,8 @@ public class Ge2IpssUtilFunc {
 	    	geBra.setBranchCode(AclfBranchCode.XFORMER);
 			final XfrAdapter xfr = (XfrAdapter)geBra.getAdapter(XfrAdapter.class);
 	    	xfr.getAclfBranch().setZ(new Complex(sec.getR(),sec.getX()), msg);
-	    	xfr.setFromTurnRatio(1.0+sec.getFromTap(), UnitType.PU);
-	    	xfr.setToTurnRatio(1.0+sec.getToTap(), UnitType.PU); 
+	    	xfr.setFromTap(1.0+sec.getFromTap(), UnitType.PU);
+	    	xfr.setToTap(1.0+sec.getToTap(), UnitType.PU); 
 	    	geBra.getFromAclfBus().setShuntY(new Complex(0.5*sec.getGi(), 0.0));
 	    	geBra.getToAclfBus().setShuntY(new Complex(0.5*sec.getGi(), 0.0));
 	   	}
@@ -380,8 +380,8 @@ public class Ge2IpssUtilFunc {
     	geXfr.setBranchCode(AclfBranchCode.XFORMER);
 		final XfrAdapter xfr = (XfrAdapter)geXfr.getAdapter(XfrAdapter.class);
     	xfr.getAclfBranch().setZ(new Complex(r, x), msg);
-    	xfr.setFromTurnRatio(fromRatio, UnitType.PU);
-    	xfr.setToTurnRatio(toRatio, UnitType.PU); 
+    	xfr.setFromTap(fromRatio, UnitType.PU);
+    	xfr.setToTap(toRatio, UnitType.PU); 
     	geXfr.getFromAclfBus().setShuntY(new Complex(0.5*g, 0.5*b));
     	geXfr.getToAclfBus().setShuntY(new Complex(0.5*g, 0.5*b));
     	

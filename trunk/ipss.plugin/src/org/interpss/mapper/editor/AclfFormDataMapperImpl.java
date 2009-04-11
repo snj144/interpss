@@ -532,9 +532,9 @@ public class AclfFormDataMapperImpl {
 			xfr.setZ(new Complex(data.getZR(), data.getZX()), UnitType
 					.toUnit(data.getZUnit()), baseV, net.getBaseKva(), msg);
 
-			xfr.setFromTurnRatio(data.getXfrTapFromSideTap(), UnitType
+			xfr.setFromTap(data.getXfrTapFromSideTap(), UnitType
 					.toUnit(data.getXfrTapUnit()));
-			xfr.setToTurnRatio(data.getXfrTapToSideTap(), UnitType.toUnit(data
+			xfr.setToTap(data.getXfrTapToSideTap(), UnitType.toUnit(data
 					.getXfrTapUnit()));
 			xfr.setFromShuntY(new Complex(data.getFromShuntG(),data.getFromShuntB()), 
 					UnitType.toUnit(data.getShuntYUnit()), net.getBaseKva());

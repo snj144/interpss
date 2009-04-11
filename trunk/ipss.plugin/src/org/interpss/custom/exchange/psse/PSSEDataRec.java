@@ -8,7 +8,8 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.aclfadj.AreaInterchangeController;
+import com.interpss.core.aclfadj.AreaInterchangeControl;
+import com.interpss.core.aclfadj.InterareaTransfer;
 import com.interpss.core.net.Owner;
 import com.interpss.core.net.Zone;
 
@@ -115,7 +116,7 @@ public class PSSEDataRec {
 				IpssLogger.getLogger().warning("Area interchange poewr controller, Swing bus not found, ISW: " + this.isw + 
 						", this data line is ignored");
 			} else {
-				AreaInterchangeController controller = CoreObjectFactory.createAreaInterchangeController(this.i, this.arnam, adjNet);
+				AreaInterchangeControl controller = CoreObjectFactory.createAreaInterchangeController(this.i, this.arnam, adjNet);
 				controller.setAclfBus(bus);
 				controller.setPSpecOut(this.pdes, UnitType.mW, adjNet.getBaseKva());
 				controller.setTolerance(this.ptol, UnitType.mW, adjNet.getBaseKva());
@@ -194,7 +195,8 @@ public class PSSEDataRec {
 					
 				- FromAreaNo_ToAreaNo_TRID is unique					 
 			*/
-			// TODO: data error checking to be implemented
+			InterareaTransfer tr = CoreObjectFactory.createInterareaTransfer(adjNet, this.arfrom, this.arto, this.trid);
+			tr.setTransferMW(this.ptran);
 		}		
 
 		public String toString() {

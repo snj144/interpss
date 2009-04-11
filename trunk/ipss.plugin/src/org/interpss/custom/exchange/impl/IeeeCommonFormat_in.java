@@ -506,8 +506,8 @@ public class IeeeCommonFormat_in {
         		IpssLogger.getLogger().fine("Xfr B: " + bpu);
         		bra.getFromAclfBus().setShuntY(new Complex(0.0, -bpu));
         	}
-        	xfr.setFromTurnRatio(ratio, UnitType.PU);
-        	xfr.setToTurnRatio(1.0, UnitType.PU); 
+        	xfr.setFromTap(ratio, UnitType.PU);
+        	xfr.setToTap(1.0, UnitType.PU); 
         	if (angle != 0.0) {
         		// PhaseShifting transformer branch
         	 	bra.setBranchCode(AclfBranchCode.PS_XFORMER);

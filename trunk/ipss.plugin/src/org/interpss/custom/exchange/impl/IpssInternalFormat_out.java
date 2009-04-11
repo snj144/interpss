@@ -126,7 +126,7 @@ public class IpssInternalFormat_out {
 						branch.getFromBus().getId(), 
 						branch.getToBus().getId(),
 						branch.getCircuitNumber(),
-						branch.getFromTurnRatio()));
+						branch.getFromTap()));
 		}
         out.write(String.format("%s%n%n", "end"));
 

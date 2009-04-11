@@ -171,8 +171,8 @@ public class AclfOutFunc {
 											.getFromAclfBus().getBaseVoltage(),
 											baseKVA, UnitType.PU, UnitType.Amp);
 									if (bra.isXfr() || bra.isPSXfr()) {
-										fromRatio = bra.getFromTurnRatio();
-										toRatio = bra.getToTurnRatio();
+										fromRatio = bra.getFromTap();
+										toRatio = bra.getToTap();
 										if (bra.isPSXfr()) {
 											PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
 											fromAng = psXfr.getFromAngle(UnitType.Deg);
@@ -187,8 +187,8 @@ public class AclfOutFunc {
 											.getToAclfBus().getBaseVoltage(),
 											baseKVA, UnitType.PU, UnitType.Amp);
 									if (bra.isXfr() || bra.isPSXfr()) {
-										toRatio = bra.getFromTurnRatio();
-										fromRatio = bra.getToTurnRatio();
+										toRatio = bra.getFromTap();
+										fromRatio = bra.getToTap();
 										if (bra.isPSXfr()) {
 											PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
 											toAng = psXfr.getFromAngle(UnitType.Deg);
@@ -615,8 +615,8 @@ public class AclfOutFunc {
 
 			str.append(Number2String.toStr("0.000",
 					(x.isControlOnFromSide() ? x.getAclfBranch()
-							.getFromTurnRatio() : x.getAclfBranch()
-							.getToTurnRatio()))
+							.getFromTap() : x.getAclfBranch()
+							.getToTap()))
 					+ " ");
 			str.append(Number2String.toStr("0.000", x.getTapLimit().getMax())
 					+ " ");
