@@ -361,8 +361,8 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
             bra.setBranchCode(AclfBranchCode.XFORMER);
             XfrAdapter xfr = (XfrAdapter) bra.getAdapter(XfrAdapter.class);
             xfr.getAclfBranch().setZ(new Complex(rpu, xpu), msg);
-            xfr.setFromTurnRatio(ratio, UnitType.PU);
-            xfr.setToTurnRatio(1.0, UnitType.PU);
+            xfr.setFromTap(ratio, UnitType.PU);
+            xfr.setToTap(1.0, UnitType.PU);
         }
     }
     
