@@ -63,7 +63,7 @@ public class Vstab {
 		AclfNetwork objnet = ConvertIEEEtoInterPSS(net ,"ieee30.ieee",msg);  //ieee30.ieee
 		// (List) index for the power-increase load buses 
 		
-		List<Integer> busL =Arrays.asList(15,16,17);
+		List<Integer> busL =Arrays.asList(15,16,17,18,19,20);
 		List<Integer> buslist =new ArrayList<Integer>(busL);
 		
 		int Numofbus =buslist.size();
@@ -184,7 +184,7 @@ public class Vstab {
 			// boolean flag =false; // flag for critical point, default is false 
 			                      // change it to true when getting the critical point 
 			 // define the tolerance
-			 double tol=0.01; //e-2
+			 double tol=0.001; //e-3
 			 Matrix delta_dir =new Matrix(n,1); 
 			 
 			 //初始化步长
@@ -324,13 +324,13 @@ public class Vstab {
 					   if(newp<p||newq<q){
 						    flag =true; // 出现功率减小，说明已经达到或越过PV nose ，则考虑回到前一步，并减小步长（相当于插值）。
 						   
-						    if (p-newp>0.01) {  //确保极限点的精度  ||q-newp>0.01
+						    if (p-newp>0.001) {  //确保极限点的精度  ||q-newp>0.001
 
-						      print(" bus   "+objbus.getId()+  "  load power less than before:"); 
-						      print("new p+jq:    "+newp+"  +j*"+newq);
-						      print("old p+jq:    " +p  +"  +j*"+q);
-							  print("have to minize the step length ");
-							  break; //get out of this for-loop 
+						         print(" bus   "+objbus.getId()+  "  load power less than before:"); 
+						         print("new p+jq:    "+newp+"  +j*"+newq);
+						         print("old p+jq:    " +p  +"  +j*"+q);
+							     print("have to minize the step length ");
+							     break; //get out of this for-loop 
 						     }// end the inner if
 						    
 							print("bus :"+objbus.getName()+" get the critical point first");
@@ -369,8 +369,11 @@ public class Vstab {
 			   print( "and flag is :"+ flag);
 			    
 			  
+			   
+			   
+			   
 			    
-			     if(flag ==false){  // 未达到pv nose, 以正常方式确定步长调整量
+			     if(flag ==false &&interpolation==false){  // 未达到pv nose, 以正常方式确定步长调整量
 			        delta = min(scant); // scant 为 各负荷节点 V对P的 变化量的倒数最小值（即PV曲线斜率的倒数）
 			        print("delta=" +delta);
 			            if (delta> 1) delta =1;
@@ -384,11 +387,11 @@ public class Vstab {
 			     else{   // flag =true  get the PV near-nose 
 			    	 if (interpolation==false){
 			    	 lambda=lambda-2*delta;   // the first time get pv nose ,then  back to where higher than the oldP  now in PV curve
-			    	 delta =0.1;// smallest step length;
+			    	 delta =0.05;// smallest step length;
 					 interpolation=true;
 			    	 }  
 			    	
-
+  
 			        }
 			     // update the 
 			       lambda +=delta;
@@ -455,10 +458,7 @@ public class Vstab {
 			objbus.setLoadQ(busQ0.get(id, 0));
 			
 		}
-	 
-		oldP =busP0;
-		oldQ =busQ0;
-		oldV =busV0;
+	
 		
 		// 定义收敛的条件 ：最近两次的增长方向接近程度满足要求
 		//以方向差的模来定义
@@ -473,17 +473,25 @@ public class Vstab {
 		 dir_g =dir_p.copy();
 		 dir_b =dir_q.copy();
 		 
-		 // 重新初始化增长步长
-		 lambda =1;
-		 
-		/* 
-		 if(delta_dir.normF()<tol){
 		
-			 print("get the closest limit");
-			 break;
+		
+		 if(delta_dir.normF()>tol){
+			 
+			oldP =busP0;
+			oldQ =busQ0;
+			oldV =busV0;
+				
+			 // 重新初始化增长步长
+			 lambda =1;
+			 //重新定义标志：
+			 flag =false;
+			 interpolation =false;
+			 
+			 
+			 
 		 }
-		 */
-	 }while(findCLtimes<10);
+		 
+	 }while(delta_dir.normF()>tol);//findCLtimes<10
 	 
 	 print("get the closest limit");
 	 
