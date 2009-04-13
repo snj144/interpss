@@ -66,12 +66,19 @@ public class Vstab {
 		List<Integer> busL =Arrays.asList(15,16,17);
 		List<Integer> buslist =new ArrayList<Integer>(busL);
 		
-		int Numbus =buslist.size();
+		int Numofbus =buslist.size();
 		// specify the load increase direction 
 		
+		
 		 
-		Matrix dirp = ones(Numbus,1).times(0.8); // Dimensions should be matched with buslist
-		Matrix dirq = ones(Numbus,1).times(0.6);
+		Matrix dirp = ones(Numofbus,1).times(0.8); // Dimensions should be matched with buslist
+		Matrix dirq = ones(Numofbus,1).times(0.6);
+		Matrix dirpq =new Matrix(2*Numofbus,1);
+		dirpq.setMatrix(0, Numofbus-1, 0, 0,dirp);
+		dirpq.setMatrix(Numofbus, 2*Numofbus-1, 0, 0,dirq);
+		dirpq.arrayTimesEquals(new Matrix(2*Numofbus,1,1/dirpq.normF()));
+		dirp =dirpq.getMatrix(0, Numofbus-1, 0, 0);
+		dirq =dirpq.getMatrix(Numofbus, 2*Numofbus-1, 0, 0);
 
 		getLimit(objnet,buslist,dirp,dirq);
 	
@@ -368,7 +375,7 @@ public class Vstab {
 			        print("delta=" +delta);
 			            if (delta> 1) delta =1;
 			   
-			            else if (delta>0.5) delta =0.3;
+			            else if (delta>0.5) delta =0.2;
 			            else delta =0.1;
 			       }
 			     
@@ -455,7 +462,7 @@ public class Vstab {
 		
 		// 定义收敛的条件 ：最近两次的增长方向接近程度满足要求
 		//以方向差的模来定义
-		print("dir_p");
+		print("new dir_g");
 		printMatrix(dir_p);
 		print("dir_g");
 		printMatrix(dir_g);
