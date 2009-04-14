@@ -63,7 +63,7 @@ public class Vstab {
 		AclfNetwork objnet = ConvertIEEEtoInterPSS(net ,"ieee30.ieee",msg);  //ieee30.ieee
 		// (List) index for the power-increase load buses 
 		
-		List<Integer> busL =Arrays.asList(15,16,17,18,19,20);
+		List<Integer> busL =Arrays.asList(15,16,17,18,19,20,28,29);
 		List<Integer> buslist =new ArrayList<Integer>(busL);
 		
 		int Numofbus =buslist.size();
@@ -188,12 +188,14 @@ public class Vstab {
 			 Matrix delta_dir =new Matrix(n,1); 
 			 
 			 //初始化步长
-			 double  lambda =1,
+			 double  lambda =0.5,
 			         delta=0.1; //初始化步长变化量
 		     // define tempt variants	 
 			 double v=1,v1=1,p=1,q=1,G,B,newq,newp,tan; // tan for slop
 			 
 			 boolean interpolation =false; // 插值
+			 boolean flag =false; // flag for critical point, default is false 
+		         // change it to true when getting the critical point 
 			  
 			 double findCLtimes =0;
 			 
@@ -255,6 +257,10 @@ public class Vstab {
 			       }
 			   
 		     }    // end of for-loop 
+		 print("g0");
+		 printMatrix(g0);
+		 
+		 
 		    // save the normal operation point
 		   busP0 =busP.copy();
 		   busQ0 =busQ.copy();
@@ -271,11 +277,10 @@ public class Vstab {
 			 //注意目前暂不考虑存在节点Q或P 为 恒定 情况 
 
 		int count =0;
-		boolean flag =false; // flag for critical point, default is false 
-         // change it to true when getting the critical point 
+	
 	    
         loop1:// 第一层循环标志
-	  do{
+ do{
 			  // 迭代次数标志
 			    count++;
 		    	print("    count =  "+count);
@@ -286,9 +291,12 @@ public class Vstab {
 		
 		     // increase load power in the dir_g and dir_b
 		       print("   lambda = "+lambda);
-		       g =g0.plus(dir_g.times(lambda)); // increase by lambda 
+		       g =g0.plus (dir_g.times(lambda)); // increase by lambda 
 		       b= b0.minus(dir_b.times(lambda));//注意此处的减法运算，为导纳模型的特点
 			  
+		       print("g");
+			   printMatrix(g);
+			   
 			    for (int id1: buslist){
 			    	AclfBus object_bus=(AclfBus) net.getBusList().get(id1);
 			    	int id = buslist.indexOf(id1);
@@ -308,6 +316,7 @@ public class Vstab {
 					   G =g.get(id,0);
 					   B =b.get(id,0);
 					   v1 =objbus.getVoltageMag();
+					   print(" id is   "+id+  "  new v"+v1);
 					   v= oldV.get(id, 0);
 					   newp=G*v1*v1; // get the LF result p and q of this step 
 					   newq=-B*v1*v1;
@@ -332,7 +341,7 @@ public class Vstab {
 							     print("have to minize the step length ");
 							     break; //get out of this for-loop 
 						     }// end the inner if
-						    
+						  else{
 							print("bus :"+objbus.getName()+" get the critical point first");
 							print("this step new v="+v1);
 							print("this step new p="+ newp);
@@ -342,11 +351,12 @@ public class Vstab {
 							print("the critical q ="+ q);
 							
 							print("result:");
-                            printMatrix(oldP);
-                            printMatrix(oldQ);
-                            printMatrix(oldV);
-							break loop1; // get the critical point and exit loop1 
 							
+                           // printMatrix(oldP);
+                           // printMatrix(oldQ);
+                           // printMatrix(oldV);
+							break loop1; // get the critical point and exit loop1 
+						    }
 				       } //end the outer if
 					   
 					   busP.set(id, 0, newp);
@@ -367,39 +377,33 @@ public class Vstab {
 				  
 			   // call the min(Matrix a) to the get the largest number ;
 			   print( "and flag is :"+ flag);
+
 			    
-			  
-			   
-			   
-			   
-			    
-			     if(flag ==false &&interpolation==false){  // 未达到pv nose, 以正常方式确定步长调整量
+			     if(flag ==false&&interpolation==false ){  // 未达到pv nose, 以正常方式确定步长调整量
 			        delta = min(scant); // scant 为 各负荷节点 V对P的 变化量的倒数最小值（即PV曲线斜率的倒数）
 			        print("delta=" +delta);
-			            if (delta> 1) delta =1;
+			            if (delta> 1) delta =0.5;
 			   
-			            else if (delta>0.5) delta =0.2;
-			            else delta =0.1;
-			       }
-			     
-			  
-			     
-			     else{   // flag =true  get the PV near-nose 
-			    	 if (interpolation==false){
-			    	 lambda=lambda-2*delta;   // the first time get pv nose ,then  back to where higher than the oldP  now in PV curve
-			    	 delta =0.05;// smallest step length;
-					 interpolation=true;
-			    	 }  
-			    	
-  
+			            else if (delta>0.5) delta =0.1;
+			            else delta =0.05;
 			        }
+
+			     if (flag==true){   // flag =true  get the PV near-nose 
+			    	 
+			    	 lambda=lambda-delta;   // the first time get pv nose ,then  back to where higher than the oldP  now in PV curve
+			    	 delta =delta/2;// smallest step length;
+			    	 interpolation=true;
+		            }
 			     // update the 
 			       lambda +=delta;
 			       
 			       // 重新检验极限点
 	               flag=false;
+	               print("^……………………………………………………………………");
 		
 		      }while (count<20);  // for the while-loop;
+		
+		
 		
 		//返回Pcr与 P0的距离
 		 double Length = oldP.minus(busP0).normF();
@@ -418,10 +422,11 @@ public class Vstab {
 		}
 		
 //………………………………3.  get the next step power increase direction…………………………………………
-		 SparseEqnMatrix2x2 S = 
-			net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
+	    SparseEqnMatrix2x2 S = 
+			        net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
 	     Matrix jacobi =Sparse2Matrix(net,S);
-         //printMatrix(jacobi);
+	     
+      //printMatrix(jacobi);
       // jacobi.print(jacobi.getColumnDimension(), 3);
       //jacobi.print(java.text.NumberFormat.INTEGER_FIELD, 4);
     
@@ -436,7 +441,7 @@ public class Vstab {
 		dir_p =NewDir.get(0);
 		dir_q =NewDir.get(1);
 		
-		if (dir_p.get(0, 0)<0){
+		if (dir_p.get(0, 0)<0){           // 确保一直处于增加状态
 			dir_p =dir_p.uminus();
 		}
 		
@@ -462,6 +467,12 @@ public class Vstab {
 		
 		// 定义收敛的条件 ：最近两次的增长方向接近程度满足要求
 		//以方向差的模来定义
+		
+		 // pass the new dir
+		dir_g =dir_p.copy();
+		dir_b =dir_q.copy();
+		
+		
 		print("new dir_g");
 		printMatrix(dir_p);
 		print("dir_g");
@@ -469,26 +480,19 @@ public class Vstab {
 		delta_dir =dir_p.minus(dir_g);
 		print("norm of delta_p"+delta_dir.normF());
 		 
-		 // pass the new dir
-		 dir_g =dir_p.copy();
-		 dir_b =dir_q.copy();
-		 
-		
-		
-		 if(delta_dir.normF()>tol){
-			 
+
+	   if(delta_dir.normF()>tol){
+	
 			oldP =busP0;
 			oldQ =busQ0;
 			oldV =busV0;
 				
 			 // 重新初始化增长步长
-			 lambda =1;
+			 lambda =0.5;
 			 //重新定义标志：
 			 flag =false;
 			 interpolation =false;
-			 
-			 
-			 
+			print("change back to normal operation condition");
 		 }
 		 
 	 }while(delta_dir.normF()>tol);//findCLtimes<10
