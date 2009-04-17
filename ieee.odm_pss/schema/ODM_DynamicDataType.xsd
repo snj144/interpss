@@ -3,18 +3,12 @@
 	targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
 	xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
 	elementFormDefault="qualified">
-<<<<<<< .mine
-	<include schemaLocation="ODM_DataType.xsd"></include>
-	<complexType name="BusDynDataListXmlType">
-		<sequence>
-=======
 	<include schemaLocation="ODM_DataType.xsd"></include>
 
 
 
 	<complexType name="BusDynDataListXmlType">
 		<sequence>
->>>>>>> .r2598
 			<element name="generatorDataList"
 				type="pss:GeneratorDataListXmlType" maxOccurs="1" minOccurs="0">
 			</element>
@@ -34,6 +28,8 @@
 
 		</sequence>
 	</complexType>
+
+
 
 	<complexType name="GeneratorDataListXmlType">
 		<sequence>
@@ -86,6 +82,7 @@
 						<enumeration value="classicalModel"></enumeration>
 						<enumeration value="transientModel"></enumeration>
 						<enumeration value="subtransModel"></enumeration>
+
 					</restriction>
 				</simpleType>
 			</element>
@@ -111,11 +108,6 @@
 			<element name="exciterType" maxOccurs="1" minOccurs="1">
 				<simpleType>
 					<restriction base="string">
-<<<<<<< .mine
-					<enumeration value="AC1A"></enumeration>
-					<enumeration value="AC2A"></enumeration>
-					
-=======
 						<enumeration value="IEEE1992TypeAC1A"></enumeration>
 						<enumeration value="IEEE1981TypeAC2"></enumeration>
 						<enumeration value="IEEE1981ST1"></enumeration>
@@ -126,7 +118,6 @@
 						<enumeration value="IEEETypeDC2"></enumeration>
 
 
->>>>>>> .r2893
 					</restriction>
 				</simpleType>
 			</element>
@@ -278,13 +269,18 @@
 
     					<element name="xd1" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
+
     					<element name="H" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="D" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
+
     				</sequence>
     			</complexType>
     		</element>
@@ -301,8 +297,6 @@
     					<element name="basePower" type="double"
     						maxOccurs="1" minOccurs="0">
     					</element>
-<<<<<<< .mine
-=======
     					<element name="basePowerUnit" maxOccurs="1"
     						minOccurs="0">
     						<simpleType>
@@ -313,24 +307,28 @@
     						</simpleType>
     					</element>
 
->>>>>>> .r2893
     					<element name="ra" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="xd" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="xd1" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="Tdo1" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="xq" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="xq1" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="Tq01" maxOccurs="1" minOccurs="1"
     						type="pss:TimeXmlType">
@@ -341,6 +339,7 @@
     					<element name="D" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
     					<element name="E1" type="double" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -356,13 +355,9 @@
     					<element name="AF" type="double" maxOccurs="1"
     						minOccurs="0">
     					</element>
-<<<<<<< .mine
-    				</sequence>
-=======
 
     				</sequence>
 
->>>>>>> .r2893
     			</complexType>
     		</element>
     		<element name="subTransientModel" maxOccurs="1"
@@ -390,6 +385,7 @@
     					</element>
     					<element name="xd" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
 
     					<element name="xr" type="pss:PerUnitXmlType"
@@ -397,10 +393,12 @@
     					</element>
     					<element name="ra" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
 
     					<element name="xd1" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="xd11" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
@@ -413,9 +411,11 @@
     					</element>
     					<element name="xq" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="xq1" maxOccurs="1" minOccurs="1"
     						type="pss:PerUnitXmlType">
+
     					</element>
     					<element name="xq11" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
@@ -432,6 +432,7 @@
     					<element name="D" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
     					<element name="E1" type="double" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -452,14 +453,10 @@
 
 
     				</sequence>
-<<<<<<< .mine
-    			</complexType></element>
-=======
 
     			</complexType>
     		</element>
 
->>>>>>> .r2893
     	</sequence>
     </complexType>
 
@@ -550,11 +547,7 @@
     					<element name="TR" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-<<<<<<< .mine
-    					<element name="TR" type="pss:SecXmlType"
-=======
     					<element name="TB" type="pss:TimeXmlType"
->>>>>>> .r2893
     						maxOccurs="1" minOccurs="1">
     					</element>
     					<element name="TC" type="pss:TimeXmlType"
@@ -620,6 +613,9 @@
     					<element name="SE2" type="double" maxOccurs="1"
     						minOccurs="1">
     					</element>
+
+
+
     				</sequence>
     			</complexType>
     		</element>
@@ -637,12 +633,6 @@
     					<element name="TR" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-<<<<<<< .mine
-    					<element name="TR" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-=======
->>>>>>> .r2893
     					<element name="VIMAX" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -661,6 +651,9 @@
     					<element name="TA" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
+
+
     					<element name="KF" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -670,6 +663,11 @@
     					<element name="KC" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
+
+
+
+
     					<element name="VRMAX" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -696,6 +694,7 @@
     					<element name="EFDMAX" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
     					<element name="EFDMIN" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -711,6 +710,9 @@
     					<element name="TA" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
+
+
     					<element name="KF" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -720,6 +722,11 @@
     					<element name="KC" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
+
+
+
+
     					<element name="VRMAX" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -862,13 +869,6 @@
     					<element name="Xc" type="pss:PerUnitXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-<<<<<<< .mine
-    			</sequence>		
-    		</complexType>
-    	</element>
-    	</sequence>
-    </complexType>
-=======
     					<element name="Tr" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -927,7 +927,6 @@
     						maxOccurs="1" minOccurs="1">
     					</element>
 
->>>>>>> .r2893
 
 
     					<element name="SE1" type="double" maxOccurs="1"
@@ -1073,8 +1072,6 @@
     					<element name="T4" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-<<<<<<< .mine
-=======
     					<element name="K1" type="pss:PerUnitXmlType" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -1085,7 +1082,6 @@
     						maxOccurs="1" minOccurs="1">
     					</element>
 
->>>>>>> .r2893
     					<element name="K3" type="pss:PerUnitXmlType" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -1095,6 +1091,7 @@
     					<element name="T6" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
     					<element name="K5" type="pss:PerUnitXmlType" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -1104,12 +1101,14 @@
     					<element name="T7" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
     					<element name="K7" type="pss:PerUnitXmlType" maxOccurs="1"
     						minOccurs="1">
     					</element>
     					<element name="K8" type="pss:PerUnitXmlType" maxOccurs="1"
     						minOccurs="1">
     					</element>
+
     				</sequence>
     			</complexType>
     		</element>
@@ -1211,6 +1210,7 @@
     					<element name="PMIN" type="string" maxOccurs="1"
     						minOccurs="1">
     					</element>
+
     					<element name="SIGMA" type="double"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -1223,12 +1223,7 @@
     					<element name="TW" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
-<<<<<<< .mine
-    					<element name="a11" type="double" maxOccurs="1" minOccurs="1"></element>
-    			    	<element name="a13" type="double" maxOccurs="1" minOccurs="1"></element>
-    					<element name="a21" type="double" maxOccurs="1" minOccurs="1"></element>
-    					<element name="a23" type="double" maxOccurs="1" minOccurs="1"></element>
-=======
+
     					<element name="a11" type="double" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -1242,10 +1237,10 @@
     						minOccurs="1">
     					</element>
 
->>>>>>> .r2893
     				</sequence>
     			</complexType>
     		</element>
+
     		<element name="hydroStreamGeneralModel" maxOccurs="1" minOccurs="0">
     			<complexType>
     				<sequence>
@@ -1511,6 +1506,8 @@
     					<element name="T6" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
+
     					<element name="KS" type="double" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -1617,6 +1614,8 @@
     					<element name="T7" type="pss:TimeXmlType"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
+
     					<element name="KS2" type="double" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -1653,6 +1652,7 @@
     				</sequence>
     			</complexType>
     		</element>
+
     		<element name="IEE2ST" maxOccurs="1" minOccurs="0">
     			<complexType>
     				<sequence>
@@ -1956,99 +1956,13 @@
     			<element name="n6" type="double" maxOccurs="1"
     				minOccurs="1">
     			</element>
-<<<<<<< .mine
-    			<element name="VSMAX" type="pss:PerUnitXmlType"
-    				maxOccurs="1" minOccurs="1">
-=======
 
     			<element name="a9" type="double" maxOccurs="1"
     				minOccurs="0">
->>>>>>> .r2893
     			</element>
     			<element name="a10" type="double" maxOccurs="1" minOccurs="0"></element>
     		</sequence>
-<<<<<<< .mine
-    		</complexType></element>
-    	</sequence>
-    </complexType>
-    <complexType name="dynLoadModelListXmlType">
-    	<sequence>
-    		<element name="IEEELoad" maxOccurs="1" minOccurs="0"><complexType>
-    		<sequence>
-                        <element name="modelDesc" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-<<<<<<< .mine
-    					<enumeration value="P=Pload(a1*v^n1+a2*v^n2+a3*v^n3)*(1+a7*delta*f, q=Qload(a4*v^n4+a5*v^n5+a6*v^n6)*(1+a8*delta*f)">
-    					</enumeration>
-=======
-    					<enumeration value="compoundLoad"></enumeration>
-  					
->>>>>>> .r2598
-    					</restriction></simpleType></element>
-                        <element name="LoadId" type="string"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="location" maxOccurs="1"
-    						minOccurs="1">
-    						<simpleType>
-    							<restriction base="string">
-    								<enumeration value="atBus"></enumeration>
-    								<enumeration value="atOwner"></enumeration>
-    								<enumeration value="atZone"></enumeration>
-    								<enumeration value="atArea"></enumeration>
-    								<enumeration value="other"></enumeration>
-    							</restriction>
-    						</simpleType>
-    					</element>
-    					<element name="locationId" type="pss:IDRefRecordXmlType"
-    						maxOccurs="1" minOccurs="1">
-    					</element>
-    					<element name="a1" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a2" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a3" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-                        <element name="a4" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a5" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a6" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a7" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="a8" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n1" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n2" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n3" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n4" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n5" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    					<element name="n6" type="double" maxOccurs="1"
-    						minOccurs="1">
-    					</element>
-    				</sequence>
-    		</complexType></element>
-=======
 </complexType></element>
->>>>>>> .r2893
     		<element name="ComplexLoad" maxOccurs="1" minOccurs="0"><complexType>
     		<sequence>
     					<element name="modelDesc" maxOccurs="1"
@@ -2056,15 +1970,12 @@
     						<simpleType>
     							<restriction base="string">
     								<enumeration
-<<<<<<< .mine
-    									value="load=largemotor+smallmotor+dischargelighting+transformersaturation+constant+remainingload">
-=======
     									value="complexLoad">
->>>>>>> .r2598
     								</enumeration>
     							</restriction>
     						</simpleType>
     					</element>
+
     					<element name="largeMotPercent"
     						type="pss:PercentXmlType" maxOccurs="1" minOccurs="1">
     					</element>
@@ -2101,6 +2012,7 @@
     							</restriction>
     						</simpleType>
     					</element>
+
     					<element name="motorType" maxOccurs="1"
     						minOccurs="1">
     						<simpleType>
@@ -2131,6 +2043,8 @@
     					<element name="X2" type="string"
     						maxOccurs="1" minOccurs="1">
     					</element>
+
+
     					<element name="E1" type="double" maxOccurs="1"
     						minOccurs="1">
     					</element>
@@ -2143,6 +2057,8 @@
     					<element name="SE2" type="double" maxOccurs="1"
     						minOccurs="1">
     					</element>
+
+
     					<element name="MBASE" type="double"
     						maxOccurs="1" minOccurs="1">
     					</element>
@@ -2169,20 +2085,11 @@
     		</complexType></element>
     	</sequence>
     </complexType>
-<<<<<<< .mine
-    <complexType name="BranchDynDataListXmlType">
-    	<sequence>
-=======
     
 
     <complexType name="BranchDynDataListXmlType">
     	<sequence>
-<<<<<<< .mine
->>>>>>> .r2598
-    		<element name="lineRelayDataList" type="pss:lineRelayDataListXmlType" maxOccurs="1" minOccurs="0"></element>
-=======
     		<element name="lineRelayDataList" type="pss:LineRelayDataListXmlType" maxOccurs="1" minOccurs="0"></element>
->>>>>>> .r2893
     	</sequence>
     </complexType>
 
@@ -2199,6 +2106,7 @@
     				<restriction base="string">
     				<enumeration value="TIOCR1"></enumeration>
     				<enumeration value="distanceRelay"></enumeration>
+
     				</restriction>
     			</simpleType>
     		</element>
@@ -2221,6 +2129,7 @@
     			minOccurs="1">
     		</element>
     		<element name="unit" maxOccurs="1" minOccurs="1">
+  
                 <simpleType><restriction base="string">
                 <enumeration value="PU"></enumeration>
                 </restriction></simpleType>
@@ -2238,12 +2147,8 @@
     		<enumeration value="MVA"></enumeration>
     		</restriction></simpleType></element>
     	</sequence>
-<<<<<<< .mine
-    </complexType>
-=======
     </complexType>
 
->>>>>>> .r2598
     <complexType name="CycleXmlType">
     <sequence>
     		<element name="value" type="double" maxOccurs="1"
@@ -2253,16 +2158,10 @@
     		<enumeration value="Cycle"></enumeration>
     		</restriction></simpleType></element>
     	</sequence>
-<<<<<<< .mine
-    </complexType>
-    <complexType name="SecXmlType">
-    	<sequence>
-=======
     </complexType>
 
     <complexType name="SecXmlType">
     	<sequence>
->>>>>>> .r2598
     		<element name="value" type="double" maxOccurs="1"
     			minOccurs="1">
     		</element>
