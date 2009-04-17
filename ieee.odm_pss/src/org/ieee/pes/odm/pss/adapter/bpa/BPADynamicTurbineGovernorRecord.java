@@ -33,6 +33,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
+import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
 
 public class BPADynamicTurbineGovernorRecord {
@@ -44,7 +45,7 @@ public class BPADynamicTurbineGovernorRecord {
     	final String strAry[]=getTGDataFields(str,adapter);
     	
     	if(strAry[0].equals("GG")){ 
-    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor(tranSimu);
+    		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_STREAM_GENERAL_MODEL);
     		TurbineGovernorModelListXmlType.HydroStreamGeneralModel gg=
     			tg.addNewTurbineGovernorModel().addNewHydroStreamGeneralModel();
@@ -94,7 +95,7 @@ public class BPADynamicTurbineGovernorRecord {
     		ODMData2XmlHelper.setPUData(gg.addNewF(), f, PerUnitXmlType.Unit.PU);
 			
     	}else if(strAry[0].equals("GH")){
-    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor(tranSimu);
+    		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER_AND_TURBINE);
     		TurbineGovernorModelListXmlType.HydroGovernerAndTurbine gh=
     			tg.addNewTurbineGovernorModel().addNewHydroGovernerAndTurbine();
@@ -149,7 +150,7 @@ public class BPADynamicTurbineGovernorRecord {
 			
     		
     	}else if(strAry[0].equals("GS")){
-    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor(tranSimu);
+    		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER);
     		TurbineGovernorModelListXmlType.HydroGoverner gs=
     			tg.addNewTurbineGovernorModel().addNewHydroGoverner();

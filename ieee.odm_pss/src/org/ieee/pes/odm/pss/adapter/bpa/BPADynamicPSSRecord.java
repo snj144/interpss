@@ -33,6 +33,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
+import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
 
 public class BPADynamicPSSRecord {
@@ -43,7 +44,7 @@ public class BPADynamicPSSRecord {
     	
     	if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
     			||str.substring(0, 3).trim().equals("SG")){
-    		StabilizerXmlType pss=parser.addNewStablilizerGovernor(tranSimu);
+    		StabilizerXmlType pss=TranStabSimuHelper.addNewStablilizerGovernor(tranSimu);
     		pss.setStabilizerType(StabilizerXmlType.StabilizerType.IEE_2_ST);
     		StabilizerModelListXmlType.IEE2ST tstpss=pss.
     		                     addNewStabilizerModel().addNewIEE2ST();
@@ -148,7 +149,7 @@ public class BPADynamicPSSRecord {
     				
     		
     	}else if(str.substring(0, 3).trim().equals("SI")){
-    		StabilizerXmlType pss=parser.addNewStablilizerGovernor(tranSimu);
+    		StabilizerXmlType pss=TranStabSimuHelper.addNewStablilizerGovernor(tranSimu);
     		pss.setStabilizerType(StabilizerXmlType.StabilizerType.IEEE_DUAL_INPUT);
     		StabilizerModelListXmlType.IEEEDualInput dualInputPss=pss.
     		                     addNewStabilizerModel().addNewIEEEDualInput();

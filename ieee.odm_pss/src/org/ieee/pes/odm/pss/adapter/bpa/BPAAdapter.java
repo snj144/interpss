@@ -91,7 +91,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		// read both power flow and transient data
 		if(parser.getStudyCase().getBaseCase().getAnalysisCategory().
 				equals(AnalysisCategoryEnumType.TRANSIENT_STABILITY)){
-			TransientSimulationXmlType tranSimu= parser.getTransientSimlation();
+			TransientSimulationXmlType tranSimu= parser.getDefaultTransSimu();
 			do{
 				str = din.readLine();
 				if(!str.trim().equals("(END)")){

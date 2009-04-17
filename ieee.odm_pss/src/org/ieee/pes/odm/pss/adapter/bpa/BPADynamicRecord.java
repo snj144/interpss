@@ -24,14 +24,11 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
+import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
 public class BPADynamicRecord {	
 	
@@ -118,7 +115,7 @@ public class BPADynamicRecord {
 						BPADynamicPSSRecord.processPSSData(str, tranSimu, parser,adapter);
 					}else if(dataType==loadData){
 						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, 
-								tranSimu, parser.addNewLoad(tranSimu),adapter);
+								tranSimu, TranStabSimuHelper.addNewLoad(tranSimu),adapter);
 					}else if(dataType==sequenceData){
 						BPADynamicSequenceRecord.processSequenceData(str, tranSimu, parser,adapter);
 					}else if(dataType==0){
