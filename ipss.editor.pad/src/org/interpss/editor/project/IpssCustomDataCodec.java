@@ -1,13 +1,18 @@
 package org.interpss.editor.project;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.OutputStream;
 
-import org.interpss.editor.EditorSpringAppContext;
+import javax.swing.filechooser.FileFilter;
+
+import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssCustomDocument;
-import org.interpss.editor.io.CustomFileUtility;
+import org.interpss.editor.io.FileUtility;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
+import org.interpss.editor.resources.Translator;
+
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.simu.SimuContext;
@@ -66,10 +71,10 @@ public class IpssCustomDataCodec {
 	}
 	
 // Mike	public static IAppSimuContext read(String abpath) { since this a singleton, no need to static
-	public IAppSimuContext read(String abpath, String version) {
-		IAppSimuContext appSimuContext = EditorSpringAppContext.getAppSimuContext();
+	public IAppSimuContext read(String abpath) {
+		IAppSimuContext appSimuContext = SimuAppSpringAppContext.getAppSimuContext();
 		SimuContext simuCtx = (SimuContext)appSimuContext.getSimuCtx();
-		boolean ok = CustomFileUtility.loadCustomFile(abpath, version, simuCtx);
+		boolean ok = FileUtility.loadCustomFile(abpath, simuCtx);
 		if (ok) {
 			appSimuContext.setSimuNetDataDirty(false);
 		}

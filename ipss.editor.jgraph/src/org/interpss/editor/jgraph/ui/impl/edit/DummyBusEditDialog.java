@@ -1,43 +1,20 @@
- /*
-  * @(#)DummyBusEditDialog.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
-
 package org.interpss.editor.jgraph.ui.impl.edit;
 
 import java.util.Vector;
 
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.impl.form.DummyBusForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.SwingInputVerifyUtil;
+import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.NetUtilFunc;
-import com.interpss.common.util.Number2String;
+import com.interpss.common.util.Num2Str;
   
 
 public class DummyBusEditDialog extends javax.swing.JDialog  implements IFormDataDialog {
@@ -94,8 +71,8 @@ public class DummyBusEditDialog extends javax.swing.JDialog  implements IFormDat
         this.busNumberLabel.setText("Bus [" + _form.getId() + "]");
     	this.busNameField.setText(_form.getName());
 
-    	this.areaField.setText(Number2String.toStr(_form.getArea()));
-    	this.zoneField.setText(Number2String.toStr(_form.getZone()));
+    	this.areaField.setText(Num2Str.toStr(_form.getArea()));
+    	this.zoneField.setText(Num2Str.toStr(_form.getZone()));
     	
     	if (_form.getStatus())
     		this.inServiceCheckBox.setSelected(true);
@@ -104,7 +81,7 @@ public class DummyBusEditDialog extends javax.swing.JDialog  implements IFormDat
 
 		this.baseVoltComboBox.setModel(new javax.swing.DefaultComboBoxModel(
 				_netContainer.getBaseVoltArray()));
-		this.baseVoltComboBox.setSelectedItem(Number2String.toStr(
+		this.baseVoltComboBox.setSelectedItem(Num2Str.toStr(
 				_form.getBaseVoltage(), "#0.00"));
     	this.baseUnitComboBox.setSelectedItem(_form.getBaseVoltUnit());
     	
@@ -131,29 +108,29 @@ public class DummyBusEditDialog extends javax.swing.JDialog  implements IFormDat
     	}
     	_form.setName(this.busNameField.getText());
     	
-    	if (!SwingInputVerifyUtil.largeThan(this.areaField, 0)) {
+    	if (!VerifyUtil.largeThan(this.areaField, 0)) {
 			errMsg.add("Area <= 0");
 			ok = false;
 		}
-    	_form.setArea(SwingInputVerifyUtil.getInt(this.areaField));
+    	_form.setArea(VerifyUtil.getInt(this.areaField));
 
-    	if (!SwingInputVerifyUtil.largeThan(this.zoneField, 0)) {
+    	if (!VerifyUtil.largeThan(this.zoneField, 0)) {
 			errMsg.add("Zone <= 0");
 			ok = false;
 		}
-    	_form.setZone(SwingInputVerifyUtil.getInt(this.zoneField));
+    	_form.setZone(VerifyUtil.getInt(this.zoneField));
     	
     	if (this.inServiceCheckBox.isSelected())
     		_form.setStatus(true);
     	else	
     		_form.setStatus(false);
 		
-		if (!SwingInputVerifyUtil.largeThan(this.baseVoltComboBox, 0.0d)) {
+		if (!VerifyUtil.largeThan(this.baseVoltComboBox, 0.0d)) {
 			errMsg.add("Bus base voltage <= 0.0");
 			ok = false;
 		}
 
-		_form.setBaseVoltage(SwingInputVerifyUtil.getDouble(this.baseVoltComboBox));
+		_form.setBaseVoltage(VerifyUtil.getDouble(this.baseVoltComboBox));
     	_form.setBaseVoltUnit((String)this.baseUnitComboBox.getSelectedItem());
     	return ok;
     }
@@ -357,9 +334,9 @@ public class DummyBusEditDialog extends javax.swing.JDialog  implements IFormDat
        			if (input == busNameField) 
  	       			return NetUtilFunc.isValidBusid(((javax.swing.JTextField)input).getText());
        			else if (input == zoneField)
- 	       			return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+ 	       			return VerifyUtil.getInt((javax.swing.JTextField)input) > 0;
        			else if (input == baseVoltComboBox)
- 	       			return SwingInputVerifyUtil.getDouble((javax.swing.JComboBox)input) > 0.0;
+ 	       			return VerifyUtil.getDouble((javax.swing.JComboBox)input) > 0.0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

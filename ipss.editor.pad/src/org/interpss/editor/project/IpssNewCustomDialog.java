@@ -7,12 +7,11 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -21,8 +20,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 
-import org.interpss.PluginSpringAppContext;
-import org.interpss.custom.IpssFileAdapter;
+import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.resources.Translator;
@@ -30,11 +28,8 @@ import org.interpss.editor.util.NamedInputStream;
 import org.interpss.editor.util.Utilities;
 
 
+
 public class IpssNewCustomDialog extends javax.swing.JDialog {
-	private JComboBox versionComboBox;
-
-	private JComboBox adapterComboBox;
-
 	private JLabel dirLabel;
 
 	private JPanel browsePanel;
@@ -70,12 +65,9 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 	private Frame parentFrame;
 
 	private boolean isCancelExit;
-	
-	private IpssFileAdapter adapter;
-
 
 	public IpssNewCustomDialog(GPGraphpad graphpad, String title) {
-		// super(graphpad.getFrame(), title, true);
+//		super(graphpad.getFrame(), title, true);
 		super(graphpad.getFrame(), "New Project", true);
 
 		this.graphpad = graphpad;
@@ -111,19 +103,13 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		browseButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
 				selectFile();
-
+				
 			}
 		});
 
 		nameTextField.addCaretListener(new CaretListener() {
 			public void caretUpdate(final CaretEvent e) {
 				updateState();
-			}
-		});
-
-		adapterComboBox.addActionListener(new ActionListener() {
-			public void actionPerformed(final ActionEvent e) {
-				setVersionComboBoxData();
 			}
 		});
 
@@ -142,8 +128,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		messagePanel.setPreferredSize(new Dimension(0, 30));
 
 		messagePanel.setBorder(new EmptyBorder(0, 5, 0, 0));
-		// messagePanel.getMessageLabel().setPreferredSize(new Dimension(0,
-		// 30));
+//		messagePanel.getMessageLabel().setPreferredSize(new Dimension(0, 30));
 
 		getContentPane().add(Box.createVerticalStrut(10));
 
@@ -151,6 +136,8 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		mainPanel.setLayout(new BorderLayout());
 		mainPanel.setBorder(new EmptyBorder(0, 5, 0, 5));
 		getContentPane().add(mainPanel);
+
+		mainPanel.add(Box.createVerticalStrut(10));
 
 		selectpanel = new JPanel();
 		mainPanel.add(selectpanel);
@@ -161,59 +148,24 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 				TitledBorder.DEFAULT_POSITION, null, null));
 
 		browsePanel = new JPanel();
-		browsePanel.setLayout(new BoxLayout(browsePanel, BoxLayout.Y_AXIS));
 		selectpanel.add(browsePanel);
-
-		final JPanel panel_2 = new JPanel();
-		browsePanel.add(panel_2);
-		panel_2.setLayout(new BorderLayout());
-
-		final JLabel adapterLabel = new JLabel();
-		adapterLabel.setDisplayedMnemonic(KeyEvent.VK_A);
-		adapterLabel.setText("Adapter:");
-		panel_2.add(adapterLabel, BorderLayout.WEST);
-
-		adapterComboBox = new JComboBox();
-		panel_2.add(adapterComboBox, BorderLayout.CENTER);
-
-		browsePanel.add(Box.createVerticalStrut(10));
-
-		final JPanel panel_2_1 = new JPanel();
-		panel_2_1.setLayout(new BorderLayout());
-		browsePanel.add(panel_2_1);
-
-		final JLabel versionLabel = new JLabel();
-		versionLabel.setDisplayedMnemonic(KeyEvent.VK_V);
-		versionLabel.setText("Version:");
-		panel_2_1.add(versionLabel, BorderLayout.WEST);
-
-		versionComboBox = new JComboBox();
-		panel_2_1.add(versionComboBox, BorderLayout.CENTER);
-
-		browsePanel.add(Box.createVerticalStrut(10));
-
-		final JPanel panel_1 = new JPanel();
-		browsePanel.add(panel_1);
-		panel_1.setLayout(new BorderLayout());
-
-		dirLabel = new JLabel();
-		panel_1.add(dirLabel, BorderLayout.WEST);
-		dirLabel.setName("dirLabel");
-		dirLabel.setDisplayedMnemonic(KeyEvent.VK_F);
-		dirLabel.setText("File:  ");
+		browsePanel.setLayout(new BorderLayout());
 
 		dirTextField = new JTextField();
-		panel_1.add(dirTextField);
-		dirTextField.setName("dirTextField");
 		dirTextField.setEditable(false);
 		dirTextField.setFocusAccelerator('f');
+		browsePanel.add(dirTextField);
+
+		dirLabel = new JLabel();
+		dirLabel.setDisplayedMnemonic(KeyEvent.VK_F);
+		browsePanel.add(dirLabel, BorderLayout.WEST);
+		dirLabel.setText("File:  ");
 
 		browseButton = new JButton();
-		panel_1.add(browseButton, BorderLayout.EAST);
-		browseButton.setName("browseButton");
 
 		browseButton.setMnemonic('B');
 		browseButton.setText("Browse...");
+		browsePanel.add(browseButton, BorderLayout.EAST);
 
 		final JPanel panel = new JPanel();
 		mainPanel.add(panel, BorderLayout.NORTH);
@@ -221,7 +173,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 
 		nameLabel = new JLabel();
 		panel.add(nameLabel, BorderLayout.WEST);
-		nameLabel.setDisplayedMnemonic(KeyEvent.VK_P);
+		nameLabel.setDisplayedMnemonic(KeyEvent.VK_G);
 		nameLabel.setText("Custom Project Name:");
 
 		nameTextField = new JTextField();
@@ -230,8 +182,6 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		nameTextField.setFocusAccelerator('p');
 
 		buttonPanel = new JPanel();
-
-		getContentPane().add(Box.createVerticalStrut(10));
 		getContentPane().add(buttonPanel);
 
 		okButton = new JButton();
@@ -246,51 +196,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		cancelButton.setMnemonic('C');
 		cancelButton.setText("Cancel");
 
-		adapterComboBox.setModel(new DefaultComboBoxModel(
-				PluginSpringAppContext.getCustomFileAdapterNameList()));
-		setVersionComboBoxData();
-
-	}
-
-	private IpssFileAdapter getCustomFileAdapter() {
-
-		Object adapterName = adapterComboBox.getSelectedItem();
-		if (adapterName == null) {
-			return null;
-		}
-
-		return PluginSpringAppContext.getCustomFileAdapterByName(adapterName
-				.toString());
-	}
-
-	private void setVersionComboBoxData() {
-
-		adapter = getCustomFileAdapter();
-
-		if (adapter == null) {
-			setVersionEnabled(false);
-			return;
-		}
-
-		String[] versionList = adapter.getVersionList();
-
-		if (versionList != null){
-			versionComboBox.setModel(new DefaultComboBoxModel(versionList));
-//			adapter.setVersionSelected((versionComboBox.getSelectedItem()).toString());
-		}
-		else {
-			setVersionEnabled(false);
-		}
-
-	}
-
-	private void setVersionEnabled(boolean b) {
-		if (b)
-			versionComboBox.setEnabled(false);
-		else {
-			versionComboBox.removeAllItems();
-			versionComboBox.setEnabled(false);
-		}
+		// selectpanel.setVisible(false);
 	}
 
 	public void setDocName(String docName) {
@@ -335,7 +241,7 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		// pack the form and display
 		pack();
 		setLocationRelativeTo(parentFrame);
-		setSize(new Dimension(611, 254));
+		setSize(new Dimension(611, 190));
 		setVisible(true);
 	}
 
@@ -368,8 +274,8 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 	}
 
 	public String getFileName() {
-		return Utilities.getFilePathName(getFilepath(), nameTextField.getText()
-				+ "." + adapter.getExtension());
+		return Utilities.getFilePathName(getFilepath(), nameTextField.getText()+ "." +Utilities.getFileExt(getSrcFileName()));
+			//	+ Translator.getString("CustomDataFileExtension"));
 	}
 
 	public void updateState() {
@@ -397,18 +303,12 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 
 	public void selectFile() {
 		try {
-
-// List adapterList = SimuAppSpringAppContext
-// .getCustomFileAdapterList();
-// NamedInputStream in = org.interpss.editor.util.Utilities
-// .provideInput(adapterList);
-
-	
-			String fileExtension = adapter.getFileFilterString();
-			String extensionDescription = adapter.getDescription();
+//			NamedInputStream in = com.interpss.editor.util.Utilities.provideInput(
+//					Translator.getString("CustomDataFileExtension"), Translator
+//							.getString("CustomDataFileExtensionDescription"));
 			
-			NamedInputStream in = org.interpss.editor.util.Utilities.provideInput(fileExtension,extensionDescription);
-			
+			List adapterList = 	SimuAppSpringAppContext.getCustomFileAdapterList();
+			NamedInputStream in = org.interpss.editor.util.Utilities.provideInput(adapterList);
 			if (in != null) {
 				this.setSrcFileName(in.getName());
 				dirTextField.setText(in.getName());
@@ -424,7 +324,4 @@ public class IpssNewCustomDialog extends javax.swing.JDialog {
 		}
 	}
 
-	public String getVersion() {
-		return 	(String)versionComboBox.getSelectedItem();
-	}
 }

@@ -27,9 +27,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import org.interpss.PluginSpringAppContext;
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.coreframework.GPBarFactory;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.IpssEditorDocument;
@@ -40,7 +39,7 @@ import org.interpss.editor.doc.IpssProjectItemCollector;
 import org.interpss.editor.util.Utilities;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.util.IpssLogger;
+import com.interpss.simu.io.IpssFileAdapter;
 
 public class IpssProjectPanel extends JPanel {
 
@@ -62,7 +61,7 @@ public class IpssProjectPanel extends JPanel {
 	private JPopupMenu popupItem;
 
 	private ArrayList<IpssProjectItem> init_OpenItems = new ArrayList<IpssProjectItem>();
-
+	
 	private IpssProjectItem init_ActiveItem;
 
 	/**
@@ -90,11 +89,10 @@ public class IpssProjectPanel extends JPanel {
 
 		Hashtable icons = new Hashtable();
 		icons.put("ipss", IpssIconFactory.ICON_GRAPH);
-		icons.put("xml", IpssIconFactory.ICON_XML);
 		icons.put("txt", IpssIconFactory.ICON_TEXT);
 		icons.put("ipssrpt", IpssIconFactory.ICON_REPORT);
 
-		List adapterList = PluginSpringAppContext.getCustomFileAdapterList();
+		List adapterList = SimuAppSpringAppContext.getCustomFileAdapterList();
 		for (int i = 0; i < adapterList.size(); i++) {
 			IpssFileAdapter adapter = (IpssFileAdapter) adapterList.get(i);
 			icons.put(adapter.getExtension(), IpssIconFactory.ICON_CUS);
@@ -195,13 +193,13 @@ public class IpssProjectPanel extends JPanel {
 
 				// if (items[j].isOpen() && !items[j].isLoaded())
 				// graphpad.OpenProjectItem(items[j]);
-				if (items[j].isOpen() && !items[j].isLoaded()) {
+				if (items[j].isOpen() && !items[j].isLoaded()){
 					init_OpenItems.add(items[j]);
-					if (items[j].isActive()) {
-						init_ActiveItem = items[j];
+					if (items[j].isActive()){
+						init_ActiveItem = items[j]; 
 					}
 				}
-
+					
 				items[j].setInit_Status(IpssProjectItem.STATUS_CLOSE);
 			}
 	}
@@ -213,11 +211,7 @@ public class IpssProjectPanel extends JPanel {
 				// expendTree2Object(init_OpenItems.get(j));
 				// graphpad.getCommand("FileProjectOpenItem")
 				// .actionPerformed(null);
-				try {
-					graphpad.OpenProjectItem(init_OpenItems.get(j));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				graphpad.OpenProjectItem(init_OpenItems.get(j));
 				// graphpad.OpenDocument((IpssEditorDocument) init_OpenItems
 				// .get(j).getDocument());
 
@@ -231,11 +225,9 @@ public class IpssProjectPanel extends JPanel {
 	}
 
 	public void showActiveItem() {
-		if (init_ActiveItem != null)
-			graphpad.OpenDocument((IpssEditorDocument) init_ActiveItem
-					.getDocument());
+		if (init_ActiveItem!=null)
+			graphpad.OpenDocument((IpssEditorDocument)init_ActiveItem.getDocument());
 	}
-
 	public void showOpenItems(int j) {
 		graphpad.OpenProjectItem(init_OpenItems.get(j));
 	}
@@ -292,7 +284,6 @@ public class IpssProjectPanel extends JPanel {
 
 	public void showExistTree() {
 		String wsDir = EditorSpringAppContext.getAppContext().getWorkspaceDir();
-		IpssLogger.getLogger().info("WS dir for building project tree, " + wsDir);
 
 		File dir = new File(wsDir);
 
@@ -381,7 +372,7 @@ public class IpssProjectPanel extends JPanel {
 		// modified by Mike, findedTreeNode may be null
 		if (findedTreeNode != null)
 			return (IpssProjectItem) (findedTreeNode.getUserObject());
-		else
+		else 
 			return null;
 	}
 
@@ -490,7 +481,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(PluginSpringAppContext
+					|| (Utilities.haveExt(SimuAppSpringAppContext
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;
@@ -513,7 +504,7 @@ public class IpssProjectPanel extends JPanel {
 		else if (userObject instanceof IpssProjectItem) {
 			IpssProjectItem item = (IpssProjectItem) userObject;
 			return (item.getFileExt().equals("ipss"))
-					|| (Utilities.haveExt(PluginSpringAppContext
+					|| (Utilities.haveExt(SimuAppSpringAppContext
 							.getCustomFileAdapterList(), item.getFileExt()));
 		}
 		return false;
@@ -543,19 +534,19 @@ public class IpssProjectPanel extends JPanel {
 						.actionPerformed(null);
 			}
 
-			// super.mouseClicked(e);
+			//super.mouseClicked(e);
 		}
 
-		// @Override
-		// public void mousePressed(MouseEvent e) {
-		// if ((graphpad.getCurrentProjectItem() != null)
-		// && (graphpad.getCurrentProjectItem().getDocument() != null)) {
-		// graphpad.getCommand("FileProjectOpenItem").actionPerformed(
-		// null);
-		// }
-		//
-		// super.mousePressed(e);
-		// }
+//		@Override
+//		public void mousePressed(MouseEvent e) {
+//			if ((graphpad.getCurrentProjectItem() != null)
+//					&& (graphpad.getCurrentProjectItem().getDocument() != null)) {
+//				graphpad.getCommand("FileProjectOpenItem").actionPerformed(
+//						null);
+//			}
+//
+//			super.mousePressed(e);
+//		}
 
 		public void mouseReleased(MouseEvent e) {
 			if (e.isPopupTrigger()) {

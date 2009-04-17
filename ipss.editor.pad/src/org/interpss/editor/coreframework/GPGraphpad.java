@@ -24,7 +24,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Frame;
-import java.awt.event.ActionEvent;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ContainerListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -40,44 +41,43 @@ import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JSplitPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.EditorSpringAppContext;
+import org.interpss.editor.SimuAppSpringAppContext;
 import org.interpss.editor.doc.IpssDocument;
 import org.interpss.editor.doc.IpssProject;
 import org.interpss.editor.doc.IpssProjectItem;
+import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.IGraphicEditor;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.jgraph.ui.app.IAppStatus;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
+import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.project.IpssProjectCodec;
 import org.interpss.editor.project.IpssProjectPanel;
 import org.interpss.editor.project.IpssTabbedPane;
 import org.interpss.editor.refData.LoadScheduleRefData;
-import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.swing.GPSplitPane;
 import org.interpss.editor.swing.tabbedpane.CloseListener;
 import org.interpss.editor.swing.tabbedpane.DoubleClickListener;
 import org.interpss.editor.util.ICommandRegistery;
-import org.interpss.editor.util.SmartFrame;
 import org.interpss.editor.util.Utilities;
-import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.jgraph.JGraph;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.io.IRefDataManager;
-import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.StringUtil;
 
 /**
  * This is the UI delegate of the JGraphpad multi JGraph document interface. To
@@ -94,7 +94,6 @@ import com.interpss.common.util.StringUtil;
  */
 public class GPGraphpad extends JComponent implements ICommandRegistery,
 		IGraphicEditor {
-	private static final long serialVersionUID = 1;
 
 	/**
 	 * parameters that can change from one sessions to another
@@ -148,13 +147,9 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 */
 	protected JPanel mainPanel = new JPanel(new BorderLayout());
 
-	private JPanel editorPanel = new JPanel();
-
 	protected IpssProjectPanel projectPanel;
 
 	protected boolean isDocMaxSize = false;
-
-	private JFrame smartFrame = null;
 
 	/**
 	 * A configuration specific to the Graphpad instance. Remark: we would
@@ -172,9 +167,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public void init() {
-		IpssLogger.getLogger().info(
-				"Command search path: "
-						+ Translator.getString("CommandSearchPath"));
+		IpssLogger.getLogger().info("Command search path: " + Translator.getString("CommandSearchPath"));
 		GPPluginInvoker.setCommandSearchPath(Utilities.tokenize(Translator
 				.getString("CommandSearchPath")));
 		// instanciations of the singletons:
@@ -182,6 +175,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		logger = (Component) GPPluginInvoker.createSingleton("Console.class");
 		GPPluginInvoker.createGraphpadAwareSingleton("BarFactory.class", this);
 
+		
 		setBorder(BorderFactory.createEtchedBorder());
 		setLayout(new BorderLayout());
 
@@ -354,10 +348,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	}
 
 	public IpssEditorDocument getCurrentDocument() {
-		if (desktop == null) // added by Mike, desktop may be null during unit testing
-			return null;
-
-		IpssDocInternalFrame internalFrame = (IpssDocInternalFrame)desktop.getSelectedComponent();
+        if (desktop == null) // added by Mike, desktop may be null during unit testing  
+        	return null;
+        
+		IpssDocInternalFrame internalFrame = (IpssDocInternalFrame) desktop
+				.getSelectedComponent();
 		if (internalFrame == null)
 			return null;
 		return internalFrame.getDocument();
@@ -556,8 +551,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		if (!sessionParameters.isApplet()) {
 			System.exit(0);
 		} else {
-			// stop the grid if started
-			IpssGridGainUtil.stopDefaultGrid();
 			getFrame().dispose();
 			String viewPath = sessionParameters.getParam(
 					GPSessionParameters.VIEWPATH, false);
@@ -660,7 +653,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		IpssProjectItem item = this.getProjectPanel().addNewProjectItem(p, doc);
 
 		expendTree2CurrentDocument();
-
+		
 		return item;
 	}
 
@@ -776,23 +769,23 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			addDocument2Frame(doc);
 			if (add2Project) {
 				IpssProjectItem rptitem = item.getItem(name);
-				if (rptitem == null) {
+				if (rptitem==null){
 					item.addDocument(doc, 0);
-					IpssProjectItem newItem = this.getProjectPanel()
-							.addNewProjectItem(item, doc);
+					IpssProjectItem newItem = this.getProjectPanel().addNewProjectItem(item, doc);
 					expendTree2CurrentDocument();
 					// return item for saving report file
 					return newItem;
-				} else {
+				}
+				else{
 					if (rptitem.isLoaded())
-						this.closeDocument((IpssEditorDocument) rptitem
-								.getDocument());
+						this.closeDocument((IpssEditorDocument)rptitem.getDocument());
 					rptitem.setDocument(doc);
 					this.OpenDocument(doc);
 					expendTree2Object(doc);
 					return rptitem;
 				}
-
+				
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -841,60 +834,8 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 		IpssProjectItem item = this.getProjectPanel().addNewProjectItem(p, doc);
 
 		expendTree2CurrentDocument();
-
+		
 		return item;
-	}
-
-	public void addXmlDocument(String name, IpssProjectItem item) {
-		addXmlDocument(name, item, null);
-	}
-
-	public void addXmlDocument(String name, IpssProjectItem item,
-			IpssXmlFile file) {
-
-		if (item == null)
-			return;
-
-		IpssXmlDocument doc = new IpssXmlDocument(this, item.getProject(),
-				name, file);
-
-		item.addDocument(doc, 0);
-		addDocument2Frame(doc);
-
-		this.getProjectPanel().addNewProjectItem(item, doc);
-
-		expendTree2CurrentDocument();
-	}
-
-	public void addXmlDocument(String name, IpssProject p) {
-		addXmlDocument(name, p, null);
-	}
-
-	public void addXmlDocument(String name, IpssProject p, IpssXmlFile file) {
-
-		if (p == null)
-			return;
-
-		IpssXmlDocument doc = new IpssXmlDocument(this, p, name, file);
-
-		p.addDocument(doc, 0);
-		addDocument2Frame(doc);
-
-		this.getProjectPanel().addNewProjectItem(p, doc);
-
-		expendTree2CurrentDocument();
-	}
-
-	public void addXmlDocument(IpssProjectItem item, IpssXmlFile file) {
-
-		IpssXmlDocument doc = new IpssXmlDocument(this, item.getProject(),
-				item.getName(), file);
-
-		item.setDocument(doc);
-
-		addDocument2Frame(doc);
-
-		expendTree2CurrentDocument();
 	}
 
 	// public void addCustomDocument(IpssCustomDocument doc) {
@@ -957,13 +898,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			// Mike else if (item.getName().endsWith("ipssdat")) { we do not put
 			// any restriction here
 			// else if (item.getName().endsWith("ipssdat")) {
-			else if (Utilities.haveExt(PluginSpringAppContext
+			else if (Utilities.haveExt(SimuAppSpringAppContext
 					.getCustomFileAdapterList(), item.getFileExt())) {
 				try {
-					// at this point, we open a file, for exmple PSS/E raw. version should be 
-					// inside the file
 					IpssCustomFile file = Utilities.OpenCustomFile(this, item
-							.getName(), "");
+							.getName());
 
 					if (file == null)
 						return;
@@ -973,20 +912,6 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 							"InterPSS Custom Data File Open Error",
 							ex.toString());
 					ex.printStackTrace();
-				}
-			} else if (item.getName().endsWith("xml")) {
-				try {
-					IpssXmlFile file = Utilities.OpenXmlFile(this, item
-							.getName());
-
-					if (file == null)
-						return;
-					addXmlDocument(item, file);
-				} catch (Exception ex) {
-					SpringAppContext.getEditorDialogUtil().showMsgDialog(
-							"InterPSS Xml Data File Open Error", ex.toString());
-					ex.printStackTrace();
-
 				}
 			} else if (item.getName().endsWith("txt")) {
 				try {
@@ -1025,32 +950,26 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 
 		doc = item.getDocument();
 		if (doc instanceof GPDocument || doc instanceof IpssCustomDocument) {
-			// Richard: the following logic also need to be applied when we
-			// import an exiting graphic or custom project. Begin
-			try {
-				IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities.loadProjectData(item);
-				appSimuContext.getProjData().setProjectName(appSimuContext.getProjData().getFilename());
+			// Richard: the following logic also need to be applied when we import
+			// an exiting graphic or custom project.
+			// Begin
+			IAppSimuContext appSimuContext = org.interpss.editor.util.Utilities.loadProjectData(item);
 			// end
-				if (doc instanceof GPDocument) {
+			if (doc instanceof GPDocument) {
 				// we need synch some data in the graph with the project data,
 				// since project data may be
 				// created later.
-				// String str = ((GPDocument) doc).getGFormContainer()
-				// .getGNetForm().getLabel(IUserData.NET_LABEL);
-				// IpssLogger.getLogger().info(
-				// "ProjectData.name updated to " + str);
-					((GPDocument) doc).getGFormContainer().getGNetForm()
-						.setNewState(false);
-				}
-				else {
-					((IpssCustomDocument)doc).setSimuAppContext(appSimuContext);
-				}
-			} catch (Exception e) {
-				IpssLogger.logErr(e);
-				return;
-			}				
+				//String str = ((GPDocument) doc).getGFormContainer()
+				//		.getGNetForm().getLabel(IUserData.NET_LABEL);
+				//IpssLogger.getLogger().info(
+				//		"ProjectData.name updated to " + str);
+				appSimuContext.getProjData().setProjectName(appSimuContext.getProjData().getFilename());
+				((GPDocument) doc).getGFormContainer().getGNetForm().setNewState(false);
+			}
 		}
 	}
+
+
 
 	public boolean OpenDocument(IpssEditorDocument doc) {
 		if (doc.equals(getCurrentDocument()))
@@ -1162,7 +1081,7 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	public boolean isBGProcessingBusy() {
 		if (getStatusPanel().isBusy()) {
 			SpringAppContext.getEditorDialogUtil().showMsgDialog(
-					"Processing Thread Busy",
+					"Saving Report Warning",
 					"Please wait for the completion of "
 							+ getStatusPanel().getBusyMsg());
 			return true;
@@ -1211,11 +1130,11 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * 
 	 * @see com.interpss.editor.jgraph.ui.IGraphicEditor#getProject()
 	 */
-	public IAppSimuContext getCurrentAppSimuContext() throws Exception {
+	public IAppSimuContext getCurrentAppSimuContext() {
 		if (getCurrentDocument() != null)
 			return getCurrentDocument().getSimuAppContext();
 		else
-			throw new Exception("Current documentation cannot be found");
+			return null;
 	}
 
 	/*
@@ -1224,14 +1143,13 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 	 * @see com.interpss.editor.jgraph.ui.IGraphicEditor#setAppTitle()
 	 */
 	public String getVersion() {
-		return IpssPropertiesLoader.getIpssString("Prog.version");
+		return Translator.getString("Prog.version");
 	}
 
 	public void refreshDocumentEditorPanel(IpssEditorDocument doc) {
 
-		// if ((doc instanceof GPDocument) || (doc instanceof IpssTextDocument))
-		// {
-		if (doc != null) { // add by Mike, doc may be null during unit testing
+		//if ((doc instanceof GPDocument) || (doc instanceof IpssTextDocument)) {
+		if (doc != null) {  // add by Mike, doc may be null during unit testing
 			doc.updateFrameTitle();
 			IpssDocInternalFrame iFrame = (IpssDocInternalFrame) getDoc2InternalFrame()
 					.get(doc);
@@ -1240,96 +1158,17 @@ public class GPGraphpad extends JComponent implements ICommandRegistery,
 			desktop.setTitleAt(index, doc.getTabTitle());
 		}
 
-		// IGFormContainer netContainer
-		// =((GPDocument)getCurrentDocument()).getGFormContainer();
-		// if (netContainer.isDataDirty()) {
-		// // When the current graphic file is edited, the dataDirty set
-		// true, we need to
-		// // do something for example put a dirty * indicator
-		// }
-		// }
+			// IGFormContainer netContainer
+			// =((GPDocument)getCurrentDocument()).getGFormContainer();
+			// if (netContainer.isDataDirty()) {
+			// // When the current graphic file is edited, the dataDirty set
+			// true, we need to
+			// // do something for example put a dirty * indicator
+			// }
+		//}
 	}
 
 	public void refreshCurrentDocumentEditorPanel() {
 		refreshDocumentEditorPanel(getCurrentDocument());
-	}
-
-	public String getRootDir() {
-		return StringUtil.getInstallLocation();
-	}
-
-	public String getWorkspace() {
-		return EditorSpringAppContext.getAppContext().getWorkspaceDir();
-	}
-
-	public String getCurrentProjectFolder() {
-		if (getCurrentDocument() != null)
-			return getCurrentDocument().getProject().getProjectName();
-		else
-			return "testing"; // in testing situations, the document is not
-								// existing
-	}
-
-	public String getCurrentProjectName() {
-		if (getCurrentDocument() != null)
-			return Utilities.getFileNameNoExt(getCurrentDocument().getName());
-		else
-			return "TestProject"; // in testing situations, the document is
-									// not existing
-	}
-
-	public JFrame getSmartFrame() {
-		return this.smartFrame;
-	}
-
-	public void createEditorPanel(GPSessionParameters sessionParameters) {
-		setSessionParameters(sessionParameters);
-		init();
-
-		editorPanel = new JPanel();
-		editorPanel.setLayout(new BorderLayout());
-		editorPanel.add(this, BorderLayout.CENTER);
-		editorPanel.setVisible(false);
-
-		this.smartFrame = new SmartFrame();
-		smartFrame.setName("MainGraphpad");
-		smartFrame.setIconImage(ImageLoader.getImageIcon(
-				Translator.getString("Icon")).getImage());
-		smartFrame.setTitle(Translator.getString("Title"));
-		smartFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		smartFrame.getContentPane().add(editorPanel, BorderLayout.CENTER);
-		smartFrame.addWindowListener(getAppCloser());
-		smartFrame.setVisible(true);
-
-		initData();
-		editorPanel.setVisible(true);
-		initActive();
-	}
-
-	public JPanel getEditorPanel() {
-		return editorPanel;
-	}
-
-	public void closeWorkspace(ActionEvent e) {
-		expendTree2Object(getCurrentDocument());
-		IpssProjectItem aitem = getCurrentProjectItem();
-
-		IpssProjectItem[] items = getAllOpenProjectItem();
-
-		getCommand("FileCloseAllOpenItem").actionPerformed(e);
-
-		if ((items != null) && (items.length > 0))
-			for (int i = 0; i < items.length; i++) {
-				if (items[i].equals(aitem))
-					items[i].setInit_Status(IpssProjectItem.STATUS_ACTIVE);
-				else
-					items[i].setInit_Status(IpssProjectItem.STATUS_OPEN);
-			}
-		// Save projects
-		IpssProject[] projects = EditorSpringAppContext.getAppContext()
-				.getAllProjects();
-		if ((projects != null) && (projects.length > 0))
-			for (int i = 0; i < projects.length; i++)
-				saveProject(projects[i]);
 	}
 }

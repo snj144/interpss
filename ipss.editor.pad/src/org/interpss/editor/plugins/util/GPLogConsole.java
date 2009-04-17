@@ -449,9 +449,10 @@ class InternalPopupMenu extends JPopupMenu {
 	 * Shows a file chooser and saves the file to the selected name
 	 */
 	private void saveWindowToFile() {
-		String log = "Interpss_log";
-		NamedOutputStream out = Utilities.provideOutput(".log", "Interpss Log(*.log)", log, false);
-		if (out == null) return;
+		String log = "log";
+		NamedOutputStream out = Utilities.provideOutput(Translator
+				.getString("GraphFileExtension"), Translator
+				.getString("GraphFileExtensionDescription"), log, false);
 		PrintStream os = new PrintStream(out.getOutputStream());
 		os.println(currentWindow.getText());
 		os.close();

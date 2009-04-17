@@ -1,3 +1,21 @@
+/*
+ * Copyright (C) 2001-2004 Gaudenz Alder
+ *
+ * GPGraphpad is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * GPGraphpad is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with GPGraphpad; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ *
+ */
 package org.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
@@ -7,21 +25,18 @@ import org.interpss.editor.coreframework.GPDocument;
 import org.interpss.editor.coreframework.IpssAbstractActionDefault;
 import org.interpss.editor.coreframework.IpssCustomDocument;
 import org.interpss.editor.coreframework.IpssTextDocument;
-import org.interpss.editor.coreframework.IpssXmlDocument;
 import org.interpss.editor.coreframework.actions.IpssAbstractGraphActionFile;
 import org.interpss.editor.data.proj.ProjData;
 import org.interpss.editor.io.ProjectDataDBManager;
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.app.IAppSimuContext;
 import org.interpss.editor.project.IpssCustomDataCodec;
-import org.interpss.editor.project.IpssXmlCodec;
 import org.interpss.editor.project.IpssGraphCodec;
 import org.interpss.editor.project.IpssTextCodec;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.DBManager;
 import com.interpss.common.io.IProjectDataManager;
-import com.interpss.common.util.IpssLogger;
 
 /**
  * Action opens a dialog to select the file. After that the action saves the
@@ -70,21 +85,11 @@ public class FileSave extends IpssAbstractActionDefault {
 					IAppSimuContext appSimuCtx = GraphSpringAppContext
 							.getIpssGraphicEditor().getCurrentAppSimuContext();
 					if (appSimuCtx.getProjData().isDirty()) {
-						IProjectDataManager projManager = SpringAppContext.getProjectDataDBManager();
-						/* modified by Mike. doc.projData and appSimuCtx.projData are out of synch
+						IProjectDataManager projManager = SpringAppContext
+							.getProjectDataDBManager();
 						projManager.saveProjectDataToDB(getCurrentDocument().getProjData());
 						getCurrentDocument().getProjData().setDirty(false);
-						*/
-						projManager.saveProjectDataToDB(appSimuCtx.getProjData());
-						appSimuCtx.getProjData().setDirty(false);
 					}
-				}
-				else if (graphpad.getCurrentDocument() instanceof IpssXmlDocument)
-				{
-					IpssXmlCodec.getInstance(graphpad).write(
-							new FileOutputStream(fileName),
-							(IpssXmlDocument)getCurrentDocument());
-					getCurrentDocument().setModified(false);
 				}
 				else if (graphpad.getCurrentDocument() instanceof IpssTextDocument)
 				{
@@ -96,7 +101,7 @@ public class FileSave extends IpssAbstractActionDefault {
 				graphpad.saveProject(getCurrentDocument().getProject());
 
 			} catch (Exception ex) {
-				IpssLogger.logErr(ex);
+				ex.printStackTrace();
 			}
 		}
 	}
@@ -107,8 +112,6 @@ public class FileSave extends IpssAbstractActionDefault {
 		else if (graphpad.getCurrentDocument() instanceof GPDocument)
 			setEnabled(true);
 		else if (graphpad.getCurrentDocument() instanceof IpssCustomDocument)
-			setEnabled(true);
-		else if (graphpad.getCurrentDocument() instanceof IpssXmlDocument)
 			setEnabled(true);
 		else if (graphpad.getCurrentDocument() instanceof IpssTextDocument)
 			setEnabled(true);

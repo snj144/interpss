@@ -2,21 +2,33 @@ package org.interpss.editor.actions;
 
 import java.awt.event.ActionEvent;
 
-import org.interpss.editor.coreframework.IpssAbstractActionDefault;
+import org.interpss.editor.coreframework.GPDocument;
+import org.interpss.editor.coreframework.IpssAbstractGraphAction;
 import org.interpss.editor.coreframework.IpssEditorDocument;
+import org.interpss.editor.ui.SimuActionAdapter;
 import org.interpss.editor.util.DocumentUtilFunc;
-import org.interpss.editor.util.RunUtilFunc;
 
-import com.interpss.common.datatype.SimuRunType;
+import com.interpss.common.SpringAppContext;
 
-public class RunDStab extends IpssAbstractActionDefault {
-	private static final long serialVersionUID = 1;
+public class RunDStab extends IpssAbstractGraphAction {
     
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
 	public void actionPerformed(ActionEvent e) {
-		RunUtilFunc.performRunAction(getCurrentDocument(), SimuRunType.DStab, graphpad);
+    	if (graphpad.isBGProcessingBusy()) {
+    		SpringAppContext.getEditorDialogUtil().showWarnMsgDialog("Simulation Thread Busy", 
+    				"The run-simulation thread is busy. Please wait for its finishing before starting another one.");
+    		return;
+    	}
+
+		IpssEditorDocument doc = getCurrentDocument();
+		if (doc instanceof GPDocument) {
+			SimuActionAdapter.menu_run_dstab(true, graphpad.getCurrentGraph());
+		}
+
+		// After a run, some menuitems may need to be enabled
+		graphpad.update();
 	}
 
 	public void update() {

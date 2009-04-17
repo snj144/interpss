@@ -26,18 +26,16 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.coreframework.GPPluginInvoker;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
-import org.interpss.editor.resources.Translator;
 
 
 public class HelpProjectSiteUpdate extends IpssAbstractGraphAction {
-	private static final long serialVersionUID = 1;
 
 	/**
 	 * The about dialog for GPGraphpad
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = Translator.getString("URL.InterPSS.Proj.Download");
+	private String url = "https://sourceforge.net/projects/interpss/";
 
 	public void actionPerformed(ActionEvent e) {
 		GPPluginInvoker.openURL(url);

@@ -71,23 +71,10 @@ public class ExtensionFilter
             return true;
       return false;
    }
-
-   public String getExtensionsStr()
-   {
-	   if (extensions.length == 0) return "";
-
-	   String temp = "";
-
-	   for (int i = 0; i < this.extensions.length; i++)
-	   {
-		   temp += "*."+this.extensions[i]+(i==extensions.length-1 ? "" : ",");
-	   }
-	   return temp;
-   }
-
+   
    public String getDescription()
    { 
-      return description+" ("+getExtensionsStr()+")"; 
+      return description; 
    }
    
    public String[] getExtensions()

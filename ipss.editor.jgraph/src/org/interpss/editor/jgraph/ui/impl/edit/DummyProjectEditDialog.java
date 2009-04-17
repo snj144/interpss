@@ -1,42 +1,19 @@
- /*
-  * @(#)DummyProjectEditDialog.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
-
 package org.interpss.editor.jgraph.ui.impl.edit;
 
 import java.util.Vector;
 
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.form.IGNetForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 import org.interpss.editor.jgraph.ui.impl.form.DummyNetForm;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.SwingInputVerifyUtil;
+import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.ui.WinUtilities;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
+import com.interpss.common.util.Num2Str;
  
 public class DummyProjectEditDialog extends javax.swing.JDialog implements IFormDataDialog {
 	private static final long serialVersionUID = 1;
@@ -111,8 +88,8 @@ public class DummyProjectEditDialog extends javax.swing.JDialog implements IForm
 
 	    this.projNameTextField.setText(form.getName());
 	    this.descTextArea.setText(form.getDescription());
-	    this.baseKvaField.setText(Number2String.toStr(form.getBaseKVA(), "#.0"));
-    	this.baseFreqField.setText(Number2String.toStr(form.getFreqHZ(), "#.0"));
+	    this.baseKvaField.setText(Num2Str.toStr(form.getBaseKVA(), "#.0"));
+    	this.baseFreqField.setText(Num2Str.toStr(form.getFreqHZ(), "#.0"));
     	
 		pack();
 		return true;
@@ -130,23 +107,23 @@ public class DummyProjectEditDialog extends javax.swing.JDialog implements IForm
 		errMsg.clear();
 		boolean ok = true;
 
-		if (SwingInputVerifyUtil.isEmptyStr(this.projNameTextField)) {
+		if (VerifyUtil.isEmptyStr(this.projNameTextField)) {
 			errMsg.add("Id field is empty");
 			ok = false;
     	}
     	_netContainer.getGNetForm().setId(this.projNameTextField.getText());
     	
-		if (!SwingInputVerifyUtil.largeThan(this.baseKvaField, 0.0d)) {
+		if (!VerifyUtil.largeThan(this.baseKvaField, 0.0d)) {
 			errMsg.add("Base KVA <= 0.0");
 			ok = false;
 		}
-    	form.setBaseKVA(SwingInputVerifyUtil.getDouble(this.baseKvaField));
+    	form.setBaseKVA(VerifyUtil.getDouble(this.baseKvaField));
 
-		if (!SwingInputVerifyUtil.largeThan(this.baseFreqField, 0.0d)) {
+		if (!VerifyUtil.largeThan(this.baseFreqField, 0.0d)) {
 			errMsg.add("Base Freq <= 0.0");
 			ok = false;
 		}
-    	form.setFreqHZ(SwingInputVerifyUtil.getDouble(this.baseFreqField));
+    	form.setFreqHZ(VerifyUtil.getDouble(this.baseFreqField));
     	
 		return ok;
     }
@@ -366,9 +343,9 @@ public class DummyProjectEditDialog extends javax.swing.JDialog implements IForm
 					return false;
 				if (input == baseKvaField ||
 		   		   	input == baseFreqField)
-		    		return SwingInputVerifyUtil.largeThan((javax.swing.JTextField)input, 0.0d);
+		    		return VerifyUtil.largeThan((javax.swing.JTextField)input, 0.0d);
 				if (input == projNameTextField)
-	 	       		return !SwingInputVerifyUtil.isEmptyStr((javax.swing.JTextField)input);
+	 	       		return !VerifyUtil.isEmptyStr((javax.swing.JTextField)input);
  	       	} catch (Exception e) {
 				return false;
  	       	}				

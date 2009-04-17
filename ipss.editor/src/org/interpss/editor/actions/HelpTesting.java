@@ -30,7 +30,6 @@ import org.interpss.editor.resources.Translator;
 
 
 public class HelpTesting extends IpssAbstractGraphAction {
-	private static final long serialVersionUID = 1;
 
 	/**
 	 * The about dialog for GPGraphpad

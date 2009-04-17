@@ -1,27 +1,3 @@
- /*
-  * @(#)DocumentUtilFunc.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
-
 package org.interpss.editor.util;
 
 import org.interpss.editor.coreframework.GPDocument;
@@ -75,14 +51,11 @@ public class DocumentUtilFunc  {
 	 * @return
 	 */
 	public static boolean enableAclfReport(IpssEditorDocument doc) {
-		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-			if (appSimuCtx != null)
-				return (isAclfDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
-		} catch (Exception ex) {
-			// do nothing
-		}		
-		return false;
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		if (appSimuCtx != null)
+			return (isAclfDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
+		else
+			return false;
 	}
 
 	/**
@@ -92,14 +65,11 @@ public class DocumentUtilFunc  {
 	 * @return
 	 */
 	public static boolean enableAcscReport(IpssEditorDocument doc) {
-		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-			if (appSimuCtx != null)
-				return (isAcscDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
-		} catch (Exception ex) {
-			//IpssLogger.getLogger().severe(ex.toString());
-		}		
-		return false;
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		if (appSimuCtx != null)
+			return (isAcscDocument(doc) || isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
+		else
+			return false;
 	}
 
 	/**
@@ -109,14 +79,11 @@ public class DocumentUtilFunc  {
 	 * @return
 	 */
 	public static boolean enableDStabReport(IpssEditorDocument doc) {
-		try {
-			IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
-			if (appSimuCtx != null)
-				return (isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
-		} catch (Exception ex) {
-			//IpssLogger.getLogger().severe(ex.toString());
-		}		
-		return false;
+		IAppSimuContext appSimuCtx = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		if (appSimuCtx != null)
+			return (isDStabDocument(doc)) && !appSimuCtx.isSimuNetDataDirty();
+		else
+			return false;
 	}
 
 	/**
@@ -142,11 +109,10 @@ public class DocumentUtilFunc  {
 			}
 		} else if (doc instanceof IpssCustomDocument) {
 			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK || 
-					simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK ||
-					simuCxt.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
+			if (simuCxt.getNetType() == SimuCtxType.ACLF_NETWORK_LITERAL
+					|| simuCxt.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK_LITERAL) {
 				return true;
-			} else if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
+			} else if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET_LITERAL) {
 				return simuCxt.getAcscFaultNet().isLfDataLoaded();
 			}
 		} 
@@ -172,12 +138,7 @@ public class DocumentUtilFunc  {
 					return true;
 				}
 			}
-		} else if (doc instanceof IpssCustomDocument) {
-			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.ACSC_FAULT_NET) {
-				return true;
-			}
-		} 		
+		} 
 		return false;
 	}
 
@@ -197,12 +158,7 @@ public class DocumentUtilFunc  {
 				if (form.getNetType().equals(IGNetForm.NetType_DStabilityNet))
 					return true;
 			}
-		} else if (doc instanceof IpssCustomDocument) {
-			SimuContext simuCxt = (SimuContext)(((IpssCustomDocument) doc).getSimuAppContext()).getSimuCtx();
-			if (simuCxt.getNetType() == SimuCtxType.DSTABILITY_NET) 
-				return true;
 		} 
-		
 		return false;
 	}
 }

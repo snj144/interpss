@@ -39,11 +39,9 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.zip.GZIPOutputStream;
 
-import org.interpss.custom.IpssFileAdapter;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPGraphpadFile;
 import org.interpss.editor.coreframework.GPPluginInvoker;
-import org.interpss.editor.coreframework.IpssXmlFile;
 import org.interpss.editor.coreframework.IpssCustomFile;
 import org.interpss.editor.coreframework.IpssReportFile;
 import org.interpss.editor.coreframework.IpssTextFile;
@@ -59,7 +57,6 @@ import org.interpss.editor.jgraph.ui.app.IAppStatus;
 import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.project.IpssCustomDataCodec;
 import org.interpss.editor.project.IpssGraphCodec;
-import org.interpss.editor.project.IpssXmlCodec;
 import org.interpss.editor.resources.Translator;
 import org.jgraph.JGraph;
 import org.jgraph.graph.CellViewFactory;
@@ -70,6 +67,7 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.common.io.IProjectDataManager;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
+import com.interpss.simu.io.IpssFileAdapter;
 
 /**
  * Utility methods. A utility method is characterized as a method which is of
@@ -218,7 +216,7 @@ public final class Utilities {
 			FileService.Open open = null;
 			if (adapterList==null)
 			{
-				ExtensionFilter fileExtensionFilter = new ExtensionFilter(extensionDescription,fileExtension);
+				ExtensionFilter fileExtensionFilter = new ExtensionFilter(extensionDescription, new String[] { fileExtension });
 				open = fileService.open(defaultDirectory, null,fileExtensionFilter);
 			}
 			else
@@ -360,14 +358,14 @@ public final class Utilities {
 	}
 	
 
-	public static IpssCustomFile OpenCustomFile(GPGraphpad graphpad, String abpath, String version) throws Exception {
+	public static IpssCustomFile OpenCustomFile(GPGraphpad graphpad, String abpath) throws Exception {
 		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
 				IAppStatus.BusyIndicatorPeriod, "Load Custom data file ...", "");
 		IpssLogger.getLogger().info("Load custom file: " + abpath);
 		
 		IpssCustomFile file = new IpssCustomFile();
 
-		IAppSimuContext appSimuContext = IpssCustomDataCodec.getInstance(graphpad).read(abpath, version);
+		IAppSimuContext appSimuContext = IpssCustomDataCodec.getInstance(graphpad).read(abpath);
 		if (appSimuContext == null) {
 			SpringAppContext.getEditorDialogUtil().showMsgDialog("InterPSS Custom Text File Open Error", "");
 			return null;
@@ -387,27 +385,11 @@ public final class Utilities {
 		return file;
 	}
 
-	public static IpssXmlFile OpenXmlFile(GPGraphpad graphpad,
-			String filepath) throws Exception {
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStart(
-				IAppStatus.BusyIndicatorPeriod,	"Load XML File ...", "");
-
-		IpssXmlFile file = new IpssXmlFile(filepath);
-
-//		file.setModified(false);
-//		file.setFilePathName(filepath);
-		//graphpad.setStatus("Text loaded, File:" + filepath); no need anymore
-		SpringAppContext.getIpssMsgHub().sendStatusMsg("XML File:" + filepath);
-		
-		GraphSpringAppContext.getIpssGraphicEditor().getAppStatus().busyStop("XML File loaded, " + filepath);
-		return file;
-	}
-
-	
 	// load project data from DB
-	public static IAppSimuContext loadProjectData(IpssProjectItem item) throws Exception  {
+	public static IAppSimuContext loadProjectData(IpssProjectItem item) {
 		IpssLogger.getLogger().info("Load project data from DB ...");
-		IAppSimuContext appSimuContext = GraphSpringAppContext.getIpssGraphicEditor().getCurrentAppSimuContext();
+		IAppSimuContext appSimuContext = GraphSpringAppContext
+				.getIpssGraphicEditor().getCurrentAppSimuContext();
 		IProjectDataManager projManager = SpringAppContext
 				.getProjectDataDBManager();
 		projManager.loadProjectDataFromDB(item.getProjDbId(), item

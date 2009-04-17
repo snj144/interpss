@@ -1,27 +1,3 @@
- /*
-  * @(#)DummyBranchEditDialog.java   
-  *
-  * Copyright (C) 2006 www.interpss.org
-  *
-  * This program is free software; you can redistribute it and/or
-  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
-  * as published by the Free Software Foundation; either version 2.1
-  * of the License, or (at your option) any later version.
-  *
-  * This program is distributed in the hope that it will be useful,
-  * but WITHOUT ANY WARRANTY; without even the implied warranty of
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  * GNU General Public License for more details.
-  *
-  * @Author Mike Zhou
-  * @Version 1.0
-  * @Date 09/15/2006
-  * 
-  *   Revision History
-  *   ================
-  *
-  */
-
 package org.interpss.editor.jgraph.ui.impl.edit;
 
 /**
@@ -32,14 +8,15 @@ import java.util.Vector;
 
 import org.interpss.editor.jgraph.GraphSpringAppContext;
 import org.interpss.editor.jgraph.ui.edit.IFormDataDialog;
+import org.interpss.editor.jgraph.ui.form.IGFormContainer;
 import org.interpss.editor.jgraph.ui.impl.form.DummyBranchForm;
 import org.interpss.editor.jgraph.ui.impl.form.DummyFormContainer;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.ui.SwingInputVerifyUtil;
+import com.interpss.common.ui.VerifyUtil;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.Number2String;
+import com.interpss.common.util.Num2Str;
    
 public class DummyBranchEditDialog extends javax.swing.JDialog  implements IFormDataDialog {
 	private static final long serialVersionUID = 1;
@@ -91,7 +68,7 @@ public class DummyBranchEditDialog extends javax.swing.JDialog  implements IForm
         this.branchNameField.setText(_form.getName());
     	this.fromNameField.setText(_form.getFromBusName());
     	this.toNameField.setText(_form.getToBusName());
-    	this.zoneField.setText(Number2String.toStr(_form.getZone()));
+    	this.zoneField.setText(Num2Str.toStr(_form.getZone()));
     	
     	if (_form.getStatus())
     		this.inServiceCheckBox.setSelected(true);
@@ -114,17 +91,17 @@ public class DummyBranchEditDialog extends javax.swing.JDialog  implements IForm
 
     	_form.setName(this.branchNameField.getText());
 
-    	if (!SwingInputVerifyUtil.largeThan(this.areaField, 0)) {
+    	if (!VerifyUtil.largeThan(this.areaField, 0)) {
 			errMsg.add("Area <= 0");
 			ok = false;
 		}
-    	_form.setArea(SwingInputVerifyUtil.getInt(this.areaField));
+    	_form.setArea(VerifyUtil.getInt(this.areaField));
 
-    	if (!SwingInputVerifyUtil.largeThan(this.zoneField, 0)) {
+    	if (!VerifyUtil.largeThan(this.zoneField, 0)) {
 			errMsg.add("Zone <= 0");
 			ok = false;
 		}
-    	_form.setZone(SwingInputVerifyUtil.getInt(this.zoneField));
+    	_form.setZone(VerifyUtil.getInt(this.zoneField));
     	
     	if (this.inServiceCheckBox.isSelected())
     		_form.setStatus(true);
@@ -333,7 +310,7 @@ public class DummyBranchEditDialog extends javax.swing.JDialog  implements IForm
 				return false;
        		try {
        			if (input == zoneField)
- 	       			return SwingInputVerifyUtil.getInt((javax.swing.JTextField)input) > 0;
+ 	       			return VerifyUtil.getInt((javax.swing.JTextField)input) > 0;
  	       	} catch (Exception e) {
  	    		return false;
  	       	}		

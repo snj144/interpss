@@ -9,7 +9,6 @@ import org.interpss.editor.util.DocumentUtilFunc;
 
 
 public class AnnotateAcscZero extends IpssAbstractGraphAction {
-	private static final long serialVersionUID = 1;
     
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)

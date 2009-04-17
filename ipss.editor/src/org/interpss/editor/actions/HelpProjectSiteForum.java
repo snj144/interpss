@@ -26,18 +26,16 @@ import javax.swing.JDialog;
 
 import org.interpss.editor.coreframework.GPPluginInvoker;
 import org.interpss.editor.coreframework.IpssAbstractGraphAction;
-import org.interpss.editor.resources.Translator;
 
 
 public class HelpProjectSiteForum extends IpssAbstractGraphAction {
-	private static final long serialVersionUID = 1;
 
 	/**
 	 * The about dialog for GPGraphpad
 	 */
 	protected JDialog aboutDlg;
 	
-	private String url = Translator.getString("URL.InterPSS.Proj.Forum");
+	private String url = "http://groups.google.com/group/Interpss-Project";
 
 	public void actionPerformed(ActionEvent e) {
 		GPPluginInvoker.openURL(url);

@@ -1,6 +1,6 @@
 package org.interpss.editor;
 
-    
+
 import java.applet.Applet;
 import java.awt.AlphaComposite;
 import java.awt.BorderLayout;
@@ -10,9 +10,13 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -20,21 +24,21 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JWindow;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import org.interpss.editor.EditorSpringAppContext;
 import org.interpss.editor.coreframework.GPGraphpad;
 import org.interpss.editor.coreframework.GPSessionParameters;
 import org.interpss.editor.resources.ImageLoader;
 import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.SmartFrame;
 
+
 import com.interpss.common.ui.WinUtilities;
-import com.interpss.common.ui.Workspace;
-import com.interpss.common.resource.IpssPropertiesLoader;
 import com.interpss.common.util.IpssLogger;
-import com.interpss.common.util.StringUtil;
 
 /**
  * A class with some static methods (including main and init) to properly
@@ -43,59 +47,56 @@ import com.interpss.common.util.StringUtil;
  * either as an application, either as an applet.
  * 
  * @see org.interpss.editor.coreframework.GPGraphpad
-
- 	-g GridGain for grid computing using GridGain
  */
-
 public class GEditor extends Applet {
-	private static final long serialVersionUID = 1;
+
+	/**
+	 * is properly set by the ant buildfile to ensure the source version match
+	 * the binary version
+	 */
 	
-	public static String Parm_GridGain = "GridGain";
-
-	public static String Pty_CurrentWorkspace = "workspace.current";
-	public static String Pty_UserWorkspace = "workspace";
-	public static String Pty_SampleWorkspace = "sample_ws";
-
 	private static GPSessionParameters sessionParameters;
-	private static GPGraphpad pad = null;
 
-	private static JWindow frame = null;
-
-	public static GPGraphpad getGraphPad() {
-		return GEditor.pad;
-	}
-	
-	public static GPSessionParameters getSessionParameters() {
-		return sessionParameters;
-	}
-
-	private static void setWorkspaceDirectory() {
-		String str = IpssPropertiesLoader.getUserPty(Pty_CurrentWorkspace);
-		if (str == null) {
-			str = Translator.getString(Pty_UserWorkspace);
-			IpssPropertiesLoader.setUserPty(Pty_CurrentWorkspace, str);
-		}
-		EditorSpringAppContext.getAppContext().setWorkspaceDir(StringUtil.getInstallLocation() + str);
-	}
-	
 	/*
 	 * Main method for creating a JGraphpad in an application deployed either
 	 * offline, either via webstart
 	 */
-	public static void init(String[] args) {
+	public static void main(String[] args) {
 		// parse cmd line parameters
 		parseCmdLineParameters(args);
 
+		// load properties from property files
+		boolean ok = true;
+		if (!AppConfig.loadAppProperties())
+			ok = false;
+		if (!AppConfig.userPreConfiguration())
+			ok = false;
+
+		if (!ok)
+		{			// we need to do something to inform the user
+			System.err.println("System configuration has problems, please see the log file for details");
+			JOptionPane.showMessageDialog(new JFrame(),
+					"Your configuration has problems which prevent the GraphicEditor to start. Please see the log file in the log dir for details", 
+					"Configuration Error", JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+
+		
 	 	// start splash ...
+		JWindow frame = new JWindow();
 		JLabel info = new JLabel(Translator.getString("Splash.Init"), SwingConstants.CENTER);
 
-		frame = new JWindow();
 		showSplash(frame, info);
 		showSplashInfo(info,Translator.getString("Splash.Construct"));
 		
-		// set workspace
-		setWorkspaceDirectory();
-		
+		// load Spring configuration
+		EditorSpringAppContext.springAppContextSetup();
+		showSplashInfo(info,Translator.getString("Splash.SpringConfig"));
+
+		// set application contants
+	 	AppConfig.setConfigConstants();
+		showSplashInfo(info,Translator.getString("Splash.Config"));
+
 		// load ref data from DB
 		EditorSpringAppContext.getRefDataManager().loadAllRefData();
 		showSplashInfo(info,Translator.getString("Splash.Database"));
@@ -116,14 +117,27 @@ public class GEditor extends Applet {
 		showSplashInfo(info,Translator.getString("Splash.Start"));
 
 		try {
-			GEditor.pad = EditorSpringAppContext.getGraphicEditor();
-			String str = IpssPropertiesLoader.getUserPty(Pty_CurrentWorkspace);
-			if (str.equals(Translator.getString("WorkSpace.Location")))
-				Workspace.setCurrentType(Workspace.Type.User);
-			else
-				Workspace.setCurrentType(Workspace.Type.Sample);
+			//try to set up a console:
+			GPGraphpad pad = EditorSpringAppContext.getGraphicEditor();
+			pad.setSessionParameters(sessionParameters);
+			pad.init();
+			JFrame gpframe = createFrame();
 			
-			GEditor.pad.createEditorPanel(sessionParameters);
+			final JPanel panel = new JPanel();
+			panel.setLayout(new BorderLayout());
+			panel.add(pad, BorderLayout.CENTER);
+			panel.setVisible(false);
+			gpframe.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			gpframe.getContentPane().add(panel, BorderLayout.CENTER);
+			
+			gpframe.addWindowListener(pad.getAppCloser());
+			
+			gpframe.setVisible(true);
+			// Richard: the screen is blank while we are waiting for initData. Can we load the data
+			// then set gpFrame visible?
+			pad.initData();
+			panel.setVisible(true);
+			pad.initActive();
 		} catch (Exception e) {
 			info.setText(e.getMessage());
 			e.printStackTrace();
@@ -142,15 +156,11 @@ public class GEditor extends Applet {
 	 * By default we put the GPGraphpad in a JFrame
 	 * @return
 	 */
-	public static JFrame createFrame(GPGraphpad pad) {
+	public static JFrame createFrame() {
 		JFrame frame = new SmartFrame();
-		frame.setName("MainGraphpad"); 
+		frame.setName("MainGraphpad");
 		frame.setIconImage(ImageLoader.getImageIcon(Translator.getString("Icon")).getImage());
 		frame.setTitle(Translator.getString("Title"));
-		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.getContentPane().add(pad.getEditorPanel(), BorderLayout.CENTER);
-		frame.addWindowListener(pad.getAppCloser());
-		frame.setVisible(true);
 		return frame;
 	}
 
@@ -183,7 +193,7 @@ public class GEditor extends Applet {
 		sessionParameters.setApplet(this);
 		GPGraphpad pad = new GPGraphpad(sessionParameters);
 		pad.init();
-		JFrame gpframe = createFrame(pad);
+		JFrame gpframe = createFrame();
 		gpframe.getContentPane().add(pad);
 		gpframe.addWindowListener(pad.getAppCloser());
 		gpframe.setVisible(true);
@@ -231,7 +241,6 @@ public class GEditor extends Applet {
 				.getString("Splash"));
 		info.setForeground(Color.black);
 		JLabel lab = new JLabel(logoIcon) {
-			private static final long serialVersionUID = 1;
 			public void paint(Graphics g) {
 				super.paint(g);
 
@@ -240,16 +249,17 @@ public class GEditor extends Applet {
 						RenderingHints.VALUE_ANTIALIAS_ON);
 
 				g2.setFont(new Font("Arial", Font.BOLD, 27));
-				g2.setColor(Color.WHITE);
+				g2.setColor(Color.DARK_GRAY.darker());
 				Composite originalComposite = g2.getComposite();
-				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+				g2.setComposite(AlphaComposite.getInstance(
+						AlphaComposite.SRC_OVER, 0.5f));
 
-				g2.setFont(new Font("Arial", Font.BOLD, 12));
+				g2.setFont(new Font("Arial", Font.PLAIN, 10));
 
-				g2.drawString(IpssPropertiesLoader.getIpssString("Prog.name.editor")+ " " + IpssPropertiesLoader.getIpssString("Prog.version"), 10, 185);
+				g2.drawString(Translator.getString("Prog.name")+ " " + Translator.getString("Prog.version"), 18, 172);
 
-				g2.setColor(Color.WHITE);
-				g2.setFont(new Font("Arial", Font.BOLD, 10));
+				g2.setColor(Color.DARK_GRAY);
+				g2.setFont(new Font("Arial", Font.BOLD, 8));
 				String copyright = Translator.getString("Copyright");
 				if (copyright != null)
 					g2.drawString(copyright, 10, 202);
@@ -282,13 +292,7 @@ public class GEditor extends Applet {
 				i = i - 1;
 				continue;
 			}
-			sessionParameters.setParam(args[i], args[i + 1]);
+			sessionParameters.setParamWithCommand(args[i], args[i + 1]);
 		}		
-	}
-	
-	public static void exitEditor() {
-		pad.closeWorkspace(null);
-		frame.dispose();
-		System.exit(0);
 	}
 }

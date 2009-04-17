@@ -13,7 +13,6 @@ import org.interpss.editor.resources.Translator;
 import org.interpss.editor.util.Utilities;
 
 
-import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.StringUtil;
 
 public class FileAddGraph extends IpssAbstractProjectAction {
@@ -56,12 +55,8 @@ public class FileAddGraph extends IpssAbstractProjectAction {
 				return;
 			}
 			IpssProjectItem item = graphpad.addGraphDocument(dstfile,project, file);
+			org.interpss.editor.util.Utilities.loadProjectData(item);
 			
-			try {
-				org.interpss.editor.util.Utilities.loadProjectData(item);
-			} catch (Exception ex) {
-				IpssLogger.logErr(ex);
-			}			
 		}
 		graphpad.saveProject(project);
 		graphpad.update();
