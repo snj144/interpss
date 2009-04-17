@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
+	xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
+	elementFormDefault="qualified">
+
+    <annotation>
+    	<documentation>Copyright www.interpss.org 2008</documentation>
+    </annotation>
+    <include schemaLocation="ODM_DataType.xsd"></include>
+    <include schemaLocation="ODM_DynamicDataType.xsd"></include>
+
+	<complexType name="PSSNetworkXmlType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
+				<sequence>
+                    <element name="networkCategory" minOccurs="1" maxOccurs="1">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Transmission"></enumeration>
+								<enumeration value="Distribution"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
+                    <element name="basePower" type="double"
+						minOccurs="1" maxOccurs="1">
+					</element>
+					<element name="basePowerUnit" minOccurs="1"
+						maxOccurs="1">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="KVA"></enumeration>
+								<enumeration value="MVA"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
+                    <element name="areaList" maxOccurs="1" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="area" maxOccurs="unbounded" minOccurs="0" type="pss:NetAreaXmlType">
+								</element>
+
+							</sequence>
+						</complexType>
+					</element>
+                    <element name="busList"
+						type="pss:BusRecordListXmlType" minOccurs="1" maxOccurs="1">
+					</element>
+					<element name="branchList"
+						type="pss:BranchRecordListXmlType" minOccurs="1" maxOccurs="1">
+					</element>
+					<element name="lossZoneList" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="lossZone"
+									maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType">
+								</element>
+							</sequence>
+						</complexType>
+					</element>
+					<element name="interchangeList" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="interchange"
+									minOccurs="0" maxOccurs="unbounded">
+									<complexType>
+										<sequence>
+
+
+
+
+
+
+
+
+											<element
+												name="ieeeCDFInterchange" minOccurs="0">
+												<complexType>
+													<sequence>
+														<element
+															name="areaNumber" type="int" minOccurs="1">
+														</element>
+														<element
+															name="swingBus" type="pss:IDRefRecordXmlType"
+															minOccurs="1">
+														</element>
+														<element
+															name="alternateSwingBusName" type="string"
+															minOccurs="1">
+														</element>
+														<element
+															name="interchangePower" type="pss:PowerXmlType"
+															minOccurs="1">
+														</element>
+														<element
+															name="interchangeErrTolerance" type="double"
+															minOccurs="1">
+														</element>
+
+
+														<element
+															name="areaCode" type="string" minOccurs="0">
+														</element>
+														<element
+															name="areaName" type="string" minOccurs="0">
+														</element>
+
+
+													</sequence>
+												</complexType>
+											</element>
+											<element name="ucteExchange"
+												minOccurs="0">
+												<complexType>
+													<sequence>
+														<element
+															name="fromIsoId" type="string" minOccurs="1">
+														</element>
+														<element
+															name="toIsoId" type="string" minOccurs="1">
+														</element>
+														<element
+															name="exchangePower" type="pss:PowerXmlType"
+															minOccurs="1">
+														</element>
+														<element
+															name="comment" type="string" minOccurs="0">
+														</element>
+													</sequence>
+												</complexType>
+											</element>
+
+										</sequence>
+									</complexType>
+								</element>
+							</sequence>
+						</complexType>
+					</element>
+					<element name="tieLineList" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="tieline" minOccurs="0"
+									maxOccurs="unbounded">
+									<complexType>
+										<sequence>
+											<element name="meteredBus"
+												type="pss:IDRefRecordXmlType" minOccurs="1">
+											</element>
+											<element name="meteredArea"
+												type="string" minOccurs="1">
+											</element>
+											<element
+												name="nonMeteredBus" type="pss:IDRefRecordXmlType"
+												minOccurs="1">
+											</element>
+											<element
+												name="nonMeteredArea" type="string" minOccurs="1">
+											</element>
+											<element name="cirId"
+												type="string" maxOccurs="1" minOccurs="1">
+											</element>
+										</sequence>
+									</complexType>
+								</element>
+							</sequence>
+						</complexType>
+					</element>
+					<element name="dcLineList" type="pss:DCLineListXmlType" maxOccurs="1" minOccurs="0"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	
+    
+    <complexType name="DynamicDataListXmlType">
+    	<sequence>
+    		<element name="busDynDataList"
+    			type="pss:BusDynDataListXmlType" maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="branchDynDataList"
+    			type="pss:BranchDynDataListXmlType" maxOccurs="1"
+    			minOccurs="0">
+    		</element>
+    		<element name="faultList" type="pss:FaultListXmlType"
+    			maxOccurs="1" minOccurs="0">
+    		</element>
+    		<element name="sequenceDataList" type="pss:SequenceDataListXmlType" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    </complexType>
+    
+
+    
+    					
+
+
+
+</schema>
