@@ -98,8 +98,6 @@ public class BPADynamicRecord {
 			IEEEODMPSSModelParser parser ,BPAAdapter adapter) throws Exception{
 		PSSNetworkXmlType baseCaseNet=parser.getBaseCase();
 		
-		
-		
 		do{
 			str= din.readLine();
 			if(!str.startsWith("90")){
@@ -120,7 +118,7 @@ public class BPADynamicRecord {
 						BPADynamicPSSRecord.processPSSData(str, tranSimu, parser,adapter);
 					}else if(dataType==loadData){
 						BPADynamicLoadCharacteristicRecord.processLoadCharacteristicData(str, 
-								tranSimu, parser.addNewLoad(),adapter);
+								tranSimu, parser.addNewLoad(tranSimu),adapter);
 					}else if(dataType==sequenceData){
 						BPADynamicSequenceRecord.processSequenceData(str, tranSimu, parser,adapter);
 					}else if(dataType==0){

@@ -46,7 +46,7 @@ public class BPADynamicSequenceRecord {
 		// zero sequence data		
 		if(strAry[0].equals("XO")){
 			ZeroSequenceDataListXmlType.XfrZeroList.XfrZero xfrZero=
-				parser.addNewXfrZero();		
+				parser.addNewXfrZero(tranSimu);		
 			
 			//bus1
 			String bus1=strAry[1];
@@ -82,7 +82,7 @@ public class BPADynamicSequenceRecord {
 						
 		}else if(strAry[0].equals("XR")){
 			ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero SHZero=
-				parser.addNewShuntLoadZero();		
+				parser.addNewShuntLoadZero(tranSimu);		
 			//bus1
 			String bus1=strAry[1];
 			SHZero.addNewBusId().setName(bus1);	    	
@@ -96,7 +96,7 @@ public class BPADynamicSequenceRecord {
 			    		
 		}else if(strAry[0].equals("LO")){
 			ZeroSequenceDataListXmlType.LineZeroList.LineZero lineZero=
-				parser.addNewLineZero();
+				parser.addNewLineZero(tranSimu);
 			//bus1
 			String bus1=strAry[1];
 			lineZero.addNewFBusId().setName(bus1);			
@@ -136,7 +136,7 @@ public class BPADynamicSequenceRecord {
 			     		
 		}else if(strAry[0].equals("LM")){
 			ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero mutZero=
-				parser.addNewMutualZero();
+				parser.addNewMutualZero(tranSimu);
 			//bus1
 			String bus1=strAry[1];
 			mutZero.addNewBranch1BusI().setName(bus1);			
@@ -211,7 +211,7 @@ public class BPADynamicSequenceRecord {
 				x2=0.65*xd1;
 			}
 			NegativeSequenceDataListXmlType.GeneratorNegativeList.GeneratorNegative xfrNeg=
-				parser.addNewGenNeg();
+				parser.addNewGenNeg(tranSimu);
 			
 			String busId=gen.getLocatedBus().getName();
 			String genId="";
@@ -228,7 +228,7 @@ public class BPADynamicSequenceRecord {
 		for( LoadCharacteristicXmlType load: tranSimu.getDynamicDataList().
 				getBusDynDataList().getLoadCharacteristicDataList().getLoadArray() ){
 			NegativeSequenceDataListXmlType.ShuntLoadNegativeList.ShuntLoadNegative loadNeg=
-				parser.addNewShuntLoadNeg();
+				parser.addNewShuntLoadNeg(tranSimu);
 			
 			if(load.getLocation().equals(LoadCharacteristicXmlType.Location.AT_AREA)){
 				loadNeg.setLoadLocation(NegativeSequenceDataListXmlType.ShuntLoadNegativeList.

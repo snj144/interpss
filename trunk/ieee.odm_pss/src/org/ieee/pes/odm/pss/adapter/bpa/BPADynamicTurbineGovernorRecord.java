@@ -44,7 +44,7 @@ public class BPADynamicTurbineGovernorRecord {
     	final String strAry[]=getTGDataFields(str,adapter);
     	
     	if(strAry[0].equals("GG")){ 
-    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor();
+    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_STREAM_GENERAL_MODEL);
     		TurbineGovernorModelListXmlType.HydroStreamGeneralModel gg=
     			tg.addNewTurbineGovernorModel().addNewHydroStreamGeneralModel();
@@ -94,7 +94,7 @@ public class BPADynamicTurbineGovernorRecord {
     		ODMData2XmlHelper.setPUData(gg.addNewF(), f, PerUnitXmlType.Unit.PU);
 			
     	}else if(strAry[0].equals("GH")){
-    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor();
+    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER_AND_TURBINE);
     		TurbineGovernorModelListXmlType.HydroGovernerAndTurbine gh=
     			tg.addNewTurbineGovernorModel().addNewHydroGovernerAndTurbine();
@@ -149,7 +149,7 @@ public class BPADynamicTurbineGovernorRecord {
 			
     		
     	}else if(strAry[0].equals("GS")){
-    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor();
+    		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER);
     		TurbineGovernorModelListXmlType.HydroGoverner gs=
     			tg.addNewTurbineGovernorModel().addNewHydroGoverner();

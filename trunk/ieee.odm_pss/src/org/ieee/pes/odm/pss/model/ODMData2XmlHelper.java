@@ -41,6 +41,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
@@ -191,8 +193,8 @@ public class ODMData2XmlHelper {
 	 * @param baseCaseNet
 	 * @return
 	 */
-	public static PSSNetworkXmlType.AreaList.Area getAreaRecordByAreaName(String areaName, PSSNetworkXmlType baseCaseNet) {
-		for (PSSNetworkXmlType.AreaList.Area area:baseCaseNet.getAreaList().getAreaArray()) {
+	public static NetAreaXmlType getAreaRecordByAreaName(String areaName, PSSNetworkXmlType baseCaseNet) {
+		for (NetAreaXmlType area:baseCaseNet.getAreaList().getAreaArray()) {
 			if (areaName.equals(area.getAreaName()))
 				return area;
 		}
@@ -206,11 +208,10 @@ public class ODMData2XmlHelper {
 	 * @param baseCaseNet
 	 * @return
 	 */
-	public static PSSNetworkXmlType.AreaList.Area getAreaRecordByZone(String zoneName, PSSNetworkXmlType baseCaseNet) {
-		for (PSSNetworkXmlType.AreaList.Area area:baseCaseNet.getAreaList().getAreaArray()) {
-			for(PSSNetworkXmlType.AreaList.Area.ZoneList.Zone zone:
-				area.getZoneList().getZoneArray()){
-				if (zoneName.equals(zone.getZoneName()))
+	public static NetAreaXmlType getAreaRecordByZone(int zoneNo, PSSNetworkXmlType baseCaseNet) {
+		for (NetAreaXmlType area:baseCaseNet.getAreaList().getAreaArray()) {
+			for(NetZoneXmlType zone : area.getZoneList().getZoneArray()){
+				if (zoneNo == zone.getZoneNumber())
 					return area;
 			}			
 		}

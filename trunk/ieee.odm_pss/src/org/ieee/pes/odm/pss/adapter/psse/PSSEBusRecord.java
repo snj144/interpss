@@ -95,8 +95,8 @@ public class PSSEBusRecord {
 		//area zone	
 		final String areaNo = strAry[6];
 		final String zoneNo = strAry[7];
-		busRec.setArea(areaNo);
-		busRec.setZone(zoneNo);		
+		busRec.setAreaNumber(new Integer(areaNo).intValue());
+		busRec.setZoneNumber(new Integer(zoneNo).intValue());		
 
 		// vm voltage, p.u. [F] *
 		//va angle, degrees [F] *

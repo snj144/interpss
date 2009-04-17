@@ -43,9 +43,11 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NegativeSequenceDataListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PostiveSequenceDataListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ScenarioXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
@@ -102,9 +104,16 @@ public class IEEEODMPSSModelParser {
 	 * @return
 	 */
 	public StudyCaseXmlType getStudyCase() {
-		if (this.doc.getPSSStudyCase() == null)
-			this.doc.addNewPSSStudyCase();
+		if (this.doc.getPSSStudyCase() == null) {
+			StudyCaseXmlType scase = this.doc.addNewPSSStudyCase();
+			getBaseCase();
+			scase.addNewScenarioList().addNewScenario();
+		}	
 		return this.doc.getPSSStudyCase();
+	}
+	
+	public ScenarioXmlType getDefaultScenario() {
+		return getStudyCase().getScenarioList().getScenarioArray()[0];
 	}
 	
 	/**
@@ -120,9 +129,14 @@ public class IEEEODMPSSModelParser {
 		}
 		return getStudyCase().getBaseCase();
 	}
+	
 	public TransientSimulationXmlType getTransientSimlation(){
-		if(getStudyCase().getTransientSimlation()==null){
-			TransientSimulationXmlType tranSimu=getStudyCase().addNewTransientSimlation();
+		return getTransientSimlation(getDefaultScenario());
+	}
+	
+	public TransientSimulationXmlType getTransientSimlation(ScenarioXmlType scenario){
+		if(scenario.getTransientSimlation()==null){
+			TransientSimulationXmlType tranSimu=scenario.addNewTransientSimlation();
 			tranSimu.addNewDynamicDataList();
 			tranSimu.getDynamicDataList().addNewFaultList();
 			tranSimu.getDynamicDataList().addNewBranchDynDataList();
@@ -156,16 +170,16 @@ public class IEEEODMPSSModelParser {
 			//tranSimu.addNewPowerFlowInitialization();
 			//tranSimu.addNewSimulationSetting();
 		}
-		return getStudyCase().getTransientSimlation();
+		return scenario.getTransientSimlation();
 	}	
 	
 	
-	public FaultListXmlType.Fault addNewFault(){		
-		return getStudyCase().getTransientSimlation().getDynamicDataList().getFaultList().addNewFault();
+	public FaultListXmlType.Fault addNewFault(ScenarioXmlType scenario){		
+		return scenario.getTransientSimlation().getDynamicDataList().getFaultList().addNewFault();
 	}
 	
-	public GeneratorXmlType addNewGen(){		
-		return getStudyCase().getTransientSimlation().getDynamicDataList().
+	public GeneratorXmlType addNewGen(ScenarioXmlType scenario){		
+		return scenario.getTransientSimlation().getDynamicDataList().
 		             getBusDynDataList().getGeneratorDataList().addNewGenerator();
 	}
 
@@ -181,56 +195,52 @@ public class IEEEODMPSSModelParser {
 		}
 		return getStudyCase().getBaseCase().getAreaList();
 	}
-	public PSSNetworkXmlType.AreaList.Area addNewBaseCaseArea() {
+	public NetAreaXmlType addNewBaseCaseArea() {
 		return getAreaList().addNewArea();
 	}
 	
-	public ExciterDataListXmlType getExciterList(){
-		if(getStudyCase().getTransientSimlation().getDynamicDataList().
+	public ExciterDataListXmlType getExciterList(TransientSimulationXmlType tranSimu){
+		if(tranSimu.getDynamicDataList().
 				getBusDynDataList().getExciterDataList()==null){
-			getStudyCase().getTransientSimlation().getDynamicDataList().
+			tranSimu.getDynamicDataList().
 			getBusDynDataList().addNewExciterDataList();
 		}
-		return getStudyCase().getTransientSimlation().getDynamicDataList().
-		getBusDynDataList().getExciterDataList();
-	}
-	public ExciterXmlType addNewExciter(){
-		return getExciterList().addNewExciter();
+		return tranSimu.getDynamicDataList().getBusDynDataList().getExciterDataList();
 	}
 	
-	public TurbineGovernorDataListXmlType getTurbineGovernorDataList(){
-		if(getStudyCase().getTransientSimlation().getDynamicDataList().
+	public ExciterXmlType addNewExciter(TransientSimulationXmlType tranSimu){
+		return getExciterList(tranSimu).addNewExciter();
+	}
+	
+	public TurbineGovernorDataListXmlType getTurbineGovernorDataList(TransientSimulationXmlType tranSimu){
+		if(tranSimu.getDynamicDataList().
 				getBusDynDataList().getTurbineGovernorDataList()==null){
-			getStudyCase().getTransientSimlation().getDynamicDataList().
-			getBusDynDataList().addNewTurbineGovernorDataList();
+			tranSimu.getDynamicDataList().getBusDynDataList().addNewTurbineGovernorDataList();
 		}
-		return getStudyCase().getTransientSimlation().getDynamicDataList().
-		getBusDynDataList().getTurbineGovernorDataList();
-	}
-	public TurbineGovernorXmlType addNewTurbineGovernor(){
-		return getTurbineGovernorDataList().addNewTurbineGovernor();
+		return tranSimu.getDynamicDataList().getBusDynDataList().getTurbineGovernorDataList();
 	}
 	
-	public StabilizerDataListXmlType getPSSDataList(){
-		if(getStudyCase().getTransientSimlation().getDynamicDataList().
+	public TurbineGovernorXmlType addNewTurbineGovernor(TransientSimulationXmlType tranSimu){
+		return getTurbineGovernorDataList(tranSimu).addNewTurbineGovernor();
+	}
+	
+	public StabilizerDataListXmlType getPSSDataList(TransientSimulationXmlType tranSimu){
+		if(tranSimu.getDynamicDataList().
 				getBusDynDataList().getStabilizerDataList()==null){
-			getStudyCase().getTransientSimlation().getDynamicDataList().
-			getBusDynDataList().addNewStabilizerDataList();
+			tranSimu.getDynamicDataList().getBusDynDataList().addNewStabilizerDataList();
 		}
-		return getStudyCase().getTransientSimlation().getDynamicDataList().
-		getBusDynDataList().getStabilizerDataList();
+		return tranSimu.getDynamicDataList().getBusDynDataList().getStabilizerDataList();
 	}
-	public StabilizerXmlType addNewStablilizerGovernor(){
-		return getPSSDataList().addNewStabilizer();
+	
+	public StabilizerXmlType addNewStablilizerGovernor(TransientSimulationXmlType tranSimu){
+		return getPSSDataList(tranSimu).addNewStabilizer();
 	}
 	
 	
-	public LoadCharacteristicXmlType addNewLoad(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList().
+	public LoadCharacteristicXmlType addNewLoad(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList().
 		    getBusDynDataList().getLoadCharacteristicDataList().addNewLoad();
 	}
-	
-	
 	
 	public PSSNetworkXmlType.TieLineList getTielineList(){
 		if(getStudyCase().getBaseCase().getTieLineList()==null){
@@ -299,54 +309,60 @@ public class IEEEODMPSSModelParser {
 		return getDCLineBranchList().addNewDcLineBranch();		
 	}
 	
-	public ZeroSequenceDataListXmlType.GeneratorZeroList.GeneratorZero addNewGenZero(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	public ZeroSequenceDataListXmlType.GeneratorZeroList.GeneratorZero addNewGenZero(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getZeroSequenceDataList().
 		       getGeneratorZeroList().addNewGeneratorZero();
 	}
-	public ZeroSequenceDataListXmlType.LineZeroList.LineZero addNewLineZero(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	
+	public ZeroSequenceDataListXmlType.LineZeroList.LineZero addNewLineZero(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getZeroSequenceDataList()
 		.getLineZeroList().addNewLineZero();
 	}
-	public ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero addNewMutualZero(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	
+	public ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero addNewMutualZero(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getZeroSequenceDataList()
 		.getMutualImpedanceZeroList().addNewMutualImpedanceZero();
 	}
-	public ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero addNewShuntLoadZero(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	
+	public ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero addNewShuntLoadZero(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getZeroSequenceDataList()
 		.getShuntLoadZeroList().addNewShuntLoadZero();
 	}
-	public ZeroSequenceDataListXmlType.SwitchShuntedZeroList.SwitchShuntedZeroType addNewSwitchShuntZero(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	
+	public ZeroSequenceDataListXmlType.SwitchShuntedZeroList.SwitchShuntedZeroType addNewSwitchShuntZero(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getZeroSequenceDataList()
 		.getSwitchShuntedZeroList().addNewSwitchShuntedZeroType();
 	}
-	public ZeroSequenceDataListXmlType.XfrZeroList.XfrZero addNewXfrZero(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	
+	public ZeroSequenceDataListXmlType.XfrZeroList.XfrZero addNewXfrZero(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getZeroSequenceDataList()
 		.getXfrZeroList().addNewXfrZero();
 	}
-	public PostiveSequenceDataListXmlType.GeneratorPostiveList.GerneratorPostive addNewGenPos(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	
+	public PostiveSequenceDataListXmlType.GeneratorPostiveList.GerneratorPostive addNewGenPos(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getPostiveSequenceDataList().getGeneratorPostiveList()
 		.addNewGerneratorPostive();
 	}
-	public NegativeSequenceDataListXmlType.GeneratorNegativeList.GeneratorNegative addNewGenNeg(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	
+	public NegativeSequenceDataListXmlType.GeneratorNegativeList.GeneratorNegative addNewGenNeg(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getNegativeSequenceDataList().getGeneratorNegativeList()
 		.addNewGeneratorNegative();
 	}
-	public NegativeSequenceDataListXmlType.ShuntLoadNegativeList.ShuntLoadNegative addNewShuntLoadNeg(){
-		return getStudyCase().getTransientSimlation().getDynamicDataList()
+	
+	public NegativeSequenceDataListXmlType.ShuntLoadNegativeList.ShuntLoadNegative addNewShuntLoadNeg(TransientSimulationXmlType tranSimu){
+		return tranSimu.getDynamicDataList()
 		.getSequenceDataList().getNegativeSequenceDataList().getShuntLoadNegativeList()
 		.addNewShuntLoadNegative();
 	}
-	/**
-	 * convert the document object to an XML string
-	 */
+
 	public String toXmlDoc(boolean addXsi) {
 		 if (addXsi)
 			 return this.doc.xmlText(ODMData2XmlHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", 

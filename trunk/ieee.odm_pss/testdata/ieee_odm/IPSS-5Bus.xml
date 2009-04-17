@@ -3,13 +3,13 @@
   <pss:id>InterPSS-5Bus-Sample-System</pss:id>
   <pss:schemaVersion>V1.00</pss:schemaVersion>
   <pss:originalFormat>IEEE-ODM-PSS</pss:originalFormat>
-  <pss:analysisCategory>Loadflow</pss:analysisCategory>
-  <pss:networkCategory>Transmission</pss:networkCategory>
   <pss:baseCase>
     <pss:nvPairList></pss:nvPairList>
     <pss:id>Base-Case</pss:id>
-    <pss:baseKva>100.0</pss:baseKva>
-    <pss:baseKvaUnit>MVA</pss:baseKvaUnit>
+    <pss:networkCategory>Transmission</pss:networkCategory>
+    <pss:analysisCategory>Loadflow</pss:analysisCategory>
+    <pss:basePower>100.0</pss:basePower>
+    <pss:basePowerUnit>MVA</pss:basePowerUnit>
     <pss:busList>
     	<pss:bus>
     		<pss:name>Bus-1 138.0 KV</pss:name>

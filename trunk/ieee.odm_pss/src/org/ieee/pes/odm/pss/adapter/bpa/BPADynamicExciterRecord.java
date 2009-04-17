@@ -72,7 +72,7 @@ public class BPADynamicExciterRecord {
     	}
     	
     	if(type==EA||type==EC||type==EK){
-    		ExciterXmlType exc=parser.addNewExciter();
+    		ExciterXmlType exc=parser.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1968_TYPE_1);
     		ExciterModelListXmlType.IEEE1968Type1 type1968= exc.
     		                       addNewExciterModel().addNewIEEE1968Type1();
@@ -144,7 +144,7 @@ public class BPADynamicExciterRecord {
     		
     		//EXDC2
     	}else if(type==FA){
-    		ExciterXmlType exc=parser.addNewExciter();
+    		ExciterXmlType exc=parser.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2);
     		ExciterModelListXmlType.IEEETypeDC2 exc_dc2= exc.addNewExciterModel().addNewIEEETypeDC2();
 			//busId
@@ -199,7 +199,7 @@ public class BPADynamicExciterRecord {
 			
 			// IEEE 1981 ST1
     	}else if(type==FK){
-    		ExciterXmlType exc=parser.addNewExciter();
+    		ExciterXmlType exc=parser.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_ST_1);
     		ExciterModelListXmlType.IEEE1981ST1 exc_st1= exc.addNewExciterModel().addNewIEEE1981ST1();
 			//busId
@@ -256,7 +256,7 @@ public class BPADynamicExciterRecord {
 			
 			
     	}else if(type==FJ){
-    		ExciterXmlType exc=parser.addNewExciter();
+    		ExciterXmlType exc=parser.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.BPAFJ);
     		ExciterModelListXmlType.BPAFJ BPAFJ= exc.addNewExciterModel().addNewBPAFJ();
 			//busId
@@ -295,7 +295,7 @@ public class BPADynamicExciterRecord {
 			double Vrmin= StringUtil.getDouble(strAry[14], 0.0);
 			ODMData2XmlHelper.setPUData(BPAFJ.addNewVRMIN(), Vrmin, PerUnitXmlType.Unit.PU);
     	}else if(type==FQ||type==FV){
-    		ExciterXmlType exc=parser.addNewExciter();
+    		ExciterXmlType exc=parser.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_NEW_EXC_SYSTEM);
     		ExciterModelListXmlType.IEEE1981NewExcSystem newExc=exc.addNewExciterModel().addNewIEEE1981NewExcSystem();
     		
@@ -370,7 +370,7 @@ public class BPADynamicExciterRecord {
 			
 			
     	}else if(type==FF){
-    		ExciterXmlType exc=parser.addNewExciter();
+    		ExciterXmlType exc=parser.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2);
     		ExciterModelListXmlType.IEEE1981TypeAC2 newExc=exc.addNewExciterModel().addNewIEEE1981TypeAC2();
     		

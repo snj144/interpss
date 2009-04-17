@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
@@ -36,6 +37,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
@@ -95,10 +97,10 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
 		parser.getStudyCase().setAdapterProviderVersion("1.00");
 
-		parser.getStudyCase().setAnalysisCategory(
-				StudyCaseXmlType.AnalysisCategory.LOADFLOW);
-		parser.getStudyCase().setNetworkCategory(
-				StudyCaseXmlType.NetworkCategory.TRANSMISSION);
+		parser.getStudyCase().getBaseCase().setAnalysisCategory(
+				AnalysisCategoryEnumType.LOADFLOW);
+		parser.getStudyCase().getBaseCase().setNetworkCategory(
+				NetworkCategoryEnumType.TRANSMISSION);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();

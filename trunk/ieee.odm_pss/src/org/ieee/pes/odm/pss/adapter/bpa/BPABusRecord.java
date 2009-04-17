@@ -84,7 +84,7 @@ public class BPABusRecord {
 		
 		//zone name
 		final String zoneName= strAry[5];
-		busRec.setZone(zoneName);
+		busRec.setZoneNumber(new Integer(zoneName).intValue());
 		
 		//****************busRec.setZone(arg0)
 		
@@ -335,7 +335,7 @@ public class BPABusRecord {
 		DCLineBusRecordXmlType.Converter converter= dcBus.addNewConverter();
 		// set converter bus id
 		converter.addNewBusId().setName(converterBus);
-		converter.setZone(zone);
+		converter.setZoneNumber(new Integer(zone).intValue());
 		// set converter ac side voltage
 		ODMData2XmlHelper.setVoltageData(converter.addNewAcSideRatedVoltage(), 
 				converterACSideVoltage, VoltageXmlType.Unit.KV);

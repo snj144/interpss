@@ -54,24 +54,29 @@
 						<annotation>
 							<documentation>Base case power network data for power system simulation purpose</documentation>
 						</annotation></element>
-					<element name="modificationList" type="pss:ModifyRecordListXmlType" minOccurs="0" maxOccurs="1">
+					<element name="modificationList" minOccurs="0" maxOccurs="1">
 						<annotation>
 							<documentation>Modifications to be applied to the base case. Also, modification could be defined at the study scenaio level</documentation>
-						</annotation></element>
-					<element name="scenarioList" type="pss:ScenarioListXmlType" minOccurs="0" maxOccurs="1">
+						</annotation>
+						<complexType>
+							<sequence>
+								<element name="modification" type="pss:ModifyRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+							</sequence>
+						</complexType></element>
+					<element name="scenarioList" minOccurs="0" maxOccurs="1">
 						<annotation>
 							<documentation>A study case might include a list of study scenarios, for example, Loadflow study, SC study ...</documentation>
-						</annotation></element>
+						</annotation>
+						<complexType>
+							<sequence>
+								<element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+							</sequence>
+						</complexType></element>
 
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
-	<complexType name="ModifyRecordListXmlType">
-		<sequence>
-			<element name="modifyRec" type="pss:ModifyRecordXmlType" minOccurs="0" maxOccurs="unbounded"></element>
-		</sequence>
-	</complexType>
 
 	<complexType name="ModifyRecordXmlType">
 		<complexContent>
@@ -79,11 +84,6 @@
 		</complexContent>
 	</complexType>
 
-	<complexType name="ScenarioListXmlType">
-		<sequence>
-			<element name="scenario" type="pss:ScenarioXmlType" minOccurs="0" maxOccurs="unbounded"></element>
-		</sequence>
-	</complexType>
 	<complexType name="ScenarioXmlType">
         <annotation>
         	<documentation>for define a study scenario. In addtion to the modification defined at the StudyCase level, modification can be also defined 
@@ -92,16 +92,9 @@ at each scenario level</documentation>
         <complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="analysisCategory" minOccurs="1" maxOccurs="1">
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="Loadflow"></enumeration>
-								<enumeration value="ShortCircuit"></enumeration>
-								<enumeration value="TransientStability"></enumeration>
-							</restriction>
-						</simpleType>
+					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType">
 					</element>
-					<element name="modifcationList" type="pss:ModifyRecordListXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="modifcationList" type="string" minOccurs="0" maxOccurs="1"></element>
 					<element name="transientSimlation" type="pss:TransientSimulationXmlType" maxOccurs="1" minOccurs="0"></element>
 				</sequence>
 			</extension>
@@ -150,7 +143,7 @@ at each scenario level</documentation>
 					</sequence>
 				</complexType>
 			</element>
-			<element name="dynamicDataList" type="string" maxOccurs="1" minOccurs="1"></element>
+			<element name="dynamicDataList" type="pss:DynamicDataListXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="outPutSetting" maxOccurs="1" minOccurs="0">
 				<complexType></complexType>
 			</element>

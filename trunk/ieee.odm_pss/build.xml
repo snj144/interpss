@@ -1,4 +1,4 @@
-<project name="ieee.odm_pss" default="" basedir=".">
+<project name="ieee.odm_pss" default="copy_schema" basedir=".">
 
 	<!-- Initializing the environment -->
 	<target name="init" depends="">

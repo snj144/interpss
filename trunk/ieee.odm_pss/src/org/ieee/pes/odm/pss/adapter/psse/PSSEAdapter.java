@@ -26,7 +26,9 @@ package org.ieee.pes.odm.pss.adapter.psse;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
@@ -53,10 +55,10 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
 		parser.getStudyCase().setAdapterProviderVersion("1.00");
 
-		parser.getStudyCase().setAnalysisCategory(
-				StudyCaseXmlType.AnalysisCategory.LOADFLOW);
-		parser.getStudyCase().setNetworkCategory(
-				StudyCaseXmlType.NetworkCategory.TRANSMISSION);
+		parser.getStudyCase().getBaseCase().setAnalysisCategory(
+				AnalysisCategoryEnumType.LOADFLOW);
+		parser.getStudyCase().getBaseCase().setNetworkCategory(
+				NetworkCategoryEnumType.TRANSMISSION);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		// no space is allowed for ID field
