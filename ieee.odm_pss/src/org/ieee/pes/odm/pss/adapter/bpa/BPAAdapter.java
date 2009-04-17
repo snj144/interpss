@@ -27,7 +27,11 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
@@ -64,19 +68,19 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				StudyCaseXmlType.OriginalFormat.BPA);
 		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
 		parser.getStudyCase().setAdapterProviderVersion("1.00");
-		parser.getStudyCase().setNetworkCategory(
-				StudyCaseXmlType.NetworkCategory.TRANSMISSION);
+		parser.getStudyCase().getBaseCase().setNetworkCategory(
+				NetworkCategoryEnumType.TRANSMISSION);
 		
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		
 		
 		if(str.equals("loadflow")){
-			parser.getStudyCase().setAnalysisCategory(
-					StudyCaseXmlType.AnalysisCategory.LOADFLOW);
+			parser.getStudyCase().getBaseCase().setAnalysisCategory(
+					AnalysisCategoryEnumType.LOADFLOW);
 			baseCaseNet.setId("Base_Case_from_BPA_loadflow_format");			
 		}else if(str.equals("transient")){
-			parser.getStudyCase().setAnalysisCategory(
-					StudyCaseXmlType.AnalysisCategory.TRANSIENT_STABILITY);
+			parser.getStudyCase().getBaseCase().setAnalysisCategory(
+					AnalysisCategoryEnumType.TRANSIENT_STABILITY);
 			baseCaseNet.setId("Base_Case_from_BPA_transient_format");
 		}
 		
@@ -85,8 +89,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		int areaId=1;// used to arrange a number to each area 
 		
 		// read both power flow and transient data
-		if(parser.getStudyCase().getAnalysisCategory().
-				equals(StudyCaseXmlType.AnalysisCategory.TRANSIENT_STABILITY)){
+		if(parser.getStudyCase().getBaseCase().getAnalysisCategory().
+				equals(AnalysisCategoryEnumType.TRANSIENT_STABILITY)){
 			TransientSimulationXmlType tranSimu= parser.getTransientSimlation();
 			do{
 				str = din.readLine();
@@ -144,8 +148,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 					parser,this);
 			
 	    // read power flow data only
-		}else if(parser.getStudyCase().getAnalysisCategory().
-				equals(StudyCaseXmlType.AnalysisCategory.LOADFLOW)){
+		}else if(parser.getStudyCase().getBaseCase().getAnalysisCategory().
+				equals(AnalysisCategoryEnumType.LOADFLOW)){
 			do{
 				str = din.readLine();					
 				if(!str.trim().equals("(END)")&&!str.trim().equals("(STOP)")){
@@ -254,7 +258,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		
 	
 		if(str.trim().startsWith("A")||str.trim().startsWith("AC")){	
-			PSSNetworkXmlType.AreaList.Area area=parser.addNewBaseCaseArea();
+			NetAreaXmlType area=parser.addNewBaseCaseArea();
 			
 			
 			
@@ -292,7 +296,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
             	int cnt=0, i=0;            	
            while((!strAry[6].substring(i, i+2).equals(""))&& i+2<=Str6length){            		
             		s[cnt]=strAry[6].trim().substring(i, i+2);            		
-            		PSSNetworkXmlType.AreaList.Area.ZoneList.Zone zone= area.getZoneList().addNewZone();
+            		NetZoneXmlType zone= area.getZoneList().addNewZone();
             		zone.setZoneName(s[cnt]);
             		
             		String zoneRanking =new  Integer(areaId).toString()+ new Integer(zoneId++).toString();            		
@@ -313,7 +317,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			}
 			if(!strAry[2].trim().equals("")){
 				String areaName=strAry[2];
-				PSSNetworkXmlType.AreaList.Area area=ODMData2XmlHelper.
+				NetAreaXmlType area=ODMData2XmlHelper.
 				                                 getAreaRecordByAreaName(areaName, baseCaseNet);
 				if(area==null){
 					area.setAreaName(areaName);
@@ -344,9 +348,9 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				exchangePower= new Double(strAry[4]).doubleValue();				
 			}			
 			if(!fBus.equals("")&& exchangePower!=0){				
-				PSSNetworkXmlType.AreaList.Area area=ODMData2XmlHelper.
+				NetAreaXmlType area=ODMData2XmlHelper.
 				getAreaRecordByAreaName(fBus, baseCaseNet);	
-				PSSNetworkXmlType.AreaList.Area.ExchangePower exchange=area.addNewExchangePower();
+				NetAreaXmlType.ExchangePower exchange=area.addNewExchangePower();
 				exchange.setToArea(tBus);
 				ODMData2XmlHelper.setPowerData(exchange.addNewExchangePower(),
      			    exchangePower, 0, PowerXmlType.Unit.MVA);				

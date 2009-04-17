@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
@@ -35,6 +36,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
@@ -76,10 +79,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
 		parser.getStudyCase().setAdapterProviderVersion("1.00");
 
-		parser.getStudyCase().setAnalysisCategory(
-				StudyCaseXmlType.AnalysisCategory.LOADFLOW);
-		parser.getStudyCase().setNetworkCategory(
-				StudyCaseXmlType.NetworkCategory.TRANSMISSION);
+		parser.getStudyCase().getBaseCase().setAnalysisCategory(
+				AnalysisCategoryEnumType.LOADFLOW);
+		parser.getStudyCase().getBaseCase().setNetworkCategory(
+				NetworkCategoryEnumType.TRANSMISSION);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
@@ -213,8 +216,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//Columns 21-23   Loss zone number [I]
 		final String areaNo = strAry[2];
 		final String zoneNo = strAry[3];
-		busRec.setArea(areaNo);
-		busRec.setZone(zoneNo);
+		busRec.setAreaNumber(new Integer(areaNo).intValue());
+		busRec.setZoneNumber(new Integer(zoneNo).intValue());
 
 		//Columns 77-83   Base kV [F]
 		double baseKv = new Double(strAry[11]).doubleValue();
@@ -341,8 +344,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final String areaNo = strAry[2];
 		final String zoneNo = strAry[3];
 		final String cirId = strAry[4];
-		branchRec.setArea(areaNo);
-		branchRec.setZone(zoneNo);
+		branchRec.setAreaNumber(new Integer(areaNo).intValue());
+		branchRec.setZoneNumber(new Integer(zoneNo).intValue());
 		branchRec.setCircuitId(cirId);
 
 		branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));
@@ -496,7 +499,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	 */
 
 	private void processLossZoneData(final String str,
-			final PSSNetworkXmlType.LossZoneList.LossZone lossZone) {
+			final NetZoneXmlType lossZone) {
 		final String[] strAry = getLossZoneDataFields(str);
 
 		//    	Columns  1- 3   Loss zone number [I] *

@@ -37,6 +37,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LengthXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
@@ -92,15 +93,15 @@ public class BPABranchRecord {
 						tieLine.addNewNonMeteredBus().setName(tid);	
 						
 						BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
-						busRecFrom.getZone();
-						PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+						busRecFrom.getZoneNumber();
+						NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getAreaName());
 						
 						BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
-						busRecTo.getZone();
-						PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+						busRecTo.getZoneNumber();
+						NetAreaXmlType areaTo=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getAreaName());
 						// to do: set area number
 						
@@ -109,18 +110,18 @@ public class BPABranchRecord {
 
 						tieLine.addNewMeteredBus().setName(tid);
 						tieLine.addNewNonMeteredBus().setName(fid);					
-						ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZone();
+						ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZoneNumber();
 						
 						BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
-						busRecFrom.getZone();
-						PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+						busRecFrom.getZoneNumber();
+						NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getAreaName());
 						
 						BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
-						busRecTo.getZone();
-						PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+						busRecTo.getZoneNumber();
+						NetAreaXmlType areaTo=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getAreaName());						
 					}
 				}catch (final Exception e){
@@ -247,15 +248,15 @@ public class BPABranchRecord {
 						tieLine.addNewNonMeteredBus().setName(tid);	
 						
 						BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
-						busRecFrom.getZone();
-						PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+						busRecFrom.getZoneNumber();
+						NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getAreaName());
 						
 						BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
-						busRecTo.getZone();
-						PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+						busRecTo.getZoneNumber();
+						NetAreaXmlType areaTo=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getAreaName());
 						// to do: set area number
 						
@@ -264,18 +265,18 @@ public class BPABranchRecord {
 
 						tieLine.addNewMeteredBus().setName(tid);
 						tieLine.addNewNonMeteredBus().setName(fid);					
-						ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZone();
+						ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZoneNumber();
 						
 						BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
-						busRecFrom.getZone();
-						PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+						busRecFrom.getZoneNumber();
+						NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getAreaName());
 						
 						BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
-						busRecTo.getZone();
-						PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+						busRecTo.getZoneNumber();
+						NetAreaXmlType areaTo=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getAreaName());						
 					}
 				}catch (final Exception e){
@@ -392,31 +393,31 @@ public class BPABranchRecord {
 					tieLine.addNewNonMeteredBus().setName(tid);	
 						
 					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);						
-					PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-						 getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+					NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						 getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getAreaName());
 						
 					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);						
-					PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-						 getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+					NetAreaXmlType areaTo=ODMData2XmlHelper.
+						 getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getAreaName());					
 				}else{
 					PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
 
 					tieLine.addNewMeteredBus().setName(tid);
 					tieLine.addNewNonMeteredBus().setName(fid);					
-					ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZone();
+					ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZoneNumber();
 						
 					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
-					busRecFrom.getZone();
-					PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-						 getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+					busRecFrom.getZoneNumber();
+					NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						 getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getAreaName());
 						
 					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
-					busRecTo.getZone();
-					PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-						 getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+					busRecTo.getZoneNumber();
+					NetAreaXmlType areaTo=ODMData2XmlHelper.
+						 getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getAreaName());					
 				}					
 			}catch (final Exception e) {
@@ -734,20 +735,14 @@ public class BPABranchRecord {
 					tieLine.addNewNonMeteredBus().setName(inverterBus);	
 					
 					DCLineBusRecordXmlType busRecFrom=ODMData2XmlHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
-					if(busRecFrom.getConverter().getZone()!=null){
-						PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecFrom.getConverter().getZone(), baseCaseNet);
-											
-						tieLine.setMeteredArea(areaFrom.getAreaName());
-					}
+					NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecFrom.getConverter().getZoneNumber(), baseCaseNet);
+					tieLine.setMeteredArea(areaFrom.getAreaName());
 					DCLineBusRecordXmlType busRecTo=ODMData2XmlHelper.getDCLineBusRecord(inverterBus, baseCaseNet);
 										
-					if(busRecTo.getConverter().getZone()!=null){
-						
-						PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-						  getAreaRecordByZone(busRecTo.getConverter().getZone(), baseCaseNet);
-						tieLine.setNonMeteredArea(areaTo.getAreaName());
-					}
+					NetAreaXmlType areaTo=ODMData2XmlHelper.
+						  getAreaRecordByZone(busRecTo.getConverter().getZoneNumber(), baseCaseNet);
+					tieLine.setNonMeteredArea(areaTo.getAreaName());
 					
 					
 					// to do: set area number
@@ -757,18 +752,18 @@ public class BPABranchRecord {
 
 					tieLine.addNewMeteredBus().setName(inverterBus);
 					tieLine.addNewNonMeteredBus().setName(rectifierBus);					
-					ODMData2XmlHelper.getBusRecord(rectifierBus, baseCaseNet).getZone();
+					ODMData2XmlHelper.getBusRecord(rectifierBus, baseCaseNet).getZoneNumber();
 					
 					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(inverterBus, baseCaseNet);
-					busRecFrom.getZone();
-					PSSNetworkXmlType.AreaList.Area areaFrom=ODMData2XmlHelper.
-					  getAreaRecordByZone(busRecFrom.getZone(), baseCaseNet);
+					busRecFrom.getZoneNumber();
+					NetAreaXmlType areaFrom=ODMData2XmlHelper.
+					  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getAreaName());
 					
 					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(inverterBus, baseCaseNet);
-					busRecTo.getZone();
-					PSSNetworkXmlType.AreaList.Area areaTo=ODMData2XmlHelper.
-					  getAreaRecordByZone(busRecTo.getZone(), baseCaseNet);
+					busRecTo.getZoneNumber();
+					NetAreaXmlType areaTo=ODMData2XmlHelper.
+					  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getAreaName());						
 				}
 			}catch (final Exception e){
