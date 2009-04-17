@@ -7,6 +7,7 @@ import java.io.OutputStream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -66,12 +67,23 @@ public class ClosestLimit {
 		List<Integer> busL =Arrays.asList(20,29); // need perfect for NO 29,30 bus  
 		List<Integer> buslist =new ArrayList<Integer>(busL);
 		
+		Iterator<Integer> it = buslist.iterator();
+         while(it.hasNext()) {
+			 int idx=it.next();
+			 AclfBus objbus =(AclfBus) objnet.getBusList().get(idx);
+			 if(!objbus.isLoad()){
+			 print("the bus ,index of buslist _"+idx+" _is not a loadbus");
+             it.remove();
+			 }
+		 }
 		int Numofbus =buslist.size();
 		// specify the load increase direction 
 		
 		
 		//double[] Pele={}
-		//double[] Qele{}	
+		//double[] Qele={}
+		//Matrix dirp =new Matrix(Pele,Pele.length());
+		//Matrix dirq =new Matrix(Qele,Qele.length());
 		Matrix dirp = ones(Numofbus,1).times(3); // Dimensions should be matched with buslist
 		Matrix dirq = ones(Numofbus,1).times(1);
 		// Normalization of the direction dirp and dirq
@@ -164,7 +176,7 @@ public class ClosestLimit {
 			        busP0= new Matrix(n,1),
 			        busQ0= new Matrix(n,1),
 	               deltaP= new Matrix(n,1),
-		           deltaQ= new Matrix(n,1),
+		           GenP0 = new Matrix(n,1),
 			         oldP= new Matrix(n,1),
 			         oldQ= new Matrix(n,1),
 			            g= new Matrix(n,1),
@@ -186,9 +198,7 @@ public class ClosestLimit {
 			 Matrix  scant =new Matrix(n,1); // get the scant by the two near piont in PV 
 			 
 			double sumofdeltaP =0,
-			       sumofdeltaQ =0,
-			       sumofGenP=0,
-			       sumofGenQ=0;
+			       sumofGenP=0;      
 			 // define the tolerance
 			 double tol=0.001; //e-3
 			 Matrix delta_dir =new Matrix(n,1); 
@@ -204,20 +214,14 @@ public class ClosestLimit {
 		         // change it to true when getting the critical point 
 			  
 			 double findCLtimes =0;
-			 
-			
 
-			 
-			   // 0. 初始化负荷增长方向 ， P+jQ 形式方向增长转换成G+jB形式
-			 
-		        // 0. 对常规恒定功率因素，两者是一致的
-		 
+			  /* 0. 初始化负荷增长方向 ， P+jQ 形式方向增长转换成G+jB形式
+			   * 对常规恒定功率因素，两者是一致的
+			   * 以后须特别考虑对恒定有功或无功
+			   */
 		        dir_g =dir_p.copy();
 		        dir_b =dir_q.copy();
 		        
-		        // 1.4.2对恒定有功或无功，须特别考虑
-		        
-			 
 
 //……………………………………1 获得初始的负荷导纳……………………………………………………………………
 		 for (int idx:buslist) {
@@ -253,73 +257,65 @@ public class ClosestLimit {
 			      B+=shunt.getImaginary();
 			      
 			      objbus.setShuntY(new Complex(G,B));  // 
-			      }
-				  
-			  // 1.3   对不是load bus 的不再后面的负荷等效中考虑
-	                  
-			   else {
-				   print("the bus of buslist"+idx+"is not a loadbus");
-                   buslist.remove(id);
-			       }
-			   
-		     }    // end of for-loop 
-		 print("g0");
-		 printMatrix(g0);
-		 
-		 
-		    // save the normal operation point
+			      }	   
+		  }    // end of for-loop 
+		 //print("g0");
+		 //printMatrix(g0);
+
+		    // save the normal operation point 
 		   busP0 =busP.copy();
 		   busQ0 =busQ.copy();
 		   busV0 =busV.copy();
+		   // initialize the oldV;
+		   oldV= busV.copy;
 		   
-	 // ………………………………get the closest limit …………………………………………………………       
+		    // get the sum p and q of GENs
+		   for (Bus bus:net.getBusList()){
+		    	 AclfBus thisbus =(AclfBus) bus;
+		    	 int id =0;
+		    	 if(thisbus.isGenPV()||thisbus.isGenPQ()){
+		    	    double genp =thisbus.getGenP();
+		    	    GenP0.set(id,0,genp);
+		    		sumofGenP+=genp;
+                    id++;
+		    	 }
+		    }
+  
+// ………………………………get the closest limit …………………………………………………………       
    do{	  
-		   	 findCLtimes++;
-		   	print( "………………findCLtimes"+findCLtimes);
-		      	   
-		 
+		  findCLtimes++;
+		  print( "………………findCLtimes"+findCLtimes);
 
 //…………………………………… 2 Calculate the critical condition of a certain direction
 			 //注意目前暂不考虑存在节点Q或P 为 恒定 情况 
-
-		int count =0;
-	
-	    
-        loop1:// 第一层循环标志
- do{
+	  int count =0;
+      loop1:// 第一层循环标志
+        do{
 			  // 迭代次数标志
 			    count++;
 		    	print("    count =  "+count);
 
 		      //2.1 由循环增加导纳（此处为恒功率模型）
 		
-		     // increase load power in the dir_g and dir_b
+		      // increase load power in the dir_g and dir_b
 		       print("   lambda = "+lambda);
 		       g =g0.plus (dir_g.times(lambda)); // increase by lambda 
 		       b= b0.minus(dir_b.times(lambda));//注意此处的减法运算，为导纳模型的特点
 		       
 		      // get the sum of load power increment ，save them to sumofdeltaP and sumofdeltaQ respectively;
-		       //计算总的负荷功率增量
+		      //计算总的负荷功率增量
 		  /*     
 			  Matrix V2 =oldV.arrayTimes(oldV);
 			  deltaP= dir_g.times(delta).arrayTimes(V2);
 
 		      sumofdeltaP =sumOfElement(deltaP);
-		      sumofdeltaQ =sumOfElement(deltaQ);
-		      // get the sum p and q of GENs
-		      for (Bus bus:net.getBusList()){
-		    	  AclfBus thisbus =(AclfBus) bus;
-		    	  if(thisbus.isGen()||thisbus.isSwing()){
-		    		  sumofGenP+=thisbus.getGenP();
+		     
 
-		    	  }
-		       }
 		       // dispatch the load increment to GENs that still have power margin;
 		      for (Bus bus:net.getBusList()){
 		    	  AclfBus thisbus =(AclfBus) bus;
 		    	  if(thisbus.isGenPQ()||thisbus.isGenPV()){
 		    		  double genp =thisbus.getGenP();
- 
 		    		  genp +=sumofdeltaP*genp/sumofGenP;
 		    		  // if there is a Plimit ,here we should compare genP with Plimit first to decide the next step;
 		    		  thisbus.setGenP(genp);
@@ -344,10 +340,9 @@ public class ClosestLimit {
 			        }  // end of for-loop
 			   
 			   //2.2 计算潮流
-			      loadflow(net,msg);
-			
-		       
-			   //2.3.   得到每一次迭代后潮流的结果
+			    loadflow(net,msg);
+
+			   //2.3.   得到负荷增加后的潮流的结果
 			    for (int idx:buslist) {
 					   AclfBus objbus=(AclfBus) net.getBusList().get(idx);
 					   int id = buslist.indexOf(idx);
@@ -379,21 +374,21 @@ public class ClosestLimit {
 							     print("have to minize the step length ");
 							     break; //get out of this for-loop 
 						     }// end the inner if
-						  else{
-							print("bus :"+objbus.getName()+" get the critical point first");
-							print("this step new v="+v1);
-							print("this step new p="+ newp);
-							print("this step new q="+ newq);
-							print("last step old v="+ v);
-							print("the critical p ="+ p);
-							print("the critical q ="+ q);
+						    else{
+							   
+						         print("bus :"+objbus.getName()+" get the critical point first");
+							     print("this step new v="+v1);
+							     print("this step new p="+ newp);
+							     print("this step new q="+ newq);
+							     print("last step old v="+ v);
+							     print("the critical p ="+ p);
+							     print("the critical q ="+ q);
 							
-							print("result:");
-							
-                           // printMatrix(oldP);
-                           // printMatrix(oldQ);
-                           // printMatrix(oldV);
-							break loop1; // get the critical point and exit loop1 
+							    // print("result:");
+                                // printMatrix(oldP);
+                                // printMatrix(oldQ);
+                                // printMatrix(oldV);
+							    break loop1; // get the critical point and exit loop1 
 						    }
 				       } //end the outer if
 					   
@@ -401,9 +396,10 @@ public class ClosestLimit {
 					   busQ.set(id, 0, newq);
 					   busV.set(id, 0,  v1);
 						
-					print("bus  "+objbus.getId()+  "  load: p+jq    "+newp+"  +j*"+newq+"\n");
+					   print("bus  "+objbus.getId()+  "  load: p+jq    "
+							   +newp+"  +j*"+newq+"\n");
 					
-		         } // end of this for-loop
+		        } // end of this for-loop (get the loadflow result)
 			    
 			    if(flag ==false){ // 未达到极限点，保存新的功率和电压
 			         oldP=busP.copy();
@@ -416,36 +412,33 @@ public class ClosestLimit {
 			   // call the min(Matrix a) to the get the largest number ;
 			   print( "and flag is :"+ flag);
 
-			    
-			     if(flag ==false&&interpolation==false ){  // 未达到pv nose, 以正常方式确定步长调整量
+			   if(flag ==false&&interpolation==false ){  // 未达到pv nose, 以正常方式确定步长调整量
 			        delta = min(scant); // scant 为 各负荷节点 V对P的 变化量的倒数最小值（即PV曲线斜率的倒数）
 			        print("delta=" +delta);
 			            if (delta> 1) delta =0.3;
 			            else if (delta>0.5) delta =0.1;
 			            else delta =0.05;
-			        }
+			   }
 
-			     if (flag==true){   // flag =true  get the PV near-nose 
+			   if (flag==true){   // flag =true  get the PV near-nose 
 			    	 
 			    	 lambda=lambda-delta;   // the first time get pv nose ,then  back to where higher than the oldP  now in PV curve
 			    	 delta =delta/2;// smallest step length;
 			    	 if (delta<0.001) delta=0.001;
 			    	 interpolation=true;
 			    	
-		            }
-			     // update the 
-			       lambda +=delta;
+		       }
+			  // update the 
+			   lambda +=delta;
 			       
-			       // 重新检验极限点
-	               flag=false;
-	               print("^……………………………………………………………………");
+			   // reset the flag to defult, to search the critical piont in next step
+	           flag=false;
+	           print("^……………………………………………………………………");
 		
-		      }while (count<20);  // for the while-loop;
-		
-		
-		
+	   }while (count<20);  // for the while-loop;
+
 		//返回Pcr与 P0的距离
-		 double Length = oldP.minus(busP0).normF();
+		double Length = oldP.minus(busP0).normF();
 		print("the Length from P0 to Pcr: "+Length);
 		
    // 2.5 把负荷等效回P+jQ形式，使得网络参数YMatrix与负荷等效前一致,考查当前极限点Jacobi 的情况
@@ -463,7 +456,7 @@ public class ClosestLimit {
 //………………………………3.  get the next step power increase direction…………………………………………
 	    SparseEqnMatrix2x2 S = 
 			        net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, msg);
-	     Matrix jacobi =Sparse2Matrix(net,S);
+	    Matrix jacobi =Sparse2Matrix(net,S);
 	     
       //printMatrix(jacobi);
       // jacobi.print(jacobi.getColumnDimension(), 3);
@@ -494,7 +487,7 @@ public class ClosestLimit {
 		//print("the new dir_q");
 		//printMatrix(dir_q);
 		
-		// 重新从busP0 、busQ0 状态开始负荷增长
+		// 重新从busP0 、busQ0 状态开始负荷增长，发电机应置对应的初值状态
 		for(int idx:buslist){
 			AclfBus objbus =(AclfBus) net.getBusList().get(idx);
 			int id =buslist.indexOf(idx);
@@ -502,7 +495,15 @@ public class ClosestLimit {
 			objbus.setLoadQ(busQ0.get(id, 0));
 			
 		}
-	
+		
+		for(Bus bus:net.getBusList()){
+			    AclfBus thisbus =(AclfBus) bus;
+			    int id =0;
+			    if(thisbus.isGenPV()||thisbus.isGenPQ()){
+			    	 thisbus.setGenP(GenP0.get(id,0));
+	                 id++;
+			    }
+		}
 		
 		// 定义收敛的条件 ：最近两次的增长方向接近程度满足要求
 		//以方向差的模来定义
@@ -537,9 +538,10 @@ public class ClosestLimit {
 			 flag =false;
 			 interpolation =false;
 			print("change back to normal operation condition");
-		 }
+	   }
+	   else break; // get out of the outter loop 
 		 
-	 }while(findCLtimes<5);//findCLtimes<10
+  }while(findCLtimes<10);//findCLtimes<10
 	 
 	 print("get the closest limit");
 	 
