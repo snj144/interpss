@@ -11,7 +11,6 @@
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
 
-
 	<complexType name="PSSNetworkXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
@@ -20,15 +19,7 @@
 
 					</element>
 					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
-					<element name="basePower" type="double" minOccurs="1" maxOccurs="1"></element>
-					<element name="basePowerUnit" minOccurs="1" maxOccurs="1">
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="KVA"></enumeration>
-								<enumeration value="MVA"></enumeration>
-							</restriction>
-						</simpleType>
-					</element>
+					<element name="basePower" type="pss:BasePowerXmlType" minOccurs="1" maxOccurs="1"></element>
 					<element name="areaList" maxOccurs="1" minOccurs="0">
 						<complexType>
 							<sequence>

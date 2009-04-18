@@ -136,7 +136,7 @@ public class BPADynamicGeneratorRecord {
 								
 				double Emws=StringUtil.getDouble(strAry[4], 0.0);
 				
-				double MvaBase=StringUtil.getDouble(strAry[7], baseCaseNet.getBasePower());
+				double MvaBase=StringUtil.getDouble(strAry[7], baseCaseNet.getBasePower().getValue());
 				
 				subTranGen.setBasePower(MvaBase);
 				subTranGen.setBasePowerUnit(SubTransientMachineXmlType.BasePowerUnit.MVA);
@@ -242,7 +242,7 @@ public class BPADynamicGeneratorRecord {
 				if(!strAry[7].equals("")){
 					MvaBase=new Double(strAry[7]).doubleValue();
 				}else {
-					MvaBase=baseCaseNet.getBasePower();
+					MvaBase=baseCaseNet.getBasePower().getValue();
 				}
 				tranGen.setBasePower(MvaBase);
 				tranGen.setBasePowerUnit(TransientMachineXmlType.BasePowerUnit.MVA);
@@ -343,7 +343,7 @@ public class BPADynamicGeneratorRecord {
 				if(!strAry[7].equals("")){
 					MvaBase=new Double(strAry[7]).doubleValue();
 				}else {
-					MvaBase=baseCaseNet.getBasePower();
+					MvaBase=baseCaseNet.getBasePower().getValue();
 				}
 				double h=0.0;
 				if(Emws!=0.0){

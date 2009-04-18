@@ -447,7 +447,7 @@ public class ODMData2XmlHelper {
 	 * @param unit
 	 */
 	public static void setAngleData(AngleXmlType angle, double a, AngleXmlType.Unit.Enum unit) {
-    	angle.setAngle(a);
+    	angle.setValue(a);
     	angle.setUnit(unit);		
 	}
 	public static void setTimeData(CycleXmlType time, double t, TimeXmlType.Unit.Enum unit){
