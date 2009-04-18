@@ -33,9 +33,7 @@ import java.io.File;
 import org.apache.xmlbeans.XmlException;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
@@ -183,7 +181,7 @@ public class IEEEODMPSSModelParser {
 	 * 
 	 * @return
 	 */
-	public DCLineBusListXmlType getDCLineBusList(){
+	public PSSNetworkXmlType.DcLineList.DcLineBusList getDCLineBusList(){
 		if(getStudyCase().getBaseCase().getDcLineList()==null){
 			getStudyCase().getBaseCase().addNewDcLineList();			
 		}
@@ -195,7 +193,9 @@ public class IEEEODMPSSModelParser {
 	}
 	
 	public DCLineBusRecordXmlType addNewBaseCaseDCLineBus() {
-		return  getDCLineBusList().addNewDcLineBus();				
+		DCLineBusRecordXmlType dcLineBus =  getDCLineBusList().addNewDcLineBus();
+		dcLineBus.addNewConverter().addNewData();
+		return dcLineBus;
 	}
 	
 	/**
@@ -203,7 +203,7 @@ public class IEEEODMPSSModelParser {
 	 * 
 	 * @return
 	 */
-	public DCLineBranchListXmlType getDCLineBranchList(){
+	public PSSNetworkXmlType.DcLineList.DcLineBranchList getDCLineBranchList(){
 		if(getStudyCase().getBaseCase().getDcLineList()==null){
 			getStudyCase().getBaseCase().addNewDcLineList();
 		}
@@ -214,7 +214,9 @@ public class IEEEODMPSSModelParser {
 	}
 	
 	public DCLineBranchRecordXmlType addNewBaseCaseDCLineBranch() {
-		return getDCLineBranchList().addNewDcLineBranch();		
+		DCLineBranchRecordXmlType dcLineBranch = getDCLineBranchList().addNewDcLineBranch();
+		dcLineBranch.addNewData();
+		return dcLineBranch;
 	}
 	
 	public String toXmlDoc(boolean addXsi) {

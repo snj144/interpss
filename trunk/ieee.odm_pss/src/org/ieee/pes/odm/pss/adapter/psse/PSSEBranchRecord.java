@@ -54,7 +54,7 @@ public class PSSEBranchRecord {
 		branchRec.setCircuitId(cirId);
 		branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));
 		
-		LoadflowBranchDataXmlType branchData=branchRec.addNewLoadflowBranchData();	
+		LoadflowBranchDataXmlType branchData=branchRec.addNewLoadflowData();	
 		
         //      Branch resistance R, per unit  *
 		//      Branch reactance X, per unit  * No zero impedance lines
@@ -126,7 +126,7 @@ public class PSSEBranchRecord {
 		branchRec.setCircuitId(cirId);		
 		
 		branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));
-		branchRec.addNewLoadflowBranchData();
+		branchRec.addNewLoadflowData();
 		
 		//get r x b
 		final int CZ = new Integer(strAry[5]).intValue();	
@@ -170,7 +170,7 @@ public class PSSEBranchRecord {
     	   return;
        }	
 		//SET XFORMER R X G B 
-       ODMData2XmlHelper.setXformerData(branchRec.getLoadflowBranchData(),
+       ODMData2XmlHelper.setXformerData(branchRec.getLoadflowData(),
 			       rpu, xpu, ZXmlType.Unit.PU, gpu, bpu, 0.0, 0.0,	YXmlType.Unit.PU);		
 		
 		int CW = new Integer(strAry[4]).intValue();
@@ -191,9 +191,9 @@ public class PSSEBranchRecord {
 			f_ratio = WINDV1*1000.0 / systemBaseV;
        		t_ratio = WINDV2*1000.0 /systemBaseV;
 		}
-		branchRec.getLoadflowBranchData().getXformerData()
+		branchRec.getLoadflowData().getXformerData()
 		.setFromTurnRatio(f_ratio);
-		branchRec.getLoadflowBranchData().getXformerData()
+		branchRec.getLoadflowData().getXformerData()
 		.setFromTurnRatio(t_ratio);
 		
 		//     MVA rating No 1 
@@ -202,7 +202,7 @@ public class PSSEBranchRecord {
 		final double rating1Mvar = new Double(strAry[26]).doubleValue();
 		final double rating2Mvar = new Double(strAry[27]).doubleValue();
 		final double rating3Mvar = new Double(strAry[28]).doubleValue();
-		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowBranchData(),
+		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowData(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.MVA, 0.0,
 				null);
@@ -223,7 +223,7 @@ public class PSSEBranchRecord {
 		
 		VoltageXmlType.Unit.Enum vUnit =fromBusRec.getBaseVoltage().getUnit();
 		if(NOMV1==0 && NOMV2==0){vUnit=VoltageXmlType.Unit.KV;}
-		ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowBranchData().getXformerData(),
+		ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
 				fromRatedV, toRatedV, vUnit);	
 		
 		
@@ -243,11 +243,11 @@ public class PSSEBranchRecord {
   		
   		if (ANG1 != 0.0 || COD == 3 || COD == -3){
    			ODMData2XmlHelper.setPhaseShiftXfrData(branchRec
-					.getLoadflowBranchData(), rpu, xpu, ZXmlType.Unit.PU,
+					.getLoadflowData(), rpu, xpu, ZXmlType.Unit.PU,
 					0.0, bpu, 0.0, 0.0, YXmlType.Unit.PU);
-			branchRec.getLoadflowBranchData().getPhaseShiftXfrData()
+			branchRec.getLoadflowData().getPhaseShiftXfrData()
 					.setFromTurnRatio(f_ratio);
-			ODMData2XmlHelper.setAngleData(branchRec.getLoadflowBranchData()
+			ODMData2XmlHelper.setAngleData(branchRec.getLoadflowData()
 					.getPhaseShiftXfrData().addNewFromAngle(), ANG1,
 					AngleXmlType.Unit.DEG);
   			 }
@@ -300,7 +300,7 @@ public class PSSEBranchRecord {
 		
 
   		if (Math.abs(COD) ==1 || Math.abs(COD)==2 ) {	
-			TransformerDataXmlType.TapAdjustment tapAdj = branchRec.getLoadflowBranchData().getXformerData()
+			TransformerDataXmlType.TapAdjustment tapAdj = branchRec.getLoadflowData().getXformerData()
 						.addNewTapAdjustment();
 	        ODMData2XmlHelper.setLimitData(tapAdj.addNewTapLimit(), maxTapAng,
 			minTapAng);
@@ -331,7 +331,7 @@ public class PSSEBranchRecord {
   		    // MW control      phase shifter
   		else if (Math.abs(COD)  == 3){
   			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec
-				.getLoadflowBranchData().getPhaseShiftXfrData()
+				.getLoadflowData().getPhaseShiftXfrData()
 				.addNewAngleAdjustment();
   			ODMData2XmlHelper.setLimitData(angAdj.addNewAngleDegLimit(), maxTapAng,
 				minTapAng);

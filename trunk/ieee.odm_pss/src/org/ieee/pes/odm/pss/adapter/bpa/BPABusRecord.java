@@ -27,10 +27,11 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
@@ -161,7 +162,7 @@ public class BPABusRecord {
 		
 		if(loadMw != 0.0 || loadMvar != 0.0||pGen!=0.0||qGenOrQGenMax!=0.0
 				||vMinOrAngDeg!=0.0||pGenMax!=0.0){
-			LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
+			LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 			// set G B
 			if (g != 0.0 || b != 0.0) {
 				ODMData2XmlHelper.setYData(busData.addNewShuntY(), g, b,
@@ -195,7 +196,7 @@ public class BPABusRecord {
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
 					ODMData2XmlHelper.setGenQLimitData(busData.getGenData(), 
-							qGenOrQGenMax, qGenMin, GenDataXmlType.QGenLimit.QLimitUnit.MVAR);				
+							qGenOrQGenMax, qGenMin, LoadflowGenDataXmlType.QGenLimit.QLimitUnit.MVAR);				
 				}
 				// set P limit
 				if(pGenMax!=0.0){
@@ -246,7 +247,7 @@ public class BPABusRecord {
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
 					ODMData2XmlHelper.setGenQLimitData(busData.getGenData(), 
-							qGenOrQGenMax, qGenMin, GenDataXmlType.QGenLimit.QLimitUnit.MVAR);				
+							qGenOrQGenMax, qGenMin, LoadflowGenDataXmlType.QGenLimit.QLimitUnit.MVAR);				
 				}
 				// set P limit
 				if(pGenMax!=0.0){
@@ -332,33 +333,33 @@ public class BPABusRecord {
 			commutatingBusDCSideVol= new Double(strAry[13]).doubleValue();
 		}
 		
-		DCLineBusRecordXmlType.Converter converter= dcBus.addNewConverter();
+		ConverterXmlType converter= dcBus.addNewConverter();
 		// set converter bus id
 		converter.addNewBusId().setName(converterBus);
-		converter.setZoneNumber(new Integer(zone).intValue());
+		converter.getData().setZoneNumber(new Integer(zone).intValue());
 		// set converter ac side voltage
-		ODMData2XmlHelper.setVoltageData(converter.addNewAcSideRatedVoltage(), 
+		ODMData2XmlHelper.setVoltageData(converter.getData().addNewAcSideRatedVoltage(), 
 				converterACSideVoltage, VoltageXmlType.Unit.KV);
 		// bridges
-		converter.setNumberofBridges(brdgsPerBrckt);
+		converter.getData().setNumberofBridges(brdgsPerBrckt);
 		// set smooth reactor
-		ODMData2XmlHelper.setZValue(converter.addNewSmoothingReactor(),
+		ODMData2XmlHelper.setZValue(converter.getData().addNewSmoothingReactor(),
 				0.0, smoothReactance, ZXmlType.Unit.OHM);
 		//set min firing angle as a converter
-		ODMData2XmlHelper.setAngleData(converter.addNewRectifierMinFiringAngle(),
+		ODMData2XmlHelper.setAngleData(converter.getData().addNewRectifierMinFiringAngle(),
 				converterMinFiringAngle, AngleXmlType.Unit.DEG);
 		//set max firing angle as a inverter
-		ODMData2XmlHelper.setAngleData(converter.addNewInverterMaxFiringAngle(),
+		ODMData2XmlHelper.setAngleData(converter.getData().addNewInverterMaxFiringAngle(),
 				inverterMaxFiringAngle, AngleXmlType.Unit.DEG);
 		// set valve voltage drop
-		ODMData2XmlHelper.setVoltageData(converter.addNewValveDropVoltage(), 
+		ODMData2XmlHelper.setVoltageData(converter.getData().addNewValveDropVoltage(), 
 				valveDropVoltage, VoltageXmlType.Unit.VOLT);
 		// set current rating
-		ODMData2XmlHelper.setCurrentData(converter.addNewBridgeRatedCurrent(), 
+		ODMData2XmlHelper.setCurrentData(converter.getData().addNewBridgeRatedCurrent(), 
 				brdgesCurrentRating, CurrentXmlType.Unit.AMP);
 		// set commutating station bus and DC side voltage
-		converter.addNewConmmutationStationBus().setName(commutatingBus);
-	    ODMData2XmlHelper.setVoltageData(converter.addNewDcSdieRatedV(),
+		converter.getData().addNewConmmutationStationBus().setName(commutatingBus);
+	    ODMData2XmlHelper.setVoltageData(converter.getData().addNewDcSdieRatedV(),
 	    		commutatingBusDCSideVol, VoltageXmlType.Unit.KV);
 	}
 	

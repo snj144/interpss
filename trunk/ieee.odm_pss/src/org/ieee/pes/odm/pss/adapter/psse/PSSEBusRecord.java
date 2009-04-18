@@ -27,8 +27,8 @@ import java.util.StringTokenizer;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -61,7 +61,7 @@ public class PSSEBusRecord {
 		
 		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageXmlType.Unit.KV);
 
-		LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
+		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 	
 		/* bus type identifier IDE
 			1 - load bus (no generator boundary condition)
@@ -122,7 +122,7 @@ public class PSSEBusRecord {
 	    	return;
 	    }
 
-	    LoadflowBusDataXmlType lfData = busRec.getLoadflowBusData();
+	    LoadflowBusDataXmlType lfData = busRec.getLoadflowData();
 	    if (lfData.getLoadData().getContributeLoadList() == null) {  // there may be multiple load records on a bus
 	    	lfData.getLoadData().addNewContributeLoadList();
 	    }
@@ -178,11 +178,11 @@ public class PSSEBusRecord {
         	return;
         }
 				
-	    if (busRec.getLoadflowBusData().getGenData().getContributeGenList() == null) {  // there may be multiple contribute gen records on a bus
-	    	busRec.getLoadflowBusData().getGenData().addNewContributeGenList();
+	    if (busRec.getLoadflowData().getGenData().getContributeGenList() == null) {  // there may be multiple contribute gen records on a bus
+	    	busRec.getLoadflowData().getGenData().addNewContributeGenList();
 	    }
 	    
-	    LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowBusData().getGenData(); 
+	    LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData(); 
 	    LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen contriGen = 
 	    		genData.getContributeGenList().addNewContributeGen();
 		
@@ -236,14 +236,14 @@ public class PSSEBusRecord {
 				ODMData2XmlHelper.setLimitData(contriGen.getGen().getVGenLimit()
 						.addNewVLimit(), max, min);
 				contriGen.getGen().getVGenLimit().setVLimitUnit(
-						GenDataXmlType.VGenLimit.VLimitUnit.PU);
+						LoadflowGenDataXmlType.VGenLimit.VLimitUnit.PU);
 			}
 			else if (genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
 				contriGen.getGen().addNewQGenLimit();
 				ODMData2XmlHelper.setLimitData(contriGen.getGen().getQGenLimit()
 						.addNewQLimit(), max, min);
 				contriGen.getGen().getQGenLimit().setQLimitUnit(
-						GenDataXmlType.QGenLimit.QLimitUnit.MVAR);
+						LoadflowGenDataXmlType.QGenLimit.QLimitUnit.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(ODMData2XmlHelper.getBusRecord(busId, baseCaseNet).getId())) {
 					contriGen.getGen().addNewDesiredRemoteVoltage();

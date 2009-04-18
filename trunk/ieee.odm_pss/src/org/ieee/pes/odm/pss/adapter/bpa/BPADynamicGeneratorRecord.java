@@ -405,7 +405,7 @@ public class BPADynamicGeneratorRecord {
 				GeneratorModelListXmlType.EquiGenUnit equiGen=gen.addNewGeneratorModel().addNewEquiGenUnit();
 				BusRecordXmlType busRec=ODMData2XmlHelper.getBusRecord(bus1, baseCaseNet);
 				if(busRec!=null){
-					double pGen=busRec.getLoadflowBusData().getGenData().
+					double pGen=busRec.getLoadflowData().getGenData().
 					              getGen().getPower().getP();
 					equiGen.setEquiPgen(pGen);
 					equiGen.setPGenUnit(GeneratorModelListXmlType.EquiGenUnit.PGenUnit.MVA);					

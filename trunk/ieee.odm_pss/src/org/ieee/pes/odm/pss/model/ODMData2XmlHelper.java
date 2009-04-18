@@ -29,16 +29,17 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CycleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
@@ -160,10 +161,10 @@ public class ODMData2XmlHelper {
 	 * @param baseCaseNet
 	 * @return
 	 */
-	public static DCLineBusRecordXmlType.Converter getConverterRecord(String name, PSSNetworkXmlType baseCaseNet) {
+	public static ConverterXmlType getConverterRecord(String name, PSSNetworkXmlType baseCaseNet) {
 		for (DCLineBusRecordXmlType dcLine : 
 			baseCaseNet.getDcLineList().getDcLineBusList().getDcLineBusArray()) {
-			DCLineBusRecordXmlType.Converter converter= dcLine.getConverter();
+			ConverterXmlType converter= dcLine.getConverter();
 			if (name.equals(converter.getBusId().getName()))
 				return converter;
 		}
@@ -511,7 +512,7 @@ public class ODMData2XmlHelper {
 	 * @param unit
 	 */
 	public static void setGenQLimitData(LoadflowBusDataXmlType.GenData genData,  
-			double max, double min, GenDataXmlType.QGenLimit.QLimitUnit.Enum unit) {
+			double max, double min, LoadflowGenDataXmlType.QGenLimit.QLimitUnit.Enum unit) {
 		genData.getGen().addNewQGenLimit();
 		ODMData2XmlHelper.setLimitData(genData.getGen().getQGenLimit()
 				.addNewQLimit(), max, min);
