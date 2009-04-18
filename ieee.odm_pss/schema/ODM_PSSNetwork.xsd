@@ -36,8 +36,18 @@
 							</sequence>
 						</complexType>
 					</element>
-					<element name="busList" type="pss:BusRecordListXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="branchList" type="pss:BranchRecordListXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="busList" minOccurs="1" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="bus" type="pss:BusRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+							</sequence>
+						</complexType></element>
+					<element name="branchList" minOccurs="1" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="branch" type="pss:BranchRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+							</sequence>
+						</complexType></element>
 					<element name="lossZoneList" minOccurs="0">
 						<complexType>
 							<sequence>
@@ -113,7 +123,24 @@
 						</complexType>
 					</element>
 
-					<element name="dcLineList" type="pss:DCLineListXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="dcLineList" maxOccurs="1" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="dcLineBusList" maxOccurs="1" minOccurs="0">
+									<complexType>
+										<sequence>
+											<element name="dcLineBus" type="pss:DCLineBusRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+										</sequence>
+									</complexType>
+								</element>
+								<element name="dcLineBranchList" minOccurs="0" maxOccurs="1">
+									<complexType>
+										<sequence>
+											<element name="dcLineBranch" type="pss:DCLineBranchRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+										</sequence>
+									</complexType></element>
+							</sequence>
+						</complexType></element>
 				</sequence>
 			</extension>
 		</complexContent>

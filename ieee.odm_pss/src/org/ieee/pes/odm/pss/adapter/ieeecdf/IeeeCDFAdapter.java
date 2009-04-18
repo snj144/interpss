@@ -32,9 +32,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
@@ -226,7 +226,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		}
 		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageXmlType.Unit.KV);
 
-		LoadflowBusDataXmlType busData = busRec.addNewLoadflowBusData();
+		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 		//Columns 25-26   Type [I] *
 		//		0 - Unregulated (load, PQ)
 		//		1 - Hold MVAR generation within voltage limits, (gen, PQ)
@@ -299,10 +299,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				ODMData2XmlHelper.setLimitData(busData.getGenData().getGen().getVGenLimit()
 						.addNewVLimit(), max, min);
 				busData.getGenData().getGen().getVGenLimit().setVLimitUnit(
-						GenDataXmlType.VGenLimit.VLimitUnit.PU);
+						LoadflowGenDataXmlType.VGenLimit.VLimitUnit.PU);
 			} else if (type == 2) {
 				ODMData2XmlHelper.setGenQLimitData(busData.getGenData(),  
-						max, min, GenDataXmlType.QGenLimit.QLimitUnit.MVAR);
+						max, min, LoadflowGenDataXmlType.QGenLimit.QLimitUnit.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
 					busData.getGenData().getGen().addNewDesiredRemoteVoltage();
@@ -349,7 +349,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		branchRec.setCircuitId(cirId);
 
 		branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));
-		branchRec.addNewLoadflowBranchData();
+		branchRec.addNewLoadflowData();
 
 		//    	Column  19      Type [I] *
 		//      0 - Transmission line
@@ -366,7 +366,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double xpu = new Double(strAry[7]).doubleValue();
 		final double bpu = new Double(strAry[8]).doubleValue();
 		if (type == 0) {
-			ODMData2XmlHelper.setLineData(branchRec.getLoadflowBranchData(), rpu, xpu,
+			ODMData2XmlHelper.setLineData(branchRec.getLoadflowData(), rpu, xpu,
 					ZXmlType.Unit.PU, 0.0, bpu, YXmlType.Unit.PU);
 		}
 
@@ -377,15 +377,15 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double angle = new Double(strAry[15]).doubleValue();
 		if (type > 0) {
 			if (angle == 0.0) {
-				ODMData2XmlHelper.setXformerData(branchRec.getLoadflowBranchData(),
+				ODMData2XmlHelper.setXformerData(branchRec.getLoadflowData(),
 						rpu, xpu, ZXmlType.Unit.PU, 0.0, bpu, 0.0, 0.0,
 						YXmlType.Unit.PU);
-				branchRec.getLoadflowBranchData().getXformerData()
+				branchRec.getLoadflowData().getXformerData()
 						.setFromTurnRatio(ratio);
 				BusRecordXmlType fromBusRec = ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
 				BusRecordXmlType toBusRec = ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
-					ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowBranchData().getXformerData(),
+					ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
 							fromBusRec.getBaseVoltage().getVoltage(), 
 							toBusRec.getBaseVoltage().getVoltage(), 
 							fromBusRec.getBaseVoltage().getUnit());				
@@ -395,17 +395,17 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				}
 			} else {
 				ODMData2XmlHelper.setPhaseShiftXfrData(branchRec
-						.getLoadflowBranchData(), rpu, xpu, ZXmlType.Unit.PU,
+						.getLoadflowData(), rpu, xpu, ZXmlType.Unit.PU,
 						0.0, bpu, 0.0, 0.0, YXmlType.Unit.PU);
-				branchRec.getLoadflowBranchData().getPhaseShiftXfrData()
+				branchRec.getLoadflowData().getPhaseShiftXfrData()
 						.setFromTurnRatio(ratio);
-				ODMData2XmlHelper.setAngleData(branchRec.getLoadflowBranchData()
+				ODMData2XmlHelper.setAngleData(branchRec.getLoadflowData()
 						.getPhaseShiftXfrData().addNewFromAngle(), angle,
 						AngleXmlType.Unit.DEG);
 				BusRecordXmlType fromBusRec = ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
 				BusRecordXmlType toBusRec = ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
-					ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowBranchData().getXformerData(),
+					ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
 							fromBusRec.getBaseVoltage().getVoltage(), 
 							toBusRec.getBaseVoltage().getVoltage(), 
 							fromBusRec.getBaseVoltage().getUnit());				
@@ -422,7 +422,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double rating1Mvar = new Integer(strAry[9]).intValue();
 		final double rating2Mvar = new Integer(strAry[10]).intValue();
 		final double rating3Mvar = new Integer(strAry[11]).intValue();
-		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowBranchData(),
+		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowData(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				LoadflowBranchDataXmlType.RatingLimit.MvaRatingUnit.MVA);
 
@@ -455,7 +455,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		if (type == 2 || type == 3) {
 			TransformerDataXmlType.TapAdjustment tapAdj = branchRec
-					.getLoadflowBranchData().getXformerData()
+					.getLoadflowData().getXformerData()
 					.addNewTapAdjustment();
 			ODMData2XmlHelper.setLimitData(tapAdj.addNewTapLimit(), maxTapAng,
 					minTapAng);
@@ -482,7 +482,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			}
 		} else if (type == 4) {
 			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec
-					.getLoadflowBranchData().getPhaseShiftXfrData()
+					.getLoadflowData().getPhaseShiftXfrData()
 					.addNewAngleAdjustment();
 			ODMData2XmlHelper.setLimitData(angAdj.addNewAngleDegLimit(), maxTapAng,
 					minTapAng);
