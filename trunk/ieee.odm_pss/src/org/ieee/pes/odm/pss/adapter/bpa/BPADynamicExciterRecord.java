@@ -24,7 +24,12 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterModelListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcBPAFJXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcIEEE1968Type1XmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcIEEE1981NewExcSystemXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcIEEE1981ST1XmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcIEEE1981TypeAC2XmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcIEEETypeDC2XmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
@@ -75,7 +80,7 @@ public class BPADynamicExciterRecord {
     	if(type==EA||type==EC||type==EK){
     		ExciterXmlType exc=TranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1968_TYPE_1);
-    		ExciterModelListXmlType.IEEE1968Type1 type1968= exc.
+    		ExcIEEE1968Type1XmlType type1968= exc.
     		                       addNewExciterModel().addNewIEEE1968Type1();
     		//busId
     		String busId=strAry[1];
@@ -147,7 +152,7 @@ public class BPADynamicExciterRecord {
     	}else if(type==FA){
     		ExciterXmlType exc=TranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2);
-    		ExciterModelListXmlType.IEEETypeDC2 exc_dc2= exc.addNewExciterModel().addNewIEEETypeDC2();
+    		ExcIEEETypeDC2XmlType exc_dc2= exc.addNewExciterModel().addNewIEEETypeDC2();
 			//busId
     		String busId=strAry[1];
 			exc.addNewLocatedBus().setName(busId);		
@@ -202,7 +207,7 @@ public class BPADynamicExciterRecord {
     	}else if(type==FK){
     		ExciterXmlType exc=TranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_ST_1);
-    		ExciterModelListXmlType.IEEE1981ST1 exc_st1= exc.addNewExciterModel().addNewIEEE1981ST1();
+    		ExcIEEE1981ST1XmlType exc_st1= exc.addNewExciterModel().addNewIEEE1981ST1();
 			//busId
     		String busId=strAry[1];
 			exc.addNewLocatedBus().setName(busId);		
@@ -259,7 +264,7 @@ public class BPADynamicExciterRecord {
     	}else if(type==FJ){
     		ExciterXmlType exc=TranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.BPAFJ);
-    		ExciterModelListXmlType.BPAFJ BPAFJ= exc.addNewExciterModel().addNewBPAFJ();
+    		ExcBPAFJXmlType BPAFJ= exc.addNewExciterModel().addNewBPAFJ();
 			//busId
     		String busId=strAry[1];
 			exc.addNewLocatedBus().setName(busId);		
@@ -298,7 +303,7 @@ public class BPADynamicExciterRecord {
     	}else if(type==FQ||type==FV){
     		ExciterXmlType exc=TranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_NEW_EXC_SYSTEM);
-    		ExciterModelListXmlType.IEEE1981NewExcSystem newExc=exc.addNewExciterModel().addNewIEEE1981NewExcSystem();
+    		ExcIEEE1981NewExcSystemXmlType newExc=exc.addNewExciterModel().addNewIEEE1981NewExcSystem();
     		
 			//busId
     		String busId=strAry[1];
@@ -373,7 +378,7 @@ public class BPADynamicExciterRecord {
     	}else if(type==FF){
     		ExciterXmlType exc=TranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2);
-    		ExciterModelListXmlType.IEEE1981TypeAC2 newExc=exc.addNewExciterModel().addNewIEEE1981TypeAC2();
+    		ExcIEEE1981TypeAC2XmlType newExc=exc.addNewExciterModel().addNewIEEE1981TypeAC2();
     		
 			//busId
     		String busId=strAry[1];
@@ -554,7 +559,7 @@ public class BPADynamicExciterRecord {
         		
         	}else if(str.substring(0, 2).trim().equals("F+")){
         		
-        		ExciterModelListXmlType.IEEE1981NewExcSystem newExc=exc.
+        		ExcIEEE1981NewExcSystemXmlType newExc=exc.
         		                   getExciterModel().getIEEE1981NewExcSystem();        		
         		//VAMAX 
         		double Vamax= StringUtil.getDouble(strAry[4], 0.0);
