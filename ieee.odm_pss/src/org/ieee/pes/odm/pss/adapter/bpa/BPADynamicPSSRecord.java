@@ -25,6 +25,8 @@
 package org.ieee.pes.odm.pss.adapter.bpa;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PssIEE2STXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PssIEEEDualInputXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
@@ -46,17 +48,17 @@ public class BPADynamicPSSRecord {
     			||str.substring(0, 3).trim().equals("SG")){
     		StabilizerXmlType pss=TranStabSimuHelper.addNewStablilizerGovernor(tranSimu);
     		pss.setStabilizerType(StabilizerXmlType.StabilizerType.IEE_2_ST);
-    		StabilizerModelListXmlType.IEE2ST tstpss=pss.
+    		PssIEE2STXmlType tstpss=pss.
     		                     addNewStabilizerModel().addNewIEE2ST();
     		
     		if(str.substring(0, 3).trim().equals("SS")){
-    			tstpss.setFirstInputSignal(StabilizerModelListXmlType.IEE2ST.FirstInputSignal
+    			tstpss.setFirstInputSignal(PssIEE2STXmlType.FirstInputSignal
     					.ROTOR_SPEED_DEVIATION);    			                 
     		}else if(str.substring(0, 3).trim().equals("SP")){
-    			tstpss.setFirstInputSignal(StabilizerModelListXmlType.IEE2ST.FirstInputSignal
+    			tstpss.setFirstInputSignal(PssIEE2STXmlType.FirstInputSignal
     					.GENERATOR_ACCELERATING_POWER);
     		}else{
-    			tstpss.setFirstInputSignal(StabilizerModelListXmlType.IEE2ST.FirstInputSignal
+    			tstpss.setFirstInputSignal(PssIEE2STXmlType.FirstInputSignal
     					.GENERATOR_ELECTRICAL_POWER);
     		}
     		//busId
@@ -74,7 +76,7 @@ public class BPADynamicPSSRecord {
     		} 
     		// for local input mode, remote input is set to 0;
     		tstpss.setFirstRemoteBusId("0");
-    		tstpss.setSecondInputSignal(StabilizerModelListXmlType.IEE2ST.SecondInputSignal.X_0);
+    		tstpss.setSecondInputSignal(PssIEE2STXmlType.SecondInputSignal.X_0);
     		tstpss.setSecondRemoteBusId("0");
     		
     		pss.addNewMacId().setName(macId);
@@ -151,7 +153,7 @@ public class BPADynamicPSSRecord {
     	}else if(str.substring(0, 3).trim().equals("SI")){
     		StabilizerXmlType pss=TranStabSimuHelper.addNewStablilizerGovernor(tranSimu);
     		pss.setStabilizerType(StabilizerXmlType.StabilizerType.IEEE_DUAL_INPUT);
-    		StabilizerModelListXmlType.IEEEDualInput dualInputPss=pss.
+    		PssIEEEDualInputXmlType dualInputPss=pss.
     		                     addNewStabilizerModel().addNewIEEEDualInput();
     		
     		
@@ -222,15 +224,15 @@ public class BPADynamicPSSRecord {
     		int INP=StringUtil.getInt(strAry[17], 0);
     		    		
     		if(INP==0){
-    			dualInputPss.setFirstInputSignal(StabilizerModelListXmlType.IEEEDualInput
+    			dualInputPss.setFirstInputSignal(PssIEEEDualInputXmlType
     					.FirstInputSignal.ROTOR_SPEED_DEVIATION );
-    			dualInputPss.setSecondInputSignal(StabilizerModelListXmlType.IEEEDualInput
+    			dualInputPss.setSecondInputSignal(PssIEEEDualInputXmlType
     					.SecondInputSignal.GENERATOR_ACCELERATING_POWER);
     		}else if(INP==1){
-    			dualInputPss.setFirstInputSignal(StabilizerModelListXmlType.IEEEDualInput
+    			dualInputPss.setFirstInputSignal(PssIEEEDualInputXmlType
     					.FirstInputSignal.ROTOR_SPEED_DEVIATION );
     		}else if(INP==2){
-    			dualInputPss.setSecondInputSignal(StabilizerModelListXmlType.IEEEDualInput
+    			dualInputPss.setSecondInputSignal(PssIEEEDualInputXmlType
     					.SecondInputSignal.GENERATOR_ACCELERATING_POWER);
     		}
     		
@@ -245,7 +247,7 @@ public class BPADynamicPSSRecord {
     			macId=strAry[3];
     		}    		
     		StabilizerXmlType pss=ODMData2XmlHelper.getPSSRecord(tranSimu, busId, macId);
-    		StabilizerModelListXmlType.IEEEDualInput dualInputPss=pss
+    		PssIEEEDualInputXmlType dualInputPss=pss
                       .getStabilizerModel().getIEEEDualInput();
     		
     		
