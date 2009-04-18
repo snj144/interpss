@@ -224,11 +224,29 @@ public class PSSEXfrDataRec {
     	 	bra.setBranchCode(AclfBranchCode.XFORMER);
     		final XfrAdapter xfr = (XfrAdapter)bra.getAdapter(XfrAdapter.class);
     		
-	    	bra.setFlagWinding(this.cw);
-	    	bra.setFlagZ(this.cz);
-	    	bra.setFlagMagnetizing(this.cm);
-	    	bra.setMagG(this.mag1);
-	    	bra.setMagB(this.mag2);
+	    	/*
+			CM - The magnetizing admittance I/O code that defines the units in which MAG1
+				and MAG2 are specified: 1 for complex admittance in pu on system MVA base
+				and winding one bus voltage base; 2 for no load loss in watts and exciting current
+				in pu on winding one to two base MVA and winding one nominal voltage.
+				CM = 1 by default.
+			MAG1, MAG2 The magnetizing conductance and susceptance, respectively, in pu on system
+				MVA base and winding one bus voltage base when CM is 1; MAG1 is the no
+				load loss in watts and MAG2 is the exciting current in pu on winding one to
+				two base MVA (SBASE1-2) and winding one nominal voltage (NOMV1)
+				when CM is 2. MAG1 = 0.0 and MAG2 = 0.0 by default. For three-phase transformers
+				or three-phase banks of single phase transformers, the three-phase noload
+				loss should be entered.
+				When CM is 1 and a non-zero MAG2 is specified, MAG2 should be entered as
+				a negative quantity; when CM is 2 and a non-zero MAG2 is specified, MAG2
+				should always be entered as a positive quantity.
+	    	 */
+	    	if (this.cm == 1) {
+	    		xfr.setFromShuntY(new Complex(this.mag1, this.mag2), UnitType.PU, adjNet.getBaseKva());
+	    	}
+	    	else {
+	    		IpssLogger.getLogger().severe("PEES Xfr cm != 1, not implemented");
+	    	}
 	      	
 			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o1, this.f1));
 			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o2, this.f2));
@@ -239,18 +257,18 @@ public class PSSEXfrDataRec {
 	       		format : R1-2,X1-2,SBASE1-2
 	    	*/
 	       	bra.setMvaRating(this.sbase1_2);
-	       	if (bra.getFlagZ() == 1) {
+	       	if (this.cz == 1) {
 	       		// When CZ is 1, they are the resistance and reactance, respectively, in pu on 
 	       		// system base quantities; 
 	        	xfr.getAclfBranch().setZ(new Complex(this.r1_2,this.x1_2), msg);
 	       	}
-	       	else if (bra.getFlagZ() == 2) {
+	       	else if (this.cz == 2) {
 	       		// when CZ is 2, they are the resistance and reactance, respectively, in pu on 
 	       		// winding one to two base MVA (SBASE1-2) and winding one bus base voltage; 
 	       		double factor = adjNet.getBaseKva() / this.sbase1_2 / 1000.0;
 	       		xfr.getAclfBranch().setZ(new Complex(this.r1_2*factor,this.x1_2*factor), msg);
 	       	}
-	       	else if (bra.getFlagZ() == 3) {
+	       	else if (this.cz == 3) {
 	       		// when CZ is 3, R1-2 is the load loss in watts, and X1-2 is the impedance magnitude 
 	       		// in pu on winding one to two base MVA (SBASE1-2) and winding one bus base voltage.
 	       		double zpu = this.x1_2 * this.sbase1_2 * 1000.0 / adjNet.getBaseKva() ;
@@ -266,16 +284,18 @@ public class PSSEXfrDataRec {
 			format : WINDV2,NOMV2
 	  		 */
 	       	double f_ratio = 1.0, t_ratio = 1.0;
-	  		if (bra.getFlagWinding() == 1) {
+	  		if (this.cw == 1) {
 	       		// The winding one off-nominal turns ratio in pu of winding one bus base voltage
 	       		// when CW is 1; WINDV1 is 1.0 by default. 
 	        	f_ratio = this.windv1;
 	        	t_ratio = this.windv2;
 	       	}
-	       	else if (bra.getFlagWinding() == 2) {
+	       	else if (this.cw == 2) {
 	       		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
-	       		f_ratio = this.windv1*1000.0 / bra.getFromAclfBus().getBaseVoltage();
-	       		t_ratio = this.windv2*1000.0 / bra.getToAclfBus().getBaseVoltage();
+	       		if (this.nomv1 > 0)
+	       			f_ratio = this.windv1 * bra.getFromAclfBus().getBaseVoltage() / (this.nomv1*1000.0);
+	       		if (this.nomv2 > 0)
+	       			t_ratio = this.windv2 * bra.getToAclfBus().getBaseVoltage() / (this.nomv2*1000.0);
 	       	}
 	       	xfr.setFromTap(f_ratio, UnitType.PU);
 	       	xfr.setToTap(t_ratio, UnitType.PU); 
@@ -312,9 +332,14 @@ public class PSSEXfrDataRec {
           	bra.setContBusId(new Integer(this.cont).toString());
           	bra.setControlOnFromSide(onFromSide);
           	
-          	bra.setRmLimit(new LimitType(this.rma, this.rmi)); 
-          	bra.setVmLimit(new LimitType(this.vma, this.vmi)); 
+          	// tap adjust is always at the from side
+          	double factor = 1.0;
+	       	if (this.cw == 2 && this.nomv1 > 0)
+	       		factor = bra.getFromAclfBus().getBaseVoltage() / (this.nomv1*1000.0);
+	       	bra.setRmLimit(new LimitType(this.rma*factor, this.rmi*factor)); 
+          	bra.setVmLimit(new LimitType(this.vma*factor, this.vmi*factor)); 
           	bra.setAdjSteps(this.ntp);
+          	
           	bra.setLoadDropCZ(new Complex(this.cr,this.cx));
           	
           	bra.setXfrTableIdNumber(this.tab);
@@ -340,12 +365,6 @@ public class PSSEXfrDataRec {
 	      	adjNet.add3WXfrBranch(bra, iStr, jStr, kStr);
     	 	bra.setBranchCode(AclfBranchCode.W3_XFORMER);
     	 	
-	    	bra.setFlagWinding(this.cw);
-	    	bra.setFlagZ(this.cz);
-	    	bra.setFlagMagnetizing(this.cm);
-	    	bra.setMagG(this.mag1);
-	    	bra.setMagB(this.mag2);
-	      	
 			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o1, this.f1));
 			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o2, this.f2));
 			bra.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o3, this.f3));
@@ -356,18 +375,25 @@ public class PSSEXfrDataRec {
 	       	bra.setMvaRating3_1(this.sbase3_1);
 
 	       	bra.create2WBranches();
+	       	XfrAdapter fromXfr = (XfrAdapter)bra.getFromBranch().getAdapter(XfrAdapter.class);
+	    	if (this.cm == 1) {
+	    		fromXfr.setFromShuntY(new Complex(this.mag1, this.mag2), UnitType.PU, adjNet.getBaseKva());
+	    	}
+	    	else {
+	    		IpssLogger.getLogger().severe("PEES Xfr cm != 1, not implemented");
+	    	}
 
         	double rpu1_2=0.0, xpu1_2=0.0;
         	double rpu2_3=0.0, xpu2_3=0.0;
         	double rpu3_1=0.0, xpu3_1=0.0;
-	       	if (bra.getFlagZ() == 1) {
+	       	if (this.cz == 1) {
 	       		// When CZ is 1, they are the resistance and reactance, respectively, in pu on 
 	       		// system base quantities; 
 	        	rpu1_2 = this.r1_2;   xpu1_2 = this.x1_2;
 	        	rpu2_3 = this.r2_3;   xpu2_3 = this.x2_3;
 	        	rpu3_1 = this.r3_1;   xpu3_1 = this.x3_1;
 	       	}
-	       	else if (bra.getFlagZ() == 2) {
+	       	else if (this.cz == 2) {
 	       		// when CZ is 2, they are the resistance and reactance, respectively, in pu on 
 	       		// winding one to two base MVA (SBASE1-2) and winding one bus base voltage; 
 	       		double factor1_2 = adjNet.getBaseKva() / this.sbase1_2 / 1000.0;
@@ -377,7 +403,7 @@ public class PSSEXfrDataRec {
 	        	rpu2_3 = this.r2_3*factor3_1;   xpu2_3 = this.x2_3*factor3_1;
 	        	rpu3_1 = this.r3_1*factor2_3;   xpu3_1 = this.x3_1*factor2_3;
 	       	}
-	       	else if (bra.getFlagZ() == 3) {
+	       	else if (this.cz == 3) {
 	       		// when CZ is 3, R1-2 is the load loss in watts, and X1-2 is the impedance magnitude 
 	       		// in pu on winding one to two base MVA (SBASE1-2) and winding one bus base voltage.
 	       		double zpu = this.x1_2 * this.sbase1_2 * 1000.0 / adjNet.getBaseKva() ;
@@ -396,18 +422,18 @@ public class PSSEXfrDataRec {
 	       	bra.setZ(new Complex(rpu3_1, xpu3_1), new Complex(rpu1_2, xpu1_2), new Complex(rpu2_3, xpu2_3));
 	       	
 	       	double f_ratio = 1.0, t_ratio = 1.0, tert_ratio = 1.0;
-	  		if (bra.getFlagWinding() == 1) {
+	  		if (this.cw == 1) {
 	       		// The winding one off-nominal turns ratio in pu of winding one bus base voltage
 	       		// when CW is 1; WINDV1 is 1.0 by default. 
 	        	f_ratio = this.windv1;
 	        	t_ratio = this.windv2;
 	        	tert_ratio = this.windv3;
 	       	}
-	       	else if (bra.getFlagWinding() == 2) {
+	       	else if (this.cw == 2) {
 	       		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
-	       		f_ratio = this.windv1*1000.0 / bra.getFromBus().getBaseVoltage();
-	       		t_ratio = this.windv2*1000.0 / bra.getToBus().getBaseVoltage();
-	       		tert_ratio = this.windv3 == 0.0? 1.0 : this.windv3*1000.0 / bra.getTertiaryBus().getBaseVoltage();
+	       		f_ratio = this.windv1 * bra.getFromBus().getBaseVoltage() / (this.nomv1*1000.0);
+	       		t_ratio = this.windv2 * bra.getToBus().getBaseVoltage() / (this.nomv2*1000.0);
+	       		tert_ratio = this.windv3 == 0.0? 1.0 : this.windv3 * bra.getTertiaryBus().getBaseVoltage() / (this.nomv3*1000.0);
 	       	}
 	       	bra.setFromTap(f_ratio);
 	       	bra.setToTap(t_ratio); 	       	
@@ -416,7 +442,6 @@ public class PSSEXfrDataRec {
 	       	bra.setFromRatedVoltage(this.nomv1*1000.0);
         	bra.setToRatedVoltage(this.nomv2*1000.0);
         	bra.setTertRatedVoltage(this.nomv3*1000.0);
-
 		
         	if (this.ang1 != 0.0 || this.cod == 3 || this.cod == -3) {
         		// PhaseShifting transformer branch
@@ -472,9 +497,14 @@ public class PSSEXfrDataRec {
           	bra.setContBusId(new Integer(this.cont).toString());
           	bra.setControlOnFromSide(onFromSide);
           	
-          	bra.setRmLimit(new LimitType(this.rma, this.rmi)); 
-          	bra.setVmLimit(new LimitType(this.vma, this.vmi)); 
+          	// tap adjust is always at the from side
+          	double factor = 1.0;
+	       	if (this.cz == 2 && this.nomv1 > 0)
+	       		factor = bra.getFromBus().getBaseVoltage() / (this.nomv1*1000.0);
+          	bra.setRmLimit(new LimitType(this.rma*factor, this.rmi*factor)); 
+          	bra.setVmLimit(new LimitType(this.vma*factor, this.vmi*factor)); 
           	bra.setAdjSteps(this.ntp);
+          	
           	bra.setLoadDropCZ(new Complex(this.cr,this.cx));
           	
           	bra.setXfrTableIdNumber(this.tab);

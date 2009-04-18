@@ -27,9 +27,9 @@ package org.interpss.mapper.ieee_odm;
 import org.apache.commons.math.complex.Complex;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -72,14 +72,14 @@ public class ODMLoadflowDataMapperImpl {
 		aclfBus.setName(busRec.getName());
 		aclfBus.setStatus(!busRec.getOffLine());
 		aclfBus.setDesc(busRec.getDesc());
-		Area area = CoreObjectFactory.createArea(busRec.getArea(), adjNet);
+		Area area = CoreObjectFactory.createArea(busRec.getAreaNumber(), adjNet);
 		aclfBus.setArea(area);
-		Zone zone = CoreObjectFactory.createZone(busRec.getZone(), adjNet);
+		Zone zone = CoreObjectFactory.createZone(busRec.getZoneNumber(), adjNet);
 		aclfBus.setZone(zone);
 		aclfBus.setBaseVoltage(busRec.getBaseVoltage().getUnit()==VoltageXmlType.Unit.KV ?    // Base V unit [KV, Volt] 
 									busRec.getBaseVoltage().getVoltage()*1000.0	: busRec.getBaseVoltage().getVoltage());
-		if (busRec.getLoadflowBusData() != null) {
-			ODMLoadflowDataMapperImpl.setBusLoadflowData(busRec.getLoadflowBusData(), aclfBus, adjNet);
+		if (busRec.getLoadflowData() != null) {
+			ODMLoadflowDataMapperImpl.setBusLoadflowData(busRec.getLoadflowData(), aclfBus, adjNet);
 		}
 		return aclfBus;
 	}
@@ -90,12 +90,12 @@ public class ODMLoadflowDataMapperImpl {
 		adjNet.addBranch(aclfBranch, branchRec.getFromBus().getIdRef(), branchRec.getToBus().getIdRef());
 		aclfBranch.setName(branchRec.getName());
 		aclfBranch.setStatus(!branchRec.getOffLine());
-		Area area = CoreObjectFactory.createArea(branchRec.getArea(), adjNet);
+		Area area = CoreObjectFactory.createArea(branchRec.getAreaNumber(), adjNet);
 		aclfBranch.setArea(area);
-		Zone zone = CoreObjectFactory.createZone(branchRec.getZone(), adjNet);
+		Zone zone = CoreObjectFactory.createZone(branchRec.getZoneNumber(), adjNet);
 		aclfBranch.setZone(zone);
-		if (branchRec.getLoadflowBranchData() != null)
-			ODMLoadflowDataMapperImpl.setBranchLoadflowData( branchRec.getLoadflowBranchData(),	aclfBranch,	adjNet, msg);
+		if (branchRec.getLoadflowData() != null)
+			ODMLoadflowDataMapperImpl.setBranchLoadflowData( branchRec.getLoadflowData(),	aclfBranch,	adjNet, msg);
 		return aclfBranch;
 	}
 	
@@ -108,7 +108,7 @@ public class ODMLoadflowDataMapperImpl {
 		aclfBus.setVoltage(vpu, angRad);
 
 		if (busXmlData.getGenData() != null) {
-			GenDataXmlType genData = busXmlData.getGenData().getGen();
+			LoadflowGenDataXmlType genData = busXmlData.getGenData().getGen();
 			if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PQ) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus.getAdapter(PQBusAdapter.class);
