@@ -96,8 +96,8 @@ public class PSSESwitchedShuntDataRec {
 		shunt.setStatus(true);	
 		
 		shunt.setMode(this.modsw);
-		shunt.setVmax(this.vswhi);
-		shunt.setVmax(this.vswlo);
+		shunt.setVqmax(this.vswhi);
+		shunt.setVqmax(this.vswlo);
 		shunt.setRemoteBusNo(this.swrem);
 		shunt.setBinit(this.binit);
 		shunt.setRmpct(this.rmpct);

@@ -24,10 +24,11 @@
 
 package org.interpss.mapper.ieee_odm;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 import com.interpss.common.util.IpssLogger;
@@ -44,8 +45,8 @@ public class ODM2SimuCtxMapperImpl {
 	 */
 	public static boolean odm2SimuCtxMapping(IEEEODMPSSModelParser parser, SimuContext simuCtx) {
 		boolean noError = true;
-		if (parser.getStudyCase().getNetworkCategory() == StudyCaseXmlType.NetworkCategory.TRANSMISSION
-				&& parser.getStudyCase().getAnalysisCategory() == StudyCaseXmlType.AnalysisCategory.LOADFLOW) {
+		if (parser.getStudyCase().getBaseCase().getNetworkCategory() == NetworkCategoryEnumType.TRANSMISSION
+				&& parser.getStudyCase().getBaseCase().getAnalysisCategory() == AnalysisCategoryEnumType.LOADFLOW) {
 
 			PSSNetworkXmlType xmlNet = parser.getBaseCase();
 
