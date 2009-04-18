@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
-	xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1" xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
 	elementFormDefault="qualified">
 
-    <annotation>
-    	<documentation>Copyright www.interpss.org 2008</documentation>
-    </annotation>
-    <include schemaLocation="ODM_DataType.xsd"></include>
-    <include schemaLocation="ODM_DynamicDataType.xsd"></include>
-
+	<include schemaLocation="ODM_DataType.xsd"></include>
+	<include schemaLocation="ODM_DynamicModel.xsd"></include>
+	<include schemaLocation="ODM_RecordType.xsd"></include>
+	<include schemaLocation="ODM_ScenarioType.xsd"></include>
+
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008</documentation>
+	</annotation>
+
+
 	<complexType name="PSSNetworkXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType">
+					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType">
+
 					</element>
-                    <element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
-                    <element name="basePower" type="double" minOccurs="1" maxOccurs="1"></element>
+					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
+					<element name="basePower" type="double" minOccurs="1" maxOccurs="1"></element>
 					<element name="basePowerUnit" minOccurs="1" maxOccurs="1">
 						<simpleType>
 							<restriction base="string">
@@ -41,13 +44,15 @@
 							<sequence>
 								<element name="bus" type="pss:BusRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
 					<element name="branchList" minOccurs="1" maxOccurs="1">
 						<complexType>
 							<sequence>
 								<element name="branch" type="pss:BranchRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
 					<element name="lossZoneList" minOccurs="0">
 						<complexType>
 							<sequence>
@@ -138,35 +143,34 @@
 										<sequence>
 											<element name="dcLineBranch" type="pss:DCLineBranchRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 										</sequence>
-									</complexType></element>
+									</complexType>
+								</element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
+
 				</sequence>
 			</extension>
 		</complexContent>
-	</complexType>
+	</complexType>
 
-	
-    
-    <complexType name="DynamicDataListXmlType">
-    	<sequence>
-    		<element name="busDynDataList"
-    			type="pss:BusDynDataListXmlType" maxOccurs="1" minOccurs="0">
-    		</element>
-    		<element name="branchDynDataList"
-    			type="pss:BranchDynDataListXmlType" maxOccurs="1"
-    			minOccurs="0">
-    		</element>
-    		<element name="faultList" type="pss:FaultListXmlType"
-    			maxOccurs="1" minOccurs="0">
-    		</element>
-    		<element name="sequenceDataList" type="pss:SequenceDataListXmlType" maxOccurs="1" minOccurs="0"></element>
-    	</sequence>
-    </complexType>
-    
 
-    
-    					
+
+
+
+	<complexType name="DynamicDataListXmlType">
+		<sequence>
+			<element name="busDynDataList" type="pss:BusDynDataListXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="branchDynDataList" type="pss:BranchDynDataListXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="faultList" type="pss:FaultListXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="sequenceDataList" type="pss:SequenceDataListXmlType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+
+
+
+
+
 
 
 
