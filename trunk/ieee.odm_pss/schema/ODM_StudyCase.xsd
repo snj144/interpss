@@ -2,12 +2,15 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1" xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
 	elementFormDefault="qualified">
 
+	<include schemaLocation="ODM_DataType.xsd"></include>
+	<include schemaLocation="ODM_DynamicModel.xsd"></include>
+	<include schemaLocation="ODM_ScenarioType.xsd"></include>
+	<include schemaLocation="ODM_RecordType.xsd"></include>
 	<include schemaLocation="ODM_PSSNetwork.xsd"></include>
+
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
-	<include schemaLocation="ODM_DataType.xsd"></include>
-	<include schemaLocation="ODM_DynamicDataType.xsd"></include>
 
 	<element name="PSSStudyCase" type="pss:StudyCaseXmlType"></element>
 	<complexType name="StudyCaseXmlType">
@@ -23,11 +26,10 @@
 						</simpleType>
 					</element>
 					<element name="originalFormat" minOccurs="1" maxOccurs="1">
-                        <annotation>
-                        	<documentation>for describing the original data format, from which this xml file is produced
-</documentation>
-                        </annotation>
-                        <simpleType>
+						<annotation>
+							<documentation>for describing the original data format, from which this xml file is produced</documentation>
+						</annotation>
+						<simpleType>
 							<restriction base="string">
 								<enumeration value="IEEE-CDF"></enumeration>
 								<enumeration value="PSS-E"></enumeration>
@@ -43,17 +45,20 @@
 					<element name="adapterProviderName" type="string" minOccurs="0" maxOccurs="1">
 						<annotation>
 							<documentation>adapter provider name this file was created or this file is inteded for</documentation>
-						</annotation></element>
+						</annotation>
+					</element>
 					<element name="adapterProviderVersion" type="string" minOccurs="0" maxOccurs="1">
 						<annotation>
 							<documentation>adapter provider version this file was created or this file is inteded for</documentation>
-						</annotation></element>
+						</annotation>
+					</element>
 
 
 					<element name="baseCase" type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
 						<annotation>
 							<documentation>Base case power network data for power system simulation purpose</documentation>
-						</annotation></element>
+						</annotation>
+					</element>
 					<element name="modificationList" minOccurs="0" maxOccurs="1">
 						<annotation>
 							<documentation>Modifications to be applied to the base case. Also, modification could be defined at the study scenaio level</documentation>
@@ -62,7 +67,8 @@
 							<sequence>
 								<element name="modification" type="pss:ModifyRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
 					<element name="scenarioList" minOccurs="0" maxOccurs="1">
 						<annotation>
 							<documentation>A study case might include a list of study scenarios, for example, Loadflow study, SC study ...</documentation>
@@ -71,12 +77,14 @@
 							<sequence>
 								<element name="scenario" type="pss:ScenarioXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
-						</complexType></element>
+						</complexType>
+					</element>
 
 				</sequence>
 			</extension>
 		</complexContent>
-	</complexType>
+	</complexType>
+
 
 	<complexType name="ModifyRecordXmlType">
 		<complexContent>
@@ -85,14 +93,14 @@
 	</complexType>
 
 	<complexType name="ScenarioXmlType">
-        <annotation>
-        	<documentation>for define a study scenario. In addtion to the modification defined at the StudyCase level, modification can be also defined 
-at each scenario level</documentation>
-        </annotation>
-        <complexContent>
+		<annotation>
+			<documentation>for define a study scenario. In addtion to the modification defined at the StudyCase level, modification can be also defined at each scenario level</documentation>
+		</annotation>
+		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType">
+					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType">
+
 					</element>
 					<element name="modifcationList" type="string" minOccurs="0" maxOccurs="1"></element>
 					<element name="transientSimlation" type="pss:TransientSimulationXmlType" maxOccurs="1" minOccurs="0"></element>

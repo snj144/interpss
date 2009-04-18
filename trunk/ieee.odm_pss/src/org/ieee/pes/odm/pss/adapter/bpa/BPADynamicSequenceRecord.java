@@ -23,11 +23,13 @@
  */
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ClassicMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NegativeSequenceDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SubTransientMachineXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
@@ -184,21 +186,21 @@ public class BPADynamicSequenceRecord {
 			double x2=0.0;
 			double tq01=0.0;
 			if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.SUBTRANS_MODEL)){
-				GeneratorModelListXmlType.SubTransientModel subGen=
+				SubTransientMachineXmlType subGen=
 					gen.getGeneratorModel().getSubTransientModel();
 				xd1=subGen.getXd1().getValue();
 				tq01=subGen.getTq01().getValue();
 				
 				
 			}else if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.TRANSIENT_MODEL)){
-				GeneratorModelListXmlType.TransModel tranGen=
+				TransientMachineXmlType tranGen=
 					gen.getGeneratorModel().addNewTransModel();
 				if(tranGen.getXd1()!=null){
 					xd1=tranGen.getXd1().getValue();
 					tq01=tranGen.getTq01().getValue();
 				}				
 			}else if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.CLASSICAL_MODEL)){
-				GeneratorModelListXmlType.ClassicalModel claGen=
+				ClassicMachineXmlType claGen=
 					gen.getGeneratorModel().getClassicalModel();
 				xd1=claGen.getXd1().getValue();
 				tq01=0.0;;				

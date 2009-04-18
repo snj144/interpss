@@ -27,13 +27,17 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 import java.text.NumberFormat;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ClassicMachineXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.EquiMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PostiveSequenceDataListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SubTransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
@@ -68,7 +72,7 @@ public class BPADynamicGeneratorRecord {
     					ratedVoltage, VoltageXmlType.Unit.KV);    		
     		}
     		gen.setGeneratorType(GeneratorXmlType.GeneratorType.SUBTRANS_MODEL);
-    		GeneratorModelListXmlType.SubTransientModel subTranGen=gen.
+    		SubTransientMachineXmlType subTranGen=gen.
     		                    addNewGeneratorModel().addNewSubTransientModel();
     		String genId="1";
     		if(!strAry[3].equals("")){
@@ -112,7 +116,7 @@ public class BPADynamicGeneratorRecord {
 			GeneratorXmlType gen=ODMData2XmlHelper.getGeneratorRecord(tranSimu, busId, genId);
 			// transient model
 			if(gen!=null){
-				GeneratorModelListXmlType.SubTransientModel subTranGen=gen
+				SubTransientMachineXmlType subTranGen=gen
                 .getGeneratorModel().getSubTransientModel();
 				
 				double pContri=StringUtil.getDouble(strAry[5], 0.0);
@@ -135,8 +139,7 @@ public class BPADynamicGeneratorRecord {
 				double MvaBase=StringUtil.getDouble(strAry[7], baseCaseNet.getBasePower());
 				
 				subTranGen.setBasePower(MvaBase);
-				subTranGen.setBasePowerUnit(GeneratorModelListXmlType
-						.SubTransientModel.BasePowerUnit.MVA);
+				subTranGen.setBasePowerUnit(SubTransientMachineXmlType.BasePowerUnit.MVA);
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -211,7 +214,7 @@ public class BPADynamicGeneratorRecord {
 	    		}
 	    		
 	    		newGen.setGeneratorType(GeneratorXmlType.GeneratorType.TRANSIENT_MODEL);
-	    		GeneratorModelListXmlType.TransModel tranGen= newGen.addNewGeneratorModel().
+	    		TransientMachineXmlType tranGen= newGen.addNewGeneratorModel().
 	    		         addNewTransModel();
 	    		
 	    		double pContri=0.0,qContri=0.0;
@@ -242,8 +245,7 @@ public class BPADynamicGeneratorRecord {
 					MvaBase=baseCaseNet.getBasePower();
 				}
 				tranGen.setBasePower(MvaBase);
-				tranGen.setBasePowerUnit(GeneratorModelListXmlType
-						.TransModel.BasePowerUnit.MVA);
+				tranGen.setBasePowerUnit(TransientMachineXmlType.BasePowerUnit.MVA);
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -315,7 +317,7 @@ public class BPADynamicGeneratorRecord {
 	   					ratedVoltage, VoltageXmlType.Unit.KV);    		
 	   		}
 	   		gen.setGeneratorType(GeneratorXmlType.GeneratorType.CLASSICAL_MODEL);
-	   		GeneratorModelListXmlType.ClassicalModel claGen=gen.
+	   		ClassicMachineXmlType claGen=gen.
 	   		                    addNewGeneratorModel().addNewClassicalModel();
 	   		String genId="1";
 	   		if(!strAry[3].equals("")){
@@ -370,8 +372,7 @@ public class BPADynamicGeneratorRecord {
 				}
 				
 				claGen.setBasePower(MvaBase);
-				claGen.setBasePowerUnit(GeneratorModelListXmlType
-						.ClassicalModel.BasePowerUnit.MVA);
+				claGen.setBasePowerUnit(ClassicMachineXmlType.BasePowerUnit.MVA);
 				if(!strAry[9].equals("")){
 					xd1=new Double(strAry[9]).doubleValue();
 	    			ODMData2XmlHelper.setPUData(claGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);
@@ -402,13 +403,13 @@ public class BPADynamicGeneratorRecord {
 				ODMData2XmlHelper.setVoltageData(gen.addNewBusRatedVoltage(),
 						Vol1, VoltageXmlType.Unit.KV);
 				gen.setGeneratorType(GeneratorXmlType.GeneratorType.EQUI_GEN_UNIT);
-				GeneratorModelListXmlType.EquiGenUnit equiGen=gen.addNewGeneratorModel().addNewEquiGenUnit();
+				EquiMachineXmlType equiGen=gen.addNewGeneratorModel().addNewEquiGenUnit();
 				BusRecordXmlType busRec=ODMData2XmlHelper.getBusRecord(bus1, baseCaseNet);
 				if(busRec!=null){
 					double pGen=busRec.getLoadflowData().getGenData().
 					              getGen().getPower().getP();
 					equiGen.setEquiPgen(pGen);
-					equiGen.setPGenUnit(GeneratorModelListXmlType.EquiGenUnit.PGenUnit.MVA);					
+					equiGen.setPGenUnit(EquiMachineXmlType.PGenUnit.MVA);					
 				}else{
 					equiGen.setDCLineBus(true);
 				}

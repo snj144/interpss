@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1" xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
+	elementFormDefault="qualified">
+	<include schemaLocation="ODM_DataType.xsd"></include>
+
+    <complexType name="EquiMachineXmlType">
+    				<sequence>
+    					<element name="equiPgen" type="double"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="pGenUnit" maxOccurs="1"
+    						minOccurs="0">
+    						<simpleType>
+    							<restriction base="string">
+    								<enumeration value="PU"></enumeration>
+    								<enumeration value="VA"></enumeration>
+    								<enumeration value="KVA"></enumeration>
+    								<enumeration value="MVA"></enumeration>
+    							</restriction>
+    						</simpleType>
+    					</element>
+    					<element name="DCLineBus" type="boolean"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    				</sequence>
+    </complexType>
+    
+    <complexType name="ClassicMachineXmlType">
+    				<sequence>
+    					<element name="genName" type="string"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
+    					<element name="basePower" type="double"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="basePowerUnit" maxOccurs="1"
+    						minOccurs="0">
+    						<simpleType>
+    							<restriction base="string">
+    								<enumeration value="Mva"></enumeration>
+    								<enumeration value="Kva"></enumeration>
+    							</restriction>
+    						</simpleType>
+    					</element>
+    					<element name="xd1" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="H" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="D" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    				</sequence>
+    </complexType>
+    
+    <complexType name="TransientMachineXmlType">
+    				<sequence>
+    					<element name="genName" type="string"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
+    					<element name="basePower" type="double"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="basePowerUnit" maxOccurs="1"
+    						minOccurs="0">
+    						<simpleType>
+    							<restriction base="string">
+    								<enumeration value="Mva"></enumeration>
+    								<enumeration value="Kva"></enumeration>
+    							</restriction>
+    						</simpleType>
+    					</element>
+
+    					<element name="ra" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="xd" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+
+    					</element>
+    					<element name="xd1" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="Tdo1" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="xq" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="xq1" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+
+    					</element>
+    					<element name="Tq01" maxOccurs="1" minOccurs="1"
+    						type="pss:TimeXmlType">
+    					</element>
+    					<element name="H" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="D" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="E1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="E2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="AF" type="double" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
+    				</sequence>
+    </complexType>
+
+    <complexType name="SubTransientMachineXmlType">
+    				<sequence>
+    					<element name="genName" type="string"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="desc" type="string" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
+    					<element name="basePower" type="double"
+    						maxOccurs="1" minOccurs="0">
+    					</element>
+    					<element name="basePowerUnit" maxOccurs="1"
+    						minOccurs="0">
+    						<simpleType>
+    							<restriction base="string">
+    								<enumeration value="Mva"></enumeration>
+    								<enumeration value="Kva"></enumeration>
+    							</restriction>
+    						</simpleType>
+    					</element>
+    					<element name="xd" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="xr" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="ra" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="xd1" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="xd11" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="Tdo1" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="Td011" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="xq" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="xq1" maxOccurs="1" minOccurs="1"
+    						type="pss:PerUnitXmlType">
+    					</element>
+    					<element name="xq11" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="Tq01" maxOccurs="1" minOccurs="1"
+    						type="pss:TimeXmlType">
+    					</element>
+    					<element name="Tq011" type="pss:TimeXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="H" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="D" type="pss:PerUnitXmlType"
+    						maxOccurs="1" minOccurs="1">
+    					</element>
+    					<element name="E1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE1" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="E2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="SE2" type="double" maxOccurs="1"
+    						minOccurs="1">
+    					</element>
+    					<element name="AF" type="double" maxOccurs="1"
+    						minOccurs="0">
+    					</element>
+    				</sequence>
+    </complexType>
+</schema>
