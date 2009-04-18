@@ -30,6 +30,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
@@ -59,8 +60,8 @@ public class IEEECDF_ODMTest {
 		assertTrue(baseCaseNet.getBusList().getBusArray().length == 14);
 		assertTrue(baseCaseNet.getBranchList().getBranchArray().length == 20);
 
-		assertTrue(baseCaseNet.getBasePower() == 100.0);
-		assertTrue(baseCaseNet.getBasePowerUnit() == PSSNetworkXmlType.BasePowerUnit.MVA);
+		assertTrue(baseCaseNet.getBasePower().getValue() == 100.0);
+		assertTrue(baseCaseNet.getBasePower().getUnit() == BasePowerXmlType.Unit.MVA);
 
 		// Check Bus Data
 		// ==============
@@ -70,7 +71,7 @@ public class IEEECDF_ODMTest {
 		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord("No1", baseCaseNet);
 		assertTrue(busRec.getBaseVoltage().getVoltage() == 132.0);
 		assertTrue(busRec.getLoadflowData().getVoltage().getVoltage() == 1.060);
-		assertTrue(busRec.getLoadflowData().getAngle().getAngle() == 0.0);
+		assertTrue(busRec.getLoadflowData().getAngle().getValue() == 0.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.SWING);
 		assertTrue(busRec.getLoadflowData().getLoadData() == null);
 		assertTrue(busRec.getLoadflowData().getShuntY() == null);

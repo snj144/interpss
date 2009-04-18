@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
@@ -140,9 +141,10 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		
 		final double baseMva = new Double(strAry[1]).doubleValue();
 	    getLogger().fine("BaseKva: "  + baseMva);
-	    baseCaseNet.setBasePower(baseMva);
-		baseCaseNet.setBasePowerUnit(PSSNetworkXmlType.BasePowerUnit.MVA);	
-		
+    	BasePowerXmlType baseKva = baseCaseNet.addNewBasePower();
+    	baseKva.setValue(baseMva);   
+    	baseKva.setUnit(BasePowerXmlType.Unit.MVA);   
+
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
 		final String desc = strAry[2];// The 2nd line is treated as description

@@ -87,7 +87,7 @@ public class UCTE_ODMTest {
 		busRec = ODMData2XmlHelper.getBusRecord("B4____1", baseCaseNet);
 		assertTrue(busRec.getLoadflowData().getVoltage().getVoltage() == 405.0);
 		assertTrue(busRec.getLoadflowData().getVoltage().getUnit() == VoltageXmlType.Unit.KV);
-		assertTrue(busRec.getLoadflowData().getAngle().getAngle() == 0.0);
+		assertTrue(busRec.getLoadflowData().getAngle().getValue() == 0.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.SWING);
 		assertTrue(busRec.getLoadflowData().getLoadData().getLoad().getP() == 70.0);
 		assertTrue(busRec.getLoadflowData().getLoadData().getLoad().getQ() == 0.0);

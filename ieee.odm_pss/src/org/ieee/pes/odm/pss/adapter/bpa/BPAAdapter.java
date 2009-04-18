@@ -28,6 +28,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
@@ -240,8 +241,9 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				baseMva = new Double(strAry[5]).doubleValue(); // in MVA
 			}else {baseMva = 100;}
 			getLogger().fine("BaseKva: " + baseMva);
-			baseCaseNet.setBasePower(baseMva);
-			baseCaseNet.setBasePowerUnit(PSSNetworkXmlType.BasePowerUnit.MVA);;
+	    	BasePowerXmlType baseKva = baseCaseNet.addNewBasePower();
+	    	baseKva.setValue(baseMva);   
+	    	baseKva.setUnit(BasePowerXmlType.Unit.MVA);   
 	}
 
 	/*

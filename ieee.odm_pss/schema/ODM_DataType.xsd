@@ -85,7 +85,6 @@
 		</complexContent>
 	</complexType>
 
-
 	<complexType name="NameValuePairXmlType">
 		<sequence>
 			<element name="name" type="string" minOccurs="1"
@@ -105,6 +104,12 @@
 		</sequence>
 	</complexType>
 
+	<complexType name="BaseDoubleXmlType">
+		<sequence>
+		</sequence>
+		<attribute name="value" type="double" use="required"></attribute>
+	</complexType>
+
 	<complexType name="LimitXmlType">
 		<sequence>
 			<element name="max" type="double" minOccurs="1"></element>
@@ -112,14 +117,10 @@
 		</sequence>
 	</complexType>
 	<complexType name="ComplexXmlType">
-		<sequence>
-			<element name="re" type="double" minOccurs="1"
-				maxOccurs="1">
-			</element>
-			<element name="im" type="double" minOccurs="1"
-				maxOccurs="1">
-			</element>
+		<sequence>
 		</sequence>
+		<attribute name="re" type="double" use="optional"></attribute>
+		<attribute name="im" type="double" use="required"></attribute>
 	</complexType>
 	<complexType name="ZXmlType">
 		<sequence>
@@ -194,19 +195,23 @@
 			</element>
 		</sequence>
 	</complexType>
+
 	<complexType name="AngleXmlType">
-		<sequence>
-			<element name="angle" type="double" minOccurs="1"></element>
-			<element name="unit" minOccurs="1">
+		<complexContent>
+			<extension base="pss:BaseDoubleXmlType">
+				<sequence></sequence>
+		<attribute name="unit" use="required">
 				<simpleType>
 					<restriction base="string">
 						<enumeration value="RAD"></enumeration>
 						<enumeration value="DEG"></enumeration>
 					</restriction>
 				</simpleType>
-			</element>
-		</sequence>
-	</complexType>
+		</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
 	<complexType name="CurrentXmlType">
 		<sequence>
 			<element name="current" type="double" minOccurs="1"
@@ -294,15 +299,26 @@
     </complexType>
 
     <complexType name="BasePowerXmlType">
-    <sequence>
-    		<element name="value" type="double" maxOccurs="1"
-    			minOccurs="1">
-    		</element>
-    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    		<enumeration value="KVA"></enumeration>
-    		<enumeration value="MVA"></enumeration>
-    		</restriction></simpleType></element>
-    	</sequence>
+    	<complexContent>
+    		<extension base="pss:BaseDoubleXmlType">
+    			<sequence>
+
+
+
+    			</sequence>
+
+
+    			<attribute name="unit" use="required">
+    				<simpleType>
+    					<restriction base="string">
+    						<enumeration value="KVA"></enumeration>
+    						<enumeration value="MVA"></enumeration>
+    					</restriction>
+    				</simpleType>
+    			</attribute>
+
+    		</extension>
+    	</complexContent>
     </complexType>
 
     <complexType name="CycleXmlType">
@@ -337,4 +353,8 @@
     		</restriction></simpleType></element>
     	</sequence>
     </complexType>
+
+    <simpleType name="NewSimpleType">
+    	<restriction base="string"></restriction>
+    </simpleType>
 </schema>

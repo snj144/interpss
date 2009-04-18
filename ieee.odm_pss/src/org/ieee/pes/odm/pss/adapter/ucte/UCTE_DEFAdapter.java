@@ -31,6 +31,7 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
@@ -108,8 +109,9 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
     	// no base kva definition in UCTE format, so use 100 MVA
     	// UCTE data are in actual units, mw, mva ...
-    	baseCaseNet.setBasePower(100.0);   
-    	baseCaseNet.setBasePowerUnit(PSSNetworkXmlType.BasePowerUnit.MVA);   
+    	BasePowerXmlType baseKva = baseCaseNet.addNewBasePower();
+    	baseKva.setValue(100.0);   
+    	baseKva.setUnit(BasePowerXmlType.Unit.MVA);   
 
     	// scan all lines and process the data
     	customBaseVoltage = false;
