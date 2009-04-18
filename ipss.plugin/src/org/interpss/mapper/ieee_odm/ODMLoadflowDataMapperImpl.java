@@ -25,6 +25,7 @@
 package org.interpss.mapper.ieee_odm;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
@@ -60,7 +61,7 @@ public class ODMLoadflowDataMapperImpl {
 		net.setId(xmlNet.getId());
 		net.setName(xmlNet.getName());
 		net.setDesc(xmlNet.getDesc());
-		net.setBaseKva(xmlNet.getBasePower()*(xmlNet.getBasePowerUnit()==PSSNetworkXmlType.BasePowerUnit.MVA?1000.0:1.0));
+		net.setBaseKva(xmlNet.getBasePower().getValue()*(xmlNet.getBasePower().getUnit()==BasePowerXmlType.Unit.MVA?1000.0:1.0));
 				// BasePowerUnit [ MVA, KVA]
 		net.setAllowParallelBranch(true);
 		return net;
@@ -103,7 +104,7 @@ public class ODMLoadflowDataMapperImpl {
 		double vpu = UnitType.vConversion(busXmlData.getVoltage().getVoltage(),
 				aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(busXmlData.getVoltage().getUnit()), UnitType.PU);
 		double angRad = busXmlData.getAngle() ==  null? 0.0 :
-			UnitType.angleConversion(busXmlData.getAngle().getAngle(),
+			UnitType.angleConversion(busXmlData.getAngle().getValue(),
 					ODMXmlHelper.toUnit(busXmlData.getAngle().getUnit()), UnitType.Rad);
 		aclfBus.setVoltage(vpu, angRad);
 
@@ -189,10 +190,10 @@ public class ODMLoadflowDataMapperImpl {
 				setXformerLoadflowData(aclfBra, braXmlData.getPhaseShiftXfrData(), adjNet, msg);
 				PSXfrAdapter psXfr = (PSXfrAdapter) aclfBra.getAdapter(PSXfrAdapter.class);
 				if(braXmlData.getPhaseShiftXfrData().getFromAngle() != null)
-					psXfr.setFromAngle(braXmlData.getPhaseShiftXfrData().getFromAngle().getAngle(), 
+					psXfr.setFromAngle(braXmlData.getPhaseShiftXfrData().getFromAngle().getValue(), 
 							ODMXmlHelper.toUnit(braXmlData.getPhaseShiftXfrData().getFromAngle().getUnit()));
 				if(braXmlData.getPhaseShiftXfrData().getToAngle() != null)
-					psXfr.setToAngle(braXmlData.getPhaseShiftXfrData().getToAngle().getAngle(), 
+					psXfr.setToAngle(braXmlData.getPhaseShiftXfrData().getToAngle().getValue(), 
 							ODMXmlHelper.toUnit(braXmlData.getPhaseShiftXfrData().getToAngle().getUnit()));
 				
 			} else {
