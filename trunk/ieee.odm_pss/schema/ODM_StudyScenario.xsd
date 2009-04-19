@@ -3,6 +3,7 @@
 	elementFormDefault="qualified">
 	<include schemaLocation="ODM_DataType.xsd"></include>
 	<include schemaLocation="ODM_DynamicModel.xsd"></include>
+	<include schemaLocation="ODM_Modification.xsd"></include>
 
 	<complexType name="BusDynDataListXmlType">
 		<sequence>
