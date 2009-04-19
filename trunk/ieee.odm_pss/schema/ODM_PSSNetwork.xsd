@@ -5,8 +5,6 @@
 	<include schemaLocation="ODM_DataType.xsd"></include>
 	<include schemaLocation="ODM_DynamicModel.xsd"></include>
 	<include schemaLocation="ODM_RecordType.xsd"></include>
-	<include schemaLocation="ODM_ScenarioType.xsd"></include>
-
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
@@ -144,25 +142,4 @@
 			</extension>
 		</complexContent>
 	</complexType>
-
-
-
-
-
-	<complexType name="DynamicDataListXmlType">
-		<sequence>
-			<element name="busDynDataList" type="pss:BusDynDataListXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="branchDynDataList" type="pss:BranchDynDataListXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="faultList" type="pss:FaultListXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="sequenceDataList" type="pss:SequenceDataListXmlType" maxOccurs="1" minOccurs="0"></element>
-		</sequence>
-	</complexType>
-
-
-
-
-
-
-
-
 </schema>

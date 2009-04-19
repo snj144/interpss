@@ -195,7 +195,7 @@ public class BPABranchRecord {
 			if(!strAry[16].equals("")){
 				
 			branchRec.getLoadflowData().getLineData().
-			                         addNewLength().setLength(length);
+			                         addNewLength().setValue(length);
 			branchRec.getLoadflowData().getLineData().
 			                         getLength().setUnit(LengthXmlType.Unit.MILE);
 			}			
@@ -844,7 +844,7 @@ public class BPABranchRecord {
 		double length=0.0;
 		if(!strAry[17].equals("")){
 			length= new Double(strAry[17]).doubleValue();
-			dcBranch.getData().addNewLength().setLength(length);
+			dcBranch.getData().addNewLength().setValue(length);
 			dcBranch.getData().getLength().setUnit(LengthXmlType.Unit.MILE);
 		}
 		

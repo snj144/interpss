@@ -213,20 +213,19 @@
 	</complexType>
 
 	<complexType name="CurrentXmlType">
-		<sequence>
-			<element name="current" type="double" minOccurs="1"
-				maxOccurs="1">
-			</element>
-			<element name="unit" minOccurs="0" maxOccurs="1">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="PU"></enumeration>
-						<enumeration value="AMP"></enumeration>
-						<enumeration value="KA"></enumeration>
-					</restriction>
-				</simpleType>
-			</element>
-		</sequence>
+		<complexContent>
+			<extension base="pss:BaseDoubleXmlType">
+				<attribute name="unit" use="required">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="PU"></enumeration>
+								<enumeration value="AMP"></enumeration>
+								<enumeration value="KA"></enumeration>
+							</restriction>
+						</simpleType>
+				</attribute>
+			</extension>
+		</complexContent>
 	</complexType>
 	<complexType name="AdjustmentDataXmlType">
 		<sequence>
@@ -245,45 +244,56 @@
 		</sequence>
 	</complexType>
 
-    <complexType name="LengthXmlType">
-    	<sequence>
-    		<element name="length" type="double" maxOccurs="1"
-    			minOccurs="1">
-    		</element>
-    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    		<enumeration value="KM"></enumeration>
-    		<enumeration value="Mile"></enumeration>
-    		</restriction></simpleType></element>
-    	</sequence>
+	<complexType name="LengthXmlType">
+		<complexContent>
+			<extension base="pss:BaseDoubleXmlType">
+				<attribute name="unit" use="required">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="KM"></enumeration>
+								<enumeration value="Mile"></enumeration>
+							</restriction>
+						</simpleType>
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="FrequencyXmlType">
+    	<complexContent>
+    		<extension base="pss:BaseDoubleXmlType">
+    			<sequence>
+    			</sequence>
+    			<attribute name="unit" use="required">
+    					<simpleType>
+    						<restriction base="string">
+    							<enumeration value="Hz"></enumeration>
+    							<enumeration value="KHz"></enumeration>
+    						</restriction>
+    					</simpleType>
+    			</attribute>
+    		</extension>
+    	</complexContent>
     </complexType>
 
-    <complexType name="FrequencyXmlType">
-    	<sequence>
-    		<element name="frequence" type="double" maxOccurs="1"
-    			minOccurs="1">
-    		</element>
-    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    		<enumeration value="Hz"></enumeration>
-    		<enumeration value="KHz"></enumeration>
-    		</restriction></simpleType></element>
-    	</sequence>
-    </complexType>
+	<complexType name="TimePeriodXmlType">
+		<complexContent>
+			<extension base="pss:BaseDoubleXmlType">
+				<attribute name="unit" use="required">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="sec"></enumeration>
+								<enumeration value="min"></enumeration>
+								<enumeration value="hour"></enumeration>
+								<enumeration value="cycle"></enumeration>
+							</restriction>
+						</simpleType>
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
 
-    <complexType name="TimeXmlType">
-    	<sequence>
-    		<element name="value" type="double" maxOccurs="1"
-    			minOccurs="1">
-    		</element>
-    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    		<enumeration value="sec"></enumeration>
-    		<enumeration value="min"></enumeration>
-    		<enumeration value="hour"></enumeration>
-    		<enumeration value="cycle"></enumeration>
-    		</restriction></simpleType></element>
-    	</sequence>
-    </complexType>
-
-    <complexType name="PerUnitXmlType">
+	<complexType name="PerUnitXmlType">
     <sequence>
     		<element name="value" type="double" maxOccurs="1"
     			minOccurs="1">
@@ -321,27 +331,7 @@
     	</complexContent>
     </complexType>
 
-    <complexType name="CycleXmlType">
-    <sequence>
-    		<element name="value" type="double" maxOccurs="1"
-    			minOccurs="1">
-    		</element>
-    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    		<enumeration value="Cycle"></enumeration>
-    		</restriction></simpleType></element>
-    	</sequence>
-    </complexType>
 
-    <complexType name="SecXmlType">
-    	<sequence>
-    		<element name="value" type="double" maxOccurs="1"
-    			minOccurs="1">
-    		</element>
-    		<element name="unit" maxOccurs="1" minOccurs="1"><simpleType><restriction base="string">
-    	     <enumeration value="sec"></enumeration>       		
-    		</restriction></simpleType></element>
-    	</sequence>
-    </complexType>
 
     <complexType name="PercentXmlType">
     <sequence>
