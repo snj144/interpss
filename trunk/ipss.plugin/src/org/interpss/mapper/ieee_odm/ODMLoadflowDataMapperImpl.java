@@ -78,7 +78,7 @@ public class ODMLoadflowDataMapperImpl {
 		Zone zone = CoreObjectFactory.createZone(busRec.getZoneNumber(), adjNet);
 		aclfBus.setZone(zone);
 		aclfBus.setBaseVoltage(busRec.getBaseVoltage().getUnit()==VoltageXmlType.Unit.KV ?    // Base V unit [KV, Volt] 
-									busRec.getBaseVoltage().getVoltage()*1000.0	: busRec.getBaseVoltage().getVoltage());
+									busRec.getBaseVoltage().getValue()*1000.0	: busRec.getBaseVoltage().getValue());
 		if (busRec.getLoadflowData() != null) {
 			ODMLoadflowDataMapperImpl.setBusLoadflowData(busRec.getLoadflowData(), aclfBus, adjNet);
 		}
@@ -101,7 +101,7 @@ public class ODMLoadflowDataMapperImpl {
 	}
 	
 	private static void setBusLoadflowData(LoadflowBusDataXmlType busXmlData, AclfBus aclfBus, AclfAdjNetwork adjNet) throws Exception {
-		double vpu = UnitType.vConversion(busXmlData.getVoltage().getVoltage(),
+		double vpu = UnitType.vConversion(busXmlData.getVoltage().getValue(),
 				aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(busXmlData.getVoltage().getUnit()), UnitType.PU);
 		double angRad = busXmlData.getAngle() ==  null? 0.0 :
 			UnitType.angleConversion(busXmlData.getAngle().getValue(),
@@ -113,12 +113,12 @@ public class ODMLoadflowDataMapperImpl {
 			if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PQ) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus.getAdapter(PQBusAdapter.class);
-				pqBus.setGen(new Complex(genData.getPower().getP(), genData.getPower().getQ()),
+				pqBus.setGen(new Complex(genData.getPower().getRe(), genData.getPower().getIm()),
 						           ODMXmlHelper.toUnit(genData.getPower().getUnit()), adjNet.getBaseKva());
 			} else if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PV);
 				PVBusAdapter pvBus = (PVBusAdapter) aclfBus.getAdapter(PVBusAdapter.class);
-				pvBus.setGenP(busXmlData.getGenData().getGen().getPower().getP(),
+				pvBus.setGenP(busXmlData.getGenData().getGen().getPower().getRe(),
 							ODMXmlHelper.toUnit(busXmlData.getGenData().getGen().getPower().getUnit()), adjNet.getBaseKva());
 				pvBus.setVoltMag(vpu, UnitType.PU);
 			} else if (busXmlData.getGenData().getCode() == LoadflowBusDataXmlType.GenData.Code.SWING) {
@@ -138,14 +138,14 @@ public class ODMLoadflowDataMapperImpl {
 							AclfLoadCode.CONST_I : (busXmlData.getLoadData().getCode() == LoadflowBusDataXmlType.LoadData.Code.CONST_Z ? 
 									AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
 			LoadBusAdapter loadBus = (LoadBusAdapter) aclfBus.getAdapter(LoadBusAdapter.class);
-			loadBus.setLoad(new Complex(busXmlData.getLoadData().getLoad().getP(), busXmlData.getLoadData().getLoad().getQ()),
+			loadBus.setLoad(new Complex(busXmlData.getLoadData().getLoad().getRe(), busXmlData.getLoadData().getLoad().getIm()),
 						ODMXmlHelper.toUnit(busXmlData.getLoadData().getLoad().getUnit()), adjNet.getBaseKva());
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
 		}
 
 		if (busXmlData.getShuntY() != null) {
-			Complex ypu = UnitType.yConversion(new Complex(busXmlData.getShuntY().getG(), busXmlData.getShuntY().getB()),
+			Complex ypu = UnitType.yConversion(new Complex(busXmlData.getShuntY().getRe(), busXmlData.getShuntY().getIm()),
 					aclfBus.getBaseVoltage(), adjNet.getBaseKva(), ODMXmlHelper.toUnit(busXmlData.getShuntY().getUnit()),
 					UnitType.PU);
 			aclfBus.setShuntY(ypu);			
@@ -161,12 +161,12 @@ public class ODMLoadflowDataMapperImpl {
 			if (braXmlData.getLineData() != null) {
 				aclfBra.setBranchCode(AclfBranchCode.LINE);
 				LineAdapter line = (LineAdapter) aclfBra.getAdapter(LineAdapter.class);
-				line.setZ(new Complex(braXmlData.getLineData().getZ().getR(), braXmlData.getLineData().getZ().getX()), 
+				line.setZ(new Complex(braXmlData.getLineData().getZ().getRe(), braXmlData.getLineData().getZ().getIm()), 
 							ODMXmlHelper.toUnit(braXmlData.getLineData().getZ().getUnit()), 
 							aclfBra.getFromAclfBus().getBaseVoltage(),	baseKva, msg);
 				if (braXmlData.getLineData().getTotalShuntY() != null)
-					line.setHShuntY(new Complex(0.5 * braXmlData.getLineData().getTotalShuntY().getG(),
-									0.5 * braXmlData.getLineData().getTotalShuntY().getB()),
+					line.setHShuntY(new Complex(0.5 * braXmlData.getLineData().getTotalShuntY().getRe(),
+									0.5 * braXmlData.getLineData().getTotalShuntY().getIm()),
 							ODMXmlHelper.toUnit(braXmlData.getLineData().getTotalShuntY().getUnit()), 
 							aclfBra.getFromAclfBus().getBaseVoltage(), baseKva);
 				
@@ -206,13 +206,13 @@ public class ODMLoadflowDataMapperImpl {
 		}
 
 		if (fromShuntY != null) {
-			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getG(),	fromShuntY.getB()),
+			Complex ypu = UnitType.yConversion(new Complex(fromShuntY.getRe(),	fromShuntY.getIm()),
 					aclfBra.getFromAclfBus().getBaseVoltage(), baseKva,
 					ODMXmlHelper.toUnit(fromShuntY.getUnit()), UnitType.PU);
 			aclfBra.setFromShuntY(ypu);
 		}
 		if (toShuntY != null) {
-			Complex ypu = UnitType.yConversion(new Complex(toShuntY.getG(),	toShuntY.getB()),
+			Complex ypu = UnitType.yConversion(new Complex(toShuntY.getRe(),	toShuntY.getIm()),
 					aclfBra.getToAclfBus().getBaseVoltage(), baseKva,
 					ODMXmlHelper.toUnit(toShuntY.getUnit()), UnitType.PU);
 			aclfBra.setToShuntY(ypu);
@@ -239,13 +239,13 @@ public class ODMLoadflowDataMapperImpl {
 		       toBaseV = aclfBra.getToAclfBus().getBaseVoltage();
 		// turn ratio is based on xfr rated voltage
 		// voltage units should be same for both side 
-		double fromRatedV = xfrData.getRatingData().getFromRatedVoltage().getVoltage();
-		double toRatedV = xfrData.getRatingData().getToRatedVoltage().getVoltage();
+		double fromRatedV = xfrData.getRatingData().getFromRatedVoltage().getValue();
+		double toRatedV = xfrData.getRatingData().getToRatedVoltage().getValue();
     	double ratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
-		xfr.setZ(new Complex(xfrData.getZ().getR(), xfrData.getZ().getX()),
+		xfr.setZ(new Complex(xfrData.getZ().getRe(), xfrData.getZ().getIm()),
 				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, adjNet.getBaseKva(),
 				msg);
 		xfr.setFromTap(xfrData.getFromTurnRatio() == 0.0 ? 1.0 : xfrData
