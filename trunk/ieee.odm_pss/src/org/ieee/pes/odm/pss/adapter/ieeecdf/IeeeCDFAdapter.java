@@ -388,8 +388,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				BusRecordXmlType toBusRec = ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
 					ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
-							fromBusRec.getBaseVoltage().getVoltage(), 
-							toBusRec.getBaseVoltage().getVoltage(), 
+							fromBusRec.getBaseVoltage().getValue(), 
+							toBusRec.getBaseVoltage().getValue(), 
 							fromBusRec.getBaseVoltage().getUnit());				
 				}
 				else {
@@ -408,8 +408,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				BusRecordXmlType toBusRec = ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
 					ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
-							fromBusRec.getBaseVoltage().getVoltage(), 
-							toBusRec.getBaseVoltage().getVoltage(), 
+							fromBusRec.getBaseVoltage().getValue(), 
+							toBusRec.getBaseVoltage().getValue(), 
 							fromBusRec.getBaseVoltage().getUnit());				
 				}
 				else {

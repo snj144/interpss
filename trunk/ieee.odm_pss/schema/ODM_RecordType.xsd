@@ -668,18 +668,18 @@
 	</complexType>
 	
     <complexType name="MachineModelSelectionXmlType">
-    	<sequence>
+    	<choice>
     		<element name="equiGenUnit" maxOccurs="1" minOccurs="0" type="pss:EquiMachineXmlType">    		</element>
     		<element name="classicalModel" maxOccurs="1"
     			minOccurs="0" type="pss:ClassicMachineXmlType">    		</element>
     		<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:TransientMachineXmlType">    		</element>
     		<element name="subTransientModel" maxOccurs="1"
     			minOccurs="0" type="pss:SubTransientMachineXmlType">    		</element>
-    	</sequence>
+    	</choice>
     </complexType>
 	
     <complexType name="ExciterModelSelectionXmlType">
-    	<sequence>
+    	<choice>
     		<element name="IEEE1992TypeAC1A" maxOccurs="1"
     			minOccurs="0" type="pss:ExcIEEE1992TypeAC1AXmlType">    		</element>
     		<element name="IEEE1981TypeAC2" maxOccurs="1"
@@ -692,11 +692,11 @@
     		<element name="IEEE1981NewExcSystem" maxOccurs="1"
     			minOccurs="0" type="pss:ExcIEEE1981NewExcSystemXmlType">    		</element>
     		<element name="IEEETypeDC2" maxOccurs="1" minOccurs="0" type="pss:ExcIEEETypeDC2XmlType">    		</element>
-    	</sequence>
+    	</choice>
     </complexType>
 
 	<complexType name="StabilizerModelSelectionXmlType">
-		<sequence>
+		<choice>
 			<element name="IEEE1981Type" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1981TypeXmlType">
 			</element>
 			<element name="IEEE1982Type2A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1982Type2AXmlType">
@@ -705,11 +705,11 @@
 			</element>
 			<element name="IEEEDualInput" maxOccurs="1" minOccurs="0" type="pss:PssIEEEDualInputXmlType">
 			</element>
-		</sequence>
+		</choice>
 	</complexType>
 	
 	<complexType name="TurbineGovernorModelSelectionXmlType">
-		<sequence>
+		<choice>
 			<element name="IEEE1981Type1" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type1XmlTypeXmlType">
 			</element>
 			<element name="IEEE1981Type2" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type2XmlType">
@@ -722,17 +722,18 @@
 			</element>
 			<element name="hydroGoverner" maxOccurs="1" minOccurs="0" type="pss:GovHydroXmlType">
 			</element>
-		</sequence>
+		</choice>
 	</complexType>
+	
 	<complexType name="DynamicLoadModelSelectionXmlType">
-		<sequence>
+		<choice>
 			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_IEEEStaticLoadXmlType">
 			</element>
 			<element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_ComplexLoadXmlType">
 			</element>
 			<element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DLoad_InductionMotorXmlType">
 			</element>
-		</sequence>
+		</choice>
 	</complexType>
 	
 	<complexType name="SequenceBusDataXmlType">
