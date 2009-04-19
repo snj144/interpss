@@ -353,8 +353,51 @@
     		</restriction></simpleType></element>
     	</sequence>
     </complexType>
-
-    <simpleType name="NewSimpleType">
-    	<restriction base="string"></restriction>
-    </simpleType>
+    
+							<complexType name="LineZeroSeqXmlType">
+								<sequence>
+									<element name="rLineZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="xLineZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="bLineZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="gfZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="bfZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="gtZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="btZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+								</sequence>
+							</complexType>
+							
+							<complexType name="TransformerZeroSeqXmlType">
+								<sequence>
+									<element name="conectionLocation" maxOccurs="1" minOccurs="1">
+										<simpleType>
+											<restriction base="string">
+												<enumeration value="at_bus1"></enumeration>
+												<enumeration value="at_bus2"></enumeration>
+												<enumeration value="between_bus1_and_bus_2"></enumeration>
+											</restriction>
+										</simpleType>
+									</element>
+									<element name="RG" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="XG" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="R1" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="X1" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="R2" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="X2" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="R3" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="X3" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+								</sequence>
+							</complexType>
+							<complexType name="MutualZeroZXmlType">
+								<sequence>
+									<element name="branchFromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+									<element name="branchToBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+									<element name="branchCirId" type="string" maxOccurs="1" minOccurs="0"></element>
+									<element name="RM" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="XM" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="BIJ1" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="BIJ2" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="BKL1" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="BKL2" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+								</sequence>
+							</complexType>
 </schema>

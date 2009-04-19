@@ -207,101 +207,11 @@
 	</complexType>
 	<complexType name="LoadCharacteristicModelListXmlType">
 		<sequence>
-			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0">
-				<complexType>
-					<sequence>
-						<element name="modelDesc" maxOccurs="1" minOccurs="0">
-							<simpleType>
-								<restriction base="string">
-									<enumeration value="compoundLoad"></enumeration>
-
-								</restriction>
-							</simpleType>
-						</element>
-						<element name="a1" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="a2" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="a3" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="a4" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="a5" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="a6" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="a7" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="a8" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="n1" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="n2" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="n3" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="n4" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="n5" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="n6" type="double" maxOccurs="1" minOccurs="1"></element>
-
-						<element name="a9" type="double" maxOccurs="1" minOccurs="0"></element>
-						<element name="a10" type="double" maxOccurs="1" minOccurs="0"></element>
-					</sequence>
-				</complexType>
+			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_IEEEStaticLoadXmlType">
 			</element>
-			<element name="ComplexLoad" maxOccurs="1" minOccurs="0">
-				<complexType>
-					<sequence>
-						<element name="modelDesc" maxOccurs="1" minOccurs="0">
-							<simpleType>
-								<restriction base="string">
-									<enumeration value="complexLoad"></enumeration>
-								</restriction>
-							</simpleType>
-						</element>
-						<element name="largeMotPercent" type="pss:PercentXmlType" maxOccurs="1" minOccurs="1"></element>
-						<element name="smallMotPercent" type="pss:PercentXmlType" maxOccurs="1" minOccurs="1"></element>
-						<element name="transExcCurPercent" type="pss:PercentXmlType" maxOccurs="1" minOccurs="1"></element>
-						<element name="dischLightingPercent" type="pss:PercentXmlType" maxOccurs="1" minOccurs="1"></element>
-						<element name="constPowerPercent" type="pss:PercentXmlType" maxOccurs="1" minOccurs="1"></element>
-						<element name="remainPercent" type="pss:PercentXmlType" maxOccurs="1" minOccurs="1"></element>
-						<element name="branchR" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="branchX" type="string" maxOccurs="1" minOccurs="1"></element>
-					</sequence>
-				</complexType>
+			<element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_ComplexLoadXmlType">
 			</element>
-			<element name="InductionMotor" maxOccurs="1" minOccurs="0">
-				<complexType>
-					<sequence>
-						<element name="modelDesc" maxOccurs="1" minOccurs="0">
-							<simpleType>
-								<restriction base="string">
-									<enumeration value="inductionmotor"></enumeration>
-								</restriction>
-							</simpleType>
-						</element>
-						<element name="motorType" maxOccurs="1" minOccurs="1">
-							<simpleType>
-								<restriction base="string">
-									<enumeration value="type1"></enumeration>
-									<enumeration value="type2"></enumeration>
-								</restriction>
-							</simpleType>
-						</element>
-						<element name="RA" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="XA" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="XM" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="R1" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="X1" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="R2" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="X2" type="string" maxOccurs="1" minOccurs="1"></element>
-
-
-						<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
-
-
-						<element name="MBASE" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="PMULT" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="H" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="VI" type="string" maxOccurs="1" minOccurs="1"></element>
-						<element name="TI" maxOccurs="1" minOccurs="1" type="pss:CycleXmlType"></element>
-						<element name="TB" type="pss:CycleXmlType" maxOccurs="1" minOccurs="1"></element>
-						<element name="D" type="double" maxOccurs="1" minOccurs="1"></element>
-						<element name="Tnom" type="string" maxOccurs="1" minOccurs="0"></element>
-					</sequence>
-				</complexType>
+			<element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DLoad_InductionMotorXmlType">
 			</element>
 		</sequence>
 	</complexType>
