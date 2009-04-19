@@ -744,8 +744,7 @@
 						<element name="T5" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 						<element name="PMAX" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="1"></element>
 						<element name="F" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="1"></element>
-						<element name="turbine" type="pss:TurbineXmlType" maxOccurs="1" minOccurs="0"></element>
-					</sequence>
+						<element name="turbine" type="pss:TurbineXmlType" maxOccurs="1" minOccurs="0"></element>					</sequence>
 				</complexType>
 
 				<complexType name="GovHydroTurbineXmlType">
@@ -839,8 +838,7 @@
 						<element name="modelDesc" maxOccurs="1" minOccurs="0">
 							<simpleType>
 								<restriction base="string">
-									<enumeration value="compoundLoad"></enumeration>
-
+									<enumeration value="IEEEStaticLoad"></enumeration>
 								</restriction>
 							</simpleType>
 						</element>
@@ -908,14 +906,10 @@
 						<element name="X1" type="string" maxOccurs="1" minOccurs="1"></element>
 						<element name="R2" type="string" maxOccurs="1" minOccurs="1"></element>
 						<element name="X2" type="string" maxOccurs="1" minOccurs="1"></element>
-
-
 						<element name="E1" type="double" maxOccurs="1" minOccurs="1"></element>
 						<element name="SE1" type="double" maxOccurs="1" minOccurs="1"></element>
 						<element name="E2" type="double" maxOccurs="1" minOccurs="1"></element>
 						<element name="SE2" type="double" maxOccurs="1" minOccurs="1"></element>
-
-
 						<element name="MBASE" type="double" maxOccurs="1" minOccurs="1"></element>
 						<element name="PMULT" type="double" maxOccurs="1" minOccurs="1"></element>
 						<element name="H" type="string" maxOccurs="1" minOccurs="1"></element>

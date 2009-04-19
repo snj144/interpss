@@ -41,7 +41,6 @@
 							</sequence>
 						</complexType>
 					</element>
-
 				</sequence>
 			</extension>
 		</complexContent>
@@ -64,7 +63,6 @@
 							</simpleType>
 						</element>
 						<element name="gen" type="pss:LoadflowGenDataXmlType" minOccurs="0" maxOccurs="1"></element>
-
 						<element name="contributeGenList" minOccurs="0">
 							<complexType>
 								<sequence>
@@ -87,7 +85,6 @@
 														<element name="xfrZ" type="pss:ZXmlType" minOccurs="0"></element>
 														<element name="xfrTurnRatio" type="double" minOccurs="0"></element>
 														<element name="mvarVControlParticipateFactor" type="double" minOccurs="0"></element>
-
 													</sequence>
 												</extension>
 											</complexContent>
@@ -151,7 +148,6 @@
 				</simpleType>
 			</element>
 			<element name="lineData" minOccurs="0" maxOccurs="1" type="pss:LineDataXmlType">
-
 			</element>
 			<element name="xformerData" type="pss:TransformerDataXmlType" minOccurs="0" maxOccurs="1"></element>
 			<element name="phaseShiftXfrData" type="pss:PhaseShiftXfrDataXmlType" minOccurs="0" maxOccurs="1"></element>
@@ -202,7 +198,6 @@
 			<element name="toTurnRatio" type="double" minOccurs="0" maxOccurs="1"></element>
 			<element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
 			<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>
-
 			<element name="tapAdjustment" minOccurs="0">
 				<complexType>
 					<sequence>
@@ -230,7 +225,6 @@
 								<complexContent>
 									<extension base="pss:AdjustmentDataXmlType">
 										<sequence>
-
 											<element name="desiredVoltageUnit" minOccurs="1">
 												<simpleType>
 													<restriction base="string">
@@ -272,13 +266,11 @@
 												</simpleType>
 											</element>
 											<element name="mvarMeasuredOnFormSide" type="boolean" minOccurs="1"></element>
-										</sequence>
-
+									</sequence>
 									</extension>
 								</complexContent>
 							</complexType>
 						</element>
-
 					</sequence>
 				</complexType>
 			</element>
@@ -296,7 +288,6 @@
 								<extension base="pss:AdjustmentDataXmlType">
 									<sequence>
 										<element name="angleDegLimit" type="pss:LimitXmlType" minOccurs="1"></element>
-
 										<element name="angleAdjOnFromSide" type="boolean" minOccurs="1"></element>
 										<element name="desiredPowerUnit" minOccurs="1">
 											<simpleType>
@@ -377,16 +368,13 @@
 					</sequence>
 				</complexType>
 			</element>
-
 		</sequence>
 	</complexType>
 
 	<complexType name="DCLineBusRecordXmlType">
 		<sequence>
 			<element name="converter" maxOccurs="1" minOccurs="1" type="pss:ConverterXmlType">
-
 			</element>
-
 		</sequence>
 	</complexType>
 
@@ -406,13 +394,10 @@
 				<complexType>
 					<sequence>
 						<element name="zone" maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType">
-
 						</element>
-
 					</sequence>
 				</complexType>
 			</element>
-
 			<element name="swingBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="alternateSwingBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -426,9 +411,7 @@
 			</element>
 			<element name="exchangeErrToler" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="measredOnFromSide" type="boolean" maxOccurs="1" minOccurs="0"></element>
-
 			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
-
 		</sequence>
 	</complexType>
 
@@ -491,9 +474,7 @@
 
 	<complexType name="DCLineDataXmlType">
 		<sequence>
-
-
-			<element name="controlMode" default="blocked" maxOccurs="1" minOccurs="0">
+		<element name="controlMode" default="blocked" maxOccurs="1" minOccurs="0">
 				<simpleType>
 					<restriction base="string">
 						<enumeration value="blocked"></enumeration>
@@ -503,7 +484,6 @@
 				</simpleType>
 			</element>
 			<element name="controlOnRectifierSide" type="boolean" maxOccurs="1" minOccurs="0"></element>
-
 			<element name="currentDemand" maxOccurs="1" minOccurs="0" type="pss:CurrentXmlType"></element>
 			<element name="powerDemand" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="lineZ" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -579,7 +559,6 @@
 										</simpleType>
 									</element>
 									<element name="exciterModel" type="pss:ExciterModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
-
 								</sequence>
 							</complexType>
 						</element>
@@ -636,7 +615,6 @@
 					</restriction>
 				</simpleType>
 			</element>
-
 			<element name="LoadXmlType" maxOccurs="1" minOccurs="1">
 				<simpleType>
 					<restriction base="string">
@@ -660,8 +638,7 @@
 	</complexType>
 
 	<complexType name="MachineXmlType">
-		<sequence>
-			<element name="genId" type="pss:IDRecordXmlType"
+		<sequence>			<element name="genId" type="pss:IDRecordXmlType"
 				maxOccurs="1" minOccurs="0">
 			</element>
 			<element name="ownerName" type="string" maxOccurs="1"
@@ -677,14 +654,12 @@
 						<enumeration value="ClassicModel"></enumeration>
 						<enumeration value="TransientModel"></enumeration>
 						<enumeration value="SubTransientModel"></enumeration>
-
 					</restriction>
 				</simpleType>
 			</element>
 			<element name="generatorModel"
 				type="pss:MachineModelSelectionXmlType" maxOccurs="1" minOccurs="1">
 			</element>
-
 			<element name="pContribution" type="pss:PercentXmlType"
 				maxOccurs="1" minOccurs="0">
 			</element>
@@ -760,7 +735,6 @@
 		</sequence>
 	</complexType>
 	
-
 	<complexType name="SequenceBusDataXmlType">
 		<sequence>
 			<element name="genData" minOccurs="0">

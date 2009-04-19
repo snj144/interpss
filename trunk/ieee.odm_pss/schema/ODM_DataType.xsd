@@ -7,7 +7,6 @@
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
-
 	<complexType name="BaseRecordXmlType">
 		<sequence>
 			<element name="name" type="string" minOccurs="0"
@@ -47,7 +46,6 @@
 								</sequence>
 							</complexType>
 						</element>
-
 					</sequence>
 				</complexType>
 			</element>
@@ -57,7 +55,6 @@
 			<element name="extension" type="anySimpleType"
 				minOccurs="0">
 			</element>
-
 		</sequence>
 	</complexType>
 
@@ -117,8 +114,6 @@
 		</sequence>
 	</complexType>
 	<complexType name="ComplexXmlType">
-		<sequence>
-		</sequence>
 		<attribute name="re" type="double" use="optional"></attribute>
 		<attribute name="im" type="double" use="required"></attribute>
 	</complexType>
@@ -299,7 +294,6 @@
     			minOccurs="1">
     		</element>
     		<element name="unit" maxOccurs="1" minOccurs="1">
-  
                 <simpleType><restriction base="string">
                 <enumeration value="PU"></enumeration>
                 </restriction></simpleType>
@@ -311,13 +305,6 @@
     <complexType name="BasePowerXmlType">
     	<complexContent>
     		<extension base="pss:BaseDoubleXmlType">
-    			<sequence>
-
-
-
-    			</sequence>
-
-
     			<attribute name="unit" use="required">
     				<simpleType>
     					<restriction base="string">
@@ -326,12 +313,9 @@
     					</restriction>
     				</simpleType>
     			</attribute>
-
     		</extension>
     	</complexContent>
     </complexType>
-
-
 
     <complexType name="PercentXmlType">
     <sequence>
