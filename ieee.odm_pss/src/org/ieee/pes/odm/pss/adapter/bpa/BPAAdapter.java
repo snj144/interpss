@@ -282,7 +282,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			}
             if(!strAry[4].equals("")){
 				ratedVoltage =new Double(strAry[4]).doubleValue();
-				area.addNewRatedVoltage().setVoltage(ratedVoltage);
+				area.addNewRatedVoltage().setValue(ratedVoltage);
 				area.getRatedVoltage().setUnit(VoltageXmlType.Unit.KV);
 			}
             double exchangeMW=0.0;

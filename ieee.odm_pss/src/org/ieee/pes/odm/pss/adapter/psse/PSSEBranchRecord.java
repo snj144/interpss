@@ -187,7 +187,7 @@ public class PSSEBranchRecord {
 		}
 		//WINDV1 is the actual winding one 	voltage in kV when CW is 2
 		if (CW==2){
-		   final double systemBaseV =fromBusRec.getBaseVoltage().getVoltage();
+		   final double systemBaseV =fromBusRec.getBaseVoltage().getValue();
 			f_ratio = WINDV1*1000.0 / systemBaseV;
        		t_ratio = WINDV2*1000.0 /systemBaseV;
 		}
@@ -213,11 +213,11 @@ public class PSSEBranchRecord {
 		//set rating limit data
 		double fromRatedV,toRatedV;		
 		if (NOMV1==0){
-			fromRatedV =fromBusRec.getBaseVoltage().getVoltage();
+			fromRatedV =fromBusRec.getBaseVoltage().getValue();
 		}
 		else {	fromRatedV = NOMV1;		}
 		if (NOMV2==0){
-			toRatedV =toBusRec.getBaseVoltage().getVoltage();
+			toRatedV =toBusRec.getBaseVoltage().getValue();
 		}
 		else { toRatedV = NOMV2;     	}
 		

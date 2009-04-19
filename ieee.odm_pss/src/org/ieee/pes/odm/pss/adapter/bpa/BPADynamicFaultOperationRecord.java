@@ -24,9 +24,15 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchFaultXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DcLineFaultXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenChangeDynamicEventXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadChangeDynamicEventXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
@@ -35,9 +41,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
-
-
-
 
 public class BPADynamicFaultOperationRecord {
 	
@@ -93,16 +96,16 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     		} 
     		// bus fault
     		if(mode==1||mode==-1||mode==2||mode==-2){ 
-    			FaultListXmlType.Fault fault=
-					ODMData2XmlHelper.getFaultRecord(tranSimu, FaultListXmlType.Fault.FaultType.BUS_FAULT,
+    			FaultXmlType fault=
+					ODMData2XmlHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BUS_FAULT,
 							bus1, bus2);
     			//FaultListXmlType.Fault.BusFault busFault=fault.addNewBusFault();
     			
-    			FaultListXmlType.Fault.BusFault busFault=
+    			BusFaultXmlType busFault=
 	    		 ODMData2XmlHelper.getBusFaultRecord(tranSimu, bus1, bus2);
     			
-    			fault.setFaultType(FaultListXmlType.Fault.FaultType.BUS_FAULT);
-				busFault.setFaultCategory(FaultCategoryXmlType.X_3_PHASE);
+    			fault.setFaultType(FaultTypeEnumType.BUS_FAULT);
+				busFault.setFaultCategory(FaultCategoryEnumType.FAULT_3_PHASE);
 				// not permanent bus fault;
                if(mode==1||mode==-1){            	   
 	    			
@@ -151,7 +154,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    			if(mode==2){	                    
 	    				ODMData2XmlHelper.setTimePeriodData(busFault.addNewFaultStartTime(), 
 	    						operationTime, TimePeriodXmlType.Unit.CYCLE);  
-	    				busFault.setFaultCategory(FaultCategoryXmlType.X_3_PHASE);
+	    				busFault.setFaultCategory(FaultCategoryEnumType.FAULT_3_PHASE);
 	        			busFault.addNewFaultedBus().setName(bus1);
 	        			ODMData2XmlHelper.setVoltageData(busFault.addNewFaultedBusRatedV(),
 	        					bus1RatedV, VoltageXmlType.Unit.KV);
@@ -177,13 +180,13 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    		}
 				// branch fault
     		}else if(mode==3||mode==-3){
-    			FaultListXmlType.Fault fault=
-					ODMData2XmlHelper.getFaultRecord(tranSimu, FaultListXmlType.Fault.FaultType.BRANCH_FAULT,
+    			FaultXmlType fault=
+					ODMData2XmlHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BRANCH_FAULT,
 							bus1, bus2);
-    			FaultListXmlType.Fault.BranchFault braFault=
+    			BranchFaultXmlType braFault=
 	    			ODMData2XmlHelper.getBranchFaultRecord(tranSimu, bus1, bus2);				
-				fault.setFaultType(FaultListXmlType.Fault.FaultType.BRANCH_FAULT);
-				braFault.setFaultCategory(FaultCategoryXmlType.X_3_PHASE);
+				fault.setFaultType(FaultTypeEnumType.BRANCH_FAULT);
+				braFault.setFaultCategory(FaultCategoryEnumType.FAULT_3_PHASE);
 				
 				if(breaker1Opened==false&&breaker2Opened==false){    				
         			braFault.addNewFromBus().setName(bus1);
@@ -233,11 +236,11 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     	}else if(mode==4||mode==-4){
     		// load change
     		if(strAry[12].equals("")){
-    			FaultListXmlType.Fault.LoadChange loadChange= tranSimu.getDynamicDataList()
+    			LoadChangeDynamicEventXmlType loadChange= tranSimu.getDynamicDataList()
  		       .getFaultList().addNewFault().addNewLoadChange(); 
      		
      		   String busId=strAry[1];
-     		   loadChange.addNewBusId().setName(busId);
+     		   loadChange.addNewBus().setName(busId);
      		
      		   double busRatedVoltage=0.0;
      		   if(!strAry[2].equals("")){
@@ -283,11 +286,11 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
        					pz, qz, PowerXmlType.Unit.MVA);
        		  }
     		}else {
-    			FaultListXmlType.Fault.GenChange genChange= tranSimu.getDynamicDataList()
+    			GenChangeDynamicEventXmlType genChange= tranSimu.getDynamicDataList()
  		       .getFaultList().addNewFault().addNewGenChange(); 
      		
      		String busId=strAry[1];
-     		genChange.addNewBusId().setName(busId);
+     		genChange.addNewBus().setName(busId);
      		
      		double busRatedVoltage=0.0;
      		if(!strAry[2].equals("")){
@@ -319,7 +322,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
       }else if(mode==5){
     	  int sign=new Integer(str.substring(31, 33).trim()).intValue();
     	  if(sign>0){
-    		  FaultListXmlType.Fault.DcLineFault dcFault= tranSimu.getDynamicDataList().
+    		  DcLineFaultXmlType dcFault= tranSimu.getDynamicDataList().
 	           getFaultList().addNewFault().addNewDcLineFault();
     		  dcFault.setPermanentFault(true);
 	          String bus1=strAry[1];
@@ -331,7 +334,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	       			  bus1Vol, VoltageXmlType.Unit.KV);    	 
 	    	  }
 	          String bus2=strAry[3];
-	    	  dcFault.addNewToACBusId().setName(bus2);
+	    	  dcFault.addNewToACBus().setName(bus2);
 	    	  double bus2Vol=0.0;
 	    	  if(!strAry[4].equals("")){
 	    		  bus2Vol= new Double(strAry[4]).doubleValue();
@@ -340,44 +343,37 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    	  }
 	    	  int faultType= new Integer(strAry[5]).intValue();
 	    	  if(faultType==1){
-	    		  dcFault.setFaultType(FaultListXmlType.Fault.
-	    				  DcLineFault.FaultType.FROM_BUS_BIPOLE_SHORT_CIRCUIT);
+	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.FROM_BUS_BIPOLE_SHORT_CIRCUIT);
 	    	  }
 	    	  if(faultType==2){
-	    		  dcFault.setFaultType(FaultListXmlType.Fault.
-	    				  DcLineFault.FaultType.TO_BUS_BIPOLE_SHORT_CIRCUIT);
+	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.TO_BUS_BIPOLE_SHORT_CIRCUIT);
 	    	  }
 	    	  double faultLocation=0.0;
 	    	  if(!strAry[10].equals("")){
 	    		  faultLocation= new Double(strAry[10]).doubleValue();
 	    	  }
 	    	  if(faultType==3){
-	    		  dcFault.setFaultType(FaultListXmlType.Fault.
-	    				  DcLineFault.FaultType.FAULT_ON_LINE);
+	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.FAULT_ON_LINE);
 	    		  dcFault.addNewFaultLocationFromFromSide().setValue(faultLocation);
 	    		  dcFault.getFaultLocationFromFromSide().setUnit(PercentXmlType.Unit.PERCENT);
 	    	  }
 	    	  if(faultType==4){
-	    		  dcFault.setFaultType(FaultListXmlType.Fault.
-	    				  DcLineFault.FaultType.POWER_BLOCKED);
+	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.POWER_BLOCKED);
 	    	  }
 	    	  if(faultType==5){
-	    		  dcFault.setFaultType(FaultListXmlType.Fault.
-	    				  DcLineFault.FaultType.POWER_REVERSED);
+	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.POWER_REVERSED);
 	    	  }
 	    	  double changedScale=0.0;
 	    	  if(!strAry[9].equals("")){
 	    		  changedScale= new Double(strAry[9]).doubleValue();
 	    	  }
 	    	  if(faultType==7){
-	    		  dcFault.setFaultType(FaultListXmlType.Fault.
-	    				  DcLineFault.FaultType.POWER_CHANGE_BY_SPECIFICATION);
+	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.POWER_CHANGE_BY_SPECIFICATION);
 	    		  ODMData2XmlHelper.setPowerData(dcFault.addNewChangedPower(), 
 	    				  changedScale, 0.0, PowerXmlType.Unit.MVA);    		  
 	    	  }
 	    	  if(faultType==8){
-	    		  dcFault.setFaultType(FaultListXmlType.Fault.
-	    				  DcLineFault.FaultType.CURRENT_CHANGE_BY_SPECIFICATION);
+	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.CURRENT_CHANGE_BY_SPECIFICATION);
 	    		  ODMData2XmlHelper.setCurrentData(dcFault.addNewChangedCurrent(), 
 	    				  changedScale, CurrentXmlType.Unit.KA);    		  
 	    	  }
@@ -397,7 +393,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     	  }else{
     		  String bus1=strAry[1];
     		  String bus2=strAry[3];
-    		  FaultListXmlType.Fault.DcLineFault dcFault=
+    		  DcLineFaultXmlType dcFault=
     			  ODMData2XmlHelper.getDCFaultRecord(tranSimu, bus1, bus2);
     		 dcFault.setPermanentFault(false);
     		 

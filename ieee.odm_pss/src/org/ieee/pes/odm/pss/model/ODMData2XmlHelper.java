@@ -27,13 +27,18 @@ package org.ieee.pes.odm.pss.model;
 import org.apache.xmlbeans.XmlOptions;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DcLineFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
@@ -218,13 +223,13 @@ public class ODMData2XmlHelper {
 		return null;
 	}
 	
-	public static FaultListXmlType.Fault getFaultRecord(TransientSimulationXmlType tranSimu,
-			FaultListXmlType.Fault.FaultType.Enum faultType,String fbus,String tbus){
+	public static FaultXmlType getFaultRecord(TransientSimulationXmlType tranSimu,
+			FaultTypeEnumType.Enum faultType,String fbus,String tbus){
 		if(tranSimu.getDynamicDataList().getFaultList().getFaultArray()!=null){			
-			for(FaultListXmlType.Fault fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){				
+			for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){				
 				if(faultType.equals(fault.getFaultType())){					
-					if(faultType.equals(FaultListXmlType.Fault.FaultType.BUS_FAULT)){						
-						FaultListXmlType.Fault.BusFault busFault=fault.getBusFault();
+					if(faultType.equals(FaultTypeEnumType.BUS_FAULT)){						
+						BusFaultXmlType busFault=fault.getBusFault();
 						if(fbus.equals(busFault.getFaultedBus().getName())&&
 								tbus.equals(busFault.getRemoteEndBus().getName())){							
 							return fault;							
@@ -238,12 +243,12 @@ public class ODMData2XmlHelper {
 		}		
   
 	
-	public static FaultListXmlType.Fault.BusFault getBusFaultRecord(TransientSimulationXmlType tranSimu,
+	public static BusFaultXmlType getBusFaultRecord(TransientSimulationXmlType tranSimu,
 			String fbus,String tbus){
 		
-		for(FaultListXmlType.Fault fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
+		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
 			if(fault.getBusFault()!=null){
-				FaultListXmlType.Fault.BusFault busFault=fault.getBusFault();				
+				BusFaultXmlType busFault=fault.getBusFault();				
 				if(fbus.equals(busFault.getFaultedBus().getName())&& 
 						tbus.equals(busFault.getRemoteEndBus().getName()))					
 			         return busFault;
@@ -254,11 +259,11 @@ public class ODMData2XmlHelper {
 		return null;
 	}
 	
-	public static FaultListXmlType.Fault.BranchFault getBranchFaultRecord(TransientSimulationXmlType tranSimu,
+	public static BranchFaultXmlType getBranchFaultRecord(TransientSimulationXmlType tranSimu,
 			String fbus,String tbus){		
-		for(FaultListXmlType.Fault fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
+		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
 			if(fault.getBranchFault()!=null){
-				FaultListXmlType.Fault.BranchFault braFault=fault.getBranchFault();				
+				BranchFaultXmlType braFault=fault.getBranchFault();				
 				if(fbus.equals(braFault.getFromBus().getName())&& tbus.equals(braFault.getToBus().getName()))
 			         return braFault;
 			}else{
@@ -268,13 +273,13 @@ public class ODMData2XmlHelper {
 		return null;
 	}
 	
-	public static FaultListXmlType.Fault.DcLineFault getDCFaultRecord(TransientSimulationXmlType tranSimu,
+	public static DcLineFaultXmlType getDCFaultRecord(TransientSimulationXmlType tranSimu,
 			String fbus,String tbus){
-		for(FaultListXmlType.Fault fault: tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
+		for(FaultXmlType fault: tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
 			if(fault.getDcLineFault()!=null){				
-				FaultListXmlType.Fault.DcLineFault dcFault= fault.getDcLineFault();				
+				DcLineFaultXmlType dcFault= fault.getDcLineFault();				
 				if(fbus.equals(dcFault.getFromACBusId().getName())&&
-						tbus.equals(dcFault.getToACBusId().getName())){					
+						tbus.equals(dcFault.getToACBus().getName())){					
 					return dcFault;
 				}else {					
 					return fault.addNewDcLineFault();
@@ -374,8 +379,8 @@ public class ODMData2XmlHelper {
 	 * @param unit
 	 */
 	public static void setZValue(ZXmlType z, double r, double x, ZXmlType.Unit.Enum unit) {
-		z.setR(r);
-		z.setX(x);
+		z.setRe(r);
+		z.setIm(x);
 		z.setUnit(unit);
 	}
  
@@ -388,8 +393,8 @@ public class ODMData2XmlHelper {
 	 * @param unit
 	 */
 	public static void setYData(YXmlType y, double g, double b, YXmlType.Unit.Enum unit) {
-		y.setG(g);
-		y.setB(b);
+		y.setRe(g);
+		y.setIm(b);
 		y.setUnit(unit);
 	}
 	
@@ -408,8 +413,8 @@ public class ODMData2XmlHelper {
 	 * @param unit
 	 */
 	public static void setPowerData(PowerXmlType power, double p, double q, PowerXmlType.Unit.Enum unit) {
-    	power.setP(p);
-    	power.setQ(q);
+    	power.setRe(p);
+    	power.setIm(q);
     	power.setUnit(unit);		
 	}
 	
@@ -421,7 +426,7 @@ public class ODMData2XmlHelper {
 	 * @param unit
 	 */
 	public static void setVoltageData(VoltageXmlType voltage, double v, VoltageXmlType.Unit.Enum unit) {
-    	voltage.setVoltage(v);
+    	voltage.setValue(v);
     	voltage.setUnit(unit);		
 	}
 	
@@ -672,14 +677,14 @@ public class ODMData2XmlHelper {
 			double normialMva, PowerXmlType.Unit.Enum pUnit) {
 		TransformerDataXmlType.RatingData ratingData = xfrData.addNewRatingData();
 		VoltageXmlType fromRatedVolt = ratingData.addNewFromRatedVoltage();
-		fromRatedVolt.setVoltage(fromRatedV);
+		fromRatedVolt.setValue(fromRatedV);
 		fromRatedVolt.setUnit(vUnit);
 		VoltageXmlType toRatedVolt = ratingData.addNewToRatedVoltage();
-		toRatedVolt.setVoltage(toRatedV);
+		toRatedVolt.setValue(toRatedV);
 		toRatedVolt.setUnit(vUnit);
    		if (normialMva != 0.0) {
    			PowerXmlType ratedMva = ratingData.addNewRatedPower();
-   			ratedMva.setP(normialMva);
+   			ratedMva.setRe(normialMva);
    			ratedMva.setUnit(pUnit);		
    		}
 	}

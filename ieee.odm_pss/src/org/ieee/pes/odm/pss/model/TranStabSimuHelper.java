@@ -26,7 +26,7 @@ package org.ieee.pes.odm.pss.model;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NegativeSequenceDataListXmlType;
@@ -79,7 +79,7 @@ public class TranStabSimuHelper {
 		return scenario.getTransientSimlation();
 	}	
 	
-	public static FaultListXmlType.Fault addNewFault(ScenarioXmlType scenario){		
+	public static FaultXmlType addNewFault(ScenarioXmlType scenario){		
 		return scenario.getTransientSimlation().getDynamicDataList().getFaultList().addNewFault();
 	}
 	
