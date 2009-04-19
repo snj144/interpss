@@ -27,9 +27,8 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PssIEE2STXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PssIEEEDualInputXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
@@ -86,7 +85,7 @@ public class BPADynamicPSSRecord {
     		    		
     		//TQV
     		double TQV=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT1(), TQV, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT1(), TQV, TimePeriodXmlType.Unit.SEC);
     				
     		
     		//KQS
@@ -95,37 +94,37 @@ public class BPADynamicPSSRecord {
     		
     		//TQS
     		double TQS= StringUtil.getDouble(strAry[7], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT2(), TQS, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT2(), TQS, TimePeriodXmlType.Unit.SEC);
     		
     		//TQ
     		double TQ= StringUtil.getDouble(strAry[8], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT3(), TQ, TimeXmlType.Unit.SEC);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT4(), TQ, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT3(), TQ, TimePeriodXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT4(), TQ, TimePeriodXmlType.Unit.SEC);
     		// TQ1
     		double TQ1= StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT6(), TQ1, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT6(), TQ1, TimePeriodXmlType.Unit.SEC);
     		    		
     		//TQ11
     		double TQ11= StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT5(), TQ11, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT5(), TQ11, TimePeriodXmlType.Unit.SEC);
     		
     		//TQ2
     		double TQ2= StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT8(), TQ2, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT8(), TQ2, TimePeriodXmlType.Unit.SEC);
     		
     		// TQ21
     		double TQ21= StringUtil.getDouble(strAry[12], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT7(), TQ21, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT7(), TQ21, TimePeriodXmlType.Unit.SEC);
     		   		
     		
     		//TQ31
     		double TQ31=StringUtil.getDouble(strAry[14], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT9(), TQ31, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT9(), TQ31, TimePeriodXmlType.Unit.SEC);
     		    		
     		  		
     		//TQ3
     		double TQ3=StringUtil.getDouble(strAry[13], 0.0);
-    		ODMData2XmlHelper.setTimeData(tstpss.addNewT10(), TQ3, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT10(), TQ3, TimePeriodXmlType.Unit.SEC);
     		    		
     		//VSMAX
     		double vsmax=StringUtil.getDouble(strAry[15], 0.0);
@@ -173,52 +172,52 @@ public class BPADynamicPSSRecord {
     		pss.addNewMacId().setName(macId);
     		//TRW
     		double  trw=StringUtil.getDouble(strAry[4], 0.0);;
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTrw(), trw, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTrw(), trw, TimePeriodXmlType.Unit.SEC);
     		
     		//T5
     		double  t5=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT5(), t5, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT5(), t5, TimePeriodXmlType.Unit.SEC);
     		//T6
     		double  t6=StringUtil.getDouble(strAry[6], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT6(), t6, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT6(), t6, TimePeriodXmlType.Unit.SEC);
     		
     		//T7
     		double  t7=StringUtil.getDouble(strAry[7], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT7(), t7, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT7(), t7, TimePeriodXmlType.Unit.SEC);
     		
     		//KR
     		double kr= StringUtil.getDouble(strAry[8], 0.0);
     		dualInputPss.setKr(kr);    		
     		// TRP
     		double  trp=StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTrp(), trp, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTrp(), trp, TimePeriodXmlType.Unit.SEC);
     		
     		//TW
     		double  tw=StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTW(), tw, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTW(), tw, TimePeriodXmlType.Unit.SEC);
     		
     		//TW1
     		double  tw1=StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTW1(), tw1, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTW1(), tw1, TimePeriodXmlType.Unit.SEC);
     		
     		// TW2
     		double  tw2=StringUtil.getDouble(strAry[12], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewTW2(), tw2, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTW2(), tw2, TimePeriodXmlType.Unit.SEC);
     		
     		//KS
     		double ks= StringUtil.getDouble(strAry[13], 0.0);
     		dualInputPss.setKS(ks);    	
     		//T9
     		double  t9=StringUtil.getDouble(strAry[14], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT9(), t9, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT9(), t9, TimePeriodXmlType.Unit.SEC);
     		
     		//T10
     		double t10=StringUtil.getDouble(strAry[15], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT10(), t10, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT10(), t10, TimePeriodXmlType.Unit.SEC);
     		
     		//T12
     		double t12=StringUtil.getDouble(strAry[16], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT12(), t12, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT12(), t12, TimePeriodXmlType.Unit.SEC);
     	
     		//INP input signal:0for w and Pg, 1 for w, 2for pg
     		int INP=StringUtil.getInt(strAry[17], 0);
@@ -255,26 +254,26 @@ public class BPADynamicPSSRecord {
     		double kp= StringUtil.getDouble(strAry[4], 0.0);    		
     		//T1
     		double  t1=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT1(), t1, TimeXmlType.Unit.SEC);    		
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT1(), t1, TimePeriodXmlType.Unit.SEC);    		
     		//T2
     		double  t2=StringUtil.getDouble(strAry[6], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT2(), t2, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT2(), t2, TimePeriodXmlType.Unit.SEC);
     		
     		//T13
     		double  t13=StringUtil.getDouble(strAry[7], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT13(), t13, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT13(), t13, TimePeriodXmlType.Unit.SEC);
     	
     		//T14
     		double  t14=StringUtil.getDouble(strAry[8], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT14(), t14, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT14(), t14, TimePeriodXmlType.Unit.SEC);
     		
     		// T3
     		double  t3=StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT3(), t3, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT3(), t3, TimePeriodXmlType.Unit.SEC);
     		
     		//T4
     		double  t4=StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setTimeData(dualInputPss.addNewT4(), t4, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT4(), t4, TimePeriodXmlType.Unit.SEC);
     		
     		//VSMAX
     		double vsmax= StringUtil.getDouble(strAry[11], 0.0);

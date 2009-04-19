@@ -28,7 +28,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GovHydroTurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GovHydroXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SteamTurbineXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
@@ -74,24 +74,24 @@ public class BPADynamicTurbineGovernorRecord {
 			
 			//T1
     		double T1=StringUtil.getDouble(strAry[6], 0.0);
-    		ODMData2XmlHelper.setTimeData(gg.addNewT1(), 
-    					T1, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(gg.addNewT1(), 
+    					T1, TimePeriodXmlType.Unit.SEC);
 			//T2
     	    double T2=StringUtil.getDouble(strAry[7], 0.0);
-		    ODMData2XmlHelper.setTimeData(gg.addNewT2(), 
-					       T2, TimeXmlType.Unit.SEC);		   
+		    ODMData2XmlHelper.setTimePeriodData(gg.addNewT2(), 
+					       T2, TimePeriodXmlType.Unit.SEC);		   
 			//T3
 		    double T3=StringUtil.getDouble(strAry[8], 0.0);
-		    ODMData2XmlHelper.setTimeData(gg.addNewT3(), 
-					       T3, TimeXmlType.Unit.SEC);			
+		    ODMData2XmlHelper.setTimePeriodData(gg.addNewT3(), 
+					       T3, TimePeriodXmlType.Unit.SEC);			
 			// T4
 		    double T4=StringUtil.getDouble(strAry[9], 0.0);
-		    ODMData2XmlHelper.setTimeData(gg.addNewT4(), 
-					       T4, TimeXmlType.Unit.SEC);			
+		    ODMData2XmlHelper.setTimePeriodData(gg.addNewT4(), 
+					       T4, TimePeriodXmlType.Unit.SEC);			
 			//T5
 		    double T5=StringUtil.getDouble(strAry[10], 0.0);
-		    ODMData2XmlHelper.setTimeData(gg.addNewT5(), 
-					       T5, TimeXmlType.Unit.SEC);
+		    ODMData2XmlHelper.setTimePeriodData(gg.addNewT5(), 
+					       T5, TimePeriodXmlType.Unit.SEC);
 			
 			//F
 		    double f=StringUtil.getDouble(strAry[11], 0.0);
@@ -124,20 +124,20 @@ public class BPADynamicTurbineGovernorRecord {
 			//TG
     		double Tg=StringUtil.getDouble(strAry[6], 0.0);    		
     		
-		    ODMData2XmlHelper.setTimeData(gh.addNewTG(), 
-					       Tg, TimeXmlType.Unit.SEC);			
+		    ODMData2XmlHelper.setTimePeriodData(gh.addNewTG(), 
+					       Tg, TimePeriodXmlType.Unit.SEC);			
 			//TP
 		    double Tp=StringUtil.getDouble(strAry[7], 0.0);
-		    ODMData2XmlHelper.setTimeData(gh.addNewTP(), 
-					       Tp, TimeXmlType.Unit.SEC);		
+		    ODMData2XmlHelper.setTimePeriodData(gh.addNewTP(), 
+					       Tp, TimePeriodXmlType.Unit.SEC);		
 			//TD
 		    double Td= StringUtil.getDouble(strAry[8], 0.0);
-		    ODMData2XmlHelper.setTimeData(gh.addNewTD(), 
-				       Td, TimeXmlType.Unit.SEC);			
+		    ODMData2XmlHelper.setTimePeriodData(gh.addNewTD(), 
+				       Td, TimePeriodXmlType.Unit.SEC);			
 			// TW/2
 		    double Tw= StringUtil.getDouble(strAry[9], 0.0);
-		    ODMData2XmlHelper.setTimeData(gh.addNewTWhalf(), 
-				       Tw, TimeXmlType.Unit.SEC);			
+		    ODMData2XmlHelper.setTimePeriodData(gh.addNewTWhalf(), 
+				       Tw, TimePeriodXmlType.Unit.SEC);			
 			//VELCLOSE
 		    double Uc=StringUtil.getDouble(strAry[10], 0.0);
     		ODMData2XmlHelper.setPUData(gh.addNewUc(), Uc, PerUnitXmlType.Unit.PU);
@@ -182,19 +182,19 @@ public class BPADynamicTurbineGovernorRecord {
     		ODMData2XmlHelper.setPUData(gs.addNewR(), r, PerUnitXmlType.Unit.PU);
 			//T1
     		double T1=StringUtil.getDouble(strAry[7], 0.0);
-    		ODMData2XmlHelper.setTimeData(gs.addNewT1(), 
-    				       T1, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(gs.addNewT1(), 
+    				       T1, TimePeriodXmlType.Unit.SEC);
     		
     					
 			//T2
     		double T2=StringUtil.getDouble(strAry[8], 0.0);
-    		ODMData2XmlHelper.setTimeData(gs.addNewT2(), 
-    				       T2, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(gs.addNewT2(), 
+    				       T2, TimePeriodXmlType.Unit.SEC);
     				    		
 			// T3
 		    double T3= StringUtil.getDouble(strAry[9], 0.0);
-		    ODMData2XmlHelper.setTimeData(gs.addNewT3(), 
-				       T3, TimeXmlType.Unit.SEC);			
+		    ODMData2XmlHelper.setTimePeriodData(gs.addNewT3(), 
+				       T3, TimePeriodXmlType.Unit.SEC);			
 			//VELOPEN
 		    double Uo=StringUtil.getDouble(strAry[4], 0.0);
     		ODMData2XmlHelper.setPUData(gs.addNewU0(), Uo, PerUnitXmlType.Unit.PU);			
@@ -215,8 +215,8 @@ public class BPADynamicTurbineGovernorRecord {
     			SteamTurbineXmlType steamTur=tur.addNewSteamTurbine();
     			//TCH
     			double TCH= new Double(strAry[4]).doubleValue();
-    		    ODMData2XmlHelper.setTimeData(steamTur.addNewTCH(),
-    		    		TCH, TimeXmlType.Unit.SEC);	    			
+    		    ODMData2XmlHelper.setTimePeriodData(steamTur.addNewTCH(),
+    		    		TCH, TimePeriodXmlType.Unit.SEC);	    			
     			//k1
     		    double k1=new Double(strAry[5]).doubleValue();
     		    steamTur.setK(k1);
@@ -238,22 +238,22 @@ public class BPADynamicTurbineGovernorRecord {
     			
     			//TCH
     			double TCH= StringUtil.getDouble(strAry[4], 0.0);
-    		    ODMData2XmlHelper.setTimeData(steamTur.addNewTCH(),
-    		    		TCH, TimeXmlType.Unit.SEC);	  
+    		    ODMData2XmlHelper.setTimePeriodData(steamTur.addNewTCH(),
+    		    		TCH, TimePeriodXmlType.Unit.SEC);	  
     			//FHP
     		    double FHP= StringUtil.getDouble(strAry[5], 0.0);
     			steamTur.setFHP(FHP);
     			//TRH
     		    double TRH= StringUtil.getDouble(strAry[6], 0.0);
-    		    ODMData2XmlHelper.setTimeData(steamTur.addNewTRH(),
-    		    		TRH, TimeXmlType.Unit.SEC);	    			
+    		    ODMData2XmlHelper.setTimePeriodData(steamTur.addNewTRH(),
+    		    		TRH, TimePeriodXmlType.Unit.SEC);	    			
     			//FIP
     		    double FIP= StringUtil.getDouble(strAry[7], 0.0);
     		    steamTur.setFIP(FIP);    			
     			//TCO
     		    double TCO=StringUtil.getDouble(strAry[8], 0.0);
-    		    ODMData2XmlHelper.setTimeData(steamTur.addNewTCO(),
-        		    		TCO, TimeXmlType.Unit.SEC);
+    		    ODMData2XmlHelper.setTimePeriodData(steamTur.addNewTCO(),
+        		    		TCO, TimePeriodXmlType.Unit.SEC);
     		       		    	    			
     			// FLP
     		    double FLP=StringUtil.getDouble(strAry[9], 0.0);

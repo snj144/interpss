@@ -122,8 +122,8 @@
 								</restriction>
 							</simpleType>
 						</element>
-						<element name="simlationTime" maxOccurs="1" minOccurs="0" type="pss:TimeXmlType"></element>
-						<element name="simulationSteps" type="pss:TimeXmlType" maxOccurs="1" minOccurs="0"></element>
+						<element name="simlationTime" maxOccurs="1" minOccurs="0" type="pss:TimePeriodXmlType"></element>
+						<element name="simulationSteps" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="0"></element>
 					</sequence>
 				</complexType>
 			</element>

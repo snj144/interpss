@@ -29,14 +29,13 @@ import java.text.NumberFormat;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ClassicMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.EquiMachineXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorModelListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PostiveSequenceDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SubTransientMachineXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -96,11 +95,11 @@ public class BPADynamicGeneratorRecord {
     		ODMData2XmlHelper.setPUData(subTranGen.addNewXq11(), 
 					xq11, PerUnitXmlType.Unit.PU);
     		double td011=StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setTimeData(subTranGen.addNewTd011(), 
-					td011, TimeXmlType.Unit.SEC);
+    		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTd011(), 
+					td011, TimePeriodXmlType.Unit.SEC);
     		double tq011=StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setTimeData(subTranGen.addNewTq011(), 
-					tq011, TimeXmlType.Unit.SEC);    		
+    		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTq011(), 
+					tq011, TimePeriodXmlType.Unit.SEC);    		
     		
 		}else if(str.substring(0, 2).trim().equals("MF")){
 			
@@ -169,12 +168,12 @@ public class BPADynamicGeneratorRecord {
 				ODMData2XmlHelper.setPUData(subTranGen.addNewXq(), xq, PerUnitXmlType.Unit.PU);	    			
 	    		
 				double td01=StringUtil.getDouble(strAry[13], 0.0);
-	    		ODMData2XmlHelper.setTimeData(subTranGen.addNewTdo1(), 
-	    					td01, TimeXmlType.Unit.SEC);
+	    		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTdo1(), 
+	    					td01, TimePeriodXmlType.Unit.SEC);
 	    		
 	    		double tq01=StringUtil.getDouble(strAry[14], 0.0);
-	    		ODMData2XmlHelper.setTimeData(subTranGen.addNewTq01(), 
-	    					tq01, TimeXmlType.Unit.SEC);
+	    		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTq01(), 
+	    					tq01, TimePeriodXmlType.Unit.SEC);
 	    		
 	    		double xl=StringUtil.getDouble(strAry[15], 0.0);
 				ODMData2XmlHelper.setPUData(subTranGen.addNewXr(), xl, PerUnitXmlType.Unit.PU);	    			
@@ -275,12 +274,12 @@ public class BPADynamicGeneratorRecord {
 				ODMData2XmlHelper.setPUData(tranGen.addNewXq(), xq, PerUnitXmlType.Unit.PU);	    			
 	    		
 				double td01=StringUtil.getDouble(strAry[13], 0.0);
-	    		ODMData2XmlHelper.setTimeData(tranGen.addNewTdo1(), 
-	    					td01, TimeXmlType.Unit.SEC);
+	    		ODMData2XmlHelper.setTimePeriodData(tranGen.addNewTdo1(), 
+	    					td01, TimePeriodXmlType.Unit.SEC);
 	    		
 	    		double tq01=StringUtil.getDouble(strAry[14], 0.0);
-	    		ODMData2XmlHelper.setTimeData(tranGen.addNewTq01(), 
-	    					tq01, TimeXmlType.Unit.SEC);
+	    		ODMData2XmlHelper.setTimePeriodData(tranGen.addNewTq01(), 
+	    					tq01, TimePeriodXmlType.Unit.SEC);
 	    			    		
 				double E1=1.0, SE1=0.0;
 				if(!strAry[16].equals("")){

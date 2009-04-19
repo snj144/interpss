@@ -31,7 +31,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CycleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
@@ -49,7 +48,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
@@ -434,7 +433,7 @@ public class ODMData2XmlHelper {
 	 * @param unit
 	 */
 	public static void setCurrentData(CurrentXmlType current, double i, CurrentXmlType.Unit.Enum unit) {
-    	current.setCurrent(i);
+    	current.setValue(i);
     	current.setUnit(unit);
     			
 	}
@@ -450,11 +449,8 @@ public class ODMData2XmlHelper {
     	angle.setValue(a);
     	angle.setUnit(unit);		
 	}
-	public static void setTimeData(CycleXmlType time, double t, TimeXmlType.Unit.Enum unit){
-		time.setValue(t);
-		time.setUnit(CycleXmlType.Unit.CYCLE);
-	}
-	public static void setTimeData(TimeXmlType time, double t,TimeXmlType.Unit.Enum unit){
+	
+	public static void setTimePeriodData(TimePeriodXmlType time, double t,TimePeriodXmlType.Unit.Enum unit){
 		time.setValue(t);
 		time.setUnit(unit);
 	}

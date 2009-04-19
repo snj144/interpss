@@ -29,7 +29,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultCategoryXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimeXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
@@ -108,8 +108,8 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    			
 	    			if(breaker1Opened==false&&breaker2Opened==false){	    				
 	    				
-	    				ODMData2XmlHelper.setTimeData(busFault.addNewFaultStartTime(), 
-	    						operationTime, TimeXmlType.Unit.CYCLE);  
+	    				ODMData2XmlHelper.setTimePeriodData(busFault.addNewFaultStartTime(), 
+	    						operationTime, TimePeriodXmlType.Unit.CYCLE);  
 	    				
 	        			busFault.addNewFaultedBus().setName(bus1);
 	        			ODMData2XmlHelper.setVoltageData(busFault.addNewFaultedBusRatedV(),
@@ -120,14 +120,14 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	        			
 	    			}else if(breaker1Opened==true&&breaker2Opened==false){	    				
 	    				if(busFault!=null){
-	    					ODMData2XmlHelper.setTimeData(busFault.addNewFirstOperationTime(),
-	        						operationTime, TimeXmlType.Unit.CYCLE);
+	    					ODMData2XmlHelper.setTimePeriodData(busFault.addNewFirstOperationTime(),
+	        						operationTime, TimePeriodXmlType.Unit.CYCLE);
 	    					busFault.setPermanentFault(true);
 	            			if(mode==-1){
 	            				double duration= busFault.getFirstOperationTime().getValue()-
 	            				        busFault.getFaultStartTime().getValue();
-	            				ODMData2XmlHelper.setTimeData(busFault.addNewFaultDurationTime(), 
-	            						duration, TimeXmlType.Unit.CYCLE);
+	            				ODMData2XmlHelper.setTimePeriodData(busFault.addNewFaultDurationTime(), 
+	            						duration, TimePeriodXmlType.Unit.CYCLE);
 	            				busFault.setPermanentFault(false);
 	            			} 
 	    				}
@@ -135,13 +135,13 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    			}else if(breaker1Opened==true&&breaker2Opened==true){
 	    				if(busFault!=null){
 	    					busFault.setPermanentFault(true);
-	    					ODMData2XmlHelper.setTimeData(busFault.addNewSecondOperationTime(),
-	        						operationTime, TimeXmlType.Unit.CYCLE);
+	    					ODMData2XmlHelper.setTimePeriodData(busFault.addNewSecondOperationTime(),
+	        						operationTime, TimePeriodXmlType.Unit.CYCLE);
 	        				if(mode==-1){	        					
 	            				double duration= busFault.getSecondOperationTime().getValue()-
 	            				        busFault.getFaultStartTime().getValue();
-	            				ODMData2XmlHelper.setTimeData(busFault.addNewFaultDurationTime(), 
-	            						duration, TimeXmlType.Unit.CYCLE);
+	            				ODMData2XmlHelper.setTimePeriodData(busFault.addNewFaultDurationTime(), 
+	            						duration, TimePeriodXmlType.Unit.CYCLE);
 	            				busFault.setPermanentFault(false);
 	            			}	            			
 	    				}
@@ -149,8 +149,8 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    			// permanent bus fault
 	    		}else if(mode==2||mode==-2){
 	    			if(mode==2){	                    
-	    				ODMData2XmlHelper.setTimeData(busFault.addNewFaultStartTime(), 
-	    						operationTime, TimeXmlType.Unit.CYCLE);  
+	    				ODMData2XmlHelper.setTimePeriodData(busFault.addNewFaultStartTime(), 
+	    						operationTime, TimePeriodXmlType.Unit.CYCLE);  
 	    				busFault.setFaultCategory(FaultCategoryXmlType.X_3_PHASE);
 	        			busFault.addNewFaultedBus().setName(bus1);
 	        			ODMData2XmlHelper.setVoltageData(busFault.addNewFaultedBusRatedV(),
@@ -162,12 +162,12 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	        			
 	    			}else{	
 	    				if(busFault!=null){
-	    					ODMData2XmlHelper.setTimeData(busFault.addNewFirstOperationTime(),
-	        						operationTime, TimeXmlType.Unit.CYCLE);
+	    					ODMData2XmlHelper.setTimePeriodData(busFault.addNewFirstOperationTime(),
+	        						operationTime, TimePeriodXmlType.Unit.CYCLE);
 	    					double duration= busFault.getFirstOperationTime().getValue()-
 					        busFault.getFaultStartTime().getValue();
-					        ODMData2XmlHelper.setTimeData(busFault.addNewFaultDurationTime(), 
-							duration, TimeXmlType.Unit.CYCLE);
+					        ODMData2XmlHelper.setTimePeriodData(busFault.addNewFaultDurationTime(), 
+							duration, TimePeriodXmlType.Unit.CYCLE);
 					        busFault.setPermanentFault(false);
 	            			}
 	    				}
@@ -192,36 +192,36 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
         			braFault.addNewFromBus().setName(bus2);
         			ODMData2XmlHelper.setVoltageData(braFault.addNewToBusRatedV(), 
         					bus2RatedV, VoltageXmlType.Unit.KV);
-        			ODMData2XmlHelper.setTimeData(braFault.addNewFaultStartTime(), 
-    						operationTime, TimeXmlType.Unit.CYCLE);
+        			ODMData2XmlHelper.setTimePeriodData(braFault.addNewFaultStartTime(), 
+    						operationTime, TimePeriodXmlType.Unit.CYCLE);
         			braFault.addNewFaultLocationFromFromSide().setValue(faultLocation);
         			braFault.getFaultLocationFromFromSide().setUnit(PercentXmlType.Unit.PERCENT);
         			braFault.setPermanentFault(true);
     			}else if((breaker1Opened==true&&breaker2Opened==false)||
     					 (breaker1Opened==false&&breaker2Opened==true)){    				
     				if(braFault!=null){
-    					ODMData2XmlHelper.setTimeData(braFault.addNewFirstOperationTime(),
-        						operationTime, TimeXmlType.Unit.CYCLE);
+    					ODMData2XmlHelper.setTimePeriodData(braFault.addNewFirstOperationTime(),
+        						operationTime, TimePeriodXmlType.Unit.CYCLE);
     					braFault.setPermanentFault(true);
             			if(mode==-3){
             				double duration= braFault.getFirstOperationTime().getValue()-
             				        braFault.getFaultStartTime().getValue();
-            				ODMData2XmlHelper.setTimeData(braFault.addNewFaultDurationTime(), 
-            						duration, TimeXmlType.Unit.CYCLE);
+            				ODMData2XmlHelper.setTimePeriodData(braFault.addNewFaultDurationTime(), 
+            						duration, TimePeriodXmlType.Unit.CYCLE);
             				braFault.setPermanentFault(false);
             			}
     				}    				
     			}else if(breaker1Opened==true&&breaker2Opened==true){    				
     				if(braFault!=null){
     					braFault.setPermanentFault(true);
-    					ODMData2XmlHelper.setTimeData(braFault.addNewSecondOperationTime(),
-        						operationTime, TimeXmlType.Unit.CYCLE);
+    					ODMData2XmlHelper.setTimePeriodData(braFault.addNewSecondOperationTime(),
+        						operationTime, TimePeriodXmlType.Unit.CYCLE);
         				if(mode==-3){
         					braFault.setPermanentFault(false);
             				double duration= braFault.getSecondOperationTime().getValue()-
             				        braFault.getFaultStartTime().getValue();
-            				ODMData2XmlHelper.setTimeData(braFault.addNewFaultDurationTime(), 
-            						duration, TimeXmlType.Unit.CYCLE);
+            				ODMData2XmlHelper.setTimePeriodData(braFault.addNewFaultDurationTime(), 
+            						duration, TimePeriodXmlType.Unit.CYCLE);
             			}            			
             		}
     			}
@@ -248,8 +248,8 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
      		   double operationTime=0.0;
      		  if(!strAry[5].equals("")){
         			operationTime=new Double(strAry[5]).doubleValue();
-        			ODMData2XmlHelper.setTimeData(loadChange.addNewOperationTime(),
-        					operationTime, TimeXmlType.Unit.CYCLE);
+        			ODMData2XmlHelper.setTimePeriodData(loadChange.addNewOperationTime(),
+        					operationTime, TimePeriodXmlType.Unit.CYCLE);
         		}
      		  double pp=0.0, qp=0.0, pc=0.0,qc=0.0,pz=0.0,qz=0.0;
      		  if(!strAry[6].equals("")){
@@ -303,8 +303,8 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
      		double operationTime=0.0;
      		if(!strAry[5].equals("")){
      			operationTime=new Double(strAry[5]).doubleValue();
-     			ODMData2XmlHelper.setTimeData(genChange.addNewOperationTime(),
-     					operationTime, TimeXmlType.Unit.CYCLE);
+     			ODMData2XmlHelper.setTimePeriodData(genChange.addNewOperationTime(),
+     					operationTime, TimePeriodXmlType.Unit.CYCLE);
      		} 
      		double pg=0.0;
      		if(new Double(strAry[12]).doubleValue()<90000){
@@ -384,8 +384,8 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    	  double startTime=0.0;
 	    	  if(!strAry[7].equals("")){
 	    		  startTime= new Double(strAry[7]).doubleValue();
-	    		  ODMData2XmlHelper.setTimeData(dcFault.addNewStartTime(), 
-	    				  startTime, TimeXmlType.Unit.CYCLE);
+	    		  ODMData2XmlHelper.setTimePeriodData(dcFault.addNewStartTime(), 
+	    				  startTime, TimePeriodXmlType.Unit.CYCLE);
 	    		  
 	    	  }
 	    	  double faultR=0.0;
@@ -403,8 +403,8 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     		 
     		 double clearedTime= new Double(strAry[7]).doubleValue();
     		 double durationTime=clearedTime-dcFault.getStartTime().getValue();
-    		 ODMData2XmlHelper.setTimeData(dcFault.addNewDurationTime(),
-    				 durationTime, TimeXmlType.Unit.CYCLE); 
+    		 ODMData2XmlHelper.setTimePeriodData(dcFault.addNewDurationTime(),
+    				 durationTime, TimePeriodXmlType.Unit.CYCLE); 
     	  }
       }
     }
