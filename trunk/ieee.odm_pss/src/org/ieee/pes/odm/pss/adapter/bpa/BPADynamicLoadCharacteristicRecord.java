@@ -24,7 +24,7 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicModelListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DLoadIEEEStaticLoadXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -58,7 +58,7 @@ public static void processLoadCharacteristicData(String str,TransientSimulationX
 	}
 	if(strAry[0].equals("LA")||strAry[0].equals("LB")){
 		load.setLoadXmlType(LoadCharacteristicXmlType.LoadXmlType.IEEE_STATIC_LOAD);
-		LoadCharacteristicModelListXmlType.IEEEStaticLoad staLoad=
+		DLoadIEEEStaticLoadXmlType staLoad=
 			 load.addNewLoadModel().addNewIEEEStaticLoad();
 		//pz
 		double a1=0.0;

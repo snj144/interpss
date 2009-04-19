@@ -14,7 +14,8 @@
 				<sequence>
 					<element name="baseVoltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1"></element>
 					<element name="loadflowData" type="pss:LoadflowBusDataXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="dynamicData" type="pss:DynamicBusDataXmlDataType" minOccurs="0"></element>
+					<element name="dynamicData" type="pss:DynamicBusDataXmlType" minOccurs="0"></element>
+					<element name="sequenceData" type="pss:SequenceBusDataXmlType" minOccurs="0"></element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -29,6 +30,8 @@
 					<element name="tertiaryBus" type="pss:IDRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="circuitId" type="string" minOccurs="0" maxOccurs="1"></element>
 					<element name="loadflowData" type="pss:LoadflowBranchDataXmlType" minOccurs="0" maxOccurs="1"></element>
+                    <element name="sequenceData" type="pss:SequenceBranchDataXmlType" minOccurs="0"></element>
+                    <element name="dynamicData" type="pss:DynamicBranchDataXmlType" minOccurs="0"></element>
 					<element name="dcLineData" minOccurs="0">
 						<complexType>
 							<sequence>
@@ -38,7 +41,7 @@
 							</sequence>
 						</complexType>
 					</element>
-					<element name="dynamicData" type="pss:DynamicBranchDataXmlType" minOccurs="0"></element>
+
 				</sequence>
 			</extension>
 		</complexContent>
@@ -552,7 +555,246 @@
 		</complexContent>
 	</complexType>
 
-	<complexType name="DynamicBusDataXmlDataType"></complexType>
+	<complexType name="DynamicBusDataXmlType">
+		<sequence>
+			<element name="machineList" minOccurs="0" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="machine" type="pss:MachineXmlType" minOccurs="1"></element>
+						<element name="exciter" minOccurs="0">
+							<complexType>
+								<sequence>
+									<element name="exciterType" maxOccurs="1" minOccurs="1">
+										<simpleType>
+											<restriction base="string">
+												<enumeration value="IEEE1992TypeAC1A"></enumeration>
+												<enumeration value="IEEE1981TypeAC2"></enumeration>
+												<enumeration value="IEEE1981ST1"></enumeration>
+												<enumeration value="BPAFJ"></enumeration>
+												<enumeration value="IEEE1968Type1"></enumeration>
+												<enumeration value="IEEEModified1968Type1"></enumeration>
+												<enumeration value="IEEE1981NewExcSystem"></enumeration>
+												<enumeration value="IEEETypeDC2"></enumeration>
+											</restriction>
+										</simpleType>
+									</element>
+									<element name="exciterModel" type="pss:ExciterModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
 
-	<complexType name="DynamicBranchDataXmlType"></complexType>
+								</sequence>
+							</complexType>
+						</element>
+						<element name="governor" minOccurs="0">
+							<complexType>
+								<sequence>
+									<element name="governorType" maxOccurs="1" minOccurs="1">
+										<simpleType>
+											<restriction base="string">
+												<enumeration value="IEEE1981Type1"></enumeration>
+												<enumeration value="IEEE1981Type2"></enumeration>
+												<enumeration value="IEEE1981Type3"></enumeration>
+												<enumeration value="hydroStreamGeneralModel"></enumeration>
+												<enumeration value="hydroGovernerAndTurbine"></enumeration>
+												<enumeration value="hydroGoverner"></enumeration>
+											</restriction>
+										</simpleType>
+									</element>
+									<element name="governorModel" type="pss:TurbineGovernorModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
+								</sequence>
+							</complexType>
+						</element>
+						<element name="stabilizer" minOccurs="0">
+							<complexType>
+								<sequence>
+									<element name="stabilizerType" maxOccurs="1" minOccurs="1">
+										<simpleType>
+											<restriction base="string">
+												<enumeration value="IEEE1981Type"></enumeration>
+												<enumeration value="IEEE1982Type2A"></enumeration>
+												<enumeration value="IEE2ST"></enumeration>
+												<enumeration value="IEEEDualInput"></enumeration>
+											</restriction>
+										</simpleType>
+									</element>
+									<element name="stabilizerModel" type="pss:StabilizerModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
+								</sequence>
+							</complexType>
+						</element>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="dynamicLoad" minOccurs="0">
+			<complexType>
+		<sequence>
+			<element name="location" maxOccurs="1" minOccurs="1">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="atBus"></enumeration>
+						<enumeration value="atOwner"></enumeration>
+						<enumeration value="atZone"></enumeration>
+						<enumeration value="atArea"></enumeration>
+						<enumeration value="other"></enumeration>
+					</restriction>
+				</simpleType>
+			</element>
+
+			<element name="LoadXmlType" maxOccurs="1" minOccurs="1">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="IEEEStaticLoad"></enumeration>
+						<enumeration value="ComplexLoad"></enumeration>
+						<enumeration value="InductionMotor"></enumeration>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="LoadModel" type="pss:DynamicLoadModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
+		</sequence>
+			</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="DynamicBranchDataXmlType">
+		<sequence>
+			<element name="lineRealy" maxOccurs="unbounded" minOccurs="0"><complexType></complexType></element>
+		</sequence>
+	</complexType>
+
+	<complexType name="MachineXmlType">
+		<sequence>
+			<element name="genId" type="pss:IDRecordXmlType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="ownerName" type="string" maxOccurs="1"
+				minOccurs="0">
+			</element>
+			<element name="ratedVoltage" type="pss:VoltageXmlType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="generatorType" maxOccurs="1" minOccurs="1">
+				<simpleType>
+					<restriction base="string">
+					    <enumeration value="EquiGenUnitModel"></enumeration>
+						<enumeration value="ClassicModel"></enumeration>
+						<enumeration value="TransientModel"></enumeration>
+						<enumeration value="SubTransientModel"></enumeration>
+
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="generatorModel"
+				type="pss:MachineModelSelectionXmlType" maxOccurs="1" minOccurs="1">
+			</element>
+
+			<element name="pContribution" type="pss:PercentXmlType"
+				maxOccurs="1" minOccurs="0">
+			</element>
+			<element name="qContribution" type="pss:PercentXmlType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
+	</complexType>
+	
+    <complexType name="MachineModelSelectionXmlType">
+    	<sequence>
+    		<element name="equiGenUnit" maxOccurs="1" minOccurs="0" type="pss:EquiMachineXmlType">    		</element>
+    		<element name="classicalModel" maxOccurs="1"
+    			minOccurs="0" type="pss:ClassicMachineXmlType">    		</element>
+    		<element name="transModel" maxOccurs="1" minOccurs="0" type="pss:TransientMachineXmlType">    		</element>
+    		<element name="subTransientModel" maxOccurs="1"
+    			minOccurs="0" type="pss:SubTransientMachineXmlType">    		</element>
+    	</sequence>
+    </complexType>
+	
+    <complexType name="ExciterModelSelectionXmlType">
+    	<sequence>
+    		<element name="IEEE1992TypeAC1A" maxOccurs="1"
+    			minOccurs="0" type="pss:ExcIEEE1992TypeAC1AXmlType">    		</element>
+    		<element name="IEEE1981TypeAC2" maxOccurs="1"
+    			minOccurs="0" type="pss:ExcIEEE1981TypeAC2XmlType">    		</element>
+    		<element name="IEEE1981ST1" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1981ST1XmlType">    		</element>
+    		<element name="BPAFJ" maxOccurs="1" minOccurs="0" type="pss:ExcBPAFJXmlType">    		</element>
+    		<element name="IEEE1968Type1" maxOccurs="1" minOccurs="0" type="pss:ExcIEEE1968Type1XmlType">    		</element>
+    		<element name="IEEEModified1968Type1" maxOccurs="1"
+    			minOccurs="0" type="pss:ExcrIEEEModified1968Type1XmlType">    		</element>
+    		<element name="IEEE1981NewExcSystem" maxOccurs="1"
+    			minOccurs="0" type="pss:ExcIEEE1981NewExcSystemXmlType">    		</element>
+    		<element name="IEEETypeDC2" maxOccurs="1" minOccurs="0" type="pss:ExcIEEETypeDC2XmlType">    		</element>
+    	</sequence>
+    </complexType>
+
+	<complexType name="StabilizerModelSelectionXmlType">
+		<sequence>
+			<element name="IEEE1981Type" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1981TypeXmlType">
+			</element>
+			<element name="IEEE1982Type2A" maxOccurs="1" minOccurs="0" type="pss:PssIEEE1982Type2AXmlType">
+			</element>
+			<element name="IEE2ST" maxOccurs="1" minOccurs="0" type="pss:PssIEE2STXmlType">
+			</element>
+			<element name="IEEEDualInput" maxOccurs="1" minOccurs="0" type="pss:PssIEEEDualInputXmlType">
+			</element>
+		</sequence>
+	</complexType>
+	
+	<complexType name="TurbineGovernorModelSelectionXmlType">
+		<sequence>
+			<element name="IEEE1981Type1" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type1XmlTypeXmlType">
+			</element>
+			<element name="IEEE1981Type2" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type2XmlType">
+			</element>
+			<element name="IEEE1981Type3" maxOccurs="1" minOccurs="0" type="pss:GovIEEE1981Type3XmlType">
+			</element>
+			<element name="hydroStreamGeneralModel" maxOccurs="1" minOccurs="0" type="pss:GovHydroSteamGeneralModelXmlType">
+			</element>
+			<element name="hydroGovernerAndTurbine" maxOccurs="1" minOccurs="0" type="pss:GovHydroTurbineXmlType">
+			</element>
+			<element name="hydroGoverner" maxOccurs="1" minOccurs="0" type="pss:GovHydroXmlType">
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="DynamicLoadModelSelectionXmlType">
+		<sequence>
+			<element name="IEEEStaticLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_IEEEStaticLoadXmlType">
+			</element>
+			<element name="ComplexLoad" maxOccurs="1" minOccurs="0" type="pss:DLoad_ComplexLoadXmlType">
+			</element>
+			<element name="InductionMotor" maxOccurs="1" minOccurs="0" type="pss:DLoad_InductionMotorXmlType">
+			</element>
+		</sequence>
+	</complexType>
+	
+
+	<complexType name="SequenceBusDataXmlType">
+		<sequence>
+			<element name="genData" minOccurs="0">
+				<complexType>
+					<sequence>
+						<element name="potiveZ" type="pss:ZXmlType" minOccurs="1"></element>
+						<element name="negativeZ" type="pss:ZXmlType" minOccurs="0"></element>
+						<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
+					</sequence>
+				</complexType>
+			</element>
+			<element name="shuntLoadData" minOccurs="0">
+			<complexType>
+					<sequence>
+						<element name="negativeZ" type="pss:ZXmlType" minOccurs="0"></element>
+						<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
+					</sequence>
+			</complexType>
+			</element>
+			<element name="swithedShuntLoadData" minOccurs="0">
+			<complexType>
+					<sequence>
+						<element name="zeroZ" type="pss:ZXmlType" minOccurs="0"></element>
+					</sequence>
+			</complexType>
+			</element>
+		</sequence>
+	</complexType>
+
+	<complexType name="SequenceBranchDataXmlType">
+		<sequence>
+			<element name="lineZeroSeq" type="pss:LineZeroSeqXmlType" minOccurs="0"></element>
+			<element name="xfrZeroSeq" type="pss:TransformerZeroSeqXmlType" minOccurs="0"></element>
+			<element name="linemutualZeroZ" type="pss:MutualZeroZXmlType" minOccurs="0" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
 </schema>
