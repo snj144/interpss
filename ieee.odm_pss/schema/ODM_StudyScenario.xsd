@@ -57,7 +57,6 @@
 						<enumeration value="classicalModel"></enumeration>
 						<enumeration value="transientModel"></enumeration>
 						<enumeration value="subtransModel"></enumeration>
-
 					</restriction>
 				</simpleType>
 			</element>

@@ -14,7 +14,6 @@
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
 					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType">
-
 					</element>
 					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
 					<element name="basePower" type="pss:BasePowerXmlType" minOccurs="1" maxOccurs="1"></element>
@@ -22,9 +21,7 @@
 						<complexType>
 							<sequence>
 								<element name="area" maxOccurs="unbounded" minOccurs="0" type="pss:NetAreaXmlType">
-
 								</element>
-
 							</sequence>
 						</complexType>
 					</element>
@@ -46,7 +43,6 @@
 						<complexType>
 							<sequence>
 								<element name="lossZone" maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType">
-
 								</element>
 							</sequence>
 						</complexType>
@@ -57,14 +53,6 @@
 								<element name="interchange" minOccurs="0" maxOccurs="unbounded">
 									<complexType>
 										<sequence>
-
-
-
-
-
-
-
-
 											<element name="ieeeCDFInterchange" minOccurs="0">
 												<complexType>
 													<sequence>
@@ -73,12 +61,8 @@
 														<element name="alternateSwingBusName" type="string" minOccurs="1"></element>
 														<element name="interchangePower" type="pss:PowerXmlType" minOccurs="1"></element>
 														<element name="interchangeErrTolerance" type="double" minOccurs="1"></element>
-
-
 														<element name="areaCode" type="string" minOccurs="0"></element>
 														<element name="areaName" type="string" minOccurs="0"></element>
-
-
 													</sequence>
 												</complexType>
 											</element>
@@ -92,7 +76,6 @@
 													</sequence>
 												</complexType>
 											</element>
-
 										</sequence>
 									</complexType>
 								</element>
@@ -116,7 +99,6 @@
 							</sequence>
 						</complexType>
 					</element>
-
 					<element name="dcLineList" maxOccurs="1" minOccurs="0">
 						<complexType>
 							<sequence>
@@ -137,7 +119,6 @@
 							</sequence>
 						</complexType>
 					</element>
-
 				</sequence>
 			</extension>
 		</complexContent>

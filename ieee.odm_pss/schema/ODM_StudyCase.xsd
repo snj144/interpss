@@ -54,7 +54,6 @@
 						</annotation>
 					</element>
 
-
 					<element name="baseCase" type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
 						<annotation>
 							<documentation>Base case power network data for power system simulation purpose</documentation>
@@ -80,7 +79,6 @@
 							</sequence>
 						</complexType>
 					</element>
-
 				</sequence>
 			</extension>
 		</complexContent>
@@ -94,7 +92,6 @@
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
 					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType">
-
 					</element>
 					<element name="modifcation" type="pss:ModifyRecordXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="transientSimlation" type="pss:TransientSimulationXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -102,12 +99,6 @@
 			</extension>
 		</complexContent>
 	</complexType>
-
-
-
-
-
-
 
 	<complexType name="TransientSimulationXmlType">
 		<sequence>
@@ -149,10 +140,6 @@
 			<element name="outPutSetting" maxOccurs="1" minOccurs="0">
 				<complexType></complexType>
 			</element>
-
-
 		</sequence>
 	</complexType>
-
-
 </schema>
