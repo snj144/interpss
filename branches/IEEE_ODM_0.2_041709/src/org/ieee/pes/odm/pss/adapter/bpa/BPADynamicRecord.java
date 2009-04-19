@@ -48,18 +48,17 @@ public class BPADynamicRecord {
 	
 	public static int getDataType(String str,BPAAdapter adapter){	
 		
-				
+		
 			
-		 if (str.startsWith(".")&& str.startsWith("")){
-				dataType=0;
+		 if (str.startsWith(".")|| str.length()<=3){
+				dataType=0;				
 			}else if(str.startsWith("CASE")||str.startsWith("SOL")) {
 				dataType=header;
 			}else if(str.startsWith("LS")){
 				dataType=faultOperation;
 			}else if(str.substring(0, 2).trim().equals("M")||
 					str.substring(0, 2).trim().equals("MF")||
-					str.substring(0, 2).trim().equals("MC")||
-					str.substring(0, 2).trim().equals("LN")){
+					str.substring(0, 2).trim().equals("MC")){
 				
 				dataType=generatorData;
 			}else if (str.substring(0, 2).trim().equals("FA")||
@@ -87,18 +86,16 @@ public class BPADynamicRecord {
 					||str.substring(0, 2).trim().equals("XR")||str.substring(0, 2).trim().equals("LM")){
 				dataType=sequenceData;
 			}else {				
-				adapter.logErr("This line data is not processed"+"   "+"'"+str+"'");
-				
-			}		 
+				//adapter.logErr("This line data is not processed"+"   "+"'"+str+"'");				
+				dataType=0;
+			}		
 		 return dataType;
 	}
 	
 	public static void processDynamicData(String str, TransientSimulationXmlType tranSimu, 
 			final java.io.BufferedReader din,
 			IEEEODMPSSModelParser parser ,BPAAdapter adapter) throws Exception{
-		PSSNetworkXmlType baseCaseNet=parser.getBaseCase();
-		
-		
+		PSSNetworkXmlType baseCaseNet=parser.getBaseCase();	
 		
 		do{
 			str= din.readLine();
@@ -107,10 +104,18 @@ public class BPADynamicRecord {
 				try{
 					if(dataType==header){
 						processHeaderData(str, tranSimu,adapter);
-					}else if(dataType==faultOperation){
-						BPADynamicFaultOperationRecord.processFaultOperationData(str, tranSimu,adapter);
-					}else if(dataType==generatorData){
-						BPADynamicGeneratorRecord.processGeneratorData(str, tranSimu, baseCaseNet,adapter);
+					}else if(dataType==generatorData){	
+						String str1="";
+						String genType="";
+						if(str.substring(0, 2).trim().equals("M")){
+							str1=din.readLine(); // line MF 
+							genType="subTransient";
+						}else if(str.substring(0, 2).trim().equals("MF")){
+							genType="transient";
+						}else if(str.substring(0, 2).trim().equals("MC")){
+							genType="classical";
+						}
+						BPADynamicGeneratorRecord.processGeneratorData(str, str1,tranSimu, baseCaseNet,adapter, genType);
 					}else if(dataType==exciterData){
 						BPADynamicExciterRecord.processExciterData(str, tranSimu, parser,adapter);
 					}else if(dataType==turbine_governorData){
@@ -133,7 +138,7 @@ public class BPADynamicRecord {
 			}			
 		}while (!str.startsWith("90"));
 		// when all the data is converted, calculate negative sequence data
-		BPADynamicSequenceRecord.processNegativeData(parser, tranSimu);		
+		//BPADynamicSequenceRecord.processNegativeData(parser, tranSimu);		
 	}
 	
 	public static void processHeaderData(String str,TransientSimulationXmlType tranSimu

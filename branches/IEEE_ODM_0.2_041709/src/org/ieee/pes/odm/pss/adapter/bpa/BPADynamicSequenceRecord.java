@@ -13,7 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * @Author Stephen Hau
+ * @Author Stephen Hou
  * @Version 1.0
  * @Date 02/11/2008
  * 
@@ -181,13 +181,18 @@ public class BPADynamicSequenceRecord {
 				.getGeneratorDataList().getGeneratorArray()){
 			double xd1=0.0;
 			double x2=0.0;
-			double tq01=0.0;
-			if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.SUBTRANS_MODEL)){
-				GeneratorModelListXmlType.SubTransientModel subGen=
-					gen.getGeneratorModel().getSubTransientModel();
-				xd1=subGen.getXd1().getValue();
-				tq01=subGen.getTq01().getValue();
+			double tq01=0.0;			
+			if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.SAILENT_POLE_SUBTRANS_MODEL)){
+				GeneratorModelListXmlType.SailentPoleSubTransientModel subGen=
+					gen.getGeneratorModel().getSailentPoleSubTransientModel();
+				xd1=subGen.getXd1().getValue();			
 				
+				
+			}else if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.NONSAILENT_POLE_SUBTRANS_MODEL)){
+				GeneratorModelListXmlType.NonSailentPoleSubTransientModel subGen=
+					gen.getGeneratorModel().getNonSailentPoleSubTransientModel();
+				xd1=subGen.getXd1().getValue();			
+				tq01=subGen.getTq01().getValue();
 				
 			}else if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.TRANSIENT_MODEL)){
 				GeneratorModelListXmlType.TransModel tranGen=
@@ -210,6 +215,7 @@ public class BPADynamicSequenceRecord {
 			else{
 				x2=0.65*xd1;
 			}
+			x2=StringUtil.getNumberFormat(x2);
 			NegativeSequenceDataListXmlType.GeneratorNegativeList.GeneratorNegative xfrNeg=
 				parser.addNewGenNeg();
 			

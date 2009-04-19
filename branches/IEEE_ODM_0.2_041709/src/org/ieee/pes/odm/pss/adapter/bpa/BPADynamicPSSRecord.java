@@ -72,9 +72,9 @@ public class BPADynamicPSSRecord {
     			
     		} 
     		// for local input mode, remote input is set to 0;
-    		tstpss.setFirstRemoteBusId("0");
+    		tstpss.setFirstRemoteBusId("1");
     		tstpss.setSecondInputSignal(StabilizerModelListXmlType.IEE2ST.SecondInputSignal.X_0);
-    		tstpss.setSecondRemoteBusId("0");
+    		tstpss.setSecondRemoteBusId("1");
     		
     		pss.addNewMacId().setName(macId);
     		//KQV 

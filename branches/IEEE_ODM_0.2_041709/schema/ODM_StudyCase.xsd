@@ -328,14 +328,7 @@
     	<sequence>
     		<element name="busDynDataList"
     			type="pss:BusDynDataListXmlType" maxOccurs="1" minOccurs="0">
-    		</element>
-    		<element name="branchDynDataList"
-    			type="pss:BranchDynDataListXmlType" maxOccurs="1"
-    			minOccurs="0">
-    		</element>
-    		<element name="faultList" type="pss:FaultListXmlType"
-    			maxOccurs="1" minOccurs="0">
-    		</element>
+    		</element>
     		<element name="sequenceDataList" type="pss:SequenceDataListXmlType" maxOccurs="1" minOccurs="0"></element>
     	</sequence>
     </complexType>

@@ -33,7 +33,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CycleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
@@ -217,71 +216,7 @@ public class ODMData2XmlHelper {
 		return null;
 	}
 	
-	public static FaultListXmlType.Fault getFaultRecord(TransientSimulationXmlType tranSimu,
-			FaultListXmlType.Fault.FaultType.Enum faultType,String fbus,String tbus){
-		if(tranSimu.getDynamicDataList().getFaultList().getFaultArray()!=null){			
-			for(FaultListXmlType.Fault fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){				
-				if(faultType.equals(fault.getFaultType())){					
-					if(faultType.equals(FaultListXmlType.Fault.FaultType.BUS_FAULT)){						
-						FaultListXmlType.Fault.BusFault busFault=fault.getBusFault();
-						if(fbus.equals(busFault.getFaultedBus().getName())&&
-								tbus.equals(busFault.getRemoteEndBus().getName())){							
-							return fault;							
-						}
-					}
-				}				
-			}		
-		   }
-		return tranSimu.getDynamicDataList().getFaultList().addNewFault();
-		
-		}		
-  
 	
-	public static FaultListXmlType.Fault.BusFault getBusFaultRecord(TransientSimulationXmlType tranSimu,
-			String fbus,String tbus){
-		
-		for(FaultListXmlType.Fault fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
-			if(fault.getBusFault()!=null){
-				FaultListXmlType.Fault.BusFault busFault=fault.getBusFault();				
-				if(fbus.equals(busFault.getFaultedBus().getName())&& 
-						tbus.equals(busFault.getRemoteEndBus().getName()))					
-			         return busFault;
-			}else{
-				return fault.addNewBusFault();
-			}			
-		}
-		return null;
-	}
-	
-	public static FaultListXmlType.Fault.BranchFault getBranchFaultRecord(TransientSimulationXmlType tranSimu,
-			String fbus,String tbus){		
-		for(FaultListXmlType.Fault fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
-			if(fault.getBranchFault()!=null){
-				FaultListXmlType.Fault.BranchFault braFault=fault.getBranchFault();				
-				if(fbus.equals(braFault.getFromBus().getName())&& tbus.equals(braFault.getToBus().getName()))
-			         return braFault;
-			}else{
-				return fault.addNewBranchFault();
-			}			
-		}
-		return null;
-	}
-	
-	public static FaultListXmlType.Fault.DcLineFault getDCFaultRecord(TransientSimulationXmlType tranSimu,
-			String fbus,String tbus){
-		for(FaultListXmlType.Fault fault: tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
-			if(fault.getDcLineFault()!=null){				
-				FaultListXmlType.Fault.DcLineFault dcFault= fault.getDcLineFault();				
-				if(fbus.equals(dcFault.getFromACBusId().getName())&&
-						tbus.equals(dcFault.getToACBusId().getName())){					
-					return dcFault;
-				}else {					
-					return fault.addNewDcLineFault();
-				}
-			}
-		}
-		return null;
-	}
 	
 	public static GeneratorXmlType getGeneratorRecord(TransientSimulationXmlType tranSimu,
 			   String busId,String genId){		

@@ -290,7 +290,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
             	
             	final String[] s= new String[20];
             	int cnt=0, i=0;            	
-           while((!strAry[6].substring(i, i+2).equals(""))&& i+2<=Str6length){            		
+           while((!strAry[6].substring(i, i+2).equals(""))&& (Str6length==1||i+2<=Str6length)){            		
             		s[cnt]=strAry[6].trim().substring(i, i+2);            		
             		PSSNetworkXmlType.AreaList.Area.ZoneList.Zone zone= area.getZoneList().addNewZone();
             		zone.setZoneName(s[cnt]);

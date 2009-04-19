@@ -39,7 +39,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NegativeSequenceDataListXmlType;
@@ -123,9 +122,7 @@ public class IEEEODMPSSModelParser {
 	public TransientSimulationXmlType getTransientSimlation(){
 		if(getStudyCase().getTransientSimlation()==null){
 			TransientSimulationXmlType tranSimu=getStudyCase().addNewTransientSimlation();
-			tranSimu.addNewDynamicDataList();
-			tranSimu.getDynamicDataList().addNewFaultList();
-			tranSimu.getDynamicDataList().addNewBranchDynDataList();
+			tranSimu.addNewDynamicDataList();			
 			tranSimu.getDynamicDataList().addNewBusDynDataList();
 			tranSimu.getDynamicDataList().addNewSequenceDataList();			
 			tranSimu.getDynamicDataList().getSequenceDataList().addNewNegativeSequenceDataList();
@@ -160,9 +157,7 @@ public class IEEEODMPSSModelParser {
 	}	
 	
 	
-	public FaultListXmlType.Fault addNewFault(){		
-		return getStudyCase().getTransientSimlation().getDynamicDataList().getFaultList().addNewFault();
-	}
+	
 	
 	public GeneratorXmlType addNewGen(){		
 		return getStudyCase().getTransientSimlation().getDynamicDataList().

@@ -95,9 +95,9 @@ public class BPADynamicTurbineGovernorRecord {
 			
     	}else if(strAry[0].equals("GH")){
     		TurbineGovernorXmlType tg=parser.addNewTurbineGovernor();
-    		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER_AND_TURBINE);
-    		TurbineGovernorModelListXmlType.HydroGovernerAndTurbine gh=
-    			tg.addNewTurbineGovernorModel().addNewHydroGovernerAndTurbine();
+    		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.IEEE_1981_TYPE_3);
+    		TurbineGovernorModelListXmlType.IEEE1981Type3 gh=
+    			tg.addNewTurbineGovernorModel().addNewIEEE1981Type3();
     		//busId
     		String busId=strAry[1];
     		tg.addNewLocatedBus().setName(busId);			
@@ -113,13 +113,14 @@ public class BPADynamicTurbineGovernorRecord {
     		}			
 			//PMAX 
     		double pmax=StringUtil.getDouble(strAry[4], 0.0);
-    		ODMData2XmlHelper.setPUData(gh.addNewPMAX(), pmax, PerUnitXmlType.Unit.PU);
+    		
+    		gh.setPMAX(pmax);
+    		gh.setPMIN(0.0);
     		//R
     		double r=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setPUData(gh.addNewR(), r, PerUnitXmlType.Unit.PU);
+    		gh.setSIGMA(r);    		
 			//TG
-    		double Tg=StringUtil.getDouble(strAry[6], 0.0);    		
-    		
+    		double Tg=StringUtil.getDouble(strAry[6], 0.0); 
 		    ODMData2XmlHelper.setTimeData(gh.addNewTG(), 
 					       Tg, TimeXmlType.Unit.SEC);			
 			//TP
@@ -128,24 +129,30 @@ public class BPADynamicTurbineGovernorRecord {
 					       Tp, TimeXmlType.Unit.SEC);		
 			//TD
 		    double Td= StringUtil.getDouble(strAry[8], 0.0);
-		    ODMData2XmlHelper.setTimeData(gh.addNewTD(), 
+		    ODMData2XmlHelper.setTimeData(gh.addNewTR(), 
 				       Td, TimeXmlType.Unit.SEC);			
 			// TW/2
-		    double Tw= StringUtil.getDouble(strAry[9], 0.0);
-		    ODMData2XmlHelper.setTimeData(gh.addNewTWhalf(), 
+		    double Tw= 2*StringUtil.getDouble(strAry[9], 0.0);
+		    ODMData2XmlHelper.setTimeData(gh.addNewTW(), 
 				       Tw, TimeXmlType.Unit.SEC);			
-			//VELCLOSE
+			/*//VELCLOSE
 		    double Uc=StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setPUData(gh.addNewUc(), Uc, PerUnitXmlType.Unit.PU);
+    		ODMData2XmlHelper.setPUData(gh.addNewUc(), Uc, PerUnitXmlType.Unit.PU);*/
 			
 			//FVELOPEN
-    		double Uo=StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setPUData(gh.addNewUo(), Uo, PerUnitXmlType.Unit.PU);
+    		double vOpen=StringUtil.getDouble(strAry[11], 0.0);
+    		double u0=vOpen*pmax;
+    		gh.setU0(u0);
+    		double uc=-u0;
+    		gh.setUC(uc);
 			
 			//Dd
     		double Dd=StringUtil.getDouble(strAry[12], 0.0);
-    		   	
-    		ODMData2XmlHelper.setPUData(gh.addNewD4(), Dd, PerUnitXmlType.Unit.PU);		
+    		gh.setDELTA(Dd);  	
+    		gh.setA11(0.5);
+    		gh.setA13(1.3);
+    		gh.setA21(1.5);
+    		gh.setA23(1.0);
 			
     		
     	}else if(strAry[0].equals("GS")){
@@ -223,19 +230,19 @@ public class BPADynamicTurbineGovernorRecord {
     		String busId=strAry[1];    		
     		String tgId="";
     		if(!strAry[3].equals("")){
-    			tgId=strAry[3];    			
+    			tgId=strAry[3];  
+    			
     		}
     		TurbineGovernorXmlType tgOld=ODMData2XmlHelper.getTGRecord(tranSimu, busId, tgId);
     		if(tgOld.getTurbineGovernorType().equals
     				(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER)){
-    			TurbineXmlType tur=tgOld.getTurbineGovernorModel().getHydroGoverner().addNewTurbine();
-    			
+    			TurbineXmlType tur=tgOld.getTurbineGovernorModel().getHydroGoverner().addNewTurbine();    			
     			TurbineXmlType.SteamTurbine steamTur=tur.addNewSteamTurbine();
     			
     			//TCH
     			double TCH= StringUtil.getDouble(strAry[4], 0.0);
     		    ODMData2XmlHelper.setTimeData(steamTur.addNewTCH(),
-    		    		TCH, TimeXmlType.Unit.SEC);	  
+    		    		TCH, TimeXmlType.Unit.SEC);
     			//FHP
     		    double FHP= StringUtil.getDouble(strAry[5], 0.0);
     			steamTur.setFHP(FHP);
@@ -254,7 +261,6 @@ public class BPADynamicTurbineGovernorRecord {
     			// FLP
     		    double FLP=StringUtil.getDouble(strAry[9], 0.0);
        		    steamTur.setFLP(FLP);
-    		        		        			
     		}    
     	}
     	
