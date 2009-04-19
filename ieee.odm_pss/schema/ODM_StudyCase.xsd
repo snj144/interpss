@@ -4,9 +4,10 @@
 
 	<include schemaLocation="ODM_DataType.xsd"></include>
 	<include schemaLocation="ODM_DynamicModel.xsd"></include>
-	<include schemaLocation="ODM_ScenarioType.xsd"></include>
 	<include schemaLocation="ODM_RecordType.xsd"></include>
 	<include schemaLocation="ODM_PSSNetwork.xsd"></include>
+	<include schemaLocation="ODM_Modification.xsd"></include>
+	<include schemaLocation="ODM_StudyScenario.xsd"></include>
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
@@ -85,13 +86,6 @@
 		</complexContent>
 	</complexType>
 
-
-	<complexType name="ModifyRecordXmlType">
-		<complexContent>
-			<extension base="pss:IDRecordXmlType"></extension>
-		</complexContent>
-	</complexType>
-
 	<complexType name="ScenarioXmlType">
 		<annotation>
 			<documentation>for define a study scenario. In addtion to the modification defined at the StudyCase level, modification can be also defined at each scenario level</documentation>
@@ -102,7 +96,7 @@
 					<element name="analysisCategory" minOccurs="1" maxOccurs="1" type="pss:AnalysisCategoryEnumType">
 
 					</element>
-					<element name="modifcationList" type="string" minOccurs="0" maxOccurs="1"></element>
+					<element name="modifcation" type="pss:ModifyRecordXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="transientSimlation" type="pss:TransientSimulationXmlType" maxOccurs="1" minOccurs="0"></element>
 				</sequence>
 			</extension>
