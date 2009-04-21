@@ -638,32 +638,24 @@
 	</complexType>
 
 	<complexType name="MachineXmlType">
-		<sequence>			<element name="genId" type="pss:IDRecordXmlType"
-				maxOccurs="1" minOccurs="0">
-			</element>
-			<element name="ownerName" type="string" maxOccurs="1"
-				minOccurs="0">
-			</element>
-			<element name="ratedVoltage" type="pss:VoltageXmlType"
-				maxOccurs="1" minOccurs="0">
-			</element>
+		<sequence>
+			<element name="genId" type="pss:IDRecordXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="ownerName" type="string" maxOccurs="1" minOccurs="0"></element>
+			<element name="ratedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="generatorType" maxOccurs="1" minOccurs="1">
 				<simpleType>
 					<restriction base="string">
-					    <enumeration value="EquiGenUnitModel"></enumeration>
+						<enumeration value="EquiGenUnitModel"></enumeration>
 						<enumeration value="ClassicModel"></enumeration>
 						<enumeration value="TransientModel"></enumeration>
 						<enumeration value="SubTransientModel"></enumeration>
 					</restriction>
 				</simpleType>
 			</element>
-			<element name="generatorModel"
-				type="pss:MachineModelSelectionXmlType" maxOccurs="1" minOccurs="1">
-			</element>
-			<element name="pContribution" type="pss:PercentXmlType"
-				maxOccurs="1" minOccurs="0">
-			</element>
-			<element name="qContribution" type="pss:PercentXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="generatorModel" type="pss:MachineModelSelectionXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="pContributionPercent" type="double" maxOccurs="1" minOccurs="0"></element>
+
+			<element name="qContributionPercent" type="double" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 	

@@ -26,6 +26,7 @@ package org.ieee.pes.odm.pss.model;
 
 import org.apache.xmlbeans.XmlOptions;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
@@ -36,7 +37,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DcLineFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
@@ -49,7 +49,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
@@ -278,7 +277,7 @@ public class ODMData2XmlHelper {
 		for(FaultXmlType fault: tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
 			if(fault.getDcLineFault()!=null){				
 				DcLineFaultXmlType dcFault= fault.getDcLineFault();				
-				if(fbus.equals(dcFault.getFromACBusId().getName())&&
+				if(fbus.equals(dcFault.getFromACBus().getName())&&
 						tbus.equals(dcFault.getToACBus().getName())){					
 					return dcFault;
 				}else {					
@@ -370,6 +369,16 @@ public class ODMData2XmlHelper {
 		return fromId + "_to_" + toId + "_cirId_" + cirId;
 	}
 	
+	public static void setBaseKva(BasePowerXmlType basePower, double baseKva) {
+		basePower.setValue(baseKva);   
+		basePower.setUnit(BasePowerXmlType.Unit.KVA); 		
+	}
+	
+	public static void setBaseMva(BasePowerXmlType basePower, double baseMva) {
+		basePower.setValue(baseMva);   
+		basePower.setUnit(BasePowerXmlType.Unit.MVA); 		
+	}
+
 	/**
 	 * Set value (r, x, unit) to the z object
 	 * 
@@ -396,12 +405,6 @@ public class ODMData2XmlHelper {
 		y.setRe(g);
 		y.setIm(b);
 		y.setUnit(unit);
-	}
-	
-	
-	public static void setPUData(PerUnitXmlType p, double a, PerUnitXmlType.Unit.Enum unit){
-		p.setValue(a);
-		p.setUnit(unit);
 	}
 	
 	/**

@@ -27,7 +27,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ClassicMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadCharacteristicXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NegativeSequenceDataListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SubTransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
@@ -77,12 +76,11 @@ public class BPADynamicSequenceRecord {
 			xfrZero.setCirId(cirId);
 			//X0
 			double x0=StringUtil.getDouble(strAry[7], 0.0);
-			ODMData2XmlHelper.setPUData(xfrZero.addNewX1(), x0, PerUnitXmlType.Unit.PU);
+			xfrZero.setX1(x0);
 						
 			//R0
 			double r0=StringUtil.getDouble(strAry[8], 0.0);
-			ODMData2XmlHelper.setPUData(xfrZero.addNewR1(), r0, PerUnitXmlType.Unit.PU);
-						
+			xfrZero.setR1(r0);
 		}else if(strAry[0].equals("XR")){
 			ZeroSequenceDataListXmlType.ShuntLoadZeroList.ShuntLoadZero SHZero=
 				TranStabSimuHelper.addNewShuntLoadZero(tranSimu);		
@@ -91,11 +89,11 @@ public class BPADynamicSequenceRecord {
 			SHZero.addNewBusId().setName(bus1);	    	
     		//r0
 			double r0=StringUtil.getDouble(strAry[3], 0.0);
-			ODMData2XmlHelper.setPUData(SHZero.addNewRZer(), r0, PerUnitXmlType.Unit.PU);
+			SHZero.setRZer(r0);
 			  		
     		//x0
 			double x0=StringUtil.getDouble(strAry[4], 0.0);
-			ODMData2XmlHelper.setPUData(SHZero.addNewXZer(), x0, PerUnitXmlType.Unit.PU);
+			SHZero.setXZer(x0);
 			    		
 		}else if(strAry[0].equals("LO")){
 			ZeroSequenceDataListXmlType.LineZeroList.LineZero lineZero=
@@ -115,28 +113,27 @@ public class BPADynamicSequenceRecord {
 			}			
     		//R0			
 			double r0=StringUtil.getDouble(strAry[7], 0.0);
-			ODMData2XmlHelper.setPUData(lineZero.addNewRLineZer(), r0, PerUnitXmlType.Unit.PU);
+			lineZero.setRLineZer(r0);
 			    		
     		//X0
 			double x0=StringUtil.getDouble(strAry[8], 0.0);
-			ODMData2XmlHelper.setPUData(lineZero.addNewXLineZer(), x0, PerUnitXmlType.Unit.PU);
+			lineZero.setXLineZer(x0);
 			     		
     		//G1
 			double g1=StringUtil.getDouble(strAry[9], 0.0);
-			ODMData2XmlHelper.setPUData(lineZero.addNewGfZer(),g1, PerUnitXmlType.Unit.PU);
+			lineZero.setGfZer(g1);
 			   		
     		//B1
 			double b1=StringUtil.getDouble(strAry[10], 0.0);
-			ODMData2XmlHelper.setPUData(lineZero.addNewBfZer(),b1, PerUnitXmlType.Unit.PU);
+			lineZero.setBfZer(b1);
 			     		
     		//G2
     		double g2=StringUtil.getDouble(strAry[11], 0.0);
-			ODMData2XmlHelper.setPUData(lineZero.addNewGtZer(),g2, PerUnitXmlType.Unit.PU);
+			lineZero.setGtZer(g2);
 			     		
     		//B2
 			double b2=StringUtil.getDouble(strAry[12], 0.0);
-			ODMData2XmlHelper.setPUData(lineZero.addNewBtZer(),b2, PerUnitXmlType.Unit.PU);
-			     		
+			lineZero.setBtZer(b2);
 		}else if(strAry[0].equals("LM")){
 			ZeroSequenceDataListXmlType.MutualImpedanceZeroList.MutualImpedanceZero mutZero=
 				TranStabSimuHelper.addNewMutualZero(tranSimu);
@@ -166,12 +163,11 @@ public class BPADynamicSequenceRecord {
 			}	    		
 			//R0			
 			double r0=StringUtil.getDouble(strAry[11], 0.0);
-			ODMData2XmlHelper.setPUData(mutZero.addNewRM(), r0, PerUnitXmlType.Unit.PU);
+			mutZero.setRM(r0);
 			      		
     		//X0
 			double x0=StringUtil.getDouble(strAry[12], 0.0);
-			ODMData2XmlHelper.setPUData(mutZero.addNewXM(), x0, PerUnitXmlType.Unit.PU);
-			     	
+			mutZero.setXM(x0);
 		}
 	}
 	
@@ -188,21 +184,19 @@ public class BPADynamicSequenceRecord {
 			if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.SUBTRANS_MODEL)){
 				SubTransientMachineXmlType subGen=
 					gen.getGeneratorModel().getSubTransientModel();
-				xd1=subGen.getXd1().getValue();
+				xd1=subGen.getXd1();
 				tq01=subGen.getTq01().getValue();
 				
 				
 			}else if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.TRANSIENT_MODEL)){
 				TransientMachineXmlType tranGen=
 					gen.getGeneratorModel().addNewTransModel();
-				if(tranGen.getXd1()!=null){
-					xd1=tranGen.getXd1().getValue();
+					xd1=tranGen.getXd1();
 					tq01=tranGen.getTq01().getValue();
-				}				
 			}else if(gen.getGeneratorType().equals(GeneratorXmlType.GeneratorType.CLASSICAL_MODEL)){
 				ClassicMachineXmlType claGen=
 					gen.getGeneratorModel().getClassicalModel();
-				xd1=claGen.getXd1().getValue();
+				xd1=claGen.getXd1();
 				tq01=0.0;;				
 			}
 			//non-salient pole machine
@@ -223,7 +217,7 @@ public class BPADynamicSequenceRecord {
 				xfrNeg.addNewMacId().setName(genId);
 			}
 			xfrNeg.addNewBusId().setName(busId);
-			ODMData2XmlHelper.setPUData(xfrNeg.addNewZXNeg(), x2, PerUnitXmlType.Unit.PU);
+			xfrNeg.setZXNeg(x2);
 			
 		}
 		// negative load data
@@ -245,8 +239,9 @@ public class BPADynamicSequenceRecord {
 						ShuntLoadNegative.LoadLocation.AT_ZONE);
 			}			
 			loadNeg.addNewLocationId().setName(load.getLocationId().getName());
-			ODMData2XmlHelper.setPUData(loadNeg.addNewRNeg(), 0.19, PerUnitXmlType.Unit.PU);
-			ODMData2XmlHelper.setPUData(loadNeg.addNewXNeg(), 0.36, PerUnitXmlType.Unit.PU);
+// TODO: hard coded values
+			loadNeg.setRNeg(0.19);
+			loadNeg.setXNeg(0.36);
 		}	
 	}	
 	

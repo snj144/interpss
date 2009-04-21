@@ -26,7 +26,6 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GovHydroSteamGeneralModelXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GovHydroTurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GovHydroXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SteamTurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
@@ -67,10 +66,10 @@ public class BPADynamicTurbineGovernorRecord {
     		}			
 			//PMAX 
     		double pmax=StringUtil.getDouble(strAry[4], 0.0);
-    		ODMData2XmlHelper.setPUData(gg.addNewPMAX(), pmax, PerUnitXmlType.Unit.PU);
+    		gg.setPMAX(pmax);
 			//R
     		double r=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setPUData(gg.addNewR(), r, PerUnitXmlType.Unit.PU);
+    		gg.setR(r);
 			
 			//T1
     		double T1=StringUtil.getDouble(strAry[6], 0.0);
@@ -95,7 +94,7 @@ public class BPADynamicTurbineGovernorRecord {
 			
 			//F
 		    double f=StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setPUData(gg.addNewF(), f, PerUnitXmlType.Unit.PU);
+    		gg.setF(f);
 			
     	}else if(strAry[0].equals("GH")){
     		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
@@ -117,10 +116,10 @@ public class BPADynamicTurbineGovernorRecord {
     		}			
 			//PMAX 
     		double pmax=StringUtil.getDouble(strAry[4], 0.0);
-    		ODMData2XmlHelper.setPUData(gh.addNewPMAX(), pmax, PerUnitXmlType.Unit.PU);
+    		gh.setPMAX(pmax);
     		//R
     		double r=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setPUData(gh.addNewR(), r, PerUnitXmlType.Unit.PU);
+    		gh.setR(r);
 			//TG
     		double Tg=StringUtil.getDouble(strAry[6], 0.0);    		
     		
@@ -140,18 +139,15 @@ public class BPADynamicTurbineGovernorRecord {
 				       Tw, TimePeriodXmlType.Unit.SEC);			
 			//VELCLOSE
 		    double Uc=StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setPUData(gh.addNewUc(), Uc, PerUnitXmlType.Unit.PU);
+    		gh.setUc(Uc);
 			
 			//FVELOPEN
     		double Uo=StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setPUData(gh.addNewUo(), Uo, PerUnitXmlType.Unit.PU);
+    		gh.setUo(Uo);
 			
 			//Dd
     		double Dd=StringUtil.getDouble(strAry[12], 0.0);
-    		   	
-    		ODMData2XmlHelper.setPUData(gh.addNewD4(), Dd, PerUnitXmlType.Unit.PU);		
-			
-    		
+    		gh.setD4(Dd);		
     	}else if(strAry[0].equals("GS")){
     		TurbineGovernorXmlType tg=TranStabSimuHelper.addNewTurbineGovernor(tranSimu);
     		tg.setTurbineGovernorType(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER);
@@ -172,14 +168,14 @@ public class BPADynamicTurbineGovernorRecord {
     		}			
 			//PMAX 
     		double pmax=new Double(strAry[4]).doubleValue();
-    		ODMData2XmlHelper.setPUData(gs.addNewPMAX(), pmax, PerUnitXmlType.Unit.PU);
+    		gs.setPMAX(pmax);
     		//PMIN
     		double pmin=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setPUData(gs.addNewPMIN(), pmin, PerUnitXmlType.Unit.PU);	
+    		gs.setPMIN(pmin);	
     			
     		//R
     		double r=StringUtil.getDouble(strAry[6], 0.0);
-    		ODMData2XmlHelper.setPUData(gs.addNewR(), r, PerUnitXmlType.Unit.PU);
+    		gs.setR(r);
 			//T1
     		double T1=StringUtil.getDouble(strAry[7], 0.0);
     		ODMData2XmlHelper.setTimePeriodData(gs.addNewT1(), 
@@ -197,10 +193,10 @@ public class BPADynamicTurbineGovernorRecord {
 				       T3, TimePeriodXmlType.Unit.SEC);			
 			//VELOPEN
 		    double Uo=StringUtil.getDouble(strAry[4], 0.0);
-    		ODMData2XmlHelper.setPUData(gs.addNewU0(), Uo, PerUnitXmlType.Unit.PU);			
+    		gs.setU0(Uo);			
 			//FVELCLOSE
     		double Uc=StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setPUData(gs.addNewUC(), Uc, PerUnitXmlType.Unit.PU);
+    		gs.setUC(Uc);
     	}else if(strAry[0].equals("TA")){
     		//busId
     		String busId=strAry[1];    		

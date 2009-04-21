@@ -24,7 +24,6 @@
 
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PssIEE2STXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PssIEEEDualInputXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
@@ -128,11 +127,11 @@ public class BPADynamicPSSRecord {
     		    		
     		//VSMAX
     		double vsmax=StringUtil.getDouble(strAry[15], 0.0);
-    		ODMData2XmlHelper.setPUData(tstpss.addNewVSMAX(), vsmax, PerUnitXmlType.Unit.PU);
+    		tstpss.setVSMAX(vsmax);
     			
     		//VCUTOFF
     		double vcut=StringUtil.getDouble(strAry[16], 0.0);
-    		ODMData2XmlHelper.setPUData(tstpss.addNewVCUTOFF(), vcut, PerUnitXmlType.Unit.PU);
+    		tstpss.setVCUTOFF(vcut);
     		    		
     		//VSLOW
     		double vsmin=0.0;
@@ -143,7 +142,7 @@ public class BPADynamicPSSRecord {
     		}else {
     			vsmin=-Vslow;
     		}
-    		ODMData2XmlHelper.setPUData(tstpss.addNewVSMIN(), vsmin, PerUnitXmlType.Unit.PU);
+    		tstpss.setVSMIN(vsmin);
 			    		
     		//KQS MVAbase for SP SG
     		double kqsMvaBase=StringUtil.getDouble(strAry[19], 0.0);
@@ -277,11 +276,11 @@ public class BPADynamicPSSRecord {
     		
     		//VSMAX
     		double vsmax= StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setPUData(dualInputPss.addNewVSMAX(), vsmax, PerUnitXmlType.Unit.PU);
+    		dualInputPss.setVSMAX(vsmax);
     		
     		// VSMIN
     		double vsmin=StringUtil.getDouble(strAry[12], 0.0);
-    		ODMData2XmlHelper.setPUData(dualInputPss.addNewVSMIN(), vsmin, PerUnitXmlType.Unit.PU);
+    		dualInputPss.setVSMIN(vsmin);
     		}
     	
     }

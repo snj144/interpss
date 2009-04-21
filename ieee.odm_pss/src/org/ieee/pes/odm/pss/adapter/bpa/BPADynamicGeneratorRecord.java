@@ -26,13 +26,12 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 
 import java.text.NumberFormat;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ClassicMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.EquiMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PostiveSequenceDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SubTransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
@@ -55,8 +54,8 @@ public class BPADynamicGeneratorRecord {
 		                  getGeneratorPostiveList().addNewGerneratorPostive();
     	ZeroSequenceDataListXmlType.GeneratorZeroList.GeneratorZero zeroGen=tranSimu.getDynamicDataList().getSequenceDataList()
     	                  .getZeroSequenceDataList().getGeneratorZeroList().addNewGeneratorZero();    	
-    	zeroGen.addNewZRZer().setValue(0);
-    	zeroGen.addNewZXZer().setValue(0);
+    	zeroGen.setZRZer(0);
+    	zeroGen.setZXZer(0);
     	if(str.substring(0, 2).trim().equals("M")){
     		GeneratorXmlType gen=tranSimu.getDynamicDataList().getBusDynDataList().
 	         getGeneratorDataList().addNewGenerator();
@@ -86,14 +85,12 @@ public class BPADynamicGeneratorRecord {
     		}
     		double xd11=StringUtil.getDouble(strAry[8], 0.0);  
     		
-    		ODMData2XmlHelper.setPUData(posGen.addNewZRPos(),0.0,PerUnitXmlType.Unit.PU);
-    		ODMData2XmlHelper.setPUData(posGen.addNewZXPos(),xd11,PerUnitXmlType.Unit.PU);
+    		posGen.setZRPos(0.0);
+    		posGen.setZXPos(xd11);
     	
-    		ODMData2XmlHelper.setPUData(subTranGen.addNewXd11(), 
-    					xd11, PerUnitXmlType.Unit.PU);
+    		subTranGen.setXd11(xd11);
     		double xq11=StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setPUData(subTranGen.addNewXq11(), 
-					xq11, PerUnitXmlType.Unit.PU);
+    		subTranGen.setXq11(xq11);
     		double td011=StringUtil.getDouble(strAry[10], 0.0);
     		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTd011(), 
 					td011, TimePeriodXmlType.Unit.SEC);
@@ -119,17 +116,15 @@ public class BPADynamicGeneratorRecord {
                 .getGeneratorModel().getSubTransientModel();
 				
 				double pContri=StringUtil.getDouble(strAry[5], 0.0);
+				double qContri=StringUtil.getDouble(strAry[6], 0.0);
 			
 				if(pContri<=1.0&&pContri!=0.0){
 				   pContri=pContri*100;				
-					gen.addNewPContribution().setValue(pContri);
-					gen.getPContribution().setUnit(PercentXmlType.Unit.PERCENT);
+					gen.setPContribution(pContri);
 				}
-				double qContri=StringUtil.getDouble(strAry[6], 0.0);
 				if(qContri<=1.0&&qContri!=0.0){
 					qContri=qContri*100;
-					gen.addNewQContribution().setValue(qContri);
-					gen.getQContribution().setUnit(PercentXmlType.Unit.PERCENT);				
+					gen.setQContribution(qContri);
 				}
 				
 								
@@ -137,35 +132,34 @@ public class BPADynamicGeneratorRecord {
 				
 				double MvaBase=StringUtil.getDouble(strAry[7], baseCaseNet.getBasePower().getValue());
 				
-				subTranGen.setBasePower(MvaBase);
-				subTranGen.setBasePowerUnit(SubTransientMachineXmlType.BasePowerUnit.MVA);
+				ODMData2XmlHelper.setBaseMva(subTranGen.addNewBasePower(), MvaBase);   
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
 					NumberFormat ddf1= NumberFormat.getInstance();
 					ddf1.setMaximumFractionDigits(4);
 					h= new Double(ddf1.format(h)).doubleValue();
-					ODMData2XmlHelper.setPUData(subTranGen.addNewH(), h, PerUnitXmlType.Unit.PU);
+					subTranGen.setH(h);
 				}
 				
 				double ra=StringUtil.getDouble(strAry[8], 0.0);
-				ODMData2XmlHelper.setPUData(subTranGen.addNewRa(), ra, PerUnitXmlType.Unit.PU);	    			
+				subTranGen.setRa(ra);	    			
 	    		
 				double xd1=StringUtil.getDouble(strAry[9], 0.0);
-				ODMData2XmlHelper.setPUData(subTranGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
+				subTranGen.setXd1(xd1);	    			
 	    		
 				
-	    		ODMData2XmlHelper.setPUData(posGen.addNewZRPos(),0.0,PerUnitXmlType.Unit.PU);
-	    		ODMData2XmlHelper.setPUData(posGen.addNewZXPos(),xd1,PerUnitXmlType.Unit.PU);
+	    		posGen.setZRPos(0.0);
+	    		posGen.setZXPos(xd1);
 				
 				double xq1=StringUtil.getDouble(strAry[10], 0.0);
-				ODMData2XmlHelper.setPUData(subTranGen.addNewXq1(), xq1, PerUnitXmlType.Unit.PU);	    			
+				subTranGen.setXq1(xq1);	    			
 	    		
 				double xd=StringUtil.getDouble(strAry[11], 0.0);
-				ODMData2XmlHelper.setPUData(subTranGen.addNewXd(), xd, PerUnitXmlType.Unit.PU);	    			
+				subTranGen.setXd(xd);	    			
 	    		
 				double xq=StringUtil.getDouble(strAry[12], 0.0);
-				ODMData2XmlHelper.setPUData(subTranGen.addNewXq(), xq, PerUnitXmlType.Unit.PU);	    			
+				subTranGen.setXq(xq);	    			
 	    		
 				double td01=StringUtil.getDouble(strAry[13], 0.0);
 	    		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTdo1(), 
@@ -176,7 +170,7 @@ public class BPADynamicGeneratorRecord {
 	    					tq01, TimePeriodXmlType.Unit.SEC);
 	    		
 	    		double xl=StringUtil.getDouble(strAry[15], 0.0);
-				ODMData2XmlHelper.setPUData(subTranGen.addNewXr(), xl, PerUnitXmlType.Unit.PU);	    			
+				subTranGen.setXr(xl);	    			
 	    		
 				double E1=1.0, SE1=0.0;
 				if(!strAry[16].equals("")){
@@ -194,7 +188,7 @@ public class BPADynamicGeneratorRecord {
 				if(!strAry[18].equals("")){
 					D=new Double(strAry[18]).doubleValue();    			
 			    }
-				ODMData2XmlHelper.setPUData(subTranGen.addNewD(), D, PerUnitXmlType.Unit.PU);
+				subTranGen.setD(D);
 				
 			}else if(gen==null){
 				GeneratorXmlType newGen=tranSimu.getDynamicDataList().getBusDynDataList().
@@ -222,16 +216,14 @@ public class BPADynamicGeneratorRecord {
 					if(pContri<=1.0&&qContri!=0.0){
 						pContri=pContri*100;
 					}
-					newGen.addNewPContribution().setValue(pContri);
-					newGen.getPContribution().setUnit(PercentXmlType.Unit.PERCENT);
+					newGen.setPContribution(pContri);
 				}
 				if(!strAry[6].equals("")){
 					qContri=new Double(strAry[6]).doubleValue();
 					if(qContri<=1.0&&qContri!=0.0){
 						qContri=qContri*100;
 					}
-					newGen.addNewQContribution().setValue(qContri);
-					newGen.getQContribution().setUnit(PercentXmlType.Unit.PERCENT);
+					newGen.setQContribution(qContri);
 				}
 				double Emws=0.0;
 				if(!strAry[4].equals("")){
@@ -243,35 +235,34 @@ public class BPADynamicGeneratorRecord {
 				}else {
 					MvaBase=baseCaseNet.getBasePower().getValue();
 				}
-				tranGen.setBasePower(MvaBase);
-				tranGen.setBasePowerUnit(TransientMachineXmlType.BasePowerUnit.MVA);
+				ODMData2XmlHelper.setBaseMva(tranGen.addNewBasePower(), MvaBase);   
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
 					NumberFormat ddf1= NumberFormat.getInstance();
 					ddf1.setMaximumFractionDigits(4);
 					h= new Double(ddf1.format(h)).doubleValue();
-					ODMData2XmlHelper.setPUData(tranGen.addNewH(), h, PerUnitXmlType.Unit.PU);
+					tranGen.setH(h);
 				}
 				
 				double ra=StringUtil.getDouble(strAry[8], 0.0);
-				ODMData2XmlHelper.setPUData(tranGen.addNewRa(), ra, PerUnitXmlType.Unit.PU);	    			
+				tranGen.setRa(ra);	    			
 	    		
 				double xd1=StringUtil.getDouble(strAry[9], 0.0);
-				ODMData2XmlHelper.setPUData(tranGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
+				tranGen.setXd1(xd1);	    			
 	    		
 				
-	    		ODMData2XmlHelper.setPUData(posGen.addNewZRPos(),0.0,PerUnitXmlType.Unit.PU);
-	    		ODMData2XmlHelper.setPUData(posGen.addNewZXPos(),xd1,PerUnitXmlType.Unit.PU);
+	    		posGen.setZRPos(0.0);
+	    		posGen.setZXPos(xd1);
 				
 				double xq1=StringUtil.getDouble(strAry[10], 0.0);
-				ODMData2XmlHelper.setPUData(tranGen.addNewXq1(), xq1, PerUnitXmlType.Unit.PU);	    			
+				tranGen.setXq1(xq1);	    			
 	    		
 				double xd=StringUtil.getDouble(strAry[11], 0.0);
-				ODMData2XmlHelper.setPUData(tranGen.addNewXd(), xd, PerUnitXmlType.Unit.PU);	    			
+				tranGen.setXd(xd);	    			
 	    		
 				double xq=StringUtil.getDouble(strAry[12], 0.0);
-				ODMData2XmlHelper.setPUData(tranGen.addNewXq(), xq, PerUnitXmlType.Unit.PU);	    			
+				tranGen.setXq(xq);	    			
 	    		
 				double td01=StringUtil.getDouble(strAry[13], 0.0);
 	    		ODMData2XmlHelper.setTimePeriodData(tranGen.addNewTdo1(), 
@@ -297,7 +288,7 @@ public class BPADynamicGeneratorRecord {
 				if(!strAry[18].equals("")){
 					D=new Double(strAry[18]).doubleValue();    			
 			    }
-				ODMData2XmlHelper.setPUData(tranGen.addNewD(), D, PerUnitXmlType.Unit.PU);
+				tranGen.setD(D);
 			}
 			
 		// classical model 	
@@ -332,10 +323,10 @@ public class BPADynamicGeneratorRecord {
 			// infinit bus
 			double xd1=0.0;
 			if(Emws==999999){
-				ODMData2XmlHelper.setPUData(claGen.addNewH(), 999999, PerUnitXmlType.Unit.PU);				
+				claGen.setH(999999);				
 				if(!strAry[9].equals("")){
 					xd1=new Double(strAry[9]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(claGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);	    			
+	    			claGen.setXd1(xd1);	    			
 	    		}
 			} else{
 				double MvaBase=0.0;
@@ -350,7 +341,7 @@ public class BPADynamicGeneratorRecord {
 					NumberFormat ddf1= NumberFormat.getInstance();
 					ddf1.setMaximumFractionDigits(4);
 					h= new Double(ddf1.format(h)).doubleValue();
-					ODMData2XmlHelper.setPUData(claGen.addNewH(), h, PerUnitXmlType.Unit.PU);
+					claGen.setH(h);
 				}	   		
 		   		double pContri=0.0,qContri=0.0;
 				if(!strAry[5].equals("")){
@@ -358,32 +349,29 @@ public class BPADynamicGeneratorRecord {
 					if(pContri<=1.0&&qContri!=0.0){
 						pContri=pContri*100;
 					}
-					gen.addNewPContribution().setValue(pContri);
-					gen.getPContribution().setUnit(PercentXmlType.Unit.PERCENT);
+					gen.setPContribution(pContri);
 				}
 				if(!strAry[6].equals("")){
 					qContri=new Double(strAry[6]).doubleValue();
 					if(qContri<=1.0&&qContri!=0.0){
 						qContri=qContri*100;
 					}
-					gen.addNewQContribution().setValue(qContri);
-					gen.getQContribution().setUnit(PercentXmlType.Unit.PERCENT);
+					gen.setQContribution(qContri);
 				}
 				
-				claGen.setBasePower(MvaBase);
-				claGen.setBasePowerUnit(ClassicMachineXmlType.BasePowerUnit.MVA);
+				ODMData2XmlHelper.setBaseMva(claGen.addNewBasePower(), MvaBase);   
 				if(!strAry[9].equals("")){
 					xd1=new Double(strAry[9]).doubleValue();
-	    			ODMData2XmlHelper.setPUData(claGen.addNewXd1(), xd1, PerUnitXmlType.Unit.PU);
+	    			claGen.setXd1(xd1);
 	    		}				
 			}
-			ODMData2XmlHelper.setPUData(posGen.addNewZRPos(),0.0,PerUnitXmlType.Unit.PU);
-    		ODMData2XmlHelper.setPUData(posGen.addNewZXPos(),xd1,PerUnitXmlType.Unit.PU);
+			posGen.setZRPos(0.0);
+    		posGen.setZXPos(xd1);
 			double D=2.0;
 			if(!strAry[18].equals("")){
 				D=new Double(strAry[18]).doubleValue();    			
 		    }
-			ODMData2XmlHelper.setPUData(claGen.addNewD(), D, PerUnitXmlType.Unit.PU);
+			claGen.setD(D);
    		
 		}else if(str.substring(0, 2).trim().equals("LN")){
 			

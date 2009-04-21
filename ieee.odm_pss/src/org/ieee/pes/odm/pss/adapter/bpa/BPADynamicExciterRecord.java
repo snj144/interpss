@@ -31,7 +31,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcIEEE1981ST1XmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcIEEE1981TypeAC2XmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExcIEEETypeDC2XmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PerUnitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -102,7 +101,7 @@ public class BPADynamicExciterRecord {
     		    		
     		//KA for all, KV for EE
     		double Ka=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setPUData(type1968.addNewKA(), Ka, PerUnitXmlType.Unit.PU);
+    		type1968.setKA(Ka);
     		   		
     		//TA for all, TRH for EE
     		double Ta=StringUtil.getDouble(strAry[6], 0.0);
@@ -112,7 +111,7 @@ public class BPADynamicExciterRecord {
     		double multi=StringUtil.getDouble(strAry[8], 0.0);
     		// KE
     		double Ke=StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setPUData(type1968.addNewKE(), Ke, PerUnitXmlType.Unit.PU);
+    		type1968.setKE(Ke);
     		    		
     		//TE
     		double Te= StringUtil.getDouble(strAry[10], 0.0);
@@ -125,8 +124,7 @@ public class BPADynamicExciterRecord {
     		
     		//EFDMin
     		double Efdmin=StringUtil.getDouble(strAry[13], 0.0);
-    		ODMData2XmlHelper.setPUData(type1968.addNewEFDMIN(),
-    				        Efdmin, PerUnitXmlType.Unit.PU);
+    		type1968.setEFDMIN(Efdmin);
     		
     		//EFDMax for all, VNmax for ED
     		double Efdmax=StringUtil.getDouble(strAry[14], 0.0);  		
@@ -136,7 +134,7 @@ public class BPADynamicExciterRecord {
     		type1968.setSE2(SE2);    		
     		//KF
     		double Kf= StringUtil.getDouble(strAry[15], 0.0);
-    		ODMData2XmlHelper.setPUData(type1968.addNewKF(), Kf, PerUnitXmlType.Unit.PU);
+    		type1968.setKF(Kf);
     		    		
     		//TF    		
     		double Tf= StringUtil.getDouble(strAry[16], 0.0);
@@ -145,8 +143,8 @@ public class BPADynamicExciterRecord {
     		
     		double VRmax=(SE2+Ke)*Efdmax;
     		double VRmin=VRmax*multi;
-    		ODMData2XmlHelper.setPUData(type1968.addNewVRMAX(), VRmax, PerUnitXmlType.Unit.PU);
-    		ODMData2XmlHelper.setPUData(type1968.addNewVRMIN(), VRmin, PerUnitXmlType.Unit.PU);
+    		type1968.setVRMAX(VRmax);
+    		type1968.setVRMIN(VRmin);
     		
     		//EXDC2
     	}else if(type==FA){
@@ -181,23 +179,23 @@ public class BPADynamicExciterRecord {
 			
 			//KA, KV for FE
 			double Ka= StringUtil.getDouble(strAry[11], 0.0);
-			ODMData2XmlHelper.setPUData(exc_dc2.addNewKA(), Ka, PerUnitXmlType.Unit.PU);			
+			exc_dc2.setKA(Ka);			
 			// TA, TRH for FE
 			double Ta= StringUtil.getDouble(strAry[12], 0.0);
 			ODMData2XmlHelper.setTimePeriodData(exc_dc2.addNewTA(), Ta, TimePeriodXmlType.Unit.SEC);
 			
 			//VRmax, Vamax for FH
 			double Vrmax= StringUtil.getDouble(strAry[13], 0.0);
-			ODMData2XmlHelper.setPUData(exc_dc2.addNewVRMAX(), Vrmax, PerUnitXmlType.Unit.PU);
+			exc_dc2.setVRMAX(Vrmax);
 			
 			//VRmin, Vamin			
 			double Vrmin= StringUtil.getDouble(strAry[14], 0.0);	
 			
-			ODMData2XmlHelper.setPUData(exc_dc2.addNewVRMIN(), Vrmin, PerUnitXmlType.Unit.PU);
+			exc_dc2.setVRMIN(Vrmin);
 			
 			//Ke
 			double ke=StringUtil.getDouble(strAry[15], 0.0);
-			ODMData2XmlHelper.setPUData(exc_dc2.addNewKE(), ke, PerUnitXmlType.Unit.PU);
+			exc_dc2.setKE(ke);
 			
 			//Te
 			double Te=StringUtil.getDouble(strAry[16], 0.0);
@@ -229,12 +227,12 @@ public class BPADynamicExciterRecord {
 			
 			//VIMax for G K L,VAmax for FF
 			double Vimax= StringUtil.getDouble(strAry[7], 0.0);
-			ODMData2XmlHelper.setPUData(exc_st1.addNewVIMAX(), Vimax, PerUnitXmlType.Unit.PU);
+			exc_st1.setVIMAX(Vimax);
 			
 			//VIMin for G K L,VAmin for FF
 			//VIMax for G K L,VAmax for FF
 			double Vimin= StringUtil.getDouble(strAry[8], 0.0);
-			ODMData2XmlHelper.setPUData(exc_st1.addNewVIMIN(), Vimin, PerUnitXmlType.Unit.PU);
+			exc_st1.setVIMIN(Vimin);
 			// TB
 			double Tb= StringUtil.getDouble(strAry[9], 0.0);
 			ODMData2XmlHelper.setTimePeriodData(exc_st1.addNewTB(), Tb, TimePeriodXmlType.Unit.SEC);
@@ -245,22 +243,18 @@ public class BPADynamicExciterRecord {
 			
 			//KA, KV for FE
 			double Ka= StringUtil.getDouble(strAry[11], 0.0);
-			ODMData2XmlHelper.setPUData(exc_st1.addNewKA(), Ka, PerUnitXmlType.Unit.PU);			
+			exc_st1.setKA(Ka);			
 			// TA, TRH for FE
 			double Ta= StringUtil.getDouble(strAry[12], 0.0);
 			ODMData2XmlHelper.setTimePeriodData(exc_st1.addNewTA(), Ta, TimePeriodXmlType.Unit.SEC);
 			
 			//VRmax, Vamax for FH
 			double Vrmax= StringUtil.getDouble(strAry[13], 0.0);
-			ODMData2XmlHelper.setPUData(exc_st1.addNewVRMAX(), Vrmax, PerUnitXmlType.Unit.PU);
+			exc_st1.setVRMAX(Vrmax);
 			
 			//VRmin, Vamin			
 			double Vrmin= StringUtil.getDouble(strAry[14], 0.0);	
-			
-			ODMData2XmlHelper.setPUData(exc_st1.addNewVRMIN(), Vrmin, PerUnitXmlType.Unit.PU);
-			   		
-			
-			
+			exc_st1.setVRMIN(Vrmin);
     	}else if(type==FJ){
     		ExciterXmlType exc=TranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.BPAFJ);
@@ -288,18 +282,18 @@ public class BPADynamicExciterRecord {
 			
 			//KA, KV for FE
 			double Ka= StringUtil.getDouble(strAry[11], 0.0);
-			ODMData2XmlHelper.setPUData(BPAFJ.addNewKA(), Ka, PerUnitXmlType.Unit.PU);			
+			BPAFJ.setKA(Ka);			
 			// TA, TRH for FE
 			double Ta= StringUtil.getDouble(strAry[12], 0.0);
 			ODMData2XmlHelper.setTimePeriodData(BPAFJ.addNewTA(), Ta, TimePeriodXmlType.Unit.SEC);
 			
 			//VRmax, Vamax for FH
 			double Vrmax=StringUtil.getDouble(strAry[13], 0.0);
-			ODMData2XmlHelper.setPUData(BPAFJ.addNewVRMAX(), Vrmax, PerUnitXmlType.Unit.PU);
+			BPAFJ.setVRMAX(Vrmax);
 			
 			//VRmin, Vamin
 			double Vrmin= StringUtil.getDouble(strAry[14], 0.0);
-			ODMData2XmlHelper.setPUData(BPAFJ.addNewVRMIN(), Vrmin, PerUnitXmlType.Unit.PU);
+			BPAFJ.setVRMIN(Vrmin);
     	}else if(type==FQ||type==FV){
     		ExciterXmlType exc=TranStabSimuHelper.addNewExciter(tranSimu);
     		exc.setExciterType(ExciterXmlType.ExciterType.IEEE_1981_NEW_EXC_SYSTEM);
@@ -320,11 +314,11 @@ public class BPADynamicExciterRecord {
 			exc.addNewExcId().setName(excId);
 			//Rc
 			double Rc=StringUtil.getDouble(strAry[4], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewRc(), Rc, PerUnitXmlType.Unit.PU);
+			newExc.setRc(Rc);
 						
 			//Xc
 			double Xc=StringUtil.getDouble(strAry[5], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewXc(), Xc, PerUnitXmlType.Unit.PU);
+			newExc.setXc(Xc);
 						
 			//TR
 			double Tr=StringUtil.getDouble(strAry[6], 0.0);
@@ -332,11 +326,11 @@ public class BPADynamicExciterRecord {
 						
 			//K
 			double k=StringUtil.getDouble(strAry[7], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewK(), k, PerUnitXmlType.Unit.PU);
+			newExc.setK(k);
 						
 			//Kv
 			double kv=StringUtil.getDouble(strAry[8], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewKv(), kv, PerUnitXmlType.Unit.PU);
+			newExc.setKv(kv);
 						
 			// T1
 			double T1=StringUtil.getDouble(strAry[9], 0.0);
@@ -356,7 +350,7 @@ public class BPADynamicExciterRecord {
 						
 			//KA
 			double ka=StringUtil.getDouble(strAry[13], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewKa(), ka, PerUnitXmlType.Unit.PU);
+			newExc.setKa(ka);
 					
 			//TA
 			double Ta=StringUtil.getDouble(strAry[14], 0.0);
@@ -364,7 +358,7 @@ public class BPADynamicExciterRecord {
 						
 			//KF
 			double kf=StringUtil.getDouble(strAry[15], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewKf(), kf, PerUnitXmlType.Unit.PU);
+			newExc.setKf(kf);
 			
 			//TF
 			double Tf=StringUtil.getDouble(strAry[16], 0.0);
@@ -372,7 +366,7 @@ public class BPADynamicExciterRecord {
 					
 			//KH
 			double kh=StringUtil.getDouble(strAry[17], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewKh(), kh, PerUnitXmlType.Unit.PU);
+			newExc.setKh(kh);
 			
 			
     	}else if(type==FF){
@@ -399,11 +393,11 @@ public class BPADynamicExciterRecord {
 						
 			//Vamax
 			double Vamax=StringUtil.getDouble(strAry[7], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewVAMAX(), Vamax, PerUnitXmlType.Unit.PU);
+			newExc.setVAMAX(Vamax);
 						
 			//Vamin
 			double Vamin=StringUtil.getDouble(strAry[8], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewVAMIN(), Vamin, PerUnitXmlType.Unit.PU);
+			newExc.setVAMIN(Vamin);
 						
 			// Tb
 			double Tb=StringUtil.getDouble(strAry[9], 0.0);
@@ -415,7 +409,7 @@ public class BPADynamicExciterRecord {
 						
 			//Ka			
 			double Ka=StringUtil.getDouble(strAry[11], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewKA(), Ka, PerUnitXmlType.Unit.PU);
+			newExc.setKA(Ka);
 						
 			// Ta			
 			double Ta=StringUtil.getDouble(strAry[12], 0.0);
@@ -423,15 +417,15 @@ public class BPADynamicExciterRecord {
 			
 			//Vrmax
 			double Vrmax=StringUtil.getDouble(strAry[13], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewVRMAX(), Vrmax, PerUnitXmlType.Unit.PU);
+			newExc.setVRMAX(Vrmax);
 						
 			//Vrmin
 			double Vrmin=StringUtil.getDouble(strAry[14], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewVRMIN(), Vrmin, PerUnitXmlType.Unit.PU);
+			newExc.setVRMIN(Vrmin);
 									
 			//Ke
 			double ke=StringUtil.getDouble(strAry[15], 0.0);
-			ODMData2XmlHelper.setPUData(newExc.addNewKE(), ke, PerUnitXmlType.Unit.PU);
+			newExc.setKE(ke);
 			
 			//Te
 			double Te=StringUtil.getDouble(strAry[16], 0.0);
@@ -450,8 +444,7 @@ public class BPADynamicExciterRecord {
         		if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_ST_1)){        		
             		//KF
             		double Kf= StringUtil.getDouble(strAry[8], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981ST1().addNewKF(), 
-            				Kf, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEE1981ST1().setKF(Kf);
             					
         			// TF
             		double TF= StringUtil.getDouble(strAry[9], 0.0);
@@ -460,22 +453,18 @@ public class BPADynamicExciterRecord {
         			strAry[9]=str.substring(41, 46).trim();
         			//KC
         			double Kc= StringUtil.getDouble(strAry[10], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981ST1().addNewKC(), 
-            				Kc, PerUnitXmlType.Unit.PU); 
+            		exc.getExciterModel().getIEEE1981ST1().setKC(Kc); 
             	}else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.BPAFJ)){        		
             		//EFDmax
             		double EFDmax= StringUtil.getDouble(strAry[7], 0.0);
-        			ODMData2XmlHelper.setPUData(exc.getExciterModel().getBPAFJ().addNewEFDMAX(), 
-        					EFDmax, PerUnitXmlType.Unit.PU);
+        			exc.getExciterModel().getBPAFJ().setEFDMAX(EFDmax);
         			
         			//EFDmin
         			double EFDmin= StringUtil.getDouble(strAry[6], 0.0);
-        			ODMData2XmlHelper.setPUData(exc.getExciterModel().getBPAFJ().addNewEFDMIN(), 
-        					EFDmin, PerUnitXmlType.Unit.PU);    		
+        			exc.getExciterModel().getBPAFJ().setEFDMIN(EFDmin);    		
         			//KF
             		double Kf= StringUtil.getDouble(strAry[8], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getBPAFJ().addNewKF(), 
-            				Kf, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getBPAFJ().setKF(Kf);
             					
         			// TF
             		double TF= StringUtil.getDouble(strAry[9], 0.0);
@@ -484,8 +473,7 @@ public class BPADynamicExciterRecord {
         			
         			//KC
         			double Kc= StringUtil.getDouble(strAry[10], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getBPAFJ().addNewKC(), 
-            				Kc, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getBPAFJ().setKC(Kc);
             	}else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_TYPE_DC_2)){
             		           		
             		//Se1            		
@@ -502,8 +490,7 @@ public class BPADynamicExciterRecord {
             		exc.getExciterModel().getIEEETypeDC2().setE1(E2);
             		//Kf
         			double Kf= StringUtil.getDouble(strAry[8], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEETypeDC2().addNewKF(), 
-            				Kf, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEETypeDC2().setKF(Kf);
             		// TF
             		double TF= StringUtil.getDouble(strAry[9], 0.0);
         			ODMData2XmlHelper.setTimePeriodData(exc.getExciterModel().getIEEETypeDC2().addNewTF1(), 
@@ -525,36 +512,29 @@ public class BPADynamicExciterRecord {
             		exc.getExciterModel().getIEEE1981TypeAC2().setE1(E2);
             		//Kf
         			double Kf= StringUtil.getDouble(strAry[8], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKF(), 
-            				Kf, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEE1981TypeAC2().setKF(Kf);
             		// TF
             		double TF= StringUtil.getDouble(strAry[9], 0.0);
         			ODMData2XmlHelper.setTimePeriodData(exc.getExciterModel().getIEEE1981TypeAC2().addNewTF(), 
         					TF, TimePeriodXmlType.Unit.SEC);
         			//Kc
         			double Kc= StringUtil.getDouble(strAry[10], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKC(), 
-            				Kc, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEE1981TypeAC2().setKC(Kc);
             		//Kd
         			double Kd= StringUtil.getDouble(strAry[11], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKD(), 
-            				Kd, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEE1981TypeAC2().setKD(Kd);
             		//Kb
         			double Kb= StringUtil.getDouble(strAry[12], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKB(), 
-            				Kb, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEE1981TypeAC2().setKB(Kb);
             		//Kl
         			double Kl= StringUtil.getDouble(strAry[13], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKL(), 
-            				Kl, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEE1981TypeAC2().setKL(Kl);
             		//Kh
         			double Kh= StringUtil.getDouble(strAry[14], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewKH(), 
-            				Kh, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEE1981TypeAC2().setKH(Kh);
             		//vlr
         			double vlr= StringUtil.getDouble(strAry[15], 0.0);
-            		ODMData2XmlHelper.setPUData(exc.getExciterModel().getIEEE1981TypeAC2().addNewVLR(), 
-            				vlr, PerUnitXmlType.Unit.PU);
+            		exc.getExciterModel().getIEEE1981TypeAC2().setVLR(vlr);
             	}
         		
         	}else if(str.substring(0, 2).trim().equals("F+")){
@@ -563,18 +543,15 @@ public class BPADynamicExciterRecord {
         		                   getExciterModel().getIEEE1981NewExcSystem();        		
         		//VAMAX 
         		double Vamax= StringUtil.getDouble(strAry[4], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewVAmax(), 
-        				Vamax, PerUnitXmlType.Unit.PU);    		
+        		newExc.setVAmax(Vamax);    		
     			
     			//VAMIN 
         		double Vamin= StringUtil.getDouble(strAry[5], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewVAmin(), 
-        				Vamin, PerUnitXmlType.Unit.PU);
+        		newExc.setVAmin(Vamin);
     			strAry[5]=str.substring(21, 26).trim();
     			//KB
     			double Kb=StringUtil.getDouble(strAry[6], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewKb(), 
-            				Kb, PerUnitXmlType.Unit.PU);
+        		newExc.setKb(Kb);
         		    			
     			//T5
         		double T5=StringUtil.getDouble(strAry[7], 0.0);
@@ -583,8 +560,7 @@ public class BPADynamicExciterRecord {
         					
     			//KE
         		double Ke=StringUtil.getDouble(strAry[8], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewKe(), 
-            				Ke, PerUnitXmlType.Unit.PU);
+        		newExc.setKe(Ke);
         			
     			// TE
         		double Te=StringUtil.getDouble(strAry[9], 0.0);
@@ -598,37 +574,30 @@ public class BPADynamicExciterRecord {
         				
     			// VRMAX
     			double Vrmax= StringUtil.getDouble(strAry[12], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewVRmax(), 
-        				Vrmax, PerUnitXmlType.Unit.PU); 			
+        		newExc.setVRmax(Vrmax); 			
     			//VRMIN
     			double Vrmin= StringUtil.getDouble(strAry[13], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewVRmin(), 
-        				Vrmin, PerUnitXmlType.Unit.PU);			
+        		newExc.setVRmin(Vrmin);			
     			//KC
         		double KC=StringUtil.getDouble(strAry[14], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewKc(), 
-            				KC, PerUnitXmlType.Unit.PU);
+        		newExc.setKc(KC);
         		    					
     			//KD
         		double Kd=StringUtil.getDouble(strAry[15], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewKd(), 
-            				Kd, PerUnitXmlType.Unit.PU);
+        		newExc.setKd(Kd);
         					
     			//KL1
         		double KL1=StringUtil.getDouble(strAry[16], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewKL1(), 
-            				KL1, PerUnitXmlType.Unit.PU);
+        		newExc.setKL1(KL1);
         				
     			//VLIR
         		double VLIR=StringUtil.getDouble(strAry[17], 0.0);
-        		ODMData2XmlHelper.setPUData(newExc.addNewVL1R(), 
-            				VLIR, PerUnitXmlType.Unit.PU);
+        		newExc.setVL1R(VLIR);
         					
     			//EFDMAX
         		double EFDMAX=StringUtil.getDouble(strAry[18], 0.0);
         		
-        		ODMData2XmlHelper.setPUData(newExc.addNewEFDmax(), 
-        				EFDMAX, PerUnitXmlType.Unit.PU);
+        		newExc.setEFDmax(EFDMAX);
         		//SE2--EFDMAX
         		double SE2=0.0;
         		if(!strAry[11].equals("")){
