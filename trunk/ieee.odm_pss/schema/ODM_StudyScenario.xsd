@@ -61,9 +61,8 @@
 				</simpleType>
 			</element>
 			<element name="generatorModel" type="pss:GeneratorModelListXmlType" maxOccurs="1" minOccurs="1"></element>
-
-			<element name="pContribution" type="pss:PercentXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="qContribution" type="pss:PercentXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="pContribution" type="double" maxOccurs="1" minOccurs="0"></element>
+			<element name="qContribution" type="double" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
@@ -289,8 +288,8 @@
 								<sequence>
 									<element name="busId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="macId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="ZRPos" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="ZXPos" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="ZRPos" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="ZXPos" type="double" maxOccurs="1" minOccurs="0"></element>
 								</sequence>
 							</complexType>
 						</element>
@@ -311,8 +310,8 @@
 								<sequence>
 									<element name="busId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="macId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="ZRNeg" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="ZXNeg" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="ZRNeg" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="ZXNeg" type="double" maxOccurs="1" minOccurs="0"></element>
 								</sequence>
 							</complexType>
 						</element>
@@ -336,8 +335,8 @@
 										</simpleType>
 									</element>
 									<element name="locationId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-									<element name="rNeg" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="xNeg" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="rNeg" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="xNeg" type="double" maxOccurs="1" minOccurs="0"></element>
 
 								</sequence>
 							</complexType>
@@ -358,8 +357,8 @@
 								<sequence>
 									<element name="busId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="macId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="ZRZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="ZXZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="ZRZer" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="ZXZer" type="double" maxOccurs="1" minOccurs="0"></element>
 								</sequence>
 							</complexType>
 
@@ -374,8 +373,8 @@
 							<complexType>
 								<sequence>
 									<element name="busId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-									<element name="rZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="xZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="rZer" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="xZer" type="double" maxOccurs="1" minOccurs="0"></element>
 								</sequence>
 
 							</complexType>
@@ -392,13 +391,13 @@
 									<element name="fBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="tBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="cirId" type="string" maxOccurs="1" minOccurs="0"></element>
-									<element name="rLineZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="xLineZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="bLineZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="gfZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="bfZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="gtZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="btZer" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="rLineZer" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="xLineZer" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="bLineZer" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="gfZer" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="bfZer" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="gtZer" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="btZer" type="double" maxOccurs="1" minOccurs="0"></element>
 								</sequence>
 							</complexType>
 						</element>
@@ -425,14 +424,14 @@
 											</restriction>
 										</simpleType>
 									</element>
-									<element name="RG" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="XG" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="R1" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="X1" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="R2" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="X2" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="R3" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="X3" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="RG" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="XG" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="R1" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="X1" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="R2" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="X2" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="R3" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="X3" type="double" maxOccurs="1" minOccurs="0"></element>
 								</sequence>
 							</complexType>
 						</element>
@@ -451,12 +450,12 @@
 									<element name="branch2BusK" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="branch2BusL" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 									<element name="branch2CirId" type="string" maxOccurs="1" minOccurs="0"></element>
-									<element name="RM" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="XM" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="BIJ1" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="BIJ2" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="BKL1" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
-									<element name="BKL2" type="pss:PerUnitXmlType" maxOccurs="1" minOccurs="0"></element>
+									<element name="RM" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="XM" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="BIJ1" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="BIJ2" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="BKL1" type="double" maxOccurs="1" minOccurs="0"></element>
+									<element name="BKL2" type="double" maxOccurs="1" minOccurs="0"></element>
 								</sequence>
 							</complexType>
 						</element>

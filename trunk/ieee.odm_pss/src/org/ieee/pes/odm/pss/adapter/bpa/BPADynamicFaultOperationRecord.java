@@ -33,7 +33,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GenChangeDynamicEventXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadChangeDynamicEventXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PercentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
@@ -197,8 +196,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
         					bus2RatedV, VoltageXmlType.Unit.KV);
         			ODMData2XmlHelper.setTimePeriodData(braFault.addNewFaultStartTime(), 
     						operationTime, TimePeriodXmlType.Unit.CYCLE);
-        			braFault.addNewFaultLocationFromFromSide().setValue(faultLocation);
-        			braFault.getFaultLocationFromFromSide().setUnit(PercentXmlType.Unit.PERCENT);
+        			braFault.setFaultLocationFromFromSide(faultLocation);
         			braFault.setPermanentFault(true);
     			}else if((breaker1Opened==true&&breaker2Opened==false)||
     					 (breaker1Opened==false&&breaker2Opened==true)){    				
@@ -326,7 +324,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	           getFaultList().addNewFault().addNewDcLineFault();
     		  dcFault.setPermanentFault(true);
 	          String bus1=strAry[1];
-	          dcFault.addNewFromACBusId().setName(bus1);
+	          dcFault.addNewFromACBus().setName(bus1);
 	          double bus1Vol=0.0;
 	          if(!strAry[2].equals("")){
 	    		  bus1Vol= new Double(strAry[2]).doubleValue();
@@ -354,8 +352,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 	    	  }
 	    	  if(faultType==3){
 	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.FAULT_ON_LINE);
-	    		  dcFault.addNewFaultLocationFromFromSide().setValue(faultLocation);
-	    		  dcFault.getFaultLocationFromFromSide().setUnit(PercentXmlType.Unit.PERCENT);
+	    		  dcFault.setFaultLocationFromFromSide(faultLocation);
 	    	  }
 	    	  if(faultType==4){
 	    		  dcFault.setFaultType(DcLineFaultXmlType.FaultType.POWER_BLOCKED);

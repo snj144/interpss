@@ -141,9 +141,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		
 		final double baseMva = new Double(strAry[1]).doubleValue();
 	    getLogger().fine("BaseKva: "  + baseMva);
-    	BasePowerXmlType baseKva = baseCaseNet.addNewBasePower();
-    	baseKva.setValue(baseMva);   
-    	baseKva.setUnit(BasePowerXmlType.Unit.MVA);   
+		ODMData2XmlHelper.setBaseMva(baseCaseNet.addNewBasePower(), baseMva);   
 
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		

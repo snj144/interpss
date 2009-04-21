@@ -109,9 +109,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
     	// no base kva definition in UCTE format, so use 100 MVA
     	// UCTE data are in actual units, mw, mva ...
-    	BasePowerXmlType baseKva = baseCaseNet.addNewBasePower();
-    	baseKva.setValue(100.0);   
-    	baseKva.setUnit(BasePowerXmlType.Unit.MVA);   
+		ODMData2XmlHelper.setBaseMva(baseCaseNet.addNewBasePower(), 100.0);   
 
     	// scan all lines and process the data
     	customBaseVoltage = false;
