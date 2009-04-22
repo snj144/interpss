@@ -339,7 +339,11 @@
 		<ns:sequence>
 			<ns:element name="enableGridRun" type="ns:boolean" minOccurs="1" maxOccurs="1"></ns:element>
 			<ns:element name="remoteJobCreation" type="ns:boolean" minOccurs="0"></ns:element>
-			<ns:element name="timeout" type="ns:long" minOccurs="0" maxOccurs="1"></ns:element>
+			<ns:element name="timeout" type="ns:long" minOccurs="0" maxOccurs="1">
+				<ns:annotation>
+					<ns:documentation>timeout in milliseconds
+</ns:documentation>
+				</ns:annotation></ns:element>
 			<ns:element name="remoteNodeDebug" type="ns:boolean" minOccurs="0" maxOccurs="1"></ns:element>
             <ns:element name="remoteNodeName" type="ns:string" minOccurs="0"></ns:element>
             <ns:element name="aclfOption" minOccurs="0">
