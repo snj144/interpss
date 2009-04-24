@@ -100,7 +100,7 @@ public class Data2ODMXml {
 			}
 
 			Date date = new Date();
-			if (!adapter.parseXmlFile(inputFile)) {
+			if (!adapter.parseInputFile(inputFile)) {
 				logger.severe("Error: model parsing error, " + adapter.errMessage());
 				System.err.println("Error: model parsing error, " + adapter.errMessage());
 			}
