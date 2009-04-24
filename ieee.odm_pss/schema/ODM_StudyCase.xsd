@@ -23,38 +23,44 @@
 							<restriction base="string">
 								<enumeration value="V1.00"></enumeration>
 								<enumeration value="V1.00.DEV"></enumeration>
+								<enumeration value="V0.3"></enumeration>
 							</restriction>
 						</simpleType>
 					</element>
-					<element name="originalFormat" minOccurs="1" maxOccurs="1">
-						<annotation>
-							<documentation>for describing the original data format, from which this xml file is produced</documentation>
-						</annotation>
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="IEEE-CDF"></enumeration>
-								<enumeration value="PSS-E"></enumeration>
-								<enumeration value="UCTE-DEF"></enumeration>
-								<enumeration value="InterPSS"></enumeration>
-								<enumeration value="PSAT"></enumeration>
-								<enumeration value="IEEE-ODM-PSS"></enumeration>
-								<enumeration value="Custom"></enumeration>
-								<enumeration value="BPA"></enumeration>
-							</restriction>
-						</simpleType>
-					</element>
-					<element name="adapterProviderName" type="string" minOccurs="0" maxOccurs="1">
-						<annotation>
-							<documentation>adapter provider name this file was created or this file is inteded for</documentation>
-						</annotation>
-					</element>
-					<element name="adapterProviderVersion" type="string" minOccurs="0" maxOccurs="1">
-						<annotation>
-							<documentation>adapter provider version this file was created or this file is inteded for</documentation>
-						</annotation>
-					</element>
-
-					<element name="baseCase" type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
+                    <element name="contentInfo" minOccurs="0">
+                    	<complexType>
+                    		<sequence>
+                    			<element name="originalDataFormat" minOccurs="1" maxOccurs="1">
+                    				<annotation>
+                    					<documentation>for describing the original data format, from which this xml file is produced</documentation>
+                    				</annotation>
+                    				<simpleType>
+                    					<restriction base="string">
+                    						<enumeration value="IEEE-CDF"></enumeration>
+                    						<enumeration value="PSS-E"></enumeration>
+                    						<enumeration value="UCTE-DEF"></enumeration>
+                    						<enumeration value="InterPSS"></enumeration>
+                    						<enumeration value="PSAT"></enumeration>
+                    						<enumeration value="IEEE-ODM-PSS"></enumeration>
+                    						<enumeration value="Custom"></enumeration>
+                    						<enumeration value="BPA"></enumeration>
+                    					</restriction>
+                    				</simpleType>
+                    			</element>
+                                <element name="originalFormatVersion" type="string" minOccurs="0"></element>
+                                <element name="adapterProviderName" type="string" minOccurs="0" maxOccurs="1">
+                    				<annotation>
+                    					<documentation>adapter provider name this file was created or this file is inteded for</documentation>
+                    				</annotation>
+                    			</element>
+                    			<element name="adapterProviderVersion" type="string" minOccurs="0" maxOccurs="1">
+                    				<annotation>
+                    					<documentation>adapter provider version this file was created or this file is inteded for</documentation>
+                    				</annotation>
+                    			</element>
+                    		</sequence>
+                    	</complexType></element>
+                    <element name="baseCase" type="pss:PSSNetworkXmlType" minOccurs="1" maxOccurs="1">
 						<annotation>
 							<documentation>Base case power network data for power system simulation purpose</documentation>
 						</annotation>
@@ -79,6 +85,7 @@
 							</sequence>
 						</complexType>
 					</element>
+
 				</sequence>
 			</extension>
 		</complexContent>
