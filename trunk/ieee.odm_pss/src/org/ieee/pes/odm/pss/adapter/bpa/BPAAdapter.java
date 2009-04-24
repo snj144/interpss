@@ -65,10 +65,11 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
-		parser.getStudyCase().setOriginalFormat(
-				StudyCaseXmlType.OriginalFormat.BPA);
-		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
-		parser.getStudyCase().setAdapterProviderVersion("1.00");
+		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
+		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.BPA);
+		info.setAdapterProviderName("www.interpss.org");
+		info.setAdapterProviderVersion("1.00");
+
 		parser.getStudyCase().getBaseCase().setNetworkCategory(
 				NetworkCategoryEnumType.TRANSMISSION);
 		

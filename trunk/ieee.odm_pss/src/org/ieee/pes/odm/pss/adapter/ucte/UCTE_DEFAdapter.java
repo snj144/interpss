@@ -93,10 +93,10 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			final java.io.BufferedReader din) throws Exception {
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
-		parser.getStudyCase().setOriginalFormat(
-				StudyCaseXmlType.OriginalFormat.UCTE_DEF);
-		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
-		parser.getStudyCase().setAdapterProviderVersion("1.00");
+		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
+		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.UCTE_DEF);
+		info.setAdapterProviderName("www.interpss.org");
+		info.setAdapterProviderVersion("1.00");
 
 		parser.getStudyCase().getBaseCase().setAnalysisCategory(
 				AnalysisCategoryEnumType.LOADFLOW);

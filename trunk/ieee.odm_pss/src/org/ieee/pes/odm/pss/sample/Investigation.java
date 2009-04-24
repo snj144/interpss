@@ -41,8 +41,8 @@ public class Investigation {
 		logMgr.addLogger(logger);
 		
 		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
-		assertTrue(adapter.parseXmlFile("testdata/ieeecdf/UCTE_2002_Summer.CF"));
-		assertTrue(adapter.parseXmlFile("testdata/ieeecdf/UCTE_2002_Winter_Offpeak.CF"));
-		assertTrue(adapter.parseXmlFile("testdata/ieeecdf/UCTE_2002_Winter_peak.CF"));
+		assertTrue(adapter.parseInputFile("testdata/ieeecdf/UCTE_2002_Summer.CF"));
+		assertTrue(adapter.parseInputFile("testdata/ieeecdf/UCTE_2002_Winter_Offpeak.CF"));
+		assertTrue(adapter.parseInputFile("testdata/ieeecdf/UCTE_2002_Winter_peak.CF"));
 	}
 }

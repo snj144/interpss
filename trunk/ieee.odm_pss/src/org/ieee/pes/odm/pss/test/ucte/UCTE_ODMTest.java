@@ -53,7 +53,7 @@ public class UCTE_ODMTest {
 		logMgr.addLogger(logger);
 		
 		IODMPSSAdapter adapter = new UCTE_DEFAdapter(logger);
-		assertTrue(adapter.parseXmlFile("testdata/ucte/AusPower_TestCase_Xfr.uct"));
+		assertTrue(adapter.parseInputFile("testdata/ucte/AusPower_TestCase_Xfr.uct"));
 		
 		PSSNetworkXmlType baseCaseNet = adapter.getModel().getBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBusArray().length == 18);

@@ -75,11 +75,11 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			final java.io.BufferedReader din) throws Exception {
 		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
 
-		parser.getStudyCase().setOriginalFormat(
-				StudyCaseXmlType.OriginalFormat.IEEE_CDF);
-		parser.getStudyCase().setAdapterProviderName("www.interpss.org");
-		parser.getStudyCase().setAdapterProviderVersion("1.00");
-
+		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
+		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.IEEE_CDF);
+		info.setAdapterProviderName("www.interpss.org");
+		info.setAdapterProviderVersion("1.00");
+		
 		parser.getStudyCase().getBaseCase().setAnalysisCategory(
 				AnalysisCategoryEnumType.LOADFLOW);
 		parser.getStudyCase().getBaseCase().setNetworkCategory(

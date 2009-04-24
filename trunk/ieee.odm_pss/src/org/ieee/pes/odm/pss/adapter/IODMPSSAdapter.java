@@ -28,12 +28,12 @@ import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public interface IODMPSSAdapter {
 	/**
-	 * parse the input xml file according the the ODM schema
+	 * parse the input file into a ODM model according the the ODM schema
 	 * 
 	 * @param filename file name
 	 * @return
 	 */
-	boolean parseXmlFile(String filename);
+	boolean parseInputFile(String filename);
 	
 	/**
 	 * If parsing staus = false, get error massages

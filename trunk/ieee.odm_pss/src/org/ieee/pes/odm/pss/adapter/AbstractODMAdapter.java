@@ -54,7 +54,7 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 		return errMsgList.toString();
 	}
 
-	public boolean parseXmlFile(String filename) {
+	public boolean parseInputFile(String filename) {
 		try {
 			final File file = new File(filename);
 			final InputStream stream = new FileInputStream(file);
