@@ -36,7 +36,7 @@
     					<element name="desc" type="string" maxOccurs="1"
     						minOccurs="0">
     					</element>
-    					<element name="basePower" type="pss:BasePowerXmlType"
+    					<element name="basePower" type="pss:ActivePowerXmlType"
     						maxOccurs="1" minOccurs="0">
     					</element>
     					<element name="xd1" maxOccurs="1" minOccurs="1"
@@ -59,7 +59,7 @@
     					<element name="desc" type="string" maxOccurs="1"
     						minOccurs="0">
     					</element>
-    					<element name="basePower" type="pss:BasePowerXmlType"
+    					<element name="basePower" type="pss:ActivePowerXmlType"
     						maxOccurs="1" minOccurs="0">
     					</element>
 
@@ -118,7 +118,7 @@
     					<element name="desc" type="string" maxOccurs="1"
     						minOccurs="0">
     					</element>
-    					<element name="basePower" type="pss:BasePowerXmlType"
+    					<element name="basePower" type="pss:ActivePowerXmlType"
     						maxOccurs="1" minOccurs="0">
     					</element>
     					<element name="xd" maxOccurs="1" minOccurs="1"

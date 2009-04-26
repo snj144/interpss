@@ -13,15 +13,14 @@
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
 				<sequence>
-					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType">
-					</element>
+					<element name="networkCategory" minOccurs="1" maxOccurs="1" type="pss:NetworkCategoryEnumType"></element>
 					<element name="analysisCategory" type="pss:AnalysisCategoryEnumType" maxOccurs="1"></element>
-					<element name="basePower" type="pss:BasePowerXmlType" minOccurs="1" maxOccurs="1"></element>
+					<element name="basePower" type="pss:ApparentPowerXmlType" minOccurs="1" maxOccurs="1"></element>
+
 					<element name="areaList" maxOccurs="1" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="area" maxOccurs="unbounded" minOccurs="0" type="pss:NetAreaXmlType">
-								</element>
+								<element name="area" maxOccurs="unbounded" minOccurs="0" type="pss:NetAreaXmlType"></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -42,29 +41,17 @@
 					<element name="lossZoneList" minOccurs="0">
 						<complexType>
 							<sequence>
-								<element name="lossZone" maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType">
-								</element>
+								<element name="lossZone" maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType"></element>
 							</sequence>
 						</complexType>
 					</element>
-					<element name="interchangeList" minOccurs="0">
+                    <element name="interchangeList" minOccurs="0">
 						<complexType>
 							<sequence>
 								<element name="interchange" minOccurs="0" maxOccurs="unbounded">
 									<complexType>
 										<sequence>
-											<element name="ieeeCDFInterchange" minOccurs="0">
-												<complexType>
-													<sequence>
-														<element name="areaNumber" type="int" minOccurs="1"></element>
-														<element name="swingBus" type="pss:IDRefRecordXmlType" minOccurs="1"></element>
-														<element name="alternateSwingBusName" type="string" minOccurs="1"></element>
-														<element name="interchangePower" type="pss:PowerXmlType" minOccurs="1"></element>
-														<element name="interchangeErrTolerance" type="double" minOccurs="1"></element>
-														<element name="areaCode" type="string" minOccurs="0"></element>
-														<element name="areaName" type="string" minOccurs="0"></element>
-													</sequence>
-												</complexType>
+											<element name="powerEx" minOccurs="0" type="pss:PowerInterchangeXmlType">
 											</element>
 											<element name="ucteExchange" minOccurs="0">
 												<complexType>
@@ -98,7 +85,8 @@
 								</element>
 							</sequence>
 						</complexType>
-					</element>					<element name="dcLineList" maxOccurs="1" minOccurs="0">
+					</element>
+					<element name="dcLineList" maxOccurs="1" minOccurs="0">
 						<complexType>
 							<sequence>
 								<element name="dcLineBusList" maxOccurs="1" minOccurs="0">
@@ -117,7 +105,7 @@
 								</element>
 							</sequence>
 						</complexType>
-					</element>
+					</element>
 				</sequence>
 			</extension>
 		</complexContent>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1" xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
+	elementFormDefault="qualified">
+
+	<annotation>
+		<documentation>Copyright www.interpss.org 2008</documentation>
+	</annotation>
+	<simpleType name="ApparentPowerUnitType">
+		<restriction base="string">
+			<enumeration value="PU"></enumeration>
+			<enumeration value="VA"></enumeration>
+			<enumeration value="KVA"></enumeration>
+			<enumeration value="MVA"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="ActivePowerUnitType">
+		<restriction base="string">
+			<enumeration value="PU"></enumeration>
+			<enumeration value="W"></enumeration>
+			<enumeration value="KW"></enumeration>
+			<enumeration value="MW"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="ReactivePowerUnitType">
+		<restriction base="string">
+			<enumeration value="PU"></enumeration>
+			<enumeration value="VAR"></enumeration>
+			<enumeration value="KVAR"></enumeration>
+			<enumeration value="MVAR"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="TapUnitType">
+		<restriction base="string">
+			<enumeration value="PU"></enumeration>
+			<enumeration value="Percent"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="YUnitType">
+		<restriction base="string">
+			<enumeration value="PU"></enumeration>
+			<enumeration value="MHO"></enumeration>
+			<enumeration value="MICROMHO"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="ZUnitType">
+		<restriction base="string">
+			<enumeration value="PU"></enumeration>
+			<enumeration value="OHM"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="AngleUnitType">
+		<restriction base="string">
+			<enumeration value="RAD"></enumeration>
+			<enumeration value="DEG"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="LengthUnitType">
+		<restriction base="string">
+			<enumeration value="KM"></enumeration>
+			<enumeration value="Mile"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="FrequencyUnitType">
+		<restriction base="string">
+			<enumeration value="Hz"></enumeration>
+			<enumeration value="KHz"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="TimePeriodUnitType">
+		<restriction base="string">
+			<enumeration value="Sec"></enumeration>
+			<enumeration value="Min"></enumeration>
+			<enumeration value="Hour"></enumeration>
+			<enumeration value="Cycle"></enumeration>
+		</restriction>
+	</simpleType>
+	<simpleType name="CurrentUnitType">
+		<restriction base="string">
+			<enumeration value="PU"></enumeration>
+			<enumeration value="AMP"></enumeration>
+			<enumeration value="KA"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="VoltageUnitType">
+		<restriction base="string">
+			<enumeration value="PU"></enumeration>
+			<enumeration value="VOLT"></enumeration>
+			<enumeration value="KV"></enumeration>
+		</restriction>
+	</simpleType>
+</schema>
