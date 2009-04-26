@@ -2,56 +2,48 @@
 <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1" xmlns:pss="http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1"
 	elementFormDefault="qualified">
 
+	<include schemaLocation="ODM_UnitType.xsd"></include>
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
 	</annotation>
 	<complexType name="BaseRecordXmlType">
 		<sequence>
-			<element name="name" type="string" minOccurs="0" maxOccurs="1">
-			</element>
-			<element name="desc" type="string" minOccurs="0" maxOccurs="1">
-			</element>
-			<element name="isoCode" type="string" minOccurs="0" maxOccurs="1">
-			</element>
-			<element name="offLine" type="boolean" minOccurs="0" maxOccurs="1">
-			</element>
+
+			<element name="desc" type="string" minOccurs="0" maxOccurs="1"></element>
+			<element name="isoCode" type="string" minOccurs="0" maxOccurs="1"></element>
 			<element name="normalOffLineStatus" type="boolean" minOccurs="0"></element>
-			<element name="number" type="int" minOccurs="0" maxOccurs="1">
-			</element>
-			<element name="areaNumber" minOccurs="0" maxOccurs="1" type="int">
-			</element>
-			<element name="zoneNumber" minOccurs="0" maxOccurs="1" type="int">
-			</element>
 			<element name="ownerList" minOccurs="0" maxOccurs="1">
 				<complexType>
 					<sequence>
 						<element name="owner">
 							<complexType>
-								<sequence>
-									<element name="id" type="string" minOccurs="1">
-									</element>
-									<element name="ownership" type="double" minOccurs="1">
-									</element>
-								</sequence>
+								<attribute name="id" type="string" use="required"></attribute>
+								<attribute name="name" type="string" use="optional"></attribute>
+								<attribute name="ownership" type="double" use="optional"></attribute>
 							</complexType>
 						</element>
 					</sequence>
 				</complexType>
 			</element>
-			<element name="nvPairList" type="pss:NameValuePairListXmlType" minOccurs="0" maxOccurs="1">
-			</element>
-			<element name="extension" type="anySimpleType" minOccurs="0">
-			</element>
+			<element name="nvPairList" type="pss:NameValuePairListXmlType" minOccurs="0" maxOccurs="1"></element>
+			<element name="extension" type="anySimpleType" minOccurs="0"></element>
 		</sequence>
+
+		<attribute name="name" type="string" use="optional"></attribute>
+		<attribute name="areaNumber" type="int" use="optional"></attribute>
+		<attribute name="zoneNumber" type="int" use="optional"></attribute>
+		<attribute name="number" type="int" use="optional"></attribute>
+
+		<attribute name="offLine" type="boolean" use="optional"></attribute>
 	</complexType>
 
 	<complexType name="IDRecordXmlType">
 		<complexContent>
 			<extension base="pss:BaseRecordXmlType">
 				<sequence>
-					<element name="id" type="ID" minOccurs="1" maxOccurs="1">
-					</element>
+
 				</sequence>
+				<attribute name="id" type="ID" use="required"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -60,26 +52,23 @@
 		<complexContent>
 			<extension base="pss:BaseRecordXmlType">
 				<sequence>
-					<element name="idRef" type="IDREF" minOccurs="1" maxOccurs="1">
-					</element>
+
 				</sequence>
+				<attribute name="idRef" type="IDREF" use="required"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>
 
 	<complexType name="NameValuePairXmlType">
 		<sequence>
-			<element name="name" type="string" minOccurs="1" maxOccurs="1">
-			</element>
-			<element name="value" type="string" minOccurs="1" maxOccurs="1">
-			</element>
+			<element name="name" type="string" minOccurs="1" maxOccurs="1"></element>
+			<element name="value" type="string" minOccurs="1" maxOccurs="1"></element>
 		</sequence>
 	</complexType>
 
 	<complexType name="NameValuePairListXmlType">
 		<sequence>
-			<element name="nvPair" type="pss:NameValuePairXmlType" minOccurs="0" maxOccurs="unbounded">
-			</element>
+			<element name="nvPair" type="pss:NameValuePairXmlType" minOccurs="0" maxOccurs="unbounded"></element>
 		</sequence>
 	</complexType>
 
@@ -100,13 +89,7 @@
 	<complexType name="ZXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="PU"></enumeration>
-							<enumeration value="OHM"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:ZUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -114,14 +97,7 @@
 	<complexType name="YXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="PU"></enumeration>
-							<enumeration value="MHO"></enumeration>
-							<enumeration value="MICROMHO"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:YUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -129,15 +105,31 @@
 	<complexType name="PowerXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="PU"></enumeration>
-							<enumeration value="VA"></enumeration>
-							<enumeration value="KVA"></enumeration>
-							<enumeration value="MVA"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ActivePowerXmlType">
+		<complexContent>
+			<extension base="pss:BaseDoubleXmlType">
+				<attribute name="unit" use="required" type="pss:ActivePowerUnitType">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ReactivePowerXmlType">
+		<complexContent>
+			<extension base="pss:BaseDoubleXmlType">
+				<attribute name="unit" use="required" type="pss:ReactivePowerUnitType">
+				</attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TapXmlType">
+		<complexContent>
+			<extension base="pss:BaseDoubleXmlType">
+				<attribute name="unit" use="required" type="pss:TapUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -145,15 +137,8 @@
 	<complexType name="VoltageXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="PU"></enumeration>
-							<enumeration value="VOLT"></enumeration>
-							<enumeration value="KV"></enumeration>
-						</restriction>
-					</simpleType>
-				</attribute>
+
+				<attribute name="unit" type="pss:VoltageUnitType" use="required"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -161,13 +146,7 @@
 	<complexType name="AngleXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="RAD"></enumeration>
-							<enumeration value="DEG"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:AngleUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -176,14 +155,7 @@
 	<complexType name="CurrentXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="PU"></enumeration>
-							<enumeration value="AMP"></enumeration>
-							<enumeration value="KA"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:CurrentUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -199,21 +171,14 @@
 				</simpleType>
 			</element>
 			<element name="desiredValue" type="double" minOccurs="0"></element>
-			<element name="desiredRange" type="pss:LimitXmlType" minOccurs="0">
-			</element>
+			<element name="desiredRange" type="pss:LimitXmlType" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
 	<complexType name="LengthXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="KM"></enumeration>
-							<enumeration value="Mile"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:LengthUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -222,13 +187,7 @@
 	<complexType name="FrequencyXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="Hz"></enumeration>
-							<enumeration value="KHz"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:FrequencyUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -237,67 +196,56 @@
 	<complexType name="TimePeriodXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="sec"></enumeration>
-							<enumeration value="min"></enumeration>
-							<enumeration value="hour"></enumeration>
-							<enumeration value="cycle"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:TimePeriodUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
 	</complexType>
-<!-- 
+	<!-- 
 	<complexType name="PerUnitXmlType">
 		<sequence>
-			<element name="value" type="double" maxOccurs="1" minOccurs="1">
-			</element>
-			<element name="unit" maxOccurs="1" minOccurs="1">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="PU"></enumeration>
-					</restriction>
-				</simpleType>
-			</element>
+		<element name="value" type="double" maxOccurs="1" minOccurs="1">
+		</element>
+		<element name="unit" maxOccurs="1" minOccurs="1">
+		<simpleType>
+		<restriction base="string">
+		<enumeration value="PU"></enumeration>
+		</restriction>
+		</simpleType>
+		</element>
 		</sequence>
-	</complexType>
- -->
-	<complexType name="BasePowerXmlType">
+		</complexType>
+	-->
+	<complexType name="ApparentPowerXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required">
-					<simpleType>
-						<restriction base="string">
-							<enumeration value="KVA"></enumeration>
-							<enumeration value="MVA"></enumeration>
-						</restriction>
-					</simpleType>
+				<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
 	</complexType>
-<!-- 
-	<complexType name="PercentXmlType">
+	<!-- 
+		<complexType name="PercentXmlType">
 		<sequence>
-			<element name="value" type="double" maxOccurs="1" minOccurs="1">
-			</element>
-			<element name="unit" maxOccurs="1" minOccurs="1">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="percent"></enumeration>
-					</restriction>
-				</simpleType>
-			</element>
+		<element name="value" type="double" maxOccurs="1" minOccurs="1">
+		</element>
+		<element name="unit" maxOccurs="1" minOccurs="1">
+		<simpleType>
+		<restriction base="string">
+		<enumeration value="percent"></enumeration>
+		</restriction>
+		</simpleType>
+		</element>
 		</sequence>
-	</complexType>
- -->
+		</complexType>
+	-->
 	<complexType name="LineZeroSeqXmlType">
 		<sequence>
-			<element name="zLine" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>			<element name="yLiner" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="yFromSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>			<element name="yToSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>		</sequence>
+			<element name="zLine" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="yLiner" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="yFromSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="yToSide" type="pss:YXmlType" maxOccurs="1" minOccurs="0"></element>
+		</sequence>
 	</complexType>
 
 	<complexType name="TransformerZeroSeqXmlType">
@@ -311,10 +259,10 @@
 					</restriction>
 				</simpleType>
 			</element>
-			<element name="zG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="z1" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="z2" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
-			<element name="z3" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="zG" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="z1" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="z2" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="z3" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 	<complexType name="MutualZeroZXmlType">
@@ -322,7 +270,8 @@
 			<element name="branchFromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="branchToBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="branchCirId" type="string" maxOccurs="1" minOccurs="0"></element>
-			<element name="zM" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>			<element name="bIJ1pu" type="double" maxOccurs="1" minOccurs="0"></element>
+			<element name="zM" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="bIJ1pu" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="bIJ2pu" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="bKL1pu" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="bKL2pu" type="double" maxOccurs="1" minOccurs="0"></element>
@@ -331,14 +280,15 @@
 
 	<complexType name="FaultXmlType">
 		<sequence>
-			<element name="faultType" maxOccurs="1" minOccurs="1" type="pss:FaultTypeEnumType">			</element>
+			<element name="faultType" maxOccurs="1" minOccurs="1" type="pss:FaultTypeEnumType"></element>
 			<choice>
-			<element name="branchFault" maxOccurs="1" minOccurs="0" type="pss:BranchFaultXmlType">			</element>
-			<element name="busFault" maxOccurs="1" minOccurs="0" type="pss:BusFaultXmlType">			</element>
-            <element name="dcLineFault" maxOccurs="1" minOccurs="0" type="pss:DcLineFaultXmlType">			</element>
-            <element name="branchOutage" maxOccurs="1" minOccurs="0" type="pss:BranchOutageXmlType">			</element>
-			<element name="loadChange" maxOccurs="1" minOccurs="0" type="pss:LoadChangeDynamicEventXmlType">			</element>
-			<element name="genChange" maxOccurs="1" minOccurs="0" type="pss:GenChangeDynamicEventXmlType">			</element>			</choice>
+				<element name="branchFault" maxOccurs="1" minOccurs="0" type="pss:BranchFaultXmlType"></element>
+				<element name="busFault" maxOccurs="1" minOccurs="0" type="pss:BusFaultXmlType"></element>
+				<element name="dcLineFault" maxOccurs="1" minOccurs="0" type="pss:DcLineFaultXmlType"></element>
+				<element name="branchOutage" maxOccurs="1" minOccurs="0" type="pss:BranchOutageXmlType"></element>
+				<element name="loadChange" maxOccurs="1" minOccurs="0" type="pss:LoadChangeDynamicEventXmlType"></element>
+				<element name="genChange" maxOccurs="1" minOccurs="0" type="pss:GenChangeDynamicEventXmlType"></element>
+			</choice>
 		</sequence>
 	</complexType>
 
@@ -377,7 +327,6 @@
 			<element name="faultZ" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="faultLocationFromFromSide" type="double" maxOccurs="1" minOccurs="0"></element>
 			<element name="permanentFault" type="boolean" maxOccurs="1" minOccurs="0"></element>
-
 		</sequence>
 	</complexType>
 
@@ -402,8 +351,8 @@
 			<element name="faultCategory" type="pss:FaultCategoryEnumType" maxOccurs="1" minOccurs="0"></element>
 			<element name="fromBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="toBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-            <element name="cirId" type="string" minOccurs="0" maxOccurs="unbounded"></element>
-            <element name="startTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="cirId" type="string" minOccurs="0" maxOccurs="unbounded"></element>
+			<element name="startTime" type="pss:TimePeriodXmlType" maxOccurs="1" minOccurs="1"></element>
 		</sequence>
 	</complexType>
 
@@ -445,8 +394,9 @@
 	<complexType name="DcLineFaultXmlType">
 		<sequence>
 			<element name="fromACBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-            <element name="toACBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-            <element name="fromACRatedVol" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="toACBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="fromACRatedVol" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+
 			<element name="toACRatedVol" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="faultType" maxOccurs="1" minOccurs="1">
 				<simpleType>
@@ -470,4 +420,44 @@
 			<element name="faultZ" type="pss:ZXmlType" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
+
+	<complexType name="MvaRatingXmlType">
+		<attribute name="rating1" type="double" use="required"></attribute>
+		<attribute name="rating2" type="double" use="optional"></attribute>
+		<attribute name="rating3" type="double" use="optional"></attribute>
+		<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
+		</attribute>
+	</complexType>
+
+	<complexType name="VoltageLimitXmlType">
+		<sequence>
+
+			<element name="limit" type="pss:LimitXmlType" minOccurs="1"></element>
+		</sequence>
+		<attribute name="unit" type="pss:VoltageUnitType" use="required"></attribute>
+	</complexType>
+	
+
+	<complexType name="ActivePowerLimitXmlType">
+		<sequence>
+			<element name="limit" type="pss:LimitXmlType" minOccurs="1"></element>
+
+		</sequence>
+		<attribute name="unit" type="pss:ApparentPowerUnitType" use="required"></attribute>
+	</complexType>
+
+	<complexType name="ReactivePowerLimitXmlType">
+		<sequence>
+			<element name="limit" type="pss:LimitXmlType" minOccurs="1"></element>
+		</sequence>
+		<attribute name="unit" type="pss:ReactivePowerUnitType" use="required"></attribute>
+	</complexType>
+
+	<complexType name="TapLimitXmlType">
+		<sequence>
+			<element name="limit" type="pss:LimitXmlType" minOccurs="1"></element>
+		</sequence>
+		<attribute name="unit" type="pss:TapUnitType" use="required"></attribute>
+	</complexType>
+
 </schema>
