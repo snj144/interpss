@@ -44,7 +44,7 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	private String versionSelected;
 	
 	protected void loadByODMTransformation(final IODMPSSAdapter adapter, final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{
-		adapter.parseXmlFile(filepath);
+		adapter.parseInputFile(filepath);
 		//System.out.println(adapter.getModel().toString());
 		
 		IEEEODMMapper mapper = new IEEEODMMapper();
