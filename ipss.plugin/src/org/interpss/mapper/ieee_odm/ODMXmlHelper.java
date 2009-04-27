@@ -24,11 +24,11 @@
 
 package org.interpss.mapper.ieee_odm;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 
 import com.interpss.common.datatype.UnitType;
 
@@ -40,16 +40,16 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(PowerXmlType.Unit.Enum unit) {
-		if (unit == PowerXmlType.Unit.KVA)
+	public static byte toUnit(ApparentPowerUnitType.Enum unit) {
+		if (unit == ApparentPowerUnitType.KVA)
 			return UnitType.kVA;
-		else if (unit == PowerXmlType.Unit.MVA)
+		else if (unit == ApparentPowerUnitType.MVA)
 			return UnitType.mVA;
 		return UnitType.PU;
 	}
 
-	public static byte toUnit(ZXmlType.Unit.Enum unit) {
-		if (unit == ZXmlType.Unit.OHM)
+	public static byte toUnit(ZUnitType.Enum unit) {
+		if (unit == ZUnitType.OHM)
 			return UnitType.Ohm;
 		return UnitType.PU;
 	}
@@ -60,10 +60,10 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(YXmlType.Unit.Enum unit) {
-		if (unit == YXmlType.Unit.MHO)
+	public static byte toUnit(YUnitType.Enum unit) {
+		if (unit == YUnitType.MHO)
 			return UnitType.Mho;
-		else if (unit == YXmlType.Unit.MICROMHO)
+		else if (unit == YUnitType.MICROMHO)
 			return UnitType.MicroMho;
 		return UnitType.PU;
 	}
@@ -74,10 +74,10 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(VoltageXmlType.Unit.Enum unit) {
-		if (unit == VoltageXmlType.Unit.VOLT)
+	public static byte toUnit(VoltageUnitType.Enum unit) {
+		if (unit == VoltageUnitType.VOLT)
 			return UnitType.Volt;
-		else if (unit == VoltageXmlType.Unit.KV)
+		else if (unit == VoltageUnitType.KV)
 			return UnitType.kV;
 		return UnitType.PU;
 	}
@@ -88,8 +88,8 @@ public class ODMXmlHelper {
 	 * @param unit power unit 
 	 * @return
 	 */
-	public static byte toUnit(AngleXmlType.Unit.Enum unit) {
-		if (unit == AngleXmlType.Unit.DEG)
+	public static byte toUnit(AngleUnitType.Enum unit) {
+		if (unit == AngleUnitType.DEG)
 			return UnitType.Deg;
 		return UnitType.Rad;
 	}
