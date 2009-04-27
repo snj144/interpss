@@ -34,6 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
@@ -42,6 +43,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBranchCode;
@@ -76,6 +78,9 @@ public class ODMLoadflowDataMapperImpl {
 		adjNet.addBus(aclfBus);
 		aclfBus.setName(busRec.getName());
 		aclfBus.setStatus(!busRec.getOffLine());
+		if (!aclfBus.isActive()) {
+			IpssLogger.getLogger().info("Aclf Bus is not active, " + aclfBus.getId());
+		}
 		aclfBus.setDesc(busRec.getDesc());
 		Area area = CoreObjectFactory.createArea(busRec.getAreaNumber(), adjNet);
 		aclfBus.setArea(area);
@@ -95,6 +100,9 @@ public class ODMLoadflowDataMapperImpl {
 		adjNet.addBranch(aclfBranch, branchRec.getFromBus().getIdRef(), branchRec.getToBus().getIdRef());
 		aclfBranch.setName(branchRec.getName());
 		aclfBranch.setStatus(!branchRec.getOffLine());
+		if (!aclfBranch.isActive()) {
+			IpssLogger.getLogger().info("Aclf Branch is not active, " + aclfBranch.getId());
+		}
 		Area area = CoreObjectFactory.createArea(branchRec.getAreaNumber(), adjNet);
 		aclfBranch.setArea(area);
 		Zone zone = CoreObjectFactory.createZone(branchRec.getZoneNumber(), adjNet);
@@ -113,17 +121,21 @@ public class ODMLoadflowDataMapperImpl {
 		aclfBus.setVoltage(vpu, angRad);
 
 		if (busXmlData.getGenData() != null) {
-			LoadflowGenDataXmlType genData = busXmlData.getGenData().getEquivGen();
+			LoadflowGenDataXmlType xmlEquivGenData = busXmlData.getGenData().getEquivGen();
 			if (busXmlData.getGenData().getCode() == LFGenCodeEnumType.PQ) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus.getAdapter(PQBusAdapter.class);
-				pqBus.setGen(new Complex(genData.getPower().getRe(), genData.getPower().getIm()),
-						           ODMXmlHelper.toUnit(genData.getPower().getUnit()), adjNet.getBaseKva());
-			} else if (busXmlData.getGenData().getCode() == LFGenCodeEnumType.PV) {
+				pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
+						                 xmlEquivGenData.getPower().getIm()),
+						           ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+			} else if (busXmlData.getGenData().getCode() == LFGenCodeEnumType.PV &&
+					xmlEquivGenData != null) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PV);
 				PVBusAdapter pvBus = (PVBusAdapter) aclfBus.getAdapter(PVBusAdapter.class);
-				pvBus.setGenP(busXmlData.getGenData().getEquivGen().getPower().getRe(),
-							ODMXmlHelper.toUnit(busXmlData.getGenData().getEquivGen().getPower().getUnit()), adjNet.getBaseKva());
+				//if (xmlEquivGenData == null)
+				//	System.out.print(busXmlData);
+				pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
+							ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
 				pvBus.setVoltMag(vpu, UnitType.PU);
 			} else if (busXmlData.getGenData().getCode() == LFGenCodeEnumType.SWING) {
 				aclfBus.setGenCode(AclfGenCode.SWING);
@@ -131,7 +143,7 @@ public class ODMLoadflowDataMapperImpl {
 				swing.setVoltMag(vpu, UnitType.PU);
 				swing.setVoltAng(angRad, UnitType.Rad);				
 			} else {
-				throw new Exception("Error: wrong LoadflowData.GenData.Code: " + busXmlData.getGenData().getCode());
+				aclfBus.setGenCode(AclfGenCode.NON_GEN);
 			}
 		} else {
 			aclfBus.setGenCode(AclfGenCode.NON_GEN);
@@ -142,14 +154,16 @@ public class ODMLoadflowDataMapperImpl {
 							AclfLoadCode.CONST_I : (busXmlData.getLoadData().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 									AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
 			LoadBusAdapter loadBus = (LoadBusAdapter) aclfBus.getAdapter(LoadBusAdapter.class);
+			LoadflowLoadDataXmlType xmlEquivLoad = busXmlData.getLoadData().addNewEquivLoad();
 			PowerXmlType p;
 			if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)
-				p = busXmlData.getLoadData().getEquivLoad().getConstPLoad();
+				p = xmlEquivLoad.getConstPLoad();
 			else if (aclfBus.getLoadCode() == AclfLoadCode.CONST_I)
-				p = busXmlData.getLoadData().getEquivLoad().getConstILoad();
+				p = xmlEquivLoad.getConstILoad();
 			else	
-				p = busXmlData.getLoadData().getEquivLoad().getConstZLoad();
-			loadBus.setLoad(new Complex(p.getRe(), p.getIm()),
+				p = xmlEquivLoad.getConstZLoad();
+			if (p != null)
+				loadBus.setLoad(new Complex(p.getRe(), p.getIm()),
 						ODMXmlHelper.toUnit(p.getUnit()), adjNet.getBaseKva());
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
@@ -171,6 +185,7 @@ public class ODMLoadflowDataMapperImpl {
 		if (braXmlData.getCode() == LFBranchCodeEnumType.LINE) {
 			if (braXmlData.getLineData() != null) {
 				aclfBra.setBranchCode(AclfBranchCode.LINE);
+				//System.out.println(braXmlData.getLineData().getZ().getIm());
 				LineAdapter line = (LineAdapter) aclfBra.getAdapter(LineAdapter.class);
 				line.setZ(new Complex(braXmlData.getLineData().getZ().getRe(), braXmlData.getLineData().getZ().getIm()), 
 							ODMXmlHelper.toUnit(braXmlData.getLineData().getZ().getUnit()), 
@@ -250,8 +265,14 @@ public class ODMLoadflowDataMapperImpl {
 		       toBaseV = aclfBra.getToAclfBus().getBaseVoltage();
 		// turn ratio is based on xfr rated voltage
 		// voltage units should be same for both side 
-		double fromRatedV = xfrData.getRatingData().getFromRatedVoltage().getValue();
-		double toRatedV = xfrData.getRatingData().getToRatedVoltage().getValue();
+		double fromRatedV = fromBaseV;
+		double toRatedV = toBaseV;
+		if (xfrData.getRatingData() != null) {
+			if (xfrData.getRatingData().getFromRatedVoltage() != null)
+				fromRatedV = xfrData.getRatingData().getFromRatedVoltage().getValue();
+			if (xfrData.getRatingData().getToRatedVoltage() != null)
+				toRatedV = xfrData.getRatingData().getToRatedVoltage().getValue();
+		}
     	double ratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
