@@ -21,9 +21,10 @@
  *   ================
  *
  */
-package org.ieee.pes.odm.pss.adapter.psse;
+package org.ieee.pes.odm.pss.adapter.psse.v26;
 
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
@@ -31,28 +32,31 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SwitchedShuntDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.pes.odm.pss.adapter.psse.PSSEAdapter;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
-public class PSSEBusRecord {
-	public static void processBusData(final String str,final BusRecordXmlType busRec, PSSEAdapter adapter) {
+public class PSSEV26BusRecord {
+	public static void processBusData(final String str,final BusRecordXmlType busRec, Logger logger) {
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);	    
 		//Format: I, NAME BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
 		
 		final String busId = PSSEAdapter.Token_Id+strAry[0];
 			// XML requires id start with a char
-		adapter.getLogger().fine("Bus data loaded, id: " + busId);
+		logger.fine("Bus data loaded, id: " + busId);
 		busRec.setId(busId);	
+		busRec.setNumber(new Integer(strAry[0]).intValue());
 		
 		final String busName = strAry[1];
 		busRec.setName(busName);
 		double baseKv = StringUtil.getDouble(strAry[2], 0.0);
 		if (baseKv == 0.0) {
-			adapter.logErr("Error: base kv = 0.0");
+			logger.severe("Error: base kv = 0.0");
 			baseKv = 1.0;
 		}
 		
@@ -110,7 +114,7 @@ public class PSSEBusRecord {
 	}
 			
 		
-	public static  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet, PSSEAdapter adapter) {
+	public static  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet, Logger logger) {
 		// I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 		final String[] strAry = getLoadDataFields(str);
 
@@ -118,7 +122,7 @@ public class PSSEBusRecord {
 	    //to test if there is a responding bus in the bus data record
 		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet);
 	    if (busRec == null){
-	    	adapter.logErr("Bus"+ busId+ "is not found in the network");
+	    	logger.severe("Bus"+ busId+ "is not found in the network");
 	    	return;
 	    }
 
@@ -164,9 +168,10 @@ public class PSSEBusRecord {
 	    			CYloadMw, CYloadMvar, ApparentPowerUnitType.MVA);
 	}
 	
-	public static  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet, PSSEAdapter adapter) {
+	public static  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet, Logger logger) {
 		
-		//I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
+		//I,    ID,      PG,      QG,     QT,      QB,   VS,        IREG,MBASE, ZR,    ZX,    RT,    XT,    GTAP,  STAT,RMPCT,  PT,         PB,  O1,F1,...,O4,F4
+		//31435,' 1',    8.52,    2.51,   10.00,   -6.00,1.0203,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,1,   100.00, 9999.00,    0.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_78] */ 
 		
 		// parse the input data line
 	    final String[] strAry = getGenDataFields(str);
@@ -174,15 +179,17 @@ public class PSSEBusRecord {
 		// get the responding-bus data with busId
 		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet);
 		if (busRec==null){
-			adapter.logErr("Error: Bus not found in the network, bus number: " + busId);
+			logger.severe("Error: Bus not found in the network, bus number: " + busId);
         	return;
         }
 				
-	    if (busRec.getLoadflowData().getGenData().getContributeGenList() == null) {  // there may be multiple contribute gen records on a bus
-	    	busRec.getLoadflowData().getGenData().addNewContributeGenList();
+	    LoadflowBusDataXmlType lfData = busRec.getLoadflowData();
+	    if (lfData.getGenData() == null) {  // there may be multiple contribute gen records on a bus
+	    	lfData.addNewGenData();
 	    }
-	    
-	    LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData(); 
+	    LoadflowBusDataXmlType.GenData genData = lfData.getGenData();
+	    if (genData.getContributeGenList() == null)
+	    	genData.addNewContributeGenList();
 	    LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen contriGen = 
 	    		genData.getContributeGenList().addNewContributeGen();
 		
@@ -197,8 +204,10 @@ public class PSSEBusRecord {
 		       xt = StringUtil.getDouble(strAry[12], 0.0),
 		       gtap = StringUtil.getDouble(strAry[13], 0.0); 
 		ODMData2XmlHelper.setPowerMva(contriGen.addNewRatedMva(), mbase);
-		ODMData2XmlHelper.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
-		ODMData2XmlHelper.setZValue(contriGen.addNewXfrZ(), rt, xt, ZUnitType.PU);
+		if(zr != 0.0 || zx != 0.0)
+			ODMData2XmlHelper.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
+		if(rt != 0.0 || xt != 0.0)
+			ODMData2XmlHelper.setZValue(contriGen.addNewXfrZ(), rt, xt, ZUnitType.PU);
 		contriGen.setXfrTap(gtap);
 		
 		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
@@ -218,7 +227,7 @@ public class PSSEBusRecord {
 		
 		final double genMw = new Double(strAry[2]).doubleValue();
 		final double genMvar = new Double(strAry[3]).doubleValue();
-		ODMData2XmlHelper.setPowerData(contriGen.getGen().getPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
+		ODMData2XmlHelper.setPowerData(contriGen.addNewGen().addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
 		
 		// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
 		// Maximum MVAR  
@@ -231,13 +240,11 @@ public class PSSEBusRecord {
 		
 		if (max != 0.0 || min != 0.0) {
 			if ( genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PQ) {
-				contriGen.getGen().addNewVoltageLimit();
-				ODMData2XmlHelper.setVoltageLimitData(contriGen.getGen().getVoltageLimit(), 
+				ODMData2XmlHelper.setVoltageLimitData(contriGen.getGen().addNewVoltageLimit(),
 						max, min, VoltageUnitType.PU);
 			}
 			else if (genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
-				contriGen.getGen().addNewQLimit();
-				ODMData2XmlHelper.setReactivePowerLimitData(contriGen.getGen().getQLimit(),
+				ODMData2XmlHelper.setReactivePowerLimitData(contriGen.getGen().addNewQLimit(),
 						max, min, ReactivePowerUnitType.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(ODMData2XmlHelper.getBusRecord(busId, baseCaseNet).getId())) {
@@ -259,6 +266,80 @@ public class PSSEBusRecord {
 				strAry[22], StringUtil.getDouble(strAry[23], 0.0), 
 				strAry[24], StringUtil.getDouble(strAry[25], 0.0));
     }
+
+	public static  void processSwitchedShuntData(final String str,final PSSNetworkXmlType baseCaseNet, Logger logger) {
+		/*
+		I,    MODSW,VSWHI, VSWLO,  SWREM,   BINIT,    N1,      B1,   N2,        B2...N8,B8
+		34606,0,    1.1000,0.9000,     0,-190.800,     1, -47.700,     1, -47.700,     1, -47.700,     1, -47.700,    
+			I - Bus number
+			MODSW - Mode 0 - fixed 1 - discrete 2 - continuous
+			VSWHI - Desired voltage upper limit, per unit
+			VSWLO - Desired voltage lower limit, per unit
+			SWREM - Number of remote bus to control. 0 to control own bus.
+			BINIT - Initial switched shunt admittance, MVAR at 1.0 per unit volts
+			N1 - Number of steps for block 1, first 0 is end of blocks
+			B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts.
+			N2, B2, etc, as N1, B1
+		 */		
+		// parse the input data line
+	    final String[] strAry = getSwitchedShuntDataFields(str);
+		final String busId = PSSEAdapter.Token_Id+strAry[0];
+		// get the responding-bus data with busId
+		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet);
+		if (busRec==null){
+			logger.severe("Error: Bus not found in the network, bus number: " + busId);
+        	return;
+        }
+				
+	    LoadflowBusDataXmlType lfData = busRec.getLoadflowData();
+	    if (lfData == null)
+	    	lfData = busRec.addNewLoadflowData();
+	    if (lfData.getShuntQData() == null) {  // there may be multiple contribute switched shunt records on a bus
+	    	lfData.addNewShuntQData().addNewContributeQList();
+	    }
+	    SwitchedShuntDataXmlType shunt = lfData.getShuntQData().getContributeQList().addNewSwitchedShunt();
+		
+		// genId is used to distinguish multiple generations at one bus		
+		int mode = StringUtil.getInt(strAry[1], 0);
+		shunt.setMode(mode ==0? SwitchedShuntDataXmlType.Mode.FIXED :
+						mode ==1? SwitchedShuntDataXmlType.Mode.DISCRETE : 
+							SwitchedShuntDataXmlType.Mode.CONTINUOUS);
+		
+		//VSWHI - Desired voltage upper limit, per unit
+		//VSWLO - Desired voltage lower limit, per unit
+		final double vmax = StringUtil.getDouble(strAry[2], 1.0);
+		final double vmin = StringUtil.getDouble(strAry[3], 1.0);
+		ODMData2XmlHelper.setVoltageLimitData(shunt.addNewDesiredVoltageRange(), vmax, vmin, VoltageUnitType.PU);
+		
+		//SWREM - Number of remote bus to control. 0 to control own bus.
+		int busNo = StringUtil.getInt(strAry[4], 0);
+		if (busNo != 0) {
+			shunt.addNewRemoteControlledBus().setIdRef(PSSEAdapter.Token_Id+strAry[4]);
+		}
+		
+		//BINIT - Initial switched shunt admittance, MVAR at 1.0 per unit volts
+		final double binit = StringUtil.getDouble(strAry[5], 0.0);
+		shunt.setBInit(binit);
+		
+		double equiQ = 0.0;
+		if (lfData.getShuntQData().getEquivQ() != null)
+			equiQ = lfData.getShuntQData().getEquivQ().getValue();
+		ODMData2XmlHelper.setReactivePower(lfData.getShuntQData().addNewEquivQ(), equiQ+binit, ReactivePowerUnitType.MVAR);
+		
+		//N1 - Number of steps for block 1, first 0 is end of blocks
+		//B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts. N2, B2, etc, as N1, B1
+		for (int i = 0; i < 8; i++) {
+	  		String nStr = strAry[6+i*2];
+	  		String bStr = strAry[7+i*2];
+	  		if (nStr != null) {
+	  			int n = StringUtil.getInt(nStr, 0);
+	  			double b = StringUtil.getDouble(bStr, 0.0);
+	  			SwitchedShuntDataXmlType.Block block = shunt.addNewBlock();
+	  			block.setSteps(n);
+	  			ODMData2XmlHelper.setReactivePower(block.addNewIncrementB(), b, ReactivePowerUnitType.MVAR);
+	  		}
+		}
+	}
 	
 	private static String[] getBusDataFields(final String lineStr) {
 		final String[] strAry = new String[11];
@@ -388,6 +469,29 @@ public class PSSEBusRecord {
 	  		strAry[25]=st.nextToken().trim();
 		}
 				
+		return strAry;
+	}
+	
+	private static String[] getSwitchedShuntDataFields(final String lineStr) {
+		// I,    MODSW,VSWHI, VSWLO,  SWREM,   BINIT,    N1,      B1,   N2,        B2...N8,B8
+		final String[] strAry = new String[22];		
+  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+  		for ( int i = 0; i < 6; i++) 
+  	  		strAry[i]=st.nextToken().trim();
+  		
+  		for ( int i = 0; i < 8; i++) {
+  			if (st.hasMoreTokens()) {
+  		  		String str = st.nextToken().trim();
+  		  		if (!str.trim().equals("")) {
+  		  			strAry[6+i*2]=str;
+  	  		  		strAry[7+i*2]=st.nextToken().trim();
+  		  		}
+  			}
+  			else {
+		  		strAry[6+i*2]=null;
+  	  		  	strAry[7+i*2]=null;
+  			}
+  		}
 		return strAry;
 	}
 }

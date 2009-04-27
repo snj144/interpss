@@ -8,7 +8,6 @@
 	</annotation>
 	<complexType name="BaseRecordXmlType">
 		<sequence>
-
 			<element name="desc" type="string" minOccurs="0" maxOccurs="1"></element>
 			<element name="isoCode" type="string" minOccurs="0" maxOccurs="1"></element>
 			<element name="normalOffLineStatus" type="boolean" minOccurs="0"></element>
@@ -161,18 +160,19 @@
 		</complexContent>
 	</complexType>
 	<complexType name="AdjustmentDataXmlType">
-		<sequence>
-			<element name="mode" minOccurs="1">
-				<simpleType>
-					<restriction base="string">
-						<enumeration value="ValueAdjustment"></enumeration>
-						<enumeration value="RangeAdjustment"></enumeration>
-					</restriction>
-				</simpleType>
-			</element>
-			<element name="desiredValue" type="double" minOccurs="0"></element>
-			<element name="desiredRange" type="pss:LimitXmlType" minOccurs="0"></element>
-		</sequence>
+		<complexContent>
+			<extension base="pss:LimitXmlType">
+				<attribute name="mode" use="required">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="ValueAdjustment"></enumeration>
+								<enumeration value="RangeAdjustment"></enumeration>
+							</restriction>
+						</simpleType>
+				</attribute>
+				<attribute name="desiredValue" type="double" use="required"></attribute>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="LengthXmlType">
@@ -430,34 +430,48 @@
 	</complexType>
 
 	<complexType name="VoltageLimitXmlType">
-		<sequence>
+		<complexContent>
+			<extension base="pss:LimitXmlType">
+				<sequence>
 
-			<element name="limit" type="pss:LimitXmlType" minOccurs="1"></element>
-		</sequence>
-		<attribute name="unit" type="pss:VoltageUnitType" use="required"></attribute>
+				</sequence>
+
+				<attribute name="unit" type="pss:VoltageUnitType" use="required"></attribute>
+
+			</extension>
+		</complexContent>
 	</complexType>
-	
+
 
 	<complexType name="ActivePowerLimitXmlType">
-		<sequence>
-			<element name="limit" type="pss:LimitXmlType" minOccurs="1"></element>
-
-		</sequence>
-		<attribute name="unit" type="pss:ApparentPowerUnitType" use="required"></attribute>
+		<complexContent>
+			<extension base="pss:LimitXmlType">
+				<attribute name="unit" type="pss:ActivePowerUnitType" use="required"></attribute>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="ReactivePowerLimitXmlType">
-		<sequence>
-			<element name="limit" type="pss:LimitXmlType" minOccurs="1"></element>
-		</sequence>
-		<attribute name="unit" type="pss:ReactivePowerUnitType" use="required"></attribute>
+		<complexContent>
+			<extension base="pss:LimitXmlType">
+				<attribute name="unit" type="pss:ReactivePowerUnitType" use="required"></attribute>
+			</extension>
+		</complexContent>
 	</complexType>
 
 	<complexType name="TapLimitXmlType">
-		<sequence>
-			<element name="limit" type="pss:LimitXmlType" minOccurs="1"></element>
-		</sequence>
-		<attribute name="unit" type="pss:TapUnitType" use="required"></attribute>
+		<complexContent>
+			<extension base="pss:LimitXmlType">
+				<attribute name="unit" type="pss:TapUnitType" use="required"></attribute>
+			</extension>
+		</complexContent>
 	</complexType>
 
+	<complexType name="AngleLimitXmlType">
+		<complexContent>
+			<extension base="pss:LimitXmlType">
+				<attribute name="unit" type="pss:AngleUnitType" use="required"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
 </schema>

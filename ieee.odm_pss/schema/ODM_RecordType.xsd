@@ -126,7 +126,18 @@
 					</attribute>
 				</complexType>
 			</element>
-			<element name="switchedShuntData" minOccurs="0" type="pss:SwitchedShuntDataXmlType">
+			<element name="shuntQData" minOccurs="0">
+                <complexType>
+                	<sequence>
+                		<element name="equivQ" type="pss:ReactivePowerXmlType" minOccurs="0"></element>
+                		<element name="contributeQList" minOccurs="0">
+                			<complexType>
+                				<sequence>
+                					<element name="switchedShunt" type="pss:SwitchedShuntDataXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+                				</sequence>
+                			</complexType></element>
+                	</sequence>
+                </complexType>
 			</element>
 			<element name="shuntY" minOccurs="0" maxOccurs="1" type="pss:YXmlType"></element>
 			<element name="powerInjection" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
@@ -254,7 +265,7 @@
 							<complexContent>
 								<extension base="pss:AdjustmentDataXmlType">
 									<sequence>
-										<element name="angleDegLimit" type="pss:LimitXmlType" minOccurs="1"></element>
+										<element name="angleLimit" type="pss:AngleLimitXmlType" minOccurs="1"></element>
 										<element name="angleAdjOnFromSide" type="boolean" minOccurs="1"></element>
 										<element name="desiredPowerUnit" minOccurs="1">
 											<simpleType>
