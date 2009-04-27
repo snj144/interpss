@@ -53,27 +53,16 @@ public class ODM2SimuCtxMapperImpl {
 			simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
 			try {
 				simuCtx.setAclfAdjNet(ODMLoadflowDataMapperImpl.mapNetworkData(xmlNet));
+
+				for (BusRecordXmlType busRec : xmlNet.getBusList().getBusArray()) 
+					ODMLoadflowDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
+
+				for (BranchRecordXmlType branchRec : xmlNet.getBranchList().getBranchArray()) 
+					ODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
 			} catch (Exception e) {
+				e.printStackTrace();
 				IpssLogger.getLogger().severe(e.toString());
 				noError = false;
-			}
-
-			for (BusRecordXmlType busRec : xmlNet.getBusList().getBusArray()) {
-				try {
-					ODMLoadflowDataMapperImpl.mapBusData(busRec, simuCtx.getAclfAdjNet());
-				} catch (Exception e) {
-					IpssLogger.getLogger().severe(e.toString());
-					noError = false;
-				}
-			}
-
-			for (BranchRecordXmlType branchRec : xmlNet.getBranchList().getBranchArray()) {
-				try {
-					ODMLoadflowDataMapperImpl.mapBranchData(branchRec, simuCtx.getAclfAdjNet(), simuCtx.getMsgHub());
-				} catch (Exception e) {
-					IpssLogger.getLogger().severe(e.toString());
-					noError = false;
-				}
 			}
 		} else {
 			IpssLogger.getLogger().severe(
