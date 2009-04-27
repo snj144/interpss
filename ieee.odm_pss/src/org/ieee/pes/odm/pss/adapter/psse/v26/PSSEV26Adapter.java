@@ -89,19 +89,19 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         			else {
         				if (type==BusData){
         					//System.out.println("BusData: " + str);
-        					PSSEV26BusRecord.processBusData(str, parser.addNewBaseCaseBus(), this.getLogger());
+        					PSSEV26BusRecord.processBusData(str, parser, this.getLogger());
         				}
         				else if(type==LoadData){
         					//System.out.println("LoadData: " + str);
-        					PSSEV26BusRecord.processLoadData(str, baseCaseNet, this.getLogger());
+        					PSSEV26BusRecord.processLoadData(str, parser, this.getLogger());
         				}
         				else if(type==GenData){
         					//System.out.println("GenData: " + str);
-        					PSSEV26BusRecord.processGenData(str, baseCaseNet, this.getLogger());        			 
+        					PSSEV26BusRecord.processGenData(str, parser, this.getLogger());        			 
         				}
         				else if(type==BranchData){
         					//System.out.println("LineData: " + str);
-        					PSSEV26BranchRecord.processBranchData(str, parser.addNewBaseCaseBranch(), this.getLogger()); 
+        					PSSEV26BranchRecord.processBranchData(str, parser, this.getLogger()); 
         				}
         				else if(type==XfrAdjData){        			   
         					//System.out.println("XfrData: " + str);
@@ -110,7 +110,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				} 
         				else if(type==SwitchedShuntData){        			   
         					//System.out.println("ShuntData: " + str);
-        					PSSEV26BusRecord.processSwitchedShuntData(str, baseCaseNet, this.getLogger());
+        					PSSEV26BusRecord.processSwitchedShuntData(str, parser, this.getLogger());
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==InterchangeData){
@@ -130,6 +130,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				}
         			}
         		}catch (final Exception e){
+        			System.out.println(str);
 					this.logErr(e.toString());
 					e.printStackTrace();
         		}

@@ -88,7 +88,7 @@
 	<complexType name="ZXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
-				<attribute name="unit" use="required" type="pss:ZUnitType">
+				<attribute name="unit" use="required" type="pss:ZUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -96,7 +96,7 @@
 	<complexType name="YXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
-				<attribute name="unit" use="required" type="pss:YUnitType">
+				<attribute name="unit" use="required" type="pss:YUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -104,7 +104,7 @@
 	<complexType name="PowerXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
-				<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
+				<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -112,7 +112,7 @@
 	<complexType name="ActivePowerXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:ActivePowerUnitType">
+				<attribute name="unit" use="required" type="pss:ActivePowerUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -120,7 +120,7 @@
 	<complexType name="ReactivePowerXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:ReactivePowerUnitType">
+				<attribute name="unit" use="required" type="pss:ReactivePowerUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -128,7 +128,7 @@
 	<complexType name="TapXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:TapUnitType">
+				<attribute name="unit" use="required" type="pss:TapUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -145,7 +145,7 @@
 	<complexType name="AngleXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:AngleUnitType">
+				<attribute name="unit" use="required" type="pss:AngleUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -154,7 +154,7 @@
 	<complexType name="CurrentXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:CurrentUnitType">
+				<attribute name="unit" use="required" type="pss:CurrentUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -163,12 +163,12 @@
 		<complexContent>
 			<extension base="pss:LimitXmlType">
 				<attribute name="mode" use="required">
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="ValueAdjustment"></enumeration>
-								<enumeration value="RangeAdjustment"></enumeration>
-							</restriction>
-						</simpleType>
+					<simpleType>
+						<restriction base="string">
+							<enumeration value="ValueAdjustment"></enumeration>
+							<enumeration value="RangeAdjustment"></enumeration>
+						</restriction>
+					</simpleType>
 				</attribute>
 				<attribute name="desiredValue" type="double" use="required"></attribute>
 			</extension>
@@ -178,7 +178,7 @@
 	<complexType name="LengthXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:LengthUnitType">
+				<attribute name="unit" use="required" type="pss:LengthUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -187,7 +187,7 @@
 	<complexType name="FrequencyXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:FrequencyUnitType">
+				<attribute name="unit" use="required" type="pss:FrequencyUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
@@ -196,48 +196,26 @@
 	<complexType name="TimePeriodXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:TimePeriodUnitType">
+				<attribute name="unit" use="required" type="pss:TimePeriodUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
 	</complexType>
-	<!-- 
-	<complexType name="PerUnitXmlType">
-		<sequence>
-		<element name="value" type="double" maxOccurs="1" minOccurs="1">
-		</element>
-		<element name="unit" maxOccurs="1" minOccurs="1">
-		<simpleType>
-		<restriction base="string">
-		<enumeration value="PU"></enumeration>
-		</restriction>
-		</simpleType>
-		</element>
-		</sequence>
-		</complexType>
+	<!--
+		<complexType name="PerUnitXmlType"> <sequence> <element name="value" type="double" maxOccurs="1" minOccurs="1"> </element> <element name="unit" maxOccurs="1" minOccurs="1"> <simpleType> <restriction
+		base="string"> <enumeration value="PU"></enumeration> </restriction> </simpleType> </element> </sequence> </complexType>
 	-->
 	<complexType name="ApparentPowerXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
-				<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
+				<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
 				</attribute>
 			</extension>
 		</complexContent>
 	</complexType>
-	<!-- 
-		<complexType name="PercentXmlType">
-		<sequence>
-		<element name="value" type="double" maxOccurs="1" minOccurs="1">
-		</element>
-		<element name="unit" maxOccurs="1" minOccurs="1">
-		<simpleType>
-		<restriction base="string">
-		<enumeration value="percent"></enumeration>
-		</restriction>
-		</simpleType>
-		</element>
-		</sequence>
-		</complexType>
+	<!--
+		<complexType name="PercentXmlType"> <sequence> <element name="value" type="double" maxOccurs="1" minOccurs="1"> </element> <element name="unit" maxOccurs="1" minOccurs="1"> <simpleType> <restriction
+		base="string"> <enumeration value="percent"></enumeration> </restriction> </simpleType> </element> </sequence> </complexType>
 	-->
 	<complexType name="LineZeroSeqXmlType">
 		<sequence>
@@ -253,9 +231,9 @@
 			<element name="conectionLocation" maxOccurs="1" minOccurs="1">
 				<simpleType>
 					<restriction base="string">
-						<enumeration value="atBus1"></enumeration>
-						<enumeration value="atBus2"></enumeration>
-						<enumeration value="betweenBus1nBus2"></enumeration>
+						<enumeration value="AtBus1"></enumeration>
+						<enumeration value="AtBus2"></enumeration>
+						<enumeration value="BetweenBus1nBus2"></enumeration>
 					</restriction>
 				</simpleType>
 			</element>
@@ -294,21 +272,21 @@
 
 	<simpleType name="FaultCategoryEnumType">
 		<restriction base="string">
-			<enumeration value="fault3Phase"></enumeration>
-			<enumeration value="lineToLine"></enumeration>
-			<enumeration value="lineToGround"></enumeration>
-			<enumeration value="lineLineToGround"></enumeration>
+			<enumeration value="Fault3Phase"></enumeration>
+			<enumeration value="LineToLine"></enumeration>
+			<enumeration value="LineToGround"></enumeration>
+			<enumeration value="LineLineToGround"></enumeration>
 		</restriction>
 	</simpleType>
 
 	<simpleType name="FaultTypeEnumType">
 		<restriction base="string">
-			<enumeration value="busFault"></enumeration>
-			<enumeration value="branchFault"></enumeration>
-			<enumeration value="branchOutage"></enumeration>
-			<enumeration value="loadChange"></enumeration>
-			<enumeration value="genChange"></enumeration>
-			<enumeration value="dcLineFault"></enumeration>
+			<enumeration value="BusFault"></enumeration>
+			<enumeration value="BranchFault"></enumeration>
+			<enumeration value="BranchOutage"></enumeration>
+			<enumeration value="LoadChange"></enumeration>
+			<enumeration value="GenChange"></enumeration>
+			<enumeration value="DcLineFault"></enumeration>
 		</restriction>
 	</simpleType>
 
@@ -361,9 +339,9 @@
 			<element name="loadChangeCategory" maxOccurs="1" minOccurs="0">
 				<simpleType>
 					<restriction base="string">
-						<enumeration value="low_frequence"></enumeration>
-						<enumeration value="low_Voltage"></enumeration>
-						<enumeration value="fixedtime"></enumeration>
+						<enumeration value="LowFrequence"></enumeration>
+						<enumeration value="LowVoltage"></enumeration>
+						<enumeration value="FixedTime"></enumeration>
 					</restriction>
 				</simpleType>
 			</element>
@@ -425,7 +403,7 @@
 		<attribute name="rating1" type="double" use="required"></attribute>
 		<attribute name="rating2" type="double" use="optional"></attribute>
 		<attribute name="rating3" type="double" use="optional"></attribute>
-		<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
+		<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
 		</attribute>
 	</complexType>
 
@@ -433,15 +411,11 @@
 		<complexContent>
 			<extension base="pss:LimitXmlType">
 				<sequence>
-
 				</sequence>
-
 				<attribute name="unit" type="pss:VoltageUnitType" use="required"></attribute>
-
 			</extension>
 		</complexContent>
 	</complexType>
-
 
 	<complexType name="ActivePowerLimitXmlType">
 		<complexContent>
@@ -477,26 +451,27 @@
 
 	<simpleType name="LFGenCodeEnumType">
 		<restriction base="string">
-								<enumeration value="PQ"></enumeration>
-								<enumeration value="PV"></enumeration>
-								<enumeration value="SWING"></enumeration>
+			<enumeration value="PQ"></enumeration>
+			<enumeration value="PV"></enumeration>
+			<enumeration value="Swing"></enumeration>
+			<enumeration value="OFF"></enumeration>
 		</restriction>
 	</simpleType>
 
 	<simpleType name="LFLoadCodeEnumType">
 		<restriction base="string">
-								<enumeration value="CONST_P"></enumeration>
-								<enumeration value="CONST_I"></enumeration>
-								<enumeration value="CONST_Z"></enumeration>
-								<enumeration value="FunctionLoad"></enumeration>
+			<enumeration value="CONST_P"></enumeration>
+			<enumeration value="CONST_I"></enumeration>
+			<enumeration value="CONST_Z"></enumeration>
+			<enumeration value="FunctionLoad"></enumeration>
 		</restriction>
 	</simpleType>
 
 	<simpleType name="LFBranchCodeEnumType">
 		<restriction base="string">
-					<enumeration value="Line"></enumeration>
-					<enumeration value="Transformer"></enumeration>
-					<enumeration value="PhaseShiftXformer"></enumeration>
+			<enumeration value="Line"></enumeration>
+			<enumeration value="Transformer"></enumeration>
+			<enumeration value="PhaseShiftXformer"></enumeration>
 		</restriction>
 	</simpleType>
 </schema>
