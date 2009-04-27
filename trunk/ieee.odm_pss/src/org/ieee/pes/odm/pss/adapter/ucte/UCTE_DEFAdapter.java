@@ -35,6 +35,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
@@ -265,7 +267,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	
 		if (pLoadMW != 0.0 || qLoadMvar != 0.0) {
 			ODMData2XmlHelper.setLoadData(busData,
-					LoadflowBusDataXmlType.LoadData.Code.CONST_P, pLoadMW,
+					LFLoadCodeEnumType.CONST_P, pLoadMW,
 					qLoadMvar, ApparentPowerUnitType.MVA);
 		}
 
@@ -273,7 +275,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		case 0: // PQ bus
 			if (pGenMW != 0.0 || qGenMvar != 0.0) {
 				ODMData2XmlHelper.setGenData(busData,
-						LoadflowBusDataXmlType.GenData.Code.PQ, pGenMW, qGenMvar,
+						LFGenCodeEnumType.PQ, pGenMW, qGenMvar,
 						ApparentPowerUnitType.MVA);				
 			}
 			break;
@@ -282,7 +284,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		case 2: // PV bus
 			ODMData2XmlHelper.setGenData(busData,
-					LoadflowBusDataXmlType.GenData.Code.PV, pGenMW, qGenMvar,
+					LFGenCodeEnumType.PV, pGenMW, qGenMvar,
 					ApparentPowerUnitType.MVA);
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
 					&& maxGenMVar > minGenMVar) {
@@ -294,7 +296,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			break;
 		case 3: // swing bus
 			ODMData2XmlHelper.setGenData(busData,
-					LoadflowBusDataXmlType.GenData.Code.SWING, pGenMW, qGenMvar,
+					LFGenCodeEnumType.SWING, pGenMW, qGenMvar,
 					ApparentPowerUnitType.MVA);
 			break;
 		default:

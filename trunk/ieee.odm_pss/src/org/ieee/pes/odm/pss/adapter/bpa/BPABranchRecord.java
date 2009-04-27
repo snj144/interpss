@@ -37,8 +37,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LengthUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
@@ -146,7 +146,7 @@ public class BPABranchRecord {
 			branchRec.setCircuitId(cirId);
 			branchRec.addNewLoadflowData();
 			branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));			
-			branchRec.getLoadflowData().setCode(LoadflowBranchDataXmlType.Code.LINE);
+			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.LINE);
 			
 			String multiSectionId="";
 			if(!strAry[9].equals("")){
@@ -300,7 +300,7 @@ public class BPABranchRecord {
 			
 			branchRec.addNewLoadflowData();
 			branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));			
-			branchRec.getLoadflowData().setCode(LoadflowBranchDataXmlType.Code.LINE);
+			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.LINE);
 			branchRec.getLoadflowData().addNewLineData();
 			
 			String multiSectionId="";
@@ -367,10 +367,10 @@ public class BPABranchRecord {
 		branchRec.addNewLoadflowData();	
 		
 		if(dataType==transformer){				
-			branchRec.getLoadflowData().setCode(LoadflowBranchDataXmlType.Code.TRANSFORMER);
+			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.TRANSFORMER);
 			branchRec.getLoadflowData().addNewXformerData();
 		}else {				
-			branchRec.getLoadflowData().setCode(LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER);
+			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 			branchRec.getLoadflowData().addNewPhaseShiftXfrData();
 		}
 		final String modCode =strAry[1];

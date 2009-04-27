@@ -474,4 +474,29 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
+	<simpleType name="LFGenCodeEnumType">
+		<restriction base="string">
+								<enumeration value="PQ"></enumeration>
+								<enumeration value="PV"></enumeration>
+								<enumeration value="SWING"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="LFLoadCodeEnumType">
+		<restriction base="string">
+								<enumeration value="CONST_P"></enumeration>
+								<enumeration value="CONST_I"></enumeration>
+								<enumeration value="CONST_Z"></enumeration>
+								<enumeration value="FunctionLoad"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="LFBranchCodeEnumType">
+		<restriction base="string">
+					<enumeration value="Line"></enumeration>
+					<enumeration value="Transformer"></enumeration>
+					<enumeration value="PhaseShiftXformer"></enumeration>
+		</restriction>
+	</simpleType>
 </schema>

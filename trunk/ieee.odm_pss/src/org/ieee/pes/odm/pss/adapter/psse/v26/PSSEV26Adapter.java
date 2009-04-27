@@ -109,7 +109,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==SwitchedShuntData){        			   
-        					System.out.println("ShuntData: " + str);
+        					//System.out.println("ShuntData: " + str);
         					PSSEV26BusRecord.processSwitchedShuntData(str, baseCaseNet, this.getLogger());
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 

@@ -54,7 +54,7 @@
 				<complexType>
 					<sequence>
 
-						<element name="gen" type="pss:LoadflowGenDataXmlType" minOccurs="0" maxOccurs="1"></element>
+						<element name="equivGen" type="pss:LoadflowGenDataXmlType" minOccurs="0" maxOccurs="1"></element>
 						<element name="contributeGenList" minOccurs="0">
 							<complexType>
 								<sequence>
@@ -63,12 +63,15 @@
 											<complexContent>
 												<extension base="pss:IDRecordXmlType">
 													<sequence>
-														<element name="gen" type="pss:LoadflowGenDataXmlType" minOccurs="0"></element>
+
 														<element name="ratedMva" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+                                                        <element name="genData" type="pss:LoadflowGenDataXmlType" minOccurs="0"></element>
 														<element name="sourceZ" type="pss:ZXmlType" minOccurs="0"></element>
 														<element name="xfrZ" type="pss:ZXmlType" minOccurs="0"></element>
 														<element name="xfrTap" type="double" minOccurs="0"></element>
 														<element name="mvarVControlParticipateFactor" type="double" minOccurs="0"></element>
+
+
 													</sequence>
 												</extension>
 											</complexContent>
@@ -78,51 +81,24 @@
 							</complexType>
 						</element>
 					</sequence>
-					<attribute name="code" use="required">
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="PQ"></enumeration>
-								<enumeration value="PV"></enumeration>
-								<enumeration value="SWING"></enumeration>
-							</restriction>
-						</simpleType>
+					<attribute name="code" use="required" type="pss:LFGenCodeEnumType">
 					</attribute>
 				</complexType>
 			</element>
 			<element name="loadData" minOccurs="0" maxOccurs="1">
 				<complexType>
 					<sequence>
-
-						<element name="load" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
+						<element name="equivLoad" type="pss:LoadflowLoadDataXmlType" minOccurs="0" maxOccurs="1"></element>
 						<element name="contributeLoadList" minOccurs="0">
 							<complexType>
 								<sequence>
-									<element name="contributeLoad" minOccurs="0" maxOccurs="unbounded">
-										<complexType>
-											<complexContent>
-												<extension base="pss:IDRecordXmlType">
-													<sequence>
-														<element name="constPLoad" type="pss:PowerXmlType" minOccurs="0"></element>
-														<element name="constILoad" type="pss:PowerXmlType" minOccurs="0"></element>
-														<element name="constZLoad" type="pss:PowerXmlType" minOccurs="0"></element>
-													</sequence>
-												</extension>
-											</complexContent>
-										</complexType>
+									<element name="contributeLoad" minOccurs="0" maxOccurs="unbounded" type="pss:LoadflowLoadDataXmlType">
 									</element>
 								</sequence>
 							</complexType>
 						</element>
 					</sequence>
-					<attribute name="code" use="required">
-						<simpleType>
-							<restriction base="string">
-								<enumeration value="CONST_P"></enumeration>
-								<enumeration value="CONST_I"></enumeration>
-								<enumeration value="CONST_Z"></enumeration>
-								<enumeration value="FunctionLoad"></enumeration>
-							</restriction>
-						</simpleType>
+					<attribute name="code" use="required" type="pss:LFLoadCodeEnumType">
 					</attribute>
 				</complexType>
 			</element>
@@ -157,14 +133,7 @@
 				</complexType>
 			</element>
 		</sequence>
-		<attribute name="code" use="required">
-			<simpleType>
-				<restriction base="string">
-					<enumeration value="Line"></enumeration>
-					<enumeration value="Transformer"></enumeration>
-					<enumeration value="PhaseShiftXformer"></enumeration>
-				</restriction>
-			</simpleType>
+		<attribute name="code" use="required" type="pss:LFBranchCodeEnumType">
 		</attribute>
 	</complexType>
 
@@ -290,22 +259,18 @@
 	<complexType name="LoadflowGenDataXmlType">
 		<sequence>
 			<element name="power" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
+
+
+            <element name="desiredVoltage" type="pss:VoltageXmlType" minOccurs="0"></element>
+            <element name="remoteVoltageControlBus" minOccurs="0" maxOccurs="1" type="pss:IDRefRecordXmlType">
+			</element>
+            <element name="qLimit" type="pss:ReactivePowerLimitXmlType" minOccurs="0"></element>
 			<element name="pLimit" minOccurs="0" maxOccurs="1" type="pss:ActivePowerLimitXmlType">
 
 			</element>
-
-			<element name="qLimit" type="pss:ReactivePowerLimitXmlType" minOccurs="0"></element>
 			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType">
 
-			</element>
-			<element name="desiredRemoteVoltage" minOccurs="0" maxOccurs="1">
-				<complexType>
-					<sequence>
-						<element name="desiredVoltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1"></element>
-						<element name="remoteBus" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
-					</sequence>
-				</complexType>
-			</element>
+			</element>
 		</sequence>
 	</complexType>
 
@@ -744,5 +709,18 @@
 				</restriction>
 			</simpleType>
 		</attribute>
+	</complexType>
+
+	<complexType name="LoadflowLoadDataXmlType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
+				<sequence>
+					<element name="constPLoad" type="pss:PowerXmlType" minOccurs="0"></element>
+					<element name="constILoad" type="pss:PowerXmlType" minOccurs="0"></element>
+					<element name="constZLoad" type="pss:PowerXmlType" minOccurs="0"></element>
+				</sequence>
+
+			</extension>
+		</complexContent>
 	</complexType>
 </schema>

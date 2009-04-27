@@ -34,6 +34,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
@@ -251,7 +253,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double loadMvar = new Double(strAry[8]).doubleValue();
 		if (loadMw != 0.0 || loadMvar != 0.0) {
 			ODMData2XmlHelper.setLoadData(busData,
-					LoadflowBusDataXmlType.LoadData.Code.CONST_P, loadMw,
+					LFLoadCodeEnumType.CONST_P, loadMw,
 					loadMvar, ApparentPowerUnitType.MVA);
 		}
 
@@ -262,15 +264,15 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		if (type == 1) {
 			ODMData2XmlHelper.setGenData(busData,
-					LoadflowBusDataXmlType.GenData.Code.PQ, genMw, genMvar,
+					LFGenCodeEnumType.PQ, genMw, genMvar,
 					ApparentPowerUnitType.MVA);
 		} else if (type == 2) {
 			ODMData2XmlHelper.setGenData(busData,
-					LoadflowBusDataXmlType.GenData.Code.PV, genMw, genMvar,
+					LFGenCodeEnumType.PV, genMw, genMvar,
 					ApparentPowerUnitType.MVA);
 		} else if (type == 3) {
 			ODMData2XmlHelper.setGenData(busData,
-					LoadflowBusDataXmlType.GenData.Code.SWING, genMw, genMvar,
+					LFGenCodeEnumType.SWING, genMw, genMvar,
 					ApparentPowerUnitType.MVA);
 		}
 
@@ -296,21 +298,17 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		if (max != 0.0 || min != 0.0) {
 			if (type == 1) {
-				VoltageLimitXmlType vlimt = busData.getGenData().getGen().addNewVoltageLimit();
+				VoltageLimitXmlType vlimt = busData.getGenData().getEquivGen().addNewVoltageLimit();
 				ODMData2XmlHelper.setVoltageLimitData(vlimt, max, min, VoltageUnitType.PU);
 			} else if (type == 2) {
 				ODMData2XmlHelper.setGenQLimitData(busData.getGenData(),  
 						max, min, ReactivePowerUnitType.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
-					busData.getGenData().getGen().addNewDesiredRemoteVoltage();
-					ODMData2XmlHelper.setVoltageData(busData.getGenData().getGen()
-							.getDesiredRemoteVoltage().addNewDesiredVoltage(),
+					ODMData2XmlHelper.setVoltageData(busData.getGenData().getEquivGen().addNewDesiredVoltage(),
 							vSpecPu, VoltageUnitType.PU);
-					busData.getGenData().getGen().getDesiredRemoteVoltage()
-							.addNewRemoteBus();
-					busData.getGenData().getGen().getDesiredRemoteVoltage()
-							.getRemoteBus().setIdRef(reBusId);
+					busData.getGenData().getEquivGen().addNewRemoteVoltageControlBus();
+					busData.getGenData().getEquivGen().getRemoteVoltageControlBus().setIdRef(reBusId);
 				}
 			}
 		}
