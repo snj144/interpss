@@ -28,16 +28,16 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
@@ -242,9 +242,9 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				baseMva = new Double(strAry[5]).doubleValue(); // in MVA
 			}else {baseMva = 100;}
 			getLogger().fine("BaseKva: " + baseMva);
-	    	BasePowerXmlType baseKva = baseCaseNet.addNewBasePower();
+			ApparentPowerXmlType baseKva = baseCaseNet.addNewBasePower();
 	    	baseKva.setValue(baseMva);   
-	    	baseKva.setUnit(BasePowerXmlType.Unit.MVA);   
+	    	baseKva.setUnit(ApparentPowerUnitType.MVA);   
 	}
 
 	/*
@@ -272,8 +272,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			String areaName="";
 			if(!strAry[2].equals("")){
 				areaName=strAry[2];
-				area.setAreaName(areaName);
-				area.setAreaNumber(areaId);
+				area.setName(areaName);
+				area.setNumber(areaId);
 			}
 			String slackBusId;
 			double ratedVoltage;
@@ -284,12 +284,12 @@ public class BPAAdapter  extends AbstractODMAdapter {
             if(!strAry[4].equals("")){
 				ratedVoltage =new Double(strAry[4]).doubleValue();
 				area.addNewRatedVoltage().setValue(ratedVoltage);
-				area.getRatedVoltage().setUnit(VoltageXmlType.Unit.KV);
+				area.getRatedVoltage().setUnit(VoltageUnitType.KV);
 			}
             double exchangeMW=0.0;
             if(!strAry[5].equals("")){            	
             	ODMData2XmlHelper.setPowerData(area.addNewTotalExchangePower(),
-            			           exchangeMW, 0, PowerXmlType.Unit.MVA);            	
+            			           exchangeMW, 0, ApparentPowerUnitType.MVA);            	
             }            
             if(!strAry[6].trim().equals("")){
             	area.addNewZoneList();
@@ -300,11 +300,11 @@ public class BPAAdapter  extends AbstractODMAdapter {
            while((!strAry[6].substring(i, i+2).equals(""))&& i+2<=Str6length){            		
             		s[cnt]=strAry[6].trim().substring(i, i+2);            		
             		NetZoneXmlType zone= area.getZoneList().addNewZone();
-            		zone.setZoneName(s[cnt]);
+            		zone.setName(s[cnt]);
             		
             		String zoneRanking =new  Integer(areaId).toString()+ new Integer(zoneId++).toString();            		
             		int out= new Integer(zoneRanking).intValue();           		
-            		zone.setZoneNumber(out);
+            		zone.setNumber(out);
             		if(i+2==Str6length){
             			break;
             		}
@@ -323,7 +323,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				NetAreaXmlType area=ODMData2XmlHelper.
 				                                 getAreaRecordByAreaName(areaName, baseCaseNet);
 				if(area==null){
-					area.setAreaName(areaName);
+					area.setName(areaName);
 				}
 			}
 			if(!strAry[3].trim().equals("")){
@@ -356,7 +356,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				NetAreaXmlType.ExchangePower exchange=area.addNewExchangePower();
 				exchange.setToArea(tBus);
 				ODMData2XmlHelper.setPowerData(exchange.addNewExchangePower(),
-     			    exchangePower, 0, PowerXmlType.Unit.MVA);				
+     			    exchangePower, 0, ApparentPowerUnitType.MVA);				
 			}			
 		}	
 		

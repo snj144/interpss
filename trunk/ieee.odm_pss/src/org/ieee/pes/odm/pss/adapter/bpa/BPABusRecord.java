@@ -25,17 +25,18 @@
  */
 package org.ieee.pes.odm.pss.adapter.bpa;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
@@ -80,7 +81,7 @@ public class BPABusRecord {
 		if(!strAry[4].equals("")){
 			baseKv= new Double(strAry[4]).doubleValue();
 		}
-		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageXmlType.Unit.KV);
+		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 		
 		
 		//zone name
@@ -166,13 +167,13 @@ public class BPABusRecord {
 			// set G B
 			if (g != 0.0 || b != 0.0) {
 				ODMData2XmlHelper.setYData(busData.addNewShuntY(), g, b,
-						YXmlType.Unit.MHO);
+						YUnitType.MHO);
 			}	
 			// set load
 			if (loadMw != 0.0 || loadMvar != 0.0) {
 				ODMData2XmlHelper.setLoadData(busData,
 						LoadflowBusDataXmlType.LoadData.Code.CONST_P, loadMw,
-						loadMvar, PowerXmlType.Unit.MVA);
+						loadMvar, ApparentPowerUnitType.MVA);
 			}
 			
 			if(busType==swingBus){
@@ -182,52 +183,41 @@ public class BPABusRecord {
 						vpu=vpu/1000;
 					}
 					ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
-							VoltageXmlType.Unit.PU);
+							VoltageUnitType.PU);
 				}
 				// set bus angle
 				ODMData2XmlHelper.setAngleData(busData.addNewAngle(), vMinOrAngDeg,
-						AngleXmlType.Unit.DEG);
+						AngleUnitType.DEG);
 				//set gen data
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){				
 					ODMData2XmlHelper.setGenData(busData,
 							LoadflowBusDataXmlType.GenData.Code.SWING, pGen, 0.0,
-							PowerXmlType.Unit.MVA);
+							ApparentPowerUnitType.MVA);
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
 					ODMData2XmlHelper.setGenQLimitData(busData.getGenData(), 
-							qGenOrQGenMax, qGenMin, LoadflowGenDataXmlType.QGenLimit.QLimitUnit.MVAR);				
+							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR);				
 				}
 				// set P limit
 				if(pGenMax!=0.0){
-					
-					
-					if(busData.getGenData().getGen()
-							.getPGenLimit()==null){
-						busData.getGenData().getGen().addNewPGenLimit();
-					}
-					ODMData2XmlHelper.setLimitData(busData.getGenData().getGen()
-							.getPGenLimit().addNewPLimit(), pGenMax, 0);
+					ODMData2XmlHelper.setActivePowerLimitData(busData.getGenData().getGen().addNewPLimit(),
+							pGenMax, 0, ActivePowerUnitType.MW);
 				}	
 			}else if(busType==pqBus){			
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
 					ODMData2XmlHelper.setGenData(busData,
 							LoadflowBusDataXmlType.GenData.Code.PQ, pGen, qGenOrQGenMax,
-							PowerXmlType.Unit.MVA);
+							ApparentPowerUnitType.MVA);
 				}
 				// set V limit
 				if(vpu!=0 ||vMinOrAngDeg!=0){
 					
 					if(busData.getGenData()==null){
-						busData.addNewGenData().addNewGen().addNewVGenLimit();
-					}else if(busData.getGenData().getGen()==null){
-						busData.getGenData().addNewGen().addNewVGenLimit();
-					}else if(busData.getGenData().getGen().getVGenLimit()==null){
-						busData.getGenData().getGen().addNewVGenLimit();
+						busData.addNewGenData().addNewGen();
 					}
-					busData.getGenData().getGen().getVGenLimit();
-				    ODMData2XmlHelper.setLimitData(busData.getGenData().getGen().getVGenLimit()
-						.addNewVLimit(), vpu, vMinOrAngDeg);
+				    ODMData2XmlHelper.setVoltageLimitData(busData.getGenData().getGen().addNewVoltageLimit(),
+						 vpu, vMinOrAngDeg, VoltageUnitType.PU);
 				    }			
 			}else if(busType==pvBus){
 				// set bus voltage
@@ -236,28 +226,23 @@ public class BPABusRecord {
 						vpu=vpu/1000;
 					}
 					ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
-							VoltageXmlType.Unit.PU);
+							VoltageUnitType.PU);
 				}
 				// set gen data
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
 					ODMData2XmlHelper.setGenData(busData,
 							LoadflowBusDataXmlType.GenData.Code.PV, pGen, 0.0,
-							PowerXmlType.Unit.MVA);
+							ApparentPowerUnitType.MVA);
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
 					ODMData2XmlHelper.setGenQLimitData(busData.getGenData(), 
-							qGenOrQGenMax, qGenMin, LoadflowGenDataXmlType.QGenLimit.QLimitUnit.MVAR);				
+							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR);				
 				}
 				// set P limit
 				if(pGenMax!=0.0){
-					if(busData.getGenData().getGen()
-							.getPGenLimit()==null){
-						busData.getGenData().getGen()
-						.addNewPGenLimit();
-					}
-					ODMData2XmlHelper.setLimitData(busData.getGenData().getGen()
-							.getPGenLimit().addNewPLimit(), pGenMax, 0);
+					ODMData2XmlHelper.setActivePowerLimitData(busData.getGenData().getGen().addNewPLimit(),
+							pGenMax, 0, ActivePowerUnitType.MW);
 				}	
 				
 			}
@@ -276,7 +261,7 @@ public class BPABusRecord {
 						getRemoteBus().setIdRef(controlledBus);
 						ODMData2XmlHelper.setVoltageData(busData.getGenData().getGen()
 								.getDesiredRemoteVoltage().addNewDesiredVoltage(),
-								vpu, VoltageXmlType.Unit.PU);
+								vpu, VoltageUnitType.PU);
 					}
 				}
 		}						
@@ -339,28 +324,28 @@ public class BPABusRecord {
 		converter.getData().setZoneNumber(new Integer(zone).intValue());
 		// set converter ac side voltage
 		ODMData2XmlHelper.setVoltageData(converter.getData().addNewAcSideRatedVoltage(), 
-				converterACSideVoltage, VoltageXmlType.Unit.KV);
+				converterACSideVoltage, VoltageUnitType.KV);
 		// bridges
 		converter.getData().setNumberofBridges(brdgsPerBrckt);
 		// set smooth reactor
 		ODMData2XmlHelper.setZValue(converter.getData().addNewSmoothingReactor(),
-				0.0, smoothReactance, ZXmlType.Unit.OHM);
+				0.0, smoothReactance, ZUnitType.OHM);
 		//set min firing angle as a converter
 		ODMData2XmlHelper.setAngleData(converter.getData().addNewRectifierMinFiringAngle(),
-				converterMinFiringAngle, AngleXmlType.Unit.DEG);
+				converterMinFiringAngle, AngleUnitType.DEG);
 		//set max firing angle as a inverter
 		ODMData2XmlHelper.setAngleData(converter.getData().addNewInverterMaxFiringAngle(),
-				inverterMaxFiringAngle, AngleXmlType.Unit.DEG);
+				inverterMaxFiringAngle, AngleUnitType.DEG);
 		// set valve voltage drop
 		ODMData2XmlHelper.setVoltageData(converter.getData().addNewValveDropVoltage(), 
-				valveDropVoltage, VoltageXmlType.Unit.VOLT);
+				valveDropVoltage, VoltageUnitType.VOLT);
 		// set current rating
 		ODMData2XmlHelper.setCurrentData(converter.getData().addNewBridgeRatedCurrent(), 
-				brdgesCurrentRating, CurrentXmlType.Unit.AMP);
+				brdgesCurrentRating, CurrentUnitType.AMP);
 		// set commutating station bus and DC side voltage
 		converter.getData().addNewConmmutationStationBus().setName(commutatingBus);
 	    ODMData2XmlHelper.setVoltageData(converter.getData().addNewDcSdieRatedV(),
-	    		commutatingBusDCSideVol, VoltageXmlType.Unit.KV);
+	    		commutatingBusDCSideVol, VoltageUnitType.KV);
 	}
 	
 	private static String[] getBusDataFields(final String str,BPAAdapter adapter) {

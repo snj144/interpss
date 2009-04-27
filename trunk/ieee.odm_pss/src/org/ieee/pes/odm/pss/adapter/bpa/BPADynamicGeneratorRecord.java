@@ -26,7 +26,7 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 
 import java.text.NumberFormat;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BasePowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ClassicMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.EquiMachineXmlType;
@@ -34,10 +34,10 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PostiveSequenceDataListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SubTransientMachineXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -67,7 +67,7 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[2].equals("")){
     			ratedVoltage= new Double(strAry[2]).doubleValue();
     			ODMData2XmlHelper.setVoltageData(gen.addNewBusRatedVoltage(), 
-    					ratedVoltage, VoltageXmlType.Unit.KV);    		
+    					ratedVoltage, VoltageUnitType.KV);    		
     		}
     		gen.setGeneratorType(GeneratorXmlType.GeneratorType.SUBTRANS_MODEL);
     		SubTransientMachineXmlType subTranGen=gen.
@@ -93,10 +93,10 @@ public class BPADynamicGeneratorRecord {
     		subTranGen.setXq11(xq11);
     		double td011=StringUtil.getDouble(strAry[10], 0.0);
     		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTd011(), 
-					td011, TimePeriodXmlType.Unit.SEC);
+					td011, TimePeriodUnitType.SEC);
     		double tq011=StringUtil.getDouble(strAry[11], 0.0);
     		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTq011(), 
-					tq011, TimePeriodXmlType.Unit.SEC);    		
+					tq011, TimePeriodUnitType.SEC);    		
     		
 		}else if(str.substring(0, 2).trim().equals("MF")){
 			
@@ -132,7 +132,7 @@ public class BPADynamicGeneratorRecord {
 				
 				double MvaBase=StringUtil.getDouble(strAry[7], baseCaseNet.getBasePower().getValue());
 				
-				ODMData2XmlHelper.setBaseMva(subTranGen.addNewBasePower(), MvaBase);   
+				ODMData2XmlHelper.setActivePower(subTranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -163,11 +163,11 @@ public class BPADynamicGeneratorRecord {
 	    		
 				double td01=StringUtil.getDouble(strAry[13], 0.0);
 	    		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTdo1(), 
-	    					td01, TimePeriodXmlType.Unit.SEC);
+	    					td01, TimePeriodUnitType.SEC);
 	    		
 	    		double tq01=StringUtil.getDouble(strAry[14], 0.0);
 	    		ODMData2XmlHelper.setTimePeriodData(subTranGen.addNewTq01(), 
-	    					tq01, TimePeriodXmlType.Unit.SEC);
+	    					tq01, TimePeriodUnitType.SEC);
 	    		
 	    		double xl=StringUtil.getDouble(strAry[15], 0.0);
 				subTranGen.setXr(xl);	    			
@@ -198,7 +198,7 @@ public class BPADynamicGeneratorRecord {
 	    		if(!strAry[2].equals("")){
 	    			ratedVoltage= new Double(strAry[2]).doubleValue();
 	    			ODMData2XmlHelper.setVoltageData(newGen.addNewBusRatedVoltage(), 
-	    					ratedVoltage, VoltageXmlType.Unit.KV);    		
+	    					ratedVoltage, VoltageUnitType.KV);    		
 	    		}
 	    		if(!genId.equals("")){
 	    			newGen.addNewGenId().setName(genId);
@@ -235,7 +235,7 @@ public class BPADynamicGeneratorRecord {
 				}else {
 					MvaBase=baseCaseNet.getBasePower().getValue();
 				}
-				ODMData2XmlHelper.setBaseMva(tranGen.addNewBasePower(), MvaBase);   
+				ODMData2XmlHelper.setActivePower(tranGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
 				double h=0.0;
 				if(Emws!=0.0){
 					h=Emws/MvaBase;
@@ -266,11 +266,11 @@ public class BPADynamicGeneratorRecord {
 	    		
 				double td01=StringUtil.getDouble(strAry[13], 0.0);
 	    		ODMData2XmlHelper.setTimePeriodData(tranGen.addNewTdo1(), 
-	    					td01, TimePeriodXmlType.Unit.SEC);
+	    					td01, TimePeriodUnitType.SEC);
 	    		
 	    		double tq01=StringUtil.getDouble(strAry[14], 0.0);
 	    		ODMData2XmlHelper.setTimePeriodData(tranGen.addNewTq01(), 
-	    					tq01, TimePeriodXmlType.Unit.SEC);
+	    					tq01, TimePeriodUnitType.SEC);
 	    			    		
 				double E1=1.0, SE1=0.0;
 				if(!strAry[16].equals("")){
@@ -304,7 +304,7 @@ public class BPADynamicGeneratorRecord {
 	   		if(!strAry[2].equals("")){
 	   			ratedVoltage= new Double(strAry[2]).doubleValue();
 	   			ODMData2XmlHelper.setVoltageData(gen.addNewBusRatedVoltage(), 
-	   					ratedVoltage, VoltageXmlType.Unit.KV);    		
+	   					ratedVoltage, VoltageUnitType.KV);    		
 	   		}
 	   		gen.setGeneratorType(GeneratorXmlType.GeneratorType.CLASSICAL_MODEL);
 	   		ClassicMachineXmlType claGen=gen.
@@ -359,7 +359,7 @@ public class BPADynamicGeneratorRecord {
 					gen.setQContribution(qContri);
 				}
 				
-				ODMData2XmlHelper.setBaseMva(claGen.addNewBasePower(), MvaBase);   
+				ODMData2XmlHelper.setActivePower(claGen.addNewBasePower(), MvaBase, ActivePowerUnitType.MW);   
 				if(!strAry[9].equals("")){
 					xd1=new Double(strAry[9]).doubleValue();
 	    			claGen.setXd1(xd1);
@@ -388,7 +388,7 @@ public class BPADynamicGeneratorRecord {
 				.getGeneratorDataList().addNewGenerator();
 				gen.addNewLocatedBus().setName(bus1);
 				ODMData2XmlHelper.setVoltageData(gen.addNewBusRatedVoltage(),
-						Vol1, VoltageXmlType.Unit.KV);
+						Vol1, VoltageUnitType.KV);
 				gen.setGeneratorType(GeneratorXmlType.GeneratorType.EQUI_GEN_UNIT);
 				EquiMachineXmlType equiGen=gen.addNewGeneratorModel().addNewEquiGenUnit();
 				BusRecordXmlType busRec=ODMData2XmlHelper.getBusRecord(bus1, baseCaseNet);
