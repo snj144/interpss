@@ -82,6 +82,8 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
             	int pos = str.indexOf("/*");
             	if (pos > 0)
             		str = str.substring(0, str.indexOf("/*"));
+            	str = str.replaceAll(",,", ", ,");
+            	
         		try {	         	 
         			if (str.startsWith("0 /")){
         				type++;

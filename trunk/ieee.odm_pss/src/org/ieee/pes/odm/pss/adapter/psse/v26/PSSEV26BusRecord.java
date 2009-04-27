@@ -50,7 +50,8 @@ public class PSSEV26BusRecord {
 
 		// I,    NAME        BASKV, IDE,  GL,      BL, AREA, ZONE, VM,      VA,      OWNER
 		// 31212,'ADLIN  1', 115.00,1,    0.00,    0.00,  1,  1,   1.01273, -10.5533,1 
-		
+		// 90121,'LAKEIB01', 230,   2,    0,       0,     8, 10,   1.00639, -1.1697,1,/* [90121_LAKE_1_IBAA] */
+
 		final String busId = PSSEV26Adapter.Token_Id+strAry[0];
 			// XML requires id start with a char
 		logger.fine("Bus data loaded, id: " + busId);
@@ -72,6 +73,16 @@ public class PSSEV26BusRecord {
 
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 	
+		// vm voltage, p.u. [F] *
+		//va angle, degrees [F] *
+		final double vpu = new Double(strAry[8]).doubleValue();
+		final double angDeg = new Double(strAry[9]).doubleValue();
+		ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
+				VoltageUnitType.PU);
+
+		ODMData2XmlHelper.setAngleData(busData.addNewAngle(), angDeg,
+				AngleUnitType.DEG);				
+
 		/* bus type identifier IDE
 			1 - load bus (no generator boundary condition)
 			2 - generator or plant bus (either voltage regulating or fixed Mvar)
@@ -83,6 +94,9 @@ public class PSSEV26BusRecord {
 		if (IDE ==3){//Swing bus
 			busData.addNewGenData();;
 			busData.getGenData().setCode(LFGenCodeEnumType.SWING);
+			LoadflowGenDataXmlType equivGen = busData.getGenData().addNewEquivGen();
+			ODMData2XmlHelper.setVoltageData(equivGen.addNewDesiredVoltage(), vpu, VoltageUnitType.PU);
+			ODMData2XmlHelper.setAngleData(equivGen.addNewDesiredAngle(), angDeg, AngleUnitType.DEG);
 		}
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
 			// by default, Gen is a PV bus
@@ -108,16 +122,6 @@ public class PSSEV26BusRecord {
 		final String zoneNo = strAry[7];
 		busRec.setAreaNumber(new Integer(areaNo).intValue());
 		busRec.setZoneNumber(new Integer(zoneNo).intValue());		
-
-		// vm voltage, p.u. [F] *
-		//va angle, degrees [F] *
-		final double vpu = new Double(strAry[8]).doubleValue();
-		final double angDeg = new Double(strAry[9]).doubleValue();
-		ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
-				VoltageUnitType.PU);
-
-		ODMData2XmlHelper.setAngleData(busData.addNewAngle(), angDeg,
-				AngleUnitType.DEG);				
 	}
 		
 	public static  void processLoadData(final String str,final IEEEODMPSSModelParser parser, Logger logger) {
@@ -258,19 +262,24 @@ public class PSSEV26BusRecord {
 		if (!contriGen.getOffLine()) {
 			ODMData2XmlHelper.setPowerData(equivGen.addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
 
-			// qmax, gmin in Mvar
-			final double max = new Double(strAry[4]).doubleValue();
-			final double min = new Double(strAry[5]).doubleValue();
 			final double vSpecPu = StringUtil.getDouble(strAry[6], 1.0);
-			ODMData2XmlHelper.setVoltageData(equivGen.addNewDesiredVoltage(), vSpecPu, VoltageUnitType.PU);
-			ODMData2XmlHelper.setReactivePowerLimitData(equivGen.addNewQLimit(), max, min, ReactivePowerUnitType.MVAR);
+			if (genData.getCode() == LFGenCodeEnumType.SWING) {
+				ODMData2XmlHelper.setVoltageData(equivGen.addNewDesiredVoltage(), vSpecPu, VoltageUnitType.PU);
+			}
+			else {
+				// qmax, gmin in Mvar
+				final double max = new Double(strAry[4]).doubleValue();
+				final double min = new Double(strAry[5]).doubleValue();
+				ODMData2XmlHelper.setVoltageData(equivGen.addNewDesiredVoltage(), vSpecPu, VoltageUnitType.PU);
+				ODMData2XmlHelper.setReactivePowerLimitData(equivGen.addNewQLimit(), max, min, ReactivePowerUnitType.MVAR);
 
-			// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
-			/*  IREG  */
-	      	final int iReg = StringUtil.getInt(strAry[7], 0);
-			if (iReg > 0) {
-				final String reBusId = PSSEV26Adapter.Token_Id+strAry[7];
-				equivGen.addNewRemoteVoltageControlBus().setIdRef(reBusId);
+				// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
+				/*  IREG  */
+		      	final int iReg = StringUtil.getInt(strAry[7], 0);
+				if (iReg > 0) {
+					final String reBusId = PSSEV26Adapter.Token_Id+strAry[7];
+					equivGen.addNewRemoteVoltageControlBus().setIdRef(reBusId);
+				}
 			}
 		}
 		else
