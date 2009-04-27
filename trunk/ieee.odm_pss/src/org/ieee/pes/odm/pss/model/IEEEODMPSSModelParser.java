@@ -29,12 +29,14 @@ package org.ieee.pes.odm.pss.model;
  */
 
 import java.io.File;
+import java.util.Hashtable;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.IDRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
@@ -47,6 +49,8 @@ public class IEEEODMPSSModelParser {
 	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
 
 	private static final StudyCaseXmlType.SchemaVersion.Enum CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_1_00_DEV;
+	
+	private Hashtable<String,IDRecordXmlType> objectCache = null;
 
 	private PSSStudyCaseDocument doc = null;
 	
@@ -58,6 +62,7 @@ public class IEEEODMPSSModelParser {
 	 */
 	public IEEEODMPSSModelParser(File xmlFile) throws Exception {
 		this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
+		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		if (!doc.validate()) 
 			throw new Exception("Error: input XML document is invalid, file: " + xmlFile.getName());
 	}
@@ -70,6 +75,7 @@ public class IEEEODMPSSModelParser {
 	 */
 	public IEEEODMPSSModelParser(String xmlString) throws XmlException {
 		this.doc = PSSStudyCaseDocument.Factory.parse(xmlString);
+		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 	}
 	
 	/**
@@ -77,6 +83,7 @@ public class IEEEODMPSSModelParser {
 	 * 
 	 */
 	public IEEEODMPSSModelParser() {
+		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		this.doc = PSSStudyCaseDocument.Factory.newInstance();
 		this.getStudyCase().setId("ODM_StudyCase");
 		this.getStudyCase().setSchemaVersion(CurrentSchemaVerion);
@@ -97,9 +104,19 @@ public class IEEEODMPSSModelParser {
 		}	
 		return this.doc.getPSSStudyCase();
 	}
+
+	/**
+	 * Get the cashed object
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public IDRecordXmlType getObject(String id) {
+		return this.objectCache.get(id);
+	}
 	
 	/**
-	 * Get the default scenaio
+	 * Get the default scenario
 	 * 
 	 * @return
 	 */
@@ -167,6 +184,13 @@ public class IEEEODMPSSModelParser {
 		return getStudyCase().getBaseCase().getBusList().addNewBus();
 	}	
 	
+	public BusRecordXmlType addNewBaseCaseBus(String id) {
+		BusRecordXmlType bus = getStudyCase().getBaseCase().getBusList().addNewBus();
+		bus.setId(id);
+		this.objectCache.put(id, bus);
+		return bus;
+	}	
+
 	/**
 	 * add a new Branch record to the base case
 	 * 
@@ -176,6 +200,13 @@ public class IEEEODMPSSModelParser {
 		return getStudyCase().getBaseCase().getBranchList().addNewBranch();		
 	}
 	
+	public BranchRecordXmlType addNewBaseCaseBranch(String id) {
+		BranchRecordXmlType branch = getStudyCase().getBaseCase().getBranchList().addNewBranch();
+		branch.setId(id);
+		this.objectCache.put(id, branch);
+		return branch;
+	}
+
 	/**
 	 * add a new DC line bus record to the base case
 	 * 

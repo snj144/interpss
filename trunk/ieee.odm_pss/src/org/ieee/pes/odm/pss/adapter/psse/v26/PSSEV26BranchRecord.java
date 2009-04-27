@@ -26,53 +26,49 @@ package org.ieee.pes.odm.pss.adapter.psse.v26;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.psse.PSSEAdapter;
+import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV26BranchRecord {
-	public static  void processBranchData(final String str, final BranchRecordXmlType branchRec, Logger logger) {
+	public static  void processBranchData(final String str, final IEEEODMPSSModelParser parser, Logger logger) {
 		/*
-I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
-31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
-32218,32219,' 1',0.0005, 0.0005,   0,     100,  100,  0,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0,[Compensator_125] 
-32062,32058,' 1',0.03359,0.01968,  0,     21,   24,   0,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Conductor_406]  
+		I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
+		31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
+		32218,32219,' 1',0.0005, 0.0005,   0,     100,  100,  0,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0,[Compensator_125] 
+		32062,32058,' 1',0.03359,0.01968,  0,     21,   24,   0,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Conductor_406]  
 
-	I - From bus number
-	J - To bus number
-	CKT - Circuit identifier (two character) not clear if integer or alpha
-	R - Resistance, per unit
-	X - Reactance, per unit
-	B - Total line charging, per unit
-	RATEA, RATEB, RATEC - Higher MVA ratings
-	RATIO - Transformer off nominal turns ratio
-	ANGLE - Transformer phase shift angle
-*/
+		I - From bus number
+		J - To bus number
+		CKT - Circuit identifier (two character) not clear if integer or alpha
+		R - Resistance, per unit
+		X - Reactance, per unit
+		B - Total line charging, per unit
+		RATEA, RATEB, RATEC - Higher MVA ratings
+		RATIO - Transformer off nominal turns ratio
+		ANGLE - Transformer phase shift angle
+		 */
 		// parse the input data line	
 		final String[] strAry = getLineDataFields(str);		
 		final String fid = PSSEAdapter.Token_Id+strAry[0];
 		final String tid = PSSEAdapter.Token_Id+strAry[1];
+		final String cirId = strAry[2];
+		String branchId = ODMData2XmlHelper.formBranchId(fid, tid, cirId);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
+		
+		BranchRecordXmlType branchRec = parser.addNewBaseCaseBranch(branchId);
 		branchRec.addNewFromBus().setIdRef(fid);
 		branchRec.addNewToBus().setIdRef(tid);	
-		
-		final String cirId = strAry[2];
 		branchRec.setCircuitId(cirId);
-		branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));
 		
 		int status = StringUtil.getInt(strAry[15], 0);
 		branchRec.setOffLine(status == 0);
@@ -150,34 +146,16 @@ I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ
 		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
         */
 
-  		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
-  		strAry[2]=st.nextToken().trim();
-  		strAry[3]=st.nextToken().trim();
-  		strAry[4]=st.nextToken().trim();
-  		strAry[5]=st.nextToken().trim();
-  		strAry[6]=st.nextToken().trim();
-  		strAry[7]=st.nextToken().trim();
-  		strAry[8]=st.nextToken().trim();
-  		strAry[9]=st.nextToken().trim();
-  		strAry[10]=st.nextToken().trim();
-  		strAry[11]=st.nextToken().trim();
-  		strAry[12]=st.nextToken().trim();
-  		strAry[13]=st.nextToken().trim();
-  		strAry[14]=st.nextToken().trim();
+  		for (int i = 0; i < 15; i++)
+  			strAry[i]=st.nextToken().trim();
 
         //O1,F1,...,O4,F4
   		
 		// O1 = 0, O2 = 0, O3 = 0, O4 = 0;
 		// F1 = 0.0, F2 = 0.0, F3 = 0.0, F4 = 0.0;
-		strAry[15]="0";
-  		strAry[16]="0";
-  		strAry[17]="0";
-  		strAry[18]="0";
-		strAry[19]="0";
-  		strAry[20]="0";
-		strAry[21]="0";
-  		strAry[22]="0";
+  		for (int i = 15; i < 23; i++)
+  			strAry[i]="0";
+
 		if (st.hasMoreTokens()) {
 			strAry[15]=st.nextToken().trim();
 	  		strAry[16]=st.nextToken().trim();

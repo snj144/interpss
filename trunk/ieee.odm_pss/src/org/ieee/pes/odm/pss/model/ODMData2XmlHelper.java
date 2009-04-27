@@ -152,6 +152,10 @@ public class ODMData2XmlHelper {
 		return null;
 	}
 	
+	public static BusRecordXmlType getBusRecord(String id, IEEEODMPSSModelParser parser) {
+		return (BusRecordXmlType)parser.getObject(id);
+	}
+
 	public static DCLineBusRecordXmlType getDCLineBusRecord(String id, PSSNetworkXmlType baseCaseNet) {
 		for (DCLineBusRecordXmlType busRec : baseCaseNet.getDcLineList().getDcLineBusList()
 				.getDcLineBusArray()) {
@@ -177,6 +181,11 @@ public class ODMData2XmlHelper {
 				return braRec;
 		}
 		return null;
+	}
+	
+	public static BranchRecordXmlType getBusRecord(String fromId, String toId, String cirId, IEEEODMPSSModelParser parser) {
+		String id = formBranchId(fromId, toId, cirId);
+		return (BranchRecordXmlType)parser.getObject(id);
 	}
 	
 	/**
