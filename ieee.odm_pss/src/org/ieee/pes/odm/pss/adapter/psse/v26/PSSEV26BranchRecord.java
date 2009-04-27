@@ -46,6 +46,7 @@ public class PSSEV26BranchRecord {
 		31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
 		32218,32219,' 1',0.0005, 0.0005,   0,     100,  100,  0,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0,[Compensator_125] 
 		32062,32058,' 1',0.03359,0.01968,  0,     21,   24,   0,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Conductor_406]  
+        90121,37012,' 1',0,      0.00005,  0,     99999,99999, ,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1,0,0,0,0,0,0,
 
 		I - From bus number
 		J - To bus number
@@ -100,9 +101,9 @@ public class PSSEV26BranchRecord {
 					.getLoadflowData(), rpu, xpu, ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
 		}
 		
-		final double rating1Mvar = new Double(strAry[6]).doubleValue();
-		final double rating2Mvar = new Double(strAry[7]).doubleValue();
-		final double rating3Mvar = new Double(strAry[8]).doubleValue();
+		final double rating1Mvar = StringUtil.getDouble(strAry[6], 0.0);
+		final double rating2Mvar = StringUtil.getDouble(strAry[7], 0.0);
+		final double rating3Mvar = StringUtil.getDouble(strAry[8], 0.0);
 		
 		ODMData2XmlHelper.setBranchRatingLimitData(branchData,
 				rating1Mvar, rating2Mvar, rating3Mvar,

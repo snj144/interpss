@@ -257,20 +257,28 @@
 	</complexType>
 
 	<complexType name="LoadflowGenDataXmlType">
-		<sequence>
+        <annotation>
+        	<documentation>EquivGen is intended for Loadflow study. For PQ bus, p, q are specified using the power field. For Swing bus, desiredVoltage and desiredAngle are used
+For PV bus power.re and designedVoltage are used.</documentation>
+        </annotation>
+        <sequence>
 			<element name="power" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
 
 
-            <element name="desiredVoltage" type="pss:VoltageXmlType" minOccurs="0"></element>
-            <element name="remoteVoltageControlBus" minOccurs="0" maxOccurs="1" type="pss:IDRefRecordXmlType">
+			<element name="desiredVoltage" type="pss:VoltageXmlType" minOccurs="0"></element>
+            <element name="desiredAngle" type="pss:AngleXmlType" minOccurs="0"></element>
+            <element name="remoteVoltageControlBus" minOccurs="0" maxOccurs="1" type="pss:IDRefRecordXmlType">
+
 			</element>
-            <element name="qLimit" type="pss:ReactivePowerLimitXmlType" minOccurs="0"></element>
+			<element name="qLimit" type="pss:ReactivePowerLimitXmlType" minOccurs="0"></element>
 			<element name="pLimit" minOccurs="0" maxOccurs="1" type="pss:ActivePowerLimitXmlType">
 
 			</element>
 			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType">
 
-			</element>
+			</element>
+
+
 		</sequence>
 	</complexType>
 
