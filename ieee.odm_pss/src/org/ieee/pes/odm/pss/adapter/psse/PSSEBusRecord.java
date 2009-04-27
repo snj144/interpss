@@ -28,9 +28,11 @@ import java.util.StringTokenizer;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
@@ -72,7 +74,7 @@ public class PSSEBusRecord {
 		*/			
 		final int IDE = new Integer(strAry[3]).intValue();
 		if (IDE ==3){//Swing bus
-			busData.addNewGenData().setCode(LoadflowBusDataXmlType.GenData.Code.SWING);
+			busData.addNewGenData().setCode(LFGenCodeEnumType.SWING);
 			busData.addNewLoadData();
 		}
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
@@ -82,7 +84,7 @@ public class PSSEBusRecord {
 			// should be no gen and load defined
 		}
 		else { //Non-Gen Load Bus
-			busData.addNewLoadData().setCode(LoadflowBusDataXmlType.LoadData.Code.CONST_P);
+			busData.addNewLoadData().setCode(LFLoadCodeEnumType.CONST_P);
 		}
 		
 		//GL BL
@@ -127,7 +129,7 @@ public class PSSEBusRecord {
 	    	lfData.getLoadData().addNewContributeLoadList();
 	    }
 	    
-	    LoadflowBusDataXmlType.LoadData.ContributeLoadList.ContributeLoad contribLoad = 
+	    LoadflowLoadDataXmlType contribLoad = 
 	    		lfData.getLoadData().getContributeLoadList().addNewContributeLoad(); 
 	    //loadId is used to distinguish multiple loads at one bus
 	    final String loadId =strAry[1];
@@ -215,11 +217,11 @@ public class PSSEBusRecord {
 			specified by VS. IREG is entered as zero if the plant is to regulate its own voltage
 			and must be zero for a type three (swing) bus. IREG = 0 by default.
 		 */
-		
+		/*
 		final double genMw = new Double(strAry[2]).doubleValue();
 		final double genMvar = new Double(strAry[3]).doubleValue();
 		ODMData2XmlHelper.setPowerData(contriGen.getGen().getPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
-		
+		*/
 		// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
 		// Maximum MVAR  
 		// Minimum MVAR  
@@ -228,31 +230,26 @@ public class PSSEBusRecord {
 		
 		//Remote controlled bus number
 		final String reBusId = PSSEAdapter.Token_Id+strAry[7];
-		
+		/*
 		if (max != 0.0 || min != 0.0) {
-			if ( genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PQ) {
+			if ( genData.getCode() == LFGenCodeEnumType.PQ) {
 				contriGen.getGen().addNewVoltageLimit();
 				ODMData2XmlHelper.setVoltageLimitData(contriGen.getGen().getVoltageLimit(), 
 						max, min, VoltageUnitType.PU);
 			}
-			else if (genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
+			else if (genData.getCode() == LFGenCodeEnumType.PV) {
 				contriGen.getGen().addNewQLimit();
 				ODMData2XmlHelper.setReactivePowerLimitData(contriGen.getGen().getQLimit(),
 						max, min, ReactivePowerUnitType.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(ODMData2XmlHelper.getBusRecord(busId, baseCaseNet).getId())) {
-					contriGen.getGen().addNewDesiredRemoteVoltage();
-					ODMData2XmlHelper.setVoltageData(contriGen.getGen()
-							.getDesiredRemoteVoltage().addNewDesiredVoltage(),
+					ODMData2XmlHelper.setVoltageData(contriGen.getGen().addNewDesiredVoltage(),
 							vSpecPu, VoltageUnitType.PU);
-					contriGen.getGen().getDesiredRemoteVoltage()
-							.addNewRemoteBus();
-					contriGen.getGen().getDesiredRemoteVoltage()
-							.getRemoteBus().setIdRef(reBusId);
+					contriGen.getGen().addNewRemoteVoltageControlBus().setIdRef(reBusId);
 				}
 			}
 		}
-		
+		*/
 		ODMData2XmlHelper.addOwner(contriGen, 
 				strAry[18], StringUtil.getDouble(strAry[19], 0.0), 
 				strAry[20], StringUtil.getDouble(strAry[21], 0.0), 

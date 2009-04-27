@@ -47,6 +47,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LineDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
@@ -509,34 +512,34 @@ public class ODMData2XmlHelper {
 		limit.setMin(min);
 	}
 	
-	public static void setVoltageLimitData(VoltageLimitXmlType vlimit, double max, double min, VoltageUnitType.Enum unit) {
-		vlimit.setMax(max);
-		vlimit.setMin(min);
-		vlimit.setUnit(unit);
+	public static void setVoltageLimitData(VoltageLimitXmlType limit, double max, double min, VoltageUnitType.Enum unit) {
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(unit);
 	}
 
-	public static void setActivePowerLimitData(ActivePowerLimitXmlType vlimit, double max, double min, ActivePowerUnitType.Enum unit) {
-		vlimit.setMax(max);
-		vlimit.setMin(min);
-		vlimit.setUnit(unit);
+	public static void setActivePowerLimitData(ActivePowerLimitXmlType limit, double max, double min, ActivePowerUnitType.Enum unit) {
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(unit);
 	}
 
-	public static void setReactivePowerLimitData(ReactivePowerLimitXmlType vlimit, double max, double min, ReactivePowerUnitType.Enum unit) {
-		vlimit.setMax(max);
-		vlimit.setMin(min);
-		vlimit.setUnit(unit);
+	public static void setReactivePowerLimitData(ReactivePowerLimitXmlType limit, double max, double min, ReactivePowerUnitType.Enum unit) {
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(unit);
 	}
 
-	public static void setTapLimitData(TapLimitXmlType vlimit, double max, double min) {
-		vlimit.setMax(max);
-		vlimit.setMin(min);
-		vlimit.setUnit(TapUnitType.PU);
+	public static void setTapLimitData(TapLimitXmlType limit, double max, double min) {
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(TapUnitType.PU);
 	}
 
-	public static void setAngleLimitData(AngleLimitXmlType vlimit, double max, double min, AngleUnitType.Enum unit) {
-		vlimit.setMax(max);
-		vlimit.setMin(min);
-		vlimit.setUnit(unit);
+	public static void setAngleLimitData(AngleLimitXmlType limit, double max, double min, AngleUnitType.Enum unit) {
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(unit);
 	}
 	
 	/**
@@ -548,11 +551,11 @@ public class ODMData2XmlHelper {
 	 * @param q
 	 * @param unit
 	 */
-	public static void setLoadData(LoadflowBusDataXmlType busData, LoadflowBusDataXmlType.LoadData.Code.Enum code, 
+	public static void setLoadData(LoadflowBusDataXmlType busData, LFLoadCodeEnumType.Enum code, 
 			double p, double q, ApparentPowerUnitType.Enum unit) {
 		busData.addNewLoadData();
     	busData.getLoadData().setCode(code);
-    	ODMData2XmlHelper.setPowerData(busData.getLoadData().addNewLoad(), p, q, unit);
+    	ODMData2XmlHelper.setPowerData(busData.getLoadData().addNewEquivLoad().addNewConstPLoad(), p, q, unit);
 	}
 	
 	/**
@@ -564,11 +567,11 @@ public class ODMData2XmlHelper {
 	 * @param q
 	 * @param unit
 	 */
-	public static void setGenData(LoadflowBusDataXmlType busData, LoadflowBusDataXmlType.GenData.Code.Enum code, 
+	public static void setGenData(LoadflowBusDataXmlType busData, LFGenCodeEnumType.Enum code, 
 			double p, double q, ApparentPowerUnitType.Enum unit) {
    		busData.addNewGenData();
    		busData.getGenData().setCode(code);
-   		ODMData2XmlHelper.setPowerData(busData.getGenData().addNewGen().addNewPower(), p, q, unit);
+   		ODMData2XmlHelper.setPowerData(busData.getGenData().addNewEquivGen().addNewPower(), p, q, unit);
 	}
 	
 	/**
@@ -581,7 +584,7 @@ public class ODMData2XmlHelper {
 	 */
 	public static void setGenQLimitData(LoadflowBusDataXmlType.GenData genData,  
 			double max, double min, ReactivePowerUnitType.Enum unit) {
-		setReactivePowerLimitData(genData.getGen().addNewQLimit(), max, min, unit);	
+		setReactivePowerLimitData(genData.getEquivGen().addNewQLimit(), max, min, unit);	
 	}
 
 	/**
@@ -599,7 +602,7 @@ public class ODMData2XmlHelper {
 	public static LineDataXmlType setLineData(LoadflowBranchDataXmlType branchData, 
 			             double r, double x, ZUnitType.Enum zUnit, 
 			             double g, double b, YUnitType.Enum yUnit) {
-		branchData.setCode(LoadflowBranchDataXmlType.Code.LINE);
+		branchData.setCode(LFBranchCodeEnumType.LINE);
 		branchData.addNewLineData();
 		ODMData2XmlHelper.setZValue(branchData.getLineData().addNewZ(), r, x, zUnit);
 		if (g != 0.0 || b != 0.0) 
@@ -624,7 +627,7 @@ public class ODMData2XmlHelper {
 			             double r, double x, ZUnitType.Enum zUnit,
 			             double fromTap, double toTap,
 			             double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
-		branchData.setCode(LoadflowBranchDataXmlType.Code.TRANSFORMER);
+		branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
 		branchData.addNewXformerData();
 		setXformerData(branchData.getXformerData(),
 				r, x, zUnit, fromTap, toTap,
@@ -639,9 +642,9 @@ public class ODMData2XmlHelper {
 	
 
 	private static void setXformerData(TransformerDataXmlType xfrData,
-			double r, double x, ZUnitType.Enum zUnit, double gFrom,
+			double r, double x, ZUnitType.Enum zUnit, 
 			double fromTap, double toTap,
-			double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
+			double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
 		ODMData2XmlHelper.setZValue(xfrData.addNewZ(), r, x, zUnit);
 		setTapPU(xfrData.addNewFromTap(), fromTap);
 		setTapPU(xfrData.addNewToTap(), fromTap);
@@ -671,7 +674,7 @@ public class ODMData2XmlHelper {
 			double r, double x, ZUnitType.Enum zUnit,
 			double fromTap, double toTap, double fromAng, double toAng, AngleUnitType.Enum angUnit,
 			double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
-		branchData.setCode(LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER);
+		branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 		branchData.addNewPhaseShiftXfrData();
 		setXformerData(branchData.getPhaseShiftXfrData(),
 				r, x, zUnit, fromTap, toTap, gFrom, bFrom, gTo, bTo, yUnit);
@@ -801,7 +804,7 @@ public class ODMData2XmlHelper {
 	 * @param psXfr
 	 */
 	public static void branchXfrData2PsXfr(LoadflowBranchDataXmlType branchData) {
-		branchData.setCode(LoadflowBranchDataXmlType.Code.PHASE_SHIFT_XFORMER);
+		branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 		PhaseShiftXfrDataXmlType psXfr = branchData.addNewPhaseShiftXfrData();
 		TransformerDataXmlType xfr = branchData.getXformerData();
 

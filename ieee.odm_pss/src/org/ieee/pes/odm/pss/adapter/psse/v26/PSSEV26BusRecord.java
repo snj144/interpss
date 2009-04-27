@@ -29,7 +29,11 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SwitchedShuntDataXmlType;
@@ -44,7 +48,8 @@ public class PSSEV26BusRecord {
 	public static void processBusData(final String str,final BusRecordXmlType busRec, Logger logger) {
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);	    
-		//Format: I, NAME BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
+		// I,    NAME        BASKV, IDE,  GL,      BL, AREA, ZONE, VM,      VA,      OWNER
+		// 31212,'ADLIN  1', 115.00,1,    0.00,    0.00,  1,  1,   1.01273, -10.5533,1 
 		
 		final String busId = PSSEAdapter.Token_Id+strAry[0];
 			// XML requires id start with a char
@@ -76,17 +81,19 @@ public class PSSEV26BusRecord {
 		*/			
 		final int IDE = new Integer(strAry[3]).intValue();
 		if (IDE ==3){//Swing bus
-			busData.addNewGenData().setCode(LoadflowBusDataXmlType.GenData.Code.SWING);
-			busData.addNewLoadData();
+			busData.addNewGenData();;
+			busData.getGenData().setCode(LFGenCodeEnumType.SWING);
 		}
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
-			busData.addNewGenData();
-			busData.addNewLoadData();
+			// by default, Gen is a PV bus
+			busData.addNewGenData();;
+			busData.getGenData().setCode(LFGenCodeEnumType.PV);
 		} else if (IDE==4){// Isolated bus
 			// should be no gen and load defined
+			busRec.setOffLine(true);
 		}
 		else { //Non-Gen Load Bus
-			busData.addNewLoadData().setCode(LoadflowBusDataXmlType.LoadData.Code.CONST_P);
+			busData.addNewLoadData();
 		}
 		
 		//GL BL
@@ -112,10 +119,11 @@ public class PSSEV26BusRecord {
 		ODMData2XmlHelper.setAngleData(busData.addNewAngle(), angDeg,
 				AngleUnitType.DEG);				
 	}
-			
 		
 	public static  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet, Logger logger) {
-		// I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
+		// I,    ID,  STATUS, AREA, ZONE, PL,   QL,   IP,   IQ,   YP,    YQ,  OWNER
+		// 33547,' 1',1,      1,    1,    3.00, 9.54, 0.00, 0.00, 0.00,  0.00,1,   /* [EnergyConsumer_1704] */
+
 		final String[] strAry = getLoadDataFields(str);
 
 	    final String busId = PSSEAdapter.Token_Id+strAry[0];
@@ -126,21 +134,25 @@ public class PSSEV26BusRecord {
 	    	return;
 	    }
 
-	    LoadflowBusDataXmlType lfData = busRec.getLoadflowData();
-	    if (lfData.getLoadData().getContributeLoadList() == null) {  // there may be multiple load records on a bus
-	    	lfData.getLoadData().addNewContributeLoadList();
-	    }
-	    
-	    LoadflowBusDataXmlType.LoadData.ContributeLoadList.ContributeLoad contribLoad = 
-	    		lfData.getLoadData().getContributeLoadList().addNewContributeLoad(); 
+	    // ODM allows one equiv load has many contribute loads, but here, we assume there is only one contribute load.
+
+		LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
+	    LoadflowLoadDataXmlType contribLoad =	loadData.addNewContributeLoadList().addNewContributeLoad(); 
+		
+	    // processing contributing load data
+
 	    //loadId is used to distinguish multiple loads at one bus
 	    final String loadId =strAry[1];
 		contribLoad.setId(loadId);
 		
 		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
 		int status = StringUtil.getInt(strAry[1], 1);
+		int area = StringUtil.getInt(strAry[2], 1);
+		int zone = StringUtil.getInt(strAry[3], 1);
 		contribLoad.setOffLine(status != 1);
-			
+		contribLoad.setAreaNumber(area);
+		contribLoad.setZoneNumber(zone);
+		
 		//set owner and it's factor
 		final String owner =strAry[11];
 		ODMData2XmlHelper.addOwner(contribLoad, owner, 1.0);
@@ -166,6 +178,12 @@ public class PSSEV26BusRecord {
 	    if (CYloadMw!=0.0 || CYloadMvar!=0.0)
 	    	ODMData2XmlHelper.setPowerData(contribLoad.addNewConstZLoad(),
 	    			CYloadMw, CYloadMvar, ApparentPowerUnitType.MVA);
+	    
+	    // processing equiv load data
+	    loadData.setCode(LFLoadCodeEnumType.CONST_P);
+	    double tp = CPloadMw + CIloadMw + CYloadMw;
+	    double tq = CQloadMvar + CIloadMvar + CYloadMvar;
+	    ODMData2XmlHelper.setPowerData(loadData.addNewEquivLoad().addNewConstPLoad(), tp, tq, ApparentPowerUnitType.MVA);
 	}
 	
 	public static  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet, Logger logger) {
@@ -183,16 +201,14 @@ public class PSSEV26BusRecord {
         	return;
         }
 				
-	    LoadflowBusDataXmlType lfData = busRec.getLoadflowData();
-	    if (lfData.getGenData() == null) {  // there may be multiple contribute gen records on a bus
-	    	lfData.addNewGenData();
-	    }
-	    LoadflowBusDataXmlType.GenData genData = lfData.getGenData();
-	    if (genData.getContributeGenList() == null)
-	    	genData.addNewContributeGenList();
-	    LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen contriGen = 
-	    		genData.getContributeGenList().addNewContributeGen();
+	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
+
+		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
+		LoadflowGenDataXmlType equivGen = genData.addNewEquivGen();
+	    LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen contriGen = genData.addNewContributeGenList().addNewContributeGen();
 		
+	    // processing contributing gen data
+	    
 		// genId is used to distinguish multiple generations at one bus		
 		final String genId = strAry[1];
 		contriGen.setId(genId);
@@ -214,57 +230,41 @@ public class PSSEV26BusRecord {
 		int status = StringUtil.getInt(strAry[1], 1);
 		contriGen.setOffLine(status != 1);
 		
-      	final double vSpecPu = StringUtil.getDouble(strAry[6], 1.0);
-      	final int iReg = StringUtil.getInt(strAry[7], 0);
-		/*  IREG
-			Bus number, or extended bus name enclosed in single quotes (see Section 4.1.2),
-			of a remote type one or self-regulating type two bus whose voltage is to be regulated
-			by this plant to the value specified by VS. If bus IREG is other than a type
-			one or self-regulating type two bus, bus I regulates its own voltage to the value
-			specified by VS. IREG is entered as zero if the plant is to regulate its own voltage
-			and must be zero for a type three (swing) bus. IREG = 0 by default.
-		 */
-		
 		final double genMw = new Double(strAry[2]).doubleValue();
 		final double genMvar = new Double(strAry[3]).doubleValue();
-		ODMData2XmlHelper.setPowerData(contriGen.addNewGen().addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
-		
-		// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
-		// Maximum MVAR  
-		// Minimum MVAR  
-		final double max = new Double(strAry[4]).doubleValue();
-		final double min = new Double(strAry[5]).doubleValue();
-		
-		//Remote controlled bus number
-		final String reBusId = PSSEAdapter.Token_Id+strAry[7];
-		
-		if (max != 0.0 || min != 0.0) {
-			if ( genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PQ) {
-				ODMData2XmlHelper.setVoltageLimitData(contriGen.getGen().addNewVoltageLimit(),
-						max, min, VoltageUnitType.PU);
-			}
-			else if (genData.getCode() == LoadflowBusDataXmlType.GenData.Code.PV) {
-				ODMData2XmlHelper.setReactivePowerLimitData(contriGen.getGen().addNewQLimit(),
-						max, min, ReactivePowerUnitType.MVAR);
-				if (reBusId != null && !reBusId.equals("0")
-						&& !reBusId.equals(ODMData2XmlHelper.getBusRecord(busId, baseCaseNet).getId())) {
-					contriGen.getGen().addNewDesiredRemoteVoltage();
-					ODMData2XmlHelper.setVoltageData(contriGen.getGen()
-							.getDesiredRemoteVoltage().addNewDesiredVoltage(),
-							vSpecPu, VoltageUnitType.PU);
-					contriGen.getGen().getDesiredRemoteVoltage()
-							.addNewRemoteBus();
-					contriGen.getGen().getDesiredRemoteVoltage()
-							.getRemoteBus().setIdRef(reBusId);
-				}
-			}
-		}
-		
+		ODMData2XmlHelper.setPowerData(contriGen.addNewGenData().addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
+
 		ODMData2XmlHelper.addOwner(contriGen, 
 				strAry[18], StringUtil.getDouble(strAry[19], 0.0), 
 				strAry[20], StringUtil.getDouble(strAry[21], 0.0), 
 				strAry[22], StringUtil.getDouble(strAry[23], 0.0), 
 				strAry[24], StringUtil.getDouble(strAry[25], 0.0));
+
+		// processing Equiv Gen Data
+		
+		ODMData2XmlHelper.setPowerData(equivGen.addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
+
+		// qmax, gmin in Mvar
+		final double max = new Double(strAry[4]).doubleValue();
+		final double min = new Double(strAry[5]).doubleValue();
+		final double vSpecPu = StringUtil.getDouble(strAry[6], 1.0);
+		ODMData2XmlHelper.setVoltageData(equivGen.addNewDesiredVoltage(), vSpecPu, VoltageUnitType.PU);
+		ODMData2XmlHelper.setReactivePowerLimitData(equivGen.addNewQLimit(), max, min, ReactivePowerUnitType.MVAR);
+
+		// Desired volts (pu) (This is desired remote voltage if this bus is controlling another bus.)
+		/*  IREG
+		Bus number, or extended bus name enclosed in single quotes (see Section 4.1.2),
+		of a remote type one or self-regulating type two bus whose voltage is to be regulated
+		by this plant to the value specified by VS. If bus IREG is other than a type
+		one or self-regulating type two bus, bus I regulates its own voltage to the value
+		specified by VS. IREG is entered as zero if the plant is to regulate its own voltage
+		and must be zero for a type three (swing) bus. IREG = 0 by default.
+	    */
+      	final int iReg = StringUtil.getInt(strAry[7], 0);
+		if (iReg > 0) {
+			final String reBusId = PSSEAdapter.Token_Id+strAry[7];
+			equivGen.addNewRemoteVoltageControlBus().setIdRef(reBusId);
+		}
     }
 
 	public static  void processSwitchedShuntData(final String str,final PSSNetworkXmlType baseCaseNet, Logger logger) {
