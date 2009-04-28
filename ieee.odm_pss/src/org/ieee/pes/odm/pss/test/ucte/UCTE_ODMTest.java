@@ -115,7 +115,7 @@ public class UCTE_ODMTest {
 		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getIm() == 15.0); 
 		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getUnit() == ZUnitType.OHM); 		
 		
-		assertTrue(braRec.getLoadflowData().getXformerData().getFromTap().getValue() == 0.0); // from ratio not defined 
+		assertTrue(braRec.getLoadflowData().getXformerData().getFromTap().getValue() == 1.0); // from ratio not defined, set to default 1.0
 		assertTrue(braRec.getLoadflowData().getXformerData().getToTap().getValue() == 1.0); 
 
 		assertTrue(braRec.getLoadflowData().getXformerData().getFromShuntY() == null); 

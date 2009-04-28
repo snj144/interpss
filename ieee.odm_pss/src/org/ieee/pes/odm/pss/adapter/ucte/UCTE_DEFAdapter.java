@@ -438,9 +438,6 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				fromRatedKV, toRatedKV, VoltageUnitType.KV,
 				normialMva, ApparentPowerUnitType.MVA);
 
-		// turn ratio is defied at to side, 1.0 for un-regulated xfr, 
-		DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewToTap(), 1.0);
-		
     	// by default the branch is active
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
