@@ -50,7 +50,6 @@ public class PSSEV26BusRecord {
 
 		// I,    NAME        BASKV, IDE,  GL,      BL, AREA, ZONE, VM,      VA,      OWNER
 		// 31212,'ADLIN  1', 115.00,1,    0.00,    0.00,  1,  1,   1.01273, -10.5533,1 
-		// 90121,'LAKEIB01', 230,   2,    0,       0,     8, 10,   1.00639, -1.1697,1,/* [90121_LAKE_1_IBAA] */
 
 		final String busId = PSSEV26Adapter.Token_Id+strAry[0];
 			// XML requires id start with a char
@@ -75,8 +74,8 @@ public class PSSEV26BusRecord {
 	
 		// vm voltage, p.u. [F] *
 		//va angle, degrees [F] *
-		final double vpu = new Double(strAry[8]).doubleValue();
-		final double angDeg = new Double(strAry[9]).doubleValue();
+		final double vpu = StringUtil.getDouble(strAry[8], 1.0);
+		final double angDeg = StringUtil.getDouble(strAry[9], 0.0);
 		ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
 				VoltageUnitType.PU);
 
@@ -90,7 +89,7 @@ public class PSSEV26BusRecord {
 			4 - disconnected (isolated) bus
 			IDE = 1 by default.
 		*/			
-		final int IDE = new Integer(strAry[3]).intValue();
+		final int IDE = StringUtil.getInt(strAry[3], 1);
 		if (IDE ==3){//Swing bus
 			busData.addNewGenData();;
 			busData.getGenData().setCode(LFGenCodeEnumType.SWING);
@@ -111,8 +110,8 @@ public class PSSEV26BusRecord {
 		}
 		
 		//GL BL
-		final double gPU = new Double(strAry[4]).doubleValue();
-		final double bPU = new Double(strAry[5]).doubleValue();
+		final double gPU = StringUtil.getDouble(strAry[4], 0.0);
+		final double bPU = StringUtil.getDouble(strAry[5], 0.0);
 		if (gPU != 0.0 || bPU != 0.0) {
 			ODMData2XmlHelper.setYData(busData.addNewShuntY(), gPU, bPU,
 					YUnitType.PU);
@@ -120,15 +119,13 @@ public class PSSEV26BusRecord {
 		//area zone	
 		final String areaNo = strAry[6];
 		final String zoneNo = strAry[7];
-		busRec.setAreaNumber(new Integer(areaNo).intValue());
-		busRec.setZoneNumber(new Integer(zoneNo).intValue());		
+		busRec.setAreaNumber(StringUtil.getInt(areaNo, 0));
+		busRec.setZoneNumber(StringUtil.getInt(zoneNo, 0));		
 	}
 		
 	public static  void processLoadData(final String str,final IEEEODMPSSModelParser parser, Logger logger) {
 		// I,    ID,  STATUS, AREA, ZONE, PL,   QL,   IP,   IQ,   YP,    YQ,  OWNER
 		// 33547,' 1',1,      1,    1,    3.00, 9.54, 0.00, 0.00, 0.00,  0.00,1,   /* [EnergyConsumer_1704] */
-		// 32252,' 1',1,  1,  1,   12.82,    0.58,    0.00,    0.00,    0.00,    0.00,1,   /* [EnergyConsumer_1047] */
-		// 32252,' 2',1,  1,  1,    7.50,    0.34,    0.00,    0.00,    0.00,    0.00,1,   /* [EnergyConsumer_1630] */
 		
 		final String[] strAry = getLoadDataFields(str);
 
@@ -169,14 +166,14 @@ public class PSSEV26BusRecord {
 		ODMData2XmlHelper.addOwner(contribLoad, owner, 1.0);
 		    
 	    //Constant-P load
-		final double CPloadMw = new Double(strAry[5]).doubleValue();
-		final double CQloadMvar = new Double(strAry[6]).doubleValue();
+		final double CPloadMw = StringUtil.getDouble(strAry[5], 0.0);
+		final double CQloadMvar = StringUtil.getDouble(strAry[6], 0.0);
 		//Constant-I load
-		final double CIloadMw = new Double(strAry[7]).doubleValue();
-		final double CIloadMvar = new Double(strAry[8]).doubleValue();
+		final double CIloadMw = StringUtil.getDouble(strAry[7], 0.0);
+		final double CIloadMvar = StringUtil.getDouble(strAry[8], 0.0);
 		//Constant-Y load
-		final double CYloadMw = new Double(strAry[9]).doubleValue();
-		final double CYloadMvar = new Double(strAry[10]).doubleValue();
+		final double CYloadMw = StringUtil.getDouble(strAry[9], 0.0);
+		final double CYloadMvar = StringUtil.getDouble(strAry[10], 0.0);
 
 		if (CPloadMw!=0.0 || CQloadMvar!=0.0 )
 	    	ODMData2XmlHelper.setPowerData(contribLoad.addNewConstPLoad(),
@@ -205,7 +202,6 @@ public class PSSEV26BusRecord {
 	public static  void processGenData(final String str,final IEEEODMPSSModelParser parser, Logger logger) {
 		//I,    ID,      PG,      QG,     QT,      QB,   VS,        IREG,MBASE, ZR,    ZX,    RT,    XT,    GTAP,  STAT,RMPCT,  PT,         PB,  O1,F1,...,O4,F4
 		//31435,' 1',    8.52,    2.51,   10.00,   -6.00,1.0203,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,1,   100.00, 9999.00,    0.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_78] */ 
-		//32252,' 1',    0.00,    0.00,    0.00,    0.00,0.9890,    0,   100.00,0.0000,1.0000,0.0000,0.0000,1.0000,0,   100.00, 9999.00,    0.00,1,1.00,0,0.00,0,0.00,0,0.00,   /* [SynchronousMachine_14081] */ 
 		
 		// parse the input data line
 	    final String[] strAry = getGenDataFields(str);
@@ -248,8 +244,8 @@ public class PSSEV26BusRecord {
 		int status = StringUtil.getInt(strAry[14], 1);
 		contriGen.setOffLine(status != 1);
 		
-		final double genMw = new Double(strAry[2]).doubleValue();
-		final double genMvar = new Double(strAry[3]).doubleValue();
+		final double genMw = StringUtil.getDouble(strAry[2], 0.0);
+		final double genMvar = StringUtil.getDouble(strAry[3], 0.0);
 		ODMData2XmlHelper.setPowerData(contriGen.addNewGenData().addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
 
 		ODMData2XmlHelper.addOwner(contriGen, 
@@ -268,8 +264,8 @@ public class PSSEV26BusRecord {
 			}
 			else {
 				// qmax, gmin in Mvar
-				final double max = new Double(strAry[4]).doubleValue();
-				final double min = new Double(strAry[5]).doubleValue();
+				final double max = StringUtil.getDouble(strAry[4], 0.0);
+				final double min = StringUtil.getDouble(strAry[5], 0.0);
 				ODMData2XmlHelper.setVoltageData(equivGen.addNewDesiredVoltage(), vSpecPu, VoltageUnitType.PU);
 				ODMData2XmlHelper.setReactivePowerLimitData(equivGen.addNewQLimit(), max, min, ReactivePowerUnitType.MVAR);
 

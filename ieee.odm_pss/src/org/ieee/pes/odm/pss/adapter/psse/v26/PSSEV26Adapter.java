@@ -34,7 +34,7 @@ import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
 
 public class PSSEV26Adapter extends AbstractODMAdapter{
 	private final int 
-		BusData = 1,
+		BusData = 1,       // constants in indicating data block positions
 		LoadData = 2,
 		GenData = 3,
 		BranchData = 4,
@@ -50,17 +50,19 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		OwnerData = 14;
 		//FactsData = 15;
 		
+	// add "No" to the bus number to create Bus Id
 	public static final String Token_Id = "No";
 	
 	public PSSEV26Adapter(Logger logger) {
 		super(logger);
 	}
+	
 	protected IEEEODMPSSModelParser parseInputFile(
 			final java.io.BufferedReader din) throws Exception {
 		IEEEODMPSSModelParser parser = createParser();
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		// no space is allowed for ID field
-		baseCaseNet.setId("Base_Case_from_PSS_E_format");
+		baseCaseNet.setId("Base_Case_from_PSS_E_format_Ver26");
 
 		//read header info
 		String sAry[]= new String[5];
@@ -82,6 +84,8 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
             	int pos = str.indexOf("/*");
             	if (pos > 0)
             		str = str.substring(0, str.indexOf("/*"));
+            	// some time, one might see 9999.0,9999.0,, .... The ,, will cause problem. Therefore, add a space in
+            	// between to avoid the issue.
             	str = str.replaceAll(",,", ", ,");
             	
         		try {	         	 
@@ -132,7 +136,6 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				}
         			}
         		}catch (final Exception e){
-        			System.out.println(str);
 					this.logErr(e.toString());
 					e.printStackTrace();
         		}
