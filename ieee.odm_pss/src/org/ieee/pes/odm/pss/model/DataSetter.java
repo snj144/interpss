@@ -1,5 +1,5 @@
  /*
-  * @(#)ODMXmlUtil.java   
+  * @(#)DataSetter.java   
   *
   * Copyright (C) 2008 www.interpss.org
   *
@@ -15,7 +15,7 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 02/11/2008
+  * @Date 04/11/2009
   * 
   *   Revision History
   *   ================
@@ -24,7 +24,6 @@
 
 package org.ieee.pes.odm.pss.model;
 
-import org.apache.xmlbeans.XmlOptions;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerXmlType;
@@ -33,20 +32,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchFaultXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusFaultXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DcLineFaultXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
@@ -55,25 +42,17 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LineDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.MvaRatingXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -82,324 +61,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 
-public class ODMData2XmlHelper {
-	public static final double Deg2Rad = Math.PI / 180.0;
-	public static final double Rad2Deg = 180.0/ Math.PI;
-	
-	/**
-	 * add a name/value pair to the name/value pair List
-	 * 
-	 * @param nvList name/value pair list
-	 * @param name name string
-	 * @param value value string
-	 */
-	public static void addNVPair(NameValuePairListXmlType nvList, String name, String value) {
-    	NameValuePairXmlType nvPair = nvList.addNewNvPair();
-    	nvPair.setName(name);
-    	nvPair.setValue(value);
-	}
-
-	/**
-	 * add an owner record to the BaseRecord
-	 * 
-	 * @param rec
-	 * @param id
-	 * @param ownership
-	 */
-	public static void addOwner(BaseRecordXmlType rec, String id, double ownership) {
-		if (rec.getOwnerList() == null) {
-			rec.addNewOwnerList();
-		}
-		BaseRecordXmlType.OwnerList.Owner owner = rec.getOwnerList().addNewOwner();
-		owner.setId(id);
-		owner.setOwnership(ownership);
-	}
-	
-	/**
-	 * add an owner records to the BaseRecord
-	 * 
-	 * @param rec
-	 * @param id
-	 * @param ownership
-	 */
-	public static void addOwner(BaseRecordXmlType rec, 
-			String id1, double ownership1,
-			String id2, double ownership2,
-			String id3, double ownership3,
-			String id4, double ownership4) {
-		if (id1 != null && ownership1 > 0.0)
-			addOwner(rec, id1, ownership1);
-		if (id2 != null && ownership2 > 0.0)
-			addOwner(rec, id2, ownership2);
-		if (id1 != null && ownership3 > 0.0)
-			addOwner(rec, id3, ownership3);
-		if (id1 != null && ownership4 > 0.0)
-			addOwner(rec, id4, ownership4);
-	}
-
-	/**
-	 * Get bus record with the id
-	 * 
-	 * @param id
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static BusRecordXmlType getBusRecord(String id, PSSNetworkXmlType baseCaseNet) {
-		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBusArray()) {
-			if (id.equals(busRec.getId()))
-				return busRec;
-		}
-		return null;
-	}
-	
-	public static BusRecordXmlType getBusRecord(String id, IEEEODMPSSModelParser parser) {
-		return (BusRecordXmlType)parser.getObject(id);
-	}
-
-	public static DCLineBusRecordXmlType getDCLineBusRecord(String id, PSSNetworkXmlType baseCaseNet) {
-		for (DCLineBusRecordXmlType busRec : baseCaseNet.getDcLineList().getDcLineBusList()
-				.getDcLineBusArray()) {
-			if (id.equals(busRec.getConverter().getBusId().getName()))
-				return busRec;
-		}
-		return null;
-	}
-	
-	
-	/**
-	 * Get bus record with the id
-	 * 
-	 * @param id
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId, PSSNetworkXmlType baseCaseNet) {
-		for (BranchRecordXmlType braRec : baseCaseNet.getBranchList().getBranchArray()) {
-			if (fromId.equals(braRec.getFromBus().getIdRef()) &&
-					toId.equals(braRec.getToBus().getIdRef()) &&
-							cirId.equals(braRec.getCircuitId()))
-				return braRec;
-		}
-		return null;
-	}
-	
-	public static BranchRecordXmlType getBusRecord(String fromId, String toId, String cirId, IEEEODMPSSModelParser parser) {
-		String id = formBranchId(fromId, toId, cirId);
-		return (BranchRecordXmlType)parser.getObject(id);
-	}
-	
-	/**
-	 * Get converter record with the name
-	 * 
-	 * @param name
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static ConverterXmlType getConverterRecord(String name, PSSNetworkXmlType baseCaseNet) {
-		for (DCLineBusRecordXmlType dcLine : 
-			baseCaseNet.getDcLineList().getDcLineBusList().getDcLineBusArray()) {
-			ConverterXmlType converter= dcLine.getConverter();
-			if (name.equals(converter.getBusId().getName()))
-				return converter;
-		}
-		return null;
-	}
-	
-	/**
-	 * Get transformer branch record with the id
-	 * 
-	 * @param id
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static BranchRecordXmlType getXfrBranchRecord(String fromId, String toId,PSSNetworkXmlType baseCaseNet) {
-		for (BranchRecordXmlType braRec : baseCaseNet.getBranchList().getBranchArray()) {
-			if (fromId.equals(braRec.getFromBus().getIdRef()) &&
-					toId.equals(braRec.getToBus().getIdRef()))
-				return braRec;
-		}
-		return null;
-	}
-	
-	/**
-	 * Get area record with the areaname
-	 * 
-	 * @param areaName
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static NetAreaXmlType getAreaRecordByAreaName(String areaName, PSSNetworkXmlType baseCaseNet) {
-		for (NetAreaXmlType area:baseCaseNet.getAreaList().getAreaArray()) {
-			if (areaName.equals(area.getName()))
-				return area;
-		}
-		return null;
-	}
-	
-	/**
-	 * Get area record with the zone
-	 * 
-	 * @param zoneName
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static NetAreaXmlType getAreaRecordByZone(int zoneNo, PSSNetworkXmlType baseCaseNet) {
-		for (NetAreaXmlType area:baseCaseNet.getAreaList().getAreaArray()) {
-			for(NetZoneXmlType zone : area.getZoneList().getZoneArray()){
-				if (zoneNo == zone.getNumber())
-					return area;
-			}			
-		}
-		return null;
-	}
-	
-	public static FaultXmlType getFaultRecord(TransientSimulationXmlType tranSimu,
-			FaultTypeEnumType.Enum faultType,String fbus,String tbus){
-		if(tranSimu.getDynamicDataList().getFaultList().getFaultArray()!=null){			
-			for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){				
-				if(faultType.equals(fault.getFaultType())){					
-					if(faultType.equals(FaultTypeEnumType.BUS_FAULT)){						
-						BusFaultXmlType busFault=fault.getBusFault();
-						if(fbus.equals(busFault.getFaultedBus().getName())&&
-								tbus.equals(busFault.getRemoteEndBus().getName())){							
-							return fault;							
-						}
-					}
-				}				
-			}		
-		   }
-		return tranSimu.getDynamicDataList().getFaultList().addNewFault();
-		
-		}		
-  
-	
-	public static BusFaultXmlType getBusFaultRecord(TransientSimulationXmlType tranSimu,
-			String fbus,String tbus){
-		
-		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
-			if(fault.getBusFault()!=null){
-				BusFaultXmlType busFault=fault.getBusFault();				
-				if(fbus.equals(busFault.getFaultedBus().getName())&& 
-						tbus.equals(busFault.getRemoteEndBus().getName()))					
-			         return busFault;
-			}else{
-				return fault.addNewBusFault();
-			}			
-		}
-		return null;
-	}
-	
-	public static BranchFaultXmlType getBranchFaultRecord(TransientSimulationXmlType tranSimu,
-			String fbus,String tbus){		
-		for(FaultXmlType fault:tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
-			if(fault.getBranchFault()!=null){
-				BranchFaultXmlType braFault=fault.getBranchFault();				
-				if(fbus.equals(braFault.getFromBus().getName())&& tbus.equals(braFault.getToBus().getName()))
-			         return braFault;
-			}else{
-				return fault.addNewBranchFault();
-			}			
-		}
-		return null;
-	}
-	
-	public static DcLineFaultXmlType getDCFaultRecord(TransientSimulationXmlType tranSimu,
-			String fbus,String tbus){
-		for(FaultXmlType fault: tranSimu.getDynamicDataList().getFaultList().getFaultArray()){
-			if(fault.getDcLineFault()!=null){				
-				DcLineFaultXmlType dcFault= fault.getDcLineFault();				
-				if(fbus.equals(dcFault.getFromACBus().getName())&&
-						tbus.equals(dcFault.getToACBus().getName())){					
-					return dcFault;
-				}else {					
-					return fault.addNewDcLineFault();
-				}
-			}
-		}
-		return null;
-	}
-	
-	public static GeneratorXmlType getGeneratorRecord(TransientSimulationXmlType tranSimu,
-			   String busId,String genId){		
-		for(GeneratorXmlType gen: tranSimu.getDynamicDataList().getBusDynDataList()
-				.getGeneratorDataList().getGeneratorArray()){						
-			if(busId.equals(gen.getLocatedBus().getName())){
-				if(gen.getGenId()!=null){
-					if(genId.equals(gen.getGenId().getName())){
-						return gen;
-					}
-				}else{
-					return gen;
-				}			
-			}
-		}		
-		return null;		
-	}
-	
-	public static ExciterXmlType getExciterRecord(TransientSimulationXmlType tranSimu,
-			 String busId, String excId){
-		for(ExciterXmlType exc: tranSimu.getDynamicDataList().getBusDynDataList().
-				       getExciterDataList().getExciterArray()){
-			if(busId.equals(exc.getLocatedBus().getName())){
-				if(exc.getExcId()!=null){
-					if(excId.equals(exc.getExcId().getName())){
-						return exc;
-					}
-				}else{
-					return exc;
-				}
-			}			
-		}		
-		return null;		
-	}
-	
-	public static TurbineGovernorXmlType getTGRecord(TransientSimulationXmlType tranSimu,
-			 String busId, String tgId){
-		for(TurbineGovernorXmlType tg: tranSimu.getDynamicDataList().getBusDynDataList()
-                   .getTurbineGovernorDataList().getTurbineGovernorArray()){
-			if(busId.equals(tg.getLocatedBus().getName())){
-				if(tg.getTgId()!=null){
-					if(tgId.equals(tg.getTgId().getName())){
-						return tg;
-					}
-				}else{
-					return tg;
-				}
-			}			
-		}	
-		return null;		
-	}
-	
-	public static StabilizerXmlType getPSSRecord(TransientSimulationXmlType tranSimu,
-			 String busId, String macId){
-		for(StabilizerXmlType pss: tranSimu.getDynamicDataList().getBusDynDataList()
-                  .getStabilizerDataList().getStabilizerArray()){
-			if(busId.equals(pss.getLocatedBus().getName())){
-				if(pss.getMacId()!=null){
-					if(macId.equals(pss.getMacId().getName())){
-						return pss;
-					}
-				}else{
-					return pss;
-				}
-			}			
-		}	
-		return null;		
-	}
-	
-	/**
-	 * form branch id based on from node id, to node id and branch circuit id 
-	 * 
-	 * @param fromId
-	 * @param toId
-	 * @param cirId
-	 * @return
-	 */
-	public static String formBranchId(String fromId, String toId, String cirId) {
-		// the combination of form bus id, to bus id and cirId should be always unique
-		return fromId + "_to_" + toId + "_cirId_" + cirId;
-	}
-	
+public class DataSetter {
 	public static void setPowerKva(ApparentPowerXmlType power, double kva) {
 		power.setValue(kva);   
 		power.setUnit(ApparentPowerUnitType.KVA); 		
@@ -564,7 +226,7 @@ public class ODMData2XmlHelper {
 			double p, double q, ApparentPowerUnitType.Enum unit) {
 		busData.addNewLoadData();
     	busData.getLoadData().setCode(code);
-    	ODMData2XmlHelper.setPowerData(busData.getLoadData().addNewEquivLoad().addNewConstPLoad(), p, q, unit);
+    	setPowerData(busData.getLoadData().addNewEquivLoad().addNewConstPLoad(), p, q, unit);
 	}
 	
 	/**
@@ -580,7 +242,7 @@ public class ODMData2XmlHelper {
 			double p, double q, ApparentPowerUnitType.Enum unit) {
    		busData.addNewGenData();
    		busData.getGenData().setCode(code);
-   		ODMData2XmlHelper.setPowerData(busData.getGenData().addNewEquivGen().addNewPower(), p, q, unit);
+   		setPowerData(busData.getGenData().addNewEquivGen().addNewPower(), p, q, unit);
 	}
 	
 	/**
@@ -613,9 +275,9 @@ public class ODMData2XmlHelper {
 			             double g, double b, YUnitType.Enum yUnit) {
 		branchData.setCode(LFBranchCodeEnumType.LINE);
 		branchData.addNewLineData();
-		ODMData2XmlHelper.setZValue(branchData.getLineData().addNewZ(), r, x, zUnit);
+		setZValue(branchData.getLineData().addNewZ(), r, x, zUnit);
 		if (g != 0.0 || b != 0.0) 
-			ODMData2XmlHelper.setYData(branchData.getLineData().addNewTotalShuntY(), g, b, yUnit);
+			setYData(branchData.getLineData().addNewTotalShuntY(), g, b, yUnit);
 		return branchData.getLineData();
 	}
 
@@ -654,15 +316,14 @@ public class ODMData2XmlHelper {
 			double r, double x, ZUnitType.Enum zUnit, 
 			double fromTap, double toTap,
 			double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
-		ODMData2XmlHelper.setZValue(xfrData.addNewZ(), r, x, zUnit);
+		setZValue(xfrData.addNewZ(), r, x, zUnit);
 		setTapPU(xfrData.addNewFromTap(), fromTap);
 		setTapPU(xfrData.addNewToTap(), fromTap);
 		if (gFrom != 0.0 || bFrom != 0.0)
-			ODMData2XmlHelper.setYData(xfrData.addNewFromShuntY(),
+			setYData(xfrData.addNewFromShuntY(),
 					gFrom, bFrom, yUnit);
 		if (gTo != 0.0 || bTo != 0.0)
-			ODMData2XmlHelper.setYData(xfrData.addNewToShuntY(),
-					gTo, bTo, yUnit);
+			setYData(xfrData.addNewToShuntY(), gTo, bTo, yUnit);
 	}
 	
 	/**
@@ -829,13 +490,5 @@ public class ODMData2XmlHelper {
 			psXfr.setToShuntY(xfr.getToShuntY());
 		
 		branchData.setXformerData(null);		
-	}
-	
-	public static XmlOptions getXmlOpts() {
-		 XmlOptions opts = new XmlOptions();
-		 java.util.Map<String, String> prefixMap = new java.util.HashMap<String, String>();
-		 prefixMap.put(IEEEODMPSSModelParser.Token_nsPrefix, IEEEODMPSSModelParser.Token_nsUrl);
-		 opts.setSaveImplicitNamespaces(prefixMap);
-		 return opts;
 	}
 }

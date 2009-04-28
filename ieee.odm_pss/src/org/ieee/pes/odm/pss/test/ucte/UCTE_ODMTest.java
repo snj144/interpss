@@ -42,7 +42,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ucte.UCTE_DEFAdapter;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.junit.Test;
 
 public class UCTE_ODMTest {
@@ -62,7 +62,7 @@ public class UCTE_ODMTest {
 		
 		// A1____1 is a load bus, voltage code 1 -> 380kv
 		// A1    1                 0        280.000 .000000 .000000 .000000               
-		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord("A1____1", baseCaseNet);
+		BusRecordXmlType busRec = ContainerHelper.findBusRecord("A1____1", baseCaseNet);
 		assertTrue(busRec.getBaseVoltage().getValue() == 380.0);
 		assertTrue(busRec.getBaseVoltage().getUnit() == VoltageUnitType.KV);
 		// if voltage not defined, it is equal to the base voltage
@@ -76,7 +76,7 @@ public class UCTE_ODMTest {
 
 		// A2____1 is a load bus
 		// A2    1                 0        .000000 .000000 -150.00 .000000                
-		busRec = ODMData2XmlHelper.getBusRecord("A2____1", baseCaseNet);
+		busRec = ContainerHelper.findBusRecord("A2____1", baseCaseNet);
 		assertTrue(busRec.getLoadflowData().getGenData().getCode() == LFGenCodeEnumType.PQ);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 150.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getIm() == 0.0);
@@ -85,7 +85,7 @@ public class UCTE_ODMTest {
 		
 		// B4____1 is a swing bus
 		// B4    1                 3 405.00 70.0000 .000000 .000000 .000000                
-		busRec = ODMData2XmlHelper.getBusRecord("B4____1", baseCaseNet);
+		busRec = ContainerHelper.findBusRecord("B4____1", baseCaseNet);
 		assertTrue(busRec.getLoadflowData().getVoltage().getValue() == 405.0);
 		assertTrue(busRec.getLoadflowData().getVoltage().getUnit() == VoltageUnitType.KV);
 		assertTrue(busRec.getLoadflowData().getAngle().getValue() == 0.0);
@@ -96,7 +96,7 @@ public class UCTE_ODMTest {
 
 		// A1____1->A2____1 is a line
 		// A1    1  A2    1  1 0 1.3600 19.350 240.9601    480 
-		BranchRecordXmlType braRec = ODMData2XmlHelper.getBranchRecord("A1____1", "A2____1", "1", baseCaseNet);
+		BranchRecordXmlType braRec = ContainerHelper.findBranchRecord("A1____1", "A2____1", "1", baseCaseNet);
 		assertTrue(braRec.getLoadflowData().getCode() == LFBranchCodeEnumType.LINE); 
 		assertTrue(braRec.getLoadflowData().getLineData().getZ().getRe() == 1.3600); 
 		assertTrue(braRec.getLoadflowData().getLineData().getZ().getIm() == 19.350); 
@@ -109,7 +109,7 @@ public class UCTE_ODMTest {
 		
 		// D1____1->D3____2 is a Xfr
 		// D1    1  D3    2  1 0 400.  230.  600.0 .20000 15.000 -16.0000 5.0000   1000 
-		braRec = ODMData2XmlHelper.getBranchRecord("D1____1", "D3____2", "1", baseCaseNet);
+		braRec = ContainerHelper.findBranchRecord("D1____1", "D3____2", "1", baseCaseNet);
 		assertTrue(braRec.getLoadflowData().getCode() == LFBranchCodeEnumType.TRANSFORMER); 
 		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getRe() == 0.20); 
 		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getIm() == 15.0); 

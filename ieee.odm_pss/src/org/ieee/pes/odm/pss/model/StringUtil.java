@@ -28,6 +28,40 @@ import java.text.DecimalFormat;
 
 public class StringUtil {
 	/**
+	 * form branch id based on from node id, to node id and branch circuit id 
+	 * 
+	 * @param fromId
+	 * @param toId
+	 * @param cirId
+	 * @return
+	 */
+	public static String formBranchId(String fromId, String toId, String cirId) {
+		// the combination of form bus id, to bus id and cirId should be always unique
+		return fromId + "_to_" + toId + "_cirId_" + cirId;
+	}
+	
+	/**
+	 * format "' 1'" to "_1" 
+	 * 
+	 * @param cirId
+	 * @return
+	 */
+	public static String formatCircuitId(String cirId) {
+		String s = cirId.replace(' ', '_');
+		return removeSingleQuote(s);
+	}
+	
+	/**
+	 * change "'aaaa'" to "aaaa"
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String removeSingleQuote(String str) {
+		return str.substring(str.indexOf('\'')+1, str.lastIndexOf('\''));
+	}
+	
+	/**
 	 * convert charters [beginCol, endCol] of the input string to a double. Return 0.0 number if empty. 
 	 * 
 	 * @param str input string
@@ -122,6 +156,8 @@ public class StringUtil {
 		     }
 		return str.substring(beginCol-1, endCol).trim();
 	}
+	
+	
 	public static double getNumberFormat(double d){
 		DecimalFormat   format=new   DecimalFormat("###0.0000");
 		String str="";
@@ -132,6 +168,4 @@ public class StringUtil {
 		//}
 		return e;
 	}
-	
-	
 }

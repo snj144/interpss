@@ -36,7 +36,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEBusRecord {
@@ -45,7 +47,7 @@ public class PSSEBusRecord {
 		final String[] strAry = getBusDataFields(str);	    
 		//Format: I, NAME BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
 		
-		final String busId = PSSEAdapter.Token_Id+strAry[0];
+		final String busId = ODMModelParser.BusIdPreFix+strAry[0];
 			// XML requires id start with a char
 		adapter.getLogger().fine("Bus data loaded, id: " + busId);
 		busRec.setId(busId);	
@@ -59,9 +61,9 @@ public class PSSEBusRecord {
 		}
 		
 		final String owner=strAry[10];
-		ODMData2XmlHelper.addOwner(busRec, owner, 1.0);
+		ContainerHelper.addOwner(busRec, owner, 1.0);
 		
-		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+		DataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 	
@@ -91,7 +93,7 @@ public class PSSEBusRecord {
 		final double gPU = new Double(strAry[4]).doubleValue();
 		final double bPU = new Double(strAry[5]).doubleValue();
 		if (gPU != 0.0 || bPU != 0.0) {
-			ODMData2XmlHelper.setYData(busData.addNewShuntY(), gPU, bPU,
+			DataSetter.setYData(busData.addNewShuntY(), gPU, bPU,
 					YUnitType.PU);
 		}
 		//area zone	
@@ -104,10 +106,10 @@ public class PSSEBusRecord {
 		//va angle, degrees [F] *
 		final double vpu = new Double(strAry[8]).doubleValue();
 		final double angDeg = new Double(strAry[9]).doubleValue();
-		ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
+		DataSetter.setVoltageData(busData.addNewVoltage(), vpu,
 				VoltageUnitType.PU);
 
-		ODMData2XmlHelper.setAngleData(busData.addNewAngle(), angDeg,
+		DataSetter.setAngleData(busData.addNewAngle(), angDeg,
 				AngleUnitType.DEG);				
 	}
 			
@@ -116,9 +118,9 @@ public class PSSEBusRecord {
 		// I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 		final String[] strAry = getLoadDataFields(str);
 
-	    final String busId = PSSEAdapter.Token_Id+strAry[0];
+	    final String busId = ODMModelParser.BusIdPreFix+strAry[0];
 	    //to test if there is a responding bus in the bus data record
-		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet);
+		BusRecordXmlType busRec = ContainerHelper.findBusRecord(busId, baseCaseNet);
 	    if (busRec == null){
 	    	adapter.logErr("Bus"+ busId+ "is not found in the network");
 	    	return;
@@ -141,7 +143,7 @@ public class PSSEBusRecord {
 			
 		//set owner and it's factor
 		final String owner =strAry[11];
-		ODMData2XmlHelper.addOwner(contribLoad, owner, 1.0);
+		ContainerHelper.addOwner(contribLoad, owner, 1.0);
 		    
 	    //Constant-P load
 		final double CPloadMw = new Double(strAry[5]).doubleValue();
@@ -154,15 +156,15 @@ public class PSSEBusRecord {
 		final double CYloadMvar = new Double(strAry[10]).doubleValue();
 
 		if (CPloadMw!=0.0 || CQloadMvar!=0.0 )
-	    	ODMData2XmlHelper.setPowerData(contribLoad.addNewConstPLoad(),
+			DataSetter.setPowerData(contribLoad.addNewConstPLoad(),
 	    			CPloadMw, CQloadMvar, ApparentPowerUnitType.MVA);
 
 	    if (CIloadMw!=0.0 || CIloadMvar!=0.0)
-	    	ODMData2XmlHelper.setPowerData(contribLoad.addNewConstILoad(),
+	    	DataSetter.setPowerData(contribLoad.addNewConstILoad(),
 	    			CIloadMw, CIloadMvar, ApparentPowerUnitType.MVA);
 	   
 	    if (CYloadMw!=0.0 || CYloadMvar!=0.0)
-	    	ODMData2XmlHelper.setPowerData(contribLoad.addNewConstZLoad(),
+	    	DataSetter.setPowerData(contribLoad.addNewConstZLoad(),
 	    			CYloadMw, CYloadMvar, ApparentPowerUnitType.MVA);
 	}
 	
@@ -172,9 +174,9 @@ public class PSSEBusRecord {
 		
 		// parse the input data line
 	    final String[] strAry = getGenDataFields(str);
-		final String busId = PSSEAdapter.Token_Id+strAry[0];
+		final String busId = ODMModelParser.BusIdPreFix+strAry[0];
 		// get the responding-bus data with busId
-		BusRecordXmlType busRec = ODMData2XmlHelper.getBusRecord(busId, baseCaseNet);
+		BusRecordXmlType busRec = ContainerHelper.findBusRecord(busId, baseCaseNet);
 		if (busRec==null){
 			adapter.logErr("Error: Bus not found in the network, bus number: " + busId);
         	return;
@@ -198,9 +200,9 @@ public class PSSEBusRecord {
 		       rt = StringUtil.getDouble(strAry[11], 0.0),
 		       xt = StringUtil.getDouble(strAry[12], 0.0),
 		       gtap = StringUtil.getDouble(strAry[13], 0.0); 
-		ODMData2XmlHelper.setPowerMva(contriGen.addNewRatedMva(), mbase);
-		ODMData2XmlHelper.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
-		ODMData2XmlHelper.setZValue(contriGen.addNewXfrZ(), rt, xt, ZUnitType.PU);
+		DataSetter.setPowerMva(contriGen.addNewRatedMva(), mbase);
+		DataSetter.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
+		DataSetter.setZValue(contriGen.addNewXfrZ(), rt, xt, ZUnitType.PU);
 		contriGen.setXfrTap(gtap);
 		
 		// STATUS - Initial load status of one for in-service and zero for out-of-service. STATUS = 1 by default
@@ -229,7 +231,7 @@ public class PSSEBusRecord {
 		final double min = new Double(strAry[5]).doubleValue();
 		
 		//Remote controlled bus number
-		final String reBusId = PSSEAdapter.Token_Id+strAry[7];
+		final String reBusId = ODMModelParser.BusIdPreFix+strAry[7];
 		/*
 		if (max != 0.0 || min != 0.0) {
 			if ( genData.getCode() == LFGenCodeEnumType.PQ) {
@@ -250,7 +252,7 @@ public class PSSEBusRecord {
 			}
 		}
 		*/
-		ODMData2XmlHelper.addOwner(contriGen, 
+		ContainerHelper.addOwner(contriGen, 
 				strAry[18], StringUtil.getDouble(strAry[19], 0.0), 
 				strAry[20], StringUtil.getDouble(strAry[21], 0.0), 
 				strAry[22], StringUtil.getDouble(strAry[23], 0.0), 

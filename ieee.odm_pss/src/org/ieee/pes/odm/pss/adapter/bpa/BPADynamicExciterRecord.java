@@ -34,15 +34,16 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
 public class BPADynamicExciterRecord {
 	
 	public static void processExciterData(String str, TransientSimulationXmlType tranSimu,
-    		IEEEODMPSSModelParser parser ,BPAAdapter adapter  ){
+    		ODMModelParser parser ,BPAAdapter adapter  ){
     	final String strAry[]=getExciterDataFields(str,adapter);
     	
     	int type=0;
@@ -86,7 +87,7 @@ public class BPADynamicExciterRecord {
     		exc.addNewLocatedBus().setName(busId);  
     		//bus Voltage 
     		double voltage=StringUtil.getDouble(strAry[2], 0.0);
-    		ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), 
+    		DataSetter.setVoltageData(exc.addNewBusRatedVoltage(), 
     	    					voltage, VoltageUnitType.KV);
     		   		    		
     		//excId
@@ -97,7 +98,7 @@ public class BPADynamicExciterRecord {
     		exc.addNewExcId().setName(excId);
     		//TR
     		double Tr=StringUtil.getDouble(strAry[4], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(type1968.addNewTR(), Tr, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(type1968.addNewTR(), Tr, TimePeriodUnitType.SEC);
     		    		
     		//KA for all, KV for EE
     		double Ka=StringUtil.getDouble(strAry[5], 0.0);
@@ -105,7 +106,7 @@ public class BPADynamicExciterRecord {
     		   		
     		//TA for all, TRH for EE
     		double Ta=StringUtil.getDouble(strAry[6], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(type1968.addNewTA(), Ta, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(type1968.addNewTA(), Ta, TimePeriodUnitType.SEC);
     		
     		//VRminMult, VRmax*multi=Vrmin. VRmin for ED EJ
     		double multi=StringUtil.getDouble(strAry[8], 0.0);
@@ -115,7 +116,7 @@ public class BPADynamicExciterRecord {
     		    		
     		//TE
     		double Te= StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(type1968.addNewTE(), Te, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(type1968.addNewTE(), Te, TimePeriodUnitType.SEC);
     		
     		//SE0.75MAX for all, KI for DD
     		type1968.setE1(0.75);
@@ -138,7 +139,7 @@ public class BPADynamicExciterRecord {
     		    		
     		//TF    		
     		double Tf= StringUtil.getDouble(strAry[16], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(type1968.addNewTF(), Tf, TimePeriodUnitType.SEC);    		
+    		DataSetter.setTimePeriodData(type1968.addNewTF(), Tf, TimePeriodUnitType.SEC);    		
     		//VRmax=(SE2+Ke)*EFDmax,Vrmin
     		
     		double VRmax=(SE2+Ke)*Efdmax;
@@ -157,7 +158,7 @@ public class BPADynamicExciterRecord {
 			
 			//bus Voltage
 			double voltage= StringUtil.getDouble(strAry[2], 0.0);
-			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
+			DataSetter.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
@@ -167,22 +168,22 @@ public class BPADynamicExciterRecord {
 			//TR
 			
 			double Tr= StringUtil.getDouble(strAry[6], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_dc2.addNewTR(), Tr, TimePeriodUnitType.SEC);			
+			DataSetter.setTimePeriodData(exc_dc2.addNewTR(), Tr, TimePeriodUnitType.SEC);			
 			
 			// TB
 			double Tb= StringUtil.getDouble(strAry[9], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_dc2.addNewTB(), Tb, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(exc_dc2.addNewTB(), Tb, TimePeriodUnitType.SEC);
 			
 			//TC
 			double Tc= StringUtil.getDouble(strAry[10], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_dc2.addNewTC(), Tc, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(exc_dc2.addNewTC(), Tc, TimePeriodUnitType.SEC);
 			
 			//KA, KV for FE
 			double Ka= StringUtil.getDouble(strAry[11], 0.0);
 			exc_dc2.setKA(Ka);			
 			// TA, TRH for FE
 			double Ta= StringUtil.getDouble(strAry[12], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_dc2.addNewTA(), Ta, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(exc_dc2.addNewTA(), Ta, TimePeriodUnitType.SEC);
 			
 			//VRmax, Vamax for FH
 			double Vrmax= StringUtil.getDouble(strAry[13], 0.0);
@@ -199,7 +200,7 @@ public class BPADynamicExciterRecord {
 			
 			//Te
 			double Te=StringUtil.getDouble(strAry[16], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_dc2.addNewTE(), Te, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(exc_dc2.addNewTE(), Te, TimePeriodUnitType.SEC);
 			
 			// IEEE 1981 ST1
     	}else if(type==FK){
@@ -212,7 +213,7 @@ public class BPADynamicExciterRecord {
 			
 			//bus Voltage
 			double voltage= StringUtil.getDouble(strAry[2], 0.0);
-			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
+			DataSetter.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
@@ -223,7 +224,7 @@ public class BPADynamicExciterRecord {
 			//TR
 			
 			double Tr= StringUtil.getDouble(strAry[6], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_st1.addNewTR(), Tr, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(exc_st1.addNewTR(), Tr, TimePeriodUnitType.SEC);
 			
 			//VIMax for G K L,VAmax for FF
 			double Vimax= StringUtil.getDouble(strAry[7], 0.0);
@@ -235,18 +236,18 @@ public class BPADynamicExciterRecord {
 			exc_st1.setVIMIN(Vimin);
 			// TB
 			double Tb= StringUtil.getDouble(strAry[9], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_st1.addNewTB(), Tb, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(exc_st1.addNewTB(), Tb, TimePeriodUnitType.SEC);
 			
 			//TC
 			double Tc= StringUtil.getDouble(strAry[10], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_st1.addNewTC(), Tc, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(exc_st1.addNewTC(), Tc, TimePeriodUnitType.SEC);
 			
 			//KA, KV for FE
 			double Ka= StringUtil.getDouble(strAry[11], 0.0);
 			exc_st1.setKA(Ka);			
 			// TA, TRH for FE
 			double Ta= StringUtil.getDouble(strAry[12], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(exc_st1.addNewTA(), Ta, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(exc_st1.addNewTA(), Ta, TimePeriodUnitType.SEC);
 			
 			//VRmax, Vamax for FH
 			double Vrmax= StringUtil.getDouble(strAry[13], 0.0);
@@ -265,7 +266,7 @@ public class BPADynamicExciterRecord {
 			
 			//bus Voltage
 			double voltage= StringUtil.getDouble(strAry[2], 0.0);
-			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
+			DataSetter.setVoltageData(exc.addNewBusRatedVoltage(), voltage, VoltageUnitType.KV);
 			//excId
 			String excId="1";
 			if(!strAry[3].equals("")){
@@ -274,18 +275,18 @@ public class BPADynamicExciterRecord {
 			exc.addNewExcId().setName(excId);
 			// TB
 			double Tb= StringUtil.getDouble(strAry[9], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(BPAFJ.addNewTB(), Tb, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(BPAFJ.addNewTB(), Tb, TimePeriodUnitType.SEC);
 			
 			//TC
 			double Tc= StringUtil.getDouble(strAry[10], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(BPAFJ.addNewTC(), Tc, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(BPAFJ.addNewTC(), Tc, TimePeriodUnitType.SEC);
 			
 			//KA, KV for FE
 			double Ka= StringUtil.getDouble(strAry[11], 0.0);
 			BPAFJ.setKA(Ka);			
 			// TA, TRH for FE
 			double Ta= StringUtil.getDouble(strAry[12], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(BPAFJ.addNewTA(), Ta, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(BPAFJ.addNewTA(), Ta, TimePeriodUnitType.SEC);
 			
 			//VRmax, Vamax for FH
 			double Vrmax=StringUtil.getDouble(strAry[13], 0.0);
@@ -304,7 +305,7 @@ public class BPADynamicExciterRecord {
 			exc.addNewLocatedBus().setName(busId);
 			//bus Voltage
 			double voltage=StringUtil.getDouble(strAry[2], 0.0);
-			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), 
+			DataSetter.setVoltageData(exc.addNewBusRatedVoltage(), 
 					voltage, VoltageUnitType.KV);			
 			//excId
 			String excId="1";
@@ -322,7 +323,7 @@ public class BPADynamicExciterRecord {
 						
 			//TR
 			double Tr=StringUtil.getDouble(strAry[6], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewTr(), Tr, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewTr(), Tr, TimePeriodUnitType.SEC);
 						
 			//K
 			double k=StringUtil.getDouble(strAry[7], 0.0);
@@ -334,19 +335,19 @@ public class BPADynamicExciterRecord {
 						
 			// T1
 			double T1=StringUtil.getDouble(strAry[9], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewT1(), T1, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewT1(), T1, TimePeriodUnitType.SEC);
 			
 			//T2
 			double T2=StringUtil.getDouble(strAry[10], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewT2(), T2, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewT2(), T2, TimePeriodUnitType.SEC);
 						
 			//T3			
 			double T3=StringUtil.getDouble(strAry[11], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewT3(), T3, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewT3(), T3, TimePeriodUnitType.SEC);
 						
 			// T4			
 			double T4=StringUtil.getDouble(strAry[12], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewT4(), T4, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewT4(), T4, TimePeriodUnitType.SEC);
 						
 			//KA
 			double ka=StringUtil.getDouble(strAry[13], 0.0);
@@ -354,7 +355,7 @@ public class BPADynamicExciterRecord {
 					
 			//TA
 			double Ta=StringUtil.getDouble(strAry[14], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewTa(), Ta, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewTa(), Ta, TimePeriodUnitType.SEC);
 						
 			//KF
 			double kf=StringUtil.getDouble(strAry[15], 0.0);
@@ -362,7 +363,7 @@ public class BPADynamicExciterRecord {
 			
 			//TF
 			double Tf=StringUtil.getDouble(strAry[16], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewTf(), Tf, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewTf(), Tf, TimePeriodUnitType.SEC);
 					
 			//KH
 			double kh=StringUtil.getDouble(strAry[17], 0.0);
@@ -379,7 +380,7 @@ public class BPADynamicExciterRecord {
 			exc.addNewLocatedBus().setName(busId);
 			//bus Voltage
 			double voltage=StringUtil.getDouble(strAry[2], 0.0);
-			ODMData2XmlHelper.setVoltageData(exc.addNewBusRatedVoltage(), 
+			DataSetter.setVoltageData(exc.addNewBusRatedVoltage(), 
 					voltage, VoltageUnitType.KV);			
 			//excId
 			String excId="1";
@@ -389,7 +390,7 @@ public class BPADynamicExciterRecord {
 			exc.addNewExcId().setName(excId);
 			//TR
 			double Tr=StringUtil.getDouble(strAry[6], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewTR(), Tr, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewTR(), Tr, TimePeriodUnitType.SEC);
 						
 			//Vamax
 			double Vamax=StringUtil.getDouble(strAry[7], 0.0);
@@ -401,11 +402,11 @@ public class BPADynamicExciterRecord {
 						
 			// Tb
 			double Tb=StringUtil.getDouble(strAry[9], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewTB(), Tb, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewTB(), Tb, TimePeriodUnitType.SEC);
 			
 			//Tc
 			double Tc=StringUtil.getDouble(strAry[10], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewTC(), Tc, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewTC(), Tc, TimePeriodUnitType.SEC);
 						
 			//Ka			
 			double Ka=StringUtil.getDouble(strAry[11], 0.0);
@@ -413,7 +414,7 @@ public class BPADynamicExciterRecord {
 						
 			// Ta			
 			double Ta=StringUtil.getDouble(strAry[12], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewTA(), Ta, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewTA(), Ta, TimePeriodUnitType.SEC);
 			
 			//Vrmax
 			double Vrmax=StringUtil.getDouble(strAry[13], 0.0);
@@ -429,7 +430,7 @@ public class BPADynamicExciterRecord {
 			
 			//Te
 			double Te=StringUtil.getDouble(strAry[16], 0.0);
-			ODMData2XmlHelper.setTimePeriodData(newExc.addNewTE(), Te, TimePeriodUnitType.SEC);
+			DataSetter.setTimePeriodData(newExc.addNewTE(), Te, TimePeriodUnitType.SEC);
 		  		
     		
     	}else if(str.substring(0, 2).trim().equals("FZ")||
@@ -439,7 +440,7 @@ public class BPADynamicExciterRecord {
         	if(!str.substring(15, 16).trim().equals("")){
         		excId=str.substring(15, 16).trim();
         	}    	
-        	ExciterXmlType exc=ODMData2XmlHelper.getExciterRecord(tranSimu, busId, excId);
+        	ExciterXmlType exc=ContainerHelper.getExciterRecord(tranSimu, busId, excId);
         	if(str.substring(0, 2).trim().equals("FZ")){
         		if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_ST_1)){        		
             		//KF
@@ -448,7 +449,7 @@ public class BPADynamicExciterRecord {
             					
         			// TF
             		double TF= StringUtil.getDouble(strAry[9], 0.0);
-        			ODMData2XmlHelper.setTimePeriodData(exc.getExciterModel().getIEEE1981ST1().addNewTF(), 
+        			DataSetter.setTimePeriodData(exc.getExciterModel().getIEEE1981ST1().addNewTF(), 
         					TF, TimePeriodUnitType.SEC);
         			strAry[9]=str.substring(41, 46).trim();
         			//KC
@@ -468,7 +469,7 @@ public class BPADynamicExciterRecord {
             					
         			// TF
             		double TF= StringUtil.getDouble(strAry[9], 0.0);
-        			ODMData2XmlHelper.setTimePeriodData(exc.getExciterModel().getBPAFJ().addNewTF(), 
+        			DataSetter.setTimePeriodData(exc.getExciterModel().getBPAFJ().addNewTF(), 
         					TF, TimePeriodUnitType.SEC);
         			
         			//KC
@@ -493,7 +494,7 @@ public class BPADynamicExciterRecord {
             		exc.getExciterModel().getIEEETypeDC2().setKF(Kf);
             		// TF
             		double TF= StringUtil.getDouble(strAry[9], 0.0);
-        			ODMData2XmlHelper.setTimePeriodData(exc.getExciterModel().getIEEETypeDC2().addNewTF1(), 
+        			DataSetter.setTimePeriodData(exc.getExciterModel().getIEEETypeDC2().addNewTF1(), 
         					TF, TimePeriodUnitType.SEC);
         			
             	}else if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_TYPE_AC_2)){
@@ -515,7 +516,7 @@ public class BPADynamicExciterRecord {
             		exc.getExciterModel().getIEEE1981TypeAC2().setKF(Kf);
             		// TF
             		double TF= StringUtil.getDouble(strAry[9], 0.0);
-        			ODMData2XmlHelper.setTimePeriodData(exc.getExciterModel().getIEEE1981TypeAC2().addNewTF(), 
+        			DataSetter.setTimePeriodData(exc.getExciterModel().getIEEE1981TypeAC2().addNewTF(), 
         					TF, TimePeriodUnitType.SEC);
         			//Kc
         			double Kc= StringUtil.getDouble(strAry[10], 0.0);
@@ -555,7 +556,7 @@ public class BPADynamicExciterRecord {
         		    			
     			//T5
         		double T5=StringUtil.getDouble(strAry[7], 0.0);
-        		ODMData2XmlHelper.setTimePeriodData(newExc.addNewT5(), 
+        		DataSetter.setTimePeriodData(newExc.addNewT5(), 
         					T5, TimePeriodUnitType.SEC);
         					
     			//KE
@@ -564,7 +565,7 @@ public class BPADynamicExciterRecord {
         			
     			// TE
         		double Te=StringUtil.getDouble(strAry[9], 0.0);
-        		ODMData2XmlHelper.setTimePeriodData(newExc.addNewTe(), 
+        		DataSetter.setTimePeriodData(newExc.addNewTe(), 
         					Te, TimePeriodUnitType.SEC);
         				
     			//SE1-0.75

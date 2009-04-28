@@ -26,7 +26,7 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
 import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
@@ -92,7 +92,7 @@ public class BPADynamicRecord {
 	
 	public static void processDynamicData(String str, TransientSimulationXmlType tranSimu, 
 			final java.io.BufferedReader din,
-			IEEEODMPSSModelParser parser ,BPAAdapter adapter) throws Exception{
+			ODMModelParser parser ,BPAAdapter adapter) throws Exception{
 		PSSNetworkXmlType baseCaseNet=parser.getBaseCase();
 		
 		do{

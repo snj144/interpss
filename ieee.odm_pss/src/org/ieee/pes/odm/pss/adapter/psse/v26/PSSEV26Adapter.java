@@ -30,7 +30,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 public class PSSEV26Adapter extends AbstractODMAdapter{
 	private final int 
@@ -50,16 +50,13 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 		OwnerData = 14;
 		//FactsData = 15;
 		
-	// add "No" to the bus number to create Bus Id
-	public static final String Token_Id = "No";
-	
 	public PSSEV26Adapter(Logger logger) {
 		super(logger);
 	}
 	
-	protected IEEEODMPSSModelParser parseInputFile(
+	protected ODMModelParser parseInputFile(
 			final java.io.BufferedReader din) throws Exception {
-		IEEEODMPSSModelParser parser = createParser();
+		ODMModelParser parser = createParser();
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		// no space is allowed for ID field
 		baseCaseNet.setId("Base_Case_from_PSS_E_format_Ver26");
@@ -146,8 +143,8 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	}
 	
 	
-	private IEEEODMPSSModelParser createParser() {
-		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
+	private ODMModelParser createParser() {
+		ODMModelParser parser = new ODMModelParser();
 		parser.getStudyCase().setSchemaVersion(
 				StudyCaseXmlType.SchemaVersion.V_1_00_DEV);
 		
