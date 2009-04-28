@@ -18,7 +18,7 @@ public class PSSEDataRec {
 	public static double ZeroImpedenc = 0.00001;
 	
 	public enum VersionNo {
-		NotDefined, Old, PSS_E_29, PSS_E_30
+		NotDefined, Old, PSS_E_29, PSS_E_30, PSS_E_26
 	}
 
 	public static VersionNo getVersion(String lineStr, IPSSMsgHub msg) {
