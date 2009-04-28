@@ -24,18 +24,25 @@
 
 package org.interpss.custom.exchange;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
+import org.ieee.pes.odm.pss.adapter.psse.v26.PSSEV26Adapter;
 import org.interpss.custom.exchange.impl.PSSEFormat_in;
 import org.interpss.custom.exchange.psse.PSSEDataRec;
+import org.interpss.mapper.IEEEODMMapper;
 
 import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
+import com.interpss.common.util.PerformanceTimer;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.ext.psse.aclf.PSSEAclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -62,29 +69,46 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 */
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
-		if (this.getVersionSelected() != null && !this.getVersionSelected().equals("")) {
-			IpssLogger.getLogger().info("PSS/E version: " + this.getVersionSelected());
-			if (this.getVersionSelected().contains("30"))
-				this.version = PSSEDataRec.VersionNo.PSS_E_30;
-			else if (this.getVersionSelected().contains("29"))
-				this.version = PSSEDataRec.VersionNo.PSS_E_29;
-		}
-			
-		final File file = new File(filepath);
-		final InputStream stream = new FileInputStream(file);
-		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
-		
-		// load the loadflow data into the AclfAdjNetwork object
-		final PSSEAclfNetwork adjNet = PSSEFormat_in.loadFile(din, msg, this.version);
-		if (adjNet == null)
-			return;
-  		// System.out.println(adjNet.net2String());
+		if (this.version == PSSEDataRec.VersionNo.PSS_E_26) {
+			PerformanceTimer timer = new PerformanceTimer();
+			IODMPSSAdapter adapter = new PSSEV26Adapter(IpssLogger.getLogger());
+			boolean ok = adapter.parseInputFile(filepath);
+			String str = timer.log("Load PSSE data time: ");
+			msg.sendStatusMsg(str);
 
-		// set the simuContext object
-  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
-  		simuCtx.setAclfAdjNet(adjNet);
-  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
-  		simuCtx.setDesc("This project is created by input file " + filepath);
+	  		if (ok) {
+	  			timer.start();
+				IEEEODMMapper mapper = new IEEEODMMapper();
+				mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class);
+				str = timer.log("Map ODM model to SimuCtx tiem: ");			
+				msg.sendStatusMsg(str);
+	  		}
+		}
+		else {
+			if (this.getVersionSelected() != null && !this.getVersionSelected().equals("")) {
+				IpssLogger.getLogger().info("PSS/E version: " + this.getVersionSelected());
+				if (this.getVersionSelected().contains("30"))
+					this.version = PSSEDataRec.VersionNo.PSS_E_30;
+				else if (this.getVersionSelected().contains("29"))
+					this.version = PSSEDataRec.VersionNo.PSS_E_29;
+			}
+				
+			final File file = new File(filepath);
+			final InputStream stream = new FileInputStream(file);
+			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
+			
+			// load the loadflow data into the AclfAdjNetwork object
+			final PSSEAclfNetwork adjNet = PSSEFormat_in.loadFile(din, msg, this.version);
+			if (adjNet == null)
+				return;
+	  		// System.out.println(adjNet.net2String());
+
+			// set the simuContext object
+	  		simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
+	  		simuCtx.setAclfAdjNet(adjNet);
+	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
+	  		simuCtx.setDesc("This project is created by input file " + filepath);
+		}
 	}
 	
 	/**
