@@ -24,6 +24,8 @@
 
 package org.interpss.custom;
 
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+
 import com.interpss.common.custom.IpssCustomAdapter;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
@@ -83,4 +85,11 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	 * @see com.interpss.io.adapter.IFileAdapter#save(java.lang.String, com.interpss.core.simu.SimuContext)
 	 */
 	boolean save(String filepath, SimuContext net, IPSSMsgHub msg) throws Exception;
+	
+	/**
+	 * get the IEEE ODMModelParser, if ODM is used for import data
+	 * 
+	 * @return
+	 */
+	ODMModelParser getODMModelParser();
 }
