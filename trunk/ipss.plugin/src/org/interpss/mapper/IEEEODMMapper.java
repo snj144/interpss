@@ -24,7 +24,7 @@
 
 package org.interpss.mapper;
 
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.interpss.mapper.ieee_odm.ODM2SimuCtxMapperImpl;
 
 import com.interpss.common.mapper.AbstractMapper;
@@ -44,7 +44,7 @@ public class IEEEODMMapper extends AbstractMapper {
 	 */
 	public boolean mapping(Object fromObj, Object toObj, Class<?> klass) {
 		if (klass == SimuContext.class) {
-			IEEEODMPSSModelParser parser = (IEEEODMPSSModelParser) fromObj;
+			ODMModelParser parser = (ODMModelParser) fromObj;
 			SimuContext simuCtx = (SimuContext) toObj;
 			return ODM2SimuCtxMapperImpl.odm2SimuCtxMapping(parser, simuCtx);
 		} 
