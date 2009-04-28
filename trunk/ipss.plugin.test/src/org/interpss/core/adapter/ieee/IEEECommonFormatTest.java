@@ -41,7 +41,7 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
 public class IEEECommonFormatTest extends BaseTestSetup {
-	@Test
+	@Test 
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
 		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee", SpringAppContext.getIpssMsgHub());
@@ -54,7 +54,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
-  		AclfBus swingBus = (AclfBus)net.getBus("No1");
+  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32393)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.16549)<0.0001);
@@ -75,7 +75,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
- 		AclfBus swingBus = (AclfBus)net.getBus("No1");
+ 		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		assertTrue( Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.6095)<0.0001);
   		assertTrue( Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.1653)<0.0001);
@@ -96,7 +96,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
- 		AclfBus swingBus = (AclfBus)net.getBus("No1");
+ 		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
@@ -119,7 +119,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
- 		AclfBus swingBus = (AclfBus)net.getBus("No69");
+ 		AclfBus swingBus = (AclfBus)net.getBus("Bus69");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);
@@ -139,7 +139,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
- 		AclfBus swingBus = (AclfBus)net.getBus("No69");
+ 		AclfBus swingBus = (AclfBus)net.getBus("Bus69");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).re);
 		//System.out.println(swing.getGenResults(UnitType.PU, net.getBaseKva()).im);

@@ -40,7 +40,7 @@ import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 
-public class UCTEFormatAusPowerTest extends BaseTestSetup {
+public class UCTEFormatAusPowerTest extends BaseTestSetup { 
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
@@ -59,7 +59,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
   		assertTrue(Math.abs(p.getImaginary()+1289.429)<0.01);
 	}
 
-	@Test
+	//@Test
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest2_Xfr.uct", SpringAppContext.getIpssMsgHub());
@@ -76,7 +76,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
   		assertTrue(Math.abs(p.getImaginary()+1200.454)<0.01);
 	}
 
-	@Test
+	//@Test
 	public void testCase3() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest3_XfrReg.uct", SpringAppContext.getIpssMsgHub());
@@ -94,7 +94,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
   		assertTrue(Math.abs(p.getImaginary()+987.239)<0.01);
 	}
 
-	@Test
+	//@Test
 	public void testCase4() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
 		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest4_PSXfr1.uct", SpringAppContext.getIpssMsgHub());

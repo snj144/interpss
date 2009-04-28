@@ -27,6 +27,7 @@ package org.interpss.core.adapter.ieee;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
@@ -37,11 +38,18 @@ import com.interpss.pssl.plugin.IpssAdapter;
 import com.interpss.pssl.simu.IpssAclf;
 
 public class IEEECommonFormat_CommaTest extends BaseTestSetup {
-	@Test
+	@Test 
 	public void testCase1() throws Exception {
-		AclfNetwork net = IpssAdapter.importAclfNet("testData/ieee_format/ieee14_comma.ieee")
+		IpssFileAdapter adapter = IpssAdapter.importAclfNet()
 					.setFormat(IpssAdapter.Format.IEEECommonFormat)
+					.getAdapter();
+		
+		AclfNetwork net = IpssAdapter.wrapAdapter(adapter)
+					.setFilename("testData/ieee_format/ieee14_comma.ieee")
 					.load();
+
+		//System.out.println(adapter.getODMModelParser().toString());
+		
 	  	IpssAclf.createLoadflowAlgorithm(net)
 					.runLoadflow();
 
@@ -49,7 +57,7 @@ public class IEEECommonFormat_CommaTest extends BaseTestSetup {
 
 	  	//System.out.println(net.net2String());
   		assertTrue(net.isLfConverged());		
-  		AclfBus swingBus = (AclfBus)net.getBus("No1");
+  		AclfBus swingBus = (AclfBus)net.getBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-2.32393)<0.0001);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()+0.16549)<0.0001);

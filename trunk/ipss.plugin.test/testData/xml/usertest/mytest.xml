@@ -26,7 +26,7 @@
 					<ipss:busChangeRecList>
 						<ipss:busChangeRec>
 							<ipss:recId>Addloadatbus12</ipss:recId>
-							<ipss:busId>No12</ipss:busId>
+							<ipss:busId>Bus12</ipss:busId>
 							<ipss:aclfBusChangeData>
 								<ipss:loadChangeData>
 									<ipss:valueChange>

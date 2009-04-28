@@ -64,11 +64,11 @@ public class UserStephenCaseTest extends BaseTestSetup {
 //  		System.out.println(net.net2String());
   		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
   		net.rebuildLookupTable();
-  		AclfBus busIncreased = net.getAclfBus("No12");
+  		AclfBus busIncreased = net.getAclfBus("Bus12");
   		
   		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
   		net.rebuildLookupTable();
-  		AclfBus busBase = net.getAclfBus("No12");
+  		AclfBus busBase = net.getAclfBus("Bus12");
 
   		double dP = busIncreased.getLoadP() - busBase.getLoadP();
   		double dQ = busIncreased.getLoadQ() - busBase.getLoadQ();
@@ -114,10 +114,10 @@ public class UserStephenCaseTest extends BaseTestSetup {
 
   		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(1).getNetModelString());
   		net.rebuildLookupTable();
-  		assertTrue(net.getBranch("No1", "No2").isActive() == false);
+  		assertTrue(net.getBranch("Bus1", "Bus2").isActive() == false);
   		
   		net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(mscase.getStudyCase(2).getNetModelString());
   		net.rebuildLookupTable();
-  		assertTrue(net.getBranch("No1", "No5").isActive() == false);
+  		assertTrue(net.getBranch("Bus1", "Bus5").isActive() == false);
 	}			
 }
