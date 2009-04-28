@@ -34,22 +34,21 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 
 public class PSSEAdapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";				
 
-	public static final String Token_Id = "No";
-	
 	public PSSEAdapter(Logger logger) {
 		super(logger);
 	}
 	
-	protected IEEEODMPSSModelParser parseInputFile(
+	protected ODMModelParser parseInputFile(
 			final java.io.BufferedReader din) throws Exception {
-		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
+		ODMModelParser parser = new ODMModelParser();
 		parser.getStudyCase().setSchemaVersion(
 				StudyCaseXmlType.SchemaVersion.V_1_00_DEV);
 
@@ -144,16 +143,16 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		
 		final double baseMva = new Double(strAry[1]).doubleValue();
 	    getLogger().fine("BaseKva: "  + baseMva);
-		ODMData2XmlHelper.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
+	    DataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
 
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		ODMData2XmlHelper.addNVPair(nvList, Token_CaseDesc, desc);     
+		ContainerHelper.addNVPair(nvList, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		ODMData2XmlHelper.addNVPair(nvList, Token_CaseId, caseId);				
+		ContainerHelper.addNVPair(nvList, Token_CaseId, caseId);				
 		getLogger().fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
@@ -177,8 +176,8 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		interchange.setAreaNumber(no);
 
 		interchange.setAlternateSwingBusName(alSwingBusName);
-		ODMData2XmlHelper.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
-		ODMData2XmlHelper.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
+		DataSetter.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
+		DataSetter.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
 	}
 	
 	private  void processZoneData(final String str,
@@ -187,8 +186,8 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		final String zoneId = strAry[0];
 		final String zoneName = strAry[1];
 		NameValuePairListXmlType nvList = baseCaseNet.getNvPairList();
-		ODMData2XmlHelper.addNVPair(nvList, "zoneId", zoneId);
-		ODMData2XmlHelper.addNVPair(nvList, "zoneName", zoneName);		
+		ContainerHelper.addNVPair(nvList, "zoneId", zoneId);
+		ContainerHelper.addNVPair(nvList, "zoneName", zoneName);		
 	}
 	
 	
@@ -204,8 +203,8 @@ public class PSSEAdapter extends AbstractODMAdapter{
 		final String ownerId = strAry[0];
 		final String ownerName = strAry[1];
 		NameValuePairListXmlType nvList = baseCaseNet.getNvPairList();
-		ODMData2XmlHelper.addNVPair(nvList, "ownerName", ownerName);
-		ODMData2XmlHelper.addNVPair(nvList, "ownerId", ownerId);
+		ContainerHelper.addNVPair(nvList, "ownerName", ownerName);
+		ContainerHelper.addNVPair(nvList, "ownerId", ownerId);
 	}
 		
 	/*

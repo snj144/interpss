@@ -34,13 +34,12 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.pes.odm.pss.adapter.psse.PSSEAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV26BranchRecord {
-	public static  void processBranchData(final String str, final IEEEODMPSSModelParser parser, Logger logger) {
+	public static  void processBranchData(final String str, final ODMModelParser parser, Logger logger) {
 		/*
 		I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
 		31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
@@ -57,13 +56,19 @@ public class PSSEV26BranchRecord {
 		 */
 		// parse the input data line	
 		final String[] strAry = getLineDataFields(str);		
-		final String fid = PSSEAdapter.Token_Id+strAry[0];
-		final String tid = PSSEAdapter.Token_Id+strAry[1];
-		final String cirId = strAry[2];
-		String branchId = ODMData2XmlHelper.formBranchId(fid, tid, cirId);
+		final String fid = ODMModelParser.BusIdPreFix+strAry[0];
+		final String tid = ODMModelParser.BusIdPreFix+strAry[1];
+		final String cirId = StringUtil.formatCircuitId(strAry[2]);
+		String branchId = StringUtil.formBranchId(fid, tid, cirId);
 		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
 		
-		BranchRecordXmlType branchRec = parser.addNewBaseCaseBranch(branchId);
+		BranchRecordXmlType branchRec;
+		try {
+			branchRec = parser.addNewBaseCaseBranch(branchId);
+		} catch (Exception e) {
+			logger.severe(e.toString());
+			return;
+		}		
 		branchRec.addNewFromBus().setIdRef(fid);
 		branchRec.addNewToBus().setIdRef(tid);	
 		branchRec.setCircuitId(cirId);
@@ -87,14 +92,14 @@ public class PSSEV26BranchRecord {
 		final double fromAng = angle, toAng = 0.0;
 		
 		if (ratio == 0.0) {
-			ODMData2XmlHelper.setLineData(branchData, rpu, xpu,	ZUnitType.PU, 0.0, bpu, YUnitType.PU);
+			DataSetter.setLineData(branchData, rpu, xpu,	ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 		}
 		else if (angle == 0.0) {
-			ODMData2XmlHelper.createXformerData(branchRec.getLoadflowData(),
+			DataSetter.createXformerData(branchRec.getLoadflowData(),
 				       rpu, xpu, ZUnitType.PU, fromTap, toTap);		
 		}
 		else {
-   			ODMData2XmlHelper.createPhaseShiftXfrData(branchRec
+			DataSetter.createPhaseShiftXfrData(branchRec
 					.getLoadflowData(), rpu, xpu, ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
 		}
 		
@@ -102,7 +107,7 @@ public class PSSEV26BranchRecord {
 		final double rating2Mvar = StringUtil.getDouble(strAry[7], 0.0);
 		final double rating3Mvar = StringUtil.getDouble(strAry[8], 0.0);
 		
-		ODMData2XmlHelper.setBranchRatingLimitData(branchData,
+		DataSetter.setBranchRatingLimitData(branchData,
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				ApparentPowerUnitType.MVA, 0.0,
 				null);
@@ -118,7 +123,7 @@ public class PSSEV26BranchRecord {
         		y = branchData.getXformerData().addNewFromShuntY();
         	else
         		y = branchData.getPhaseShiftXfrData().addNewFromShuntY();
-        	ODMData2XmlHelper.setYData(y, GI, BI, YUnitType.PU);
+        	DataSetter.setYData(y, GI, BI, YUnitType.PU);
         }
 
 	    //To side shuntY
@@ -132,7 +137,7 @@ public class PSSEV26BranchRecord {
         		y = branchData.getXformerData().addNewToShuntY();
         	else
         		y = branchData.getPhaseShiftXfrData().addNewToShuntY();
-        	ODMData2XmlHelper.setYData(y, GJ, BJ, YUnitType.PU);
+        	DataSetter.setYData(y, GJ, BJ, YUnitType.PU);
 	    }
 	}
    

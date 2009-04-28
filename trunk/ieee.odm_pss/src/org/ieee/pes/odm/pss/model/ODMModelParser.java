@@ -1,5 +1,5 @@
 /*
- * @(#)IEEEODMPSSModelParser.java   
+ * @(#)ODMModelParser.java   
  *
  * Copyright (C) 2006-2008 www.interpss.org
  *
@@ -44,12 +44,16 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ScenarioXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 
-public class IEEEODMPSSModelParser {
+public class ODMModelParser {
+	// add "No" to the bus number to create Bus Id
+	public static final String BusIdPreFix = "Bus";
+	
 	public static final String Token_nsPrefix = "pss";
 	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
 
-	private static final StudyCaseXmlType.SchemaVersion.Enum CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_1_00_DEV;
+	private static final StudyCaseXmlType.SchemaVersion.Enum CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_0_3;
 	
+	// bus and branch object cache for fast lookup. 
 	private Hashtable<String,IDRecordXmlType> objectCache = null;
 
 	private PSSStudyCaseDocument doc = null;
@@ -60,7 +64,7 @@ public class IEEEODMPSSModelParser {
 	 * @param xmlFile
 	 * @throws Exception
 	 */
-	public IEEEODMPSSModelParser(File xmlFile) throws Exception {
+	public ODMModelParser(File xmlFile) throws Exception {
 		this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		if (!doc.validate()) 
@@ -73,7 +77,7 @@ public class IEEEODMPSSModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	public IEEEODMPSSModelParser(String xmlString) throws XmlException {
+	public ODMModelParser(String xmlString) throws XmlException {
 		this.doc = PSSStudyCaseDocument.Factory.parse(xmlString);
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 	}
@@ -82,7 +86,7 @@ public class IEEEODMPSSModelParser {
 	 * Default Constructor 
 	 * 
 	 */
-	public IEEEODMPSSModelParser() {
+	public ODMModelParser() {
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 		this.doc = PSSStudyCaseDocument.Factory.newInstance();
 		this.getStudyCase().setId("ODM_StudyCase");
@@ -106,15 +110,59 @@ public class IEEEODMPSSModelParser {
 	}
 
 	/**
-	 * Get the cashed object
+	 * Get the cashed object by id
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public IDRecordXmlType getObject(String id) {
+	private IDRecordXmlType getCachedObject(String id) {
 		return this.objectCache.get(id);
 	}
 	
+	/**
+	 * Get the cashed bus object by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BusRecordXmlType getBusRecord(String id) {
+		return (BusRecordXmlType)this.getCachedObject(id);
+	}
+	
+	/**
+	 * Get the cashed branch object by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId) {
+		String id = StringUtil.formBranchId(fromId, toId, cirId);
+		return (BranchRecordXmlType)this.getCachedObject(id);
+	}
+	
+	/**
+	 * Get the cashed object by id
+	 * 
+	 * @param id
+	 */
+	public void removeCachedObject(String id) {
+		this.objectCache.remove(id);
+	}
+
+	/**
+	 * Get the baseCase element
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType getBaseCase() {
+		if (getStudyCase().getBaseCase() == null) {
+			PSSNetworkXmlType baseCase = getStudyCase().addNewBaseCase();
+			baseCase.addNewBusList();
+			baseCase.addNewBranchList();		
+		}
+		return getStudyCase().getBaseCase();
+	}
+
 	/**
 	 * Get the default scenario
 	 * 
@@ -132,49 +180,6 @@ public class IEEEODMPSSModelParser {
 	public TransientSimulationXmlType getDefaultTransSimu(){
 		return TranStabSimuHelper.getTransientSimlation(getDefaultScenario());
 	}
-
-	/**
-	 * Get the baseCase element
-	 * 
-	 * @return
-	 */
-	public PSSNetworkXmlType getBaseCase() {
-		if (getStudyCase().getBaseCase() == null) {
-			PSSNetworkXmlType baseCase = getStudyCase().addNewBaseCase();
-			baseCase.addNewBusList();
-			baseCase.addNewBranchList();		
-		}
-		return getStudyCase().getBaseCase();
-	}
-	
-	
-	/**
-	 * add a new area record to the base case
-	 * 
-	 * @return
-	 */
-	public PSSNetworkXmlType.AreaList getAreaList(){
-		if(getStudyCase().getBaseCase().getAreaList()==null){
-			getStudyCase().getBaseCase().addNewAreaList();
-		}
-		return getStudyCase().getBaseCase().getAreaList();
-	}
-	
-	public NetAreaXmlType addNewBaseCaseArea() {
-		return getAreaList().addNewArea();
-	}
-	
-	public PSSNetworkXmlType.TieLineList getTielineList(){
-		if(getStudyCase().getBaseCase().getTieLineList()==null){
-			getStudyCase().getBaseCase().addNewTieLineList();
-		}
-		return getStudyCase().getBaseCase().getTieLineList();
-	}
-	
-	public PSSNetworkXmlType.TieLineList.Tieline addNewBaseCaseTieline() {
-		return getTielineList().addNewTieline();
-	}
-	
 	/**
 	 * add a new Bus record to the base case
 	 * 
@@ -184,9 +189,18 @@ public class IEEEODMPSSModelParser {
 		return getStudyCase().getBaseCase().getBusList().addNewBus();
 	}	
 	
-	public BusRecordXmlType addNewBaseCaseBus(String id) {
+	/**
+	 * add a new bus record to the base case and to the cache table
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BusRecordXmlType addNewBaseCaseBus(String id) throws Exception {
 		BusRecordXmlType bus = getStudyCase().getBaseCase().getBusList().addNewBus();
 		bus.setId(id);
+		if (this.objectCache.get(id) != null) {
+			throw new Exception("Bus record duplication, bus id: " + id);
+		}
 		this.objectCache.put(id, bus);
 		return bus;
 	}	
@@ -200,18 +214,71 @@ public class IEEEODMPSSModelParser {
 		return getStudyCase().getBaseCase().getBranchList().addNewBranch();		
 	}
 	
-	public BranchRecordXmlType addNewBaseCaseBranch(String id) {
+	/**
+	 * add a new branch record to the base case and to the cache table
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public BranchRecordXmlType addNewBaseCaseBranch(String id) throws Exception {
 		BranchRecordXmlType branch = getStudyCase().getBaseCase().getBranchList().addNewBranch();
 		branch.setId(id);
+		if (this.objectCache.get(id) != null) {
+			throw new Exception("Branch record duplication, bus id: " + id);
+		}
 		this.objectCache.put(id, branch);
 		return branch;
 	}
-
+	
+	/**
+	 * add a new area record to the base case
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType.AreaList getAreaList(){
+		if(getStudyCase().getBaseCase().getAreaList()==null){
+			getStudyCase().getBaseCase().addNewAreaList();
+		}
+		return getStudyCase().getBaseCase().getAreaList();
+	}
+	
+	/**
+	 * create an area object and added to the net.areaList
+	 * 
+	 * @return
+	 */
+	
+	public NetAreaXmlType addNewBaseCaseArea() {
+		return getAreaList().addNewArea();
+	}
+	
+	/**
+	 * get the net.tieLineList 
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType.TieLineList getTielineList(){
+		if(getStudyCase().getBaseCase().getTieLineList()==null){
+			getStudyCase().getBaseCase().addNewTieLineList();
+		}
+		return getStudyCase().getBaseCase().getTieLineList();
+	}
+	
+	/**
+	 * create a tieLine object
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType.TieLineList.Tieline addNewBaseCaseTieline() {
+		return getTielineList().addNewTieline();
+	}
+	
 	/**
 	 * add a new DC line bus record to the base case
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public PSSNetworkXmlType.DcLineList.DcLineBusList getDCLineBusList(){
 		if(getStudyCase().getBaseCase().getDcLineList()==null){
 			getStudyCase().getBaseCase().addNewDcLineList();			
@@ -220,9 +287,14 @@ public class IEEEODMPSSModelParser {
 			getStudyCase().getBaseCase().getDcLineList().addNewDcLineBusList();
 		}
 		return getStudyCase().getBaseCase().getDcLineList().getDcLineBusList();
-		
 	}
 	
+	/**
+	 * create a DCLineBus object
+	 * 
+	 * @return
+	 */
+	@Deprecated
 	public DCLineBusRecordXmlType addNewBaseCaseDCLineBus() {
 		DCLineBusRecordXmlType dcLineBus =  getDCLineBusList().addNewDcLineBus();
 		dcLineBus.addNewConverter().addNewData();
@@ -234,6 +306,7 @@ public class IEEEODMPSSModelParser {
 	 * 
 	 * @return
 	 */
+	@Deprecated
 	public PSSNetworkXmlType.DcLineList.DcLineBranchList getDCLineBranchList(){
 		if(getStudyCase().getBaseCase().getDcLineList()==null){
 			getStudyCase().getBaseCase().addNewDcLineList();
@@ -244,6 +317,11 @@ public class IEEEODMPSSModelParser {
 		return getStudyCase().getBaseCase().getDcLineList().getDcLineBranchList();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	@Deprecated
 	public DCLineBranchRecordXmlType addNewBaseCaseDCLineBranch() {
 		DCLineBranchRecordXmlType dcLineBranch = getDCLineBranchList().addNewDcLineBranch();
 		dcLineBranch.addNewData();
@@ -253,10 +331,10 @@ public class IEEEODMPSSModelParser {
 	public String toXmlDoc(boolean addXsi) {
 		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pss:PSSStudyCase xmlns:pss=\"" + Token_nsUrl + "\"";
 		if (addXsi)
-			return this.doc.xmlText(ODMData2XmlHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", 
+			return this.doc.xmlText(ContainerHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", 
 				 str + " " + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
 		else
-			return this.doc.xmlText(ODMData2XmlHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", str);
+			return this.doc.xmlText(ContainerHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", str);
 	}
 
 	/**

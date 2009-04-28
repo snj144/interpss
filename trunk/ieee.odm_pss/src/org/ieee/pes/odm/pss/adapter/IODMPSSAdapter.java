@@ -24,7 +24,7 @@
 
 package org.ieee.pes.odm.pss.adapter;
 
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 public interface IODMPSSAdapter {
 	/**
@@ -47,5 +47,5 @@ public interface IODMPSSAdapter {
 	 * 
 	 * @return
 	 */
-	IEEEODMPSSModelParser getModel();
+	ODMModelParser getModel();
 }

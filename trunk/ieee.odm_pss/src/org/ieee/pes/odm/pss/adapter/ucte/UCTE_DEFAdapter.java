@@ -50,8 +50,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 /*
@@ -91,9 +92,9 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		super(logger);
 	}
 
-	protected IEEEODMPSSModelParser parseInputFile(
+	protected ODMModelParser parseInputFile(
 			final java.io.BufferedReader din) throws Exception {
-		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
+		ODMModelParser parser = new ODMModelParser();
 
 		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
 		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.UCTE_DEF);
@@ -111,7 +112,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
     	// no base kva definition in UCTE format, so use 100 MVA
     	// UCTE data are in actual units, mw, mva ...
-		ODMData2XmlHelper.setPowerMva(baseCaseNet.addNewBasePower(), 100.0);   
+		DataSetter.setPowerMva(baseCaseNet.addNewBasePower(), 100.0);   
 
     	// scan all lines and process the data
     	customBaseVoltage = false;
@@ -256,17 +257,17 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       		busRec.setName(name);
       	if (isoId != null && !isoId.trim().equals(""))
       		busRec.setIsoCode(isoId);
-		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+      	DataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 		
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
-		ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), voltage,
+		DataSetter.setVoltageData(busData.addNewVoltage(), voltage,
 				VoltageUnitType.KV);
 
-		ODMData2XmlHelper.setAngleData(busData.addNewAngle(), 0.0,
+		DataSetter.setAngleData(busData.addNewAngle(), 0.0,
 				AngleUnitType.DEG);    	
     	
 		if (pLoadMW != 0.0 || qLoadMvar != 0.0) {
-			ODMData2XmlHelper.setLoadData(busData,
+			DataSetter.setLoadData(busData,
 					LFLoadCodeEnumType.CONST_P, pLoadMW,
 					qLoadMvar, ApparentPowerUnitType.MVA);
 		}
@@ -274,7 +275,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		switch (nodeType) {
 		case 0: // PQ bus
 			if (pGenMW != 0.0 || qGenMvar != 0.0) {
-				ODMData2XmlHelper.setGenData(busData,
+				DataSetter.setGenData(busData,
 						LFGenCodeEnumType.PQ, pGenMW, qGenMvar,
 						ApparentPowerUnitType.MVA);				
 			}
@@ -283,19 +284,19 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			logErr("Node type = 1, not support currently. Please contact support@interpss.org");
 			return;
 		case 2: // PV bus
-			ODMData2XmlHelper.setGenData(busData,
+			DataSetter.setGenData(busData,
 					LFGenCodeEnumType.PV, pGenMW, qGenMvar,
 					ApparentPowerUnitType.MVA);
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
 				getLogger().fine("Bus is a PVLimitBus, id: " + id);
-				ODMData2XmlHelper.setGenQLimitData(busData.getGenData(),  
+				DataSetter.setGenQLimitData(busData.getGenData(),  
 						maxGenMVar, minGenMVar, ReactivePowerUnitType.MVAR);
 			}
 			break;
 		case 3: // swing bus
-			ODMData2XmlHelper.setGenData(busData,
+			DataSetter.setGenData(busData,
 					LFGenCodeEnumType.SWING, pGenMW, qGenMvar,
 					ApparentPowerUnitType.MVA);
 			break;
@@ -307,21 +308,21 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 		NameValuePairListXmlType nvList = busRec.addNewNvPairList();
 		if (status != 0)
-			ODMData2XmlHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
+			ContainerHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
+			ContainerHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
+			ContainerHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
+			ContainerHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
+			ContainerHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
+			ContainerHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			ODMData2XmlHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
+			ContainerHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			ODMData2XmlHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
+			ContainerHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
     }
     
     /*
@@ -362,14 +363,14 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		branchRec.addNewLoadflowData();
 		
 		// LineData object created in the following call
-		ODMData2XmlHelper.setLineData(branchRec.getLoadflowData(), rOhm, xOhm,
+		DataSetter.setLineData(branchRec.getLoadflowData(), rOhm, xOhm,
 				ZUnitType.OHM, 0.0, bMuS, YUnitType.MICROMHO);
       	
     	// by default the branch is active
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
 
-		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowData(),
+    	DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(),
 				currentLimit, CurrentUnitType.AMP);
     }
     
@@ -429,22 +430,22 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			getLogger().severe("Need more implementation");
 		}
 		// XformerData object created in the following call
-		ODMData2XmlHelper.createXformerData(branchRec.getLoadflowData(),
+		DataSetter.createXformerData(branchRec.getLoadflowData(),
 				rOhm, xOhm, ZUnitType.OHM, 1.0, 1.0, 0.0, 0.0, gMuS, bMuS,
 				YUnitType.MICROMHO);
 
-		ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
+		DataSetter.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
 				fromRatedKV, toRatedKV, VoltageUnitType.KV,
 				normialMva, ApparentPowerUnitType.MVA);
 
 		// turn ratio is defied at to side, 1.0 for un-regulated xfr, 
-		ODMData2XmlHelper.setTapPU(branchRec.getLoadflowData().getXformerData().addNewToTap(), 1.0);
+		DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewToTap(), 1.0);
 		
     	// by default the branch is active
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
     	
-		ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowData(),
+    	DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(),
 				currentLimit, CurrentUnitType.AMP);
     }
     
@@ -489,7 +490,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		}
 
-		BranchRecordXmlType branchRec = ODMData2XmlHelper.getBranchRecord(fromNodeId, toNodeId, orderCode, xmlBaseNet); 
+		BranchRecordXmlType branchRec = ContainerHelper.findBranchRecord(fromNodeId, toNodeId, orderCode, xmlBaseNet); 
       	if (branchRec == null) {
       		logErr("Error: branch cannot be found, line: " + str);
       		return;
@@ -500,20 +501,20 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       	if (dUPhase > 0.0) {
       		getLogger().fine("Phase regulation data persented");
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
+				ContainerHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
+				ContainerHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
+				ContainerHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
+				ContainerHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			TransformerDataXmlType xfr = branchRec.getLoadflowData().getXformerData();
 			double ratioFactor = xfr.getToTap().getValue();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at to side x : 1.0, InterPSS model 1.0:turnRatio
-			ODMData2XmlHelper.setTapPU(xfr.addNewToTap(), ratioFactor/x);
+			DataSetter.setTapPU(xfr.addNewToTap(), ratioFactor/x);
 			
 			if (uKvPhase > 0.0) {
 				TransformerDataXmlType.TapAdjustment tapAdj = xfr.addNewTapAdjustment();
@@ -524,7 +525,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		double maxTap = ratioFactor*(nPhase*dUPhase), 
           		       minTap = ratioFactor*(-nPhase*dUPhase);
 
-				ODMData2XmlHelper.setTapLimitData(tapAdj.addNewTapLimit(), maxTap, minTap);
+          		DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTap, minTap);
 				tapAdj.getTapLimit().setUnit(TapUnitType.PERCENT);
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
@@ -541,15 +542,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		else if (dUAngle > 0.0) {
 			getLogger().fine("angle regulation data persented");
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
+				ContainerHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
+				ContainerHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
+				ContainerHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
+				ContainerHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				ODMData2XmlHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
+				ContainerHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = branchRec.getLoadflowData().getXformerData().getToTap().getValue();
 
@@ -565,7 +566,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 					x = 1.0 / Math.sqrt(1.0 + a*a);
 				}
 				else {
-					double theta = thetaDegAngle * ODMData2XmlHelper.Deg2Rad,
+					double theta = thetaDegAngle * ContainerHelper.Deg2Rad,
 					       asin = a*Math.sin(theta),
 					       acos = 1.0 + a*Math.cos(theta),
 					       asinMax = aMax*Math.sin(theta),
@@ -584,18 +585,18 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				angMin = 2.0 * Math.atan(aMin/2.0);
 			}
 			
-			ODMData2XmlHelper.branchXfrData2PsXfr(branchRec.getLoadflowData());
+			DataSetter.branchXfrData2PsXfr(branchRec.getLoadflowData());
 			
 			PhaseShiftXfrDataXmlType psXfr = branchRec.getLoadflowData().getPhaseShiftXfrData();
-			ODMData2XmlHelper.setAngleData(psXfr.addNewToAngle(), -ang*ODMData2XmlHelper.Rad2Deg, AngleUnitType.DEG);
-			ODMData2XmlHelper.setTapPU(psXfr.addNewToTap(), ratioFactor/x);
+			DataSetter.setAngleData(psXfr.addNewToAngle(), -ang*ContainerHelper.Rad2Deg, AngleUnitType.DEG);
+			DataSetter.setTapPU(psXfr.addNewToTap(), ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {
 				PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = psXfr.addNewAngleAdjustment();
           		angAdj.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				
 				angAdj.setDesiredPowerUnit(PhaseShiftXfrDataXmlType.AngleAdjustment.DesiredPowerUnit.MW);
-				ODMData2XmlHelper.setAngleLimitData(angAdj.addNewAngleLimit(), angMax, angMin,
+				DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angMax, angMin,
 						AngleUnitType.DEG);
 				angAdj.setAngleAdjOnFromSide(false);
 				// this part if not specified in the UCTE spec. We assume it is measured on to side
@@ -635,7 +636,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		PSSNetworkXmlType.InterchangeList.Interchange.UcteExchange ucteExRec = xmlBaseNet.getInterchangeList().addNewInterchange().addNewUcteExchange();
 		ucteExRec.setFromIsoId(fromIsoId);
 		ucteExRec.setToIsoId(toIsoId);
-		ODMData2XmlHelper.setPowerData(ucteExRec.addNewExchangePower(), exPower, 0.0, ApparentPowerUnitType.MVA); 
+		DataSetter.setPowerData(ucteExRec.addNewExchangePower(), exPower, 0.0, ApparentPowerUnitType.MVA); 
 		if (comment != null)
 			ucteExRec.setComment(comment);
     }

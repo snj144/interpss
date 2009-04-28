@@ -50,13 +50,14 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPABranchRecord {
 	public static void processBranchData(final String str, final BranchRecordXmlType branchRec,
-			IEEEODMPSSModelParser parser,
+			ODMModelParser parser,
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter) {		
 		// symmetry line data
 		if(str.startsWith("L")){
@@ -97,15 +98,15 @@ public class BPABranchRecord {
 						tieLine.addNewMeteredBus().setName(fid);
 						tieLine.addNewNonMeteredBus().setName(tid);	
 						
-						BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
+						BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(fid, baseCaseNet);
 						busRecFrom.getZoneNumber();
-						NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						NetAreaXmlType areaFrom=ContainerHelper.
 						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getName());
 						
-						BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
+						BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(tid, baseCaseNet);
 						busRecTo.getZoneNumber();
-						NetAreaXmlType areaTo=ODMData2XmlHelper.
+						NetAreaXmlType areaTo=ContainerHelper.
 						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getName());
 						// to do: set area number
@@ -115,17 +116,17 @@ public class BPABranchRecord {
 
 						tieLine.addNewMeteredBus().setName(tid);
 						tieLine.addNewNonMeteredBus().setName(fid);					
-						ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZoneNumber();
+						ContainerHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
 						
-						BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
+						BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(tid, baseCaseNet);
 						busRecFrom.getZoneNumber();
-						NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						NetAreaXmlType areaFrom=ContainerHelper.
 						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getName());
 						
-						BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
+						BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(fid, baseCaseNet);
 						busRecTo.getZoneNumber();
-						NetAreaXmlType areaTo=ODMData2XmlHelper.
+						NetAreaXmlType areaTo=ContainerHelper.
 						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getName());						
 					}
@@ -145,7 +146,7 @@ public class BPABranchRecord {
 			}			
 			branchRec.setCircuitId(cirId);
 			branchRec.addNewLoadflowData();
-			branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));			
+			branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));			
 			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.LINE);
 			
 			String multiSectionId="";
@@ -157,7 +158,7 @@ public class BPABranchRecord {
 			double currentRating=0.0;
 			if(!strAry[10].equals("")){
 				currentRating = new Double(strAry[10]).doubleValue();
-				ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowData(), 
+				DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(), 
 						currentRating, CurrentUnitType.AMP);
 			}			 
 			double rpu=0.0, xpu=0.0001, halfGpu=0.0, halfBpu=0.0;
@@ -188,7 +189,7 @@ public class BPABranchRecord {
 				}
 			}
 			if(rpu!=0.0||xpu!=0.0||halfGpu!=0.0||halfBpu!=0.0){
-				ODMData2XmlHelper.setLineData(branchRec.getLoadflowData(), rpu, xpu,
+				DataSetter.setLineData(branchRec.getLoadflowData(), rpu, xpu,
 						ZUnitType.PU, 2*halfGpu, 2*halfBpu, YUnitType.PU);
 			}
 			
@@ -252,15 +253,15 @@ public class BPABranchRecord {
 						tieLine.addNewMeteredBus().setName(fid);
 						tieLine.addNewNonMeteredBus().setName(tid);	
 						
-						BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
+						BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(fid, baseCaseNet);
 						busRecFrom.getZoneNumber();
-						NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						NetAreaXmlType areaFrom=ContainerHelper.
 						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getName());
 						
-						BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
+						BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(tid, baseCaseNet);
 						busRecTo.getZoneNumber();
-						NetAreaXmlType areaTo=ODMData2XmlHelper.
+						NetAreaXmlType areaTo=ContainerHelper.
 						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getName());
 						// to do: set area number
@@ -270,17 +271,17 @@ public class BPABranchRecord {
 
 						tieLine.addNewMeteredBus().setName(tid);
 						tieLine.addNewNonMeteredBus().setName(fid);					
-						ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZoneNumber();
+						ContainerHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
 						
-						BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
+						BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(tid, baseCaseNet);
 						busRecFrom.getZoneNumber();
-						NetAreaXmlType areaFrom=ODMData2XmlHelper.
+						NetAreaXmlType areaFrom=ContainerHelper.
 						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getName());
 						
-						BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
+						BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(fid, baseCaseNet);
 						busRecTo.getZoneNumber();
-						NetAreaXmlType areaTo=ODMData2XmlHelper.
+						NetAreaXmlType areaTo=ContainerHelper.
 						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getName());						
 					}
@@ -299,7 +300,7 @@ public class BPABranchRecord {
 			}			
 			
 			branchRec.addNewLoadflowData();
-			branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));			
+			branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));			
 			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.LINE);
 			branchRec.getLoadflowData().addNewLineData();
 			
@@ -313,7 +314,7 @@ public class BPABranchRecord {
 			double currentRating=0.0;
 			if(!strAry[10].equals("")){
 				currentRating = new Double(strAry[10]).doubleValue();
-				ODMData2XmlHelper.setBranchRatingLimitData(branchRec.getLoadflowData(), 
+				DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(), 
 						currentRating, CurrentUnitType.AMP);
 			}			 
 			double rpu=0.0, xpu=0.0001, G1pu=0.0, B1pu=0.0, G2pu=0.0, B2pu=0.0;
@@ -336,18 +337,18 @@ public class BPABranchRecord {
 				B2pu = new Double(strAry[17]).doubleValue();
 			}
 			ZXmlType z= branchRec.getLoadflowData().getLineData().addNewZ();
-			ODMData2XmlHelper.setZValue(z, rpu, xpu, ZUnitType.PU);
+			DataSetter.setZValue(z, rpu, xpu, ZUnitType.PU);
 			YXmlType y1 =branchRec.getLoadflowData().getLineData().addNewFromShuntY();
 			YXmlType y2 =branchRec.getLoadflowData().getLineData().addNewToShuntY();
-			ODMData2XmlHelper.setYData(y1, G1pu, B1pu, YUnitType.PU);
-			ODMData2XmlHelper.setYData(y2, G2pu, B2pu, YUnitType.PU); 			
+			DataSetter.setYData(y1, G1pu, B1pu, YUnitType.PU);
+			DataSetter.setYData(y2, G2pu, B2pu, YUnitType.PU); 			
 		}
 				
 		
 	}	
 	
 	public static void processXfrData(final String str, final BranchRecordXmlType branchRec, 
-			IEEEODMPSSModelParser parser,
+			ODMModelParser parser,
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
 		
 		final int transformer=1;
@@ -397,13 +398,13 @@ public class BPABranchRecord {
 					tieLine.addNewMeteredBus().setName(fid);
 					tieLine.addNewNonMeteredBus().setName(tid);	
 						
-					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);						
-					NetAreaXmlType areaFrom=ODMData2XmlHelper.
+					BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(fid, baseCaseNet);						
+					NetAreaXmlType areaFrom=ContainerHelper.
 						 getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
 						
-					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);						
-					NetAreaXmlType areaTo=ODMData2XmlHelper.
+					BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(tid, baseCaseNet);						
+					NetAreaXmlType areaTo=ContainerHelper.
 						 getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getName());					
 				}else{
@@ -411,17 +412,17 @@ public class BPABranchRecord {
 
 					tieLine.addNewMeteredBus().setName(tid);
 					tieLine.addNewNonMeteredBus().setName(fid);					
-					ODMData2XmlHelper.getBusRecord(fid, baseCaseNet).getZoneNumber();
+					ContainerHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
 						
-					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(tid, baseCaseNet);
+					BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(tid, baseCaseNet);
 					busRecFrom.getZoneNumber();
-					NetAreaXmlType areaFrom=ODMData2XmlHelper.
+					NetAreaXmlType areaFrom=ContainerHelper.
 						 getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
 						
-					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(fid, baseCaseNet);
+					BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(fid, baseCaseNet);
 					busRecTo.getZoneNumber();
-					NetAreaXmlType areaTo=ODMData2XmlHelper.
+					NetAreaXmlType areaTo=ContainerHelper.
 						 getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getName());					
 				}					
@@ -436,7 +437,7 @@ public class BPABranchRecord {
 		}
 			
 		branchRec.setCircuitId(cirId);			
-		branchRec.setId(ODMData2XmlHelper.formBranchId(fid, tid, cirId));
+		branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));
 			
 		final String multiSectionId = strAry[9];
 		//set rated current
@@ -447,10 +448,10 @@ public class BPABranchRecord {
 			
 		// set xfr rating data
 		if(dataType==transformer){
-			ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowData().getXformerData(), 
+			DataSetter.setXfrRatingData(branchRec.getLoadflowData().getXformerData(), 
 					fVol, tVol,VoltageUnitType.KV, MwRating, ApparentPowerUnitType.MVA);
 		}else {
-			ODMData2XmlHelper.setXfrRatingData(branchRec.getLoadflowData().getPhaseShiftXfrData(), 
+			DataSetter.setXfrRatingData(branchRec.getLoadflowData().getPhaseShiftXfrData(), 
 					fVol, tVol,VoltageUnitType.KV, MwRating, ApparentPowerUnitType.MVA);
 		}
 			
@@ -483,20 +484,20 @@ public class BPABranchRecord {
 		// set r x
 		if(rpu!=0.0||xpu!=0.0){
 			if(dataType==transformer){
-				ODMData2XmlHelper.setZValue(branchRec.getLoadflowData().getXformerData().addNewZ(),
+				DataSetter.setZValue(branchRec.getLoadflowData().getXformerData().addNewZ(),
 						                 rpu, xpu, ZUnitType.PU);
 			}else{					
-				ODMData2XmlHelper.setZValue(branchRec.getLoadflowData().getPhaseShiftXfrData().addNewZ(),
+				DataSetter.setZValue(branchRec.getLoadflowData().getPhaseShiftXfrData().addNewZ(),
 						                 rpu, xpu, ZUnitType.PU);
 			}
 		}
 		//set g b, g, b---> from side
 		if(Gpu!=0.0||Bpu!=0.0){
 			if(dataType==transformer){
-					ODMData2XmlHelper.setYData(branchRec.getLoadflowData().getXformerData().addNewFromShuntY(),
+				DataSetter.setYData(branchRec.getLoadflowData().getXformerData().addNewFromShuntY(),
 						                 Gpu, Bpu, YUnitType.PU);
 			}else{
-				ODMData2XmlHelper.setYData(branchRec.getLoadflowData().getPhaseShiftXfrData().addNewFromShuntY(),
+				DataSetter.setYData(branchRec.getLoadflowData().getPhaseShiftXfrData().addNewFromShuntY(),
 							                 Gpu, Bpu, YUnitType.PU);
 			}
 		}
@@ -517,17 +518,17 @@ public class BPABranchRecord {
 				fromTurnRatedVolOrAngDeg=fromTurnRatedVolOrAngDeg/100;
 				fRatio=fromTurnRatedVolOrAngDeg/fVol;
 			}				
-			ODMData2XmlHelper.setTapPU(branchRec.getLoadflowData().getXformerData().addNewFromTap(), fRatio);
+			DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewFromTap(), fRatio);
 			
 			if(toTurnRatedVolOrZero>=2*tVol){
 				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100;
 				tRatio=toTurnRatedVolOrZero/tVol;
 			}
-			ODMData2XmlHelper.setTapPU(branchRec.getLoadflowData().getXformerData().addNewToTap(), tRatio);
+			DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewToTap(), tRatio);
 		}else {			
-			ODMData2XmlHelper.setAngleData(branchRec.getLoadflowData().getPhaseShiftXfrData().
+			DataSetter.setAngleData(branchRec.getLoadflowData().getPhaseShiftXfrData().
 					addNewFromAngle(), fromTurnRatedVolOrAngDeg, AngleUnitType.DEG);
-			ODMData2XmlHelper.setAngleData(branchRec.getLoadflowData().getPhaseShiftXfrData().
+			DataSetter.setAngleData(branchRec.getLoadflowData().getPhaseShiftXfrData().
 					addNewToAngle(), 0, AngleUnitType.DEG);						
 		}			
 	}			
@@ -571,7 +572,7 @@ public class BPABranchRecord {
 		final String toBus = strAry[6];
 		final double toTurnRatedV = new Double(strAry[7]).doubleValue();			
 		
-		BranchRecordXmlType branchRec= ODMData2XmlHelper.getXfrBranchRecord(fromBus, 
+		BranchRecordXmlType branchRec= ContainerHelper.getXfrBranchRecord(fromBus, 
 				toBus,  baseCaseNet);	
 		
 		String controlBusId = "";		
@@ -660,7 +661,7 @@ public class BPABranchRecord {
 			}
 			
 			
-			ODMData2XmlHelper.setTapLimitData(tapAdj.addNewTapLimit(), max, min);
+			DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), max, min);
 			tapAdj.getTapLimit().setUnit(TapUnitType.PU);
 			tapAdj.setTapAdjStepSize(stepSize);
 			if (adjustType==tapVoltageAdjustment ){// voltage control					
@@ -674,7 +675,7 @@ public class BPABranchRecord {
 				voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				
 				if(maxVoltPQ!=0.0||minVoltPQ!=0.0){
-					ODMData2XmlHelper.setLimitData(voltTapAdj, maxVoltPQ, minVoltPQ);
+					DataSetter.setLimitData(voltTapAdj, maxVoltPQ, minVoltPQ);
 				}
 				
 				
@@ -682,7 +683,7 @@ public class BPABranchRecord {
 				
 				TransformerDataXmlType.TapAdjustment.MvarFlowAdjData mvarTapAdj = tapAdj
 						.addNewMvarFlowAdjData();
-				ODMData2XmlHelper.setLimitData(mvarTapAdj, maxVoltPQ, minVoltPQ);
+				DataSetter.setLimitData(mvarTapAdj, maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
@@ -690,9 +691,9 @@ public class BPABranchRecord {
 			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec.getLoadflowData().
             getPhaseShiftXfrData().addNewAngleAdjustment();
 			
-			ODMData2XmlHelper.setAngleLimitData(angAdj.addNewAngleLimit(), max,
+			DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), max,
 					min, AngleUnitType.DEG);
-			ODMData2XmlHelper.setLimitData(angAdj, maxVoltPQ, minVoltPQ);
+			DataSetter.setLimitData(angAdj, maxVoltPQ, minVoltPQ);
 			angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 			angAdj.setDesiredMeasuredOnFromSide(true);
 		}
@@ -700,7 +701,7 @@ public class BPABranchRecord {
 	}
 	public static void processDCLineBranchData(final String str, 
 			final DCLineBranchRecordXmlType dcBranch, 
-			IEEEODMPSSModelParser parser,
+			ODMModelParser parser,
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter){
 		final String strAry[] = getDCLineBranchDataFields(str,adapter);	
 		
@@ -734,13 +735,13 @@ public class BPABranchRecord {
 					tieLine.addNewMeteredBus().setName(rectifierBus);
 					tieLine.addNewNonMeteredBus().setName(inverterBus);	
 					
-					DCLineBusRecordXmlType busRecFrom=ODMData2XmlHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
-					NetAreaXmlType areaFrom=ODMData2XmlHelper.
+					DCLineBusRecordXmlType busRecFrom=ContainerHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
+					NetAreaXmlType areaFrom=ContainerHelper.
 						  getAreaRecordByZone(busRecFrom.getConverter().getData().getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
-					DCLineBusRecordXmlType busRecTo=ODMData2XmlHelper.getDCLineBusRecord(inverterBus, baseCaseNet);
+					DCLineBusRecordXmlType busRecTo=ContainerHelper.getDCLineBusRecord(inverterBus, baseCaseNet);
 										
-					NetAreaXmlType areaTo=ODMData2XmlHelper.
+					NetAreaXmlType areaTo=ContainerHelper.
 						  getAreaRecordByZone(busRecTo.getConverter().getData().getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getName());
 					
@@ -752,17 +753,17 @@ public class BPABranchRecord {
 
 					tieLine.addNewMeteredBus().setName(inverterBus);
 					tieLine.addNewNonMeteredBus().setName(rectifierBus);					
-					ODMData2XmlHelper.getBusRecord(rectifierBus, baseCaseNet).getZoneNumber();
+					ContainerHelper.findBusRecord(rectifierBus, baseCaseNet).getZoneNumber();
 					
-					BusRecordXmlType busRecFrom=ODMData2XmlHelper.getBusRecord(inverterBus, baseCaseNet);
+					BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(inverterBus, baseCaseNet);
 					busRecFrom.getZoneNumber();
-					NetAreaXmlType areaFrom=ODMData2XmlHelper.
+					NetAreaXmlType areaFrom=ContainerHelper.
 					  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
 					
-					BusRecordXmlType busRecTo=ODMData2XmlHelper.getBusRecord(inverterBus, baseCaseNet);
+					BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(inverterBus, baseCaseNet);
 					busRecTo.getZoneNumber();
-					NetAreaXmlType areaTo=ODMData2XmlHelper.
+					NetAreaXmlType areaTo=ContainerHelper.
 					  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getName());						
 				}
@@ -775,7 +776,7 @@ public class BPABranchRecord {
 		double lineRatingCurrent=0.0;
 		if(!strAry[8].equals("")){
 			lineRatingCurrent = new Double(strAry[8]).doubleValue();
-			ODMData2XmlHelper.setCurrentData(dcBranch.getData().addNewMaxCurrent(),
+			DataSetter.setCurrentData(dcBranch.getData().addNewMaxCurrent(),
 					lineRatingCurrent, CurrentUnitType.AMP);
 		}
 		double r=0.0, l=0.0,c=0.0;
@@ -798,7 +799,7 @@ public class BPABranchRecord {
 		}		
 		
 		if(r!=0.0||x!=0.0){
-			ODMData2XmlHelper.setZValue(dcBranch.getData().addNewLineZ(), r, x, ZUnitType.OHM);
+			DataSetter.setZValue(dcBranch.getData().addNewLineZ(), r, x, ZUnitType.OHM);
 		}
 		String mwControlSide="";
 		if(!strAry[12].equals("")){
@@ -814,29 +815,29 @@ public class BPABranchRecord {
 		if(!strAry[13].equals("")){
 			scheduledMw =new Double(strAry[13]).doubleValue();
 			dcBranch.getData().setControlMode(DCLineDataXmlType.ControlMode.POWER);
-			ODMData2XmlHelper.setPowerData(dcBranch.getData().addNewPowerDemand(), 
+			DataSetter.setPowerData(dcBranch.getData().addNewPowerDemand(), 
 					scheduledMw, 0.0, ApparentPowerUnitType.MVA);
 		}
 		
 		double dcLineRatedVoltage=0.0;
 		if(!strAry[14].equals("")){
 			dcLineRatedVoltage = new Double(strAry[14]).doubleValue();
-			ODMData2XmlHelper.setVoltageData(dcBranch.getData().addNewRatedDVol(),
+			DataSetter.setVoltageData(dcBranch.getData().addNewRatedDVol(),
 					dcLineRatedVoltage, VoltageUnitType.KV);			
 		}
 		double recOperFiringAngle=0.0, invStopFiringAngle=0.0;
 		if(!strAry[15].equals("")){
 			recOperFiringAngle= new Double(strAry[15]).doubleValue();
-			ODMData2XmlHelper.setAngleData(ODMData2XmlHelper.getConverterRecord(rectifierBus,
+			DataSetter.setAngleData(ContainerHelper.getConverterRecord(rectifierBus,
 					baseCaseNet).getData().addNewRectifierOperAngle(), recOperFiringAngle, AngleUnitType.DEG);
-			ODMData2XmlHelper.getConverterRecord(rectifierBus,baseCaseNet).
+			ContainerHelper.getConverterRecord(rectifierBus,baseCaseNet).
 			        setType(ConverterXmlType.Type.RECTIFIER);
 		}
 		if(!strAry[16].equals("")){
 			invStopFiringAngle= new Double(strAry[16]).doubleValue();
-			ODMData2XmlHelper.setAngleData(ODMData2XmlHelper.getConverterRecord(inverterBus,
+			DataSetter.setAngleData(ContainerHelper.getConverterRecord(inverterBus,
 					baseCaseNet).getData().addNewInverterStopAgnle(), invStopFiringAngle, AngleUnitType.DEG);
-			ODMData2XmlHelper.getConverterRecord(rectifierBus,baseCaseNet).
+			ContainerHelper.getConverterRecord(rectifierBus,baseCaseNet).
 	        setType(ConverterXmlType.Type.INVERTER);
 		}
 		double length=0.0;

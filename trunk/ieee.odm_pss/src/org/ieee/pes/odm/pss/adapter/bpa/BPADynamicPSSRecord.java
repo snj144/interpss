@@ -30,8 +30,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
@@ -39,7 +40,7 @@ import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 public class BPADynamicPSSRecord {
 	
 	public static void processPSSData(String str,TransientSimulationXmlType tranSimu,
-    		IEEEODMPSSModelParser parser, BPAAdapter adapter){
+    		ODMModelParser parser, BPAAdapter adapter){
     	final String[] strAry= getPSSDataFields(str,adapter);
     	
     	if(str.substring(0, 3).trim().equals("SS")||str.substring(0, 3).trim().equals("SP")
@@ -64,7 +65,7 @@ public class BPADynamicPSSRecord {
     		pss.addNewLocatedBus().setName(busId);
     		//bus Voltage
     		double v=new Double(strAry[2]).doubleValue();
-    		ODMData2XmlHelper.setVoltageData(pss.addNewBusRatedVoltage(), v, VoltageUnitType.KV);
+    		DataSetter.setVoltageData(pss.addNewBusRatedVoltage(), v, VoltageUnitType.KV);
     		    		
     		//excId
     		String macId="1";
@@ -84,7 +85,7 @@ public class BPADynamicPSSRecord {
     		    		
     		//TQV
     		double TQV=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT1(), TQV, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT1(), TQV, TimePeriodUnitType.SEC);
     				
     		
     		//KQS
@@ -93,37 +94,37 @@ public class BPADynamicPSSRecord {
     		
     		//TQS
     		double TQS= StringUtil.getDouble(strAry[7], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT2(), TQS, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT2(), TQS, TimePeriodUnitType.SEC);
     		
     		//TQ
     		double TQ= StringUtil.getDouble(strAry[8], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT3(), TQ, TimePeriodUnitType.SEC);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT4(), TQ, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT3(), TQ, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT4(), TQ, TimePeriodUnitType.SEC);
     		// TQ1
     		double TQ1= StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT6(), TQ1, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT6(), TQ1, TimePeriodUnitType.SEC);
     		    		
     		//TQ11
     		double TQ11= StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT5(), TQ11, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT5(), TQ11, TimePeriodUnitType.SEC);
     		
     		//TQ2
     		double TQ2= StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT8(), TQ2, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT8(), TQ2, TimePeriodUnitType.SEC);
     		
     		// TQ21
     		double TQ21= StringUtil.getDouble(strAry[12], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT7(), TQ21, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT7(), TQ21, TimePeriodUnitType.SEC);
     		   		
     		
     		//TQ31
     		double TQ31=StringUtil.getDouble(strAry[14], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT9(), TQ31, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT9(), TQ31, TimePeriodUnitType.SEC);
     		    		
     		  		
     		//TQ3
     		double TQ3=StringUtil.getDouble(strAry[13], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(tstpss.addNewT10(), TQ3, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(tstpss.addNewT10(), TQ3, TimePeriodUnitType.SEC);
     		    		
     		//VSMAX
     		double vsmax=StringUtil.getDouble(strAry[15], 0.0);
@@ -160,7 +161,7 @@ public class BPADynamicPSSRecord {
     		pss.addNewLocatedBus().setName(busId);
     		//bus Voltage
     		double v=new Double(strAry[2]).doubleValue();
-    		ODMData2XmlHelper.setVoltageData(pss.addNewBusRatedVoltage(), v, VoltageUnitType.KV);
+    		DataSetter.setVoltageData(pss.addNewBusRatedVoltage(), v, VoltageUnitType.KV);
     		    		
     		//excId
     		String macId="1";
@@ -171,52 +172,52 @@ public class BPADynamicPSSRecord {
     		pss.addNewMacId().setName(macId);
     		//TRW
     		double  trw=StringUtil.getDouble(strAry[4], 0.0);;
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTrw(), trw, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewTrw(), trw, TimePeriodUnitType.SEC);
     		
     		//T5
     		double  t5=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT5(), t5, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT5(), t5, TimePeriodUnitType.SEC);
     		//T6
     		double  t6=StringUtil.getDouble(strAry[6], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT6(), t6, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT6(), t6, TimePeriodUnitType.SEC);
     		
     		//T7
     		double  t7=StringUtil.getDouble(strAry[7], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT7(), t7, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT7(), t7, TimePeriodUnitType.SEC);
     		
     		//KR
     		double kr= StringUtil.getDouble(strAry[8], 0.0);
     		dualInputPss.setKr(kr);    		
     		// TRP
     		double  trp=StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTrp(), trp, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewTrp(), trp, TimePeriodUnitType.SEC);
     		
     		//TW
     		double  tw=StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTW(), tw, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewTW(), tw, TimePeriodUnitType.SEC);
     		
     		//TW1
     		double  tw1=StringUtil.getDouble(strAry[11], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTW1(), tw1, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewTW1(), tw1, TimePeriodUnitType.SEC);
     		
     		// TW2
     		double  tw2=StringUtil.getDouble(strAry[12], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewTW2(), tw2, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewTW2(), tw2, TimePeriodUnitType.SEC);
     		
     		//KS
     		double ks= StringUtil.getDouble(strAry[13], 0.0);
     		dualInputPss.setKS(ks);    	
     		//T9
     		double  t9=StringUtil.getDouble(strAry[14], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT9(), t9, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT9(), t9, TimePeriodUnitType.SEC);
     		
     		//T10
     		double t10=StringUtil.getDouble(strAry[15], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT10(), t10, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT10(), t10, TimePeriodUnitType.SEC);
     		
     		//T12
     		double t12=StringUtil.getDouble(strAry[16], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT12(), t12, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT12(), t12, TimePeriodUnitType.SEC);
     	
     		//INP input signal:0for w and Pg, 1 for w, 2for pg
     		int INP=StringUtil.getInt(strAry[17], 0);
@@ -244,7 +245,7 @@ public class BPADynamicPSSRecord {
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
     		}    		
-    		StabilizerXmlType pss=ODMData2XmlHelper.getPSSRecord(tranSimu, busId, macId);
+    		StabilizerXmlType pss=ContainerHelper.getPSSRecord(tranSimu, busId, macId);
     		PssIEEEDualInputXmlType dualInputPss=pss
                       .getStabilizerModel().getIEEEDualInput();
     		
@@ -253,26 +254,26 @@ public class BPADynamicPSSRecord {
     		double kp= StringUtil.getDouble(strAry[4], 0.0);    		
     		//T1
     		double  t1=StringUtil.getDouble(strAry[5], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT1(), t1, TimePeriodUnitType.SEC);    		
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT1(), t1, TimePeriodUnitType.SEC);    		
     		//T2
     		double  t2=StringUtil.getDouble(strAry[6], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT2(), t2, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT2(), t2, TimePeriodUnitType.SEC);
     		
     		//T13
     		double  t13=StringUtil.getDouble(strAry[7], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT13(), t13, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT13(), t13, TimePeriodUnitType.SEC);
     	
     		//T14
     		double  t14=StringUtil.getDouble(strAry[8], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT14(), t14, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT14(), t14, TimePeriodUnitType.SEC);
     		
     		// T3
     		double  t3=StringUtil.getDouble(strAry[9], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT3(), t3, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT3(), t3, TimePeriodUnitType.SEC);
     		
     		//T4
     		double  t4=StringUtil.getDouble(strAry[10], 0.0);
-    		ODMData2XmlHelper.setTimePeriodData(dualInputPss.addNewT4(), t4, TimePeriodUnitType.SEC);
+    		DataSetter.setTimePeriodData(dualInputPss.addNewT4(), t4, TimePeriodUnitType.SEC);
     		
     		//VSMAX
     		double vsmax= StringUtil.getDouble(strAry[11], 0.0);

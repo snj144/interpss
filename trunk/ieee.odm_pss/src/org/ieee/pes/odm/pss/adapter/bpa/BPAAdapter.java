@@ -39,8 +39,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 
@@ -56,14 +57,14 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		super(logger);
 	}
 	 
-	protected IEEEODMPSSModelParser parseInputFile(
+	protected ODMModelParser parseInputFile(
 			final java.io.BufferedReader din) throws Exception {
 		
 		String str="";
 		// first line, as a sign to run power flow data or transient data
 		str=din.readLine();	
 		
-		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser();
+		ODMModelParser parser = new ODMModelParser();
 
 		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
 		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.BPA);
@@ -225,12 +226,12 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			final String[] strAry = getNetDataFields(str);			
 	        //read powerflow, caseID,projectName, 			
 			if (strAry[0]!= null ){
-				ODMData2XmlHelper.addNVPair(nvList, strAry[0], strAry[1]);
+				ContainerHelper.addNVPair(nvList, strAry[0], strAry[1]);
 				getLogger().fine(strAry[0] +": " + strAry[1]);
 			}
 			
 			if (strAry[2]!= null ){
-				ODMData2XmlHelper.addNVPair(nvList, strAry[2], strAry[4]);
+				ContainerHelper.addNVPair(nvList, strAry[2], strAry[4]);
 				getLogger().fine(strAry[2]+": " + strAry[4] );
 			}			
 			// more name-vale could be added in future 
@@ -252,7 +253,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	 *   ================ 
 	 */
 
-	private void processAreaData(final String str,final IEEEODMPSSModelParser parser ,
+	private void processAreaData(final String str,final ODMModelParser parser ,
 			final PSSNetworkXmlType baseCaseNet,BPAAdapter adapter, int areaId	) {
 		
 		final String[] strAry = getAreaDataFields(str, adapter);
@@ -288,7 +289,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			}
             double exchangeMW=0.0;
             if(!strAry[5].equals("")){            	
-            	ODMData2XmlHelper.setPowerData(area.addNewTotalExchangePower(),
+            	DataSetter.setPowerData(area.addNewTotalExchangePower(),
             			           exchangeMW, 0, ApparentPowerUnitType.MVA);            	
             }            
             if(!strAry[6].trim().equals("")){
@@ -320,7 +321,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			}
 			if(!strAry[2].trim().equals("")){
 				String areaName=strAry[2];
-				NetAreaXmlType area=ODMData2XmlHelper.
+				NetAreaXmlType area=ContainerHelper.
 				                                 getAreaRecordByAreaName(areaName, baseCaseNet);
 				if(area==null){
 					area.setName(areaName);
@@ -351,11 +352,11 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				exchangePower= new Double(strAry[4]).doubleValue();				
 			}			
 			if(!fBus.equals("")&& exchangePower!=0){				
-				NetAreaXmlType area=ODMData2XmlHelper.
+				NetAreaXmlType area=ContainerHelper.
 				getAreaRecordByAreaName(fBus, baseCaseNet);	
 				NetAreaXmlType.ExchangePower exchange=area.addNewExchangePower();
 				exchange.setToArea(tBus);
-				ODMData2XmlHelper.setPowerData(exchange.addNewExchangePower(),
+				DataSetter.setPowerData(exchange.addNewExchangePower(),
      			    exchangePower, 0, ApparentPowerUnitType.MVA);				
 			}			
 		}	

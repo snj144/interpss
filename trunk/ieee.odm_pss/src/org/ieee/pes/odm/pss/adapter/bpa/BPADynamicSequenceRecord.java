@@ -31,8 +31,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SubTransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
@@ -40,7 +40,7 @@ import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 public class BPADynamicSequenceRecord {
 
 	public static void processSequenceData(String str, TransientSimulationXmlType tranSimu
-			,IEEEODMPSSModelParser parser, BPAAdapter adapter){				
+			,ODMModelParser parser, BPAAdapter adapter){				
 		
 		final String strAry[]=getSequenceDataFields(str,adapter);
 		// positive sequence data		
@@ -171,7 +171,7 @@ public class BPADynamicSequenceRecord {
 		}
 	}
 	
-	public static void processNegativeData(IEEEODMPSSModelParser parser,
+	public static void processNegativeData(ODMModelParser parser,
 			TransientSimulationXmlType tranSimu){
 		
 		// negative sequence generator data

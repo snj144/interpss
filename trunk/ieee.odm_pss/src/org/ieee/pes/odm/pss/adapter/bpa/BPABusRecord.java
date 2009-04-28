@@ -39,7 +39,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPABusRecord {
@@ -83,7 +84,7 @@ public class BPABusRecord {
 		if(!strAry[4].equals("")){
 			baseKv= new Double(strAry[4]).doubleValue();
 		}
-		ODMData2XmlHelper.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
+		DataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 		
 		
 		//zone name
@@ -168,12 +169,12 @@ public class BPABusRecord {
 			LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
 			// set G B
 			if (g != 0.0 || b != 0.0) {
-				ODMData2XmlHelper.setYData(busData.addNewShuntY(), g, b,
+				DataSetter.setYData(busData.addNewShuntY(), g, b,
 						YUnitType.MHO);
 			}	
 			// set load
 			if (loadMw != 0.0 || loadMvar != 0.0) {
-				ODMData2XmlHelper.setLoadData(busData,
+				DataSetter.setLoadData(busData,
 						LFLoadCodeEnumType.CONST_P, loadMw,
 						loadMvar, ApparentPowerUnitType.MVA);
 			}
@@ -184,31 +185,31 @@ public class BPABusRecord {
 					if(vpu>10){
 						vpu=vpu/1000;
 					}
-					ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
+					DataSetter.setVoltageData(busData.addNewVoltage(), vpu,
 							VoltageUnitType.PU);
 				}
 				// set bus angle
-				ODMData2XmlHelper.setAngleData(busData.addNewAngle(), vMinOrAngDeg,
+				DataSetter.setAngleData(busData.addNewAngle(), vMinOrAngDeg,
 						AngleUnitType.DEG);
 				//set gen data
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){				
-					ODMData2XmlHelper.setGenData(busData,
+					DataSetter.setGenData(busData,
 							LFGenCodeEnumType.SWING, pGen, 0.0,
 							ApparentPowerUnitType.MVA);
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
-					ODMData2XmlHelper.setGenQLimitData(busData.getGenData(), 
+					DataSetter.setGenQLimitData(busData.getGenData(), 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR);				
 				}
 				// set P limit
 				if(pGenMax!=0.0){
-					ODMData2XmlHelper.setActivePowerLimitData(busData.getGenData().getEquivGen().addNewPLimit(),
+					DataSetter.setActivePowerLimitData(busData.getGenData().getEquivGen().addNewPLimit(),
 							pGenMax, 0, ActivePowerUnitType.MW);
 				}	
 			}else if(busType==pqBus){			
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
-					ODMData2XmlHelper.setGenData(busData,
+					DataSetter.setGenData(busData,
 							LFGenCodeEnumType.PQ, pGen, qGenOrQGenMax,
 							ApparentPowerUnitType.MVA);
 				}
@@ -218,7 +219,7 @@ public class BPABusRecord {
 					if(busData.getGenData()==null){
 						busData.addNewGenData().addNewEquivGen();
 					}
-				    ODMData2XmlHelper.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(),
+				    DataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(),
 						 vpu, vMinOrAngDeg, VoltageUnitType.PU);
 				    }			
 			}else if(busType==pvBus){
@@ -227,23 +228,23 @@ public class BPABusRecord {
 					if(vpu>10){
 						vpu=vpu/1000;
 					}
-					ODMData2XmlHelper.setVoltageData(busData.addNewVoltage(), vpu,
+					DataSetter.setVoltageData(busData.addNewVoltage(), vpu,
 							VoltageUnitType.PU);
 				}
 				// set gen data
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
-					ODMData2XmlHelper.setGenData(busData,
+					DataSetter.setGenData(busData,
 							LFGenCodeEnumType.PV, pGen, 0.0,
 							ApparentPowerUnitType.MVA);
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
-					ODMData2XmlHelper.setGenQLimitData(busData.getGenData(), 
+					DataSetter.setGenQLimitData(busData.getGenData(), 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR);				
 				}
 				// set P limit
 				if(pGenMax!=0.0){
-					ODMData2XmlHelper.setActivePowerLimitData(busData.getGenData().getEquivGen().addNewPLimit(),
+					DataSetter.setActivePowerLimitData(busData.getGenData().getEquivGen().addNewPLimit(),
 							pGenMax, 0, ActivePowerUnitType.MW);
 				}	
 				
@@ -259,7 +260,7 @@ public class BPABusRecord {
 			if(strAry[0].equals("BG")||strAry[0].equals("BX")){
 				if(!controlledBus.equals("")) {			
 					busData.getGenData().getEquivGen().addNewRemoteVoltageControlBus().setIdRef(controlledBus);
-					ODMData2XmlHelper.setVoltageData(busData.getGenData().getEquivGen().addNewDesiredVoltage(),
+					DataSetter.setVoltageData(busData.getGenData().getEquivGen().addNewDesiredVoltage(),
 							vpu, VoltageUnitType.PU);
 				}
 			}
@@ -322,28 +323,28 @@ public class BPABusRecord {
 		converter.addNewBusId().setName(converterBus);
 		converter.getData().setZoneNumber(new Integer(zone).intValue());
 		// set converter ac side voltage
-		ODMData2XmlHelper.setVoltageData(converter.getData().addNewAcSideRatedVoltage(), 
+		DataSetter.setVoltageData(converter.getData().addNewAcSideRatedVoltage(), 
 				converterACSideVoltage, VoltageUnitType.KV);
 		// bridges
 		converter.getData().setNumberofBridges(brdgsPerBrckt);
 		// set smooth reactor
-		ODMData2XmlHelper.setZValue(converter.getData().addNewSmoothingReactor(),
+		DataSetter.setZValue(converter.getData().addNewSmoothingReactor(),
 				0.0, smoothReactance, ZUnitType.OHM);
 		//set min firing angle as a converter
-		ODMData2XmlHelper.setAngleData(converter.getData().addNewRectifierMinFiringAngle(),
+		DataSetter.setAngleData(converter.getData().addNewRectifierMinFiringAngle(),
 				converterMinFiringAngle, AngleUnitType.DEG);
 		//set max firing angle as a inverter
-		ODMData2XmlHelper.setAngleData(converter.getData().addNewInverterMaxFiringAngle(),
+		DataSetter.setAngleData(converter.getData().addNewInverterMaxFiringAngle(),
 				inverterMaxFiringAngle, AngleUnitType.DEG);
 		// set valve voltage drop
-		ODMData2XmlHelper.setVoltageData(converter.getData().addNewValveDropVoltage(), 
+		DataSetter.setVoltageData(converter.getData().addNewValveDropVoltage(), 
 				valveDropVoltage, VoltageUnitType.VOLT);
 		// set current rating
-		ODMData2XmlHelper.setCurrentData(converter.getData().addNewBridgeRatedCurrent(), 
+		DataSetter.setCurrentData(converter.getData().addNewBridgeRatedCurrent(), 
 				brdgesCurrentRating, CurrentUnitType.AMP);
 		// set commutating station bus and DC side voltage
 		converter.getData().addNewConmmutationStationBus().setName(commutatingBus);
-	    ODMData2XmlHelper.setVoltageData(converter.getData().addNewDcSdieRatedV(),
+	    DataSetter.setVoltageData(converter.getData().addNewDcSdieRatedV(),
 	    		commutatingBusDCSideVol, VoltageUnitType.KV);
 	}
 	

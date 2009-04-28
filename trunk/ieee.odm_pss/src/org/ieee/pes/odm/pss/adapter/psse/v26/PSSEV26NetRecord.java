@@ -32,7 +32,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
-import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV26NetRecord {
@@ -48,16 +49,16 @@ public class PSSEV26NetRecord {
 		
 		final double baseMva = StringUtil.getDouble(strAry[1], 100.0);
 	    logger.fine("BaseKva: "  + baseMva);
-		ODMData2XmlHelper.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
+	    DataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
 
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		ODMData2XmlHelper.addNVPair(nvList, Token_CaseDesc, desc);     
+		ContainerHelper.addNVPair(nvList, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		ODMData2XmlHelper.addNVPair(nvList, Token_CaseId, caseId);				
+		ContainerHelper.addNVPair(nvList, Token_CaseId, caseId);				
 		logger.fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
@@ -83,8 +84,8 @@ public class PSSEV26NetRecord {
 		interchange.setAreaNumber(no);
 
 		interchange.addNewSwingBus().setIdRef(swingBusName);
-		ODMData2XmlHelper.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
-		ODMData2XmlHelper.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
+		DataSetter.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
+		DataSetter.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
 	}
 	
 	public static  void processZoneData(final String str,
