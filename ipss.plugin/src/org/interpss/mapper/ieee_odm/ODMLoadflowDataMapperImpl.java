@@ -154,17 +154,19 @@ public class ODMLoadflowDataMapperImpl {
 							AclfLoadCode.CONST_I : (busXmlData.getLoadData().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 									AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
 			LoadBusAdapter loadBus = (LoadBusAdapter) aclfBus.getAdapter(LoadBusAdapter.class);
-			LoadflowLoadDataXmlType xmlEquivLoad = busXmlData.getLoadData().addNewEquivLoad();
-			PowerXmlType p;
-			if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)
-				p = xmlEquivLoad.getConstPLoad();
-			else if (aclfBus.getLoadCode() == AclfLoadCode.CONST_I)
-				p = xmlEquivLoad.getConstILoad();
-			else	
-				p = xmlEquivLoad.getConstZLoad();
-			if (p != null)
-				loadBus.setLoad(new Complex(p.getRe(), p.getIm()),
-						ODMXmlHelper.toUnit(p.getUnit()), adjNet.getBaseKva());
+			LoadflowLoadDataXmlType xmlEquivLoad = busXmlData.getLoadData().getEquivLoad();
+			if (xmlEquivLoad != null) {
+				PowerXmlType p;
+				if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)
+					p = xmlEquivLoad.getConstPLoad();
+				else if (aclfBus.getLoadCode() == AclfLoadCode.CONST_I)
+					p = xmlEquivLoad.getConstILoad();
+				else	
+					p = xmlEquivLoad.getConstZLoad();
+				if (p != null)
+					loadBus.setLoad(new Complex(p.getRe(), p.getIm()),
+							ODMXmlHelper.toUnit(p.getUnit()), adjNet.getBaseKva());
+			}
 		} else {
 			aclfBus.setLoadCode(AclfLoadCode.NON_LOAD);
 		}
@@ -244,7 +246,7 @@ public class ODMLoadflowDataMapperImpl {
 			aclfBra.setToShuntY(ypu);
 		}
 
-		if (braXmlData.getRatingLimit() != null) {
+		if (braXmlData.getRatingLimit() != null && braXmlData.getRatingLimit().getMva() != null) {
 			double factor = 1.0;
 			if (braXmlData.getRatingLimit().getMva().getUnit() == ApparentPowerUnitType.PU)
 				factor = baseKva * 0.001;
