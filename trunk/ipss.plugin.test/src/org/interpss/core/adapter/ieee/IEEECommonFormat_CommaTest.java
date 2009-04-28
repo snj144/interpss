@@ -41,7 +41,7 @@ public class IEEECommonFormat_CommaTest extends BaseTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = IpssAdapter.importAclfNet()
-					.setFormat(IpssAdapter.Format.IEEECommonFormat)
+					.setFormat(IpssAdapter.FileFormat.IEEECommonFormat)
 					.getAdapter();
 		
 		AclfNetwork net = IpssAdapter.wrapAdapter(adapter)
