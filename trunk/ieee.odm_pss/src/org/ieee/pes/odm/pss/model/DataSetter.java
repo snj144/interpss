@@ -318,7 +318,7 @@ public class DataSetter {
 			double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
 		setZValue(xfrData.addNewZ(), r, x, zUnit);
 		setTapPU(xfrData.addNewFromTap(), fromTap);
-		setTapPU(xfrData.addNewToTap(), fromTap);
+		setTapPU(xfrData.addNewToTap(), toTap);
 		if (gFrom != 0.0 || bFrom != 0.0)
 			setYData(xfrData.addNewFromShuntY(),
 					gFrom, bFrom, yUnit);

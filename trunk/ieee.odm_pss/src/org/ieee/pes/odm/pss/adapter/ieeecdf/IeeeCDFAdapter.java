@@ -373,9 +373,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		if (type > 0) {
 			if (angle == 0.0) {
 				DataSetter.createXformerData(branchRec.getLoadflowData(),
-						rpu, xpu, ZUnitType.PU, 1.0, 1.0, 
+						rpu, xpu, ZUnitType.PU, ratio, 1.0, 
 						0.0, bpu, 0.0, 0.0, YUnitType.PU);
-				DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewFromTap(), ratio);
 				BusRecordXmlType fromBusRec = ContainerHelper.findBusRecord(fid, baseCaseNet);
 				BusRecordXmlType toBusRec = ContainerHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
@@ -390,13 +389,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 			} else {
 				DataSetter.createPhaseShiftXfrData(branchRec
 						.getLoadflowData(), rpu, xpu, ZUnitType.PU,
-						1.0, 1.0, 0.0, 0.0, AngleUnitType.DEG,
+						ratio, 1.0, angle, 0.0, AngleUnitType.DEG,
 						0.0, bpu, 0.0, 0.0, YUnitType.PU);
-				DataSetter.setTapPU(branchRec.getLoadflowData().getPhaseShiftXfrData().addNewFromTap()
-						, ratio);
-				DataSetter.setAngleData(branchRec.getLoadflowData()
-						.getPhaseShiftXfrData().addNewFromAngle(), angle,
-						AngleUnitType.DEG);
 				BusRecordXmlType fromBusRec = ContainerHelper.findBusRecord(fid, baseCaseNet);
 				BusRecordXmlType toBusRec = ContainerHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
