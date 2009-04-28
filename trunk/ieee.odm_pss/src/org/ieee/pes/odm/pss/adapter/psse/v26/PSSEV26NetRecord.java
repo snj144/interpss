@@ -33,26 +33,20 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.pes.odm.pss.model.ODMData2XmlHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV26NetRecord {
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";	
 	
-	public static boolean processHeaderData(final String str,final String str2,final String str3,
+	public static boolean processHeaderData(final String str1,final String str2,final String str3,
 			final PSSNetworkXmlType baseCaseNet, Logger logger) throws Exception {
-		// parse the input data line
 		//line 1 at here we have "0, 100.00 "		
-		/*
-		 * String[0] indicator
-		 * String[1] baseKav
-		 * String[2] comments
-		 * String[3] comments
-		 */
-		final String[] strAry = getHeaderDataFields(str,str2,str3, logger);
+		final String[] strAry = getHeaderDataFields(str1,str2,str3, logger);
 		if (strAry == null)
 			return false;
 		
-		final double baseMva = new Double(strAry[1]).doubleValue();
+		final double baseMva = StringUtil.getDouble(strAry[1], 100.0);
 	    logger.fine("BaseKva: "  + baseMva);
 		ODMData2XmlHelper.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
 
@@ -72,15 +66,17 @@ public class PSSEV26NetRecord {
 	public static  void processAreaInterchangeData(final String str,
 			final PSSNetworkXmlType baseCaseNet) {
 		final String[] strAry = getAreaInterchangeDataFields(str);
+		
 		//     Area number , no zeros! *
-		final int no = new Integer(strAry[0]).intValue();
+		final int no = StringUtil.getInt(strAry[0], 0);
+		
 		//       swing bus name [A]
 		final String swingBusName = strAry[1];
 
 		//        Area interchange export, MW [F] (+ = out) *
 		//        Area interchange tolerance, MW [F] *
-		final double mw = new Double(strAry[2]).doubleValue();
-		final double err = new Double(strAry[3]).doubleValue();
+		final double mw = StringUtil.getDouble(strAry[2], 0.0);
+		final double err = StringUtil.getDouble(strAry[3], 0.0);
     
 		PowerInterchangeXmlType interchange = baseCaseNet.addNewInterchangeList().addNewInterchange().addNewPowerEx();
 	
@@ -144,7 +140,8 @@ public class PSSEV26NetRecord {
 		
 		if (lineStr2!= null){
 			strAry[2] = lineStr2;
-		}else {strAry[2] =""; }
+		} else {strAry[2] =""; }
+		
 		if (lineStr3!= null){
 			strAry[3] = lineStr3;
 		}else {strAry[3] =""; }
@@ -154,76 +151,33 @@ public class PSSEV26NetRecord {
 	
 	private static String[] getAreaInterchangeDataFields(final String lineStr) {
 		final String[] strAry = new String[5];
-		/*
-		I,ISW,PDES,PTOL,'ARNAM'
-        */
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
- 		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
-  		strAry[2]=st.nextToken().trim();
-  		strAry[3]=st.nextToken().trim();
-  		strAry[4]=st.nextToken().trim();
-  		
+  		for (int i = 0; i < 5; i++)
+  			strAry[i]=st.nextToken().trim();
   		return strAry;
 	}
 	
-	//private static String[] getTwoTerminalDCLineDataFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-     // }
-	//private static String[] getVSCDCLineDataFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-     //  }
-	
-	//private static String[] getSwitchedShuntDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-     //  }
-	//private static String[] getImpedenceCorrectionDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-    //   }
-	/*private static String[] getMultiTerminalDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-       }
-	private static String[] getMultiSectionLineDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-      }*/ 
 	private static  String[] getZoneDataFields(final String lineStr) {
 		final String[] strAry = new String[2];	
-		/*
-		 * Format: I, Name
-		 */
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
+  		for (int i = 0; i < 2; i++)
+  			strAry[i]=st.nextToken().trim();
   		return strAry;
        }
 	
 	private static  String[] getInterAreaTransferDataFields(final String lineStr) {
-		final String[] strAry = new String[5];	
-		/*
-		 * format: ARFROM, ARTO, TRID, PTRAN
-		 */
+		final String[] strAry = new String[4];	
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
-  		strAry[2]=st.nextToken().trim();
-  		strAry[3]=st.nextToken().trim();
+  		for (int i = 0; i < 4; i++)
+  			strAry[i]=st.nextToken().trim();
   		return strAry;
 
        }
 	private static  String[] getOwnerDataFields(final String lineStr) {
 		final String[] strAry = new String[2];	
-		/*
-		 * format : I, Name
-		 */
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
+  		for (int i = 0; i < 2; i++)
+  			strAry[i]=st.nextToken().trim();
   		return strAry;
 	}
 

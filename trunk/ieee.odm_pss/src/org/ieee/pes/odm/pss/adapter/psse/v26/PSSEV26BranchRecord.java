@@ -44,9 +44,6 @@ public class PSSEV26BranchRecord {
 		/*
 		I,    J,    CKT, R,      X,        B,     RATEA,RATEB,RATEC,RATIO,ANGLE,GI,BI,GJ,BJ,ST  LEN,O1,F1,...,O4,F4
 		31962,32156,' 1',0,      0.444445, 0,     30,   30,   0,    1,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Transformer_798]
-		32218,32219,' 1',0.0005, 0.0005,   0,     100,  100,  0,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0,[Compensator_125] 
-		32062,32058,' 1',0.03359,0.01968,  0,     21,   24,   0,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1, 0,0,0,0,0,0, [Conductor_406]  
-        90121,37012,' 1',0,      0.00005,  0,     99999,99999, ,    0,    0,    0, 0, 0, 0, 1,  0,  1, 1,0,0,0,0,0,0,
 
 		I - From bus number
 		J - To bus number
@@ -79,9 +76,9 @@ public class PSSEV26BranchRecord {
         //      Branch resistance R, per unit  *
 		//      Branch reactance X, per unit  * No zero impedance lines
 		//    	Line charging B, per unit  * (total line charging, +B), Xfr B is negative
-		final double rpu = new Double(strAry[3]).doubleValue();
-		final double xpu = new Double(strAry[4]).doubleValue();
-		final double bpu = new Double(strAry[5]).doubleValue();
+		final double rpu = StringUtil.getDouble(strAry[3], 0.0);
+		final double xpu = StringUtil.getDouble(strAry[4], 0.0);
+		final double bpu = StringUtil.getDouble(strAry[5], 0.0);
 		
 		final double ratio = StringUtil.getDouble(strAry[9], 0.0);
 		final double angle = StringUtil.getDouble(strAry[10], 0.0);;
@@ -111,8 +108,8 @@ public class PSSEV26BranchRecord {
 				null);
 		
 		//From side shuntY
-		final double GI= new Double(strAry[11]).doubleValue();
-		final double BI= new Double(strAry[12]).doubleValue();
+		final double GI= StringUtil.getDouble(strAry[11], 0.0);
+		final double BI= StringUtil.getDouble(strAry[12], 0.0);
         if(GI!=0.0 || BI!=0.0 )  {
         	YXmlType y;
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
@@ -125,8 +122,8 @@ public class PSSEV26BranchRecord {
         }
 
 	    //To side shuntY
-		final double GJ= new Double(strAry[13]).doubleValue();
-		final double BJ= new Double(strAry[14]).doubleValue();
+		final double GJ= StringUtil.getDouble(strAry[13], 0.0);
+		final double BJ= StringUtil.getDouble(strAry[14], 0.0);
 	    if(GJ!=0.0 || BJ!=0.0)  {
         	YXmlType y;
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
@@ -175,6 +172,5 @@ public class PSSEV26BranchRecord {
 		}
 				
 		return strAry;
-	
 	}
 }
