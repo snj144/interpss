@@ -62,7 +62,7 @@ public class IEEE14Test extends BaseTestSetup {
   		 */
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
-  		//System.out.println(net.net2String());
+  		System.out.println(net.net2String());
 	  	
 	  	/*
 	  	 * Check if loadflow has converged

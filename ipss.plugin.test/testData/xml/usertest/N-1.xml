@@ -28,8 +28,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>breakline_No1</ipss:recId>
-							<ipss:fromBusId>No1</ipss:fromBusId>
-							<ipss:toBusId>No2</ipss:toBusId>
+							<ipss:fromBusId>Bus1</ipss:fromBusId>
+							<ipss:toBusId>Bus2</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -39,8 +39,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_2</ipss:recId>
-							<ipss:fromBusId>No1</ipss:fromBusId>
-							<ipss:toBusId>No5</ipss:toBusId>
+							<ipss:fromBusId>Bus1</ipss:fromBusId>
+							<ipss:toBusId>Bus5</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -51,8 +51,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_3</ipss:recId>
-							<ipss:fromBusId>No2</ipss:fromBusId>
-							<ipss:toBusId>No3</ipss:toBusId>
+							<ipss:fromBusId>Bus2</ipss:fromBusId>
+							<ipss:toBusId>Bus3</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -62,8 +62,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_4</ipss:recId>
-							<ipss:fromBusId>No2</ipss:fromBusId>
-							<ipss:toBusId>No4</ipss:toBusId>
+							<ipss:fromBusId>Bus2</ipss:fromBusId>
+							<ipss:toBusId>Bus4</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -73,8 +73,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_5</ipss:recId>
-							<ipss:fromBusId>No2</ipss:fromBusId>
-							<ipss:toBusId>No5</ipss:toBusId>
+							<ipss:fromBusId>Bus2</ipss:fromBusId>
+							<ipss:toBusId>Bus5</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -85,8 +85,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_6</ipss:recId>
-							<ipss:fromBusId>No3</ipss:fromBusId>
-							<ipss:toBusId>No4</ipss:toBusId>
+							<ipss:fromBusId>Bus3</ipss:fromBusId>
+							<ipss:toBusId>Bus4</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -96,8 +96,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_7</ipss:recId>
-							<ipss:fromBusId>No4</ipss:fromBusId>
-							<ipss:toBusId>No5</ipss:toBusId>
+							<ipss:fromBusId>Bus4</ipss:fromBusId>
+							<ipss:toBusId>Bus5</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -107,8 +107,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_8</ipss:recId>
-							<ipss:fromBusId>No4</ipss:fromBusId>
-							<ipss:toBusId>No7</ipss:toBusId>
+							<ipss:fromBusId>Bus4</ipss:fromBusId>
+							<ipss:toBusId>Bus7</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -118,8 +118,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_9</ipss:recId>
-							<ipss:fromBusId>No4</ipss:fromBusId>
-							<ipss:toBusId>No9</ipss:toBusId>
+							<ipss:fromBusId>Bus4</ipss:fromBusId>
+							<ipss:toBusId>Bus9</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -130,8 +130,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_10</ipss:recId>
-							<ipss:fromBusId>No5</ipss:fromBusId>
-							<ipss:toBusId>No6</ipss:toBusId>
+							<ipss:fromBusId>Bus5</ipss:fromBusId>
+							<ipss:toBusId>Bus6</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -141,8 +141,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_11</ipss:recId>
-							<ipss:fromBusId>No6</ipss:fromBusId>
-							<ipss:toBusId>No11</ipss:toBusId>
+							<ipss:fromBusId>Bus6</ipss:fromBusId>
+							<ipss:toBusId>Bus11</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -152,8 +152,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_12</ipss:recId>
-							<ipss:fromBusId>No6</ipss:fromBusId>
-							<ipss:toBusId>No12</ipss:toBusId>
+							<ipss:fromBusId>Bus6</ipss:fromBusId>
+							<ipss:toBusId>Bus12</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -163,40 +163,19 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_13</ipss:recId>
-							<ipss:fromBusId>No6</ipss:fromBusId>
-							<ipss:toBusId>No13</ipss:toBusId>
+							<ipss:fromBusId>Bus6</ipss:fromBusId>
+							<ipss:toBusId>Bus13</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
-<!--	
-			<ipss:aclfStudyCase>
-				<ipss:recId>breakline_14</ipss:recId>
-				<ipss:modification>
-					<ipss:branchChangeRecList>
-						<ipss:branchChangeRec>
-							<ipss:recId>line_14</ipss:recId>
-							<ipss:fromBusId>No7</ipss:fromBusId>
-							<ipss:toBusId>No8</ipss:toBusId>
-							<ipss:offLine>true</ipss:offLine>
-						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
-				<ipss:lfMethod>NR</ipss:lfMethod>
-				<ipss:maxIterations>20</ipss:maxIterations>
-				<ipss:tolerance>10.0</ipss:tolerance>
-				<ipss:toleranceUnit>KVA</ipss:toleranceUnit>
-				<ipss:initBusVoltage>true</ipss:initBusVoltage>
-				<ipss:diaplaySummary>true</ipss:diaplaySummary>
-				<ipss:accFactor>0.0</ipss:accFactor>
-			</ipss:aclfStudyCase>
--->
-
 			<ipss:aclfStudyCase>
 				<ipss:recId>breakline_15</ipss:recId>
 				<ipss:modification>
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_15</ipss:recId>
-							<ipss:fromBusId>No7</ipss:fromBusId>
-							<ipss:toBusId>No9</ipss:toBusId>
+							<ipss:fromBusId>Bus7</ipss:fromBusId>
+							<ipss:toBusId>Bus9</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -206,8 +185,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_16</ipss:recId>
-							<ipss:fromBusId>No9</ipss:fromBusId>
-							<ipss:toBusId>No10</ipss:toBusId>
+							<ipss:fromBusId>Bus9</ipss:fromBusId>
+							<ipss:toBusId>Bus10</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -217,8 +196,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_17</ipss:recId>
-							<ipss:fromBusId>No9</ipss:fromBusId>
-							<ipss:toBusId>No14</ipss:toBusId>
+							<ipss:fromBusId>Bus9</ipss:fromBusId>
+							<ipss:toBusId>Bus14</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -228,8 +207,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_18</ipss:recId>
-							<ipss:fromBusId>No10</ipss:fromBusId>
-							<ipss:toBusId>No11</ipss:toBusId>
+							<ipss:fromBusId>Bus10</ipss:fromBusId>
+							<ipss:toBusId>Bus11</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -239,8 +218,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_19</ipss:recId>
-							<ipss:fromBusId>No12</ipss:fromBusId>
-							<ipss:toBusId>No13</ipss:toBusId>
+							<ipss:fromBusId>Bus12</ipss:fromBusId>
+							<ipss:toBusId>Bus13</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
@@ -250,8 +229,8 @@
 					<ipss:branchChangeRecList>
 						<ipss:branchChangeRec>
 							<ipss:recId>line_20</ipss:recId>
-							<ipss:fromBusId>No13</ipss:fromBusId>
-							<ipss:toBusId>No14</ipss:toBusId>
+							<ipss:fromBusId>Bus13</ipss:fromBusId>
+							<ipss:toBusId>Bus14</ipss:toBusId>
 							<ipss:offLine>true</ipss:offLine>
 						</ipss:branchChangeRec></ipss:branchChangeRecList></ipss:modification>
 			</ipss:aclfStudyCase>
