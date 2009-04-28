@@ -26,7 +26,7 @@ package org.interpss.custom.ieee_odm;
 
 import java.io.File;
 
-import org.ieee.pes.odm.pss.model.IEEEODMPSSModelParser;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.interpss.custom.exchange.IpssFileAdapterBase;
 import org.interpss.mapper.IEEEODMMapper;
 
@@ -49,7 +49,7 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 	@Override
 	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
 		final File xmlFile = new File(filepath);
-		IEEEODMPSSModelParser parser = new IEEEODMPSSModelParser(xmlFile);
+		ODMModelParser parser = new ODMModelParser(xmlFile);
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		if (mapper.mapping(parser, simuCtx, SimuContext.class)) {
   	  		simuCtx.setName(filepath.substring(filepath.lastIndexOf(File.separatorChar)+1));
