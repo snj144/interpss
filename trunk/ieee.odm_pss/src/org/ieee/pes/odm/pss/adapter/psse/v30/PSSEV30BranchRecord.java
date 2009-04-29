@@ -21,30 +21,31 @@
  *   ================
  *
  */
-package org.ieee.pes.odm.pss.adapter.psse;
+package org.ieee.pes.odm.pss.adapter.psse.v30;
 
 import java.util.StringTokenizer;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
-public class PSSEBranchRecord {
-	public static  void processLineData(final String str, final BranchRecordXmlType branchRec, PSSEAdapter adapter) {
+public class PSSEV30BranchRecord {
+	public static  void processLineData(final String str, final BranchRecordXmlType branchRec, PSSEV30Adapter adapter) {
 		//I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
 		
 		// parse the input data line	
@@ -102,7 +103,7 @@ public class PSSEBranchRecord {
 	}
    
 	public static  void processXformerData(final String str,final String str2,final String str3,
-			final String str4,final BranchRecordXmlType branchRec, PSSNetworkXmlType baseCaseNet, PSSEAdapter adapter) {
+			final String str4,final BranchRecordXmlType branchRec, PSSNetworkXmlType baseCaseNet, PSSEV30Adapter adapter) {
 		 final String[] strAry = getXformerDataFields(str,str2,str3,str4);
 /*
 	The five record transformer data block for three-winding transformers has the following format:
@@ -306,7 +307,7 @@ public class PSSEBranchRecord {
 		
 
   		if (Math.abs(COD) ==1 || Math.abs(COD)==2 ) {	
-			TransformerDataXmlType.TapAdjustment tapAdj = branchRec.getLoadflowData().getXformerData()
+  			TapAdjustmentXmlType tapAdj = branchRec.getLoadflowData().getXformerData()
 						.addNewTapAdjustment();
 			DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTapAng,	minTapAng);
 	        tapAdj.getTapLimit().setUnit(TapUnitType.PU);
@@ -314,11 +315,11 @@ public class PSSEBranchRecord {
 	        tapAdj.setTapAdjOnFromSide(onFromSide);
   			//voltage control
 	        if (Math.abs(COD) ==1){
-	    		TransformerDataXmlType.TapAdjustment.VoltageAdjData voltTapAdj = tapAdj.addNewVoltageAdjData();
+	        	TapAdjustmentXmlType.VoltageAdjData voltTapAdj = tapAdj.addNewVoltageAdjData();
 	    		voltTapAdj.addNewAdjVoltageBus().setIdRef(controlBusId);
 	    		voltTapAdj.setAdjBusLocation(controlSide == false ? 
-	    				TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS
-	    					:  TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS );
+	    				TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS
+	    					:  TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS );
 		
 	    		voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 	    		DataSetter.setLimitData(voltTapAdj,	maxVoltPQ, minVoltPQ);
@@ -326,7 +327,7 @@ public class PSSEBranchRecord {
 	        }
 	        //MVAR control
   		    if (Math.abs(COD)  == 2){
-				TransformerDataXmlType.TapAdjustment.MvarFlowAdjData mvarTapAdj = tapAdj.addNewMvarFlowAdjData();
+  		    	TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = tapAdj.addNewMvarFlowAdjData();
 				DataSetter.setLimitData(mvarTapAdj,	maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(onFromSide);
@@ -334,7 +335,7 @@ public class PSSEBranchRecord {
   		}
   		    // MW control      phase shifter
   		else if (Math.abs(COD)  == 3){
-  			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec
+  			AngleAdjustmentXmlType angAdj = branchRec
 				.getLoadflowData().getPhaseShiftXfrData()
 				.addNewAngleAdjustment();
   			DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), maxTapAng,

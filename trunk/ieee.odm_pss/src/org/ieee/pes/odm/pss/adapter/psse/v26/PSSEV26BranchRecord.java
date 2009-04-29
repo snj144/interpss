@@ -26,11 +26,14 @@ package org.ieee.pes.odm.pss.adapter.psse.v26;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
@@ -55,7 +58,7 @@ public class PSSEV26BranchRecord {
 		ANGLE - Transformer phase shift angle
 		 */
 		// parse the input data line	
-		final String[] strAry = getLineDataFields(str);		
+		final String[] strAry = getBranchDataFields(str);		
 		final String fid = ODMModelParser.BusIdPreFix+strAry[0];
 		final String tid = ODMModelParser.BusIdPreFix+strAry[1];
 		final String cirId = StringUtil.formatCircuitId(strAry[2]);
@@ -141,9 +144,97 @@ public class PSSEV26BranchRecord {
 	    }
 	}
    
-	private static String[] getLineDataFields(final String lineStr) {
-		final String[] strAry = new String[23];
+	public static void processXformerAdjData(final String str, final ODMModelParser parser, Logger logger) {
+		/*
+		I,    J,     CKT,ICONT,     RMA,       RMI,       VMA,       VMI,   STEP,   TABLE
+    	31212,31435,' 1',     0,    1.5000,    0.5100,    1.5000,    0.5100,0.00625,0,0, 0.000, 0.000,   
 
+		I - From bus number
+		J - To bus number
+		CKT - Circuit number
+		ICONT - Number of bus to control. If different from I or J, sign of ICONT
+ 			determines control. Positive sign, close to impedance (untapped) bus
+ 			of transformer. Negative sign, opposite.
+		RMA - Upper limit of turns ratio or phase shift
+		RMI - Lower limit of turns ratio or phase shift
+		VMA - Upper limit of controlled volts, MW or MVAR
+		VMI - Lower limit of controlled volts, MW or MVAR
+		STEP - Turns ratio step increment
+		TABLE - Zero, or number of a transformer impedance correction table 1-5
+	 */
+		final String[] strAry = getXfrAdjDataFields(str);		
+		final String fid = ODMModelParser.BusIdPreFix+strAry[0];
+		final String tid = ODMModelParser.BusIdPreFix+strAry[1];
+		final String cirId = StringUtil.formatCircuitId(strAry[2]);
+		logger.fine("Branch data loaded, from-id, to-id: " + fid + ", " + tid);
+		
+		BranchRecordXmlType branchRec = parser.getBranchRecord(fid, tid, cirId);
+	    if (branchRec == null){
+			String branchId = StringUtil.formBranchId(fid, tid, cirId);
+	    	logger.severe("Branch "+ branchId + " not found in the network");
+	    	return;
+	    }	
+	    
+	    int icon = StringUtil.getInt(strAry[3], 0);
+	    boolean isNegative = false;
+	    if (icon < 0) {
+	    	isNegative = true;
+	    	icon = - icon;
+	    }
+		final String iconId = icon > 0? ODMModelParser.BusIdPreFix+icon : null;
+
+		if (branchRec.getLoadflowData().getCode() == LFBranchCodeEnumType.TRANSFORMER) {
+	    	double tmax = StringUtil.getDouble(strAry[4], 0.0);
+	    	double tmin = StringUtil.getDouble(strAry[5], 0.0);
+	    	double tstep = StringUtil.getDouble(strAry[8], 0.0);
+	    	double vup = StringUtil.getDouble(strAry[6], 0.0);
+	    	double vlow = StringUtil.getDouble(strAry[7], 0.0);
+	    	
+	    	TapAdjustmentXmlType tapAdj = branchRec.getLoadflowData().getXformerData().addNewTapAdjustment();
+	    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
+	    	DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), tmax, tmin);
+	    	tapAdj.setTapAdjStepSize(tstep);
+	    	tapAdj.setTapAdjOnFromSide(true);
+
+	    	TapAdjustmentXmlType.VoltageAdjData vAdjData = tapAdj.addNewVoltageAdjData();
+	    	vAdjData.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+	    	vAdjData.setMax(vup);
+	    	vAdjData.setMin(vlow);
+	    	
+	    	if (iconId != null) {
+	    		if (iconId.equals(fid))
+	    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.FROM_BUS);
+	    		else if (iconId.equals(tid))
+	    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.TO_BUS);
+	    		else {
+		    		vAdjData.addNewAdjVoltageBus().setIdRef(iconId);
+		    		if (isNegative)
+		    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS);
+		    		else
+		    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS);
+	    		}
+	    	}
+	    	else
+		    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.OFF);
+	    }
+	    else if (branchRec.getLoadflowData().getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
+	    	double angmax = StringUtil.getDouble(strAry[4], 0.0);
+	    	double angmin = StringUtil.getDouble(strAry[5], 0.0);
+	    	double mwup = StringUtil.getDouble(strAry[6], 0.0);
+	    	double mwlow = StringUtil.getDouble(strAry[7], 0.0);
+
+	    	AngleAdjustmentXmlType angAdj = branchRec.getLoadflowData().getPhaseShiftXfrData().addNewAngleAdjustment();
+	    	DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angmax, angmin, AngleUnitType.DEG);
+	    	angAdj.setMax(mwup);
+	    	angAdj.setMin(mwlow);
+	    	angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+	    	angAdj.setDesiredMeasuredOnFromSide(true);
+	    }
+
+	}
+	
+	private static String[] getBranchDataFields(final String lineStr) {
+		final String[] strAry = new String[23];
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		/*
 		I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
@@ -175,7 +266,17 @@ public class PSSEV26BranchRecord {
 			strAry[21]=st.nextToken().trim();
 	  		strAry[22]=st.nextToken().trim();
 		}
-				
+		return strAry;
+	}
+
+	private static String[] getXfrAdjDataFields(final String lineStr) {
+		final String[] strAry = new String[9];
+  		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		/*
+	    I,    J,     CKT,ICONT,     RMA,       RMI,       VMA,       VMI,   STEP(9),   TABLE 
+        */
+  		for (int i = 0; i < 9; i++)
+  			strAry[i]=st.nextToken().trim();
 		return strAry;
 	}
 }

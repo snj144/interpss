@@ -21,7 +21,7 @@
  *   ================
  *
  */
-package org.ieee.pes.odm.pss.adapter.psse;
+package org.ieee.pes.odm.pss.adapter.psse.v30;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
@@ -38,11 +38,11 @@ import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ContainerHelper;
 
-public class PSSEAdapter extends AbstractODMAdapter{
+public class PSSEV30Adapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";				
 
-	public PSSEAdapter(Logger logger) {
+	public PSSEV30Adapter(Logger logger) {
 		super(logger);
 	}
 	
@@ -86,16 +86,16 @@ public class PSSEAdapter extends AbstractODMAdapter{
         				type =++j;
         			}else {
         				if (type==1){
-        					PSSEBusRecord.processBusData(str, parser.addNewBaseCaseBus(), this);
+        					PSSEV30BusRecord.processBusData(str, parser.addNewBaseCaseBus(), this);
         				}
         				else if(type==2){
-        					PSSEBusRecord.processLoadData(str, baseCaseNet, this);
+        					PSSEV30BusRecord.processLoadData(str, baseCaseNet, this);
         				}
         				else if(type==3){
-        					PSSEBusRecord.processGenData(str, baseCaseNet, this);        			 
+        					PSSEV30BusRecord.processGenData(str, baseCaseNet, this);        			 
         				}
         				else if(type==4){
-        					PSSEBranchRecord.processLineData(str, parser.addNewBaseCaseBranch(), this); 
+        					PSSEV30BranchRecord.processLineData(str, parser.addNewBaseCaseBranch(), this); 
         				}
         				else if(type==5){        			   
         					do{         			    	 
@@ -104,7 +104,7 @@ public class PSSEAdapter extends AbstractODMAdapter{
         							str=din.readLine();
         					}while (n<4);
         					n=0;
-        					PSSEBranchRecord.processXformerData(sAry[1],sAry[2],sAry[3],sAry[4],
+        					PSSEV30BranchRecord.processXformerData(sAry[1],sAry[2],sAry[3],sAry[4],
         			    		 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         			   
         				} else if(type==6){

@@ -108,7 +108,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				}
         				else if(type==XfrAdjData){        			   
         					//System.out.println("XfrData: " + str);
-        					//PSSEBranchRecord.processXformerData(sAry[1],sAry[2],sAry[3],sAry[4],
+        					PSSEV26BranchRecord.processXformerAdjData(str, parser, this.getLogger());
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==SwitchedShuntData){        			   

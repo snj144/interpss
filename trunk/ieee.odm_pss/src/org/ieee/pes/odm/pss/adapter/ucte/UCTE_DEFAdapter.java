@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
@@ -44,15 +45,16 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 /*
@@ -276,8 +278,9 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		case 0: // PQ bus
 			if (pGenMW != 0.0 || qGenMvar != 0.0) {
 				DataSetter.setGenData(busData,
-						LFGenCodeEnumType.PQ, pGenMW, qGenMvar,
-						ApparentPowerUnitType.MVA);				
+						LFGenCodeEnumType.PQ,
+						1.0, VoltageUnitType.PU, 0.0, AngleUnitType.DEG,
+						pGenMW, qGenMvar, ApparentPowerUnitType.MVA);				
 			}
 			break;
 		case 1: // Q angle bus
@@ -285,8 +288,9 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		case 2: // PV bus
 			DataSetter.setGenData(busData,
-					LFGenCodeEnumType.PV, pGenMW, qGenMvar,
-					ApparentPowerUnitType.MVA);
+					LFGenCodeEnumType.PV, 
+					voltage, VoltageUnitType.KV, 0.0, AngleUnitType.DEG,
+					pGenMW, qGenMvar, ApparentPowerUnitType.MVA);
 			if (((maxGenMVar != 0.0) || (minGenMVar != 0.0))
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
@@ -297,8 +301,9 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			break;
 		case 3: // swing bus
 			DataSetter.setGenData(busData,
-					LFGenCodeEnumType.SWING, pGenMW, qGenMvar,
-					ApparentPowerUnitType.MVA);
+					LFGenCodeEnumType.SWING,
+					voltage, VoltageUnitType.KV, 0.0, AngleUnitType.DEG,
+					pGenMW, qGenMvar, ApparentPowerUnitType.MVA);
 			break;
 		default:
 			// error bus nodeType code
@@ -514,8 +519,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			DataSetter.setTapPU(xfr.addNewToTap(), ratioFactor/x);
 			
 			if (uKvPhase > 0.0) {
-				TransformerDataXmlType.TapAdjustment tapAdj = xfr.addNewTapAdjustment();
-				tapAdj.setAdjustmentType(TransformerDataXmlType.TapAdjustment.AdjustmentType.VOLTAGE);
+				TapAdjustmentXmlType tapAdj = xfr.addNewTapAdjustment();
+				tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
 				
 				// tap control of voltage at to node side
 				//     2 - Variable tap for voltage control (TCUL, LTC)
@@ -527,13 +532,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
           		tapAdj.setTapAdjStepSize(dUPhase);
           		tapAdj.setTapAdjOnFromSide(false);
           		
-          		TransformerDataXmlType.TapAdjustment.VoltageAdjData vAdjData = tapAdj.addNewVoltageAdjData();
+          		TapAdjustmentXmlType.VoltageAdjData vAdjData = tapAdj.addNewVoltageAdjData();
           		
           		vAdjData.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
           		vAdjData.setDesiredValue(uKvPhase);				
-          		vAdjData.setDesiredVoltageUnit(TransformerDataXmlType.TapAdjustment.VoltageAdjData.DesiredVoltageUnit.KV);
+          		vAdjData.setDesiredVoltageUnit(TapAdjustmentXmlType.VoltageAdjData.DesiredVoltageUnit.KV);
           		vAdjData.addNewAdjVoltageBus().setIdRef(toNodeId);
-          		vAdjData.setAdjBusLocation(TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.TO_BUS);
+          		vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.TO_BUS);
 			}
 		}
 		else if (dUAngle > 0.0) {
@@ -589,10 +594,10 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			DataSetter.setTapPU(psXfr.addNewToTap(), ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {
-				PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = psXfr.addNewAngleAdjustment();
+				AngleAdjustmentXmlType angAdj = psXfr.addNewAngleAdjustment();
           		angAdj.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				
-				angAdj.setDesiredPowerUnit(PhaseShiftXfrDataXmlType.AngleAdjustment.DesiredPowerUnit.MW);
+				angAdj.setDesiredPowerUnit(AngleAdjustmentXmlType.DesiredPowerUnit.MW);
 				DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angMax, angMin,
 						AngleUnitType.DEG);
 				angAdj.setAngleAdjOnFromSide(false);

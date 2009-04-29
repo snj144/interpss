@@ -140,7 +140,7 @@ public class PSSEV26BusRecord {
 	    //to test if there is a responding bus in the bus data record
 		BusRecordXmlType busRec = parser.getBusRecord(busId);
 	    if (busRec == null){
-	    	logger.severe("Bus"+ busId+ "is not found in the network");
+	    	logger.severe("Bus "+ busId+ " not found in the network");
 	    	return;
 	    }
 
