@@ -1,4 +1,4 @@
-package org.interpss.dsl_odm;
+package org.interpss.geditor;
 
 import static org.junit.Assert.assertTrue;
 
