@@ -1,12 +1,12 @@
 from java.util.logging                import Level;
 
 from com.interpss.common.util         import IpssLogger;
-from com.interpss.pssl.simu           import IpssAclf;
-from com.interpss.pssl.simu           import IpssAclf;
-from com.interpss.pssl.simu           import IpssPTrading;
+from com.interpss.pssl.simu           import IpssAclf, IpssPTrading;
 from com.interpss.pssl.plugin         import IpssAdapter;
 
 from com.interpss.core.dclf           import SenAnalysisType;
+
+dir(IpssAclf);
 
 # set log level
 
