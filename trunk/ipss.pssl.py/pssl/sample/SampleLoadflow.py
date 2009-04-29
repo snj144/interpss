@@ -3,9 +3,7 @@ from com.interpss.pssl.plugin            import IpssUtil;
 
 from com.interpss.common.datatype        import UnitType;
 from org.apache.commons.math.complex     import Complex;
-from com.interpss.core.aclf              import AclfGenCode;
-from com.interpss.core.aclf              import AclfLoadCode;
-from com.interpss.core.aclf              import AclfBranchCode;
+from com.interpss.core.aclf              import AclfGenCode, AclfLoadCode, AclfBranchCode;
 from com.interpss.core.algorithm         import AclfMethod;
 
 aclfNet = IpssAclf.createAclfNetwork("Sample AclfNetwork")       \
