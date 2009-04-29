@@ -21,7 +21,7 @@
  *   ================
  *
  */
-package org.ieee.pes.odm.pss.adapter.psse;
+package org.ieee.pes.odm.pss.adapter.psse.v30;
 
 import java.util.StringTokenizer;
 
@@ -41,8 +41,8 @@ import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
-public class PSSEBusRecord {
-	public static void processBusData(final String str,final BusRecordXmlType busRec, PSSEAdapter adapter) {
+public class PSSEV30BusRecord {
+	public static void processBusData(final String str,final BusRecordXmlType busRec, PSSEV30Adapter adapter) {
 		// parse the input data line
 		final String[] strAry = getBusDataFields(str);	    
 		//Format: I, NAME BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
@@ -114,7 +114,7 @@ public class PSSEBusRecord {
 	}
 			
 		
-	public static  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet, PSSEAdapter adapter) {
+	public static  void processLoadData(final String str,final PSSNetworkXmlType baseCaseNet, PSSEV30Adapter adapter) {
 		// I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 		final String[] strAry = getLoadDataFields(str);
 
@@ -168,7 +168,7 @@ public class PSSEBusRecord {
 	    			CYloadMw, CYloadMvar, ApparentPowerUnitType.MVA);
 	}
 	
-	public static  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet, PSSEAdapter adapter) {
+	public static  void processGenData(final String str,final PSSNetworkXmlType baseCaseNet, PSSEV30Adapter adapter) {
 		
 		//I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
 		

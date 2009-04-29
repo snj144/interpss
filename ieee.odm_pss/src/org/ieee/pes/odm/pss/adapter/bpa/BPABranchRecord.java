@@ -28,6 +28,7 @@ package org.ieee.pes.odm.pss.adapter.bpa;
 import java.text.NumberFormat;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
@@ -42,17 +43,16 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LengthUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPABranchRecord {
@@ -618,9 +618,7 @@ public class BPABranchRecord {
 		}	
 		
 		if(dataType==tapAdjustment){			
-			
-			
-			TransformerDataXmlType.TapAdjustment tapAdj = branchRec.getLoadflowData().
+			TapAdjustmentXmlType tapAdj = branchRec.getLoadflowData().
             getXformerData().addNewTapAdjustment();
 			
             if(tapAdjSide==1){
@@ -666,12 +664,12 @@ public class BPABranchRecord {
 			tapAdj.setTapAdjStepSize(stepSize);
 			if (adjustType==tapVoltageAdjustment ){// voltage control					
 				
-				TransformerDataXmlType.TapAdjustment.VoltageAdjData voltTapAdj = tapAdj
+				TapAdjustmentXmlType.VoltageAdjData voltTapAdj = tapAdj
 						.addNewVoltageAdjData();
 				voltTapAdj.addNewAdjVoltageBus().setIdRef(controlBusId);
 				voltTapAdj
-						.setAdjBusLocation((adjBus == toBus ? TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS
-										: TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS));
+						.setAdjBusLocation((adjBus == toBus ? TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS
+										: TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS));
 				voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				
 				if(maxVoltPQ!=0.0||minVoltPQ!=0.0){
@@ -680,15 +678,14 @@ public class BPABranchRecord {
 				
 				
 			} else if (adjustType==tapVarAdjustment) {// var control						
-				
-				TransformerDataXmlType.TapAdjustment.MvarFlowAdjData mvarTapAdj = tapAdj
+				TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = tapAdj
 						.addNewMvarFlowAdjData();
 				DataSetter.setLimitData(mvarTapAdj, maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if(dataType==angleAdjustment){
-			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec.getLoadflowData().
+			AngleAdjustmentXmlType angAdj = branchRec.getLoadflowData().
             getPhaseShiftXfrData().addNewAngleAdjustment();
 			
 			DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), max,

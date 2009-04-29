@@ -160,7 +160,11 @@
 		</complexContent>
 	</complexType>
 	<complexType name="AdjustmentDataXmlType">
-		<complexContent>
+        <annotation>
+        	<documentation>There are two adj modes: ValueAdjustment and RangeAdjustment. For ValueAdjustment, the desiredValue is used. For RangeAdjustment, 
+max and min are used.</documentation>
+        </annotation>
+        <complexContent>
 			<extension base="pss:LimitXmlType">
 				<attribute name="mode" use="required">
 					<simpleType>

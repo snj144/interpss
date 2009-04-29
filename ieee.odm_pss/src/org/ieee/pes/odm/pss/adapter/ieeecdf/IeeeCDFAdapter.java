@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
@@ -41,19 +42,18 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class IeeeCDFAdapter  extends AbstractODMAdapter {
@@ -261,19 +261,10 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double genMw = new Double(strAry[9]).doubleValue();
 		final double genMvar = new Double(strAry[10]).doubleValue();
 
-		if (type == 1) {
-			DataSetter.setGenData(busData,
-					LFGenCodeEnumType.PQ, genMw, genMvar,
-					ApparentPowerUnitType.MVA);
-		} else if (type == 2) {
-			DataSetter.setGenData(busData,
-					LFGenCodeEnumType.PV, genMw, genMvar,
-					ApparentPowerUnitType.MVA);
-		} else if (type == 3) {
-			DataSetter.setGenData(busData,
-					LFGenCodeEnumType.SWING, genMw, genMvar,
-					ApparentPowerUnitType.MVA);
-		}
+		LFGenCodeEnumType.Enum genType = type == 3? LFGenCodeEnumType.SWING :
+				( type == 2? LFGenCodeEnumType.PV : LFGenCodeEnumType.PQ );
+		DataSetter.setGenData(busData, genType, vpu, VoltageUnitType.PU, angDeg, AngleUnitType.DEG, 
+				genMw, genMvar,	ApparentPowerUnitType.MVA);
 
 		//Columns 107-114 Shunt conductance G (per unit) [F] *
 		//Columns 115-122 Shunt susceptance B (per unit) [F] *
@@ -442,31 +433,31 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		}
 
 		if (type == 2 || type == 3) {
-			TransformerDataXmlType.TapAdjustment tapAdj = branchRec
+			TapAdjustmentXmlType tapAdj = branchRec
 					.getLoadflowData().getXformerData()
 					.addNewTapAdjustment();
 			DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTapAng, minTapAng);
 			tapAdj.setTapAdjStepSize(stepSize);
 			tapAdj.setTapAdjOnFromSide(true);
 			if (type == 2) {
-				TransformerDataXmlType.TapAdjustment.VoltageAdjData voltTapAdj = tapAdj
+				TapAdjustmentXmlType.VoltageAdjData voltTapAdj = tapAdj
 						.addNewVoltageAdjData();
 				voltTapAdj.addNewAdjVoltageBus().setIdRef(controlBusId);
 				voltTapAdj
-						.setAdjBusLocation(controlSide == 0 ? TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.TERMINAL_BUS
-								: (controlSide == 1 ? TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS
-										: TransformerDataXmlType.TapAdjustment.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS));
+						.setAdjBusLocation(controlSide == 0 ? TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.TERMINAL_BUS
+								: (controlSide == 1 ? TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_FROM_BUS
+										: TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.NEAR_TO_BUS));
 				voltTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				DataSetter.setLimitData(voltTapAdj, maxVoltPQ, minVoltPQ);
 			} else if (type == 3) {
-				TransformerDataXmlType.TapAdjustment.MvarFlowAdjData mvarTapAdj = tapAdj
+				TapAdjustmentXmlType.MvarFlowAdjData mvarTapAdj = tapAdj
 						.addNewMvarFlowAdjData();
 				DataSetter.setLimitData(mvarTapAdj, maxVoltPQ, minVoltPQ);
 				mvarTapAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if (type == 4) {
-			PhaseShiftXfrDataXmlType.AngleAdjustment angAdj = branchRec
+			AngleAdjustmentXmlType angAdj = branchRec
 					.getLoadflowData().getPhaseShiftXfrData()
 					.addNewAngleAdjustment();
 			DataSetter.setLimitData(angAdj.addNewAngleLimit(), maxTapAng,

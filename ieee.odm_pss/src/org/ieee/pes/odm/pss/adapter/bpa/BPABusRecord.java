@@ -1,5 +1,3 @@
-
-
 /*
  * @(#)BPABusRecord.java   
  *
@@ -40,7 +38,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPABusRecord {
@@ -194,8 +191,10 @@ public class BPABusRecord {
 				//set gen data
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){				
 					DataSetter.setGenData(busData,
-							LFGenCodeEnumType.SWING, pGen, 0.0,
-							ApparentPowerUnitType.MVA);
+							LFGenCodeEnumType.SWING,
+							vpu, VoltageUnitType.PU,
+							vMinOrAngDeg, AngleUnitType.DEG,
+							pGen, 0.0, ApparentPowerUnitType.MVA);
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
@@ -210,8 +209,9 @@ public class BPABusRecord {
 			}else if(busType==pqBus){			
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
 					DataSetter.setGenData(busData,
-							LFGenCodeEnumType.PQ, pGen, qGenOrQGenMax,
-							ApparentPowerUnitType.MVA);
+							LFGenCodeEnumType.PQ, 
+							1.0, VoltageUnitType.PU, 0.0, AngleUnitType.DEG,
+							pGen, qGenOrQGenMax, ApparentPowerUnitType.MVA);
 				}
 				// set V limit
 				if(vpu!=0 ||vMinOrAngDeg!=0){
@@ -234,8 +234,9 @@ public class BPABusRecord {
 				// set gen data
 				if(pGen!=0.0||qGenOrQGenMax!=0.0){
 					DataSetter.setGenData(busData,
-							LFGenCodeEnumType.PV, pGen, 0.0,
-							ApparentPowerUnitType.MVA);
+							LFGenCodeEnumType.PV, 
+							vpu, VoltageUnitType.PU, 0.0, AngleUnitType.DEG,
+							pGen, 0.0, ApparentPowerUnitType.MVA);
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){

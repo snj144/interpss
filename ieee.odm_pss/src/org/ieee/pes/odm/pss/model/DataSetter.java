@@ -41,6 +41,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LineDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.MvaRatingXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
@@ -236,13 +237,23 @@ public class DataSetter {
 	 * @param code
 	 * @param p
 	 * @param q
-	 * @param unit
+	 * @param pUnit
 	 */
 	public static void setGenData(LoadflowBusDataXmlType busData, LFGenCodeEnumType.Enum code, 
-			double p, double q, ApparentPowerUnitType.Enum unit) {
+			double v, VoltageUnitType.Enum vUnit,
+			double ang, AngleUnitType.Enum angUnit,
+			double p, double q, ApparentPowerUnitType.Enum pUnit) {
    		busData.addNewGenData();
    		busData.getGenData().setCode(code);
-   		setPowerData(busData.getGenData().addNewEquivGen().addNewPower(), p, q, unit);
+   		LoadflowGenDataXmlType equivGen = busData.getGenData().addNewEquivGen();
+   		setPowerData(equivGen.addNewPower(), p, q, pUnit);
+   		if (code == LFGenCodeEnumType.PV) {
+   			setVoltageData(equivGen.addNewDesiredVoltage(), v, vUnit);
+   		}
+   		else if (code == LFGenCodeEnumType.SWING) {
+   			setVoltageData(equivGen.addNewDesiredVoltage(), v, vUnit);
+   			setAngleData(equivGen.addNewDesiredAngle(), ang, angUnit);
+   		}
 	}
 	
 	/**
