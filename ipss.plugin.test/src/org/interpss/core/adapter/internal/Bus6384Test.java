@@ -43,7 +43,7 @@ public class Bus6384Test extends BaseTestSetup {
 	public void testCase1() throws Exception {
   		System.out.println("Start loading data ...");
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
-		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS6384.ipssdat", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS6384.ipssdat");
   		System.out.println("End loading data ...");
 
 		AclfNetwork net = simuCtx.getAclfNet();

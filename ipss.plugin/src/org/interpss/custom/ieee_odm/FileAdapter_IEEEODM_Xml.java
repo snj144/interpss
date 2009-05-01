@@ -38,6 +38,10 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
 public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
+	public FileAdapter_IEEEODM_Xml(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}
+	
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
@@ -47,7 +51,7 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
 		final File xmlFile = new File(filepath);
 		ODMModelParser parser = new ODMModelParser(xmlFile);
 		IEEEODMMapper mapper = new IEEEODMMapper();
@@ -56,7 +60,7 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
 		}
 		else {
-  			msg.sendErrorMsg("Error to load file: " + filepath);
+			this.msgHub.sendErrorMsg("Error to load file: " + filepath);
   			IpssLogger.getLogger().severe("Error to load file: " + filepath);
 		}
 	}
@@ -70,9 +74,9 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-  		load(simuCtx, filepath, msg);
+	public SimuContext load(final String filepath) throws Exception{
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, this.msgHub);
+  		load(simuCtx, filepath);
   		return simuCtx;
 	}
 	
@@ -81,7 +85,7 @@ public class FileAdapter_IEEEODM_Xml extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
+	public boolean save(final String filepath, final SimuContext net) throws Exception{
 		throw new InvalidOperationException("FileAdapter_UCTEFormat.save not implemented");
 	}
 }

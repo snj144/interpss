@@ -43,7 +43,9 @@ import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.script.ScriptingUtil;
 
 public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
-
+	public FileAdapter_JavaScripts(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
@@ -53,7 +55,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
@@ -65,8 +67,8 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
       	
 		ScriptEngine engine = SimuObjectFactory.createScriptEngine();
 		engine.eval(scripts);
-		Object loader = ScriptingUtil.getScritingObject(engine, msg);
-		((Invocable)engine).invokeMethod(loader, "load", simuCtx, msg);		
+		Object loader = ScriptingUtil.getScritingObject(engine, msgHub);
+		((Invocable)engine).invokeMethod(loader, "load", simuCtx, msgHub);		
 	}
 	
 	/**
@@ -78,9 +80,9 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception {
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-  		load(simuCtx, filepath, msg);
+	public SimuContext load(final String filepath) throws Exception {
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		load(simuCtx, filepath);
   		return simuCtx;
 	}
 	
@@ -89,7 +91,7 @@ public class FileAdapter_JavaScripts extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
+	public boolean save(final String filepath, final SimuContext net) throws Exception{
 		throw new InvalidOperationException("FileAdapter_IpssInternalFormat.save not implemented");
 	}
 }

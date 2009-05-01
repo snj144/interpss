@@ -41,6 +41,11 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
 public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
+	
+	public FileAdapter_IeeeCommonFormat(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}
+	
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
@@ -50,9 +55,9 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
 		IODMPSSAdapter adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
-		loadByODMTransformation(adapter, simuCtx, filepath, msg);
+		loadByODMTransformation(adapter, simuCtx, filepath, msgHub);
 
 		//loadByAdpter(simuCtx, filepath, msg);
 	}
@@ -66,9 +71,9 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-  		load(simuCtx, filepath, msg);
+	public SimuContext load(final String filepath) throws Exception{
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		load(simuCtx, filepath);
   		return simuCtx;
 	}
 	
@@ -77,7 +82,7 @@ public class FileAdapter_IeeeCommonFormat extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
+	public boolean save(final String filepath, final SimuContext net) throws Exception{
 		throw new InvalidOperationException("FileAdapter_IeeeCommonFormat.save not implemented");
 	}
 	

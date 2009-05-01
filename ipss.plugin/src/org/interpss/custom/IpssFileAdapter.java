@@ -27,10 +27,12 @@ package org.interpss.custom;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 import com.interpss.common.custom.IpssCustomAdapter;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.simu.SimuContext;
 
 public interface IpssFileAdapter extends IpssCustomAdapter {
+	public static enum FileFormat { IEEECommonFormat, PSSE, GE_PSLF, UCTE, IEEE_ODM, BPA, Custom };
+	public static enum PsseVersion { NotDefined, PSSE_30, PSSE_29, PSSE_26 };
+	
 	/**
 	 * get the file extension of the adapter
 	 * 
@@ -70,21 +72,21 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	 * Load the file into the a SimuNetwork object
 	 *  
 	 */
-	void load(SimuContext simuCtx, String filepath, IPSSMsgHub msg) throws Exception;
+	void load(SimuContext simuCtx, String filepath) throws Exception;
 
 	/**
 	 * Load the file and create a SimuNetwork object
 	 *  
 	 * @return a SimuNetwork object
 	 */
-	SimuContext load(String filepath, IPSSMsgHub msg) throws Exception;
+	SimuContext load(String filepath) throws Exception;
 
 	/**
      * No need to be implemented if you do not write simulaiton results back to a datafile
 	 * 
 	 * @see com.interpss.io.adapter.IFileAdapter#save(java.lang.String, com.interpss.core.simu.SimuContext)
 	 */
-	boolean save(String filepath, SimuContext net, IPSSMsgHub msg) throws Exception;
+	boolean save(String filepath, SimuContext net) throws Exception;
 	
 	/**
 	 * get the IEEE ODMModelParser, if ODM is used for import data

@@ -24,8 +24,6 @@
 
 package org.interpss.custom.exchange;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,7 +40,6 @@ import com.interpss.common.exp.InvalidOperationException;
 import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.common.util.PerformanceTimer;
-import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.ext.psse.aclf.PSSEAclfNetwork;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
@@ -52,12 +49,14 @@ import com.interpss.simu.SimuObjectFactory;
 public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	private PSSEDataRec.VersionNo version = PSSEDataRec.VersionNo.NotDefined;
 	
-	public FileAdapter_PTIFormat(PSSEDataRec.VersionNo version) {
+	public FileAdapter_PTIFormat(PSSEDataRec.VersionNo version, IPSSMsgHub msgHub) {
+		super(msgHub);
 		this.version = version;
 	}
 
-	public FileAdapter_PTIFormat() {
-	}
+	public FileAdapter_PTIFormat(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}	
 	
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
@@ -68,20 +67,20 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
 		if (this.version == PSSEDataRec.VersionNo.PSS_E_26) {
 			PerformanceTimer timer = new PerformanceTimer();
 			IODMPSSAdapter adapter = new PSSEV26Adapter(IpssLogger.getLogger());
 			boolean ok = adapter.parseInputFile(filepath);
 			String str = timer.log("Load PSSE data time: ");
-			msg.sendStatusMsg(str);
+			msgHub.sendStatusMsg(str);
 
 	  		if (ok) {
 	  			timer.start();
 				IEEEODMMapper mapper = new IEEEODMMapper();
 				mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class);
 				str = timer.log("Map ODM model to SimuCtx tiem: ");			
-				msg.sendStatusMsg(str);
+				msgHub.sendStatusMsg(str);
 	  		}
 		}
 		else {
@@ -98,7 +97,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 			
 			// load the loadflow data into the AclfAdjNetwork object
-			final PSSEAclfNetwork adjNet = PSSEFormat_in.loadFile(din, msg, this.version);
+			final PSSEAclfNetwork adjNet = PSSEFormat_in.loadFile(din, msgHub, this.version);
 			if (adjNet == null)
 				return;
 	  		// System.out.println(adjNet.net2String());
@@ -120,9 +119,9 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-  		load(simuCtx, filepath, msg);
+	public SimuContext load(final String filepath) throws Exception{
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		load(simuCtx, filepath);
   		return simuCtx;
 	}
 	
@@ -131,7 +130,7 @@ public class FileAdapter_PTIFormat extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
+	public boolean save(final String filepath, final SimuContext net) throws Exception{
 		throw new InvalidOperationException("FileAdapter_PTIFormat.save not implemented");
 	}
 }

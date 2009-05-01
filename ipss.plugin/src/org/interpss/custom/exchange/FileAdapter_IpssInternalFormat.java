@@ -44,6 +44,9 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
 public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
+	public FileAdapter_IpssInternalFormat(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}	
 
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
@@ -54,13 +57,13 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
+	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		
 		// load the loadflow data into the AclfAdjNetwork object
-		final AclfAdjNetwork adjNet = IpssInternalFormat_in.loadFile(din, msg);
+		final AclfAdjNetwork adjNet = IpssInternalFormat_in.loadFile(din, msgHub);
   		// System.out.println(adjNet.net2String());
 
 		// set the simuContext object
@@ -79,9 +82,9 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-  		load(simuCtx, filepath, msg);
+	public SimuContext load(final String filepath) throws Exception{
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		load(simuCtx, filepath);
   		return simuCtx;
 	}
 	
@@ -90,12 +93,12 @@ public class FileAdapter_IpssInternalFormat extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext simuCtx, final IPSSMsgHub msg) throws Exception{
+	public boolean save(final String filepath, final SimuContext simuCtx) throws Exception{
         final File file = new File(filepath);
         final OutputStream stream = new FileOutputStream(file);
         final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(stream));
 
-        boolean r = IpssInternalFormat_out.save(out, simuCtx, msg);
+        boolean r = IpssInternalFormat_out.save(out, simuCtx, msgHub);
         
         out.flush();
         out.close();

@@ -32,25 +32,25 @@ public class DclfAreaTransferIeee14BusCaseTest extends BaseTestSetup {
 		
 	  	IPSSMsgHub msg = SpringAppContext.getIpssMsgHub();
 	  	
-		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfAdjNet());
-		assertTrue(algo.checkCondition(msg));
+		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfAdjNet(), msg);
+		assertTrue(algo.checkCondition());
 			
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
 
 		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysisArray()) {
 			algo.getInjectBusList().clear();
 			for (SenAnalysisBusRecXmlType bus :  atFactor.getInjectBusList().getInjectBusArray()){
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId(), msg);
+				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId());
 				algo.addInjectBus(bus.getBusId(), bus.getPercent());
 			}
 			algo.getWithdrawBusList().clear();
 			for (SenAnalysisBusRecXmlType bus :  atFactor.getWithdrawBusList().getWithdrawBusArray()){
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId(), msg);
+				algo.calculateSensitivity(SenAnalysisType.PANGLE, bus.getBusId());
 				algo.addWithdrawBus(bus.getBusId(), bus.getPercent());
 			}
 			
 			for (BranchRecXmlType branch : atFactor.getBranchArray()) {
-				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1", msg);
+				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1");
 				System.out.println("ATFactor: " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + f);
 			}
 		}
@@ -71,7 +71,7 @@ public class DclfAreaTransferIeee14BusCaseTest extends BaseTestSetup {
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
 		for (AreaTransferAnalysisXmlType atFactor : dclfCase.getAreaTransferAnalysisArray()) {
 			for (BranchRecXmlType branch : atFactor.getBranchArray()) {
-				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1", msg);
+				double f = algo.getAreaTransferFactor(branch.getFromBusId(), branch.getToBusId(), "1");
 				System.out.println("ATFactor: " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + f);
 			}
 		}

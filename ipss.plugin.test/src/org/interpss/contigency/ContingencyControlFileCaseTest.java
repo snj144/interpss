@@ -30,7 +30,7 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 	@Test
 	public void cr113BusSwitchingModelCaseTest() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
-		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw");
  		System.out.println(simuCtx.getAclfNet().net2String());
 
  		//assertTrue(simuCtx.getAclfNet().getSwitchBreakBranch("60701", null) != null);
@@ -40,7 +40,7 @@ public class ContingencyControlFileCaseTest extends BaseTestSetup {
 	//@Test
 	public void cr113BusCaseTest() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
-		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/edispatch/CR113Bus.raw");
 // 		System.out.println(simuCtx.getAclfNet().net2String());
 
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());

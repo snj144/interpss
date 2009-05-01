@@ -44,7 +44,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 	@Test 
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
@@ -65,7 +65,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 	@Test
 	public void testCase2() throws Exception{
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee30.ieee", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee30.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 30 && net.getBranchList().size() == 41));
@@ -86,7 +86,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 	@Test
 	public void testCase3() throws Exception{
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee57.ieee", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee57.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 57 && net.getBranchList().size() == 80));
@@ -109,7 +109,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 	@Test
 	public void testCase4() throws Exception{
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee118.ieee", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee118.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 118 && net.getBranchList().size() == 186));
@@ -129,7 +129,7 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 
 	public void xtestCase5() throws Exception{
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee300.ieee", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee300.ieee");
 
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 300 && net.getBranchList().size() == 411));

@@ -91,7 +91,7 @@ public class IpssFixture extends ColumnFixture {
 			}
 
 			if (adapter != null) {
-				adapter.load(simuCtx, filename, msg);
+				adapter.load(simuCtx, filename);
 			}	
 			else {
 				JGraph graph = IOUtilFunc.loadIpssGraphFile(filename);
