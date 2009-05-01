@@ -47,7 +47,7 @@ public class IEEE14Test extends BaseTestSetup {
   		 * Load the loadflow datafile into the application
   		 */
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
-		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
 		
 		/*
 		 * Check the loadflow network has 14 buses and 20 branches
@@ -84,10 +84,10 @@ public class IEEE14Test extends BaseTestSetup {
   		 * Load the loadflow datafile into the application
   		 */
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
-		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat", SpringAppContext.getIpssMsgHub());
-		assertTrue(adapter.save("ieee14.ipssout", simuCtx, SpringAppContext.getIpssMsgHub()));
+		SimuContext simuCtx = adapter.load("testData/ipssdata/ieee14.ipssdat");
+		assertTrue(adapter.save("ieee14.ipssout", simuCtx));
 
-		simuCtx = adapter.load("ieee14.ipssout", SpringAppContext.getIpssMsgHub());
+		simuCtx = adapter.load("ieee14.ipssout");
 	}
 }
 

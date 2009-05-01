@@ -56,7 +56,11 @@ public class UCTEFormat_in extends IpssFileAdapterBase {
 	private final static String PsXfrType_ASYM = "ASYM"; 
 	
 	private enum RecType {Comment, BaseVoltage, Node, Line, Xfr2W, Xfr2WReg, Xfr2WLookup, ExPower, NotDefined};
-
+	
+	public UCTEFormat_in(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}
+	
     public static AclfAdjNetwork loadFile(final java.io.BufferedReader din, String filename, final IPSSMsgHub msg) throws Exception {
     	final UCTENetwork  aclfNet = new UCTENetwork(filename, "UCTE Network createb by InterPSS");
     	

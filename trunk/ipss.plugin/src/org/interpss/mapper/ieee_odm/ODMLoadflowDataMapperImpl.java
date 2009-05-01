@@ -25,6 +25,7 @@
 package org.interpss.mapper.ieee_odm;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
@@ -39,6 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 
 import com.interpss.common.datatype.UnitType;
@@ -113,8 +115,9 @@ public class ODMLoadflowDataMapperImpl {
 	}
 	
 	private static void setBusLoadflowData(LoadflowBusDataXmlType busXmlData, AclfBus aclfBus, AclfAdjNetwork adjNet) throws Exception {
-		double vpu = UnitType.vConversion(busXmlData.getVoltage().getValue(),
-				aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(busXmlData.getVoltage().getUnit()), UnitType.PU);
+		VoltageXmlType vXml = busXmlData.getVoltage();
+		double vpu = UnitType.vConversion(vXml.getValue(),
+				aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 		double angRad = busXmlData.getAngle() ==  null? 0.0 :
 			UnitType.angleConversion(busXmlData.getAngle().getValue(),
 					ODMXmlHelper.toUnit(busXmlData.getAngle().getUnit()), UnitType.Rad);
@@ -136,10 +139,19 @@ public class ODMLoadflowDataMapperImpl {
 				//	System.out.print(busXmlData);
 				pvBus.setGenP(xmlEquivGenData.getPower().getRe(),
 							ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
+				vXml = busXmlData.getGenData().getEquivGen().getDesiredVoltage();
+				vpu = UnitType.vConversion(vXml.getValue(),
+						aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 				pvBus.setVoltMag(vpu, UnitType.PU);
 			} else if (busXmlData.getGenData().getCode() == LFGenCodeEnumType.SWING) {
 				aclfBus.setGenCode(AclfGenCode.SWING);
 				SwingBusAdapter swing = (SwingBusAdapter) aclfBus.getAdapter(SwingBusAdapter.class);
+				vXml = busXmlData.getGenData().getEquivGen().getDesiredVoltage();
+				vpu = UnitType.vConversion(vXml.getValue(),
+						aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
+				AngleXmlType angXml = busXmlData.getGenData().getEquivGen().getDesiredAngle(); 
+				angRad = UnitType.angleConversion(angXml.getValue(),
+							ODMXmlHelper.toUnit(angXml.getUnit()), UnitType.Rad);				
 				swing.setVoltMag(vpu, UnitType.PU);
 				swing.setVoltAng(angRad, UnitType.Rad);				
 			} else {

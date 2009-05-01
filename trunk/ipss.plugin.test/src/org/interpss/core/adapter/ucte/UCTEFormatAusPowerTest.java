@@ -44,7 +44,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
-		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest1_Simple.uct");
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
@@ -62,7 +62,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 	//@Test
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
-		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest2_Xfr.uct", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest2_Xfr.uct");
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
 	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
@@ -79,7 +79,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 	//@Test
 	public void testCase3() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
-		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest3_XfrReg.uct", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest3_XfrReg.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());
@@ -97,7 +97,7 @@ public class UCTEFormatAusPowerTest extends BaseTestSetup {
 	//@Test
 	public void testCase4() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("uct");
-		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest4_PSXfr1.uct", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ucte/MarioTest4_PSXfr1.uct");
   		//System.out.println(simuCtx.getAclfNet().net2String());
 
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(simuCtx.getAclfNet());

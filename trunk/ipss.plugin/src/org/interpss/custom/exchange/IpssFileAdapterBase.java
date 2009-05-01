@@ -37,6 +37,8 @@ import com.interpss.common.util.IpssLogger;
 import com.interpss.simu.SimuContext;
 
 public class IpssFileAdapterBase implements IpssFileAdapter{
+	protected IPSSMsgHub msgHub;
+
 	private String name;
 	private String[] versionList = null;
 	private String extension;
@@ -45,6 +47,10 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 	private String versionSelected;
 	
 	protected ODMModelParser parser;
+	
+	public IpssFileAdapterBase(IPSSMsgHub msgHub) {
+		this.msgHub = msgHub;
+	}
 	
 	protected void loadByODMTransformation(final IODMPSSAdapter adapter, final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{		
 		adapter.parseInputFile(filepath);
@@ -125,15 +131,15 @@ public class IpssFileAdapterBase implements IpssFileAdapter{
 		description = s;
 	}
 
-	public void load(SimuContext simuCtx, String filepath, IPSSMsgHub msg) throws Exception {
+	public void load(SimuContext simuCtx, String filepath) throws Exception {
 		throw new InvalidOperationException("Load need to implemented");
 	}
 
-	public SimuContext load(String filepath, IPSSMsgHub msg) throws Exception {
+	public SimuContext load(String filepath) throws Exception {
 		throw new InvalidOperationException("Load need to implemented");
 	}
 
-	public boolean save(String filepath, SimuContext net, IPSSMsgHub msg) throws Exception {
+	public boolean save(String filepath, SimuContext net) throws Exception {
 		throw new InvalidOperationException("Save need to implemented");
 	}
 

@@ -74,7 +74,7 @@ public class DclfOutFunc {
 			double tAng = Math.toDegrees(algo.getBusAngle(bra.getToBus().getSortNumber()));
 			AclfBranch aclfBra = (AclfBranch)bra;
 			str += Number2String.toFixLengthStr(20, bra.getId()) + "     "  
-					+ Number2String.toStr((fAng-tAng)*aclfBra.getZ().getImaginary()) + "\n";
+					+ Number2String.toStr((fAng-tAng)/aclfBra.b1ft()) + "\n";
 		}
 		return str;
 	}
@@ -88,7 +88,7 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String pAngleSensitivityResults(
-			DclfBusSensitivityXmlType sen, DclfAlgorithm algo, IPSSMsgHub msg) {
+			DclfBusSensitivityXmlType sen, DclfAlgorithm algo) {
 		String busId = sen.getInjectBusList().getInjectBusArray(0).getBusId();
 		String str = "\n\n";
 		str += "  Power-Angle Sensitivity\n\n";
@@ -97,7 +97,7 @@ public class DclfOutFunc {
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBusArray()) {
 			double pang = algo.getBusSensitivity(SenAnalysisType.PANGLE, busId,
-					bus.getBusId(), msg);
+					bus.getBusId());
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(pang) + "\n";
 		}
@@ -113,7 +113,7 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String qVoltageSensitivityResults(
-			DclfBusSensitivityXmlType sen, DclfAlgorithm algo, IPSSMsgHub msg) {
+			DclfBusSensitivityXmlType sen, DclfAlgorithm algo) {
 		String busId = sen.getInjectBusList().getInjectBusArray(0).getBusId();
 		String str = "\n\n";
 		str += "   Q-Voltage Sensitivity\n\n";
@@ -121,7 +121,7 @@ public class DclfOutFunc {
 		str += "   Bud Id         dV/dQ\n";
 		str += "=================================\n";
 		for (BusRecXmlType bus : sen.getBusArray()) {
-			double x = algo.getBusSensitivity(SenAnalysisType.QVOLTAGE, busId, bus.getBusId(), msg);
+			double x = algo.getBusSensitivity(SenAnalysisType.QVOLTAGE, busId, bus.getBusId());
 			str += Number2String.toFixLengthStr(8, bus.getBusId()) + "       "
 					+ Number2String.toStr(x) + "\n";
 		}
@@ -137,8 +137,7 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String genShiftFactorResults(
-			DclfBranchSensitivityXmlType gsFactor, DclfAlgorithm algo,
-			IPSSMsgHub msg) {
+			DclfBranchSensitivityXmlType gsFactor, DclfAlgorithm algo) {
 		String busId = gsFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 		String str = "\n\n";
 		str += "   Generator Shift Factor\n\n";
@@ -146,7 +145,7 @@ public class DclfOutFunc {
 		str += "       Branch Id          GSF\n";
 		str += "=========================================\n";
 		for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
-			double gsf = algo.getGenShiftFactor(busId, branch.getFromBusId(), branch.getToBusId(), branch.getCircuitNumber(), msg);
+			double gsf = algo.getGenShiftFactor(busId, branch.getFromBusId(), branch.getToBusId(), branch.getCircuitNumber());
 			str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 					+ "->" + branch.getToBusId())
 					+ "       " + Number2String.toStr(gsf) + "\n";
@@ -163,8 +162,7 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String pTransferDistFactorResults(
-			DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo,
-			IPSSMsgHub msg) {
+			DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo) {
 		String str = "\n\n";
 		str += "   Power Transfer Distribution Factor";
 		if (tdFactor.getInjectBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
@@ -174,7 +172,7 @@ public class DclfOutFunc {
 			str += "       Branch Id          PTDF\n";
 			str += "========================================\n";
 			for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-				double ptdf = calPTDFactor(tdFactor, algo, branch, inBusId, msg);
+				double ptdf = calPTDFactor(tdFactor, algo, branch, inBusId);
 				str += Number2String.toFixLengthStr(16, branch.getFromBusId()
 						+ "->" + branch.getToBusId())
 						+ "       " + Number2String.toStr(ptdf) + "\n";
@@ -191,7 +189,7 @@ public class DclfOutFunc {
 				List<PTDFRec> list = new ArrayList<PTDFRec>();
 				for (BusRecXmlType bus :  tdFactor.getInjectBusList().getInjectBusArray()){
 					PTDFRec rec = new PTDFRec();
-					rec.ptdf = calPTDFactor(tdFactor, algo, branch, bus.getBusId(), msg);
+					rec.ptdf = calPTDFactor(tdFactor, algo, branch, bus.getBusId());
 					rec.busId = bus.getBusId();
 					list.add(rec);
 				}
@@ -214,8 +212,7 @@ public class DclfOutFunc {
 	 * @return
 	 */
 	public static String areaTransferAnalysisResults(
-						AreaTransferAnalysisXmlType areaTransfer, DclfAlgorithm algo,
-						IPSSMsgHub msg) {
+						AreaTransferAnalysisXmlType areaTransfer, DclfAlgorithm algo) {
 		AclfNetwork net = algo.getAclfNetwork();
 		
 		String str = "\n\n";
@@ -238,7 +235,7 @@ public class DclfOutFunc {
 				return "Branch cannot be found, " + fromBusId+"->"+toBusId;
 			}			
 			
-			double f = algo.getAreaTransferFactor(fromBusId, toBusId, cirNumber, msg);
+			double f = algo.getAreaTransferFactor(fromBusId, toBusId, cirNumber);
 			double baseMva = bra.mvaFlow(UnitType.mVA, net.getBaseKva());
 			double newMva = baseMva + areaTransfer.getTransderAmountMW() * f;
 			double limitMva = bra.getRatingMva1() * areaTransfer.getDeratingFactor();
@@ -263,16 +260,16 @@ public class DclfOutFunc {
 	}
 	
 	private static double calPTDFactor(DclfBranchSensitivityXmlType tdFactor, DclfAlgorithm algo, 
-					BranchRecXmlType branch, String inBusId, IPSSMsgHub msg) {
+					BranchRecXmlType branch, String inBusId) {
 		double ptdf = 0.0;
 		if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.SINGLE_BUS) {
 			String wdBusId = tdFactor.getWithdrawBusList().getWithdrawBusArray(0).getBusId();
 			ptdf = algo.getPTransferDistFactor(inBusId, wdBusId,
-							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber(), msg);
+							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber());
 		}	
 		else 
 			ptdf = algo.getPTransferDistFactor(inBusId, 
-							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber(), msg);
+							branch.getFromBusId(),	branch.getToBusId(), branch.getCircuitNumber());
 		return ptdf;
 	}
 	

@@ -37,7 +37,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		DclfStudyCaseXmlType dclfCase = parser.getRunDclfStudyCase().getDclfStudyCaseList().getDclfStudyCaseArray(0);
 
 		if (dclfCase.getCaculatelDclf()) {
-			algo.calculateDclf(SpringAppContext.getIpssMsgHub());
+			algo.calculateDclf();
 			//System.out.println("0014->" + algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0014").getSortNumber())*Constants.RtoD);
 			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0012").getSortNumber()))+16.27115) < 0.0001);
 			assertTrue(Math.abs(Math.toDegrees(algo.getBusAngle(simuCtx.getAclfAdjNet().getBus("0013").getSortNumber()))+16.43665) < 0.0001);
@@ -47,21 +47,21 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		for (DclfBusSensitivityXmlType sen : dclfCase.getSensitivityArray()) {
 			String inBusId = sen.getInjectBusList().getInjectBusArray(0).getBusId();
 			if (sen.getSenType() == SenType.P_ANGLE) {
-				algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId, msg);
-				//System.out.println("P-0013->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0013", msg));
-				//System.out.println("p-0012->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0012", msg));
+				algo.calculateSensitivity(SenAnalysisType.PANGLE, inBusId);
+				//System.out.println("P-0013->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0013"));
+				//System.out.println("p-0012->" + algo.getBusSensitivity(DclfSensitivityType.PANGLE, "0012"));
 				/*
 				P-0013->-0.06163210033109512
 				p-0012->-0.06132364240087546
 				*/				
 				for (BusRecXmlType bus : sen.getBusArray()) {
-					double pang = algo.getBusSensitivity(SenAnalysisType.PANGLE, inBusId, bus.getBusId(), msg);
+					double pang = algo.getBusSensitivity(SenAnalysisType.PANGLE, inBusId, bus.getBusId());
 					assertTrue(	Math.abs(pang+0.06163) < 0.0001 ||
 								Math.abs(pang+0.06132) < 0.0001);
 				}
 			}
 			else if (sen.getSenType() == SenType.Q_VOLTAGE) {
-				algo.calculateSensitivity(SenAnalysisType.QVOLTAGE, inBusId, msg);
+				algo.calculateSensitivity(SenAnalysisType.QVOLTAGE, inBusId);
 				//System.out.println("Q-0013->" + algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, "0013", msg));
 				//System.out.println("Q-0012->" + algo.getBusSensitivity(DclfSensitivityType.QVOLTAGE, "0012", msg));
 				/*
@@ -69,7 +69,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				Q-0012->-0.025252754409984517
 				*/				
 				for (BusRecXmlType bus : sen.getBusArray()) {
-					double qvolt = algo.getBusSensitivity(SenAnalysisType.QVOLTAGE, inBusId, bus.getBusId(), msg);
+					double qvolt = algo.getBusSensitivity(SenAnalysisType.QVOLTAGE, inBusId, bus.getBusId());
 					assertTrue(	Math.abs(qvolt+0.060867) < 0.0001 ||
 								Math.abs(qvolt+0.025253) < 0.0001);
 				}
@@ -79,7 +79,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 		for (DclfBranchSensitivityXmlType gsFactor : dclfCase.getGenShiftFactorArray()) {
 			String inBusId = gsFactor.getInjectBusList().getInjectBusArray(0).getBusId();
 			for (BranchRecXmlType branch : gsFactor.getBranchArray()) {
-				double gsf = algo.getGenShiftFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1", msg);
+				double gsf = algo.getGenShiftFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1");
 				//System.out.println("GSF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + gsf);
 				/*
 				GSF 0004->0007 0.011086980682516566
@@ -99,7 +99,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 					double ptdf = algo.getPTransferDistFactor(inBusId, wdBusId, 
-							branch.getFromBusId(), branch.getToBusId(), "1", msg);
+							branch.getFromBusId(), branch.getToBusId(), "1");
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
 				}
@@ -108,7 +108,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 			else if (tdFactor.getWithdrawBusType() == SenBusAnalysisDataType.MULTIPLE_BUS) {
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
-					double ptdf = algo.getPTransferDistFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1", msg);
+					double ptdf = algo.getPTransferDistFactor(inBusId, branch.getFromBusId(), branch.getToBusId(), "1");
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
 				}
@@ -124,7 +124,7 @@ public class DclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 				double sum = 0.0;
 				for (BranchRecXmlType branch : tdFactor.getBranchArray()) {
 					double ptdf = algo.getPTransferDistFactor(inBusId, wdBusId, 
-									branch.getFromBusId(), branch.getToBusId(), "1", msg);
+									branch.getFromBusId(), branch.getToBusId(), "1");
 					sum += ptdf;
 					//System.out.println("PTDF " + branch.getFromBusId() + "->" + branch.getToBusId() + " " + ptdf);
 				}

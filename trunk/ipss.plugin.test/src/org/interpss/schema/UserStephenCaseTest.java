@@ -28,7 +28,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	@Test
 	public void caseTest1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee");
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
 
@@ -79,7 +79,7 @@ public class UserStephenCaseTest extends BaseTestSetup {
 	@Test
 	public void caseTest2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ieee");
-		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ieee_format/ieee14.ieee");
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
 

@@ -24,19 +24,13 @@
 
 package org.interpss.core.adapter.psse;
 
-import static org.junit.Assert.assertTrue;
-
-import org.apache.commons.math.complex.Complex;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.datatype.UnitType;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBus;
-import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -46,8 +40,7 @@ public class MMWG_2007series_2008S_Test extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
-		SimuContext simuCtx = adapter.load("testData/psse/MMWG_2007series_2008S_Final.raw", 
-						SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/psse/MMWG_2007series_2008S_Final.raw");
 //  		System.out.println(simuCtx.getAclfNet().net2String());
 
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();

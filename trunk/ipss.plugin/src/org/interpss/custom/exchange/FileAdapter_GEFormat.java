@@ -43,6 +43,9 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
 public class FileAdapter_GEFormat extends IpssFileAdapterBase {
+	public FileAdapter_GEFormat(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}
 	/**
 	 * Load the data in the data file, specified by the filepath, into the SimuContext object. An AclfAdjNetwork
 	 * object will be created to hold the data for loadflow analysis.
@@ -52,8 +55,8 @@ public class FileAdapter_GEFormat extends IpssFileAdapterBase {
 	 * @param msg the SessionMsg object
 	 */
 	@Override
-	public void load(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg) throws Exception{
-		loadByAdpter(simuCtx, filepath, msg);
+	public void load(final SimuContext simuCtx, final String filepath) throws Exception{
+		loadByAdpter(simuCtx, filepath);
  	}
 	
 	/**
@@ -65,9 +68,9 @@ public class FileAdapter_GEFormat extends IpssFileAdapterBase {
 	 * @return the created SimuContext object.
 	 */
 	@Override
-	public SimuContext load(final String filepath, final IPSSMsgHub msg) throws Exception{
-  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msg);
-  		load(simuCtx, filepath, msg);
+	public SimuContext load(final String filepath) throws Exception{
+  		final SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.NOT_DEFINED, msgHub);
+  		load(simuCtx, filepath);
   		return simuCtx;
 	}
 	
@@ -76,17 +79,17 @@ public class FileAdapter_GEFormat extends IpssFileAdapterBase {
 	 * back to a data file.
 	 */
 	@Override
-	public boolean save(final String filepath, final SimuContext net, final IPSSMsgHub msg) throws Exception{
+	public boolean save(final String filepath, final SimuContext net) throws Exception{
 		throw new InvalidOperationException("FileAdapter_UCTEFormat.save not implemented");
 	}
 	
 	
-	private void loadByAdpter(final SimuContext simuCtx, final String filepath, final IPSSMsgHub msg)  throws Exception{
+	private void loadByAdpter(final SimuContext simuCtx, final String filepath)  throws Exception{
 		final File file = new File(filepath);
 		final InputStream stream = new FileInputStream(file);
 		final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 		
-		final AclfAdjNetwork adjNet = GEFormat_in.loadFile(din, StringUtil.getFileName(filepath), GEDataRec.VersionNo.PSLF15, msg);
+		final AclfAdjNetwork adjNet = GEFormat_in.loadFile(din, StringUtil.getFileName(filepath), GEDataRec.VersionNo.PSLF15, msgHub);
   		// System.out.println(adjNet.net2String());
 	  		
   		if (adjNet != null) {
@@ -96,7 +99,7 @@ public class FileAdapter_GEFormat extends IpssFileAdapterBase {
   	  		simuCtx.setDesc("This project is created by input file " + filepath);
   		}
   		else { 
-  			msg.sendErrorMsg("Error to load file: " + filepath);
+  			msgHub.sendErrorMsg("Error to load file: " + filepath);
   			IpssLogger.getLogger().severe("Error to load file: " + filepath);
   		}		
 	}

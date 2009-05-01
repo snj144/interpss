@@ -41,7 +41,7 @@ public class SCEdisonTestCases extends BaseTestSetup {
 	@Test
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
-		SimuContext simuCtx = adapter.load("testData/ge/lftest_083008.epc", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ge/lftest_083008.epc");
 		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
 
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);

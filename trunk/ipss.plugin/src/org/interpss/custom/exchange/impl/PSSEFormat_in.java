@@ -62,6 +62,10 @@ public class PSSEFormat_in extends IpssFileAdapterBase {
 	public static boolean includeVSCDCLine = false;
 	public static boolean includeFACTS = false;
 
+	public PSSEFormat_in(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}
+	
 	/** 
 	 * First input data into the PSSEAclfNetwork object and then transfer the data into InterPSS model
 	 *

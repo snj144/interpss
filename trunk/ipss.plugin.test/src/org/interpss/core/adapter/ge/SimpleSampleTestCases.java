@@ -44,7 +44,7 @@ public class SimpleSampleTestCases extends BaseTestSetup {
 	@Test
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ge");
-		SimuContext simuCtx = adapter.load("testData/ge/Sample18Bus.epc", SpringAppContext.getIpssMsgHub());
+		SimuContext simuCtx = adapter.load("testData/ge/Sample18Bus.epc");
 		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
 
 		assertTrue(net.getNoBus() == 18);
