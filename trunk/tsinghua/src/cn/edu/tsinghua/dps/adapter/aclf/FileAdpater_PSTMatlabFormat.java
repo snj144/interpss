@@ -52,7 +52,10 @@ import com.interpss.simu.SimuObjectFactory;
  *  
  */
 public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
-
+	public FileAdpater_PSTMatlabFormat(IPSSMsgHub msgHub) {
+		super(msgHub);
+	}
+	
     private static final int BusData = 1;
 
     /**
@@ -67,13 +70,13 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
      * @param msg
      *            the SessionMsg object
      */
-    public void load(SimuContext simuCtx, String filepath, IPSSMsgHub msg)
+    public void load(SimuContext simuCtx, String filepath)
             throws Exception {
         File file = new File(filepath);
         InputStream stream = new FileInputStream(file);
         BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 
-        AclfAdjNetwork adjNet = loadFile(din, msg);
+        AclfAdjNetwork adjNet = loadFile(din, msgHub);
         IpssLogger.getLogger().fine(adjNet.net2String());
 
         simuCtx.setNetType(SimuCtxType.ACLF_ADJ_NETWORK);
@@ -94,10 +97,10 @@ public class FileAdpater_PSTMatlabFormat extends IpssFileAdapterBase {
      *            the SessionMsg object
      * @return the created SimuContext object.
      */
-    public SimuContext load(String filepath, IPSSMsgHub msg) throws Exception {
+    public SimuContext load(String filepath) throws Exception {
         SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(
-                SimuCtxType.NOT_DEFINED, msg);
-        load(simuCtx, filepath, msg);
+                SimuCtxType.NOT_DEFINED, msgHub);
+        load(simuCtx, filepath);
         return simuCtx;
     }
 
