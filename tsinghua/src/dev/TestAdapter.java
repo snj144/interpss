@@ -21,8 +21,8 @@ public class TestAdapter {
 			msg = new IPSSMsgHubImpl();
 			msg.addMsgListener(new StdoutMsgListener(TextMessage.TYPE_STATUS));
 
-			IpssFileAdapter adapter = new FileAdpater_PSTMatlabFormat();
-			adapter.load("testData/data3m9b.m", msg);
+			IpssFileAdapter adapter = new FileAdpater_PSTMatlabFormat(msg);
+			adapter.load("testData/data3m9b.m");
  		} catch (Exception e) {
  			e.printStackTrace();
 		}
