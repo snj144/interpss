@@ -175,7 +175,7 @@ public class AclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 				.getRunForm2AlgorithmMapper();
 		mapper.mapping(this, algo, LoadflowAlgorithm.class);
 
-		algo.loadflow(msg);
+		algo.loadflow();
 
 		return aclfAdjNet.isLfConverged();
 	}

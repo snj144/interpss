@@ -33,7 +33,7 @@ public class ToolsDebugIEEEODMXmlInfo extends IpssAbstractActionDefault {
 			adapter = new IeeeCDFAdapter(IpssLogger.getLogger());
 		}
 		if (adapter != null) {
-			if (adapter.parseXmlFile(filepath)) {
+			if (adapter.parseInputFile(filepath)) {
 				str = adapter.getModel().toString();
 			}
 			else

@@ -172,11 +172,11 @@ public class SimuRunWorker extends Thread {
 
 			AclfNetwork net = simuCtx.getAclfNet();
 			// create DCLoadflow Algorithm object
-			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(net);
+			DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(net, simuCtx.getMsgHub());
 			// run DCLoadflow to calculate bus voltage angle
-			if (!algo.checkCondition(simuCtx.getMsgHub()))
+			if (!algo.checkCondition())
 				return;
-			algo.calculateDclf(simuCtx.getMsgHub());
+			algo.calculateDclf();
 
 			IOutputTextDialog dialog = UISpringAppContext
 					.getOutputTextDialog("DC Loadflow Analysis Info");

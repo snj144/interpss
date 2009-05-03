@@ -53,9 +53,9 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	
 	@Override
 	public boolean runCase(SimuContext simuCtx, IPSSMsgHub msg) {
-		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet());
+		DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(simuCtx.getAclfNet(), msg);
 		simuCtx.setDclfAlgorithm(algo);
-		if (!algo.checkCondition(msg))
+		if (!algo.checkCondition())
 			return false;
 		
 		XmlScriptDclfRun.calPTDistFactor(tdFactor, algo, msg);
@@ -66,7 +66,7 @@ public class DclfRunForm extends BaseRunForm implements ISimuCaseRunner {
 	
 	public void displaySummaryResult(SimuContext simuCtx) {
 		IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Sensitivity Analysis Results");
-		String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, simuCtx.getDclfAlgorithm(), simuCtx.getMsgHub());
+		String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, simuCtx.getDclfAlgorithm());
 		dialog.display(str);
 	}	
 }

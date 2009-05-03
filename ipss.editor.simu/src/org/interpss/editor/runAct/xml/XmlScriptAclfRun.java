@@ -107,7 +107,7 @@ public class XmlScriptAclfRun {
 				    net.rebuildLookupTable();
 				}
 
-				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+				LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 				// map to the Algo object including network modification at the study case level
 				IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 				if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, reJobCreation, msg))
@@ -124,7 +124,7 @@ public class XmlScriptAclfRun {
 							studyCase.setModifyModelString(xmlCase.getModification().xmlText());
 					} else {
 						// if not grid computing, perform Loadflow for the study case
-						algo.loadflow(msg);
+						algo.loadflow();
 						if (applyRuleBase) {
 							RuleBaseXmlType ruleBase = ipssXmlDoc.getRunStudyCase().getRuleBase();
 							PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
@@ -180,7 +180,7 @@ public class XmlScriptAclfRun {
 	private static boolean aclfSingleRun(AclfAdjNetwork aclfNet, AclfStudyCaseXmlType xmlCase, AclfAlgorithmXmlType xmlDefaultAlgo, 
 				RuleBaseXmlType ruleBase, boolean applyRuleBase, boolean gridRun, long timeout, IPSSMsgHub msg) {
 		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(aclfNet, msg);
 		if (!XmlScriptUtilFunc.mapAclfStudyCase(mapper, xmlCase, algo, xmlDefaultAlgo, false, msg))
 			return false;
 
@@ -199,7 +199,7 @@ public class XmlScriptAclfRun {
 				return false;
 			}
 		} else {
-			algo.loadflow(msg);
+			algo.loadflow();
 			if (applyRuleBase) {
 				PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, ruleBase, DefaultUpperVoltageLimit, DefaultLowerVoltageLimit, msg);
 			}
