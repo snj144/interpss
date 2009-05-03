@@ -27,6 +27,7 @@ package org.interpss.custom;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 import com.interpss.common.custom.IpssCustomAdapter;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.simu.SimuContext;
 
 public interface IpssFileAdapter extends IpssCustomAdapter {
@@ -81,6 +82,13 @@ public interface IpssFileAdapter extends IpssCustomAdapter {
 	 */
 	SimuContext load(String filepath) throws Exception;
 
+	/**
+	 * Load the file and create a SimuNetwork object
+	 *  
+	 * @return a SimuNetwork object
+	 */
+	AclfAdjNetwork loadAclfNet(String filepath) throws Exception;
+	
 	/**
      * No need to be implemented if you do not write simulaiton results back to a datafile
 	 * 

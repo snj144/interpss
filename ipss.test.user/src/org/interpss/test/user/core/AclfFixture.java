@@ -56,7 +56,7 @@ public class AclfFixture extends IpssFixture {
 	  		(lfMethod.equals("PQ")? AclfMethod.PQ : AclfMethod.GS));
 	  	if (lfMethod.equals("GS"))
 	  		simuCtx.getLoadflowAlgorithm().setGsAccFactor(gsAccelerator);
-	  	simuCtx.getLoadflowAlgorithm().loadflow(msg);		
+	  	simuCtx.getLoadflowAlgorithm().loadflow();		
 	}
 
 	public void setTolerance(double x) {

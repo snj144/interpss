@@ -116,7 +116,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			}
 		} else {
 			// this is more for testing purpose
-			algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+			algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		}
 
 		if (getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug))
@@ -124,7 +124,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		
 		// perform loadflow calculation
 		try {
-			algo.loadflow(SpringAppContext.getIpssMsgHub());
+			algo.loadflow();
 			if (getSesBooleanAttrib(Constants.GridToken_ApplyRuleBase)) {
 				IpssLogger.getLogger().info("Apply Rule Base");
 				String str = getSesStringAttrib(Constants.GridToken_RuleBaseXml);

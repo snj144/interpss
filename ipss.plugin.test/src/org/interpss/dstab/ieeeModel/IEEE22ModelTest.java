@@ -62,7 +62,7 @@ public class IEEE22ModelTest extends DStabTestSetupBase {
 		addDynamicEventData(net);
 		
 		LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
-		aclfAlgo.loadflow(msg);
+		aclfAlgo.loadflow();
 	  	assertTrue(simuCtx.getDStabilityNet().isLfConverged());
 		
 		StateVariableTestRecorder stateTestRecorder = new StateVariableTestRecorder(0.0001);
@@ -81,9 +81,9 @@ public class IEEE22ModelTest extends DStabTestSetupBase {
 		yTestRecorder.initBusNumber(net);
 		net.setNetChangeListener(yTestRecorder);	
 
-		if (algo.initialization(msg)) {
+		if (algo.initialization()) {
 			System.out.println("Running DStab simulation ...");
-			algo.performSimulation(msg);
+			algo.performSimulation();
 		}
 
 		assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 

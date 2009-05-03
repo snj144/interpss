@@ -55,7 +55,7 @@ public class SimuAppCtxTest extends BaseTestSetup {
 		//System.out.println(net.net2String());
 
 	  	LoadflowAlgorithm algo = simuCtx.getLoadflowAlgorithm();
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(simuCtx.getAclfNet().isLfConverged());
@@ -83,7 +83,7 @@ public class SimuAppCtxTest extends BaseTestSetup {
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		
 	  	SimpleFaultAlgorithm algo = simuCtx.getSimpleFaultAlgorithm();
-	  	algo.calculateBusFault(fault, SpringAppContext.getIpssMsgHub());
+	  	algo.calculateBusFault(fault);
   		//System.out.println(fault.toString(faultBus.getBaseVoltage(), faultNet.getBaseKva()));
 		/*
 		 fault amps(1): (  0.0000 + j 32.57143) pu

@@ -46,13 +46,13 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 	  		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
-	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		assertTrue(algo.loadflow());
 	  		i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva());
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
@@ -95,7 +95,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new RunForm2AlgorithmMapper();
 
 		  	if (aclfCase.getAclfAlgorithm() == null) 
@@ -105,7 +105,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	
 	  		assertTrue(algo.getMaxIterations() == 20);
 	  		assertTrue(algo.getTolerance() == 1.0E-4);
-	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		assertTrue(algo.loadflow());
 	  		i = net.getAclfBranch("0004->0007(1)").current(UnitType.PU, net.getBaseKva());
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
@@ -143,7 +143,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 
   		AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
   			
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	// modification of the study case also applied
 	  	IpssMapper mapper = new IpssXmlMapper();
 	  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
@@ -157,6 +157,6 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
 	  	// branch Z increase by 10%
 	  	assertTrue(Math.abs(net.getAclfBranch("0004->0007(1)").getZ().getImaginary()-0.20912*1.1) < 1.0E-5);
 
-	  	assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  	assertTrue(algo.loadflow());
 	}
 }

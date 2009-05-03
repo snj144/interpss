@@ -70,13 +70,13 @@ public class PreventiveCaseTest extends BaseTestSetup {
 	  	AclfStudyCaseXmlType aclfCase = parser.getRunAclfStudyCase().getAclfStudyCaseList().getAclfStudyCaseArray(0);
 		AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 		net.rebuildLookupTable();
-  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	IpssMapper mapper = new RunForm2AlgorithmMapper();
   		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 	  	
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 	  		
   		RuleBaseXmlType aclfRuleBase = parser.getRunStudyCase().getRuleBase();
@@ -121,13 +121,13 @@ public class PreventiveCaseTest extends BaseTestSetup {
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		mapper = new RunForm2AlgorithmMapper();
 		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
   		
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());  	
   		
 	  	assertTrue(!net.getAclfBus("0007").isActive());
@@ -140,11 +140,11 @@ public class PreventiveCaseTest extends BaseTestSetup {
 	  	
 	  	assertTrue(PreventiveRuleHanlder.applyRuleSet(net, 
 	  				parser.getRunStudyCase().getRuleBase(), 1, 1.2, 0.8, msg));
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
 	  	
   		assertTrue(PreventiveRuleHanlder.applyRuleSet(net, 
   					parser.getRunStudyCase().getRuleBase(), 2, 1.2, 0.8, msg));
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
 
   		assertTrue(net.getAclfBus("0014").getLoadCode() == AclfLoadCode.NON_LOAD);
 	  	assertTrue(net.getAclfBus("0013").getLoadCode() == AclfLoadCode.NON_LOAD);
@@ -168,13 +168,13 @@ public class PreventiveCaseTest extends BaseTestSetup {
   		IpssMapper mapper = PluginSpringAppContext.getIpssXmlMapper();
 		mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		mapper = new RunForm2AlgorithmMapper();
 		mapper.mapping(aclfCase.getAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
   		
   		assertTrue(algo.getMaxIterations() == 20);
   		assertTrue(algo.getTolerance() == 1.0E-4);
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());  	
 	
 	  	PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRunStudyCase().getRuleBase(), 1.2, 0.8, msg);

@@ -83,9 +83,9 @@ public class TestSetupBase extends BaseTestSetup {
 		branch.setZ(new Complex(0.0, 0.1));
 		
 		// run load flow
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	algo.setLfMethod(AclfMethod.NR);
-	  	algo.loadflow(msg);
+	  	algo.loadflow();
 	  	
 	  	// uncommet this line to see the net object states
   		//System.out.println(net.net2String());

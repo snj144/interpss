@@ -94,7 +94,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 			  	assertTrue(algo.getDStabNet().getDEventList().size() == 0);
 
 			  	LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
-				aclfAlgo.loadflow(msg);
+				aclfAlgo.loadflow();
 			  	assertTrue(algo.getDStabNet().isLfConverged());
 				
 				double[] timePoints    = {0.0,  0.5,  1.0},
@@ -104,9 +104,9 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 						DStabOutSymbol.OUT_SYMBOL_MACH_ANG, timePoints, machAngPoints);
 				algo.setSimuOutputHandler(stateTestRecorder);
 			  	
-				if (algo.initialization(msg)) {
+				if (algo.initialization()) {
 					System.out.println("Running DStab simulation ...");
-					algo.performSimulation(msg);
+					algo.performSimulation();
 				}
 				
 				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 
@@ -130,7 +130,7 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 			  	assertTrue(event.getBusFault().getBus().getId().equals("0003"));
 			  	
 			  	LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
-				aclfAlgo.loadflow(msg);
+				aclfAlgo.loadflow();
 			  	assertTrue(algo.getDStabNet().isLfConverged());
 			  	
 			  	double[] 	timePoints    = {0.0,    1.0,    2.0,    3.0,    4.0,    5.0,    6.0,    7.0,    8.0,    9.0,    10.0},
@@ -156,9 +156,9 @@ public class DStabSchemaIEEE11ModelTest extends DStabTestSetupBase {
 
 				//TextSimuOutputHandler handler = new TextSimuOutputHandler();
 				//algo.setSimuOutputHandler(handler);
-				if (algo.initialization(msg)) {
+				if (algo.initialization()) {
 					System.out.println("Running DStab simulation ...");
-					algo.performSimulation(msg);
+					algo.performSimulation();
 				}
 /*
 				assertTrue(stateTestRecorder.diffTotal("Mach@0001", StateVariableTestRecorder.RecType_Machine, 

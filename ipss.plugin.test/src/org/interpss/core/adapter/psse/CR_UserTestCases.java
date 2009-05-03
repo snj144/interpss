@@ -51,9 +51,9 @@ public class CR_UserTestCases extends BaseTestSetup {
 
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");
@@ -71,9 +71,9 @@ public class CR_UserTestCases extends BaseTestSetup {
 
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 
 	  	AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");

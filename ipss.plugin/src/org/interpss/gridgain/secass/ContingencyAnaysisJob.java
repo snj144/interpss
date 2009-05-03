@@ -90,7 +90,7 @@ public class ContingencyAnaysisJob extends AbstractIpssGridGainJob {
 		
 		// perform loadflow calculation
 		try {
-			algo.loadflow(SpringAppContext.getIpssMsgHub());
+			algo.loadflow();
 			if (getSesBooleanAttrib(Constants.GridToken_ApplyRuleBase)) {
 				IpssLogger.getLogger().info("Apply Aclf Rule Base");
 				String str = getSesStringAttrib(Constants.GridToken_RuleBaseXml);

@@ -56,12 +56,12 @@ public class AcscSchemaSampleCaseTest extends BaseTestSetup {
 		//System.out.println(faultNet.net2String());
   		assertTrue((faultNet.getBusList().size() == 5 && faultNet.getBranchList().size() == 5));
 
-  		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet);
+  		SimpleFaultAlgorithm algo = CoreObjectFactory.createSimpleFaultAlgorithm(faultNet, SpringAppContext.getIpssMsgHub());
 	  	IpssMapper mapper = new IpssXmlMapper();
 	  	for ( AcscStudyCaseXmlType scase : parser.getRunAcscStudyCase().getAcscStudyCaseList().getAcscStudyCaseArray()) {
 	  		mapper.mapping(scase, algo, AcscStudyCaseXmlType.class);
 	  		AcscBusFault fault = faultNet.getFaultList().get(0);
-	  		algo.calculateBusFault((AcscBusFault)fault, SpringAppContext.getIpssMsgHub());
+	  		algo.calculateBusFault((AcscBusFault)fault);
 	  			/*
 	  			 fault amps(1): (  0.0000 + j 32.57143) pu
 	  			 fault amps(2): (  0.0000 + j  0.0000) pu

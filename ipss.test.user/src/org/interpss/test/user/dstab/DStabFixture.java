@@ -472,7 +472,7 @@ public class DStabFixture extends AcscFixture {
 
 	public void runDStabSimu() {
 		LoadflowAlgorithm aclfAlgo = dSimuAlgorithm.getAclfAlgorithm();
-		aclfAlgo.loadflow(msg);
+		aclfAlgo.loadflow();
 		
 		dSimuAlgorithm.setSimuOutputHandler(stateTestRecorder);
 	  	
@@ -481,8 +481,8 @@ public class DStabFixture extends AcscFixture {
 			getNet().setNetChangeListener(yTestRecorder);	
 		}
 
-		if (dSimuAlgorithm.initialization(msg)) {
-			dSimuAlgorithm.performSimulation(msg);
+		if (dSimuAlgorithm.initialization()) {
+			dSimuAlgorithm.performSimulation();
 		}		
 	}
 	

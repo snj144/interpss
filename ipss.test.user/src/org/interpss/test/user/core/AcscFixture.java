@@ -52,9 +52,9 @@ public class AcscFixture extends AclfBuildFixture {
 	public void runAcShortCircuit() {
 		simuCtx.setSimpleFaultAlgorithm(CoreSpringAppContext.getSimpleFaultAlgorithm());
 	  	if (acscFault instanceof AcscBranchFault)
-	  		simuCtx.getSimpleFaultAlgorithm().calculateBranchFault((AcscBranchFault)acscFault, msg);		
+	  		simuCtx.getSimpleFaultAlgorithm().calculateBranchFault((AcscBranchFault)acscFault);		
 	  	else
-	  		simuCtx.getSimpleFaultAlgorithm().calculateBusFault(acscFault, msg);		
+	  		simuCtx.getSimpleFaultAlgorithm().calculateBusFault(acscFault);		
 	  	
 		//System.out.println(AcscOut.faultResult2String(simuCtx.getAcscFaultNet()));
 	}
