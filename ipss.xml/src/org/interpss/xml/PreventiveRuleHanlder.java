@@ -66,7 +66,7 @@ public class PreventiveRuleHanlder {
 					IpssLogger.getLogger().info("Applied rule set with priority = " + i);
 					msgList.add("Applied rule set with priority = " + i);
 					// re-run Loadflow after applying the rule set action
-					algo.loadflow(msg);
+					algo.loadflow();
 				}
 		}
 		return msgList;
