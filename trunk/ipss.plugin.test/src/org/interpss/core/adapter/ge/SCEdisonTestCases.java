@@ -44,9 +44,9 @@ public class SCEdisonTestCases extends BaseTestSetup {
 		SimuContext simuCtx = adapter.load("testData/ge/lftest_083008.epc");
 		GeAclfNetwork net = (GeAclfNetwork)simuCtx.getAclfAdjNet();
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setTolerance(0.1);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
 		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		

@@ -114,15 +114,15 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 
 		// perform load flow calculation
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-		aclfAlgo.loadflow(getMsgHub());
+		aclfAlgo.loadflow();
 
 		getRemoteResult().put(RemoteMessageTable.KEY_sRqtRsp_StudyCaseId, getGrid().getLocalNode().getId().toString());
 		getRemoteResult().put(RemoteMessageTable.KEY_sRqtRsp_StudyCaseId, caseId);
-		if (dstabAlgo.initialization(getMsgHub())) {
+		if (dstabAlgo.initialization()) {
 			getMsgHub().sendStatusMsg(
 					"Running DStab simulation at remote node "
 							+ getGrid().getLocalNode());
-			if (dstabAlgo.performSimulation(getMsgHub())) {
+			if (dstabAlgo.performSimulation()) {
 				getRemoteResult().put(RemoteMessageTable.KEY_bRsp_ReturnStatus, Boolean.TRUE);
 				return getRemoteResult();
 			}

@@ -50,9 +50,9 @@ public class Bus1824Test extends BaseTestSetup {
   		//System.out.println(net.net2String());
   		assertTrue((net.getBusList().size() == 1824));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		

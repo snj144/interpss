@@ -50,8 +50,8 @@ public class SimpleSampleTestCases extends BaseTestSetup {
 		assertTrue(net.getNoBus() == 18);
 		assertTrue(net.getNoBranch() == 24);
 		
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
 		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		

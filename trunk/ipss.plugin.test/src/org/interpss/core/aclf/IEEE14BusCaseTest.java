@@ -27,9 +27,9 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/aclf/IEEE14Bus_3WXfrOff.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
   		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
@@ -44,11 +44,11 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
 		//System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
@@ -67,16 +67,16 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 		bus.setLoadP(2.0);
 		bus.setLoadQ(1.1);
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 
-	  	assertTrue(!algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  	assertTrue(!algo.loadflow());
 	  	
 	  	bus.setLoadCode(AclfLoadCode.EXPONENTIAL);
 	  	bus.setExpLoadP(0.9);
 	  	bus.setExpLoadQ(3.0);
 	  	algo.setMaxIterations(40);
-	  	assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  	assertTrue(algo.loadflow());
 	}			
 }

@@ -23,9 +23,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfNegativeBranchX.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -41,9 +41,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2Bus.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -59,9 +59,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusCapacitor.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -77,9 +77,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusConstILoad.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -95,9 +95,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusConstZLoad.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -113,9 +113,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusPQLoad.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -131,9 +131,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusPsXfr.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -149,9 +149,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusPVLoad.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -167,9 +167,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusXfr.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -185,9 +185,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusXfrFromTurnRatio.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");
@@ -203,9 +203,9 @@ public class AclfCaseTest  extends BaseTestSetup {
 		loadCaseData("testData/geditor/aclf/AclfSimple2BusXfrToTurnRatio.ipss", simuCtx);
 		
 		AclfNetwork net = simuCtx.getAclfNet();
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	
-  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+  		assertTrue(algo.loadflow());
   		//System.out.println(net.net2String());
 
   		AclfBus swingBus = (AclfBus)net.getBus("0001");

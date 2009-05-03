@@ -60,8 +60,8 @@ public class IEEE14Test extends BaseTestSetup {
   		 * Get the default loadflow algorithm and Run loadflow analysis. By default, it uses
   		 * NR method with convergence error tolerance 0.0001 pu
   		 */
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		System.out.println(net.net2String());
 	  	
 	  	/*

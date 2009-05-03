@@ -47,12 +47,12 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 		  	
-	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		assertTrue(algo.loadflow());
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory
 	  				.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
@@ -103,12 +103,12 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 		  	
-	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		assertTrue(algo.loadflow());
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory
 	  				.createAclfStudyCase(aclfCase.getRecId(), aclfCase.getRecName(), ++cnt, mscase);
@@ -142,12 +142,12 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  	for ( AclfStudyCaseXmlType aclfCase : parser.getContingencyAnalysis().getAclfStudyCaseList().getAclfStudyCaseArray()) {
 			AclfAdjNetwork net = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(netStr);
 			net.rebuildLookupTable();
-	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		  	IpssMapper mapper = new IpssXmlMapper();
 		  	mapper.mapping(aclfCase.getModification(), net, ModificationXmlType.class);
 		  	mapper.mapping(parser.getContingencyAnalysis().getDefaultAclfAlgorithm(), algo, AclfAlgorithmXmlType.class);
 		  	
-	  		assertTrue(algo.loadflow(SpringAppContext.getIpssMsgHub()));
+	  		assertTrue(algo.loadflow());
 			PreventiveRuleHanlder.applyRuleSet2AclfNet(algo, parser.getRuleBase(), 1.1, 0.9, msg);
 	  		
 	  		AclfStudyCase scase = SimuObjectFactory

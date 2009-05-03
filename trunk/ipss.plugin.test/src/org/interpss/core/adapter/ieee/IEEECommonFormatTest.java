@@ -49,8 +49,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 14 && net.getBranchList().size() == 20));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
@@ -70,8 +70,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 30 && net.getBranchList().size() == 41));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
@@ -91,8 +91,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 57 && net.getBranchList().size() == 80));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
@@ -114,8 +114,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 118 && net.getBranchList().size() == 186));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
@@ -134,8 +134,8 @@ public class IEEECommonFormatTest extends BaseTestSetup {
 		AclfNetwork net = simuCtx.getAclfNet();
   		assertTrue((net.getBusList().size() == 300 && net.getBranchList().size() == 411));
 
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
-	  	algo.loadflow(SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
   		assertTrue(net.isLfConverged());		
