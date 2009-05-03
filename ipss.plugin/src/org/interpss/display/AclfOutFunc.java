@@ -94,165 +94,134 @@ public class AclfOutFunc {
 		return str + "\n";
 	}
 
+	public static String busStyleTitle() {
+		StringBuffer str = new StringBuffer("");
+		str.append("\n\n                                              Load Flow Results\n\n");
+		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
+		str.append(" Bus ID             Bus Voltage         Generation           Load             To             Branch P+jQ          Xfr Ratio   PS-Xfr Ang\n");
+		str.append("               base     Mag   Ang     (mW)    (mVar)    (mW)    (mVar)      Bus ID      (mW)    (mVar)   (kA)   (From)  (To) (from)   (to)\n");
+		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
+		return str.toString();
+	}
+
+	public static String lfResultsBusStyle(AclfBus bus, double baseKVA) {
+		StringBuffer str = new StringBuffer("");
+
+		GenBusAdapter genBus = (GenBusAdapter) bus.getAdapter(GenBusAdapter.class);
+		Complex busGen = genBus.getGenResults(UnitType.mVA, baseKVA);
+		Complex busLoad = genBus.getLoadResults(UnitType.mVA,baseKVA);
+		if (bus.isCapacitor()) {
+			CapacitorBusAdapter cap = (CapacitorBusAdapter) bus.getAdapter(CapacitorBusAdapter.class);
+			busGen = busGen.add(new Complex(0.0, cap.getQResults(bus.getVoltageMag(), UnitType.PU, baseKVA)));
+		}
+		str.append(Number2String.toStr(-12, bus.getId()) + " ");
+		str.append(Number2String.toStr("#######0", bus.getBaseVoltage()) + " ");
+		str.append(Number2String.toStr("0.0000", bus.getVoltageMag(UnitType.PU)) + " ");
+		str.append(Number2String.toStr("##0.0", bus.getVoltageAng(UnitType.Deg)) + " ");
+		str.append(Number2String.toStr("####0.00", busGen.getReal()) + " ");
+		str.append(Number2String.toStr("####0.00", busGen.getImaginary()) + " ");
+		str.append(Number2String.toStr("####0.00", busLoad.getReal()) + " ");
+		str.append(Number2String.toStr("####0.00", busLoad.getImaginary()) + " ");
+		// str.append( " - - - - - - - - - - -\n" );
+
+		int cnt = 0;
+		for (Branch br : bus.getBranchList()) {
+			AclfBranch bra = (AclfBranch) br;
+			if (bra.isActive()) {
+
+				AclfBus busj;
+				if (bus.equals(bra.getFromAclfBus()))
+					busj = bra.getToAclfBus();
+				else
+					busj = bra.getFromAclfBus();
+
+				Complex pq = new Complex(0.0, 0.0);
+				double amp = 0.0, fromRatio = 1.0, toRatio = 1.0, fromAng = 0.0, toAng = 0.0;
+				if (bra.isActive()) {
+					if (bus.equals(bra.getFromAclfBus())) {
+						pq = bra.powerFrom2To(UnitType.mVA, baseKVA);
+						amp = UnitType.iConversion(bra.current(
+								UnitType.PU, baseKVA), bra.getFromAclfBus().getBaseVoltage(),
+								baseKVA, UnitType.PU, UnitType.Amp);
+						if (bra.isXfr() || bra.isPSXfr()) {
+							fromRatio = bra.getFromTap();
+							toRatio = bra.getToTap();
+							if (bra.isPSXfr()) {
+								PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
+								fromAng = psXfr.getFromAngle(UnitType.Deg);
+								toAng = psXfr.getToAngle(UnitType.Deg);
+							}
+						}
+					} else {
+						pq = bra.powerTo2From(UnitType.mVA, baseKVA);
+						amp = UnitType.iConversion(bra.current(
+								UnitType.PU, baseKVA), bra.getToAclfBus().getBaseVoltage(),
+								baseKVA, UnitType.PU, UnitType.Amp);
+						if (bra.isXfr() || bra.isPSXfr()) {
+							toRatio = bra.getFromTap();
+							fromRatio = bra.getToTap();
+							if (bra.isPSXfr()) {
+								PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
+								toAng = psXfr.getFromAngle(UnitType.Deg);
+								fromAng = psXfr.getToAngle(UnitType.Deg);
+							}
+						}
+					}
+				}
+				if (cnt++ > 0)
+					str.append(Number2String.toStr(67, " ")
+							+ "    ");
+				str.append(" "
+						+ Number2String.toStr(-12, busj.getId())
+						+ " ");
+				str.append(Number2String.toStr("####0.00", pq.getReal()) + " ");
+				str.append(Number2String.toStr("####0.00", pq.getImaginary()) + " ");
+				str.append(Number2String.toStr("##0.0##", 0.001 * amp) + " ");
+				if (bra.isXfr() || bra.isPSXfr()) {
+					if (fromRatio != 1.0)
+						str.append(Number2String.toStr("0.0###", fromRatio) + " ");
+					else
+						str.append("       ");
+
+					if (toRatio != 1.0)
+						str.append(Number2String.toStr("0.0###", toRatio));
+					else
+						str.append("      ");
+
+					if (bra.isPSXfr()) {
+						if (fromAng != 0.0)
+							str.append("   " + Number2String .toStr("##0.0", fromAng));
+						else
+							str.append("        ");
+
+						if (toAng != 0.0)
+							str.append(" " + Number2String.toStr("##0.0", toAng));
+						else
+							str.append("      ");
+					}
+					str.append("\n");
+				} else {
+					str.append("\n");
+				}
+			}
+		}
+		return str.toString();
+	}
+	
 	public static String lfResultsBusStyle(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
 		try {
 			double baseKVA = net.getBaseKva();
 
-			str
-					.append("\n\n                                              Load Flow Results\n\n");
-			str
-					.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
-			str
-					.append(" Bus ID             Bus Voltage         Generation           Load             To             Branch P+jQ          Xfr Ratio   PS-Xfr Ang\n");
-			str
-					.append("               base     Mag   Ang     (mW)    (mVar)    (mW)    (mVar)      Bus ID      (mW)    (mVar)   (kA)   (From)  (To) (from)   (to)\n");
-			str
-					.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
+			str.append(busStyleTitle());
 
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
 				if (bus.isActive()) {
-					GenBusAdapter genBus = (GenBusAdapter) bus
-							.getAdapter(GenBusAdapter.class);
-					Complex busGen = genBus
-							.getGenResults(UnitType.mVA, baseKVA);
-					Complex busLoad = genBus.getLoadResults(UnitType.mVA,
-							baseKVA);
-					if (bus.isCapacitor()) {
-						CapacitorBusAdapter cap = (CapacitorBusAdapter) bus
-								.getAdapter(CapacitorBusAdapter.class);
-						busGen = busGen.add(new Complex(0.0, cap.getQResults(
-								bus.getVoltageMag(), UnitType.PU, baseKVA)));
-					}
-					str.append(Number2String.toStr(-12, bus.getId()) + " ");
-					str.append(Number2String.toStr("#######0", bus
-							.getBaseVoltage())
-							+ " ");
-					str.append(Number2String.toStr("0.0000", bus
-							.getVoltageMag(UnitType.PU))
-							+ " ");
-					str.append(Number2String.toStr("##0.0", bus
-							.getVoltageAng(UnitType.Deg))
-							+ " ");
-					str.append(Number2String
-							.toStr("####0.00", busGen.getReal())
-							+ " ");
-					str.append(Number2String.toStr("####0.00", busGen
-							.getImaginary())
-							+ " ");
-					str.append(Number2String.toStr("####0.00", busLoad
-							.getReal())
-							+ " ");
-					str.append(Number2String.toStr("####0.00", busLoad
-							.getImaginary())
-							+ " ");
-					// str.append( " - - - - - - - - - - -\n" );
-
-					int cnt = 0;
-					for (Branch br : bus.getBranchList()) {
-						AclfBranch bra = (AclfBranch) br;
-						if (bra.isActive()) {
-
-							AclfBus busj;
-							if (bus.equals(bra.getFromAclfBus()))
-								busj = bra.getToAclfBus();
-							else
-								busj = bra.getFromAclfBus();
-
-							Complex pq = new Complex(0.0, 0.0);
-							double amp = 0.0, fromRatio = 1.0, toRatio = 1.0, fromAng = 0.0, toAng = 0.0;
-							if (bra.isActive()) {
-								if (bus.equals(bra.getFromAclfBus())) {
-									pq = bra
-											.powerFrom2To(UnitType.mVA, baseKVA);
-									amp = UnitType.iConversion(bra.current(
-											UnitType.PU, baseKVA), bra
-											.getFromAclfBus().getBaseVoltage(),
-											baseKVA, UnitType.PU, UnitType.Amp);
-									if (bra.isXfr() || bra.isPSXfr()) {
-										fromRatio = bra.getFromTap();
-										toRatio = bra.getToTap();
-										if (bra.isPSXfr()) {
-											PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
-											fromAng = psXfr.getFromAngle(UnitType.Deg);
-											toAng = psXfr.getToAngle(UnitType.Deg);
-										}
-									}
-								} else {
-									pq = bra
-											.powerTo2From(UnitType.mVA, baseKVA);
-									amp = UnitType.iConversion(bra.current(
-											UnitType.PU, baseKVA), bra
-											.getToAclfBus().getBaseVoltage(),
-											baseKVA, UnitType.PU, UnitType.Amp);
-									if (bra.isXfr() || bra.isPSXfr()) {
-										toRatio = bra.getFromTap();
-										fromRatio = bra.getToTap();
-										if (bra.isPSXfr()) {
-											PSXfrAdapter psXfr = (PSXfrAdapter) bra.getAdapter(PSXfrAdapter.class);
-											toAng = psXfr.getFromAngle(UnitType.Deg);
-											fromAng = psXfr.getToAngle(UnitType.Deg);
-										}
-									}
-								}
-							}
-							if (cnt++ > 0)
-								str.append(Number2String.toStr(67, " ")
-										+ "    ");
-							str.append(" "
-									+ Number2String.toStr(-12, busj.getId())
-									+ " ");
-							str.append(Number2String.toStr("####0.00", pq
-									.getReal())
-									+ " ");
-							str.append(Number2String.toStr("####0.00", pq
-									.getImaginary())
-									+ " ");
-							str.append(Number2String.toStr("##0.0##",
-									0.001 * amp)
-									+ " ");
-							if (bra.isXfr() || bra.isPSXfr()) {
-								if (fromRatio != 1.0)
-									str.append(Number2String.toStr("0.0###",
-											fromRatio)
-											+ " ");
-								else
-									str.append("       ");
-
-								if (toRatio != 1.0)
-									str.append(Number2String.toStr("0.0###",
-											toRatio));
-								else
-									str.append("      ");
-
-								if (bra.isPSXfr()) {
-									if (fromAng != 0.0)
-										str
-											.append("   "
-													+ Number2String
-															.toStr("##0.0", fromAng));
-									else
-										str.append("        ");
-
-									if (toAng != 0.0)
-										str
-											.append(" "
-													+ Number2String
-														.toStr("##0.0", toAng));
-									else
-										str.append("      ");
-								}
-								str.append("\n");
-							} else {
-								str.append("\n");
-							}
-						}
-					}
+					str.append(lfResultsBusStyle(bus, baseKVA));
 				}
 			}
-			str
-					.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
+			str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
 		} catch (Exception emsg) {
 			str.append(emsg.toString());
 		}
