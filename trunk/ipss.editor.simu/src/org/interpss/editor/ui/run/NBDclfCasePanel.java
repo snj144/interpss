@@ -1174,15 +1174,15 @@ public class NBDclfCasePanel extends javax.swing.JPanel implements IFormDataPane
 
     private void ptdfCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ptdfCalculateButtonActionPerformed
     	this.parent.setAlwaysOnTop(false);
-    	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
+    	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet(), _simuCtx.getMsgHub());
     	_simuCtx.setDclfAlgorithm(algo);
-    	if (!algo.checkCondition(_simuCtx.getMsgHub()))
+    	if (!algo.checkCondition())
     		return;
     	if (!saveEditor2TDFactor())
     		return;
     	XmlScriptDclfRun.calPTDistFactor(tdFactor, algo, _simuCtx.getMsgHub());
     	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Sensitivity Analysis Results");
-    	String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, _simuCtx.getDclfAlgorithm(), _simuCtx.getMsgHub());
+    	String str = DclfOutFunc.pTransferDistFactorResults(tdFactor, _simuCtx.getDclfAlgorithm());
     	dialog.display(str);
     }//GEN-LAST:event_ptdfCalculateButtonActionPerformed
 
@@ -1304,15 +1304,15 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 
 private void atCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_atCalculateButtonActionPerformed
 	this.parent.setAlwaysOnTop(false);
-	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
+	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet(), _simuCtx.getMsgHub());
 	_simuCtx.setDclfAlgorithm(algo);
-	if (!algo.checkCondition(_simuCtx.getMsgHub()))
+	if (!algo.checkCondition())
 		return;
 	if (!saveEditor2AreaTransfer())
 		return;
 	XmlScriptDclfRun.calAreaTransferFactor(areaTransfer, algo, _simuCtx.getMsgHub());
 	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Area Transfer Analysis Results");
-	String str = DclfOutFunc.areaTransferAnalysisResults(areaTransfer, _simuCtx.getDclfAlgorithm(), _simuCtx.getMsgHub());
+	String str = DclfOutFunc.areaTransferAnalysisResults(areaTransfer, _simuCtx.getDclfAlgorithm());
 	dialog.display(str);
 }//GEN-LAST:event_atCalculateButtonActionPerformed
 

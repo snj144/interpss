@@ -948,7 +948,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void pqQStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqQStepButtonActionPerformed
     	IpssLogger.getLogger().info("PQ-Q Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_QSTEP);
-    	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+    	_simuCtx.getLoadflowAlgorithm().loadflow();
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqQStepButtonActionPerformed
@@ -983,7 +983,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)funcLoadComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All Function load adjustment");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doFuncLoadAdjust(_simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doFuncLoadAdjust();
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
@@ -999,7 +999,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)xfrTapControlComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All Xfr Tap Controls");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doTapVControl(_simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doTapVControl();
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
@@ -1015,7 +1015,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)psXfrPControlComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All PS Xfr PControls");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPSXfrPControl(_simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPSXfrPControl();
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
@@ -1031,7 +1031,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)interPControlComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All Interarea exchagnge controls");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doInterAreaPowerAdjust(_simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doInterAreaPowerAdjust();
         }
         else {
         	String no = new StringTokenizer(selected).nextToken();
@@ -1051,7 +1051,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)remoteQBusComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All Remote Q Bus adjustment");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doRemoteQVAdjust(_simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doRemoteQVAdjust();
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
@@ -1067,7 +1067,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)pqBusLimitComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All PQ Bus Limit");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPQBusLimitAdjust(AclfMethod.PQ, _simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPQBusLimitAdjust(AclfMethod.PQ);
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
@@ -1083,7 +1083,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
         String selected = (String)pvBusLimitComboBox.getSelectedItem();
         if (selected.equals(RunActUtilFunc.AllControlDevices)) {
         	IpssLogger.getLogger().info("Apply All PV Bus Limit");
-        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPVBusLimitAdjust(AclfMethod.PQ, _simuCtx.getMsgHub());
+        	_simuCtx.getLoadflowAlgorithm().getAdjAlgorithm().doPVBusLimitAdjust(AclfMethod.PQ);
         }
         else {
         	String id = new StringTokenizer(selected).nextToken();
@@ -1098,7 +1098,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void gsStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gsStepButtonActionPerformed
     	IpssLogger.getLogger().info("GS Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.GS_STEP);
-    	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+    	_simuCtx.getLoadflowAlgorithm().loadflow();
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_gsStepButtonActionPerformed
@@ -1106,7 +1106,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void nrStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nrStepButtonActionPerformed
     	IpssLogger.getLogger().info("NR Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.NR_STEP);
-    	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+    	_simuCtx.getLoadflowAlgorithm().loadflow();
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_nrStepButtonActionPerformed
@@ -1114,7 +1114,7 @@ public class NBAclfCasePanel extends javax.swing.JPanel implements IFormDataPane
     private void pqPStepButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pqPStepButtonActionPerformed
     	IpssLogger.getLogger().info("PQ-P Step run");
     	_simuCtx.getLoadflowAlgorithm().setLfMethod(AclfMethod.PQ_PSTEP);
-    	_simuCtx.getLoadflowAlgorithm().loadflow(_simuCtx.getMsgHub());
+    	_simuCtx.getLoadflowAlgorithm().loadflow();
         initAdvanceControlPanel();
     	mismatchLabel.setText(_simuCtx.getAclfAdjNet().maxMismatch(AclfMethod.NR).toString());
     }//GEN-LAST:event_pqPStepButtonActionPerformed

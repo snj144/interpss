@@ -860,15 +860,15 @@ private void atToAreaUpdateButtonActionPerformed(java.awt.event.ActionEvent evt)
 
 private void tradeCalculateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tradeCalculateButtonActionPerformed
 	this.parent.setAlwaysOnTop(false);
-	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet());
+	DclfAlgorithm algo = CoreObjectFactory.createDclfAlgorithm(_simuCtx.getAclfNet(), _simuCtx.getMsgHub());
 	_simuCtx.setDclfAlgorithm(algo);
-	if (!algo.checkCondition(_simuCtx.getMsgHub()))
+	if (!algo.checkCondition())
 		return;
 	if (!saveEditor2AreaTransfer())
 		return;
 	XmlScriptDclfRun.calAreaTransferFactor(areaTransfer, algo, _simuCtx.getMsgHub());
 	IOutputTextDialog dialog = UISpringAppContext.getOutputTextDialog("Area Transfer Analysis Results");
-	String str = DclfOutFunc.areaTransferAnalysisResults(areaTransfer, _simuCtx.getDclfAlgorithm(), _simuCtx.getMsgHub());
+	String str = DclfOutFunc.areaTransferAnalysisResults(areaTransfer, _simuCtx.getDclfAlgorithm());
 	dialog.display(str);
 }//GEN-LAST:event_tradeCalculateButtonActionPerformed
 

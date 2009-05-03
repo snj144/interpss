@@ -110,8 +110,7 @@ public class CmdLineRunner {
 				IpssLogger.getLogger().severe("Wrong file type, no adapter is available, ext: " + ext);
 				return null;
 			}
-			SimuContext simuCtx = adapter.load(filename, SpringAppContext
-					.getIpssMsgHub());
+			SimuContext simuCtx = adapter.load(filename);
 			return simuCtx;
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
@@ -165,16 +164,16 @@ public class CmdLineRunner {
 			if (InterPSS.RunAclfStr.equals(runTypeStr)) {
 				// create the default loadflow algorithm
 				LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(simuCtx.getAclfAdjNet());
+						.createLoadflowAlgorithm(simuCtx.getAclfAdjNet(), msg);
 				// use the loadflow algorithm to perform loadflow calculation
-				algo.loadflow(msg);
+				algo.loadflow();
 				runType = SimuRunType.Aclf;
 			} else if (runTypeStr != null && InterPSS.RunDclfStr.equals(runTypeStr)) {
 				DclfAlgorithm algo = CoreObjectFactory
-						.createDclfAlgorithm(simuCtx.getAclfAdjNet());
+						.createDclfAlgorithm(simuCtx.getAclfAdjNet(), msg);
 				simuCtx.setDclfAlgorithm(algo);
-				if (algo.checkCondition(msg))
-					algo.calculateDclf(msg);
+				if (algo.checkCondition())
+					algo.calculateDclf();
 				runType = SimuRunType.Dclf;
 			}
 		} else {
@@ -183,9 +182,9 @@ public class CmdLineRunner {
 					|| simuCtx.getNetType() == SimuCtxType.ACLF_ADJ_NETWORK) {
 				// create the default loadflow algorithm
 				LoadflowAlgorithm algo = CoreObjectFactory
-						.createLoadflowAlgorithm(simuCtx.getAclfAdjNet());
+						.createLoadflowAlgorithm(simuCtx.getAclfAdjNet(), msg);
 				// use the loadflow algorithm to perform loadflow calculation
-				algo.loadflow(msg);
+				algo.loadflow();
 				runType = SimuRunType.Aclf;
 			}
 			else {

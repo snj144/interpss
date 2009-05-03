@@ -101,9 +101,8 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		if (!prepareSimuRunDataCheckError(simuCtx, msg))
 			return false;
 
-		LoadflowAlgorithm aclfAlgo = simuCtx.getDynSimuAlgorithm()
-				.getAclfAlgorithm();
-		aclfAlgo.loadflow(msg);
+		LoadflowAlgorithm aclfAlgo = simuCtx.getDynSimuAlgorithm().getAclfAlgorithm();
+		aclfAlgo.loadflow();
 		if (!simuCtx.getDStabilityNet().isLfConverged()) {
 			msg.sendWarnMsg("Loadflow diverges, please make sure that loadflow converges before runing the transient stability simulation");
 			return false;
@@ -145,9 +144,9 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 		simuCtx.getDStabilityNet().setNetChangeListener(
 				CoreSpringAppContext.getNetChangeHandler());
 
-		if (simuCtx.getDynSimuAlgorithm().initialization(msg)) {
+		if (simuCtx.getDynSimuAlgorithm().initialization()) {
 			displaySummaryResult(simuCtx);
-			simuCtx.getDynSimuAlgorithm().performSimulation(msg);
+			simuCtx.getDynSimuAlgorithm().performSimulation();
 		}
 
 		if (this.xmCaseData.getOutputScripting().getScripting()) {

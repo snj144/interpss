@@ -55,7 +55,7 @@ public class XmlScriptAcscRun {
 			RunStudyCaseXmlType.StandardRun.RunAcscStudyCase xmlRunCase = ipssXmlDoc.getRunStudyCase().getStandardRun()
 					.getRunAcscStudyCase();
 			SimpleFaultAlgorithm algo = CoreObjectFactory
-					.createSimpleFaultAlgorithm(faultNet);
+					.createSimpleFaultAlgorithm(faultNet, msg);
 			
 			AcscStudyCaseXmlType xmlDefaultCase = xmlRunCase.getDefaultAcscStudyCase(); 
 			
@@ -76,9 +76,9 @@ public class XmlScriptAcscRun {
 				mapper.mapping(xmlCase, algo, AcscStudyCaseXmlType.class);
 				Object fault = faultNet.getFaultList().get(0);
 				if (fault instanceof AcscBusFault)
-					algo.calculateBusFault((AcscBusFault) fault, msg);
+					algo.calculateBusFault((AcscBusFault) fault);
 				else
-					algo.calculateBranchFault((AcscBranchFault) fault, msg);
+					algo.calculateBranchFault((AcscBranchFault) fault);
 				RunActUtilFunc.displayAcscSummaryResult(faultNet);
 			}
 		}

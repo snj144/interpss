@@ -29,7 +29,10 @@
 	      p:name="InterPSS Internal Format"
 	      p:fileFilterString="ipssdata|dat"
 	      p:extension="ipssdat"
-	      p:description="InterPSS Text File Format" />
+	      p:description="InterPSS Text File Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	      
 
 	<bean id="fileAdapterIeeeCommonFormat" 
 	      class="org.interpss.custom.exchange.FileAdapter_IeeeCommonFormat"
@@ -37,40 +40,55 @@
 	      p:name="IEEE Common Format"
 	      p:fileFilterString="dat"
 	      p:extension="ieee"
-	      p:description="IEEE Common Format"	/>
-
+	      p:description="IEEE Common Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+	
 	<bean id="fileAdapterIeeeODMXml" 
 	      class="org.interpss.custom.ieee_odm.FileAdapter_IEEEODM_Xml"
 	      scope="singleton"	
 	      p:name="IEEE ODM Xml Model"
 	      p:fileFilterString="xml"
 	      p:extension="odm"
-	      p:description="IEEE ODM Xml Model"	/>
-
+	      p:description="IEEE ODM Xml Model">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+	
 	<bean id="fileAdapterPSTMatlabFormat" 
 	      class="cn.edu.tsinghua.dps.adapter.aclf.FileAdpater_PSTMatlabFormat"
 	      scope="singleton"	
 	      p:name="MatLat Data Format"
 	      p:fileFilterString="m"
 	      p:extension="m"
-	      p:description="MatLab Power Flow Data Format" />
-
+	      p:description="MatLab Power Flow Data Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+	
 	<bean id="fileAdapterPSATFormat" 
 	      class="org.interpss.custom.exchange.FileAdpater_PSATFormat"
 	      scope="singleton"	
 	      p:name="PSAT Format"
 	      p:fileFilterString="m"
 	      p:extension="psat"
-	      p:description="PSAT Data Format" />
-	
+	      p:description="PSAT Data Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+		
 	<bean id="fileAdapterUCTEFormat" 
 	      class="org.interpss.custom.exchange.FileAdapter_UCTEFormat"
 	      scope="singleton"	
 	      p:name="UCTE Format"
 	      p:fileFilterString="uct"
 	      p:extension="uct"
-	      p:description="UCTE Data Exchange Format for LF and SC" />
-
+	      p:description="UCTE Data Exchange Format for LF and SC">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+	
 	<bean id="fileAdapterPSSEFormat" 
 	      class="org.interpss.custom.exchange.FileAdapter_PTIFormat"
 	      scope="singleton"	
@@ -78,6 +96,8 @@
 	      p:fileFilterString="raw"
 	      p:extension="psse"
 	      p:description="PSSE Data Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	    <property name="versionList">
 	    	<list>
 	    		<value>PSS/E-30</value>
@@ -91,8 +111,11 @@
 	      p:name="GE-PSLF Format"
 	      p:fileFilterString="epc"
 	      p:extension="ge"
-	      p:description="GE Data Exchange Format" />
-
+	      p:description="GE Data Exchange Format">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	</bean>	
+	
 	<bean id="fileAdapterJavaScripts" 
 	      class="org.interpss.custom.script.proj.FileAdapter_JavaScripts"
 	      scope="singleton"	
@@ -100,9 +123,11 @@
 	      p:fileFilterString="js"
 	      p:extension="js"
 	      p:description="InterPSS JavaScripts Scripting File" >
-	    <property name="versionList">
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
+	   <property name="versionList">
 	    	<list>
-	    		<value>Verion 1.0</value>
+	    		<value>Version 1.0</value>
 	    	</list></property>
 	</bean>
 	

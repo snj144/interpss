@@ -312,7 +312,7 @@ public class XmlScriptDStabRun {
 				CoreSpringAppContext.getNetChangeHandler());
 
 		LoadflowAlgorithm aclfAlgo = dstabAlgo.getAclfAlgorithm();
-		aclfAlgo.loadflow(msg);
+		aclfAlgo.loadflow();
 		if (dstabCase.getAclfAlgorithm().getDisplaySummary())
 			RunActUtilFunc.displayAclfSummaryResult(dstabAlgo);
 		if (!dstabAlgo.getDStabNet().isLfConverged()) {
@@ -321,8 +321,8 @@ public class XmlScriptDStabRun {
 			return false;
 		}
 
-		if (dstabAlgo.initialization(msg)) {
-			dstabAlgo.performSimulation(msg);
+		if (dstabAlgo.initialization()) {
+			dstabAlgo.performSimulation();
 		}
 		return true;
 	}

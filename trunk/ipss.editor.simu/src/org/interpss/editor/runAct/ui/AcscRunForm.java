@@ -117,9 +117,9 @@ public class AcscRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 		for (Object fault : faultNet.getFaultList()) {
 			if (fault instanceof AcscBusFault)
-				algo.calculateBusFault((AcscBusFault) fault, msg);
+				algo.calculateBusFault((AcscBusFault) fault);
 			else
-				algo.calculateBranchFault((AcscBranchFault) fault, msg);
+				algo.calculateBranchFault((AcscBranchFault) fault);
 		}
 		/*  		
 		 if (getAcscCaseData().getFaultData().getCategory().equals(AcscFaultData.FaultCaty_Fault_All)) {

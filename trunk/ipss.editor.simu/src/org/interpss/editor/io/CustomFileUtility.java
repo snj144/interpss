@@ -46,7 +46,7 @@ public class CustomFileUtility {
 
 		try {
 			adapter.setVersionSelected(version);
-			adapter.load(simuCtx, filepath, simuCtx.getMsgHub());
+			adapter.load(simuCtx, filepath);
 		} catch (Exception e) {
 			SpringAppContext.getEditorDialogUtil().showMsgDialog(
 					"Custom Data File Loading Error", e.toString());

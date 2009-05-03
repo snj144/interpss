@@ -16,18 +16,24 @@
 	      class="com.interpss.core.CoreObjectFactory"	
 		  factory-method="createDclfAlgorithm" 
 		  scope="prototype">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 
 	<bean id="loadflowAlgorithm" 
 	      class="com.interpss.core.CoreObjectFactory"	
 		  factory-method="createLoadflowAlgorithm" 
 		  scope="prototype">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 
 	<bean id="simpleFaultAlgorithm" 
 	      class="com.interpss.core.CoreObjectFactory"	
 		  factory-method="createSimpleFaultAlgorithm" 
 		  scope="prototype">	
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 	
 	<bean id="simuTimeEventHandler" 
@@ -64,6 +70,8 @@
 			<ref bean="simuTimeEventHandler"/></constructor-arg>
 		<constructor-arg index="2">
 			<ref bean="dbDStabSimuOutputHandler"/></constructor-arg>
+	  	<constructor-arg>
+	  		<ref bean="ipssMsgHub"/></constructor-arg>
 	</bean>
 	
 	<bean id="cmlFieldObjectFactory" 
