@@ -67,7 +67,7 @@ public class ODMLoadflowDataMapperImpl {
 	public static AclfAdjNetwork mapNetworkData(PSSNetworkXmlType xmlNet) throws Exception {
 		AclfAdjNetwork net = CoreObjectFactory.createAclfAdjNetwork();
 		net.setId(xmlNet.getId());
-		net.setName(xmlNet.getName());
+		net.setName(xmlNet.getName() == null? "ODM Loadflow Case" : xmlNet.getName());
 		net.setDesc(xmlNet.getDesc());
 		net.setBaseKva(xmlNet.getBasePower().getValue()*(xmlNet.getBasePower().getUnit()==ApparentPowerUnitType.MVA?1000.0:1.0));
 				// BasePowerUnit [ MVA, KVA]
@@ -78,7 +78,8 @@ public class ODMLoadflowDataMapperImpl {
 	public static AclfBus mapBusData(BusRecordXmlType busRec, AclfAdjNetwork adjNet) throws Exception {
 		AclfBus aclfBus = CoreObjectFactory.createAclfBus(busRec.getId());
 		adjNet.addBus(aclfBus);
-		aclfBus.setName(busRec.getName());
+		aclfBus.setName(busRec.getName() == null? "Aclf Bus" : busRec.getName());
+		aclfBus.setDesc(busRec.getDesc() == null? "Aclf Bus" : busRec.getDesc());
 		aclfBus.setStatus(!busRec.getOffLine());
 		if (!aclfBus.isActive()) {
 			IpssLogger.getLogger().info("Aclf Bus is not active, " + aclfBus.getId());
@@ -100,7 +101,8 @@ public class ODMLoadflowDataMapperImpl {
 		AclfBranch aclfBranch = CoreObjectFactory.createAclfBranch();
 		aclfBranch.setCircuitNumber(branchRec.getCircuitId());
 		adjNet.addBranch(aclfBranch, branchRec.getFromBus().getIdRef(), branchRec.getToBus().getIdRef());
-		aclfBranch.setName(branchRec.getName());
+		aclfBranch.setName(branchRec.getName() == null ? "" : branchRec.getName());
+		aclfBranch.setDesc(branchRec.getDesc() == null ? "" : branchRec.getDesc());
 		aclfBranch.setStatus(!branchRec.getOffLine());
 		if (!aclfBranch.isActive()) {
 			IpssLogger.getLogger().info("Aclf Branch is not active, " + aclfBranch.getId());
@@ -116,7 +118,7 @@ public class ODMLoadflowDataMapperImpl {
 	
 	private static void setBusLoadflowData(LoadflowBusDataXmlType busXmlData, AclfBus aclfBus, AclfAdjNetwork adjNet) throws Exception {
 		VoltageXmlType vXml = busXmlData.getVoltage();
-		double vpu = UnitType.vConversion(vXml.getValue(),
+		double vpu = vXml == null ? 1.0 : UnitType.vConversion(vXml.getValue(),
 				aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 		double angRad = busXmlData.getAngle() ==  null? 0.0 :
 			UnitType.angleConversion(busXmlData.getAngle().getValue(),

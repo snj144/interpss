@@ -34,6 +34,45 @@ import com.interpss.common.datatype.UnitType;
 
 
 public class ODMXmlHelper {
+	static String PSSStudyCaseHead = "<PSSStudyCase xmlns=\"http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1\">";
+	static String PSSStudyCaseEnd = "</PSSStudyCase>";
+	
+	static String BusListHead = PSSStudyCaseHead + "<baseCase><busList>";
+	static String BusListEnd = "</busList></baseCase>" + PSSStudyCaseEnd; 
+
+	static String BranchListHead = PSSStudyCaseHead + "<baseCase><branchList>";
+	static String BranchListEnd = "</branchList></baseCase>" + PSSStudyCaseEnd; 
+	
+	/**
+	 * warp the base case xml string for parsing
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String wrapBaseCase(String str) {
+		return PSSStudyCaseHead + str + PSSStudyCaseEnd;
+	}
+
+	/**
+	 * warp the bus list xml string for parsing
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String wrapBusList(String str) {
+		return BusListHead + str + BusListEnd;
+	}
+
+	/**
+	 * warp the branch list xml string for parsing
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String wrapBranchList(String str) {
+		return BranchListHead + str + BranchListEnd;
+	}
+	
 	/**
 	 * convert XML power unit to Ipss UnitType
 	 * 
