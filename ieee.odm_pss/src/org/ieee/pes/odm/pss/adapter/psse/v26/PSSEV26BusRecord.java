@@ -114,7 +114,7 @@ public class PSSEV26BusRecord {
 			busRec.setOffLine(true);
 		}
 		else { //Non-Gen Load Bus
-			busData.addNewLoadData();
+			busData.addNewLoadData().addNewEquivLoad();
 		}
 		
 		//GL BL
@@ -149,6 +149,7 @@ public class PSSEV26BusRecord {
 		LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
 		if (loadData == null) { 
 			loadData = busRec.getLoadflowData().addNewLoadData();
+			loadData.addNewEquivLoad();
 		}
 		if (loadData.getContributeLoadList() == null) 
 			loadData.addNewContributeLoadList();
@@ -201,6 +202,8 @@ public class PSSEV26BusRecord {
 	    	load = loadData.addNewEquivLoad();
 	    	load.addNewConstPLoad();
 	    }
+	    if(load.getConstPLoad() == null)
+	    	load.addNewConstPLoad();
 	    double tp = CPloadMw + CIloadMw + CYloadMw + load.getConstPLoad().getRe();
 	    double tq = CQloadMvar + CIloadMvar + CYloadMvar  + load.getConstPLoad().getIm();;
 	    DataSetter.setPowerData(load.getConstPLoad(), tp, tq, ApparentPowerUnitType.MVA);
@@ -223,9 +226,11 @@ public class PSSEV26BusRecord {
 	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
 
 		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
-		if (genData == null)
+		if (genData == null) {
 			genData = busRec.getLoadflowData().addNewGenData();
-		LoadflowGenDataXmlType equivGen = genData.addNewEquivGen();
+			genData.addNewEquivGen();
+		}
+		LoadflowGenDataXmlType equivGen = genData.getEquivGen();
 	    LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen contriGen = genData.addNewContributeGenList().addNewContributeGen();
 		
 	    // processing contributing gen data
@@ -285,8 +290,11 @@ public class PSSEV26BusRecord {
 				}
 			}
 		}
-		else
-			genData.addNewEquivGen().setCode(LFGenCodeEnumType.OFF);
+		else {
+			if (genData.getEquivGen() == null)
+				genData.addNewEquivGen();
+			genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
+		}
 		
 		//System.out.println(busRec.toString());
     }
