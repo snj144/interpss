@@ -31,11 +31,11 @@
 					<ipss:loadChangeData>
 						<ipss:valueChange>
 							<ipss:changeAction>set</ipss:changeAction>
+							<ipss:unit>PU</ipss:unit>							
 							<ipss:value>
 								<ipss:re>0.15</ipss:re>
 								<ipss:im>0.06</ipss:im>
 							</ipss:value>
-							<ipss:unit>PU</ipss:unit>							
 						</ipss:valueChange></ipss:loadChangeData></ipss:aclfBusChangeData>
 
 			</ipss:busChangeRec>
@@ -47,11 +47,11 @@
 					<ipss:loadChangeData>
 						<ipss:valueChange>
 							<ipss:changeAction>add</ipss:changeAction>
+							<ipss:unit>mVA</ipss:unit>
 							<ipss:value>
 								<ipss:re>1.0</ipss:re>
 								<ipss:im>1.0</ipss:im>
 							</ipss:value>
-							<ipss:unit>mVA</ipss:unit>
 						</ipss:valueChange>
 					</ipss:loadChangeData>
 				</ipss:aclfBusChangeData>
