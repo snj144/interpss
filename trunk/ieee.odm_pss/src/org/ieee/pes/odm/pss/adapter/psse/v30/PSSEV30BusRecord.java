@@ -76,7 +76,7 @@ public class PSSEV30BusRecord {
 		*/			
 		final int IDE = new Integer(strAry[3]).intValue();
 		if (IDE ==3){//Swing bus
-			busData.addNewGenData().setCode(LFGenCodeEnumType.SWING);
+			busData.addNewGenData().addNewEquivGen().setCode(LFGenCodeEnumType.SWING);
 			busData.addNewLoadData();
 		}
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
@@ -86,7 +86,7 @@ public class PSSEV30BusRecord {
 			// should be no gen and load defined
 		}
 		else { //Non-Gen Load Bus
-			busData.addNewLoadData().setCode(LFLoadCodeEnumType.CONST_P);
+			busData.addNewLoadData().addNewEquivLoad().setCode(LFLoadCodeEnumType.CONST_P);
 		}
 		
 		//GL BL
