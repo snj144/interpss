@@ -73,7 +73,7 @@ public class IEEECDF_ODMTest {
 		assertTrue(busRec.getBaseVoltage().getValue() == 132.0);
 		assertTrue(busRec.getLoadflowData().getVoltage().getValue() == 1.060);
 		assertTrue(busRec.getLoadflowData().getAngle().getValue() == 0.0);
-		assertTrue(busRec.getLoadflowData().getGenData().getCode() == LFGenCodeEnumType.SWING);
+		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(busRec.getLoadflowData().getLoadData() == null);
 		assertTrue(busRec.getLoadflowData().getShuntY() == null);
 
@@ -81,14 +81,14 @@ public class IEEECDF_ODMTest {
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
 		busRec = ContainerHelper.findBusRecord("Bus2", baseCaseNet);
 		System.out.println(busRec);
-		assertTrue(busRec.getLoadflowData().getGenData().getCode() == LFGenCodeEnumType.PV);
+		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 40.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getUnit() == ApparentPowerUnitType.MVA);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getQLimit().getMax() == 50.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getQLimit().getMin() == -40.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getQLimit().getUnit() == ReactivePowerUnitType.MVAR);
 		
-		assertTrue(busRec.getLoadflowData().getLoadData().getCode() == LFLoadCodeEnumType.CONST_P);
+		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getRe() == 21.7);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getIm() == 12.7);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);
@@ -96,7 +96,7 @@ public class IEEECDF_ODMTest {
 		// Bus 9 is a load bus, also there is a capacitor of 0.19 pu
 		//    9 Bus 9     LV  1  1  0 1.056 -14.94     29.5     16.6      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.19       0
 		busRec = ContainerHelper.findBusRecord("Bus9", baseCaseNet);
-		assertTrue(busRec.getLoadflowData().getLoadData().getCode() == LFLoadCodeEnumType.CONST_P);
+		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getRe() == 29.5);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getIm() == 16.6);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);

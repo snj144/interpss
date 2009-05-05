@@ -104,7 +104,7 @@ public class ODMModelParser {
 			// init the base case
 			getBaseCase();
 			// init the default study scenario
-			scase.addNewScenarioList().addNewScenario();
+			scase.addNewScenarioList();
 		}	
 		return this.doc.getPSSStudyCase();
 	}

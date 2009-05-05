@@ -77,7 +77,7 @@ public class UCTE_ODMTest {
 		// A2____1 is a load bus
 		// A2    1                 0        .000000 .000000 -150.00 .000000                
 		busRec = ContainerHelper.findBusRecord("A2____1", baseCaseNet);
-		assertTrue(busRec.getLoadflowData().getGenData().getCode() == LFGenCodeEnumType.PQ);
+		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PQ);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 150.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getIm() == 0.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getUnit() == ApparentPowerUnitType.MVA);
@@ -89,7 +89,7 @@ public class UCTE_ODMTest {
 		assertTrue(busRec.getLoadflowData().getVoltage().getValue() == 405.0);
 		assertTrue(busRec.getLoadflowData().getVoltage().getUnit() == VoltageUnitType.KV);
 		assertTrue(busRec.getLoadflowData().getAngle().getValue() == 0.0);
-		assertTrue(busRec.getLoadflowData().getGenData().getCode() == LFGenCodeEnumType.SWING);
+		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getRe() == 70.0);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getIm() == 0.0);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getUnit() == ApparentPowerUnitType.MVA);

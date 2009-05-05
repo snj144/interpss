@@ -100,15 +100,15 @@ public class PSSEV26BusRecord {
 		final int IDE = StringUtil.getInt(strAry[3], 1);
 		if (IDE ==3){//Swing bus
 			busData.addNewGenData();;
-			busData.getGenData().setCode(LFGenCodeEnumType.SWING);
 			LoadflowGenDataXmlType equivGen = busData.getGenData().addNewEquivGen();
+			equivGen.setCode(LFGenCodeEnumType.SWING);
 			DataSetter.setVoltageData(equivGen.addNewDesiredVoltage(), vpu, VoltageUnitType.PU);
 			DataSetter.setAngleData(equivGen.addNewDesiredAngle(), angDeg, AngleUnitType.DEG);
 		}
 		else if (IDE==2){// generator bus. At this point we do not know if it is a PQ or PV bus
 			// by default, Gen is a PV bus
-			busData.addNewGenData();;
-			busData.getGenData().setCode(LFGenCodeEnumType.PV);
+			busData.addNewGenData().addNewEquivGen();
+			busData.getGenData().getEquivGen().setCode(LFGenCodeEnumType.PV);
 		} else if (IDE==4){// Isolated bus
 			// should be no gen and load defined
 			busRec.setOffLine(true);
@@ -195,8 +195,8 @@ public class PSSEV26BusRecord {
 	    			CYloadMw, CYloadMvar, ApparentPowerUnitType.MVA);
 	    
 	    // processing equiv load data
-	    loadData.setCode(LFLoadCodeEnumType.CONST_P);
-	    LoadflowLoadDataXmlType load = loadData.getEquivLoad();
+	    loadData.getEquivLoad().setCode(LFLoadCodeEnumType.CONST_P);
+	    LoadflowBusDataXmlType.LoadData.EquivLoad load = loadData.getEquivLoad();
 	    if (load == null) {
 	    	load = loadData.addNewEquivLoad();
 	    	load.addNewConstPLoad();
@@ -266,7 +266,7 @@ public class PSSEV26BusRecord {
 			DataSetter.setPowerData(equivGen.addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
 
 			final double vSpecPu = StringUtil.getDouble(strAry[6], 1.0);
-			if (genData.getCode() == LFGenCodeEnumType.SWING) {
+			if (genData.getEquivGen().getCode() == LFGenCodeEnumType.SWING) {
 				DataSetter.setVoltageData(equivGen.addNewDesiredVoltage(), vSpecPu, VoltageUnitType.PU);
 			}
 			else {
@@ -286,7 +286,7 @@ public class PSSEV26BusRecord {
 			}
 		}
 		else
-			genData.setCode(LFGenCodeEnumType.OFF);
+			genData.addNewEquivGen().setCode(LFGenCodeEnumType.OFF);
 		
 		//System.out.println(busRec.toString());
     }

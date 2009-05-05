@@ -225,9 +225,9 @@ public class DataSetter {
 	 */
 	public static void setLoadData(LoadflowBusDataXmlType busData, LFLoadCodeEnumType.Enum code, 
 			double p, double q, ApparentPowerUnitType.Enum unit) {
-		busData.addNewLoadData();
-    	busData.getLoadData().setCode(code);
-    	setPowerData(busData.getLoadData().addNewEquivLoad().addNewConstPLoad(), p, q, unit);
+		busData.addNewLoadData().addNewEquivLoad();
+    	busData.getLoadData().getEquivLoad().setCode(code);
+    	setPowerData(busData.getLoadData().getEquivLoad().addNewConstPLoad(), p, q, unit);
 	}
 	
 	/**
@@ -244,8 +244,8 @@ public class DataSetter {
 			double ang, AngleUnitType.Enum angUnit,
 			double p, double q, ApparentPowerUnitType.Enum pUnit) {
    		busData.addNewGenData();
-   		busData.getGenData().setCode(code);
    		LoadflowGenDataXmlType equivGen = busData.getGenData().addNewEquivGen();
+   		equivGen.setCode(code);
    		setPowerData(equivGen.addNewPower(), p, q, pUnit);
    		if (code == LFGenCodeEnumType.PV) {
    			setVoltageData(equivGen.addNewDesiredVoltage(), v, vUnit);
