@@ -35,7 +35,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
@@ -127,13 +126,13 @@ public class ODMLoadflowDataMapperImpl {
 
 		if (busXmlData.getGenData() != null) {
 			LoadflowGenDataXmlType xmlEquivGenData = busXmlData.getGenData().getEquivGen();
-			if (busXmlData.getGenData().getCode() == LFGenCodeEnumType.PQ) {
+			if (busXmlData.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PQ) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PQ);
 				PQBusAdapter pqBus = (PQBusAdapter) aclfBus.getAdapter(PQBusAdapter.class);
 				pqBus.setGen(new Complex(xmlEquivGenData.getPower().getRe(), 
 						                 xmlEquivGenData.getPower().getIm()),
 						           ODMXmlHelper.toUnit(xmlEquivGenData.getPower().getUnit()), adjNet.getBaseKva());
-			} else if (busXmlData.getGenData().getCode() == LFGenCodeEnumType.PV &&
+			} else if (busXmlData.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV &&
 					xmlEquivGenData != null) {
 				aclfBus.setGenCode(AclfGenCode.GEN_PV);
 				PVBusAdapter pvBus = (PVBusAdapter) aclfBus.getAdapter(PVBusAdapter.class);
@@ -145,7 +144,7 @@ public class ODMLoadflowDataMapperImpl {
 				vpu = UnitType.vConversion(vXml.getValue(),
 						aclfBus.getBaseVoltage(), ODMXmlHelper.toUnit(vXml.getUnit()), UnitType.PU);
 				pvBus.setVoltMag(vpu, UnitType.PU);
-			} else if (busXmlData.getGenData().getCode() == LFGenCodeEnumType.SWING) {
+			} else if (busXmlData.getGenData().getEquivGen().getCode() == LFGenCodeEnumType.SWING) {
 				aclfBus.setGenCode(AclfGenCode.SWING);
 				SwingBusAdapter swing = (SwingBusAdapter) aclfBus.getAdapter(SwingBusAdapter.class);
 				vXml = busXmlData.getGenData().getEquivGen().getDesiredVoltage();
@@ -164,11 +163,11 @@ public class ODMLoadflowDataMapperImpl {
 		}
 
 		if (busXmlData.getLoadData() != null) {
-			aclfBus.setLoadCode(busXmlData.getLoadData().getCode() == LFLoadCodeEnumType.CONST_I ? 
-							AclfLoadCode.CONST_I : (busXmlData.getLoadData().getCode() == LFLoadCodeEnumType.CONST_Z ? 
+			aclfBus.setLoadCode(busXmlData.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_I ? 
+							AclfLoadCode.CONST_I : (busXmlData.getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_Z ? 
 									AclfLoadCode.CONST_Z : AclfLoadCode.CONST_P));
 			LoadBusAdapter loadBus = (LoadBusAdapter) aclfBus.getAdapter(LoadBusAdapter.class);
-			LoadflowLoadDataXmlType xmlEquivLoad = busXmlData.getLoadData().getEquivLoad();
+			LoadflowBusDataXmlType.LoadData.EquivLoad xmlEquivLoad = busXmlData.getLoadData().getEquivLoad();
 			if (xmlEquivLoad != null) {
 				PowerXmlType p;
 				if (aclfBus.getLoadCode() == AclfLoadCode.CONST_P)
