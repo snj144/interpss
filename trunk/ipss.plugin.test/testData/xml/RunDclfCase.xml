@@ -11,6 +11,7 @@
 					<ipss:recId>DclfRun-1</ipss:recId>
 					<ipss:caculatelDclf>true</ipss:caculatelDclf>
 					<ipss:sensitivity>
+							<ipss:recId>DclfRun-1-1</ipss:recId>
 							<ipss:senType>PAngle</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -30,6 +31,7 @@
 							</ipss:bus>
 					</ipss:sensitivity>
 					<ipss:sensitivity>
+							<ipss:recId>DclfRun-1-2</ipss:recId>
 							<ipss:senType>QVoltage</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -49,6 +51,7 @@
 							</ipss:bus>
 					</ipss:sensitivity>
 					<ipss:genShiftFactor>
+							<ipss:recId>DclfRun-1-3</ipss:recId>
 							<ipss:senType>PAngle</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -75,6 +78,7 @@
 							</ipss:branch>
 					</ipss:genShiftFactor>
 					<ipss:pTransferDistFactor>
+							<ipss:recId>DclfRun-1-4</ipss:recId>
 							<ipss:senType>PAngle</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
@@ -108,6 +112,7 @@
 							</ipss:branch>
 					</ipss:pTransferDistFactor>
 					<ipss:pTransferDistFactor>
+							<ipss:recId>DclfRun-1-5</ipss:recId>
 							<ipss:senType>PAngle</ipss:senType>
 							<ipss:injectBusType>SingleBus</ipss:injectBusType>
 							<ipss:injectBusList>
