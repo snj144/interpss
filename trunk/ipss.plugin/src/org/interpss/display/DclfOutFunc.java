@@ -48,8 +48,8 @@ import com.interpss.core.net.Bus;
 public class DclfOutFunc {
 	public static String branchFlowTitle() {
 		String str = "\n";
-		str += "       FromId->ToId    Power Flow(Mw)   MWLimit    Loading%  Violation\n";
-		str += "=======================================================================\n";
+		str += "       FromId->ToId     Power Flow(Mw)   MWLimit    Loading%  Violation\n";
+		str += "=========================================================================\n";
 		return str;
 		
 	}
@@ -59,12 +59,12 @@ public class DclfOutFunc {
 		double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
 		double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
 		double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
-		String str = Number2String.toFixLengthStr(20, aclfBra.getId()) + "     "	+ Number2String.toStr(mwFlow);
+		String str = Number2String.toFixLengthStr(22, aclfBra.getId()) + "     "	+ String.format("%8.2f",mwFlow);
 		double limitMva = aclfBra.getRatingMva1();
 		boolean v = mwFlow > limitMva;
 		str +=  "     " + String.format("%8.2f", limitMva); 
 		if (limitMva > 0.0)
-			str += "      " + String.format("%5.1f", 100*(mwFlow)/limitMva) 
+			str += "      " + String.format("%5.1f", Math.abs(100*(mwFlow)/limitMva)) 
 				+ "      " + (v? "x" : " "); 
 		return str;
 	}
