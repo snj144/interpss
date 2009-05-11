@@ -36,7 +36,6 @@ import org.interpss.schema.SenAnalysisBusRecXmlType;
 import org.interpss.schema.SenBusAnalysisDataType;
 
 import com.interpss.common.datatype.UnitType;
-import com.interpss.common.msg.IPSSMsgHub;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
@@ -47,6 +46,29 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
 public class DclfOutFunc {
+	public static String branchFlowTitle() {
+		String str = "\n";
+		str += "       FromId->ToId    Power Flow(Mw)   MWLimit    Loading%  Violation\n";
+		str += "=======================================================================\n";
+		return str;
+		
+	}
+	
+	public static String branchFlow(AclfBranch aclfBra, DclfAlgorithm algo) {
+		double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
+		double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
+		double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
+		double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
+		String str = Number2String.toFixLengthStr(20, aclfBra.getId()) + "     "	+ Number2String.toStr(mwFlow);
+		double limitMva = aclfBra.getRatingMva1();
+		boolean v = mwFlow > limitMva;
+		str +=  "     " + String.format("%8.2f", limitMva); 
+		if (limitMva > 0.0)
+			str += "      " + String.format("%5.1f", 100*(mwFlow)/limitMva) 
+				+ "      " + (v? "x" : " "); 
+		return str;
+	}
+
 	/**
 	 * Out put Dclf voltage angle results
 	 * 
@@ -66,15 +88,10 @@ public class DclfOutFunc {
 					+ Number2String.toStr(angle) + "\n";
 		}
 
-		str += "\n\n";
-		str += "       FromId->ToId       Power Flow(pu)\n";
-		str += "==========================================\n";
+		str += "\n";
+		str += branchFlowTitle();
 		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
-			double fAng = Math.toDegrees(algo.getBusAngle(bra.getFromBus().getSortNumber()));
-			double tAng = Math.toDegrees(algo.getBusAngle(bra.getToBus().getSortNumber()));
-			AclfBranch aclfBra = (AclfBranch)bra;
-			str += Number2String.toFixLengthStr(20, bra.getId()) + "     "  
-					+ Number2String.toStr((fAng-tAng)/aclfBra.b1ft()) + "\n";
+			str += branchFlow((AclfBranch)bra, algo) + "\n";
 		}
 		return str;
 	}
