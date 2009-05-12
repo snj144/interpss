@@ -69,6 +69,40 @@ public class DclfOutFunc {
 		return str;
 	}
 
+	public static String tradeAnalysisTitle(String name, double mw) {
+		String str = "\n\n";
+		str += "                    Trade '" + name + "'  Amount (MW) : " + String.format("%8.2f", mw) + "\n\n";
+
+		str += "          Branch Id         ShiftFactor      BaseCaseMw   PredictedMW    MWLimit    Loading%  Violation\n";
+		str += "========================================================================================================\n";
+		return str;
+	}
+
+	public static String tradeAnalysisBranchFlow(AclfBranch aclfBra, DclfAlgorithm algo, 
+							double mw, double f, double dfactor) {
+		AclfNetwork net = algo.getAclfNetwork();
+		double baseMva = net.getBaseKva() * 0.001;
+
+		String str = "";
+
+		double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
+		double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
+		double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
+		
+		double newMva = mwFlow + mw * f;
+		double limitMva = aclfBra.getRatingMva1() * dfactor;
+		boolean v = newMva > limitMva;
+		str += Number2String.toFixLengthStr(22, aclfBra.getId())
+					+ "      " + String.format("%9.3f", f) 
+					+ "        " + String.format("%8.2f", mwFlow) 
+					+ "      " + String.format("%8.2f", newMva) 
+					+ "    " + String.format("%8.2f", limitMva); 
+			if (limitMva > 0.0)
+				str += "       " + String.format("%5.1f", 100*(newMva)/limitMva) 
+				+ "      " + (v? "x" : " "); 
+		return str;
+	}
+
 	/**
 	 * Out put Dclf voltage angle results
 	 * 
