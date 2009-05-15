@@ -11,6 +11,7 @@ import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.adapter.psse.CR_UserTestCases;
 import org.interpss.core.adapter.psse.RecLevelTestCases;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
+import org.interpss.core.dclf.DclfIeee14BusCaseTest;
 import org.interpss.dstab.control.cml.block.DelayControlBlockTests;
 import org.interpss.dstab.control.cml.block.FilterControlBlockTests;
 import org.interpss.dstab.control.cml.block.IntegrationControlBlockTests;
@@ -100,6 +101,9 @@ import org.junit.runners.Suite.SuiteClasses;
 	//PSS/E format
 	CR_UserTestCases.class,
 	RecLevelTestCases.class,
+	
+	// dclf
+	DclfIeee14BusCaseTest.class,
 })
 public class PluginTestSuite {
 }

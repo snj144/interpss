@@ -46,14 +46,76 @@ import com.interpss.core.net.Branch;
 import com.interpss.core.net.Bus;
 
 public class DclfOutFunc {
+	/**
+	 * line outage analysis output title
+	 * 
+	 * @param name trade name
+	 * @param mw trade amount 
+	 * @return
+	 */
+	public static String lineOutageAnalysisTitle(String name, String branchId) {
+		String str = "\n\n";
+		str += "                   Line Outage '" + name + "'  Branch Id: " + branchId + "\n\n";
+
+		str += "          Branch Id         ShiftFactor      MwFlow     MWLimit   DeratedLimit  Loading%  Violation\n";
+		str += "========================================================================================================";
+		return str;
+	}
+
+	/**
+	 * line outage analysis output details
+	 * 
+	 * @param aclfBra monitoring branch
+	 * @param algo dclf algorithm
+	 * @param mw trade amount in mw
+	 * @param f trade shifting factor
+	 * @param dfactor derating factor
+	 * @return
+	 */
+	public static String lineOutageAnalysisBranchFlow(AclfBranch aclfBra, DclfAlgorithm algo, double mw, double f) {
+		AclfNetwork net = algo.getAclfNetwork();
+		double baseMva = net.getBaseKva() * 0.001;
+
+		String str = "";
+
+		double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
+		double tAng = algo.getBusAngle(aclfBra.getToBus().getSortNumber());
+		double mwFlow = (fAng-tAng)*aclfBra.b1ft()*baseMva;
+		
+		double limitMva = aclfBra.getRatingMva1();
+		double deratedLimit = limitMva - mw*f;
+		boolean v = mwFlow > deratedLimit;
+		str += Number2String.toFixLengthStr(22, aclfBra.getId())
+					+ "      " + String.format("%9.3f", f) 
+					+ "      " + String.format("%8.2f", mwFlow) 
+					+ "    " + String.format("%8.2f", limitMva) 
+					+ "    " + String.format("%8.2f", deratedLimit); 
+			if (deratedLimit > 0.0)
+				str += "       " + String.format("%5.1f", 100*(mwFlow)/deratedLimit) 
+				+ "      " + (v? "x" : " "); 
+		return str;
+	}
+
+	/**
+	 * dclf branch title 
+	 * 
+	 * @return
+	 */
 	public static String branchFlowTitle() {
 		String str = "\n";
 		str += "       FromId->ToId     Power Flow(Mw)   MWLimit    Loading%  Violation\n";
-		str += "=========================================================================\n";
+		str += "=========================================================================";
 		return str;
 		
 	}
 	
+	/**
+	 * dclf branch flow details
+	 * 
+	 * @param aclfBra
+	 * @param algo
+	 * @return
+	 */
 	public static String branchFlow(AclfBranch aclfBra, DclfAlgorithm algo) {
 		double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
 		double fAng = algo.getBusAngle(aclfBra.getFromBus().getSortNumber());
@@ -69,15 +131,32 @@ public class DclfOutFunc {
 		return str;
 	}
 
+	/**
+	 * trade analysis output title
+	 * 
+	 * @param name trade name
+	 * @param mw trade amount 
+	 * @return
+	 */
 	public static String tradeAnalysisTitle(String name, double mw) {
 		String str = "\n\n";
 		str += "                    Trade '" + name + "'  Amount (MW) : " + String.format("%8.2f", mw) + "\n\n";
 
 		str += "          Branch Id         ShiftFactor      BaseCaseMw   PredictedMW    MWLimit    Loading%  Violation\n";
-		str += "========================================================================================================\n";
+		str += "========================================================================================================";
 		return str;
 	}
 
+	/**
+	 * trade analysis output details
+	 * 
+	 * @param aclfBra monitoring branch
+	 * @param algo dclf algorithm
+	 * @param mw trade amount in mw
+	 * @param f trade shifting factor
+	 * @param dfactor derating factor
+	 * @return
+	 */
 	public static String tradeAnalysisBranchFlow(AclfBranch aclfBra, DclfAlgorithm algo, 
 							double mw, double f, double dfactor) {
 		AclfNetwork net = algo.getAclfNetwork();
