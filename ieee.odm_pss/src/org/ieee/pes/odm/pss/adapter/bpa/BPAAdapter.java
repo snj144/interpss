@@ -39,9 +39,10 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
+import org.ieee.pes.odm.pss.adapter.IFileReader;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 
@@ -58,7 +59,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 	}
 	 
 	protected ODMModelParser parseInputFile(
-			final java.io.BufferedReader din) throws Exception {
+			final IFileReader din) throws Exception {
 		
 		String str="";
 		// first line, as a sign to run power flow data or transient data
@@ -147,7 +148,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 					
 				}				
 			}while(!str.trim().equals("(END)"));		
-			BPADynamicRecord.processDynamicData(str, tranSimu,din,
+			BPADynamicRecord.processDynamicData(str, tranSimu, din,
 					parser,this);
 			
 	    // read power flow data only

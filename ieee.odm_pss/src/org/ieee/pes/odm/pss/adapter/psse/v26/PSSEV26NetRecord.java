@@ -42,7 +42,7 @@ public class PSSEV26NetRecord {
 	
 	public static boolean processHeaderData(final String str1,final String str2,final String str3,
 			final PSSNetworkXmlType baseCaseNet, Logger logger) throws Exception {
-		//line 1 at here we have "0, 100.00 "		
+		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
 		final String[] strAry = getHeaderDataFields(str1,str2,str3, logger);
 		if (strAry == null)
 			return false;
@@ -127,8 +127,11 @@ public class PSSEV26NetRecord {
 	 */
 	private static String[] getHeaderDataFields(final String lineStr, final String lineStr2,
 							final String lineStr3, Logger logger)	throws Exception{
+		//line 1 at here we have "0, 100.00 " or some times "0 100.00 "		
 		final String[] strAry = new String[4];	
-		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		StringTokenizer st = lineStr.contains(",") ?
+				new StringTokenizer(lineStr, ",") :
+				new StringTokenizer(lineStr);
 		
 		strAry[0] = st.nextToken();  			   
 		int indicator = new Integer(strAry[0]).intValue();

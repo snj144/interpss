@@ -275,8 +275,10 @@ public class PSSEV26BranchRecord {
 		/*
 	    I,    J,     CKT,ICONT,     RMA,       RMI,       VMA,       VMI,   STEP(9),   TABLE 
         */
-  		for (int i = 0; i < 9; i++)
+  		for (int i = 0; i < 8; i++)
   			strAry[i]=st.nextToken().trim();
+  		if (st.hasMoreTokens())
+  			strAry[8]=st.nextToken().trim();
 		return strAry;
 	}
 }

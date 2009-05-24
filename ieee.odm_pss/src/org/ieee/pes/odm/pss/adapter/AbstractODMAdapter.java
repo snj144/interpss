@@ -54,10 +54,8 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 		return errMsgList.toString();
 	}
 
-	public boolean parseInputFile(String filename) {
+	public boolean parseInputStream(InputStream stream) {
 		try {
-			final File file = new File(filename);
-			final InputStream stream = new FileInputStream(file);
 			final BufferedReader din = new BufferedReader(new InputStreamReader(stream));
 			this.parser = parseInputFile(din);
 		} catch (Exception e) {
@@ -68,14 +66,55 @@ public abstract class AbstractODMAdapter implements IODMPSSAdapter {
 		}
 		return status;
 	}
+	
+	public boolean parseInputFile(String filename) {
+		try {
+			final File file = new File(filename);
+			final InputStream stream = new FileInputStream(file);
+			return parseInputStream(stream);
+		} catch (Exception e) {
+			logger.severe(e.toString());
+			this.errMsgList.add(e.toString());
+			e.printStackTrace();
+			return false;
+		}
+	}
 
+	public boolean parseFileContent(String fileContent){
+		try {
+			final String[] strList = fileContent.split("\n");
+			parseInputFile( new IFileReader() {
+				private int cnt = 0;
+				public String readLine() throws Exception {
+					if (cnt < strList.length)
+						return strList[cnt++];
+					else
+						return null;
+				}
+			});
+		} catch (Exception e) {
+			logger.severe(e.toString());
+			this.errMsgList.add(e.toString());
+			e.printStackTrace();
+			return false;
+		}
+		return status;
+	}
+	
 	public ODMModelParser getModel() {
 		return this.parser;
 	}
 	
-	abstract protected ODMModelParser parseInputFile(
-				final java.io.BufferedReader din)
-				throws Exception;
+	protected ODMModelParser parseInputFile(
+			final java.io.BufferedReader din) throws Exception {
+		return parseInputFile( new IFileReader() {
+			public String readLine() throws Exception {
+				return din.readLine();
+			}
+		});
+	}	
+
+	abstract protected ODMModelParser parseInputFile(IFileReader din) throws Exception;
 	
 	public void logErr(String msg) {
 		this.status = false;
