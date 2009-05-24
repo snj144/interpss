@@ -167,7 +167,7 @@ public class BPABusRecord {
 			// set G B
 			if (g != 0.0 || b != 0.0) {
 				DataSetter.setYData(busData.addNewShuntY(), g, b,
-						YUnitType.MHO);
+						YUnitType.PU);
 			}	
 			// set load
 			if (loadMw != 0.0 || loadMvar != 0.0) {

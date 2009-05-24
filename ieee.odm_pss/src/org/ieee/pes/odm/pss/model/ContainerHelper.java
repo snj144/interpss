@@ -210,6 +210,22 @@ public class ContainerHelper {
 		return null;
 	}
 	
+	/**
+	 * Get zone record with the zonename
+	 * 
+	 * @param zoneName
+	 * @param area
+	 * @return
+	 */
+	public static NetZoneXmlType getZoneRecord(String zoneName, NetAreaXmlType area) {
+		for (NetZoneXmlType zone:area.getZoneList().getZoneArray()) {
+			if (zoneName.equals(zone.getName()))
+				return zone;
+		}
+		return null;
+	}
+	
+	
 	public static FaultXmlType getFaultRecord(TransientSimulationXmlType tranSimu,
 			FaultTypeEnumType.Enum faultType,String fbus,String tbus){
 		if(tranSimu.getDynamicDataList().getFaultList().getFaultArray()!=null){			
