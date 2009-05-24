@@ -515,16 +515,21 @@ public class BPABranchRecord {
 		if (dataType==transformer){					
 			//to see what is the input data format, specified or not.
 			if(fromTurnRatedVolOrAngDeg>=2*fVol){
-				fromTurnRatedVolOrAngDeg=fromTurnRatedVolOrAngDeg/100;
-				fRatio=fromTurnRatedVolOrAngDeg/fVol;
-			}				
+				fromTurnRatedVolOrAngDeg=fromTurnRatedVolOrAngDeg/100;				
+			}	
+			fRatio=fromTurnRatedVolOrAngDeg/fVol;
 			DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewFromTap(), fRatio);
 			
 			if(toTurnRatedVolOrZero>=2*tVol){
-				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100;
-				tRatio=toTurnRatedVolOrZero/tVol;
+				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100;				
 			}
+			tRatio = toTurnRatedVolOrZero / tVol;
+			NumberFormat ddf1 = NumberFormat.getNumberInstance();
+			ddf1.setMaximumFractionDigits(4);
+			tRatio = new Double(ddf1.format(tRatio)).doubleValue();		
 			DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewToTap(), tRatio);
+
+			
 		}else {			
 			DataSetter.setAngleData(branchRec.getLoadflowData().getPhaseShiftXfrData().
 					addNewFromAngle(), fromTurnRatedVolOrAngDeg, AngleUnitType.DEG);
@@ -899,8 +904,8 @@ public class BPABranchRecord {
 			strAry[15] = StringUtil.getStringReturnEmptyString(str,57, 62).trim();
 			strAry[16] = StringUtil.getStringReturnEmptyString(str,63, 67).trim();
 			
-			strAry[17] ="";
-			//strAry[17] = str.substring(67, 72).trim();
+			//strAry[17] ="";
+			strAry[17] = str.substring(67, 72).trim();
 			//strAry[18] = str.substring(74, 77).trim();
 			
 			//strAry[19] = str.substring(77, 80).trim();
