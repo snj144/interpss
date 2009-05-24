@@ -24,6 +24,8 @@
 
 package org.ieee.pes.odm.pss.adapter;
 
+import java.io.InputStream;
+
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 public interface IODMPSSAdapter {
@@ -34,6 +36,22 @@ public interface IODMPSSAdapter {
 	 * @return
 	 */
 	boolean parseInputFile(String filename);
+	
+	/**
+	 * parse the input file into a ODM model according the the ODM schema
+	 * 
+	 * @param filename file name
+	 * @return
+	 */
+	boolean parseInputStream(InputStream input);
+
+	/**
+	 * parse the input file content as a string into a ODM model according the the ODM schema
+	 * 
+	 * @param fileContent file content
+	 * @return
+	 */
+	boolean parseFileContent(String fileContent);
 	
 	/**
 	 * If parsing staus = false, get error massages

@@ -34,9 +34,10 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
+import org.ieee.pes.odm.pss.adapter.IFileReader;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
 
 public class PSSEV30Adapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
@@ -47,7 +48,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	}
 	
 	protected ODMModelParser parseInputFile(
-			final java.io.BufferedReader din) throws Exception {
+			final IFileReader din) throws Exception {
 		ODMModelParser parser = new ODMModelParser();
 		parser.getStudyCase().setSchemaVersion(
 				StudyCaseXmlType.SchemaVersion.V_1_00_DEV);

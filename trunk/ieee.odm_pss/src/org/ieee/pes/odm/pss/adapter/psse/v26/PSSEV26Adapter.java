@@ -30,6 +30,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
+import org.ieee.pes.odm.pss.adapter.IFileReader;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 public class PSSEV26Adapter extends AbstractODMAdapter{
@@ -55,7 +56,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	}
 	
 	protected ODMModelParser parseInputFile(
-			final java.io.BufferedReader din) throws Exception {
+			final IFileReader din) throws Exception {
 		ODMModelParser parser = createParser();
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		// no space is allowed for ID field

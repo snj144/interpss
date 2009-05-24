@@ -52,6 +52,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
+import org.ieee.pes.odm.pss.adapter.IFileReader;
 import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
@@ -95,7 +96,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	}
 
 	protected ODMModelParser parseInputFile(
-			final java.io.BufferedReader din) throws Exception {
+			final IFileReader din) throws Exception {
 		ODMModelParser parser = new ODMModelParser();
 
 		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
