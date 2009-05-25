@@ -322,31 +322,20 @@ public class BPABusRecord {
 		ConverterXmlType converter= dcBus.addNewConverter();
 		// set converter bus id
 		converter.addNewBusId().setName(converterBus);
-		converter.getData().setZoneNumber(new Integer(zone).intValue());
+		
 		// set converter ac side voltage
 		DataSetter.setVoltageData(converter.getData().addNewAcSideRatedVoltage(), 
 				converterACSideVoltage, VoltageUnitType.KV);
 		// bridges
 		converter.getData().setNumberofBridges(brdgsPerBrckt);
-		// set smooth reactor
-		DataSetter.setZValue(converter.getData().addNewSmoothingReactor(),
-				0.0, smoothReactance, ZUnitType.OHM);
+			
 		//set min firing angle as a converter
 		DataSetter.setAngleData(converter.getData().addNewRectifierMinFiringAngle(),
 				converterMinFiringAngle, AngleUnitType.DEG);
 		//set max firing angle as a inverter
 		DataSetter.setAngleData(converter.getData().addNewInverterMaxFiringAngle(),
 				inverterMaxFiringAngle, AngleUnitType.DEG);
-		// set valve voltage drop
-		DataSetter.setVoltageData(converter.getData().addNewValveDropVoltage(), 
-				valveDropVoltage, VoltageUnitType.VOLT);
-		// set current rating
-		DataSetter.setCurrentData(converter.getData().addNewBridgeRatedCurrent(), 
-				brdgesCurrentRating, CurrentUnitType.AMP);
-		// set commutating station bus and DC side voltage
-		converter.getData().addNewConmmutationStationBus().setName(commutatingBus);
-	    DataSetter.setVoltageData(converter.getData().addNewDcSdieRatedV(),
-	    		commutatingBusDCSideVol, VoltageUnitType.KV);
+		
 	}
 	
 	private static String[] getBusDataFields(final String str,BPAAdapter adapter) {
