@@ -738,14 +738,14 @@ public class BPABranchRecord {
 					tieLine.addNewNonMeteredBus().setName(inverterBus);	
 					
 					DCLineBusRecordXmlType busRecFrom=ContainerHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
-					NetAreaXmlType areaFrom=ContainerHelper.
+					/*NetAreaXmlType areaFrom=ContainerHelper.
 						  getAreaRecordByZone(busRecFrom.getConverter().getData().getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
 					DCLineBusRecordXmlType busRecTo=ContainerHelper.getDCLineBusRecord(inverterBus, baseCaseNet);
 										
 					NetAreaXmlType areaTo=ContainerHelper.
 						  getAreaRecordByZone(busRecTo.getConverter().getData().getZoneNumber(), baseCaseNet);
-					tieLine.setNonMeteredArea(areaTo.getName());
+					tieLine.setNonMeteredArea(areaTo.getName());*/
 					
 					
 					// to do: set area number
@@ -821,24 +821,24 @@ public class BPABranchRecord {
 					scheduledMw, 0.0, ApparentPowerUnitType.MVA);
 		}
 		
-		double dcLineRatedVoltage=0.0;
+	/*	double dcLineRatedVoltage=0.0;
 		if(!strAry[14].equals("")){
 			dcLineRatedVoltage = new Double(strAry[14]).doubleValue();
 			DataSetter.setVoltageData(dcBranch.getData().addNewRatedDVol(),
 					dcLineRatedVoltage, VoltageUnitType.KV);			
-		}
+		}*/
 		double recOperFiringAngle=0.0, invStopFiringAngle=0.0;
 		if(!strAry[15].equals("")){
 			recOperFiringAngle= new Double(strAry[15]).doubleValue();
 			DataSetter.setAngleData(ContainerHelper.getConverterRecord(rectifierBus,
-					baseCaseNet).getData().addNewRectifierOperAngle(), recOperFiringAngle, AngleUnitType.DEG);
+					baseCaseNet).getData().addNewRectifierMaxFiringAngle(), recOperFiringAngle, AngleUnitType.DEG);
 			ContainerHelper.getConverterRecord(rectifierBus,baseCaseNet).
 			        setType(ConverterXmlType.Type.RECTIFIER);
 		}
 		if(!strAry[16].equals("")){
 			invStopFiringAngle= new Double(strAry[16]).doubleValue();
 			DataSetter.setAngleData(ContainerHelper.getConverterRecord(inverterBus,
-					baseCaseNet).getData().addNewInverterStopAgnle(), invStopFiringAngle, AngleUnitType.DEG);
+					baseCaseNet).getData().addNewInverterMinFiringAgnle(),invStopFiringAngle, AngleUnitType.DEG);
 			ContainerHelper.getConverterRecord(rectifierBus,baseCaseNet).
 	        setType(ConverterXmlType.Type.INVERTER);
 		}
