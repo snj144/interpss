@@ -39,6 +39,7 @@ import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.NetUtilFunc;
 import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.core.dclf.SenAnalysisType;
@@ -192,17 +193,22 @@ public class DclfOutFunc {
 	public static String dclfResults(DclfAlgorithm algo) {
 		String str = "\n\n";
 		str += "      DC Loadflow Results\n\n";
-		str += "   Bud Id       VoltAng(deg)\n";
-		str += "=================================\n";
+		str += "   Bud Id       VoltAng(deg)     Gen/Load\n";
+		str += "============================================\n";
+		double baseMva = algo.getAclfNetwork().getBaseKva() * 0.001;
 		for (Bus bus : algo.getAclfNetwork().getBusList()) {
+			AclfBus aclfBus = (AclfBus)bus; 
 			int n = bus.getSortNumber();
 			double angle = Math.toDegrees(algo.getBusAngle(n));
+			double p = (aclfBus.getGenP() - aclfBus.getLoadP()) * baseMva; 
 			str += Number2String.toFixLengthStr(8, bus.getId()) + "        "
-					+ Number2String.toStr(angle) + "\n";
+					+ String.format("%8.2f",angle) + "         "
+					+ ((p != 0.0)? String.format("%8.2f",p) : "") 
+					+ "\n";
 		}
 
 		str += "\n";
-		str += branchFlowTitle();
+		str += branchFlowTitle() + "\n";
 		for (Branch bra : algo.getAclfNetwork().getBranchList()) {
 			str += branchFlow((AclfBranch)bra, algo) + "\n";
 		}
