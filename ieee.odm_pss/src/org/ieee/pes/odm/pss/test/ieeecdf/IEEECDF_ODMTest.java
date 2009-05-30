@@ -138,5 +138,15 @@ public class IEEECDF_ODMTest {
 		assertTrue(braRec.getLoadflowData().getXformerData().getFromTap().getValue() == 0.978); 
 		assertTrue(braRec.getLoadflowData().getXformerData().getToTap().getValue() == 1.0); 
 	}
+	
+	public void testCase2() throws Exception {
+		final LogManager logMgr = LogManager.getLogManager();
+		Logger logger = Logger.getLogger("IEEE ODM Logger");
+		logger.setLevel(Level.INFO);
+		logMgr.addLogger(logger);
+		
+		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
+		assertTrue(adapter.parseInputFile("testdata/ieeecdf/Ieee300Bus.txt"));
+	}
 }
 
