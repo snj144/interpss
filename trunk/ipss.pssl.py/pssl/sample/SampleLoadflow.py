@@ -30,6 +30,6 @@ IpssAclf.createLoadflowAlgorithm(aclfNet)                        \
   			.runLoadflow();				
 
 print IpssUtil.outputAclfNet(aclfNet)                    \
-            .setFormat(IpssUtil.Format.LoadfloeSummary)  \
+            .setFormat(IpssUtil.AclfOutFormat.LoadfloeSummary)  \
             .toString();
 

@@ -15,6 +15,6 @@ IpssAclf.createLoadflowAlgorithm(aclfNet)           \
   			.runLoadflow(); 				
   			
 print IpssUtil.outputAclfNet(aclfNet)                 \
-            .setFormat(IpssUtil.Format.IEEEBusStype)  \
+            .setFormat(IpssUtil.AclfOutFormat.IEEEBusStype)  \
             .toFile("output/ieee14.txt");
 

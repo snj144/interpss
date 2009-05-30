@@ -16,6 +16,6 @@ IpssAclf.createLoadflowAlgorithm(aclfNet)           \
   			.runLoadflow(); 				
   			
 print IpssUtil.outputAclfNet(aclfNet)                 \
-            .setFormat(IpssUtil.Format.IEEEBusStype)  \
+            .setFormat(IpssUtil.AclfOutFormat.IEEEBusStype)  \
             .toString();
 
