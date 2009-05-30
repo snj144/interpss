@@ -4,6 +4,7 @@
       	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
       	<property name="dev_lib" value="${dev_base}/ipss.lib/lib"/>
       	<property name="pssl_lib" value="${dev_base}/ipss.pssl.scala/lib"/>
+      	<property name="gl.odm_lib" value="${dev_base}/ipss.gl.odm/war/WEB-INF/lib"/>
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="fit_base" value="C:/eclipse/InterpssDev/ipss.fit/fitnesse"/>
       	<property name="svn_lib" value="${dev_base}/ipss.lib/lib/ipss"/>
@@ -170,6 +171,7 @@
 
 	<target depends="init" description="copy ipss lib files to ipss.pssl.lib" name="copy_pssl">
 		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${pssl_lib}"/>
+		<copy file="${lib_base}/ipss/ipss_ext.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_schemas.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${pssl_lib}"/>
@@ -182,6 +184,12 @@
 		<copy file="${lib_base}/eclipse/org.eclipse.emf.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/spring/spring.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/xml/xbean.jar" todir="${pssl_lib}"/>
+
+		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${gl.odm_lib}"/>
+		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${gl.odm_lib}"/>
+		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${gl.odm_lib}"/>
+		<copy file="${lib_base}/ipss/ipss_ext.jar" todir="${gl.odm_lib}"/>
+		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${gl.odm_lib}"/>
     </target>	
 
 	<target depends="init" description="copy ipss lib files to finesse" name="copy_fit">
