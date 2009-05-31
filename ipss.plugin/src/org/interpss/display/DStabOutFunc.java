@@ -162,7 +162,7 @@ public class DStabOutFunc {
 
 			str
 					.append("\n                          Initial Condition Summary\n");
-			str.append(AclfOutFunc.maxMismatchToString(net) + "\n");
+			str.append(AclfOutFunc.maxMismatchToString(net,"") + "\n");
 			str
 					.append("     BusID     Volt(pu)     Angle(deg)   P(pu)     Q(pu)   Mach Model     PowerAng(deg)\n");
 			str

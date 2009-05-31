@@ -94,9 +94,10 @@ public class AclfOutFunc {
 		return str + "\n";
 	}
 
-	public static String busStyleTitle() {
+	public static String busStyleTitle(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
 		str.append("\n\n                                              Load Flow Results\n\n");
+		str.append(AclfOutFunc.maxMismatchToString(net,"                    ") + "\n");
 		str.append("------------------------------------------------------------------------------------------------------------------------------------------\n");
 		str.append(" Bus ID             Bus Voltage         Generation           Load             To             Branch P+jQ          Xfr Ratio   PS-Xfr Ang\n");
 		str.append("               base     Mag   Ang     (mW)    (mVar)    (mW)    (mVar)      Bus ID      (mW)    (mVar)   (kA)   (From)  (To) (from)   (to)\n");
@@ -213,7 +214,7 @@ public class AclfOutFunc {
 		try {
 			double baseKVA = net.getBaseKva();
 
-			str.append(busStyleTitle());
+			str.append(busStyleTitle(net));
 
 			for (Bus b : net.getBusList()) {
 				AclfBus bus = (AclfBus) b;
@@ -234,7 +235,7 @@ public class AclfOutFunc {
 			double baseKVA = net.getBaseKva();
 
 			str.append("\n                          Load Flow Summary\n");
-			str.append(AclfOutFunc.maxMismatchToString(net) + "\n");
+			str.append(AclfOutFunc.maxMismatchToString(net, "") + "\n");
 			str
 					.append("     BusID         Code              Volt(pu)   Angle(deg)     P(pu)     Q(pu)\n");
 			str
@@ -306,14 +307,14 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
-	public static String maxMismatchToString(AclfNetwork net) {
+	public static String maxMismatchToString(AclfNetwork net, String prefix) {
 		try {
 			double baseKVA = net.getBaseKva();
-			String str = "\n                         Max Power Mismatches\n"
-					+ "             Bus          dPmax       Bus          dQmax\n"
-					+ "            ---------------------------------------------------\n";
+			String str = "\n"+prefix+"                         Max Power Mismatches\n"
+					+ prefix+"             Bus          dPmax       Bus          dQmax\n"
+					+ prefix+"            ---------------------------------------------------\n";
 			Mismatch mis = net.maxMismatch(AclfMethod.NR);
-			str += Number2String.toStr(12, " ");
+			str += prefix+Number2String.toStr(12, " ");
 			str += Number2String.toStr(-8, mis.maxPBus.getId()) + " ";
 			str += Number2String.toStr("####0.000000", mis.maxMis.getReal())
 					+ "    ";
@@ -321,7 +322,7 @@ public class AclfOutFunc {
 			str += Number2String.toStr("####0.000000", mis.maxMis
 					.getImaginary())
 					+ " (pu)\n";
-			str += Number2String.toStr(21, " ");
+			str += prefix+Number2String.toStr(21, " ");
 			str += Number2String.toStr("####0.000000", baseKVA
 					* mis.maxMis.getReal())
 					+ " ";
