@@ -37,6 +37,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -79,7 +80,7 @@ public class PSSEV26BranchRecord {
 		int status = StringUtil.getInt(strAry[15], 0);
 		branchRec.setOffLine(status == 0);
 		
-		LoadflowBranchDataXmlType branchData=branchRec.addNewLoadflowData();	
+		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();	
 		
         //      Branch resistance R, per unit  *
 		//      Branch reactance X, per unit  * No zero impedance lines
@@ -98,12 +99,11 @@ public class PSSEV26BranchRecord {
 			DataSetter.setLineData(branchData, rpu, xpu,	ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 		}
 		else if (angle == 0.0) {
-			DataSetter.createXformerData(branchRec.getLoadflowData(),
+			DataSetter.createXformerData(branchData,
 				       rpu, xpu, ZUnitType.PU, fromTap, toTap);		
 		}
 		else {
-			DataSetter.createPhaseShiftXfrData(branchRec
-					.getLoadflowData(), rpu, xpu, ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
+			DataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
 		}
 		
 		final double rating1Mvar = StringUtil.getDouble(strAry[6], 0.0);
@@ -121,11 +121,11 @@ public class PSSEV26BranchRecord {
         if(GI!=0.0 || BI!=0.0 )  {
         	YXmlType y;
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
-        		y = branchData.getLineData().addNewFromShuntY();
+        		y = branchData.addNewFromShuntY();
         	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
-        		y = branchData.getXformerData().addNewFromShuntY();
+        		y = branchData.addNewFromShuntY();
         	else
-        		y = branchData.getPhaseShiftXfrData().addNewFromShuntY();
+        		y = branchData.addNewFromShuntY();
         	DataSetter.setYData(y, GI, BI, YUnitType.PU);
         }
 
@@ -135,11 +135,11 @@ public class PSSEV26BranchRecord {
 	    if(GJ!=0.0 || BJ!=0.0)  {
         	YXmlType y;
         	if (branchData.getCode() == LFBranchCodeEnumType.LINE)
-        		y = branchData.getLineData().addNewToShuntY();
+        		y = branchData.addNewToShuntY();
         	else if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER)
-        		y = branchData.getXformerData().addNewToShuntY();
+        		y = branchData.addNewToShuntY();
         	else
-        		y = branchData.getPhaseShiftXfrData().addNewToShuntY();
+        		y = branchData.addNewToShuntY();
         	DataSetter.setYData(y, GJ, BJ, YUnitType.PU);
 	    }
 	}
@@ -174,6 +174,9 @@ public class PSSEV26BranchRecord {
 	    	logger.severe("Branch "+ branchId + " not found in the network");
 	    	return;
 	    }	
+
+	    // only one branch section
+		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(branchRec);
 	    
 	    int icon = StringUtil.getInt(strAry[3], 0);
 	    boolean isNegative = false;
@@ -183,14 +186,14 @@ public class PSSEV26BranchRecord {
 	    }
 		final String iconId = icon > 0? ODMModelParser.BusIdPreFix+icon : null;
 
-		if (branchRec.getLoadflowData().getCode() == LFBranchCodeEnumType.TRANSFORMER) {
+		if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
 	    	double tmax = StringUtil.getDouble(strAry[4], 0.0);
 	    	double tmin = StringUtil.getDouble(strAry[5], 0.0);
 	    	double tstep = StringUtil.getDouble(strAry[8], 0.0);
 	    	double vup = StringUtil.getDouble(strAry[6], 0.0);
 	    	double vlow = StringUtil.getDouble(strAry[7], 0.0);
 	    	
-	    	TapAdjustmentXmlType tapAdj = branchRec.getLoadflowData().getXformerData().addNewTapAdjustment();
+	    	TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
 	    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
 	    	DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), tmax, tmin);
 	    	tapAdj.setTapAdjStepSize(tstep);
@@ -217,13 +220,13 @@ public class PSSEV26BranchRecord {
 	    	else
 		    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.OFF);
 	    }
-	    else if (branchRec.getLoadflowData().getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
+	    else if (branchData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
 	    	double angmax = StringUtil.getDouble(strAry[4], 0.0);
 	    	double angmin = StringUtil.getDouble(strAry[5], 0.0);
 	    	double mwup = StringUtil.getDouble(strAry[6], 0.0);
 	    	double mwlow = StringUtil.getDouble(strAry[7], 0.0);
 
-	    	AngleAdjustmentXmlType angAdj = branchRec.getLoadflowData().getPhaseShiftXfrData().addNewAngleAdjustment();
+	    	AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
 	    	DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angmax, angmin, AngleUnitType.DEG);
 	    	angAdj.setMax(mwup);
 	    	angAdj.setMin(mwlow);

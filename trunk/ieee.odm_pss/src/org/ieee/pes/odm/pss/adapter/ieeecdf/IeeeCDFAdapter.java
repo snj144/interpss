@@ -37,6 +37,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
@@ -336,7 +337,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		branchRec.setCircuitId(cirId);
 
 		branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));
-		branchRec.addNewLoadflowData();
+		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
 
 		//    	Column  19      Type [I] *
 		//      0 - Transmission line
@@ -353,7 +354,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double xpu = new Double(strAry[7]).doubleValue();
 		final double bpu = new Double(strAry[8]).doubleValue();
 		if (type == 0) {
-			DataSetter.setLineData(branchRec.getLoadflowData(), rpu, xpu,
+			DataSetter.setLineData(branchData, rpu, xpu,
 					ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 		}
 
@@ -364,13 +365,13 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double angle = new Double(strAry[15]).doubleValue();
 		if (type > 0) {
 			if (angle == 0.0) {
-				DataSetter.createXformerData(branchRec.getLoadflowData(),
+				DataSetter.createXformerData(branchData,
 						rpu, xpu, ZUnitType.PU, ratio, 1.0, 
 						0.0, bpu, 0.0, 0.0, YUnitType.PU);
 				BusRecordXmlType fromBusRec = ContainerHelper.findBusRecord(fid, baseCaseNet);
 				BusRecordXmlType toBusRec = ContainerHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
-					DataSetter.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
+					DataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
 							toBusRec.getBaseVoltage().getValue(), 
 							fromBusRec.getBaseVoltage().getUnit());				
@@ -379,14 +380,13 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					logErr("Error: fromBusRecord and/or toBusRecord cannot be found, fromId, toId: " + fid + ", " + tid);
 				}
 			} else {
-				DataSetter.createPhaseShiftXfrData(branchRec
-						.getLoadflowData(), rpu, xpu, ZUnitType.PU,
+				DataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU,
 						ratio, 1.0, angle, 0.0, AngleUnitType.DEG,
 						0.0, bpu, 0.0, 0.0, YUnitType.PU);
 				BusRecordXmlType fromBusRec = ContainerHelper.findBusRecord(fid, baseCaseNet);
 				BusRecordXmlType toBusRec = ContainerHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
-					DataSetter.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
+					DataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
 							toBusRec.getBaseVoltage().getValue(), 
 							fromBusRec.getBaseVoltage().getUnit());				
@@ -403,7 +403,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double rating1Mvar = new Integer(strAry[9]).intValue();
 		final double rating2Mvar = new Integer(strAry[10]).intValue();
 		final double rating3Mvar = new Integer(strAry[11]).intValue();
-		DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(),
+		DataSetter.setBranchRatingLimitData(branchData,
 				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA);
 
 		String controlBusId = "";
@@ -434,9 +434,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		}
 
 		if (type == 2 || type == 3) {
-			TapAdjustmentXmlType tapAdj = branchRec
-					.getLoadflowData().getXformerData()
-					.addNewTapAdjustment();
+			TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
 			DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTapAng, minTapAng);
 			tapAdj.setTapAdjStepSize(stepSize);
 			tapAdj.setTapAdjOnFromSide(true);
@@ -458,9 +456,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if (type == 4) {
-			AngleAdjustmentXmlType angAdj = branchRec
-					.getLoadflowData().getPhaseShiftXfrData()
-					.addNewAngleAdjustment();
+			AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
 			DataSetter.setLimitData(angAdj.addNewAngleLimit(), maxTapAng,
 					minTapAng);
 			DataSetter.setLimitData(angAdj, maxVoltPQ, minVoltPQ);

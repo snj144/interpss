@@ -35,7 +35,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
@@ -89,7 +88,7 @@ public class PSSEV30BranchRecord {
 		final double GI= new Double(strAry[9]).doubleValue();
 		final double BI= new Double(strAry[10]).doubleValue();
         if(GI!=0.0 || BI!=0.0 )  { 
-        	DataSetter.setYData(branchData.getLineData().addNewFromShuntY(),
+        	DataSetter.setYData(branchData.addNewFromShuntY(),
         				GI, BI, YUnitType.PU);
         }
 
@@ -97,7 +96,7 @@ public class PSSEV30BranchRecord {
 		final double GJ= new Double(strAry[11]).doubleValue();
 		final double BJ= new Double(strAry[12]).doubleValue();
 	    if(GJ!=0.0 || BJ!=0.0)  {
-	    	DataSetter.setYData(branchData.getLineData().addNewToShuntY(),
+	    	DataSetter.setYData(branchData.addNewToShuntY(),
     				GJ, BJ, YUnitType.PU);
 	    }
 	}
@@ -132,7 +131,7 @@ public class PSSEV30BranchRecord {
 		branchRec.setCircuitId(cirId);		
 		
 		branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));
-		branchRec.addNewLoadflowData();
+		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
 		
 		//get r x b
 		final int CZ = new Integer(strAry[5]).intValue();	
@@ -176,7 +175,7 @@ public class PSSEV30BranchRecord {
     	   return;
        }	
 		//SET XFORMER R X G B 
-       DataSetter.createXformerData(branchRec.getLoadflowData(),
+       DataSetter.createXformerData(branchData,
 			       rpu, xpu, ZUnitType.PU, 1.0, 1.0, 
 			       gpu, bpu, 0.0, 0.0,	YUnitType.PU);		
 		
@@ -198,9 +197,8 @@ public class PSSEV30BranchRecord {
 			f_ratio = WINDV1*1000.0 / systemBaseV;
        		t_ratio = WINDV2*1000.0 /systemBaseV;
 		}
-		TransformerDataXmlType xfrData = branchRec.getLoadflowData().getXformerData(); 
-		DataSetter.setTapPU(xfrData.addNewFromTap(), f_ratio);
-		DataSetter.setTapPU(xfrData.addNewToTap(), t_ratio);
+		DataSetter.setTapPU(branchData.addNewFromTap(), f_ratio);
+		DataSetter.setTapPU(branchData.addNewToTap(), t_ratio);
 		
 		//     MVA rating No 1 
 		//    MVA rating No 2
@@ -208,7 +206,7 @@ public class PSSEV30BranchRecord {
 		final double rating1Mvar = new Double(strAry[26]).doubleValue();
 		final double rating2Mvar = new Double(strAry[27]).doubleValue();
 		final double rating3Mvar = new Double(strAry[28]).doubleValue();
-		DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(),
+		DataSetter.setBranchRatingLimitData(branchData,
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				ApparentPowerUnitType.MVA, 0.0,
 				null);
@@ -229,8 +227,7 @@ public class PSSEV30BranchRecord {
 		
 		VoltageUnitType.Enum vUnit =fromBusRec.getBaseVoltage().getUnit();
 		if(NOMV1==0 && NOMV2==0){vUnit=VoltageUnitType.KV;}
-		DataSetter.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
-				fromRatedV, toRatedV, vUnit);	
+		DataSetter.setXfrRatingData(branchData,	fromRatedV, toRatedV, vUnit);	
 		
 		
 		
@@ -248,14 +245,12 @@ public class PSSEV30BranchRecord {
   		//double CX = new Double(strAry[38]).intValue();
   		
   		if (ANG1 != 0.0 || COD == 3 || COD == -3){
-  			DataSetter.createPhaseShiftXfrData(branchRec
-					.getLoadflowData(), rpu, xpu, ZUnitType.PU,
+  			DataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU,
 					1.0, 1.0, 0.0, 0.0, AngleUnitType.DEG,
 					0.0, bpu, 0.0, 0.0, YUnitType.PU);
-  			DataSetter.setTapPU(branchRec.getLoadflowData().getPhaseShiftXfrData().addNewFromTap(), f_ratio);
-   			branchRec.getLoadflowData().getPhaseShiftXfrData().getFromTap().setUnit(TapUnitType.PU);
-   			DataSetter.setAngleData(branchRec.getLoadflowData()
-					.getPhaseShiftXfrData().addNewFromAngle(), ANG1,
+  			DataSetter.setTapPU(branchData.addNewFromTap(), f_ratio);
+  			branchData.getFromTap().setUnit(TapUnitType.PU);
+   			DataSetter.setAngleData(branchData.addNewFromAngle(), ANG1,
 					AngleUnitType.DEG);
   			 }
   		
@@ -307,8 +302,7 @@ public class PSSEV30BranchRecord {
 		
 
   		if (Math.abs(COD) ==1 || Math.abs(COD)==2 ) {	
-  			TapAdjustmentXmlType tapAdj = branchRec.getLoadflowData().getXformerData()
-						.addNewTapAdjustment();
+  			TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
 			DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTapAng,	minTapAng);
 	        tapAdj.getTapLimit().setUnit(TapUnitType.PU);
 	        tapAdj.setTapAdjStepSize(stepSize);
@@ -335,9 +329,7 @@ public class PSSEV30BranchRecord {
   		}
   		    // MW control      phase shifter
   		else if (Math.abs(COD)  == 3){
-  			AngleAdjustmentXmlType angAdj = branchRec
-				.getLoadflowData().getPhaseShiftXfrData()
-				.addNewAngleAdjustment();
+  			AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
   			DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), maxTapAng,
 				minTapAng, AngleUnitType.DEG);
   			DataSetter.setLimitData(angAdj, maxVoltPQ,	minVoltPQ);

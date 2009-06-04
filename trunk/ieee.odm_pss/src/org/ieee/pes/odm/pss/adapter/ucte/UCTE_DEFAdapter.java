@@ -36,18 +36,18 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
@@ -366,17 +366,17 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       	branchRec.addNewFromBus().setIdRef(fromNodeId);
       	branchRec.addNewToBus().setIdRef(toNodeId);    
 		
-		branchRec.addNewLoadflowData();
+		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
 		
 		// LineData object created in the following call
-		DataSetter.setLineData(branchRec.getLoadflowData(), rOhm, xOhm,
+		DataSetter.setLineData(branchData, rOhm, xOhm,
 				ZUnitType.OHM, 0.0, bMuS, YUnitType.MICROMHO);
       	
     	// by default the branch is active
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
 
-    	DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(),
+    	DataSetter.setBranchRatingLimitData(branchData,
 				currentLimit, CurrentUnitType.AMP);
     }
     
@@ -427,7 +427,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       	branchRec.addNewFromBus().setIdRef(fromNodeId);
       	branchRec.addNewToBus().setIdRef(toNodeId);    
 
-		branchRec.addNewLoadflowData();
+		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
 
 		// r, x, g, b are measured at from side in Ohms
 		// they are converted to PU using from bus base voltage
@@ -436,11 +436,11 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			getLogger().severe("Need more implementation");
 		}
 		// XformerData object created in the following call
-		DataSetter.createXformerData(branchRec.getLoadflowData(),
+		DataSetter.createXformerData(branchData,
 				rOhm, xOhm, ZUnitType.OHM, 1.0, 1.0, 0.0, 0.0, gMuS, bMuS,
 				YUnitType.MICROMHO);
 
-		DataSetter.setXfrRatingData(branchRec.getLoadflowData().getXformerData(),
+		DataSetter.setXfrRatingData(branchData,
 				fromRatedKV, toRatedKV, VoltageUnitType.KV,
 				normialMva, ApparentPowerUnitType.MVA);
 
@@ -448,7 +448,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
     	
-    	DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(),
+    	DataSetter.setBranchRatingLimitData(branchData,
 				currentLimit, CurrentUnitType.AMP);
     }
     
@@ -498,6 +498,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       		logErr("Error: branch cannot be found, line: " + str);
       		return;
       	}
+      	// there might be multiple branch sections, but UTCE only has one
+		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(branchRec);
       	
 		NameValuePairListXmlType nvList = branchRec.addNewNvPairList();
 
@@ -512,15 +514,14 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			if (dUPhase != 0.0)
 				ContainerHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
-			TransformerDataXmlType xfr = branchRec.getLoadflowData().getXformerData();
-			double ratioFactor = xfr.getToTap().getValue();
+			double ratioFactor = branchData.getToTap().getValue();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at to side x : 1.0, InterPSS model 1.0:turnRatio
-			DataSetter.setTapPU(xfr.addNewToTap(), ratioFactor/x);
+			DataSetter.setTapPU(branchData.addNewToTap(), ratioFactor/x);
 			
 			if (uKvPhase > 0.0) {
-				TapAdjustmentXmlType tapAdj = xfr.addNewTapAdjustment();
+				TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
 				tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
 				
 				// tap control of voltage at to node side
@@ -555,7 +556,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			if (dUPhase != 0.0)
 				ContainerHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
-			double ratioFactor = branchRec.getLoadflowData().getXformerData().getToTap().getValue();
+			double ratioFactor = branchData.getToTap().getValue();
 
 	    	double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;
 			double a    = n1Angle*dUAngle*0.01,
@@ -588,14 +589,13 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 				angMin = 2.0 * Math.atan(aMin/2.0);
 			}
 			
-			DataSetter.branchXfrData2PsXfr(branchRec.getLoadflowData());
+			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 			
-			PhaseShiftXfrDataXmlType psXfr = branchRec.getLoadflowData().getPhaseShiftXfrData();
-			DataSetter.setAngleData(psXfr.addNewToAngle(), -ang*ContainerHelper.Rad2Deg, AngleUnitType.DEG);
-			DataSetter.setTapPU(psXfr.addNewToTap(), ratioFactor/x);
+			DataSetter.setAngleData(branchData.addNewToAngle(), -ang*ContainerHelper.Rad2Deg, AngleUnitType.DEG);
+			DataSetter.setTapPU(branchData.addNewToTap(), ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {
-				AngleAdjustmentXmlType angAdj = psXfr.addNewAngleAdjustment();
+				AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
           		angAdj.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				
 				angAdj.setDesiredPowerUnit(AngleAdjustmentXmlType.DesiredPowerUnit.MW);
