@@ -36,6 +36,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
@@ -97,40 +98,44 @@ public class UCTE_ODMTest {
 		// A1____1->A2____1 is a line
 		// A1    1  A2    1  1 0 1.3600 19.350 240.9601    480 
 		BranchRecordXmlType braRec = ContainerHelper.findBranchRecord("A1____1", "A2____1", "1", baseCaseNet);
-		assertTrue(braRec.getLoadflowData().getCode() == LFBranchCodeEnumType.LINE); 
-		assertTrue(braRec.getLoadflowData().getLineData().getZ().getRe() == 1.3600); 
-		assertTrue(braRec.getLoadflowData().getLineData().getZ().getIm() == 19.350); 
-		assertTrue(braRec.getLoadflowData().getLineData().getZ().getUnit() == ZUnitType.OHM); 
-		assertTrue(braRec.getLoadflowData().getLineData().getTotalShuntY().getRe() == 0.0); 
-		assertTrue(braRec.getLoadflowData().getLineData().getTotalShuntY().getIm() == 240.9601); 
-		assertTrue(braRec.getLoadflowData().getLineData().getTotalShuntY().getUnit() == YUnitType.MICROMHO); 
-		assertTrue(braRec.getLoadflowData().getRatingLimit().getCurrent().getValue() == 480.0); 
-		assertTrue(braRec.getLoadflowData().getRatingLimit().getCurrent().getUnit() == CurrentUnitType.AMP); 
+		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(braRec);
+		
+		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE); 
+		assertTrue(branchData.getZ().getRe() == 1.3600); 
+		assertTrue(branchData.getZ().getIm() == 19.350); 
+		assertTrue(branchData.getZ().getUnit() == ZUnitType.OHM); 
+		assertTrue(branchData.getTotalShuntY().getRe() == 0.0); 
+		assertTrue(branchData.getTotalShuntY().getIm() == 240.9601); 
+		assertTrue(branchData.getTotalShuntY().getUnit() == YUnitType.MICROMHO); 
+		assertTrue(branchData.getBranchRatingLimit().getCurrent().getValue() == 480.0); 
+		assertTrue(branchData.getBranchRatingLimit().getCurrent().getUnit() == CurrentUnitType.AMP); 
 		
 		// D1____1->D3____2 is a Xfr
 		// D1    1  D3    2  1 0 400.  230.  600.0 .20000 15.000 -16.0000 5.0000   1000 
 		braRec = ContainerHelper.findBranchRecord("D1____1", "D3____2", "1", baseCaseNet);
-		assertTrue(braRec.getLoadflowData().getCode() == LFBranchCodeEnumType.TRANSFORMER); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getRe() == 0.20); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getIm() == 15.0); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getUnit() == ZUnitType.OHM); 		
+		branchData = ContainerHelper.getDefaultBranchData(braRec);
 		
-		assertTrue(braRec.getLoadflowData().getXformerData().getFromTap().getValue() == 1.0); // from ratio not defined, set to default 1.0
-		assertTrue(braRec.getLoadflowData().getXformerData().getToTap().getValue() == 1.0); 
+		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER); 
+		assertTrue(branchData.getZ().getRe() == 0.20); 
+		assertTrue(branchData.getZ().getIm() == 15.0); 
+		assertTrue(branchData.getZ().getUnit() == ZUnitType.OHM); 		
+		
+		assertTrue(branchData.getFromTap().getValue() == 1.0); // from ratio not defined, set to default 1.0
+		assertTrue(branchData.getToTap().getValue() == 1.0); 
 
-		assertTrue(braRec.getLoadflowData().getXformerData().getFromShuntY() == null); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getToShuntY().getRe() == 5.0); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getToShuntY().getIm() == -16.0); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getToShuntY().getUnit() == YUnitType.MICROMHO); 
+		assertTrue(branchData.getFromShuntY() == null); 
+		assertTrue(branchData.getToShuntY().getRe() == 5.0); 
+		assertTrue(branchData.getToShuntY().getIm() == -16.0); 
+		assertTrue(branchData.getToShuntY().getUnit() == YUnitType.MICROMHO); 
 		
-		assertTrue(braRec.getLoadflowData().getXformerData().getRatingData().getFromRatedVoltage().getValue() == 400.0); 		
-		assertTrue(braRec.getLoadflowData().getXformerData().getRatingData().getFromRatedVoltage().getUnit() == VoltageUnitType.KV); 		
-		assertTrue(braRec.getLoadflowData().getXformerData().getRatingData().getToRatedVoltage().getValue() == 230.0); 		
-		assertTrue(braRec.getLoadflowData().getXformerData().getRatingData().getToRatedVoltage().getUnit() == VoltageUnitType.KV); 		
-		assertTrue(braRec.getLoadflowData().getXformerData().getRatingData().getRatedPower().getValue() == 600.0); 		
-		assertTrue(braRec.getLoadflowData().getXformerData().getRatingData().getRatedPower().getUnit() == ApparentPowerUnitType.MVA); 		
+		assertTrue(branchData.getXfrInfo().getFromRatedVoltage().getValue() == 400.0); 		
+		assertTrue(branchData.getXfrInfo().getFromRatedVoltage().getUnit() == VoltageUnitType.KV); 		
+		assertTrue(branchData.getXfrInfo().getToRatedVoltage().getValue() == 230.0); 		
+		assertTrue(branchData.getXfrInfo().getToRatedVoltage().getUnit() == VoltageUnitType.KV); 		
+		assertTrue(branchData.getXfrInfo().getRatedPower().getValue() == 600.0); 		
+		assertTrue(branchData.getXfrInfo().getRatedPower().getUnit() == ApparentPowerUnitType.MVA); 		
 		
-		assertTrue(braRec.getLoadflowData().getRatingLimit().getCurrent().getValue() == 1000.0); 
+		assertTrue(branchData.getBranchRatingLimit().getCurrent().getValue() == 1000.0); 
 	}
 }
 

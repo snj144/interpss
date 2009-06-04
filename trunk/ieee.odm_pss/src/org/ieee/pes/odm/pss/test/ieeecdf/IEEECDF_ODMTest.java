@@ -36,6 +36,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
@@ -118,25 +119,28 @@ public class IEEECDF_ODMTest {
 		// Branch 1->2 is a LIne
 		//    1    2  1  1 1 0  0.01938   0.05917     0.0528     0     0     0    0 0  0.0       0.0 0.0    0.0     0.0    0.0   0.0
 		BranchRecordXmlType braRec = ContainerHelper.findBranchRecord("Bus1", "Bus2", "1", baseCaseNet);
-		assertTrue(braRec.getLoadflowData().getCode() == LFBranchCodeEnumType.LINE); 
-		assertTrue(braRec.getLoadflowData().getLineData().getZ().getRe() == 0.01938); 
-		assertTrue(braRec.getLoadflowData().getLineData().getZ().getIm() == 0.05917); 
-		assertTrue(braRec.getLoadflowData().getLineData().getZ().getUnit() == ZUnitType.PU); 
-		assertTrue(braRec.getLoadflowData().getLineData().getTotalShuntY().getRe() == 0.0); 
-		assertTrue(braRec.getLoadflowData().getLineData().getTotalShuntY().getIm() == 0.0528); 
-		assertTrue(braRec.getLoadflowData().getLineData().getTotalShuntY().getUnit() == YUnitType.PU); 
+		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(braRec);
+		
+		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE); 
+		assertTrue(branchData.getZ().getRe() == 0.01938); 
+		assertTrue(branchData.getZ().getIm() == 0.05917); 
+		assertTrue(branchData.getZ().getUnit() == ZUnitType.PU); 
+		assertTrue(branchData.getTotalShuntY().getRe() == 0.0); 
+		assertTrue(branchData.getTotalShuntY().getIm() == 0.0528); 
+		assertTrue(branchData.getTotalShuntY().getUnit() == YUnitType.PU); 
 		
 		// Branch 4->7 is a Xfr
 		//   4    7  1  1 1 1  0.0       0.20912     0.0        0     0     0    0 0  0.978     0.0 0.0    0.0     0.0    0.0   0.0
 		braRec = ContainerHelper.findBranchRecord("Bus4", "Bus7", "1", baseCaseNet);
-		assertTrue(braRec.getLoadflowData().getCode() == LFBranchCodeEnumType.TRANSFORMER); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getRe() == 0.0); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getIm() == 0.20912); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getZ().getUnit() == ZUnitType.PU); 
+		branchData = ContainerHelper.getDefaultBranchData(braRec);
+		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER); 
+		assertTrue(branchData.getZ().getRe() == 0.0); 
+		assertTrue(branchData.getZ().getIm() == 0.20912); 
+		assertTrue(branchData.getZ().getUnit() == ZUnitType.PU); 
 		//System.out.println(braRec.getLoadflowData().getXformerData().getFromTap());
 		//System.out.println(braRec.getLoadflowData().getXformerData().getToTap());
-		assertTrue(braRec.getLoadflowData().getXformerData().getFromTap().getValue() == 0.978); 
-		assertTrue(braRec.getLoadflowData().getXformerData().getToTap().getValue() == 1.0); 
+		assertTrue(branchData.getFromTap().getValue() == 0.978); 
+		assertTrue(branchData.getToTap().getValue() == 1.0); 
 	}
 	
 	public void testCase2() throws Exception {
