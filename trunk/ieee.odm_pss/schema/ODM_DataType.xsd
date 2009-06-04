@@ -404,11 +404,13 @@ max and min are used.</documentation>
 	</complexType>
 
 	<complexType name="MvaRatingXmlType">
+		<sequence>
+			<element name="ratingAry" type="double" maxOccurs="unbounded" minOccurs="0"></element>
+		</sequence>
 		<attribute name="rating1" type="double" use="required"></attribute>
 		<attribute name="rating2" type="double" use="optional"></attribute>
 		<attribute name="rating3" type="double" use="optional"></attribute>
-		<attribute name="unit" use="required" type="pss:ApparentPowerUnitType">
-		</attribute>
+		<attribute name="unit" use="required" type="pss:ApparentPowerUnitType"></attribute>
 	</complexType>
 
 	<complexType name="VoltageLimitXmlType">

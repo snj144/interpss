@@ -28,7 +28,10 @@
 					<element name="fromBus" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
 					<element name="toBus" type="pss:IDRefRecordXmlType" minOccurs="1" maxOccurs="1"></element>
 					<element name="tertiaryBus" type="pss:IDRefRecordXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="loadflowData" type="pss:LoadflowBranchDataXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="loadflowData" type="pss:LoadflowBranchDataXmlType" minOccurs="0" maxOccurs="unbounded">
+						<annotation>
+							<documentation>Loadflow data may defined in multiple sections, section number (1-9) in ascending order beginning at "from" end</documentation>
+						</annotation></element>
 					<element name="sequenceData" type="pss:SequenceBranchDataXmlType" minOccurs="0"></element>
 					<element name="dynamicData" type="pss:DynamicBranchDataXmlType" minOccurs="0"></element>
 					<element name="dcLineData" minOccurs="0">
@@ -120,59 +123,49 @@
 		</sequence>
 	</complexType>
 	<complexType name="LoadflowBranchDataXmlType">
-		<sequence>
-			<choice>
-				<element name="lineData" minOccurs="0" maxOccurs="1" type="pss:LineDataXmlType"></element>
-				<element name="xformerData" type="pss:TransformerDataXmlType" minOccurs="0" maxOccurs="1"></element>
-				<element name="phaseShiftXfrData" type="pss:PhaseShiftXfrDataXmlType" minOccurs="0" maxOccurs="1"></element>
-			</choice>
-			<element name="ratingLimit" minOccurs="0" maxOccurs="1">
-				<complexType>
-					<sequence>
-						<element name="mva" type="pss:MvaRatingXmlType" minOccurs="0"></element>
-						<element name="current" type="pss:CurrentXmlType" minOccurs="0"></element>
-					</sequence>
-				</complexType>
-			</element>
-		</sequence>
-		<attribute name="code" use="required" type="pss:LFBranchCodeEnumType">		</attribute>
-	</complexType>
-
-	<complexType name="TransformerDataXmlType">
 		<complexContent>
 			<extension base="pss:BaseBranchDataXmlType">
-				<sequence>
-					<element name="ratingData" minOccurs="1">
+				<sequence>
+                    <element name="lineInfo" minOccurs="0" maxOccurs="1">
+                    	<complexType>
+							<sequence>
+								<element name="length" type="pss:LengthXmlType" minOccurs="0"></element>
+								<element name="lossFactor" type="double" minOccurs="0" maxOccurs="1"></element>
+							</sequence>
+                    	</complexType>
+                    </element>
+                    <element name="xfrInfo" minOccurs="0" maxOccurs="1">
 						<complexType>
 							<sequence>
 								<element name="fromRatedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
 								<element name="toRatedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
 								<element name="ratedPower" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+								<element name="ge_pslf_type" type="int" maxOccurs="1" minOccurs="0"></element>
 							</sequence>
 						</complexType>
 					</element>
-					<element name="fromTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="toTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="tapAdjustment" minOccurs="0" type="pss:TapAdjustmentXmlType">
-
-					</element>
+					<element name="tapAdjustment" minOccurs="0" type="pss:TapAdjustmentXmlType"></element>
+					<element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
+					<element name="branchRatingLimit" minOccurs="0" maxOccurs="1">
+						<complexType>
+							<sequence>
+								<element name="mva" type="pss:MvaRatingXmlType" minOccurs="0"></element>
+								<element name="current" type="pss:CurrentXmlType" minOccurs="0"></element>
+							</sequence>
+						</complexType>
+					</element>
 				</sequence>
+				<attribute name="code" use="required" type="pss:LFBranchCodeEnumType"></attribute>
+				<attribute name="sec" type="int" use="optional" default="1">
+					<annotation>
+						<documentation>sec number is used by GE PSLF</documentation>
+					</annotation>
+				</attribute>
 
 			</extension>
 		</complexContent>
 	</complexType>
-	<complexType name="PhaseShiftXfrDataXmlType">
-		<complexContent>
-			<extension base="pss:TransformerDataXmlType">
-				<sequence>
-					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
-					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
-					<element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType">
-					</element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
+
 
 	<complexType name="LoadflowGenDataXmlType">
 		<annotation>
@@ -209,7 +202,6 @@
 
 	<complexType name="NetAreaXmlType">
 		<sequence>
-
 			<element name="swingBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
 			<element name="alternateSwingBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></element>
@@ -387,24 +379,17 @@
 			<extension base="pss:BaseRecordXmlType">
 				<sequence>
 					<element name="z" type="pss:ZXmlType" minOccurs="1" maxOccurs="1"></element>
-					<element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
-					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>
+                    <element name="totalShuntY" type="pss:YXmlType" minOccurs="0" maxOccurs="1"></element>
+                    <element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
+					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>										<element name="fromTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="toTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
+					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
 
-	<complexType name="LineDataXmlType">
-		<complexContent>
-			<extension base="pss:BaseBranchDataXmlType">
-				<sequence>
-
-					<element name="totalShuntY" type="pss:YXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="length" type="pss:LengthXmlType" minOccurs="0"></element>
-				</sequence>
-			</extension>
-		</complexContent>
-	</complexType>
 
 	<complexType name="DynamicBusDataXmlType">
 		<sequence>
