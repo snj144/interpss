@@ -63,7 +63,7 @@ public class FuncTestCase {
 		xml = PSSStudyCaseDocument.Factory.parse(str);
 		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getId() != null);
 		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getFromBus() != null);
-		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getLoadflowData().getLineData().getZ().getRe() == .01938);
+		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getLoadflowDataArray(0).getZ().getRe() == .01938);
 	}
 
 }

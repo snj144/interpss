@@ -37,6 +37,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
@@ -82,6 +83,17 @@ public class ContainerHelper {
 		return null;
 	}
 	
+	/**
+	 * there might be multiple branch sections in the branchRec, this function gets the first for those
+	 * formats only has one branch section
+	 * 
+	 * @param branchRec
+	 * @return
+	 */
+	public static LoadflowBranchDataXmlType  getDefaultBranchData(BranchRecordXmlType branchRec) {
+      	// there might be multiple branch sections, but UTCE only has one
+		return branchRec.getLoadflowDataArray(0);
+	}
 	/**
 	 * add a name/value pair to the name/value pair List
 	 * 

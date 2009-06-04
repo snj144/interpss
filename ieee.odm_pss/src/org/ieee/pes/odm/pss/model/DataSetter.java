@@ -38,12 +38,10 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LimitXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LineDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.MvaRatingXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PhaseShiftXfrDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
@@ -53,7 +51,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransformerDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -61,6 +58,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType.OwnerList.Owner;
 
 public class DataSetter {
 	public static void setPowerKva(ApparentPowerXmlType power, double kva) {
@@ -281,15 +279,13 @@ public class DataSetter {
 	 * @param b
 	 * @param bUnit
 	 */
-	public static LineDataXmlType setLineData(LoadflowBranchDataXmlType branchData, 
+	public static void setLineData(LoadflowBranchDataXmlType branchData, 
 			             double r, double x, ZUnitType.Enum zUnit, 
 			             double g, double b, YUnitType.Enum yUnit) {
 		branchData.setCode(LFBranchCodeEnumType.LINE);
-		branchData.addNewLineData();
-		setZValue(branchData.getLineData().addNewZ(), r, x, zUnit);
+		setZValue(branchData.addNewZ(), r, x, zUnit);
 		if (g != 0.0 || b != 0.0) 
-			setYData(branchData.getLineData().addNewTotalShuntY(), g, b, yUnit);
-		return branchData.getLineData();
+			setYData(branchData.addNewTotalShuntY(), g, b, yUnit);
 	}
 
 	/**
@@ -305,25 +301,23 @@ public class DataSetter {
 	 * @param bTo
 	 * @param bUnit
 	 */
-	public static TransformerDataXmlType createXformerData(LoadflowBranchDataXmlType branchData, 
+	public static void createXformerData(LoadflowBranchDataXmlType branchData, 
 			             double r, double x, ZUnitType.Enum zUnit,
 			             double fromTap, double toTap,
 			             double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
 		branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
-		branchData.addNewXformerData();
-		setXformerData(branchData.getXformerData(),
+		setXformerData(branchData,
 				r, x, zUnit, fromTap, toTap,
 				gFrom, bFrom, gTo, bTo, yUnit);
-		return branchData.getXformerData();
 	}
 
-	public static TransformerDataXmlType createXformerData(LoadflowBranchDataXmlType branchData, 
+	public static void createXformerData(LoadflowBranchDataXmlType branchData, 
             double r, double x, ZUnitType.Enum zUnit, double fromTap, double toTap) {
-		return createXformerData(branchData, r, x, zUnit, fromTap, toTap, 0.0, 0.0, 0.0, 0.0, YUnitType.PU);
+		createXformerData(branchData, r, x, zUnit, fromTap, toTap, 0.0, 0.0, 0.0, 0.0, YUnitType.PU);
 	}
 	
 
-	private static void setXformerData(TransformerDataXmlType xfrData,
+	private static void setXformerData(LoadflowBranchDataXmlType xfrData,
 			double r, double x, ZUnitType.Enum zUnit, 
 			double fromTap, double toTap,
 			double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
@@ -351,26 +345,24 @@ public class DataSetter {
 	 * @param bTo
 	 * @param bUnit
 	 */
-	public static PhaseShiftXfrDataXmlType createPhaseShiftXfrData(LoadflowBranchDataXmlType branchData,
+	public static void createPhaseShiftXfrData(LoadflowBranchDataXmlType branchData,
 			double r, double x, ZUnitType.Enum zUnit,
 			double fromTap, double toTap, double fromAng, double toAng, AngleUnitType.Enum angUnit,
 			double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
 		branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-		branchData.addNewPhaseShiftXfrData();
-		setXformerData(branchData.getPhaseShiftXfrData(),
+		setXformerData(branchData,
 				r, x, zUnit, fromTap, toTap, gFrom, bFrom, gTo, bTo, yUnit);
 		if (fromAng != 0.0)
-			setAngleData(branchData.getPhaseShiftXfrData().addNewFromAngle(), fromAng, angUnit);
+			setAngleData(branchData.addNewFromAngle(), fromAng, angUnit);
 		if (toAng != 0.0)
-			setAngleData(branchData.getPhaseShiftXfrData().addNewToAngle(), toAng, angUnit);
-		return branchData.getPhaseShiftXfrData();
+			setAngleData(branchData.addNewToAngle(), toAng, angUnit);
 	}
 
-	public static PhaseShiftXfrDataXmlType createPhaseShiftXfrData(LoadflowBranchDataXmlType branchData,
+	public static void createPhaseShiftXfrData(LoadflowBranchDataXmlType branchData,
 			double r, double x, ZUnitType.Enum zUnit,
 			double fromTap, double toTap,
 			double fromAng, double toAng, AngleUnitType.Enum angUnit) {
-		return createPhaseShiftXfrData(branchData, r, x, zUnit,
+		createPhaseShiftXfrData(branchData, r, x, zUnit,
 				fromTap, toTap, fromAng, toAng, angUnit,
 				0.0, 0.0, 0.0, 0.0, YUnitType.PU);
 	}
@@ -392,9 +384,9 @@ public class DataSetter {
 				double mvar1, double mvar2, double mvar3, ApparentPowerUnitType.Enum mvarUnit,
 				double current, CurrentUnitType.Enum curUnit) {
     	if (mvar1 != 0.0 || mvar2 != 0.0 || mvar3 != 0.0 || current != 0.0) {
-    		branchData.addNewRatingLimit();
+    		branchData.addNewBranchRatingLimit();
         	if (mvar1 != 0.0 || mvar2 != 0.0 || mvar3 != 0.0) {
-        		MvaRatingXmlType mvaRating = branchData.getRatingLimit().addNewMva();
+        		MvaRatingXmlType mvaRating = branchData.getBranchRatingLimit().addNewMva();
         		mvaRating.setRating1(mvar1);
         		mvaRating.setRating2(mvar2);
         		mvaRating.setRating3(mvar3);
@@ -402,7 +394,7 @@ public class DataSetter {
         	}
 
         	if (current != 0.0) {
-        		CurrentXmlType limit = branchData.getRatingLimit().addNewCurrent();
+        		CurrentXmlType limit = branchData.getBranchRatingLimit().addNewCurrent();
         		limit.setValue(current);
         		limit.setUnit(curUnit);
         	}
@@ -425,6 +417,15 @@ public class DataSetter {
 		setBranchRatingLimitData(branchData, mvar1, mvar2, mvar3, mvarUnit, 0.0, null);
 	}
 
+	public static void setBranchRatingLimitData(LoadflowBranchDataXmlType branchData, 
+			double[] mvarAry, ApparentPowerUnitType.Enum mvarUnit) {
+		setBranchRatingLimitData(branchData, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit);
+		MvaRatingXmlType mvaRating = branchData.getBranchRatingLimit().getMva();
+		mvaRating.addNewRatingAry();
+		for (double x : mvarAry)
+			if (x > 0.0)
+				mvaRating.addRatingAry(x);
+	}
 	/**
 	 * add a RatingLimitData object to the branchData object, then set value(curLimit, curUnit) 
 	 * to the created RatingLimitData object
@@ -438,6 +439,17 @@ public class DataSetter {
 		setBranchRatingLimitData(branchData, 0.0, 0.0, 0.0, null, current, curUnit);
 	}
 	
+	public static void setBranchOwnership(LoadflowBranchDataXmlType branchData,	int[] oAry, double[] pAry) {
+		branchData.addNewOwnerList();
+		for ( int i = 0; i < oAry.length; i++) {
+			if (oAry[i] > 0) {
+				Owner owner = branchData.getOwnerList().addNewOwner();
+				owner.setId(new Integer(oAry[i]).toString());
+				owner.setOwnership(pAry[i]);
+			}
+		}
+	}
+	
 	/**
 	 * set transformer rating data
 	 *  
@@ -448,10 +460,10 @@ public class DataSetter {
 	 * @param normialMva
 	 * @param pUnit
 	 */
-	public static void setXfrRatingData(TransformerDataXmlType xfrData, 
+	public static void setXfrRatingData(LoadflowBranchDataXmlType xfrData, 
 			double fromRatedV, double toRatedV, VoltageUnitType.Enum vUnit,
 			double normialMva, ApparentPowerUnitType.Enum pUnit) {
-		TransformerDataXmlType.RatingData ratingData = xfrData.addNewRatingData();
+		LoadflowBranchDataXmlType.XfrInfo ratingData = xfrData.addNewXfrInfo();
 		VoltageXmlType fromRatedVolt = ratingData.addNewFromRatedVoltage();
 		fromRatedVolt.setValue(fromRatedV);
 		fromRatedVolt.setUnit(vUnit);
@@ -473,33 +485,8 @@ public class DataSetter {
 	 * @param toRatedV
 	 * @param vUnit
 	 */
-	public static void setXfrRatingData(TransformerDataXmlType xfrData, 
+	public static void setXfrRatingData(LoadflowBranchDataXmlType xfrData, 
 			double fromRatedV, double toRatedV, VoltageUnitType.Enum vUnit) {
 		setXfrRatingData(xfrData, fromRatedV, toRatedV, vUnit, 0.0, null);
-	}
-	
-	/**
-	 * Transfer branch Xfr data to Phase shifting transformer
-	 * 
-	 * @param xfr
-	 * @param psXfr
-	 */
-	public static void branchXfrData2PsXfr(LoadflowBranchDataXmlType branchData) {
-		branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-		PhaseShiftXfrDataXmlType psXfr = branchData.addNewPhaseShiftXfrData();
-		TransformerDataXmlType xfr = branchData.getXformerData();
-
-		psXfr.setZ(xfr.getZ());
-		psXfr.setRatingData(xfr.getRatingData());
-		if (xfr.getFromTap().getValue() != 0.0)
-			psXfr.setFromTap(xfr.getFromTap());
-		if (xfr.getToTap().getValue() != 0.0)
-			psXfr.setToTap(xfr.getToTap());
-		if (xfr.getFromShuntY() != null)
-			psXfr.setFromShuntY(xfr.getFromShuntY());
-		if (xfr.getToShuntY() != null)
-			psXfr.setToShuntY(xfr.getToShuntY());
-		
-		branchData.setXformerData(null);		
 	}
 }
