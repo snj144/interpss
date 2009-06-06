@@ -26,7 +26,7 @@ package org.interpss.display;
 
 import java.util.List;
 
-import org.apache.commons.math.complex.ComplexFormat;
+import org.apache.commons.math.complex.Complex;
 
 import com.interpss.common.datatype.Complex3x1;
 import com.interpss.common.datatype.UnitType;
@@ -75,23 +75,12 @@ public class AcscOutFunc {
 			str.append("          Branch name:   "
 					+ bf.getFaultBranch().getName() + "\n");
 			str.append("          Fault type:    " + bf.getFaultCode() + "\n");
-			str.append("          Fault current: "
-					+ ComplexFormat.formatComplex(bf.getFaultResult()
-							.getSCCurrent_012().b_1) + " pu\n");
-			str.append("                         "
-					+ ComplexFormat
-							.formatComplex(bf.getFaultResult()
-									.getSCCurrent_012(UnitType.Amp, baseV,
-											baseKVA).b_1) + " amps\n");
-			if (bf.getFaultResult().getZFault(UnitType.Ohm, baseV, baseKVA)
-					.abs() > 0.0)
-				str.append("          Fault z:       "
-						+ ComplexFormat.formatComplex(bf.getFaultResult()
-								.getZFault(UnitType.Ohm, baseV, baseKVA))
-						+ " ohms\n");
 
-			str.append(displayBusVoltage(bf, net));
-			str.append(displayBranchCurrent(bf, net));
+			
+			str.append(faultCurrent(bf, baseKVA, baseV));
+
+			//str.append(displayBusVoltage(bf, net));
+			//str.append(displayBranchCurrent(bf, net));
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}
@@ -111,29 +100,48 @@ public class AcscOutFunc {
 			str.append("          Bus name:      " + bf.getAcscBus().getName()
 					+ "\n");
 			str.append("          Fault type:    " + bf.getFaultCode() + "\n");
-			str.append("          Fault current: "
-					+ ComplexFormat.formatComplex(bf.getFaultResult()
-							.getSCCurrent_012().b_1) + " pu\n");
-			str.append("                         "
-					+ ComplexFormat
-							.formatComplex(bf.getFaultResult()
-									.getSCCurrent_012(UnitType.Amp, baseV,
-											baseKVA).b_1) + " amps\n");
-			if (bf.getFaultResult().getZFault(UnitType.Ohm, baseV, baseKVA)
-					.abs() > 0.0)
-				str.append("          Fault z:       "
-						+ ComplexFormat.formatComplex(bf.getFaultResult()
-								.getZFault(UnitType.Ohm, baseV, baseKVA))
-						+ " ohms\n");
-
-			str.append(displayBusVoltage(bf, net));
-			str.append(displayBranchCurrent(bf, net));
+			
+			str.append(faultCurrent(bf, baseKVA, baseV));
+			
+			//str.append(displayBusVoltage(bf, net));
+			//str.append(displayBranchCurrent(bf, net));
 		} catch (Exception e) {
 			IpssLogger.logErr(e);
 		}
 		return str.toString();
 	}
 
+	private static String faultCurrent(AcscBusFault bf, double baseKVA, double baseV) throws Exception {
+		StringBuffer str = new StringBuffer("");
+		if (bf.getFaultCode() == SimpleFaultCode.GROUND_3P) {
+			Complex ipu = bf.getFaultResult().getSCCurrent_012().b_1;
+			Complex amp = bf.getFaultResult().getSCCurrent_012(UnitType.Amp, baseV,	baseKVA).b_1;
+
+			str.append("          Fault current: " + String.format("%5.4f", ipu.abs()) + " pu");
+			str.append("    " + String.format("%5.2f", amp.abs()) + " amps\n");
+
+			if (bf.getFaultResult().getZFault(UnitType.Ohm, baseV, baseKVA).abs() > 0.0)
+				str.append("          Fault z:       "
+						+ String.format("%3.2f", bf.getFaultResult().getZFault(UnitType.Ohm, baseV, baseKVA).abs()) + " ohms\n");
+		}
+		else {
+			Complex ipua = bf.getFaultResult().getSCCurrent_abc().a_0;
+			Complex ampa = bf.getFaultResult().getSCCurrent_abc(UnitType.Amp, baseV,	baseKVA).a_0;
+			Complex ipub = bf.getFaultResult().getSCCurrent_abc().b_1;
+			Complex ampb = bf.getFaultResult().getSCCurrent_abc(UnitType.Amp, baseV,	baseKVA).b_1;
+			Complex ipuc = bf.getFaultResult().getSCCurrent_abc().c_2;
+			Complex ampc = bf.getFaultResult().getSCCurrent_abc(UnitType.Amp, baseV,	baseKVA).c_2;
+
+			str.append("          Fault current (A): " + String.format("%5.4f", ipua.abs()) + " pu");
+			str.append("    " + String.format("%5.2f", ampa.abs()) + " amps\n");
+			str.append("          Fault current (B): " + String.format("%5.4f", ipub.abs()) + " pu");
+			str.append("    " + String.format("%5.2f", ampb.abs()) + " amps\n");
+			str.append("          Fault current (C): " + String.format("%5.4f", ipuc.abs()) + " pu");
+			str.append("    " + String.format("%5.2f", ampc.abs()) + " amps\n");
+		}
+		return str.toString();
+	}
+	
 	private static String displayBusVoltage(AcscBusFault bf, AcscNetwork net) {
 		try {
 			bf.getFaultResult().calContributingCurrent(net);
