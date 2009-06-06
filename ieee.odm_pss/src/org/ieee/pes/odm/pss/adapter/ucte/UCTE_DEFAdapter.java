@@ -53,7 +53,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -314,21 +314,21 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 
 		NameValuePairListXmlType nvList = busRec.addNewNvPairList();
 		if (status != 0)
-			ContainerHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
+			ParserHelper.addNVPair(nvList, Token_Status, new Integer(status).toString());
 		if (minGenMW != 0.0)
-			ContainerHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
+			ParserHelper.addNVPair(nvList, Token_MinGenMW, new Double(minGenMW).toString());
 		if (maxGenMW != 0.0)
-			ContainerHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
+			ParserHelper.addNVPair(nvList, Token_MaxGenMW, new Double(maxGenMW).toString());
 		if (staticPrimaryControl != 0.0)
-			ContainerHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
+			ParserHelper.addNVPair(nvList, Token_SPControl, new Double(staticPrimaryControl).toString());
 		if (normalPowerPrimaryControl != 0.0)
-			ContainerHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
+			ParserHelper.addNVPair(nvList, Token_NPPControl, new Double(normalPowerPrimaryControl).toString());
 		if (scMVA3P != 0.0)
-			ContainerHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
+			ParserHelper.addNVPair(nvList, Token_SCMva3P, new Double(scMVA3P).toString());
 		if (x_rRatio != 0.0)
-			ContainerHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
+			ParserHelper.addNVPair(nvList, Token_XRRatio, new Double(x_rRatio).toString());
 		if (powerPlanType != null)
-			ContainerHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
+			ParserHelper.addNVPair(nvList, Token_PPlanType, powerPlanType);
     }
     
     /*
@@ -493,26 +493,26 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			return;
 		}
 
-		BranchRecordXmlType branchRec = ContainerHelper.findBranchRecord(fromNodeId, toNodeId, orderCode, xmlBaseNet); 
+		BranchRecordXmlType branchRec = ParserHelper.findBranchRecord(fromNodeId, toNodeId, orderCode, xmlBaseNet); 
       	if (branchRec == null) {
       		logErr("Error: branch cannot be found, line: " + str);
       		return;
       	}
       	// there might be multiple branch sections, but UTCE only has one
-		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(branchRec);
+		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
       	
 		NameValuePairListXmlType nvList = branchRec.addNewNvPairList();
 
       	if (dUPhase > 0.0) {
       		getLogger().fine("Phase regulation data persented");
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
+				ParserHelper.addNVPair(nvList, Token_dUPhase, new Double(dUPhase).toString());
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
+				ParserHelper.addNVPair(nvList, Token_nPhase, new Double(nPhase).toString());
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
+				ParserHelper.addNVPair(nvList, Token_n1Phase, new Double(n1Phase).toString());
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
+				ParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
 			double ratioFactor = branchData.getToTap().getValue();
 
@@ -546,15 +546,15 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 		else if (dUAngle > 0.0) {
 			getLogger().fine("angle regulation data persented");
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
+				ParserHelper.addNVPair(nvList, Token_dUAngle, new Double(dUAngle).toString());
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
+				ParserHelper.addNVPair(nvList, Token_thetaDegAngle, new Double(thetaDegAngle).toString());
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
+				ParserHelper.addNVPair(nvList, Token_nAngle, new Double(nAngle).toString());
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
+				ParserHelper.addNVPair(nvList, Token_n1Angle, new Double(n1Angle).toString());
 			if (dUPhase != 0.0)
-				ContainerHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
+				ParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
 			double ratioFactor = branchData.getToTap().getValue();
 
@@ -570,7 +570,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 					x = 1.0 / Math.sqrt(1.0 + a*a);
 				}
 				else {
-					double theta = thetaDegAngle * ContainerHelper.Deg2Rad,
+					double theta = thetaDegAngle * ParserHelper.Deg2Rad,
 					       asin = a*Math.sin(theta),
 					       acos = 1.0 + a*Math.cos(theta),
 					       asinMax = aMax*Math.sin(theta),
@@ -591,7 +591,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 			
-			DataSetter.setAngleData(branchData.addNewToAngle(), -ang*ContainerHelper.Rad2Deg, AngleUnitType.DEG);
+			DataSetter.setAngleData(branchData.addNewToAngle(), -ang*ParserHelper.Rad2Deg, AngleUnitType.DEG);
 			DataSetter.setTapPU(branchData.addNewToTap(), ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {

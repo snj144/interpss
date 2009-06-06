@@ -34,7 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
@@ -205,7 +205,7 @@ public class BPADynamicTurbineGovernorRecord {
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];    			
     		}
-    		TurbineGovernorXmlType tgOld=ContainerHelper.getTGRecord(tranSimu, busId, tgId);
+    		TurbineGovernorXmlType tgOld=ParserHelper.getTGRecord(tranSimu, busId, tgId);
     		if(tgOld.getTurbineGovernorType().equals
     				(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER)){
     			TurbineXmlType tur=tgOld.getTurbineGovernorModel().getHydroGoverner().addNewTurbine();
@@ -226,7 +226,7 @@ public class BPADynamicTurbineGovernorRecord {
     		if(!strAry[3].equals("")){
     			tgId=strAry[3];    			
     		}
-    		TurbineGovernorXmlType tgOld=ContainerHelper.getTGRecord(tranSimu, busId, tgId);
+    		TurbineGovernorXmlType tgOld=ParserHelper.getTGRecord(tranSimu, busId, tgId);
     		if(tgOld.getTurbineGovernorType().equals
     				(TurbineGovernorXmlType.TurbineGovernorType.HYDRO_GOVERNER)){
     			TurbineXmlType tur=tgOld.getTurbineGovernorModel().getHydroGoverner().addNewTurbine();

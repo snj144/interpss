@@ -37,7 +37,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -176,7 +176,7 @@ public class PSSEV26BranchRecord {
 	    }	
 
 	    // only one branch section
-		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(branchRec);
+		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
 	    
 	    int icon = StringUtil.getInt(strAry[3], 0);
 	    boolean isNegative = false;

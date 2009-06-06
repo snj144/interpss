@@ -35,7 +35,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 
 public class XformerDataRec extends BaseBranchDataRec {
@@ -209,7 +209,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 		LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.addNewXfrInfo();
 		if (branchData.getNvPairList() == null)
 			branchData.addNewNvPairList();
-		ContainerHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
+		ParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
 		DataSetter.setPowerMva(xfrInfo.addNewRatedPower(), this.tbase);
 		DataSetter.setVoltageData(xfrInfo.addNewFromRatedVoltage(), this.vnomp, VoltageUnitType.KV);
 		DataSetter.setVoltageData(xfrInfo.addNewToRatedVoltage(), this.vnoms, VoltageUnitType.KV);

@@ -43,7 +43,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.junit.Test;
 
 public class IEEECDF_ODMTest { 
@@ -69,7 +69,7 @@ public class IEEECDF_ODMTest {
 		
 		// Bus 1 is a swing bus
 		//    1 Bus 1     HV  1  1  3 1.060    0.0      0.0      0.0    232.4   -16.9   132.0  1.060     0.0     0.0   0.0    0.0        0
-		BusRecordXmlType busRec = ContainerHelper.findBusRecord("Bus1", baseCaseNet);
+		BusRecordXmlType busRec = ParserHelper.findBusRecord("Bus1", baseCaseNet);
 		//System.out.println(busRec);
 		assertTrue(busRec.getBaseVoltage().getValue() == 132.0);
 		assertTrue(busRec.getLoadflowData().getVoltage().getValue() == 1.060);
@@ -80,7 +80,7 @@ public class IEEECDF_ODMTest {
 
 		// Bus 2 is a PV bus with load
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
-		busRec = ContainerHelper.findBusRecord("Bus2", baseCaseNet);
+		busRec = ParserHelper.findBusRecord("Bus2", baseCaseNet);
 		System.out.println(busRec);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 40.0);
@@ -96,7 +96,7 @@ public class IEEECDF_ODMTest {
 
 		// Bus 9 is a load bus, also there is a capacitor of 0.19 pu
 		//    9 Bus 9     LV  1  1  0 1.056 -14.94     29.5     16.6      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.19       0
-		busRec = ContainerHelper.findBusRecord("Bus9", baseCaseNet);
+		busRec = ParserHelper.findBusRecord("Bus9", baseCaseNet);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getCode() == LFLoadCodeEnumType.CONST_P);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getRe() == 29.5);
 		assertTrue(busRec.getLoadflowData().getLoadData().getEquivLoad().getConstPLoad().getIm() == 16.6);
@@ -108,7 +108,7 @@ public class IEEECDF_ODMTest {
 		
 		// Bus 7 is non-gen and non-load bus
 		//    7 Bus 7     ZV  1  1  0 1.062 -13.37      0.0      0.0      0.0     0.0    35.0  0.0       0.0     0.0   0.0    0.0        0
-		busRec = ContainerHelper.findBusRecord("Bus7", baseCaseNet);
+		busRec = ParserHelper.findBusRecord("Bus7", baseCaseNet);
 		//assertTrue(busRec.getLoadflowData().getGenData() == null);
 		assertTrue(busRec.getLoadflowData().getLoadData() == null);
 		assertTrue(busRec.getLoadflowData().getShuntY() == null);
@@ -118,8 +118,8 @@ public class IEEECDF_ODMTest {
 		
 		// Branch 1->2 is a LIne
 		//    1    2  1  1 1 0  0.01938   0.05917     0.0528     0     0     0    0 0  0.0       0.0 0.0    0.0     0.0    0.0   0.0
-		BranchRecordXmlType braRec = ContainerHelper.findBranchRecord("Bus1", "Bus2", "1", baseCaseNet);
-		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(braRec);
+		BranchRecordXmlType braRec = ParserHelper.findBranchRecord("Bus1", "Bus2", "1", baseCaseNet);
+		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(braRec);
 		
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.LINE); 
 		assertTrue(branchData.getZ().getRe() == 0.01938); 
@@ -131,8 +131,8 @@ public class IEEECDF_ODMTest {
 		
 		// Branch 4->7 is a Xfr
 		//   4    7  1  1 1 1  0.0       0.20912     0.0        0     0     0    0 0  0.978     0.0 0.0    0.0     0.0    0.0   0.0
-		braRec = ContainerHelper.findBranchRecord("Bus4", "Bus7", "1", baseCaseNet);
-		branchData = ContainerHelper.getDefaultBranchData(braRec);
+		braRec = ParserHelper.findBranchRecord("Bus4", "Bus7", "1", baseCaseNet);
+		branchData = ParserHelper.getDefaultBranchData(braRec);
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER); 
 		assertTrue(branchData.getZ().getRe() == 0.0); 
 		assertTrue(branchData.getZ().getIm() == 0.20912); 

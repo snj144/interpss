@@ -35,7 +35,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 
@@ -149,11 +149,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		ContainerHelper.addNVPair(nvList, Token_CaseDesc, desc);     
+		ParserHelper.addNVPair(nvList, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		ContainerHelper.addNVPair(nvList, Token_CaseId, caseId);				
+		ParserHelper.addNVPair(nvList, Token_CaseId, caseId);				
 		getLogger().fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;
@@ -187,8 +187,8 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		final String zoneId = strAry[0];
 		final String zoneName = strAry[1];
 		NameValuePairListXmlType nvList = baseCaseNet.getNvPairList();
-		ContainerHelper.addNVPair(nvList, "zoneId", zoneId);
-		ContainerHelper.addNVPair(nvList, "zoneName", zoneName);		
+		ParserHelper.addNVPair(nvList, "zoneId", zoneId);
+		ParserHelper.addNVPair(nvList, "zoneName", zoneName);		
 	}
 	
 	
@@ -204,8 +204,8 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		final String ownerId = strAry[0];
 		final String ownerName = strAry[1];
 		NameValuePairListXmlType nvList = baseCaseNet.getNvPairList();
-		ContainerHelper.addNVPair(nvList, "ownerName", ownerName);
-		ContainerHelper.addNVPair(nvList, "ownerId", ownerId);
+		ParserHelper.addNVPair(nvList, "ownerName", ownerName);
+		ParserHelper.addNVPair(nvList, "ownerId", ownerId);
 	}
 		
 	/*

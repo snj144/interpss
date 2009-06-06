@@ -39,7 +39,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPADynamicFaultOperationRecord {
@@ -97,12 +97,12 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     		// bus fault
     		if(mode==1||mode==-1||mode==2||mode==-2){ 
     			FaultXmlType fault=
-					ContainerHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BUS_FAULT,
+					ParserHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BUS_FAULT,
 							bus1, bus2);
     			//FaultListXmlType.Fault.BusFault busFault=fault.addNewBusFault();
     			
     			BusFaultXmlType busFault=
-	    		 ContainerHelper.getBusFaultRecord(tranSimu, bus1, bus2);
+	    		 ParserHelper.getBusFaultRecord(tranSimu, bus1, bus2);
     			
     			fault.setFaultType(FaultTypeEnumType.BUS_FAULT);
 				busFault.setFaultCategory(FaultCategoryEnumType.FAULT_3_PHASE);
@@ -181,10 +181,10 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
 				// branch fault
     		}else if(mode==3||mode==-3){
     			FaultXmlType fault=
-					ContainerHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BRANCH_FAULT,
+					ParserHelper.getFaultRecord(tranSimu, FaultTypeEnumType.BRANCH_FAULT,
 							bus1, bus2);
     			BranchFaultXmlType braFault=
-	    			ContainerHelper.getBranchFaultRecord(tranSimu, bus1, bus2);				
+	    			ParserHelper.getBranchFaultRecord(tranSimu, bus1, bus2);				
 				fault.setFaultType(FaultTypeEnumType.BRANCH_FAULT);
 				braFault.setFaultCategory(FaultCategoryEnumType.FAULT_3_PHASE);
 				
@@ -392,7 +392,7 @@ public static void processFaultOperationData(String str,TransientSimulationXmlTy
     		  String bus1=strAry[1];
     		  String bus2=strAry[3];
     		  DcLineFaultXmlType dcFault=
-    			  ContainerHelper.getDCFaultRecord(tranSimu, bus1, bus2);
+    			  ParserHelper.getDCFaultRecord(tranSimu, bus1, bus2);
     		 dcFault.setPermanentFault(false);
     		 
     		 double clearedTime= new Double(strAry[7]).doubleValue();

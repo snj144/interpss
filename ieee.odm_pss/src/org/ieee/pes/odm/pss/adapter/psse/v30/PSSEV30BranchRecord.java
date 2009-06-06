@@ -38,7 +38,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -184,8 +184,8 @@ public class PSSEV30BranchRecord {
 		double WINDV2 = new Double(strAry[38]).doubleValue();
         //from side ratio and to bus side ratio
 		double f_ratio = 1.0, t_ratio=1.0;
-		BusRecordXmlType fromBusRec = ContainerHelper.findBusRecord(fid, baseCaseNet);
-		BusRecordXmlType toBusRec = ContainerHelper.findBusRecord(tid, baseCaseNet);	
+		BusRecordXmlType fromBusRec = ParserHelper.findBusRecord(fid, baseCaseNet);
+		BusRecordXmlType toBusRec = ParserHelper.findBusRecord(tid, baseCaseNet);	
 		// The winding one off-nominal turns ratio in pu of winding one bus base voltage when CW is 1;
 		if (CW==1){
         	f_ratio = WINDV1;

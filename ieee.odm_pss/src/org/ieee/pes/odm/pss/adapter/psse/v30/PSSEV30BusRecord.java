@@ -38,7 +38,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV30BusRecord {
@@ -61,7 +61,7 @@ public class PSSEV30BusRecord {
 		}
 		
 		final String owner=strAry[10];
-		ContainerHelper.addOwner(busRec, owner, 1.0);
+		ParserHelper.addOwner(busRec, owner, 1.0);
 		
 		DataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 
@@ -120,7 +120,7 @@ public class PSSEV30BusRecord {
 
 	    final String busId = ODMModelParser.BusIdPreFix+strAry[0];
 	    //to test if there is a responding bus in the bus data record
-		BusRecordXmlType busRec = ContainerHelper.findBusRecord(busId, baseCaseNet);
+		BusRecordXmlType busRec = ParserHelper.findBusRecord(busId, baseCaseNet);
 	    if (busRec == null){
 	    	adapter.logErr("Bus"+ busId+ "is not found in the network");
 	    	return;
@@ -143,7 +143,7 @@ public class PSSEV30BusRecord {
 			
 		//set owner and it's factor
 		final String owner =strAry[11];
-		ContainerHelper.addOwner(contribLoad, owner, 1.0);
+		ParserHelper.addOwner(contribLoad, owner, 1.0);
 		    
 	    //Constant-P load
 		final double CPloadMw = new Double(strAry[5]).doubleValue();
@@ -176,7 +176,7 @@ public class PSSEV30BusRecord {
 	    final String[] strAry = getGenDataFields(str);
 		final String busId = ODMModelParser.BusIdPreFix+strAry[0];
 		// get the responding-bus data with busId
-		BusRecordXmlType busRec = ContainerHelper.findBusRecord(busId, baseCaseNet);
+		BusRecordXmlType busRec = ParserHelper.findBusRecord(busId, baseCaseNet);
 		if (busRec==null){
 			adapter.logErr("Error: Bus not found in the network, bus number: " + busId);
         	return;
@@ -252,7 +252,7 @@ public class PSSEV30BusRecord {
 			}
 		}
 		*/
-		ContainerHelper.addOwner(contriGen, 
+		ParserHelper.addOwner(contriGen, 
 				strAry[18], StringUtil.getDouble(strAry[19], 0.0), 
 				strAry[20], StringUtil.getDouble(strAry[21], 0.0), 
 				strAry[22], StringUtil.getDouble(strAry[23], 0.0), 

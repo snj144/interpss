@@ -41,7 +41,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV26BusRecord {
@@ -74,7 +74,7 @@ public class PSSEV26BusRecord {
 		}
 		
 		final String owner=strAry[10];
-		ContainerHelper.addOwner(busRec, owner, 1.0);
+		ParserHelper.addOwner(busRec, owner, 1.0);
 		
 		DataSetter.setVoltageData(busRec.addNewBaseVoltage(), baseKv, VoltageUnitType.KV);
 
@@ -171,7 +171,7 @@ public class PSSEV26BusRecord {
 		
 		//set owner and it's factor
 		final String owner =strAry[11];
-		ContainerHelper.addOwner(contribLoad, owner, 1.0);
+		ParserHelper.addOwner(contribLoad, owner, 1.0);
 		    
 	    //Constant-P load
 		final double CPloadMw = StringUtil.getDouble(strAry[5], 0.0);
@@ -260,7 +260,7 @@ public class PSSEV26BusRecord {
 		final double genMvar = StringUtil.getDouble(strAry[3], 0.0);
 		DataSetter.setPowerData(contriGen.addNewGenData().addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
 
-		ContainerHelper.addOwner(contriGen, 
+		ParserHelper.addOwner(contriGen, 
 				strAry[18], StringUtil.getDouble(strAry[19], 0.0), 
 				strAry[20], StringUtil.getDouble(strAry[21], 0.0), 
 				strAry[22], StringUtil.getDouble(strAry[23], 0.0), 

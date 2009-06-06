@@ -30,14 +30,14 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter.VersionNo;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 
 public class GEDataRec {
 	static public class TitleRec {
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
-			ContainerHelper.addNVPair(nvList, "Title", lineStr);
+			ParserHelper.addNVPair(nvList, "Title", lineStr);
 		}
 	}
 	
@@ -46,7 +46,7 @@ public class GEDataRec {
 
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
-			ContainerHelper.addNVPair(nvList, "Comments", lineStr);
+			ParserHelper.addNVPair(nvList, "Comments", lineStr);
 		}
 	}
 

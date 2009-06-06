@@ -47,7 +47,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 
-public class ContainerHelper {
+public class ParserHelper {
 	public static final double Deg2Rad = Math.PI / 180.0;
 	public static final double Rad2Deg = 180.0/ Math.PI;
 	
@@ -82,6 +82,22 @@ public class ContainerHelper {
 		}
 		return null;
 	}
+	
+	/**
+	 * Get branch record using the fromId and toId
+	 * 
+	 * @param id
+	 * @param baseCaseNet
+	 * @return
+	 */
+	public static BranchRecordXmlType findBranchRecord(String fromId, String toId,PSSNetworkXmlType baseCaseNet) {
+		for (BranchRecordXmlType braRec : baseCaseNet.getBranchList().getBranchArray()) {
+			if (fromId.equals(braRec.getFromBus().getIdRef()) &&
+					toId.equals(braRec.getToBus().getIdRef()))
+				return braRec;
+		}
+		return null;
+	}	
 	
 	/**
 	 * there might be multiple branch sections in the branchRec, this function gets the first for those
@@ -170,22 +186,6 @@ public class ContainerHelper {
 			ConverterXmlType converter= dcLine.getConverter();
 			if (name.equals(converter.getBusId().getName()))
 				return converter;
-		}
-		return null;
-	}
-	
-	/**
-	 * Get transformer branch record with the id
-	 * 
-	 * @param id
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static BranchRecordXmlType getXfrBranchRecord(String fromId, String toId,PSSNetworkXmlType baseCaseNet) {
-		for (BranchRecordXmlType braRec : baseCaseNet.getBranchList().getBranchArray()) {
-			if (fromId.equals(braRec.getFromBus().getIdRef()) &&
-					toId.equals(braRec.getToBus().getIdRef()))
-				return braRec;
 		}
 		return null;
 	}

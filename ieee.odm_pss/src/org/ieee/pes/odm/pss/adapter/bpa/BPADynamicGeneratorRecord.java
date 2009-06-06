@@ -40,7 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 import org.ieee.pes.odm.pss.model.DataSetter;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class BPADynamicGeneratorRecord {
@@ -110,7 +110,7 @@ public class BPADynamicGeneratorRecord {
     		if(!strAry[3].equals("")){
     			genId=strAry[3];    			
     		}
-			GeneratorXmlType gen=ContainerHelper.getGeneratorRecord(tranSimu, busId, genId);
+			GeneratorXmlType gen=ParserHelper.getGeneratorRecord(tranSimu, busId, genId);
 			// transient model
 			if(gen!=null){
 				SubTransientMachineXmlType subTranGen=gen
@@ -392,7 +392,7 @@ public class BPADynamicGeneratorRecord {
 						Vol1, VoltageUnitType.KV);
 				gen.setGeneratorType(GeneratorXmlType.GeneratorType.EQUI_GEN_UNIT);
 				EquiMachineXmlType equiGen=gen.addNewGeneratorModel().addNewEquiGenUnit();
-				BusRecordXmlType busRec=ContainerHelper.findBusRecord(bus1, baseCaseNet);
+				BusRecordXmlType busRec=ParserHelper.findBusRecord(bus1, baseCaseNet);
 				if(busRec!=null){
 					double pGen=busRec.getLoadflowData().getGenData().
 					              getEquivGen().getPower().getRe();
