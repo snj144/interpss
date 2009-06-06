@@ -25,6 +25,7 @@
 package org.ieee.pes.odm.pss.adapter.ge.impl;
 
 import java.util.StringTokenizer;
+import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
@@ -34,6 +35,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 public class BusDataRec extends BusHeaderRec {
 			public int ty, owner;
@@ -41,7 +43,7 @@ public class BusDataRec extends BusHeaderRec {
 			public int level, stisol, islnum;
 			public double latitude, longitude;
 
-	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final BusRecordXmlType busRec) {
+	public BusDataRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final ODMModelParser parser, Logger logger) {
 /*
 		<number> <"name"> <kV> : <ty> <vs> <vt> <an> <ar> <z> <vma> <vmi> <d_in> <d_out> <projid> <level> <owner> <stisol> <latitude> <longitude> <islnum>
  
@@ -95,10 +97,22 @@ public class BusDataRec extends BusHeaderRec {
 		public double bkv;
 		public String d_in, d_out, projId;
  */
+		final String busId = ODMModelParser.BusIdPreFix+this.number;
+		// XML requires id start with a char
+		BusRecordXmlType busRec;
+		try {
+			busRec = parser.addNewBaseCaseBus(busId);
+		} catch (Exception e) {
+			logger.severe(e.toString());
+			return;
+		}
+		busRec.setNumber(this.number);
+
 		busRec.setAreaNumber(ar);
 		busRec.setZoneNumber(z);	
-		busRec.setId(id);
 		busRec.setName(name);
+		if (this.longId != null && !this.longId.equals(""))
+			busRec.setDesc(this.longId);
 		DataSetter.setVoltageData(busRec.addNewBaseVoltage(), bkv, VoltageUnitType.KV);
 		
 		/*
@@ -117,10 +131,12 @@ public class BusDataRec extends BusHeaderRec {
 		busRec.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
 
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
-		LFGenCodeEnumType.Enum genType = ty == 0? LFGenCodeEnumType.SWING : 
-							( ty == 1? LFGenCodeEnumType.PQ : LFGenCodeEnumType.PV);
-		DataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
-						0.0, 0.0,	ApparentPowerUnitType.MVA);
-		DataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(), vma, vmi, VoltageUnitType.PU);
+		if (ty != 1) {
+			LFGenCodeEnumType.Enum genType = ty == 0? LFGenCodeEnumType.SWING : 
+				( ty == 1? LFGenCodeEnumType.PQ : LFGenCodeEnumType.PV);
+			DataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
+							0.0, 0.0,	ApparentPowerUnitType.MVA);
+			DataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(), vma, vmi, VoltageUnitType.PU);
+		}
 	}
 }

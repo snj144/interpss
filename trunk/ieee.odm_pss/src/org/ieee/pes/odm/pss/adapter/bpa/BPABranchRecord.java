@@ -40,6 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LengthUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
@@ -145,9 +146,11 @@ public class BPABranchRecord {
 				cirId="1";
 			}			
 			branchRec.setCircuitId(cirId);
-			branchRec.addNewLoadflowData();
+			
+			LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
+			
 			branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));			
-			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.LINE);
+			branchData.setCode(LFBranchCodeEnumType.LINE);
 			
 			String multiSectionId="";
 			if(!strAry[9].equals("")){
@@ -158,7 +161,7 @@ public class BPABranchRecord {
 			double currentRating=0.0;
 			if(!strAry[10].equals("")){
 				currentRating = new Double(strAry[10]).doubleValue();
-				DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(), 
+				DataSetter.setBranchRatingLimitData(branchData, 
 						currentRating, CurrentUnitType.AMP);
 			}			 
 			double rpu=0.0, xpu=0.0001, halfGpu=0.0, halfBpu=0.0;
@@ -189,7 +192,7 @@ public class BPABranchRecord {
 				}
 			}
 			if(rpu!=0.0||xpu!=0.0||halfGpu!=0.0||halfBpu!=0.0){
-				DataSetter.setLineData(branchRec.getLoadflowData(), rpu, xpu,
+				DataSetter.setLineData(branchData, rpu, xpu,
 						ZUnitType.PU, 2*halfGpu, 2*halfBpu, YUnitType.PU);
 			}
 			
@@ -197,18 +200,15 @@ public class BPABranchRecord {
 			//branch length
 			double length=0.0;
 			if(!strAry[16].equals("")){
-				
-			branchRec.getLoadflowData().getLineData().
-			                         addNewLength().setValue(length);
-			branchRec.getLoadflowData().getLineData().
-			                         getLength().setUnit(LengthUnitType.MILE);
+				LoadflowBranchDataXmlType.LineInfo lineInfo = branchData.addNewLineInfo();
+				lineInfo.addNewLength().setValue(length);
+				lineInfo.getLength().setUnit(LengthUnitType.MILE);
 			}			
 			// if there is a description, set
 			String desc= "";
 			if(!strAry[17].equals("")){
 				desc= strAry[17];
-				NameValuePairXmlType nvPair = branchRec.getLoadflowData().getLineData().
-                addNewNvPairList().addNewNvPair();
+				NameValuePairXmlType nvPair = branchData.addNewNvPairList().addNewNvPair();
                 nvPair.setName("branch description");
                 nvPair.setValue(desc);
 			}			
@@ -299,10 +299,10 @@ public class BPABranchRecord {
 				branchRec.setCircuitId("1");
 			}			
 			
-			branchRec.addNewLoadflowData();
+			LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
+			
 			branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));			
-			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.LINE);
-			branchRec.getLoadflowData().addNewLineData();
+			branchData.setCode(LFBranchCodeEnumType.LINE);
 			
 			String multiSectionId="";
 			if(!strAry[9].equals("")){
@@ -314,7 +314,7 @@ public class BPABranchRecord {
 			double currentRating=0.0;
 			if(!strAry[10].equals("")){
 				currentRating = new Double(strAry[10]).doubleValue();
-				DataSetter.setBranchRatingLimitData(branchRec.getLoadflowData(), 
+				DataSetter.setBranchRatingLimitData(branchData, 
 						currentRating, CurrentUnitType.AMP);
 			}			 
 			double rpu=0.0, xpu=0.0001, G1pu=0.0, B1pu=0.0, G2pu=0.0, B2pu=0.0;
@@ -336,10 +336,10 @@ public class BPABranchRecord {
 			if(!strAry[17].equals("")){
 				B2pu = new Double(strAry[17]).doubleValue();
 			}
-			ZXmlType z= branchRec.getLoadflowData().getLineData().addNewZ();
+			ZXmlType z= branchData.addNewZ();
 			DataSetter.setZValue(z, rpu, xpu, ZUnitType.PU);
-			YXmlType y1 =branchRec.getLoadflowData().getLineData().addNewFromShuntY();
-			YXmlType y2 =branchRec.getLoadflowData().getLineData().addNewToShuntY();
+			YXmlType y1 = branchData.addNewFromShuntY();
+			YXmlType y2 = branchData.addNewToShuntY();
 			DataSetter.setYData(y1, G1pu, B1pu, YUnitType.PU);
 			DataSetter.setYData(y2, G2pu, B2pu, YUnitType.PU); 			
 		}
@@ -365,14 +365,12 @@ public class BPABranchRecord {
 			dataType=phaseShiftXfr;
 		}		
 		
-		branchRec.addNewLoadflowData();	
+		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();	
 		
 		if(dataType==transformer){				
-			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.TRANSFORMER);
-			branchRec.getLoadflowData().addNewXformerData();
+			branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
 		}else {				
-			branchRec.getLoadflowData().setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
-			branchRec.getLoadflowData().addNewPhaseShiftXfrData();
+			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 		}
 		final String modCode =strAry[1];
 		final String owner=strAry[2];
@@ -448,10 +446,10 @@ public class BPABranchRecord {
 			
 		// set xfr rating data
 		if(dataType==transformer){
-			DataSetter.setXfrRatingData(branchRec.getLoadflowData().getXformerData(), 
+			DataSetter.setXfrRatingData(branchData, 
 					fVol, tVol,VoltageUnitType.KV, MwRating, ApparentPowerUnitType.MVA);
 		}else {
-			DataSetter.setXfrRatingData(branchRec.getLoadflowData().getPhaseShiftXfrData(), 
+			DataSetter.setXfrRatingData(branchData, 
 					fVol, tVol,VoltageUnitType.KV, MwRating, ApparentPowerUnitType.MVA);
 		}
 			
@@ -484,20 +482,20 @@ public class BPABranchRecord {
 		// set r x
 		if(rpu!=0.0||xpu!=0.0){
 			if(dataType==transformer){
-				DataSetter.setZValue(branchRec.getLoadflowData().getXformerData().addNewZ(),
+				DataSetter.setZValue(branchData.addNewZ(),
 						                 rpu, xpu, ZUnitType.PU);
 			}else{					
-				DataSetter.setZValue(branchRec.getLoadflowData().getPhaseShiftXfrData().addNewZ(),
+				DataSetter.setZValue(branchData.addNewZ(),
 						                 rpu, xpu, ZUnitType.PU);
 			}
 		}
 		//set g b, g, b---> from side
 		if(Gpu!=0.0||Bpu!=0.0){
 			if(dataType==transformer){
-				DataSetter.setYData(branchRec.getLoadflowData().getXformerData().addNewFromShuntY(),
+				DataSetter.setYData(branchData.addNewFromShuntY(),
 						                 Gpu, Bpu, YUnitType.PU);
 			}else{
-				DataSetter.setYData(branchRec.getLoadflowData().getPhaseShiftXfrData().addNewFromShuntY(),
+				DataSetter.setYData(branchData.addNewFromShuntY(),
 							                 Gpu, Bpu, YUnitType.PU);
 			}
 		}
@@ -518,7 +516,7 @@ public class BPABranchRecord {
 				fromTurnRatedVolOrAngDeg=fromTurnRatedVolOrAngDeg/100;				
 			}	
 			fRatio=fromTurnRatedVolOrAngDeg/fVol;
-			DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewFromTap(), fRatio);
+			DataSetter.setTapPU(branchData.addNewFromTap(), fRatio);
 			
 			if(toTurnRatedVolOrZero>=2*tVol){
 				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100;				
@@ -527,14 +525,12 @@ public class BPABranchRecord {
 			NumberFormat ddf1 = NumberFormat.getNumberInstance();
 			ddf1.setMaximumFractionDigits(4);
 			tRatio = new Double(ddf1.format(tRatio)).doubleValue();		
-			DataSetter.setTapPU(branchRec.getLoadflowData().getXformerData().addNewToTap(), tRatio);
+			DataSetter.setTapPU(branchData.addNewToTap(), tRatio);
 
 			
 		}else {			
-			DataSetter.setAngleData(branchRec.getLoadflowData().getPhaseShiftXfrData().
-					addNewFromAngle(), fromTurnRatedVolOrAngDeg, AngleUnitType.DEG);
-			DataSetter.setAngleData(branchRec.getLoadflowData().getPhaseShiftXfrData().
-					addNewToAngle(), 0, AngleUnitType.DEG);						
+			DataSetter.setAngleData(branchData.addNewFromAngle(), fromTurnRatedVolOrAngDeg, AngleUnitType.DEG);
+			DataSetter.setAngleData(branchData.addNewToAngle(), 0, AngleUnitType.DEG);						
 		}			
 	}			
 	
@@ -579,6 +575,7 @@ public class BPABranchRecord {
 		
 		BranchRecordXmlType branchRec= ContainerHelper.getXfrBranchRecord(fromBus, 
 				toBus,  baseCaseNet);	
+		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(branchRec);
 		
 		String controlBusId = "";		
 		
@@ -623,8 +620,7 @@ public class BPABranchRecord {
 		}	
 		
 		if(dataType==tapAdjustment){			
-			TapAdjustmentXmlType tapAdj = branchRec.getLoadflowData().
-            getXformerData().addNewTapAdjustment();
+			TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
 			
             if(tapAdjSide==1){
 				tapAdj.setTapAdjOnFromSide(true);
@@ -690,8 +686,7 @@ public class BPABranchRecord {
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if(dataType==angleAdjustment){
-			AngleAdjustmentXmlType angAdj = branchRec.getLoadflowData().
-            getPhaseShiftXfrData().addNewAngleAdjustment();
+			AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
 			
 			DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), max,
 					min, AngleUnitType.DEG);
@@ -827,6 +822,8 @@ public class BPABranchRecord {
 			DataSetter.setVoltageData(dcBranch.getData().addNewRatedDVol(),
 					dcLineRatedVoltage, VoltageUnitType.KV);			
 		}*/
+		
+		/* TODO - the following part has compiling error
 		double recOperFiringAngle=0.0, invStopFiringAngle=0.0;
 		if(!strAry[15].equals("")){
 			recOperFiringAngle= new Double(strAry[15]).doubleValue();
@@ -842,6 +839,8 @@ public class BPABranchRecord {
 			ContainerHelper.getConverterRecord(rectifierBus,baseCaseNet).
 	        setType(ConverterXmlType.Type.INVERTER);
 		}
+		*/
+		
 		double length=0.0;
 		if(!strAry[17].equals("")){
 			length= new Double(strAry[17]).doubleValue();

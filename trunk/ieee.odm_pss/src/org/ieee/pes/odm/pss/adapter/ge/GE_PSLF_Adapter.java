@@ -35,10 +35,15 @@ import org.ieee.pes.odm.pss.adapter.IFileReader;
 import org.ieee.pes.odm.pss.adapter.ge.impl.BranchSecDataRec;
 import org.ieee.pes.odm.pss.adapter.ge.impl.BusDataRec;
 import org.ieee.pes.odm.pss.adapter.ge.impl.GEDataRec;
+import org.ieee.pes.odm.pss.adapter.ge.impl.GenDataRec;
+import org.ieee.pes.odm.pss.adapter.ge.impl.LoadDataRec;
+import org.ieee.pes.odm.pss.adapter.ge.impl.XformerDataRec;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 	public static enum VersionNo {PSLF15};
+
+	public static final String Token_XfrType = "GE_XfrType";
 
 	public static final String Token_CommentLine1 = "!";
 	public static final String Token_CommentLine2 = "!";
@@ -205,7 +210,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.BusData) {
       						// process BusData
-      						new BusDataRec(lineStr, version, parser.addNewBaseCaseBus());
+      						new BusDataRec(lineStr, version, parser, this.getLogger());
       					}
       					else if (recType == RecType.BranchSecData) {
       						// process Branch section Data
@@ -214,17 +219,14 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					else if (recType == RecType.XfrData) {
       						// process Xfr Data
       						new XformerDataRec(lineStr, version, baseCaseNet);
-      						//rec.setXfrData(adjNet, msg);
       					}
       					else if (recType == RecType.GenData) {
       						// process Gen Data
-      						//GenDataRec rec = new GenDataRec(lineStr, version);
-      						//rec.setGen(adjNet, msg);
+      						new GenDataRec(lineStr, version, parser, this.getLogger());
       					}
       					else if (recType == RecType.LoadData) {
       						// process Line Data
-      						///LoadDataRec rec = new LoadDataRec(lineStr, version);
-      						///rec.setLoad(adjNet, msg);
+      						new LoadDataRec(lineStr, version, parser, this.getLogger());
       					}
       					else if (recType == RecType.ShuntData) {
       						// process Shunt Data
