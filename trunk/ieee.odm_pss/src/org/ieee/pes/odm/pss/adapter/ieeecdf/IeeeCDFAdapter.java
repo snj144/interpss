@@ -53,7 +53,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -166,27 +166,27 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		//[0] Columns  2- 9   Date, in format DD/MM/YY with leading zeros.  If no date provided, use 0b/0b/0b where b is blank.
 		final String date = strAry[0];
 		if (date != null) 
-			ContainerHelper.addNVPair(nvList, Token_Date, date);
+			ParserHelper.addNVPair(nvList, Token_Date, date);
 
 		//[1] Columns 11-30   Originator's name [A]
 		final String orgName = strAry[1];
 		if (orgName != null)
-			ContainerHelper.addNVPair(nvList, Token_OrgName, orgName);
+			ParserHelper.addNVPair(nvList, Token_OrgName, orgName);
 
 		//[3] Columns 39-42   Year [I]
 		final String year = strAry[3];
 		if (year != null)
-			ContainerHelper.addNVPair(nvList, Token_Year, year);
+			ParserHelper.addNVPair(nvList, Token_Year, year);
 
 		//[4] Column  44      Season (S - Summer, W - Winter)
 		final String season = strAry[4];
 		if (season != null)
-			ContainerHelper.addNVPair(nvList, Token_Season, season);
+			ParserHelper.addNVPair(nvList, Token_Season, season);
 
 		//[5] Column  46-73   Case identification [A]
 		final String caseId = strAry[5];
 		if (caseId != null)
-			ContainerHelper.addNVPair(nvList, Token_CaseId, caseId);
+			ParserHelper.addNVPair(nvList, Token_CaseId, caseId);
 
 		getLogger().fine("date, orgName, year, season, caseId: " + date + ", "
 				+ orgName + ", " + year + ", " + season + ", " + caseId);
@@ -368,8 +368,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				DataSetter.createXformerData(branchData,
 						rpu, xpu, ZUnitType.PU, ratio, 1.0, 
 						0.0, bpu, 0.0, 0.0, YUnitType.PU);
-				BusRecordXmlType fromBusRec = ContainerHelper.findBusRecord(fid, baseCaseNet);
-				BusRecordXmlType toBusRec = ContainerHelper.findBusRecord(tid, baseCaseNet);
+				BusRecordXmlType fromBusRec = ParserHelper.findBusRecord(fid, baseCaseNet);
+				BusRecordXmlType toBusRec = ParserHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
 					DataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 
@@ -383,8 +383,8 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				DataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU,
 						ratio, 1.0, angle, 0.0, AngleUnitType.DEG,
 						0.0, bpu, 0.0, 0.0, YUnitType.PU);
-				BusRecordXmlType fromBusRec = ContainerHelper.findBusRecord(fid, baseCaseNet);
-				BusRecordXmlType toBusRec = ContainerHelper.findBusRecord(tid, baseCaseNet);
+				BusRecordXmlType fromBusRec = ParserHelper.findBusRecord(fid, baseCaseNet);
+				BusRecordXmlType toBusRec = ParserHelper.findBusRecord(tid, baseCaseNet);
 				if (fromBusRec != null && toBusRec != null) {
 					DataSetter.setXfrRatingData(branchData,
 							fromBusRec.getBaseVoltage().getValue(), 

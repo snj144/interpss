@@ -307,6 +307,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
     		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
+  		
 		return parser;
 	}
 

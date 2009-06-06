@@ -36,7 +36,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
@@ -440,7 +440,7 @@ public class BPADynamicExciterRecord {
         	if(!str.substring(15, 16).trim().equals("")){
         		excId=str.substring(15, 16).trim();
         	}    	
-        	ExciterXmlType exc=ContainerHelper.getExciterRecord(tranSimu, busId, excId);
+        	ExciterXmlType exc=ParserHelper.getExciterRecord(tranSimu, busId, excId);
         	if(str.substring(0, 2).trim().equals("FZ")){
         		if(exc.getExciterType().equals(ExciterXmlType.ExciterType.IEEE_1981_ST_1)){        		
             		//KF

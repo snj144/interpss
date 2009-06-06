@@ -40,7 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -227,12 +227,12 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			final String[] strAry = getNetDataFields(str);			
 	        //read powerflow, caseID,projectName, 			
 			if (strAry[0]!= null ){
-				ContainerHelper.addNVPair(nvList, strAry[0], strAry[1]);
+				ParserHelper.addNVPair(nvList, strAry[0], strAry[1]);
 				getLogger().fine(strAry[0] +": " + strAry[1]);
 			}
 			
 			if (strAry[2]!= null ){
-				ContainerHelper.addNVPair(nvList, strAry[2], strAry[4]);
+				ParserHelper.addNVPair(nvList, strAry[2], strAry[4]);
 				getLogger().fine(strAry[2]+": " + strAry[4] );
 			}			
 			// more name-vale could be added in future 
@@ -326,7 +326,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			}
 			if(!strAry[2].trim().equals("")){
 				String areaName=strAry[2];
-				NetAreaXmlType area=ContainerHelper.
+				NetAreaXmlType area=ParserHelper.
 				                                 getAreaRecordByAreaName(areaName, baseCaseNet);
 				if(area==null){
 					area.setName(areaName);
@@ -357,7 +357,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 				exchangePower= new Double(strAry[4]).doubleValue();				
 			}			
 			if(!fBus.equals("")&& exchangePower!=0){				
-				NetAreaXmlType area=ContainerHelper.
+				NetAreaXmlType area=ParserHelper.
 				getAreaRecordByAreaName(fBus, baseCaseNet);	
 				NetAreaXmlType.ExchangePower exchange=area.addNewExchangePower();
 				exchange.setToArea(tBus);

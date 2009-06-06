@@ -32,7 +32,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientMachineXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZeroSequenceDataListXmlType;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 

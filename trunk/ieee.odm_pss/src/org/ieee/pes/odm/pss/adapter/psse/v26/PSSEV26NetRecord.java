@@ -33,7 +33,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.pes.odm.pss.model.DataSetter;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV26NetRecord {
@@ -54,11 +54,11 @@ public class PSSEV26NetRecord {
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
 		
 		final String desc = strAry[2];// The 2nd line is treated as description
-		ContainerHelper.addNVPair(nvList, Token_CaseDesc, desc);     
+		ParserHelper.addNVPair(nvList, Token_CaseDesc, desc);     
 	   
 	    // the 3rd line is treated as the network id and network name		
 		final String caseId= strAry[3];
-		ContainerHelper.addNVPair(nvList, Token_CaseId, caseId);				
+		ParserHelper.addNVPair(nvList, Token_CaseId, caseId);				
 		logger.fine("Case Description, caseId: " + desc + ", "+ caseId);		
 		
         return true;

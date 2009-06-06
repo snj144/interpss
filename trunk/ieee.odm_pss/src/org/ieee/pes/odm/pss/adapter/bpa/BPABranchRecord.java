@@ -51,7 +51,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.StringUtil;
@@ -99,15 +99,15 @@ public class BPABranchRecord {
 						tieLine.addNewMeteredBus().setName(fid);
 						tieLine.addNewNonMeteredBus().setName(tid);	
 						
-						BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(fid, baseCaseNet);
+						BusRecordXmlType busRecFrom=ParserHelper.findBusRecord(fid, baseCaseNet);
 						busRecFrom.getZoneNumber();
-						NetAreaXmlType areaFrom=ContainerHelper.
+						NetAreaXmlType areaFrom=ParserHelper.
 						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getName());
 						
-						BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(tid, baseCaseNet);
+						BusRecordXmlType busRecTo=ParserHelper.findBusRecord(tid, baseCaseNet);
 						busRecTo.getZoneNumber();
-						NetAreaXmlType areaTo=ContainerHelper.
+						NetAreaXmlType areaTo=ParserHelper.
 						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getName());
 						// to do: set area number
@@ -117,17 +117,17 @@ public class BPABranchRecord {
 
 						tieLine.addNewMeteredBus().setName(tid);
 						tieLine.addNewNonMeteredBus().setName(fid);					
-						ContainerHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
+						ParserHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
 						
-						BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(tid, baseCaseNet);
+						BusRecordXmlType busRecFrom=ParserHelper.findBusRecord(tid, baseCaseNet);
 						busRecFrom.getZoneNumber();
-						NetAreaXmlType areaFrom=ContainerHelper.
+						NetAreaXmlType areaFrom=ParserHelper.
 						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getName());
 						
-						BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(fid, baseCaseNet);
+						BusRecordXmlType busRecTo=ParserHelper.findBusRecord(fid, baseCaseNet);
 						busRecTo.getZoneNumber();
-						NetAreaXmlType areaTo=ContainerHelper.
+						NetAreaXmlType areaTo=ParserHelper.
 						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getName());						
 					}
@@ -253,15 +253,15 @@ public class BPABranchRecord {
 						tieLine.addNewMeteredBus().setName(fid);
 						tieLine.addNewNonMeteredBus().setName(tid);	
 						
-						BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(fid, baseCaseNet);
+						BusRecordXmlType busRecFrom=ParserHelper.findBusRecord(fid, baseCaseNet);
 						busRecFrom.getZoneNumber();
-						NetAreaXmlType areaFrom=ContainerHelper.
+						NetAreaXmlType areaFrom=ParserHelper.
 						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getName());
 						
-						BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(tid, baseCaseNet);
+						BusRecordXmlType busRecTo=ParserHelper.findBusRecord(tid, baseCaseNet);
 						busRecTo.getZoneNumber();
-						NetAreaXmlType areaTo=ContainerHelper.
+						NetAreaXmlType areaTo=ParserHelper.
 						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getName());
 						// to do: set area number
@@ -271,17 +271,17 @@ public class BPABranchRecord {
 
 						tieLine.addNewMeteredBus().setName(tid);
 						tieLine.addNewNonMeteredBus().setName(fid);					
-						ContainerHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
+						ParserHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
 						
-						BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(tid, baseCaseNet);
+						BusRecordXmlType busRecFrom=ParserHelper.findBusRecord(tid, baseCaseNet);
 						busRecFrom.getZoneNumber();
-						NetAreaXmlType areaFrom=ContainerHelper.
+						NetAreaXmlType areaFrom=ParserHelper.
 						  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 						tieLine.setMeteredArea(areaFrom.getName());
 						
-						BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(fid, baseCaseNet);
+						BusRecordXmlType busRecTo=ParserHelper.findBusRecord(fid, baseCaseNet);
 						busRecTo.getZoneNumber();
-						NetAreaXmlType areaTo=ContainerHelper.
+						NetAreaXmlType areaTo=ParserHelper.
 						  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 						tieLine.setNonMeteredArea(areaTo.getName());						
 					}
@@ -396,13 +396,13 @@ public class BPABranchRecord {
 					tieLine.addNewMeteredBus().setName(fid);
 					tieLine.addNewNonMeteredBus().setName(tid);	
 						
-					BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(fid, baseCaseNet);						
-					NetAreaXmlType areaFrom=ContainerHelper.
+					BusRecordXmlType busRecFrom=ParserHelper.findBusRecord(fid, baseCaseNet);						
+					NetAreaXmlType areaFrom=ParserHelper.
 						 getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
 						
-					BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(tid, baseCaseNet);						
-					NetAreaXmlType areaTo=ContainerHelper.
+					BusRecordXmlType busRecTo=ParserHelper.findBusRecord(tid, baseCaseNet);						
+					NetAreaXmlType areaTo=ParserHelper.
 						 getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getName());					
 				}else{
@@ -410,17 +410,17 @@ public class BPABranchRecord {
 
 					tieLine.addNewMeteredBus().setName(tid);
 					tieLine.addNewNonMeteredBus().setName(fid);					
-					ContainerHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
+					ParserHelper.findBusRecord(fid, baseCaseNet).getZoneNumber();
 						
-					BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(tid, baseCaseNet);
+					BusRecordXmlType busRecFrom=ParserHelper.findBusRecord(tid, baseCaseNet);
 					busRecFrom.getZoneNumber();
-					NetAreaXmlType areaFrom=ContainerHelper.
+					NetAreaXmlType areaFrom=ParserHelper.
 						 getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
 						
-					BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(fid, baseCaseNet);
+					BusRecordXmlType busRecTo=ParserHelper.findBusRecord(fid, baseCaseNet);
 					busRecTo.getZoneNumber();
-					NetAreaXmlType areaTo=ContainerHelper.
+					NetAreaXmlType areaTo=ParserHelper.
 						 getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getName());					
 				}					
@@ -573,9 +573,9 @@ public class BPABranchRecord {
 		final String toBus = strAry[6];
 		final double toTurnRatedV = new Double(strAry[7]).doubleValue();			
 		
-		BranchRecordXmlType branchRec= ContainerHelper.getXfrBranchRecord(fromBus, 
+		BranchRecordXmlType branchRec= ParserHelper.findBranchRecord(fromBus, 
 				toBus,  baseCaseNet);	
-		LoadflowBranchDataXmlType branchData = ContainerHelper.getDefaultBranchData(branchRec);
+		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
 		
 		String controlBusId = "";		
 		
@@ -732,7 +732,7 @@ public class BPABranchRecord {
 					tieLine.addNewMeteredBus().setName(rectifierBus);
 					tieLine.addNewNonMeteredBus().setName(inverterBus);	
 					
-					DCLineBusRecordXmlType busRecFrom=ContainerHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
+					DCLineBusRecordXmlType busRecFrom=ParserHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
 					/*NetAreaXmlType areaFrom=ContainerHelper.
 						  getAreaRecordByZone(busRecFrom.getConverter().getData().getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
@@ -750,17 +750,17 @@ public class BPABranchRecord {
 
 					tieLine.addNewMeteredBus().setName(inverterBus);
 					tieLine.addNewNonMeteredBus().setName(rectifierBus);					
-					ContainerHelper.findBusRecord(rectifierBus, baseCaseNet).getZoneNumber();
+					ParserHelper.findBusRecord(rectifierBus, baseCaseNet).getZoneNumber();
 					
-					BusRecordXmlType busRecFrom=ContainerHelper.findBusRecord(inverterBus, baseCaseNet);
+					BusRecordXmlType busRecFrom=ParserHelper.findBusRecord(inverterBus, baseCaseNet);
 					busRecFrom.getZoneNumber();
-					NetAreaXmlType areaFrom=ContainerHelper.
+					NetAreaXmlType areaFrom=ParserHelper.
 					  getAreaRecordByZone(busRecFrom.getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());
 					
-					BusRecordXmlType busRecTo=ContainerHelper.findBusRecord(inverterBus, baseCaseNet);
+					BusRecordXmlType busRecTo=ParserHelper.findBusRecord(inverterBus, baseCaseNet);
 					busRecTo.getZoneNumber();
-					NetAreaXmlType areaTo=ContainerHelper.
+					NetAreaXmlType areaTo=ParserHelper.
 					  getAreaRecordByZone(busRecTo.getZoneNumber(), baseCaseNet);
 					tieLine.setNonMeteredArea(areaTo.getName());						
 				}

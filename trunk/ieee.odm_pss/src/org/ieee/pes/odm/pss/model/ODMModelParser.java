@@ -331,10 +331,10 @@ public class ODMModelParser {
 	public String toXmlDoc(boolean addXsi) {
 		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pss:PSSStudyCase xmlns:pss=\"" + Token_nsUrl + "\"";
 		if (addXsi)
-			return this.doc.xmlText(ContainerHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", 
+			return this.doc.xmlText(ParserHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", 
 				 str + " " + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
 		else
-			return this.doc.xmlText(ContainerHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", str);
+			return this.doc.xmlText(ParserHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", str);
 	}
 
 	/**

@@ -32,7 +32,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 import org.ieee.pes.odm.pss.model.TranStabSimuHelper;
 
@@ -245,7 +245,7 @@ public class BPADynamicPSSRecord {
     		if(!strAry[3].equals("")){
     			macId=strAry[3];
     		}    		
-    		StabilizerXmlType pss=ContainerHelper.getPSSRecord(tranSimu, busId, macId);
+    		StabilizerXmlType pss=ParserHelper.getPSSRecord(tranSimu, busId, macId);
     		PssIEEEDualInputXmlType dualInputPss=pss
                       .getStabilizerModel().getIEEEDualInput();
     		
