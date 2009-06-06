@@ -22,15 +22,21 @@
   *
   */
 
-package org.ieee.pes.odm.pss.adapter.ge;
+package org.ieee.pes.odm.pss.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.pes.odm.pss.adapter.ge.impl.BaseBranchDataRec;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.DataSetter;
 
 public class XformerDataRec extends BaseBranchDataRec {
 	public int type, kregBus, zt, iintBus, tertBus;
@@ -200,29 +206,34 @@ public class XformerDataRec extends BaseBranchDataRec {
 		<aloss> Loss factor (0.0 - 1.0) used to assign losses.1.0 = 100% loss assigned to "from" side of transformer
 		<alosss> Secondary Loss factor (0.0 - 1.0)
 */
-		/*
 		LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.addNewXfrInfo();
-		xfrInfo.setGePslfType(this.type);
-		xfrInfo.setRatedPower(this.tbase);
-		xfrInfo.setFromRatedVoltage(this.vnomp);
-		xfrInfo.setToRatedVoltage(this.vnoms);
+		if (branchData.getNvPairList() == null)
+			branchData.addNewNvPairList();
+		ContainerHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
+		DataSetter.setPowerMva(xfrInfo.addNewRatedPower(), this.tbase);
+		DataSetter.setVoltageData(xfrInfo.addNewFromRatedVoltage(), this.vnomp, VoltageUnitType.KV);
+		DataSetter.setVoltageData(xfrInfo.addNewToRatedVoltage(), this.vnoms, VoltageUnitType.KV);
 		
-		xfr.setRPrim2Secd(this.zpsr);
-		xfr.setXPrim2Secd(this.zpsx);
+		DataSetter.setZValue(branchData.addNewZ(), this.zpsr, this.zpsx, ZUnitType.PU);
 		
-		xfr.setFixedTapPrim(this.tapfp);
-		xfr.setFixedTapSecd(this.tapfs);
+		DataSetter.setTapPU(branchData.addNewFromTap(), this.tapfp);
+		DataSetter.setTapPU(branchData.addNewToTap(), this.tapfs);
 		
-		xfr.setPhaseAngleDegPrim(this.anglp);
-		xfr.setPhaseAngleDegSecd(this.angls);
+		if (this.anglp != 0.0 || this.angls != 0.0) {
+			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
+			DataSetter.setAngleData(branchData.addNewFromAngle(), this.anglp, AngleUnitType.DEG);
+			DataSetter.setAngleData(branchData.addNewToAngle(), this.angls, AngleUnitType.DEG);
+		}
 
-		xfr.setGmagPU(this.gmag);
-		xfr.setBmagPU(this.bmag);
+		if (this.gmag != 0.0 || this.bmag != 0.0)
+			DataSetter.setYData(branchData.addNewFromShuntY(), this.gmag, this.bmag, YUnitType.PU);
 		
-		xfr.setLossFactorPrim(this.aloss);
-		xfr.setLossFactorSecd(this.alosss);
-		*/
-/*		
+		if (this.aloss != 0.0)
+			xfrInfo.setFromLossFactor(this.aloss);
+		if (this.alosss != 0.0)
+			xfrInfo.setToLossFactor(this.alosss);
+
+		/*		
 		<kreg bus> Number of bus whose voltage is controlled by this transformer if type is not a 1.
 		<"kreg name"> Regulating bus name enclosed in quotation marks  // no need
 		<kreg bkv> Regulating bus base voltage           // no need
@@ -234,16 +245,31 @@ public class XformerDataRec extends BaseBranchDataRec {
 		<tapp> TCUL tap position (primary winding) (pu)
 		<iztabl> Transformer impedance table number
 */
-		/*
-		xfr.setAdjBusNumber(this.kregBus);
-		xfr.setTapAngMax(this.tmax);
-		xfr.setTapAngMin(this.tmin);
-		xfr.setVmax(this.vtmax);
-		xfr.setVmin(this.vtmin);
-		xfr.setAdjTapAngStep(this.stepp);
-		xfr.setAdjTapPrim(this.tapp);
-		xfr.setZTableNumber(this.zt);
-		*/
+
+		if (this.type == 2 || this.type == 12) {
+			/* TODO
+			xfr.setAdjBusNumber(this.kregBus);
+			xfr.setTapAngMax(this.tmax);
+			xfr.setTapAngMin(this.tmin);
+			xfr.setVmax(this.vtmax);
+			xfr.setVmin(this.vtmin);
+			xfr.setAdjTapAngStep(this.stepp);
+			xfr.setAdjTapPrim(this.tapp);
+			xfr.setZTableNumber(this.zt);
+			*/
+		}
+		else if (this.type == 4 || this.type == 14) {
+			/* TODO
+			xfr.setAdjBusNumber(this.kregBus);
+			xfr.setTapAngMax(this.tmax);
+			xfr.setTapAngMin(this.tmin);
+			xfr.setVmax(this.vtmax);
+			xfr.setVmin(this.vtmin);
+			xfr.setAdjTapAngStep(this.stepp);
+			xfr.setAdjTapPrim(this.tapp);
+			xfr.setZTableNumber(this.zt);
+			*/
+		}
 /*
 // Teriary data
   
