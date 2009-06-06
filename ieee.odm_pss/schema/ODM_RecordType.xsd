@@ -139,8 +139,11 @@
 							<sequence>
 								<element name="fromRatedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
 								<element name="toRatedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
-								<element name="ratedPower" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
-								<element name="ge_pslf_type" type="int" maxOccurs="1" minOccurs="0"></element>
+								<element name="ratedPower" type="pss:ApparentPowerXmlType" minOccurs="1"></element>
+
+								<element name="fromLossFactor" type="double" minOccurs="0"></element>
+								<element name="toLossFactor" type="double" minOccurs="0"></element>
+								<element name="zTableNumber" type="int" minOccurs="0"></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -182,7 +185,12 @@
 			<element name="qLimit" type="pss:ReactivePowerLimitXmlType" minOccurs="0"></element>
 			<element name="pLimit" minOccurs="0" maxOccurs="1" type="pss:ActivePowerLimitXmlType"></element>
 			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>
-		</sequence>		<attribute name="code" use="required" type="pss:LFGenCodeEnumType">	</attribute>
+			<element name="compensatingZ" type="pss:ZXmlType" minOccurs="0"></element>
+			<element name="characteristic" type="pss:ZXmlType" minOccurs="0"></element>
+			<element name="pControlContriFactor" type="double" minOccurs="0"></element>
+			<element name="qControlContriFactor" type="double" minOccurs="0"></element>
+		</sequence>
+		<attribute name="code" use="required" type="pss:LFGenCodeEnumType">	</attribute>
 	</complexType>
 
 	<complexType name="DCLineBusRecordXmlType">
