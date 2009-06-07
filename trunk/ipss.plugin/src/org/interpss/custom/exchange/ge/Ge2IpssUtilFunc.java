@@ -148,6 +148,7 @@ public class Ge2IpssUtilFunc {
 				cz_q += load.getB();
 			}
 		}
+		
 		if ((cp_p != 0.0 || cp_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 			geBus.setLoadCode(AclfLoadCode.CONST_P);
   			final LoadBusAdapter load = (LoadBusAdapter)geBus.getAdapter(LoadBusAdapter.class);

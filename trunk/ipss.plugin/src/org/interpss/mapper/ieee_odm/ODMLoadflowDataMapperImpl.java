@@ -40,7 +40,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YXmlType;
-import org.ieee.pes.odm.pss.model.ContainerHelper;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 
 import com.interpss.common.datatype.UnitType;
 import com.interpss.common.msg.IPSSMsgHub;
@@ -113,7 +113,7 @@ public class ODMLoadflowDataMapperImpl {
 		if (branchRec.getLoadflowDataArray().length > 0) {
 			if (branchRec.getLoadflowDataArray().length == 1)
 				ODMLoadflowDataMapperImpl.setBranchLoadflowData( 
-						ContainerHelper.getDefaultBranchData(branchRec), aclfBranch, adjNet, msg);
+						ParserHelper.getDefaultBranchData(branchRec), aclfBranch, adjNet, msg);
 		}
 		return aclfBranch;
 	}
@@ -278,17 +278,25 @@ public class ODMLoadflowDataMapperImpl {
 			if (xfrData.getXfrInfo().getToRatedVoltage() != null)
 				toRatedV = xfrData.getXfrInfo().getToRatedVoltage().getValue();
 		}
-    	double ratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+
+		double zratio = 1.0;
+		if (xfrData.getXfrInfo().getRatedPower() != null && 
+				xfrData.getXfrInfo().getRatedPower().getValue() > 0.0) 
+			zratio = xfrData.getXfrInfo().getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
+					adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower().getValue() :
+						0.001 * adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower().getValue();
+
+		double tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
-		xfr.setZ(new Complex(xfrData.getZ().getRe(), xfrData.getZ().getIm()),
+		xfr.setZ(new Complex(xfrData.getZ().getRe()*zratio, xfrData.getZ().getIm()*zratio),
 				ODMXmlHelper.toUnit(xfrData.getZ().getUnit()), baseV, adjNet.getBaseKva(),
 				msg);
 		xfr.setFromTap(xfrData.getFromTap().getValue() == 0.0 ? 1.0 : xfrData
-				.getFromTap().getValue()*ratio, UnitType.PU);
+				.getFromTap().getValue()*tapratio, UnitType.PU);
 		xfr.setToTap(xfrData.getToTap().getValue() == 0.0 ? 1.0 : xfrData
-				.getToTap().getValue()/ratio, UnitType.PU);
+				.getToTap().getValue()/tapratio, UnitType.PU);
 		
 	}
 }
