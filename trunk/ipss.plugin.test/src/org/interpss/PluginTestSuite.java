@@ -4,6 +4,7 @@ import org.interpss.cmd.AclfCmdRunTest;
 import org.interpss.cmd.RunExecTest;
 import org.interpss.contigency.ContingencyControlFileCaseTest;
 import org.interpss.contigency.ContingencyXmlCaseTest;
+import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
@@ -72,6 +73,10 @@ import org.junit.runners.Suite.SuiteClasses;
 	// core file adapter
 	IEEECommonFormat_CommaTest.class,
 	IEEECommonFormatTest.class,
+	BPASampleTestCases.class,
+	UCTEFormatAusPowerTest.class,
+	CR_UserTestCases.class,
+	RecLevelTestCases.class,
 	
 	IEEE14Test.class,
 	Bus1824Test.class,
@@ -95,12 +100,6 @@ import org.junit.runners.Suite.SuiteClasses;
 	AclfCmdRunTest.class,
 	RunExecTest.class,
 	
-	// UCTE format
-	UCTEFormatAusPowerTest.class,
-	
-	//PSS/E format
-	CR_UserTestCases.class,
-	RecLevelTestCases.class,
 	
 	// dclf
 	DclfIeee14BusCaseTest.class,
