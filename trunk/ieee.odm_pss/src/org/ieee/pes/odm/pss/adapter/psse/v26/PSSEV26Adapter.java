@@ -25,13 +25,12 @@ package org.ieee.pes.odm.pss.adapter.psse.v26;
 
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSEV26Adapter extends AbstractODMAdapter{
 	private final int 
@@ -57,7 +56,10 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
 	
 	protected ODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
-		ODMModelParser parser = createParser();
+		ODMModelParser parser = new ODMModelParser();
+		ParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
+		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV26");
+
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		// no space is allowed for ID field
 		baseCaseNet.setId("Base_Case_from_PSS_E_format_Ver26");
@@ -142,23 +144,4 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
                  
    	   return parser;
 	}
-	
-	
-	private ODMModelParser createParser() {
-		ODMModelParser parser = new ODMModelParser();
-		parser.getStudyCase().setSchemaVersion(
-				StudyCaseXmlType.SchemaVersion.V_1_00_DEV);
-		
-		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
-		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
-		info.setOriginalFormatVersion("V26");
-		info.setAdapterProviderName("www.interpss.org");
-		info.setAdapterProviderVersion("1.00");
-
-		parser.getStudyCase().getBaseCase().setAnalysisCategory(
-				AnalysisCategoryEnumType.LOADFLOW);
-		parser.getStudyCase().getBaseCase().setNetworkCategory(
-				NetworkCategoryEnumType.TRANSMISSION);
-		return parser;
-	}	
 }

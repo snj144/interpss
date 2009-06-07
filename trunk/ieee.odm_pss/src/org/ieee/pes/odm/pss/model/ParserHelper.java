@@ -24,7 +24,12 @@
 
 package org.ieee.pes.odm.pss.model;
 
+import java.util.logging.Logger;
+
 import org.apache.xmlbeans.XmlOptions;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
@@ -37,13 +42,21 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GeneratorXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 
@@ -51,6 +64,141 @@ public class ParserHelper {
 	public static final double Deg2Rad = Math.PI / 180.0;
 	public static final double Rad2Deg = 180.0/ Math.PI;
 	
+	public static void setLFTransInfo(ODMModelParser parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.Enum originalFormat) {
+		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
+		info.setOriginalDataFormat(originalFormat);
+		info.setAdapterProviderName("www.interpss.org");
+		info.setAdapterProviderVersion("1.00");
+		
+		parser.getStudyCase().getBaseCase().setAnalysisCategory(
+				AnalysisCategoryEnumType.LOADFLOW);
+		parser.getStudyCase().getBaseCase().setNetworkCategory(
+				NetworkCategoryEnumType.TRANSMISSION);		
+	}
+	
+	/*
+	 * consolidate branch genContributionList and loadContributionList to the equiv 
+	 * 
+	 */
+	public static boolean createBusEquivData(PSSNetworkXmlType baseCaseNet, Logger logger) {
+		boolean ok = true;
+
+		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBusArray()) {
+			LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
+			if (genData != null) {
+				if ( genData.getContributeGenList() != null && 
+						genData.getContributeGenList().getContributeGenArray().length > 0) {
+					LoadflowGenDataXmlType equivGen = genData.getEquivGen();
+					double pgen = 0.0, qgen = 0.0, qmax = 0.0, qmin = 0.0, pmax = 0.0, pmin = 0.0;
+					String remoteBusId = null;
+					boolean offLine = true;
+					for ( LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen gen : 
+							genData.getContributeGenList().getContributeGenArray()) {
+						if (!gen.getOffLine()) {
+							offLine = false;
+							if (remoteBusId == null)
+								remoteBusId = gen.getGenData().getRemoteVoltageControlBus().getIdRef();
+							else if (!remoteBusId.equals(gen.getGenData().getRemoteVoltageControlBus().getIdRef())) {
+								logger.severe("Inconsistant remote control bus id, " + remoteBusId +
+										", " + gen.getGenData().getRemoteVoltageControlBus().getIdRef());
+								return false; 
+							}
+							
+							pgen += gen.getGenData().getPower().getRe();
+							qgen += gen.getGenData().getPower().getIm();
+							if(gen.getGenData().getQLimit() != null) {
+								qmax += gen.getGenData().getQLimit().getMax();
+								qmin += gen.getGenData().getQLimit().getMin();
+							}
+							if(gen.getGenData().getPLimit() != null) {
+								pmax += gen.getGenData().getPLimit().getMax();
+								pmin += gen.getGenData().getPLimit().getMin();
+							}
+						}
+					}
+					
+					if (offLine)
+						genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
+					else {	
+						if (equivGen.getPower() == null)
+							equivGen.addNewPower();
+						DataSetter.setPowerData(equivGen.getPower(), pgen, qgen, ApparentPowerUnitType.MVA);
+						if (pmax != 0.0 || pmin != 0.0)
+							DataSetter.setActivePowerLimitData(equivGen.addNewPLimit(), pmax, pmin, ActivePowerUnitType.MW);
+						if (qmax != 0.0 || qmin != 0.0)
+							DataSetter.setReactivePowerLimitData(equivGen.addNewQLimit(), qmax, qmin, ReactivePowerUnitType.MVAR);
+					}
+					
+					if (!remoteBusId.equals(busRec.getId()) && genData.getEquivGen().getCode() == LFGenCodeEnumType.PV){
+						// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
+						genData.getEquivGen().addNewRemoteVoltageControlBus().setIdRef(remoteBusId);
+					}
+						
+				}
+				else {
+					genData.getEquivGen().setCode(LFGenCodeEnumType.NONE_GEN);
+					genData.getEquivGen().unsetPower();
+					genData.getEquivGen().unsetVoltageLimit();
+				}
+			}
+			
+			LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
+			if (loadData != null) {
+				if (loadData.getContributeLoadList() != null &&
+						loadData.getContributeLoadList().getContributeLoadArray().length > 0) {
+					LoadflowBusDataXmlType.LoadData.EquivLoad equivLoad = loadData.getEquivLoad();
+					double cp_p=0.0, cp_q=0.0, ci_p=0.0, ci_q=0.0, cz_p=0.0, cz_q=0.0; 
+					for ( LoadflowLoadDataXmlType load : loadData.getContributeLoadList().getContributeLoadArray()) {
+						if (!load.getOffLine()) {
+							if (load.getConstPLoad() != null) {
+								cp_p += load.getConstPLoad().getRe();
+								cp_q += load.getConstPLoad().getIm();
+							}
+							if (load.getConstILoad() != null) {
+								ci_p += load.getConstILoad().getRe();
+								ci_q += load.getConstILoad().getIm();
+							}
+							if (load.getConstZLoad() != null) {
+								cz_p += load.getConstZLoad().getRe();
+								cz_q += load.getConstZLoad().getIm();
+							}
+						}					
+					}
+					
+					if ((cp_p != 0.0 || cp_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
+						equivLoad.setCode(LFLoadCodeEnumType.CONST_P);
+			  			DataSetter.setPowerData(equivLoad.addNewConstPLoad(), cp_p, cp_q, ApparentPowerUnitType.MVA);
+			  		}
+					else if ((ci_p != 0.0 || ci_q != 0.0) && (cp_p==0.0 && cp_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
+						equivLoad.setCode(LFLoadCodeEnumType.CONST_I);
+			  			DataSetter.setPowerData(equivLoad.addNewConstILoad(), ci_p, ci_q, ApparentPowerUnitType.MVA);
+			  		}
+					else if ((cz_p != 0.0 || cz_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cp_p==0.0 && cp_q ==0.0) ) {
+						equivLoad.setCode(LFLoadCodeEnumType.CONST_Z);
+			  			DataSetter.setPowerData(equivLoad.addNewConstZLoad(), cz_p, cz_q, ApparentPowerUnitType.MVA);
+			  		}
+					else if ((cp_p != 0.0 || cp_q != 0.0 || ci_p!= 0.0 || ci_q != 0.0 || cz_p != 0.0 || cz_q !=0.0)) {
+						equivLoad.setCode(LFLoadCodeEnumType.FUNCTION_LOAD);
+			  			DataSetter.setPowerData(equivLoad.addNewConstPLoad(), cp_p, cp_q, ApparentPowerUnitType.MVA);
+			  			DataSetter.setPowerData(equivLoad.addNewConstILoad(), ci_p, ci_q, ApparentPowerUnitType.MVA);
+			  			DataSetter.setPowerData(equivLoad.addNewConstZLoad(), cz_p, cz_q, ApparentPowerUnitType.MVA);
+					}
+					else {
+						loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);
+					}
+				}
+				else
+					loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);
+			}
+		}
+		
+		return ok;
+	}
+	
+	/*
+	 *      Parser Container retrieval functions
+	 *      ==================================== 
+	 */
 	/**
 	 * Get bus record with the id
 	 * 

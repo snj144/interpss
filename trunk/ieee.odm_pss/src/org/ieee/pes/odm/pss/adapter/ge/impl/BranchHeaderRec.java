@@ -73,7 +73,7 @@ public class BranchHeaderRec {
 
 			branchRec.addNewFromBus().setIdRef(fid);
 			branchRec.addNewToBus().setIdRef(tid);
-			branchRec.setCircuitId(ck);
+			branchRec.setCircuitId(ck.replace(' ', '_'));
 			branchRec.setId(StringUtil.formBranchId(fid, tid, ck));
 			branchRec.setName(f_name + "-" + t_name + "_" + ck);
 		}

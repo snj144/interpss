@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
@@ -42,7 +41,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
@@ -53,9 +51,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
-import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 /*
@@ -98,16 +96,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 	protected ODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		ODMModelParser parser = new ODMModelParser();
-
-		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
-		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.UCTE_DEF);
-		info.setAdapterProviderName("www.interpss.org");
-		info.setAdapterProviderVersion("1.00");
-
-		parser.getStudyCase().getBaseCase().setAnalysisCategory(
-				AnalysisCategoryEnumType.LOADFLOW);
-		parser.getStudyCase().getBaseCase().setNetworkCategory(
-				NetworkCategoryEnumType.TRANSMISSION);
+		ParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.UCTE_DEF);
 
 		// BaseCase object, plus busRecList and BranchRecList are created 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();

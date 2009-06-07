@@ -460,6 +460,7 @@ max and min are used.</documentation>
 			<enumeration value="PQ"></enumeration>
 			<enumeration value="PV"></enumeration>
 			<enumeration value="Swing"></enumeration>
+			<enumeration value="NoneGen"></enumeration>
 			<enumeration value="OFF"></enumeration>
 		</restriction>
 	</simpleType>
@@ -470,6 +471,7 @@ max and min are used.</documentation>
 			<enumeration value="CONST_I"></enumeration>
 			<enumeration value="CONST_Z"></enumeration>
 			<enumeration value="FunctionLoad"></enumeration>
+			<enumeration value="NoneLoad"></enumeration>
 		</restriction>
 	</simpleType>
 

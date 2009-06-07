@@ -26,14 +26,17 @@ package org.ieee.pes.odm.pss.adapter.ge.impl;
 
 import java.util.StringTokenizer;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
-import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter.VersionNo;
-import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 
-public class GEDataRec {
+public class NetDataRec {
 	static public class TitleRec {
 		public void processLineStr(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
@@ -105,26 +108,27 @@ public class GEDataRec {
 		}
 	}
 
-	/*
-	<arnum> Area number (0 - 999)
-	<"arnam"> Area name up to 32 characters enclosed in quotation marks
-	<swing> Bus number at which area swing generator is located
-	<pnetdes> Scheduled real power net interchange (MW)
-	<pnettol> Real power net interchange tolerance (MW)
-	<pnet> Actual real power net interchange (MW)
-	<qnet> Actual reactive power net interchange (MVAR)
-	
-        1 "P                               "       0      0.0   1000.0    -88.2    -84.1	
-	 */
 	static public class AreaRec {
 		public int arnum, swing;
 		public String arnam;
 		public double pnetdes, pnettol, pnet, qnet;
 
-		public AreaRec(String lineStr, GE_PSLF_Adapter.VersionNo version) {
+		public AreaRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			//System.out.println("area->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
+			/*
+			<arnum> Area number (0 - 999)
+			<"arnam"> Area name up to 32 characters enclosed in quotation marks
+			<swing> Bus number at which area swing generator is located
+			<pnetdes> Scheduled real power net interchange (MW)
+			<pnettol> Real power net interchange tolerance (MW)
+			<pnet> Actual real power net interchange (MW)
+			<qnet> Actual reactive power net interchange (MVAR)
+			
+		        1 "P                               "       0      0.0   1000.0    -88.2    -84.1	
+			 */
+
 			this.arnum = new Integer(st.nextToken().trim()).intValue();
 			this.arnam = st.nextToken();
 			
@@ -136,26 +140,37 @@ public class GEDataRec {
 			this.pnettol = new Double(st.nextToken()).doubleValue();
 			this.pnet = new Double(st.nextToken()).doubleValue();
 			this.qnet = new Double(st.nextToken()).doubleValue();	
+			
+			if (baseCaseNet.getAreaList() == null)
+				baseCaseNet.addNewAreaList();
+			NetAreaXmlType area = baseCaseNet.getAreaList().addNewArea();
+			area.setId(new Integer(this.arnum).toString());
+			area.setNumber(this.arnum);
+			area.setName(this.arnam);	
+			area.addNewSwingBusId().setIdRef(new Integer(this.swing).toString());
+			DataSetter.setPowerData(area.addNewTotalExchangePower(), this.pnet, this.qnet, ApparentPowerUnitType.MVA);
+			DataSetter.setActivePower(area.addNewDesiredExchangePower(), this.pnetdes, ActivePowerUnitType.MW);
+			DataSetter.setActivePower(area.addNewExchangeErrToler(), this.pnettol, ActivePowerUnitType.MW);
 		}
 	}
 
-	/*
-	<zonum> Zone number (0 - 999)
-	<"zonam"> Zone name up to 32 characters enclosed in quotation marks
-	<pznet> Actual real power interchange (MW)
-	<qznet> Actual reactive power interchange (MVAR)
-	
-    	2 "Italyz2                         "    9.448  112.738
-	 */
 	static public class ZoneRec {
 		public int zonum;
 		public String zonam;
 		public double pznet, qznet;
 
-		public ZoneRec(String lineStr, GE_PSLF_Adapter.VersionNo version) {
+		public ZoneRec(String lineStr, GE_PSLF_Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			//System.out.println("zone->" + lineStr);
 			StringTokenizer st = new StringTokenizer(lineStr, "\"");
 			
+			/*
+			<zonum> Zone number (0 - 999)
+			<"zonam"> Zone name up to 32 characters enclosed in quotation marks
+			<pznet> Actual real power interchange (MW)
+			<qznet> Actual reactive power interchange (MVAR)
+			
+		    	2 "Italyz2                         "    9.448  112.738
+			 */
 			this.zonum = new Integer(st.nextToken().trim()).intValue();
 			this.zonam = st.nextToken();
 			
@@ -163,6 +178,14 @@ public class GEDataRec {
 			st = new StringTokenizer(str);
 			this.pznet = new Double(st.nextToken()).doubleValue();
 			this.qznet = new Double(st.nextToken()).doubleValue();
+			
+			if (baseCaseNet.getLossZoneList() == null)
+				baseCaseNet.addNewLossZoneList();
+			NetZoneXmlType zone = baseCaseNet.getLossZoneList().addNewLossZone();
+			zone.setId(new Integer(this.zonum).toString());
+			zone.setNumber(this.zonum);
+			zone.setName(this.zonam);	
+			DataSetter.setPowerData(zone.addNewExchangePower(), this.pznet, this.qznet, ApparentPowerUnitType.MVA); 
 		}
 	}
 

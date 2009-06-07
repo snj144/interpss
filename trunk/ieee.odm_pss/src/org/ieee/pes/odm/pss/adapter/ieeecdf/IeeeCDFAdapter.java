@@ -29,7 +29,6 @@ import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
@@ -41,7 +40,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
@@ -53,9 +51,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
-import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class IeeeCDFAdapter  extends AbstractODMAdapter {
@@ -78,16 +76,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 	protected ODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		ODMModelParser parser = new ODMModelParser();
-
-		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
-		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.IEEE_CDF);
-		info.setAdapterProviderName("www.interpss.org");
-		info.setAdapterProviderVersion("1.00");
-		
-		parser.getStudyCase().getBaseCase().setAnalysisCategory(
-				AnalysisCategoryEnumType.LOADFLOW);
-		parser.getStudyCase().getBaseCase().setNetworkCategory(
-				NetworkCategoryEnumType.TRANSMISSION);
+		ParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.IEEE_CDF);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_IEEECDF_format");
@@ -109,14 +98,11 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 					} else if (dataType == BranchData) {
 						processBranchData(str, parser.addNewBaseCaseBranch(), baseCaseNet);
 					} else if (dataType == LossZone) {
-						processLossZoneData(str, baseCaseNet.getLossZoneList()
-								.addNewLossZone());
+						processLossZoneData(str, baseCaseNet.getLossZoneList().addNewLossZone());
 					} else if (dataType == InterchangeData) {
-						processInterchangeData(str, baseCaseNet
-								.getInterchangeList().addNewInterchange().addNewPowerEx());
+						processInterchangeData(str, baseCaseNet.getInterchangeList().addNewInterchange().addNewPowerEx());
 					} else if (dataType == TielineData) {
-						processTielineData(str, baseCaseNet.getTieLineList()
-								.addNewTieline());
+						processTielineData(str, baseCaseNet.getTieLineList().addNewTieline());
 					} else if ((str.length() > 3)
 							&& str.substring(0, 3).equals("BUS")) {
 						dataType = BusData;
