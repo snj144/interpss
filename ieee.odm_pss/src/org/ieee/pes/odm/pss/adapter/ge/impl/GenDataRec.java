@@ -145,7 +145,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 			if (st1.hasMoreTokens())
 				this.tBkv = new Double(st1.nextToken()).doubleValue();
 
-			GEDataRec.setDates(st1, this.d_in, this.d_out, this.projId);
+			NetDataRec.setDates(st1, this.d_in, this.d_out, this.projId);
 
 			if (st1.hasMoreTokens())
 				this.nst  = new Integer(st1.nextToken().trim()).intValue();
@@ -156,7 +156,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 			if (st1.hasMoreTokens())
 				this.gtap = new Double(st1.nextToken()).doubleValue();
 			
-			GEDataRec.setOwnerAry(st1, this.oAry, this.pAry);
+			NetDataRec.setOwnerAry(st1, this.oAry, this.pAry);
 			
 			if (st1.hasMoreTokens())
 				this.govFlag = new Integer(st1.nextToken().trim()).intValue(); 

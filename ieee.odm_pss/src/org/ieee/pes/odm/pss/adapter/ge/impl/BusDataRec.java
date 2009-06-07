@@ -128,15 +128,14 @@ public class BusDataRec extends BusHeaderRec {
 		<vma> Voltage checking limit (pu)
 		<vmi> Voltage checking limit (pu)		
  */	
-		busRec.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
+		if (owner > 0)
+			busRec.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
 
 		LoadflowBusDataXmlType busData = busRec.addNewLoadflowData();
-		if (ty != 1) {
-			LFGenCodeEnumType.Enum genType = ty == 0? LFGenCodeEnumType.SWING : 
+		LFGenCodeEnumType.Enum genType = ty == 0? LFGenCodeEnumType.SWING : 
 				( ty == 1? LFGenCodeEnumType.PQ : LFGenCodeEnumType.PV);
-			DataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
+		DataSetter.setGenData(busData, genType, vs_pu, VoltageUnitType.PU, an_deg, AngleUnitType.DEG, 
 							0.0, 0.0,	ApparentPowerUnitType.MVA);
-			DataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(), vma, vmi, VoltageUnitType.PU);
-		}
+		DataSetter.setVoltageLimitData(busData.getGenData().getEquivGen().addNewVoltageLimit(), vma, vmi, VoltageUnitType.PU);
 	}
 }

@@ -46,7 +46,7 @@ public class BaseBranchDataRec extends BranchHeaderRec {
 	}
 
 	public void setDates(StringTokenizer st) {
-		GEDataRec.setDates(st, this.d_in, this.d_out, this.projid);
+		NetDataRec.setDates(st, this.d_in, this.d_out, this.projid);
 	}
 
 	public void setRMvaAry5_8(StringTokenizer st) {
@@ -61,7 +61,7 @@ public class BaseBranchDataRec extends BranchHeaderRec {
 	}
 		
 	public void setOwnerAry(StringTokenizer st) {
-		GEDataRec.setOwnerAry(st, this.oAry, this.pAry);
+		NetDataRec.setOwnerAry(st, this.oAry, this.pAry);
 	}
 	
 	public String toString() {

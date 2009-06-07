@@ -26,19 +26,18 @@ package org.ieee.pes.odm.pss.adapter.ge;
 
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
 import org.ieee.pes.odm.pss.adapter.ge.impl.BranchSecDataRec;
 import org.ieee.pes.odm.pss.adapter.ge.impl.BusDataRec;
-import org.ieee.pes.odm.pss.adapter.ge.impl.GEDataRec;
 import org.ieee.pes.odm.pss.adapter.ge.impl.GenDataRec;
 import org.ieee.pes.odm.pss.adapter.ge.impl.LoadDataRec;
+import org.ieee.pes.odm.pss.adapter.ge.impl.NetDataRec;
 import org.ieee.pes.odm.pss.adapter.ge.impl.XformerDataRec;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 	public static enum VersionNo {PSLF15};
@@ -91,23 +90,14 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
 		VersionNo version = VersionNo.PSLF15;
 		
 		ODMModelParser parser = new ODMModelParser();
-
-		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
-		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.GE_PSLF);
-		info.setAdapterProviderName("www.interpss.org");
-		info.setAdapterProviderVersion("1.00");
-		
-		parser.getStudyCase().getBaseCase().setAnalysisCategory(
-				AnalysisCategoryEnumType.LOADFLOW);
-		parser.getStudyCase().getBaseCase().setNetworkCategory(
-				NetworkCategoryEnumType.TRANSMISSION);
+		ParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.GE_PSLF);
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		baseCaseNet.setId("Base_Case_from_GE_PSLF_format");
 
-		GEDataRec.TitleRec titleRec = new GEDataRec.TitleRec();
-		GEDataRec.CommentsRec commentRec = new GEDataRec.CommentsRec();
-		GEDataRec.SolutionParamRec solParamRec = new GEDataRec.SolutionParamRec();
+		NetDataRec.TitleRec titleRec = new NetDataRec.TitleRec();
+		NetDataRec.CommentsRec commentRec = new NetDataRec.CommentsRec();
+		NetDataRec.SolutionParamRec solParamRec = new NetDataRec.SolutionParamRec();
 		
 		RecType recType = RecType.NotDefined; 
   		String lineStr = null;
@@ -238,13 +228,11 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
       					}
       					else if (recType == RecType.AreaData) {
       						// process Area Data
-      						///GEDataRec.AreaRec rec = new GEDataRec.AreaRec(lineStr, version);
-      						///rec.setAreaData(adjNet);
+      						new NetDataRec.AreaRec(lineStr, version, baseCaseNet);
       					}
       					else if (recType == RecType.ZoneData) {
       						// process Zone Data
-      						///GEDataRec.ZoneRec rec = new GEDataRec.ZoneRec(lineStr, version);
-      						///rec.setZoneData(adjNet);
+      						new NetDataRec.ZoneRec(lineStr, version, baseCaseNet);
       					}
       					else if (recType == RecType.InterfaceData) {
       						// process Interface Data
@@ -307,6 +295,7 @@ public class GE_PSLF_Adapter  extends AbstractODMAdapter {
     		throw new Exception("GE data input error, line no " + lineNo + ", " + e.toString() + "\n" + lineStr);
   		}
 
+  		ParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
   		
 		return parser;
 	}

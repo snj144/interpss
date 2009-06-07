@@ -1,7 +1,7 @@
 /*
- * @(#)PSSEAdapter.java   
+ * @(#)PSSEV30Adapter.java   
  *
- * Copyright (C) 2006-2008 www.interpss.org
+ * Copyright (C) 2006-2009 www.interpss.org
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU LESSER GENERAL PUBLIC LICENSE
@@ -13,7 +13,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
- * @Author Stephen Hau, Mike Zhou
+ * @Author Mike Zhou
  * @Version 1.0
  * @Date 02/11/2008
  * 
@@ -26,20 +26,20 @@ package org.ieee.pes.odm.pss.adapter.psse.v30;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AnalysisCategoryEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
-import org.ieee.pes.odm.pss.model.ParserHelper;
-import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30BusDataRec;
+import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30GenDataRec;
+import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30LoadDataRec;
+import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30NetDataRec;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSEV30Adapter extends AbstractODMAdapter{
+	public enum VersionNo {PSS_E_29, PSS_E_30}	
+	
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";				
 
@@ -50,269 +50,288 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 	protected ODMModelParser parseInputFile(
 			final IFileReader din) throws Exception {
 		ODMModelParser parser = new ODMModelParser();
-		parser.getStudyCase().setSchemaVersion(
-				StudyCaseXmlType.SchemaVersion.V_1_00_DEV);
-
-		
-		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
-		info.setOriginalDataFormat(	StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
-		info.setAdapterProviderName("www.interpss.org");
-		info.setAdapterProviderVersion("1.00");
-
-		parser.getStudyCase().getBaseCase().setAnalysisCategory(
-				AnalysisCategoryEnumType.LOADFLOW);
-		parser.getStudyCase().getBaseCase().setNetworkCategory(
-				NetworkCategoryEnumType.TRANSMISSION);
+		ParserHelper.setLFTransInfo(parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.PSS_E);
+		parser.getStudyCase().getContentInfo().setOriginalFormatVersion("PSSEV30");
 
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		// no space is allowed for ID field
 		baseCaseNet.setId("Base_Case_from_PSS_E_format");
 
-		//read header info
-		int i=0; 
-		String sAry[]= new String[5];
-		do {			
-			String str = din.readLine();
-			sAry[++i]= str;				
-		} while (i<3);
-		processHeaderData(sAry[1],sAry[2],sAry[3],baseCaseNet);	
+		VersionNo version = VersionNo.PSS_E_30;
+		
+  		String lineStr = null;
+  		int lineNo = 0;
+  		try {
+      		boolean headerProcessed = false;
+      		boolean busProcessed = false;
+      		boolean loadProcessed = false;
+      		boolean genProcessed = false;
+      		boolean lineProcessed = false;
+      		boolean xfrProcessed = false;
+      		boolean areaInterProcessed = false;
+      		boolean dcLine2TProcessed = false;
+      		boolean vscDcLineProcessed = false;
+      		boolean switchedShuntProcessed = false;
+      		boolean xfrZCorrectionProcessed = false;
+      		boolean dcLineMTProcessed = false;
+      		boolean multiSectionLineGroupProcessed = false;
+      		boolean zoneProcessed = false;
+      		boolean interareaTransferProcessed = false;
+      		boolean ownerProcessed = false;
+      		boolean factsProcessed = false;
+      		
+      		int busCnt = 0, loadCnt = 0, genCnt = 0, lineCnt = 0, xfrCnt = 0, xfrZTableCnt = 0,
+      		    areaInterCnt = 0, dcLineCnt = 0, vscDcLineCnt = 0, mtDcLineCnt = 0, factsCnt = 0,
+      		    switchedShuntCnt = 0, ownerCnt = 0, interTransCnt = 0, zoneCnt = 0, multiSecCnt = 0;
+      		
+      		do {
+      			lineStr = din.readLine();
+      			if (lineStr != null) {
+      				lineNo++;
+      				if (!headerProcessed) {
+						if (lineNo == 3) 
+      						headerProcessed = true;
+						PSSEV30NetDataRec.HeaderRec.procLine(lineStr, lineNo, version, baseCaseNet);
+      				}
+      				else if (!busProcessed) {
+						if (isEndRecLine(lineStr)) {
+							 busProcessed = true;
+							 getLogger().info("PSS/E Bus record processed");
+						}	 
+						else {
+							PSSEV30BusDataRec.procLine(lineStr, version, parser, this.getLogger());
+							busCnt++;
+						}	 
+      				}
+      				else if (!loadProcessed) {
+						if (isEndRecLine(lineStr)) {
+							 loadProcessed = true;
+							 getLogger().info("PSS/E Load record processed");
+						}
+						else {
+							PSSEV30LoadDataRec.procLine(lineStr, version, this.getLogger());
+							loadCnt++;
+						}	 
+      				}
+      				else if (!genProcessed) {
+						if (isEndRecLine(lineStr)) {
+							 genProcessed = true;
+							 getLogger().info("PSS/E Gen record processed");
+						}
+						else {
+							PSSEV30GenDataRec.procLine(lineStr, version, this.getLogger());
+							genCnt++;
+						}	 
+      				}
+      				else if (!lineProcessed) {
+						if (isEndRecLine(lineStr)) {
+							 lineProcessed = true;
+							 getLogger().info("PSS/E Line record processed");
 
-        String str ;         
-        int j=1, type=1,  n=0;
-        do{
-        	str = din.readLine();
-        	if (str != null){
-        		try {	         	 
-        			if (str.startsWith("0")){
-        				type =++j;
-        			}else {
-        				if (type==1){
-        					PSSEV30BusRecord.processBusData(str, parser.addNewBaseCaseBus(), this);
-        				}
-        				else if(type==2){
-        					PSSEV30BusRecord.processLoadData(str, baseCaseNet, this);
-        				}
-        				else if(type==3){
-        					PSSEV30BusRecord.processGenData(str, baseCaseNet, this);        			 
-        				}
-        				else if(type==4){
-        					PSSEV30BranchRecord.processLineData(str, parser.addNewBaseCaseBranch(), this); 
-        				}
-        				else if(type==5){        			   
-        					do{         			    	 
-        						sAry[++n]=str;
-        						if (n<4)
-        							str=din.readLine();
-        					}while (n<4);
-        					n=0;
-        					PSSEV30BranchRecord.processXformerData(sAry[1],sAry[2],sAry[3],sAry[4],
-        			    		 parser.addNewBaseCaseBranch(),baseCaseNet, this);
-        			   
-        				} else if(type==6){
-        					processAreaInterchangeData(str,baseCaseNet); 
-        				}else if(type==13){
-        					processZoneData(str,baseCaseNet); 
-        				}else if(type==14){
-        					processInterAreaTransferData(str,baseCaseNet); 
-        				}else if(type==15){
-        					processOwnerData(str,baseCaseNet); 
-        				}
-        			}
-        		}catch (final Exception e){
-					this.logErr(e.toString());
-        		}
-             }
-        }	while (str != null);
+							 /*
+							 // because PSS/E allows zero bus base voltage, we need to fix the issue here
+							 for (Branch branch : adjNet.getBranchList()) {
+								 AclfBranch aclfBra = (AclfBranch)branch;
+								 if (aclfBra.getFromBus().getBaseVoltage() <= 0.0 && aclfBra.getToAclfBus().getBaseVoltage() > 0.0) {
+									 aclfBra.getFromBus().setBaseVoltage(aclfBra.getToBus().getBaseVoltage());
+									 getLogger().warning("Bus base voltage set to :" + aclfBra.getToBus().getBaseVoltage() 
+											 + " @" + aclfBra.getFromBus().getId());
+								 }
+								 else if (aclfBra.getToAclfBus().getBaseVoltage() <= 0.0 && aclfBra.getFromBus().getBaseVoltage() > 0.0) {
+									 aclfBra.getToBus().setBaseVoltage(aclfBra.getFromBus().getBaseVoltage());
+									 getLogger().warning("Bus base voltage set to :" + aclfBra.getFromBus().getBaseVoltage() 
+											 + " @" + aclfBra.getToBus().getId());
+								 }
+							 }
+							 */
+						}
+						else {
+							//PSSELineDataRec rec = new PSSELineDataRec(lineStr, version);
+							//rec.processLine(adjNet, msg);
+							lineCnt++;
+						}	 
+      				}
+      				else if (!xfrProcessed) {
+						if (isEndRecLine(lineStr)) {
+							 xfrProcessed = true;
+							 getLogger().info("PSS/E Xfr record processed");
+						}
+						else {
+      						String lineStr2 = din.readLine();
+      						String lineStr3 = din.readLine();
+      						String lineStr4 = din.readLine();
+      						lineNo++; lineNo++; lineNo++;
+      						String lineStr5 = "";
+      						if (is3WXfr(lineStr)) {
+          						lineStr5 = din.readLine();
+          						lineNo++;
+      						}
+							//PSSEXfrDataRec rec = new PSSEXfrDataRec(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version);
+							//rec.processXfr(adjNet, msg);
+							xfrCnt++;
+						}	 
+      				}
+      				else if (!areaInterProcessed) {
+						if (isEndRecLine(lineStr)) {
+							 areaInterProcessed = true;
+							 getLogger().info("PSS/E AreaInterchange record processed");
+						}
+						else {
+							//PSSEDataRec.AreaInterchangeRec rec = new PSSEDataRec.AreaInterchangeRec(lineStr, version);
+							//rec.processAreaInterchange(adjNet, msg);
+							areaInterCnt++;
+						}	 
+      				}
+      				else if (!dcLine2TProcessed) {
+						if (isEndRecLine(lineStr)) {
+							 dcLine2TProcessed = true;
+							 getLogger().info("PSS/E DC line record processed");
+						}
+						else {
+      						String lineStr2 = din.readLine();
+      						String lineStr3 = din.readLine();
+      						lineNo++; lineNo++;
+							//	PSSEDCLineDataRec rec = new PSSEDCLineDataRec(lineStr, lineStr2, lineStr3, version);
+							//	rec.processDCLine(adjNet, msg);
+							dcLineCnt++;
+						}	 
+      				}
+      				else if (!vscDcLineProcessed) {
+						if (isEndRecLine(lineStr)) {
+							vscDcLineProcessed = true;
+							getLogger().info("PSS/E vscDcLine record processed");
+						}
+						else {
+							//	PSSEVscDCLineDataRec rec = new PSSEVscDCLineDataRec(lineStr, version);
+							//	rec.processVscDCLine(adjNet, msg);
+							vscDcLineCnt++;
+						}	 
+      				}
+      				else if (!switchedShuntProcessed) {
+						if (isEndRecLine(lineStr)) {
+							 switchedShuntProcessed = true;
+							 getLogger().info("PSS/E switched shunt record processed");
+						}
+						else {
+							//PSSESwitchedShuntDataRec rec = new PSSESwitchedShuntDataRec(lineStr, version);
+							//rec.processSwitchedShunt(adjNet, msg);
+							switchedShuntCnt++;
+						}	 
+      				}
+      				else if (!xfrZCorrectionProcessed) {
+						if (isEndRecLine(lineStr)) {
+							xfrZCorrectionProcessed = true;
+							getLogger().info("PSS/E Xfr table record processed");
+						}
+						else {
+							//PSSEDataRec.processXfrZCorrectionTable(adjNet, lineStr, lineNo, msg);
+							xfrZTableCnt++;
+						}	 
+      				}
+      				else if (!dcLineMTProcessed) {
+						if (isEndRecLine(lineStr)) {
+							dcLineMTProcessed = true;
+							getLogger().info("PSS/E multi terminal DC Line record processed");
+						}
+						else {
+							//	PSSEMultiTermDCLineDataRec rec = new PSSEMultiTermDCLineDataRec(lineStr, version);
+							//	rec.processMultiTerminalDCLine(adjNet, msg);
+							mtDcLineCnt++;
+						}	 
+      				}
+      				else if (!multiSectionLineGroupProcessed) {
+						if (isEndRecLine(lineStr)) {
+							multiSectionLineGroupProcessed = true;
+							getLogger().info("PSS/E multi section Line Group record processed");
+						}
+						else {
+							//PSSEMultiSecLineDataRec rec = new PSSEMultiSecLineDataRec(lineStr, version);
+							//rec.processMultiSecLine(adjNet, msg);
+							multiSecCnt++;
+						}	 
+      				}
+      				else if (!zoneProcessed) {
+						if (isEndRecLine(lineStr)) {
+							zoneProcessed = true;
+							getLogger().info("PSS/E Zone record processed");
+						}
+						else {
+							//PSSEDataRec.ZoneRec rec = new PSSEDataRec.ZoneRec(lineStr, version);
+							//rec.processZone(adjNet, msg);
+							zoneCnt++;
+						}	 
+      				}
+      				else if (!interareaTransferProcessed) {
+						if (isEndRecLine(lineStr)) {
+							interareaTransferProcessed = true;
+							getLogger().info("PSS/E Interarea Transfer record processed");
+						}
+						else {
+							//PSSEDataRec.InterareaTransferRec rec = new PSSEDataRec.InterareaTransferRec(lineStr, version);
+							//rec.processInterareaTransfer(adjNet, msg);
+							interTransCnt++;
+						}	 
+      				}
+      				else if (!ownerProcessed) {
+						if (isEndRecLine(lineStr)) {
+							ownerProcessed = true;
+							getLogger().info("PSS/E Owner record processed");
+						}
+						else {
+							//PSSEDataRec.OwnerRec rec = new PSSEDataRec.OwnerRec(lineStr, version);
+							//rec.processOwner(adjNet, msg);
+							ownerCnt++;
+						}	 
+      				}
+      				else if (!factsProcessed) {
+						if (isEndRecLine(lineStr)) {
+							factsProcessed = true;
+							getLogger().info("PSS/E FACTS record processed");
+						}
+						else { 
+							//PSSEFACTSDataRec rec = new PSSEFACTSDataRec(lineStr, version);
+							//rec.processFACTS(adjNet, msg);
+							factsCnt++;
+						}	 
+      				}
+      				
+      			}
+    		} while (lineStr != null);
+  		} catch (Exception e) {
+  			e.printStackTrace();
+    		throw new Exception("PSSE data input error, line no " + lineNo + ", " + e.toString());
+  		}
                  
    	   return parser;
 	}
 	
-	
-	private  boolean processHeaderData(final String str,final String str2,final String str3,
-			final PSSNetworkXmlType baseCaseNet) throws Exception {
-		// parse the input data line
-		//line 1 at here we have "0, 100.00 "		
-		/*
-		 * String[0] indicator
-		 * String[1] baseKav
-		 * String[2] comments
-		 * String[3] comments
-		 */
-		final String[] strAry = getHeaderDataFields(str,str2,str3);
-		if (strAry == null)
-			return false;
-		
-		final double baseMva = new Double(strAry[1]).doubleValue();
-	    getLogger().fine("BaseKva: "  + baseMva);
-	    DataSetter.setPowerMva(baseCaseNet.addNewBasePower(), baseMva);   
-
-		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();
-		
-		final String desc = strAry[2];// The 2nd line is treated as description
-		ParserHelper.addNVPair(nvList, Token_CaseDesc, desc);     
-	   
-	    // the 3rd line is treated as the network id and network name		
-		final String caseId= strAry[3];
-		ParserHelper.addNVPair(nvList, Token_CaseId, caseId);				
-		getLogger().fine("Case Description, caseId: " + desc + ", "+ caseId);		
-		
-        return true;
-	}
-        
-	private  void processAreaInterchangeData(final String str,
-			final PSSNetworkXmlType baseCaseNet) {
-		final String[] strAry = getInterAreaTransferDataFields(str);
-		//     Area number , no zeros! *
-		final int no = new Integer(strAry[0]).intValue();
-		//       Alternate swing bus name [A]
-		final String alSwingBusName = strAry[1];
-
-		//        Area interchange export, MW [F] (+ = out) *
-		//        Area interchange tolerance, MW [F] *
-		final double mw = new Double(strAry[2]).doubleValue();
-		final double err = new Double(strAry[3]).doubleValue();
-    
-		PowerInterchangeXmlType interchange =	baseCaseNet.addNewInterchangeList().addNewInterchange().addNewPowerEx();
-	
-		interchange.setAreaNumber(no);
-
-		interchange.setAlternateSwingBusName(alSwingBusName);
-		DataSetter.setActivePower(interchange.addNewDesiredExPower(), mw, ActivePowerUnitType.MW);
-		DataSetter.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
-	}
-	
-	private  void processZoneData(final String str,
-			final PSSNetworkXmlType baseCaseNet){
-		final String[] strAry =getZoneDataFields(str);
-		final String zoneId = strAry[0];
-		final String zoneName = strAry[1];
-		NameValuePairListXmlType nvList = baseCaseNet.getNvPairList();
-		ParserHelper.addNVPair(nvList, "zoneId", zoneId);
-		ParserHelper.addNVPair(nvList, "zoneName", zoneName);		
-	}
-	
-	
-	private  void processInterAreaTransferData(final String str,
-			final PSSNetworkXmlType baseCaseNet) {
-		final String[] strAry = getInterAreaTransferDataFields(str);
-		
-	}
-	
-	private  void processOwnerData(final String str,
-			final PSSNetworkXmlType baseCaseNet) {
-		final String[] strAry = getOwnerDataFields(str);
-		final String ownerId = strAry[0];
-		final String ownerName = strAry[1];
-		NameValuePairListXmlType nvList = baseCaseNet.getNvPairList();
-		ParserHelper.addNVPair(nvList, "ownerName", ownerName);
-		ParserHelper.addNVPair(nvList, "ownerId", ownerId);
-	}
-		
-	/*
-	 * String[0] indicator
-	 * String[1] baseKav
-	 * String[2] comments
-	 * String[3] comments
+	/**
+	 * PTI use 0 to indicate end of a data set, Bus Data for example. This function checks
+	 * if the input line is the end of record line
+	 *
+	 * @param str a input data line string
 	 */
-	private  String[] getHeaderDataFields(final String lineStr, final String lineStr2,
-							final String lineStr3)	throws Exception{
-		final String[] strAry = new String[4];	
-		StringTokenizer st = new StringTokenizer(lineStr, ",");
-		
-		strAry[0] = st.nextToken();  			   
-		int indicator = new Integer(strAry[0]).intValue();
-		if (indicator !=0){
-			this.logErr("Error: Only base case can be process");
-			return null;
-		}
-
-		strAry[1]=st.nextToken().trim();  			   
-		
-		if (lineStr2!= null){
-			strAry[2] = lineStr2;
-		}else {strAry[2] =""; }
-		if (lineStr3!= null){
-			strAry[3] = lineStr3;
-		}else {strAry[3] =""; }
-  				
-		return strAry;
+	public static boolean isEndRecLine(String str) {
+		return str.startsWith("0") || str.startsWith("/") || str.startsWith("Q");
+	}	
+	
+	public static String trimQuote(String str) {
+		return str.substring(1, str.length()-1);
 	}
 	
-	private  String[] getAreaInterchangeDataFields(final String lineStr) {
-		final String[] strAry = new String[5];
-		/*
-		I,ISW,PDES,PTOL,'ARNAM'
-        */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
- 		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
-  		strAry[2]=st.nextToken().trim();
-  		strAry[3]=st.nextToken().trim();
-  		strAry[4]=st.nextToken().trim();
-  		
-  		return strAry;
+	public static boolean is3WXfr(String str) {
+		// for 2W xfr, line1, K = 0
+  		StringTokenizer st = new StringTokenizer(str, ",");
+		st.nextToken();
+		st.nextToken();
+		int K = new Integer(st.nextToken().trim()).intValue();
+		return K != 0;
 	}
 	
-	//private static String[] getTwoTerminalDCLineDataFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-     // }
-	//private static String[] getVSCDCLineDataFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-     //  }
-	
-	//private static String[] getSwitchedShuntDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-     //  }
-	//private static String[] getImpedenceCorrectionDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-    //   }
-	/*private static String[] getMultiTerminalDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-       }
-	private static String[] getMultiSectionLineDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-      }*/ 
-	private  String[] getZoneDataFields(final String lineStr) {
-		final String[] strAry = new String[2];	
-		/*
-		 * Format: I, Name
-		 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
-  		return strAry;
-       }
-	private  String[] getInterAreaTransferDataFields(final String lineStr) {
-		final String[] strAry = new String[5];	
-		/*
-		 * format: ARFROM, ARTO, TRID, PTRAN
-		 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
-  		strAry[3]=st.nextToken().trim();
-  		strAry[4]=st.nextToken().trim();
-  		return strAry;
-
-       }
-	private  String[] getOwnerDataFields(final String lineStr) {
-		final String[] strAry = new String[2];	
-		/*
-		 * format : I, Name
-		 */
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		strAry[0]=st.nextToken().trim();
-  		strAry[1]=st.nextToken().trim();
-  		return strAry;
-	}
-	//private  String[] getFactsDeviceDATAFields(final String lineStr) {
-		//final String[] strAry = new String[5];	
-		//It will be implemented in the future
-      // 	}
+	public static String removeTailComment(String s) {
+		if (s.indexOf("/*") > 0)
+			return s.substring(0, s.indexOf("/*"));
+		else
+			return s;
+	}	
 }
