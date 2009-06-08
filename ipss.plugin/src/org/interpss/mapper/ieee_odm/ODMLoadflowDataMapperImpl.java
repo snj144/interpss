@@ -280,13 +280,16 @@ public class ODMLoadflowDataMapperImpl {
 		}
 
 		double zratio = 1.0;
-		if (xfrData.getXfrInfo().getRatedPower() != null && 
+		if (!xfrData.getXfrInfo().isSetDataOnSystemBase() &&
+				xfrData.getXfrInfo().getRatedPower() != null && 
 				xfrData.getXfrInfo().getRatedPower().getValue() > 0.0) 
 			zratio = xfrData.getXfrInfo().getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
 					adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower().getValue() :
 						0.001 * adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower().getValue();
 
-		double tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+		double tapratio = 1.0;
+		if (!xfrData.getXfrInfo().isSetDataOnSystemBase())
+			tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
