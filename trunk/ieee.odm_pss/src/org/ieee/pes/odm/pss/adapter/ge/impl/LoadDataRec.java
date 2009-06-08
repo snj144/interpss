@@ -29,11 +29,11 @@ import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class LoadDataRec extends BusHeaderRec {
 	public int st, nst, owner;
@@ -91,14 +91,7 @@ public class LoadDataRec extends BusHeaderRec {
 
 	    // ODM allows one equiv load has many contribute loads, but here, we assume there is only one contribute load.
 
-		LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
-		if (loadData == null) { 
-			loadData = busRec.getLoadflowData().addNewLoadData();
-			loadData.addNewEquivLoad();
-		}
-		if (loadData.getContributeLoadList() == null) 
-			loadData.addNewContributeLoadList();
-	    LoadflowLoadDataXmlType contribLoad = loadData.getContributeLoadList().addNewContributeLoad(); 
+	    LoadflowLoadDataXmlType contribLoad = ParserHelper.createContriLoad(busRec); 
 
 		contribLoad.setAreaNumber(this.ar);
 		contribLoad.setZoneNumber(this.z);

@@ -30,13 +30,14 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen;
 import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class GenDataRec extends BusHeaderRec {
 	public int st, igregBus, nst; 
@@ -178,12 +179,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		
 	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
 
-		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
-		if (genData == null) {
-			genData = busRec.getLoadflowData().addNewGenData();
-			genData.addNewEquivGen();
-		}
-	    LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen contriGen = genData.addNewContributeGenList().addNewContributeGen();
+	    ContributeGen contriGen = ParserHelper.createContriGen(busRec);
 		
 	    contriGen.setId(this.id);
 		if (this.longId != null && !this.longId.equals(""))
@@ -208,8 +204,8 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<qrf> Reactive power regulating assignment factor (0.0 - 1.0)
 		 */
 		
-	    gdata.setPControlContriFactor(this.prf);
-	    gdata.setQControlContriFactor(this.qrf);
+	    contriGen.setMwControlParticipateFactor(this.prf);
+	    contriGen.setMvarVControlParticipateFactor(this.qrf);
 
 		/*
 		<pgen> Actual real power output (MW)
@@ -237,8 +233,8 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		gen.setRCharactPU(this.zgenr);
 		gen.setXCharactPU(this.zgenx);
 */		
-		DataSetter.setZValue(gdata.addNewCompensatingZ(), this.rcomp, this.xcomp, ZUnitType.PU);
-		DataSetter.setZValue(gdata.addNewCharacteristic(), this.zgenr, this.zgenx, ZUnitType.PU);
+		DataSetter.setZValue(contriGen.getSourceZ(), this.rcomp, this.xcomp, ZUnitType.PU);
+		DataSetter.setZValue(contriGen.getXfrZ(), this.zgenr, this.zgenx, ZUnitType.PU);
 	}	
 
 	public String toString() {

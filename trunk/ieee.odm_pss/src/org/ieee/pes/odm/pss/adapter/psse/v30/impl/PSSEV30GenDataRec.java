@@ -27,7 +27,20 @@ package org.ieee.pes.odm.pss.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
+import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV30GenDataRec {
 	/*
@@ -39,7 +52,7 @@ public class PSSEV30GenDataRec {
 	 * some designated bus, not necessarily bus k.
 	 */
 
-	public static void procLine(String lineStr, VersionNo version, Logger logger) {
+	public static void procLine(String lineStr, VersionNo version, final ODMModelParser parser, Logger logger) {
 		int i, ireg, stat ;
 		String id;
 		double pg, qg, qt, qb, vs, mbase, zr, zx, rt, xt, gtap, rmpct, pt, pb;
@@ -102,48 +115,56 @@ public class PSSEV30GenDataRec {
 		
 		STAT - Initial machine status of one for in-service and zero for out-of-service; STAT = 1 by default.
 */		
-		/*
-		String iStr = new Integer(this.i).toString();
-		AclfBus bus = adjNet.getAclfBus(iStr);
-		if (bus == null) {
-			throw new Exception ("Bus not found in the network, bus number: " + this.i);
-		}
-		
-		PSSEAclfGen gen = ExtensionObjectFactory.createPSSEAclfGen();
-		gen.setId(this.id);
-		gen.setName("Gen:" + this.id + "(" + this.i + ")");
-		gen.setDesc("PSSE Generator " + this.id + " at Bus " + this.i);
-		gen.setStatus(this.stat==1);
+	    final String busId = ODMModelParser.BusIdPreFix+i;
+		BusRecordXmlType busRec = parser.getBusRecord(busId);
+	    if (busRec == null){
+	    	logger.severe("Bus "+ busId+ " not found in the network");
+	    	return;
+	    }
+	    
+	    ContributeGen contriGen = ParserHelper.createContriGen(busRec);
+	    
+	    contriGen.setId(id);
+	    contriGen.setName("Gen:" + id + "(" + i + ")");
+	    contriGen.setDesc("PSSE Generator " + id + " at Bus " + i);
+	    contriGen.setOffLine(stat!=1);
 
-		gen.setPGen(UnitType.pConversion(this.pg, adjNet.getBaseKva(), UnitType.mW, UnitType.PU));
-		gen.setQGen(UnitType.pConversion(this.qg, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU));
-		gen.setVSpec(this.vs);
-		
-		if (this.pt == 0.0 & this.pb == 0.0 || this.pt < this.pb ) {
-			this.pt = 9999.0; this.pb = -9999.0;
-		}
-		gen.setPLimit(new LimitType(UnitType.pConversion(this.pt, adjNet.getBaseKva(), UnitType.mW, UnitType.PU),
-				                    UnitType.pConversion(this.pb, adjNet.getBaseKva(), UnitType.mW, UnitType.PU)));
-		if (this.qt == 0.0 & this.qb == 0.0 || this.qt < this.qb) {
-			this.qt = 9999.0; this.qb = -9999.0;
-		}
-		gen.setQLimit(new LimitType(UnitType.pConversion(this.qt, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU),
-                                    UnitType.pConversion(this.qb, adjNet.getBaseKva(), UnitType.mVar, UnitType.PU)));
-		
-		gen.setVControlBusId(new Integer(this.ireg).toString());
-		
-		gen.setMvaBase(this.mbase);
-		gen.setZGen(new Complex(this.zr,this.zx));
-		gen.setZXfr(new Complex(this.rt,this.xt));
-		gen.setXfrTap(this.gtap);
-		gen.setContribFactor(this.rmpct*0.01);
+	    LoadflowGenDataXmlType gdata = contriGen.addNewGenData();
+	    DataSetter.setPowerData(gdata.addNewPower(), pg, qg, ApparentPowerUnitType.MVA);
 
-		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o1, this.f1));
-		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o2, this.f2));
-		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o3, this.f3));
-		gen.getOwnerList().add(ExtensionObjectFactory.createPSSEOwner(this.o4, this.f4));
+	    DataSetter.setVoltageData(gdata.addNewDesiredVoltage(), vs, VoltageUnitType.PU);
 		
-		bus.getRegDeviceList().add(gen);
-		*/
+		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
+			pt = 9999.0; pb = -9999.0;
+		}
+		DataSetter.setActivePowerLimitData(gdata.addNewPLimit(), pt, pb, ActivePowerUnitType.MW);
+		
+		if (qt == 0.0 & qb == 0.0 || qt < qb) {
+			qt = 9999.0; qb = -9999.0;
+		}
+		DataSetter.setReactivePowerLimitData(gdata.addNewQLimit(), qt, qb, ReactivePowerUnitType.MVAR);
+		
+	    if (ireg > 0) {
+	    	final String reBusId = ODMModelParser.BusIdPreFix+ireg;
+		    gdata.addNewRemoteVoltageControlBus().setIdRef(reBusId);
+	    }
+	    
+		DataSetter.setPowerMva(contriGen.addNewRatedMva(), mbase);
+
+		if ( zr != 0.0 || zx != 0.0 )
+			DataSetter.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
+
+		if ( rt != 0.0 || xt != 0.0 ) {
+			DataSetter.setZValue(contriGen.addNewXfrZ(), rt, xt, ZUnitType.PU);
+			contriGen.setXfrTap(gtap);
+		}
+		
+		contriGen.setMvarVControlParticipateFactor(rmpct*0.01);
+
+		ParserHelper.addOwner(contriGen, 
+				new Integer(o1).toString(), f1, 
+				new Integer(o2).toString(), f2, 
+				new Integer(o3).toString(), f3, 
+				new Integer(o4).toString(), f4);
 	}			
 }
