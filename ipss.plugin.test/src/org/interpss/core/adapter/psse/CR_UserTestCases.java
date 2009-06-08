@@ -27,20 +27,27 @@ package org.interpss.core.adapter.psse;
 import static org.junit.Assert.assertTrue;
 
 import org.apache.commons.math.complex.Complex;
+import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
+import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;
+import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.UnitType;
+import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
 
 public class CR_UserTestCases extends BaseTestSetup {
 	@Test
@@ -54,7 +61,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
-  		//System.out.println(net.net2String());
+  		System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
@@ -63,6 +70,37 @@ public class CR_UserTestCases extends BaseTestSetup {
   		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
 	}
 
+	@Test
+	public void odm_testCase() throws Exception {
+		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		assertTrue(adapter.parseInputFile("testData/psse/PSSE_5Bus_Test.raw"));		
+		
+		AclfNetwork net = null;
+		IEEEODMMapper mapper = new IEEEODMMapper();
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
+		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+  	  		simuCtx.setName("Sample18Bus");
+  	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");
+  			net = simuCtx.getAclfNet();
+  			//System.out.println(net.net2String());
+		}
+		else {
+  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
+  	  		return;
+		}		
+		
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.loadflow();
+  		System.out.println(net.net2String());
+	  	
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
+  		assertTrue(Math.abs(p.getReal()-22.547)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
+	}
+	
 	@Test
 	public void testCase2() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
