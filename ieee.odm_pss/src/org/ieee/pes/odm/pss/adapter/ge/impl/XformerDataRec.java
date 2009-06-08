@@ -215,6 +215,7 @@ public class XformerDataRec extends BaseBranchDataRec {
 		DataSetter.setVoltageData(xfrInfo.addNewToRatedVoltage(), this.vnoms, VoltageUnitType.KV);
 		
 		DataSetter.setZValue(branchData.addNewZ(), this.zpsr, this.zpsx, ZUnitType.PU);
+		branchData.getXfrInfo().setDataOnSystemBase(false);
 		
 		DataSetter.setTapPU(branchData.addNewFromTap(), this.tapfp);
 		DataSetter.setTapPU(branchData.addNewToTap(), this.tapfs);

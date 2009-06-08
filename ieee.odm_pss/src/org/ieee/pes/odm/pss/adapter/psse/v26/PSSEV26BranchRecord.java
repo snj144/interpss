@@ -96,14 +96,15 @@ public class PSSEV26BranchRecord {
 		final double fromAng = angle, toAng = 0.0;
 		
 		if (ratio == 0.0) {
-			DataSetter.setLineData(branchData, rpu, xpu,	ZUnitType.PU, 0.0, bpu, YUnitType.PU);
+			DataSetter.setLineData(branchData, rpu, xpu, ZUnitType.PU, 0.0, bpu, YUnitType.PU);
 		}
 		else if (angle == 0.0) {
 			DataSetter.createXformerData(branchData,
 				       rpu, xpu, ZUnitType.PU, fromTap, toTap);		
 		}
 		else {
-			DataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
+			DataSetter.createPhaseShiftXfrData(branchData, rpu, xpu, 
+					ZUnitType.PU, fromTap, toTap, fromAng, toAng, AngleUnitType.DEG);			
 		}
 		
 		final double rating1Mvar = StringUtil.getDouble(strAry[6], 0.0);

@@ -59,6 +59,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen;
 
 public class ParserHelper {
 	public static final double Deg2Rad = Math.PI / 180.0;
@@ -96,8 +97,10 @@ public class ParserHelper {
 							genData.getContributeGenList().getContributeGenArray()) {
 						if (!gen.getOffLine()) {
 							offLine = false;
-							if (remoteBusId == null)
-								remoteBusId = gen.getGenData().getRemoteVoltageControlBus().getIdRef();
+							if (remoteBusId == null) {
+								if (gen.getGenData().getRemoteVoltageControlBus() != null)
+									remoteBusId = gen.getGenData().getRemoteVoltageControlBus().getIdRef();
+							}
 							else if (!remoteBusId.equals(gen.getGenData().getRemoteVoltageControlBus().getIdRef())) {
 								logger.severe("Inconsistant remote control bus id, " + remoteBusId +
 										", " + gen.getGenData().getRemoteVoltageControlBus().getIdRef());
@@ -129,7 +132,8 @@ public class ParserHelper {
 							DataSetter.setReactivePowerLimitData(equivGen.addNewQLimit(), qmax, qmin, ReactivePowerUnitType.MVAR);
 					}
 					
-					if (!remoteBusId.equals(busRec.getId()) && genData.getEquivGen().getCode() == LFGenCodeEnumType.PV){
+					if (remoteBusId != null && !remoteBusId.equals(busRec.getId()) && 
+							genData.getEquivGen().getCode() == LFGenCodeEnumType.PV){
 						// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
 						genData.getEquivGen().addNewRemoteVoltageControlBus().setIdRef(remoteBusId);
 					}
@@ -137,8 +141,10 @@ public class ParserHelper {
 				}
 				else {
 					genData.getEquivGen().setCode(LFGenCodeEnumType.NONE_GEN);
-					genData.getEquivGen().unsetPower();
-					genData.getEquivGen().unsetVoltageLimit();
+					if (genData.getEquivGen().getPower() != null)
+						genData.getEquivGen().unsetPower();
+					if (genData.getEquivGen().getVoltageLimit() != null)
+						genData.getEquivGen().unsetVoltageLimit();
 				}
 			}
 			
@@ -199,6 +205,35 @@ public class ParserHelper {
 	 *      Parser Container retrieval functions
 	 *      ==================================== 
 	 */
+	
+	/**
+	 * create a Contribution Load object
+	 * 
+	 */
+	public static LoadflowLoadDataXmlType createContriLoad(BusRecordXmlType busRec) {
+		LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
+		if (loadData == null) { 
+			loadData = busRec.getLoadflowData().addNewLoadData();
+			loadData.addNewEquivLoad();
+		}
+		if (loadData.getContributeLoadList() == null) 
+			loadData.addNewContributeLoadList();
+	    return loadData.getContributeLoadList().addNewContributeLoad(); 
+	}
+	
+	/**
+	 * create a Contribution Gen object
+	 * 
+	 */
+	public static ContributeGen createContriGen(BusRecordXmlType busRec) {
+		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
+		if (genData == null) {
+			genData = busRec.getLoadflowData().addNewGenData();
+			genData.addNewEquivGen();
+		}
+	    return genData.addNewContributeGenList().addNewContributeGen();
+	}
+	
 	/**
 	 * Get bus record with the id
 	 * 

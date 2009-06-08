@@ -67,10 +67,19 @@
 													<sequence>
 														<element name="ratedMva" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
 														<element name="genData" type="pss:LoadflowGenDataXmlType" minOccurs="0"></element>
-														<element name="sourceZ" type="pss:ZXmlType" minOccurs="0"></element>
-														<element name="xfrZ" type="pss:ZXmlType" minOccurs="0"></element>
+														<element name="sourceZ" type="pss:ZXmlType" minOccurs="0">
+															<annotation>
+																<documentation>In GE-PSLF, it is called CompensatingZ</documentation>
+															</annotation>
+														</element>
+														<element name="xfrZ" type="pss:ZXmlType" minOccurs="0">
+															<annotation>
+																<documentation>In GE PSLF, it is called CharacteristicZ</documentation>
+															</annotation>
+														</element>
 														<element name="xfrTap" type="double" minOccurs="0"></element>
 														<element name="mvarVControlParticipateFactor" type="double" minOccurs="0"></element>
+														<element name="mwControlParticipateFactor" type="double" minOccurs="0"></element>
 													</sequence>
 												</extension>
 											</complexContent>
@@ -144,6 +153,10 @@
 								<element name="fromLossFactor" type="double" minOccurs="0"></element>
 								<element name="toLossFactor" type="double" minOccurs="0"></element>
 								<element name="zTableNumber" type="int" minOccurs="0"></element>
+								<element name="dataOnSystemBase" type="boolean" minOccurs="0">
+									<annotation>
+										<documentation>Normally xfr data is on xfr rated power based. By setting </documentation>
+									</annotation></element>
 							</sequence>
 						</complexType>
 					</element>
@@ -184,11 +197,7 @@
 			<element name="remoteVoltageControlBus" minOccurs="0" maxOccurs="1" type="pss:IDRefRecordXmlType"></element>
 			<element name="qLimit" type="pss:ReactivePowerLimitXmlType" minOccurs="0"></element>
 			<element name="pLimit" minOccurs="0" maxOccurs="1" type="pss:ActivePowerLimitXmlType"></element>
-			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>
-			<element name="compensatingZ" type="pss:ZXmlType" minOccurs="0"></element>
-			<element name="characteristic" type="pss:ZXmlType" minOccurs="0"></element>
-			<element name="pControlContriFactor" type="double" minOccurs="0"></element>
-			<element name="qControlContriFactor" type="double" minOccurs="0"></element>
+			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>
 		</sequence>
 		<attribute name="code" use="required" type="pss:LFGenCodeEnumType">	</attribute>
 	</complexType>
@@ -391,12 +400,21 @@
 			<extension base="pss:BaseRecordXmlType">
 				<sequence>
 					<element name="z" type="pss:ZXmlType" minOccurs="1" maxOccurs="1"></element>
-                    <element name="totalShuntY" type="pss:YXmlType" minOccurs="0" maxOccurs="1"></element>
-                    <element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
-					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>										<element name="fromTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="totalShuntY" type="pss:YXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
+					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>
+					<element name="fromTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="toTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
+					<element name="meterLocation" minOccurs="0">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="FromSide"></enumeration>
+								<enumeration value="ToSide"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
 				</sequence>
 			</extension>
 		</complexContent>

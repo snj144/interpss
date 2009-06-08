@@ -32,8 +32,10 @@ import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30BusDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30GenDataRec;
+import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30LoadDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30NetDataRec;
+import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30XfrDataRec;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
 
@@ -109,7 +111,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 getLogger().info("PSS/E Load record processed");
 						}
 						else {
-							PSSEV30LoadDataRec.procLine(lineStr, version, this.getLogger());
+							PSSEV30LoadDataRec.procLine(lineStr, version, parser, this.getLogger());
 							loadCnt++;
 						}	 
       				}
@@ -119,7 +121,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 getLogger().info("PSS/E Gen record processed");
 						}
 						else {
-							PSSEV30GenDataRec.procLine(lineStr, version, this.getLogger());
+							PSSEV30GenDataRec.procLine(lineStr, version, parser, this.getLogger());
 							genCnt++;
 						}	 
       				}
@@ -146,8 +148,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 */
 						}
 						else {
-							//PSSELineDataRec rec = new PSSELineDataRec(lineStr, version);
-							//rec.processLine(adjNet, msg);
+							PSSEV30LineDataRec.procLine(lineStr, version, parser, this.getLogger());
 							lineCnt++;
 						}	 
       				}
@@ -166,8 +167,8 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
           						lineStr5 = din.readLine();
           						lineNo++;
       						}
-							//PSSEXfrDataRec rec = new PSSEXfrDataRec(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version);
-							//rec.processXfr(adjNet, msg);
+							
+      						PSSEV30XfrDataRec.procLine(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version, parser, this.getLogger());
 							xfrCnt++;
 						}	 
       				}
@@ -301,8 +302,10 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
   			e.printStackTrace();
     		throw new Exception("PSSE data input error, line no " + lineNo + ", " + e.toString());
   		}
-                 
-   	   return parser;
+             
+  		ParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
+  		
+   	   	return parser;
 	}
 	
 	/**

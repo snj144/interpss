@@ -4,16 +4,12 @@ import java.util.StringTokenizer;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType.OwnerList.Owner;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ParserHelper;
 
 
 public class PSSEV30NetDataRec {
-	public static double ZeroImpedenc = 0.00001;
-	
 	static public class HeaderRec {
 		public static void procLine(String lineStr, int lineNo, PSSEV30Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
 			if (lineNo == 1) {

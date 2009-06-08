@@ -27,13 +27,19 @@ package org.ieee.pes.odm.pss.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
+import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSEV30LoadDataRec {
 	/*
 	 * LoadData I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 	 */	
-	public static void procLine(String lineStr, VersionNo version, Logger logger) {
+	public static void procLine(String lineStr, VersionNo version, final ODMModelParser parser, Logger logger) {
 		int i, status, area = 1, zone = 1, owner = 1;
 		String id;
 		double pl = 0.0, ql = 0.0, ip = 0.0, iq = 0.0, yp = 0.0, yq = 0.0;
@@ -59,28 +65,29 @@ public class PSSEV30LoadDataRec {
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
-		/*
-		String iStr = new Integer(this.i).toString();
-		AclfBus bus = adjNet.getAclfBus(iStr);
-		if (bus == null) {
-			throw new Exception ("Bus not found in the network, bus number: " + this.i);
-		}
+	    final String busId = ODMModelParser.BusIdPreFix+i;
+		BusRecordXmlType busRec = parser.getBusRecord(busId);
+	    if (busRec == null){
+	    	logger.severe("Bus "+ busId+ " not found in the network");
+	    	return;
+	    }
 		
-		PSSEAclfLoad load = ExtensionObjectFactory.createPSSEAclfLoad();
-		load.setId(this.id);
-		load.setName("Load:" + this.id + "(" + this.i + ")");
-		load.setDesc("PSSE Load " + this.id + " at Bus " + this.i);
-		load.setStatus(this.status==1);
-		load.setAreaNo(this.area);
-		load.setZoneNo(this.zone);
-		load.setOwnerNo(this.owner);
-		
-		double baseMva = adjNet.getBaseKva() / 1000.0;
-		load.setConstPLoad(new Complex(this.pl/baseMva,this.ql/baseMva));
-		load.setConstILoad(new Complex(this.ip/baseMva,this.iq/baseMva));
-		load.setConstZLoad(new Complex(this.yp/baseMva,this.yq/baseMva));
+	    LoadflowLoadDataXmlType contribLoad = ParserHelper.createContriLoad(busRec); 
 
-		bus.getRegDeviceList().add(load);
-		*/
+	    contribLoad.setId(id);
+	    contribLoad.setName("Load:" + id + "(" + i + ")");
+	    contribLoad.setDesc("PSSE Load " + id + " at Bus " + i);
+	    contribLoad.setOffLine(status!=1);
+
+	    contribLoad.setAreaNumber(area);
+	    contribLoad.setZoneNumber(zone);
+		busRec.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
+		
+		if (pl != 0.0 || ql != 0.0)
+			DataSetter.setPowerData(contribLoad.addNewConstPLoad(), pl, ql, ApparentPowerUnitType.MVA);
+		if (ip != 0.0 || iq != 0.0)
+			DataSetter.setPowerData(contribLoad.addNewConstILoad(), ip, iq, ApparentPowerUnitType.MVA);
+		if (yp != 0.0 || yq != 0.0)
+			DataSetter.setPowerData(contribLoad.addNewConstZLoad(), yp, yq, ApparentPowerUnitType.MVA);
 	}			
 }
