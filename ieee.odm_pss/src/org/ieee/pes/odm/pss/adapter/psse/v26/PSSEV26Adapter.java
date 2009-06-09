@@ -29,6 +29,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
+import org.ieee.pes.odm.pss.adapter.psse.v26.impl.PSSEV26BranchRecord;
+import org.ieee.pes.odm.pss.adapter.psse.v26.impl.PSSEV26BusRecord;
+import org.ieee.pes.odm.pss.adapter.psse.v26.impl.PSSEV26NetRecord;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
 
