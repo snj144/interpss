@@ -233,8 +233,10 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		gen.setRCharactPU(this.zgenr);
 		gen.setXCharactPU(this.zgenx);
 */		
-		DataSetter.setZValue(contriGen.getSourceZ(), this.rcomp, this.xcomp, ZUnitType.PU);
-		DataSetter.setZValue(contriGen.getXfrZ(), this.zgenr, this.zgenx, ZUnitType.PU);
+		if (this.rcomp != 0.0 || this.xcomp != 0.0)
+			DataSetter.setZValue(contriGen.addNewSourceZ(), this.rcomp, this.xcomp, ZUnitType.PU);
+		if (this.zgenr != 0.0 || this.zgenx != 0.0)
+			DataSetter.setZValue(contriGen.addNewXfrZ(), this.zgenr, this.zgenx, ZUnitType.PU);
 	}	
 
 	public String toString() {

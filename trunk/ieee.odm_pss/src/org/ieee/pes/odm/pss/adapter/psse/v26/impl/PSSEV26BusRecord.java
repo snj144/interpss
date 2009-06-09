@@ -21,7 +21,7 @@
  *   ================
  *
  */
-package org.ieee.pes.odm.pss.adapter.psse.v26;
+package org.ieee.pes.odm.pss.adapter.psse.v26.impl;
 
 import java.util.StringTokenizer;
 import java.util.logging.Logger;

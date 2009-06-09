@@ -81,7 +81,7 @@ public class PSSEV30LoadDataRec {
 
 	    contribLoad.setAreaNumber(area);
 	    contribLoad.setZoneNumber(zone);
-		busRec.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
+	    contribLoad.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
 		
 		if (pl != 0.0 || ql != 0.0)
 			DataSetter.setPowerData(contribLoad.addNewConstPLoad(), pl, ql, ApparentPowerUnitType.MVA);
