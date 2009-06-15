@@ -198,7 +198,7 @@ public class BPABusRecord {
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
-					DataSetter.setGenQLimitData(busData.getGenData(), 
+					DataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(), 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR);				
 				}
 				// set P limit
@@ -240,7 +240,7 @@ public class BPABusRecord {
 				}
 				// set Q limit
 				if(qGenOrQGenMax!=0.0||qGenMin!=0.0){
-					DataSetter.setGenQLimitData(busData.getGenData(), 
+					DataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(), 
 							qGenOrQGenMax, qGenMin, ReactivePowerUnitType.MVAR);				
 				}
 				// set P limit

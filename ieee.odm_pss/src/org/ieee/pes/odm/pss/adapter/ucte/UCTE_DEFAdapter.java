@@ -285,7 +285,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 					&& maxGenMVar > minGenMVar) {
 				// PV Bus limit control
 				getLogger().fine("Bus is a PVLimitBus, id: " + id);
-				DataSetter.setGenQLimitData(busData.getGenData(),  
+				DataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(),  
 						maxGenMVar, minGenMVar, ReactivePowerUnitType.MVAR);
 			}
 			break;

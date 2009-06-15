@@ -61,23 +61,49 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType.OwnerList.Owner;
 
 public class DataSetter {
+	/**
+	 * Set apparent power, unit = kva
+	 * 
+	 * @param power
+	 * @param kva
+	 */
 	public static void setPowerKva(ApparentPowerXmlType power, double kva) {
 		power.setValue(kva);   
 		power.setUnit(ApparentPowerUnitType.KVA); 		
 	}
 	
+	/**
+	 * Set apparent power, unit = mva
+	 * 
+	 * @param power
+	 * @param mva
+	 */
 	public static void setPowerMva(ApparentPowerXmlType power, double mva) {
 		power.setValue(mva);   
 		power.setUnit(ApparentPowerUnitType.MVA); 		
 	}
 
+	/**
+	 * Set apparent power
+	 * 
+	 * @param power
+	 * @param p
+	 * @param unit
+	 */
 	public static void setActivePower(ActivePowerXmlType power, double p, ActivePowerUnitType.Enum unit) {
 		power.setValue(p);   
 		power.setUnit(unit); 		
 	}
 
-	public static void setReactivePower(ReactivePowerXmlType power, double p, ReactivePowerUnitType.Enum unit) {
-		power.setValue(p);   
+	/**
+	 * set reactive power
+	 * 
+	 * @param power
+	 * @param q
+	 * @param unit
+	 */
+	public static void setReactivePower(ReactivePowerXmlType power, double q, ReactivePowerUnitType.Enum unit) {
+		power.setValue(q);   
 		power.setUnit(unit); 		
 	}
 	
@@ -123,6 +149,12 @@ public class DataSetter {
     	power.setUnit(unit);		
 	}
 	
+	/**
+	 * Set tap, unit = PU
+	 * 
+	 * @param tap
+	 * @param p
+	 */
 	public static void setTapPU(TapXmlType tap, double p) {
     	tap.setValue(p);
     	tap.setUnit(TapUnitType.PU);		
@@ -165,6 +197,13 @@ public class DataSetter {
     	angle.setUnit(unit);		
 	}
 	
+	/**
+	 * Set time/period
+	 * 
+	 * @param time
+	 * @param t
+	 * @param unit
+	 */
 	public static void setTimePeriodData(TimePeriodXmlType time, double t,TimePeriodUnitType.Enum unit){
 		time.setValue(t);
 		time.setUnit(unit);
@@ -182,30 +221,69 @@ public class DataSetter {
 		limit.setMin(min);
 	}
 	
+	/**
+	 * set voltage limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
 	public static void setVoltageLimitData(VoltageLimitXmlType limit, double max, double min, VoltageUnitType.Enum unit) {
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(unit);
 	}
 
+	/**
+	 * Set active power limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
 	public static void setActivePowerLimitData(ActivePowerLimitXmlType limit, double max, double min, ActivePowerUnitType.Enum unit) {
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(unit);
 	}
 
+	/**
+	 * Set reactive power limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
 	public static void setReactivePowerLimitData(ReactivePowerLimitXmlType limit, double max, double min, ReactivePowerUnitType.Enum unit) {
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(unit);
 	}
 
+	/**
+	 * set tap limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 */
 	public static void setTapLimitData(TapLimitXmlType limit, double max, double min) {
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(TapUnitType.PU);
 	}
 
+	/**
+	 * set angle limit data
+	 * 
+	 * @param limit
+	 * @param max
+	 * @param min
+	 * @param unit
+	 */
 	public static void setAngleLimitData(AngleLimitXmlType limit, double max, double min, AngleUnitType.Enum unit) {
 		limit.setMax(max);
 		limit.setMin(min);
@@ -213,7 +291,7 @@ public class DataSetter {
 	}
 	
 	/**
-	 * add a LoadData object to the busData object, then set value(code, p, q, unit) to the created LoadData object
+	 * set load data, first create an equivLoad object, then set value(code, p, q, unit) to the created EquivLoadData object
 	 * 
 	 * @param busData
 	 * @param code
@@ -229,7 +307,7 @@ public class DataSetter {
 	}
 	
 	/**
-	 * add a GenData object to the busData object, then set value(code, p, q, unit) to the created GenData object
+	 * set EquivGen object, then set value(code, p, q, unit) to the created EquivGenData object
 	 * 
 	 * @param busData
 	 * @param code
@@ -254,19 +332,6 @@ public class DataSetter {
    		}
 	}
 	
-	/**
-	 * add a GenData.QGenLimit object and set max, min and unit
-	 * 
-	 * @param busData
-	 * @param max
-	 * @param min
-	 * @param unit
-	 */
-	public static void setGenQLimitData(LoadflowBusDataXmlType.GenData genData,  
-			double max, double min, ReactivePowerUnitType.Enum unit) {
-		setReactivePowerLimitData(genData.getEquivGen().addNewQLimit(), max, min, unit);	
-	}
-
 	/**
 	 * add a LineData object to the branchData object, then set value(r, x, zUnit, g, b, yUnit) 
 	 * to the created LineData object
@@ -311,6 +376,16 @@ public class DataSetter {
 				gFrom, bFrom, gTo, bTo, yUnit);
 	}
 
+	/**
+	 * 
+	 * 
+	 * @param branchData
+	 * @param r
+	 * @param x
+	 * @param zUnit
+	 * @param fromTap
+	 * @param toTap
+	 */
 	public static void createXformerData(LoadflowBranchDataXmlType branchData, 
             double r, double x, ZUnitType.Enum zUnit, double fromTap, double toTap) {
 		createXformerData(branchData, r, x, zUnit, fromTap, toTap, 0.0, 0.0, 0.0, 0.0, YUnitType.PU);
@@ -439,6 +514,13 @@ public class DataSetter {
 		setBranchRatingLimitData(branchData, 0.0, 0.0, 0.0, null, current, curUnit);
 	}
 	
+	/**
+	 * Set branch ownership
+	 * 
+	 * @param branchData
+	 * @param oAry
+	 * @param pAry
+	 */
 	public static void setBranchOwnership(LoadflowBranchDataXmlType branchData,	int[] oAry, double[] pAry) {
 		branchData.addNewOwnerList();
 		for ( int i = 0; i < oAry.length; i++) {
