@@ -272,24 +272,24 @@ public class ODMLoadflowDataMapperImpl {
 		// voltage units should be same for both side 
 		double fromRatedV = fromBaseV;
 		double toRatedV = toBaseV;
+		double zratio = 1.0;
+		double tapratio = 1.0;
 		if (xfrData.getXfrInfo() != null) {
 			if (xfrData.getXfrInfo().getFromRatedVoltage() != null)
 				fromRatedV = xfrData.getXfrInfo().getFromRatedVoltage().getValue();
 			if (xfrData.getXfrInfo().getToRatedVoltage() != null)
 				toRatedV = xfrData.getXfrInfo().getToRatedVoltage().getValue();
-		}
 
-		double zratio = 1.0;
-		if (!xfrData.getXfrInfo().isSetDataOnSystemBase() &&
+			if (!xfrData.getXfrInfo().isSetDataOnSystemBase() &&
 				xfrData.getXfrInfo().getRatedPower() != null && 
 				xfrData.getXfrInfo().getRatedPower().getValue() > 0.0) 
-			zratio = xfrData.getXfrInfo().getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
+				zratio = xfrData.getXfrInfo().getRatedPower().getUnit() == ApparentPowerUnitType.KVA?
 					adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower().getValue() :
 						0.001 * adjNet.getBaseKva() / xfrData.getXfrInfo().getRatedPower().getValue();
 
-		double tapratio = 1.0;
-		if (!xfrData.getXfrInfo().isSetDataOnSystemBase())
-			tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+			if (!xfrData.getXfrInfo().isSetDataOnSystemBase())
+				tapratio = (fromRatedV/fromBaseV) / (toRatedV/toBaseV) ;
+		}
 		
 		double baseV = fromBaseV > toBaseV ? fromBaseV : toBaseV;
 		XfrAdapter xfr = (XfrAdapter) aclfBra.getAdapter(XfrAdapter.class);
