@@ -23,7 +23,7 @@
 							<restriction base="string">
 								<enumeration value="V1.00"></enumeration>
 								<enumeration value="V1.00.DEV"></enumeration>
-								<enumeration value="V0.3"></enumeration>
+								<enumeration value="V0.4"></enumeration>
 							</restriction>
 						</simpleType>
 					</element>

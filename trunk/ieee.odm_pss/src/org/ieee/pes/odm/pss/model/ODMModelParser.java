@@ -51,7 +51,7 @@ public class ODMModelParser {
 	public static final String Token_nsPrefix = "pss";
 	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
 
-	private static final StudyCaseXmlType.SchemaVersion.Enum CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_0_3;
+	private static final StudyCaseXmlType.SchemaVersion.Enum CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_0_4;
 	
 	// bus and branch object cache for fast lookup. 
 	private Hashtable<String,IDRecordXmlType> objectCache = null;

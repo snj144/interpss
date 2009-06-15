@@ -65,6 +65,12 @@ public class ParserHelper {
 	public static final double Deg2Rad = Math.PI / 180.0;
 	public static final double Rad2Deg = 180.0/ Math.PI;
 	
+	/**
+	 * Set BaseCase to Loadflow and Transmission 
+	 * 
+	 * @param parser
+	 * @param originalFormat
+	 */
 	public static void setLFTransInfo(ODMModelParser parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.Enum originalFormat) {
 		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
 		info.setOriginalDataFormat(originalFormat);
@@ -77,8 +83,8 @@ public class ParserHelper {
 				NetworkCategoryEnumType.TRANSMISSION);		
 	}
 	
-	/*
-	 * consolidate branch genContributionList and loadContributionList to the equiv 
+	/**
+	 * consolidate branch genContributionList and loadContributionList to the equiv gen and load 
 	 * 
 	 */
 	public static boolean createBusEquivData(PSSNetworkXmlType baseCaseNet, Logger logger) {
@@ -293,6 +299,7 @@ public class ParserHelper {
       	// there might be multiple branch sections, but UTCE only has one
 		return branchRec.getLoadflowDataArray(0);
 	}
+	
 	/**
 	 * add a name/value pair to the name/value pair List
 	 * 

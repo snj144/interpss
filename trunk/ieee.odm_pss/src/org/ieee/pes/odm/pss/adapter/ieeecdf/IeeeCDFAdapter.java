@@ -279,7 +279,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				VoltageLimitXmlType vlimt = busData.getGenData().getEquivGen().addNewVoltageLimit();
 				DataSetter.setVoltageLimitData(vlimt, max, min, VoltageUnitType.PU);
 			} else if (type == 2) {
-				DataSetter.setGenQLimitData(busData.getGenData(),  
+				DataSetter.setReactivePowerLimitData(busData.getGenData().getEquivGen().addNewQLimit(),  
 						max, min, ReactivePowerUnitType.MVAR);
 				if (reBusId != null && !reBusId.equals("0")
 						&& !reBusId.equals(busId)) {
