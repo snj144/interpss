@@ -53,11 +53,11 @@ public class TestIssueSystem extends TestSetupBase {
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
 
 		// run loadflow
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.setMaxIterations(20);
 	  	algo.setTolerance(0.0001);
-	  	algo.loadflow(msg);
+	  	algo.loadflow();
 		System.out.println(net.net2String());
 	  	
 	  	if (!net.isLfConverged()) {

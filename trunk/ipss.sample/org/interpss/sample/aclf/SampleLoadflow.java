@@ -45,7 +45,7 @@ import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.aclfadj.FunctionLoad;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.simu.dsl.IpssAclf;
+import com.interpss.pssl.simu.IpssAclf;
 
 
 public class SampleLoadflow {
@@ -78,10 +78,10 @@ public class SampleLoadflow {
 	  	set2BusNetworkData(net, msg);
 	  	
 	  	// create the default loadflow algorithm
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 
 	  	// use the loadflow algorithm to perform loadflow calculation
-	  	algo.loadflow(msg);
+	  	algo.loadflow();
 	  	
 	  	// output loadflow calculation results
 	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
@@ -106,10 +106,10 @@ public class SampleLoadflow {
   		fload.getQ().setB(0.6);
 	  	
 	  	// create the default loadflow algorithm
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 
 	  	// use the loadflow algorithm to perform loadflow calculation
-	  	algo.loadflow(msg);
+	  	algo.loadflow();
 	  	
 	  	// output loadflow calculation results
 	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
@@ -181,10 +181,10 @@ public class SampleLoadflow {
   		net.addBranch(branch, "Bus1", "Bus2");
 	  	
 	  	// create the default loadflow algorithm
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 
 	  	// use the loadflow algorithm to perform loadflow calculation
-	  	algo.loadflow(msg);
+	  	algo.loadflow();
 	  	
 	  	// output loadflow calculation results
 	  	System.out.println(AclfOutFunc.loadFlowSummary(net));

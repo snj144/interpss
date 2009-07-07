@@ -53,11 +53,11 @@ public class KundurP864_NoFault {
 		KundurP864_Common.addControllerData(net, msg);
 		
 		// run loadflow
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.setMaxIterations(20);
 	  	algo.setTolerance(0.0001);
-	  	algo.loadflow(msg);
+	  	algo.loadflow();
 		//System.out.println(net.net2String());
 	  	
 	  	if (!net.isLfConverged()) {

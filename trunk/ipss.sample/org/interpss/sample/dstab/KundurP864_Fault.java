@@ -58,11 +58,11 @@ public class KundurP864_Fault {
 		KundurP864_Common.addDEnventData(net, msg);
 		
 		// run loadflow
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net);
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.setMaxIterations(20);
 	  	algo.setTolerance(0.0001);
-	  	algo.loadflow(msg);
+	  	algo.loadflow();
 	  	if (!net.isLfConverged()) {
 	  		System.out.println("Loadflow diverged");
 	  		System.exit(0);

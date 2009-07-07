@@ -63,7 +63,7 @@ public class DStab_5Bus extends TestSetupBase {
 		// set up output and run the simulation
 		
 		LoadflowAlgorithm aclfAlgo = algo.getAclfAlgorithm();
-		aclfAlgo.loadflow(msg);
+		aclfAlgo.loadflow();
 	  	assertTrue(simuCtx.getDStabilityNet().isLfConverged());
 		
 		StateVariableTestRecorder recorder = new StateVariableTestRecorder(0.0001);
@@ -85,8 +85,8 @@ public class DStab_5Bus extends TestSetupBase {
 		algo.setSimuOutputHandler(recorder);
 		
 		IpssLogger.getLogger().setLevel(Level.WARNING);
-		if (algo.initialization(msg)) {
-			algo.performSimulation(msg);
+		if (algo.initialization()) {
+			algo.performSimulation();
 		}
 
 		System.out.println(recorder);
