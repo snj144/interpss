@@ -33,7 +33,7 @@ import com.interpss.core.aclf.AclfGenCode;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
-import com.interpss.simu.dsl.IpssAclf;
+import com.interpss.pssl.simu.IpssAclf;
 
 
 public class SampleLoadflowDSL {
@@ -51,7 +51,7 @@ public class SampleLoadflowDSL {
 		IpssAclf.addAclfBus("Bus2", "Bus 2", net)
 				.setBaseVoltage(100000.0)
 				.setGenCode(AclfGenCode.NON_GEN)
-				.setLoadCode(AclfLoadCode.NON_LOAD)
+				.setLoadCode(AclfLoadCode.NON_LOAD);
 				
 		
 		IpssAclf.addAclfBus("Bus1", "Bus 1", net)
