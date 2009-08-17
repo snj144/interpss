@@ -78,7 +78,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 		PSSNetworkXmlType baseCaseNet = parser.getBaseCase();
 		
 		
-		if(str.equals("loadflow")){
+		if(str.equals("loadflow") || str.contains("POWERFLOW")){
 			parser.getStudyCase().getBaseCase().setAnalysisCategory(
 					AnalysisCategoryEnumType.LOADFLOW);
 			baseCaseNet.setId("Base_Case_from_BPA_loadflow_format");			

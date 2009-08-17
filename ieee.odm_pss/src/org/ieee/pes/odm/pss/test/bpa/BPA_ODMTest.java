@@ -51,6 +51,17 @@ import org.junit.Test;
 
 public class BPA_ODMTest { 
 	@Test
+	public void testCase2() throws Exception {
+		final LogManager logMgr = LogManager.getLogManager();
+		Logger logger = Logger.getLogger("IEEE ODM Logger");
+		logger.setLevel(Level.INFO);
+		logMgr.addLogger(logger);
+		
+		IODMPSSAdapter adapter = new BPAAdapter(logger);
+		assertTrue(adapter.parseInputFile("testdata/bpa/Test009bpa.dat"));
+	}
+	
+	@Test
 	public void testCase1() throws Exception {
 		final LogManager logMgr = LogManager.getLogManager();
 		Logger logger = Logger.getLogger("IEEE ODM Logger");
