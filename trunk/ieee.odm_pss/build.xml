@@ -4,7 +4,7 @@
 	<target name="init" depends="">
 		<property name="dist_base" value="C:/eclipse/ieee_odm" />
 
-		<property name="dev_base" value="C:/eclipse//InterpssDev/ieee.odm_pss" />
+		<property name="dev_base" value="C:/eclipse/InterpssDev/ieee.odm_pss" />
 
 		<property name="lib_dir" value="lib" />
 		<property name="xmlbeans.classpath"
@@ -22,7 +22,7 @@
 			classpath="${xmlbeans.classpath}" />
 	</target>
 
-	<target depends="createIEEEODMPSSSchemas"
+	<target depends="init"
 		description="jar odm lib files" name="jar_lib">
 		<jar destfile="${dist_base}/lib/ieee.odm_pss.jar"
 			basedir="${dev_base}/runtime" excludes="CVS/**" />

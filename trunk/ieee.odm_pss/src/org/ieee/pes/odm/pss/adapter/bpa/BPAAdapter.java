@@ -238,19 +238,16 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			// more name-vale could be added in future 
 			
 			// read MVA Base 
-			final double baseMva; 
+			double baseMva = 100.0; 
 			
 			if(str.startsWith("/MVA_BASE")){
-				if(strAry[5]!= null){
+				if(strAry[5]!= null)
 					baseMva = new Double(strAry[5]).doubleValue(); // in MVA
-				}else {baseMva = 100;}
-				getLogger().fine("BaseKva: " + baseMva);
-				ApparentPowerXmlType baseKva = baseCaseNet.addNewBasePower();
-		    	baseKva.setValue(baseMva);   
-		    	baseKva.setUnit(ApparentPowerUnitType.MVA);
 			}
-			
-			   
+			getLogger().fine("BaseKva: " + baseMva);
+			ApparentPowerXmlType baseKva = baseCaseNet.addNewBasePower();
+	    	baseKva.setValue(baseMva);   
+	    	baseKva.setUnit(ApparentPowerUnitType.MVA);
 	}
 
 	/*
