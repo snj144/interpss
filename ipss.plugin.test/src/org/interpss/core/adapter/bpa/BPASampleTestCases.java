@@ -54,8 +54,8 @@ public class BPASampleTestCases extends BaseTestSetup {
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
 		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
-  	  		simuCtx.setName("Sample18Bus");
-  	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");
+  	  		simuCtx.setName("SampleBPA");
+  	  		simuCtx.setDesc("This project is created by input file");
   			net = simuCtx.getAclfNet();
   			//System.out.println(net.net2String());
 		}
@@ -73,6 +73,39 @@ public class BPASampleTestCases extends BaseTestSetup {
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-1.0586)<0.01);
   		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-0.6635)<0.01);
+	}	
+
+	@Test
+	public void odmAdapterTestCase1() throws Exception {
+		/*
+		 * This test case results are the sample as BPA China results
+		 */
+		IODMPSSAdapter adapter = new BPAAdapter(IpssLogger.getLogger());
+		assertTrue(adapter.parseInputFile("testdata/bpa/Test009bpa.dat"));		
+		
+		AclfNetwork net = null;
+		IEEEODMMapper mapper = new IEEEODMMapper();
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
+		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
+  	  		simuCtx.setName("Sample18Bus");
+  	  		simuCtx.setDesc("This project is created by input file");
+  			net = simuCtx.getAclfNet();
+  			//System.out.println(net.net2String());
+		}
+		else {
+  	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
+  	  		return;
+		}	
+		
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.loadflow();
+		//System.out.println(net.net2String());
+	  	
+  		assertTrue(net.isLfConverged());		
+  		AclfBus swingBus = (AclfBus)net.getBus("bus-1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-0.7164)<0.01);
+  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-0.2705)<0.01);
 	}	
 }
 
