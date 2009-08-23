@@ -88,6 +88,11 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			baseCaseNet.setId("Base_Case_from_BPA_transient_format");
 		}
 		
+		// we set default base MVA here, since MVA line is optional
+		ApparentPowerXmlType baseKva = baseCaseNet.addNewBasePower();
+    	baseKva.setValue(100.0);   
+    	baseKva.setUnit(ApparentPowerUnitType.MVA);
+    	
 		NameValuePairListXmlType nvList = baseCaseNet.addNewNvPairList();		
 		
 		int areaId=1;// used to arrange a number to each area 
@@ -237,17 +242,13 @@ public class BPAAdapter  extends AbstractODMAdapter {
 			}			
 			// more name-vale could be added in future 
 			
-			// read MVA Base 
-			double baseMva = 100.0; 
-			
 			if(str.startsWith("/MVA_BASE")){
-				if(strAry[5]!= null)
-					baseMva = new Double(strAry[5]).doubleValue(); // in MVA
+				if(strAry[5]!= null) {
+					double baseMva = new Double(strAry[5]).doubleValue(); // in MVA
+					ApparentPowerXmlType baseKva = baseCaseNet.getBasePower();
+			    	baseKva.setValue(baseMva);   
+				}
 			}
-			getLogger().fine("BaseKva: " + baseMva);
-			ApparentPowerXmlType baseKva = baseCaseNet.addNewBasePower();
-	    	baseKva.setValue(baseMva);   
-	    	baseKva.setUnit(ApparentPowerUnitType.MVA);
 	}
 
 	/*

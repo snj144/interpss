@@ -59,6 +59,8 @@ public class BPA_ODMTest {
 		
 		IODMPSSAdapter adapter = new BPAAdapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/bpa/Test009bpa.dat"));
+		
+		//System.out.println(adapter.getModel().toXmlDoc(true));
 	}
 	
 	@Test
