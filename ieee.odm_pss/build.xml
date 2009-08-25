@@ -1,4 +1,4 @@
-<project name="ieee.odm_pss" default="copy_schema" basedir=".">
+<project name="ieee.odm_pss" default="createIEEEODMPSSSchemas" basedir=".">
 
 	<!-- Initializing the environment -->
 	<target name="init" depends="">
@@ -6,7 +6,7 @@
 
 		<property name="dev_base" value="C:/eclipse/InterpssDev/ieee.odm_pss" />
 
-		<property name="lib_dir" value="lib" />
+		<property name="lib_dir" value="${dev_base}/lib" />
 		<property name="xmlbeans.classpath"
 			value="${lib_dir}/xbean.jar" />
 
