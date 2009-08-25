@@ -51,7 +51,7 @@
 
 	<complexType name="LoadflowBusDataXmlType">
 		<sequence>
-			<element name="voltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="0"></element>
+			<element name="voltage" type="pss:VoltageXmlType" minOccurs="0" maxOccurs="1"></element>
 			<element name="angle" type="pss:AngleXmlType" minOccurs="0" maxOccurs="1"></element>
 			<element name="genData" minOccurs="0" maxOccurs="1">
 				<complexType>
