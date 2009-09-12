@@ -83,7 +83,7 @@ public class AclfSchemaIeee14BusCaseTest extends BaseTestSetup {
   		// save net to a String
   		String netStr = SerializeEMFObjectUtil.saveModel(simuCtx.getAclfAdjNet());
 
-		File xmlFile = new File("testData/xml/RunAclfDefaultCase.xml");
+		File xmlFile = new File("testData/xml/RunAclfCase.xml");
   		IpssXmlParser parser = new IpssXmlParser(xmlFile);
   		//System.out.println("----->" + parser.getRootElem().toString());
 
