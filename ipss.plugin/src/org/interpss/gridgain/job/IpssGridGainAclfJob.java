@@ -103,13 +103,14 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 
 		// get serialized algo string from the task session
 		String algoStr = remoteMsg.getAclfAlgorithm();
-		//System.out.println(algoStr);
+		System.out.println(algoStr);
 		LoadflowAlgorithm algo;
 		if (algoStr != null) {
 			// set algo attributes. These attributes are not serialized
 			algo = (LoadflowAlgorithm) SerializeEMFObjectUtil.loadModel(algoStr);
+			if (algo == null)
+				algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 			if (net instanceof AclfAdjNetwork) {
-				//algo.setAdjAlgorithm(AlgorithmFactory.eINSTANCE.createAclfAdjustAlgorithm());
 				algo.setAclfAdjNetwork((AclfAdjNetwork) net);
 			} else {
 				algo.setAclfNetwork(net);

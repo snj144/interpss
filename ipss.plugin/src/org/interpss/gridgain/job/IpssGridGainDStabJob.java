@@ -70,26 +70,26 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 		// we always assume that the case id is carried to the remote grid node by the id field
 		String caseId = net.getId();
 
+		DynamicSimuAlgorithm dstabAlgo = null;
+
 		// get serialized algo string from the task session
-		String algoStr = remoteMsg.getDStabAlgorithm();
+		String dstabAlgoStr = remoteMsg.getDStabAlgorithm();
+		String aclfAlgoStr = remoteMsg.getAclfAlgorithm();
 		//System.out.println(algoStr);
-		DynamicSimuAlgorithm dstabAlgo;
-		if (algoStr != null) {
-			dstabAlgo = (DynamicSimuAlgorithm) SerializeEMFObjectUtil
-					.loadModel(algoStr);
+		if (dstabAlgoStr != null && aclfAlgoStr != null) {
+			dstabAlgo = (DynamicSimuAlgorithm) SerializeEMFObjectUtil.loadModel(dstabAlgoStr);
+			LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm) SerializeEMFObjectUtil.loadModel(aclfAlgoStr);
+			if (dstabAlgo != null && lfAlgo != null) {
+				dstabAlgo.setAclfAlgorithm(lfAlgo);
 
-			algoStr = remoteMsg.getAclfAlgorithm();
-			LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm) SerializeEMFObjectUtil
-					.loadModel(algoStr);
-			dstabAlgo.setAclfAlgorithm(lfAlgo);
-
-			dstabAlgo.setDynamicEventHandler(new DynamicEventProcessor(
-					getMsgHub()));
-			dstabAlgo.setDStabNet(net);
-		} else {
+				dstabAlgo.setDynamicEventHandler(new DynamicEventProcessor(getMsgHub()));
+				dstabAlgo.setDStabNet(net);
+			}
+		} 
+		
+		if (dstabAlgo == null) {
 			// this approach is more for testing purpose
-			dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(net,
-					getMsgHub());
+			dstabAlgo = DStabObjectFactory.createDynamicSimuAlgorithm(net, getMsgHub());
 			dstabAlgo.setSimuStepSec(0.01);
 			dstabAlgo.setTotalSimuTimeSec(10.0);
 		}

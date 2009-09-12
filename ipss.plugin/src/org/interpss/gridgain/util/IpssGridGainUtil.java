@@ -56,7 +56,10 @@ import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.MultiStudyCase;
 
 /**
+ *   Multi-case correlation 
+ *   
  *   For IpssMultiStudyCaseGridGainTask implementation
+ *   
  *    - Each study case has a unique caseNumber 
  *      When a EMF model, a Network object, is sent to a remote location, by creating a
  *          GridGainJob extends AbstractIpssGridGainJob, net.sortNumber = caseNumber
@@ -64,21 +67,18 @@ import com.interpss.simu.multicase.MultiStudyCase;
  *    - Result net is set back to the StudyCase using caseNumber correlation.     
 
  *   For AssignJob2NodeTask implementation
+ *    - no correlation issue
  */
 
 public class IpssGridGainUtil {
 	// Master node id
 	public static String MasterNodeId = "";	
+	
+	// for tuning on/off remote debugging
 	public static boolean RemoteNodeDebug = false;	
 	
-	// hold node name to node id lookup info
-	private static Hashtable<String, String> nodeNameLookupTable = new Hashtable<String, String>();
-
-	private static Grid defaultGrid = null;
-	private static boolean gridEnabled = false;
-
 	/**
-	 * Perform grid computing on the model object.
+	 * Perform a single Job computing on the model object.
 	 * 
 	 * @param desc a description string
 	 * @param model an EMF model object
@@ -115,10 +115,10 @@ public class IpssGridGainUtil {
 	}
 
 	/**
-	 * Perform multi-task grid computing on the model object.
+	 * Perform multi-job grid computing on the model object.
 	 * 
 	 * @param desc a description string
-	 * @param model an EMF model object
+	 * @param model an EMF model object, a MultiStudyCase object
 	 * @return result object or a list of result objects, 
 	 * @throws GridException
 	 */
@@ -141,7 +141,7 @@ public class IpssGridGainUtil {
 				}
 				// Multiple DStab cases
 				else if (((MultiStudyCase) model).getNetType() == SimuCtxType.DSTABILITY_NET) {
-					return (RemoteMessageTable[])grid.execute(MultiCaseDStabTask.class.getName(),	model, timeout).get();
+					return (RemoteMessageTable[])grid.execute(MultiCaseDStabTask.class.getName(), model, timeout).get();
 				}
 			}
 		} catch (GridTaskTimeoutException e) {
@@ -152,6 +152,20 @@ public class IpssGridGainUtil {
 		return null;
 	}
 	
+	/*
+	 * GridGain env setup functions
+	 * ============================
+	 */
+	
+	// hold node name to node id lookup info
+	private static Hashtable<String, String> nodeNameLookupTable = new Hashtable<String, String>();
+
+	// the grid env for InterPSS grid computing
+	private static Grid defaultGrid = null;
+	
+	// when InterPSS starts, it detect if there is any remote mode available
+	private static boolean gridEnabled = false;
+
 	/**
 	 * Start the Grid and create the default grid object
 	 */
