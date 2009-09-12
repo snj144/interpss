@@ -55,7 +55,7 @@ public class IEEECDF_ODMTest {
 		logMgr.addLogger(logger);
 		
 		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
-		assertTrue(adapter.parseInputFile("testdata/ieeecdf/Ieee14Bus.ieee"));
+		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee14Bus.ieee"));
 		
 		PSSNetworkXmlType baseCaseNet = adapter.getModel().getBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBusArray().length == 14);
@@ -150,7 +150,7 @@ public class IEEECDF_ODMTest {
 		logMgr.addLogger(logger);
 		
 		IODMPSSAdapter adapter = new IeeeCDFAdapter(logger);
-		assertTrue(adapter.parseInputFile("testdata/ieeecdf/Ieee300Bus.txt"));
+		assertTrue(adapter.parseInputFile("testdata/ieee_format/Ieee300Bus.txt"));
 	}
 }
 
