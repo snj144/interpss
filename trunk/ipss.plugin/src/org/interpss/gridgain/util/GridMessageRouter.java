@@ -119,10 +119,8 @@ public class GridMessageRouter implements GridMessageListener {
 					.length());
 			int percent = new Integer(str).intValue();
 			if (this.msgHub != null)
-				msgHub
-						.sendMsg(new SimuMessage(
-								SimuMessage.TYPE_PROGRESS_STATUS, new Integer(
-										percent)));
+				msgHub.sendMsg(new SimuMessage(
+								SimuMessage.TYPE_PROGRESS_STATUS, new Integer(percent)));
 			else
 				System.out.println("percent = " + percent + "%");
 		} else if (msgStr.startsWith(Constants.GridToken_ErrorMsg)) {
