@@ -75,13 +75,19 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 		// get serialized algo string from the task session
 		String dstabAlgoStr = remoteMsg.getDStabAlgorithm();
 		String aclfAlgoStr = remoteMsg.getAclfAlgorithm();
+		if (getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug)) {
+			IpssLogger.getLogger().info("--> dstabAlgoStr :" + dstabAlgoStr);
+			IpssLogger.getLogger().info("--> aclfAlgoStr :" + aclfAlgoStr);
+		}
+		
 		//System.out.println(algoStr);
 		if (dstabAlgoStr != null && aclfAlgoStr != null) {
 			dstabAlgo = (DynamicSimuAlgorithm) SerializeEMFObjectUtil.loadModel(dstabAlgoStr);
 			LoadflowAlgorithm lfAlgo = (LoadflowAlgorithm) SerializeEMFObjectUtil.loadModel(aclfAlgoStr);
 			if (dstabAlgo != null && lfAlgo != null) {
+				lfAlgo.setMsgHub(getMsgHub());
+				dstabAlgo.setMsgHub(getMsgHub());
 				dstabAlgo.setAclfAlgorithm(lfAlgo);
-
 				dstabAlgo.setDynamicEventHandler(new DynamicEventProcessor(getMsgHub()));
 				dstabAlgo.setDStabNet(net);
 			}
@@ -95,14 +101,13 @@ public class IpssGridGainDStabJob extends AbstractIpssGridGainJob {
 		}
 
 		// set simulation result handler
-		IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(
-				getMsgHub(), caseId);
+		IDStabSimuOutputHandler handler = new DStabSimuGridOutputHandler(getMsgHub(), caseId);
 		dstabAlgo.setSimuOutputHandler(handler);
 
 		// set output var filter info, which is carried to the remote node by
 		// the DStabAlgo object
-		handler.setOutputFilter(dstabAlgo.isOutputFilted());
-		if (dstabAlgo.isOutputFilted()) {
+		handler.setOutputFilter(dstabAlgo.isOutputFiltered());
+		if (dstabAlgo.isOutputFiltered()) {
 			for (String str : dstabAlgo.getOutputVarIdList())
 				handler.getOutputVarIdList().add(str);
 			IpssLogger.getLogger().info(

@@ -1,5 +1,5 @@
  /*
-  * @(#)TestSetupBase.java   
+  * @(#)BaseTestSetup.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -15,29 +15,30 @@
   *
   * @Author Mike Zhou
   * @Version 1.0
-  * @Date 09/15/2006
+  * @Date 07/15/2007
   * 
   *   Revision History
   *   ================
   *
   */
 
-package org.interpss.dstab.ieeeModel;
+package org.interpss.gridgain;
 
-import java.util.logging.Level;
+import static org.junit.Assert.assertTrue;
+
+import java.io.Serializable;
+import java.util.UUID;
 
 import org.apache.commons.math.complex.Complex;
-import org.interpss.editor.form.GFormContainer;
-import org.interpss.editor.jgraph.ui.IIpssGraphModel;
-import org.interpss.editor.jgraph.ui.form.IGFormContainer;
-import org.interpss.editor.mapper.EditorJGraphDataMapper;
-import org.interpss.editor.util.IOUtilFunc;
-import org.jgraph.JGraph;
+import org.gridgain.grid.Grid;
+import org.gridgain.grid.GridMessageListener;
+import org.interpss.BaseTestSetup;
+import org.interpss.gridgain.util.IpssGridGainUtil;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Constants;
 import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.acsc.AcscBusFault;
 import com.interpss.core.acsc.SimpleFaultCode;
@@ -48,23 +49,37 @@ import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.dstab.devent.DynamicEvent;
 import com.interpss.dstab.devent.DynamicEventType;
 import com.interpss.dstab.mach.Machine;
-import com.interpss.simu.SimuContext;
 
-public class DStabTestSetupBase {
+public class GridBaseTestSetup extends BaseTestSetup {
+	protected static IPSSMsgHub msg;
+
+	@BeforeClass
+	public static void startGridEnv() {
+		IpssGridGainUtil.startDefaultGrid();
+		assertTrue(IpssGridGainUtil.isGridEnabled());
+		if (IpssGridGainUtil.getDefaultGrid().getAllNodes().size() <= 1)
+			System.out.println("Please start a least one Gridgain agent for the test");
+		assertTrue(IpssGridGainUtil.getDefaultGrid().getAllNodes().size() > 1);
+		
+		Grid grid = IpssGridGainUtil.getDefaultGrid();
+		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
+		IpssGridGainUtil.RemoteNodeDebug = false;
+
+		// make sure Grid env is setup properly
+		String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
+		assertTrue(list.length > 0);
+		
+		// message from remote note are printed out
+    	grid.addMessageListener(new GridMessageListener() {
+    		public void onMessage(UUID arg0, Serializable arg1) {
+    			//System.out.println(arg1);
+    		}        		
+    	});
+	}
 	
-	protected IPSSMsgHub msg;
-
-	public DStabTestSetupBase() { 
-		msg = SpringAppContext.getIpssMsgHub();
-		IpssLogger.getLogger().setLevel(Level.WARNING);
- 	}
-
-	public void loadCaseData(String filename, SimuContext simuCtx) {
-		JGraph graph = IOUtilFunc.loadIpssGraphFile(filename);
-		IGFormContainer gFormContainer = ((IIpssGraphModel)graph.getModel()).getGFormContainer();
-		EditorJGraphDataMapper mapper = new EditorJGraphDataMapper();
-		mapper.setMsg(msg);
-		mapper.mapping(gFormContainer, simuCtx, GFormContainer.class);
+	@AfterClass
+	public static void stopGridEnv() {
+		IpssGridGainUtil.stopDefaultGrid();		
 	}
 	
 	public DynamicSimuAlgorithm createDStabAlgo(DStabilityNetwork net) {
@@ -91,6 +106,6 @@ public class DStabTestSetupBase {
 		fault.setZLGFault(Constants.SmallScZ);
 		fault.setZLLFault(new Complex(0.0, 0.0));
 		event1.setBusFault(fault);		
-	}	
+	}		
 }
 

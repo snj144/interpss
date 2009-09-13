@@ -56,28 +56,30 @@ public class AssignJob2NodeAclfTask extends AbstractAssignJob2NodeTask {
 		RemoteMessageTable remoteMsg = new RemoteMessageTable();
 
 		String modelStr = "";
+		AclfNetwork net = null;
 		if (model instanceof LoadflowAlgorithm) {
 			LoadflowAlgorithm algo = (LoadflowAlgorithm) model;
-			AclfNetwork net = algo.getAclfNetwork();
+			net = algo.getAclfNetwork();
 			this.studyCaseId = net.getId();
 
+			// net and algo are non-containing, therefore net info is not contained 
 			String lfAlgoStr = SerializeEMFObjectUtil.saveModel(algo);
 			remoteMsg.put(RemoteMessageTable.KEY_sRqt_AclfAlgorithm, lfAlgoStr);
-			modelStr = SerializeEMFObjectUtil.saveModel(net);
-
+			
 			if (IpssGridGainUtil.RemoteNodeDebug) {
 				IpssLogger.getLogger().info("CaseId: " + net.getId());
 				IpssLogger.getLogger().info("Model String: " + modelStr);
 				IpssLogger.getLogger().info("AclfAlgo String: " + lfAlgoStr);
 			}
 		} else if (model instanceof AclfAdjNetwork) {
-			AclfAdjNetwork net = (AclfAdjNetwork) model;
-			modelStr = SerializeEMFObjectUtil.saveModel(net);
+			net = (AclfAdjNetwork) model;
 		} else {
-			AclfNetwork net = (AclfNetwork) model;
-			modelStr = SerializeEMFObjectUtil.saveModel(net);
+			net = (AclfNetwork) model;
 		}
 		
+		// persist the net info
+		this.studyCaseId = net.getId();
+		modelStr = SerializeEMFObjectUtil.saveModel(net);
 		remoteMsg.put(RemoteMessageTable.KEY_sRqt_StudyCaseNetworkModel, modelStr);
 		return remoteMsg;
 	}

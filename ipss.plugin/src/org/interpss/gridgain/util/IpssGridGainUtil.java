@@ -92,17 +92,17 @@ public class IpssGridGainUtil {
 		IpssLogger.getLogger().info(
 				"Number of Grid Nodes: " + grid.getAllNodes().size());
 		try {
-			// Single Aclf Case
-			if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork
-					|| model instanceof LoadflowAlgorithm) {
-				Object obj = grid.execute(AssignJob2NodeAclfTask.class.getName(),
+			// Single DStab case
+			if (model instanceof DStabilityNetwork
+					|| model instanceof DynamicSimuAlgorithm) {
+				Object obj = grid.execute(AssignJob2NodeDStabTask.class.getName(),
 						model, timeout).get();
 				return (RemoteMessageTable)obj;
 			}
-			// Single DStab case
-			else if (model instanceof DStabilityNetwork
-					|| model instanceof DynamicSimuAlgorithm) {
-				Object obj = grid.execute(AssignJob2NodeDStabTask.class.getName(),
+			// Single Aclf Case
+			else if (model instanceof AclfNetwork || model instanceof AclfAdjNetwork
+					|| model instanceof LoadflowAlgorithm) {
+				Object obj = grid.execute(AssignJob2NodeAclfTask.class.getName(),
 						model, timeout).get();
 				return (RemoteMessageTable)obj;
 			}

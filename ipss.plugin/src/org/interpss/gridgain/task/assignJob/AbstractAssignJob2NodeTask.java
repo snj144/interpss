@@ -72,11 +72,14 @@ public abstract class AbstractAssignJob2NodeTask extends GridTaskAdapter<Object,
 		// Send master node id to all remote nodes.
 		getSession().setAttribute(Constants.GridToken_MasterNodeId,
 				IpssGridGainUtil.MasterNodeId);
+		// set the remote debug option
 		getSession().setAttribute(Constants.GridToken_RemoteNodeDebug,
 				new Boolean(IpssGridGainUtil.RemoteNodeDebug));
 
-		// serialize the model object, only the DStabNet part
+		// serialize the model object, only the network part, algorithm is sent
+		// separately using RemoteMessageTable field
 		RemoteMessageTable remoteMsg = serializeModel(model);
+		assert(this.studyCaseId != null);
 
 		Map<GridJob, GridNode> jobMap = new HashMap<GridJob, GridNode>();
 		// get the remote grid node from the grid node list
@@ -94,10 +97,7 @@ public abstract class AbstractAssignJob2NodeTask extends GridTaskAdapter<Object,
 	@Override
 	public Object reduce(List<GridJobResult> results) throws GridException {
 		// There should be only one return
-		if (results.size() != 1) {
-			throw new GridException(
-					"Programming error, return results.size() != 1");
-		}
+		assert(results.size() == 1);
 		if (results.get(0).getException() != null) {
 			throw results.get(0).getException();
 		}

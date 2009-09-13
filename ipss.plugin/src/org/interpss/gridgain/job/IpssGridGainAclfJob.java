@@ -103,13 +103,12 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 
 		// get serialized algo string from the task session
 		String algoStr = remoteMsg.getAclfAlgorithm();
-		System.out.println(algoStr);
+		//System.out.println(algoStr);
 		LoadflowAlgorithm algo;
 		if (algoStr != null) {
 			// set algo attributes. These attributes are not serialized
 			algo = (LoadflowAlgorithm) SerializeEMFObjectUtil.loadModel(algoStr);
-			if (algo == null)
-				algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+			algo.setMsgHub(SpringAppContext.getIpssMsgHub());
 			if (net instanceof AclfAdjNetwork) {
 				algo.setAclfAdjNetwork((AclfAdjNetwork) net);
 			} else {
@@ -120,12 +119,12 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 			algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		}
 
-		if (getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug))
-			debugOut(net, algo);
-		
 		// perform loadflow calculation
 		try {
 			algo.loadflow();
+			if (getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug))
+				IpssLogger.getLogger().info("Loadflow converged: " + net.isLfConverged());
+			
 			if (getSesBooleanAttrib(Constants.GridToken_ApplyRuleBase)) {
 				IpssLogger.getLogger().info("Apply Rule Base");
 				String str = getSesStringAttrib(Constants.GridToken_RuleBaseXml);
@@ -141,8 +140,12 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 		} catch (Exception e) {
 			getRemoteResult().put(RemoteMessageTable.KEY_bRsp_ReturnStatus, Boolean.FALSE);
 			getRemoteResult().addReturnMessage(e.toString());
+			e.printStackTrace();
 		}
  
+		if (getSesBooleanAttrib(Constants.GridToken_RemoteNodeDebug))
+			debugOut(net, algo);
+		
 		IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
 		resultHandler.saveRemoteResult(getRemoteResult(), caseId, getGrid().getLocalNode().getId().toString(), algo, getSession());
 		return getRemoteResult();
@@ -150,7 +153,7 @@ public class IpssGridGainAclfJob extends AbstractIpssGridGainJob {
 	
 	private synchronized void debugOut(AclfNetwork net, LoadflowAlgorithm algo) {
 		IpssLogger.getLogger().info("CaseId: " + net.getId());
-		IpssLogger.getLogger().info("AclfNet -->" + net.net2String());
+		//IpssLogger.getLogger().info("AclfNet -->" + net.net2String());
 		IpssLogger.getLogger().info("AclfAlgo -->" + algo.toString());
 	}
 }

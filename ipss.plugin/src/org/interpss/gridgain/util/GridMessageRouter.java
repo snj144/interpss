@@ -101,17 +101,18 @@ public class GridMessageRouter implements GridMessageListener {
 			 * states.get("BusId").equals("0001")) { System.out.println("DStab
 			 * Msg : " + states.get("Time")); }
 			 */
-			DStabSimuAction event = new DStabSimuAction(new Byte(type)
-					.byteValue(), states);
-			// find dbCaseId
-			String caseId = states.get(Constants.GridToken_CaseId);
-			int dbCaseId = SpringAppContext.getSimuRecManager().getDBCaseId(caseId);
-			// System.out.println("*******caseId, dbCaseId: " + caseId + ", " +
-			// dbCaseId);
+			DStabSimuAction event = new DStabSimuAction(new Byte(type).byteValue(), states);
+			if (dstabOutputHandlerList.size() > 0) {
+				// find dbCaseId
+				String caseId = states.get(Constants.GridToken_CaseId);
+				int dbCaseId = SpringAppContext.getSimuRecManager().getDBCaseId(caseId);
+				// System.out.println("*******caseId, dbCaseId: " + caseId + ", " +
+				// dbCaseId);
 
-			for (IDStabSimuOutputHandler handler : dstabOutputHandlerList) {
-				if (((IDStabSimuDatabaseOutputHandler) handler).getDBCaseId() == dbCaseId) {
-					handler.onMsgEventStatus(event);
+				for (IDStabSimuOutputHandler handler : dstabOutputHandlerList) {
+					if (((IDStabSimuDatabaseOutputHandler) handler).getDBCaseId() == dbCaseId) {
+						handler.onMsgEventStatus(event);
+					}
 				}
 			}
 		} else if (msgStr.startsWith(Constants.GridToken_ProgressStatusMsg)) {
