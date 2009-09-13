@@ -26,26 +26,22 @@ package org.interpss.gridgain.dstab;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.gridgain.grid.GridFactory;
-import org.gridgain.grid.GridMessageListener;
-import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
+import org.interpss.gridgain.GridBaseTestSetup;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.junit.Test;
 
 import com.interpss.common.exp.InterpssException;
 import com.interpss.dstab.DStabilityNetwork;
+import com.interpss.dstab.DynamicSimuAlgorithm;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
+public class DStab_5BusNoRegulatorGridGainTest extends GridBaseTestSetup {
 	@Test
 	public void testDStab5BusCase() throws InterpssException, GridException {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
@@ -53,32 +49,18 @@ public class DStab_5BusNoRegulatorGridGainTest extends DStabTestSetupBase {
 		
 		DStabilityNetwork net = simuCtx.getDStabilityNet();
 		//System.out.println(net.net2String());
+		net.setId("NetId");
+		addDynamicEventData(net);
+		//System.out.println(net.net2String());
 		
-    	GridFactory.start();
-        try {
-        	Grid grid = GridFactory.getGrid();
-        	
-        	grid.addMessageListener(new GridMessageListener() {
-        		public void onMessage(UUID arg0, Serializable arg1) {
-        			System.out.println(arg1);
-        		}        		
-        	});
+		DynamicSimuAlgorithm algo = createDStabAlgo(net);
+		//algo.setTotalSimuTimeSec(0.2);		
+		
+		Grid grid = IpssGridGainUtil.getDefaultGrid();
+		
+   		AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil.getAnyRemoteNodeId();
 
-        	String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
-    		assertTrue(list.length > 0);
-    		
-    		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
-    		if (list.length >= 2)  // there is remote node in this case
-    			assertTrue(nodeId != null);
-    		
-    		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
-    		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
-
-    		RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", net, 0);
-        	assertTrue(result.getReturnStatus());
-        }
-        finally {
-        	GridFactory.stop(true);
-        }
+   		RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid Aclf 5-Bus Sample system", algo, 0);
+       	assertTrue(result.getReturnStatus());
 	}
 }

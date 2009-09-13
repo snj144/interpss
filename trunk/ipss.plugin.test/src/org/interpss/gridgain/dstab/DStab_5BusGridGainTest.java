@@ -28,27 +28,21 @@ import static org.junit.Assert.assertTrue;
 
 import org.gridgain.grid.Grid;
 import org.gridgain.grid.GridException;
-import org.gridgain.grid.GridFactory;
-import org.interpss.dstab.ieeeModel.DStabTestSetupBase;
+import org.interpss.gridgain.GridBaseTestSetup;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeDStabTask;
 import org.interpss.gridgain.util.GridMessageRouter;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.junit.Test;
 
-import com.interpss.common.SpringAppContext;
 import com.interpss.common.exp.InterpssException;
-import com.interpss.common.ui.Workspace;
-import com.interpss.common.util.IpssLogger;
 import com.interpss.dstab.DStabilityNetwork;
 import com.interpss.dstab.DynamicSimuAlgorithm;
-import com.interpss.dstab.util.DatabaseSimuOutputHandler;
-import com.interpss.dstab.util.IDStabSimuDatabaseOutputHandler;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class DStab_5BusGridGainTest extends DStabTestSetupBase {
+public class DStab_5BusGridGainTest extends GridBaseTestSetup {
 	@Test
 	public void testDStab5BusCase() throws InterpssException, GridException {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.DSTABILITY_NET, msg);
@@ -62,25 +56,24 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
 		DynamicSimuAlgorithm algo = createDStabAlgo(net);
 		//algo.setTotalSimuTimeSec(0.2);
 		
-    	GridFactory.start();
-        try {
-        	Grid grid = GridFactory.getGrid();
+		Grid grid = IpssGridGainUtil.getDefaultGrid();
         	
-        	GridMessageRouter msgRouter = new GridMessageRouter(msg);
-        	grid.addMessageListener(msgRouter);
-        	
-    		Workspace.setCurrentType(Workspace.Type.Sample);
+       	GridMessageRouter msgRouter = new GridMessageRouter(msg);
+       	grid.addMessageListener(msgRouter);
+/*        	
+   		Workspace.setCurrentType(Workspace.Type.Sample);
     		
-    		IDStabSimuDatabaseOutputHandler dstabBbHandler = new DatabaseSimuOutputHandler();
-    		try {
-    			assertTrue(dstabBbHandler.init(83, "DStab-5Bus"+" SimuRecord"));
-    		} catch (Exception e) {
-    			IpssLogger.logErr(e);
-    			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
+   		IDStabSimuDatabaseOutputHandler dstabBbHandler = new DatabaseSimuOutputHandler();
+   		try {
+   			// assuming there is an existing case with id = 83
+   			assertTrue(dstabBbHandler.init(58, "DStab-5Bus"+" SimuRecord"));
+   		} catch (Exception e) {
+   			IpssLogger.logErr(e);
+   			SpringAppContext.getEditorDialogUtil().showErrMsgDialog("Error to Create DB SimuRecord", 
     					e.toString() + "\nPlease contact InterPSS support");
-    		}
+   		}
 
-        	//msgRouter.setIDStabSimuDatabaseOutputHandler(dstabBbHandler);
+        //msgRouter.setIDStabSimuDatabaseOutputHandler(dstabBbHandler);
         	
 /*
 		setDbSimuCaseId(handler.getCaseId());
@@ -90,21 +83,9 @@ public class DStab_5BusGridGainTest extends DStabTestSetupBase {
 			handler.setOutputVarIdList(dStabCaseData.getOutVarList());
 		simuCtx.getDynSimuAlgorithm().setSimuOutputHandler(handler);
  */        	
-        	String[] list = IpssGridGainUtil.gridNodeNameList(grid, false);
-    		assertTrue(list.length > 0);
+   		AssignJob2NodeDStabTask.RemoteNodeId = IpssGridGainUtil.getAnyRemoteNodeId();
     		
-    		String nodeId = IpssGridGainUtil.nodeIdLookup(list[list.length-1]);
-    		if (list.length >= 2)  // there is remote node in this case
-    			assertTrue(nodeId != null);
-    		
-    		AssignJob2NodeDStabTask.RemoteNodeId = nodeId;
-    		IpssGridGainUtil.MasterNodeId = grid.getLocalNode().getId().toString();
-    		
-    		RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid DStab 5-Bus Sample system", algo, 0);
-        	assertTrue(result.getReturnStatus());
-        }
-        finally {
-        	GridFactory.stop(true);
-        }
+   		RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid DStab 5-Bus Sample system", algo, 0);
+       	assertTrue(result.getReturnStatus());
 	}
 }

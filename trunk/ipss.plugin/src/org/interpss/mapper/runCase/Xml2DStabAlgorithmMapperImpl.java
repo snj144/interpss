@@ -97,9 +97,9 @@ public class Xml2DStabAlgorithmMapperImpl {
 		// transfer output variable filter info to the DStabAlgo object, which
 		// then
 		// will be carried by the object to the remote grid node
-		algo.setOutputFilted(dstabCase.getOutputConfig() != null && 
+		algo.setOutputFiltered(dstabCase.getOutputConfig() != null && 
 				dstabCase.getOutputConfig().getOutputFilter());
-		if (algo.isOutputFilted()) {
+		if (algo.isOutputFiltered()) {
 			algo.setOutputVarIdList(dstabCase.getOutputConfig()
 					.getOutputVarList().getVariableNameArray());
 		}
