@@ -41,19 +41,23 @@ import com.interpss.simu.SimuContext;
 public class Bus11856Test extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
+        long starttime = System.currentTimeMillis() ;
   		System.out.println("Start loading data ...");
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("ipssdat");
 		SimuContext simuCtx = adapter.load("testData/ipssdata/BUS11856.ipssdat");
   		System.out.println("End loading data ...");
-
+  		System.out.println("time for loading data : " + (System.currentTimeMillis() - starttime)*0.001);
+        
 		AclfNetwork net = simuCtx.getAclfNet();
   		//System.out.println(net.net2String());
   		assertTrue((net.getBusList().size() == 11856));
 
+  		starttime = System.currentTimeMillis() ;
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
+  		System.out.println("time for loadflow calculation : " + (System.currentTimeMillis() - starttime)*0.001);
 	  	
   		assertTrue(net.isLfConverged());		
 	}
