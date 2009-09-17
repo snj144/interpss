@@ -281,6 +281,53 @@ public class AclfOutFunc {
 		return str.toString();
 	}
 
+	public static String loadLossAllocation(AclfNetwork net) {
+		StringBuffer str = new StringBuffer("");
+		double lossMW = net.totalLoss(UnitType.mVA).getReal();
+
+		str.append("\n                          Load Loss Allocation\n");
+		str.append("\n                       Total Loss = " + Number2String.toStr("####0.00", lossMW) + " MW\n\n");
+		str.append("            BusID          LossAllocFactor         Allocated Loss(MW)\n");
+		str.append("  ------------------------------------------------------------------------\n");
+		for (Bus bus : net.getBusList()) {
+			AclfBus aclfBus = (AclfBus)bus;
+			if (aclfBus.isLoad() || aclfBus.isSwing()) { 
+				str.append(lossString(aclfBus, lossMW));
+			}
+  		}		
+		return str.toString();
+	}
+	
+	public static String genLossAllocation(AclfNetwork net) {
+		StringBuffer str = new StringBuffer("");
+		double lossMW = net.totalLoss(UnitType.mVA).getReal();
+
+		str.append("\n                          Gen Loss Allocation\n");
+		str.append("\n                       Total Loss = " + Number2String.toStr("####0.00", lossMW) + " MW\n\n");
+		str.append("            BusID          LossAllocFactor         Allocated Loss(MW)\n");
+		str.append("  ------------------------------------------------------------------------\n");
+		for (Bus bus : net.getBusList()) {
+			AclfBus aclfBus = (AclfBus)bus;
+			if (aclfBus.isGen()) { 
+				str.append(lossString(aclfBus, lossMW));
+			}
+  		}		
+		
+		return str.toString();
+	}
+	
+	private static String lossString(AclfBus aclfBus, double lossMW) {
+		StringBuffer str = new StringBuffer("");
+		str.append(Number2String.toStr(12, " "));
+		str.append(Number2String.toStr(-12, aclfBus.getId()) + "  ");
+		str.append(Number2String.toStr(2, " "));
+		str.append(Number2String.toStr("####0.000", aclfBus.getLossPartFactor()));
+		str.append(Number2String.toStr(17, " "));
+		str.append(Number2String.toStr("####0.00", aclfBus.getLossPartFactor()*lossMW));
+		str.append("\n");
+		return str.toString();
+	}
+
 	public static String loadFlowSummary(AclfAdjNetwork net) {
 		StringBuffer str = new StringBuffer(loadFlowSummary((AclfNetwork) net));
 		try {

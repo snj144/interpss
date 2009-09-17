@@ -12,16 +12,19 @@ import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfLoadCode;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.ActivePowerWalkDirection;
+import com.interpss.core.aclf.LossCalNetAdapter;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.core.net.Bus;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.util.sample.SampleCases;
 
 public class IEEE14BusCaseTest  extends BaseTestSetup {
-	@Test
+	//@Test
 	public void run3WXfrOffCase() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE14Bus_3WXfrOff.ipss", simuCtx);
