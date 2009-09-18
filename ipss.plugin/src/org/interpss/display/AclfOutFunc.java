@@ -291,7 +291,8 @@ public class AclfOutFunc {
 		str.append("  ------------------------------------------------------------------------\n");
 		for (Bus bus : net.getBusList()) {
 			AclfBus aclfBus = (AclfBus)bus;
-			if (aclfBus.isLoad() || aclfBus.isSwing()) { 
+			if ( aclfBus.getLossPartFactor() > 0.0 && 
+					(aclfBus.isLoad() || aclfBus.isSwing())) { 
 				str.append(lossString(aclfBus, lossMW));
 			}
   		}		
@@ -308,7 +309,7 @@ public class AclfOutFunc {
 		str.append("  ------------------------------------------------------------------------\n");
 		for (Bus bus : net.getBusList()) {
 			AclfBus aclfBus = (AclfBus)bus;
-			if (aclfBus.isGen()) { 
+			if (aclfBus.isGen() && aclfBus.getLossPartFactor() > 0.0) { 
 				str.append(lossString(aclfBus, lossMW));
 			}
   		}		
