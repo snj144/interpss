@@ -31,6 +31,7 @@ import com.interpss.common.util.Number2String;
 import com.interpss.core.aclf.AclfBranch;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.ActivePowerWalkDirection;
 import com.interpss.core.aclf.CapacitorBusAdapter;
 import com.interpss.core.aclf.GenBusAdapter;
 import com.interpss.core.aclf.PSXfrAdapter;
@@ -284,6 +285,7 @@ public class AclfOutFunc {
 	public static String loadLossAllocation(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
 		double lossMW = net.totalLoss(UnitType.mVA).getReal();
+		double lossPU = net.totalLoss(UnitType.PU).getReal();
 
 		str.append("\n                          Load Loss Allocation\n");
 		str.append("\n                       Total Loss = " + Number2String.toStr("####0.00", lossMW) + " MW\n\n");
@@ -291,9 +293,9 @@ public class AclfOutFunc {
 		str.append("  ------------------------------------------------------------------------\n");
 		for (Bus bus : net.getBusList()) {
 			AclfBus aclfBus = (AclfBus)bus;
-			if ( aclfBus.getLossPartFactor() > 0.0 && 
+			if ( aclfBus.getLossPFactor(ActivePowerWalkDirection.SOURC2_LOAD, lossPU) > 0.0 && 
 					(aclfBus.isLoad() || aclfBus.isSwing())) { 
-				str.append(lossString(aclfBus, lossMW));
+				str.append(lossString(aclfBus, ActivePowerWalkDirection.SOURC2_LOAD, lossMW, lossPU));
 			}
   		}		
 		return str.toString();
@@ -302,6 +304,7 @@ public class AclfOutFunc {
 	public static String genLossAllocation(AclfNetwork net) {
 		StringBuffer str = new StringBuffer("");
 		double lossMW = net.totalLoss(UnitType.mVA).getReal();
+		double lossPU = net.totalLoss(UnitType.PU).getReal();
 
 		str.append("\n                          Gen Loss Allocation\n");
 		str.append("\n                       Total Loss = " + Number2String.toStr("####0.00", lossMW) + " MW\n\n");
@@ -309,22 +312,22 @@ public class AclfOutFunc {
 		str.append("  ------------------------------------------------------------------------\n");
 		for (Bus bus : net.getBusList()) {
 			AclfBus aclfBus = (AclfBus)bus;
-			if (aclfBus.isGen() && aclfBus.getLossPartFactor() > 0.0) { 
-				str.append(lossString(aclfBus, lossMW));
+			if (aclfBus.isGen() && aclfBus.getLossPFactor(ActivePowerWalkDirection.LOAD2_SOURCE, lossPU) > 0.0) { 
+				str.append(lossString(aclfBus, ActivePowerWalkDirection.LOAD2_SOURCE, lossMW, lossPU));
 			}
   		}		
 		
 		return str.toString();
 	}
 	
-	private static String lossString(AclfBus aclfBus, double lossMW) {
+	private static String lossString(AclfBus aclfBus, ActivePowerWalkDirection direction, double lossMW, double lossPU) {
 		StringBuffer str = new StringBuffer("");
 		str.append(Number2String.toStr(12, " "));
 		str.append(Number2String.toStr(-12, aclfBus.getId()) + "  ");
 		str.append(Number2String.toStr(2, " "));
-		str.append(Number2String.toStr("####0.000", aclfBus.getLossPartFactor()));
+		str.append(Number2String.toStr("####0.000", aclfBus.getLossPFactor(direction, lossPU)));
 		str.append(Number2String.toStr(17, " "));
-		str.append(Number2String.toStr("####0.00", aclfBus.getLossPartFactor()*lossMW));
+		str.append(Number2String.toStr("####0.00", aclfBus.getLossPFactor(direction, lossPU)*lossMW));
 		str.append("\n");
 		return str.toString();
 	}
