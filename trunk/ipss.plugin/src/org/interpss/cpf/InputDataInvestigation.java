@@ -26,7 +26,7 @@ public class InputDataInvestigation {
 			bus.setQLimit(limit);
 			limit = new LimitType(1.10, 0.90);
 			bus.setVLimit(limit);
-			bus.setLossPartFactor(0.3);
+			//bus.setLossPartFactor(0.3); should be calculated
 
 		/*	
 		3.About PV bus,Vmax,Vmin,and Loss participation coefficient(gamma) are needed to be added.
