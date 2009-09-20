@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
+import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
@@ -39,7 +39,7 @@ public class PSSEV30LoadDataRec {
 	/*
 	 * LoadData I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 	 */	
-	public static void procLine(String lineStr, VersionNo version, final ODMModelParser parser, Logger logger) {
+	public static void procLine(String lineStr, PsseVersion version, final ODMModelParser parser, Logger logger) {
 		int i, status, area = 1, zone = 1, owner = 1;
 		String id;
 		double pl = 0.0, ql = 0.0, ip = 0.0, iq = 0.0, yp = 0.0, yq = 0.0;

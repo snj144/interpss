@@ -30,6 +30,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
+import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter.VersionNo;
+import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30BusDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30LineDataRec;
@@ -40,8 +42,6 @@ import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSEV30Adapter extends AbstractODMAdapter{
-	public enum VersionNo {PSS_E_29, PSS_E_30}	
-	
 	public final static String Token_CaseDesc = "Case Description";     
 	public final static String Token_CaseId = "Case ID";				
 
@@ -59,7 +59,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 		// no space is allowed for ID field
 		baseCaseNet.setId("Base_Case_from_PSS_E_format");
 
-		VersionNo version = VersionNo.PSS_E_30;
+		PsseVersion version = PsseVersion.PSSE_30;
 		
   		String lineStr = null;
   		int lineNo = 0;

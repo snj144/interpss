@@ -39,7 +39,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType.AdjustmentType;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
+import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
@@ -62,7 +62,7 @@ public class PSSEV30XfrDataRec {
 	 */
 
 	public static void procLine(String lineStr1, String lineStr2, String lineStr3, String lineStr4, String lineStr5, 
-									VersionNo version, ODMModelParser parser, Logger logger) {
+							PsseVersion version, ODMModelParser parser, Logger logger) {
 		int i, j, k, cw, cz, cm, stat, nmetr;
 		String ckt, name;
 		double mag1, mag2;

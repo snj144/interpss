@@ -10,8 +10,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
@@ -24,7 +24,7 @@ public class PSSEV30LineDataRec {
 	 * I,J,CKT,R,X,B,RATEA,RATEB,RATEC,GI,BI,GJ,BJ,ST,LEN,O1,F1,...,O4,F4
 	 */
 
-	public static void procLine(String lineStr, VersionNo version, ODMModelParser parser, Logger logger) {
+	public static void procLine(String lineStr, PsseVersion version, ODMModelParser parser, Logger logger) {
 		int i, j, status;
 		String ckt;
 		double r, x, b, ratea, rateb, ratec, gi, bi, gj, bj, len; 
