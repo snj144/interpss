@@ -113,7 +113,7 @@
 					</sequence>
 				</complexType>
 			</element>
-			<element name="shuntQData" minOccurs="0">
+			<element name="switchedShuntData" minOccurs="0">
 				<complexType>
 					<sequence>
 						<element name="equivQ" type="pss:ReactivePowerXmlType" minOccurs="0"></element>
@@ -219,10 +219,10 @@
 
 	<complexType name="NetAreaXmlType">
 		<sequence>
-			<element name="swingBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="swingBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
 			<element name="alternateSwingBus" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
             <element name="desiredExchangePower" type="pss:ActivePowerXmlType" minOccurs="0"></element>
-            <element name="exchangeErrToler" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
+            <element name="exchangeErrTolerance" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
             <element name="totalExchangePower" type="pss:PowerXmlType" maxOccurs="1" minOccurs="0"></element>
             <element name="exchangePower" maxOccurs="unbounded" minOccurs="0">
 				<complexType>
@@ -712,12 +712,12 @@
 					<restriction base="string">
 						<enumeration value="Voltage"></enumeration>
 						<enumeration value="MVarFlow"></enumeration>
-						<enumeration value="Off"></enumeration>
 					</restriction>
 				</simpleType>
 			</element>
 			<element name="tapLimit" type="pss:TapLimitXmlType" minOccurs="1"></element>
 			<element name="tapAdjStepSize" type="double" minOccurs="0"></element>
+			<element name="tapAdjStep" type="int" minOccurs="0"></element>
 			<element name="tapAdjOnFromSide" type="boolean" minOccurs="1"></element>
 			<sequence>
 				<choice>
@@ -775,6 +775,7 @@
 				</choice>
 			</sequence>
 		</sequence>
+		<attribute name="offLine" type="boolean" use="required"></attribute>
 	</complexType>
 	<complexType name="AngleAdjustmentXmlType">
 		<complexContent>
@@ -793,6 +794,7 @@
 					</element>
 					<element name="desiredMeasuredOnFromSide" type="boolean" minOccurs="1"></element>
 				</sequence>
+				<attribute name="offLine" type="boolean" use="required"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>

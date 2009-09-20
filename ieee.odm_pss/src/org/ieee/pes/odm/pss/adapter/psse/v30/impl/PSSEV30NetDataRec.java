@@ -2,10 +2,16 @@ package org.ieee.pes.odm.pss.adapter.psse.v30.impl;
 
 import java.util.StringTokenizer;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
 import org.ieee.pes.odm.pss.model.DataSetter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
 
 
@@ -36,88 +42,65 @@ public class PSSEV30NetDataRec {
 	}
 
 	/*
-	 * AreaInterchangeData I,ISW,PDES,PTOL,'ARNAM'
+	 * Area Data I,ISW,PDES,PTOL,'ARNAM'
 	 */
-	static public class AreaInterchangeRec {
-		private int i, isw;
-		private double pdes, ptol;
-		private String arnam;
+	public static void processAreaRec(String lineStr, final PSSNetworkXmlType baseCaseNet) {
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		int i = new Integer(st.nextToken().trim()).intValue();
+		int isw = new Integer(st.nextToken().trim()).intValue();
+		double pdes = new Double(st.nextToken().trim()).doubleValue();
+		double ptol = new Double(st.nextToken().trim()).doubleValue();
+		String arnam = st.nextToken().trim();
 
-		public AreaInterchangeRec(String lineStr, PSSEV30Adapter.VersionNo version) {
-			StringTokenizer st = new StringTokenizer(lineStr, ",");
-			i = new Integer(st.nextToken().trim()).intValue();
-			isw = new Integer(st.nextToken().trim()).intValue();
-			pdes = new Double(st.nextToken().trim()).doubleValue();
-			ptol = new Double(st.nextToken().trim()).doubleValue();
-			arnam = st.nextToken().trim();
+/*
+		I,  ISW,     PDES,      PTOL, 'ARNAM'
+	    1,    0,     0.000,     1.000,'NEPEX       '
 
-	/*
-			I,ISW,PDES,PTOL,'ARNAM'
-	*/
-			/*
-			AclfBus bus = adjNet.getAclfBus(new Integer(this.isw).toString());
-			if (bus == null) {
-				IpssLogger.getLogger().warning("Area interchange poewr controller, Swing bus not found, ISW: " + this.isw + 
-						", this data line is ignored");
-			} else {
-				AreaInterchangeControl controller = CoreObjectFactory.createAreaInterchangeController(this.i, this.arnam, adjNet);
-				controller.setAclfBus(bus);
-				controller.setPSpecOut(this.pdes, UnitType.mW, adjNet.getBaseKva());
-				controller.setTolerance(this.ptol, UnitType.mW, adjNet.getBaseKva());
-			}
-			*/
-		}
-		
-		public String toString() {
-			String str = "";
-			str += "Area number, Swing Bus Number:" + i + ", " + isw + "\n";
-			str += "Pspec, Perror, Name:" + pdes + ", " + ptol + ", "  + arnam + "\n";
-			return str;
+*/
+		if (baseCaseNet.getAreaList() == null)
+			baseCaseNet.addNewAreaList();
+		NetAreaXmlType area = baseCaseNet.getAreaList().addNewArea();
+		area.setId(new Integer(i).toString());
+		area.setNumber(i);
+		area.setName(arnam);
+
+		if (isw > 0) {
+			area.addNewSwingBusId().setIdRef(ODMModelParser.BusIdPreFix+isw);
+			DataSetter.setActivePower(area.addNewDesiredExchangePower(), pdes, ActivePowerUnitType.MW);
+			DataSetter.setActivePower(area.addNewExchangeErrTolerance(), ptol, ActivePowerUnitType.MW);			
 		}
 	}
 
 	/*
 	 * ZoneData Format: I, ’ZONAME’
 	 */
-	static public class ZoneRec {
-		private int i;
-		private String name;
+	public static void processZoneRec(String lineStr, final PSSNetworkXmlType baseCaseNet) {
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		int	i = new Integer(st.nextToken().trim()).intValue();
+		String name = st.nextToken().trim();
 
-		public ZoneRec(String lineStr, PSSEV30Adapter.VersionNo version) {
-			StringTokenizer st = new StringTokenizer(lineStr, ",");
-			i = new Integer(st.nextToken().trim()).intValue();
-			name = st.nextToken().trim();
-
-			/*
-			 * Format: I, ’ZONAME’
-			 */
-	      	//Zone zone = CoreObjectFactory.createZone(i, adjNet);
-			//zone.setName(name);
-		}		
-
-		public String toString() {
-			String str = "";
-			str += "Zone number, name:" + i + ", " + name;
-			return str;
-		}
+		/*
+		 * Format: I, ’ZONAME’
+		 */
+		if (baseCaseNet.getLossZoneList() == null)
+			baseCaseNet.addNewLossZoneList();
+		NetZoneXmlType zone = baseCaseNet.getLossZoneList().addNewLossZone();
+		zone.setId(new Integer(i).toString());
+		zone.setNumber(i);
+		zone.setName(name);		
 	}
 
 	/*
 	 * InterareaTransfer format: ARFROM, ARTO, TRID, PTRAN
 	 */
-	static public class InterareaTransferRec {
-		private int arfrom, arto;
-		private String trid;
-		private double ptran;
+	public static void processInterareaTransferRec(String lineStr, final PSSNetworkXmlType baseCaseNet) {
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		int	arfrom = new Integer(st.nextToken().trim()).intValue();
+		int	arto = new Integer(st.nextToken().trim()).intValue();
+		String	trid = st.nextToken().trim();
+		double	ptran = new Double(st.nextToken().trim()).doubleValue();
 
-		public InterareaTransferRec(String lineStr, PSSEV30Adapter.VersionNo version) {
-			StringTokenizer st = new StringTokenizer(lineStr, ",");
-			arfrom = new Integer(st.nextToken().trim()).intValue();
-			arto = new Integer(st.nextToken().trim()).intValue();
-			trid = st.nextToken().trim();
-			ptran = new Double(st.nextToken().trim()).doubleValue();
-
-			/*
+		/*
 			 * format: ARFROM, ARTO, TRID, PTRAN
 
 			ARFROM "From area" number (1 through the maximum number of areas at the 
@@ -131,41 +114,33 @@ public class PSSEV30NetDataRec {
 					selling to area ARTO. PTRAN = 0.0 by default.
 					
 				- FromAreaNo_ToAreaNo_TRID is unique					 
-			*/
-			//InterareaTransfer tr = CoreObjectFactory.createInterareaTransfer(adjNet, this.arfrom, this.arto, this.trid);
-			//tr.setTransferMW(this.ptran);
-		}		
-
-		public String toString() {
-			String str = "";
-			str += "From area number, From area number, id, value:" + arfrom + ", " + arto  + ", " + trid  + ", " + ptran;
-			return str;
-		}
+		*/
+		if (baseCaseNet.getInterchangeList() == null)
+			baseCaseNet.addNewInterchangeList();
+		PSSNetworkXmlType.InterchangeList.Interchange.AreaTransfer transfer = baseCaseNet.getInterchangeList().addNewInterchange().addNewAreaTransfer();
+		
+		transfer.setFromArea(arfrom);
+		transfer.setToArea(arto);
+		transfer.setId(trid);
+		transfer.setAmountMW(ptran);
 	}
 
 	/*
 	 * Owner format : I, ’OWNAME’
 	 */
-	static public class OwnerRec {
-		private int i;
-		private String name;
+	public static void processOwnerRec(String lineStr, final PSSNetworkXmlType baseCaseNet) {
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		int	i = new Integer(st.nextToken().trim()).intValue();
+		String name = st.nextToken().trim();
 
-		public OwnerRec(String lineStr, PSSEV30Adapter.VersionNo version) {
-			StringTokenizer st = new StringTokenizer(lineStr, ",");
-			i = new Integer(st.nextToken().trim()).intValue();
-			name = st.nextToken().trim();
-
-			/*
-			 * format : I, ’OWNAME’
-			 */
-	      	//Owner owner = CoreObjectFactory.createOwner(new Integer(i).toString(), adjNet);
-			//owner.setName(name);
-		}
-
-		public String toString() {
-			String str = "";
-			str += "Zone number, name:" + i + ", " + name;
-			return str;
-		}
+		/*
+		 * format : I, ’OWNAME’
+		 */
+		if (baseCaseNet.getOwnerList() == null)
+			baseCaseNet.addNewOwnerList();
+		BaseRecordXmlType.OwnerList.Owner owner = baseCaseNet.getOwnerList().addNewOwner();
+		owner.setId(new Integer(i).toString());
+		owner.setNumber(i);
+		owner.setName(name);			
 	}
 }

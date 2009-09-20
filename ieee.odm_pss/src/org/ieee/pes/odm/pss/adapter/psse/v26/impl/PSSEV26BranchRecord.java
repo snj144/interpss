@@ -206,6 +206,7 @@ public class PSSEV26BranchRecord {
 	    	vAdjData.setMin(vlow);
 	    	
 	    	if (iconId != null) {
+		    	tapAdj.setOffLine(false);
 	    		if (iconId.equals(fid))
 	    			vAdjData.setAdjBusLocation(TapAdjustmentXmlType.VoltageAdjData.AdjBusLocation.FROM_BUS);
 	    		else if (iconId.equals(tid))
@@ -219,7 +220,7 @@ public class PSSEV26BranchRecord {
 	    		}
 	    	}
 	    	else
-		    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.OFF);
+		    	tapAdj.setOffLine(true);
 	    }
 	    else if (branchData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
 	    	double angmax = StringUtil.getDouble(strAry[4], 0.0);

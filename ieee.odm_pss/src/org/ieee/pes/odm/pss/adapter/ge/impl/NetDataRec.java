@@ -150,7 +150,7 @@ public class NetDataRec {
 			area.addNewSwingBusId().setIdRef(new Integer(this.swing).toString());
 			DataSetter.setPowerData(area.addNewTotalExchangePower(), this.pnet, this.qnet, ApparentPowerUnitType.MVA);
 			DataSetter.setActivePower(area.addNewDesiredExchangePower(), this.pnetdes, ActivePowerUnitType.MW);
-			DataSetter.setActivePower(area.addNewExchangeErrToler(), this.pnettol, ActivePowerUnitType.MW);
+			DataSetter.setActivePower(area.addNewExchangeErrTolerance(), this.pnettol, ActivePowerUnitType.MW);
 		}
 	}
 

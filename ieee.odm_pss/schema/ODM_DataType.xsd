@@ -18,6 +18,7 @@
 							<complexType>
 								<attribute name="id" type="string" use="required"></attribute>
 								<attribute name="name" type="string" use="optional"></attribute>
+								<attribute name="number" type="int" use="optional"></attribute>
 								<attribute name="ownership" type="double" use="optional"></attribute>
 							</complexType>
 						</element>
