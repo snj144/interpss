@@ -102,6 +102,26 @@
 			</extension>
 		</complexContent>
 	</complexType>
+	<complexType name="XformerZTableXmlType">
+		<sequence>
+			<element name="XformerZTableItem" minOccurs="0" maxOccurs="unbounded">
+				<complexType>
+					<sequence>
+						<element name="number" type="int" minOccurs="1"></element>
+						<element name="lookup" minOccurs="0" maxOccurs="unbounded">
+							<complexType>
+								<sequence>
+									<element name="turnRatioShiftAngle" type="double" minOccurs="1"></element>
+									<element name="scaleFactor" type="double" minOccurs="1"></element>
+								</sequence>
+
+							</complexType></element>
+					</sequence>
+				</complexType>
+			</element>
+
+		</sequence>
+	</complexType>	
 	<complexType name="PowerXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">

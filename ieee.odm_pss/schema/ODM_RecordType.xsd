@@ -670,6 +670,7 @@
 	<complexType name="SwitchedShuntDataXmlType">
 		<sequence>
 			<element name="desiredVoltageRange" type="pss:VoltageLimitXmlType" minOccurs="1"></element>
+			<element name="varPercent" type="double" minOccurs="0"></element>
 			<element name="bInit" type="double" minOccurs="1"></element>
 			<element name="remoteControlledBus" type="pss:IDRefRecordXmlType" minOccurs="0"></element>
 			<element name="block" maxOccurs="unbounded" minOccurs="1">
@@ -681,6 +682,7 @@
 
 				</complexType>
 			</element>
+			<element name="vscDcLine" type="string" minOccurs="0"></element>
 		</sequence>
 		<attribute name="mode" use="required">
 			<simpleType>

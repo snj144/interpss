@@ -1,4 +1,4 @@
-package org.ieee.pes.odm.pss.adapter.psse.v30.impl;
+package org.ieee.pes.odm.pss.adapter.psse;
 
 import java.util.StringTokenizer;
 
@@ -8,13 +8,13 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.XformerZTableXmlType;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
 
 
-public class PSSEV30NetDataRec {
+public class PSSENetDataRec {
 	static public class HeaderRec {
 		public static void procLine(String lineStr, int lineNo, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
 			if (lineNo == 1) {
@@ -43,7 +43,7 @@ public class PSSEV30NetDataRec {
 	/*
 	 * Area Data I,ISW,PDES,PTOL,'ARNAM'
 	 */
-	public static void processAreaRec(String lineStr, final PSSNetworkXmlType baseCaseNet) {
+	public static void processAreaRec(String lineStr, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int i = new Integer(st.nextToken().trim()).intValue();
 		int isw = new Integer(st.nextToken().trim()).intValue();
@@ -73,7 +73,7 @@ public class PSSEV30NetDataRec {
 	/*
 	 * ZoneData Format: I, ’ZONAME’
 	 */
-	public static void processZoneRec(String lineStr, final PSSNetworkXmlType baseCaseNet) {
+	public static void processZoneRec(String lineStr, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	i = new Integer(st.nextToken().trim()).intValue();
 		String name = st.nextToken().trim();
@@ -92,7 +92,7 @@ public class PSSEV30NetDataRec {
 	/*
 	 * InterareaTransfer format: ARFROM, ARTO, TRID, PTRAN
 	 */
-	public static void processInterareaTransferRec(String lineStr, final PSSNetworkXmlType baseCaseNet) {
+	public static void processInterareaTransferRec(String lineStr, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	arfrom = new Integer(st.nextToken().trim()).intValue();
 		int	arto = new Integer(st.nextToken().trim()).intValue();
@@ -127,7 +127,7 @@ public class PSSEV30NetDataRec {
 	/*
 	 * Owner format : I, ’OWNAME’
 	 */
-	public static void processOwnerRec(String lineStr, final PSSNetworkXmlType baseCaseNet) {
+	public static void processOwnerRec(String lineStr, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
 		StringTokenizer st = new StringTokenizer(lineStr, ",");
 		int	i = new Integer(st.nextToken().trim()).intValue();
 		String name = st.nextToken().trim();
@@ -141,5 +141,29 @@ public class PSSEV30NetDataRec {
 		owner.setId(new Integer(i).toString());
 		owner.setNumber(i);
 		owner.setName(name);			
+	}
+
+	public static void processXfrZTableRec(String lineStr, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
+		StringTokenizer st = new StringTokenizer(lineStr, ",");
+		int	i = new Integer(st.nextToken().trim()).intValue();
+		double[] t = new double[11], f = new double[11];
+		int cnt = 0;
+		while(st.hasMoreTokens()) {
+			t[cnt] = new Double(st.nextToken().trim()).doubleValue();
+			f[cnt++] = new Double(st.nextToken().trim()).doubleValue();
+		}
+
+		/*
+		 * format V30: I, T1, F1, T2, F2, T3, F3, ... T11, F11
+		 */
+		if (baseCaseNet.getXfrZTable() == null)
+			baseCaseNet.addNewXfrZTable();
+		XformerZTableXmlType.XformerZTableItem item = baseCaseNet.getXfrZTable().addNewXformerZTableItem();
+		item.setNumber(i);
+		for (int n = 0; n < cnt; n++) {
+			XformerZTableXmlType.XformerZTableItem.Lookup lookup = item.addNewLookup();
+			lookup.setTurnRatioShiftAngle(t[n]);
+			lookup.setScaleFactor(f[n]);
+		}
 	}
 }

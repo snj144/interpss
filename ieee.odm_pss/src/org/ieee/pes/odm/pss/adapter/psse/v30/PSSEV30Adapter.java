@@ -30,13 +30,13 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
-import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter.VersionNo;
+import org.ieee.pes.odm.pss.adapter.psse.PSSEBusRecord;
+import org.ieee.pes.odm.pss.adapter.psse.PSSENetDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30BusDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30LoadDataRec;
-import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30NetDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30XfrDataRec;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
@@ -93,7 +93,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				if (!headerProcessed) {
 						if (lineNo == 3) 
       						headerProcessed = true;
-						PSSEV30NetDataRec.HeaderRec.procLine(lineStr, lineNo, version, baseCaseNet);
+						PSSENetDataRec.HeaderRec.procLine(lineStr, lineNo, version, baseCaseNet);
       				}
       				else if (!busProcessed) {
 						if (isEndRecLine(lineStr)) {
@@ -178,7 +178,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 getLogger().info("PSS/E AreaInterchange record processed");
 						}
 						else {
-							PSSEV30NetDataRec.processAreaRec(lineStr, baseCaseNet);
+							PSSENetDataRec.processAreaRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							areaInterCnt++;
 						}	 
       				}
@@ -213,8 +213,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 getLogger().info("PSS/E switched shunt record processed");
 						}
 						else {
-							//PSSESwitchedShuntDataRec rec = new PSSESwitchedShuntDataRec(lineStr, version);
-							//rec.processSwitchedShunt(adjNet, msg);
+        					PSSEBusRecord.processSwitchedShuntData(lineStr, PsseVersion.PSSE_30, parser, this.getLogger());
 							switchedShuntCnt++;
 						}	 
       				}
@@ -224,7 +223,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							getLogger().info("PSS/E Xfr table record processed");
 						}
 						else {
-							//PSSEDataRec.processXfrZCorrectionTable(adjNet, lineStr, lineNo, msg);
+							PSSENetDataRec.processXfrZTableRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							xfrZTableCnt++;
 						}	 
       				}
@@ -256,7 +255,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							getLogger().info("PSS/E Zone record processed");
 						}
 						else {
-							PSSEV30NetDataRec.processZoneRec(lineStr, baseCaseNet);
+							PSSENetDataRec.processZoneRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							//rec.processZone(adjNet, msg);
 							zoneCnt++;
 						}	 
@@ -267,7 +266,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							getLogger().info("PSS/E Interarea Transfer record processed");
 						}
 						else {
-							PSSEV30NetDataRec.processInterareaTransferRec(lineStr, baseCaseNet);
+							PSSENetDataRec.processInterareaTransferRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							interTransCnt++;
 						}	 
       				}
@@ -277,7 +276,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							getLogger().info("PSS/E Owner record processed");
 						}
 						else {
-							PSSEV30NetDataRec.processOwnerRec(lineStr, baseCaseNet);
+							PSSENetDataRec.processOwnerRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							ownerCnt++;
 						}	 
       				}
