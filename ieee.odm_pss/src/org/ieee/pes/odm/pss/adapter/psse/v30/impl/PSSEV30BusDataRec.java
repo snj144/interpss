@@ -34,7 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
+import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 
@@ -42,7 +42,7 @@ public class PSSEV30BusDataRec {
 	/*
 	 * BusData Format: I, ’NAME’, BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
 	 */
-	public static void procLine(String lineStr, VersionNo version, ODMModelParser parser, Logger logger) {
+	public static void procLine(String lineStr, PsseVersion version, ODMModelParser parser, Logger logger) {
 		int i, ide, area = 1, zone = 1, owner = 1;
 		String name;
 		double baseKv, gl = 0.0, bl = 0.0, vm = 1.0, va = 0.0;

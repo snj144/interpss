@@ -31,16 +31,14 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowLoadDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
+import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
-import org.ieee.pes.odm.pss.model.StringUtil;
 
 public class PSSEV30GenDataRec {
 	/*
@@ -52,7 +50,7 @@ public class PSSEV30GenDataRec {
 	 * some designated bus, not necessarily bus k.
 	 */
 
-	public static void procLine(String lineStr, VersionNo version, final ODMModelParser parser, Logger logger) {
+	public static void procLine(String lineStr, PsseVersion version, final ODMModelParser parser, Logger logger) {
 		int i, ireg, stat ;
 		String id;
 		double pg, qg, qt, qb, vs, mbase, zr, zx, rt, xt, gtap, rmpct, pt, pb;

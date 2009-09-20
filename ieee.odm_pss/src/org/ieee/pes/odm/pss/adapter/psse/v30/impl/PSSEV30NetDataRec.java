@@ -8,8 +8,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
@@ -17,7 +16,7 @@ import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSEV30NetDataRec {
 	static public class HeaderRec {
-		public static void procLine(String lineStr, int lineNo, PSSEV30Adapter.VersionNo version, final PSSNetworkXmlType baseCaseNet) {
+		public static void procLine(String lineStr, int lineNo, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
 			if (lineNo == 1) {
 				StringTokenizer st = new StringTokenizer(lineStr, ",");
 				int indicator = new Integer(st.nextToken().trim()).intValue();
