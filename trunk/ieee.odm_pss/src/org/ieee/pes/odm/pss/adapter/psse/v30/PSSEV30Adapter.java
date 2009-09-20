@@ -178,8 +178,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 getLogger().info("PSS/E AreaInterchange record processed");
 						}
 						else {
-							//PSSEDataRec.AreaInterchangeRec rec = new PSSEDataRec.AreaInterchangeRec(lineStr, version);
-							//rec.processAreaInterchange(adjNet, msg);
+							PSSEV30NetDataRec.processAreaRec(lineStr, baseCaseNet);
 							areaInterCnt++;
 						}	 
       				}
@@ -257,7 +256,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							getLogger().info("PSS/E Zone record processed");
 						}
 						else {
-							//PSSEDataRec.ZoneRec rec = new PSSEDataRec.ZoneRec(lineStr, version);
+							PSSEV30NetDataRec.processZoneRec(lineStr, baseCaseNet);
 							//rec.processZone(adjNet, msg);
 							zoneCnt++;
 						}	 
@@ -268,8 +267,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							getLogger().info("PSS/E Interarea Transfer record processed");
 						}
 						else {
-							//PSSEDataRec.InterareaTransferRec rec = new PSSEDataRec.InterareaTransferRec(lineStr, version);
-							//rec.processInterareaTransfer(adjNet, msg);
+							PSSEV30NetDataRec.processInterareaTransferRec(lineStr, baseCaseNet);
 							interTransCnt++;
 						}	 
       				}
@@ -279,8 +277,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							getLogger().info("PSS/E Owner record processed");
 						}
 						else {
-							//PSSEDataRec.OwnerRec rec = new PSSEDataRec.OwnerRec(lineStr, version);
-							//rec.processOwner(adjNet, msg);
+							PSSEV30NetDataRec.processOwnerRec(lineStr, baseCaseNet);
 							ownerCnt++;
 						}	 
       				}

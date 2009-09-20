@@ -51,7 +51,8 @@
 								<element name="interchange" minOccurs="0" maxOccurs="unbounded">
 									<complexType>
 										<sequence>
-											<element name="powerEx" minOccurs="0" type="pss:PowerInterchangeXmlType">
+											<element name="powerEx" minOccurs="0" type="pss:PowerInterchangeXmlType">
+
 											</element>
 											<element name="ucteExchange" minOccurs="0">
 												<complexType>
@@ -63,6 +64,13 @@
 													</sequence>
 												</complexType>
 											</element>
+											<element name="areaTransfer" minOccurs="0">
+												<complexType>
+													<attribute name="id" type="ID" use="required"></attribute>
+													<attribute name="fromArea" type="int" use="required"></attribute>
+													<attribute name="toArea" type="int" use="required"></attribute>
+													<attribute name="amountMW" type="double" use="required"></attribute>
+												</complexType></element>
 										</sequence>
 									</complexType>
 								</element>

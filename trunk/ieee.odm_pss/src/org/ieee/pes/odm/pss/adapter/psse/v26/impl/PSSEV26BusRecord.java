@@ -326,10 +326,10 @@ public class PSSEV26BusRecord {
 	    LoadflowBusDataXmlType lfData = busRec.getLoadflowData();
 	    if (lfData == null)
 	    	lfData = busRec.addNewLoadflowData();
-	    if (lfData.getShuntQData() == null) {  // there may be multiple contribute switched shunt records on a bus
-	    	lfData.addNewShuntQData().addNewContributeQList();
+	    if (lfData.getSwitchedShuntData() == null) {  // there may be multiple contribute switched shunt records on a bus
+	    	lfData.addNewSwitchedShuntData().addNewContributeQList();
 	    }
-	    SwitchedShuntDataXmlType shunt = lfData.getShuntQData().getContributeQList().addNewSwitchedShunt();
+	    SwitchedShuntDataXmlType shunt = lfData.getSwitchedShuntData().getContributeQList().addNewSwitchedShunt();
 		
 		// genId is used to distinguish multiple generations at one bus		
 		int mode = StringUtil.getInt(strAry[1], 0);
@@ -354,9 +354,9 @@ public class PSSEV26BusRecord {
 		shunt.setBInit(binit);
 		
 		double equiQ = 0.0;
-		if (lfData.getShuntQData().getEquivQ() != null)
-			equiQ = lfData.getShuntQData().getEquivQ().getValue();
-		DataSetter.setReactivePower(lfData.getShuntQData().addNewEquivQ(), equiQ+binit, ReactivePowerUnitType.MVAR);
+		if (lfData.getSwitchedShuntData().getEquivQ() != null)
+			equiQ = lfData.getSwitchedShuntData().getEquivQ().getValue();
+		DataSetter.setReactivePower(lfData.getSwitchedShuntData().addNewEquivQ(), equiQ+binit, ReactivePowerUnitType.MVAR);
 		
 		//N1 - Number of steps for block 1, first 0 is end of blocks
 		//B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts. N2, B2, etc, as N1, B1

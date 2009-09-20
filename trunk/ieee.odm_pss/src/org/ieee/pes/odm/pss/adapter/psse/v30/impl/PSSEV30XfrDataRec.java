@@ -27,14 +27,18 @@ package org.ieee.pes.odm.pss.adapter.psse.v30.impl;
 import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AdjustmentDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType.AdjustmentType;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter.VersionNo;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
@@ -168,7 +172,7 @@ public class PSSEV30XfrDataRec {
 			ratc3 = new Double(st.nextToken().trim()).doubleValue();
 		}
 /*
-	For 2W and 3W Xfr: I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
+	    Line-1 For 2W and 3W Xfr: I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
 */
 		if (k == 0) {
     		final String fid = ODMModelParser.BusIdPreFix+i;
@@ -222,11 +226,16 @@ public class PSSEV30XfrDataRec {
 	    		logger.severe("PEES Xfr cm != 1, not implemented");
 	    	}
 	      	
-	    	ParserHelper.addOwner(branchRec, new Integer(o1).toString(), f1, 
-	    			new Integer(o2).toString(), f2, new Integer(o3).toString(), f3, new Integer(o4).toString(), f4);
+	    	// sample data 1,1.0000,   0,1.0000,   0,1.0000,   0,1.0000
+	    	// owner id = 0.0, no contribution
+	    	ParserHelper.addOwner(branchRec, 
+	    			new Integer(o1).toString(), f1, 
+	    			new Integer(o2).toString(), o2==0?0.0:f2, 
+	    			new Integer(o3).toString(), o3==0?0.0:f3, 
+	    			new Integer(o4).toString(), o4==0?0.0:f4);
 		
 	    	/*
-	       		format : R1-2,X1-2,SBASE1-2
+	       		Line-2 format : R1-2,X1-2,SBASE1-2
 	    	*/
 
 	       	LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.addNewXfrInfo();
@@ -255,25 +264,20 @@ public class PSSEV30XfrDataRec {
 	       	}
 			      	
 	    	/*
-    		format : WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
+    		 Line -3 format : WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
 	    	 */
 	  		
-	  		/*
-			format : WINDV2,NOMV2
-	  		 */
-		
 	  		if (cw == 1) {
 	       		// The winding one off-nominal turns ratio in pu of winding one bus base voltage
 	       		// when CW is 1; WINDV1 is 1.0 by default. 
-	        	//xfrInfo.setDataOnSystemBase(true);
+	        	xfrInfo.setDataOnSystemBase(true);
 	       	}
 	       	else if (cw == 2) {
 	       		// WINDV1 is the actual winding one voltage in kV when CW is 2; 
-	        	//xfrInfo.setDataOnSystemBase(false);
+	        	xfrInfo.setDataOnSystemBase(false);
 	       	}
 	  		
 	       	DataSetter.setTapPU(branchData.addNewFromTap(), windv1);
-	       	DataSetter.setTapPU(branchData.addNewToTap(), windv2);
 		
         	if ( ang1 != 0.0 || cod == 3 || cod == -3) {
         		// PhaseShifting transformer branch
@@ -283,14 +287,27 @@ public class PSSEV30XfrDataRec {
 	      	
     		DataSetter.setBranchRatingLimitData(branchData, rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
 			
-          	//bra.setControlMode(this.cod);
-          	
-          	/*
+    		/*
+    		 * The transformer control mode for automatic adjustments of the winding one
+				tap or phase shift angle during power flow solutions: 0 for no control (fixed tap
+				and phase shift); 
+				±1 for voltage control; 
+				±2 for reactive power flow control; 
+				±3 for active power flow control; 
+				±4 for control of a dc line quantity (+4 is valid only for two-winding transformers). 
+				
+				If the control mode is entered as a positive
+				number, automatic adjustment of this transformer winding is enabled when the
+				corresponding adjustment is activated during power flow solutions;
+				 
+				a negative control mode suppresses the automatic adjustment of this transformer winding.
+				COD1 = 0 by default.
+
 			If CONT is entered as a positive number, or a quoted extended bus name, the ratio is
-			adjusted as if bus CONT is on the winding two or winding three side of the
-			transformer; if CONT is entered as a negative number, or a quoted extended
-			bus name with a minus sign preceding the first character, the ratio is adjusted
-			as if bus |CONT| is on the winding one side of the transformer.
+				adjusted as if bus CONT is on the winding two or winding three side of the
+				transformer; if CONT is entered as a negative number, or a quoted extended
+				bus name with a minus sign preceding the first character, the ratio is adjusted
+				as if bus |CONT| is on the winding one side of the transformer.
           	 */
 		
           	boolean onFromSide = false;
@@ -301,28 +318,92 @@ public class PSSEV30XfrDataRec {
           	
           	String reBusId = ODMModelParser.BusIdPreFix+cont;
           	
-          	if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
-          		/*
-          		bra.setControlOnFromSide(onFromSide);
-              	// tap adjust is always at the from side
-              	double factor = 1.0;
-    	       	if (this.cw == 2 && this.nomv1 > 0)
-    	       		factor = bra.getFromAclfBus().getBaseVoltage() / (this.nomv1*1000.0);
-    	       	bra.setRmLimit(new LimitType(this.rma*factor, this.rmi*factor)); 
-              	bra.setVmLimit(new LimitType(this.vma*factor, this.vmi*factor)); 
-              	bra.setAdjSteps(this.ntp);
-              	*/
+    		// COD1,CONT1,RMA,RMI,VMA,VMI,NTP,TAB, 
+    		//Sample data : 1,    31, 1.10000, 0.90000, 1.09255, 1.04255, 33, 0, 0.00000, 0.00000
+          	/*
+            RMA1, RMI1 The upper and lower limits, respectively, of either:
+					• Off-nominal turns ratio in pu of winding one bus base voltage when
+						|COD1| is 1 or 2 and CW is 1; RMA1 = 1.1 and RMI1 = 0.9 by default.
+					• Actual winding one voltage in kV when |COD1| is 1 or 2 and CW is 2. No
+						default is allowed.
+					• Phase shift angle in degrees when |COD1| is 3. No default is allowed.
+					• Not used when |COD1| is 0 or 4; RMA1 = 1.1 and RMI1 = 0.9 by default.
+			VMA1, VMI1 The upper and lower limits, respectively, of either:
+					• Voltage at the controlled bus (bus |CONT1|) in pu when |COD1| is 1.
+						VMA1 = 1.1 and VMI1 = 0.9 by default.
+					• Reactive power flow into the transformer at the winding one bus end in
+						Mvar when |COD1| is 2. No default is allowed.
+					• Active power flow into the transformer at the winding one bus end in MW
+						when |COD1| is 3. No default is allowed.
+					• Not used when |COD1| is 0 or 4; VMA1 = 1.1 and VMI1 = 0.9 by default.
+			NTP1 The number of tap positions available; used when COD1 is 1 or 2. NTP1 must be
+					between 2 and 9999. NTP1 = 33 by default.
+          	 */
+          	if (cod > 0) {
+              	if (branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER) {
+               		TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
+               		tapAdj.setOffLine(cod < 0);
+               		tapAdj.setTapAdjOnFromSide(onFromSide);
+        	    	DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), rma, rmi);
+               		tapAdj.setTapAdjStep(ntp);
+               		if (Math.abs(cod) == 1) {
+                   		tapAdj.setAdjustmentType(AdjustmentType.VOLTAGE);
+            	    	TapAdjustmentXmlType.VoltageAdjData vAdjData = tapAdj.addNewVoltageAdjData();
+            	    	vAdjData.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+            	    	vAdjData.setMax(vma);
+            	    	vAdjData.setMin(vmi);       
+            	    }
+               		else {
+                     	tapAdj.setAdjustmentType(AdjustmentType.M_VAR_FLOW);
+            	    	TapAdjustmentXmlType.MvarFlowAdjData mvaAdjData = tapAdj.addNewMvarFlowAdjData();
+            	    	mvaAdjData.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+            	    	mvaAdjData.setMax(vma);
+            	    	mvaAdjData.setMin(vmi);               		
+               		}
+              	}
+        	    else if (branchData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER) {
+        	    	AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
+        	    	DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), rma, rmi, AngleUnitType.DEG);
+        	    	angAdj.setMax(vma);
+        	    	angAdj.setMin(vmi);
+        	    	angAdj.setMode(AdjustmentDataXmlType.Mode.RANGE_ADJUSTMENT);
+        	    	angAdj.setDesiredMeasuredOnFromSide(onFromSide);
+        	    }              	
           	}
           	
-          	
+          	/*
+          	 * CR1, CX1 - The load drop compensation impedance for voltage controlling transformers
+							entered in pu on system base quantities; used when COD1 is 1.
+							CR1 + j CX1 = 0.0 by default
+          	 */
           	if (cr != 0.0 || cx != 0.0) {
           		if (branchData.getNvPairList() == null)
           			branchData.addNewNvPairList();
           		ParserHelper.addNVPair(branchData.getNvPairList(), "Xfr LoadDropCZ", new Double(cr).toString() + "," + new Double(cx).toString());
           	}
-          		
+
+          	/*
+          	 	TAB1 The number of a transformer impedance correction table if this transformer
+					winding’s impedance is to be a function of either off-nominal turns ratio or
+					phase shift angle (see Section 4.1.1.11), or 0 if no transformer impedance correction
+					is to be applied to this transformer winding. TAB1 = 0 by default.					
+
+          	 */
           	if (tab > 0)
           		xfrInfo.setZTableNumber(tab);
+          	
+	  		/*
+			Line-4 format : WINDV2,NOMV2
+				WINDV2 The winding two off-nominal turns ratio in pu of winding two bus base voltage
+						when CW is 1; WINDV2 = 1.0 by default. WINDV2 is the actual winding two
+						voltage in kV when CW is 2; WINDV2 is equal to the base voltage of bus J by
+						default.	
+				NOMV2 The nominal (rated) winding two voltage in kV, or zero to indicate that nominal
+						winding two voltage is to be taken as the base voltage of bus J. NOMV2
+						is present for information purposes only; it is not used in any of the calculations
+						for modeling the transformer. NOMV2 = 0.0 by default.								
+	  		 */
+	       	DataSetter.setTapPU(branchData.addNewToTap(), windv2);
 		}
 /*  3W Xfr
 		else {

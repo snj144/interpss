@@ -237,7 +237,10 @@ public class ParserHelper {
 			genData = busRec.getLoadflowData().addNewGenData();
 			genData.addNewEquivGen();
 		}
-	    return genData.addNewContributeGenList().addNewContributeGen();
+		// some model does not need ContributeGenList
+		if (genData.getContributeGenList() == null) 
+			genData.addNewContributeGenList();
+	    return genData.getContributeGenList().addNewContributeGen();
 	}
 	
 	/**
