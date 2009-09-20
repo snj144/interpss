@@ -30,6 +30,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.pes.odm.pss.adapter.AbstractODMAdapter;
 import org.ieee.pes.odm.pss.adapter.IFileReader;
 import org.ieee.pes.odm.pss.adapter.psse.PSSEBusRecord;
+import org.ieee.pes.odm.pss.adapter.psse.PSSENetDataRec;
+import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.adapter.psse.v26.impl.PSSEV26BranchRecord;
 import org.ieee.pes.odm.pss.adapter.psse.v26.impl.PSSEV26BusRecord;
 import org.ieee.pes.odm.pss.adapter.psse.v26.impl.PSSEV26NetRecord;
@@ -120,7 +122,7 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				} 
         				else if(type==SwitchedShuntData){        			   
         					//System.out.println("ShuntData: " + str);
-        					PSSEBusRecord.processSwitchedShuntData(str, parser, this.getLogger());
+        					PSSEBusRecord.processSwitchedShuntData(str, PsseVersion.PSSE_26, parser, this.getLogger());
         			    	//	 parser.addNewBaseCaseBranch(),baseCaseNet, this);
         				} 
         				else if(type==InterchangeData){
@@ -129,14 +131,14 @@ public class PSSEV26Adapter extends AbstractODMAdapter{
         				}
         				else if(type==ZoneData){
         					//System.out.println("ZoneData: " + str);
-        					PSSEV26NetRecord.processZoneData(str,baseCaseNet); 
+        					PSSENetDataRec.processZoneRec(str, PsseVersion.PSSE_26, baseCaseNet); 
         				}
         				else if(type==InterAreaTransferData){
         					//processInterAreaTransferData(str,baseCaseNet); 
         				}
         				else if(type==OwnerData){
         					//System.out.println("OwnerData: " + str);
-        					PSSEV26NetRecord.processOwnerData(str,baseCaseNet); 
+        					PSSENetDataRec.processOwnerRec(str, PsseVersion.PSSE_26, baseCaseNet); 
         				}
         			}
         		}catch (final Exception e){

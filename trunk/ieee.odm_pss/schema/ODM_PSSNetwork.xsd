@@ -31,21 +31,21 @@
 							</sequence>
 						</complexType>
 					</element>
-                    <element name="areaList" maxOccurs="1" minOccurs="0">
+					<element name="areaList" maxOccurs="1" minOccurs="0">
 						<complexType>
 							<sequence>
 								<element name="area" maxOccurs="unbounded" minOccurs="0" type="pss:NetAreaXmlType"></element>
 							</sequence>
 						</complexType>
 					</element>
-                    <element name="lossZoneList" minOccurs="0">
+					<element name="lossZoneList" minOccurs="0">
 						<complexType>
 							<sequence>
 								<element name="lossZone" maxOccurs="unbounded" minOccurs="0" type="pss:NetZoneXmlType"></element>
 							</sequence>
 						</complexType>
 					</element>
-                    <element name="interchangeList" minOccurs="0">
+					<element name="interchangeList" minOccurs="0">
 						<complexType>
 							<sequence>
 								<element name="interchange" minOccurs="0" maxOccurs="unbounded">
@@ -70,7 +70,8 @@
 													<attribute name="fromArea" type="int" use="required"></attribute>
 													<attribute name="toArea" type="int" use="required"></attribute>
 													<attribute name="amountMW" type="double" use="required"></attribute>
-												</complexType></element>
+												</complexType>
+											</element>
 										</sequence>
 									</complexType>
 								</element>
@@ -113,7 +114,9 @@
 								</element>
 							</sequence>
 						</complexType>
-					</element>
+					</element>
+
+					<element name="xfrZTable" type="pss:XformerZTableXmlType" minOccurs="0"></element>
 				</sequence>
 			</extension>
 		</complexContent>

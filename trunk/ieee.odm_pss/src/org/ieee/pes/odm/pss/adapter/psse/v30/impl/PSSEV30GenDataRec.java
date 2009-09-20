@@ -161,8 +161,8 @@ public class PSSEV30GenDataRec {
 
 		ParserHelper.addOwner(contriGen, 
 				new Integer(o1).toString(), f1, 
-				new Integer(o2).toString(), f2, 
-				new Integer(o3).toString(), f3, 
-				new Integer(o4).toString(), f4);
+				new Integer(o2).toString(), o2==0?0.0:f2, 
+				new Integer(o3).toString(), o3==0?0.0:f3, 
+				new Integer(o4).toString(), o4==0?0.0:f4);
 	}			
 }

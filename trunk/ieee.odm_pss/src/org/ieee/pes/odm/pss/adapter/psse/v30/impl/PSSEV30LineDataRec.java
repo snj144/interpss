@@ -112,7 +112,10 @@ public class PSSEV30LineDataRec {
        if ( gj != 0.0 || bj != 0.0)
     	   DataSetter.setYData(branchData.addNewFromShuntY(), gj, bj, YUnitType.PU);
       
-    	ParserHelper.addOwner(branchRec, new Integer(o1).toString(), f1, 
-    			new Integer(o2).toString(), f2, new Integer(o3).toString(), f3, new Integer(o4).toString(), f4);
+    	ParserHelper.addOwner(branchRec, 
+    			new Integer(o1).toString(), f1, 
+    			new Integer(o2).toString(), o2==0?0.0:f2, 
+    			new Integer(o3).toString(), o3==0?0.0:f3, 
+    			new Integer(o4).toString(), o4==0?0.0:f4);
 	}		
 }

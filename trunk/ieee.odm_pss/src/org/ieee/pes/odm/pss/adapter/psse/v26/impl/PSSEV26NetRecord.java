@@ -27,9 +27,7 @@ import java.util.StringTokenizer;
 import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ActivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BaseRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NameValuePairListXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerInterchangeXmlType;
 import org.ieee.pes.odm.pss.model.DataSetter;
@@ -88,37 +86,12 @@ public class PSSEV26NetRecord {
 		DataSetter.setActivePower(interchange.addNewExErrTolerance(), err, ActivePowerUnitType.MW);
 	}
 	
-	public static  void processZoneData(final String str,
-			final PSSNetworkXmlType baseCaseNet){
-		final String[] strAry =getZoneDataFields(str);
-		final String zoneId = strAry[0];
-		final String zoneName = strAry[1];
-		if (baseCaseNet.getLossZoneList() == null)
-			baseCaseNet.addNewLossZoneList();
-		NetZoneXmlType zone = baseCaseNet.getLossZoneList().addNewLossZone();
-		zone.setId(zoneId);
-		zone.setName(zoneName);		
-	}
-	
-	
 	public static  void processInterAreaTransferData(final String str,
 			final PSSNetworkXmlType baseCaseNet) {
 		final String[] strAry = getInterAreaTransferDataFields(str);
 		
 	}
 	
-	public static  void processOwnerData(final String str,
-			final PSSNetworkXmlType baseCaseNet) {
-		final String[] strAry = getOwnerDataFields(str);
-		final String ownerId = strAry[0];
-		final String ownerName = strAry[1];
-		if (baseCaseNet.getOwnerList() == null)
-			baseCaseNet.addNewOwnerList();
-		BaseRecordXmlType.OwnerList.Owner owner = baseCaseNet.getOwnerList().addNewOwner();
-		owner.setName(ownerName);
-		owner.setId(ownerId);
-	}
-		
 	/*
 	 * String[0] indicator
 	 * String[1] baseKav
@@ -161,14 +134,6 @@ public class PSSEV26NetRecord {
   		return strAry;
 	}
 	
-	private static  String[] getZoneDataFields(final String lineStr) {
-		final String[] strAry = new String[2];	
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		for (int i = 0; i < 2; i++)
-  			strAry[i]=st.nextToken().trim();
-  		return strAry;
-       }
-	
 	private static  String[] getInterAreaTransferDataFields(final String lineStr) {
 		final String[] strAry = new String[4];	
   		StringTokenizer st = new StringTokenizer(lineStr, ",");
@@ -177,12 +142,4 @@ public class PSSEV26NetRecord {
   		return strAry;
 
        }
-	private static  String[] getOwnerDataFields(final String lineStr) {
-		final String[] strAry = new String[2];	
-  		StringTokenizer st = new StringTokenizer(lineStr, ",");
-  		for (int i = 0; i < 2; i++)
-  			strAry[i]=st.nextToken().trim();
-  		return strAry;
-	}
-
 }
