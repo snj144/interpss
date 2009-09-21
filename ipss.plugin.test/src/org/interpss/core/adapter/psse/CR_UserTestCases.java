@@ -61,7 +61,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
-  		System.out.println(net.net2String());
+  		//System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
@@ -92,7 +92,7 @@ public class CR_UserTestCases extends BaseTestSetup {
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
-  		System.out.println(net.net2String());
+  		//System.out.println(net.net2String());
 	  	
   		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus1");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
@@ -120,5 +120,28 @@ public class CR_UserTestCases extends BaseTestSetup {
   		assertTrue(Math.abs(p.getReal()-1841.530)<0.01);
   		assertTrue(Math.abs(p.getImaginary()-11.485)<0.01);	  	
 	}
+	
+	@Test
+	public void testCase2ODM() throws Exception {
+		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
+		assertTrue(adapter.parseInputFile("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw"));		
+		
+		IEEEODMMapper mapper = new IEEEODMMapper();
+		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
+		mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class);	
+		
+		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
+
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.loadflow();
+  		System.out.println(net.net2String());
+
+	  	AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus1");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
+  		assertTrue(Math.abs(p.getReal()-1841.669)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-11.734)<0.01);	  	
+	}	
 }
 
