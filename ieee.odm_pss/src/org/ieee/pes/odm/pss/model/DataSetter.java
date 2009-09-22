@@ -535,25 +535,27 @@ public class DataSetter {
 	/**
 	 * set transformer rating data
 	 *  
-	 * @param xfrData
+	 * @param branchData
 	 * @param fromRatedV
 	 * @param toRatedV
 	 * @param vUnit
 	 * @param normialMva
 	 * @param pUnit
 	 */
-	public static void setXfrRatingData(LoadflowBranchDataXmlType xfrData, 
+	public static void setXfrRatingData(LoadflowBranchDataXmlType branchData, 
 			double fromRatedV, double toRatedV, VoltageUnitType.Enum vUnit,
 			double normialMva, ApparentPowerUnitType.Enum pUnit) {
-		LoadflowBranchDataXmlType.XfrInfo ratingData = xfrData.addNewXfrInfo();
-		VoltageXmlType fromRatedVolt = ratingData.addNewFromRatedVoltage();
+		if (branchData.getXfrInfo() == null)
+			branchData.addNewXfrInfo();
+		LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.getXfrInfo();
+		VoltageXmlType fromRatedVolt = xfrInfo.addNewRatedVoltage1();
 		fromRatedVolt.setValue(fromRatedV);
 		fromRatedVolt.setUnit(vUnit);
-		VoltageXmlType toRatedVolt = ratingData.addNewToRatedVoltage();
+		VoltageXmlType toRatedVolt = xfrInfo.addNewRatedVoltage2();
 		toRatedVolt.setValue(toRatedV);
 		toRatedVolt.setUnit(vUnit);
    		if (normialMva != 0.0) {
-   			ApparentPowerXmlType ratedMva = ratingData.addNewRatedPower();
+   			ApparentPowerXmlType ratedMva = xfrInfo.addNewRatedPower12();
    			ratedMva.setValue(normialMva);
    			ratedMva.setUnit(pUnit);		
    		}

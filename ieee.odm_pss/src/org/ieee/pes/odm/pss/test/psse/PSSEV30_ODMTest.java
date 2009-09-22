@@ -205,7 +205,7 @@ public class PSSEV30_ODMTest {
 		assertTrue(branchData.getToTap().getValue() == 1.0);
 		assertTrue(branchData.getMeterLocation() == BaseBranchDataXmlType.MeterLocation.TO_SIDE);
 		assertTrue(branchData.getMeterLocation() == BaseBranchDataXmlType.MeterLocation.TO_SIDE);
-		assertTrue(branchData.getXfrInfo().getRatedPower().getValue() == 100.0 );
+		assertTrue(branchData.getXfrInfo().getRatedPower12().getValue() == 100.0 );
 		assertTrue(branchData.getXfrInfo().getDataOnSystemBase());
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating2() == 118.5);
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating3() == 0.0);

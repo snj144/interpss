@@ -41,6 +41,12 @@ import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSEV30GenDataRec {
+	private static int i, ireg, stat ;
+	private static String id;
+	private static double pg, qg, qt, qb, vs, mbase, zr, zx, rt, xt, gtap, rmpct, pt, pb;
+	private static int o1 = 0, o2 = 0, o3 = 0, o4 = 0;
+	private static double f1 = 0.0, f2 = 0.0, f3 = 0.0, f4 = 0.0;
+	
 	/*
 	 * GenData
 	 * I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
@@ -50,60 +56,8 @@ public class PSSEV30GenDataRec {
 	 * some designated bus, not necessarily bus k.
 	 */
 
-	public static void procLine(String lineStr, PsseVersion version, final ODMModelParser parser, Logger logger) {
-		int i, ireg, stat ;
-		String id;
-		double pg, qg, qt, qb, vs, mbase, zr, zx, rt, xt, gtap, rmpct, pt, pb;
-		int o1 = 0, o2 = 0, o3 = 0, o4 = 0;
-		double f1 = 0.0, f2 = 0.0, f3 = 0.0, f4 = 0.0;
-
-		StringTokenizer st;
-
-		st = new StringTokenizer(lineStr, ",");
-		i = new Integer(st.nextToken().trim()).intValue();
-		id = st.nextToken().trim();
-
-		pg = new Double(st.nextToken().trim()).doubleValue();
-		qg = new Double(st.nextToken().trim()).doubleValue();
-		
-		qt = new Double(st.nextToken().trim()).doubleValue();
-		qb = new Double(st.nextToken().trim()).doubleValue();
-		if (qt < qb) {
-			logger.warning("Gen Data qt (qMax: " + qt + ") < qb (qMin:" + qb + "), \n" + lineStr);
-		}
-		vs = new Double(st.nextToken().trim()).doubleValue();
-		ireg = new Integer(st.nextToken().trim()).intValue();
-		mbase = new Double(st.nextToken().trim()).doubleValue();
-		zr = new Double(st.nextToken().trim()).doubleValue();
-		zx = new Double(st.nextToken().trim()).doubleValue();
-		rt = new Double(st.nextToken().trim()).doubleValue();
-		xt = new Double(st.nextToken().trim()).doubleValue();
-		gtap = new Double(st.nextToken().trim()).doubleValue();
-		stat = new Integer(st.nextToken().trim()).intValue();
-		rmpct = new Double(st.nextToken().trim()).doubleValue();
-		
-		pt = new Double(st.nextToken().trim()).doubleValue();
-		pb = new Double(st.nextToken().trim()).doubleValue();
-		if (pt < pb) {
-			logger.warning("Gen Data pt (pMax:" + pt + ") < pb (pMin:" + pb + "), \n" + lineStr);
-		}
-
-		if (st.hasMoreTokens())
-			o1 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f1 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o2 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f2 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o3 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f3 = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			o4 = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			f4 = new Double(st.nextToken().trim()).doubleValue();
+	public static void procLineString(String lineStr, PsseVersion version, final ODMModelParser parser, Logger logger) {
+		procFields(lineStr, version, logger);
 
 /*
 		I,ID,PG,QG,QT,QB,VS,IREG,MBASE,ZR,ZX,RT,XT,GTAP,STAT,RMPCT,PT,PB,O1,F1,...,O4,F4
@@ -164,5 +118,55 @@ public class PSSEV30GenDataRec {
 				new Integer(o2).toString(), o2==0?0.0:f2, 
 				new Integer(o3).toString(), o3==0?0.0:f3, 
 				new Integer(o4).toString(), o4==0?0.0:f4);
-	}			
+	}
+	
+	private static void procFields(String lineStr, PsseVersion version, Logger logger) {
+		StringTokenizer st;
+
+		st = new StringTokenizer(lineStr, ",");
+		i = new Integer(st.nextToken().trim()).intValue();
+		id = st.nextToken().trim();
+
+		pg = new Double(st.nextToken().trim()).doubleValue();
+		qg = new Double(st.nextToken().trim()).doubleValue();
+		
+		qt = new Double(st.nextToken().trim()).doubleValue();
+		qb = new Double(st.nextToken().trim()).doubleValue();
+		if (qt < qb) {
+			logger.warning("Gen Data qt (qMax: " + qt + ") < qb (qMin:" + qb + "), set to [9999.0, -9999.0]\n" + lineStr);
+		}
+		vs = new Double(st.nextToken().trim()).doubleValue();
+		ireg = new Integer(st.nextToken().trim()).intValue();
+		mbase = new Double(st.nextToken().trim()).doubleValue();
+		zr = new Double(st.nextToken().trim()).doubleValue();
+		zx = new Double(st.nextToken().trim()).doubleValue();
+		rt = new Double(st.nextToken().trim()).doubleValue();
+		xt = new Double(st.nextToken().trim()).doubleValue();
+		gtap = new Double(st.nextToken().trim()).doubleValue();
+		stat = new Integer(st.nextToken().trim()).intValue();
+		rmpct = new Double(st.nextToken().trim()).doubleValue();
+		
+		pt = new Double(st.nextToken().trim()).doubleValue();
+		pb = new Double(st.nextToken().trim()).doubleValue();
+		if (pt < pb) {
+			logger.warning("Gen Data pt (pMax:" + pt + ") < pb (pMin:" + pb + "), set to [9999.0, -9999.0] \n" + lineStr);
+		}
+
+		if (st.hasMoreTokens())
+			o1 = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			f1 = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			o2 = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			f2 = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			o3 = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			f3 = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			o4 = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			f4 = new Double(st.nextToken().trim()).doubleValue();
+	}
 }

@@ -36,32 +36,15 @@ import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSEV30LoadDataRec {
+	private static int i, status, area = 1, zone = 1, owner = 1;
+	private static String id;
+	private static double pl = 0.0, ql = 0.0, ip = 0.0, iq = 0.0, yp = 0.0, yq = 0.0;
+	
 	/*
 	 * LoadData I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 	 */	
-	public static void procLine(String lineStr, PsseVersion version, final ODMModelParser parser, Logger logger) {
-		int i, status, area = 1, zone = 1, owner = 1;
-		String id;
-		double pl = 0.0, ql = 0.0, ip = 0.0, iq = 0.0, yp = 0.0, yq = 0.0;
-
-		StringTokenizer st;
-
-		st = new StringTokenizer(lineStr, ",");
-		i = new Integer(st.nextToken().trim()).intValue();
-		id = st.nextToken();
-	
-		status = new Integer(st.nextToken().trim()).intValue();
-		area = new Integer(st.nextToken().trim()).intValue();
-		zone = new Integer(st.nextToken().trim()).intValue();
-		pl = new Double(st.nextToken().trim()).doubleValue();
-		ql = new Double(st.nextToken().trim()).doubleValue();
-		ip = new Double(st.nextToken().trim()).doubleValue();
-		iq = new Double(st.nextToken().trim()).doubleValue();
-		yp = new Double(st.nextToken().trim()).doubleValue();
-		yq = new Double(st.nextToken().trim()).doubleValue();
-		owner = new Integer(st.nextToken().trim()).intValue();
-
-		
+	public static void procLineString(String lineStr, PsseVersion version, final ODMModelParser parser, Logger logger) {
+		procLineString(lineStr, version, logger);
 /*
 		I, ID, STATUS, AREA, ZONE, PL, QL, IP, IQ, YP, YQ, OWNER
 */		
@@ -89,5 +72,24 @@ public class PSSEV30LoadDataRec {
 			DataSetter.setPowerData(contribLoad.addNewConstILoad(), ip, iq, ApparentPowerUnitType.MVA);
 		if (yp != 0.0 || yq != 0.0)
 			DataSetter.setPowerData(contribLoad.addNewConstZLoad(), yp, yq, ApparentPowerUnitType.MVA);
-	}			
+	}
+
+	private static void procLineString(String lineStr, PsseVersion version, Logger logger) {
+		StringTokenizer st;
+
+		st = new StringTokenizer(lineStr, ",");
+		i = new Integer(st.nextToken().trim()).intValue();
+		id = st.nextToken();
+	
+		status = new Integer(st.nextToken().trim()).intValue();
+		area = new Integer(st.nextToken().trim()).intValue();
+		zone = new Integer(st.nextToken().trim()).intValue();
+		pl = new Double(st.nextToken().trim()).doubleValue();
+		ql = new Double(st.nextToken().trim()).doubleValue();
+		ip = new Double(st.nextToken().trim()).doubleValue();
+		iq = new Double(st.nextToken().trim()).doubleValue();
+		yp = new Double(st.nextToken().trim()).doubleValue();
+		yq = new Double(st.nextToken().trim()).doubleValue();
+		owner = new Integer(st.nextToken().trim()).intValue();
+	}
 }

@@ -16,7 +16,7 @@ import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSENetDataRec {
 	static public class HeaderRec {
-		public static void procLine(String lineStr, int lineNo, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
+		public static void procLineString(String lineStr, int lineNo, PsseVersion version, final PSSNetworkXmlType baseCaseNet) {
 			if (lineNo == 1) {
 				StringTokenizer st = new StringTokenizer(lineStr, ",");
 				int indicator = new Integer(st.nextToken().trim()).intValue();

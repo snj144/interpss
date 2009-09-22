@@ -576,6 +576,8 @@ public class BPABranchRecord {
 		BranchRecordXmlType branchRec= ParserHelper.findBranchRecord(fromBus, 
 				toBus,  baseCaseNet);	
 		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
+		if (branchData.getXfrInfo() == null)
+			branchData.addNewXfrInfo();
 		
 		String controlBusId = "";		
 		
@@ -620,7 +622,7 @@ public class BPABranchRecord {
 		}	
 		
 		if(dataType==tapAdjustment){			
-			TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
+			TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
 			
             if(tapAdjSide==1){
 				tapAdj.setTapAdjOnFromSide(true);
@@ -686,7 +688,7 @@ public class BPABranchRecord {
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if(dataType==angleAdjustment){
-			AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
+			AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
 			
 			DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), max,
 					min, AngleUnitType.DEG);

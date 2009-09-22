@@ -324,6 +324,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 
 		branchRec.setId(StringUtil.formBranchId(fid, tid, cirId));
 		LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();
+		branchData.addNewXfrInfo();
 
 		//    	Column  19      Type [I] *
 		//      0 - Transmission line
@@ -420,7 +421,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		}
 
 		if (type == 2 || type == 3) {
-			TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
+			TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
 			DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), maxTapAng, minTapAng);
 			tapAdj.setTapAdjStepSize(stepSize);
 			tapAdj.setTapAdjOnFromSide(true);
@@ -442,7 +443,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 				mvarTapAdj.setMvarMeasuredOnFormSide(true);
 			}
 		} else if (type == 4) {
-			AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
+			AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
 			DataSetter.setLimitData(angAdj.addNewAngleLimit(), maxTapAng,
 					minTapAng);
 			DataSetter.setLimitData(angAdj, maxVoltPQ, minVoltPQ);

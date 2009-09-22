@@ -39,36 +39,17 @@ import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 
 public class PSSEV30BusDataRec {
+	private static int i, ide, area = 1, zone = 1, owner = 1;
+	private static String name;
+	private static double baseKv, gl = 0.0, bl = 0.0, vm = 1.0, va = 0.0;
+	
 	/*
 	 * BusData Format: I, ’NAME’, BASKV, IDE, GL, BL, AREA, ZONE, VM, VA, OWNER
+	 *       101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
+
 	 */
-	public static void procLine(String lineStr, PsseVersion version, ODMModelParser parser, Logger logger) {
-		int i, ide, area = 1, zone = 1, owner = 1;
-		String name;
-		double baseKv, gl = 0.0, bl = 0.0, vm = 1.0, va = 0.0;
-
-		StringTokenizer st;
-
-		st = new StringTokenizer(lineStr, ",");
-		i = new Integer(st.nextToken().trim()).intValue();
-		name = st.nextToken().trim();
-
-		baseKv = new Double(st.nextToken().trim()).doubleValue();
-		ide = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			gl = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			bl = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			area = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			zone = new Integer(st.nextToken().trim()).intValue();
-		if (st.hasMoreTokens())
-			vm = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			va = new Double(st.nextToken().trim()).doubleValue();
-		if (st.hasMoreTokens())
-			owner = new Integer(st.nextToken().trim()).intValue();
+	public static void procLineString(String lineStr, PsseVersion version, ODMModelParser parser, Logger logger) {
+		procFields(lineStr, version);
 
 /*
 		Format: I,    ’NAME’,    BASKV, IDE,  GL,      BL,  AREA, ZONE, VM, VA, OWNER
@@ -113,5 +94,42 @@ public class PSSEV30BusDataRec {
 		else
 			busRec.setOffLine(true);
 			
+	}
+	
+	private static void procFields(String lineStr, PsseVersion version) {
+		StringTokenizer st;
+
+	//	 101743,'TAU 9A,8    ',  13.8000,2,     0.000,     0.000, 101, 101,1.02610, -98.5705,   1
+	// -- str1-- ----str2---- -----------str3---------------	
+		String str1 = lineStr.substring(0, lineStr.indexOf('\'')),
+	           strbuf = lineStr.substring(lineStr.indexOf('\'')+1),
+	           str2 = strbuf.substring(0, strbuf.indexOf('\'')),
+	           str3 = strbuf.substring(strbuf.indexOf('\'')+1);
+	           
+		
+		st = new StringTokenizer(str1, ",");
+		i = new Integer(st.nextToken().trim()).intValue();
+		name = str2;
+
+		st = new StringTokenizer(str3, ",");
+        String s = st.nextToken().trim();
+        if (s.equals(""))   // in case there are spaces between '  ,
+            s = st.nextToken().trim();		
+		baseKv = new Double(s).doubleValue();
+		ide = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			gl = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			bl = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			area = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			zone = new Integer(st.nextToken().trim()).intValue();
+		if (st.hasMoreTokens())
+			vm = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			va = new Double(st.nextToken().trim()).doubleValue();
+		if (st.hasMoreTokens())
+			owner = new Integer(st.nextToken().trim()).intValue();
 	}
 }
