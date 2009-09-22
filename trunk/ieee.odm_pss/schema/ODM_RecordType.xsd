@@ -135,6 +135,7 @@
 		<complexContent>
 			<extension base="pss:BaseBranchDataXmlType">
 				<sequence>
+				<choice>
                     <element name="lineInfo" minOccurs="0" maxOccurs="1">
                     	<complexType>
 							<sequence>
@@ -145,23 +146,27 @@
                     </element>
                     <element name="xfrInfo" minOccurs="0" maxOccurs="1">
 						<complexType>
-							<sequence>
-								<element name="fromRatedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
-								<element name="toRatedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
-								<element name="ratedPower" type="pss:ApparentPowerXmlType" minOccurs="1"></element>
+                                <annotation>
+                                	<documentation>from : 1, to:2 and tert :3</documentation>
+                                </annotation>
+                                <sequence>
+								<element name="ratedVoltage1" type="pss:VoltageXmlType" minOccurs="1"></element>
+								<element name="ratedVoltage2" type="pss:VoltageXmlType" minOccurs="1"></element>
+								<element name="ratedPower12" type="pss:ApparentPowerXmlType" minOccurs="1"></element>
 
-								<element name="fromLossFactor" type="double" minOccurs="0"></element>
-								<element name="toLossFactor" type="double" minOccurs="0"></element>
+								<element name="lossFactor1" type="double" minOccurs="0"></element>
+								<element name="lossFactor2" type="double" minOccurs="0"></element>
 								<element name="zTableNumber" type="int" minOccurs="0"></element>
 								<element name="dataOnSystemBase" type="boolean" minOccurs="0">
 									<annotation>
 										<documentation>Normally xfr data is on xfr rated power based. By setting </documentation>
 									</annotation></element>
+					            <element name="tapAdjustment" minOccurs="0" type="pss:TapAdjustmentXmlType"></element>
+					            <element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
 							</sequence>
 						</complexType>
 					</element>
-					<element name="tapAdjustment" minOccurs="0" type="pss:TapAdjustmentXmlType"></element>
-					<element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
+				</choice>
 					<element name="branchRatingLimit" minOccurs="0" maxOccurs="1">
 						<complexType>
 							<sequence>
@@ -399,7 +404,10 @@
 		<complexContent>
 			<extension base="pss:BaseRecordXmlType">
 				<sequence>
-					<element name="z" type="pss:ZXmlType" minOccurs="1" maxOccurs="1"></element>
+				<choice>
+					<element name="z" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="z12" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+				</choice>
 					<element name="totalShuntY" type="pss:YXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
 					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>

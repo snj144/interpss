@@ -210,9 +210,9 @@ public class XformerDataRec extends BaseBranchDataRec {
 		if (branchData.getNvPairList() == null)
 			branchData.addNewNvPairList();
 		ParserHelper.addNVPair(branchData.getNvPairList(), GE_PSLF_Adapter.Token_XfrType, new Integer(this.type).toString());
-		DataSetter.setPowerMva(xfrInfo.addNewRatedPower(), this.tbase);
-		DataSetter.setVoltageData(xfrInfo.addNewFromRatedVoltage(), this.vnomp, VoltageUnitType.KV);
-		DataSetter.setVoltageData(xfrInfo.addNewToRatedVoltage(), this.vnoms, VoltageUnitType.KV);
+		DataSetter.setPowerMva(xfrInfo.addNewRatedPower12(), this.tbase);
+		DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage1(), this.vnomp, VoltageUnitType.KV);
+		DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage2(), this.vnoms, VoltageUnitType.KV);
 		
 		DataSetter.setZValue(branchData.addNewZ(), this.zpsr, this.zpsx, ZUnitType.PU);
 		branchData.getXfrInfo().setDataOnSystemBase(false);
@@ -230,9 +230,9 @@ public class XformerDataRec extends BaseBranchDataRec {
 			DataSetter.setYData(branchData.addNewFromShuntY(), this.gmag, this.bmag, YUnitType.PU);
 		
 		if (this.aloss != 0.0)
-			xfrInfo.setFromLossFactor(this.aloss);
+			xfrInfo.setLossFactor1(this.aloss);
 		if (this.alosss != 0.0)
-			xfrInfo.setToLossFactor(this.alosss);
+			xfrInfo.setLossFactor2(this.alosss);
 
 		/*		
 		<kreg bus> Number of bus whose voltage is controlled by this transformer if type is not a 1.

@@ -489,6 +489,8 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
       	}
       	// there might be multiple branch sections, but UTCE only has one
 		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
+		if (branchData.getXfrInfo() == null)
+			branchData.addNewXfrInfo();
       	
 		NameValuePairListXmlType nvList = branchRec.addNewNvPairList();
 
@@ -510,7 +512,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			DataSetter.setTapPU(branchData.addNewToTap(), ratioFactor/x);
 			
 			if (uKvPhase > 0.0) {
-				TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
+				TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
 				tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
 				
 				// tap control of voltage at to node side
@@ -584,7 +586,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			DataSetter.setTapPU(branchData.addNewToTap(), ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {
-				AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
+				AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
           		angAdj.setMode(AdjustmentDataXmlType.Mode.VALUE_ADJUSTMENT);
           		angAdj.setDesiredValue(pMwAngle);				
 				angAdj.setDesiredPowerUnit(AngleAdjustmentXmlType.DesiredPowerUnit.MW);

@@ -178,6 +178,8 @@ public class PSSEV26BranchRecord {
 
 	    // only one branch section
 		LoadflowBranchDataXmlType branchData = ParserHelper.getDefaultBranchData(branchRec);
+		if (branchData.getXfrInfo() == null)
+			branchData.addNewXfrInfo();
 	    
 	    int icon = StringUtil.getInt(strAry[3], 0);
 	    boolean isNegative = false;
@@ -194,7 +196,7 @@ public class PSSEV26BranchRecord {
 	    	double vup = StringUtil.getDouble(strAry[6], 0.0);
 	    	double vlow = StringUtil.getDouble(strAry[7], 0.0);
 	    	
-	    	TapAdjustmentXmlType tapAdj = branchData.addNewTapAdjustment();
+	    	TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
 	    	tapAdj.setAdjustmentType(TapAdjustmentXmlType.AdjustmentType.VOLTAGE);
 	    	DataSetter.setTapLimitData(tapAdj.addNewTapLimit(), tmax, tmin);
 	    	tapAdj.setTapAdjStepSize(tstep);
@@ -228,7 +230,7 @@ public class PSSEV26BranchRecord {
 	    	double mwup = StringUtil.getDouble(strAry[6], 0.0);
 	    	double mwlow = StringUtil.getDouble(strAry[7], 0.0);
 
-	    	AngleAdjustmentXmlType angAdj = branchData.addNewAngleAdjustment();
+	    	AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();
 	    	DataSetter.setAngleLimitData(angAdj.addNewAngleLimit(), angmax, angmin, AngleUnitType.DEG);
 	    	angAdj.setMax(mwup);
 	    	angAdj.setMin(mwlow);

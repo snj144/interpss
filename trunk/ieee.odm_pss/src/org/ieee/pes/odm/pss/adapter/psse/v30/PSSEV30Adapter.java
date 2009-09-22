@@ -93,7 +93,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				if (!headerProcessed) {
 						if (lineNo == 3) 
       						headerProcessed = true;
-						PSSENetDataRec.HeaderRec.procLine(lineStr, lineNo, version, baseCaseNet);
+						PSSENetDataRec.HeaderRec.procLineString(lineStr, lineNo, version, baseCaseNet);
       				}
       				else if (!busProcessed) {
 						if (isEndRecLine(lineStr)) {
@@ -101,7 +101,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 getLogger().info("PSS/E Bus record processed");
 						}	 
 						else {
-							PSSEV30BusDataRec.procLine(lineStr, version, parser, this.getLogger());
+							PSSEV30BusDataRec.procLineString(lineStr, version, parser, this.getLogger());
 							busCnt++;
 						}	 
       				}
@@ -111,7 +111,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 getLogger().info("PSS/E Load record processed");
 						}
 						else {
-							PSSEV30LoadDataRec.procLine(lineStr, version, parser, this.getLogger());
+							PSSEV30LoadDataRec.procLineString(lineStr, version, parser, this.getLogger());
 							loadCnt++;
 						}	 
       				}
@@ -121,7 +121,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 getLogger().info("PSS/E Gen record processed");
 						}
 						else {
-							PSSEV30GenDataRec.procLine(lineStr, version, parser, this.getLogger());
+							PSSEV30GenDataRec.procLineString(lineStr, version, parser, this.getLogger());
 							genCnt++;
 						}	 
       				}
@@ -148,7 +148,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 							 */
 						}
 						else {
-							PSSEV30LineDataRec.procLine(lineStr, version, parser, this.getLogger());
+							PSSEV30LineDataRec.procLineString(lineStr, version, parser, this.getLogger());
 							lineCnt++;
 						}	 
       				}
@@ -168,7 +168,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
           						lineNo++;
       						}
 							
-      						PSSEV30XfrDataRec.procLine(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version, parser, this.getLogger());
+      						PSSEV30XfrDataRec.procLineString(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version, parser, this.getLogger());
 							xfrCnt++;
 						}	 
       				}

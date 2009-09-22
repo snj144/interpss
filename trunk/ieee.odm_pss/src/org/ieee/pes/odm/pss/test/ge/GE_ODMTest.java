@@ -139,9 +139,9 @@ public class GE_ODMTest {
 		assertTrue(branchData.getFromTap().getValue() == 1.0); 
 		assertTrue(branchData.getToTap().getValue() == 1.0); 
 	
-		assertTrue(branchData.getXfrInfo().getFromRatedVoltage().getValue() == 230.0); 
-		assertTrue(branchData.getXfrInfo().getToRatedVoltage().getValue() == 16.0); 
-		assertTrue(branchData.getXfrInfo().getRatedPower().getValue() == 600.0); 
+		assertTrue(branchData.getXfrInfo().getRatedVoltage1().getValue() == 230.0); 
+		assertTrue(branchData.getXfrInfo().getRatedVoltage2().getValue() == 16.0); 
+		assertTrue(branchData.getXfrInfo().getRatedPower12().getValue() == 600.0); 
 	}
 }
 

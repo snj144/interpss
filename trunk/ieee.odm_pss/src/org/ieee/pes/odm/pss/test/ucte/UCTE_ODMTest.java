@@ -128,12 +128,12 @@ public class UCTE_ODMTest {
 		assertTrue(branchData.getToShuntY().getIm() == -16.0); 
 		assertTrue(branchData.getToShuntY().getUnit() == YUnitType.MICROMHO); 
 		
-		assertTrue(branchData.getXfrInfo().getFromRatedVoltage().getValue() == 400.0); 		
-		assertTrue(branchData.getXfrInfo().getFromRatedVoltage().getUnit() == VoltageUnitType.KV); 		
-		assertTrue(branchData.getXfrInfo().getToRatedVoltage().getValue() == 230.0); 		
-		assertTrue(branchData.getXfrInfo().getToRatedVoltage().getUnit() == VoltageUnitType.KV); 		
-		assertTrue(branchData.getXfrInfo().getRatedPower().getValue() == 600.0); 		
-		assertTrue(branchData.getXfrInfo().getRatedPower().getUnit() == ApparentPowerUnitType.MVA); 		
+		assertTrue(branchData.getXfrInfo().getRatedVoltage1().getValue() == 400.0); 		
+		assertTrue(branchData.getXfrInfo().getRatedVoltage1().getUnit() == VoltageUnitType.KV); 		
+		assertTrue(branchData.getXfrInfo().getRatedVoltage2().getValue() == 230.0); 		
+		assertTrue(branchData.getXfrInfo().getRatedVoltage2().getUnit() == VoltageUnitType.KV); 		
+		assertTrue(branchData.getXfrInfo().getRatedPower12().getValue() == 600.0); 		
+		assertTrue(branchData.getXfrInfo().getRatedPower12().getUnit() == ApparentPowerUnitType.MVA); 		
 		
 		assertTrue(branchData.getBranchRatingLimit().getCurrent().getValue() == 1000.0); 
 	}
