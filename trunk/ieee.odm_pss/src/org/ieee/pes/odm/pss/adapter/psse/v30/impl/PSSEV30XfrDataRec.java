@@ -36,6 +36,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapAdjustmentXmlType.AdjustmentType;
@@ -61,14 +62,19 @@ public class PSSEV30XfrDataRec {
 							PsseVersion version, ODMModelParser parser, Logger logger) {
 		procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version, logger);
 
-		boolean is3W = k == 0; 
+		boolean is3W = k != 0; 
 /*
 	    Line-1 
-	    For 2W and 3W Xfr: I,J,K,CKT,CW,CZ,CM,MAG1,MAG2,NMETR,’NAME’,STAT,O1,F1,...,O4,F4
+	    For 2W and 3W Xfr: 
+	    	I,     J,     K,    CKT, CW,CZ,CM, MAG1,     MAG2,    NMETR,’NAME’,        STAT,O1,F1,...,O4,F4
+	        26,    54,    0,    '1 ',1, 1, 1,  0.00000,  0.00000, 2,    '        ',    1,   1,1.0000,   0,1.0000,   0,1.0000,   0,1.0000
+            27824, 27871, 27957,'W ',2, 2, 1,  0.00089,  -0.00448,1,    'D575121     ',1,   1,1.0000
+
 */
 		final String fid = ODMModelParser.BusIdPreFix+i;
 		final String tid = ODMModelParser.BusIdPreFix+j;
-		String branchId = StringUtil.formBranchId(fid, tid, ckt);
+		final String tertId = ODMModelParser.BusIdPreFix+k;
+		String branchId = is3W? StringUtil.formBranchId(fid, tid, tertId, ckt) : StringUtil.formBranchId(fid, tid, ckt);
 
 		BranchRecordXmlType branchRec;
 		try {
@@ -79,6 +85,8 @@ public class PSSEV30XfrDataRec {
 		}		
 		branchRec.addNewFromBus().setIdRef(fid);
 		branchRec.addNewToBus().setIdRef(tid);	
+		if (is3W)
+			branchRec.addNewTertiaryBus().setIdRef(tertId);
 		branchRec.setCircuitId(ckt);
 		
 		branchRec.setName(name);
@@ -86,31 +94,29 @@ public class PSSEV30XfrDataRec {
 		
       	LoadflowBranchDataXmlType branchData = branchRec.addNewLoadflowData();	
 		branchData.setCode(LFBranchCodeEnumType.TRANSFORMER);
+		branchData.setXfr3W(is3W);
        	LoadflowBranchDataXmlType.XfrInfo xfrInfo = branchData.addNewXfrInfo();
        	
 		branchData.setMeterLocation( nmetr==1 ? BaseBranchDataXmlType.MeterLocation.FROM_SIDE :
-			BaseBranchDataXmlType.MeterLocation.TO_SIDE);
+									BaseBranchDataXmlType.MeterLocation.TO_SIDE);
 
 		/*
-		CM - The magnetizing admittance I/O code that defines the units in which MAG1
-			and MAG2 are specified: 1 for complex admittance in pu on system MVA base
-			and winding one bus voltage base; 2 for no load loss in watts and exciting current
-			in pu on winding one to two base MVA and winding one nominal voltage.
+		CM - The magnetizing admittance I/O code that defines the units in which MAG1 and MAG2 are specified: 
+			1 for complex admittance in pu on system MVA base and winding one bus voltage base; 
+			2 for no load loss in watts and exciting current in pu on winding one to two base MVA and winding one nominal voltage.
 			CM = 1 by default.
 		MAG1, MAG2 The magnetizing conductance and susceptance, respectively, in pu on system
 			MVA base and winding one bus voltage base when CM is 1; 
 			MAG1 is the no load loss in watts and MAG2 is the exciting current in pu on winding one to
-			two base MVA (SBASE1-2) and winding one nominal voltage (NOMV1)
-			when CM is 2. 
+			two base MVA (SBASE1-2) and winding one nominal voltage (NOMV1)when CM is 2. 
 			MAG1 = 0.0 and MAG2 = 0.0 by default. 
 			For three-phase transformers or three-phase banks of single phase transformers, the three-phase noload
 			loss should be entered.
-			When CM is 1 and a non-zero MAG2 is specified, MAG2 should be entered as
-			a negative quantity; when CM is 2 and a non-zero MAG2 is specified, MAG2
-			should always be entered as a positive quantity.
+			When CM is 1 and a non-zero MAG2 is specified, MAG2 should be entered as a negative quantity; 
+			when CM is 2 and a non-zero MAG2 is specified, MAG2 should always be entered as a positive quantity.
     	 */
 	
-	
+		// sample data : 1,   0.00089,  -0.00448
     	if (cm == 2) {
     		//TODO
     		if (mag1 != 0.0 || mag2 != 0.0)
@@ -121,7 +127,6 @@ public class PSSEV30XfrDataRec {
     			DataSetter.setYData(branchData.addNewFromShuntY(), mag1, mag2, YUnitType.PU);
     	}
       	
-    	// sample data 1,1.0000,   0,1.0000,   0,1.0000,   0,1.0000
     	// owner id = 0.0, no contribution
     	ParserHelper.addOwner(branchRec, 
     			new Integer(o1).toString(), f1, 
@@ -159,12 +164,27 @@ public class PSSEV30XfrDataRec {
        	}
        	
        	if (is3W) {
-       		// TODO
+           	if (cz == 1) {
+            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ23(), r2_3, x2_3, ZUnitType.PU);
+            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ13(), r3_1, x3_1, ZUnitType.PU);
+           	}
+           	else if (cz == 2) {
+            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ23(), r2_3, x2_3, ZUnitType.PU);
+            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ13(), r3_1, x3_1, ZUnitType.PU);
+           	}
+           	else if (cz == 3) {
+           		double zpu = x2_3;
+           		double rpu = r2_3 / sbase2_3;  
+            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ23(), rpu, Math.sqrt(zpu*zpu - rpu*rpu), ZUnitType.PU);
+           	}
        	}
 		      	
     	/*
 		 Line-3 
-		 	format 2W and 3W: WINDV1,NOMV1,ANG1,RATA1,RATB1,RATC1,COD,CONT,RMA,RMI,VMA,VMI,NTP,TAB,CR,CX
+		 	format 2W and 3W: 
+		 	 	WINDV1,  NOMV1,     ANG1,    RATA1,RATB1,RATC1,          COD,    CONT,RMA,     RMI,      VMA,     VMI,      NTP,TAB,CR,CX
+            	352.001, 360.000,   0.000,   150.00,   150.00,   150.00, 0,      0,   540.0000,183.6000, 1.50000, 0.51000,  33, 0, 0.00000, 0.00000
+		 	
     	 */
   		
   		if (cw == 1) {
@@ -177,6 +197,10 @@ public class PSSEV30XfrDataRec {
         	xfrInfo.setDataOnSystemBase(false);
        	}
   		
+  		if (!xfrInfo.getDataOnSystemBase()) {
+  			windv1 /= nomv1;
+  			DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage1(), nomv1, VoltageUnitType.KV);
+  		}
        	DataSetter.setTapPU(branchData.addNewFromTap(), windv1);
 	
     	if ( ang1 != 0.0 || cod == 3 || cod == -3) {
@@ -295,7 +319,10 @@ public class PSSEV30XfrDataRec {
   		/*
 		Line-4 
 			format 2W : WINDV2,NOMV2
-			format 3W : WINDV2,NOMV2,ANG2,RATA2,RATB2,RATC2
+			format 3W : 
+			    WINDV2,  NOMV2,     ANG2,    RATA2,RATB2,RATC2,          COD2,   CONT2,RMA2,RMI2,VMA2,VMI2,              NTP2,TAB2,CR2,CX2
+				137.500, 137.500,   0.000,   150.00,   150.00,   150.00, 0,      0, 0.00000, 0.00000, 0.00000, 0.00000,  33, 0, 0.00000, 0.00000
+			
 		
 			WINDV2 The winding two off-nominal turns ratio in pu of winding two bus base voltage
 					when CW is 1; WINDV2 = 1.0 by default. WINDV2 is the actual winding two
@@ -306,20 +333,31 @@ public class PSSEV30XfrDataRec {
 					is present for information purposes only; it is not used in any of the calculations
 					for modeling the transformer. NOMV2 = 0.0 by default.								
   		 */
+  		if (!xfrInfo.getDataOnSystemBase()) {
+  			windv2 /= nomv2;
+  			DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage2(), nomv2, VoltageUnitType.KV);
+  		}
        	DataSetter.setTapPU(branchData.addNewToTap(), windv2);
 
        	if (is3W) {
        		//TODO
+    		DataSetter.setBranchRatingLimitData(branchData, rata2, ratb2, ratc2, ApparentPowerUnitType.MVA);
        	}
 
        	/*
 		Line-5 
 			format 2W : N/A
-			format 3W : WINDV3,NOMV3,ANG3,RATA3,RATB3,RATC3
-
+			format 3W : 
+				WINDV3,   NOMV3,  ANG3,       RATA3,RATB3,RATC3,         COD3,   CONT3,RMA3,RMI3,VMA3,VMI3,              NTP3,TAB3,CR3,CX3
+            	34.5000,  34.500, -30.000,    22.29,    22.29,    22.29, 0,      0, 0.00000, 0.00000, 0.00000, 0.00000,  33, 0, 0.00000, 0.00000
 		*/
        	if (is3W) {
-       		//TODO
+      		if (!xfrInfo.getDataOnSystemBase()) {
+      			windv3 /= nomv3;
+      			DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage3(), nomv3, VoltageUnitType.KV);
+      		}
+           	DataSetter.setTapPU(branchData.addNewTertiaryTap(), windv3);
+    		DataSetter.setBranchRatingLimitData(branchData, rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
        	}
 	}
 	

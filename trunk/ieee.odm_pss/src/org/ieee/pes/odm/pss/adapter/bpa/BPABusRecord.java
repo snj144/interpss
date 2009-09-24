@@ -324,16 +324,16 @@ public class BPABusRecord {
 		converter.addNewBusId().setName(converterBus);
 		
 		// set converter ac side voltage
-		DataSetter.setVoltageData(converter.getData().addNewAcSideRatedVoltage(), 
+		DataSetter.setVoltageData(converter.addNewAcSideRatedVoltage(), 
 				converterACSideVoltage, VoltageUnitType.KV);
 		// bridges
-		converter.getData().setNumberofBridges(brdgsPerBrckt);
+		converter.setNumberofBridges(brdgsPerBrckt);
 			
 		//set min firing angle as a converter
-		DataSetter.setAngleData(converter.getData().addNewRectifierMinFiringAngle(),
+		DataSetter.setAngleData(converter.addNewMinFiringAngle(),
 				converterMinFiringAngle, AngleUnitType.DEG);
 		//set max firing angle as a inverter
-		DataSetter.setAngleData(converter.getData().addNewInverterMaxFiringAngle(),
+		DataSetter.setAngleData(converter.addNewMaxFiringAngle(),
 				inverterMaxFiringAngle, AngleUnitType.DEG);
 		
 	}

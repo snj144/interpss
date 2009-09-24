@@ -94,6 +94,10 @@
 			</extension>
 		</complexContent>
 	</complexType>
+	<complexType name="RXmlType">
+		<attribute name="r" type="double" use="required"></attribute>
+		<attribute name="unit" use="required" type="pss:ZUnitType"></attribute>
+	</complexType>
 	<complexType name="YXmlType">
 		<complexContent>
 			<extension base="pss:ComplexXmlType">
@@ -101,6 +105,10 @@
 				</attribute>
 			</extension>
 		</complexContent>
+	</complexType>
+	<complexType name="GXmlType">
+		<attribute name="g" type="double" use="required"></attribute>
+		<attribute name="unit" use="required" type="pss:YUnitType"></attribute>
 	</complexType>
 	<complexType name="XformerZTableXmlType">
 		<sequence>

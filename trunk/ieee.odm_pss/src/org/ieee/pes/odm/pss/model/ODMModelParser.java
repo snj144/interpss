@@ -34,8 +34,10 @@ import java.util.Hashtable;
 import org.apache.xmlbeans.XmlException;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.IDRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
@@ -141,6 +143,17 @@ public class ODMModelParser {
 	}
 	
 	/**
+	 * Get the cashed dcLine2T object by id
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public DCLineData2TXmlType getDcLine2TRecord(String recId, String invId, int number) {
+		String id = StringUtil.formBranchId(recId, invId, new Integer(number).toString());
+		return (DCLineData2TXmlType)this.getCachedObject(id);
+	}
+	
+	/**
 	 * Get the cashed object by id
 	 * 
 	 * @param id
@@ -231,6 +244,34 @@ public class ODMModelParser {
 	}
 	
 	/**
+	 * add a new 2T DcLine record to the base case and to the cache table
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public DCLineData2TXmlType addNewBaseCaseDCLine2T(String recId, String invId, int number) throws Exception {
+		if (getStudyCase().getBaseCase().getDcLineList() == null)
+			getStudyCase().getBaseCase().addNewDcLineList();
+		DCLineData2TXmlType dcLine = getStudyCase().getBaseCase().getDcLineList().addNewDcLint2T();
+		String branchId = StringUtil.formBranchId(recId, invId, new Integer(number).toString());
+		dcLine.setId(branchId);
+		dcLine.setNumber(number);
+		if (this.objectCache.get(branchId) != null) {
+			throw new Exception("DCLine record duplication, bus id: " + branchId);
+		}
+		this.objectCache.put(branchId, dcLine);
+
+		dcLine.addNewRectifier();
+		dcLine.getRectifier().setType(ConverterXmlType.Type.RECTIFIER);
+		dcLine.getRectifier().addNewBusId().setIdRef(recId);
+
+		dcLine.addNewInverter();
+		dcLine.getInverter().setType(ConverterXmlType.Type.INVERTER);
+		dcLine.getInverter().addNewBusId().setIdRef(invId);
+		return dcLine;
+	}
+
+	/**
 	 * add a new area record to the base case
 	 * 
 	 * @return
@@ -297,7 +338,7 @@ public class ODMModelParser {
 	@Deprecated
 	public DCLineBusRecordXmlType addNewBaseCaseDCLineBus() {
 		DCLineBusRecordXmlType dcLineBus =  getDCLineBusList().addNewDcLineBus();
-		dcLineBus.addNewConverter().addNewData();
+		//dcLineBus.addNewConverter().addNewData();
 		return dcLineBus;
 	}
 	
