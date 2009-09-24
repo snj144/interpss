@@ -31,6 +31,8 @@ import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
@@ -49,7 +51,7 @@ public class PSSEV30_NEISO_ODMTest {
 		
 		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
-		//System.out.println(adapter.getModel());
+		System.out.println(adapter.getModel());
 		
 		ODMModelParser parser = adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();
@@ -111,6 +113,100 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getRemoteVoltageControlBus().getIdRef().equals("Bus1"));
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getQLimit().getMax() == 441.0);
 		assertTrue(bus.getLoadflowData().getGenData().getContributeGenList().getContributeGenArray().length == 1);
+		
+		/*
+      <branch id="Bus19_to_Bus18_cirId_2" circuitId="2" offLine="true">
+        <ownerList>
+          <owner id="1" ownership="1.0"/>
+        </ownerList>
+        <fromBus idRef="Bus19"/>
+        <toBus idRef="Bus18"/>
+        <loadflowData code="Line">
+          <z re="0.0" im="1.0E-5" unit="PU"/>
+          <meterLocation>FromSide</meterLocation>
+          <branchRatingLimit>
+            <mva rating1="9999.0" rating2="9999.0" rating3="9999.0" unit="MVA"/>
+          </branchRatingLimit>
+        </loadflowData>
+      </branch>
+      */
+		
+		/*
+      <branch id="Bus26_to_Bus54_cirId_1" circuitId="1" name="        " offLine="false">
+        <ownerList>
+          <owner id="1" ownership="1.0"/>
+        </ownerList>
+        <fromBus idRef="Bus26"/>
+        <toBus idRef="Bus54"/>
+        <loadflowData code="Transformer" xfr3W="false">
+          <z re="3.5E-4" im="0.0091" unit="PU"/>
+          <fromTap value="0.975" unit="PU"/>
+          <toTap value="1.0" unit="PU"/>
+          <meterLocation>ToSide</meterLocation>
+          <xfrInfo>
+            <ratedPower12 value="100.0" unit="MVA"/>
+            <dataOnSystemBase>true</dataOnSystemBase>
+          </xfrInfo>
+          <branchRatingLimit>
+            <mva rating1="363.0" rating2="398.0" rating3="510.0" unit="MVA"/>
+          </branchRatingLimit>
+        </loadflowData>
+      </branch>
+		 */
+		
+		/*
+      <dcLint2T id="Bus615600_to_Bus615353_cirId_1" number="1">
+        <controlMode>power</controlMode>
+        <lineZ re="13.75" im="0.0" unit="OHM"/>
+        <powerDemand value="552.0" unit="MW"/>
+        <controlOnRectifierSide>true</controlOnRectifierSide>
+        <scheduledDCVoltage value="410.0" unit="KV"/>
+        <meterdEnd>inverter</meterdEnd>
+        <modeSwitchDCVoltage value="-1.0" unit="KV"/>
+        <compoundingR re="13.75" im="0.0" unit="OHM"/>
+        <powerOrCurrentMarginPU>0.1</powerOrCurrentMarginPU>
+        <minDCVoltage value="0.0" unit="KV"/>
+        <rectifier>
+          <type>rectifier</type>
+          <busId idRef="Bus615600"/>
+          <numberofBridges>2</numberofBridges>
+          <minFiringAngle value="15.0" unit="DEG"/>
+          <maxFiringAngle value="19.0" unit="DEG"/>
+          <acSideRatedVoltage value="230.0" unit="KV"/>
+          <commutatingZ re="0.0" im="21.6" unit="OHM"/>
+          <commutatingCapacitor>0.0</commutatingCapacitor>
+          <xformerTurnRatio>0.7426</xformerTurnRatio>
+          <xformerTapSetting value="0.975" unit="PU"/>
+          <xformerTapLimit max="1.2" min="0.9" unit="PU"/>
+          <xformerTapStepSize>0.0125</xformerTapStepSize>
+        </rectifier>
+        <inverter>
+          <type>inverter</type>
+          <busId idRef="Bus615353"/>
+          <numberofBridges>2</numberofBridges>
+          <minFiringAngle value="18.0" unit="DEG"/>
+          <maxFiringAngle value="18.0" unit="DEG"/>
+          <acSideRatedVoltage value="345.0" unit="KV"/>
+          <commutatingZ re="0.0" im="19.8" unit="OHM"/>
+          <commutatingCapacitor>0.0</commutatingCapacitor>
+          <xformerTurnRatio>0.4714</xformerTurnRatio>
+          <xformerTapSetting value="0.95221" unit="PU"/>
+          <xformerTapLimit max="1.2125" min="0.9125" unit="PU"/>
+          <xformerTapStepSize>1.0E-5</xformerTapStepSize>
+        </inverter>
+      </dcLint2T>
+      		 */
+		DCLineData2TXmlType dcLine = parser.getDcLine2TRecord("Bus615600", "Bus615353", 1);
+		assertTrue(dcLine.getControlMode() == DCLineData2TXmlType.ControlMode.POWER);
+		assertTrue(dcLine.getPowerDemand().getValue() == 552.0);
+		assertTrue(dcLine.getPowerOrCurrentMarginPU() == 0.1);
+		assertTrue(dcLine.getRectifier().getType() == ConverterXmlType.Type.RECTIFIER);
+		assertTrue(dcLine.getRectifier().getNumberofBridges() == 2);
+		
+		assertTrue(dcLine.getInverter().getType() == ConverterXmlType.Type.INVERTER);
+		assertTrue(dcLine.getInverter().getMaxFiringAngle().getValue() == 18.0);
+		assertTrue(dcLine.getInverter().getMinFiringAngle().getValue() == 18.0);
+		assertTrue(dcLine.getInverter().getAcSideRatedVoltage().getValue() == 345.0);
 	}
 }
 

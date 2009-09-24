@@ -40,6 +40,11 @@ public class StringUtil {
 		return fromId + "_to_" + toId + "_cirId_" + cirId;
 	}
 	
+	public static String formBranchId(String fromId, String toId, String tertId, String cirId) {
+		// the combination of form bus id, to bus id and cirId should be always unique
+		return fromId + "_to_" + toId + "_n_" + tertId + "_cirId_" + cirId;
+	}
+
 	/**
 	 * format "' 1'" to "_1" 
 	 * 

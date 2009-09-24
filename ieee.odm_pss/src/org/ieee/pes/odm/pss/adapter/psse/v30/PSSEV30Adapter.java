@@ -34,6 +34,7 @@ import org.ieee.pes.odm.pss.adapter.psse.PSSEBusRecord;
 import org.ieee.pes.odm.pss.adapter.psse.PSSENetDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30BusDataRec;
+import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30DcLine2TDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30GenDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30LineDataRec;
 import org.ieee.pes.odm.pss.adapter.psse.v30.impl.PSSEV30LoadDataRec;
@@ -191,8 +192,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       						String lineStr2 = din.readLine();
       						String lineStr3 = din.readLine();
       						lineNo++; lineNo++;
-							//	PSSEDCLineDataRec rec = new PSSEDCLineDataRec(lineStr, lineStr2, lineStr3, version);
-							//	rec.processDCLine(adjNet, msg);
+      						PSSEV30DcLine2TDataRec.procLineString(lineStr, lineStr2, lineStr3, version, parser, this.getLogger());
 							dcLineCnt++;
 						}	 
       				}

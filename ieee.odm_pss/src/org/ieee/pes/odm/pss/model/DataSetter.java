@@ -34,6 +34,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
@@ -43,6 +44,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.MvaRatingXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.RXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerXmlType;
@@ -121,6 +123,11 @@ public class DataSetter {
 		z.setUnit(unit);
 	}
  
+	public static void setRValue(RXmlType rRec, double r, ZUnitType.Enum unit) {
+		rRec.setR(r);
+		rRec.setUnit(unit);
+	}
+
 	/**
 	 * Set value (g, b, unit) to the y object
 	 * 
@@ -133,6 +140,11 @@ public class DataSetter {
 		y.setRe(g);
 		y.setIm(b);
 		y.setUnit(unit);
+	}
+	
+	public static void setGData(GXmlType gRec, double g, YUnitType.Enum unit) {
+		gRec.setG(g);
+		gRec.setUnit(unit);
 	}
 	
 	/**

@@ -20,7 +20,12 @@
 			</extension>
 		</complexContent>
 	</complexType>
-
+	<complexType name="BranchRatingLimitXmlType">
+		<sequence>
+				<element name="mva" type="pss:MvaRatingXmlType" minOccurs="0"></element>
+				<element name="current" type="pss:CurrentXmlType" minOccurs="0"></element>
+		</sequence>
+	</complexType>
 	<complexType name="BranchRecordXmlType">
 		<complexContent>
 			<extension base="pss:IDRecordXmlType">
@@ -34,14 +39,7 @@
 						</annotation></element>
 					<element name="sequenceData" type="pss:SequenceBranchDataXmlType" minOccurs="0"></element>
 					<element name="dynamicData" type="pss:DynamicBranchDataXmlType" minOccurs="0"></element>
-					<element name="dcLineData" minOccurs="0">
-						<complexType>
-							<sequence>
-								<element name="rectifier" type="pss:ConverterXmlType" minOccurs="1"></element>
-								<element name="inverter" type="pss:ConverterXmlType" minOccurs="1"></element>
-								<element name="data" type="pss:DCLineDataXmlType" minOccurs="1"></element>
-							</sequence>
-						</complexType>
+					<element name="dcLine2TData" minOccurs="0" type="pss:DCLineData2TXmlType">
 					</element>
 				</sequence>
 				<attribute name="circuitId" type="string" use="optional"></attribute>
@@ -135,46 +133,51 @@
 		<complexContent>
 			<extension base="pss:BaseBranchDataXmlType">
 				<sequence>
-				<choice>
-                    <element name="lineInfo" minOccurs="0" maxOccurs="1">
-                    	<complexType>
-							<sequence>
-								<element name="length" type="pss:LengthXmlType" minOccurs="0"></element>
-								<element name="lossFactor" type="double" minOccurs="0" maxOccurs="1"></element>
-							</sequence>
-                    	</complexType>
-                    </element>
-                    <element name="xfrInfo" minOccurs="0" maxOccurs="1">
-						<complexType>
-                                <annotation>
-                                	<documentation>from : 1, to:2 and tert :3</documentation>
-                                </annotation>
-                                <sequence>
-								<element name="ratedVoltage1" type="pss:VoltageXmlType" minOccurs="1"></element>
-								<element name="ratedVoltage2" type="pss:VoltageXmlType" minOccurs="1"></element>
-								<element name="ratedPower12" type="pss:ApparentPowerXmlType" minOccurs="1"></element>
+					<choice>
+						<element name="lineInfo" minOccurs="0" maxOccurs="1">
+							<complexType>
+								<sequence>
+									<element name="length" type="pss:LengthXmlType" minOccurs="0"></element>
+									<element name="lossFactor" type="double" minOccurs="0" maxOccurs="1"></element>
+								</sequence>
+							</complexType>
+						</element>
+						<element name="xfrInfo" minOccurs="0" maxOccurs="1">
+							<complexType>
+								<annotation>
+									<documentation>from : 1, to:2 and tert :3</documentation>
+								</annotation>
+								<sequence>
+									<element name="z23" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+									<element name="z13" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+									<element name="ratedVoltage1" type="pss:VoltageXmlType" minOccurs="0"></element>
+									<element name="ratedVoltage2" type="pss:VoltageXmlType" minOccurs="0"></element>
+									<element name="ratedVoltage3" type="pss:VoltageXmlType" minOccurs="0"></element>
+									<element name="ratedPower12" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+									<element name="ratedPower23" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+									<element name="ratedPower13" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+									<element name="branchRatingLimit23" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType">
 
-								<element name="lossFactor1" type="double" minOccurs="0"></element>
-								<element name="lossFactor2" type="double" minOccurs="0"></element>
-								<element name="zTableNumber" type="int" minOccurs="0"></element>
-								<element name="dataOnSystemBase" type="boolean" minOccurs="0">
-									<annotation>
-										<documentation>Normally xfr data is on xfr rated power based. By setting </documentation>
-									</annotation></element>
-					            <element name="tapAdjustment" minOccurs="0" type="pss:TapAdjustmentXmlType"></element>
-					            <element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
-							</sequence>
-						</complexType>
-					</element>
-				</choice>
-					<element name="branchRatingLimit" minOccurs="0" maxOccurs="1">
-						<complexType>
-							<sequence>
-								<element name="mva" type="pss:MvaRatingXmlType" minOccurs="0"></element>
-								<element name="current" type="pss:CurrentXmlType" minOccurs="0"></element>
-							</sequence>
-						</complexType>
-					</element>
+									</element>
+									<element name="branchRatingLimit13" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType">
+
+									</element>
+									<element name="lossFactor1" type="double" minOccurs="0"></element>
+									<element name="lossFactor2" type="double" minOccurs="0"></element>
+									<element name="lossFactor3" type="double" minOccurs="0"></element>
+									<element name="zTableNumber" type="int" minOccurs="0"></element>
+									<element name="dataOnSystemBase" type="boolean" minOccurs="0">
+										<annotation>
+											<documentation>Normally xfr data is on xfr rated power based. By setting</documentation>
+										</annotation>
+									</element>
+									<element name="tapAdjustment" minOccurs="0" type="pss:TapAdjustmentXmlType"></element>
+									<element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
+								</sequence>
+							</complexType>
+						</element>
+					</choice>
+					<element name="branchRatingLimit" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType"></element>
 				</sequence>
 				<attribute name="code" use="required" type="pss:LFBranchCodeEnumType"></attribute>
 				<attribute name="sec" type="int" use="optional" default="1">
@@ -182,11 +185,10 @@
 						<documentation>sec number is used by GE PSLF</documentation>
 					</annotation>
 				</attribute>
-
+				<attribute name="xfr3W" type="boolean" use="optional"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>
-
 
 	<complexType name="LoadflowGenDataXmlType">
 		<annotation>
@@ -202,8 +204,7 @@
 			<element name="remoteVoltageControlBus" minOccurs="0" maxOccurs="1" type="pss:IDRefRecordXmlType"></element>
 			<element name="qLimit" type="pss:ReactivePowerLimitXmlType" minOccurs="0"></element>
 			<element name="pLimit" minOccurs="0" maxOccurs="1" type="pss:ActivePowerLimitXmlType"></element>
-			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>
-		</sequence>
+			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>		</sequence>
 		<attribute name="code" use="required" type="pss:LFGenCodeEnumType">	</attribute>
 	</complexType>
 
@@ -279,7 +280,7 @@
 
 	<complexType name="ConverterXmlType">
 		<sequence>
-			<element name="type" maxOccurs="1" minOccurs="0">
+			<element name="type" maxOccurs="1" minOccurs="1">
 				<simpleType>
 					<restriction base="string">
 						<enumeration value="rectifier"></enumeration>
@@ -287,8 +288,25 @@
 					</restriction>
 				</simpleType>
 			</element>
-			<element name="busId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
-			<element name="data" type="pss:ConverterDataXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="busId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="numberofBridges" type="int" maxOccurs="1" minOccurs="1"></element>
+			<element name="minFiringAngle" type="pss:AngleXmlType" maxOccurs="1" minOccurs="1"></element>
+			<element name="maxFiringAngle" type="pss:AngleXmlType" maxOccurs="1" minOccurs="1"></element>
+
+
+
+            <element name="firingAngleMeasuringBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
+            <element name="acSideRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="1"></element>
+            <element name="commutatingZ" type="pss:ZXmlType" maxOccurs="1" minOccurs="1"></element>
+            <element name="commutatingCapacitor" type="double" maxOccurs="1" minOccurs="0"></element>
+            <element name="xformerTurnRatio" type="double" maxOccurs="1" minOccurs="0"></element>
+            <element name="xformerTapSetting" type="pss:TapXmlType" maxOccurs="1" minOccurs="0"></element>
+            <element name="xformerTapLimit" type="pss:TapLimitXmlType" maxOccurs="1" minOccurs="0"></element>
+            <element name="xformerTapStepSize" type="double" maxOccurs="1" minOccurs="0"></element>
+            <element name="dcSdieRatedVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="refXfrFromBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="refXfrToBusId" type="pss:IDRefRecordXmlType" maxOccurs="1" minOccurs="0"></element>
+			<element name="refXfrCirId" type="string" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
 
@@ -315,14 +333,6 @@
 			<element name="dcSdieRatedV" type="pss:VoltageXmlType"
 				maxOccurs="1" minOccurs="0">
 			</element>
-
-
-
-
-
-
-
-
 			<element name="xformerRXperB" type="pss:ZXmlType"
 				maxOccurs="1" minOccurs="1">
 			</element>
@@ -400,21 +410,66 @@
 		</sequence>
 	</complexType>
 
+	<complexType name="DCLineData2TXmlType">
+		<complexContent>
+			<extension base="pss:IDRecordXmlType">
+				<sequence>
+					<element name="controlMode" default="blocked" maxOccurs="1" minOccurs="1">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="blocked"></enumeration>
+								<enumeration value="power"></enumeration>
+								<enumeration value="current"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
+                    <element name="lineR" type="pss:RXmlType" maxOccurs="1" minOccurs="1"></element>
+                    <element name="lineG" type="pss:GXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="currentDemand" maxOccurs="1" minOccurs="0" type="pss:CurrentXmlType"></element>
+					<element name="powerDemand" type="pss:ActivePowerXmlType" maxOccurs="1" minOccurs="0"></element>
+                    <element name="controlOnRectifierSide" type="boolean" maxOccurs="1" minOccurs="0"></element>
+                    <element name="scheduledDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+                    <element name="meterdEnd" maxOccurs="1" minOccurs="0">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="rectifier"></enumeration>
+								<enumeration value="inverter"></enumeration>
+							</restriction>
+						</simpleType>
+					</element>
+                    <element name="modeSwitchDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="compoundingR" type="pss:RXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="powerOrCurrentMarginPU" maxOccurs="1" minOccurs="0" type="double">
+					</element>
+					<element name="minDCVoltage" type="pss:VoltageXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="maxDCCurrent" type="pss:CurrentXmlType" maxOccurs="1" minOccurs="0"></element>
+					<element name="length" maxOccurs="1" minOccurs="0" type="pss:LengthXmlType"></element>
+					<element name="rectifier" type="pss:ConverterXmlType" minOccurs="1"></element>
+					<element name="inverter" type="pss:ConverterXmlType" minOccurs="1"></element>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="DCLineDataMTXmlType">
+		<sequence>
+		</sequence>
+	</complexType>
+
 	<complexType name="BaseBranchDataXmlType">
 		<complexContent>
 			<extension base="pss:BaseRecordXmlType">
 				<sequence>
-				<choice>
 					<element name="z" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="z12" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
-				</choice>
 					<element name="totalShuntY" type="pss:YXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
 					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>
 					<element name="fromTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="toTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="tertiaryTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
+					<element name="tertiaryAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="meterLocation" minOccurs="0">
 						<simpleType>
 							<restriction base="string">
