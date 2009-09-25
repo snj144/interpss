@@ -30,10 +30,13 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
@@ -130,6 +133,11 @@ public class PSSEV30_NEISO_ODMTest {
         </loadflowData>
       </branch>
       */
+		BranchRecordXmlType branch = parser.getBranchRecord("Bus19", "Bus18", "2");
+		assertTrue(branch.getOffLine());
+		LoadflowBranchDataXmlType lineData = branch.getLoadflowDataArray(0);
+		assertTrue(lineData.getCode() == LFBranchCodeEnumType.LINE);
+		assertTrue(lineData.getZ().getIm() == 1.0E-5);
 		
 		/*
       <branch id="Bus26_to_Bus54_cirId_1" circuitId="1" name="        " offLine="false">
@@ -153,6 +161,16 @@ public class PSSEV30_NEISO_ODMTest {
         </loadflowData>
       </branch>
 		 */
+		branch = parser.getBranchRecord("Bus26", "Bus54", "1");
+		assertTrue(!branch.getOffLine());
+		lineData = branch.getLoadflowDataArray(0);
+		assertTrue(lineData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
+		assertTrue(lineData.getXfr3W() == false);
+		assertTrue(lineData.getZ().getIm() == 0.0091);
+		assertTrue(lineData.getFromTap().getValue() == 0.975);
+		assertTrue(lineData.getToTap().getValue() == 1.0);
+		assertTrue(lineData.getXfrInfo().getRatedPower12().getValue() == 100.0);
+		assertTrue(lineData.getBranchRatingLimit().getMva().getRating1() == 363.0);
 		
 		/*
       <dcLint2T id="Bus615600_to_Bus615353_cirId_1" number="1">
