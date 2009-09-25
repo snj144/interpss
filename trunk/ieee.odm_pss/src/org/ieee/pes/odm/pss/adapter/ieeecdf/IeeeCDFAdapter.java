@@ -390,7 +390,7 @@ public class IeeeCDFAdapter  extends AbstractODMAdapter {
 		final double rating1Mvar = new Integer(strAry[9]).intValue();
 		final double rating2Mvar = new Integer(strAry[10]).intValue();
 		final double rating3Mvar = new Integer(strAry[11]).intValue();
-		DataSetter.setBranchRatingLimitData(branchData,
+		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar, ApparentPowerUnitType.MVA);
 
 		String controlBusId = "";

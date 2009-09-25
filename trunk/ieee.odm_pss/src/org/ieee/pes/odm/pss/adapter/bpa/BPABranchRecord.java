@@ -161,7 +161,7 @@ public class BPABranchRecord {
 			double currentRating=0.0;
 			if(!strAry[10].equals("")){
 				currentRating = new Double(strAry[10]).doubleValue();
-				DataSetter.setBranchRatingLimitData(branchData, 
+				DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), 
 						currentRating, CurrentUnitType.AMP);
 			}			 
 			double rpu=0.0, xpu=0.0001, halfGpu=0.0, halfBpu=0.0;
@@ -314,7 +314,7 @@ public class BPABranchRecord {
 			double currentRating=0.0;
 			if(!strAry[10].equals("")){
 				currentRating = new Double(strAry[10]).doubleValue();
-				DataSetter.setBranchRatingLimitData(branchData, 
+				DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), 
 						currentRating, CurrentUnitType.AMP);
 			}			 
 			double rpu=0.0, xpu=0.0001, G1pu=0.0, B1pu=0.0, G2pu=0.0, B2pu=0.0;

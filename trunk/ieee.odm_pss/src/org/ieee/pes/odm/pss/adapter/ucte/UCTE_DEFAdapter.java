@@ -365,7 +365,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
 
-    	DataSetter.setBranchRatingLimitData(branchData,
+    	DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
 				currentLimit, CurrentUnitType.AMP);
     }
     
@@ -437,7 +437,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
     	if (status == 8 || status == 9) 
     		branchRec.setOffLine(true);
     	
-    	DataSetter.setBranchRatingLimitData(branchData,
+    	DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
 				currentLimit, CurrentUnitType.AMP);
     }
     

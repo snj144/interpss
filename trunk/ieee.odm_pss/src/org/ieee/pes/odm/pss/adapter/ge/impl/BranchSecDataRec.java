@@ -153,7 +153,7 @@ public class BranchSecDataRec extends BaseBranchDataRec {
 			DataSetter.setLineData(branchData, r, x,
 					ZUnitType.OHM, 0.0, b, YUnitType.MHO);
 		
-		DataSetter.setBranchRatingLimitData(branchData,	r_mvaAry, ApparentPowerUnitType.MVA);
+		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), r_mvaAry, ApparentPowerUnitType.MVA);
 		
 		/*
 		<al> - Loss factor (0.0 - 1.0) used to assign losses.

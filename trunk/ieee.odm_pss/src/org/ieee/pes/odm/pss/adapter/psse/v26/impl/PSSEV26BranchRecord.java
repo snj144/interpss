@@ -111,7 +111,7 @@ public class PSSEV26BranchRecord {
 		final double rating2Mvar = StringUtil.getDouble(strAry[7], 0.0);
 		final double rating3Mvar = StringUtil.getDouble(strAry[8], 0.0);
 		
-		DataSetter.setBranchRatingLimitData(branchData,
+		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
 				rating1Mvar, rating2Mvar, rating3Mvar,
 				ApparentPowerUnitType.MVA, 0.0,
 				null);
