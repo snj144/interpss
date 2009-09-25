@@ -54,7 +54,7 @@ public class PSSEV30_NEISO_ODMTest {
 		
 		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
-		System.out.println(adapter.getModel());
+		//System.out.println(adapter.getModel());
 		
 		ODMModelParser parser = adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();
@@ -171,6 +171,60 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(lineData.getToTap().getValue() == 1.0);
 		assertTrue(lineData.getXfrInfo().getRatedPower12().getValue() == 100.0);
 		assertTrue(lineData.getBranchRatingLimit().getMva().getRating1() == 363.0);
+		/*
+	      <branch id="Bus27824_to_Bus27871_n_Bus27957_cirId_W" circuitId="W" name="D575121     " offLine="false">
+	        <ownerList>
+	          <owner id="1" ownership="1.0"/>
+	        </ownerList>
+	        <fromBus idRef="Bus27824"/>
+	        <toBus idRef="Bus27871"/>
+	        <tertiaryBus idRef="Bus27957"/>
+	        <loadflowData code="PhaseShiftXformer" xfr3W="true">
+	          <z re="0.00133" im="0.11469" unit="PU"/>
+	          <fromShuntY re="8.9E-4" im="-0.00448" unit="PU"/>
+	          <fromTap value="0.9777805555555555" unit="PU"/>
+	          <toTap value="1.0" unit="PU"/>
+	          <fromAngle value="0.0" unit="DEG"/>
+	          <toAngle value="0.0" unit="DEG"/>
+	          <meterLocation>FromSide</meterLocation>
+	          <xfrInfo>
+	            <dataOnSystemBase>false</dataOnSystemBase>
+	            <z23 re="0.00124" im="0.02795" unit="PU"/>
+	            <z31 re="0.00108" im="0.06264" unit="PU"/>
+	            <tap3 value="1.0" unit="PU"/>
+	            <shiftAngle3 value="-30.0" unit="DEG"/>
+	            <starVMag value="1.00436" unit="PU"/>
+	            <starVAng value="-9.5049" unit="DEG"/>
+	            <ratedVoltage1 value="360.0" unit="KV"/>
+	            <ratedVoltage2 value="137.5" unit="KV"/>
+	            <ratedVoltage3 value="34.5" unit="KV"/>
+	            <ratedPower12 value="90.0" unit="MVA"/>
+	            <ratedPower23 value="22.29" unit="MVA"/>
+	            <ratedPower31 value="22.29" unit="MVA"/>
+	            <branchRatingLimit23>
+	              <mva rating1="150.0" rating2="150.0" rating3="150.0" unit="MVA"/>
+	            </branchRatingLimit23>
+	            <branchRatingLimit13>
+	              <mva rating1="22.29" rating2="22.29" rating3="22.29" unit="MVA"/>
+	            </branchRatingLimit13>
+	          </xfrInfo>
+	          <branchRatingLimit>
+	            <mva rating1="150.0" rating2="150.0" rating3="150.0" unit="MVA"/>
+	          </branchRatingLimit>
+	        </loadflowData>
+	      </branch>
+	      */
+		branch = parser.getBranchRecord("Bus27824", "Bus27871", "Bus27957", "W");
+		assertTrue(!branch.getOffLine());
+		lineData = branch.getLoadflowDataArray(0);
+		assertTrue(lineData.getCode() == LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
+		assertTrue(lineData.getXfr3W() == true);
+		assertTrue(lineData.getZ().getRe() == 0.00133);
+		assertTrue(lineData.getFromAngle().getValue() == 0.0);
+		assertTrue(lineData.getXfrInfo().getShiftAngle3().getValue() == -30.0);
+		assertTrue(lineData.getXfrInfo().getRatedVoltage1().getValue() == 360.0);
+		assertTrue(lineData.getXfrInfo().getRatedPower12().getValue() == 90.0);
+		assertTrue(lineData.getXfrInfo().getBranchRatingLimit23().getMva().getRating1() == 150.0);
 		
 		/*
       <dcLint2T id="Bus615600_to_Bus615353_cirId_1" number="1">

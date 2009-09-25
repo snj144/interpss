@@ -21,9 +21,8 @@
 					<element name="schemaVersion" minOccurs="1" maxOccurs="1">
 						<simpleType>
 							<restriction base="string">
-								<enumeration value="V1.00"></enumeration>
-								<enumeration value="V1.00.DEV"></enumeration>
 								<enumeration value="V0.4"></enumeration>
+								<enumeration value="V0.5"></enumeration>
 							</restriction>
 						</simpleType>
 					</element>
