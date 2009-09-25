@@ -32,6 +32,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRatingLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.GXmlType;
@@ -459,7 +460,7 @@ public class DataSetter {
 	 * add a RatingLimitData object to the branchData object, then set value(mvarLimit1, mvarLimit2, mvarLimit3, mvarUnit, curLimit, curUnit) 
 	 * to the created RatingLimitData object
 	 * 
-	 * @param branchData
+	 * @param branchLimit
 	 * @param mvar1
 	 * @param mvar2
 	 * @param mvar3
@@ -467,13 +468,12 @@ public class DataSetter {
 	 * @param current
 	 * @param curUnit
 	 */
-	public static void setBranchRatingLimitData(LoadflowBranchDataXmlType branchData, 
+	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
 				double mvar1, double mvar2, double mvar3, ApparentPowerUnitType.Enum mvarUnit,
 				double current, CurrentUnitType.Enum curUnit) {
     	if (mvar1 != 0.0 || mvar2 != 0.0 || mvar3 != 0.0 || current != 0.0) {
-    		branchData.addNewBranchRatingLimit();
         	if (mvar1 != 0.0 || mvar2 != 0.0 || mvar3 != 0.0) {
-        		MvaRatingXmlType mvaRating = branchData.getBranchRatingLimit().addNewMva();
+        		MvaRatingXmlType mvaRating = branchLimit.addNewMva();
         		mvaRating.setRating1(mvar1);
         		mvaRating.setRating2(mvar2);
         		mvaRating.setRating3(mvar3);
@@ -481,7 +481,7 @@ public class DataSetter {
         	}
 
         	if (current != 0.0) {
-        		CurrentXmlType limit = branchData.getBranchRatingLimit().addNewCurrent();
+        		CurrentXmlType limit = branchLimit.addNewCurrent();
         		limit.setValue(current);
         		limit.setUnit(curUnit);
         	}
@@ -499,15 +499,15 @@ public class DataSetter {
 	 * @param mvar3
 	 * @param mvarUnit
 	 */
-	public static void setBranchRatingLimitData(LoadflowBranchDataXmlType branchData, 
+	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
 				double mvar1, double mvar2, double mvar3, ApparentPowerUnitType.Enum mvarUnit) {
-		setBranchRatingLimitData(branchData, mvar1, mvar2, mvar3, mvarUnit, 0.0, null);
+		setBranchRatingLimitData(branchLimit, mvar1, mvar2, mvar3, mvarUnit, 0.0, null);
 	}
 
-	public static void setBranchRatingLimitData(LoadflowBranchDataXmlType branchData, 
+	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
 			double[] mvarAry, ApparentPowerUnitType.Enum mvarUnit) {
-		setBranchRatingLimitData(branchData, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit);
-		MvaRatingXmlType mvaRating = branchData.getBranchRatingLimit().getMva();
+		setBranchRatingLimitData(branchLimit, mvarAry[0], mvarAry[1], mvarAry[2], mvarUnit);
+		MvaRatingXmlType mvaRating = branchLimit.getMva();
 		mvaRating.addNewRatingAry();
 		for (double x : mvarAry)
 			if (x > 0.0)
@@ -521,9 +521,9 @@ public class DataSetter {
 	 * @param current
 	 * @param curUnit
 	 */
-	public static void setBranchRatingLimitData(LoadflowBranchDataXmlType branchData, 
+	public static void setBranchRatingLimitData(BranchRatingLimitXmlType branchLimit, 
 				double current, CurrentUnitType.Enum curUnit) {
-		setBranchRatingLimitData(branchData, 0.0, 0.0, 0.0, null, current, curUnit);
+		setBranchRatingLimitData(branchLimit, 0.0, 0.0, 0.0, null, current, curUnit);
 	}
 	
 	/**

@@ -67,7 +67,7 @@ public class PSSEV30LineDataRec {
       	
 		DataSetter.setLineData(branchData, r, x, ZUnitType.PU, 0.0, b, YUnitType.PU);
 
-		DataSetter.setBranchRatingLimitData(branchData,
+		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(),
     				ratea, rateb, ratec, ApparentPowerUnitType.MVA);
         
        if ( gi != 0.0 || bi != 0.0)

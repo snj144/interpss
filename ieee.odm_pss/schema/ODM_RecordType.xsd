@@ -148,14 +148,26 @@
 									<documentation>from : 1, to:2 and tert :3</documentation>
 								</annotation>
 								<sequence>
-									<element name="z23" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
-									<element name="z13" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+                                    <element name="tapAdjustment" minOccurs="0" type="pss:TapAdjustmentXmlType"></element>
+                                    <element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
+                                    <element name="zTableNumber" type="int" minOccurs="0"></element>
+                                    <element name="dataOnSystemBase" type="boolean" minOccurs="0">
+										<annotation>
+											<documentation>Normally xfr data is on xfr rated power based. By setting</documentation>
+										</annotation>
+									</element>
+                                    <element name="z23" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+									<element name="z31" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
+									<element name="tap3" type="pss:TapXmlType" minOccurs="0"></element>
+									<element name="shiftAngle3" type="pss:AngleXmlType" minOccurs="0"></element>
+									<element name="starVMag" type="pss:VoltageXmlType" minOccurs="0"></element>
+									<element name="starVAng" type="pss:AngleXmlType" minOccurs="1"></element>
 									<element name="ratedVoltage1" type="pss:VoltageXmlType" minOccurs="0"></element>
 									<element name="ratedVoltage2" type="pss:VoltageXmlType" minOccurs="0"></element>
 									<element name="ratedVoltage3" type="pss:VoltageXmlType" minOccurs="0"></element>
 									<element name="ratedPower12" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
 									<element name="ratedPower23" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
-									<element name="ratedPower13" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+									<element name="ratedPower31" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
 									<element name="branchRatingLimit23" minOccurs="0" maxOccurs="1" type="pss:BranchRatingLimitXmlType">
 
 									</element>
@@ -164,15 +176,7 @@
 									</element>
 									<element name="lossFactor1" type="double" minOccurs="0"></element>
 									<element name="lossFactor2" type="double" minOccurs="0"></element>
-									<element name="lossFactor3" type="double" minOccurs="0"></element>
-									<element name="zTableNumber" type="int" minOccurs="0"></element>
-									<element name="dataOnSystemBase" type="boolean" minOccurs="0">
-										<annotation>
-											<documentation>Normally xfr data is on xfr rated power based. By setting</documentation>
-										</annotation>
-									</element>
-									<element name="tapAdjustment" minOccurs="0" type="pss:TapAdjustmentXmlType"></element>
-									<element name="angleAdjustment" minOccurs="0" type="pss:AngleAdjustmentXmlType"></element>
+									<element name="lossFactor3" type="double" minOccurs="0"></element>
 								</sequence>
 							</complexType>
 						</element>
@@ -465,8 +469,7 @@
 					<element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
 					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>
 					<element name="fromTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="toTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="tertiaryTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="toTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="tertiaryAngle" type="pss:AngleXmlType" minOccurs="0"></element>

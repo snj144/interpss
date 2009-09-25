@@ -1,5 +1,5 @@
  /*
-  * @(#)PSSEGenDataRec.java   
+  * @(#)PSSEV30XfrDataRec.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -63,6 +63,7 @@ public class PSSEV30XfrDataRec {
 		procLineString(lineStr1, lineStr2, lineStr3, lineStr4, lineStr5, version, logger);
 
 		boolean is3W = k != 0; 
+		boolean isPsXfr = false;
 /*
 	    Line-1 
 	    For 2W and 3W Xfr: 
@@ -135,12 +136,21 @@ public class PSSEV30XfrDataRec {
     			new Integer(o4).toString(), o4==0?0.0:f4);
 	
     	/*
-       		Line-2 
+       	Line-2 
        		format 2w: R1-2,X1-2,SBASE1-2
        		format 3w: R1-2,X1-2,SBASE1-2,R2-3,X2-3,SBASE2-3,R3-1,X3-1,SBASE3-1,VMSTAR,ANSTAR
+       		
+			VMSTAR The voltage magnitude at the hidden "star point" bus; entered in pu. VMSTAR = 1.0 by default.
+			ANSTAR The bus voltage phase angle at the hidden "star point" bus; entered in degrees. ANSTAR = 0.0 by default.       		
 
     	*/
        	DataSetter.setPowerMva(xfrInfo.addNewRatedPower12(), sbase1_2);
+       	if (is3W) {
+           	DataSetter.setPowerMva(xfrInfo.addNewRatedPower23(), sbase2_3);
+           	DataSetter.setPowerMva(xfrInfo.addNewRatedPower31(), sbase3_1);
+           	DataSetter.setVoltageData(xfrInfo.addNewStarVMag(), vmstar, VoltageUnitType.PU);
+           	DataSetter.setAngleData(xfrInfo.addNewStarVAng(), anstar, AngleUnitType.DEG);
+       	}
        	
        	if (cz == 1) {
        		// When CZ is 1, they are the resistance and reactance, respectively, in pu on 
@@ -166,11 +176,11 @@ public class PSSEV30XfrDataRec {
        	if (is3W) {
            	if (cz == 1) {
             	DataSetter.setZValue(branchData.getXfrInfo().addNewZ23(), r2_3, x2_3, ZUnitType.PU);
-            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ13(), r3_1, x3_1, ZUnitType.PU);
+            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ31(), r3_1, x3_1, ZUnitType.PU);
            	}
            	else if (cz == 2) {
             	DataSetter.setZValue(branchData.getXfrInfo().addNewZ23(), r2_3, x2_3, ZUnitType.PU);
-            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ13(), r3_1, x3_1, ZUnitType.PU);
+            	DataSetter.setZValue(branchData.getXfrInfo().addNewZ31(), r3_1, x3_1, ZUnitType.PU);
            	}
            	else if (cz == 3) {
            		double zpu = x2_3;
@@ -203,13 +213,16 @@ public class PSSEV30XfrDataRec {
   		}
        	DataSetter.setTapPU(branchData.addNewFromTap(), windv1);
 	
-    	if ( ang1 != 0.0 || cod == 3 || cod == -3) {
+    	if ( (is3W && (ang1 != 0.0 || ang2 != 0.0 || ang3 != 0.0)) ||
+    		 (!is3W && ang1 != 0.0) || 
+    		  cod == 3 || cod == -3) {
     		// PhaseShifting transformer branch
+    		isPsXfr = true;
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
     		DataSetter.setAngleData(branchData.addNewFromAngle(), ang1, AngleUnitType.DEG);
     	}
       	
-		DataSetter.setBranchRatingLimitData(branchData, rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
+		DataSetter.setBranchRatingLimitData(branchData.addNewBranchRatingLimit(), rata1, ratb1, ratc1, ApparentPowerUnitType.MVA);
 		
 		/*
 		 * The transformer control mode for automatic adjustments of the winding one
@@ -338,10 +351,12 @@ public class PSSEV30XfrDataRec {
   			DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage2(), nomv2, VoltageUnitType.KV);
   		}
        	DataSetter.setTapPU(branchData.addNewToTap(), windv2);
+       	if (isPsXfr) {
+    		DataSetter.setAngleData(branchData.addNewToAngle(), ang2, AngleUnitType.DEG);
+       	}
 
        	if (is3W) {
-       		//TODO
-    		DataSetter.setBranchRatingLimitData(branchData, rata2, ratb2, ratc2, ApparentPowerUnitType.MVA);
+    		DataSetter.setBranchRatingLimitData(xfrInfo.addNewBranchRatingLimit23(), rata2, ratb2, ratc2, ApparentPowerUnitType.MVA);
        	}
 
        	/*
@@ -356,8 +371,11 @@ public class PSSEV30XfrDataRec {
       			windv3 /= nomv3;
       			DataSetter.setVoltageData(xfrInfo.addNewRatedVoltage3(), nomv3, VoltageUnitType.KV);
       		}
-           	DataSetter.setTapPU(branchData.addNewTertiaryTap(), windv3);
-    		DataSetter.setBranchRatingLimitData(branchData, rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
+           	DataSetter.setTapPU(xfrInfo.addNewTap3(), windv3);
+    		DataSetter.setBranchRatingLimitData(xfrInfo.addNewBranchRatingLimit13(), rata3, ratb3, ratc3, ApparentPowerUnitType.MVA);
+           	if (isPsXfr) {
+        		DataSetter.setAngleData(xfrInfo.addNewShiftAngle3(), ang3, AngleUnitType.DEG);
+           	}
        	}
 	}
 	
@@ -450,6 +468,18 @@ public class PSSEV30XfrDataRec {
 			rata2 = new Double(st.nextToken().trim()).doubleValue();
 			ratb2 = new Double(st.nextToken().trim()).doubleValue();
 			ratc2 = new Double(st.nextToken().trim()).doubleValue();
+		}
+
+		if (k != 0) {
+			st = new StringTokenizer(lineStr5, ",");
+			windv3 = new Double(st.nextToken().trim()).doubleValue();
+			nomv3 = new Double(st.nextToken().trim()).doubleValue();
+			if (k != 0) {
+				ang3 = new Double(st.nextToken().trim()).doubleValue();
+				rata3 = new Double(st.nextToken().trim()).doubleValue();
+				ratb3 = new Double(st.nextToken().trim()).doubleValue();
+				ratc3 = new Double(st.nextToken().trim()).doubleValue();
+			}
 		}
 	}
 	
