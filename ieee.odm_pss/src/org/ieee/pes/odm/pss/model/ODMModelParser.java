@@ -142,6 +142,11 @@ public class ODMModelParser {
 		return (BranchRecordXmlType)this.getCachedObject(id);
 	}
 	
+	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String tertId, String cirId) {
+		String id = StringUtil.formBranchId(fromId, toId, tertId, cirId);
+		return (BranchRecordXmlType)this.getCachedObject(id);
+	}
+
 	/**
 	 * Get the cashed dcLine2T object by id
 	 * 
