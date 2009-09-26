@@ -16,6 +16,7 @@ import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
 import org.interpss.core.adapter.internal.Bus1824Test;
 import org.interpss.core.adapter.internal.IEEE14Test;
 import org.interpss.core.adapter.psse.CR_UserTestCases;
+import org.interpss.core.adapter.psse.GuideSampleTestCases;
 import org.interpss.core.adapter.psse.RecLevelTestCases;
 import org.interpss.core.adapter.ucte.UCTEFormatAusPowerTest;
 import org.interpss.core.dclf.DclfIeee14BusCaseTest;
@@ -83,6 +84,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	UCTEFormatAusPowerTest.class,
 	CR_UserTestCases.class,
 	RecLevelTestCases.class,
+	GuideSampleTestCases.class,
 	
 	IEEE14Test.class,
 	Bus1824Test.class,
