@@ -49,31 +49,31 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 
-public class CR_UserTestCases extends BaseTestSetup {
+public class GuideSampleTestCases extends BaseTestSetup {
 	@Test
-	public void testCase1() throws Exception {
+	public void testCase() throws Exception {
 		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
-		SimuContext simuCtx = adapter.load("testData/psse/PSSE_5Bus_Test.raw");
-//  		System.out.println(simuCtx.getAclfNet().net2String());
-
+		SimuContext simuCtx = adapter.load("testData/psse/PSSE_GuideSample.raw");
+  		//System.out.println(simuCtx.getAclfNet().net2String());
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
-
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.setLfMethod(AclfMethod.NR);
+	  	algo.setNonDivergent(true);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("3011");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		assertTrue(Math.abs(p.getReal()-22.547)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
+  		//System.out.println(p.getReal() + ", " + p.getImaginary());
+  		assertTrue(Math.abs(p.getReal()-258.657)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-104.043)<0.01);
 	}
 
 	@Test
-	public void odm_testCase() throws Exception {
+	public void testCase1() throws Exception {
 		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
-		assertTrue(adapter.parseInputFile("testData/psse/PSSE_5Bus_Test.raw"));		
+		assertTrue(adapter.parseInputFile("testData/psse/PSSE_GuideSample.raw"));		
 		
 		AclfNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
@@ -87,62 +87,20 @@ public class CR_UserTestCases extends BaseTestSetup {
 		else {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;
-		}		
-		
+		}	
+
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-	  	algo.setLfMethod(AclfMethod.PQ);
+	  	algo.setLfMethod(AclfMethod.NR);
+	  	algo.setNonDivergent(true);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());
 	  	
-  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus1");
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus3011");
 		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
   		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		assertTrue(Math.abs(p.getReal()-22.547)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-15.852)<0.01);	  	
+  		//System.out.println(p.getReal() + ", " + p.getImaginary());
+  		assertTrue(Math.abs(p.getReal()-258.657)<0.01);
+  		assertTrue(Math.abs(p.getImaginary()-104.043)<0.01);
 	}
-	
-	@Test
-	public void testCase2() throws Exception {
-		IpssFileAdapter adapter = PluginSpringAppContext.getCustomFileAdapter("psse");
-		SimuContext simuCtx = adapter.load("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw");
-//  		System.out.println(simuCtx.getAclfNet().net2String());
-
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
-
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-	  	algo.setLfMethod(AclfMethod.PQ);
-	  	algo.loadflow();
-  		//System.out.println(net.net2String());
-
-	  	AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("1");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-  		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		assertTrue(Math.abs(p.getReal()-1841.530)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-11.485)<0.01);	  	
-	}
-	
-	@Test
-	public void testCase2ODM() throws Exception {
-		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
-		assertTrue(adapter.parseInputFile("testData/psse/MXV-1120MW_FNC475_FEC196_FAC212_InterPSS_3d.raw"));		
-		
-		IEEEODMMapper mapper = new IEEEODMMapper();
-		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
-		mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class);	
-		
-		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
-
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-	  	algo.setLfMethod(AclfMethod.PQ);
-	  	algo.loadflow();
-  		//System.out.println(net.net2String());
-
-	  	AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus1");
-		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-  		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
-  		System.out.println(p.getReal() + ", " + p.getImaginary());
-  		assertTrue(Math.abs(p.getReal()-1841.530)<0.01);
-  		assertTrue(Math.abs(p.getImaginary()-11.485)<0.01);	  	
-	}	
 }
 
