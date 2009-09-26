@@ -55,7 +55,7 @@ public class GE_ODMTest {
 		IODMPSSAdapter adapter = new GE_PSLF_Adapter(logger);
 		assertTrue(adapter.parseInputFile("testdata/ge/Sample18Bus.epc"));
 		
-		System.out.println(adapter.getModel().toString());
+		//System.out.println(adapter.getModel().toString());
 		
 		PSSNetworkXmlType baseCaseNet = adapter.getModel().getBaseCase();
 		assertTrue(baseCaseNet.getBusList().getBusArray().length == 18);

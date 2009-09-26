@@ -35,21 +35,7 @@
 						<complexType>
 							<sequence>
 								<element name="dcLint2T" type="pss:DCLineData2TXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-								<element name="dcLintMT" type="pss:DCLineDataMTXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-								<element name="dcLineBusList" maxOccurs="1" minOccurs="0">
-									<complexType>
-										<sequence>
-											<element name="dcLineBus" type="pss:DCLineBusRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-										</sequence>
-									</complexType>
-								</element>
-								<element name="dcLineBranchList" minOccurs="0" maxOccurs="1">
-									<complexType>
-										<sequence>
-											<element name="dcLineBranch" type="pss:DCLineBranchRecordXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-										</sequence>
-									</complexType>
-								</element>
+								<element name="dcLintMT" type="pss:DCLineDataMTXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 							</sequence>
 						</complexType></element>
 					<element name="areaList" maxOccurs="1" minOccurs="0">

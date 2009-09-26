@@ -54,7 +54,7 @@ public class PSSEV30_NEISO_ODMTest {
 		
 		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
-		//System.out.println(adapter.getModel());
+		System.out.println(adapter.getModel());
 		
 		ODMModelParser parser = adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();
@@ -112,7 +112,7 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 0.0);
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getPower().getIm() == -65.628);
-		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.0384173);
+		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getDesiredVoltage().getValue() == 1.03842);
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getRemoteVoltageControlBus().getIdRef().equals("Bus1"));
 		assertTrue(bus.getLoadflowData().getGenData().getEquivGen().getQLimit().getMax() == 441.0);
 		assertTrue(bus.getLoadflowData().getGenData().getContributeGenList().getContributeGenArray().length == 1);

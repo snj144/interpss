@@ -59,6 +59,7 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen;
 
 public class ParserHelper {
@@ -96,7 +97,8 @@ public class ParserHelper {
 				if ( genData.getContributeGenList() != null && 
 						genData.getContributeGenList().getContributeGenArray().length > 0) {
 					LoadflowGenDataXmlType equivGen = genData.getEquivGen();
-					double pgen = 0.0, qgen = 0.0, qmax = 0.0, qmin = 0.0, pmax = 0.0, pmin = 0.0;
+					double pgen = 0.0, qgen = 0.0, qmax = 0.0, qmin = 0.0, pmax = 0.0, pmin = 0.0, vSpec = 0.0;
+					VoltageUnitType.Enum vSpecUnit = VoltageUnitType.PU;
 					String remoteBusId = null;
 					boolean offLine = true;
 					for ( LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen gen : 
@@ -123,6 +125,18 @@ public class ParserHelper {
 								pmax += gen.getGenData().getPLimit().getMax();
 								pmin += gen.getGenData().getPLimit().getMin();
 							}
+							
+							if (gen.getGenData().getDesiredVoltage() != null) {
+								if (vSpec == 0.0) {
+									vSpec = gen.getGenData().getDesiredVoltage().getValue();
+									vSpecUnit = gen.getGenData().getDesiredVoltage().getUnit();
+								}
+								else if (vSpec != gen.getGenData().getDesiredVoltage().getValue()) {
+									logger.severe("Inconsistant gen desired voltage, " + 
+											gen.getGenData().getRemoteVoltageControlBus().getIdRef());
+									return false; 
+								}
+							}
 						}
 					}
 					
@@ -136,6 +150,9 @@ public class ParserHelper {
 							DataSetter.setActivePowerLimitData(equivGen.addNewPLimit(), pmax, pmin, ActivePowerUnitType.MW);
 						if (qmax != 0.0 || qmin != 0.0)
 							DataSetter.setReactivePowerLimitData(equivGen.addNewQLimit(), qmax, qmin, ReactivePowerUnitType.MVAR);
+						if (vSpec != 0.0) {
+							DataSetter.setVoltageData(equivGen.getDesiredVoltage(), vSpec, vSpecUnit);
+						}
 					}
 					
 					if (remoteBusId != null && !remoteBusId.equals(busRec.getId()) && 
@@ -354,35 +371,6 @@ public class ParserHelper {
 			addOwner(rec, id4, ownership4);
 	}
 
-
-	public static DCLineBusRecordXmlType getDCLineBusRecord(String id, PSSNetworkXmlType baseCaseNet) {
-		for (DCLineBusRecordXmlType busRec : baseCaseNet.getDcLineList().getDcLineBusList()
-				.getDcLineBusArray()) {
-			if (id.equals(busRec.getConverter().getBusId().getName()))
-				return busRec;
-		}
-		return null;
-	}
-	
-	
-	
-	/**
-	 * Get converter record with the name
-	 * 
-	 * @param name
-	 * @param baseCaseNet
-	 * @return
-	 */
-	public static ConverterXmlType getConverterRecord(String name, PSSNetworkXmlType baseCaseNet) {
-		for (DCLineBusRecordXmlType dcLine : 
-			baseCaseNet.getDcLineList().getDcLineBusList().getDcLineBusArray()) {
-			ConverterXmlType converter= dcLine.getConverter();
-			if (name.equals(converter.getBusId().getName()))
-				return converter;
-		}
-		return null;
-	}
-	
 	/**
 	 * Get area record with the areaname
 	 * 

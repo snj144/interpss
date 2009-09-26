@@ -14,7 +14,7 @@
 			<element name="ownerList" minOccurs="0" maxOccurs="1">
 				<complexType>
 					<sequence>
-						<element name="owner">
+						<element name="owner" maxOccurs="unbounded" minOccurs="0">
 							<complexType>
 								<attribute name="id" type="string" use="required"></attribute>
 								<attribute name="name" type="string" use="optional"></attribute>

@@ -734,7 +734,7 @@ public class BPABranchRecord {
 					tieLine.addNewMeteredBus().setName(rectifierBus);
 					tieLine.addNewNonMeteredBus().setName(inverterBus);	
 					
-					DCLineBusRecordXmlType busRecFrom=ParserHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
+					// **** DCLineBusRecordXmlType busRecFrom=ParserHelper.getDCLineBusRecord(rectifierBus, baseCaseNet);					
 					/*NetAreaXmlType areaFrom=ContainerHelper.
 						  getAreaRecordByZone(busRecFrom.getConverter().getData().getZoneNumber(), baseCaseNet);
 					tieLine.setMeteredArea(areaFrom.getName());

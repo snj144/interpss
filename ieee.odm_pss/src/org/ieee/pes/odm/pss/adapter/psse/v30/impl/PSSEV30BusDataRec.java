@@ -79,7 +79,7 @@ public class PSSEV30BusDataRec {
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getBaseCase().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
-        	DataSetter.setYData(busData.addNewShuntY(), gl*factor, bl*factor, YUnitType.PU);
+        	DataSetter.setYData(busData.addNewShuntY(), gl/factor, bl/factor, YUnitType.PU);
     	}
       	
     	// set input data to the bus object

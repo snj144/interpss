@@ -319,11 +319,11 @@ public class ODMModelParser {
 		return getTielineList().addNewTieline();
 	}
 	
+/*  This part need to migrated into the new structure	
 	/**
 	 * add a new DC line bus record to the base case
 	 * 
 	 * @return
-	 */
 	@Deprecated
 	public PSSNetworkXmlType.DcLineList.DcLineBusList getDCLineBusList(){
 		if(getStudyCase().getBaseCase().getDcLineList()==null){
@@ -339,7 +339,6 @@ public class ODMModelParser {
 	 * create a DCLineBus object
 	 * 
 	 * @return
-	 */
 	@Deprecated
 	public DCLineBusRecordXmlType addNewBaseCaseDCLineBus() {
 		DCLineBusRecordXmlType dcLineBus =  getDCLineBusList().addNewDcLineBus();
@@ -351,7 +350,6 @@ public class ODMModelParser {
 	 * add a new DC line Branch record to the base case
 	 * 
 	 * @return
-	 */
 	@Deprecated
 	public PSSNetworkXmlType.DcLineList.DcLineBranchList getDCLineBranchList(){
 		if(getStudyCase().getBaseCase().getDcLineList()==null){
@@ -366,14 +364,13 @@ public class ODMModelParser {
 	/**
 	 * 
 	 * @return
-	 */
 	@Deprecated
 	public DCLineBranchRecordXmlType addNewBaseCaseDCLineBranch() {
 		DCLineBranchRecordXmlType dcLineBranch = getDCLineBranchList().addNewDcLineBranch();
 		dcLineBranch.addNewData();
 		return dcLineBranch;
 	}
-	
+*/	
 	public String toXmlDoc(boolean addXsi) {
 		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pss:PSSStudyCase xmlns:pss=\"" + Token_nsUrl + "\"";
 		if (addXsi)
