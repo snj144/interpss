@@ -210,6 +210,7 @@ public class PSSEV30_ODMTest {
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating2() == 118.5);
 		assertTrue(branchData.getBranchRatingLimit().getMva().getRating3() == 0.0);
 	}
+
 }
 
 

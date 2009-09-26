@@ -123,7 +123,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 							BPABusRecord.processBusData(str,parser.addNewBaseCaseBus(),this);
 						}else if(str.trim().startsWith("BD")||str.trim().startsWith("BM")){
 							getLogger().fine("load DCLine bus data");						
-							BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
+							// **** BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
 						}
 						
 						else if( (str.trim().startsWith("L")||str.trim().startsWith("E"))
@@ -141,8 +141,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 						}
 						else if( str.trim().startsWith("LD")||str.trim().startsWith("LM")){
 							getLogger().fine("load DC Line data");
-							BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
-									parser,baseCaseNet, this);
+							// *** BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
+							// ***		parser,baseCaseNet, this);
 						}else{
 							processReadComment(str, baseCaseNet,this);
 						}						
@@ -181,7 +181,7 @@ public class BPAAdapter  extends AbstractODMAdapter {
 							BPABusRecord.processBusData(str,parser.addNewBaseCaseBus(),this);
 						}else if(str.trim().startsWith("BD")||str.trim().startsWith("BM")){
 							getLogger().fine("load DCLine bus data");						
-							BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
+							// **** BPABusRecord.processDCLineBusData(str, parser.addNewBaseCaseDCLineBus(),this);
 						}
 						
 						else if( (str.trim().startsWith("L")||str.trim().startsWith("E"))
@@ -199,8 +199,8 @@ public class BPAAdapter  extends AbstractODMAdapter {
 						}
 						else if( str.trim().startsWith("LD")||str.trim().startsWith("LM")){
 							getLogger().fine("load DC Line data");
-							BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
-									parser,baseCaseNet, this);
+							// *** BPABranchRecord.processDCLineBranchData(str, parser.addNewBaseCaseDCLineBranch(),
+							// ***		parser,baseCaseNet, this);
 						}else{
 							processReadComment(str, baseCaseNet,this);
 						}						
