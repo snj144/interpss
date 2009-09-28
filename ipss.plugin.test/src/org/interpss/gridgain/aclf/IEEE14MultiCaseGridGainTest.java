@@ -27,13 +27,18 @@ package org.interpss.gridgain.aclf;
 import static org.junit.Assert.assertTrue;
 
 import org.gridgain.grid.Grid;
+import org.gridgain.grid.GridException;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.editor.runAct.xml.XmlScriptUtilFunc;
 import org.interpss.gridgain.GridBaseTestSetup;
+import org.interpss.gridgain.job.IpssGridGainAclfJob;
+import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.task.assignJob.AssignJob2NodeAclfTask;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.GridComputingXmlType;
 import org.interpss.schema.RuleBaseXmlType;
+import org.interpss.schema.GridComputingXmlType.AclfOption.ReturnStudyCase;
 import org.interpss.xml.PreventiveRuleHanlder;
 import org.junit.Test;
 
@@ -47,16 +52,22 @@ import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.SwingBusAdapter;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
+import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.ext.gridgain.RemoteMessageTable;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.MultiStudyCase;
+import com.interpss.simu.multicase.ReturnRemoteCaseOpt;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 	@Test
 	public void AlgoCaseTest() throws Exception {
+		/*
+		 * step-1 Build the base case
+		 */
     	SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 		
@@ -65,46 +76,68 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		// network id needs to be set. It is used for identification purpse
 		net.setId("IEEE 14_Bus");
 		
+		/*
+		 * step-2 Define LF algorithem
+		 */
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	//algo.setLfMethod(AclfMethod.PQ);
 
+	  	/*
+	  	 * step-3 define multiple study cases
+	  	 */
 		AclfMultiStudyCase mCaseContainer = SimuObjectFactory.createAclfMultiStudyCase(SimuCtxType.ACLF_ADJ_NETWORK);
 		// save the base case Network model to the netStr
 		mCaseContainer.setBaseNetModelString(SerializeEMFObjectUtil.saveModel(net));
 
-		boolean reJobCreation = true;
-			
-		int caseNo = 1;
-		AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase("caseId", 
-									"caseName", caseNo, mCaseContainer);
-		// if Grid computing, save the Algo object to the study case object
-		studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
-		
-		//if (reJobCreation && xmlCase.getModification() != null) {
-				// persist modification to be sent to the remote grid node
-			//studyCase.setModifyModelString(xmlCase.getModification().xmlText());
-		//} 
-	  	
-	  	
-		Grid grid = IpssGridGainUtil.getDefaultGrid();
-		String nodeId = IpssGridGainUtil.getAnyRemoteNodeId();
-		
-    	// set remote and master node id
-    	AssignJob2NodeAclfTask.RemoteNodeId = nodeId;
+		for (int caseNo = 1; caseNo <= 10; caseNo++) {
+			AclfStudyCase studyCase = SimuObjectFactory.createAclfStudyCase("caseId"+caseNo, 
+					"caseName", caseNo, mCaseContainer);
+			// if Grid computing, save the Algo object to the study case object
+			studyCase.setAclfAlgoModelString(SerializeEMFObjectUtil.saveModel(algo));
 
-    	RemoteMessageTable result = IpssGridGainUtil.performGridTask(grid, "Grid Aclf IEEE 14-Bus system", algo, 0);
-		System.out.println(result);
-    	assertTrue(result.getReturnStatus());
+			// define modification to the case
+			AclfStudyCaseXmlType xmlCase = AclfStudyCaseXmlType.Factory.newInstance();
+			xmlCase.addNewModification();
+			// define modification
+			// TODO
+			
+			if (xmlCase.getModification() != null) {
+				// persist modification to be sent to the remote grid node
+				studyCase.setModifyModelString(xmlCase.getModification().xmlText());
+			} 
+		}
+
+		/*
+		 * Step-4 define study options
+		 */
+		boolean reJobCreation = true;
+		mCaseContainer.setRemoteJobCreation(reJobCreation);
+		mCaseContainer.getAclfGridOption().setReturnCase(ReturnRemoteCaseOpt.ALL_STUDY_CASE);
+		mCaseContainer.getAclfGridOption().setCalculateViolation(true);
+		mCaseContainer.getAclfGridOption().setBusVoltageUpperLimitPU(1.1);
+		mCaseContainer.getAclfGridOption().setBusVoltageLowerLimitPU(0.9);
 		
-		String str = result.getSerializedAclfNet();
-		AclfAdjNetwork adjNet = (AclfAdjNetwork) SerializeEMFObjectUtil.loadModel(str);
-		adjNet.rebuildLookupTable();
-		assert(adjNet.isLfConverged());
-    	
-  		AclfBus swingBus = (AclfBus)net.getBus("0001");
-  		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
-		System.out.println(ComplexFunc.toString(swing.getGenResults(UnitType.PU, net.getBaseKva())));
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getReal()-0.11824)<0.0001);
-  		assertTrue(Math.abs(swing.getGenResults(UnitType.PU, net.getBaseKva()).getImaginary()-0.37383)<0.0001);
+		/**
+		 * Step-5 perform grid computing
+		 */
+		try {
+			Grid grid = IpssGridGainUtil.getDefaultGrid();
+			long timeout = 0;
+			RemoteMessageTable[] objAry = IpssGridGainUtil.performMultiGridTask(grid,
+								"InterPSS Grid Aclf Calculation", mCaseContainer, 
+								timeout,	reJobCreation);
+			for (RemoteMessageTable result : objAry) {
+				IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
+				resultHandler.transferRemoteResult(mCaseContainer, result);
+			}
+		} catch (GridException e) {
+			System.out.println(e.toString());
+		} 
+		
+		/**
+		 * Step-6 process results
+		 */
+		IRemoteResult resultHandler = RemoteResultFactory.createHandler(IpssGridGainAclfJob.class);
+		System.out.println(resultHandler.toString(IRemoteResult.DisplayType_NoUsed, mCaseContainer).toString());
 	}	
 }
