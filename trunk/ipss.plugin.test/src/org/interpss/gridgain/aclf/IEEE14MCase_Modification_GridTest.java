@@ -33,6 +33,8 @@ import org.interpss.gridgain.job.IpssGridGainAclfJob;
 import org.interpss.gridgain.result.RemoteResultFactory;
 import org.interpss.gridgain.util.IpssGridGainUtil;
 import org.interpss.schema.AclfStudyCaseXmlType;
+import org.interpss.schema.BranchChangeRecXmlType;
+import org.interpss.schema.ModificationXmlType;
 import org.junit.Test;
 
 import com.interpss.common.util.SerializeEMFObjectUtil;
@@ -49,7 +51,7 @@ import com.interpss.simu.multicase.StudyCase;
 import com.interpss.simu.multicase.aclf.AclfMultiStudyCase;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
-public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
+public class IEEE14MCase_Modification_GridTest extends GridBaseTestSetup {
 	@Test
 	public void AlgoCaseTest() throws Exception {
 		/*
@@ -64,7 +66,7 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		net.setId("IEEE 14_Bus");
 		
 		/*
-		 * step-2 Define LF algorithem
+		 * step-2 Define LF algorithm
 		 */
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, msg);
 	  	//algo.setLfMethod(AclfMethod.PQ);
@@ -84,8 +86,13 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 
 			// define modification to the case
 			AclfStudyCaseXmlType xmlCase = AclfStudyCaseXmlType.Factory.newInstance();
-			xmlCase.addNewModification();
+			ModificationXmlType mod = xmlCase.addNewModification();
 			// define modification
+			BranchChangeRecXmlType branchChange = mod.addNewBranchChangeRecList().addNewBranchChangeRec();
+			branchChange.setFromBusId("0005");
+			branchChange.setToBusId("0006");
+			branchChange.setCircuitNumber("1");
+			branchChange.setOffLine(true);
 			
 			if (xmlCase.getModification() != null) {
 				// persist modification to be sent to the remote grid node
@@ -127,11 +134,11 @@ public class IEEE14MultiCaseGridGainTest extends GridBaseTestSetup {
 		//System.out.println(resultHandler.toString(IRemoteResult.DisplayType_NoUsed, mCaseContainer).toString());
 		
     	for (StudyCase scase : mCaseContainer.getStudyCaseList()) {
-    		AclfStudyCase aclfCase = (AclfStudyCase)scase;
     		if (scase.getNetModelString() != null) {
     			AclfAdjNetwork aclfAdjNet = (AclfAdjNetwork)SerializeEMFObjectUtil.loadModel(scase.getNetModelString());
     			aclfAdjNet.rebuildLookupTable();
     			assertTrue(aclfAdjNet.isLfConverged());
+    			assertTrue(!aclfAdjNet.getBranch("0005", "0006", "1").isActive());
     		}
     	}	
 	}	
