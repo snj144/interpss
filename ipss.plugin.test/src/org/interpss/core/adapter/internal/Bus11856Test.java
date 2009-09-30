@@ -52,8 +52,12 @@ public class Bus11856Test extends BaseTestSetup {
   		//System.out.println(net.net2String());
   		assertTrue((net.getBusList().size() == 11856));
 
-  		starttime = System.currentTimeMillis() ;
 	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+  		starttime = System.currentTimeMillis() ;
+  		assertTrue(algo.checkSwingBus());
+  		System.out.println("time for swing bus check : " + (System.currentTimeMillis() - starttime)*0.001);
+	  	
+  		starttime = System.currentTimeMillis() ;
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
   		//System.out.println(net.net2String());

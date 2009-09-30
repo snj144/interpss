@@ -10,6 +10,9 @@ import org.interpss.cmd.AclfCmdRunTest;
 import org.interpss.cmd.RunExecTest;
 import org.interpss.contigency.ContingencyControlFileCaseTest;
 import org.interpss.contigency.ContingencyXmlCaseTest;
+import org.interpss.contigency.N1Analysis_IEEE14BusTest;
+import org.interpss.contigency.N2Analysis_IEEE14BusTest;
+import org.interpss.core.aclf.IEEE14ChangeRecorderTest;
 import org.interpss.core.adapter.bpa.BPASampleTestCases;
 import org.interpss.core.adapter.ieee.IEEECommonFormatTest;
 import org.interpss.core.adapter.ieee.IEEECommonFormat_CommaTest;
@@ -51,6 +54,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+	// core lib
+	IEEE14ChangeRecorderTest.class,
+	
 	// DStab controller building blocks
 	DelayControlBlockTests.class,
 	FilterControlBlockTests.class,
@@ -99,6 +105,8 @@ import org.junit.runners.Suite.SuiteClasses;
 	UserStephenCaseTest.class,
 	ModificationCaseTest.class,
 	PreventiveCaseTest.class,
+	N1Analysis_IEEE14BusTest.class,
+	N2Analysis_IEEE14BusTest.class,
 	
 	// contingency analysis
 	ContingencyControlFileCaseTest.class,
