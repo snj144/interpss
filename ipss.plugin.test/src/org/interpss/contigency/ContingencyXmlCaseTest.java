@@ -61,17 +61,17 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 	  		mscase.updateResult("Description", scase.getResult());
 	  	}
 
-		AclfBusResultRec rbus = mscase.getBusResult().get("0001");
+		AclfBusResultRec rbus = mscase.getBusResultSummary().get("0001");
   		assertTrue(rbus != null);
 	  	assertTrue(Math.abs(rbus.getHighVoltMagPU()-1.0600) < 0.001);
 	  	assertTrue(Math.abs(rbus.getLowVoltMagPU()-1.0600) < 0.001);
 		
-		rbus = mscase.getBusResult().get("0014");
+		rbus = mscase.getBusResultSummary().get("0014");
   		assertTrue(rbus != null);
 	  	assertTrue(Math.abs(rbus.getHighVoltMagPU()-1.0426) < 0.001);
 	  	assertTrue(Math.abs(rbus.getLowVoltMagPU()-1.0340) < 0.001);
 
-	  	AclfBranchResultRec rbra = mscase.getBranchResult().get("0002->0003(1)");
+	  	AclfBranchResultRec rbra = mscase.getBranchResultSummary().get("0002->0003(1)");
   		assertTrue(rbra != null);
 	  	assertTrue(Math.abs(rbra.getMvaFlow()-75.91) < 0.01);
 /*	  	
@@ -123,7 +123,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 				.toString(IRemoteResult.DisplayType_SecViolation, mscase)
 				.toString());
 */
-	  	AclfBranchResultRec r = mscase.getBranchResult().get("0001->0002(1)");
+	  	AclfBranchResultRec r = mscase.getBranchResultSummary().get("0001->0002(1)");
 	  	assertTrue(Math.abs(r.getMvaFlow() - 241.1) < 0.1);
 	}
 	@Test
@@ -163,7 +163,7 @@ public class ContingencyXmlCaseTest extends BaseTestSetup {
 				.toString(IRemoteResult.DisplayType_SecViolation, mscase)
 				.toString());
 */
-		AclfBranchResultRec r = mscase.getBranchResult().get("0001->0002(1)");
+		AclfBranchResultRec r = mscase.getBranchResultSummary().get("0001->0002(1)");
 	  	assertTrue(Math.abs(r.getMvaFlow() - 207.8) < 0.1);
 	}
 }
