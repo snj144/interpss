@@ -1,5 +1,5 @@
  /*
-  * @(#)N1Analysis_IEEE14BusTest.java   
+  * @(#)N11Analysis_IEEE14BusTest.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -42,47 +42,82 @@ import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.simu.multicase.result.BranchResult;
 
-public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
+public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 	@Test
 	public void sampleTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
-		
+		//System.out.println(net.net2String());
+
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
 		
-
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
+		algo.setTolerance(0.01);
 		
 		int cnt = 0;
-		for (Branch branch : net.getBranchList()) {
+		for (Branch branch1 : net.getBranchList()) {
 			ChangeRecorder recorder = new ChangeRecorder(net);
 
-			branch.setStatus(false);
-			System.out.println("====================\nTurn off branch " + branch.getId());
-			
+			branch1.setStatus(false);
+
+			System.out.println("====================\nTurn off branch " + branch1.getId());
 			if (!algo.checkSwingBus())
 				algo.assignSwingBus();
-			
-	  		assertTrue(algo.loadflow());
+
+			assertTrue(algo.loadflow());
 			
 			// transfer aclf results to the study case
-	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase("OpenBranch"+branch.getId(), "Open Branch "+branch.getId(), ++cnt, mscase);
+	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase("OpenBranch"+branch1.getId(), "Open Branch "+branch1.getId(), ++cnt, mscase);
 	  		scase.getResult().transferAclfResult(net);
-
+		
 	  		// update contingency summary results
-	  		mscase.updateResult("OpenBranch"+branch.getId(), scase.getResult());
-	  		
-	  		recorder.endRecording().apply();
+	  		mscase.updateResult("OpenBranch"+branch1.getId(), scase.getResult());			
+			
+			recorder.endRecording().apply();
+
+			for (Branch branch2 : net.getBranchList()) {
+				if (!branch1.getId().equals(branch2.getId())) {
+					// if rating violation
+					BranchResult result = scase.getResult().getBranchResult(branch2.getId());
+					if (result.getAclfBranchRec().getMvaLoadingPercent() > 100.0) {
+						recorder = new ChangeRecorder(net);
+
+						branch1.setStatus(false);
+						
+						branch2.setStatus(false);
+						System.out.println("====================\nTurn off branches " + 
+								branch1.getId() + ", " + branch2.getId() + ", " 
+								+ result.getAclfBranchRec().getMvaLoadingPercent() + "%");
+						
+						if (!algo.checkSwingBus())
+							algo.assignSwingBus();
+
+						assertTrue(algo.loadflow());
+
+						// transfer aclf results to the study case
+						String caseId = "OpenBranch"+branch1.getId()+","+branch2.getId();
+				  		scase = SimuObjectFactory.createAclfStudyCase(caseId, 
+				  				"Open Branch "+branch1.getId()+ ", " + branch2.getId(), ++cnt, mscase);
+				  		scase.getResult().transferAclfResult(net);
+					
+				  		// update contingency summary results
+				  		mscase.updateResult(caseId, scase.getResult());			
+
+						recorder.endRecording().apply();
+					}
+				}
+			}
 		}
 		
 		ContingencyAnalysisResultHandler handler = new ContingencyAnalysisResultHandler();
 		//System.out.println(handler.toString(IRemoteResult.DisplayType_SecViolation, mscase));
 
-		System.out.println(handler.toString(IRemoteResult.DisplayType_SecAssessment, mscase));
+		System.out.println(handler.toString(IRemoteResult.DisplayType_SecAssessment, mscase));		
 	}
 }
 

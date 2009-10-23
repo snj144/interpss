@@ -1,5 +1,5 @@
  /*
-  * @(#)AclfSampleTest.java   
+  * @(#)N2Analysis_IEEE14BusTest.java   
   *
   * Copyright (C) 2006 www.interpss.org
   *
@@ -28,36 +28,36 @@ import static org.junit.Assert.assertTrue;
 
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.BaseTestSetup;
+import org.interpss.gridgain.secass.ContingencyAnalysisResultHandler;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.core.net.Branch;
+import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
+import com.interpss.simu.multicase.ContingencyAnalysis;
+import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 	@Test
-	public void sampleTest() {
+	public void sampleTest() throws Exception {
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, msg);
 		loadCaseData("testData/aclf/IEEE-14Bus.ipss", simuCtx);
 
-		AclfNetwork net = simuCtx.getAclfNet();
+		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 		
-		//System.out.println(net.net2String());
-/*		
-		AclfBus bus1 = net.getAclfBus("1");
-		bus1.setLoadCode(AclfLoadCode.EXPONENTIAL);
-		bus1.setExpLoadP(0.9);
-		bus1.setExpLoadQ(3.0);
-*/		
+	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
 
-		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
+		algo.setTolerance(0.01);
 		
+		int cnt = 0;
 		for (Branch branch1 : net.getBranchList()) {
 			branch1.setStatus(false);
 			
@@ -71,18 +71,17 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 					
 					if (!algo.checkSwingBus())
 						algo.assignSwingBus();
-/*
-					if (branch1.getId().equals("0007->0008(1)")) {
-						for (Bus bus : net.getBusList())
-							System.out.println("id, intFlag, status: " + 
-								bus.getId() + ", " + bus.getIntFlag() + ", " + bus.isActive());
-						for (Branch b : net.getBranchList()) 
-							System.out.println("id, status: " + 
-								b.getId() + ", " + b.isActive());
-					}
-				
-*/					assertTrue(algo.loadflow());
+					assertTrue(algo.loadflow());
 
+					// transfer aclf results to the study case
+					String caseId = "OpenBranch"+branch1.getId()+","+branch2.getId();
+					AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(caseId, 
+			  				"Open Branch "+branch1.getId()+ ", " + branch2.getId(), ++cnt, mscase);
+			  		scase.getResult().transferAclfResult(net);
+				
+			  		// update contingency summary results
+			  		mscase.updateResult(caseId, scase.getResult());		
+			  		
 					recorder.endRecording().apply();
 				}
 			}
@@ -90,6 +89,10 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 	  		branch1.setStatus(true);
 		}
 		
+		ContingencyAnalysisResultHandler handler = new ContingencyAnalysisResultHandler();
+		//System.out.println(handler.toString(IRemoteResult.DisplayType_SecViolation, mscase));
+
+		System.out.println(handler.toString(IRemoteResult.DisplayType_SecAssessment, mscase));			
 	}
 }
 
