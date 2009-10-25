@@ -24,9 +24,6 @@
 
 package org.interpss.contigency;
 
-import static org.junit.Assert.assertTrue;
-
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.BaseTestSetup;
 import org.interpss.gridgain.secass.ContingencyAnalysisResultHandler;
 import org.junit.Test;
@@ -35,13 +32,11 @@ import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.net.Branch;
 import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
-import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 	@Test
@@ -52,33 +47,13 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 		AclfAdjNetwork net = simuCtx.getAclfAdjNet();
 		
 	  	ContingencyAnalysis mscase = SimuObjectFactory.createContingencyAnalysis(SimuCtxType.ACLF_ADJ_NETWORK, net);
-		
 
+	  	
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
 		
-		int cnt = 0;
-		for (Branch branch : net.getBranchList()) {
-			ChangeRecorder recorder = new ChangeRecorder(net);
+		mscase.N_1_Analysis(algo);
 
-			branch.setStatus(false);
-			System.out.println("====================\nTurn off branch " + branch.getId());
-			
-			if (!algo.checkSwingBus())
-				algo.assignSwingBus();
-			
-	  		assertTrue(algo.loadflow());
-			
-			// transfer aclf results to the study case
-	  		AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase("OpenBranch"+branch.getId(), "Open Branch "+branch.getId(), ++cnt, mscase);
-	  		scase.getResult().transferAclfResult(net);
-
-	  		// update contingency summary results
-	  		mscase.updateResult("OpenBranch"+branch.getId(), scase.getResult());
-	  		
-	  		recorder.endRecording().apply();
-		}
-		
 		ContingencyAnalysisResultHandler handler = new ContingencyAnalysisResultHandler();
 		//System.out.println(handler.toString(IRemoteResult.DisplayType_SecViolation, mscase));
 
