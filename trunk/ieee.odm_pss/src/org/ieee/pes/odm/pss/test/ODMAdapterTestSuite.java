@@ -14,6 +14,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({
+	FuncTestCase.class,
+	
 	IEEECDF_ODMTest.class,
 	
 	UCTE_ODMTest.class,
