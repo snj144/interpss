@@ -24,24 +24,18 @@
 
 package org.interpss.contigency;
 
-import static org.junit.Assert.assertTrue;
-
-import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.BaseTestSetup;
-import org.interpss.gridgain.secass.ContingencyAnalysisResultHandler;
+import org.interpss.display.ContingencyOutFunc;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.net.Branch;
-import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
-import com.interpss.simu.multicase.aclf.AclfStudyCase;
 
 public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 	@Test
@@ -57,42 +51,9 @@ public class N2Analysis_IEEE14BusTest extends BaseTestSetup {
 		algo.setNonDivergent(true);
 		algo.setTolerance(0.01);
 		
-		int cnt = 0;
-		for (Branch branch1 : net.getBranchList()) {
-			branch1.setStatus(false);
-			
-			for (Branch branch2 : net.getBranchList()) {
-				if (!branch1.getId().equals(branch2.getId())) {
-					ChangeRecorder recorder = new ChangeRecorder(net);
-					
-					branch2.setStatus(false);
-					System.out.println("====================\nTurn off branches " + 
-							branch1.getId() + ", " + branch2.getId());
-					
-					if (!algo.checkSwingBus())
-						algo.assignSwingBus();
-					assertTrue(algo.loadflow());
-
-					// transfer aclf results to the study case
-					String caseId = "OpenBranch"+branch1.getId()+","+branch2.getId();
-					AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(caseId, 
-			  				"Open Branch "+branch1.getId()+ ", " + branch2.getId(), ++cnt, mscase);
-			  		scase.getResult().transferAclfResult(net);
-				
-			  		// update contingency summary results
-			  		mscase.updateResult(caseId, scase.getResult());		
-			  		
-					recorder.endRecording().apply();
-				}
-			}
-			
-	  		branch1.setStatus(true);
-		}
+		mscase.N_2_Analysis(algo);
 		
-		ContingencyAnalysisResultHandler handler = new ContingencyAnalysisResultHandler();
-		//System.out.println(handler.toString(IRemoteResult.DisplayType_SecViolation, mscase));
-
-		System.out.println(handler.toString(IRemoteResult.DisplayType_SecAssessment, mscase));			
+		System.out.println(ContingencyOutFunc.securityMargin(mscase));		
 	}
 }
 

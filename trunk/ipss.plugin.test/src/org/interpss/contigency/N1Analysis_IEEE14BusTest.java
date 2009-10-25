@@ -25,14 +25,13 @@
 package org.interpss.contigency;
 
 import org.interpss.BaseTestSetup;
-import org.interpss.gridgain.secass.ContingencyAnalysisResultHandler;
+import org.interpss.display.ContingencyOutFunc;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.ext.gridgain.IRemoteResult;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
@@ -54,10 +53,7 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 		
 		mscase.N_1_Analysis(algo);
 
-		ContingencyAnalysisResultHandler handler = new ContingencyAnalysisResultHandler();
-		//System.out.println(handler.toString(IRemoteResult.DisplayType_SecViolation, mscase));
-
-		System.out.println(handler.toString(IRemoteResult.DisplayType_SecAssessment, mscase));
+		System.out.println(ContingencyOutFunc.securityMargin(mscase));		
 	}
 }
 
