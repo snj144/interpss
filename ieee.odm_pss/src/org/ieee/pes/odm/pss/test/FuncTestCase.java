@@ -2,7 +2,12 @@ package org.ieee.pes.odm.pss.test;
 
 import static org.junit.Assert.assertTrue;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSStudyCaseDocument;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
 import org.junit.Test;
 
 public class FuncTestCase {
@@ -63,7 +68,22 @@ public class FuncTestCase {
 		xml = PSSStudyCaseDocument.Factory.parse(str);
 		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getId() != null);
 		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getFromBus() != null);
-		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getLoadflowDataArray(0).getZ().getRe() == .01938);
+//		assertTrue(xml.getPSSStudyCase().getBaseCase().getBranchList().getBranchArray(0).getLoadflowDataArray(0).getZ().getRe() == .01938);
 	}
 
+	@Test
+	public void parseODM1_TestCase() throws Exception {
+		InputStream in = new BufferedInputStream(new FileInputStream("testdata/ieee_odm/Ieee14Bus_odm.xml"));
+		PSSStudyCaseDocument doc = PSSStudyCaseDocument.Factory.parse(in);
+		
+		assertTrue(doc.getPSSStudyCase().getBaseCase().getBasePower().getValue() == 100.0);
+	}
+
+	@Test
+	public void parseODM2_TestCase() throws Exception {
+		InputStream in = new BufferedInputStream(new FileInputStream("testdata/ieee_odm/Ieee14Bus_odm.xml"));
+		ODMModelParser parser = new ODMModelParser(in);
+		
+		assertTrue(parser.getBaseCase().getBasePower().getValue() == 100.0);
+	}
 }

@@ -29,14 +29,13 @@ package org.ieee.pes.odm.pss.model;
  */
 
 import java.io.File;
+import java.io.InputStream;
 import java.util.Hashtable;
 
 import org.apache.xmlbeans.XmlException;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.IDRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
@@ -84,6 +83,17 @@ public class ODMModelParser {
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
 	}
 	
+	/**
+	 * Constructor using an Xml string
+	 * 
+	 * @param in
+	 * @throws Exception
+	 */
+	public ODMModelParser(InputStream in) throws Exception {
+		this.doc = PSSStudyCaseDocument.Factory.parse(in);
+		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+	}
+
 	/**
 	 * Default Constructor 
 	 * 
