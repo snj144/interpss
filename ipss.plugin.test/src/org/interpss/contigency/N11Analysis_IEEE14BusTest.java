@@ -36,6 +36,7 @@ import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
+import com.interpss.simu.multicase.ContingencyAnalysisType;
 
 public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 	@Test
@@ -50,9 +51,9 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 		
 		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
 		algo.setNonDivergent(true);
-		algo.setTolerance(0.01);
+		algo.setTolerance(0.001);
 		
-		mscase.N_1_1_Analysis(algo);
+		mscase.analysis(algo, ContingencyAnalysisType.N11);
 		
 		System.out.println(ContingencyOutFunc.securityMargin(mscase));		
 	}

@@ -33,12 +33,12 @@ import org.junit.Test;
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
-import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
 import com.interpss.simu.multicase.ContingencyAnalysis;
+import com.interpss.simu.multicase.ContingencyAnalysisType;
 
 public class N1Analysis_CR_Test extends BaseTestSetup {
 	@Test
@@ -57,7 +57,7 @@ public class N1Analysis_CR_Test extends BaseTestSetup {
 		algo.setTolerance(0.001);
 		
   		long starttime = System.currentTimeMillis() ;
-		mscase.N_1_Analysis(algo);
+		mscase.analysis(algo, ContingencyAnalysisType.N1);
   		System.out.println("time for the : " + (System.currentTimeMillis() - starttime)*0.001);
 		
 		System.out.println(ContingencyOutFunc.securityMargin(mscase));		
