@@ -27,11 +27,14 @@ package org.interpss.contigency;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.BaseTestSetup;
 import org.interpss.display.ContingencyOutFunc;
+import org.interpss.mapper.IpssXmlMapper;
 import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.ModificationXmlType;
+import org.interpss.xml.IpssXmlUtilFunc;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.mapper.IpssMapper;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -59,7 +62,7 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 		
 		mscase.analysis(algo, ContingencyAnalysisType.N1);
 
-		//System.out.println(ContingencyOutFunc.securityMargin(mscase));		
+		System.out.println(ContingencyOutFunc.securityMargin(mscase));		
 	}
 	
 	@Test
@@ -82,20 +85,27 @@ public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 				String caseName = "Open Branch "+branch.getId();
 				AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(caseId, caseName, ++cnt, mscase);
 				
-				ModificationXmlType mod = ModificationXmlType.Factory.newInstance();
-				mod.addNewBranchChangeRecList();
-				BranchChangeRecXmlType braChange = mod.getBranchChangeRecList().addNewBranchChangeRec();
-				braChange.setRecId("OpenLine_" + branch.getId());
-				braChange.setFromBusId(branch.getFromBus().getId());
-				braChange.setToBusId(branch.getToBus().getId());
-				braChange.setCircuitNumber(branch.getCircuitNumber());
-				braChange.setOffLine(true);
-
+				ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch);
 				scase.setModifyModelString(mod.xmlText());
 			}
 		}
 		
-		//java.util.Queue<AclfStudyCase> q = new java.util.
+		mscase.setLfTolerance(algo.getTolerance());
+		algo.loadflow();
+		algo.setInitBusVoltage(false);
+	  	IpssMapper mapper = new IpssXmlMapper();
+		while (!mscase.getStudyCaseList().isEmpty()) {
+			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfAdjNetwork());
+			
+			AclfStudyCase scase = (AclfStudyCase)mscase.getStudyCaseList().poll();
+			
+		  	mapper.mapping(ModificationXmlType.Factory.parse(scase.getModifyModelString()), 
+		  			algo.getAclfAdjNetwork(), ModificationXmlType.class);
+			
+			scase.runLoadflow(algo, mscase);
+	  		
+			recorder.endRecording().apply();
+		}
 		
 		System.out.println(ContingencyOutFunc.securityMargin(mscase));		
 	}
