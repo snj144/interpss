@@ -28,6 +28,7 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.BaseTestSetup;
 import org.interpss.display.ContingencyOutFunc;
 import org.interpss.mapper.IpssXmlMapper;
+import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.junit.Test;
@@ -42,9 +43,9 @@ import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.ContingencyAnalysis;
-import com.interpss.simu.multicase.ContingencyAnalysisType;
-import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
+import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
+import com.interpss.simu.multicase.aclf.ContingencyCase;
 import com.interpss.simu.multicase.result.BranchResult;
 
 public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
@@ -86,7 +87,7 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 			if (branch.isActive()) {
 				String caseId = "[x]"+branch.getId();
 				String caseName = "Open Branch "+branch.getId();
-				AclfStudyCase scase = SimuObjectFactory.createAclfStudyCase(caseId, caseName, ++cnt, mscase);
+				ContingencyCase scase = SimuObjectFactory.createContingencyCase(caseId, caseName, ++cnt, mscase);
 				
 				ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch);
 				scase.setModifyModelString(mod.xmlText());
@@ -100,23 +101,31 @@ public class N11Analysis_IEEE14BusTest extends BaseTestSetup {
 		while (!mscase.getStudyCaseList().isEmpty()) {
 			ChangeRecorder recorder = new ChangeRecorder(algo.getAclfAdjNetwork());
 			
-			AclfStudyCase scase1 = (AclfStudyCase)mscase.getStudyCaseList().poll();
+			ContingencyCase scase1 = (ContingencyCase)mscase.getStudyCaseList().poll();
 			
-		  	mapper.mapping(ModificationXmlType.Factory.parse(scase1.getModifyModelString()), 
-		  			algo.getAclfAdjNetwork(), ModificationXmlType.class);
+			ModificationXmlType mod1 = ModificationXmlType.Factory.parse(scase1.getModifyModelString()); 
+		  	mapper.mapping(mod1, algo.getAclfAdjNetwork(), ModificationXmlType.class);
 			
 			scase1.runLoadflow(algo, mscase);
 			
 			recorder.endRecording().apply();
 
-			if (scase1.isAclfConverged()) {
+			if (scase1.isAclfConverged() && !scase1.isN11Case()) {
 	  			for (Branch branch2 : net.getBranchList()) {
-	  				AclfBranch branch1 = null;
+	  				BranchChangeRecXmlType branchRec = mod1.getBranchChangeRecList().getBranchChangeRecArray()[0];
+	  				AclfBranch branch1 = net.getAclfBranch(branchRec.getFromBusId(), branchRec.getToBusId(), branchRec.getCircuitNumber());
 		  			if (!branch1.getId().equals(branch2.getId()) && branch2.isActive()) {
 						// if rating violation
 		  				BranchResult result = scase1.getResult().getBranchResult(branch2.getId());
 		  				if (result.getAclfBranchRec().getMvaLoadingPercent() > 100.0) {
-	
+		  					String caseId = "[x]"+branch1.getId()+","+branch2.getId();
+		  					String caseName = "Open Branch "+branch1.getId()+ ", " + branch2.getId();
+		  					ContingencyCase scase = SimuObjectFactory.createContingencyCase(caseId, caseName, ++cnt, mscase);
+		  					
+		  					ModificationXmlType mod = IpssXmlUtilFunc.createTurnOffBranchRec(branch1);
+		  					IpssXmlUtilFunc.addTurnOffBranchRec(mod, branch2);
+		  					scase.setModifyModelString(mod.xmlText());
+		  					scase.setN11Case(true);
 		  				}
 		  			}
 		  		}				

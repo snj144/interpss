@@ -28,7 +28,6 @@ import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.interpss.BaseTestSetup;
 import org.interpss.display.ContingencyOutFunc;
 import org.interpss.mapper.IpssXmlMapper;
-import org.interpss.schema.BranchChangeRecXmlType;
 import org.interpss.schema.ModificationXmlType;
 import org.interpss.xml.IpssXmlUtilFunc;
 import org.junit.Test;
@@ -42,9 +41,9 @@ import com.interpss.core.net.Branch;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.ContingencyAnalysis;
-import com.interpss.simu.multicase.ContingencyAnalysisType;
 import com.interpss.simu.multicase.aclf.AclfStudyCase;
+import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
+import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 
 public class N1Analysis_IEEE14BusTest extends BaseTestSetup {
 	@Test

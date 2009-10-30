@@ -37,8 +37,8 @@ import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
 import com.interpss.simu.SimuCtxType;
 import com.interpss.simu.SimuObjectFactory;
-import com.interpss.simu.multicase.ContingencyAnalysis;
-import com.interpss.simu.multicase.ContingencyAnalysisType;
+import com.interpss.simu.multicase.aclf.ContingencyAnalysis;
+import com.interpss.simu.multicase.aclf.ContingencyAnalysisType;
 
 public class N11Analysis_CR_Test extends BaseTestSetup {
 	@Test
