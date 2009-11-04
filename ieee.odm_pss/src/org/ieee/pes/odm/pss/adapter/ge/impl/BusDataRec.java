@@ -101,7 +101,7 @@ public class BusDataRec extends BusHeaderRec {
 		// XML requires id start with a char
 		BusRecordXmlType busRec;
 		try {
-			busRec = parser.addNewBaseCaseBus(busId);
+			busRec = parser.addNewBaseCaseBus(busId, this.number);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;

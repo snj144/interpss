@@ -223,9 +223,10 @@ public class ODMModelParser {
 	 * @param id
 	 * @return
 	 */
-	public BusRecordXmlType addNewBaseCaseBus(String id) throws Exception {
+	public BusRecordXmlType addNewBaseCaseBus(String id, int number) throws Exception {
 		BusRecordXmlType bus = getStudyCase().getBaseCase().getBusList().addNewBus();
 		bus.setId(id);
+		bus.setNumber(number);
 		if (this.objectCache.get(id) != null) {
 			throw new Exception("Bus record duplication, bus id: " + id);
 		}

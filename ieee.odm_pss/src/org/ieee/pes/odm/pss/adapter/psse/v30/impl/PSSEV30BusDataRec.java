@@ -57,7 +57,7 @@ public class PSSEV30BusDataRec {
 		String iStr = ODMModelParser.BusIdPreFix+i;
 		BusRecordXmlType busRec;
 		try {
-			busRec = parser.addNewBaseCaseBus(iStr);
+			busRec = parser.addNewBaseCaseBus(iStr, i);
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
