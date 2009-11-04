@@ -57,7 +57,7 @@ public class PSSEV26BusRecord {
 		logger.fine("Bus data loaded, id: " + busId);
 		BusRecordXmlType busRec;
 		try {
-			busRec = parser.addNewBaseCaseBus(busId);
+			busRec = parser.addNewBaseCaseBus(busId, new Integer(strAry[0]));
 		} catch (Exception e) {
 			logger.severe(e.toString());
 			return;
