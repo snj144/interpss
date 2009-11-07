@@ -158,10 +158,10 @@
 									</element>
                                     <element name="z23" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
 									<element name="z31" type="pss:ZXmlType" minOccurs="0" maxOccurs="1"></element>
-									<element name="tap3" type="pss:TapXmlType" minOccurs="0"></element>
+									<element name="turnRatio3" type="pss:TapXmlType" minOccurs="0"></element>
 									<element name="shiftAngle3" type="pss:AngleXmlType" minOccurs="0"></element>
 									<element name="starVMag" type="pss:VoltageXmlType" minOccurs="0"></element>
-									<element name="starVAng" type="pss:AngleXmlType" minOccurs="1"></element>
+									<element name="starVAng" type="pss:AngleXmlType" minOccurs="0"></element>
 									<element name="ratedVoltage1" type="pss:VoltageXmlType" minOccurs="0"></element>
 									<element name="ratedVoltage2" type="pss:VoltageXmlType" minOccurs="0"></element>
 									<element name="ratedVoltage3" type="pss:VoltageXmlType" minOccurs="0"></element>
@@ -468,8 +468,8 @@
 					<element name="totalShuntY" type="pss:YXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
 					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>
-					<element name="fromTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="toTap" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="fromTurnRatio" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="toTurnRatio" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="tertiaryAngle" type="pss:AngleXmlType" minOccurs="0"></element>

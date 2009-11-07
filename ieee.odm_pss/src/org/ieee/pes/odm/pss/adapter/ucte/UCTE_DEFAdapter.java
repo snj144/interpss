@@ -505,11 +505,11 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			if (dUPhase != 0.0)
 				ParserHelper.addNVPair(nvList, Token_uKvPhase, new Double(uKvPhase).toString());
 
-			double ratioFactor = branchData.getToTap().getValue();
+			double ratioFactor = branchData.getToTurnRatio().getValue();
 
 			double x = 1.0 / (1.0 + n1Phase*dUPhase*0.01);
 			// UCTE model at to side x : 1.0, InterPSS model 1.0:turnRatio
-			DataSetter.setTapPU(branchData.addNewToTap(), ratioFactor/x);
+			DataSetter.setTapPU(branchData.addNewToTurnRatio(), ratioFactor/x);
 			
 			if (uKvPhase > 0.0) {
 				TapAdjustmentXmlType tapAdj = branchData.getXfrInfo().addNewTapAdjustment();
@@ -547,7 +547,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			if (dUPhase != 0.0)
 				ParserHelper.addNVPair(nvList, Token_pMwAngle, new Double(pMwAngle).toString());
 
-			double ratioFactor = branchData.getToTap().getValue();
+			double ratioFactor = branchData.getToTurnRatio().getValue();
 
 	    	double ang = 0.0, angMax = 0.0, angMin = 0.0, x = 1.0;
 			double a    = n1Angle*dUAngle*0.01,
@@ -583,7 +583,7 @@ public class UCTE_DEFAdapter extends AbstractODMAdapter {
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);
 			
 			DataSetter.setAngleData(branchData.addNewToAngle(), -ang*ParserHelper.Rad2Deg, AngleUnitType.DEG);
-			DataSetter.setTapPU(branchData.addNewToTap(), ratioFactor/x);
+			DataSetter.setTapPU(branchData.addNewToTurnRatio(), ratioFactor/x);
 			
 			if (pMwAngle != 0.0) {
 				AngleAdjustmentXmlType angAdj = branchData.getXfrInfo().addNewAngleAdjustment();

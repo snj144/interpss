@@ -29,6 +29,7 @@ package org.ieee.pes.odm.pss.model;
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 
@@ -52,7 +53,8 @@ public class ODMModelParser {
 	public static final String Token_nsPrefix = "pss";
 	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
 
-	private static final StudyCaseXmlType.SchemaVersion.Enum CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_0_4;
+	private static final StudyCaseXmlType.SchemaVersion.Enum 
+			CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_0_5;
 	
 	// bus and branch object cache for fast lookup. 
 	private Hashtable<String,IDRecordXmlType> objectCache = null;
@@ -330,58 +332,15 @@ public class ODMModelParser {
 		return getTielineList().addNewTieline();
 	}
 	
-/*  This part need to migrated into the new structure	
-	/**
-	 * add a new DC line bus record to the base case
-	 * 
-	 * @return
-	@Deprecated
-	public PSSNetworkXmlType.DcLineList.DcLineBusList getDCLineBusList(){
-		if(getStudyCase().getBaseCase().getDcLineList()==null){
-			getStudyCase().getBaseCase().addNewDcLineList();			
-		}
-		if(getStudyCase().getBaseCase().getDcLineList().getDcLineBusList()==null){
-			getStudyCase().getBaseCase().getDcLineList().addNewDcLineBusList();
-		}
-		return getStudyCase().getBaseCase().getDcLineList().getDcLineBusList();
+	public void save(String filename) throws IOException {
+		this.doc.save(new File(filename));
 	}
 	
-	/**
-	 * create a DCLineBus object
-	 * 
-	 * @return
-	@Deprecated
-	public DCLineBusRecordXmlType addNewBaseCaseDCLineBus() {
-		DCLineBusRecordXmlType dcLineBus =  getDCLineBusList().addNewDcLineBus();
-		//dcLineBus.addNewConverter().addNewData();
-		return dcLineBus;
+	public void load(String filename) throws XmlException, IOException {
+		 File inputXMLFile = new File(filename);
+		this.doc = PSSStudyCaseDocument.Factory.parse(inputXMLFile);
 	}
 	
-	/**
-	 * add a new DC line Branch record to the base case
-	 * 
-	 * @return
-	@Deprecated
-	public PSSNetworkXmlType.DcLineList.DcLineBranchList getDCLineBranchList(){
-		if(getStudyCase().getBaseCase().getDcLineList()==null){
-			getStudyCase().getBaseCase().addNewDcLineList();
-		}
-		if(getStudyCase().getBaseCase().getDcLineList().getDcLineBranchList()==null){
-			getStudyCase().getBaseCase().getDcLineList().addNewDcLineBranchList();
-		}
-		return getStudyCase().getBaseCase().getDcLineList().getDcLineBranchList();
-	}
-	
-	/**
-	 * 
-	 * @return
-	@Deprecated
-	public DCLineBranchRecordXmlType addNewBaseCaseDCLineBranch() {
-		DCLineBranchRecordXmlType dcLineBranch = getDCLineBranchList().addNewDcLineBranch();
-		dcLineBranch.addNewData();
-		return dcLineBranch;
-	}
-*/	
 	public String toXmlDoc(boolean addXsi) {
 		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pss:PSSStudyCase xmlns:pss=\"" + Token_nsUrl + "\"";
 		if (addXsi)

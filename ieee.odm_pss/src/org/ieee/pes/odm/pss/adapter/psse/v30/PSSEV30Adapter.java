@@ -44,10 +44,27 @@ import org.ieee.pes.odm.pss.model.ParserHelper;
 
 public class PSSEV30Adapter extends AbstractODMAdapter{
 	public final static String Token_CaseDesc = "Case Description";     
-	public final static String Token_CaseId = "Case ID";				
+	public final static String Token_CaseId = "Case ID";		
+	
+	private boolean elemCntOnly = false;
+	private String  elemCntStr = "";
 
 	public PSSEV30Adapter(Logger logger) {
 		super(logger);
+	}
+
+	public PSSEV30Adapter(boolean elemCntOnly, Logger logger) {
+		this(logger);
+		this.elemCntOnly = elemCntOnly;
+	}
+	
+	public String countElements(String filename) {
+		try {
+			parseInputFile(filename);
+		} catch ( Exception e) {
+			this.elemCntStr += e.toString();
+		}
+		return "PSS/E File elements coount\n" + this.elemCntStr;
 	}
 	
 	protected ODMModelParser parseInputFile(
@@ -83,7 +100,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       		boolean ownerProcessed = false;
       		boolean factsProcessed = false;
       		
-      		int busCnt = 0, loadCnt = 0, genCnt = 0, lineCnt = 0, xfrCnt = 0, xfrZTableCnt = 0,
+      		int busCnt = 0, loadCnt = 0, genCnt = 0, lineCnt = 0, xfrCnt = 0, xfr3WCnt = 0, xfrZTableCnt = 0,
       		    areaInterCnt = 0, dcLineCnt = 0, vscDcLineCnt = 0, mtDcLineCnt = 0, factsCnt = 0,
       		    switchedShuntCnt = 0, ownerCnt = 0, interTransCnt = 0, zoneCnt = 0, multiSecCnt = 0;
       		
@@ -94,15 +111,18 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       				if (!headerProcessed) {
 						if (lineNo == 3) 
       						headerProcessed = true;
-						PSSENetDataRec.HeaderRec.procLineString(lineStr, lineNo, version, baseCaseNet);
+						if (!this.elemCntOnly)
+							PSSENetDataRec.HeaderRec.procLineString(lineStr, lineNo, version, baseCaseNet);
       				}
       				else if (!busProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 busProcessed = true;
 							 getLogger().info("PSS/E Bus record processed");
+							 this.elemCntStr += "Bus record " + busCnt +"\n";
 						}	 
 						else {
-							PSSEV30BusDataRec.procLineString(lineStr, version, parser, this.getLogger());
+							if (!this.elemCntOnly)
+								PSSEV30BusDataRec.procLineString(lineStr, version, parser, this.getLogger());
 							busCnt++;
 						}	 
       				}
@@ -110,9 +130,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							 loadProcessed = true;
 							 getLogger().info("PSS/E Load record processed");
+							 this.elemCntStr += "Load record " + loadCnt +"\n";
 						}
 						else {
-							PSSEV30LoadDataRec.procLineString(lineStr, version, parser, this.getLogger());
+							if (!this.elemCntOnly)
+								PSSEV30LoadDataRec.procLineString(lineStr, version, parser, this.getLogger());
 							loadCnt++;
 						}	 
       				}
@@ -120,9 +142,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							 genProcessed = true;
 							 getLogger().info("PSS/E Gen record processed");
+							 this.elemCntStr += "Gen record " + genCnt +"\n";
 						}
 						else {
-							PSSEV30GenDataRec.procLineString(lineStr, version, parser, this.getLogger());
+							if (!this.elemCntOnly)
+								PSSEV30GenDataRec.procLineString(lineStr, version, parser, this.getLogger());
 							genCnt++;
 						}	 
       				}
@@ -130,26 +154,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							 lineProcessed = true;
 							 getLogger().info("PSS/E Line record processed");
-
-							 /*
-							 // because PSS/E allows zero bus base voltage, we need to fix the issue here
-							 for (Branch branch : adjNet.getBranchList()) {
-								 AclfBranch aclfBra = (AclfBranch)branch;
-								 if (aclfBra.getFromBus().getBaseVoltage() <= 0.0 && aclfBra.getToAclfBus().getBaseVoltage() > 0.0) {
-									 aclfBra.getFromBus().setBaseVoltage(aclfBra.getToBus().getBaseVoltage());
-									 getLogger().warning("Bus base voltage set to :" + aclfBra.getToBus().getBaseVoltage() 
-											 + " @" + aclfBra.getFromBus().getId());
-								 }
-								 else if (aclfBra.getToAclfBus().getBaseVoltage() <= 0.0 && aclfBra.getFromBus().getBaseVoltage() > 0.0) {
-									 aclfBra.getToBus().setBaseVoltage(aclfBra.getFromBus().getBaseVoltage());
-									 getLogger().warning("Bus base voltage set to :" + aclfBra.getFromBus().getBaseVoltage() 
-											 + " @" + aclfBra.getToBus().getId());
-								 }
-							 }
-							 */
+							 this.elemCntStr += "Line record " + lineCnt +"\n";
 						}
 						else {
-							PSSEV30LineDataRec.procLineString(lineStr, version, parser, this.getLogger());
+							if (!this.elemCntOnly)
+								PSSEV30LineDataRec.procLineString(lineStr, version, parser, this.getLogger());
 							lineCnt++;
 						}	 
       				}
@@ -157,6 +166,8 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							 xfrProcessed = true;
 							 getLogger().info("PSS/E Xfr record processed");
+							 this.elemCntStr += "2W Xfr record " + xfrCnt +"\n";
+							 this.elemCntStr += "3W Xfr record " + xfr3WCnt +"\n";
 						}
 						else {
       						String lineStr2 = din.readLine();
@@ -167,19 +178,24 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
       						if (is3WXfr(lineStr)) {
           						lineStr5 = din.readLine();
           						lineNo++;
+    							xfr3WCnt++;
       						}
+      						else
+    							xfrCnt++;
 							
-      						PSSEV30XfrDataRec.procLineString(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version, parser, this.getLogger());
-							xfrCnt++;
+							if (!this.elemCntOnly)
+								PSSEV30XfrDataRec.procLineString(lineStr, lineStr2, lineStr3, lineStr4, lineStr5, version, parser, this.getLogger());
 						}	 
       				}
       				else if (!areaInterProcessed) {
 						if (isEndRecLine(lineStr)) {
 							 areaInterProcessed = true;
 							 getLogger().info("PSS/E AreaInterchange record processed");
+							 this.elemCntStr += "Area interchange record " + areaInterCnt +"\n";
 						}
 						else {
-							PSSENetDataRec.processAreaRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+							if (!this.elemCntOnly)
+								PSSENetDataRec.processAreaRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							areaInterCnt++;
 						}	 
       				}
@@ -187,12 +203,14 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							 dcLine2TProcessed = true;
 							 getLogger().info("PSS/E DC line record processed");
+							 this.elemCntStr += "2T DC line record " + dcLineCnt +"\n";
 						}
 						else {
       						String lineStr2 = din.readLine();
       						String lineStr3 = din.readLine();
       						lineNo++; lineNo++;
-      						PSSEV30DcLine2TDataRec.procLineString(lineStr, lineStr2, lineStr3, version, parser, this.getLogger());
+							if (!this.elemCntOnly)
+								PSSEV30DcLine2TDataRec.procLineString(lineStr, lineStr2, lineStr3, version, parser, this.getLogger());
 							dcLineCnt++;
 						}	 
       				}
@@ -200,6 +218,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							vscDcLineProcessed = true;
 							getLogger().info("PSS/E vscDcLine record processed");
+							 this.elemCntStr += "vscDcLine record " + vscDcLineCnt +"\n";
 						}
 						else {
 							//	PSSEVscDCLineDataRec rec = new PSSEVscDCLineDataRec(lineStr, version);
@@ -211,9 +230,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							 switchedShuntProcessed = true;
 							 getLogger().info("PSS/E switched shunt record processed");
+							 this.elemCntStr += "Switched Shunt record " + switchedShuntCnt +"\n";
 						}
 						else {
-        					PSSEBusRecord.processSwitchedShuntData(lineStr, PsseVersion.PSSE_30, parser, this.getLogger());
+							if (!this.elemCntOnly)
+								PSSEBusRecord.processSwitchedShuntData(lineStr, PsseVersion.PSSE_30, parser, this.getLogger());
 							switchedShuntCnt++;
 						}	 
       				}
@@ -221,9 +242,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							xfrZCorrectionProcessed = true;
 							getLogger().info("PSS/E Xfr table record processed");
+							 this.elemCntStr += "Xfr table record " + xfrZTableCnt +"\n";
 						}
 						else {
-							PSSENetDataRec.processXfrZTableRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+							if (!this.elemCntOnly)
+								PSSENetDataRec.processXfrZTableRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							xfrZTableCnt++;
 						}	 
       				}
@@ -231,6 +254,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							dcLineMTProcessed = true;
 							getLogger().info("PSS/E multi terminal DC Line record processed");
+							 this.elemCntStr += "MT DC line record " + mtDcLineCnt +"\n";
 						}
 						else {
 							//	PSSEMultiTermDCLineDataRec rec = new PSSEMultiTermDCLineDataRec(lineStr, version);
@@ -242,6 +266,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							multiSectionLineGroupProcessed = true;
 							getLogger().info("PSS/E multi section Line Group record processed");
+							 this.elemCntStr += "MultiSec record " + multiSecCnt +"\n";
 						}
 						else {
 							//PSSEMultiSecLineDataRec rec = new PSSEMultiSecLineDataRec(lineStr, version);
@@ -253,9 +278,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							zoneProcessed = true;
 							getLogger().info("PSS/E Zone record processed");
+							 this.elemCntStr += "Zone record " + zoneCnt +"\n";
 						}
 						else {
-							PSSENetDataRec.processZoneRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+							if (!this.elemCntOnly)
+								PSSENetDataRec.processZoneRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							//rec.processZone(adjNet, msg);
 							zoneCnt++;
 						}	 
@@ -264,9 +291,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							interareaTransferProcessed = true;
 							getLogger().info("PSS/E Interarea Transfer record processed");
+							 this.elemCntStr += "Interarea transfer record " + interTransCnt +"\n";
 						}
 						else {
-							PSSENetDataRec.processInterareaTransferRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+							if (!this.elemCntOnly)
+								PSSENetDataRec.processInterareaTransferRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							interTransCnt++;
 						}	 
       				}
@@ -274,9 +303,11 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							ownerProcessed = true;
 							getLogger().info("PSS/E Owner record processed");
+							 this.elemCntStr += "Owner record " + ownerCnt +"\n";
 						}
 						else {
-							PSSENetDataRec.processOwnerRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
+							if (!this.elemCntOnly)
+								PSSENetDataRec.processOwnerRec(lineStr, PsseVersion.PSSE_30, baseCaseNet);
 							ownerCnt++;
 						}	 
       				}
@@ -284,6 +315,7 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
 						if (isEndRecLine(lineStr)) {
 							factsProcessed = true;
 							getLogger().info("PSS/E FACTS record processed");
+							 this.elemCntStr += "Facts record " + factsCnt +"\n";
 						}
 						else { 
 							//PSSEFACTSDataRec rec = new PSSEFACTSDataRec(lineStr, version);
@@ -299,7 +331,8 @@ public class PSSEV30Adapter extends AbstractODMAdapter{
     		throw new Exception("PSSE data input error, line no " + lineNo + ", " + e.toString());
   		}
              
-  		ParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
+		if (!this.elemCntOnly)
+			ParserHelper.createBusEquivData(baseCaseNet, this.getLogger());
   		
    	   	return parser;
 	}

@@ -54,6 +54,8 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TapXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TimePeriodXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurnRatioLimitXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurnRatioXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageLimitXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageXmlType;
@@ -173,6 +175,11 @@ public class DataSetter {
     	tap.setUnit(TapUnitType.PU);		
 	}
 	
+	public static void setTurnRatioPU(TurnRatioXmlType r, double p) {
+    	r.setValue(p);
+    	r.setUnit(TapUnitType.PU);		
+	}
+	
 	/**
 	 * set value (v, unit) to the voltage object
 	 * 
@@ -284,6 +291,12 @@ public class DataSetter {
 	 * @param min
 	 */
 	public static void setTapLimitData(TapLimitXmlType limit, double max, double min) {
+		limit.setMax(max);
+		limit.setMin(min);
+		limit.setUnit(TapUnitType.PU);
+	}
+
+	public static void setTurnRatioLimitData(TurnRatioLimitXmlType limit, double max, double min) {
 		limit.setMax(max);
 		limit.setMin(min);
 		limit.setUnit(TapUnitType.PU);
@@ -410,8 +423,8 @@ public class DataSetter {
 			double fromTap, double toTap,
 			double gFrom, double bFrom, double gTo, double bTo, YUnitType.Enum yUnit) {
 		setZValue(xfrData.addNewZ(), r, x, zUnit);
-		setTapPU(xfrData.addNewFromTap(), fromTap);
-		setTapPU(xfrData.addNewToTap(), toTap);
+		setTapPU(xfrData.addNewFromTurnRatio(), fromTap);
+		setTapPU(xfrData.addNewToTurnRatio(), toTap);
 		if (gFrom != 0.0 || bFrom != 0.0)
 			setYData(xfrData.addNewFromShuntY(),
 					gFrom, bFrom, yUnit);

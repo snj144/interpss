@@ -65,7 +65,7 @@ public class PSSEV30BusDataRec {
 		busRec.setNumber(i);
 		
 		busRec.setAreaNumber(area);
-		busRec.setAreaNumber(zone);
+		busRec.setZoneNumber(zone);
 		if (owner > 0)
 			busRec.addNewOwnerList().addNewOwner().setId(new Integer(owner).toString());
 		
@@ -79,6 +79,7 @@ public class PSSEV30BusDataRec {
     	if (gl != 0.0 || bl != 0.0) {
     		double factor = parser.getBaseCase().getBasePower().getValue();  
     		// for transfer G+jB to PU on system base, gl, bl are entered in MW at one per unit voltage
+    		// bl is reactive power consumed, - for capactor
         	DataSetter.setYData(busData.addNewShuntY(), gl/factor, bl/factor, YUnitType.PU);
     	}
       	

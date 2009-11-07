@@ -139,8 +139,8 @@ public class IEEECDF_ODMTest {
 		assertTrue(branchData.getZ().getUnit() == ZUnitType.PU); 
 		//System.out.println(braRec.getLoadflowData().getXformerData().getFromTap());
 		//System.out.println(braRec.getLoadflowData().getXformerData().getToTap());
-		assertTrue(branchData.getFromTap().getValue() == 0.978); 
-		assertTrue(branchData.getToTap().getValue() == 1.0); 
+		assertTrue(branchData.getFromTurnRatio().getValue() == 0.978); 
+		assertTrue(branchData.getToTurnRatio().getValue() == 1.0); 
 	}
 	
 	public void testCase2() throws Exception {

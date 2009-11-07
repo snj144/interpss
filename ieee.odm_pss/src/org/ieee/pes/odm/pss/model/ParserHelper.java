@@ -35,8 +35,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DcLineFaultXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ExciterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.FaultTypeEnumType;
@@ -151,6 +149,8 @@ public class ParserHelper {
 						if (qmax != 0.0 || qmin != 0.0)
 							DataSetter.setReactivePowerLimitData(equivGen.addNewQLimit(), qmax, qmin, ReactivePowerUnitType.MVAR);
 						if (vSpec != 0.0) {
+							if (equivGen.getDesiredVoltage() == null)
+								equivGen.addNewDesiredVoltage();
 							DataSetter.setVoltageData(equivGen.getDesiredVoltage(), vSpec, vSpecUnit);
 						}
 					}

@@ -175,8 +175,8 @@ public class BPA_ODMTest {
 		assertTrue(branchData.getZ().getUnit() == ZUnitType.PU); 
 		//System.out.println(braRec.getLoadflowData().getXformerData().getFromTap());
 		//System.out.println(braRec.getLoadflowData().getXformerData().getToTap());
-		assertTrue(branchData.getFromTap().getValue() == 1.0); 
-		assertTrue(branchData.getToTap().getValue() == 1.0522); 
+		assertTrue(branchData.getFromTurnRatio().getValue() == 1.0); 
+		assertTrue(branchData.getToTurnRatio().getValue() == 1.0522); 
 	}
 }
 

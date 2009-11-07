@@ -201,8 +201,8 @@ public class PSSEV30_ODMTest {
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
 		assertTrue(branchData.getZ().getRe() == 0.0);
 		assertTrue(branchData.getZ().getIm() == 0.17191);
-		assertTrue(branchData.getFromTap().getValue() == 1.0);
-		assertTrue(branchData.getToTap().getValue() == 1.0);
+		assertTrue(branchData.getFromTurnRatio().getValue() == 1.0);
+		assertTrue(branchData.getToTurnRatio().getValue() == 1.0);
 		assertTrue(branchData.getMeterLocation() == BaseBranchDataXmlType.MeterLocation.TO_SIDE);
 		assertTrue(branchData.getMeterLocation() == BaseBranchDataXmlType.MeterLocation.TO_SIDE);
 		assertTrue(branchData.getXfrInfo().getRatedPower12().getValue() == 100.0 );
