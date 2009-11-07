@@ -167,8 +167,8 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(lineData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
 		assertTrue(lineData.getXfr3W() == false);
 		assertTrue(lineData.getZ().getIm() == 0.0091);
-		assertTrue(lineData.getFromTap().getValue() == 0.975);
-		assertTrue(lineData.getToTap().getValue() == 1.0);
+		assertTrue(lineData.getFromTurnRatio().getValue() == 0.975);
+		assertTrue(lineData.getToTurnRatio().getValue() == 1.0);
 		assertTrue(lineData.getXfrInfo().getRatedPower12().getValue() == 100.0);
 		assertTrue(lineData.getBranchRatingLimit().getMva().getRating1() == 363.0);
 		/*

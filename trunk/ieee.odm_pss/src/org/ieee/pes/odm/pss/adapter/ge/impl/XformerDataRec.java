@@ -217,8 +217,8 @@ public class XformerDataRec extends BaseBranchDataRec {
 		DataSetter.setZValue(branchData.addNewZ(), this.zpsr, this.zpsx, ZUnitType.PU);
 		branchData.getXfrInfo().setDataOnSystemBase(false);
 		
-		DataSetter.setTapPU(branchData.addNewFromTap(), this.tapfp);
-		DataSetter.setTapPU(branchData.addNewToTap(), this.tapfs);
+		DataSetter.setTapPU(branchData.addNewFromTurnRatio(), this.tapfp);
+		DataSetter.setTapPU(branchData.addNewToTurnRatio(), this.tapfs);
 		
 		if (this.anglp != 0.0 || this.angls != 0.0) {
 			branchData.setCode(LFBranchCodeEnumType.PHASE_SHIFT_XFORMER);

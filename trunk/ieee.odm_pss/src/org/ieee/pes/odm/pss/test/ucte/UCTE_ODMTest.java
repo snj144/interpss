@@ -120,8 +120,8 @@ public class UCTE_ODMTest {
 		assertTrue(branchData.getZ().getIm() == 15.0); 
 		assertTrue(branchData.getZ().getUnit() == ZUnitType.OHM); 		
 		
-		assertTrue(branchData.getFromTap().getValue() == 1.0); // from ratio not defined, set to default 1.0
-		assertTrue(branchData.getToTap().getValue() == 1.0); 
+		assertTrue(branchData.getFromTurnRatio().getValue() == 1.0); // from ratio not defined, set to default 1.0
+		assertTrue(branchData.getToTurnRatio().getValue() == 1.0); 
 
 		assertTrue(branchData.getFromShuntY() == null); 
 		assertTrue(branchData.getToShuntY().getRe() == 5.0); 

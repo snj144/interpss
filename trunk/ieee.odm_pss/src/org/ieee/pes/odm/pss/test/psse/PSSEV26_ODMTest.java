@@ -211,8 +211,8 @@ public class PSSEV26_ODMTest {
 		assertTrue(branchData.getCode() == LFBranchCodeEnumType.TRANSFORMER);
 		assertTrue(branchData.getZ().getRe() == 0.0);
 		assertTrue(branchData.getZ().getIm() == 0.266667);
-		assertTrue(branchData.getFromTap().getValue() == 1.0);
-		assertTrue(branchData.getToTap().getValue() == 1.0);
+		assertTrue(branchData.getFromTurnRatio().getValue() == 1.0);
+		assertTrue(branchData.getToTurnRatio().getValue() == 1.0);
 	}
 }
 

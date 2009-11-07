@@ -154,7 +154,7 @@
 			</extension>
 		</complexContent>
 	</complexType>
-	<complexType name="TapXmlType">
+	<complexType name="TurnRatioXmlType">
 		<complexContent>
 			<extension base="pss:BaseDoubleXmlType">
 				<attribute name="unit" use="required" type="pss:TapUnitType">
@@ -468,7 +468,7 @@ max and min are used.</documentation>
 		</complexContent>
 	</complexType>
 
-	<complexType name="TapLimitXmlType">
+	<complexType name="TurnRatioLimitXmlType">
 		<complexContent>
 			<extension base="pss:LimitXmlType">
 				<attribute name="unit" type="pss:TapUnitType" use="required"></attribute>
@@ -511,4 +511,16 @@ max and min are used.</documentation>
 			<enumeration value="PhaseShiftXformer"></enumeration>
 		</restriction>
 	</simpleType>
+
+	<complexType name="TapLimitXmlType">
+		<complexContent>
+			<extension base="pss:TurnRatioLimitXmlType"></extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="TapXmlType">
+		<complexContent>
+			<extension base="pss:TurnRatioXmlType"></extension>
+		</complexContent>
+	</complexType>
 </schema>

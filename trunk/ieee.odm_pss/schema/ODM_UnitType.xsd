@@ -32,7 +32,7 @@
 		</restriction>
 	</simpleType>
 
-	<simpleType name="TapUnitType">
+	<simpleType name="TurnRatioUnitType">
 		<restriction base="string">
 			<enumeration value="PU"></enumeration>
 			<enumeration value="Percent"></enumeration>
@@ -97,5 +97,9 @@
 			<enumeration value="VOLT"></enumeration>
 			<enumeration value="KV"></enumeration>
 		</restriction>
+	</simpleType>
+
+	<simpleType name="TapUnitType">
+		<restriction base="pss:TurnRatioUnitType"></restriction>
 	</simpleType>
 </schema>

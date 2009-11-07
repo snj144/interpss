@@ -136,8 +136,8 @@ public class GE_ODMTest {
 		assertTrue(!branchData.getOffLine()); 
 		assertTrue(branchData.getZ().getRe() == 0.0); 
 		assertTrue(branchData.getZ().getIm() == 0.1); 
-		assertTrue(branchData.getFromTap().getValue() == 1.0); 
-		assertTrue(branchData.getToTap().getValue() == 1.0); 
+		assertTrue(branchData.getFromTurnRatio().getValue() == 1.0); 
+		assertTrue(branchData.getToTurnRatio().getValue() == 1.0); 
 	
 		assertTrue(branchData.getXfrInfo().getRatedVoltage1().getValue() == 230.0); 
 		assertTrue(branchData.getXfrInfo().getRatedVoltage2().getValue() == 16.0); 

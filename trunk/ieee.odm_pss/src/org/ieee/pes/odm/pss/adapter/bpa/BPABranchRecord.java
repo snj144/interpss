@@ -516,7 +516,7 @@ public class BPABranchRecord {
 				fromTurnRatedVolOrAngDeg=fromTurnRatedVolOrAngDeg/100;				
 			}	
 			fRatio=fromTurnRatedVolOrAngDeg/fVol;
-			DataSetter.setTapPU(branchData.addNewFromTap(), fRatio);
+			DataSetter.setTapPU(branchData.addNewFromTurnRatio(), fRatio);
 			
 			if(toTurnRatedVolOrZero>=2*tVol){
 				toTurnRatedVolOrZero=toTurnRatedVolOrZero/100;				
@@ -525,7 +525,7 @@ public class BPABranchRecord {
 			NumberFormat ddf1 = NumberFormat.getNumberInstance();
 			ddf1.setMaximumFractionDigits(4);
 			tRatio = new Double(ddf1.format(tRatio)).doubleValue();		
-			DataSetter.setTapPU(branchData.addNewToTap(), tRatio);
+			DataSetter.setTapPU(branchData.addNewToTurnRatio(), tRatio);
 
 			
 		}else {			
