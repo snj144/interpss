@@ -26,17 +26,22 @@ package org.interpss.core.adapter.psse;
 
 import static org.junit.Assert.assertTrue;
 
+import org.apache.commons.math.complex.Complex;
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.display.AclfOutFunc;
+import org.interpss.display.impl.AclfOut_PSSE;
 import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
+import com.interpss.common.datatype.UnitType;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.SwingBusAdapter;
+import com.interpss.core.aclfadj.AclfAdjNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
 import com.interpss.simu.SimuContext;
@@ -47,28 +52,46 @@ public class EQ0907_TestCases extends BaseTestSetup {
 	@Test
 	public void testCase1() throws Exception {
 		IODMPSSAdapter adapter = new PSSEV30Adapter(IpssLogger.getLogger());
-		assertTrue(adapter.parseInputFile("testData/psse/V30/EQ0907.raw"));		
+		assertTrue(adapter.parseInputFile("testData/psse/V30/EQ0907.raw"));	
+		//FileUtil.writeText2File("testData/output.xml", adapter.getModel().toString());
 		
-		AclfNetwork net = null;
+		AclfAdjNetwork net = null;
 		IEEEODMMapper mapper = new IEEEODMMapper();
 		SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_ADJ_NETWORK, SpringAppContext.getIpssMsgHub());
 		if (mapper.mapping(adapter.getModel(), simuCtx, SimuContext.class)) {
   	  		simuCtx.setName("EQ0907");
   	  		simuCtx.setDesc("This project is created by input file adapter.getModel()");
-  			net = simuCtx.getAclfNet();
+  			net = simuCtx.getAclfAdjNet();
   			//System.out.println(net.net2String());
 		}
 		else {
   	  		System.out.println("Error: ODM model to InterPSS SimuCtx mapping error, please contact support@interpss.com");
   	  		return;
 		}	
-
-	  	LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
-	  	algo.setLfMethod(AclfMethod.NR);
+		
+		LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
+	  	
+		algo.getAdjAlgorithm().setLimitBackoffCheck(false);
+		
+		algo.setLfMethod(AclfMethod.NR);
 	  	algo.setNonDivergent(true);
 	  	algo.loadflow();
-  		
-	  	System.out.println(AclfOutFunc.lfResultsPsseStyle(net));
+
+	  	//System.out.println(net.getAclfBus("Bus10357").toString(net.getBaseKva()));
+	  	/*
+	  	for (Bus bus : net.getBusList()) {
+	  		AclfBus aclfBus = (AclfBus)bus;
+		  	if (aclfBus.mismatch(AclfMethod.NR).abs() > 0.1)
+		  		System.out.println(bus.getId() + " " + ComplexFunc.toString(aclfBus.mismatch(AclfMethod.NR)));
+	  	}
+		*/
+	  	System.out.println(AclfOutFunc.lfResultsPsseStyle(net, AclfOut_PSSE.Format.GUI)); 
+	  	
+  		AclfBus swingBus = simuCtx.getAclfNet().getAclfBus("Bus30117");
+		SwingBusAdapter swing = (SwingBusAdapter)swingBus.getAdapter(SwingBusAdapter.class);
+  		Complex p = swing.getGenResults(UnitType.mW, simuCtx.getAclfNet().getBaseKva());
+  		assertTrue(Math.abs(p.getReal()-276.5)<0.1);
+  		assertTrue(Math.abs(p.getImaginary()+6.3)<0.1);		  	
 	}
 }
 

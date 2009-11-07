@@ -4,14 +4,13 @@ import static org.junit.Assert.assertTrue;
 
 import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
 import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
+import org.interpss.display.impl.AclfOut_PSSE;
 import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.util.IpssLogger;
 import com.interpss.core.CoreObjectFactory;
-import com.interpss.core.aclf.AclfBranch;
-import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
@@ -43,6 +42,8 @@ public class PEESFormatTest {
 	  	algo.setLfMethod(AclfMethod.PQ);
 	  	algo.loadflow();
 	  	
-	  	System.out.println(AclfOutFunc.lfResultsPsseStyle(net));
+	  	System.out.println(AclfOutFunc.lfResultsPsseStyle(net, AclfOut_PSSE.Format.GUI));
+
+	  	System.out.println(AclfOutFunc.lfResultsBusStyle(net));
 	}
 }
