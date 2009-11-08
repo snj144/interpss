@@ -36,7 +36,6 @@ import java.util.Hashtable;
 import org.apache.xmlbeans.XmlException;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.IDRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetAreaXmlType;
@@ -280,11 +279,9 @@ public class ODMModelParser {
 		this.objectCache.put(branchId, dcLine);
 
 		dcLine.addNewRectifier();
-		dcLine.getRectifier().setType(ConverterXmlType.Type.RECTIFIER);
 		dcLine.getRectifier().addNewBusId().setIdRef(recId);
 
 		dcLine.addNewInverter();
-		dcLine.getInverter().setType(ConverterXmlType.Type.INVERTER);
 		dcLine.getInverter().addNewBusId().setIdRef(invId);
 		return dcLine;
 	}

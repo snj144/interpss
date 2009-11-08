@@ -28,15 +28,12 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.AngleUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ApparentPowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFLoadCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.YUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.StringUtil;
 
@@ -267,7 +264,7 @@ public class BPABusRecord {
 			}
 		}						
 	}
-	
+/*	
 	public static void processDCLineBusData(final String str,final DCLineBusRecordXmlType dcBus,  
 			BPAAdapter adapter) {
 		final String[] strAry= getDCLineBusDataFields(str,adapter);
@@ -337,7 +334,7 @@ public class BPABusRecord {
 				inverterMaxFiringAngle, AngleUnitType.DEG);
 		
 	}
-	
+*/	
 	private static String[] getBusDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[19];
 		

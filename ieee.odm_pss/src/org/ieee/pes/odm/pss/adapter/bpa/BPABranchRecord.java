@@ -35,9 +35,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.CurrentUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBranchRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineBusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LengthUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBranchDataXmlType;
@@ -698,6 +695,7 @@ public class BPABranchRecord {
 		}
 		
 	}
+/*	
 	public static void processDCLineBranchData(final String str, 
 			final DCLineBranchRecordXmlType dcBranch, 
 			ODMModelParser parser,
@@ -746,8 +744,9 @@ public class BPABranchRecord {
 					
 					
 					// to do: set area number
-					
-				}else{
+/*					
+				}
+			else{
 					PSSNetworkXmlType.TieLineList.Tieline tieLine=parser.addNewBaseCaseTieline();
 
 					tieLine.addNewMeteredBus().setName(inverterBus);
@@ -813,7 +812,7 @@ public class BPABranchRecord {
 		double scheduledMw=0.0;
 		if(!strAry[13].equals("")){
 			scheduledMw =new Double(strAry[13]).doubleValue();
-			dcBranch.getData().setControlMode(DCLineDataXmlType.ControlMode.POWER);
+//			dcBranch.getData().setControlMode(DCLineDataXmlType.ControlMode.POWER);
 			DataSetter.setPowerData(dcBranch.getData().addNewPowerDemand(), 
 					scheduledMw, 0.0, ApparentPowerUnitType.MVA);
 		}
@@ -842,7 +841,7 @@ public class BPABranchRecord {
 	        setType(ConverterXmlType.Type.INVERTER);
 		}
 		*/
-		
+/*		
 		double length=0.0;
 		if(!strAry[17].equals("")){
 			length= new Double(strAry[17]).doubleValue();
@@ -851,7 +850,7 @@ public class BPABranchRecord {
 		}
 		
 	}	
-	
+*/	
 	private static String[] getBranchDataFields(final String str,BPAAdapter adapter) {
 		final String[] strAry = new String[20];
 		strAry[0] = StringUtil.getStringReturnEmptyString(str,1, 2).trim();

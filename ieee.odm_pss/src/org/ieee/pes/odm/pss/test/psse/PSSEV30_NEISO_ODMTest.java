@@ -272,10 +272,8 @@ public class PSSEV30_NEISO_ODMTest {
 		assertTrue(dcLine.getControlMode() == DCLineData2TXmlType.ControlMode.POWER);
 		assertTrue(dcLine.getPowerDemand().getValue() == 552.0);
 		assertTrue(dcLine.getPowerOrCurrentMarginPU() == 0.1);
-		assertTrue(dcLine.getRectifier().getType() == ConverterXmlType.Type.RECTIFIER);
 		assertTrue(dcLine.getRectifier().getNumberofBridges() == 2);
 		
-		assertTrue(dcLine.getInverter().getType() == ConverterXmlType.Type.INVERTER);
 		assertTrue(dcLine.getInverter().getMaxFiringAngle().getValue() == 18.0);
 		assertTrue(dcLine.getInverter().getMinFiringAngle().getValue() == 18.0);
 		assertTrue(dcLine.getInverter().getAcSideRatedVoltage().getValue() == 345.0);
