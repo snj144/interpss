@@ -8,8 +8,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 	CR_UserTestCases.class,
 	RecLevelTestCases.class,
-	
-	EQ0907_TestCases.class,
 })
 public class PSSEAdapterTestSuite {
 }
