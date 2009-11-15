@@ -96,8 +96,8 @@ public class XfrlTestCases extends BaseTestSetup {
 		rec.processXfr(adjNet, msg);
 		
 		final XfrAdapter xfr = (XfrAdapter)adjNet.getBranch("2", "1").getAdapter(XfrAdapter.class);
-		assertTrue(xfr.getFromTap() == 1.0);
-		assertTrue(xfr.getToTap() == 1.02);
+		assertTrue(xfr.getFromTurnRatio() == 1.0);
+		assertTrue(xfr.getToTurnRatio() == 1.02);
 		//System.out.println(adjNet.getBranch("2", "1"));
 	}
 	
@@ -127,8 +127,8 @@ public class XfrlTestCases extends BaseTestSetup {
 		rec.processXfr(adjNet, msg);
 		
 		final XfrAdapter xfr = (XfrAdapter)adjNet.getBranch("2", "1").getAdapter(XfrAdapter.class);
-		assertTrue(Math.abs(xfr.getFromTap()-1.026785) < 0.00001);
-		assertTrue(xfr.getToTap() == 1.02);
+		assertTrue(Math.abs(xfr.getFromTurnRatio()-1.026785) < 0.00001);
+		assertTrue(xfr.getToTurnRatio() == 1.02);
 		//System.out.println(adjNet.getBranch("2", "1"));
 	}
 	
