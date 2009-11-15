@@ -290,7 +290,7 @@
 			<element name="refXfrCirId" type="string" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
-
+<!-- not used
 	<complexType name="ConverterDataXmlType">
 		<sequence>
 			<element name="acSideRatedVoltage" type="pss:VoltageXmlType"
@@ -343,7 +343,7 @@
 			<element name="xformerCirId" type="string" maxOccurs="1" minOccurs="0"></element>
 		</sequence>
 	</complexType>
-
+ -->
 
 	<complexType name="DCLineData2TXmlType">
 		<complexContent>
