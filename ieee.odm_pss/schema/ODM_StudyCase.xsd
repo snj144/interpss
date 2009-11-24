@@ -41,9 +41,10 @@
                     						<enumeration value="InterPSS"></enumeration>
                     						<enumeration value="PSAT"></enumeration>
                     						<enumeration value="IEEE-ODM-PSS"></enumeration>
-                    						<enumeration value="Custom"></enumeration>
                     						<enumeration value="BPA"></enumeration>
                     						<enumeration value="GE-PSLF"></enumeration>
+                    						<enumeration value="Cim"></enumeration>
+                    						<enumeration value="Custom"></enumeration>
                     					</restriction>
                     				</simpleType>
                     			</element>

@@ -1,4 +1,4 @@
-<project name="ieee.odm_pss" default="createIEEEODMPSSSchemas" basedir=".">
+<project name="ieee.odm_pss" default="copy_dist" basedir=".">
 
 	<!-- Initializing the environment -->
 	<target name="init" depends="">
@@ -48,6 +48,7 @@
 		<property name="ipssEditor" value="C:/eclipse/InterpssDev/ipss.lib/lib/ieee" />
 		<property name="ipssPSSL" value="C:/eclipse/InterpssDev/ipss.pssl.scala/lib" />
 		<property name="GoogleODM" value="C:/eclipse/InterpssDev/ipss.gl.odm/war/WEB-INF/lib" />
+		<property name="OpenCIM" value="C:\eclipse\opencimDev\ipss.cim.library" />
 
 		<copy file="${dev_base}/lib/ieee.odm_pss.schemas.jar"
 			todir="${ipssEditor}/" />
@@ -55,6 +56,8 @@
 			todir="${ipssPSSL}/" />
 		<copy file="${dev_base}/lib/ieee.odm_pss.schemas.jar"
 			todir="${GoogleODM}/" />
+		<copy file="${dev_base}/lib/ieee.odm_pss.schemas.jar"
+			todir="${OpenCIM}/" />
 
 		<copy file="${dist_base}/lib/ieee.odm_pss.jar"
 			todir="${ipssEditor}/" />
@@ -62,6 +65,8 @@
 			todir="${ipssPSSL}/" />
 		<copy file="${dist_base}/lib/ieee.odm_pss.jar"
 			todir="${GoogleODM}/" />
+		<copy file="${dist_base}/lib/ieee.odm_pss.jar"
+			todir="${OpenCIM}/" />
 	</target>
 
 	<target depends="copy_schema, copy_dist" description="build distribution"

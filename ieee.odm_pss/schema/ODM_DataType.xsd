@@ -32,7 +32,7 @@
 		<attribute name="name" type="string" use="optional"></attribute>
 		<attribute name="areaNumber" type="int" use="optional"></attribute>
 		<attribute name="zoneNumber" type="int" use="optional"></attribute>
-		<attribute name="number" type="int" use="optional"></attribute>
+		<attribute name="number" type="long" use="optional"></attribute>
 
 		<attribute name="offLine" type="boolean" use="optional"></attribute>
 	</complexType>
@@ -52,9 +52,21 @@
 		<complexContent>
 			<extension base="pss:BaseRecordXmlType">
 				<sequence>
-
 				</sequence>
 				<attribute name="idRef" type="IDREF" use="required"></attribute>
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="BusRefRecordXmlType">
+		<complexContent>
+			<extension base="pss:IDRefRecordXmlType">
+				<sequence>
+				</sequence>
+				<attribute name="windingType" type="pss:BusWindingEnumType" use="optional">
+					<annotation>
+						<documentation>optional, for indicating bus xfr winding type (Primary, Secondary or tertiary)</documentation>
+					</annotation></attribute>
 			</extension>
 		</complexContent>
 	</complexType>
@@ -523,4 +535,12 @@ max and min are used.</documentation>
 			<extension base="pss:TurnRatioXmlType"></extension>
 		</complexContent>
 	</complexType>
+
+	<simpleType name="BusWindingEnumType">
+		<restriction base="string">
+			<enumeration value="Primary"></enumeration>
+			<enumeration value="Secondary"></enumeration>
+			<enumeration value="Tertiary"></enumeration>
+		</restriction>
+	</simpleType>
 </schema>
