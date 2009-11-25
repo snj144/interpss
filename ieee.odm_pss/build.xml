@@ -23,7 +23,7 @@
 	</target>
 
 	<!-- Jar lib file to c:/eclise/ieee_odm -->
-	<target depends="init"
+	<target depends="createIEEEODMPSSSchemas"
 		description="jar odm lib files" name="jar_lib">
 		<jar destfile="${dist_base}/lib/ieee.odm_pss.jar"
 			basedir="${dev_base}/runtime" excludes="CVS/**" />

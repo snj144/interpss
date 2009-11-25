@@ -122,7 +122,7 @@ public class PSSEV26_ODMTest {
           </shuntQData>
 		 */
 		bus = parser.getBusRecord("Bus30810");
-		assertTrue(bus.getLoadflowData().getSwitchedShuntData().getEquivQ().getValue() == 75.0);
+		assertTrue(bus.getLoadflowData().getShuntCompensatorData().getEquivQ().getValue() == 75.0);
 
 		// two loads on a bus, also, gen on the bus is turned off
 		/*

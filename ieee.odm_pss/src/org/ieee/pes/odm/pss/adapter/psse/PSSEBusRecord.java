@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.SwitchedShuntDataXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ShuntCompensatorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
@@ -80,16 +80,16 @@ public class PSSEBusRecord {
 	    LoadflowBusDataXmlType lfData = busRec.getLoadflowData();
 	    if (lfData == null)
 	    	lfData = busRec.addNewLoadflowData();
-	    if (lfData.getSwitchedShuntData() == null) {  // there may be multiple contribute switched shunt records on a bus
-	    	lfData.addNewSwitchedShuntData().addNewContributeQList();
+	    if (lfData.getShuntCompensatorData() == null) {  // there may be multiple contribute switched shunt records on a bus
+	    	lfData.addNewShuntCompensatorData().addNewShuntCompensatorList();
 	    }
-	    SwitchedShuntDataXmlType shunt = lfData.getSwitchedShuntData().getContributeQList().addNewSwitchedShunt();
+	    ShuntCompensatorXmlType shunt = lfData.getShuntCompensatorData().getShuntCompensatorList().addNewShunCompensator();
 		
 		// genId is used to distinguish multiple generations at one bus		
 		int mode = StringUtil.getInt(strAry[1], 0);
-		shunt.setMode(mode ==0? SwitchedShuntDataXmlType.Mode.FIXED :
-						mode ==1? SwitchedShuntDataXmlType.Mode.DISCRETE : 
-							SwitchedShuntDataXmlType.Mode.CONTINUOUS);
+		shunt.setMode(mode ==0? ShuntCompensatorXmlType.Mode.FIXED :
+						mode ==1? ShuntCompensatorXmlType.Mode.DISCRETE : 
+							ShuntCompensatorXmlType.Mode.CONTINUOUS);
 		
 		//VSWHI - Desired voltage upper limit, per unit
 		//VSWLO - Desired voltage lower limit, per unit
@@ -129,9 +129,9 @@ public class PSSEBusRecord {
 		shunt.setBInit(binit);
 		
 		double equiQ = 0.0;
-		if (lfData.getSwitchedShuntData().getEquivQ() != null)
-			equiQ = lfData.getSwitchedShuntData().getEquivQ().getValue();
-		DataSetter.setReactivePower(lfData.getSwitchedShuntData().addNewEquivQ(), equiQ+binit, ReactivePowerUnitType.MVAR);
+		if (lfData.getShuntCompensatorData().getEquivQ() != null)
+			equiQ = lfData.getShuntCompensatorData().getEquivQ().getValue();
+		DataSetter.setReactivePower(lfData.getShuntCompensatorData().addNewEquivQ(), equiQ+binit, ReactivePowerUnitType.MVAR);
 		
 		//N1 - Number of steps for block 1, first 0 is end of blocks
 		//B1 - Admittance increment of block 1 in MVAR at 1.0 per unit volts. N2, B2, etc, as N1, B1
@@ -142,7 +142,7 @@ public class PSSEBusRecord {
 	  		if (nStr != null) {
 	  			int n = StringUtil.getInt(nStr, 0);
 	  			double b = StringUtil.getDouble(bStr, 0.0);
-	  			SwitchedShuntDataXmlType.Block block = shunt.addNewBlock();
+	  			ShuntCompensatorXmlType.Block block = shunt.addNewBlock();
 	  			block.setSteps(n);
 	  			DataSetter.setReactivePower(block.addNewIncrementB(), b, ReactivePowerUnitType.MVAR);
 	  		}
