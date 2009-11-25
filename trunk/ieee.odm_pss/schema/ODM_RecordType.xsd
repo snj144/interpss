@@ -109,16 +109,16 @@
 					</sequence>
 				</complexType>
 			</element>
-			<element name="switchedShuntData" minOccurs="0">
+			<element name="shuntCompensatorData" minOccurs="0">
 				<complexType>
 					<sequence>
 						<element name="equivQ" type="pss:ReactivePowerXmlType" minOccurs="0"></element>
-						<element name="contributeQList" minOccurs="0">
-							<complexType>
-								<sequence>
-									<element name="switchedShunt" type="pss:SwitchedShuntDataXmlType" maxOccurs="unbounded" minOccurs="0"></element>
-								</sequence>
-							</complexType>
+						<element name="shuntCompensatorList" minOccurs="0" maxOccurs="1">
+                            <complexType>
+                            	<sequence>
+                            		<element name="shunCompensator" type="pss:ShuntCompensatorXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+                            	</sequence>
+                            </complexType>
 						</element>
 					</sequence>
 				</complexType>
@@ -402,8 +402,7 @@
 					<element name="fromTurnRatio" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="toTurnRatio" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
-					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
-					<element name="tertiaryAngle" type="pss:AngleXmlType" minOccurs="0"></element>
+					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="meterLocation" minOccurs="0">
 						<simpleType>
 							<restriction base="string">
@@ -664,7 +663,7 @@
 		<attribute name="areaName" type="string" use="optional"></attribute>
 	</complexType>
 
-	<complexType name="SwitchedShuntDataXmlType">
+	<complexType name="ShuntCompensatorXmlType">
 		<sequence>
 			<element name="desiredVoltageRange" type="pss:VoltageLimitXmlType" minOccurs="1"></element>
 			<element name="varPercent" type="double" minOccurs="0"></element>

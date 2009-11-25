@@ -11,7 +11,7 @@
 
 	<annotation>
 		<documentation>Copyright www.interpss.org 2008</documentation>
-	</annotation>
+	</annotation>  
 
 	<element name="PSSStudyCase" type="pss:StudyCaseXmlType"></element>
 	<complexType name="StudyCaseXmlType">
