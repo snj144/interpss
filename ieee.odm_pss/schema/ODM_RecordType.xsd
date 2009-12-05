@@ -206,7 +206,9 @@
 			<element name="remoteVoltageControlBus" minOccurs="0" maxOccurs="1" type="pss:IDRefRecordXmlType"></element>
 			<element name="qLimit" type="pss:ReactivePowerLimitXmlType" minOccurs="0"></element>
 			<element name="pLimit" minOccurs="0" maxOccurs="1" type="pss:ActivePowerLimitXmlType"></element>
-			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>		</sequence>
+			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>
+			<element name="ratedPower" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+		</sequence>
 		<attribute name="code" use="required" type="pss:LFGenCodeEnumType">	</attribute>
 	</complexType>
 
