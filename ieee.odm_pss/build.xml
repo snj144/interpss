@@ -57,7 +57,7 @@
 		<copy file="${dev_base}/lib/ieee.odm_pss.schemas.jar"
 			todir="${GoogleODM}/" />
 		<copy file="${dev_base}/lib/ieee.odm_pss.schemas.jar"
-			todir="${OpenCIM}/" />
+			todir="${OpenCIM}/odm/" />
 
 		<copy file="${dist_base}/lib/ieee.odm_pss.jar"
 			todir="${ipssEditor}/" />
@@ -66,7 +66,7 @@
 		<copy file="${dist_base}/lib/ieee.odm_pss.jar"
 			todir="${GoogleODM}/" />
 		<copy file="${dist_base}/lib/ieee.odm_pss.jar"
-			todir="${OpenCIM}/" />
+			todir="${OpenCIM}/odm/" />
 	</target>
 
 	<target depends="copy_schema, copy_dist" description="build distribution"
