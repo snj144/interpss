@@ -451,6 +451,7 @@ max and min are used.</documentation>
 		<attribute name="rating1" type="double" use="required"></attribute>
 		<attribute name="rating2" type="double" use="optional"></attribute>
 		<attribute name="rating3" type="double" use="optional"></attribute>
+		<attribute name="rating4" type="double" use="optional"></attribute>
 		<attribute name="unit" use="required" type="pss:ApparentPowerUnitType"></attribute>
 	</complexType>
 

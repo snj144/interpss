@@ -14,8 +14,10 @@
 				<sequence>
 					<element name="baseVoltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1"></element>
 					<element name="loadflowData" type="pss:LoadflowBusDataXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="dynamicData" type="pss:DynamicBusDataXmlType" minOccurs="0"></element>
 					<element name="sequenceData" type="pss:SequenceBusDataXmlType" minOccurs="0"></element>
+					<element name="dynamicData" type="pss:DynamicBusDataXmlType" minOccurs="0"></element>
+
+					<element name="staticVarCompensator" type="pss:StaticVarCompensatorXmlType" minOccurs="0"></element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -691,6 +693,25 @@
 				</restriction>
 			</simpleType>
 		</attribute>
+	</complexType>
+
+	<complexType name="StaticVarCompensatorXmlType">
+		<sequence>
+			<element name="ratedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
+			<element name="voltageSetPoint" type="pss:VoltageXmlType" minOccurs="1"></element>
+			<element name="capacitiveRating" type="pss:ReactivePowerXmlType" minOccurs="1"></element>
+			<element name="inductiveRating" type="pss:ReactivePowerXmlType" minOccurs="1"></element>
+			<element name="controlMode" minOccurs="1">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Voltage"></enumeration>
+						<enumeration value="ReactivePower"></enumeration>
+						<enumeration value="Off"></enumeration>
+					</restriction>
+				</simpleType>
+			</element>
+			<element name="slope" type="float" minOccurs="1"></element>
+		</sequence>
 	</complexType>
 
 	<complexType name="LoadflowLoadDataXmlType">

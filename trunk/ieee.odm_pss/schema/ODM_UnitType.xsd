@@ -29,6 +29,7 @@
 			<enumeration value="VAR"></enumeration>
 			<enumeration value="KVAR"></enumeration>
 			<enumeration value="MVAR"></enumeration>
+			<enumeration value="Ohm"></enumeration>
 		</restriction>
 	</simpleType>
 
