@@ -3,6 +3,7 @@ package org.interpss.core.aclf;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.display.AclfOutFunc;
 import org.junit.Test;
 
 import com.interpss.common.SpringAppContext;
@@ -80,6 +81,8 @@ public class IEEE14BusCaseTest  extends BaseTestSetup {
 	  	bus.setExpLoadP(0.9);
 	  	bus.setExpLoadQ(3.0);
 	  	algo.setMaxIterations(40);
-	  	assertTrue(algo.loadflow());
+	  	//assertTrue(algo.loadflow());
+	  	
+	  	System.out.println(AclfOutFunc.loadFlowSummary(net));
 	}			
 }
