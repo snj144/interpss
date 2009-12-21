@@ -148,6 +148,10 @@ public class ODMModelParser {
 	 * @param id
 	 * @return
 	 */
+	public BranchRecordXmlType getBranchRecord(String branchId) {
+		return (BranchRecordXmlType)this.getCachedObject(branchId);
+	}
+
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId) {
 		String id = StringUtil.formBranchId(fromId, toId, cirId);
 		return (BranchRecordXmlType)this.getCachedObject(id);

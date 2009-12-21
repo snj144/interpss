@@ -544,4 +544,36 @@ max and min are used.</documentation>
 			<enumeration value="Tertiary"></enumeration>
 		</restriction>
 	</simpleType>
+
+	<complexType name="CimSwitchXmlType">
+		<attribute name="rdfId" type="string" use="required"></attribute>
+		<attribute name="name" type="string" use="optional"></attribute>
+		<attribute name="offStatus" type="boolean" use="required"></attribute>
+	</complexType>
+
+	<complexType name="CimConnectionXmlType">
+    			<sequence>
+    				<element name="switches" maxOccurs="1" minOccurs="0">
+    					<complexType>
+    						<sequence>
+    							<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded"></element>
+    						</sequence>
+    					</complexType></element>
+    			</sequence>
+    </complexType>
+
+    <complexType name="CimConnectionRecordType">
+    	<complexContent>
+    		<extension base="pss:IDRecordXmlType">
+    			<sequence>
+    				<element name="switches" maxOccurs="1" minOccurs="0">
+    					<complexType>
+    						<sequence>
+    							<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded"></element>
+    						</sequence>
+    					</complexType></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>	
 </schema>
