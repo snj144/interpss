@@ -81,7 +81,7 @@ public class IEEECDF_ODMTest {
 		// Bus 2 is a PV bus with load
 		//   2 Bus 2     HV  1  1  2 1.045  -4.98     21.7     12.7     40.0    42.4   132.0  1.045    50.0   -40.0   0.0    0.0        0
 		busRec = ParserHelper.findBusRecord("Bus2", baseCaseNet);
-		System.out.println(busRec);
+		//System.out.println(busRec);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getCode() == LFGenCodeEnumType.PV);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getRe() == 40.0);
 		assertTrue(busRec.getLoadflowData().getGenData().getEquivGen().getPower().getUnit() == ApparentPowerUnitType.MVA);

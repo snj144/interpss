@@ -34,7 +34,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen;
 import org.ieee.pes.odm.pss.adapter.psse.PsseVersion;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
@@ -74,34 +73,33 @@ public class PSSEV30GenDataRec {
 	    	return;
 	    }
 	    
-	    ContributeGen contriGen = ParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = ParserHelper.createContriGen(busRec);
 	    
 	    contriGen.setId(id);
 	    contriGen.setName("Gen:" + id + "(" + i + ")");
 	    contriGen.setDesc("PSSE Generator " + id + " at Bus " + i);
 	    contriGen.setOffLine(stat!=1);
 
-	    LoadflowGenDataXmlType gdata = contriGen.addNewGenData();
-	    DataSetter.setPowerData(gdata.addNewPower(), pg, qg, ApparentPowerUnitType.MVA);
+	    DataSetter.setPowerData(contriGen.addNewPower(), pg, qg, ApparentPowerUnitType.MVA);
 
-	    DataSetter.setVoltageData(gdata.addNewDesiredVoltage(), vs, VoltageUnitType.PU);
+	    DataSetter.setVoltageData(contriGen.addNewDesiredVoltage(), vs, VoltageUnitType.PU);
 		
 		if (pt == 0.0 & pb == 0.0 || pt < pb ) {
 			pt = 9999.0; pb = -9999.0;
 		}
-		DataSetter.setActivePowerLimitData(gdata.addNewPLimit(), pt, pb, ActivePowerUnitType.MW);
+		DataSetter.setActivePowerLimitData(contriGen.addNewPLimit(), pt, pb, ActivePowerUnitType.MW);
 		
 		if (qt == 0.0 & qb == 0.0 || qt < qb) {
 			qt = 9999.0; qb = -9999.0;
 		}
-		DataSetter.setReactivePowerLimitData(gdata.addNewQLimit(), qt, qb, ReactivePowerUnitType.MVAR);
+		DataSetter.setReactivePowerLimitData(contriGen.addNewQLimit(), qt, qb, ReactivePowerUnitType.MVAR);
 		
 	    if (ireg > 0) {
 	    	final String reBusId = ODMModelParser.BusIdPreFix+ireg;
-		    gdata.addNewRemoteVoltageControlBus().setIdRef(reBusId);
+	    	contriGen.addNewRemoteVoltageControlBus().setIdRef(reBusId);
 	    }
 	    
-		DataSetter.setPowerMva(contriGen.addNewRatedMva(), mbase);
+		DataSetter.setPowerMva(contriGen.addNewRatedPower(), mbase);
 
 		if ( zr != 0.0 || zx != 0.0 )
 			DataSetter.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);

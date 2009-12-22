@@ -59,30 +59,7 @@
 						<element name="contributeGenList" minOccurs="0">
 							<complexType>
 								<sequence>
-									<element name="contributeGen" minOccurs="0" maxOccurs="unbounded">
-										<complexType>
-											<complexContent>
-												<extension base="pss:IDRecordXmlType">
-													<sequence>
-														<element name="ratedMva" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
-														<element name="genData" type="pss:LoadflowGenDataXmlType" minOccurs="0"></element>
-														<element name="sourceZ" type="pss:ZXmlType" minOccurs="0">
-															<annotation>
-																<documentation>In GE-PSLF, it is called CompensatingZ</documentation>
-															</annotation>
-														</element>
-														<element name="xfrZ" type="pss:ZXmlType" minOccurs="0">
-															<annotation>
-																<documentation>In GE PSLF, it is called CharacteristicZ</documentation>
-															</annotation>
-														</element>
-														<element name="xfrTap" type="double" minOccurs="0"></element>
-														<element name="mvarVControlParticipateFactor" type="double" minOccurs="0"></element>
-														<element name="mwControlParticipateFactor" type="double" minOccurs="0"></element>
-													</sequence>
-												</extension>
-											</complexContent>
-										</complexType>
+									<element name="contributeGen" minOccurs="0" maxOccurs="unbounded" type="pss:LoadflowGenDataXmlType">
 									</element>
 								</sequence>
 							</complexType>
@@ -202,7 +179,7 @@
 			</documentation>
 		</annotation>
     	<complexContent>
-    		<extension base="pss:CimConnectionXmlType">
+    		<extension base="pss:CimConnectionRecordType">
 		<sequence>
 			<element name="power" type="pss:PowerXmlType" minOccurs="0" maxOccurs="1"></element>
 			<element name="desiredVoltage" type="pss:VoltageXmlType" minOccurs="0"></element>
@@ -212,6 +189,19 @@
 			<element name="pLimit" minOccurs="0" maxOccurs="1" type="pss:ActivePowerLimitXmlType"></element>
 			<element name="voltageLimit" minOccurs="0" maxOccurs="1" type="pss:VoltageLimitXmlType"></element>
 			<element name="ratedPower" type="pss:ApparentPowerXmlType" minOccurs="0"></element>
+														<element name="sourceZ" type="pss:ZXmlType" minOccurs="0">
+															<annotation>
+																<documentation>In GE-PSLF, it is called CompensatingZ</documentation>
+															</annotation>
+														</element>
+														<element name="xfrZ" type="pss:ZXmlType" minOccurs="0">
+															<annotation>
+																<documentation>In GE PSLF, it is called CharacteristicZ</documentation>
+															</annotation>
+														</element>
+														<element name="xfrTap" type="double" minOccurs="0"></element>
+														<element name="mvarVControlParticipateFactor" type="double" minOccurs="0"></element>
+														<element name="mwControlParticipateFactor" type="double" minOccurs="0"></element>
 		</sequence>
 		<attribute name="code" use="required" type="pss:LFGenCodeEnumType">	</attribute>
     		</extension>

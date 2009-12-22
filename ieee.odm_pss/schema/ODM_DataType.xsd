@@ -550,14 +550,14 @@ max and min are used.</documentation>
 		<attribute name="name" type="string" use="optional"></attribute>
 		<attribute name="offStatus" type="boolean" use="required"></attribute>
 	</complexType>
-
+<!-- 
 	<complexType name="CimConnectionXmlType">
     			<sequence>
     				<element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType">
     					</element>
     			</sequence>
     </complexType>
-
+ -->
     <complexType name="CimConnectionRecordType">
     	<complexContent>
     		<extension base="pss:IDRecordXmlType">

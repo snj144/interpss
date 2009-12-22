@@ -230,7 +230,7 @@ public class PSSEV26BusRecord {
 			genData.addNewEquivGen();
 		}
 		LoadflowGenDataXmlType equivGen = genData.getEquivGen();
-	    LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen contriGen = genData.addNewContributeGenList().addNewContributeGen();
+	    LoadflowGenDataXmlType contriGen = genData.addNewContributeGenList().addNewContributeGen();
 		
 	    // processing contributing gen data
 	    
@@ -244,7 +244,7 @@ public class PSSEV26BusRecord {
 		       rt = StringUtil.getDouble(strAry[11], 0.0),
 		       xt = StringUtil.getDouble(strAry[12], 0.0),
 		       gtap = StringUtil.getDouble(strAry[13], 0.0); 
-		DataSetter.setPowerMva(contriGen.addNewRatedMva(), mbase);
+		DataSetter.setPowerMva(contriGen.addNewRatedPower(), mbase);
 		if(zr != 0.0 || zx != 0.0)
 			DataSetter.setZValue(contriGen.addNewSourceZ(), zr, zx, ZUnitType.PU);
 		if(rt != 0.0 || xt != 0.0)
@@ -257,7 +257,7 @@ public class PSSEV26BusRecord {
 		
 		final double genMw = StringUtil.getDouble(strAry[2], 0.0);
 		final double genMvar = StringUtil.getDouble(strAry[3], 0.0);
-		DataSetter.setPowerData(contriGen.addNewGenData().addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
+		DataSetter.setPowerData(contriGen.addNewPower(), genMw, genMvar, ApparentPowerUnitType.MVA);
 
 		ParserHelper.addOwner(contriGen, 
 				strAry[18], StringUtil.getDouble(strAry[19], 0.0), 

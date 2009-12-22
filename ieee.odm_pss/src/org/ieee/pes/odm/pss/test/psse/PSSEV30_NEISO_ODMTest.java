@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BranchRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ConverterXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.DCLineData2TXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFBranchCodeEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
@@ -54,7 +53,7 @@ public class PSSEV30_NEISO_ODMTest {
 		
 		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/Model_testV30.raw"));
-		System.out.println(adapter.getModel());
+		//System.out.println(adapter.getModel());
 		
 		ODMModelParser parser = adapter.getModel();
 		PSSNetworkXmlType net = parser.getBaseCase();
