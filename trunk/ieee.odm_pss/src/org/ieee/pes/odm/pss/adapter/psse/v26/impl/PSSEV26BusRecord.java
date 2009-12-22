@@ -196,7 +196,7 @@ public class PSSEV26BusRecord {
 	    
 	    // processing equiv load data
 	    loadData.getEquivLoad().setCode(LFLoadCodeEnumType.CONST_P);
-	    LoadflowBusDataXmlType.LoadData.EquivLoad load = loadData.getEquivLoad();
+	    LoadflowLoadDataXmlType load = loadData.getEquivLoad();
 	    if (load == null) {
 	    	load = loadData.addNewEquivLoad();
 	    	load.addNewConstPLoad();

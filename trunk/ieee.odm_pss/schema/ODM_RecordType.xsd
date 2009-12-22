@@ -93,14 +93,7 @@
 			<element name="loadData" minOccurs="0" maxOccurs="1">
 				<complexType>
 					<sequence>
-						<element name="equivLoad" minOccurs="0" maxOccurs="1">
-						<complexType>
-				<sequence>
-					<element name="constPLoad" type="pss:PowerXmlType" minOccurs="0"></element>
-					<element name="constILoad" type="pss:PowerXmlType" minOccurs="0"></element>
-					<element name="constZLoad" type="pss:PowerXmlType" minOccurs="0"></element>
-				</sequence>						<attribute name="code" use="required" type="pss:LFLoadCodeEnumType"></attribute>
-						</complexType>
+						<element name="equivLoad" minOccurs="0" maxOccurs="1" type="pss:LoadflowLoadDataXmlType">
 						</element>
 						<element name="contributeLoadList" minOccurs="0">
 							<complexType>
@@ -761,6 +754,7 @@
 					<element name="constILoad" type="pss:PowerXmlType" minOccurs="0"></element>
 					<element name="constZLoad" type="pss:PowerXmlType" minOccurs="0"></element>
 				</sequence>
+				<attribute name="code" use="required" type="pss:LFLoadCodeEnumType"></attribute>
 			</extension>
 		</complexContent>
 	</complexType>

@@ -175,7 +175,7 @@ public class ParserHelper {
 			if (loadData != null) {
 				if (loadData.getContributeLoadList() != null &&
 						loadData.getContributeLoadList().getContributeLoadArray().length > 0) {
-					LoadflowBusDataXmlType.LoadData.EquivLoad equivLoad = loadData.getEquivLoad();
+					LoadflowLoadDataXmlType equivLoad = loadData.getEquivLoad();
 					double cp_p=0.0, cp_q=0.0, ci_p=0.0, ci_q=0.0, cz_p=0.0, cz_q=0.0; 
 					for ( LoadflowLoadDataXmlType load : loadData.getContributeLoadList().getContributeLoadArray()) {
 						if (!load.getOffLine()) {
