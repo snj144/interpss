@@ -553,12 +553,8 @@ max and min are used.</documentation>
 
 	<complexType name="CimConnectionXmlType">
     			<sequence>
-    				<element name="switches" maxOccurs="1" minOccurs="0">
-    					<complexType>
-    						<sequence>
-    							<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded"></element>
-    						</sequence>
-    					</complexType></element>
+    				<element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType">
+    					</element>
     			</sequence>
     </complexType>
 
@@ -566,14 +562,15 @@ max and min are used.</documentation>
     	<complexContent>
     		<extension base="pss:IDRecordXmlType">
     			<sequence>
-    				<element name="switches" maxOccurs="1" minOccurs="0">
-    					<complexType>
-    						<sequence>
-    							<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded"></element>
-    						</sequence>
-    					</complexType></element>
+    				<element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
     			</sequence>
     		</extension>
     	</complexContent>
     </complexType>	
+
+    <complexType name="CimSwitchListXmlType">
+		<sequence>
+			<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded"></element>
+		</sequence>
+    </complexType>
 </schema>
