@@ -48,7 +48,7 @@
 		<property name="ipssEditor" value="C:/eclipse/InterpssDev/ipss.lib/lib/ieee" />
 		<property name="ipssPSSL" value="C:/eclipse/InterpssDev/ipss.pssl.scala/lib" />
 		<property name="GoogleODM" value="C:/eclipse/InterpssDev/ipss.gl.odm/war/WEB-INF/lib" />
-		<property name="OpenCIM" value="C:\eclipse\opencimDev\ipss.cim.library" />
+		<property name="OpenCIM" value="C:/eclipse/opencimDev/ipss.cim.library" />
 
 		<copy file="${dev_base}/lib/ieee.odm_pss.schemas.jar"
 			todir="${ipssEditor}/" />

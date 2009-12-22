@@ -45,7 +45,7 @@ public class PSSEV30_SegmentTest {
 		
 		IODMPSSAdapter adapter = new PSSEV30Adapter(logger);
 		assertTrue(adapter.parseInputFile("testData/psse/PSSE30_SegTest.raw"));
-		System.out.println(adapter.getModel());
+		//System.out.println(adapter.getModel());
 		
 		BranchRecordXmlType branch = adapter.getModel().getBranchRecord("Bus36309", "Bus36703", "Bus36106", "1");
 		assertTrue(branch.getLoadflowDataArray()[0].getZ().getRe() == 8.318333333333334E-4);

@@ -33,7 +33,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowGenDataXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ZUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen;
 import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
 import org.ieee.pes.odm.pss.model.DataSetter;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
@@ -179,7 +178,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		
 	    // ODM allows one equiv gen has many contribute generators, but here, we assume there is only one contribute gen.
 
-	    ContributeGen contriGen = ParserHelper.createContriGen(busRec);
+	    LoadflowGenDataXmlType contriGen = ParserHelper.createContriGen(busRec);
 		
 	    contriGen.setId(this.id);
 		if (this.longId != null && !this.longId.equals(""))
@@ -196,8 +195,7 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<igreg bkv> Regulating bus base voltage
 		*/
 		
-	    LoadflowGenDataXmlType gdata = contriGen.addNewGenData();
-	    gdata.addNewRemoteVoltageControlBus().setIdRef(ODMModelParser.BusIdPreFix+this.igregBus);
+	    contriGen.addNewRemoteVoltageControlBus().setIdRef(ODMModelParser.BusIdPreFix+this.igregBus);
 		
 		/*
 		<prf> Real power regulating assignment factor (0.0 - 1.0)
@@ -217,10 +215,10 @@ generator data  [   4]     id   long_id_    st ---no--     reg_name       prf  q
 		<mbase> Generator base (MVA)
 		 */
 		
-	    DataSetter.setPowerMva(contriGen.addNewRatedMva(), this.mbase);
-	    DataSetter.setPowerData(gdata.addNewPower(), this.pgen, this.qgen, ApparentPowerUnitType.MVA);
-		DataSetter.setActivePowerLimitData(gdata.addNewPLimit(), this.pmax, this.pmin, ActivePowerUnitType.MW);
-		DataSetter.setReactivePowerLimitData(gdata.addNewQLimit(), this.qmax, this.qmin, ReactivePowerUnitType.MVAR);
+	    DataSetter.setPowerMva(contriGen.addNewRatedPower(), this.mbase);
+	    DataSetter.setPowerData(contriGen.addNewPower(), this.pgen, this.qgen, ApparentPowerUnitType.MVA);
+		DataSetter.setActivePowerLimitData(contriGen.addNewPLimit(), this.pmax, this.pmin, ActivePowerUnitType.MW);
+		DataSetter.setReactivePowerLimitData(contriGen.addNewQLimit(), this.qmax, this.qmin, ReactivePowerUnitType.MVAR);
 		
 		/*
 		<rcomp> Compensating resistance (pu)

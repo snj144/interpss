@@ -58,7 +58,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen;
 
 public class ParserHelper {
 	public static final double Deg2Rad = Math.PI / 180.0;
@@ -99,39 +98,38 @@ public class ParserHelper {
 					VoltageUnitType.Enum vSpecUnit = VoltageUnitType.PU;
 					String remoteBusId = null;
 					boolean offLine = true;
-					for ( LoadflowBusDataXmlType.GenData.ContributeGenList.ContributeGen gen : 
-							genData.getContributeGenList().getContributeGenArray()) {
+					for ( LoadflowGenDataXmlType gen : genData.getContributeGenList().getContributeGenArray()) {
 						if (!gen.getOffLine()) {
 							offLine = false;
 							if (remoteBusId == null) {
-								if (gen.getGenData().getRemoteVoltageControlBus() != null)
-									remoteBusId = gen.getGenData().getRemoteVoltageControlBus().getIdRef();
+								if (gen.getRemoteVoltageControlBus() != null)
+									remoteBusId = gen.getRemoteVoltageControlBus().getIdRef();
 							}
-							else if (!remoteBusId.equals(gen.getGenData().getRemoteVoltageControlBus().getIdRef())) {
+							else if (!remoteBusId.equals(gen.getRemoteVoltageControlBus().getIdRef())) {
 								logger.severe("Inconsistant remote control bus id, " + remoteBusId +
-										", " + gen.getGenData().getRemoteVoltageControlBus().getIdRef());
+										", " + gen.getRemoteVoltageControlBus().getIdRef());
 								return false; 
 							}
 							
-							pgen += gen.getGenData().getPower().getRe();
-							qgen += gen.getGenData().getPower().getIm();
-							if(gen.getGenData().getQLimit() != null) {
-								qmax += gen.getGenData().getQLimit().getMax();
-								qmin += gen.getGenData().getQLimit().getMin();
+							pgen += gen.getPower().getRe();
+							qgen += gen.getPower().getIm();
+							if(gen.getQLimit() != null) {
+								qmax += gen.getQLimit().getMax();
+								qmin += gen.getQLimit().getMin();
 							}
-							if(gen.getGenData().getPLimit() != null) {
-								pmax += gen.getGenData().getPLimit().getMax();
-								pmin += gen.getGenData().getPLimit().getMin();
+							if(gen.getPLimit() != null) {
+								pmax += gen.getPLimit().getMax();
+								pmin += gen.getPLimit().getMin();
 							}
 							
-							if (gen.getGenData().getDesiredVoltage() != null) {
+							if (gen.getDesiredVoltage() != null) {
 								if (vSpec == 0.0) {
-									vSpec = gen.getGenData().getDesiredVoltage().getValue();
-									vSpecUnit = gen.getGenData().getDesiredVoltage().getUnit();
+									vSpec = gen.getDesiredVoltage().getValue();
+									vSpecUnit = gen.getDesiredVoltage().getUnit();
 								}
-								else if (vSpec != gen.getGenData().getDesiredVoltage().getValue()) {
+								else if (vSpec != gen.getDesiredVoltage().getValue()) {
 									logger.severe("Inconsistant gen desired voltage, " + 
-											gen.getGenData().getRemoteVoltageControlBus().getIdRef());
+											gen.getRemoteVoltageControlBus().getIdRef());
 									return false; 
 								}
 							}
@@ -248,7 +246,7 @@ public class ParserHelper {
 	 * create a Contribution Gen object
 	 * 
 	 */
-	public static ContributeGen createContriGen(BusRecordXmlType busRec) {
+	public static LoadflowGenDataXmlType createContriGen(BusRecordXmlType busRec) {
 		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 		if (genData == null) {
 			genData = busRec.getLoadflowData().addNewGenData();
