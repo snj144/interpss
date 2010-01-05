@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.common"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.core_EMF"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dist_EMF"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.dstab_EMF"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ipss.simu_EMF"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/spring/spring.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-math.jar"/>
+	<classpathentry kind="lib" path="/ipss.lib/lib/apache/commons-logging.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/EMF"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
