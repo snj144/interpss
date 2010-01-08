@@ -17,7 +17,17 @@
 					<element name="sequenceData" type="pss:SequenceBusDataXmlType" minOccurs="0"></element>
 					<element name="dynamicData" type="pss:DynamicBusDataXmlType" minOccurs="0"></element>
 
-					<element name="staticVarCompensator" type="pss:StaticVarCompensatorXmlType" minOccurs="0"></element>
+					<element name="svcData" minOccurs="0">
+						<complexType>
+							<sequence>
+								<element name="svcList" minOccurs="0">
+									<complexType>
+										<sequence>
+											<element name="svc" type="pss:StaticVarCompensatorXmlType" maxOccurs="unbounded" minOccurs="0"></element>
+										</sequence>
+									</complexType></element>
+							</sequence>
+						</complexType></element>
 				</sequence>
 			</extension>
 		</complexContent>
@@ -691,6 +701,7 @@
 
 	<complexType name="ShuntCompensatorXmlType">
 		<sequence>
+			<element name="cimRdfRec" type="pss:CimRdfXmlType" minOccurs="0"></element>
 			<element name="desiredVoltageRange" type="pss:VoltageLimitXmlType" minOccurs="1"></element>
 			<element name="varPercent" type="double" minOccurs="0"></element>
 			<element name="bInit" type="double" minOccurs="1"></element>
@@ -719,6 +730,7 @@
 
 	<complexType name="StaticVarCompensatorXmlType">
 		<sequence>
+			<element name="cimRdfRec" type="pss:CimRdfXmlType" minOccurs="0"></element>
 			<element name="ratedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
 			<element name="voltageSetPoint" type="pss:VoltageXmlType" minOccurs="1"></element>
 			<element name="capacitiveRating" type="pss:ReactivePowerXmlType" minOccurs="1"></element>
