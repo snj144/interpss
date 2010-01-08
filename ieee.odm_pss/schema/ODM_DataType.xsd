@@ -546,9 +546,19 @@ max and min are used.</documentation>
 	</simpleType>
 
 	<complexType name="CimSwitchXmlType">
+		<complexContent>
+			<extension base="pss:CimRdfXmlType">
+
+
+				<attribute name="offStatus" type="boolean" use="required"></attribute>
+
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="CimRdfXmlType">
 		<attribute name="rdfId" type="string" use="required"></attribute>
-		<attribute name="name" type="string" use="optional"></attribute>
-		<attribute name="offStatus" type="boolean" use="required"></attribute>
+		<attribute name="name" type="string" use="optional"></attribute>
 	</complexType>
 <!-- 
 	<complexType name="CimConnectionXmlType">
@@ -562,11 +572,27 @@ max and min are used.</documentation>
     	<complexContent>
     		<extension base="pss:IDRecordXmlType">
     			<sequence>
-    				<element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
+    				<element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
     			</sequence>
     		</extension>
     	</complexContent>
     </complexType>	
+
+    <complexType name="CimRdfRecordType">
+    	<complexContent>
+    		<extension base="pss:IDRecordXmlType">
+    			<sequence>
+    				<element name="rdfRecords" maxOccurs="1" minOccurs="0" type="pss:CimRdfListXmlType"></element>
+    			</sequence>
+    		</extension>
+    	</complexContent>
+    </complexType>	
+
+    <complexType name="CimRdfListXmlType">
+		<sequence>
+			<element name="rdfRec" type="pss:CimRdfXmlType" maxOccurs="unbounded"></element>
+		</sequence>
+    </complexType>
 
     <complexType name="CimSwitchListXmlType">
 		<sequence>
