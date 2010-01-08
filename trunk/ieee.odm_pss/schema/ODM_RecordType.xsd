@@ -10,7 +10,7 @@
 
 	<complexType name="BusRecordXmlType">
 		<complexContent>
-			<extension base="pss:IDRecordXmlType">
+			<extension base="pss:CimRdfRecordType">
 				<sequence>
 					<element name="baseVoltage" type="pss:VoltageXmlType" minOccurs="1" maxOccurs="1"></element>
 					<element name="loadflowData" type="pss:LoadflowBusDataXmlType" minOccurs="0" maxOccurs="1"></element>
