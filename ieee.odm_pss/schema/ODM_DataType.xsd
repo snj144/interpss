@@ -570,9 +570,9 @@ max and min are used.</documentation>
  -->
     <complexType name="CimConnectionRecordType">
     	<complexContent>
-    		<extension base="pss:IDRecordXmlType">
+    		<extension base="pss:CimRdfRecordType">
     			<sequence>
-    				<element name="switches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
+    				<element name="cimSwitches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
     			</sequence>
     		</extension>
     	</complexContent>
@@ -582,7 +582,7 @@ max and min are used.</documentation>
     	<complexContent>
     		<extension base="pss:IDRecordXmlType">
     			<sequence>
-    				<element name="rdfRecords" maxOccurs="1" minOccurs="0" type="pss:CimRdfListXmlType"></element>
+    				<element name="cimRdfRecords" maxOccurs="1" minOccurs="0" type="pss:CimRdfListXmlType"></element>
     			</sequence>
     		</extension>
     	</complexContent>

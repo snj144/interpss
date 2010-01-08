@@ -53,7 +53,9 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetZoneXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.NetworkCategoryEnumType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ReactivePowerUnitType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.ShuntCompensatorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StabilizerXmlType;
+import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StaticVarCompensatorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.StudyCaseXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TransientSimulationXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
@@ -223,8 +225,8 @@ public class ParserHelper {
 	}
 	
 	/*
-	 *      Parser Container retrieval functions
-	 *      ==================================== 
+	 *      Parser Container object creation and retrieval functions
+	 *      ========================================================== 
 	 */
 	
 	/**
@@ -243,7 +245,7 @@ public class ParserHelper {
 	}
 	
 	/**
-	 * create a Contribution Gen object
+	 * create a Contribution Load object
 	 * 
 	 */
 	public static LoadflowGenDataXmlType createContriGen(BusRecordXmlType busRec) {
@@ -258,6 +260,33 @@ public class ParserHelper {
 	    return genData.getContributeGenList().addNewContributeGen();
 	}
 	
+	/**
+	 * create a SVC object
+	 * 
+	 */
+	public static StaticVarCompensatorXmlType createSVC(BusRecordXmlType bus) {
+		if (bus.getSvcData() == null)
+			bus.addNewSvcData();
+		if (bus.getSvcData().getSvcList() == null)
+			bus.getSvcData().addNewSvcList();
+		return bus.getSvcData().getSvcList().addNewSvc();
+	}
+
+	/**
+	 * create a ShuntCompensatorXmlType object
+	 * 
+	 */
+	public static ShuntCompensatorXmlType createShuntCompensator(BusRecordXmlType bus) {
+		if (bus.getLoadflowData().getShuntCompensatorData() == null)
+			bus.getLoadflowData().addNewShuntCompensatorData();
+		if (bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList() == null)
+			bus.getLoadflowData().getShuntCompensatorData().addNewShuntCompensatorList();
+		return bus.getLoadflowData()
+					.getShuntCompensatorData()
+					.getShuntCompensatorList()
+					.addNewShunCompensator(); 
+	}
+
 	/**
 	 * Get bus record with the id
 	 * 
