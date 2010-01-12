@@ -702,6 +702,7 @@
 	<complexType name="ShuntCompensatorXmlType">
 		<sequence>
 			<element name="cimRdfRec" type="pss:CimRdfXmlType" minOccurs="0"></element>
+    		<element name="cimSwitches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
 			<element name="desiredVoltageRange" type="pss:VoltageLimitXmlType" minOccurs="1"></element>
 			<element name="varPercent" type="double" minOccurs="0"></element>
 			<element name="bInit" type="double" minOccurs="1"></element>
@@ -726,11 +727,14 @@
 				</restriction>
 			</simpleType>
 		</attribute>
+		<attribute name="offLine" type="boolean" use="required"></attribute>
 	</complexType>
 
 	<complexType name="StaticVarCompensatorXmlType">
 		<sequence>
 			<element name="cimRdfRec" type="pss:CimRdfXmlType" minOccurs="0"></element>
+    		<element name="cimSwitches" maxOccurs="1" minOccurs="0" type="pss:CimSwitchListXmlType"></element>
+			<element name="offLine" type="boolean" minOccurs="1"></element>
 			<element name="ratedVoltage" type="pss:VoltageXmlType" minOccurs="1"></element>
 			<element name="voltageSetPoint" type="pss:VoltageXmlType" minOccurs="1"></element>
 			<element name="capacitiveRating" type="pss:ReactivePowerXmlType" minOccurs="1"></element>
