@@ -596,7 +596,7 @@ max and min are used.</documentation>
 
     <complexType name="CimSwitchListXmlType">
 		<sequence>
-			<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded"></element>
+			<element name="switch" type="pss:CimSwitchXmlType" maxOccurs="unbounded" minOccurs="0"></element>
 		</sequence>
     </complexType>
 </schema>
