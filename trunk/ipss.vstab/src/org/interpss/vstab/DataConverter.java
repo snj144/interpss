@@ -1,4 +1,4 @@
-package com.interpss.tony.lf;
+package org.interpss.vstab;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -10,11 +10,29 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-public class Converter {
+import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
+import org.ieee.pes.odm.pss.adapter.bpa.BPAAdapter;
+import org.ieee.pes.odm.pss.adapter.ieeecdf.IeeeCDFAdapter;
+import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.pes.odm.pss.model.ODMModelParser;
+import org.interpss.mapper.IEEEODMMapper;
+
+import com.interpss.common.mapper.IpssMapper;
+import com.interpss.common.msg.IPSSMsgHub;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.simu.SimuContext;
+import com.interpss.simu.SimuCtxType;
+import com.interpss.simu.SimuObjectFactory;
+
+public class DataConverter {
 	   private final static String Token_IEEECDF 	= "ieeecdf";
 	   private final static String Token_PSSE 	= "psse";
 	   private final static String Token_BPA 	= "bpa";
-   public static  AclfNetwork Converter4InterPSS( String InPutFile,String type){
+	   public ODMModelParser parser;
+	  
+	   
+	   
+   public  AclfNetwork Converter4InterPSS( String InPutFile,String type){
 	    AclfNetwork net=null;
 	    IPSSMsgHub msg=null ;
 	    //0. determine the proper Adapter for Converter with the input infromation 
@@ -75,7 +93,7 @@ public class Converter {
 		// 2. Convert intermediary XML file to InterPSS model
 		try{
 			InputStream in = new BufferedInputStream(new FileInputStream("intermediary.xml"));
-			ODMModelParser parser = new ODMModelParser(in);
+			this.parser = new ODMModelParser(in);
 			//IEEEODMMapper mapper = new IEEEODMMapper();
 			mapper = new IEEEODMMapper();
 			SimuContext simuCtx = SimuObjectFactory.createSimuNetwork(SimuCtxType.ACLF_NETWORK, msg);
@@ -88,4 +106,10 @@ public class Converter {
 		}
 		return net;
 	}
+   public ODMModelParser getParser(){
+	   return this.parser;
+   }
+
 }
+   
+   
