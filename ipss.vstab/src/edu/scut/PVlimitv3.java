@@ -1,37 +1,14 @@
 package edu.scut;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
 
-
-	import java.text.DecimalFormat;
-	import java.util.ArrayList;
-	import java.util.Arrays;
-	import java.util.Iterator;
-	import java.util.List;
-	import java.util.logging.Level;
-	import org.apache.commons.math.complex.Complex;
-import org.interpss.display.AclfOutFunc;
-import org.interpss.display.impl.AclfOut_PSSE.Format;
-
-	import Jama.Matrix;
-
-import com.interpss.common.SpringAppContext;
-	import com.interpss.common.datatype.Matrix_xy;
-	import com.interpss.common.datatype.UnitType;
-	import com.interpss.common.msg.IPSSMsgHub;
-	import com.interpss.common.msg.IPSSMsgHubImpl;
-	import com.interpss.common.msg.StdoutMsgListener;
-	import com.interpss.common.msg.TextMessage;
-	import com.interpss.common.util.IpssLogger;
-	import com.interpss.core.CoreObjectFactory;
-	import com.interpss.core.aclf.AclfBus;
-	import com.interpss.core.aclf.JacobianMatrixType;
-	import com.interpss.core.aclf.SwingBusAdapter;
-	import com.interpss.core.aclf.AclfNetwork;
-	import com.interpss.core.algorithm.AclfMethod;
-	import com.interpss.core.algorithm.LoadflowAlgorithm;
-	import com.interpss.core.net.Bus;
-import com.interpss.core.sparse.SparseEqnMatrix2x2;
+import Jama.Matrix;
 	
 	public class PVlimitv3 {
 	 
