@@ -3,6 +3,7 @@ package org.interpss.core.dclf;
 import static org.junit.Assert.assertTrue;
 
 import org.interpss.BaseTestSetup;
+import org.interpss.display.DclfOutFunc;
 import org.junit.Test;
 
 import com.interpss.common.datatype.UnitType;
@@ -22,9 +23,10 @@ public class DclfIeee14BusCaseTest extends BaseTestSetup {
 		DclfAlgorithm algo = IpssPTrading.createDclfAlgorithm(simuCtx.getAclfNet())
 					.runDclfAnalysis(true);
 
-		//System.out.println(IpssUtil.outDclfResult(algo).toString());
+		//System.out.println(DclfOutFunc.dclfResults(algo));
 		
-		assertTrue(Math.abs(algo.getBranchFlow("0001", "0002", "1", UnitType.mW) - 29.6645) < 0.0001);
+		//System.out.println(algo.getBranchFlow("0001", "0002", "1", UnitType.mW));
+		assertTrue(Math.abs(algo.getBranchFlow("0001", "0002", "1", UnitType.mW) - 147.88) < 0.01);
 	}
 
 	@Test
@@ -65,8 +67,8 @@ public class DclfIeee14BusCaseTest extends BaseTestSetup {
 		//System.out.println("Mw flow 4->7: " + pFlow);
 		//System.out.println("derating 4->9: " + derating1);
 		//System.out.println("derating 5->6: " + derating2);
-		assertTrue(Math.abs(derating1 - 36.88065) < 0.0001);
-		assertTrue(Math.abs(derating2 - 35.74470) < 0.0001);
+		assertTrue(Math.abs(derating1 - 14.71922) < 0.0001);
+		assertTrue(Math.abs(derating2 - 14.26586) < 0.0001);
 		
 		AclfBranch outageBranch = algo.getAclfNetwork().getAclfBranch("0004", "0007", "1");
 		AclfBranch transferBranch = algo.getAclfNetwork().getAclfBranch("0004", "0009", "1");
