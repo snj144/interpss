@@ -35,7 +35,6 @@ public class UserCaseArneTest extends BaseTestSetup {
 		AclfBus bus1 = CoreObjectFactory.createAclfBus("Bus1");
         bus1.setBaseVoltage(1.0, UnitType.Volt);
         bus1.setId("Bus1");
-        bus1.setGenP(40.0);
         bus1.setGenCode(AclfGenCode.SWING);
         net.addBus(bus1);
 
