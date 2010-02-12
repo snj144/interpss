@@ -16,6 +16,10 @@ import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.dclf.DclfAlgorithm;
 import com.interpss.pssl.simu.IpssPTrading;
 
+/**
+ *   This test case is contributed by Arne Lüllmann 
+ * 
+ */
 public class UserCaseArneTest extends BaseTestSetup {
 	@Test
 	public void runSingleAclfCaseTest() throws Exception {
