@@ -91,7 +91,7 @@ public class RunUIUtilFunc  {
 			}
 		else if (type == NetIdType.AreaNo) {
 			for ( Area area : net.getAreaList())
-				set.add(new Integer(area.getNumber()).toString());
+				set.add(new Long(area.getNumber()).toString());
 		}
 		else if (type == NetIdType.BusInArea) {
 			for (Bus bus : net.getBusList()) {
