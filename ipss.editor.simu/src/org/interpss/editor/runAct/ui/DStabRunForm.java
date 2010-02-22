@@ -196,8 +196,8 @@ public class DStabRunForm extends BaseRunForm implements ISimuCaseRunner {
 
 		// transfer output variable filter info to the DStabAlgo object, which then 
 		// will be carried by the object to the remote grid node
-		simuCtx.getDynSimuAlgorithm().setOutputFilted(this.xmCaseData.getOutputConfig().getOutputFilter());
-		if (simuCtx.getDynSimuAlgorithm().isOutputFilted()) {
+		simuCtx.getDynSimuAlgorithm().setOutputFiltered(this.xmCaseData.getOutputConfig().getOutputFilter());
+		if (simuCtx.getDynSimuAlgorithm().isOutputFiltered()) {
 			String[] slist = new String[this.xmCaseData.getOutputConfig().getOutputVarList().getVariableNameArray().length];
 			int cnt = 0;
 			for (String str : this.xmCaseData.getOutputConfig().getOutputVarList().getVariableNameArray())

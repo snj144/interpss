@@ -297,7 +297,7 @@ public class XmlScriptDStabRun {
 		// then
 		// will be carried by the object to the remote grid node, in case of
 		// grid computing
-		dstabDbHandler.setOutputFilter(dstabAlgo.isOutputFilted());
+		dstabDbHandler.setOutputFilter(dstabAlgo.isOutputFiltered());
 		if (dstabDbHandler.isOutputFilter())
 			dstabDbHandler.setOutputVarIdList(dstabAlgo.getOutputVarIdList());
 
