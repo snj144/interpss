@@ -2,9 +2,11 @@
 <project basedir="." default="build_dist" name="com.interpss.editor.jgraph">
     <target description="init setup" name="init">
       	<property name="dev_base" value="C:/eclipse/InterpssDev"/>
+      	<property name="cloud_base" value="C:/eclipse/CloudDev"/>
       	<property name="dev_lib" value="${dev_base}/ipss.lib/lib"/>
       	<property name="pssl_lib" value="${dev_base}/ipss.pssl.scala/lib"/>
-      	<property name="gl.odm_lib" value="${dev_base}/ipss.gl.odm/war/WEB-INF/lib"/>
+      	<property name="gl.odm_lib" value="${cloud_base}/ipss.gl.odm/war/WEB-INF/lib"/>
+      	<property name="opencim" value="C:\eclipse\opencimDev\ipss.cim.library"/>
       	<property name="dist_base" value="C:/eclipse/GEditor"/>
       	<property name="fit_base" value="C:/eclipse/InterpssDev/ipss.fit/fitnesse"/>
       	<property name="svn_lib" value="${dev_base}/ipss.lib/lib/ipss"/>
@@ -78,6 +80,9 @@
    	  		<fileset dir="${dev_base}/ipss.ext_EMF/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
 
+	  <jar destfile="${svn_lib}/ipss_pssl.jar">
+   	  		<fileset dir="${dev_base}/ipss.pssl/runtime" excludes="CVS/**,model/**" />	
+	  </jar>	
 	  <jar destfile="${pssl_lib}/ipss_pssl.jar">
    	  		<fileset dir="${dev_base}/ipss.pssl/runtime" excludes="CVS/**,model/**" />	
 	  </jar>	
@@ -182,7 +187,7 @@
 		<copy file="${lib_base}/eclipse/org.eclipse.emf.ecore.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/eclipse/org.eclipse.emf.ecore.xmi.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/eclipse/org.eclipse.emf.jar" todir="${pssl_lib}"/>
-		<copy file="${lib_base}/spring/spring.jar" todir="${pssl_lib}"/>
+		<copy file="${lib_base}/spring/spring-2.5.6.jar" todir="${pssl_lib}"/>
 		<copy file="${lib_base}/xml/xbean.jar" todir="${pssl_lib}"/>
 
 		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${gl.odm_lib}"/>
@@ -190,6 +195,12 @@
 		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_ext.jar" todir="${gl.odm_lib}"/>
 		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${gl.odm_lib}"/>
+
+		<copy file="${lib_base}/ieee/ieee.odm_pss.jar" todir="${opencim}/odm"/>
+		<copy file="${lib_base}/ieee/ieee.odm_pss.schemas.jar" todir="${opencim}/odm"/>
+		<copy file="${lib_base}/ipss/ipss_core.jar" todir="${opencim}/interpss"/>
+		<copy file="${lib_base}/ipss/ipss_ext.jar" todir="${opencim}/interpss"/>
+		<copy file="${lib_base}/ipss/ipss_plugin.jar" todir="${opencim}/interpss"/>
     </target>	
 
 	<target depends="init" description="copy ipss lib files to finesse" name="copy_fit">
