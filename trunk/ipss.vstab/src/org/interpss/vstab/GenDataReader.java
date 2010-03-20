@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType;
-import org.ieee.cmte.psace.oss.odm.pss.schema.v1.PSSNetworkXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.LFGenCodeEnumType.Enum;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
 

@@ -1,13 +1,12 @@
 package org.interpss.vstab;
 
-import java.util.Arrays;
 import java.util.List;
+
+import Jama.Matrix;
 
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
-
-import Jama.Matrix;
 
 public class ClosestCriticalPoint extends CriticalPoint {
  
