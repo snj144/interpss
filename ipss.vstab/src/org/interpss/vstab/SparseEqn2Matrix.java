@@ -2,6 +2,12 @@ package org.interpss.vstab;
 
 import Jama.Matrix;
 
+import com.interpss.common.SpringAppContext;
+import com.interpss.core.aclf.AclfBus;
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Bus;
+import com.interpss.core.sparse.SparseEqnDouble;
+
 public class SparseEqn2Matrix {
 	public Matrix SparseEqnDouble2Matrix(AclfNetwork net,SparseEqnDouble objSparseDoubleMatrix){
 	int i=0;

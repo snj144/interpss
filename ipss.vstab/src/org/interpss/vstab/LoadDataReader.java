@@ -1,17 +1,17 @@
 package org.interpss.vstab;
 
-import java.util.HashMap;
 import java.util.List;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
 
 import Jama.Matrix;
+import org.apache.commons.math.linear.*;
 
 public class LoadDataReader extends DataReader {
 //	protected HashMap<Integer,Double> loadP0;
 //	protected HashMap<Integer,Double> loadQ0;
-	private   Matrix incLoadP0=null;
-	private   Matrix incLoadQ0=null;
+	private Matrix incLoadP0=null;
+	private Matrix incLoadQ0=null;
 	private BusRecordXmlType[] busArray;
 	private BusRecordXmlType bus;
 	

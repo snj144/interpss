@@ -1,28 +1,23 @@
 package org.interpss.vstab;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
 
+import Jama.Matrix;
+
 import com.interpss.common.SpringAppContext;
-import com.interpss.common.msg.IPSSMsgHub;
-import com.interpss.common.msg.IPSSMsgHubImpl;
 import com.interpss.core.CoreObjectFactory;
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.algorithm.AclfMethod;
 import com.interpss.core.algorithm.LoadflowAlgorithm;
-import com.interpss.core.net.Bus;
 
-
-import Jama.Matrix;
-
-public class LoadEquivAlgorithm {
+public class EquivLoadAlgorithm {
 	private AclfNetwork net;
 	private List<Integer> loadBusList;
-	public  LoadEquivAlgorithm(AclfNetwork net,List<Integer> loadBusList){
+	public  EquivLoadAlgorithm(AclfNetwork net,List<Integer> loadBusList){
 		this.net=net;
 		this.loadBusList=loadBusList;
 	}

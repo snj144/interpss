@@ -6,19 +6,16 @@ import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
 import org.ieee.pes.odm.pss.model.ODMModelParser;
+
 import Jama.Matrix;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Matrix_xy;
-
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.aclf.JacobianMatrixType;
-
 import com.interpss.core.net.Bus;
 import com.interpss.core.sparse.SparseEqnMatrix2x2;
-
-import org.interpss.vstab.GenDataReader;
 
 
 public class CriticalPoint {
@@ -96,7 +93,7 @@ public class CriticalPoint {
 		if(!net.isLfConverged()) initWithLastConvg();
 		
 		//2.2 run  LoadEquivAlgorithm(AclfNetwork net,List<Integer> loadBusList)
-		LoadEquivAlgorithm algo =new LoadEquivAlgorithm(this.net,this.loadBusList);
+		EquivLoadAlgorithm algo =new EquivLoadAlgorithm(this.net,this.loadBusList);
 		algo.run();
 		
 		if(net.isLfConverged()){ 

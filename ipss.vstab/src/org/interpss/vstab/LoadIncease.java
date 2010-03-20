@@ -1,11 +1,17 @@
 package org.interpss.vstab;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-
-import com.interpss.core.aclf.AclfNetwork;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import Jama.Matrix;
+
+import com.interpss.core.aclf.AclfNetwork;
+import com.interpss.core.net.Bus;
 // ¿¼ÂÇ DataReader ,GenDispatch ,LoadIncrease have a super class
 // named Data ;
 // loadP0 loadQ0;genPmax, genP0; net;
@@ -20,6 +26,7 @@ public class LoadIncease {
     private double lambda;
     private AclfNetwork net;
     private  List<Integer> incLoadBusList = new ArrayList<Integer>();
+    private  HashMap<Integer,Double> loadBusMap = new HashMap<Integer,Double> ();
     public LoadIncease(AclfNetwork net, List<Integer> incLoadBusList,Double lambda){
     	this.net=net;
     	this.incLoadBusList=incLoadBusList;
@@ -77,5 +84,69 @@ public class LoadIncease {
 	public double getSumOfIncLoadP(){
 		return new MatrixCalc().sumOfElement(incLoadP);
 	}
+
+	
+	public  List<Integer> IncreaseSpecLoads(final int[] LoadBusIdx) throws IOException, Exception{
+		/*
+		 * 1. get the to-be-increased load bus index from input ;
+		 * 2. compare it with the load data got from ODM ;
+		 * 3. return the incLoadBusList ;
+		 */
+	    int idx=0;
+		for(int i:LoadBusIdx){
+				  
+				 if(loadBusMap.get(i)!=null){
+					 incLoadBusList.add(i);
+				 }
+				 else{
+					 System.out.println("The input bus index-"+ i +"-is not corresponding to a Load Bus!\n" +
+					 		" Will not be added to the incLoadBusList.");
+				 }
+			  }
+         return incLoadBusList;
+		
+	}	
+	/*
+	 * IncreaseByZone--> a zone limit by the assigned zoneNumber ;
+	 */
+	
+    public List<Integer> IncreaseSpecZones(AclfNetwork net,int[] zoneNumber){
+    	
+    /*
+     *  get the list by BusID of the buses belonging to "Zone¡°, use the first IncreaseSpecLoad() method 
+     */
+    int j=0;
+    for(Bus bus:net.getBusList()){
+        for(int  i:zoneNumber){
+    	if(bus.getZone().getNumber()==i) incLoadBusList.add(j);
+        }
+        j++;
+    }
+    return incLoadBusList;
+    }
+    /*
+     * IncreaseAllNet -->only increase the Constant P load without a Gen ,Like genPV, genPQ,or even Swing
+     */
+    public  List<Integer> IncreaseNet() throws IOException, Exception{  // all load bus increase ;
+          Iterator<Entry<Integer, Double>> it =loadBusMap.entrySet().iterator();
+          while(it.hasNext()){
+        	  Map.Entry<Integer, Double> entry =(Map.Entry<Integer,Double>)it.next();
+        	  incLoadBusList.add(entry.getKey());
+          }
+          return this.incLoadBusList;
+          
+	}
+    public static int[] List2Array(List<Integer> L){
+        int length =L.size();
+        int[] temp =new int[length];
+       // temp=new int[length];
+        Iterator<Integer> iter =L.iterator();
+        int i =0;
+        while(iter.hasNext()){
+     	temp[i]=(int)iter.next();
+     	i++;
+        }
+        return temp;
+     }
 	
 }
