@@ -26,8 +26,8 @@ package org.interpss.core.adapter.ge;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
-import org.ieee.pes.odm.pss.adapter.ge.GE_PSLF_Adapter;
+import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.ge.GE_PSLF_Adapter;
 import org.interpss.BaseTestSetup;
 import org.interpss.PluginSpringAppContext;
 import org.interpss.custom.IpssFileAdapter;

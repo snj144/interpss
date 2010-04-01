@@ -2,8 +2,8 @@ package org.interpss.display;
 
 import static org.junit.Assert.assertTrue;
 
-import org.ieee.pes.odm.pss.adapter.IODMPSSAdapter;
-import org.ieee.pes.odm.pss.adapter.psse.v30.PSSEV30Adapter;
+import org.ieee.odm.adapter.IODMPSSAdapter;
+import org.ieee.odm.adapter.psse.v30.PSSEV30Adapter;
 import org.interpss.display.impl.AclfOut_PSSE;
 import org.interpss.mapper.IEEEODMMapper;
 import org.junit.Test;
