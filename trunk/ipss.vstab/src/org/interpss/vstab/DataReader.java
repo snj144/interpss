@@ -17,6 +17,10 @@ public class DataReader {
 	public void setODMParser(ODMModelParser parser){
 		this.parser=parser;
 	}
+	public double getBaseMvar(){
+		return baseMvar=this.parser.getBaseCase().getBasePower().getValue();
+	}
+	
 //	public DataReader(ODMModelParser parser){
 //		this.parser=parser;
 //		this.baseCaseNetwork=this.parser.getBaseCase();

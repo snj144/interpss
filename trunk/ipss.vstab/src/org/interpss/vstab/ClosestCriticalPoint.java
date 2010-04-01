@@ -2,7 +2,9 @@ package org.interpss.vstab;
 
 import java.util.List;
 
-import Jama.Matrix;
+import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.linear.EigenDecomposition;
+import org.apache.commons.math.linear.RealVector;
 
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
@@ -10,11 +12,11 @@ import com.interpss.core.net.Bus;
 
 public class ClosestCriticalPoint extends CriticalPoint {
  
- private Matrix closestCriticalP=null;
- private Matrix closestCriticalQ=null;
- private Matrix worstDirP=null;
- private Matrix worstDirQ=null;
- private Matrix leftVector=null;
+ private RealVector closestCriticalP=null;
+ private RealVector closestCriticalQ=null;
+ private RealVector worstDirP=null;
+ private RealVector worstDirQ=null;
+ private RealVector leftVector=null;
  
  private void calCCP(){
 	 /*
@@ -27,14 +29,14 @@ public class ClosestCriticalPoint extends CriticalPoint {
 	  */
 	 
  }
- public Matrix getClosestCriticalP(){
+ public RealVector getClosestCriticalP(){
 	 return this.closestCriticalP;
 	 
  }
- public Matrix getClosestCriticalQ(){
+ public RealVector getClosestCriticalQ(){
 	 return this.closestCriticalQ;
  }
- private void calNewDir(AclfNetwork net,Matrix lVector, List<Integer>buslist){
+ private void calNewDir(AclfNetwork net,RealVector lVector, List<Integer>buslist){
 		
 		/*
 		 * get the new dirP and dirQ for next step
@@ -43,9 +45,9 @@ public class ClosestCriticalPoint extends CriticalPoint {
 		int busNum=buslist.size();
 		
 		// initialize the dirP and dirQ
-		this.dirP=new Matrix(busNum,1);
-		this.dirQ=new Matrix(busNum,1);
-		Matrix dirpq= new Matrix(2*busNum,1);
+		this.dirP=new ArrayRealVector(busNum);
+		this.dirQ=new ArrayRealVector(busNum);
+		RealVector dirpq= new ArrayRealVector(2*busNum);
 		
 		// get sortIndex
 		int[] sortIndex = new int[net.getNoBus()+1];
@@ -75,49 +77,61 @@ public class ClosestCriticalPoint extends CriticalPoint {
  	// print("is load="+thisbus.isGenPV());
  	// print("nq="+nq);
  	 
- 	 double p_dir =lVector.get(np, 0);
- 	 double q_dir =lVector.get(nq, 0);
+ 	 double p_dir =lVector.getEntry(np);
+ 	 double q_dir =lVector.getEntry(nq);
  	 
- 	 this.dirP.set(id, 0, p_dir);
- 	 this.dirQ.set(id, 0, q_dir);
+ 	 this.dirP.setEntry(id,  p_dir);
+ 	 this.dirQ.setEntry(id,  q_dir);
  	 
     }// end of for
   
-    dirpq.setMatrix(0, busNum-1, 0, 0,dirP);
-    
-    dirpq.setMatrix(busNum, 2*busNum-1, 0, 0, dirQ);
-    dirpq =dirpq.times(1/dirpq.normF());
-    this.dirP =dirpq.getMatrix(0, busNum-1, 0, 0);
-    this.dirQ =dirpq.getMatrix(busNum, 2*busNum-1, 0, 0);
+  // the following is for normalization
+//    dirpq.setMatrix(0, busNum-1, 0, 0,dirP);
+//    dirpq.setMatrix(busNum, 2*busNum-1, 0, 0, dirQ);
+//    dirpq =dirpq.times(1/dirpq.normF());
+//    this.dirP =dirpq.getMatrix(0, busNum-1, 0, 0);
+//    this.dirQ =dirpq.getMatrix(busNum, 2*busNum-1, 0, 0);
 	
  } //end this getNewDir method 
-    private Matrix getLeftVector(){
-    	  Matrix Vector=jacobi.transpose().eig().getV();
-	      Matrix Diag  =jacobi.transpose().eig().getD();
-	      // search the zero eigen value and its index 
-	      double eig_val =Math.abs(Diag.get(0, 0));
-	      int col =0;
-	      
-	      for (int i=1;i<Diag.getColumnDimension();i++){
-	    	  if (eig_val >Math.abs(Diag.get(i, i))) {
-	    	   eig_val =Math.abs(Diag.get(i, i));
-	    	   col = i;
-	    	   } //end of if
-	        } //end of for
+    private RealVector getLeftVector(){
+		 double eig_Min =99;// chosen by ramdom ,just make sure it is large enough
+		 int col =0;
+		 double[] realEigenValues=null;
+		 EigenDecomposition eigDcp=null;
+		 /*
+		  * get the EigenDecomposition eigDcp
+		  */
+		 
+	    // search the minimum eigen value and its index 
+			 try{
+			     eigDcp  =(EigenDecomposition)jacobi;
+			     realEigenValues=eigDcp.getRealEigenvalues();
+			     
+				 // search the zero eigen value and its index 
+				 eig_Min = Math.abs(realEigenValues[0]);
+
+				 for (int i=1;i<realEigenValues.length;i++){
+				    if (eig_Min > Math.abs(realEigenValues[i])) { 
+				       eig_Min =Math.abs(realEigenValues[i]); 
+				       col =i;
+				    } //end of if
+				 } //end of for
+				 }catch(Exception e){
+					 e.printStackTrace();
+				 }
 
 	      // then find out the corresponding eigen vector leftVector
 	      
 	      int[]objcol={col}; // set the vector corresponding to zero eigen vector
-	      Matrix leftVector =Vector.getMatrix(
-	    		  0, Vector.getRowDimension()-1, objcol);
+	      RealVector leftVector=eigDcp.getEigenvector(col);
 	      return leftVector;
 	      
 	 }
     
-	private Matrix getDirP(){
+	private RealVector getDirP(){
 		return this.dirP;
 	}
-	private Matrix getDirQ(){
+	private RealVector getDirQ(){
 		return this.dirQ;
 	}
 }

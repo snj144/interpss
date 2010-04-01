@@ -64,7 +64,7 @@ public class MatrixCalc {
 		//
 		}
 			*/
-	public  void Matrix2File(RealMatrix m,String File) throws IOException{
+	public static void Matrix2File(RealMatrix m,String File) throws IOException{
 	   StringBuffer temp=new StringBuffer();
 	   DecimalFormat df = new DecimalFormat("0.000");
 	   double[] rows;
@@ -92,7 +92,7 @@ public class MatrixCalc {
 	}
 	
 
-	public  void Matrix2File(SparseEqnMatrix2x2 S,String File) throws IOException{
+	public static void Matrix2File(SparseEqnMatrix2x2 S,String File) throws IOException{
 		
 	    int Dimension =S.getDimension();
 	    RealMatrix tempM =new Array2DRowRealMatrix(Dimension*2,Dimension*2);
@@ -111,7 +111,7 @@ public class MatrixCalc {
 		
 	}
 	
-	public  List Matrix2List(RealMatrix m){ 
+	public static List Matrix2List(RealMatrix m){ 
 		List<Integer> tempL = new ArrayList<Integer>();
 		for(int i=0;i<m.getRowDimension();i++){
 			int temp =(int) m.getEntry(i, 0);
@@ -119,7 +119,7 @@ public class MatrixCalc {
 		}
 		return tempL;
 	}
-    public  double maxAbs(RealMatrix a){
+    public static double maxAbs(RealMatrix a){
 		
     	// 
 	    	  double max =0;
@@ -132,7 +132,7 @@ public class MatrixCalc {
 	   } //end of max method
 	   
 	   
-	  public   double getMinAbs(RealMatrix a){
+	  public  static double getMinAbs(RealMatrix a){
 		  double min =Math.abs(a.getEntry(0, 0));
 		  for (int i =0; i< a.getRowDimension();i++){
 			   for(int j =0;j< a.getColumnDimension();j++){
@@ -141,7 +141,7 @@ public class MatrixCalc {
 		   }
 		   return min;
 	   }  
-	  public   int getLMinIdx(RealMatrix a){
+	  public  static int getLMinIdx(RealMatrix a){
 		  double min =Math.abs(a.getEntry(0, 0));
 		  double  t;
 		  int col=0; 
@@ -152,7 +152,7 @@ public class MatrixCalc {
 		   }
 		   return col;
 	   }
-	  public   RealMatrix getDiag(RealMatrix a){
+	  public static  RealMatrix getDiag(RealMatrix a){
 		  int rows=a.getRowDimension(); // assume it is a n*n matrix 
 		  RealMatrix tempM=new Array2DRowRealMatrix(rows,1); // return a n*1 matrix saving the diag element ;
 		
@@ -162,7 +162,7 @@ public class MatrixCalc {
 		   return tempM;
 	   }
 	  
-      public  double sumOfElement(RealMatrix m){
+      public static double sumOfElement(RealMatrix m){
 		 double sum=0;
 		    for (int i= 0;i<m.getRowDimension();i++){
 				 for (int j= 0;j<m.getColumnDimension();j++){
@@ -171,9 +171,33 @@ public class MatrixCalc {
 		     }
 		 return sum;
 	 }
-	   
+  	public static double getEigValueMin(RealMatrix jacobi){
+		 
+		 double eig_Min =99;// chosen by ramdom ,just make sure it is large enough
+		 int col =0;
+		 double[] realEigenValues=null;
+		 EigenDecomposition eigDcp=null;
+		 
+		 try{
+	     eigDcp  =(EigenDecomposition)jacobi;
+	     realEigenValues=eigDcp.getRealEigenvalues();
+	     
+		 // search the zero eigen value and its index 
+		 eig_Min = Math.abs(realEigenValues[0]);
+
+		 for (int i=1;i<realEigenValues.length;i++){
+		    if (eig_Min > Math.abs(realEigenValues[i])) { 
+		       eig_Min =Math.abs(realEigenValues[i]); 
+		       col =i;
+		    } //end of if
+		 } //end of for
+		 }catch(Exception e){
+			 e.printStackTrace();
+		 }
+		return realEigenValues[col];
+	}
 	    
-	 public  void printMatrix(RealMatrix m){
+	 public static void printMatrix(RealMatrix m){
 		   
 			 for (int i= 0;i<m.getRowDimension();i++){
 				 

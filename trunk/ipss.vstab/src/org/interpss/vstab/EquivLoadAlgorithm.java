@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
-
-import Jama.Matrix;
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.linear.ArrayRealVector;
+import org.apache.commons.math.linear.RealMatrix;
 
 import com.interpss.common.SpringAppContext;
 import com.interpss.core.CoreObjectFactory;
@@ -34,11 +35,11 @@ public class EquivLoadAlgorithm {
 		 int iteration=0;
 		 final int MAX_ITERATION=15;
 		 
-		 Matrix deltaQ=new Matrix(size,1),
-		        Qcal=new Matrix(size,1),
-		        Qset=new Matrix(size,1),
-		        vPQ =new Matrix(size,1),
-		         Beq=new Matrix(size,1);
+		 ArrayRealVector deltaQ=new ArrayRealVector(size),
+		        Qcal=new ArrayRealVector(size),
+		        Qset=new ArrayRealVector(size),
+		        vPQ =new ArrayRealVector(size),
+		         Beq=new ArrayRealVector(size);
 		 List<Complex> shuntYList=getShuntYList ();
 		 
 		 LoadflowAlgorithm algo = CoreObjectFactory.createLoadflowAlgorithm(net, SpringAppContext.getIpssMsgHub());
@@ -56,10 +57,10 @@ public class EquivLoadAlgorithm {
 			        v2= Vmag * Vmag;
 //			        print(" v = "+Vmag+" \nv2= "+v2);
 			        double q=aclfBus.getLoadQ();
-			        Qset.set(id,0, q);
+			        Qset.setEntry(id, q);
 			     // calculate equiv B
 			        b = q/ v2;
-			        Beq.set(id, 0, b);
+			        Beq.setEntry(id,  b);
 //			        print(" b = "+b);
 			        // add B to the bus shunt Y
 			        c = c.add(new Complex(0.0, -b));
@@ -79,17 +80,17 @@ public class EquivLoadAlgorithm {
 			         Complex c = (Complex) shuntYList.get(idx1);
 			        // calculate equiv B
 			        Vmag=acbus.getVoltageMag();
-			        vPQ.set(id, 0, Vmag);
+			        vPQ.setEntry(id,  Vmag);
 			        v2= Vmag * Vmag;
 //			        print(" v = "+acbus.getVoltageMag()+"v2= "+v2);
-			        b=Beq.get(id, 0);
+			        b=Beq.getEntry(id);
 			        double cal_q =v2*b;
-			        Qcal.set(id, 0, cal_q);
+			        Qcal.setEntry(id,  cal_q);
 //			        delta_q=Qset.get(id, 0)-cal_q;
 //			        deltaQ.set(id, 0, delta_q);
-			        b=Qset.get(id, 0)/v2;
+			        b=Qset.getEntry(id)/v2;
 //			        print(" next b = "+b);
-			        Beq.set(id, 0, b);
+			        Beq.setEntry(id, b);
 			        // add B to the bus shunt Y
 			        c = c.add(new Complex(0.0, -b));
 			        // change load code to custom load again
@@ -99,8 +100,8 @@ public class EquivLoadAlgorithm {
 		 } 
 		 
 		     
-		    deltaQ=Qset.minus(Qcal);
-	        DeltaQ=new MatrixCalc().maxAbs(deltaQ);
+		    deltaQ=Qset.subtract(Qcal);
+	        DeltaQ=deltaQ.getLInfNorm();
 	     
 	        System.out.println("DeltaQ = "+DeltaQ);
 		    iteration++;

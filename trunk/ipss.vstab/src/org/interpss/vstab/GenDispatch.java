@@ -1,10 +1,7 @@
 package org.interpss.vstab;
 
 import java.util.HashMap;
-
-import Jama.Matrix;
 import org.apache.commons.math.linear.*;
-
 import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
