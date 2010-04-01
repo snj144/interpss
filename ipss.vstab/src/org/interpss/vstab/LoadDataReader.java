@@ -1,45 +1,52 @@
 package org.interpss.vstab;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.BusRecordXmlType;
-
-import Jama.Matrix;
 import org.apache.commons.math.linear.*;
 
+import com.interpss.common.datatype.UnitType;
+
 public class LoadDataReader extends DataReader {
-//	protected HashMap<Integer,Double> loadP0;
-//	protected HashMap<Integer,Double> loadQ0;
-	private Matrix incLoadP0=null;
-	private Matrix incLoadQ0=null;
+	protected HashMap<Integer,Double> constPLoad0;
+	protected HashMap<Integer,Double> constQLoad0;
+//	private RealVector incLoadP0=null;
+//	private RealVector incLoadQ0=null;
 	private BusRecordXmlType[] busArray;
 	private BusRecordXmlType bus;
 	
-	private void getIncLoadPQ(List<Integer> busList){
-		int numofBus =busList.size();
-		this.incLoadP0=new Matrix(numofBus,1);
-//		this.parser=new DataConverter().getParser();
+	private void ReadLoadInfo(){
 		this.baseCaseNetwork=parser.getBaseCase();
-		this.baseMvar=this.baseCaseNetwork.getBasePower().getValue();
 		busArray=baseCaseNetwork.getBusList().getBusArray();
-		for(int i=0;i<numofBus;i++){
-			bus=busArray[busList.get(i)];
-			double loadP=bus.getLoadflowData().getLoadData().getEquivLoad()
-			.getConstPLoad().getRe()/this.baseMvar;
-			double loadQ=bus.getLoadflowData().getLoadData().getEquivLoad()
-			.getConstPLoad().getIm()/this.baseMvar;
-			incLoadP0.set(i, 0, loadP);
-			incLoadQ0.set(i, 1, loadQ);
-		}
 		
+		this.constPLoad0=new HashMap<Integer,Double>(busArray.length);
+		this.constQLoad0=new HashMap<Integer,Double>(busArray.length);
+//		this.parser=new DataConverter().getParser();
+		
+		this.baseMvar=this.baseCaseNetwork.getBasePower().getValue();
+		for(int i=0;i<busArray.length;i++){
+			bus=busArray[i];
+			if(bus.getLoadflowData().getLoadData()!=null){
+				double loadP=bus.getLoadflowData().getLoadData().getEquivLoad()
+				.getConstPLoad().getRe();
+				double loadQ=bus.getLoadflowData().getLoadData().getEquivLoad()
+				.getConstPLoad().getIm();
+				if(bus.getLoadflowData().getLoadData().getEquivLoad()
+						.getConstPLoad().getUnit().equals(UnitType.mVA)){// consider the unit type 
+					loadP/=super.getBaseMvar(); 
+					loadQ/=super.getBaseMvar();
+				}
+				constPLoad0.put(i, loadP);
+				constQLoad0.put(i, loadQ);
+			}
+		}	
 	}
-	public Matrix getIncLoadP0(List<Integer> busList){
-		getIncLoadPQ(busList);
-		return this.incLoadP0;
+	public HashMap<Integer, Double> getConstPLoad(){
+		return this.constPLoad0;
 	}
-	public Matrix getIncLoadQ0(List<Integer> busList){
-		getIncLoadPQ(busList);
-		return this.incLoadQ0;
+	public HashMap<Integer, Double> getConstQLoad(){
+		return this.constQLoad0;
 	}
 
 }

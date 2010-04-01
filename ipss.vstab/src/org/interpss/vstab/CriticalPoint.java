@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.linear.RealMatrix;
+import org.apache.commons.math.linear.RealVector;
+
 import org.ieee.pes.odm.pss.model.ODMModelParser;
-
-import Jama.Matrix;
-
 import com.interpss.common.SpringAppContext;
 import com.interpss.common.datatype.Matrix_xy;
 import com.interpss.core.aclf.AclfBus;
@@ -22,10 +22,10 @@ public class CriticalPoint {
 	protected AclfNetwork net=null;
 	protected List<Integer> loadBusList=null;
 	protected ODMModelParser parser=null;
-	protected Matrix jacobi=null;
-	protected Matrix Jcr=null;
-	protected Matrix dirP=null;
-	protected Matrix dirQ=null;
+	protected RealMatrix jacobi=null;
+	protected RealMatrix Jcr=null;
+	protected RealVector dirP=null;
+	protected RealVector dirQ=null;
 	private  List<Complex> shuntY0List=new ArrayList<Complex>();
 	private  List<Complex> lastConvergedVoltage=new ArrayList<Complex>();
 	private final double DEFAULT_EIGVALUE=99;
@@ -45,7 +45,7 @@ public class CriticalPoint {
 	private boolean flagOfBisection =false;
 	private int iter=0;
 	
-	public void calCriticalPower(AclfNetwork net,List<Integer> loadList,Matrix dirLP,Matrix dirLQ ){
+	public void calCriticalPower(AclfNetwork net,List<Integer> loadList,RealVector dirLP,RealVector dirLQ ){
 		
 		// 0 . initialize variants 
 		
@@ -171,111 +171,10 @@ public class CriticalPoint {
         }
 		
 	}
-	private Matrix getJacobiMatrix (){
-		 SparseEqnMatrix2x2 sparseM = 
-		        net.formJMatrix(JacobianMatrixType.FULL_POLAR_COORDINATE, SpringAppContext.getIpssMsgHub());
-		 // get sortIndex
-		 int[] sortNumberToMatrixIndex = new int[net.getNoBus()+1];
-		 int[] sortPQNumberToMatrixIndex = new int[net.getNoBus()+1];
-		 // get the number of non-swing buses and PQ buses
-       int n = 0;  //non-swing
-       int m = 0;  //PQ
-       int mPQ=0,nPQ=0;
-    for (Bus bus : net.getBusList()) {
-        AclfBus aclfBus = (AclfBus)bus;
-        if (!aclfBus.isSwing()) {
-            sortNumberToMatrixIndex[bus.getSortNumber()] = n++;  // your matrix index range [0 ... n-1)
-            if (!aclfBus.isGenPV()) {
-                sortPQNumberToMatrixIndex[bus.getSortNumber()] = m++;  // PQ submatrix index range [0 ... m-1)    
-            }
-        }
-        
-    }
-    //initialize of the conventional NR jacobi matrix
-    
-    Matrix H = new Matrix(n,n);
-    Matrix N = new Matrix(n,m);
-    Matrix K = new Matrix(m,n);
-    Matrix L=  new Matrix(m,m);
-    Matrix Jnr =new Matrix (n+m,n+m);
-    
-    
-    //int index=0;  index for Matrix rows 
-      
-  for (Bus busi : net.getBusList()) {
-       AclfBus aclfBusi = (AclfBus)busi;
-       if (!aclfBusi.isSwing()) {
-      	 
-             for (Bus busj : net.getBusList()) {
-                 AclfBus aclfBusj = (AclfBus)busj;
-                 
-                 if (!aclfBusj.isSwing()) {
-        
-                     int i = busi.getSortNumber();
-                     int j = busj.getSortNumber();
-                     Matrix_xy elem = sparseM.getElement(i, j);
-              
-                       
-	               // the following variant is chosen like PQ bus, but it is also suitable for PV bus
-	                  double dPdVang = elem.xx;
-	                  double dPdVmag = elem.xy;
-	                  double dQdVang = elem.yx;
-	                  double dQdVmag = elem.yy;
-	                   
-	                    int m1 = sortNumberToMatrixIndex[i];
-                       int n1 = sortNumberToMatrixIndex[j];
-                  
-                        if (!aclfBusi.isGenPV()) { 
-                         mPQ = sortPQNumberToMatrixIndex[i]; // JUST FOR PQ sort 
-                          }
-                        if (!aclfBusj.isGenPV()) {
-                         nPQ = sortPQNumberToMatrixIndex[j]; // JUST FOR PQ sort
-                          }
-               
-                         H.set(m1, n1, dPdVang);// n-1*n-1 ,suitable of PQ & PV bus
-                  
-                        if(!aclfBusj.isGenPV()){
-                           N.set(m1,nPQ,dPdVmag); //n-1*m
-                           } //end of this -if
-                  
-                         // matrix element corresponding to PQ bus 
-                         if(!aclfBusi.isGenPV() ){
-           	             	 K.set(mPQ,n1,dQdVang);  // m*n-1
-	                             if(!aclfBusj.isGenPV()){
-	                                L.set(mPQ,nPQ,dQdVmag);//m*m
-	                               } 
-	                        }
-                   }// end of if-busj
-                 
-	             }//end of for busj
-            
-	        }//end  if-busi
-   
-		 }  //end of for busi
+	
 
-	   Jnr.setMatrix(0,n-1,0,n-1,H);
-	   Jnr.setMatrix(0,n-1,n,n+m-1,N);
-	   Jnr.setMatrix(n,n+m-1,0,n-1,K);
-	   Jnr.setMatrix(n,n+m-1,n,n+m-1,L);
-	   return Jnr.uminus(); // sparseMatrix 的符号与常见的Jnr相反，为正号。因此此处需变号；
-	 
-	 }//end this method
-	private double getMinEigValue(){
-		 this.jacobi=this.getJacobiMatrix();
-	     Matrix Diag  =jacobi.eig().getD();
-		 // search the zero eigen value and its index 
-		 double eig_Min = Math.abs(Diag.get(0, 0));
-		 int col =0;
-		 for (int i=1;i<Diag.getColumnDimension();i++){
-		    if (eig_Min > Math.abs(Diag.get(i, i))) { 
-		       eig_Min =Math.abs(Diag.get(i, i)); 
-		       col =i;
-		    } //end of if
-		 } //end of for    
-		return this.minEigValue=Diag.get(col, col);
-	}
 	public boolean isReachCritical(){
-		this.minEigValue=getMinEigValue();
+		this.minEigValue=MatrixCalc.getEigValueMin(jacobi);
 		// use abs(minEigValue) as a identifier for critical point;
 		if (Math.abs(this.minEigValue)<this.tolOfEigVlaue) setReachCritical(true);
 		else if(this.maxLambda-this.minLambda<this.tolOfDeltaLambda) setReachCritical(true);

@@ -6,6 +6,17 @@ public class Test {
 	/**
 	 * @param args
 	 */
+	class worm{
+		private worm next;
+		private char c;
+		public worm(int i,char x){
+			System.out.println("Worm constructor :"+ i);
+			c=x;
+			if(--i>0)
+				next=new worm(i,(char)(x+1));
+				
+		}
+	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 //		DataConverter dataConv=new DataConverter();
@@ -18,9 +29,10 @@ public class Test {
 		 double [][] m={{1,2},{2,3}};
 		 RealMatrix a =new Array2DRowRealMatrix(m);
 		 RealMatrix b =new Array2DRowRealMatrix().createMatrix(2, 2);
-		 b.setEntry(1, 1, 3);
-		 System.out.print(b);
-	
+//         double eig=MatrixCalc.getEigValueMin(a);
+//         System.out.print(eig);
+	     worm w= new Test().new worm(4,'a');
+	     System.out.print(w);
 
 	}
 

@@ -7,9 +7,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import Jama.Matrix;
-
+import org.apache.commons.math.linear.RealVector;
+import com.interpss.core.aclf.AclfBus;
 import com.interpss.core.aclf.AclfNetwork;
 import com.interpss.core.net.Bus;
 // ¿¼ÂÇ DataReader ,GenDispatch ,LoadIncrease have a super class
@@ -17,85 +16,72 @@ import com.interpss.core.net.Bus;
 // loadP0 loadQ0;genPmax, genP0; net;
 public class LoadIncease { 
     // connect to loadIncPatten , to get how the net is to be Inceased  
-    private Matrix LoadP0;
-    private Matrix incLoadP;
-    private Matrix LoadQ0;
-    private Matrix incLoadQ;
-    private Matrix dirP;
-    private Matrix dirQ;
-    private double lambda;
-    private AclfNetwork net;
-    private  List<Integer> incLoadBusList = new ArrayList<Integer>();
-    private  HashMap<Integer,Double> loadBusMap = new HashMap<Integer,Double> ();
-    public LoadIncease(AclfNetwork net, List<Integer> incLoadBusList,Double lambda){
+    protected static RealVector LoadP0;
+    protected static RealVector incLoadP;
+    protected static RealVector LoadQ0;
+    protected static RealVector incLoadQ;
+    protected static RealVector dirP;
+    protected static RealVector dirQ;
+    protected static double loadIncIndex;
+    protected static AclfNetwork net;
+    
+    protected static List<Integer> incLoadBusList = new ArrayList<Integer>();
+    protected static List<Integer> incZoneList = new ArrayList<Integer>();
+    protected static List<Integer> incOwnerList = new ArrayList<Integer>();
+    
+    protected static HashMap<Integer,Double> loadPMap = new HashMap<Integer,Double> ();
+    protected static HashMap<Integer,Double> loadQMap = new HashMap<Integer,Double> ();
+    
+    public static LoadIncPatten incPatten;
+    
+    public LoadIncease(AclfNetwork net, List<Integer> incLoadBusList,Double newLoadIncIndex){
     	this.net=net;
     	this.incLoadBusList=incLoadBusList;
-    	this.lambda=lambda;
+    	this.loadIncIndex=newLoadIncIndex;
     }
-	public void incLoad(){
+	public static void incLoad(){
 		
 		// P=P0+Lambda* dirp ;
-		this.incLoadP=this.LoadP0.plus(this.dirP.times(this.lambda));
+		incLoadP=LoadP0.add((dirP.mapMultiply(loadIncIndex)));
 		// Q=Q0+Lambda*dirQ;
-		this.incLoadQ=this.LoadQ0.plus(this.dirQ.times(this.lambda));
+	   incLoadQ=LoadQ0.add((dirQ.mapMultiply(loadIncIndex)));
 		// save the P Q to the net ;
 		
 		//return 
 		
 	}
-	public void initIncDirection(){
-		int NumOfLoadBus =this.getLoadP0().getRowDimension();
-		Matrix dirpq =new Matrix(2*NumOfLoadBus,1); //  m should be (NumofBusX2)
-		dirpq.setMatrix(0, NumOfLoadBus-1, 0, 0,this.getLoadP0());
-		dirpq.setMatrix(NumOfLoadBus, 2*NumOfLoadBus-1, 0, 0,this.getLoadQ0());
-		dirpq.times(1/dirpq.normF());
-		this.dirP =dirpq.getMatrix(0, NumOfLoadBus-1, 0, 0);
-		this.dirQ =dirpq.getMatrix(NumOfLoadBus, 2*NumOfLoadBus-1, 0, 0);
+	/**
+	 * increase load with original power factor by "newLambda" times
+	 * @param newLambda
+	 */
+	public static void incLoad(double newLambda){
+		incLoadP.mapMultiplyToSelf(newLambda);
+		incLoadQ.mapMultiplyToSelf(newLambda);
 	}
-	public void setPQDirection(Matrix dirp,Matrix dirq){
-		// set dirp ,dirq
-		this.dirP=dirp;
-		this.dirQ=dirp;
-	}
-	public void setPDirection (Matrix dirp){
-		this.dirP=dirp;
-	}
-	public Matrix getLoadP0(){
-		return this.LoadP0;
-	}
-	public void setLoadP0(Matrix originLoadP){
-		this.LoadP0=originLoadP;
-	}
-	public Matrix getLoadQ0(){
-		return this.LoadQ0;
-	}
-	public void setLoadQ0(Matrix originLoadQ){
-		this.LoadP0=originLoadQ;
-	}
-	public Matrix getIncLoadP(){
-		incLoad();
-		return incLoadP;
-	}
-	public Matrix getIncLoadQ(){
-		incLoad();
-		return incLoadQ;
-	}
-	
-	public double getSumOfIncLoadP(){
-		return new MatrixCalc().sumOfElement(incLoadP);
+	/**
+	 * 
+	 * @param incDir_P
+	 * @param incDir_Q
+	 * @param incLength
+	 */
+	public static void incLoad(RealVector incDir_P,RealVector incDir_Q,double incLength){
+		dirP=incDir_P;
+		dirQ=incDir_Q;
+		loadIncIndex=incLength;
+		incLoad(); // call incLoad to increase LOAD ;
 	}
 
 	
-	public  List<Integer> IncreaseSpecLoads(final int[] LoadBusIdx) throws IOException, Exception{
+	public  static void IncLoadByBus(final List<Integer> incLoadBusList) throws IOException, Exception{
 		/*
 		 * 1. get the to-be-increased load bus index from input ;
 		 * 2. compare it with the load data got from ODM ;
 		 * 3. return the incLoadBusList ;
 		 */
 	    int idx=0;
-		for(int i:LoadBusIdx){
+		for(int i:incLoadBusList){
 				  
-				 if(loadBusMap.get(i)!=null){
+				 if(loadPMap.get(i)!=null){
 					 incLoadBusList.add(i);
 				 }
 				 else{
@@ -103,37 +89,38 @@ public class LoadIncease {
 					 		" Will not be added to the incLoadBusList.");
 				 }
 			  }
-         return incLoadBusList;
 		
 	}	
 	/*
 	 * IncreaseByZone--> a zone limit by the assigned zoneNumber ;
 	 */
 	
-    public List<Integer> IncreaseSpecZones(AclfNetwork net,int[] zoneNumber){
+    public static void IncLoadByZone(AclfNetwork net,List<Integer> zoneNumber){
     	
     /*
      *  get the list by BusID of the buses belonging to "Zone¡°, use the first IncreaseSpecLoad() method 
      */
+    	
     int j=0;
     for(Bus bus:net.getBusList()){
+    	AclfBus acbus=(AclfBus) bus;
         for(int  i:zoneNumber){
-    	if(bus.getZone().getNumber()==i) incLoadBusList.add(j);
+    	  if(bus.getZone().getNumber()==i&& acbus.isLoad() ) incLoadBusList.add(j);
         }
         j++;
     }
-    return incLoadBusList;
+   
     }
     /*
      * IncreaseAllNet -->only increase the Constant P load without a Gen ,Like genPV, genPQ,or even Swing
      */
-    public  List<Integer> IncreaseNet() throws IOException, Exception{  // all load bus increase ;
-          Iterator<Entry<Integer, Double>> it =loadBusMap.entrySet().iterator();
+    public  void IncLoadByNet() throws IOException, Exception{  // all load bus increase ;
+          Iterator<Entry<Integer, Double>> it =loadPMap.entrySet().iterator();
           while(it.hasNext()){
         	  Map.Entry<Integer, Double> entry =(Map.Entry<Integer,Double>)it.next();
         	  incLoadBusList.add(entry.getKey());
           }
-          return this.incLoadBusList;
+
           
 	}
     public static int[] List2Array(List<Integer> L){
@@ -148,5 +135,35 @@ public class LoadIncease {
         }
         return temp;
      }
+	public void setDirPQ(RealVector newDir_P,RealVector newDir_Q){
+		// set dirp ,dirq
+		this.dirP=newDir_P;
+		this.dirQ=newDir_P;
+	}
+	public void setDirP (RealVector newDir_P){
+		this.dirP=newDir_P;
+	}
+	public RealVector getLoadP0(){
+		return this.LoadP0;
+	}
+	public void setLoadP0(RealVector LoadP0){
+		this.LoadP0=LoadP0;
+	}
+	public RealVector getLoadQ0(){
+		return this.LoadQ0;
+	}
+	public void setLoadQ0(RealVector LoadQ0){
+		this.LoadP0=LoadQ0;
+	}
+	public RealVector getIncLoadP(){
+		return incLoadP;
+	}
+	public RealVector getIncLoadQ(){
+		return incLoadQ;
+	}
+	public double getSumOfIncLoadP() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 }
