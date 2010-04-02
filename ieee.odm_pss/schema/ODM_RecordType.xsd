@@ -421,8 +421,8 @@
 					<element name="totalShuntY" type="pss:YXmlType" minOccurs="0" maxOccurs="1"></element>
 					<element name="fromShuntY" type="pss:YXmlType" minOccurs="0"></element>
 					<element name="toShuntY" type="pss:YXmlType" minOccurs="0"></element>
-					<element name="fromTurnRatio" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
-					<element name="toTurnRatio" type="pss:TapXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="fromTurnRatio" type="pss:TurnRatioXmlType" minOccurs="0" maxOccurs="1"></element>
+					<element name="toTurnRatio" type="pss:TurnRatioXmlType" minOccurs="0" maxOccurs="1"></element>
 
 					<element name="fromAngle" type="pss:AngleXmlType" minOccurs="0"></element>
 					<element name="toAngle" type="pss:AngleXmlType" minOccurs="0"></element>
