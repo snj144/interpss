@@ -111,13 +111,39 @@ public class JaxbODMModelParser {
 	 */
 	public StudyCaseXmlType getStudyCase() {
 		if (this.pssStudyCase == null) {
-			this.pssStudyCase = new StudyCaseXmlType();
-			// init the default study scenario
-			//scase.addNewScenarioList();
+			createStudyCase();
 		}	
 		return this.pssStudyCase;
 	}
 
+	private void createStudyCase() {
+		this.pssStudyCase = new StudyCaseXmlType();
+		this.pssStudyCase.setBaseCase(createBaseCase());
+	}
+	/**
+	 * Get the baseCase element
+	 * 
+	 * @return
+	 */
+	public PSSNetworkXmlType getBaseCase() {
+		if (getStudyCase() == null) 
+			createStudyCase();
+		if (getStudyCase().getBaseCase() == null) {
+			PSSNetworkXmlType baseCase = createBaseCase();
+			getStudyCase().setBaseCase(baseCase);
+		}
+		return getStudyCase().getBaseCase();
+	}
+	
+	private PSSNetworkXmlType createBaseCase() {
+		PSSNetworkXmlType baseCase = new PSSNetworkXmlType();
+		
+		baseCase.setBusList(new PSSNetworkXmlType.BusList());
+		baseCase.setBranchList(new PSSNetworkXmlType.BranchList());
+		
+		return baseCase;
+	}
+	
 	/**
 	 * Get the cashed object by id
 	 * 
@@ -176,19 +202,6 @@ public class JaxbODMModelParser {
 	 */
 	public void removeCachedObject(String id) {
 		this.objectCache.remove(id);
-	}
-
-	/**
-	 * Get the baseCase element
-	 * 
-	 * @return
-	 */
-	public PSSNetworkXmlType getBaseCase() {
-		if (getStudyCase().getBaseCase() == null) {
-			PSSNetworkXmlType baseCase = new PSSNetworkXmlType();
-			getStudyCase().setBaseCase(baseCase);
-		}
-		return getStudyCase().getBaseCase();
 	}
 
 	/**
