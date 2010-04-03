@@ -153,12 +153,12 @@ public class ODMModelParser {
 	}
 
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId) {
-		String id = StringUtil.formBranchId(fromId, toId, cirId);
+		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 		return (BranchRecordXmlType)this.getCachedObject(id);
 	}
 	
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String tertId, String cirId) {
-		String id = StringUtil.formBranchId(fromId, toId, tertId, cirId);
+		String id = ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
 		return (BranchRecordXmlType)this.getCachedObject(id);
 	}
 
@@ -169,7 +169,7 @@ public class ODMModelParser {
 	 * @return
 	 */
 	public DCLineData2TXmlType getDcLine2TRecord(String recId, String invId, int number) {
-		String id = StringUtil.formBranchId(recId, invId, new Integer(number).toString());
+		String id = ModelStringUtil.formBranchId(recId, invId, new Integer(number).toString());
 		return (DCLineData2TXmlType)this.getCachedObject(id);
 	}
 	
@@ -274,7 +274,7 @@ public class ODMModelParser {
 		if (getStudyCase().getBaseCase().getDcLineList() == null)
 			getStudyCase().getBaseCase().addNewDcLineList();
 		DCLineData2TXmlType dcLine = getStudyCase().getBaseCase().getDcLineList().addNewDcLint2T();
-		String branchId = StringUtil.formBranchId(recId, invId, new Integer(number).toString());
+		String branchId = ModelStringUtil.formBranchId(recId, invId, new Integer(number).toString());
 		dcLine.setId(branchId);
 		dcLine.setNumber(number);
 		if (this.objectCache.get(branchId) != null) {

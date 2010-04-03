@@ -62,9 +62,6 @@ import org.ieee.cmte.psace.oss.odm.pss.schema.v1.TurbineGovernorXmlType;
 import org.ieee.cmte.psace.oss.odm.pss.schema.v1.VoltageUnitType;
 
 public class ParserHelper {
-	public static final double Deg2Rad = Math.PI / 180.0;
-	public static final double Rad2Deg = 180.0/ Math.PI;
-	
 	/**
 	 * Set BaseCase to Loadflow and Transmission 
 	 * 
