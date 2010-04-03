@@ -29,14 +29,17 @@ package org.ieee.odm.model.jaxb;
  */
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.Hashtable;
 
+import org.ieee.odm.model.ModelContansts;
+import org.ieee.odm.model.ModelStringUtil;
 import org.ieee.odm.schema.BranchRecordXmlType;
 import org.ieee.odm.schema.BusRecordXmlType;
+import org.ieee.odm.schema.ConverterXmlType;
 import org.ieee.odm.schema.DCLineData2TXmlType;
 import org.ieee.odm.schema.IDRecordXmlType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.PSSNetworkXmlType;
 import org.ieee.odm.schema.ScenarioXmlType;
@@ -50,13 +53,10 @@ public class JaxbODMModelParser {
 	public static final String Token_nsPrefix = "pss";
 	public static final String Token_nsUrl = "http://www.ieee.org/cmte/psace/oss/odm/pss/Schema/v1";
 
-	private static final StudyCaseXmlType.SchemaVersion.Enum 
-			CurrentSchemaVerion = StudyCaseXmlType.SchemaVersion.V_0_5;
-	
 	// bus and branch object cache for fast lookup. 
 	private Hashtable<String,IDRecordXmlType> objectCache = null;
 
-	private PSSStudyCaseDocument doc = null;
+	private StudyCaseXmlType pssStudyCase = null;
 	
 	/**
 	 * Constructor using an Xml file
@@ -65,10 +65,10 @@ public class JaxbODMModelParser {
 	 * @throws Exception
 	 */
 	public JaxbODMModelParser(File xmlFile) throws Exception {
-		this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
-		if (!doc.validate()) 
-			throw new Exception("Error: input XML document is invalid, file: " + xmlFile.getName());
+		//this.doc = PSSStudyCaseDocument.Factory.parse(xmlFile);
+		//this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		//if (!doc.validate()) 
+		//	throw new Exception("Error: input XML document is invalid, file: " + xmlFile.getName());
 	}
 
 	/**
@@ -77,9 +77,9 @@ public class JaxbODMModelParser {
 	 * @param xmlString
 	 * @throws XmlException
 	 */
-	public JaxbODMModelParser(String xmlString) throws XmlException {
-		this.doc = PSSStudyCaseDocument.Factory.parse(xmlString);
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+	public JaxbODMModelParser(String xmlString) throws Exception {
+		//this.doc = PSSStudyCaseDocument.Factory.parse(xmlString);
+		//this.objectCache = new Hashtable<String, IDRecordXmlType>();
 	}
 	
 	/**
@@ -89,8 +89,8 @@ public class JaxbODMModelParser {
 	 * @throws Exception
 	 */
 	public JaxbODMModelParser(InputStream in) throws Exception {
-		this.doc = PSSStudyCaseDocument.Factory.parse(in);
-		this.objectCache = new Hashtable<String, IDRecordXmlType>();
+		//this.doc = PSSStudyCaseDocument.Factory.parse(in);
+		//this.objectCache = new Hashtable<String, IDRecordXmlType>();
 	}
 
 	/**
@@ -99,9 +99,9 @@ public class JaxbODMModelParser {
 	 */
 	public JaxbODMModelParser() {
 		this.objectCache = new Hashtable<String, IDRecordXmlType>();
-		this.doc = PSSStudyCaseDocument.Factory.newInstance();
+		//this.doc = PSSStudyCaseDocument.Factory.newInstance();
 		this.getStudyCase().setId("ODM_StudyCase");
-		this.getStudyCase().setSchemaVersion(CurrentSchemaVerion);
+		this.getStudyCase().setSchemaVersion(ModelContansts.ODM_Schema_Version);
 	}
 	
 	/**
@@ -110,14 +110,12 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public StudyCaseXmlType getStudyCase() {
-		if (this.doc.getPSSStudyCase() == null) {
-			StudyCaseXmlType scase = this.doc.addNewPSSStudyCase();
-			// init the base case
-			getBaseCase();
+		if (this.pssStudyCase == null) {
+			this.pssStudyCase = new StudyCaseXmlType();
 			// init the default study scenario
-			scase.addNewScenarioList();
+			//scase.addNewScenarioList();
 		}	
-		return this.doc.getPSSStudyCase();
+		return this.pssStudyCase;
 	}
 
 	/**
@@ -151,12 +149,12 @@ public class JaxbODMModelParser {
 	}
 
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String cirId) {
-		String id = StringUtil.formBranchId(fromId, toId, cirId);
+		String id = ModelStringUtil.formBranchId(fromId, toId, cirId);
 		return (BranchRecordXmlType)this.getCachedObject(id);
 	}
 	
 	public BranchRecordXmlType getBranchRecord(String fromId, String toId, String tertId, String cirId) {
-		String id = StringUtil.formBranchId(fromId, toId, tertId, cirId);
+		String id = ModelStringUtil.formBranchId(fromId, toId, tertId, cirId);
 		return (BranchRecordXmlType)this.getCachedObject(id);
 	}
 
@@ -167,7 +165,7 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public DCLineData2TXmlType getDcLine2TRecord(String recId, String invId, int number) {
-		String id = StringUtil.formBranchId(recId, invId, new Integer(number).toString());
+		String id = ModelStringUtil.formBranchId(recId, invId, new Integer(number).toString());
 		return (DCLineData2TXmlType)this.getCachedObject(id);
 	}
 	
@@ -187,9 +185,8 @@ public class JaxbODMModelParser {
 	 */
 	public PSSNetworkXmlType getBaseCase() {
 		if (getStudyCase().getBaseCase() == null) {
-			PSSNetworkXmlType baseCase = getStudyCase().addNewBaseCase();
-			baseCase.addNewBusList();
-			baseCase.addNewBranchList();		
+			PSSNetworkXmlType baseCase = new PSSNetworkXmlType();
+			getStudyCase().setBaseCase(baseCase);
 		}
 		return getStudyCase().getBaseCase();
 	}
@@ -200,7 +197,7 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public ScenarioXmlType getDefaultScenario() {
-		return getStudyCase().getScenarioList().getScenarioArray()[0];
+		return getStudyCase().getScenarioList().getScenario().get(0);
 	}
 
 	/**
@@ -209,7 +206,7 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public TransientSimulationXmlType getDefaultTransSimu(){
-		return TranStabSimuHelper.getTransientSimlation(getDefaultScenario());
+		return JaxbTranStabSimuHelper.getTransientSimlation(getDefaultScenario());
 	}
 	/**
 	 * add a new Bus record to the base case
@@ -217,7 +214,9 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public BusRecordXmlType addNewBaseCaseBus() {
-		return getStudyCase().getBaseCase().getBusList().addNewBus();
+		BusRecordXmlType busRec = new BusRecordXmlType();
+		getStudyCase().getBaseCase().getBusList().getBus().add(busRec);
+		return busRec;
 	}	
 	
 	/**
@@ -227,7 +226,8 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public BusRecordXmlType addNewBaseCaseBus(String id, long number) throws Exception {
-		BusRecordXmlType bus = getStudyCase().getBaseCase().getBusList().addNewBus();
+		BusRecordXmlType bus = new BusRecordXmlType();
+		getStudyCase().getBaseCase().getBusList().getBus().add(bus);
 		bus.setId(id);
 		bus.setNumber(number);
 		if (this.objectCache.get(id) != null) {
@@ -243,7 +243,9 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public BranchRecordXmlType addNewBaseCaseBranch() {
-		return getStudyCase().getBaseCase().getBranchList().addNewBranch();		
+		BranchRecordXmlType branchRec = new BranchRecordXmlType();
+		getStudyCase().getBaseCase().getBranchList().getBranch().add(branchRec);
+		return branchRec;
 	}
 	
 	/**
@@ -253,7 +255,8 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public BranchRecordXmlType addNewBaseCaseBranch(String id) throws Exception {
-		BranchRecordXmlType branch = getStudyCase().getBaseCase().getBranchList().addNewBranch();
+		BranchRecordXmlType branch = new BranchRecordXmlType();
+		getStudyCase().getBaseCase().getBranchList().getBranch().add(branch);
 		branch.setId(id);
 		if (this.objectCache.get(id) != null) {
 			throw new Exception("Branch record duplication, bus id: " + id);
@@ -268,11 +271,12 @@ public class JaxbODMModelParser {
 	 * @param id
 	 * @return
 	 */
-	public DCLineData2TXmlType addNewBaseCaseDCLine2T(String recId, String invId, int number) throws Exception {
-		if (getStudyCase().getBaseCase().getDcLineList() == null)
-			getStudyCase().getBaseCase().addNewDcLineList();
-		DCLineData2TXmlType dcLine = getStudyCase().getBaseCase().getDcLineList().addNewDcLint2T();
-		String branchId = StringUtil.formBranchId(recId, invId, new Integer(number).toString());
+	public DCLineData2TXmlType addNewBaseCaseDCLine2T(String recId, String invId, long number) throws Exception {
+		//if (getStudyCase().getBaseCase().getDcLineList() == null)
+		//	getStudyCase().getBaseCase().addNewDcLineList();
+		DCLineData2TXmlType dcLine = new DCLineData2TXmlType();
+		getStudyCase().getBaseCase().getDcLineList().getDcLint2T().add(dcLine);
+		String branchId = ModelStringUtil.formBranchId(recId, invId, new Long(number).toString());
 		dcLine.setId(branchId);
 		dcLine.setNumber(number);
 		if (this.objectCache.get(branchId) != null) {
@@ -280,11 +284,17 @@ public class JaxbODMModelParser {
 		}
 		this.objectCache.put(branchId, dcLine);
 
-		dcLine.addNewRectifier();
-		dcLine.getRectifier().addNewBusId().setIdRef(recId);
+		ConverterXmlType rectifier = new ConverterXmlType();
+		dcLine.setRectifier(rectifier);
+		IDRefRecordXmlType idRef = new IDRefRecordXmlType(); 
+		idRef.setIdRef(recId);
+		dcLine.getRectifier().setBusId(idRef);
 
-		dcLine.addNewInverter();
-		dcLine.getInverter().addNewBusId().setIdRef(invId);
+		ConverterXmlType inverter = new ConverterXmlType();
+		dcLine.setInverter(inverter);
+		IDRefRecordXmlType idRefIn = new IDRefRecordXmlType();
+		idRefIn.setIdRef(invId);
+		dcLine.getInverter().setBusId(idRefIn);
 		return dcLine;
 	}
 
@@ -294,9 +304,9 @@ public class JaxbODMModelParser {
 	 * @return
 	 */
 	public PSSNetworkXmlType.AreaList getAreaList(){
-		if(getStudyCase().getBaseCase().getAreaList()==null){
-			getStudyCase().getBaseCase().addNewAreaList();
-		}
+		//if(getStudyCase().getBaseCase().getAreaList()==null){
+		//	getStudyCase().getBaseCase().addNewAreaList();
+		//}
 		return getStudyCase().getBaseCase().getAreaList();
 	}
 	
@@ -332,28 +342,10 @@ public class JaxbODMModelParser {
 		return tieLine;
 	}
 	
-	public void save(String filename) throws IOException {
-		this.doc.save(new File(filename));
-	}
-	
-	public void load(String filename) throws XmlException, IOException {
-		 File inputXMLFile = new File(filename);
-		this.doc = PSSStudyCaseDocument.Factory.parse(inputXMLFile);
-	}
-	
-	public String toXmlDoc(boolean addXsi) {
-		String str = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><pss:PSSStudyCase xmlns:pss=\"" + Token_nsUrl + "\"";
-		if (addXsi)
-			return this.doc.xmlText(ParserHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", 
-				 str + " " + "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" ");
-		else
-			return this.doc.xmlText(ParserHelper.getXmlOpts()).replaceFirst("<pss:PSSStudyCase", str);
-	}
-
 	/**
 	 * convert the document object to an XML string
 	 */
 	public String toString() {
-		 return this.doc.toString(); 
+		 return this.pssStudyCase.toString(); 
 	}
 }

@@ -26,7 +26,7 @@ package org.ieee.odm.model.jaxb;
 
 import java.util.logging.Logger;
 
-import org.apache.xmlbeans.XmlOptions;
+import org.ieee.odm.schema.ActivePowerLimitXmlType;
 import org.ieee.odm.schema.ActivePowerUnitType;
 import org.ieee.odm.schema.AnalysisCategoryEnumType;
 import org.ieee.odm.schema.ApparentPowerUnitType;
@@ -40,6 +40,7 @@ import org.ieee.odm.schema.ExciterXmlType;
 import org.ieee.odm.schema.FaultTypeEnumType;
 import org.ieee.odm.schema.FaultXmlType;
 import org.ieee.odm.schema.GeneratorXmlType;
+import org.ieee.odm.schema.IDRefRecordXmlType;
 import org.ieee.odm.schema.LFGenCodeEnumType;
 import org.ieee.odm.schema.LFLoadCodeEnumType;
 import org.ieee.odm.schema.LoadflowBranchDataXmlType;
@@ -52,6 +53,8 @@ import org.ieee.odm.schema.NetAreaXmlType;
 import org.ieee.odm.schema.NetZoneXmlType;
 import org.ieee.odm.schema.NetworkCategoryEnumType;
 import org.ieee.odm.schema.PSSNetworkXmlType;
+import org.ieee.odm.schema.PowerXmlType;
+import org.ieee.odm.schema.ReactivePowerLimitXmlType;
 import org.ieee.odm.schema.ReactivePowerUnitType;
 import org.ieee.odm.schema.ShuntCompensatorXmlType;
 import org.ieee.odm.schema.StabilizerXmlType;
@@ -59,12 +62,10 @@ import org.ieee.odm.schema.StaticVarCompensatorXmlType;
 import org.ieee.odm.schema.StudyCaseXmlType;
 import org.ieee.odm.schema.TransientSimulationXmlType;
 import org.ieee.odm.schema.TurbineGovernorXmlType;
-import org.ieee.odm.schema.VoltageUnitType;import org.ieee.odm.model.DataSetter;
-import org.ieee.odm.model.ODMModelParser;
+import org.ieee.odm.schema.VoltageUnitType;
+import org.ieee.odm.schema.VoltageXmlType;
 
 public class JaxbParserHelper {
-	public static final double Deg2Rad = Math.PI / 180.0;
-	public static final double Rad2Deg = 180.0/ Math.PI;
 	
 	/**
 	 * Set BaseCase to Loadflow and Transmission 
@@ -72,9 +73,10 @@ public class JaxbParserHelper {
 	 * @param parser
 	 * @param originalFormat
 	 */
-	public static void setLFTransInfo(ODMModelParser parser, StudyCaseXmlType.ContentInfo.OriginalDataFormat.Enum originalFormat) {
-		StudyCaseXmlType.ContentInfo info = parser.getStudyCase().addNewContentInfo();
-		info.setOriginalDataFormat(originalFormat);
+	public static void setLFTransInfo(JaxbODMModelParser parser, String originalDataFormat) {
+		StudyCaseXmlType.ContentInfo info = new StudyCaseXmlType.ContentInfo();
+		parser.getStudyCase().setContentInfo(info);
+		info.setOriginalDataFormat(originalDataFormat);
 		info.setAdapterProviderName("www.interpss.org");
 		info.setAdapterProviderVersion("1.00");
 		
@@ -91,22 +93,23 @@ public class JaxbParserHelper {
 	public static boolean createBusEquivData(PSSNetworkXmlType baseCaseNet, Logger logger) {
 		boolean ok = true;
 
-		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBusArray()) {
+		for (BusRecordXmlType busRec : baseCaseNet.getBusList().getBus()) {
 			LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 			if (genData != null) {
 				if ( genData.getContributeGenList() != null && 
-						genData.getContributeGenList().getContributeGenArray().length > 0) {
+						genData.getContributeGenList().getContributeGen().size() > 0) {
 					LoadflowGenDataXmlType equivGen = genData.getEquivGen();
 					double pgen = 0.0, qgen = 0.0, qmax = 0.0, qmin = 0.0, pmax = 0.0, pmin = 0.0, vSpec = 0.0;
-					VoltageUnitType.Enum vSpecUnit = VoltageUnitType.PU;
+					VoltageUnitType vSpecUnit = VoltageUnitType.PU;
 					String remoteBusId = null;
 					boolean offLine = true;
-					for ( LoadflowGenDataXmlType gen : genData.getContributeGenList().getContributeGenArray()) {
-						if (!gen.getOffLine()) {
+					for ( LoadflowGenDataXmlType gen : genData.getContributeGenList().getContributeGen()) {
+						if (!gen.isOffLine()) {
 							offLine = false;
 							if (remoteBusId == null) {
-								if (gen.getRemoteVoltageControlBus() != null)
-									remoteBusId = gen.getRemoteVoltageControlBus().getIdRef();
+								if (gen.getRemoteVoltageControlBus() != null) {
+									remoteBusId = (String)gen.getRemoteVoltageControlBus().getIdRef();
+								}
 							}
 							else if (!remoteBusId.equals(gen.getRemoteVoltageControlBus().getIdRef())) {
 								logger.severe("Inconsistant remote control bus id, " + remoteBusId +
@@ -142,44 +145,56 @@ public class JaxbParserHelper {
 					if (offLine)
 						genData.getEquivGen().setCode(LFGenCodeEnumType.OFF);
 					else {	
-						if (equivGen.getPower() == null)
-							equivGen.addNewPower();
-						DataSetter.setPowerData(equivGen.getPower(), pgen, qgen, ApparentPowerUnitType.MVA);
-						if (pmax != 0.0 || pmin != 0.0)
-							DataSetter.setActivePowerLimitData(equivGen.addNewPLimit(), pmax, pmin, ActivePowerUnitType.MW);
-						if (qmax != 0.0 || qmin != 0.0)
-							DataSetter.setReactivePowerLimitData(equivGen.addNewQLimit(), qmax, qmin, ReactivePowerUnitType.MVAR);
+						if (equivGen.getPower() == null) {
+							PowerXmlType power = new PowerXmlType();
+							equivGen.setPower(power);
+						}
+						JaxbDataSetter.setPowerData(equivGen.getPower(), pgen, qgen, ApparentPowerUnitType.MVA);
+						if (pmax != 0.0 || pmin != 0.0) {
+							ActivePowerLimitXmlType pLimit = new ActivePowerLimitXmlType();
+							JaxbDataSetter.setActivePowerLimitData(pLimit, pmax, pmin, ActivePowerUnitType.MW);
+							equivGen.setPLimit(pLimit);
+						}
+						if (qmax != 0.0 || qmin != 0.0) {
+							ReactivePowerLimitXmlType qLimit = new ReactivePowerLimitXmlType();
+							JaxbDataSetter.setReactivePowerLimitData(qLimit, qmax, qmin, ReactivePowerUnitType.MVAR);
+							equivGen.setQLimit(qLimit);
+						}
 						if (vSpec != 0.0) {
-							if (equivGen.getDesiredVoltage() == null)
-								equivGen.addNewDesiredVoltage();
-							DataSetter.setVoltageData(equivGen.getDesiredVoltage(), vSpec, vSpecUnit);
+							if (equivGen.getDesiredVoltage() == null) {
+								VoltageXmlType voltage = new VoltageXmlType();
+								equivGen.setDesiredVoltage(voltage);
+							}
+							JaxbDataSetter.setVoltageData(equivGen.getDesiredVoltage(), vSpec, vSpecUnit);
 						}
 					}
 					
 					if (remoteBusId != null && !remoteBusId.equals(busRec.getId()) && 
 							genData.getEquivGen().getCode() == LFGenCodeEnumType.PV){
 						// Remote Q  Bus control, we need to change this bus to a GPQ bus so that its Q could be adjusted
-						genData.getEquivGen().addNewRemoteVoltageControlBus().setIdRef(remoteBusId);
+						IDRefRecordXmlType idRef = new IDRefRecordXmlType(); 
+						idRef.setIdRef(remoteBusId);
+						genData.getEquivGen().setRemoteVoltageControlBus(idRef);
 					}
 						
 				}
 				else {
 					genData.getEquivGen().setCode(LFGenCodeEnumType.NONE_GEN);
 					if (genData.getEquivGen().getPower() != null)
-						genData.getEquivGen().unsetPower();
+						genData.getEquivGen().setPower(null);
 					if (genData.getEquivGen().getVoltageLimit() != null)
-						genData.getEquivGen().unsetVoltageLimit();
+						genData.getEquivGen().setVoltageLimit(null);
 				}
 			}
 			
 			LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
 			if (loadData != null) {
 				if (loadData.getContributeLoadList() != null &&
-						loadData.getContributeLoadList().getContributeLoadArray().length > 0) {
+						loadData.getContributeLoadList().getContributeLoad().size() > 0) {
 					LoadflowLoadDataXmlType equivLoad = loadData.getEquivLoad();
 					double cp_p=0.0, cp_q=0.0, ci_p=0.0, ci_q=0.0, cz_p=0.0, cz_q=0.0; 
-					for ( LoadflowLoadDataXmlType load : loadData.getContributeLoadList().getContributeLoadArray()) {
-						if (!load.getOffLine()) {
+					for ( LoadflowLoadDataXmlType load : loadData.getContributeLoadList().getContributeLoad()) {
+						if (!load.isOffLine()) {
 							if (load.getConstPLoad() != null) {
 								cp_p += load.getConstPLoad().getRe();
 								cp_q += load.getConstPLoad().getIm();
@@ -197,21 +212,33 @@ public class JaxbParserHelper {
 					
 					if ((cp_p != 0.0 || cp_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_P);
-			  			DataSetter.setPowerData(equivLoad.addNewConstPLoad(), cp_p, cp_q, ApparentPowerUnitType.MVA);
+						PowerXmlType power = new PowerXmlType();
+			  			JaxbDataSetter.setPowerData(power, cp_p, cp_q, ApparentPowerUnitType.MVA);
+			  			equivLoad.setConstPLoad(power);
 			  		}
 					else if ((ci_p != 0.0 || ci_q != 0.0) && (cp_p==0.0 && cp_q ==0.0 && cz_p==0.0 && cz_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_I);
-			  			DataSetter.setPowerData(equivLoad.addNewConstILoad(), ci_p, ci_q, ApparentPowerUnitType.MVA);
+						PowerXmlType power = new PowerXmlType();
+						JaxbDataSetter.setPowerData(power, ci_p, ci_q, ApparentPowerUnitType.MVA);
+						equivLoad.setConstILoad(power);
 			  		}
 					else if ((cz_p != 0.0 || cz_q != 0.0) && (ci_p==0.0 && ci_q ==0.0 && cp_p==0.0 && cp_q ==0.0) ) {
 						equivLoad.setCode(LFLoadCodeEnumType.CONST_Z);
-			  			DataSetter.setPowerData(equivLoad.addNewConstZLoad(), cz_p, cz_q, ApparentPowerUnitType.MVA);
+						PowerXmlType power = new PowerXmlType();
+						JaxbDataSetter.setPowerData(power, cz_p, cz_q, ApparentPowerUnitType.MVA);
+						equivLoad.setConstZLoad(power);
 			  		}
 					else if ((cp_p != 0.0 || cp_q != 0.0 || ci_p!= 0.0 || ci_q != 0.0 || cz_p != 0.0 || cz_q !=0.0)) {
 						equivLoad.setCode(LFLoadCodeEnumType.FUNCTION_LOAD);
-			  			DataSetter.setPowerData(equivLoad.addNewConstPLoad(), cp_p, cp_q, ApparentPowerUnitType.MVA);
-			  			DataSetter.setPowerData(equivLoad.addNewConstILoad(), ci_p, ci_q, ApparentPowerUnitType.MVA);
-			  			DataSetter.setPowerData(equivLoad.addNewConstZLoad(), cz_p, cz_q, ApparentPowerUnitType.MVA);
+						PowerXmlType power_p = new PowerXmlType();
+						PowerXmlType power_i = new PowerXmlType();
+						PowerXmlType power_z = new PowerXmlType();
+						JaxbDataSetter.setPowerData(power_p, cp_p, cp_q, ApparentPowerUnitType.MVA);
+						JaxbDataSetter.setPowerData(power_i, ci_p, ci_q, ApparentPowerUnitType.MVA);
+						JaxbDataSetter.setPowerData(power_z, cz_p, cz_q, ApparentPowerUnitType.MVA);
+						equivLoad.setConstPLoad(power_p);
+						equivLoad.setConstILoad(power_i);
+						equivLoad.setConstZLoad(power_z);
 					}
 					else {
 						loadData.getEquivLoad().setCode(LFLoadCodeEnumType.NONE_LOAD);
@@ -237,12 +264,16 @@ public class JaxbParserHelper {
 	public static LoadflowLoadDataXmlType createContriLoad(BusRecordXmlType busRec) {
 		LoadflowBusDataXmlType.LoadData loadData = busRec.getLoadflowData().getLoadData();
 		if (loadData == null) { 
-			loadData = busRec.getLoadflowData().addNewLoadData();
-			loadData.addNewEquivLoad();
+			loadData = new LoadflowBusDataXmlType.LoadData();
+			busRec.getLoadflowData().setLoadData(loadData);
+			LoadflowLoadDataXmlType equivLoad = new LoadflowLoadDataXmlType();
+			loadData.setEquivLoad(equivLoad);
 		}
-		if (loadData.getContributeLoadList() == null) 
-			loadData.addNewContributeLoadList();
-	    return loadData.getContributeLoadList().addNewContributeLoad(); 
+		//if (loadData.getContributeLoadList() == null) 
+		//	loadData.addNewContributeLoadList();
+		LoadflowLoadDataXmlType contribLoad = new LoadflowLoadDataXmlType();
+	    loadData.getContributeLoadList().getContributeLoad().add(contribLoad); 
+	    return contribLoad;
 	}
 	
 	/**
@@ -252,13 +283,17 @@ public class JaxbParserHelper {
 	public static LoadflowGenDataXmlType createContriGen(BusRecordXmlType busRec) {
 		LoadflowBusDataXmlType.GenData genData = busRec.getLoadflowData().getGenData();
 		if (genData == null) {
-			genData = busRec.getLoadflowData().addNewGenData();
-			genData.addNewEquivGen();
+			genData = new LoadflowBusDataXmlType.GenData();
+			busRec.getLoadflowData().setGenData(genData);
+			LoadflowGenDataXmlType equivGen = new LoadflowGenDataXmlType();
+			genData.setEquivGen(equivGen);
 		}
 		// some model does not need ContributeGenList
-		if (genData.getContributeGenList() == null) 
-			genData.addNewContributeGenList();
-	    return genData.getContributeGenList().addNewContributeGen();
+		//if (genData.getContributeGenList() == null) 
+		//	genData.addNewContributeGenList();
+		LoadflowGenDataXmlType contribGen = new LoadflowGenDataXmlType();
+		genData.getContributeGenList().getContributeGen().add(contribGen);
+		return contribGen;
 	}
 	
 	/**
@@ -266,11 +301,16 @@ public class JaxbParserHelper {
 	 * 
 	 */
 	public static StaticVarCompensatorXmlType createSVC(BusRecordXmlType bus) {
-		if (bus.getSvcData() == null)
-			bus.addNewSvcData();
-		if (bus.getSvcData().getSvcList() == null)
-			bus.getSvcData().addNewSvcList();
-		return bus.getSvcData().getSvcList().addNewSvc();
+		if (bus.getSvcData() == null) {
+			//LoadflowBusDataXmlType.
+			BusRecordXmlType.SvcData data = new BusRecordXmlType.SvcData();
+			bus.setSvcData(data);
+		}
+		//if (bus.getSvcData().getSvcList() == null) 
+		//	bus.getSvcData().addNewSvcList();
+		StaticVarCompensatorXmlType svc = new StaticVarCompensatorXmlType();
+		bus.getSvcData().getSvcList().getSvc().add(svc);
+		return svc;
 	}
 
 	/**
@@ -279,15 +319,15 @@ public class JaxbParserHelper {
 	 */
 	public static ShuntCompensatorXmlType createShuntCompensator(BusRecordXmlType bus) {
 		if (bus.getLoadflowData().getShuntCompensatorData() == null) {
-			bus.getLoadflowData().addNewShuntCompensatorData();
+			LoadflowBusDataXmlType.ShuntCompensatorData data = new LoadflowBusDataXmlType.ShuntCompensatorData(); 
+			bus.getLoadflowData().setShuntCompensatorData(data);
 		}
-		if (bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList() == null) {
-			bus.getLoadflowData().getShuntCompensatorData().addNewShuntCompensatorList();
-		}
-		return bus.getLoadflowData()
-					.getShuntCompensatorData()
-					.getShuntCompensatorList()
-					.addNewShunCompensator(); 
+		//if (bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList() == null) {
+		//	bus.getLoadflowData().getShuntCompensatorData().addNewShuntCompensatorList();
+		//}
+		ShuntCompensatorXmlType compensator = new ShuntCompensatorXmlType();
+		bus.getLoadflowData().getShuntCompensatorData().getShuntCompensatorList().getShunCompensator().add(compensator);
+		return compensator; 
 	}
 
 	/**
@@ -582,13 +622,5 @@ public class JaxbParserHelper {
 			}			
 		}	
 		return null;		
-	}
-	
-	public static XmlOptions getXmlOpts() {
-		 XmlOptions opts = new XmlOptions();
-		 java.util.Map<String, String> prefixMap = new java.util.HashMap<String, String>();
-		 prefixMap.put(ODMModelParser.Token_nsPrefix, ODMModelParser.Token_nsUrl);
-		 opts.setSaveImplicitNamespaces(prefixMap);
-		 return opts;
 	}
 }
